@@ -13,13 +13,16 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
+    "bn.js": "^4.11.8",
     "cross-env": "^5.0.1",
     "express": "^4.15.3",
     "nuxt": "^1.0.0-rc3",
     "source-map-support": "^0.4.15",
     "vue-material": "beta",
+    "vue": "^2.5.3",
     "vue-server-renderer": "^2.5.3",
-    "vue-template-compiler": "^2.5.3"
+    "vue-template-compiler": "^2.5.3",
+    "web3": "^1.0.0-beta.27"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
