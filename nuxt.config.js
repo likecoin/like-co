@@ -18,6 +18,15 @@ module.exports = {
   ** Customize the progress bar color
   */
   loading: { color: '#448aff' },
+  router: {
+    extendRoutes (routes, resolve) {
+      routes.push({
+        name: "idWithAmount",
+        path: "/:id/:amount?",
+        component: resolve(__dirname, 'pages/_id.vue')
+      })
+    }
+  },
   /*
   ** Global CSS
   */
