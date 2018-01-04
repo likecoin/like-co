@@ -1,0 +1,39 @@
+{
+  "name": "likecoin-store",
+  "version": "1.0.0",
+  "description": "Nuxt.js project",
+  "author": "William Chong <williamchong007@msn.com>",
+  "private": true,
+  "scripts": {
+    "dev": "backpack dev",
+    "build": "nuxt build && backpack build",
+    "start": "cross-env NODE_ENV=production node build/main.js",
+    "precommit": "npm run lint",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore ."
+  },
+  "dependencies": {
+    "axios": "^0.16.2",
+    "cross-env": "^5.0.1",
+    "express": "^4.15.3",
+    "nuxt": "^1.0.0-rc3",
+    "source-map-support": "^0.4.15",
+    "vue-material": "beta",
+    "vue-server-renderer": "^2.5.3",
+    "vue-template-compiler": "^2.5.3"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "backpack-core": "^0.4.1",
+    "eslint": "^4.9.0",
+    "eslint-config-airbnb-base": "^12.0.0",
+    "eslint-import-resolver-webpack": "^0.8.3",
+    "eslint-loader": "^1.9.0",
+    "eslint-plugin-html": "^4.0.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "node-sass": "^4.7.2",
+    "sass-loader": "^6.0.6"
+  }
+}
