@@ -1,6 +1,8 @@
 import { Router } from 'express'
 const Account = require("eth-lib/lib/account");
 
+const dbRef = require("../util/firebase-db");
+
 const router = Router()
 
 // Mock Users
@@ -17,7 +19,6 @@ const USERS = {
   },
 }
 
-/* GET user by ID. */
 router.put("/users/new", async (req, res) => {
   try {
     const {from, payload, sign} = req.body;
@@ -39,14 +40,19 @@ router.put("/users/new", async (req, res) => {
   }
 });
 
-/* GET user by ID. */
-router.get('/users/:id', function (req, res, next) {
-  const user = USERS[req.params.id];
-  if (user) {
-    res.json(user)
-  } else {
-    res.sendStatus(404)
+router.get('/users/:id', async (req, res, next) => {
+  try {
+    const username = req.params.id;
+    const doc = await dbRef.doc(username).get();
+    if (doc.exists) {
+      res.json(doc.data());
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
   }
-})
+});
 
 export default router
