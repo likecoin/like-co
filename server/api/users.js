@@ -1,6 +1,8 @@
 import { Router } from 'express'
+const fs = require('fs');
 const Account = require("eth-lib/lib/account");
 const Multer = require('multer');
+const sha256 = require('js-sha256');
 
 const dbRef = require("../util/firebase").collection;
 const fbBucket = require("../util/firebase").bucket;
@@ -62,9 +64,17 @@ router.put("/users/new", multer.single('avatar'), async (req, res) => {
     //   throw "recovered address not match";
     // }
 
-    const { user, displayName, wallet } = JSON.parse(payload);
+    const { user, displayName, wallet, avatarSHA256, ts } = JSON.parse(payload);
     if (from !== wallet) {
        throw "wallet address not match";
+    }
+
+    const file = req.file;
+    let url = undefined;
+    if (file) {
+      const hash256 = sha256(file.buffer);
+      if (hash256 !== avatarSHA256) throw "avatar sha not match";
+      url = await uploadFile(file, `likecoin_store_user_${user}`);
     }
 
     const userNameQuery = dbRef.doc(user).get().then(doc => {
@@ -85,13 +95,6 @@ router.put("/users/new", multer.single('avatar'), async (req, res) => {
     });
 
     await Promise.all([userNameQuery, walletQuery]);
-
-    const file = req.file;
-    let url = undefined;
-    if (file) {
-      url = await uploadFile(file, `likecoin_store_user_${user}`);
-    }
-
     const updateObj = {
        displayName,
        wallet,
