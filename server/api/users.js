@@ -76,7 +76,7 @@ router.put("/users/new", multer.single('avatar'), async (req, res) => {
     });
     const walletQuery = dbRef.where('wallet', '==', from).get().then((snapshot) => {
         snapshot.forEach(doc => {
-          const { docUser } = doc.data();
+          const docUser = doc.id;
           if (user !== docUser) {
             throw "Wallet already Exist";
           }
@@ -92,12 +92,13 @@ router.put("/users/new", multer.single('avatar'), async (req, res) => {
       url = await uploadFile(file, `likecoin_store_user_${user}`);
     }
 
-    const updateUserQuery = await dbRef.doc(user).set({
-         displayName,
-         wallet,
-         avatar: url,
-         timestamp: Date.now(),
-    }, { merge: true });
+    const updateObj = {
+       displayName,
+       wallet,
+       timestamp: Date.now(),
+    }
+    if (url) updateObj.avatar = url;
+    const updateUserQuery = await dbRef.doc(user).set(updateObj, { merge: true });
 
     res.status(200);
     res.end();
