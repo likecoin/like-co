@@ -2,7 +2,8 @@ import { Router } from 'express'
 const Account = require("eth-lib/lib/account");
 const Multer = require('multer');
 
-const dbRef = require("../util/firebase-db");
+const dbRef = require("../util/firebase").collection;
+const fbBucket = require("../util/firebase").bucket;
 
 const multer = Multer({
   storage: Multer.memoryStorage(),
@@ -10,6 +11,31 @@ const multer = Multer({
     fileSize: 5 * 1024 * 1024, // no larger than 5mb, you can change as needed.
   },
 });
+
+function uploadFile(file, newFilename) {
+  return new Promise((resolve, reject) => {
+    if (!file) {
+      reject('No file');
+    }
+    const filename = newFilename || file.originalname;
+    const blob = fbBucket.file(filename);
+    const blobStream = blob.createWriteStream({
+      metadata: {
+        contentType: file.mimetype,
+      },
+    });
+    blobStream.on('error', (err) => {
+      reject(`Something is wrong! ${err || err.msg}`);
+    });
+    blobStream.on('finish', () => {
+      resolve(blob.getSignedUrl({
+        action: 'read',
+        expires: '01-07-2047',
+      }));
+    });
+    blobStream.end(file.buffer);
+  });
+}
 
 const router = Router()
 
@@ -27,7 +53,7 @@ const USERS = {
   },
 }
 
-router.put("/users/new", multer.single('file'), async (req, res) => {
+router.put("/users/new", multer.single('avatar'), async (req, res) => {
   try {
     const {from, payload, sign} = req.body;
 
@@ -59,11 +85,17 @@ router.put("/users/new", multer.single('file'), async (req, res) => {
     });
 
     await Promise.all([userNameQuery, walletQuery]);
+
     const file = req.file;
+    let url = undefined;
+    if (file) {
+      url = await uploadFile(file, `likecoin_store_user_${user}`);
+    }
 
     const updateUserQuery = await dbRef.doc(user).set({
          displayName,
          wallet,
+         avatar: url,
          timestamp: Date.now(),
     }, { merge: true });
 
