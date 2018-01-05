@@ -1,6 +1,4 @@
-import axios from 'axios';
-
-import HOST from './host';
+import axios from '~/plugins/axios';
 
 export const apiPostUploadImage = (form) => {
   /* eslint-disable no-new */
@@ -8,18 +6,21 @@ export const apiPostUploadImage = (form) => {
   Object.keys(form).forEach((key) => {
     params.append(key, form[key]);
   });
-  return axios.post(`${HOST}/upload`, params);
+  return axios.post('/upload', params);
 };
 
 export const apiPostMeme = (uid, topText, text, metadata) =>
-  axios.post(`${HOST}/meme/${uid}`, { topText, text, metadata });
+  axios.post(`/meme/${uid}`, { topText, text, metadata });
 
 export const apiGrantLike = addr =>
-  axios.post(`${HOST}/faucet/${addr}`);
+  axios.post(`/faucet/${addr}`);
 
-export const apiPostPayment = payload => axios.post(`${HOST}/payment`, payload);
+export const apiPostPayment = (payload) => {
+  console.log(payload);
+  return axios.post('/api/payment/', payload);
+};
 
-export const apiGetMetadata = uid => axios.get(`${HOST}/query/${uid}`);
+export const apiGetMetadata = uid => axios.get(`/query/${uid}`);
 
 export const apiPostRinkeby = (id, data) =>
   axios.post(`https://rinkeby.infura.io/${id}`, data);
