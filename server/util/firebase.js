@@ -5,9 +5,12 @@ const serviceAccount = require("../config/serviceAccountKey.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
+  storageBucket: config.FIREBASE_STORAGE_BUCKET,
 });
 
 const db = admin.firestore();
 const collection = db.collection(config.FIRESTORE_ROOT);
 
-module.exports = collection;
+const bucket = admin.storage().bucket();
+
+module.exports = { collection, bucket };
