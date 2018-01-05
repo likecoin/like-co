@@ -4,9 +4,12 @@ const serviceAccount = require("../config/serviceAccountKey.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
+  storageBucket: "likecoin-foundation.appspot.com"
 });
 
 const db = admin.firestore();
 const collection = db.collection('likecoin-store-user');
 
-module.exports = collection;
+const bucket = admin.storage().bucket();
+
+module.exports = { collection, bucket };
