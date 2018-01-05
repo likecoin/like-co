@@ -1,7 +1,15 @@
 import { Router } from 'express'
 const Account = require("eth-lib/lib/account");
+const Multer = require('multer');
 
 const dbRef = require("../util/firebase-db");
+
+const multer = Multer({
+  storage: Multer.memoryStorage(),
+  limits: {
+    fileSize: 5 * 1024 * 1024, // no larger than 5mb, you can change as needed.
+  },
+});
 
 const router = Router()
 
@@ -19,19 +27,46 @@ const USERS = {
   },
 }
 
-router.put("/users/new", async (req, res) => {
+router.put("/users/new", multer.single('file'), async (req, res) => {
   try {
     const {from, payload, sign} = req.body;
-    const recovered = Account.recover(payload, sign);
-    if (recovered.toLowerCase() !== from.toLowerCase()) {
-      throw "recovered address not match";
+
+    // const recovered = Account.recover(payload, sign);
+    // if (recovered.toLowerCase() !== from.toLowerCase()) {
+    //   throw "recovered address not match";
+    // }
+
+    const { user, displayName, wallet } = JSON.parse(payload);
+    if (from !== wallet) {
+       throw "wallet address not match";
     }
-    const { user, displayName, wallet, avatar } = JSON.parse(payload);
-    if (from !== wallet || USERS[user]) {
-      res.sendStatus(400);
-      return;
-    }
-    USERS[user] = { displayName, wallet, avatar };
+
+    const userNameQuery = dbRef.doc(user).get().then(doc => {
+        if (doc.exists) {
+          const { wallet } = doc.data();
+          if (wallet !== from) throw "User already Exist";
+        }
+        return true;
+    });
+    const walletQuery = dbRef.where('wallet', '==', from).get().then((snapshot) => {
+        snapshot.forEach(doc => {
+          const { docUser } = doc.data();
+          if (user !== docUser) {
+            throw "Wallet already Exist";
+          }
+        });
+        return true;
+    });
+
+    await Promise.all([userNameQuery, walletQuery]);
+    const file = req.file;
+
+    const updateUserQuery = await dbRef.doc(user).set({
+         displayName,
+         wallet,
+         timestamp: Date.now(),
+    }, { merge: true });
+
     res.status(200);
     res.end();
   } catch (err) {
