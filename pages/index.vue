@@ -2,29 +2,25 @@
   <section class="container">
     <img src="~assets/img/logo.png" alt="Nuxt.js Logo" class="logo" />
     <h1 class="title">
-      USERS
+      Likestore (WIP)
     </h1>
-    <ul class="users">
-      <li v-for="(user, index) in users" :key="index" class="user">
-        <nuxt-link :to="{ name: 'id', params: { id: index }}">
-          {{ user.name }}
-        </nuxt-link>
-      </li>
-    </ul>
+    <nuxt-link :to="{ name: 'id', params: { id: 'ckxpress' } }">
+      <md-button>Pay ckxpress</md-button>
+    </nuxt-link>
+    <nuxt-link :to="{ name: 'id', params: { id: 'williamchong007' } }">
+      <md-button>Pay williamchong007</md-button>
+    </nuxt-link>
+    <nuxt-link :to="{ name: 'register' }">
+      <md-button>Make new account</md-button>
+    </nuxt-link>
   </section>
 </template>
 
 <script>
-import axios from '~/plugins/axios';
-
 export default {
-  async asyncData() {
-    const { data } = await axios.get('/api/users');
-    return { users: data };
-  },
   head() {
     return {
-      title: 'Users',
+      title: 'Landing - In progress',
     };
   },
 };
