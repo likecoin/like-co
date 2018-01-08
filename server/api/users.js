@@ -3,6 +3,7 @@ import { Router } from 'express';
 const Account = require('eth-lib/lib/account');
 const Multer = require('multer');
 const sha256 = require('js-sha256');
+const sharp = require('sharp');
 const Web3 = require('web3');
 
 const dbRef = require('../util/firebase').collection;
@@ -110,6 +111,8 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
     if (file) {
       const hash256 = sha256(file.buffer);
       if (hash256 !== avatarSHA256) throw new Error('avatar sha not match');
+      const resizedBuffer = await sharp(file.buffer).resize(400, 400).toBuffer();
+      file.buffer = resizedBuffer;
       [url] = await uploadFile(file, `likecoin_store_user_${user}`);
     }
 
