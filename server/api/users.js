@@ -14,6 +14,8 @@ const multer = Multer({
   },
 });
 
+const ONE_DATE_IN_MS = 86400000;
+
 function uploadFile(file, newFilename) {
   return new Promise((resolve, reject) => {
     if (!file) {
@@ -57,8 +59,12 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       avatarSHA256,
       ts,
     } = JSON.parse(payload);
+
     if (from !== wallet) {
       throw new Error('wallet address not match');
+    }
+    if (ts + ONE_DATE_IN_MS > Date.now()) {
+      throw new Error('payload expired');
     }
 
     const { file } = req;
@@ -90,7 +96,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
     const updateObj = {
       displayName,
       wallet,
-      timestamp: Date.now(),
+      timestamp: Date.now(), // TODO: only update ts for new user
     };
     if (url) updateObj.avatar = url;
     await dbRef.doc(user).set(updateObj, { merge: true });
