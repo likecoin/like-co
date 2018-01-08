@@ -1,12 +1,12 @@
-import { Router } from 'express'
+import { Router } from 'express';
 
-import users from './users'
-import payment from './payment'
+import users from './users';
+import payment from './payment';
 
-const router = Router()
+const router = Router();
 
 // Add USERS Routes
-router.use(users)
-router.use(payment)
+router.use(users);
+router.use(payment);
 
-export default router
+export default router;
