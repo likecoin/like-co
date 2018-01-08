@@ -1,10 +1,11 @@
-import { Router } from 'express'
+import { Router } from 'express';
+
 const Web3 = require('web3');
 
 const LIKECOIN = require('../../constant/contract/likecoin');
 const accounts = require('../config/accounts.js');
 
-const router = Router()
+const router = Router();
 
 const web3 = new Web3(new Web3.providers.HttpProvider('https://rinkeby.infura.io/ywCD9mvUruQeYcZcyghk'));
 const LikeCoin = new web3.eth.Contract(LIKECOIN.LIKE_COIN_ABI, LIKECOIN.LIKE_COIN_ADDRESS);
@@ -63,4 +64,4 @@ router.post('/payment', async (req, res) => {
   }
 });
 
-export default router
+export default router;

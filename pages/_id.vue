@@ -45,7 +45,6 @@ export default {
   asyncData({ params, error }) {
     return axios.get(`/api/users/${params.id}`)
       .then((res) => {
-        console.log(res.data);
         const { wallet, avatar, displayName } = res.data;
         return {
           wallet,
