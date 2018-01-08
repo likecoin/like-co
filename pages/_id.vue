@@ -59,8 +59,12 @@ export default {
   },
   head() {
     return {
+      title: `Pay Likecoin to ${this.displayName}`,
       meta: [
-        { hid: 'description', name: 'description', content: `Pay Likecoin to ${this.displayName}` },
+        { hid: 'og_title', property: 'og:title', content: `Pay Likecoin to ${this.displayName}, ` },
+        { hid: 'description', name: 'description', content: `Pay Likecoin to ${this.displayName}. Likecoin is the settlement currency for Creative Contents powered by blockchain.` },
+        { hid: 'og_description', property: 'og:description', content: `Pay Likecoin to ${this.displayName}. Likecoin is the settlement currency for Creative Contents powered by blockchain.` },
+        { hid: 'og_image', property: 'og:image', content: `${this.avatar}` },
       ],
     };
   },
