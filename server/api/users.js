@@ -60,27 +60,24 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       ts,
     } = JSON.parse(payload);
 
+    // check address match
     if (from !== wallet) {
       throw new Error('wallet address not match');
     }
+
+    // Check ts expire
     if (ts + ONE_DATE_IN_MS > Date.now()) {
       throw new Error('payload expired');
     }
 
-    const { file } = req;
-    let url;
-    if (file) {
-      const hash256 = sha256(file.buffer);
-      if (hash256 !== avatarSHA256) throw new Error('avatar sha not match');
-      url = await uploadFile(file, `likecoin_store_user_${user}`);
-    }
-
+    // Check user/wallet uniqueness
     const userNameQuery = dbRef.doc(user).get().then((doc) => {
-      if (doc.exists) {
+      const isOldUser = !doc.exists;
+      if (isOldUser) {
         const { wallet: docWallet } = doc.data();
         if (docWallet !== from) throw new Error('User already Exist');
       }
-      return true;
+      return isOldUser;
     });
     const walletQuery = dbRef.where('wallet', '==', from).get().then((snapshot) => {
       snapshot.forEach((doc) => {
@@ -91,14 +88,23 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       });
       return true;
     });
+    const [isOldUser] = await Promise.all([userNameQuery, walletQuery]);
 
-    await Promise.all([userNameQuery, walletQuery]);
+    // update avatar
+    const { file } = req;
+    let url;
+    if (file) {
+      const hash256 = sha256(file.buffer);
+      if (hash256 !== avatarSHA256) throw new Error('avatar sha not match');
+      [url] = await uploadFile(file, `likecoin_store_user_${user}`);
+    }
+
     const updateObj = {
       displayName,
       wallet,
-      timestamp: Date.now(), // TODO: only update ts for new user
     };
     if (url) updateObj.avatar = url;
+    if (!isOldUser) updateObj.timestamp = Date.now();
     await dbRef.doc(user).set(updateObj, { merge: true });
 
     res.status(200);
