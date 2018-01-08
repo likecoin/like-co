@@ -1,0 +1,32 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/likecoin-store
+    docker:
+      - image: node:8-alpine
+    steps:
+      - run: apk add --no-cache curl g++ git gzip make python tar
+      - checkout
+      - run: git submodule sync && git submodule update --init;
+      - restore_cache:
+          key: likecoin-store-{{ checksum "package.json" }}
+      - run:
+          name: Dependencies
+          command: yarn
+      - run:
+          name: Lint Test
+          command: yarn run lint
+      - run:
+          name: Server Test
+          command: yarn start
+          background: true
+      - run:
+          name: Curl Test
+          command: |
+            sleep 5
+            curl --retry 10 --retry-delay 5 -v http://localhost:3000/
+      - save_cache:
+          key: likecoin-store-{{ checksum "package.json" }}
+          paths:
+            - "~/.cache/yarn"
+
