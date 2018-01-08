@@ -24,3 +24,13 @@ export const apiGetMetadata = uid => axios.get(`/query/${uid}`);
 
 export const apiPostRinkeby = (id, data) =>
   axios.post(`https://rinkeby.infura.io/${id}`, data);
+
+export const apiPostNewUser = (form) => {
+  /* eslint-disable no-new */
+  const params = new FormData();
+  Object.keys(form).forEach((key) => {
+    params.append(key, form[key]);
+  });
+  return axios.put('/api/users/new', params);
+};
+
