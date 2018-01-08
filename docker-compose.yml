@@ -1,0 +1,9 @@
+version: '3'
+services:
+  like-server:
+    build: .
+    ports:
+     - "3000:3000"
+    volumes:
+     - ./server/config:/app/server/config
+
