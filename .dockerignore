@@ -1,0 +1,8 @@
+.dockerignore
+.git
+.gitignore
+.nuxt
+node_modules/
+config
+build
+
