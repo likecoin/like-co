@@ -3,6 +3,7 @@ import { Router } from 'express';
 const Account = require('eth-lib/lib/account');
 const Multer = require('multer');
 const sha256 = require('js-sha256');
+const Web3 = require('web3');
 
 const dbRef = require('../util/firebase').collection;
 const fbBucket = require('../util/firebase').bucket;
@@ -41,13 +42,26 @@ function uploadFile(file, newFilename) {
   });
 }
 
+function typedSignatureHash(signData) {
+  const paramSignatures = signData.map(item => ({ type: 'string', value: `${item.type} ${item.name}` }));
+  const params = signData.map(item => ({ type: item.type, value: item.value }));
+  return Web3.utils.soliditySha3(
+    { type: 'bytes32', value: Web3.utils.soliditySha3(...paramSignatures) },
+    { type: 'bytes32', value: Web3.utils.soliditySha3(...params) },
+  );
+}
+
 const router = Router();
 
 router.put('/users/new', multer.single('avatar'), async (req, res) => {
   try {
     const { from, payload, sign } = req.body;
 
-    const recovered = Account.recover(payload, sign);
+    const signData = [
+      { type: 'string', name: 'payload', value: payload },
+    ];
+    const hash = typedSignatureHash(signData);
+    const recovered = Account.recover(hash, sign);
     if (recovered.toLowerCase() !== from.toLowerCase()) {
       throw new Error('recovered address not match');
     }
@@ -66,7 +80,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
     }
 
     // Check ts expire
-    if (ts + ONE_DATE_IN_MS > Date.now()) {
+    if (Math.abs(ts - Date.now()) > ONE_DATE_IN_MS) {
       throw new Error('payload expired');
     }
 
