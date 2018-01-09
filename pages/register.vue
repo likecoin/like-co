@@ -10,7 +10,7 @@
       <form id="registerForm" v-on:submit.prevent="onSubmit">
         <md-field>
           <label>Image upload</label>
-          <md-file v-model="avatar" @md-change="previewImage($event)" accept="image/*" required></md-file>
+          <md-file v-model="avatar" @md-change="previewImage($event)" accept="image/*"></md-file>
         </md-field>
         <md-field>
           <label>Username</label>
@@ -85,8 +85,11 @@ export default {
           displayName,
           wallet,
         } = this;
-        const avatarBuf = await FileHelper.blobToArrayBuffer(avatarFile);
-        const avatarSHA256 = await FileHelper.arrayBufferToSha256(avatarBuf);
+        let avatarSHA256;
+        if (avatarFile) {
+          const avatarBuf = await FileHelper.blobToArrayBuffer(avatarFile);
+          avatarSHA256 = await FileHelper.arrayBufferToSha256(avatarBuf);
+        }
         const payload = JSON.stringify({
           user,
           displayName,

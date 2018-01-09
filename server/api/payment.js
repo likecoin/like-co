@@ -60,7 +60,9 @@ router.post('/payment', async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).send(err.message || err);
+    const msg = err.message || err;
+    console.error(msg);
+    res.status(400).send(msg);
   }
 });
 
