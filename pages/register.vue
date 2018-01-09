@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <md-toolbar class="md-layout" v-if="errMsg"><md-progress-spinner md-mode="indeterminate" class="md-warn" /><md-icon class="md-warn">warning</md-icon><div class="md-layout-item" v-html="errMsg" /></md-toolbar>
+    <error-toolbar :message="errMsg"/>
     <div class="inner-container">
       <div v-if="isPreview" class="avatar-preview">
         <md-card-media>
@@ -38,6 +38,8 @@ import EthHelper from '@/util/EthHelper';
 import * as api from '@/util/api/api';
 import FileHelper from '@/util/FileHelper';
 
+import ErrorToolbar from '~/components/ErrorToolbar';
+
 export default {
   name: 'Register',
   data() {
@@ -52,6 +54,9 @@ export default {
       isBadAddress: false,
       isPreview: false,
     };
+  },
+  components: {
+    ErrorToolbar,
   },
   methods: {
     setMyLikeCoin(wallet) {
