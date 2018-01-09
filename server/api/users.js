@@ -87,7 +87,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
 
     // Check user/wallet uniqueness
     const userNameQuery = dbRef.doc(user).get().then((doc) => {
-      const isOldUser = !doc.exists;
+      const isOldUser = doc.exists;
       if (isOldUser) {
         const { wallet: docWallet } = doc.data();
         if (docWallet !== from) throw new Error('User already Exist');
@@ -127,8 +127,9 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
     res.status(200);
     res.end();
   } catch (err) {
-    console.error(err || err.message);
-    res.sendStatus(400);
+    const msg = err.message || err;
+    console.error(msg);
+    res.status(400).send(msg);
   }
 });
 
@@ -142,8 +143,9 @@ router.get('/users/:id', async (req, res) => {
       res.sendStatus(404);
     }
   } catch (err) {
-    console.error(err || err.message);
-    res.sendStatus(500);
+    const msg = err.message || err;
+    console.error(msg);
+    res.status(400).send(msg);
   }
 });
 
