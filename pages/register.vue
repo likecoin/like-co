@@ -19,7 +19,7 @@
           <label>Display Name</label>
           <md-input v-model="displayName" required></md-input>
         </md-field>
-        <md-field :class="isBadAddress?'md-input-invalid':''">
+        <md-field :class="isBadAddress?'md-invalid':''">
           <label>ETH wallet address</label>
           <md-input v-model="wallet" maxlength="42" required disabled />
           <span v-if="isBadAddress" class="md-error">Invalid address format</span>
@@ -41,7 +41,6 @@ export default {
   name: 'Register',
   data() {
     return {
-      errMsg: '',
       avatarFile: null,
       avatar: null,
       avatarData: null,
@@ -57,7 +56,6 @@ export default {
       'newUser',
     ]),
     setMyLikeCoin(wallet) {
-      console.log(this);
       this.wallet = wallet;
     },
     checkAddress() {
@@ -110,21 +108,11 @@ export default {
         await this.newUser(data);
         this.$router.push({ path: user });
       } catch (err) {
-        this.errMsg = err.response.data || err.message;
+        console.error(err);
       }
     },
   },
   mounted() {
-    EthHelper.initApp(
-      (err) => {
-        if (err === 'web3') this.errMsg = this.web3Error;
-        else if (err === 'testnet') this.errMsg = this.testnetError;
-        else if (err === 'locked') this.errMsg = this.lockedError;
-      },
-      () => {
-        this.errMsg = '';
-      },
-    );
     let localWallet = EthHelper.getWallet();
     if (localWallet) {
       this.setMyLikeCoin(localWallet);
