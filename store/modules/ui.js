@@ -7,7 +7,7 @@ import {
   UI_STOP_LOADING,
 } from '../mutation-types';
 import * as getters from './getters/ui';
-import * as actions from './actions/user';
+import * as actions from './actions/ui';
 
 const state = {
   errorIcon: 'warning',

@@ -1,6 +1,5 @@
 <template>
   <div class="hello">
-    <md-toolbar class="md-layout" v-if="errMsg"><md-progress-spinner md-mode="indeterminate" class="md-warn" /><md-icon class="md-warn">warning</md-icon><div class="md-layout-item" v-html="errMsg" /></md-toolbar>
     <div class="inner-container">
       <h1> {{ displayName }} </h1>
       <form id="paymentInfo" v-on:submit.prevent="onSubmit">
@@ -37,11 +36,6 @@ export default {
     return {
       isBadAddress: false,
       isBadAmount: false,
-      errMsg: '',
-      web3Error: 'Like function will not work without a wallet, is &nbsp;<a href="https://metamask.io/"> Metamask </a>&nbsp; installed?',
-      testnetError: 'You are in wrong ETH network, please switch to testnet '
-      + ' &nbsp;<a style="color:#EBB33F" href="https://www.rinkeby.io/"> Rinkeby </a>&nbsp; in metamask.',
-      lockedError: 'Cannot obtain your ETH wallet, please make sure it is UNLOCKED.',
     };
   },
   asyncData({ params, error }) {
@@ -97,18 +91,6 @@ export default {
         console.error(error);
       }
     },
-  },
-  mounted() {
-    EthHelper.initApp(
-      (err) => {
-        if (err === 'web3') this.errMsg = this.web3Error;
-        else if (err === 'testnet') this.errMsg = this.testnetError;
-        else if (err === 'locked') this.errMsg = this.lockedError;
-      },
-      () => {
-        this.errMsg = '';
-      },
-    );
   },
 };
 </script>
