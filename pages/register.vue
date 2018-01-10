@@ -1,6 +1,5 @@
 <template>
   <div class="hello">
-    <error-toolbar :message="errMsg"/>
     <div class="inner-container">
       <div v-if="isPreview" class="avatar-preview">
         <md-card-media>
@@ -35,10 +34,8 @@
 
 <script>
 import EthHelper from '@/util/EthHelper';
-import * as api from '@/util/api/api';
 import FileHelper from '@/util/FileHelper';
-
-import ErrorToolbar from '~/components/ErrorToolbar';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'Register',
@@ -55,11 +52,12 @@ export default {
       isPreview: false,
     };
   },
-  components: {
-    ErrorToolbar,
-  },
   methods: {
+    ...mapActions([
+      'newUser',
+    ]),
     setMyLikeCoin(wallet) {
+      console.log(this);
       this.wallet = wallet;
     },
     checkAddress() {
@@ -109,10 +107,10 @@ export default {
           sign,
           from: wallet,
         };
-        await api.apiPostNewUser(data);
+        await this.newUser(data);
+        this.$router.push({ path: user });
       } catch (err) {
-        this.errorMsg = err.message || err.response.data;
-        console.error(err);
+        this.errMsg = err.response.data || err.message;
       }
     },
   },
@@ -142,3 +140,12 @@ export default {
 };
 
 </script>
+
+<style scoped>
+
+.md-card-media img {
+  width: auto;
+  max-width: 400px;
+}
+
+</style>

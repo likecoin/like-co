@@ -1,5 +1,7 @@
 <template>
   <div>
+    <loading-toolbar :isLoading="getIsLoading"/>
+    <error-toolbar :message="getErrorMsg" :icon="getErrorIcon"/>
     <nuxt/>
     <my-footer/>
   </div>
@@ -7,10 +9,22 @@
 
 <script>
 import MyFooter from '~/components/Footer';
+import ErrorToolbar from '~/components/ErrorToolbar';
+import LoadingToolbar from '~/components/LoadingToolbar';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
     MyFooter,
+    LoadingToolbar,
+    ErrorToolbar,
+  },
+  computed: {
+    ...mapGetters({
+      getErrorIcon: 'getErrorIcon',
+      getErrorMsg: 'getErrorMsg',
+      getIsLoading: 'getIsLoading',
+    }),
   },
 };
 </script>
