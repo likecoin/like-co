@@ -1,0 +1,68 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,600,700");
+
+$like-white: #ffffff;
+
+$like-gray-1: #f7f7f7;
+$like-gray-2: #f4f4f4;
+$like-gray-3: #d8d8d8;
+
+$like-gray-4: #737373;
+
+$like-light-blue: #D2F0F0;
+$like-green: #28646E;
+
+$like-brown: #714b29;
+$like-dark-brown: #462814;
+
+$like-red: #fc5757;
+
+$like-gradient-1: #F0E6B4;
+
+$like-gradient-2: #3C286E;
+$like-gradient-3: #6E2828;
+
+h1 {
+  letter-spacing: -0.4px;
+
+  color: $like-dark-brown;
+
+  font-size: 42px;
+  font-weight: 300;
+  line-height: 1.21;
+}
+
+h2 {
+  color: $like-dark-brown;
+
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 1.38;
+}
+
+
+img {
+  user-select: none;
+
+  -webkit-user-drag: none;
+  user-drag: none;
+  object-fit: contain;
+}
+
+.section-title-wrapper {
+  display: inline-block;
+
+  padding: 0 80px;
+
+  text-align: center;
+
+  background-color: $like-light-blue;
+
+  > .title {
+    letter-spacing: -0.3px;
+
+    color: $like-dark-brown;
+
+    font-size: 32px;
+    line-height: 48px;
+  }
+}
