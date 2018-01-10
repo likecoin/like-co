@@ -10,9 +10,10 @@
           <md-input v-model="wallet" maxlength="42" required />
           <span v-if="isBadAddress" class="md-error">Invalid address format</span>
         </md-field>
-        <md-field>
+        <md-field :class="isBadAmount?'md-input-invalid':''">
           <label>LIKECOIN</label>
-          <md-input v-model="amount" type="number" required></md-input>
+          <md-input v-model="amount" maxlength="20" required></md-input>
+          <span v-if="isBadAmount" class="md-error">Invalid amount</span>
         </md-field>
         <hr />
         <md-button class="md-raised" type="submit" form="paymentInfo">OK</md-button>
@@ -22,19 +23,20 @@
 </template>
 
 <script>
-import BN from 'bn.js';
+import BigNumber from 'bignumber.js';
 
 import EthHelper from '@/util/EthHelper';
 import * as api from '@/util/api/api';
 import axios from '~/plugins/axios';
 
-const ONE_LIKE = new BN(10).pow(new BN(18));
+const ONE_LIKE = new BigNumber(10).pow(18);
 
 export default {
   name: 'HelloWorld',
   data() {
     return {
       isBadAddress: false,
+      isBadAmount: false,
       errMsg: '',
       web3Error: 'Like function will not work without a wallet, is &nbsp;<a href="https://metamask.io/"> Metamask </a>&nbsp; installed?',
       testnetError: 'You are in wrong ETH network, please switch to testnet '
@@ -46,11 +48,12 @@ export default {
     return axios.get(`/api/users/${params.id}`)
       .then((res) => {
         const { wallet, avatar, displayName } = res.data;
+        const amount = params.amount || 1;
         return {
           wallet,
           avatar,
           displayName,
-          amount: params.amount || 0,
+          amount,
         };
       })
       .catch((e) => { // eslint-disable-line no-unused-vars
@@ -78,7 +81,18 @@ export default {
         this.isBadAddress = true;
         return;
       }
-      EthHelper.signTransferDelegated(this.wallet, ONE_LIKE.mul(new BN(this.amount)), 0)
+      try {
+        const amount = new BigNumber(this.amount);
+        if (!amount || amount.lt('0.000000000000000001')) {
+          this.isBadAmount = true;
+          return;
+        }
+      } catch (err) {
+        this.isBadAmount = true;
+        return;
+      }
+      console.log(ONE_LIKE.times(new BigNumber(this.amount)).toString(10));
+      EthHelper.signTransferDelegated(this.wallet, ONE_LIKE.times(new BigNumber(this.amount)), 0)
         .then(payload => api.apiPostPayment(payload))
         .then((result) => {
           if (!result || !result.data || !result.data.txHash) return;
