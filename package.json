@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
-    "bn.js": "^4.11.8",
+    "bignumber.js": "^5.0.0",
     "body-parser": "^1.18.2",
     "compression": "^1.7.1",
     "cross-env": "^5.0.1",
