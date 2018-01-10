@@ -7,12 +7,12 @@
         <img :src="avatar" />
         <md-field :class="isBadAddress?'md-input-invalid':''">
           <label>Author ETH wallet address</label>
-          <md-input v-model="wallet" maxlength="42" required />
+          <md-input v-model="wallet" maxlength="42" required disabled />
           <span v-if="isBadAddress" class="md-error">Invalid address format</span>
         </md-field>
         <md-field :class="isBadAmount?'md-input-invalid':''">
           <label>LIKECOIN</label>
-          <md-input v-model="amount" maxlength="20" required></md-input>
+          <md-input v-model="amount" maxlength="20" required />
           <span v-if="isBadAmount" class="md-error">Invalid amount</span>
         </md-field>
         <hr />

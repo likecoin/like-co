@@ -22,7 +22,7 @@
         </md-field>
         <md-field :class="isBadAddress?'md-input-invalid':''">
           <label>ETH wallet address</label>
-          <md-input v-model="wallet" maxlength="42" required />
+          <md-input v-model="wallet" maxlength="42" required disabled />
           <span v-if="isBadAddress" class="md-error">Invalid address format</span>
         </md-field>
 
