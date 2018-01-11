@@ -2,7 +2,18 @@
   <div>
     <loading-toolbar :isLoading="getIsLoading" :isInTransaction="getIsInTransaction"/>
     <error-toolbar :message="getErrorMsg" :icon="getErrorIcon"/>
-    <nuxt/>
+    <div class="container">
+      <div class="landing">
+        <div class="upper-left-corner" />
+        <site-header />
+        <introduction />
+        <description />
+      </div>
+      <div class="section-title-wrapper">
+        <span class="title">{{ title }}</span>
+      </div>
+      <nuxt/>
+    </div>
     <my-footer/>
   </div>
 </template>
@@ -12,11 +23,15 @@ import EthHelper from '@/util/EthHelper';
 import MyFooter from '~/components/Footer';
 import ErrorToolbar from '~/components/ErrorToolbar';
 import LoadingToolbar from '~/components/LoadingToolbar';
+import SiteHeader from '~/components/Header';
+import Introduction from '~/components/Introduction';
+import Description from '~/components/Description';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
   data() {
     return {
+      title: 'Create Account and Redeem',
       web3Error: 'Like function will not work without a wallet, is &nbsp;<a href="https://metamask.io/"> Metamask </a>&nbsp; installed?',
       testnetError: 'You are in wrong ETH network, please switch to testnet '
       + ' &nbsp;<a href="https://www.rinkeby.io/"> Rinkeby </a>&nbsp; in metamask.',
@@ -28,6 +43,9 @@ export default {
     MyFooter,
     LoadingToolbar,
     ErrorToolbar,
+    SiteHeader,
+    Introduction,
+    Description,
   },
   computed: {
     ...mapGetters({
@@ -59,12 +77,84 @@ export default {
 };
 </script>
 
-<style>
-.container
-{
-  margin: 0;
-  width: 100%;
+<style lang="scss">
+@import "../styles/index.scss";
+
+$large-padding: 64px;
+$mid-padding: 24px;
+$small-padding: 16px;
+
+.landing {
+  z-index: 0;
+  position: relative;
+  .upper-left-corner {
+    position: absolute;
+    z-index: -1;
+
+    width: calc(66.66% + 64px);
+    height: calc(100% + 84px);
+
+    margin-left: -$large-padding;
+
+    background-color: $like-gray-1;
+  }
+}
+
+.section-title-wrapper {
+  margin-top: 60px;
+  z-index: 1;
+  display: inline-block;
+  padding: 0 80px;
   text-align: center;
+  background-color: #d2f0f0;
+  width: 50%;
+}
+
+.container {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  max-width: 1440px;
+  margin: 0 auto;
+
+  overflow: hidden;
+
+  > * {
+    margin-right: $large-padding;
+    margin-left: $large-padding;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    > * {
+      margin-right: $mid-padding;
+      margin-left: $mid-padding;
+    }
+    .landing .upper-left-corner {
+      height: calc(100% + 50px);
+      margin-left: -$mid-padding;
+    }
+    .section-title-wrapper {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .container {
+    > * {
+      margin-right: $small-padding;
+      margin-left: $small-padding;
+    }
+
+    .landing .upper-left-corner {
+      height: calc(100% + 50px);
+      margin-left: -$small-padding;
+    }
+  }
 }
 
 .button, .button:visited
