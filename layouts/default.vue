@@ -1,16 +1,60 @@
 <template>
   <div>
+    <loading-toolbar :isLoading="getIsLoading" :isInTransaction="getIsInTransaction"/>
+    <error-toolbar :message="getErrorMsg" :icon="getErrorIcon"/>
     <nuxt/>
     <my-footer/>
   </div>
 </template>
 
 <script>
+import EthHelper from '@/util/EthHelper';
 import MyFooter from '~/components/Footer';
+import ErrorToolbar from '~/components/ErrorToolbar';
+import LoadingToolbar from '~/components/LoadingToolbar';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
+  data() {
+    return {
+      web3Error: 'Like function will not work without a wallet, is &nbsp;<a href="https://metamask.io/"> Metamask </a>&nbsp; installed?',
+      testnetError: 'You are in wrong ETH network, please switch to testnet '
+      + ' &nbsp;<a href="https://www.rinkeby.io/"> Rinkeby </a>&nbsp; in metamask.',
+      lockedError: 'Cannot obtain your ETH wallet, please make sure it is UNLOCKED.',
+
+    };
+  },
   components: {
     MyFooter,
+    LoadingToolbar,
+    ErrorToolbar,
+  },
+  computed: {
+    ...mapGetters({
+      getErrorIcon: 'getErrorIcon',
+      getErrorMsg: 'getErrorMsg',
+      getIsLoading: 'getIsLoading',
+      getIsInTransaction: 'getIsInTransaction',
+    }),
+  },
+  methods: {
+    ...mapActions([
+      'setErrorMsg',
+    ]),
+  },
+  mounted() {
+    EthHelper.initApp(
+      (err) => {
+        let errMsg = '';
+        if (err === 'web3') errMsg = this.web3Error;
+        else if (err === 'testnet') errMsg = this.testnetError;
+        else if (err === 'locked') errMsg = this.lockedError;
+        this.setErrorMsg(errMsg);
+      },
+      () => {
+        this.setErrorMsg('');
+      },
+    );
   },
 };
 </script>

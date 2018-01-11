@@ -1,6 +1,5 @@
 <template>
   <div class="hello">
-    <md-toolbar class="md-layout" v-if="errMsg"><md-progress-spinner md-mode="indeterminate" class="md-warn" /><md-icon class="md-warn">warning</md-icon><div class="md-layout-item" v-html="errMsg" /></md-toolbar>
     <div class="inner-container">
       <h1> {{ displayName }} </h1>
       <form id="paymentInfo" v-on:submit.prevent="onSubmit">
@@ -26,8 +25,8 @@
 import BigNumber from 'bignumber.js';
 
 import EthHelper from '@/util/EthHelper';
-import * as api from '@/util/api/api';
 import axios from '~/plugins/axios';
+import { mapActions } from 'vuex';
 
 const ONE_LIKE = new BigNumber(10).pow(18);
 
@@ -37,11 +36,6 @@ export default {
     return {
       isBadAddress: false,
       isBadAmount: false,
-      errMsg: '',
-      web3Error: 'Like function will not work without a wallet, is &nbsp;<a href="https://metamask.io/"> Metamask </a>&nbsp; installed?',
-      testnetError: 'You are in wrong ETH network, please switch to testnet '
-      + ' &nbsp;<a style="color:#EBB33F" href="https://www.rinkeby.io/"> Rinkeby </a>&nbsp; in metamask.',
-      lockedError: 'Cannot obtain your ETH wallet, please make sure it is UNLOCKED.',
     };
   },
   asyncData({ params, error }) {
@@ -72,52 +66,31 @@ export default {
     };
   },
   methods: {
+    ...mapActions([
+      'payment',
+    ]),
     checkAddress() {
       return this.wallet.length === 42 && this.wallet.substr(0, 2) === '0x';
     },
-    onSubmit() {
+    async onSubmit() {
       this.isBadAddress = false;
       if (!this.checkAddress()) {
         this.isBadAddress = true;
         return;
       }
-      try {
-        const amount = new BigNumber(this.amount);
-        if (!amount || amount.lt('0.000000000000000001')) {
-          this.isBadAmount = true;
-          return;
-        }
-      } catch (err) {
+      const amount = new BigNumber(this.amount);
+      if (!amount || amount.lt('0.000000000000000001')) {
         this.isBadAmount = true;
         return;
       }
-      console.log(ONE_LIKE.times(new BigNumber(this.amount)).toString(10));
-      EthHelper.signTransferDelegated(this.wallet, ONE_LIKE.times(new BigNumber(this.amount)), 0)
-        .then(payload => api.apiPostPayment(payload))
-        .then((result) => {
-          if (!result || !result.data || !result.data.txHash) return;
-          this.txHash = result.data.txHash;
-          EthHelper.waitForTxToBeMined(
-            result.data.txHash,
-            () => {},
-          );
-        })
-        .catch((err) => {
-          this.errorMsg = err.message || err.response.data;
-        });
+      try {
+        const payload = await EthHelper.signTransferDelegated(this.wallet, ONE_LIKE.mul(new
+          BigNumber(this.amount)), 0);
+        await this.payment(payload);
+      } catch (error) {
+        console.error(error);
+      }
     },
-  },
-  mounted() {
-    EthHelper.initApp(
-      (err) => {
-        if (err === 'web3') this.errMsg = this.web3Error;
-        else if (err === 'testnet') this.errMsg = this.testnetError;
-        else if (err === 'locked') this.errMsg = this.lockedError;
-      },
-      () => {
-        this.errMsg = '';
-      },
-    );
   },
 };
 </script>

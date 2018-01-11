@@ -1,6 +1,5 @@
 <template>
   <div class="hello">
-    <md-toolbar class="md-layout" v-if="errMsg"><md-progress-spinner md-mode="indeterminate" class="md-warn" /><md-icon class="md-warn">warning</md-icon><div class="md-layout-item" v-html="errMsg" /></md-toolbar>
     <div class="inner-container">
       <div v-if="isPreview" class="avatar-preview">
         <md-card-media>
@@ -20,7 +19,7 @@
           <label>Display Name</label>
           <md-input v-model="displayName" required></md-input>
         </md-field>
-        <md-field :class="isBadAddress?'md-input-invalid':''">
+        <md-field :class="isBadAddress?'md-invalid':''">
           <label>ETH wallet address</label>
           <md-input v-model="wallet" maxlength="42" required disabled />
           <span v-if="isBadAddress" class="md-error">Invalid address format</span>
@@ -35,14 +34,13 @@
 
 <script>
 import EthHelper from '@/util/EthHelper';
-import * as api from '@/util/api/api';
 import FileHelper from '@/util/FileHelper';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'Register',
   data() {
     return {
-      errMsg: '',
       avatarFile: null,
       avatar: null,
       avatarData: null,
@@ -54,6 +52,9 @@ export default {
     };
   },
   methods: {
+    ...mapActions([
+      'newUser',
+    ]),
     setMyLikeCoin(wallet) {
       this.wallet = wallet;
     },
@@ -104,24 +105,14 @@ export default {
           sign,
           from: wallet,
         };
-        await api.apiPostNewUser(data);
+        await this.newUser(data);
+        this.$router.push({ path: user });
       } catch (err) {
-        this.errorMsg = err.message || err.response.data;
         console.error(err);
       }
     },
   },
   mounted() {
-    EthHelper.initApp(
-      (err) => {
-        if (err === 'web3') this.errMsg = this.web3Error;
-        else if (err === 'testnet') this.errMsg = this.testnetError;
-        else if (err === 'locked') this.errMsg = this.lockedError;
-      },
-      () => {
-        this.errMsg = '';
-      },
-    );
     let localWallet = EthHelper.getWallet();
     if (localWallet) {
       this.setMyLikeCoin(localWallet);
@@ -137,3 +128,12 @@ export default {
 };
 
 </script>
+
+<style scoped>
+
+.md-card-media img {
+  width: auto;
+  max-width: 400px;
+}
+
+</style>
