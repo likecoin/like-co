@@ -4,7 +4,7 @@ import * as types from '@/store/mutation-types';
 import EthHelper from '@/util/EthHelper';
 import apiWrapper from './api-wrapper';
 
-export async function payment({ commit }, payload) {
+export async function sendPayment({ commit }, payload) {
   try {
     const result = await apiWrapper(commit, api.apiPostPayment(payload));
     if (!result || !result.data || !result.data.txHash) return;
