@@ -3,33 +3,37 @@
     <div id="has-account">
       <nuxt-link :to="{ name: 'edit' }"> {{ hasAccountMsg }}</nuxt-link>
     </div>
-    <div v-if="isPreview" class="avatar-preview">
-      <md-card-media>
-        <img :src="avatarData" >
-      </md-card-media>
-    </div>
     <form id="registerForm" v-on:submit.prevent="onSubmit">
-      <md-field>
-        <label>Image upload</label>
-        <md-file v-model="avatar" @md-change="previewImage($event)" accept="image/*"></md-file>
-      </md-field>
-      <md-field>
-        <label>Username</label>
-        <md-input v-model="user" required></md-input>
+      <div class="md-layout">
+        <div>
+          <input v-if="avatarData" type="image" class="avatar" @click.prevent="openPicker" :src="avatarData" />
+          <input type="file" ref="inputFile" accept="image/*" @change="previewImage" />
+        </div>
+        <div class="md-layout md-layout-item">
+          <div class="md-layout-item">
+            <md-field>
+              <label>Please pick your unique username</label>
+              <md-input v-model="user" required></md-input>
+            </md-field>
+            <md-field :class="isBadAddress?'md-invalid':''">
+              <label>ETH wallet address</label>
+              <md-input v-model="wallet" maxlength="42" required disabled />
+              <span v-if="isBadAddress" class="md-error">Invalid address format</span>
+            </md-field>
+          </div>
+        </div>
+      </div>
+      <md-field v-if="isRedeem">
+        <label>Coupon Code</label>
+        <md-input v-model="couponCode" required></md-input>
       </md-field>
       <md-field>
         <label>Display Name</label>
         <md-input v-model="displayName" required></md-input>
       </md-field>
-      <md-field :class="isBadAddress?'md-invalid':''">
-        <label>ETH wallet address</label>
-        <md-input v-model="wallet" maxlength="42" required disabled />
-        <span v-if="isBadAddress" class="md-error">Invalid address format</span>
-      </md-field>
-
       <hr />
       <div id="form-btn">
-        <md-button class="md-raised" type="submit" form="registerForm">Submit</md-button>
+        <md-button class="md-raised md-primary" type="submit" form="registerForm">Confirm</md-button>
       </div>
     </form>
   </div>
@@ -40,6 +44,7 @@ import EthHelper from '@/util/EthHelper';
 import FileHelper from '@/util/FileHelper';
 import * as types from '@/store/mutation-types';
 import { mapActions } from 'vuex';
+import { toDataUrl } from 'ethereum-blockies';
 
 export default {
   name: 'Register',
@@ -62,9 +67,10 @@ export default {
       avatarData: null,
       user: '',
       displayName: '',
+      couponCode: '',
       wallet: EthHelper.getWallet() || '0x81f9b6c7129cee90fed5df241fa6dc4f88a19699',
       isBadAddress: false,
-      isPreview: false,
+      isRedeem: false,
     };
   },
   methods: {
@@ -73,20 +79,24 @@ export default {
     ]),
     setMyLikeCoin(wallet) {
       this.wallet = wallet;
+      if (!this.avatarFile) this.avatarData = toDataUrl(wallet);
     },
     checkAddress() {
       return this.wallet.length === 42 && this.wallet.substr(0, 2) === '0x';
     },
-    previewImage(files) {
+    previewImage(event) {
+      const { files } = event.target;
       if (files && files[0]) {
         [this.avatarFile] = Object.values(files);
         const reader = new FileReader();
         reader.onload = (e) => {
           this.avatarData = e.target.result;
-          this.isPreview = true;
         };
         reader.readAsDataURL(files[0]);
       }
+    },
+    openPicker() {
+      this.$refs.inputFile.click();
     },
     async onSubmit() {
       try {
@@ -129,6 +139,7 @@ export default {
     },
   },
   mounted() {
+    this.isRedeem = this.$route.name === 'redeem';
     let localWallet = EthHelper.getWallet();
     if (localWallet) {
       this.setMyLikeCoin(localWallet);
@@ -155,6 +166,27 @@ export default {
 }
 #form-btn {
   text-align: right;
+}
+
+#registerForm {
+  background-color: #f7f7f7;
+  padding: 20px;
+}
+
+.avatar {
+  cursor: pointer;
+  margin: 20px;
+}
+
+input[type="file"] {
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  position: absolute;
+  clip: rect(0 0 0 0);
+  border: 0;
 }
 
 </style>

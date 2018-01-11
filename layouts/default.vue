@@ -90,6 +90,12 @@ $large-padding: 64px;
 $mid-padding: 24px;
 $small-padding: 16px;
 
+html, body {
+  background-color: #fff !important;
+  height: 100%;
+  width: 100%;
+}
+
 .toolbars {
   top: 0px;
   width: 100%;
