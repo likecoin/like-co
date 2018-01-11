@@ -43,9 +43,16 @@ import { mapActions } from 'vuex';
 
 export default {
   name: 'Register',
-  fetch({ store }) {
-    store.commit(types.UI_HEADER_MSG, 'Redeem your free LikeCoin');
-    store.commit(types.UI_HEADER_ICON, '');
+  fetch({ store, route }) {
+    const title = (route.name === 'redeem') ?
+      'Redeem your free LikeCoin' : 'Register your LikeCoin.store link';
+    const subtitle = (route.name === 'redeem') ?
+      'Create Account and Redeem' : 'Create Account';
+    store.commit(types.UI_HEADER_UPDATE, {
+      title,
+      subtitle,
+      icon: '',
+    });
   },
   data() {
     return {

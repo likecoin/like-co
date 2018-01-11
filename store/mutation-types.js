@@ -3,5 +3,4 @@ export const UI_ERROR_MSG = 'UI_ERROR_MSG';
 export const UI_START_LOADING = 'UI_START_LOADING';
 export const UI_START_LOADING_TX = 'UI_START_LOADING_TX';
 export const UI_STOP_LOADING = 'UI_STOP_LOADING';
-export const UI_HEADER_ICON = 'UI_HEADER_ICON';
-export const UI_HEADER_MSG = 'UI_HEADER_MSG';
+export const UI_HEADER_UPDATE = 'UI_HEADER_UPDATE';

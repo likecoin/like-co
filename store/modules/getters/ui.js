@@ -8,4 +8,8 @@ export const getIsLoading = state => state.isLoading;
 
 export const getHeaderIcon = state => state.headerIcon;
 
-export const getHeaderMsg = state => state.headerMsg;
+export const getHeaderTitle = state => state.headerTitle;
+
+export const getDesc = state => state.description;
+
+export const getHeaderSubtitle = state => state.headerSubtitle;

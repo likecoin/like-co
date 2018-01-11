@@ -1,7 +1,7 @@
 <template>
   <section id="description">
     <div class="details">
-      <div v-html="sentence" />
+      <div> {{ content || sentence }} </div>
     </div>
     <div class="links">
       <div class="link what">
@@ -21,6 +21,7 @@
 <script>
 export default {
   name: 'description',
+  prop: ['content'],
   data() {
     return {
       sentence: 'Great! Seem you already have a Metamask wallet. Now your are ready to receive or send LikeCoin.',
