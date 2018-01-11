@@ -1,6 +1,6 @@
 <template>
   <div>
-    <loading-toolbar :isLoading="getIsLoading"/>
+    <loading-toolbar :isLoading="getIsLoading" :isInTransaction="getIsInTransaction"/>
     <error-toolbar :message="getErrorMsg" :icon="getErrorIcon"/>
     <nuxt/>
     <my-footer/>
@@ -34,6 +34,7 @@ export default {
       getErrorIcon: 'getErrorIcon',
       getErrorMsg: 'getErrorMsg',
       getIsLoading: 'getIsLoading',
+      getIsInTransaction: 'getIsInTransaction',
     }),
   },
   methods: {
