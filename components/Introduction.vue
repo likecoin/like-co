@@ -1,21 +1,25 @@
 <template>
   <section id="intro">
     <div class="icon">
-      <img alt="like-coin" class="main-icon" src="../assets/likecoin.svg"/>
+      <img alt="like-coin" class="main-icon" :src="iconSrc" />
     </div>
     <div class="title heading">
-      <h1>{{ title }}</h1>
+      <h1>{{ text }}</h1>
     </div>
   </section>
 </template>
 
 
 <script>
+import likeCoinIcon from '../assets/likecoin.svg';
+
 export default {
   name: 'introduction',
+  props: ['title', 'icon'],
   data() {
     return {
-      title: 'Redeem your free LikeCoin',
+      text: this.title || 'Redeem your free LikeCoin',
+      iconSrc: this.icon || likeCoinIcon,
     };
   },
 };
