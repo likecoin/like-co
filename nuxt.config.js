@@ -21,11 +21,18 @@ module.exports = {
   loading: { color: '#448aff' },
   router: {
     extendRoutes(routes, resolve) {
-      routes.push({
-        name: 'idWithAmount',
-        path: '/:id/:amount?',
-        component: resolve(__dirname, 'pages/_id.vue'),
-      });
+      routes.unshift(
+        {
+          name: 'idWithAmount',
+          path: '/pay/:id/:amount?',
+          component: resolve(__dirname, 'pages/pay/_id.vue'),
+        },
+        {
+          name: 'redeem',
+          path: '/redeem',
+          component: resolve(__dirname, 'pages/register.vue'),
+        },
+      );
     },
   },
   /*

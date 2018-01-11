@@ -4,10 +4,10 @@
     <h1 class="title">
       Likestore (WIP)
     </h1>
-    <nuxt-link :to="{ name: 'id', params: { id: 'ckxpress' } }">
+    <nuxt-link :to="{ name: 'pay-id', params: { id: 'ckxpress' } }">
       <md-button>Pay ckxpress</md-button>
     </nuxt-link>
-    <nuxt-link :to="{ name: 'id', params: { id: 'williamchong007' } }">
+    <nuxt-link :to="{ name: 'pay-id', params: { id: 'williamchong007' } }">
       <md-button>Pay williamchong007</md-button>
     </nuxt-link>
     <nuxt-link :to="{ name: 'register' }">
