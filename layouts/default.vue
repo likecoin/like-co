@@ -1,7 +1,9 @@
 <template>
   <div>
-    <loading-toolbar :isLoading="getIsLoading" :isInTransaction="getIsInTransaction"/>
-    <error-toolbar :message="getErrorMsg" :icon="getErrorIcon"/>
+    <div class="toolbars">
+      <loading-toolbar :isLoading="getIsLoading" :isInTransaction="getIsInTransaction"/>
+      <error-toolbar :message="getErrorMsg" :icon="getErrorIcon"/>
+    </div>
     <div class="container">
       <div class="landing">
         <div class="upper-left-corner" />
@@ -86,16 +88,18 @@ $large-padding: 64px;
 $mid-padding: 24px;
 $small-padding: 16px;
 
+.toolbars {
+  top: 0px;
+  width: 100%;
+  position: fixed;
+  z-index: 999;
+}
+
 .landing {
-  z-index: 0;
-  position: relative;
   .upper-left-corner {
-    position: absolute;
-    z-index: -1;
-
-    width: calc(66.66% + 64px);
-    height: calc(100% + 84px);
-
+    width: 66.66%;
+    height: 600px;
+    margin-bottom: -600px;
     margin-left: -$large-padding;
 
     background-color: $like-gray-1;
@@ -136,7 +140,6 @@ $small-padding: 16px;
       margin-left: $mid-padding;
     }
     .landing .upper-left-corner {
-      height: calc(100% + 50px);
       margin-left: -$mid-padding;
     }
     .section-title-wrapper {
@@ -153,7 +156,6 @@ $small-padding: 16px;
     }
 
     .landing .upper-left-corner {
-      height: calc(100% + 50px);
       margin-left: -$small-padding;
     }
   }
