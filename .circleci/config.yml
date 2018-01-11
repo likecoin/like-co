@@ -12,7 +12,9 @@ jobs:
           key: likecoin-store-{{ checksum "package.json" }}
       - run:
           name: Dependencies
-          command: yarn
+          command: |
+            apk add vips-dev fftw-dev --update-cache --repository https://dl-3.alpinelinux.org/alpine/edge/testing/
+            yarn
       - run:
           name: Lint Test
           command: yarn run lint
