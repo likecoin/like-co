@@ -19,6 +19,9 @@ jobs:
           name: Lint Test
           command: yarn run lint
       - run:
+          name: Build
+          command: yarn build
+      - run:
           name: Server Test
           command: yarn start
           background: true
