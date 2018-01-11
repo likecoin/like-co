@@ -8,7 +8,8 @@ export async function payment({ commit }, payload) {
   try {
     const result = await apiWrapper(commit, api.apiPostPayment(payload));
     if (!result || !result.data || !result.data.txHash) return;
-    commit(types.UI_ERROR_MSG, 'Please wait for transaction to be mined.');
+    const txUrl = `https://rinkeby.etherscan.io/tx/${result.data.txHash}`;
+    commit(types.UI_ERROR_MSG, `Please wait for transaction to be mined. Check status: <a href="${txUrl}">${txUrl}</a>`);
     commit(types.UI_START_LOADING);
     EthHelper.waitForTxToBeMined(
       result.data.txHash,
