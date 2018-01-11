@@ -1,20 +1,19 @@
 <template>
   <div class="hello">
     <div class="inner-container">
-      <h1> {{ displayName }} </h1>
       <form id="paymentInfo" v-on:submit.prevent="onSubmit">
         <md-field :class="isBadAddress?'md-input-invalid':''">
-          <label>Author ETH wallet address</label>
+          <label>{{ displayName }}'s wallet address</label>
           <md-input v-model="wallet" maxlength="42" required disabled />
           <span v-if="isBadAddress" class="md-error">Invalid address format</span>
         </md-field>
         <md-field :class="isBadAmount?'md-input-invalid':''">
-          <label>LIKECOIN</label>
+          <label>Amount of LikeCoin to send</label>
           <md-input v-model="amount" maxlength="20" required />
           <span v-if="isBadAmount" class="md-error">Invalid amount</span>
         </md-field>
         <hr />
-        <md-button class="md-raised" type="submit" form="paymentInfo">OK</md-button>
+        <md-button class="md-raised md-primary" type="submit" form="paymentInfo">Send</md-button>
       </form>
     </div>
   </div>
@@ -44,7 +43,8 @@ export default {
         const { wallet, avatar, displayName } = res.data;
         const amount = params.amount || 1;
         app.store.commit(types.UI_HEADER_UPDATE, {
-          title: `Pay Likecoin to ${displayName}`,
+          title: `Pay LikeCoin to ${displayName}`,
+          subtitle: displayName,
           icon: avatar,
         });
         return {
@@ -60,11 +60,11 @@ export default {
   },
   head() {
     return {
-      title: `Pay Likecoin to ${this.displayName}`,
+      title: `Pay LikeCoin to ${this.displayName}`,
       meta: [
-        { hid: 'og_title', property: 'og:title', content: `Pay Likecoin to ${this.displayName}.` },
-        { hid: 'description', name: 'description', content: `Pay Likecoin to ${this.displayName}. Likecoin is the settlement currency for Creative Contents powered by blockchain.` },
-        { hid: 'og_description', property: 'og:description', content: `Pay Likecoin to ${this.displayName}. Likecoin is the settlement currency for Creative Contents powered by blockchain.` },
+        { hid: 'og_title', property: 'og:title', content: `Pay LikeCoin to ${this.displayName}.` },
+        { hid: 'description', name: 'description', content: `Pay LikeCoin to ${this.displayName}. LikeCoin is the settlement currency for Creative Contents powered by blockchain.` },
+        { hid: 'og_description', property: 'og:description', content: `Pay LikeCoin to ${this.displayName}. LikeCoin is the settlement currency for Creative Contents powered by blockchain.` },
         { hid: 'og_image', property: 'og:image', content: `${this.avatar}` },
       ],
     };
