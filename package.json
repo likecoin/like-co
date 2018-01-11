@@ -27,7 +27,6 @@
     "sharp": "^0.18.4",
     "source-map-support": "^0.4.15",
     "vue": "^2.5.3",
-    "vue-lazyload": "^1.1.4",
     "vue-material": "beta",
     "vue-server-renderer": "^2.5.3",
     "vue-template-compiler": "^2.5.3",
