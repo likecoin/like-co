@@ -1,6 +1,5 @@
 <template>
   <section class="container">
-    <img src="~assets/img/logo.png" alt="Nuxt.js Logo" class="logo" />
     <h1 class="title">
       Likestore (WIP)
     </h1>
@@ -17,7 +16,13 @@
 </template>
 
 <script>
+import * as types from '@/store/mutation-types';
+
 export default {
+  fetch({ store }) {
+    store.commit(types.UI_HEADER_MSG, 'Welcome to LikeCoin.store');
+    store.commit(types.UI_HEADER_ICON, '');
+  },
   head() {
     return {
       title: 'Landing - In progress',

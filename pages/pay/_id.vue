@@ -3,7 +3,6 @@
     <div class="inner-container">
       <h1> {{ displayName }} </h1>
       <form id="paymentInfo" v-on:submit.prevent="onSubmit">
-        <img :src="avatar" />
         <md-field :class="isBadAddress?'md-input-invalid':''">
           <label>Author ETH wallet address</label>
           <md-input v-model="wallet" maxlength="42" required disabled />
