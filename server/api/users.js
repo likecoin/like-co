@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { toDataUrl } from 'ethereum-blockies';
 
 const Account = require('eth-lib/lib/account');
 const Multer = require('multer');
@@ -144,7 +145,9 @@ router.get('/users/:id', async (req, res) => {
     const username = req.params.id;
     const doc = await dbRef.doc(username).get();
     if (doc.exists) {
-      res.json(doc.data());
+      const payload = doc.data();
+      if (!payload.avatar) payload.avatar = toDataUrl(payload.wallet);
+      res.json(payload);
     } else {
       res.sendStatus(404);
     }

@@ -27,7 +27,6 @@ import BigNumber from 'bignumber.js';
 import EthHelper from '@/util/EthHelper';
 import axios from '~/plugins/axios';
 import { mapActions } from 'vuex';
-import { toDataUrl } from 'ethereum-blockies';
 
 const ONE_LIKE = new BigNumber(10).pow(18);
 
@@ -92,9 +91,6 @@ export default {
         console.error(error);
       }
     },
-  },
-  mounted() {
-    this.avatar = this.avatar || toDataUrl(this.wallet);
   },
 };
 </script>
