@@ -38,13 +38,12 @@ module.exports = {
   ],
   plugins: [
     { src: '~/plugins/vue-material' },
-    { src: '~/plugins/vue-lazyload' },
   ],
   /*
   ** Add axios globally
   */
   build: {
-    vendor: ['axios', 'vue-material', 'vue-lazyload'],
+    vendor: ['axios', 'vue-material'],
     /*
     ** Run ESLINT on save
     */

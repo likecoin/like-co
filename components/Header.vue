@@ -10,7 +10,7 @@
         target="_blank"
         rel="noopener noreferrer"
       >
-        <img v-lazy="imgUrl(`${platform.name}.svg`)" />
+        <img :src="imgUrl(`${platform.name}.svg`)" />
       </md-button>
       <!-- <a class="md-icon-button language">En</a> -->
     </div>
