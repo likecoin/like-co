@@ -70,7 +70,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'payment',
+      'sendPayment',
       'setHeaderMsg',
       'setHeaderIcon',
     ]),
@@ -91,7 +91,7 @@ export default {
       try {
         const payload = await EthHelper.signTransferDelegated(this.wallet, ONE_LIKE.mul(new
           BigNumber(this.amount)), 0);
-        await this.payment(payload);
+        await this.sendPayment(payload);
       } catch (error) {
         console.error(error);
       }
