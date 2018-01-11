@@ -6,7 +6,7 @@
       <div class="landing">
         <div class="upper-left-corner" />
         <site-header />
-        <introduction />
+        <introduction :title="getHeaderMsg" :icon="getHeaderIcon" />
         <description />
       </div>
       <div class="section-title-wrapper">
@@ -48,12 +48,14 @@ export default {
     Description,
   },
   computed: {
-    ...mapGetters({
-      getErrorIcon: 'getErrorIcon',
-      getErrorMsg: 'getErrorMsg',
-      getIsLoading: 'getIsLoading',
-      getIsInTransaction: 'getIsInTransaction',
-    }),
+    ...mapGetters([
+      'getErrorIcon',
+      'getErrorMsg',
+      'getHeaderIcon',
+      'getHeaderMsg',
+      'getIsLoading',
+      'getIsInTransaction',
+    ]),
   },
   methods: {
     ...mapActions([
