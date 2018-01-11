@@ -1,10 +1,10 @@
 <template>
   <section id="intro">
     <div class="icon">
-      <img alt="like-coin" class="main-icon" :src="iconSrc" />
+      <img alt="like-coin" class="main-icon" :src="icon || defaultIcon" />
     </div>
     <div class="title heading">
-      <h1>{{ text }}</h1>
+      <h1>{{ title || defaultText }}</h1>
     </div>
   </section>
 </template>
@@ -18,8 +18,8 @@ export default {
   props: ['title', 'icon'],
   data() {
     return {
-      text: this.title || 'Redeem your free LikeCoin',
-      iconSrc: this.icon || likeCoinIcon,
+      defaultText: 'Redeem your free LikeCoin',
+      defaultIcon: likeCoinIcon,
     };
   },
 };
@@ -27,6 +27,21 @@ export default {
 
 <style lang="scss" scoped>
 @import "../styles/index.scss";
+
+.icon {
+  width: 400px;
+  height: 400px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.main-icon {
+  display: inline;
+  margin: 0 auto;
+  height: 100%;
+  width: auto;
+}
 
 #intro {
   display: flex;
@@ -103,7 +118,7 @@ export default {
 }
 
 @media (max-width: 500px) {
-  body #intro {
+  #intro {
     flex-direction: column;
 
     padding: 0 24px;
@@ -112,11 +127,11 @@ export default {
 
       text-align: center;
     }
-    
+
     .icon {
       order: 1;
     }
-    
+
     .heading {
       order: 2;
     }

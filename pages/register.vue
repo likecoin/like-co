@@ -38,10 +38,15 @@
 <script>
 import EthHelper from '@/util/EthHelper';
 import FileHelper from '@/util/FileHelper';
+import * as types from '@/store/mutation-types';
 import { mapActions } from 'vuex';
 
 export default {
   name: 'Register',
+  fetch({ store }) {
+    store.commit(types.UI_HEADER_MSG, 'Redeem your free LikeCoin');
+    store.commit(types.UI_HEADER_ICON, '');
+  },
   data() {
     return {
       hasAccountMsg: 'I already have a LikeCoin account',
