@@ -25,6 +25,7 @@
 import BigNumber from 'bignumber.js';
 
 import EthHelper from '@/util/EthHelper';
+import * as types from '@/store/mutation-types';
 import axios from '~/plugins/axios';
 import { mapActions } from 'vuex';
 
@@ -38,11 +39,13 @@ export default {
       isBadAmount: false,
     };
   },
-  asyncData({ params, error }) {
+  asyncData({ app, params, error }) {
     return axios.get(`/api/users/${params.id}`)
       .then((res) => {
         const { wallet, avatar, displayName } = res.data;
         const amount = params.amount || 1;
+        app.store.commit(types.UI_HEADER_MSG, `Pay Likecoin to ${displayName}`);
+        app.store.commit(types.UI_HEADER_ICON, avatar);
         return {
           wallet,
           avatar,
@@ -58,7 +61,7 @@ export default {
     return {
       title: `Pay Likecoin to ${this.displayName}`,
       meta: [
-        { hid: 'og_title', property: 'og:title', content: `Pay Likecoin to ${this.displayName}, ` },
+        { hid: 'og_title', property: 'og:title', content: `Pay Likecoin to ${this.displayName}.` },
         { hid: 'description', name: 'description', content: `Pay Likecoin to ${this.displayName}. Likecoin is the settlement currency for Creative Contents powered by blockchain.` },
         { hid: 'og_description', property: 'og:description', content: `Pay Likecoin to ${this.displayName}. Likecoin is the settlement currency for Creative Contents powered by blockchain.` },
         { hid: 'og_image', property: 'og:image', content: `${this.avatar}` },
@@ -68,6 +71,8 @@ export default {
   methods: {
     ...mapActions([
       'payment',
+      'setHeaderMsg',
+      'setHeaderIcon',
     ]),
     checkAddress() {
       return this.wallet.length === 42 && this.wallet.substr(0, 2) === '0x';
