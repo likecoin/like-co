@@ -1,6 +1,8 @@
 <template>
   <div>
     <div class="toolbars">
+      <popup-dialog ref="dialog" :allowClose="false"
+         :header="dialogHeader" :message="dialogMsg" :eventName="''" />
       <loading-toolbar :isLoading="getIsLoading" :isInTransaction="getIsInTransaction"/>
       <error-toolbar :message="getErrorMsg" :icon="getErrorIcon"/>
     </div>
@@ -25,6 +27,7 @@ import EthHelper from '@/util/EthHelper';
 import MyFooter from '~/components/Footer';
 import ErrorToolbar from '~/components/ErrorToolbar';
 import LoadingToolbar from '~/components/LoadingToolbar';
+import PopupDialog from '~/components/PopupDialog';
 import SiteHeader from '~/components/Header';
 import Introduction from '~/components/Introduction';
 import Description from '~/components/Description';
@@ -38,13 +41,15 @@ export default {
       testnetError: 'You are in wrong ETH network, please switch to testnet '
       + ' &nbsp;<a href="https://www.rinkeby.io/"> Rinkeby </a>&nbsp; in metamask.',
       lockedError: 'Cannot obtain your ETH wallet, please make sure it is UNLOCKED.',
-
+      dialogHeader: 'Error',
+      dialogMsg: '',
     };
   },
   components: {
     MyFooter,
     LoadingToolbar,
     ErrorToolbar,
+    PopupDialog,
     SiteHeader,
     Introduction,
     Description,
@@ -64,9 +69,14 @@ export default {
   methods: {
     ...mapActions([
       'setErrorMsg',
+      'setDialog',
     ]),
+    onConfim() {
+      console.log('hihi');
+    },
   },
   mounted() {
+    console.log(this);
     EthHelper.initApp(
       (err) => {
         let errMsg = '';
@@ -74,9 +84,15 @@ export default {
         else if (err === 'testnet') errMsg = this.testnetError;
         else if (err === 'locked') errMsg = this.lockedError;
         this.setErrorMsg(errMsg);
+        if (this.$route.name !== 'index') {
+          if (this.dialogMsg === '') this.$refs.dialog.toggleSync();
+          this.dialogMsg = errMsg;
+        }
       },
       () => {
         this.setErrorMsg('');
+        if (this.dialogMsg !== '') this.$refs.dialog.toggleSync();
+        this.dialogMsg = '';
       },
     );
   },
