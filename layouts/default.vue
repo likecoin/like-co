@@ -7,12 +7,12 @@
     <div class="container">
       <div class="landing">
         <div class="upper-left-corner" />
-        <site-header />
-        <introduction :title="getHeaderMsg" :icon="getHeaderIcon" />
-        <description />
+        <site-header/>
+        <introduction :title="getHeaderTitle" :icon="getHeaderIcon" />
+        <description :content="getDesc" />
       </div>
       <div class="section-title-wrapper">
-        <span class="title">{{ title }}</span>
+        <h2 class="title">{{ getHeaderSubtitle || title }}</h2>
       </div>
       <nuxt/>
     </div>
@@ -51,10 +51,12 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'getDesc',
+      'getHeaderSubtitle',
       'getErrorIcon',
       'getErrorMsg',
       'getHeaderIcon',
-      'getHeaderMsg',
+      'getHeaderTitle',
       'getIsLoading',
       'getIsInTransaction',
     ]),

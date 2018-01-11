@@ -43,8 +43,10 @@ export default {
       .then((res) => {
         const { wallet, avatar, displayName } = res.data;
         const amount = params.amount || 1;
-        app.store.commit(types.UI_HEADER_MSG, `Pay Likecoin to ${displayName}`);
-        app.store.commit(types.UI_HEADER_ICON, avatar);
+        app.store.commit(types.UI_HEADER_UPDATE, {
+          title: `Pay Likecoin to ${displayName}`,
+          icon: avatar,
+        });
         return {
           wallet,
           avatar,

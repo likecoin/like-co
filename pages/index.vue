@@ -1,8 +1,5 @@
 <template>
   <section class="container">
-    <h1 class="title">
-      Likestore (WIP)
-    </h1>
     <nuxt-link :to="{ name: 'pay-id', params: { id: 'ckxpress' } }">
       <md-button>Pay ckxpress</md-button>
     </nuxt-link>
@@ -20,8 +17,11 @@ import * as types from '@/store/mutation-types';
 
 export default {
   fetch({ store }) {
-    store.commit(types.UI_HEADER_MSG, 'Welcome to LikeCoin.store');
-    store.commit(types.UI_HEADER_ICON, '');
+    store.commit(types.UI_HEADER_UPDATE, {
+      title: 'Welcome to LikeCoin.store',
+      subtitle: 'Likestore (WIP)',
+      icon: '',
+    });
   },
   head() {
     return {
