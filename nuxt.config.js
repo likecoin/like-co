@@ -11,7 +11,7 @@ module.exports = {
       { hid: 'og_image', property: 'og:image', content: 'https://likecoin.foundation/static/logo.png' },
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'icon', type: 'image/png', href: '/favicon.png' },
       { rel: 'stylesheet', href: '//fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,700,400italic|Material+Icons' },
     ],
   },
