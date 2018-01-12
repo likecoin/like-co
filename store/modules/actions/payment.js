@@ -22,6 +22,23 @@ export async function sendPayment({ commit }, payload) {
   }
 }
 
+export async function checkCoupon({ commit }, code) {
+  return apiWrapper(commit, api.apiCheckCoupon(code));
+}
+
+export async function claimCoupon({ commit }, { coupon, to }) {
+  try {
+    const { txHash } = await apiWrapper(commit, api.apiClaimCoupon(coupon, to));
+    if (!txHash) throw new Error('Invalid txHash received');
+    const txUrl = `https://rinkeby.etherscan.io/tx/${txHash}`;
+    commit(types.UI_ERROR_MSG, `Please wait for transaction to be mined. Check status: <a href="${txUrl}">${txUrl}</a>`);
+    commit(types.UI_START_LOADING_TX);
+    await EthHelper.waitForTxToBeMined(txHash);
+    commit(types.UI_STOP_LOADING);
+    commit(types.UI_ERROR_ICON, 'check');
+    commit(types.UI_ERROR_MSG, 'Coupon Claimed.');
+  } catch (error) {
+    commit(types.UI_STOP_LOADING);
     commit(types.UI_ERROR_MSG, (error.response) ? error.response.data : error);
     console.error(error);
   }

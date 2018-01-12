@@ -1,19 +1,17 @@
 import axios from '~/plugins/axios';
 
-export const apiPostUploadImage = (form) => {
-  /* eslint-disable no-new */
-  const params = new FormData();
-  Object.keys(form).forEach((key) => {
-    params.append(key, form[key]);
-  });
-  return axios.post('/upload', params);
-};
-
-export const apiPostMeme = (uid, topText, text, metadata) =>
-  axios.post(`/meme/${uid}`, { topText, text, metadata });
-
 export const apiGrantLike = addr =>
   axios.post(`/faucet/${addr}`);
+
+export const apiCheckCoupon = code => axios.get(`api/coupon/coupon/${code}`);
+
+export const apiClaimCoupon = (coupon, to) => {
+  const payload = {
+    coupon,
+    to,
+  };
+  axios.post('api/coupon/claim/', payload);
+};
 
 export const apiPostPayment = payload => axios.post('/api/payment/', payload);
 

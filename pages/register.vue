@@ -36,6 +36,14 @@
         <md-button class="md-raised md-primary" type="submit" form="registerForm">Confirm</md-button>
       </div>
     </form>
+    <md-dialog-confirm
+      :md-active.sync="isConfirming"
+      md-title="Claim coupon"
+      :md-content="confirmContent"
+      md-confirm-text="Confirm"
+      md-cancel-text="Cancel"
+      @md-cancel="onCancel"
+      @md-confirm="onConfirm" />
   </div>
 </template>
 
@@ -70,12 +78,17 @@ export default {
       wallet: EthHelper.getWallet() || '0x81f9b6c7129cee90fed5df241fa6dc4f88a19699',
       isBadAddress: false,
       isRedeem: false,
+      isConfirming: false,
+      confirmContent: '',
+      onConfirm: () => {},
     };
   },
   methods: {
     ...mapActions([
       'newUser',
       'getBlockie',
+      'checkCoupon',
+      'claimCoupon',
     ]),
     async setMyLikeCoin(wallet) {
       this.wallet = wallet;
@@ -100,6 +113,9 @@ export default {
     },
     openPicker() {
       this.$refs.inputFile.click();
+    },
+    onCancel() {
+      this.$router.push({ name: 'edit' });
     },
     async onSubmit() {
       try {
@@ -135,7 +151,24 @@ export default {
           from: wallet,
         };
         await this.newUser(data);
-        this.$router.push({ path: user });
+        if (this.couponCode) {
+          this.isConfirming = true;
+          this.confirmContent = 'Loading coupon content...';
+          try {
+            const { value } = await this.checkCoupon(this.couponCode);
+            if (!value) throw new Error('Invalid coupon');
+            this.confirmContent = `Are you sure you want to claim ${value} LikeCoin?`;
+            this.onConfirm = async () => {
+              await this.claimCoupon({ coupon: this.couponCode, to: wallet });
+              this.$router.push({ name: 'edit' });
+            };
+          } catch (error) {
+            this.confirmContent = 'Invalid coupon code! Redirecting to your account page...';
+            this.onConfirm = this.onCancel;
+          }
+        } else {
+          this.$router.push({ name: 'edit' });
+        }
       } catch (err) {
         console.error(err);
       }
