@@ -159,11 +159,19 @@ export default {
             if (!value) throw new Error('Invalid coupon');
             this.confirmContent = `Are you sure you want to claim ${value} LikeCoin?`;
             this.onConfirm = async () => {
-              await this.claimCoupon({ coupon: this.couponCode, to: wallet });
-              this.$router.push({ name: 'edit' });
+              try {
+                await this.claimCoupon({ coupon: this.couponCode, to: wallet });
+                this.$router.push({ name: 'edit' });
+              } catch (error) {
+                this.isConfirming = true;
+                this.confirmContent = `${error.message || error || 'Invalid coupon code'}! Redirecting to your account page...`;
+                this.onConfirm = this.onCancel;
+              }
             };
           } catch (error) {
-            this.confirmContent = 'Invalid coupon code! Redirecting to your account page...';
+            this.isConfirming = true;
+            this.confirmContent = `${error.message || error}
+Invalid coupon code! Redirecting to your account page...`;
             this.onConfirm = this.onCancel;
           }
         } else {
