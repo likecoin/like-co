@@ -45,6 +45,7 @@ module.exports = {
   ],
   plugins: [
     { src: '~/plugins/vue-material' },
+    { src: '~/plugins/EthHelper', ssr: false },
   ],
   /*
   ** Add axios globally

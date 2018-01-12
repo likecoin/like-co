@@ -39,7 +39,7 @@ export default {
       isBadAddress: false,
       isBadAmount: false,
       dialogHeader: 'Invitation',
-      dialogMsg: 'Please register your account in likecoin.store.',
+      dialogMsg: '',
     };
   },
   asyncData({ app, params, error }) {
@@ -101,7 +101,7 @@ export default {
         const payload = await EthHelper.signTransferDelegated(this.wallet, ONE_LIKE.mul(new
           BigNumber(this.amount)), 0);
         await this.sendPayment(payload);
-        this.$refs.dialog.toggleSync();
+        this.dialogMsg = 'Please register your account in likecoin.store.';
       } catch (error) {
         console.error(error);
       }

@@ -2,7 +2,7 @@
   <div>
     <div class="toolbars">
       <popup-dialog ref="dialog" :allowClose="false"
-         :header="dialogHeader" :message="dialogMsg"/>
+         :header="dialogHeader" :message="getErrorMsg"/>
       <loading-toolbar :isLoading="getIsLoading" :isInTransaction="getIsInTransaction"/>
       <error-toolbar :message="getErrorMsg" :icon="getErrorIcon"/>
     </div>
@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import EthHelper from '@/util/EthHelper';
 import MyFooter from '~/components/Footer';
 import ErrorToolbar from '~/components/ErrorToolbar';
 import LoadingToolbar from '~/components/LoadingToolbar';
@@ -37,12 +36,7 @@ export default {
   data() {
     return {
       title: 'Create Account and Redeem',
-      web3Error: 'Like function will not work without a wallet, is &nbsp;<a href="https://metamask.io/"> Metamask </a>&nbsp; installed?',
-      testnetError: 'You are in wrong ETH network, please switch to testnet '
-      + ' &nbsp;<a href="https://www.rinkeby.io/"> Rinkeby </a>&nbsp; in metamask.',
-      lockedError: 'Cannot obtain your ETH wallet, please make sure it is UNLOCKED.',
       dialogHeader: 'Error',
-      dialogMsg: '',
     };
   },
   components: {
@@ -71,26 +65,6 @@ export default {
       'setErrorMsg',
       'setDialog',
     ]),
-  },
-  mounted() {
-    EthHelper.initApp(
-      (err) => {
-        let errMsg = '';
-        if (err === 'web3') errMsg = this.web3Error;
-        else if (err === 'testnet') errMsg = this.testnetError;
-        else if (err === 'locked') errMsg = this.lockedError;
-        this.setErrorMsg(errMsg);
-        if (this.$route.name !== 'index') {
-          if (this.dialogMsg === '') this.$refs.dialog.toggleSync();
-          this.dialogMsg = errMsg;
-        }
-      },
-      () => {
-        this.setErrorMsg('');
-        if (this.dialogMsg !== '') this.$refs.dialog.toggleSync();
-        this.dialogMsg = '';
-      },
-    );
   },
 };
 </script>
