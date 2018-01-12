@@ -67,20 +67,13 @@ class EthHelper {
     });
   }
 
-  async waitForTxToBeMined(txHash, cb) {
+  async waitForTxToBeMined(txHash) {
     let txReceipt;
     while (!txReceipt) {
-      try {
-        /* eslint-disable no-await-in-loop */
-        await timeout(1000);
-        txReceipt = await this.web3.eth.getTransactionReceipt(txHash);
-      } catch (err) {
-        console.log(`ERROR: ${err}`);
-        if (cb) cb(err);
-      }
+      /* eslint-disable no-await-in-loop */
+      await timeout(1000);
+      txReceipt = await this.web3.eth.getTransactionReceipt(txHash);
     }
-    console.log('YES');
-    if (cb) cb();
   }
 
   getWallet() {
