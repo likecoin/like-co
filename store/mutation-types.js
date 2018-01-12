@@ -4,3 +4,4 @@ export const UI_START_LOADING = 'UI_START_LOADING';
 export const UI_START_LOADING_TX = 'UI_START_LOADING_TX';
 export const UI_STOP_LOADING = 'UI_STOP_LOADING';
 export const UI_HEADER_UPDATE = 'UI_HEADER_UPDATE';
+export const UI_POPUP_ERR = 'UI_POPUP_ERR';

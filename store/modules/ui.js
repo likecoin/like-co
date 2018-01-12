@@ -3,6 +3,7 @@
 import {
   UI_ERROR_ICON,
   UI_ERROR_MSG,
+  UI_POPUP_ERR,
   UI_START_LOADING,
   UI_START_LOADING_TX,
   UI_STOP_LOADING,
@@ -14,6 +15,7 @@ import * as actions from './actions/ui';
 const state = {
   errorIcon: 'warning',
   errorMsg: '',
+  popupError: '',
   headerIcon: '',
   headerTitle: '',
   headerSubtitle: '',
@@ -28,6 +30,9 @@ const mutations = {
   },
   [UI_ERROR_MSG](state, msg) {
     state.errorMsg = msg;
+  },
+  [UI_POPUP_ERR](state, msg) {
+    state.popupError = msg;
   },
   [UI_START_LOADING](state) {
     state.isInTransaction = false;

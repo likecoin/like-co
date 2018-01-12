@@ -13,10 +13,10 @@ export default ({ store }) => {
       if (err === 'web3') errMsg = web3Error;
       else if (err === 'testnet') errMsg = testnetError;
       else if (err === 'locked') errMsg = lockedError;
-      store.commit(types.UI_ERROR_MSG, errMsg);
+      store.commit(types.UI_POPUP_ERR, errMsg);
     },
     () => {
-      store.commit(types.UI_ERROR_MSG, '');
+      store.commit(types.UI_POPUP_ERR, '');
     },
   );
 };

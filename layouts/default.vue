@@ -2,7 +2,7 @@
   <div>
     <div class="toolbars">
       <popup-dialog ref="dialog" :allowClose="false"
-         :header="dialogHeader" :message="getErrorMsg"/>
+         :header="dialogHeader" :message="getPopupError"/>
       <loading-toolbar :isLoading="getIsLoading" :isInTransaction="getIsInTransaction"/>
       <error-toolbar :message="getErrorMsg" :icon="getErrorIcon"/>
     </div>
@@ -54,6 +54,7 @@ export default {
       'getHeaderSubtitle',
       'getErrorIcon',
       'getErrorMsg',
+      'getPopupError',
       'getHeaderIcon',
       'getHeaderTitle',
       'getIsLoading',
