@@ -6,7 +6,7 @@ async function apiWrapper(commit, promise) {
   try {
     const res = await promise;
     commit(types.UI_STOP_LOADING);
-    return res;
+    return res.data;
   } catch (error) {
     commit(types.UI_ERROR_MSG, (error.response) ? error.response.data : error);
     console.error(error);

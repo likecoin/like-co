@@ -176,4 +176,9 @@ router.get('/addr/:addr', async (req, res) => {
   }
 });
 
+router.get('/blockie/:addr', async (req, res) => {
+  const { addr } = req.params;
+  res.json({ blockie: toDataUrl(addr) });
+});
+
 export default router;

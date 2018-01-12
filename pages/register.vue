@@ -44,7 +44,6 @@ import EthHelper from '@/util/EthHelper';
 import FileHelper from '@/util/FileHelper';
 import * as types from '@/store/mutation-types';
 import { mapActions } from 'vuex';
-import { toDataUrl } from 'ethereum-blockies';
 
 export default {
   name: 'Register',
@@ -76,10 +75,14 @@ export default {
   methods: {
     ...mapActions([
       'newUser',
+      'getBlockie',
     ]),
-    setMyLikeCoin(wallet) {
+    async setMyLikeCoin(wallet) {
       this.wallet = wallet;
-      if (!this.avatarFile) this.avatarData = toDataUrl(wallet);
+      if (!this.avatarFile) {
+        const { blockie } = await this.getBlockie(wallet);
+        this.avatarData = blockie;
+      }
     },
     checkAddress() {
       return this.wallet.length === 42 && this.wallet.substr(0, 2) === '0x';

@@ -15,12 +15,9 @@ export const apiPostMeme = (uid, topText, text, metadata) =>
 export const apiGrantLike = addr =>
   axios.post(`/faucet/${addr}`);
 
-export const apiPostPayment = (payload) => {
-  console.log(payload);
-  return axios.post('/api/payment/', payload);
-};
+export const apiPostPayment = payload => axios.post('/api/payment/', payload);
 
-export const apiGetMetadata = uid => axios.get(`/query/${uid}`);
+export const apiGetBlockie = addr => axios.get(`/api/blockie/${addr}`);
 
 export const apiPostRinkeby = (id, data) =>
   axios.post(`https://rinkeby.infura.io/${id}`, data);
