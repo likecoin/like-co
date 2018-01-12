@@ -16,13 +16,13 @@
         showDialog: false,
       };
     },
-    props: ['allowClose', 'header', 'message', 'eventName'],
+    props: ['allowClose', 'header', 'message'],
     methods: {
       toggleSync() {
         this.showDialog = !this.showDialog;
       },
       onDialogConfirm() {
-        this.$emit(this.eventName);
+        this.$emit('onConfirm');
       },
     },
   };

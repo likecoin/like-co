@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <popup-dialog ref="dialog" :allowClose="true"
-       :header="dialogHeader" :message="dialogMsg" :eventName="'pushRegister'" @pushRegister="pushRegister" />
+       :header="dialogHeader" :message="dialogMsg" @onConfirm="pushRegister" />
     <div class="inner-container">
       <form id="paymentInfo" v-on:submit.prevent="onSubmit">
         <md-field :class="isBadAddress?'md-input-invalid':''">
@@ -28,7 +28,7 @@ import EthHelper from '@/util/EthHelper';
 import * as types from '@/store/mutation-types';
 import axios from '~/plugins/axios';
 import PopupDialog from '~/components/PopupDialog';
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions } from 'vuex';
 
 const ONE_LIKE = new BigNumber(10).pow(18);
 
@@ -76,11 +76,6 @@ export default {
         { hid: 'og_image', property: 'og:image', content: `${this.avatar}` },
       ],
     };
-  },
-  computed: {
-    ...mapGetters([
-      'getErrorIcon',
-    ]),
   },
   methods: {
     ...mapActions([

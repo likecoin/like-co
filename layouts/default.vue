@@ -2,7 +2,7 @@
   <div>
     <div class="toolbars">
       <popup-dialog ref="dialog" :allowClose="false"
-         :header="dialogHeader" :message="dialogMsg" :eventName="''" />
+         :header="dialogHeader" :message="dialogMsg"/>
       <loading-toolbar :isLoading="getIsLoading" :isInTransaction="getIsInTransaction"/>
       <error-toolbar :message="getErrorMsg" :icon="getErrorIcon"/>
     </div>
@@ -71,12 +71,8 @@ export default {
       'setErrorMsg',
       'setDialog',
     ]),
-    onConfim() {
-      console.log('hihi');
-    },
   },
   mounted() {
-    console.log(this);
     EthHelper.initApp(
       (err) => {
         let errMsg = '';
