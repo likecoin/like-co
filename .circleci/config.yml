@@ -3,18 +3,14 @@ jobs:
   build:
     working_directory: ~/likecoin-store
     docker:
-      - image: node:8-alpine
+      - image: node:8
     steps:
-      - run: apk add --no-cache curl g++ git gzip make python tar
       - checkout
-      - run: git submodule sync && git submodule update --init;
       - restore_cache:
           key: likecoin-store-{{ checksum "package.json" }}
       - run:
           name: Dependencies
-          command: |
-            apk add vips-dev fftw-dev --update-cache --repository https://dl-3.alpinelinux.org/alpine/edge/testing/
-            yarn
+          command: yarn
       - run:
           name: Lint Test
           command: yarn run lint
