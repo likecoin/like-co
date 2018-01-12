@@ -1,5 +1,7 @@
 <template>
   <div class="hello">
+    <popup-dialog ref="dialog" :allowClose="true"
+       :header="dialogHeader" :message="dialogMsg" @onConfirm="pushRegister" />
     <div class="inner-container">
       <form id="paymentInfo" v-on:submit.prevent="onSubmit">
         <md-field :class="isBadAddress?'md-input-invalid':''">
@@ -25,6 +27,7 @@ import BigNumber from 'bignumber.js';
 import EthHelper from '@/util/EthHelper';
 import * as types from '@/store/mutation-types';
 import axios from '~/plugins/axios';
+import PopupDialog from '~/components/PopupDialog';
 import { mapActions } from 'vuex';
 
 const ONE_LIKE = new BigNumber(10).pow(18);
@@ -35,6 +38,8 @@ export default {
     return {
       isBadAddress: false,
       isBadAmount: false,
+      dialogHeader: 'Invitation',
+      dialogMsg: 'Please register your account in likecoin.store.',
     };
   },
   asyncData({ app, params, error }) {
@@ -57,6 +62,9 @@ export default {
       .catch((e) => { // eslint-disable-line no-unused-vars
         error({ statusCode: 404, message: 'User not found' });
       });
+  },
+  components: {
+    PopupDialog,
   },
   head() {
     return {
@@ -93,9 +101,13 @@ export default {
         const payload = await EthHelper.signTransferDelegated(this.wallet, ONE_LIKE.mul(new
           BigNumber(this.amount)), 0);
         await this.sendPayment(payload);
+        this.$refs.dialog.toggleSync();
       } catch (error) {
         console.error(error);
       }
+    },
+    pushRegister() {
+      this.$router.push({ name: 'register' });
     },
   },
 };

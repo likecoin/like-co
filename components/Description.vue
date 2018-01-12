@@ -21,7 +21,7 @@
 <script>
 export default {
   name: 'description',
-  prop: ['content'],
+  props: ['content'],
   data() {
     return {
       sentence: 'Great! Seem you already have a Metamask wallet. Now your are ready to receive or send LikeCoin.',
