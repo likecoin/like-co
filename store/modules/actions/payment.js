@@ -7,7 +7,6 @@ import apiWrapper from './api-wrapper';
 export async function sendPayment({ commit }, payload) {
   try {
     const { txHash } = await apiWrapper(commit, api.apiPostPayment(payload));
-    if (!txHash) throw new Error('Invalid txHash received');
     const txUrl = `https://rinkeby.etherscan.io/tx/${txHash}`;
     commit(types.UI_ERROR_MSG, `Please wait for transaction to be mined. Check status: <a href="${txUrl}">${txUrl}</a>`);
     commit(types.UI_START_LOADING_TX);
@@ -17,8 +16,8 @@ export async function sendPayment({ commit }, payload) {
     commit(types.UI_ERROR_MSG, 'Transaction OK.');
   } catch (error) {
     commit(types.UI_STOP_LOADING);
-    commit(types.UI_ERROR_MSG, (error.response) ? error.response.data : error);
-    console.error(error);
+    commit(types.UI_ERROR_MSG, error.message || error);
+    throw error;
   }
 }
 
@@ -29,7 +28,6 @@ export async function checkCoupon({ commit }, code) {
 export async function claimCoupon({ commit }, { coupon, to }) {
   try {
     const { txHash } = await apiWrapper(commit, api.apiClaimCoupon(coupon, to));
-    if (!txHash) throw new Error('Invalid txHash received');
     const txUrl = `https://rinkeby.etherscan.io/tx/${txHash}`;
     commit(types.UI_ERROR_MSG, `Please wait for transaction to be mined. Check status: <a href="${txUrl}">${txUrl}</a>`);
     commit(types.UI_START_LOADING_TX);
@@ -39,7 +37,9 @@ export async function claimCoupon({ commit }, { coupon, to }) {
     commit(types.UI_ERROR_MSG, 'Coupon Claimed.');
   } catch (error) {
     commit(types.UI_STOP_LOADING);
-    commit(types.UI_ERROR_MSG, (error.response) ? error.response.data : error);
-    console.error(error);
+    let message = error.message || error;
+    if (error.message === 'expired') message = 'Error: Coupon already expire';
+    commit(types.UI_ERROR_MSG, message);
+    throw new Error(message);
   }
 }

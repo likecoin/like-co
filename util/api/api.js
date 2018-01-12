@@ -10,7 +10,7 @@ export const apiClaimCoupon = (coupon, to) => {
     coupon,
     to,
   };
-  axios.post('api/coupon/claim/', payload);
+  return axios.post('api/coupon/claim/', payload);
 };
 
 export const apiPostPayment = payload => axios.post('/api/payment/', payload);
