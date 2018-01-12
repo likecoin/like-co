@@ -27,7 +27,7 @@
         <label>Coupon Code</label>
         <md-input v-model="couponCode" required></md-input>
       </md-field>
-      <md-field>
+      <md-field v-if="isEdit">
         <label>Display Name</label>
         <md-input v-model="displayName" required></md-input>
       </md-field>
@@ -78,6 +78,7 @@ export default {
       wallet: EthHelper.getWallet() || '0x81f9b6c7129cee90fed5df241fa6dc4f88a19699',
       isBadAddress: false,
       isRedeem: false,
+      isEdit: false,
       isConfirming: false,
       confirmContent: '',
       onConfirm: () => {},
@@ -128,7 +129,6 @@ export default {
         const {
           avatarFile,
           user,
-          displayName,
           wallet,
         } = this;
         let avatarSHA256;
@@ -138,7 +138,7 @@ export default {
         }
         const payload = JSON.stringify({
           user,
-          displayName,
+          displayName: this.displayName || user,
           ts,
           avatarSHA256,
           wallet,
@@ -164,14 +164,13 @@ export default {
                 this.$router.push({ name: 'edit' });
               } catch (error) {
                 this.isConfirming = true;
-                this.confirmContent = `${error.message || error || 'Invalid coupon code'}! Redirecting to your account page...`;
+                this.confirmContent = `Error: ${error.message || error || 'Invalid coupon code'}! Redirecting to your account page...`;
                 this.onConfirm = this.onCancel;
               }
             };
           } catch (error) {
             this.isConfirming = true;
-            this.confirmContent = `${error.message || error}
-Invalid coupon code! Redirecting to your account page...`;
+            this.confirmContent = `Error: ${error.message || error || 'Invalid coupon code'}! Redirecting to your account page...`;
             this.onConfirm = this.onCancel;
           }
         } else {

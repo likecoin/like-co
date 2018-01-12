@@ -34,6 +34,7 @@ const ONE_LIKE = new BigNumber(10).pow(18);
 
 export default {
   name: 'HelloWorld',
+  layout: 'pay',
   data() {
     return {
       isBadAddress: false,
@@ -48,8 +49,8 @@ export default {
         const { wallet, avatar, displayName } = res.data;
         const amount = params.amount || 1;
         app.store.commit(types.UI_HEADER_UPDATE, {
-          title: `Pay LikeCoin to ${displayName}`,
-          subtitle: displayName,
+          title: displayName || params.id,
+          subtitle: wallet,
           icon: avatar,
         });
         return {
