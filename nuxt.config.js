@@ -32,6 +32,11 @@ module.exports = {
           path: '/redeem',
           component: resolve(__dirname, 'pages/register.vue'),
         },
+        {
+          name: 'edit',
+          path: '/edit',
+          component: resolve(__dirname, 'pages/register.vue'),
+        },
       );
     },
   },

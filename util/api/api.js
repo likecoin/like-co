@@ -1,7 +1,6 @@
 import axios from '~/plugins/axios';
 
-export const apiGrantLike = addr =>
-  axios.post(`/faucet/${addr}`);
+export const apiCheckIsUser = addr => axios.get(`/api/addr/${addr}`);
 
 export const apiCheckCoupon = code => axios.get(`api/coupon/coupon/${code}`);
 
