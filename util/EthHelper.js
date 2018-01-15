@@ -82,14 +82,9 @@ class EthHelper {
     return this.wallet;
   }
 
-  queryLikeCoinBalance(addr) {
+  async queryLikeCoinBalance(addr) {
     if (!addr) return '';
-    return this.likeCoinContract.balanceOf(addr);
-  }
-
-  queryLikeCount(key) {
-    if (!key) return '0';
-    return this.likeMediaContract.getLike(key);
+    return this.LikeCoin.methods.balanceOf(addr).call();
   }
 
   async genTypedSignData(from, to, value, maxReward) {

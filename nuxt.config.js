@@ -56,7 +56,7 @@ module.exports = {
   ** Add axios globally
   */
   build: {
-    vendor: ['axios', 'vue-material'],
+    vendor: ['axios', 'bignumber.js', 'vue-material'],
     /*
     ** Run ESLINT on save
     */

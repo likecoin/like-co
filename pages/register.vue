@@ -17,6 +17,10 @@
               <md-input v-model="wallet" maxlength="42" required disabled />
               <span v-if="isBadAddress" class="md-error">Invalid address format</span>
             </md-field>
+            <div v-if="isEdit && !isNaN(likeCoinBalance)">
+              Amount of LikeCoin:
+              <a :href="`https://rinkeby.etherscan.io/address/${wallet}#tokentxns`" target="_blank">{{ likeCoinBalance }}</a>
+            </div>
           </div>
         </div>
       </div>
@@ -45,10 +49,14 @@
 </template>
 
 <script>
+import BigNumber from 'bignumber.js';
+
 import EthHelper from '@/util/EthHelper';
 import FileHelper from '@/util/FileHelper';
 import * as types from '@/store/mutation-types';
 import { mapActions, mapGetters } from 'vuex';
+
+const ONE_LIKE = new BigNumber(10).pow(18);
 
 export default {
   name: 'Register',
@@ -84,6 +92,7 @@ export default {
       user: '',
       displayName: '',
       couponCode: '',
+      likeCoinBalance: NaN,
       wallet: EthHelper.getWallet() || '0x81f9b6c7129cee90fed5df241fa6dc4f88a19699',
       isBadAddress: false,
       isRedeem: false,
@@ -113,6 +122,8 @@ export default {
         const { blockie } = await this.getBlockie(wallet);
         if (!this.isEdit) this.avatarData = blockie;
       }
+      const balance = await EthHelper.queryLikeCoinBalance(wallet);
+      this.likeCoinBalance = new BigNumber(balance).dividedBy(ONE_LIKE).toFixed(4);
     },
     checkAddress() {
       return this.wallet.length === 42 && this.wallet.substr(0, 2) === '0x';
