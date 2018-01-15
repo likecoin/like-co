@@ -115,6 +115,7 @@ export default {
       'setErrorMsg',
       'checkCoupon',
       'claimCoupon',
+      'isUser',
     ]),
     async setMyLikeCoin(wallet) {
       this.wallet = wallet;
@@ -138,6 +139,13 @@ export default {
         };
         reader.readAsDataURL(files[0]);
       }
+    },
+    updateInfo() {
+      const user = this.getUserInfo;
+      console.log(user);
+      this.user = user.user;
+      this.displayName = user.displayName;
+      this.avatarData = user.avatar;
     },
     openPicker() {
       this.$refs.inputFile.click();
@@ -188,7 +196,8 @@ export default {
             this.onConfirm = async () => {
               try {
                 await this.claimCoupon({ coupon: this.couponCode, to: wallet });
-                this.$router.push({ name: 'edit' });
+                this.isUser(this.wallet);
+                this.$forceUpdate();
               } catch (error) {
                 this.isConfirming = true;
                 this.confirmContent = `Error: ${error.message || error || 'Invalid coupon code'}! Redirecting to your account page...`;
@@ -203,7 +212,7 @@ export default {
         } else {
           // commit(types.UI_ERROR_ICON, 'check');
           this.setErrorMsg(`Your information have been updated,  <a href="/pay/${this.user}">view your page</a>`);
-          this.$router.push({ name: 'edit' });
+          this.isUser(this.wallet);
         }
       } catch (err) {
         console.error(err);
@@ -214,16 +223,14 @@ export default {
     isEdit(e) {
       if (e && this.$route.name !== 'edit') {
         this.$router.replace({ name: 'edit' });
+        this.updateInfo();
       }
     },
   },
   mounted() {
     this.isRedeem = this.$route.name === 'redeem';
     if (this.isEdit) {
-      const user = this.getUserInfo;
-      this.user = user.user;
-      this.displayName = user.displayName;
-      this.avatarData = user.avatar;
+      this.updateInfo();
     }
     let localWallet = EthHelper.getWallet();
     if (localWallet) {
