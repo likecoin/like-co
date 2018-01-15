@@ -12,6 +12,11 @@
   export default {
     name: 'PopupDialog',
     props: ['allowClose', 'header', 'message'],
+    data() {
+      return {
+        showDialog: false,
+      };
+    },
     methods: {
       toggleSync() {
         this.showDialog = !this.showDialog;
@@ -20,9 +25,9 @@
         this.$emit('onConfirm');
       },
     },
-    computed: {
-      showDialog() {
-        return !!this.message;
+    watch: {
+      message(e) {
+        this.showDialog = !!e;
       },
     },
   };

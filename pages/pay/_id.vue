@@ -1,14 +1,10 @@
 <template>
   <div class="hello">
     <popup-dialog ref="dialog" :allowClose="true"
-       :header="dialogHeader" :message="dialogMsg" @onConfirm="pushRegister" />
+       :header="dialogHeader" :message="dialogMsg" @onConfirm="onConfirm" />
     <div class="inner-container">
       <form id="paymentInfo" v-on:submit.prevent="onSubmit">
-        <md-field :class="isBadAddress?'md-input-invalid':''">
-          <label>{{ displayName }}'s wallet address</label>
-          <md-input v-model="wallet" maxlength="42" required disabled />
-          <span v-if="isBadAddress" class="md-error">Invalid address format</span>
-        </md-field>
+        <input v-model="wallet" hidden required disabled />
         <md-field :class="isBadAmount?'md-input-invalid':''">
           <label>Amount of LikeCoin to send</label>
           <md-input v-model="amount" maxlength="20" required />
@@ -28,7 +24,7 @@ import EthHelper from '@/util/EthHelper';
 import * as types from '@/store/mutation-types';
 import axios from '~/plugins/axios';
 import PopupDialog from '~/components/PopupDialog';
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 const ONE_LIKE = new BigNumber(10).pow(18);
 
@@ -39,7 +35,7 @@ export default {
     return {
       isBadAddress: false,
       isBadAmount: false,
-      dialogHeader: 'Invitation',
+      dialogHeader: 'Success',
       dialogMsg: '',
     };
   },
@@ -78,6 +74,11 @@ export default {
       ],
     };
   },
+  computed: {
+    ...mapGetters([
+      'getUserIsRegistered',
+    ]),
+  },
   methods: {
     ...mapActions([
       'sendPayment',
@@ -102,13 +103,14 @@ export default {
         const payload = await EthHelper.signTransferDelegated(this.wallet, ONE_LIKE.mul(new
           BigNumber(this.amount)), 0);
         await this.sendPayment(payload);
-        this.dialogMsg = 'Please register your account in likecoin.store.';
+        this.dialogMsg = `You sucessfully paid ${this.amount}LikeCoin to ${this.displayName}`;
+        if (!this.getUserIsRegistered) this.dialogMsg += '<br/> Register your own likecoin.store page to get paid in LikeCoin!';
       } catch (error) {
         console.error(error);
       }
     },
-    pushRegister() {
-      this.$router.push({ name: 'register' });
+    onConfirm() {
+      if (!this.getUserIsRegistered) this.$router.push({ name: 'register' });
     },
   },
 };
