@@ -19,9 +19,10 @@ function prettifyNumber(n) {
 }
 
 class EthHelper {
-  initApp(errCb, clearErrCb) {
+  initApp(errCb, clearErrCb, onWalletCb) {
     this.errCb = errCb;
     this.clearErrCb = clearErrCb;
+    this.onWalletCb = onWalletCb;
     setTimeout(() => this.pollForWeb3(), 1000);
   }
 
@@ -59,6 +60,7 @@ class EthHelper {
       if (accounts && accounts[0]) {
         this.accounts = accounts;
         [this.wallet] = accounts;
+        if (this.onWalletCb) this.onWalletCb(this.wallet);
         this.clearErrCb();
       } else {
         if (this.isMetaMask) this.errCb('locked');
