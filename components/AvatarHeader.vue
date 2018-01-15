@@ -1,17 +1,14 @@
 <template>
   <section class="section-avatar">
-    <div id="intro"></div>
-    <div class="md-layout md-alignment-top-center">
-      <div class="icon">
-        <img alt="like-coin" class="main-icon" :src="icon || defaultIcon" />
-      </div>
+    <div class="heading">
+        <h1 style="text-align:center">Send LikeCoin to <span class="usertitle">{{ title }}</span></h1>
     </div>
-    <div class="md-layout md-alignment-top-center">
-      <div class="heading "><h1 style="text-align:center">Send LikeCoin {{ title }}</h1></div>
+    <div class="icon">
+      <img alt="like-coin" class="main-icon" :src="icon || defaultIcon" />
     </div>
-    <section class="address">
-      <div>Recipients Address</div>
-      <div>{{ content }}</div>
+    <section class="address-container">
+      <div class="address-title">Recipients Address</div>
+      <div class="address-content">{{ content }}</div>
     </section>
   </section>
 </template>
@@ -34,23 +31,21 @@ export default {
 @import "../styles/index.scss";
 
 .section-avatar {
-  height: 608px;
-}
-
-#intro {
-  margin-top: -146px;
-  margin-left: 25%;
-  margin-right: 25%;
-  margin-bottom: -35%;
-  padding: 106px 20px 20px 20px;
-  height: 608px;
-  background-color: #f7f7f7;
+  position: relative;
+  margin: -137px auto 0 auto;
+  padding: 113px 0 0 0;
+  height: 408px;
+  max-width: 560px;
+  background: #f7f7f7;
+  overflow: visible;
 }
 
 .icon {
+  position: absolute;
+  left: calc(50% - 64px);
+  top: 113px;
   width: 128px;
   height: 128px;
-  position: relative;
   overflow: hidden;
   border-radius: 50%;
 }
@@ -63,12 +58,37 @@ export default {
 }
 
 .heading {
-  width: 63%;
-  margin-top: -24px;
-  padding: 0 48px;
+  position: relative;
+  width: 120%;
+  left: -10%;
+  margin-top: 104px;
+  padding: 24px 0;
 
   border-radius: 8px;
-	background-image: linear-gradient(238deg, $like-light-blue, $like-gradient-1);
+  background-image: linear-gradient(238deg, $like-light-blue, $like-gradient-1);
+}
+
+.heading h1 {
+  margin: 0;
+}
+
+.address-container {
+  margin: 17px 41px;
+}
+
+.address-title {
+  font-size: 14px;
+  margin: 5px -5px;
+}
+
+.address-content {
+  margin: 0 auto;
+  text-align: center;
+  font-size: 20px;
+}
+
+.usertitle {
+  font-weight: bold;
 }
 
 </style>

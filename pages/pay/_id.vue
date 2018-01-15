@@ -1,17 +1,21 @@
 <template>
-  <div class="hello">
+  <div class="payment-container">
     <popup-dialog ref="dialog" :allowClose="true"
        :header="dialogHeader" :message="dialogMsg" @onConfirm="onConfirm" />
     <div class="inner-container">
       <form id="paymentInfo" v-on:submit.prevent="onSubmit">
         <input v-model="wallet" hidden required disabled />
+        <label>Amount of LikeCoin to send</label>
         <md-field :class="isBadAmount?'md-input-invalid':''">
-          <label>Amount of LikeCoin to send</label>
-          <md-input v-model="amount" maxlength="20" required />
+          <span class="value-button" v-on:click="changeAmount(-1)"><md-icon>remove</md-icon></span>
+          <md-input id="payment-input" v-model="amount" type="number" min="0" step="0.01" required />
+          <span class="value-button" v-on:click="changeAmount(1)"><md-icon>add</md-icon></span>
           <span v-if="isBadAmount" class="md-error">Invalid amount</span>
         </md-field>
-        <hr />
-        <md-button class="md-raised md-primary" type="submit" form="paymentInfo">Send</md-button>
+        <md-field>
+          <md-input placeholder="Remark (optional)" />
+        </md-field>
+        <button id="payment-confirm" class="md-raised md-primary" type="submit" form="paymentInfo">Confirm</button>
       </form>
     </div>
   </div>
@@ -112,12 +116,20 @@ export default {
     onConfirm() {
       if (!this.getUserIsRegistered) this.$router.push({ name: 'register' });
     },
+    changeAmount(diff) {
+      let newAmount = Number.parseFloat(this.amount) + diff;
+      if (newAmount < 0) {
+        newAmount = 0;
+      }
+      this.amount = newAmount;
+    },
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 h1, h2 {
   font-weight: normal;
 }
@@ -131,5 +143,45 @@ li {
 }
 a {
   color: #42b983;
+}
+
+.payment-container {
+  width: 100%;
+  max-width: 560px;
+  background: #f7f7f7;
+  margin: 16px auto;
+}
+
+#paymentInfo {
+  margin: 24px 41px 33px 41px;
+}
+
+#payment-confirm {
+  display: block;
+  margin: 0 auto;
+  width: 256px;
+  height: 40px;
+  text-align: center;
+  color: #ffffff;
+  font-size: 24px;
+  background-color: #28646e;
+}
+
+.value-button {
+  position: relative;
+  top: calc((76px - 54px) / 2);
+}
+
+.value-button > .md-icon {
+  width: 54px;
+  min-width: 54px;
+  height: 54px;
+  font-size: 54px!important;
+}
+
+#payment-input {
+  height: 76px;
+  text-align: center;
+  font-size: 56px;
 }
 </style>
