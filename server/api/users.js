@@ -165,6 +165,7 @@ router.get('/addr/:addr', async (req, res) => {
     if (query.docs.length > 0) {
       const payload = query.docs[0].data();
       if (!payload.avatar) payload.avatar = toDataUrl(payload.wallet);
+      payload.user = query.docs[0].id;
       res.json(payload);
     } else {
       res.sendStatus(404);

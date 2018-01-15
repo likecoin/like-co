@@ -1,8 +1,5 @@
 <template>
   <div class="inner-container">
-    <div id="has-account">
-      <nuxt-link :to="{ name: 'edit' }"> {{ hasAccountMsg }}</nuxt-link>
-    </div>
     <form id="registerForm" v-on:submit.prevent="onSubmit">
       <div class="md-layout">
         <div>
@@ -13,7 +10,7 @@
           <div class="md-layout-item">
             <md-field>
               <label>Please pick your unique username</label>
-              <md-input v-model="user" required></md-input>
+              <md-input v-model="user" :disabled="isEdit" required></md-input>
             </md-field>
             <md-field :class="isBadAddress?'md-invalid':''">
               <label>ETH wallet address</label>
@@ -23,13 +20,13 @@
           </div>
         </div>
       </div>
-      <md-field v-if="isRedeem">
-        <label>Coupon Code</label>
-        <md-input v-model="couponCode" required></md-input>
-      </md-field>
       <md-field v-if="isEdit">
         <label>Display Name</label>
         <md-input v-model="displayName" required></md-input>
+      </md-field>
+      <md-field v-if="isRedeem || isEdit">
+        <label><span v-if="isEdit"> Claim </span> Coupon Code (Optional)</label>
+        <md-input v-model="couponCode"></md-input>
       </md-field>
       <hr />
       <div id="form-btn">
@@ -51,15 +48,28 @@
 import EthHelper from '@/util/EthHelper';
 import FileHelper from '@/util/FileHelper';
 import * as types from '@/store/mutation-types';
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'Register',
-  fetch({ store, route }) {
-    const title = (route.name === 'redeem') ?
-      'Redeem your free LikeCoin' : 'Register your LikeCoin.store link';
-    const subtitle = (route.name === 'redeem') ?
-      'Create Account and Redeem' : 'Create Account';
+  fetch({ store, route, redirect }) {
+    if (route.name !== 'edit') {
+      if (store.getters.getUserIsRegistered) {
+        redirect('/edit');
+        return;
+      }
+    } else if (!store.getters.getUserIsRegistered) {
+      redirect('/register');
+      return;
+    }
+    let title = 'Register your LikeCoin.store link';
+    if (route.name === 'redeem') title = 'Redeem your free LikeCoin';
+    else if (route.name === 'edit') title = 'Edit your LikeCoin store page';
+
+    let subtitle = 'Create Account';
+    if (route.name === 'redeem') subtitle = 'Create Account and Redeem';
+    else if (route.name === 'edit') subtitle = 'Edit your information';
+
     store.commit(types.UI_HEADER_UPDATE, {
       title,
       subtitle,
@@ -68,7 +78,6 @@ export default {
   },
   data() {
     return {
-      hasAccountMsg: 'I already have a LikeCoin account',
       avatarFile: null,
       avatar: null,
       avatarData: null,
@@ -78,16 +87,23 @@ export default {
       wallet: EthHelper.getWallet() || '0x81f9b6c7129cee90fed5df241fa6dc4f88a19699',
       isBadAddress: false,
       isRedeem: false,
-      isEdit: false,
       isConfirming: false,
       confirmContent: '',
       onConfirm: () => {},
     };
   },
+  computed: {
+    ...mapGetters({
+      isEdit: 'getUserIsRegistered',
+      getUserInfo: 'getUserInfo',
+    }),
+  },
   methods: {
     ...mapActions([
       'newUser',
       'getBlockie',
+      'setPageHeader',
+      'setErrorMsg',
       'checkCoupon',
       'claimCoupon',
     ]),
@@ -95,7 +111,7 @@ export default {
       this.wallet = wallet;
       if (!this.avatarFile) {
         const { blockie } = await this.getBlockie(wallet);
-        this.avatarData = blockie;
+        if (!this.isEdit) this.avatarData = blockie;
       }
     },
     checkAddress() {
@@ -174,6 +190,8 @@ export default {
             this.onConfirm = this.onCancel;
           }
         } else {
+          // commit(types.UI_ERROR_ICON, 'check');
+          this.setErrorMsg(`Your information have been updated,  <a href="/pay/${this.user}">view your page</a>`);
           this.$router.push({ name: 'edit' });
         }
       } catch (err) {
@@ -181,8 +199,21 @@ export default {
       }
     },
   },
+  watch: {
+    isEdit(e) {
+      if (e && this.$route.name !== 'edit') {
+        this.$router.replace({ name: 'edit' });
+      }
+    },
+  },
   mounted() {
     this.isRedeem = this.$route.name === 'redeem';
+    if (this.isEdit) {
+      const user = this.getUserInfo;
+      this.user = user.user;
+      this.displayName = user.displayName;
+      this.avatarData = user.avatar;
+    }
     let localWallet = EthHelper.getWallet();
     if (localWallet) {
       this.setMyLikeCoin(localWallet);
@@ -217,6 +248,8 @@ export default {
 }
 
 .avatar {
+  width: 200px;
+  height: 200px;
   cursor: pointer;
   margin: 20px;
 }
