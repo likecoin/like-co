@@ -13,8 +13,8 @@ export async function getBlockie({ commit }, data) {
 
 export async function isUser({ commit }, addr) {
   try {
-    const user = await apiWrapper(commit, api.apiCheckIsUser(addr));
-    if (user) {
+    const { data: user } = await api.apiCheckIsUser(addr);
+    if (user && user.user) {
       commit(types.USER_SET_USER_INFO, user);
       commit(types.USER_SET_REGISTERED, true);
     }
