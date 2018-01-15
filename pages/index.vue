@@ -7,13 +7,15 @@
       <md-button>Pay williamchong007</md-button>
     </nuxt-link>
     <nuxt-link :to="{ name: 'register' }">
-      <md-button>Make new account</md-button>
+      <md-button v-if="isEdit">Edit your current page</md-button>
+      <md-button v-else>Make new account</md-button>
     </nuxt-link>
   </section>
 </template>
 
 <script>
 import * as types from '@/store/mutation-types';
+import { mapGetters } from 'vuex';
 
 export default {
   fetch({ store }) {
@@ -27,6 +29,11 @@ export default {
     return {
       title: 'Landing - In progress',
     };
+  },
+  computed: {
+    ...mapGetters({
+      isEdit: 'getUserIsRegistered',
+    }),
   },
 };
 </script>
