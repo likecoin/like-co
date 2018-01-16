@@ -1,7 +1,7 @@
 <template>
   <section class="section-avatar">
     <div class="heading">
-        <h1 style="text-align:center">Send LikeCoin to <span class="usertitle">{{ title }}</span></h1>
+        <h1>Send LikeCoin to <span class="usertitle">{{ title }}</span></h1>
     </div>
     <div class="icon">
       <img alt="like-coin" class="main-icon" :src="icon || defaultIcon" />
@@ -70,6 +70,7 @@ export default {
 
 .heading h1 {
   margin: 0;
+  text-align: center;
 }
 
 .address-container {
@@ -88,7 +89,7 @@ export default {
 }
 
 .usertitle {
-  font-weight: bold;
+  font-weight: 600;
 }
 
 </style>
