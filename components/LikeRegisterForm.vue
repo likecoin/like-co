@@ -34,7 +34,7 @@
       </md-field>
       <hr />
       <div id="form-btn">
-        <md-button class="md-raised md-primary" type="submit" form="registerForm">Confirm</md-button>
+        <md-button class="md-raised md-primary" type="submit" form="registerForm" :disabled="getIsLoading">Confirm</md-button>
       </div>
     </form>
     <md-dialog-confirm
@@ -77,9 +77,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      getUserInfo: 'getUserInfo',
-    }),
+    ...mapGetters([
+      'getUserInfo',
+      'getIsLoading',
+    ]),
   },
   methods: {
     ...mapActions([

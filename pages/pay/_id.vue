@@ -21,7 +21,7 @@
         <!-- <md-field> -->
         <!--   <md-input placeholder="Remark (optional)" /> -->
         <!-- </md-field> -->
-        <md-button id="payment-confirm" class="md-raised md-primary" type="submit" form="paymentInfo">Confirm</md-button>
+        <md-button id="payment-confirm" class="md-raised md-primary" type="submit" form="paymentInfo" :disabled="getIsLoading">Confirm</md-button>
       </form>
     </div>
   </div>
@@ -106,6 +106,7 @@ export default {
   computed: {
     ...mapGetters([
       'getUserIsRegistered',
+      'getIsLoading',
     ]),
   },
   methods: {
