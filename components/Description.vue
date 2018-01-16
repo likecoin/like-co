@@ -32,7 +32,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../styles/index.scss";
+@import "../assets/index.scss";
 
 #description {
   display: flex;

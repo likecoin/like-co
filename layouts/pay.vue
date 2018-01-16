@@ -62,7 +62,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../styles/index.scss";
+@import "../assets/index.scss";
 
 $large-padding: 64px;
 $mid-padding: 24px;

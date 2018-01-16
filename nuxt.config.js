@@ -13,6 +13,7 @@ module.exports = {
     link: [
       { rel: 'icon', type: 'image/png', href: '/favicon.png' },
       { rel: 'stylesheet', href: '//fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,700,400italic|Material+Icons' },
+      { rel: 'stylesheet', href: '//fonts.googleapis.com/css?family=Open+Sans:300,600,700' },
     ],
   },
   /*
@@ -47,6 +48,7 @@ module.exports = {
     '~/assets/css/main.css',
     { src: 'vue-material/dist/vue-material.min.css', lang: 'css' },
     { src: '~/assets/theme.scss', lang: 'scss' }, // include vue-material theme engine
+    { src: '~/assets/index.scss', lang: 'scss' },
   ],
   plugins: [
     { src: '~/plugins/vue-material' },
