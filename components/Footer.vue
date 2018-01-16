@@ -1,5 +1,5 @@
 <template>
   <footer>
-    Visit our website for more documentation : <a href="https://nuxtjs.org" target="_blank">nuxtjs.org</a>
+    Visit our website for more information : <a href="https://likecoin.foundation/" target="_blank">likecoin.foundation</a>
   </footer>
 </template>
