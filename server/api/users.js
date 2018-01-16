@@ -53,6 +53,10 @@ function typedSignatureHash(signData) {
   );
 }
 
+function checkAddressValid(addr) {
+  return addr.length === 42 && addr.substr(0, 2) === '0x';
+}
+
 const router = Router();
 
 router.put('/users/new', multer.single('avatar'), async (req, res) => {
@@ -77,7 +81,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
     } = JSON.parse(payload);
 
     // check address match
-    if (from !== wallet) {
+    if (from !== wallet || !checkAddressValid(wallet)) {
       throw new Error('wallet address not match');
     }
 

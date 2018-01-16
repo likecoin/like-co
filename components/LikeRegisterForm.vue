@@ -10,7 +10,8 @@
           <div class="md-layout-item">
             <md-field>
               <label>Please pick your unique username</label>
-              <md-input v-model="user" :disabled="isEdit" required></md-input>
+              <md-input v-model="user" pattern="[a-z0-9-_]{7,}" :disabled="isEdit"
+                title="Please enter at least 7 alphanumeric characters" required />
             </md-field>
             <md-field :class="isBadAddress?'md-invalid':''">
               <label>ETH wallet address</label>
@@ -69,7 +70,7 @@ export default {
       displayName: '',
       couponCode: '',
       likeCoinBalance: NaN,
-      wallet: EthHelper.getWallet() || '0x81f9b6c7129cee90fed5df241fa6dc4f88a19699',
+      wallet: EthHelper.getWallet(),
       isBadAddress: false,
       isConfirming: false,
       confirmContent: '',
