@@ -1,3 +1,3 @@
 export const getUserInfo = state => state.user;
 
-export const getUserIsRegistered = state => state.isUser;
+export const getUserIsRegistered = state => !!state.user.wallet;

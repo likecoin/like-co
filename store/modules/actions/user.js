@@ -16,7 +16,6 @@ export async function isUser({ commit }, addr) {
     const { data: user } = await api.apiCheckIsUser(addr);
     if (user && user.user) {
       commit(types.USER_SET_USER_INFO, user);
-      commit(types.USER_SET_REGISTERED, true);
     }
   } catch (error) {
     // do nothing
