@@ -1,5 +1,5 @@
 <template>
-  <like-register-form :isEdit="isEdit"/>
+  <like-register-form :isEdit="isEdit" :isRedeem="true"/>
 </template>
 
 <script>
@@ -8,7 +8,7 @@ import LikeRegisterForm from '~/components/LikeRegisterForm';
 import { mapGetters } from 'vuex';
 
 export default {
-  name: 'Register',
+  name: 'Redeem',
   components: {
     LikeRegisterForm,
   },
@@ -17,8 +17,8 @@ export default {
       redirect('/edit');
       return;
     }
-    const title = 'Register your LikeCoin.store link';
-    const subtitle = 'Create Account';
+    const title = 'Redeem your free LikeCoin';
+    const subtitle = 'Create Account and Redeem';
     store.commit(types.UI_HEADER_UPDATE, {
       title,
       subtitle,

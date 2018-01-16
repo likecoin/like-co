@@ -8,17 +8,17 @@ import LikeRegisterForm from '~/components/LikeRegisterForm';
 import { mapGetters } from 'vuex';
 
 export default {
-  name: 'Register',
+  name: 'Edit',
   components: {
     LikeRegisterForm,
   },
   fetch({ store, redirect }) {
-    if (store.getters.getUserIsRegistered) {
-      redirect('/edit');
+    if (!store.getters.getUserIsRegistered) {
+      redirect('/register');
       return;
     }
-    const title = 'Register your LikeCoin.store link';
-    const subtitle = 'Create Account';
+    const title = 'Edit your LikeCoin store page';
+    const subtitle = 'Edit your information';
     store.commit(types.UI_HEADER_UPDATE, {
       title,
       subtitle,
@@ -29,13 +29,6 @@ export default {
     ...mapGetters({
       isEdit: 'getUserIsRegistered',
     }),
-  },
-  watch: {
-    isEdit(e) {
-      if (e) {
-        this.$router.replace({ name: 'edit' });
-      }
-    },
   },
 };
 </script>

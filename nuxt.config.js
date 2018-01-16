@@ -28,16 +28,6 @@ module.exports = {
           path: '/pay/:id/:amount?',
           component: resolve(__dirname, 'pages/pay/_id.vue'),
         },
-        {
-          name: 'redeem',
-          path: '/redeem',
-          component: resolve(__dirname, 'pages/register.vue'),
-        },
-        {
-          name: 'edit',
-          path: '/edit',
-          component: resolve(__dirname, 'pages/register.vue'),
-        },
       );
     },
   },
