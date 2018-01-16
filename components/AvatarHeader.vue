@@ -4,7 +4,7 @@
         <h1>Send LikeCoin to <span class="usertitle">{{ title }}</span></h1>
     </div>
     <div class="icon">
-      <img alt="like-coin" class="main-icon" :src="icon || defaultIcon" />
+      <img alt="avatar" class="main-icon" :src="icon || defaultIcon" />
     </div>
     <section class="address-container">
       <div class="address-title">Recipients Address</div>

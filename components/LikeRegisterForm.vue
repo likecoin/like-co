@@ -2,7 +2,7 @@
   <div class="inner-container">
     <form id="registerForm" v-on:submit.prevent="onSubmit">
       <div class="md-layout">
-        <div>
+        <div class="icon">
           <img v-if="avatarData" class="avatar" @click="openPicker" :src="avatarData" />
           <input type="file" ref="inputFile" accept="image/*" @change="previewImage" />
         </div>
@@ -212,7 +212,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 #has-account {
   text-align: right;
 }
@@ -230,10 +230,19 @@ export default {
 }
 
 .avatar {
-  width: 200px;
-  height: 200px;
+  display: inline;
+  margin: 0 auto;
+  height: 100%;
+  width: auto;
   cursor: pointer;
+}
+
+.icon {
+  width: 128px;
+  height: 128px;
+  overflow: hidden;
   margin: 20px;
+  border-radius: 50%;
 }
 
 input[type="file"] {
