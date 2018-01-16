@@ -3,7 +3,7 @@
     <form id="registerForm" v-on:submit.prevent="onSubmit">
       <div class="md-layout">
         <div>
-          <input v-if="avatarData" type="image" class="avatar" @click.prevent="openPicker" :src="avatarData" />
+          <img v-if="avatarData" class="avatar" @click="openPicker" :src="avatarData" />
           <input type="file" ref="inputFile" accept="image/*" @change="previewImage" />
         </div>
         <div class="md-layout md-layout-item">
