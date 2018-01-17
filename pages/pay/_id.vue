@@ -112,8 +112,7 @@ export default {
   methods: {
     ...mapActions([
       'sendPayment',
-      'setHeaderMsg',
-      'setHeaderIcon',
+      'setErrorMsg',
     ]),
     checkAddress() {
       return this.wallet.length === 42 && this.wallet.substr(0, 2) === '0x';
@@ -130,8 +129,14 @@ export default {
         return;
       }
       try {
-        const payload = await EthHelper.signTransferDelegated(this.wallet, ONE_LIKE.mul(new
-          BigNumber(this.amount)), 0);
+        if (!EthHelper.getWallet()) return;
+        const balance = await EthHelper.queryLikeCoinBalance(EthHelper.getWallet());
+        const valueToSend = ONE_LIKE.mul(new BigNumber(this.amount));
+        if ((new BigNumber(balance)).lt(valueToSend)) {
+          this.setErrorMsg('Insufficient LikeCoin in your wallet!');
+          return;
+        }
+        const payload = await EthHelper.signTransferDelegated(this.wallet, valueToSend, 0);
         await this.sendPayment(payload);
         this.dialogMsg = `You sucessfully paid ${this.amount}LikeCoin to ${this.displayName}`;
         if (!this.getUserIsRegistered) this.dialogMsg += '<br/> Register your own likecoin.store page to get paid in LikeCoin!';
