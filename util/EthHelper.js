@@ -75,6 +75,7 @@ class EthHelper {
       /* eslint-disable no-await-in-loop */
       await timeout(1000);
       txReceipt = await this.web3.eth.getTransactionReceipt(txHash);
+      if (txReceipt && (txReceipt.status === 0 || txReceipt.status === '0x0')) throw new Error('Transaction failed');
     }
   }
 
