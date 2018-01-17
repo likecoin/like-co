@@ -24,6 +24,7 @@ class EthHelper {
     this.clearErrCb = clearErrCb;
     this.onWalletCb = onWalletCb;
     setTimeout(() => this.pollForWeb3(), 1000);
+    this.pollForWeb3();
   }
 
   async pollForWeb3() {
