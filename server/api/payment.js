@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import BigNumber from 'bignumber.js';
 
 import Validate from '../../util/ValidationHelper';
 
@@ -57,6 +58,8 @@ router.post('/payment', async (req, res) => {
     if (!Validate.checkAddressValid(to) || !Validate.checkAddressValid(from)) {
       throw new Error('Invalid address');
     }
+    const balance = await LikeCoin.methods.balanceOf(from).call();
+    if ((new BigNumber(balance)).lt(new BigNumber(value))) throw new Error('Not enough balance');
     const methodCall = LikeCoin.methods.transferDelegated(
       from,
       to,
