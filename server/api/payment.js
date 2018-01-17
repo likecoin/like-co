@@ -1,5 +1,7 @@
 import { Router } from 'express';
 
+import Validate from '../../util/ValidationHelper';
+
 const Web3 = require('web3');
 
 const LIKECOIN = require('../../constant/contract/likecoin');
@@ -52,6 +54,9 @@ router.post('/payment', async (req, res) => {
       r,
       s,
     } = req.body;
+    if (!Validate.checkAddressValid(to) || !Validate.checkAddressValid(from)) {
+      throw new Error('Invalid address');
+    }
     const methodCall = LikeCoin.methods.transferDelegated(
       from,
       to,

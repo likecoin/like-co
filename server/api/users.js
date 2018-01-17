@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import { toDataUrl } from 'ethereum-blockies';
 
+import Validate from '../../util/ValidationHelper';
+
 const Account = require('eth-lib/lib/account');
 const Multer = require('multer');
 const sha256 = require('js-sha256');
@@ -53,10 +55,6 @@ function typedSignatureHash(signData) {
   );
 }
 
-function checkAddressValid(addr) {
-  return addr.length === 42 && addr.substr(0, 2) === '0x';
-}
-
 const router = Router();
 
 router.put('/users/new', multer.single('avatar'), async (req, res) => {
@@ -81,7 +79,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
     } = JSON.parse(payload);
 
     // check address match
-    if (from !== wallet || !checkAddressValid(wallet)) {
+    if (from !== wallet || !Validate.checkAddressValid(wallet)) {
       throw new Error('wallet address not match');
     }
 
@@ -165,6 +163,7 @@ router.get('/users/:id', async (req, res) => {
 router.get('/addr/:addr', async (req, res) => {
   try {
     const { addr } = req.params;
+    if (!Validate.checkAddressValid(addr)) throw new Error('Invalid address');
     const query = await dbRef.where('wallet', '==', addr).get();
     if (query.docs.length > 0) {
       const payload = query.docs[0].data();
@@ -182,8 +181,15 @@ router.get('/addr/:addr', async (req, res) => {
 });
 
 router.get('/blockie/:addr', async (req, res) => {
-  const { addr } = req.params;
-  res.json({ blockie: toDataUrl(addr) });
+  try {
+    const { addr } = req.params;
+    if (!Validate.checkAddressValid(addr)) throw new Error('Invalid address');
+    res.json({ blockie: toDataUrl(addr) });
+  } catch (err) {
+    const msg = err.message || err;
+    console.error(msg);
+    res.status(400).send(msg);
+  }
 });
 
 export default router;
