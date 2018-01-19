@@ -10,16 +10,16 @@ jobs:
           key: likecoin-store-{{ checksum "package.json" }}
       - run:
           name: Dependencies
-          command: yarn
+          command: npm install
       - run:
           name: Lint Test
-          command: yarn run lint
+          command: npm run lint
       - run:
           name: Build
-          command: yarn build
+          command: npm run build
       - run:
           name: Server Test
-          command: yarn start
+          command: npm start
           background: true
       - run:
           name: Curl Test
@@ -29,5 +29,5 @@ jobs:
       - save_cache:
           key: likecoin-store-{{ checksum "package.json" }}
           paths:
-            - "~/.cache/yarn"
+            - ./node_modules
 
