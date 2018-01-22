@@ -30,6 +30,9 @@
         this.showDialog = !!e;
       },
     },
+    mounted() {
+      this.showDialog = !!this.message;
+    },
   };
 </script>
 
