@@ -1,3 +1,4 @@
+const path = require('path');
 const UglifyJSWebpackPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
@@ -62,7 +63,14 @@ module.exports = {
         });
         // eslint-disable-next-line no-param-reassign
         config.plugins = config.plugins.filter(plugin => plugin.constructor.name !== 'UglifyJsPlugin');
-        config.plugins.push(new UglifyJSWebpackPlugin());
+        const uglifier = new UglifyJSWebpackPlugin({
+          parallel: true,
+          uglifyOptions: {
+            compress: !ctx.dev // hangs at 91% if enable
+          },
+          cache: path.join(__dirname, 'webpack-cache/uglify-cache'),
+        })
+        config.plugins.push(uglifier);
       }
     },
   },

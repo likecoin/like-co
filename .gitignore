@@ -12,3 +12,5 @@ dist
 
 # Backpack build
 build
+
+webpack-cache
