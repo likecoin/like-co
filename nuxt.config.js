@@ -1,3 +1,5 @@
+const UglifyJSWebpackPlugin = require('uglifyjs-webpack-plugin');
+
 module.exports = {
   /*
   ** Headers of the page
@@ -58,6 +60,9 @@ module.exports = {
           loader: 'eslint-loader',
           exclude: /(node_modules)/,
         });
+        // eslint-disable-next-line no-param-reassign
+        config.plugins = config.plugins.filter(plugin => plugin.constructor.name !== 'UglifyJsPlugin');
+        config.plugins.push(new UglifyJSWebpackPlugin());
       }
     },
   },

@@ -26,6 +26,7 @@
     "nuxt": "^1.0.0-rc3",
     "sharp": "^0.18.4",
     "source-map-support": "^0.4.15",
+    "uglifyjs-webpack-plugin": "^1.1.6",
     "vue": "^2.5.3",
     "vue-material": "beta",
     "vue-server-renderer": "^2.5.3",

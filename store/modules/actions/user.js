@@ -11,6 +11,10 @@ export async function getBlockie({ commit }, data) {
   return apiWrapper(commit, api.apiGetBlockie(data));
 }
 
+export function setLocalWallet({ commit }, wallet) {
+  commit(types.USER_SET_LOCAL_WALLET, wallet);
+}
+
 export async function isUser({ commit }, addr) {
   try {
     const { data: user } = await api.apiCheckIsUser(addr);

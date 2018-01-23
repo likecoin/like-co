@@ -19,6 +19,7 @@ export default ({ store }) => {
       store.commit(types.UI_POPUP_ERR, '');
     },
     (wallet) => {
+      store.dispatch('setLocalWallet', wallet);
       store.dispatch('isUser', wallet);
     },
   );
