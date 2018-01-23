@@ -126,6 +126,9 @@ html, body {
     margin-right: $large-padding;
     margin-left: $large-padding;
   }
+  .section-title-wrapper {
+    margin-left: $large-padding + 40px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -138,6 +141,7 @@ html, body {
       margin-left: -$mid-padding;
     }
     .section-title-wrapper {
+      margin-left: $mid-padding;
       width: 100%;
     }
   }

@@ -10,7 +10,7 @@
           <div class="md-layout-item">
             <md-field>
               <label>Please pick your unique username</label>
-              <md-input v-model="user" pattern="[a-z0-9-_]{7,}" :disabled="isEdit"
+              <md-input v-model="user" pattern="[a-z0-9-_]{7,}" :disabled="isEdit" @change="user=user.toLowerCase()"
                 title="Please enter at least 7 alphanumeric characters" required />
             </md-field>
             <md-field :class="isBadAddress?'md-invalid':''">
@@ -33,9 +33,8 @@
         <label><span v-if="isEdit"> Claim </span> Coupon Code (Optional)</label>
         <md-input v-model="couponCode"></md-input>
       </md-field>
-      <hr />
       <div id="form-btn">
-        <md-button class="md-raised md-primary" type="submit" form="registerForm" :disabled="getIsLoading">Confirm</md-button>
+        <md-button class="md-raised md-primary" id="confirm-btn" type="submit" form="registerForm" :disabled="getIsLoading">Confirm</md-button>
       </div>
     </form>
     <md-dialog-confirm
@@ -227,7 +226,12 @@ export default {
 
 #registerForm {
   background-color: #f7f7f7;
-  padding: 20px;
+  padding: 40px 20px 20px 20px;
+  margin-top: -20px;
+}
+
+#confirm-btn {
+  background-color: #28646e;
 }
 
 .avatar {

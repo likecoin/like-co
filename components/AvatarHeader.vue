@@ -84,7 +84,7 @@ export default {
 
 .address-content {
   margin: 0 auto;
-  text-align: center;
+  text-align: left;
   font-size: 20px;
 }
 

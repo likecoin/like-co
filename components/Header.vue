@@ -1,6 +1,6 @@
 <template>
   <div id="site-header">
-    <div class="title"><nuxt-link :to="{ name: 'index' }">{{ title }}</nuxt-link></div>
+    <nuxt-link class="title" :to="{ name: 'index' }">{{ title }}</nuxt-link>
     <div class="icon-bar">
       <md-button
         class="md-icon-button"
