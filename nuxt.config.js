@@ -66,10 +66,10 @@ module.exports = {
         const uglifier = new UglifyJSWebpackPlugin({
           parallel: true,
           uglifyOptions: {
-            compress: !ctx.dev // hangs at 91% if enable
+            compress: !ctx.isDev, // hangs at 91% if enable
           },
           cache: path.join(__dirname, 'webpack-cache/uglify-cache'),
-        })
+        });
         config.plugins.push(uglifier);
       }
     },
