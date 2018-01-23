@@ -7,10 +7,6 @@ export async function newUser({ commit }, data) {
   return apiWrapper(commit, api.apiPostNewUser(data));
 }
 
-export async function getBlockie({ commit }, data) {
-  return apiWrapper(commit, api.apiGetBlockie(data));
-}
-
 export function setLocalWallet({ commit }, wallet) {
   commit(types.USER_SET_LOCAL_WALLET, wallet);
 }

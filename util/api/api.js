@@ -14,8 +14,6 @@ export const apiClaimCoupon = (coupon, to) => {
 
 export const apiPostPayment = payload => axios.post('/api/payment/', payload);
 
-export const apiGetBlockie = addr => axios.get(`/api/blockie/${addr}`);
-
 export const apiPostRinkeby = (id, data) =>
   axios.post(`https://rinkeby.infura.io/${id}`, data);
 

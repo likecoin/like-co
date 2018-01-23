@@ -54,6 +54,7 @@ import BigNumber from 'bignumber.js';
 import EthHelper from '@/util/EthHelper';
 import FileHelper from '@/util/FileHelper';
 import { mapActions, mapGetters } from 'vuex';
+import { toDataUrl } from 'ethereum-blockies';
 
 const ONE_LIKE = new BigNumber(10).pow(18);
 
@@ -94,9 +95,8 @@ export default {
     ]),
     async setMyLikeCoin(wallet) {
       this.wallet = wallet;
-      if (!this.avatarFile) {
-        const { blockie } = await this.getBlockie(wallet);
-        if (!this.isEdit) this.avatarData = blockie;
+      if (!this.avatarFile && !this.isEdit) {
+        this.avatarData = toDataUrl(wallet);
       }
       const balance = await EthHelper.queryLikeCoinBalance(wallet);
       this.likeCoinBalance = new BigNumber(balance).dividedBy(ONE_LIKE).toFixed(4);

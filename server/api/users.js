@@ -180,16 +180,4 @@ router.get('/addr/:addr', async (req, res) => {
   }
 });
 
-router.get('/blockie/:addr', async (req, res) => {
-  try {
-    const { addr } = req.params;
-    if (!Validate.checkAddressValid(addr)) throw new Error('Invalid address');
-    res.json({ blockie: toDataUrl(addr) });
-  } catch (err) {
-    const msg = err.message || err;
-    console.error(msg);
-    res.status(400).send(msg);
-  }
-});
-
 export default router;
