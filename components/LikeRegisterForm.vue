@@ -3,7 +3,8 @@
     <form id="registerForm" v-on:submit.prevent="onSubmit">
       <div class="md-layout">
         <div class="icon">
-          <img v-if="avatarData" class="avatar" @click="openPicker" :src="avatarData" />
+          <img v-if="avatarData" class="avatar":src="avatarData" />
+          <md-button @click="openPicker"><md-icon class="md-size-2x">file_upload</md-icon></md-button>
           <input type="file" ref="inputFile" accept="image/*" @change="previewImage" />
         </div>
         <div class="md-layout md-layout-item">
@@ -239,15 +240,32 @@ export default {
   margin: 0 auto;
   height: 100%;
   width: auto;
-  cursor: pointer;
 }
 
 .icon {
+  position: relative;
   width: 128px;
   height: 128px;
   overflow: hidden;
   margin: 20px;
   border-radius: 50%;
+}
+
+.icon .md-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  margin: auto;
+  opacity: .3;
+}
+
+.icon .md-button:hover {
+  color: white;
+  opacity: 1;
 }
 
 input[type="file"] {
