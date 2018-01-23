@@ -23,7 +23,6 @@ class EthHelper {
     this.errCb = errCb;
     this.clearErrCb = clearErrCb;
     this.onWalletCb = onWalletCb;
-    setTimeout(() => this.pollForWeb3(), 1000);
     this.pollForWeb3();
   }
 
@@ -38,15 +37,15 @@ class EthHelper {
       }
       const network = await this.web3.eth.net.getNetworkType();
       if (network === 'rinkeby') {
-        this.clearErrCb();
+        if (this.clearErrCb) this.clearErrCb();
         this.startApp();
         this.isMetaMask = true;
       } else {
-        this.errCb('testnet');
+        if (this.errCb) this.errCb('testnet');
         this.retryTimer = setTimeout(() => this.pollForWeb3(), 3000);
       }
     } else {
-      this.errCb('web3');
+      if (this.errCb) this.errCb('web3');
       this.retryTimer = setTimeout(() => this.pollForWeb3(), 3000);
     }
   }
@@ -62,9 +61,9 @@ class EthHelper {
         this.accounts = accounts;
         [this.wallet] = accounts;
         if (this.onWalletCb) this.onWalletCb(this.wallet);
-        this.clearErrCb();
+        if (this.clearErrCb) this.clearErrCb();
       } else {
-        if (this.isMetaMask) this.errCb('locked');
+        if (this.isMetaMask && this.errCb) this.errCb('locked');
         this.retryTimer = setTimeout(() => this.getAccounts(), 3000);
       }
     });
