@@ -19,10 +19,18 @@ function prettifyNumber(n) {
 }
 
 class EthHelper {
-  initApp(errCb, clearErrCb, onWalletCb) {
+  initApp({
+    errCb,
+    clearErrCb,
+    onWalletCb,
+    onSign,
+    onSigned,
+  }) {
     this.errCb = errCb;
     this.clearErrCb = clearErrCb;
     this.onWalletCb = onWalletCb;
+    this.onSign = onSign;
+    this.onSigned = onSigned;
     this.pollForWeb3();
   }
 
@@ -133,10 +141,12 @@ class EthHelper {
 
   async signTransferDelegated(to, value, maxReward) {
     if (!this.isMetaMask) return Promise.reject(new Error('No MetaMask'));
+    if (this.onSign) this.onSign();
     const from = this.getWallet();
     const signData = await this.genTypedSignData(from, to, value, maxReward);
     const nonce = signData.filter(param => param.name === 'nonce')[0].value;
     const rawSignature = (await this.signTyped(signData, from)).substr(2);
+    if (this.onSigned) this.onSigned();
     if (!rawSignature) return Promise.reject(new Error('Signing Rejected'));
     const r = `0x${rawSignature.substr(0, 64)}`;
     const s = `0x${rawSignature.substr(64, 64)}`;

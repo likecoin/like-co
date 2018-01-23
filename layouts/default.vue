@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="toolbars">
-      <popup-dialog ref="dialog" :allowClose="false"
-         :header="dialogHeader" :message="getPopupError"/>
+      <popup-dialog allowClose="false" header="Error" :message="getPopupError"/>
+      <popup-dialog allowClose="true" header="Info" :message="getPopupInfo"/>
       <loading-toolbar :isLoading="getIsLoading" :isInTransaction="getIsInTransaction"/>
       <error-toolbar :message="getErrorMsg" :icon="getErrorIcon"/>
     </div>
@@ -36,7 +36,6 @@ export default {
   data() {
     return {
       title: 'Create Account and Redeem',
-      dialogHeader: 'Error',
     };
   },
   components: {
@@ -55,6 +54,7 @@ export default {
       'getErrorIcon',
       'getErrorMsg',
       'getPopupError',
+      'getPopupInfo',
       'getHeaderIcon',
       'getHeaderTitle',
       'getIsLoading',
@@ -140,6 +140,11 @@ html, body {
     .landing .upper-left-corner {
       margin-left: -$mid-padding;
     }
+
+    .upper-left-corner {
+      height: 800px;
+    }
+
     .section-title-wrapper {
       margin-left: $mid-padding;
       width: 100%;

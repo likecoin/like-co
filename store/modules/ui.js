@@ -4,6 +4,7 @@ import {
   UI_ERROR_ICON,
   UI_ERROR_MSG,
   UI_POPUP_ERR,
+  UI_POPUP_INFO,
   UI_START_LOADING,
   UI_START_LOADING_TX,
   UI_STOP_LOADING,
@@ -16,6 +17,7 @@ const state = {
   errorIcon: 'warning',
   errorMsg: '',
   popupError: '',
+  popupInfo: '',
   headerIcon: '',
   headerTitle: '',
   headerSubtitle: '',
@@ -33,6 +35,9 @@ const mutations = {
   },
   [UI_POPUP_ERR](state, msg) {
     state.popupError = msg;
+  },
+  [UI_POPUP_INFO](state, msg) {
+    state.popupInfo = msg;
   },
   [UI_START_LOADING](state) {
     state.isInTransaction = false;

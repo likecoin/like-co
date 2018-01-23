@@ -9,6 +9,10 @@ export const setPopupError = ({ commit }, msg) => {
   commit(types.UI_POPUP_ERR, msg);
 };
 
+export const setPopupInfo = ({ commit }, msg) => {
+  commit(types.UI_POPUP_INFO, msg);
+};
+
 export const setPageHeader = ({ commit }, payload) => {
   commit(types.UI_HEADER_UPDATE, payload);
 };

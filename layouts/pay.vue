@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="toolbars">
-      <popup-dialog ref="dialog" :allowClose="false"
-         :header="dialogHeader" :message="getPopupError"/>
+      <popup-dialog allowClose="false" header="Error" :message="getPopupError"/>
+      <popup-dialog allowClose="true" header="Info" :message="getPopupInfo"/>
       <loading-toolbar :isLoading="getIsLoading" :isInTransaction="getIsInTransaction"/>
       <error-toolbar :message="getErrorMsg" :icon="getErrorIcon"/>
     </div>
@@ -27,11 +27,6 @@ import AvatarHeader from '~/components/AvatarHeader';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
-  data() {
-    return {
-      dialogHeader: 'Error',
-    };
-  },
   components: {
     MyFooter,
     LoadingToolbar,
@@ -50,6 +45,7 @@ export default {
       'getHeaderTitle',
       'getIsLoading',
       'getIsInTransaction',
+      'getPopupInfo',
     ]),
   },
   methods: {
