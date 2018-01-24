@@ -111,7 +111,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
     // check username length
     if (!isOldUser) {
       if (!/^[a-z0-9-_]+$/.test(user)) throw new Error('Invalid user name char');
-      if (user.length < 6 || user.length > 20) throw new Error('Invalid user name length');
+      if (user.length < 7 || user.length > 20) throw new Error('Invalid user name length');
     }
 
     // update avatar

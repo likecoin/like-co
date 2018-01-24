@@ -10,8 +10,8 @@
         <div class="md-layout md-layout-item">
           <div class="md-layout-item">
             <md-field>
-              <label>Please pick your unique username</label>
-              <md-input v-model="user" pattern="[a-z0-9-_]{7,}" :disabled="isEdit" @change="user=user.toLowerCase()"
+              <label>Please pick your unique ID</label>
+              <md-input v-model="user" pattern="[a-z0-9-_]{7,20}" :disabled="isEdit" @change="user=user.toLowerCase()"
                 title="Please enter at least 7 alphanumeric characters" required />
             </md-field>
             <md-field :class="isBadAddress?'md-invalid':''">
