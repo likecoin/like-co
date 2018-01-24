@@ -33,8 +33,8 @@ export default {
 .section-avatar {
   position: relative;
   margin: -137px auto 0 auto;
-  padding: 113px 0 0 0;
-  height: 408px;
+  padding: 113px 0 20px 0;
+  min-height: 408px;
   max-width: 560px;
   background: #f7f7f7;
   overflow: visible;

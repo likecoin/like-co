@@ -49,110 +49,30 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "../assets/index.scss";
-
-$large-padding: 64px;
-$mid-padding: 24px;
-$small-padding: 16px;
-
-html, body {
-  background-color: #fff !important;
-  height: 100%;
-  width: 100%;
-}
-
-.landing {
-  .upper-left-corner {
-    width: 66.66%;
-    height: 600px;
-    margin-bottom: -600px;
-    margin-left: -$large-padding;
-
-    background-color: $like-gray-1;
-  }
-}
+@import "../assets/default.scss";
 
 .section-title-wrapper {
-  margin-top: 60px;
+  display: inline-block;
   z-index: 1;
-  display: inline-block;
+  margin-top: 60px;
+
   padding: 0 80px;
+
   text-align: center;
-  background-color: #d2f0f0;
+
+  background-color: $like-light-blue;
   width: 50%;
-}
 
-.container {
-  position: relative;
+  > .title {
+    letter-spacing: -0.3px;
 
-  display: flex;
-  flex-direction: column;
+    color: $like-dark-brown;
 
-  max-width: 1440px;
-  margin: 0 auto;
-
-  overflow: hidden;
-
-  > * {
-    margin-right: $large-padding;
-    margin-left: $large-padding;
+    font-size: 32px;
+    line-height: 48px;
   }
-  .section-title-wrapper {
-    margin-left: $large-padding + 40px;
-  }
-}
-
-@media (max-width: 768px) {
-  .container {
-    > * {
-      margin-right: $mid-padding;
-      margin-left: $mid-padding;
-    }
-    .landing .upper-left-corner {
-      margin-left: -$mid-padding;
-    }
-
-    .upper-left-corner {
-      height: 800px;
-    }
-
-    .section-title-wrapper {
-      margin-left: $mid-padding;
-      width: 100%;
-    }
-  }
-}
-
-@media (max-width: 500px) {
-  .container {
-    > * {
-      margin-right: $small-padding;
-      margin-left: $small-padding;
-    }
-
-    .landing .upper-left-corner {
-      margin-left: -$small-padding;
-    }
-  }
-}
-
-.button, .button:visited
-{
-  display: inline-block;
-  color: black;
-  letter-spacing: 1px;
-  background-color: #fff;
-  border: 2px solid #000;
-  text-decoration: none;
-  text-transform: uppercase;
-  padding: 15px 45px;
-}
-
-.button:hover, .button:focus
-{
-  color: #fff;
-  background-color: #000;
 }
 
 .title

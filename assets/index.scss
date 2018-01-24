@@ -50,21 +50,8 @@ img {
   object-fit: contain;
 }
 
-.section-title-wrapper {
-  display: inline-block;
-
-  padding: 0 80px;
-
-  text-align: center;
-
-  background-color: $like-light-blue;
-
-  > .title {
-    letter-spacing: -0.3px;
-
-    color: $like-dark-brown;
-
-    font-size: 32px;
-    line-height: 48px;
-  }
+html, body {
+  background-color: #fff !important;
+  height: 100%;
+  width: 100%;
 }
