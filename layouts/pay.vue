@@ -1,11 +1,6 @@
 <template>
   <div>
-    <div class="toolbars">
-      <popup-dialog allowClose="false" header="Error" :message="getPopupError"/>
-      <popup-dialog allowClose="true" header="Info" :message="getPopupInfo"/>
-      <loading-toolbar :isLoading="getIsLoading" :isInTransaction="getIsInTransaction"/>
-      <error-toolbar :message="getErrorMsg" :icon="getErrorIcon"/>
-    </div>
+    <tool-bars/>
     <div class="container">
       <div class="landing">
         <site-header/>
@@ -18,40 +13,24 @@
 </template>
 
 <script>
+import ToolBars from '~/components/ToolBars';
 import MyFooter from '~/components/Footer';
-import ErrorToolbar from '~/components/ErrorToolbar';
-import LoadingToolbar from '~/components/LoadingToolbar';
-import PopupDialog from '~/components/PopupDialog';
 import SiteHeader from '~/components/Header';
 import AvatarHeader from '~/components/AvatarHeader';
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
+    ToolBars,
     MyFooter,
-    LoadingToolbar,
-    ErrorToolbar,
-    PopupDialog,
     SiteHeader,
     AvatarHeader,
   },
   computed: {
     ...mapGetters([
       'getHeaderSubtitle',
-      'getErrorIcon',
-      'getErrorMsg',
-      'getPopupError',
       'getHeaderIcon',
       'getHeaderTitle',
-      'getIsLoading',
-      'getIsInTransaction',
-      'getPopupInfo',
-    ]),
-  },
-  methods: {
-    ...mapActions([
-      'setErrorMsg',
-      'setDialog',
     ]),
   },
 };
@@ -68,13 +47,6 @@ html, body {
   background-color: #fff !important;
   height: 100%;
   width: 100%;
-}
-
-.toolbars {
-  top: 0px;
-  width: 100%;
-  position: fixed;
-  z-index: 999;
 }
 
 .landing {
