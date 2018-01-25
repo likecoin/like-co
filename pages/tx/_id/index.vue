@@ -1,30 +1,29 @@
 <template>
-  <div class="tx-container">
-    <section class="tx-info">
-      <section class="section-container">
-        <md-progress-spinner v-if="!isCompleted" md-mode="indeterminate"></md-progress-spinner>
-        <div>Transaction Complete</div>
-        <div>{{ new Date(this.timestamp * 1000) }}</div>
+  <div>
+    <transaction-header :isNotFound="isNotFound" :icon="toAvatar"
+      :toId="toId" :toAddress="to" :timestamp="timestamp" :amount="amount"/>
+    <div class="tx-container" v-if="!isNotFound">
+      <section class="tx-info">
+        <section v-if="toId" class="section-container">
+          <div class="key">Recipient Display Name</div>
+          <div class="address value">{{ toId }}</div>
+        </section>
+        <section class="section-container">
+          <div class="key">Recipient Address</div>
+          <div class="address value">{{ to }}</div>
+        </section>
       </section>
-      <section v-if="toId" class="section-container">
-        <div class="key">Recipient Display Name</div>
-        <div class="address value">{{ toId }}</div>
+      <section class="extra tx-info">
+        <section v-if="fromId" class="section-container">
+          <div class="key">Sender Display Name</div>
+          <div class="address value">{{ fromId }}</div>
+        </section>
+        <section class="section-container">
+          <div class="key">Sender Address</div>
+          <div class="address value">{{ from }}</div>
+        </section>
       </section>
-      <section class="section-container">
-        <div class="key">Recipient Address</div>
-        <div class="address value">{{ to }}</div>
-      </section>
-    </section>
-    <section class="extra tx-info">
-      <section v-if="fromId" class="section-container">
-        <div class="key">Sender Display Name</div>
-        <div class="address value">{{ fromId }}</div>
-      </section>
-      <section class="section-container">
-        <div class="key">Sender Address</div>
-        <div class="address value">{{ from }}</div>
-      </section>
-    </section>
+    </div>
   </div>
 </template>
 
@@ -32,6 +31,7 @@
 import BigNumber from 'bignumber.js';
 
 import EthHelper from '@/util/EthHelper';
+import TransactionHeader from '~/components/TransactionHeader';
 import PopupDialog from '~/components/PopupDialog';
 import { apiCheckIsUser } from '@/util/api/api';
 import { mapActions, mapGetters } from 'vuex';
@@ -59,17 +59,21 @@ function formatAmount(amount) {
 
 export default {
   name: 'transaction',
-  layout: 'pay',
+  layout: 'base',
   data() {
     return {
+      isNotFound: false,
       from: '',
       to: '',
       fromId: '',
       toId: '',
+      toAvatar: '',
       timestamp: 1,
+      amount: 0,
     };
   },
   components: {
+    TransactionHeader,
     PopupDialog,
   },
   computed: {
@@ -90,35 +94,33 @@ export default {
     formatAmount() {
       this.amount = formatAmount(this.amount);
     },
-    async updateSender(addr) {
-      this.from = addr;
-      const { data: user } = await apiCheckIsUser(addr);
-      if (user) {
-        this.fromId = user.user;
+    async updateUI(from, to) {
+      this.from = from;
+      this.to = to;
+      const [fromData, toData] = await Promise.all([
+        apiCheckIsUser(from).catch(() => {}),
+        apiCheckIsUser(to).catch(() => {}),
+      ]);
+      if (fromData.data) {
+        this.fromId = fromData.data.user;
       }
-    },
-    async updateRecevier(addr) {
-      this.to = addr;
-      const { data: user } = await apiCheckIsUser(addr);
-      if (user) {
-        this.toId = user.user;
-        this.setPageHeader({
-          // title,
-          // subtitle,
-          icon: user.avatar,
-        });
+      if (toData.data) {
+        this.toId = toData.data.user;
+        this.toAvatar = toData.data.avatar;
       }
     },
   },
   async mounted() {
     this.timestamp = 0;
-    const tx = await EthHelper.getTransferInfo('0x55c2177f1ed69ff8cd147b80f10966fcd54d918816d69c9ca379ff33e04dd80c');
-    console.log(tx);
-    /* eslint-disable no-underscore-dangle */
-    this.updateSender(tx._from);
-    this.updateRecevier(tx._to);
-    this.value = new BigNumber(tx._value).div(ONE_LIKE).toString();
-    this.timestamp = tx.timestamp;
+    try {
+      const tx = await EthHelper.getTransferInfo(this.$route.params.id);
+      /* eslint-disable no-underscore-dangle */
+      this.amount = new BigNumber(tx._value).div(ONE_LIKE).toString();
+      this.updateUI(tx._from, tx._to);
+      this.timestamp = tx.timestamp;
+    } catch (err) {
+      this.isNotFound = true;
+    }
   },
 };
 </script>

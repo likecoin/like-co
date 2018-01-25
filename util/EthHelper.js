@@ -105,8 +105,9 @@ class EthHelper {
     if (!t.blockNumber) {
       /* eslint-disable no-underscore-dangle */
       const _to = this.web3.utils.toChecksumAddress(decoded.params.find(p => p.name === '_to').value);
-      let _from = isDelegated ? decoded.params.find(p => p.name === '_from') : t.from;
+      let _from = isDelegated ? decoded.params.find(p => p.name === '_from').value : t.from;
       _from = this.web3.utils.toChecksumAddress(_from);
+      console.log(_from);
       const _value = decoded.params.find(p => p.name === '_value').value;
       return {
         _from,

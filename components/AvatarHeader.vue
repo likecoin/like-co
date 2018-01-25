@@ -15,13 +15,15 @@
 
 
 <script>
+import likeCoinIcon from '../assets/likecoin.svg';
+
 export default {
   name: 'avatar-header',
   props: ['title', 'icon', 'content'],
   data() {
     return {
       defaultText: 'Redeem your free LikeCoin',
-      defaultIcon: '',
+      defaultIcon: likeCoinIcon,
     };
   },
 };
