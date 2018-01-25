@@ -1,6 +1,10 @@
 import Web3 from 'web3';
 import { LIKE_COIN_ABI, LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin';
 
+const abiDecoder = require('abi-decoder');
+
+abiDecoder.addABI(LIKE_COIN_ABI);
+
 function timeout(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -91,6 +95,42 @@ class EthHelper {
     return this.wallet;
   }
 
+  async getTransferInfo(txHash) {
+    const t = await this.web3.eth.getTransaction(txHash);
+    if (!t) throw new Error('Cannot find transaction');
+    if (t.to.toLowerCase() !== LIKE_COIN_ADDRESS.toLowerCase()) throw new Error('Not LikeCoin transaction');
+    const decoded = abiDecoder.decodeMethod(t.input);
+    const isDelegated = (decoded.name === 'transferDelegated');
+    if (decoded.name !== 'transfer' && !isDelegated) throw new Error('Not LikeCoin Store transaction');
+    if (!t.blockNumber) {
+      /* eslint-disable no-underscore-dangle */
+      const _to = this.web3.utils.toChecksumAddress(decoded.params.find(p => p.name === '_to').value);
+      let _from = isDelegated ? decoded.params.find(p => p.name === '_from') : t.from;
+      _from = this.web3.utils.toChecksumAddress(_from);
+      const _value = decoded.params.find(p => p.name === '_value').value;
+      return {
+        _from,
+        _to,
+        _value,
+      };
+    }
+    const [r, block] = await Promise.all([
+      this.web3.eth.getTransactionReceipt(txHash),
+      this.web3.eth.getBlock(t.blockNumber),
+    ]);
+    if (!r.logs || !r.logs.length) throw new Error('Cannot fetch transaction Data');
+    const [logs] = abiDecoder.decodeLogs(r.logs);
+    const _to = this.web3.utils.toChecksumAddress(logs.events.find(p => p.name === '_to').value);
+    const _from = this.web3.utils.toChecksumAddress(logs.events.find(p => p.name === '_from').value);
+    const _value = logs.events.find(p => p.name === '_value').value;
+    return {
+      _to,
+      _from,
+      _value,
+      timestamp: block.timestamp,
+    };
+  }
+
   async queryLikeCoinBalance(addr) {
     if (!addr) return '';
     return this.LikeCoin.methods.balanceOf(addr).call();
@@ -176,7 +216,6 @@ class EthHelper {
     const signData = EthHelper.genTypedSignNewUser(payload);
     const rawSignature = await this.signTyped(signData, from);
     if (!rawSignature) return Promise.reject(new Error('Signing Rejected'));
-    console.log(rawSignature);
     return rawSignature;
   }
 }
