@@ -28,7 +28,7 @@ module.exports = {
       routes.unshift({
         name: 'idWithAmount',
         path: '/pay/:id/:amount?',
-        component: resolve(__dirname, 'pages/pay/_id.vue'),
+        component: resolve(__dirname, 'pages/pay/_id/index.vue'),
       });
     },
   },
@@ -70,7 +70,7 @@ module.exports = {
           },
           cache: path.join(__dirname, 'webpack-cache/uglify-cache'),
         });
-        config.plugins.push(uglifier);
+        if (!ctx.isDev) config.plugins.push(uglifier);
       }
     },
   },

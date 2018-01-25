@@ -1,11 +1,11 @@
 <template>
-  <md-dialog-confirm :class="allowClose? '': 'errorDialog'"
+  <md-dialog-alert :class="allowClose? '': 'errorDialog'"
     :md-active.sync="showDialog"
-    :md-close-on-esc="allowClose"
-    :md-click-outside-to-close="allowClose"
+    :md-close-on-esc="false"
+    :md-click-outside-to-close="false"
     :md-title="header"
     :md-content="message"
-    @md-confirm="onDialogConfirm" />
+    @md-closed="onDialogConfirm" />
 </template>
 
 <script>
