@@ -6,24 +6,35 @@
       <section class="tx-info">
         <section v-if="toId" class="section-container">
           <div class="key">Recipient Display Name</div>
-          <div class="address value">{{ toId }}</div>
+          <nuxt-link :to="{ name: 'pay-id', params: { id: toId } }">
+            <div class="address value">{{ toId }}</div>
+          </nuxt-link>
         </section>
         <section class="section-container">
           <div class="key">Recipient Address</div>
-          <div class="address value">{{ to }}</div>
+          <a :href="`https://rinkeby.etherscan.io/address/${to}#tokentxns`" target="_blank">
+            <div class="address value">{{ to }}</div>
+          </a>
         </section>
       </section>
       <section class="extra tx-info">
         <section v-if="fromId" class="section-container">
           <div class="key">Sender Display Name</div>
-          <div class="address value">{{ fromId }}</div>
+          <nuxt-link :to="{ name: 'pay-id', params: { id: fromId } }">
+            <div class="address value">{{ fromId }}</div>
+          </nuxt-link>
         </section>
         <section class="section-container">
           <div class="key">Sender Address</div>
-          <div class="address value">{{ from }}</div>
+          <a :href="`https://rinkeby.etherscan.io/address/${from}#tokentxns`" target="_blank">
+            <div class="address value">{{ from }}</div>
+          </a>
         </section>
       </section>
     </div>
+    <a :href="`https://rinkeby.etherscan.io/tx/${txId}`" target="_blank">
+      <div class="etherscan">view on etherscan</div>
+    </a>
   </div>
 </template>
 
@@ -32,30 +43,9 @@ import BigNumber from 'bignumber.js';
 
 import EthHelper from '@/util/EthHelper';
 import TransactionHeader from '~/components/TransactionHeader';
-import PopupDialog from '~/components/PopupDialog';
 import { apiCheckIsUser } from '@/util/api/api';
-import { mapActions, mapGetters } from 'vuex';
 
 const ONE_LIKE = new BigNumber(10).pow(18);
-
-function formatAmount(amount) {
-  let result = amount.toString().replace(/[^0-9.]/, '');
-  if (!result) {
-    result = '0.00';
-  }
-  const dotIndex = result.indexOf('.');
-  if (dotIndex === -1) {
-    result = `${result}.00`;
-  } else if (dotIndex === 0) {
-    result = `0${result}`;
-  }
-  const decimals = result.length - result.indexOf('.') - 1;
-  if (decimals < 2) {
-    const paddingZeros = '00'.substr(0, 2 - decimals);
-    result = `${result}${paddingZeros}`;
-  }
-  return result;
-}
 
 export default {
   name: 'transaction',
@@ -72,28 +62,23 @@ export default {
       amount: 0,
     };
   },
+  head() {
+    return {
+      title: 'View Transaction State - LikeCoin.Store',
+    };
+  },
   components: {
     TransactionHeader,
-    PopupDialog,
   },
   computed: {
     isCompleted() {
       return !!this.timestamp;
     },
-    ...mapGetters([
-      'getUserIsRegistered',
-      'getIsLoading',
-      'getLocalWallet',
-    ]),
+    txId() {
+      return this.$route.params.id;
+    },
   },
   methods: {
-    ...mapActions([
-      'setPageHeader',
-      'setErrorMsg',
-    ]),
-    formatAmount() {
-      this.amount = formatAmount(this.amount);
-    },
     async updateUI(from, to) {
       this.from = from;
       this.to = to;
@@ -113,7 +98,7 @@ export default {
   async mounted() {
     this.timestamp = 0;
     try {
-      const tx = await EthHelper.getTransferInfo(this.$route.params.id);
+      const tx = await EthHelper.getTransferInfo(this.txId);
       /* eslint-disable no-underscore-dangle */
       this.amount = new BigNumber(tx._value).div(ONE_LIKE).toString();
       this.updateUI(tx._from, tx._to);
@@ -161,5 +146,11 @@ export default {
 
 .extra {
   margin: 20px auto;
+}
+
+.etherscan {
+  margin: 20px auto;
+  text-align: center;
+  width: 100%;
 }
 </style>
