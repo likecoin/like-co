@@ -4,7 +4,10 @@
     :md-click-outside-to-close="false"
     :md-fullscreen="false">
     <div class="title-bar"></div>
-    <md-dialog-title>Pending Confirmation...</md-dialog-title>
+    <md-dialog-title>
+      <md-progress-spinner :md-diameter="30" :md-stroke="3" md-mode="indeterminate" />
+      Pending Confirmation...
+    </md-dialog-title>
     <md-dialog-content>Waiting for the blockchain to confirm. It may take few minutes… meanwhile you can visit other pages on likecoin.store</md-dialog-content>
     <section v-if="isNewUser">
       <md-dialog-content class="new-user">Seem you don’t have a LikeCoin ID. Create now to recive LikeCoin.</md-dialog-content>

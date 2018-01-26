@@ -6,9 +6,13 @@
     <div class="icon">
       <img alt="avatar" class="main-icon" :src="icon || defaultIcon" />
     </div>
-    <section v-if="content" class="address-container">
+    <section v-if="id" class="address-container">
+      <div class="address-title">Recipients LikeCoin ID</div>
+      <div class="address-content">{{ id }}</div>
+    </section>
+    <section v-if="address" class="address-container">
       <div class="address-title">Recipients Address</div>
-      <div class="address-content">{{ content }}</div>
+      <div class="address-content">{{ address }}</div>
     </section>
   </section>
 </template>
@@ -19,7 +23,7 @@ import likeCoinIcon from '../assets/likecoin.svg';
 
 export default {
   name: 'avatar-header',
-  props: ['title', 'icon', 'content'],
+  props: ['title', 'icon', 'id', 'address'],
   data() {
     return {
       defaultText: 'Redeem your free LikeCoin',
@@ -61,11 +65,10 @@ export default {
 
 .heading {
   position: relative;
-  width: 120%;
+  width: 121%;
   left: -10%;
   margin-top: 104px;
-  padding: 24px 0;
-
+  padding: 24px 10px;
   border-radius: 8px;
   background-image: linear-gradient(238deg, $like-light-blue, $like-gradient-1);
 }

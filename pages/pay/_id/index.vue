@@ -1,5 +1,6 @@
 <template>
   <div class="payment-container">
+    <avatar-header :title="displayName" :icon="avatar" :id="displayName" :address="wallet"/>
     <div class="inner-container">
       <form id="paymentInfo" v-on:submit.prevent="onSubmit">
         <input v-model="wallet" hidden required disabled />
@@ -28,8 +29,8 @@
 <script>
 import BigNumber from 'bignumber.js';
 
+import AvatarHeader from '~/components/AvatarHeader';
 import EthHelper from '@/util/EthHelper';
-import * as types from '@/store/mutation-types';
 import axios from '~/plugins/axios';
 import { mapActions, mapGetters } from 'vuex';
 
@@ -57,6 +58,9 @@ function formatAmount(amount) {
 export default {
   name: 'payment',
   layout: 'pay',
+  components: {
+    AvatarHeader,
+  },
   data() {
     return {
       isBadAddress: false,
@@ -65,20 +69,15 @@ export default {
       dialogMsg: '',
     };
   },
-  asyncData({ app, params, error }) {
+  asyncData({ params, error }) {
     return axios.get(`/api/users/${params.id}`)
       .then((res) => {
         const { wallet, avatar, displayName } = res.data;
         const amount = formatAmount(params.amount || 1);
-        app.store.commit(types.UI_HEADER_UPDATE, {
-          title: displayName || params.id,
-          subtitle: wallet,
-          icon: avatar,
-        });
         return {
           wallet,
           avatar,
-          displayName,
+          displayName: displayName || params.id,
           amount,
         };
       })
@@ -199,11 +198,16 @@ a {
   color: #42b983;
 }
 
+.inner-container {
+  background: #f7f7f7;
+  margin: 16px 0;
+  padding: 16px 0;
+}
+
 .payment-container {
   width: 100%;
   max-width: 560px;
-  background: #f7f7f7;
-  margin: 16px auto;
+  margin: 0 auto;
 }
 
 #paymentInfo {

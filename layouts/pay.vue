@@ -4,7 +4,6 @@
     <div class="container">
       <div class="landing">
         <site-header/>
-        <avatar-header :title="getHeaderTitle" :icon="getHeaderIcon" :content="getHeaderSubtitle"/>
       </div>
       <nuxt/>
     </div>
@@ -16,7 +15,6 @@
 import ToolBars from '~/components/ToolBars';
 import MyFooter from '~/components/Footer';
 import SiteHeader from '~/components/Header';
-import AvatarHeader from '~/components/AvatarHeader';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -24,7 +22,6 @@ export default {
     ToolBars,
     MyFooter,
     SiteHeader,
-    AvatarHeader,
   },
   computed: {
     ...mapGetters([

@@ -4,7 +4,10 @@
     :md-click-outside-to-close="false"
     :md-fullscreen="false">
     <div class="title-bar"></div>
-    <md-dialog-title>Processing...</md-dialog-title>
+    <md-dialog-title>
+      <md-progress-spinner :md-diameter="30" :md-stroke="3" class="md-accent" md-mode="indeterminate" />
+      Processing...
+    </md-dialog-title>
     <md-dialog-content>Processing your request, please do not close the browser</md-dialog-content>
   </md-dialog>
 </template>
