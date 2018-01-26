@@ -1,7 +1,7 @@
 <template>
   <div>
-    <transaction-header :isNotFound="isNotFound" :icon="toAvatar"
-      :toId="toId" :toAddress="to" :timestamp="timestamp" :amount="amount"/>
+    <transaction-header :isNotFound="isNotFound" :icon="toAvatar" :toId="toId"
+      :toName="toName" :toAddress="to" :timestamp="timestamp" :amount="amount"/>
     <div class="tx-container" v-if="!isNotFound">
       <section class="tx-info">
         <section v-if="toId" class="section-container">
@@ -59,6 +59,7 @@ export default {
       to: '',
       fromId: '',
       toId: '',
+      toName: '',
       toAvatar: '',
       timestamp: 0,
       amount: 0,
@@ -112,6 +113,7 @@ export default {
       }
       if (toData && toData.data) {
         this.toId = toData.data.user;
+        this.toName = toData.data.displayName || toData.data.user;
         this.toAvatar = toData.data.avatar;
       }
     },

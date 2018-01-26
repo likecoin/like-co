@@ -1,6 +1,6 @@
 <template>
   <div class="payment-container">
-    <avatar-header :title="displayName" :icon="avatar" :id="displayName" :address="wallet"/>
+    <avatar-header :title="displayName" :icon="avatar" :id="id" :address="wallet"/>
     <div class="inner-container">
       <form id="paymentInfo" v-on:submit.prevent="onSubmit">
         <input v-model="wallet" hidden required disabled />
@@ -77,6 +77,7 @@ export default {
         return {
           wallet,
           avatar,
+          id: params.id,
           displayName: displayName || params.id,
           amount,
         };

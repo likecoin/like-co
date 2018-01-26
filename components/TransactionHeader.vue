@@ -9,7 +9,7 @@
       <h1 v-else class="error"><md-icon class="md-size-2x">error</md-icon>Transaction Not Found or not a Likecoin store transaction</h1>
     </div>
     <div class="icon">
-      <nuxt-link v-if="name" :to="{ name: 'pay-id', params: { id: name } }">
+      <nuxt-link v-if="toId" :to="{ name: 'pay-id', params: { id: toId } }">
         <img alt="avatar" class="main-icon" :src="icon" />
       </nuxt-link>
       <img v-else alt="likecoin" class="main-icon" :src="defaultIcon" />
@@ -36,7 +36,7 @@ import likeCoinIcon from '../assets/likecoin.svg';
 
 export default {
   name: 'transaction-header',
-  props: ['icon', 'toId', 'toAddress', 'timestamp', 'amount', 'isNotFound'],
+  props: ['icon', 'toId', 'toName', 'toAddress', 'timestamp', 'amount', 'isNotFound'],
   data() {
     return {
       defaultText: 'Redeem your free LikeCoin',
@@ -48,7 +48,7 @@ export default {
       return !this.timestamp;
     },
     name() {
-      return this.toId || '';
+      return this.toName || this.toId || '';
     },
     dateCompleted() {
       return new Date(this.timestamp * 1000).toString();

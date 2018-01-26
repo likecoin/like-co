@@ -104,7 +104,7 @@ class EthHelper {
     const t = await this.web3.eth.getTransaction(txHash);
     if (t.blockNumber) {
       const block = await this.web3.eth.getBlock(t.blockNumber);
-      return block.timestamp;
+      return block ? block.timestamp : 0;
     }
     return 0;
   }
@@ -141,7 +141,7 @@ class EthHelper {
       _to,
       _from,
       _value,
-      timestamp: block.timestamp,
+      timestamp: block ? block.timestamp : 0,
     };
   }
 
