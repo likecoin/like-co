@@ -1,6 +1,6 @@
 <template>
   <div>
-    <tool-bars/>
+    <tool-bars :disableError="true" />
     <div class="container">
       <div class="landing">
         <site-header/>

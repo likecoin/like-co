@@ -9,7 +9,10 @@
       <h1 v-else class="error"><md-icon class="md-size-2x">error</md-icon>Transaction Not Found or not a Likecoin store transaction</h1>
     </div>
     <div class="icon">
-      <img alt="avatar" class="main-icon" :src="icon || defaultIcon" />
+      <nuxt-link v-if="name" :to="{ name: 'pay-id', params: { id: name } }">
+        <img alt="avatar" class="main-icon" :src="icon" />
+      </nuxt-link>
+      <img v-else alt="likecoin" class="main-icon" :src="defaultIcon" />
     </div>
     <section v-if="!isNotFound">
       <section v-if="isPending" class="transaction-container">

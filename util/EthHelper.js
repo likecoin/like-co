@@ -44,7 +44,8 @@ class EthHelper {
         clearTimeout(this.retryTimer);
         this.retryTimer = null;
       }
-      if (!this.web3) {
+      if (!this.web3 || this.isOnInfura) {
+        this.isOnInfura = false;
         this.web3 = new Web3(window.web3.currentProvider);
       }
       const network = await this.web3.eth.net.getNetworkType();
@@ -58,6 +59,10 @@ class EthHelper {
       }
     } else {
       if (this.errCb) this.errCb('web3');
+      if (!this.isOnInfura) {
+        this.web3 = new Web3(new Web3.providers.HttpProvider('https://rinkeby.infura.io/ywCD9mvUruQeYcZcyghk'));
+        this.isOnInfura = true;
+      }
       this.retryTimer = setTimeout(() => this.pollForWeb3(), 3000);
     }
   }
@@ -93,6 +98,15 @@ class EthHelper {
 
   getWallet() {
     return this.wallet;
+  }
+
+  async getTransactionCompleted(txHash) {
+    const t = await this.web3.eth.getTransaction(txHash);
+    if (t.blockNumber) {
+      const block = await this.web3.eth.getBlock(t.blockNumber);
+      return block.timestamp;
+    }
+    return 0;
   }
 
   async getTransferInfo(txHash) {

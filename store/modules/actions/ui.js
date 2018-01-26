@@ -1,6 +1,14 @@
 /* eslint import/prefer-default-export: "off" */
 import * as types from '@/store/mutation-types';
 
+export const startLoading = ({ commit }) => {
+  commit(types.UI_START_LOADING);
+};
+
+export const stopLoading = ({ commit }) => {
+  commit(types.UI_STOP_LOADING);
+};
+
 export const setErrorMsg = ({ commit }, msg) => {
   commit(types.UI_ERROR_MSG, msg);
 };

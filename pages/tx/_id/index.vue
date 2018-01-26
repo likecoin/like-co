@@ -44,8 +44,10 @@ import BigNumber from 'bignumber.js';
 import EthHelper from '@/util/EthHelper';
 import TransactionHeader from '~/components/TransactionHeader';
 import { apiCheckIsUser } from '@/util/api/api';
+import { mapActions } from 'vuex';
 
 const ONE_LIKE = new BigNumber(10).pow(18);
+const PENDING_UPDATE_INTERVAL = 1000; // 1s
 
 export default {
   name: 'transaction',
@@ -58,8 +60,9 @@ export default {
       fromId: '',
       toId: '',
       toAvatar: '',
-      timestamp: 1,
+      timestamp: 0,
       amount: 0,
+      updateTimer: null,
     };
   },
   head() {
@@ -79,13 +82,31 @@ export default {
     },
   },
   methods: {
+    ...mapActions([
+      'startLoading',
+      'stopLoading',
+    ]),
+    setupTimer() {
+      if (this.updateTimer) clearTimeout(this.updateTimer);
+      this.updateTimer = setTimeout(async () => {
+        const ts = await EthHelper.getTransactionCompleted(this.txId);
+        if (!ts) {
+          this.setupTimer();
+        } else {
+          console.log(ts);
+          this.timestamp = ts;
+        }
+      }, PENDING_UPDATE_INTERVAL);
+    },
     async updateUI(from, to) {
       this.from = from;
       this.to = to;
+      this.startLoading();
       const [fromData, toData] = await Promise.all([
         apiCheckIsUser(from).catch(() => {}),
         apiCheckIsUser(to).catch(() => {}),
       ]);
+      this.stopLoading();
       if (fromData.data) {
         this.fromId = fromData.data.user;
       }
@@ -103,6 +124,9 @@ export default {
       this.amount = new BigNumber(tx._value).div(ONE_LIKE).toString();
       this.updateUI(tx._from, tx._to);
       this.timestamp = tx.timestamp;
+      if (!this.timestamp) {
+        this.setupTimer();
+      }
     } catch (err) {
       this.isNotFound = true;
     }

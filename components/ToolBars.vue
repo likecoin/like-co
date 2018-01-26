@@ -1,6 +1,6 @@
 <template>
   <div class="toolbars">
-    <popup-dialog :allowClose="false" header="Error" :message="getPopupError"/>
+    <popup-dialog v-if="!disableError" :allowClose="false" header="Error" :message="getPopupError"/>
     <popup-dialog :allowClose="true" header="Info" :message="getPopupInfo"/>
     <loading-toolbar :isLoading="getIsLoading" :isInTransaction="getIsInTransaction"/>
     <error-toolbar :message="getErrorMsg" :icon="getErrorIcon"/>
@@ -14,6 +14,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'ToolBars',
+  props: ['disableError'],
   components: {
     LoadingToolbar,
     ErrorToolbar,
