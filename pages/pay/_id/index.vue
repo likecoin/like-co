@@ -1,7 +1,5 @@
 <template>
   <div class="payment-container">
-    <popup-dialog ref="dialog" :allowClose="true"
-       :header="dialogHeader" :message="dialogMsg" @onConfirm="onConfirm" />
     <div class="inner-container">
       <form id="paymentInfo" v-on:submit.prevent="onSubmit">
         <input v-model="wallet" hidden required disabled />
@@ -33,7 +31,6 @@ import BigNumber from 'bignumber.js';
 import EthHelper from '@/util/EthHelper';
 import * as types from '@/store/mutation-types';
 import axios from '~/plugins/axios';
-import PopupDialog from '~/components/PopupDialog';
 import { mapActions, mapGetters } from 'vuex';
 
 const ONE_LIKE = new BigNumber(10).pow(18);
@@ -89,9 +86,6 @@ export default {
         error({ statusCode: 404, message: 'User not found' });
       });
   },
-  components: {
-    PopupDialog,
-  },
   head() {
     return {
       title: `Pay LikeCoin to ${this.displayName}`,
@@ -108,12 +102,14 @@ export default {
       'getUserIsRegistered',
       'getIsLoading',
       'getLocalWallet',
+      'getIsShowingTxPopup',
     ]),
   },
   methods: {
     ...mapActions([
       'sendPayment',
       'setErrorMsg',
+      'closedTxDialog',
     ]),
     checkAddress() {
       return this.wallet.length === 42 && this.wallet.substr(0, 2) === '0x';
@@ -138,9 +134,11 @@ export default {
           return;
         }
         const payload = await EthHelper.signTransferDelegated(this.wallet, valueToSend, 0);
-        await this.sendPayment(payload);
-        this.dialogMsg = `You sucessfully paid ${this.amount}LikeCoin to ${this.displayName}`;
-        if (!this.getUserIsRegistered) this.dialogMsg += '<br/> Register your own likecoin.store page to get paid in LikeCoin!';
+        const txHash = await this.sendPayment(payload);
+        if (this.getIsShowingTxPopup) {
+          this.closedTxDialog();
+          this.$router.push({ name: 'tx-id', params: { id: txHash } });
+        }
       } catch (error) {
         console.error(error);
       }

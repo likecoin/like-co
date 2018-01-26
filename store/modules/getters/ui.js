@@ -12,6 +12,8 @@ export const getIsLoading = state => state.isLoading;
 
 export const getIsPopupBlocking = state => state.isBlocking;
 
+export const getIsShowingTxPopup = state => state.isShowingTxPopup;
+
 export const getHeaderIcon = state => state.headerIcon;
 
 export const getHeaderTitle = state => state.headerTitle;

@@ -24,3 +24,7 @@ export const setPopupInfo = ({ commit }, msg) => {
 export const setPageHeader = ({ commit }, payload) => {
   commit(types.UI_HEADER_UPDATE, payload);
 };
+
+export const closedTxDialog = ({ commit }) => {
+  commit(types.UI_CLOSE_TX_DIALOG);
+};

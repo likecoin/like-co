@@ -12,11 +12,13 @@ export async function sendPayment({ commit }, payload) {
     const txUrl = `https://rinkeby.etherscan.io/tx/${txHash}`;
     commit(types.UI_ERROR_ICON, 'attach_money');
     commit(types.UI_ERROR_MSG, `Please wait for transaction to be mined. Check status: <a href="${txUrl}" target="_blank">${txUrl}</a>`);
+    commit(types.PAYMENT_SET_PENDING_HASH, txHash);
     commit(types.UI_START_LOADING_TX);
     await EthHelper.waitForTxToBeMined(txHash);
     commit(types.UI_STOP_LOADING);
     commit(types.UI_ERROR_ICON, 'check');
     commit(types.UI_ERROR_MSG, 'Transaction OK.');
+    return txHash;
   } catch (error) {
     commit(types.UI_STOP_LOADING);
     commit(types.UI_ERROR_MSG, error.message || error);

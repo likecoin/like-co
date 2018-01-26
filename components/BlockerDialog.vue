@@ -18,11 +18,6 @@
         showDialog: this.show,
       };
     },
-    methods: {
-      onClosed() {
-        this.$emit('onClosed');
-      },
-    },
     watch: {
       show(show) {
         this.showDialog = show;
