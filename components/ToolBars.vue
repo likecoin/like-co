@@ -2,6 +2,7 @@
   <div class="toolbars">
     <popup-dialog v-if="!disableError" :allowClose="false" header="Error" :message="getPopupError"/>
     <popup-dialog :allowClose="true" header="Info" :message="getPopupInfo"/>
+    <no-ssr><blocker-dialog :show="getIsPopupBlocking"/></no-ssr>
     <loading-toolbar :isLoading="getIsLoading" :isInTransaction="getIsInTransaction"/>
     <error-toolbar :message="getErrorMsg" :icon="getErrorIcon"/>
   </div>
@@ -10,6 +11,7 @@
 import ErrorToolbar from '~/components/ErrorToolbar';
 import LoadingToolbar from '~/components/LoadingToolbar';
 import PopupDialog from '~/components/PopupDialog';
+import BlockerDialog from '~/components/BlockerDialog';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -19,6 +21,7 @@ export default {
     LoadingToolbar,
     ErrorToolbar,
     PopupDialog,
+    BlockerDialog,
   },
   computed: {
     ...mapGetters([
@@ -28,6 +31,7 @@ export default {
       'getPopupInfo',
       'getIsLoading',
       'getIsInTransaction',
+      'getIsPopupBlocking',
     ]),
   },
 };

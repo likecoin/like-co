@@ -6,7 +6,9 @@ import apiWrapper from './api-wrapper';
 
 export async function sendPayment({ commit }, payload) {
   try {
+    commit(types.UI_START_BLOCKING_LOADING);
     const { txHash } = await apiWrapper(commit, api.apiPostPayment(payload));
+    commit(types.UI_STOP_BLOCKING_LOADING);
     const txUrl = `https://rinkeby.etherscan.io/tx/${txHash}`;
     commit(types.UI_ERROR_ICON, 'attach_money');
     commit(types.UI_ERROR_MSG, `Please wait for transaction to be mined. Check status: <a href="${txUrl}" target="_blank">${txUrl}</a>`);
@@ -28,7 +30,9 @@ export async function checkCoupon({ commit }, code) {
 
 export async function claimCoupon({ commit }, { coupon, to }) {
   try {
+    commit(types.UI_START_BLOCKING_LOADING);
     const { txHash } = await apiWrapper(commit, api.apiClaimCoupon(coupon, to));
+    commit(types.UI_STOP_BLOCKING_LOADING);
     const txUrl = `https://rinkeby.etherscan.io/tx/${txHash}`;
     commit(types.UI_ERROR_MSG, `Please wait for transaction to be mined. Check status: <a href="${txUrl}">${txUrl}</a>`);
     commit(types.UI_START_LOADING_TX);

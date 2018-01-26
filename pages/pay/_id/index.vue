@@ -58,7 +58,7 @@ function formatAmount(amount) {
 }
 
 export default {
-  name: 'HelloWorld',
+  name: 'payment',
   layout: 'pay',
   data() {
     return {

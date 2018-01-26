@@ -7,6 +7,8 @@ import {
   UI_POPUP_INFO,
   UI_START_LOADING,
   UI_START_LOADING_TX,
+  UI_START_BLOCKING_LOADING,
+  UI_STOP_BLOCKING_LOADING,
   UI_STOP_LOADING,
   UI_HEADER_UPDATE,
 } from '../mutation-types';
@@ -24,6 +26,7 @@ const state = {
   description: '',
   isInTransaction: false,
   isLoading: false,
+  isBlocking: false,
 };
 
 const mutations = {
@@ -46,6 +49,17 @@ const mutations = {
   [UI_START_LOADING_TX](state) {
     state.isInTransaction = true;
     state.isLoading = true;
+  },
+  [UI_STOP_LOADING](state) {
+    state.isLoading = false;
+  },
+  [UI_START_BLOCKING_LOADING](state) {
+    state.isLoading = true;
+    state.isBlocking = true;
+  },
+  [UI_STOP_BLOCKING_LOADING](state) {
+    state.isLoading = false;
+    state.isBlocking = false;
   },
   [UI_STOP_LOADING](state) {
     state.isLoading = false;
