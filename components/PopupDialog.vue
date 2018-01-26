@@ -36,7 +36,7 @@
   };
 </script>
 
-<style>
+<style scoped>
 
 .errorDialog .md-button {
   display: none

@@ -47,7 +47,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .toolbars {
   top: 0px;
   width: 100%;

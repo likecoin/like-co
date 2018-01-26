@@ -80,7 +80,7 @@
   font-size: 20px;
 }
 
-section, a{
+section, a {
   display: flex;
   flex-direction: column;
   flex: 1;

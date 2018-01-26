@@ -107,10 +107,10 @@ export default {
         apiCheckIsUser(to).catch(() => {}),
       ]);
       this.stopLoading();
-      if (fromData.data) {
+      if (fromData && fromData.data) {
         this.fromId = fromData.data.user;
       }
-      if (toData.data) {
+      if (toData && toData.data) {
         this.toId = toData.data.user;
         this.toAvatar = toData.data.avatar;
       }
@@ -128,6 +128,7 @@ export default {
         this.setupTimer();
       }
     } catch (err) {
+      console.error(err);
       this.isNotFound = true;
     }
   },
