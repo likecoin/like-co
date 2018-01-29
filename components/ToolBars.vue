@@ -2,6 +2,7 @@
   <div class="toolbars">
     <popup-dialog v-if="!disableError" :allowClose="false" header="Error" :message="getPopupError"/>
     <popup-dialog :allowClose="true" header="Info" :message="getPopupInfo"/>
+    <no-ssr><metamask-dialog :case="getMetamaskError"/></no-ssr>
     <no-ssr><blocker-dialog :show="getIsPopupBlocking"/></no-ssr>
     <no-ssr><tx-dialog :show="getIsShowingTxPopup" :txId="getPendingTx" :isNewUser="!getUserIsRegistered" @onClose="closedTxDialog"/></no-ssr>
     <loading-toolbar :isLoading="getIsLoading" :isInTransaction="getIsInTransaction"/>
@@ -15,6 +16,7 @@ import TxToolbar from '~/components/TxToolbar';
 import LoadingToolbar from '~/components/LoadingToolbar';
 import PopupDialog from '~/components/PopupDialog';
 import BlockerDialog from '~/components/BlockerDialog';
+import MetamaskDialog from '~/components/MetamaskDialog';
 import TxDialog from '~/components/TxDialog';
 import { mapActions, mapGetters } from 'vuex';
 
@@ -27,6 +29,7 @@ export default {
     TxToolbar,
     PopupDialog,
     BlockerDialog,
+    MetamaskDialog,
     TxDialog,
   },
   computed: {
@@ -41,6 +44,7 @@ export default {
       'getIsShowingTxPopup',
       'getUserIsRegistered',
       'getPendingTx',
+      'getMetamaskError',
     ]),
   },
   methods: {
