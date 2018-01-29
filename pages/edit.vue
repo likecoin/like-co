@@ -115,7 +115,6 @@ export default {
       'newUser',
       'setInfoMsg',
       'checkCoupon',
-      'claimCoupon',
       'refreshUserInfo',
     ]),
     setEditProfileMode(isProfileEdit) {

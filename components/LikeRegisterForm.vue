@@ -88,7 +88,6 @@ export default {
       'setPageHeader',
       'setInfoMsg',
       'checkCoupon',
-      'claimCoupon',
       'isUser',
     ]),
     async setMyLikeCoin(wallet) {
@@ -139,11 +138,11 @@ export default {
         };
         const data = await User.formatAndSignUserInfo(userInfo);
         await this.newUser(data);
+        await this.isUser(this.wallet);
         if (this.couponCode) {
           await this.$refs.claimDialog.onSubmit();
         } else {
           this.setInfoMsg(`Your information have been updated,  <a href="/pay/${this.user}">view your page</a>`);
-          this.isUser(this.wallet);
         }
       } catch (err) {
         console.error(err);

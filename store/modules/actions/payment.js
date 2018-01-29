@@ -34,6 +34,7 @@ export async function claimCoupon({ commit }, { coupon, to }) {
     commit(types.PAYMENT_SET_PENDING_HASH, txHash);
     await EthHelper.waitForTxToBeMined(txHash);
     commit(types.UI_STOP_LOADING_TX);
+    return txHash;
   } catch (error) {
     commit(types.UI_STOP_LOADING);
     let message = error.message || error;

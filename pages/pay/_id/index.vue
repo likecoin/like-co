@@ -109,7 +109,7 @@ export default {
     ...mapActions([
       'sendPayment',
       'setErrorMsg',
-      'closedTxDialog',
+      'closeTxDialog',
     ]),
     checkAddress() {
       return this.wallet.length === 42 && this.wallet.substr(0, 2) === '0x';
@@ -136,7 +136,7 @@ export default {
         const payload = await EthHelper.signTransferDelegated(this.wallet, valueToSend, 0);
         const txHash = await this.sendPayment(payload);
         if (this.getIsShowingTxPopup) {
-          this.closedTxDialog();
+          this.closeTxDialog();
           this.$router.push({ name: 'tx-id', params: { id: txHash } });
         }
       } catch (error) {

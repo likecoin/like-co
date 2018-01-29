@@ -33,7 +33,7 @@ export const setPageHeader = ({ commit }, payload) => {
   commit(types.UI_HEADER_UPDATE, payload);
 };
 
-export const closedTxDialog = ({ commit }) => {
+export const closeTxDialog = ({ commit }) => {
   commit(types.UI_CLOSE_TX_DIALOG);
 };
 

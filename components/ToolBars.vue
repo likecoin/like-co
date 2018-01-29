@@ -4,7 +4,7 @@
     <popup-dialog :allowClose="true" header="Info" :message="getPopupInfo"/>
     <no-ssr><metamask-dialog :case="getMetamaskError"/></no-ssr>
     <no-ssr><blocker-dialog :show="getIsPopupBlocking"/></no-ssr>
-    <no-ssr><tx-dialog :show="getIsShowingTxPopup" :txId="getPendingTx" :isNewUser="!getUserIsRegistered" @onClose="closedTxDialog"/></no-ssr>
+    <no-ssr><tx-dialog :show="getIsShowingTxPopup" :txId="getPendingTx" :isNewUser="!getUserIsRegistered" @onClose="closeTxDialog"/></no-ssr>
     <loading-toolbar :isLoading="getIsLoading" :isInTransaction="getIsInTransaction"/>
     <tx-toolbar v-if="getPendingTx" :txHash="getPendingTx" :isInTx="getIsInTransaction" @onClose="closeTxToolbar"/>
     <info-toolbar v-if="getInfoMsg" :message="getInfoMsg" :isError="getInfoIsError" @onClose="closeInfoToolbar"/>
@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'closedTxDialog',
+      'closeTxDialog',
       'closeTxToolbar',
       'closeInfoToolbar',
     ]),

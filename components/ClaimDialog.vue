@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'claim-dialog',
@@ -22,12 +22,18 @@ export default {
       onConfirm: () => {},
     };
   },
+  computed: {
+    ...mapGetters([
+      'getIsShowingTxPopup',
+    ]),
+  },
   methods: {
     ...mapActions([
       'setErrorMsg',
       'checkCoupon',
       'claimCoupon',
       'isUser',
+      'closeTxDialog',
     ]),
     onCancel() {
       this.$router.push({ name: 'edit' });
@@ -42,8 +48,11 @@ export default {
           this.confirmContent = `Are you sure you want to claim ${value} LikeCoin?`;
           this.onConfirm = async () => {
             try {
-              await this.claimCoupon({ coupon: this.couponCode, to: this.wallet });
-              this.isUser(this.wallet);
+              const txHash = await this.claimCoupon({ coupon: this.couponCode, to: this.wallet });
+              if (this.getIsShowingTxPopup) {
+                this.closeTxDialog();
+                this.$router.push({ name: 'tx-id', params: { id: txHash } });
+              }
             } catch (error) {
               this.isConfirming = true;
               this.confirmContent = `Error: ${error.message || error || 'Invalid coupon code'}! Redirecting to your account page...`;
