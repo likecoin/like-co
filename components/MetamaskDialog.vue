@@ -94,11 +94,6 @@ export default {
       window.location.reload();
     },
   },
-  watch: {
-    show(show) {
-      this.showDialog = show;
-    },
-  },
 };
 </script>
 

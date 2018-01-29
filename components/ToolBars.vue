@@ -2,7 +2,8 @@
   <div class="toolbars">
     <popup-dialog v-if="!disableError" :allowClose="false" header="Error" :message="getPopupError"/>
     <popup-dialog :allowClose="true" header="Info" :message="getPopupInfo"/>
-    <no-ssr><metamask-dialog :case="getMetamaskError"/></no-ssr>
+    <no-ssr v-if="!disableError"><metamask-dialog :case="getMetamaskError"/></no-ssr>
+    <no-ssr v-if="!disableError"><chrome-dialog /></no-ssr>
     <no-ssr><blocker-dialog :show="getIsPopupBlocking"/></no-ssr>
     <no-ssr><tx-dialog :show="getIsShowingTxPopup" :txId="getPendingTx" :isNewUser="!getUserIsRegistered" @onClose="closeTxDialog"/></no-ssr>
     <loading-toolbar :isLoading="getIsLoading" :isInTransaction="getIsInTransaction"/>
@@ -17,6 +18,7 @@ import LoadingToolbar from '~/components/LoadingToolbar';
 import PopupDialog from '~/components/PopupDialog';
 import BlockerDialog from '~/components/BlockerDialog';
 import MetamaskDialog from '~/components/MetamaskDialog';
+import ChromeDialog from '~/components/ChromeDialog';
 import TxDialog from '~/components/TxDialog';
 import { mapActions, mapGetters } from 'vuex';
 
@@ -30,6 +32,7 @@ export default {
     PopupDialog,
     BlockerDialog,
     MetamaskDialog,
+    ChromeDialog,
     TxDialog,
   },
   computed: {
