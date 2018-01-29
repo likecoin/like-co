@@ -160,7 +160,7 @@ export default {
           wallet: this.wallet,
           email: this.email,
         };
-        const data = await User.submitUserInfo(userInfo);
+        const data = await User.formatAndSignUserInfo(userInfo);
         await this.newUser(data);
         this.setInfoMsg(`Your information have been updated,  <a href="/pay/${this.user}">view your page</a>`);
         this.refreshUserInfo(this.user);

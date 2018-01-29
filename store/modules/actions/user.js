@@ -32,6 +32,6 @@ export async function refreshUserInfo({ commit }, id) {
       commit(types.USER_SET_USER_INFO, user);
     }
   } catch (error) {
-    // do nothing
+    throw error;
   }
 }

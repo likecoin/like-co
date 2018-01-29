@@ -137,7 +137,7 @@ export default {
           user: this.user,
           wallet: this.wallet,
         };
-        const data = await User.submitUserInfo(userInfo);
+        const data = await User.formatAndSignUserInfo(userInfo);
         await this.newUser(data);
         if (this.couponCode) {
           await this.$refs.claimDialog.onSubmit();

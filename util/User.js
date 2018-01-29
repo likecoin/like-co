@@ -2,7 +2,7 @@ import EthHelper from '@/util/EthHelper';
 import FileHelper from '@/util/FileHelper';
 
 const User = {
-  async submitUserInfo(userInfo) {
+  async formatAndSignUserInfo(userInfo) {
     const {
       avatarFile,
       user,
