@@ -38,14 +38,7 @@
         <md-button class="md-raised md-primary" id="confirm-btn" type="submit" form="registerForm" :disabled="getIsLoading">Confirm</md-button>
       </div>
     </form>
-    <md-dialog-confirm
-      :md-active.sync="isConfirming"
-      md-title="Claim coupon"
-      :md-content="confirmContent"
-      md-confirm-text="Confirm"
-      md-cancel-text="Cancel"
-      @md-cancel="onCancel"
-      @md-confirm="onConfirm" />
+    <claim-dialog ref="claimDialog" :couponCode="couponCode" :wallet="wallet" />
   </div>
 </template>
 
@@ -53,7 +46,8 @@
 import BigNumber from 'bignumber.js';
 
 import EthHelper from '@/util/EthHelper';
-import FileHelper from '@/util/FileHelper';
+import User from '@/util/User';
+import ClaimDialog from '~/components/ClaimDialog';
 import { mapActions, mapGetters } from 'vuex';
 import { toDataUrl } from 'ethereum-blockies';
 
@@ -77,6 +71,9 @@ export default {
       confirmContent: '',
       onConfirm: () => {},
     };
+  },
+  components: {
+    ClaimDialog,
   },
   computed: {
     ...mapGetters([
@@ -135,54 +132,15 @@ export default {
           this.isBadAddress = true;
           return;
         }
-        const ts = Date.now();
-        const {
-          avatarFile,
-          user,
-          wallet,
-        } = this;
-        let avatarSHA256;
-        if (avatarFile) {
-          const avatarBuf = await FileHelper.blobToArrayBuffer(avatarFile);
-          avatarSHA256 = await FileHelper.arrayBufferToSha256(avatarBuf);
-        }
-        const payload = JSON.stringify({
-          user,
-          displayName: this.displayName || user,
-          ts,
-          avatarSHA256,
-          wallet,
-        });
-        const sign = await EthHelper.signNewUser(payload);
-        const data = {
-          avatar: avatarFile,
-          payload,
-          sign,
-          from: wallet,
+        const userInfo = {
+          avatarFile: this.avatarFile,
+          user: this.user,
+          wallet: this.wallet,
         };
+        const data = await User.formatAndSignUserInfo(userInfo);
         await this.newUser(data);
         if (this.couponCode) {
-          this.isConfirming = true;
-          this.confirmContent = 'Loading coupon content...';
-          try {
-            const { value } = await this.checkCoupon(this.couponCode);
-            if (!value) throw new Error('Invalid coupon');
-            this.confirmContent = `Are you sure you want to claim ${value} LikeCoin?`;
-            this.onConfirm = async () => {
-              try {
-                await this.claimCoupon({ coupon: this.couponCode, to: wallet });
-                this.isUser(this.wallet);
-              } catch (error) {
-                this.isConfirming = true;
-                this.confirmContent = `Error: ${error.message || error || 'Invalid coupon code'}! Redirecting to your account page...`;
-                this.onConfirm = this.onCancel;
-              }
-            };
-          } catch (error) {
-            this.isConfirming = true;
-            this.confirmContent = `Error: ${error.message || error || 'Invalid coupon code'}! Redirecting to your account page...`;
-            this.onConfirm = this.onCancel;
-          }
+          await this.$refs.claimDialog.onSubmit();
         } else {
           this.setInfoMsg(`Your information have been updated,  <a href="/pay/${this.user}">view your page</a>`);
           this.isUser(this.wallet);
