@@ -5,8 +5,8 @@
     <no-ssr><blocker-dialog :show="getIsPopupBlocking"/></no-ssr>
     <no-ssr><tx-dialog :show="getIsShowingTxPopup" :txId="getPendingTx" :isNewUser="!getUserIsRegistered" @onClose="closedTxDialog"/></no-ssr>
     <loading-toolbar :isLoading="getIsLoading" :isInTransaction="getIsInTransaction"/>
-    <tx-toolbar :txHash="getPendingTx" :isInTx="getIsInTransaction" @onClose="closeTxToolbar"/>
-    <info-toolbar :message="getErrorMsg" :icon="getErrorIcon" @onClose="closeInfoToolbar"/>
+    <tx-toolbar v-if="getPendingTx" :txHash="getPendingTx" :isInTx="getIsInTransaction" @onClose="closeTxToolbar"/>
+    <info-toolbar v-if="getInfoMsg" :message="getInfoMsg" :isError="getInfoIsError" @onClose="closeInfoToolbar"/>
   </div>
 </template>
 <script>
@@ -31,8 +31,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'getErrorIcon',
-      'getErrorMsg',
+      'getInfoIsError',
+      'getInfoMsg',
       'getPopupError',
       'getPopupInfo',
       'getIsLoading',

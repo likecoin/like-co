@@ -1,7 +1,7 @@
 /* eslint no-shadow: "off" */
 /* eslint no-param-reassign: "off" */
 import {
-  UI_ERROR_ICON,
+  UI_INFO_MSG,
   UI_ERROR_MSG,
   UI_POPUP_ERR,
   UI_POPUP_INFO,
@@ -18,8 +18,8 @@ import * as getters from './getters/ui';
 import * as actions from './actions/ui';
 
 const state = {
-  errorIcon: 'warning',
-  errorMsg: '',
+  infoIsError: false,
+  infoMsg: '',
   popupError: '',
   popupInfo: '',
   headerIcon: '',
@@ -33,11 +33,13 @@ const state = {
 };
 
 const mutations = {
-  [UI_ERROR_ICON](state, icon) {
-    state.errorIcon = icon;
+  [UI_INFO_MSG](state, msg) {
+    state.infoMsg = msg;
+    state.infoIsError = false;
   },
   [UI_ERROR_MSG](state, msg) {
-    state.errorMsg = msg;
+    state.infoMsg = msg;
+    state.infoIsError = true;
   },
   [UI_POPUP_ERR](state, msg) {
     state.popupError = msg;

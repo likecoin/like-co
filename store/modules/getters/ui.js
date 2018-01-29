@@ -1,6 +1,6 @@
-export const getErrorIcon = state => state.errorIcon;
+export const getInfoMsg = state => state.infoMsg;
 
-export const getErrorMsg = state => state.errorMsg;
+export const getInfoIsError = state => state.infoIsError;
 
 export const getPopupError = state => state.popupError;
 

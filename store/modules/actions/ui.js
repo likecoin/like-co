@@ -13,6 +13,10 @@ export const setErrorMsg = ({ commit }, msg) => {
   commit(types.UI_ERROR_MSG, msg);
 };
 
+export const setInfoMsg = ({ commit }, msg) => {
+  commit(types.UI_INFO_MSG, msg);
+};
+
 export const setPopupError = ({ commit }, msg) => {
   commit(types.UI_POPUP_ERR, msg);
 };
@@ -30,5 +34,5 @@ export const closedTxDialog = ({ commit }) => {
 };
 
 export const closeInfoToolbar = ({ commit }) => {
-  commit(types.UI_ERROR_MSG, '');
+  commit(types.UI_INFO_MSG, '');
 };

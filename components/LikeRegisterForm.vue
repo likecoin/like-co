@@ -89,7 +89,7 @@ export default {
       'newUser',
       'getBlockie',
       'setPageHeader',
-      'setErrorMsg',
+      'setInfoMsg',
       'checkCoupon',
       'claimCoupon',
       'isUser',
@@ -184,8 +184,7 @@ export default {
             this.onConfirm = this.onCancel;
           }
         } else {
-          // commit(types.UI_ERROR_ICON, 'check');
-          this.setErrorMsg(`Your information have been updated,  <a href="/pay/${this.user}">view your page</a>`);
+          this.setInfoMsg(`Your information have been updated,  <a href="/pay/${this.user}">view your page</a>`);
           this.isUser(this.wallet);
         }
       } catch (err) {
