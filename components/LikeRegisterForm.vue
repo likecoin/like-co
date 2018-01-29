@@ -35,7 +35,7 @@
         <md-input v-model="couponCode"></md-input>
       </md-field>
       <div id="form-btn">
-        <md-button class="md-raised md-primary" id="confirm-btn" type="submit" form="registerForm" :disabled="getIsLoading">Confirm</md-button>
+        <md-button class="md-raised md-primary" id="confirm-btn" type="submit" form="registerForm" :disabled="getIsPopupBlocking">Confirm</md-button>
       </div>
     </form>
     <claim-dialog ref="claimDialog" :couponCode="couponCode" :wallet="wallet" />
@@ -78,7 +78,7 @@ export default {
   computed: {
     ...mapGetters([
       'getUserInfo',
-      'getIsLoading',
+      'getIsPopupBlocking',
     ]),
   },
   methods: {

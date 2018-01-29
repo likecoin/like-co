@@ -75,9 +75,6 @@ const mutations = {
     state.isLoading = false;
     state.isBlocking = false;
   },
-  [UI_STOP_LOADING](state) {
-    state.isLoading = false;
-  },
   [UI_CLOSE_TX_DIALOG](state) {
     state.isShowingTxPopup = false;
   },

@@ -36,10 +36,10 @@
       </div>
       <div v-if="isProfileEdit" class="btn-container">
         <div class="edit-form-btn">
-          <md-button class="md-raised md-primary" id="edit-confirm-btn" type="submit" form="editForm" :disabled="getIsLoading">Confirm</md-button>
+          <md-button class="md-raised md-primary" id="edit-confirm-btn" type="submit" form="editForm" :disabled="getIsPopupBlocking">Confirm</md-button>
         </div>
         <div class="edit-form-btn">
-          <md-button class="md-raised md-accent" id="edit-cancel-btn" :disabled="getIsLoading" @click="onCancel">Cancel</md-button>
+          <md-button class="md-raised md-accent" id="edit-cancel-btn" :disabled="getIsPopupBlocking" @click="onCancel">Cancel</md-button>
         </div>
       </div>
     </form>
@@ -53,7 +53,7 @@
           <md-input v-model="couponCode" required ></md-input>
         </md-field>
         <div v-if="!isProfileEdit" id="form-btn">
-          <md-button class="md-raised md-primary" id="confirm-btn" type="submit" form="redeemForm" :disabled="getIsLoading">Confirm</md-button>
+          <md-button class="md-raised md-primary" id="confirm-btn" type="submit" form="redeemForm" :disabled="getIsInTransaction">Confirm</md-button>
         </div>
       </form>
       <claim-dialog ref="claimDialog" :couponCode="couponCode" :wallet="wallet" />
@@ -105,10 +105,11 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
-      getUserInfo: 'getUserInfo',
-      getIsLoading: 'getIsLoading',
-    }),
+    ...mapGetters([
+      'getUserInfo',
+      'getIsInTransaction',
+      'getIsPopupBlocking',
+    ]),
   },
   methods: {
     ...mapActions([

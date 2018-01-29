@@ -20,7 +20,7 @@
         <!-- <md-field> -->
         <!--   <md-input placeholder="Remark (optional)" /> -->
         <!-- </md-field> -->
-        <md-button id="payment-confirm" class="md-raised md-primary" type="submit" form="paymentInfo" :disabled="getIsLoading || !getLocalWallet">Confirm</md-button>
+        <md-button id="payment-confirm" class="md-raised md-primary" type="submit" form="paymentInfo" :disabled="getIsInTransaction || !getLocalWallet">Confirm</md-button>
       </form>
     </div>
   </div>
@@ -100,7 +100,7 @@ export default {
   computed: {
     ...mapGetters([
       'getUserIsRegistered',
-      'getIsLoading',
+      'getIsInTransaction',
       'getLocalWallet',
       'getIsShowingTxPopup',
     ]),
