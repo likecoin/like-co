@@ -2,7 +2,14 @@ import EthHelper from '@/util/EthHelper';
 import FileHelper from '@/util/FileHelper';
 
 const User = {
-  async submitUserInfo(avatarFile, user, displayName, wallet, email, actionFn) {
+  async submitUserInfo(userInfo) {
+    const {
+      avatarFile,
+      user,
+      displayName,
+      wallet,
+      email,
+    } = userInfo;
     try {
       const ts = Date.now();
       let avatarSHA256;
@@ -25,7 +32,7 @@ const User = {
         sign,
         from: wallet,
       };
-      await actionFn(data);
+      return data;
     } catch (err) {
       throw err;
     }

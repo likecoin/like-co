@@ -2,6 +2,8 @@ import axios from '~/plugins/axios';
 
 export const apiCheckIsUser = addr => axios.get(`/api/addr/${addr}`);
 
+export const apiGetUser = id => axios.get(`/api/users/${id}`);
+
 export const apiCheckCoupon = code => axios.get(`api/coupon/coupon/${code}`);
 
 export const apiClaimCoupon = (coupon, to) => {

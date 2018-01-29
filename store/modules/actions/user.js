@@ -23,3 +23,15 @@ export async function isUser({ commit }, addr) {
     // do nothing
   }
 }
+
+export async function refreshUserInfo({ commit }, id) {
+  try {
+    const { data: user } = await api.apiGetUser(id);
+    if (user) {
+      user.user = id;
+      commit(types.USER_SET_USER_INFO, user);
+    }
+  } catch (error) {
+    // do nothing
+  }
+}

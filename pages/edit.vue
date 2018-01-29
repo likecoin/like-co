@@ -1,10 +1,10 @@
 <template>
   <div class="container">
-    <form id="editForm" v-on:submit.prevent="onUpdate">
+    <form id="editForm" v-on:submit.prevent="onSubmitEdit">
       <div class="md-layout">
         <div class="icon">
-          <img v-if="currentAvatarData" class="avatar" :src="avatarData || currentAvatarData" />
-          <md-button :class="isProfileEdit ? '' : 'input-display-btn'" @click="openPicker"><img :src="getEditIcon()" class="md-size-2x"/></md-button>
+          <img class="avatar" :src="avatarData" />
+          <md-button :class="isProfileEdit ? '' : 'input-display-btn'" @click="openPicker"><img :src="EditIcon" class="md-size-2x"/></md-button>
           <input type="file" ref="inputFile" accept="image/*" @change="previewImage" />
         </div>
         <div class="user-container">
@@ -13,7 +13,8 @@
           <md-field :class="isProfileEdit ? 'md-field-edit-mode' : 'md-field-pre-edit'">
             <md-input class="input-display-name input-display" v-model="displayName" required
                                                                :disabled="!isProfileEdit"></md-input>
-            <md-button :class="isProfileEdit ? '' : 'input-display-btn'" @click="setEditProfileMode"><img :src="getEditIcon()" /></md-button>
+            <md-button :class="isProfileEdit ? '' : 'input-display-btn'"
+                                                               @click="setEditProfileMode(true)"><img :src="EditIcon" /></md-button>
           </md-field>
         </div>
       </div>
@@ -29,7 +30,8 @@
         <md-field :class="isProfileEdit ? 'md-field-edit-mode' : 'md-field-pre-edit'">
           <label class="input-display-hint">add email address</label>
           <md-input class="input-display" v-model="email" :disabled="!isProfileEdit"></md-input>
-          <md-button :class="isProfileEdit ? '' : 'input-display-btn'" @click="setEditProfileMode"><img :src="getEditIcon()" /></md-button>
+          <md-button :class="isProfileEdit ? '' : 'input-display-btn'"
+                                          @click="setEditProfileMode(true)"><img :src="EditIcon" /></md-button>
         </md-field>
       </div>
       <div v-if="isProfileEdit" class="btn-container">
@@ -45,7 +47,7 @@
       <div class="section-title-wrapper">
         <h2 class="title">{{ subtitle }}</h2>
       </div>
-      <form id="redeemForm" v-on:submit.prevent="onSubmit">
+      <form id="redeemForm" v-on:submit.prevent="onSubmitCoupon">
         <md-field>
           <label><span> Claim </span> Coupon Code</label>
           <md-input v-model="couponCode" required ></md-input>
@@ -70,7 +72,7 @@ import ClaimDialog from '~/components/ClaimDialog';
 import ViewEtherscan from '~/components/ViewEtherscan';
 import { mapActions, mapGetters } from 'vuex';
 
-const images = require.context('../assets/icons/');
+import EditIcon from '../assets/icons/edit.svg';
 
 const ONE_LIKE = new BigNumber(10).pow(18);
 
@@ -81,17 +83,15 @@ export default {
     return {
       avatarFile: null,
       avatarData: null,
-      currentAvatarData: null,
       user: '',
       displayName: '',
-      currentDisplayName: '',
       couponCode: '',
       wallet: '',
       email: '',
-      currentEmail: '',
       isProfileEdit: false,
       likeCoinValueStr: '',
       subtitle: 'Redeem LikeCoin',
+      EditIcon,
     };
   },
   components: {
@@ -113,16 +113,13 @@ export default {
   methods: {
     ...mapActions([
       'newUser',
-      'setErrorMsg',
+      'setInfoMsg',
       'checkCoupon',
       'claimCoupon',
-      'isUser',
+      'refreshUserInfo',
     ]),
-    getEditIcon() {
-      return images('./edit.svg');
-    },
-    setEditProfileMode() {
-      this.isProfileEdit = true;
+    setEditProfileMode(isProfileEdit) {
+      this.isProfileEdit = isProfileEdit;
     },
     previewImage(event) {
       const { files } = event.target;
@@ -139,49 +136,40 @@ export default {
       const user = this.getUserInfo;
       this.user = user.user;
       this.displayName = user.displayName;
-      this.currentDisplayName = user.displayName;
       this.avatarData = user.avatar;
-      this.currentAvatarData = user.avatar;
       this.wallet = user.wallet;
       this.email = user.email;
-      this.currentEmail = user.email;
       const balance = await EthHelper.queryLikeCoinBalance(user.wallet);
       this.likeCoinValueStr = new BigNumber(balance).dividedBy(ONE_LIKE).toFixed(4);
     },
     openPicker() {
-      this.setEditProfileMode();
+      this.setEditProfileMode(true);
       this.$refs.inputFile.click();
     },
     onCancel() {
       this.avatarFile = null;
-      this.avatarData = this.currentAvatarData;
-      this.displayName = this.currentDisplayName;
-      this.email = this.currentEmail;
-      this.isProfileEdit = false;
+      this.updateInfo();
+      this.setEditProfileMode(false);
     },
-    async onUpdate() {
+    async onSubmitEdit() {
       try {
-        const {
-          avatarFile,
-          user,
-          displayName,
-          wallet,
-          email,
-        } = this;
-        await User.submitUserInfo(avatarFile, user, displayName, wallet, email, this.newUser);
-        this.setErrorMsg(`Your information have been updated,  <a href="/pay/${this.user}">view your page</a>`);
-        this.isUser(this.wallet);
-
-        // update current value in vue object after success
-        this.currentDisplayName = this.displayName;
-        this.currentAvatarData = this.avatarData;
-        this.currentEmail = this.email;
+        const userInfo = {
+          avatarFile: this.avatarFile,
+          user: this.user,
+          displayName: this.displayName,
+          wallet: this.wallet,
+          email: this.email,
+        };
+        const data = await User.submitUserInfo(userInfo);
+        await this.newUser(data);
+        this.setInfoMsg(`Your information have been updated,  <a href="/pay/${this.user}">view your page</a>`);
+        this.refreshUserInfo(this.user);
       } catch (err) {
         console.error(err);
       }
-      this.isProfileEdit = false;
+      this.setEditProfileMode(false);
     },
-    async onSubmit() {
+    async onSubmitCoupon() {
       try {
         await this.$refs.claimDialog.onSubmit();
       } catch (err) {

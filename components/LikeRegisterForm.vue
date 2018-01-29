@@ -132,14 +132,13 @@ export default {
           this.isBadAddress = true;
           return;
         }
-        const {
-          avatarFile,
-          user,
-          wallet,
-        } = this;
-        const displayName = this.displayName || user;
-        const email = null;
-        await User.submitUserInfo(avatarFile, user, displayName, wallet, email, this.newUser);
+        const userInfo = {
+          avatarFile: this.avatarFile,
+          user: this.user,
+          wallet: this.wallet,
+        };
+        const data = await User.submitUserInfo(userInfo);
+        await this.newUser(data);
         if (this.couponCode) {
           await this.$refs.claimDialog.onSubmit();
         } else {
