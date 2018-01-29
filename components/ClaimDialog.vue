@@ -1,7 +1,7 @@
 <template>
   <md-dialog 
-      :md-active.sync="isConfirming">
-    <div class="title-bar"></div>
+      :md-active.sync="showDialog">
+    <div class="title-bar" />
     <md-dialog-title v-if="title">{{ title }}</md-dialog-title>
     <md-dialog-content v-if="confirmContent" v-html="confirmContent" />
 
@@ -20,7 +20,7 @@ export default {
   props: ['couponCode', 'wallet'],
   data() {
     return {
-      isConfirming: false,
+      showDialog: false,
       title: 'Claim coupon',
       confirmContent: '',
       onConfirm: () => {},
@@ -40,18 +40,18 @@ export default {
       'closeTxDialog',
     ]),
     onCancel() {
-      this.isConfirming = false;
+      this.showDialog = false;
     },
     async onSubmit() {
       if (this.couponCode) {
-        this.isConfirming = true;
+        this.showDialog = true;
         this.confirmContent = 'Loading coupon content...';
         try {
           const { value } = await this.checkCoupon(this.couponCode);
           if (!value) throw new Error('Invalid coupon');
           this.confirmContent = `Are you sure you want to claim ${value} LikeCoin?`;
           this.onConfirm = async () => {
-            this.isConfirming = false;
+            this.showDialog = false;
             try {
               const txHash = await this.claimCoupon({ coupon: this.couponCode, to: this.wallet });
               if (this.getIsShowingTxPopup) {
@@ -59,13 +59,13 @@ export default {
                 this.$router.push({ name: 'tx-id', params: { id: txHash } });
               }
             } catch (error) {
-              this.isConfirming = true;
+              this.showDialog = true;
               this.confirmContent = `Error: ${error.message || error || 'Invalid coupon code'}! Redirecting to your account page...`;
               this.onConfirm = this.onCancel;
             }
           };
         } catch (error) {
-          this.isConfirming = true;
+          this.showDialog = true;
           this.confirmContent = `Error: ${error.message || error || 'Invalid coupon code'}! Redirecting to your account page...`;
           this.onConfirm = this.onCancel;
         }
@@ -97,12 +97,8 @@ export default {
   margin-left: 20px;
   margin-right: 20px;
   font-size: 32px;
-  font-weight: 300;
-  font-style: normal;
-  font-stretch: normal;
   line-height: normal;
   letter-spacing: -0.3px;
-  text-align: left;
   color: #462405;
 }
 
@@ -110,53 +106,28 @@ export default {
   margin-left: 20px;
   margin-right: 20px;
   font-size: 16px;
-  font-weight: 300;
-  font-style: normal;
-  font-stretch: normal;
   line-height: 1.63;
-  letter-spacing: -0.1px;
-  text-align: left;
   color: #737373;
 }
 
-.md-dialog-actions {
-  display: table;
-}
-
 #btn-cancel {
-  width: 256px;
-  height: 40px;
-  font-size: 24px;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: normal;
-  letter-spacing: -0.2px;
-  text-align: center;
-  color: #ffffff;
   background-color: #6e2828;
+  color: #ffffff;
 }
 
 #btn-confirm {
-  width: 256px;
-  height: 40px;
-  font-size: 24px;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: normal;
-  letter-spacing: -0.2px;
-  text-align: center;
-  color: #ffffff;
   background-color: #28646e;
+  color: #ffffff;
 }
 
 .md-button {
+  width: 256px;
   height: 40px;
   margin-left: 20%;
   margin-right: 20%;
-  font-size: 20px;
   align-self: center;
+  font-size: 24px;
+  text-align: center;
 }
 
 section {
