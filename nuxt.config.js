@@ -30,6 +30,11 @@ module.exports = {
         path: '/pay/:id/:amount?',
         component: resolve(__dirname, 'pages/pay/_id/index.vue'),
       });
+      routes.unshift({
+        name: 'index',
+        path: '/',
+        component: resolve(__dirname, 'pages/edit.vue'),
+      });
     },
   },
   /*
