@@ -109,6 +109,7 @@ export default {
       color: $like-white;
       cursor: pointer;
       text-decoration: underline;
+      margin: auto;
     }
   }
 }

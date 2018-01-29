@@ -24,12 +24,12 @@
       <div class="address-container">
         <div :class="[isProfileEdit ? 'edit-mode' : '', 'address-title']">Your Address</div>
         <md-field class="md-field-display">
-          <md-input :class="isProfileEdit ? 'edit-mode' : ''" v-model="wallet" required disabled></md-input>
+          <md-input :class="[isProfileEdit ? 'edit-mode' : '', 'input-info']" v-model="wallet" required disabled></md-input>
         </md-field>
         <div class="address-title">Your E-mail</div>
         <md-field :class="isProfileEdit ? 'md-field-edit-mode' : 'md-field-pre-edit'">
           <label class="input-display-hint">add email address</label>
-          <md-input class="input-display" v-model="email" :disabled="!isProfileEdit"></md-input>
+          <md-input class="input-display input-info" v-model="email" :disabled="!isProfileEdit"></md-input>
           <md-button :class="isProfileEdit ? '' : 'input-display-btn'"
                                           @click="setEditProfileMode(true)"><img :src="EditIcon" /></md-button>
         </md-field>
@@ -49,7 +49,7 @@
       </div>
       <form id="redeemForm" v-on:submit.prevent="onSubmitCoupon">
         <md-field>
-          <label><span> Claim </span> Coupon Code</label>
+          <label class="input-redeem-hint">Redeem Code (Optional)</label>
           <md-input v-model="couponCode" required ></md-input>
         </md-field>
         <div v-if="!isProfileEdit" id="form-btn">
@@ -231,6 +231,13 @@ $profile-margin: 48px;
     &:after {
       height: 1px;
     }
+    label {
+      top: 8px;
+      font-size: 20px;
+    }
+    .input-info {
+      font-size: 20px;
+    }
   }
 
   .md-field-display {
@@ -239,8 +246,8 @@ $profile-margin: 48px;
     &:after {
       height: 0px;
     }
-    label {
-      top: 0px;
+    .input-info {
+      font-size: 20px;
     }
   }
 
@@ -252,7 +259,11 @@ $profile-margin: 48px;
       opacity: 0.3;
     }
     label {
-      top: 0px;
+      top: 8px;
+      font-size: 20px;
+    }
+    .input-info {
+      font-size: 20px;
     }
   }
 
@@ -310,12 +321,14 @@ $profile-margin: 48px;
     width: 256px;
     height: 40px;
     background-color: #28646e;
+    font-size: 24px;
   }
 
   #edit-cancel-btn {
     width: 256px;
     height: 40px;
     background-color: #6e2828;
+    font-size: 24px;
   }
 
   .avatar {
@@ -403,6 +416,10 @@ $profile-margin: 48px;
   background-color: #f7f7f7;
   padding: 40px 20px 20px 20px;
   margin-top: -20px;
+
+  .input-redeem-hint {
+    font-size: 20px;
+  }
   
   #form-btn {
     text-align: right;
@@ -411,6 +428,7 @@ $profile-margin: 48px;
       width: 256px;
       height: 40px;
       background-color: #28646e;
+      font-size: 24px;
     }
   }
 }
