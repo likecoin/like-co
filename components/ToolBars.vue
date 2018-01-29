@@ -5,11 +5,13 @@
     <no-ssr><blocker-dialog :show="getIsPopupBlocking"/></no-ssr>
     <no-ssr><tx-dialog :show="getIsShowingTxPopup" :txId="getPendingTx" :isNewUser="!getUserIsRegistered" @onClose="closedTxDialog"/></no-ssr>
     <loading-toolbar :isLoading="getIsLoading" :isInTransaction="getIsInTransaction"/>
-    <error-toolbar :message="getErrorMsg" :icon="getErrorIcon"/>
+    <tx-toolbar :txHash="getPendingTx" :isInTx="getIsInTransaction" @onClose="closeTxToolbar"/>
+    <info-toolbar :message="getErrorMsg" :icon="getErrorIcon" @onClose="closeInfoToolbar"/>
   </div>
 </template>
 <script>
-import ErrorToolbar from '~/components/ErrorToolbar';
+import InfoToolbar from '~/components/InfoToolbar';
+import TxToolbar from '~/components/TxToolbar';
 import LoadingToolbar from '~/components/LoadingToolbar';
 import PopupDialog from '~/components/PopupDialog';
 import BlockerDialog from '~/components/BlockerDialog';
@@ -21,7 +23,8 @@ export default {
   props: ['disableError'],
   components: {
     LoadingToolbar,
-    ErrorToolbar,
+    InfoToolbar,
+    TxToolbar,
     PopupDialog,
     BlockerDialog,
     TxDialog,
@@ -43,6 +46,8 @@ export default {
   methods: {
     ...mapActions([
       'closedTxDialog',
+      'closeTxToolbar',
+      'closeInfoToolbar',
     ]),
   },
 };

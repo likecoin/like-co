@@ -28,3 +28,7 @@ export const setPageHeader = ({ commit }, payload) => {
 export const closedTxDialog = ({ commit }) => {
   commit(types.UI_CLOSE_TX_DIALOG);
 };
+
+export const closeInfoToolbar = ({ commit }) => {
+  commit(types.UI_ERROR_MSG, '');
+};

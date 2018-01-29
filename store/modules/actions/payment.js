@@ -9,15 +9,10 @@ export async function sendPayment({ commit }, payload) {
     commit(types.UI_START_BLOCKING_LOADING);
     const { txHash } = await apiWrapper(commit, api.apiPostPayment(payload));
     commit(types.UI_STOP_BLOCKING_LOADING);
-    const txUrl = `https://rinkeby.etherscan.io/tx/${txHash}`;
-    commit(types.UI_ERROR_ICON, 'attach_money');
-    commit(types.UI_ERROR_MSG, `Please wait for transaction to be mined. Check status: <a href="${txUrl}" target="_blank">${txUrl}</a>`);
-    commit(types.PAYMENT_SET_PENDING_HASH, txHash);
     commit(types.UI_START_LOADING_TX);
+    commit(types.PAYMENT_SET_PENDING_HASH, txHash);
     await EthHelper.waitForTxToBeMined(txHash);
-    commit(types.UI_STOP_LOADING);
-    commit(types.UI_ERROR_ICON, 'check');
-    commit(types.UI_ERROR_MSG, 'Transaction OK.');
+    commit(types.UI_STOP_LOADING_TX);
     return txHash;
   } catch (error) {
     commit(types.UI_STOP_LOADING);
@@ -35,13 +30,10 @@ export async function claimCoupon({ commit }, { coupon, to }) {
     commit(types.UI_START_BLOCKING_LOADING);
     const { txHash } = await apiWrapper(commit, api.apiClaimCoupon(coupon, to));
     commit(types.UI_STOP_BLOCKING_LOADING);
-    const txUrl = `https://rinkeby.etherscan.io/tx/${txHash}`;
-    commit(types.UI_ERROR_MSG, `Please wait for transaction to be mined. Check status: <a href="${txUrl}">${txUrl}</a>`);
     commit(types.UI_START_LOADING_TX);
+    commit(types.PAYMENT_SET_PENDING_HASH, txHash);
     await EthHelper.waitForTxToBeMined(txHash);
-    commit(types.UI_STOP_LOADING);
-    commit(types.UI_ERROR_ICON, 'check');
-    commit(types.UI_ERROR_MSG, 'Coupon Claimed.');
+    commit(types.UI_STOP_LOADING_TX);
   } catch (error) {
     commit(types.UI_STOP_LOADING);
     let message = error.message || error;
@@ -50,3 +42,8 @@ export async function claimCoupon({ commit }, { coupon, to }) {
     throw new Error(message);
   }
 }
+
+export const closeTxToolbar = ({ commit }) => {
+  commit(types.PAYMENT_SET_PENDING_HASH, '');
+};
+

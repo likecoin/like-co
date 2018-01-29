@@ -6,10 +6,11 @@ import {
   UI_POPUP_ERR,
   UI_POPUP_INFO,
   UI_START_LOADING,
+  UI_STOP_LOADING,
   UI_START_LOADING_TX,
+  UI_STOP_LOADING_TX,
   UI_START_BLOCKING_LOADING,
   UI_STOP_BLOCKING_LOADING,
-  UI_STOP_LOADING,
   UI_CLOSE_TX_DIALOG,
   UI_HEADER_UPDATE,
 } from '../mutation-types';
@@ -45,15 +46,18 @@ const mutations = {
     state.popupInfo = msg;
   },
   [UI_START_LOADING](state) {
-    state.isInTransaction = false;
     state.isLoading = true;
+  },
+  [UI_STOP_LOADING](state) {
+    state.isLoading = false;
   },
   [UI_START_LOADING_TX](state) {
     state.isInTransaction = true;
     state.isShowingTxPopup = true;
     state.isLoading = true;
   },
-  [UI_STOP_LOADING](state) {
+  [UI_STOP_LOADING_TX](state) {
+    state.isInTransaction = false;
     state.isLoading = false;
   },
   [UI_START_BLOCKING_LOADING](state) {
