@@ -20,6 +20,7 @@ const multer = Multer({
 });
 
 const ONE_DATE_IN_MS = 86400000;
+const W3C_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
 function uploadFile(file, newFilename) {
   return new Promise((resolve, reject) => {
@@ -75,6 +76,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       displayName,
       wallet,
       avatarSHA256,
+      email,
       ts,
     } = JSON.parse(payload);
 
@@ -86,6 +88,10 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
     // Check ts expire
     if (Math.abs(ts - Date.now()) > ONE_DATE_IN_MS) {
       throw new Error('payload expired');
+    }
+
+    if (email && !(W3C_EMAIL_REGEX.test(email))) {
+      throw new Error('invalid email');
     }
 
     // Check user/wallet uniqueness
@@ -129,6 +135,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       displayName,
       wallet,
     };
+    if (email) updateObj.email = email;
     if (url) updateObj.avatar = url;
     if (!isOldUser) updateObj.timestamp = Date.now();
     await dbRef.doc(user).set(updateObj, { merge: true });
