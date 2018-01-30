@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <form id="editForm" v-on:submit.prevent="onSubmitEdit">
+    <form id="editForm" @keydown.esc="onCancel" @submit.prevent="onSubmitEdit">
       <div class="md-layout">
         <div class="icon">
           <img class="avatar" :src="avatarData" />
@@ -11,10 +11,10 @@
           <div :class="[isProfileEdit ? 'edit-mode' : '', 'user-content']">LikeCoin ID:&nbsp;</div>
           <div :class="[isProfileEdit ? 'edit-mode' : '', 'user-content']">{{ user }}</div>
           <md-field :class="isProfileEdit ? 'md-field-edit-mode' : 'md-field-pre-edit'">
-            <md-input class="input-display-name input-display" v-model="displayName" required
-                                                               :disabled="!isProfileEdit"></md-input>
+            <md-input class="input-display-name input-display" v-model="displayName" ref="inputDisplayName"
+                                                   required :disabled="!isProfileEdit"></md-input>
             <md-button :class="isProfileEdit ? '' : 'input-display-btn'"
-                                                               @click="setEditProfileMode(true)"><img :src="EditIcon" /></md-button>
+                                                               @click="onEditDisplayName"><img :src="EditIcon" /></md-button>
           </md-field>
         </div>
       </div>
@@ -28,10 +28,11 @@
         </md-field>
         <div class="address-title">Your E-mail</div>
         <md-field :class="isProfileEdit ? 'md-field-edit-mode' : 'md-field-pre-edit'">
-          <label class="input-display-hint">add email address</label>
-          <md-input type="email" class="input-display input-info" v-model="email" :disabled="!isProfileEdit"></md-input>
+          <label class="input-display-hint">Add email address</label>
+          <md-input type="email" class="input-display input-info" v-model="email" ref="inputEmail"
+                                                                  :disabled="!isProfileEdit"></md-input>
           <md-button :class="isProfileEdit ? '' : 'input-display-btn'"
-                                          @click="setEditProfileMode(true)"><img :src="EditIcon" /></md-button>
+                                          @click="onEditEmail"><img :src="EditIcon" /></md-button>
         </md-field>
       </div>
       <div v-if="isProfileEdit" class="btn-container">
@@ -50,7 +51,8 @@
       <form id="redeemForm" v-on:submit.prevent="onSubmitCoupon">
         <md-field>
           <label class="input-redeem-hint">Redeem Code (Optional)</label>
-          <md-input v-model="couponCode" title="Please enter a valid coupon code" pattern="[2-9A-HJ-NP-Za-km-z]{8}" required ></md-input>
+          <md-input v-model="couponCode" title="Please enter a valid coupon code"
+            pattern="[2-9A-HJ-NP-Za-km-z]{8}" required :disabled="isProfileEdit"></md-input>
         </md-field>
         <div v-if="!isProfileEdit" id="form-btn">
           <md-button class="md-raised md-primary" id="confirm-btn" type="submit" form="redeemForm" :disabled="getIsInTransaction">Confirm</md-button>
@@ -118,8 +120,25 @@ export default {
       'checkCoupon',
       'refreshUserInfo',
     ]),
-    setEditProfileMode(isProfileEdit) {
-      this.isProfileEdit = isProfileEdit;
+    onEditDisplayName() {
+      if (this.isProfileEdit) {
+        this.$nextTick(() => this.$refs.inputDisplayName.$el.focus());
+        return;
+      }
+      this.isProfileEdit = !this.isProfileEdit;
+      if (this.isProfileEdit) {
+        this.$nextTick(() => this.$refs.inputDisplayName.$el.focus());
+      }
+    },
+    onEditEmail() {
+      if (this.isProfileEdit) {
+        this.$nextTick(() => this.$refs.inputEmail.$el.focus());
+        return;
+      }
+      this.isProfileEdit = !this.isProfileEdit;
+      if (this.isProfileEdit) {
+        this.$nextTick(() => this.$refs.inputEmail.$el.focus());
+      }
     },
     previewImage(event) {
       const { files } = event.target;
@@ -143,13 +162,13 @@ export default {
       this.likeCoinValueStr = new BigNumber(balance).dividedBy(ONE_LIKE).toFixed(4);
     },
     openPicker() {
-      this.setEditProfileMode(true);
+      this.isProfileEdit = true;
       this.$refs.inputFile.click();
     },
     onCancel() {
       this.avatarFile = null;
       this.updateInfo();
-      this.setEditProfileMode(false);
+      this.isProfileEdit = false;
     },
     async onSubmitEdit() {
       try {
@@ -167,7 +186,7 @@ export default {
       } catch (err) {
         console.error(err);
       }
-      this.setEditProfileMode(false);
+      this.isProfileEdit = false;
     },
     async onSubmitCoupon() {
       try {
@@ -199,7 +218,7 @@ $profile-margin: 48px;
     margin-top: 20px;
     width: 40%;
   }
-  
+
   .edit-mode {
     opacity: 0.3;
   }
@@ -233,10 +252,10 @@ $profile-margin: 48px;
       height: 1px;
     }
     label {
-      top: 8px;
       font-size: 20px;
     }
     .input-info {
+      height: auto;
       font-size: 20px;
     }
   }
@@ -260,10 +279,10 @@ $profile-margin: 48px;
       opacity: 0.3;
     }
     label {
-      top: 8px;
       font-size: 20px;
     }
     .input-info {
+      height: auto;
       font-size: 20px;
     }
   }
@@ -313,7 +332,7 @@ $profile-margin: 48px;
   .md-has-value .input-display-hint {
     opacity: 0;
   }
-   
+
   .md-focused .input-display-hint {
     opacity: 0;
   }
