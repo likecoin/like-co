@@ -9,6 +9,7 @@
           <md-button class="value-button" @click="onAmountAdd(-1)"><md-icon class="md-size-2x">remove</md-icon></md-button>
           <md-input id="payment-input"
             pattern="[0-9]*(\.[0-9]*)?"
+            title="Please enter a valid decimal number"
             :value="amount"
             @keypress="onAmountKeypress"
             @input="onAmountInput"

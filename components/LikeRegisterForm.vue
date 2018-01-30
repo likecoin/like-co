@@ -32,7 +32,7 @@
       </md-field>
       <md-field v-if="isRedeem || isEdit">
         <label><span v-if="isEdit"> Claim </span> Coupon Code (Optional)</label>
-        <md-input v-model="couponCode"></md-input>
+        <md-input v-model="couponCode" pattern="[2-9A-HJ-NP-Za-km-z]{8}"></md-input>
       </md-field>
       <div id="form-btn">
         <md-button class="md-raised md-primary" id="confirm-btn" type="submit" form="registerForm" :disabled="getIsPopupBlocking">Confirm</md-button>

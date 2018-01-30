@@ -79,6 +79,7 @@ export default {
 
 .md-dialog {
   max-width: 500px;
+  min-width: 400px;
   min-height: 188px;
   border-radius: 6px;
   overflow: hidden;

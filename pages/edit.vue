@@ -29,7 +29,7 @@
         <div class="address-title">Your E-mail</div>
         <md-field :class="isProfileEdit ? 'md-field-edit-mode' : 'md-field-pre-edit'">
           <label class="input-display-hint">add email address</label>
-          <md-input class="input-display input-info" v-model="email" :disabled="!isProfileEdit"></md-input>
+          <md-input type="email" class="input-display input-info" v-model="email" :disabled="!isProfileEdit"></md-input>
           <md-button :class="isProfileEdit ? '' : 'input-display-btn'"
                                           @click="setEditProfileMode(true)"><img :src="EditIcon" /></md-button>
         </md-field>
@@ -50,7 +50,7 @@
       <form id="redeemForm" v-on:submit.prevent="onSubmitCoupon">
         <md-field>
           <label class="input-redeem-hint">Redeem Code (Optional)</label>
-          <md-input v-model="couponCode" required ></md-input>
+          <md-input v-model="couponCode" title="Please enter a valid coupon code" pattern="[2-9A-HJ-NP-Za-km-z]{8}" required ></md-input>
         </md-field>
         <div v-if="!isProfileEdit" id="form-btn">
           <md-button class="md-raised md-primary" id="confirm-btn" type="submit" form="redeemForm" :disabled="getIsInTransaction">Confirm</md-button>
