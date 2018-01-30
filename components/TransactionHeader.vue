@@ -2,7 +2,7 @@
   <section class="section-avatar">
     <div class="heading">
       <section v-if="!isNotFound">
-        <span class="send-state">{{ isPending ? "Sending" : "Sended" }}</span>
+        <span class="send-state">{{ isPending ? "Sending" : "Sent" }}</span>
         <span v-if="amount" class="amount">{{ amount }} LikeCoin </span>
         <span v-if="name" class="user-section">to <span class="usertitle">{{ name }}</span></span>
       </section>

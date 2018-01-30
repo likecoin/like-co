@@ -45,7 +45,7 @@ export default {
           text = 'Plugin require';
           break;
         case 'testnet':
-          text = 'Please switch back to main network ';
+          text = 'Please switch back to rinkeby network ';
           break;
         case 'locked':
           text = 'Please Unlock MetaMask';

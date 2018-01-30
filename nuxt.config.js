@@ -5,12 +5,15 @@ module.exports = {
   /*
   ** Headers of the page
   */
+  env: {
+    INTERCOM_APPID: process.env.INTERCOM_APPID,
+  },
   head: {
     title: 'LikeStore - payment by likecoin',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Easy paymeny by Likecoin, the settlement currency for Creative Contents' },
+      { hid: 'description', name: 'description', content: 'Easy payment by Likecoin, the settlement currency for Creative Contents' },
       { hid: 'og_image', property: 'og:image', content: 'https://likecoin.foundation/static/logo.png' },
     ],
     link: [
@@ -49,6 +52,7 @@ module.exports = {
   plugins: [
     { src: '~/plugins/vue-material' },
     { src: '~/plugins/EthHelper', ssr: false },
+    { src: '~/plugins/vue-intercom', ssr: false },
   ],
   /*
   ** Add axios globally
@@ -68,14 +72,12 @@ module.exports = {
         });
         // eslint-disable-next-line no-param-reassign
         config.plugins = config.plugins.filter(plugin => plugin.constructor.name !== 'UglifyJsPlugin');
-        const uglifier = new UglifyJSWebpackPlugin({
-          parallel: true,
-          uglifyOptions: {
-            compress: !ctx.isDev, // hangs at 91% if enable
-          },
-          cache: path.join(__dirname, 'webpack-cache/uglify-cache'),
-        });
-        if (!ctx.isDev) config.plugins.push(uglifier);
+        if (!ctx.isDev) {
+          const uglifier = new UglifyJSWebpackPlugin({
+            parallel: true,
+            cache: path.join(__dirname, 'webpack-cache/uglify-cache'),
+          }); config.plugins.push(uglifier);
+        }
       }
     },
   },

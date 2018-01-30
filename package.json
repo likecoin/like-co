@@ -29,6 +29,7 @@
     "source-map-support": "^0.4.15",
     "uglifyjs-webpack-plugin": "^1.1.6",
     "vue": "^2.5.3",
+    "vue-intercom": "^1.0.12",
     "vue-material": "beta",
     "vue-server-renderer": "^2.5.3",
     "vue-template-compiler": "^2.5.3",
