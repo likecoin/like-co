@@ -34,11 +34,13 @@
     data() {
       return {
         showDialog: this.show,
-        defaultActionRoute: { name: 'tx-id', params: { id: this.txId } },
         defaultActionText: 'View Transaction',
       };
     },
     computed: {
+      defaultActionRoute() {
+        return { name: 'tx-id', params: { id: this.txId } };
+      },
       actionRoute() {
         return this.txDialogActionRoute || this.defaultActionRoute;
       },
