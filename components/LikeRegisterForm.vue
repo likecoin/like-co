@@ -10,7 +10,7 @@
         <div class="md-layout md-layout-item">
           <div class="md-layout-item">
             <md-field>
-              <label>Please pick your unique ID</label>
+              <label>Create a LikeCoin ID* (minimum 7 character)</label>
               <md-input v-model="user" pattern="[a-z0-9-_]{7,20}" :disabled="isEdit" @change="user=user.toLowerCase()"
                 title="Please enter at least 7 alphanumeric characters" required />
             </md-field>
@@ -23,17 +23,21 @@
               Amount of LikeCoin:
               <a :href="`https://rinkeby.etherscan.io/address/${wallet}#tokentxns`" target="_blank">{{ likeCoinBalance }}</a>
             </div>
+            <md-field>
+              <label>Email (Optional)</label>
+              <md-input type="email" v-model="email" />
+            </md-field>
+            <md-field v-if="isEdit">
+              <label>Display Name</label>
+              <md-input v-model="displayName" required></md-input>
+            </md-field>
+            <md-field v-if="isRedeem || isEdit">
+              <label><span v-if="isEdit"> Claim </span> Coupon Code (Optional)</label>
+              <md-input v-model="couponCode" pattern="[2-9A-HJ-NP-Za-km-z]{8}"></md-input>
+            </md-field>
           </div>
         </div>
       </div>
-      <md-field v-if="isEdit">
-        <label>Display Name</label>
-        <md-input v-model="displayName" required></md-input>
-      </md-field>
-      <md-field v-if="isRedeem || isEdit">
-        <label><span v-if="isEdit"> Claim </span> Coupon Code (Optional)</label>
-        <md-input v-model="couponCode" pattern="[2-9A-HJ-NP-Za-km-z]{8}"></md-input>
-      </md-field>
       <div id="form-btn">
         <md-button class="md-raised md-primary" id="confirm-btn" type="submit" form="registerForm" :disabled="getIsPopupBlocking">Confirm</md-button>
       </div>
@@ -62,6 +66,7 @@ export default {
       avatar: null,
       avatarData: null,
       user: '',
+      email: '',
       displayName: '',
       couponCode: '',
       likeCoinBalance: NaN,
@@ -116,6 +121,7 @@ export default {
       const user = this.getUserInfo;
       this.user = user.user;
       this.displayName = user.displayName;
+      this.email = user.email;
       this.avatarData = user.avatar;
     },
     openPicker() {
@@ -135,6 +141,7 @@ export default {
           avatarFile: this.avatarFile,
           user: this.user,
           wallet: this.wallet,
+          email: this.email,
         };
         const data = await User.formatAndSignUserInfo(userInfo);
         await this.newUser(data);
@@ -183,7 +190,7 @@ export default {
 
 #registerForm {
   background-color: #f7f7f7;
-  padding: 40px 20px 20px 20px;
+  padding: 40px;
   margin-top: -20px;
 }
 
