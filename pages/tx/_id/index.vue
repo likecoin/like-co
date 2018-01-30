@@ -5,7 +5,7 @@
     <div class="tx-container" v-if="!isNotFound">
       <section class="tx-info">
         <section v-if="toId" class="section-container">
-          <div class="key">Recipient Display Name</div>
+          <div class="key">Recipients LikeCoin ID</div>
           <nuxt-link :to="{ name: 'pay-id', params: { id: toId } }">
             <div class="address value">{{ toId }}</div>
           </nuxt-link>

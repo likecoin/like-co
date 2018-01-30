@@ -35,6 +35,17 @@ $small-padding: 16px;
   }
 }
 
+@media (max-width: 1024px) {
+  .container {
+    .landing .upper-left-corner {
+      width: 75%;
+      height: 680px;
+      margin-bottom: -680px;
+    }
+  }
+}
+
+
 @media (max-width: 768px) {
   .container {
     > * {
@@ -43,10 +54,7 @@ $small-padding: 16px;
     }
     .landing .upper-left-corner {
       margin-left: -$mid-padding;
-    }
-
-    .upper-left-corner {
-      height: 800px;
+      width: 95%;
     }
 
     .section-title-wrapper {

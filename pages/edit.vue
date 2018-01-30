@@ -309,14 +309,14 @@ $profile-margin: 48px;
     width: 50%;
     float: left;
   }
-  
+
   .btn-container {
     margin: 17px 41px;
     width: 30%;
     float: left;
     padding-top: 56px;
   }
-  
+
   .address-title {
     font-size: 14px;
     margin: 5px -5px;
@@ -357,7 +357,7 @@ $profile-margin: 48px;
     height: 100%;
     width: auto;
   }
-  
+
   .icon {
     position: relative;
     width: 128px;
@@ -367,7 +367,7 @@ $profile-margin: 48px;
     margin-right: $profile-margin;
     border-radius: 50%;
   }
-  
+
   .icon .md-button {
     position: absolute;
     top: 0;
@@ -378,11 +378,11 @@ $profile-margin: 48px;
     width: 100%;
     margin: auto;
   }
-  
+
   .icon .md-button:hover {
     color: white;
   }
-  
+
   input[type="file"] {
     width: 1px;
     height: 1px;
@@ -395,11 +395,44 @@ $profile-margin: 48px;
   }
 }
 
+@media (max-width: 1280px) {
+  #editForm {
+    margin-right: 24px;
+    margin-left: 24px;
+    .user-container {
+      width: 50%;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  #editForm {
+    margin-right: 16px;
+    margin-left: 16px;
+    .user-container {
+      flex:1;
+    }
+    .icon {
+      margin-left: 36px;
+      margin-right: 36px;
+    }
+    .address-container {
+      width: 60%;
+    }
+  }
+}
+
 @media (max-width: 768px) {
   #editForm {
-    .user-container {
-      width: 90%;
-	}
+    margin-right: 6px;
+    margin-left: 6px;
+    .icon {
+      margin-left: 24px;
+      margin-right: 24px;
+    }
+    .address-container {
+      width: 80%;
+    }
   }
 }
 

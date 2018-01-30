@@ -91,4 +91,11 @@ a {
   flex: 1;
 }
 
+@media (max-width: 768px) {
+  .md-dialog {
+    position: absolute;
+    min-width: 350px;
+  }
+}
+
 </style>
