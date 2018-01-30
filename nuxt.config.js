@@ -49,6 +49,11 @@ module.exports = {
     { src: '~/assets/theme.scss', lang: 'scss' }, // include vue-material theme engine
     { src: '~/assets/index.scss', lang: 'scss' },
   ],
+  modules: (process.env.GA_TRACKING_ID) ? [
+    ['@nuxtjs/google-analytics', {
+      id: process.env.GA_TRACKING_ID,
+    }],
+  ] : [],
   plugins: [
     { src: '~/plugins/vue-material' },
     { src: '~/plugins/EthHelper', ssr: false },

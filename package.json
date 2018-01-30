@@ -12,6 +12,7 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore ."
   },
   "dependencies": {
+    "@nuxtjs/google-analytics": "^2.0.2",
     "abi-decoder": "^1.0.9",
     "axios": "^0.16.2",
     "bignumber.js": "^5.0.0",
