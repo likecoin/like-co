@@ -23,3 +23,7 @@ export const getDesc = state => state.description;
 export const getHeaderSubtitle = state => state.headerSubtitle;
 
 export const getMetamaskError = state => state.metamaskError;
+
+export const getTxDialogRouteTo = state => state.txDialogRouteTo;
+
+export const getTxDialogRouteText = state => state.txDialogRouteText;

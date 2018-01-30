@@ -15,6 +15,7 @@ import {
   UI_STOP_ALL_LOADING,
   UI_CLOSE_TX_DIALOG,
   UI_HEADER_UPDATE,
+  UI_SET_TX_DIALOG_ACTION,
 } from '../mutation-types';
 import * as getters from './getters/ui';
 import * as actions from './actions/ui';
@@ -33,6 +34,8 @@ const state = {
   isLoading: false,
   isBlocking: false,
   isShowingTxPopup: false,
+  txDialogRouteTo: null,
+  txDialogRouteText: '',
 };
 
 const mutations = {
@@ -95,6 +98,14 @@ const mutations = {
     if (title !== undefined) state.headerTitle = title;
     if (subtitle !== undefined) state.headerSubtitle = subtitle;
     if (description !== undefined) state.description = description;
+  },
+  [UI_SET_TX_DIALOG_ACTION](state, payload) {
+    const {
+      txDialogRouteTo,
+      txDialogRouteText,
+    } = payload;
+    if (txDialogRouteTo !== undefined) state.txDialogRouteTo = txDialogRouteTo;
+    if (txDialogRouteText !== undefined) state.txDialogRouteText = txDialogRouteText;
   },
 };
 

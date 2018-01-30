@@ -19,7 +19,7 @@
               <md-input v-model="wallet" maxlength="42" required disabled />
               <span v-if="isBadAddress" class="md-error">Invalid address format</span>
             </md-field>
-            <div v-if="isEdit && !isNaN(likeCoinBalance)">
+            <div v-if="isEdit && !isNaN(likeCoinBalance) && !isRedeemingCoupon">
               Amount of LikeCoin:
               <a :href="`https://rinkeby.etherscan.io/address/${wallet}#tokentxns`" target="_blank">{{ likeCoinBalance }}</a>
             </div>
@@ -27,7 +27,7 @@
               <label>Email (Optional)</label>
               <md-input type="email" v-model="email" />
             </md-field>
-            <md-field v-if="isEdit">
+            <md-field v-if="isEdit && !isRedeemingCoupon">
               <label>Display Name</label>
               <md-input v-model="displayName" required></md-input>
             </md-field>
@@ -85,6 +85,9 @@ export default {
       'getUserInfo',
       'getIsPopupBlocking',
     ]),
+    isRedeemingCoupon() {
+      return this.couponCode;
+    },
   },
   methods: {
     ...mapActions([
@@ -94,6 +97,7 @@ export default {
       'setInfoMsg',
       'checkCoupon',
       'isUser',
+      'setTxDialogAction',
     ]),
     async setMyLikeCoin(wallet) {
       this.wallet = wallet;
@@ -147,6 +151,7 @@ export default {
         await this.newUser(data);
         await this.isUser(this.wallet);
         if (this.couponCode) {
+          this.setTxDialogAction({ txDialogRouteTo: { name: 'edit' }, txDialogRouteText: 'View Account' });
           await this.$refs.claimDialog.onSubmit();
         } else {
           this.setInfoMsg(`Your information have been updated,  <a href="/pay/${this.user}">view your page</a>`);
@@ -171,6 +176,13 @@ export default {
         }
       }, 2000);
     }
+  },
+  watch: {
+    isEdit(e) {
+      if (e && !this.isRedeemingCoupon) {
+        this.$router.replace({ name: 'edit' });
+      }
+    },
   },
 };
 

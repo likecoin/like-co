@@ -19,8 +19,9 @@
       <a href="https://likecoin.foundation/" target="_blank">
         <md-button class="primary md-primary md-raised">Buy LikeCoin</md-button>
       </a>
-      <nuxt-link :to="{ name: 'tx-id', params: { id: txId } }">
-        <md-button class="secondary md-primary md-raised" @click="$emit('onClose')">View Transaction</md-button>
+      <nuxt-link :to="txDialogRouteTo || defaultRouteTo">
+        <md-button class="secondary md-primary md-raised" @click="$emit('onClose')">
+            {{ txDialogRouteText || defaultRouteText }}</md-button>
       </nuxt-link>
     </section>
   </md-dialog>
@@ -29,10 +30,12 @@
 <script>
   export default {
     name: 'txDialog',
-    props: ['show', 'txId', 'isNewUser'],
+    props: ['show', 'txId', 'isNewUser', 'txDialogRouteTo', 'txDialogRouteText'],
     data() {
       return {
         showDialog: this.show,
+        defaultRouteTo: { name: 'tx-id', params: { id: this.txId } },
+        defaultRouteText: 'View Transaction',
       };
     },
     watch: {
