@@ -227,8 +227,10 @@ class EthHelper {
   async signNewUser(payload) {
     if (!this.isMetaMask) return Promise.reject(new Error('No MetaMask'));
     const from = this.getWallet();
+    if (this.onSign) this.onSign();
     const signData = EthHelper.genTypedSignNewUser(payload);
     const rawSignature = await this.signTyped(signData, from);
+    if (this.onSigned) this.onSigned();
     if (!rawSignature) return Promise.reject(new Error('Signing Rejected'));
     return rawSignature;
   }
