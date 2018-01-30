@@ -23,23 +23,11 @@ import chromeIcon from '../assets/icons/chrome.png';
 
 export default {
   name: 'ChromeDialog',
+  props: ['show'],
   data() {
     return {
-      show: false,
       icon: chromeIcon,
     };
-  },
-  methods: {
-    checkIsDesktopChrome() {
-      const ua = window.navigator.userAgent;
-      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)) {
-        return false;
-      }
-      return (/Chrome/i.test(ua));
-    },
-  },
-  mounted() {
-    this.show = !this.checkIsDesktopChrome();
   },
 };
 </script>
