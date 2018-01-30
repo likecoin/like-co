@@ -35,7 +35,7 @@ export const setPageHeader = ({ commit }, payload) => {
 
 export const closeTxDialog = ({ commit }) => {
   commit(types.UI_CLOSE_TX_DIALOG);
-  commit(types.UI_SET_TX_DIALOG_ACTION, { txDialogRouteTo: null, txDialogRouteText: '' });
+  commit(types.UI_SET_TX_DIALOG_ACTION, { txDialogActionRoute: null, txDialogActionText: '' });
 };
 
 export const closeInfoToolbar = ({ commit }) => {

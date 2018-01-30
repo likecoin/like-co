@@ -24,6 +24,6 @@ export const getHeaderSubtitle = state => state.headerSubtitle;
 
 export const getMetamaskError = state => state.metamaskError;
 
-export const getTxDialogRouteTo = state => state.txDialogRouteTo;
+export const getTxDialogActionRoute = state => state.txDialogActionRoute;
 
-export const getTxDialogRouteText = state => state.txDialogRouteText;
+export const getTxDialogActionText = state => state.txDialogActionText;

@@ -151,7 +151,7 @@ export default {
         await this.newUser(data);
         await this.isUser(this.wallet);
         if (this.couponCode) {
-          this.setTxDialogAction({ txDialogRouteTo: { name: 'edit' }, txDialogRouteText: 'View Account' });
+          this.setTxDialogAction({ txDialogActionRoute: { name: 'edit' }, txDialogActionText: 'View Account' });
           await this.$refs.claimDialog.onSubmit();
         } else {
           this.setInfoMsg(`Your information have been updated,  <a href="/pay/${this.user}">view your page</a>`);

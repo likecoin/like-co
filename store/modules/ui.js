@@ -34,8 +34,8 @@ const state = {
   isLoading: false,
   isBlocking: false,
   isShowingTxPopup: false,
-  txDialogRouteTo: null,
-  txDialogRouteText: '',
+  txDialogActionRoute: null,
+  txDialogActionText: '',
 };
 
 const mutations = {
@@ -101,11 +101,11 @@ const mutations = {
   },
   [UI_SET_TX_DIALOG_ACTION](state, payload) {
     const {
-      txDialogRouteTo,
-      txDialogRouteText,
+      txDialogActionRoute,
+      txDialogActionText,
     } = payload;
-    if (txDialogRouteTo !== undefined) state.txDialogRouteTo = txDialogRouteTo;
-    if (txDialogRouteText !== undefined) state.txDialogRouteText = txDialogRouteText;
+    if (txDialogActionRoute !== undefined) state.txDialogActionRoute = txDialogActionRoute;
+    if (txDialogActionText !== undefined) state.txDialogActionText = txDialogActionText;
   },
 };
 
