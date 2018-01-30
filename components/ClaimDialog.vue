@@ -1,10 +1,15 @@
 <template>
-  <md-dialog 
-      :md-active.sync="showDialog">
+  <md-dialog
+    :md-active.sync="showDialog"
+    :md-close-on-esc="false"
+    :md-click-outside-to-close="false"
+    :md-fullscreen="false">
     <div class="title-bar" />
     <md-dialog-title v-if="title">{{ title }}</md-dialog-title>
-    <md-dialog-content v-if="confirmContent" v-html="confirmContent" />
-
+    <md-dialog-content v-if="confirmContent">
+      <md-icon v-if="isError">error</md-icon>
+      <span v-html="confirmContent"></span>
+    </md-dialog-content>
     <section>
       <md-button id="btn-confirm" class="md-primary" @click="onConfirm">Confirm</md-button>
       <md-button id="btn-cancel" class="md-primary" @click="onCancel">Cancel</md-button>
@@ -21,7 +26,7 @@ export default {
   data() {
     return {
       showDialog: false,
-      title: 'Claim coupon',
+      isError: false,
       confirmContent: '',
       onConfirm: () => {},
     };
@@ -30,6 +35,9 @@ export default {
     ...mapGetters([
       'getIsShowingTxPopup',
     ]),
+    title() {
+      return this.isError ? 'Coupon Error' : 'Claim coupon';
+    },
   },
   methods: {
     ...mapActions([
@@ -44,8 +52,9 @@ export default {
     },
     async onSubmit() {
       if (this.couponCode) {
-        this.showDialog = true;
+        this.isError = false;
         this.confirmContent = 'Loading coupon content...';
+        this.showDialog = true;
         try {
           const { value } = await this.checkCoupon(this.couponCode);
           if (!value) throw new Error('Invalid coupon');
@@ -59,15 +68,17 @@ export default {
                 this.$router.push({ name: 'tx-id', params: { id: txHash } });
               }
             } catch (error) {
-              this.showDialog = true;
-              this.confirmContent = `Error: ${error.message || error || 'Invalid coupon code'}! Redirecting to your account page...`;
+              this.isError = true;
+              this.confirmContent = `Error: ${error.message || error || 'Invalid coupon code'}! <br /> Redirecting to your account page...`;
               this.onConfirm = this.onCancel;
+              this.showDialog = true;
             }
           };
         } catch (error) {
-          this.showDialog = true;
-          this.confirmContent = `Error: ${error.message || error || 'Invalid coupon code'}! Redirecting to your account page...`;
+          this.isError = true;
+          this.confirmContent = `Error: ${error.message || error || 'Invalid coupon code'}!  <br /> Redirecting to your account page...`;
           this.onConfirm = this.onCancel;
+          this.showDialog = true;
         }
       }
     },

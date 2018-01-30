@@ -2,6 +2,7 @@
   <md-toolbar class="md-layout" v-if="message" >
     <md-icon v-if="isError">error</md-icon>
     <md-icon v-else>check</md-icon>
+    Error:
     <div class="md-layout-item" v-html="message" />
     <md-button class="md-icon-button" @click="$emit('onClose')"><md-icon>close</md-icon></md-button>
   </md-toolbar>

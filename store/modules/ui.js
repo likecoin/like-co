@@ -12,6 +12,7 @@ import {
   UI_STOP_LOADING_TX,
   UI_START_BLOCKING_LOADING,
   UI_STOP_BLOCKING_LOADING,
+  UI_STOP_ALL_LOADING,
   UI_CLOSE_TX_DIALOG,
   UI_HEADER_UPDATE,
 } from '../mutation-types';
@@ -66,6 +67,11 @@ const mutations = {
   [UI_STOP_LOADING_TX](state) {
     state.isInTransaction = false;
     state.isLoading = false;
+  },
+  [UI_STOP_ALL_LOADING](state) {
+    state.isInTransaction = false;
+    state.isLoading = false;
+    state.isBlocking = false;
   },
   [UI_START_BLOCKING_LOADING](state) {
     state.isLoading = true;

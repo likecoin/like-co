@@ -15,7 +15,7 @@ export async function sendPayment({ commit }, payload) {
     commit(types.UI_STOP_LOADING_TX);
     return txHash;
   } catch (error) {
-    commit(types.UI_STOP_LOADING);
+    commit(types.UI_STOP_ALL_LOADING);
     commit(types.UI_ERROR_MSG, error.message || error);
     throw error;
   }
@@ -36,7 +36,7 @@ export async function claimCoupon({ commit }, { coupon, to }) {
     commit(types.UI_STOP_LOADING_TX);
     return txHash;
   } catch (error) {
-    commit(types.UI_STOP_LOADING);
+    commit(types.UI_STOP_ALL_LOADING);
     let message = error.message || error;
     if (error.message === 'expired') message = 'Error: Coupon already expire';
     commit(types.UI_ERROR_MSG, message);
