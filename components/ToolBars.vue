@@ -7,7 +7,9 @@
       <metamask-dialog v-else :case="getMetamaskError"/>
     </no-ssr>
     <no-ssr><blocker-dialog :show="getIsPopupBlocking"/></no-ssr>
-    <no-ssr><tx-dialog :show="getIsShowingTxPopup" :txId="getPendingTx" :isNewUser="!getUserIsRegistered" @onClose="closeTxDialog"/></no-ssr>
+    <no-ssr><tx-dialog :show="getIsShowingTxPopup" :txId="getPendingTx"
+                     :isNewUser="!getUserIsRegistered" :txDialogActionRoute="getTxDialogActionRoute"
+                     :txDialogActionText="getTxDialogActionText" @onClose="closeTxDialog"/></no-ssr>
     <loading-toolbar :isLoading="getIsLoading" :isInTransaction="getIsInTransaction"/>
     <tx-toolbar v-if="getPendingTx" :txHash="getPendingTx" :isInTx="getIsInTransaction" @onClose="closeTxToolbar"/>
     <info-toolbar v-if="getInfoMsg" :message="getInfoMsg" :isError="getInfoIsError" @onClose="closeInfoToolbar"/>
@@ -53,6 +55,8 @@ export default {
       'getUserIsRegistered',
       'getPendingTx',
       'getMetamaskError',
+      'getTxDialogActionRoute',
+      'getTxDialogActionText',
     ]),
   },
   methods: {

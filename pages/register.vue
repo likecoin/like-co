@@ -30,12 +30,5 @@ export default {
       isEdit: 'getUserIsRegistered',
     }),
   },
-  watch: {
-    isEdit(e) {
-      if (e) {
-        this.$router.replace({ name: 'edit' });
-      }
-    },
-  },
 };
 </script>
