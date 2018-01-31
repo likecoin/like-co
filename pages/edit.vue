@@ -181,7 +181,7 @@ export default {
         };
         const data = await User.formatAndSignUserInfo(userInfo);
         await this.newUser(data);
-        this.setInfoMsg(`Your information have been updated,  <a href="/pay/${this.user}">view your page</a>`);
+        this.setInfoMsg(`Your information have been updated,  <a href="/${this.user}">view your page</a>`);
         this.refreshUserInfo(this.user);
       } catch (err) {
         console.error(err);

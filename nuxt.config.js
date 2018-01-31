@@ -10,11 +10,13 @@ module.exports = {
     IS_TESTNET: process.env.IS_TESTNET,
   },
   head: {
-    title: 'LikeStore - payment by likecoin',
+    title: 'LikeCoin Store',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Easy payment by Likecoin, the settlement currency for Creative Contents' },
+      { hid: 'description', name: 'description', content: 'send and receive LikeCoin' },
+      { hid: 'og_title', property: 'og:title', content: 'LikeCoin Store' },
+      { hid: 'og_description', property: 'og:description', content: 'send and receive LikeCoin' },
       { hid: 'og_image', property: 'og:image', content: 'https://likecoin.foundation/static/logo.png' },
     ],
     link: [
@@ -29,10 +31,10 @@ module.exports = {
   loading: { color: '#448aff' },
   router: {
     extendRoutes(routes, resolve) {
-      routes.unshift({
+      routes.push({
         name: 'idWithAmount',
-        path: '/pay/:id/:amount?',
-        component: resolve(__dirname, 'pages/pay/_id/index.vue'),
+        path: '/:id/:amount?',
+        component: resolve(__dirname, 'pages/_id/index.vue'),
       });
       routes.unshift({
         name: 'index',
@@ -82,7 +84,8 @@ module.exports = {
           const uglifier = new UglifyJSWebpackPlugin({
             parallel: true,
             cache: path.join(__dirname, 'webpack-cache/uglify-cache'),
-          }); config.plugins.push(uglifier);
+          });
+          config.plugins.push(uglifier);
         }
       }
     },

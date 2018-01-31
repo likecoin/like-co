@@ -28,7 +28,7 @@ import { mapGetters } from 'vuex';
 export default {
   data() {
     return {
-      title: 'Create Account and Redeem',
+      title: 'Create LikeCoin ID and Redeem',
     };
   },
   components: {

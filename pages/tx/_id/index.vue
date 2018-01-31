@@ -6,7 +6,7 @@
       <section class="tx-info">
         <section v-if="toId" class="section-container">
           <div class="key">Recipient LikeCoin ID</div>
-          <nuxt-link :to="{ name: 'pay-id', params: { id: toId } }">
+          <nuxt-link :to="{ name: 'id', params: { id: toId } }">
             <div class="address value">{{ toId }}</div>
           </nuxt-link>
         </section>
@@ -20,7 +20,7 @@
       <section class="extra tx-info">
         <section v-if="fromId" class="section-container">
           <div class="key">Sender Display Name</div>
-          <nuxt-link :to="{ name: 'pay-id', params: { id: fromId } }">
+          <nuxt-link :to="{ name: 'id', params: { id: fromId } }">
             <div class="address value">{{ fromId }}</div>
           </nuxt-link>
         </section>

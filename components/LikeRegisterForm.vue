@@ -155,7 +155,7 @@ export default {
           this.setTxDialogAction({ txDialogActionRoute: { name: 'edit' }, txDialogActionText: 'View Account' });
           await this.$refs.claimDialog.onSubmit();
         } else {
-          this.setInfoMsg(`Your information have been updated,  <a href="/pay/${this.user}">view your page</a>`);
+          this.setInfoMsg(`Your information have been updated,  <a href="/${this.user}">view your page</a>`);
         }
       } catch (err) {
         console.error(err);
