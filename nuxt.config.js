@@ -7,6 +7,7 @@ module.exports = {
   */
   env: {
     INTERCOM_APPID: process.env.INTERCOM_APPID,
+    IS_TESTNET: process.env.IS_TESTNET,
   },
   head: {
     title: 'LikeStore - payment by likecoin',

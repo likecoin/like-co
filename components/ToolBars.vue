@@ -2,7 +2,7 @@
   <div class="toolbars">
     <popup-dialog v-if="!disableError" :allowClose="false" header="Error" :message="getPopupError"/>
     <popup-dialog :allowClose="true" header="Info" :message="getPopupInfo"/>
-    <no-ssr v-if="!disableError">
+    <no-ssr v-if="!(disableError && getMetamaskError!=='testnet')">
       <chrome-dialog v-if="showShowChromeDialog" :show="showShowChromeDialog"/>
       <metamask-dialog v-else :case="getMetamaskError"/>
     </no-ssr>

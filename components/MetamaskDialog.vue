@@ -22,7 +22,10 @@
 <script>
 import metamaskIcon from '../assets/icons/metamask.svg';
 import metamaskNetImg from '../assets/img/meta_net.png';
+import metamaskTestNetImg from '../assets/img/meta_testnet.png';
 import metamaskUnlockImg from '../assets/img/meta_unlock.png';
+
+const isTestNet = process.env.IS_TESTNET;
 
 export default {
   name: 'MetamaskDialog',
@@ -30,8 +33,7 @@ export default {
   data() {
     return {
       icon: metamaskIcon,
-      metamaskNetImg,
-      metamaskUnlockImg,
+      metamaskNetImg: isTestNet ? metamaskTestNetImg : metamaskNetImg,
     };
   },
   computed: {
@@ -45,7 +47,7 @@ export default {
           text = 'Plugin require';
           break;
         case 'testnet':
-          text = 'Please switch back to rinkeby network ';
+          text = `Please switch back to ${isTestNet ? 'Rinkeby' : 'Main'} network`;
           break;
         case 'locked':
           text = 'Please Unlock MetaMask';
@@ -81,7 +83,7 @@ export default {
     image() {
       switch (this.case) {
         case 'testnet':
-          return metamaskNetImg;
+          return this.metamaskNetImg;
         case 'locked':
           return metamaskUnlockImg;
         default:
