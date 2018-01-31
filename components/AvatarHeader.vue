@@ -7,11 +7,11 @@
       <img alt="avatar" class="main-icon" :src="icon || defaultIcon" />
     </div>
     <section v-if="id" class="address-container">
-      <div class="address-title">Recipients LikeCoin ID</div>
+      <div class="address-title">Recipient LikeCoin ID</div>
       <div class="address-content">{{ id }}</div>
     </section>
     <section v-if="address" class="address-container">
-      <div class="address-title">Recipients Address</div>
+      <div class="address-title">Recipient Address</div>
       <div class="address-content">{{ address }}</div>
     </section>
   </section>

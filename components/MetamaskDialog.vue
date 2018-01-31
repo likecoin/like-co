@@ -44,13 +44,13 @@ export default {
       let text;
       switch (this.case) {
         case 'web3':
-          text = 'Plugin require';
+          text = 'Plugin required';
           break;
         case 'testnet':
-          text = `Please switch back to ${isTestNet ? 'Rinkeby' : 'Main'} network`;
+          text = `Please switch to ${isTestNet ? 'Rinkeby' : 'Main'} network`;
           break;
         case 'locked':
-          text = 'Please Unlock MetaMask';
+          text = 'Please unlock Metamask';
           break;
         case 'sign':
           text = 'Sign on Metamask';
@@ -64,16 +64,16 @@ export default {
       let text;
       switch (this.case) {
         case 'web3':
-          text = 'likecoin.store require ETH wallet MetaMask to work. Please switch to Chrome and install MetaMask plugin.';
+          text = 'likecoin.store requires Metamask to work. Please switch to Chrome and install Metamask extension.';
           break;
         case 'testnet':
-          text = 'likecoin.store require ETH wallet MetaMask to work. Please switch to the correct network.';
+          text = `likecoin.store requires ${isTestNet ? 'Rinkeby' : 'Main'} to work. Please switch to the correct network.`;
           break;
         case 'locked':
-          text = 'likecoin.store require ETH wallet MetaMask to work. Please unlock your metamask wallet.';
+          text = 'likecoin.store requires Metamask to work. Please unlock your Metamask.';
           break;
         case 'sign':
-          text = 'Please press Sign on metamask to continue';
+          text = 'Please click Sign on Metamask to continue.';
           break;
         default:
           text = '';

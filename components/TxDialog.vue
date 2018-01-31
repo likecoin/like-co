@@ -8,11 +8,11 @@
       <md-progress-spinner :md-diameter="30" :md-stroke="3" md-mode="indeterminate" />
       Pending Confirmation...
     </md-dialog-title>
-    <md-dialog-content>Waiting for the blockchain to confirm. It may take few minutes… meanwhile you can visit other pages on likecoin.store</md-dialog-content>
+    <md-dialog-content>Waiting for the blockchain to confirm. It may take a few minutes… meanwhile you may visit other pages on likecoin.store</md-dialog-content>
     <section v-if="isNewUser">
-      <md-dialog-content class="new-user">Seem you don’t have a LikeCoin ID. Create now to recive LikeCoin.</md-dialog-content>
+      <md-dialog-content class="new-user">Seems you don’t have a LikeCoin ID. Create now to receive LikeCoin.</md-dialog-content>
       <nuxt-link :to="{ name: 'register' }">
-        <md-button class="secondary md-primary md-raised" @click="$emit('onClose')">Create Like Coin ID</md-button>
+        <md-button class="secondary md-primary md-raised" @click="$emit('onClose')">Create LikeCoin ID</md-button>
       </nuxt-link>
     </section>
     <section v-else>

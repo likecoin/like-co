@@ -24,8 +24,8 @@ export default {
   props: ['content'],
   data() {
     return {
-      sentence: 'Great! Seem you already have a Metamask wallet. Now your are ready to receive or send LikeCoin.',
-      buttonWhat: 'What are LikeCoin?',
+      sentence: 'Great! Seems you already have Metamask installed. Now you are ready to receive or send LikeCoin.',
+      buttonWhat: 'What is LikeCoin?',
     };
   },
 };

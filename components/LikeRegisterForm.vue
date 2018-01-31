@@ -10,12 +10,12 @@
         <div class="md-layout md-layout-item">
           <div class="md-layout-item">
             <md-field>
-              <label>Create a LikeCoin ID* (minimum 7 character)</label>
+              <label>Create a LikeCoin ID* (minimum 7 characters)</label>
               <md-input v-model="user" pattern="[a-z0-9-_]{7,20}" :disabled="isEdit" @change="user=user.toLowerCase()"
                 title="Please enter at least 7 alphanumeric characters" required />
             </md-field>
             <md-field :class="isBadAddress?'md-invalid':''">
-              <label>ETH wallet address</label>
+              <label>Wallet address</label>
               <md-input v-model="wallet" maxlength="42" required disabled />
               <span v-if="isBadAddress" class="md-error">Invalid address format</span>
             </md-field>
@@ -24,7 +24,7 @@
               <a :href="`https://rinkeby.etherscan.io/address/${wallet}#tokentxns`" target="_blank">{{ likeCoinBalance }}</a>
             </div>
             <md-field>
-              <label>Email (Optional)</label>
+              <label>Email (optional)</label>
               <md-input type="email" v-model="email" />
             </md-field>
             <md-field v-if="isEdit && !isRedeemingCoupon">
@@ -32,7 +32,7 @@
               <md-input v-model="displayName" required></md-input>
             </md-field>
             <md-field v-if="isRedeem || isEdit">
-              <label><span v-if="isEdit"> Claim </span> Coupon Code (Optional)</label>
+              <label><span v-if="isEdit"> Claim </span> Coupon Code (optional)</label>
               <md-input v-model="couponCode" pattern="[2-9A-HJ-NP-Za-km-z]{8}"></md-input>
             </md-field>
           </div>
