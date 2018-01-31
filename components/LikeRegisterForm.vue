@@ -84,6 +84,7 @@ export default {
     ...mapGetters([
       'getUserInfo',
       'getIsPopupBlocking',
+      'getLocalWallet',
     ]),
     isRedeemingCoupon() {
       return this.couponCode;
@@ -165,22 +166,20 @@ export default {
     if (this.isEdit) {
       this.updateInfo();
     }
-    let localWallet = EthHelper.getWallet();
+    const localWallet = EthHelper.getWallet();
     if (localWallet) {
       this.setMyLikeCoin(localWallet);
-    } else {
-      setTimeout(() => {
-        localWallet = EthHelper.getWallet();
-        if (localWallet) {
-          this.setMyLikeCoin(localWallet);
-        }
-      }, 2000);
     }
   },
   watch: {
     isEdit(e) {
       if (e && !this.isRedeemingCoupon) {
         this.$router.replace({ name: 'edit' });
+      }
+    },
+    getLocalWallet(w) {
+      if (w) {
+        this.setMyLikeCoin(w);
       }
     },
   },
