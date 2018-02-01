@@ -1,5 +1,7 @@
 # likecoin-store
 
+[![CircleCI](https://circleci.com/gh/likecoin/likecoin-store.svg?style=svg)](https://circleci.com/gh/likecoin/likecoin-store) [![NSP Status](https://nodesecurity.io/orgs/likecoin/projects/00271dff-3cf8-4b38-8f70-ab2252205c4a/badge)](https://nodesecurity.io/orgs/likecoin/projects/00271dff-3cf8-4b38-8f70-ab2252205c4a)
+
 > Nuxt.js project
 
 ## Build Setup
