@@ -1,6 +1,3 @@
-const path = require('path');
-const UglifyJSWebpackPlugin = require('uglifyjs-webpack-plugin');
-
 module.exports = {
   /*
   ** Headers of the page
@@ -78,15 +75,6 @@ module.exports = {
           loader: 'eslint-loader',
           exclude: /(node_modules)/,
         });
-        // eslint-disable-next-line no-param-reassign
-        config.plugins = config.plugins.filter(plugin => plugin.constructor.name !== 'UglifyJsPlugin');
-        if (!ctx.isDev) {
-          const uglifier = new UglifyJSWebpackPlugin({
-            parallel: true,
-            cache: path.join(__dirname, 'webpack-cache/uglify-cache'),
-          });
-          config.plugins.push(uglifier);
-        }
       }
     },
   },

@@ -155,7 +155,6 @@ export default {
 section, a {
   display: flex;
   flex-direction: column;
-  flex: 1;
 }
 
 .md-button.primary {

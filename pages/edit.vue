@@ -9,7 +9,9 @@
         </div>
         <div class="user-container">
           <div :class="[isProfileEdit ? 'edit-mode' : '', 'user-content']">LikeCoin ID:&nbsp;</div>
-          <div :class="[isProfileEdit ? 'edit-mode' : '', 'user-content']">{{ user }}</div>
+          <nuxt-link :to="{ name: 'id', params: { id: user } }">
+            <div :class="[isProfileEdit ? 'edit-mode' : '', 'user-content']">{{ user }}</div>
+          </nuxt-link>
           <md-field :class="isProfileEdit ? 'md-field-edit-mode' : 'md-field-pre-edit'">
             <md-input class="input-display-name input-display" v-model="displayName" ref="inputDisplayName"
                                                    required :disabled="!isProfileEdit"></md-input>

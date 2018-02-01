@@ -88,7 +88,6 @@ export default {
 a {
   display: flex;
   flex-direction: column;
-  flex: 1;
 }
 
 @media (max-width: 768px) {

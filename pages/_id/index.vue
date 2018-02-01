@@ -237,6 +237,7 @@ a {
 
 #payment-input {
   height: 76px;
+  width: 0; /* not sure why */
   text-align: center;
   font-size: 56px;
 }
