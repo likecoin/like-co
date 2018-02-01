@@ -6,7 +6,7 @@ import Validate from '../../util/ValidationHelper';
 const Web3 = require('web3');
 
 const LIKECOIN = require('../../constant/contract/likecoin');
-const accounts = require('../config/accounts.js');
+const accounts = require('@ServerConfig/accounts.js'); // eslint-disable-line import/no-extraneous-dependencies
 
 const router = Router();
 
