@@ -128,7 +128,7 @@ export default {
       try {
         if (!EthHelper.getWallet()) return;
         const balance = await EthHelper.queryLikeCoinBalance(EthHelper.getWallet());
-        const valueToSend = ONE_LIKE.mul(new BigNumber(this.amount));
+        const valueToSend = ONE_LIKE.multipliedBy(new BigNumber(this.amount));
         if ((new BigNumber(balance)).lt(valueToSend)) {
           this.setErrorMsg('Insufficient LikeCoin in your wallet!');
           return;
@@ -147,7 +147,7 @@ export default {
       if (!this.getUserIsRegistered) this.$router.push({ name: 'register' });
     },
     onAmountAdd(diff) {
-      let newAmount = new BigNumber(this.amount).add(diff);
+      let newAmount = new BigNumber(this.amount).plus(diff);
       if (newAmount.lt(0)) {
         newAmount = new BigNumber(0);
       }
