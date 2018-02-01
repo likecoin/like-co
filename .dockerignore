@@ -3,6 +3,6 @@
 .gitignore
 .nuxt
 node_modules/
-config
+server/config
 build
 webpack-cache

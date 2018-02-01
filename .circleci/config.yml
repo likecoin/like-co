@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  test:
     working_directory: ~/likecoin-store
     docker:
       - image: node:8
@@ -30,4 +30,51 @@ jobs:
           key: likecoin-store-{{ checksum "package.json" }}
           paths:
             - ./node_modules
-
+  deploy_rinkeby:
+    working_directory: ~/likecoin-store
+    docker:
+      - image: lakoo/node-gcloud-docker
+    environment:
+      - DEBIAN_FRONTEND: noninteractive
+      - TERM: dumb
+      - GOOGLE_APPLICATION_CREDENTIALS: /tmp/account-auth.json
+    steps:
+      - checkout
+      - run:
+          name: Setup gcloud
+          command: |
+            echo ${GCLOUD_SERVICE_KEY} | base64 -d > /account-auth.json
+            gcloud auth activate-service-account --key-file /account-auth.json
+            gcloud config set project ${PROJECT_NAME}
+            gcloud --quiet config set container/cluster ${POC_CLUSTER_NAME}
+            gcloud config set compute/zone ${CLOUDSDK_COMPUTE_ZONE}
+            gcloud --quiet container clusters get-credentials ${POC_CLUSTER_NAME}
+      - setup_docker_engine
+      - run:
+          name: Build image
+          command: |
+            gcloud docker -- pull us.gcr.io/${PROJECT_NAME}/like-store:latest || true
+            docker build . -t like-store --cache-from us.gcr.io/${PROJECT_NAME}/like-store:latest --build-arg IS_TESTNET='TRUE' --build-arg INTERCOM_APPID=${INTERCOM_APPID} --build-arg GA_TRACKING_ID=${GA_TRACKING_ID}
+            docker tag like-store:latest us.gcr.io/${PROJECT_NAME}/like-store:latest
+            docker tag like-store:latest us.gcr.io/${PROJECT_NAME}/like-store:${CIRCLE_SHA1}
+      - run:
+          name: Push images
+          command: |
+            gcloud docker -- push us.gcr.io/${PROJECT_NAME}/like-store:latest
+            gcloud docker -- push us.gcr.io/${PROJECT_NAME}/like-store:${CIRCLE_SHA1}
+      - deploy:
+          name: Deploy
+          command: |
+            kubectl patch deployment like-store -p '{"spec":{"template":{"spec":{"containers":[{"name":"like-store","image":"us.gcr.io/'"$PROJECT_NAME"'/like-store:'"$CIRCLE_SHA1"'"}]}}}}'
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - test
+      - hold:
+          type: approval
+          requires:
+           - test
+      - deploy_rinkeby:
+          requires:
+            - hold
