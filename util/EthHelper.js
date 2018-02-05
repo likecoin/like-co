@@ -153,6 +153,11 @@ class EthHelper {
     return this.LikeCoin.methods.balanceOf(addr).call();
   }
 
+  async queryEthBalance(addr) {
+    if (!addr) return '';
+    return this.web3.eth.getBalance(addr);
+  }
+
   async genTypedSignData(from, to, value, maxReward) {
     let nonce;
     do {
@@ -219,6 +224,27 @@ class EthHelper {
       v,
     };
     return Promise.resolve(postData);
+  }
+
+  async sendTransaction(to, value) {
+    if (!this.isMetaMask) return Promise.reject(new Error('No MetaMask'));
+    if (this.onSign) this.onSign();
+    const txEventEmitter = new Promise((resolve, reject) => {
+      this.web3.eth.sendTransaction({
+        from: this.wallet,
+        to,
+        value,
+      })
+        .on('transactionHash', (hash) => {
+          if (this.onSigned) this.onSigned();
+          resolve(hash);
+        })
+        .on('error', (err) => {
+          if (this.onSigned) this.onSigned();
+          reject(err);
+        });
+    });
+    return txEventEmitter;
   }
 
   static genTypedSignNewUser(payload) {
