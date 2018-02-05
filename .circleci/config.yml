@@ -71,10 +71,13 @@ workflows:
   build_and_test:
     jobs:
       - test
-      - hold:
+      - hold_deploy_rinkeby:
           type: approval
+          filters:
+            branches:
+              only: master
           requires:
            - test
       - deploy_rinkeby:
           requires:
-            - hold
+            - hold_deploy_rinkeby
