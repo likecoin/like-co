@@ -5,8 +5,13 @@ import apiWrapper from './api-wrapper';
 
 export async function newUser({ commit }, data) {
   commit(types.UI_START_BLOCKING_LOADING);
-  await apiWrapper(commit, api.apiPostNewUser(data));
-  commit(types.UI_STOP_BLOCKING_LOADING);
+  try {
+    await apiWrapper(commit, api.apiPostNewUser(data));
+    commit(types.UI_STOP_BLOCKING_LOADING);
+  } catch (error) {
+    commit(types.UI_STOP_BLOCKING_LOADING);
+    throw error;
+  }
 }
 
 export function setLocalWallet({ commit }, wallet) {

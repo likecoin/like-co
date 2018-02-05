@@ -8,9 +8,19 @@ const Multer = require('multer');
 const sha256 = require('js-sha256');
 const sharp = require('sharp');
 const Web3 = require('web3');
+const imageType = require('image-type');
 
 const dbRef = require('../util/firebase').collection;
 const fbBucket = require('../util/firebase').bucket;
+
+const SUPPORTED_AVATER_TYPE = new Set([
+  'jpg',
+  'png',
+  'gif',
+  'webp',
+  'tif',
+  'bmp',
+]);
 
 const multer = Multer({
   storage: Multer.memoryStorage(),
@@ -124,6 +134,8 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
     const { file } = req;
     let url;
     if (file) {
+      const type = imageType(file.buffer);
+      if (!SUPPORTED_AVATER_TYPE.has(type && type.ext)) throw new Error('unsupported file format!');
       const hash256 = sha256(file.buffer);
       if (hash256 !== avatarSHA256) throw new Error('avatar sha not match');
       const resizedBuffer = await sharp(file.buffer).resize(400, 400).toBuffer();
