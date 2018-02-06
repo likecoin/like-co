@@ -5,15 +5,17 @@
     :md-click-outside-to-close="false"
     :md-fullscreen="false">
     <div class="title-bar" />
-    <md-dialog-title v-if="title">{{ title }}</md-dialog-title>
-    <md-dialog-content v-if="confirmContent">
-      <md-icon v-if="isError">error</md-icon>
-      <span v-html="confirmContent"></span>
-    </md-dialog-content>
-    <section>
-      <md-button id="btn-confirm" class="md-primary" @click="onConfirm">Confirm</md-button>
-      <md-button id="btn-cancel" class="md-primary" @click="onCancel">Cancel</md-button>
-    </section>
+    <div class="dialog-content">
+      <md-dialog-title v-if="title">{{ title }}</md-dialog-title>
+      <md-dialog-content v-if="confirmContent">
+        <md-icon v-if="isError">error</md-icon>
+        <span v-html="confirmContent" />
+      </md-dialog-content>
+      <section>
+        <md-button id="btn-confirm" class="md-primary" @click="onConfirm">Confirm</md-button>
+        <md-button id="btn-cancel" class="md-primary" @click="onCancel">Cancel</md-button>
+      </section>
+    </div>
   </md-dialog>
 </template>
 
@@ -86,64 +88,30 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "../assets/dialog";
 
-.md-dialog {
-  max-width: 500px;
-  min-width: 400px;
-  min-height: 188px;
-  border-radius: 6px;
-  overflow: hidden;
-}
+.md-dialog-container {
+  .title-bar {
+    background-color: #e6e6e6;
+  }
 
-.title-bar {
-  position: absolute;
-  top: 0px;
-  width: 100%;
-  height: 48px;
-  background-color: #e6e6e6;
-}
+  .dialog-content {
+    > section {
+      display: flex;
+      flex-direction: column;
+      margin-top: 36px;
 
-.md-dialog-title {
-  padding-top: 70px;
-  margin-left: 20px;
-  margin-right: 20px;
-  font-size: 32px;
-  line-height: normal;
-  letter-spacing: -0.3px;
-  color: #462405;
-}
+      #btn-cancel {
+        background-color: $like-gradient-3;
+        color: $like-white;
+      }
 
-.md-dialog-content {
-  margin-left: 20px;
-  margin-right: 20px;
-  font-size: 16px;
-  line-height: 1.63;
-  color: #737373;
-}
-
-#btn-cancel {
-  background-color: #6e2828;
-  color: #ffffff;
-}
-
-#btn-confirm {
-  background-color: #28646e;
-  color: #ffffff;
-}
-
-.md-button {
-  width: 256px;
-  height: 40px;
-  margin-left: 20%;
-  margin-right: 20%;
-  align-self: center;
-  font-size: 24px;
-  text-align: center;
-}
-
-section {
-  display: flex;
-  flex-direction: column;
+      #btn-confirm {
+        background-color: $like-green;
+        color: $like-white;
+      }
+    }
+  }
 }
 </style>

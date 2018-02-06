@@ -187,70 +187,92 @@ export default {
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "../assets/index";
+
+$icon-size: 144px;
+
 #has-account {
   text-align: right;
 }
+
 .md-card-media img {
   width: auto;
   max-width: 400px;
 }
+
 #form-btn {
   text-align: right;
+
+  #confirm-btn {
+    width: 256px;
+    height: 40px;
+
+    border-radius: 0;
+    background-color: $like-green;
+
+  	font-size: 24px;
+  }
 }
 
 #registerForm {
-  background-color: #f7f7f7;
-  padding: 40px;
   margin-top: -20px;
-}
+  padding: 40px;
 
-#confirm-btn {
-  background-color: #28646e;
+  background-color: $like-gray-1;
 }
 
 .avatar {
   display: inline;
-  margin: 0 auto;
-  height: 100%;
+
   width: auto;
+  height: 100%;
+  margin: 0 auto;
 }
 
 .icon {
   position: relative;
-  width: 128px;
-  height: 128px;
+
   overflow: hidden;
-  margin: 20px;
+
+  width: $icon-size;
+  height: $icon-size;
+  margin: 8px;
+  margin-right: 32px;
+
   border-radius: 50%;
-}
 
-.icon .md-button {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 100%;
-  width: 100%;
-  margin: auto;
-  opacity: .3;
-}
+  .md-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
 
-.icon .md-button:hover {
-  color: white;
-  opacity: 1;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+
+    opacity: .3;
+
+    &:hover {
+      opacity: 1;
+      color: white;
+    }
+  }
 }
 
 input[type="file"] {
+  position: absolute;
+
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+
   width: 1px;
   height: 1px;
   margin: -1px;
   padding: 0;
-  overflow: hidden;
-  position: absolute;
-  clip: rect(0 0 0 0);
+
   border: 0;
 }
-
 </style>

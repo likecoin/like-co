@@ -5,12 +5,15 @@ $like-gray-2: #f4f4f4;
 $like-gray-3: #d8d8d8;
 
 $like-gray-4: #737373;
+$like-gray-5: #4a4a4a;
 
 $like-light-blue: #D2F0F0;
 $like-green: #28646E;
+$like-green-2: #16a122;
 
 $like-brown: #714b29;
-$like-dark-brown: #462814;
+$like-dark-brown-1: #462814;
+$like-dark-brown-2: #462405;
 
 $like-red: #fc5757;
 
@@ -20,13 +23,23 @@ $like-gradient-2: #3C286E;
 $like-gradient-3: #6E2828;
 
 body {
+  z-index: -2;
+
   font-family: Open Sans;
+
+  > div:not(.md-dialog) {
+    padding-bottom: 60px;
+  }
+
+  .md-button {
+    text-transform: none;
+  }
 }
 
 h1 {
   letter-spacing: -0.4px;
 
-  color: $like-dark-brown;
+  color: $like-dark-brown-1;
 
   font-size: 42px;
   font-weight: 300;
@@ -34,11 +47,14 @@ h1 {
 }
 
 h2 {
-  color: $like-dark-brown;
+  color: $like-dark-brown-1;
 
   font-size: 24px;
   font-weight: bold;
   line-height: 1.38;
+
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
 }
 
 
@@ -51,7 +67,8 @@ img {
 }
 
 html, body {
-  background-color: #fff !important;
-  height: 100%;
   width: 100%;
+  height: 100%;
+
+  background-color: $like-white !important;
 }

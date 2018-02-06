@@ -4,7 +4,7 @@
     <div class="container">
       <div class="landing">
         <div class="upper-left-corner" />
-        <site-header/>
+        <site-header />
         <introduction :title="getHeaderTitle" :icon="getHeaderIcon" />
         <description :content="getDesc" />
       </div>
@@ -50,36 +50,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/index.scss";
-@import "../assets/default.scss";
+@import "../assets/index";
+@import "../assets/default";
 
-.section-title-wrapper {
-  display: inline-block;
-  z-index: 1;
-  margin-top: 60px;
-
-  padding: 0 80px;
-
-  text-align: center;
-
-  background-color: $like-light-blue;
-  width: 50%;
-
-  > .title {
-    letter-spacing: -0.3px;
-
-    color: $like-dark-brown;
-
-    font-size: 32px;
-    line-height: 48px;
-  }
-}
-
-.title
-{
-  color: #000;
-  font-weight: 300;
-  font-size: 2.5em;
-  margin: 0;
-}
 </style>

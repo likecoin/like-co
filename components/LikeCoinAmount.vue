@@ -36,45 +36,32 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/index.scss";
+@import "../assets/index";
 
 #likecoin-amount {
   display: flex;
+  align-items: center;
 
-  padding-left: 48px;
-  padding-top: 24px;
-  padding-bottom: 24px;
+  padding: 24px 0;
 
   border-radius: 8px;
   background-image: linear-gradient(238deg, $like-light-blue, $like-gradient-1);
 
   > .title {
-    padding-top: 32px;
-    padding-bottom: 28px;
     width: 128px;
-    margin-right: 48px;
+    margin: 0 48px;
     display: flex;
     align-items: center;
     text-align: left;
-    font-size: 14px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    text-align: left;
-    color: #462814;
+    font-size: 16px;
+    color: $like-dark-brown-1;
   }
 
   > .value {
     font-size: 56px;
     font-weight: 300;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: normal;
     text-align: left;
-    color: #4a4a4a;
+    color: $like-gray-5;
   }
 
   .text-opaque {
@@ -82,18 +69,17 @@ export default {
   }
 }
 .links {
-  height: 30px;
-  margin-top: -30px;
+  flex: 1;
+  margin-top: -24px;
+  align-self: flex-end;
+  width: calc(33.33% - 40px);
+  margin-right: 40px;
+
   .link {
-    float: right;
-    margin-right: 100px;
-    width: 25%;
-    height: 60px;
-    text-align: center;
-    padding: 16px;
+    flex: 1;
     display: flex;
     font-size: 24px;
-    align-items: center;
+    padding: 8px;
 
     transition: opacity .2s ease-in-out;
 
@@ -110,6 +96,7 @@ export default {
       cursor: pointer;
       text-decoration: underline;
       margin: auto;
+      line-height: 32px;
     }
   }
 }

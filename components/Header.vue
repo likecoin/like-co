@@ -62,7 +62,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/index.scss";
+@import "../assets/index";
 
 #site-header {
   display: flex;
@@ -81,6 +81,9 @@ export default {
     align-items: center;
 
     .md-icon-button {
+      &:last-child {
+        margin-right: 0;
+      }
       &:hover {
         opacity: .7;
       }

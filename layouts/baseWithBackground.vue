@@ -27,7 +27,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/index.scss";
-@import "../assets/default.scss";
+@import "../assets/index";
+@import "../assets/default";
 
 </style>
