@@ -220,10 +220,10 @@ a {
   margin: 0 auto;
   width: 256px;
   height: 40px;
-  text-align: center;
   color: #ffffff;
   font-size: 24px;
   background-color: #28646e;
+  text-transform: none;
 }
 
 .value-button {

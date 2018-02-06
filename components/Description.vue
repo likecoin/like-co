@@ -1,7 +1,7 @@
 <template>
   <section id="description">
     <div class="details">
-      <div> {{ content || sentence }} </div>
+      <div>{{ content || sentence }}</div>
     </div>
     <div class="links">
       <div class="link what">
@@ -32,7 +32,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/index.scss";
+@import "../assets/index";
 
 #description {
   display: flex;
@@ -42,40 +42,35 @@ export default {
   padding: 0 40px;
 
   .details {
+    flex: 2;
+
+    padding: 0 16px 66px 8px;
+
     text-align: left;
-    padding-right: 16px;
 
     font-size: 20px;
     line-height: 30px;
-    flex: 2;
 
     > div {
       margin-top: 68px;
-      max-width: 528px;
-      span {
-        &.highlight {
-          color: $like-red;
-        }
-        &.bold {
-          font-weight: bold;
-        }
-      }
+
+      color: $like-gray-4;
     }
   }
 
   .links {
     flex: 1;
-    margin-top: -134px;
+
+    margin-top: -200px;
     .link {
-      flex: 1;
-      height: 60px;
-      text-align: left;
-      padding: 16px;
       display: flex;
-      font-size: 24px;
-      align-items: center;
+      flex: 1;
+
+      padding: 6px 12px;
 
       transition: opacity .2s ease-in-out;
+
+      font-size: 24px;
 
       &.what {
         background-image: linear-gradient(63deg, $like-gradient-2 2%, $like-gradient-3 99%);
@@ -86,24 +81,15 @@ export default {
       }
 
       > a {
-        color: $like-white;
-        cursor: pointer;
-        text-decoration: underline;
         margin: auto;
-      }
-    }
-  }
-}
 
-@media (max-width: 1024px) {
-  #description {
-    .details {
-      > div {
-        margin-top: 44px;
+        cursor: pointer;
+        text-decoration: none;
+
+        color: $like-white;
+
+        line-height: 36px;
       }
-    }
-    .links {
-      margin-top: -88px;
     }
   }
 }
@@ -111,22 +97,31 @@ export default {
 @media (max-width: 768px) {
   body #description {
     flex-direction: column;
-    margin-top: 36px !important;
+
     padding: 0;
 
     .details {
       flex: 1;
-      line-height: 28px;
+
+      padding: 0 16px 24px 8px;
+
       font-size: 18px;
+      line-height: 28px;
+
+      > div {
+        margin-top: 32px;
+      }
     }
 
     .links {
       margin: 12px 0;
       .link {
-        width: 244px;
-        margin: 12px 0;
         justify-content: center;
+
+        width: 244px;
         height: 44px;
+        margin: 12px 0;
+
         font-size: 22px;
       }
     }

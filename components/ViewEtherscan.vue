@@ -24,7 +24,7 @@ export default {
   computed: {
     getUrl() {
       if (this.address) return `${this.etherscanUrl}/address/${this.address}`;
-      if (this.transaction) return `${this.etherscanUrl}/transaction/${this.transaction}`;
+      if (this.transaction) return `${this.etherscanUrl}/tx/${this.transaction}`;
       return this.etherscanUrl;
     },
   },
@@ -32,11 +32,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../assets/index";
+
 #view-etherscan {
   padding: 32px;
+
   text-align: center;
+
   .view-url {
-    color: #28646e;
+    text-decoration: underline;
+
+    color: $like-green;
   }
 }
 </style>

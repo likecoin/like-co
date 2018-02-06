@@ -1,51 +1,91 @@
 <template>
-  <div class="container">
+  <div class="edit-form-container">
     <form id="editForm" @keydown.esc="onCancel" @submit.prevent="onSubmitEdit">
+      <div class="upper-left-corner" />
       <div class="md-layout">
         <div class="icon">
           <img class="avatar" :src="avatarData" />
-          <md-button :class="isProfileEdit ? '' : 'input-display-btn'" @click="openPicker"><img :src="EditIcon" class="md-size-2x"/></md-button>
+          <md-button
+            :class="isProfileEdit ? '' : 'input-display-btn'"
+            @click="openPicker">
+            <img :src="EditWhiteIcon" />
+          </md-button>
           <input type="file" ref="inputFile" accept="image/*" @change="previewImage" />
         </div>
         <div class="user-container">
-          <div :class="[isProfileEdit ? 'edit-mode' : '', 'user-content']">LikeCoin ID:&nbsp;</div>
-          <nuxt-link :to="{ name: 'id', params: { id: user } }">
-            <div :class="[isProfileEdit ? 'edit-mode' : '', 'user-content']">{{ user }}</div>
-          </nuxt-link>
-          <md-field :class="isProfileEdit ? 'md-field-edit-mode' : 'md-field-pre-edit'">
-            <md-input class="input-display-name input-display" v-model="displayName" ref="inputDisplayName"
-                                                   required :disabled="!isProfileEdit"></md-input>
-            <md-button :class="isProfileEdit ? '' : 'input-display-btn'"
-                                                               @click="onEditDisplayName"><img :src="EditIcon" /></md-button>
-          </md-field>
+          <div class="md-layout">
+            <div :class="[isProfileEdit ? 'edit-mode' : '', 'user-content']">
+              LikeCoin ID:&nbsp;
+            </div>
+            <nuxt-link :to="{ name: 'id', params: { id: user } }">
+              <div :class="[isProfileEdit ? 'edit-mode' : '', 'user-content']">{{ user }}</div>
+            </nuxt-link>
+          </div>
+          <div @click="onEditDisplayName">
+            <md-field :class="isProfileEdit ? 'md-field-edit-mode' : 'md-field-pre-edit'">
+              <md-input
+                ref="inputDisplayName"
+                class="input-display-name input-display"
+                v-model="displayName"
+                :disabled="!isProfileEdit"
+                required />
+              <md-button
+                :class="isProfileEdit ? '' : 'input-display-btn'"
+                @click="onEditDisplayName"
+                v-if="!isProfileEdit">
+                <img :src="EditIcon" />
+              </md-button>
+            </md-field>
+          </div>
         </div>
       </div>
-      <like-coin-amount class="amount-section" :value="likeCoinValueStr" :isOpaque="isProfileEdit"
-                        :linkHref="!isProfileEdit ? 'https://likecoin.foundation/#/' : ''"
-                        :linkText="!isProfileEdit ? 'Buy LikeCoin' : ''" />
-      <div class="address-container">
-        <div :class="[isProfileEdit ? 'edit-mode' : '', 'address-title']">Your Address</div>
-        <md-field class="md-field-display">
-          <md-input :class="[isProfileEdit ? 'edit-mode' : '', 'input-info']" v-model="wallet" required disabled></md-input>
-        </md-field>
-        <div class="address-title">Your E-mail</div>
-        <md-field :class="isProfileEdit ? 'md-field-edit-mode' : 'md-field-pre-edit'">
-          <label class="input-display-hint">Add email address</label>
-          <md-input type="email" class="input-display input-info" v-model="email" ref="inputEmail"
-                                                                  :disabled="!isProfileEdit"></md-input>
-          <md-button :class="isProfileEdit ? '' : 'input-display-btn'"
-                                          @click="onEditEmail"><img :src="EditIcon" /></md-button>
-        </md-field>
-      </div>
-      <div v-if="isProfileEdit" class="btn-container">
-        <div class="edit-form-btn">
-          <md-button class="md-raised md-primary" id="edit-confirm-btn" type="submit" form="editForm" :disabled="getIsPopupBlocking">Confirm</md-button>
+
+      <like-coin-amount
+        class="amount-section"
+        :value="likeCoinValueStr"
+        :isOpaque="isProfileEdit"
+        :linkHref="!isProfileEdit ? 'https://likecoin.foundation/#/' : ''"
+        :linkText="!isProfileEdit ? 'Buy LikeCoin' : ''" />
+
+      <div class="address-section">
+        <div :class="`address-container${isProfileEdit ? ' edit' : ''}`">
+          <div class="address-field">
+            <div :class="[isProfileEdit ? 'edit-mode' : '', 'address-title']">Your Address</div>
+            <md-field class="md-field-display">
+              <md-input
+                :class="[isProfileEdit ? 'edit-mode' : '', 'input-info']"
+                v-model="wallet"
+                required
+                disabled />
+            </md-field>
+          </div>
+          <div class="address-field" @click="onEditEmail">
+            <div class="address-title">Your E-mail</div>
+            <md-field :class="isProfileEdit ? 'md-field-edit-mode' : 'md-field-pre-edit'">
+              <label class="input-display-hint">Add email address</label>
+              <md-input type="email" class="input-display input-info" v-model="email" ref="inputEmail"
+                                                                      :disabled="!isProfileEdit"></md-input>
+              <md-button
+                :class="isProfileEdit ? '' : 'input-display-btn'"
+                @click="onEditEmail"
+                v-if="!isProfileEdit">
+                <img :src="EditIcon" />
+              </md-button>
+            </md-field>
+          </div>
         </div>
-        <div class="edit-form-btn">
-          <md-button class="md-raised md-accent" id="edit-cancel-btn" :disabled="getIsPopupBlocking" @click="onCancel">Cancel</md-button>
+
+        <div v-if="isProfileEdit" class="btn-container">
+          <div class="edit-form-btn">
+            <md-button class="md-raised md-primary" id="edit-confirm-btn" type="submit" form="editForm" :disabled="getIsPopupBlocking">Confirm</md-button>
+          </div>
+          <div class="edit-form-btn">
+            <md-button class="md-raised md-accent" id="edit-cancel-btn" :disabled="getIsPopupBlocking" @click="onCancel">Cancel</md-button>
+          </div>
         </div>
       </div>
     </form>
+
     <div :class="isProfileEdit ? 'section-redeem-edit-mode' : ''">
       <div class="section-title-wrapper">
         <h2 class="title">{{ subtitle }}</h2>
@@ -62,6 +102,7 @@
       </form>
       <claim-dialog ref="claimDialog" :couponCode="couponCode" :wallet="wallet" />
     </div>
+
     <view-etherscan :address="wallet" />
   </div>
 </template>
@@ -77,6 +118,7 @@ import ViewEtherscan from '~/components/ViewEtherscan';
 import { mapActions, mapGetters } from 'vuex';
 
 import EditIcon from '../assets/icons/edit.svg';
+import EditWhiteIcon from '../assets/icons/edit-white.svg';
 
 const ONE_LIKE = new BigNumber(10).pow(18);
 
@@ -96,6 +138,7 @@ export default {
       likeCoinValueStr: '',
       subtitle: 'Redeem LikeCoin',
       EditIcon,
+      EditWhiteIcon,
     };
   },
   components: {
@@ -205,286 +248,310 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/index.scss";
-@import "../assets/default.scss";
+@import "../assets/index";
+@import "../assets/default";
 
 $profile-margin: 48px;
+$profile-icon-size: 128px;
 
-.container{
-  margin-left: 0px;
-}
+.edit-form-container {
+  display: flex;
+  flex-direction: column;
 
-#editForm {
-  padding: 0px;
-  .user-container {
-    margin-top: 20px;
-    width: 40%;
-  }
+  #editForm {
+    position: relative;
 
-  .edit-mode {
-    opacity: 0.3;
-  }
+    display: flex;
+    flex-direction: column;
 
-  .user-content {
-    float: left;
-    font-size: 20px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    text-align: left;
-  }
+    > .md-layout {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
 
-  .input-display-btn {
-    opacity: 0;
-    &:hover {
-      opacity: 1;
+      width: 66.66%;
     }
-  }
 
-  .input-display:hover + .input-display-btn {
-    opacity: 1;
-  }
+    .user-container {
+      overflow: hidden;
+      flex: 1;
 
-  .md-field-edit-mode {
-    padding-top: 0px;
-    margin-bottom: 0px;
-    &:after {
-      height: 1px;
-    }
-    label {
-      font-size: 20px;
-    }
-    .input-info {
-      height: auto;
-      font-size: 20px;
-    }
-  }
+      padding-right: 64px;
 
-  .md-field-display {
-    padding-top: 0px;
-    margin-bottom: 0px;
-    &:after {
-      height: 0px;
-    }
-    .input-info {
-      font-size: 20px;
-    }
-  }
+      div > .user-content {
+        color: $like-gray-5;
 
-  .md-field-pre-edit {
-    padding-top: 0px;
-    margin-bottom: 0px;
-    &:after {
-      background-color: #28646e;
+        font-size: 20px;
+      }
+
+      a {
+        text-decoration: none;
+
+        font-size: 20px;
+      }
+
+      .md-field {
+        align-items: center;
+      }
+    }
+
+    .edit-mode {
       opacity: 0.3;
     }
-    label {
-      font-size: 20px;
+
+    .input-display-btn {
+      opacity: 0;
+      &:hover {
+        opacity: 1;
+      }
     }
-    .input-info {
-      height: auto;
-      font-size: 20px;
+
+    .input-display:hover + .input-display-btn {
+      opacity: 1;
     }
-  }
 
-  .input-display-name {
-    height: 50px;
-    font-size: 42px;
-    font-weight: 600;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 1.21;
-    letter-spacing: -0.4px;
-    text-align: left;
-    color: #462814;
-    -webkit-text-fill-color: #462814;
-  }
+    .md-field {
+      &.md-field-pre-edit {
+        margin-bottom: 0px;
+        padding-top: 0px;
 
-  .amount-section {
-    margin-top: -24px;
-  }
+        &:after {
+          display: none;
+        }
 
-  .address-container {
-    margin: 17px $profile-margin;
-    width: 50%;
-    float: left;
-  }
+        label {
+          font-size: 20px;
+        }
 
-  .btn-container {
-    margin: 17px 41px;
-    width: 30%;
-    float: left;
-    padding-top: 56px;
-  }
+        .input-info {
+          height: auto;
 
-  .address-title {
-    font-size: 14px;
-    margin: 5px -5px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    text-align: left;
-    color: #462814;
-  }
+          font-size: 20px;
+        }
+      }
 
-  .md-has-value .input-display-hint {
-    opacity: 0;
-  }
+      .input-display-name {
+        overflow: hidden;
 
-  .md-focused .input-display-hint {
-    opacity: 0;
-  }
+        height: auto;
 
-  #edit-confirm-btn {
-    width: 256px;
-    height: 40px;
-    background-color: #28646e;
-    font-size: 24px;
-  }
+        white-space: nowrap;
+        text-overflow: ellipsis;
 
-  #edit-cancel-btn {
-    width: 256px;
-    height: 40px;
-    background-color: #6e2828;
-    font-size: 24px;
-  }
+        color: $like-dark-brown-1;
 
-  .avatar {
-    display: inline;
-    margin: 0 auto;
-    height: 100%;
-    width: auto;
-  }
+        font-size: 42px;
+        font-weight: 600;
 
-  .icon {
-    position: relative;
-    width: 128px;
-    height: 128px;
-    overflow: hidden;
-    margin-left: $profile-margin;
-    margin-right: $profile-margin;
-    border-radius: 50%;
-  }
+        -webkit-text-fill-color: $like-dark-brown-1;
+      }
 
-  .icon .md-button {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 100%;
-    width: 100%;
-    margin: auto;
-  }
-
-  .icon .md-button:hover {
-    color: white;
-  }
-
-  input[type="file"] {
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    overflow: hidden;
-    position: absolute;
-    clip: rect(0 0 0 0);
-    border: 0;
-  }
-}
-
-@media (max-width: 1280px) {
-  #editForm {
-    margin-right: 24px;
-    margin-left: 24px;
-    .user-container {
-      width: 50%;
+      .md-button {
+        min-width: unset;
+      }
     }
-  }
-}
 
-@media (max-width: 1024px) {
-  #editForm {
-    margin-right: 16px;
-    margin-left: 16px;
-    .user-container {
-      flex:1;
+    .md-field-edit-mode {
+      margin-bottom: 0px;
+      padding-top: 0px;
+      &:after {
+        height: 1px;
+      }
+      label {
+        font-size: 20px;
+      }
+      .input-info {
+        height: auto;
+
+        font-size: 20px;
+      }
     }
-    .icon {
-      margin-left: 36px;
-      margin-right: 36px;
+
+    .md-field-display {
+      margin-bottom: 0px;
+      padding-top: 0px;
+      &:after {
+        height: 0px;
+      }
+      .input-info {
+        font-size: 20px;
+      }
     }
+
+    .amount-section {
+      display: flex;
+      flex-direction: column;
+
+      margin-top: -12px;
+    }
+
+    .address-section {
+      display: flex;
+      flex-direction: row;
+
+      margin: 0 48px 32px;
+
+      .address-container {
+        padding-right: 64px;
+
+        &.edit {
+          flex: 2;
+        }
+      }
+
+      .btn-container {
+        align-self: flex-end;
+        flex: 1;
+
+        .edit-form-btn {
+          > button {
+            width: 100%;
+            height: 40px;
+            margin: 8px 0 0;
+
+            font-size: 24px;
+          }
+
+          #edit-confirm-btn {
+            background-color: #28646e;
+          }
+
+          #edit-cancel-btn {
+            background-color: #6e2828;
+          }
+        }
+      }
+    }
+
     .address-container {
-      width: 60%;
+      display: flex;
+      flex-direction: column;
+
+      width: 66%;
+      margin: -12px 0 0;
+
+      &.edit {
+        margin-top: 12px;
+      }
+
+      .address-title {
+        color: $like-dark-brown-1;
+
+        font-size: 14px;
+      }
+
+      .md-field {
+        min-height: 36px;
+      }
+
+      .address-field {
+        margin-top: 16px;
+        .input-display-hint {
+          margin-top: -20px;
+        }
+
+        .md-has-value .input-display-hint {
+          opacity: 0;
+        }
+
+        .md-focused .input-display-hint {
+          opacity: 0;
+        }
+      }
     }
+
+    .avatar {
+      display: inline;
+
+      width: auto;
+      height: 100%;
+      margin: 0 auto;
+    }
+
+    .icon {
+      position: relative;
+
+      overflow: hidden;
+
+      width: $profile-icon-size;
+      height: $profile-icon-size;
+      margin-right: $profile-margin;
+      margin-left: $profile-margin;
+
+      border: 1px solid rgba(0,0,0, 0.2);
+      border-radius: 50%;
+    }
+
+    .icon .md-button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+
+      width: 100%;
+      height: 100%;
+      margin: auto;
+    }
+
+    .icon .md-button:hover {
+      color: white;
+    }
+
+    input[type="file"] {
+      position: absolute;
+
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+
+      border: 0;
+    }
+  }
+
+  .section-title-wrapper {
+    margin-left: 40px;
   }
 }
 
-@media (max-width: 768px) {
-  #editForm {
-    margin-right: 6px;
-    margin-left: 6px;
-    .icon {
-      margin-left: 24px;
-      margin-right: 24px;
-    }
-    .address-container {
-      width: 80%;
-    }
-  }
-}
 
 .section-redeem-edit-mode {
-  opacity: 0.3;
-}
-
-.section-title-wrapper {
-  display: inline-block;
-  z-index: 1;
-  margin-top: 60px;
-
-  padding: 0 80px;
-
-  text-align: center;
-
-  background-color: $like-light-blue;
-  width: 50%;
-
-  > .title {
-    letter-spacing: -0.3px;
-
-    color: $like-dark-brown;
-
-    font-size: 32px;
-    line-height: 48px;
-    font-weight: 300;
-    font-size: 2.5em;
-    margin: 0;
-  }
+  opacity: .3;
 }
 
 #redeemForm {
-  background-color: #f7f7f7;
-  padding: 40px 20px 20px 20px;
   margin-top: -20px;
+  padding: 40px 40px 32px;
+
+  background-color: $like-gray-1;
 
   .input-redeem-hint {
     font-size: 20px;
   }
-  
+
   #form-btn {
     text-align: right;
-  
+
+    .md-button {
+      margin: 24px 0;
+    }
+
     #confirm-btn {
-      width: 256px;
+      width: calc(33.33% - 16px);
       height: 40px;
-      background-color: #28646e;
+
+      background-color: $like-green;
+
       font-size: 24px;
     }
   }
+}
+
+body .md-button {
+  border-radius: 0;
 }
 </style>

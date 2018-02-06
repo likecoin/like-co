@@ -4,7 +4,11 @@
     <md-icon v-else>check</md-icon>
     <span v-if="isError">Error:</span>
     <div class="md-layout-item" v-html="message" />
-    <md-button class="md-icon-button" @click="$emit('onClose')"><md-icon>close</md-icon></md-button>
+    <md-button
+      class="md-icon-button"
+      @click="$emit('onClose')">
+      <md-icon>close</md-icon>
+    </md-button>
   </md-toolbar>
 </template>
 
@@ -15,11 +19,14 @@
   };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "../assets/index";
 
 .md-toolbar {
-  font-size: 20px;
-  background-image: linear-gradient(263deg, #d2f0f0, #f0e6b4);
-  height: 40px;
+  background-image: linear-gradient(263deg, $like-light-blue, $like-gradient-1);
+
+  > .md-icon {
+    margin-right: 12px;
+  }
 }
 </style>

@@ -3,12 +3,14 @@
     :md-close-on-esc="false"
     :md-click-outside-to-close="false"
     :md-fullscreen="false">
-    <div class="title-bar"></div>
-    <md-dialog-title>
-      <md-progress-spinner :md-diameter="30" :md-stroke="3" class="md-accent" md-mode="indeterminate" />
-      Processing...
-    </md-dialog-title>
-    <md-dialog-content>Processing your request, please do not close the browser</md-dialog-content>
+    <div class="title-bar" />
+    <div class="dialog-content">
+      <md-dialog-title>
+        <md-progress-spinner :md-diameter="28" :md-stroke="2" class="md-accent" md-mode="indeterminate" />
+        Processing...
+      </md-dialog-title>
+      <md-dialog-content>Processing your request, please do not close the browser</md-dialog-content>
+    </div>
   </md-dialog>
 </template>
 
@@ -29,34 +31,10 @@
   };
 </script>
 
-<style scoped>
-
-.md-dialog {
-  min-width: 450px;
-  min-height: 188px;
-  border-radius: 6px;
-  overflow: hidden;
-}
+<style lang="scss" scoped>
+@import "../assets/dialog";
 
 .title-bar {
-  position: absolute;
-  top: 0px;
-  width: 100%;
-  height: 48px;
   background-image: linear-gradient(to right, #ed9090, #ee6f6f 20%, #ecd7d7);;
 }
-
-.md-dialog-title {
-  padding-top: 70px;
-  margin-left: 20px;
-  margin-right: 20px;
-  font-size: 32px;
-}
-
-.md-dialog-content {
-  margin-left: 20px;
-  margin-right: 20px;
-  font-size: 16px;
-}
-
 </style>

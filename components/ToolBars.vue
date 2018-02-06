@@ -7,9 +7,15 @@
       <metamask-dialog v-else :case="getMetamaskError"/>
     </no-ssr>
     <no-ssr><blocker-dialog :show="getIsPopupBlocking"/></no-ssr>
-    <no-ssr><tx-dialog :show="getIsShowingTxPopup" :txId="getPendingTx"
-                     :isNewUser="!getUserIsRegistered" :txDialogActionRoute="getTxDialogActionRoute"
-                     :txDialogActionText="getTxDialogActionText" @onClose="closeTxDialog"/></no-ssr>
+    <no-ssr>
+      <tx-dialog
+        :show="getIsShowingTxPopup"
+        :txId="getPendingTx"
+        :isNewUser="!getUserIsRegistered"
+        :txDialogActionRoute="getTxDialogActionRoute"
+        :txDialogActionText="getTxDialogActionText"
+        @onClose="closeTxDialog"/>
+    </no-ssr>
     <loading-toolbar :isLoading="getIsLoading" :isInTransaction="getIsInTransaction"/>
     <tx-toolbar v-if="getPendingTx" :txHash="getPendingTx" :isInTx="getIsInTransaction" @onClose="closeTxToolbar"/>
     <info-toolbar v-if="getInfoMsg" :message="getInfoMsg" :isError="getInfoIsError" @onClose="closeInfoToolbar"/>
@@ -76,11 +82,20 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .toolbars {
-  top: 0px;
-  width: 100%;
   position: relative;
   z-index: 999;
+  top: 0px;
+
+  width: 100%;
+}
+
+.md-toolbar {
+  height: 40px;
+  min-height: unset;
+  padding: 0 24px;
+
+  font-size: 20px;
 }
 </style>

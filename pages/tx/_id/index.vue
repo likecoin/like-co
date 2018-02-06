@@ -1,11 +1,20 @@
 <template>
   <div>
-    <transaction-header :isNotFound="isNotFound" :icon="toAvatar" :toId="toId"
-      :toName="toName" :toAddress="to" :timestamp="timestamp" :amount="amount"/>
+    <transaction-header
+      :isNotFound="isNotFound"
+      :icon="toAvatar"
+      :toId="toId"
+      :toName="toName"
+      :toAddress="to"
+      :timestamp="timestamp"
+      :amount="amount" />
+
     <div class="tx-container" v-if="!isNotFound">
       <section class="tx-info">
         <section v-if="toId" class="section-container">
-          <div class="key">Recipient LikeCoin ID</div>
+          <div class="key">
+            Recipient LikeCoin ID
+          </div>
           <nuxt-link :to="{ name: 'id', params: { id: toId } }">
             <div class="address value">{{ toId }}</div>
           </nuxt-link>
@@ -17,6 +26,7 @@
           </a>
         </section>
       </section>
+
       <section class="extra tx-info">
         <section v-if="fromId" class="section-container">
           <div class="key">Sender Display Name</div>
@@ -32,19 +42,20 @@
         </section>
       </section>
     </div>
-    <a :href="`https://rinkeby.etherscan.io/tx/${txId}`" target="_blank">
-      <div class="etherscan">view on etherscan</div>
-    </a>
+    <view-etherscan :transaction="txId" />
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import BigNumber from 'bignumber.js';
 
 import EthHelper from '@/util/EthHelper';
+
 import TransactionHeader from '~/components/TransactionHeader';
+import ViewEtherscan from '~/components/ViewEtherscan';
+
 import { apiCheckIsUser } from '@/util/api/api';
-import { mapActions } from 'vuex';
 
 const ONE_LIKE = new BigNumber(10).pow(18);
 const PENDING_UPDATE_INTERVAL = 1000; // 1s
@@ -73,6 +84,7 @@ export default {
   },
   components: {
     TransactionHeader,
+    ViewEtherscan,
   },
   computed: {
     isCompleted() {
@@ -138,7 +150,8 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
+@import "~assets/index.scss";
 
 .tx-info {
   width: 100%;
@@ -146,38 +159,39 @@ export default {
   background: #f7f7f7;
   margin: 0 auto;
   padding: 17px 0;
-}
 
-.tx-info .extra{
-  margin: 17px auto;
-}
-
-.key {
-  font-size: 14px;
-  margin: 5px -5px;
-}
-
-.value {
-  margin: 0 auto;
-  text-align: left;
-  font-size: 20px;
+  .extra {
+    margin: 17px auto;
+  }
 }
 
 .section-container {
-  margin: 17px 41px;
-}
+  margin: 16px 40px;
 
-.address {
-  color: #28646e;
+  .key {
+    font-size: 14px;
+    margin: 4px 0;
+    color: $like-dark-brown-1;
+  }
+
+  a {
+    color: #28646e;
+
+    &:hover {
+      text-decoration: none;
+    }
+
+    .value {
+      margin: 0 auto;
+      text-align: left;
+      font-size: 20px;
+      word-wrap: break-word;
+    }
+  }
 }
 
 .extra {
   margin: 20px auto;
 }
 
-.etherscan {
-  margin: 20px auto;
-  text-align: center;
-  width: 100%;
-}
 </style>

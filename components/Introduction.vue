@@ -26,11 +26,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/index.scss";
+@import "../assets/index";
 
 .icon {
-  width: 400px;
-  height: 400px;
+  min-width: 250px;
+  min-height: 250px;
   position: relative;
   overflow: hidden;
   border-radius: 50%;
@@ -46,7 +46,7 @@ export default {
 #intro {
   display: flex;
 
-  margin-top: 48px;
+  margin-top: 72px;
   padding: 0 48px;
 
   border-radius: 8px;
@@ -56,54 +56,33 @@ export default {
     flex-grow: 1;
   }
 
-  > .title {
+  > .title h1 {
     display: flex;
     align-items: center;
+    margin-left: 24px;
+    line-height: 60px;
 
     text-align: left;
   }
 
   > .icon {
-    order: 1;
-
     margin: -50px 0;
     > img {
       width: 100%;
     }
   }
 
-  .heading {
-    order: 2;
-  }
-
 }
 
 @media (max-width: 1024px) {
-  #intro {
-    margin-top: 24px;
-
-    h1 {
+  body #intro {
+    .title h1 {
+      line-height: 48px;
       font-size: 36px;
     }
-
-    .icon {
-      margin: unset !important;
-    }
   }
 }
 
-
-@media (max-width: 950px) {
-  #intro {
-    h1 {
-      font-size: 32px;
-    }
-
-    h2 {
-      font-size: 20px;
-    }
-  }
-}
 
 @media (max-width: 768px) {
   #intro {
@@ -126,14 +105,6 @@ export default {
       margin-top: 12px;
 
       text-align: center;
-    }
-
-    .icon {
-      order: 1;
-    }
-
-    .heading {
-      order: 2;
     }
   }
 }

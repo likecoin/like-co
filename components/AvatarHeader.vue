@@ -34,7 +34,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/index.scss";
+@import "../assets/index";
 
 .section-avatar {
   position: relative;
@@ -42,7 +42,7 @@ export default {
   padding: 113px 0 20px 0;
   min-height: 408px;
   max-width: 560px;
-  background: #f7f7f7;
+  background: $like-gray-1;
   overflow: visible;
 }
 

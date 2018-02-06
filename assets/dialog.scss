@@ -1,0 +1,79 @@
+@import "../assets/index";
+
+$title-bar-height: 48px;
+
+.md-dialog {
+  position: absolute;
+  width: 450px;
+  min-height: 188px;
+  border-radius: 6px;
+  overflow: visible;
+
+  > .md-dialog-container {
+    overflow: hidden;
+    border-radius: 6px;
+
+    .dialog-content {
+      display: flex;
+      flex-direction: column;
+      padding: #{$title-bar-height + 4px} 16px 32px;
+
+      .md-dialog-title {
+        font-size: 32px;
+        color: $like-dark-brown-2;
+        line-height: 42px;
+        margin-bottom: 0;
+
+        display: flex;
+        align-items: center;
+
+        .md-progress-spinner {
+          margin-right: 16px;
+        }
+      }
+
+      .md-dialog-content {
+        margin-top: 4px;
+        font-size: 16px;
+        line-height: 26px;
+        color: $like-gray-4;
+      }
+
+      .md-button {
+        width: 256px;
+        height: 40px;
+        font-size: 24px;
+
+        border-radius: 0;
+
+        margin: 4px;
+      }
+
+      img {
+        margin: 0 8px;
+      }
+
+      section, a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  }
+}
+
+.title-bar {
+  border-radius: 6px 6px 0 0;
+  position: absolute;
+  top: 0px;
+  width: 100%;
+  height: $title-bar-height;
+  display: flex;
+}
+
+.foxy {
+  position: fixed;
+  top: -50px;
+  z-index: 999;
+  left: calc(50% - 55px);
+}

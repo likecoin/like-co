@@ -4,18 +4,24 @@
     :md-click-outside-to-close="false"
     :md-fullscreen="false">
     <img class="foxy" :src="icon" />
-    <div class="title-bar"></div>
-    <md-dialog-title>
-      {{ title }}
-    </md-dialog-title>
-    <md-dialog-content>{{ content }}</md-dialog-content>
-    <img v-if="image" :src="image" />
-    <section v-if="isInstallMetamask">
-      <a href="https://metamask.io/" target="_blank">
-        <md-button class="primary md-primary md-raised">Install Metamask</md-button>
-      </a>
-      <md-button class="secondary md-primary md-raised" @click="refreshPage">Done! Installed</md-button>
-    </section>
+    <div class="title-bar" />
+    <div class="dialog-content">
+      <md-dialog-title>
+        {{ title }}
+      </md-dialog-title>
+      <md-dialog-content>{{ content }}</md-dialog-content>
+      <img v-if="image" :src="image" />
+      <section v-if="isInstallMetamask">
+        <a href="https://metamask.io/" target="_blank">
+          <md-button class="primary md-primary md-raised">
+            Install Metamask
+          </md-button>
+        </a>
+        <md-button class="secondary md-primary md-raised" @click="refreshPage">
+          Done! Installed
+        </md-button>
+      </section>
+    </div>
   </md-dialog>
 </template>
 
@@ -99,62 +105,11 @@ export default {
 };
 </script>
 
-<style scoped>
-
-.md-dialog {
-  position: absolute;
-  min-width: 450px;
-  max-width: 500px;
-  min-height: 188px;
-  border-radius: 6px;
-  overflow: visible;
-}
-
-.md-dialog-container {
-  overflow: hidden;
-  border-radius: 6px;
-}
+<style lang="scss" scoped>
+@import "../assets/dialog";
 
 .title-bar {
-  border-radius: 6px 6px 0 0;
-  position: absolute;
-  top: 0px;
-  width: 100%;
-  height: 48px;
   background-image: linear-gradient(252deg, #ed8526, #eebe78);
-  display: flex;
-}
-
-.foxy {
-  position: fixed;
-  top: -50px;
-  z-index: 999;
-  left: calc(50% - 55px);
-}
-
-.md-dialog-title {
-  padding-top: 70px;
-  margin-left: 20px;
-  margin-right: 20px;
-  font-size: 32px;
-}
-
-.md-dialog-content {
-  margin-left: 20px;
-  margin-right: 20px;
-  font-size: 16px;
-}
-
-.md-button {
-  height: 40px;
-  margin-left: 20%;
-  margin-right: 20%;
-  font-size: 20px;
-}
-
-section, a {
-  display: flex;
-  flex-direction: column;
 }
 
 .md-button.primary {

@@ -36,3 +36,18 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+@import "../assets/index";
+
+footer {
+  position: fixed;
+  z-index: 10;
+  bottom: 0;
+
+  width: 100%;
+  padding: 12px;
+
+  background-color: $like-white;
+}
+</style>
