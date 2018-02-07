@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { toDataUrl } from 'ethereum-blockies';
+import { IS_TESTNET } from '../../constant';
 
 import Validate from '../../util/ValidationHelper';
 
@@ -140,7 +141,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       if (hash256 !== avatarSHA256) throw new Error('avatar sha not match');
       const resizedBuffer = await sharp(file.buffer).resize(400, 400).toBuffer();
       file.buffer = resizedBuffer;
-      [url] = await uploadFile(file, `likecoin_store_user_${user}`);
+      [url] = await uploadFile(file, `likecoin_store_user_${user}_${IS_TESTNET ? 'test' : 'main'}`);
     }
 
     const updateObj = {

@@ -2,6 +2,7 @@ import express from 'express';
 import compression from 'compression';
 import bodyParser from 'body-parser';
 import { Nuxt, Builder } from 'nuxt';
+import { IS_TESTNET } from '../constant';
 
 import api from './api';
 
@@ -45,5 +46,5 @@ app.use(nuxt.render);
 
 // Listen the server
 app.listen(port, host);
-console.log(`Deploying on ${process.env.IS_TESTNET ? 'rinkeby' : 'mainnet'}`); // eslint-disable-line no-console
+console.log(`Deploying on ${IS_TESTNET ? 'rinkeby' : 'mainnet'}`); // eslint-disable-line no-console
 console.log(`Server listening on ${host}:${port}`); // eslint-disable-line no-console

@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import BigNumber from 'bignumber.js';
 
+import { INFURA_HOST } from '../../constant';
 import Validate from '../../util/ValidationHelper';
 
 const Web3 = require('web3');
@@ -10,8 +11,7 @@ const accounts = require('@ServerConfig/accounts.js'); // eslint-disable-line im
 
 const router = Router();
 
-const web3Provider = process.env.IS_TESTNET ? 'https://rinkeby.infura.io/ywCD9mvUruQeYcZcyghk' : 'https://mainnet.infura.io/ywCD9mvUruQeYcZcyghk';
-const web3 = new Web3(new Web3.providers.HttpProvider(web3Provider));
+const web3 = new Web3(new Web3.providers.HttpProvider(INFURA_HOST));
 const LikeCoin = new web3.eth.Contract(LIKECOIN.LIKE_COIN_ABI, LIKECOIN.LIKE_COIN_ADDRESS);
 const {
   address,

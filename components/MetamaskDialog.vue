@@ -26,12 +26,11 @@
 </template>
 
 <script>
+import { IS_TESTNET } from '@/constant';
 import metamaskIcon from '../assets/icons/metamask.svg';
 import metamaskNetImg from '../assets/img/meta_net.png';
 import metamaskTestNetImg from '../assets/img/meta_testnet.png';
 import metamaskUnlockImg from '../assets/img/meta_unlock.png';
-
-const isTestNet = process.env.IS_TESTNET;
 
 export default {
   name: 'MetamaskDialog',
@@ -39,7 +38,7 @@ export default {
   data() {
     return {
       icon: metamaskIcon,
-      metamaskNetImg: isTestNet ? metamaskTestNetImg : metamaskNetImg,
+      metamaskNetImg: IS_TESTNET ? metamaskTestNetImg : metamaskNetImg,
     };
   },
   computed: {
@@ -53,7 +52,7 @@ export default {
           text = 'Plugin required';
           break;
         case 'testnet':
-          text = `Please switch to ${isTestNet ? 'Rinkeby' : 'Main'} network`;
+          text = `Please switch to ${IS_TESTNET ? 'Rinkeby' : 'Main'} network`;
           break;
         case 'locked':
           text = 'Please unlock Metamask';
@@ -73,7 +72,7 @@ export default {
           text = 'likecoin.store requires Metamask to work. Please switch to Chrome and install Metamask extension.';
           break;
         case 'testnet':
-          text = `likecoin.store requires ${isTestNet ? 'Rinkeby' : 'Main'} to work. Please switch to the correct network.`;
+          text = `likecoin.store requires ${IS_TESTNET ? 'Rinkeby' : 'Main'} to work. Please switch to the correct network.`;
           break;
         case 'locked':
           text = 'likecoin.store requires Metamask to work. Please unlock your Metamask.';
