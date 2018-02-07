@@ -392,10 +392,10 @@ $profile-icon-size: 128px;
       margin: 0 48px 32px;
 
       .address-container {
-        padding-right: 64px;
-
         &.edit {
           flex: 2;
+
+          padding-right: 64px;
         }
       }
 
@@ -554,4 +554,18 @@ $profile-icon-size: 128px;
 body .md-button {
   border-radius: 0;
 }
+
+@media (max-width: 1024px) {
+  .edit-form-container #editForm {
+    > .md-layout {
+      width: 100%;
+      .user-container {
+      }
+    }
+    .address-container {
+      width: 100%;
+    }
+  }
+}
+
 </style>
