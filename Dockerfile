@@ -1,7 +1,7 @@
 FROM node:8
 WORKDIR /app
 COPY package.json package-lock.json /app/
-RUN npm install
+RUN npm config set unsafe-perm true && npm install
 ADD . /app
 ENV NODE_ENV production
 ENV HOST 0.0.0.0

@@ -26,6 +26,22 @@ module.exports = {
   ** Customize the progress bar color
   */
   loading: { color: '#448aff' },
+
+  render: {
+    csp: {
+      enabled: true,
+      hashAlgorithm: 'sha256',
+      allowedSources: [
+        'https://fonts.gstatic.com',
+        'https://fonts.googleapis.com',
+        'https://storage.googleapis.com',
+        'https://www.google-analytics.com',
+        'https://js.intercomcdn.com',
+        'https://widget.intercom.io',
+      ],
+    },
+  },
+
   router: {
     extendRoutes(routes, resolve) {
       routes.push({

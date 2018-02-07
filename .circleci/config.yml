@@ -10,7 +10,7 @@ jobs:
           key: likecoin-store-{{ checksum "package.json" }}
       - run:
           name: Dependencies
-          command: npm install
+          command: npm config set unsafe-perm true && npm install
       - run:
           name: Lint Test
           command: npm run lint
