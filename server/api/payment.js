@@ -10,7 +10,8 @@ const accounts = require('@ServerConfig/accounts.js'); // eslint-disable-line im
 
 const router = Router();
 
-const web3 = new Web3(new Web3.providers.HttpProvider('https://rinkeby.infura.io/ywCD9mvUruQeYcZcyghk'));
+const web3Provider = process.env.IS_TESTNET ? 'https://rinkeby.infura.io/ywCD9mvUruQeYcZcyghk' : 'https://mainnet.infura.io/ywCD9mvUruQeYcZcyghk';
+const web3 = new Web3(new Web3.providers.HttpProvider(web3Provider));
 const LikeCoin = new web3.eth.Contract(LIKECOIN.LIKE_COIN_ABI, LIKECOIN.LIKE_COIN_ADDRESS);
 const {
   address,
