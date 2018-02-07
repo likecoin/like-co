@@ -1,11 +1,10 @@
 import Web3 from 'web3';
 import { LIKE_COIN_ABI, LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin';
+import { IS_TESTNET, INFURA_HOST } from '@/constant';
 
 const abiDecoder = require('abi-decoder');
 
 abiDecoder.addABI(LIKE_COIN_ABI);
-
-const isTestNet = process.env.IS_TESTNET;
 
 function timeout(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -51,7 +50,7 @@ class EthHelper {
         this.web3 = new Web3(window.web3.currentProvider);
       }
       const network = await this.web3.eth.net.getNetworkType();
-      const target = (isTestNet ? 'rinkeby' : 'main');
+      const target = (IS_TESTNET ? 'rinkeby' : 'main');
       if (network === target) {
         if (this.clearErrCb) this.clearErrCb();
         this.startApp();
@@ -63,7 +62,7 @@ class EthHelper {
     } else {
       if (this.errCb) this.errCb('web3');
       if (!this.isOnInfura) {
-        const provider = new Web3.providers.HttpProvider(isTestNet ? 'https://rinkeby.infura.io/ywCD9mvUruQeYcZcyghk' : 'https://mainnet.infura.io/ywCD9mvUruQeYcZcyghk');
+        const provider = new Web3.providers.HttpProvider(INFURA_HOST);
         this.web3 = new Web3(provider);
         this.isOnInfura = true;
       }

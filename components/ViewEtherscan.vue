@@ -12,13 +12,15 @@
 </template>
 
 <script>
+import { ETHERSCAN_HOST } from '@/constant';
+
 export default {
   name: 'view-etherscan',
   props: ['text', 'address', 'transaction'],
   data() {
     return {
       defaultText: 'View on Etherscan',
-      etherscanUrl: 'https://rinkeby.etherscan.io',
+      etherscanUrl: ETHERSCAN_HOST,
     };
   },
   computed: {

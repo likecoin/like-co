@@ -21,7 +21,7 @@
         </section>
         <section class="section-container">
           <div class="key">Recipient Address</div>
-          <a :href="`https://rinkeby.etherscan.io/address/${to}#tokentxns`" target="_blank">
+          <a :href="`${ETHERSCAN_HOST}/address/${to}#tokentxns`" target="_blank">
             <div class="address value">{{ to }}</div>
           </a>
         </section>
@@ -36,7 +36,7 @@
         </section>
         <section class="section-container">
           <div class="key">Sender Address</div>
-          <a :href="`https://rinkeby.etherscan.io/address/${from}#tokentxns`" target="_blank">
+          <a :href="`${ETHERSCAN_HOST}/address/${from}#tokentxns`" target="_blank">
             <div class="address value">{{ from }}</div>
           </a>
         </section>
@@ -51,6 +51,7 @@ import { mapActions } from 'vuex';
 import BigNumber from 'bignumber.js';
 
 import EthHelper from '@/util/EthHelper';
+import { ETHERSCAN_HOST } from '@/constant';
 
 import TransactionHeader from '~/components/TransactionHeader';
 import ViewEtherscan from '~/components/ViewEtherscan';
@@ -75,6 +76,7 @@ export default {
       timestamp: 0,
       amount: 0,
       updateTimer: null,
+      ETHERSCAN_HOST,
     };
   },
   head() {

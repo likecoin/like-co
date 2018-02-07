@@ -21,7 +21,7 @@
             </md-field>
             <div v-if="isEdit && !isNaN(likeCoinBalance) && !isRedeemingCoupon">
               Amount of LikeCoin:
-              <a :href="`https://rinkeby.etherscan.io/address/${wallet}#tokentxns`" target="_blank">{{ likeCoinBalance }}</a>
+              <a :href="`${ETHERSCAN_HOST}/address/${wallet}#tokentxns`" target="_blank">{{ likeCoinBalance }}</a>
             </div>
             <md-field>
               <label>Email (optional)</label>
@@ -54,6 +54,7 @@ import User from '@/util/User';
 import ClaimDialog from '~/components/ClaimDialog';
 import { mapActions, mapGetters } from 'vuex';
 import { toDataUrl } from 'ethereum-blockies';
+import { ETHERSCAN_HOST } from '@/constant';
 
 const ONE_LIKE = new BigNumber(10).pow(18);
 
@@ -75,6 +76,7 @@ export default {
       isConfirming: false,
       confirmContent: '',
       onConfirm: () => {},
+      ETHERSCAN_HOST,
     };
   },
   components: {
