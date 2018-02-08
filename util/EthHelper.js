@@ -181,9 +181,9 @@ class EthHelper {
     }
     if (!r.logs || !r.logs.length) throw new Error('Cannot fetch transaction Data');
     const [logs] = abiDecoder.decodeLogs(r.logs);
-    _to = this.web3.utils.toChecksumAddress(logs.events.find(p => p.name === '_to').value);
-    _from = this.web3.utils.toChecksumAddress(logs.events.find(p => p.name === '_from').value);
-    _value = logs.events.find(p => p.name === '_value').value;
+    _to = this.web3.utils.toChecksumAddress(logs.events.find(p => (p.name === (IS_TESTNET ? '_to' : 'to'))).value);
+    _from = this.web3.utils.toChecksumAddress(logs.events.find(p => (p.name === (IS_TESTNET ? '_from' : 'from'))).value);
+    _value = logs.events.find(p => (p.name === (IS_TESTNET ? '_value' : 'value'))).value;
     return {
       _to,
       _from,
