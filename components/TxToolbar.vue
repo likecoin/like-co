@@ -7,7 +7,7 @@
     <div class="md-layout-item">
       {{ isInTx ? 'Pending confirmation...' : 'Transaction Complete!' }}
     </div>
-    <nuxt-link :to="{ name: 'tx-id', params: { id: txHash } }">
+    <nuxt-link :to="{ name: 'tx-id', params: { id: txHash, tx: txInfo } }">
       <md-button>View Transaction</md-button>
 	</nuxt-link>
     <md-button v-if="!isInTx" class="md-icon-button" @click="$emit('onClose')">
@@ -19,7 +19,7 @@
 <script>
   export default {
     name: 'TxToolbar',
-    props: ['txHash', 'isInTx'],
+    props: ['txHash', 'txInfo', 'isInTx'],
     computed: {
       styleClass() {
         const cls = ['md-layout'];

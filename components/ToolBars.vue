@@ -11,13 +11,19 @@
       <tx-dialog
         :show="getIsShowingTxPopup"
         :txId="getPendingTx"
+        :txInfo="getPendingTxInfo"
         :isNewUser="!getUserIsRegistered"
         :txDialogActionRoute="getTxDialogActionRoute"
         :txDialogActionText="getTxDialogActionText"
-        @onClose="closeTxDialog"/>
+        @onClose="closeTxDialog" />
     </no-ssr>
     <loading-toolbar :isLoading="getIsLoading" :isInTransaction="getIsInTransaction"/>
-    <tx-toolbar v-if="getPendingTx" :txHash="getPendingTx" :isInTx="getIsInTransaction" @onClose="closeTxToolbar"/>
+    <tx-toolbar
+        v-if="getPendingTx"
+        :txHash="getPendingTx"
+        :txInfo="getPendingTxInfo"
+        :isInTx="getIsInTransaction"
+        @onClose="closeTxToolbar" />
     <info-toolbar
       v-if="getInfoMsg"
       :isError="getInfoIsError"
@@ -73,6 +79,7 @@ export default {
       'getMetamaskError',
       'getTxDialogActionRoute',
       'getTxDialogActionText',
+      'getPendingTxInfo',
     ]),
   },
   methods: {

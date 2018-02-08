@@ -34,7 +34,7 @@
 <script>
   export default {
     name: 'txDialog',
-    props: ['show', 'txId', 'isNewUser', 'txDialogActionRoute', 'txDialogActionText'],
+    props: ['show', 'txId', 'txInfo', 'isNewUser', 'txDialogActionRoute', 'txDialogActionText'],
     data() {
       return {
         showDialog: this.show,
@@ -43,7 +43,7 @@
     },
     computed: {
       defaultActionRoute() {
-        return { name: 'tx-id', params: { id: this.txId } };
+        return { name: 'tx-id', params: { id: this.txId, tx: this.txInfo } };
       },
       actionRoute() {
         return this.txDialogActionRoute || this.defaultActionRoute;

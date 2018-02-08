@@ -99,6 +99,9 @@ export default {
     txId() {
       return this.$route.params.id;
     },
+    txInfo() {
+      return this.$route.params.tx;
+    },
   },
   methods: {
     ...mapActions([
@@ -137,6 +140,12 @@ export default {
   },
   async mounted() {
     this.timestamp = 0;
+    if (this.txInfo && this.txInfo !== {}) {
+      this.updateUI(this.txInfo.from, this.txInfo.to);
+      if (this.txInfo.value) {
+        this.amount = new BigNumber(this.txInfo.value).div(ONE_LIKE).toString();
+      }
+    }
     try {
       const tx = await EthHelper.getTransferInfo(this.txId, { blocking: true });
       this.isEth = tx.isEth;

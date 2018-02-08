@@ -11,6 +11,8 @@ export async function sendPayment({ commit }, payload) {
     commit(types.UI_STOP_BLOCKING_LOADING);
     commit(types.UI_START_LOADING_TX);
     commit(types.PAYMENT_SET_PENDING_HASH, txHash);
+    const { from, to, value } = payload;
+    commit(types.PAYMENT_SET_PENDING_TX_INFO, { from, to, value });
     await EthHelper.waitForTxToBeMined(txHash);
     commit(types.UI_STOP_LOADING_TX);
     return txHash;

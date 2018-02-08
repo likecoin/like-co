@@ -104,6 +104,7 @@ export default {
       'getIsInTransaction',
       'getLocalWallet',
       'getIsShowingTxPopup',
+      'getPendingTxInfo',
     ]),
   },
   methods: {
@@ -150,7 +151,7 @@ export default {
         }
         if (this.getIsShowingTxPopup) {
           this.closeTxDialog();
-          this.$router.push({ name: 'tx-id', params: { id: txHash } });
+          this.$router.push({ name: 'tx-id', params: { id: txHash, tx: this.getPendingTxInfo } });
         }
       } catch (error) {
         console.error(error);
