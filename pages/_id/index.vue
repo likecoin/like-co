@@ -131,10 +131,12 @@ export default {
       try {
         if (!EthHelper.getWallet()) return;
         let balance = 0;
+        const from = EthHelper.getWallet();
+        const to = this.wallet;
         if (this.isEth) {
-          balance = await EthHelper.queryEthBalance(EthHelper.getWallet());
+          balance = await EthHelper.queryEthBalance(from);
         } else {
-          balance = await EthHelper.queryLikeCoinBalance(EthHelper.getWallet());
+          balance = await EthHelper.queryLikeCoinBalance(from);
         }
         const valueToSend = ONE_LIKE.multipliedBy(new BigNumber(this.amount));
         if ((new BigNumber(balance)).lt(valueToSend)) {
@@ -143,10 +145,16 @@ export default {
         }
         let txHash;
         if (this.isEth) {
-          txHash = await EthHelper.sendTransaction(this.wallet, valueToSend);
-          await this.sendEthPayment({ txHash });
+          txHash = await EthHelper.sendTransaction(to, valueToSend);
+          const value = this.amount;
+          await this.sendEthPayment({
+            from,
+            to,
+            txHash,
+            value,
+          });
         } else {
-          const payload = await EthHelper.signTransferDelegated(this.wallet, valueToSend, 0);
+          const payload = await EthHelper.signTransferDelegated(to, valueToSend, 0);
           txHash = await this.sendPayment(payload);
         }
         if (this.getIsShowingTxPopup) {

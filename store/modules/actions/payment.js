@@ -23,10 +23,17 @@ export async function sendPayment({ commit }, payload) {
   }
 }
 
-export async function sendEthPayment({ commit }, { txHash }) {
+export async function sendEthPayment({ commit }, payload) {
   try {
+    const {
+      from,
+      to,
+      value,
+      txHash,
+    } = payload;
     commit(types.UI_START_LOADING_TX);
     commit(types.PAYMENT_SET_PENDING_HASH, txHash);
+    commit(types.PAYMENT_SET_PENDING_TX_INFO, { from, to, value });
     await EthHelper.waitForTxToBeMined(txHash);
     commit(types.UI_STOP_LOADING_TX);
     return txHash;
@@ -48,6 +55,7 @@ export async function claimCoupon({ commit }, { coupon, to }) {
     commit(types.UI_STOP_BLOCKING_LOADING);
     commit(types.UI_START_LOADING_TX);
     commit(types.PAYMENT_SET_PENDING_HASH, txHash);
+    commit(types.PAYMENT_SET_PENDING_TX_INFO, { to });
     await EthHelper.waitForTxToBeMined(txHash);
     commit(types.UI_STOP_LOADING_TX);
     return txHash;
