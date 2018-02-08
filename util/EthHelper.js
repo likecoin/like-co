@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import Web3 from 'web3';
 import { LIKE_COIN_ABI, LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin';
 import { IS_TESTNET, INFURA_HOST } from '@/constant';
@@ -117,7 +118,6 @@ class EthHelper {
     let t = tx;
     if (!t) t = await this.web3.eth.getTransaction(txHash);
     if (!t) throw new Error('Cannot find transaction');
-    /* eslint-disable no-underscore-dangle */
     let _to = this.web3.utils.toChecksumAddress(t.to);
     let _from = this.web3.utils.toChecksumAddress(t.from);
     let _value = t.value;
@@ -146,16 +146,20 @@ class EthHelper {
     };
   }
 
-  async getTransferInfo(txHash) {
-    const t = await this.web3.eth.getTransaction(txHash);
-    if (!t) return {};
+  async getTransferInfo(txHash, opt) {
+    const { blocking } = opt;
+    let t = await this.web3.eth.getTransaction(txHash);
+    while (!t && blocking) {
+      await timeout(1000); // eslint-disable-line no-await-in-loop
+      t = await this.web3.eth.getTransaction(txHash);
+    }
+    if (!t) throw new Error('Cannot find transaction');
     if (t.value > 0) return this.getEthTransferInfo(txHash, t);
     if (t.to.toLowerCase() !== LIKE_COIN_ADDRESS.toLowerCase()) throw new Error('Not LikeCoin transaction');
     const decoded = abiDecoder.decodeMethod(t.input);
     const isDelegated = (decoded.name === 'transferDelegated');
     if (decoded.name !== 'transfer' && !isDelegated) throw new Error('Not LikeCoin Store transaction');
 
-    /* eslint-disable no-underscore-dangle */
     const txTo = decoded.params.find(p => p.name === '_to').value;
     let _to = this.web3.utils.toChecksumAddress(txTo);
     let _from = isDelegated ? decoded.params.find(p => p.name === '_from').value : t.from;

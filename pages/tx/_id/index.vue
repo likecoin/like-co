@@ -138,7 +138,7 @@ export default {
   async mounted() {
     this.timestamp = 0;
     try {
-      const tx = await EthHelper.getTransferInfo(this.txId);
+      const tx = await EthHelper.getTransferInfo(this.txId, { blocking: true });
       this.isEth = tx.isEth;
       this.isFailed = tx.isFailed;
       /* eslint-disable no-underscore-dangle */
