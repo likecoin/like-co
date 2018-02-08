@@ -105,6 +105,7 @@ class EthHelper {
 
   async getTransactionCompleted(txHash) {
     const t = await this.web3.eth.getTransaction(txHash);
+    if (!t) return 0;
     if (t.blockNumber) {
       const block = await this.web3.eth.getBlock(t.blockNumber);
       return block ? block.timestamp : 0;
@@ -147,7 +148,7 @@ class EthHelper {
 
   async getTransferInfo(txHash) {
     const t = await this.web3.eth.getTransaction(txHash);
-    if (!t) throw new Error('Cannot find transaction');
+    if (!t) return {};
     if (t.value > 0) return this.getEthTransferInfo(txHash, t);
     if (t.to.toLowerCase() !== LIKE_COIN_ADDRESS.toLowerCase()) throw new Error('Not LikeCoin transaction');
     const decoded = abiDecoder.decodeMethod(t.input);

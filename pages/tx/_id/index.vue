@@ -112,7 +112,6 @@ export default {
         if (!ts) {
           this.setupTimer();
         } else {
-          console.log(ts);
           this.timestamp = ts;
         }
       }, PENDING_UPDATE_INTERVAL);
@@ -143,7 +142,7 @@ export default {
       this.isEth = tx.isEth;
       this.isFailed = tx.isFailed;
       /* eslint-disable no-underscore-dangle */
-      this.amount = new BigNumber(tx._value).div(ONE_LIKE).toString();
+      if (tx._value !== undefined) this.amount = new BigNumber(tx._value).div(ONE_LIKE).toString();
       this.updateUI(tx._from, tx._to);
       this.timestamp = tx.timestamp;
       if (!this.timestamp) {
