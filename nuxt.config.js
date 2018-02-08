@@ -54,6 +54,11 @@ module.exports = {
         path: '/',
         component: resolve(__dirname, 'pages/edit.vue'),
       });
+      routes.unshift({
+        name: 'free',
+        path: '/free',
+        component: resolve(__dirname, 'pages/redeem.vue'),
+      });
     },
   },
   /*
