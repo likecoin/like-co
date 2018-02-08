@@ -14,7 +14,7 @@
           {{ isPending ? "Sending" : "Sent" }}
         </div>
         <div v-if="amount" class="amount">
-          {{ amount }} LikeCoin
+          {{ amount }} {{ isEth ? "ETH" : "LikeCoin" }}
         </div>
         <div v-if="name" class="user-section">
           to <span class="usertitle">{{ name }}</span>
@@ -33,9 +33,17 @@
         </h1>
         <md-progress-bar md-mode="indeterminate"></md-progress-bar>
       </section>
+      <section v-else-if="isFailed" class="transaction-container">
+        <h1 style="color: #fc5757">
+          <md-icon class="status-icon error-icon">
+            error
+          </md-icon>
+          Transaction Failed
+        </h1>
+      </section>
       <section v-else class="transaction-container">
         <h1 style="color: #16a122">
-          <md-icon class="tick-icon">
+          <md-icon class="status-icon tick-icon">
             check
           </md-icon>
           Transaction Completed
@@ -52,7 +60,7 @@ import likeCoinIcon from '../assets/likecoin.svg';
 
 export default {
   name: 'transaction-header',
-  props: ['icon', 'toId', 'toName', 'toAddress', 'timestamp', 'amount', 'isNotFound'],
+  props: ['icon', 'toId', 'toName', 'toAddress', 'timestamp', 'amount', 'isNotFound', 'isEth', 'isFailed'],
   data() {
     return {
       defaultText: 'Redeem your free LikeCoin',
@@ -76,7 +84,7 @@ export default {
 <style lang="scss" scoped>
 @import "../assets/index";
 
-$tick-icon-size: 32px;
+$status-icon-size: 32px;
 
 .section-avatar {
   position: relative;
@@ -185,14 +193,27 @@ $tick-icon-size: 32px;
     font-size: 20px;
   }
 
-  .tick-icon {
+  .md-progress-bar {
+    margin-top: 12px;
+    width: 100%;
+  }
+
+  .status-icon {
     position: absolute;
     top: 8px;
-    left: #{-$tick-icon-size - 12px};
+    left: #{-$status-icon-size - 12px};
 
     color: $like-green-2;
 
-    font-size: $tick-icon-size !important;
+    font-size: $status-icon-size !important;
+  }
+
+  .tick-icon {
+    color: $like-green-2;
+  }
+
+  .error-icon {
+    color: $like-red;
   }
 }
 
