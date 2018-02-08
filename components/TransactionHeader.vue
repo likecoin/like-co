@@ -23,7 +23,7 @@
       </section>
       <h1 v-else class="error">
         <md-icon class="md-size-2x">error</md-icon>
-        Transaction Not Found or not a Likecoin store transaction
+        Transaction Not Found or not a LikeCoin store transaction
       </h1>
     </div>
     <section v-if="!isNotFound">

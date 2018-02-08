@@ -1,7 +1,7 @@
 <template>
   <div id="site-header">
     <nuxt-link :class="`title ${isTest ? 'test' : ''}`" :to="{ name: 'index' }">
-      Likecoin Store
+      LikeCoin Store
       <span class="sup">
         {{ isTest ? 'test' : 'beta' }}
       </span>
@@ -57,7 +57,6 @@ export default {
   data() {
     return {
       platforms,
-      title: 'Likecoin Store',
       isTest: IS_TESTNET,
     };
   },
