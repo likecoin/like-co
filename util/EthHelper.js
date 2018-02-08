@@ -155,7 +155,8 @@ class EthHelper {
     if (decoded.name !== 'transfer' && !isDelegated) throw new Error('Not LikeCoin Store transaction');
 
     /* eslint-disable no-underscore-dangle */
-    let _to = this.web3.utils.toChecksumAddress(decoded.params.find(p => p.name === '_to').value);
+    const txTo = decoded.params.find(p => p.name === '_to').value;
+    let _to = this.web3.utils.toChecksumAddress(txTo);
     let _from = isDelegated ? decoded.params.find(p => p.name === '_from').value : t.from;
     _from = this.web3.utils.toChecksumAddress(_from);
     let _value = decoded.params.find(p => p.name === '_value').value;
@@ -180,10 +181,13 @@ class EthHelper {
       };
     }
     if (!r.logs || !r.logs.length) throw new Error('Cannot fetch transaction Data');
-    const [logs] = abiDecoder.decodeLogs(r.logs);
-    _to = this.web3.utils.toChecksumAddress(logs.events.find(p => (p.name === (IS_TESTNET ? '_to' : 'to'))).value);
-    _from = this.web3.utils.toChecksumAddress(logs.events.find(p => (p.name === (IS_TESTNET ? '_from' : 'from'))).value);
-    _value = logs.events.find(p => (p.name === (IS_TESTNET ? '_value' : 'value'))).value;
+    const logs = abiDecoder.decodeLogs(r.logs);
+    const targetLogs = logs.filter(l => (l.events.find(e => e.name === 'to').value) === txTo);
+    if (!targetLogs || !targetLogs.length) throw new Error('Cannot parse receipt');
+    const [log] = targetLogs;
+    _to = this.web3.utils.toChecksumAddress(log.events.find(p => (p.name === (IS_TESTNET ? '_to' : 'to'))).value);
+    _from = this.web3.utils.toChecksumAddress(log.events.find(p => (p.name === (IS_TESTNET ? '_from' : 'from'))).value);
+    _value = log.events.find(p => (p.name === (IS_TESTNET ? '_value' : 'value'))).value;
     return {
       _to,
       _from,
