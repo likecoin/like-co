@@ -4,7 +4,7 @@
       <div>{{ content || sentence }}</div>
     </div>
     <div class="links">
-      <div class="link what">
+      <div v-if="showButton" class="link what">
         <a
          href="https://likecoin.foundation/#/"
          target="_blank"
@@ -21,7 +21,13 @@
 <script>
 export default {
   name: 'description',
-  props: ['content'],
+  props: {
+    content: String,
+    showButton: {
+      type: Boolean,
+      default: true,
+    },
+  },
   data() {
     return {
       sentence: 'Great! Seems you already have Metamask installed. Now you are ready to receive or send LikeCoin.',

@@ -101,6 +101,8 @@ $tick-icon-size: 32px;
     position: relative;
     z-index: 1;
     border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0, 0.2);
   }
 
   .heading {

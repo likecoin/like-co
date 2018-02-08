@@ -1,9 +1,15 @@
 <template>
-  <md-toolbar class="md-layout" v-if="message" >
+  <md-toolbar class="md-layout" md-elevation="0">
     <md-icon v-if="isError">error</md-icon>
     <md-icon v-else>check</md-icon>
-    <span v-if="isError">Error:</span>
-    <div class="md-layout-item" v-html="message" />
+
+    <span v-if="isError">
+      Error:&nbsp;
+    </span>
+    <div class="md-layout-item">
+      <slot />
+    </div>
+
     <md-button
       class="md-icon-button"
       @click="$emit('onClose')">

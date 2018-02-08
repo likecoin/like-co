@@ -42,7 +42,7 @@ export default {
 
 footer {
   position: fixed;
-  z-index: 10;
+  z-index: 4;
   bottom: 0;
 
   width: 100%;
