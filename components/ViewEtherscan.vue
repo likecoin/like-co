@@ -25,7 +25,7 @@ export default {
   },
   computed: {
     getUrl() {
-      if (this.address) return `${this.etherscanUrl}/address/${this.address}`;
+      if (this.address) return `${this.etherscanUrl}/address/${this.address}/#tokentxns`;
       if (this.transaction) return `${this.etherscanUrl}/tx/${this.transaction}`;
       return this.etherscanUrl;
     },
