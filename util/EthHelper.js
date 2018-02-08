@@ -112,19 +112,54 @@ class EthHelper {
     return 0;
   }
 
+  async getEthTransferInfo(txHash, tx) {
+    let t = tx;
+    if (!t) t = await this.web3.eth.getTransaction(txHash);
+    if (!t) throw new Error('Cannot find transaction');
+    /* eslint-disable no-underscore-dangle */
+    let _to = this.web3.utils.toChecksumAddress(t.to);
+    let _from = this.web3.utils.toChecksumAddress(t.from);
+    let _value = t.value;
+    if (!t.blockNumber) {
+      return {
+        isEth: true,
+        _from,
+        _to,
+        _value,
+      };
+    }
+    const [r, block] = await Promise.all([
+      this.web3.eth.getTransactionReceipt(txHash),
+      this.web3.eth.getBlock(t.blockNumber),
+    ]);
+    _to = this.web3.utils.toChecksumAddress(r.to);
+    _from = this.web3.utils.toChecksumAddress(r.from);
+    _value = t.value;
+    return {
+      isEth: true,
+      isFailed: r && r.status === '0x0',
+      _to,
+      _from,
+      _value,
+      timestamp: block ? block.timestamp : 0,
+    };
+  }
+
   async getTransferInfo(txHash) {
     const t = await this.web3.eth.getTransaction(txHash);
     if (!t) throw new Error('Cannot find transaction');
+    if (t.value > 0) return this.getEthTransferInfo(txHash, t);
     if (t.to.toLowerCase() !== LIKE_COIN_ADDRESS.toLowerCase()) throw new Error('Not LikeCoin transaction');
     const decoded = abiDecoder.decodeMethod(t.input);
     const isDelegated = (decoded.name === 'transferDelegated');
     if (decoded.name !== 'transfer' && !isDelegated) throw new Error('Not LikeCoin Store transaction');
+
+    /* eslint-disable no-underscore-dangle */
+    let _to = this.web3.utils.toChecksumAddress(decoded.params.find(p => p.name === '_to').value);
+    let _from = isDelegated ? decoded.params.find(p => p.name === '_from').value : t.from;
+    _from = this.web3.utils.toChecksumAddress(_from);
+    let _value = decoded.params.find(p => p.name === '_value').value;
     if (!t.blockNumber) {
-      /* eslint-disable no-underscore-dangle */
-      const _to = this.web3.utils.toChecksumAddress(decoded.params.find(p => p.name === '_to').value);
-      let _from = isDelegated ? decoded.params.find(p => p.name === '_from').value : t.from;
-      _from = this.web3.utils.toChecksumAddress(_from);
-      const _value = decoded.params.find(p => p.name === '_value').value;
       return {
         _from,
         _to,
@@ -135,11 +170,20 @@ class EthHelper {
       this.web3.eth.getTransactionReceipt(txHash),
       this.web3.eth.getBlock(t.blockNumber),
     ]);
+    if (r && r.status === '0x0') {
+      return {
+        isFailed: true,
+        _to,
+        _from,
+        _value,
+        timestamp: block ? block.timestamp : 0,
+      };
+    }
     if (!r.logs || !r.logs.length) throw new Error('Cannot fetch transaction Data');
     const [logs] = abiDecoder.decodeLogs(r.logs);
-    const _to = this.web3.utils.toChecksumAddress(logs.events.find(p => p.name === '_to').value);
-    const _from = this.web3.utils.toChecksumAddress(logs.events.find(p => p.name === '_from').value);
-    const _value = logs.events.find(p => p.name === '_value').value;
+    _to = this.web3.utils.toChecksumAddress(logs.events.find(p => p.name === '_to').value);
+    _from = this.web3.utils.toChecksumAddress(logs.events.find(p => p.name === '_from').value);
+    _value = logs.events.find(p => p.name === '_value').value;
     return {
       _to,
       _from,
@@ -151,6 +195,11 @@ class EthHelper {
   async queryLikeCoinBalance(addr) {
     if (!addr) return '';
     return this.LikeCoin.methods.balanceOf(addr).call();
+  }
+
+  async queryEthBalance(addr) {
+    if (!addr) return '';
+    return this.web3.eth.getBalance(addr);
   }
 
   async genTypedSignData(from, to, value, maxReward) {
@@ -219,6 +268,27 @@ class EthHelper {
       v,
     };
     return Promise.resolve(postData);
+  }
+
+  async sendTransaction(to, value) {
+    if (!this.isMetaMask) return Promise.reject(new Error('No MetaMask'));
+    if (this.onSign) this.onSign();
+    const txEventEmitter = new Promise((resolve, reject) => {
+      this.web3.eth.sendTransaction({
+        from: this.wallet,
+        to,
+        value,
+      })
+        .on('transactionHash', (hash) => {
+          if (this.onSigned) this.onSigned();
+          resolve(hash);
+        })
+        .on('error', (err) => {
+          if (this.onSigned) this.onSigned();
+          reject(err);
+        });
+    });
+    return txEventEmitter;
   }
 
   static genTypedSignNewUser(payload) {

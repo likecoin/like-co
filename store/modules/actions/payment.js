@@ -21,6 +21,20 @@ export async function sendPayment({ commit }, payload) {
   }
 }
 
+export async function sendEthPayment({ commit }, { txHash }) {
+  try {
+    commit(types.UI_START_LOADING_TX);
+    commit(types.PAYMENT_SET_PENDING_HASH, txHash);
+    await EthHelper.waitForTxToBeMined(txHash);
+    commit(types.UI_STOP_LOADING_TX);
+    return txHash;
+  } catch (error) {
+    commit(types.UI_STOP_ALL_LOADING);
+    commit(types.UI_ERROR_MSG, error.message || error);
+    throw error;
+  }
+}
+
 export async function checkCoupon({ commit }, code) {
   return apiWrapper(commit, api.apiCheckCoupon(code));
 }

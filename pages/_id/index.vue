@@ -66,6 +66,7 @@ export default {
     return {
       isBadAddress: false,
       isBadAmount: false,
+      isEth: false,
       dialogHeader: 'Success',
       dialogMsg: '',
     };
@@ -108,6 +109,7 @@ export default {
   methods: {
     ...mapActions([
       'sendPayment',
+      'sendEthPayment',
       'setErrorMsg',
       'closeTxDialog',
     ]),
@@ -127,14 +129,25 @@ export default {
       }
       try {
         if (!EthHelper.getWallet()) return;
-        const balance = await EthHelper.queryLikeCoinBalance(EthHelper.getWallet());
+        let balance = 0;
+        if (this.isEth) {
+          balance = await EthHelper.queryEthBalance(EthHelper.getWallet());
+        } else {
+          balance = await EthHelper.queryLikeCoinBalance(EthHelper.getWallet());
+        }
         const valueToSend = ONE_LIKE.multipliedBy(new BigNumber(this.amount));
         if ((new BigNumber(balance)).lt(valueToSend)) {
-          this.setErrorMsg('Insufficient LikeCoin in your wallet!');
+          this.setErrorMsg(`Insufficient ${this.isEth ? 'ETH' : 'LikeCoin'} in your wallet!`);
           return;
         }
-        const payload = await EthHelper.signTransferDelegated(this.wallet, valueToSend, 0);
-        const txHash = await this.sendPayment(payload);
+        let txHash;
+        if (this.isEth) {
+          txHash = await EthHelper.sendTransaction(this.wallet, valueToSend);
+          await this.sendEthPayment({ txHash });
+        } else {
+          const payload = await EthHelper.signTransferDelegated(this.wallet, valueToSend, 0);
+          txHash = await this.sendPayment(payload);
+        }
         if (this.getIsShowingTxPopup) {
           this.closeTxDialog();
           this.$router.push({ name: 'tx-id', params: { id: txHash } });

@@ -2,6 +2,8 @@
   <div>
     <transaction-header
       :isNotFound="isNotFound"
+      :isFailed="isFailed"
+      :isEth="isEth"
       :icon="toAvatar"
       :toId="toId"
       :toName="toName"
@@ -66,7 +68,9 @@ export default {
   layout: 'base',
   data() {
     return {
+      isEth: false,
       isNotFound: false,
+      isFailed: false,
       from: '',
       to: '',
       fromId: '',
@@ -136,6 +140,8 @@ export default {
     this.timestamp = 0;
     try {
       const tx = await EthHelper.getTransferInfo(this.txId);
+      this.isEth = tx.isEth;
+      this.isFailed = tx.isFailed;
       /* eslint-disable no-underscore-dangle */
       this.amount = new BigNumber(tx._value).div(ONE_LIKE).toString();
       this.updateUI(tx._from, tx._to);
