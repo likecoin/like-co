@@ -257,7 +257,9 @@ class EthHelper {
     const r = `0x${rawSignature.substr(0, 64)}`;
     const s = `0x${rawSignature.substr(64, 64)}`;
     const v = Number.parseInt(rawSignature.substr(128, 2), 16);
-    const postData = {
+    const signature = `0x${rawSignature}`;
+    /* TODO: clean up TESTNET code */
+    const postData = IS_TESTNET ? {
       from,
       to,
       value: value.toString(10),
@@ -266,6 +268,13 @@ class EthHelper {
       r,
       s,
       v,
+    } : {
+      from,
+      to,
+      value: value.toString(10),
+      maxReward: maxReward.toString(10),
+      nonce,
+      signature,
     };
     return Promise.resolve(postData);
   }

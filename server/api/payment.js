@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import BigNumber from 'bignumber.js';
 
-import { INFURA_HOST } from '../../constant';
+import { IS_TESTNET, INFURA_HOST } from '../../constant';
 import Validate from '../../util/ValidationHelper';
 
 const Web3 = require('web3');
@@ -55,23 +55,38 @@ router.post('/payment', async (req, res) => {
       v,
       r,
       s,
+      signature,
     } = req.body;
     if (!Validate.checkAddressValid(to) || !Validate.checkAddressValid(from)) {
       throw new Error('Invalid address');
     }
     const balance = await LikeCoin.methods.balanceOf(from).call();
     if ((new BigNumber(balance)).lt(new BigNumber(value))) throw new Error('Not enough balance');
-    const methodCall = LikeCoin.methods.transferDelegated(
-      from,
-      to,
-      value,
-      maxReward,
-      maxReward,
-      nonce,
-      v,
-      r,
-      s,
-    );
+    /* TODO: clean up TESTNET code */
+    let methodCall;
+    if (IS_TESTNET) {
+      methodCall = LikeCoin.methods.transferDelegated(
+        from,
+        to,
+        value,
+        maxReward,
+        maxReward,
+        nonce,
+        v,
+        r,
+        s,
+      );
+    } else {
+      methodCall = LikeCoin.methods.transferDelegated(
+        from,
+        to,
+        value,
+        maxReward,
+        maxReward,
+        nonce,
+        signature,
+      );
+    }
     const txData = methodCall.encodeABI();
     let txHash;
     let pendingCount = await web3.eth.getTransactionCount(address, 'pending');
