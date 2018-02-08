@@ -1,6 +1,11 @@
 <template>
   <div id="site-header">
-    <nuxt-link class="title" :to="{ name: 'index' }">{{ title }}</nuxt-link>
+    <nuxt-link :class="`title ${isTest ? 'test' : ''}`" :to="{ name: 'index' }">
+      Likecoin Store
+      <span class="sup">
+        {{ isTest ? 'test' : 'beta' }}
+      </span>
+    </nuxt-link>
     <div class="icon-bar">
       <md-button
         class="md-icon-button"
@@ -20,6 +25,8 @@
 
 
 <script>
+import { IS_TESTNET } from '@/constant';
+
 const images = require.context('../assets/icons/');
 
 const platforms = [
@@ -51,6 +58,7 @@ export default {
     return {
       platforms,
       title: 'Likecoin Store',
+      isTest: IS_TESTNET,
     };
   },
   methods: {
@@ -74,6 +82,16 @@ export default {
   .title {
     font-size: 18px;
     color: $like-green;
+    text-decoration: none;
+
+    &.test {
+      color: $like-red;
+    }
+
+    > .sup {
+      vertical-align: super;
+      font-size: 12px;
+    }
   }
 
   .icon-bar {
