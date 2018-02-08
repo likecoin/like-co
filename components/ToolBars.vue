@@ -22,7 +22,7 @@
       v-if="getInfoMsg"
       :isError="getInfoIsError"
       @onClose="closeInfoToolbar">
-      <span>{{ getInfoMsg }}</span>
+      <span v-html="getInfoMsg" />
       <nuxt-link
         :to="{ name: 'redeem' }"
         v-if="getInfoMsg === 'Insufficient LikeCoin in your wallet!'">
