@@ -13,7 +13,7 @@
       </md-dialog-content>
       <section>
         <md-button id="btn-confirm" class="md-primary" @click="onConfirm">Confirm</md-button>
-        <md-button id="btn-cancel" class="md-primary" @click="onCancel">Cancel</md-button>
+        <md-button v-if="!isError" id="btn-cancel" class="md-primary" @click="onCancel">Cancel</md-button>
       </section>
     </div>
   </md-dialog>
