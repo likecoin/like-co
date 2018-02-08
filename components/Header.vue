@@ -50,7 +50,7 @@ export default {
   data() {
     return {
       platforms,
-      title: 'likecoin.store',
+      title: 'Likecoin Store',
     };
   },
   methods: {

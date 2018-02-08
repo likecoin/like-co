@@ -6,7 +6,10 @@
         <div class="upper-left-corner" />
         <site-header />
         <introduction :title="getHeaderTitle" :icon="getHeaderIcon" />
-        <description :content="getDesc" />
+        <Description
+          :content="getDesc"
+          :showButton="false"
+        />
       </div>
       <div class="section-title-wrapper">
         <h2 class="title">{{ getHeaderSubtitle || title }}</h2>

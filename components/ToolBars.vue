@@ -18,7 +18,17 @@
     </no-ssr>
     <loading-toolbar :isLoading="getIsLoading" :isInTransaction="getIsInTransaction"/>
     <tx-toolbar v-if="getPendingTx" :txHash="getPendingTx" :isInTx="getIsInTransaction" @onClose="closeTxToolbar"/>
-    <info-toolbar v-if="getInfoMsg" :message="getInfoMsg" :isError="getInfoIsError" @onClose="closeInfoToolbar"/>
+    <info-toolbar
+      v-if="getInfoMsg"
+      :isError="getInfoIsError"
+      @onClose="closeInfoToolbar">
+      <span>{{ getInfoMsg }}</span>
+      <nuxt-link
+        :to="{ name: 'redeem' }"
+        v-if="getInfoMsg === 'Insufficient LikeCoin in your wallet!'">
+        Redeem LikeCoin
+      </nuxt-link>
+    </info-toolbar>
   </div>
 </template>
 <script>
@@ -83,6 +93,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import "../assets/index";
+
 .toolbars {
   position: relative;
   z-index: 999;
@@ -97,5 +109,13 @@ export default {
   padding: 0 24px;
 
   font-size: 20px;
+
+  border-bottom: 1px solid $like-gray-1;
+
+  button.md-button {
+    width: 20px;
+    min-width: 20px;
+    height: 20px;
+  }
 }
 </style>
