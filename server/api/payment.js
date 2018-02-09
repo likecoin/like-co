@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js';
 
 import { IS_TESTNET, INFURA_HOST } from '../../constant';
 import Validate from '../../util/ValidationHelper';
+import { logTransferDelegatedTx } from '../util/logger';
 
 const Web3 = require('web3');
 
@@ -97,6 +98,12 @@ router.post('/payment', async (req, res) => {
       txHash = await sendTransaction(tx); // eslint-disable-line no-await-in-loop
     }
     res.json({ txHash });
+    await logTransferDelegatedTx({
+      txHash,
+      from,
+      to,
+      value,
+    });
   } catch (err) {
     console.error(err);
     const msg = err.message || err;

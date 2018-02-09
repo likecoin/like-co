@@ -11,7 +11,7 @@ const sharp = require('sharp');
 const Web3 = require('web3');
 const imageType = require('image-type');
 
-const dbRef = require('../util/firebase').collection;
+const dbRef = require('../util/firebase').userCollection;
 const fbBucket = require('../util/firebase').bucket;
 
 const SUPPORTED_AVATER_TYPE = new Set([

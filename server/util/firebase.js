@@ -4,7 +4,7 @@ const config = require('@ServerConfig/config.js'); // eslint-disable-line import
 const serviceAccount = require('@ServerConfig/serviceAccountKey.json'); // eslint-disable-line import/no-extraneous-dependencies
 
 if (process.env.CI) {
-  module.exports = { collection: {}, bucket: {} };
+  module.exports = { userCollection: {}, txCollection: {}, bucket: {} };
 } else {
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
@@ -12,8 +12,9 @@ if (process.env.CI) {
   });
 
   const db = admin.firestore();
-  const collection = db.collection(config.FIRESTORE_ROOT);
+  const userCollection = db.collection(config.FIRESTORE_USER_ROOT);
+  const txCollection = db.collection(config.FIRESTORE_TX_ROOT);
   const bucket = admin.storage().bucket();
 
-  module.exports = { collection, bucket };
+  module.exports = { userCollection, txCollection, bucket };
 }
