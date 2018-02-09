@@ -1,8 +1,8 @@
 <template>
   <footer>
-    <span class="contractAddr">LikeCoin Contract: <a :href="getAddress" target="_blank">{{ contractAddress }}</a></span>
-    Visit our website for more information: <a href="https://likecoin.foundation/" target="_blank">likecoin.foundation</a>
-    <span class="right" />
+    <span class="contractAddr md-xsmall-hide">LikeCoin Contract: <a :href="getAddress" target="_blank">{{ contractAddress }}</a></span>
+    <span class="center">Visit our website for more information: <a href="https://likecoin.foundation/" target="_blank">likecoin.foundation</a></span>
+    <span class="right md-medium-hide" />
   </footer>
 </template>
 <script>
@@ -70,6 +70,10 @@ footer {
     a {
       color: #28646E;
     }
+  }
+  .center {
+    flex: 1;
+    text-align: center;
   }
 }
 </style>
