@@ -1,16 +1,28 @@
 <template>
   <footer>
+    <span class="contractAddr">LikeCoin Contract: <a :href="getAddress" target="_blank">{{ contractAddress }}</a></span>
     Visit our website for more information: <a href="https://likecoin.foundation/" target="_blank">likecoin.foundation</a>
+    <span class="right" />
   </footer>
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import { ETHERSCAN_HOST } from '@/constant';
+import { LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin';
 
 export default {
+  data() {
+    return {
+      contractAddress: LIKE_COIN_ADDRESS,
+    };
+  },
   computed: {
     ...mapGetters([
       'getUserInfo',
     ]),
+    getAddress() {
+      return `${ETHERSCAN_HOST}/address/${this.contractAddress}`;
+    },
   },
   mounted() {
     if (this.$intercom) {
@@ -49,5 +61,15 @@ footer {
   padding: 12px;
 
   background-color: $like-white;
+  display: flex;
+
+  .contractAddr, .right {
+    flex: 1;
+    text-align: left;
+    font-size: 10px;
+    a {
+      color: #28646E;
+    }
+  }
 }
 </style>
