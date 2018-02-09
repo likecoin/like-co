@@ -7,6 +7,7 @@ import { logTransferDelegatedTx } from '../util/logger';
 
 const Web3 = require('web3');
 
+const txLogRef = require('../util/firebase').txCollection;
 const LIKECOIN = require('../../constant/contract/likecoin');
 const accounts = require('@ServerConfig/accounts.js'); // eslint-disable-line import/no-extraneous-dependencies
 
@@ -106,6 +107,23 @@ router.post('/payment', async (req, res) => {
     });
   } catch (err) {
     console.error(err);
+    const msg = err.message || err;
+    console.error(msg);
+    res.status(400).send(msg);
+  }
+});
+
+router.get('/tx/:id', async (req, res) => {
+  try {
+    const txHash = req.params.id;
+    const doc = await txLogRef.doc(txHash).get();
+    if (doc.exists) {
+      const payload = doc.data();
+      res.json(payload);
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (err) {
     const msg = err.message || err;
     console.error(msg);
     res.status(400).send(msg);

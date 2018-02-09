@@ -52,6 +52,7 @@
 import { mapActions } from 'vuex';
 import BigNumber from 'bignumber.js';
 
+import axios from '~/plugins/axios';
 import EthHelper from '@/util/EthHelper';
 import { ETHERSCAN_HOST } from '@/constant';
 
@@ -79,10 +80,23 @@ export default {
       toName: '',
       toAvatar: '',
       timestamp: 0,
+      value: '', // BN in string
       amount: 0,
       updateTimer: null,
       ETHERSCAN_HOST,
     };
+  },
+  asyncData({ params }) {
+    if (params.tx && params.tx !== {}) {
+      const { to, from, value } = params.tx;
+      return { to, from, value };
+    }
+    return axios.get(`/api/tx/${params.id}`)
+      .then((res) => {
+        const { to, from, value } = res.data;
+        return { to, from, value };
+      })
+      .catch(e => ({})); // eslint-disable-line no-unused-vars
   },
   head() {
     return {
@@ -99,9 +113,6 @@ export default {
     },
     txId() {
       return this.$route.params.id;
-    },
-    txInfo() {
-      return this.$route.params.tx;
     },
   },
   methods: {
@@ -142,11 +153,9 @@ export default {
   },
   async mounted() {
     this.timestamp = 0;
-    if (this.txInfo && this.txInfo !== {}) {
-      this.updateUI(this.txInfo.from, this.txInfo.to);
-      if (this.txInfo.value) {
-        this.amount = new BigNumber(this.txInfo.value).div(ONE_LIKE).toString();
-      }
+    if (this.to) this.updateUI(this.from, this.to);
+    if (this.value) {
+      this.amount = new BigNumber(this.value).div(ONE_LIKE).toString();
     }
     try {
       const tx = await EthHelper.getTransferInfo(this.txId, { blocking: true });
