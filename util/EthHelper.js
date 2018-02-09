@@ -176,9 +176,9 @@ class EthHelper {
       this.web3.eth.getTransactionReceipt(txHash),
       this.web3.eth.getBlock(t.blockNumber),
     ]);
-    if (r && r.status === '0x0') {
+    if (!r || r.status === '0x0') {
       return {
-        isFailed: true,
+        isFailed: (r && r.status === '0x0'),
         _to,
         _from,
         _value,
