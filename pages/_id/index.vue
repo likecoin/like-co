@@ -32,8 +32,8 @@ import BigNumber from 'bignumber.js';
 
 import AvatarHeader from '~/components/AvatarHeader';
 import EthHelper from '@/util/EthHelper';
-import axios from '~/plugins/axios';
 import { mapActions, mapGetters } from 'vuex';
+import { apiGetUserById } from '@/util/api/api';
 
 const ONE_LIKE = new BigNumber(10).pow(18);
 
@@ -72,7 +72,7 @@ export default {
     };
   },
   asyncData({ params, error }) {
-    return axios.get(`/api/users/${params.id}`)
+    return apiGetUserById(params.id)
       .then((res) => {
         const { wallet, avatar, displayName } = res.data;
         const amount = formatAmount(params.amount || 1);

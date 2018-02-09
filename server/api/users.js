@@ -162,7 +162,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
   }
 });
 
-router.get('/users/:id', async (req, res) => {
+router.get('/users/id/:id', async (req, res) => {
   try {
     const username = req.params.id;
     const doc = await dbRef.doc(username).get();
@@ -180,7 +180,7 @@ router.get('/users/:id', async (req, res) => {
   }
 });
 
-router.get('/addr/:addr', async (req, res) => {
+router.get('/users/addr/:addr', async (req, res) => {
   try {
     const { addr } = req.params;
     if (!Validate.checkAddressValid(addr)) throw new Error('Invalid address');

@@ -113,7 +113,7 @@ router.post('/payment', async (req, res) => {
   }
 });
 
-router.get('/tx/:id', async (req, res) => {
+router.get('/tx/id/:id', async (req, res) => {
   try {
     const txHash = req.params.id;
     const doc = await txLogRef.doc(txHash).get();
@@ -123,6 +123,38 @@ router.get('/tx/:id', async (req, res) => {
     } else {
       res.sendStatus(404);
     }
+  } catch (err) {
+    const msg = err.message || err;
+    console.error(msg);
+    res.status(400).send(msg);
+  }
+});
+
+router.get('/tx/addr/to/:addr', async (req, res) => {
+  try {
+    const { addr } = req.params;
+    const doc = await txLogRef
+      .where('to', '==', addr)
+      .orderBy('ts', 'desc')
+      .limit(5)
+      .get();
+    res.json(doc.docs.map(d => ({ id: d.id, value: d.data().value })));
+  } catch (err) {
+    const msg = err.message || err;
+    console.error(msg);
+    res.status(400).send(msg);
+  }
+});
+
+router.get('/tx/addr/from/:addr', async (req, res) => {
+  try {
+    const { addr } = req.params;
+    const doc = await txLogRef
+      .where('from', '==', addr)
+      .orderBy('ts', 'desc')
+      .limit(5)
+      .get();
+    res.json(doc.docs.map(d => ({ id: d.id, value: d.data().value })));
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);

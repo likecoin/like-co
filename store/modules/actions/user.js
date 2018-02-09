@@ -31,7 +31,7 @@ export async function isUser({ commit }, addr) {
 
 export async function refreshUserInfo({ commit }, id) {
   try {
-    const { data: user } = await api.apiGetUser(id);
+    const { data: user } = await api.apiGetUserById(id);
     if (user) {
       user.user = id;
       commit(types.USER_SET_USER_INFO, user);

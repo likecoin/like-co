@@ -52,14 +52,13 @@
 import { mapActions } from 'vuex';
 import BigNumber from 'bignumber.js';
 
-import axios from '~/plugins/axios';
 import EthHelper from '@/util/EthHelper';
 import { ETHERSCAN_HOST } from '@/constant';
 
 import TransactionHeader from '~/components/TransactionHeader';
 import ViewEtherscan from '~/components/ViewEtherscan';
 
-import { apiCheckIsUser } from '@/util/api/api';
+import { apiGetTxById, apiCheckIsUser } from '@/util/api/api';
 
 const ONE_LIKE = new BigNumber(10).pow(18);
 const PENDING_UPDATE_INTERVAL = 1000; // 1s
@@ -91,7 +90,7 @@ export default {
       const { to, from, value } = params.tx;
       return { to, from, value };
     }
-    return axios.get(`/api/tx/${params.id}`)
+    return apiGetTxById(params.id)
       .then((res) => {
         const { to, from, value } = res.data;
         return { to, from, value };
