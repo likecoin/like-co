@@ -33,7 +33,7 @@
         <section v-if="fromId" class="section-container">
           <div class="key">Sender Display Name</div>
           <nuxt-link :to="{ name: 'id', params: { id: fromId } }">
-            <div class="address value">{{ fromId }}</div>
+            <div class="address value">{{ fromName }}</div>
           </nuxt-link>
         </section>
         <section class="section-container">
@@ -74,6 +74,7 @@ export default {
       from: '',
       to: '',
       fromId: '',
+      fromName: '',
       toId: '',
       toName: '',
       toAvatar: '',
@@ -130,6 +131,7 @@ export default {
       this.stopLoading();
       if (fromData && fromData.data) {
         this.fromId = fromData.data.user;
+        this.fromName = fromData.data.displayName || fromData.data.user;
       }
       if (toData && toData.data) {
         this.toId = toData.data.user;
