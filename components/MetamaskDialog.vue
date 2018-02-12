@@ -9,7 +9,7 @@
       <md-dialog-title>
         {{ title }}
       </md-dialog-title>
-      <md-dialog-content>{{ content }}</md-dialog-content>
+      <md-dialog-content><span v-html="content" /></md-dialog-content>
       <img v-if="image" :src="image" />
       <section v-if="isInstallMetamask">
         <a href="https://metamask.io/" target="_blank">
@@ -69,7 +69,7 @@ export default {
       let text;
       switch (this.case) {
         case 'web3':
-          text = 'likecoin.store requires Metamask to work. Please switch to Chrome and install Metamask extension.';
+          text = 'likecoin.store requires Metamask to work. Please switch to Chrome and install Metamask extension.<br /> <span style="color:red">Remember to keep your seed words safe!<span>';
           break;
         case 'testnet':
           text = `likecoin.store requires ${IS_TESTNET ? 'Rinkeby' : 'Main'} to work. Please switch to the correct network.`;
