@@ -29,6 +29,17 @@ export async function isUser({ commit }, addr) {
   }
 }
 
+export async function verifyUserEmail({ commit }, id) {
+  try {
+    commit(types.UI_START_BLOCKING_LOADING);
+    await apiWrapper(commit, api.apiVerifyUserEmail(id));
+    commit(types.UI_STOP_BLOCKING_LOADING);
+  } catch (error) {
+    commit(types.UI_STOP_BLOCKING_LOADING);
+    throw error;
+  }
+}
+
 export async function refreshUserInfo({ commit }, id) {
   try {
     const { data: user } = await api.apiGetUserById(id);

@@ -60,7 +60,12 @@
             </md-field>
           </div>
           <div class="address-field" @click="onEditEmail">
-            <div class="address-title">Your E-mail</div>
+            <div class="address-title">
+              Your E-mail
+              <span class="verified" v-if="getUserInfo.isEmailVerified"><md-icon>check</md-icon>Verified</span>
+              <span v-else-if="isVerifying">Please check your inbox!</span>
+              <span v-else>(Unverifed, <a href="" @click.prevent.stop="onVerifyEmail">Verify your email</a>)</span>
+            </div>
             <md-field :class="isProfileEdit ? 'md-field-edit-mode' : 'md-field-pre-edit'">
               <label class="input-display-hint">Add email address</label>
               <md-input type="email" class="input-display input-info" v-model="email" ref="inputEmail"
@@ -135,6 +140,7 @@ export default {
       wallet: '',
       email: '',
       isProfileEdit: false,
+      isVerifying: false,
       likeCoinValueStr: '',
       subtitle: 'Redeem LikeCoin',
       EditIcon,
@@ -163,6 +169,7 @@ export default {
       'newUser',
       'setInfoMsg',
       'checkCoupon',
+      'verifyUserEmail',
       'refreshUserInfo',
     ]),
     onEditDisplayName() {
@@ -215,6 +222,10 @@ export default {
       this.updateInfo();
       this.isProfileEdit = false;
     },
+    onVerifyEmail() {
+      this.verifyUserEmail(this.user);
+      this.isVerifying = true;
+    },
     async onSubmitEdit() {
       try {
         const userInfo = {
@@ -253,6 +264,13 @@ export default {
 
 $profile-margin: 48px;
 $profile-icon-size: 128px;
+
+.verified {
+  color: $like-green-2;
+  .md-icon {
+    color: $like-green-2;
+  }
+}
 
 .edit-form-container {
   display: flex;

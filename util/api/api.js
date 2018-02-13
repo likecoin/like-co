@@ -20,10 +20,9 @@ export const apiClaimCoupon = (coupon, to) => {
   return axios.post('api/coupon/claim/', payload);
 };
 
-export const apiPostPayment = payload => axios.post('/api/payment/', payload);
+export const apiVerifyUserEmail = id => axios.post(`/api/email/verify/user/${id}`, {});
 
-export const apiPostRinkeby = (id, data) =>
-  axios.post(`https://rinkeby.infura.io/${id}`, data);
+export const apiPostPayment = payload => axios.post('/api/payment/', payload);
 
 export const apiPostNewUser = (form) => {
   /* eslint-disable no-new */
