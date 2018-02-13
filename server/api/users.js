@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { toDataUrl } from '@likecoin/ethereum-blockies';
+import { sendVerificationEmail } from '../util/ses';
 import { IS_TESTNET } from '../../constant';
 
 import Validate from '../../util/ValidationHelper';
@@ -10,9 +11,13 @@ const sha256 = require('js-sha256');
 const sharp = require('sharp');
 const Web3 = require('web3');
 const imageType = require('image-type');
+const uuidv4 = require('uuid/v4');
 
-const dbRef = require('../util/firebase').userCollection;
-const fbBucket = require('../util/firebase').bucket;
+const {
+  userCollection: dbRef,
+  bucket: fbBucket,
+  FieldValue,
+} = require('../util/firebase');
 
 const SUPPORTED_AVATER_TYPE = new Set([
   'jpg',
@@ -31,6 +36,7 @@ const multer = Multer({
 });
 
 const ONE_DATE_IN_MS = 86400000;
+const FIVE_MINUTES_IN_MS = 300000;
 const W3C_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
 function uploadFile(file, newFilename) {
@@ -153,8 +159,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
     if (!isOldUser) updateObj.timestamp = Date.now();
     await dbRef.doc(user).set(updateObj, { merge: true });
 
-    res.status(200);
-    res.end();
+    res.sendStatus(200);
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
@@ -169,7 +174,7 @@ router.get('/users/id/:id', async (req, res) => {
     if (doc.exists) {
       const payload = doc.data();
       if (!payload.avatar) payload.avatar = toDataUrl(payload.wallet);
-      res.json(payload);
+      res.json(Validate.filterUserData(payload));
     } else {
       res.sendStatus(404);
     }
@@ -189,10 +194,61 @@ router.get('/users/addr/:addr', async (req, res) => {
       const payload = query.docs[0].data();
       if (!payload.avatar) payload.avatar = toDataUrl(payload.wallet);
       payload.user = query.docs[0].id;
-      res.json(payload);
+      res.json(Validate.filterUserData(payload));
     } else {
       res.sendStatus(404);
     }
+  } catch (err) {
+    const msg = err.message || err;
+    console.error(msg);
+    res.status(400).send(msg);
+  }
+});
+
+router.post('/email/verify/user/:id/', async (req, res) => {
+  try {
+    const username = req.params.id;
+    const userRef = dbRef.doc(username);
+    const doc = await userRef.get();
+    if (doc.exists) {
+      const user = doc.data();
+      if (!user.email) throw new Error('Invalid email');
+      if (user.isEmailVerified) throw new Error('Already verified');
+      if (user.lastVerifyTs && Math.abs(user.lastVerifyTs - Date.now()) > FIVE_MINUTES_IN_MS) {
+        throw new Error('Please try again later');
+      }
+      const verificationUUID = uuidv4();
+      user.verificationUUID = verificationUUID;
+      await userRef.update({
+        lastVerifyTs: Date.now(),
+        verificationUUID,
+      });
+      await sendVerificationEmail(user);
+    } else {
+      res.sendStatus(404);
+    }
+    res.sendStatus(200);
+  } catch (err) {
+    const msg = err.message || err;
+    console.error(msg);
+    res.status(400).send(msg);
+  }
+});
+
+router.get('/email/verify/:uuid', async (req, res) => {
+  try {
+    const verificationUUID = req.params.uuid;
+    const query = await dbRef.where('verificationUUID', '==', verificationUUID).get();
+    if (query.docs.length > 0) {
+      await query.docs[0].ref.update({
+        lastVerifyTs: FieldValue.delete(),
+        verificationUUID: FieldValue.delete(),
+        isEmailVerified: true,
+      });
+    } else {
+      res.sendStatus(404);
+    }
+    res.sendStatus(200);
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
