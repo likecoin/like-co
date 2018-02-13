@@ -2,32 +2,58 @@
   <section class="lc-container-1 lc-protocol">
     <div class="lc-container-2">
       <block-section
-        title="LikeCoin Protocol">
-        <div class="details">
-          <div class="description">
-            We enable attribution and cross-application collaboration on creative contents. With our unique footprint technology and LikeRank algorithm, we trace derivative work and reward creators by proof of creativity.
-          </div>
-          <div class="image md-xsmall-hide">
-            <!-- <img src="http://www.pngmart.com/files/3/Sun-Transparent-Background.png" /> -->
-          </div>
-        </div>
-        <div class="layers">
-          <div
-            :class="`layer layer-${i + 1}`"
-            v-for="(layer, i) in layers"
-            key="i">
-            <div
-              class="title"
-              :style="`z-index: ${4 - i}`">
-              <img :src="imgUrl(`layer-${i + 1}.svg`)" />
-              <span>{{ $t(`Home.Protocol.layer.${layer.key}.title`)}}</span>
+        :title="$t('Home.Protocol.title')">
+        <div class="protocol-container">
+          <div class="details">
+            <div class="description">
+              {{ $t('Home.Protocol.content') }}
             </div>
-            <div class="examples-container">
-              <div class="examples">
-                <div
-                  v-for="(example, j) in layer.examples"
-                  key="j">
-                  {{ $t(`Home.Protocol.layer.${layer.key}.example.${example}`) }}
+            <div class="image md-xsmall-hide">
+              <img :src="likeCoinIcon" />
+            </div>
+          </div>
+
+          <div class="layers md-xsmall-hide">
+            <div
+              :class="`layer layer-${i + 1}`"
+              v-for="(layer, i) in layers"
+              key="i">
+              <div
+                class="title"
+                :style="`z-index: ${4 - i}`">
+                <img :src="imgUrl(`layer-${i + 1}.svg`)" />
+                <span>{{ $t(`Home.Protocol.layer.${layer.key}.title`)}}</span>
+              </div>
+              <div class="examples-container">
+                <div class="examples">
+                  <div
+                    v-for="(example, j) in layer.examples"
+                    key="j">
+                    {{ $t(`Home.Protocol.layer.${layer.key}.example.${example}`) }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="layers-mobile">
+            <div
+              :class="`layer layer-${i + 1}`"
+              v-for="(layer, i) in layers"
+              key="i">
+              <div class="title">
+                <span>{{ $t(`Home.Protocol.layer.${layer.key}.title`)}}</span>
+              </div>
+              <div
+                class="examples-container"
+                :style="`z-index: ${4 - i}`">
+                <img :src="imgUrl(`layer-${i + 1}.svg`)" />
+                <div class="examples">
+                  <div
+                    v-for="(example, j) in layer.examples"
+                    key="j">
+                    {{ $t(`Home.Protocol.layer.${layer.key}.example.${example}`) }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -40,6 +66,9 @@
 
 <script>
 import BlockSection from '~/components/BlockSection';
+
+import likeCoinIcon from '~/assets/home/protocol-likecoin.svg';
+
 
 const images = require.context('../../assets/home');
 const imgUrl = path => images(`./${path}`);
@@ -72,6 +101,7 @@ export default {
   data() {
     return {
       layers,
+      likeCoinIcon,
     };
   },
   methods: {
@@ -101,8 +131,9 @@ export default {
     .image {
       flex: 1;
       img {
-        width: 190px;
-        height: 190px;
+        width: 100%;
+        padding: 0 40px;
+        margin-top: -88px;
       }
     }
   }
@@ -140,7 +171,7 @@ export default {
         display: flex;
         align-items: center;
         justify-content: center;
-        
+
         flex-shrink: 0;
         width: 300px;
 
@@ -189,6 +220,99 @@ export default {
           }
         }
 
+      }
+    }
+  }
+}
+
+@media (min-width: 601px) {
+  .layers-mobile {
+    display: none;
+
+    .layer {
+      display: flex;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  body .protocol-container {
+    margin: 0 -32px;
+    overflow-x: hidden;
+    overflow-y: -webkit-paged-y;
+
+    .details .description {
+      padding: 0 24px;
+    }
+  }
+  .layers-mobile {
+    margin-top: 48px;
+
+    .layer {
+      // display: flex;
+      // flex-direction: row;
+
+      .title {
+        font-size: 14px;
+        font-weight: 600;
+        color: $like-dark-brown-2;
+        width: 144px;
+        flex-shrink: 0;
+
+        padding: 8px 0 0 24px;
+      }
+
+      &:not(:first-child) {
+        .examples-container {
+          .examples {
+            margin-top: 2%;
+          }
+        }
+      }
+
+      &.layer-2 {
+        .examples div {
+          font-weight: 600;
+          color: $like-dark-brown-2;
+        }
+
+        background-image: linear-gradient(257deg, rgba(210, 240, 240, .4), rgba(240, 230, 180, .4));
+      }
+
+      &.layer-3 {
+        .examples-container {
+          margin-top: -18px;
+        }
+      }
+
+      .examples-container {
+        max-width: 400px;
+        position: relative;
+        width: 100%;
+        height: 80px;
+        margin-left: 20%;
+
+        display: flex;
+        align-items: center;
+        text-align: center;
+
+        > * {
+          width: 100%;
+        }
+
+        img {
+          // margin-top: -8px;
+        }
+
+        .examples {
+          position: absolute;
+          z-index: 5;
+          margin-left: -16px;
+
+          color: $like-white;
+
+          font-size: 12px;
+        }
       }
     }
   }

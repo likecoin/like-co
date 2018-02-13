@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import Vue from 'vue'; // eslint-disable-line import/no-extraneous-dependencies
 import VueI18n from 'vue-i18n';
 
 import messages from '../locales';

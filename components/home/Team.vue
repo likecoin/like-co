@@ -54,13 +54,24 @@ function getSwiperParams() {
       || document.body.clientWidth;
     const containerWidth = (windowWidth > 1440) ? 1440 : windowWidth;
 
-    const windowConfig = (windowWidth > 600) ? {
-      minCardSize: 188,
-      windowPadding: 224,
-    } : {
-      minCardSize: 136,
-      windowPadding: 36,
-    };
+    let windowConfig;
+
+    if (windowWidth <= 600) {
+      windowConfig = {
+        minCardSize: 136,
+        windowPadding: 32,
+      };
+    } else if (windowWidth <= 960) {
+      windowConfig = {
+        minCardSize: 188,
+        windowPadding: 112,
+      };
+    } else {
+      windowConfig = {
+        minCardSize: 188,
+        windowPadding: 224,
+      };
+    }
 
     const swiperWidth = containerWidth - windowConfig.windowPadding;
     const numFounderInRow = Math.max(Math.floor(swiperWidth / (windowConfig.minCardSize + 16)), 1);
