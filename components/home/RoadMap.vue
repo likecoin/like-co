@@ -1,24 +1,45 @@
 <template>
   <section class="lc-container-1 lc-road-map">
     <div class="lc-container-2">
-      <block-section
-        :title="$t('Home.RoadMap.title')">
-        <div class="road-map-container">
-          <div class="timeline">
-            <div
-              :class="`milestone${milestones.length === index + 1 ? ' last' : ''}`"
-              v-for="(milestone, index) in milestones">
-              <div class="date">{{ milestone.time }}</div>
-              <div class="line">
-                <div :class="`dot${milestone.active ? ' active' : ''}`" />
-              </div>
-              <div class="event">{{ $t(`Home.RoadMap.timeline.${milestone.titleKey}`) }}</div>
+      <div class="block-section road-map-container">
+
+        <!-- Section title -->
+        <div class="lc-container-3">
+          <div class="lc-container-4">
+            <div class="section-title">
+              {{ $t('Home.RoadMap.title') }}
             </div>
-            <div class="progress" />
           </div>
-          <div class="content">{{ $t('Home.RoadMap.content') }}</div>
         </div>
-      </block-section/>
+
+        <div class="lc-container-3 timeline-section">
+          <div class="lc-container-4">
+            <div class="section-content">
+              <div class="timeline">
+                <div
+                  :class="`milestone${milestones.length === index + 1 ? ' last' : ''}`"
+                  v-for="(milestone, index) in milestones">
+                  <div class="date">{{ milestone.time }}</div>
+                  <div class="line">
+                    <div :class="`dot${milestone.active ? ' active' : ''}`" />
+                  </div>
+                  <div class="event">{{ $t(`Home.RoadMap.timeline.${milestone.titleKey}`) }}</div>
+                </div>
+                <div class="progress" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lc-container-3 content-section">
+          <div class="lc-container-4">
+            <div class="section-content">
+              <div class="content">{{ $t('Home.RoadMap.content') }}</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
   </section>
 </template>
@@ -93,6 +114,20 @@ $progress-bar-percentage: 50%;
     flex-direction: column;
   }
 
+  .timeline-section {
+    @media (max-width: 600px) {
+      background-color: white;
+    }
+
+    .section-content {
+      @media (min-width: 769px) {
+        padding-bottom: 0;
+      }
+      @media (max-width: 600px) {
+        padding-top: 0;
+      }
+    }
+  }
   .timeline {
     position: relative;
 
@@ -100,6 +135,13 @@ $progress-bar-percentage: 50%;
     flex-direction: row;
 
     margin-bottom: 24px;
+
+    @media (min-width: 769px) {
+      margin-right: #{-48px - $timeline-radius / 2};
+    }
+    @media (max-width: 600px) {
+      margin-top: #{-$timeline-radius / 2};
+    }
 
     .milestone {
       color: $like-dark-brown-1;
@@ -158,23 +200,30 @@ $progress-bar-percentage: 50%;
 
 }
 
-@media (min-width: 601px) {
-  .content {
-    width: 66.66%;
-    align-self: flex-end;
+@media (min-width: 769px) {
+  .content-section .section-content {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 0;
+
+    .content {
+      width: 66.66%;
+    }
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   body .lc-road-map .road-map-container {
     display: flex;
     flex-direction: column;
 
+    .timeline-section {
+      order: 1;
+    }
+
     .timeline {
       flex-direction: column;
       align-items: center;
-
-      order: 1;
 
       .milestone {
         display: flex;
