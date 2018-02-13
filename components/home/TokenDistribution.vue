@@ -1,93 +1,91 @@
 <template>
   <section class="lc-container-1 lc-distribution">
     <div class="lc-container-2">
-      <block-section
-        :title="$t('Home.TokenDistribution.title')">
-        <div class="token-distribution-wrapper">
-          <div class="data">
-            <div class="year-btn-container">
-              <div
-                :class="`year-btn${isYear0 ? ' active' : ''}`"
-                @click="clickYear0Button(true)">
-                <h1>2018</h1>
-                <hr />
-                <span>Year 0</span>
-              </div>
-              <div
-                :class="`year-btn${!isYear0 ? ' active' : ''}`"
-                @click="clickYear0Button(false)">
-                <h1>2028+</h1>
-                <hr />
-                <span>Year 10+</span>
-              </div>
+      <div class="block-section">
+
+        <!-- Section title -->
+        <div class="lc-container-3">
+          <div class="lc-container-4">
+            <div class="section-title">
+              {{ $t('Home.TokenDistribution.title') }}
             </div>
-            <div>{{ $t('Home.TokenDistribution.content') }}</div>
           </div>
-          <pie-chart
-            class="chart"
-            :data="data[isYear0]"
-            :options="{
-              legend: {
-                display: true,
-                position: 'top',
-              },
-              tooltips: {
-                enabled: false,
-              },
-            }"
-          />
         </div>
-      </block-section/>
+
+        <!-- Mobile version begin -->
+        <div class="lc-container-3 md-xsmall-show">
+          <div class="lc-container-4">
+            <div class="section-content">
+              {{ $t('Home.TokenDistribution.content') }}
+            </div>
+          </div>
+        </div>
+        <!-- Mobile version end -->
+
+        <!-- Desktop version begin -->
+        <div class="lc-container-3 token-distribution-wrapper">
+          <div class="lc-container-4">
+            <div class="section-content">
+
+              <div class="data">
+
+                <div :class="`year-btn-container ${isYear0 ? 'left' : 'right'}`">
+
+                  <div
+                    :class="`year-btn${isYear0 ? ' active' : ''}`"
+                    @mouseenter="clickYear0Button(true)"
+                    @click="clickYear0Button(true)">
+                    <h1>2018</h1>
+                    <hr />
+                    <span>{{ $t('Home.TokenDistribution.yearButton.year0') }}</span>
+                  </div>
+
+                  <div
+                    :class="`year-btn${!isYear0 ? ' active' : ''}`"
+                    @mouseenter="clickYear0Button(false)"
+                    @click="clickYear0Button(false)">
+                    <h1>2028+</h1>
+                    <hr />
+                    <span>{{ $t('Home.TokenDistribution.yearButton.year10') }}</span>
+                  </div>
+
+                </div>
+
+                <div class="md-xsmall-hide">
+                  {{ $t('Home.TokenDistribution.content') }}
+                </div>
+              </div>
+
+              <div class="chart">
+                <img :src="isYear0 ? tokenDistributionChart2018 : tokenDistributionChart2028">
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <!-- Desktop verison end -->
+
+      </div>
     </div>
   </section>
 </template>
 
 <script>
-import PieChart from '~/components/home/PieChart';
 import BlockSection from '~/components/BlockSection';
-import tokenDistributionChart from '~/assets/home/token-distribution.svg';
+import tokenDistributionChart2018 from '~/assets/home/token-distribution_2018.svg';
+import tokenDistributionChart2028 from '~/assets/home/token-distribution_2028.svg';
 
-
-const dataYear0 = {
-  labels: ['25% Ecosystem Development', '75% Token Sale'],
-  datasets: [
-    {
-      label: 'Data One',
-      backgroundColor: ['#D2F0F0', '#F0E6B4'],
-      hoverBackgroundColor: ['#D2F0F0', '#F0E6B4'],
-      data: [25, 75],
-      rotation: 0.2,
-    },
-  ],
-};
-
-const dataYear10 = {
-  labels: ['50% Creators Pool', '30% Token Sale', '10% Ecosystem Development', '10% Team'],
-  datasets: [
-    {
-      label: 'Data One',
-      // backgroundColor: ['#D2F0F0', '#F0E6B4'],
-      // hoverBackgroundColor: ['#D2F0F0', '#F0E6B4'],
-      data: [50, 30, 10, 10],
-      rotation: 0.2,
-    },
-  ],
-};
 
 export default {
   name: 'token-distribution',
   components: {
     BlockSection,
-    PieChart,
   },
   data() {
     return {
-      tokenDistributionChart,
       isYear0: true,
-      data: {
-        true: dataYear0,
-        false: dataYear10,
-      },
+      tokenDistributionChart2018,
+      tokenDistributionChart2028,
     };
   },
   methods: {
@@ -102,78 +100,173 @@ export default {
 @import "~assets/index";
 
 .lc-distribution {
-  margin-top: 104px;
+  @media (min-width: 600px) {
+    margin-top: 88px;
+  }
 
   .token-distribution-wrapper {
-    display: flex;
-    flex-direction: row;
+    position: relative;
 
-    .data {
-      .year-btn-container {
-        display: inline-flex;
-        flex-direction: row;
-        background-color: #e6e6e6;
-        border-radius: 6px;
-        margin-bottom: 24px;
+    @media (max-width: 600px) {
+      &::before {
+        position: absolute;
+        top: 35%;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: white;
+        content: " ";
+      }
+    }
 
-        .year-btn {
-          width: 204px;
-          padding: 12px 0;
-          border-radius: 6px;
+    .section-content {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+        padding-top: 0;
+      }
+
+      .data {
+        @media (max-width: 768px) {
+          order: 1;
           text-align: center;
-          cursor: pointer;
-          > * {
-            color: #9b9b9b;
+        }
+        @media (max-width: 600px) {
+          margin-bottom: 32px;
+        }
+
+        .year-btn-container {
+          $year-switch-border-radius: 6px;
+
+          position: relative;
+          display: inline-flex;
+          flex-direction: row;
+          background-color: #e6e6e6;
+          border-radius: $year-switch-border-radius;
+          margin-bottom: 24px;
+
+          max-width: 408px;
+          width: 100%;
+
+          // Underlay
+          &::before {
+            position: absolute;
+
+            top: 0;
+            left: 0;
+            bottom: 0;
+
+            width: 50%;
+
+            background-image: linear-gradient(244deg, #d2f0f0, #f0e6b4);
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+            border-radius: $year-switch-border-radius;
+
+            content: " ";
+
+            transition: left .4s ease-in-out;
+          }
+          &.right::before {
+            left: 50%;
+          }
+
+          .year-btn {
+            position: relative;
+            width: 50%;
+            padding: 12px 0;
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
             transition: all .3s ease-in-out;
-          }
-          hr {
-            border: 1px solid #9b9b9b;
-            margin: 6px 74px 0;
-          }
 
-          span {
-            font-size: 12px;
-            line-height: 1;
-          }
+            @media (max-width: 768px) {
+              padding: 10px 0 4px;
+            }
 
-          transition: all .3s ease-in-out;
-
-          &.active,
-          &:hover {
-          	background-image: linear-gradient(244deg, #d2f0f0, #f0e6b4);
-          	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
             > * {
-              color: $like-green;
+              color: #9b9b9b;
+              transition: all .2s ease-out;
+            }
+
+            h1 {
+              @media (max-width: 768px) {
+                line-height: 30px;
+                font-size: 22px;
+                font-weight: 500;
+              }
             }
 
             hr {
-              border-color: $like-green;
+              border: 1px solid #9b9b9b;
+              margin: 6px auto;
+              max-width: 56px;
+              width: 100%;
+
+              @media (max-width: 768px) {
+                max-width: 32px;
+              }
+            }
+
+            span {
+              display: block;
+              font-size: 12px;
+              font-weight: 600;
+              line-height: 1.2;
+
+              @media (max-width: 768px) {
+                margin-top: 8px;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                text-align: center;
+              }
+            }
+
+            &.active,
+            &:hover {
+              > * {
+                color: $like-green;
+              }
+
+              hr {
+                border-color: $like-green;
+              }
             }
           }
-        }
 
-        + div {
-          margin: 8px;
+          + div {
+            margin: 8px;
+          }
         }
       }
 
-    }
-  }
-}
+      .chart {
+        position: relative;
+        margin: -10% 0 -10% 24px;
+        width: 100%;
+        max-width: 376px;
+        display: block;
+        flex-shrink: 0;
 
+        @media (max-width: 768px) {
+          order: 0;
+          margin: 0 auto;
+          padding: 0 12px 24px;
+          width: 100%;
+        }
+        @media (min-width: 601px) and (max-width: 768px) {
+          margin-top: 32px;
+        }
 
-@media (max-width: 768px) {
-  body .lc-distribution .token-distribution-wrapper {
-    flex-direction: column;
-
-    .data {
-      order: 1;
-
-      text-align: center;
-    }
-
-    .chart {
-      order: 0;
+        img {
+          display: block;
+          width: 100%;
+        }
+      }
     }
   }
 }
