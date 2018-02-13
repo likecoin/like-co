@@ -9,6 +9,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'Redeem',
+  layout: 'register',
   components: {
     LikeRegisterForm,
   },

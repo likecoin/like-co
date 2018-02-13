@@ -52,11 +52,14 @@ h2 {
   font-size: 24px;
   font-weight: bold;
   line-height: 1.38;
+}
 
+h1,
+h2,
+hr {
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
 }
-
 
 img {
   user-select: none;
@@ -71,4 +74,95 @@ html, body {
   height: 100%;
 
   background-color: $like-white !important;
+}
+
+.lc-container-0,
+.lc-container-1,
+.lc-container-2,
+.lc-container-3,
+.lc-container-4 {
+  position: relative;
+}
+
+.lc-container-0 {
+  > img {
+    width: 100%;
+    height: 488px;
+
+    object-fit: cover;
+  }
+}
+
+.lc-container-1 {
+  max-width: 1440px;
+  margin: auto;
+}
+
+.lc-container-2 {
+  padding: 0 64px;
+}
+
+.lc-container-3 {
+  padding: 0 40px;
+
+  > * {
+    margin: 0 8px;
+  }
+}
+
+.lc-container-4 {
+  width: 100%;
+}
+
+.md-xsmall-show {
+  display: none;
+}
+
+@media (min-width : 600px) and (max-width : 960px) {
+  body {
+    .lc-container-2 {
+      padding: 0 24px;
+    }
+
+    .lc-container-3 {
+      padding: 0 24px;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  body {
+    .lc-container-2 {
+      padding: 0;
+    }
+
+    .lc-container-3 {
+      padding: 0 24px;
+    }
+  }
+  .md-xsmall-hide {
+    display: none !important;
+  }
+  .md-xsmall-show {
+    display: inherit !important;
+  }
+}
+
+
+@media (max-width: 600px) {
+  body {
+    .lc-container-2 {
+      padding: 0;
+    }
+
+    .lc-container-3 {
+      padding: 0 24px;
+    }
+  }
+  .md-xsmall-hide {
+    display: none !important;
+  }
+  .md-xsmall-show {
+    display: inherit !important;
+  }
 }
