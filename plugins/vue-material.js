@@ -1,4 +1,4 @@
-import Vue from 'vue'; // eslint-disable-line import/no-extraneous-dependencies
+import Vue from 'vue';
 import VueMaterial from 'vue-material';
 
 Vue.use(VueMaterial);

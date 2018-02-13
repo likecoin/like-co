@@ -69,6 +69,7 @@ module.exports = {
     { src: 'vue-material/dist/vue-material.min.css', lang: 'css' },
     { src: '~/assets/theme.scss', lang: 'scss' }, // include vue-material theme engine
     { src: '~/assets/index.scss', lang: 'scss' },
+    'swiper/dist/css/swiper.css',
   ],
   modules: (process.env.GA_TRACKING_ID) ? [
     ['@nuxtjs/google-analytics', {
@@ -77,14 +78,17 @@ module.exports = {
   ] : [],
   plugins: [
     { src: '~/plugins/vue-material' },
+    { src: '~/plugins/vue-i18n' },
     { src: '~/plugins/EthHelper', ssr: false },
     { src: '~/plugins/vue-intercom', ssr: false },
+    { src: '~/plugins/vue-swiper', ssr: false },
+    // { src: '~/plugins/vue-chart', ssr: false },
   ],
   /*
   ** Add axios globally
   */
   build: {
-    vendor: ['axios', 'bignumber.js', 'vue-material'],
+    vendor: ['axios', 'bignumber.js', 'vue-material', 'vue-i18n'],
     /*
     ** Run ESLINT on save
     */
