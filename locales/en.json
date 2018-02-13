@@ -1,0 +1,150 @@
+{
+  "Header": {
+    "title": "likecoin.foundation"
+  },
+  "Navigation": {
+    "language": {
+      "title": "Language",
+      "items": {
+        "en": "English",
+        "zh": "中文"
+      }
+    }
+  },
+  "Home": {
+    "Flag": {
+      "title": "Reinventing the Like",
+      "content": "Rewarding Contents by Proof of Creativity"
+    },
+    "Sale": {
+      "title": "Token Sale",
+      "content": "Coming Soon",
+      "button": {
+        "paper": "White Paper",
+        "onePage": "One Page",
+        "redeem": "Redeem LikeCoin",
+        "createID": "Create ID to recive and send LikeCoin",
+        "createNow": "Create Now"
+      }
+    },
+    "Protocol": {
+      "title": "LikeCoin Protocol",
+      "content": "We enable attribution and cross-application collaboration on creative contents. With our unique footprint technology and LikeRank algorithm, we trace derivative work and reward creators by proof of creativity.",
+      "layer": {
+        "provider": {
+          "title": "Service Providers",
+          "example": {
+            "oice": "oice Visual Novel",
+            "ccImages": "Creative Commons Images",
+            "media": "Internet Media"
+          }
+        },
+        "service": {
+          "title": "LikeCoin Services",
+          "example": {
+            "button": "Like Button",
+            "store": "LikeCoin Store",
+            "token": "LikeCoin Token"
+          }
+        },
+        "eth": {
+          "title": "Ethereum Blockchain",
+          "example": {
+            "contract": "Smart Contracts",
+            "fingerprint": "Fingerprints",
+            "metadata": "Metadata Hash"
+          }
+        },
+        "ipfs": {
+          "title": "IPFS Node",
+          "example": {
+            "oice": "oice Node",
+            "cc": "Creative Commons Node",
+            "stock": "Stock Images Node"
+          }
+        }
+      }
+    },
+    "RoadMap": {
+      "title": "Road Map",
+      "content": "We enable attribution and cross-application collaboration on creative contents. With our unique footprint technology and LikeRank algorithm, we trace derivative work and reward creators by proof of creativity.",
+      "timeline": {
+        "start": "Project Start",
+        "research": "Research",
+        "poc": "Proof of Concept",
+        "store": "LikeCoin Store",
+        "sale": "Token Sale"
+      }
+    },
+    "TokenDistribution": {
+      "title": "Token Distribution",
+      "content": "We enable attribution and cross-application collaboration on creative contents."
+    },
+    "Partners": {
+      "title": "Partners"
+    },
+    "Backers": {
+      "title": "Backers"
+    },
+    "Advisor": {
+      "title": "Advisor"
+    },
+    "Team": {
+      "title": "Team",
+      "member": {
+        "kin": {
+          "name": "kin ko",
+          "title": "Product Design"
+        },
+        "aludirk": {
+          "name": "Aludirk Wong",
+          "title": "System Architect"
+        },
+        "jacky": {
+          "name": "Jacky Ko",
+          "title": "CMO"
+        },
+        "william": {
+          "name": "William Chong",
+          "title": "Full Stack Developer"
+        },
+        "chung": {
+          "name": "Chung Wu",
+          "title": "Blockchain Developer"
+        },
+        "edmond": {
+          "name": "Edmond Yu",
+          "title": "Operation"
+        },
+        "simonb": {
+          "name": "Simon But",
+          "title": "Growth Hacker"
+        },
+        "david": {
+          "name": "David Ng",
+          "title": "Full Stack Developer"
+        },
+        "miles": {
+          "name": "Miles Wong",
+          "title": "Full Stack Developer"
+        },
+        "joshua": {
+          "name": "Joshua Lo",
+          "title": "Designer"
+        }
+      }
+    },
+    "Community": {
+      "title": "LikeCoin Community: ",
+      "button": {
+        "faq": "FAQ"
+      }
+    },
+    "Footer": {
+      "button": {
+        "about": "About LikeCoin Foundation",
+        "support": "Support"
+      }
+    }
+  }
+}
