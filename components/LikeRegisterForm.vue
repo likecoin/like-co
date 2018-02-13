@@ -53,7 +53,7 @@ import EthHelper from '@/util/EthHelper';
 import User from '@/util/User';
 import ClaimDialog from '~/components/ClaimDialog';
 import { mapActions, mapGetters } from 'vuex';
-import { toDataUrl } from 'ethereum-blockies';
+import { toDataUrl } from '@likecoin/ethereum-blockies';
 import { ETHERSCAN_HOST } from '@/constant';
 
 const ONE_LIKE = new BigNumber(10).pow(18);
