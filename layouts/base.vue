@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="fixed-footer">
     <tool-bars :disableError="true" />
     <div class="container">
       <div class="landing">

@@ -1,0 +1,178 @@
+{
+  "Language": {
+    "en": "en",
+    "zh": "ch"
+  },
+  "Home": {
+    "Header": {
+      "button": {
+        "signUp": "Sign Up"
+      }
+    },
+    "Flag": {
+      "title": "Reinventing the Like",
+      "content": "Rewarding Contents by Proof of Creativity"
+    },
+    "Sale": {
+      "title": "Token Sale",
+      "content": "Coming Soon",
+      "button": {
+        "paper": "White Paper",
+        "onePage": "One Page",
+        "redeem": "Redeem LikeCoin",
+        "createID": "Create ID to recive and send LikeCoin",
+        "createNow": "Create Now"
+      }
+    },
+    "Protocol": {
+      "title": "LikeCoin Protocol",
+      "content": "--paragraph in LikeCoin Protocol---",
+      "layer": {
+        "provider": {
+          "title": "Service Providers",
+          "example": {
+            "oice": "oice Visual Novel",
+            "ccImages": "Creative Commons Images",
+            "media": "Internet Media"
+          }
+        },
+        "service": {
+          "title": "LikeCoin Services",
+          "example": {
+            "button": "Like Button",
+            "store": "LikeCoin Store",
+            "token": "LikeCoin Token"
+          }
+        },
+        "eth": {
+          "title": "Ethereum Blockchain",
+          "example": {
+            "contract": "Smart Contracts",
+            "fingerprint": "Fingerprints",
+            "metadata": "Metadata Hash"
+          }
+        },
+        "ipfs": {
+          "title": "IPFS Node",
+          "example": {
+            "oice": "oice Node",
+            "cc": "Creative Commons Node",
+            "stock": "Stock Images Node"
+          }
+        }
+      }
+    },
+    "RoadMap": {
+      "title": "Road Map",
+      "content": "---paragraph in road map---",
+      "timeline": {
+        "0": {
+          "title": "Project Start",
+          "time": "June 2017"
+        },
+        "1": {
+          "title": "Research",
+          "time": "July 2017"
+        },
+        "2": {
+          "title": "Proof of Concept",
+          "time": "Nov 2017"
+        },
+        "3": {
+          "title": "LikeCoin Store",
+          "time": "Feb 2018"
+        },
+        "4": {
+          "title": "Token Sale",
+          "time": "March 2018"
+        },
+        "5": {
+          "title": "Token Sale",
+          "time": "March 2018"
+        },
+        "6": {
+          "title": "Token Sale",
+          "time": "March 2018"
+        }
+      }
+    },
+    "TokenDistribution": {
+      "title": "Token Distribution",
+      "content": "---paragraph in token distribution---",
+      "yearButton": {
+        "year0": "Year 0",
+        "year10": "Year 10+"
+      }
+    },
+    "Partners": {
+      "title": "Partners",
+      "content": "---paragraph in partners---"
+    },
+    "Backers": {
+      "title": "Backers"
+    },
+    "Advisor": {
+      "title": "Advisor"
+    },
+    "Team": {
+      "title": "Team",
+      "member": {
+        "kin": {
+          "name": "kin ko",
+          "title": "Product Design"
+        },
+        "aludirk": {
+          "name": "Aludirk Wong",
+          "title": "System Architect"
+        },
+        "jacky": {
+          "name": "Jacky Ko",
+          "title": "CMO"
+        },
+        "william": {
+          "name": "William Chong",
+          "title": "Full Stack Developer"
+        },
+        "chung": {
+          "name": "Chung Wu",
+          "title": "Blockchain Developer"
+        },
+        "edmond": {
+          "name": "Edmond Yu",
+          "title": "Operation"
+        },
+        "simonb": {
+          "name": "Simon But",
+          "title": "Growth Hacker"
+        },
+        "david": {
+          "name": "David Ng",
+          "title": "Full Stack Developer"
+        },
+        "miles": {
+          "name": "Miles Wong",
+          "title": "Full Stack Developer"
+        },
+        "joshua": {
+          "name": "Joshua Lo",
+          "title": "Designer"
+        }
+      }
+    },
+    "Community": {
+      "title": "LikeCoin Community: ",
+      "button": {
+        "faq": "FAQ"
+      }
+    }
+  },
+  "Footer": {
+    "label": {
+      "contract": "LikeCoin Contract: "
+    },
+    "button": {
+      "aboutFoundation": "About LikeCoin Foundation",
+      "support": "Support"
+    }
+  }
+}

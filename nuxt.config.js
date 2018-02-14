@@ -19,7 +19,7 @@ module.exports = {
     link: [
       { rel: 'icon', type: 'image/png', href: '/favicon.png' },
       { rel: 'stylesheet', href: '//fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,700,400italic|Material+Icons' },
-      { rel: 'stylesheet', href: '//fonts.googleapis.com/css?family=Open+Sans:300,600,700' },
+      { rel: 'stylesheet', href: '//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' },
     ],
   },
   /*
@@ -50,11 +50,6 @@ module.exports = {
         component: resolve(__dirname, 'pages/_id/index.vue'),
       });
       routes.unshift({
-        name: 'index',
-        path: '/',
-        component: resolve(__dirname, 'pages/edit.vue'),
-      });
-      routes.unshift({
         name: 'free',
         path: '/free',
         component: resolve(__dirname, 'pages/redeem.vue'),
@@ -69,6 +64,7 @@ module.exports = {
     { src: 'vue-material/dist/vue-material.min.css', lang: 'css' },
     { src: '~/assets/theme.scss', lang: 'scss' }, // include vue-material theme engine
     { src: '~/assets/index.scss', lang: 'scss' },
+    'swiper/dist/css/swiper.css',
   ],
   modules: (process.env.GA_TRACKING_ID) ? [
     ['@nuxtjs/google-analytics', {
@@ -77,14 +73,17 @@ module.exports = {
   ] : [],
   plugins: [
     { src: '~/plugins/vue-material' },
+    { src: '~/plugins/vue-i18n' },
     { src: '~/plugins/EthHelper', ssr: false },
     { src: '~/plugins/vue-intercom', ssr: false },
+    { src: '~/plugins/vue-swiper', ssr: false },
+    // { src: '~/plugins/vue-chart', ssr: false },
   ],
   /*
   ** Add axios globally
   */
   build: {
-    vendor: ['axios', 'bignumber.js', 'vue-material'],
+    vendor: ['axios', 'bignumber.js', 'vue-material', 'vue-i18n'],
     /*
     ** Run ESLINT on save
     */

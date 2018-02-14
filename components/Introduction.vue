@@ -45,6 +45,7 @@ export default {
 
 #intro {
   display: flex;
+  align-items: center;
 
   margin-top: 72px;
   padding: 0 48px;
