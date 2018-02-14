@@ -15,7 +15,7 @@
         <div class="user-container">
           <div class="md-layout">
             <div :class="[isProfileEdit ? 'edit-mode' : '', 'user-content']">
-              LikeCoin ID:&nbsp;
+              {{ $t('Edit.label.id') }}&nbsp;
             </div>
             <nuxt-link :to="{ name: 'id', params: { id: user } }">
               <div :class="[isProfileEdit ? 'edit-mode' : '', 'user-content']">{{ user }}</div>
@@ -45,12 +45,14 @@
         :value="likeCoinValueStr"
         :isOpaque="isProfileEdit"
         :linkHref="!isProfileEdit ? 'https://likecoin.foundation/#/' : ''"
-        :linkText="!isProfileEdit ? 'Buy LikeCoin' : ''" />
+        :linkText="!isProfileEdit ? $t('Edit.button.buyCoin') : ''" />
 
       <div class="address-section">
         <div :class="`address-container${isProfileEdit ? ' edit' : ''}`">
           <div class="address-field">
-            <div :class="[isProfileEdit ? 'edit-mode' : '', 'address-title']">Your Address</div>
+            <div :class="[isProfileEdit ? 'edit-mode' : '', 'address-title']">
+              {{ $t('Edit.label.address') }}
+            </div>
             <md-field class="md-field-display">
               <md-input
                 :class="[isProfileEdit ? 'edit-mode' : '', 'input-info']"
@@ -60,11 +62,19 @@
             </md-field>
           </div>
           <div class="address-field" @click="onEditEmail">
-            <div class="address-title">Your E-mail</div>
+            <div class="address-title">
+              {{ $t('Edit.label.email') }}
+            </div>
             <md-field :class="isProfileEdit ? 'md-field-edit-mode' : 'md-field-pre-edit'">
-              <label class="input-display-hint">Add email address</label>
-              <md-input type="email" class="input-display input-info" v-model="email" ref="inputEmail"
-                                                                      :disabled="!isProfileEdit"></md-input>
+              <label class="input-display-hint">
+                {{ $t('Edit.label.addEmail') }}
+              </label>
+              <md-input
+                type="email"
+                class="input-display input-info"
+                v-model="email"
+                ref="inputEmail"
+                :disabled="!isProfileEdit" />
               <md-button
                 :class="isProfileEdit ? '' : 'input-display-btn'"
                 @click="onEditEmail"
@@ -77,10 +87,23 @@
 
         <div v-if="isProfileEdit" class="btn-container">
           <div class="edit-form-btn">
-            <md-button class="md-raised md-primary" id="edit-confirm-btn" type="submit" form="editForm" :disabled="getIsPopupBlocking">Confirm</md-button>
+            <md-button
+              class="md-raised md-primary"
+              id="edit-confirm-btn"
+              type="submit"
+              form="editForm"
+              :disabled="getIsPopupBlocking">
+              {{ $t('General.button.confirm') }}
+            </md-button>
           </div>
           <div class="edit-form-btn">
-            <md-button class="md-raised md-accent" id="edit-cancel-btn" :disabled="getIsPopupBlocking" @click="onCancel">Cancel</md-button>
+            <md-button
+              class="md-raised md-accent"
+              id="edit-cancel-btn"
+              :disabled="getIsPopupBlocking"
+              @click="onCancel">
+              {{ $t('General.button.cancel') }}
+            </md-button>
           </div>
         </div>
       </div>
@@ -92,12 +115,25 @@
       </div>
       <form id="redeemForm" v-on:submit.prevent="onSubmitCoupon">
         <md-field>
-          <label class="input-redeem-hint">Redeem Code (Optional)</label>
-          <md-input v-model="couponCode" title="Please enter a valid coupon code"
-            pattern="[2-9A-HJ-NP-Za-km-z]{8}" required :disabled="isProfileEdit"></md-input>
+          <label class="input-redeem-hint">
+            {{ $t('Edit.label.redeemCode') }}
+          </label>
+          <md-input
+            v-model="couponCode"
+            :title="$t('Edit.label.validCodeRequired')"
+            pattern="[2-9A-HJ-NP-Za-km-z]{8}"
+            required
+            :disabled="isProfileEdit" />
         </md-field>
         <div v-if="!isProfileEdit" id="form-btn">
-          <md-button class="md-raised md-primary" id="confirm-btn" type="submit" form="redeemForm" :disabled="getIsInTransaction">Confirm</md-button>
+          <md-button
+            class="md-raised md-primary"
+            id="confirm-btn"
+            type="submit"
+            form="redeemForm"
+            :disabled="getIsInTransaction">
+            {{ $t('General.button.confirm') }}
+          </md-button>
         </div>
       </form>
       <claim-dialog ref="claimDialog" :couponCode="couponCode" :wallet="wallet" />
@@ -136,7 +172,7 @@ export default {
       email: '',
       isProfileEdit: false,
       likeCoinValueStr: '',
-      subtitle: 'Redeem LikeCoin',
+      subtitle: this.$t('Edit.label.redeemCoin'),
       EditIcon,
       EditWhiteIcon,
     };
@@ -226,7 +262,7 @@ export default {
         };
         const data = await User.formatAndSignUserInfo(userInfo);
         await this.newUser(data);
-        this.setInfoMsg(`Your information have been updated,  <a href="/${this.user}">view your page</a>`);
+        this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${this.user}">${this.$t('Register.form.label.viewPage')}</a>`);
         this.refreshUserInfo(this.user);
       } catch (err) {
         console.error(err);
@@ -257,6 +293,8 @@ $profile-icon-size: 128px;
 .edit-form-container {
   display: flex;
   flex-direction: column;
+
+  padding-bottom: 60px;
 
   #editForm {
     position: relative;

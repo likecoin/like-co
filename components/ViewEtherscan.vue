@@ -19,7 +19,7 @@ export default {
   props: ['text', 'address', 'transaction'],
   data() {
     return {
-      defaultText: 'View on Etherscan',
+      defaultText: this.$t('Toolbar.etherscan.button.view'),
       etherscanUrl: ETHERSCAN_HOST,
     };
   },

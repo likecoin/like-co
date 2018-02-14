@@ -7,24 +7,31 @@
     <div class="dialog-content">
       <md-dialog-title>
         <md-progress-spinner :md-diameter="28" :md-stroke="2" md-mode="indeterminate" />
-        Pending Confirmation...
+        {{ $t('Transaction.header.label.pending')}}...
       </md-dialog-title>
       <md-dialog-content>
-        Waiting for the blockchain to confirm. It may take a few minutes… Meanwhile you may visit other pages on likecoin.store
+        {{ $t('Dialog.transaction.label.waiting') }}
       </md-dialog-content>
       <section v-if="isNewUser">
-        <md-dialog-content class="new-user">Seems you don’t have a LikeCoin ID. Create now to receive LikeCoin.</md-dialog-content>
+        <md-dialog-content class="new-user">
+          {{ $t('Dialog.transaction.label.newUser') }}
+        </md-dialog-content>
         <nuxt-link :to="{ name: 'register' }">
-          <md-button class="secondary md-primary md-raised" @click="$emit('onClose')">Create LikeCoin ID</md-button>
+          <md-button class="secondary md-primary md-raised" @click="$emit('onClose')">
+            {{ $t('Dialog.transaction.button.createID') }}
+          </md-button>
         </nuxt-link>
       </section>
       <section v-else>
         <a href="https://likecoin.foundation/" target="_blank">
-          <md-button class="primary md-primary md-raised">Buy LikeCoin</md-button>
+          <md-button class="primary md-primary md-raised">
+            {{ $t('Dialog.transaction.button.buyCoin') }}
+          </md-button>
         </a>
         <nuxt-link :to="actionRoute">
           <md-button class="secondary md-primary md-raised" @click="$emit('onClose')">
-              {{ actionText }}</md-button>
+            {{ actionText }}
+          </md-button>
         </nuxt-link>
       </section>
     </div>
@@ -38,7 +45,7 @@
     data() {
       return {
         showDialog: this.show,
-        defaultActionText: 'View Transaction',
+        defaultActionText: this.$t('Transaction.label.viewTx'),
       };
     },
     computed: {

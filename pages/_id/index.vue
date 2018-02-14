@@ -4,24 +4,37 @@
     <div class="inner-container">
       <form id="paymentInfo" v-on:submit.prevent="onSubmit">
         <input v-model="wallet" hidden required disabled />
-        <label>Amount of LikeCoin to send</label>
+        <label>{{ $t('Transaction.label.amountToSend') }}</label>
         <md-field :class="isBadAmount?'md-input-invalid':''">
-          <md-button class="value-button" @click="onAmountAdd(-1)"><md-icon class="md-size-2x">remove</md-icon></md-button>
+          <md-button class="value-button" @click="onAmountAdd(-1)">
+            <md-icon class="md-size-2x">remove</md-icon>
+          </md-button>
           <md-input id="payment-input"
             pattern="[0-9]*(\.[0-9]*)?"
-            title="Please enter a valid decimal number"
+            :title="$t('Transaction.label.enterValidNumber')"
             :value="amount"
             @keypress="onAmountKeypress"
             @input="onAmountInput"
             @focusout="formatAmount"
             required />
-          <md-button class="value-button" @click="onAmountAdd(1)"><md-icon class="md-size-2x">add</md-icon></md-button>
-          <span v-if="isBadAmount" class="md-error">Invalid amount</span>
+          <md-button class="value-button" @click="onAmountAdd(1)">
+            <md-icon class="md-size-2x">add</md-icon>
+          </md-button>
+          <span v-if="isBadAmount" class="md-error">
+            {{ $t('Transaction.label.invalidAmount') }}
+          </span>
         </md-field>
         <!-- <md-field> -->
         <!--   <md-input placeholder="Remark (optional)" /> -->
         <!-- </md-field> -->
-        <md-button id="payment-confirm" class="md-raised md-primary" type="submit" form="paymentInfo" :disabled="getIsInTransaction || !getLocalWallet">Confirm</md-button>
+        <md-button
+          id="payment-confirm"
+          class="md-raised md-primary"
+          type="submit"
+          form="paymentInfo"
+          :disabled="getIsInTransaction || !getLocalWallet">
+          {{ $t('General.button.confirm') }}
+        </md-button>
       </form>
     </div>
   </div>
@@ -67,8 +80,6 @@ export default {
       isBadAddress: false,
       isBadAmount: false,
       isEth: false,
-      dialogHeader: 'Success',
-      dialogMsg: '',
     };
   },
   asyncData({ params, redirect, error }) {
@@ -88,16 +99,28 @@ export default {
         };
       })
       .catch((e) => { // eslint-disable-line no-unused-vars
-        error({ statusCode: 404, message: 'User not found' });
+        error({ statusCode: 404, message: '' });
       });
   },
   head() {
     return {
-      title: `Send LikeCoin to ${this.displayName} - LikeCoin Store`,
+      title: this.$t('Transaction.head.sendTo', { name: this.displayName }),
       meta: [
-        { hid: 'description', name: 'description', content: `Send LikeCoin to ${this.displayName}` },
-        { hid: 'og_description', property: 'og:description', content: `Send LikeCoin to ${this.displayName}` },
-        { hid: 'og_image', property: 'og:image', content: `${this.avatar}` },
+        {
+          hid: 'description',
+          name: 'description',
+          content: '',
+        },
+        {
+          hid: 'og_description',
+          property: 'og:description',
+          content: '',
+        },
+        {
+          hid: 'og_image',
+          property: 'og:image',
+          content: `${this.avatar}`,
+        },
       ],
     };
   },
@@ -143,7 +166,7 @@ export default {
         }
         const valueToSend = ONE_LIKE.multipliedBy(new BigNumber(this.amount));
         if ((new BigNumber(balance)).lt(valueToSend)) {
-          this.setErrorMsg(`Insufficient ${this.isEth ? 'ETH' : 'LikeCoin'} in your wallet!`);
+          this.setErrorMsg(this.$t(`Transaction.error.${this.isEth ? 'eth' : 'likecoin'}Insufficient`));
           return;
         }
         let txHash;

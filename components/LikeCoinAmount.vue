@@ -2,7 +2,7 @@
   <div>
     <section id="likecoin-amount">
       <div :class="[isOpaque ? 'text-opaque' : '', 'title']">
-        Amount of LikeCoin
+        {{ $t('Edit.label.likeCoinAmount') }}
       </div>
       <div :class="[isOpaque ? 'text-opaque' : '', 'value']">
         {{ value || defaultValue }}

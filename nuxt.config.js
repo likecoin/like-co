@@ -81,7 +81,6 @@ module.exports = {
     { src: '~/plugins/EthHelper', ssr: false },
     { src: '~/plugins/vue-intercom', ssr: false },
     { src: '~/plugins/vue-swiper', ssr: false },
-    // { src: '~/plugins/vue-chart', ssr: false },
   ],
   /*
   ** Add axios globally

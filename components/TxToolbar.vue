@@ -5,10 +5,10 @@
     </section>
     <md-icon v-else>check</md-icon>
     <div class="md-layout-item">
-      {{ isInTx ? 'Pending confirmation...' : 'Transaction Complete!' }}
+      {{ isInTx ? `${$t('Transaction.header.label.pending')}...` : `${$t('Transaction.header.label.completed')}!` }}
     </div>
     <nuxt-link :to="{ name: 'tx-id', params: { id: txHash, tx: txInfo } }">
-      <md-button>View Transaction</md-button>
+      <md-button>{{ $t('Transaction.label.viewTx') }}</md-button>
 	</nuxt-link>
     <md-button v-if="!isInTx" class="md-icon-button" @click="$emit('onClose')">
       <md-icon>close</md-icon>
