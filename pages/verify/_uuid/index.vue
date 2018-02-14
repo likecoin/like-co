@@ -45,7 +45,7 @@ export default {
         this.isVerified = true;
         if (this.couponCode) {
           try {
-            await this.$refs.claimDialog.onSubmit();
+            await this.$refs.claimDialog.onDirectClaimCoupon();
           } catch (err) {
             setTimeout(() => this.$router.push({ name: 'edit' }), 3000);
           }

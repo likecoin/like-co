@@ -66,3 +66,14 @@ export async function refreshUserInfo({ commit }, id) {
     throw error;
   }
 }
+
+export async function sendCouponCodeEmail({ commit }, data) {
+  try {
+    commit(types.UI_START_BLOCKING_LOADING);
+    await apiWrapper(commit, api.apiSendCouponCodeEmail(data.user, data.coupon));
+    commit(types.UI_STOP_BLOCKING_LOADING);
+  } catch (error) {
+    commit(types.UI_STOP_BLOCKING_LOADING);
+    throw error;
+  }
+}

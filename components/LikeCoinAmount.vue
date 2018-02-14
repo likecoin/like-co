@@ -19,6 +19,11 @@
         </a>
       </div>
     </div>
+    <div v-else-if="linkText" class="links" @click="onClick">
+      <div class="link what">
+        <span> {{ linkText }} </span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -31,6 +36,11 @@ export default {
     return {
       defaultValue: '0.0000',
     };
+  },
+  methods: {
+    onClick() {
+      this.$emit('onTextClick');
+    },
   },
 };
 </script>
@@ -91,7 +101,7 @@ export default {
       opacity: 0.8;
     }
 
-    > a {
+    > a, span {
       color: $like-white;
       cursor: pointer;
       text-decoration: underline;
