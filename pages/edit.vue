@@ -275,6 +275,7 @@ export default {
     },
     onVerifyEmail() {
       this.sendVerifyEmail(this.user);
+      this.setInfoMsg(this.$t('Edit.label.verifying'));
       this.isVerifying = true;
     },
     async onSubmitEdit() {
@@ -333,6 +334,8 @@ export default {
               user: this.user,
               coupon: couponRes.coupon,
             });
+            this.isVerifying = true;
+            this.setInfoMsg(this.$t('Edit.label.verifying'));
           }
         }
       } catch (err) {
