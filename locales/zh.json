@@ -119,6 +119,9 @@
       },
       "pieChartLanguage": "hant"
     },
+    "PressCoverage": {
+      "title": "Press Coverage"
+    },
     "Partners": {
       "title": "Partners",
       "content": "---paragraph in partners---"
