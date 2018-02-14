@@ -215,6 +215,7 @@ export default {
       'setInfoMsg',
       'checkCoupon',
       'sendVerifyEmail',
+      'sendCouponCodeEmail',
       'refreshUserInfo',
       'checkIsSentCoupon',
       'getCouponCode',
