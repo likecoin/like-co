@@ -114,11 +114,13 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
     // Check user/wallet uniqueness
     const userNameQuery = dbRef.doc(user).get().then((doc) => {
       const isOldUser = doc.exists;
+      let oldEmail;
       if (isOldUser) {
         const { wallet: docWallet } = doc.data();
+        oldEmail = doc.data().email;
         if (docWallet !== from) throw new Error('User already Exist');
       }
-      return isOldUser;
+      return { isOldUser, oldEmail };
     });
     const walletQuery = dbRef.where('wallet', '==', from).get().then((snapshot) => {
       snapshot.forEach((doc) => {
@@ -129,7 +131,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       });
       return true;
     });
-    const [isOldUser] = await Promise.all([userNameQuery, walletQuery]);
+    const [{ isOldUser, oldEmail }] = await Promise.all([userNameQuery, walletQuery]);
 
     // check username length
     if (!isOldUser) {
@@ -154,7 +156,10 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       displayName,
       wallet,
     };
-    if (email) updateObj.email = email;
+    if (email && email !== oldEmail) {
+      updateObj.email = email;
+      updateObj.isEmailVerified = false;
+    }
     if (url) updateObj.avatar = url;
     if (!isOldUser) updateObj.timestamp = Date.now();
     await dbRef.doc(user).set(updateObj, { merge: true });
@@ -223,7 +228,15 @@ router.post('/email/verify/user/:id/', async (req, res) => {
         lastVerifyTs: Date.now(),
         verificationUUID,
       });
-      await sendVerificationEmail(user);
+      try {
+        await sendVerificationEmail(user);
+      } catch (err) {
+        await userRef.update({
+          lastVerifyTs: FieldValue.delete(),
+          verificationUUID: FieldValue.delete(),
+        });
+        throw err;
+      }
     } else {
       res.sendStatus(404);
     }

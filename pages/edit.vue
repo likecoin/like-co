@@ -64,7 +64,7 @@
               Your E-mail
               <span class="verified" v-if="getUserInfo.isEmailVerified"><md-icon>check</md-icon>Verified</span>
               <span v-else-if="isVerifying">Please check your inbox!</span>
-              <span v-else>(Unverifed, <a href="" @click.prevent.stop="onVerifyEmail">Verify your email</a>)</span>
+              <span v-else-if="email">(Unverifed, <a href="" @click.prevent.stop="onVerifyEmail">Verify your email</a>)</span>
             </div>
             <md-field :class="isProfileEdit ? 'md-field-edit-mode' : 'md-field-pre-edit'">
               <label class="input-display-hint">Add email address</label>
