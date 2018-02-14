@@ -37,6 +37,6 @@ export const apiPostNewUser = (form) => {
 
 export const apiCheckCanGetFreeLikeCoin = user => axios.get(`/api/coupon/sentto/${user}`);
 
-export const apiGetCouponCode = user => axios.get(`/api/coupon/cny2018bot/user/${user}`);
+export const apiGetCouponCode = user => axios.get(`/api/coupon/coupon/cny2018bot/user/${user}`);
 
 export const apiSendCouponCodeEmail = (id, coupon) => axios.post(`/api/email/verify/user/${id}`, { coupon });
