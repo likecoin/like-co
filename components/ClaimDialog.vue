@@ -74,13 +74,14 @@ export default {
         }
       }
     },
-    async onDirectClaimCoupon() {
+    async onDirectClaimCoupon(w) {
+      const wallet = w || this.wallet;
       this.showDialog = false;
       try {
-        const txHash = await this.claimCoupon({ coupon: this.couponCode, to: this.wallet });
+        const txHash = await this.claimCoupon({ coupon: this.couponCode, to: wallet });
         if (this.getIsShowingTxPopup) {
           this.closeTxDialog();
-          this.$router.push({ name: 'tx-id', params: { id: txHash, tx: { to: this.wallet } } });
+          this.$router.push({ name: 'tx-id', params: { id: txHash, tx: { to: wallet } } });
         }
       } catch (error) {
         this.isError = true;
