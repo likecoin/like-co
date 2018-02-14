@@ -61,27 +61,28 @@ export default {
           const { value } = await this.checkCoupon(this.couponCode);
           if (!value) throw new Error('Invalid coupon');
           this.confirmContent = `Are you sure you want to claim ${value} LikeCoin?`;
-          this.onConfirm = async () => {
-            this.showDialog = false;
-            try {
-              const txHash = await this.claimCoupon({ coupon: this.couponCode, to: this.wallet });
-              if (this.getIsShowingTxPopup) {
-                this.closeTxDialog();
-                this.$router.push({ name: 'tx-id', params: { id: txHash, tx: { to: this.wallet } } });
-              }
-            } catch (error) {
-              this.isError = true;
-              this.confirmContent = `Error: ${error.message || error || 'Invalid coupon code'}! <br /> Redirecting to your account page...`;
-              this.onConfirm = this.onCancel;
-              this.showDialog = true;
-            }
-          };
+          this.onConfirm = this.onClaimCoupon;
         } catch (error) {
           this.isError = true;
           this.confirmContent = `Error: ${error.message || error || 'Invalid coupon code'}!  <br /> Redirecting to your account page...`;
           this.onConfirm = this.onCancel;
           this.showDialog = true;
         }
+      }
+    },
+    async onClaimCoupon() {
+      this.showDialog = false;
+      try {
+        const txHash = await this.claimCoupon({ coupon: this.couponCode, to: this.wallet });
+        if (this.getIsShowingTxPopup) {
+          this.closeTxDialog();
+          this.$router.push({ name: 'tx-id', params: { id: txHash, tx: { to: this.wallet } } });
+        }
+      } catch (error) {
+        this.isError = true;
+        this.confirmContent = `Error: ${error.message || error || 'Invalid coupon code'}! <br /> Redirecting to your account page...`;
+        this.onConfirm = this.onCancel;
+        this.showDialog = true;
       }
     },
   },

@@ -44,8 +44,9 @@
         class="amount-section"
         :value="likeCoinValueStr"
         :isOpaque="isProfileEdit"
-        :linkHref="!isProfileEdit ? 'https://likecoin.foundation/#/' : ''"
-        :linkText="!isProfileEdit ? 'Buy LikeCoin' : ''" />
+        :linkHref="!isProfileEdit ? getAmountHref : ''"
+        :linkText="!isProfileEdit ? getAmountText : ''"
+        @getCoupon="onGetCoupon" />
 
       <div class="address-section">
         <div :class="`address-container${isProfileEdit ? ' edit' : ''}`">
@@ -145,6 +146,9 @@ export default {
       subtitle: 'Redeem LikeCoin',
       EditIcon,
       EditWhiteIcon,
+      isSentCoupon: true,
+      isTriggerGetCoupon: false,
+      isDirectClaim: false,
     };
   },
   components: {
@@ -163,6 +167,12 @@ export default {
       'getIsInTransaction',
       'getIsPopupBlocking',
     ]),
+    getAmountHref() {
+      return this.isSentCoupon ? 'https://likecoin.foundation/#/' : '';
+    },
+    getAmountText() {
+      return this.isSentCoupon ? 'Buy LikeCoin' : 'Get free LikeCoin';
+    },
   },
   methods: {
     ...mapActions([
@@ -171,6 +181,9 @@ export default {
       'checkCoupon',
       'sendVerifyEmail',
       'refreshUserInfo',
+      'checkIsSentCoupon',
+      'getCouponCode',
+      'sendCouponCodeEmail',
     ]),
     onEditDisplayName() {
       if (this.isProfileEdit) {
@@ -212,6 +225,10 @@ export default {
       this.email = user.email;
       const balance = await EthHelper.queryLikeCoinBalance(user.wallet);
       this.likeCoinValueStr = new BigNumber(balance).dividedBy(ONE_LIKE).toFixed(4);
+      const isSentCouponRes = await this.checkIsSentCoupon(this.user);
+      if (isSentCouponRes.isSent !== null) {
+        this.isSentCoupon = isSentCouponRes.isSent;
+      }
     },
     openPicker() {
       this.isProfileEdit = true;
@@ -239,14 +256,52 @@ export default {
         await this.newUser(data);
         this.setInfoMsg(`Your information have been updated,  <a href="/${this.user}">view your page</a>`);
         this.refreshUserInfo(this.user);
+        this.isProfileEdit = false;
+        if (this.isTriggerGetCoupon) {
+          this.isTriggerGetCoupon = false;
+          await this.submitGetCoupon();
+        }
       } catch (err) {
         console.error(err);
       }
-      this.isProfileEdit = false;
     },
     async onSubmitCoupon() {
       try {
         await this.$refs.claimDialog.onSubmit();
+      } catch (err) {
+        console.error(err);
+      }
+    },
+    async onGetCoupon() {
+      if (this.isSentCoupon) {
+        return;
+      }
+      if (!this.email) {
+        this.isProfileEdit = true;
+        this.isTriggerGetCoupon = true;
+      } else {
+        await this.submitGetCoupon();
+      }
+    },
+    async submitGetCoupon() {
+      if (this.isSentCoupon) {
+        return;
+      }
+      try {
+        const couponRes = await this.getCouponCode(this.user);
+        if (couponRes.coupon) {
+          if (this.getUserInfo.isEmailVerified) {
+            // directly claim
+            this.couponCode = couponRes.coupon;
+            this.isDirectClaim = true;
+            await this.$refs.claimDialog.onClaimCoupon();
+          } else {
+            await this.sendCouponCodeEmail({
+              user: this.user,
+              coupon: couponRes.coupon,
+            });
+          }
+        }
       } catch (err) {
         console.error(err);
       }

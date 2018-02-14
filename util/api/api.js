@@ -35,3 +35,8 @@ export const apiPostNewUser = (form) => {
   return axios.put('/api/users/new', params);
 };
 
+export const apiCheckIsSentCoupon = user => axios.get(`api/coupon/sentTo/${user}`);
+
+export const apiGetCouponCode = user => axios.get(`api/coupon/getCoupon/${user}`);
+
+export const apiSendCouponCodeEmail = (id, coupon) => axios.post(`/api/email/verify/user/${id}`, { coupon });
