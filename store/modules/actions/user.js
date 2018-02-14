@@ -29,10 +29,21 @@ export async function isUser({ commit }, addr) {
   }
 }
 
-export async function verifyUserEmail({ commit }, id) {
+export async function sendVerifyEmail({ commit }, id) {
   try {
     commit(types.UI_START_BLOCKING_LOADING);
-    await apiWrapper(commit, api.apiVerifyUserEmail(id));
+    await apiWrapper(commit, api.apiSendVerifyEmail(id));
+    commit(types.UI_STOP_BLOCKING_LOADING);
+  } catch (error) {
+    commit(types.UI_STOP_BLOCKING_LOADING);
+    throw error;
+  }
+}
+
+export async function verifyEmailByUUID({ commit }, uuid) {
+  try {
+    commit(types.UI_START_BLOCKING_LOADING);
+    await apiWrapper(commit, api.apiVerifyEmailByUUID(uuid));
     commit(types.UI_STOP_BLOCKING_LOADING);
   } catch (error) {
     commit(types.UI_STOP_BLOCKING_LOADING);

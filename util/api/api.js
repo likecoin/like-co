@@ -20,7 +20,9 @@ export const apiClaimCoupon = (coupon, to) => {
   return axios.post('api/coupon/claim/', payload);
 };
 
-export const apiVerifyUserEmail = id => axios.post(`/api/email/verify/user/${id}`, {});
+export const apiSendVerifyEmail = id => axios.post(`/api/email/verify/user/${id}`, {});
+
+export const apiVerifyEmailByUUID = uuid => axios.post(`/api/email/verify/${uuid}`, {});
 
 export const apiPostPayment = payload => axios.post('/api/payment/', payload);
 

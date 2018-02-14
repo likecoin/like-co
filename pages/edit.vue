@@ -63,7 +63,7 @@
             <div class="address-title">
               Your E-mail
               <span class="verified" v-if="getUserInfo.isEmailVerified"><md-icon>check</md-icon>Verified</span>
-              <span v-else-if="isVerifying">Please check your inbox!</span>
+              <span v-else-if="isVerifying">(Verfication sent, Please check your inbox!)</span>
               <span v-else-if="email">(Unverifed, <a href="" @click.prevent.stop="onVerifyEmail">Verify your email</a>)</span>
             </div>
             <md-field :class="isProfileEdit ? 'md-field-edit-mode' : 'md-field-pre-edit'">
@@ -169,7 +169,7 @@ export default {
       'newUser',
       'setInfoMsg',
       'checkCoupon',
-      'verifyUserEmail',
+      'sendVerifyEmail',
       'refreshUserInfo',
     ]),
     onEditDisplayName() {
@@ -223,7 +223,7 @@ export default {
       this.isProfileEdit = false;
     },
     onVerifyEmail() {
-      this.verifyUserEmail(this.user);
+      this.sendVerifyEmail(this.user);
       this.isVerifying = true;
     },
     async onSubmitEdit() {

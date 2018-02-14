@@ -248,7 +248,7 @@ router.post('/email/verify/user/:id/', async (req, res) => {
   }
 });
 
-router.get('/email/verify/:uuid', async (req, res) => {
+router.post('/email/verify/:uuid', async (req, res) => {
   try {
     const verificationUUID = req.params.uuid;
     const query = await dbRef.where('verificationUUID', '==', verificationUUID).get();
