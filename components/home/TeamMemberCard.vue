@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="card-wrapper">
     <div
       v-if="!isDummy"
       class="card">
@@ -54,20 +54,28 @@ $card-min-width-mobile: 136px;
 
 $card-icon-size: 112px;
 
+
+.card-wrapper {
+  margin: 8px;
+}
+
 .card {
   min-width: $card-min-width-desktop;
   max-width: $card-max-width-desktop;
+  height: 100%;
   min-height: 290px;
-  margin: 8px;
   padding: 20px 0;
+  margin: auto;
+
+  text-align: center;
 
   border-radius: 6px;
   background-color: $like-white;
 
-  text-align: center;
-
   &.dummy {
     width: $card-min-width-desktop;
+
+    pointer-events: none;
 
     background-color: transparent;
   }
@@ -81,8 +89,8 @@ $card-icon-size: 112px;
 
   .details {
     display: flex;
-    flex-direction: column;
     align-items: center;
+    flex-direction: column;
 
     margin: 16px 0;
 
@@ -130,8 +138,8 @@ $card-icon-size: 112px;
     .platforms {
       max-width: 128px;
       .md-icon-button {
-        min-width: 36px;
         width: 36px;
+        min-width: 36px;
 
         :global(.md-ripple) {
           padding: 0 6px;

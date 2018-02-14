@@ -17,13 +17,13 @@
             <div class="section-content">
               <div class="timeline">
                 <div
-                  :class="`milestone${milestones.length === index + 1 ? ' last' : ''}`"
-                  v-for="(milestone, index) in milestones">
-                  <div class="date">{{ milestone.time }}</div>
+                  :class="`milestone${milestonesStatus.length === index + 1 ? ' last' : ''}`"
+                  v-for="(milestoneStatus, index) in milestonesStatus">
+                  <div class="date">{{ $t(`Home.RoadMap.timeline.${index}.time`) }}</div>
                   <div class="line">
-                    <div :class="`dot${milestone.active ? ' active' : ''}`" />
+                    <div :class="`dot${milestoneStatus ? ' active' : ''}`" />
                   </div>
-                  <div class="event">{{ $t(`Home.RoadMap.timeline.${milestone.titleKey}`) }}</div>
+                  <div class="event">{{ $t(`Home.RoadMap.timeline.${index}.title`) }}</div>
                 </div>
                 <div class="progress" />
               </div>
@@ -48,43 +48,7 @@
 import BlockSection from '~/components/BlockSection';
 
 
-const milestones = [
-  {
-    time: 'June 2017',
-    titleKey: 'start',
-    active: true,
-  },
-  {
-    time: 'July 2017',
-    titleKey: 'research',
-    active: true,
-  },
-  {
-    time: 'Nov 2017',
-    titleKey: 'poc',
-    active: true,
-  },
-  {
-    time: 'Feb 2018',
-    titleKey: 'store',
-    active: true,
-  },
-  {
-    time: 'March 2018',
-    titleKey: 'sale',
-    active: false,
-  },
-  {
-    time: 'March 2018',
-    titleKey: 'sale',
-    active: false,
-  },
-  {
-    time: 'March 2018',
-    titleKey: 'sale',
-    active: false,
-  },
-];
+const milestonesStatus = [true, true, true, true, false, false, false];
 
 export default {
   name: 'road-map',
@@ -93,7 +57,7 @@ export default {
   },
   data() {
     return {
-      milestones,
+      milestonesStatus,
     };
   },
 };

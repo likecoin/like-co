@@ -78,7 +78,7 @@ $carousel-height: 488px;
     }
 
     .swiper-pagination {
-      display: hidden;
+      bottom: -5px;
 
       :global(.swiper-pagination-bullet) {
         border-radius: 0;

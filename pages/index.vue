@@ -12,7 +12,9 @@
         <site-header />
         <div class="lc-container-3 md-xsmall-hide">
           <md-button class="account-btn">
-            Sign Up
+            <nuxt-link :to="{ name: 'register' }">
+              {{ $t('Home.Header.button.signUp') }}
+            </nuxt-link>
           </md-button>
         </div>
       </div>
@@ -25,12 +27,8 @@
       <div class="lc-container-2">
         <div class="lc-container-3">
           <div class="sale-description-container">
-            <h2>
-              Token Sale
-            </h2>
-            <h1>
-              Coming Soon
-            </h1>
+            <h2>{{ $t('Home.Sale.title') }}</h2>
+            <h1>{{ $t('Home.Sale.content') }}</h1>
             <div class="links md-xsmall-hide">
               <custom-link
                 :title="$t('Home.Sale.button.paper')"
@@ -50,7 +48,9 @@
           </div>
           <div class="btn-container md-xsmall-hide">
             <md-button class="redeem-btn festive">
-              {{ $t('Home.Sale.button.redeem') }}
+              <nuxt-link :to="{ name: 'redeem' }">
+                {{ $t('Home.Sale.button.redeem') }}
+              </nuxt-link>
             </md-button>
           </div>
         </div>
@@ -66,8 +66,8 @@
     <section class="lc-container-1 lc-partner">
       <div class="lc-container-2">
         <block-section
-          title="Partners">
-          We enable attribution and cross-application collaboration on creative contents. With our unique footprint technology and LikeRank algorithm, we trace derivative work and reward creators by proof of creativity.
+          :title="$t('Home.Partners.title')">
+          {{ $t('Home.Partners.content') }}
         </block-section/>
       </div>
     </section>
@@ -75,25 +75,25 @@
     <section class="lc-container-1 lc-backer">
       <div class="lc-container-2">
         <block-section
-          title="Backers">
+          :title="$t('Home.Backers.title')">
           <team />
         </block-section/>
       </div>
     </section>
 
-    <section class="lc-container-1 lc-advisor">
+    <!-- <section class="lc-container-1 lc-advisor">
       <div class="lc-container-2">
         <block-section
-          title="Advisor">
+          :title="$t('Home.Advisor.title')">
           <team />
         </block-section/>
       </div>
-    </section>
+    </section> -->
 
     <section class="lc-container-1 lc-team">
       <div class="lc-container-2">
         <block-section
-          title="Team">
+          :title="$t('Home.Team.title')">
           <team />
         </block-section/>
       </div>
@@ -108,13 +108,9 @@
       <div class="lc-container-2">
         <div class="lc-container-3">
           <div class="sale-description-container">
-            <h2>
-              Token Sale
-            </h2>
-            <h1>
-              Coming Soon
-            </h1>
-            <div>
+            <h2>{{ $t('Home.Sale.title') }}</h2>
+            <h1>{{ $t('Home.Sale.content') }}</h1>
+            <div class="md-xsmall-hide">
               <custom-link
                 :title="$t('Home.Sale.button.createID')"
                 href="hi" />
@@ -122,7 +118,9 @@
           </div>
           <div class="btn-container md-xsmall-hide">
             <md-button class="redeem-btn">
-              {{ $t('Home.Sale.button.createNow') }}
+              <nuxt-link :to="{ name: 'register' }">
+                {{ $t('Home.Sale.button.createNow') }}
+              </nuxt-link>
             </md-button>
           </div>
         </div>
@@ -309,6 +307,11 @@ $carousel-height: 488px;
 
   :global(.md-ripple) {
     padding: 8px;
+
+    :global(.md-button-content) > a {
+      color: $like-white;
+      text-decoration: none;
+    }
   }
 }
 
@@ -336,6 +339,15 @@ $carousel-height: 488px;
 @media (max-width: 600px) {
   body {
     .lc-description {
+      &.last {
+        .sale-description-container {
+          padding: 18px 0;
+
+          h1 {
+            margin-bottom: 0;
+          }
+        }
+      }
       .underlay.gradient {
         background-color: $like-green;
         width: 100%;
