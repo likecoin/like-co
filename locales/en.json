@@ -102,7 +102,8 @@
       "yearButton": {
         "year0": "Year 0",
         "year10": "Year 10+"
-      }
+      },
+      "pieChartLanguage": "en"
     },
     "Partners": {
       "title": "Partners",
