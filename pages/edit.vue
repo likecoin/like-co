@@ -148,7 +148,6 @@ export default {
       EditWhiteIcon,
       isSentCoupon: true,
       isTriggerGetCoupon: false,
-      isDirectClaim: false,
     };
   },
   components: {
@@ -293,7 +292,6 @@ export default {
           if (this.getUserInfo.isEmailVerified) {
             // directly claim
             this.couponCode = couponRes.coupon;
-            this.isDirectClaim = true;
             await this.$refs.claimDialog.onClaimCoupon();
           } else {
             await this.sendCouponCodeEmail({
