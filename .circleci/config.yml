@@ -112,7 +112,9 @@ workflows:
           type: approval
           filters:
             branches:
-              only: master
+              only:
+                - master
+                - develop
           requires:
            - test
       - hold_deploy_mainnet:
