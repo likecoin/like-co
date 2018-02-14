@@ -113,7 +113,7 @@
             <div class="md-xsmall-hide">
               <custom-link
                 :title="$t('Home.Sale.button.createID')"
-                href="hi" />
+                href="register" />
             </div>
           </div>
           <div class="btn-container md-xsmall-hide">
@@ -137,7 +137,7 @@
           <div class="faq">
             <custom-link
               :title="$t('Home.Community.button.faq')"
-              href="hi" />
+              href="http://intercom.help/likecoin" />
           </div>
         </div>
       </div>
