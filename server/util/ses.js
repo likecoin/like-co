@@ -19,9 +19,39 @@ export async function sendVerificationEmail(user) {
           Charset: 'UTF-8',
           Data: `Hi ${user.displayName}!
 
-Welcome to LikeCoin Store! To verify your email so that you can publish packages, click the following link:
+Welcome to LikeCoin Store! To verify your email, click the following link:
 
 https://likecoin.store/verify/${user.verificationUUID}
+
+LikeCoin Foundation
+https://likecoin.foundation`,
+        },
+      },
+    },
+  };
+  return ses.sendEmail(params).promise();
+}
+
+export async function sendVerificationWithCouponEmail(user, coupon) {
+  const params = {
+    Source: 'noreply@likecoin.store',
+    Destination: {
+      ToAddresses: [user.email],
+    },
+    Message: {
+      Subject: {
+        Data: 'Verify your Likecoin Store email and Claim your LikeCoin',
+      },
+      Body: {
+        Text: {
+          Charset: 'UTF-8',
+          Data: `Hi ${user.displayName}!
+
+Welcome to LikeCoin Store! To verify your email so that you can claim your LikeCoin, click the following link:
+
+https://likecoin.store/verify/${user.verificationUUID}/${coupon}
+
+Your coupon code: ${coupon}
 
 LikeCoin Foundation
 https://likecoin.foundation`,

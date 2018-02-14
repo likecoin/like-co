@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { toDataUrl } from '@likecoin/ethereum-blockies';
-import { sendVerificationEmail } from '../util/ses';
+import { sendVerificationEmail, sendVerificationWithCouponEmail } from '../util/ses';
 import { IS_TESTNET } from '../../constant';
 
 import Validate from '../../util/ValidationHelper';
@@ -213,6 +213,7 @@ router.get('/users/addr/:addr', async (req, res) => {
 router.post('/email/verify/user/:id/', async (req, res) => {
   try {
     const username = req.params.id;
+    const { coupon } = req.body;
     const userRef = dbRef.doc(username);
     const doc = await userRef.get();
     if (doc.exists) {
@@ -229,7 +230,11 @@ router.post('/email/verify/user/:id/', async (req, res) => {
         verificationUUID,
       });
       try {
-        await sendVerificationEmail(user);
+        if (coupon && /[2-9A-HJ-NP-Za-km-z]{8}/.test(coupon)) {
+          await sendVerificationWithCouponEmail(user);
+        } else {
+          await sendVerificationEmail(user);
+        }
       } catch (err) {
         await userRef.update({
           lastVerifyTs: FieldValue.delete(),
