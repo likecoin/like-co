@@ -218,7 +218,6 @@ export default {
       'sendVerifyEmail',
       'sendCouponCodeEmail',
       'refreshUserInfo',
-      'checkIsSentCoupon',
       'getCouponCode',
       'checkCanGetFreeLikeCoin',
     ]),
