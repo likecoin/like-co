@@ -261,9 +261,7 @@ export default {
       const balance = await EthHelper.queryLikeCoinBalance(user.wallet);
       this.likeCoinValueStr = new BigNumber(balance).dividedBy(ONE_LIKE).toFixed(4);
       const canGetFreeLikeCoinRes = await this.checkCanGetFreeLikeCoin(this.user);
-      if (canGetFreeLikeCoinRes.coupon !== null) {
-        this.canGetFreeLikeCoin = true;
-      }
+      this.canGetFreeLikeCoin = !canGetFreeLikeCoinRes.coupon;
     },
     openPicker() {
       this.isProfileEdit = true;
