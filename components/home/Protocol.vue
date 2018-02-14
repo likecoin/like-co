@@ -211,7 +211,6 @@ export default {
 
           width: 100%;
           height: 100%;
-          margin-top: -6px;
 
           > div {
             flex: 1;
@@ -237,7 +236,7 @@ export default {
 
 @media (max-width: 600px) {
   body .protocol-container {
-    margin: 0 -32px;
+    margin: 0 -32px -32px;
     overflow-x: hidden;
     overflow-y: -webkit-paged-y;
 
@@ -247,6 +246,8 @@ export default {
   }
   .layers-mobile {
     margin-top: 48px;
+    padding-bottom: 50px;
+    background-color: white;
 
     .layer {
       // display: flex;
