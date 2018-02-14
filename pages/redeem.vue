@@ -14,7 +14,7 @@ export default {
   },
   fetch({ store, redirect }) {
     if (store.getters.getUserIsRegistered) {
-      redirect('/edit');
+      redirect({ name: 'edit' });
       return;
     }
     const title = 'Create a LikeCoin ID to send and receive LikeCoin';

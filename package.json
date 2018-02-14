@@ -14,6 +14,7 @@
     "prepare": "cd node_modules/web3-core-requestmanager/src && sed -i.bak \"/var global = Function('return this')();/d\" givenProvider.js && rm givenProvider.js.bak"
   },
   "dependencies": {
+    "@likecoin/ethereum-blockies": "^0.1.1",
     "@nuxtjs/google-analytics": "^2.0.2",
     "abi-decoder": "^1.0.9",
     "axios": "^0.17.1",
@@ -22,7 +23,6 @@
     "compression": "^1.7.1",
     "cross-env": "^5.0.1",
     "eth-lib": "^0.2.7",
-    "ethereum-blockies": "github:MyEtherWallet/blockies",
     "express": "^4.15.3",
     "firebase-admin": "^5.7.0",
     "image-type": "^3.0.0",

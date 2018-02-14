@@ -18,7 +18,7 @@
             Recipient LikeCoin ID
           </div>
           <nuxt-link :to="{ name: 'id', params: { id: toId } }">
-            <div class="address value">{{ toId }}</div>
+            <div class="value">{{ toId }}</div>
           </nuxt-link>
         </section>
         <section class="section-container">
@@ -33,7 +33,7 @@
         <section v-if="fromId" class="section-container">
           <div class="key">Sender Display Name</div>
           <nuxt-link :to="{ name: 'id', params: { id: fromId } }">
-            <div class="address value">{{ fromName }}</div>
+            <div class="value">{{ fromName }}</div>
           </nuxt-link>
         </section>
         <section class="section-container">
@@ -212,6 +212,10 @@ export default {
       text-align: left;
       font-size: 20px;
       word-wrap: break-word;
+    }
+
+    .address.value {
+      font-size: 19px;
     }
   }
 }

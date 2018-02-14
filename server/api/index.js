@@ -9,4 +9,8 @@ const router = Router();
 router.use(users);
 router.use(payment);
 
+router.get('/healthz', (req, res) => {
+  res.sendStatus(200);
+});
+
 export default router;

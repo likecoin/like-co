@@ -71,7 +71,10 @@ export default {
       dialogMsg: '',
     };
   },
-  asyncData({ params, error }) {
+  asyncData({ params, redirect, error }) {
+    if (params.id !== params.id.toLowerCase()) {
+      redirect({ name: 'id', params: { id: params.id.toLowerCase() } });
+    }
     return apiGetUserById(params.id)
       .then((res) => {
         const { wallet, avatar, displayName } = res.data;

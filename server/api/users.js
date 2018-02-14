@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { toDataUrl } from 'ethereum-blockies';
+import { toDataUrl } from '@likecoin/ethereum-blockies';
 import { IS_TESTNET } from '../../constant';
 
 import Validate from '../../util/ValidationHelper';

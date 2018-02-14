@@ -148,7 +148,7 @@ export default {
   },
   async fetch({ store, redirect }) {
     if (!store.getters.getUserIsRegistered) {
-      redirect('/register');
+      redirect({ name: 'register' });
     }
   },
   computed: {
