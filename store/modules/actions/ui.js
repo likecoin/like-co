@@ -1,6 +1,10 @@
 /* eslint import/prefer-default-export: "off" */
 import * as types from '@/store/mutation-types';
 
+export const setLocale = ({ commit }, locale) => {
+  commit(types.UI_SET_LOCALE, locale);
+};
+
 export const setMetamaskError = ({ commit }, msg) => {
   commit(types.UI_SET_METAMASK_ERROR, msg);
 };

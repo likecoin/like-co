@@ -231,9 +231,9 @@ router.post('/email/verify/user/:id/', async (req, res) => {
       });
       try {
         if (coupon && /[2-9A-HJ-NP-Za-km-z]{8}/.test(coupon)) {
-          await sendVerificationWithCouponEmail(user);
+          await sendVerificationWithCouponEmail(res, user, coupon);
         } else {
-          await sendVerificationEmail(user);
+          await sendVerificationEmail(res, user);
         }
       } catch (err) {
         await userRef.update({

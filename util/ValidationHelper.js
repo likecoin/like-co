@@ -6,6 +6,7 @@ const ValidationHelper = {
     user,
     displayName,
     email,
+    avatar,
     wallet,
     isEmailVerified,
   }) {
@@ -13,6 +14,7 @@ const ValidationHelper = {
       user,
       displayName,
       email,
+      avatar,
       wallet,
       isEmailVerified,
     };

@@ -174,5 +174,15 @@
       "aboutFoundation": "About LikeCoin Foundation",
       "support": "Support"
     }
+  },
+  "Email": {
+    "VerifiyEmail": {
+      "subject": "Verify your Likecoin Store email",
+      "body": "Hi {{name}}!\n\nWelcome to LikeCoin Store! To verify your email, click the following link:\n\nhttps://likecoin.store/verify/{{uuid}}\n\nLikeCoin Foundation\nhttps://likecoin.foundation"
+    },
+    "VerifiyAndCouponEmail": {
+      "subject": "Verify your Likecoin Store email and Claim your LikeCoin",
+      "body": "Hi {{name}}!\n\nWelcome to LikeCoin Store! To verify your email so that you can claim your LikeCoin, click the following link:\n\nhttps://likecoin.store/verify/{{uuid}}/{{coupon}}\n\nYour coupon code: {{coupon}}\n\nLikeCoin Foundation\nhttps://likecoin.foundation"
+    }
   }
 }

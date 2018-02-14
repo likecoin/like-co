@@ -1,10 +1,19 @@
 import express from 'express';
+import i18n from 'i18n';
 import compression from 'compression';
 import bodyParser from 'body-parser';
 import { Nuxt, Builder } from 'nuxt';
 import { IS_TESTNET } from '../constant';
 
 import api from './api';
+
+const path = require('path');
+
+i18n.configure({
+  locales: ['en', 'zh'],
+  directory: path.resolve(__dirname, '../locales'),
+  objectNotation: true,
+});
 
 const app = express();
 const host = process.env.HOST || '127.0.0.1';
@@ -24,6 +33,11 @@ app.use((req, res, next) => {
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(i18n.init);
+app.use((req, res, next) => {
+  if (req.body.locale) i18n.setLocale(res, req.body.locale);
+  next();
+});
 
 // Import API Routes
 app.use('/api', api);

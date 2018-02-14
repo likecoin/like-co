@@ -29,10 +29,10 @@ export async function isUser({ commit }, addr) {
   }
 }
 
-export async function sendVerifyEmail({ commit }, id) {
+export async function sendVerifyEmail({ commit, rootState }, id) {
   try {
     commit(types.UI_START_BLOCKING_LOADING);
-    await apiWrapper(commit, api.apiSendVerifyEmail(id));
+    await apiWrapper(commit, api.apiSendVerifyEmail(id, rootState.ui.locale));
     commit(types.UI_STOP_BLOCKING_LOADING);
   } catch (error) {
     commit(types.UI_STOP_BLOCKING_LOADING);
@@ -40,10 +40,13 @@ export async function sendVerifyEmail({ commit }, id) {
   }
 }
 
-export async function verifyEmailByUUID({ commit }, uuid) {
+export async function verifyEmailByUUID({ commit, rootState }, uuid) {
   try {
     commit(types.UI_START_BLOCKING_LOADING);
-    const { wallet } = await apiWrapper(commit, api.apiVerifyEmailByUUID(uuid));
+    const { wallet } = await apiWrapper(
+      commit,
+      api.apiVerifyEmailByUUID(uuid, rootState.ui.locale),
+    );
     commit(types.UI_STOP_BLOCKING_LOADING);
     return wallet;
   } catch (error) {

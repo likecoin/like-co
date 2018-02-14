@@ -1,10 +1,12 @@
+/* eslint-disable no-underscore-dangle */
+
 const aws = require('aws-sdk');
 
 aws.config.loadFromPath('server/config/aws.json');
 
 const ses = new aws.SES();
 
-export async function sendVerificationEmail(user) {
+export async function sendVerificationEmail(res, user) {
   const params = {
     Source: 'noreply@likecoin.store',
     Destination: {
@@ -12,19 +14,16 @@ export async function sendVerificationEmail(user) {
     },
     Message: {
       Subject: {
-        Data: 'Verify your Likecoin Store email',
+        Charset: 'UTF-8',
+        Data: res.__('Email.VerifiyEmail.subject'),
       },
       Body: {
         Text: {
           Charset: 'UTF-8',
-          Data: `Hi ${user.displayName}!
-
-Welcome to LikeCoin Store! To verify your email, click the following link:
-
-https://likecoin.store/verify/${user.verificationUUID}
-
-LikeCoin Foundation
-https://likecoin.foundation`,
+          Data: res.__('Email.VerifiyEmail.body', {
+            name: user.displayName,
+            uuid: user.verificationUUID,
+          }),
         },
       },
     },
@@ -32,7 +31,7 @@ https://likecoin.foundation`,
   return ses.sendEmail(params).promise();
 }
 
-export async function sendVerificationWithCouponEmail(user, coupon) {
+export async function sendVerificationWithCouponEmail(res, user, coupon) {
   const params = {
     Source: 'noreply@likecoin.store',
     Destination: {
@@ -40,21 +39,17 @@ export async function sendVerificationWithCouponEmail(user, coupon) {
     },
     Message: {
       Subject: {
-        Data: 'Verify your Likecoin Store email and Claim your LikeCoin',
+        Charset: 'UTF-8',
+        Data: res.__('Email.VerifiyAndCouponEmail.subject'),
       },
       Body: {
         Text: {
           Charset: 'UTF-8',
-          Data: `Hi ${user.displayName}!
-
-Welcome to LikeCoin Store! To verify your email so that you can claim your LikeCoin, click the following link:
-
-https://likecoin.store/verify/${user.verificationUUID}/${coupon}
-
-Your coupon code: ${coupon}
-
-LikeCoin Foundation
-https://likecoin.foundation`,
+          Data: res.__('Email.VerifiyAndCouponEmail.body', {
+            name: user.displayName,
+            uuid: user.verificationUUID,
+            coupon,
+          }),
         },
       },
     },

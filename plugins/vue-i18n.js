@@ -7,7 +7,7 @@ Vue.use(VueI18n);
 
 // Example: https://nuxtjs.org/examples/i18n
 
-export default ({ app }) => {
+export default ({ app, store }) => {
   // Set i18n instance on app to use it in middleware and pages asyncData/fetch
   /* eslint-disable no-param-reassign */
   app.i18n = new VueI18n({
@@ -15,4 +15,5 @@ export default ({ app }) => {
     fallbackLocale: 'en',
     messages,
   });
+  store.dispatch('setLocale', 'en');
 };

@@ -1,6 +1,7 @@
 /* eslint no-shadow: "off" */
 /* eslint no-param-reassign: "off" */
 import {
+  UI_SET_LOCALE,
   UI_SET_METAMASK_ERROR,
   UI_INFO_MSG,
   UI_ERROR_MSG,
@@ -21,6 +22,7 @@ import * as getters from './getters/ui';
 import * as actions from './actions/ui';
 
 const state = {
+  locale: 'en',
   metamaskError: '',
   infoIsError: false,
   infoMsg: '',
@@ -39,6 +41,9 @@ const state = {
 };
 
 const mutations = {
+  [UI_SET_LOCALE](state, locale) {
+    state.locale = locale;
+  },
   [UI_SET_METAMASK_ERROR](state, err) {
     state.metamaskError = err;
   },

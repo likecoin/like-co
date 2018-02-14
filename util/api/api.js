@@ -20,9 +20,9 @@ export const apiClaimCoupon = (coupon, to) => {
   return axios.post('/api/coupon/claim/', payload);
 };
 
-export const apiSendVerifyEmail = id => axios.post(`/api/email/verify/user/${id}`, {});
+export const apiSendVerifyEmail = (id, locale) => axios.post(`/api/email/verify/user/${id}`, { locale });
 
-export const apiVerifyEmailByUUID = uuid => axios.post(`/api/email/verify/${uuid}`, {});
+export const apiVerifyEmailByUUID = (uuid, locale) => axios.post(`/api/email/verify/${uuid}`, { locale });
 
 export const apiPostPayment = payload => axios.post('/api/payment/', payload);
 
