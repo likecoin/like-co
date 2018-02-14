@@ -317,10 +317,15 @@
       "addEmail": "Add email address",
       "redeemCoin": "Redeem LikeCoin",
       "redeemCode": "Redeem Code (Optional)",
-      "validCodeRequired": "Please enter a valid coupon code"
+      "validCodeRequired": "Please enter a valid coupon code",
+      "verified": "Verified",
+      "verifying": "Verfication sent, Please check your inbox!",
+      "unverified": "Unverifed",
+      "verifyEmail": "Verify your email"
     },
     "button": {
-      "buyCoin": "Buy LikeCoin"
+      "buyCoin": "Buy LikeCoin",
+      "getFreeCoin": "Get free LikeCoin"
     }
   },
   "Transaction": {

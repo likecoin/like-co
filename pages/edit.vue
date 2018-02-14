@@ -64,9 +64,9 @@
           <div class="address-field" @click="onEditEmail">
             <div class="address-title">
               {{ $t('Edit.label.email') }}
-              <span class="verified" v-if="getUserInfo.isEmailVerified"><md-icon>check</md-icon>Verified</span>
-              <span v-else-if="isVerifying">(Verfication sent, Please check your inbox!)</span>
-              <span v-else-if="email">(Unverifed, <a href="" @click.prevent.stop="onVerifyEmail">Verify your email</a>)</span>
+              <span class="verified" v-if="getUserInfo.isEmailVerified"><md-icon>check</md-icon>{{ $t('Edit.label.verified') }}</span>
+              <span v-else-if="isVerifying">({{ $t('Edit.label.verifying') }})</span>
+              <span v-else-if="email">({{ $t('Edit.label.unverified') }}, <a href="" @click.prevent.stop="onVerifyEmail">{{ $t('Edit.label.verifyEmail') }}</a>)</span>
             </div>
             <md-field :class="isProfileEdit ? 'md-field-edit-mode' : 'md-field-pre-edit'">
               <label class="input-display-hint">
@@ -203,7 +203,7 @@ export default {
       return this.canGetFreeLikeCoin ? '' : 'https://likecoin.foundation/#/'; // remove after chinese 15/1
     },
     getAmountText() {
-      return this.canGetFreeLikeCoin ? 'Get free LikeCoin' : this.$t('Edit.button.buyCoin'); // remove after chinese 15/1
+      return this.canGetFreeLikeCoin ? this.$t('Edit.button.getFreeCoin') : this.$t('Edit.button.buyCoin'); // remove after chinese 15/1
     },
     getAmountAction() {
       return this.canGetFreeLikeCoin ? this.onGetCoupon : () => {}; // remove after chinese 15/1
