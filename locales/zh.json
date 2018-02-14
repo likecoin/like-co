@@ -179,11 +179,11 @@
   "Email": {
     "VerifiyEmail": {
       "subject": "LikeCoin Store 帳號驗證",
-      "body": "您好 {{name}}!\n\n歡迎來到 LikeCoin Store ！請到下列網址驗證您的電郵地址:\n\nhttps://likecoin.store/verify/{{uuid}}\n\nLikeCoin 基金會\nhttps://likecoin.foundation"
+      "body": "您好 {{name}}!\n\n歡迎來到 LikeCoin Store ！請到下列網址驗證您的電郵地址:\n\nhttps://likecoin.store/verify/{{uuid}}\n\nLikeCoin Foundation\nhttps://likecoin.foundation"
     },
     "VerifiyAndCouponEmail": {
       "subject": "LikeCoin Store 帳號驗證",
-      "body": "您好 {{name}}！\n\n歡迎來到 LikeCoin Store ！請到下列網址驗證您的電郵地址，換領您的免費 LikeCoin：\n\nhttps://likecoin.store/verify/{{uuid}}/{{coupon}}\n\n您的換領券編號： {{coupon}}\n\nLikeCoin 基金會\nhttps://likecoin.foundation"
+      "body": "您好 {{name}}！\n\n歡迎來到 LikeCoin Store ！請到下列網址驗證您的電郵地址，換領您的免費 LikeCoin：\n\nhttps://likecoin.store/verify/{{uuid}}/{{coupon}}\n\n您的換領券編號： {{coupon}}\n\nLikeCoin Foundation\nhttps://likecoin.foundation"
     }
   }
 }
