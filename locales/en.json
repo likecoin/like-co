@@ -1,7 +1,8 @@
 {
   "General": {
     "label": {
-      "error": "Error"
+      "error": "Error",
+      "success": "Success"
     },
     "button": {
       "confirm": "Confirm",
@@ -326,6 +327,13 @@
     "button": {
       "buyCoin": "Buy LikeCoin",
       "getFreeCoin": "Get free LikeCoin"
+    }
+  },
+  "Verify": {
+    "label": {
+      "toIndex": "returning to index",
+      "toEdit": "returning to account page",
+      "verifying": "Verifying"
     }
   },
   "Transaction": {

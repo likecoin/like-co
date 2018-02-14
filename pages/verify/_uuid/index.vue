@@ -1,10 +1,10 @@
 <template>
   <div>
-    <span v-if="errorMsg">Error: {{ errorMsg }}, returning to 
-      <nuxt-link :to="{ name: 'index' }">index</nuxt-link>...</span>
-    <span v-else-if="isVerified">Success!, returning to 
-      <nuxt-link :to="{ name: 'edit' }">account page</nuxt-link>...</span>
-    <span v-else>Verifyinging</span>
+    <span v-if="errorMsg">{{ $t('General.label.error') }}: {{ errorMsg }}, 
+      <nuxt-link :to="{ name: 'index' }">{{ $t('Verify.label.toIndex') }}</nuxt-link>...</span>
+    <span v-else-if="isVerified">{{ $t('General.label.success') }}, 
+      <nuxt-link :to="{ name: 'edit' }">{{ $t('Verify.label.toEdit') }}</nuxt-link>...</span>
+    <span v-else>{{ $t('Verify.label.verifying') }}</span>
     <claim-dialog ref="claimDialog" :couponCode="couponCode" :wallet="wallet" />
   </div>
 </template>
