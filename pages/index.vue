@@ -63,14 +63,9 @@
 
     <token-distribution />
 
-    <section class="lc-container-1 lc-partner">
-      <div class="lc-container-2">
-        <block-section
-          :title="$t('Home.Partners.title')">
-          {{ $t('Home.Partners.content') }}
-        </block-section/>
-      </div>
-    </section>
+    <press-coverage />
+
+    <!-- <partners /> -->
 
     <section class="lc-container-1 lc-backer">
       <div class="lc-container-2">
@@ -153,6 +148,8 @@ import PlatformIconBar from '~/components/PlatformIconBar';
 
 import Carousel from '~/components/home/Carousel';
 import HeaderFlag from '~/components/home/Flag';
+import Partners from '~/components/home/Partners';
+import PressCoverage from '~/components/home/PressCoverage';
 import Protocol from '~/components/home/Protocol';
 import RoadMap from '~/components/home/RoadMap';
 import Team from '~/components/home/Team';
@@ -169,7 +166,9 @@ export default {
     Carousel,
     CustomLink,
     HeaderFlag,
+    Partners,
     PlatformIconBar,
+    PressCoverage,
     Protocol,
     RoadMap,
     SiteHeader,
