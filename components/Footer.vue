@@ -1,8 +1,19 @@
 <template>
   <footer>
-    <span class="contractAddr md-xsmall-hide">LikeCoin Contract: <a :href="getAddress" target="_blank">{{ contractAddress }}</a></span>
-    <span class="center">Visit our website for more information: <a href="https://likecoin.foundation/" target="_blank">likecoin.foundation</a></span>
-    <span class="right md-medium-hide" />
+    <div class="lc-container-1">
+      <div class="lc-container-2">
+        <div class="lc-content-wrapper">
+
+          <span class="contract-address md-xsmall-hide">{{ $t('Footer.label.contract') }}<a :href="getAddress" target="_blank">{{ contractAddress }}</a></span>
+
+          <div class="right footer-links">
+            <a href="http://lakoo.org">{{ $t('Footer.button.aboutFoundation') }}</a>
+            <a href="http://intercom.help/likecoin">{{ $t('Footer.button.support') }}</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
   </footer>
 </template>
 <script>
@@ -53,27 +64,66 @@ export default {
 @import "../assets/index";
 
 footer {
-  position: fixed;
-  z-index: 4;
-  bottom: 0;
-
+  position: relative;
+  padding: 12px 0;
   width: 100%;
-  padding: 12px;
 
   background-color: $like-white;
-  display: flex;
+  border-top: 0;
 
-  .contractAddr, .right {
-    flex: 1;
+  // Gradient separator
+  &::before {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    height: 2px;
+
+    content: " ";
+    background-image: linear-gradient(269deg, #d2f0f0, #f0e6b4);
+  }
+
+  .lc-content-wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .contract-address {
     text-align: left;
     font-size: 10px;
+
     a {
       color: #28646E;
     }
   }
-  .center {
-    flex: 1;
-    text-align: center;
+
+  .footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 24px;
+
+    // Prevent overlapping with Intercom button
+    @media (max-width: 1647px) {
+      margin-right: 64px;
+    }
+    @media (max-width: 1024px) {
+      margin-right: 108px;
+    }
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
+
+    > a {
+      display: block;
+      color: #6B6B6B;
+      font-size: 12px;
+      font-weight: 400;
+      text-align: left;
+
+      &:not(:last-child) {
+        margin-right: 24px;
+      }
+    }
   }
 }
 </style>

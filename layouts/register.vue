@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="fixed-footer">
     <tool-bars/>
     <div class="container">
       <div class="landing">

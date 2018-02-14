@@ -25,11 +25,7 @@ $like-gradient-3: #6E2828;
 body {
   z-index: -2;
 
-  font-family: Open Sans;
-
-  > div:not(.md-dialog) {
-    padding-bottom: 60px;
-  }
+  font-family: "Open Sans";
 
   .md-button {
     text-transform: none;
@@ -74,6 +70,18 @@ html, body {
   height: 100%;
 
   background-color: $like-white !important;
+}
+
+.fixed-footer {
+  &:not(.md-dialog) {
+    padding-bottom: 60px;
+  }
+
+  footer {
+    position: fixed;
+    z-index: 4;
+    bottom: 0;
+  }
 }
 
 .lc-container-0,

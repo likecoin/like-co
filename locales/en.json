@@ -164,12 +164,15 @@
       "button": {
         "faq": "FAQ"
       }
+    }
+  },
+  "Footer": {
+    "label": {
+      "contract": "LikeCoin Contract: "
     },
-    "Footer": {
-      "button": {
-        "about": "About LikeCoin Foundation",
-        "support": "Support"
-      }
+    "button": {
+      "aboutFoundation": "About LikeCoin Foundation",
+      "support": "Support"
     }
   }
 }
