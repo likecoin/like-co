@@ -45,7 +45,12 @@ module.exports = {
   router: {
     extendRoutes(routes, resolve) {
       routes.push({
-        name: 'idWithAmount',
+        path: "/verify/:uuid/:coupon",
+        name: "verify-uuid-coupon",
+        component: resolve(__dirname, 'pages/verify/_uuid/index.vue'),
+      });
+      routes.push({
+        name: 'id-amount',
         path: '/:id/:amount?',
         component: resolve(__dirname, 'pages/_id/index.vue'),
       });

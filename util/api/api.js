@@ -10,14 +10,14 @@ export const apiGetTxToByAddr = addr => axios.get(`/api/tx/addr/to/${addr}`);
 
 export const apiGetTxFromByAddr = addr => axios.get(`/api/tx/addr/from/${addr}`);
 
-export const apiCheckCoupon = code => axios.get(`api/coupon/coupon/${code}`);
+export const apiCheckCoupon = code => axios.get(`/api/coupon/coupon/${code}`);
 
 export const apiClaimCoupon = (coupon, to) => {
   const payload = {
     coupon,
     to,
   };
-  return axios.post('api/coupon/claim/', payload);
+  return axios.post('/api/coupon/claim/', payload);
 };
 
 export const apiSendVerifyEmail = id => axios.post(`/api/email/verify/user/${id}`, {});

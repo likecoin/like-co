@@ -253,15 +253,17 @@ router.post('/email/verify/:uuid', async (req, res) => {
     const verificationUUID = req.params.uuid;
     const query = await dbRef.where('verificationUUID', '==', verificationUUID).get();
     if (query.docs.length > 0) {
-      await query.docs[0].ref.update({
+      const [user] = query.docs;
+      await user.ref.update({
         lastVerifyTs: FieldValue.delete(),
         verificationUUID: FieldValue.delete(),
         isEmailVerified: true,
       });
+      res.json({ wallet: user.data().wallet });
     } else {
       res.sendStatus(404);
     }
-    res.sendStatus(200);
+    res.sendStatus(500);
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);

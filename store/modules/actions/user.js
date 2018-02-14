@@ -43,8 +43,9 @@ export async function sendVerifyEmail({ commit }, id) {
 export async function verifyEmailByUUID({ commit }, uuid) {
   try {
     commit(types.UI_START_BLOCKING_LOADING);
-    await apiWrapper(commit, api.apiVerifyEmailByUUID(uuid));
+    const { wallet } = await apiWrapper(commit, api.apiVerifyEmailByUUID(uuid));
     commit(types.UI_STOP_BLOCKING_LOADING);
+    return wallet;
   } catch (error) {
     commit(types.UI_STOP_BLOCKING_LOADING);
     throw error;
