@@ -14,11 +14,11 @@
       <section v-if="isInstallMetamask">
         <a href="https://metamask.io/" target="_blank">
           <md-button class="primary md-primary md-raised">
-            Install Metamask
+            {{ $t('Dialog.metamask.button.install') }}
           </md-button>
         </a>
         <md-button class="secondary md-primary md-raised" @click="refreshPage">
-          Done! Installed
+          {{ $t('Dialog.metamask.button.doneInstalled') }}
         </md-button>
       </section>
     </div>
@@ -46,44 +46,16 @@ export default {
       return this.case === 'web3';
     },
     title() {
-      let text;
-      switch (this.case) {
-        case 'web3':
-          text = 'Plugin required';
-          break;
-        case 'testnet':
-          text = `Please switch to ${IS_TESTNET ? 'Rinkeby' : 'Main'} network`;
-          break;
-        case 'locked':
-          text = 'Please unlock Metamask';
-          break;
-        case 'sign':
-          text = 'Sign on Metamask';
-          break;
-        default:
-          text = '';
+      if (this.case === 'testnet') {
+        return this.$t(`Dialog.metamask.title.switch${IS_TESTNET ? 'Rinkeby' : 'Main'}`);
       }
-      return text;
+      return this.$t(`Dialog.metamask.title.${this.case}`);
     },
     content() {
-      let text;
-      switch (this.case) {
-        case 'web3':
-          text = 'likecoin.store requires Metamask to work. Please switch to Chrome and install Metamask extension.<br /> <span style="color:red">Remember to keep your seed words safe!<span>';
-          break;
-        case 'testnet':
-          text = `likecoin.store requires ${IS_TESTNET ? 'Rinkeby' : 'Main'} to work. Please switch to the correct network.`;
-          break;
-        case 'locked':
-          text = 'likecoin.store requires Metamask to work. Please unlock your Metamask.';
-          break;
-        case 'sign':
-          text = 'Please click Sign on Metamask to continue.';
-          break;
-        default:
-          text = '';
+      if (this.case === 'testnet') {
+        return this.$t(`Dialog.metamask.content.switch${IS_TESTNET ? 'Rinkeby' : 'Main'}`);
       }
-      return text;
+      return this.$t(`Dialog.metamask.content.${this.case}`);
     },
     image() {
       switch (this.case) {

@@ -1,65 +1,89 @@
 <template>
   <section class="lc-container-1 lc-protocol">
     <div class="lc-container-2">
-      <block-section
-        :title="$t('Home.Protocol.title')">
-        <div class="protocol-container">
-          <div class="details">
-            <div class="description">
-              {{ $t('Home.Protocol.content') }}
-            </div>
-            <div class="image md-xsmall-hide">
-              <img :src="likeCoinIcon" />
+
+      <div class="block-section road-map-container">
+
+        <!-- Section title -->
+        <div class="lc-container-3">
+          <div class="lc-container-4">
+            <div class="section-title">
+              {{ $t('Home.Protocol.title') }}
             </div>
           </div>
+        </div>
 
-          <div class="layers md-xsmall-hide">
-            <div
-              :class="`layer layer-${i + 1}`"
-              v-for="(layer, i) in layers"
-              key="i">
-              <div
-                class="title"
-                :style="`z-index: ${4 - i}`">
-                <img :src="imgUrl(`layer-${i + 1}.svg`)" />
-                <span>{{ $t(`Home.Protocol.layer.${layer.key}.title`)}}</span>
-              </div>
-              <div class="examples-container">
-                <div class="examples">
-                  <div
-                    v-for="(example, j) in layer.examples"
-                    key="j">
-                    {{ $t(`Home.Protocol.layer.${layer.key}.example.${example}`) }}
+        <div class="lc-container-3">
+          <div class="lc-container-4">
+            <div class="section-content">
+              <div class="protocol-container">
+                <div class="details">
+                  <div class="description">
+                    {{ $t('Home.Protocol.content') }}
+                  </div>
+                  <div class="image md-xsmall-hide">
+                    <img :src="likeCoinIcon" />
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
 
-          <div class="layers-mobile">
-            <div
-              :class="`layer layer-${i + 1}`"
-              v-for="(layer, i) in layers"
-              key="i">
-              <div class="title">
-                <span>{{ $t(`Home.Protocol.layer.${layer.key}.title`)}}</span>
-              </div>
-              <div
-                class="examples-container"
-                :style="`z-index: ${4 - i}`">
-                <img :src="imgUrl(`layer-${i + 1}.svg`)" />
-                <div class="examples">
+                <div class="layers md-xsmall-hide">
                   <div
-                    v-for="(example, j) in layer.examples"
-                    key="j">
-                    {{ $t(`Home.Protocol.layer.${layer.key}.example.${example}`) }}
+                    :class="`layer layer-${i + 1}`"
+                    v-for="(layer, i) in layers"
+                    key="i">
+                    <div
+                      class="title"
+                      :style="`z-index: ${4 - i}`">
+                      <img :src="imgUrl(`layer-${i + 1}.svg`)" />
+                      <span>{{ $t(`Home.Protocol.layer.${layer.key}.title`)}}</span>
+                    </div>
+                    <div class="examples-container">
+                      <div class="examples">
+                        <div
+                          v-for="(example, j) in layer.examples"
+                          key="j">
+                          {{ $t(`Home.Protocol.layer.${layer.key}.example.${example}`) }}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </block-section/>
+
+        <div class="lc-container-3 layers-mobile-container">
+          <div class="lc-container-4">
+            <div class="section-content">
+              <div class="layers-section">
+                <div class="layers-mobile">
+                  <div
+                    :class="`layer layer-${i + 1}`"
+                    v-for="(layer, i) in layers"
+                    key="i">
+                    <div class="title">
+                      <span>{{ $t(`Home.Protocol.layer.${layer.key}.title`)}}</span>
+                    </div>
+                    <div
+                      class="examples-container"
+                      :style="`z-index: ${4 - i}`">
+                      <img :src="imgUrl(`layer-${i + 1}.svg`)" />
+                      <div class="examples">
+                        <div
+                          v-for="(example, j) in layer.examples"
+                          key="j">
+                          {{ $t(`Home.Protocol.layer.${layer.key}.example.${example}`) }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div/>
     </div>
   </section>
 </template>
@@ -235,18 +259,30 @@ export default {
 }
 
 @media (max-width: 600px) {
-  body .protocol-container {
-    margin: 0 -32px -32px;
-    overflow-x: hidden;
-    overflow-y: -webkit-paged-y;
+  body {
+    .layers-mobile-container {
+      overflow: hidden;
+      background-color: $like-white;
+      .section-content {
+        padding-top: 0;
+      }
 
-    .details .description {
-      padding: 0 24px;
+      .layers-section {
+        margin: 0 -32px;
+        overflow-y: -webkit-paged-y;
+      }
     }
+
+    .protocol-container {
+      .details .description {
+        padding-bottom: 24px;
+      }
+    }
+
   }
+
   .layers-mobile {
-    margin-top: 48px;
-    padding-bottom: 50px;
+    margin-top: 10px;
     background-color: white;
 
     .layer {

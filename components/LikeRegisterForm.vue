@@ -3,43 +3,66 @@
     <form id="registerForm" v-on:submit.prevent="onSubmit">
       <div class="md-layout">
         <div class="icon">
-          <img v-if="avatarData" class="avatar":src="avatarData" />
-          <md-button @click="openPicker"><md-icon class="md-size-2x">file_upload</md-icon></md-button>
+          <img v-if="avatarData" class="avatar" :src="avatarData" />
+          <md-button @click="openPicker">
+            <md-icon class="md-size-2x">file_upload</md-icon>
+          </md-button>
           <input type="file" ref="inputFile" accept="image/*" @change="previewImage" />
         </div>
         <div class="md-layout md-layout-item">
           <div class="md-layout-item">
             <md-field>
-              <label>Create a LikeCoin ID* (minimum 7 characters)</label>
-              <md-input v-model="user" pattern="[a-z0-9-_]{7,20}" :disabled="isEdit" @change="user=user.toLowerCase()"
-                title="Please enter at least 7 alphanumeric characters" required />
+              <label>{{ $t('Register.form.createID') }}</label>
+              <md-input
+                v-model="user"
+                pattern="[a-z0-9-_]{7,20}"
+                @change="user=user.toLowerCase()"
+                :disabled="isEdit"
+                :title="$t('Register.form.error.alphanumeric')"
+                required />
             </md-field>
-            <md-field :class="isBadAddress?'md-invalid':''">
-              <label>Wallet address</label>
+            <md-field :class="isBadAddress? 'md-invalid' : ''">
+              <label>{{ $t('Register.form.walletAddress') }}</label>
               <md-input v-model="wallet" maxlength="42" required disabled />
-              <span v-if="isBadAddress" class="md-error">Invalid address format</span>
+              <span v-if="isBadAddress" class="md-error">
+                {{ $t('Register.form.error.addressFormat') }}
+              </span>
             </md-field>
             <div v-if="isEdit && !isNaN(likeCoinBalance) && !isRedeemingCoupon">
-              Amount of LikeCoin:
-              <a :href="`${ETHERSCAN_HOST}/address/${wallet}#tokentxns`" target="_blank">{{ likeCoinBalance }}</a>
+              {{ $t('Register.form.amount') }}
+              <a :href="`${ETHERSCAN_HOST}/address/${wallet}#tokentxns`" target="_blank">
+                {{ likeCoinBalance }}
+              </a>
             </div>
             <md-field>
-              <label>Email (optional)</label>
+              <label>{{ $t('Register.form.email') }}</label>
               <md-input type="email" v-model="email" />
             </md-field>
             <md-field v-if="isEdit && !isRedeemingCoupon">
-              <label>Display Name</label>
-              <md-input v-model="displayName" required></md-input>
+              <label>{{ $t('Register.form.displayName') }}</label>
+              <md-input v-model="displayName" required />
             </md-field>
             <md-field v-if="isRedeem || isEdit">
-              <label><span v-if="isEdit"> Claim </span> Coupon Code (optional)</label>
-              <md-input v-model="couponCode" pattern="[2-9A-HJ-NP-Za-km-z]{8}"></md-input>
+              <label>
+                <span v-if="isEdit">
+                  {{ $t('Register.form.claim') }}
+                </span>
+                {{ $t('Register.form.couponCode') }}
+              </label>
+              <md-input v-model="couponCode" pattern="[2-9A-HJ-NP-Za-km-z]{8}" />
             </md-field>
           </div>
         </div>
       </div>
       <div id="form-btn">
-        <md-button class="md-raised md-primary" id="confirm-btn" type="submit" form="registerForm" :disabled="getIsPopupBlocking">Confirm</md-button>
+        <md-button
+          class="md-raised md-primary"
+          id="confirm-btn"
+          type="submit"
+          form="registerForm"
+          :disabled="getIsPopupBlocking">
+          {{ $t('General.button.confirm') }}
+        </md-button>
       </div>
     </form>
     <claim-dialog ref="claimDialog" :couponCode="couponCode" :wallet="wallet" />
@@ -157,7 +180,7 @@ export default {
           this.setTxDialogAction({ txDialogActionRoute: { name: 'edit' }, txDialogActionText: 'View Account' });
           await this.$refs.claimDialog.onSubmit();
         } else {
-          this.setInfoMsg(`Your information have been updated,  <a href="/${this.user}">view your page</a>`);
+          this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${this.user}">${this.$t('Register.form.label.viewPage')}</a>`);
         }
       } catch (err) {
         console.error(err);
@@ -193,6 +216,11 @@ export default {
 @import "../assets/index";
 
 $icon-size: 144px;
+
+
+.inner-container {
+  padding-bottom: 60px;
+}
 
 #has-account {
   text-align: right;

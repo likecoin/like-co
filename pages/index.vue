@@ -29,14 +29,14 @@
           <div class="sale-description-container">
             <h2>{{ $t('Home.Sale.title') }}</h2>
             <h1>{{ $t('Home.Sale.content') }}</h1>
-            <div class="links md-xsmall-hide">
+            <!-- <div class="links md-xsmall-hide">
               <custom-link
                 :title="$t('Home.Sale.button.paper')"
                 href="hi" />
               <custom-link
                 :title="$t('Home.Sale.button.onePage')"
                 href="hi" />
-            </div>
+            </div> -->
             <div class="links md-xsmall-show">
               <md-button class="redeem-btn festive">
                 {{ $t('Home.Sale.button.paper') }}
@@ -76,7 +76,7 @@
       <div class="lc-container-2">
         <block-section
           :title="$t('Home.Backers.title')">
-          <team />
+          <!-- <team /> -->
         </block-section/>
       </div>
     </section>
@@ -216,6 +216,10 @@ $carousel-height: 488px;
   	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
 
     font-size: 18px;
+
+    > :global(.md-ripple) {
+      padding: 0;
+    }
   }
 }
 

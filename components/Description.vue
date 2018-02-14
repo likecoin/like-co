@@ -30,8 +30,8 @@ export default {
   },
   data() {
     return {
-      sentence: 'Great! Seems you already have Metamask installed. Now you are ready to receive or send LikeCoin.',
-      buttonWhat: 'What is LikeCoin?',
+      sentence: this.$t('Register.header.content'),
+      buttonWhat: this.$t('Register.header.button.what'),
     };
   },
 };

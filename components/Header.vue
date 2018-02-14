@@ -1,9 +1,9 @@
 <template>
   <div id="site-header">
     <nuxt-link :class="`title ${isTest ? 'test' : ''}`" :to="{ name: 'index' }">
-      LikeCoin Store
+      {{ $t('Store.Header.label.store') }}
       <span class="sup">
-        {{ isTest ? 'test' : 'beta' }}
+        {{ isTest ? $t('Store.Header.label.test') : $t('Store.Header.label.beta') }}
       </span>
     </nuxt-link>
     <platform-icon-bar />

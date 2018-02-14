@@ -1,19 +1,21 @@
 <template>
   <div
-    :class="['lc-creator-button', 'cta', className]"
-    @onClick="onClick">
-    <div class="creator-info">
-      <div class="icon">
-        <img :src="src" />
+    :class="['lc-creator-button', 'cta', className]">
+    <nuxt-link
+      :to="{ name: 'id', params: { id } }">
+      <div class="creator-info">
+        <div class="icon">
+          <img :src="src" />
+        </div>
+        <div class="details">
+          <div class="name">{{ id }}</div>
+          <div class="title">{{ title }}</div>
+        </div>
       </div>
-      <div class="details">
-        <div class="name">{{ name }}</div>
-        <div class="title">{{ title }}</div>
-      </div>
-    </div>
-    <span class="call-to-action">
-      以 LikeCoin 表達欣賞
-    </span>
+      <span class="call-to-action">
+        {{ $t('Home.Creator.button.likeCoinForAppreciate') }}
+      </span>
+    </nuxt-link>
   </div>
 </template>
 
@@ -29,14 +31,11 @@ export default {
     src: {
       default: likeCoinIcon,
     },
-    name: {
+    id: {
       default: '',
     },
     title: {
       default: '',
-    },
-    onClick: {
-      default: () => {},
     },
   },
   data() {
@@ -68,6 +67,11 @@ $border-radius-size: 6px;
     transform: translateY(-8px);
   }
 
+  > a {
+    color: initial;
+    text-decoration: none;
+  }
+
   .creator-info {
     display: flex;
     flex-direction: row;
@@ -91,6 +95,7 @@ $border-radius-size: 6px;
         border: 1px solid $like-gray-3;
 
         z-index: 1;
+        object-fit: cover;
       }
     }
 

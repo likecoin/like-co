@@ -15,14 +15,16 @@
       <section class="tx-info">
         <section v-if="toId" class="section-container">
           <div class="key">
-            Recipient LikeCoin ID
+            {{ $t('Transaction.label.recipientId') }}
           </div>
           <nuxt-link :to="{ name: 'id', params: { id: toId } }">
             <div class="value">{{ toId }}</div>
           </nuxt-link>
         </section>
         <section class="section-container">
-          <div class="key">Recipient Address</div>
+          <div class="key">
+            {{ $t('Transaction.label.recipientAddress') }}
+          </div>
           <a :href="`${ETHERSCAN_HOST}/address/${to}#tokentxns`" target="_blank">
             <div class="address value">{{ to }}</div>
           </a>
@@ -31,13 +33,17 @@
 
       <section class="extra tx-info">
         <section v-if="fromId" class="section-container">
-          <div class="key">Sender Display Name</div>
+          <div class="key">
+            {{ $t('Transaction.label.senderName') }}
+          </div>
           <nuxt-link :to="{ name: 'id', params: { id: fromId } }">
             <div class="value">{{ fromName }}</div>
           </nuxt-link>
         </section>
         <section class="section-container">
-          <div class="key">Sender Address</div>
+          <div class="key">
+            {{ $t('Transaction.label.senderAddress') }}
+          </div>
           <a :href="`${ETHERSCAN_HOST}/address/${from}#tokentxns`" target="_blank">
             <div class="address value">{{ from }}</div>
           </a>

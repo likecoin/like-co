@@ -18,7 +18,7 @@ export default {
   props: ['title', 'icon'],
   data() {
     return {
-      defaultText: 'Redeem your free LikeCoin',
+      defaultText: this.$t('Register.header.redeem'),
       defaultIcon: likeCoinIcon,
     };
   },
