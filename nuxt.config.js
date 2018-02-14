@@ -16,10 +16,14 @@ module.exports = {
       { hid: 'og_description', property: 'og:description', content: 'send and receive LikeCoin' },
       { hid: 'og_image', property: 'og:image', content: 'https://likecoin.foundation/static/logo.png' },
     ],
+    script: [
+      { src: '/vendor/lightbox/js/lightbox-plus-jquery.min.js' },
+    ],
     link: [
       { rel: 'icon', type: 'image/png', href: '/favicon.png' },
       { rel: 'stylesheet', href: '//fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,700,400italic|Material+Icons' },
       { rel: 'stylesheet', href: '//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' },
+      { rel: 'stylesheet', href: '/vendor/lightbox/css/lightbox.min.css' },
     ],
   },
   /*
@@ -82,7 +86,6 @@ module.exports = {
     { src: '~/plugins/EthHelper', ssr: false },
     { src: '~/plugins/vue-intercom', ssr: false },
     { src: '~/plugins/vue-swiper', ssr: false },
-    // { src: '~/plugins/vue-chart', ssr: false },
   ],
   /*
   ** Add axios globally

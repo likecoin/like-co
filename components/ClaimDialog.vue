@@ -12,8 +12,12 @@
         <span v-html="confirmContent" />
       </md-dialog-content>
       <section>
-        <md-button id="btn-confirm" class="md-primary" @click="onConfirm">Confirm</md-button>
-        <md-button v-if="!isError" id="btn-cancel" class="md-primary" @click="onCancel">Cancel</md-button>
+        <md-button id="btn-confirm" class="md-primary" @click="onConfirm">
+          {{ $t('General.button.confirm') }}
+        </md-button>
+        <md-button v-if="!isError" id="btn-cancel" class="md-primary" @click="onCancel">
+          {{ $t('General.button.cancel') }}
+        </md-button>
       </section>
     </div>
   </md-dialog>
@@ -38,7 +42,7 @@ export default {
       'getIsShowingTxPopup',
     ]),
     title() {
-      return this.isError ? 'Coupon Error' : 'Claim coupon';
+      return this.isError ? this.$t('Dialog.coupon.title.error') : this.$t('Dialog.coupon.title.claim');
     },
   },
   methods: {
@@ -55,16 +59,16 @@ export default {
     async onSubmit() {
       if (this.couponCode) {
         this.isError = false;
-        this.confirmContent = 'Loading coupon content...';
+        this.confirmContent = this.$t('Dialog.coupon.label.confirming');
         this.showDialog = true;
         try {
           const { value } = await this.checkCoupon(this.couponCode);
-          if (!value) throw new Error('Invalid coupon');
-          this.confirmContent = `Are you sure you want to claim ${value} LikeCoin?`;
+          if (!value) throw new Error(this.$t('Dialog.coupon.label.invalidCoupon'));
+          this.confirmContent = this.$t('Dialog.coupon.label.confirmToClaim', { value });
           this.onConfirm = this.onDirectClaimCoupon;
         } catch (error) {
           this.isError = true;
-          this.confirmContent = `Error: ${error.message || error || 'Invalid coupon code'}!  <br /> Redirecting to your account page...`;
+          this.confirmContent = `${this.$t('General.label.error')}: ${error.message || error || this.$t('Dialog.coupon.label.error')}!  <br /> ${this.$t('Dialog.coupon.label.redirecting')}`;
           this.onConfirm = this.onCancel;
           this.showDialog = true;
         }
@@ -80,7 +84,7 @@ export default {
         }
       } catch (error) {
         this.isError = true;
-        this.confirmContent = `Error: ${error.message || error || 'Invalid coupon code'}! <br /> Redirecting to your account page...`;
+        this.confirmContent = `${this.$t('General.label.error')}: ${error.message || error || this.$t('Dialog.coupon.label.error')}! <br /> ${this.$t('Dialog.coupon.label.redirecting')}`;
         this.onConfirm = this.onCancel;
         this.showDialog = true;
       }

@@ -7,9 +7,11 @@
     <div class="dialog-content">
       <md-dialog-title>
         <md-progress-spinner :md-diameter="28" :md-stroke="2" class="md-accent" md-mode="indeterminate" />
-        Processing...
+        {{ $t('Dialog.blocker.title') }}
       </md-dialog-title>
-      <md-dialog-content>Processing your request, please do not close the browser</md-dialog-content>
+      <md-dialog-content>
+        {{ $t('Dialog.blocker.content') }}
+      </md-dialog-content>
     </div>
   </md-dialog>
 </template>

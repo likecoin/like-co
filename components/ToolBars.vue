@@ -1,8 +1,8 @@
 <template>
   <div class="toolbars">
-    <popup-dialog v-if="!disableError" :allowClose="false" header="Error" :message="getPopupError"/>
+    <popup-dialog v-if="!disableError" :allowClose="false" header="Error" :message="getPopupError" />
     <popup-dialog :allowClose="true" header="Info" :message="getPopupInfo"/>
-    <no-ssr v-if="!(disableError && getMetamaskError!=='testnet')">
+    <no-ssr v-if="!(disableError && getMetamaskError !== 'testnet')">
       <chrome-dialog v-if="showShowChromeDialog" :show="showShowChromeDialog"/>
       <metamask-dialog v-else :case="getMetamaskError"/>
     </no-ssr>
@@ -19,11 +19,11 @@
     </no-ssr>
     <loading-toolbar :isLoading="getIsLoading" :isInTransaction="getIsInTransaction"/>
     <tx-toolbar
-        v-if="getPendingTx"
-        :txHash="getPendingTx"
-        :txInfo="getPendingTxInfo"
-        :isInTx="getIsInTransaction"
-        @onClose="closeTxToolbar" />
+      v-if="getPendingTx"
+      :txHash="getPendingTx"
+      :txInfo="getPendingTxInfo"
+      :isInTx="getIsInTransaction"
+      @onClose="closeTxToolbar" />
     <info-toolbar
       v-if="getInfoMsg"
       :isError="getInfoIsError"
@@ -31,8 +31,8 @@
       <span v-html="getInfoMsg" />
       <nuxt-link
         :to="{ name: 'redeem' }"
-        v-if="getInfoMsg === 'Insufficient LikeCoin in your wallet!'">
-        Redeem LikeCoin
+        v-if="getInfoMsg === $t('Transaction.error.likecoinInsufficient')">
+        {{ $t('Edit.label.redeemCoin') }}
       </nuxt-link>
     </info-toolbar>
   </div>

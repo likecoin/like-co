@@ -2,17 +2,19 @@
   <section class="lc-container-0 lc-carousel md-xsmall-hide">
     <div v-swiper:mySwiper="swiperOptions">
       <div class="swiper-wrapper">
-        <div class="swiper-slide" v-for="banner in banners">
+        <div class="swiper-slide" v-for="slide in slides" :key="slide.id">
           <div :style="{
-            'background-image': `url('${banner}')`,
+            /* backgroundImage: `url('${image}')`, */
+            'background-image': 'url(' + require(`~/assets/home/feature/${slide.id}-image.jpg`) + ')'
+            /* 'background-image': '~/assets/home/feature/image-1.jpg', */
           }">
             <div class="lc-container-1">
               <div class="lc-container-2">
                 <div class="lc-container-3">
                   <creator-button
-                    src="https://oice.com/upload/4f294e929c75458f90e9e60dda8fb21f/avatar.jpg"
-                    name="Shiba Inu"
-                    title="The Chill Dog"
+                    :src="imgUrl(`${slide.id}-icon.jpg`)"
+                    :id="slide.id"
+                    :title="slide.title"
                   />
                 </div>
               </div>
@@ -29,6 +31,20 @@
 import BlockSection from '~/components/BlockSection';
 import CreatorButton from '~/components/CreatorButton';
 
+
+const images = require.context('../../assets/home/feature');
+const imgUrl = path => images(`./${path}`);
+const slides = [
+  {
+    id: 'yan',
+    title: 'Game Designer',
+  },
+  {
+    id: 'uncleman',
+    title: 'Game Designer',
+  },
+];
+
 export default {
   name: 'carousel',
   components: {
@@ -37,23 +53,21 @@ export default {
   },
   data() {
     return {
+      slides,
       swiperOptions: {
         loop: true,
         slidesPerView: 'auto',
         centeredSlides: true,
-        spaceBetween: 30,
+        spaceBetween: 0,
         pagination: {
           el: '.swiper-pagination',
           clickable: true,
         },
       },
-      banners: [
-        'https://static.pexels.com/photos/29435/landscape-sky-night-stars-29435.jpg',
-        'https://orig00.deviantart.net/f0e7/f/2008/260/e/1/dawn_by_freelancah.jpg',
-        'http://www.maurilioamorim.com/wp-content/uploads/2011/06/life-storm.jpg',
-        'http://res.cloudinary.com/simpleview/image/upload/v1512067313/clients/surfcityusa/Beach_photo_jpg_49144852-3c44-4c4c-af00-c4b90e08cf13.jpg',
-      ],
     };
+  },
+  methods: {
+    imgUrl,
   },
 };
 </script>
@@ -73,6 +87,7 @@ $carousel-height: 488px;
           width: 100%;
           height: $carousel-height;
           background-size: cover;
+          background-position: 50%;
         }
       }
     }

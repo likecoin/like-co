@@ -1,4 +1,13 @@
 {
+  "General": {
+    "label": {
+      "error": "Error"
+    },
+    "button": {
+      "confirm": "Confirm",
+      "cancel": "Cancel"
+    }
+  },
   "Language": {
     "en": "en",
     "zh": "ch"
@@ -17,22 +26,27 @@
       "title": "Token Sale",
       "content": "Coming Soon",
       "button": {
-        "paper": "White Paper",
-        "onePage": "One Page",
+        "paper": "Technical White Paper",
+        "onePage": "Overview",
         "redeem": "Redeem LikeCoin",
-        "createID": "Create ID to recive and send LikeCoin",
+        "createID": "Create LikeCoin ID to send and receive LikeCoin",
         "createNow": "Create Now"
       }
     },
+    "Creator": {
+      "button": {
+        "likeCoinForAppreciate": "以 LikeCoin 表達欣賞"
+      }
+    },
     "Protocol": {
-      "title": "LikeCoin Protocol",
+      "title": "LikeCoin Stack",
       "content": "--paragraph in LikeCoin Protocol---",
       "layer": {
         "provider": {
           "title": "Service Providers",
           "example": {
             "oice": "oice Visual Novel",
-            "ccImages": "Creative Commons Images",
+            "ccImages": "Creative Commons Image Stock",
             "media": "Internet Media"
           }
         },
@@ -49,15 +63,15 @@
           "example": {
             "contract": "Smart Contracts",
             "fingerprint": "Fingerprints",
-            "metadata": "Metadata Hash"
+            "metadata": "Metadata"
           }
         },
         "ipfs": {
           "title": "IPFS Node",
           "example": {
             "oice": "oice Node",
-            "cc": "Creative Commons Node",
-            "stock": "Stock Images Node"
+            "cc": "Image Node",
+            "stock": "Article Node"
           }
         }
       }
@@ -67,32 +81,32 @@
       "content": "---paragraph in road map---",
       "timeline": {
         "0": {
-          "title": "Project Start",
-          "time": "June 2017"
+          "title": "Concept launch",
+          "time": "2017 Q1"
         },
         "1": {
-          "title": "Research",
-          "time": "July 2017"
+          "title": "R&D",
+          "time": "2017 Q2-Q4"
         },
         "2": {
-          "title": "Proof of Concept",
-          "time": "Nov 2017"
+          "title": "LikeCoin Store",
+          "time": "2018 Q1"
         },
         "3": {
-          "title": "LikeCoin Store",
-          "time": "Feb 2018"
+          "title": "Token Sale",
+          "time": "2018 Q2"
         },
         "4": {
-          "title": "Token Sale",
-          "time": "March 2018"
+          "title": "oice & Image Stock launch",
+          "time": "2018 Q3"
         },
         "5": {
-          "title": "Token Sale",
-          "time": "March 2018"
+          "title": "Like Button on Partner Sites",
+          "time": "2018 Q4"
         },
         "6": {
-          "title": "Token Sale",
-          "time": "March 2018"
+          "title": "Ecosystem scale up",
+          "time": "2019"
         }
       }
     },
@@ -105,6 +119,9 @@
       },
       "pieChartLanguage": "hant"
     },
+    "PressCoverage": {
+      "title": "Press Coverage"
+    },
     "Partners": {
       "title": "Partners",
       "content": "---paragraph in partners---"
@@ -113,7 +130,7 @@
       "title": "Backers"
     },
     "Advisor": {
-      "title": "Advisor"
+      "title": "Advisors"
     },
     "Team": {
       "title": "Team",
@@ -184,6 +201,160 @@
     "VerifiyAndCouponEmail": {
       "subject": "LikeCoin Store 帳號驗證",
       "body": "您好 {{name}}！\n\n歡迎來到 LikeCoin Store ！請到下列網址驗證您的電郵地址，換領您的免費 LikeCoin：\n\nhttps://likecoin.store/verify/{{uuid}}/{{coupon}}\n\n您的換領券編號： {{coupon}}\n\nLikeCoin Foundation\nhttps://likecoin.foundation"
+  },
+  "Store": {
+    "Header": {
+      "label": {
+        "store": "LikeCoin Store",
+        "test": "test",
+        "beta": "beta"
+      }
+    },
+    "Footer": {
+      "label": {
+        "contract": "LikeCoin Contract: ",
+        "visit": "Visit our website for more information: "
+      }
+    }
+  },
+  "Dialog": {
+    "metamask": {
+      "button": {
+        "install": "Install Metamask",
+        "doneInstalled": "Done! Installed"
+      },
+      "title": {
+        "switchRinkeby": "Please switch to Rinkeby network",
+        "switchMain": "Please switch to Main network",
+        "web3": "Plugin required",
+        "locked": "Please unlock Metamask",
+        "sign": "Sign on Metamask"
+      },
+      "content": {
+        "switchRinkeby": "likecoin.store requires Rinkeby to work. Please switch to the correct network.",
+        "switchMain": "likecoin.store requires Main to work. Please switch to the correct network.",
+        "web3": "likecoin.store requires Metamask to work. Please switch to Chrome and install Metamask extension.<br /> <span style='color:red'>Remember to keep your seed words safe!<span>",
+        "locked": "likecoin.store requires Metamask to work. Please unlock your Metamask.",
+        "sign": "Please click Sign on Metamask to continue."
+      }
+    },
+    "chrome": {
+      "title": "Desktop Chrome required",
+      "content": "likecoin.store require a browser that support ETH wallet extension MetaMask.<br />Please switch to desktop Chrome then install MetaMask plugin.",
+      "button": {
+        "install": "Install Chrome"
+      }
+    },
+    "coupon": {
+      "title": {
+        "error": "Coupon Error",
+        "claim": "Claim coupon"
+      },
+      "label": {
+        "confirming": "Loading coupon content...",
+        "error": "Invalid coupon code!",
+        "invalidCoupon": "Invalid coupon",
+        "redirecting": "Redirecting to your account page...",
+        "confirmToClaim": "Are you sure you want to claim {value} LikeCoin?"
+      }
+    },
+    "transaction": {
+      "label": {
+        "waiting": "Waiting for the blockchain to confirm. It may take a few minutes… Meanwhile you may visit other pages on likecoin.store",
+        "newUser": "Seems you don’t have a LikeCoin ID. Create now to receive LikeCoin."
+      },
+      "button": {
+        "createID": "Create LikeCoin ID",
+        "buyCoin": "Buy LikeCoin"
+      }
+    },
+    "blocker": {
+      "title": "Processing...",
+      "content": "Processing your request, please do not close the browser"
+    }
+  },
+  "Toolbar": {
+    "etherscan": {
+      "button": {
+        "view": "View on Etherscan"
+      }
+    }
+  },
+  "Register": {
+    "header": {
+      "title": "Create a LikeCoin ID to send and receive LikeCoin",
+      "content": "Great! Seems you already have Metamask installed. Now you are ready to receive or send LikeCoin.",
+      "redeem": "Redeem your free LikeCoin",
+      "button": {
+        "what": "What is LikeCoin?"
+      }
+    },
+    "form": {
+      "createID": "Create a LikeCoin ID* (minimum 7 characters)",
+      "walletAddress": "Wallet address",
+      "email": "Email (optional)",
+      "amount": "Amount of LikeCoin:",
+      "displayName": "Display Name",
+      "claim": "Claim",
+      "couponCode": "Coupon Code (optional)",
+      "label": {
+        "updatedInfo": "Your information have been updated.",
+        "viewPage": "View your page"
+      },
+      "error": {
+        "alphanumeric": "Please enter at least 7 alphanumeric characters",
+        "addressFormat": "Invalid address format"
+      }
+    }
+  },
+  "Edit": {
+    "label": {
+      "id": "LikeCoin ID:",
+      "likeCoinAmount": "Amount of LikeCoin",
+      "address": "Your Address",
+      "email": "Your E-mail",
+      "addEmail": "Add email address",
+      "redeemCoin": "Redeem LikeCoin",
+      "redeemCode": "Redeem Code (Optional)",
+      "validCodeRequired": "Please enter a valid coupon code"
+    },
+    "button": {
+      "buyCoin": "Buy LikeCoin"
+    }
+  },
+  "Transaction": {
+    "header": {
+      "label": {
+        "ethAmount": "{amount} ETH",
+        "likecoinAmount": "{amount} LikeCoin",
+        "sending": "Sending",
+        "sent": "Sent",
+        "to": "to ",
+        "notFound": "Transaction Not Found or not a LikeCoin store transaction",
+        "pending": "Pending Confirmation",
+        "failed": "Transaction Failed",
+        "completed": "Transaction Completed"
+      }
+    },
+    "label": {
+      "recipientId": "Recipient LikeCoin ID",
+      "recipientAddress": "Recipient Address",
+      "senderName": "Sender Display Name",
+      "senderAddress": "Sender Address",
+      "sendTo": "Send LikeCoin to <span class='usertitle'>{title}</span>",
+      "viewTx": "View Transaction",
+      "amountToSend": "Amount of LikeCoin to send",
+      "invalidAmount": "Invalid amount",
+      "enterValidNumber": "Please enter a valid decimal number",
+      "userNotFound": "User not found"
+    },
+    "head": {
+      "sendTo": "Send LikeCoin to {name} - LikeCoin Store",
+      "description": "Send LikeCoin to {name}"
+    },
+    "error": {
+      "ethInsufficient": "Insufficient ETH in your wallet!",
+      "likecoinInsufficient": "Insufficient LikeCoin in your wallet!"
     }
   }
 }

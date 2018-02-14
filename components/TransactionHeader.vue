@@ -11,25 +11,26 @@
         class="transaction-state"
         v-if="!isNotFound">
         <div class="send-state">
-          {{ isPending ? "Sending" : "Sent" }}
+          {{ isPending ? $t('Transaction.header.label.sending') : $t('Transaction.header.label.sent') }}
         </div>
         <div v-if="amount" class="amount">
-          {{ amount }} {{ isEth ? "ETH" : "LikeCoin" }}
+          {{ $t(`Transaction.header.label.${isEth ? 'eth' : 'likecoin'}Amount`, { amount }) }}
         </div>
         <div v-if="name" class="user-section">
-          to <span class="usertitle">{{ name }}</span>
+          {{ $t('Transaction.header.label.to') }}
+          <span class="usertitle">{{ name }}</span>
         </div>
         <div v-else />
       </section>
       <h1 v-else class="error">
         <md-icon class="md-size-2x">error</md-icon>
-        Transaction Not Found or not a LikeCoin store transaction
+        {{ $t('Transaction.header.label.notFound') }}
       </h1>
     </div>
     <section v-if="!isNotFound">
       <section v-if="isPending" class="transaction-container">
         <h1 style="color: #d9b503">
-          Pending Confirmation
+          {{ $t('Transaction.header.label.pending') }}
         </h1>
         <md-progress-bar md-mode="indeterminate"></md-progress-bar>
       </section>
@@ -38,7 +39,7 @@
           <md-icon class="status-icon error-icon">
             error
           </md-icon>
-          Transaction Failed
+          {{ $t('Transaction.header.label.failed') }}
         </h1>
       </section>
       <section v-else class="transaction-container">
@@ -46,7 +47,7 @@
           <md-icon class="status-icon tick-icon">
             check
           </md-icon>
-          Transaction Completed
+          {{ $t('Transaction.header.label.completed') }}
         </h1>
         <div class="date-content">{{ dateCompleted }}</div>
       </section>

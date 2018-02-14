@@ -4,7 +4,7 @@
     <md-icon v-else>check</md-icon>
 
     <span v-if="isError">
-      Error:&nbsp;
+      {{ $t('General.label.error') }}:&nbsp;
     </span>
     <div class="md-layout-item">
       <slot />

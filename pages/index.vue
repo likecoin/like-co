@@ -29,22 +29,22 @@
           <div class="sale-description-container">
             <h2>{{ $t('Home.Sale.title') }}</h2>
             <h1>{{ $t('Home.Sale.content') }}</h1>
-            <div class="links md-xsmall-hide">
+            <!-- <div class="links md-xsmall-hide">
               <custom-link
                 :title="$t('Home.Sale.button.paper')"
                 href="hi" />
               <custom-link
                 :title="$t('Home.Sale.button.onePage')"
                 href="hi" />
-            </div>
-            <div class="links md-xsmall-show">
+            </div> -->
+            <!-- <div class="links md-xsmall-show">
               <md-button class="redeem-btn festive">
                 {{ $t('Home.Sale.button.paper') }}
               </md-button>
               <md-button class="redeem-btn festive">
                 {{ $t('Home.Sale.button.onePage') }}
               </md-button>
-            </div>
+            </div> -->
           </div>
           <div class="btn-container md-xsmall-hide">
             <md-button class="redeem-btn festive">
@@ -63,20 +63,15 @@
 
     <token-distribution />
 
-    <section class="lc-container-1 lc-partner">
-      <div class="lc-container-2">
-        <block-section
-          :title="$t('Home.Partners.title')">
-          {{ $t('Home.Partners.content') }}
-        </block-section/>
-      </div>
-    </section>
+    <press-coverage />
+
+    <!-- <partners /> -->
 
     <section class="lc-container-1 lc-backer">
       <div class="lc-container-2">
         <block-section
           :title="$t('Home.Backers.title')">
-          <team />
+          <!-- <team /> -->
         </block-section/>
       </div>
     </section>
@@ -153,6 +148,8 @@ import PlatformIconBar from '~/components/PlatformIconBar';
 
 import Carousel from '~/components/home/Carousel';
 import HeaderFlag from '~/components/home/Flag';
+import Partners from '~/components/home/Partners';
+import PressCoverage from '~/components/home/PressCoverage';
 import Protocol from '~/components/home/Protocol';
 import RoadMap from '~/components/home/RoadMap';
 import Team from '~/components/home/Team';
@@ -169,7 +166,9 @@ export default {
     Carousel,
     CustomLink,
     HeaderFlag,
+    Partners,
     PlatformIconBar,
+    PressCoverage,
     Protocol,
     RoadMap,
     SiteHeader,
@@ -216,6 +215,10 @@ $carousel-height: 488px;
   	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
 
     font-size: 18px;
+
+    > :global(.md-ripple) {
+      padding: 0;
+    }
   }
 }
 
@@ -356,7 +359,7 @@ $carousel-height: 488px;
       .sale-description-container {
         text-align: center;
 
-        padding-bottom: 88px;
+        padding-bottom: 0;
 
         h1, h2 {
           color: $like-white;

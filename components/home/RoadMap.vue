@@ -72,6 +72,9 @@ $progress-bar-percentage: 50%;
 
 .lc-road-map {
   margin-top: 88px;
+  @media (max-width: 600px) {
+    margin-top: 48px;
+  }
 
   .road-map-container {
     display: flex;
@@ -197,7 +200,7 @@ $progress-bar-percentage: 50%;
         min-height: 66px;
 
         .date, .event {
-          width: 120px;
+          width: 130px;
           margin-top: -4px;
         }
 

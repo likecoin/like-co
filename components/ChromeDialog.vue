@@ -7,14 +7,15 @@
     <div class="title-bar" />
     <div class="dialog-content">
       <md-dialog-title>
-        Desktop Chrome required
+        {{ $t('Dialog.chrome.title') }}
       </md-dialog-title>
       <md-dialog-content>
-        likecoin.store require a browser that support ETH wallet extension MetaMask.<br />
-        Please switch to desktop Chrome then install MetaMask plugin.
+        <div v-html="$t('Dialog.chrome.content')" />
       </md-dialog-content>
       <a href="https://www.google.com/chrome/browser/desktop/index.html" target="_blank">
-        <md-button class="primary md-primary md-raised">Install Chrome</md-button>
+        <md-button class="primary md-primary md-raised">
+          {{ $t('Dialog.chrome.button.install') }}
+        </md-button>
       </a>
     </div>
   </md-dialog>
