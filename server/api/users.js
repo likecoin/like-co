@@ -36,7 +36,7 @@ const multer = Multer({
 });
 
 const ONE_DATE_IN_MS = 86400000;
-const FIVE_MINUTES_IN_MS = 300000;
+const THIRTY_S_IN_MS = 30000;
 const W3C_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
 function uploadFile(file, newFilename) {
@@ -220,8 +220,8 @@ router.post('/email/verify/user/:id/', async (req, res) => {
       const user = doc.data();
       if (!user.email) throw new Error('Invalid email');
       if (user.isEmailVerified) throw new Error('Already verified');
-      if (user.lastVerifyTs && Math.abs(user.lastVerifyTs - Date.now()) > FIVE_MINUTES_IN_MS) {
-        throw new Error('Please try again later');
+      if (user.lastVerifyTs && Math.abs(user.lastVerifyTs - Date.now()) < THIRTY_S_IN_MS) {
+        throw new Error('An email has already been sent recently, Please try again later');
       }
       const verificationUUID = uuidv4();
       user.verificationUUID = verificationUUID;
