@@ -37,14 +37,14 @@
                 :title="$t('Home.Sale.button.onePage')"
                 href="hi" />
             </div> -->
-            <div class="links md-xsmall-show">
+            <!-- <div class="links md-xsmall-show">
               <md-button class="redeem-btn festive">
                 {{ $t('Home.Sale.button.paper') }}
               </md-button>
               <md-button class="redeem-btn festive">
                 {{ $t('Home.Sale.button.onePage') }}
               </md-button>
-            </div>
+            </div> -->
           </div>
           <div class="btn-container md-xsmall-hide">
             <md-button class="redeem-btn festive">
@@ -360,7 +360,7 @@ $carousel-height: 488px;
       .sale-description-container {
         text-align: center;
 
-        padding-bottom: 88px;
+        padding-bottom: 0;
 
         h1, h2 {
           color: $like-white;

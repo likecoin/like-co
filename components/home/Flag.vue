@@ -3,14 +3,20 @@
     <img alt="like coin" :src="likeCoinIcon" />
     <h1>{{ $t('Home.Flag.title') }}</h1>
     <h3>{{ $t('Home.Flag.content') }}</h3>
+
+    <language-switch class="md-xsmall-show" />
   </div>
 </template>
 
 <script>
+import LanguageSwitch from '../LanguageSwitch';
 import likeCoinIcon from '../../assets/like-coin.svg';
 
 export default {
   name: 'header-flag',
+  components: {
+    LanguageSwitch,
+  },
   data() {
     return {
       likeCoinIcon,
@@ -61,6 +67,16 @@ export default {
     position: relative;
 
     border-radius: 0;
+
+    padding: 32px 24px;
+
+    h1, h3 { width: 223px; }
+
+    > .language-switch {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+    }
   }
 }
 </style>

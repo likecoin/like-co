@@ -260,6 +260,9 @@ export default {
 
 @media (max-width: 600px) {
   body {
+    .lc-protocol {
+      margin-top: 48px;
+    }
     .layers-mobile-container {
       overflow: hidden;
       background-color: $like-white;

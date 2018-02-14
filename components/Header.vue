@@ -6,18 +6,23 @@
         {{ isTest ? $t('Store.Header.label.test') : $t('Store.Header.label.beta') }}
       </span>
     </nuxt-link>
-    <platform-icon-bar />
+    <div class="icons">
+      <platform-icon-bar />
+      <language-switch class="md-xsmall-hide" />
+    </div>
   </div>
 </template>
 
 
 <script>
 import { IS_TESTNET } from '@/constant';
+import LanguageSwitch from './LanguageSwitch';
 import PlatformIconBar from './PlatformIconBar';
 
 export default {
   name: 'site-header',
   components: {
+    LanguageSwitch,
     PlatformIconBar,
   },
   data() {
@@ -51,6 +56,12 @@ export default {
       vertical-align: super;
       font-size: 12px;
     }
+  }
+
+  .icons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 }
 
