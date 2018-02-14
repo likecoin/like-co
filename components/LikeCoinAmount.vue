@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     onClick() {
-      this.$emit('getCoupon');
+      this.$emit('onTextClick');
     },
   },
 };

@@ -61,7 +61,7 @@ export default {
           const { value } = await this.checkCoupon(this.couponCode);
           if (!value) throw new Error('Invalid coupon');
           this.confirmContent = `Are you sure you want to claim ${value} LikeCoin?`;
-          this.onConfirm = this.onClaimCoupon;
+          this.onConfirm = this.onDirectClaimCoupon;
         } catch (error) {
           this.isError = true;
           this.confirmContent = `Error: ${error.message || error || 'Invalid coupon code'}!  <br /> Redirecting to your account page...`;
@@ -70,7 +70,7 @@ export default {
         }
       }
     },
-    async onClaimCoupon() {
+    async onDirectClaimCoupon() {
       this.showDialog = false;
       try {
         const txHash = await this.claimCoupon({ coupon: this.couponCode, to: this.wallet });

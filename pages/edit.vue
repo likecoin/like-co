@@ -46,7 +46,7 @@
         :isOpaque="isProfileEdit"
         :linkHref="!isProfileEdit ? getAmountHref : ''"
         :linkText="!isProfileEdit ? getAmountText : ''"
-        @getCoupon="onGetCoupon" />
+        @onTextClick="getAmountAction" />
 
       <div class="address-section">
         <div :class="`address-container${isProfileEdit ? ' edit' : ''}`">
@@ -146,8 +146,8 @@ export default {
       subtitle: 'Redeem LikeCoin',
       EditIcon,
       EditWhiteIcon,
-      isSentCoupon: true,
-      isTriggerGetCoupon: false,
+      canGetFreeLikeCoin: false, // remove after chinese 15/1
+      isTriggerGetCoupon: false, // remove after chinese 15/1
     };
   },
   components: {
@@ -167,10 +167,13 @@ export default {
       'getIsPopupBlocking',
     ]),
     getAmountHref() {
-      return this.isSentCoupon ? 'https://likecoin.foundation/#/' : '';
+      return this.canGetFreeLikeCoin ? '' : 'https://likecoin.foundation/#/'; // remove after chinese 15/1
     },
     getAmountText() {
-      return this.isSentCoupon ? 'Buy LikeCoin' : 'Get free LikeCoin';
+      return this.canGetFreeLikeCoin ? 'Get free LikeCoin' : 'Buy LikeCoin'; // remove after chinese 15/1
+    },
+    getAmountAction() {
+      return this.canGetFreeLikeCoin ? this.onGetCoupon : () => {}; // remove after chinese 15/1
     },
   },
   methods: {
@@ -182,7 +185,7 @@ export default {
       'refreshUserInfo',
       'checkIsSentCoupon',
       'getCouponCode',
-      'sendCouponCodeEmail',
+      'checkCanGetFreeLikeCoin',
     ]),
     onEditDisplayName() {
       if (this.isProfileEdit) {
@@ -224,9 +227,9 @@ export default {
       this.email = user.email;
       const balance = await EthHelper.queryLikeCoinBalance(user.wallet);
       this.likeCoinValueStr = new BigNumber(balance).dividedBy(ONE_LIKE).toFixed(4);
-      const isSentCouponRes = await this.checkIsSentCoupon(this.user);
-      if (isSentCouponRes.isSent !== null) {
-        this.isSentCoupon = isSentCouponRes.isSent;
+      const canGetFreeLikeCoinRes = await this.checkCanGetFreeLikeCoin(this.user);
+      if (canGetFreeLikeCoinRes.coupon !== null) {
+        this.canGetFreeLikeCoin = true;
       }
     },
     openPicker() {
@@ -256,7 +259,7 @@ export default {
         this.setInfoMsg(`Your information have been updated,  <a href="/${this.user}">view your page</a>`);
         this.refreshUserInfo(this.user);
         this.isProfileEdit = false;
-        if (this.isTriggerGetCoupon) {
+        if (this.isTriggerGetCoupon) { // remove after chinese 15/1
           this.isTriggerGetCoupon = false;
           await this.submitGetCoupon();
         }
@@ -264,15 +267,15 @@ export default {
         console.error(err);
       }
     },
-    async onSubmitCoupon() {
+    async onSubmitCoupon() { // remove after chinese 15/1
       try {
         await this.$refs.claimDialog.onSubmit();
       } catch (err) {
         console.error(err);
       }
     },
-    async onGetCoupon() {
-      if (this.isSentCoupon) {
+    async onGetCoupon() { // remove after chinese 15/1
+      if (!this.canGetFreeLikeCoin) {
         return;
       }
       if (!this.email) {
@@ -282,8 +285,8 @@ export default {
         await this.submitGetCoupon();
       }
     },
-    async submitGetCoupon() {
-      if (this.isSentCoupon) {
+    async submitGetCoupon() { // remove after chinese 15/1
+      if (!this.canGetFreeLikeCoin) {
         return;
       }
       try {
@@ -292,7 +295,7 @@ export default {
           if (this.getUserInfo.isEmailVerified) {
             // directly claim
             this.couponCode = couponRes.coupon;
-            await this.$refs.claimDialog.onClaimCoupon();
+            await this.$refs.claimDialog.onDirectClaimCoupon();
           } else {
             await this.sendCouponCodeEmail({
               user: this.user,

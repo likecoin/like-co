@@ -72,8 +72,8 @@ export const closeTxToolbar = ({ commit }) => {
   commit(types.PAYMENT_SET_PENDING_HASH, '');
 };
 
-export async function checkIsSentCoupon({ commit }, user) {
-  return apiWrapper(commit, api.apiCheckIsSentCoupon(user));
+export async function checkCanGetFreeLikeCoin({ commit }, user) {
+  return apiWrapper(commit, api.apiCheckCanGetFreeLikeCoin(user));
 }
 
 export async function getCouponCode({ commit }, user) {
