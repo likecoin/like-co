@@ -201,6 +201,7 @@
     "VerifiyAndCouponEmail": {
       "subject": "Verify your LikeCoin Store email and Claim your LikeCoin",
       "body": "Hi {{name}}!\n\nWelcome to LikeCoin Store! To verify your email so that you can claim your LikeCoin, click the following link:\n\nhttps://likecoin.store/verify/{{uuid}}/{{coupon}}\n\nYour coupon code: {{coupon}}\n\nLikeCoin Foundation\nhttps://likecoin.foundation"
+    }
   },
   "Store": {
     "Header": {
