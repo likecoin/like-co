@@ -67,10 +67,13 @@ export async function refreshUserInfo({ commit }, id) {
   }
 }
 
-export async function sendCouponCodeEmail({ commit }, data) {
+export async function sendCouponCodeEmail({ commit, rootState }, data) {
   try {
     commit(types.UI_START_BLOCKING_LOADING);
-    await apiWrapper(commit, api.apiSendCouponCodeEmail(data.user, data.coupon));
+    await apiWrapper(
+      commit,
+      api.apiSendCouponCodeEmail(data.user, data.coupon, rootState.ui.locale),
+    );
     commit(types.UI_STOP_BLOCKING_LOADING);
   } catch (error) {
     commit(types.UI_STOP_BLOCKING_LOADING);
