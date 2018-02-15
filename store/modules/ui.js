@@ -43,6 +43,9 @@ const state = {
 const mutations = {
   [UI_SET_LOCALE](state, locale) {
     state.locale = locale;
+    if (!process.server && window.localStorage) {
+      window.localStorage.language = locale;
+    }
   },
   [UI_SET_METAMASK_ERROR](state, err) {
     state.metamaskError = err;
