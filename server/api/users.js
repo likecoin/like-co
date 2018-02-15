@@ -167,6 +167,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
     };
     if (email && email !== oldEmail) {
       updateObj.email = email;
+      updateObj.verificationUUID = FieldValue.delete();
       updateObj.isEmailVerified = false;
     }
     if (url) updateObj.avatar = url;
@@ -232,8 +233,11 @@ router.post('/email/verify/user/:id/', async (req, res) => {
       if (user.lastVerifyTs && Math.abs(user.lastVerifyTs - Date.now()) < THIRTY_S_IN_MS) {
         throw new Error('An email has already been sent recently, Please try again later');
       }
-      const verificationUUID = uuidv4();
-      user.verificationUUID = verificationUUID;
+      let { verificationUUID } = user;
+      if (!verificationUUID) {
+        verificationUUID = uuidv4();
+        user.verificationUUID = verificationUUID;
+      }
       await userRef.update({
         lastVerifyTs: Date.now(),
         verificationUUID,
