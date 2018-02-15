@@ -30,7 +30,7 @@
                   <div
                     :class="`layer layer-${i + 1}`"
                     v-for="(layer, i) in layers"
-                    key="i">
+                    :key="i">
                     <div
                       class="title"
                       :style="`z-index: ${4 - i}`">
@@ -41,7 +41,7 @@
                       <div class="examples">
                         <div
                           v-for="(example, j) in layer.examples"
-                          key="j">
+                          :key="j">
                           {{ $t(`Home.Protocol.layer.${layer.key}.example.${example}`) }}
                         </div>
                       </div>
@@ -61,7 +61,7 @@
                   <div
                     :class="`layer layer-${i + 1}`"
                     v-for="(layer, i) in layers"
-                    key="i">
+                    :key="i">
                     <div class="title">
                       <span>{{ $t(`Home.Protocol.layer.${layer.key}.title`)}}</span>
                     </div>
@@ -72,7 +72,7 @@
                       <div class="examples">
                         <div
                           v-for="(example, j) in layer.examples"
-                          key="j">
+                          :key="j">
                           {{ $t(`Home.Protocol.layer.${layer.key}.example.${example}`) }}
                         </div>
                       </div>
