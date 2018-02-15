@@ -34,16 +34,16 @@ const images = require.context('../../assets/home/feature');
 const imgUrl = path => images(`./${path}`);
 const slides = [
   {
+    id: 'kitdastudio',
+    titleKey: 'multimediaDesigner',
+  },
+  {
     id: 'yansquare',
     titleKey: 'artist',
   },
   {
     id: 'uncleman',
     titleKey: 'comicAuthor',
-  },
-  {
-    id: 'kitdastudio',
-    titleKey: 'multimediaDesigner',
   },
 ];
 
