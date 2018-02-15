@@ -64,9 +64,11 @@
           <div class="address-field" @click="onEditEmail">
             <div class="address-title">
               {{ $t('Edit.label.email') }}
-              <span class="verified" v-if="getUserInfo.isEmailVerified"><md-icon>check</md-icon>{{ $t('Edit.label.verified') }}</span>
-              <span v-else-if="isVerifying">({{ $t('Edit.label.verifying') }})</span>
-              <span v-else-if="email">({{ $t('Edit.label.unverified') }}, <a href="" @click.prevent.stop="onVerifyEmail">{{ $t('Edit.label.verifyEmail') }}</a>)</span>
+              <span v-if="!isProfileEdit">
+                <span class="verified" v-if="getUserInfo.isEmailVerified"><md-icon>check</md-icon>{{ $t('Edit.label.verified') }}</span>
+                <span v-else-if="isVerifying">({{ $t('Edit.label.verifying') }})</span>
+                <span v-else-if="email">({{ $t('Edit.label.unverified') }}, <a href="" @click.prevent.stop="onVerifyEmail">{{ $t('Edit.label.verifyEmail') }}</a>)</span>
+              </span>
             </div>
             <md-field :class="isProfileEdit ? 'md-field-edit-mode' : 'md-field-pre-edit'">
               <label class="input-display-hint">
