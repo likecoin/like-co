@@ -1,18 +1,20 @@
 <template>
   <md-dialog
     :md-active.sync="showDialog"
+    :md-close-on-esc="false"
+    :md-click-outside-to-close="false"
     :md-fullscreen="false">
     <div class="title-bar" />
     <div class="dialog-content">
-      <md-dialog-title v-if="getTitle">{{ getTitle }}</md-dialog-title>
-      <md-dialog-content v-if="getContent">
-        <span class="span-dialog-content" v-html="getContent" />
+      <md-dialog-title v-if="title">{{ title }}</md-dialog-title>
+      <md-dialog-content v-if="content">
+        <span class="span-dialog-content" v-html="content" />
       </md-dialog-content>
       <form id="dialogForm" @keydown.esc="onCancel" @submit.prevent="onConfirm">
         <md-dialog-content>
           <md-field>
             <label>
-              {{ getLabel }}
+              {{ label }}
             </label>
             <md-input
               :type="type"
@@ -35,26 +37,28 @@
 <script>
 export default {
   name: 'input-dialog',
-  props: ['text', 'type', 'title', 'content', 'label'],
+  props: {
+    text: {
+      default: '',
+    },
+    type: {
+      default: '',
+    },
+    title: {
+      default: 'Please enter your text',
+    },
+    content: {
+      default: 'Input your text',
+    },
+    label: {
+      default: '',
+    },
+  },
   data() {
     return {
       showDialog: false,
-      defaultTitle: 'Please enter your text',
-      defaultContent: 'Input your text',
-      defaultLabel: '',
       inputText: '',
     };
-  },
-  computed: {
-    getTitle() {
-      return this.title || this.defaultTitle;
-    },
-    getContent() {
-      return this.content || this.defaultContent;
-    },
-    getLabel() {
-      return this.label || this.defaultLabel;
-    },
   },
   methods: {
     onCancel() {
