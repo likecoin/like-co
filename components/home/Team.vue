@@ -86,13 +86,6 @@ function getSwiperParams() {
       numFounderInRow - (teamMembers.length % numFounderInRow) :
       0;
 
-    console.log({
-      windowConfig,
-      numFounderInRow,
-      numDummyItem,
-    });
-
-
     return {
       // shouldShowSwiper,
       numDummyItem,
