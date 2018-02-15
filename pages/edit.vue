@@ -181,7 +181,7 @@ export default {
       EditWhiteIcon,
       canGetFreeLikeCoin: false, // remove after chinese 15/1
       isTriggerGetCoupon: false, // remove after chinese 15/1
-      sentCoupon: '', // remove after chinese 15/1
+      freeCoupon: '', // remove after chinese 15/1
     };
   },
   components: {
@@ -263,7 +263,7 @@ export default {
       this.likeCoinValueStr = new BigNumber(balance).dividedBy(ONE_LIKE).toFixed(4);
       const canGetFreeLikeCoinRes = await this.checkCanGetFreeLikeCoin(this.user);
       this.canGetFreeLikeCoin = !canGetFreeLikeCoinRes.isClaimed;
-      this.sentCoupon = canGetFreeLikeCoinRes.coupon;
+      this.freeCoupon = canGetFreeLikeCoinRes.coupon;
     },
     openPicker() {
       this.isProfileEdit = true;
@@ -324,19 +324,19 @@ export default {
         return;
       }
       try {
-        if (!this.sentCoupon) {
+        if (!this.freeCoupon) {
           const couponRes = await this.getCouponCode(this.user);
-          this.sentCoupon = couponRes.coupon;
+          this.freeCoupon = couponRes.coupon;
         }
-        if (this.sentCoupon) {
+        if (this.freeCoupon) {
           if (this.getUserInfo.isEmailVerified) {
             // directly claim
-            this.couponCode = this.sentCoupon;
+            this.couponCode = this.freeCoupon;
             await this.$refs.claimDialog.onDirectClaimCoupon();
           } else {
             await this.sendCouponCodeEmail({
               user: this.user,
-              coupon: this.sentCoupon,
+              coupon: this.freeCoupon,
             });
             this.isVerifying = true;
             this.setInfoMsg(this.$t('Edit.label.verifying'));
