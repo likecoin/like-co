@@ -12,7 +12,7 @@
                   <creator-button
                     :src="imgUrl(`${slide.id}-icon.jpg`)"
                     :id="slide.id"
-                    :title="slide.title"
+                    :title="$t(`Creator.title.${slide.titleKey}`)"
                   />
                 </div>
               </div>
@@ -35,15 +35,15 @@ const imgUrl = path => images(`./${path}`);
 const slides = [
   {
     id: 'yansquare',
-    title: 'Illustrator',
+    titleKey: 'artist',
   },
   {
     id: 'uncleman',
-    title: 'Designer',
+    titleKey: 'comicAuthor',
   },
   {
     id: 'kitdastudio',
-    title: 'Designer',
+    titleKey: 'multimediaDesigner',
   },
 ];
 

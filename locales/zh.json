@@ -370,5 +370,12 @@
       "ethInsufficient": "錢包內的 ETH 數量不足",
       "likecoinInsufficient": "錢包內的 LikeCoin 數量不足"
     }
+  },
+  "Creator": {
+    "title": {
+      "artist": "藝術家",
+      "comicAuthor": "漫畫家",
+      "multimediaDesigner": "多媒體設計師"
+    }
   }
 }
