@@ -352,7 +352,10 @@ export default {
           if (this.getUserInfo.isEmailVerified) {
             // directly claim
             this.couponCode = this.freeCoupon;
-            await this.$refs.claimDialog.onDirectClaimCoupon();
+            await this.$refs.claimDialog.onDirectClaimCoupon({
+              wallet: this.wallet,
+              coupon: this.couponCode,
+            });
           } else {
             await this.sendCouponCodeEmail({
               user: this.user,
