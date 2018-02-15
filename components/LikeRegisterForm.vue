@@ -182,6 +182,10 @@ export default {
         } else {
           this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${this.user}">${this.$t('Register.form.label.viewPage')}</a>`);
         }
+
+        // pixel log registration complete event
+        /* global fbq */
+        fbq('track', 'CompleteRegistration');
       } catch (err) {
         console.error(err);
       }
