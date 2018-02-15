@@ -370,5 +370,12 @@
       "ethInsufficient": "Insufficient ETH in your wallet.",
       "likecoinInsufficient": "Insufficient LikeCoin in your wallet."
     }
+  },
+  "Creator": {
+    "title": {
+      "artist": "Artist",
+      "comicAuthor": "Comic Author",
+      "multimediaDesigner": "Multimedia Designer"
+    }
   }
 }

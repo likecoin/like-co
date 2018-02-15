@@ -11,9 +11,9 @@
 
       <md-menu-item
         v-for="locale in locales"
-        :key="locale.code"
-        @click="onChangeLanguage(locale.code)">
-        {{ $t(`Language.${locale.code}`) }}
+        :key="locale"
+        @click="onChangeLanguage(locale)">
+        {{ $t(`Language.${locale}`) }}
       </md-menu-item>
 
     </md-menu-content>
@@ -25,14 +25,6 @@
 import { mapActions } from 'vuex';
 import I18nIcon from '../assets/icons/i18n.svg';
 
-const LOCALES = [
-  {
-    code: 'en',
-  },
-  {
-    code: 'zh',
-  },
-];
 
 export default {
   name: 'language-switch',
@@ -40,7 +32,7 @@ export default {
   data() {
     return {
       I18nIcon,
-      locales: LOCALES,
+      locales: Object.keys(this.$i18n.messages),
     };
   },
   methods: {
