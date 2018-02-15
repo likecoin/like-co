@@ -7,7 +7,7 @@
           <span class="contract-address md-xsmall-hide">{{ $t('Footer.label.contract') }}<a :href="getAddress" target="_blank">{{ contractAddress }}</a></span>
 
           <div class="right footer-links">
-            <a href="http://lakoo.org">{{ $t('Footer.button.aboutFoundation') }}</a>
+            <!-- <a href="http://lakoo.org">{{ $t('Footer.button.aboutFoundation') }}</a> -->
             <a href="http://intercom.help/likecoin">{{ $t('Footer.button.support') }}</a>
           </div>
 
