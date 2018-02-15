@@ -3,19 +3,57 @@
     :class="['language-switch', className]"
     md-size="small"
     md-align-trigger>
-    <md-button md-menu-trigger>en</md-button>
+    <md-button md-menu-trigger>
+      <img class="icon" :src="I18nIcon" />
+    </md-button>
 
     <md-menu-content>
-      <md-button>ch</md-button>
-      <md-button>ja</md-button>
+
+      <md-menu-item
+        v-for="locale in locales"
+        :key="locale.code"
+        @click="onChangeLanguage(locale.code)">
+        {{ locale.name }}
+      </md-menu-item>
+
     </md-menu-content>
   </md-menu>
 </template>
 
+
 <script>
+import { mapActions } from 'vuex';
+import I18nIcon from '../assets/icons/i18n.svg';
+
+const LOCALES = [
+  {
+    code: 'en',
+    name: 'English',
+  },
+  {
+    code: 'zh',
+    name: '中文',
+  },
+];
+
 export default {
   name: 'language-switch',
   props: ['className'],
+  data() {
+    return {
+      I18nIcon,
+      locales: LOCALES,
+    };
+  },
+  methods: {
+    ...mapActions([
+      'setLocale',
+    ]),
+    onChangeLanguage(locale) {
+      this.$i18n.locale = locale;
+      this.setLocale(locale);
+    },
+  },
 };
 </script>
 
@@ -28,10 +66,15 @@ export default {
 
   cursor: pointer;
 
-  > .md-button {
-    min-width: 32px;
-    height: 32px;
+  .icon {
     width: 32px;
+    height: 32px;
+  }
+
+  > .md-button {
+    min-width: 40px;
+    height: 40px;
+    width: 40px;
 
     color: $like-green;
 
