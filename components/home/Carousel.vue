@@ -65,6 +65,9 @@ export default {
           el: '.swiper-pagination',
           clickable: true,
         },
+        autoplay: {
+          delay: 4000,
+        },
       },
     };
   },
@@ -73,8 +76,11 @@ export default {
   },
   mounted() {
     if (this.mySwiper) {
-      // auto play the swiper
-      this.mySwiper.autoplay.start();
+      setTimeout(() => {
+        // slide the first one after 1s, then autoplay slide with default 4s
+        this.mySwiper.slideNext();
+        this.mySwiper.autoplay.start();
+      }, 1000);
     }
   },
 };
