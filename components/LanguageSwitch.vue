@@ -13,7 +13,7 @@
         v-for="locale in locales"
         :key="locale.code"
         @click="onChangeLanguage(locale.code)">
-        {{ locale.name }}
+        {{ $t(`Language.${locale.code}`) }}
       </md-menu-item>
 
     </md-menu-content>
@@ -28,11 +28,9 @@ import I18nIcon from '../assets/icons/i18n.svg';
 const LOCALES = [
   {
     code: 'en',
-    name: 'English',
   },
   {
     code: 'zh',
-    name: '中文',
   },
 ];
 
