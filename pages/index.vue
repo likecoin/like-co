@@ -63,14 +63,13 @@
 
     <!-- <partners /> -->
 
-    <section class="lc-container-1 lc-backer">
+    <!-- <section class="lc-container-1 lc-backer">
       <div class="lc-container-2">
         <block-section
           :title="$t('Home.Backers.title')">
-          <!-- <team /> -->
         </block-section/>
       </div>
-    </section>
+    </section> -->
 
     <!-- <section class="lc-container-1 lc-advisor">
       <div class="lc-container-2">
@@ -152,6 +151,7 @@ import RoadMap from '~/components/home/RoadMap';
 import Team from '~/components/home/Team';
 import TokenDistribution from '~/components/home/TokenDistribution';
 
+import likeCoinIcon from '../assets/like-coin.svg';
 
 const images = require.context('../assets/home');
 const imgUrl = path => images(`./${path}`);
@@ -180,6 +180,28 @@ export default {
       'getUserInfo',
       'getUserIsRegistered',
     ]),
+  },
+  head() {
+    return {
+      title: this.$t('Home.Flag.title'),
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.$t('Home.Flag.content'),
+        },
+        {
+          hid: 'og_description',
+          property: 'og:description',
+          content: this.$t('Home.Flag.content'),
+        },
+        {
+          hid: 'og_image',
+          property: 'og:image',
+          content: `${likeCoinIcon}`,
+        },
+      ],
+    };
   },
   mounted() {
     fbq('track', 'ViewContent');

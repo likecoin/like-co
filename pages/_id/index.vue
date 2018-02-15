@@ -104,17 +104,17 @@ export default {
   },
   head() {
     return {
-      title: this.$t('Transaction.head.sendTo', { name: this.displayName }),
+      title: this.$t('Transaction.head.title', { name: this.displayName }),
       meta: [
         {
           hid: 'description',
           name: 'description',
-          content: '',
+          content: this.$t('Transaction.head.description', { name: this.displayName }),
         },
         {
           hid: 'og_description',
           property: 'og:description',
-          content: '',
+          content: this.$t('Transaction.head.description', { name: this.displayName }),
         },
         {
           hid: 'og_image',
