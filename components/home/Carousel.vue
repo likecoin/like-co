@@ -4,9 +4,7 @@
       <div class="swiper-wrapper">
         <div class="swiper-slide" v-for="slide in slides" :key="slide.id">
           <div :style="{
-            /* backgroundImage: `url('${image}')`, */
             'background-image': 'url(' + require(`~/assets/home/feature/${slide.id}-image.jpg`) + ')'
-            /* 'background-image': '~/assets/home/feature/image-1.jpg', */
           }">
             <div class="lc-container-1">
               <div class="lc-container-2">
@@ -36,12 +34,16 @@ const images = require.context('../../assets/home/feature');
 const imgUrl = path => images(`./${path}`);
 const slides = [
   {
-    id: 'yan',
-    title: 'Game Designer',
+    id: 'yansquare',
+    title: 'Illustrator',
   },
   {
     id: 'uncleman',
-    title: 'Game Designer',
+    title: 'Designer',
+  },
+  {
+    id: 'kitdastudio',
+    title: 'Designer',
   },
 ];
 
@@ -68,6 +70,12 @@ export default {
   },
   methods: {
     imgUrl,
+  },
+  mounted() {
+    if (this.mySwiper) {
+      // auto play the swiper
+      this.mySwiper.autoplay.start();
+    }
   },
 };
 </script>
@@ -99,7 +107,7 @@ $carousel-height: 488px;
         border-radius: 0;
         width: 72px;
         height: 4px;
-        background: $like-gray-4;
+        background: $like-white;
         opacity: 1;
       }
       :global(.swiper-pagination-bullet-active) {
