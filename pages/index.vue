@@ -234,7 +234,7 @@ $carousel-height: 488px;
     position: absolute;
     z-index: 2;
     right: 8px;
-    bottom: -24px;
+    bottom: -16px;
 
     width: 188px;
 

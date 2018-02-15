@@ -149,6 +149,11 @@ $progress-bar-percentage: 50%;
         }
       }
       &.last {
+        .event {
+          @media (min-width: 769px) {
+            margin-right: 40px;
+          }
+        }
         .line {
           border-radius: 0 $timeline-radius $timeline-radius 0;
         }
