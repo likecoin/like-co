@@ -74,11 +74,12 @@ export default {
         }
       }
     },
-    async onDirectClaimCoupon(w) {
-      const wallet = w || this.wallet;
+    async onDirectClaimCoupon({ wallet: claimWallet, coupon: claimCoupon }) {
+      const wallet = claimWallet || this.wallet;
+      const coupon = claimCoupon || this.couponCode;
       this.showDialog = false;
       try {
-        const txHash = await this.claimCoupon({ coupon: this.couponCode, to: wallet });
+        const txHash = await this.claimCoupon({ coupon, to: wallet });
         if (this.getIsShowingTxPopup) {
           this.closeTxDialog();
           this.$router.push({ name: 'tx-id', params: { id: txHash, tx: { to: wallet } } });
