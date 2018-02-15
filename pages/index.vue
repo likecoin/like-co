@@ -11,13 +11,8 @@
       <div class="lc-container-2">
         <site-header />
         <div class="lc-container-3 md-xsmall-hide">
-          <md-button class="account-btn">
-            <nuxt-link v-if="getUserInfo.user" :to="{ name: 'edit' }">
-              {{ getUserInfo.user }}
-            </nuxt-link>
-            <nuxt-link v-else :to="{ name: 'register' }">
-              {{ $t('Home.Header.button.signUp') }}
-            </nuxt-link>
+          <md-button class="account-btn" @click="$router.push({ name: getUserIsRegistered ? 'edit' : 'register' })">
+            {{ getUserIsRegistered ? getUserInfo.user : $t('Home.Header.button.signUp') }}
           </md-button>
         </div>
       </div>
@@ -50,10 +45,8 @@
             </div> -->
           </div>
           <div class="btn-container md-xsmall-hide">
-            <md-button class="redeem-btn festive">
-              <nuxt-link :to="{ name: 'redeem' }">
-                {{ $t('Home.Sale.button.redeem') }}
-              </nuxt-link>
+            <md-button class="redeem-btn festive" @click="$router.push({ name: 'redeem' })">
+              {{ $t('Home.Sale.button.redeem') }}
             </md-button>
           </div>
         </div>
@@ -115,10 +108,8 @@
             </div>
           </div>
           <div class="btn-container md-xsmall-hide">
-            <md-button class="redeem-btn">
-              <nuxt-link :to="{ name: 'register' }">
-                {{ $t('Home.Sale.button.createNow') }}
-              </nuxt-link>
+            <md-button class="redeem-btn" @click="$router.push({ name: 'register' })">
+              {{ $t('Home.Sale.button.createNow') }}
             </md-button>
           </div>
         </div>
@@ -186,6 +177,7 @@ export default {
   computed: {
     ...mapGetters([
       'getUserInfo',
+      'getUserIsRegistered',
     ]),
   },
 };
