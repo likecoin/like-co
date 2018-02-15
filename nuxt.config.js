@@ -14,7 +14,7 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'send and receive LikeCoin' },
       { hid: 'og_title', property: 'og:title', content: 'LikeCoin Store' },
       { hid: 'og_description', property: 'og:description', content: 'send and receive LikeCoin' },
-      { hid: 'og_image', property: 'og:image', content: 'https://likecoin.foundation/static/logo.png' },
+      { hid: 'og_image', property: 'og:image', content: 'https://likecoin.store/logo.png' },
     ],
     script: [
       { src: '/vendor/lightbox/js/lightbox-plus-jquery.min.js' },
