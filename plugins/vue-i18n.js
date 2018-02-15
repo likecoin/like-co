@@ -7,7 +7,7 @@ Vue.use(VueI18n);
 
 // Example: https://nuxtjs.org/examples/i18n
 
-export default ({ app, store }) => {
+export default ({ app, store, req }) => {
   // Set i18n instance on app to use it in middleware and pages asyncData/fetch
   /* eslint-disable no-param-reassign */
   let locale = 'en';
@@ -17,6 +17,8 @@ export default ({ app, store }) => {
     if (navLang.includes('en')) navLang = 'en';
     if (navLang.includes('zh')) navLang = 'zh';
     locale = window.localStorage.language || navLang;
+  } else if (req) {
+    locale = req.acceptsLanguages(['en', 'zh']) || locale;
   }
   app.i18n = new VueI18n({
     locale,
