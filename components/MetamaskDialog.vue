@@ -12,7 +12,7 @@
       <md-dialog-content><span v-html="content" /></md-dialog-content>
       <img v-if="image" :src="image" />
       <section v-if="isInstallMetamask">
-        <a href="https://metamask.io/" target="_blank">
+        <a href="https://metamask.io/" target="_blank" rel="noopener">
           <md-button class="primary md-primary md-raised">
             {{ $t('Dialog.metamask.button.install') }}
           </md-button>

@@ -9,7 +9,8 @@
             :href="item.link || item.src"
             :data-lightbox="lightboxId"
             :data-title="item.title"
-            target="_blank">
+            target="_blank"
+            rel="noopener">
             <img :src="item.src" />
           </a>
 

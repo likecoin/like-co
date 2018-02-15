@@ -23,7 +23,7 @@
         </nuxt-link>
       </section>
       <section v-else>
-        <a href="https://likecoin.foundation/" target="_blank">
+        <a href="https://likecoin.foundation/" target="_blank" rel="noopener">
           <md-button class="primary md-primary md-raised">
             {{ $t('Dialog.transaction.button.buyCoin') }}
           </md-button>

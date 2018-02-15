@@ -12,7 +12,7 @@
       <md-dialog-content>
         <div v-html="$t('Dialog.chrome.content')" />
       </md-dialog-content>
-      <a href="https://www.google.com/chrome/browser/desktop/index.html" target="_blank">
+      <a href="https://www.google.com/chrome/browser/desktop/index.html" target="_blank" rel="noopener">
         <md-button class="primary md-primary md-raised">
           {{ $t('Dialog.chrome.button.install') }}
         </md-button>

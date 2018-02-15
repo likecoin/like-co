@@ -30,7 +30,7 @@
             </md-field>
             <div v-if="isEdit && !isNaN(likeCoinBalance) && !isRedeemingCoupon">
               {{ $t('Register.form.amount') }}
-              <a :href="`${ETHERSCAN_HOST}/address/${wallet}#tokentxns`" target="_blank">
+              <a :href="`${ETHERSCAN_HOST}/address/${wallet}#tokentxns`" target="_blank" rel="noopener">
                 {{ likeCoinBalance }}
               </a>
             </div>
