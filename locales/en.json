@@ -10,8 +10,8 @@
     }
   },
   "Language": {
-    "en": "en",
-    "zh": "ch"
+    "en": "English",
+    "zh": "中文"
   },
   "Home": {
     "Header": {
@@ -29,8 +29,8 @@
       "button": {
         "paper": "Technical White Paper",
         "onePage": "Overview",
-        "redeem": "Redeem LikeCoin",
-        "createID": "Create LikeCoin ID to send and receive LikeCoin",
+        "redeem": "Get Red Pocket",
+        "createID": "Create LikeCoin ID to participate in the movement",
         "createNow": "Create Now"
       }
     },
@@ -82,19 +82,19 @@
       "content": "---paragraph in road map---",
       "timeline": {
         "0": {
-          "title": "Concept launch",
-          "time": "2017 Q1"
+          "title": "Concept launch, R&D",
+          "time": "2017 Q1-Q3"
         },
         "1": {
-          "title": "R&D",
-          "time": "2017 Q2-Q4"
+          "title": "Early Believer sale",
+          "time": "2017 Q4"
         },
         "2": {
-          "title": "LikeCoin Store",
+          "title": "LikeCoin ecosystem trial launch",
           "time": "2018 Q1"
         },
         "3": {
-          "title": "Token Sale",
+          "title": "Public Token Sale",
           "time": "2018 Q2"
         },
         "4": {
@@ -102,11 +102,11 @@
           "time": "2018 Q3"
         },
         "5": {
-          "title": "Like Button on Partner Sites",
+          "title": "Like Button launch",
           "time": "2018 Q4"
         },
         "6": {
-          "title": "Ecosystem scale up",
+          "title": "LikeCoin ecosystem scale up",
           "time": "2019"
         }
       }
@@ -200,8 +200,8 @@
       "body": "Hi {{name}}!\n\nWelcome to LikeCoin Store! To verify your email, click the following link:\n\nhttps://likecoin.store/verify/{{uuid}}\n\nLikeCoin Foundation\nhttps://likecoin.foundation"
     },
     "VerifiyAndCouponEmail": {
-      "subject": "Verify your LikeCoin Store email and Claim your LikeCoin",
-      "body": "Hi {{name}}!\n\nWelcome to LikeCoin Store! To verify your email so that you can claim your LikeCoin, click the following link:\n\nhttps://likecoin.store/verify/{{uuid}}/{{coupon}}\n\nYour coupon code: {{coupon}}\n\nLikeCoin Foundation\nhttps://likecoin.foundation"
+      "subject": "Verify your LikeCoin Store email and claim your LikeCoin",
+      "body": "Hi {{name}}!\n\nWelcome to LikeCoin Store! To verify your email and receive red pocket, click the following link:\n\nhttps://likecoin.store/verify/{{uuid}}/{{coupon}}\n\nYour coupon code: {{coupon}}\n\nLikeCoin Foundation\nhttps://likecoin.foundation"
     }
   },
   "Store": {
@@ -262,8 +262,8 @@
     },
     "transaction": {
       "label": {
-        "waiting": "Waiting for the blockchain to confirm. It may take a few minutes… Meanwhile you may visit other pages on likecoin.store",
-        "newUser": "Seems you don’t have a LikeCoin ID. Create now to receive LikeCoin."
+        "waiting": "Waiting for the blockchain to confirm. It may take a few minutes. Meanwhile you may browse around LikeCoin Store",
+        "newUser": "Seems you don’t have a LikeCoin ID. Create now."
       },
       "button": {
         "createID": "Create LikeCoin ID",
@@ -363,12 +363,12 @@
       "userNotFound": "User not found"
     },
     "head": {
-      "sendTo": "Send LikeCoin to {name} - LikeCoin Store",
-      "description": "Send LikeCoin to {name}"
+      "title": "LikeCoin - Reinventing the Like.",
+      "description": "Rewarding contents by proof of creativity. Send LikeCoin to {name}"
     },
     "error": {
-      "ethInsufficient": "Insufficient ETH in your wallet!",
-      "likecoinInsufficient": "Insufficient LikeCoin in your wallet!"
+      "ethInsufficient": "Insufficient ETH in your wallet.",
+      "likecoinInsufficient": "Insufficient LikeCoin in your wallet."
     }
   }
 }
