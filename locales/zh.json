@@ -20,18 +20,18 @@
       }
     },
     "Flag": {
-      "title": "將 Like 變 Coin",
-      "content": "以創意證明機制回饋作者"
+      "title": "化Like為Coin",
+      "content": "以區塊鏈創意證明機制回饋作者"
     },
     "Sale": {
-      "title": "代幣發行",
-      "content": "即將推出",
+      "title": "2018 Q2",
+      "content": "公開發售",
       "button": {
         "paper": "技術白皮書",
         "onePage": "計畫介紹",
         "redeem": "領取紅包",
-        "createID": "註冊 LikeCoin ID ，參與文化改造運動",
-        "createNow": "現在註冊"
+        "createID": "註冊 LikeCoin ID ，改善內容創作生態",
+        "createNow": "馬上註冊"
       }
     },
     "Creator": {
@@ -40,7 +40,7 @@
       }
     },
     "Protocol": {
-      "title": "LikeCoin Stack",
+      "title": "技術：LikeCoin Stack",
       "content": "--paragraph in LikeCoin Protocol---",
       "layer": {
         "provider": {
