@@ -47,6 +47,14 @@
         :linkHref="!isProfileEdit ? getAmountHref : ''"
         :linkText="!isProfileEdit ? getAmountText : ''"
         @onTextClick="getAmountAction" />
+      <input-dialog
+        ref="inputDialog"
+        :text="email"
+        type="email"
+        title="Please Verify your email"
+        content="To get your free LikeCoin, please provide and verify your email."
+        label="Your email address"
+        @confirm="onInputDialogConfirm" />
       <div class="address-section">
         <div :class="`address-container${isProfileEdit ? ' edit' : ''}`">
           <div class="address-field">
@@ -155,6 +163,7 @@ import EthHelper from '@/util/EthHelper';
 import User from '@/util/User';
 import LikeCoinAmount from '~/components/LikeCoinAmount';
 import ClaimDialog from '~/components/ClaimDialog';
+import InputDialog from '~/components/InputDialog';
 import ViewEtherscan from '~/components/ViewEtherscan';
 import { mapActions, mapGetters } from 'vuex';
 
@@ -189,6 +198,7 @@ export default {
   components: {
     LikeCoinAmount,
     ClaimDialog,
+    InputDialog,
     ViewEtherscan,
   },
   async fetch({ store, redirect }) {
@@ -209,7 +219,8 @@ export default {
       return this.canGetFreeLikeCoin ? this.$t('Edit.button.getFreeCoin') : this.$t('Edit.button.buyCoin'); // remove after chinese 15/1
     },
     getAmountAction() {
-      return this.canGetFreeLikeCoin ? this.onGetCoupon : () => {}; // remove after chinese 15/1
+      // remove after chinese 15/1
+      return this.canGetFreeLikeCoin ? this.onGetCouponClick : () => {};
     },
   },
   methods: {
@@ -310,13 +321,17 @@ export default {
         console.error(err);
       }
     },
-    async onGetCoupon() { // remove after chinese 15/1
+    async onGetCouponClick() { // remove after chinese 15/1
       if (!this.canGetFreeLikeCoin) {
         return;
       }
-      if (!this.email) {
-        this.isProfileEdit = true;
+      this.$refs.inputDialog.onInputText();
+    },
+    async onInputDialogConfirm(inputText) { // remove after chinese 15/1
+      if (this.email !== inputText) {
+        this.email = inputText;
         this.isTriggerGetCoupon = true;
+        this.onSubmitEdit();
       } else {
         await this.submitGetCoupon();
       }
