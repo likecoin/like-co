@@ -17,14 +17,14 @@
           <div class="lc-container-4">
             <div class="section-content">
               <div class="protocol-container">
-                <div class="details">
+                <!-- <div class="details">
                   <div class="description">
                     {{ $t('Home.Protocol.content') }}
                   </div>
                   <div class="image md-xsmall-hide">
                     <img :src="likeCoinIcon" />
                   </div>
-                </div>
+                </div> -->
 
                 <div class="layers md-xsmall-hide">
                   <div

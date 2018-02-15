@@ -13,13 +13,13 @@
         </div>
 
         <!-- Mobile version begin -->
-        <div class="lc-container-3 md-xsmall-show">
+        <!-- <div class="lc-container-3 md-xsmall-show">
           <div class="lc-container-4">
             <div class="section-content">
               {{ $t('Home.TokenDistribution.content') }}
             </div>
           </div>
-        </div>
+        </div> -->
         <!-- Mobile version end -->
 
         <!-- Desktop version begin -->
@@ -51,9 +51,9 @@
 
                 </div>
 
-                <div class="md-xsmall-hide">
+                <!-- <div class="md-xsmall-hide">
                   {{ $t('Home.TokenDistribution.content') }}
-                </div>
+                </div> -->
               </div>
 
               <div class="chart">
@@ -130,6 +130,7 @@ export default {
       }
 
       .data {
+        width: 100%;
         @media (max-width: 768px) {
           order: 1;
           text-align: center;
@@ -255,7 +256,7 @@ export default {
         @media (max-width: 768px) {
           order: 0;
           margin: 0 auto;
-          padding: 0 12px 24px;
+          padding: 40px 12px 24px;
           width: 100%;
         }
         @media (min-width: 601px) and (max-width: 768px) {

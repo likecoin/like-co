@@ -31,13 +31,13 @@
           </div>
         </div>
 
-        <div class="lc-container-3 content-section">
+        <!-- <div class="lc-container-3 content-section">
           <div class="lc-container-4">
             <div class="section-content">
               <div class="content">{{ $t('Home.RoadMap.content') }}</div>
             </div>
           </div>
-        </div>
+        </div> -->
 
       </div>
     </div>
@@ -79,6 +79,10 @@ $progress-bar-percentage: 50%;
   .road-map-container {
     display: flex;
     flex-direction: column;
+
+    .section-title {
+      z-index: 1;
+    }
   }
 
   .timeline-section {
@@ -191,6 +195,7 @@ $progress-bar-percentage: 50%;
 
     .timeline-section {
       order: 1;
+      margin-top: 42px;
     }
 
     .timeline {
