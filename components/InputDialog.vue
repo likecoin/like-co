@@ -18,8 +18,13 @@
             </label>
             <md-input
               :type="type"
-              v-model="inputText" />
+              v-model="inputText"
+              required />
           </md-field>
+          <span class="span-md-field-hint" v-if="getInfoIsError && getInfoMsg">
+            <md-icon>error</md-icon>
+            Error: {{ getInfoMsg }}
+          </span>
         </md-dialog-content>
         <section>
           <md-button id="btn-confirm" class="md-primary" type="submit" form="dialogForm">
@@ -35,6 +40,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'input-dialog',
   props: {
@@ -60,13 +67,18 @@ export default {
       inputText: '',
     };
   },
+  computed: {
+    ...mapGetters([
+      'getInfoIsError',
+      'getInfoMsg',
+    ]),
+  },
   methods: {
     onCancel() {
       this.showDialog = false;
     },
     onConfirm() {
       this.$emit('confirm', this.inputText);
-      this.showDialog = false;
     },
     onInputText() {
       this.showDialog = true;
@@ -86,6 +98,11 @@ export default {
 
   .span-dialog-content {
     color: #28646e;
+  }
+
+  .span-md-field-hint {
+    font-size: 10px;
+    color: #ff0000;
   }
 
   .dialog-content {
