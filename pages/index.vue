@@ -45,7 +45,7 @@
             </div> -->
           </div>
           <div class="btn-container md-xsmall-hide">
-            <md-button class="redeem-btn festive" @click="$router.push({ name: 'redeem' })">
+            <md-button class="redeem-btn festive" @click=onRedeemClick>
               {{ $t('Home.Sale.button.redeem') }}
             </md-button>
           </div>
@@ -174,6 +174,10 @@ export default {
   },
   methods: {
     imgUrl,
+    onRedeemClick() {
+      if (this.$ga) this.$ga.event('RegFlow', 'ClickGetRedPocket', 'click 領取紅包 on homepage', 1);
+      this.$router.push({ name: 'redeem' });
+    },
   },
   computed: {
     ...mapGetters([

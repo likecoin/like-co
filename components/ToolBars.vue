@@ -4,7 +4,7 @@
     <popup-dialog :allowClose="true" header="Info" :message="getPopupInfo"/>
     <no-ssr v-if="!(disableError && getMetamaskError !== 'testnet')">
       <chrome-dialog v-if="showShowChromeDialog" :show="showShowChromeDialog"/>
-      <metamask-dialog v-else :case="getMetamaskError"/>
+      <metamask-dialog v-else-if="!!getMetamaskError" :case="getMetamaskError"/>
     </no-ssr>
     <no-ssr><blocker-dialog :show="getIsPopupBlocking"/></no-ssr>
     <no-ssr>

@@ -186,6 +186,7 @@ export default {
         // pixel log registration complete event
         /* global fbq */
         fbq('track', 'CompleteRegistration');
+        if (this.$ga) this.$ga.event('RegFlow', 'CreateAccount', 'click confirm to create new account and the action success', 1);
       } catch (err) {
         console.error(err);
       }

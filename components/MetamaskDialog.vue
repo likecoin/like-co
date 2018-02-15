@@ -13,7 +13,7 @@
       <img v-if="image" :src="image" />
       <section v-if="isInstallMetamask">
         <a href="https://metamask.io/" target="_blank" rel="noopener">
-          <md-button class="primary md-primary md-raised">
+          <md-button class="primary md-primary md-raised" @click="onInstallClick">
             {{ $t('Dialog.metamask.button.install') }}
           </md-button>
         </a>
@@ -70,8 +70,17 @@ export default {
   },
   methods: {
     refreshPage() {
+      if (this.$ga) this.$ga.event('RegFlow', 'InstallMetamaskSuccessfull', 'click install metamask complete and the metamask CTA disappear', 1);
       window.location.reload();
     },
+    onInstallClick() {
+      if (this.$ga) this.$ga.event('RegFlow', 'ClickInstallMetamask', 'click install metamask', 1);
+    },
+  },
+  mounted() {
+    if (this.isInstallMetamask) {
+      if (this.$ga) this.$ga.event('RegFlow', 'AppearMetamaskCTA', 'metamask install cta appear', 1);
+    }
   },
 };
 </script>

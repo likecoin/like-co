@@ -289,6 +289,7 @@ export default {
     },
     onVerifyEmail() {
       this.sendVerifyEmail(this.user);
+      if (this.$ga) this.$ga.event('RegFlow', 'StartEmailVerify', 'click confirm after enter email and the email is valid', 1);
       this.setInfoMsg(this.$t('Edit.label.verifying'));
       this.isVerifying = true;
     },
@@ -327,6 +328,7 @@ export default {
       if (!this.canGetFreeLikeCoin) {
         return;
       }
+      if (this.$ga) this.$ga.event('RegFlow', 'ClickGetFreeLikeCoin', 'click get free likecoin', 1);
       this.$refs.inputDialog.onInputText();
     },
     async onInputDialogConfirm(inputText) { // remove after chinese 15/1
@@ -356,11 +358,13 @@ export default {
               wallet: this.wallet,
               coupon: this.couponCode,
             });
+            if (this.$ga) this.$ga.event('RegFlow', 'GetRedPocketSuccessful', 'redeem the red pocket', 1);
           } else {
             await this.sendCouponCodeEmail({
               user: this.user,
               coupon: this.freeCoupon,
             });
+            if (this.$ga) this.$ga.event('RegFlow', 'StartEmailVerify', 'click confirm after enter email and the email is valid', 1);
             this.isVerifying = true;
             this.setInfoMsg(this.$t('Edit.label.verifying'));
           }
