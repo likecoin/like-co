@@ -78,6 +78,9 @@ module.exports = {
   modules: (process.env.GA_TRACKING_ID) ? [
     ['@nuxtjs/google-analytics', {
       id: process.env.GA_TRACKING_ID,
+      autoTracking: {
+        exception: true,
+      },
     }],
   ] : [],
   plugins: [
