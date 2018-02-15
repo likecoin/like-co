@@ -118,7 +118,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       if (isOldUser) {
         const { wallet: docWallet } = doc.data();
         oldEmail = doc.data().email;
-        if (docWallet !== from) throw new Error('User already Exist');
+        if (docWallet !== from) throw new Error('User already exist');
       }
       return { isOldUser, oldEmail };
     });
@@ -126,12 +126,21 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       snapshot.forEach((doc) => {
         const docUser = doc.id;
         if (user !== docUser) {
-          throw new Error('Wallet already Exist');
+          throw new Error('Wallet already exist');
         }
       });
       return true;
     });
-    const [{ isOldUser, oldEmail }] = await Promise.all([userNameQuery, walletQuery]);
+    const emailQuery = email ? dbRef.where('email', '==', email).get().then((snapshot) => {
+      snapshot.forEach((doc) => {
+        const docUser = doc.id;
+        if (user !== docUser) {
+          throw new Error('Email already used');
+        }
+      });
+      return true;
+    }) : Promise.resolve();
+    const [{ isOldUser, oldEmail }] = await Promise.all([userNameQuery, walletQuery, emailQuery]);
 
     // check username length
     if (!isOldUser) {
