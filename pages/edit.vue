@@ -303,6 +303,7 @@ export default {
         };
         const data = await User.formatAndSignUserInfo(userInfo);
         await this.newUser(data);
+        this.$refs.inputDialog.showDialog = false;
         this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${this.user}">${this.$t('Register.form.label.viewPage')}</a>`);
         this.refreshUserInfo(this.user);
         this.isProfileEdit = false;
@@ -311,6 +312,7 @@ export default {
           await this.submitGetCoupon();
         }
       } catch (err) {
+        this.updateInfo();
         console.error(err);
       }
     },
@@ -333,6 +335,7 @@ export default {
         this.isTriggerGetCoupon = true;
         this.onSubmitEdit();
       } else {
+        this.$refs.inputDialog.showDialog = false;
         await this.submitGetCoupon();
       }
     },
