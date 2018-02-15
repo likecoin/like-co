@@ -135,6 +135,7 @@
 </template>
 
 <script>
+/* global fbq */
 import { mapGetters } from 'vuex';
 
 import BlockSection from '~/components/BlockSection';
@@ -179,6 +180,9 @@ export default {
       'getUserInfo',
       'getUserIsRegistered',
     ]),
+  },
+  mounted() {
+    fbq('track', 'ViewContent');
   },
 };
 </script>

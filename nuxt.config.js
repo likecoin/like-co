@@ -18,6 +18,7 @@ module.exports = {
     ],
     script: [
       { src: '/vendor/lightbox/js/lightbox-plus-jquery.min.js' },
+      { src: '/vendor/fb/pixel.js' },
     ],
     link: [
       { rel: 'icon', type: 'image/png', href: '/favicon.png' },
@@ -42,6 +43,7 @@ module.exports = {
         'https://www.google-analytics.com',
         'https://js.intercomcdn.com',
         'https://widget.intercom.io',
+        'https://connect.facebook.net/',
       ],
     },
   },
