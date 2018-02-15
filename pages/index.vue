@@ -12,7 +12,10 @@
         <site-header />
         <div class="lc-container-3 md-xsmall-hide">
           <md-button class="account-btn">
-            <nuxt-link :to="{ name: 'register' }">
+            <nuxt-link v-if="getUserInfo.user" :to="{ name: 'edit' }">
+              {{ getUserInfo.user }}
+            </nuxt-link>
+            <nuxt-link v-else :to="{ name: 'register' }">
               {{ $t('Home.Header.button.signUp') }}
             </nuxt-link>
           </md-button>
@@ -141,6 +144,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 import BlockSection from '~/components/BlockSection';
 import CustomLink from '~/components/CustomLink';
 import SiteHeader from '~/components/Header';
@@ -177,6 +182,11 @@ export default {
   },
   methods: {
     imgUrl,
+  },
+  computed: {
+    ...mapGetters([
+      'getUserInfo',
+    ]),
   },
 };
 </script>
