@@ -68,7 +68,7 @@ export default {
 
 $timeline-radius: 12px;
 $timeline-width: 16px;
-$progress-bar-percentage: 50%;
+$progress-bar-percentage: 38%;
 
 .lc-road-map {
   margin-top: 88px;
