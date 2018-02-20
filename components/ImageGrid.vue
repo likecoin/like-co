@@ -32,7 +32,7 @@
 
 
 <script>
-import Lightbox from 'vue-image-lightbox';
+import Lightbox from '@likecoin/vue-image-lightbox';
 
 export default {
   name: 'image-grid',
