@@ -113,7 +113,8 @@ html, body {
 .lc-container-3 {
   padding: 0 40px;
 
-  > * {
+  .section-content,
+  .section-title {
     margin: 0 8px;
   }
 }
