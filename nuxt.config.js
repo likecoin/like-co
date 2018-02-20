@@ -18,13 +18,11 @@ module.exports = {
       { hid: 'og_image_alt', property: 'og:image:alt', content: 'LikeCoin' },
     ],
     script: [
-      { src: '/vendor/lightbox/js/lightbox-plus-jquery.min.js' },
       { src: '/vendor/fb/pixel.js' },
     ],
     link: [
       { rel: 'icon', type: 'image/png', href: '/favicon.png' },
       { rel: 'stylesheet', href: '//fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700|Material+Icons' },
-      { rel: 'stylesheet', href: '/vendor/lightbox/css/lightbox.min.css' },
     ],
   },
   /*
@@ -90,6 +88,7 @@ module.exports = {
     { src: '~/plugins/vue-i18n' },
     { src: '~/plugins/EthHelper', ssr: false },
     { src: '~/plugins/vue-intercom', ssr: false },
+    { src: '~/plugins/vue-image-lightbox', ssr: false },
     { src: '~/plugins/vue-swiper', ssr: false },
   ],
   /*

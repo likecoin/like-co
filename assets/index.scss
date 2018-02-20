@@ -113,7 +113,8 @@ html, body {
 .lc-container-3 {
   padding: 0 40px;
 
-  > * {
+  .section-content,
+  .section-title {
     margin: 0 8px;
   }
 }
@@ -155,6 +156,12 @@ html, body {
     padding-bottom: 32px;
   }
 }
+
+
+.vue-lb-container {
+  z-index: 9999 !important;
+}
+
 
 @media (max-width: 600px) {
   body .block-section {

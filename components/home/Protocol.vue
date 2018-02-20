@@ -17,6 +17,7 @@
           <div class="lc-container-4">
             <div class="section-content">
               <div class="protocol-container">
+
                 <!-- <div class="details">
                   <div class="description">
                     {{ $t('Home.Protocol.content') }}
@@ -31,6 +32,7 @@
                     :class="`layer layer-${i + 1}`"
                     v-for="(layer, i) in layers"
                     :key="i">
+
                     <div
                       class="title"
                       :style="`z-index: ${4 - i}`">
@@ -46,6 +48,37 @@
                         </div>
                       </div>
                     </div>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lc-container-3 layers-mobile-container">
+          <div class="layers-section">
+            <div class="layers-mobile">
+              <div
+                :class="`layer layer-${i + 1}`"
+                v-for="(layer, i) in layers"
+                :key="i">
+                <div class="title">
+                  <span>{{ $t(`Home.Protocol.layer.${layer.key}.title`)}}</span>
+                </div>
+                <div
+                  class="examples-container"
+                  :style="`z-index: ${4 - i}`">
+                  <div class="examples">
+                    <img :src="imgUrl(`layer-${i + 1}.svg`)" />
+                    <ul>
+                      <li
+                        v-for="(example, j) in layer.examples"
+                        :key="j">
+                        {{ $t(`Home.Protocol.layer.${layer.key}.example.${example}`) }}
+                      </li>
+                    </ul>
                   </div>
                 </div>
               </div>
@@ -53,36 +86,6 @@
           </div>
         </div>
 
-        <div class="lc-container-3 layers-mobile-container">
-          <div class="lc-container-4">
-            <div class="section-content">
-              <div class="layers-section">
-                <div class="layers-mobile">
-                  <div
-                    :class="`layer layer-${i + 1}`"
-                    v-for="(layer, i) in layers"
-                    :key="i">
-                    <div class="title">
-                      <span>{{ $t(`Home.Protocol.layer.${layer.key}.title`)}}</span>
-                    </div>
-                    <div
-                      class="examples-container"
-                      :style="`z-index: ${4 - i}`">
-                      <img :src="imgUrl(`layer-${i + 1}.svg`)" />
-                      <div class="examples">
-                        <div
-                          v-for="(example, j) in layer.examples"
-                          :key="j">
-                          {{ $t(`Home.Protocol.layer.${layer.key}.example.${example}`) }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div/>
     </div>
   </section>
@@ -263,96 +266,110 @@ export default {
     .lc-protocol {
       margin-top: 48px;
     }
-    .layers-mobile-container {
-      overflow: hidden;
-      background-color: $like-white;
-      .section-content {
-        padding-top: 0;
-      }
-
-      .layers-section {
-        margin: 0 -32px 32px;
-      }
-    }
 
     .protocol-container {
       .details .description {
         padding-bottom: 24px;
       }
     }
-
   }
+}
 
-  .layers-mobile {
-    margin-top: 10px;
-    background-color: white;
 
-    .layer {
-      // display: flex;
-      // flex-direction: row;
+body .layers-mobile-container {
+  padding: 0;
+  background-color: $like-white;
+  .section-content {
+    padding-top: 0;
+  }
+}
+.layers-mobile {
+  margin-top: -10px;
+  padding-bottom: 50px;
+  background-color: white;
 
-      .title {
-        font-size: 14px;
-        font-weight: 600;
-        color: $like-dark-brown-2;
-        width: 144px;
-        flex-shrink: 0;
+  .layer {
+    position: relative;
 
-        padding: 8px 0 0 24px;
-      }
+    .title {
+      position: absolute;
+      font-size: 14px;
+      font-weight: 600;
+      color: $like-dark-brown-2;
+      width: 30%;
+      flex-shrink: 0;
 
-      &:not(:first-child) {
-        .examples-container {
-          .examples {
-            margin-top: 2%;
-          }
-        }
-      }
+      padding: 8px 0 0 24px;
+    }
 
-      &.layer-2 {
-        .examples div {
-          font-weight: 600;
-          color: $like-dark-brown-2;
-        }
+    .examples-container {
+      $layer-best-width: 400px;
 
-        background-image: linear-gradient(257deg, rgba(210, 240, 240, .4), rgba(240, 230, 180, .4));
-      }
+      position: relative;
+      display: flex;
+      align-items: center;
 
-      &.layer-3 {
-        .examples-container {
-          margin-top: -18px;
-        }
-      }
+      max-width: $layer-best-width;
+      height: 100px;
+      margin-left: 17%;
 
-      .examples-container {
-        max-width: 400px;
-        position: relative;
+      > * {
         width: 100%;
-        height: 80px;
-        margin-left: 20%;
+      }
 
-        display: flex;
-        align-items: center;
-        text-align: center;
+      .examples {
+        z-index: 5;
+        padding-bottom: 10px;
+        padding-right: 25px;
 
-        > * {
-          width: 100%;
+        color: $like-white;
+
+        font-size: 12px;
+
+        @media (min-width: 376px) {
+          text-align: center;
+          min-width: $layer-best-width;
+        }
+        @media (max-width: 375px) {
+          padding-left: 40%;
         }
 
         img {
-          // margin-top: -8px;
+          display: block;
+
+          position: absolute;
+          top: -20px;
+          left: 0;
+          right: 0;
+
+          height: 180px;
+
+          object-fit: cover;
+          object-position: left top;
         }
 
-        .examples {
-          position: absolute;
-          z-index: 5;
-          margin-left: -16px;
+        ul {
+          position: relative;
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          margin-top: 50px;
+          line-height: 1.2;
 
-          color: $like-white;
-
-          font-size: 12px;
+          li + li {
+            margin-top: 4px;
+          }
         }
       }
+    }
+
+    &.layer-2 {
+      .examples ul {
+        font-weight: 600;
+        color: $like-dark-brown-2;
+      }
+
+      background-image: linear-gradient(257deg, rgba(210, 240, 240, .4), rgba(240, 230, 180, .4));
     }
   }
 }
