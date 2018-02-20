@@ -157,6 +157,12 @@ html, body {
   }
 }
 
+
+.vue-lb-container {
+  z-index: 9999 !important;
+}
+
+
 @media (max-width: 600px) {
   body .block-section {
     font-size: 18px;

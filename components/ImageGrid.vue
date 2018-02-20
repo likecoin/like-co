@@ -3,12 +3,11 @@
     <div>
 
       <ul>
-        <li v-for="item in items">
+        <li v-for="(item, index) in items">
 
           <a
-            :href="item.link || item.src"
-            :data-lightbox="item.isLightBox ? lightboxId : null"
-            :data-title="item.title"
+            :href="!item.isLightBox && item.link"
+            @click="item.isLightBox && openLightBox(index)"
             target="_blank"
             rel="noopener">
             <img :src="item.src" />
@@ -16,18 +15,58 @@
 
         </li>
       </ul>
+
+      <no-ssr>
+        <lightbox
+          class="lc-image-grid_lightbox"
+          ref="lightbox"
+          :images="images"
+          :showLightBox="false"
+          :showThumbs="false"
+        ></lightbox>
+      </no-ssr>
+
     </div>
   </div>
 </template>
 
 
 <script>
+import Lightbox from 'vue-image-lightbox';
+
 export default {
   name: 'image-grid',
+  components: {
+    Lightbox,
+  },
   props: [
     'items',
     'lightboxId',
   ],
+  data() {
+    const images = [];
+    const imagesMap = {};
+
+    this.items.forEach((item, index) => {
+      if (item.isLightBox) {
+        imagesMap[index] = images.length;
+        images.push({
+          src: item.link,
+          caption: item.title,
+        });
+      }
+    });
+
+    return {
+      images,
+      imagesMap,
+    };
+  },
+  methods: {
+    openLightBox(index) {
+      this.$refs.lightbox.showImage(this.imagesMap[index]);
+    },
+  },
 };
 </script>
 
