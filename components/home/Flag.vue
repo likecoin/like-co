@@ -35,7 +35,7 @@ export default {
 
   width: 298px;
   height: 406px;
-  padding: 48px;
+  padding: 48px 12px 48px 48px;
 
   border-radius: 0 0 8px 8px;
   background-image: linear-gradient(208deg, $like-light-blue, $like-gradient-1);
@@ -48,7 +48,7 @@ export default {
   h1 {
     margin-top: 8px;
 
-    font-size: 38px;
+    font-size: 36px;
     line-height: 46px;
   }
 
