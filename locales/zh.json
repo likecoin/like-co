@@ -20,8 +20,8 @@
       }
     },
     "Flag": {
-      "title": "化Like為Coin",
-      "content": "回饋創作"
+      "title": "化Like為Coin 回饋創作",
+      "content": ""
     },
     "Sale": {
       "title": "2018 Q2",
@@ -30,7 +30,7 @@
         "paper": "技術白皮書",
         "onePage": "計畫介紹",
         "redeem": "領取紅包",
-        "createID": "註冊 LikeCoin ID ，改善內容創作生態",
+        "createID": "註冊 LikeCoin ID ，改革內容創作生態",
         "createNow": "馬上註冊"
       }
     },
@@ -285,10 +285,10 @@
   "Register": {
     "header": {
       "title": "註冊 LikeCoin ID",
-      "content": "很好，你已經安裝成功，可以收發 LikeCoin 了。",
+      "content": "很好，你已經有 MetaMask，可以申請 LikeCoin ID 了。",
       "redeem": "兌換你的 LikeCoin 紅包",
       "button": {
-        "what": "LikeCoin：將 Like 變 Coin"
+        "what": "LikeCoin：化Like為Coin"
       }
     },
     "form": {
@@ -363,8 +363,8 @@
       "userNotFound": "收款者不存在"
     },
     "head": {
-      "sendTo": "LikeCoin - 將 Like 變 Coin",
-      "description": "以創意證明機制回饋創作者 - 發 LikeCoin 給 {name}"
+      "sendTo": "LikeCoin - 化Like為Coin",
+      "description": "回饋創作 - 發 LikeCoin 給 {name}"
     },
     "error": {
       "ethInsufficient": "錢包內的 ETH 數量不足",
