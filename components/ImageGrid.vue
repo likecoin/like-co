@@ -7,7 +7,7 @@
 
           <a
             :href="item.link || item.src"
-            :data-lightbox="lightboxId"
+            :data-lightbox="item.isLightBox ? lightboxId : null"
             :data-title="item.title"
             target="_blank"
             rel="noopener">
@@ -40,6 +40,10 @@ export default {
     margin-top: 20px;
   }
 
+  > div {
+    margin: 0 auto;
+  }
+
   ul {
     list-style: none;
     margin: 0 8px;
@@ -48,16 +52,27 @@ export default {
     border-radius: 6px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
 
     li {
       flex-shrink: 0;
-      height: 150px;
-      margin: 16px;
+      padding: 16px;
+      width: calc(100% * 1/4);
+
+      @media (max-width: 1244px) {
+        width: calc(100% * 1/3);
+      }
+      @media (max-width: 768px) {
+        width: calc(100% * 1/2);
+      }
+      @media (max-width: 540px) {
+        width: 100%;
+      }
 
       a, img {
         display: block;
-        height: 100%;
+        margin: 0 auto;
+        max-width: 180px;
       }
       a {
         transition: transform .2s ease-out;
