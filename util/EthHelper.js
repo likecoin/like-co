@@ -32,6 +32,7 @@ class EthHelper {
     onSign,
     onSigned,
   }) {
+    this.wallet = '';
     this.errCb = errCb;
     this.clearErrCb = clearErrCb;
     this.onWalletCb = onWalletCb;
