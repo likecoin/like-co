@@ -271,8 +271,7 @@ export default {
       }
 
       .layers-section {
-        margin: 0 -32px;
-        overflow-y: -webkit-paged-y;
+        margin: 0 -32px 32px;
       }
     }
 
