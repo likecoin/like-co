@@ -25,6 +25,18 @@ export async function isUser({ commit }, addr) {
   }
 }
 
+export async function getWalletByUser({ commit }, id) {
+  commit(types.UI_START_BLOCKING_LOADING);
+  try {
+    const { wallet } = await apiWrapper(commit, api.apiGetUserById(id));
+    commit(types.UI_STOP_BLOCKING_LOADING);
+    return wallet;
+  } catch (error) {
+    commit(types.UI_STOP_BLOCKING_LOADING);
+    throw error;
+  }
+}
+
 export async function sendVerifyEmail({ commit, rootState }, id) {
   return apiWrapper(commit, api.apiSendVerifyEmail(id, rootState.ui.locale), { blocking: true });
 }
