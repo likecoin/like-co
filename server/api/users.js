@@ -281,7 +281,6 @@ router.post('/email/verify/:uuid', async (req, res) => {
     } else {
       res.sendStatus(404);
     }
-    res.sendStatus(500);
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
