@@ -27,10 +27,10 @@
 
 <script>
 import { IS_TESTNET } from '@/constant';
-import metamaskIcon from '../assets/icons/metamask.svg';
-import metamaskNetImg from '../assets/img/meta_net.png';
-import metamaskTestNetImg from '../assets/img/meta_testnet.png';
-import metamaskUnlockImg from '../assets/img/meta_unlock.png';
+import metamaskIcon from '@/assets/icons/metamask.svg';
+import metamaskNetImg from '@/assets/img/meta_net.png';
+import metamaskTestNetImg from '@/assets/img/meta_testnet.png';
+import metamaskUnlockImg from '@/assets/img/meta_unlock.png';
 
 export default {
   name: 'MetamaskDialog',
@@ -86,7 +86,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/dialog";
+@import "@assets/dialog";
 
 .title-bar {
   background-image: linear-gradient(252deg, #ed8526, #eebe78);

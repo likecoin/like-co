@@ -41,11 +41,11 @@
 import InfoToolbar from '~/components/InfoToolbar';
 import TxToolbar from '~/components/TxToolbar';
 import LoadingToolbar from '~/components/LoadingToolbar';
-import PopupDialog from '~/components/PopupDialog';
-import BlockerDialog from '~/components/BlockerDialog';
-import MetamaskDialog from '~/components/MetamaskDialog';
-import ChromeDialog from '~/components/ChromeDialog';
-import TxDialog from '~/components/TxDialog';
+import PopupDialog from '~/components/dialogs/PopupDialog';
+import BlockerDialog from '~/components/dialogs/BlockerDialog';
+import MetamaskDialog from '~/components/dialogs/MetamaskDialog';
+import ChromeDialog from '~/components/dialogs/ChromeDialog';
+import TxDialog from '~/components/dialogs/TxDialog';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
