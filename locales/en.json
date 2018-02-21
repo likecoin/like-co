@@ -325,6 +325,7 @@
       "createID": "Create a LikeCoin ID* (minimum 7 characters)",
       "walletAddress": "Wallet address",
       "email": "Email (optional)",
+      "referrer": "Referrer (optional)",
       "amount": "Amount of LikeCoin:",
       "displayName": "Display Name",
       "claim": "Claim",

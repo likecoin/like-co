@@ -38,6 +38,10 @@
               <label>{{ $t('Register.form.email') }}</label>
               <md-input type="email" v-model="email" />
             </md-field>
+            <md-field>
+              <label>{{ $t('Register.form.referrer') }}</label>
+              <md-input v-model="referrer" required />
+            </md-field>
             <md-field v-if="isEdit && !isRedeemingCoupon">
               <label>{{ $t('Register.form.displayName') }}</label>
               <md-input v-model="displayName" required />
@@ -94,6 +98,7 @@ export default {
       email: '',
       displayName: '',
       couponCode: '',
+      referrer: this.$route.query.from || '',
       likeCoinBalance: NaN,
       wallet: this.getLocalWallet,
       isBadAddress: false,
@@ -173,6 +178,7 @@ export default {
           user: this.user,
           wallet: this.wallet,
           email: this.email,
+          referrer: this.referrer,
         };
         const data = await User.formatAndSignUserInfo(userInfo);
         await this.newUser(data);
