@@ -13,8 +13,8 @@
 
 <script>
 import ToolBars from '~/components/toolbars/ToolBars';
-import MyFooter from '~/components/Footer';
-import SiteHeader from '~/components/Header';
+import MyFooter from '~/components/footer/Footer';
+import SiteHeader from '~/components/header/Header';
 import { mapGetters } from 'vuex';
 
 export default {

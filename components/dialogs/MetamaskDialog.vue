@@ -86,7 +86,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@assets/dialog";
+@import "~assets/dialog";
 
 .title-bar {
   background-image: linear-gradient(252deg, #ed8526, #eebe78);

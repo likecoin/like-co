@@ -16,8 +16,8 @@
 
 <script>
 import { IS_TESTNET } from '@/constant';
-import LanguageSwitch from './LanguageSwitch';
-import PlatformIconBar from './PlatformIconBar';
+import LanguageSwitch from '~/components/LanguageSwitch';
+import PlatformIconBar from '~/components/PlatformIconBar';
 
 export default {
   name: 'site-header',
@@ -34,7 +34,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/index";
+@import "~assets/index";
 
 #site-header {
   display: flex;

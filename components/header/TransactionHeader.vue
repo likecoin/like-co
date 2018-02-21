@@ -57,7 +57,7 @@
 
 
 <script>
-import likeCoinIcon from '../assets/likecoin.svg';
+import likeCoinIcon from '@/assets/likecoin.svg';
 
 export default {
   name: 'transaction-header',
@@ -83,7 +83,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/index";
+@import "~assets/index";
 
 $status-icon-size: 32px;
 
