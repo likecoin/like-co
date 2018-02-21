@@ -212,6 +212,7 @@ export default {
       'getUserInfo',
       'getIsInTransaction',
       'getIsPopupBlocking',
+      'getCurrentLocale',
     ]),
     getAmountHref() {
       return this.canGetFreeLikeCoin ? '' : 'https://likecoin.foundation/#/'; // remove after chinese 15/1
@@ -302,6 +303,7 @@ export default {
           displayName: this.displayName,
           wallet: this.wallet,
           email: this.email,
+          locale: this.getCurrentLocale,
         };
         const data = await User.formatAndSignUserInfo(userInfo);
         await this.newUser(data);

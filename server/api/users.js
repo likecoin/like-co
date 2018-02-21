@@ -100,6 +100,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       email,
       ts,
       referrer,
+      locale,
     } = JSON.parse(payload);
 
     // check address match
@@ -191,6 +192,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       updateObj.isEmailVerified = false;
     }
     if (url) updateObj.avatar = url;
+    if (locale) updateObj.locale = locale;
     if (!isOldUser) updateObj.timestamp = Date.now();
     if (hasReferrer) updateObj.referrer = referrer;
     await dbRef.doc(user).set(updateObj, { merge: true });
