@@ -27,3 +27,5 @@ export const getMetamaskError = state => state.metamaskError;
 export const getTxDialogActionRoute = state => state.txDialogActionRoute;
 
 export const getTxDialogActionText = state => state.txDialogActionText;
+
+export const getCurrentLocale = state => state.locale;
