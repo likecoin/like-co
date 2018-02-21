@@ -99,6 +99,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       avatarSHA256,
       email,
       ts,
+      referrer,
     } = JSON.parse(payload);
 
     // check address match
@@ -174,6 +175,12 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       [url] = await uploadFile(file, `likecoin_store_user_${user}_${IS_TESTNET ? 'test' : 'main'}`);
     }
 
+    let hasReferrer = false;
+    if (!isOldUser && referrer) {
+      const referrerRef = await dbRef.doc(referrer).get();
+      hasReferrer = referrerRef.exists;
+    }
+
     const updateObj = {
       displayName,
       wallet,
@@ -185,7 +192,12 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
     }
     if (url) updateObj.avatar = url;
     if (!isOldUser) updateObj.timestamp = Date.now();
+    if (hasReferrer) updateObj.referrer = referrer;
     await dbRef.doc(user).set(updateObj, { merge: true });
+
+    if (hasReferrer) {
+      await dbRef.doc(referrer).collection('referrals').doc(user).create({ timestamp: Date.now() });
+    }
 
     res.sendStatus(200);
     publisher.publish(PUBSUB_TOPIC_MISC, {
@@ -309,6 +321,10 @@ router.post('/email/verify/:uuid', async (req, res) => {
         verificationUUID: FieldValue.delete(),
         isEmailVerified: true,
       });
+      const { referrer } = user.data();
+      if (referrer) {
+        await dbRef.doc(referrer).collection('referrals').doc(user.id).update({ isEmailVerified: true });
+      }
       res.json({ wallet: user.data().wallet });
       const userObj = user.data();
       publisher.publish(PUBSUB_TOPIC_MISC, {
