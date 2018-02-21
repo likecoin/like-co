@@ -23,7 +23,7 @@
           :images="images"
           :showLightBox="false"
           :showThumbs="false"
-        ></lightbox>
+        />
       </no-ssr>
 
     </div>
@@ -86,7 +86,7 @@ export default {
   ul {
     list-style: none;
     margin: 0 8px;
-    padding: 16px;
+    padding: 0;
     background-color: white;
     border-radius: 6px;
     display: flex;
@@ -94,8 +94,11 @@ export default {
     justify-content: flex-start;
 
     li {
+      position: relative;
+
       flex-shrink: 0;
-      padding: 16px;
+
+      padding: 16px 8px;
       width: calc(100% * 1/4);
 
       @media (max-width: 1244px) {
@@ -104,20 +107,38 @@ export default {
       @media (max-width: 768px) {
         width: calc(100% * 1/2);
       }
-      @media (max-width: 540px) {
+      @media (max-width: 480px) {
         width: 100%;
       }
 
-      a, img {
-        display: block;
-        margin: 0 auto;
-        max-width: 180px;
-      }
       a {
+        display: block;
+        position: relative;
+
+        margin: 0 auto;
+        padding-top: #{118px / 256px * 100%};
+        width: 100%;
+        max-width: 256px;
+        max-height: 118px;
+        box-sizing: border-box;
+
+        cursor: pointer;
+      }
+
+      img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        object-fit: contain;
+        object-position: center;
+
         transition: transform .2s ease-out;
 
         &:hover {
-          transform: scale(1.02);
+          transform: translateY(-2%);
         }
       }
     }
