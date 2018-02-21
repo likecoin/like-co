@@ -116,6 +116,7 @@ export default {
       'getUserInfo',
       'getIsPopupBlocking',
       'getLocalWallet',
+      'getCurrentLocale',
     ]),
     isRedeemingCoupon() {
       return this.couponCode;
@@ -179,6 +180,7 @@ export default {
           wallet: this.wallet,
           email: this.email,
           referrer: this.referrer,
+          locale: this.getCurrentLocale,
         };
         const data = await User.formatAndSignUserInfo(userInfo);
         await this.newUser(data);
