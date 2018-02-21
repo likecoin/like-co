@@ -38,9 +38,9 @@
   </div>
 </template>
 <script>
-import InfoToolbar from '~/components/InfoToolbar';
-import TxToolbar from '~/components/TxToolbar';
-import LoadingToolbar from '~/components/LoadingToolbar';
+import InfoToolbar from '~/components/toolbars/InfoToolbar';
+import TxToolbar from '~/components/toolbars/TxToolbar';
+import LoadingToolbar from '~/components/toolbars/LoadingToolbar';
 import PopupDialog from '~/components/dialogs/PopupDialog';
 import BlockerDialog from '~/components/dialogs/BlockerDialog';
 import MetamaskDialog from '~/components/dialogs/MetamaskDialog';
@@ -100,7 +100,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "../assets/index";
+@import "~assets/index";
 
 .toolbars {
   position: relative;

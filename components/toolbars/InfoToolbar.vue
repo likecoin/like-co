@@ -26,7 +26,7 @@
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/index";
+@import "~assets/index";
 
 .md-toolbar {
   background-image: linear-gradient(263deg, $like-light-blue, $like-gradient-1);

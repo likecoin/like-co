@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import ToolBars from '~/components/ToolBars';
+import ToolBars from '~/components/toolbars/ToolBars';
 import MyFooter from '~/components/Footer';
 import SiteHeader from '~/components/Header';
 import Introduction from '~/components/Introduction';
