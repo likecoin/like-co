@@ -8,8 +8,8 @@
           :teamMember="teamMember"
         />
         <team-member-card
-          v-for="n in numDummyItem"
-          :key="index"
+          v-for="(n, index) in numDummyItem"
+          :key="index + (teamMembers.length || 0)"
           :isDummy="true"
         />
       </div>

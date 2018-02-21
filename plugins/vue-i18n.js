@@ -10,19 +10,25 @@ Vue.use(VueI18n);
 export default ({ app, store, req }) => {
   // Set i18n instance on app to use it in middleware and pages asyncData/fetch
   /* eslint-disable no-param-reassign */
-  let locale = 'en';
+  const fallbackLocale = 'en';
+  let locale = fallbackLocale;
   if (!process.server) {
-    let navLang = navigator.language || (navigator.languages && navigator.languages[0]) || 'en';
+    let navLang = navigator.language
+    || (navigator.languages && navigator.languages[0]) || fallbackLocale;
+    // TODO: iterate through navigator.languages to find locale
     navLang = navLang.toLowerCase();
-    if (navLang.includes('en')) navLang = 'en';
-    if (navLang.includes('zh')) navLang = 'zh';
+    Object.keys(messages).forEach((key) => {
+      if (navLang.includes(key)) {
+        navLang = key;
+      }
+    });
     locale = window.localStorage.language || navLang;
   } else if (req) {
-    locale = req.acceptsLanguages(['en', 'zh']) || locale;
+    locale = req.acceptsLanguages(Object.keys(messages)) || fallbackLocale;
   }
   app.i18n = new VueI18n({
     locale,
-    fallbackLocale: 'en',
+    fallbackLocale,
     messages,
   });
   store.dispatch('setLocale', locale);
