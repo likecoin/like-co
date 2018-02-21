@@ -9,6 +9,7 @@ const User = {
       displayName,
       wallet,
       email,
+      referrer,
     } = userInfo;
     try {
       const ts = Date.now();
@@ -24,6 +25,7 @@ const User = {
         avatarSHA256,
         wallet,
         email,
+        referrer,
       });
       const sign = await EthHelper.signNewUser(payload);
       const data = {
