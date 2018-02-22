@@ -367,7 +367,7 @@
       "userNotFound": "收款者不存在"
     },
     "head": {
-      "sendTo": "LikeCoin - 化Like為Coin",
+      "title": "LikeCoin - 化Like為Coin",
       "description": "回饋創作 - 發 LikeCoin 給 {name}"
     },
     "error": {

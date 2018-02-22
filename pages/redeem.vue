@@ -29,6 +29,13 @@ export default {
   head() {
     return {
       title: this.$t('Register.header.title'),
+      meta: [
+        {
+          hid: 'og_title',
+          property: 'og:title',
+          content: this.$t('Register.header.title'),
+        },
+      ],
     };
   },
   computed: {

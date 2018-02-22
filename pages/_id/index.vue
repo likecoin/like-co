@@ -107,6 +107,11 @@ export default {
       title: this.$t('Transaction.head.title', { name: this.displayName }),
       meta: [
         {
+          hid: 'og_title',
+          property: 'og:title',
+          content: this.$t('Transaction.head.title', { name: this.displayName }),
+        },
+        {
           hid: 'description',
           name: 'description',
           content: this.$t('Transaction.head.description', { name: this.displayName }),
