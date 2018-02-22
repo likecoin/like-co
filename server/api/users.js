@@ -217,6 +217,24 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
   }
 });
 
+router.get('/users/referral/:id', async (req, res) => {
+  try {
+    const username = req.params.id;
+    const col = await dbRef.doc(username).collection('referrals').get();
+    if (col.docs) {
+      const pending = col.docs.filter(d => !d.data().isEmailVerified).length;
+      const verified = col.docs.filter(d => d.data().isEmailVerified).length;
+      res.json({ pending, verified });
+    } else {
+      res.json({ pending: 0, verified: 0 });
+    }
+  } catch (err) {
+    const msg = err.message || err;
+    console.error(msg);
+    res.status(400).send(msg);
+  }
+});
+
 router.get('/users/id/:id', async (req, res) => {
   try {
     const username = req.params.id;
