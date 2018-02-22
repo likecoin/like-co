@@ -311,6 +311,7 @@
   "Register": {
     "header": {
       "title": "Create a LikeCoin ID to send and receive LikeCoin",
+      "titleReferral": "Join {name} and Create a LikeCoin ID",
       "content": "Great! Seems you already have Metamask installed. Now you are ready to receive or send LikeCoin.",
       "redeem": "Redeem your free LikeCoin",
       "button": {
