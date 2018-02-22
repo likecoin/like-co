@@ -291,6 +291,10 @@
         "what": "What is LikeCoin?"
       }
     },
+    "label": {
+      "register": "Create Account",
+      "registerRedeem": "Create Account and Redeem"
+    },
     "form": {
       "createID": "Create a LikeCoin ID* (minimum 7 characters)",
       "walletAddress": "Wallet address",

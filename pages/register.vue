@@ -18,8 +18,8 @@ export default {
       redirect({ name: 'edit' });
       return;
     }
-    const title = 'Create a LikeCoin ID to send and receive LikeCoin';
-    const subtitle = 'Create Account';
+    const title = 'Register.header.title';
+    const subtitle = 'Register.label.register';
     store.commit(types.UI_HEADER_UPDATE, {
       title,
       subtitle,

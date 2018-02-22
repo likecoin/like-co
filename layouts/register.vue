@@ -12,7 +12,7 @@
         />
       </div>
       <div class="section-title-wrapper">
-        <h2 class="title">{{ getHeaderSubtitle || title }}</h2>
+        <h2 class="title">{{ $t(getHeaderSubtitle || title) }}</h2>
       </div>
       <nuxt/>
     </div>
@@ -31,7 +31,7 @@ import { mapGetters } from 'vuex';
 export default {
   data() {
     return {
-      title: 'Create LikeCoin ID and Redeem',
+      title: 'Register.label.registerRedeem',
     };
   },
   components: {

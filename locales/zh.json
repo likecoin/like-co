@@ -284,12 +284,16 @@
   },
   "Register": {
     "header": {
-      "title": "註冊 LikeCoin ID",
+      "title": "註冊 LikeCoin ID・改革內容創作生態",
       "content": "很好，你已經有 MetaMask，可以申請 LikeCoin ID 了。",
       "redeem": "兌換你的 LikeCoin 紅包",
       "button": {
         "what": "LikeCoin：化Like為Coin"
       }
+    },
+    "label": {
+      "register": "註冊",
+      "registerRedeem": "註冊並兌換"
     },
     "form": {
       "createID": "註冊 LikeCoin ID* (最少7個英文字母/數目字)",

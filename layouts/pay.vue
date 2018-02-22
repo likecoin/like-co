@@ -15,20 +15,12 @@
 import ToolBars from '~/components/ToolBars';
 import MyFooter from '~/components/Footer';
 import SiteHeader from '~/components/Header';
-import { mapGetters } from 'vuex';
 
 export default {
   components: {
     ToolBars,
     MyFooter,
     SiteHeader,
-  },
-  computed: {
-    ...mapGetters([
-      'getHeaderSubtitle',
-      'getHeaderIcon',
-      'getHeaderTitle',
-    ]),
   },
 };
 </script>

@@ -4,7 +4,7 @@
       <img alt="like-coin" class="main-icon" :src="icon || defaultIcon" />
     </div>
     <div class="title heading">
-      <h1>{{ title || defaultText }}</h1>
+      <h1>{{ $t(title || defaultText) }}</h1>
     </div>
   </section>
 </template>
@@ -18,7 +18,7 @@ export default {
   props: ['title', 'icon'],
   data() {
     return {
-      defaultText: this.$t('Register.header.redeem'),
+      defaultText: 'Register.header.redeem',
       defaultIcon: likeCoinIcon,
     };
   },
