@@ -95,7 +95,7 @@ export default {
       avatar: null,
       avatarData: null,
       user: '',
-      email: '',
+      email: this.$route.query.email || '',
       displayName: '',
       couponCode: '',
       referrer: this.$route.query.from || '',
