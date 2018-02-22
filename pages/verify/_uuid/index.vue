@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import ClaimDialog from '~/components/ClaimDialog';
+import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import { mapActions } from 'vuex';
 
 export default {

@@ -89,7 +89,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/dialog";
+@import "~assets/dialog";
 
 .md-dialog-container {
   .title-bar {

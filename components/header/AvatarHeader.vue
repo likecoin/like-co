@@ -23,7 +23,7 @@
 
 
 <script>
-import likeCoinIcon from '../assets/likecoin.svg';
+import likeCoinIcon from '@/assets/likecoin.svg';
 
 export default {
   name: 'avatar-header',
@@ -38,7 +38,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/index";
+@import "~assets/index";
 
 .section-avatar {
   position: relative;

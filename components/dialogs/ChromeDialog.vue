@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import chromeIcon from '../assets/icons/chrome.png';
+import chromeIcon from '@/assets/icons/chrome.png';
 
 export default {
   name: 'ChromeDialog',
@@ -36,7 +36,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/dialog";
+@import "~assets/dialog";
 
 .title-bar {
   background-image: linear-gradient(252deg, #d2f0f0, #f0e6b4);

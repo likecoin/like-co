@@ -61,7 +61,7 @@ import BigNumber from 'bignumber.js';
 import EthHelper from '@/util/EthHelper';
 import { ETHERSCAN_HOST } from '@/constant';
 
-import TransactionHeader from '~/components/TransactionHeader';
+import TransactionHeader from '~/components/header/TransactionHeader';
 import ViewEtherscan from '~/components/ViewEtherscan';
 
 import { apiGetTxById, apiCheckIsUser } from '@/util/api/api';

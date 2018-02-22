@@ -162,8 +162,8 @@ import BigNumber from 'bignumber.js';
 import EthHelper from '@/util/EthHelper';
 import User from '@/util/User';
 import LikeCoinAmount from '~/components/LikeCoinAmount';
-import ClaimDialog from '~/components/ClaimDialog';
-import InputDialog from '~/components/InputDialog';
+import ClaimDialog from '~/components/dialogs/ClaimDialog';
+import InputDialog from '~/components/dialogs/InputDialog';
 import ViewEtherscan from '~/components/ViewEtherscan';
 import { mapActions, mapGetters } from 'vuex';
 

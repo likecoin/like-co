@@ -32,7 +32,7 @@
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/index";
+@import "~assets/index";
 
 .md-toolbar {
   .md-progress-spinner {

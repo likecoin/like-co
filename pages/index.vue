@@ -139,7 +139,7 @@ import { mapGetters } from 'vuex';
 
 import BlockSection from '~/components/BlockSection';
 import CustomLink from '~/components/CustomLink';
-import SiteHeader from '~/components/Header';
+import SiteHeader from '~/components/header/Header';
 import PlatformIconBar from '~/components/PlatformIconBar';
 
 import Carousel from '~/components/home/Carousel';

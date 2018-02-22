@@ -74,7 +74,7 @@ import BigNumber from 'bignumber.js';
 
 import EthHelper from '@/util/EthHelper';
 import User from '@/util/User';
-import ClaimDialog from '~/components/ClaimDialog';
+import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import { mapActions, mapGetters } from 'vuex';
 import { toDataUrl } from '@likecoin/ethereum-blockies';
 import { ETHERSCAN_HOST } from '@/constant';

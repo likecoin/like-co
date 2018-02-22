@@ -21,9 +21,9 @@
 </template>
 
 <script>
-import ToolBars from '~/components/ToolBars';
-import MyFooter from '~/components/Footer';
-import SiteHeader from '~/components/Header';
+import ToolBars from '~/components/toolbars/ToolBars';
+import MyFooter from '~/components/footer/Footer';
+import SiteHeader from '~/components/header/Header';
 import Introduction from '~/components/Introduction';
 import Description from '~/components/Description';
 import { mapGetters } from 'vuex';

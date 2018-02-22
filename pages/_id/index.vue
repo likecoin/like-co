@@ -43,7 +43,7 @@
 <script>
 import BigNumber from 'bignumber.js';
 
-import AvatarHeader from '~/components/AvatarHeader';
+import AvatarHeader from '~/components/header/AvatarHeader';
 import EthHelper from '@/util/EthHelper';
 import { mapActions, mapGetters } from 'vuex';
 import { apiGetUserById } from '@/util/api/api';

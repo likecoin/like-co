@@ -68,7 +68,7 @@
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/dialog";
+@import "~assets/dialog";
 
 .title-bar {
   background-image: linear-gradient(to right, #90c2ed, #6faeee 20%, #d7ecec);
