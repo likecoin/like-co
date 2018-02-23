@@ -79,10 +79,10 @@
     },
     "RoadMap": {
       "title": "路線圖",
-      "content": "---paragraph in road map---",
+      "content": "有意早鳥認購，請於頁面右下角聯繫團隊。",
       "timeline": {
         "0": {
-          "title": "概念、研發",
+          "title": "發想、研發",
           "time": "2017 Q1-Q3"
         },
         "1": {
@@ -113,7 +113,7 @@
     },
     "TokenDistribution": {
       "title": "代幣分配",
-      "content": "---paragraph in token distribution---",
+      "content": "先發行8億個代幣，未來10+年逐步增發至最終20億個，其中一半分配予創作者",
       "yearButton": {
         "year0": "元年",
         "year10": "十多年後"
@@ -128,7 +128,7 @@
       "content": "---paragraph in partners---"
     },
     "Backers": {
-      "title": "支持者"
+      "title": "首批支持者"
     },
     "Advisor": {
       "title": "顧問"
