@@ -9,8 +9,16 @@ async function apiWrapper(commit, promise) {
     return res.data;
   } catch (error) {
     commit(types.UI_STOP_LOADING);
-    const errorMsg = (error.response && error.response.data) || error.message || error;
-    commit(types.UI_ERROR_MSG, (error.response && error.response.data) || error.message || error);
+    const { response } = error;
+    /* hacky way to bypass own 404 page messing up layout */
+    const isHtml = !!(response
+      && response.headers
+      && response.headers['content-type']
+      && response.headers['content-type'].includes('html'));
+    const errorMsg = (isHtml ? response.statusText : (response && response.data))
+      || error.message
+      || error;
+    commit(types.UI_ERROR_MSG, errorMsg);
     console.error(error);
     throw new Error(errorMsg);
   }
