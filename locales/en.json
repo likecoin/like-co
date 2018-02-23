@@ -120,12 +120,11 @@
       },
       "pieChartLanguage": "en"
     },
+    "EarlyAdopters": {
+      "title": "Early Adopters"
+    },
     "PressCoverage": {
       "title": "Press Coverage"
-    },
-    "Partners": {
-      "title": "Partners",
-      "content": "---paragraph in partners---"
     },
     "Backers": {
       "title": "Backers"

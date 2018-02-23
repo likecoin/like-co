@@ -81,7 +81,6 @@ export default {
 
 .lc-press-coverage {
   @media (min-width: 601px) {
-    margin-top: 68px;
     padding-top: 36px;
   }
 }

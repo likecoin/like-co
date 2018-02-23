@@ -120,12 +120,11 @@
       },
       "pieChartLanguage": "hant"
     },
+    "EarlyAdopters": {
+      "title": "首批合作夥伴"
+    },
     "PressCoverage": {
       "title": "媒體報導"
-    },
-    "Partners": {
-      "title": "首批合作夥伴",
-      "content": "---paragraph in partners---"
     },
     "Backers": {
       "title": "首批支持者"
