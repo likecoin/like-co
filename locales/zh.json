@@ -79,10 +79,10 @@
     },
     "RoadMap": {
       "title": "路線圖",
-      "content": "---paragraph in road map---",
+      "content": "有意早鳥認購，請於頁面右下角聯繫團隊。",
       "timeline": {
         "0": {
-          "title": "概念、研發",
+          "title": "發想、研發",
           "time": "2017 Q1-Q3"
         },
         "1": {
@@ -113,7 +113,7 @@
     },
     "TokenDistribution": {
       "title": "代幣分配",
-      "content": "---paragraph in token distribution---",
+      "content": "先發行8億個代幣，未來10+年逐步增發至最終20億個，其中一半分配予創作者",
       "yearButton": {
         "year0": "元年",
         "year10": "十多年後"
@@ -128,7 +128,7 @@
       "content": "---paragraph in partners---"
     },
     "Backers": {
-      "title": "支持者"
+      "title": "首批支持者"
     },
     "Advisor": {
       "title": "顧問"
@@ -284,12 +284,16 @@
   },
   "Register": {
     "header": {
-      "title": "註冊 LikeCoin ID",
+      "title": "註冊 LikeCoin ID・改革內容創作生態",
       "content": "很好，你已經有 MetaMask，可以申請 LikeCoin ID 了。",
       "redeem": "兌換你的 LikeCoin 紅包",
       "button": {
         "what": "LikeCoin：化Like為Coin"
       }
+    },
+    "label": {
+      "register": "註冊",
+      "registerRedeem": "註冊並兌換"
     },
     "form": {
       "createID": "註冊 LikeCoin ID* (最少7個英文字母/數目字)",
@@ -363,7 +367,7 @@
       "userNotFound": "收款者不存在"
     },
     "head": {
-      "sendTo": "LikeCoin - 化Like為Coin",
+      "title": "LikeCoin - 化Like為Coin",
       "description": "回饋創作 - 發 LikeCoin 給 {name}"
     },
     "error": {
