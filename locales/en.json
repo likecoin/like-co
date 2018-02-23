@@ -197,11 +197,11 @@
   "Email": {
     "VerifiyEmail": {
       "subject": "Verify your LikeCoin Store email",
-      "body": "Hi {{name}}!\n\nWelcome to LikeCoin Store! To verify your email, click the following link:\n\nhttps://likecoin.store/verify/{{uuid}}\n\nLikeCoin Foundation\nhttps://likecoin.foundation"
+      "body": "Hi {{name}}!\n\nWelcome to LikeCoin Store! To verify your email, click the following link:\n\nhttps://likecoin.store/verify/{{uuid}}\n\nLikeCoin Foundation\nhttps://likecoin.store"
     },
     "VerifiyAndCouponEmail": {
       "subject": "Verify your LikeCoin Store email and claim your LikeCoin",
-      "body": "Hi {{name}}!\n\nWelcome to LikeCoin Store! To verify your email and receive red pocket, click the following link:\n\nhttps://likecoin.store/verify/{{uuid}}/{{coupon}}\n\nYour coupon code: {{coupon}}\n\nLikeCoin Foundation\nhttps://likecoin.foundation"
+      "body": "Hi {{name}}!\n\nWelcome to LikeCoin Store! To verify your email and receive red pocket, click the following link:\n\nhttps://likecoin.store/verify/{{uuid}}/{{coupon}}\n\nYour coupon code: {{coupon}}\n\nLikeCoin Foundation\nhttps://likecoin.store"
     }
   },
   "Store": {
