@@ -39,12 +39,12 @@ const SUPPORTERS = [
     avatar: '/images/supporters/greg-song.png',
   },
   {
-    key: 'heartherm-huang',
-    avatar: '/images/supporters/heartherm-huang.png',
-  },
-  {
     key: 'harry-xiao',
     avatar: '/images/supporters/harry-xiao.png',
+  },
+  {
+    key: 'heartherm-huang',
+    avatar: '/images/supporters/heartherm-huang.png',
   },
   {
     key: 'jacky-chu',
