@@ -120,15 +120,36 @@
       },
       "pieChartLanguage": "en"
     },
+    "EarlyAdopters": {
+      "title": "Early Adopters"
+    },
     "PressCoverage": {
       "title": "Press Coverage"
     },
-    "Partners": {
-      "title": "Partners",
-      "content": "---paragraph in partners---"
-    },
-    "Backers": {
-      "title": "Backers"
+    "EarlySupporters": {
+      "title": "Early Supporters",
+      "supporter": {
+        "annie-zhang": {
+          "title": "Annie Zhang",
+          "subtitle": "Chief Editor, Initium Media"
+        },
+        "greg-song": {
+          "title": "Greg Sung",
+          "subtitle": "Founder, aNobii and OneSky"
+        },
+        "harry-xiao": {
+          "title": "Harry Xiao",
+          "subtitle": "Founder, MeshBox"
+        },
+        "heartherm-huang": {
+          "title": "Heartherm Huang",
+          "subtitle": "Founder, Measurable Token"
+        },
+        "jacky-chu": {
+          "title": "Jacky Chu",
+          "subtitle": "Early investor of BTC, ETH, IOTA, VEN and ARDR"
+        }
+      }
     },
     "Advisor": {
       "title": "Advisors"

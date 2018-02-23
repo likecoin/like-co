@@ -59,9 +59,9 @@
 
     <token-distribution />
 
-    <press-coverage />
+    <early-adopters />
 
-    <!-- <partners /> -->
+    <press-coverage />
 
     <!-- <section class="lc-container-1 lc-backer">
       <div class="lc-container-2">
@@ -79,6 +79,8 @@
         </block-section/>
       </div>
     </section> -->
+
+    <early-supporters />
 
     <section class="lc-container-1 lc-team" id="team">
       <div class="lc-container-2">
@@ -144,7 +146,8 @@ import PlatformIconBar from '~/components/PlatformIconBar';
 
 import Carousel from '~/components/home/Carousel';
 import HeaderFlag from '~/components/home/Flag';
-import Partners from '~/components/home/Partners';
+import EarlyAdopters from '~/components/home/EarlyAdopters';
+import EarlySupporters from '~/components/home/EarlySupporters';
 import PressCoverage from '~/components/home/PressCoverage';
 import Protocol from '~/components/home/Protocol';
 import RoadMap from '~/components/home/RoadMap';
@@ -160,8 +163,9 @@ export default {
     BlockSection,
     Carousel,
     CustomLink,
+    EarlyAdopters,
+    EarlySupporters,
     HeaderFlag,
-    Partners,
     PlatformIconBar,
     PressCoverage,
     Protocol,

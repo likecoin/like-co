@@ -37,7 +37,7 @@ const presses = [
   },
   {
     src: '/images/press-logo/tvb.svg',
-    link: 'https://youtu.be/vidV_p4K_hk',
+    link: 'https://vimeo.com/257086712',
     title: 'Commercial Radio Hong Kong, 2018.01.01',
   },
   {
@@ -81,7 +81,6 @@ export default {
 
 .lc-press-coverage {
   @media (min-width: 601px) {
-    margin-top: 68px;
     padding-top: 36px;
   }
 }
