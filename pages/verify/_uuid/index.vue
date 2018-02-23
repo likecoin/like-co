@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import { logTrackerEvent } from '@/util/EventLogger';
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import { mapActions } from 'vuex';
 
@@ -42,7 +43,7 @@ export default {
       this.isVerified = false;
       try {
         this.wallet = await this.verifyEmailByUUID(this.uuid);
-        if (this.$ga) this.$ga.event('RegFlow', 'EmailVerifySuccessful', 'email verified successfully', 1);
+        logTrackerEvent(this, 'RegFlow', 'EmailVerifySuccessful', 'email verified successfully', 1);
         this.isVerified = true;
         if (this.couponCode) {
           try {
@@ -50,7 +51,7 @@ export default {
               wallet: this.wallet,
               coupon: this.couponCode,
             });
-            if (this.$ga) this.$ga.event('RegFlow', 'GetRedPocketSuccessful', 'redeem the red pocket', 1);
+            logTrackerEvent(this, 'RegFlow', 'GetRedPocketSuccessful', 'redeem the red pocket', 1);
           } catch (err) {
             setTimeout(() => this.$router.push({ name: 'edit' }), 3000);
           }

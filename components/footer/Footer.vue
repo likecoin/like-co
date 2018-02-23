@@ -48,11 +48,17 @@ export default {
   watch: {
     getUserInfo(e) {
       if (this.$intercom) {
-        const { user, displayName, email } = e;
+        const {
+          user,
+          displayName,
+          email,
+          wallet,
+        } = e;
         const opt = {};
         if (user) opt.user_id = user;
         if (displayName) opt.name = displayName;
         if (email) opt.email = email;
+        if (wallet) opt.wallet = wallet;
         this.$intercom.update(opt);
       }
     },

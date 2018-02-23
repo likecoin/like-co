@@ -74,6 +74,7 @@ import BigNumber from 'bignumber.js';
 
 import EthHelper from '@/util/EthHelper';
 import User from '@/util/User';
+import { logTrackerEvent } from '@/util/EventLogger';
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import { mapActions, mapGetters } from 'vuex';
 import { toDataUrl } from '@likecoin/ethereum-blockies';
@@ -186,7 +187,7 @@ export default {
         // pixel log registration complete event
         /* global fbq */
         fbq('track', 'CompleteRegistration');
-        if (this.$ga) this.$ga.event('RegFlow', 'CreateAccount', 'click confirm to create new account and the action success', 1);
+        logTrackerEvent(this, 'RegFlow', 'CreateAccount', 'click confirm to create new account and the action success', 1);
       } catch (err) {
         console.error(err);
       }

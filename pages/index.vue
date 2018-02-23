@@ -138,6 +138,7 @@
 <script>
 /* global fbq */
 import { mapGetters } from 'vuex';
+import { logTrackerEvent } from '@/util/EventLogger';
 
 import BlockSection from '~/components/BlockSection';
 import CustomLink from '~/components/CustomLink';
@@ -177,7 +178,7 @@ export default {
   methods: {
     imgUrl,
     onRedeemClick() {
-      if (this.$ga) this.$ga.event('RegFlow', 'ClickGetRedPocket', 'click 領取紅包 on homepage', 1);
+      logTrackerEvent(this, 'RegFlow', 'ClickGetRedPocket', 'click 領取紅包 on homepage', 1);
       this.$router.push({ name: 'redeem' });
     },
   },

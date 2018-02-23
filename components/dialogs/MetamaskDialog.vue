@@ -27,6 +27,7 @@
 
 <script>
 import { IS_TESTNET } from '@/constant';
+import { logTrackerEvent } from '@/util/EventLogger';
 import metamaskIcon from '@/assets/icons/metamask.svg';
 import metamaskNetImg from '@/assets/img/meta_net.png';
 import metamaskTestNetImg from '@/assets/img/meta_testnet.png';
@@ -70,16 +71,16 @@ export default {
   },
   methods: {
     refreshPage() {
-      if (this.$ga) this.$ga.event('RegFlow', 'InstallMetamaskSuccessfull', 'click install metamask complete and the metamask CTA disappear', 1);
+      logTrackerEvent(this, 'RegFlow', 'InstallMetamaskSuccessfull', 'click install metamask complete and the metamask CTA disappear', 1);
       window.location.reload();
     },
     onInstallClick() {
-      if (this.$ga) this.$ga.event('RegFlow', 'ClickInstallMetamask', 'click install metamask', 1);
+      logTrackerEvent(this, 'RegFlow', 'ClickInstallMetamask', 'click install metamask', 1);
     },
   },
   mounted() {
     if (this.isInstallMetamask) {
-      if (this.$ga) this.$ga.event('RegFlow', 'AppearMetamaskCTA', 'metamask install cta appear', 1);
+      logTrackerEvent(this, 'RegFlow', 'AppearMetamaskCTA', 'metamask install cta appear', 1);
     }
   },
 };
