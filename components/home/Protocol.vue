@@ -265,7 +265,7 @@ export default {
 @media (max-width: 600px) {
   body {
     .lc-protocol {
-      margin-top: 48px;
+      margin-top: 12px;
     }
 
     .protocol-container {
@@ -278,8 +278,10 @@ export default {
 
 
 body .layers-mobile-container {
-  padding: 0;
+  padding: 24px 0 0 0;
   background-color: $like-white;
+
+  overflow: hidden;
   .section-content {
     padding-top: 0;
   }
