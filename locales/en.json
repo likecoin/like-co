@@ -356,6 +356,17 @@
       "unverified": "Unverifed",
       "verifyEmail": "Verify your email"
     },
+    "referral": {
+      "title": "Affiliate Program",
+      "description": "You and your friend can earn 3 QASH each when you successfully invite a friend to sign up using your affiliate link. Please note that your friend's account needs to be approved for you and your friend to earn 3 QASH.",
+      "pending": "Waiting for email verification",
+      "verified": "Confirmed",
+      "emailInvite": "Invite your friend by email",
+      "altInvite": "Or invite by:",
+      "copyUrl": "Copy URL",
+      "facebook": "Facebook",
+      "send": "Send"
+    },
     "button": {
       "buyCoin": "Buy LikeCoin",
       "getFreeCoin": "Get free LikeCoin"
