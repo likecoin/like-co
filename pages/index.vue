@@ -204,7 +204,10 @@ export default {
     fbq('track', 'ViewContent');
 
     const { hash } = document.location;
-    document.querySelector(hash).scrollIntoView();
+    if (hash) {
+      const element = document.querySelector(hash);
+      if (element) element.scrollIntoView();
+    }
   },
 };
 </script>
