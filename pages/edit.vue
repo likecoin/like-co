@@ -124,7 +124,7 @@
 
     <div :class="isProfileEdit ? 'section-redeem-edit-mode' : ''">
       <div class="section-title-wrapper">
-        <h2 class="title">{{ subtitle }}</h2>
+        <h2 class="title">{{ $t('Edit.label.redeemCoin') }}</h2>
       </div>
       <form id="redeemForm" v-on:submit.prevent="onSubmitCoupon">
         <md-field>
@@ -152,6 +152,12 @@
       <claim-dialog ref="claimDialog" :couponCode="couponCode" :wallet="wallet" />
     </div>
 
+    <referral-action
+      :user="user"
+      :isProfileEdit="isProfileEdit"
+      :isBlocked="getIsPopupBlocking"
+    />
+
     <view-etherscan :address="wallet" />
   </div>
 </template>
@@ -163,6 +169,7 @@ import EthHelper from '@/util/EthHelper';
 import User from '@/util/User';
 import { logTrackerEvent } from '@/util/EventLogger';
 import LikeCoinAmount from '~/components/LikeCoinAmount';
+import ReferralAction from '~/components/ReferralAction';
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import InputDialog from '~/components/dialogs/InputDialog';
 import ViewEtherscan from '~/components/ViewEtherscan';
@@ -188,7 +195,6 @@ export default {
       isProfileEdit: false,
       isVerifying: false,
       likeCoinValueStr: '',
-      subtitle: this.$t('Edit.label.redeemCoin'),
       EditIcon,
       EditWhiteIcon,
       canGetFreeLikeCoin: false, // remove after chinese 15/1
@@ -198,6 +204,7 @@ export default {
   },
   components: {
     LikeCoinAmount,
+    ReferralAction,
     ClaimDialog,
     InputDialog,
     ViewEtherscan,
