@@ -80,6 +80,8 @@
       </div>
     </section> -->
 
+    <early-supporters />
+
     <section class="lc-container-1 lc-team" id="team">
       <div class="lc-container-2">
         <block-section
@@ -145,6 +147,7 @@ import PlatformIconBar from '~/components/PlatformIconBar';
 import Carousel from '~/components/home/Carousel';
 import HeaderFlag from '~/components/home/Flag';
 import EarlyAdopters from '~/components/home/EarlyAdopters';
+import EarlySupporters from '~/components/home/EarlySupporters';
 import PressCoverage from '~/components/home/PressCoverage';
 import Protocol from '~/components/home/Protocol';
 import RoadMap from '~/components/home/RoadMap';
@@ -161,6 +164,7 @@ export default {
     Carousel,
     CustomLink,
     EarlyAdopters,
+    EarlySupporters,
     HeaderFlag,
     PlatformIconBar,
     PressCoverage,
