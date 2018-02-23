@@ -13,21 +13,6 @@
           :isDummy="true"
         />
       </div>
-
-      <!-- <div class="team-carousel" v-else>
-        <div v-swiper:mySwiper="swiperOptions">
-          <div class="swiper-wrapper">
-            <div
-              class="swiper-slide"
-              v-for="(teamMember, index) in teamMembers"
-              :key="index">
-              <team-member-card
-                :teamMember="teamMember"
-              />
-            </div>
-          </div>
-        </div>
-      </div> -->
     </div>
   </no-ssr>
 </template>
@@ -75,10 +60,6 @@ function getSwiperParams() {
 
     const swiperWidth = containerWidth - windowConfig.windowPadding;
     const numFounderInRow = Math.max(Math.floor(swiperWidth / (windowConfig.minCardSize + 16)), 1);
-    /* eslint-disable */
-
-    // only show swiper when maximum item can show <= 2
-    // const shouldShowSwiper = numFounderInRow <= 2;
     const numDummyItem = (
       teamMembers.length > numFounderInRow &&
       teamMembers.length % numFounderInRow !== 0
@@ -87,26 +68,11 @@ function getSwiperParams() {
       0;
 
     return {
-      // shouldShowSwiper,
       numDummyItem,
-      // swiperOptions: {
-      //   slidesPerView: numFounderInRow,
-      //   spaceBetween: 16,
-      //   slidesPerGroup: 1,
-      //   pagination: {
-      //     el: '.swiper-pagination',
-      //     clickable: true,
-      //   },
-      //   navigation: {
-      //     nextEl: '.swiper-button-next',
-      //     prevEl: '.swiper-button-prev',
-      //   },
-      // },
     };
   }
   return {
     numDummyItem: 0,
-    // shouldShowSwiper: false,
   };
 }
 
@@ -127,11 +93,6 @@ export default {
       Object.keys(newSwiperObject).forEach((key) => {
         this[key] = newSwiperObject[key];
       });
-    },
-  },
-  computed: {
-    swiper() {
-      return this.$refs.mySwiper.swiper;
     },
   },
   mounted() {

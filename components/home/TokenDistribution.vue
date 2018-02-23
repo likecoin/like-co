@@ -1,5 +1,5 @@
 <template>
-  <section class="lc-container-1 lc-distribution">
+  <section class="lc-container-1 lc-distribution" id="distribution">
     <div class="lc-container-2">
       <div class="block-section">
 
@@ -100,8 +100,9 @@ export default {
 @import "~assets/index";
 
 .lc-distribution {
-  @media (min-width: 600px) {
-    margin-top: 88px;
+  @media (min-width: 601px) {
+    margin-top: 52px;
+    padding-top: 36px;
   }
 
   .token-distribution-wrapper {
