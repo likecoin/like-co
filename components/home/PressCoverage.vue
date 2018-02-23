@@ -1,5 +1,5 @@
 <template>
-  <section class="lc-container-1 lc-press-coverage">
+  <section class="lc-container-1 lc-press-coverage" id="press">
     <div class="lc-container-2">
       <div class="block-section">
 
@@ -81,7 +81,8 @@ export default {
 
 .lc-press-coverage {
   @media (min-width: 601px) {
-    margin-top: 104px;
+    margin-top: 68px;
+    padding-top: 36px;
   }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <section class="lc-container-1 lc-protocol">
+  <section class="lc-container-1 lc-protocol" id="tech">
     <div class="lc-container-2">
 
       <div class="block-section road-map-container">
@@ -141,7 +141,8 @@ export default {
 @import "~assets/index";
 
 .lc-protocol {
-  margin-top: 84px;
+  margin-top: 48px;
+  padding-top: 36px;
 
   .block-section :global(.section-content) {
     padding-bottom: 0;

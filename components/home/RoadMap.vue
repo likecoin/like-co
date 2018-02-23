@@ -1,5 +1,5 @@
 <template>
-  <section class="lc-container-1 lc-road-map">
+  <section class="lc-container-1 lc-road-map" id="roadmap">
     <div class="lc-container-2">
       <div class="block-section road-map-container">
 
@@ -71,7 +71,9 @@ $timeline-width: 16px;
 $progress-bar-percentage: 38%;
 
 .lc-road-map {
-  margin-top: 88px;
+  margin-top: 52px;
+  padding-top: 36px;
+
   @media (max-width: 600px) {
     margin-top: 48px;
   }

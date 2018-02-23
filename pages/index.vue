@@ -80,7 +80,7 @@
       </div>
     </section> -->
 
-    <section class="lc-container-1 lc-team">
+    <section class="lc-container-1 lc-team" id="team">
       <div class="lc-container-2">
         <block-section
           :title="$t('Home.Team.title')">
@@ -202,6 +202,9 @@ export default {
   },
   mounted() {
     fbq('track', 'ViewContent');
+
+    const { hash } = document.location;
+    document.querySelector(hash).scrollIntoView();
   },
 };
 </script>
@@ -290,6 +293,10 @@ $carousel-height: 488px;
   }
 }
 
+.lc-team {
+  min-height: 700px;
+}
+
 .lc-community {
   margin-top: 24px;
   padding-bottom: 64px;
@@ -360,7 +367,8 @@ $carousel-height: 488px;
   .lc-backer,
   .lc-advisor,
   .lc-team {
-    margin-top: 48px;
+    margin-top: 12px;
+    padding-top: 36px;
   }
 }
 
