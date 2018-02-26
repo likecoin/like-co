@@ -19,6 +19,7 @@ module.exports = {
     ],
     script: [
       { src: '/vendor/fb/pixel.js' },
+      { src: '/vendor/fb/sdk.js' },
     ],
     link: [
       { rel: 'icon', type: 'image/png', href: '/favicon.png' },
