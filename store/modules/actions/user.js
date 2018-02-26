@@ -55,6 +55,10 @@ export async function refreshUserInfo({ commit }, id) {
   }
 }
 
+export async function fetchUserReferralStats({ commit }, id) {
+  return apiWrapper(commit, api.apiGetReferralById(id));
+}
+
 export async function sendCouponCodeEmail({ commit, rootState }, data) {
   return apiWrapper(
     commit,
