@@ -1,4 +1,7 @@
 import axios from '~/plugins/axios';
+import { IS_TESTNET } from '@/constant';
+
+const LIKECOIN_API_BASE = IS_TESTNET ? 'https://api.likecoin.store/test' : 'https://api.likecoin.store';
 
 export const apiCheckIsUser = addr => axios.get(`/api/users/addr/${addr}`);
 
@@ -40,3 +43,11 @@ export const apiCheckCanGetFreeLikeCoin = user => axios.get(`/api/coupon/sentto/
 export const apiGetCouponCode = user => axios.post(`/api/coupon/coupon/cny2018bot/user/${user}`);
 
 export const apiSendCouponCodeEmail = (id, coupon, locale) => axios.post(`/api/email/verify/user/${id}`, { coupon, locale });
+
+export const apiSendInvitationEmail = (user, email) => axios.post(
+  `${LIKECOIN_API_BASE}/store-invite`,
+  {
+    referrerId: user,
+    email,
+  },
+);
