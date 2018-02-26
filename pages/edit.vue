@@ -154,6 +154,8 @@
 
     <referral-action
       :user="user"
+      :pending="referralPending"
+      :verified="referralVerified"
       :isEmailVerifted="getUserInfo.isEmailVerified"
       :isProfileEdit="isProfileEdit"
       :isBlocked="getIsPopupBlocking"
@@ -201,6 +203,8 @@ export default {
       canGetFreeLikeCoin: false, // remove after chinese 15/1
       isTriggerGetCoupon: false, // remove after chinese 15/1
       freeCoupon: '', // remove after chinese 15/1
+      referralPending: 0,
+      referralVerified: 0,
     };
   },
   components: {
@@ -243,6 +247,7 @@ export default {
       'refreshUserInfo',
       'getCouponCode',
       'checkCanGetFreeLikeCoin',
+      'fetchUserReferralStats',
     ]),
     onEditDisplayName() {
       if (this.isProfileEdit) {
@@ -282,8 +287,20 @@ export default {
       this.avatarData = user.avatar;
       this.wallet = user.wallet;
       this.email = user.email;
-      const balance = await EthHelper.queryLikeCoinBalance(user.wallet);
+      this.updateLikeCoin();
+      this.updateReferralStat();
+      this.updateCanGetFreeLikeCoin();
+    },
+    async updateLikeCoin() {
+      const balance = await EthHelper.queryLikeCoinBalance(this.wallet);
       this.likeCoinValueStr = new BigNumber(balance).dividedBy(ONE_LIKE).toFixed(4);
+    },
+    async updateReferralStat() {
+      const { pending, verified } = await this.fetchUserReferralStats(this.user);
+      this.referralPending = pending;
+      this.referralVerified = verified;
+    },
+    async updateCanGetFreeLikeCoin() {
       const canGetFreeLikeCoinRes = await this.checkCanGetFreeLikeCoin(this.user);
       this.canGetFreeLikeCoin = !canGetFreeLikeCoinRes.isClaimed;
       this.freeCoupon = canGetFreeLikeCoinRes.coupon;

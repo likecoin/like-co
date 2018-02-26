@@ -13,6 +13,8 @@ export const apiGetTxToByAddr = addr => axios.get(`/api/tx/addr/to/${addr}`);
 
 export const apiGetTxFromByAddr = addr => axios.get(`/api/tx/addr/from/${addr}`);
 
+export const apiGetReferralById = id => axios.get(`/api/users/referral/${id}`);
+
 export const apiCheckCoupon = code => axios.get(`/api/coupon/coupon/${code}`);
 
 export const apiClaimCoupon = (coupon, to) => {

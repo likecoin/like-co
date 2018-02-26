@@ -11,12 +11,12 @@
           <div class="md-layout-item referral-description">{{ $t('Edit.referral.description') }}</div>
           <div class="md-layout md-layout-item referral-stat-boxes">
             <div class="md-layout-item referral-stat-box">
-              <span class="referral-stat-number">30</span>
+              <span class="referral-stat-number">{{ pending }}</span>
               <hr />
               <span class="referral-stat-description">{{ $t('Edit.referral.pending') }}</span>
             </div>
             <div class="md-layout-item referral-stat-box">
-              <span class="referral-stat-number verified">13</span>
+              <span class="referral-stat-number verified">{{ verified }}</span>
               <hr />
               <span class="referral-stat-description verified">
                 <md-icon class="verified">check</md-icon>
@@ -91,6 +91,8 @@ export default {
     isProfileEdit: Boolean,
     isBlocked: Boolean,
     isEmailVerifted: Boolean,
+    pending: Number,
+    verified: Number,
     user: String,
   },
   data() {
