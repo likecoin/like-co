@@ -26,15 +26,8 @@ export async function isUser({ commit }, addr) {
 }
 
 export async function getWalletByUser({ commit }, id) {
-  commit(types.UI_START_BLOCKING_LOADING);
-  try {
-    const { wallet } = await apiWrapper(commit, api.apiGetUserById(id));
-    commit(types.UI_STOP_BLOCKING_LOADING);
-    return wallet;
-  } catch (error) {
-    commit(types.UI_STOP_BLOCKING_LOADING);
-    throw error;
-  }
+  const { wallet } = await apiWrapper(commit, api.apiGetUserById(id), { blocking: true });
+  return wallet;
 }
 
 export async function sendVerifyEmail({ commit, rootState }, id) {
@@ -66,6 +59,14 @@ export async function sendCouponCodeEmail({ commit, rootState }, data) {
   return apiWrapper(
     commit,
     api.apiSendCouponCodeEmail(data.user, data.coupon, rootState.ui.locale),
+    { blocking: true },
+  );
+}
+
+export async function sendInvitationEmail({ commit }, data) {
+  return apiWrapper(
+    commit,
+    api.apiSendInvitationEmail(data.user, data.email),
     { blocking: true },
   );
 }

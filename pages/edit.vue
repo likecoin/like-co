@@ -154,6 +154,7 @@
 
     <referral-action
       :user="user"
+      :isEmailVerifted="getUserInfo.isEmailVerified"
       :isProfileEdit="isProfileEdit"
       :isBlocked="getIsPopupBlocking"
     />
