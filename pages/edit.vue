@@ -201,7 +201,6 @@ export default {
       EditIcon,
       EditWhiteIcon,
       canGetFreeLikeCoin: false,
-      isTriggerGetCoupon: false,
       freeCoupon: '',
       referralPending: 0,
       referralVerified: 0,
@@ -227,10 +226,10 @@ export default {
       'getCurrentLocale',
     ]),
     getAmountHref() {
-      return this.canGetFreeLikeCoin ? '' : 'https://likecoin.foundation/#/'; // remove after chinese 15/1
+      return this.canGetFreeLikeCoin ? '' : 'https://likecoin.foundation/#/';
     },
     getAmountText() {
-      return this.canGetFreeLikeCoin ? this.$t('Edit.button.getFreeCoin') : this.$t('Edit.button.buyCoin'); // remove after chinese 15/1
+      return this.canGetFreeLikeCoin ? this.$t('Edit.button.getFreeCoin') : this.$t('Edit.button.buyCoin');
     },
     getAmountAction() {
       return this.canGetFreeLikeCoin ? this.onGetCouponClick : () => {};
@@ -355,23 +354,19 @@ export default {
         this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${this.user}">${this.$t('Register.form.label.viewPage')}</a>`);
         this.refreshUserInfo(this.user);
         this.isProfileEdit = false;
-        if (this.isTriggerGetCoupon) { // remove after chinese 15/1
-          this.isTriggerGetCoupon = false;
-          await this.submitGetCoupon();
-        }
       } catch (err) {
         this.updateInfo();
         console.error(err);
       }
     },
-    async onSubmitCoupon() { // remove after chinese 15/1
+    async onSubmitCoupon() {
       try {
         await this.$refs.claimDialog.onSubmit();
       } catch (err) {
         console.error(err);
       }
     },
-    async onGetCouponClick() { // remove after chinese 15/1
+    async onGetCouponClick() {
       if (!this.canGetFreeLikeCoin) {
         return;
       }
@@ -382,32 +377,29 @@ export default {
         this.$refs.inputDialog.onInputText();
       }
     },
-    async onInputDialogConfirm(inputText) { // remove after chinese 15/1
+    async onInputDialogConfirm(inputText) {
       if (this.email !== inputText) {
         this.email = inputText;
-        this.isTriggerGetCoupon = true;
-        this.onSubmitEdit();
-      } else {
-        this.$refs.inputDialog.showDialog = false;
-        await this.submitGetCoupon();
+        return this.onSubmitEdit();
       }
+      this.$refs.inputDialog.showDialog = false;
+      if (this.getUserInfo.isEmailVerified) {
+        return this.submitGetCoupon();
+      }
+      return this.onVerifyEmail();
     },
-    async submitGetCoupon() { // remove after chinese 15/1
-      if (!this.canGetFreeLikeCoin) {
+    async submitGetCoupon() {
+      if (!this.canGetFreeLikeCoin || !this.freeCoupon) {
         return;
       }
       try {
-        if (this.getUserInfo.isEmailVerified && this.freeCoupon) {
-          // directly claim
-          this.couponCode = this.freeCoupon;
-          await this.$refs.claimDialog.onDirectClaimCoupon({
-            wallet: this.wallet,
-            coupon: this.couponCode,
-          });
-          logTrackerEvent(this, 'RegFlow', 'GetRedPocketSuccessful', 'redeem the red pocket', 1);
-        } else {
-          this.onVerifyEmail();
-        }
+        // directly claim
+        this.couponCode = this.freeCoupon;
+        await this.$refs.claimDialog.onDirectClaimCoupon({
+          wallet: this.wallet,
+          coupon: this.couponCode,
+        });
+        logTrackerEvent(this, 'RegFlow', 'GetRedPocketSuccessful', 'redeem the red pocket', 1);
       } catch (err) {
         console.error(err);
       }
