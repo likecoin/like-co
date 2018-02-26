@@ -4,7 +4,8 @@
       <div class="section-title-wrapper">
         <h2 class="title">{{ $t('Edit.referral.title') }}</h2>
       </div>
-      <form id="referralForm" v-on:submit.prevent="onSendEmail">
+      <div class="email-notice" v-if="!isEmailVerifted">{{ $t('Edit.referral.verifyEmailFirst') }}</div>
+      <form v-else id="referralForm" v-on:submit.prevent="onSendEmail">
 
         <section class="md-layout">
           <div class="md-layout-item referral-description">{{ $t('Edit.referral.description') }}</div>
@@ -64,7 +65,8 @@
             <md-button
               class="md-layout-item md-primary referral-btn"
               @click="onCopy" >
-              <md-icon class="referral-btn-icon">link</md-icon>{{ $t('Edit.referral.copyUrl') }}
+              <md-icon class="referral-btn-icon">{{ copied ? 'check' : 'link' }}</md-icon>
+              {{ $t('Edit.referral.copyUrl') }}
             </md-button>
             <md-button
               class="md-layout-item md-primary referral-btn"
@@ -81,16 +83,20 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: 'referral-action',
   props: {
     isProfileEdit: Boolean,
     isBlocked: Boolean,
+    isEmailVerifted: Boolean,
     user: String,
   },
   data() {
     return {
       email: '',
+      copied: false,
     };
   },
   computed: {
@@ -99,10 +105,20 @@ export default {
     },
   },
   methods: {
+    ...mapActions([
+      'sendInvitationEmail',
+      'setInfoMsg',
+    ]),
+    async onSendEmail() {
+      await this.sendInvitationEmail({ email: this.email, user: this.user });
+      this.email = '';
+      this.setInfoMsg(this.$t('Edit.referral.sent'));
+    },
     onCopy() {
       const copyText = this.$refs.shareUrl;
       copyText.select();
-      document.execCommand('copy');
+      this.copied = document.execCommand('copy');
+      this.setInfoMsg(this.$t('Edit.referral.copied'));
     },
     onShareFB() {
       if (window.FB && window.FB.ui) {
@@ -145,6 +161,16 @@ export default {
   .section-title-wrapper {
     margin-left: 40px;
   }
+}
+
+.email-notice {
+  margin-top: -20px;
+  padding: 40px 40px 32px;
+  color: $like-gray-4;
+  background-color: $like-gray-1;
+  text-align: left;
+  line-height: 1.5;
+  font-size: 20px;
 }
 
 #referralForm {

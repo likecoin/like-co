@@ -365,7 +365,9 @@
       "altInvite": "Or invite by:",
       "copyUrl": "Copy URL",
       "facebook": "Facebook",
-      "send": "Send"
+      "send": "Send",
+      "sent": "Sent",
+      "verifyEmailFirst": "Verify your email to join the affiliate program."
     },
     "button": {
       "buyCoin": "Buy LikeCoin",
