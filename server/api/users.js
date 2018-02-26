@@ -18,6 +18,7 @@ const {
   bucket: fbBucket,
   FieldValue,
 } = require('../util/firebase');
+const { publisher } = require('../util/gcloudPub');
 
 const SUPPORTED_AVATER_TYPE = new Set([
   'jpg',
@@ -115,12 +116,14 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
     const userNameQuery = dbRef.doc(user).get().then((doc) => {
       const isOldUser = doc.exists;
       let oldEmail;
+      let oldAvatar;
       if (isOldUser) {
         const { wallet: docWallet } = doc.data();
         oldEmail = doc.data().email;
+        oldAvatar = doc.data().avatar;
         if (docWallet !== from) throw new Error('User already exist');
       }
-      return { isOldUser, oldEmail };
+      return { isOldUser, oldEmail, oldAvatar };
     });
     const walletQuery = dbRef.where('wallet', '==', from).get().then((snapshot) => {
       snapshot.forEach((doc) => {
@@ -140,7 +143,9 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       });
       return true;
     }) : Promise.resolve();
-    const [{ isOldUser, oldEmail }] = await Promise.all([userNameQuery, walletQuery, emailQuery]);
+    const [{
+      isOldUser, oldEmail, oldAvatar,
+    }] = await Promise.all([userNameQuery, walletQuery, emailQuery]);
 
     // check username length
     if (!isOldUser) {
@@ -175,6 +180,14 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
     await dbRef.doc(user).set(updateObj, { merge: true });
 
     res.sendStatus(200);
+    publisher.publish('misc', {
+      logType: !isOldUser ? 'eventUserRegister' : 'eventUserEdit',
+      user,
+      email,
+      displayName,
+      wallet,
+      avatar: url || oldAvatar,
+    });
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
@@ -226,8 +239,9 @@ router.post('/email/verify/user/:id/', async (req, res) => {
     const { coupon } = req.body;
     const userRef = dbRef.doc(username);
     const doc = await userRef.get();
+    let user = {};
     if (doc.exists) {
-      const user = doc.data();
+      user = doc.data();
       if (!user.email) throw new Error('Invalid email');
       if (user.isEmailVerified) throw new Error('Already verified');
       if (user.lastVerifyTs && Math.abs(user.lastVerifyTs - Date.now()) < THIRTY_S_IN_MS) {
@@ -259,6 +273,14 @@ router.post('/email/verify/user/:id/', async (req, res) => {
       res.sendStatus(404);
     }
     res.sendStatus(200);
+    publisher.publish('misc', {
+      logType: 'eventSendVerifyEmail',
+      user: username,
+      email: user.email,
+      displayName: user.displayName,
+      wallet: user.wallet,
+      avatar: user.avatar,
+    });
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
@@ -278,6 +300,15 @@ router.post('/email/verify/:uuid', async (req, res) => {
         isEmailVerified: true,
       });
       res.json({ wallet: user.data().wallet });
+      const userObj = user.data();
+      publisher.publish('misc', {
+        logType: 'eventVerify',
+        user: user.id,
+        email: userObj.email,
+        displayName: userObj.displayName,
+        wallet: userObj.wallet,
+        avatar: userObj.avatar,
+      });
     } else {
       res.sendStatus(404);
     }
