@@ -1,9 +1,13 @@
 import { Router } from 'express';
 import { toDataUrl } from '@likecoin/ethereum-blockies';
 import { sendVerificationEmail, sendVerificationWithCouponEmail } from '../util/ses';
-import { IS_TESTNET } from '../../constant';
+import {
+  IS_TESTNET,
+  PUBSUB_TOPIC_MISC,
+} from '../../constant';
 
 import Validate from '../../util/ValidationHelper';
+import publisher from '../util/gcloudPub';
 
 const Account = require('eth-lib/lib/account');
 const Multer = require('multer');
@@ -18,7 +22,6 @@ const {
   bucket: fbBucket,
   FieldValue,
 } = require('../util/firebase');
-const { publisher } = require('../util/gcloudPub');
 
 const SUPPORTED_AVATER_TYPE = new Set([
   'jpg',
@@ -115,15 +118,13 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
     // Check user/wallet uniqueness
     const userNameQuery = dbRef.doc(user).get().then((doc) => {
       const isOldUser = doc.exists;
-      let oldEmail;
-      let oldAvatar;
+      let oldUserObj;
       if (isOldUser) {
         const { wallet: docWallet } = doc.data();
-        oldEmail = doc.data().email;
-        oldAvatar = doc.data().avatar;
+        oldUserObj = doc.data();
         if (docWallet !== from) throw new Error('User already exist');
       }
-      return { isOldUser, oldEmail, oldAvatar };
+      return { isOldUser, oldUserObj };
     });
     const walletQuery = dbRef.where('wallet', '==', from).get().then((snapshot) => {
       snapshot.forEach((doc) => {
@@ -144,8 +145,12 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       return true;
     }) : Promise.resolve();
     const [{
-      isOldUser, oldEmail, oldAvatar,
+      isOldUser, oldUserObj,
     }] = await Promise.all([userNameQuery, walletQuery, emailQuery]);
+    const {
+      email: oldEmail,
+      avatar: oldAvatar,
+    } = oldUserObj;
 
     // check username length
     if (!isOldUser) {
@@ -180,7 +185,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
     await dbRef.doc(user).set(updateObj, { merge: true });
 
     res.sendStatus(200);
-    publisher.publish('misc', {
+    publisher.publish(PUBSUB_TOPIC_MISC, {
       logType: !isOldUser ? 'eventUserRegister' : 'eventUserEdit',
       user,
       email,
@@ -273,7 +278,7 @@ router.post('/email/verify/user/:id/', async (req, res) => {
       res.sendStatus(404);
     }
     res.sendStatus(200);
-    publisher.publish('misc', {
+    publisher.publish(PUBSUB_TOPIC_MISC, {
       logType: 'eventSendVerifyEmail',
       user: username,
       email: user.email,
@@ -301,7 +306,7 @@ router.post('/email/verify/:uuid', async (req, res) => {
       });
       res.json({ wallet: user.data().wallet });
       const userObj = user.data();
-      publisher.publish('misc', {
+      publisher.publish(PUBSUB_TOPIC_MISC, {
         logType: 'eventVerify',
         user: user.id,
         email: userObj.email,

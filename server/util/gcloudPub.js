@@ -1,4 +1,7 @@
-import { IS_TESTNET } from '../../constant';
+import {
+  ETH_NETWORK_NAME,
+  PUBSUB_TOPIC_MISC,
+} from '../../constant';
 
 const PubSub = require('@google-cloud/pubsub');
 const uuidv4 = require('uuid/v4');
@@ -7,11 +10,11 @@ const config = require('@ServerConfig/config.js'); // eslint-disable-line import
 
 const pubsub = new PubSub();
 const topics = [
-  'misc',
+  PUBSUB_TOPIC_MISC,
 ];
 const publisher = {};
 const publisherWrapper = {};
-const ethNetwork = IS_TESTNET ? 'rinkeby' : 'mainnet';
+const ethNetwork = ETH_NETWORK_NAME;
 
 topics.forEach((topic) => {
   publisherWrapper[topic] = pubsub.topic(topic)
@@ -24,6 +27,7 @@ topics.forEach((topic) => {
 });
 
 publisher.publish = (publishTopic, obj) => {
+  if (!config.GCLOUD_PUBSUB_ENABLE) return;
   Object.assign(obj, {
     '@timestamp': new Date().toISOString(),
     appServer: config.APP_SERVER || 'store',
@@ -39,4 +43,4 @@ publisher.publish = (publishTopic, obj) => {
     });
 };
 
-export { publisher };
+export default publisher;

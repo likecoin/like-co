@@ -1,9 +1,15 @@
 import { Router } from 'express';
 import BigNumber from 'bignumber.js';
 
-import { IS_TESTNET, INFURA_HOST } from '../../constant';
+import {
+  IS_TESTNET,
+  INFURA_HOST,
+  ONE_LIKE,
+  PUBSUB_TOPIC_MISC,
+} from '../../constant';
 import Validate from '../../util/ValidationHelper';
 import { logTransferDelegatedTx } from '../util/logger';
+import publisher from '../util/gcloudPub';
 
 const Web3 = require('web3');
 
@@ -13,7 +19,6 @@ const accounts = require('@ServerConfig/accounts.js'); // eslint-disable-line im
 const {
   userCollection: dbRef,
 } = require('../util/firebase');
-const { publisher } = require('../util/gcloudPub');
 
 const router = Router();
 
@@ -25,7 +30,6 @@ const {
   gasPrice,
   gasLimit,
 } = accounts[0];
-const ONE_LIKE = new BigNumber(10).pow(18);
 
 function sendTransaction(tx) {
   return new Promise((resolve, reject) => {
@@ -104,12 +108,6 @@ router.post('/payment', async (req, res) => {
       txHash = await sendTransaction(tx); // eslint-disable-line no-await-in-loop
     }
     res.json({ txHash });
-    await logTransferDelegatedTx({
-      txHash,
-      from,
-      to,
-      value,
-    });
     const fromQuery = dbRef.where('wallet', '==', from).get().then((snapshot) => {
       if (snapshot.docs.length > 0) {
         const fromUser = snapshot.docs[0].data();
@@ -135,11 +133,25 @@ router.post('/payment', async (req, res) => {
       return true;
     });
     const [{
-      fromId, fromDisplayName, fromEmail, fromReferrer,
+      fromId,
+      fromDisplayName,
+      fromEmail,
+      fromReferrer,
     }, {
-      toId, toDisplayName, toEmail, toReferrer,
+      toId,
+      toDisplayName,
+      toEmail,
+      toReferrer,
     }] = await Promise.all([fromQuery, toQuery]);
-    publisher.publish('misc', {
+    await logTransferDelegatedTx({
+      txHash,
+      from,
+      to,
+      value,
+      fromId,
+      toId,
+    });
+    publisher.publish(PUBSUB_TOPIC_MISC, {
       logType: 'eventPay',
       fromUser: fromId,
       fromWallet: from,
