@@ -143,9 +143,14 @@ export default {
       if (window.FB && window.FB.ui) {
         window.FB.ui({
           method: 'share_open_graph',
-          action_type: 'og.likes',
+          action_type: 'og.shares',
           action_properties: JSON.stringify({
-            object: this.shareUrl,
+            object: {
+              'og:url': this.shareUrl,
+              'og:title': this.$t('Edit.referral.ogTitle'),
+              'og:description': this.$t('Edit.referral.ogDescription', { name: this.user }),
+              'og:image': 'https://likecoin.store/logo.png',
+            },
           }),
         }, res => console.log(res));
       }
