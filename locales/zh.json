@@ -296,9 +296,9 @@
       "content": "處理中，請勿關閉瀏覽器"
     },
     "emailInput": {
-      "title": "Please Verify your email",
-      "content": "To get your free LikeCoin, please provide and verify your email.",
-      "label": "Your email address"
+      "title": "認證郵箱",
+      "content": "領取 LikeCoin 前須先認證你的電郵地址",
+      "label": "你的電郵地址"
     }
   },
   "Toolbar": {
