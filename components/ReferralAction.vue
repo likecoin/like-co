@@ -65,13 +65,21 @@
             <md-button
               class="md-layout-item md-primary referral-btn"
               @click="onCopy" >
-              <md-icon class="referral-btn-icon">{{ copied ? 'check' : 'link' }}</md-icon>
+              <md-icon v-if="copied" class="referral-btn-icon">check</md-icon>
+              <img v-else class="referral-btn-icon" :src="LinkIcon" />
               {{ $t('Edit.referral.copyUrl') }}
             </md-button>
             <md-button
               class="md-layout-item md-primary referral-btn"
               @click="onShareFB" >
+              <img class="referral-btn-icon" :src="FBIcon" />
               {{ $t('Edit.referral.facebook') }}
+            </md-button>
+            <md-button
+              class="md-layout-item md-primary referral-btn"
+              @click="onShareTwitter" >
+              <img class="referral-btn-icon" :src="TwIcon" />
+              {{ $t('Edit.referral.twitter') }}
             </md-button>
           </div>
         </section>
@@ -83,6 +91,10 @@
 </template>
 
 <script>
+import LinkIcon from '@/assets/icons/link-icon.svg';
+import FBIcon from '@/assets/icons/f-icon.svg';
+import TwIcon from '@/assets/icons/t-icon.svg';
+
 import { mapActions } from 'vuex';
 
 export default {
@@ -97,6 +109,9 @@ export default {
   },
   data() {
     return {
+      LinkIcon,
+      FBIcon,
+      TwIcon,
       email: '',
       copied: false,
     };
@@ -104,6 +119,9 @@ export default {
   computed: {
     shareUrl() {
       return `https://likecoin.store/register?from=${this.user}`;
+    },
+    twitterUrl() {
+      return `https://twitter.com/intent/tweet?hashtags=likecoin&url=${encodeURI(this.shareUrl)}&text=${encodeURI(this.$t('Edit.referral.tweetContent'))}`;
     },
   },
   methods: {
@@ -120,7 +138,6 @@ export default {
       const copyText = this.$refs.shareUrl;
       copyText.select();
       this.copied = document.execCommand('copy');
-      this.setInfoMsg(this.$t('Edit.referral.copied'));
     },
     onShareFB() {
       if (window.FB && window.FB.ui) {
@@ -132,6 +149,9 @@ export default {
           }),
         }, res => console.log(res));
       }
+    },
+    onShareTwitter() {
+      window.open(this.twitterUrl, 'twitter', 'height=285,width=550,resizable=1,noopener');
     },
   },
 };
@@ -238,9 +258,8 @@ export default {
     color: $like-green;
     background-color: $like-white;
     .referral-btn-icon {
+      padding-bottom: 5px;
       color: $like-green;
-      left: 0px;
-      position: relative;
     }
   }
 }
