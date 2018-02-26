@@ -127,9 +127,8 @@ export default {
         window.FB.ui({
           method: 'share_open_graph',
           action_type: 'og.likes',
-          href: this.shareUrl,
           action_properties: JSON.stringify({
-            object: 'https://developers.facebook.com/docs/',
+            object: this.shareUrl,
           }),
         }, res => console.log(res));
       }
