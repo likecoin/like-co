@@ -369,7 +369,9 @@
       "send": "Send",
       "sent": "Invitation email to {email} sent",
       "verifyEmailFirst": "Verify your email to join the affiliate program.",
-      "tweetContent": "Join me now on LikeCoin.Store and receive your free LikeCoin!"
+      "tweetContent": "Join me now on LikeCoin.Store and receive your free LikeCoin!",
+      "ogTitle": "LikeCoin - Reinventing the Like",
+      "ogDescription": "Rewarding contents by proof of creativity. Join {name} and register now!"
     },
     "button": {
       "buyCoin": "Buy LikeCoin",
