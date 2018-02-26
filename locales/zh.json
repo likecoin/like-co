@@ -274,11 +274,11 @@
         "claim": "兌換紅包"
       },
       "label": {
-        "confirming": "Loading coupon content...",
-        "error": "Invalid coupon code!",
-        "invalidCoupon": "Invalid coupon",
-        "redirecting": "Redirecting to your account page...",
-        "confirmToClaim": "Are you sure you want to claim {value} LikeCoin?"
+        "confirming": "讀取兌換碼中...",
+        "error": "兌換碼無效",
+        "invalidCoupon": "兌換碼無效",
+        "redirecting": "返回個人頁面中...",
+        "confirmToClaim": "你確定要兌換 {value} 個 LikeCoin 嗎？"
       }
     },
     "transaction": {
@@ -357,19 +357,19 @@
       "verifyEmail": "認證郵箱"
     },
     "referral": {
-      "title": "Affiliate Program",
-      "description": "You and your friend can both earn a LikeCoin coupon when you successfully invite a friend to sign up using your affiliate link. Please note that your friend's account email needs to be verified for you and your friend to earn the coupons.",
-      "pending": "Waiting for email verification",
-      "verified": "Confirmed",
-      "emailInvite": "Invite your friend by email",
-      "altInvite": "Or invite by:",
-      "copyUrl": "Copy url",
+      "title": "推薦計劃",
+      "description": "廣邀好友加入 LikeCoin Store，獲得免費 LikeCoin！你的朋友使用你的邀請連結註冊 LikeCoin 帳號，並驗證郵件箱地址後，雙方都會獲得收到額外的 LikeCoin 兌換碼",
+      "pending": "未認證郵箱",
+      "verified": "已確認",
+      "emailInvite": "發電郵邀請",
+      "altInvite": "或是使用下列途徑",
+      "copyUrl": "複製連結",
       "facebook": "Facebook",
       "twitter": "Twitter",
-      "send": "Send",
-      "sent": "Invitation email to {email} sent",
-      "verifyEmailFirst": "Verify your email to join the affiliate program.",
-      "tweetContent": "Join me now on LikeCoin.Store and receive your free LikeCoin!"
+      "send": "發送",
+      "sent": "邀請郵件已發送至 {email}",
+      "verifyEmailFirst": "請先認證你的電郵地址",
+      "tweetContent": "加入 LikeCoin Store，獲得免費 LikeCoin!"
     },
     "button": {
       "buyCoin": "了解 LikeCoin",
