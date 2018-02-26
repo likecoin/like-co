@@ -8,6 +8,7 @@ const ValidationHelper = {
     email,
     avatar,
     wallet,
+    referrer,
     isEmailVerified,
   }) {
     return {
@@ -16,6 +17,7 @@ const ValidationHelper = {
       email,
       avatar,
       wallet,
+      referrer: !!referrer,
       isEmailVerified,
     };
   },
