@@ -294,6 +294,11 @@
     "blocker": {
       "title": "Processing...",
       "content": "Processing your request, please do not close the browser"
+    },
+    "emailInput": {
+      "title": "Please Verify your email",
+      "content": "To get your free LikeCoin, please provide and verify your email.",
+      "label": "Your email address"
     }
   },
   "Toolbar": {

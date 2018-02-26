@@ -51,9 +51,9 @@
         ref="inputDialog"
         :text="email"
         type="email"
-        title="Please Verify your email"
-        content="To get your free LikeCoin, please provide and verify your email."
-        label="Your email address"
+        :title="$t('Dialog.emailInput.title')"
+        :content="$t('Dialog.emailInput.content')"
+        :label="$t('Dialog.emailInput.label')"
         @confirm="onInputDialogConfirm" />
       <div class="address-section">
         <div :class="`address-container${isProfileEdit ? ' edit' : ''}`">
