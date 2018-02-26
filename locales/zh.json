@@ -369,7 +369,9 @@
       "send": "發送",
       "sent": "邀請郵件已發送至 {email}",
       "verifyEmailFirst": "請先認證你的電郵地址",
-      "tweetContent": "加入 LikeCoin Store，獲得免費 LikeCoin!"
+      "tweetContent": "加入 LikeCoin Store，獲得免費 LikeCoin!",
+      "ogTitle": "化Like為Coin 回饋創作",
+      "ogDescription": "{name} 邀請你註冊 LikeCoin ID ，改革內容創作生態"
     },
     "button": {
       "buyCoin": "了解 LikeCoin",
