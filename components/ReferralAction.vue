@@ -132,7 +132,7 @@ export default {
     async onSendEmail() {
       await this.sendInvitationEmail({ email: this.email, user: this.user });
       this.email = '';
-      this.setInfoMsg(this.$t('Edit.referral.sent'));
+      this.setInfoMsg(this.$t('Edit.referral.sent'), { email: this.email });
     },
     onCopy() {
       const copyText = this.$refs.shareUrl;

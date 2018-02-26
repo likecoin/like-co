@@ -367,7 +367,7 @@
       "facebook": "Facebook",
       "twitter": "Twitter",
       "send": "Send",
-      "sent": "Sent",
+      "sent": "Invitation email to {email} sent",
       "verifyEmailFirst": "Verify your email to join the affiliate program.",
       "tweetContent": "Join me now on LikeCoin.Store and receive your free LikeCoin!"
     },
