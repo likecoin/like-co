@@ -45,6 +45,7 @@ import BigNumber from 'bignumber.js';
 
 import AvatarHeader from '~/components/header/AvatarHeader';
 import EthHelper from '@/util/EthHelper';
+import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 import { mapActions, mapGetters } from 'vuex';
 import { apiGetUserById } from '@/util/api/api';
 
@@ -79,7 +80,7 @@ export default {
     return {
       isBadAddress: false,
       isBadAmount: false,
-      isEth: false,
+      isICO: false,
     };
   },
   asyncData({ params, redirect, error }) {
@@ -96,6 +97,7 @@ export default {
           id: params.id,
           displayName: displayName || params.id,
           amount,
+          isICO: wallet === LIKE_COIN_ICO_ADDRESS,
         };
       })
       .catch((e) => { // eslint-disable-line no-unused-vars
@@ -130,6 +132,9 @@ export default {
     };
   },
   computed: {
+    isEth() {
+      return this.isICO;
+    },
     ...mapGetters([
       'getUserIsRegistered',
       'getIsInTransaction',
