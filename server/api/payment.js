@@ -2,7 +2,6 @@ import { Router } from 'express';
 import BigNumber from 'bignumber.js';
 
 import {
-  IS_TESTNET,
   INFURA_HOST,
   ONE_LIKE,
   PUBSUB_TOPIC_MISC,
@@ -63,9 +62,6 @@ router.post('/payment', async (req, res) => {
       value,
       maxReward,
       nonce,
-      v,
-      r,
-      s,
       signature,
     } = req.body;
     if (!Validate.checkAddressValid(to) || !Validate.checkAddressValid(from)) {
@@ -73,31 +69,15 @@ router.post('/payment', async (req, res) => {
     }
     const balance = await LikeCoin.methods.balanceOf(from).call();
     if ((new BigNumber(balance)).lt(new BigNumber(value))) throw new Error('Not enough balance');
-    /* TODO: clean up TESTNET code */
-    let methodCall;
-    if (IS_TESTNET) {
-      methodCall = LikeCoin.methods.transferDelegated(
-        from,
-        to,
-        value,
-        maxReward,
-        maxReward,
-        nonce,
-        v,
-        r,
-        s,
-      );
-    } else {
-      methodCall = LikeCoin.methods.transferDelegated(
-        from,
-        to,
-        value,
-        maxReward,
-        maxReward,
-        nonce,
-        signature,
-      );
-    }
+    const methodCall = LikeCoin.methods.transferDelegated(
+      from,
+      to,
+      value,
+      maxReward,
+      maxReward,
+      nonce,
+      signature,
+    );
     const txData = methodCall.encodeABI();
     let txHash;
     let pendingCount = await web3.eth.getTransactionCount(address, 'pending');
