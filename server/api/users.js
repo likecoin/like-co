@@ -248,6 +248,7 @@ router.post('/email/verify/user/:id/', async (req, res) => {
     const userRef = dbRef.doc(username);
     const doc = await userRef.get();
     let user = {};
+    let verificationUUID;
     if (doc.exists) {
       user = doc.data();
       if (!user.email) throw new Error('Invalid email');
@@ -255,7 +256,7 @@ router.post('/email/verify/user/:id/', async (req, res) => {
       if (user.lastVerifyTs && Math.abs(user.lastVerifyTs - Date.now()) < THIRTY_S_IN_MS) {
         throw new Error('An email has already been sent recently, Please try again later');
       }
-      let { verificationUUID } = user;
+      ({ verificationUUID } = user);
       if (!verificationUUID) {
         verificationUUID = uuidv4();
         user.verificationUUID = verificationUUID;
@@ -288,6 +289,7 @@ router.post('/email/verify/user/:id/', async (req, res) => {
       displayName: user.displayName,
       wallet: user.wallet,
       avatar: user.avatar,
+      verificationUUID,
     });
   } catch (err) {
     const msg = err.message || err;
@@ -316,6 +318,7 @@ router.post('/email/verify/:uuid', async (req, res) => {
         displayName: userObj.displayName,
         wallet: userObj.wallet,
         avatar: userObj.avatar,
+        verificationUUID,
       });
     } else {
       res.sendStatus(404);
