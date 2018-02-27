@@ -398,7 +398,8 @@
     },
     "error": {
       "ethInsufficient": "Insufficient ETH in your wallet.",
-      "likecoinInsufficient": "Insufficient LikeCoin in your wallet."
+      "likecoinInsufficient": "Insufficient LikeCoin in your wallet.",
+      "sameUser": "Sender and Recipient cannot be same"
     }
   },
   "Creator": {

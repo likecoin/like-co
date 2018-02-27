@@ -164,6 +164,10 @@ export default {
         let balance = 0;
         const from = EthHelper.getWallet();
         const to = this.wallet;
+        if (from === to) {
+          this.setErrorMsg(this.$t('Transaction.error.sameUser'));
+          return;
+        }
         if (this.isEth) {
           balance = await EthHelper.queryEthBalance(from);
         } else {

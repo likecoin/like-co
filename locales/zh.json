@@ -398,7 +398,8 @@
     },
     "error": {
       "ethInsufficient": "錢包內的 ETH 數量不足",
-      "likecoinInsufficient": "錢包內的 LikeCoin 數量不足"
+      "likecoinInsufficient": "錢包內的 LikeCoin 數量不足",
+      "sameUser": "不能轉賬給自己"
     }
   },
   "Creator": {
