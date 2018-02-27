@@ -40,11 +40,11 @@
             </md-field>
             <md-field>
               <label>{{ $t('Register.form.referrer') }}</label>
-              <md-input v-model="referrer" required />
+              <md-input v-model="referrer" />
             </md-field>
             <md-field v-if="isEdit && !isRedeemingCoupon">
               <label>{{ $t('Register.form.displayName') }}</label>
-              <md-input v-model="displayName" required />
+              <md-input v-model="displayName" />
             </md-field>
             <md-field v-if="isRedeem || isEdit">
               <label>
