@@ -147,10 +147,13 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
     const [{
       isOldUser, oldUserObj,
     }] = await Promise.all([userNameQuery, walletQuery, emailQuery]);
-    const {
-      email: oldEmail,
-      avatar: oldAvatar,
-    } = oldUserObj;
+
+    let oldAvatar = null;
+    let oldEmail = '';
+    if (isOldUser && oldUserObj) {
+      oldEmail = oldUserObj.email;
+      oldAvatar = oldUserObj.avatar;
+    }
 
     // check username length
     if (!isOldUser) {
