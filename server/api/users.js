@@ -179,6 +179,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
     let hasReferrer = false;
     if (!isOldUser && referrer) {
       const referrerRef = await dbRef.doc(referrer).get();
+      if (!referrerRef.exists) throw new Error('referrer not exist');
       hasReferrer = referrerRef.exists;
     }
 
