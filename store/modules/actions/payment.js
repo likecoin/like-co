@@ -29,6 +29,7 @@ export async function sendEthPayment({ commit }, payload) {
       value,
       txHash,
     } = payload;
+    await apiWrapper(commit, api.apiPostEthPayment(payload), { blocking: true });
     commit(types.UI_START_LOADING_TX);
     commit(types.PAYMENT_SET_PENDING_HASH, txHash);
     commit(types.PAYMENT_SET_PENDING_TX_INFO, { from, to, value });
