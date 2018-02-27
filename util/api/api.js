@@ -29,7 +29,9 @@ export const apiSendVerifyEmail = (id, locale) => axios.post(`/api/email/verify/
 
 export const apiVerifyEmailByUUID = (uuid, locale) => axios.post(`/api/email/verify/${uuid}`, { locale });
 
-export const apiPostPayment = payload => axios.post('/api/payment/', payload);
+export const apiPostPayment = payload => axios.post('/api/payment', payload);
+
+export const apiPostEthPayment = payload => axios.post('/api/payment/eth', payload);
 
 export const apiPostNewUser = (form) => {
   /* eslint-disable no-new */
