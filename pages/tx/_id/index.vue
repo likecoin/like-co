@@ -128,11 +128,12 @@ export default {
     setupTimer() {
       if (this.updateTimer) clearTimeout(this.updateTimer);
       this.updateTimer = setTimeout(async () => {
-        const ts = await EthHelper.getTransactionCompleted(this.txId);
+        const { ts, isFailed } = await EthHelper.getTransactionCompleted(this.txId);
         if (!ts) {
           this.setupTimer();
         } else {
           this.timestamp = ts;
+          this.isFailed = isFailed;
         }
       }, PENDING_UPDATE_INTERVAL);
     },

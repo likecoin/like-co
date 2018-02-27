@@ -109,10 +109,19 @@ class EthHelper {
     const t = await this.web3.eth.getTransaction(txHash);
     if (!t) return 0;
     if (t.blockNumber) {
-      const block = await this.web3.eth.getBlock(t.blockNumber);
-      return block ? block.timestamp : 0;
+      const [r, block] = await Promise.all([
+        this.web3.eth.getTransactionReceipt(txHash),
+        this.web3.eth.getBlock(t.blockNumber),
+      ]);
+      return {
+        ts: (block && r) ? block.timestamp : 0,
+        isFailed: (r && r.status === '0x0'),
+      };
     }
-    return 0;
+    return {
+      ts: 0,
+      isFailed: false,
+    };
   }
 
   async getEthTransferInfo(txHash, tx) {
