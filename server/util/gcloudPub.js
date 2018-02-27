@@ -26,21 +26,22 @@ topics.forEach((topic) => {
     });
 });
 
-publisher.publish = (publishTopic, obj) => {
+publisher.publish = async (publishTopic, obj) => {
   if (!config.GCLOUD_PUBSUB_ENABLE) return;
   Object.assign(obj, {
     '@timestamp': new Date().toISOString(),
-    appServer: config.APP_SERVER || 'store',
+    appServer: config.APP_SERVER || 'test-store',
     ethNetwork,
     uuidv4: uuidv4(),
   });
 
   const data = JSON.stringify(obj);
   const dataBuffer = Buffer.from(data);
-  publisherWrapper[publishTopic].publish(dataBuffer)
-    .catch((err) => {
-      console.error('ERROR:', err);
-    });
+  try {
+    await publisherWrapper[publishTopic].publish(dataBuffer);
+  } catch (err) {
+    console.error('ERROR:', err);
+  }
 };
 
 export default publisher;

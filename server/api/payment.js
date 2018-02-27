@@ -164,6 +164,7 @@ router.post('/payment', async (req, res) => {
       toEmail,
       toReferrer,
       likeAmount: new BigNumber(value).dividedBy(ONE_LIKE).toNumber(),
+      likeAmountUnitStr: new BigNumber(value).toFixed(),
       txHash,
       txStatus: 'pending',
     });
