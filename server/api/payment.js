@@ -1,15 +1,24 @@
 import { Router } from 'express';
 import BigNumber from 'bignumber.js';
 
-import { IS_TESTNET, INFURA_HOST } from '../../constant';
+import {
+  IS_TESTNET,
+  INFURA_HOST,
+  ONE_LIKE,
+  PUBSUB_TOPIC_MISC,
+} from '../../constant';
 import Validate from '../../util/ValidationHelper';
 import { logTransferDelegatedTx } from '../util/logger';
+import publisher from '../util/gcloudPub';
 
 const Web3 = require('web3');
 
 const txLogRef = require('../util/firebase').txCollection;
 const LIKECOIN = require('../../constant/contract/likecoin');
 const accounts = require('@ServerConfig/accounts.js'); // eslint-disable-line import/no-extraneous-dependencies
+const {
+  userCollection: dbRef,
+} = require('../util/firebase');
 
 const router = Router();
 
@@ -99,11 +108,64 @@ router.post('/payment', async (req, res) => {
       txHash = await sendTransaction(tx); // eslint-disable-line no-await-in-loop
     }
     res.json({ txHash });
+    const fromQuery = dbRef.where('wallet', '==', from).get().then((snapshot) => {
+      if (snapshot.docs.length > 0) {
+        const fromUser = snapshot.docs[0].data();
+        return {
+          fromId: snapshot.docs[0].id,
+          fromDisplayName: fromUser.displayName,
+          fromEmail: fromUser.email,
+          fromReferrer: fromUser.referrer,
+        };
+      }
+      return true;
+    });
+    const toQuery = dbRef.where('wallet', '==', to).get().then((snapshot) => {
+      if (snapshot.docs.length > 0) {
+        const toUser = snapshot.docs[0].data();
+        return {
+          toId: snapshot.docs[0].id,
+          toDisplayName: toUser.displayName,
+          toEmail: toUser.email,
+          toReferrer: toUser.referrer,
+        };
+      }
+      return true;
+    });
+    const [{
+      fromId,
+      fromDisplayName,
+      fromEmail,
+      fromReferrer,
+    }, {
+      toId,
+      toDisplayName,
+      toEmail,
+      toReferrer,
+    }] = await Promise.all([fromQuery, toQuery]);
     await logTransferDelegatedTx({
       txHash,
       from,
       to,
       value,
+      fromId,
+      toId,
+    });
+    publisher.publish(PUBSUB_TOPIC_MISC, {
+      logType: 'eventPay',
+      fromUser: fromId,
+      fromWallet: from,
+      fromDisplayName,
+      fromEmail,
+      fromReferrer,
+      toUser: toId,
+      toWallet: to,
+      toDisplayName,
+      toEmail,
+      toReferrer,
+      likeAmount: new BigNumber(value).dividedBy(ONE_LIKE).toNumber(),
+      txHash,
+      txStatus: 'pending',
     });
   } catch (err) {
     console.error(err);

@@ -14,6 +14,7 @@
     "prepare": "cd node_modules/web3-core-requestmanager/src && sed -i.bak \"/var global = Function('return this')();/d\" givenProvider.js && rm givenProvider.js.bak"
   },
   "dependencies": {
+    "@google-cloud/pubsub": "^0.16.4",
     "@likecoin/ethereum-blockies": "^0.1.1",
     "@likecoin/vue-image-lightbox": "^5.5.3",
     "@nuxtjs/google-analytics": "^2.0.2",
