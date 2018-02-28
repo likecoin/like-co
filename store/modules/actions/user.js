@@ -23,8 +23,11 @@ export async function isUser({ commit }, addr) {
     const { data: user } = await api.apiCheckIsUser(addr);
     if (user && user.user) {
       commit(types.USER_SET_USER_INFO, user);
+    } else {
+      commit(types.USER_SET_USER_INFO, {});
     }
   } catch (error) {
+    commit(types.USER_SET_USER_INFO, {});
     // do nothing
   }
 }
