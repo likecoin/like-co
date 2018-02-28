@@ -84,11 +84,13 @@ import { mapActions, mapGetters } from 'vuex';
 import { toDataUrl } from '@likecoin/ethereum-blockies';
 import { ETHERSCAN_HOST } from '@/constant';
 
+const URL = require('url-parse');
+
 const ONE_LIKE = new BigNumber(10).pow(18);
 
 export default {
   name: 'LikeRegisterForm',
-  props: ['isEdit', 'isRedeem'],
+  props: ['isEdit', 'isRedeem', 'redirect'],
   data() {
     return {
       avatarFile: null,
@@ -196,6 +198,16 @@ export default {
         /* global fbq */
         fbq('track', 'CompleteRegistration');
         logTrackerEvent(this, 'RegFlow', 'CreateAccount', 'click confirm to create new account and the action success', 1);
+        if (this.redirect) {
+          try {
+            const url = new URL(this.redirect, true);
+            url.query.likecoinId = this.user;
+            url.set('query', url.query);
+            window.location.href = url.toString();
+          } catch (err) {
+            // invalid URL;
+          }
+        }
       } catch (err) {
         console.error(err);
       }

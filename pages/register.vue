@@ -1,5 +1,5 @@
 <template>
-  <like-register-form :isEdit="isEdit"/>
+  <like-register-form :isEdit="isEdit" :redirect="redirect"/>
 </template>
 
 <script>
@@ -7,6 +7,9 @@ import * as types from '@/store/mutation-types';
 import LikeRegisterForm from '~/components/LikeRegisterForm';
 import { mapGetters } from 'vuex';
 import { apiGetUserById } from '@/util/api/api';
+import { REDIRECT_WHITE_LIST } from '@/constant';
+
+const URL = require('url-parse');
 
 export default {
   name: 'Register',
@@ -17,12 +20,25 @@ export default {
   data() {
     return {
       referrer: '',
+      redirect: '',
     };
   },
   asyncData({ query, store, redirect }) {
     if (store.getters.getUserIsRegistered) {
       redirect({ name: 'edit' });
       return {};
+    }
+    let queryRedirect = '';
+    if (query.redirect) {
+      try {
+        const url = new URL(query.redirect);
+        if (!url.host || REDIRECT_WHITE_LIST.indexOf(url.host) === -1) {
+          throw new Error(`${url.host} Not whitelisted`);
+        }
+        queryRedirect = query.redirect;
+      } catch (err) {
+        console.error(err);
+      }
     }
     const title = 'Register.header.title';
     const subtitle = 'Register.label.register';
@@ -37,11 +53,11 @@ export default {
       return apiGetUserById(referrerId)
         .then((res) => {
           const { displayName } = res.data;
-          return { referrer: displayName || referrerId };
+          return { referrer: displayName || referrerId, redirect: queryRedirect };
         })
         .catch(() => ({ referrer }));
     }
-    return { referrer };
+    return { referrer, redirect: queryRedirect };
   },
   head() {
     return {
