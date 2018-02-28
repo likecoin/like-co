@@ -74,6 +74,7 @@ class EthHelper {
 
   startApp() {
     this.LikeCoin = new this.web3.eth.Contract(LIKE_COIN_ABI, LIKE_COIN_ADDRESS);
+    this.getAccounts();
     this.pollingTimer = setInterval(() => this.getAccounts(), 3000);
   }
 
