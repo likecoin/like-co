@@ -74,19 +74,21 @@ class EthHelper {
 
   startApp() {
     this.LikeCoin = new this.web3.eth.Contract(LIKE_COIN_ABI, LIKE_COIN_ADDRESS);
-    this.getAccounts();
+    this.pollingTimer = setInterval(() => this.getAccounts(), 3000);
   }
 
   getAccounts() {
     this.web3.eth.getAccounts().then((accounts) => {
       if (accounts && accounts[0]) {
-        this.accounts = accounts;
-        [this.wallet] = accounts;
-        if (this.onWalletCb) this.onWalletCb(this.wallet);
-        if (this.clearErrCb) this.clearErrCb();
-      } else {
-        if (this.isMetaMask && this.errCb) this.errCb('locked');
-        this.retryTimer = setTimeout(() => this.getAccounts(), 3000);
+        if (this.wallet !== accounts[0]) {
+          this.accounts = accounts;
+          [this.wallet] = accounts;
+          if (this.onWalletCb) this.onWalletCb(this.wallet);
+          if (this.clearErrCb) this.clearErrCb();
+        }
+      } else if (this.isMetaMask && this.errCb) {
+        this.wallet = '';
+        this.errCb('locked');
       }
     });
   }

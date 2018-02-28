@@ -378,6 +378,15 @@ export default {
   mounted() {
     this.updateInfo();
   },
+  watch: {
+    getUserInfo(user) {
+      if (user && user.user) {
+        this.updateInfo();
+      } else {
+        this.$router.push({ name: 'register' });
+      }
+    },
+  },
 };
 </script>
 

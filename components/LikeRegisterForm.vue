@@ -95,7 +95,7 @@ export default {
       displayName: '',
       couponCode: '',
       likeCoinBalance: NaN,
-      wallet: EthHelper.getWallet(),
+      wallet: this.getLocalWallet,
       isBadAddress: false,
       isConfirming: false,
       confirmContent: '',
@@ -197,7 +197,7 @@ export default {
     if (this.isEdit) {
       this.updateInfo();
     }
-    const localWallet = EthHelper.getWallet();
+    const localWallet = this.getLocalWallet;
     if (localWallet) {
       this.setMyLikeCoin(localWallet);
     }
