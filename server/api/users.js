@@ -7,13 +7,13 @@ import {
 } from '../../constant';
 
 import Validate from '../../util/ValidationHelper';
+import { typedSignatureHash } from '../util/web3';
 import publisher from '../util/gcloudPub';
 
 const Account = require('eth-lib/lib/account');
 const Multer = require('multer');
 const sha256 = require('js-sha256');
 const sharp = require('sharp');
-const Web3 = require('web3');
 const imageType = require('image-type');
 const uuidv4 = require('uuid/v4');
 
@@ -66,15 +66,6 @@ function uploadFile(file, newFilename) {
     });
     blobStream.end(file.buffer);
   });
-}
-
-function typedSignatureHash(signData) {
-  const paramSignatures = signData.map(item => ({ type: 'string', value: `${item.type} ${item.name}` }));
-  const params = signData.map(item => ({ type: item.type, value: item.value }));
-  return Web3.utils.soliditySha3(
-    { type: 'bytes32', value: Web3.utils.soliditySha3(...paramSignatures) },
-    { type: 'bytes32', value: Web3.utils.soliditySha3(...params) },
-  );
 }
 
 const router = Router();

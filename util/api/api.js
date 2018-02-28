@@ -42,6 +42,8 @@ export const apiPostNewUser = (form) => {
   return axios.put('/api/users/new', params);
 };
 
+export const apiPostKYC = payload => axios.post('/api/kyc', payload);
+
 export const apiCheckCanGetFreeLikeCoin = user => axios.get(`/api/coupon/sentto/v2/${user}`);
 
 export const apiSendCouponCodeEmail = (id, coupon, locale) => axios.post(`/api/email/verify/user/${id}`, { coupon, locale });

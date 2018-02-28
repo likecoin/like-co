@@ -73,3 +73,11 @@ export async function sendInvitationEmail({ commit }, data) {
     { blocking: true },
   );
 }
+
+export async function sendKYC({ commit }, payload) {
+  return apiWrapper(
+    commit,
+    api.apiPostKYC(payload),
+    { blocking: true },
+  );
+}
