@@ -188,7 +188,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
     await dbRef.doc(user).set(updateObj, { merge: true });
 
     res.sendStatus(200);
-    publisher.publish(PUBSUB_TOPIC_MISC, {
+    publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: !isOldUser ? 'eventUserRegister' : 'eventUserEdit',
       user,
       email,
@@ -282,7 +282,7 @@ router.post('/email/verify/user/:id/', async (req, res) => {
       res.sendStatus(404);
     }
     res.sendStatus(200);
-    publisher.publish(PUBSUB_TOPIC_MISC, {
+    publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventSendVerifyEmail',
       user: username,
       email: user.email,
@@ -311,7 +311,7 @@ router.post('/email/verify/:uuid', async (req, res) => {
       });
       res.json({ wallet: user.data().wallet });
       const userObj = user.data();
-      publisher.publish(PUBSUB_TOPIC_MISC, {
+      publisher.publish(PUBSUB_TOPIC_MISC, req, {
         logType: 'eventVerify',
         user: user.id,
         email: userObj.email,

@@ -26,13 +26,14 @@ topics.forEach((topic) => {
     });
 });
 
-publisher.publish = async (publishTopic, obj) => {
+publisher.publish = async (publishTopic, req, obj) => {
   if (!config.GCLOUD_PUBSUB_ENABLE) return;
   Object.assign(obj, {
     '@timestamp': new Date().toISOString(),
     appServer: config.APP_SERVER || 'test-store',
     ethNetwork,
     uuidv4: uuidv4(),
+    requestIP: req.headers['x-real-ip'] || req.ip,
   });
 
   const data = JSON.stringify(obj);
