@@ -12,4 +12,7 @@ export const PUBSUB_TOPIC_MISC = 'misc';
 
 export const ONE_LIKE = new BigNumber(10).pow(18);
 
-export const REDIRECT_WHITE_LIST = ['oicetest.lakoo.com', 'oice.com', 'likecoin.store', 'likecoin.foundation'];
+const whiteList = ['oicetest.lakoo.com', 'oice.com', 'likecoin.store', 'likecoin.foundation'];
+if (IS_TESTNET) whiteList.push('localhost');
+
+export const REDIRECT_WHITE_LIST = whiteList;
