@@ -35,12 +35,11 @@ export async function sendVerifyEmail({ commit, rootState }, id) {
 }
 
 export async function verifyEmailByUUID({ commit, rootState }, uuid) {
-  const { wallet } = await apiWrapper(
+  return apiWrapper(
     commit,
     api.apiVerifyEmailByUUID(uuid, rootState.ui.locale),
     { blocking: true },
   );
-  return wallet;
 }
 
 export async function refreshUserInfo({ commit }, id) {

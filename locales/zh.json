@@ -382,7 +382,8 @@
     "label": {
       "toIndex": "返回主頁",
       "toEdit": "到個人頁面",
-      "verifying": "認證中"
+      "verifying": "認證中",
+      "referral": "作為被邀請者，你將會收到email，獲得免費 LikeCoin"
     }
   },
   "Transaction": {

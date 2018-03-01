@@ -382,7 +382,8 @@
     "label": {
       "toIndex": "returning to index",
       "toEdit": "returning to account page",
-      "verifying": "Verifying"
+      "verifying": "Verifying",
+      "referral": "as part of the affiliate program, you will receive an email with LikeCoin coupon"
     }
   },
   "Transaction": {

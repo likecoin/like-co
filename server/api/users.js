@@ -346,7 +346,7 @@ router.post('/email/verify/:uuid', async (req, res) => {
       if (referrer) {
         await dbRef.doc(referrer).collection('referrals').doc(user.id).update({ isEmailVerified: true });
       }
-      res.json({ wallet: user.data().wallet });
+      res.json({ referrer: !!user.data().referrer, wallet: user.data().wallet });
       const userObj = user.data();
       publisher.publish(PUBSUB_TOPIC_MISC, req, {
         logType: 'eventVerify',
