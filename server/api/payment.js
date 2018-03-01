@@ -30,6 +30,10 @@ const {
   gasLimit,
 } = accounts[0];
 
+function timeout(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 function sendTransaction(tx) {
   return new Promise((resolve, reject) => {
     const txEventEmitter = web3.eth.sendSignedTransaction(tx.rawTransaction);
@@ -80,12 +84,15 @@ router.post('/payment', async (req, res) => {
     );
     const txData = methodCall.encodeABI();
     let txHash;
-    let pendingCount = await web3.eth.getTransactionCount(address, 'pending');
+    let pendingCount;
     while (!txHash) {
-      // eslint-disable-next-line no-await-in-loop
+      /* eslint-disable no-await-in-loop */
+      pendingCount = await web3.eth.getTransactionCount(address, 'pending');
       const tx = await signTransaction(txData, pendingCount);
-      pendingCount += 1;
-      txHash = await sendTransaction(tx); // eslint-disable-line no-await-in-loop
+      txHash = await sendTransaction(tx);
+      if (!txHash) {
+        await timeout(200);
+      }
     }
     res.json({ txHash });
     const fromQuery = dbRef.where('wallet', '==', from).get().then((snapshot) => {
@@ -122,7 +129,9 @@ router.post('/payment', async (req, res) => {
       toDisplayName,
       toEmail,
       toReferrer,
-    }] = await Promise.all([fromQuery, toQuery]);
+    },
+    currentBlock,
+    ] = await Promise.all([fromQuery, toQuery, web3.eth.getBlockNumber()]);
     await logTransferDelegatedTx({
       txHash,
       from,
@@ -130,6 +139,8 @@ router.post('/payment', async (req, res) => {
       value,
       fromId,
       toId,
+      currentBlock,
+      nonce: pendingCount,
     });
     publisher.publish(PUBSUB_TOPIC_MISC, {
       logType: 'eventPay',
@@ -147,6 +158,8 @@ router.post('/payment', async (req, res) => {
       likeAmountUnitStr: new BigNumber(value).toFixed(),
       txHash,
       txStatus: 'pending',
+      txNonce: pendingCount,
+      currentBlock,
     });
   } catch (err) {
     console.error(err);

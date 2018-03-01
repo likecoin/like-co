@@ -6,6 +6,8 @@ export async function logTransferDelegatedTx(payload) {
     from,
     to,
     value,
+    currentBlock,
+    nonce,
   } = payload;
   try {
     await dbRef.doc(txHash).create({
@@ -13,6 +15,8 @@ export async function logTransferDelegatedTx(payload) {
       from,
       to,
       value,
+      currentBlock,
+      nonce,
       ts: Date.now(),
     });
   } catch (err) {
