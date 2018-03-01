@@ -131,7 +131,7 @@ router.post('/payment', async (req, res) => {
       fromId,
       toId,
     });
-    publisher.publish(PUBSUB_TOPIC_MISC, {
+    publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventPay',
       fromUser: fromId,
       fromWallet: from,
