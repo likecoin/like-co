@@ -46,7 +46,7 @@
           </div>
           <div class="btn-container md-xsmall-hide">
             <md-button class="redeem-btn festive" @click=onRedeemClick>
-              {{ $t('Home.Sale.button.redeem') }}
+              {{ $t('Home.Sale.button.createNow') }}
             </md-button>
           </div>
         </div>
@@ -179,7 +179,7 @@ export default {
     imgUrl,
     onRedeemClick() {
       logTrackerEvent(this, 'RegFlow', 'ClickGetRedPocket', 'click 領取紅包 on homepage', 1);
-      this.$router.push({ name: 'redeem' });
+      this.$router.push({ name: 'register' });
     },
   },
   computed: {
