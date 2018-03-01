@@ -17,7 +17,7 @@
       </div>
     </section>
     <section v-else-if="stage == 1">
-      <div v-if="isPRC || isUSA">
+      <div v-if="!notPRC || !notUSA">
         Please contact us in intercom directly
       </div>
       <div v-else class="md-layout">
@@ -33,7 +33,8 @@
         Please Sign your transaction and confirm!
       </div>
       <div v-else class="md-layout">
-        <!-- TODO: upload -->
+        Please contact us in intercom directly
+        <!-- TODO: upload KYC -->
       </div>
     </section>
     <md-button v-if="!ended" type="submit" form="kycForm">Next</md-button>
@@ -56,16 +57,12 @@ export default {
       ended: false,
     };
   },
-  // fetch({ store, redirect }) {
-  //   if (!store.getters.getUserIsRegistered) {
-  //     redirect({ name: 'register' });
-  //   }
-  // },
   computed: {
     ...mapGetters({
-      isEdit: 'getUserIsRegistered',
+      isRegistered: 'getUserIsRegistered',
       user: 'getUserInfo',
       wallet: 'getLocalWallet',
+      fetching: 'getUserIsFetching',
     }),
   },
   methods: {
@@ -101,6 +98,10 @@ export default {
             this.ended = true;
             const payload = await User.formatAndSignKYC(userInfo);
             await this.sendKYC(payload);
+          } else {
+            if (this.$intercom) this.$intercom.show();
+            console.log('TODO: upload KYC');
+            // TODO: upload KYC
           }
           break;
         }
@@ -110,6 +111,18 @@ export default {
         }
       }
     },
+  },
+  watch: {
+    fetching(f) {
+      if (!f && !this.isRegistered) {
+        this.$router.push({ name: 'register' });
+      }
+    },
+  },
+  mounted() {
+    if (!this.fetching && !this.isRegistered) {
+      this.$router.push({ name: 'register' });
+    }
   },
 };
 </script>
