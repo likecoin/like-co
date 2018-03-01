@@ -416,9 +416,9 @@
       "recipientAddress": "收款者錢包地址",
       "senderName": "轉帳者姓名",
       "senderAddress": "轉帳者錢包地址",
-      "sendTo": "轉帳 LikeCoin 給 <span class='usertitle'>{title}</span>",
+      "sendTo": "轉帳 {coin} 給 <span class='usertitle'>{title}</span>",
       "viewTx": "查看交易",
-      "amountToSend": "轉帳 LikeCoin 金額",
+      "amountToSend": "轉帳 {coin} 金額",
       "invalidAmount": "金額無效",
       "enterValidNumber": "請輸入有效小數位",
       "userNotFound": "收款者不存在"

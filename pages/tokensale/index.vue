@@ -47,7 +47,7 @@ import AvatarHeader from '~/components/header/AvatarHeader';
 import EthHelper from '@/util/EthHelper';
 import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 import { mapActions, mapGetters } from 'vuex';
-import { apiGetUserById } from '@/util/api/api';
+import likeCoinIcon from '@/assets/likecoin.svg';
 
 const ONE_LIKE = new BigNumber(10).pow(18);
 
@@ -71,7 +71,7 @@ function formatAmount(amount) {
 }
 
 export default {
-  name: 'payment',
+  name: 'tokensale',
   layout: 'pay',
   components: {
     AvatarHeader,
@@ -80,33 +80,13 @@ export default {
     return {
       isBadAddress: false,
       isBadAmount: false,
-      isETH: false,
+      isICO: true,
+      wallet: LIKE_COIN_ICO_ADDRESS,
+      avatar: likeCoinIcon,
+      id: 'tokensale',
+      displayName: 'LikeCoin TokenSale',
+      amount: this.$route.params.amount || 0,
     };
-  },
-  asyncData({ params, redirect, error }) {
-    if (params.id !== params.id.toLowerCase()) {
-      redirect({ name: 'id', params: { id: params.id.toLowerCase() } });
-    }
-    return apiGetUserById(params.id)
-      .then((res) => {
-        const { wallet, avatar, displayName } = res.data;
-        const amount = formatAmount(params.amount || 1);
-        if (wallet === LIKE_COIN_ICO_ADDRESS) {
-          redirect({
-            name: 'tokensale',
-          });
-        }
-        return {
-          wallet,
-          avatar,
-          id: params.id,
-          displayName: displayName || params.id,
-          amount,
-        };
-      })
-      .catch((e) => { // eslint-disable-line no-unused-vars
-        error({ statusCode: 404, message: '' });
-      });
   },
   head() {
     return {
@@ -136,6 +116,9 @@ export default {
     };
   },
   computed: {
+    isEth() {
+      return this.isICO;
+    },
     ...mapGetters([
       'getUserIsRegistered',
       'getIsInTransaction',

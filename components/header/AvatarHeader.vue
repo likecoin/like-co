@@ -1,7 +1,7 @@
 <template>
   <section class="section-avatar">
     <div class="heading">
-      <h1 v-html="$t('Transaction.label.sendTo', { title })" />
+      <h1 v-html="$t('Transaction.label.sendTo', { title, coin: isEth ? 'ETH' : 'LikeCoin' })" />
     </div>
     <div class="icon">
       <img alt="avatar" class="main-icon" :src="icon || defaultIcon" />
@@ -27,7 +27,7 @@ import likeCoinIcon from '@/assets/likecoin.svg';
 
 export default {
   name: 'avatar-header',
-  props: ['title', 'icon', 'id', 'address'],
+  props: ['title', 'icon', 'id', 'address', 'isEth'],
   data() {
     return {
       defaultText: 'Redeem your free LikeCoin',

@@ -416,9 +416,9 @@
       "recipientAddress": "Recipient Address",
       "senderName": "Sender Display Name",
       "senderAddress": "Sender Address",
-      "sendTo": "Send LikeCoin to <span class='usertitle'>{title}</span>",
+      "sendTo": "Send {coin} to <span class='usertitle'>{title}</span>",
       "viewTx": "View Transaction",
-      "amountToSend": "Amount of LikeCoin to send",
+      "amountToSend": "Amount of {coin} to send",
       "invalidAmount": "Invalid amount",
       "enterValidNumber": "Please enter a valid decimal number",
       "userNotFound": "User not found"
