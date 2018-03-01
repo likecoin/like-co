@@ -309,17 +309,17 @@ class EthHelper {
     return txEventEmitter;
   }
 
-  static genTypedSignNewUser(payload) {
+  static genTypedSignUserPayload(payload) {
     return [
       { type: 'string', name: 'payload', value: payload },
     ];
   }
 
-  async signNewUser(payload) {
+  async signUserPayload(payload) {
     if (!this.isMetaMask) return Promise.reject(new Error('No MetaMask'));
     const from = this.getWallet();
     if (this.onSign) this.onSign();
-    const signData = EthHelper.genTypedSignNewUser(payload);
+    const signData = EthHelper.genTypedSignUserPayload(payload);
     const rawSignature = await this.signTyped(signData, from);
     if (this.onSigned) this.onSigned();
     if (!rawSignature) return Promise.reject(new Error('Signing Rejected'));
