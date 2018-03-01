@@ -213,17 +213,14 @@ export default {
     InputDialog,
     ViewEtherscan,
   },
-  async fetch({ store, redirect }) {
-    if (!store.getters.getUserIsRegistered) {
-      redirect({ name: 'register' });
-    }
-  },
   computed: {
     ...mapGetters([
       'getUserInfo',
       'getIsInTransaction',
       'getIsPopupBlocking',
       'getCurrentLocale',
+      'getUserIsFetching',
+      'getUserIsRegistered',
     ]),
     getAmountHref() {
       return this.canGetFreeLikeCoin ? '' : 'https://likecoin.foundation/#/';
@@ -404,20 +401,24 @@ export default {
       }
     },
   },
-  mounted() {
-    if (this.$route.params.showEmail) {
-      this.$nextTick(() => this.$refs.inputDialog.onInputText());
-    }
-    this.updateInfo();
-  },
   watch: {
-    getUserInfo(user) {
-      if (user && user.user) {
-        this.updateInfo();
-      } else {
-        this.$router.push({ name: 'register' });
+    getUserIsFetching(f) {
+      if (!f) {
+        if (!this.getUserIsRegistered) {
+          this.$router.push({ name: 'register' });
+        } else {
+          this.updateInfo();
+        }
       }
     },
+  },
+  mounted() {
+    this.updateInfo();
+    if (!this.getUserIsFetching && !this.getUserIsRegistered) {
+      this.$router.push({ name: 'register' });
+    } else if (this.$route.params.showEmail) {
+      this.$nextTick(() => this.$refs.inputDialog.onInputText());
+    }
   },
 };
 </script>

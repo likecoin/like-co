@@ -13,14 +13,17 @@ export function setLocalWallet({ commit }, wallet) {
 
 export async function isUser({ commit }, addr) {
   try {
+    commit(types.USER_SET_FETCHING, true);
     const { data: user } = await api.apiCheckIsUser(addr);
     if (user && user.user) {
       commit(types.USER_SET_USER_INFO, user);
     } else {
       commit(types.USER_SET_USER_INFO, {});
     }
+    commit(types.USER_SET_FETCHING, false);
   } catch (error) {
     commit(types.USER_SET_USER_INFO, {});
+    commit(types.USER_SET_FETCHING, false);
     // do nothing
   }
 }
