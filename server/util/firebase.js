@@ -23,6 +23,7 @@ if (process.env.CI) {
   const bucket = admin.storage().bucket();
 
   module.exports = {
+    db,
     userCollection,
     txCollection,
     bucket,

@@ -16,6 +16,7 @@ const txLogRef = require('../util/firebase').txCollection;
 const LIKECOIN = require('../../constant/contract/likecoin');
 const accounts = require('@ServerConfig/accounts.js'); // eslint-disable-line import/no-extraneous-dependencies
 const {
+  db,
   userCollection: dbRef,
 } = require('../util/firebase');
 
@@ -83,17 +84,36 @@ router.post('/payment', async (req, res) => {
       signature,
     );
     const txData = methodCall.encodeABI();
+    const counterRef = txLogRef.doc('!counter');
+    let pendingCount = await db.runTransaction(t => t.get(counterRef).then((d) => {
+      const v = d.data().value + 1;
+      t.update(counterRef, { value: v });
+      return d.data().value;
+    }));
+    let tx = await signTransaction(txData, pendingCount);
     let txHash;
-    let pendingCount;
+    try {
+      txHash = await sendTransaction(tx);
+    } catch (err) {
+      console.log(`Nonce ${pendingCount} failed, trying web3 pending`);
+    }
     while (!txHash) {
       /* eslint-disable no-await-in-loop */
       pendingCount = await web3.eth.getTransactionCount(address, 'pending');
-      const tx = await signTransaction(txData, pendingCount);
+      tx = await signTransaction(txData, pendingCount);
       txHash = await sendTransaction(tx);
       if (!txHash) {
         await timeout(200);
       }
     }
+    await db.runTransaction(t => t.get(counterRef).then((d) => {
+      if (pendingCount + 1 > d.data().value) {
+        return t.update(counterRef, {
+          value: pendingCount + 1,
+        });
+      }
+      return Promise.resolve();
+    }));
     res.json({ txHash });
     const fromQuery = dbRef.where('wallet', '==', from).get().then((snapshot) => {
       if (snapshot.docs.length > 0) {
