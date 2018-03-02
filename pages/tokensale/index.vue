@@ -120,7 +120,9 @@ export default {
       return this.isICO;
     },
     ...mapGetters([
+      'getUserIsFetching',
       'getUserIsRegistered',
+      'getUserInfo',
       'getIsInTransaction',
       'getLocalWallet',
       'getIsShowingTxPopup',
@@ -223,6 +225,30 @@ export default {
     formatAmount() {
       this.amount = formatAmount(this.amount);
     },
+    async checkKYCStatus() {
+      const isKYC = await EthHelper.queryKYCStatus(this.getLocalWallet);
+      if (!isKYC) return false;
+      const status = this.getUserInfo.KYC;
+      return (status > 1);
+    },
+    async checkAndRedirect() {
+      if (!this.getUserIsRegistered) {
+        this.$router.push({ name: 'register', params: { ref: 'tokensale' } });
+      } else {
+        const canICO = await this.checkKYCStatus();
+        if (!canICO) this.$router.push({ name: 'tokensale-kyc' });
+      }
+    },
+  },
+  watch: {
+    getUserIsFetching(f) {
+      if (!f) {
+        this.checkAndRedirect();
+      }
+    },
+  },
+  mounted() {
+    if (!this.getUserIsFetching) this.checkAndRedirect();
   },
 };
 </script>

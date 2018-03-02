@@ -1,5 +1,6 @@
 <template>
   <form id="kycForm" @submit.prevent="onNext">
+    <div>Current KYC Status: {{ KYCStatus }}</div>
     <section v-if="stage == 0">
       <div class="md-layout">
         <label class="md-layout-item md-size-100">Are you a citizen of PRC?</label>
@@ -45,6 +46,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import User from '@/util/User';
+import EthHelper from '@/util/EthHelper';
 
 export default {
   name: 'KYC',
@@ -57,14 +59,15 @@ export default {
       isBelowThersold: true,
       ended: false,
       signed: false,
+      KYCStatus: 'None',
     };
   },
   computed: {
     ...mapGetters({
-      isRegistered: 'getUserIsRegistered',
-      user: 'getUserInfo',
+      getUserIsRegistered: 'getUserIsRegistered',
+      getUserInfo: 'getUserInfo',
+      getUserIsFetching: 'getUserIsFetching',
       wallet: 'getLocalWallet',
-      fetching: 'getUserIsFetching',
     }),
   },
   methods: {
@@ -107,7 +110,7 @@ export default {
         wallet,
       } = this;
       const userInfo = {
-        user: this.user.user,
+        user: this.getUserInfo.user,
         wallet,
         notPRC,
         notUSA,
@@ -118,17 +121,45 @@ export default {
       this.signed = true;
       await this.sendKYC(payload);
     },
+    async updateKYC() {
+      const isKYC = await EthHelper.queryKYCStatus(this.wallet);
+      const status = this.getUserInfo.KYC;
+      switch (status) {
+        case 3: {
+          this.KYCStatus = isKYC ? 'Advanced' : 'ProcessingTx';
+          break;
+        }
+        case 2: {
+          this.KYCStatus = isKYC ? 'Standard' : 'ProcessingTx';
+          break;
+        }
+        case 1: {
+          this.KYCStatus = 'InProgress';
+          break;
+        }
+        default:
+          this.KYCStatus = 'None';
+      }
+    },
   },
   watch: {
-    fetching(f) {
-      if (!f && !this.isRegistered) {
-        this.$router.push({ name: 'register' });
+    getUserIsFetching(f) {
+      if (!f) {
+        if (!this.getUserIsRegistered) {
+          this.$router.push({ name: 'register' });
+        } else {
+          this.updateKYC();
+        }
       }
     },
   },
   mounted() {
-    if (!this.fetching && !this.isRegistered) {
-      this.$router.push({ name: 'register' });
+    if (!this.getUserIsFetching) {
+      if (!this.getUserIsRegistered) {
+        this.$router.push({ name: 'register' });
+      } else {
+        this.updateKYC();
+      }
     }
   },
 };

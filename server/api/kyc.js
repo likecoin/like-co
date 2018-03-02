@@ -86,7 +86,7 @@ router.post('/kyc', async (req, res) => {
       nonce: pendingCount,
     });
     const updateUser = userRef.update({
-      KYC: 1,
+      KYC: 2,
     });
     await Promise.all([upateKYC, updateUser]);
 

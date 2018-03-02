@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import Web3 from 'web3';
 import { LIKE_COIN_ABI, LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin';
+import { LIKE_COIN_ICO_ABI, LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 import { IS_TESTNET, INFURA_HOST } from '@/constant';
 
 const abiDecoder = require('abi-decoder');
@@ -74,6 +75,7 @@ class EthHelper {
 
   startApp() {
     this.LikeCoin = new this.web3.eth.Contract(LIKE_COIN_ABI, LIKE_COIN_ADDRESS);
+    this.LikeCoinICO = new this.web3.eth.Contract(LIKE_COIN_ICO_ABI, LIKE_COIN_ICO_ADDRESS);
     this.getAccounts();
     this.pollingTimer = setInterval(() => this.getAccounts(), 3000);
   }
@@ -222,6 +224,12 @@ class EthHelper {
   async queryEthBalance(addr) {
     if (!addr) return '';
     return this.web3.eth.getBalance(addr);
+  }
+
+  async queryKYCStatus(addr) {
+    const address = addr || this.wallet || '';
+    if (!address) return false;
+    return this.LikeCoinICO.methods.kycDone(address).call();
   }
 
   async genTypedSignData(from, to, value, maxReward) {

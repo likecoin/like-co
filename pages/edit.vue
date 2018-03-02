@@ -17,7 +17,7 @@
             <div :class="[isProfileEdit ? 'edit-mode' : '', 'user-content']">
               {{ $t('Edit.label.id') }}&nbsp;
             </div>
-            <nuxt-link :to="{ name: 'id', params: { id: user } }">
+            <nuxt-link v-if="user" :to="{ name: 'id', params: { id: user } }">
               <div :class="[isProfileEdit ? 'edit-mode' : '', 'user-content']">{{ user }}</div>
             </nuxt-link>
           </div>
@@ -95,6 +95,7 @@
                 <img :src="EditIcon" />
               </md-button>
             </md-field>
+            <span>KYC: <nuxt-link :to="{ name: 'tokensale-kyc' }">{{ KYCStatus }}</nuxt-link></span>
           </div>
         </div>
 
@@ -204,6 +205,7 @@ export default {
       freeCoupon: '',
       referralPending: 0,
       referralVerified: 0,
+      KYCStatus: 'None',
     };
   },
   components: {
@@ -230,6 +232,9 @@ export default {
     },
     getAmountAction() {
       return this.canGetFreeLikeCoin ? this.onGetCouponClick : () => {};
+    },
+    canICO() {
+      return this.KYCStatus === 'Advanced' || this.KYCStatus === 'Standard';
     },
   },
   methods: {
@@ -284,6 +289,27 @@ export default {
       this.updateLikeCoin();
       this.updateReferralStat();
       this.updateCanGetFreeLikeCoin(user);
+      this.updateKYC();
+    },
+    async updateKYC() {
+      const isKYC = await EthHelper.queryKYCStatus(this.wallet);
+      const status = this.getUserInfo.KYC;
+      switch (status) {
+        case 3: {
+          this.KYCStatus = isKYC ? 'Advanced' : 'ProcessingTx';
+          break;
+        }
+        case 2: {
+          this.KYCStatus = isKYC ? 'Standard' : 'ProcessingTx';
+          break;
+        }
+        case 1: {
+          this.KYCStatus = 'InProgress';
+          break;
+        }
+        default:
+          this.KYCStatus = 'None';
+      }
     },
     async updateLikeCoin() {
       try {
