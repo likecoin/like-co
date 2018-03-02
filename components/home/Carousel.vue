@@ -56,6 +56,7 @@ export default {
   data() {
     return {
       slides,
+      mySwiperTimer: null,
       swiperOptions: {
         loop: true,
         slidesPerView: 'auto',
@@ -76,11 +77,17 @@ export default {
   },
   mounted() {
     if (this.mySwiper) {
-      setTimeout(() => {
+      this.mySwiperTimer = setTimeout(() => {
         // slide the first one after 1s, then autoplay slide with default 4s
         this.mySwiper.slideNext();
         this.mySwiper.autoplay.start();
       }, 1000);
+    }
+  },
+  beforeDestroy() {
+    if (this.mySwiperTimer) {
+      clearTimeout(this.mySwiperTimer);
+      this.mySwiperTimer = null;
     }
   },
 };
