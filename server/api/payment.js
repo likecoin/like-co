@@ -123,6 +123,7 @@ router.post('/payment', async (req, res) => {
           fromDisplayName: fromUser.displayName,
           fromEmail: fromUser.email,
           fromReferrer: fromUser.referrer,
+          fromLocale: fromUser.locale,
         };
       }
       return true;
@@ -135,6 +136,7 @@ router.post('/payment', async (req, res) => {
           toDisplayName: toUser.displayName,
           toEmail: toUser.email,
           toReferrer: toUser.referrer,
+          toLocale: toUser.locale,
         };
       }
       return true;
@@ -144,11 +146,13 @@ router.post('/payment', async (req, res) => {
       fromDisplayName,
       fromEmail,
       fromReferrer,
+      fromLocale,
     }, {
       toId,
       toDisplayName,
       toEmail,
       toReferrer,
+      toLocale,
     },
     currentBlock,
     ] = await Promise.all([fromQuery, toQuery, web3.eth.getBlockNumber()]);
@@ -169,11 +173,13 @@ router.post('/payment', async (req, res) => {
       fromDisplayName,
       fromEmail,
       fromReferrer,
+      fromLocale,
       toUser: toId,
       toWallet: to,
       toDisplayName,
       toEmail,
       toReferrer,
+      toLocale,
       likeAmount: new BigNumber(value).dividedBy(ONE_LIKE).toNumber(),
       likeAmountUnitStr: new BigNumber(value).toFixed(),
       txHash,
@@ -205,6 +211,7 @@ router.post('/payment/eth', async (req, res) => {
           fromDisplayName: fromUser.displayName,
           fromEmail: fromUser.email,
           fromReferrer: fromUser.referrer,
+          fromLocale: fromUser.locale,
         };
       }
       return true;
@@ -217,6 +224,7 @@ router.post('/payment/eth', async (req, res) => {
           toDisplayName: toUser.displayName,
           toEmail: toUser.email,
           toReferrer: toUser.referrer,
+          toLocale: toUser.locale,
         };
       }
       return true;
@@ -226,11 +234,13 @@ router.post('/payment/eth', async (req, res) => {
       fromDisplayName,
       fromEmail,
       fromReferrer,
+      fromLocale,
     }, {
       toId,
       toDisplayName,
       toEmail,
       toReferrer,
+      toLocale,
     }] = await Promise.all([fromQuery, toQuery]);
     await logTransferDelegatedTx({
       txHash,
@@ -247,11 +257,13 @@ router.post('/payment/eth', async (req, res) => {
       fromDisplayName,
       fromEmail,
       fromReferrer,
+      fromLocale,
       toUser: toId,
       toWallet: to,
       toDisplayName,
       toEmail,
       toReferrer,
+      toLocale,
       ETHAmount: new BigNumber(value).dividedBy(ONE_LIKE).toNumber(),
       ETHAmountUnitStr: new BigNumber(value).toFixed(),
       txHash,

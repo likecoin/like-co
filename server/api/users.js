@@ -210,6 +210,8 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       displayName,
       wallet,
       avatar: url || oldAvatar,
+      referrer,
+      locale,
     });
   } catch (err) {
     const msg = err.message || err;
@@ -323,6 +325,8 @@ router.post('/email/verify/user/:id/', async (req, res) => {
       wallet: user.wallet,
       avatar: user.avatar,
       verificationUUID,
+      referrer: user.referrer,
+      locale: user.locale,
     });
   } catch (err) {
     const msg = err.message || err;
@@ -356,6 +360,8 @@ router.post('/email/verify/:uuid', async (req, res) => {
         wallet: userObj.wallet,
         avatar: userObj.avatar,
         verificationUUID,
+        referrer: userObj.referrer,
+        locale: userObj.locale,
       });
     } else {
       res.sendStatus(404);
