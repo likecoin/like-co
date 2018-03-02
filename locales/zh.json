@@ -402,6 +402,12 @@
       "sameUser": "不能轉賬給自己"
     }
   },
+  "WhitePaper": {
+    "label": {
+      "whitePaper": "白皮書",
+      "comingSoon": "即將推出，敬請期待"
+    }
+  },
   "Creator": {
     "title": {
       "artist": "藝術家",

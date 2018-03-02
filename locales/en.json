@@ -402,6 +402,12 @@
       "sameUser": "Sender and Recipient cannot be same"
     }
   },
+  "WhitePaper": {
+    "label": {
+      "whitePaper": "WhitePaper",
+      "comingSoon": "Coming Soon"
+    }
+  },
   "Creator": {
     "title": {
       "artist": "Artist",
