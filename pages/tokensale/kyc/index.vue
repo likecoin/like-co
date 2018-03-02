@@ -30,7 +30,8 @@
     </section>
     <section v-else-if="stage == 2">
       <div v-if="isBelowThersold">
-        Please Sign your transaction and confirm!
+        <div>Please Sign your transaction and confirm!</div>
+        <md-button v-if="!signed" @click="signKYC()">Try Again</md-button>
       </div>
       <div v-else class="md-layout">
         Please contact us in intercom directly
@@ -55,6 +56,7 @@ export default {
       notUSA: true,
       isBelowThersold: true,
       ended: false,
+      signed: false,
     };
   },
   computed: {
@@ -82,26 +84,12 @@ export default {
         case 1: {
           this.stage += 1;
           if (this.isBelowThersold) {
-            const {
-              notPRC,
-              notUSA,
-              isBelowThersold,
-              wallet,
-            } = this;
-            const userInfo = {
-              user: this.user.user,
-              wallet,
-              notPRC,
-              notUSA,
-              isBelowThersold,
-            };
-            this.ended = true;
-            const payload = await User.formatAndSignKYC(userInfo);
-            await this.sendKYC(payload);
+            await this.signKYC();
           } else {
             if (this.$intercom) this.$intercom.show();
             console.log('TODO: upload KYC');
             // TODO: upload KYC
+            this.ended = true;
           }
           break;
         }
@@ -110,6 +98,25 @@ export default {
           break;
         }
       }
+    },
+    async signKYC() {
+      const {
+        notPRC,
+        notUSA,
+        isBelowThersold,
+        wallet,
+      } = this;
+      const userInfo = {
+        user: this.user.user,
+        wallet,
+        notPRC,
+        notUSA,
+        isBelowThersold,
+      };
+      this.ended = true;
+      const payload = await User.formatAndSignKYC(userInfo);
+      this.signed = true;
+      await this.sendKYC(payload);
     },
   },
   watch: {
