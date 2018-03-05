@@ -28,19 +28,27 @@
       </h1>
     </div>
     <section v-if="!isNotFound">
-      <section v-if="isPending" class="transaction-container">
-        <h1 style="color: #d9b503">
-          {{ $t('Transaction.header.label.pending') }}
+      <section v-if="failReason==2"><!-- timeout !-->
+        <h1 style="color: #fc5757">
+          <md-icon class="status-icon error-icon">
+            error
+          </md-icon>
+          {{ $t('Transaction.header.label.timeout') }}
         </h1>
-        <md-progress-bar md-mode="indeterminate"></md-progress-bar>
       </section>
-      <section v-else-if="isFailed" class="transaction-container">
+      <section v-else-if="failReason==1" class="transaction-container">
         <h1 style="color: #fc5757">
           <md-icon class="status-icon error-icon">
             error
           </md-icon>
           {{ $t('Transaction.header.label.failed') }}
         </h1>
+      </section>
+      <section v-else-if="isPending" class="transaction-container">
+        <h1 style="color: #d9b503">
+          {{ $t('Transaction.header.label.pending') }}
+        </h1>
+        <md-progress-bar md-mode="indeterminate"></md-progress-bar>
       </section>
       <section v-else class="transaction-container">
         <h1 style="color: #16a122">
@@ -61,7 +69,8 @@ import likeCoinIcon from '@/assets/likecoin.svg';
 
 export default {
   name: 'transaction-header',
-  props: ['icon', 'toId', 'toName', 'toAddress', 'timestamp', 'amount', 'isNotFound', 'isEth', 'isFailed'],
+  /* failReason : 0 = none, 1 = failed, 2 = timeout */
+  props: ['icon', 'toId', 'toName', 'toAddress', 'timestamp', 'amount', 'isNotFound', 'isEth', 'failReason'],
   data() {
     return {
       defaultText: 'Redeem your free LikeCoin',

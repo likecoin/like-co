@@ -397,6 +397,7 @@
         "notFound": "Transaction Not Found or not a LikeCoin store transaction",
         "pending": "Pending Confirmation",
         "failed": "Transaction Failed",
+        "timeout": "Transaction Expired",
         "completed": "Transaction Completed"
       }
     },

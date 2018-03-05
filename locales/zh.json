@@ -397,6 +397,7 @@
         "notFound": "交易碼不存在",
         "pending": "等待到帳",
         "failed": "交易失敗",
+        "timeout": "交易逾時",
         "completed": "交易完成"
       }
     },
