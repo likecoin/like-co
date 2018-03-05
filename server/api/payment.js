@@ -6,7 +6,7 @@ import {
   PUBSUB_TOPIC_MISC,
 } from '../../constant';
 import Validate from '../../util/ValidationHelper';
-import { logTransferDelegatedTx } from '../util/logger';
+import { logTransferDelegatedTx, logETHTx } from '../util/logger';
 import { web3, sendTransactionWithLoop } from '../util/web3';
 
 import publisher from '../util/gcloudPub';
@@ -180,7 +180,7 @@ router.post('/payment/eth', async (req, res) => {
       toReferrer,
       toLocale,
     }] = await Promise.all([fromQuery, toQuery]);
-    await logTransferDelegatedTx({
+    await logETHTx({
       txHash,
       from,
       to,
