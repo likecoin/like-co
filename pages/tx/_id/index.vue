@@ -2,7 +2,7 @@
   <div>
     <transaction-header
       :isNotFound="isNotFound"
-      :isFailed="isFailed"
+      :failReason="failReason"
       :isEth="isEth"
       :icon="toAvatar"
       :toId="toId"
@@ -76,7 +76,9 @@ export default {
     return {
       isEth: false,
       isNotFound: false,
-      isFailed: false,
+      /* failReason : 0 = none, 1 = failed, 2 = timeout */
+      failReason: 0,
+      status: 'pending',
       from: '',
       to: '',
       fromId: '',
@@ -98,8 +100,18 @@ export default {
     }
     return apiGetTxById(params.id)
       .then((res) => {
-        const { to, from, value } = res.data;
-        return { to, from, value };
+        const {
+          to,
+          from,
+          value,
+          status,
+        } = res.data;
+        return {
+          to,
+          from,
+          value,
+          status,
+        };
       })
       .catch(e => ({})); // eslint-disable-line no-unused-vars
   },
@@ -133,7 +145,7 @@ export default {
           this.setupTimer();
         } else {
           this.timestamp = ts;
-          this.isFailed = isFailed;
+          this.failReason = isFailed ? 1 : 0;
         }
       }, PENDING_UPDATE_INTERVAL);
     },
@@ -163,10 +175,11 @@ export default {
     if (this.value) {
       this.amount = new BigNumber(this.value).div(ONE_LIKE).toString();
     }
+    if (this.status === 'timeout') this.failReason = 2;
     try {
       const tx = await EthHelper.getTransferInfo(this.txId, { blocking: true });
       this.isEth = tx.isEth;
-      this.isFailed = tx.isFailed;
+      if (!this.failReason) this.failReason = tx.isFailed ? 1 : 0;
       /* eslint-disable no-underscore-dangle */
       if (tx._value !== undefined) this.amount = new BigNumber(tx._value).div(ONE_LIKE).toString();
       this.updateUI(tx._from, tx._to);
