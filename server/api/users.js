@@ -99,6 +99,8 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       avatarSHA256,
       email,
       ts,
+      referrer,
+      locale,
     } = JSON.parse(payload);
 
     // check address match
@@ -174,6 +176,13 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       [url] = await uploadFile(file, `likecoin_store_user_${user}_${IS_TESTNET ? 'test' : 'main'}`);
     }
 
+    let hasReferrer = false;
+    if (!isOldUser && referrer) {
+      const referrerRef = await dbRef.doc(referrer).get();
+      if (!referrerRef.exists) throw new Error('referrer not exist');
+      hasReferrer = referrerRef.exists;
+    }
+
     const updateObj = {
       displayName,
       wallet,
@@ -184,8 +193,14 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       updateObj.isEmailVerified = false;
     }
     if (url) updateObj.avatar = url;
+    if (locale) updateObj.locale = locale;
     if (!isOldUser) updateObj.timestamp = Date.now();
+    if (hasReferrer) updateObj.referrer = referrer;
     await dbRef.doc(user).set(updateObj, { merge: true });
+
+    if (hasReferrer) {
+      await dbRef.doc(referrer).collection('referrals').doc(user).create({ timestamp: Date.now() });
+    }
 
     res.sendStatus(200);
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
@@ -195,7 +210,27 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       displayName,
       wallet,
       avatar: url || oldAvatar,
+      referrer,
+      locale,
     });
+  } catch (err) {
+    const msg = err.message || err;
+    console.error(msg);
+    res.status(400).send(msg);
+  }
+});
+
+router.get('/users/referral/:id', async (req, res) => {
+  try {
+    const username = req.params.id;
+    const col = await dbRef.doc(username).collection('referrals').get();
+    if (col.docs) {
+      const pending = col.docs.filter(d => !d.data().isEmailVerified).length;
+      const verified = col.docs.filter(d => d.data().isEmailVerified).length;
+      res.json({ pending, verified });
+    } else {
+      res.json({ pending: 0, verified: 0 });
+    }
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
@@ -290,6 +325,8 @@ router.post('/email/verify/user/:id/', async (req, res) => {
       wallet: user.wallet,
       avatar: user.avatar,
       verificationUUID,
+      referrer: user.referrer,
+      locale: user.locale,
     });
   } catch (err) {
     const msg = err.message || err;
@@ -309,7 +346,11 @@ router.post('/email/verify/:uuid', async (req, res) => {
         verificationUUID: FieldValue.delete(),
         isEmailVerified: true,
       });
-      res.json({ wallet: user.data().wallet });
+      const { referrer } = user.data();
+      if (referrer) {
+        await dbRef.doc(referrer).collection('referrals').doc(user.id).update({ isEmailVerified: true });
+      }
+      res.json({ referrer: !!user.data().referrer, wallet: user.data().wallet });
       const userObj = user.data();
       publisher.publish(PUBSUB_TOPIC_MISC, req, {
         logType: 'eventVerify',
@@ -319,6 +360,8 @@ router.post('/email/verify/:uuid', async (req, res) => {
         wallet: userObj.wallet,
         avatar: userObj.avatar,
         verificationUUID,
+        referrer: userObj.referrer,
+        locale: userObj.locale,
       });
     } else {
       res.sendStatus(404);

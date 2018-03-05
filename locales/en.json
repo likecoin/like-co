@@ -311,6 +311,7 @@
   "Register": {
     "header": {
       "title": "Create a LikeCoin ID to send and receive LikeCoin",
+      "titleReferral": "Join {name} and Create a LikeCoin ID",
       "content": "Great! Seems you already have Metamask installed. Now you are ready to receive or send LikeCoin.",
       "redeem": "Redeem your free LikeCoin",
       "button": {
@@ -325,6 +326,7 @@
       "createID": "Create a LikeCoin ID* (minimum 7 characters)",
       "walletAddress": "Wallet address",
       "email": "Email (optional)",
+      "referrer": "Referrer (optional)",
       "amount": "Amount of LikeCoin:",
       "displayName": "Display Name",
       "claim": "Claim",
@@ -354,6 +356,23 @@
       "unverified": "Unverifed",
       "verifyEmail": "Verify your email"
     },
+    "referral": {
+      "title": "Affiliate Program",
+      "description": "You and your friend can both earn a LikeCoin coupon when you successfully invite a friend to sign up using your affiliate link. Please note that your friend's account email needs to be verified for you and your friend to earn the coupons.",
+      "pending": "Waiting for email verification",
+      "verified": "Confirmed",
+      "emailInvite": "Invite your friend by email",
+      "altInvite": "Or invite by:",
+      "copyUrl": "Copy URL",
+      "facebook": "Facebook",
+      "twitter": "Twitter",
+      "send": "Send",
+      "sent": "Invitation email to {email} sent",
+      "verifyEmailFirst": "Verify your email to join the affiliate program.",
+      "tweetContent": "Join me now on LikeCoin.Store and receive your free LikeCoin!",
+      "ogTitle": "LikeCoin - Reinventing the Like",
+      "ogDescription": "Rewarding contents by proof of creativity. Join {name} and register now!"
+    },
     "button": {
       "buyCoin": "Buy LikeCoin",
       "getFreeCoin": "Get free LikeCoin"
@@ -363,7 +382,8 @@
     "label": {
       "toIndex": "returning to index",
       "toEdit": "returning to account page",
-      "verifying": "Verifying"
+      "verifying": "Verifying",
+      "referral": "as part of the affiliate program, you will receive an email with LikeCoin coupon"
     }
   },
   "Transaction": {

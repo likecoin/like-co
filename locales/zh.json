@@ -274,11 +274,11 @@
         "claim": "兌換紅包"
       },
       "label": {
-        "confirming": "Loading coupon content...",
-        "error": "Invalid coupon code!",
-        "invalidCoupon": "Invalid coupon",
-        "redirecting": "Redirecting to your account page...",
-        "confirmToClaim": "Are you sure you want to claim {value} LikeCoin?"
+        "confirming": "讀取兌換碼中...",
+        "error": "兌換碼無效",
+        "invalidCoupon": "兌換碼無效",
+        "redirecting": "返回個人頁面中...",
+        "confirmToClaim": "你確定要兌換 {value} 個 LikeCoin 嗎？"
       }
     },
     "transaction": {
@@ -311,6 +311,7 @@
   "Register": {
     "header": {
       "title": "註冊 LikeCoin ID・改革內容創作生態",
+      "titleReferral": "{name} 邀請你註冊 LikeCoin ID",
       "content": "很好，你已經有 MetaMask，可以申請 LikeCoin ID 了。",
       "redeem": "兌換你的 LikeCoin 紅包",
       "button": {
@@ -325,6 +326,7 @@
       "createID": "註冊 LikeCoin ID* (最少7個英文字母/數目字)",
       "walletAddress": "以太坊錢包地址",
       "email": "電郵地址 (可選)",
+      "referrer": "邀請人 (可選)",
       "amount": "LikeCoin 數量",
       "displayName": "顯示名",
       "claim": "領取",
@@ -354,6 +356,23 @@
       "unverified": "仍未認證",
       "verifyEmail": "認證郵箱"
     },
+    "referral": {
+      "title": "推薦計劃",
+      "description": "廣邀好友加入 LikeCoin Store，獲得免費 LikeCoin！你的朋友使用你的邀請連結註冊 LikeCoin 帳號，並驗證郵件箱地址後，雙方都會獲得收到額外的 LikeCoin 兌換碼",
+      "pending": "未認證郵箱",
+      "verified": "已確認",
+      "emailInvite": "發電郵邀請",
+      "altInvite": "或是使用下列途徑",
+      "copyUrl": "複製連結",
+      "facebook": "Facebook",
+      "twitter": "Twitter",
+      "send": "發送",
+      "sent": "邀請郵件已發送至 {email}",
+      "verifyEmailFirst": "請先認證你的電郵地址",
+      "tweetContent": "加入 LikeCoin Store，獲得免費 LikeCoin!",
+      "ogTitle": "化Like為Coin 回饋創作",
+      "ogDescription": "{name} 邀請你註冊 LikeCoin ID ，改革內容創作生態"
+    },
     "button": {
       "buyCoin": "了解 LikeCoin",
       "getFreeCoin": "領取 LikeCoin"
@@ -363,7 +382,8 @@
     "label": {
       "toIndex": "返回主頁",
       "toEdit": "到個人頁面",
-      "verifying": "認證中"
+      "verifying": "認證中",
+      "referral": "作為被邀請者，你將會收到email，獲得免費 LikeCoin"
     }
   },
   "Transaction": {

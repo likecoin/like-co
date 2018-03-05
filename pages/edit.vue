@@ -124,7 +124,7 @@
 
     <div :class="isProfileEdit ? 'section-redeem-edit-mode' : ''">
       <div class="section-title-wrapper">
-        <h2 class="title">{{ subtitle }}</h2>
+        <h2 class="title">{{ $t('Edit.label.redeemCoin') }}</h2>
       </div>
       <form id="redeemForm" v-on:submit.prevent="onSubmitCoupon">
         <md-field>
@@ -152,6 +152,15 @@
       <claim-dialog ref="claimDialog" :couponCode="couponCode" :wallet="wallet" />
     </div>
 
+    <referral-action
+      :user="user"
+      :pending="referralPending"
+      :verified="referralVerified"
+      :isEmailVerifted="getUserInfo.isEmailVerified"
+      :isProfileEdit="isProfileEdit"
+      :isBlocked="getIsPopupBlocking"
+    />
+
     <view-etherscan :address="wallet" />
   </div>
 </template>
@@ -163,6 +172,7 @@ import EthHelper from '@/util/EthHelper';
 import User from '@/util/User';
 import { logTrackerEvent } from '@/util/EventLogger';
 import LikeCoinAmount from '~/components/LikeCoinAmount';
+import ReferralAction from '~/components/ReferralAction';
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import InputDialog from '~/components/dialogs/InputDialog';
 import ViewEtherscan from '~/components/ViewEtherscan';
@@ -188,16 +198,17 @@ export default {
       isProfileEdit: false,
       isVerifying: false,
       likeCoinValueStr: '',
-      subtitle: this.$t('Edit.label.redeemCoin'),
       EditIcon,
       EditWhiteIcon,
-      canGetFreeLikeCoin: false, // remove after chinese 15/1
-      isTriggerGetCoupon: false, // remove after chinese 15/1
-      freeCoupon: '', // remove after chinese 15/1
+      canGetFreeLikeCoin: false,
+      freeCoupon: '',
+      referralPending: 0,
+      referralVerified: 0,
     };
   },
   components: {
     LikeCoinAmount,
+    ReferralAction,
     ClaimDialog,
     InputDialog,
     ViewEtherscan,
@@ -212,15 +223,15 @@ export default {
       'getUserInfo',
       'getIsInTransaction',
       'getIsPopupBlocking',
+      'getCurrentLocale',
     ]),
     getAmountHref() {
-      return this.canGetFreeLikeCoin ? '' : 'https://likecoin.foundation/#/'; // remove after chinese 15/1
+      return this.canGetFreeLikeCoin ? '' : 'https://likecoin.foundation/#/';
     },
     getAmountText() {
-      return this.canGetFreeLikeCoin ? this.$t('Edit.button.getFreeCoin') : this.$t('Edit.button.buyCoin'); // remove after chinese 15/1
+      return this.canGetFreeLikeCoin ? this.$t('Edit.button.getFreeCoin') : this.$t('Edit.button.buyCoin');
     },
     getAmountAction() {
-      // remove after chinese 15/1
       return this.canGetFreeLikeCoin ? this.onGetCouponClick : () => {};
     },
   },
@@ -234,6 +245,7 @@ export default {
       'refreshUserInfo',
       'getCouponCode',
       'checkCanGetFreeLikeCoin',
+      'fetchUserReferralStats',
     ]),
     onEditDisplayName() {
       if (this.isProfileEdit) {
@@ -273,11 +285,43 @@ export default {
       this.avatarData = user.avatar;
       this.wallet = user.wallet;
       this.email = user.email;
-      const balance = await EthHelper.queryLikeCoinBalance(user.wallet);
-      this.likeCoinValueStr = new BigNumber(balance).dividedBy(ONE_LIKE).toFixed(4);
-      const canGetFreeLikeCoinRes = await this.checkCanGetFreeLikeCoin(this.user);
-      this.canGetFreeLikeCoin = !canGetFreeLikeCoinRes.isClaimed;
-      this.freeCoupon = canGetFreeLikeCoinRes.coupon;
+      this.updateLikeCoin();
+      this.updateReferralStat();
+      this.updateCanGetFreeLikeCoin(user);
+    },
+    async updateLikeCoin() {
+      try {
+        const balance = await EthHelper.queryLikeCoinBalance(this.wallet);
+        this.likeCoinValueStr = new BigNumber(balance).dividedBy(ONE_LIKE).toFixed(4);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async updateReferralStat() {
+      try {
+        const { pending, verified } = await this.fetchUserReferralStats(this.user);
+        this.referralPending = pending;
+        this.referralVerified = verified;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async updateCanGetFreeLikeCoin(user) {
+      try {
+        this.canGetFreeLikeCoin = false;
+        this.freeCoupon = '';
+        if (user.referrer) {
+          const res = await this.checkCanGetFreeLikeCoin(this.user);
+          if (res.coupon) {
+            this.canGetFreeLikeCoin = !res.isClaimed;
+            this.freeCoupon = res.coupon;
+          } else {
+            this.canGetFreeLikeCoin = !user.isEmailVerified && !this.isVerifying;
+          }
+        }
+      } catch (err) {
+        console.log(err);
+      }
     },
     openPicker() {
       this.isProfileEdit = true;
@@ -288,8 +332,8 @@ export default {
       this.updateInfo();
       this.isProfileEdit = false;
     },
-    onVerifyEmail() {
-      this.sendVerifyEmail(this.user);
+    async onVerifyEmail() {
+      await this.sendVerifyEmail(this.user);
       logTrackerEvent(this, 'RegFlow', 'StartEmailVerify', 'click confirm after enter email and the email is valid', 1);
       this.setInfoMsg(this.$t('Edit.label.verifying'));
       this.isVerifying = true;
@@ -302,6 +346,7 @@ export default {
           displayName: this.displayName,
           wallet: this.wallet,
           email: this.email,
+          locale: this.getCurrentLocale,
         };
         const data = await User.formatAndSignUserInfo(userInfo);
         await this.newUser(data);
@@ -309,67 +354,52 @@ export default {
         this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${this.user}">${this.$t('Register.form.label.viewPage')}</a>`);
         this.refreshUserInfo(this.user);
         this.isProfileEdit = false;
-        if (this.isTriggerGetCoupon) { // remove after chinese 15/1
-          this.isTriggerGetCoupon = false;
-          await this.submitGetCoupon();
-        }
       } catch (err) {
         this.updateInfo();
         console.error(err);
       }
     },
-    async onSubmitCoupon() { // remove after chinese 15/1
+    async onSubmitCoupon() {
       try {
         await this.$refs.claimDialog.onSubmit();
       } catch (err) {
         console.error(err);
       }
     },
-    async onGetCouponClick() { // remove after chinese 15/1
+    async onGetCouponClick() {
       if (!this.canGetFreeLikeCoin) {
         return;
       }
       logTrackerEvent(this, 'RegFlow', 'ClickGetFreeLikeCoin', 'click get free likecoin', 1);
-      this.$refs.inputDialog.onInputText();
-    },
-    async onInputDialogConfirm(inputText) { // remove after chinese 15/1
-      if (this.email !== inputText) {
-        this.email = inputText;
-        this.isTriggerGetCoupon = true;
-        this.onSubmitEdit();
+      if (this.getUserInfo.isEmailVerified) {
+        this.submitGetCoupon();
       } else {
-        this.$refs.inputDialog.showDialog = false;
-        await this.submitGetCoupon();
+        this.$refs.inputDialog.onInputText();
       }
     },
-    async submitGetCoupon() { // remove after chinese 15/1
-      if (!this.canGetFreeLikeCoin) {
+    async onInputDialogConfirm(inputText) {
+      if (this.email !== inputText) {
+        this.email = inputText;
+        return this.onSubmitEdit();
+      }
+      this.$refs.inputDialog.showDialog = false;
+      if (this.getUserInfo.isEmailVerified) {
+        return this.submitGetCoupon();
+      }
+      return this.onVerifyEmail();
+    },
+    async submitGetCoupon() {
+      if (!this.canGetFreeLikeCoin || !this.freeCoupon) {
         return;
       }
       try {
-        if (!this.freeCoupon) {
-          const couponRes = await this.getCouponCode(this.user);
-          this.freeCoupon = couponRes.coupon;
-        }
-        if (this.freeCoupon) {
-          if (this.getUserInfo.isEmailVerified) {
-            // directly claim
-            this.couponCode = this.freeCoupon;
-            await this.$refs.claimDialog.onDirectClaimCoupon({
-              wallet: this.wallet,
-              coupon: this.couponCode,
-            });
-            logTrackerEvent(this, 'RegFlow', 'GetRedPocketSuccessful', 'redeem the red pocket', 1);
-          } else {
-            await this.sendCouponCodeEmail({
-              user: this.user,
-              coupon: this.freeCoupon,
-            });
-            logTrackerEvent(this, 'RegFlow', 'StartEmailVerify', 'click confirm after enter email and the email is valid', 1);
-            this.isVerifying = true;
-            this.setInfoMsg(this.$t('Edit.label.verifying'));
-          }
-        }
+        // directly claim
+        this.couponCode = this.freeCoupon;
+        await this.$refs.claimDialog.onDirectClaimCoupon({
+          wallet: this.wallet,
+          coupon: this.couponCode,
+        });
+        logTrackerEvent(this, 'RegFlow', 'GetRedPocketSuccessful', 'redeem the red pocket', 1);
       } catch (err) {
         console.error(err);
       }

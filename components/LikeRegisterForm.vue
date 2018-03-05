@@ -38,9 +38,13 @@
               <label>{{ $t('Register.form.email') }}</label>
               <md-input type="email" v-model="email" />
             </md-field>
+            <md-field>
+              <label>{{ $t('Register.form.referrer') }}</label>
+              <md-input v-model="referrer" />
+            </md-field>
             <md-field v-if="isEdit && !isRedeemingCoupon">
               <label>{{ $t('Register.form.displayName') }}</label>
-              <md-input v-model="displayName" required />
+              <md-input v-model="displayName" />
             </md-field>
             <md-field v-if="isRedeem || isEdit">
               <label>
@@ -80,20 +84,23 @@ import { mapActions, mapGetters } from 'vuex';
 import { toDataUrl } from '@likecoin/ethereum-blockies';
 import { ETHERSCAN_HOST } from '@/constant';
 
+const URL = require('url-parse');
+
 const ONE_LIKE = new BigNumber(10).pow(18);
 
 export default {
   name: 'LikeRegisterForm',
-  props: ['isEdit', 'isRedeem'],
+  props: ['isEdit', 'isRedeem', 'redirect'],
   data() {
     return {
       avatarFile: null,
       avatar: null,
       avatarData: null,
       user: '',
-      email: '',
+      email: this.$route.query.email || '',
       displayName: '',
       couponCode: '',
+      referrer: this.$route.query.from || '',
       likeCoinBalance: NaN,
       wallet: this.getLocalWallet,
       isBadAddress: false,
@@ -111,6 +118,7 @@ export default {
       'getUserInfo',
       'getIsPopupBlocking',
       'getLocalWallet',
+      'getCurrentLocale',
     ]),
     isRedeemingCoupon() {
       return this.couponCode;
@@ -173,6 +181,8 @@ export default {
           user: this.user,
           wallet: this.wallet,
           email: this.email,
+          referrer: this.referrer,
+          locale: this.getCurrentLocale,
         };
         const data = await User.formatAndSignUserInfo(userInfo);
         await this.newUser(data);
@@ -188,6 +198,16 @@ export default {
         /* global fbq */
         fbq('track', 'CompleteRegistration');
         logTrackerEvent(this, 'RegFlow', 'CreateAccount', 'click confirm to create new account and the action success', 1);
+        if (this.redirect) {
+          try {
+            const url = new URL(this.redirect, true);
+            url.query.likecoinId = this.user;
+            url.set('query', url.query);
+            window.location.href = url.toString();
+          } catch (err) {
+            // invalid URL;
+          }
+        }
       } catch (err) {
         console.error(err);
       }

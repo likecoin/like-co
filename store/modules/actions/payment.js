@@ -6,9 +6,7 @@ import apiWrapper from './api-wrapper';
 
 export async function sendPayment({ commit }, payload) {
   try {
-    commit(types.UI_START_BLOCKING_LOADING);
-    const { txHash } = await apiWrapper(commit, api.apiPostPayment(payload));
-    commit(types.UI_STOP_BLOCKING_LOADING);
+    const { txHash } = await apiWrapper(commit, api.apiPostPayment(payload), { blocking: true });
     commit(types.UI_START_LOADING_TX);
     commit(types.PAYMENT_SET_PENDING_HASH, txHash);
     const { from, to, value } = payload;
@@ -31,6 +29,7 @@ export async function sendEthPayment({ commit }, payload) {
       value,
       txHash,
     } = payload;
+    await apiWrapper(commit, api.apiPostEthPayment(payload), { blocking: true });
     commit(types.UI_START_LOADING_TX);
     commit(types.PAYMENT_SET_PENDING_HASH, txHash);
     commit(types.PAYMENT_SET_PENDING_TX_INFO, { from, to, value });
@@ -50,9 +49,7 @@ export async function checkCoupon({ commit }, code) {
 
 export async function claimCoupon({ commit }, { coupon, to }) {
   try {
-    commit(types.UI_START_BLOCKING_LOADING);
-    const { txHash } = await apiWrapper(commit, api.apiClaimCoupon(coupon, to));
-    commit(types.UI_STOP_BLOCKING_LOADING);
+    const { txHash } = await apiWrapper(commit, api.apiClaimCoupon(coupon, to), { blocking: true });
     commit(types.UI_START_LOADING_TX);
     commit(types.PAYMENT_SET_PENDING_HASH, txHash);
     commit(types.PAYMENT_SET_PENDING_TX_INFO, { to });

@@ -11,3 +11,8 @@ export const ETH_NETWORK_NAME = IS_TESTNET ? 'rinkeby' : 'mainnet';
 export const PUBSUB_TOPIC_MISC = 'misc';
 
 export const ONE_LIKE = new BigNumber(10).pow(18);
+
+const whiteList = ['oicetest.lakoo.com', 'oice.com', 'likecoin.store', 'likecoin.foundation'];
+if (IS_TESTNET) whiteList.push('localhost');
+
+export const REDIRECT_WHITE_LIST = whiteList;

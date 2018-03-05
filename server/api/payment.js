@@ -123,6 +123,7 @@ router.post('/payment', async (req, res) => {
           fromDisplayName: fromUser.displayName,
           fromEmail: fromUser.email,
           fromReferrer: fromUser.referrer,
+          fromLocale: fromUser.locale,
         };
       }
       return true;
@@ -135,6 +136,7 @@ router.post('/payment', async (req, res) => {
           toDisplayName: toUser.displayName,
           toEmail: toUser.email,
           toReferrer: toUser.referrer,
+          toLocale: toUser.locale,
         };
       }
       return true;
@@ -144,11 +146,13 @@ router.post('/payment', async (req, res) => {
       fromDisplayName,
       fromEmail,
       fromReferrer,
+      fromLocale,
     }, {
       toId,
       toDisplayName,
       toEmail,
       toReferrer,
+      toLocale,
     },
     currentBlock,
     ] = await Promise.all([fromQuery, toQuery, web3.eth.getBlockNumber()]);
@@ -169,11 +173,13 @@ router.post('/payment', async (req, res) => {
       fromDisplayName,
       fromEmail,
       fromReferrer,
+      fromLocale,
       toUser: toId,
       toWallet: to,
       toDisplayName,
       toEmail,
       toReferrer,
+      toLocale,
       likeAmount: new BigNumber(value).dividedBy(ONE_LIKE).toNumber(),
       likeAmountUnitStr: new BigNumber(value).toFixed(),
       txHash,
@@ -181,6 +187,89 @@ router.post('/payment', async (req, res) => {
       txNonce: pendingCount,
       currentBlock,
     });
+  } catch (err) {
+    console.error(err);
+    const msg = err.message || err;
+    console.error(msg);
+    res.status(400).send(msg);
+  }
+});
+
+router.post('/payment/eth', async (req, res) => {
+  try {
+    const {
+      from,
+      to,
+      value,
+      txHash,
+    } = req.body;
+    const fromQuery = dbRef.where('wallet', '==', from).get().then((snapshot) => {
+      if (snapshot.docs.length > 0) {
+        const fromUser = snapshot.docs[0].data();
+        return {
+          fromId: snapshot.docs[0].id,
+          fromDisplayName: fromUser.displayName,
+          fromEmail: fromUser.email,
+          fromReferrer: fromUser.referrer,
+          fromLocale: fromUser.locale,
+        };
+      }
+      return true;
+    });
+    const toQuery = dbRef.where('wallet', '==', to).get().then((snapshot) => {
+      if (snapshot.docs.length > 0) {
+        const toUser = snapshot.docs[0].data();
+        return {
+          toId: snapshot.docs[0].id,
+          toDisplayName: toUser.displayName,
+          toEmail: toUser.email,
+          toReferrer: toUser.referrer,
+          toLocale: toUser.locale,
+        };
+      }
+      return true;
+    });
+    const [{
+      fromId,
+      fromDisplayName,
+      fromEmail,
+      fromReferrer,
+      fromLocale,
+    }, {
+      toId,
+      toDisplayName,
+      toEmail,
+      toReferrer,
+      toLocale,
+    }] = await Promise.all([fromQuery, toQuery]);
+    await logTransferDelegatedTx({
+      txHash,
+      from,
+      to,
+      value,
+      fromId,
+      toId,
+    });
+    publisher.publish(PUBSUB_TOPIC_MISC, {
+      logType: 'eventPayETH',
+      fromUser: fromId,
+      fromWallet: from,
+      fromDisplayName,
+      fromEmail,
+      fromReferrer,
+      fromLocale,
+      toUser: toId,
+      toWallet: to,
+      toDisplayName,
+      toEmail,
+      toReferrer,
+      toLocale,
+      ETHAmount: new BigNumber(value).dividedBy(ONE_LIKE).toNumber(),
+      ETHAmountUnitStr: new BigNumber(value).toFixed(),
+      txHash,
+      txStatus: 'pending',
+    });
+    res.json({ txHash });
   } catch (err) {
     console.error(err);
     const msg = err.message || err;
