@@ -16,30 +16,43 @@
           <md-radio v-model="notUSA" name="isUSA" class="md-layout-item" :value="true">No</md-radio>
         </div>
       </div>
+      <md-button type="submit" form="kycForm">Next</md-button>
     </section>
     <section v-else-if="stage == 1">
-      <div v-if="!notPRC || !notUSA">
-        Please contact us in intercom directly
-      </div>
-      <div v-else class="md-layout">
+      <div class="md-layout">
         <label class="md-layout-item md-size-100">Are you going to purchase more than USD10000?</label>
         <div class="md-layout md-layout-item">
           <md-radio v-model="isBelowThersold" class="md-layout-item" :value="false">Yes</md-radio>
           <md-radio v-model="isBelowThersold" class="md-layout-item" :value="true">No</md-radio>
         </div>
       </div>
+      <md-button type="submit" form="kycForm">Next</md-button>
     </section>
     <section v-else-if="stage == 2">
-      <div v-if="isBelowThersold">
+        <h2>Advanced KYC</h2>
+        Please contact us in intercom directly
+    </section>
+    <section v-else-if="stage == 9">
         <div>Please Sign your transaction and confirm!</div>
         <md-button v-if="!signed" @click="signKYC()">Try Again</md-button>
-      </div>
-      <div v-else class="md-layout">
+    </section>
+    <section v-else-if="stage == 90">
+        Your KYC is in progress.
+    </section>
+    <section v-else-if="stage == 91">
+        You have already completed Standard KYC.
+        <md-button @click="OnGoToTokenSale">Go to TokenSale</md-button>
+        <md-button type="submit" form="kycForm">Advance KYC</md-button>
+        <!-- TODO: upload KYC -->
+    </section>
+    <section v-else-if="stage == 92">
+        You have already completed Advanced KYC.
+        <md-button @click="OnGoToTokenSale">Go to TokenSale</md-button>
+    </section>
+    <section v-else-if="stage == 99">
         Please contact us in intercom directly
         <!-- TODO: upload KYC -->
-      </div>
     </section>
-    <md-button v-if="!ended" type="submit" form="kycForm">Next</md-button>
   </form>
 </template>
 
@@ -73,27 +86,33 @@ export default {
   methods: {
     ...mapActions([
       'sendKYC',
+      'startLoading',
+      'stopLoading',
     ]),
     async onNext() {
       switch (this.stage) {
         case 0: {
-          this.stage += 1;
           if (!this.notPRC || !this.notUSA) {
+            this.stage = 99;
             if (this.$intercom) this.$intercom.show();
-            this.ended = true;
+          } else {
+            this.stage = 1;
           }
           break;
         }
         case 1: {
-          this.stage += 1;
           if (this.isBelowThersold) {
+            this.stage = 9;
             await this.signKYC();
           } else {
             if (this.$intercom) this.$intercom.show();
+            this.stage = 2;
             console.log('TODO: upload KYC');
-            // TODO: upload KYC
-            this.ended = true;
           }
+          break;
+        }
+        case 91: {
+          this.stage = 2;
           break;
         }
         default: {
@@ -122,24 +141,31 @@ export default {
       await this.sendKYC(payload);
     },
     async updateKYC() {
-      const isKYC = await EthHelper.queryKYCStatus(this.wallet);
       const status = this.getUserInfo.KYC;
+      const isKYC = await EthHelper.queryKYCStatus(this.wallet);
       switch (status) {
         case 3: {
           this.KYCStatus = isKYC ? 'Advanced' : 'ProcessingTx';
+          this.stage = isKYC ? 92 : 90;
           break;
         }
         case 2: {
           this.KYCStatus = isKYC ? 'Standard' : 'ProcessingTx';
+          this.stage = isKYC ? 91 : 90;
           break;
         }
         case 1: {
           this.KYCStatus = 'InProgress';
+          this.stage = 90;
           break;
         }
         default:
           this.KYCStatus = 'None';
       }
+      this.stopLoading();
+    },
+    OnGoToTokenSale() {
+      this.$router.push({ name: 'tokensale' });
     },
   },
   watch: {
@@ -154,6 +180,7 @@ export default {
     },
   },
   mounted() {
+    this.startLoading();
     if (!this.getUserIsFetching) {
       if (!this.getUserIsRegistered) {
         this.$router.push({ name: 'register' });
