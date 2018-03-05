@@ -243,7 +243,6 @@ export default {
       'sendVerifyEmail',
       'sendCouponCodeEmail',
       'refreshUserInfo',
-      'getCouponCode',
       'checkCanGetFreeLikeCoin',
       'fetchUserReferralStats',
     ]),

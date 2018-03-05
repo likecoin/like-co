@@ -72,7 +72,3 @@ export const closeTxToolbar = ({ commit }) => {
 export async function checkCanGetFreeLikeCoin({ commit }, user) {
   return apiWrapper(commit, api.apiCheckCanGetFreeLikeCoin(user));
 }
-
-export async function getCouponCode({ commit }, user) {
-  return apiWrapper(commit, api.apiGetCouponCode(user));
-}
