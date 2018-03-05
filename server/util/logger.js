@@ -12,6 +12,7 @@ export async function logTransferDelegatedTx(payload) {
   try {
     await dbRef.doc(txHash).create({
       type: 'transferDelegated',
+      status: 'pending',
       from,
       to,
       value,
