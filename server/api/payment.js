@@ -186,6 +186,7 @@ router.post('/payment', async (req, res) => {
       txStatus: 'pending',
       txNonce: pendingCount,
       currentBlock,
+      txSignature: signature,
     });
   } catch (err) {
     console.error(err);
