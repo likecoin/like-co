@@ -41,29 +41,38 @@
     </section>
     <section v-else-if="stage == 91">
         You have already completed Standard KYC.
-        <md-button @click="OnGoToTokenSale">Go to TokenSale</md-button>
+        <md-button @click="goToTokenSale">Go to TokenSale</md-button>
         <md-button type="submit" form="kycForm">Advance KYC</md-button>
         <!-- TODO: upload KYC -->
     </section>
     <section v-else-if="stage == 92">
         You have already completed Advanced KYC.
-        <md-button @click="OnGoToTokenSale">Go to TokenSale</md-button>
+        <md-button @click="goToTokenSale">Go to TokenSale</md-button>
     </section>
     <section v-else-if="stage == 99">
         Please contact us in intercom directly
         <!-- TODO: upload KYC -->
     </section>
+    <popup-dialog
+      :allowClose="false"
+      :header="$t('KYC.label.kyc')"
+      :message="popupMessage"
+      @onConfirm="goToEdit"/>
   </form>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import PopupDialog from '~/components/dialogs/PopupDialog';
 import User from '@/util/User';
 import EthHelper from '@/util/EthHelper';
 
 export default {
   name: 'KYC',
   layout: 'baseWithBackground',
+  components: {
+    PopupDialog,
+  },
   data() {
     return {
       stage: 0,
@@ -73,6 +82,7 @@ export default {
       ended: false,
       signed: false,
       KYCStatus: 'None',
+      popupMessage: '',
     };
   },
   computed: {
@@ -141,6 +151,9 @@ export default {
       await this.sendKYC(payload);
     },
     async updateKYC() {
+      if (!this.getUserInfo.isEmailVerified) {
+        this.popupMessage = this.$t('KYC.label.emailVerify');
+      }
       const status = this.getUserInfo.KYC;
       const isKYC = await EthHelper.queryKYCStatus(this.wallet);
       switch (status) {
@@ -164,7 +177,10 @@ export default {
       }
       this.stopLoading();
     },
-    OnGoToTokenSale() {
+    goToEdit() {
+      this.$router.push({ name: 'edit', params: { showEmail: true } });
+    },
+    goToTokenSale() {
       this.$router.push({ name: 'tokensale' });
     },
   },

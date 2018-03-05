@@ -95,8 +95,8 @@
                 <img :src="EditIcon" />
               </md-button>
             </md-field>
-            <span>KYC: <nuxt-link :to="{ name: 'tokensale-kyc' }">{{ KYCStatus }}</nuxt-link></span>
           </div>
+          <span>KYC: <a @click.prevent="onKYCClick" href="">{{ KYCStatus }}</a></span>
         </div>
 
         <div v-if="isProfileEdit" class="btn-container">
@@ -426,6 +426,13 @@ export default {
         console.error(err);
       }
     },
+    onKYCClick() {
+      if (this.getUserInfo.isEmailVerified) {
+        this.$router.push({ name: 'tokensale-kyc' });
+      } else {
+        this.$refs.inputDialog.onInputText();
+      }
+    },
   },
   watch: {
     getUserIsFetching(f) {
@@ -439,6 +446,7 @@ export default {
     },
   },
   mounted() {
+    if (this.$route.params.showEmail) this.$refs.inputDialog.onInputText();
     this.updateInfo();
     if (!this.getUserIsFetching && !this.getUserIsRegistered) {
       this.$router.push({ name: 'register' });

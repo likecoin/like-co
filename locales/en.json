@@ -31,7 +31,8 @@
         "onePage": "Overview",
         "redeem": "Get Red Pocket",
         "createID": "Create LikeCoin ID to participate in the movement",
-        "createNow": "Create Now"
+        "createNow": "Create Now",
+        "buyCoin": "Buy LikeCoin"
       }
     },
     "Creator": {
@@ -437,6 +438,12 @@
     "label": {
       "whitePaper": "WhitePaper",
       "comingSoon": "Coming Soon"
+    }
+  },
+  "KYC": {
+    "label": {
+      "kyc": "ID Verification",
+      "emailVerify": "Please provide and verify your email."
     }
   },
   "Creator": {

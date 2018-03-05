@@ -31,7 +31,8 @@
         "onePage": "計畫介紹",
         "redeem": "領取紅包",
         "createID": "註冊 LikeCoin ID ，改革內容創作生態",
-        "createNow": "馬上註冊"
+        "createNow": "馬上註冊",
+        "buyCoin": "購買 LikeCoin"
       }
     },
     "Creator": {
@@ -437,6 +438,12 @@
     "label": {
       "whitePaper": "白皮書",
       "comingSoon": "即將推出，敬請期待"
+    }
+  },
+  "KYC": {
+    "label": {
+      "kyc": "身份認證",
+      "emailVerify": "請先認證你的電郵地址"
     }
   },
   "Creator": {
