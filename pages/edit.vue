@@ -457,7 +457,6 @@ export default {
     },
   },
   mounted() {
-    if (this.$route.params.showEmail) this.$refs.inputDialog.onInputText();
     this.updateInfo();
     if (!this.getUserIsFetching && !this.getUserIsRegistered) {
       this.$router.push({ name: 'register' });

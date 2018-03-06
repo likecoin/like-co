@@ -149,6 +149,7 @@ export default {
       const payload = await User.formatAndSignKYC(userInfo);
       this.signed = true;
       await this.sendKYC(payload);
+      this.popupMessage = this.$t('KYC.label.done');
     },
     async updateKYC() {
       if (!this.getUserInfo.isEmailVerified) {
@@ -178,7 +179,7 @@ export default {
       this.stopLoading();
     },
     goToEdit() {
-      this.$router.push({ name: 'edit', params: { showEmail: true } });
+      this.$router.push({ name: 'edit', params: { showEmail: !this.getUserInfo.isEmailVerified } });
     },
     goToTokenSale() {
       this.$router.push({ name: 'tokensale' });

@@ -3,7 +3,7 @@ import { INFURA_HOST } from '../../constant';
 const {
   db,
   txCollection: txLogRef,
-} = require('./firebase').txCollection;
+} = require('./firebase');
 
 const Web3 = require('web3');
 
@@ -59,7 +59,7 @@ export async function sendTransactionWithLoop(addr, txData) {
     t.update(counterRef, { value: v });
     return d.data().value;
   }));
-  let tx = await signTransaction(txData, pendingCount);
+  let tx = await signTransaction(addr, txData, pendingCount);
   let txHash;
   try {
     txHash = await sendTransaction(tx);
