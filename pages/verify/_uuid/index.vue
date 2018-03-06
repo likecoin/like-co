@@ -3,8 +3,11 @@
     <span v-if="errorMsg">{{ $t('General.label.error') }}: {{ errorMsg }}, 
       <nuxt-link :to="{ name: 'index' }">{{ $t('Verify.label.toIndex') }}</nuxt-link>...</span>
     <span v-else-if="isVerified">{{ $t('General.label.success') }}, 
-      <span v-if="hasReferrer">{{ $t('Verify.label.referral') }}, </span>
-      <nuxt-link :to="{ name: 'edit' }">{{ $t('Verify.label.toEdit') }}</nuxt-link>...</span>
+      <span v-if="hasReferrer">{{ $t('Verify.label.referral') }}, 
+      </span>
+        <nuxt-link v-if="redirect" :to="{ name: redirect }">{{ $t('Verify.label.redirect') }}</nuxt-link>
+        <nuxt-link v-else :to="{ name: 'edit' }">{{ $t('Verify.label.toEdit') }}</nuxt-link>
+      ...</span>
     <span v-else>{{ $t('Verify.label.verifying') }}</span>
     <claim-dialog ref="claimDialog" :couponCode="couponCode" :wallet="wallet" />
   </div>
@@ -13,7 +16,7 @@
 <script>
 import { logTrackerEvent } from '@/util/EventLogger';
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'VerifyEmail',
@@ -24,6 +27,7 @@ export default {
       isVerified: false,
       wallet: '',
       hasReferrer: false,
+      redirectTimer: null,
     };
   },
   components: {
@@ -36,15 +40,23 @@ export default {
     couponCode() {
       return this.$route.params.coupon;
     },
+    redirect() {
+      return this.$route.query.ref || '';
+    },
+    ...mapGetters([
+      'getUserInfo',
+    ]),
   },
   methods: {
     ...mapActions([
       'verifyEmailByUUID',
+      'refreshUserInfo',
     ]),
     async verifyEmail() {
       this.isVerified = false;
       try {
         const { referrer, wallet } = await this.verifyEmailByUUID(this.uuid);
+        if (this.getUserInfo.user) await this.refreshUserInfo(this.getUserInfo.user);
         this.wallet = wallet;
         this.hasReferrer = referrer;
         logTrackerEvent(this, 'RegFlow', 'EmailVerifySuccessful', 'email verified successfully', 1);
@@ -57,19 +69,25 @@ export default {
             });
             logTrackerEvent(this, 'RegFlow', 'GetRedPocketSuccessful', 'redeem the red pocket', 1);
           } catch (err) {
-            setTimeout(() => this.$router.push({ name: 'edit' }), 3000);
+            this.redirectTimer = setTimeout(() => this.$router.push({ name: this.redirect ? this.redirect : 'edit' }), 3000);
           }
         } else if (!this.referrer) {
-          setTimeout(() => this.$router.push({ name: 'edit' }), 3000);
+          this.redirectTimer = setTimeout(() => this.$router.push({ name: this.redirect ? this.redirect : 'edit' }), 3000);
         }
       } catch (err) {
         this.errorMsg = err.message || err;
-        setTimeout(() => this.$router.push({ name: 'index' }), 3000);
+        this.redirectTimer = setTimeout(() => this.$router.push({ name: 'index' }), 3000);
       }
     },
   },
   mounted() {
     this.verifyEmail();
+  },
+  beforeDestroy() {
+    if (this.redirectTimer) {
+      clearTimeout(this.redirectTimer);
+      this.redirectTimer = null;
+    }
   },
 };
 </script>

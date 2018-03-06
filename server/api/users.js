@@ -270,7 +270,7 @@ router.get('/users/addr/:addr', async (req, res) => {
 router.post('/email/verify/user/:id/', async (req, res) => {
   try {
     const username = req.params.id;
-    const { coupon } = req.body;
+    const { coupon, ref } = req.body;
     const userRef = dbRef.doc(username);
     const doc = await userRef.get();
     let user = {};
@@ -293,9 +293,9 @@ router.post('/email/verify/user/:id/', async (req, res) => {
       });
       try {
         if (coupon && /[2-9A-HJ-NP-Za-km-z]{8}/.test(coupon)) {
-          await sendVerificationWithCouponEmail(res, user, coupon);
+          await sendVerificationWithCouponEmail(res, user, coupon, ref);
         } else {
-          await sendVerificationEmail(res, user);
+          await sendVerificationEmail(res, user, ref);
         }
       } catch (err) {
         await userRef.update({

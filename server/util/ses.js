@@ -6,7 +6,7 @@ aws.config.loadFromPath('server/config/aws.json');
 
 const ses = new aws.SES();
 
-export async function sendVerificationEmail(res, user) {
+export async function sendVerificationEmail(res, user, ref) {
   const params = {
     Source: 'noreply@likecoin.store',
     Destination: {
@@ -23,6 +23,7 @@ export async function sendVerificationEmail(res, user) {
           Data: res.__('Email.VerifiyEmail.body', {
             name: user.displayName,
             uuid: user.verificationUUID,
+            ref,
           }),
         },
       },
@@ -31,7 +32,7 @@ export async function sendVerificationEmail(res, user) {
   return ses.sendEmail(params).promise();
 }
 
-export async function sendVerificationWithCouponEmail(res, user, coupon) {
+export async function sendVerificationWithCouponEmail(res, user, coupon, ref) {
   const params = {
     Source: 'noreply@likecoin.store',
     Destination: {
@@ -49,6 +50,7 @@ export async function sendVerificationWithCouponEmail(res, user, coupon) {
             name: user.displayName,
             uuid: user.verificationUUID,
             coupon,
+            ref,
           }),
         },
       },

@@ -33,8 +33,15 @@ export async function getWalletByUser({ commit }, id) {
   return wallet;
 }
 
-export async function sendVerifyEmail({ commit, rootState }, id) {
-  return apiWrapper(commit, api.apiSendVerifyEmail(id, rootState.ui.locale), { blocking: true });
+export async function sendVerifyEmail({ commit, rootState }, { id, ref }) {
+  /* guard ref to only 'tokensale' for now */
+  let redirect = '';
+  if (ref === 'tokensale') redirect = 'tokensale';
+  return apiWrapper(
+    commit,
+    api.apiSendVerifyEmail(id, redirect, rootState.ui.locale),
+    { blocking: true },
+  );
 }
 
 export async function verifyEmailByUUID({ commit, rootState }, uuid) {
@@ -47,12 +54,15 @@ export async function verifyEmailByUUID({ commit, rootState }, uuid) {
 
 export async function refreshUserInfo({ commit }, id) {
   try {
+    commit(types.USER_SET_FETCHING, true);
     const { data: user } = await api.apiGetUserById(id);
     if (user) {
       user.user = id;
       commit(types.USER_SET_USER_INFO, user);
     }
+    commit(types.USER_SET_FETCHING, false);
   } catch (error) {
+    commit(types.USER_SET_FETCHING, false);
     throw error;
   }
 }

@@ -233,7 +233,7 @@ export default {
     },
     async checkAndRedirect() {
       if (!this.getUserIsRegistered) {
-        this.$router.push({ name: 'register', params: { ref: 'tokensale' } });
+        this.$router.push({ name: 'register', query: { ref: 'tokensale' } });
       } else {
         const canICO = await this.checkKYCStatus();
         if (!canICO) this.$router.push({ name: 'tokensale-kyc' });

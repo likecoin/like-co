@@ -139,7 +139,7 @@ export default {
         isBelowThersold,
         wallet,
       } = this;
-      const user = this.getUserInfo.user;
+      const { user } = this.getUserInfo;
       const userInfo = {
         user,
         wallet,

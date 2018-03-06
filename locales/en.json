@@ -223,11 +223,11 @@
   "Email": {
     "VerifiyEmail": {
       "subject": "Verify your LikeCoin Store email",
-      "body": "Hi {{name}}!\n\nWelcome to LikeCoin Store! To verify your email, click the following link:\n\nhttps://likecoin.store/verify/{{uuid}}\n\nLikeCoin Foundation\nhttps://likecoin.store"
+      "body": "Hi {{name}}!\n\nWelcome to LikeCoin Store! To verify your email, click the following link:\n\nhttps://likecoin.store/verify/{{uuid}}?ref={{ref}}\n\nLikeCoin Foundation\nhttps://likecoin.store"
     },
     "VerifiyAndCouponEmail": {
       "subject": "Verify your LikeCoin Store email and claim your LikeCoin",
-      "body": "Hi {{name}}!\n\nWelcome to LikeCoin Store! To verify your email and receive red pocket, click the following link:\n\nhttps://likecoin.store/verify/{{uuid}}/{{coupon}}\n\nYour coupon code: {{coupon}}\n\nLikeCoin Foundation\nhttps://likecoin.store"
+      "body": "Hi {{name}}!\n\nWelcome to LikeCoin Store! To verify your email and receive red pocket, click the following link:\n\nhttps://likecoin.store/verify/{{uuid}}/{{coupon}}?ref={{ref}}\n\nYour coupon code: {{coupon}}\n\nLikeCoin Foundation\nhttps://likecoin.store"
     }
   },
   "Whitepaper": {
@@ -393,6 +393,7 @@
     "label": {
       "toIndex": "returning to index",
       "toEdit": "returning to account page",
+      "redirect": "redirect page",
       "verifying": "Verifying",
       "referral": "as part of the affiliate program, you will receive an email with LikeCoin coupon"
     }

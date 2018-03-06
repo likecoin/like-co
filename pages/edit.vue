@@ -355,7 +355,7 @@ export default {
       this.isProfileEdit = false;
     },
     async onVerifyEmail() {
-      await this.sendVerifyEmail(this.user);
+      await this.sendVerifyEmail({ id: this.user, ref: this.$route.query.ref });
       logTrackerEvent(this, 'RegFlow', 'StartEmailVerify', 'click confirm after enter email and the email is valid', 1);
       this.setInfoMsg(this.$t('Edit.label.verifying'));
       this.isVerifying = true;

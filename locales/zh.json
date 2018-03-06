@@ -223,11 +223,11 @@
   "Email": {
     "VerifiyEmail": {
       "subject": "LikeCoin Store 帳號驗證",
-      "body": "您好 {{name}}！\n\n歡迎來到 LikeCoin Store ！請到下列網址驗證您的電郵地址:\n\nhttps://likecoin.store/verify/{{uuid}}\n\nLikeCoin Foundation\nhttps://likecoin.store"
+      "body": "您好 {{name}}！\n\n歡迎來到 LikeCoin Store ！請到下列網址驗證您的電郵地址:\n\nhttps://likecoin.store/verify/{{uuid}}?ref={{ref}}\n\nLikeCoin Foundation\nhttps://likecoin.store"
     },
     "VerifiyAndCouponEmail": {
       "subject": "LikeCoin Store 帳號驗證",
-      "body": "您好 {{name}}！\n\n歡迎來到 LikeCoin Store ！請到下列網址驗證您的電郵地址，換領您的免費 LikeCoin：\n\nhttps://likecoin.store/verify/{{uuid}}/{{coupon}}\n\n您的換領券編號： {{coupon}}\n\nLikeCoin Foundation\nhttps://likecoin.store"
+      "body": "您好 {{name}}！\n\n歡迎來到 LikeCoin Store ！請到下列網址驗證您的電郵地址，換領您的免費 LikeCoin：\n\nhttps://likecoin.store/verify/{{uuid}}/{{coupon}}?ref={{ref}}\n\n您的換領券編號： {{coupon}}\n\nLikeCoin Foundation\nhttps://likecoin.store"
     }
   },
   "Whitepaper": {
@@ -393,6 +393,7 @@
     "label": {
       "toIndex": "返回主頁",
       "toEdit": "到個人頁面",
+      "redirect": "跳轉頁面",
       "verifying": "認證中",
       "referral": "作為被邀請者，你將會收到email，獲得免費 LikeCoin"
     }
