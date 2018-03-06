@@ -193,11 +193,10 @@ export default {
         } else {
           this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${this.user}">${this.$t('Register.form.label.viewPage')}</a>`);
         }
-
-        // pixel log registration complete event
-        /* global fbq */
-        fbq('track', 'CompleteRegistration');
-        logTrackerEvent(this, 'RegFlow', 'CreateAccount', 'click confirm to create new account and the action success', 1);
+        logTrackerEvent(this, 'RegFlow', 'CompleteRegistration', 'click confirm to create new account and the action success', 1);
+        if (this.referrer) {
+          logTrackerEvent(this, 'RegFlow', 'CompleteReferrer', 'created new account with referrer', 1);
+        }
         if (this.redirect) {
           try {
             const url = new URL(this.redirect, true);

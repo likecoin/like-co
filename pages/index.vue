@@ -176,7 +176,7 @@ export default {
   methods: {
     imgUrl,
     onRedeemClick() {
-      logTrackerEvent(this, 'RegFlow', 'ClickGetRedPocket', 'click 領取紅包 on homepage', 1);
+      logTrackerEvent(this, 'RegFlow', 'ClickIndexRedCTA', 'click the Huge red button on homepage', 1);
       this.$router.push({ name: 'register' });
     },
   },
