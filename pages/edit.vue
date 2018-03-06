@@ -405,6 +405,9 @@ export default {
     },
   },
   mounted() {
+    if (this.$route.params.showEmail) {
+      this.$nextTick(() => this.$refs.inputDialog.onInputText());
+    }
     this.updateInfo();
   },
   watch: {

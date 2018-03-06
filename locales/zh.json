@@ -307,7 +307,7 @@
     },
     "emailInput": {
       "title": "認證郵箱",
-      "content": "領取 LikeCoin 前須先認證你的電郵地址",
+      "content": "請先認證你的電郵地址",
       "label": "你的電郵地址"
     }
   },

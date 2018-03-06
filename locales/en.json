@@ -307,7 +307,7 @@
     },
     "emailInput": {
       "title": "Please Verify your email",
-      "content": "To get your free LikeCoin, please provide and verify your email.",
+      "content": "Please provide and verify your email.",
       "label": "Your email address"
     }
   },
