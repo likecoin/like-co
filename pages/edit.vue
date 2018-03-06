@@ -225,13 +225,13 @@ export default {
       'getUserIsRegistered',
     ]),
     getAmountHref() {
-      return this.canGetFreeLikeCoin ? '' : 'https://likecoin.foundation/#/';
+      return this.canGetFreeLikeCoin ? '' : '';
     },
     getAmountText() {
       return this.canGetFreeLikeCoin ? this.$t('Edit.button.getFreeCoin') : this.$t('Edit.button.buyCoin');
     },
     getAmountAction() {
-      return this.canGetFreeLikeCoin ? this.onGetCouponClick : () => {};
+      return this.canGetFreeLikeCoin ? this.onGetCouponClick : this.onClickBuyLikeCoin;
     },
     canICO() {
       return this.KYCStatus === 'Advanced' || this.KYCStatus === 'Standard';
@@ -395,6 +395,17 @@ export default {
       logTrackerEvent(this, 'RegFlow', 'ClickGetFreeLikeCoin', 'click get free likecoin', 1);
       if (this.getUserInfo.isEmailVerified) {
         this.submitGetCoupon();
+      } else {
+        this.$refs.inputDialog.onInputText();
+      }
+    },
+    onClickBuyLikeCoin() {
+      if (this.getUserInfo.isEmailVerified) {
+        if (this.canICO) {
+          this.$router.push({ name: 'tokensale' });
+        } else {
+          this.$router.push({ name: 'tokensale-kyc' });
+        }
       } else {
         this.$refs.inputDialog.onInputText();
       }
