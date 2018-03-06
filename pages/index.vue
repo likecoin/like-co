@@ -27,22 +27,20 @@
           <div class="sale-description-container">
             <h2>{{ $t('Home.Sale.title') }}</h2>
             <h1>{{ $t('Home.Sale.content') }}</h1>
-            <!-- <div class="links md-xsmall-hide">
-              <custom-link
-                :title="$t('Home.Sale.button.paper')"
-                href="hi" />
-              <custom-link
-                :title="$t('Home.Sale.button.onePage')"
-                href="hi" />
-            </div> -->
-            <!-- <div class="links md-xsmall-show">
-              <md-button class="redeem-btn festive">
-                {{ $t('Home.Sale.button.paper') }}
-              </md-button>
-              <md-button class="redeem-btn festive">
-                {{ $t('Home.Sale.button.onePage') }}
-              </md-button>
-            </div> -->
+            <div class="links md-xsmall-hide">
+              <nuxt-link
+                :to="{ name: 'whitepaper' }">
+                {{ `${$t('Home.Sale.button.onePage')} / ${$t('Home.Sale.button.paper')}` }}
+              </nuxt-link>
+            </div>
+            <div class="links mobile md-xsmall-show">
+              <nuxt-link
+                :to="{ name: 'whitepaper' }">
+                <md-button class="redeem-btn">
+                  {{ `${$t('Home.Sale.button.onePage')} / ${$t('Home.Sale.button.paper')}` }}
+                </md-button>
+              </nuxt-link>
+            </div>
           </div>
           <div class="btn-container md-xsmall-hide">
             <md-button class="redeem-btn festive" @click=onRedeemClick>
@@ -259,6 +257,11 @@ $carousel-height: 488px;
 }
 
 .lc-description {
+  &:not(.last) {
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+  }
+
   .lc-container-3 {
     display: flex;
     flex-direction: row;
@@ -280,8 +283,17 @@ $carousel-height: 488px;
     }
 
     .links {
-      .custom-link {
+      > a {
         margin-right: 48px;
+
+        color: $like-green !important;
+        text-decoration: underline;
+        cursor: pointer;
+        font-size: 20px;
+
+        &:hover {
+          opacity: 0.7;
+        }
       }
     }
   }
@@ -408,9 +420,11 @@ $carousel-height: 488px;
           line-height: 30px;
         }
 
-        .links {
+        .links.mobile {
           position: absolute;
           width: 100%;
+
+          margin-top: -8px;
         }
 
         .md-button {
