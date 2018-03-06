@@ -1,24 +1,13 @@
 const dbRef = require('../util/firebase').txCollection;
 
 export async function logTransferDelegatedTx(payload) {
-  const {
-    txHash,
-    from,
-    to,
-    value,
-    currentBlock,
-    nonce,
-  } = payload;
+  const { txHash } = payload;
   try {
     await dbRef.doc(txHash).create({
       type: 'transferDelegated',
       status: 'pending',
-      from,
-      to,
-      value,
-      currentBlock,
-      nonce,
       ts: Date.now(),
+      ...payload,
     });
   } catch (err) {
     console.error(err);
