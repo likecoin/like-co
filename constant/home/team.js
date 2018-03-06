@@ -72,6 +72,10 @@ const teamMembers = [
     key: 'joshua',
     platforms: [],
   },
+  {
+    key: 'michael',
+    platforms: [],
+  },
 ];
 
 export default teamMembers;
