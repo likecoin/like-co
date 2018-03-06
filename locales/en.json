@@ -225,6 +225,12 @@
       "body": "Hi {{name}}!\n\nWelcome to LikeCoin Store! To verify your email and receive red pocket, click the following link:\n\nhttps://likecoin.store/verify/{{uuid}}/{{coupon}}\n\nYour coupon code: {{coupon}}\n\nLikeCoin Foundation\nhttps://likecoin.store"
     }
   },
+  "Whitepaper": {
+    "Button": {
+      "whitepaper": "Whitepaper",
+      "onepager": "One-pager"
+    }
+  },
   "Store": {
     "Header": {
       "label": {

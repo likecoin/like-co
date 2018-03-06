@@ -6,3 +6,9 @@
 ));
 
 @import "~vue-material/dist/theme/all"; // Apply the theme
+
+
+#__nuxt,
+#__layout {
+  height: 100%;
+}
