@@ -52,7 +52,7 @@ import AvatarHeader from '~/components/header/AvatarHeader';
 import PopupDialog from '~/components/dialogs/PopupDialog';
 import EthHelper from '@/util/EthHelper';
 import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
-import { KYC_USD_LIMIT } from '@/constant';
+import { KYC_USD_LIMIT, KYC_STATUS_ENUM } from '@/constant';
 import { mapActions, mapGetters } from 'vuex';
 import likeCoinIcon from '@/assets/likecoin.svg';
 
@@ -162,7 +162,7 @@ export default {
       }
       const usdPrice = await this.queryEthPrice();
       const usdAmount = usdPrice * this.amount;
-      if (usdAmount > KYC_USD_LIMIT) {
+      if (usdAmount > KYC_USD_LIMIT && this.getUserInfo.KYC < KYC_STATUS_ENUM.ADVANCED) {
         this.popupMessage = this.$t('KYC.label.advKycNeeded');
         return;
       }
@@ -245,7 +245,7 @@ export default {
       const isKYC = await EthHelper.queryKYCStatus(this.getLocalWallet);
       if (!isKYC) return false;
       const status = this.getUserInfo.KYC;
-      return (status > 1);
+      return (status >= KYC_STATUS_ENUM.STANDARD);
     },
     async checkAndRedirect() {
       if (!this.getUserIsRegistered) {

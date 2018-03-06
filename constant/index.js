@@ -18,3 +18,10 @@ if (IS_TESTNET) whiteList.push('localhost');
 export const REDIRECT_WHITE_LIST = whiteList;
 
 export const KYC_USD_LIMIT = 100000; // TODO
+
+export const KYC_STATUS_ENUM = {
+  NONE: 0,
+  PENDING: 1,
+  STANDARD: 2,
+  ADVANCED: 3,
+};

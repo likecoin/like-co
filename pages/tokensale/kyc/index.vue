@@ -64,7 +64,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import PopupDialog from '~/components/dialogs/PopupDialog';
-import { KYC_USD_LIMIT } from '@/constant';
+import { KYC_USD_LIMIT, KYC_STATUS_ENUM } from '@/constant';
 import User from '@/util/User';
 import EthHelper from '@/util/EthHelper';
 
@@ -163,17 +163,17 @@ export default {
       const status = this.getUserInfo.KYC;
       const isKYC = await EthHelper.queryKYCStatus(this.wallet);
       switch (status) {
-        case 3: {
+        case KYC_STATUS_ENUM.ADVANCED: {
           this.KYCStatus = isKYC ? 'Advanced' : 'ProcessingTx';
           this.stage = isKYC ? 92 : 90;
           break;
         }
-        case 2: {
+        case KYC_STATUS_ENUM.STANDARD: {
           this.KYCStatus = isKYC ? 'Standard' : 'ProcessingTx';
           this.stage = isKYC ? 91 : 90;
           break;
         }
-        case 1: {
+        case KYC_STATUS_ENUM.PENDING: {
           this.KYCStatus = 'InProgress';
           this.stage = 90;
           break;
