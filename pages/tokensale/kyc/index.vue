@@ -184,7 +184,11 @@ export default {
       this.stopLoading();
     },
     goToEdit() {
-      this.$router.push({ name: 'edit', params: { showEmail: !this.getUserInfo.isEmailVerified } });
+      this.$router.push({
+        name: 'edit',
+        params: { showEmail: !this.getUserInfo.isEmailVerified },
+        query: { ref: 'tokensale' },
+      });
     },
     goToTokenSale() {
       this.$router.push({ name: 'tokensale' });
@@ -194,7 +198,7 @@ export default {
     getUserIsFetching(f) {
       if (!f) {
         if (!this.getUserIsRegistered) {
-          this.$router.push({ name: 'register' });
+          this.$router.push({ name: 'register', query: { ref: 'tokensale' } });
         } else {
           this.updateKYC();
         }
@@ -205,7 +209,7 @@ export default {
     this.startLoading();
     if (!this.getUserIsFetching) {
       if (!this.getUserIsRegistered) {
-        this.$router.push({ name: 'register' });
+        this.$router.push({ name: 'register', query: { ref: 'tokensale' } });
       } else {
         this.updateKYC();
       }
