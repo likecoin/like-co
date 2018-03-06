@@ -96,6 +96,7 @@ export default {
   methods: {
     ...mapActions([
       'sendKYC',
+      'refreshUserInfo',
       'startLoading',
       'stopLoading',
     ]),
@@ -138,8 +139,9 @@ export default {
         isBelowThersold,
         wallet,
       } = this;
+      const user = this.getUserInfo.user;
       const userInfo = {
-        user: this.getUserInfo.user,
+        user,
         wallet,
         notPRC,
         notUSA,
@@ -149,6 +151,7 @@ export default {
       const payload = await User.formatAndSignKYC(userInfo);
       this.signed = true;
       await this.sendKYC(payload);
+      await this.refreshUserInfo(user);
       this.popupMessage = this.$t('KYC.label.done');
     },
     async updateKYC() {
