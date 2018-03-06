@@ -444,6 +444,8 @@
   "KYC": {
     "label": {
       "kyc": "ID Verification",
+      "kycNeeded": "ID Verification is needed to participate in LikeCoin token sale",
+      "advKycNeeded": "Advanced ID Verification is needed for large amount of purchase",
       "emailVerify": "Please provide and verify your email."
     }
   },

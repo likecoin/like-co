@@ -20,7 +20,7 @@
     </section>
     <section v-else-if="stage == 1">
       <div class="md-layout">
-        <label class="md-layout-item md-size-100">Are you going to purchase more than USD10000?</label>
+        <label class="md-layout-item md-size-100">Are you going to purchase more than USD{{ KYC_USD_LIMIT }}?</label>
         <div class="md-layout md-layout-item">
           <md-radio v-model="isBelowThersold" class="md-layout-item" :value="false">Yes</md-radio>
           <md-radio v-model="isBelowThersold" class="md-layout-item" :value="true">No</md-radio>
@@ -64,6 +64,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import PopupDialog from '~/components/dialogs/PopupDialog';
+import { KYC_USD_LIMIT } from '@/constant';
 import User from '@/util/User';
 import EthHelper from '@/util/EthHelper';
 
@@ -75,6 +76,7 @@ export default {
   },
   data() {
     return {
+      KYC_USD_LIMIT,
       stage: 0,
       notPRC: true,
       notUSA: true,

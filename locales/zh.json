@@ -444,6 +444,8 @@
   "KYC": {
     "label": {
       "kyc": "身份認證",
+      "kycNeeded": "需要進行身份認證才能參與",
+      "advKycNeeded": "大額購買需要進行進階身份認證",
       "emailVerify": "請先認證你的電郵地址"
     }
   },

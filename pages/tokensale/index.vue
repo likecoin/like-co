@@ -37,6 +37,11 @@
         </md-button>
       </form>
     </div>
+    <popup-dialog
+      :allowClose="false"
+      :header="$t('KYC.label.kyc')"
+      :message="popupMessage"
+      @onConfirm="goToKYC"/>
   </div>
 </template>
 
@@ -44,8 +49,10 @@
 import BigNumber from 'bignumber.js';
 
 import AvatarHeader from '~/components/header/AvatarHeader';
+import PopupDialog from '~/components/dialogs/PopupDialog';
 import EthHelper from '@/util/EthHelper';
 import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
+import { KYC_USD_LIMIT } from '@/constant';
 import { mapActions, mapGetters } from 'vuex';
 import likeCoinIcon from '@/assets/likecoin.svg';
 
@@ -75,6 +82,7 @@ export default {
   layout: 'pay',
   components: {
     AvatarHeader,
+    PopupDialog,
   },
   data() {
     return {
@@ -86,6 +94,7 @@ export default {
       id: 'tokensale',
       displayName: 'LikeCoin TokenSale',
       amount: this.$route.params.amount || 0,
+      popupMessage: '',
     };
   },
   head() {
@@ -133,6 +142,7 @@ export default {
     ...mapActions([
       'sendPayment',
       'sendEthPayment',
+      'queryEthPrice',
       'setErrorMsg',
       'closeTxDialog',
     ]),
@@ -148,6 +158,12 @@ export default {
       const amount = new BigNumber(this.amount);
       if (!amount || amount.lt('0.000000000000000001')) {
         this.isBadAmount = true;
+        return;
+      }
+      const usdPrice = await this.queryEthPrice();
+      const usdAmount = usdPrice * this.amount;
+      if (usdAmount > KYC_USD_LIMIT) {
+        this.popupMessage = this.$t('KYC.label.advKycNeeded');
         return;
       }
       try {
@@ -238,6 +254,9 @@ export default {
         const canICO = await this.checkKYCStatus();
         if (!canICO) this.$router.push({ name: 'tokensale-kyc' });
       }
+    },
+    goToKYC() {
+      this.$router.push({ name: 'tokensale-kyc' });
     },
   },
   watch: {

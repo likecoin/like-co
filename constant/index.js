@@ -16,3 +16,5 @@ const whiteList = ['oicetest.lakoo.com', 'oice.com', 'likecoin.store', 'likecoin
 if (IS_TESTNET) whiteList.push('localhost');
 
 export const REDIRECT_WHITE_LIST = whiteList;
+
+export const KYC_USD_LIMIT = 100000; // TODO
