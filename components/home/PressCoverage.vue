@@ -38,7 +38,10 @@ const presses = [
   {
     src: '/images/press-logo/tvb.svg',
     link: 'https://vimeo.com/257086712',
-    title: 'Commercial Radio Hong Kong, 2018.01.01',
+  },
+  {
+    src: '/images/press-logo/appledaily.jpg',
+    link: 'https://hk.finance.appledaily.com/finance/daily/article/20180305/20322849',
   },
   {
     src: '/images/press-logo/881903.svg',
