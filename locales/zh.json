@@ -225,6 +225,12 @@
       "body": "您好 {{name}}！\n\n歡迎來到 LikeCoin Store ！請到下列網址驗證您的電郵地址，換領您的免費 LikeCoin：\n\nhttps://likecoin.store/verify/{{uuid}}/{{coupon}}\n\n您的換領券編號： {{coupon}}\n\nLikeCoin Foundation\nhttps://likecoin.store"
     }
   },
+  "Whitepaper": {
+    "Button": {
+      "whitepaper": "Whitepaper",
+      "onepager": "One-pager"
+    }
+  },
   "Store": {
     "Header": {
       "label": {
