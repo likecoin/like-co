@@ -49,7 +49,6 @@
       </section>
       <section v-else>
         <KYCForm
-          :KYCStatus="KYCStatus"
           :isKYCTxPass="isKYCTxPass"
           :user="getUserInfo"
           :wallet="getLocalWallet" />
@@ -153,6 +152,9 @@ export default {
     },
     KYCStatus() {
       return this.getUserInfo.KYC;
+    },
+    pendingKYC() {
+      return this.getUserInfo.pendingKYC || false;
     },
     ...mapGetters([
       'getUserIsFetching',

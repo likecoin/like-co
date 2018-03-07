@@ -10,6 +10,7 @@ const ValidationHelper = {
     wallet,
     referrer,
     KYC,
+    pendingKYC,
     isEmailVerified,
   }) {
     return {
@@ -20,6 +21,7 @@ const ValidationHelper = {
       wallet,
       referrer: !!referrer,
       KYC,
+      pendingKYC,
       isEmailVerified,
     };
   },

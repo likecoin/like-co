@@ -289,6 +289,10 @@ export default {
       this.updateKYC();
     },
     async updateKYC() {
+      if (this.getUserInfo.pendingKYC) {
+        this.KYCStatus = 'AdvanedInProgress';
+        return;
+      }
       const isKYC = await EthHelper.queryKYCStatus(this.wallet);
       const status = this.getUserInfo.KYC;
       switch (status) {

@@ -99,7 +99,7 @@ import { mapActions } from 'vuex';
 
 export default {
   name: 'KYC',
-  props: ['KYCStatus', 'isKYCTxPass', 'user', 'wallet'],
+  props: ['isKYCTxPass', 'user', 'wallet'],
   components: {
     PopupDialog,
   },
@@ -123,6 +123,14 @@ export default {
       popupMessage: '',
       isAdvanced: false,
     };
+  },
+  computed: {
+    KYCStatus() {
+      return this.user.KYCStatus;
+    },
+    pendingKYC() {
+      return this.user.pendingKYC;
+    },
   },
   methods: {
     ...mapActions([
@@ -227,10 +235,15 @@ export default {
       this.popupMessage = this.$t('KYC.label.done');
     },
     async updateKYC() {
-      if (!this.getUserInfo.isEmailVerified) {
+      if (!this.user.isEmailVerified) {
         this.popupMessage = this.$t('KYC.label.emailVerify');
       }
-      const { isKYCTxPass, KYCStatus } = this;
+      const { isKYCTxPass, KYCStatus, pendingKYC } = this;
+      if (pendingKYC) {
+        this.status = 'AdvanedInProgress';
+        this.stage = 90;
+        return;
+      }
       switch (KYCStatus) {
         case KYC_STATUS_ENUM.ADVANCED: {
           this.status = isKYCTxPass ? 'Advanced' : 'ProcessingTx';
@@ -266,7 +279,7 @@ export default {
     isKYCTxPass() {
       this.updateKYC();
     },
-    KYCStatus() {
+    user() {
       this.updateKYC();
     },
   },
