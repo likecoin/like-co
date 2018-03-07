@@ -233,9 +233,6 @@ export default {
     getAmountAction() {
       return this.canGetFreeLikeCoin ? this.onGetCouponClick : this.onClickBuyLikeCoin;
     },
-    canICO() {
-      return this.KYCStatus === 'Advanced' || this.KYCStatus === 'Standard';
-    },
   },
   methods: {
     ...mapActions([
@@ -401,11 +398,7 @@ export default {
     },
     onClickBuyLikeCoin() {
       if (this.getUserInfo.isEmailVerified) {
-        if (this.canICO) {
-          this.$router.push({ name: 'tokensale' });
-        } else {
-          this.$router.push({ name: 'tokensale-kyc' });
-        }
+        this.$router.push({ name: 'tokensale' });
       } else {
         this.$refs.inputDialog.onInputText();
       }
@@ -439,7 +432,7 @@ export default {
     },
     onKYCClick() {
       if (this.getUserInfo.isEmailVerified) {
-        this.$router.push({ name: 'tokensale-kyc' });
+        this.$router.push({ name: 'tokensale' });
       } else {
         this.$refs.inputDialog.onInputText();
       }

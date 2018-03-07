@@ -2,7 +2,11 @@
   <div class="payment-container">
     <avatar-header :title="displayName" :icon="avatar" :id="id" :address="wallet" :isEth="isEth"/>
     <div class="inner-container">
-      <form id="paymentInfo" v-on:submit.prevent="onSubmit">
+      <section v-if="getUserIsFetching">
+        <md-progress-bar md-mode="indeterminate" />
+        LOADING
+      </section>
+      <form v-else-if="canICO && !needExtraKYC" id="paymentInfo" v-on:submit.prevent="onSubmit">
         <input v-model="wallet" hidden required disabled />
         <label>{{ $t('Transaction.label.amountToSend', { coin: isEth ? 'ETH' : 'LikeCoin' }) }}</label>
         <md-field :class="isBadAmount?'md-input-invalid':''">
@@ -36,12 +40,26 @@
           {{ $t('General.button.confirm') }}
         </md-button>
       </form>
+
+      <md-button v-else-if="!getUserIsRegistered" @click="redirectToRegister">Register</md-button>
+
+      <section v-else-if="KYCStatus==KYC_STATUS_ENUM.PENDING">
+        <md-progress-bar md-mode="indeterminate" />
+        KYC ALREADY PENDING
+      </section>
+      <section v-else>
+        <KYCForm
+          :KYCStatus="KYCStatus"
+          :isKYCTxPass="isKYCTxPass"
+          :user="getUserInfo"
+          :wallet="getLocalWallet" />
+      </section>
     </div>
     <popup-dialog
       :allowClose="false"
       :header="$t('KYC.label.kyc')"
       :message="popupMessage"
-      @onConfirm="goToKYC"/>
+      @onConfirm="popupMessage=''"/>
   </div>
 </template>
 
@@ -50,6 +68,7 @@ import BigNumber from 'bignumber.js';
 
 import AvatarHeader from '~/components/header/AvatarHeader';
 import PopupDialog from '~/components/dialogs/PopupDialog';
+import KYCForm from '~/components/KYCForm';
 import EthHelper from '@/util/EthHelper';
 import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 import { KYC_USD_LIMIT, KYC_STATUS_ENUM } from '@/constant';
@@ -83,12 +102,16 @@ export default {
   components: {
     AvatarHeader,
     PopupDialog,
+    KYCForm,
   },
   data() {
     return {
+      KYC_STATUS_ENUM,
       isBadAddress: false,
       isBadAmount: false,
-      isICO: true,
+      isEth: true,
+      isKYCTxPass: false,
+      needExtraKYC: false,
       wallet: LIKE_COIN_ICO_ADDRESS,
       avatar: likeCoinIcon,
       id: 'tokensale',
@@ -125,8 +148,11 @@ export default {
     };
   },
   computed: {
-    isEth() {
-      return this.isICO;
+    canICO() {
+      return !this.needRegister && this.isKYCTxPass && this.KYCStatus >= KYC_STATUS_ENUM.STANDARD;
+    },
+    KYCStatus() {
+      return this.getUserInfo.KYC;
     },
     ...mapGetters([
       'getUserIsFetching',
@@ -164,6 +190,7 @@ export default {
       const usdAmount = usdPrice * this.amount;
       if (usdAmount > KYC_USD_LIMIT && this.getUserInfo.KYC < KYC_STATUS_ENUM.ADVANCED) {
         this.popupMessage = this.$t('KYC.label.advKycNeeded');
+        this.needExtraKYC = true;
         return;
       }
       try {
@@ -238,33 +265,24 @@ export default {
     formatAmount() {
       this.amount = formatAmount(this.amount);
     },
-    async checkKYCStatus() {
-      const isKYC = await EthHelper.queryKYCStatus(this.getLocalWallet);
-      if (!isKYC) return false;
-      const status = this.getUserInfo.KYC;
-      return (status >= KYC_STATUS_ENUM.STANDARD);
+    async redirectToRegister() {
+      this.$router.push({ name: 'register', query: { ref: 'tokensale' } });
     },
-    async checkAndRedirect() {
-      if (!this.getUserIsRegistered) {
-        this.$router.push({ name: 'register', query: { ref: 'tokensale' } });
-      } else {
-        const canICO = await this.checkKYCStatus();
-        if (!canICO) this.$router.push({ name: 'tokensale-kyc' });
+    async checkStatus() {
+      if (this.getUserIsRegistered) {
+        this.isKYCTxPass = await EthHelper.queryKYCStatus(this.getLocalWallet);
       }
-    },
-    goToKYC() {
-      this.$router.push({ name: 'tokensale-kyc' });
     },
   },
   watch: {
     getUserIsFetching(f) {
       if (!f) {
-        this.checkAndRedirect();
+        this.checkStatus();
       }
     },
   },
   mounted() {
-    if (!this.getUserIsFetching) this.checkAndRedirect();
+    if (!this.getUserIsFetching) this.checkStatus();
   },
 };
 </script>

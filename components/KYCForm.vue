@@ -1,7 +1,10 @@
 <template>
   <form id="kycForm" @submit.prevent="onNext">
-    <div>Current KYC Status: {{ KYCStatus }}</div>
+    <div>Current KYC Status: {{ status }}</div>
     <section v-if="stage == 0">
+      <md-button type="submit" form="kycForm">Start KYC</md-button>
+    </section>
+    <section v-if="stage == 1">
       <div class="md-layout">
         <label class="md-layout-item md-size-100">Are you a citizen of PRC?</label>
         <div class="md-layout md-layout-item">
@@ -18,7 +21,7 @@
       </div>
       <md-button type="submit" form="kycForm">Next</md-button>
     </section>
-    <section v-else-if="stage == 1">
+    <section v-else-if="stage == 2">
       <div class="md-layout">
         <label class="md-layout-item md-size-100">Are you going to purchase more than USD{{ KYC_USD_LIMIT }}?</label>
         <div class="md-layout md-layout-item">
@@ -28,7 +31,7 @@
       </div>
       <md-button type="submit" form="kycForm">Next</md-button>
     </section>
-    <section v-else-if="stage == 2">
+    <section v-else-if="stage == 3">
         <h2>Advanced KYC</h2>
         <md-field>
           <label>{{ $t('KYC.form.passportName') }}</label>
@@ -69,13 +72,11 @@
     </section>
     <section v-else-if="stage == 91">
         You have already completed Standard KYC.
-        <md-button @click="goToTokenSale">Go to TokenSale</md-button>
-        <md-button type="submit" form="kycForm">Advance KYC</md-button>
+        <md-button type="submit" form="kycForm">Start Advance KYC</md-button>
         <!-- TODO: upload KYC -->
     </section>
     <section v-else-if="stage == 92">
         You have already completed Advanced KYC.
-        <md-button @click="goToTokenSale">Go to TokenSale</md-button>
     </section>
     <section v-else-if="stage == 99">
         Please contact us in intercom directly
@@ -93,13 +94,12 @@ import EditWhiteIcon from '@/assets/icons/edit-white.svg';
 import { KYC_USD_LIMIT, KYC_STATUS_ENUM } from '@/constant';
 import COUNTRY_LIST from '@/constant/country-list';
 import User from '@/util/User';
-import EthHelper from '@/util/EthHelper';
 import PopupDialog from '~/components/dialogs/PopupDialog';
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'KYC',
-  layout: 'baseWithBackground',
+  props: ['KYCStatus', 'isKYCTxPass', 'user', 'wallet'],
   components: {
     PopupDialog,
   },
@@ -109,6 +109,7 @@ export default {
       KYC_USD_LIMIT,
       COUNTRY_LIST,
       stage: 0,
+      status: 'None',
       notPRC: true,
       notUSA: true,
       isBelowThersold: true,
@@ -117,24 +118,20 @@ export default {
       imageData0: null,
       imageData1: null,
       signed: false,
-      KYCStatus: 'None',
-      popupMessage: '',
     };
   },
   computed: {
-    ...mapGetters({
-      getUserIsRegistered: 'getUserIsRegistered',
-      getUserInfo: 'getUserInfo',
-      getUserIsFetching: 'getUserIsFetching',
-      wallet: 'getLocalWallet',
-    }),
+    popupMessage() {
+      if (!this.user.isEmailVerified) {
+        return this.$t('KYC.label.emailVerify');
+      }
+      return '';
+    },
   },
   methods: {
     ...mapActions([
       'sendKYC',
       'refreshUserInfo',
-      'startLoading',
-      'stopLoading',
     ]),
     openPicker(inputFile) {
       this.$refs[inputFile].click();
@@ -164,27 +161,31 @@ export default {
     async onNext() {
       switch (this.stage) {
         case 0: {
+          this.stage += 1;
+          break;
+        }
+        case 1: {
           if (!this.notPRC || !this.notUSA) {
             this.stage = 99;
             if (this.$intercom) this.$intercom.show();
           } else {
-            this.stage = 1;
+            this.stage += 1;
           }
           break;
         }
-        case 1: {
+        case 2: {
           if (this.isBelowThersold) {
             this.stage = 9;
             await this.signKYC();
           } else {
             if (this.$intercom) this.$intercom.show();
-            this.stage = 2;
+            this.stage += 1;
             console.log('TODO: upload KYC');
           }
           break;
         }
         case 91: {
-          this.stage = 2;
+          this.stage = 3;
           break;
         }
         default: {
@@ -200,7 +201,7 @@ export default {
         isBelowThersold,
         wallet,
       } = this;
-      const { user } = this.getUserInfo;
+      const { user } = this.user;
       const userInfo = {
         user,
         wallet,
@@ -216,63 +217,45 @@ export default {
       this.popupMessage = this.$t('KYC.label.done');
     },
     async updateKYC() {
-      if (!this.getUserInfo.isEmailVerified) {
-        this.popupMessage = this.$t('KYC.label.emailVerify');
-      }
-      const status = this.getUserInfo.KYC;
-      const isKYC = await EthHelper.queryKYCStatus(this.wallet);
-      switch (status) {
+      const { isKYCTxPass, KYCStatus } = this;
+      switch (KYCStatus) {
         case KYC_STATUS_ENUM.ADVANCED: {
-          this.KYCStatus = isKYC ? 'Advanced' : 'ProcessingTx';
-          this.stage = isKYC ? 92 : 90;
+          this.status = isKYCTxPass ? 'Advanced' : 'ProcessingTx';
+          this.stage = isKYCTxPass ? 92 : 90;
           break;
         }
         case KYC_STATUS_ENUM.STANDARD: {
-          this.KYCStatus = isKYC ? 'Standard' : 'ProcessingTx';
-          this.stage = isKYC ? 91 : 90;
+          this.status = isKYCTxPass ? 'Standard' : 'ProcessingTx';
+          this.stage = isKYCTxPass ? 91 : 90;
           break;
         }
         case KYC_STATUS_ENUM.PENDING: {
-          this.KYCStatus = 'InProgress';
+          this.status = 'InProgress';
           this.stage = 90;
           break;
         }
         default:
-          this.KYCStatus = 'None';
+          this.status = 'None';
       }
-      this.stopLoading();
     },
     goToEdit() {
       this.$router.push({
         name: 'edit',
-        params: { showEmail: !this.getUserInfo.isEmailVerified },
+        params: { showEmail: !this.user.isEmailVerified },
         query: { ref: 'tokensale' },
       });
     },
-    goToTokenSale() {
-      this.$router.push({ name: 'tokensale' });
-    },
-  },
-  watch: {
-    getUserIsFetching(f) {
-      if (!f) {
-        if (!this.getUserIsRegistered) {
-          this.$router.push({ name: 'register', query: { ref: 'tokensale' } });
-        } else {
-          this.updateKYC();
-        }
-      }
-    },
   },
   mounted() {
-    this.startLoading();
-    if (!this.getUserIsFetching) {
-      if (!this.getUserIsRegistered) {
-        this.$router.push({ name: 'register', query: { ref: 'tokensale' } });
-      } else {
-        this.updateKYC();
-      }
-    }
+    this.updateKYC();
+  },
+  watch: {
+    isKYCTxPass() {
+      this.updateKYC();
+    },
+    KYCStatus() {
+      this.updateKYC();
+    },
   },
 };
 </script>
