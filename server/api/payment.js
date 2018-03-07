@@ -222,7 +222,7 @@ router.get('/tx/id/:id', async (req, res) => {
     const doc = await txLogRef.doc(txHash).get();
     if (doc.exists) {
       const payload = doc.data();
-      res.json(payload);
+      res.json(Validate.filterTxData(payload));
     } else {
       res.sendStatus(404);
     }

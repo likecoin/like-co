@@ -25,6 +25,25 @@ const ValidationHelper = {
       isEmailVerified,
     };
   },
+  filterTxData({
+    from,
+    fromId,
+    to,
+    toId,
+    value,
+    status,
+    type,
+  }) {
+    return {
+      from,
+      fromId,
+      to,
+      toId,
+      value,
+      status,
+      type,
+    };
+  },
 };
 
 export default ValidationHelper;
