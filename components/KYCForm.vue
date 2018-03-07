@@ -40,7 +40,7 @@
         <md-field>
           <label >Country</label>
           <md-select v-model="country">
-            <md-option v-for="country in COUNTRY_LIST" :value="country.code">{{country.name}}</md-option>
+            <md-option v-for="country in COUNTRY_LIST" :key="country.code" :value="country.code">{{country.name}}</md-option>
           </md-select>
         </md-field>
         <div class="id-container">
