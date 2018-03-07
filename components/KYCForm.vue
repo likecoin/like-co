@@ -44,7 +44,7 @@
           </md-select>
         </md-field>
         <div class="id-container">
-          <img class="id-image" :src="imageData0" />
+          <img class="id-image" :src="documentData0" />
           <md-button
             class="input-display-btn"
             @click="openPicker('inputFile0')">
@@ -53,7 +53,7 @@
           <input type="file" ref="inputFile0" accept="image/*" @change="previewImage0" required />
         </div>
         <div class="id-container">
-          <img class="id-image" :src="imageData1" />
+          <img class="id-image" :src="documentData1" />
           <md-button
             class="input-display-btn"
             @click="openPicker('inputFile1')">
@@ -65,7 +65,7 @@
     </section>
     <section v-else-if="stage == 9">
         <div>Please Sign your transaction and confirm!</div>
-        <md-button v-if="!signed" @click="signKYC()">Try Again</md-button>
+        <md-button v-if="!signed" @click="signKYC(this.isAdvanced)">Try Again</md-button>
     </section>
     <section v-else-if="stage == 90">
         Your KYC is in progress.
@@ -115,18 +115,14 @@ export default {
       isBelowThersold: true,
       passportName: '',
       country: '',
-      imageData0: null,
-      imageData1: null,
+      documentData0: null,
+      documentData1: null,
+      documentFile0: '',
+      documentFile1: '',
       signed: false,
+      popupMessage: '',
+      isAdvanced: false,
     };
-  },
-  computed: {
-    popupMessage() {
-      if (!this.user.isEmailVerified) {
-        return this.$t('KYC.label.emailVerify');
-      }
-      return '';
-    },
   },
   methods: {
     ...mapActions([
@@ -139,10 +135,10 @@ export default {
     previewImage0(event) {
       const { files } = event.target;
       if (files && files[0]) {
-        [this.imageData0] = Object.values(files);
+        [this.documentFile0] = Object.values(files);
         const reader = new FileReader();
         reader.onload = (e) => {
-          this.imageData0 = e.target.result;
+          this.documentData0 = e.target.result;
         };
         reader.readAsDataURL(files[0]);
       }
@@ -150,10 +146,10 @@ export default {
     previewImage1(event) {
       const { files } = event.target;
       if (files && files[0]) {
-        [this.imageData1] = Object.values(files);
+        [this.documentFile1] = Object.values(files);
         const reader = new FileReader();
         reader.onload = (e) => {
-          this.imageData1 = e.target.result;
+          this.documentData1 = e.target.result;
         };
         reader.readAsDataURL(files[0]);
       }
@@ -180,8 +176,13 @@ export default {
           } else {
             if (this.$intercom) this.$intercom.show();
             this.stage += 1;
-            console.log('TODO: upload KYC');
           }
+          break;
+        }
+        case 3: {
+          this.isAdvanced = true;
+          this.stage = 9;
+          await this.signKYC(true);
           break;
         }
         case 91: {
@@ -194,12 +195,16 @@ export default {
         }
       }
     },
-    async signKYC() {
+    async signKYC(isAdv) {
       const {
         notPRC,
         notUSA,
         isBelowThersold,
         wallet,
+        passportName,
+        country,
+        documentFile0,
+        documentFile1,
       } = this;
       const { user } = this.user;
       const userInfo = {
@@ -209,14 +214,22 @@ export default {
         notUSA,
         isBelowThersold,
       };
-      this.ended = true;
+      if (isAdv) {
+        userInfo.passportName = passportName;
+        userInfo.country = country;
+        userInfo.documentFile0 = documentFile0;
+        userInfo.documentFile1 = documentFile1;
+      }
       const payload = await User.formatAndSignKYC(userInfo);
       this.signed = true;
-      await this.sendKYC(payload);
+      await this.sendKYC({ payload, isAdv });
       await this.refreshUserInfo(user);
       this.popupMessage = this.$t('KYC.label.done');
     },
     async updateKYC() {
+      if (!this.getUserInfo.isEmailVerified) {
+        this.popupMessage = this.$t('KYC.label.emailVerify');
+      }
       const { isKYCTxPass, KYCStatus } = this;
       switch (KYCStatus) {
         case KYC_STATUS_ENUM.ADVANCED: {

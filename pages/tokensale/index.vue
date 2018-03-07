@@ -2,7 +2,7 @@
   <div class="payment-container">
     <avatar-header :title="displayName" :icon="avatar" :id="id" :address="wallet" :isEth="isEth"/>
     <div class="inner-container">
-      <section v-if="getUserIsFetching">
+      <section v-if="getUserIsFetching || isKYCTxPass==undefined">
         <md-progress-bar md-mode="indeterminate" />
         LOADING
       </section>
@@ -110,7 +110,7 @@ export default {
       isBadAddress: false,
       isBadAmount: false,
       isEth: true,
-      isKYCTxPass: false,
+      isKYCTxPass: undefined,
       needExtraKYC: false,
       wallet: LIKE_COIN_ICO_ADDRESS,
       avatar: likeCoinIcon,

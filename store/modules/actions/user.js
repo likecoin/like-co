@@ -87,10 +87,10 @@ export async function sendInvitationEmail({ commit }, data) {
   );
 }
 
-export async function sendKYC({ commit }, payload) {
+export async function sendKYC({ commit }, { payload, isAdv }) {
   return apiWrapper(
     commit,
-    api.apiPostKYC(payload),
+    isAdv ? api.apiPostAdvancedKYC(payload) : api.apiPostKYC(payload),
     { blocking: true },
   );
 }

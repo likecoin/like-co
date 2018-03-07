@@ -44,6 +44,19 @@ export const apiPostNewUser = (form) => {
 
 export const apiPostKYC = payload => axios.post('/api/kyc', payload);
 
+export const apiPostAdvancedKYC = (form) => {
+  /* eslint-disable no-new */
+  const params = new FormData();
+  Object.keys(form).forEach((key) => {
+    if (Array.isArray(form[key])) {
+      form[key].forEach(k => params.append(key, k));
+    } else {
+      params.append(key, form[key]);
+    }
+  });
+  return axios.post('/api/kyc/advanced', params);
+};
+
 export const apiCheckCanGetFreeLikeCoin = user => axios.get(`/api/coupon/sentto/v2/${user}`);
 
 export const apiSendCouponCodeEmail = (id, coupon, locale) => axios.post(`/api/email/verify/user/${id}`, { coupon, locale });

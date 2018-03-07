@@ -8,6 +8,7 @@ import {
 
 import Validate from '../../util/ValidationHelper';
 import { typedSignatureHash } from '../util/web3';
+import { uploadFileAndGetLink } from '../util/fileupload';
 import publisher from '../util/gcloudPub';
 
 const Account = require('eth-lib/lib/account');
@@ -19,7 +20,6 @@ const uuidv4 = require('uuid/v4');
 
 const {
   userCollection: dbRef,
-  bucket: fbBucket,
   FieldValue,
 } = require('../util/firebase');
 
@@ -42,31 +42,6 @@ const multer = Multer({
 const ONE_DATE_IN_MS = 86400000;
 const THIRTY_S_IN_MS = 30000;
 const W3C_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-
-function uploadFile(file, newFilename) {
-  return new Promise((resolve, reject) => {
-    if (!file) {
-      reject(new Error('No file'));
-    }
-    const filename = newFilename || file.originalname;
-    const blob = fbBucket.file(filename);
-    const blobStream = blob.createWriteStream({
-      metadata: {
-        contentType: file.mimetype,
-      },
-    });
-    blobStream.on('error', (err) => {
-      reject(new Error(`Something is wrong! ${err || err.msg}`));
-    });
-    blobStream.on('finish', () => {
-      resolve(blob.getSignedUrl({
-        action: 'read',
-        expires: '01-07-2047',
-      }));
-    });
-    blobStream.end(file.buffer);
-  });
-}
 
 const router = Router();
 
@@ -164,7 +139,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       if (hash256 !== avatarSHA256) throw new Error('avatar sha not match');
       const resizedBuffer = await sharp(file.buffer).resize(400, 400).toBuffer();
       file.buffer = resizedBuffer;
-      [url] = await uploadFile(file, `likecoin_store_user_${user}_${IS_TESTNET ? 'test' : 'main'}`);
+      [url] = await uploadFileAndGetLink(file, `likecoin_store_user_${user}_${IS_TESTNET ? 'test' : 'main'}`);
     }
 
     let hasReferrer = false;
