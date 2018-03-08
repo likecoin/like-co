@@ -165,6 +165,7 @@ router.post('/payment', async (req, res) => {
       toId,
       currentBlock,
       nonce: pendingCount,
+      rawSignedTx: tx.rawTransaction,
     });
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventPay',
