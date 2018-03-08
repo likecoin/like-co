@@ -414,6 +414,8 @@ $carousel-height: 488px;
         .links.mobile {
           position: absolute;
           width: 100%;
+          left: 0;
+          right: 0;
 
           margin-top: -8px;
 
@@ -421,6 +423,8 @@ $carousel-height: 488px;
             margin-right: 0;
 
             .md-button {
+              font-size: 16px;
+
               white-space: normal;
             }
           }

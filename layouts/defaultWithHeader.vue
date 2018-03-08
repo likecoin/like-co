@@ -3,6 +3,7 @@
 
     <div class="lc-page-content">
       <header class="lc-container-1">
+        <div class="underlay gray md-xsmall-hide" />
         <div class="lc-container-2">
           <site-header/>
         </div>
@@ -40,8 +41,6 @@ export default {
   justify-content: space-between;
 
   height: 100%;
-
-  background-color: $like-gray-1;
 }
 
 .lc-container-2 #site-header {
