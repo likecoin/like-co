@@ -59,7 +59,7 @@ export default {
           } catch (err) {
             setTimeout(() => this.$router.push({ name: 'edit' }), 3000);
           }
-        } else {
+        } else if (!this.referrer) {
           setTimeout(() => this.$router.push({ name: 'edit' }), 3000);
         }
       } catch (err) {
