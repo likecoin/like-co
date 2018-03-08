@@ -18,6 +18,8 @@ module.exports = {
       { hid: 'og_image_alt', property: 'og:image:alt', content: 'LikeCoin' },
     ],
     script: [
+      { src: 'https://use.typekit.net/lly3gqf.js' },
+      { src: '/vendor/typekit.js' },
       { src: '/vendor/fb/pixel.js' },
       { src: '/vendor/fb/sdk.js' },
     ],
@@ -38,6 +40,7 @@ module.exports = {
       allowedSources: [
         'https://fonts.gstatic.com',
         'https://fonts.googleapis.com',
+        'https://use.typekit.net',
         'https://storage.googleapis.com',
         'https://www.google-analytics.com',
         'https://js.intercomcdn.com',
