@@ -11,9 +11,11 @@
       <div class="lc-container-2">
         <site-header />
         <div class="lc-container-3 md-xsmall-hide">
-          <md-button class="account-btn" @click="$router.push({ name: getUserIsRegistered ? 'edit' : 'register' })">
+          <material-button
+            className="account-btn"
+            @click="$router.push({ name: getUserIsRegistered ? 'edit' : 'register' })">
             {{ getUserIsRegistered ? getUserInfo.user : $t('Home.Header.button.signUp') }}
-          </md-button>
+          </material-button>
         </div>
       </div>
     </section>
@@ -33,19 +35,20 @@
                 {{ `${$t('Home.Sale.button.onePage')} / ${$t('Home.Sale.button.paper')}` }}
               </nuxt-link>
             </div>
+
             <div class="links mobile md-xsmall-show">
               <nuxt-link
                 :to="{ name: 'whitepaper' }">
-                <md-button class="redeem-btn">
+                <material-button className="redeem-btn">
                   {{ `${$t('Home.Sale.button.onePage')} / ${$t('Home.Sale.button.paper')}` }}
-                </md-button>
+                </material-button>
               </nuxt-link>
             </div>
           </div>
           <div class="btn-container md-xsmall-hide">
-            <md-button class="redeem-btn festive" @click=onRedeemClick>
+            <material-button className="redeem-btn" @click=onRedeemClick>
               {{ $t('Home.Sale.button.createNow') }}
-            </md-button>
+            </material-button>
           </div>
         </div>
       </div>
@@ -107,9 +110,11 @@
             </div>
           </div>
           <div class="btn-container md-xsmall-hide">
-            <md-button class="redeem-btn" @click="$router.push({ name: 'register' })">
+            <material-button
+              className="redeem-btn"
+              @click="$router.push({ name: 'register' })">
               {{ $t('Home.Sale.button.createNow') }}
-            </md-button>
+            </material-button>
           </div>
         </div>
       </div>
@@ -140,6 +145,7 @@ import { logTrackerEvent } from '@/util/EventLogger';
 
 import BlockSection from '~/components/BlockSection';
 import CustomLink from '~/components/CustomLink';
+import MaterialButton from '~/components/MaterialButton';
 import SiteHeader from '~/components/header/Header';
 import PlatformIconBar from '~/components/PlatformIconBar';
 
@@ -165,6 +171,7 @@ export default {
     EarlyAdopters,
     EarlySupporters,
     HeaderFlag,
+    MaterialButton,
     PlatformIconBar,
     PressCoverage,
     Protocol,
@@ -220,21 +227,9 @@ export default {
 @import "../assets/index";
 
 $carousel-height: 488px;
-.underlay {
-  position: absolute;
-  z-index: -1;
-  top: 0;
-
-  width: 66.66%;
-  height: 100%;
-}
 
 .lc-header {
   position: relative;
-
-  .underlay.gray {
-    background-color: $like-gray-1;
-  }
 
   .account-btn {
     position: absolute;
@@ -243,10 +238,6 @@ $carousel-height: 488px;
     bottom: -16px;
 
     width: 188px;
-
-    color: $like-white;
-    background-color: $like-green;
-  	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
 
     font-size: 18px;
 
@@ -425,6 +416,14 @@ $carousel-height: 488px;
           width: 100%;
 
           margin-top: -8px;
+
+          > a {
+            margin-right: 0;
+
+            .md-button {
+              white-space: normal;
+            }
+          }
         }
 
         .md-button {

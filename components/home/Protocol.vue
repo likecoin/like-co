@@ -144,8 +144,11 @@ export default {
   margin-top: 48px;
   padding-top: 36px;
 
-  .block-section :global(.section-content) {
-    padding-bottom: 0;
+  .block-section {
+    background-color: transparent !important;
+    :global(.section-content) {
+      padding-bottom: 0;
+    }
   }
 
   .details {
@@ -167,7 +170,7 @@ export default {
   }
 
   .layers {
-    margin-top: 40px;
+    margin-top: 24px;
 
     .layer {
       position: relative;

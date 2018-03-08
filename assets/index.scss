@@ -50,11 +50,10 @@ h2 {
   line-height: 1.38;
 }
 
-h1,
-h2,
-hr {
+* {
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
+  -webkit-padding-start: 0;
 }
 
 img {
@@ -104,6 +103,17 @@ html, body {
 .lc-container-1 {
   max-width: 1440px;
   margin: auto;
+
+  > .underlay {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+
+    width: 66.66%;
+    height: 100%;
+
+    background-color: $like-gray-1;
+  }
 }
 
 .lc-container-2 {
@@ -144,8 +154,8 @@ html, body {
   	width: 66.66%;
   	height: 48px;
 
-  	color: #462405;
-  	background-color: #d2f0f0;
+  	color: $like-dark-brown-2;
+  	background-color: $like-light-blue;
 
   	font-size: 32px;
   	font-weight: 300;
@@ -169,6 +179,7 @@ html, body {
 
     .section-title {
       left: -32px;
+
       width: calc(100% + 48px);
     }
   }
