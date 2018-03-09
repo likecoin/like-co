@@ -30,6 +30,46 @@ jobs:
           key: likecoin-store-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
+  unit_test:
+    working_directory: ~/likecoin-store
+    docker:
+      - image: node:8
+    steps:
+      - checkout
+      - restore_cache:
+          key: likecoin-store-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
+      - run:
+          name: Dependencies
+          command: npm config set unsafe-perm true && npm install
+      - run:
+          name: Unit Test Preparation
+          command: |
+            cp server/util/firebase.js server/util/firebase.js.bak
+            cp server/util/ses.js server/util/ses.js.bak
+            cp test/stub/server/util/firebase.js server/util/firebase.js
+            cp test/stub/server/util/ses.js server/util/ses.js
+      - run:
+          name: Build
+          command: npm run build_testnet
+      - run:
+          name: Unit Test Server
+          command: IS_TESTNET=TRUE npm start
+          background: true
+      - run:
+          name: Curl Unit Test Server
+          command: |
+            sleep 5
+            curl --retry 10 --retry-delay 5 -v http://localhost:3000/
+      - run:
+          name: Unit Test (Express)
+          command: npm run test:express
+      - run:
+          name: Unit Test (Nuxt)
+          command: npm run test:nuxt
+      - save_cache:
+          key: likecoin-store-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
+          paths:
+            - ./node_modules
   deploy_rinkeby:
     working_directory: ~/likecoin-store
     docker:
@@ -108,6 +148,7 @@ workflows:
   build_and_test:
     jobs:
       - test
+      - unit_test
       - hold_deploy_rinkeby:
           type: approval
           filters:
@@ -117,6 +158,7 @@ workflows:
                 - develop
           requires:
            - test
+           - unit_test
       - hold_deploy_mainnet:
           type: approval
           filters:
@@ -124,6 +166,7 @@ workflows:
               only: master
           requires:
            - test
+           - unit_test
       - deploy_rinkeby:
           requires:
             - hold_deploy_rinkeby
