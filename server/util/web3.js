@@ -83,7 +83,7 @@ export async function sendTransactionWithLoop(addr, txData) {
     }
     return Promise.resolve();
   }));
-  return { txHash, pendingCount };
+  return { tx, txHash, pendingCount };
 }
 
 export default web3;

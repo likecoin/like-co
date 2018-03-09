@@ -46,7 +46,7 @@ router.post('/payment', async (req, res) => {
       signature,
     );
     const txData = methodCall.encodeABI();
-    const { txHash, pendingCount } = await sendTransactionWithLoop(
+    const { tx, txHash, pendingCount } = await sendTransactionWithLoop(
       LIKECOIN.LIKE_COIN_ADDRESS,
       txData,
     );
