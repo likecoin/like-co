@@ -11,7 +11,19 @@
     "start": "cross-env NODE_ENV=production node build/main.js",
     "precommit": "npm run lint",
     "lint": "eslint --ext .js,.vue .",
-    "prepare": "cd node_modules/web3-core-requestmanager/src && sed -i.bak \"/var global = Function('return this')();/d\" givenProvider.js && rm givenProvider.js.bak"
+    "prepare": "cd node_modules/web3-core-requestmanager/src && sed -i.bak \"/var global = Function('return this')();/d\" givenProvider.js && rm givenProvider.js.bak",
+    "test:express": "ava -v test/express.test.js",
+    "test:nuxt": "ava -v test/nuxt.test.js"
+  },
+  "ava": {
+    "require": [
+      "babel-register"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
   },
   "dependencies": {
     "@google-cloud/pubsub": "^0.16.4",
@@ -47,6 +59,7 @@
     "web3": "^1.0.0-beta.28"
   },
   "devDependencies": {
+    "ava": "^0.25.0",
     "babel-eslint": "^8.2.1",
     "backpack-core": "^0.5.0",
     "eslint": "^4.9.0",
@@ -59,6 +72,7 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
     "node-sass": "^4.7.2",
-    "sass-loader": "^6.0.6"
+    "sass-loader": "^6.0.6",
+    "supertest": "^3.0.0"
   }
 }
