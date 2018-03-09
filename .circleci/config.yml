@@ -90,7 +90,7 @@ jobs:
           name: Build image
           command: |
             gcloud docker -- pull us.gcr.io/${PROJECT_NAME}/like-store:latest || true
-            docker build . -t like-store --cache-from us.gcr.io/${PROJECT_NAME}/like-store:latest --build-arg INTERCOM_APPID=${INTERCOM_APPID} --build-arg GA_TRACKING_ID=${GA_TRACKING_ID}
+            docker build . -t like-store --cache-from us.gcr.io/${PROJECT_NAME}/like-store:latest --build-arg INTERCOM_APPID=${INTERCOM_APPID} --build-arg GA_TRACKING_ID=${GA_TRACKING_ID} --build-arg GTM_ID=${GTM_ID}
             docker tag like-store:latest us.gcr.io/${PROJECT_NAME}/like-store:latest
             docker tag like-store:latest us.gcr.io/${PROJECT_NAME}/like-store:main-${CIRCLE_SHA1}
       - run:

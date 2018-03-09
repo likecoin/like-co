@@ -43,6 +43,7 @@ module.exports = {
         'https://use.typekit.net',
         'https://storage.googleapis.com',
         'https://www.google-analytics.com',
+        'https://www.googletagmanager.com',
         'https://js.intercomcdn.com',
         'https://widget.intercom.io',
         'https://connect.facebook.net/',
@@ -79,14 +80,15 @@ module.exports = {
     { src: '~/assets/index.scss', lang: 'scss' },
     'swiper/dist/css/swiper.css',
   ],
-  modules: (process.env.GA_TRACKING_ID) ? [
+  modules: [
     ['@nuxtjs/google-analytics', {
-      id: process.env.GA_TRACKING_ID,
+      id: process.env.GA_TRACKING_ID || 'UA-12301-2',
       autoTracking: {
         exception: true,
       },
     }],
-  ] : [],
+    ['@nuxtjs/google-tag-manager', { id: process.env.GTM_ID || 'GTM-XXXXXXX' }],
+  ],
   plugins: [
     { src: '~/plugins/vue-material' },
     { src: '~/plugins/vue-i18n' },
