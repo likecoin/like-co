@@ -4,7 +4,7 @@
       v-if="!isDummy"
       class="card">
       <div class="icon">
-        <img :src="imgUrl(`team/${teamMember.icon}`)" />
+        <img v-lazy="imgUrl(`team/${teamMember.icon}`)" />
       </div>
 
       <div class="details">
@@ -21,7 +21,7 @@
           :href="platform.value"
           :key="index"
         >
-          <img alt="platform.key" :src="imgUrl(`icons/${platform.key}-dark.svg`)" />
+          <img alt="platform.key" v-lazy="imgUrl(`icons/${platform.key}-dark.svg`)" />
         </md-button>
       </div>
     </div>

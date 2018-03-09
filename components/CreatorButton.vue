@@ -5,7 +5,7 @@
       :to="{ name: 'id', params: { id } }">
       <div class="creator-info">
         <div class="icon">
-          <img :src="src" />
+          <img v-lazy="src" />
         </div>
         <div class="details">
           <div class="name">{{ id }}</div>

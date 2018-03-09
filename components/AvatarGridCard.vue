@@ -2,7 +2,7 @@
   <div class="avatar-grid-card">
     <div>
 
-      <img :src="avatar" />
+      <img v-lazy="avatar" />
       <h1>{{ title }}</h1>
       <h2>{{ subtitle }}</h2>
 

@@ -10,7 +10,7 @@
             @click="item.isLightBox && openLightBox(index)"
             target="_blank"
             rel="noopener">
-            <img :src="item.src" />
+            <img v-lazy="item.src" />
           </a>
 
         </li>

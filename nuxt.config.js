@@ -16,6 +16,7 @@ module.exports = {
       { hid: 'og_description', property: 'og:description', content: 'send and receive LikeCoin' },
       { hid: 'og_image', property: 'og:image', content: 'https://likecoin.store/logo.png' },
       { hid: 'og_image_alt', property: 'og:image:alt', content: 'LikeCoin' },
+      { hid: 'theme-color', name: 'theme-color', content: '#D2F0F0' },
     ],
     script: [
       { src: 'https://use.typekit.net/lly3gqf.js' },
