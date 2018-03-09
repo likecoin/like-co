@@ -67,6 +67,25 @@
         <div>Please Sign your transaction and confirm!</div>
         <md-button v-if="!signed" @click="signKYC(this.isAdvanced)">Try Again</md-button>
     </section>
+    <section v-else-if="stage == 20">
+      <md-field>
+        <label>
+          {{ $t('Edit.label.addEmail') }}
+        </label>
+        <md-input
+          type="email"
+          v-model="email"
+          ref="inputEmail"/>
+          <md-button type="submit" form="kycForm">Next</md-button>
+        </md-button>
+      </md-field>
+    </section>
+    <section v-else-if="stage == 21">
+      email sent
+    </section>
+    <section v-else-if="stage == 1">
+      Sent, please check your email
+    </section>
     <section v-else-if="stage == 90">
         Your KYC is in progress.
     </section>
@@ -108,6 +127,7 @@ export default {
       EditWhiteIcon,
       KYC_USD_LIMIT,
       COUNTRY_LIST,
+      email: '',
       stage: 0,
       status: 'None',
       notPRC: true,
@@ -134,6 +154,8 @@ export default {
   },
   methods: {
     ...mapActions([
+      'newUser',
+      'sendVerifyEmail',
       'sendKYC',
       'refreshUserInfo',
     ]),
@@ -193,6 +215,12 @@ export default {
           await this.signKYC(true);
           break;
         }
+        case 20: {
+          await this.updateEmail();
+          await this.sendVerifyEmail({ id: this.user.user, ref: 'tokensale' });
+          this.stage += 1;
+          break;
+        }
         case 91: {
           this.stage = 3;
           break;
@@ -234,9 +262,20 @@ export default {
       await this.refreshUserInfo(user);
       this.popupMessage = this.$t('KYC.label.done');
     },
+    async updateEmail() {
+      const userInfo = {
+        user: this.user.user,
+        displayName: this.user.displayName,
+        wallet: this.wallet,
+        email: this.email,
+      };
+      const data = await User.formatAndSignUserInfo(userInfo);
+      return this.newUser(data);
+    },
     async updateKYC() {
       if (!this.user.isEmailVerified) {
-        this.popupMessage = this.$t('KYC.label.emailVerify');
+        this.email = this.user.email;
+        this.stage = 20;
       }
       const { isKYCTxPass, KYCStatus, pendingKYC } = this;
       if (pendingKYC) {
