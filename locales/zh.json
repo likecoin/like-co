@@ -231,8 +231,8 @@
   },
   "Whitepaper": {
     "Button": {
-      "whitepaper": "Whitepaper",
-      "onepager": "One-pager"
+      "whitepaper": "技術白皮書",
+      "onepager": "計畫介紹"
     }
   },
   "Store": {

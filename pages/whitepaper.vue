@@ -1,38 +1,64 @@
 <template>
   <div class="lc-container-1 lk-whitepaper-page">
     <div class="lc-container-2">
-      <div class="lc-container-3">
-
-        <ul class="document-list">
-          <li>
-            <md-button class="onepager-btn" @click="openOnepager()">
-              {{ $t('Whitepaper.Button.onepager') }}
-            </md-button>
-          </li>
-          <li>
-            <md-button class="whitepaper-btn" @click="openWhitepaper()">
-              {{ $t('Whitepaper.Button.whitepaper') }}
-            </md-button>
-          </li>
-        </ul>
-
-      </div>
+      <ul class="document-list">
+        <li
+          v-for="(doc, index) in documents"
+          :key="index">
+          <document
+            :imageSrc="doc.imageSrc"
+            :linkSrc="doc.linkSrc"
+            :title="$t(doc.title)" />
+        </li>
+      </ul>
     </div>
   </div>
 </template>
 
 
 <script>
+import Document from '~/components/whitepaper/Document';
+
+import onePagerIcon from '~/assets/whitepaper/one-pager.svg';
+import whitePaperIcon from '~/assets/whitepaper/whitepaper.svg';
+
+
+const onePagerSrc = [
+  {
+    languageKey: 'en',
+    src: '/likecoin-onepager-en.pdf',
+  },
+];
+const whitePaperSrc = [
+  {
+    languageKey: 'en',
+    src: '/likecoin-whitepaper-en.pdf',
+  },
+];
+
+const documents = [
+  {
+    imageSrc: onePagerIcon,
+    linkSrc: onePagerSrc,
+    title: 'Whitepaper.Button.onepager',
+  },
+  {
+    imageSrc: whitePaperIcon,
+    linkSrc: whitePaperSrc,
+    title: 'Whitepaper.Button.whitepaper',
+  },
+];
+
 export default {
   name: 'WhitePaper',
   layout: 'defaultWithHeader',
-  methods: {
-    openWhitepaper() {
-      window.location.href = '/likecoin-whitepaper-en.pdf';
-    },
-    openOnepager() {
-      window.location.href = '/likecoin-onepager-en.pdf';
-    },
+  components: {
+    Document,
+  },
+  data() {
+    return {
+      documents,
+    };
   },
 };
 </script>
@@ -44,24 +70,28 @@ export default {
 
 .document-list {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
 
-  margin: 48px 0 0;
-  padding: 0;
+  margin-top: 70px;
 
   list-style: none;
 
-  > * {
-    padding: 10px;
+  > li {
+    flex: 1;
+
+    &:not(:first-child) {
+      margin-left: 16px;
+    }
   }
 
-  .md-button {
-    min-width: 240px;
+  @media (max-width: 600px) {
+    flex-direction: column;
 
-    color: $like-white;
-    background-color: $like-green;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+    li {
+      margin: 24px !important;
+    }
   }
 }
 </style>

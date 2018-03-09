@@ -275,6 +275,10 @@ $icon-size: 144px;
   padding: 40px;
 
   background-color: $like-gray-1;
+
+  .md-field {
+    margin: 12px 0 24px;
+  }
 }
 
 .avatar {

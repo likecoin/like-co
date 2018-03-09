@@ -97,6 +97,8 @@ $card-icon-size: 112px;
     > .name {
       margin-bottom: 4px;
 
+      color: $like-dark-brown-2;
+
       font-size: 20px;
       font-weight: 600;
     }
