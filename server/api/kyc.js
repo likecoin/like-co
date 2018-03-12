@@ -11,6 +11,7 @@ import {
   IS_TESTNET,
 } from '../../constant';
 import { uploadFileAndGetMeta } from '../util/fileupload';
+import { logRegisterKYC } from '../util/logger';
 
 const Multer = require('multer');
 const Account = require('eth-lib/lib/account');
@@ -97,7 +98,7 @@ router.post('/kyc', async (req, res) => {
 
     const methodCall = LikeCoinICO.methods.registerKYC([wallet]);
     const txData = methodCall.encodeABI();
-    const { txHash, pendingCount } = await sendTransactionWithLoop(
+    const { tx, txHash, pendingCount } = await sendTransactionWithLoop(
       LIKECOIN_ICO.LIKE_COIN_ICO_ADDRESS,
       txData,
     );
@@ -119,6 +120,17 @@ router.post('/kyc', async (req, res) => {
       KYC: KYC_STATUS_ENUM.STANDARD,
     });
     await Promise.all([upateKYC, updateUser]);
+
+    await logRegisterKYC({
+      txHash,
+      from,
+      fromId: user,
+      to: LIKECOIN_ICO.LIKE_COIN_ICO_ADDRESS,
+      toId: 'LikeCoinTokenSale',
+      currentBlock,
+      nonce: pendingCount,
+      rawSignedTx: tx.rawTransaction,
+    });
 
     res.json({ txHash });
   } catch (err) {
@@ -184,7 +196,7 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
 
     const methodCall = LikeCoinICO.methods.registerKYC([wallet]);
     const txData = methodCall.encodeABI();
-    const { txHash, pendingCount } = await sendTransactionWithLoop(
+    const { tx, txHash, pendingCount } = await sendTransactionWithLoop(
       LIKECOIN_ICO.LIKE_COIN_ICO_ADDRESS,
       txData,
     );
@@ -214,6 +226,17 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
     }
     const updateUser = userRef.update(updatePayload);
     await Promise.all([upateKYC, updateUser]);
+
+    await logRegisterKYC({
+      txHash,
+      from,
+      fromId: user,
+      to: LIKECOIN_ICO.LIKE_COIN_ICO_ADDRESS,
+      toId: 'LikeCoinTokenSale',
+      currentBlock,
+      nonce: pendingCount,
+      rawSignedTx: tx.rawTransaction,
+    });
 
     res.json({ txHash });
   } catch (err) {
