@@ -64,8 +64,17 @@
         <md-button type="submit" form="kycForm">Next</md-button>
     </section>
     <section v-else-if="stage == 9">
+      <div v-if="!txHash">
         <div>Please Sign your transaction and confirm!</div>
-        <md-button v-if="!signed" @click="signKYC(this.isAdvanced)">Try Again</md-button>
+        <md-button @click="signKYC(isAdvanced)">Try Again</md-button>
+      </div>
+      <div v-else-if="txConfirmed">
+        confirmed
+      </div>
+      <div v-else>
+        pending kyc tx
+        <md-progress-bar md-mode="indeterminate" />
+      </div>
     </section>
     <section v-else-if="stage == 20">
       <md-field>
@@ -83,9 +92,6 @@
     <section v-else-if="stage == 21">
       email sent
     </section>
-    <section v-else-if="stage == 1">
-      Sent, please check your email
-    </section>
     <section v-else-if="stage == 90">
         Your KYC is in progress.
     </section>
@@ -100,11 +106,6 @@
     <section v-else-if="stage == 99">
         Please contact us in intercom directly
     </section>
-    <popup-dialog
-      :allowClose="false"
-      :header="$t('KYC.label.kyc')"
-      :message="popupMessage"
-      @onConfirm="goToEdit"/>
   </form>
 </template>
 
@@ -113,6 +114,7 @@ import EditWhiteIcon from '@/assets/icons/edit-white.svg';
 import { KYC_USD_LIMIT, KYC_STATUS_ENUM } from '@/constant';
 import COUNTRY_LIST from '@/constant/country-list';
 import User from '@/util/User';
+import EthHelper from '@/util/EthHelper';
 import PopupDialog from '~/components/dialogs/PopupDialog';
 import { mapActions } from 'vuex';
 
@@ -139,14 +141,14 @@ export default {
       documentData1: null,
       documentFile0: '',
       documentFile1: '',
-      signed: false,
-      popupMessage: '',
+      txHash: '',
+      txConfirmed: false,
       isAdvanced: false,
     };
   },
   computed: {
     KYCStatus() {
-      return this.user.KYCStatus;
+      return this.user.KYC;
     },
     pendingKYC() {
       return this.user.pendingKYC;
@@ -257,10 +259,14 @@ export default {
         userInfo.documentFile1 = documentFile1;
       }
       const payload = await User.formatAndSignKYC(userInfo);
-      this.signed = true;
-      await this.sendKYC({ payload, isAdv });
-      await this.refreshUserInfo(user);
-      this.popupMessage = this.$t('KYC.label.done');
+      this.txHash = '';
+      this.txConfirmed = false;
+      const { txHash } = await this.sendKYC({ payload, isAdv });
+      this.txHash = txHash;
+      await EthHelper.waitForTxToBeMined(txHash);
+      this.txConfirmed = true;
+      /* refreshing user will cause kyc form to refresh as well */
+      setTimeout(() => this.refreshUserInfo(user), 3000);
     },
     async updateEmail() {
       const userInfo = {
