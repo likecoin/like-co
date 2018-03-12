@@ -441,6 +441,15 @@
       "comingSoon": "即將推出，敬請期待"
     }
   },
+  "TokenSale": {
+    "label": {
+      "prepareToJoin": "準備加入代幣發售"
+    },
+    "button": {
+      "aboutLikeCoin": "關於 LikeCoin",
+      "whitePaper": "@:WhitePaper.label.whitePaper"
+    }
+  },
   "KYC": {
     "label": {
       "kyc": "身份認證",
