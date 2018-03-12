@@ -49,6 +49,9 @@
           {{ $t('Transaction.header.label.pending') }}
         </h1>
         <md-progress-bar md-mode="indeterminate"></md-progress-bar>
+        <div class="pending-description">
+          {{ $t('Dialog.transaction.label.waiting') }}
+        </div>
       </section>
       <section v-else class="transaction-container">
         <h1 style="color: #16a122">
@@ -224,6 +227,13 @@ $status-icon-size: 32px;
 
   .error-icon {
     color: $like-red;
+  }
+
+  .pending-description {
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: 300;
+    color: $like-gray-4;
   }
 }
 

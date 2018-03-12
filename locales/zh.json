@@ -294,7 +294,7 @@
     },
     "transaction": {
       "label": {
-        "waiting": "區塊鏈正處理交易，將於數分鐘到帳。請隨意瀏覽 LikeCoin。",
+        "waiting": "區塊鏈正處理交易，根據網絡繁忙程度，將於數分鐘到帳。請隨意瀏覽 LikeCoin。",
         "newUser": "你還沒有 LikeCoin ID，請先註冊帳號。"
       },
       "button": {
@@ -337,7 +337,7 @@
       "createID": "註冊 LikeCoin ID* (最少7個英文字母/數目字)",
       "walletAddress": "以太坊錢包地址",
       "email": "電郵地址 (可選)",
-      "referrer": "邀請人 (可選)",
+      "referrer": "邀請人 LikeCoin ID (可選)",
       "amount": "LikeCoin 數量",
       "displayName": "顯示名",
       "claim": "領取",
@@ -407,7 +407,7 @@
         "sent": "已發送",
         "to": "到 ",
         "notFound": "交易碼不存在",
-        "pending": "等待到帳",
+        "pending": "已提交至區塊鏈",
         "failed": "交易失敗",
         "timeout": "交易逾時",
         "completed": "交易完成"
