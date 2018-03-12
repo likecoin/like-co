@@ -295,7 +295,7 @@ export default {
         let txHash;
         if (this.isEth) {
           txHash = await EthHelper.sendTransaction(to, valueToSend);
-          const value = this.amount;
+          const value = valueToSend;
           await this.sendEthPayment({
             from,
             to,

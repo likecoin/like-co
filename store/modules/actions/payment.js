@@ -73,6 +73,10 @@ export async function checkCanGetFreeLikeCoin({ commit }, user) {
   return apiWrapper(commit, api.apiCheckCanGetFreeLikeCoin(user));
 }
 
+export async function queryTokenSaleHistoryByAddr({ commit }, addr) {
+  return apiWrapper(commit, api.apiQueryTokenSaleHistoryByAddr(addr));
+}
+
 export async function queryEthPrice({ commit }) {
   try {
     const [data] = await apiWrapper(commit, api.apiQueryEthPrice());

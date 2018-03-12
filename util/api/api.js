@@ -69,4 +69,6 @@ export const apiSendInvitationEmail = (user, email) => axios.post(
   },
 );
 
+export const apiQueryTokenSaleHistoryByAddr = addr => axios.get(`/api/tx/tokensale/${addr}`);
+
 export const apiQueryEthPrice = () => axios.get('https://api.coinmarketcap.com/v1/ticker/ethereum/?convert=USD');

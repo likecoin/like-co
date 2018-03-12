@@ -123,6 +123,18 @@
       </div>
     </form>
 
+    <div v-if="ICOHistory && ICOHistory.length">
+      <div> sum: {{ ICOTotal }} </div>
+      <md-table>
+        <md-table-row v-for="(tx, index) in ICOHistory" :key="tx.id">
+          <md-table-cell>{{ ICOHistory.length - index }}</md-table-cell>
+          <md-table-cell>{{ tx.status }}</md-table-cell>
+          <md-table-cell>{{ tx.completeTs ? new Date(tx.completeTs) : '' }}</md-table-cell>
+          <md-table-cell>{{ getLikeCoinByETH(tx.value || 0) }}</md-table-cell>
+        </md-table-row>
+      </md-table>
+    </div>
+
     <div :class="isProfileEdit ? 'section-redeem-edit-mode' : ''">
       <div class="section-title-wrapper">
         <h2 class="title">{{ $t('Edit.label.redeemCoin') }}</h2>
@@ -177,6 +189,7 @@ import ReferralAction from '~/components/ReferralAction';
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import InputDialog from '~/components/dialogs/InputDialog';
 import ViewEtherscan from '~/components/ViewEtherscan';
+import { ETH_TO_LIKECOIN_RATIO } from '@/constant';
 import { mapActions, mapGetters } from 'vuex';
 
 import EditIcon from '../assets/icons/edit.svg';
@@ -206,6 +219,8 @@ export default {
       referralPending: 0,
       referralVerified: 0,
       KYCStatus: 'None',
+      ICOTotal: 0,
+      ICOHistory: [],
     };
   },
   components: {
@@ -244,6 +259,7 @@ export default {
       'refreshUserInfo',
       'checkCanGetFreeLikeCoin',
       'fetchUserReferralStats',
+      'queryTokenSaleHistoryByAddr',
     ]),
     onEditDisplayName() {
       if (this.isProfileEdit) {
@@ -276,6 +292,10 @@ export default {
         reader.readAsDataURL(files[0]);
       }
     },
+    getLikeCoinByETH(eth) {
+      return new BigNumber(eth).dividedBy(ONE_LIKE)
+        .multipliedBy(new BigNumber(ETH_TO_LIKECOIN_RATIO));
+    },
     async updateInfo() {
       const user = this.getUserInfo;
       this.user = user.user;
@@ -287,6 +307,7 @@ export default {
       this.updateReferralStat();
       this.updateCanGetFreeLikeCoin(user);
       this.updateKYC();
+      this.updateTokenSaleHistory();
     },
     async updateKYC() {
       if (this.getUserInfo.pendingKYC) {
@@ -344,6 +365,15 @@ export default {
         }
       } catch (err) {
         console.log(err);
+      }
+    },
+    async updateTokenSaleHistory() {
+      try {
+        this.ICOTotal = new BigNumber(await EthHelper.getAddressPurchaseTotal(this.wallet))
+          .dividedBy(ONE_LIKE).toFixed(4);
+        this.ICOHistory = await this.queryTokenSaleHistoryByAddr(this.wallet);
+      } catch (err) {
+        console.error(err);
       }
     },
     openPicker() {
@@ -454,11 +484,15 @@ export default {
     },
   },
   mounted() {
-    this.updateInfo();
-    if (!this.getUserIsFetching && !this.getUserIsRegistered) {
-      this.$router.push({ name: 'register' });
-    } else if (this.$route.params.showEmail) {
-      this.$nextTick(() => this.$refs.inputDialog.onInputText());
+    if (!this.getUserIsFetching) {
+      if (!this.getUserIsRegistered) {
+        this.$router.push({ name: 'register' });
+      } else {
+        if (this.$route.params.showEmail) {
+          this.$nextTick(() => this.$refs.inputDialog.onInputText());
+        }
+        this.$router.push({ name: 'register' });
+      }
     }
   },
 };

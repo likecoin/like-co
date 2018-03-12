@@ -232,6 +232,24 @@ class EthHelper {
     return this.LikeCoinICO.methods.kycDone(address).call();
   }
 
+  async getAddressPurchaseEvents(addr) {
+    return this.LikeCoinICO.getPastEvents('Purchase', {
+      fromBlock: 0,
+      filter: {
+        _addr: addr,
+      },
+    });
+  }
+
+  async getAddressPurchaseTotal(addr) {
+    const address = addr || this.wallet || '';
+    return (await this.getAddressPurchaseEvents(address))
+      .reduce(
+        (acc, e) => acc.add(new this.web3.utils.BN(e.returnValues._coins)),
+        new this.web3.utils.BN(0),
+      );
+  }
+
   async genTypedSignData(from, to, value, maxReward) {
     let nonce;
     do {

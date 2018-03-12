@@ -25,3 +25,5 @@ export const KYC_STATUS_ENUM = {
   STANDARD: 2,
   ADVANCED: 3,
 };
+
+export const ETH_TO_LIKECOIN_RATIO = 40000;
