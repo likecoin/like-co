@@ -46,7 +46,12 @@ router.post('/payment', async (req, res) => {
       signature,
     );
     const txData = methodCall.encodeABI();
-    const { tx, txHash, pendingCount } = await sendTransactionWithLoop(
+    const {
+      tx,
+      txHash,
+      pendingCount,
+      delegatorAddress,
+    } = await sendTransactionWithLoop(
       LIKECOIN.LIKE_COIN_ADDRESS,
       txData,
     );
@@ -102,7 +107,7 @@ router.post('/payment', async (req, res) => {
       currentBlock,
       nonce: pendingCount,
       rawSignedTx: tx.rawTransaction,
-      delegatorAddress: web3.utils.toChecksumAddress(address),
+      delegatorAddress: web3.utils.toChecksumAddress(delegatorAddress),
     });
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventPay',

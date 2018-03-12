@@ -98,7 +98,12 @@ router.post('/kyc', async (req, res) => {
 
     const methodCall = LikeCoinICO.methods.registerKYC([wallet]);
     const txData = methodCall.encodeABI();
-    const { tx, txHash, pendingCount } = await sendTransactionWithLoop(
+    const {
+      tx,
+      txHash,
+      delegatorAddress,
+      pendingCount,
+    } = await sendTransactionWithLoop(
       LIKECOIN_ICO.LIKE_COIN_ICO_ADDRESS,
       txData,
     );
@@ -130,6 +135,7 @@ router.post('/kyc', async (req, res) => {
       currentBlock,
       nonce: pendingCount,
       rawSignedTx: tx.rawTransaction,
+      delegatorAddress: web3.utils.toChecksumAddress(delegatorAddress),
     });
 
     res.json({ txHash });
@@ -196,7 +202,12 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
 
     const methodCall = LikeCoinICO.methods.registerKYC([wallet]);
     const txData = methodCall.encodeABI();
-    const { tx, txHash, pendingCount } = await sendTransactionWithLoop(
+    const {
+      tx,
+      txHash,
+      pendingCount,
+      delegatorAddress,
+    } = await sendTransactionWithLoop(
       LIKECOIN_ICO.LIKE_COIN_ICO_ADDRESS,
       txData,
     );
@@ -236,6 +247,7 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
       currentBlock,
       nonce: pendingCount,
       rawSignedTx: tx.rawTransaction,
+      delegatorAddress: web3.utils.toChecksumAddress(delegatorAddress),
     });
 
     res.json({ txHash });
