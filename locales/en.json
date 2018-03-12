@@ -336,7 +336,7 @@
       "createID": "Create a LikeCoin ID* (minimum 7 characters)",
       "walletAddress": "Wallet address",
       "email": "Email (optional)",
-      "referrer": "Referrer (optional)",
+      "referrer": "Referrer LikeCoin ID (optional)",
       "amount": "Amount of LikeCoin:",
       "displayName": "Display Name",
       "claim": "Claim",
@@ -405,7 +405,7 @@
         "sent": "Sent",
         "to": "to ",
         "notFound": "Transaction Not Found or not a LikeCoin store transaction",
-        "pending": "Pending Confirmation",
+        "pending": "Submitted to blockchain",
         "failed": "Transaction Failed",
         "timeout": "Transaction Expired",
         "completed": "Transaction Completed"
