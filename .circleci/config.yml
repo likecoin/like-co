@@ -44,8 +44,6 @@ jobs:
       - run:
           name: Unit Test Preparation
           command: |
-            cp server/util/firebase.js server/util/firebase.js.bak
-            cp server/util/ses.js server/util/ses.js.bak
             cp test/stub/server/util/firebase.js server/util/firebase.js
             cp test/stub/server/util/ses.js server/util/ses.js
       - run:
@@ -61,10 +59,10 @@ jobs:
             sleep 5
             curl --retry 10 --retry-delay 5 -v http://localhost:3000/
       - run:
-          name: Unit Test (Express)
+          name: Unit Test (Backend)
           command: npm run test:express
       - run:
-          name: Unit Test (Nuxt)
+          name: Unit Test (Frontend)
           command: npm run test:nuxt
       - save_cache:
           key: likecoin-store-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}

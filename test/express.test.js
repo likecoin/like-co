@@ -1,8 +1,8 @@
 import test from 'ava';
-import request from 'supertest';
 
 const AccountLib = require('eth-lib/lib/account');
 const Web3 = require('web3');
+const axios = require('axios');
 
 const userData = require('./data/user.json');
 const txData = require('./data/tx.json');
@@ -62,45 +62,45 @@ test.serial('USER: Register or edit user. Case: success', async (t) => {
     email: 'noreply@likecoin.store',
   });
   const sign = signProfile('payload', payload, privateKey1);
-  const res = await request(url)
-    .put('/api/users/new')
-    .field('from', testingWallet1)
-    .field('payload', payload)
-    .field('sign', sign);
+  const res = await axios.put(`${url}/api/users/new`, {
+    from: testingWallet1,
+    payload,
+    sign,
+  });
 
   t.is(res.status, 200);
-  t.is(res.text, 'OK');
+  t.is(res.data, 'OK');
 });
 
 test.serial('USER: Email verification', async (t) => {
-  const res = await request(url)
-    .post(`/api/email/verify/user/${testingUser1}`)
-    .send({})
-    .set('Accept', 'application/json')
-    .expect(200);
+  const res = await axios.post(`${url}/api/email/verify/user/${testingUser1}`, {}, {
+    headers: {
+      Accept: 'application/json',
+    },
+  }).catch(err => err.response);
   t.is(res.status, 200);
-  t.is(res.text, 'OK');
+  t.is(res.data, 'OK');
 });
 
 test.serial('USER: Verify uuid. Case: wrong uuid', async (t) => {
   const uuid = '00000000-0000-0000-0000-000000000001';
-  const res = await request(url)
-    .post(`/api/email/verify/${uuid}`)
-    .send({})
-    .set('Accept', 'application/json')
-    .expect(404);
+  const res = await axios.post(`${url}/api/email/verify/${uuid}`, {
+    headers: {
+      Accept: 'application/json',
+    },
+  }).catch(err => err.response);
   t.is(res.status, 404);
 });
 
 test.serial('USER: Verify uuid. Case: success', async (t) => {
   const uuid = '00000000-0000-0000-0000-000000000000';
-  const res = await request(url)
-    .post(`/api/email/verify/${uuid}`)
-    .send({})
-    .set('Accept', 'application/json')
-    .expect(200);
+  const res = await axios.post(`${url}/api/email/verify/${uuid}`, {
+    headers: {
+      Accept: 'application/json',
+    },
+  }).catch(err => err.response);
   t.is(res.status, 200);
-  t.is(res.body.wallet, testingWallet2);
+  t.is(res.data.wallet, testingWallet2);
 });
 
 //
@@ -225,93 +225,88 @@ for (let i = 0; i < userCases.length; i += 1) {
   } = userCases[i];
   test(name, async (t) => {
     const sign = signProfile('payload', payload, privateKey);
-    const res = await request(url)
-      .put('/api/users/new')
-      .field('from', from)
-      .field('payload', payload)
-      .field('sign', sign);
+    const res = await axios.put(`${url}/api/users/new`, {
+      from,
+      payload,
+      sign,
+    }).catch(err => err.response);
 
     t.is(res.status, 400);
   });
 }
 
 test('USER: Get user by id', async (t) => {
-  const res = await request(url)
-    .get(`/api/users/id/${testingUser1}`)
-    .expect(200);
+  const res = await axios.get(`${url}/api/users/id/${testingUser1}`)
+    .catch(err => err.response);
 
   t.is(res.status, 200);
-  t.is(res.body.wallet, testingWallet1);
-  t.is(res.body.displayName, testingDisplayName1);
+  t.is(res.data.wallet, testingWallet1);
+  t.is(res.data.displayName, testingDisplayName1);
 });
 
 test('USER: Get user by address', async (t) => {
-  const res = await request(url)
-    .get(`/api/users/addr/${testingWallet1}`)
-    .expect(200);
+  const res = await axios.get(`${url}/api/users/addr/${testingWallet1}`)
+    .catch(err => err.response);
 
   t.is(res.status, 200);
-  t.is(res.body.user, testingUser1);
-  t.is(res.body.wallet, testingWallet1);
-  t.is(res.body.displayName, testingDisplayName1);
+  t.is(res.data.user, testingUser1);
+  t.is(res.data.wallet, testingWallet1);
+  t.is(res.data.displayName, testingDisplayName1);
 });
 
 test('PAYMENT: Payment. Case: Invalid address.', async (t) => {
-  const res = await request(url)
-    .post('/api/payment')
-    .send({
-      from: txFrom,
-      to: invalidWallet,
-      value: 1,
-      maxReward: 0,
-      nonce: 1,
-      signature: '',
-    })
-    .set('Accept', 'application/json')
-    .expect(400);
+  const res = await axios.post(`${url}/api/payment`, {
+    from: txFrom,
+    to: invalidWallet,
+    value: 1,
+    maxReward: 0,
+    nonce: 1,
+    signature: '',
+  }, {
+    headers: {
+      Accept: 'application/json',
+    },
+  }).catch(err => err.response);
   t.is(res.status, 400);
 });
 
 test('PAYMENT: Get tx by id', async (t) => {
-  const res = await request(url)
-    .get(`/api/tx/id/${txHash}`)
-    .expect(200);
+  const res = await axios.get(`${url}/api/tx/id/${txHash}`)
+    .catch(err => err.response);
 
   t.is(res.status, 200);
-  t.is(res.body.txHash, txHash);
-  t.is(res.body.from, txFrom);
-  t.is(res.body.to, txTo);
-  t.is(res.body.value, txValue);
+  t.is(res.data.txHash, txHash);
+  t.is(res.data.from, txFrom);
+  t.is(res.data.to, txTo);
+  t.is(res.data.value, txValue);
 });
 
 test('PAYMENT: Get tx to by addr', async (t) => {
-  const res = await request(url)
-    .get(`/api/tx/addr/to/${txTo}`)
-    .expect(200);
+  const res = await axios.get(`${url}/api/tx/addr/to/${txTo}`)
+    .catch(err => err.response);
 
   t.is(res.status, 200);
   // check test record exists
-  for (let i = 0; i < res.body.length; i += 1) {
-    if (res.body[i].txHash === txHash) {
-      t.is(res.body[i].from, txFrom);
-      t.is(res.body[i].to, txTo);
-      t.is(res.body[i].value, txValue);
+  for (let i = 0; i < res.data.length; i += 1) {
+    if (res.data[i].txHash === txHash) {
+      t.is(res.data[i].from, txFrom);
+      t.is(res.data[i].to, txTo);
+      t.is(res.data[i].value, txValue);
     }
   }
 });
 
 test('PAYMENT: Get tx from by addr', async (t) => {
-  const res = await request(url)
-    .get(`/api/tx/addr/from/${txFrom}`)
-    .expect(200);
+  const res = await axios.get(`${url}/api/tx/addr/from/${txFrom}`)
+    .catch(err => err.response);
 
   t.is(res.status, 200);
   // check test record exists
-  for (let i = 0; i < res.body.length; i += 1) {
-    if (res.body[i].txHash === txHash) {
-      t.is(res.body[i].from, txFrom);
-      t.is(res.body[i].to, txTo);
-      t.is(res.body[i].value, txValue);
+  for (let i = 0; i < res.data.length; i += 1) {
+    if (res.data[i].txHash === txHash) {
+      t.is(res.data[i].from, txFrom);
+      t.is(res.data[i].to, txTo);
+      t.is(res.data[i].value, txValue);
     }
   }
 });
