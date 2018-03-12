@@ -12,6 +12,7 @@ import { web3, sendTransactionWithLoop } from '../util/web3';
 import publisher from '../util/gcloudPub';
 
 const LIKECOIN = require('../../constant/contract/likecoin');
+const LIKECOIN_ICO = require('../../constant/contract/likecoin-ico');
 const {
   txCollection: txLogRef,
   userCollection: dbRef,
@@ -243,7 +244,7 @@ router.get('/tx/addr/to/:addr', async (req, res) => {
   try {
     const { addr } = req.params;
     const doc = await txLogRef
-      .where('to', '==', addr)
+      .where('to', '==', web3.utils.toChecksumAddress(addr))
       .orderBy('ts', 'desc')
       .limit(5)
       .get();
@@ -259,11 +260,27 @@ router.get('/tx/addr/from/:addr', async (req, res) => {
   try {
     const { addr } = req.params;
     const doc = await txLogRef
-      .where('from', '==', addr)
+      .where('from', '==', web3.utils.toChecksumAddress(addr))
       .orderBy('ts', 'desc')
       .limit(5)
       .get();
     res.json(doc.docs.map(d => ({ id: d.id, value: d.data().value })));
+  } catch (err) {
+    const msg = err.message || err;
+    console.error(msg);
+    res.status(400).send(msg);
+  }
+});
+
+router.get('/tx/tokensale/:addr', async (req, res) => {
+  try {
+    const { addr } = req.params;
+    const doc = await txLogRef
+      .where('from', '==', web3.utils.toChecksumAddress(addr))
+      .where('to', '==', LIKECOIN_ICO.LIKE_COIN_ICO_ADDRESS)
+      .orderBy('ts', 'desc')
+      .get();
+    res.json(doc.docs.map(d => ({ id: d.id, ...Validate.filterTxData(d.data()) })));
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
