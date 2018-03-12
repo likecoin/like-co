@@ -95,6 +95,7 @@ import LinkIcon from '@/assets/icons/link-icon.svg';
 import FBIcon from '@/assets/icons/f-icon.svg';
 import TwIcon from '@/assets/icons/t-icon.svg';
 
+import { logTrackerEvent } from '@/util/EventLogger';
 import { mapActions } from 'vuex';
 
 export default {
@@ -132,12 +133,14 @@ export default {
     async onSendEmail() {
       await this.sendInvitationEmail({ email: this.email, user: this.user });
       this.setInfoMsg(this.$t('Edit.referral.sent', { email: this.email }));
+      logTrackerEvent(this, 'Referral', 'ClickGetFreeLikeCoin', 'email invite', 1);
       this.email = '';
     },
     onCopy() {
       const copyText = this.$refs.shareUrl;
       copyText.select();
       this.copied = document.execCommand('copy');
+      logTrackerEvent(this, 'Referral', 'sendInvitation', 'copy invite link', 1);
     },
     onShareFB() {
       if (window.FB && window.FB.ui) {
@@ -153,10 +156,12 @@ export default {
             },
           }),
         }, res => console.log(res));
+        logTrackerEvent(this, 'Referral', 'sendInvitation', 'fb share invite', 1);
       }
     },
     onShareTwitter() {
       window.open(this.twitterUrl, 'twitter', 'height=285,width=550,resizable=1,noopener');
+      logTrackerEvent(this, 'Referral', 'sendInvitation', 'twitter invite', 1);
     },
   },
 };
