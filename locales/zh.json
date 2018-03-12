@@ -293,7 +293,7 @@
     },
     "transaction": {
       "label": {
-        "waiting": "區塊鏈正處理交易，將於數分鐘到帳。請隨意瀏覽 LikeCoin。",
+        "waiting": "區塊鏈正處理交易，根據網絡繁忙程度，將於數分鐘到帳。請隨意瀏覽 LikeCoin。",
         "newUser": "你還沒有 LikeCoin ID，請先註冊帳號。"
       },
       "button": {

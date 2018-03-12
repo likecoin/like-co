@@ -293,7 +293,7 @@
     },
     "transaction": {
       "label": {
-        "waiting": "Waiting for the blockchain to confirm. It may take a few minutes. Meanwhile you may browse around LikeCoin Store",
+        "waiting": "Waiting for the blockchain to confirm. It may take a few minutes depends on network traffic. Meanwhile you may browse around LikeCoin Store",
         "newUser": "Seems you don’t have a LikeCoin ID. Create now."
       },
       "button": {
