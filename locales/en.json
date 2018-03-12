@@ -441,6 +441,15 @@
       "comingSoon": "Coming Soon"
     }
   },
+  "TokenSale": {
+    "label": {
+      "prepareToJoin": "Prepare to Join Token Sale"
+    },
+    "button": {
+      "aboutLikeCoin": "About LikeCoin",
+      "whitePaper": "@:WhitePaper.label.whitePaper"
+    }
+  },
   "KYC": {
     "label": {
       "kyc": "ID Verification",

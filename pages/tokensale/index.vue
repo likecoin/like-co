@@ -1,78 +1,156 @@
 <template>
-  <div class="payment-container">
-    <avatar-header :title="displayName" :icon="avatar" :id="id" :address="wallet" :isEth="isEth"/>
-    <div class="inner-container">
-      <section v-if="getUserIsFetching || isKYCTxPass==undefined">
-        <md-progress-bar md-mode="indeterminate" />
-        LOADING
-      </section>
-      <form v-else-if="canICO && !needExtraKYC" id="paymentInfo" v-on:submit.prevent="onSubmit">
-        <input v-model="wallet" hidden required disabled />
-        <label>{{ $t('Transaction.label.amountToSend', { coin: isEth ? 'ETH' : 'LikeCoin' }) }}</label>
-        <md-field :class="isBadAmount?'md-input-invalid':''">
-          <md-button class="value-button" @click="onAmountAdd(-1)">
-            <md-icon class="md-size-2x">remove</md-icon>
-          </md-button>
-          <md-input id="payment-input"
-            pattern="[0-9]*(\.[0-9]*)?"
-            :title="$t('Transaction.label.enterValidNumber')"
-            :value="amount"
-            @keypress="onAmountKeypress"
-            @input="onAmountInput"
-            @focusout="formatAmount"
-            required />
-          <md-button class="value-button" @click="onAmountAdd(1)">
-            <md-icon class="md-size-2x">add</md-icon>
-          </md-button>
-          <span v-if="isBadAmount" class="md-error">
-            {{ $t('Transaction.label.invalidAmount') }}
-          </span>
-        </md-field>
-        <!-- <md-field> -->
-        <!--   <md-input placeholder="Remark (optional)" /> -->
-        <!-- </md-field> -->
-        <md-button
-          id="payment-confirm"
-          class="md-raised md-primary"
-          type="submit"
-          form="paymentInfo"
-          :disabled="getIsInTransaction || !getLocalWallet">
-          {{ $t('General.button.confirm') }}
-        </md-button>
-      </form>
+  <div class="tokensale-page">
 
-      <md-button v-else-if="!getUserIsRegistered" @click="redirectToRegister">Register</md-button>
+    <div class="lc-container-0 lc-narrow">
 
-      <section v-else-if="KYCStatus==KYC_STATUS_ENUM.PENDING">
-        <md-progress-bar md-mode="indeterminate" />
-        KYC ALREADY PENDING
+      <section class="lc-container-1 lc-section-block">
+        <div class="lc-container-2">
+          <div class="lc-container-3">
+            <div class="lc-container-4 ">
+
+              <nav class="nav-menu">
+                <span>
+                  <nuxt-link :to="{ name: 'whitepaper' }">
+                    {{ $t('TokenSale.button.whitePaper') }}
+                  </nuxt-link>
+                </span>
+
+                <img class="like-coin-token" :src="likeCoinIcon" />
+
+                <span>
+                  <nuxt-link to="/">
+                    {{ $t('TokenSale.button.aboutLikeCoin') }}
+                  </nuxt-link>
+                </span>
+              </nav>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="lc-container-2">
+          <div class="lc-container-3 lc-container-extend-bg">
+            <div class="lc-container-4 lc-verticle-inset-5">
+              Token Sale Timer
+            </div>
+          </div>
+        </div>
+
+        <div class="lc-container-2">
+          <div class="lc-container-3">
+            <div class="lc-container-4 lc-verticle-inset-3">
+              Token Sale Progress
+            </div>
+          </div>
+
+          <div class="lc-container-3">
+            <div class="lc-container-4">
+              <div class="token-exchange-into lc-verticle-inset-4">
+                Token Exchange Info
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
-      <section v-else>
-        <KYCForm
-          :isKYCTxPass="isKYCTxPass"
-          :user="getUserInfo"
-          :wallet="getLocalWallet" />
+
+      <section class="lc-container-1 lc-section-block">
+        <div class="lc-container-header">
+          <div class="lc-container-2 lc-container-header-overlay">
+            <div class="lc-container-3" />
+          </div>
+
+          <div class="lc-container-2">
+            <div class="lc-container-header-title">
+              <h1>{{ $t('TokenSale.label.prepareToJoin') }}</h1>
+            </div>
+          </div>
+        </div>
+
+        <div class="lc-container-2">
+          <div class="lc-container-3">
+            <div class="lc-container-4 lc-verticle-inset-4">
+              <div class="inner-container">
+                <section v-if="getUserIsFetching || isKYCTxPass==undefined">
+                  <md-progress-bar md-mode="indeterminate" />
+                  LOADING
+                </section>
+                <form v-else-if="canICO && !needExtraKYC" id="paymentInfo" v-on:submit.prevent="onSubmit">
+                  <input v-model="wallet" hidden required disabled />
+                  <label>{{ $t('Transaction.label.amountToSend', { coin: isEth ? 'ETH' : 'LikeCoin' }) }}</label>
+                  <md-field :class="isBadAmount?'md-input-invalid':''">
+                    <md-button class="value-button" @click="onAmountAdd(-1)">
+                      <md-icon class="md-size-2x">remove</md-icon>
+                    </md-button>
+                    <md-input id="payment-input"
+                      pattern="[0-9]*(\.[0-9]*)?"
+                      :title="$t('Transaction.label.enterValidNumber')"
+                      :value="amount"
+                      @keypress="onAmountKeypress"
+                      @input="onAmountInput"
+                      @focusout="formatAmount"
+                      required />
+                    <md-button class="value-button" @click="onAmountAdd(1)">
+                      <md-icon class="md-size-2x">add</md-icon>
+                    </md-button>
+                    <span v-if="isBadAmount" class="md-error">
+                      {{ $t('Transaction.label.invalidAmount') }}
+                    </span>
+                  </md-field>
+                  <!-- <md-field>
+                    <md-input placeholder="Remark (optional)" />
+                  </md-field> -->
+                  <md-button
+                    id="payment-confirm"
+                    class="md-raised md-primary"
+                    type="submit"
+                    form="paymentInfo"
+                    :disabled="getIsInTransaction || !getLocalWallet">
+                    {{ $t('General.button.confirm') }}
+                  </md-button>
+                </form>
+
+                <md-button v-else-if="!getUserIsRegistered" @click="redirectToRegister">Register</md-button>
+
+                <section v-else-if="KYCStatus==KYC_STATUS_ENUM.PENDING">
+                  <md-progress-bar md-mode="indeterminate" />
+                  KYC ALREADY PENDING
+                </section>
+                <section v-else>
+                  <KYCForm
+                    :isKYCTxPass="isKYCTxPass"
+                    :user="getUserInfo"
+                    :wallet="getLocalWallet" />
+                </section>
+              </div>
+
+            </div>
+          </div>
+        </div>
       </section>
+
     </div>
+
     <popup-dialog
       :allowClose="false"
       :header="$t('KYC.label.kyc')"
       :message="popupMessage"
-      @onConfirm="popupMessage=''"/>
+      @onConfirm="popupMessage=''"
+    />
   </div>
 </template>
+
 
 <script>
 import BigNumber from 'bignumber.js';
 
-import AvatarHeader from '~/components/header/AvatarHeader';
+import MaterialButton from '~/components/MaterialButton';
 import PopupDialog from '~/components/dialogs/PopupDialog';
 import KYCForm from '~/components/KYCForm';
 import EthHelper from '@/util/EthHelper';
 import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 import { KYC_USD_LIMIT, KYC_STATUS_ENUM } from '@/constant';
 import { mapActions, mapGetters } from 'vuex';
-import likeCoinIcon from '@/assets/likecoin.svg';
+import likeCoinIcon from '@/assets/like-coin.svg';
 
 const ONE_LIKE = new BigNumber(10).pow(18);
 
@@ -97,9 +175,9 @@ function formatAmount(amount) {
 
 export default {
   name: 'tokensale',
-  layout: 'pay',
+  layout: 'narrowWithHeader',
   components: {
-    AvatarHeader,
+    MaterialButton,
     PopupDialog,
     KYCForm,
   },
@@ -112,7 +190,7 @@ export default {
       isKYCTxPass: undefined,
       needExtraKYC: false,
       wallet: LIKE_COIN_ICO_ADDRESS,
-      avatar: likeCoinIcon,
+      likeCoinIcon,
       id: 'tokensale',
       displayName: 'LikeCoin TokenSale',
       amount: this.$route.params.amount || 0,
@@ -289,8 +367,88 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+
+<style lang="scss" scoped>
+@import "~assets/index";
+@import "~assets/default";
+
+.lc-container-3 {
+  background-color: $like-gray-1;
+}
+
+.tokensale-page {
+  margin-bottom: 18px;
+}
+
+.nav-menu {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding-top: 16px;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
+
+  .like-coin-token {
+    z-index: 1;
+
+    width: 144px;
+    height: 144px;
+    margin: 16px;
+    margin-bottom: -16px;
+
+    @media (min-width: 769px) {
+      margin-top: -32px;
+    }
+    @media (max-width: 600px) {
+      order: 999;
+    }
+  }
+
+  span {
+    flex: 1;
+
+    a {
+      text-decoration: underline;
+
+      color: #28646E;
+    }
+
+    &:last-child {
+      text-align: right;
+    }
+  }
+}
+
+.account-btn-wrapper {
+  position: absolute;
+  top: 0;
+
+  @media (min-width: 961px) {
+    left: 100%;
+
+    transform: translateY(-50%);
+  }
+  @media (max-width: 960px) {
+    right: -20%;
+
+    text-align: right;
+  }
+  @media (max-width: 768px) {
+    text-align: center;
+  }
+
+  .account-btn {
+    max-width: 188px;
+
+    font-size: 18px !important;
+    line-height: 1.33 !important;
+  }
+}
 
 h1, h2 {
   font-weight: normal;
@@ -305,18 +463,6 @@ li {
 }
 a {
   color: #42b983;
-}
-
-.inner-container {
-  background: #f7f7f7;
-  margin: 16px 0;
-  padding: 16px 0;
-}
-
-.payment-container {
-  width: 100%;
-  max-width: 560px;
-  margin: 0 auto;
 }
 
 #paymentInfo {
