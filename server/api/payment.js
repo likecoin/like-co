@@ -166,6 +166,7 @@ router.post('/payment', async (req, res) => {
       currentBlock,
       nonce: pendingCount,
       rawSignedTx: tx.rawTransaction,
+      delegatorAddress: web3.utils.toChecksumAddress(address),
     });
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventPay',
