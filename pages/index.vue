@@ -10,13 +10,6 @@
       <div class="underlay gray md-xsmall-hide" />
       <div class="lc-container-2">
         <site-header />
-        <div class="lc-container-3 md-xsmall-hide">
-          <material-button
-            className="account-btn"
-            @click="$router.push({ name: getUserIsRegistered ? 'edit' : 'register' })">
-            {{ getUserIsRegistered ? getUserInfo.user : $t('Home.Header.button.signUp') }}
-          </material-button>
-        </div>
       </div>
     </section>
 
@@ -225,21 +218,6 @@ $carousel-height: 488px;
 
 .lc-header {
   position: relative;
-
-  .account-btn {
-    position: absolute;
-    z-index: 2;
-    right: 8px;
-    bottom: -16px;
-
-    width: 188px;
-
-    font-size: 18px;
-
-    > :global(.md-ripple) {
-      padding: 0;
-    }
-  }
 }
 
 .lc-description {
