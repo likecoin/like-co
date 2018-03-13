@@ -72,14 +72,7 @@
       </div>
     </section> -->
 
-    <!-- <section class="lc-container-1 lc-advisor">
-      <div class="lc-container-2">
-        <block-section
-          :title="$t('Home.Advisor.title')">
-          <team />
-        </block-section/>
-      </div>
-    </section> -->
+    <advisors />
 
     <early-supporters />
 
@@ -149,6 +142,7 @@ import MaterialButton from '~/components/MaterialButton';
 import SiteHeader from '~/components/header/Header';
 import PlatformIconBar from '~/components/PlatformIconBar';
 
+import Advisors from '~/components/home/Advisors';
 import Carousel from '~/components/home/Carousel';
 import HeaderFlag from '~/components/home/Flag';
 import EarlyAdopters from '~/components/home/EarlyAdopters';
@@ -165,6 +159,7 @@ const imgUrl = path => images(`./${path}`);
 export default {
   name: 'home',
   components: {
+    Advisors,
     BlockSection,
     Carousel,
     CustomLink,
