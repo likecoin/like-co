@@ -44,10 +44,10 @@
       "content": "--paragraph in LikeCoin Protocol---",
       "layer": {
         "provider": {
-          "title": "Service Providers",
+          "title": "DApps",
           "example": {
             "oice": "oice Visual Novel",
-            "ccImages": "Creative Commons Image Stock",
+            "ccImages": "Creative Commons Images",
             "media": "Internet Media"
           }
         },
@@ -64,15 +64,15 @@
           "example": {
             "contract": "Smart Contracts",
             "fingerprint": "Fingerprints",
-            "metadata": "Metadata"
+            "metadata": "Metadata Hash"
           }
         },
         "ipfs": {
           "title": "IPFS Node",
           "example": {
             "oice": "oice Node",
-            "cc": "Image Node",
-            "stock": "Article Node"
+            "cc": "Creative Commons Node",
+            "stock": "Stock Images Node"
           }
         }
       }
