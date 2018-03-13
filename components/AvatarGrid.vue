@@ -8,6 +8,7 @@
           :avatar="item.avatar"
           :title="item.title"
           :subtitle="item.subtitle"
+          :description="item.description"
         />
       </li>
 
