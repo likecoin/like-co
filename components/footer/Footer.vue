@@ -54,7 +54,7 @@ export default {
           email,
           wallet,
         } = e;
-        const opt = {};
+        const opt = { LikeCoin: true };
         if (user) opt.user_id = user;
         if (displayName) opt.name = displayName;
         if (email) opt.email = email;
