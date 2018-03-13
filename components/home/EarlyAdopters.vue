@@ -51,6 +51,10 @@ const adopters = [
     src: '/images/adopter-logo/oice.svg',
     link: 'https://oice.com/',
   },
+  {
+    src: '/images/adopter-logo/lakoo.png',
+    link: 'https://lakoo.com/',
+  },
 ];
 
 export default {
