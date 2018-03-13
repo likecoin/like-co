@@ -170,6 +170,30 @@ const userCases = [
     privateKey: privateKey1,
   },
   {
+    name: 'USER: Register or edit user. Case: invalid email (ii)',
+    payload: JSON.stringify({
+      user: testingUser1,
+      displayName: testingDisplayName1,
+      ts: Date.now(),
+      wallet: testingWallet1,
+      email: 'invalidmail',
+    }),
+    from: testingWallet1,
+    privateKey: privateKey1,
+  },
+  {
+    name: 'USER: Register or edit user. Case: invalid email (iii)',
+    payload: JSON.stringify({
+      user: testingUser1,
+      displayName: testingDisplayName1,
+      ts: Date.now(),
+      wallet: testingWallet1,
+      email: '@likecoin.store',
+    }),
+    from: testingWallet1,
+    privateKey: privateKey1,
+  },
+  {
     name: 'USER: Register or edit user. Case: User, wallet already exist',
     payload: JSON.stringify({
       user: testingUser2,
