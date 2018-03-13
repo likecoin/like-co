@@ -299,7 +299,6 @@ test('PAYMENT: Get tx by id', async (t) => {
     .catch(err => err.response);
 
   t.is(res.status, 200);
-  t.is(res.data.txHash, txHash);
   t.is(res.data.from, txFrom);
   t.is(res.data.to, txTo);
   t.is(res.data.value, txValue);
