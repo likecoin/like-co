@@ -80,36 +80,36 @@
     "RoadMap": {
       "title": "路線圖",
       "content": "有意早鳥認購，請於頁面右下角聯繫團隊。",
-      "timeline": {
-        "0": {
+      "timeline": [
+        {
           "title": "發想、研發",
           "time": "2017 Q1-Q3"
         },
-        "1": {
+        {
           "title": "Early Believer 預售",
           "time": "2017 Q4"
         },
-        "2": {
+        {
           "title": "LikeCoin 生態初探",
           "time": "2018 Q1"
         },
-        "3": {
-          "title": "代幣公開發售",
+        {
+          "title": "puttyimages 及 blogchain.md 原型推出",
           "time": "2018 Q2"
         },
-        "4": {
-          "title": "oice、圖片庫推出",
+        {
+          "title": "puttyimages 推出",
           "time": "2018 Q3"
         },
-        "5": {
+        {
           "title": "Like Button 推出",
           "time": "2018 Q4"
         },
-        "6": {
-          "title": "LikeCoin 生態擴充",
+        {
+          "title": "blogchain.md 推出及 LikeCoin 生態擴充",
           "time": "2019"
         }
-      }
+      ]
     },
     "TokenDistribution": {
       "title": "代幣分配",

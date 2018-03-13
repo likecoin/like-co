@@ -80,36 +80,36 @@
     "RoadMap": {
       "title": "Road Map",
       "content": "Contact our team at bottom right dialog bubble for early bird tokensale participation.",
-      "timeline": {
-        "0": {
+      "timeline": [
+        {
           "title": "Brainstorming, R&D",
           "time": "2017 Q1-Q3"
         },
-        "1": {
+        {
           "title": "Early Believer sale",
           "time": "2017 Q4"
         },
-        "2": {
+        {
           "title": "LikeCoin Token, Store and ID launched",
           "time": "2018 Q1"
         },
-        "3": {
+        {
           "title": "Prototype of puttyimages and blogchain.md",
           "time": "2018 Q2"
         },
-        "4": {
-          "title": "Launch of puttyimages and blogchain.md",
+        {
+          "title": "Launch of puttyimages",
           "time": "2018 Q3"
         },
-        "5": {
+        {
           "title": "Like Button launch",
           "time": "2018 Q4"
         },
-        "6": {
-          "title": "LikeCoin ecosystem scale up",
+        {
+          "title": "Launch of blogchain.md and LikeCoin ecosystem scale up",
           "time": "2019"
         }
-      }
+      ]
     },
     "TokenDistribution": {
       "title": "Token Distribution",

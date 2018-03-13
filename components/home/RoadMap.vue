@@ -19,11 +19,11 @@
                 <div
                   :class="`milestone${milestonesStatus.length === index + 1 ? ' last' : ''}`"
                   v-for="(milestoneStatus, index) in milestonesStatus">
-                  <div class="date">{{ $t(`Home.RoadMap.timeline.${index}.time`) }}</div>
+                  <div class="date">{{ $t(`Home.RoadMap.timeline[${index}].time`) }}</div>
                   <div class="line">
                     <div :class="`dot${milestoneStatus ? ' active' : ''}`" />
                   </div>
-                  <div class="event">{{ $t(`Home.RoadMap.timeline.${index}.title`) }}</div>
+                  <div class="event">{{ $t(`Home.RoadMap.timeline[${index}].title`) }}</div>
                 </div>
                 <div class="progress" />
               </div>
