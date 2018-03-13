@@ -124,7 +124,7 @@
     </form>
 
     <div v-if="ICOHistory && ICOHistory.length">
-      <div> sum: {{ ICOTotal }} </div>
+      <div> sum: {{ ICOTotalCoin }} (ETH : {{ ICOTotalETH }}) </div>
       <md-table>
         <md-table-row v-for="(tx, index) in ICOHistory" :key="tx.id">
           <md-table-cell>{{ ICOHistory.length - index }}</md-table-cell>
@@ -221,7 +221,8 @@ export default {
       referralPending: 0,
       referralVerified: 0,
       KYCStatus: 'None',
-      ICOTotal: 0,
+      ICOTotalCoin: 0,
+      ICOTotalETH: 0,
       ICOHistory: [],
     };
   },
@@ -371,8 +372,9 @@ export default {
     },
     async updateTokenSaleHistory() {
       try {
-        this.ICOTotal = new BigNumber(await EthHelper.getAddressPurchaseTotal(this.wallet))
-          .dividedBy(ONE_LIKE).toFixed(4);
+        const { coin, eth } = await EthHelper.getAddressPurchaseTotal(this.wallet);
+        this.ICOTotalCoin = new BigNumber(coin).dividedBy(ONE_LIKE).toFixed(4);
+        this.ICOTotalETH = new BigNumber(eth).dividedBy(ONE_LIKE).toFixed(4);
         this.ICOHistory = await this.queryTokenSaleHistoryByAddr(this.wallet);
       } catch (err) {
         console.error(err);

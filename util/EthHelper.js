@@ -245,8 +245,11 @@ class EthHelper {
     const address = addr || this.wallet || '';
     return (await this.getAddressPurchaseEvents(address))
       .reduce(
-        (acc, e) => acc.add(new this.web3.utils.BN(e.returnValues._coins)),
-        new this.web3.utils.BN(0),
+        (acc, e) => ({
+          coin: acc.coin.add(new this.web3.utils.BN(e.returnValues._coins)),
+          eth: acc.eth.add(new this.web3.utils.BN(e.returnValues._ethers)),
+        }),
+        { coin: new this.web3.utils.BN(0), eth: new this.web3.utils.BN(0) },
       );
   }
 
