@@ -45,10 +45,10 @@
       "content": "--paragraph in LikeCoin Protocol---",
       "layer": {
         "provider": {
-          "title": "Service Providers",
+          "title": "DApps",
           "example": {
             "oice": "oice Visual Novel",
-            "ccImages": "Creative Commons Image Stock",
+            "ccImages": "Creative Commons Images",
             "media": "Internet Media"
           }
         },
@@ -65,15 +65,15 @@
           "example": {
             "contract": "Smart Contracts",
             "fingerprint": "Fingerprints",
-            "metadata": "Metadata"
+            "metadata": "Metadata Hash"
           }
         },
         "ipfs": {
           "title": "IPFS Node",
           "example": {
             "oice": "oice Node",
-            "cc": "Image Node",
-            "stock": "Article Node"
+            "cc": "Creative Commons Node",
+            "stock": "Stock Images Node"
           }
         }
       }
@@ -81,36 +81,36 @@
     "RoadMap": {
       "title": "Road Map",
       "content": "Contact our team at bottom right dialog bubble for early bird tokensale participation.",
-      "timeline": {
-        "0": {
+      "timeline": [
+        {
           "title": "Brainstorming, R&D",
           "time": "2017 Q1-Q3"
         },
-        "1": {
+        {
           "title": "Early Believer sale",
           "time": "2017 Q4"
         },
-        "2": {
+        {
           "title": "LikeCoin Token, Store and ID launched",
           "time": "2018 Q1"
         },
-        "3": {
+        {
           "title": "Prototype of puttyimages and blogchain.md",
           "time": "2018 Q2"
         },
-        "4": {
-          "title": "Launch of puttyimages and blogchain.md",
+        {
+          "title": "Launch of puttyimages",
           "time": "2018 Q3"
         },
-        "5": {
+        {
           "title": "Like Button launch",
           "time": "2018 Q4"
         },
-        "6": {
-          "title": "LikeCoin ecosystem scale up",
+        {
+          "title": "Launch of blogchain.md and LikeCoin ecosystem scale up",
           "time": "2019"
         }
-      }
+      ]
     },
     "TokenDistribution": {
       "title": "Token Distribution",
@@ -152,8 +152,26 @@
         }
       }
     },
-    "Advisor": {
-      "title": "Advisors"
+    "Advisors": {
+      "title": "Advisors",
+      "advisor": {
+        "alex-lau": {
+          "title": "Alex Lau",
+          "description": "Blockchain Open Source Advisor of <a href=\"https://cm.5miles.com/\" target=\"_blank\">CyberMiles</a>, <a href=\"https://www.webank.com/\" target=\"_blank\">Webank</a> and <a href=\"https://www.trubuzz.com\" target=\"_blank\">TruBuzz</a>; R&D Engineering Consultant of SUSE Linux Enterprise Storage"
+        },
+        "haggen-so": {
+          "title": "Dr. Haggen So",
+          "description": "Founder and President of <a href=\"https://cota.hk/\" target=\"_blank\">Hong Kong Creative Open Technology Association</a>; Project Manager of the <a href=\"https://creativecommons.org/\" target=\"_blank\">Creative Commons</a>"
+        },
+        "jon-phillips": {
+          "title": "Jon Phillips",
+          "description": "Founder of <a href=\"https://musicoin.org/\" target=\"_blank\">Openclipart</a>; Developer of <a href=\"https://musicoin.org/\" target=\"_blank\">Inkscape</a>; Founder of Qi Hardware."
+        },
+        "isaac-mao": {
+          "title": "Isaac Mao",
+          "description": "Founder of <a href=\"https://musicoin.org/\" target=\"_blank\">Musicoin</a>; Founder of CNBlogs.org; Project Lead of iCommons China, Creative Commons China Team."
+        }
+      }
     },
     "Team": {
       "title": "Team",

@@ -36,7 +36,7 @@
                     <div
                       class="title"
                       :style="`z-index: ${4 - i}`">
-                      <img :src="imgUrl(`layer-${i + 1}.svg`)" />
+                      <img :src="imgUrl(`layer-${i + 1}.png`)" />
                       <span>{{ $t(`Home.Protocol.layer.${layer.key}.title`)}}</span>
                     </div>
                     <div class="examples-container">
@@ -71,7 +71,7 @@
                   class="examples-container"
                   :style="`z-index: ${4 - i}`">
                   <div class="examples">
-                    <img :src="imgUrl(`layer-${i + 1}.svg`)" />
+                    <img :src="imgUrl(`layer-${i + 1}.png`)" />
                     <ul>
                       <li
                         v-for="(example, j) in layer.examples"
@@ -145,7 +145,10 @@ export default {
   padding-top: 36px;
 
   .block-section {
-    background-color: transparent !important;
+    @media (max-width: 600px) {
+      background-color: transparent !important;
+    }
+
     :global(.section-content) {
       padding-bottom: 0;
     }
@@ -186,6 +189,16 @@ export default {
         }
       }
 
+      &.layer-1 {
+        .title span {
+          font-weight: bold;
+        }
+
+        .examples-container {
+          font-weight: bold;
+        }
+      }
+
       &.layer-2 {
         .title span {
           font-weight: bold;
@@ -219,6 +232,7 @@ export default {
         }
         img {
           position: absolute;
+          max-width: 288px;
         }
       }
 

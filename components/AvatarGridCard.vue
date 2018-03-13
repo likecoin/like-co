@@ -5,6 +5,7 @@
       <img v-lazy="avatar" />
       <h1>{{ title }}</h1>
       <h2>{{ subtitle }}</h2>
+      <p class="description" v-html="description" />
 
     </div>
   </div>
@@ -18,6 +19,7 @@ export default {
     avatar: String,
     title: String,
     subtitle: String,
+    description: String,
   },
 };
 </script>
@@ -73,6 +75,42 @@ export default {
     h1,
     h2 {
       text-align: center;
+    }
+
+    .description {
+      margin-top: 4px;
+
+      text-align: center;
+
+      color: #737373;
+
+      font-size: 14px;
+      font-weight: 300;
+    }
+
+    a,
+    a:active {
+      text-decoration: underline;
+
+      color: #28646E;
+    }
+  }
+}
+</style>
+
+
+<style lang="scss">
+@import "~assets/index";
+
+.avatar-grid-card {
+  > div {
+    .description {
+      a,
+      a:active {
+        text-decoration: underline;
+
+        color: #28646E;
+      }
     }
   }
 }
