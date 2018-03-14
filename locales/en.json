@@ -27,6 +27,7 @@
       "title": "Early Bird Token Sale",
       "subtitle1": "Act now to secure 25% bonus",
       "subtitle2": "Contact our team by clicking the bottom right dialogue bubble",
+      "buttonTooltip": "Contact us through the bottom right button",
       "button": {
         "whitepaper": "Whitepaper",
         "onePage": "One-pager",
