@@ -43,9 +43,18 @@
         </div>
 
         <div class="lc-container-2">
-          <div class="lc-container-3">
-            <div class="lc-container-4 lc-verticle-inset-3">
-              Token Sale Progress
+
+          <div class="tokensale-progress-wrapper lc-container-3 lc-verticle-inset-4">
+            <tokensale-progress
+              :progress="currentTokenSaleAmount"
+              :total="maxTokenSaleAmount"
+              :points="points" />
+
+            <div class="lc-container-4">
+              <div class="tokensale-amount lc-verticle-inset-2">
+                <span class="current">{{ currentTokenSaleAmount.toLocaleString() }}</span>
+                <span class="max"> / {{ maxTokenSaleAmount.toLocaleString() }} ETH</span>
+              </div>
             </div>
           </div>
 
@@ -173,6 +182,7 @@ import BigNumber from 'bignumber.js';
 
 import CountdownTimer from '~/components/CountdownTimer';
 import MaterialButton from '~/components/MaterialButton';
+import TokenSaleProgress from '~/components/TokenSaleProgress';
 import PopupDialog from '~/components/dialogs/PopupDialog';
 import KYCForm from '~/components/KYCForm';
 import EthHelper from '@/util/EthHelper';
@@ -208,6 +218,7 @@ export default {
   components: {
     CountdownTimer,
     MaterialButton,
+    'tokensale-progress': TokenSaleProgress,
     PopupDialog,
     KYCForm,
   },
@@ -225,6 +236,21 @@ export default {
       displayName: 'LikeCoin TokenSale',
       amount: this.$route.params.amount || 0,
       popupMessage: '',
+      currentTokenSaleAmount: 5600,
+      maxTokenSaleAmount: 12600,
+      points: [
+        {
+          value: 1,
+          legend: '4,200 ETH (Soft Cap)',
+        },
+        {
+          value: 2,
+        },
+        {
+          value: 3,
+          legend: '12,600 ETH (Hard Cap)',
+        },
+      ],
     };
   },
   head() {
@@ -465,12 +491,41 @@ export default {
   h3 {
     margin-top: 12px;
     margin-bottom: 8px;
+
     font-size: 14px;
     font-weight: 400;
   }
 
   h1, h3 {
     text-align: center;
+  }
+}
+
+.tokensale-progress-wrapper {
+  padding-right: 0;
+  padding-left: 0;
+
+  > div {
+    margin-right: -8px;
+    margin-left: -8px;
+  }
+}
+
+.tokensale-amount {
+  text-align: center;
+
+  font-weight: 300;
+
+  .current {
+    color: #28646E;
+
+    font-size: 46px;
+    line-height: 62px;
+  }
+
+  .max {
+    font-size: 20px;
+    font-weight: 400;
   }
 }
 
