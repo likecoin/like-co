@@ -31,7 +31,13 @@
         <div class="lc-container-2">
           <div class="lc-container-3 lc-container-extend-bg">
             <div class="lc-container-4 lc-verticle-inset-5">
-              Token Sale Timer
+
+              <section class="countdown-section">
+                <h1>{{ $t('TokenSale.title') }}</h1>
+                <h3>{{ $t('TokenSale.label.publicSaleStartIn') }}</h3>
+                <countdown-timer :date="new Date('2018-04-23T00:00:00+0800')" />
+              </section>
+
             </div>
           </div>
         </div>
@@ -143,6 +149,7 @@
 <script>
 import BigNumber from 'bignumber.js';
 
+import CountdownTimer from '~/components/CountdownTimer';
 import MaterialButton from '~/components/MaterialButton';
 import PopupDialog from '~/components/dialogs/PopupDialog';
 import KYCForm from '~/components/KYCForm';
@@ -177,6 +184,7 @@ export default {
   name: 'tokensale',
   layout: 'narrowWithHeader',
   components: {
+    CountdownTimer,
     MaterialButton,
     PopupDialog,
     KYCForm,
@@ -424,31 +432,26 @@ export default {
   }
 }
 
-.account-btn-wrapper {
-  position: absolute;
-  top: 0;
 
-  @media (min-width: 961px) {
-    left: 100%;
-
-    transform: translateY(-50%);
+.countdown-section {
+  h1 {
+    font-size: 42px;
+    font-weight: 600;
+    line-height: 1.2;
   }
-  @media (max-width: 960px) {
-    right: -20%;
 
-    text-align: right;
+  h3 {
+    margin-top: 12px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 400;
   }
-  @media (max-width: 768px) {
+
+  h1, h3 {
     text-align: center;
   }
-
-  .account-btn {
-    max-width: 188px;
-
-    font-size: 18px !important;
-    line-height: 1.33 !important;
-  }
 }
+
 
 h1, h2 {
   font-weight: normal;

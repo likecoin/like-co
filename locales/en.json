@@ -13,6 +13,12 @@
     "en": "English",
     "zh": "中文"
   },
+  "Date": {
+    "day": "day | days",
+    "hour": "hour | hours",
+    "minute": "minute | minutes",
+    "second": "second | seconds"
+  },
   "Home": {
     "Header": {
       "button": {
@@ -460,8 +466,10 @@
     }
   },
   "TokenSale": {
+    "title": "Token Sale",
     "label": {
-      "prepareToJoin": "Prepare to Join Token Sale"
+      "prepareToJoin": "Prepare to Join Token Sale",
+      "publicSaleStartIn": "Public Sale Start in:"
     },
     "button": {
       "aboutLikeCoin": "About LikeCoin",
