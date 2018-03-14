@@ -469,7 +469,10 @@
     "title": "Token Sale",
     "label": {
       "prepareToJoin": "Prepare to Join Token Sale",
-      "publicSaleStartIn": "Public Sale Start in:"
+      "publicSaleStartIn": "Public Sale Start in:",
+      "token": "Token",
+      "exchangeRate": "Exchange Rate",
+      "supply": "Supply"
     },
     "button": {
       "aboutLikeCoin": "About LikeCoin",

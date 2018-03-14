@@ -49,13 +49,35 @@
             </div>
           </div>
 
-          <div class="lc-container-3">
-            <div class="lc-container-4">
-              <div class="token-exchange-into lc-verticle-inset-4">
-                Token Exchange Info
+          <section class="token-info-section">
+            <div class="lc-container-3">
+              <div class="lc-container-4 lc-verticle-inset-4">
+                <div class="info-grid">
+                  <ul>
+                    <li>
+                      <div>
+                        <span class="label">{{ $t('TokenSale.label.token') }}</span>
+                        <span class="value highlight">LIKE</span>
+                      </div>
+                    </li>
+                    <li>
+                      <div>
+                        <span class="label">{{ $t('TokenSale.label.exchangeRate') }}</span>
+                        <span class="value">1 ETH / 40k LIKE</span>
+                      </div>
+                    </li>
+                    <li>
+                      <div>
+                        <span class="label">{{ $t('TokenSale.label.supply') }}</span>
+                        <span class="value">600mil</span>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
+          </section>
+
         </div>
       </section>
 
@@ -449,6 +471,70 @@ export default {
 
   h1, h3 {
     text-align: center;
+  }
+}
+
+
+.token-info-section {
+  margin-top: 8px;
+
+  .info-grid {
+    > ul {
+      display: flex;
+
+      margin: -26px;
+      padding: 0;
+
+      list-style: none;
+
+      @media (max-width: 600px) {
+        margin: -12px;
+      }
+      @media (max-width: 480px) {
+        flex-direction: column;
+      }
+
+      > li {
+        margin: 26px;
+
+        @media (max-width: 600px) {
+          margin: 12px;
+        }
+
+        > div {
+          margin: -4px;
+
+          @media (max-width: 480px) {
+            display: flex;
+            justify-content: space-between;
+          }
+
+          .highlight {
+            color: #28646e;
+          }
+
+          > span {
+            display: block;
+
+            margin: 4px;
+
+            &.label {
+              font-size: 14px;
+              font-weight: 400;
+            }
+
+            &.value {
+              font-size: 20px;
+              font-weight: 300;
+
+              @media (max-width: 480px) {
+                text-align: right;
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
 
