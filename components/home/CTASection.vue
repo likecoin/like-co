@@ -15,7 +15,13 @@
               </div>
 
               <div class="cta-section-body-cta-btn">
-                <material-button class="cta-btn" @click=onClickCTAButton>
+                <span :class="`tooltip${isCTAButtonDisabled ? '' : ' disabled'}`">
+                  {{ $t('Home.Sale.buttonTooltip') }}
+                </span>
+                <material-button
+                  class="cta-btn"
+                  :disabled="isCTAButtonDisabled"
+                  @click=onClickCTAButton>
                   {{ $t('Home.Sale.button.imInterested') }}
                 </material-button>
               </div>
@@ -65,11 +71,27 @@ export default {
   components: {
     MaterialButton,
   },
+  data() {
+    return {
+      isCTAButtonDisabled: false,
+    };
+  },
   methods: {
     onClickCTAButton() {
+      this.isCTAButtonDisabled = true;
+      this.ctaBtnDisabledTimer = setTimeout(() => {
+        this.isCTAButtonDisabled = false;
+      }, 10000);
+
       logTrackerEvent(this, 'RegFlow', 'Clicked I am interested button', 'User is interested in early bird token sale', 1);
       if (this.$intercom) this.$intercom.show();
     },
+  },
+  beforeDestory() {
+    if (this.ctaBtnDisabledTimer) {
+      clearTimeout(this.ctaBtnDisabledTimer);
+      this.ctaBtnDisabledTimer = undefined;
+    }
   },
 };
 </script>
@@ -150,14 +172,52 @@ export default {
 }
 
 .cta-section-body-cta-btn {
+  position: relative;
+
   display: flex;
   align-items: center;
   flex: 1;
+
+  .tooltip {
+    position: absolute;
+    right: 0;
+    bottom: 100%;
+    left: 0;
+
+    margin-bottom: 8px;
+
+    transition: all .25s ease-in;
+    text-align: center;
+
+    color: #28646E;
+
+    font-size: 14px;
+
+    &.disabled {
+      transform: translateY(100%);
+      pointer-events: none;
+
+      opacity: 0;
+    }
+
+    @media (max-width: 600px) {
+      margin-bottom: 4px;
+
+      color: $like-gray-3;
+
+      font-size: 12px;
+    }
+  }
 
   .cta-btn {
     min-width: 256px;
 
     background-image: linear-gradient(73deg, #3c286e, #6e2828);
+
+    &[disabled] {
+      color: $like-gray-4;
+      background: $like-gray-5;
+    }
   }
 }
 
