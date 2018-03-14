@@ -15,7 +15,7 @@
               </div>
 
               <div class="cta-section-body-cta-btn">
-                <span :class="`tooltip${isCTAButtonDisabled ? '' : ' disabled'}`">
+                <span :class="['tooltip', { disabled: !isCTAButtonDisabled }]">
                   {{ $t('Home.Sale.buttonTooltip') }}
                 </span>
                 <material-button
@@ -83,7 +83,7 @@ export default {
         this.isCTAButtonDisabled = false;
       }, 10000);
 
-      logTrackerEvent(this, 'RegFlow', 'Clicked I am interested button', 'User is interested in early bird token sale', 1);
+      logTrackerEvent(this, 'RegFlow', 'ClickedIAmInterestedButton', 'User is interested in early bird token sale', 1);
       if (this.$intercom) this.$intercom.show();
     },
   },
