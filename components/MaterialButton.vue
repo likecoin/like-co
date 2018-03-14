@@ -1,5 +1,5 @@
 <template>
-  <md-button :class="className" @click="handleClick">
+  <md-button @click="handleClick">
     <slot />
   </md-button>
 </template>
@@ -7,7 +7,6 @@
 <script>
   export default {
     name: 'material-button',
-    props: ['className'],
     methods: {
       handleClick() {
         this.$emit('click');

@@ -15,7 +15,7 @@
               </div>
 
               <div class="cta-section-body-cta-btn">
-                <material-button className="cta-btn" @click=onClickCTAButton>
+                <material-button class="cta-btn" @click=onClickCTAButton>
                   {{ $t('Home.Sale.button.imInterested') }}
                 </material-button>
               </div>
