@@ -15,37 +15,7 @@
 
     <carousel />
 
-    <section class="lc-container-1 lc-description">
-      <div class="underlay gradient" />
-      <div class="lc-container-2">
-        <div class="lc-container-3">
-          <div class="sale-description-container">
-            <h2>{{ $t('Home.Sale.title') }}</h2>
-            <h1>{{ $t('Home.Sale.content') }}</h1>
-            <div class="links md-xsmall-hide">
-              <nuxt-link
-                :to="{ name: 'whitepaper' }">
-                {{ `${$t('Home.Sale.button.onePage')} / ${$t('Home.Sale.button.paper')}` }}
-              </nuxt-link>
-            </div>
-
-            <div class="links mobile md-xsmall-show">
-              <nuxt-link
-                :to="{ name: 'whitepaper' }">
-                <material-button className="redeem-btn">
-                  {{ `${$t('Home.Sale.button.onePage')} / ${$t('Home.Sale.button.paper')}` }}
-                </material-button>
-              </nuxt-link>
-            </div>
-          </div>
-          <div class="btn-container md-xsmall-hide">
-            <material-button className="redeem-btn" @click=onBuyClick>
-              {{ $t('Home.Sale.button.buyCoin') }}
-            </material-button>
-          </div>
-        </div>
-      </div>
-    </section>
+    <cta-section />
 
     <protocol />
 
@@ -89,29 +59,7 @@
       <platform-icon-bar />
     </div>
 
-    <section class="lc-container-1 lc-description last">
-      <div class="underlay gradient" />
-      <div class="lc-container-2">
-        <div class="lc-container-3">
-          <div class="sale-description-container">
-            <h2>{{ $t('Home.Sale.title') }}</h2>
-            <h1>{{ $t('Home.Sale.content') }}</h1>
-            <div class="md-xsmall-hide">
-              <custom-link
-                :title="$t('Home.Sale.button.createID')"
-                href="register" />
-            </div>
-          </div>
-          <div class="btn-container md-xsmall-hide">
-            <material-button
-              className="redeem-btn"
-              @click="$router.push({ name: 'register' })">
-              {{ $t('Home.Sale.button.createNow') }}
-            </material-button>
-          </div>
-        </div>
-      </div>
-    </section>
+    <cta-section class="bottom" />
 
     <section class="lc-container-1 lc-community md-xsmall-hide">
       <div class="lc-container-2">
@@ -134,7 +82,6 @@
 <script>
 /* global fbq */
 import { mapGetters } from 'vuex';
-import { logTrackerEvent } from '@/util/EventLogger';
 
 import BlockSection from '~/components/BlockSection';
 import CustomLink from '~/components/CustomLink';
@@ -142,6 +89,7 @@ import MaterialButton from '~/components/MaterialButton';
 import SiteHeader from '~/components/header/Header';
 import PlatformIconBar from '~/components/PlatformIconBar';
 
+import CTASection from '~/components/home/CTASection';
 import Carousel from '~/components/home/Carousel';
 import HeaderFlag from '~/components/home/Flag';
 import EarlyAdopters from '~/components/home/EarlyAdopters';
@@ -160,6 +108,7 @@ export default {
   components: {
     BlockSection,
     Carousel,
+    'cta-section': CTASection,
     CustomLink,
     EarlyAdopters,
     EarlySupporters,
@@ -175,10 +124,6 @@ export default {
   },
   methods: {
     imgUrl,
-    onBuyClick() {
-      logTrackerEvent(this, 'RegFlow', 'ClickIndexRedCTA', 'click the Huge red button on homepage', 1);
-      this.$router.push({ name: 'tokensale' });
-    },
   },
   computed: {
     ...mapGetters([
@@ -225,63 +170,6 @@ $carousel-height: 488px;
   position: relative;
 }
 
-.lc-description {
-  &:not(.last) {
-    margin-bottom: 24px;
-    padding-bottom: 24px;
-  }
-
-  .lc-container-3 {
-    display: flex;
-    flex-direction: row;
-  }
-
-  .sale-description-container {
-    position: relative;
-    flex: 2;
-
-    padding: 24px 8px;
-
-    h1 {
-      margin: 8px 0 32px;
-    }
-
-    h2 {
-      font-size: 42px;
-      font-weight: 600;
-    }
-
-    .links {
-      > a {
-        margin-right: 48px;
-
-        color: $like-green !important;
-        text-decoration: underline;
-        cursor: pointer;
-        font-size: 20px;
-
-        &:hover {
-          opacity: 0.7;
-        }
-      }
-    }
-  }
-
-  .btn-container {
-    display: flex;
-    align-items: center;
-    flex: 1;
-
-    .redeem-btn {
-    	background-image: linear-gradient(73deg, #3c286e, #6e2828);
-
-    	&.festive {
-        background-image: linear-gradient(73deg, #812d4c, #f75353);
-      }
-    }
-  }
-}
-
 .lc-team {
   min-height: 700px;
 }
@@ -317,6 +205,10 @@ $carousel-height: 488px;
   }
 }
 
+.cta-section.bottom {
+  margin-top: 66px;
+}
+
 .md-button {
   width: 100%;
   height: auto;
@@ -340,15 +232,6 @@ $carousel-height: 488px;
 }
 
 @media (min-width: 601px) {
-  .lc-description {
-    &.last {
-      margin-top: 48px;
-    }
-    .underlay.gradient {
-      background-image: linear-gradient(271deg, $like-light-blue, $like-gradient-1);
-    }
-  }
-
   .lc-partner {
     margin-top: 94px;
   }
@@ -363,59 +246,6 @@ $carousel-height: 488px;
 
 @media (max-width: 600px) {
   body {
-    .lc-description {
-      &.last {
-        .sale-description-container {
-          padding: 18px 0;
-
-          h1 {
-            margin-bottom: 0;
-          }
-        }
-      }
-      .underlay.gradient {
-        background-color: $like-green;
-        width: 100%;
-      }
-
-      .sale-description-container {
-        text-align: center;
-
-        padding-bottom: 0;
-
-        h1, h2 {
-          color: $like-white;
-          font-size: 26px;
-          line-height: 30px;
-        }
-
-        .links.mobile {
-          position: absolute;
-          width: 100%;
-          left: 0;
-          right: 0;
-
-          margin-top: -8px;
-
-          > a {
-            margin-right: 0;
-
-            .md-button {
-              font-size: 16px;
-
-              white-space: normal;
-            }
-          }
-        }
-
-        .md-button {
-        	background-image: linear-gradient(73deg, $like-gradient-2, $like-gradient-3);
-
-          margin: 4px 0;
-        }
-      }
-    }
-
     .platform-bar {
       margin: 12px;
       > .icon-bar {

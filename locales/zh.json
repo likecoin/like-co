@@ -24,15 +24,17 @@
       "content": ""
     },
     "Sale": {
-      "title": "2018 Q2",
-      "content": "公開發售",
+      "title": "早鳥代幣發售",
+      "subtitle1": "立即行動可享額外25%奬勵",
+      "subtitle2": "請經右下角對話按鈕與我們聯絡",
       "button": {
-        "paper": "技術白皮書",
+        "whitepaper": "白皮書",
         "onePage": "計畫介紹",
         "redeem": "領取紅包",
         "createID": "註冊 LikeCoin ID ，改革內容創作生態",
         "createNow": "馬上註冊",
-        "buyCoin": "購買 LikeCoin"
+        "buyCoin": "購買 LikeCoin",
+        "imInterested": "我有興趣"
       }
     },
     "Creator": {
