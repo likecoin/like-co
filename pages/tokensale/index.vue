@@ -192,6 +192,7 @@ import { mapActions, mapGetters } from 'vuex';
 import likeCoinIcon from '@/assets/like-coin.svg';
 
 const ONE_LIKE = new BigNumber(10).pow(18);
+const INITIAL_TOKENSALE_ETH = new BigNumber(5400);
 
 function formatAmount(amount) {
   let result = amount.toString().replace(/[^0-9.]/, '');
@@ -236,7 +237,7 @@ export default {
       displayName: 'LikeCoin TokenSale',
       amount: this.$route.params.amount || 0,
       popupMessage: '',
-      currentTokenSaleAmount: 5600,
+      currentTokenSaleAmount: INITIAL_TOKENSALE_ETH,
       maxTokenSaleAmount: 12600,
       points: [
         {
@@ -401,13 +402,18 @@ export default {
     formatAmount() {
       this.amount = formatAmount(this.amount);
     },
-    async redirectToRegister() {
+    redirectToRegister() {
       this.$router.push({ name: 'register', query: { ref: 'tokensale' } });
     },
     async checkStatus() {
       if (this.getUserIsRegistered) {
         this.isKYCTxPass = await EthHelper.queryKYCStatus(this.getLocalWallet);
       }
+    },
+    async updateTokenSaleProgress() {
+      const amount = await EthHelper.queryEthBalance(LIKE_COIN_ICO_ADDRESS);
+      this.currentTokenSaleAmount = new BigNumber(amount).dividedBy(ONE_LIKE)
+        .plus(INITIAL_TOKENSALE_ETH).toFixed(2);
     },
   },
   watch: {
@@ -419,6 +425,7 @@ export default {
   },
   mounted() {
     if (!this.getUserIsFetching) this.checkStatus();
+    this.updateTokenSaleProgress();
   },
 };
 </script>
