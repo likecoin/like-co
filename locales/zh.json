@@ -13,6 +13,12 @@
     "en": "English",
     "zh": "中文"
   },
+  "Date": {
+    "day": "日",
+    "hour": "小時",
+    "minute": "分鐘",
+    "second": "秒"
+  },
   "Home": {
     "Header": {
       "button": {
@@ -460,8 +466,13 @@
     }
   },
   "TokenSale": {
+    "title": "代幣發售",
     "label": {
-      "prepareToJoin": "準備加入代幣發售"
+      "prepareToJoin": "準備加入代幣發售",
+      "publicSaleStartIn": "公開發售於:",
+      "token": "代幣",
+      "exchangeRate": "兌換率",
+      "supply": "供應量"
     },
     "button": {
       "aboutLikeCoin": "關於 LikeCoin",

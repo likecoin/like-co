@@ -31,25 +31,62 @@
         <div class="lc-container-2">
           <div class="lc-container-3 lc-container-extend-bg">
             <div class="lc-container-4 lc-verticle-inset-5">
-              Token Sale Timer
+
+              <section class="countdown-section">
+                <h1>{{ $t('TokenSale.title') }}</h1>
+                <h3>{{ $t('TokenSale.label.publicSaleStartIn') }}</h3>
+                <countdown-timer :date="new Date('2018-04-23T00:00:00+0800')" />
+              </section>
+
             </div>
           </div>
         </div>
 
         <div class="lc-container-2">
-          <div class="lc-container-3">
-            <div class="lc-container-4 lc-verticle-inset-3">
-              Token Sale Progress
-            </div>
-          </div>
 
-          <div class="lc-container-3">
+          <div class="tokensale-progress-wrapper lc-container-3 lc-verticle-inset-4">
+            <tokensale-progress
+              :progress="currentTokenSaleAmount"
+              :total="maxTokenSaleAmount"
+              :points="points" />
+
             <div class="lc-container-4">
-              <div class="token-exchange-into lc-verticle-inset-4">
-                Token Exchange Info
+              <div class="tokensale-amount lc-verticle-inset-2">
+                <span class="current">{{ currentTokenSaleAmount.toLocaleString() }}</span>
+                <span class="max"> / {{ maxTokenSaleAmount.toLocaleString() }} ETH</span>
               </div>
             </div>
           </div>
+
+          <section class="token-info-section">
+            <div class="lc-container-3">
+              <div class="lc-container-4 lc-verticle-inset-4">
+                <div class="info-grid">
+                  <ul>
+                    <li>
+                      <div>
+                        <span class="label">{{ $t('TokenSale.label.token') }}</span>
+                        <span class="value highlight">LIKE</span>
+                      </div>
+                    </li>
+                    <li>
+                      <div>
+                        <span class="label">{{ $t('TokenSale.label.exchangeRate') }}</span>
+                        <span class="value">1 ETH / 40k LIKE</span>
+                      </div>
+                    </li>
+                    <li>
+                      <div>
+                        <span class="label">{{ $t('TokenSale.label.supply') }}</span>
+                        <span class="value">600mil</span>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+
         </div>
       </section>
 
@@ -143,7 +180,9 @@
 <script>
 import BigNumber from 'bignumber.js';
 
+import CountdownTimer from '~/components/CountdownTimer';
 import MaterialButton from '~/components/MaterialButton';
+import TokenSaleProgress from '~/components/TokenSaleProgress';
 import PopupDialog from '~/components/dialogs/PopupDialog';
 import KYCForm from '~/components/KYCForm';
 import EthHelper from '@/util/EthHelper';
@@ -177,7 +216,9 @@ export default {
   name: 'tokensale',
   layout: 'narrowWithHeader',
   components: {
+    CountdownTimer,
     MaterialButton,
+    'tokensale-progress': TokenSaleProgress,
     PopupDialog,
     KYCForm,
   },
@@ -195,6 +236,21 @@ export default {
       displayName: 'LikeCoin TokenSale',
       amount: this.$route.params.amount || 0,
       popupMessage: '',
+      currentTokenSaleAmount: 5600,
+      maxTokenSaleAmount: 12600,
+      points: [
+        {
+          value: 1,
+          legend: '4,200 ETH (Soft Cap)',
+        },
+        {
+          value: 2,
+        },
+        {
+          value: 3,
+          legend: '12,600 ETH (Hard Cap)',
+        },
+      ],
     };
   },
   head() {
@@ -424,31 +480,119 @@ export default {
   }
 }
 
-.account-btn-wrapper {
-  position: absolute;
-  top: 0;
 
-  @media (min-width: 961px) {
-    left: 100%;
-
-    transform: translateY(-50%);
+.countdown-section {
+  h1 {
+    font-size: 42px;
+    font-weight: 600;
+    line-height: 1.2;
   }
-  @media (max-width: 960px) {
-    right: -20%;
 
-    text-align: right;
+  h3 {
+    margin-top: 12px;
+    margin-bottom: 8px;
+
+    font-size: 14px;
+    font-weight: 400;
   }
-  @media (max-width: 768px) {
+
+  h1, h3 {
     text-align: center;
   }
+}
 
-  .account-btn {
-    max-width: 188px;
+.tokensale-progress-wrapper {
+  padding-right: 0;
+  padding-left: 0;
 
-    font-size: 18px !important;
-    line-height: 1.33 !important;
+  > div {
+    margin-right: -8px;
+    margin-left: -8px;
   }
 }
+
+.tokensale-amount {
+  text-align: center;
+
+  font-weight: 300;
+
+  .current {
+    color: #28646E;
+
+    font-size: 46px;
+    line-height: 62px;
+  }
+
+  .max {
+    font-size: 20px;
+    font-weight: 400;
+  }
+}
+
+
+.token-info-section {
+  margin-top: 8px;
+
+  .info-grid {
+    > ul {
+      display: flex;
+
+      margin: -26px;
+      padding: 0;
+
+      list-style: none;
+
+      @media (max-width: 600px) {
+        margin: -12px;
+      }
+      @media (max-width: 480px) {
+        flex-direction: column;
+      }
+
+      > li {
+        margin: 26px;
+
+        @media (max-width: 600px) {
+          margin: 12px;
+        }
+
+        > div {
+          margin: -4px;
+
+          @media (max-width: 480px) {
+            display: flex;
+            justify-content: space-between;
+          }
+
+          .highlight {
+            color: #28646e;
+          }
+
+          > span {
+            display: block;
+
+            margin: 4px;
+
+            &.label {
+              font-size: 14px;
+              font-weight: 400;
+            }
+
+            &.value {
+              font-size: 20px;
+              font-weight: 300;
+
+              @media (max-width: 480px) {
+                text-align: right;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 
 h1, h2 {
   font-weight: normal;
