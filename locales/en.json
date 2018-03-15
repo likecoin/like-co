@@ -250,11 +250,11 @@
   "Email": {
     "VerifiyEmail": {
       "subject": "Verify your LikeCoin Store email",
-      "body": "Hi {{name}}!\n\nWelcome to LikeCoin Store! To verify your email, click the following link:\n\nhttps://likecoin.store/verify/{{uuid}}?ref={{ref}}\n\nLikeCoin Foundation\nhttps://likecoin.store"
+      "body": "Hi {{name}}!\n\nWelcome to LikeCoin Store! To verify your email, click the following link:\n\nhttps://like.co/verify/{{uuid}}?ref={{ref}}\n\nLikeCoin Foundation\nhttps://like.co"
     },
     "VerifiyAndCouponEmail": {
       "subject": "Verify your LikeCoin Store email and claim your LikeCoin",
-      "body": "Hi {{name}}!\n\nWelcome to LikeCoin Store! To verify your email and receive red pocket, click the following link:\n\nhttps://likecoin.store/verify/{{uuid}}/{{coupon}}?ref={{ref}}\n\nYour coupon code: {{coupon}}\n\nLikeCoin Foundation\nhttps://likecoin.store"
+      "body": "Hi {{name}}!\n\nWelcome to LikeCoin Store! To verify your email and receive red pocket, click the following link:\n\nhttps://like.co/verify/{{uuid}}/{{coupon}}?ref={{ref}}\n\nYour coupon code: {{coupon}}\n\nLikeCoin Foundation\nhttps://like.co"
     }
   },
   "Whitepaper": {
@@ -292,16 +292,16 @@
         "sign": "Sign on Metamask"
       },
       "content": {
-        "switchRinkeby": "likecoin.store requires Rinkeby to work. Please switch to the correct network.",
-        "switchMain": "likecoin.store requires Main to work. Please switch to the correct network.",
-        "web3": "likecoin.store requires Metamask to work. Please switch to Chrome and install Metamask extension.<br /> <span style='color:red'>Remember to keep your seed words safe!<span>",
-        "locked": "likecoin.store requires Metamask to work. Please unlock your Metamask.",
+        "switchRinkeby": "like.co requires Rinkeby to work. Please switch to the correct network.",
+        "switchMain": "like.co requires Main to work. Please switch to the correct network.",
+        "web3": "like.co requires Metamask to work. Please switch to Chrome and install Metamask extension.<br /> <span style='color:red'>Remember to keep your seed words safe!<span>",
+        "locked": "like.co requires Metamask to work. Please unlock your Metamask.",
         "sign": "Please click Sign on Metamask to continue."
       }
     },
     "chrome": {
       "title": "Desktop Chrome required",
-      "content": "likecoin.store require a browser that support ETH wallet extension MetaMask.<br />Please switch to desktop Chrome then install MetaMask plugin.",
+      "content": "like.co require a browser that support ETH wallet extension MetaMask.<br />Please switch to desktop Chrome then install MetaMask plugin.",
       "button": {
         "install": "Install Chrome"
       }
@@ -407,7 +407,7 @@
       "send": "Send",
       "sent": "Invitation email to {email} sent",
       "verifyEmailFirst": "Verify your email to join the affiliate program.",
-      "tweetContent": "Join me now on LikeCoin.Store and receive your free LikeCoin!",
+      "tweetContent": "Join me now on Like.co and receive your free LikeCoin!",
       "ogTitle": "LikeCoin - Reinventing the Like",
       "ogDescription": "Rewarding contents by proof of creativity. Join {name} and register now!"
     },
