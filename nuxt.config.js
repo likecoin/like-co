@@ -61,7 +61,7 @@ module.exports = {
   router: {
     extendRoutes(routes, resolve) {
       routes.push({
-        path: '/verify/:uuid/:coupon',
+        path: '/in/verify/:uuid/:coupon',
         name: 'verify-uuid-coupon',
         component: resolve(__dirname, 'pages/verify/_uuid/index.vue'),
       });
@@ -72,8 +72,8 @@ module.exports = {
       });
       routes.unshift({
         name: 'free',
-        path: '/free',
-        component: resolve(__dirname, 'pages/redeem.vue'),
+        path: '/in/free',
+        component: resolve(__dirname, 'pages/in/redeem.vue'),
       });
     },
   },

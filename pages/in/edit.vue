@@ -193,8 +193,8 @@ import ViewEtherscan from '~/components/ViewEtherscan';
 import { ETH_TO_LIKECOIN_RATIO, ETHERSCAN_HOST } from '@/constant';
 import { mapActions, mapGetters } from 'vuex';
 
-import EditIcon from '../assets/icons/edit.svg';
-import EditWhiteIcon from '../assets/icons/edit-white.svg';
+import EditIcon from '@/assets/icons/edit.svg';
+import EditWhiteIcon from '@/assets/icons/edit-white.svg';
 
 const ONE_LIKE = new BigNumber(10).pow(18);
 
@@ -516,8 +516,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/index";
-@import "../assets/default";
+@import "~assets/index";
+@import "~assets/default";
 
 $profile-margin: 48px;
 $profile-icon-size: 128px;
