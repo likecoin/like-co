@@ -224,7 +224,12 @@ export default {
   watch: {
     isEdit(e) {
       if (e && !this.isRedeemingCoupon) {
-        this.$router.replace({ name: 'edit', params: { showEmail: !!this.email } });
+        const { hash } = document.location;
+        this.$router.replace({
+          hash,
+          name: 'edit',
+          params: { showEmail: !!this.email },
+        });
       }
     },
     getLocalWallet(w) {

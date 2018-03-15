@@ -1,5 +1,5 @@
 <template>
-  <div class="referral-form-container">
+  <div class="referral-form-container" id="referral">
     <div :class="isProfileEdit ? 'section-redeem-edit-mode' : ''">
       <div class="section-title-wrapper">
         <h2 class="title">{{ $t('Edit.referral.title') }}</h2>
