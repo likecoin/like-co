@@ -26,13 +26,13 @@ import whitePaperIcon from '~/assets/whitepaper/whitepaper.svg';
 const onePagerSrc = [
   {
     languageKey: 'en',
-    src: '/likecoin-onepager-en.pdf',
+    src: '/in/likecoin-onepager-en.pdf',
   },
 ];
 const whitePaperSrc = [
   {
     languageKey: 'en',
-    src: '/likecoin-whitepaper-en.pdf',
+    src: '/in/likecoin-whitepaper-en.pdf',
   },
 ];
 
