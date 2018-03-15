@@ -39,12 +39,12 @@
               <nav>
                 <ul>
                   <li>
-                    <nuxt-link :to="{ name: 'whitepaper' }">
+                    <nuxt-link :to="{ name: 'in-whitepaper' }">
                       {{ $t('Home.Sale.button.onePage') }}
                     </nuxt-link>
                   </li>
                   <li>
-                    <nuxt-link :to="{ name: 'whitepaper' }">
+                    <nuxt-link :to="{ name: 'in-whitepaper' }">
                       {{ $t('Home.Sale.button.whitepaper') }}
                     </nuxt-link>
                   </li>
