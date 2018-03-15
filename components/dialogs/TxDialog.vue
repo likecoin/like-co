@@ -16,7 +16,7 @@
         <md-dialog-content class="new-user">
           {{ $t('Dialog.transaction.label.newUser') }}
         </md-dialog-content>
-        <nuxt-link :to="{ name: 'register' }">
+        <nuxt-link :to="{ name: 'in-register' }">
           <md-button class="secondary md-primary md-raised" @click="$emit('onClose')">
             {{ $t('Dialog.transaction.button.createID') }}
           </md-button>

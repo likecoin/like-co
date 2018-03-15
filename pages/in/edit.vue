@@ -493,7 +493,7 @@ export default {
     getUserIsFetching(f) {
       if (!f) {
         if (!this.getUserIsRegistered) {
-          this.$router.push({ name: 'register' });
+          this.$router.push({ name: 'in-register' });
         } else {
           this.updateInfo();
         }
@@ -503,12 +503,12 @@ export default {
   mounted() {
     if (!this.getUserIsFetching) {
       if (!this.getUserIsRegistered) {
-        this.$router.push({ name: 'register' });
+        this.$router.push({ name: 'in-register' });
       } else {
         if (this.$route.params.showEmail) {
           this.$nextTick(() => this.$refs.inputDialog.onInputText());
         }
-        this.$router.push({ name: 'register' });
+        this.$router.push({ name: 'in-register' });
       }
     }
   },

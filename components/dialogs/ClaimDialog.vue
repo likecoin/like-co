@@ -82,7 +82,7 @@ export default {
         const txHash = await this.claimCoupon({ coupon, to: wallet });
         if (this.getIsShowingTxPopup) {
           this.closeTxDialog();
-          this.$router.push({ name: 'tx-id', params: { id: txHash, tx: { to: wallet } } });
+          this.$router.push({ name: 'in-tx-id', params: { id: txHash, tx: { to: wallet } } });
         }
       } catch (error) {
         this.isError = true;

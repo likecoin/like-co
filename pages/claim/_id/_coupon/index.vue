@@ -3,7 +3,7 @@
     <span v-if="errorMsg">{{ $t('General.label.error') }}: {{ errorMsg }}, 
       <nuxt-link :to="{ name: 'index' }">{{ $t('Verify.label.toIndex') }}</nuxt-link>...</span>
     <span v-else-if="isVerified">{{ $t('General.label.success') }}, 
-      <nuxt-link :to="{ name: 'edit' }">{{ $t('Verify.label.toEdit') }}</nuxt-link>...</span>
+      <nuxt-link :to="{ name: 'in-edit' }">{{ $t('Verify.label.toEdit') }}</nuxt-link>...</span>
     <span v-else>{{ $t('Verify.label.verifying') }}</span>
     <claim-dialog ref="claimDialog" :couponCode="couponCode" :wallet="wallet" />
   </div>
@@ -51,10 +51,10 @@ export default {
               coupon: this.couponCode,
             });
           } catch (err) {
-            setTimeout(() => this.$router.push({ name: 'edit' }), 3000);
+            setTimeout(() => this.$router.push({ name: 'in-edit' }), 3000);
           }
         } else {
-          setTimeout(() => this.$router.push({ name: 'edit' }), 3000);
+          setTimeout(() => this.$router.push({ name: 'in-edit' }), 3000);
         }
       } catch (err) {
         this.errorMsg = err.message || err;

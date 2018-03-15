@@ -31,7 +31,7 @@
       <span v-if="getInfoIsError">{{ getInfoMsg }}</span>
       <span v-else v-html="getInfoMsg" />
       <nuxt-link
-        :to="{ name: 'redeem' }"
+        :to="{ name: 'in-redeem' }"
         v-if="getInfoMsg === $t('Transaction.error.likecoinInsufficient')">
         {{ $t('Edit.label.redeemCoin') }}
       </nuxt-link>
