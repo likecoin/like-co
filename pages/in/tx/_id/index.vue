@@ -117,7 +117,7 @@ export default {
   },
   head() {
     return {
-      title: 'View Transaction State - LikeCoin.Store',
+      title: 'View Transaction State - Like.co',
     };
   },
   components: {
