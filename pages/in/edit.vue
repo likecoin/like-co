@@ -215,7 +215,7 @@ export default {
   },
   async fetch({ store, redirect }) {
     if (!store.getters.getUserIsRegistered) {
-      redirect({ name: 'register' });
+      redirect({ name: 'in-register' });
     }
   },
   computed: {
@@ -422,7 +422,7 @@ export default {
       if (user && user.user) {
         this.updateInfo();
       } else {
-        this.$router.push({ name: 'register' });
+        this.$router.push({ name: 'in-register' });
       }
     },
   },

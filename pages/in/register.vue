@@ -25,7 +25,7 @@ export default {
   },
   asyncData({ query, store, redirect }) {
     if (store.getters.getUserIsRegistered) {
-      redirect({ name: 'edit' });
+      redirect({ name: 'in-edit' });
       return {};
     }
     let queryRedirect = '';

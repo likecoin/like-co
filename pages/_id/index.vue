@@ -201,7 +201,7 @@ export default {
       }
     },
     onConfirm() {
-      if (!this.getUserIsRegistered) this.$router.push({ name: 'register' });
+      if (!this.getUserIsRegistered) this.$router.push({ name: 'in-register' });
     },
     onAmountAdd(diff) {
       let newAmount = new BigNumber(this.amount).plus(diff);
