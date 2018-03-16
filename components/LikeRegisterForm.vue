@@ -224,7 +224,9 @@ export default {
   watch: {
     isEdit(e) {
       if (e && !this.isRedeemingCoupon) {
+        const { hash } = document.location;
         this.$router.replace({
+          hash,
           name: 'edit',
           params: { showEmail: !!this.email },
           query: this.$route.query.ref ? { ref: this.$route.query.ref } : {},

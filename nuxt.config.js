@@ -39,12 +39,18 @@ module.exports = {
       enabled: true,
       hashAlgorithm: 'sha256',
       allowedSources: [
+        /* gtm inline code */
+        '\'sha256-iuXaQeiad/7pk5Ih+zioILgFF9jt93hQCklW9N52YdU=\'',
         'https://fonts.gstatic.com',
         'https://fonts.googleapis.com',
         'https://use.typekit.net',
         'https://storage.googleapis.com',
         'https://www.google-analytics.com',
         'https://www.googletagmanager.com',
+        'https://www.googleadservices.com',
+        'https://googleads.g.doubleclick.net',
+        'https://sp.analytics.yahoo.com',
+        'https://s.yimg.com',
         'https://js.intercomcdn.com',
         'https://widget.intercom.io',
         'https://connect.facebook.net/',

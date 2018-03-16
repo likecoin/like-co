@@ -141,8 +141,7 @@ export default {
 @import "~assets/index";
 
 .lc-protocol {
-  margin-top: 48px;
-  padding-top: 36px;
+  margin-top: 52px;
 
   .block-section {
     @media (max-width: 600px) {

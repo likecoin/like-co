@@ -136,7 +136,7 @@
       </md-table>
     </div>
 
-    <div :class="isProfileEdit ? 'section-redeem-edit-mode' : ''">
+    <div :class="isProfileEdit ? 'section-redeem-edit-mode' : ''" id="coupon">
       <div class="section-title-wrapper">
         <h2 class="title">{{ $t('Edit.label.redeemCoin') }}</h2>
       </div>
@@ -475,6 +475,19 @@ export default {
         this.$refs.inputDialog.onInputText();
       }
     },
+  },
+  mounted() {
+    const { hash } = document.location;
+    if (hash) {
+      const element = document.querySelector(hash);
+      if (element) element.scrollIntoView();
+    }
+
+    if (this.$route.params.showEmail) {
+      this.$nextTick(() => this.$refs.inputDialog.onInputText());
+    }
+
+    this.updateInfo();
   },
   watch: {
     getUserIsFetching(f) {

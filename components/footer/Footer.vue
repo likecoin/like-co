@@ -38,7 +38,7 @@ export default {
   mounted() {
     if (this.$intercom) {
       const { user, displayName, email } = this.getUserInfo;
-      const opt = {};
+      const opt = { LikeCoin: true };
       if (user) opt.user_id = user;
       if (displayName) opt.name = displayName;
       if (email) opt.email = email;
