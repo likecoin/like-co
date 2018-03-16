@@ -130,7 +130,11 @@
           <md-table-cell>{{ tx.status }}</md-table-cell>
           <md-table-cell>{{ tx.completeTs ? new Date(tx.completeTs) : '' }}</md-table-cell>
           <md-table-cell>{{ getLikeCoinByETH(tx.value || 0) }}</md-table-cell>
-          <md-table-cell><a :href="`${ETHERSCAN_HOST}/tx/${tx.id}`" target="_blank" rel="noopener">view</a></md-table-cell>
+          <md-table-cell>
+            <nuxt-link :to="{ name: 'in-tokensale-tx-id', params: { id: tx.id } }">
+              view
+            </nuxt-link>
+          </md-table-cell>
         </md-table-row>
       </md-table>
     </div>
@@ -189,7 +193,7 @@ import ReferralAction from '~/components/ReferralAction';
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import InputDialog from '~/components/dialogs/InputDialog';
 import ViewEtherscan from '~/components/ViewEtherscan';
-import { ETH_TO_LIKECOIN_RATIO, ETHERSCAN_HOST } from '@/constant';
+import { ETH_TO_LIKECOIN_RATIO } from '@/constant';
 import { mapActions, mapGetters } from 'vuex';
 
 import EditIcon from '@/assets/icons/edit.svg';
@@ -202,7 +206,6 @@ export default {
   layout: 'baseWithBackground',
   data() {
     return {
-      ETHERSCAN_HOST,
       avatarFile: null,
       avatarData: null,
       user: '',

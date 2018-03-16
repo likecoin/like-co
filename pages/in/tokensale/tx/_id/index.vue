@@ -1,6 +1,6 @@
 <template>
   <div>
-    <transaction-header
+    <tokensale-header
       :isNotFound="isNotFound"
       :failReason="failReason"
       :isEth="isEth"
@@ -12,24 +12,6 @@
       :amount="amount" />
 
     <div class="tx-container" v-if="!isNotFound">
-      <section class="tx-info">
-        <section v-if="toId" class="section-container">
-          <div class="key">
-            {{ $t('Transaction.label.recipientId') }}
-          </div>
-          <nuxt-link :to="{ name: 'id', params: { id: toId } }">
-            <div class="value">{{ toId }}</div>
-          </nuxt-link>
-        </section>
-        <section class="section-container">
-          <div class="key">
-            {{ $t('Transaction.label.recipientAddress') }}
-          </div>
-          <a :href="`${ETHERSCAN_HOST}/address/${to}#tokentxns`" target="_blank" rel="noopener">
-            <div class="address value">{{ to }}</div>
-          </a>
-        </section>
-      </section>
 
       <section class="extra tx-info">
         <section v-if="fromId" class="section-container">
@@ -60,9 +42,8 @@ import BigNumber from 'bignumber.js';
 
 import EthHelper from '@/util/EthHelper';
 import { ETHERSCAN_HOST } from '@/constant';
-import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 
-import TransactionHeader from '~/components/header/TransactionHeader';
+import TokensaleHeader from '~/components/header/TokensaleHeader';
 import ViewEtherscan from '~/components/ViewEtherscan';
 
 import { apiGetTxById, apiCheckIsUser } from '@/util/api/api';
@@ -94,15 +75,9 @@ export default {
       ETHERSCAN_HOST,
     };
   },
-  asyncData({ params, redirect }) {
+  asyncData({ params }) {
     if (params.tx && params.tx !== {}) {
       const { to, from, value } = params.tx;
-      if (to === LIKE_COIN_ICO_ADDRESS) {
-        return redirect({
-          name: 'in-tokensale-tx-id',
-          params,
-        });
-      }
       return { to, from, value };
     }
     return apiGetTxById(params.id)
@@ -113,12 +88,6 @@ export default {
           value,
           status,
         } = res.data;
-        if (to === LIKE_COIN_ICO_ADDRESS) {
-          return redirect({
-            name: 'in-tokensale-tx-id',
-            params,
-          });
-        }
         return {
           to,
           from,
@@ -134,7 +103,7 @@ export default {
     };
   },
   components: {
-    TransactionHeader,
+    TokensaleHeader,
     ViewEtherscan,
   },
   computed: {
