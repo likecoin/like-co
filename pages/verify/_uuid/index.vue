@@ -4,7 +4,7 @@
       <nuxt-link :to="{ name: 'index' }">{{ $t('Verify.label.toIndex') }}</nuxt-link>...</span>
     <span v-else-if="isVerified">{{ $t('General.label.success') }}, 
       <span v-if="hasReferrer">{{ $t('Verify.label.referral') }}, </span>
-      <nuxt-link :to="{ name: 'edit' }">{{ $t('Verify.label.toEdit') }}</nuxt-link>...</span>
+      <nuxt-link :to="{ name: 'in-edit' }">{{ $t('Verify.label.toEdit') }}</nuxt-link>...</span>
     <span v-else>{{ $t('Verify.label.verifying') }}</span>
     <claim-dialog ref="claimDialog" :couponCode="couponCode" :wallet="wallet" />
   </div>
@@ -57,10 +57,10 @@ export default {
             });
             logTrackerEvent(this, 'RegFlow', 'GetRedPocketSuccessful', 'redeem the red pocket', 1);
           } catch (err) {
-            setTimeout(() => this.$router.push({ name: 'edit' }), 3000);
+            setTimeout(() => this.$router.push({ name: 'in-edit' }), 3000);
           }
         } else if (!this.referrer) {
-          setTimeout(() => this.$router.push({ name: 'edit' }), 3000);
+          setTimeout(() => this.$router.push({ name: 'in-edit' }), 3000);
         }
       } catch (err) {
         this.errorMsg = err.message || err;

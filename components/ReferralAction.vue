@@ -119,7 +119,7 @@ export default {
   },
   computed: {
     shareUrl() {
-      return `https://likecoin.store/register?from=${this.user}`;
+      return `https://like.co/register?from=${this.user}`;
     },
     twitterUrl() {
       return `https://twitter.com/intent/tweet?hashtags=likecoin&url=${encodeURI(this.shareUrl)}&text=${encodeURI(this.$t('Edit.referral.tweetContent'))}`;
@@ -152,7 +152,7 @@ export default {
               'og:url': this.shareUrl,
               'og:title': this.$t('Edit.referral.ogTitle'),
               'og:description': this.$t('Edit.referral.ogDescription', { name: this.user }),
-              'og:image': 'https://likecoin.store/logo.png',
+              'og:image': 'https://like.co/logo.png',
             },
           }),
         }, res => console.log(res));

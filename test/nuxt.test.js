@@ -44,27 +44,27 @@ test('Route /', async (t) => {
   t.true(isIncludeAll(html, list));
 });
 
-test('Route /register', async (t) => {
+test('Route /in/register', async (t) => {
   const context = {};
-  const { html } = await nuxt.renderRoute('/register', context);
+  const { html } = await nuxt.renderRoute('/in/register', context);
   t.true(isIncludeAll(html, ['LikeCoin', 'Create Account', 'Wallet']));
 });
 
-test('Route /redeem', async (t) => {
+test('Route /in/redeem', async (t) => {
   const context = {};
-  const { html } = await nuxt.renderRoute('/redeem', context);
+  const { html } = await nuxt.renderRoute('/in/redeem', context);
   t.true(isIncludeAll(html, ['LikeCoin', 'Create Account', 'Wallet', 'Coupon Code']));
 });
 
-test('Route /edit', async (t) => {
+test('Route /in/edit', async (t) => {
   const context = {};
-  const { html } = await nuxt.renderRoute('/edit', context);
+  const { html } = await nuxt.renderRoute('/in/edit', context);
   t.true(isIncludeAll(html, ['LikeCoin']));
 });
 
-test('Route /tx', async (t) => {
+test('Route /in/tx', async (t) => {
   const context = {};
-  const { html } = await nuxt.renderRoute('/tx', context);
+  const { html } = await nuxt.renderRoute('/in/tx', context);
   t.true(isIncludeAll(html, ['LikeCoin', 'Sending', 'Recipient Address', 'Sender Address']));
 });
 
