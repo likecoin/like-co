@@ -78,7 +78,7 @@
                 <span v-else-if="email">({{ $t('Edit.label.unverified') }}, <a href="" @click.prevent.stop="onVerifyEmail">{{ $t('Edit.label.verifyEmail') }}</a>)</span>
               </span>
             </div>
-            <md-field :class="isProfileEdit ? 'md-field-edit-mode' : 'md-field-pre-edit'">
+            <md-field :class="(!getUserInfo.isEmailVerified && isProfileEdit) ? 'md-field-edit-mode' : 'md-field-pre-edit'">
               <label class="input-display-hint">
                 {{ $t('Edit.label.addEmail') }}
               </label>
@@ -87,11 +87,11 @@
                 class="input-display input-info"
                 v-model="email"
                 ref="inputEmail"
-                :disabled="!isProfileEdit" />
+                :disabled="getUserInfo.isEmailVerified || !isProfileEdit" />
               <md-button
                 :class="isProfileEdit ? '' : 'input-display-btn'"
                 @click="onEditEmail"
-                v-if="!isProfileEdit">
+                v-if="!getUserInfo.isEmailVerified && !isProfileEdit">
                 <img :src="EditIcon" />
               </md-button>
             </md-field>
@@ -169,7 +169,7 @@
       :user="user"
       :pending="referralPending"
       :verified="referralVerified"
-      :isEmailVerifted="getUserInfo.isEmailVerified"
+      :isEmailVerified="getUserInfo.isEmailVerified"
       :isProfileEdit="isProfileEdit"
       :isBlocked="getIsPopupBlocking"
     />
@@ -273,6 +273,7 @@ export default {
       }
     },
     onEditEmail() {
+      if (this.getUserInfo.isEmailVerified) return;
       if (this.isProfileEdit) {
         this.$nextTick(() => this.$refs.inputEmail.$el.focus());
         return;
