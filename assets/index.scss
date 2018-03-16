@@ -309,4 +309,12 @@ html, body {
   }
 }
 
+.disabled:active,
+.disabled:hover,
+.disabled {
+  pointer-events: none !important;
+  opacity: .3 !important;
+  cursor: not-allowed !important;
+}
+
 /* Layout System - End */

@@ -1,5 +1,9 @@
 <template>
-  <md-button :class="className" @click="handleClick">
+  <md-button
+    :class="[className, hasShadow ? 'shadow' : '']"
+    @click="handleClick"
+    :type="type"
+    :form="form">
     <slot />
   </md-button>
 </template>
@@ -7,7 +11,7 @@
 <script>
   export default {
     name: 'material-button',
-    props: ['className'],
+    props: ['className', 'hasShadow', 'type', 'form'],
     methods: {
       handleClick() {
         this.$emit('click');
@@ -26,11 +30,14 @@
   border-radius: 0;
 
   color: $like-white;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
   background-color: $like-green;
 
   font-size: 24px;
   line-height: 32px;
+
+  &.shadow {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  }
 
   :global(.md-ripple) {
     padding: 8px;
