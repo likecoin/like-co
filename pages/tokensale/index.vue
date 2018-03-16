@@ -174,7 +174,7 @@
                   KYC ALREADY PENDING
                 </section>
 
-                <section v-else>
+                <section>
                   <KYCForm
                     :isKYCTxPass="isKYCTxPass"
                     :user="getUserInfo"
