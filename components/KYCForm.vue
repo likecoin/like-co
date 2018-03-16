@@ -12,7 +12,7 @@
           <br>
           <input type="submit" :value="$t('KYC.label.purchaseMore')" />
         </div>
-        <div v-else-if="stage === 90">
+        <div v-else-if="stage === 90 && (pendingKYC || isSubmittedAdvancedVerification)">
           <!-- Waiting for confirmation -->
           {{ $t('KYC.label.submittedVerification') }}
         </div>
@@ -199,7 +199,7 @@
           {{ $t('KYC.label.waitingConfirmation') }}
         </h2>
         <p>
-          {{ $t(`KYC.label.timeWaitFor${pendingKYC ? 'Advanced' : 'Account'}Verification`) }}
+          {{ $t(`KYC.label.timeWaitFor${(pendingKYC || isSubmittedAdvancedVerification) ? 'Advanced' : 'Account'}Verification`) }}
         </p>
       </div>
     </section>
@@ -273,6 +273,7 @@ export default {
       txConfirmed: false,
       isAdvanced: false,
       isWaitingEmailVerification: false,
+      isSubmittedAdvancedVerification: false,
     };
   },
   computed: {
@@ -294,7 +295,7 @@ export default {
         stage,
         pendingKYC,
         KYCStatus,
-        isKYCTxPass,
+        isSubmittedAdvancedVerification,
       } = this;
 
       if (!this.user.isEmailVerified) {
@@ -306,13 +307,13 @@ export default {
       if (stage === 90 && !pendingKYC) {
         // pending state but not about advanced verification
         accountStatusIcon = PendingIcon;
-      } else if (KYCStatus === KYC_STATUS_ENUM.STANDARD && isKYCTxPass) {
+      } else if (KYCStatus === KYC_STATUS_ENUM.STANDARD) {
         accountStatusIcon = TickIcon;
       }
 
-      if (pendingKYC) {
+      if (pendingKYC || isSubmittedAdvancedVerification) {
         advancedStatusIcon = PendingIcon;
-      } else if (KYCStatus === KYC_STATUS_ENUM.ADVANCED && isKYCTxPass) {
+      } else if (KYCStatus === KYC_STATUS_ENUM.ADVANCED) {
         accountStatusIcon = TickIcon;
       }
 
@@ -328,7 +329,7 @@ export default {
       ];
 
       // show advanced step only when advanced verification is in progress / clicked
-      if (stage === 92 || stage === 2 || pendingKYC) {
+      if (stage === 92 || stage === 2 || pendingKYC || this.isSubmittedAdvancedVerification) {
         steps.push({
           key: 'advanced',
           icon: advancedStatusIcon,
@@ -449,6 +450,9 @@ export default {
 
       // show waiting for confirmation section
       this.stage = 90;
+      if (isAdv) {
+        this.isSubmittedAdvancedVerification = true;
+      }
 
       await EthHelper.waitForTxToBeMined(txHash);
       this.txConfirmed = true;
@@ -466,7 +470,7 @@ export default {
       return this.newUser(data);
     },
     async updateKYC() {
-      if (this.user.isEmailVerified) {
+      if (!this.user.isEmailVerified) {
         this.email = this.user.email;
         this.stage = 20;
         return;
@@ -546,21 +550,26 @@ input[type="file"] {
   .kyc-status {
     display: flex;
     flex-direction: row;
+
     margin-top: 12px;
+
     line-height: 24px;
 
     .description {
-      color: $like-gray-4;
       flex: 1;
 
+      color: $like-gray-4;
+
       input {
+        cursor: pointer;
+        transition: opacity .2s ease-in-out;
+        text-decoration: underline;
+
+        color: $like-green;
         border: none;
         background-color: transparent;
-        color: $like-green;
-        cursor: pointer;
-        text-decoration: underline;
+
         font-size: 14px;
-        transition: opacity .2s ease-in-out;
         &:hover {
           opacity: .7;
         }
@@ -569,14 +578,16 @@ input[type="file"] {
 
     .steps {
       flex-shrink: 0;
+
       min-width: 120px;
+      padding-left: 36px;
       > li {
         position: relative;
 
         img {
           position: absolute;
-          left: -36px;
           top: 4px;
+          left: -36px;
         }
       }
     }
@@ -596,17 +607,21 @@ input[type="file"] {
   }
 
   h2 {
-    display: inline-flex;
     position: relative;
-    font-weight: normal;
+
+    display: inline-flex;
+
     color: $like-green-2;
+
+    font-weight: normal;
 
     img {
       position: absolute;
-      width: 30px;
-      height: 30px;
       top: 2px;
       left: -48px;
+
+      width: 30px;
+      height: 30px;
     }
   }
 
@@ -614,10 +629,11 @@ input[type="file"] {
     text-align: center;
 
     .standard-verification-wrapper {
-      height: 220px;
       display: flex;
       flex-direction: column;
       justify-content: center;
+
+      height: 220px;
     }
 
     .md-layout {
@@ -627,8 +643,9 @@ input[type="file"] {
       }
       .options {
         padding: 12px 0 8px;
-        border-bottom: 2px solid #d8d8d8;
+
         color: $like-gray-5;
+        border-bottom: 2px solid #d8d8d8;
       }
     }
     .md-radio {
@@ -659,20 +676,25 @@ input[type="file"] {
         font-size: 24px;
       }
       .md-button {
-        font-size: 14px;
         width: 124px;
+        margin: 8px 0 40px;
+
+        text-decoration: underline;
+
         color: $like-green;
 
-        margin: 8px 0 40px;
-        text-decoration: underline;
+        font-size: 14px;
       }
     }
   }
 
   .contact-intercom-section {
-    color: $like-green-2;
-    text-align: center;
     margin: 64px 0;
+
+    text-align: center;
+
+    color: $like-green-2;
+
     font-size: 18px;
   }
 
@@ -702,30 +724,38 @@ input[type="file"] {
           position: relative;
 
           display: flex;
-          flex-direction: row;
           align-items: center;
+          flex-direction: row;
 
           &::after {
-            content: '';
-            width: 232px;
-            height: 2px;
-            background-color: $like-gray-3;
             position: absolute;
             bottom: 0;
+
+            width: 232px;
+            height: 2px;
+
+            content: '';
+
+            background-color: $like-gray-3;
           }
           .image-name-text {
-            color: $like-gray-5;
-            font-size: 20px;
-            font-weight: 300;
+            overflow: hidden;
+
             width: 232px;
             height: 24px;
             margin-top: 12px;
+
             white-space: nowrap;
-            overflow: hidden;
             text-overflow: ellipsis;
+
+            color: $like-gray-5;
+
+            font-size: 20px;
+            font-weight: 300;
           }
           .md-button {
             width: 88px;
+
             color: $like-green;
           }
         }
@@ -742,14 +772,16 @@ input[type="file"] {
       background-color: $like-gray-3;
     }
     &::after {
-      background-color: $like-gray-3;
       height: 2px;
+
+      background-color: $like-gray-3;
     }
     label {
       color: #9b9b9b;
     }
     :global(.md-input) {
       color: $like-gray-5;
+
       font-size: 20px;
       font-weight: 300;
     }
