@@ -93,7 +93,7 @@ export default {
         const amount = formatAmount(params.amount || 1);
         if (wallet === LIKE_COIN_ICO_ADDRESS) {
           redirect({
-            name: 'tokensale',
+            name: 'in-tokensale',
           });
         }
         return {
