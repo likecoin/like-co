@@ -96,7 +96,6 @@
               </md-button>
             </md-field>
           </div>
-          <span>KYC: <a @click.prevent="onKYCClick" href="">{{ KYCStatus }}</a></span>
         </div>
 
         <div v-if="isProfileEdit" class="btn-container">
@@ -220,7 +219,6 @@ export default {
       freeCoupon: '',
       referralPending: 0,
       referralVerified: 0,
-      KYCStatus: 'None',
       ICOTotalCoin: 0,
       ICOTotalETH: 0,
       ICOHistory: [],
@@ -309,32 +307,7 @@ export default {
       this.updateLikeCoin();
       this.updateReferralStat();
       this.updateCanGetFreeLikeCoin(user);
-      this.updateKYC();
       this.updateTokenSaleHistory();
-    },
-    async updateKYC() {
-      if (this.getUserInfo.pendingKYC) {
-        this.KYCStatus = 'AdvanedInProgress';
-        return;
-      }
-      const isKYC = await EthHelper.queryKYCStatus(this.wallet);
-      const status = this.getUserInfo.KYC;
-      switch (status) {
-        case 3: {
-          this.KYCStatus = isKYC ? 'Advanced' : 'ProcessingTx';
-          break;
-        }
-        case 2: {
-          this.KYCStatus = isKYC ? 'Standard' : 'ProcessingTx';
-          break;
-        }
-        case 1: {
-          this.KYCStatus = 'InProgress';
-          break;
-        }
-        default:
-          this.KYCStatus = 'None';
-      }
     },
     async updateLikeCoin() {
       try {
@@ -466,13 +439,6 @@ export default {
         logTrackerEvent(this, 'RegFlow', 'GetRedPocketSuccessful', 'redeem the red pocket', 1);
       } catch (err) {
         console.error(err);
-      }
-    },
-    onKYCClick() {
-      if (this.getUserInfo.isEmailVerified) {
-        this.$router.push({ name: 'in-tokensale' });
-      } else {
-        this.$refs.inputDialog.onInputText();
       }
     },
   },
