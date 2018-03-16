@@ -476,19 +476,6 @@ export default {
       }
     },
   },
-  mounted() {
-    const { hash } = document.location;
-    if (hash) {
-      const element = document.querySelector(hash);
-      if (element) element.scrollIntoView();
-    }
-
-    if (this.$route.params.showEmail) {
-      this.$nextTick(() => this.$refs.inputDialog.onInputText());
-    }
-
-    this.updateInfo();
-  },
   watch: {
     getUserIsFetching(f) {
       if (!f) {
@@ -501,6 +488,11 @@ export default {
     },
   },
   mounted() {
+    const { hash } = document.location;
+    if (hash) {
+      const element = document.querySelector(hash);
+      if (element) element.scrollIntoView();
+    }
     if (!this.getUserIsFetching) {
       if (!this.getUserIsRegistered) {
         this.$router.push({ name: 'in-register' });
@@ -508,7 +500,7 @@ export default {
         if (this.$route.params.showEmail) {
           this.$nextTick(() => this.$refs.inputDialog.onInputText());
         }
-        this.$router.push({ name: 'in-register' });
+        this.updateInfo();
       }
     }
   },
