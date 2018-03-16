@@ -48,7 +48,7 @@ jobs:
             cp test/stub/server/util/ses.js server/util/ses.js
       - run:
           name: Build
-          command: npm run build_testnet
+          command: npm run build_testnet_server
       - run:
           name: Unit Test Server
           command: IS_TESTNET=TRUE npm start
@@ -57,7 +57,7 @@ jobs:
           name: Curl Unit Test Server
           command: |
             sleep 5
-            curl --retry 10 --retry-delay 5 -v http://localhost:3000/
+            curl --retry 10 --retry-delay 5 -v http://localhost:3000/api/healthz
       - run:
           name: Unit Test (Backend)
           command: npm run test:express
