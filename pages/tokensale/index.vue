@@ -90,7 +90,34 @@
         </div>
       </section>
 
-      <section class="lc-container-1 lc-section-block">
+      <!-- KYC Sections start -->
+      <section
+        v-if="getUserIsFetching || isKYCTxPass==undefined"
+        class="lc-container-1 lc-verticle-inset-5">
+        <div class="lc-container-2">
+          <md-progress-bar md-mode="indeterminate" />
+        </div>
+      </section>
+
+      <section
+        class="lc-container-1 lc-section-block"
+        v-else-if="!getUserIsRegistered"
+      >
+        <div class="lc-container-header">
+          <div class="lc-container-2 lc-container-header-overlay">
+            <div class="lc-container-3">
+              <div class="create-account-wrapper">
+                <p>{{ $t('KYC.label.createID') }}</p>
+                <material-button @click="redirectToRegister">
+                  {{ $t('KYC.button.createID') }}
+                </material-button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="lc-container-1 lc-section-block" v-else>
         <div class="lc-container-header">
           <div class="lc-container-2 lc-container-header-overlay">
             <div class="lc-container-3" />
@@ -107,11 +134,7 @@
           <div class="lc-container-3">
             <div class="lc-container-4 lc-verticle-inset-4">
               <div class="inner-container">
-                <section v-if="getUserIsFetching || isKYCTxPass==undefined">
-                  <md-progress-bar md-mode="indeterminate" />
-                  LOADING
-                </section>
-                <form v-else-if="canICO && !needExtraKYC" id="paymentInfo" v-on:submit.prevent="onSubmit">
+                <form v-if="canICO && !needExtraKYC" id="paymentInfo" v-on:submit.prevent="onSubmit">
                   <input v-model="wallet" hidden required disabled />
                   <label>{{ $t('Transaction.label.amountToSend', { coin: isEth ? 'ETH' : 'LikeCoin' }) }}</label>
                   <md-field :class="isBadAmount?'md-input-invalid':''">
@@ -146,12 +169,11 @@
                   </md-button>
                 </form>
 
-                <md-button v-else-if="!getUserIsRegistered" @click="redirectToRegister">Register</md-button>
-
                 <section v-else-if="KYCStatus==KYC_STATUS_ENUM.PENDING">
                   <md-progress-bar md-mode="indeterminate" />
                   KYC ALREADY PENDING
                 </section>
+
                 <section v-else>
                   <KYCForm
                     :isKYCTxPass="isKYCTxPass"
@@ -441,6 +463,20 @@ export default {
 
 .tokensale-page {
   margin-bottom: 18px;
+
+  .create-account-wrapper {
+    text-align: center;
+    p {
+      text-align: center;
+      color: $like-gray-4;
+      max-width: 422px;
+      margin: auto;
+    }
+    .md-button {
+      width: 256px;
+      margin-top: 32px;
+    }
+  }
 }
 
 .nav-menu {

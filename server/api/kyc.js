@@ -76,14 +76,13 @@ router.post('/kyc', async (req, res) => {
       ts,
       notPRC,
       notUSA,
-      isBelowThersold,
     } = JSON.parse(payload);
 
     // Check ts expire
     if (Math.abs(ts - Date.now()) > ONE_DATE_IN_MS) {
       throw new Error('payload expired');
     }
-    if (!notPRC || !notUSA || !isBelowThersold) throw new Error('Invalid KYC');
+    if (!notPRC || !notUSA) throw new Error('Invalid KYC');
 
     const userRef = dbRef.doc(user);
     const userDoc = await userRef.get();
@@ -114,7 +113,6 @@ router.post('/kyc', async (req, res) => {
       email,
       notPRC,
       notUSA,
-      isBelowThersold,
       txHash,
       clientTs: ts,
       ts: Date.now(),
@@ -169,7 +167,6 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
       ts,
       notPRC,
       notUSA,
-      isBelowThersold,
       passportName,
       country,
       document0SHA256,
@@ -218,7 +215,6 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
       email,
       notPRC,
       notUSA,
-      isBelowThersold,
       country,
       passportName,
       document0,

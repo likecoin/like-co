@@ -1,6 +1,6 @@
 <template>
   <div class="lc-page-wrapper">
-
+    <tool-bars/>
     <header class="lc-page-header">
 
       <div class="lc-container-0 header-bg lc-narrow">
@@ -38,11 +38,13 @@
 <script>
 import SiteHeader from '~/components/header/Header';
 import MyFooter from '~/components/footer/Footer';
+import ToolBars from '~/components/toolbars/ToolBars';
 
 export default {
   components: {
     SiteHeader,
     MyFooter,
+    ToolBars,
   },
 };
 </script>

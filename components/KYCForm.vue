@@ -1,116 +1,239 @@
 <template>
   <form id="kycForm" @submit.prevent="onNext">
-    <div>Current KYC Status: {{ status }}</div>
-    <section v-if="stage == 0">
-      <md-button type="submit" form="kycForm">Start KYC</md-button>
-    </section>
-    <section v-if="stage == 1">
-      <div class="md-layout">
-        <label class="md-layout-item md-size-100">Are you a citizen of PRC?</label>
-        <div class="md-layout md-layout-item">
-          <md-radio v-model="notPRC" class="md-layout-item" :value="false">Yes</md-radio>
-          <md-radio v-model="notPRC" class="md-layout-item" :value="true">No</md-radio>
+    <div class="kyc-status">
+      <div class="description">
+        <div v-if="stage === 92">
+          <!-- Finished Advanced KYC -->
+          {{  $t('KYC.label.canPurchaseMoreThanAmount', { amount: KYC_USD_LIMIT }) }}
+        </div>
+        <div v-else-if="stage === 91">
+          <!-- Finished Standard KYC -->
+          {{ $t('KYC.label.canPurchaseLessThanAmount', { amount: KYC_USD_LIMIT }) }}
+          <br>
+          <input type="submit" :value="$t('KYC.label.purchaseMore')" />
+        </div>
+        <div v-else-if="stage === 90">
+          <!-- Waiting for confirmation -->
+          {{ $t('KYC.label.submittedVerification') }}
+        </div>
+        <div v-else>
+          <!-- other cases -->
+          {{ $t('KYC.label.verifyToPurchase') }}
         </div>
       </div>
-      <div class="md-layout">
-        <label class="md-layout-item md-size-100">Are you a citizen of USA?</label>
-        <div class="md-layout md-layout-item">
-          <md-radio v-model="notUSA" name="isUSA" class="md-layout-item" :value="false">Yes</md-radio>
-          <md-radio v-model="notUSA" name="isUSA" class="md-layout-item" :value="true">No</md-radio>
+
+      <ol class="steps">
+        <li
+          v-for="step in this.kycSteps"
+          :key="step.key">
+          <img :src="step.icon" />
+          {{ $t(`KYC.label.${step.key}Verification`) }}
+        </li>
+      </ol>
+    </div>
+
+    <section
+      v-if="stage === 0"
+      class="start-kyc-section">
+      <!-- Email verified and KYC not yet started -->
+      <div class="verified-wrapper">
+        <div class="description">
+          <h2>
+            {{ $t('KYC.label.emailVerified') }}
+            <img :src="TickIcon" />
+          </h2>
+          <p>{{ $t('KYC.label.proceedToAccountVerification') }}</p>
         </div>
       </div>
-      <md-button type="submit" form="kycForm">Next</md-button>
+      <material-button type="submit" form="kycForm">
+        {{ $t('KYC.button.start') }}
+      </material-button>
     </section>
-    <section v-else-if="stage == 2">
-      <div class="md-layout">
-        <label class="md-layout-item md-size-100">Are you going to purchase more than USD{{ KYC_USD_LIMIT }}?</label>
-        <div class="md-layout md-layout-item">
-          <md-radio v-model="isBelowThersold" class="md-layout-item" :value="false">Yes</md-radio>
-          <md-radio v-model="isBelowThersold" class="md-layout-item" :value="true">No</md-radio>
+
+    <section
+      v-if="stage === 1"
+      class="standard-verification-section">
+      <!-- Questions for Standard Verification -->
+      <div class="standard-verification-wrapper">
+        <div class="md-layout lc-verticle-inset-3">
+          <label class="md-layout-item md-size-100">
+            {{ $t('KYC.label.isPrcCitizen') }}
+          </label>
+          <div class="md-layout md-layout-item options">
+            <md-radio v-model="notPRC" class="md-layout-item" :value="false">
+              {{ $t('KYC.button.yes') }}
+            </md-radio>
+            <md-radio v-model="notPRC" class="md-layout-item" :value="true">
+              {{ $t('KYC.button.no') }}
+            </md-radio>
+          </div>
+        </div>
+        <div class="md-layout lc-verticle-inset-3">
+          <label class="md-layout-item md-size-100">
+            {{ $t('KYC.label.isUsaCitizen') }}
+          </label>
+          <div class="md-layout md-layout-item options">
+            <md-radio v-model="notUSA" name="isUSA" class="md-layout-item" :value="false">
+              {{ $t('KYC.button.yes') }}
+            </md-radio>
+            <md-radio v-model="notUSA" name="isUSA" class="md-layout-item" :value="true">
+              {{ $t('KYC.button.no') }}
+            </md-radio>
+          </div>
         </div>
       </div>
-      <md-button type="submit" form="kycForm">Next</md-button>
+      <material-button type="submit" form="kycForm">
+        {{ $t('General.button.confirm') }}
+      </material-button>
     </section>
-    <section v-else-if="stage == 3">
-        <h2>Advanced KYC</h2>
+
+    <section
+      v-else-if="stage === 2"
+      class="advanced-verification-section">
+      <!-- Questions for Advanced Verification   -->
+      <div class="advanced-verification-wrapper lc-verticle-inset-5">
+        <p class="lc-verticle-inset-3">
+          {{ $t('KYC.label.verifyToPurchaseOverAmount', {
+            amount: KYC_USD_LIMIT,
+          }) }}
+        </p>
+
         <md-field>
-          <label>{{ $t('KYC.form.passportName') }}</label>
-          <md-input v-model="passportName" />
+          <label>{{ $t('KYC.label.passportName') }}</label>
+          <md-input v-model="passportName" required />
         </md-field>
+
         <md-field>
-          <label >Country</label>
-          <md-select v-model="country">
-            <md-option v-for="country in COUNTRY_LIST" :key="country.code" :value="country.code">{{country.name}}</md-option>
-          </md-select>
+          <md-autocomplete
+            v-model="country"
+            :md-options="COUNTRY_NAME_LIST"
+            md-dense
+            required>
+            <label>{{ $t('KYC.label.country') }}</label>
+          </md-autocomplete>
         </md-field>
-        <div class="id-container">
-          <img class="id-image" :src="documentData0" />
-          <md-button
-            class="input-display-btn"
-            @click="openPicker('inputFile0')">
-            <md-icon>file_upload</md-icon> Passport Info
-          </md-button>
-          <input type="file" ref="inputFile0" accept="image/*" @change="previewImage0" required />
+
+        <div class="image-upload-field">
+          <label>{{ $t('KYC.label.passportIdPage') }}</label>
+          <div class="image-upload-wrapper">
+            <div v-if="!!passportIdPageFileName" class="image-name-text">
+              {{ passportIdPageFileName }}
+            </div>
+            <md-button
+              @click="openPicker('passportImageInput')">
+              {{ !!passportIdPageFileName ? $t('KYC.button.reupload') : $t('KYC.button.upload') }}
+            </md-button>
+          </div>
+          <input
+            type="file"
+            ref="passportImageInput"
+            accept="image/*"
+            @change="handlePassportImageChange"
+            required />
         </div>
-        <div class="id-container">
-          <img class="id-image" :src="documentData1" />
-          <md-button
-            class="input-display-btn"
-            @click="openPicker('inputFile1')">
-            <md-icon>file_upload</md-icon> Address Proof
-          </md-button>
-          <input type="file" ref="inputFile1" accept="image/*" @change="previewImage1" required />
+
+        <div class="image-upload-field">
+          <label>{{ $t('KYC.label.addressProof') }}</label>
+          <div class="image-upload-wrapper">
+            <div v-if="!!addressProofFileName" class="image-name-text">
+              {{ addressProofFileName }}
+            </div>
+            <md-button
+              @click="openPicker('addressProofImageInput')">
+              {{ !!addressProofFileName ? $t('KYC.button.reupload') : $t('KYC.button.upload') }}
+            </md-button>
+          </div>
+          <input
+            type="file"
+            ref="addressProofImageInput"
+            accept="image/*"
+            @change="handleAddressProofImageChange"
+            required />
         </div>
-        <md-button type="submit" form="kycForm">Next</md-button>
+      </div>
+      <material-button type="submit" form="kycForm">
+        {{ $t('KYC.button.next') }}
+      </material-button>
     </section>
-    <section v-else-if="stage == 9">
-      <div v-if="!txHash">
-        <div>Please Sign your transaction and confirm!</div>
-        <md-button @click="signKYC(isAdvanced)">Try Again</md-button>
-      </div>
-      <div v-else-if="txConfirmed">
-        confirmed
-      </div>
-      <div v-else>
-        pending kyc tx
-        <md-progress-bar md-mode="indeterminate" />
-      </div>
-    </section>
-    <section v-else-if="stage == 20">
-      <md-field>
+
+    <section
+      v-else-if="stage === 20 || stage === 21"
+      class="verify-email-section">
+      <!-- Email verification not yet started / completed -->
+      <md-field :class="stage === 21 ? 'disabled' : ''">
         <label>
-          {{ $t('Edit.label.addEmail') }}
+          {{ $t('KYC.label.verifyEmailPlaceholder') }}
         </label>
         <md-input
           type="email"
           v-model="email"
-          ref="inputEmail"/>
-          <md-button type="submit" form="kycForm">Next</md-button>
-        </md-button>
+          ref="inputEmail"
+          required />
       </md-field>
+
+      <material-button
+        v-if="stage === 20"
+        type="submit"
+        form="kycForm">
+        {{ $t('General.button.confirm') }}
+      </material-button>
+
+      <div
+        v-if="stage === 21"
+        class="email-sent-wrapper">
+        <p>{{ $t('KYC.label.checkEmail') }}</p>
+        <md-button
+          type="submit"
+          form="kycForm">
+          {{ $t('KYC.button.sendEmailAgain') }}
+        </md-button>
+      </div>
     </section>
-    <section v-else-if="stage == 21">
-      email sent
+
+    <section
+      v-else-if="stage === 90"
+      class="kyc-in-progress-section">
+      <!-- Account / Advanced Verification Waiting for Confirmation -->
+      <div class="description">
+        <h2>
+          {{ $t('KYC.label.waitingConfirmation') }}
+        </h2>
+        <p>
+          {{ $t(`KYC.label.timeWaitFor${pendingKYC ? 'Advanced' : 'Account'}Verification`) }}
+        </p>
+      </div>
     </section>
-    <section v-else-if="stage == 90">
-        Your KYC is in progress.
+
+    <section
+      v-else-if="stage === 91 || stage === 92"
+      class="account-verified-section">
+      <!-- Account / Advanced Verification Passed -->
+      <div class="verified-wrapper">
+        <div class="description">
+          <h2>
+            {{ $t('KYC.label.accountVeritifed') }}
+            <img :src="TickIcon" />
+          </h2>
+          <p>{{ $t('KYC.label.canPurchaseWhenPublicSale') }}</p>
+        </div>
+      </div>
     </section>
-    <section v-else-if="stage == 91">
-        You have already completed Standard KYC.
-        <md-button type="submit" form="kycForm">Start Advance KYC</md-button>
-        <!-- TODO: upload KYC -->
-    </section>
-    <section v-else-if="stage == 92">
-        You have already completed Advanced KYC.
-    </section>
-    <section v-else-if="stage == 99">
+
+    <section
+      v-else-if="stage === 99"
+      class="contact-intercom-section">
         Please contact us in intercom directly
     </section>
   </form>
 </template>
 
 <script>
-import EditWhiteIcon from '@/assets/icons/edit-white.svg';
+import CircleIcon from '@/assets/tokensale/circle.svg';
+import PendingIcon from '@/assets/tokensale/pending.svg';
+import TickIcon from '@/assets/tokensale/tick.svg';
+
+import MaterialButton from '~/components/MaterialButton';
+
 import { KYC_USD_LIMIT, KYC_STATUS_ENUM } from '@/constant';
 import COUNTRY_LIST from '@/constant/country-list';
 import User from '@/util/User';
@@ -122,13 +245,15 @@ export default {
   name: 'KYC',
   props: ['isKYCTxPass', 'user', 'wallet'],
   components: {
+    MaterialButton,
     PopupDialog,
   },
   data() {
     return {
-      EditWhiteIcon,
+      TickIcon,
+
       KYC_USD_LIMIT,
-      COUNTRY_LIST,
+
       email: '',
       stage: 0,
       status: 'None',
@@ -137,13 +262,17 @@ export default {
       isBelowThersold: true,
       passportName: '',
       country: '',
-      documentData0: null,
-      documentData1: null,
+      // documentData0: null,
+      // documentData1: null,
+      passportIdPageFileName: null,
+      addressProofFileName: null,
       documentFile0: '',
       documentFile1: '',
       txHash: '',
+
       txConfirmed: false,
       isAdvanced: false,
+      isWaitingEmailVerification: false,
     };
   },
   computed: {
@@ -152,6 +281,61 @@ export default {
     },
     pendingKYC() {
       return this.user.pendingKYC;
+    },
+    COUNTRY_NAME_LIST() {
+      return COUNTRY_LIST.map(country => country.name);
+    },
+    kycSteps() {
+      let emailStatusIcon = TickIcon;
+      let accountStatusIcon = CircleIcon;
+      let advancedStatusIcon = CircleIcon;
+
+      const {
+        stage,
+        pendingKYC,
+        KYCStatus,
+        isKYCTxPass,
+      } = this;
+
+      if (!this.user.isEmailVerified) {
+        emailStatusIcon = CircleIcon;
+      } else if (this.isWaitingEmailVerification) {
+        emailStatusIcon = PendingIcon;
+      }
+
+      if (stage === 90 && !pendingKYC) {
+        // pending state but not about advanced verification
+        accountStatusIcon = PendingIcon;
+      } else if (KYCStatus === KYC_STATUS_ENUM.STANDARD && isKYCTxPass) {
+        accountStatusIcon = TickIcon;
+      }
+
+      if (pendingKYC) {
+        advancedStatusIcon = PendingIcon;
+      } else if (KYCStatus === KYC_STATUS_ENUM.ADVANCED && isKYCTxPass) {
+        accountStatusIcon = TickIcon;
+      }
+
+      const steps = [
+        {
+          key: 'email',
+          icon: emailStatusIcon,
+        },
+        {
+          key: 'account',
+          icon: accountStatusIcon,
+        },
+      ];
+
+      // show advanced step only when advanced verification is in progress / clicked
+      if (stage === 92 || stage === 2 || pendingKYC) {
+        steps.push({
+          key: 'advanced',
+          icon: advancedStatusIcon,
+        });
+      }
+
+      return steps;
     },
   },
   methods: {
@@ -164,9 +348,11 @@ export default {
     openPicker(inputFile) {
       this.$refs[inputFile].click();
     },
-    previewImage0(event) {
+    handlePassportImageChange(event) {
       const { files } = event.target;
       if (files && files[0]) {
+        this.passportIdPageFileName = files[0].name;
+
         [this.documentFile0] = Object.values(files);
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -175,9 +361,11 @@ export default {
         reader.readAsDataURL(files[0]);
       }
     },
-    previewImage1(event) {
+    handleAddressProofImageChange(event) {
       const { files } = event.target;
       if (files && files[0]) {
+        this.addressProofFileName = files[0].name;
+
         [this.documentFile1] = Object.values(files);
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -197,23 +385,12 @@ export default {
             this.stage = 99;
             if (this.$intercom) this.$intercom.show();
           } else {
-            this.stage += 1;
+            await this.signKYC();
           }
           break;
         }
         case 2: {
-          if (this.isBelowThersold) {
-            this.stage = 9;
-            await this.signKYC();
-          } else {
-            if (this.$intercom) this.$intercom.show();
-            this.stage += 1;
-          }
-          break;
-        }
-        case 3: {
           this.isAdvanced = true;
-          this.stage = 9;
           await this.signKYC(true);
           break;
         }
@@ -221,10 +398,17 @@ export default {
           await this.updateEmail();
           await this.sendVerifyEmail({ id: this.user.user, ref: 'tokensale' });
           this.stage += 1;
+          this.isWaitingEmailVerification = true;
+          break;
+        }
+        case 21: {
+          // allow user to change the inputted email address
+          this.stage -= 1;
+          this.isWaitingEmailVerification = false;
           break;
         }
         case 91: {
-          this.stage = 3;
+          this.stage = 2;
           break;
         }
         default: {
@@ -237,7 +421,6 @@ export default {
       const {
         notPRC,
         notUSA,
-        isBelowThersold,
         wallet,
         passportName,
         country,
@@ -250,11 +433,11 @@ export default {
         wallet,
         notPRC,
         notUSA,
-        isBelowThersold,
       };
       if (isAdv) {
         userInfo.passportName = passportName;
-        userInfo.country = country;
+        // retrieve country code from choice
+        userInfo.country = COUNTRY_LIST.find(c => c.name === country).code;
         userInfo.documentFile0 = documentFile0;
         userInfo.documentFile1 = documentFile1;
       }
@@ -263,6 +446,10 @@ export default {
       this.txConfirmed = false;
       const { txHash } = await this.sendKYC({ payload, isAdv });
       this.txHash = txHash;
+
+      // show waiting for confirmation section
+      this.stage = 90;
+
       await EthHelper.waitForTxToBeMined(txHash);
       this.txConfirmed = true;
       /* refreshing user will cause kyc form to refresh as well */
@@ -279,9 +466,10 @@ export default {
       return this.newUser(data);
     },
     async updateKYC() {
-      if (!this.user.isEmailVerified) {
+      if (this.user.isEmailVerified) {
         this.email = this.user.email;
         this.stage = 20;
+        return;
       }
       const { isKYCTxPass, KYCStatus, pendingKYC } = this;
       if (pendingKYC) {
@@ -332,42 +520,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-.id-image {
-  display: inline;
-
-  width: auto;
-  height: 100%;
-  margin: 0 auto;
-}
-
-.id-container {
-  position: relative;
-
-  overflow: hidden;
-
-  width: auto;
-  height: 100%;
-  min-height: 300px;
-
-  border: 1px solid rgba(0,0,0, 0.2);
-}
-
-.id-container .md-button {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-
-  width: 100%;
-  height: 100%;
-  margin: auto;
-}
-
-.id-container .md-button:hover {
-  color: white;
-}
+@import "../assets/index";
 
 input[type="file"] {
   position: absolute;
@@ -383,4 +536,235 @@ input[type="file"] {
   border: 0;
 }
 
+#kycForm {
+  .md-button {
+    width: 256px;
+    height: 40px;
+    margin-bottom: 24px;
+  }
+
+  .kyc-status {
+    display: flex;
+    flex-direction: row;
+    margin-top: 12px;
+    line-height: 24px;
+
+    .description {
+      color: $like-gray-4;
+      flex: 1;
+
+      input {
+        border: none;
+        background-color: transparent;
+        color: $like-green;
+        cursor: pointer;
+        text-decoration: underline;
+        font-size: 14px;
+        transition: opacity .2s ease-in-out;
+        &:hover {
+          opacity: .7;
+        }
+      }
+    }
+
+    .steps {
+      flex-shrink: 0;
+      min-width: 120px;
+      > li {
+        position: relative;
+
+        img {
+          position: absolute;
+          left: -36px;
+          top: 4px;
+        }
+      }
+    }
+  }
+
+  .start-kyc-section,
+  .account-verified-section {
+    text-align: center;
+    .verified-wrapper {
+      margin: 80px 0;
+      .description {
+        p {
+          margin-top: 8px;
+        }
+      }
+    }
+  }
+
+  h2 {
+    display: inline-flex;
+    position: relative;
+    font-weight: normal;
+    color: $like-green-2;
+
+    img {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      top: 2px;
+      left: -48px;
+    }
+  }
+
+  .standard-verification-section {
+    text-align: center;
+
+    .standard-verification-wrapper {
+      height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .md-layout {
+      text-align: left;
+      label {
+        color: $like-dark-brown-1;
+      }
+      .options {
+        padding: 12px 0 8px;
+        border-bottom: 2px solid #d8d8d8;
+        color: $like-gray-5;
+      }
+    }
+    .md-radio {
+      justify-content: center;
+      :global(.md-radio-container) {
+        border-color: $like-gray-4;
+
+        :global(.md-ripple) {
+          color: $like-green;
+        }
+        &:after {
+          background-color: $like-green;
+        }
+      }
+    }
+
+  }
+
+  .verify-email-section {
+    text-align: center;
+
+    .md-field {
+      margin: 62px 0 76px;
+    }
+
+    .email-sent-wrapper {
+      p {
+        font-size: 24px;
+      }
+      .md-button {
+        font-size: 14px;
+        width: 124px;
+        color: $like-green;
+
+        margin: 8px 0 40px;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .contact-intercom-section {
+    color: $like-green-2;
+    text-align: center;
+    margin: 64px 0;
+    font-size: 18px;
+  }
+
+  .kyc-in-progress-section {
+    text-align: center;
+
+    .description {
+      margin: 80px 0 124px;
+    }
+  }
+
+  .advanced-verification-section {
+    text-align: center;
+    .advanced-verification-wrapper {
+      text-align: left;
+
+      > p {
+        color: $like-gray-4;
+      }
+      .image-upload-field {
+        margin-top: 24px;
+        > label {
+          color: $like-dark-brown-1;
+        }
+
+        .image-upload-wrapper {
+          position: relative;
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+          &::after {
+            content: '';
+            width: 232px;
+            height: 2px;
+            background-color: $like-gray-3;
+            position: absolute;
+            bottom: 0;
+          }
+          .image-name-text {
+            color: $like-gray-5;
+            font-size: 20px;
+            font-weight: 300;
+            width: 232px;
+            height: 24px;
+            margin-top: 12px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          .md-button {
+            width: 88px;
+            color: $like-green;
+          }
+        }
+        .md-button {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+
+  // fine-tune input color
+  .md-field {
+    &::before {
+      background-color: $like-gray-3;
+    }
+    &::after {
+      background-color: $like-gray-3;
+      height: 2px;
+    }
+    label {
+      color: #9b9b9b;
+    }
+    :global(.md-input) {
+      color: $like-gray-5;
+      font-size: 20px;
+      font-weight: 300;
+    }
+
+    &.md-focused,
+    &.md-has-value {
+      label {
+        color: $like-dark-brown-1;
+      }
+    }
+    &:not(.md-focused):not(.md-has-value) {
+      label {
+        margin-top: -4px;
+      }
+    }
+  }
+}
 </style>
