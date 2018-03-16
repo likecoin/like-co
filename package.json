@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "IS_TESTNET=TRUE backpack dev",
     "build": "nuxt build && backpack build",
-    "build_testnet": "IS_TESTNET=TRUE nuxt build && backpack build",
+    "build_testnet": "IS_TESTNET=TRUE nuxt build && npm run build_server_testnet",
+    "build_testnet_server": "IS_TESTNET=TRUE backpack build",
     "start": "cross-env NODE_ENV=production node build/main.js",
     "precommit": "npm run lint",
     "lint": "eslint --ext .js,.vue .",
