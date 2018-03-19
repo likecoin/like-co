@@ -84,11 +84,7 @@ export default {
       }, 10000);
 
       logTrackerEvent(this, 'RegFlow', 'ClickedIAmInterestedButton', 'User is interested in early bird token sale', 1);
-      this.$router.push({ query: Object.assign({}, this.$route.query, { interested: 'true' }) });
-      if (this.$intercom) {
-        this.$intercom.update();
-        this.$intercom.show();
-      }
+      this.$router.push({ name: 'in-tokensale' });
     },
   },
   beforeDestory() {
