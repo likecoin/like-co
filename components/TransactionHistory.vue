@@ -88,6 +88,7 @@ export default {
       return isFrom ? tx.fromId : tx.toId;
     },
     getFromTo(tx) {
+      if (this.isTokensale(tx)) return 'From';
       const isFrom = (tx.to === this.address);
       return isFrom ? 'From' : 'To';
     },
