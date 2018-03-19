@@ -30,6 +30,7 @@ export default {
   computed: {
     ...mapGetters([
       'getUserInfo',
+      'getCurrentLocale',
     ]),
     getAddress() {
       return `${ETHERSCAN_HOST}/address/${this.contractAddress}`;
@@ -38,10 +39,12 @@ export default {
   mounted() {
     if (this.$intercom) {
       const { user, displayName, email } = this.getUserInfo;
+      const language = this.getCurrentLocale;
       const opt = { LikeCoin: true };
       if (user) opt.user_id = user;
       if (displayName) opt.name = displayName;
       if (email) opt.email = email;
+      if (language) opt.language = language;
       this.$intercom.boot(opt);
     }
   },
@@ -60,6 +63,11 @@ export default {
         if (email) opt.email = email;
         if (wallet) opt.wallet = wallet;
         this.$intercom.update(opt);
+      }
+    },
+    getCurrentLocale(language) {
+      if (this.$intercom) {
+        this.$intercom.update({ language });
       }
     },
   },
