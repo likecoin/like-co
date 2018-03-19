@@ -32,20 +32,25 @@ function docSet(data, id, setData, config) {
   return global.Promise.resolve();
 }
 
+function querySnapshotDocs(data) {
+  return data.map((d) => {
+    const docObj = {
+      id: d.id,
+      ref: {
+        set: (setData, config) => docSet(data, d.id, setData, config),
+        create: (setData, config) => docSet(data, d.id, setData, config),
+        update: updateData => docUpdate(d, updateData),
+      },
+      data: () => docData(d),
+    };
+    return docObj;
+  });
+}
+
 function collectionWhere(data, field, op, value) {
   if (op === '==') {
     const whereData = data.filter(d => d[field] === value);
-    const docs = whereData.map((d) => {
-      const docObj = {
-        id: d.id,
-        ref: {
-          set: (setData, config) => docSet(data, d.id, setData, config),
-          update: updateData => docUpdate(d, updateData),
-        },
-        data: () => docData(d),
-      };
-      return docObj;
-    });
+    const docs = querySnapshotDocs(whereData);
     const queryObj = {
       where: (sField, sOp, sValue) => collectionWhere(whereData, sField, sOp, sValue),
       orderBy: (sField, order = 'asc') => {
@@ -86,24 +91,41 @@ function collectionDoc(data, id) {
   return {
     get: () => global.Promise.resolve(docObj),
     set: (setData, config) => docSet(data, id, setData, config),
+    create: (setData, config) => docSet(data, id, setData, config),
     update: (updateData) => {
       if (obj) {
         return docUpdate(obj, updateData);
       }
       throw new Error('Doc not exists for update.');
     },
+    collection: (collectionId) => {
+      // define sub-collection if try to query
+      obj.collection = {
+        [collectionId]: [],
+      };
+      /* eslint no-use-before-define: "off" */
+      return createCollection(obj.collection[collectionId]);
+    },
   };
 }
 
-const userCollection = {
-  where: (field, op, value) => collectionWhere(userData, field, op, value),
-  doc: id => collectionDoc(userData, id),
-};
+function createCollection(data) {
+  return {
+    where: (field, op, value) => collectionWhere(data, field, op, value),
+    doc: id => collectionDoc(data, id),
+    get: () => {
+      const docs = querySnapshotDocs(data);
+      return global.Promise.resolve({
+        docs,
+        forEach: f => docs.forEach(f),
+      });
+    },
+  };
+}
 
-const txCollection = {
-  where: (field, op, value) => collectionWhere(txData, field, op, value),
-  doc: id => collectionDoc(txData, id),
-};
+const userCollection = createCollection(userData);
+
+const txCollection = createCollection(txData);
 
 module.exports = {
   userCollection,
