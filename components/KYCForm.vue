@@ -243,7 +243,7 @@ import { mapActions } from 'vuex';
 
 export default {
   name: 'KYC',
-  props: ['isKYCTxPass', 'user', 'wallet'],
+  props: ['isKYCTxPass', 'isPreSale', 'user', 'wallet'],
   components: {
     MaterialButton,
     PopupDialog,

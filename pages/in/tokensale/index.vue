@@ -189,6 +189,7 @@
                 <section>
                   <KYCForm
                     :isKYCTxPass="isKYCTxPass"
+                    :isPreSale="isPreSale"
                     :user="getUserInfo"
                     :wallet="getLocalWallet" />
                 </section>
@@ -268,7 +269,6 @@ export default {
       isEth: true,
       isKYCTxPass: undefined,
       needExtraKYC: false,
-      wallet: this.isPreSale ? LIKE_COIN_PRESALE_ADDRESS : LIKE_COIN_ICO_ADDRESS,
       likeCoinIcon,
       id: 'tokensale',
       displayName: 'LikeCoin TokenSale',
@@ -319,6 +319,9 @@ export default {
     };
   },
   computed: {
+    wallet() {
+      return this.isPreSale ? LIKE_COIN_PRESALE_ADDRESS : LIKE_COIN_ICO_ADDRESS;
+    },
     isPreSale() {
       return (new Date() < new Date(SALE_DATE));
     },
@@ -335,6 +338,7 @@ export default {
       return this.preSaleBase.multipliedBy(new BigNumber(0.25));
     },
     canICO() {
+      if (this.isPreSale) return this.getUserInfo.isEmailVerified;
       return !this.needRegister && this.isKYCTxPass && this.KYCStatus >= KYC_STATUS_ENUM.STANDARD;
     },
     KYCStatus() {
@@ -410,6 +414,7 @@ export default {
             to,
             txHash,
             value,
+            isPreSale: this.isPreSale,
           });
         } else {
           const payload = await EthHelper.signTransferDelegated(to, valueToSend, 0);

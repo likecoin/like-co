@@ -255,6 +255,10 @@
     "VerifiyAndCouponEmail": {
       "subject": "LikeCoin Store 帳號驗證",
       "body": "您好 {{name}}！\n\n歡迎來到 LikeCoin Store ！請到下列網址驗證您的電郵地址，換領您的免費 LikeCoin：\n\nhttps://like.co/verify/{{uuid}}/{{coupon}}?ref={{ref}}\n\n您的換領券編號： {{coupon}}\n\nLikeCoin Foundation\nhttps://like.co"
+    },
+    "preSaleEmail": {
+      "subject": "您已經成功參加 LikeCoin 早鳥代幣發售",
+      "body": "您好 {{name}}!\n\n多謝您參與 LikeCoin 的早鳥代幣發售\n\n在確認了你的 {{eth}}ETH 付款後, {{base}}+{{bonus}}個 LikeCoin 將會在 LikeCoin 公開代幣發售開始時, 送到你的錢包內.\n\n交易參考地址: https://etherscan.io/tx/{{txHash}}\n\n與此同時, 你可以參加我們的推薦計劃，賺取更多 LikeCoin!\nhttps://like.co/in/edit#referral\n\n如有查詢或意見，歡迎隨時在官方網站聯絡我們.\n\nLikeCoin Foundation\nhttps://like.co"
     }
   },
   "Whitepaper": {
