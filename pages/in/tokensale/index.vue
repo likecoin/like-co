@@ -33,9 +33,9 @@
             <div class="lc-container-4 lc-verticle-inset-5">
 
               <section class="countdown-section">
-                <h1>{{ $t('TokenSale.title') }}</h1>
-                <h3>{{ $t('TokenSale.label.publicSaleStartIn') }}</h3>
-                <countdown-timer :date="new Date('2018-04-23T00:00:00+0800')" />
+                <h1>{{ isPreSale ? $t('TokenSale.preSaleTitle') : $t('TokenSale.title') }} LIVE </h1>
+                <h3>{{ isPreSale ? $t('TokenSale.label.preSaleEndIn') : $t('TokenSale.label.publicSaleStartIn') }}</h3>
+                <countdown-timer :date="new Date(SALE_DATE)" />
               </section>
 
             </div>
@@ -44,7 +44,7 @@
 
         <div class="lc-container-2">
 
-          <div class="tokensale-progress-wrapper lc-container-3 lc-verticle-inset-4">
+          <div v-if="!isPreSale" class="tokensale-progress-wrapper lc-container-3 lc-verticle-inset-4">
             <tokensale-progress
               :progress="currentTokenSaleAmount"
               :total="maxTokenSaleAmount"
@@ -56,6 +56,10 @@
                 <span class="max"> / {{ maxTokenSaleAmount.toLocaleString() }} ETH</span>
               </div>
             </div>
+          </div>
+          <div v-else class="tokensale-presale-wrapper lc-container-3 lc-verticle-inset-4">
+            <h1>{{ $t('TokenSale.label.preSaleBonus') }}</h1>
+            <div class="tokensale-amount lc-verticle-inset-2">{{ $t('TokenSale.label.preSaleBonusCondition') }} </div>
           </div>
 
           <section class="token-info-section">
@@ -125,7 +129,7 @@
 
           <div class="lc-container-2">
             <div class="lc-container-header-title">
-              <h1>{{ $t('TokenSale.label.prepareToJoin') }}</h1>
+              <h1>{{ isPreSale ? $t('TokenSale.label.joinPreSale') : $t('TokenSale.label.prepareToJoin') }}</h1>
             </div>
           </div>
         </div>
@@ -156,6 +160,14 @@
                       {{ $t('Transaction.label.invalidAmount') }}
                     </span>
                   </md-field>
+                  <div v-if="isPreSale">
+                    <div> {{ $t('TokenSale.label.preSaleDescription0', {
+                      base: preSaleBase,
+                      bonus: preSaleBonus,
+                      }) }}
+                    </div>
+                    <div>{{ $t('TokenSale.label.preSaleDescription1') }}</div>
+                  </div>
                   <!-- <md-field>
                     <md-input placeholder="Remark (optional)" />
                   </md-field> -->
@@ -208,13 +220,14 @@ import TokenSaleProgress from '~/components/TokenSaleProgress';
 import PopupDialog from '~/components/dialogs/PopupDialog';
 import KYCForm from '~/components/KYCForm';
 import EthHelper from '@/util/EthHelper';
-import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
-import { KYC_USD_LIMIT, KYC_STATUS_ENUM } from '@/constant';
+import { LIKE_COIN_ICO_ADDRESS, LIKE_COIN_PRESALE_ADDRESS } from '@/constant/contract/likecoin-ico';
+import { KYC_USD_LIMIT, KYC_STATUS_ENUM, ETH_TO_LIKECOIN_RATIO } from '@/constant';
 import { mapActions, mapGetters } from 'vuex';
 import likeCoinIcon from '@/assets/like-coin.svg';
 
 const ONE_LIKE = new BigNumber(10).pow(18);
 const INITIAL_TOKENSALE_ETH = new BigNumber(5400);
+const SALE_DATE = '2018-04-23T00:00:00+0800';
 
 function formatAmount(amount) {
   let result = amount.toString().replace(/[^0-9.]/, '');
@@ -248,12 +261,14 @@ export default {
   data() {
     return {
       KYC_STATUS_ENUM,
+      SALE_DATE,
+      ETH_TO_LIKECOIN_RATIO,
       isBadAddress: false,
       isBadAmount: false,
       isEth: true,
       isKYCTxPass: undefined,
       needExtraKYC: false,
-      wallet: LIKE_COIN_ICO_ADDRESS,
+      wallet: this.isPreSale ? LIKE_COIN_PRESALE_ADDRESS : LIKE_COIN_ICO_ADDRESS,
       likeCoinIcon,
       id: 'tokensale',
       displayName: 'LikeCoin TokenSale',
@@ -304,6 +319,21 @@ export default {
     };
   },
   computed: {
+    isPreSale() {
+      return (new Date() < new Date(SALE_DATE));
+    },
+    preSaleBase() {
+      if (!this.amount) return new BigNumber(0);
+      try {
+        return (new BigNumber(ETH_TO_LIKECOIN_RATIO)).multipliedBy(new BigNumber(this.amount));
+      } catch (err) {
+        return new BigNumber(0);
+      }
+    },
+    preSaleBonus() {
+      if (!this.preSaleBase || Number(this.amount) < 10) return new BigNumber(0);
+      return this.preSaleBase.multipliedBy(new BigNumber(0.25));
+    },
     canICO() {
       return !this.needRegister && this.isKYCTxPass && this.KYCStatus >= KYC_STATUS_ENUM.STANDARD;
     },
@@ -544,13 +574,17 @@ export default {
   }
 }
 
-.tokensale-progress-wrapper {
+.tokensale-presale-wrapper, .tokensale-progress-wrapper {
   padding-right: 0;
   padding-left: 0;
 
   > div {
     margin-right: -8px;
     margin-left: -8px;
+  }
+
+  > h1 {
+    text-align: center;
   }
 }
 

@@ -470,12 +470,19 @@
   },
   "TokenSale": {
     "title": "Token Sale",
+    "preSaleTitle": "Early-Bird",
     "label": {
       "prepareToJoin": "Prepare to Join Token Sale",
       "publicSaleStartIn": "Public Sale Start in:",
+      "preSaleEndIn": "25% bonus ends in:",
+      "preSaleBonus": "25% Bonus",
+      "preSaleBonusCondition": "for 10ETH and above",
+      "joinPreSale": "Join Early-Bird Now",
       "token": "Token",
       "exchangeRate": "Exchange Rate",
-      "supply": "Supply"
+      "supply": "Supply",
+      "preSaleDescription0": "You are buying {base} LikeCoin + {bonus} bonus.",
+      "preSaleDescription1": "LikeCoin will be sent to your wallet when public sale start."
     },
     "button": {
       "aboutLikeCoin": "About LikeCoin",
