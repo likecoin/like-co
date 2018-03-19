@@ -72,3 +72,16 @@ export const closeTxToolbar = ({ commit }) => {
 export async function checkCanGetFreeLikeCoin({ commit }, user) {
   return apiWrapper(commit, api.apiCheckCanGetFreeLikeCoin(user));
 }
+
+export async function queryTxHistoryByAddr({ commit }, { addr, ts, count }) {
+  return apiWrapper(commit, api.apiQueryTxHistoryByAddr(addr, ts, count));
+}
+
+export async function queryEthPrice({ commit }) {
+  try {
+    const [data] = await apiWrapper(commit, api.apiQueryEthPrice());
+    return data.price_usd;
+  } catch (err) {
+    return 1;
+  }
+}

@@ -229,6 +229,8 @@ export default {
           hash,
           name: 'in-edit',
           params: { showEmail: !!this.email },
+          query: this.$route.query.ref ? { ref: this.$route.query.ref } : {},
+          // only preserve $ref for now
         });
       }
     },

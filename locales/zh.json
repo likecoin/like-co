@@ -13,6 +13,12 @@
     "en": "English",
     "zh": "中文"
   },
+  "Date": {
+    "day": "日",
+    "hour": "小時",
+    "minute": "分鐘",
+    "second": "秒"
+  },
   "Home": {
     "Header": {
       "button": {
@@ -244,11 +250,11 @@
   "Email": {
     "VerifiyEmail": {
       "subject": "LikeCoin Store 帳號驗證",
-      "body": "您好 {{name}}！\n\n歡迎來到 LikeCoin Store ！請到下列網址驗證您的電郵地址:\n\nhttps://like.co/verify/{{uuid}}\n\nLikeCoin Foundation\nhttps://like.co"
+      "body": "您好 {{name}}！\n\n歡迎來到 LikeCoin Store ！請到下列網址驗證您的電郵地址:\n\nhttps://like.co/verify/{{uuid}}?ref={{ref}}\n\nLikeCoin Foundation\nhttps://like.co"
     },
     "VerifiyAndCouponEmail": {
       "subject": "LikeCoin Store 帳號驗證",
-      "body": "您好 {{name}}！\n\n歡迎來到 LikeCoin Store ！請到下列網址驗證您的電郵地址，換領您的免費 LikeCoin：\n\nhttps://like.co/verify/{{uuid}}/{{coupon}}\n\n您的換領券編號： {{coupon}}\n\nLikeCoin Foundation\nhttps://like.co"
+      "body": "您好 {{name}}！\n\n歡迎來到 LikeCoin Store ！請到下列網址驗證您的電郵地址，換領您的免費 LikeCoin：\n\nhttps://like.co/verify/{{uuid}}/{{coupon}}?ref={{ref}}\n\n您的換領券編號： {{coupon}}\n\nLikeCoin Foundation\nhttps://like.co"
     }
   },
   "Whitepaper": {
@@ -406,7 +412,7 @@
       "ogDescription": "{name} 邀請你註冊 LikeCoin ID ，改革內容創作生態"
     },
     "button": {
-      "buyCoin": "了解 LikeCoin",
+      "buyCoin": "購買 LikeCoin",
       "getFreeCoin": "領取 LikeCoin"
     }
   },
@@ -414,6 +420,7 @@
     "label": {
       "toIndex": "返回主頁",
       "toEdit": "到個人頁面",
+      "redirect": "跳轉頁面",
       "verifying": "認證中",
       "referral": "作為被邀請者，你將會收到email，獲得免費 LikeCoin"
     }
@@ -438,9 +445,9 @@
       "recipientAddress": "收款者錢包地址",
       "senderName": "轉帳者姓名",
       "senderAddress": "轉帳者錢包地址",
-      "sendTo": "轉帳 LikeCoin 給 <span class='usertitle'>{title}</span>",
+      "sendTo": "轉帳 {coin} 給 <span class='usertitle'>{title}</span>",
       "viewTx": "查看交易",
-      "amountToSend": "轉帳 LikeCoin 金額",
+      "amountToSend": "轉帳 {coin} 金額",
       "invalidAmount": "金額無效",
       "enterValidNumber": "請輸入有效小數位",
       "userNotFound": "收款者不存在"
@@ -459,6 +466,65 @@
     "label": {
       "whitePaper": "白皮書",
       "comingSoon": "即將推出，敬請期待"
+    }
+  },
+  "TokenSale": {
+    "title": "代幣發售",
+    "label": {
+      "prepareToJoin": "準備加入代幣發售",
+      "publicSaleStartIn": "公開發售於:",
+      "token": "代幣",
+      "exchangeRate": "兌換率",
+      "supply": "供應量"
+    },
+    "button": {
+      "aboutLikeCoin": "關於 LikeCoin",
+      "whitePaper": "@:WhitePaper.label.whitePaper"
+    }
+  },
+  "KYC": {
+    "label": {
+      "kyc": "身份認證",
+      "kycNeeded": "需要進行身份認證才能參與",
+      "advKycNeeded": "大額購買需要進行進階身份認證",
+      "emailVerify": "請先認證您的電郵地址",
+      "createID": "註冊 LikeCoin ID 收發 LikeCoin 及參與代幣發售",
+      "verifyToPurchase": "驗證您的個人資料，在代幣發售時即可購買 LikeCoin",
+      "emailVerification": "電郵認證",
+      "accountVerification": "帳戶認證",
+      "advancedVerification": "進階認證",
+      "verifyEmailPlaceholder": "輸入電郵作驗證",
+      "checkEmail": "電郵已發送，請檢查",
+      "emailVerified": "電郵已驗證",
+      "proceedToAccountVerification": "進行帳戶認證",
+      "isPrcCitizen": "您是否中華人民共和國公民？",
+      "isUsaCitizen": "您是否美國公民？",
+      "isPurchaseExceedAmount": "您購買的金額是否超過 {amount} 美金？",
+      "passportName": "護照姓名",
+      "country": "地區",
+      "passportIdPage": "護照 ID 頁 *",
+      "addressProof": "住址證明 (三個月以內) *",
+      "canPurchaseLessThanAmount": "您可購買少於美金 {amount} 的 LikeCoin",
+      "canPurchaseMoreThanAmount": "您可購買多於美金 {amount} 的 LikeCoin",
+      "purchaseMore": "我想購買更多",
+      "accountVeritifed": "帳號已驗證",
+      "canPurchaseWhenPublicSale": "代幣發售時您將可在此購買 LikeCoin",
+      "verifyToPurchaseOverAmount": "驗證您的身份以購買 USD {amount} 以上數量的 LikeCoin",
+      "waitingConfirmation": "等待確認",
+      "timeWaitForAccountVerification": "過程大約需時兩分鐘…",
+      "timeWaitForAdvancedVerification": "過程大約需時五個工作天…",
+      "contactThroughIntercom": "請在 Intercom 與我們聯絡",
+      "submittedVerification": "驗證已提交。"
+    },
+    "button": {
+      "createID": "註冊 LikeCoin ID",
+      "sendEmailAgain": "再次發送",
+      "start": "開始",
+      "next": "下一步",
+      "yes": "是",
+      "no": "否",
+      "upload": "上傳",
+      "reupload": "重新上傳"
     }
   },
   "Creator": {

@@ -7,19 +7,19 @@ import {
 } from '../../constant';
 
 import Validate from '../../util/ValidationHelper';
+import { typedSignatureHash } from '../util/web3';
+import { uploadFileAndGetLink } from '../util/fileupload';
 import publisher from '../util/gcloudPub';
 
 const Account = require('eth-lib/lib/account');
 const Multer = require('multer');
 const sha256 = require('js-sha256');
 const sharp = require('sharp');
-const Web3 = require('web3');
 const imageType = require('image-type');
 const uuidv4 = require('uuid/v4');
 
 const {
   userCollection: dbRef,
-  bucket: fbBucket,
   FieldValue,
 } = require('../util/firebase');
 
@@ -42,40 +42,6 @@ const multer = Multer({
 const ONE_DATE_IN_MS = 86400000;
 const THIRTY_S_IN_MS = 30000;
 const W3C_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-
-function uploadFile(file, newFilename) {
-  return new Promise((resolve, reject) => {
-    if (!file) {
-      reject(new Error('No file'));
-    }
-    const filename = newFilename || file.originalname;
-    const blob = fbBucket.file(filename);
-    const blobStream = blob.createWriteStream({
-      metadata: {
-        contentType: file.mimetype,
-      },
-    });
-    blobStream.on('error', (err) => {
-      reject(new Error(`Something is wrong! ${err || err.msg}`));
-    });
-    blobStream.on('finish', () => {
-      resolve(blob.getSignedUrl({
-        action: 'read',
-        expires: '01-07-2047',
-      }));
-    });
-    blobStream.end(file.buffer);
-  });
-}
-
-function typedSignatureHash(signData) {
-  const paramSignatures = signData.map(item => ({ type: 'string', value: `${item.type} ${item.name}` }));
-  const params = signData.map(item => ({ type: item.type, value: item.value }));
-  return Web3.utils.soliditySha3(
-    { type: 'bytes32', value: Web3.utils.soliditySha3(...paramSignatures) },
-    { type: 'bytes32', value: Web3.utils.soliditySha3(...params) },
-  );
-}
 
 const router = Router();
 
@@ -173,7 +139,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       if (hash256 !== avatarSHA256) throw new Error('avatar sha not match');
       const resizedBuffer = await sharp(file.buffer).resize(400, 400).toBuffer();
       file.buffer = resizedBuffer;
-      [url] = await uploadFile(file, `likecoin_store_user_${user}_${IS_TESTNET ? 'test' : 'main'}`);
+      [url] = await uploadFileAndGetLink(file, `likecoin_store_user_${user}_${IS_TESTNET ? 'test' : 'main'}`);
     }
 
     let hasReferrer = false;
@@ -279,7 +245,7 @@ router.get('/users/addr/:addr', async (req, res) => {
 router.post('/email/verify/user/:id/', async (req, res) => {
   try {
     const username = req.params.id;
-    const { coupon } = req.body;
+    const { coupon, ref } = req.body;
     const userRef = dbRef.doc(username);
     const doc = await userRef.get();
     let user = {};
@@ -302,9 +268,9 @@ router.post('/email/verify/user/:id/', async (req, res) => {
       });
       try {
         if (coupon && /[2-9A-HJ-NP-Za-km-z]{8}/.test(coupon)) {
-          await sendVerificationWithCouponEmail(res, user, coupon);
+          await sendVerificationWithCouponEmail(res, user, coupon, ref);
         } else {
-          await sendVerificationEmail(res, user);
+          await sendVerificationEmail(res, user, ref);
         }
       } catch (err) {
         await userRef.update({

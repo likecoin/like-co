@@ -2,62 +2,25 @@ import { Router } from 'express';
 import BigNumber from 'bignumber.js';
 
 import {
-  INFURA_HOST,
   ONE_LIKE,
   PUBSUB_TOPIC_MISC,
 } from '../../constant';
 import Validate from '../../util/ValidationHelper';
-import { logTransferDelegatedTx } from '../util/logger';
+import { logTransferDelegatedTx, logETHTx } from '../util/logger';
+import { web3, sendTransactionWithLoop } from '../util/web3';
+
 import publisher from '../util/gcloudPub';
 
-const Web3 = require('web3');
-
-const txLogRef = require('../util/firebase').txCollection;
 const LIKECOIN = require('../../constant/contract/likecoin');
-const accounts = require('@ServerConfig/accounts.js'); // eslint-disable-line import/no-extraneous-dependencies
+const LIKECOIN_ICO = require('../../constant/contract/likecoin-ico');
 const {
-  db,
+  txCollection: txLogRef,
   userCollection: dbRef,
 } = require('../util/firebase');
 
 const router = Router();
 
-const web3 = new Web3(new Web3.providers.HttpProvider(INFURA_HOST));
 const LikeCoin = new web3.eth.Contract(LIKECOIN.LIKE_COIN_ABI, LIKECOIN.LIKE_COIN_ADDRESS);
-const {
-  address,
-  privateKey,
-  gasPrice,
-  gasLimit,
-} = accounts[0];
-
-function timeout(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-function sendTransaction(tx) {
-  return new Promise((resolve, reject) => {
-    const txEventEmitter = web3.eth.sendSignedTransaction(tx.rawTransaction);
-    txEventEmitter.on('transactionHash', resolve)
-      .on('error', (err) => {
-        if (err.message === 'Returned error: replacement transaction underpriced'
-          || err.message.includes('Returned error: known transaction:')) resolve(false);
-        else reject(err);
-      });
-  });
-}
-
-async function signTransaction(txData, count) {
-  const pendingCount = count;
-  const tx = await web3.eth.accounts.signTransaction({
-    to: LIKECOIN.LIKE_COIN_ADDRESS,
-    nonce: pendingCount,
-    data: txData,
-    gasPrice,
-    gas: gasLimit,
-  }, privateKey);
-  return tx;
-}
 
 router.post('/payment', async (req, res) => {
   try {
@@ -84,36 +47,15 @@ router.post('/payment', async (req, res) => {
       signature,
     );
     const txData = methodCall.encodeABI();
-    const counterRef = txLogRef.doc('!counter');
-    let pendingCount = await db.runTransaction(t => t.get(counterRef).then((d) => {
-      const v = d.data().value + 1;
-      t.update(counterRef, { value: v });
-      return d.data().value;
-    }));
-    let tx = await signTransaction(txData, pendingCount);
-    let txHash;
-    try {
-      txHash = await sendTransaction(tx);
-    } catch (err) {
-      console.log(`Nonce ${pendingCount} failed, trying web3 pending`);
-    }
-    while (!txHash) {
-      /* eslint-disable no-await-in-loop */
-      pendingCount = await web3.eth.getTransactionCount(address, 'pending');
-      tx = await signTransaction(txData, pendingCount);
-      txHash = await sendTransaction(tx);
-      if (!txHash) {
-        await timeout(200);
-      }
-    }
-    await db.runTransaction(t => t.get(counterRef).then((d) => {
-      if (pendingCount + 1 > d.data().value) {
-        return t.update(counterRef, {
-          value: pendingCount + 1,
-        });
-      }
-      return Promise.resolve();
-    }));
+    const {
+      tx,
+      txHash,
+      pendingCount,
+      delegatorAddress,
+    } = await sendTransactionWithLoop(
+      LIKECOIN.LIKE_COIN_ADDRESS,
+      txData,
+    );
     res.json({ txHash });
     const fromQuery = dbRef.where('wallet', '==', from).get().then((snapshot) => {
       if (snapshot.docs.length > 0) {
@@ -166,7 +108,7 @@ router.post('/payment', async (req, res) => {
       currentBlock,
       nonce: pendingCount,
       rawSignedTx: tx.rawTransaction,
-      delegatorAddress: web3.utils.toChecksumAddress(address),
+      delegatorAddress: web3.utils.toChecksumAddress(delegatorAddress),
     });
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventPay',
@@ -245,7 +187,7 @@ router.post('/payment/eth', async (req, res) => {
       toReferrer,
       toLocale,
     }] = await Promise.all([fromQuery, toQuery]);
-    await logTransferDelegatedTx({
+    await logETHTx({
       txHash,
       from,
       to,
@@ -287,7 +229,7 @@ router.get('/tx/id/:id', async (req, res) => {
     const doc = await txLogRef.doc(txHash).get();
     if (doc.exists) {
       const payload = doc.data();
-      res.json(payload);
+      res.json(Validate.filterTxData(payload));
     } else {
       res.sendStatus(404);
     }
@@ -298,15 +240,35 @@ router.get('/tx/id/:id', async (req, res) => {
   }
 });
 
-router.get('/tx/addr/to/:addr', async (req, res) => {
+router.get('/tx/history/addr/:addr', async (req, res) => {
   try {
+    const TRANSACTION_QUERY_LIMIT = 10;
     const { addr } = req.params;
-    const doc = await txLogRef
-      .where('to', '==', addr)
+    let { ts, count } = req.query;
+    ts = Number(ts);
+    if (!ts || Number.isNaN(ts)) ts = Date.now();
+    count = Number(count);
+    if (!count || Number.isNaN(count) || count > TRANSACTION_QUERY_LIMIT) {
+      count = TRANSACTION_QUERY_LIMIT;
+    }
+    const queryTo = txLogRef
+      .where('to', '==', web3.utils.toChecksumAddress(addr))
       .orderBy('ts', 'desc')
-      .limit(5)
+      .startAt(ts)
+      .limit(count)
       .get();
-    res.json(doc.docs.map(d => ({ id: d.id, value: d.data().value })));
+    const queryFrom = txLogRef
+      .where('from', '==', web3.utils.toChecksumAddress(addr))
+      .orderBy('ts', 'desc')
+      .startAt(ts)
+      .limit(count)
+      .get();
+    const [dataTo, dataFrom] = await Promise.all([queryTo, queryFrom]);
+    let results = dataTo.docs.concat(dataFrom.docs);
+    results = results.map(d => ({ id: d.id, ...Validate.filterTxData(d.data()) }));
+    results.sort((a, b) => (b.ts - a.ts));
+    results.splice(count);
+    res.json(results);
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
@@ -314,15 +276,15 @@ router.get('/tx/addr/to/:addr', async (req, res) => {
   }
 });
 
-router.get('/tx/addr/from/:addr', async (req, res) => {
+router.get('/tx/tokensale/:addr', async (req, res) => {
   try {
     const { addr } = req.params;
     const doc = await txLogRef
-      .where('from', '==', addr)
+      .where('from', '==', web3.utils.toChecksumAddress(addr))
+      .where('to', '==', LIKECOIN_ICO.LIKE_COIN_ICO_ADDRESS)
       .orderBy('ts', 'desc')
-      .limit(5)
       .get();
-    res.json(doc.docs.map(d => ({ id: d.id, value: d.data().value })));
+    res.json(doc.docs.map(d => ({ id: d.id, ...Validate.filterTxData(d.data()) })));
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);

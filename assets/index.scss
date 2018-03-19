@@ -141,6 +141,14 @@ html, body {
   &.lc-section-block + &.lc-section-block {
     margin-top: 32px;
   }
+
+  .lc-narrow & {
+    max-width: 704px;
+  }
+
+  &.lc-section-block + &.lc-section-block {
+    margin-top: 32px;
+  }
 }
 
 .lc-container-2 {
@@ -318,6 +326,15 @@ html, body {
   .md-xsmall-show {
     display: inherit !important;
   }
+}
+
+.disabled:active,
+.disabled:hover,
+.disabled {
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+
+  opacity: .3 !important;
 }
 
 /* Layout System - End */

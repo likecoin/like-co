@@ -165,6 +165,63 @@ $carousel-height: 488px;
   position: relative;
 }
 
+.lc-description {
+  &:not(.last) {
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+  }
+
+  .lc-container-3 {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .sale-description-container {
+    position: relative;
+    flex: 2;
+
+    padding: 24px 8px;
+
+    h1 {
+      margin: 8px 0 32px;
+    }
+
+    h2 {
+      font-size: 42px;
+      font-weight: 600;
+    }
+
+    .links {
+      > a {
+        margin-right: 48px;
+
+        color: $like-green !important;
+        text-decoration: underline;
+        cursor: pointer;
+        font-size: 20px;
+
+        &:hover {
+          opacity: 0.7;
+        }
+      }
+    }
+  }
+
+  .btn-container {
+    display: flex;
+    align-items: center;
+    flex: 1;
+
+    .redeem-btn {
+    	background-image: linear-gradient(73deg, #3c286e, #6e2828);
+
+    	&.festive {
+        background-image: linear-gradient(73deg, #812d4c, #f75353);
+      }
+    }
+  }
+}
+
 .lc-team {
   min-height: 700px;
 }

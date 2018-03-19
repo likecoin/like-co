@@ -1,10 +1,10 @@
 <template>
   <div class="payment-container">
-    <avatar-header :title="displayName" :icon="avatar" :id="id" :address="wallet"/>
+    <avatar-header :title="displayName" :icon="avatar" :id="id" :address="wallet" :isEth="isEth"/>
     <div class="inner-container">
       <form id="paymentInfo" v-on:submit.prevent="onSubmit">
         <input v-model="wallet" hidden required disabled />
-        <label>{{ $t('Transaction.label.amountToSend') }}</label>
+        <label>{{ $t('Transaction.label.amountToSend', { coin: isEth ? 'ETH' : 'LikeCoin' }) }}</label>
         <md-field :class="isBadAmount?'md-input-invalid':''">
           <md-button class="value-button" @click="onAmountAdd(-1)">
             <md-icon class="md-size-2x">remove</md-icon>
@@ -45,6 +45,7 @@ import BigNumber from 'bignumber.js';
 
 import AvatarHeader from '~/components/header/AvatarHeader';
 import EthHelper from '@/util/EthHelper';
+import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 import { mapActions, mapGetters } from 'vuex';
 import { apiGetUserById } from '@/util/api/api';
 
@@ -90,6 +91,11 @@ export default {
       .then((res) => {
         const { wallet, avatar, displayName } = res.data;
         const amount = formatAmount(params.amount || 1);
+        if (wallet === LIKE_COIN_ICO_ADDRESS) {
+          redirect({
+            name: 'in-tokensale',
+          });
+        }
         return {
           wallet,
           avatar,
@@ -181,7 +187,7 @@ export default {
         let txHash;
         if (this.isEth) {
           txHash = await EthHelper.sendTransaction(to, valueToSend);
-          const value = this.amount;
+          const value = valueToSend;
           await this.sendEthPayment({
             from,
             to,
@@ -199,9 +205,6 @@ export default {
       } catch (error) {
         console.error(error);
       }
-    },
-    onConfirm() {
-      if (!this.getUserIsRegistered) this.$router.push({ name: 'in-register' });
     },
     onAmountAdd(diff) {
       let newAmount = new BigNumber(this.amount).plus(diff);

@@ -14,6 +14,30 @@ export async function logTransferDelegatedTx(payload) {
   }
 }
 
-export async function logPaymentTx(payload) {
-  return logTransferDelegatedTx(payload); // dummy function
+export async function logRegisterKYC(payload) {
+  const { txHash } = payload;
+  try {
+    await dbRef.doc(txHash).create({
+      type: 'logRegisterKYC',
+      status: 'pending',
+      ts: Date.now(),
+      ...payload,
+    });
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+export async function logETHTx(payload) {
+  const { txHash } = payload;
+  try {
+    await dbRef.doc(txHash).create({
+      type: 'transfer',
+      status: 'pending',
+      ts: Date.now(),
+      ...payload,
+    });
+  } catch (err) {
+    console.error(err);
+  }
 }

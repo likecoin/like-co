@@ -17,7 +17,7 @@
             <div :class="[isProfileEdit ? 'edit-mode' : '', 'user-content']">
               {{ $t('Edit.label.id') }}&nbsp;
             </div>
-            <nuxt-link :to="{ name: 'id', params: { id: user } }">
+            <nuxt-link v-if="user" :to="{ name: 'id', params: { id: user } }">
               <div :class="[isProfileEdit ? 'edit-mode' : '', 'user-content']">{{ user }}</div>
             </nuxt-link>
           </div>
@@ -78,7 +78,7 @@
                 <span v-else-if="email">({{ $t('Edit.label.unverified') }}, <a href="" @click.prevent.stop="onVerifyEmail">{{ $t('Edit.label.verifyEmail') }}</a>)</span>
               </span>
             </div>
-            <md-field :class="isProfileEdit ? 'md-field-edit-mode' : 'md-field-pre-edit'">
+            <md-field :class="(!getUserInfo.isEmailVerified && isProfileEdit) ? 'md-field-edit-mode' : 'md-field-pre-edit'">
               <label class="input-display-hint">
                 {{ $t('Edit.label.addEmail') }}
               </label>
@@ -87,11 +87,11 @@
                 class="input-display input-info"
                 v-model="email"
                 ref="inputEmail"
-                :disabled="!isProfileEdit" />
+                :disabled="getUserInfo.isEmailVerified || !isProfileEdit" />
               <md-button
                 :class="isProfileEdit ? '' : 'input-display-btn'"
                 @click="onEditEmail"
-                v-if="!isProfileEdit">
+                v-if="!getUserInfo.isEmailVerified && !isProfileEdit">
                 <img :src="EditIcon" />
               </md-button>
             </md-field>
@@ -121,6 +121,12 @@
         </div>
       </div>
     </form>
+
+    <transaction-history
+      ref="txHistory"
+      :address="wallet"
+      :showTokensale="true"
+      />
 
     <div :class="isProfileEdit ? 'section-redeem-edit-mode' : ''" id="coupon">
       <div class="section-title-wrapper">
@@ -156,7 +162,7 @@
       :user="user"
       :pending="referralPending"
       :verified="referralVerified"
-      :isEmailVerifted="getUserInfo.isEmailVerified"
+      :isEmailVerified="getUserInfo.isEmailVerified"
       :isProfileEdit="isProfileEdit"
       :isBlocked="getIsPopupBlocking"
     />
@@ -175,13 +181,13 @@ import LikeCoinAmount from '~/components/LikeCoinAmount';
 import ReferralAction from '~/components/ReferralAction';
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import InputDialog from '~/components/dialogs/InputDialog';
+import TransactionHistory from '~/components/TransactionHistory';
 import ViewEtherscan from '~/components/ViewEtherscan';
+import { ONE_LIKE } from '@/constant';
 import { mapActions, mapGetters } from 'vuex';
 
 import EditIcon from '@/assets/icons/edit.svg';
 import EditWhiteIcon from '@/assets/icons/edit-white.svg';
-
-const ONE_LIKE = new BigNumber(10).pow(18);
 
 export default {
   name: 'Edit',
@@ -211,12 +217,8 @@ export default {
     ReferralAction,
     ClaimDialog,
     InputDialog,
+    TransactionHistory,
     ViewEtherscan,
-  },
-  async fetch({ store, redirect }) {
-    if (!store.getters.getUserIsRegistered) {
-      redirect({ name: 'in-register' });
-    }
   },
   computed: {
     ...mapGetters([
@@ -224,15 +226,17 @@ export default {
       'getIsInTransaction',
       'getIsPopupBlocking',
       'getCurrentLocale',
+      'getUserIsFetching',
+      'getUserIsRegistered',
     ]),
     getAmountHref() {
-      return this.canGetFreeLikeCoin ? '' : 'https://likecoin.foundation/#/';
+      return this.canGetFreeLikeCoin ? '' : '';
     },
     getAmountText() {
       return this.canGetFreeLikeCoin ? this.$t('Edit.button.getFreeCoin') : this.$t('Edit.button.buyCoin');
     },
     getAmountAction() {
-      return this.canGetFreeLikeCoin ? this.onGetCouponClick : () => {};
+      return this.canGetFreeLikeCoin ? this.onGetCouponClick : this.onClickBuyLikeCoin;
     },
   },
   methods: {
@@ -257,6 +261,7 @@ export default {
       }
     },
     onEditEmail() {
+      if (this.getUserInfo.isEmailVerified) return;
       if (this.isProfileEdit) {
         this.$nextTick(() => this.$refs.inputEmail.$el.focus());
         return;
@@ -287,6 +292,7 @@ export default {
       this.updateLikeCoin();
       this.updateReferralStat();
       this.updateCanGetFreeLikeCoin(user);
+      this.$refs.txHistory.updateTokenSaleHistory();
     },
     async updateLikeCoin() {
       try {
@@ -332,7 +338,7 @@ export default {
       this.isProfileEdit = false;
     },
     async onVerifyEmail() {
-      await this.sendVerifyEmail(this.user);
+      await this.sendVerifyEmail({ id: this.user, ref: this.$route.query.ref });
       logTrackerEvent(this, 'RegFlow', 'StartEmailVerify', 'click confirm after enter email and the email is valid', 1);
       this.setInfoMsg(this.$t('Edit.label.verifying'));
       this.isVerifying = true;
@@ -376,6 +382,13 @@ export default {
         this.$refs.inputDialog.onInputText();
       }
     },
+    onClickBuyLikeCoin() {
+      if (this.getUserInfo.isEmailVerified) {
+        this.$router.push({ name: 'in-tokensale' });
+      } else {
+        this.$refs.inputDialog.onInputText();
+      }
+    },
     async onInputDialogConfirm(inputText) {
       if (this.email !== inputText) {
         this.email = inputText;
@@ -404,27 +417,33 @@ export default {
       }
     },
   },
+  watch: {
+    getUserIsFetching(f) {
+      if (!f) {
+        if (!this.getUserIsRegistered) {
+          this.$router.push({ name: 'in-register' });
+        } else {
+          this.updateInfo();
+        }
+      }
+    },
+  },
   mounted() {
     const { hash } = document.location;
     if (hash) {
       const element = document.querySelector(hash);
       if (element) element.scrollIntoView();
     }
-
-    if (this.$route.params.showEmail) {
-      this.$nextTick(() => this.$refs.inputDialog.onInputText());
-    }
-
-    this.updateInfo();
-  },
-  watch: {
-    getUserInfo(user) {
-      if (user && user.user) {
-        this.updateInfo();
-      } else {
+    if (!this.getUserIsFetching) {
+      if (!this.getUserIsRegistered) {
         this.$router.push({ name: 'in-register' });
+      } else {
+        if (this.$route.params.showEmail) {
+          this.$nextTick(() => this.$refs.inputDialog.onInputText());
+        }
+        this.updateInfo();
       }
-    },
+    }
   },
 };
 </script>

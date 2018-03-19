@@ -13,6 +13,12 @@
     "en": "English",
     "zh": "中文"
   },
+  "Date": {
+    "day": "day | days",
+    "hour": "hour | hours",
+    "minute": "minute | minutes",
+    "second": "second | seconds"
+  },
   "Home": {
     "Header": {
       "button": {
@@ -244,11 +250,11 @@
   "Email": {
     "VerifiyEmail": {
       "subject": "Verify your LikeCoin Store email",
-      "body": "Hi {{name}}!\n\nWelcome to LikeCoin Store! To verify your email, click the following link:\n\nhttps://like.co/verify/{{uuid}}\n\nLikeCoin Foundation\nhttps://like.co"
+      "body": "Hi {{name}}!\n\nWelcome to LikeCoin Store! To verify your email, click the following link:\n\nhttps://like.co/verify/{{uuid}}?ref={{ref}}\n\nLikeCoin Foundation\nhttps://like.co"
     },
     "VerifiyAndCouponEmail": {
       "subject": "Verify your LikeCoin Store email and claim your LikeCoin",
-      "body": "Hi {{name}}!\n\nWelcome to LikeCoin Store! To verify your email and receive red pocket, click the following link:\n\nhttps://like.co/verify/{{uuid}}/{{coupon}}\n\nYour coupon code: {{coupon}}\n\nLikeCoin Foundation\nhttps://like.co"
+      "body": "Hi {{name}}!\n\nWelcome to LikeCoin Store! To verify your email and receive red pocket, click the following link:\n\nhttps://like.co/verify/{{uuid}}/{{coupon}}?ref={{ref}}\n\nYour coupon code: {{coupon}}\n\nLikeCoin Foundation\nhttps://like.co"
     }
   },
   "Whitepaper": {
@@ -414,6 +420,7 @@
     "label": {
       "toIndex": "returning to index",
       "toEdit": "returning to account page",
+      "redirect": "redirect page",
       "verifying": "Verifying",
       "referral": "as part of the affiliate program, you will receive an email with LikeCoin coupon"
     }
@@ -438,9 +445,9 @@
       "recipientAddress": "Recipient Address",
       "senderName": "Sender Display Name",
       "senderAddress": "Sender Address",
-      "sendTo": "Send LikeCoin to <span class='usertitle'>{title}</span>",
+      "sendTo": "Send {coin} to <span class='usertitle'>{title}</span>",
       "viewTx": "View Transaction",
-      "amountToSend": "Amount of LikeCoin to send",
+      "amountToSend": "Amount of {coin} to send",
       "invalidAmount": "Invalid amount",
       "enterValidNumber": "Please enter a valid decimal number",
       "userNotFound": "User not found"
@@ -459,6 +466,65 @@
     "label": {
       "whitePaper": "WhitePaper",
       "comingSoon": "Coming Soon"
+    }
+  },
+  "TokenSale": {
+    "title": "Token Sale",
+    "label": {
+      "prepareToJoin": "Prepare to Join Token Sale",
+      "publicSaleStartIn": "Public Sale Start in:",
+      "token": "Token",
+      "exchangeRate": "Exchange Rate",
+      "supply": "Supply"
+    },
+    "button": {
+      "aboutLikeCoin": "About LikeCoin",
+      "whitePaper": "@:WhitePaper.label.whitePaper"
+    }
+  },
+  "KYC": {
+    "label": {
+      "kyc": "ID Verification",
+      "kycNeeded": "ID Verification is needed to participate in LikeCoin token sale",
+      "advKycNeeded": "Advanced ID Verification is needed for large amount of purchase",
+      "emailVerify": "Please provide and verify your email.",
+      "createID": "Create LikeCoin ID to send and recive LikeCoin, and participate in the tokensale.",
+      "verifyToPurchase": "Verifiy your information to purchase LikeCoin once public sale is live.",
+      "emailVerification": "Email Verification",
+      "accountVerification": "Account Verification",
+      "advancedVerification": "Advanced Verification",
+      "verifyEmailPlaceholder": "Verify your email",
+      "checkEmail": "Email sent. Please Check",
+      "emailVerified": "Email Verified",
+      "proceedToAccountVerification": "Proceed to account verification",
+      "isPrcCitizen": "Are you a citizen of PRC?",
+      "isUsaCitizen": "Are you a citizen of USA?",
+      "isPurchaseExceedAmount": "Are you going to purchase more than USD {amount}?",
+      "passportName": "Name (same name as your passport)",
+      "country": "Country",
+      "passportIdPage": "Passport ID Page *",
+      "addressProof": "Address Proof (within 3 months) *",
+      "canPurchaseLessThanAmount": "You can purchase less then USD {amount}",
+      "canPurchaseMoreThanAmount": "You can purchase more then USD {amount}",
+      "purchaseMore": "I want to purchase more",
+      "accountVeritifed": "Account Verified",
+      "canPurchaseWhenPublicSale": "When Public Sale is live You can purchase LikeCoin here.",
+      "verifyToPurchaseOverAmount": "Verifiy your identity and to purchase more than USD {amount}",
+      "waitingConfirmation": "Waiting for confirmation.",
+      "timeWaitForAccountVerification": "It will take about 2 minutes…",
+      "timeWaitForAdvancedVerification": "It will take about 5 working days…",
+      "contactThroughIntercom": "Please contact us here in Intercom.",
+      "submittedVerification": "Verification Submitted."
+    },
+    "button": {
+      "createID": "Create LikeCoin ID",
+      "sendEmailAgain": "Send again",
+      "start": "Start",
+      "next": "Next",
+      "yes": "Yes",
+      "no": "No",
+      "upload": "upload",
+      "reupload": "re-upload"
     }
   },
   "Creator": {

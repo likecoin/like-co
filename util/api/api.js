@@ -25,7 +25,7 @@ export const apiClaimCoupon = (coupon, to) => {
   return axios.post('/api/coupon/claim/', payload);
 };
 
-export const apiSendVerifyEmail = (id, locale) => axios.post(`/api/email/verify/user/${id}`, { locale });
+export const apiSendVerifyEmail = (id, ref, locale) => axios.post(`/api/email/verify/user/${id}`, { ref, locale });
 
 export const apiVerifyEmailByUUID = (uuid, locale) => axios.post(`/api/email/verify/${uuid}`, { locale });
 
@@ -42,6 +42,21 @@ export const apiPostNewUser = (form) => {
   return axios.put('/api/users/new', params);
 };
 
+export const apiPostKYC = payload => axios.post('/api/kyc', payload);
+
+export const apiPostAdvancedKYC = (form) => {
+  /* eslint-disable no-new */
+  const params = new FormData();
+  Object.keys(form).forEach((key) => {
+    if (Array.isArray(form[key])) {
+      form[key].forEach(k => params.append(key, k));
+    } else {
+      params.append(key, form[key]);
+    }
+  });
+  return axios.post('/api/kyc/advanced', params);
+};
+
 export const apiCheckCanGetFreeLikeCoin = user => axios.get(`/api/coupon/sentto/v2/${user}`);
 
 export const apiSendCouponCodeEmail = (id, coupon, locale) => axios.post(`/api/email/verify/user/${id}`, { coupon, locale });
@@ -53,3 +68,12 @@ export const apiSendInvitationEmail = (user, email) => axios.post(
     email,
   },
 );
+
+export const apiQueryTxHistoryByAddr = (addr, ts, count) => {
+  let url = `/api/tx/history/addr/${addr}?`;
+  if (ts) url += `ts=${ts}&`;
+  if (count) url += `count=${count}&`;
+  return axios.get(url);
+};
+
+export const apiQueryEthPrice = () => axios.get('https://api.coinmarketcap.com/v1/ticker/ethereum/?convert=USD');

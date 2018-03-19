@@ -4,7 +4,7 @@
       <div class="section-title-wrapper">
         <h2 class="title">{{ $t('Edit.referral.title') }}</h2>
       </div>
-      <div class="email-notice" v-if="!isEmailVerifted">{{ $t('Edit.referral.verifyEmailFirst') }}</div>
+      <div class="email-notice" v-if="!isEmailVerified">{{ $t('Edit.referral.verifyEmailFirst') }}</div>
       <form v-else id="referralForm" v-on:submit.prevent="onSendEmail">
 
         <section class="md-layout">
@@ -103,7 +103,7 @@ export default {
   props: {
     isProfileEdit: Boolean,
     isBlocked: Boolean,
-    isEmailVerifted: Boolean,
+    isEmailVerified: Boolean,
     pending: Number,
     verified: Number,
     user: String,

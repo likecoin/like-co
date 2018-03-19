@@ -14,7 +14,8 @@
     </div>
     <div class="lc-container-3 md-xsmall-hide">
       <material-button
-        class="account-btn"
+        className="account-btn"
+        :hasShadow="true"
         @click="$router.push({ name: getUserIsRegistered ? 'edit' : 'register' })">
         {{ getUserIsRegistered ? getUserInfo.user : $t('Home.Header.button.signUp') }}
       </material-button>

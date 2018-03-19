@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import Web3 from 'web3';
 import { LIKE_COIN_ABI, LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin';
+import { LIKE_COIN_ICO_ABI, LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 import { IS_TESTNET, INFURA_HOST } from '@/constant';
 
 const abiDecoder = require('abi-decoder');
@@ -74,6 +75,7 @@ class EthHelper {
 
   startApp() {
     this.LikeCoin = new this.web3.eth.Contract(LIKE_COIN_ABI, LIKE_COIN_ADDRESS);
+    this.LikeCoinICO = new this.web3.eth.Contract(LIKE_COIN_ICO_ABI, LIKE_COIN_ICO_ADDRESS);
     this.getAccounts();
     this.pollingTimer = setInterval(() => this.getAccounts(), 3000);
   }
@@ -224,6 +226,33 @@ class EthHelper {
     return this.web3.eth.getBalance(addr);
   }
 
+  async queryKYCStatus(addr) {
+    const address = addr || this.wallet || '';
+    if (!address) return false;
+    return this.LikeCoinICO.methods.kycDone(address).call();
+  }
+
+  async getAddressPurchaseEvents(addr) {
+    return this.LikeCoinICO.getPastEvents('Purchase', {
+      fromBlock: 0,
+      filter: {
+        _addr: addr,
+      },
+    });
+  }
+
+  async getAddressPurchaseTotal(addr) {
+    const address = addr || this.wallet || '';
+    return (await this.getAddressPurchaseEvents(address))
+      .reduce(
+        (acc, e) => ({
+          coin: acc.coin.add(new this.web3.utils.BN(e.returnValues._coins)),
+          eth: acc.eth.add(new this.web3.utils.BN(e.returnValues._ethers)),
+        }),
+        { coin: new this.web3.utils.BN(0), eth: new this.web3.utils.BN(0) },
+      );
+  }
+
   async genTypedSignData(from, to, value, maxReward) {
     let nonce;
     do {
@@ -309,17 +338,17 @@ class EthHelper {
     return txEventEmitter;
   }
 
-  static genTypedSignNewUser(payload) {
+  static genTypedSignUserPayload(payload) {
     return [
       { type: 'string', name: 'payload', value: payload },
     ];
   }
 
-  async signNewUser(payload) {
+  async signUserPayload(payload) {
     if (!this.isMetaMask) return Promise.reject(new Error('No MetaMask'));
     const from = this.getWallet();
     if (this.onSign) this.onSign();
-    const signData = EthHelper.genTypedSignNewUser(payload);
+    const signData = EthHelper.genTypedSignUserPayload(payload);
     const rawSignature = await this.signTyped(signData, from);
     if (this.onSigned) this.onSigned();
     if (!rawSignature) return Promise.reject(new Error('Signing Rejected'));
