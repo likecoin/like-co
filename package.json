@@ -14,7 +14,8 @@
     "lint": "eslint --ext .js,.vue .",
     "prepare": "cd node_modules/web3-core-requestmanager/src && sed -i.bak \"/var global = Function('return this')();/d\" givenProvider.js && rm givenProvider.js.bak",
     "test:express": "ava -v test/express.test.js",
-    "test:nuxt": "ava -v test/nuxt.test.js"
+    "test:nuxt": "ava -v test/nuxt.test.js",
+    "test:e2e": "./node_modules/.bin/nightwatch --config test/e2e/nightwatch.conf.js"
   },
   "ava": {
     "require": [
@@ -64,6 +65,7 @@
     "ava": "^0.25.0",
     "babel-eslint": "^8.2.1",
     "backpack-core": "^0.7.0",
+    "chromedriver": "^2.36.0",
     "eslint": "^4.9.0",
     "eslint-config-airbnb-base": "^12.0.0",
     "eslint-import-resolver-webpack": "^0.8.3",
@@ -73,7 +75,9 @@
     "eslint-plugin-node": "^5.1.1",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
+    "nightwatch": "^0.9.20",
     "node-sass": "^4.7.2",
-    "sass-loader": "^6.0.6"
+    "sass-loader": "^6.0.6",
+    "selenium-server": "^3.10.0"
   }
 }
