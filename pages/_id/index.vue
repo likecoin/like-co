@@ -80,7 +80,7 @@ export default {
     return {
       isBadAddress: false,
       isBadAmount: false,
-      isETH: false,
+      isEth: false,
     };
   },
   asyncData({ params, redirect, error }) {
