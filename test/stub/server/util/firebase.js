@@ -54,6 +54,7 @@ function collectionWhere(data, field, op, value) {
         }
         throw new Error('orderBy is incorrect.');
       },
+      startAt: () => queryObj,
       limit: (limit) => {
         if (Number.isInteger(limit)) {
           return queryObj;

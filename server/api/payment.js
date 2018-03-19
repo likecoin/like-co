@@ -242,13 +242,15 @@ router.get('/tx/id/:id', async (req, res) => {
 
 router.get('/tx/history/addr/:addr', async (req, res) => {
   try {
-    const TRANSACTION_QUERY_LIMIT = 25;
+    const TRANSACTION_QUERY_LIMIT = 10;
     const { addr } = req.params;
     let { ts, count } = req.query;
-    if (Number.isNaN(ts)) ts = Date.now();
     ts = Number(ts);
-    if (Number.isNaN(count) || count > TRANSACTION_QUERY_LIMIT) count = TRANSACTION_QUERY_LIMIT;
+    if (!ts || Number.isNaN(ts)) ts = Date.now();
     count = Number(count);
+    if (!count || Number.isNaN(count) || count > TRANSACTION_QUERY_LIMIT) {
+      count = TRANSACTION_QUERY_LIMIT;
+    }
     const queryTo = txLogRef
       .where('to', '==', web3.utils.toChecksumAddress(addr))
       .orderBy('ts', 'desc')

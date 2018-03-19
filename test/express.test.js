@@ -304,29 +304,14 @@ test('PAYMENT: Get tx by id', async (t) => {
   t.is(res.data.value, txValue);
 });
 
-test('PAYMENT: Get tx to by addr', async (t) => {
-  const res = await axios.get(`${url}/api/tx/addr/to/${txTo}`)
+test('PAYMENT: Get tx history by addr', async (t) => {
+  const res = await axios.get(`${url}/api/tx/history/addr/${txTo}`)
     .catch(err => err.response);
 
   t.is(res.status, 200);
   // check test record exists
   for (let i = 0; i < res.data.length; i += 1) {
-    if (res.data[i].txHash === txHash) {
-      t.is(res.data[i].from, txFrom);
-      t.is(res.data[i].to, txTo);
-      t.is(res.data[i].value, txValue);
-    }
-  }
-});
-
-test('PAYMENT: Get tx from by addr', async (t) => {
-  const res = await axios.get(`${url}/api/tx/addr/from/${txFrom}`)
-    .catch(err => err.response);
-
-  t.is(res.status, 200);
-  // check test record exists
-  for (let i = 0; i < res.data.length; i += 1) {
-    if (res.data[i].txHash === txHash) {
+    if (res.data[i].id === txHash) {
       t.is(res.data[i].from, txFrom);
       t.is(res.data[i].to, txTo);
       t.is(res.data[i].value, txValue);
