@@ -33,14 +33,22 @@ jobs:
   unit_test:
     working_directory: ~/likecoin-store
     docker:
-      - image: node:8
+      - image: selenium/standalone-chrome:3.11.0
+        user: root
     steps:
       - checkout
       - restore_cache:
-          key: likecoin-store-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
+          key: likecoin-store-unit-test-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
+      - run:
+          name: Node Environment
+          command: |
+            sudo apt-get update
+            sudo apt-get -y install curl git make g++
+            sudo curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+            sudo apt-get -y install nodejs
       - run:
           name: Dependencies
-          command: npm config set unsafe-perm true && npm install
+          command: sudo npm config set unsafe-perm true && sudo npm install
       - run:
           name: Unit Test Preparation
           command: |
@@ -51,13 +59,16 @@ jobs:
           command: npm run build_testnet_server
       - run:
           name: Unit Test Server
-          command: IS_TESTNET=TRUE npm start
+          command: npm run dev
           background: true
       - run:
           name: Curl Unit Test Server
           command: |
             sleep 5
-            curl --retry 10 --retry-delay 5 -v http://localhost:3000/api/healthz
+            wget -O- --retry-connrefused --waitretry=5 -t 10 http://localhost:3000/ > /dev/null
+      - run:
+          name: Unit Test (Nightwatch)
+          command: xvfb-run --server-args="-screen 0 1600x1200x24" npm run test:e2e
       - run:
           name: Unit Test (Backend)
           command: npm run test:express
@@ -65,7 +76,7 @@ jobs:
           name: Unit Test (Frontend)
           command: npm run test:nuxt
       - save_cache:
-          key: likecoin-store-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
+          key: likecoin-store-unit-test-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
   deploy_rinkeby:
