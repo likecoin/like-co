@@ -2,7 +2,6 @@
   <div v-if="txHistory && txHistory.length">
     <div v-if="showTokensale"> sum: {{ ICOTotalCoin }} (ETH : {{ ICOTotalETH }}) </div>
     <md-table>
-
       <md-table-row>
         <md-table-head>Status</md-table-head>
         <md-table-head>From/To</md-table-head>
@@ -30,6 +29,7 @@
         </md-table-cell>
       </md-table-row>
     </md-table>
+    <a v-if="hasMore" href="" @click.prevent="onShowMore">Show more</a>
   </div>
 </template>
 
@@ -59,6 +59,7 @@ export default {
       ICOTotalCoin: 0,
       ICOTotalETH: 0,
       txHistory: [],
+      hasMore: true,
     };
   },
   methods: {
@@ -101,12 +102,21 @@ export default {
     isTxFailed(tx) {
       return tx.status === 'fail' || tx.status === 'timeout';
     },
+    async onShowMore() {
+      const data = await this.queryTxHistoryByAddr({
+        addr: this.address,
+        ts: (this.txHistory[this.txHistory.length - 1].ts - 1),
+      });
+      if (!data || !data.length) this.hasMore = false;
+      this.txHistory = this.txHistory.concat(data);
+    },
     async updateTokenSaleHistory() {
       try {
         const { coin, eth } = await EthHelper.getAddressPurchaseTotal(this.address);
         this.ICOTotalCoin = new BigNumber(coin).dividedBy(ONE_LIKE).toFixed(4);
         this.ICOTotalETH = new BigNumber(eth).dividedBy(ONE_LIKE).toFixed(4);
         this.txHistory = await this.queryTxHistoryByAddr({ addr: this.address });
+        if (!this.txHistory || !this.txHistory.length) this.hasMore = false;
       } catch (err) {
         console.error(err);
       }
