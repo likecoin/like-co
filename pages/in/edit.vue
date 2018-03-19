@@ -122,22 +122,11 @@
       </div>
     </form>
 
-    <div v-if="ICOHistory && ICOHistory.length">
-      <div> sum: {{ ICOTotalCoin }} (ETH : {{ ICOTotalETH }}) </div>
-      <md-table>
-        <md-table-row v-for="(tx, index) in ICOHistory" :key="tx.id">
-          <md-table-cell>{{ ICOHistory.length - index }}</md-table-cell>
-          <md-table-cell>{{ tx.status }}</md-table-cell>
-          <md-table-cell>{{ tx.completeTs ? new Date(tx.completeTs) : '' }}</md-table-cell>
-          <md-table-cell>{{ getLikeCoinByETH(tx.value || 0) }}</md-table-cell>
-          <md-table-cell>
-            <nuxt-link :to="{ name: 'in-tokensale-tx-id', params: { id: tx.id } }">
-              view
-            </nuxt-link>
-          </md-table-cell>
-        </md-table-row>
-      </md-table>
-    </div>
+    <transaction-history
+      ref="txHistory"
+      :address="wallet"
+      :showTokensale="true"
+      />
 
     <div :class="isProfileEdit ? 'section-redeem-edit-mode' : ''" id="coupon">
       <div class="section-title-wrapper">
@@ -192,14 +181,13 @@ import LikeCoinAmount from '~/components/LikeCoinAmount';
 import ReferralAction from '~/components/ReferralAction';
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import InputDialog from '~/components/dialogs/InputDialog';
+import TransactionHistory from '~/components/TransactionHistory';
 import ViewEtherscan from '~/components/ViewEtherscan';
-import { ETH_TO_LIKECOIN_RATIO } from '@/constant';
+import { ONE_LIKE } from '@/constant';
 import { mapActions, mapGetters } from 'vuex';
 
 import EditIcon from '@/assets/icons/edit.svg';
 import EditWhiteIcon from '@/assets/icons/edit-white.svg';
-
-const ONE_LIKE = new BigNumber(10).pow(18);
 
 export default {
   name: 'Edit',
@@ -222,9 +210,6 @@ export default {
       freeCoupon: '',
       referralPending: 0,
       referralVerified: 0,
-      ICOTotalCoin: 0,
-      ICOTotalETH: 0,
-      ICOHistory: [],
     };
   },
   components: {
@@ -232,6 +217,7 @@ export default {
     ReferralAction,
     ClaimDialog,
     InputDialog,
+    TransactionHistory,
     ViewEtherscan,
   },
   computed: {
@@ -263,7 +249,6 @@ export default {
       'refreshUserInfo',
       'checkCanGetFreeLikeCoin',
       'fetchUserReferralStats',
-      'queryTokenSaleHistoryByAddr',
     ]),
     onEditDisplayName() {
       if (this.isProfileEdit) {
@@ -297,10 +282,6 @@ export default {
         reader.readAsDataURL(files[0]);
       }
     },
-    getLikeCoinByETH(eth) {
-      return new BigNumber(eth).dividedBy(ONE_LIKE)
-        .multipliedBy(new BigNumber(ETH_TO_LIKECOIN_RATIO));
-    },
     async updateInfo() {
       const user = this.getUserInfo;
       this.user = user.user;
@@ -311,7 +292,7 @@ export default {
       this.updateLikeCoin();
       this.updateReferralStat();
       this.updateCanGetFreeLikeCoin(user);
-      this.updateTokenSaleHistory();
+      this.$refs.txHistory.updateTokenSaleHistory();
     },
     async updateLikeCoin() {
       try {
@@ -345,16 +326,6 @@ export default {
         }
       } catch (err) {
         console.log(err);
-      }
-    },
-    async updateTokenSaleHistory() {
-      try {
-        const { coin, eth } = await EthHelper.getAddressPurchaseTotal(this.wallet);
-        this.ICOTotalCoin = new BigNumber(coin).dividedBy(ONE_LIKE).toFixed(4);
-        this.ICOTotalETH = new BigNumber(eth).dividedBy(ONE_LIKE).toFixed(4);
-        this.ICOHistory = await this.queryTokenSaleHistoryByAddr(this.wallet);
-      } catch (err) {
-        console.error(err);
       }
     },
     openPicker() {
