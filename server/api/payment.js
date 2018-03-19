@@ -240,31 +240,33 @@ router.get('/tx/id/:id', async (req, res) => {
   }
 });
 
-router.get('/tx/addr/to/:addr', async (req, res) => {
+router.get('/tx/history/addr/:addr', async (req, res) => {
   try {
+    const TRANSACTION_QUERY_LIMIT = 25;
     const { addr } = req.params;
-    const doc = await txLogRef
+    let { ts, count } = req.query;
+    if (Number.isNaN(ts)) ts = Date.now();
+    ts = Number(ts);
+    if (Number.isNaN(count) || count > TRANSACTION_QUERY_LIMIT) count = TRANSACTION_QUERY_LIMIT;
+    count = Number(count);
+    const queryTo = txLogRef
       .where('to', '==', web3.utils.toChecksumAddress(addr))
       .orderBy('ts', 'desc')
-      .limit(5)
+      .startAt(ts)
+      .limit(count)
       .get();
-    res.json(doc.docs.map(d => ({ id: d.id, value: d.data().value })));
-  } catch (err) {
-    const msg = err.message || err;
-    console.error(msg);
-    res.status(400).send(msg);
-  }
-});
-
-router.get('/tx/addr/from/:addr', async (req, res) => {
-  try {
-    const { addr } = req.params;
-    const doc = await txLogRef
+    const queryFrom = txLogRef
       .where('from', '==', web3.utils.toChecksumAddress(addr))
       .orderBy('ts', 'desc')
-      .limit(5)
+      .startAt(ts)
+      .limit(count)
       .get();
-    res.json(doc.docs.map(d => ({ id: d.id, value: d.data().value })));
+    const [dataTo, dataFrom] = await Promise.all([queryTo, queryFrom]);
+    let results = dataTo.docs.concat(dataFrom.docs);
+    results = results.map(d => ({ id: d.id, ...Validate.filterTxData(d.data()) }));
+    results.sort((a, b) => (b.ts - a.ts));
+    results.splice(count);
+    res.json(results);
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);

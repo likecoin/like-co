@@ -34,6 +34,7 @@ const ValidationHelper = {
     status,
     type,
     completeTs,
+    ts,
   }) {
     return {
       from,
@@ -44,6 +45,7 @@ const ValidationHelper = {
       status,
       type,
       completeTs,
+      ts,
     };
   },
 };
