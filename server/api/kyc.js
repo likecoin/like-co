@@ -76,13 +76,14 @@ router.post('/kyc', async (req, res) => {
       ts,
       notPRC,
       notUSA,
+      isUSAAccredited,
     } = JSON.parse(payload);
 
     // Check ts expire
     if (Math.abs(ts - Date.now()) > ONE_DATE_IN_MS) {
       throw new Error('payload expired');
     }
-    if (!notPRC || !notUSA) throw new Error('Invalid KYC');
+    if (!notPRC || (!notUSA && !isUSAAccredited)) throw new Error('Invalid KYC');
 
     const userRef = dbRef.doc(user);
     const userDoc = await userRef.get();
@@ -113,6 +114,7 @@ router.post('/kyc', async (req, res) => {
       email,
       notPRC,
       notUSA,
+      isUSAAccredited,
       txHash,
       clientTs: ts,
       ts: Date.now(),
@@ -167,6 +169,7 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
       ts,
       notPRC,
       notUSA,
+      isUSAAccredited,
       passportName,
       country,
       document0SHA256,
@@ -177,7 +180,7 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
     if (Math.abs(ts - Date.now()) > ONE_DATE_IN_MS) {
       throw new Error('payload expired');
     }
-    if (!notPRC || !notUSA || !passportName || !country) throw new Error('Invalid KYC');
+    if (!notPRC || (!notUSA && !isUSAAccredited) || !passportName || !country) throw new Error('Invalid KYC');
     if (!document0SHA256 || !document1SHA256) throw new Error('Invalid checksum');
 
     const documentSHA256s = [document0SHA256, document1SHA256];
@@ -215,6 +218,7 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
       email,
       notPRC,
       notUSA,
+      isUSAAccredited,
       country,
       passportName,
       document0,

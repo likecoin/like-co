@@ -515,6 +515,7 @@
       "proceedToAccountVerification": "進行帳戶認證",
       "isPrcCitizen": "您是否中華人民共和國公民？",
       "isUsaCitizen": "您是否美國公民？",
+      "isUsaAccredited": "您是否美國合格投資者(accredited investor)?",
       "isPurchaseExceedAmount": "您購買的金額是否超過 {amount} 美金？",
       "passportName": "護照姓名",
       "country": "地區",
