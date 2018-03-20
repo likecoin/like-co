@@ -65,7 +65,7 @@ $separator-size: 10px;
       top: 0;
       left: 0;
       bottom: 0;
-      background-image: linear-gradient(to left, #d2f0f0, #f0e6b4);
+      background-image: linear-gradient(to left, #62317a, #28646e 10%, #ffdc89);
     }
 
     ul > li::after {
@@ -80,8 +80,9 @@ $separator-size: 10px;
 
       content: " ";
 
+      border: solid 1px #ffffff;
       border-radius: 50%;
-      background-color: #737373;
+      background-color: transparent;
     }
   }
 
@@ -139,9 +140,15 @@ $separator-size: 10px;
       &.reached {
         &::after {
           background-color: #28646e;
+          box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
         }
 
-        .point-value,
+        .point-value {
+          color: white;
+
+          font-weight: bold;
+        }
+
         .point-legend, {
           color: #28646e;
         }
