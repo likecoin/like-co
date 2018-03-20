@@ -1,6 +1,6 @@
 <template>
   <div class="lc-page-wrapper">
-    <tool-bars/>
+    <tool-bars :disableError="true" />
     <header class="lc-page-header">
 
       <div class="lc-container-0 header-bg lc-narrow">
