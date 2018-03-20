@@ -6,7 +6,11 @@
     },
     "button": {
       "confirm": "確認",
-      "cancel": "取消"
+      "cancel": "取消",
+      "send": "傳送",
+      "yes": "是",
+      "no": "否",
+      "ok": "OK"
     }
   },
   "Language": {
@@ -486,7 +490,8 @@
       "exchangeRate": "兌換率",
       "supply": "供應量",
       "preSaleDescription0": "購買 {base} LikeCoin + 額外 {bonus} LikeCoin 奬勵.",
-      "preSaleDescription1": "早鳥 LikeCoin 將會在公開發售開始後發送至你的錢包."
+      "preSaleDescription1": "早鳥 LikeCoin 將會在公開發售開始後發送至你的錢包.",
+      "whatIsETH": "甚麼是 ETH ?"
     },
     "button": {
       "aboutLikeCoin": "關於 LikeCoin",
@@ -513,10 +518,12 @@
       "isPurchaseExceedAmount": "您購買的金額是否超過 {amount} 美金？",
       "passportName": "護照姓名",
       "country": "地區",
+      "invalidCountry": "請選擇地區",
       "passportIdPage": "護照 ID 頁 *",
       "addressProof": "住址證明 (三個月以內) *",
       "canPurchaseLessThanAmount": "您可購買少於美金 {amount} 的 LikeCoin",
       "canPurchaseMoreThanAmount": "您可購買多於美金 {amount} 的 LikeCoin",
+      "advancedVerificationInProgress": "您可購買少於美金 {amount} 的 LikeCoin，在進階認證通過後，你將可購買更多",
       "purchaseMore": "我想購買更多",
       "accountVeritifed": "帳號已驗證",
       "canPurchaseWhenPublicSale": "代幣發售時您將可在此購買 LikeCoin",
@@ -524,16 +531,13 @@
       "waitingConfirmation": "等待確認",
       "timeWaitForAccountVerification": "過程大約需時兩分鐘…",
       "timeWaitForAdvancedVerification": "過程大約需時五個工作天…",
-      "contactThroughIntercom": "請在 Intercom 與我們聯絡",
-      "submittedVerification": "驗證已提交。"
+      "contactThroughIntercom": "請在 Intercom 與我們聯絡"
     },
     "button": {
       "createID": "註冊 LikeCoin ID",
       "sendEmailAgain": "再次發送",
       "start": "開始",
       "next": "下一步",
-      "yes": "是",
-      "no": "否",
       "upload": "上傳",
       "reupload": "重新上傳"
     }
