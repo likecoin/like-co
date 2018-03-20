@@ -383,11 +383,7 @@ export default {
       }
     },
     onClickBuyLikeCoin() {
-      if (this.getUserInfo.isEmailVerified) {
-        this.$router.push({ name: 'in-tokensale' });
-      } else {
-        this.$refs.inputDialog.onInputText();
-      }
+      this.$router.push({ name: 'in-tokensale' });
     },
     async onInputDialogConfirm(inputText) {
       if (this.email !== inputText) {
