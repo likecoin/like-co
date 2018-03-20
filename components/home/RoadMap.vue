@@ -34,7 +34,11 @@
         <div class="lc-container-3 content-section">
           <div class="lc-container-4">
             <div class="section-content">
-              <div class="content">{{ $t('Home.RoadMap.content') }}</div>
+              <div class="content">
+                <nuxt-link :to="{ name: 'in-tokensale' }">
+                  {{ $t('Home.RoadMap.content') }}
+                </nuxt-link>
+              </div>
             </div>
           </div>
         </div>
@@ -84,6 +88,14 @@ $progress-bar-percentage: 38%;
 
     .section-title {
       z-index: 1;
+    }
+
+    .section-content {
+      a {
+        text-decoration: underline;
+
+        color: $like-green;
+      }
     }
   }
 

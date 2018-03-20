@@ -45,7 +45,8 @@
         "createID": "註冊 LikeCoin ID ，改革內容創作生態",
         "createNow": "馬上註冊",
         "buyCoin": "購買 LikeCoin",
-        "imInterested": "我有興趣"
+        "imInterested": "我有興趣",
+        "joinTokenSale": "參與代幣發售"
       }
     },
     "Creator": {
@@ -93,7 +94,7 @@
     },
     "RoadMap": {
       "title": "路線圖",
-      "content": "有意早鳥認購，請於頁面右下角聯繫團隊。",
+      "content": "參與早鳥代幣發售。",
       "timeline": [
         {
           "title": "發想、研發",
