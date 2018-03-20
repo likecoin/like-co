@@ -45,7 +45,8 @@
         "createID": "Create LikeCoin ID to participate in the movement",
         "createNow": "Create Now",
         "buyCoin": "Buy LikeCoin",
-        "imInterested": "I'm interested"
+        "imInterested": "I'm interested",
+        "joinTokenSale": "Join Token Sale"
       }
     },
     "Creator": {
@@ -93,7 +94,7 @@
     },
     "RoadMap": {
       "title": "Road Map",
-      "content": "Contact our team at bottom right dialog bubble for early bird tokensale participation.",
+      "content": "Join token sale now.",
       "timeline": [
         {
           "title": "Brainstorming, R&D",

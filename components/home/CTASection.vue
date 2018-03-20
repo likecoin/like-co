@@ -11,18 +11,14 @@
               <div class="cta-section-body-content">
                 <h1>{{ $t('Home.Sale.title') }}</h1>
                 <h2>{{ $t('Home.Sale.subtitle1') }}</h2>
-                <h3>{{ $t('Home.Sale.subtitle2') }}</h3>
               </div>
 
               <div class="cta-section-body-cta-btn">
-                <span :class="['tooltip', { disabled: !isCTAButtonDisabled }]">
-                  {{ $t('Home.Sale.buttonTooltip') }}
-                </span>
                 <material-button
                   class="cta-btn"
                   :disabled="isCTAButtonDisabled"
                   @click=onClickCTAButton>
-                  {{ $t('Home.Sale.button.imInterested') }}
+                  {{ $t('Home.Sale.button.joinTokenSale') }}
                 </material-button>
               </div>
             </div>
