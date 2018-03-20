@@ -94,7 +94,8 @@
                     </li>
                     <li>
                       <a
-                        href="http://help.like.co/likecoin-faq/what-is-eth"
+                        href="https://help.like.co/likecoin-faq/what-is-eth"
+                        ref="noopener"
                         target="_blank">
                         <span>{{ $t('TokenSale.label.whatIsETH') }}</span>
                         <img :src="QuestionIcon" />
@@ -162,7 +163,7 @@
                     @showPaymentForm="handleShowPaymentForm" />
                 </section>
 
-                <section class="like-coin-rate-section lc-verticle-inset-5">
+                <section v-if="isPreSale && canICO" class="like-coin-rate-section lc-verticle-inset-5">
                   <div>
                     <div class="title">
                       {{ $t('TokenSale.label.amountLikeToPurhcase') }}
@@ -204,14 +205,13 @@
         </div>
       </section>
 
-      <section class="lc-container-1 lc-verticle-inset-3">
+      <section v-if="canICO && !needExtraKYC && shouldShowPaymentForm" class="lc-container-1 lc-verticle-inset-3">
         <div class="lc-container-2">
           <div class="lc-container-3">
             <div class="lc-container-4 lc-verticle-inset-4">
               <div class="inner-container">
                 <form
                   id="paymentInfo"
-                  v-if="canICO && !needExtraKYC && shouldShowPaymentForm"
                   v-on:submit.prevent="onSubmit">
                   <input v-model="wallet" hidden required disabled />
                   <div class="lc-verticle-inset-5">
@@ -330,7 +330,7 @@ export default {
       id: 'tokensale',
       displayName: 'LikeCoin TokenSale',
       amount: this.$route.params.amount || '0.00',
-      preSaleBase: 0,
+      preSaleBase: '0',
       popupMessage: '',
       currentTokenSaleAmount: INITIAL_TOKENSALE_ETH,
       maxTokenSaleAmount: 12600,
@@ -386,10 +386,10 @@ export default {
     preSaleBonus() {
       if (!this.preSaleBase || Number(this.amount) < 10) return new BigNumber(0);
       const preSaleBase = new BigNumber(this.preSaleBase);
-      return preSaleBase.multipliedBy(new BigNumber(0.25));
+      return preSaleBase.multipliedBy(new BigNumber(0.25)).toString();
     },
     canICO() {
-      return !this.needRegister && this.isKYCTxPass && this.KYCStatus >= KYC_STATUS_ENUM.STANDARD;
+      return this.isKYCTxPass && this.KYCStatus >= KYC_STATUS_ENUM.STANDARD;
     },
     KYCStatus() {
       return this.getUserInfo.KYC;
@@ -432,7 +432,9 @@ export default {
       this.isBadAmount = false;
       const usdPrice = await this.queryEthPrice();
       const usdAmount = usdPrice * this.amount;
-      if (usdAmount > KYC_USD_LIMIT && this.getUserInfo.KYC < KYC_STATUS_ENUM.ADVANCED) {
+      if (!this.isPreSale
+        && usdAmount > KYC_USD_LIMIT
+        && this.getUserInfo.KYC < KYC_STATUS_ENUM.ADVANCED) {
         this.popupMessage = this.$t('KYC.label.advKycNeeded');
         this.needExtraKYC = true;
         return;
@@ -497,17 +499,17 @@ export default {
     handleAmountChange(value) {
       this.amount = value;
       if (!this.amount) {
-        this.preSaleBase = new BigNumber(0);
+        this.preSaleBase = '0';
         return;
       }
-      let preSaleBase;
+      let newValue;
       try {
-        preSaleBase = (new BigNumber(ETH_TO_LIKECOIN_RATIO))
+        newValue = (new BigNumber(ETH_TO_LIKECOIN_RATIO))
           .multipliedBy(new BigNumber(value));
       } catch (err) {
-        preSaleBase = new BigNumber(0);
+        newValue = new BigNumber(0);
       }
-      this.preSaleBase = preSaleBase;
+      this.preSaleBase = newValue.toString();
     },
     handleShowPaymentForm(show) {
       this.shouldShowPaymentForm = show;
