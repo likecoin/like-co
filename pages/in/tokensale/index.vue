@@ -76,7 +76,7 @@
                     <li>
                       <div>
                         <span class="label">{{ $t('TokenSale.label.exchangeRate') }}</span>
-                        <span class="value">1 ETH / 40k LIKE</span>
+                        <span class="value">1 ETH / 40,000 LIKE</span>
                       </div>
                     </li>
                     <li>
@@ -156,10 +156,10 @@
                     <md-button class="value-button" @click="onAmountAdd(1)">
                       <md-icon class="md-size-2x">add</md-icon>
                     </md-button>
-                    <span v-if="isBadAmount" class="md-error">
-                      {{ $t('Transaction.label.invalidAmount') }}
-                    </span>
                   </md-field>
+                  <span v-if="isBadAmount" class="md-error">
+                    <md-icon>error</md-icon>{{ $t('Transaction.label.invalidAmount') }}
+                  </span>
                   <div v-if="isPreSale">
                     <div> {{ $t('TokenSale.label.preSaleDescription0', {
                       base: preSaleBase,
@@ -375,7 +375,7 @@ export default {
         return;
       }
       const amount = new BigNumber(this.amount);
-      if (!amount || amount.lt('0.000000000000000001')) {
+      if (!amount || amount.lt('0.1')) {
         this.isBadAmount = true;
         return;
       }
@@ -455,6 +455,7 @@ export default {
     },
     onAmountInput(value) {
       this.amount = value;
+      this.isBadAmount = false;
     },
     formatAmount() {
       this.amount = formatAmount(this.amount);
