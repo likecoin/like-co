@@ -255,6 +255,10 @@
     "VerifiyAndCouponEmail": {
       "subject": "Verify your LikeCoin Store email and claim your LikeCoin",
       "body": "Hi {{name}}!\n\nWelcome to LikeCoin Store! To verify your email and receive red pocket, click the following link:\n\nhttps://like.co/verify/{{uuid}}/{{coupon}}?ref={{ref}}\n\nYour coupon code: {{coupon}}\n\nLikeCoin Foundation\nhttps://like.co"
+    },
+    "preSaleEmail": {
+      "subject": "You have successfully joined LikeCoin early-bird presale",
+      "body": "Hi {{name}}!\n\nThank you for joining LikeCoin early-bird presale!\n\nAfter we have confirmed your payment of {{eth}}ETH, you will receive {{base}}+{{bonus}}LikeCoin when our public sale starts.\n\nTransaction URL: https://etherscan.io/tx/{{txHash}}\n\nMeanwhile, you can participate in our Affiliate Program to earn extra LikeCoin!\nhttps://like.co/in/edit#referral\n\nFeel free to contact us on our official website should you have any thoughts or question.\n\nLikeCoin Foundation\nhttps://like.co"
     }
   },
   "Whitepaper": {
@@ -470,12 +474,19 @@
   },
   "TokenSale": {
     "title": "Token Sale",
+    "preSaleTitle": "Early-Bird",
     "label": {
       "prepareToJoin": "Prepare to Join Token Sale",
       "publicSaleStartIn": "Public Sale Start in:",
+      "preSaleEndIn": "25% bonus ends in:",
+      "preSaleBonus": "25% Bonus",
+      "preSaleBonusCondition": "for 10ETH and above",
+      "joinPreSale": "Join Early-Bird Now",
       "token": "Token",
       "exchangeRate": "Exchange Rate",
-      "supply": "Supply"
+      "supply": "Supply",
+      "preSaleDescription0": "You are buying {base} LikeCoin + {bonus} bonus.",
+      "preSaleDescription1": "LikeCoin will be sent to your wallet when public sale start."
     },
     "button": {
       "aboutLikeCoin": "About LikeCoin",

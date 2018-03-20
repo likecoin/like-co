@@ -3,11 +3,13 @@ import BigNumber from 'bignumber.js';
 
 import {
   ONE_LIKE,
+  ETH_TO_LIKECOIN_RATIO,
   PUBSUB_TOPIC_MISC,
 } from '../../constant';
 import Validate from '../../util/ValidationHelper';
 import { logTransferDelegatedTx, logETHTx } from '../util/logger';
 import { web3, sendTransactionWithLoop } from '../util/web3';
+import { sendPreSale } from '../util/ses';
 
 import publisher from '../util/gcloudPub';
 
@@ -147,10 +149,14 @@ router.post('/payment/eth', async (req, res) => {
       to,
       value,
       txHash,
+      isPreSale,
     } = req.body;
+    let fromUserRef;
+    let fromUser;
     const fromQuery = dbRef.where('wallet', '==', from).get().then((snapshot) => {
       if (snapshot.docs.length > 0) {
-        const fromUser = snapshot.docs[0].data();
+        fromUserRef = snapshot.docs[0].ref;
+        fromUser = snapshot.docs[0].data();
         return {
           fromId: snapshot.docs[0].id,
           fromDisplayName: fromUser.displayName,
@@ -195,6 +201,26 @@ router.post('/payment/eth', async (req, res) => {
       fromId,
       toId,
     });
+    if (isPreSale) {
+      const eth = new BigNumber(value).dividedBy(ONE_LIKE);
+      const base = eth.multipliedBy(new BigNumber(ETH_TO_LIKECOIN_RATIO));
+      let bonus = new BigNumber(0);
+      if (eth.gte(new BigNumber(10))) {
+        bonus = base.multipliedBy(new BigNumber(0.25));
+      }
+      await Promise.all([
+        fromUserRef.update({ isPreSale }),
+        fromUserRef.collection('PreSale').doc(txHash).set({
+          txHash,
+          fromId,
+          value,
+          base: base.toString(),
+          bonus: bonus.toString(),
+          ts: Date.now(),
+        }, { merge: true }),
+        sendPreSale(res, fromUser, eth, base, bonus, txHash),
+      ]);
+    }
     publisher.publish(PUBSUB_TOPIC_MISC, {
       logType: 'eventPayETH',
       fromUser: fromId,
