@@ -6,7 +6,8 @@
     },
     "button": {
       "confirm": "確認",
-      "cancel": "取消"
+      "cancel": "取消",
+      "send": "傳送"
     }
   },
   "Language": {

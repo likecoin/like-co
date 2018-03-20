@@ -6,7 +6,8 @@
     },
     "button": {
       "confirm": "Confirm",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "send": "Send"
     }
   },
   "Language": {
