@@ -27,9 +27,20 @@
         <!-- <md-field> -->
         <!--   <md-input placeholder="Remark (optional)" /> -->
         <!-- </md-field> -->
-        <md-button
+        <material-button v-if="isEth"
           id="payment-confirm"
-          class="md-raised md-primary"
+          class="md-raised md-primary eth"
+          type="submit"
+          form="paymentInfo"
+          :disabled="getIsInTransaction || !getLocalWallet">
+          <div class="button-content-wrapper">
+            <img :src="EthIcon" />
+            {{ $t('General.button.send') }}
+          </div>
+        </material-button>
+        <md-button v-else
+          id="payment-confirm"
+          class="md-raised md-primary likecoin"
           type="submit"
           form="paymentInfo"
           :disabled="getIsInTransaction || !getLocalWallet">
@@ -44,6 +55,9 @@
 import BigNumber from 'bignumber.js';
 
 import AvatarHeader from '~/components/header/AvatarHeader';
+import EthIcon from '@/assets/tokensale/eth.svg';
+import MaterialButton from '~/components/MaterialButton';
+
 import EthHelper from '@/util/EthHelper';
 import { mapActions, mapGetters } from 'vuex';
 import { apiGetUserById } from '@/util/api/api';
@@ -74,12 +88,13 @@ export default {
   layout: 'pay',
   components: {
     AvatarHeader,
+    MaterialButton,
   },
   data() {
     return {
+      EthIcon,
       isBadAddress: false,
       isBadAmount: false,
-      isEth: false,
     };
   },
   asyncData({ params, redirect, error }) {
@@ -130,6 +145,10 @@ export default {
     };
   },
   computed: {
+    isEth() {
+      /* HACK because nuxt cannot easily pass route with params */
+      return this.$route.name === 'id-eth' || this.$route.name === 'id-eth-amount';
+    },
     ...mapGetters([
       'getUserIsRegistered',
       'getIsInTransaction',
@@ -274,13 +293,35 @@ a {
 
 #payment-confirm {
   display: block;
-  margin: 0 auto;
+
   width: 256px;
   height: 40px;
+  margin: 0 auto;
+
+  text-transform: none;
+}
+
+#payment-confirm.likecoin {
   color: #ffffff;
   font-size: 24px;
   background-color: #28646e;
-  text-transform: none;
+}
+
+#payment-confirm.eth {
+
+  background-image: linear-gradient(261deg, #a8a8a8, #6886a1);
+
+  .button-content-wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+
+    img {
+      position: absolute;
+      top: 8px;
+      left: 16px;
+    }
+  }
 }
 
 .value-button {
