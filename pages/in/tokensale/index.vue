@@ -96,7 +96,7 @@
 
       <!-- KYC Sections start -->
       <section
-        v-if="getUserIsFetching || isKYCTxPass==undefined"
+        v-if="getUserIsFetching || isKYCTxPass===undefined"
         class="lc-container-1 lc-verticle-inset-5">
         <div class="lc-container-2">
           <md-progress-bar md-mode="indeterminate" />
@@ -466,6 +466,8 @@ export default {
     async checkStatus() {
       if (this.getUserIsRegistered) {
         this.isKYCTxPass = await EthHelper.queryKYCStatus(this.getLocalWallet);
+      } else {
+        this.isKYCTxPass = null;
       }
     },
     async updateTokenSaleProgress() {
