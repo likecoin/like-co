@@ -533,6 +533,7 @@
       "waitingConfirmation": "Waiting for confirmation.",
       "timeWaitForAccountVerification": "It will take about 2 minutes…",
       "timeWaitForAdvancedVerification": "It will take about 5 working days…",
+      "contactUs": "Please contact us at the bottom-right dialogue bubble for further assistance.",
       "contactThroughIntercom": "Please contact us here in Intercom."
     },
     "button": {

@@ -94,9 +94,10 @@
           </div>
         </div>
       </div>
-      <material-button type="submit" form="kycForm">
+      <material-button :disabled="KYCNotPass" type="submit" form="kycForm">
         {{ $t('General.button.confirm') }}
       </material-button>
+      <div v-if="KYCNotPass">{{ $t('KYC.label.contactUs') }}</div>
     </section>
 
     <!-- Questions for Advanced Verification   -->
@@ -305,6 +306,9 @@ export default {
     },
     COUNTRY_NAME_LIST() {
       return COUNTRY_LIST.map(country => country.name);
+    },
+    KYCNotPass() {
+      return (!this.notPRC || (!this.notUSA && !this.isUSAAccredited));
     },
     kycSteps() {
       let emailStatusIcon = TickIcon;
