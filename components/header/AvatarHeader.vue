@@ -1,6 +1,6 @@
 <template>
   <section class="section-avatar">
-    <div class="heading">
+    <div :class="[isEth ? 'eth' : '' ,'heading']">
       <h1 v-html="$t('Transaction.label.sendTo', { title, coin: isEth ? 'ETH' : 'LikeCoin' })" />
     </div>
     <div class="icon">
@@ -75,6 +75,13 @@ export default {
   padding: 24px 10px;
   border-radius: 8px;
   background-image: linear-gradient(238deg, $like-light-blue, $like-gradient-1);
+}
+
+.heading.eth {
+  h1 {
+    color: white;
+  }
+  background-image: linear-gradient(261deg, #a8a8a8, #6886a1);
 }
 
 .heading h1 {
