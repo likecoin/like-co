@@ -72,8 +72,7 @@
                         <span class="label">{{ $t('TokenSale.label.token') }}</span>
                         <a
                           class="value highlight"
-                          href="https://etherscan.io/address/0x02F61Fd266DA6E8B102D4121f5CE7b992640CF98"
-                          rel="noopener noreferrer"
+                          :href="LIKE_CONTRACT_ADDRESS"
                           target="_blank">
                           LIKE
                         </a>
@@ -95,7 +94,6 @@
                     <!-- <li>
                       <a
                         href="https://google.com/"
-                        rel="noopener noreferrer"
                         target="_blank">
                         <span>{{ $t('TokenSale.label.whatIsETH') }}</span>
                         <img :src="QuestionIcon" />
@@ -243,8 +241,9 @@ import likeCoinIcon from '@/assets/like-coin.svg';
 import QuestionIcon from '@/assets/tokensale/question.svg';
 
 import EthHelper from '@/util/EthHelper';
+import { LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin';
 import { LIKE_COIN_ICO_ADDRESS, LIKE_COIN_PRESALE_ADDRESS } from '@/constant/contract/likecoin-ico';
-import { KYC_USD_LIMIT, KYC_STATUS_ENUM, ETH_TO_LIKECOIN_RATIO } from '@/constant';
+import { ETHERSCAN_HOST, KYC_USD_LIMIT, KYC_STATUS_ENUM, ETH_TO_LIKECOIN_RATIO } from '@/constant';
 import { mapActions, mapGetters } from 'vuex';
 
 const ONE_LIKE = new BigNumber(10).pow(18);
@@ -272,6 +271,8 @@ export default {
       KYC_STATUS_ENUM,
       SALE_DATE,
       ETH_TO_LIKECOIN_RATIO,
+      LIKE_CONTRACT_ADDRESS: `${ETHERSCAN_HOST}/address/${LIKE_COIN_ADDRESS}`,
+
       isBadAddress: false,
       isBadAmount: false,
       isEth: true,
