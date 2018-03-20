@@ -48,7 +48,7 @@
 import BlockSection from '~/components/BlockSection';
 
 
-const milestonesStatus = [true, true, true, true, false, false, false];
+const milestonesStatus = [true, true, true, false, false, false, false];
 
 export default {
   name: 'road-map',

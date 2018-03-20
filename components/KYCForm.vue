@@ -6,15 +6,14 @@
           <!-- Finished Advanced KYC -->
           {{  $t('KYC.label.canPurchaseMoreThanAmount', { amount: KYC_USD_LIMIT }) }}
         </div>
+        <div v-else-if="pendingKYC || isSubmittedAdvancedVerification">
+          {{ $t('KYC.label.advancedVerificationInProgress', { amount: KYC_USD_LIMIT }) }}
+        </div>
         <div v-else-if="stage === 91">
           <!-- Finished Standard KYC -->
           {{ $t('KYC.label.canPurchaseLessThanAmount', { amount: KYC_USD_LIMIT }) }}
           <br>
           <input type="submit" :value="$t('KYC.label.purchaseMore')" />
-        </div>
-        <div v-else-if="stage === 90 && (pendingKYC || isSubmittedAdvancedVerification)">
-          <!-- Waiting for confirmation -->
-          {{ $t('KYC.label.submittedVerification') }}
         </div>
         <div v-else>
           <!-- other cases -->
@@ -32,10 +31,10 @@
       </ol>
     </div>
 
+    <!-- Email verified and KYC not yet started -->
     <section
       v-if="stage === 0"
       class="start-kyc-section">
-      <!-- Email verified and KYC not yet started -->
       <div class="verified-wrapper">
         <div class="description">
           <h2>
@@ -50,10 +49,10 @@
       </material-button>
     </section>
 
+    <!-- Questions for Standard Verification -->
     <section
       v-if="stage === 1"
       class="standard-verification-section">
-      <!-- Questions for Standard Verification -->
       <div class="standard-verification-wrapper">
         <div class="md-layout lc-verticle-inset-3">
           <label class="md-layout-item md-size-100">
@@ -61,10 +60,10 @@
           </label>
           <div class="md-layout md-layout-item options">
             <md-radio v-model="notPRC" class="md-layout-item" :value="false">
-              {{ $t('KYC.button.yes') }}
+              {{ $t('General.button.yes') }}
             </md-radio>
             <md-radio v-model="notPRC" class="md-layout-item" :value="true">
-              {{ $t('KYC.button.no') }}
+              {{ $t('General.button.no') }}
             </md-radio>
           </div>
         </div>
@@ -74,10 +73,10 @@
           </label>
           <div class="md-layout md-layout-item options">
             <md-radio v-model="notUSA" name="isUSA" class="md-layout-item" :value="false">
-              {{ $t('KYC.button.yes') }}
+              {{ $t('General.button.yes') }}
             </md-radio>
             <md-radio v-model="notUSA" name="isUSA" class="md-layout-item" :value="true">
-              {{ $t('KYC.button.no') }}
+              {{ $t('General.button.no') }}
             </md-radio>
           </div>
         </div>
@@ -87,10 +86,10 @@
       </material-button>
     </section>
 
+    <!-- Questions for Advanced Verification   -->
     <section
       v-else-if="stage === 2"
       class="advanced-verification-section">
-      <!-- Questions for Advanced Verification   -->
       <div class="advanced-verification-wrapper lc-verticle-inset-5">
         <p class="lc-verticle-inset-3">
           {{ $t('KYC.label.verifyToPurchaseOverAmount', {
@@ -112,6 +111,9 @@
             <label>{{ $t('KYC.label.country') }}</label>
           </md-autocomplete>
         </md-field>
+        <span v-if="isCountryInvalid" class="invalid-country-error">
+          {{ $t('KYC.label.invalidCountry') }}
+        </span>
 
         <div class="image-upload-field">
           <label>{{ $t('KYC.label.passportIdPage') }}</label>
@@ -152,14 +154,14 @@
         </div>
       </div>
       <material-button type="submit" form="kycForm">
-        {{ $t('KYC.button.next') }}
+        {{ $t('General.button.confirm') }}
       </material-button>
     </section>
 
+    <!-- Email verification not yet started / completed -->
     <section
       v-else-if="stage === 20 || stage === 21"
       class="verify-email-section">
-      <!-- Email verification not yet started / completed -->
       <md-field :class="stage === 21 ? 'disabled' : ''">
         <label>
           {{ $t('KYC.label.verifyEmailPlaceholder') }}
@@ -190,10 +192,10 @@
       </div>
     </section>
 
+    <!-- Account / Advanced Verification Waiting for Confirmation -->
     <section
       v-else-if="stage === 90"
       class="kyc-in-progress-section">
-      <!-- Account / Advanced Verification Waiting for Confirmation -->
       <div class="description">
         <h2>
           {{ $t('KYC.label.waitingConfirmation') }}
@@ -202,12 +204,19 @@
           {{ $t(`KYC.label.timeWaitFor${(pendingKYC || isSubmittedAdvancedVerification) ? 'Advanced' : 'Account'}Verification`) }}
         </p>
       </div>
+      <material-button
+        type="submit"
+        form="kycForm"
+        v-if="pendingKYC || isSubmittedAdvancedVerification"
+        @click="handleShowPaymentForm(true)">
+        {{ $t('General.button.ok') }}
+      </material-button>
     </section>
 
-    <section
+    <!-- Account / Advanced Verification Passed -->
+    <!-- <section
       v-else-if="stage === 91 || stage === 92"
       class="account-verified-section">
-      <!-- Account / Advanced Verification Passed -->
       <div class="verified-wrapper">
         <div class="description">
           <h2>
@@ -217,7 +226,7 @@
           <p>{{ $t('KYC.label.canPurchaseWhenPublicSale') }}</p>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <section
       v-else-if="stage === 99"
@@ -238,7 +247,6 @@ import { KYC_USD_LIMIT, KYC_STATUS_ENUM } from '@/constant';
 import COUNTRY_LIST from '@/constant/country-list';
 import User from '@/util/User';
 import EthHelper from '@/util/EthHelper';
-import PopupDialog from '~/components/dialogs/PopupDialog';
 import { mapActions } from 'vuex';
 
 export default {
@@ -246,7 +254,6 @@ export default {
   props: ['isKYCTxPass', 'isPreSale', 'user', 'wallet'],
   components: {
     MaterialButton,
-    PopupDialog,
   },
   data() {
     return {
@@ -256,7 +263,6 @@ export default {
 
       email: '',
       stage: 0,
-      status: 'None',
       notPRC: true,
       notUSA: true,
       isBelowThersold: true,
@@ -270,8 +276,8 @@ export default {
       documentFile1: '',
       txHash: '',
 
-      txConfirmed: false,
       isAdvanced: false,
+      isCountryInvalid: false,
       isWaitingEmailVerification: false,
       isSubmittedAdvancedVerification: false,
     };
@@ -291,6 +297,7 @@ export default {
       let accountStatusIcon = CircleIcon;
       let advancedStatusIcon = CircleIcon;
 
+
       const {
         stage,
         pendingKYC,
@@ -298,16 +305,20 @@ export default {
         isSubmittedAdvancedVerification,
       } = this;
 
+      // show advanced step only when advanced verification is in progress / clicked
+      const shouldShowAdvancedStep = (
+        stage === 92 || stage === 2 || pendingKYC || isSubmittedAdvancedVerification
+      );
+
       if (!this.user.isEmailVerified) {
         emailStatusIcon = CircleIcon;
       } else if (this.isWaitingEmailVerification) {
         emailStatusIcon = PendingIcon;
       }
 
-      if (stage === 90 && !pendingKYC) {
-        // pending state but not about advanced verification
+      if (stage === 90 && (!pendingKYC || !isSubmittedAdvancedVerification)) {
         accountStatusIcon = PendingIcon;
-      } else if (KYCStatus === KYC_STATUS_ENUM.STANDARD) {
+      } else if (KYCStatus === KYC_STATUS_ENUM.STANDARD || shouldShowAdvancedStep) {
         accountStatusIcon = TickIcon;
       }
 
@@ -328,8 +339,7 @@ export default {
         },
       ];
 
-      // show advanced step only when advanced verification is in progress / clicked
-      if (stage === 92 || stage === 2 || pendingKYC || this.isSubmittedAdvancedVerification) {
+      if (shouldShowAdvancedStep) {
         steps.push({
           key: 'advanced',
           icon: advancedStatusIcon,
@@ -409,7 +419,11 @@ export default {
           break;
         }
         case 91: {
-          this.stage = 2;
+          if (!this.isSubmittedAdvancedVerification) {
+            // hide payment form and show advanced kyc questions
+            this.handleShowPaymentForm(false);
+            this.stage = 2;
+          }
           break;
         }
         default: {
@@ -438,13 +452,17 @@ export default {
       if (isAdv) {
         userInfo.passportName = passportName;
         // retrieve country code from choice
-        userInfo.country = COUNTRY_LIST.find(c => c.name === country).code;
+        const selectedCountry = COUNTRY_LIST.find(c => c.name === country);
+        if (!selectedCountry) {
+          this.isCountryInvalid = true;
+          return;
+        }
+        userInfo.country = selectedCountry.code;
         userInfo.documentFile0 = documentFile0;
         userInfo.documentFile1 = documentFile1;
       }
       const payload = await User.formatAndSignKYC(userInfo);
       this.txHash = '';
-      this.txConfirmed = false;
       const { txHash } = await this.sendKYC({ payload, isAdv });
       this.txHash = txHash;
 
@@ -452,12 +470,12 @@ export default {
       this.stage = 90;
       if (isAdv) {
         this.isSubmittedAdvancedVerification = true;
+      } else {
+        // wait for tx confirm only for standard verification
+        await EthHelper.waitForTxToBeMined(txHash);
+        /* refreshing user will cause kyc form to refresh as well */
+        setTimeout(() => this.refreshUserInfo(user), 3000);
       }
-
-      await EthHelper.waitForTxToBeMined(txHash);
-      this.txConfirmed = true;
-      /* refreshing user will cause kyc form to refresh as well */
-      setTimeout(() => this.refreshUserInfo(user), 3000);
     },
     async updateEmail() {
       const userInfo = {
@@ -475,30 +493,36 @@ export default {
         this.stage = 20;
         return;
       }
-      const { isKYCTxPass, KYCStatus, pendingKYC } = this;
+
+      const {
+        isKYCTxPass,
+        isSubmittedAdvancedVerification,
+        KYCStatus,
+        pendingKYC,
+      } = this;
+
       if (pendingKYC) {
-        this.status = 'AdvanedInProgress';
-        this.stage = 90;
+        // do not change the stage until user's press confirm
+        if (!isSubmittedAdvancedVerification) {
+          this.stage = 93;
+        }
         return;
       }
       switch (KYCStatus) {
         case KYC_STATUS_ENUM.ADVANCED: {
-          this.status = isKYCTxPass ? 'Advanced' : 'ProcessingTx';
-          this.stage = isKYCTxPass ? 92 : 90;
+          this.stage = isKYCTxPass ? 92 : 91;
           break;
         }
         case KYC_STATUS_ENUM.STANDARD: {
-          this.status = isKYCTxPass ? 'Standard' : 'ProcessingTx';
           this.stage = isKYCTxPass ? 91 : 90;
           break;
         }
         case KYC_STATUS_ENUM.PENDING: {
-          this.status = 'InProgress';
           this.stage = 90;
           break;
         }
         default:
-          this.status = 'None';
+          break;
       }
     },
     goToEdit() {
@@ -507,6 +531,13 @@ export default {
         params: { showEmail: !this.user.isEmailVerified },
         query: { ref: 'tokensale' },
       });
+    },
+    handleShowPaymentForm(show) {
+      if (show) {
+        // back to stage of finishing standard verification
+        this.stage = 91;
+      }
+      this.$emit('showPaymentForm', show);
     },
   },
   mounted() {
@@ -764,38 +795,9 @@ input[type="file"] {
         }
       }
     }
-  }
 
-  // fine-tune input color
-  .md-field {
-    &::before {
-      background-color: $like-gray-3;
-    }
-    &::after {
-      height: 2px;
-
-      background-color: $like-gray-3;
-    }
-    label {
-      color: #9b9b9b;
-    }
-    :global(.md-input) {
-      color: $like-gray-5;
-
-      font-size: 20px;
-      font-weight: 300;
-    }
-
-    &.md-focused,
-    &.md-has-value {
-      label {
-        color: $like-dark-brown-1;
-      }
-    }
-    &:not(.md-focused):not(.md-has-value) {
-      label {
-        margin-top: -4px;
-      }
+    .invalid-country-error {
+      color: $like-green-2;
     }
   }
 }

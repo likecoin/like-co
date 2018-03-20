@@ -1,6 +1,6 @@
 <template>
   <md-button
-    :class="[className, hasShadow ? 'shadow' : '']"
+    :class="[className, classObject]"
     @click="handleClick"
     :type="type"
     :form="form">
@@ -11,7 +11,15 @@
 <script>
   export default {
     name: 'material-button',
-    props: ['className', 'hasShadow', 'type', 'form'],
+    props: ['className', 'hasShadow', 'type', 'form', 'disabled'],
+    computed: {
+      classObject() {
+        return {
+          shadow: this.hasShadow,
+          disabled: this.disabled,
+        };
+      },
+    },
     methods: {
       handleClick() {
         this.$emit('click');
@@ -42,9 +50,13 @@
   :global(.md-ripple) {
     padding: 8px;
 
-    :global(.md-button-content) > a {
-      color: $like-white;
-      text-decoration: none;
+    :global(.md-button-content) {
+      position: initial;
+
+      > a {
+        color: $like-white;
+        text-decoration: none;
+      }
     }
   }
 }

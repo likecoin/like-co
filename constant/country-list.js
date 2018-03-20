@@ -871,7 +871,7 @@ export default
   },
   {
     "code": "TWN",
-    "name": "Taiwan, Province of China"
+    "name": "Taiwan"
   },
   {
     "code": "TJK",

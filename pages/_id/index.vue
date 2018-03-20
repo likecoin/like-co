@@ -4,26 +4,14 @@
     <div class="inner-container">
       <form id="paymentInfo" v-on:submit.prevent="onSubmit">
         <input v-model="wallet" hidden required disabled />
-        <label>{{ $t('Transaction.label.amountToSend', { coin: isEth ? 'ETH' : 'LikeCoin' }) }}</label>
-        <md-field :class="isBadAmount?'md-input-invalid':''">
-          <md-button class="value-button" @click="onAmountAdd(-1)">
-            <md-icon class="md-size-2x">remove</md-icon>
-          </md-button>
-          <md-input id="payment-input"
-            pattern="[0-9]*(\.[0-9]*)?"
-            :title="$t('Transaction.label.enterValidNumber')"
-            :value="amount"
-            @keypress="onAmountKeypress"
-            @input="onAmountInput"
-            @focusout="formatAmount"
-            required />
-          <md-button class="value-button" @click="onAmountAdd(1)">
-            <md-icon class="md-size-2x">add</md-icon>
-          </md-button>
-          <span v-if="isBadAmount" class="md-error">
-            {{ $t('Transaction.label.invalidAmount') }}
-          </span>
-        </md-field>
+        <div class="number-input">
+          <number-input
+            :amount="amount"
+            :isBadAmount="isBadAmount"
+            :label="$t('Transaction.label.amountToSend', { coin: isEth ? 'ETH' : 'LikeCoin' })"
+            @onChange="handleAmountChange"
+          />
+        </div>
         <!-- <md-field> -->
         <!--   <md-input placeholder="Remark (optional)" /> -->
         <!-- </md-field> -->
@@ -41,13 +29,17 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
 
 import AvatarHeader from '~/components/header/AvatarHeader';
+import NumberInput from '~/components/NumberInput';
+
 import EthHelper from '@/util/EthHelper';
-import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
-import { mapActions, mapGetters } from 'vuex';
 import { apiGetUserById } from '@/util/api/api';
+
+import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
+
 
 const ONE_LIKE = new BigNumber(10).pow(18);
 
@@ -70,11 +62,13 @@ function formatAmount(amount) {
   return result;
 }
 
+
 export default {
   name: 'payment',
   layout: 'pay',
   components: {
     AvatarHeader,
+    NumberInput,
   },
   data() {
     return {
@@ -165,6 +159,7 @@ export default {
         this.isBadAmount = true;
         return;
       }
+      this.isBadAmount = false;
       try {
         if (!EthHelper.getWallet()) return;
         let balance = 0;
@@ -206,44 +201,17 @@ export default {
         console.error(error);
       }
     },
-    onAmountAdd(diff) {
-      let newAmount = new BigNumber(this.amount).plus(diff);
-      if (newAmount.lt(0)) {
-        newAmount = new BigNumber(0);
-      }
-      this.amount = newAmount.toFixed();
-      this.formatAmount();
-    },
-    onAmountKeypress(e) {
-      if (e.code === 'Enter') {
-        return;
-      }
-      if (!/[0-9.]/.test(e.key)) {
-        e.preventDefault();
-        return;
-      }
-      const { value } = e.target;
-      const newValue =
-        value.slice(0, e.target.selectionStart) + e.key + value.slice(e.target.selectionEnd);
-      if (!/^[0-9]*.?[0-9]*$/.test(newValue)) {
-        e.preventDefault();
-        return;
-      }
-      this.amount = newValue;
-    },
     onAmountInput(value) {
       this.amount = value;
     },
-    formatAmount() {
-      this.amount = formatAmount(this.amount);
+    handleAmountChange(value) {
+      this.amount = value;
     },
   },
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
+<style lang="scss" scoped>
 h1, h2 {
   font-weight: normal;
 }
@@ -272,7 +240,11 @@ a {
 }
 
 #paymentInfo {
-  margin: 24px 41px 33px 41px;
+  margin: 0 40px 16px;
+
+  .number-input {
+    margin: 16px 0 40px;
+  }
 }
 
 #payment-confirm {
@@ -284,21 +256,5 @@ a {
   font-size: 24px;
   background-color: #28646e;
   text-transform: none;
-}
-
-.value-button {
-  width: 48px;
-  height: 48px;
-  min-width: 48px;
-  border-radius: 50%;
-  position: relative;
-  top: calc((76px - 48px) / 2);
-}
-
-#payment-input {
-  height: 76px;
-  width: 0; /* not sure why */
-  text-align: center;
-  font-size: 56px;
 }
 </style>
