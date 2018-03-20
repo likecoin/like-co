@@ -80,6 +80,19 @@
             </md-radio>
           </div>
         </div>
+        <div v-if="!notUSA" class="md-layout lc-verticle-inset-3">
+          <label class="md-layout-item md-size-100">
+            {{ $t('KYC.label.isUsaAccredited') }}
+          </label>
+          <div class="md-layout md-layout-item options">
+            <md-radio v-model="isUSAAccredited" name="isUSAAccredited" class="md-layout-item" :value="true">
+              {{ $t('General.button.yes') }}
+            </md-radio>
+            <md-radio v-model="isUSAAccredited" name="isUSAAccredited" class="md-layout-item" :value="false">
+              {{ $t('General.button.no') }}
+            </md-radio>
+          </div>
+        </div>
       </div>
       <material-button type="submit" form="kycForm">
         {{ $t('General.button.confirm') }}
@@ -265,6 +278,7 @@ export default {
       stage: 0,
       notPRC: true,
       notUSA: true,
+      isUSAAccredited: false,
       isBelowThersold: true,
       passportName: '',
       country: '',
@@ -392,7 +406,7 @@ export default {
           break;
         }
         case 1: {
-          if (!this.notPRC || !this.notUSA) {
+          if (!this.notPRC || (!this.notUSA && !this.isUSAAccredited)) {
             this.stage = 99;
             if (this.$intercom) this.$intercom.show();
           } else {
@@ -436,6 +450,7 @@ export default {
       const {
         notPRC,
         notUSA,
+        isUSAAccredited,
         wallet,
         passportName,
         country,
@@ -448,6 +463,7 @@ export default {
         wallet,
         notPRC,
         notUSA,
+        isUSAAccredited,
       };
       if (isAdv) {
         userInfo.passportName = passportName;
@@ -664,7 +680,7 @@ input[type="file"] {
       flex-direction: column;
       justify-content: center;
 
-      height: 220px;
+      min-height: 220px;
     }
 
     .md-layout {
@@ -692,7 +708,9 @@ input[type="file"] {
         }
       }
     }
-
+    .md-button {
+      margin-top: 20px;
+    }
   }
 
   .verify-email-section {

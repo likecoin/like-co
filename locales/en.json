@@ -515,6 +515,7 @@
       "proceedToAccountVerification": "Proceed to account verification",
       "isPrcCitizen": "Are you a citizen of PRC?",
       "isUsaCitizen": "Are you a citizen of USA?",
+      "isUsaAccredited": "Are you a Accredited Investor in USA?",
       "isPurchaseExceedAmount": "Are you going to purchase more than USD {amount}?",
       "passportName": "Name (same name as your passport)",
       "country": "Country",

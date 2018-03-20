@@ -348,7 +348,6 @@ export default {
       return this.preSaleBase.multipliedBy(new BigNumber(0.25));
     },
     canICO() {
-      if (this.isPreSale) return this.getUserInfo.isEmailVerified;
       return !this.needRegister && this.isKYCTxPass && this.KYCStatus >= KYC_STATUS_ENUM.STANDARD;
     },
     KYCStatus() {
