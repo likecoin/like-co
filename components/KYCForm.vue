@@ -6,7 +6,7 @@
           <!-- Finished Advanced KYC -->
           {{  $t('KYC.label.canPurchaseMoreThanAmount', { amount: KYC_USD_LIMIT }) }}
         </div>
-        <div v-else-if="true || isPreSale && KYCStatus >= KYC_STATUS_ENUM.STANDARD">
+        <div v-else-if="isPreSale && KYCStatus >= KYC_STATUS_ENUM.STANDARD">
           {{ $t('KYC.label.preSaleBonusDescription') }}
         </div>
         <div v-else-if="pendingKYC || isSubmittedAdvancedVerification">

@@ -173,8 +173,7 @@
                         <md-input
                           :value="preSaleBase"
                           @keypress="onAmountKeypress"
-                          @input="onAmountInput"
-                          @focusout="formatAmount" />
+                          @input="onAmountInput" />
                       </div>
                     </md-field>
                   </div>
@@ -529,23 +528,13 @@ export default {
         return;
       }
       this.preSaleBase = newValue;
-      this.updateEthAmountWithLikeAmount(newValue);
     },
-    onAmountInput(value) {
-      this.preSaleBase = formatAmount(value);
-      this.updateEthAmountWithLikeAmount(this.preSaleBase);
-    },
-    formatAmount() {
-      this.preSaleBase = formatAmount(this.preSaleBase);
-      this.updateEthAmountWithLikeAmount(this.preSaleBase);
-    },
-    updateEthAmountWithLikeAmount(likeAmount) {
+    onAmountInput(likeAmount) {
       try {
+        this.preSaleBase = formatAmount(likeAmount);
         const amount = new BigNumber(likeAmount).dividedBy(ETH_TO_LIKECOIN_RATIO);
-        if (!amount.isEqualTo(new BigNumber(this.amount))) {
-          this.amount = amount.toString();
-          this.isBadAmount = false;
-        }
+        this.amount = amount.toString();
+        this.isBadAmount = false;
       } catch (err) {
         this.amount = '0';
       }
