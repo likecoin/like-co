@@ -479,20 +479,26 @@
   },
   "TokenSale": {
     "title": "Token Sale",
-    "preSaleTitle": "Early-Bird",
+    "preSaleTitle": "Early Bird",
     "label": {
       "prepareToJoin": "Prepare to Join Token Sale",
       "publicSaleStartIn": "Public Sale Start in:",
       "preSaleEndIn": "25% bonus ends in:",
       "preSaleBonus": "25% Bonus",
       "preSaleBonusCondition": "for 10ETH and above",
-      "joinPreSale": "Join Early-Bird Now",
+      "joinPreSale": "Join Early Bird Now",
       "token": "Token",
       "exchangeRate": "Exchange Rate",
       "supply": "Supply",
       "preSaleDescription0": "You are buying {base} LikeCoin + {bonus} bonus.",
       "preSaleDescription1": "LikeCoin will be sent to your wallet when public sale start.",
-      "whatIsETH": "What is ETH?"
+      "whatIsETH": "What is ETH?",
+      "bonusAndLimitedOffer": "25% bonus, Limited Time Offer",
+      "limitedOfferCondition": "for 10 ETH purchase and above",
+      "amountLikeToPurhcase": "Amount of LIKE to Purchase",
+      "bonus": "Bonus",
+      "bonusLockUp": "Bonus LikeCoin will lock up until 31 Dec 2018",
+      "amountWillBeSentWhenSalesStart": "The purchased and bonus LikeCoin will be sent to your wallet when public token sales starts, expected to be April 23 2018. The bonus LikeCoin will be lock up in your wallet and cannot be transferred for 6 months."
     },
     "button": {
       "aboutLikeCoin": "About LikeCoin",
@@ -534,7 +540,8 @@
       "timeWaitForAccountVerification": "It will take about 2 minutes…",
       "timeWaitForAdvancedVerification": "It will take about 5 working days…",
       "contactUs": "Please contact us at the bottom-right dialogue bubble for further assistance.",
-      "contactThroughIntercom": "Please contact us here in Intercom."
+      "contactThroughIntercom": "Please contact us here in Intercom.",
+      "preSaleBonusDescription": "25% bonus for 10 ETH purchase and above"
     },
     "button": {
       "createID": "Create LikeCoin ID",

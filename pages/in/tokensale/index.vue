@@ -33,9 +33,12 @@
             <div class="lc-container-4 lc-verticle-inset-5">
 
               <section class="countdown-section">
-                <h1>{{ isPreSale ? $t('TokenSale.preSaleTitle') : $t('TokenSale.title') }} LIVE </h1>
-                <h3>{{ isPreSale ? $t('TokenSale.label.preSaleEndIn') : $t('TokenSale.label.publicSaleStartIn') }}</h3>
-                <countdown-timer :date="new Date(SALE_DATE)" />
+                <h1>{{ isPreSale ? $t('TokenSale.preSaleTitle') : $t('TokenSale.title') }} <span>LIVE</span></h1>
+                <h2 v-if="isPreSale">
+                  {{ $t('TokenSale.label.bonusAndLimitedOffer') }}
+                </h2>
+                <h3>{{ isPreSale ? $t('TokenSale.label.limitedOfferCondition') : $t('TokenSale.label.publicSaleStartIn') }}</h3>
+                <!-- <countdown-timer :date="new Date(SALE_DATE)" /> -->
               </section>
 
             </div>
@@ -57,9 +60,8 @@
               </div>
             </div>
           </div>
-          <div v-else class="tokensale-presale-wrapper lc-container-3 lc-verticle-inset-4">
-            <h1>{{ $t('TokenSale.label.preSaleBonus') }}</h1>
-            <div class="tokensale-amount lc-verticle-inset-2">{{ $t('TokenSale.label.preSaleBonusCondition') }} </div>
+          <div v-else class="tokensale-presale-wrapper lc-container-3 lc-verticle-inset-5">
+            {{ $t('TokenSale.label.amountWillBeSentWhenSalesStart')}}
           </div>
 
           <section class="token-info-section">
@@ -87,18 +89,17 @@
                     <li>
                       <div>
                         <span class="label">{{ $t('TokenSale.label.supply') }}</span>
-                        <span class="value">600mil</span>
+                        <span class="value">60,000,000</span>
                       </div>
                     </li>
-                    <!-- TODO: wait for a support thread in help centre to introduce ETH -->
-                    <!-- <li>
+                    <li>
                       <a
-                        href="https://google.com/"
+                        href="http://help.like.co/likecoin-faq/what-is-eth"
                         target="_blank">
                         <span>{{ $t('TokenSale.label.whatIsETH') }}</span>
                         <img :src="QuestionIcon" />
                       </a>
-                    </li> -->
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -161,6 +162,53 @@
                     @showPaymentForm="handleShowPaymentForm" />
                 </section>
 
+                <section class="like-coin-rate-section lc-verticle-inset-5">
+                  <div>
+                    <div class="title">
+                      {{ $t('TokenSale.label.amountLikeToPurhcase') }}
+                    </div>
+                    <md-field>
+                      <div class="coin-value-wrapper">
+                        <span>LIKE</span>
+                        <md-input
+                          :value="preSaleBase"
+                          @keypress="onAmountKeypress"
+                          @input="onAmountInput" />
+                      </div>
+                    </md-field>
+                  </div>
+                  <img :src="AddIcon" />
+                  <div>
+                    <div class="title">
+                      {{ $t('TokenSale.label.bonus') }}
+                    </div>
+                    <md-field>
+                      <div class="coin-value-wrapper">
+                        <span>LIKE</span>
+                        <md-input :value="preSaleBonus" disabled />
+                      </div>
+                    </md-field>
+                    <div class="remark lc-verticle-inset-2">
+                      {{ $t('TokenSale.label.bonusLockUp') }}
+                    </div>
+                  </div>
+                </section>
+
+                <!-- <section v-else-if="KYCStatus==KYC_STATUS_ENUM.PENDING">
+                  <md-progress-bar md-mode="indeterminate" />
+                  KYC ALREADY PENDING
+                </section> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="lc-container-1 lc-verticle-inset-3">
+        <div class="lc-container-2">
+          <div class="lc-container-3">
+            <div class="lc-container-4 lc-verticle-inset-4">
+              <div class="inner-container">
                 <form
                   id="paymentInfo"
                   v-if="canICO && !needExtraKYC && shouldShowPaymentForm"
@@ -174,17 +222,6 @@
                       :label="$t('Transaction.label.amountToSend', { coin: isEth ? 'ETH' : 'LikeCoin' })"
                       @onChange="handleAmountChange"
                     />
-                    <div class="presale-description lc-verticle-inset-3" v-if="isPreSale">
-                      <div>
-                        {{
-                          $t('TokenSale.label.preSaleDescription0', {
-                            base: preSaleBase,
-                            bonus: preSaleBonus,
-                          })
-                        }}
-                      </div>
-                      <div>{{ $t('TokenSale.label.preSaleDescription1') }}</div>
-                    </div>
                   </div>
                   <!-- <md-field>
                     <md-input placeholder="Remark (optional)" />
@@ -202,13 +239,7 @@
                     </material-button>
                   </div>
                 </form>
-
-                <section v-else-if="KYCStatus==KYC_STATUS_ENUM.PENDING">
-                  <md-progress-bar md-mode="indeterminate" />
-                  KYC ALREADY PENDING
-                </section>
               </div>
-
             </div>
           </div>
         </div>
@@ -236,6 +267,7 @@ import TokenSaleProgress from '~/components/TokenSaleProgress';
 import PopupDialog from '~/components/dialogs/PopupDialog';
 import KYCForm from '~/components/KYCForm';
 
+import AddIcon from '@/assets/icons/add.svg';
 import EthIcon from '@/assets/tokensale/eth.svg';
 import likeCoinIcon from '@/assets/like-coin.svg';
 import QuestionIcon from '@/assets/tokensale/question.svg';
@@ -249,6 +281,20 @@ import { mapActions, mapGetters } from 'vuex';
 const ONE_LIKE = new BigNumber(10).pow(18);
 const INITIAL_TOKENSALE_ETH = new BigNumber(5400);
 const SALE_DATE = '2018-04-23T00:00:00+0800';
+
+function formatAmount(amount) {
+  let result = amount.toString().replace(/[^0-9.]/, '');
+  if (!result) {
+    result = '0';
+  }
+  const dotIndex = result.indexOf('.');
+  if (dotIndex === -1) {
+    result = `${result}`;
+  } else if (dotIndex === 0) {
+    result = `0${result}`;
+  }
+  return result;
+}
 
 
 export default {
@@ -264,6 +310,7 @@ export default {
   },
   data() {
     return {
+      AddIcon,
       EthIcon,
       likeCoinIcon,
       QuestionIcon,
@@ -283,6 +330,7 @@ export default {
       id: 'tokensale',
       displayName: 'LikeCoin TokenSale',
       amount: this.$route.params.amount || '0.00',
+      preSaleBase: 0,
       popupMessage: '',
       currentTokenSaleAmount: INITIAL_TOKENSALE_ETH,
       maxTokenSaleAmount: 12600,
@@ -335,17 +383,10 @@ export default {
     isPreSale() {
       return (new Date() < new Date(SALE_DATE));
     },
-    preSaleBase() {
-      if (!this.amount) return new BigNumber(0);
-      try {
-        return (new BigNumber(ETH_TO_LIKECOIN_RATIO)).multipliedBy(new BigNumber(this.amount));
-      } catch (err) {
-        return new BigNumber(0);
-      }
-    },
     preSaleBonus() {
       if (!this.preSaleBase || Number(this.amount) < 10) return new BigNumber(0);
-      return this.preSaleBase.multipliedBy(new BigNumber(0.25));
+      const preSaleBase = new BigNumber(this.preSaleBase);
+      return preSaleBase.multipliedBy(new BigNumber(0.25));
     },
     canICO() {
       return !this.needRegister && this.isKYCTxPass && this.KYCStatus >= KYC_STATUS_ENUM.STANDARD;
@@ -455,9 +496,48 @@ export default {
     },
     handleAmountChange(value) {
       this.amount = value;
+      if (!this.amount) {
+        this.preSaleBase = new BigNumber(0);
+        return;
+      }
+      let preSaleBase;
+      try {
+        preSaleBase = (new BigNumber(ETH_TO_LIKECOIN_RATIO))
+          .multipliedBy(new BigNumber(value));
+      } catch (err) {
+        preSaleBase = new BigNumber(0);
+      }
+      this.preSaleBase = preSaleBase;
     },
     handleShowPaymentForm(show) {
       this.shouldShowPaymentForm = show;
+    },
+    onAmountKeypress(e) {
+      if (e.code === 'Enter') {
+        return;
+      }
+      if (!/[0-9.]/.test(e.key)) {
+        e.preventDefault();
+        return;
+      }
+      const { value } = e.target;
+      const newValue =
+        value.slice(0, e.target.selectionStart) + e.key + value.slice(e.target.selectionEnd);
+      if (!/^[0-9]*.?[0-9]*$/.test(newValue)) {
+        e.preventDefault();
+        return;
+      }
+      this.preSaleBase = newValue;
+    },
+    onAmountInput(likeAmount) {
+      try {
+        this.preSaleBase = formatAmount(likeAmount);
+        const amount = new BigNumber(likeAmount).dividedBy(ETH_TO_LIKECOIN_RATIO);
+        this.amount = amount.toString();
+        this.isBadAmount = false;
+      } catch (err) {
+        this.amount = '0';
+      }
     },
   },
   watch: {
@@ -525,6 +605,10 @@ export default {
       margin-top: 32px;
     }
   }
+
+  .lc-container-extend-bg {
+    padding: 0;
+  }
 }
 
 .nav-menu {
@@ -577,6 +661,19 @@ export default {
     font-size: 42px;
     font-weight: 600;
     line-height: 1.2;
+
+    span {
+      color: $like-green;
+      font-weight: 300;
+    }
+  }
+
+  h2 {
+    font-size: 40px;
+    font-weight: 300;
+    text-align: center;
+
+    margin-top: 12px;
   }
 
   h3 {
@@ -603,9 +700,7 @@ export default {
 }
 
 .tokensale-presale-wrapper {
-  > h1 {
-    text-align: center;
-  }
+  text-align: center;
 }
 
 .tokensale-amount {
@@ -647,7 +742,7 @@ export default {
       }
 
       > li {
-        margin: 24px;
+        margin: 24px 18px;
         flex-shrink: 0;
 
         @media (max-width: 600px) {
@@ -721,6 +816,49 @@ export default {
         }
       }
     }
+  }
+}
+
+.like-coin-rate-section {
+  display: flex;
+  flex-direction: row;
+
+  > div {
+    flex: 1;
+
+    .title {
+      color: $like-dark-brown-1;
+    }
+
+    .md-field {
+      &.md-disabled::after {
+        background-image: none;
+      }
+
+      .coin-value-wrapper {
+        display: flex;
+        align-items: center;
+        padding-bottom: 8px;
+
+        .md-input {
+          font-size: 36px;
+          width: 160px;
+          height: 100%;
+          text-align: right;
+          margin-left: 8px;
+        }
+      }
+    }
+
+    .remark {
+      color: $like-gray-4;
+      font-size: 12px;
+    }
+  }
+
+  > img {
+    margin: 0 32px;
+    width: 26px;
   }
 }
 

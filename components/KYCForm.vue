@@ -6,6 +6,9 @@
           <!-- Finished Advanced KYC -->
           {{  $t('KYC.label.canPurchaseMoreThanAmount', { amount: KYC_USD_LIMIT }) }}
         </div>
+        <div v-else-if="isPreSale && KYCStatus >= KYC_STATUS_ENUM.STANDARD">
+          {{ $t('KYC.label.preSaleBonusDescription') }}
+        </div>
         <div v-else-if="pendingKYC || isSubmittedAdvancedVerification">
           {{ $t('KYC.label.advancedVerificationInProgress', { amount: KYC_USD_LIMIT }) }}
         </div>
@@ -274,6 +277,7 @@ export default {
       TickIcon,
 
       KYC_USD_LIMIT,
+      KYC_STATUS_ENUM,
 
       email: '',
       stage: 0,
