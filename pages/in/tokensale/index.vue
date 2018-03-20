@@ -10,7 +10,7 @@
 
               <nav class="nav-menu">
                 <span>
-                  <nuxt-link :to="{ name: 'whitepaper' }">
+                  <nuxt-link :to="{ name: 'in-whitepaper' }">
                     {{ $t('TokenSale.button.whitePaper') }}
                   </nuxt-link>
                 </span>
@@ -432,14 +432,14 @@ export default {
         }
         if (this.getIsShowingTxPopup) {
           this.closeTxDialog();
-          this.$router.push({ name: 'tx-id', params: { id: txHash, tx: this.getPendingTxInfo } });
+          this.$router.push({ name: 'in-tx-id', params: { id: txHash, tx: this.getPendingTxInfo } });
         }
       } catch (error) {
         console.error(error);
       }
     },
     redirectToRegister() {
-      this.$router.push({ name: 'register', query: { ref: 'tokensale' } });
+      this.$router.push({ name: 'in-register', query: { ref: 'tokensale' } });
     },
     async checkStatus() {
       if (this.getUserIsRegistered) {
