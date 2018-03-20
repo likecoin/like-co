@@ -579,7 +579,7 @@ export default {
   }
 }
 
-.tokensale-presale-wrapper, .tokensale-progress-wrapper {
+.tokensale-progress-wrapper {
   padding-right: 0;
   padding-left: 0;
 
@@ -587,7 +587,9 @@ export default {
     margin-right: -8px;
     margin-left: -8px;
   }
+}
 
+.tokensale-presale-wrapper {
   > h1 {
     text-align: center;
   }
