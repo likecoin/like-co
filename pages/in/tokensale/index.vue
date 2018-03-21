@@ -219,6 +219,7 @@
                       currencyTitle="ETH"
                       :amount="amount"
                       :isBadAmount="isBadAmount"
+                      :badAmountMessage="$t('TokenSale.label.tokensaleBadAmount')"
                       :label="$t('Transaction.label.amountToSend', { coin: isEth ? 'ETH' : 'LikeCoin' })"
                       @onChange="handleAmountChange"
                     />
