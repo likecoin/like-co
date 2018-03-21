@@ -123,11 +123,11 @@
       </div>
     </form>
 
-<!--     <transaction-history
+    <transaction-history
       ref="txHistory"
       :address="wallet"
       :showTokensale="true"
-      /> -->
+      />
 
     <div :class="isProfileEdit ? 'section-redeem-edit-mode' : ''" id="coupon">
       <div class="section-title-wrapper">
@@ -182,7 +182,7 @@ import LikeCoinAmount from '~/components/LikeCoinAmount';
 import ReferralAction from '~/components/ReferralAction';
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import InputDialog from '~/components/dialogs/InputDialog';
-// import TransactionHistory from '~/components/TransactionHistory';
+import TransactionHistory from '~/components/TransactionHistory';
 import ViewEtherscan from '~/components/ViewEtherscan';
 import { ONE_LIKE } from '@/constant';
 import { mapActions, mapGetters } from 'vuex';
@@ -218,7 +218,7 @@ export default {
     ReferralAction,
     ClaimDialog,
     InputDialog,
-    // TransactionHistory,
+    TransactionHistory,
     ViewEtherscan,
   },
   computed: {

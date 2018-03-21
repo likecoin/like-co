@@ -1,5 +1,5 @@
 <template>
-  <div v-if="txHistory && txHistory.length">
+  <div v-if="filteredHistory && filteredHistory.length">
     <div v-if="showTokensale"> sum: {{ ICOTotalCoin }} (ETH : {{ ICOTotalETH }}) </div>
     <md-table>
       <md-table-row>
@@ -9,7 +9,7 @@
         <md-table-head>Value</md-table-head>
         <md-table-head>Tx page</md-table-head>
       </md-table-row>
-      <md-table-row v-for="tx in txHistory" :key="tx.id">
+      <md-table-row v-for="tx in filteredHistory" :key="tx.id">
         <md-table-cell>{{ getStatus(tx) }}</md-table-cell>
         <md-table-cell>{{ getFromTo(tx)}}: 
           <nuxt-link v-if="getFromToId(tx)" :to="{ name: 'id', params: { id: getFromToId(tx) } }">
@@ -38,7 +38,7 @@ import BigNumber from 'bignumber.js';
 
 import EthHelper from '@/util/EthHelper';
 import { ETH_TO_LIKECOIN_RATIO, ONE_LIKE } from '@/constant';
-import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
+import { LIKE_COIN_ICO_ADDRESS, LIKE_COIN_PRESALE_ADDRESS } from '@/constant/contract/likecoin-ico';
 import { mapActions } from 'vuex';
 
 function getLikeCoinByETH(eth) {
@@ -62,12 +62,18 @@ export default {
       hasMore: true,
     };
   },
+  computed: {
+    filteredHistory() {
+      return this.txHistory.filter(t => (t.type !== 'logRegisterKYC'));
+    },
+  },
   methods: {
     ...mapActions([
       'queryTxHistoryByAddr',
     ]),
     getStatus(tx) {
       if (this.isTokensale(tx)) return 'tokensale';
+      if (this.isPresale(tx)) return 'earlybird';
       if (tx.status === 'pending') return 'pending';
       if (tx.status === 'timeout') return 'expired';
       if (tx.type === 'claimCoupon') return 'coupon';
@@ -76,12 +82,17 @@ export default {
       return '';
     },
     getValue(tx) {
+      if (!tx.value) return '0';
+      if (this.isPresale(tx)) {
+        return `${getLikeCoinByValue(tx.value) || 0} ETH`;
+      }
       if (this.isTokensale(tx)) {
         return `${getLikeCoinByValue(tx.value) || 0} ETH -> ${getLikeCoinByETH(tx.value || 0)} LikeCoin`;
       }
       return `${getLikeCoinByValue(tx.value) || 0} LikeCoin`;
     },
     getFromToId(tx) {
+      if (this.isPresale(tx)) return 'earlybird';
       if (this.isTokensale(tx)) return 'tokensale';
       if (tx.type === 'claimCoupon') return 'coupon';
       const isFrom = (tx.to === this.address);
@@ -96,6 +107,9 @@ export default {
       if (tx.status === 'pending') return 'pending';
       if (tx.status === 'timeout') return 'expired';
       return tx.completeTs ? (new Date(tx.completeTs)).toString() : '';
+    },
+    isPresale(tx) {
+      return tx.to === LIKE_COIN_PRESALE_ADDRESS;
     },
     isTokensale(tx) {
       return tx.to === LIKE_COIN_ICO_ADDRESS;
