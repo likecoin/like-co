@@ -6,7 +6,6 @@ export const setLocale = ({ commit }, locale) => {
 };
 
 export const setMetamaskError = ({ commit }, msg) => {
-  commit(types.USER_SET_FETCHING, false);
   commit(types.UI_SET_METAMASK_ERROR, msg);
 };
 
