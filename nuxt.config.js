@@ -66,6 +66,16 @@ module.exports = {
         component: resolve(__dirname, 'pages/verify/_uuid/index.vue'),
       });
       routes.push({
+        name: 'id-eth-amount',
+        path: '/:id/eth/:amount?',
+        component: resolve(__dirname, 'pages/_id/index.vue'),
+      });
+      routes.push({
+        name: 'id-eth',
+        path: '/:id/eth',
+        component: resolve(__dirname, 'pages/_id/index.vue'),
+      });
+      routes.push({
         name: 'id-amount',
         path: '/:id/:amount?',
         component: resolve(__dirname, 'pages/_id/index.vue'),
