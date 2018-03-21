@@ -499,7 +499,8 @@
       "tokensaleBadAmount": "Invalid amount, minimum 0.1 ETH, and less than 10,000 ETH",
       "bonus": "Bonus",
       "bonusLockUp": "The bonus LikeCoin will be lock up in your wallet and cannot be transferred for 6 months.",
-      "amountWillBeSentWhenSalesStart": "The purchased and bonus LikeCoin will be sent to your wallet when public token sales starts, expected to be April 23 2018. The bonus LikeCoin will be lock up in your wallet and cannot be transferred for 6 months."
+      "amountWillBeSentWhenSalesStart": "The purchased and bonus LikeCoin will be sent to your wallet when public token sales starts, expected to be April 23 2018. The bonus LikeCoin will be lock up in your wallet and cannot be transferred for 6 months.",
+      "whatIsEthLink": "https://help.like.co/likecoin-faq/what-is-eth"
     },
     "button": {
       "aboutLikeCoin": "About LikeCoin",

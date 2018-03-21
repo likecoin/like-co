@@ -94,7 +94,7 @@
                     </li>
                     <li>
                       <a
-                        href="https://help.like.co/likecoin-faq/what-is-eth"
+                        :href="$t('TokenSale.label.whatIsEthLink')"
                         ref="noopener"
                         target="_blank">
                         <span>{{ $t('TokenSale.label.whatIsETH') }}</span>
