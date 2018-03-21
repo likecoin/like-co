@@ -195,7 +195,7 @@ export default {
         }
         if (this.getIsShowingTxPopup) {
           this.closeTxDialog();
-          this.$router.push({ name: 'tx-id', params: { id: txHash, tx: this.getPendingTxInfo } });
+          this.$router.push({ name: 'in-tx-id', params: { id: txHash, tx: this.getPendingTxInfo } });
         }
       } catch (error) {
         console.error(error);
