@@ -29,7 +29,8 @@
         </div>
 
         <div class="lc-container-2">
-          <div class="lc-container-3 lc-container-extend-bg">
+          <div class="lc-container-3-extend-bg" />
+          <div class="lc-container-3">
             <div class="lc-container-4 lc-verticle-inset-5">
 
               <section class="countdown-section">
@@ -89,7 +90,7 @@
                         <span class="value">60,000,000</span>
                       </div>
                     </li>
-                    <li>
+                    <li class="what-is-eth">
                       <a
                         href="https://help.like.co/likecoin-faq/what-is-eth"
                         ref="noopener"
@@ -608,10 +609,6 @@ export default {
       margin-top: 32px;
     }
   }
-
-  .lc-container-extend-bg {
-    padding: 0;
-  }
 }
 
 .nav-menu {
@@ -731,6 +728,7 @@ export default {
   .info-grid {
     > ul {
       display: flex;
+      flex-wrap: wrap;
 
       margin: -26px;
       padding: 0;
@@ -795,12 +793,11 @@ export default {
           }
         }
 
-        &:last-child {
+        &.what-is-eth {
           display: flex;
           align-items: center;
+          flex-grow: 1;
 
-          margin-left: 16px;
-          margin-right: 0;
           a {
             display: flex;
             flex-direction: row;
@@ -815,6 +812,10 @@ export default {
             img {
               margin-left: 8px;
             }
+          }
+
+          @media (max-width: 600px) {
+            justify-content: center;
           }
         }
       }
