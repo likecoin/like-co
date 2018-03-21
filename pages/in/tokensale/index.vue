@@ -217,7 +217,7 @@
                   <div class="lc-verticle-inset-5">
                     <number-input
                       currencyTitle="ETH"
-                      :amount="amount"
+                      :amount="displayAmount"
                       :decimalPlaceLimit="4"
                       :isBadAmount="isBadAmount"
                       :badAmountMessage="$t('TokenSale.label.tokensaleBadAmount')"
@@ -317,8 +317,8 @@ export default {
       needExtraKYC: false,
       id: 'tokensale',
       displayName: 'LikeCoin TokenSale',
+      displayAmount: this.$route.params.amount || '0.00',
       amount: this.$route.params.amount || '0.00',
-      trueAmount: '0',
       preSaleBase: '0',
       popupMessage: '',
       currentTokenSaleAmount: INITIAL_TOKENSALE_ETH,
@@ -373,7 +373,7 @@ export default {
       return (new Date() < new Date(SALE_DATE));
     },
     preSaleBonus() {
-      if (!this.preSaleBase || Number(this.amount) < 10) return new BigNumber(0);
+      if (!this.preSaleBase || Number(this.displayAmount) < 10) return new BigNumber(0);
       const preSaleBase = new BigNumber(this.preSaleBase);
       return preSaleBase.multipliedBy(new BigNumber(0.25)).toString();
     },
@@ -413,14 +413,14 @@ export default {
         this.isBadAddress = true;
         return;
       }
-      const amount = new BigNumber(this.trueAmount);
+      const amount = new BigNumber(this.amount);
       if (!amount || amount.lt('0.1') || amount.gte('10000')) {
         this.isBadAmount = true;
         return;
       }
       this.isBadAmount = false;
       const usdPrice = await this.queryEthPrice();
-      const usdAmount = usdPrice * this.trueAmount;
+      const usdAmount = usdPrice * this.amount;
       if (!this.isPreSale
         && usdAmount > KYC_USD_LIMIT
         && this.getUserInfo.KYC < KYC_STATUS_ENUM.ADVANCED) {
@@ -442,7 +442,7 @@ export default {
         } else {
           balance = await EthHelper.queryLikeCoinBalance(from);
         }
-        const valueToSend = ONE_LIKE.multipliedBy(new BigNumber(this.trueAmount));
+        const valueToSend = ONE_LIKE.multipliedBy(new BigNumber(this.amount));
         if ((new BigNumber(balance)).lt(valueToSend)) {
           this.setErrorMsg(this.$t(`Transaction.error.${this.isEth ? 'eth' : 'likecoin'}Insufficient`));
           return;
@@ -486,8 +486,8 @@ export default {
         .plus(INITIAL_TOKENSALE_ETH).toFixed(2);
     },
     handleAmountChange(value) {
-      this.amount = value;
-      if (!this.amount) {
+      this.displayAmount = value;
+      if (!this.displayAmount) {
         this.preSaleBase = '0';
         return;
       }
@@ -523,11 +523,11 @@ export default {
     onAmountInput(likeAmount) {
       try {
         const amount = new BigNumber(likeAmount).dividedBy(ETH_TO_LIKECOIN_RATIO);
-        this.trueAmount = amount.toString();
-        this.amount = amount.dp(4);
+        this.amount = amount.toString();
+        this.displayAmount = amount.dp(4);
         this.isBadAmount = false;
       } catch (err) {
-        this.amount = '0';
+        this.displayAmount = '0';
       }
     },
   },
