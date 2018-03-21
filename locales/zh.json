@@ -71,15 +71,15 @@
           "title": "DApps",
           "example": {
             "oice": "oice Visual Novel",
-            "ccImages": "Creative Commons Images",
-            "media": "Internet Media"
+            "ccImages": "puttyimages",
+            "media": "blogchain.md"
           }
         },
         "service": {
           "title": "LikeCoin Services",
           "example": {
             "button": "Like Button",
-            "store": "LikeCoin Store",
+            "store": "like.co",
             "token": "LikeCoin Token"
           }
         },
@@ -95,42 +95,42 @@
           "title": "IPFS Node",
           "example": {
             "oice": "oice Node",
-            "cc": "Creative Commons Node",
-            "stock": "Stock Images Node"
+            "cc": "puttyimages Node",
+            "stock": "blogchain Node"
           }
         }
       }
     },
     "RoadMap": {
       "title": "路線圖",
-      "content": "參與早鳥代幣發售。",
+      "content": "--paragraph in Road Map---",
       "timeline": [
         {
           "title": "發想、研發",
           "time": "2017 Q1-Q3"
         },
         {
-          "title": "Early Believer 預售",
+          "title": "天使支持者銷售",
           "time": "2017 Q4"
         },
         {
-          "title": "LikeCoin 生態初探",
+          "title": "推出 LikeCoin 代幣、ID及 Like.co",
           "time": "2018 Q1"
         },
         {
-          "title": "puttyimages 及 blogchain.md 原型推出",
+          "title": "puttyimages 原型",
           "time": "2018 Q2"
         },
         {
-          "title": "puttyimages 推出",
+          "title": "推出 puttyimages",
           "time": "2018 Q3"
         },
         {
-          "title": "Like Button 推出",
+          "title": "推出 Like 鍵",
           "time": "2018 Q4"
         },
         {
-          "title": "blogchain.md 推出及 LikeCoin 生態擴充",
+          "title": "推出 blogchain.md；擴大 LikeCoin 生態系統規模",
           "time": "2019"
         }
       ]
