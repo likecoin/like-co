@@ -28,6 +28,10 @@ const onePagerSrc = [
     languageKey: 'en',
     src: '/in/likecoin-onepager-en.pdf',
   },
+  {
+    languageKey: 'zh',
+    src: '/in/likecoin-onepager-zh.pdf',
+  },
 ];
 const whitePaperSrc = [
   {
