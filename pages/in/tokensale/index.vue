@@ -29,7 +29,8 @@
         </div>
 
         <div class="lc-container-2">
-          <div class="lc-container-3 lc-container-extend-bg">
+          <div class="lc-container-3-extend-bg" />
+          <div class="lc-container-3">
             <div class="lc-container-4 lc-verticle-inset-5">
 
               <section class="countdown-section">
@@ -38,7 +39,7 @@
                   {{ $t('TokenSale.label.bonusAndLimitedOffer') }}
                 </h2>
                 <h3>{{ isPreSale ? $t('TokenSale.label.limitedOfferCondition') : $t('TokenSale.label.publicSaleStartIn') }}</h3>
-                <!-- <countdown-timer :date="new Date(SALE_DATE)" /> -->
+                <!-- <countdown-timer :date="SALE_DATE" /> -->
               </section>
 
             </div>
@@ -48,10 +49,7 @@
         <div class="lc-container-2">
 
           <div v-if="!isPreSale" class="tokensale-progress-wrapper lc-container-3 lc-verticle-inset-4">
-            <tokensale-progress
-              :progress="currentTokenSaleAmount"
-              :total="maxTokenSaleAmount"
-              :points="points" />
+            <tokensale-progress />
 
             <div class="lc-container-4">
               <div class="tokensale-amount lc-verticle-inset-2">
@@ -92,7 +90,7 @@
                         <span class="value">600,000,000</span>
                       </div>
                     </li>
-                    <li>
+                    <li class="what-is-eth">
                       <a
                         :href="$t('TokenSale.label.whatIsEthLink')"
                         ref="noopener"
@@ -277,13 +275,18 @@ import QuestionIcon from '@/assets/tokensale/question.svg';
 import EthHelper from '@/util/EthHelper';
 import { LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin';
 import { LIKE_COIN_ICO_ADDRESS, LIKE_COIN_PRESALE_ADDRESS } from '@/constant/contract/likecoin-ico';
-import { ETHERSCAN_HOST, KYC_USD_LIMIT, KYC_STATUS_ENUM, ETH_TO_LIKECOIN_RATIO } from '@/constant';
+import {
+  ETH_TO_LIKECOIN_RATIO,
+  ETHERSCAN_HOST,
+  INITIAL_TOKENSALE_ETH,
+  KYC_USD_LIMIT,
+  KYC_STATUS_ENUM,
+  ONE_LIKE,
+  SALE_DATE,
+} from '@/constant';
 import { logTrackerEvent } from '@/util/EventLogger';
 import { mapActions, mapGetters } from 'vuex';
 
-const ONE_LIKE = new BigNumber(10).pow(18);
-const INITIAL_TOKENSALE_ETH = new BigNumber(5400);
-const SALE_DATE = '2018-04-23T00:00:00+0800';
 
 
 export default {
@@ -322,21 +325,7 @@ export default {
       amount: this.$route.params.amount || '0.00',
       preSaleBase: '0',
       popupMessage: '',
-      currentTokenSaleAmount: INITIAL_TOKENSALE_ETH,
-      maxTokenSaleAmount: 12600,
-      points: [
-        {
-          value: 1,
-          legend: '4,200 ETH (Soft Cap)',
-        },
-        {
-          value: 2,
-        },
-        {
-          value: 3,
-          legend: '12,600 ETH (Hard Cap)',
-        },
-      ],
+
     };
   },
   head() {
@@ -371,7 +360,7 @@ export default {
       return this.isPreSale ? LIKE_COIN_PRESALE_ADDRESS : LIKE_COIN_ICO_ADDRESS;
     },
     isPreSale() {
-      return (new Date() < new Date(SALE_DATE));
+      return (new Date() < SALE_DATE);
     },
     preSaleBonus() {
       if (!this.preSaleBase || Number(this.displayAmount) < 10) return new BigNumber(0);
@@ -608,10 +597,6 @@ export default {
       margin-top: 32px;
     }
   }
-
-  .lc-container-extend-bg {
-    padding: 0;
-  }
 }
 
 .nav-menu {
@@ -731,6 +716,7 @@ export default {
   .info-grid {
     > ul {
       display: flex;
+      flex-wrap: wrap;
 
       margin: -26px;
       padding: 0;
@@ -795,12 +781,11 @@ export default {
           }
         }
 
-        &:last-child {
+        &.what-is-eth {
           display: flex;
           align-items: center;
+          flex-grow: 1;
 
-          margin-left: 16px;
-          margin-right: 0;
           a {
             display: flex;
             flex-direction: row;
@@ -815,6 +800,10 @@ export default {
             img {
               margin-left: 8px;
             }
+          }
+
+          @media (max-width: 600px) {
+            justify-content: center;
           }
         }
       }

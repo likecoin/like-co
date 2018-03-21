@@ -1,5 +1,5 @@
 <template>
-  <div class="lc-tokensale-progress">
+  <div class="lc-countdown-timer">
     <ul>
       <li>
         <span class="date-value">{{ day }}</span>
@@ -67,7 +67,7 @@ export default {
 <style lang="scss" scoped>
 $separator-size: 8px;
 
-.lc-tokensale-progress {
+.lc-countdown-timer {
   > ul {
     display: flex;
 
@@ -97,8 +97,8 @@ $separator-size: 8px;
         background-color: #28646e;
 
         @media (max-width: 600px) {
-          width: #{$separator-size * 2 / 3};
-          height: #{$separator-size * 2 / 3};
+          width: #{floor($separator-size * 2 / 3)};
+          height: #{floor($separator-size * 2 / 3)};
           margin-top: #{$separator-size / 3 * -1};
           margin-left: #{$separator-size / 3 * -1};
         }

@@ -7,10 +7,45 @@
         <div class="lc-container-3">
           <div class="lc-container-4">
 
-            <div class="cta-section-body">
+            <!-- BEGIN - Before announcing token sale date -->
+            <div
+              v-if="new Date() < SALE_DATE_ANNOUNCE_DATE"
+              class="cta-section-body">
+
               <div class="cta-section-body-content">
-                <h1>{{ $t('Home.Sale.title') }}</h1>
-                <h2>{{ $t('Home.Sale.subtitle1') }}</h2>
+                <h1>{{ $t('Home.Sale.title.earlyBirdTokenSale') }}</h1>
+                <h2>{{ $t('Home.Sale.title.secure25Percent') }}</h2>
+              </div>
+
+              <div class="cta-section-body-cta-btn">
+                <span :class="['tooltip', { disabled: !isCTAButtonDisabled }]">
+                  {{ $t('Home.Sale.label.contactUsThroughButton') }}
+                </span>
+                <material-button
+                  class="cta-btn"
+                  :disabled="isCTAButtonDisabled"
+                  @click=onClickCTAButton>
+                  {{ $t('Home.Sale.button.joinTokenSale') }}
+                </material-button>
+              </div>
+
+            </div>
+            <!-- END - Before announcing token sale date -->
+
+            <!-- BEGIN - After announcing token sale date -->
+            <div
+              v-else-if="new Date() < SALE_DATE"
+              class="cta-section-body">
+
+              <div class="cta-section-body-content">
+                <h1>{{ $t('Home.Sale.title.publicTokenSale') }}</h1>
+                <h6>{{ $t('Home.Sale.label.startOn') }}</h6>
+                <div class="token-sale-timer-wrapper">
+                  <countdown-timer
+                    class="cta-section-token-sale-timer"
+                    :date="new Date('2018-04-09T08:00:00+0800')"
+                  />
+                </div>
               </div>
 
               <div class="cta-section-body-cta-btn">
@@ -21,7 +56,35 @@
                   {{ $t('Home.Sale.button.joinTokenSale') }}
                 </material-button>
               </div>
+
             </div>
+            <!-- END - After announcing token sale date -->
+
+            <!-- BEGIN - After token sale begins -->
+            <div v-else class="cta-section-body">
+
+              <div
+                class="cta-section-body-content">
+                <h1>{{ $t('Home.Sale.title.publicTokenSale') }} <span class="now-live">{{ $t('Home.Sale.title.nowLive') }}</span></h1>
+                <h2 class="completed-percentage">
+                  {{ $t('Home.Sale.label.completedPercent', { percent: tokenSalePercentage }) }}
+                </h2>
+                <div class="token-sale-progress-wrapper">
+                  <tokensale-progress class="cta-section-token-sale-progress" />
+                </div>
+              </div>
+
+              <div class="cta-section-body-cta-btn">
+                <material-button
+                  class="cta-btn"
+                  :disabled="isCTAButtonDisabled"
+                  @click=onClickCTAButton>
+                  {{ $t('Home.Sale.button.joinNow') }}
+                </material-button>
+              </div>
+
+            </div>
+            <!-- END - After token sale begins -->
 
           </div>
         </div>
@@ -60,16 +123,27 @@
 
 <script>
 import { logTrackerEvent } from '@/util/EventLogger';
+import CountdownTimer from '~/components/CountdownTimer';
 import MaterialButton from '~/components/MaterialButton';
+import TokenSaleProgress from '~/components/TokenSaleProgress';
+import {
+  SALE_DATE_ANNOUNCE_DATE,
+  SALE_DATE,
+} from '@/constant';
 
 export default {
   name: 'cta-section',
   components: {
+    CountdownTimer,
     MaterialButton,
+    'tokensale-progress': TokenSaleProgress,
   },
   data() {
     return {
       isCTAButtonDisabled: false,
+      tokenSalePercentage: 128,
+      SALE_DATE,
+      SALE_DATE_ANNOUNCE_DATE,
     };
   },
   methods: {
@@ -123,6 +197,8 @@ export default {
   padding: 32px 0;
 
   @media (max-width: 600px) {
+    width: 100%;
+
     text-align: center;
   }
 
@@ -134,6 +210,21 @@ export default {
       color: $like-white;
 
       font-size: 26px;
+    }
+
+    .now-live {
+      color: #28646e;
+
+      font-size: 32px;
+      font-weight: 300;
+
+      @media (max-width: 600px) {
+        display: block;
+
+        color: $like-white;
+
+        font-size: 24px;
+      }
     }
   }
 
@@ -147,6 +238,22 @@ export default {
       color: $like-white;
 
       font-size: 26px;
+    }
+
+    &.completed-percentage {
+      color: #28646E;
+
+      font-size: 44px;
+
+      @media (max-width: 768px) {
+        font-size: 38px;
+      }
+
+      @media (max-width: 600px) {
+        color: $like-light-blue;
+
+        font-size: 32px;
+      }
     }
   }
 
@@ -163,6 +270,17 @@ export default {
       color: $like-gray-3;
 
       font-size: 16px;
+    }
+  }
+
+  h6 {
+    margin-top: 8px;
+
+    font-size: 14px;
+    font-weight: 400;
+
+    @media (max-width: 600px) {
+      color: $like-gray-3;
     }
   }
 }
@@ -193,7 +311,7 @@ export default {
       transform: translateY(100%);
       pointer-events: none;
 
-      opacity: 0;
+      opacity: 0 !important;
     }
 
     @media (max-width: 600px) {
@@ -235,10 +353,16 @@ export default {
 
       @media (max-width: 600px) {
         justify-content: center;
+
+        margin: -10px;
       }
 
       > li {
         padding: 20px;
+
+        @media (max-width: 600px) {
+          padding: 10px;
+        }
 
         a {
           text-decoration: underline;
@@ -246,6 +370,76 @@ export default {
           color: #28646E;
 
           font-size: 20px;
+
+          @media (max-width: 600px) {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.token-sale-timer-wrapper {
+  @media (max-width: 600px) {
+    margin-right: -8px;
+    margin-left: -8px;
+  }
+}
+
+.cta-section-token-sale-timer {
+  max-width: 480px;
+}
+
+.token-sale-progress-wrapper {
+  margin-top: 16px;
+  margin-right: -64px;
+
+  @media (max-width: 600px) {
+    margin-right: 0;
+  }
+}
+</style>
+
+<style lang="scss">
+@import "~assets/index";
+
+.cta-section {
+  .cta-section-token-sale-progress .lc-tokensale-progress-bar {
+    @media (max-width: 600px) {
+      box-shadow: 0px 0px 3px 5px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  .cta-section-token-sale-timer {
+    margin-top: 8px;
+
+    ul {
+      li {
+        &::after {
+          @media (max-width: 600px) {
+            background-color: $like-light-blue !important;
+          }
+        }
+
+        .date-value {
+          @media (max-width: 768px) {
+            font-size: 38px !important;
+            line-height: 44px !important;
+          }
+        }
+
+        .date-unit {
+          @media (max-width: 768px) {
+            font-size: 12px !important;
+          }
+        }
+
+        .date-value,
+        .date-unit {
+          @media (max-width: 600px) {
+            color: $like-light-blue !important;
+          }
         }
       }
     }
