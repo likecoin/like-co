@@ -261,6 +261,7 @@ import TickIcon from '@/assets/tokensale/tick.svg';
 import MaterialButton from '~/components/MaterialButton';
 
 import { KYC_USD_LIMIT, KYC_STATUS_ENUM } from '@/constant';
+import { logTrackerEvent } from '@/util/EventLogger';
 import COUNTRY_LIST from '@/constant/country-list';
 import User from '@/util/User';
 import EthHelper from '@/util/EthHelper';
@@ -411,6 +412,7 @@ export default {
       switch (this.stage) {
         case 0: {
           this.stage += 1;
+          logTrackerEvent(this, 'TokenSale', 'StartKYC', 'click start button at kyc stage 0', 1);
           break;
         }
         case 1: {
@@ -430,6 +432,7 @@ export default {
         case 20: {
           await this.updateEmail();
           await this.sendVerifyEmail({ id: this.user.user, ref: 'tokensale' });
+          logTrackerEvent(this, 'RegFlow', 'StartEmailVerify', 'click confirm after enter email and the email is valid', 1);
           this.stage += 1;
           this.isWaitingEmailVerification = true;
           break;
@@ -488,6 +491,13 @@ export default {
       const payload = await User.formatAndSignKYC(userInfo);
       this.txHash = '';
       const { txHash } = await this.sendKYC({ payload, isAdv });
+      logTrackerEvent(
+        this,
+        'TokenSale',
+        isAdv ? 'CompleteStandardKYC' : 'CompleteAdvancedKYC',
+        'click confirm after kyc form is filled',
+        1,
+      );
       this.txHash = txHash;
 
       // show waiting for confirmation section

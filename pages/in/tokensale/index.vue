@@ -277,6 +277,7 @@ import EthHelper from '@/util/EthHelper';
 import { LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin';
 import { LIKE_COIN_ICO_ADDRESS, LIKE_COIN_PRESALE_ADDRESS } from '@/constant/contract/likecoin-ico';
 import { ETHERSCAN_HOST, KYC_USD_LIMIT, KYC_STATUS_ENUM, ETH_TO_LIKECOIN_RATIO } from '@/constant';
+import { logTrackerEvent } from '@/util/EventLogger';
 import { mapActions, mapGetters } from 'vuex';
 
 const ONE_LIKE = new BigNumber(10).pow(18);
@@ -473,6 +474,17 @@ export default {
         } else {
           const payload = await EthHelper.signTransferDelegated(to, valueToSend, 0);
           txHash = await this.sendPayment(payload);
+        }
+        try {
+          logTrackerEvent(
+            this,
+            'TokenSale',
+            this.isPreSale ? 'SubmitPresale' : 'SubmitTokenSale',
+            'click submit at tokensale',
+            Number(this.amount),
+          );
+        } catch (err) {
+          // just to prevent anything wrong from Number(this.amount)
         }
         if (this.getIsShowingTxPopup) {
           this.closeTxDialog();
