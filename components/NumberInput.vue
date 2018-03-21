@@ -59,7 +59,7 @@ function formatAmount(amount) {
 
 export default {
   name: 'number-input',
-  props: ['amount', 'label', 'currencyTitle', 'isBadAmount', 'badAmountMessage'],
+  props: ['amount', 'label', 'currencyTitle', 'isBadAmount', 'badAmountMessage', 'decimalPlaceLimit'],
   data() {
     return {
       AddIcon,
@@ -98,7 +98,12 @@ export default {
       const { value } = e.target;
       const newValue =
         value.slice(0, e.target.selectionStart) + e.key + value.slice(e.target.selectionEnd);
-      if (!/^[0-9]*.?[0-9]*$/.test(newValue)) {
+      const isInvalidDecimals = (
+        Number.isInteger(this.decimalPlaceLimit) && // is valid decimal place limit
+        newValue.indexOf('.') >= 0 && // is decimal number
+        newValue.split('.')[1].length > this.decimalPlaceLimit // decimal place is larger than limit
+      );
+      if (!/^[0-9]*.?[0-9]*$/.test(newValue) || isInvalidDecimals) {
         e.preventDefault();
         return;
       }

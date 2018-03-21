@@ -496,9 +496,9 @@
       "bonusAndLimitedOffer": "25% bonus, Limited Time Offer",
       "limitedOfferCondition": "for 10 ETH purchase and above",
       "amountLikeToPurhcase": "Amount of LIKE to Purchase",
-      "tokensaleBadAmount": "Invalid amount, minimum 0.1ETH",
+      "tokensaleBadAmount": "Invalid amount, minimum 0.1 ETH, and less than 10,000 ETH",
       "bonus": "Bonus",
-      "bonusLockUp": "Bonus LikeCoin will lock up until 31 Dec 2018",
+      "bonusLockUp": "The bonus LikeCoin will be lock up in your wallet and cannot be transferred for 6 months.",
       "amountWillBeSentWhenSalesStart": "The purchased and bonus LikeCoin will be sent to your wallet when public token sales starts, expected to be April 23 2018. The bonus LikeCoin will be lock up in your wallet and cannot be transferred for 6 months."
     },
     "button": {
