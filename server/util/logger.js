@@ -32,7 +32,7 @@ export async function logETHTx(payload) {
   const { txHash } = payload;
   try {
     await dbRef.doc(txHash).create({
-      type: 'transfer',
+      type: 'transferETH',
       status: 'pending',
       ts: Date.now(),
       ...payload,

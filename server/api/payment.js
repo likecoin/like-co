@@ -221,7 +221,7 @@ router.post('/payment/eth', async (req, res) => {
         sendPreSale(res, fromUser, eth, base, bonus, txHash),
       ]);
     }
-    publisher.publish(PUBSUB_TOPIC_MISC, {
+    publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventPayETH',
       fromUser: fromId,
       fromWallet: from,
