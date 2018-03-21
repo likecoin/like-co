@@ -1,7 +1,7 @@
 <template>
   <div id="site-header">
     <div class="navigation-menu">
-      <nuxt-link :class="`title ${isTest ? 'test' : ''}`" :to="{ name: 'index' }">
+      <nuxt-link :class="['title', { test: isTest }]" :to="{ name: 'index' }">
         {{ $t('Store.Header.label.store') }}
         <span class="sup">
           {{ isTest ? $t('Store.Header.label.test') : $t('Store.Header.label.beta') }}
