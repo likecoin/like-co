@@ -38,13 +38,31 @@
 
 
 <script>
+import {
+  INITIAL_TOKENSALE_ETH,
+} from '@/constant';
+
 export default {
   name: 'tokensale-progress',
-  props: [
-    'progress',
-    'total',
-    'points',
-  ],
+  data() {
+    return {
+      progress: INITIAL_TOKENSALE_ETH,
+      total: 12600,
+      points: [
+        {
+          value: 1,
+          legend: '4,200 ETH (Soft Cap)',
+        },
+        {
+          value: 2,
+        },
+        {
+          value: 3,
+          legend: '12,600 ETH (Hard Cap)',
+        },
+      ],
+    };
+  },
 };
 </script>
 

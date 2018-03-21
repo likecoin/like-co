@@ -34,10 +34,18 @@
       "content": ""
     },
     "Sale": {
-      "title": "早鳥代幣發售",
-      "subtitle1": "立即行動可享額外25%奬勵",
-      "subtitle2": "請經右下角對話按鈕與我們聯絡",
-      "buttonTooltip": "請按右下角對話按鈕",
+      "title": {
+        "earlyBirdTokenSale": "早鳥代幣發售",
+        "publicTokenSale": "公開代幣發售",
+        "secure25Percent": "立即行動可享額外25%奬勵",
+        "nowLive": "現正進行"
+      },
+      "label": {
+        "contactOurTeam": "請經右下角對話按鈕與我們聯絡",
+        "contactUsThroughButton": "請按右下角對話按鈕",
+        "startOn": "開始於",
+        "completedPercent": "已完成 {percent}%"
+      },
       "button": {
         "whitepaper": "白皮書",
         "onePage": "計畫介紹",
@@ -46,7 +54,8 @@
         "createNow": "馬上註冊",
         "buyCoin": "購買 LikeCoin",
         "imInterested": "我有興趣",
-        "joinTokenSale": "參與代幣發售"
+        "joinTokenSale": "參與代幣發售",
+        "joinNow": "立即參與"
       }
     },
     "Creator": {

@@ -34,10 +34,18 @@
       "content": "Rewarding Contents by Proof of Creativity"
     },
     "Sale": {
-      "title": "Early Bird Token Sale",
-      "subtitle1": "Act now to secure 25% bonus",
-      "subtitle2": "Contact our team by clicking the bottom right dialogue bubble",
-      "buttonTooltip": "Contact us through the bottom right button",
+      "title": {
+        "earlyBirdTokenSale": "Early Bird Token Sale",
+        "publicTokenSale": "Public Token Sale",
+        "secure25Percent": "Act now to secure 25% bonus",
+        "nowLive": "Now Live"
+      },
+      "label": {
+        "contactOurTeam": "Contact our team by clicking the bottom right dialogue bubble",
+        "contactUsThroughButton": "Contact us through the bottom right button",
+        "startOn": "Start in:",
+        "completedPercent": "{percent}% completed"
+      },
       "button": {
         "whitepaper": "Whitepaper",
         "onePage": "One-pager",
@@ -46,7 +54,8 @@
         "createNow": "Create Now",
         "buyCoin": "Buy LikeCoin",
         "imInterested": "I'm interested",
-        "joinTokenSale": "Join Token Sale"
+        "joinTokenSale": "Join Token Sale",
+        "joinNow": "Join Now"
       }
     },
     "Creator": {
