@@ -287,8 +287,6 @@ import {
 import { logTrackerEvent } from '@/util/EventLogger';
 import { mapActions, mapGetters } from 'vuex';
 
-
-
 export default {
   name: 'tokensale',
   layout: 'narrowWithHeader',
