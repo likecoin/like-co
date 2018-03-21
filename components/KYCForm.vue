@@ -412,7 +412,7 @@ export default {
       switch (this.stage) {
         case 0: {
           this.stage += 1;
-          logTrackerEvent(this, 'TokenSale', 'StartKYC', 'click start button at kyc stage 0', 1);
+          logTrackerEvent(this, 'TokenSale', 'StartKYC', 'press "start" on tokensale page', 1);
           break;
         }
         case 1: {
@@ -495,7 +495,7 @@ export default {
         this,
         'TokenSale',
         isAdv ? 'CompleteStandardKYC' : 'CompleteAdvancedKYC',
-        'click confirm after kyc form is filled',
+        'press "confirm" on tokensale page',
         1,
       );
       this.txHash = txHash;

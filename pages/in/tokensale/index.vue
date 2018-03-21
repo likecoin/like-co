@@ -455,11 +455,20 @@ export default {
         try {
           logTrackerEvent(
             this,
-            'TokenSale',
-            this.isPreSale ? 'SubmitPresale' : 'SubmitTokenSale',
-            'click submit at tokensale',
+            'Tokensale',
+            'buyLikeCoin',
+            'buy LikeCoin on tokensale page',
             Number(this.amount),
           );
+          if (this.preSaleBonus && this.preSaleBonus !== '0') {
+            logTrackerEvent(
+              this,
+              'Tokensale',
+              'buyLikeCoinEarilybird',
+              'buy LikeCoin on tokensale page (is Early Bird)',
+              Number(this.amount),
+            );
+          }
         } catch (err) {
           // just to prevent anything wrong from Number(this.amount)
         }

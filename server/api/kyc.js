@@ -9,9 +9,11 @@ import {
 import {
   KYC_STATUS_ENUM,
   IS_TESTNET,
+  PUBSUB_TOPIC_MISC,
 } from '../../constant';
 import { uploadFileAndGetMeta } from '../util/fileupload';
 import { logRegisterKYC } from '../util/logger';
+import publisher from '../util/gcloudPub';
 
 const Multer = require('multer');
 const Account = require('eth-lib/lib/account');
@@ -138,6 +140,20 @@ router.post('/kyc', async (req, res) => {
       delegatorAddress: web3.utils.toChecksumAddress(delegatorAddress),
     });
 
+    publisher.publish(PUBSUB_TOPIC_MISC, req, {
+      logType: 'eventStandardKYC',
+      user,
+      email,
+      wallet,
+      notPRC,
+      notUSA,
+      isUSAAccredited,
+      txHash,
+      txStatus: 'pending',
+      txNonce: pendingCount,
+      currentBlock,
+    });
+
     res.json({ txHash });
   } catch (err) {
     console.error(err);
@@ -248,6 +264,24 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
       nonce: pendingCount,
       rawSignedTx: tx.rawTransaction,
       delegatorAddress: web3.utils.toChecksumAddress(delegatorAddress),
+    });
+
+    publisher.publish(PUBSUB_TOPIC_MISC, req, {
+      logType: 'eventAdvancedKYC',
+      user,
+      email,
+      wallet,
+      notPRC,
+      notUSA,
+      isUSAAccredited,
+      passportName,
+      country,
+      document0SHA256,
+      document1SHA256,
+      txHash,
+      txStatus: 'pending',
+      txNonce: pendingCount,
+      currentBlock,
     });
 
     res.json({ txHash });
