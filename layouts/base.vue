@@ -1,6 +1,6 @@
 <template>
   <div class="fixed-footer">
-    <tool-bars :disableError="true" />
+    <tool-bars :disableError="['web3', 'locked']" />
     <div class="container">
       <div class="landing">
         <site-header/>

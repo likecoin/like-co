@@ -222,7 +222,7 @@ router.post('/payment/eth', async (req, res) => {
       ]);
     }
     publisher.publish(PUBSUB_TOPIC_MISC, {
-      logType: 'eventPayETH',
+      logType: isPreSale ? 'eventPreSale' : 'eventPayETH',
       fromUser: fromId,
       fromWallet: from,
       fromDisplayName,

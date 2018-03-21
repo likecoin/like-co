@@ -27,7 +27,7 @@
       </div>
     </md-field>
     <span v-if="isBadAmount" class="error">
-      {{ $t('Transaction.label.invalidAmount') }}
+      {{ badText }}
     </span>
   </div>
 </template>
@@ -59,7 +59,7 @@ function formatAmount(amount) {
 
 export default {
   name: 'number-input',
-  props: ['amount', 'label', 'currencyTitle', 'isBadAmount'],
+  props: ['amount', 'label', 'currencyTitle', 'isBadAmount', 'badAmountMessage'],
   data() {
     return {
       AddIcon,
@@ -74,6 +74,9 @@ export default {
           'has-currency': !!this.currencyTitle,
         },
       ];
+    },
+    badText() {
+      return this.badAmountMessage || this.$t('Transaction.label.invalidAmount');
     },
   },
   methods: {

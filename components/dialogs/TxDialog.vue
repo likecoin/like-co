@@ -50,7 +50,7 @@
     },
     computed: {
       defaultActionRoute() {
-        return { name: 'tx-id', params: { id: this.txId, tx: this.txInfo } };
+        return { name: 'in-tx-id', params: { id: this.txId, tx: this.txInfo } };
       },
       actionRoute() {
         return this.txDialogActionRoute || this.defaultActionRoute;
