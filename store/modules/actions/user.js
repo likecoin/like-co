@@ -11,6 +11,10 @@ export function setLocalWallet({ commit }, wallet) {
   commit(types.USER_SET_LOCAL_WALLET, wallet);
 }
 
+export function setUserIsFetching({ commit }, fetching) {
+  commit(types.USER_SET_FETCHING, fetching);
+}
+
 export async function isUser({ commit }, addr) {
   try {
     commit(types.USER_SET_FETCHING, true);

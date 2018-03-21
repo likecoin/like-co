@@ -29,6 +29,7 @@ class EthHelper {
   initApp({
     errCb,
     clearErrCb,
+    retryCb,
     onWalletCb,
     onSign,
     onSigned,
@@ -36,6 +37,7 @@ class EthHelper {
     this.wallet = '';
     this.errCb = errCb;
     this.clearErrCb = clearErrCb;
+    this.retryCb = retryCb;
     this.onWalletCb = onWalletCb;
     this.onSign = onSign;
     this.onSigned = onSigned;
@@ -55,7 +57,7 @@ class EthHelper {
       const network = await this.web3.eth.net.getNetworkType();
       const target = (IS_TESTNET ? 'rinkeby' : 'main');
       if (network === target) {
-        if (this.clearErrCb) this.clearErrCb();
+        if (this.retryCb) this.retryCb();
         this.startApp();
         this.isMetaMask = true;
       } else {
