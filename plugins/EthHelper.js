@@ -10,7 +10,6 @@ export default ({ store }) => {
       store.dispatch('setUserIsFetching', true);
     },
     clearErrCb: () => {
-      store.dispatch('setUserIsFetching', false);
       store.dispatch('setMetamaskError', '');
     },
     onWalletCb: (wallet) => {
