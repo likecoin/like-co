@@ -89,12 +89,12 @@
                     <li>
                       <div>
                         <span class="label">{{ $t('TokenSale.label.supply') }}</span>
-                        <span class="value">60,000,000</span>
+                        <span class="value">600,000,000</span>
                       </div>
                     </li>
                     <li>
                       <a
-                        href="https://help.like.co/likecoin-faq/what-is-eth"
+                        :href="$t('TokenSale.label.whatIsEthLink')"
                         ref="noopener"
                         target="_blank">
                         <span>{{ $t('TokenSale.label.whatIsETH') }}</span>
@@ -217,7 +217,8 @@
                   <div class="lc-verticle-inset-5">
                     <number-input
                       currencyTitle="ETH"
-                      :amount="amount"
+                      :amount="displayAmount"
+                      :decimalPlaceLimit="4"
                       :isBadAmount="isBadAmount"
                       :badAmountMessage="$t('TokenSale.label.tokensaleBadAmount')"
                       :label="$t('Transaction.label.amountToSend', { coin: isEth ? 'ETH' : 'LikeCoin' })"
@@ -284,20 +285,6 @@ const ONE_LIKE = new BigNumber(10).pow(18);
 const INITIAL_TOKENSALE_ETH = new BigNumber(5400);
 const SALE_DATE = '2018-04-23T00:00:00+0800';
 
-function formatAmount(amount) {
-  let result = amount.toString().replace(/[^0-9.]/, '');
-  if (!result) {
-    result = '0';
-  }
-  const dotIndex = result.indexOf('.');
-  if (dotIndex === -1) {
-    result = `${result}`;
-  } else if (dotIndex === 0) {
-    result = `0${result}`;
-  }
-  return result;
-}
-
 
 export default {
   name: 'tokensale',
@@ -331,6 +318,7 @@ export default {
       needExtraKYC: false,
       id: 'tokensale',
       displayName: 'LikeCoin TokenSale',
+      displayAmount: this.$route.params.amount || '0.00',
       amount: this.$route.params.amount || '0.00',
       preSaleBase: '0',
       popupMessage: '',
@@ -386,7 +374,7 @@ export default {
       return (new Date() < new Date(SALE_DATE));
     },
     preSaleBonus() {
-      if (!this.preSaleBase || Number(this.amount) < 10) return new BigNumber(0);
+      if (!this.preSaleBase || Number(this.displayAmount) < 10) return new BigNumber(0);
       const preSaleBase = new BigNumber(this.preSaleBase);
       return preSaleBase.multipliedBy(new BigNumber(0.25)).toString();
     },
@@ -427,7 +415,7 @@ export default {
         return;
       }
       const amount = new BigNumber(this.amount);
-      if (!amount || amount.lt('0.1')) {
+      if (!amount || amount.lt('0.1') || amount.gte('10000')) {
         this.isBadAmount = true;
         return;
       }
@@ -510,8 +498,8 @@ export default {
         .plus(INITIAL_TOKENSALE_ETH).toFixed(2);
     },
     handleAmountChange(value) {
-      this.amount = value;
-      if (!this.amount) {
+      this.displayAmount = value;
+      if (!this.displayAmount) {
         this.preSaleBase = '0';
         return;
       }
@@ -546,12 +534,12 @@ export default {
     },
     onAmountInput(likeAmount) {
       try {
-        this.preSaleBase = formatAmount(likeAmount);
         const amount = new BigNumber(likeAmount).dividedBy(ETH_TO_LIKECOIN_RATIO);
         this.amount = amount.toString();
+        this.displayAmount = amount.dp(4);
         this.isBadAmount = false;
       } catch (err) {
-        this.amount = '0';
+        this.displayAmount = '0';
       }
     },
   },
@@ -757,7 +745,7 @@ export default {
       }
 
       > li {
-        margin: 24px 18px;
+        margin: 24px 16px;
         flex-shrink: 0;
 
         @media (max-width: 600px) {
@@ -856,7 +844,7 @@ export default {
         padding-bottom: 8px;
 
         .md-input {
-          font-size: 36px;
+          font-size: 34px;
           width: 160px;
           height: 100%;
           text-align: right;
