@@ -122,14 +122,12 @@
         v-else-if="!getUserIsRegistered"
       >
         <div class="lc-container-header">
-          <div class="lc-container-2 lc-container-header-overlay">
-            <div class="lc-container-3">
-              <div class="create-account-wrapper">
-                <p>{{ $t('KYC.label.createID') }}</p>
-                <material-button @click="redirectToRegister">
-                  {{ $t('KYC.button.createID') }}
-                </material-button>
-              </div>
+          <div class="lc-container-2">
+            <div class="lc-container-3 create-account-wrapper">
+              <p>{{ $t('KYC.label.createID') }}</p>
+              <material-button @click="redirectToRegister">
+                {{ $t('KYC.button.createID') }}
+              </material-button>
             </div>
           </div>
         </div>
@@ -591,6 +589,8 @@ export default {
 
   .create-account-wrapper {
     text-align: center;
+    background-color: transparent;
+
     p {
       max-width: 422px;
       margin: auto;
