@@ -58,8 +58,10 @@
               </div>
             </div>
           </div>
-          <div v-else class="tokensale-presale-wrapper lc-container-3 lc-verticle-inset-5">
-            {{ $t('TokenSale.label.amountWillBeSentWhenSalesStart')}}
+          <div v-else class="tokensale-presale-wrapper lc-container-3">
+            <div class="lc-container-4 lc-verticle-inset-5">
+              {{ $t('TokenSale.label.amountWillBeSentWhenSalesStart')}}
+            </div>
           </div>
 
           <section class="token-info-section">
@@ -720,17 +722,25 @@ export default {
 .token-info-section {
   margin-top: 8px;
 
+  .lc-container-3 {
+    @media (min-width: 601px) {
+      padding-right: 0;
+    }
+  }
+
   .info-grid {
     > ul {
       display: flex;
       flex-wrap: wrap;
 
-      margin: -26px;
+      margin: -20px -12px;
       padding: 0;
 
       list-style: none;
 
       @media (max-width: 600px) {
+        justify-content: center;
+
         margin: -12px;
       }
       @media (max-width: 480px) {
@@ -738,8 +748,9 @@ export default {
       }
 
       > li {
-        margin: 24px 16px;
         flex-shrink: 0;
+
+        margin: 20px 12px;
 
         @media (max-width: 600px) {
           margin: 12px;
