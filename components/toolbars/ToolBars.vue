@@ -1,8 +1,8 @@
 <template>
   <div class="toolbars">
-    <popup-dialog v-if="!disableError" :allowClose="false" header="Error" :message="getPopupError" />
+    <popup-dialog v-if="checkShouldShowError(getPopupError)" :allowClose="false" header="Error" :message="getPopupError" />
     <popup-dialog :allowClose="true" header="Info" :message="getPopupInfo"/>
-    <no-ssr v-if="!(disableError && getMetamaskError !== 'testnet')">
+    <no-ssr v-if="checkShouldShowError(getMetamaskError)">
       <chrome-dialog v-if="showShowChromeDialog" :show="showShowChromeDialog"/>
       <metamask-dialog v-else-if="!!getMetamaskError" :case="getMetamaskError"/>
     </no-ssr>
@@ -89,6 +89,12 @@ export default {
       'closeTxToolbar',
       'closeInfoToolbar',
     ]),
+    checkShouldShowError(err) {
+      if (this.disableError === true) return false;
+      if (this.disableError === err) return false;
+      if (Array.isArray(this.disableError)) return !this.disableError.includes(err);
+      return true;
+    },
     checkIsDesktopChrome() {
       const ua = window.navigator.userAgent;
       const uv = window.navigator.vendor;
