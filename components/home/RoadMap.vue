@@ -15,6 +15,7 @@
         <div class="lc-container-3 timeline-section">
           <div class="lc-container-4">
             <div class="section-content">
+
               <div class="timeline">
                 <div
                   :class="`milestone${milestonesStatus.length === index + 1 ? ' last' : ''}`"
@@ -27,21 +28,26 @@
                 </div>
                 <div class="progress" />
               </div>
+
+              <div class="links-wrapper">
+                <nuxt-link :to="{ name: 'in-tokensale' }">
+                  {{ $t('Home.Sale.button.joinTokenSale') }}
+                </nuxt-link>
+              </div>
+
             </div>
           </div>
         </div>
 
-        <div class="lc-container-3 content-section">
+        <!-- <div class="lc-container-3 content-section">
           <div class="lc-container-4">
             <div class="section-content">
               <div class="content">
-                <nuxt-link :to="{ name: 'in-tokensale' }">
-                  {{ $t('Home.RoadMap.content') }}
-                </nuxt-link>
+                {{ $t('Home.RoadMap.content') }}
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
 
       </div>
     </div>
@@ -89,14 +95,6 @@ $progress-bar-percentage: 38%;
     .section-title {
       z-index: 1;
     }
-
-    .section-content {
-      a {
-        text-decoration: underline;
-
-        color: $like-green;
-      }
-    }
   }
 
   .timeline-section {
@@ -108,9 +106,6 @@ $progress-bar-percentage: 38%;
       @media (min-width: 769px) {
         padding-bottom: 0;
       }
-      @media (max-width: 600px) {
-        padding-top: 0;
-      }
     }
   }
   .timeline {
@@ -119,10 +114,10 @@ $progress-bar-percentage: 38%;
     display: flex;
     flex-direction: row;
 
-    margin-bottom: 24px;
+    margin-bottom: 12px;
 
     @media (min-width: 769px) {
-      margin-right: #{-48px - $timeline-radius / 2};
+      margin-right: #{-54px - $timeline-radius / 2};
     }
     @media (max-width: 600px) {
       margin-top: #{-$timeline-radius / 2};
@@ -188,6 +183,19 @@ $progress-bar-percentage: 38%;
     }
   }
 
+  .links-wrapper {
+    display: flex;
+    justify-content: center;
+
+    margin-top: 24px;
+    margin-bottom: 16px;
+
+    > a {
+      text-decoration: underline;
+
+      color: $like-green;
+    }
+  }
 }
 
 @media (min-width: 769px) {
