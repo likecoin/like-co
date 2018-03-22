@@ -263,12 +263,12 @@
   },
   "Email": {
     "VerifiyEmail": {
-      "subject": "LikeCoin Store 帳號驗證",
-      "body": "您好 {{name}}！\n\n歡迎來到 LikeCoin Store ！請到下列網址驗證您的電郵地址:\n\nhttps://like.co/verify/{{uuid}}?ref={{ref}}\n\nLikeCoin Foundation\nhttps://like.co"
+      "subject": "like.co 帳號驗證",
+      "body": "您好 {{name}}！\n\n歡迎來到 like.co ！請到下列網址驗證您的電郵地址:\n\nhttps://like.co/verify/{{uuid}}?ref={{ref}}\n\nLikeCoin Foundation\nhttps://like.co"
     },
     "VerifiyAndCouponEmail": {
-      "subject": "LikeCoin Store 帳號驗證",
-      "body": "您好 {{name}}！\n\n歡迎來到 LikeCoin Store ！請到下列網址驗證您的電郵地址，換領您的免費 LikeCoin：\n\nhttps://like.co/verify/{{uuid}}/{{coupon}}?ref={{ref}}\n\n您的換領券編號： {{coupon}}\n\nLikeCoin Foundation\nhttps://like.co"
+      "subject": "like.co 帳號驗證",
+      "body": "您好 {{name}}！\n\n歡迎來到 like.co ！請到下列網址驗證您的電郵地址，換領您的免費 LikeCoin：\n\nhttps://like.co/verify/{{uuid}}/{{coupon}}?ref={{ref}}\n\n您的換領券編號： {{coupon}}\n\nLikeCoin Foundation\nhttps://like.co"
     },
     "preSaleEmail": {
       "subject": "您已經成功參加 LikeCoin 早鳥代幣發售",
@@ -310,16 +310,16 @@
         "sign": "在 MetaMask 按 Sign"
       },
       "content": {
-        "switchRinkeby": "LikeCoin Store 需要使用 Rinkeby 測試網，請切換至 Rinkeby.",
-        "switchMain": "LikeCoin Store 需要使用正式網絡，請切換至 Mainnet。",
-        "web3": "LikeCoin Store 需要 MetaMask 用作登入。請使用 Chrome 瀏覽器以安裝 MetaMask 插件.<br /> <span style='color:red'>請記錄好 MetaMask 的 seed words。<span>",
-        "locked": "LikeCoin Store 需要讀取 MetaMask ，請登入 MetaMask",
+        "switchRinkeby": "like.co 需要使用 Rinkeby 測試網，請切換至 Rinkeby.",
+        "switchMain": "like.co 需要使用正式網絡，請切換至 Mainnet。",
+        "web3": "like.co 需要 MetaMask 用作登入。請使用 Chrome 瀏覽器以安裝 MetaMask 插件.<br /> <span style='color:red'>請記錄好 MetaMask 的 seed words。<span>",
+        "locked": "like.co 需要讀取 MetaMask ，請登入 MetaMask",
         "sign": "請在 Metamask 按 [Sign]"
       }
     },
     "chrome": {
       "title": "需使用電腦版 Chrome 瀏覽器",
-      "content": "LikeCoin Store 需宜用支援以太坊加密貨幣錢包 MetaMask 的瀏覽器。<br />請使用電腦版 Chrome 瀏覽器並安裝 MetaMask 插件",
+      "content": "like.co 需宜用支援以太坊加密貨幣錢包 MetaMask 的瀏覽器。<br />請使用電腦版 Chrome 瀏覽器並安裝 MetaMask 插件",
       "button": {
         "install": "安裝 Chrome"
       }
@@ -414,7 +414,7 @@
     },
     "referral": {
       "title": "推薦計劃",
-      "description": "廣邀好友加入 LikeCoin Store，獲得免費 LikeCoin！你的朋友使用你的邀請連結註冊 LikeCoin 帳號，並驗證郵件箱地址後，雙方都會獲得收到額外的 LikeCoin 兌換碼",
+      "description": "廣邀好友加入 like.co，獲得免費 LikeCoin！你的朋友使用你的邀請連結註冊 LikeCoin 帳號，並驗證郵件箱地址後，雙方都會獲得收到額外的 LikeCoin 兌換碼",
       "pending": "未認證郵箱",
       "verified": "已確認",
       "emailInvite": "發電郵邀請",
@@ -425,7 +425,7 @@
       "send": "發送",
       "sent": "邀請郵件已發送至 {email}",
       "verifyEmailFirst": "請先認證你的電郵地址",
-      "tweetContent": "加入 LikeCoin Store，獲得免費 LikeCoin!",
+      "tweetContent": "加入 like.co，獲得免費 LikeCoin!",
       "ogTitle": "化Like為Coin 回饋創作",
       "ogDescription": "{name} 邀請你註冊 LikeCoin ID ，改革內容創作生態"
     },
