@@ -531,7 +531,7 @@
       "checkEmail": "電郵已發送，請檢查",
       "emailVerified": "電郵已驗證",
       "proceedToAccountVerification": "進行帳戶認證",
-      "isPrcCitizen": "您是否中華人民共和國公民？",
+      "isPrcCitizen": "您是否中華人民共和國公民（不包括台灣、香港、澳門）？",
       "isUsaCitizen": "您是否美國公民？",
       "isUsaAccredited": "您是否美國合格投資者(accredited investor)?",
       "isPurchaseExceedAmount": "您購買的金額是否超過 {amount} 美金？",
