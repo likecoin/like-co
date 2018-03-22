@@ -154,6 +154,7 @@ workflows:
               only:
                 - master
                 - develop
+                - /feature.*/
           requires:
            - test
            - unit_test
