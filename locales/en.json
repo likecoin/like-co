@@ -273,7 +273,7 @@
     },
     "preSaleEmail": {
       "subject": "You have successfully joined LikeCoin early-bird presale",
-      "body": "Hi {{name}}!<p>Thank you for joining LikeCoin early-bird presale!</p><p>After we have confirmed your payment of {{eth}} ETH, you will receive {{base}} + {{bonus}} LikeCoin when our public sale starts.</p><p>Transaction URL:<br/><a href=\"https://etherscan.io/tx/{{txHash}}\" style=\"color: #28646E\">https://etherscan.io/tx/{{txHash}}</a></p><p>Meanwhile, you can participate in our <a href=\"https://like.co/in/edit#referral\" style=\"color: #28646E\">Affiliate Program</a> to earn extra LikeCoin!</p><p>Feel free to contact us on our official website should you have any thoughts or question.</p><br/>LikeCoin Foundation<br/><a href=\"https://like.co\" style=\"color: #28646E\">https://like.co</a>"
+      "body": "Hi {{name}}!<p>Thank you for joining LikeCoin early-bird presale!</p><p>After we have confirmed your payment of {{eth}} ETH, you will receive {{base}} + {{bonus}} LikeCoin when our public sale starts.</p><p>Transaction URL:<br/><a href=\"https://etherscan.io/tx/{{txHash}}\" style=\"word-break: break-all; color: #28646E\">https://etherscan.io/tx/{{txHash}}</a></p><p>Meanwhile, you can participate in our <a href=\"https://like.co/in/edit#referral\" style=\"color: #28646E\">Affiliate Program</a> to earn extra LikeCoin!</p><p>Feel free to contact us on our official website should you have any thoughts or question.</p><br/>LikeCoin Foundation<br/><a href=\"https://like.co\" style=\"color: #28646E\">https://like.co</a>"
     }
   },
   "Whitepaper": {
