@@ -263,12 +263,12 @@
   },
   "Email": {
     "VerifiyEmail": {
-      "subject": "Verify your LikeCoin Store email",
-      "body": "Hi {{name}}!\n\nWelcome to LikeCoin Store! To verify your email, click the following link:\n\nhttps://like.co/verify/{{uuid}}?ref={{ref}}\n\nLikeCoin Foundation\nhttps://like.co"
+      "subject": "Verify your like.co email",
+      "body": "Hi {{name}}!\n\nWelcome to like.co! To verify your email, click the following link:\n\nhttps://like.co/verify/{{uuid}}?ref={{ref}}\n\nLikeCoin Foundation\nhttps://like.co"
     },
     "VerifiyAndCouponEmail": {
-      "subject": "Verify your LikeCoin Store email and claim your LikeCoin",
-      "body": "Hi {{name}}!\n\nWelcome to LikeCoin Store! To verify your email and receive red pocket, click the following link:\n\nhttps://like.co/verify/{{uuid}}/{{coupon}}?ref={{ref}}\n\nYour coupon code: {{coupon}}\n\nLikeCoin Foundation\nhttps://like.co"
+      "subject": "Verify your like.co email and claim your LikeCoin",
+      "body": "Hi {{name}}!\n\nWelcome to like.co! To verify your email and receive red pocket, click the following link:\n\nhttps://like.co/verify/{{uuid}}/{{coupon}}?ref={{ref}}\n\nYour coupon code: {{coupon}}\n\nLikeCoin Foundation\nhttps://like.co"
     },
     "preSaleEmail": {
       "subject": "You have successfully joined LikeCoin early-bird presale",
@@ -339,7 +339,7 @@
     },
     "transaction": {
       "label": {
-        "waiting": "Waiting for the blockchain to confirm. It may take a few minutes depends on network traffic. Meanwhile you may browse around LikeCoin Store",
+        "waiting": "Waiting for the blockchain to confirm. It may take a few minutes depends on network traffic. Meanwhile you may browse around like.co",
         "newUser": "Seems you don’t have a LikeCoin ID. Create now."
       },
       "button": {
@@ -451,7 +451,7 @@
         "sending": "Sending",
         "sent": "Sent",
         "to": "to ",
-        "notFound": "Transaction Not Found or not a LikeCoin store transaction",
+        "notFound": "Transaction Not Found or not a like.co transaction",
         "pending": "Submitted to blockchain",
         "failed": "Transaction Failed",
         "timeout": "Transaction Expired",
