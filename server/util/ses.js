@@ -1,4 +1,5 @@
 /* eslint-disable no-underscore-dangle */
+import { BasicTemplate } from './email-templates';
 
 const aws = require('aws-sdk');
 
@@ -71,14 +72,17 @@ export async function sendPreSale(res, user, eth, base, bonus, txHash) {
         Data: res.__('Email.preSaleEmail.subject'),
       },
       Body: {
-        Text: {
+        Html: {
           Charset: 'UTF-8',
-          Data: res.__('Email.preSaleEmail.body', {
-            name: user.displayName,
-            eth,
-            base,
-            bonus,
-            txHash,
+          Data: BasicTemplate({
+            title: res.__('Email.preSaleEmail.subject'),
+            body: res.__('Email.preSaleEmail.body', {
+              name: user.displayName,
+              eth,
+              base,
+              bonus,
+              txHash,
+            }),
           }),
         },
       },
