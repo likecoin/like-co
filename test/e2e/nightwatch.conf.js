@@ -37,9 +37,9 @@ module.exports = {
         browserName: 'chrome',
         javascriptEnabled: true,
         acceptSslCerts: true,
-        marionette: true,
         chromeOptions: {
           extensions: [encode('test/extension/MetaMask_v4.2.0.crx')],
+          args: ['--no-sandbox'],
         },
       },
     },
