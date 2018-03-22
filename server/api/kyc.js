@@ -3,7 +3,7 @@ import { Router } from 'express';
 import Validate from '../../util/ValidationHelper';
 import {
   web3,
-  typedSignatureHash,
+  personalEcRecover,
   sendTransactionWithLoop,
 } from '../util/web3';
 import {
@@ -64,11 +64,7 @@ router.post('/kyc', async (req, res) => {
       throw new Error('Invalid address');
     }
 
-    const signData = [
-      { type: 'string', name: 'payload', value: payload },
-    ];
-    const hash = typedSignatureHash(signData);
-    const recovered = Account.recover(hash, sign);
+    const recovered = personalEcRecover(payload, sign);
     if (recovered.toLowerCase() !== from.toLowerCase()) {
       throw new Error('recovered address not match');
     }
@@ -79,7 +75,7 @@ router.post('/kyc', async (req, res) => {
       notPRC,
       notUSA,
       isUSAAccredited,
-    } = JSON.parse(payload);
+    } = JSON.parse(web3.utils.hexToUtf8(payload));
 
     // Check ts expire
     if (Math.abs(ts - Date.now()) > ONE_DATE_IN_MS) {
@@ -171,11 +167,7 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
       throw new Error('Invalid address');
     }
 
-    const signData = [
-      { type: 'string', name: 'payload', value: payload },
-    ];
-    const hash = typedSignatureHash(signData);
-    const recovered = Account.recover(hash, sign);
+    const recovered = personalEcRecover(payload, sign);
     if (recovered.toLowerCase() !== from.toLowerCase()) {
       throw new Error('recovered address not match');
     }
@@ -190,7 +182,7 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
       country,
       document0SHA256,
       document1SHA256,
-    } = JSON.parse(payload);
+    } = JSON.parse(web3.utils.hexToUtf8(payload));
 
     // Check ts expire
     if (Math.abs(ts - Date.now()) > ONE_DATE_IN_MS) {

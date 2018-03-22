@@ -6,6 +6,7 @@ const {
 } = require('./firebase');
 
 const Web3 = require('web3');
+const sigUtil = require('eth-sig-util');
 
 export const web3 = new Web3(new Web3.providers.HttpProvider(INFURA_HOST));
 const accounts = require('@ServerConfig/accounts.js'); // eslint-disable-line import/no-extraneous-dependencies
@@ -21,13 +22,8 @@ function timeout(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-export function typedSignatureHash(signData) {
-  const paramSignatures = signData.map(item => ({ type: 'string', value: `${item.type} ${item.name}` }));
-  const params = signData.map(item => ({ type: item.type, value: item.value }));
-  return Web3.utils.soliditySha3(
-    { type: 'bytes32', value: Web3.utils.soliditySha3(...paramSignatures) },
-    { type: 'bytes32', value: Web3.utils.soliditySha3(...params) },
-  );
+export function personalEcRecover(data, sig){
+  return sigUtil.recoverPersonalSignature({ data, sig });
 }
 
 export function sendTransaction(tx) {
