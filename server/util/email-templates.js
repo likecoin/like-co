@@ -83,7 +83,7 @@ table td { border-collapse: collapse; }
                       <div>
                         <font face="'Open Sans', Arial, sans-serif">
                           <h1 style="font-size: 28px; line-height: 1.5; font-weight: 400; color: #462814; text-align: center">
-                            Thank you for joining LikeCoin early-bird presale!
+                            ${title}
                           </h1>
                         </font>
                       </div>
