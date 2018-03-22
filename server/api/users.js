@@ -7,11 +7,10 @@ import {
 } from '../../constant';
 
 import Validate from '../../util/ValidationHelper';
-import { typedSignatureHash } from '../util/web3';
+import { personalEcRecover, web3 } from '../util/web3';
 import { uploadFileAndGetLink } from '../util/fileupload';
 import publisher from '../util/gcloudPub';
 
-const Account = require('eth-lib/lib/account');
 const Multer = require('multer');
 const sha256 = require('js-sha256');
 const sharp = require('sharp');
@@ -48,12 +47,7 @@ const router = Router();
 router.put('/users/new', multer.single('avatar'), async (req, res) => {
   try {
     const { from, payload, sign } = req.body;
-
-    const signData = [
-      { type: 'string', name: 'payload', value: payload },
-    ];
-    const hash = typedSignatureHash(signData);
-    const recovered = Account.recover(hash, sign);
+    const recovered = personalEcRecover(payload, sign);
     if (recovered.toLowerCase() !== from.toLowerCase()) {
       throw new Error('recovered address not match');
     }
@@ -67,7 +61,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       ts,
       referrer,
       locale,
-    } = JSON.parse(payload);
+    } = JSON.parse(web3.utils.hexToUtf8(payload));
 
     // check address match
     if (from !== wallet || !Validate.checkAddressValid(wallet)) {

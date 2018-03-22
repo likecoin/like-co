@@ -27,11 +27,11 @@ const User = {
       email,
       referrer,
       locale,
-    });
+    }, null, 2);
     const sign = await EthHelper.signUserPayload(payload);
     const data = {
       avatar: avatarFile,
-      payload,
+      payload: EthHelper.utf8ToHex(payload),
       sign,
       from: wallet,
     };
@@ -73,10 +73,10 @@ const User = {
       country,
       document0SHA256,
       document1SHA256,
-    });
+    }, null, 2);
     const sign = await EthHelper.signUserPayload(payload);
     const data = {
-      payload,
+      payload: EthHelper.utf8ToHex(payload),
       sign,
       from: wallet,
     };

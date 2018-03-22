@@ -108,6 +108,10 @@ class EthHelper {
     }
   }
 
+  utf8ToHex(data) {
+    return this.web3.utils.utf8ToHex(data);
+  }
+
   getWallet() {
     return this.wallet;
   }
@@ -340,21 +344,19 @@ class EthHelper {
     return txEventEmitter;
   }
 
-  static genTypedSignUserPayload(payload) {
-    return [
-      { type: 'string', name: 'payload', value: payload },
-    ];
-  }
-
   async signUserPayload(payload) {
     if (!this.isMetaMask) return Promise.reject(new Error('No MetaMask'));
     const from = this.getWallet();
     if (this.onSign) this.onSign();
-    const signData = EthHelper.genTypedSignUserPayload(payload);
-    const rawSignature = await this.signTyped(signData, from);
-    if (this.onSigned) this.onSigned();
-    if (!rawSignature) return Promise.reject(new Error('Signing Rejected'));
-    return rawSignature;
+    try {
+      const rawSignature = await this.web3.eth.personal.sign(payload, from);
+      if (this.onSigned) this.onSigned();
+      if (!rawSignature) return Promise.reject(new Error('Signing Rejected'));
+      return rawSignature;
+    } catch (err) {
+      if (this.onSigned) this.onSigned();
+      throw err;
+    }
   }
 }
 
