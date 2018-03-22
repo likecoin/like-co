@@ -13,18 +13,14 @@ module.exports = {
     const testTx = '0xe8d6792a60aab25caf23c75b58b53d47175386aa335156627faf1c7246360ae9';
 
     browser
-      .url(`${devServer}/tx/${testTx}`)
+      .url(`${devServer}/in/tx/${testTx}`)
       .waitForElementVisible('.transaction-container', 2000)
       .pause(2000)
       .verify.containsText('.transaction-container', 'Transaction Completed')
-      .click('#view-etherscan')
-      .pause(1000)
-      .windowHandles(function func(res) {
-        const etherscan = res.value[1];
-        this.switchWindow(etherscan);
-      })
-      .pause(1000)
-      .verify.containsText('body', 'Success')
+      .waitForElementVisible('#view-etherscan', 2000)
+      .pause(5000)
+      .verify.containsText('#view-etherscan', 'View on Etherscan')
+      .verify.attributeContains('#view-etherscan .view-url', 'href', `etherscan.io/tx/${testTx}`)
       .end();
   },
 

@@ -15,8 +15,8 @@ module.exports = {
       .url(devServer)
       .click('.lc-container-3 button.account-btn')
       .waitForElementVisible('#registerForm', 2000)
+      .pause(5000)
       .setValue('#registerForm input[type=text][required=required]', 'testacct')
-      .pause(1000)
       .submitForm('#registerForm')
       .pause(1000)
       .windowHandles(function func(res) {
@@ -33,7 +33,7 @@ module.exports = {
       .waitForElementVisible('#editForm', 5000)
       .verify.urlContains('edit')
       .waitForElementVisible('.toolbars', 1000)
-      .verify.containsText('.toolbars', 'View your page')
+      .verify.containsText('.toolbars > div > div > span', 'View your page')
       .end();
   },
 
@@ -46,7 +46,7 @@ module.exports = {
     inputSequence.push('Test Name');
 
     browser
-      .url(`${devServer}/edit`)
+      .url(`${devServer}/in/edit`)
       .waitForElementVisible('#editForm', 2000)
       .click('#editForm .input-display-name')
       .waitForElementVisible('#edit-confirm-btn', 2000)
@@ -58,6 +58,7 @@ module.exports = {
         const metamaskPopup = res.value[1];
         this.switchWindow(metamaskPopup);
       })
+      .pause(3000)
       .verify.title('MetaMask Notification')
       .click('#app-content button:nth-child(2)')
       .pause(1000)
@@ -68,14 +69,15 @@ module.exports = {
       .waitForElementVisible('#editForm', 5000)
       .verify.urlContains('edit')
       .waitForElementVisible('.toolbars', 1000)
-      .verify.containsText('.toolbars', 'View your page')
+      .pause(1000)
+      .verify.containsText('.toolbars > div > div > span', 'View your page')
       .end();
   },
 
   'Claim coupon test and error dialog': (browser) => {
     const devServer = browser.globals.devServerURL;
     browser
-      .url(`${devServer}/edit`)
+      .url(`${devServer}/in/edit`)
       .waitForElementVisible('#redeemForm', 2000)
       .click('#redeemForm input[type=text]')
       .setValue('#redeemForm input[type=text]', '22223333')

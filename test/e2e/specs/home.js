@@ -14,10 +14,10 @@ module.exports = {
 
     browser
       .url(devServer)
-      .waitForElementVisible('.links', 5000)
-      .verify.elementPresent('.links')
-      .verify.containsText('.links', 'White Paper')
-      .click('.links > a[href*="/whitepaper"]')
+      .waitForElementVisible('.cta-section', 5000)
+      .verify.elementPresent('.cta-section')
+      .verify.containsText('.cta-section', 'Whitepaper')
+      .click('.cta-section li:nth-child(1) a[href*="/whitepaper"]')
       .pause(1000)
       .click('ul > li:nth-child(2) > div > ul > li > button')
       .pause(1000)

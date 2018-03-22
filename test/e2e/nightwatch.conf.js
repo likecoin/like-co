@@ -10,7 +10,7 @@ function encode(file) {
 
 // http://nightwatchjs.org/gettingstarted#settings-file
 module.exports = {
-  src_folders: ['test/e2e/specs/tx.js'],
+  src_folders: ['test/e2e/specs/'],
   output_folder: 'test/e2e/reports',
   page_objects_path: 'test/e2e/page-objects',
 
