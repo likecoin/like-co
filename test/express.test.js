@@ -314,3 +314,47 @@ test('PAYMENT: Get tx history by addr', async (t) => {
     }
   }
 });
+
+test('KYC: Standard KYC, User wallet not match case', async (t) => {
+  // User wallet not match case is the last checking before contract call
+  const payload = Web3.utils.utf8ToHex(JSON.stringify({
+    user: testingUser2,
+    ts: Date.now(),
+    notPRC: true,
+    notUSA: true,
+    isUSAAccredited: false,
+  }));
+  const sign = signProfile(payload, privateKey1);
+  const res = await axios.post(`${url}/api/kyc`, {
+    from: testingWallet1,
+    payload,
+    sign,
+  }).catch(err => err.response);
+
+  t.is(res.status, 400);
+  t.is(res.data, 'User wallet not match');
+});
+
+test('KYC: Advanced KYC, User wallet not match case', async (t) => {
+  // User wallet not match case is the last checking before contract call
+  const payload = Web3.utils.utf8ToHex(JSON.stringify({
+    user: testingUser2,
+    ts: Date.now(),
+    notPRC: true,
+    notUSA: true,
+    isUSAAccredited: false,
+    passportName: 'William',
+    country: 'Hong Kong',
+    document0SHA256: 'B82689328893425978193B5CEA4C7E31D582E10906765D7C8D213230EE176AE5',
+    document1SHA256: 'FD9507718F404ED8551CD30608B71AD1EC8CA3BCA904CADB192B4081F918E9E3',
+  }));
+  const sign = signProfile(payload, privateKey1);
+  const res = await axios.post(`${url}/api/kyc/advanced`, {
+    from: testingWallet1,
+    payload,
+    sign,
+  }).catch(err => err.response);
+
+  t.is(res.status, 400);
+  t.is(res.data, 'User wallet not match');
+});
