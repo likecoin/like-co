@@ -16,7 +16,6 @@ import { logRegisterKYC } from '../util/logger';
 import publisher from '../util/gcloudPub';
 
 const Multer = require('multer');
-const Account = require('eth-lib/lib/account');
 
 const LIKECOIN_ICO = require('../../constant/contract/likecoin-ico');
 const {

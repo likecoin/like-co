@@ -1,6 +1,6 @@
 import test from 'ava';
 
-const AccountLib = require('eth-lib/lib/account');
+const sigUtil = require('eth-sig-util');
 const Web3 = require('web3');
 const axios = require('axios');
 
@@ -40,28 +40,23 @@ const privateKey3 = '0xd9d199217049b92cb321d3e636b1d6642d89af0cef08b56d61bf04467
 //
 // functions
 //
-function signProfile(signName, signData, privateKey) {
-  const paramSignatures = [{ type: 'string', value: `string ${signName}` }];
-  const params = [{ type: 'string', value: signData }];
-  const hash = Web3.utils.soliditySha3(
-    { type: 'bytes32', value: Web3.utils.soliditySha3(...paramSignatures) },
-    { type: 'bytes32', value: Web3.utils.soliditySha3(...params) },
-  );
-  return AccountLib.sign(hash, privateKey);
+function signProfile(signData, privateKey) {
+  const privKey = Buffer.from(privateKey.substr(2), 'hex');
+  return sigUtil.personalSign(privKey, { data: signData });
 }
 
 //
 // serial will run first
 //
 test.serial('USER: Register or edit user. Case: success', async (t) => {
-  const payload = JSON.stringify({
+  const payload = Web3.utils.utf8ToHex(JSON.stringify({
     user: testingUser1,
     displayName: testingDisplayName1,
     ts: Date.now(),
     wallet: testingWallet1,
     email: 'noreply@likecoin.store',
-  });
-  const sign = signProfile('payload', payload, privateKey1);
+  }));
+  const sign = signProfile(payload, privateKey1);
   const res = await axios.put(`${url}/api/users/new`, {
     from: testingWallet1,
     payload,
@@ -111,130 +106,130 @@ expiredDate.setDate(expiredDate.getDate() - 1);
 const userCases = [
   {
     name: 'USER: Register or edit user. Case: wrong wallet',
-    payload: JSON.stringify({
+    payload: {
       user: testingUser1,
       displayName: testingDisplayName1,
       ts: Date.now(),
       wallet: testingWallet1,
       email: testingEmail1,
-    }),
+    },
     from: testingWallet2,
     privateKey: privateKey1,
   },
   {
     name: 'USER: Register or edit user. Case: wrong wallet (ii)',
-    payload: JSON.stringify({
+    payload: {
       user: testingUser1,
       displayName: testingDisplayName1,
       ts: Date.now(),
       wallet: testingWallet2,
       email: testingEmail1,
-    }),
+    },
     from: testingWallet1,
     privateKey: privateKey1,
   },
   {
     name: 'USER: Register or edit user. Case: wrong wallet (iii)',
-    payload: JSON.stringify({
+    payload: {
       user: testingUser1,
       displayName: testingDisplayName1,
       ts: Date.now(),
       wallet: invalidWallet,
       email: testingEmail1,
-    }),
+    },
     from: testingWallet1,
     privateKey: privateKey1,
   },
   {
     name: 'USER: Register or edit user. Case: expired',
-    payload: JSON.stringify({
+    payload: {
       user: testingUser1,
       displayName: testingDisplayName1,
       ts: expiredDate.getTime(),
       wallet: testingWallet1,
       email: testingEmail1,
-    }),
+    },
     from: testingWallet1,
     privateKey: privateKey1,
   },
   {
     name: 'USER: Register or edit user. Case: invalid email',
-    payload: JSON.stringify({
+    payload: {
       user: testingUser1,
       displayName: testingDisplayName1,
       ts: Date.now(),
       wallet: testingWallet1,
       email: 'invalid@@mail',
-    }),
+    },
     from: testingWallet1,
     privateKey: privateKey1,
   },
   {
     name: 'USER: Register or edit user. Case: invalid email (ii)',
-    payload: JSON.stringify({
+    payload: {
       user: testingUser1,
       displayName: testingDisplayName1,
       ts: Date.now(),
       wallet: testingWallet1,
       email: 'invalidmail',
-    }),
+    },
     from: testingWallet1,
     privateKey: privateKey1,
   },
   {
     name: 'USER: Register or edit user. Case: invalid email (iii)',
-    payload: JSON.stringify({
+    payload: {
       user: testingUser1,
       displayName: testingDisplayName1,
       ts: Date.now(),
       wallet: testingWallet1,
       email: '@likecoin.store',
-    }),
+    },
     from: testingWallet1,
     privateKey: privateKey1,
   },
   {
     name: 'USER: Register or edit user. Case: User, wallet already exist',
-    payload: JSON.stringify({
+    payload: {
       user: testingUser2,
       displayName: testingDisplayName1,
       ts: Date.now(),
       wallet: testingWallet1,
-    }),
+    },
     from: testingWallet1,
     privateKey: privateKey1,
   },
   {
     name: 'USER: Register or edit user. Case: Email already exist',
-    payload: JSON.stringify({
+    payload: {
       user: testingUser1,
       displayName: testingDisplayName1,
       ts: Date.now(),
       wallet: testingWallet1,
       email: testingEmail2,
-    }),
+    },
     from: testingWallet1,
     privateKey: privateKey1,
   },
   {
     name: 'USER: Register or edit user. Case: Invalid user name char',
-    payload: JSON.stringify({
+    payload: {
       user: 'Helloworld',
       displayName: testingDisplayName1,
       ts: Date.now(),
       wallet: testingWallet3,
-    }),
+    },
     from: testingWallet3,
     privateKey: privateKey3,
   },
   {
     name: 'USER: Register or edit user. Case: Invalid user name length',
-    payload: JSON.stringify({
+    payload: {
       user: 'hello',
       displayName: testingDisplayName1,
       ts: Date.now(),
       wallet: testingWallet3,
-    }),
+    },
     from: testingWallet3,
     privateKey: privateKey3,
   },
@@ -248,10 +243,11 @@ for (let i = 0; i < userCases.length; i += 1) {
     privateKey,
   } = userCases[i];
   test(name, async (t) => {
-    const sign = signProfile('payload', payload, privateKey);
+    const formatedPayload = Web3.utils.utf8ToHex(JSON.stringify(payload));
+    const sign = signProfile(formatedPayload, privateKey);
     const res = await axios.put(`${url}/api/users/new`, {
       from,
-      payload,
+      payload: formatedPayload,
       sign,
     }).catch(err => err.response);
 

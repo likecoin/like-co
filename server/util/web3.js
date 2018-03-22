@@ -22,7 +22,7 @@ function timeout(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-export function personalEcRecover(data, sig){
+export function personalEcRecover(data, sig) {
   return sigUtil.recoverPersonalSignature({ data, sig });
 }
 
