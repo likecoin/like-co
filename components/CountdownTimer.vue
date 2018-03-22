@@ -26,7 +26,7 @@
 export default {
   name: 'countdown-timer',
   props: {
-    date: Date,
+    date: Object,
   },
   data() {
     return {

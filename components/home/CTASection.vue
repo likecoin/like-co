@@ -9,7 +9,7 @@
 
             <!-- BEGIN - Before announcing token sale date -->
             <div
-              v-if="new Date() < SALE_DATE_ANNOUNCE_DATE"
+              v-if="now.isBefore(SALE_DATE_ANNOUNCE_DATE)"
               class="cta-section-body">
 
               <div class="cta-section-body-content">
@@ -34,7 +34,7 @@
 
             <!-- BEGIN - After announcing token sale date -->
             <div
-              v-else-if="new Date() < SALE_DATE"
+              v-else-if="now.isBefore(SALE_DATE)"
               class="cta-section-body">
 
               <div class="cta-section-body-content">
@@ -43,7 +43,7 @@
                 <div class="token-sale-timer-wrapper">
                   <countdown-timer
                     class="cta-section-token-sale-timer"
-                    :date="new Date('2018-04-09T08:00:00+0800')"
+                    :date="SALE_DATE_ANNOUNCE_DATE"
                   />
                 </div>
               </div>
@@ -122,6 +122,8 @@
 
 
 <script>
+import moment from 'moment';
+
 import { logTrackerEvent } from '@/util/EventLogger';
 import CountdownTimer from '~/components/CountdownTimer';
 import MaterialButton from '~/components/MaterialButton';
@@ -142,6 +144,7 @@ export default {
     return {
       isCTAButtonDisabled: false,
       tokenSalePercentage: 128,
+      now: moment(),
       SALE_DATE,
       SALE_DATE_ANNOUNCE_DATE,
     };
