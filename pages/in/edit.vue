@@ -292,7 +292,7 @@ export default {
       this.updateLikeCoin();
       this.updateReferralStat();
       this.updateCanGetFreeLikeCoin(user);
-      this.$refs.txHistory.updateTokenSaleHistory();
+      // this.$refs.txHistory.updateTokenSaleHistory();
     },
     async updateLikeCoin() {
       try {
