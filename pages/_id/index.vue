@@ -232,6 +232,9 @@ export default {
             value,
           });
         } else {
+          if (!EthHelper.getIsSupportTransferDelegated()) {
+            this.setErrorMsg(this.$t('Transaction.error.notSupported'));
+          }
           const payload = await EthHelper.signTransferDelegated(to, valueToSend, 0);
           txHash = await this.sendPayment(payload);
         }

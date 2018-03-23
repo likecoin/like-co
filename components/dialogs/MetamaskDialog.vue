@@ -20,6 +20,7 @@
         <md-button class="secondary md-primary md-raised" @click="refreshPage">
           {{ $t('Dialog.metamask.button.doneInstalled') }}
         </md-button>
+        <a href="#" @click.prevent="onLedger">ledger</a>
       </section>
     </div>
   </md-dialog>
@@ -28,6 +29,7 @@
 <script>
 import { IS_TESTNET } from '@/constant';
 import { logTrackerEvent } from '@/util/EventLogger';
+import EthHelper from '@/util/EthHelper';
 import metamaskIcon from '@/assets/icons/metamask.svg';
 import metamaskNetImg from '@/assets/img/meta_net.png';
 import metamaskTestNetImg from '@/assets/img/meta_testnet.png';
@@ -76,6 +78,9 @@ export default {
     },
     onInstallClick() {
       logTrackerEvent(this, 'RegFlow', 'ClickInstallMetamask', 'click install metamask', 1);
+    },
+    onLedger() {
+      EthHelper.setLedgerOn();
     },
   },
   mounted() {

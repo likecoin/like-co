@@ -1,5 +1,12 @@
 /* eslint-disable no-underscore-dangle */
 import Web3 from 'web3';
+
+/* for ledger */
+import ProviderEngine from 'web3-provider-engine';
+import FetchSubprovider from 'web3-provider-engine/subproviders/fetch';
+import TransportU2F from '@ledgerhq/hw-transport-u2f';
+import createLedgerSubprovider from '@ledgerhq/web3-subprovider';
+
 import { LIKE_COIN_ABI, LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin';
 import { LIKE_COIN_ICO_ABI, LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 import { IS_TESTNET, INFURA_HOST } from '@/constant';
@@ -7,6 +14,19 @@ import { IS_TESTNET, INFURA_HOST } from '@/constant';
 const abiDecoder = require('abi-decoder');
 
 abiDecoder.addABI(LIKE_COIN_ABI);
+
+function createLedgerWeb3(networkId) {
+  const engine = new ProviderEngine();
+  const getTransport = () => TransportU2F.create();
+  const ledger = createLedgerSubprovider(getTransport, {
+    networkId,
+    accountsLength: 1,
+  });
+  engine.addProvider(ledger);
+  engine.addProvider(new FetchSubprovider({ rpcUrl: INFURA_HOST }));
+  engine.start();
+  return new Web3(engine);
+}
 
 function timeout(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -44,18 +64,21 @@ class EthHelper {
     this.pollForWeb3();
   }
 
-  async pollForWeb3() {
+  async pollForWeb3(initType) {
     this.isInited = false;
     if (this.pollingTimer) {
       clearInterval(this.pollingTimer);
       this.pollingTimer = null;
     }
-    if (typeof window.web3 !== 'undefined') {
-      if (this.retryTimer) {
-        clearTimeout(this.retryTimer);
-        this.retryTimer = null;
-      }
-      if (!this.web3 || this.web3Type !== 'window') {
+    if (this.retryTimer) {
+      clearTimeout(this.retryTimer);
+      this.retryTimer = null;
+    }
+    if (initType || typeof window.web3 !== 'undefined') {
+      if (initType === 'ledger' && this.web3Type !== 'ledger') {
+        this.web3 = createLedgerWeb3(IS_TESTNET ? 4 : 1);
+        this.web3Type = 'ledger';
+      } else if (!this.web3 || this.web3Type !== 'window') {
         this.web3Type = 'window';
         this.web3 = new Web3(window.web3.currentProvider);
       }
@@ -67,7 +90,7 @@ class EthHelper {
         this.isInited = true;
       } else {
         if (this.errCb) this.errCb('testnet');
-        this.retryTimer = setTimeout(() => this.pollForWeb3(), 3000);
+        this.retryTimer = setTimeout(() => this.pollForWeb3(initType), 3000);
       }
     } else {
       if (this.errCb) this.errCb('web3');
@@ -76,7 +99,7 @@ class EthHelper {
         this.web3 = new Web3(provider);
         this.web3Type = 'infura';
       }
-      this.retryTimer = setTimeout(() => this.pollForWeb3(), 3000);
+      this.retryTimer = setTimeout(() => this.pollForWeb3(initType), 3000);
     }
   }
 
@@ -103,6 +126,10 @@ class EthHelper {
     });
   }
 
+  setLedgerOn() {
+    this.pollForWeb3('ledger');
+  }
+
   async waitForTxToBeMined(txHash) {
     let txReceipt;
     while (!txReceipt) {
@@ -119,6 +146,12 @@ class EthHelper {
 
   getWallet() {
     return this.wallet;
+  }
+
+  getIsSupportTransferDelegated() {
+    return (this.web3Type !== 'ledger'
+      && this.web3Type !== 'infura'
+      && this.isInited);
   }
 
   async getTransactionCompleted(txHash) {
@@ -308,7 +341,9 @@ class EthHelper {
   }
 
   async signTransferDelegated(to, value, maxReward) {
-    if (!this.isInited) return Promise.reject(new Error('No web3'));
+    if (!this.getIsSupportTransferDelegated()) {
+      return Promise.reject(new Error('Not Supported'));
+    }
     if (this.onSign) this.onSign();
     const from = this.getWallet();
     const signData = await this.genTypedSignData(from, to, value, maxReward);
