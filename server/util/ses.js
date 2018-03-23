@@ -19,12 +19,15 @@ export async function sendVerificationEmail(res, user, ref) {
         Data: res.__('Email.VerifiyEmail.subject'),
       },
       Body: {
-        Text: {
+        Html: {
           Charset: 'UTF-8',
-          Data: res.__('Email.VerifiyEmail.body', {
-            name: user.displayName,
-            uuid: user.verificationUUID,
-            ref,
+          Data: EmailTemplate.Basic({
+            title: res.__('Email.VerifiyEmail.subject'),
+            body: res.__('Email.VerifiyEmail.body', {
+              name: user.displayName,
+              uuid: user.verificationUUID,
+              ref,
+            }) + res.__('Email.signature'),
           }),
         },
       },
@@ -45,13 +48,16 @@ export async function sendVerificationWithCouponEmail(res, user, coupon, ref) {
         Data: res.__('Email.VerifiyAndCouponEmail.subject'),
       },
       Body: {
-        Text: {
+        Html: {
           Charset: 'UTF-8',
-          Data: res.__('Email.VerifiyAndCouponEmail.body', {
-            name: user.displayName,
-            uuid: user.verificationUUID,
-            coupon,
-            ref,
+          Data: EmailTemplate.Basic({
+            title: res.__('Email.VerifiyAndCouponEmail.subject'),
+            body: res.__('Email.VerifiyAndCouponEmail.body', {
+              name: user.displayName,
+              uuid: user.verificationUUID,
+              coupon,
+              ref,
+            }) + res.__('Email.signature'),
           }),
         },
       },
@@ -82,7 +88,7 @@ export async function sendPreSale(res, user, eth, base, bonus, txHash) {
               base,
               bonus,
               txHash,
-            }),
+            }) + res.__('Email.signature'),
           }),
         },
       },
