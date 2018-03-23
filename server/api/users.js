@@ -112,7 +112,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       isOldUser, oldUserObj,
     }] = await Promise.all([userNameQuery, walletQuery, emailQuery]);
 
-    let oldAvatar = null;
+    let oldAvatar;
     let oldEmail = '';
     if (isOldUser && oldUserObj) {
       oldEmail = oldUserObj.email;
@@ -168,11 +168,11 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: !isOldUser ? 'eventUserRegister' : 'eventUserEdit',
       user,
-      email,
+      email: email || undefined,
       displayName,
       wallet,
       avatar: url || oldAvatar,
-      referrer,
+      referrer: referrer || undefined,
       locale,
     });
   } catch (err) {
