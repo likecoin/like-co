@@ -4,8 +4,8 @@ const sigUtil = require('eth-sig-util');
 const Web3 = require('web3');
 const axios = require('axios');
 
-const userData = require('./data/user.json');
-const txData = require('./data/tx.json');
+const userData = require('../data/user.json');
+const txData = require('../data/tx.json');
 
 //
 // test data
