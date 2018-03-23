@@ -19,7 +19,7 @@ module.exports = {
       .verify.containsText('.cta-section', 'Whitepaper')
       .click('.cta-section li:nth-child(1) a[href*="/whitepaper"]')
       .pause(1000)
-      .click('ul > li:nth-child(2) > div > ul > li > button')
+      .click('ul.document-list > li:nth-child(2) div.lc-document-wrapper button')
       .pause(1000)
       .windowHandles(function func(result) {
         this.verify.equal(result.value.length, 2, 'There should be 2 windows open');
