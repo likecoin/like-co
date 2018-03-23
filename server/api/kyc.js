@@ -68,13 +68,14 @@ router.post('/kyc', async (req, res) => {
       throw new Error('recovered address not match');
     }
 
+    const message = web3.utils.hexToUtf8(payload);
     const {
       user,
       ts,
       notPRC,
       notUSA,
       isUSAAccredited,
-    } = JSON.parse(web3.utils.hexToUtf8(payload));
+    } = JSON.parse(message.substr(message.indexOf('{')));
 
     // Check ts expire
     if (Math.abs(ts - Date.now()) > ONE_DATE_IN_MS) {
@@ -171,6 +172,7 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
       throw new Error('recovered address not match');
     }
 
+    const message = web3.utils.hexToUtf8(payload);
     const {
       user,
       ts,
@@ -181,7 +183,7 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
       country,
       document0SHA256,
       document1SHA256,
-    } = JSON.parse(web3.utils.hexToUtf8(payload));
+    } = JSON.parse(message.substr(message.indexOf('{')));
 
     // Check ts expire
     if (Math.abs(ts - Date.now()) > ONE_DATE_IN_MS) {

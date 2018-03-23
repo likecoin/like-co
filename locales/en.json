@@ -24,6 +24,13 @@
     "minute": "minute | minutes",
     "second": "second | seconds"
   },
+  "Sign": {
+    "Message": {
+      "registerUser": "Registering with the following user info",
+      "editUser": "Updating user info",
+      "signKYC": "ID Verify user with the following Info"
+    }
+  },
   "Home": {
     "Header": {
       "button": {
