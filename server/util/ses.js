@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { BasicTemplate } from './email-templates';
+import EmailTemplate from '@likecoin/likecoin-email-templates';
 
 const aws = require('aws-sdk');
 
@@ -74,7 +74,7 @@ export async function sendPreSale(res, user, eth, base, bonus, txHash) {
       Body: {
         Html: {
           Charset: 'UTF-8',
-          Data: BasicTemplate({
+          Data: EmailTemplate.Basic({
             title: res.__('Email.preSaleEmail.subject'),
             body: res.__('Email.preSaleEmail.body', {
               name: user.displayName,
