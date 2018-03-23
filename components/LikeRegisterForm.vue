@@ -184,7 +184,7 @@ export default {
           referrer: this.referrer,
           locale: this.getCurrentLocale,
         };
-        const data = await User.formatAndSignUserInfo(userInfo);
+        const data = await User.formatAndSignUserInfo(userInfo, this.$t('Sign.Message.registerUser'));
         await this.newUser(data);
         await this.isUser(this.wallet);
         if (this.couponCode) {

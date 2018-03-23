@@ -7,11 +7,10 @@ import {
 } from '../../constant';
 
 import Validate from '../../util/ValidationHelper';
-import { typedSignatureHash } from '../util/web3';
+import { personalEcRecover, web3 } from '../util/web3';
 import { uploadFileAndGetLink } from '../util/fileupload';
 import publisher from '../util/gcloudPub';
 
-const Account = require('eth-lib/lib/account');
 const Multer = require('multer');
 const sha256 = require('js-sha256');
 const sharp = require('sharp');
@@ -48,16 +47,12 @@ const router = Router();
 router.put('/users/new', multer.single('avatar'), async (req, res) => {
   try {
     const { from, payload, sign } = req.body;
-
-    const signData = [
-      { type: 'string', name: 'payload', value: payload },
-    ];
-    const hash = typedSignatureHash(signData);
-    const recovered = Account.recover(hash, sign);
+    const recovered = personalEcRecover(payload, sign);
     if (recovered.toLowerCase() !== from.toLowerCase()) {
       throw new Error('recovered address not match');
     }
 
+    const message = web3.utils.hexToUtf8(payload);
     const {
       user,
       displayName,
@@ -67,7 +62,8 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       ts,
       referrer,
       locale,
-    } = JSON.parse(payload);
+    } = JSON.parse(message.substr(message.indexOf('{')));
+    // trims away sign message header before JSON
 
     // check address match
     if (from !== wallet || !Validate.checkAddressValid(wallet)) {
@@ -116,7 +112,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       isOldUser, oldUserObj,
     }] = await Promise.all([userNameQuery, walletQuery, emailQuery]);
 
-    let oldAvatar = null;
+    let oldAvatar;
     let oldEmail = '';
     if (isOldUser && oldUserObj) {
       oldEmail = oldUserObj.email;
@@ -172,11 +168,11 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: !isOldUser ? 'eventUserRegister' : 'eventUserEdit',
       user,
-      email,
+      email: email || undefined,
       displayName,
       wallet,
       avatar: url || oldAvatar,
-      referrer,
+      referrer: referrer || undefined,
       locale,
     });
   } catch (err) {

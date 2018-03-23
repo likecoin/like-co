@@ -7,7 +7,3 @@ export async function sendVerificationEmail() {
 export async function sendVerificationWithCouponEmail() {
   return Promise.resolve();
 }
-
-export async function sendWelcomeEmail() {
-  return Promise.resolve();
-}

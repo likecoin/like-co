@@ -15,13 +15,21 @@
   },
   "Language": {
     "en": "English",
-    "zh": "中文"
+    "zh": "正體中文",
+    "cn": "简体中文"
   },
   "Date": {
     "day": "日",
     "hour": "小時",
     "minute": "分鐘",
     "second": "秒"
+  },
+  "Sign": {
+    "Message": {
+      "registerUser": "確認註冊以下帳號",
+      "editUser": "確認修改帳號資訊",
+      "signKYC": "確認以下用戶資訊"
+    }
   },
   "Home": {
     "Header": {
@@ -264,16 +272,17 @@
   "Email": {
     "VerifiyEmail": {
       "subject": "like.co 帳號驗證",
-      "body": "您好 {{name}}！\n\n歡迎來到 like.co ！請到下列網址驗證您的電郵地址:\n\nhttps://like.co/verify/{{uuid}}?ref={{ref}}\n\nLikeCoin Foundation\nhttps://like.co"
+      "body": "您好 {{name}}!<p>歡迎來到 like.co ！請到下列網址驗證您的電郵地址:<br/><a href=\"https://like.co/verify/{{uuid}}?ref={{ref}}\" style=\"word-break: break-all; color: #28646E\">https://like.co/verify/{{uuid}}?ref={{ref}}</a></p>"
     },
     "VerifiyAndCouponEmail": {
       "subject": "like.co 帳號驗證",
-      "body": "您好 {{name}}！\n\n歡迎來到 like.co ！請到下列網址驗證您的電郵地址，換領您的免費 LikeCoin：\n\nhttps://like.co/verify/{{uuid}}/{{coupon}}?ref={{ref}}\n\n您的換領券編號： {{coupon}}\n\nLikeCoin Foundation\nhttps://like.co"
+      "body": "您好 {{name}}！<p>歡迎來到 like.co ！請到下列網址驗證您的電郵地址，換領您的免費 LikeCoin：<br/><a href=\"https://like.co/verify/{{uuid}}/{{coupon}}?ref={{ref}}\" style=\"word-break: break-all; color: #28646E\">https://like.co/verify/{{uuid}}/{{coupon}}?ref={{ref}}</a></p><p>您的換領券編號：{{coupon}}</p>"
     },
     "preSaleEmail": {
       "subject": "您已經成功參加 LikeCoin 早鳥代幣發售",
-      "body": "您好 {{name}}!\n\n多謝您參與 LikeCoin 的早鳥代幣發售\n\n在確認了你的 {{eth}}ETH 付款後, {{base}}+{{bonus}}個 LikeCoin 將會在 LikeCoin 公開代幣發售開始時, 送到你的錢包內.\n\n交易參考地址: https://etherscan.io/tx/{{txHash}}\n\n與此同時, 你可以參加我們的推薦計劃，賺取更多 LikeCoin!\nhttps://like.co/in/edit#referral\n\n如有查詢或意見，歡迎隨時在官方網站聯絡我們.\n\nLikeCoin Foundation\nhttps://like.co"
-    }
+      "body": "您好 {{name}}!<p>多謝您參與 LikeCoin 的早鳥代幣發售</p><p>在確認了你的 {{eth}} ETH 付款後, {{base}} + {{bonus}} 個 LikeCoin 將會在 LikeCoin 公開代幣發售開始時, 送到你的錢包內.</p>交易參考地址:<br/><a href=\"https://etherscan.io/tx/{{txHash}}\" style=\"word-break: break-all; color: #28646E\">https://etherscan.io/tx/{{txHash}}</a></p><p>與此同時, 你可以參加我們的<a href=\"https://like.co/in/edit#referral\" style=\"color: #28646E\">推薦計劃</a>，賺取更多 LikeCoin!</p><p>如有查詢或意見，歡迎隨時在官方網站聯絡我們.</p>"
+    },
+    "signature": "<p>LikeCoin Foundation<br/><a href=\"https://like.co\" style=\"color: #28646E\">https://like.co</a></p>"
   },
   "Whitepaper": {
     "Button": {

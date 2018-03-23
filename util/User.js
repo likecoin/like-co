@@ -2,7 +2,7 @@ import EthHelper from '@/util/EthHelper';
 import FileHelper from '@/util/FileHelper';
 
 const User = {
-  async formatAndSignUserInfo(userInfo) {
+  async formatAndSignUserInfo(userInfo, signMessage) {
     const {
       avatarFile,
       user,
@@ -18,7 +18,7 @@ const User = {
       const avatarBuf = await FileHelper.blobToArrayBuffer(avatarFile);
       avatarSHA256 = await FileHelper.arrayBufferToSha256(avatarBuf);
     }
-    const payload = JSON.stringify({
+    let payload = JSON.stringify({
       user,
       displayName: displayName || user,
       ts,
@@ -27,11 +27,12 @@ const User = {
       email,
       referrer,
       locale,
-    });
+    }, null, 2);
+    if (signMessage) payload = [`${signMessage}:`, payload].join('\n');
     const sign = await EthHelper.signUserPayload(payload);
     const data = {
       avatar: avatarFile,
-      payload,
+      payload: EthHelper.utf8ToHex(payload),
       sign,
       from: wallet,
     };
@@ -73,10 +74,10 @@ const User = {
       country,
       document0SHA256,
       document1SHA256,
-    });
+    }, null, 2);
     const sign = await EthHelper.signUserPayload(payload);
     const data = {
-      payload,
+      payload: EthHelper.utf8ToHex(payload),
       sign,
       from: wallet,
     };
