@@ -1,0 +1,64 @@
+/* eslint no-console: "off" */
+const { execSync, spawn } = require('child_process');
+
+function killServer(pid, sig) {
+  // kill whole group of processes
+  process.kill(pid, sig);
+}
+
+function setStub() {
+  execSync('cp ./server/util/firebase.js ./server/util/firebase.js.bak');
+  execSync('cp ./server/util/ses.js ./server/util/ses.js.bak');
+  execSync('cp ./test/stub/server/util/* ./server/util/');
+}
+
+function unsetStub() {
+  execSync('mv ./server/util/firebase.js.bak ./server/util/firebase.js');
+  execSync('mv ./server/util/ses.js.bak ./server/util/ses.js');
+}
+
+// Start testing server...
+// spawn as new group of processes
+setStub();
+const server = spawn('npm', ['run', 'dev'], { detached: true });
+
+process.on('SIGINT', () => {
+  // catch SIGINT
+  killServer(-server.pid, 'SIGINT');
+  unsetStub();
+});
+
+// Tests
+function runBackendTest() {
+  const backend = spawn('npm', ['run', 'test'], { stdio: 'inherit' });
+  backend.on('exit', (code) => {
+    killServer(-server.pid, 'SIGINT');
+    if (code !== 0) {
+      unsetStub();
+      process.exit(code);
+    }
+  });
+}
+
+let curlCount = 0;
+function waitServerReady() {
+  if (curlCount > 10) {
+    killServer(-server.pid, 'SIGINT');
+    return;
+  }
+  curlCount += 1;
+
+  // curl for server ready
+  const serverReady = spawn('curl', ['-s', '-o', '/dev/null', 'http://localhost:3000/'], { stdio: 'inherit' });
+  serverReady.on('exit', (code) => {
+    if (code !== 0) {
+      console.log(`Waiting server ready fail and retry. Error code: ${code}`);
+      setTimeout(waitServerReady, 5000);
+    } else {
+      // run tests
+      runBackendTest();
+    }
+  });
+}
+
+setTimeout(waitServerReady, 5000);
