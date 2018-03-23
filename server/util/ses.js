@@ -96,30 +96,3 @@ export async function sendPreSale(res, user, eth, base, bonus, txHash) {
   };
   return ses.sendEmail(params).promise();
 }
-
-export async function sendWelcomeEmail(user) {
-  const params = {
-    Source: 'noreply@like.co',
-    Destination: {
-      ToAddresses: [user.email],
-    },
-    Message: {
-      Subject: {
-        Data: 'Welcome to Likecoin Store',
-      },
-      Body: {
-        Text: {
-          Charset: 'UTF-8',
-          Data: `Hi ${user.displayName}!
-
-LikeCoin Foundation
-https://likecoin.foundation
-
-Thanks for joining the community.
-`,
-        },
-      },
-    },
-  };
-  return ses.sendEmail(params).promise();
-}
