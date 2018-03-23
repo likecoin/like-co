@@ -19,14 +19,14 @@ module.exports = {
       { hid: 'theme-color', name: 'theme-color', content: '#D2F0F0' },
     ],
     script: [
-      { src: 'https://use.typekit.net/lly3gqf.js' },
+      { src: 'https://use.typekit.net/ube6iww.js' },
       { src: '/vendor/typekit.js' },
       { src: '/vendor/fb/pixel.js' },
       { src: '/vendor/fb/sdk.js' },
     ],
     link: [
       { rel: 'icon', type: 'image/png', href: '/favicon.png' },
-      { rel: 'stylesheet', href: '//fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700|Material+Icons' },
+      { rel: 'stylesheet', href: '//fonts.googleapis.com/css?family=Material+Icons' },
     ],
   },
   /*
@@ -96,11 +96,11 @@ module.exports = {
   ** Global CSS
   */
   css: [
-    '~/assets/css/main.css',
     { src: 'vue-material/dist/vue-material.min.css', lang: 'css' },
     { src: '~/assets/theme.scss', lang: 'scss' }, // include vue-material theme engine
     { src: '~/assets/index.scss', lang: 'scss' },
     'swiper/dist/css/swiper.css',
+    '~/assets/css/main.css',
   ],
   modules: [
     ['@nuxtjs/google-analytics', {
