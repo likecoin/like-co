@@ -8,7 +8,8 @@
           <document
             :imageSrc="doc.imageSrc"
             :linkSrc="doc.linkSrc"
-            :title="$t(doc.title)" />
+            :title="$t(doc.title)"
+            :mainLocales="doc.mainLocales" />
         </li>
       </ul>
     </div>
@@ -57,11 +58,13 @@ const documents = [
     imageSrc: onePagerIcon,
     linkSrc: onePagerSrc,
     title: 'Whitepaper.Button.onepager',
+    mainLocales: ['en'],
   },
   {
     imageSrc: whitePaperIcon,
     linkSrc: whitePaperSrc,
     title: 'Whitepaper.Button.whitepaper',
+    mainLocales: ['en'],
   },
 ];
 
