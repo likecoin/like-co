@@ -52,6 +52,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       throw new Error('recovered address not match');
     }
 
+    const message = web3.utils.hexToUtf8(payload);
     const {
       user,
       displayName,
@@ -61,7 +62,8 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       ts,
       referrer,
       locale,
-    } = JSON.parse(web3.utils.hexToUtf8(payload));
+    } = JSON.parse(message.substr(message.indexOf('{')));
+    // trims away sign message header before JSON
 
     // check address match
     if (from !== wallet || !Validate.checkAddressValid(wallet)) {

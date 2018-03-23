@@ -353,7 +353,7 @@ export default {
           email: this.email,
           locale: this.getCurrentLocale,
         };
-        const data = await User.formatAndSignUserInfo(userInfo);
+        const data = await User.formatAndSignUserInfo(userInfo, this.$t('Sign.Message.editUser'));
         await this.newUser(data);
         this.$refs.inputDialog.showDialog = false;
         this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${this.user}">${this.$t('Register.form.label.viewPage')}</a>`);

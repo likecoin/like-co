@@ -518,7 +518,7 @@ export default {
         wallet: this.wallet,
         email: this.email,
       };
-      const data = await User.formatAndSignUserInfo(userInfo);
+      const data = await User.formatAndSignUserInfo(userInfo, this.$t('Sign.Message.signKYC'));
       return this.newUser(data);
     },
     async updateKYC() {
