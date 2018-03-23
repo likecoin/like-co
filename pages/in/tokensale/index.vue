@@ -72,12 +72,9 @@
                     <li>
                       <div>
                         <span class="label">{{ $t('TokenSale.label.token') }}</span>
-                        <a
-                          class="value highlight"
-                          :href="LIKE_CONTRACT_ADDRESS"
-                          target="_blank">
+                        <span class="value highlight" >
                           LIKE
-                        </a>
+                        </span>
                       </div>
                     </li>
                     <li>
