@@ -45,13 +45,18 @@ class EthHelper {
   }
 
   async pollForWeb3() {
+    this.isInited = false;
+    if (this.pollingTimer) {
+      clearInterval(this.pollingTimer);
+      this.pollingTimer = null;
+    }
     if (typeof window.web3 !== 'undefined') {
       if (this.retryTimer) {
         clearTimeout(this.retryTimer);
         this.retryTimer = null;
       }
-      if (!this.web3 || this.isOnInfura) {
-        this.isOnInfura = false;
+      if (!this.web3 || this.web3Type !== 'window') {
+        this.web3Type = 'window';
         this.web3 = new Web3(window.web3.currentProvider);
       }
       const network = await this.web3.eth.net.getNetworkType();
@@ -59,17 +64,17 @@ class EthHelper {
       if (network === target) {
         if (this.retryCb) this.retryCb();
         this.startApp();
-        this.isMetaMask = true;
+        this.isInited = true;
       } else {
         if (this.errCb) this.errCb('testnet');
         this.retryTimer = setTimeout(() => this.pollForWeb3(), 3000);
       }
     } else {
       if (this.errCb) this.errCb('web3');
-      if (!this.isOnInfura) {
+      if (this.web3Type !== 'infura') {
         const provider = new Web3.providers.HttpProvider(INFURA_HOST);
         this.web3 = new Web3(provider);
-        this.isOnInfura = true;
+        this.web3Type = 'infura';
       }
       this.retryTimer = setTimeout(() => this.pollForWeb3(), 3000);
     }
@@ -91,7 +96,7 @@ class EthHelper {
           if (this.onWalletCb) this.onWalletCb(this.wallet);
           if (this.clearErrCb) this.clearErrCb();
         }
-      } else if (this.isMetaMask && this.errCb) {
+      } else if (this.isInited && this.errCb) {
         this.wallet = '';
         this.errCb('locked');
       }
@@ -303,7 +308,7 @@ class EthHelper {
   }
 
   async signTransferDelegated(to, value, maxReward) {
-    if (!this.isMetaMask) return Promise.reject(new Error('No MetaMask'));
+    if (!this.isInited) return Promise.reject(new Error('No web3'));
     if (this.onSign) this.onSign();
     const from = this.getWallet();
     const signData = await this.genTypedSignData(from, to, value, maxReward);
@@ -324,7 +329,7 @@ class EthHelper {
   }
 
   async sendTransaction(to, value) {
-    if (!this.isMetaMask) return Promise.reject(new Error('No MetaMask'));
+    if (!this.isInited) return Promise.reject(new Error('No web3'));
     if (this.onSign) this.onSign();
     const txEventEmitter = new Promise((resolve, reject) => {
       this.web3.eth.sendTransaction({
@@ -345,7 +350,7 @@ class EthHelper {
   }
 
   async signUserPayload(payload) {
-    if (!this.isMetaMask) return Promise.reject(new Error('No MetaMask'));
+    if (!this.isInited) return Promise.reject(new Error('No web3'));
     const from = this.getWallet();
     if (this.onSign) this.onSign();
     try {
