@@ -733,7 +733,7 @@ export default {
       display: flex;
       flex-wrap: wrap;
 
-      margin: -20px -12px;
+      margin: -20px -10px;
       padding: 0;
 
       list-style: none;
@@ -750,7 +750,7 @@ export default {
       > li {
         flex-shrink: 0;
 
-        margin: 20px 12px;
+        margin: 20px 10px;
 
         @media (max-width: 600px) {
           margin: 12px;
