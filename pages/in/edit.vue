@@ -122,16 +122,48 @@
       </div>
     </form>
 
-    <transaction-history
-      ref="txHistory"
-      :address="wallet"
-      :showTokensale="true"
-      />
+
+    <div class="transaction-history-container">
+      <section class="lc-container-1">
+        <div class="lc-container-header">
+          <div class="lc-container-2 lc-container-header-overlay">
+            <div class="lc-container-3" />
+          </div>
+          <div class="lc-container-3">
+            <div class="lc-container-4">
+              <div class="lc-container-header-title">
+                <h1>{{ $t('TransactionHistory.title') }}</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lc-container-3 lc-verticle-inset-5 transaction-history-wrapper">
+          <div class="lc-container-4">
+            <transaction-history
+              ref="txHistory"
+              :address="wallet"
+              :showTokensale="true"
+              />
+          </div>
+        </div>
+      </section>
+    </div>
 
     <div :class="isProfileEdit ? 'section-redeem-edit-mode' : ''" id="coupon">
-      <div class="section-title-wrapper">
-        <h2 class="title">{{ $t('Edit.label.redeemCoin') }}</h2>
+      <div class="lc-container-header">
+        <div class="lc-container-2 lc-container-header-overlay">
+          <div class="lc-container-3" />
+        </div>
+        <div class="lc-container-3">
+          <div class="lc-container-4">
+            <div class="lc-container-header-title">
+              <h1>{{ $t('Edit.label.redeemCoin') }}</h1>
+            </div>
+          </div>
+        </div>
       </div>
+
       <form id="redeemForm" v-on:submit.prevent="onSubmitCoupon">
         <md-field>
           <label class="input-redeem-hint">
@@ -464,6 +496,11 @@ $profile-icon-size: 128px;
 
   padding-bottom: 60px;
 
+  .lc-container-header-title {
+    margin: 0;
+    width: calc(66.66% - 88px);
+  }
+
   #editForm {
     position: relative;
 
@@ -722,11 +759,23 @@ $profile-icon-size: 128px;
   .section-title-wrapper {
     margin-left: 40px;
   }
+
+  .transaction-history-container {
+    margin-top: 56px;
+    .transaction-history-wrapper,
+    .lc-container-header-overlay {
+      background-color: $like-gray-1;
+    }
+  }
 }
 
 
 .section-redeem-edit-mode {
   opacity: .3;
+}
+
+#coupon {
+  margin-top: 56px;
 }
 
 #redeemForm {
