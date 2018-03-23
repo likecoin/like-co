@@ -1,9 +1,19 @@
 <template>
   <div class="referral-form-container" id="referral">
     <div :class="isProfileEdit ? 'section-redeem-edit-mode' : ''">
-      <div class="section-title-wrapper">
-        <h2 class="title">{{ $t('Edit.referral.title') }}</h2>
+      <div class="lc-container-header">
+        <div class="lc-container-2 lc-container-header-overlay">
+          <div class="lc-container-3" />
+        </div>
+        <div class="lc-container-3">
+          <div class="lc-container-4">
+            <div class="lc-container-header-title">
+              <h1>{{ $t('Edit.referral.title') }}</h1>
+            </div>
+          </div>
+        </div>
       </div>
+
       <div class="email-notice" v-if="!isEmailVerified">{{ $t('Edit.referral.verifyEmailFirst') }}</div>
       <form v-else id="referralForm" v-on:submit.prevent="onSendEmail">
 
@@ -188,12 +198,6 @@ export default {
   opacity: .3;
 }
 
-.edit-form-container {
-  .section-title-wrapper {
-    margin-left: 40px;
-  }
-}
-
 .email-notice {
   margin-top: -20px;
   padding: 40px 40px 32px;
@@ -202,6 +206,14 @@ export default {
   text-align: left;
   line-height: 1.5;
   font-size: 20px;
+}
+
+.referral-form-container {
+  margin-top: 56px;
+  .lc-container-header-title {
+    margin: 0;
+    width: calc(66.66% - 88px);
+  }
 }
 
 #referralForm {

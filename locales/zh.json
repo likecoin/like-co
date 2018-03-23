@@ -607,5 +607,33 @@
       "comicAuthor": "漫畫家",
       "multimediaDesigner": "多媒體設計師"
     }
+  },
+  "TransactionHistory": {
+    "title": "交易記錄",
+    "header": {
+      "status": "狀態",
+      "fromOrTo": "由/到",
+      "time": "時間",
+      "value": "價值"
+    },
+    "label": {
+      "in": "收入",
+      "out": "支出",
+      "fail": "失敗",
+      "tokensale": "代幣發售",
+      "earlybird": "早鳥發售",
+      "earlyBeliever": "支持者",
+      "timePending": "等待完成...",
+      "timeExpired": "逾期",
+      "coupon": "紅包",
+      "noRecord": "暫時沒有您的記錄。",
+      "to": "到",
+      "from": "由",
+      "unknown": "未知"
+    },
+    "button": {
+      "view": "查閱",
+      "showMore": "展示更多"
+    }
   }
 }
