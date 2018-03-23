@@ -20,6 +20,7 @@
         <md-button class="secondary md-primary md-raised" @click="refreshPage">
           {{ $t('Dialog.metamask.button.doneInstalled') }}
         </md-button>
+        <a href="#" @click.prevent="onLedger">ledger</a>
       </section>
       <section v-if="isNotSign" class="hw-wallet">
         <!-- Only support ledger for now -->
