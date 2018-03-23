@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { BasicTemplate } from './email-templates';
+import EmailTemplate from '@likecoin/likecoin-email-templates';
 
 const aws = require('aws-sdk');
 
@@ -19,12 +19,15 @@ export async function sendVerificationEmail(res, user, ref) {
         Data: res.__('Email.VerifiyEmail.subject'),
       },
       Body: {
-        Text: {
+        Html: {
           Charset: 'UTF-8',
-          Data: res.__('Email.VerifiyEmail.body', {
-            name: user.displayName,
-            uuid: user.verificationUUID,
-            ref,
+          Data: EmailTemplate.Basic({
+            title: res.__('Email.VerifiyEmail.subject'),
+            body: res.__('Email.VerifiyEmail.body', {
+              name: user.displayName,
+              uuid: user.verificationUUID,
+              ref,
+            }) + res.__('Email.signature'),
           }),
         },
       },
@@ -45,13 +48,16 @@ export async function sendVerificationWithCouponEmail(res, user, coupon, ref) {
         Data: res.__('Email.VerifiyAndCouponEmail.subject'),
       },
       Body: {
-        Text: {
+        Html: {
           Charset: 'UTF-8',
-          Data: res.__('Email.VerifiyAndCouponEmail.body', {
-            name: user.displayName,
-            uuid: user.verificationUUID,
-            coupon,
-            ref,
+          Data: EmailTemplate.Basic({
+            title: res.__('Email.VerifiyAndCouponEmail.subject'),
+            body: res.__('Email.VerifiyAndCouponEmail.body', {
+              name: user.displayName,
+              uuid: user.verificationUUID,
+              coupon,
+              ref,
+            }) + res.__('Email.signature'),
           }),
         },
       },
@@ -74,7 +80,7 @@ export async function sendPreSale(res, user, eth, base, bonus, txHash) {
       Body: {
         Html: {
           Charset: 'UTF-8',
-          Data: BasicTemplate({
+          Data: EmailTemplate.Basic({
             title: res.__('Email.preSaleEmail.subject'),
             body: res.__('Email.preSaleEmail.body', {
               name: user.displayName,
@@ -82,35 +88,8 @@ export async function sendPreSale(res, user, eth, base, bonus, txHash) {
               base,
               bonus,
               txHash,
-            }),
+            }) + res.__('Email.signature'),
           }),
-        },
-      },
-    },
-  };
-  return ses.sendEmail(params).promise();
-}
-
-export async function sendWelcomeEmail(user) {
-  const params = {
-    Source: 'noreply@like.co',
-    Destination: {
-      ToAddresses: [user.email],
-    },
-    Message: {
-      Subject: {
-        Data: 'Welcome to Likecoin Store',
-      },
-      Body: {
-        Text: {
-          Charset: 'UTF-8',
-          Data: `Hi ${user.displayName}!
-
-LikeCoin Foundation
-https://likecoin.foundation
-
-Thanks for joining the community.
-`,
         },
       },
     },

@@ -29,6 +29,7 @@
   "dependencies": {
     "@google-cloud/pubsub": "^0.17.0",
     "@likecoin/ethereum-blockies": "^0.1.1",
+    "@likecoin/likecoin-email-templates": "^1.0.0",
     "@likecoin/vue-image-lightbox": "^5.5.3",
     "@nuxtjs/google-analytics": "^2.0.2",
     "@nuxtjs/google-tag-manager": "^1.1.0",
