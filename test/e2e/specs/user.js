@@ -15,14 +15,15 @@ module.exports = {
       .url(devServer)
       .click('.lc-container-3 button.account-btn')
       .waitForElementVisible('#registerForm', 2000)
-      .pause(5000)
+      .pause(2000)
       .setValue('#registerForm input[type=text][required=required]', 'testacct')
       .submitForm('#registerForm')
-      .pause(1000)
+      .pause(2000)
       .windowHandles(function func(res) {
         const metamaskPopup = res.value[1];
         this.switchWindow(metamaskPopup);
       })
+      .pause(1000)
       .verify.title('MetaMask Notification')
       .click('#app-content button:nth-child(2)')
       .pause(1000)
@@ -53,15 +54,15 @@ module.exports = {
       .setValue('#editForm .input-display-name', inputSequence)
       .pause(2000)
       .click('#edit-confirm-btn')
-      .pause(1000)
+      .pause(2000)
       .windowHandles(function func(res) {
         const metamaskPopup = res.value[1];
         this.switchWindow(metamaskPopup);
       })
-      .pause(3000)
+      .pause(1000)
       .verify.title('MetaMask Notification')
       .click('#app-content button:nth-child(2)')
-      .pause(1000)
+      .pause(2000)
       .windowHandles(function func(res) {
         const originalWindow = res.value[0];
         this.switchWindow(originalWindow);
