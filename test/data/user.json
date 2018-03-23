@@ -4,14 +4,22 @@
             "id": "testing",
             "displayName": "testing",
             "email": "testing@likecoin.store",
-            "wallet": "0x4b25758E41f9240C8EB8831cEc7F1a02686387fa"
+            "wallet": "0x4b25758E41f9240C8EB8831cEc7F1a02686387fa",
+            "collection": {
+                "referrals": [
+                ]
+            }
         },
         {
             "id": "testuser",
             "displayName": "testuser",
             "email": "testuser@likecoin.store",
             "wallet": "0x76ECdE1CC1D2D87D7f20c2C6EAe7529a7379920c",
-            "verificationUUID": "00000000-0000-0000-0000-000000000000"
+            "verificationUUID": "00000000-0000-0000-0000-000000000000",
+            "collection": {
+                "referrals": [
+                ]
+            }
         }
     ]
 }
