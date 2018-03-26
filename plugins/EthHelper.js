@@ -16,6 +16,9 @@ export default ({ store }) => {
       store.dispatch('setLocalWallet', wallet);
       store.dispatch('isUser', wallet);
     },
+    onSetWeb3: (type) => {
+      store.dispatch('setWeb3Type', type);
+    },
     onSign: () => {
       store.dispatch('setMetamaskError', 'sign');
     },

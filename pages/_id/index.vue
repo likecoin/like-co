@@ -40,14 +40,17 @@
                 <p><a href="#" @click="showLoginWindow">{{ $t('Home.Header.button.signIn') }}</a></p>
               </div>
 
-              <md-button v-else
-                id="payment-confirm"
-                class="md-raised md-primary likecoin"
-                type="submit"
-                form="paymentInfo"
-                :disabled="getIsInTransaction || (!getLocalWallet)">
-                {{ $t('General.button.confirm') }}
-              </md-button>
+              <div v-else>
+                <p v-if="!isSupportTransferDeleteaged">{{ $t('Transaction.error.notSupported') }}</p>
+                <material-button
+                  id="payment-confirm"
+                  class="md-raised md-primary likecoin"
+                  type="submit"
+                  form="paymentInfo"
+                  :disabled="getIsInTransaction || !isSupportTransferDeleteaged ||  (!getLocalWallet)">
+                  {{ $t('General.button.confirm') }}
+                </material-button>
+              </div>
 
             </div>
           </div>
@@ -107,6 +110,7 @@ export default {
       EthIcon,
       isBadAddress: false,
       isBadAmount: false,
+      isSupportTransferDeleteaged: true,
     };
   },
   asyncData({ params, redirect, error }) {
@@ -167,6 +171,7 @@ export default {
       'getLocalWallet',
       'getUserIsRegistered',
       'getMetamaskError',
+      'getWeb3Type',
       'getIsShowingTxPopup',
       'getPendingTxInfo',
     ]),
@@ -253,24 +258,30 @@ export default {
       this.amount = value;
     },
   },
+  watch: {
+    getWeb3Type() {
+      this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 @import "~assets/index";
 
+p {
+  max-width: 422px;
+  margin: auto;
+
+  text-align: center;
+
+  color: $like-gray-4;
+}
+
 .create-account-wrapper {
   text-align: center;
   background-color: transparent;
 
-  p {
-    max-width: 422px;
-    margin: auto;
-
-    text-align: center;
-
-    color: $like-gray-4;
-  }
   .md-button {
     width: 256px;
     margin-top: 32px;

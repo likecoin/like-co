@@ -51,6 +51,7 @@ class EthHelper {
     clearErrCb,
     retryCb,
     onWalletCb,
+    onSetWeb3,
     onSign,
     onSigned,
   }) {
@@ -59,6 +60,7 @@ class EthHelper {
     this.clearErrCb = clearErrCb;
     this.retryCb = retryCb;
     this.onWalletCb = onWalletCb;
+    this.onSetWeb3 = onSetWeb3;
     this.onSign = onSign;
     this.onSigned = onSigned;
     this.pollForWeb3();
@@ -77,9 +79,9 @@ class EthHelper {
     if (initType || typeof window.web3 !== 'undefined') {
       if (initType === 'ledger' && this.web3Type !== 'ledger') {
         this.web3 = createLedgerWeb3(IS_TESTNET ? 4 : 1);
-        this.web3Type = 'ledger';
+        this.setWeb3Type('ledger');
       } else if (!this.web3 || this.web3Type !== 'window') {
-        this.web3Type = 'window';
+        this.setWeb3Type('window');
         this.web3 = new Web3(window.web3.currentProvider);
       }
       const network = await this.web3.eth.net.getNetworkType();
@@ -97,7 +99,7 @@ class EthHelper {
       if (this.web3Type !== 'infura') {
         const provider = new Web3.providers.HttpProvider(INFURA_HOST);
         this.web3 = new Web3(provider);
-        this.web3Type = 'infura';
+        this.setWeb3Type('infura');
       }
       this.retryTimer = setTimeout(() => this.pollForWeb3(initType), 3000);
     }
@@ -142,6 +144,11 @@ class EthHelper {
 
   utf8ToHex(data) {
     return this.web3.utils.utf8ToHex(data);
+  }
+
+  setWeb3Type(type) {
+    this.web3Type = type;
+    if (this.onSetWeb3) this.onSetWeb3(type);
   }
 
   getWallet() {
