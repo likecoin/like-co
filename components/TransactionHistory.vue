@@ -137,7 +137,9 @@ export default {
   },
   computed: {
     filteredHistory() {
-      return this.txHistory.filter(t => (t.type !== 'logRegisterKYC'));
+      return this.txHistory
+        .filter(t => (t.type !== 'logRegisterKYC'))
+        .filter(t => (t.type !== 'transferETH'));
     },
   },
   methods: {
