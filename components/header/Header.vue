@@ -16,8 +16,8 @@
       <material-button
         className="account-btn"
         :hasShadow="true"
-        @click="$router.push({ name: getUserIsRegistered ? 'edit' : 'register' })">
-        {{ getUserIsRegistered ? getUserInfo.user : $t('Home.Header.button.signUp') }}
+        @click="onSignUpClick">
+        {{ getButtonText }}
       </material-button>
     </div>
   </div>
@@ -25,7 +25,7 @@
 
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 import { IS_TESTNET } from '@/constant';
 import LanguageSwitch from '~/components/LanguageSwitch';
@@ -34,6 +34,7 @@ import PlatformIconBar from '~/components/PlatformIconBar';
 
 export default {
   name: 'site-header',
+  props: ['showLogin'],
   components: {
     LanguageSwitch,
     MaterialButton,
@@ -45,10 +46,26 @@ export default {
     };
   },
   computed: {
+    getButtonText() {
+      if (this.getUserIsRegistered) return this.getUserInfo.user;
+      return this.$t(this.showLogin ? 'Home.Header.button.signIn' : 'Home.Header.button.signUp');
+    },
     ...mapGetters([
       'getUserInfo',
       'getUserIsRegistered',
     ]),
+  },
+  methods: {
+    ...mapActions([
+      'showLoginWindow',
+    ]),
+    onSignUpClick() {
+      if (this.showLogin) {
+        this.showLoginWindow();
+      } else {
+        this.$router.push({ name: this.getUserIsRegistered ? 'edit' : 'register' });
+      }
+    },
   },
 };
 </script>

@@ -15,6 +15,7 @@ import {
   UI_STOP_BLOCKING_LOADING,
   UI_STOP_ALL_LOADING,
   UI_CLOSE_TX_DIALOG,
+  UI_LOGIN_OVERRIDE,
   UI_HEADER_UPDATE,
   UI_SET_TX_DIALOG_ACTION,
 } from '../mutation-types';
@@ -36,6 +37,7 @@ const state = {
   isLoading: false,
   isBlocking: false,
   isShowingTxPopup: false,
+  isLoginOverride: false,
   txDialogActionRoute: null,
   txDialogActionText: '',
 };
@@ -94,6 +96,9 @@ const mutations = {
   },
   [UI_CLOSE_TX_DIALOG](state) {
     state.isShowingTxPopup = false;
+  },
+  [UI_LOGIN_OVERRIDE](state, bool) {
+    state.isLoginOverride = bool;
   },
   [UI_HEADER_UPDATE](state, payload) {
     const {

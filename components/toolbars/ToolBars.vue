@@ -69,6 +69,7 @@ export default {
     ...mapGetters([
       'getInfoIsError',
       'getInfoMsg',
+      'getIsLoginOverride',
       'getPopupError',
       'getPopupInfo',
       'getIsLoading',
@@ -90,6 +91,7 @@ export default {
       'closeInfoToolbar',
     ]),
     checkShouldShowError(err) {
+      if (this.getIsLoginOverride) return true;
       if (this.disableError === true) return false;
       if (this.disableError === err) return false;
       if (Array.isArray(this.disableError)) return !this.disableError.includes(err);
