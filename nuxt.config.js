@@ -7,14 +7,14 @@ module.exports = {
     IS_TESTNET: process.env.IS_TESTNET,
   },
   head: {
-    title: 'LikeCoin Store',
+    title: 'LikeCoin',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: 'send and receive LikeCoin' },
-      { hid: 'og_title', property: 'og:title', content: 'LikeCoin Store' },
+      { hid: 'og_title', property: 'og:title', content: 'LikeCoin' },
       { hid: 'og_description', property: 'og:description', content: 'send and receive LikeCoin' },
-      { hid: 'og_image', property: 'og:image', content: 'https://likecoin.store/logo.png' },
+      { hid: 'og_image', property: 'og:image', content: 'https://like.co/logo.png' },
       { hid: 'og_image_alt', property: 'og:image:alt', content: 'LikeCoin' },
       { hid: 'theme-color', name: 'theme-color', content: '#D2F0F0' },
     ],
