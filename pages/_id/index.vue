@@ -272,18 +272,19 @@ export default {
 <style lang="scss" scoped>
 @import "~assets/index";
 
+p {
+  max-width: 422px;
+  margin: auto;
+
+  text-align: center;
+
+  color: $like-gray-4;
+}
+
 .create-account-wrapper {
   text-align: center;
   background-color: transparent;
 
-  p {
-    max-width: 422px;
-    margin: auto;
-
-    text-align: center;
-
-    color: $like-gray-4;
-  }
   .md-button {
     width: 256px;
     margin-top: 32px;
