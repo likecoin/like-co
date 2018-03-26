@@ -45,7 +45,7 @@
       "title": {
         "earlyBirdTokenSale": "早鳥代幣發售",
         "publicTokenSale": "公開代幣發售",
-        "secure25Percent": "立即行動可享額外25%奬勵",
+        "secure25Percent": "立即行動可享額外25%獎勵",
         "nowLive": "現正進行"
       },
       "label": {
@@ -501,14 +501,14 @@
     "label": {
       "prepareToJoin": "準備加入代幣發售",
       "publicSaleStartIn": "公開發售於:",
-      "preSaleEndIn": "額外25%奬勵完結於:",
-      "preSaleBonus": "額外25%奬勵",
+      "preSaleEndIn": "額外25%獎勵完結於:",
+      "preSaleBonus": "額外25%獎勵",
       "preSaleBonusCondition": "購買 10 ETH 以上即可享有",
       "joinPreSale": "立刻參與早鳥優惠",
       "token": "代幣",
       "exchangeRate": "兌換率",
       "supply": "供應量",
-      "preSaleDescription0": "購買 {base} LikeCoin + 額外 {bonus} LikeCoin 奬勵.",
+      "preSaleDescription0": "購買 {base} LikeCoin + 額外 {bonus} LikeCoin 獎勵.",
       "preSaleDescription1": "早鳥 LikeCoin 將會在公開發售開始後發送至你的錢包.",
       "whatIsETH": "甚麼是 ETH ?",
       "bonusAndLimitedOffer": "限時 25% 額外獎賞",
