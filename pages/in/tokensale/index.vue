@@ -618,6 +618,10 @@ export default {
       width: 256px;
       margin-top: 32px;
     }
+    a {
+      color: $like-gray-4;
+      text-decoration: underline;
+    }
   }
 }
 
