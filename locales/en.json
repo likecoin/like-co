@@ -409,7 +409,8 @@
       },
       "error": {
         "alphanumeric": "Please enter at least 7 alphanumeric characters",
-        "addressFormat": "Invalid address format"
+        "addressFormat": "Invalid address format",
+        "emailFormat": "Please enter a valid email address without + character"
       }
     }
   },
