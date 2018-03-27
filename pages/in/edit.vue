@@ -158,42 +158,53 @@
     </div>
 
     <div :class="isProfileEdit ? 'section-redeem-edit-mode' : ''" id="coupon">
-      <div class="lc-container-header">
-        <div class="lc-container-2 lc-container-header-overlay">
-          <div class="lc-container-3" />
-        </div>
-        <div class="lc-container-3">
-          <div class="lc-container-4">
-            <div class="lc-container-header-title">
-              <h1>{{ $t('Edit.label.redeemCoin') }}</h1>
+      <section class="lc-container-1">
+        <div class="lc-container-header">
+          <div class="lc-container-2 lc-container-header-overlay">
+            <div class="lc-container-3">
+              <div class="lc-container-4" />
+            </div>
+          </div>
+          <div class="lc-container-2">
+            <div class="lc-container-3">
+              <div class="lc-container-4">
+                <div class="lc-container-header-title">
+                  <h1>{{ $t('Edit.label.redeemCoin') }}</h1>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <form id="redeemForm" v-on:submit.prevent="onSubmitCoupon">
-        <md-field>
-          <label class="input-redeem-hint">
-            {{ $t('Edit.label.redeemCode') }}
-          </label>
-          <md-input
-            v-model="couponCode"
-            :title="$t('Edit.label.validCodeRequired')"
-            pattern="[2-9A-HJ-NP-Za-km-z]{8}"
-            required
-            :disabled="isProfileEdit" />
-        </md-field>
-        <div v-if="!isProfileEdit" id="form-btn">
-          <md-button
-            class="md-raised md-primary"
-            id="confirm-btn"
-            type="submit"
-            form="redeemForm"
-            :disabled="getIsInTransaction">
-            {{ $t('General.button.confirm') }}
-          </md-button>
+        <div class="lc-container-2">
+          <div class="lc-container-3 lc-padding-vertical-32 section-content">
+            <div class="lc-container-4">
+              <form id="redeemForm" v-on:submit.prevent="onSubmitCoupon">
+                <md-field>
+                  <label class="input-redeem-hint">
+                    {{ $t('Edit.label.redeemCode') }}
+                  </label>
+                  <md-input
+                    v-model="couponCode"
+                    :title="$t('Edit.label.validCodeRequired')"
+                    pattern="[2-9A-HJ-NP-Za-km-z]{8}"
+                    required
+                    :disabled="isProfileEdit" />
+                </md-field>
+                <div v-if="!isProfileEdit" id="form-btn" class="lc-padding-top-48">
+                  <material-button
+                    id="confirm-btn"
+                    type="submit"
+                    form="redeemForm"
+                    :disabled="getIsInTransaction">
+                    {{ $t('General.button.confirm') }}
+                  </material-button>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
-      </form>
+      </section>
       <claim-dialog ref="claimDialog" :couponCode="couponCode" :wallet="wallet" />
     </div>
 
@@ -211,19 +222,22 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
 
 import EthHelper from '@/util/EthHelper';
 import User from '@/util/User';
 import { logTrackerEvent } from '@/util/EventLogger';
-import LikeCoinAmount from '~/components/LikeCoinAmount';
-import ReferralAction from '~/components/ReferralAction';
+
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import InputDialog from '~/components/dialogs/InputDialog';
+import LikeCoinAmount from '~/components/LikeCoinAmount';
+import MaterialButton from '~/components/MaterialButton';
+import ReferralAction from '~/components/ReferralAction';
 import TransactionHistory from '~/components/TransactionHistory';
 import ViewEtherscan from '~/components/ViewEtherscan';
+
 import { ONE_LIKE } from '@/constant';
-import { mapActions, mapGetters } from 'vuex';
 
 import EditIcon from '@/assets/icons/edit.svg';
 import EditWhiteIcon from '@/assets/icons/edit-white.svg';
@@ -252,10 +266,11 @@ export default {
     };
   },
   components: {
-    LikeCoinAmount,
-    ReferralAction,
     ClaimDialog,
     InputDialog,
+    LikeCoinAmount,
+    MaterialButton,
+    ReferralAction,
     TransactionHistory,
     ViewEtherscan,
   },
@@ -782,32 +797,28 @@ $profile-icon-size: 128px;
 
 #coupon {
   margin-top: 56px;
-}
 
-#redeemForm {
-  margin-top: -20px;
-  padding: 40px 40px 32px;
-
-  background-color: $like-gray-1;
-
-  .input-redeem-hint {
-    font-size: 20px;
-  }
-
-  #form-btn {
-    text-align: right;
-
-    .md-button {
-      margin: 24px 0;
+  #redeemForm {
+    :not(.md-focused) .input-redeem-hint {
+      font-size: 20px;
     }
 
-    #confirm-btn {
-      width: calc(33.33% - 16px);
-      height: 40px;
+    #form-btn {
+      text-align: center;
+      #confirm-btn {
+        background-color: $like-green;
+        font-size: 24px;
+        width: 256px;
+        height: 40px;
+      }
 
-      background-color: $like-green;
+      @media (min-width: 601px) {
+        text-align: right;
 
-      font-size: 24px;
+        #confirm-btn {
+          width: calc(33.33% - 16px);
+        }
+      }
     }
   }
 }
