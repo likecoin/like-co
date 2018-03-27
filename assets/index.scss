@@ -283,6 +283,26 @@ $font-size-list: 10 12 14 16 18 20 24 32 38 42 56;
   }
 }
 
+$font-weight-list: 300 400 600;
+
+@each $i in $font-weight-list {
+  .lc-font-weight-#{$i} {
+    font-weight: $i;
+  }
+}
+
+.lc-text-align- {
+  &left {
+    text-align: left;
+  }
+  &center {
+    text-align: center;
+  }
+  &right {
+    text-align: right;
+  }
+}
+
 
 .lc-container-3-extend-bg {
   position: absolute;
