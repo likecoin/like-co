@@ -226,9 +226,35 @@ html, body {
   }
 }
 
-$padding-list: 0 4 8 16 24 32;
+$spacing-list: 0 4 8 12 16 24 32;
 
-@each $i in $padding-list {
+@each $i in $spacing-list {
+  .lc-margin-vertical-#{$i},
+  .lc-margin-top-#{$i} {
+    margin-top: $i * 1px;
+
+    @if $i > 12 {
+      &.lc-mobile {
+        @media (max-width: 600px) {
+          margin-top: $i / 2 * 1px + 4px;
+        }
+      }
+    }
+  }
+
+  .lc-margin-vertical-#{$i},
+  .lc-margin-bottom-#{$i} {
+    margin-bottom: $i * 1px;
+
+    @if $i > 12 {
+      &.lc-mobile {
+        @media (max-width: 600px) {
+          margin-bottom: $i / 2 * 1px + 4px;
+        }
+      }
+    }
+  }
+
   .lc-padding-vertical-#{$i},
   .lc-padding-top-#{$i} {
     padding-top: $i * 1px;
@@ -254,6 +280,16 @@ $padding-list: 0 4 8 16 24 32;
       }
     }
   }
+}
+
+.lc-margin-vertical-0-mobile,
+.lc-margin-top-0-mobile {
+  margin-top: 0;
+}
+
+.lc-margin-vertical-0-mobile,
+.lc-margin-bottom-0-mobile {
+  margin-bottom: 0;
 }
 
 .lc-padding-vertical-0-mobile,
