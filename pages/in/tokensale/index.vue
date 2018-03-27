@@ -527,6 +527,7 @@ export default {
     },
     handleAmountChange(value) {
       this.displayAmount = value;
+      this.amount = value.toString();
       if (!this.displayAmount) {
         this.preSaleBase = '0';
         return;
