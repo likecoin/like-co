@@ -3,6 +3,7 @@
 import {
   UI_SET_LOCALE,
   UI_SET_METAMASK_ERROR,
+  UI_SET_WEB3_TYPE,
   UI_INFO_MSG,
   UI_ERROR_MSG,
   UI_POPUP_ERR,
@@ -25,6 +26,7 @@ import * as actions from './actions/ui';
 const state = {
   locale: 'en',
   metamaskError: '',
+  web3Type: 'window',
   infoIsError: false,
   infoMsg: '',
   popupError: '',
@@ -51,6 +53,9 @@ const mutations = {
   },
   [UI_SET_METAMASK_ERROR](state, err) {
     state.metamaskError = err;
+  },
+  [UI_SET_WEB3_TYPE](state, type) {
+    state.web3Type = type;
   },
   [UI_INFO_MSG](state, msg) {
     state.infoMsg = msg;

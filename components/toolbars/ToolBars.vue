@@ -1,22 +1,21 @@
 <template>
-  <div class="toolbars">
+  <no-ssr>
+    <div class="toolbars">
     <popup-dialog v-if="checkShouldShowError(getPopupError)" :allowClose="false" header="Error" :message="getPopupError" />
     <popup-dialog :allowClose="true" header="Info" :message="getPopupInfo"/>
-    <no-ssr v-if="checkShouldShowError(getMetamaskError)">
+    <div v-if="checkShouldShowError(getMetamaskError)">
       <chrome-dialog v-if="showShowChromeDialog" :show="showShowChromeDialog"/>
-      <metamask-dialog v-else-if="!!getMetamaskError" :case="getMetamaskError"/>
-    </no-ssr>
-    <no-ssr><blocker-dialog :show="getIsPopupBlocking"/></no-ssr>
-    <no-ssr>
-      <tx-dialog
-        :show="getIsShowingTxPopup"
-        :txId="getPendingTx"
-        :txInfo="getPendingTxInfo"
-        :isNewUser="!getUserIsRegistered"
-        :txDialogActionRoute="getTxDialogActionRoute"
-        :txDialogActionText="getTxDialogActionText"
-        @onClose="closeTxDialog" />
-    </no-ssr>
+      <metamask-dialog v-else-if="!!getMetamaskError" :case="getMetamaskError" :webThreeType="getWeb3Type"/>
+    </div>
+    <blocker-dialog :show="getIsPopupBlocking"/>
+    <tx-dialog
+      :show="getIsShowingTxPopup"
+      :txId="getPendingTx"
+      :txInfo="getPendingTxInfo"
+      :isNewUser="!getUserIsRegistered"
+      :txDialogActionRoute="getTxDialogActionRoute"
+      :txDialogActionText="getTxDialogActionText"
+      @onClose="closeTxDialog" />
     <loading-toolbar :isLoading="getIsLoading" :isInTransaction="getIsInTransaction"/>
     <tx-toolbar
       v-if="getPendingTx"
@@ -36,7 +35,8 @@
         {{ $t('Edit.label.redeemCoin') }}
       </nuxt-link>
     </info-toolbar>
-  </div>
+    </div>
+  </no-ssr>
 </template>
 <script>
 import InfoToolbar from '~/components/toolbars/InfoToolbar';
@@ -79,6 +79,7 @@ export default {
       'getUserIsRegistered',
       'getPendingTx',
       'getMetamaskError',
+      'getWeb3Type',
       'getTxDialogActionRoute',
       'getTxDialogActionText',
       'getPendingTxInfo',

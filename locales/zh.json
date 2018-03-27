@@ -324,7 +324,12 @@
         "switchMain": "like.co 需要使用正式網絡，請切換至 Mainnet。",
         "web3": "like.co 需要 MetaMask 用作登入。請使用 Chrome 瀏覽器以安裝 MetaMask 插件.<br /> <span style='color:red'>請記錄好 MetaMask 的 seed words。<span>",
         "locked": "like.co 需要讀取 MetaMask ，請登入 MetaMask",
-        "sign": "請在 Metamask 按 [Sign]"
+        "sign": "請在 Metamask 按 [Sign]",
+        "signledger": "請在 Ledger 按[確認]按鈕"
+      },
+      "label": {
+        "hardwareWallet": "... 或連接你的硬體錢包",
+        "ledger": "連接你的 Ledger"
       }
     },
     "chrome": {
@@ -485,6 +490,7 @@
       "description": "回饋創作 - 發 LikeCoin 給 {name}"
     },
     "error": {
+      "notSupported": "你的錢包不支援這個功能",
       "ethInsufficient": "錢包內的 ETH 數量不足",
       "likecoinInsufficient": "錢包內的 LikeCoin 數量不足",
       "sameUser": "不能轉賬給自己"
