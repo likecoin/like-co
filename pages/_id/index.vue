@@ -263,6 +263,9 @@ export default {
       this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
     },
   },
+  mounted() {
+    this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
+  },
 };
 </script>
 

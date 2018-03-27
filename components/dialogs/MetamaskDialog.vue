@@ -3,7 +3,7 @@
     :md-close-on-esc="false"
     :md-click-outside-to-close="false"
     :md-fullscreen="false">
-    <img v-if="isMetamask" class="foxy" :src="icon" />
+    <img class="foxy" :src="icon" />
     <div class="title-bar" />
     <div class="dialog-content">
       <md-dialog-title>
@@ -38,6 +38,7 @@ import { IS_TESTNET } from '@/constant';
 import { logTrackerEvent } from '@/util/EventLogger';
 import EthHelper from '@/util/EthHelper';
 import metamaskIcon from '@/assets/icons/metamask.svg';
+import ledgerIcon from '@/assets/icons/ledger.svg';
 import metamaskNetImg from '@/assets/img/meta_net.png';
 import metamaskTestNetImg from '@/assets/img/meta_testnet.png';
 import metamaskUnlockImg from '@/assets/img/meta_unlock.png';
@@ -47,12 +48,15 @@ export default {
   props: ['case', 'webThreeType'],
   data() {
     return {
-      icon: metamaskIcon,
       metamaskNetImg: IS_TESTNET ? metamaskTestNetImg : metamaskNetImg,
       isHardware: false,
     };
   },
   computed: {
+    icon() {
+      if (this.webThreeType === 'ledger') return ledgerIcon;
+      return metamaskIcon;
+    },
     isInstallMetamask() {
       return this.case === 'web3';
     },
@@ -62,6 +66,9 @@ export default {
     title() {
       if (this.case === 'testnet') {
         return this.$t(`Dialog.metamask.title.switch${IS_TESTNET ? 'Rinkeby' : 'Main'}`);
+      }
+      if (this.case === 'sign' && !this.isMetamask) {
+        return this.$t(`Dialog.metamask.title.${this.case}${this.webThreeType}`);
       }
       return this.$t(`Dialog.metamask.title.${this.case}`);
     },
