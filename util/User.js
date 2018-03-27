@@ -39,7 +39,7 @@ const User = {
     return data;
   },
 
-  async formatAndSignKYC(userInfo) {
+  async formatAndSignKYC(userInfo, signMessage) {
     const {
       user,
       wallet,
@@ -63,7 +63,7 @@ const User = {
       const buf = await FileHelper.blobToArrayBuffer(documentFile1);
       document1SHA256 = await FileHelper.arrayBufferToSha256(buf);
     }
-    const payload = JSON.stringify({
+    let payload = JSON.stringify({
       user,
       ts,
       notPRC,
@@ -75,6 +75,7 @@ const User = {
       document0SHA256,
       document1SHA256,
     }, null, 2);
+    if (signMessage) payload = [`${signMessage}:`, payload].join('\n');
     const sign = await EthHelper.signUserPayload(payload);
     const data = {
       payload: EthHelper.utf8ToHex(payload),
