@@ -2,7 +2,9 @@ import { Router } from 'express';
 
 import {
   KYC_STATUS_ENUM,
+  PUBSUB_TOPIC_MISC,
 } from '../../constant';
+import publisher from '../util/gcloudPub';
 
 import stripe from '../util/stripe';
 
@@ -28,7 +30,12 @@ router.post('/iap/purchase/:productId', async (req, res) => {
     if (!userDoc.exists) throw new Error('Invalid user');
     if (!productDoc.exists) throw new Error('Invalid product');
 
-    const { amount, description, statementDescriptor } = productDoc.data();
+    const {
+      name,
+      amount,
+      description,
+      statementDescriptor,
+    } = productDoc.data();
     if (!amount) throw new Error('Product not available for now');
 
     const userData = userDoc.data();
@@ -45,6 +52,8 @@ router.post('/iap/purchase/:productId', async (req, res) => {
         user,
         wallet,
         email,
+        name,
+        description,
         productId,
       },
       receipt_email: email,
@@ -54,11 +63,25 @@ router.post('/iap/purchase/:productId', async (req, res) => {
     await userRef.collection('Stripe').doc(charge.id).set({
       chargeId: charge.id,
       amount,
+      name,
       description,
       statement_descriptor: statementDescriptor || description,
       productId,
       ts: Date.now(),
     }, { merge: true });
+
+    publisher.publish(PUBSUB_TOPIC_MISC, req, {
+      logType: 'eventStripePurchase',
+      user,
+      email,
+      wallet,
+      chargeId: charge.id,
+      currency: 'usd',
+      amount,
+      productName: name,
+      description,
+      productId,
+    });
 
     res.json({ product: productDoc.data(), chargeId: charge.id });
   } catch (err) {
