@@ -229,7 +229,6 @@
                   v-on:submit.prevent="onSubmit">
                   <input v-model="wallet" hidden required disabled />
                   <div class="lc-padding-bottom-24 lc-mobile">
-                    <checkoutForm />
                     <number-input
                       currencyTitle="ETH"
                       :amount="displayAmount"
@@ -283,7 +282,6 @@ import MaterialButton from '~/components/MaterialButton';
 import TokenSaleProgress from '~/components/TokenSaleProgress';
 import PopupDialog from '~/components/dialogs/PopupDialog';
 import KYCForm from '~/components/KYCForm';
-import checkoutForm from '~/components/checkoutForm';
 
 import AddIcon from '@/assets/icons/add.svg';
 import EthIcon from '@/assets/tokensale/eth.svg';
@@ -315,7 +313,6 @@ export default {
     'tokensale-progress': TokenSaleProgress,
     PopupDialog,
     KYCForm,
-    checkoutForm,
   },
   data() {
     return {
