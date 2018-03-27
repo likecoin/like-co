@@ -128,24 +128,30 @@
       <section class="lc-container-1">
         <div class="lc-container-header">
           <div class="lc-container-2 lc-container-header-overlay">
-            <div class="lc-container-3" />
+            <div class="lc-container-3">
+              <div class="lc-container-4" />
+            </div>
           </div>
-          <div class="lc-container-3">
-            <div class="lc-container-4">
-              <div class="lc-container-header-title">
-                <h1>{{ $t('TransactionHistory.title') }}</h1>
+          <div class="lc-container-2">
+            <div class="lc-container-3">
+              <div class="lc-container-4">
+                <div class="lc-container-header-title">
+                  <h1>{{ $t('TransactionHistory.title') }}</h1>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="lc-container-3 lc-verticle-inset-5 transaction-history-wrapper">
-          <div class="lc-container-4">
-            <transaction-history
-              ref="txHistory"
-              :address="wallet"
-              :showTokensale="true"
-              />
+        <div class="lc-container-2">
+          <div class="lc-container-3 lc-padding-vertical-32 section-content">
+            <div class="lc-container-4">
+              <transaction-history
+                ref="txHistory"
+                :address="wallet"
+                :showTokensale="true"
+                />
+            </div>
           </div>
         </div>
       </section>
@@ -224,7 +230,7 @@ import EditWhiteIcon from '@/assets/icons/edit-white.svg';
 
 export default {
   name: 'Edit',
-  layout: 'baseWithBackground',
+  layout: 'defaultWithHeader',
   data() {
     return {
       avatarFile: null,
@@ -499,7 +505,10 @@ $profile-icon-size: 128px;
 
   .lc-container-header-title {
     margin: 0;
-    width: calc(66.66% - 88px);
+
+    @media (min-width: 769px) {
+      width: calc(66.66% - 88px);
+    }
   }
 
   #editForm {
@@ -757,19 +766,15 @@ $profile-icon-size: 128px;
     }
   }
 
-  .section-title-wrapper {
-    margin-left: 40px;
-  }
-
   .transaction-history-container {
     margin-top: 56px;
-    .transaction-history-wrapper,
-    .lc-container-header-overlay {
-      background-color: $like-gray-1;
-    }
   }
 }
 
+.section-content,
+.lc-container-header-overlay > .lc-container-3 {
+  background-color: $like-gray-1;
+}
 
 .section-redeem-edit-mode {
   opacity: .3;
