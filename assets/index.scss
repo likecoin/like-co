@@ -218,7 +218,7 @@ html, body {
   }
 }
 
-/* Deprecated. Please use `.lc-padding-*` */
+/* Deprecated. Please use `.lc-padding-vertical-*` */
 @for $i from 1 through 5 {
   .lc-verticle-inset-#{$i} {
     padding-top: pow(2, $i) * 1px;
@@ -229,7 +229,7 @@ html, body {
 $padding-list: 0 4 8 16 24 32;
 
 @each $i in $padding-list {
-  .lc-padding-#{$i},
+  .lc-padding-vertical-#{$i},
   .lc-padding-top-#{$i} {
     padding-top: $i * 1px;
 
@@ -242,7 +242,7 @@ $padding-list: 0 4 8 16 24 32;
     }
   }
 
-  .lc-padding-#{$i},
+  .lc-padding-vertical-#{$i},
   .lc-padding-bottom-#{$i} {
     padding-bottom: $i * 1px;
 
@@ -254,6 +254,16 @@ $padding-list: 0 4 8 16 24 32;
       }
     }
   }
+}
+
+.lc-padding-vertical-0-mobile,
+.lc-padding-top-0-mobile {
+  padding-top: 0;
+}
+
+.lc-padding-vertical-0-mobile,
+.lc-padding-bottom-0-mobile {
+  padding-bottom: 0;
 }
 
 $font-size-list: 10 12 14 16 18 20 24 32 38 42 56;
