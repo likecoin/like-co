@@ -156,6 +156,10 @@ class EthHelper {
   }
 
   getIsSupportTransferDelegated() {
+    /* Trust not support Bignumber yet */
+    if (this.web3Type === 'window' && window.web3 && window.web3.currentProvider.isTrust) {
+      return false;
+    }
     return (this.web3Type !== 'ledger'
       && this.web3Type !== 'infura'
       && this.isInited);
