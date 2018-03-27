@@ -303,6 +303,15 @@ $font-weight-list: 300 400 600;
   }
 }
 
+.lc-color- {
+  &like-green {
+    color: $like-green;
+  }
+  &like-light-blue {
+    color: $like-light-blue;
+  }
+}
+
 
 .lc-container-3-extend-bg {
   position: absolute;
