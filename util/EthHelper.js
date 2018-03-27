@@ -160,9 +160,7 @@ class EthHelper {
     if (this.web3Type === 'window' && window.web3 && window.web3.currentProvider.isTrust) {
       return false;
     }
-    return (this.web3Type !== 'ledger'
-      && this.web3Type !== 'infura'
-      && this.isInited);
+    return (this.web3Type !== 'ledger' && this.web3Type !== 'infura');
   }
 
   async getTransactionCompleted(txHash) {
