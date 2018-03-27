@@ -89,7 +89,8 @@ html, body {
 
 .lc-container-0,
 .lc-container-1,
-.lc-container-2,
+[class^="lc-container-2"],
+[class*=" lc-container-2"],
 .lc-container-3,
 .lc-container-4 {
   position: relative;
@@ -151,7 +152,8 @@ html, body {
   }
 }
 
-.lc-container-2 {
+[class^="lc-container-2"],
+[class*=" lc-container-2"] {
   padding-right: 64px;
   padding-left: 64px;
 
@@ -161,6 +163,11 @@ html, body {
   }
 
   @media (max-width: 600px) {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  &[class*="-extend"] {
     padding-right: 0;
     padding-left: 0;
   }
@@ -210,10 +217,8 @@ html, body {
     color: #462405;
     background-color: #d2f0f0;
 
-    h1 {
-      font-size: 32px;
+    > * {
       font-weight: 300;
-      line-height: 44px;
     }
   }
 }
