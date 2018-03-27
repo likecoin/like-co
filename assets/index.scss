@@ -218,12 +218,60 @@ html, body {
   }
 }
 
+/* Deprecated. Please use `.lc-padding-*` */
 @for $i from 1 through 5 {
   .lc-verticle-inset-#{$i} {
     padding-top: pow(2, $i) * 1px;
     padding-bottom: pow(2, $i) * 1px;
   }
 }
+
+$padding-list: 0 4 8 16 24 32;
+
+@each $i in $padding-list {
+  .lc-padding-#{$i},
+  .lc-padding-top-#{$i} {
+    padding-top: $i * 1px;
+
+    @if $i > 12 {
+      &.lc-mobile {
+        @media (max-width: 600px) {
+          padding-top: $i / 2 * 1px + 4px;
+        }
+      }
+    }
+  }
+
+  .lc-padding-#{$i},
+  .lc-padding-bottom-#{$i} {
+    padding-bottom: $i * 1px;
+
+    @if $i > 12 {
+      &.lc-mobile {
+        @media (max-width: 600px) {
+          padding-bottom: $i / 2 * 1px + 4px;
+        }
+      }
+    }
+  }
+}
+
+$font-size-list: 10 12 14 16 18 20 24 32 38 42 56;
+
+@each $i in $font-size-list {
+  .lc-font-size-#{$i} {
+    font-size: $i * 1pt;
+
+    @if $i > 24 {
+      &.lc-mobile {
+        @media (max-width: 600px) {
+          font-size: ($i - 4) * 1pt;
+        }
+      }
+    }
+  }
+}
+
 
 .lc-container-3-extend-bg {
   position: absolute;
