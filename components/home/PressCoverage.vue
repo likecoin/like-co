@@ -37,7 +37,7 @@ const presses = [
   },
   {
     src: '/images/press-logo/tvb.svg',
-    link: 'https://vimeo.com/257086712',
+    link: 'https://vimeo.com/261966523',
   },
   {
     src: '/images/press-logo/appledaily.jpg',
