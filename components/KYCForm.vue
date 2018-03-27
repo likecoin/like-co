@@ -488,7 +488,7 @@ export default {
         userInfo.documentFile0 = documentFile0;
         userInfo.documentFile1 = documentFile1;
       }
-      const payload = await User.formatAndSignKYC(userInfo);
+      const payload = await User.formatAndSignKYC(userInfo, this.$t('Sign.Message.signKYC'));
       this.txHash = '';
       const { txHash } = await this.sendKYC({ payload, isAdv });
       logTrackerEvent(
