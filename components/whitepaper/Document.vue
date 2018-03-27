@@ -49,6 +49,7 @@ export default {
   },
   methods: {
     handleClick(link) {
+      this.$emit('click');
       window.open(link, 'noopener');
     },
   },
