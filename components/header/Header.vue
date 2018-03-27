@@ -14,6 +14,7 @@
     </div>
     <div class="lc-container-3 md-xsmall-hide">
       <material-button
+        v-if="!shouldHideRegister"
         className="account-btn"
         :hasShadow="true"
         @click="onSignUpClick">
@@ -49,6 +50,9 @@ export default {
     getButtonText() {
       if (this.getUserIsRegistered) return this.getUserInfo.user;
       return this.$t(this.showLogin ? 'Home.Header.button.signIn' : 'Home.Header.button.signUp');
+    },
+    shouldHideRegister() {
+      return !this.getUserIsRegistered && this.$route.name === 'in-register';
     },
     ...mapGetters([
       'getUserInfo',
