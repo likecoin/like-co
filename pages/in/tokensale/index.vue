@@ -52,8 +52,10 @@
 
         <div class="lc-container-2">
 
-          <div v-if="!isPreSale" class="tokensale-progress-wrapper lc-container-3 lc-bg-gray-1 lc-verticle-inset-4">
-            <tokensale-progress />
+          <div v-if="!isPreSale" class="tokensale-progress-wrapper lc-container-3 lc-verticle-inset-4">
+            <tokensale-progress
+              :progress="currentTokenSaleAmount.toFixed(2)"
+              :total="maxTokenSaleAmount.toFixed(2)"/>
 
             <div class="lc-container-4">
               <div class="tokensale-amount lc-verticle-inset-2 lc-text-align-center">
@@ -351,7 +353,8 @@ export default {
       amount: this.$route.params.amount || '0.00',
       preSaleBase: '0',
       popupMessage: '',
-
+      currentTokenSaleAmount: INITIAL_TOKENSALE_ETH,
+      maxTokenSaleAmount: new BigNumber('12600'),
     };
   },
   head() {
@@ -520,7 +523,7 @@ export default {
     async updateTokenSaleProgress() {
       const amount = await EthHelper.queryEthBalance(LIKE_COIN_ICO_ADDRESS);
       this.currentTokenSaleAmount = new BigNumber(amount).dividedBy(ONE_LIKE)
-        .plus(INITIAL_TOKENSALE_ETH).toFixed(2);
+        .plus(INITIAL_TOKENSALE_ETH);
     },
     handleAmountChange(value) {
       this.displayAmount = value;
