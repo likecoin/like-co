@@ -408,7 +408,8 @@
       },
       "error": {
         "alphanumeric": "請使用最少 7位英文字母或數字",
-        "addressFormat": "錢包地址錯誤"
+        "addressFormat": "錢包地址錯誤",
+        "emailFormat": "請使用沒有+號的有效電郵"
       }
     }
   },
