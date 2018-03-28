@@ -52,7 +52,10 @@ export default {
       return this.$t(this.showLogin ? 'Home.Header.button.signIn' : 'Home.Header.button.signUp');
     },
     shouldHideRegister() {
-      return !this.getUserIsRegistered && this.$route.name === 'in-register';
+      return (
+        (!this.getUserIsRegistered && this.$route.name === 'in-register')
+        || this.$route.name === 'in-edit'
+      );
     },
     ...mapGetters([
       'getUserInfo',
