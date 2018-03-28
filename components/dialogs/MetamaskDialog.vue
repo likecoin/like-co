@@ -21,13 +21,20 @@
           {{ $t('Dialog.metamask.button.doneInstalled') }}
         </md-button>
       </section>
-      <section v-if="isInstallMetamask" class="hw-wallet">
+      <section v-if="isNotSign" class="hw-wallet">
         <!-- Only support ledger for now -->
 <!--    <div v-if="isHardware">
         </div>
         <a href="#" v-else @click.prevent="isHardware=true">{{ $t('Dialog.metamask.label.hardwareWallet') }}</a>
       -->
-        <a href="#" @click.prevent="onLedger">{{ $t('Dialog.metamask.label.ledger') }}</a>
+        <div v-if="isMetamask">
+          <a href="#" @click.prevent="onLedger">{{ $t('Dialog.metamask.label.ledger') }}</a>
+        </div>
+        <div v-else>
+          <md-button class="secondary md-primary md-raised" @click="onCancel">
+          {{ $t('General.button.cancel') }}
+          </md-button>
+        </div>
       </section>
     </div>
   </md-dialog>
@@ -60,28 +67,38 @@ export default {
     isInstallMetamask() {
       return this.case === 'web3';
     },
+    isNotSign() {
+      return this.case !== 'sign';
+    },
     isMetamask() {
       return this.webThreeType === 'window' || this.webThreeType === 'infura';
     },
     title() {
+      if (!this.isMetamask) {
+        if (this.case === 'sign') {
+          return this.$t(`Dialog.metamask.title.sign${this.webThreeType}`);
+        }
+        return this.$t(`Dialog.metamask.title.connect${this.webThreeType}`);
+      }
       if (this.case === 'testnet') {
         return this.$t(`Dialog.metamask.title.switch${IS_TESTNET ? 'Rinkeby' : 'Main'}`);
-      }
-      if (this.case === 'sign' && !this.isMetamask) {
-        return this.$t(`Dialog.metamask.title.${this.case}${this.webThreeType}`);
       }
       return this.$t(`Dialog.metamask.title.${this.case}`);
     },
     content() {
+      if (!this.isMetamask) {
+        if (this.case === 'sign') {
+          return this.$t(`Dialog.metamask.content.sign${this.webThreeType}`);
+        }
+        return this.$t(`Dialog.metamask.content.connect${this.webThreeType}`);
+      }
       if (this.case === 'testnet') {
         return this.$t(`Dialog.metamask.content.switch${IS_TESTNET ? 'Rinkeby' : 'Main'}`);
-      }
-      if (this.case === 'sign' && !this.isMetamask) {
-        return this.$t(`Dialog.metamask.content.${this.case}${this.webThreeType}`);
       }
       return this.$t(`Dialog.metamask.content.${this.case}`);
     },
     image() {
+      if (!this.isMetamask) return '';
       switch (this.case) {
         case 'testnet':
           return this.metamaskNetImg;
@@ -102,6 +119,9 @@ export default {
     },
     onLedger() {
       EthHelper.setLedgerOn();
+    },
+    onCancel() {
+      EthHelper.resetWeb3();
     },
   },
   mounted() {

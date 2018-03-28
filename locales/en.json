@@ -318,6 +318,7 @@
         "web3": "Plugin required",
         "locked": "Please unlock Metamask",
         "sign": "Sign on Metamask",
+        "connectledger": "Connect to Ledger wallet",
         "signledger": "Sign on Ledger wallet"
       },
       "content": {
@@ -326,6 +327,7 @@
         "web3": "like.co requires Metamask to work. Please switch to Chrome and install Metamask extension.<br /> <span style='color:red'>Remember to keep your seed words safe!<span>",
         "locked": "like.co requires Metamask to work. Please unlock your Metamask.",
         "sign": "Please click Sign on Metamask to continue.",
+        "connectledger": "Please connect and unlock your Ledger wallet, then switch to Ethereum app. The Browser support mode in Ethereum app must be <b>YES</b> to use like.co.<br /> For more information, please visit <a href=\"https://support.ledgerwallet.com/hc/en-us/articles/115005198565\" target=\"_blank\" rel=\"noopener\">Ledger support</a>",
         "signledger": "Please press confirm on Ledger wallet to continue."
       },
       "label": {
