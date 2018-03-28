@@ -372,6 +372,18 @@ $font-weight-list: 300 400 600;
   }
 }
 
+.lc-bg- {
+  &transparent {
+    background-color: transparent;
+  }
+  &light-blue {
+    background-color: $like-light-blue;
+  }
+  &gray-1 {
+    background-color: $like-gray-1;
+  }
+}
+
 
 .lc-container-3-extend-bg {
   position: absolute;
