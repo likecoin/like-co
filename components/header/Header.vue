@@ -67,10 +67,10 @@ export default {
       'showLoginWindow',
     ]),
     onSignUpClick() {
-      if (this.showLogin) {
+      if (!this.getUserIsRegistered && this.showLogin) {
         this.showLoginWindow();
       } else {
-        this.$router.push({ name: this.getUserIsRegistered ? 'edit' : 'register' });
+        this.$router.push({ name: this.getUserIsRegistered ? 'in-edit' : 'in-register' });
       }
     },
   },
