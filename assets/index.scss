@@ -85,6 +85,18 @@ html, body {
   }
 }
 
+a,
+a:not(.md-button) {
+  cursor: pointer;
+  transition: opacity, color .2s ease-in-out;
+
+  color: $like-green;
+
+  &:hover {
+    color: darken($like-green, 10);
+  }
+}
+
 /* Layout System - Begin */
 
 .lc-container-0,
