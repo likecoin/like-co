@@ -544,7 +544,10 @@
       "purchaseInETH": "Purchase in ETH"
     },
     "purchaseLikeBundle": {
-      "title": "Purchase Like Bundle"
+      "title": "Purchase Like Bundle",
+      "label": {
+        "youHavePurchased": "You have purchased {product}, the reference number is:"
+      }
     }
   },
   "KYC": {

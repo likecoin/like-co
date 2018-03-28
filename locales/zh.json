@@ -544,7 +544,10 @@
       "purchaseInETH": "使用以太幣購買"
     },
     "purchaseLikeBundle": {
-      "title": "購買 Like Bundle"
+      "title": "購買 Like Bundle",
+      "label": {
+        "youHavePurchased": "你已購買 {product} ，參考編號："
+      }
     }
   },
   "KYC": {

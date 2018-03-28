@@ -90,7 +90,7 @@
 
         <div class="lc-container-2">
           <div class="lc-container-3 lc-bg-gray-1">
-            <div class="lc-container-4 lc-padding-vertical-24">
+            <div class="lc-container-4 lc-padding-vertical-32">
               <checkoutForm />
             </div>
           </div>
