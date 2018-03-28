@@ -533,7 +533,25 @@
     },
     "button": {
       "aboutLikeCoin": "About LikeCoin",
-      "whitePaper": "@:WhitePaper.label.whitePaper"
+      "whitePaper": "@:WhitePaper.label.whitePaper",
+      "noETH": "No ETH?"
+    }
+  },
+  "LikeBundle": {
+    "title": "Like Bundle",
+    "label": {
+      "tagline": "Don't have ETH? No worry!",
+      "whileSuppliesLast": "While supplies last",
+      "description": "We have small amount of LikeCoin to sale in fiat..bla bla bla. will be sent to your wallet when public token sales starts, expected to be April 23 2018."
+    },
+    "button": {
+      "purchaseInETH": "Purchase in ETH"
+    },
+    "purchaseLikeBundle": {
+      "title": "Purchase Like Bundle",
+      "label": {
+        "youHavePurchased": "You have purchased {product}, the reference number is:"
+      }
     }
   },
   "KYC": {

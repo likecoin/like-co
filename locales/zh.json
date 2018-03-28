@@ -533,7 +533,25 @@
     },
     "button": {
       "aboutLikeCoin": "關於 LikeCoin",
-      "whitePaper": "@:WhitePaper.label.whitePaper"
+      "whitePaper": "@:WhitePaper.label.whitePaper",
+      "noETH": "沒有ETH？"
+    }
+  },
+  "LikeBundle": {
+    "title": "Like Bundle",
+    "label": {
+      "tagline": "沒有以太幣？不用擔心！",
+      "whileSuppliesLast": "售完即止",
+      "description": "我們有少量LikeCoin以法定貨幣發售等等等等。您所購買的 LikeCoin 以及其額外獎賞將於公眾代幣發售開始時發送，預計將於 April 23 2018 開始。"
+    },
+    "button": {
+      "purchaseInETH": "使用以太幣購買"
+    },
+    "purchaseLikeBundle": {
+      "title": "購買 Like Bundle",
+      "label": {
+        "youHavePurchased": "你已購買 {product} ，參考編號："
+      }
     }
   },
   "KYC": {
