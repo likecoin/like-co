@@ -110,7 +110,7 @@ import { mapGetters } from 'vuex';
 import checkoutForm from '~/components/checkoutForm';
 
 import likeCoinIcon from '@/assets/like-coin.svg';
-import EthHelper from '@/util/EthHelper';
+import { KYC_STATUS_ENUM } from '@/constant';
 
 export default {
   name: 'bundlesale',
@@ -124,16 +124,19 @@ export default {
     };
   },
   computed: {
+    KYCStatus() {
+      return this.getUserInfo.KYC;
+    },
     ...mapGetters([
+      'getUserIsFetching',
       'getUserIsRegistered',
+      'getUserInfo',
     ]),
   },
   methods: {
-    async checkStatus() {
-      if (this.getUserIsRegistered) {
-        this.isKYCTxPass = await EthHelper.queryKYCStatus(this.getLocalWallet);
-      } else {
-        this.isKYCTxPass = null;
+    redirectToTokenSalePageIfNeeded() {
+      if (!this.getUserIsRegistered || this.KYCStatus < KYC_STATUS_ENUM.STANDARD) {
+        this.$router.push({ name: 'in-tokensale' });
       }
     },
   },
@@ -162,12 +165,14 @@ export default {
   watch: {
     getUserIsFetching(f) {
       if (!f) {
-        this.checkStatus();
+        this.redirectToTokenSalePageIfNeeded();
       }
     },
   },
   mounted() {
-    if (!this.getUserIsFetching) this.checkStatus();
+    if (!this.getUserIsFetching) {
+      this.redirectToTokenSalePageIfNeeded();
+    }
   },
 };
 </script>
