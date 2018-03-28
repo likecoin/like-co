@@ -29,6 +29,9 @@
   },
   "dependencies": {
     "@google-cloud/pubsub": "^0.17.0",
+    "@ledgerhq/hw-app-eth": "^4.7.3",
+    "@ledgerhq/hw-transport-u2f": "^4.7.3",
+    "@ledgerhq/web3-subprovider": "^4.7.3",
     "@likecoin/ethereum-blockies": "^0.1.1",
     "@likecoin/likecoin-email-templates": "^1.0.0",
     "@likecoin/vue-image-lightbox": "^5.5.3",
@@ -60,7 +63,8 @@
     "vue-lazyload": "^1.2.1",
     "vue-material": "^1.0.0-beta-8",
     "vuex": "^3.0.1",
-    "web3": "^1.0.0-beta.28"
+    "web3": "^1.0.0-beta.28",
+    "web3-provider-engine": "^13.6.6"
   },
   "devDependencies": {
     "ava": "^0.25.0",

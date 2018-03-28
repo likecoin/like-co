@@ -91,7 +91,7 @@ router.post('/kyc', async (req, res) => {
     if (wallet !== from) throw new Error('User wallet not match');
 
     const kycCheck = await LikeCoinICO.methods.kycDone(from).call();
-    if (kycCheck) throw new Error('Already KYC-ed');
+    if (!IS_TESTNET && kycCheck) throw new Error('Already KYC-ed');
     if (userDoc.data().pendingKYC || userDoc.data().KYC) throw new Error('KYC already in progress');
 
     const methodCall = LikeCoinICO.methods.registerKYC([wallet]);

@@ -1,7 +1,7 @@
 <template>
   <div class="payment-container">
     <avatar-header :title="displayName" :icon="avatar" :id="id" :address="wallet" :isEth="isEth"/>
-    <div class="inner-container">
+    <div class="lc-container-0 inner-container">
       <form id="paymentInfo" v-on:submit.prevent="onSubmit">
         <input v-model="wallet" hidden required disabled />
         <div class="number-input">
@@ -16,25 +16,45 @@
         <!-- <md-field> -->
         <!--   <md-input placeholder="Remark (optional)" /> -->
         <!-- </md-field> -->
-        <material-button v-if="isEth"
-          id="payment-confirm"
-          class="md-raised md-primary eth"
-          type="submit"
-          form="paymentInfo"
-          :disabled="getIsInTransaction || !getLocalWallet">
-          <div class="button-content-wrapper">
-            <img :src="EthIcon" />
-            {{ $t('General.button.send') }}
+        <section class="lc-container-1 lc-section-block">
+          <div class="lc-container-header">
+            <div class="lc-container-2">
+
+              <material-button v-if="isEth"
+                id="payment-confirm"
+                class="md-raised md-primary eth"
+                type="submit"
+                form="paymentInfo"
+                :disabled="getIsInTransaction">
+                <div class="button-content-wrapper">
+                  <img :src="EthIcon" />
+                  {{ $t('General.button.send') }}
+                </div>
+              </material-button>
+
+              <div v-else-if="!getUserIsRegistered" class="lc-container-3 create-account-wrapper">
+                <p>{{ $t('KYC.label.createID') }}</p>
+                <material-button @click="$router.push({ name: 'in-register'})">
+                  {{ $t('KYC.button.createID') }}
+                </material-button>
+                <p><a href="#" @click="showLoginWindow">{{ $t('Home.Header.button.signIn') }}</a></p>
+              </div>
+
+              <div v-else>
+                <p v-if="!isSupportTransferDeleteaged">{{ $t('Transaction.error.notSupported') }}</p>
+                <material-button
+                  id="payment-confirm"
+                  class="md-raised md-primary likecoin"
+                  type="submit"
+                  form="paymentInfo"
+                  :disabled="getIsInTransaction || !isSupportTransferDeleteaged ||  (!getLocalWallet)">
+                  {{ $t('General.button.confirm') }}
+                </material-button>
+              </div>
+
+            </div>
           </div>
-        </material-button>
-        <md-button v-else
-          id="payment-confirm"
-          class="md-raised md-primary likecoin"
-          type="submit"
-          form="paymentInfo"
-          :disabled="getIsInTransaction || !getLocalWallet">
-          {{ $t('General.button.confirm') }}
-        </md-button>
+        </section>
       </form>
     </div>
   </div>
@@ -90,6 +110,7 @@ export default {
       EthIcon,
       isBadAddress: false,
       isBadAmount: false,
+      isSupportTransferDeleteaged: true,
     };
   },
   asyncData({ params, redirect, error }) {
@@ -146,9 +167,11 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'getUserIsRegistered',
       'getIsInTransaction',
       'getLocalWallet',
+      'getUserIsRegistered',
+      'getMetamaskError',
+      'getWeb3Type',
       'getIsShowingTxPopup',
       'getPendingTxInfo',
     ]),
@@ -159,6 +182,7 @@ export default {
   },
   methods: {
     ...mapActions([
+      'showLoginWindow',
       'sendPayment',
       'sendEthPayment',
       'setErrorMsg',
@@ -168,6 +192,10 @@ export default {
       return this.wallet.length === 42 && this.wallet.substr(0, 2) === '0x';
     },
     async onSubmit() {
+      if (this.getMetamaskError) {
+        this.showLoginWindow();
+        return;
+      }
       this.isBadAddress = false;
       if (!this.checkAddress()) {
         this.isBadAddress = true;
@@ -209,6 +237,9 @@ export default {
             value,
           });
         } else {
+          if (!EthHelper.getIsSupportTransferDelegated()) {
+            this.setErrorMsg(this.$t('Transaction.error.notSupported'));
+          }
           const payload = await EthHelper.signTransferDelegated(to, valueToSend, 0);
           txHash = await this.sendPayment(payload);
         }
@@ -227,10 +258,43 @@ export default {
       this.amount = value;
     },
   },
+  watch: {
+    getWeb3Type() {
+      this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
+    },
+  },
+  mounted() {
+    this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+@import "~assets/index";
+
+p {
+  max-width: 422px;
+  margin: auto;
+
+  text-align: center;
+
+  color: $like-gray-4;
+}
+
+.create-account-wrapper {
+  text-align: center;
+  background-color: transparent;
+
+  .md-button {
+    width: 256px;
+    margin-top: 32px;
+  }
+  a {
+    color: $like-gray-4;
+    text-decoration: underline;
+  }
+}
+
 h1, h2 {
   font-weight: normal;
 }

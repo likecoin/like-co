@@ -34,6 +34,7 @@
   "Home": {
     "Header": {
       "button": {
+        "signIn": "登入",
         "signUp": "註冊"
       }
     },
@@ -45,7 +46,7 @@
       "title": {
         "earlyBirdTokenSale": "早鳥代幣發售",
         "publicTokenSale": "公開代幣發售",
-        "secure25Percent": "立即行動可享額外25%奬勵",
+        "secure25Percent": "立即行動可享額外25%獎勵",
         "nowLive": "現正進行"
       },
       "label": {
@@ -316,14 +317,22 @@
         "switchMain": "請切換至 Mainnet 正式網絡",
         "web3": "需要插件",
         "locked": "請登入 MetaMask",
-        "sign": "在 MetaMask 按 Sign"
+        "sign": "在 MetaMask 按 Sign",
+        "connectledger": "連接 Ledger 錢包",
+        "signledger": "在 Ledger 錢包按 Sign"
       },
       "content": {
         "switchRinkeby": "like.co 需要使用 Rinkeby 測試網，請切換至 Rinkeby.",
         "switchMain": "like.co 需要使用正式網絡，請切換至 Mainnet。",
         "web3": "like.co 需要 MetaMask 用作登入。請使用 Chrome 瀏覽器以安裝 MetaMask 插件.<br /> <span style='color:red'>請記錄好 MetaMask 的 seed words。<span>",
         "locked": "like.co 需要讀取 MetaMask ，請登入 MetaMask",
-        "sign": "請在 Metamask 按 [Sign]"
+        "sign": "請在 Metamask 按 [Sign]",
+        "connectledger": "請連接和解鎖 Ledger 錢包，並開啟 Ethereum app。請留意必須要開啟 Ethereum app 的瀏覽器支援 (Browser support) 功能才能使用 like.co。<br /> 詳情可參考 <a href=\"https://support.ledgerwallet.com/hc/en-us/articles/115005198565\" target=\"_blank\" rel=\"noopener\">Ledger 官網</a>",
+        "signledger": "請在 Ledger 錢包按[確認]按鈕"
+      },
+      "label": {
+        "hardwareWallet": "... 或連接你的硬體錢包",
+        "ledger": "連接你的 Ledger"
       }
     },
     "chrome": {
@@ -402,7 +411,8 @@
       },
       "error": {
         "alphanumeric": "請使用最少 7位英文字母或數字",
-        "addressFormat": "錢包地址錯誤"
+        "addressFormat": "錢包地址錯誤",
+        "emailFormat": "請使用沒有+號的有效電郵"
       }
     }
   },
@@ -484,6 +494,7 @@
       "description": "回饋創作 - 發 LikeCoin 給 {name}"
     },
     "error": {
+      "notSupported": "你的錢包不支援這個功能",
       "ethInsufficient": "錢包內的 ETH 數量不足",
       "likecoinInsufficient": "錢包內的 LikeCoin 數量不足",
       "sameUser": "不能轉賬給自己"
@@ -501,14 +512,14 @@
     "label": {
       "prepareToJoin": "準備加入代幣發售",
       "publicSaleStartIn": "公開發售於:",
-      "preSaleEndIn": "額外25%奬勵完結於:",
-      "preSaleBonus": "額外25%奬勵",
+      "preSaleEndIn": "額外25%獎勵完結於:",
+      "preSaleBonus": "額外25%獎勵",
       "preSaleBonusCondition": "購買 10 ETH 以上即可享有",
       "joinPreSale": "立刻參與早鳥優惠",
       "token": "代幣",
       "exchangeRate": "兌換率",
       "supply": "供應量",
-      "preSaleDescription0": "購買 {base} LikeCoin + 額外 {bonus} LikeCoin 奬勵.",
+      "preSaleDescription0": "購買 {base} LikeCoin + 額外 {bonus} LikeCoin 獎勵.",
       "preSaleDescription1": "早鳥 LikeCoin 將會在公開發售開始後發送至你的錢包.",
       "whatIsETH": "甚麼是 ETH ?",
       "bonusAndLimitedOffer": "限時 25% 額外獎賞",

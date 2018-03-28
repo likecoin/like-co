@@ -83,10 +83,11 @@
                 {{ $t('Edit.label.addEmail') }}
               </label>
               <md-input
-                type="email"
+                pattern="^[a-zA-Z0-9.!#$%&'*/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
                 class="input-display input-info"
                 v-model="email"
                 ref="inputEmail"
+                :title="$t('Register.form.error.emailFormat')"
                 :disabled="getUserInfo.isEmailVerified || !isProfileEdit" />
               <md-button
                 :class="isProfileEdit ? '' : 'input-display-btn'"

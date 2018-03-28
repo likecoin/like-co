@@ -129,6 +129,7 @@
               <material-button @click="redirectToRegister">
                 {{ $t('KYC.button.createID') }}
               </material-button>
+              <p><a href="#" @click="showLoginWindow">{{ $t('Home.Header.button.signIn') }}</a></p>
             </div>
           </div>
         </div>
@@ -391,6 +392,7 @@ export default {
       'queryEthPrice',
       'setErrorMsg',
       'closeTxDialog',
+      'showLoginWindow',
     ]),
     checkAddress() {
       return this.wallet.length === 42 && this.wallet.substr(0, 2) === '0x';
@@ -605,6 +607,10 @@ export default {
     .md-button {
       width: 256px;
       margin-top: 32px;
+    }
+    a {
+      color: $like-gray-4;
+      text-decoration: underline;
     }
   }
 }

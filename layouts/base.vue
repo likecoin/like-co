@@ -3,7 +3,7 @@
     <tool-bars :disableError="['web3', 'locked']" />
     <div class="container">
       <div class="landing">
-        <site-header/>
+        <site-header :showLogin="true" />
       </div>
       <nuxt/>
     </div>

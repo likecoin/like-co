@@ -21,6 +21,21 @@
           {{ $t('Dialog.metamask.button.doneInstalled') }}
         </md-button>
       </section>
+      <section v-if="isNotSign" class="hw-wallet">
+        <!-- Only support ledger for now -->
+<!--    <div v-if="isHardware">
+        </div>
+        <a href="#" v-else @click.prevent="isHardware=true">{{ $t('Dialog.metamask.label.hardwareWallet') }}</a>
+      -->
+        <div v-if="isMetamask">
+          <a href="#" @click.prevent="onLedger">{{ $t('Dialog.metamask.label.ledger') }}</a>
+        </div>
+        <div v-else>
+          <md-button class="secondary md-primary md-raised" @click="onCancel">
+          {{ $t('General.button.cancel') }}
+          </md-button>
+        </div>
+      </section>
     </div>
   </md-dialog>
 </template>
@@ -28,37 +43,62 @@
 <script>
 import { IS_TESTNET } from '@/constant';
 import { logTrackerEvent } from '@/util/EventLogger';
+import EthHelper from '@/util/EthHelper';
 import metamaskIcon from '@/assets/icons/metamask.svg';
+import ledgerIcon from '@/assets/icons/ledger.svg';
 import metamaskNetImg from '@/assets/img/meta_net.png';
 import metamaskTestNetImg from '@/assets/img/meta_testnet.png';
 import metamaskUnlockImg from '@/assets/img/meta_unlock.png';
 
 export default {
   name: 'MetamaskDialog',
-  props: ['case'],
+  props: ['case', 'webThreeType'],
   data() {
     return {
-      icon: metamaskIcon,
       metamaskNetImg: IS_TESTNET ? metamaskTestNetImg : metamaskNetImg,
+      isHardware: false,
     };
   },
   computed: {
+    icon() {
+      if (this.webThreeType === 'ledger') return ledgerIcon;
+      return metamaskIcon;
+    },
     isInstallMetamask() {
       return this.case === 'web3';
     },
+    isNotSign() {
+      return this.case !== 'sign';
+    },
+    isMetamask() {
+      return this.webThreeType === 'window' || this.webThreeType === 'infura';
+    },
     title() {
+      if (!this.isMetamask) {
+        if (this.case === 'sign') {
+          return this.$t(`Dialog.metamask.title.sign${this.webThreeType}`);
+        }
+        return this.$t(`Dialog.metamask.title.connect${this.webThreeType}`);
+      }
       if (this.case === 'testnet') {
         return this.$t(`Dialog.metamask.title.switch${IS_TESTNET ? 'Rinkeby' : 'Main'}`);
       }
       return this.$t(`Dialog.metamask.title.${this.case}`);
     },
     content() {
+      if (!this.isMetamask) {
+        if (this.case === 'sign') {
+          return this.$t(`Dialog.metamask.content.sign${this.webThreeType}`);
+        }
+        return this.$t(`Dialog.metamask.content.connect${this.webThreeType}`);
+      }
       if (this.case === 'testnet') {
         return this.$t(`Dialog.metamask.content.switch${IS_TESTNET ? 'Rinkeby' : 'Main'}`);
       }
       return this.$t(`Dialog.metamask.content.${this.case}`);
     },
     image() {
+      if (!this.isMetamask) return '';
       switch (this.case) {
         case 'testnet':
           return this.metamaskNetImg;
@@ -76,6 +116,12 @@ export default {
     },
     onInstallClick() {
       logTrackerEvent(this, 'RegFlow', 'ClickInstallMetamask', 'click install metamask', 1);
+    },
+    onLedger() {
+      EthHelper.setLedgerOn();
+    },
+    onCancel() {
+      EthHelper.resetWeb3();
     },
   },
   mounted() {
@@ -100,4 +146,16 @@ export default {
 .md-button.secondary {
   background-color: #28646e !important;
 }
+
+.md-dialog {
+  > .md-dialog-container {
+    .dialog-content {
+      section.hw-wallet {
+        font-size: 12px;
+        margin-top: 5px;
+      }
+    }
+  }
+}
+
 </style>

@@ -2,6 +2,8 @@ export const getInfoMsg = state => state.infoMsg;
 
 export const getInfoIsError = state => state.infoIsError;
 
+export const getIsLoginOverride = state => state.isLoginOverride;
+
 export const getPopupError = state => state.popupError;
 
 export const getPopupInfo = state => state.popupInfo;
@@ -23,6 +25,8 @@ export const getDesc = state => state.description;
 export const getHeaderSubtitle = state => state.headerSubtitle;
 
 export const getMetamaskError = state => state.metamaskError;
+
+export const getWeb3Type = state => state.web3Type;
 
 export const getTxDialogActionRoute = state => state.txDialogActionRoute;
 

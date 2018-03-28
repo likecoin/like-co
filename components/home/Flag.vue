@@ -48,7 +48,7 @@ export default {
   h1 {
     margin-top: 8px;
 
-    font-size: 36px;
+    font-size: 38px;
     line-height: 46px;
   }
 

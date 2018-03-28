@@ -1,9 +1,9 @@
 <template>
   <div class="fixed-footer">
-    <tool-bars/>
+    <tool-bars :disableError="['web3', 'testnet', 'locked']" />
     <div class="container">
       <div class="landing">
-        <site-header/>
+        <site-header :showLogin="true" />
       </div>
       <nuxt/>
     </div>
