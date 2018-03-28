@@ -5,7 +5,7 @@
         <li
           v-for="(doc, index) in documents"
           :key="index">
-          <document
+          <document @click="logEvent(doc.type)"
             :imageSrc="doc.imageSrc"
             :linkSrc="doc.linkSrc"
             :title="$t(doc.title)"
@@ -19,6 +19,7 @@
 
 <script>
 import Document from '~/components/whitepaper/Document';
+import { logTrackerEvent } from '@/util/EventLogger';
 
 import onePagerIcon from '~/assets/whitepaper/one-pager.svg';
 import whitePaperIcon from '~/assets/whitepaper/whitepaper.svg';
@@ -58,12 +59,14 @@ const documents = [
     imageSrc: onePagerIcon,
     linkSrc: onePagerSrc,
     title: 'Whitepaper.Button.onepager',
+    type: 'onepager',
     mainLocales: ['en'],
   },
   {
     imageSrc: whitePaperIcon,
     linkSrc: whitePaperSrc,
     title: 'Whitepaper.Button.whitepaper',
+    type: 'whitepaper',
     mainLocales: ['en'],
   },
 ];
@@ -78,6 +81,18 @@ export default {
     return {
       documents,
     };
+  },
+  methods: {
+    logEvent(type) {
+      const isOnepager = (type === 'onpager');
+      logTrackerEvent(
+        this,
+        'Behavior',
+        isOnepager ? 'ViewOnePager' : 'ViewWhitePaper',
+        isOnepager ? 'view one pager' : 'view white paper',
+        1,
+      );
+    },
   },
 };
 </script>

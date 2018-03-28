@@ -201,25 +201,35 @@ router.post('/payment/eth', async (req, res) => {
       fromId,
       toId,
     });
-    if (isPreSale) {
+    if ((isPreSale && to === LIKECOIN_ICO.LIKE_COIN_PRESALE_ADDRESS) ||
+      (to === LIKECOIN_ICO.LIKE_COIN_ICO_ADDRESS)) {
       const eth = new BigNumber(value).dividedBy(ONE_LIKE);
       const base = eth.multipliedBy(new BigNumber(ETH_TO_LIKECOIN_RATIO));
       let bonus = new BigNumber(0);
-      if (eth.gte(new BigNumber(10))) {
+      if (isPreSale && eth.gte(new BigNumber(10))) {
         bonus = base.multipliedBy(new BigNumber(0.25));
       }
-      await Promise.all([
-        fromUserRef.update({ isPreSale }),
-        fromUserRef.collection('PreSale').doc(txHash).set({
-          txHash,
-          fromId,
-          value,
-          base: base.toString(),
-          bonus: bonus.toString(),
-          ts: Date.now(),
-        }, { merge: true }),
-        sendPreSale(res, fromUser, eth, base, bonus, txHash),
-      ]);
+      const updateObj = {
+        txHash,
+        fromId,
+        value,
+        base: base.toString(),
+        ts: Date.now(),
+      };
+      if (isPreSale) {
+        updateObj.bonus = bonus.toString();
+      }
+      const promises = [
+        fromUserRef.collection(isPreSale ? 'PreSale' : 'ICO').doc(txHash).create(updateObj),
+      ];
+      if (isPreSale) {
+        promises.push(fromUserRef.update({ isPreSale }));
+        promises.push(sendPreSale(res, fromUser, eth, base, bonus, txHash));
+      } else {
+        promises.push(fromUserRef.update({ isICO: true }));
+      }
+
+      await Promise.all(promises);
     }
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventPayETH',

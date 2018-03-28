@@ -132,6 +132,10 @@ class EthHelper {
     this.pollForWeb3('ledger');
   }
 
+  resetWeb3() {
+    this.pollForWeb3('window');
+  }
+
   async waitForTxToBeMined(txHash) {
     let txReceipt;
     while (!txReceipt) {
@@ -160,9 +164,7 @@ class EthHelper {
     if (this.web3Type === 'window' && window.web3 && window.web3.currentProvider.isTrust) {
       return false;
     }
-    return (this.web3Type !== 'ledger'
-      && this.web3Type !== 'infura'
-      && this.isInited);
+    return (this.web3Type !== 'ledger' && this.web3Type !== 'infura');
   }
 
   async getTransactionCompleted(txHash) {

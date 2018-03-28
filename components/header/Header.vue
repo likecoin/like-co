@@ -52,7 +52,10 @@ export default {
       return this.$t(this.showLogin ? 'Home.Header.button.signIn' : 'Home.Header.button.signUp');
     },
     shouldHideRegister() {
-      return !this.getUserIsRegistered && this.$route.name === 'in-register';
+      return (
+        (!this.getUserIsRegistered && this.$route.name === 'in-register')
+        || this.$route.name === 'in-edit'
+      );
     },
     ...mapGetters([
       'getUserInfo',
@@ -64,10 +67,10 @@ export default {
       'showLoginWindow',
     ]),
     onSignUpClick() {
-      if (this.showLogin) {
+      if (!this.getUserIsRegistered && this.showLogin) {
         this.showLoginWindow();
       } else {
-        this.$router.push({ name: this.getUserIsRegistered ? 'edit' : 'register' });
+        this.$router.push({ name: this.getUserIsRegistered ? 'in-edit' : 'in-register' });
       }
     },
   },

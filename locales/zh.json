@@ -317,7 +317,9 @@
         "switchMain": "請切換至 Mainnet 正式網絡",
         "web3": "需要插件",
         "locked": "請登入 MetaMask",
-        "sign": "在 MetaMask 按 Sign"
+        "sign": "在 MetaMask 按 Sign",
+        "connectledger": "連接 Ledger 錢包",
+        "signledger": "在 Ledger 錢包按 Sign"
       },
       "content": {
         "switchRinkeby": "like.co 需要使用 Rinkeby 測試網，請切換至 Rinkeby.",
@@ -325,7 +327,8 @@
         "web3": "like.co 需要 MetaMask 用作登入。請使用 Chrome 瀏覽器以安裝 MetaMask 插件.<br /> <span style='color:red'>請記錄好 MetaMask 的 seed words。<span>",
         "locked": "like.co 需要讀取 MetaMask ，請登入 MetaMask",
         "sign": "請在 Metamask 按 [Sign]",
-        "signledger": "請在 Ledger 按[確認]按鈕"
+        "connectledger": "請連接和解鎖 Ledger 錢包，並開啟 Ethereum app。請留意必須要開啟 Ethereum app 的瀏覽器支援 (Browser support) 功能才能使用 like.co。<br /> 詳情可參考 <a href=\"https://support.ledgerwallet.com/hc/en-us/articles/115005198565\" target=\"_blank\" rel=\"noopener\">Ledger 官網</a>",
+        "signledger": "請在 Ledger 錢包按[確認]按鈕"
       },
       "label": {
         "hardwareWallet": "... 或連接你的硬體錢包",
@@ -408,7 +411,8 @@
       },
       "error": {
         "alphanumeric": "請使用最少 7位英文字母或數字",
-        "addressFormat": "錢包地址錯誤"
+        "addressFormat": "錢包地址錯誤",
+        "emailFormat": "請使用沒有+號的有效電郵"
       }
     }
   },
