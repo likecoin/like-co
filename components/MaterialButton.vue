@@ -47,6 +47,11 @@
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
   }
 
+  &.disabled {
+    opacity: 1 !important;
+    background-color: #e6e6e6;
+  }
+
   :global(.md-ripple) {
     padding: 8px;
 
