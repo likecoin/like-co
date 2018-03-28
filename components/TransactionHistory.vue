@@ -45,7 +45,7 @@
               pending: tx.status === 'pending',
               expired: tx.status === 'timeout',
             }]">
-            {{ $t(getTime(tx)) }}
+            {{ getTime(tx) }}
           </md-table-cell>
 
           <md-table-cell>
@@ -184,8 +184,8 @@ export default {
       return isFrom ? 'from' : 'to';
     },
     getTime(tx) {
-      if (tx.status === 'pending') return 'TransactionHistory.label.timePending';
-      if (tx.status === 'timeout') return 'TransactionHistory.label.timeExpired';
+      if (tx.status === 'pending') return this.$t('TransactionHistory.label.timePending');
+      if (tx.status === 'timeout') return this.$t('TransactionHistory.label.timeExpired');
       return tx.completeTs ? formatUTCTime(tx.completeTs) : '';
     },
     isPresale(tx) {
