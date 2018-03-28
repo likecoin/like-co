@@ -3,8 +3,9 @@ module.exports = {
   ** Headers of the page
   */
   env: {
-    INTERCOM_APPID: process.env.INTERCOM_APPID,
     IS_TESTNET: process.env.IS_TESTNET,
+    INTERCOM_APPID: process.env.INTERCOM_APPID,
+    STRIPE_TOKEN: process.env.STRIPE_TOKEN,
   },
   head: {
     title: 'LikeCoin',
