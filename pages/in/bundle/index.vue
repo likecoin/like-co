@@ -1,11 +1,11 @@
 <template>
   <div class="bundlesale-page">
-
     <div class="lc-container-0 lc-narrow">
 
       <section class="lc-container-1 lc-section-block">
+
         <div class="lc-container-2">
-          <div class="lc-container-3">
+          <div class="lc-container-3 lc-bg-gray-1">
             <div class="lc-container-4 ">
 
               <nav class="nav-menu">
@@ -34,14 +34,14 @@
             <div class="lc-padding-top-32 lc-padding-bottom-16">
 
               <section class="lc-text-align-center">
-                <h1 class="lc-font-size-42 lc-font-weight-600">
-                  {{ $t('TokenSale.preSaleTitle') }} <span class="lc-font-weight-300 lc-color-like-green">LIVE</span>
+                <h1 class="lc-font-size-42 lc-color-like-green lc-font-weight-600">
+                  {{ $t('LikeBundle.title') }}
                 </h1>
                 <h2 class="lc-margin-top-12 lc-font-size-38 lc-font-weight-300">
-                  {{ $t('TokenSale.label.bonusAndLimitedOffer') }}
+                  {{ $t('LikeBundle.label.tagline') }}
                 </h2>
-                <h3 class="lc-margin-top-12 lc-font-size-14 lc-font-weight-400">
-                  {{ $t('TokenSale.label.limitedOfferCondition') }}
+                <h3 class="lc-margin-top-12 lc-font-size-18 lc-font-weight-400">
+                  {{ $t('LikeBundle.label.whileSuppliesLast') }}
                 </h3>
               </section>
 
@@ -50,23 +50,54 @@
         </div>
 
         <div class="lc-container-2">
-          <div class="lc-container-3">
+          <div class="lc-container-3 lc-bg-gray-1">
             <div class="lc-container-4 lc-padding-vertical-32 lc-text-align-center">
-              {{ $t('TokenSale.label.amountWillBeSentWhenSalesStart')}}
+              {{ $t('LikeBundle.label.description')}}
             </div>
           </div>
         </div>
+
+        <div class="lc-container-2">
+          <div class="lc-container-3 lc-bg-transparent">
+            <div class="lc-container-4 lc-padding-top-16 lc-text-align-center">
+              <nuxt-link
+                class="lc-font-size-12 lc-underline"
+                :to="{ name: 'in-tokensale' }">
+                {{ $t('LikeBundle.button.purchaseInETH') }}
+              </nuxt-link>
+            </div>
+          </div>
+        </div>
+
       </section>
 
-      <section class="lc-container-1 lc-verticle-inset-3">
+      <!-- BEGIN - Purchase LikeCoin Section -->
+      <section class="lc-container-1 lc-section-block">
+
+        <div class="lc-container-header">
+          <div class="lc-container-2 lc-container-header-overlay">
+            <div class="lc-container-3 lc-bg-gray-1" />
+          </div>
+
+          <div class="lc-container-2">
+            <div class="lc-container-header-title">
+              <h1 class="lc-font-size-32 lc-mobile">
+                {{ $t('LikeBundle.purchaseLikeBundle.title') }}
+              </h1>
+            </div>
+          </div>
+        </div>
+
         <div class="lc-container-2">
-          <div class="lc-container-3">
+          <div class="lc-container-3 lc-bg-gray-1">
             <div class="lc-container-4 lc-padding-vertical-24">
               <checkoutForm />
             </div>
           </div>
         </div>
+
       </section>
+      <!-- END - Purchase LikeCoin Section -->
 
     </div>
   </div>
@@ -108,22 +139,22 @@ export default {
   },
   head() {
     return {
-      title: this.$t('Transaction.head.title'),
+      title: this.$t('LikeBundle.title'),
       meta: [
         {
           hid: 'og_title',
           property: 'og:title',
-          content: this.$t('Transaction.head.title'),
+          content: this.$t('LikeBundle.title'),
         },
         {
           hid: 'description',
           name: 'description',
-          content: this.$t('Transaction.head.description'),
+          content: this.$t('LikeBundle.label.description'),
         },
         {
           hid: 'og_description',
           property: 'og:description',
-          content: this.$t('Transaction.head.description'),
+          content: this.$t('LikeBundle.label.description'),
         },
       ],
     };
@@ -145,30 +176,11 @@ export default {
 <style lang="scss" scoped>
 @import "~assets/index";
 
-.lc-container-3 {
-  background-color: $like-gray-1;
-}
-
 .bundlesale-page {
   margin-bottom: 18px;
 
-  ul {
-    padding: 0;
-
-    list-style-type: none;
-  }
-
-  li {
-    display: inline-block;
-
-    margin: 0 10px;
-  }
-
-  a {
-    cursor: pointer;
-    transition: opacity, color .2s ease-in-out;
-
-    color: #28646e;
+  .lc-container-3-extend-bg {
+    background-image: linear-gradient(250deg, #FFDFD2, #C1F3F5);
   }
 }
 
