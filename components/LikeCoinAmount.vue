@@ -1,10 +1,10 @@
 <template>
   <div>
     <section id="likecoin-amount">
-      <div :class="[isOpaque ? 'text-opaque' : '', 'title']">
+      <div :class="['title', 'lc-font-size-14', { 'text-opaque': isOpaque }]">
         {{ $t('Edit.label.likeCoinAmount') }}
       </div>
-      <div :class="[isOpaque ? 'text-opaque' : '', 'value']">
+      <div :class="['value', 'lc-font-weight-300', 'lc-font-size-56', { 'text-opaque': isOpaque }]">
         {{ value || defaultValue }}
       </div>
     </section>
@@ -62,16 +62,12 @@ export default {
     margin: 0 48px;
     display: flex;
     align-items: center;
-    text-align: left;
-    font-size: 16px;
     color: $like-dark-brown-1;
   }
 
   > .value {
-    font-size: 56px;
-    font-weight: 300;
-    text-align: left;
     color: $like-gray-5;
+    line-height: 1;
   }
 
   .text-opaque {
@@ -94,7 +90,7 @@ export default {
     transition: opacity .2s ease-in-out;
 
     &.what {
-      background-image: linear-gradient(63deg, $like-gradient-2 2%, $like-gradient-3 99%);
+      background-image: linear-gradient(73deg, $like-gradient-2, $like-gradient-3);
     }
 
     &:hover {

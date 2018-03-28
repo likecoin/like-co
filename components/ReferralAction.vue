@@ -58,7 +58,7 @@
       </section>
 
       <section class="address-field">
-        <div class="address-title lc-padding-bottom-8">
+        <div class="address-title lc-padding-bottom-12">
           {{ $t('Edit.referral.altInvite') }}
         </div>
         <div class="md-layout referral-btn-wrapper">
