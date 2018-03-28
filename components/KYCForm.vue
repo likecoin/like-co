@@ -561,7 +561,7 @@ export default {
     },
     goToEdit() {
       this.$router.push({
-        name: 'edit',
+        name: 'in-edit',
         params: { showEmail: !this.user.isEmailVerified },
         query: { ref: 'tokensale' },
       });
