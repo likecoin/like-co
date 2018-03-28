@@ -132,6 +132,10 @@ class EthHelper {
     this.pollForWeb3('ledger');
   }
 
+  resetWeb3() {
+    this.pollForWeb3('window');
+  }
+
   async waitForTxToBeMined(txHash) {
     let txReceipt;
     while (!txReceipt) {
