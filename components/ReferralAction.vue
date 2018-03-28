@@ -1,109 +1,107 @@
 <template>
-  <div class="referral-form-container" id="referral">
-    <div :class="isProfileEdit ? 'section-redeem-edit-mode' : ''">
-      <div class="lc-container-header">
-        <div class="lc-container-2 lc-container-header-overlay">
-          <div class="lc-container-3" />
+  <div>
+    <div class="email-notice lc-font-size-20" v-if="!isEmailVerified">
+      {{ $t('Edit.referral.verifyEmailFirst') }}
+    </div>
+
+    <form v-else id="referralForm" v-on:submit.prevent="onSendEmail">
+
+      <section class="md-layout referral-details">
+        <div class="md-layout-item referral-description lc-font-size-20">
+          {{ $t('Edit.referral.description') }}
         </div>
-        <div class="lc-container-3">
-          <div class="lc-container-4">
-            <div class="lc-container-header-title">
-              <h1>{{ $t('Edit.referral.title') }}</h1>
-            </div>
+        <div class="md-layout md-layout-item referral-stat-boxes">
+          <div class="md-layout-item referral-stat-box">
+            <span class="referral-stat-number lc-font-size-56">{{ pending }}</span>
+            <hr />
+            <span class="referral-stat-description lc-font-size-14">{{ $t('Edit.referral.pending') }}</span>
+          </div>
+          <div class="md-layout-item referral-stat-box">
+            <span class="referral-stat-number lc-font-size-56 verified">{{ verified }}</span>
+            <hr />
+            <span class="referral-stat-description lc-font-size-14 verified">
+              <img :src="TickIcon" />
+              {{ $t('Edit.referral.verified') }}
+            </span>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div class="email-notice" v-if="!isEmailVerified">{{ $t('Edit.referral.verifyEmailFirst') }}</div>
-      <form v-else id="referralForm" v-on:submit.prevent="onSendEmail">
-
-        <section class="md-layout">
-          <div class="md-layout-item referral-description">{{ $t('Edit.referral.description') }}</div>
-          <div class="md-layout md-layout-item referral-stat-boxes">
-            <div class="md-layout-item referral-stat-box">
-              <span class="referral-stat-number">{{ pending }}</span>
-              <hr />
-              <span class="referral-stat-description">{{ $t('Edit.referral.pending') }}</span>
-            </div>
-            <div class="md-layout-item referral-stat-box">
-              <span class="referral-stat-number verified">{{ verified }}</span>
-              <hr />
-              <span class="referral-stat-description verified">
-                <md-icon class="verified">check</md-icon>
-                {{ $t('Edit.referral.verified') }}
-              </span>
+      <section class="md-layout invite-by-email-wrapper lc-padding-vertical-24">
+        <div class="md-layout-item">
+          <div class="address-field">
+            <div class="address-title">
+              {{ $t('Edit.referral.emailInvite') }}
             </div>
           </div>
-        </section>
+          <md-field>
+            <label class="input-redeem-hint">
+              {{ $t('Edit.referral.emailInvite') }}
+            </label>
+            <md-input
+              v-model="email"
+              :title="$t('Edit.referral.emailInvite')"
+              type="email"
+              required
+              :disabled="isProfileEdit" />
+          </md-field>
+        </div>
+        <div v-if="!isProfileEdit" id="form-btn" class="md-layout-item md-size-33 md-xsmall-size-66 lc-padding-top-16">
+          <material-button
+            id="confirm-btn"
+            type="submit"
+            form="referralForm"
+            :disabled="isBlocked || !email">
+            {{ $t('Edit.referral.send') }}
+          </material-button>
+        </div>
+      </section>
 
-        <section class="md-layout">
-          <div class="md-layout-item md-size-66">
-            <div class="address-field">
-              <div class="address-title">
-                {{ $t('Edit.referral.emailInvite') }}
-              </div>
-            </div>
-            <md-field>
-              <label class="input-redeem-hint">
-                {{ $t('Edit.referral.emailInvite') }}
-              </label>
-              <md-input
-                v-model="email"
-                :title="$t('Edit.referral.emailInvite')"
-                type="email"
-                required
-                :disabled="isProfileEdit" />
-            </md-field>
-          </div>
-          <div v-if="!isProfileEdit" id="form-btn" class="md-layout-item md-size-33">
-            <md-button
-              class="md-raised md-primary"
-              id="confirm-btn"
-              type="submit"
-              form="referralForm"
-              :disabled="isBlocked">
-              {{ $t('Edit.referral.send') }}
-            </md-button>
-          </div>
-        </section>
-
-        <section class="address-field">
-          <div class="address-title">
-            {{ $t('Edit.referral.altInvite') }}
-          </div>
-          <div class="md-layout ">
-            <md-button
-              class="md-layout-item md-primary referral-btn"
-              @click="onCopy" >
+      <section class="address-field">
+        <div class="address-title lc-padding-bottom-8">
+          {{ $t('Edit.referral.altInvite') }}
+        </div>
+        <div class="md-layout referral-btn-wrapper">
+          <material-button
+            class="md-layout-item referral-btn"
+            @click="onCopy" >
+            <div class="button-content-wrapper">
               <md-icon v-if="copied" class="referral-btn-icon">check</md-icon>
               <img v-else class="referral-btn-icon" :src="LinkIcon" />
               {{ $t('Edit.referral.copyUrl') }}
-            </md-button>
-            <md-button
-              class="md-layout-item md-primary referral-btn"
-              @click="onShareFB" >
+            </div>
+          </material-button>
+          <material-button
+            class="md-layout-item referral-btn"
+            @click="onShareFB" >
+            <div class="button-content-wrapper">
               <img class="referral-btn-icon" :src="FBIcon" />
               {{ $t('Edit.referral.facebook') }}
-            </md-button>
-            <md-button
-              class="md-layout-item md-primary referral-btn"
-              @click="onShareTwitter" >
+            </div>
+          </material-button>
+          <material-button
+            class="md-layout-item referral-btn"
+            @click="onShareTwitter" >
+            <div class="button-content-wrapper">
               <img class="referral-btn-icon" :src="TwIcon" />
               {{ $t('Edit.referral.twitter') }}
-            </md-button>
-          </div>
-        </section>
+            </div>
+          </material-button>
+        </div>
+      </section>
 
-      </form>
-      <input class="hidden-input" ref="shareUrl" v-model="shareUrl"/>
-    </div>
+    </form>
+    <input class="hidden-input" ref="shareUrl" v-model="shareUrl"/>
   </div>
 </template>
 
 <script>
-import LinkIcon from '@/assets/icons/link-icon.svg';
 import FBIcon from '@/assets/icons/f-icon.svg';
+import LinkIcon from '@/assets/icons/link-icon.svg';
+import TickIcon from '@/assets/tokensale/tick.svg';
 import TwIcon from '@/assets/icons/t-icon.svg';
+
+import MaterialButton from '~/components/MaterialButton';
 
 import { logTrackerEvent } from '@/util/EventLogger';
 import { mapActions } from 'vuex';
@@ -118,11 +116,16 @@ export default {
     verified: Number,
     user: String,
   },
+  components: {
+    MaterialButton,
+  },
   data() {
     return {
-      LinkIcon,
       FBIcon,
+      LinkIcon,
+      TickIcon,
       TwIcon,
+
       email: '',
       copied: false,
     };
@@ -183,6 +186,7 @@ export default {
 
 .hidden-input {
   position: absolute;
+
   overflow: hidden;
   clip: rect(0 0 0 0);
 
@@ -194,94 +198,136 @@ export default {
   border: 0;
 }
 
-.section-redeem-edit-mode {
-  opacity: .3;
-}
-
-.email-notice {
-  margin-top: -20px;
-  padding: 40px 40px 32px;
+.email-notice,
+.referral-description {
   color: $like-gray-4;
-  background-color: $like-gray-1;
-  text-align: left;
-  line-height: 1.5;
-  font-size: 20px;
-}
-
-.referral-form-container {
-  margin-top: 56px;
-  .lc-container-header-title {
-    margin: 0;
-    width: calc(66.66% - 88px);
-  }
 }
 
 #referralForm {
-  margin-top: -20px;
-  padding: 40px 40px 32px;
+  .address-title {
+    color: $like-dark-brown-1;
+  }
+  .referral-details {
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
 
-  background-color: $like-gray-1;
+    .referral-description {
+      line-height: 1.5;
+    }
 
-  .referral-description {
-    margin: 20px 0;
-    text-align: left;
-    line-height: 1.5;
-    font-size: 20px;
-    min-height: 140px;
-    color: $like-gray-4;
+    .referral-stat-boxes {
+      @media (max-width: 768px) {
+        margin-top: 16px;
+      }
+    }
+
+    .referral-stat-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      text-align: center;
+
+      @media (min-width: 769px) {
+        margin-left: 24px;
+      }
+
+      .verified {
+        color: $like-green-2;
+      }
+
+      .referral-stat-number {
+        font-weight: 300;
+        line-height: 56px;
+      }
+
+      hr {
+        height: 1px;
+        margin: 12px;
+
+        border: 0;
+        background-color: $like-gray-3;
+      }
+
+      .referral-stat-description {
+        min-height: 40px;
+      }
+    }
   }
 
-  .referral-stat-boxes {
-    margin: 40px;
-  }
-  .referral-stat-box {
-    text-align: center;
-    margin: 16px;
-    .verified {
-      color: $like-green-2;
+  .invite-by-email-wrapper {
+    .input-redeem-hint {
+      font-size: 20px;
     }
-    .referral-stat-number {
-      font-size: 56px;
-    }
-    hr {
-      margin: 12px;
-    }
-    .referral-stat-description {
-      font-size: 14px;
-    }
-  }
 
-  .input-redeem-hint {
-    font-size: 20px;
+    .md-focused .input-redeem-hint,
+    .md-has-value .input-redeem-hint {
+      opacity: 0;
+    }
+
+    @media (max-width: 600px) {
+      display: flex;
+      flex-direction: column;
+    }
   }
 
   #form-btn {
-    text-align: right;
+    display: flex;
+    align-items: flex-end;
 
-    .md-button {
-      margin: 24px 0;
+    margin: 0 auto;
+
+    @media (min-width: 601px) {
+      margin-left: 16px;
     }
 
     #confirm-btn {
-      width: calc(100% - 16px);
+      width: 100%;
       height: 40px;
-
-      background-color: $like-green;
-
-      font-size: 24px;
     }
   }
 
-  .referral-btn {
-    max-width: 256px;
-    height: 40px;
-    margin: 10px;
-    font-size: 24px;
-    color: $like-green;
-    background-color: $like-white;
-    .referral-btn-icon {
-      padding-bottom: 5px;
+  .referral-btn-wrapper {
+    @media (max-width: 600px) {
+      flex-direction: column;
+    }
+
+    .referral-btn {
+      flex: 1;
+
+      height: 40px;
+
       color: $like-green;
+      background-color: $like-white;
+
+      &:first-child {
+        margin-left: 0;
+      }
+
+      @media (max-width: 768px) {
+        font-size: 18px;
+      }
+      @media (max-width: 600px) {
+        margin: 2px 0;
+      }
+
+      .button-content-wrapper {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+
+        .referral-btn-icon {
+          position: absolute;
+          top: 8px;
+          left: 16px;
+
+          padding-bottom: 5px;
+
+          color: $like-green;
+        }
+      }
+
     }
   }
 }

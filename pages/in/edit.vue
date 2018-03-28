@@ -208,14 +208,44 @@
       <claim-dialog ref="claimDialog" :couponCode="couponCode" :wallet="wallet" />
     </div>
 
-    <referral-action
-      :user="user"
-      :pending="referralPending"
-      :verified="referralVerified"
-      :isEmailVerified="getUserInfo.isEmailVerified"
-      :isProfileEdit="isProfileEdit"
-      :isBlocked="getIsPopupBlocking"
-    />
+
+    <div class="referral-form-container" id="referral">
+      <div :class="isProfileEdit ? 'section-redeem-edit-mode' : ''">
+        <section class="lc-container-1">
+          <div class="lc-container-header">
+            <div class="lc-container-2 lc-container-header-overlay">
+              <div class="lc-container-3">
+                <div class="lc-container-4" />
+              </div>
+            </div>
+            <div class="lc-container-2">
+              <div class="lc-container-3">
+                <div class="lc-container-4">
+                  <div class="lc-container-header-title">
+                    <h1>{{ $t('Edit.referral.title') }}</h1>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lc-container-2">
+            <div class="lc-container-3 lc-padding-vertical-32 section-content">
+              <div class="lc-container-4">
+                <referral-action
+                  :user="user"
+                  :pending="referralPending"
+                  :verified="referralVerified"
+                  :isEmailVerified="getUserInfo.isEmailVerified"
+                  :isProfileEdit="isProfileEdit"
+                  :isBlocked="getIsPopupBlocking"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
 
     <view-etherscan :address="wallet" />
   </div>
@@ -518,6 +548,10 @@ $profile-icon-size: 128px;
 
   padding-bottom: 60px;
 
+  > .lc-container-1 {
+    margin: 0;
+  }
+
   .lc-container-header-title {
     margin: 0;
 
@@ -780,10 +814,6 @@ $profile-icon-size: 128px;
       border: 0;
     }
   }
-
-  .transaction-history-container {
-    margin-top: 56px;
-  }
 }
 
 .section-content,
@@ -795,9 +825,17 @@ $profile-icon-size: 128px;
   opacity: .3;
 }
 
-#coupon {
+.transaction-history-container,
+#coupon,
+#referral {
   margin-top: 56px;
 
+  @media (max-width: 600px) {
+    margin-top: 32px;
+  }
+}
+
+#coupon {
   #redeemForm {
     :not(.md-focused) .input-redeem-hint {
       font-size: 20px;
