@@ -81,14 +81,6 @@ export async function queryTxHistoryByAddr({ commit }, { addr, ts, count }) {
   return apiWrapper(commit, api.apiQueryTxHistoryByAddr(addr, ts, count));
 }
 
-export async function purchaseIAP({ commit }, { id, payload }) {
-  return apiWrapper(commit, api.apiPurchaseIAP(id, payload), { blocking: true });
-}
-
-export async function queryIAPProducts({ commit }) {
-  return apiWrapper(commit, api.apiQueryIAPProducts());
-}
-
 export async function queryEthPrice({ commit }) {
   try {
     const [data] = await apiWrapper(commit, api.apiQueryEthPrice());

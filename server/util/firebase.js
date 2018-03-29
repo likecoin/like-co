@@ -20,14 +20,12 @@ if (process.env.CI) {
   const db = admin.firestore();
   const userCollection = db.collection(config.FIRESTORE_USER_ROOT);
   const txCollection = db.collection(config.FIRESTORE_TX_ROOT);
-  const iapCollection = db.collection(config.FIRESTORE_IAP_ROOT);
   const bucket = admin.storage().bucket();
 
   module.exports = {
     db,
     userCollection,
     txCollection,
-    iapCollection,
     bucket,
     FieldValue,
   };
