@@ -589,7 +589,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/index";
+@import "~assets/variables";
 
 input[type="file"] {
   position: absolute;
@@ -710,7 +710,7 @@ input[type="file"] {
         padding: 12px 0 8px;
 
         color: $like-gray-5;
-        border-bottom: 2px solid #d8d8d8;
+        border-bottom: 2px solid $like-gray-3;
       }
     }
     .md-radio {

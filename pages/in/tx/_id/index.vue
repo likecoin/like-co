@@ -210,12 +210,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-@import "~assets/index.scss";
+@import "~assets/variables";
 
 .tx-info {
   width: 100%;
   max-width: 560px;
-  background: #f7f7f7;
+  background: $like-gray-1;
   margin: 0 auto;
   padding: 17px 0;
 

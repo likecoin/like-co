@@ -68,13 +68,15 @@ export default {
 
 
 <style lang="scss" scoped>
+@import "~assets/variables";
+
 $separator-size: 10px;
 
 .lc-tokensale-progress {
   .lc-tokensale-progress-bar {
     position: relative;
     padding: 0 #{$separator-size / 2 + 4px};
-    background-color: #d8d8d8;
+    background-color: $like-gray-3;
     border-radius: 8px;
 
     .progress {
@@ -98,7 +100,7 @@ $separator-size: 10px;
 
       content: " ";
 
-      border: solid 1px #ffffff;
+      border: solid 1px $like-white;
       border-radius: 50%;
       background-color: transparent;
     }
