@@ -172,7 +172,7 @@
 
         <div class="lc-container-header">
           <div class="lc-container-2 lc-container-header-overlay">
-            <div class="lc-container-3" />
+            <div class="lc-container-3 lc-bg-gray-1" />
           </div>
           <div class="lc-container-2">
             <div class="lc-container-3">
@@ -188,7 +188,7 @@
         </div>
 
         <div class="lc-container-2">
-          <div class="lc-container-3 lc-padding-vertical-32 section-content">
+          <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-32 section-content">
             <div class="lc-container-4">
               <form id="redeemForm" v-on:submit.prevent="onSubmitCoupon">
                 <md-field>
@@ -229,7 +229,7 @@
         <section class="lc-container-1">
           <div class="lc-container-header">
             <div class="lc-container-2 lc-container-header-overlay">
-              <div class="lc-container-3" />
+              <div class="lc-container-3 lc-bg-gray-1" />
             </div>
             <div class="lc-container-2">
               <div class="lc-container-3">
@@ -245,7 +245,7 @@
           </div>
 
           <div class="lc-container-2">
-            <div class="lc-container-3 lc-padding-vertical-32 section-content">
+            <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-32 section-content">
               <div class="lc-container-4">
                 <referral-action
                   :user="user"
@@ -273,7 +273,9 @@ import BigNumber from 'bignumber.js';
 import EthHelper from '@/util/EthHelper';
 import User from '@/util/User';
 import { logTrackerEvent } from '@/util/EventLogger';
-
+import LikeCoinAmount from '~/components/LikeCoinAmount';
+import MaterialButton from '~/components/MaterialButton';
+import ReferralAction from '~/components/ReferralAction';
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import InputDialog from '~/components/dialogs/InputDialog';
 // import TransactionHistory from '~/components/TransactionHistory';
@@ -287,7 +289,7 @@ import TickIcon from '@/assets/tokensale/tick.svg';
 
 export default {
   name: 'Edit',
-  layout: 'baseWithBackground',
+  layout: 'defaultWithHeader',
   data() {
     return {
       avatarFile: null,
@@ -312,6 +314,9 @@ export default {
   components: {
     ClaimDialog,
     InputDialog,
+    LikeCoinAmount,
+    MaterialButton,
+    ReferralAction,
     // TransactionHistory,
     ViewEtherscan,
   },
