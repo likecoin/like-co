@@ -263,11 +263,14 @@ export default {
       this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
     },
   },
+  mounted() {
+    this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-@import "~assets/index";
+@import "~assets/variables";
 
 p {
   max-width: 422px;
@@ -308,7 +311,7 @@ a {
 }
 
 .inner-container {
-  background: #f7f7f7;
+  background: $like-gray-1;
   margin: 16px 0;
   padding: 16px 0;
 }
@@ -338,9 +341,9 @@ a {
 }
 
 #payment-confirm.likecoin {
-  color: #ffffff;
+  color: $like-white;
   font-size: 24px;
-  background-color: #28646e;
+  background-color: $like-green;
   text-transform: none;
 }
 

@@ -572,9 +572,9 @@ export default {
 
 
 <style lang="scss" scoped>
-@import "~assets/index";
+@import "~assets/variables";
 @import "~assets/default";
-
+@import "~assets/input";
 
 .lc-container-3 {
   background-color: $like-gray-1;
@@ -652,7 +652,7 @@ export default {
     a {
       text-decoration: underline;
 
-      color: #28646E;
+      color: $like-green;
     }
 
     &:last-child {
@@ -674,6 +674,24 @@ export default {
 
 .tokensale-presale-wrapper {
   text-align: center;
+}
+
+.tokensale-amount {
+  text-align: center;
+
+  font-weight: 300;
+
+  .current {
+    color: $like-green;
+
+    font-size: 46px;
+    line-height: 62px;
+  }
+
+  .max {
+    font-size: 20px;
+    font-weight: 400;
+  }
 }
 
 

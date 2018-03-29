@@ -1,33 +1,10 @@
 @import "functions";
-
-$like-white: #ffffff;
-
-$like-gray-1: #f7f7f7;
-$like-gray-2: #f4f4f4;
-$like-gray-3: #d8d8d8;
-
-$like-gray-4: #737373;
-$like-gray-5: #4a4a4a;
-
-$like-light-blue: #D2F0F0;
-$like-green: #28646E;
-$like-green-2: #16a122;
-
-$like-brown: #714b29;
-$like-dark-brown-1: #462814;
-$like-dark-brown-2: #462405;
-
-$like-red: #fc5757;
-
-$like-gradient-1: #F0E6B4;
-
-$like-gradient-2: #3C286E;
-$like-gradient-3: #6E2828;
+@import "variables";
 
 body {
   z-index: -2;
 
-  font-family: 'open-sans', 'source-han-sans-traditional', 'Open Sans', 'Source Sans Pro', 'Noto Sans', 'Microsoft JhengHei', Arial, sans-serif;
+  font-family: 'Open Sans', 'source-han-sans-traditional', 'Source Sans Pro', 'Noto Sans', 'Microsoft JhengHei', Arial, sans-serif;
 
   .md-button {
     text-transform: none;
@@ -396,7 +373,7 @@ $font-weight-list: 300 400 600;
   background-image: linear-gradient(223deg, #d2f0f0, #f0e6b4);
 
   & + .lc-container-3 {
-    background-color: transparent;
+    background-color: transparent !important;
   }
 
   @media (max-width: 704px) {
@@ -476,40 +453,6 @@ $font-weight-list: 300 400 600;
   pointer-events: none !important;
 
   opacity: .3 !important;
-}
-
-
-// fine-tune input color
-.md-field {
-  &::before {
-    background-color: $like-gray-4;
-  }
-  &::after {
-    height: 2px;
-
-    background-color: $like-gray-3;
-  }
-  label {
-    color: #9b9b9b;
-  }
-  :global(.md-input) {
-    color: $like-gray-5;
-
-    font-size: 20px;
-    font-weight: 300;
-  }
-
-  &.md-focused,
-  &.md-has-value {
-    label {
-      color: $like-dark-brown-1;
-    }
-  }
-  &:not(.md-focused):not(.md-has-value) {
-    label {
-      margin-top: -4px;
-    }
-  }
 }
 
 /* Layout System - End */

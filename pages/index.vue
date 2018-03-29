@@ -157,7 +157,7 @@ export default {
 
 
 <style lang="scss" scoped>
-@import "../assets/index";
+@import "~assets/variables";
 
 $carousel-height: 488px;
 

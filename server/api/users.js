@@ -16,6 +16,7 @@ const sha256 = require('js-sha256');
 const sharp = require('sharp');
 const imageType = require('image-type');
 const uuidv4 = require('uuid/v4');
+const disposableDomains = require('disposable-email-domains');
 
 const {
   userCollection: dbRef,
@@ -40,7 +41,7 @@ const multer = Multer({
 
 const ONE_DATE_IN_MS = 86400000;
 const THIRTY_S_IN_MS = 30000;
-const W3C_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+const W3C_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
 const router = Router();
 
@@ -75,8 +76,11 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       throw new Error('payload expired');
     }
 
-    if (email && !(W3C_EMAIL_REGEX.test(email))) {
-      throw new Error('invalid email');
+    if (email) {
+      if (!(W3C_EMAIL_REGEX.test(email))) throw new Error('invalid email');
+      if (disposableDomains.includes(email.split('@')[1])) {
+        throw new Error('email domain not allowed');
+      }
     }
 
     // Check user/wallet uniqueness

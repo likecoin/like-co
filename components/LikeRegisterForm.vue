@@ -36,7 +36,11 @@
             </div>
             <md-field>
               <label>{{ $t('Register.form.email') }}</label>
-              <md-input type="email" v-model="email" />
+              <md-input
+                pattern="^[a-zA-Z0-9.!#$%&'*/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+                v-model="email"
+                :title="$t('Register.form.error.emailFormat')"
+              />
             </md-field>
             <md-field>
               <label>{{ $t('Register.form.referrer') }}</label>
@@ -245,7 +249,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/index";
+@import "~assets/variables";
 
 $icon-size: 144px;
 

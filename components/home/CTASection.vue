@@ -171,7 +171,7 @@ export default {
 
 
 <style lang="scss" scoped>
-@import "~assets/index";
+@import "~assets/variables";
 
 .cta-section {
   @media (max-width: 600px) {
@@ -244,7 +244,7 @@ export default {
     }
 
     &.completed-percentage {
-      color: #28646E;
+      color: $like-green;
 
       font-size: 44px;
 
@@ -263,7 +263,7 @@ export default {
   h3 {
     margin-top: 20px;
 
-    color: #737373;
+    color: $like-gray-4;
 
     font-size: 20px;
     font-weight: 400;
@@ -306,7 +306,7 @@ export default {
     transition: all .25s ease-in;
     text-align: center;
 
-    color: #28646E;
+    color: $like-green;
 
     font-size: 14px;
 
@@ -370,7 +370,7 @@ export default {
         a {
           text-decoration: underline;
 
-          color: #28646E;
+          color: $like-green;
 
           font-size: 20px;
 
@@ -405,7 +405,7 @@ export default {
 </style>
 
 <style lang="scss">
-@import "~assets/index";
+@import "~assets/variables";
 
 .cta-section {
   .cta-section-token-sale-progress .lc-tokensale-progress-bar {
