@@ -1,24 +1,21 @@
 <template>
-  <div>
-    <section id="likecoin-amount">
+  <section class="likecoin-amount-section">
+    <div id="likecoin-amount">
       <div :class="['title', 'lc-font-size-14', { 'text-opaque': isOpaque }]">
         {{ $t('Edit.label.likeCoinAmount') }}
       </div>
-      <a class="mobile-links" @click="onClick">
-        {{ linkText }}
-      </a>
       <div
         :class="[
           'value',
           'lc-font-weight-300',
-          'lc-font-size-56',
           {
             'text-opaque': isOpaque,
           },
         ]">
         {{ value || defaultValue }}
       </div>
-    </section>
+    </div>
+
     <div v-if="linkHref && linkText" class="links">
       <material-button class="link what">
         <a
@@ -30,12 +27,14 @@
         </a>
       </material-button>
     </div>
+
     <div v-else-if="linkText" class="links" @click="onClick">
       <material-button class="link what">
         <span> {{ linkText }} </span>
       </material-button>
     </div>
-  </div>
+
+  </section>
 </template>
 
 
@@ -77,17 +76,20 @@ export default {
   @media (max-width: 768px) {
     z-index: 1;
 
-    align-items: flex-start;
+    align-items: center;
     flex-direction: column;
 
-    padding: 48px 8px 8px 144px;
+    padding: 24px 8px 48px;
 
+    text-align: center;
+  }
+
+  @media (max-width: 600px) {
     border-radius: 0;
   }
 
   > .title {
     display: flex;
-    align-items: center;
 
     color: $like-dark-brown-1;
 
@@ -96,15 +98,29 @@ export default {
       min-width: 128px;
       margin-right: 48px;
     }
+
+    @media (max-width: 768px) {
+      margin-bottom: 12px;
+
+      text-align: center;
+    }
   }
 
   > .value {
-    color: $like-gray-5;
-    word-wrap: break-word;
-    line-height: 1;
     width: 100%;
 
-    @media (max-width: 768px) {
+    word-wrap: break-word;
+
+    color: $like-gray-5;
+
+    font-size: 56px;
+    line-height: 1;
+
+    @media (max-width: 1024px) {
+      font-size: 42px;
+    }
+
+    @media (max-width: 600px) {
       font-size: 38px;
     }
   }
@@ -112,33 +128,38 @@ export default {
   .text-opaque {
     opacity: 0.3;
   }
-
-  .mobile-links {
-    text-decoration: underline;
-    @media (min-width: 601px) {
-      display: none;
-    }
-  }
-
 }
 
 .links {
-  align-self: flex-end;
-
-  width: calc(33.33% - 40px);
-  margin-top: -24px;
-  margin-right: 40px;
-
   z-index: 1;
 
-  @media (max-width: 600px) {
-    display: none;
+  margin-top: -24px;
+
+  @media (min-width: #{768px + 1px}) {
+    align-self: flex-end;
+
+    width: calc(33.33% - 40px);
+    margin-right: #{40px + 8px};
+  }
+
+  @media (max-width: 768px) {
+    align-self: center;
+
+    width: 100%;
+    max-width: 320px;
+    padding: 0 24px;
   }
 
   .link {
     display: flex;
 
+    margin: 0;
+
     transition: opacity .2s ease-in-out;
+
+    &:not(:first-child) {
+      margin-top: 8px;
+    }
 
     &.what {
       background-image: linear-gradient(73deg, $like-gradient-2, $like-gradient-3);
@@ -151,12 +172,6 @@ export default {
     > a, span {
       text-decoration: underline;
     }
-  }
-}
-
-@media (max-width: 1024px) {
-  .links {
-    margin-top: -20px;
   }
 }
 </style>

@@ -1,65 +1,70 @@
 <template>
   <div class="edit-form-container">
     <div class="lc-container-1">
-      <div class="upper-left-corner" />
+      <div class="upper-left-corner lc-mobile-hide" />
       <div class="lc-container-2">
+
         <form
           id="editForm"
           class="lc-padding-bottom-32"
           @keydown.esc="onCancel"
           @submit.prevent="onSubmitEdit">
-          <div class="user-info-wrapper">
-            <div class="lc-container-3 avatar-wrapper">
-              <div class="lc-container-4">
-                <div class="md-layout avatar-layout">
-                  <div class="icon">
-                    <img class="avatar" :src="avatarData" />
-                    <md-button
-                      :class="{ 'input-display-btn': !isProfileEdit }"
-                      @click="openPicker">
-                      <img :src="EditWhiteIcon" />
-                    </md-button>
-                    <input type="file" ref="inputFile" accept="image/*" @change="previewImage" />
+
+          <!-- BEGIN - User info section -->
+          <div class="lc-container-3">
+            <div class="lc-container-4">
+              <section class="user-info-section">
+
+                <div class="user-avatar-wrapper">
+                  <img class="avatar" :src="avatarData" />
+                  <md-button
+                    :class="{ 'input-display-btn': !isProfileEdit }"
+                    @click="openPicker">
+                    <img :src="EditWhiteIcon" />
+                  </md-button>
+                  <input type="file" ref="inputFile" accept="image/*" @change="previewImage" />
+                </div>
+
+                <div class="user-identity">
+                  <div :class="['likecoin-id', 'lc-tablet-hide', 'lc-font-size-20', { disabled: isProfileEdit }]">
+                    <span class="user-id-label">
+                      {{ $t('Edit.label.id') }}&nbsp;
+                    </span>
+                    <nuxt-link v-if="user" :to="{ name: 'id', params: { id: user } }">
+                      {{ user }}
+                    </nuxt-link>
                   </div>
 
-                  <div class="user-container">
-                    <div :class="['likecoin-id', 'md-layout', 'lc-font-size-20', { disabled: isProfileEdit }]">
-                      <div class="user-content">
-                        {{ $t('Edit.label.id') }}&nbsp;
-                      </div>
-                      <nuxt-link v-if="user" :to="{ name: 'id', params: { id: user } }">
-                        {{ user }}
-                      </nuxt-link>
-                    </div>
-                    <div class="lc-padding-bottom-8" @click="onEditDisplayName">
-                      <md-field :class="isProfileEdit ? 'md-field-edit-mode' : 'md-field-pre-edit'">
-                        <md-input
-                          ref="inputDisplayName"
-                          class="input-display-name input-display"
-                          v-model="displayName"
-                          :disabled="!isProfileEdit"
-                          required />
-                        <md-button
-                          :class="{ 'input-display-btn': !isProfileEdit }"
-                          @click="onEditDisplayName"
-                          v-if="!isProfileEdit">
-                          <img :src="EditIcon" />
-                        </md-button>
-                      </md-field>
-                    </div>
+                  <div @click="onEditDisplayName">
+                    <md-field :class="['lc-margin-bottom-4', 'lc-padding-top-0', isProfileEdit ? 'md-field-edit-mode' : 'md-field-pre-edit']">
+                      <md-input
+                        ref="inputDisplayName"
+                        class="input-display-name input-display"
+                        v-model="displayName"
+                        :disabled="!isProfileEdit"
+                        required />
+                      <md-button
+                        :class="['lc-tablet-hide', { 'input-display-btn': !isProfileEdit }]"
+                        @click="onEditDisplayName"
+                        v-if="!isProfileEdit">
+                        <img :src="EditIcon" />
+                      </md-button>
+                    </md-field>
                   </div>
                 </div>
-              </div>
-            </div>
 
-            <like-coin-amount
-              class="amount-section"
-              :value="likeCoinValueStr"
-              :isOpaque="isProfileEdit"
-              :linkHref="!isProfileEdit ? getAmountHref : ''"
-              :linkText="!isProfileEdit ? getAmountText : ''"
-              @onTextClick="getAmountAction" />
+              </section>
+            </div>
           </div>
+          <!-- END - User info section -->
+
+          <like-coin-amount
+            class="likecoin-amount-section"
+            :value="likeCoinValueStr"
+            :isOpaque="isProfileEdit"
+            :linkHref="!isProfileEdit ? getAmountHref : ''"
+            :linkText="!isProfileEdit ? getAmountText : ''"
+            @onTextClick="getAmountAction" />
 
           <input-dialog
             ref="inputDialog"
@@ -74,7 +79,7 @@
             <div class="lc-container-4">
               <div class="address-section">
                 <div :class="['address-container', { edit: isProfileEdit }]">
-                  <div class="address-field likecoin-id">
+                  <div class="address-field likecoin-id lc-tablet-show">
                     <div class="address-title">
                       {{ $t('Edit.label.id') }}
                     </div>
@@ -560,16 +565,7 @@ $profile-icon-mobile-size: 88px;
   }
 }
 
-@media (max-width: 768px) {
-  .upper-left-corner {
-    display: none;
-  }
-}
-
 .edit-form-container {
-  display: flex;
-  flex-direction: column;
-
   > .lc-container-1 {
     width: 100%;
   }
@@ -577,7 +573,7 @@ $profile-icon-mobile-size: 88px;
   .lc-container-header-title {
     margin: 0;
 
-    @media (min-width: 769px) {
+    @media (min-width: #{768px + 1px}) {
       width: calc(66.66% - 88px);
     }
   }
@@ -585,62 +581,38 @@ $profile-icon-mobile-size: 88px;
   #editForm {
     position: relative;
 
-    display: flex;
-    flex-direction: column;
-
-    .user-info-wrapper {
+    .user-info-section {
       display: flex;
-      flex-direction: column;
-
-      @media (max-width: 768px) {
-        .avatar-wrapper {
-          order: 2;
-
-          margin-top: -#{$profile-icon-mobile-size / 2};
-
-          background-color: $like-gray-1;
-        }
-        .amount-section {
-          order: 1;
-        }
-      }
-
-      @media (min-width: 601px) and (max-width: 768px) {
-        .avatar-wrapper,
-        .amount-section {
-          margin-left: -24px;
-          margin-right: -24px;
-        }
-      }
-
-    }
-
-    .avatar-layout {
       align-items: center;
       flex-direction: row;
 
-      @media (min-width: 769px) {
+      @media (min-width: #{768px + 1px}) {
         width: 66.66%;
+      }
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+
+        margin-bottom: 40px;
       }
     }
 
-    .user-container {
-      overflow: hidden;
-      flex: 1;
+    .user-identity {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
 
-      .user-content {
-        color: $like-gray-5;
+      @media (max-width: 768px) {
+        align-items: center;
       }
 
-      .likecoin-id {
-        @media (max-width: 768px) {
-          display: none;
-        }
+      .user-id-label {
+        color: $like-gray-5;
       }
 
       .input-display-name {
         @media (max-width: 768px) {
-          padding-top: #{$profile-icon-mobile-size / 2};
+          text-align: center;
         }
       }
     }
@@ -658,10 +630,13 @@ $profile-icon-mobile-size: 88px;
 
     .md-field {
       &.md-field-pre-edit {
-        padding-top: 0px;
-
         &:after {
           display: none;
+        }
+      }
+      &.md-field-edit-mode {
+        &:after {
+          height: 1px;
         }
       }
 
@@ -685,14 +660,6 @@ $profile-icon-mobile-size: 88px;
       }
     }
 
-    .md-field-edit-mode {
-      margin-bottom: 0px;
-      padding-top: 0px;
-      &:after {
-        height: 1px;
-      }
-    }
-
     .md-field-display {
       margin-bottom: 0px;
       padding-top: 0px;
@@ -700,15 +667,16 @@ $profile-icon-mobile-size: 88px;
         height: 0px;
       }
       .input-info {
-        font-weight: 400;
-
         overflow: hidden;
-        text-overflow: ellipsis;
+
         white-space: nowrap;
+        text-overflow: ellipsis;
+
+        font-weight: 400;
       }
     }
 
-    .amount-section {
+    .likecoin-amount-section {
       display: flex;
       flex-direction: column;
 
@@ -800,16 +768,17 @@ $profile-icon-mobile-size: 88px;
       }
     }
 
-    .icon {
+    .user-avatar-wrapper {
       position: relative;
       z-index: 2;
 
       overflow: hidden;
+      flex-shrink: 0;
 
       border: 1px solid rgba(0,0,0, 0.2);
       border-radius: 50%;
 
-      @media (min-width: 769px) {
+      @media (min-width: #{768px + 1px}) {
         width: $profile-icon-size;
         height: $profile-icon-size;
         margin-right: $profile-margin;
@@ -818,43 +787,42 @@ $profile-icon-mobile-size: 88px;
       @media (max-width: 768px) {
         width: $profile-icon-mobile-size;
         height: $profile-icon-mobile-size;
-        margin-right: #{$profile-margin / 2};
       }
 
       .avatar {
         width: auto;
         height: 100%;
       }
-    }
 
-    .icon .md-button {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
+      .md-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
 
-      width: 100%;
-      height: 100%;
-      margin: auto;
+        width: 100%;
+        height: 100%;
+        margin: auto;
 
-      &:hover {
-        color: $like-white;
+        &:hover {
+          color: $like-white;
+        }
       }
-    }
 
-    input[type="file"] {
-      position: absolute;
+      input[type="file"] {
+        position: absolute;
 
-      overflow: hidden;
-      clip: rect(0 0 0 0);
+        overflow: hidden;
+        clip: rect(0 0 0 0);
 
-      width: 1px;
-      height: 1px;
-      margin: -1px;
-      padding: 0;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
 
-      border: 0;
+        border: 0;
+      }
     }
   }
 }
