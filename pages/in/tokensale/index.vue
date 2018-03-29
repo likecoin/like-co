@@ -504,6 +504,19 @@ export default {
       } else {
         this.isKYCTxPass = null;
       }
+      if (this.canICO
+        && !this.needExtraKYC
+        && this.shouldShowPaymentForm) {
+        const balance = await EthHelper.queryEthBalance();
+        if (!balance || balance === '0') this.triggerIntercom();
+      }
+    },
+    triggerIntercom() {
+      if (this.$intercom) {
+        this.$router.push({ query: Object.assign({}, this.$route.query, { interested: 'true' }) });
+        this.$intercom.update();
+        this.$intercom.show();
+      }
     },
     async updateTokenSaleProgress() {
       const amount = await EthHelper.queryEthBalance(LIKE_COIN_ICO_ADDRESS);
