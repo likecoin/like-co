@@ -5,7 +5,7 @@
       <div class="lc-container-2">
         <form
           id="editForm"
-          class="lc-padding-bottom-32"
+          class="lc-padding-bottom-32 lc-padding-bottom-0-mobile"
           @keydown.esc="onCancel"
           @submit.prevent="onSubmitEdit">
           <div class="user-info-wrapper">

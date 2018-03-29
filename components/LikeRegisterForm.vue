@@ -11,7 +11,7 @@
         </div>
         <div class="md-layout md-layout-item">
           <div class="md-layout-item">
-            <md-field>
+            <md-field class="lc-margin-top-12 lc-margin-bottom-24 lc-mobile">
               <label>{{ $t('Register.form.createID') }}</label>
               <md-input
                 v-model="user"
@@ -21,7 +21,7 @@
                 :title="$t('Register.form.error.alphanumeric')"
                 required />
             </md-field>
-            <md-field :class="isBadAddress? 'md-invalid' : ''">
+            <md-field :class="['lc-margin-top-12', 'lc-margin-bottom-24', 'lc-mobile', { 'md-invalid': isBadAddress }]">
               <label>{{ $t('Register.form.walletAddress') }}</label>
               <md-input v-model="wallet" maxlength="42" required disabled />
               <span v-if="isBadAddress" class="md-error">
@@ -30,11 +30,14 @@
             </md-field>
             <div v-if="isEdit && !isNaN(likeCoinBalance) && !isRedeemingCoupon">
               {{ $t('Register.form.amount') }}
-              <a :href="`${ETHERSCAN_HOST}/address/${wallet}#tokentxns`" target="_blank" rel="noopener">
+              <a
+                :href="`${ETHERSCAN_HOST}/address/${wallet}#tokentxns`"
+                target="_blank"
+                rel="noopener">
                 {{ likeCoinBalance }}
               </a>
             </div>
-            <md-field>
+            <md-field class="lc-margin-top-12 lc-margin-bottom-24 lc-mobile">
               <label>{{ $t('Register.form.email') }}</label>
               <md-input
                 pattern="^[a-zA-Z0-9.!#$%&'*/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
@@ -42,15 +45,15 @@
                 :title="$t('Register.form.error.emailFormat')"
               />
             </md-field>
-            <md-field>
+            <md-field class="lc-margin-top-12 lc-margin-bottom-24 lc-mobile">
               <label>{{ $t('Register.form.referrer') }}</label>
               <md-input v-model="referrer" />
             </md-field>
-            <md-field v-if="isEdit && !isRedeemingCoupon">
+            <md-field class="lc-margin-top-12 lc-margin-bottom-24 lc-mobile" v-if="isEdit && !isRedeemingCoupon">
               <label>{{ $t('Register.form.displayName') }}</label>
               <md-input v-model="displayName" />
             </md-field>
-            <md-field v-if="isRedeem || isEdit">
+            <md-field class="lc-margin-top-12 lc-margin-bottom-24 lc-mobile" v-if="isRedeem || isEdit">
               <label>
                 <span v-if="isEdit">
                   {{ $t('Register.form.claim') }}
@@ -62,15 +65,14 @@
           </div>
         </div>
       </div>
-      <div id="form-btn">
-        <md-button
-          class="md-raised md-primary"
+      <div id="form-btn" class="lc-margin-top-16 lc-mobile">
+        <material-button
           id="confirm-btn"
           type="submit"
           form="registerForm"
           :disabled="getIsPopupBlocking">
           {{ $t('General.button.confirm') }}
-        </md-button>
+        </material-button>
       </div>
     </form>
     <claim-dialog ref="claimDialog" :couponCode="couponCode" :wallet="wallet" />
@@ -78,13 +80,16 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
 
 import EthHelper from '@/util/EthHelper';
 import User from '@/util/User';
 import { logTrackerEvent } from '@/util/EventLogger';
+
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
-import { mapActions, mapGetters } from 'vuex';
+import MaterialButton from '~/components/MaterialButton';
+
 import { toDataUrl } from '@likecoin/ethereum-blockies';
 import { ETHERSCAN_HOST } from '@/constant';
 
@@ -116,6 +121,7 @@ export default {
   },
   components: {
     ClaimDialog,
+    MaterialButton,
   },
   computed: {
     ...mapGetters([
@@ -250,54 +256,44 @@ export default {
 
 <style lang="scss" scoped>
 @import "~assets/variables";
+@import "~assets/input";
 
 $icon-size: 144px;
+$icon-mobile-size: 88px;
 
-
-.inner-container {
-  padding-bottom: 60px;
-}
-
-#has-account {
-  text-align: right;
-}
-
-.md-card-media img {
-  width: auto;
-  max-width: 400px;
-}
-
-#form-btn {
-  text-align: right;
-
-  #confirm-btn {
-    width: 256px;
-    height: 40px;
-
-    border-radius: 0;
-    background-color: $like-green;
-
-  	font-size: 24px;
-  }
-}
 
 #registerForm {
-  margin-top: -20px;
-  padding: 40px;
+  @media (max-width: 600px) {
+    > .md-layout {
+      flex-direction: column;
+    }
 
-  background-color: $like-gray-1;
+    .md-field {
+      label,
+      input {
+        width: 100%;
 
-  .md-field {
-    margin: 12px 0 24px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
   }
-}
 
-.avatar {
-  display: inline;
+  #form-btn {
+    text-align: right;
 
-  width: auto;
-  height: 100%;
-  margin: 0 auto;
+    @media (max-width: 600px) {
+      text-align: center;
+    }
+
+    #confirm-btn {
+      width: 256px;
+      height: 40px;
+
+      margin: 0;
+    }
+  }
 }
 
 .icon {
@@ -305,12 +301,25 @@ $icon-size: 144px;
 
   overflow: hidden;
 
-  width: $icon-size;
-  height: $icon-size;
-  margin: 8px;
-  margin-right: 32px;
-
   border-radius: 50%;
+
+  @media (min-width: 601px) {
+    width: $icon-size;
+    height: $icon-size;
+
+    margin: 8px;
+    margin-right: 32px;
+  }
+
+  @media (max-width: 600px) {
+    width: $icon-mobile-size;
+    height: $icon-mobile-size;
+  }
+
+  .avatar {
+    width: auto;
+    height: 100%;
+  }
 
   .md-button {
     position: absolute;
@@ -327,7 +336,6 @@ $icon-size: 144px;
 
     &:hover {
       opacity: 1;
-      color: white;
     }
   }
 }
