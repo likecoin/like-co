@@ -49,6 +49,14 @@
           </a>
         </section>
       </section>
+      <section v-if="remarks" class="extra tx-info">
+        <section class="section-container">
+          <div class="key">
+            {{ $t('Transaction.label.remarks') }}
+          </div>
+          <div class="value">{{ remarks }}</div>
+        </section>
+      </section>
     </div>
     <view-etherscan :transaction="txId" />
   </div>
@@ -87,6 +95,7 @@ export default {
       toId: '',
       toName: '',
       toAvatar: '',
+      remarks: '',
       timestamp: 0,
       value: '', // BN in string
       amount: 0,
@@ -112,6 +121,7 @@ export default {
           from,
           value,
           status,
+          remarks,
         } = res.data;
         if (to === LIKE_COIN_ICO_ADDRESS) {
           return redirect({
@@ -124,6 +134,7 @@ export default {
           from,
           value,
           status,
+          remarks,
         };
       })
       .catch(e => ({})); // eslint-disable-line no-unused-vars
@@ -233,18 +244,21 @@ export default {
     color: $like-dark-brown-1;
   }
 
-  a {
+  .value {
+    margin: 0 auto;
+    font-size: 20px;
+    word-wrap: break-word;
     color: #28646e;
+  }
+
+  a {
 
     &:hover {
       text-decoration: none;
     }
 
     .value {
-      margin: 0 auto;
       text-align: left;
-      font-size: 20px;
-      word-wrap: break-word;
     }
 
     .address.value {
