@@ -28,17 +28,21 @@
           </div>
         </div>
 
-        <div class="lc-container-2">
+        <div class="lc-container-2-extend">
           <div class="lc-container-3-extend-bg" />
           <div class="lc-container-3">
-            <div class="lc-container-4 lc-verticle-inset-5">
+            <div class="lc-padding-top-32 lc-padding-bottom-16">
 
-              <section class="countdown-section">
-                <h1>{{ isPreSale ? $t('TokenSale.preSaleTitle') : $t('TokenSale.title') }} <span>LIVE</span></h1>
-                <h2 v-if="isPreSale">
+              <section class="countdown-section lc-text-align-center">
+                <h1 class="lc-font-size-42 lc-font-weight-600">
+                  {{ isPreSale ? $t('TokenSale.preSaleTitle') : $t('TokenSale.title') }} <span class="lc-font-weight-300 lc-color-like-green">LIVE</span>
+                </h1>
+                <h2 v-if="isPreSale" class="lc-margin-top-12 lc-font-size-38 lc-font-weight-300">
                   {{ $t('TokenSale.label.bonusAndLimitedOffer') }}
                 </h2>
-                <h3>{{ isPreSale ? $t('TokenSale.label.limitedOfferCondition') : $t('TokenSale.label.publicSaleStartIn') }}</h3>
+                <h3 class="lc-margin-top-12 lc-font-size-14 lc-font-weight-400">
+                  {{ isPreSale ? $t('TokenSale.label.limitedOfferCondition') : $t('TokenSale.label.publicSaleStartIn') }}
+                </h3>
                 <!-- <countdown-timer :date="SALE_DATE" /> -->
               </section>
 
@@ -52,19 +56,19 @@
             <tokensale-progress />
 
             <div class="lc-container-4">
-              <div class="tokensale-amount lc-verticle-inset-2">
-                <span class="current">{{ currentTokenSaleAmount.toLocaleString() }}</span>
-                <span class="max"> / {{ maxTokenSaleAmount.toLocaleString() }} ETH</span>
+              <div class="tokensale-amount lc-verticle-inset-2 lc-text-align-center">
+                <span class="current lc-color-like-green lc-font-size-46 lc-font-weight-300">{{ currentTokenSaleAmount }}</span>
+                <span class="max lc-font-size-20 lc-font-weight-400"> / {{ maxTokenSaleAmount }} ETH</span>
               </div>
             </div>
           </div>
           <div v-else class="tokensale-presale-wrapper lc-container-3">
-            <div class="lc-container-4 lc-verticle-inset-5">
+            <div class="lc-container-4 lc-padding-vertical-32">
               {{ $t('TokenSale.label.amountWillBeSentWhenSalesStart')}}
             </div>
           </div>
 
-          <section class="token-info-section">
+          <section class="token-info-section lc-margin-top-8">
             <div class="lc-container-3">
               <div class="lc-container-4 lc-verticle-inset-4">
                 <div class="info-grid">
@@ -94,7 +98,7 @@
                         :href="$t('TokenSale.label.whatIsEthLink')"
                         ref="noopener"
                         target="_blank">
-                        <span>{{ $t('TokenSale.label.whatIsETH') }}</span>
+                        <span class="lc-font-size-12">{{ $t('TokenSale.label.whatIsETH') }}</span>
                         <img :src="QuestionIcon" />
                       </a>
                     </li>
@@ -110,7 +114,7 @@
       <!-- KYC Sections start -->
       <section
         v-if="getUserIsFetching || isKYCTxPass===undefined"
-        class="lc-container-1 lc-verticle-inset-5">
+        class="lc-container-1 lc-padding-vertical-32">
         <div class="lc-container-2">
           <md-progress-bar md-mode="indeterminate" />
         </div>
@@ -123,11 +127,20 @@
         <div class="lc-container-header">
           <div class="lc-container-2">
             <div class="lc-container-3 create-account-wrapper">
-              <p>{{ $t('KYC.label.createID') }}</p>
+              <p class="lc-color-like-gray-4 lc-text-align-center">
+                {{ $t('KYC.label.createID') }}
+              </p>
               <material-button @click="redirectToRegister">
                 {{ $t('KYC.button.createID') }}
               </material-button>
-              <p><a href="#" @click="showLoginWindow">{{ $t('Home.Header.button.signIn') }}</a></p>
+              <p>
+                <a
+                  class="lc-color-like-gray-4 lc-underline"
+                  href="#"
+                  @click="showLoginWindow">
+                  {{ $t('Home.Header.button.signIn') }}
+                </a>
+              </p>
             </div>
           </div>
         </div>
@@ -141,14 +154,16 @@
 
           <div class="lc-container-2">
             <div class="lc-container-header-title">
-              <h1>{{ isPreSale ? $t('TokenSale.label.joinPreSale') : $t('TokenSale.label.prepareToJoin') }}</h1>
+              <h1 class="lc-font-size-32 lc-mobile">
+                {{ isPreSale ? $t('TokenSale.label.joinPreSale') : $t('TokenSale.label.prepareToJoin') }}
+              </h1>
             </div>
           </div>
         </div>
 
         <div class="lc-container-2">
           <div class="lc-container-3">
-            <div class="lc-container-4 lc-verticle-inset-4">
+            <div class="lc-container-4 lc-padding-vertical-24">
               <div class="inner-container">
                 <section>
                   <KYCForm
@@ -159,13 +174,13 @@
                     @showPaymentForm="handleShowPaymentForm" />
                 </section>
 
-                <section v-if="isPreSale && canICO" class="like-coin-rate-section lc-verticle-inset-5">
+                <section v-if="isPreSale && canICO" class="like-coin-rate-section lc-padding-top-24 lc-padding-botton-0 lc-mobile">
                   <div>
                     <div class="title">
                       {{ $t('TokenSale.label.amountLikeToPurhcase') }}
                     </div>
-                    <md-field>
-                      <div class="coin-value-wrapper">
+                    <md-field class="lc-padding-top-8 lc-padding-top-0-mobile">
+                      <div class="coin-value-wrapper lc-padding-bottom-8 lc-padding-bottom-0-mobile">
                         <span>LIKE</span>
                         <md-input
                           :value="preSaleBase"
@@ -174,21 +189,24 @@
                       </div>
                     </md-field>
                   </div>
-                  <img :src="AddIcon" />
+
+                  <img class="add-sign" :src="AddIcon" />
+
                   <div>
                     <div class="title">
                       {{ $t('TokenSale.label.bonus') }}
                     </div>
-                    <md-field>
-                      <div class="coin-value-wrapper">
+                    <md-field class="lc-padding-top-8 lc-padding-top-0-mobile">
+                      <div class="coin-value-wrapper lc-padding-bottom-8 lc-padding-bottom-0-mobile">
                         <span>LIKE</span>
                         <md-input :value="preSaleBonus" disabled />
                       </div>
                     </md-field>
-                    <div class="remark lc-verticle-inset-2">
+                    <div class="remark lc-padding-top-8 lc-color-like-gray-4 lc-font-size-12">
                       {{ $t('TokenSale.label.bonusLockUp') }}
                     </div>
                   </div>
+
                 </section>
 
                 <!-- <section v-else-if="KYCStatus==KYC_STATUS_ENUM.PENDING">
@@ -204,13 +222,13 @@
       <section v-if="canICO && !needExtraKYC && shouldShowPaymentForm" class="lc-container-1 lc-verticle-inset-3">
         <div class="lc-container-2">
           <div class="lc-container-3">
-            <div class="lc-container-4 lc-verticle-inset-4">
+            <div class="lc-container-4 lc-padding-vertical-24">
               <div class="inner-container">
                 <form
                   id="paymentInfo"
                   v-on:submit.prevent="onSubmit">
                   <input v-model="wallet" hidden required disabled />
-                  <div class="lc-verticle-inset-5">
+                  <div class="lc-padding-bottom-24 lc-mobile">
                     <number-input
                       currencyTitle="ETH"
                       :amount="displayAmount"
@@ -565,10 +583,6 @@ export default {
 .tokensale-page {
   margin-bottom: 18px;
 
-  h1, h2 {
-    font-weight: normal;
-  }
-
   ul {
     padding: 0;
 
@@ -595,18 +609,10 @@ export default {
     p {
       max-width: 422px;
       margin: auto;
-
-      text-align: center;
-
-      color: $like-gray-4;
     }
     .md-button {
       width: 256px;
       margin-top: 32px;
-    }
-    a {
-      color: $like-gray-4;
-      text-decoration: underline;
     }
   }
 }
@@ -656,39 +662,6 @@ export default {
 }
 
 
-.countdown-section {
-  h1 {
-    font-size: 42px;
-    font-weight: 600;
-    line-height: 1.2;
-
-    span {
-      color: $like-green;
-      font-weight: 300;
-    }
-  }
-
-  h2 {
-    font-size: 40px;
-    font-weight: 300;
-    text-align: center;
-
-    margin-top: 12px;
-  }
-
-  h3 {
-    margin-top: 12px;
-    margin-bottom: 8px;
-
-    font-size: 14px;
-    font-weight: 400;
-  }
-
-  h1, h3 {
-    text-align: center;
-  }
-}
-
 .tokensale-progress-wrapper {
   padding-right: 0;
   padding-left: 0;
@@ -723,8 +696,6 @@ export default {
 
 
 .token-info-section {
-  margin-top: 8px;
-
   .lc-container-3 {
     @media (min-width: 601px) {
       padding-right: 0;
@@ -815,8 +786,6 @@ export default {
 
             span {
               flex-shrink: 0;
-
-              font-size: 12px;
             }
             img {
               margin-left: 8px;
@@ -836,11 +805,24 @@ export default {
   display: flex;
   flex-direction: row;
 
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: center;
+  }
+
   > div {
     flex: 1;
 
+    @media (max-width: 600px) {
+      max-width: 200px;
+    }
+
     .title {
       color: $like-dark-brown-1;
+
+      @media (max-width: 600px) {
+        text-align: center;
+      }
     }
 
     .md-field {
@@ -851,7 +833,6 @@ export default {
       .coin-value-wrapper {
         display: flex;
         align-items: center;
-        padding-bottom: 8px;
 
         .md-input {
           font-size: 34px;
@@ -862,16 +843,16 @@ export default {
         }
       }
     }
-
-    .remark {
-      color: $like-gray-4;
-      font-size: 12px;
-    }
   }
 
-  > img {
-    margin: 0 32px;
-    width: 26px;
+  .add-sign {
+    margin: 32px;
+    width: 24px;
+
+    @media (max-width: 600px) {
+      margin: 16px;
+      width: 18px;
+    }
   }
 }
 

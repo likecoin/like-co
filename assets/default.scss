@@ -13,9 +13,8 @@ $small-padding: 16px;
   position: absolute;
   z-index: -1;
 
-  width: calc(66.66% + 85.33px);
+  width: 66.66%;
   height: 100%;
-  margin-left: -$large-padding;
 
   background-color: $like-gray-1;
 }
