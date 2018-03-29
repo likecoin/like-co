@@ -44,10 +44,18 @@ import {
 
 export default {
   name: 'tokensale-progress',
+  props: {
+    progress: {
+      type: String,
+      default: INITIAL_TOKENSALE_ETH.toFixed(2),
+    },
+    total: {
+      type: String,
+      default: '12600',
+    },
+  },
   data() {
     return {
-      progress: INITIAL_TOKENSALE_ETH,
-      total: 12600,
       points: [
         {
           value: 1,

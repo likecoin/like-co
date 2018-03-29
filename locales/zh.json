@@ -533,7 +533,25 @@
     },
     "button": {
       "aboutLikeCoin": "關於 LikeCoin",
-      "whitePaper": "@:WhitePaper.label.whitePaper"
+      "whitePaper": "@:WhitePaper.label.whitePaper",
+      "noETH": "沒有ETH？"
+    }
+  },
+  "LikeBundle": {
+    "title": "Like Bundle",
+    "label": {
+      "tagline": "沒有以太幣？不用擔心！",
+      "whileSuppliesLast": "售完即止",
+      "description": "我們有少量LikeCoin以法定貨幣發售等等等等。您所購買的 LikeCoin 以及其額外獎賞將於公眾代幣發售開始時發送，預計將於 April 23 2018 開始。"
+    },
+    "button": {
+      "purchaseInETH": "使用以太幣購買"
+    },
+    "purchaseLikeBundle": {
+      "title": "購買 Like Bundle",
+      "label": {
+        "youHavePurchased": "你已購買 {product} ，參考編號："
+      }
     }
   },
   "KYC": {
@@ -588,6 +606,34 @@
       "artist": "藝術家",
       "comicAuthor": "漫畫家",
       "multimediaDesigner": "多媒體設計師"
+    }
+  },
+  "TransactionHistory": {
+    "title": "交易記錄",
+    "header": {
+      "status": "狀態",
+      "fromOrTo": "由/到",
+      "time": "時間",
+      "value": "價值"
+    },
+    "label": {
+      "in": "收入",
+      "out": "支出",
+      "fail": "失敗",
+      "tokensale": "代幣發售",
+      "earlybird": "早鳥發售",
+      "earlyBeliever": "支持者",
+      "timePending": "等待完成...",
+      "timeExpired": "逾期",
+      "coupon": "紅包",
+      "noRecord": "暫時沒有您的記錄。",
+      "to": "到",
+      "from": "由",
+      "unknown": "未知"
+    },
+    "button": {
+      "view": "查閱",
+      "showMore": "展示更多"
     }
   }
 }

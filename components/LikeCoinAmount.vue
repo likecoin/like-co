@@ -1,15 +1,26 @@
 <template>
   <div>
     <section id="likecoin-amount">
-      <div :class="[isOpaque ? 'text-opaque' : '', 'title']">
+      <div :class="['title', 'lc-font-size-14', { 'text-opaque': isOpaque }]">
         {{ $t('Edit.label.likeCoinAmount') }}
       </div>
-      <div :class="[isOpaque ? 'text-opaque' : '', 'value']">
+      <a class="mobile-links" @click="onClick">
+        {{ linkText }}
+      </a>
+      <div
+        :class="[
+          'value',
+          'lc-font-weight-300',
+          'lc-font-size-56',
+          {
+            'text-opaque': isOpaque,
+          },
+        ]">
         {{ value || defaultValue }}
       </div>
     </section>
     <div v-if="linkHref && linkText" class="links">
-      <div class="link what">
+      <material-button class="link what">
         <a
          :href="linkHref"
          target="_blank"
@@ -17,21 +28,26 @@
         >
           {{ linkText }}
         </a>
-      </div>
+      </material-button>
     </div>
     <div v-else-if="linkText" class="links" @click="onClick">
-      <div class="link what">
+      <material-button class="link what">
         <span> {{ linkText }} </span>
-      </div>
+      </material-button>
     </div>
   </div>
 </template>
 
 
 <script>
+import MaterialButton from '~/components/MaterialButton';
+
 export default {
   name: 'like-coin-amount',
   props: ['value', 'isOpaque', 'linkHref', 'linkText'],
+  components: {
+    MaterialButton,
+  },
   data() {
     return {
       defaultValue: '0.0000',
@@ -51,50 +67,81 @@ export default {
 #likecoin-amount {
   display: flex;
   align-items: center;
+  flex-direction: row;
 
-  padding: 24px 0;
+  padding: 24px 48px;
 
   border-radius: 8px;
   background-image: linear-gradient(238deg, $like-light-blue, $like-gradient-1);
 
+  @media (max-width: 768px) {
+    z-index: 1;
+
+    align-items: flex-start;
+    flex-direction: column;
+
+    padding: 48px 8px 8px 144px;
+
+    border-radius: 0;
+  }
+
   > .title {
-    width: 128px;
-    margin: 0 48px;
     display: flex;
     align-items: center;
-    text-align: left;
-    font-size: 16px;
+
     color: $like-dark-brown-1;
+
+    @media (min-width: 769px) {
+      width: 128px;
+      min-width: 128px;
+      margin-right: 48px;
+    }
   }
 
   > .value {
-    font-size: 56px;
-    font-weight: 300;
-    text-align: left;
     color: $like-gray-5;
+    word-wrap: break-word;
+    line-height: 1;
+    width: 100%;
+
+    @media (max-width: 768px) {
+      font-size: 38px;
+    }
   }
 
   .text-opaque {
     opacity: 0.3;
   }
+
+  .mobile-links {
+    text-decoration: underline;
+    @media (min-width: 601px) {
+      display: none;
+    }
+  }
+
 }
+
 .links {
-  flex: 1;
-  margin-top: -24px;
   align-self: flex-end;
+
   width: calc(33.33% - 40px);
+  margin-top: -24px;
   margin-right: 40px;
 
+  z-index: 1;
+
+  @media (max-width: 600px) {
+    display: none;
+  }
+
   .link {
-    flex: 1;
     display: flex;
-    font-size: 24px;
-    padding: 8px;
 
     transition: opacity .2s ease-in-out;
 
     &.what {
-      background-image: linear-gradient(63deg, $like-gradient-2 2%, $like-gradient-3 99%);
+      background-image: linear-gradient(73deg, $like-gradient-2, $like-gradient-3);
     }
 
     &:hover {
@@ -102,11 +149,7 @@ export default {
     }
 
     > a, span {
-      color: $like-white;
-      cursor: pointer;
       text-decoration: underline;
-      margin: auto;
-      line-height: 32px;
     }
   }
 }
@@ -114,14 +157,6 @@ export default {
 @media (max-width: 1024px) {
   .links {
     margin-top: -20px;
-  }
-}
-
-@media (max-width: 500px) {
-  #likecoin-amount {
-    > .value {
-      font-size: 28px;
-    }
   }
 }
 </style>

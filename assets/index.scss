@@ -85,11 +85,24 @@ html, body {
   }
 }
 
+a,
+a:not(.md-button) {
+  cursor: pointer;
+  transition: opacity, color .2s ease-in-out;
+
+  color: $like-green;
+
+  &:hover {
+    color: darken($like-green, 10);
+  }
+}
+
 /* Layout System - Begin */
 
 .lc-container-0,
 .lc-container-1,
-.lc-container-2,
+[class^="lc-container-2"],
+[class*=" lc-container-2"],
 .lc-container-3,
 .lc-container-4 {
   position: relative;
@@ -151,7 +164,8 @@ html, body {
   }
 }
 
-.lc-container-2 {
+[class^="lc-container-2"],
+[class*=" lc-container-2"] {
   padding-right: 64px;
   padding-left: 64px;
 
@@ -161,6 +175,11 @@ html, body {
   }
 
   @media (max-width: 600px) {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  &[class*="-extend"] {
     padding-right: 0;
     padding-left: 0;
   }
@@ -210,15 +229,13 @@ html, body {
     color: #462405;
     background-color: #d2f0f0;
 
-    h1 {
-      font-size: 32px;
+    > * {
       font-weight: 300;
-      line-height: 44px;
     }
   }
 }
 
-/* Deprecated. Please use `.lc-padding-*` */
+/* Deprecated. Please use `.lc-padding-vertical-*` */
 @for $i from 1 through 5 {
   .lc-verticle-inset-#{$i} {
     padding-top: pow(2, $i) * 1px;
@@ -226,10 +243,36 @@ html, body {
   }
 }
 
-$padding-list: 0 4 8 16 24 32;
+$spacing-list: 0 4 8 12 16 24 32 48;
 
-@each $i in $padding-list {
-  .lc-padding-#{$i},
+@each $i in $spacing-list {
+  .lc-margin-vertical-#{$i},
+  .lc-margin-top-#{$i} {
+    margin-top: $i * 1px;
+
+    @if $i > 12 {
+      &.lc-mobile {
+        @media (max-width: 600px) {
+          margin-top: $i / 2 * 1px + 4px;
+        }
+      }
+    }
+  }
+
+  .lc-margin-vertical-#{$i},
+  .lc-margin-bottom-#{$i} {
+    margin-bottom: $i * 1px;
+
+    @if $i > 12 {
+      &.lc-mobile {
+        @media (max-width: 600px) {
+          margin-bottom: $i / 2 * 1px + 4px;
+        }
+      }
+    }
+  }
+
+  .lc-padding-vertical-#{$i},
   .lc-padding-top-#{$i} {
     padding-top: $i * 1px;
 
@@ -242,7 +285,7 @@ $padding-list: 0 4 8 16 24 32;
     }
   }
 
-  .lc-padding-#{$i},
+  .lc-padding-vertical-#{$i},
   .lc-padding-bottom-#{$i} {
     padding-bottom: $i * 1px;
 
@@ -256,19 +299,88 @@ $padding-list: 0 4 8 16 24 32;
   }
 }
 
-$font-size-list: 10 12 14 16 18 20 24 32 38 42 56;
+.lc-margin-vertical-0-mobile,
+.lc-margin-top-0-mobile {
+  margin-top: 0;
+}
+
+.lc-margin-vertical-0-mobile,
+.lc-margin-bottom-0-mobile {
+  margin-bottom: 0;
+}
+
+.lc-padding-vertical-0-mobile,
+.lc-padding-top-0-mobile {
+  padding-top: 0;
+}
+
+.lc-padding-vertical-0-mobile,
+.lc-padding-bottom-0-mobile {
+  padding-bottom: 0;
+}
+
+$font-size-list: 10 12 14 16 18 20 24 32 38 42 46 56;
 
 @each $i in $font-size-list {
   .lc-font-size-#{$i} {
-    font-size: $i * 1pt;
+    font-size: $i * 1px;
+    line-height: 1.35;
 
     @if $i > 24 {
       &.lc-mobile {
         @media (max-width: 600px) {
-          font-size: ($i - 4) * 1pt;
+          font-size: ($i - 4) * 1px;
         }
       }
     }
+  }
+}
+
+$font-weight-list: 300 400 600;
+
+@each $i in $font-weight-list {
+  .lc-font-weight-#{$i} {
+    font-weight: $i;
+  }
+}
+
+.lc-text-align- {
+  &left {
+    text-align: left;
+  }
+  &center {
+    text-align: center;
+  }
+  &right {
+    text-align: right;
+  }
+}
+
+.lc-underline {
+  text-decoration: underline;
+}
+
+.lc-color- {
+  &like-green {
+    color: $like-green;
+  }
+  &like-light-blue {
+    color: $like-light-blue;
+  }
+  &like-gray-4 {
+    color: $like-gray-4;
+  }
+}
+
+.lc-bg- {
+  &transparent {
+    background-color: transparent;
+  }
+  &light-blue {
+    background-color: $like-light-blue;
+  }
+  &gray-1 {
+    background-color: $like-gray-1;
   }
 }
 

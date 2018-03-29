@@ -3,7 +3,7 @@
     :md-close-on-esc="false"
     :md-click-outside-to-close="false"
     :md-fullscreen="false">
-    <img class="foxy" :src="icon" />
+    <img v-if="isMetamask" class="foxy" :src="icon" />
     <div class="title-bar" />
     <div class="dialog-content">
       <md-dialog-title>
@@ -20,6 +20,14 @@
         <md-button class="secondary md-primary md-raised" @click="refreshPage">
           {{ $t('Dialog.metamask.button.doneInstalled') }}
         </md-button>
+      </section>
+      <section v-if="isInstallMetamask" class="hw-wallet">
+        <!-- Only support ledger for now -->
+<!--    <div v-if="isHardware">
+        </div>
+        <a href="#" v-else @click.prevent="isHardware=true">{{ $t('Dialog.metamask.label.hardwareWallet') }}</a>
+      -->
+        <a href="#" @click.prevent="onLedger">{{ $t('Dialog.metamask.label.ledger') }}</a>
       </section>
       <section v-if="isNotSign" class="hw-wallet">
         <!-- Only support ledger for now -->
@@ -94,6 +102,9 @@ export default {
       }
       if (this.case === 'testnet') {
         return this.$t(`Dialog.metamask.content.switch${IS_TESTNET ? 'Rinkeby' : 'Main'}`);
+      }
+      if (this.case === 'sign' && !this.isMetamask) {
+        return this.$t(`Dialog.metamask.content.${this.case}${this.webThreeType}`);
       }
       return this.$t(`Dialog.metamask.content.${this.case}`);
     },
