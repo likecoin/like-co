@@ -31,18 +31,21 @@
       </div>
     </footer>
 
+    <tool-bars />
   </div>
 </template>
 
 
 <script>
-import SiteHeader from '~/components/header/Header';
 import MyFooter from '~/components/footer/Footer';
+import SiteHeader from '~/components/header/Header';
+import ToolBars from '~/components/toolbars/ToolBars';
 
 export default {
   components: {
-    SiteHeader,
     MyFooter,
+    SiteHeader,
+    ToolBars,
   },
 };
 </script>

@@ -6,7 +6,7 @@
 
         <form
           id="editForm"
-          class="lc-padding-bottom-32"
+          class="lc-padding-bottom-32 lc-padding-bottom-0-mobile"
           @keydown.esc="onCancel"
           @submit.prevent="onSubmitEdit">
 

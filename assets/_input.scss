@@ -31,4 +31,10 @@
       margin-top: -4px;
     }
   }
+
+  &.md-disabled {
+    &::after {
+      background-image: none;
+    }
+  }
 }

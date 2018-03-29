@@ -1,10 +1,15 @@
 <template>
-  <section id="intro">
+  <section id="intro" class="lc-padding-vertical-32 lc-mobile">
     <div class="icon">
-      <img alt="like-coin" class="main-icon" :src="icon || defaultIcon" />
+      <img
+        alt="like-coin"
+        class="main-icon"
+        :src="icon || defaultIcon" />
     </div>
-    <div class="title heading">
-      <h1>{{ $t(title || defaultText) }}</h1>
+    <div class="title">
+      <h1 class="lc-font-size-42">
+        {{ $t(title || defaultText) }}
+      </h1>
     </div>
   </section>
 </template>
@@ -28,30 +33,24 @@ export default {
 <style lang="scss" scoped>
 @import "~assets/variables";
 
-.icon {
-  min-width: 250px;
-  min-height: 250px;
-  position: relative;
-  overflow: hidden;
-  border-radius: 50%;
-}
-
-.main-icon {
-  display: inline;
-  margin: 0 auto;
-  height: 100%;
-  width: auto;
-}
-
 #intro {
   display: flex;
-  align-items: center;
 
-  margin-top: 72px;
-  padding: 0 48px;
-
-  border-radius: 8px;
 	background-image: linear-gradient(238deg, $like-light-blue, $like-gradient-1);
+
+  @media (min-width: 601px) {
+    align-items: center;
+    flex-direction: row;
+
+    border-radius: 8px;
+  }
+
+  @media (max-width: 600px) {
+    align-items: flex-start;
+    flex-direction: column;
+
+    padding-bottom: 48px;
+  }
 
   > * {
     flex-grow: 1;
@@ -60,53 +59,46 @@ export default {
   > .title h1 {
     display: flex;
     align-items: center;
+
     margin-left: 24px;
-    line-height: 60px;
+
+    @media (max-width: 768px) {
+      font-size: 26px;
+      font-weight: 400;
+    }
+
+    @media (max-width: 600px) {
+      margin-top: 8px;
+      margin-left: 0;
+
+      font-size: 20px;
+    }
 
     text-align: left;
   }
 
   > .icon {
-    margin: -50px 0;
-    > img {
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+
+    @media (min-width: 601px) {
+      min-width: 250px;
+      min-height: 250px;
+      margin: -50px 0;
+    }
+
+    @media (max-width: 600px) {
+      width: 144px;
+      height: 144px;
+    }
+
+    .main-icon {
       width: 100%;
+      height: 100%;
     }
   }
 
 }
 
-@media (max-width: 1024px) {
-  body #intro {
-    .title h1 {
-      line-height: 48px;
-      font-size: 36px;
-    }
-  }
-}
-
-
-@media (max-width: 768px) {
-  #intro {
-    h1 {
-      font-size: 26px;
-    }
-
-    h2 {
-      font-size: 18px;
-    }
-  }
-}
-
-@media (max-width: 500px) {
-  #intro {
-    flex-direction: column;
-
-    padding: 0 24px;
-    .title {
-      margin-top: 12px;
-
-      text-align: center;
-    }
-  }
-}
 </style>
