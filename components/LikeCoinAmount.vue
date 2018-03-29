@@ -1,15 +1,23 @@
 <template>
-  <div>
-    <section id="likecoin-amount">
-      <div :class="[isOpaque ? 'text-opaque' : '', 'title']">
+  <section class="likecoin-amount-section">
+    <div id="likecoin-amount">
+      <div :class="['title', 'lc-font-size-14', { 'text-opaque': isOpaque }]">
         {{ $t('Edit.label.likeCoinAmount') }}
       </div>
-      <div :class="[isOpaque ? 'text-opaque' : '', 'value']">
+      <div
+        :class="[
+          'value',
+          'lc-font-weight-300',
+          {
+            'text-opaque': isOpaque,
+          },
+        ]">
         {{ value || defaultValue }}
       </div>
-    </section>
+    </div>
+
     <div v-if="linkHref && linkText" class="links">
-      <div class="link what">
+      <material-button class="link what">
         <a
          :href="linkHref"
          target="_blank"
@@ -17,21 +25,28 @@
         >
           {{ linkText }}
         </a>
-      </div>
+      </material-button>
     </div>
+
     <div v-else-if="linkText" class="links" @click="onClick">
-      <div class="link what">
+      <material-button class="link what">
         <span> {{ linkText }} </span>
-      </div>
+      </material-button>
     </div>
-  </div>
+
+  </section>
 </template>
 
 
 <script>
+import MaterialButton from '~/components/MaterialButton';
+
 export default {
   name: 'like-coin-amount',
   props: ['value', 'isOpaque', 'linkHref', 'linkText'],
+  components: {
+    MaterialButton,
+  },
   data() {
     return {
       defaultValue: '0.0000',
@@ -51,50 +66,103 @@ export default {
 #likecoin-amount {
   display: flex;
   align-items: center;
+  flex-direction: row;
 
-  padding: 24px 0;
+  padding: 24px 48px;
 
   border-radius: 8px;
   background-image: linear-gradient(238deg, $like-light-blue, $like-gradient-1);
 
-  > .title {
-    width: 128px;
-    margin: 0 48px;
-    display: flex;
+  @media (max-width: 768px) {
+    z-index: 1;
+
     align-items: center;
-    text-align: left;
-    font-size: 16px;
+    flex-direction: column;
+
+    padding: 24px 8px 48px;
+
+    text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    border-radius: 0;
+  }
+
+  > .title {
+    display: flex;
+
     color: $like-dark-brown-1;
+
+    @media (min-width: 769px) {
+      width: 128px;
+      min-width: 128px;
+      margin-right: 48px;
+    }
+
+    @media (max-width: 768px) {
+      margin-bottom: 12px;
+
+      text-align: center;
+    }
   }
 
   > .value {
-    font-size: 56px;
-    font-weight: 300;
-    text-align: left;
+    width: 100%;
+
+    word-wrap: break-word;
+
     color: $like-gray-5;
+
+    font-size: 56px;
+    line-height: 1;
+
+    @media (max-width: 1024px) {
+      font-size: 42px;
+    }
+
+    @media (max-width: 600px) {
+      font-size: 38px;
+    }
   }
 
   .text-opaque {
     opacity: 0.3;
   }
 }
+
 .links {
-  flex: 1;
+  z-index: 1;
+
   margin-top: -24px;
-  align-self: flex-end;
-  width: calc(33.33% - 40px);
-  margin-right: 40px;
+
+  @media (min-width: #{768px + 1px}) {
+    align-self: flex-end;
+
+    width: calc(33.33% - 40px);
+    margin-right: #{40px + 8px};
+  }
+
+  @media (max-width: 768px) {
+    align-self: center;
+
+    width: 100%;
+    max-width: 320px;
+    padding: 0 24px;
+  }
 
   .link {
-    flex: 1;
     display: flex;
-    font-size: 24px;
-    padding: 8px;
+
+    margin: 0;
 
     transition: opacity .2s ease-in-out;
 
+    &:not(:first-child) {
+      margin-top: 8px;
+    }
+
     &.what {
-      background-image: linear-gradient(63deg, $like-gradient-2 2%, $like-gradient-3 99%);
+      background-image: linear-gradient(73deg, $like-gradient-2, $like-gradient-3);
     }
 
     &:hover {
@@ -102,25 +170,7 @@ export default {
     }
 
     > a, span {
-      color: $like-white;
-      cursor: pointer;
       text-decoration: underline;
-      margin: auto;
-      line-height: 32px;
-    }
-  }
-}
-
-@media (max-width: 1024px) {
-  .links {
-    margin-top: -20px;
-  }
-}
-
-@media (max-width: 500px) {
-  #likecoin-amount {
-    > .value {
-      font-size: 28px;
     }
   }
 }
