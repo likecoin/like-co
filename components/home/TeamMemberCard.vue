@@ -45,7 +45,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~assets/index";
+@import "~assets/variables";
 
 $card-min-width-desktop: 188px;
 $card-max-width-desktop: 230px;

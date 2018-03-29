@@ -80,7 +80,7 @@ export default {
 
 
 <style lang="scss" scoped>
-@import "~assets/index";
+@import "~assets/variables";
 
 .lc-press-coverage {
   @media (min-width: 601px) {

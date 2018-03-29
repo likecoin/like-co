@@ -49,7 +49,7 @@ export default {
 
 
 <style lang="scss" scoped>
-@import "../assets/index";
+@import "~assets/variables";
 
 .language-switch {
   margin: 0 6px;

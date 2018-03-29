@@ -76,7 +76,7 @@ export default {
 
 
 <style lang="scss" scoped>
-@import "~assets/index";
+@import "~assets/variables";
 
 #early-supporters {
   @media (min-width: 601px) {
