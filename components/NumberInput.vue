@@ -1,6 +1,6 @@
 <template>
   <div>
-    <md-field :class="['lc-number-input', { 'has-currency': !!this.currencyTitle }]">
+    <md-field :class="classObject">
       <label v-html="label" />
       <div class="lc-number-input-wrapper">
         <md-button class="value-button" @click="onAmountAdd(-1)">
@@ -11,7 +11,8 @@
         </span>
 
         <md-input
-          :class="['payment-input', { 'with-currency': !!currencyTitle }]"
+          id="payment-input"
+          :class="{ padding: !!currencyTitle }"
           pattern="[0-9]*(\.[0-9]*)?"
           :title="$t('Transaction.label.enterValidNumber')"
           :value="amount"
@@ -66,6 +67,14 @@ export default {
     };
   },
   computed: {
+    classObject() {
+      return [
+        'lc-number-input',
+        {
+          'has-currency': !!this.currencyTitle,
+        },
+      ];
+    },
     badText() {
       return this.badAmountMessage || this.$t('Transaction.label.invalidAmount');
     },
@@ -146,11 +155,6 @@ export default {
       color: $like-gray-5;
       font-size: 16px;
       font-weight: 300;
-
-      @media (max-width: 600px) {
-        margin-left: 4px;
-        margin-right: 4px;
-      }
     }
 
     .value-button {
@@ -160,15 +164,9 @@ export default {
       margin: 0;
 
       border-radius: 50%;
-
-      @media (max-width: 600px) {
-        width: 32px;
-        min-width: 32px;
-        height: 32px;
-      }
     }
 
-    .payment-input {
+    #payment-input {
       width: 0; /* not sure why */
       height: 100%;
       line-height: 76px;
@@ -181,18 +179,8 @@ export default {
 
       -webkit-text-fill-color: $like-gray-5;
 
-      &.with-currency {
-        padding-left: 48px;
-        padding-right: 48px;
-
-        @media (max-width: 600px) {
-          padding-left: 32px;
-          padding-right: 32px;
-        }
-      }
-
-      @media (max-width: 600px) {
-        font-size: 32px;
+      &.padding {
+        padding: 0 48px;
       }
     }
   }

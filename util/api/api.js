@@ -76,8 +76,4 @@ export const apiQueryTxHistoryByAddr = (addr, ts, count) => {
   return axios.get(url);
 };
 
-export const apiPurchaseIAP = (id, payload) => axios.post(`/api/iap/purchase/${id}`, payload);
-
-export const apiQueryIAPProducts = () => axios.get('/api/iap/list');
-
 export const apiQueryEthPrice = () => axios.get('https://api.coinmarketcap.com/v1/ticker/ethereum/?convert=USD');

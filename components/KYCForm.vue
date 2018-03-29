@@ -616,27 +616,14 @@ input[type="file"] {
     display: flex;
     flex-direction: row;
 
+    margin-top: 12px;
+
     line-height: 24px;
-
-    @media (max-width: 600px) {
-      align-items: center;
-      flex-direction: column;
-
-      > *:not(:first-child) {
-        margin-top: 8px;
-      }
-    }
 
     .description {
       flex: 1;
 
       color: $like-gray-4;
-
-      line-height: 1.5;
-
-      @media (max-width: 600px) {
-        text-align: center;
-      }
 
       input {
         cursor: pointer;
@@ -648,7 +635,6 @@ input[type="file"] {
         background-color: transparent;
 
         font-size: 14px;
-
         &:hover {
           opacity: .7;
         }
@@ -660,7 +646,6 @@ input[type="file"] {
 
       min-width: 120px;
       padding-left: 36px;
-
       > li {
         position: relative;
 
