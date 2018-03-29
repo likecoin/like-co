@@ -1,10 +1,17 @@
 <template>
   <md-menu
-    :class="['language-switch', className]"
+    class="language-switch"
     md-size="small"
     md-align-trigger>
-    <md-button md-menu-trigger>
-      <img class="icon" :src="I18nIcon" />
+
+    <md-button class="md-icon-button md-dense" md-menu-trigger>
+      <simple-svg
+        :filepath="I18nIcon"
+        width="24px"
+        height="24px"
+        :fill="color"
+        stroke="transparent"
+        />
     </md-button>
 
     <md-menu-content>
@@ -23,12 +30,17 @@
 
 <script>
 import { mapActions } from 'vuex';
-import I18nIcon from '../assets/icons/i18n.svg';
+import I18nIcon from '@/assets/icons/i18n.svg';
 
 
 export default {
   name: 'language-switch',
-  props: ['className'],
+  props: {
+    color: {
+      type: String,
+      default: 'black',
+    },
+  },
   data() {
     return {
       I18nIcon,
@@ -51,22 +63,18 @@ export default {
 <style lang="scss" scoped>
 @import "../assets/index";
 
+.simple-svg-wrapper {
+  display: flex;
+  align-items: center;
+}
+
 .language-switch {
   margin: 0 6px;
 
   cursor: pointer;
 
-  .icon {
-    width: 32px;
-    height: 32px;
-  }
-
   > .md-button {
-    min-width: 40px;
-    height: 40px;
-    width: 40px;
-
-    color: $like-green;
+    background-color: transparent;
 
     overflow: hidden;
     border-radius: 50%;
@@ -74,6 +82,8 @@ export default {
 }
 
 .md-menu-content {
+  z-index: 30;
+
   :global(.md-list) {
     padding: 0;
   }
