@@ -75,7 +75,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~assets/index";
+@import "~assets/variables";
 
 footer {
   position: relative;
@@ -94,7 +94,7 @@ footer {
     height: 2px;
 
     content: " ";
-    background-image: linear-gradient(269deg, #d2f0f0, #f0e6b4);
+    background-image: linear-gradient(269deg, $like-light-blue, $like-gradient-1);
   }
 
   .lc-content-wrapper {
@@ -107,7 +107,7 @@ footer {
     font-size: 10px;
 
     a {
-      color: #28646E;
+      color: $like-green;
     }
   }
 

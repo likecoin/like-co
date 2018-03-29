@@ -61,7 +61,7 @@ export default {
 
 
 <style lang="scss" scoped>
-@import "../assets/index";
+@import "~assets/variables";
 
 .simple-svg-wrapper {
   display: flex;

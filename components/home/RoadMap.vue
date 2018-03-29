@@ -74,7 +74,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~assets/index";
+@import "~assets/variables";
 
 $timeline-radius: 12px;
 $timeline-width: 16px;
