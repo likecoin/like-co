@@ -421,6 +421,15 @@ $font-weight-list: 300 400 600;
 }
 
 
+@media (max-width: 768px) {
+  .lc-tablet-hide {
+    display: none !important;
+  }
+  .lc-tablet-show {
+    display: auto !important;
+  }
+}
+
 @media (max-width: 600px) {
   body .block-section {
     font-size: 18px;
@@ -431,18 +440,20 @@ $font-weight-list: 300 400 600;
       width: calc(100% + 48px);
     }
   }
-}
 
-.md-xsmall-show {
-  display: none;
-}
-
-@media (max-width: 600px) {
+  /* Deprecated! Please use lc-mobile-* */
   .md-xsmall-hide {
     display: none !important;
   }
   .md-xsmall-show {
     display: inherit !important;
+  }
+
+  .lc-mobile-hide {
+    display: none !important;
+  }
+  .lc-mobile-show {
+    display: auto !important;
   }
 }
 
