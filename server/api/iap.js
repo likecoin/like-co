@@ -50,7 +50,6 @@ router.post('/iap/purchase/:productId', async (req, res) => {
       statement_descriptor: statementDescriptor || description,
       metadata: {
         user,
-        wallet,
         email,
         name,
         description,
