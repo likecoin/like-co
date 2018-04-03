@@ -207,18 +207,21 @@ export default {
         if (this.referrer) {
           logTrackerEvent(this, 'RegFlow', 'CompleteReferrer', 'created new account with referrer', 1);
         }
-        if (this.redirect) {
-          try {
-            const url = new URL(this.redirect, true);
-            url.query.likecoinId = this.user;
-            url.set('query', url.query);
-            window.location.href = url.toString();
-          } catch (err) {
-            // invalid URL;
-          }
-        }
+        this.tryRedirect();
       } catch (err) {
         console.error(err);
+      }
+    },
+    tryRedirect() {
+      if (this.redirect) {
+        try {
+          const url = new URL(this.redirect, true);
+          url.query.likecoinId = this.user;
+          url.set('query', url.query);
+          window.location.href = url.toString();
+        } catch (err) {
+          // invalid URL;
+        }
       }
     },
   },
@@ -234,6 +237,8 @@ export default {
   watch: {
     isEdit(e) {
       if (e && !this.isRedeemingCoupon) {
+        this.user = this.getUserInfo.user;
+        this.tryRedirect();
         const { hash } = document.location;
         this.$router.replace({
           hash,

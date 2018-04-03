@@ -5,7 +5,7 @@
 
       <section class="lc-container-1 lc-section-block">
         <div class="lc-container-2">
-          <div class="lc-container-3">
+          <div class="lc-container-3 lc-bg-gray-1">
             <div class="lc-container-4 ">
 
               <nav class="nav-menu">
@@ -52,7 +52,7 @@
 
         <div class="lc-container-2">
 
-          <div v-if="!isPreSale" class="tokensale-progress-wrapper lc-container-3 lc-verticle-inset-4">
+          <div v-if="!isPreSale" class="tokensale-progress-wrapper lc-container-3 lc-bg-gray-1 lc-verticle-inset-4">
             <tokensale-progress />
 
             <div class="lc-container-4">
@@ -62,14 +62,14 @@
               </div>
             </div>
           </div>
-          <div v-else class="tokensale-presale-wrapper lc-container-3">
+          <div v-else class="tokensale-presale-wrapper lc-container-3 lc-bg-gray-1">
             <div class="lc-container-4 lc-padding-vertical-32">
               {{ $t('TokenSale.label.amountWillBeSentWhenSalesStart')}}
             </div>
           </div>
 
           <section class="token-info-section lc-margin-top-8">
-            <div class="lc-container-3">
+            <div class="lc-container-3 lc-bg-gray-1">
               <div class="lc-container-4 lc-verticle-inset-4">
                 <div class="info-grid">
                   <ul>
@@ -109,6 +109,18 @@
           </section>
 
         </div>
+
+        <div v-if="canICO" class="lc-container-2">
+          <div class="lc-container-3 lc-bg-transparent">
+            <div class="lc-container-4 lc-padding-top-16 lc-text-align-center">
+              <nuxt-link
+                class="lc-font-size-12 lc-underline"
+                :to="{ name: 'in-backer' }">
+                {{ $t('TokenSale.button.noETH') }}
+              </nuxt-link>
+            </div>
+          </div>
+        </div>
       </section>
 
       <!-- KYC Sections start -->
@@ -126,7 +138,7 @@
       >
         <div class="lc-container-header">
           <div class="lc-container-2">
-            <div class="lc-container-3 create-account-wrapper">
+            <div class="lc-container-3 lc-bg-gray-1 create-account-wrapper">
               <p class="lc-color-like-gray-4 lc-text-align-center">
                 {{ $t('KYC.label.createID') }}
               </p>
@@ -149,7 +161,7 @@
       <section class="lc-container-1 lc-section-block" v-else>
         <div class="lc-container-header">
           <div class="lc-container-2 lc-container-header-overlay">
-            <div class="lc-container-3" />
+            <div class="lc-container-3 lc-bg-gray-1" />
           </div>
 
           <div class="lc-container-2">
@@ -162,7 +174,7 @@
         </div>
 
         <div class="lc-container-2">
-          <div class="lc-container-3">
+          <div class="lc-container-3 lc-bg-gray-1">
             <div class="lc-container-4 lc-padding-vertical-24">
               <div class="inner-container">
                 <section>
@@ -221,7 +233,7 @@
 
       <section v-if="canICO && !needExtraKYC && shouldShowPaymentForm" class="lc-container-1 lc-verticle-inset-3">
         <div class="lc-container-2">
-          <div class="lc-container-3">
+          <div class="lc-container-3 lc-bg-gray-1">
             <div class="lc-container-4 lc-padding-vertical-24">
               <div class="inner-container">
                 <form
@@ -496,7 +508,7 @@ export default {
       }
     },
     redirectToRegister() {
-      this.$router.push({ name: 'in-register', query: { ref: 'tokensale' } });
+      this.$router.push({ name: 'in-register', query: { ref: 'in-tokensale' } });
     },
     async checkStatus() {
       if (this.getUserIsRegistered) {
@@ -589,10 +601,6 @@ export default {
 @import "~assets/default";
 @import "~assets/input";
 
-.lc-container-3 {
-  background-color: $like-gray-1;
-}
-
 .tokensale-page {
   margin-bottom: 18px;
 
@@ -606,13 +614,6 @@ export default {
     display: inline-block;
 
     margin: 0 10px;
-  }
-
-  a {
-    cursor: pointer;
-    transition: opacity, color .2s ease-in-out;
-
-    color: #28646e;
   }
 
   .create-account-wrapper {
@@ -664,7 +665,6 @@ export default {
 
     a {
       text-decoration: underline;
-
       color: $like-green;
     }
 

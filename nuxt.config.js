@@ -3,8 +3,9 @@ module.exports = {
   ** Headers of the page
   */
   env: {
-    INTERCOM_APPID: process.env.INTERCOM_APPID,
     IS_TESTNET: process.env.IS_TESTNET,
+    INTERCOM_APPID: process.env.INTERCOM_APPID,
+    STRIPE_TOKEN: process.env.STRIPE_TOKEN,
   },
   head: {
     title: 'LikeCoin',
@@ -53,7 +54,8 @@ module.exports = {
         'https://s.yimg.com',
         'https://js.intercomcdn.com',
         'https://widget.intercom.io',
-        'https://connect.facebook.net/',
+        'https://checkout.stripe.com',
+        'https://connect.facebook.net',
       ],
     },
   },
@@ -114,6 +116,7 @@ module.exports = {
   plugins: [
     { src: '~/plugins/vue-material' },
     { src: '~/plugins/vue-i18n' },
+    { src: '~/plugins/vue-stripe', ssr: false },
     { src: '~/plugins/EthHelper', ssr: false },
     { src: '~/plugins/vue-intercom', ssr: false },
     { src: '~/plugins/vue-image-lightbox', ssr: false },
