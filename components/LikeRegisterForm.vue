@@ -237,6 +237,7 @@ export default {
   watch: {
     isEdit(e) {
       if (e && !this.isRedeemingCoupon) {
+        this.user = this.getUserInfo.user;
         this.tryRedirect();
         const { hash } = document.location;
         this.$router.replace({

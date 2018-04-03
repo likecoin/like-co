@@ -431,7 +431,7 @@ export default {
         }
         case 20: {
           await this.updateEmail();
-          await this.sendVerifyEmail({ id: this.user.user, ref: 'tokensale' });
+          await this.sendVerifyEmail({ id: this.user.user, ref: 'in-tokensale' });
           logTrackerEvent(this, 'RegFlow', 'StartEmailVerify', 'click confirm after enter email and the email is valid', 1);
           this.stage += 1;
           this.isWaitingEmailVerification = true;

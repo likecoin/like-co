@@ -2,6 +2,7 @@
 import * as api from '@/util/api/api';
 import * as types from '@/store/mutation-types';
 import apiWrapper from './api-wrapper';
+import { REDIRECT_NAME_WHITE_LIST } from '@/constant';
 
 export async function newUser({ commit }, data) {
   return apiWrapper(commit, api.apiPostNewUser(data), { blocking: true });
@@ -40,7 +41,7 @@ export async function getWalletByUser({ commit }, id) {
 export async function sendVerifyEmail({ commit, rootState }, { id, ref }) {
   /* guard ref to only 'tokensale' for now */
   let redirect = '';
-  if (ref === 'tokensale') redirect = 'tokensale';
+  if (REDIRECT_NAME_WHITE_LIST.indexOf(ref) > -1) redirect = ref;
   return apiWrapper(
     commit,
     api.apiSendVerifyEmail(id, redirect, rootState.ui.locale),
