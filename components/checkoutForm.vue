@@ -3,7 +3,7 @@
 
     <div v-if="chargeId" class="purchased-receipt lc-padding-vertical-32 lc-text-align-center">
       <p class="lc-margin-bottom-24">
-        {{ $t('BackerPage.productList.label.youHavePurchased', { product: product.name }) }}
+        {{ $t('BackerPage.productList.label.youHavePurchased', { product: product.name[$i18n.locale] }) }}
         <span class="reference-number lc-font-size-24">
           {{ chargeId }}
         </span>
@@ -94,7 +94,7 @@ export default {
         email,
       } = this.getUserInfo;
       this.$checkout.open({
-        name: this.product.name,
+        name: this.product.name[this.$i18n.locale],
         currency: 'USD',
         amount: this.product.amount,
         email,

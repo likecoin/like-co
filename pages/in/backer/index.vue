@@ -54,7 +54,7 @@
           </div>
         </div>
 
-        <div class="lc-container-2">
+    <!--     <div class="lc-container-2">
           <div class="lc-container-3 lc-bg-transparent">
             <div class="lc-container-4 lc-padding-top-16 lc-text-align-center">
               <nuxt-link
@@ -64,7 +64,7 @@
               </nuxt-link>
             </div>
           </div>
-        </div>
+        </div> -->
 
       </section>
 
