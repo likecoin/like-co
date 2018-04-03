@@ -43,16 +43,18 @@ router.post('/iap/purchase/:productId', async (req, res) => {
     const { wallet, email } = userDoc.data();
     if (wallet !== from) throw new Error('User wallet not match');
 
+    const DEFAULT_LOCALE = 'en';
+
     const charge = await stripe.charges.create({
       amount,
       currency: 'usd',
-      description,
-      statement_descriptor: statementDescriptor || description,
+      description: description[DEFAULT_LOCALE],
+      statement_descriptor: statementDescriptor || description[DEFAULT_LOCALE],
       metadata: {
         user,
         email,
-        name,
-        description,
+        name: name[DEFAULT_LOCALE],
+        description: description[DEFAULT_LOCALE],
         productId,
       },
       receipt_email: email,
@@ -62,9 +64,9 @@ router.post('/iap/purchase/:productId', async (req, res) => {
     await userRef.collection('Stripe').doc(charge.id).set({
       chargeId: charge.id,
       amount,
-      name,
-      description,
-      statement_descriptor: statementDescriptor || description,
+      name: name[DEFAULT_LOCALE],
+      description: description[DEFAULT_LOCALE],
+      statement_descriptor: statementDescriptor || description[DEFAULT_LOCALE],
       productId,
       ts: Date.now(),
     }, { merge: true });
@@ -77,8 +79,8 @@ router.post('/iap/purchase/:productId', async (req, res) => {
       chargeId: charge.id,
       currency: 'usd',
       amount,
-      productName: name,
-      description,
+      productName: name[DEFAULT_LOCALE],
+      description: description[DEFAULT_LOCALE],
       productId,
     });
 
