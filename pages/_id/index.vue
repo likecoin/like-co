@@ -1,70 +1,146 @@
 <template>
-  <div class="payment-container">
-    <avatar-header :title="displayName" :icon="avatar" :id="id" :address="wallet" :isEth="isEth"/>
-    <div class="lc-container-0 inner-container">
-      <form id="paymentInfo" v-on:submit.prevent="onSubmit">
-        <input v-model="wallet" hidden required disabled />
-        <div class="number-input">
-          <number-input
-            :currencyTitle="isEth ? 'ETH' : ''"
-            :amount="amount"
-            :isBadAmount="isBadAmount"
-            :label="$t('Transaction.label.amountToSend', { coin: isEth ? 'ETH' : 'LikeCoin' })"
-            @onChange="handleAmountChange"
-          />
-        </div>
-        <!-- <md-field> -->
-        <!--   <md-input placeholder="Remark (optional)" /> -->
-        <!-- </md-field> -->
-        <section class="lc-container-1 lc-section-block">
-          <div class="lc-container-header">
-            <div class="lc-container-2">
+  <div class="payment-page">
+    <div class="lc-container-0 lc-narrow">
 
-              <material-button v-if="isEth"
-                id="payment-confirm"
-                class="md-raised md-primary eth"
-                type="submit"
-                form="paymentInfo"
-                :disabled="getIsInTransaction">
-                <div class="button-content-wrapper">
-                  <img :src="EthIcon" />
-                  {{ $t('General.button.send') }}
-                </div>
-              </material-button>
+      <section class="lc-container-1 lc-section-block">
 
-              <div v-else-if="!getUserIsRegistered" class="lc-container-3 create-account-wrapper">
-                <p>{{ $t('KYC.label.createID') }}</p>
-                <material-button @click="$router.push({ name: 'in-register'})">
-                  {{ $t('KYC.button.createID') }}
-                </material-button>
-                <p><a href="#" @click="showLoginWindow">{{ $t('Home.Header.button.signIn') }}</a></p>
-              </div>
+        <div class="lc-container-2">
+          <div class="lc-container-3 lc-bg-gray-1">
+            <div class="lc-container-4 ">
 
-              <div v-else>
-                <p v-if="!isSupportTransferDeleteaged">{{ $t('Transaction.error.notSupported') }}</p>
-                <material-button
-                  id="payment-confirm"
-                  class="md-raised md-primary likecoin"
-                  type="submit"
-                  form="paymentInfo"
-                  :disabled="getIsInTransaction || !isSupportTransferDeleteaged ||  (!getLocalWallet)">
-                  {{ $t('General.button.confirm') }}
-                </material-button>
-              </div>
+              <nav class="nav-menu">
+
+                <span>
+                  <nuxt-link :to="{ name: 'in-whitepaper' }">
+                    {{ $t('TokenSale.button.whitePaper') }}
+                  </nuxt-link>
+                </span>
+
+                <img class="user-avatar" :src="avatar || likeCoinIcon" />
+
+                <span>
+                  <nuxt-link to="/">
+                    {{ $t('TokenSale.button.aboutLikeCoin') }}
+                  </nuxt-link>
+                </span>
+
+              </nav>
 
             </div>
           </div>
-        </section>
-      </form>
+        </div>
+
+        <div :class="['lc-container-2-extend', { ether: isEth }]">
+          <div class="lc-container-3-extend-bg" />
+          <div class="lc-container-3">
+            <div class="lc-padding-top-32 lc-padding-bottom-16">
+
+              <section class="lc-text-align-center">
+                <h1
+                  class="lc-font-size-42 receiver-title"
+                  v-html="$t('Transaction.label.sendTo', { title: displayName, coin: isEth ? 'ETH' : 'LikeCoin' })"
+                  />
+              </section>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="lc-container-2">
+          <div class="lc-container-3 lc-bg-gray-1">
+            <div class="lc-container-4 lc-padding-vertical-32">
+
+              <section v-if="id" class="address-container">
+                <div class="address-title">
+                  {{ $t('Transaction.label.recipientId') }}
+                </div>
+                <div class="address-content">{{ id }}</div>
+              </section>
+              <section v-if="wallet" class="address-container">
+                <div class="address-title">
+                  {{ $t('Transaction.label.recipientAddress') }}
+                </div>
+                <div class="address-content">{{ wallet }}</div>
+              </section>
+
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- BEGIN - Send LikeCoin Section -->
+      <section class="lc-container-1 lc-section-block">
+
+        <div class="lc-container-2">
+          <div class="lc-container-3 lc-bg-gray-1">
+            <div class="lc-container-4 lc-padding-vertical-32">
+
+              <form id="paymentInfo" v-on:submit.prevent="onSubmit">
+                <input v-model="wallet" hidden required disabled />
+                <div class="number-input">
+                  <number-input
+                    :currencyTitle="isEth ? 'ETH' : ''"
+                    :amount="amount"
+                    :isBadAmount="isBadAmount"
+                    :label="$t('Transaction.label.amountToSend', { coin: isEth ? 'ETH' : 'LikeCoin' })"
+                    @onChange="handleAmountChange"
+                  />
+                </div>
+                <!-- <md-field> -->
+                <!--   <md-input placeholder="Remark (optional)" /> -->
+                <!-- </md-field> -->
+
+                <material-button v-if="isEth"
+                  id="payment-confirm"
+                  class="md-raised md-primary eth"
+                  type="submit"
+                  form="paymentInfo"
+                  :disabled="getIsInTransaction">
+                  <div class="button-content-wrapper">
+                    <img :src="EthIcon" />
+                    {{ $t('General.button.send') }}
+                  </div>
+                </material-button>
+
+                <div v-else-if="!getUserIsRegistered" class="lc-container-3 create-account-wrapper">
+                  <p>{{ $t('KYC.label.createID') }}</p>
+                  <material-button @click="$router.push({ name: 'in-register'})">
+                    {{ $t('KYC.button.createID') }}
+                  </material-button>
+                  <p><a href="#" @click="showLoginWindow">{{ $t('Home.Header.button.signIn') }}</a></p>
+                </div>
+
+                <div v-else>
+                  <p v-if="!isSupportTransferDeleteaged">{{ $t('Transaction.error.notSupported') }}</p>
+                  <material-button
+                    id="payment-confirm"
+                    class="md-raised md-primary likecoin"
+                    type="submit"
+                    form="paymentInfo"
+                    :disabled="getIsInTransaction || !isSupportTransferDeleteaged ||  (!getLocalWallet)">
+                    {{ $t('General.button.confirm') }}
+                  </material-button>
+                </div>
+
+              </form>
+
+            </div>
+          </div>
+        </div>
+
+      </section>
+      <!-- END - Send LikeCoin Section -->
+
     </div>
   </div>
 </template>
+
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
 
-import AvatarHeader from '~/components/header/AvatarHeader';
 import NumberInput from '~/components/NumberInput';
 import EthIcon from '@/assets/tokensale/eth.svg';
 import MaterialButton from '~/components/MaterialButton';
@@ -73,6 +149,7 @@ import EthHelper from '@/util/EthHelper';
 import { apiGetUserById } from '@/util/api/api';
 
 import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
+import likeCoinIcon from '@/assets/likecoin.svg';
 
 
 const ONE_LIKE = new BigNumber(10).pow(18);
@@ -99,15 +176,15 @@ function formatAmount(amount) {
 
 export default {
   name: 'payment',
-  layout: 'pay',
+  layout: 'narrowWithHeader',
   components: {
-    AvatarHeader,
     NumberInput,
     MaterialButton,
   },
   data() {
     return {
       EthIcon,
+      likeCoinIcon,
       isBadAddress: false,
       isBadAmount: false,
       isSupportTransferDeleteaged: true,
@@ -269,8 +346,93 @@ export default {
 };
 </script>
 
+
 <style lang="scss" scoped>
-@import "~assets/index";
+@import "~assets/variables";
+
+.payment-page {
+  margin-bottom: 18px;
+}
+
+.nav-menu {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding-top: 16px;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
+
+  .user-avatar {
+    z-index: 1;
+
+    width: 144px;
+    height: 144px;
+    margin: 16px;
+    margin-bottom: -16px;
+
+    border-radius: 50%;
+
+    @media (min-width: 769px) {
+      margin-top: -32px;
+    }
+    @media (max-width: 600px) {
+      order: 999;
+    }
+  }
+
+  span {
+    flex: 1;
+
+    a {
+      text-decoration: underline;
+
+      color: #28646E;
+    }
+
+    &:last-child {
+      text-align: right;
+    }
+  }
+}
+
+.lc-container-3-extend-bg {
+  .ether & {
+    background-image: linear-gradient(261deg, #a8a8a8, #6886a1);
+  }
+}
+
+.receiver-title {
+  font-weight: 300;
+}
+
+.address-container {
+  & + & {
+    margin-top: 18px;
+  }
+}
+
+.address-title {
+  margin-bottom: 8px;
+
+  font-size: 14px;
+}
+
+.address-content {
+  overflow: hidden;
+
+  margin: 0 auto;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  font-size: 20px;
+  line-height: 1.2;
+}
 
 p {
   max-width: 422px;
@@ -283,6 +445,7 @@ p {
 
 .create-account-wrapper {
   text-align: center;
+
   background-color: transparent;
 
   .md-button {
@@ -290,36 +453,10 @@ p {
     margin-top: 32px;
   }
   a {
-    color: $like-gray-4;
     text-decoration: underline;
+
+    color: $like-gray-4;
   }
-}
-
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-
-.inner-container {
-  background: #f7f7f7;
-  margin: 16px 0;
-  padding: 16px 0;
-}
-
-.payment-container {
-  width: 100%;
-  max-width: 560px;
-  margin: 0 auto;
 }
 
 #paymentInfo {
@@ -338,28 +475,29 @@ a {
   margin: 0 auto;
 
   text-transform: none;
-}
 
-#payment-confirm.likecoin {
-  color: #ffffff;
-  font-size: 24px;
-  background-color: #28646e;
-  text-transform: none;
-}
+  &.likecoin {
+    text-transform: none;
 
-#payment-confirm.eth {
+    color: $like-white;
+    background-color: $like-green;
 
-  background-image: linear-gradient(261deg, #a8a8a8, #6886a1);
+    font-size: 24px;
+  }
 
-  .button-content-wrapper {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
+  &.eth {
+    background-image: linear-gradient(261deg, #a8a8a8, #6886a1);
 
-    img {
-      position: absolute;
-      top: 8px;
-      left: 16px;
+    .button-content-wrapper {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+
+      img {
+        position: absolute;
+        top: 8px;
+        left: 16px;
+      }
     }
   }
 }

@@ -4,7 +4,15 @@
     :md-click-outside-to-close="false"
     :md-fullscreen="false">
     <img class="foxy" :src="icon" />
-    <div class="title-bar" />
+
+    <div class="title-bar">
+      <div class="left">
+      </div>
+      <div class="right">
+        <language-switch color="white" />
+      </div>
+    </div>
+
     <div class="dialog-content">
       <md-dialog-title>
         {{ title }}
@@ -41,6 +49,8 @@
 </template>
 
 <script>
+import LanguageSwitch from '~/components/LanguageSwitch';
+
 import { IS_TESTNET } from '@/constant';
 import { logTrackerEvent } from '@/util/EventLogger';
 import EthHelper from '@/util/EthHelper';
@@ -53,6 +63,9 @@ import metamaskUnlockImg from '@/assets/img/meta_unlock.png';
 export default {
   name: 'MetamaskDialog',
   props: ['case', 'webThreeType'],
+  components: {
+    LanguageSwitch,
+  },
   data() {
     return {
       metamaskNetImg: IS_TESTNET ? metamaskTestNetImg : metamaskNetImg,
@@ -136,7 +149,17 @@ export default {
 @import "~assets/dialog";
 
 .title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
   background-image: linear-gradient(252deg, #ed8526, #eebe78);
+
+  > div {
+    position: relative;
+
+    padding: 0 8px;
+  }
 }
 
 .md-button.primary {

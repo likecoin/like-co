@@ -516,6 +516,19 @@ export default {
       } else {
         this.isKYCTxPass = null;
       }
+      if (this.canICO
+        && !this.needExtraKYC
+        && this.shouldShowPaymentForm) {
+        const balance = await EthHelper.queryEthBalance();
+        if (!balance || balance === '0') this.triggerIntercom();
+      }
+    },
+    triggerIntercom() {
+      if (this.$intercom) {
+        this.$router.push({ query: Object.assign({}, this.$route.query, { interested: 'true' }) });
+        this.$intercom.update();
+        this.$intercom.show();
+      }
     },
     async updateTokenSaleProgress() {
       const amount = await EthHelper.queryEthBalance(LIKE_COIN_ICO_ADDRESS);
@@ -584,8 +597,13 @@ export default {
 
 
 <style lang="scss" scoped>
-@import "~assets/index";
+@import "~assets/variables";
 @import "~assets/default";
+@import "~assets/input";
+
+.lc-container-3 {
+  background-color: $like-gray-1;
+}
 
 .tokensale-page {
   margin-bottom: 18px;
@@ -651,6 +669,7 @@ export default {
 
     a {
       text-decoration: underline;
+      color: $like-green;
     }
 
     &:last-child {
@@ -672,6 +691,24 @@ export default {
 
 .tokensale-presale-wrapper {
   text-align: center;
+}
+
+.tokensale-amount {
+  text-align: center;
+
+  font-weight: 300;
+
+  .current {
+    color: $like-green;
+
+    font-size: 46px;
+    line-height: 62px;
+  }
+
+  .max {
+    font-size: 20px;
+    font-weight: 400;
+  }
 }
 
 

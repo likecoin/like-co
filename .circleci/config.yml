@@ -168,7 +168,6 @@ workflows:
                 - /feature.*/
           requires:
            - test
-           - unit_test
       - hold_deploy_mainnet:
           type: approval
           filters:
@@ -176,7 +175,6 @@ workflows:
               only: master
           requires:
            - test
-           - unit_test
       - deploy_rinkeby:
           requires:
             - hold_deploy_rinkeby

@@ -65,6 +65,8 @@ export default {
 
 
 <style lang="scss" scoped>
+@import "~assets/variables";
+
 $separator-size: 8px;
 
 .lc-countdown-timer {
@@ -94,7 +96,7 @@ $separator-size: 8px;
         content: " ";
 
         border-radius: 50%;
-        background-color: #28646e;
+        background-color: $like-green;
 
         @media (max-width: 600px) {
           width: #{floor($separator-size * 2 / 3)};
@@ -116,7 +118,7 @@ $separator-size: 8px;
         text-align: center;
 
         &.date-value {
-          color: #4a4a4a;
+          color: $like-gray-5;
 
           font-size: 56px;
           font-weight: 300;
@@ -133,7 +135,7 @@ $separator-size: 8px;
         }
 
         &.date-unit {
-          color: #462405;
+          color: $like-dark-brown-2;
 
           font-size: 14px;
           line-height: 20px;

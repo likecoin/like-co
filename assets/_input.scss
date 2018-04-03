@@ -1,0 +1,40 @@
+@import "variables";
+
+// fine-tune input color
+.md-field {
+  &::before {
+    background-color: $like-gray-4;
+  }
+  &::after {
+    height: 2px;
+
+    background-color: $like-gray-3;
+  }
+  label {
+    color: #9b9b9b;
+  }
+  :global(.md-input) {
+    color: $like-gray-5;
+
+    font-size: 20px;
+    font-weight: 300;
+  }
+
+  &.md-focused,
+  &.md-has-value {
+    label {
+      color: $like-dark-brown-1;
+    }
+  }
+  &:not(.md-focused):not(.md-has-value) {
+    label {
+      margin-top: -4px;
+    }
+  }
+
+  &.md-disabled {
+    &::after {
+      background-image: none;
+    }
+  }
+}

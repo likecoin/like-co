@@ -34,7 +34,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/index";
+@import "~assets/variables";
 
 #view-etherscan {
   padding: 32px;

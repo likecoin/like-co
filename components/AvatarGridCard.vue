@@ -26,7 +26,7 @@ export default {
 
 
 <style lang="scss" scoped>
-@import "~assets/index";
+@import "~assets/variables";
 
 .avatar-grid-card {
   width: 100%;
@@ -66,7 +66,7 @@ export default {
     }
 
     h2 {
-      color: #737373;
+      color: $like-gray-4;
       line-height: 1.375;
       font-size: 16px;
       font-weight: 300;
@@ -82,7 +82,7 @@ export default {
 
       text-align: center;
 
-      color: #737373;
+      color: $like-gray-4;
 
       font-size: 14px;
       font-weight: 300;
@@ -92,7 +92,7 @@ export default {
     a:active {
       text-decoration: underline;
 
-      color: #28646E;
+      color: $like-green;
     }
   }
 }
@@ -100,7 +100,7 @@ export default {
 
 
 <style lang="scss">
-@import "~assets/index";
+@import "~assets/variables";
 
 .avatar-grid-card {
   > div {
@@ -109,7 +109,7 @@ export default {
       a:active {
         text-decoration: underline;
 
-        color: #28646E;
+        color: $like-green;
       }
     }
   }

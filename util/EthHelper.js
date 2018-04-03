@@ -274,13 +274,15 @@ class EthHelper {
   }
 
   async queryLikeCoinBalance(addr) {
-    if (!addr) return '';
-    return this.LikeCoin.methods.balanceOf(addr).call();
+    const address = addr || this.wallet || '';
+    if (!address) return '';
+    return this.LikeCoin.methods.balanceOf(address).call();
   }
 
   async queryEthBalance(addr) {
-    if (!addr) return '';
-    return this.web3.eth.getBalance(addr);
+    const address = addr || this.wallet || '';
+    if (!address) return '';
+    return this.web3.eth.getBalance(address);
   }
 
   async queryKYCStatus(addr) {

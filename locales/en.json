@@ -483,6 +483,7 @@
       "senderName": "Sender Display Name",
       "senderAddress": "Sender Address",
       "sendTo": "Send {coin} to <span class='usertitle'>{title}</span>",
+      "remarks": "Remarks",
       "viewTx": "View Transaction",
       "amountToSend": "Amount of {coin} to send",
       "invalidAmount": "Invalid amount",

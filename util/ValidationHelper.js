@@ -33,6 +33,7 @@ const ValidationHelper = {
     value,
     status,
     type,
+    remarks,
     completeTs,
     ts,
   }) {
@@ -44,6 +45,7 @@ const ValidationHelper = {
       value,
       status,
       type,
+      remarks,
       completeTs,
       ts,
     };
