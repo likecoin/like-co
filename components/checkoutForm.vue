@@ -36,8 +36,8 @@
             <div class="product-details">
 
               <div class="info-wrapper">
-                <h1 class="name">{{ p.name }} </h1>
-                <p class="description" v-html="$t(`BackerPage.productList.label.description${index}`)"/>
+                <h1 class="name">{{ p.name[$i18n.locale] }}</h1>
+                <p class="description" v-html="p.description[$i18n.locale]" />
               </div>
 
               <div class="price">{{ p.amount / 100 }}</div>
@@ -262,7 +262,7 @@ $product-item-radius: 8px;
 
         width: 100%;
         max-width: 240px;
-        min-height: 198px;
+        min-height: 240px;
 
         border-radius: $product-item-radius 0px 0px $product-item-radius;
         background-image: linear-gradient(250deg, #FFDFD2, #C1F3F5);
@@ -277,8 +277,6 @@ $product-item-radius: 8px;
           right: 0;
           bottom: 0;
           left: 0;
-
-          padding-top: 56.25%;
 
           background-position: center;
           background-size: cover;
@@ -302,10 +300,12 @@ $product-item-radius: 8px;
         .info-wrapper {
           flex-grow: 1;
 
-          padding: 16px 20px 8px;
+          padding: 16px 20px 12px;
 
           .name {
-            font-size: 20px;
+            min-height: 44px;
+
+            font-size: 16px;
             font-weight: 600;
             line-height: 1.35;
           }
@@ -316,7 +316,7 @@ $product-item-radius: 8px;
             color: $like-gray-4;
 
             font-size: 14px;
-            line-height: 1.4;
+            line-height: 1.35;
           }
         }
       }
