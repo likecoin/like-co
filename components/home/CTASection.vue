@@ -7,37 +7,19 @@
         <div class="lc-container-3">
           <div class="lc-container-4">
 
-            <!-- BEGIN - Before announcing token sale date -->
-            <div
-              v-if="now.isBefore(SALE_DATE_ANNOUNCE_DATE)"
-              class="cta-section-body">
-
-              <div class="cta-section-body-content">
+            <div class="cta-section-body">
+              <!-- BEGIN - Before announcing token sale date -->
+              <div
+                v-if="now.isBefore(SALE_DATE_ANNOUNCE_DATE)"
+                class="cta-section-body-content">
                 <h1>{{ $t('Home.Sale.title.earlyBirdTokenSale') }}</h1>
                 <h2>{{ $t('Home.Sale.title.secure25Percent') }}</h2>
               </div>
-
-              <div class="cta-section-body-cta-btn">
-                <span :class="['tooltip', { disabled: !isCTAButtonDisabled }]">
-                  {{ $t('Home.Sale.label.contactUsThroughButton') }}
-                </span>
-                <material-button
-                  class="cta-btn"
-                  :disabled="isCTAButtonDisabled"
-                  @click=onClickCTAButton>
-                  {{ $t('Home.Sale.button.joinTokenSale') }}
-                </material-button>
-              </div>
-
-            </div>
-            <!-- END - Before announcing token sale date -->
-
-            <!-- BEGIN - After announcing token sale date -->
-            <div
-              v-else-if="now.isBefore(SALE_DATE)"
-              class="cta-section-body">
-
-              <div class="cta-section-body-content">
+              <!-- END - Before announcing token sale date -->
+              <!-- BEGIN - After announcing token sale date -->
+              <div
+                v-else-if="now.isBefore(SALE_DATE)"
+                class="cta-section-body-content">
                 <h1>{{ $t('Home.Sale.title.publicTokenSale') }}</h1>
                 <h6>{{ $t('Home.Sale.label.startOn') }}</h6>
                 <div class="token-sale-timer-wrapper">
@@ -47,23 +29,10 @@
                   />
                 </div>
               </div>
-
-              <div class="cta-section-body-cta-btn">
-                <material-button
-                  class="cta-btn"
-                  :disabled="isCTAButtonDisabled"
-                  @click=onClickCTAButton>
-                  {{ $t('Home.Sale.button.joinTokenSale') }}
-                </material-button>
-              </div>
-
-            </div>
-            <!-- END - After announcing token sale date -->
-
-            <!-- BEGIN - After token sale begins -->
-            <div v-else class="cta-section-body">
-
+              <!-- END - After announcing token sale date -->
+              <!-- BEGIN - After token sale begins -->
               <div
+                v-else
                 class="cta-section-body-content">
                 <h1>{{ $t('Home.Sale.title.publicTokenSale') }} <span class="now-live">{{ $t('Home.Sale.title.nowLive') }}</span></h1>
                 <h2 class="completed-percentage">
@@ -73,18 +42,40 @@
                   <tokensale-progress class="cta-section-token-sale-progress" />
                 </div>
               </div>
+              <!-- END - After token sale begins -->
 
-              <div class="cta-section-body-cta-btn">
-                <material-button
-                  class="cta-btn"
-                  :disabled="isCTAButtonDisabled"
-                  @click=onClickCTAButton>
-                  {{ $t('Home.Sale.button.joinNow') }}
-                </material-button>
+
+              <div class="cta-section-body-buttons">
+                <ul>
+                  <!-- BEGIN - Before token sale begins -->
+                  <li v-if="now.isBefore(SALE_DATE)">
+                    <material-button
+                      class="cta-btn"
+                      @click=onClickJoinTokenSaleButton>
+                      {{ $t('Home.Sale.button.joinTokenSale') }}
+                    </material-button>
+                  </li>
+                  <!-- END - Before token sale begins -->
+                  <!-- BEGIN - After token sale begins -->
+                  <li v-else>
+                    <material-button
+                      class="cta-btn"
+                      @click=onClickJoinTokenSaleButton>
+                      {{ $t('Home.Sale.button.joinNow') }}
+                    </material-button>
+                  </li>
+                  <!-- END - After token sale begins -->
+                  <li>
+                    <material-button
+                      class="cta-btn support"
+                      @click=onClickSupportLikeCoinButton>
+                      {{ $t('Home.Sale.button.supportLikeCoin') }}
+                    </material-button>
+                  </li>
+                </ul>
               </div>
 
             </div>
-            <!-- END - After token sale begins -->
 
           </div>
         </div>
@@ -142,7 +133,6 @@ export default {
   },
   data() {
     return {
-      isCTAButtonDisabled: false,
       tokenSalePercentage: 128,
       now: moment(),
       SALE_DATE,
@@ -150,21 +140,14 @@ export default {
     };
   },
   methods: {
-    onClickCTAButton() {
-      this.isCTAButtonDisabled = true;
-      this.ctaBtnDisabledTimer = setTimeout(() => {
-        this.isCTAButtonDisabled = false;
-      }, 10000);
-
+    onClickJoinTokenSaleButton() {
       logTrackerEvent(this, 'RegFlow', 'ClickedIAmInterestedButton', 'User is interested in early bird token sale', 1);
       this.$router.push({ name: 'in-tokensale' });
     },
-  },
-  beforeDestory() {
-    if (this.ctaBtnDisabledTimer) {
-      clearTimeout(this.ctaBtnDisabledTimer);
-      this.ctaBtnDisabledTimer = undefined;
-    }
+    onClickSupportLikeCoinButton() {
+      logTrackerEvent(this, 'RegFlow', 'ClickedSupportLikeCoinButton', 'User wants to support LikeCoin', 1);
+      this.$router.push({ name: 'in-backer' });
+    },
   },
 };
 </script>
@@ -184,6 +167,7 @@ export default {
 .cta-section-body {
   display: flex;
   align-items: center;
+  min-height: 212px;
 
   @media (max-width: 600px) {
     flex-direction: column;
@@ -288,52 +272,36 @@ export default {
   }
 }
 
-.cta-section-body-cta-btn {
+.cta-section-body-buttons {
   position: relative;
 
-  display: flex;
-  align-items: center;
   flex: 1;
 
-  .tooltip {
-    position: absolute;
-    right: 0;
-    bottom: 100%;
-    left: 0;
+  > ul {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
 
-    margin-bottom: 8px;
+    list-style: none;
 
-    transition: all .25s ease-in;
-    text-align: center;
-
-    color: $like-green;
-
-    font-size: 14px;
-
-    &.disabled {
-      transform: translateY(100%);
-      pointer-events: none;
-
-      opacity: 0 !important;
-    }
-
-    @media (max-width: 600px) {
-      margin-bottom: 4px;
-
-      color: $like-gray-3;
-
-      font-size: 12px;
+    > li {
+      width: 100%;
     }
   }
 
   .cta-btn {
     min-width: 256px;
 
-    background-image: linear-gradient(73deg, #3c286e, #6e2828);
+    background-image: linear-gradient(73deg, $like-gradient-2, $like-gradient-3);
 
     &[disabled] {
       color: $like-gray-4;
       background: $like-gray-5;
+    }
+
+    &.support {
+      background-image: linear-gradient(60deg, $like-gradient-2, $like-green);
     }
   }
 }
@@ -396,7 +364,6 @@ export default {
 
 .token-sale-progress-wrapper {
   margin-top: 16px;
-  margin-right: -64px;
 
   @media (max-width: 600px) {
     margin-right: 0;
