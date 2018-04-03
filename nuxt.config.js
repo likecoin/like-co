@@ -12,6 +12,7 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'mobile-web-app-capable', content: 'yes' },
       { hid: 'description', name: 'description', content: 'send and receive LikeCoin' },
       { hid: 'og_title', property: 'og:title', content: 'LikeCoin' },
       { hid: 'og_description', property: 'og:description', content: 'send and receive LikeCoin' },
