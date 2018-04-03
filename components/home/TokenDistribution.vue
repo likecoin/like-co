@@ -13,7 +13,7 @@
         </div>
 
         <!-- Mobile version begin -->
-        <div class="lc-container-3 md-xsmall-show">
+        <div class="lc-container-3 lc-tablet-pc-hide">
           <div class="lc-container-4">
             <div class="section-content">
               {{ $t('Home.TokenDistribution.content') }}
@@ -51,7 +51,7 @@
 
                 </div>
 
-                <div class="md-xsmall-hide">
+                <div class="lc-mobile-hide">
                   {{ $t('Home.TokenDistribution.content') }}
                 </div>
               </div>

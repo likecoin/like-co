@@ -7,7 +7,7 @@
     </section>
 
     <section class="lc-container-1 lc-header">
-      <div class="underlay gray md-xsmall-hide" />
+      <div class="underlay gray lc-mobile-hide" />
       <div class="lc-container-2">
         <site-header />
       </div>
@@ -48,13 +48,13 @@
       </div>
     </section>
 
-    <div class="platform-bar md-xsmall-show">
+    <div class="platform-bar lc-tablet-pc-hide">
       <platform-icon-bar />
     </div>
 
     <cta-section class="bottom" />
 
-    <section class="lc-container-1 lc-community md-xsmall-hide">
+    <section class="lc-container-1 lc-community lc-mobile-hide">
       <div class="lc-container-2">
         <div class="lc-container-3">
           <div class="platforms">
@@ -258,7 +258,9 @@ $carousel-height: 488px;
 }
 
 .cta-section.bottom {
-  margin-top: 66px;
+  @media (min-width: 600px) {
+    margin-top: 58px;
+  }
 }
 
 .md-button {

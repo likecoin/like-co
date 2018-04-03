@@ -27,7 +27,7 @@
                   </div>
                 </div> -->
 
-                <div class="layers md-xsmall-hide">
+                <div class="layers lc-mobile-hide">
                   <div
                     :class="`layer layer-${i + 1}`"
                     v-for="(layer, i) in layers"

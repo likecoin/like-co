@@ -35,7 +35,7 @@ const platforms = [
   },
   {
     name: 'facebook',
-    url: 'https://www.facebook.com/groups/likecoin/',
+    url: 'https://www.facebook.com/likecoin.foundation',
   },
 ];
 
