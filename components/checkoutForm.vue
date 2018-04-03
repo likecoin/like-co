@@ -36,8 +36,8 @@
             <div class="product-details">
 
               <div class="info-wrapper">
-                <h1 class="name">{{ p.name }} </h1>
-                <p class="description">{{ $t(`BackerPage.productList.label.description${index}`) }}</p>
+                <h1 class="name">{{ p.name[$i18n.locale] }}</h1>
+                <p class="description" v-html="p.description[$i18n.locale]" />
               </div>
 
               <div class="price">{{ p.amount / 100 }}</div>
