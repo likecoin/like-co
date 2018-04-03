@@ -91,7 +91,7 @@
         <div class="lc-container-2">
           <div class="lc-container-3 lc-bg-gray-1">
             <div class="lc-container-4 lc-padding-vertical-32">
-              <checkoutForm />
+              <checkoutForm @emailNotVerified="onNeedEmailVerify"/>
             </div>
           </div>
         </div>
@@ -100,6 +100,7 @@
       <!-- END - Purchase LikeCoin Section -->
 
     </div>
+    <email-dialog ref="emailDialog" :emailRef="'in-bundle'" />
   </div>
 </template>
 
@@ -108,15 +109,16 @@
 import { mapGetters } from 'vuex';
 
 import checkoutForm from '~/components/checkoutForm';
+import EmailDialog from '~/components/dialogs/EmailDialog';
 
 import likeCoinIcon from '@/assets/like-coin.svg';
-import { KYC_STATUS_ENUM } from '@/constant';
 
 export default {
   name: 'bundlesale',
   layout: 'narrowWithHeader',
   components: {
     checkoutForm,
+    EmailDialog,
   },
   data() {
     return {
@@ -134,9 +136,16 @@ export default {
     ]),
   },
   methods: {
-    redirectToTokenSalePageIfNeeded() {
-      if (!this.getUserIsRegistered || this.KYCStatus < KYC_STATUS_ENUM.STANDARD) {
-        this.$router.push({ name: 'in-tokensale' });
+    onNeedEmailVerify() {
+      this.$refs.emailDialog.show(this.getUserInfo.email || '');
+    },
+    redirectToRegisterPageIfNeeded() {
+      if (!this.getUserIsRegistered) {
+        this.$router.push({
+          name: 'in-register',
+          ref: 'in-bundle',
+          query: { redirect: `${window.location.protocol}//${window.location.host}/in/bundle/` },
+        });
       }
     },
   },
@@ -165,13 +174,13 @@ export default {
   watch: {
     getUserIsFetching(f) {
       if (!f) {
-        this.redirectToTokenSalePageIfNeeded();
+        this.redirectToRegisterPageIfNeeded();
       }
     },
   },
   mounted() {
     if (!this.getUserIsFetching) {
-      this.redirectToTokenSalePageIfNeeded();
+      this.redirectToRegisterPageIfNeeded();
     }
   },
 };

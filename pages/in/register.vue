@@ -85,7 +85,7 @@ export default {
     if (query.redirect) {
       try {
         const url = new URL(query.redirect);
-        if (!url.host || REDIRECT_WHITE_LIST.indexOf(url.host) === -1) {
+        if (!url.host || REDIRECT_WHITE_LIST.indexOf(url.hostname) === -1) {
           throw new Error(`${url.host} Not whitelisted`);
         }
         queryRedirect = query.redirect;

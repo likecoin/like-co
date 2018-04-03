@@ -75,6 +75,10 @@ export default {
       this.products = await this.queryIAPProducts();
     },
     async onClick(id) {
+      if (!this.getUserInfo.isEmailVerified) {
+        this.$emit('emailNotVerified');
+        return;
+      }
       this.product = this.products.find(p => p.id === id);
       const {
         user,

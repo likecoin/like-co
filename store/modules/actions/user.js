@@ -1,6 +1,8 @@
 /* eslint import/prefer-default-export: "off" */
 import * as api from '@/util/api/api';
 import * as types from '@/store/mutation-types';
+import { REDIRECT_NAME_WHITE_LIST } from '@/constant';
+
 import apiWrapper from './api-wrapper';
 
 export async function newUser({ commit }, data) {
@@ -38,9 +40,8 @@ export async function getWalletByUser({ commit }, id) {
 }
 
 export async function sendVerifyEmail({ commit, rootState }, { id, ref }) {
-  /* guard ref to only 'tokensale' for now */
   let redirect = '';
-  if (ref === 'tokensale') redirect = 'tokensale';
+  if (REDIRECT_NAME_WHITE_LIST.indexOf(ref) > -1) redirect = ref;
   return apiWrapper(
     commit,
     api.apiSendVerifyEmail(id, redirect, rootState.ui.locale),

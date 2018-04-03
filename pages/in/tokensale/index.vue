@@ -508,7 +508,7 @@ export default {
       }
     },
     redirectToRegister() {
-      this.$router.push({ name: 'in-register', query: { ref: 'tokensale' } });
+      this.$router.push({ name: 'in-register', query: { ref: 'in-tokensale' } });
     },
     async checkStatus() {
       if (this.getUserIsRegistered) {
