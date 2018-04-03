@@ -1,15 +1,38 @@
 <template>
-  <div>
-    <span v-if="errorMsg">{{ $t('General.label.error') }}: {{ errorMsg }}, 
-      <nuxt-link :to="{ name: 'index' }">{{ $t('Verify.label.toIndex') }}</nuxt-link>...</span>
-    <span v-else-if="isVerified">{{ $t('General.label.success') }}, 
-      <span v-if="hasReferrer">{{ $t('Verify.label.referral') }}, 
-      </span>
-        <nuxt-link v-if="redirect" :to="{ name: redirect }">{{ $t('Verify.label.redirect') }}</nuxt-link>
-        <nuxt-link v-else :to="{ name: 'in-edit' }">{{ $t('Verify.label.toEdit') }}</nuxt-link>
-      ...</span>
-    <span v-else>{{ $t('Verify.label.verifying') }}</span>
-    <claim-dialog ref="claimDialog" :couponCode="couponCode" :wallet="wallet" />
+  <div class="lc-margin-vertical-32">
+    <div class="lc-container-0">
+      <div class="lc-container-1">
+        <div class="lc-container-2">
+          <div class="lc-container-3">
+            <div class="lc-container-4">
+              <span v-if="errorMsg">
+                {{ $t('General.label.error') }}: {{ errorMsg }},
+                <nuxt-link :to="{ name: 'index' }">
+                  {{ $t('Verify.label.toIndex') }}
+                </nuxt-link>
+                ...
+              </span>
+
+              <span v-else-if="isVerified">
+                {{ $t('General.label.success') }},
+                <span v-if="hasReferrer">
+                  {{ $t('Verify.label.referral') }},
+                </span>
+                <nuxt-link v-if="redirect" :to="{ name: redirect }">
+                  {{ $t('Verify.label.redirect') }}
+                </nuxt-link>
+                <nuxt-link v-else :to="{ name: 'in-edit' }">
+                  {{ $t('Verify.label.toEdit') }}
+                </nuxt-link>
+                ...
+              </span>
+              <span v-else>{{ $t('Verify.label.verifying') }}</span>
+              <claim-dialog ref="claimDialog" :couponCode="couponCode" :wallet="wallet" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -20,7 +43,7 @@ import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'VerifyEmail',
-  layout: 'base',
+  layout: 'defaultWithHeader',
   data() {
     return {
       errorMsg: '',

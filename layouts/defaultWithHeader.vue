@@ -71,6 +71,10 @@ export default {
   .lc-page-footer {
     padding: 0;
   }
+
+  .lc-page-content {
+    flex: 1;
+  }
 }
 
 .lc-container-2 #site-header {
