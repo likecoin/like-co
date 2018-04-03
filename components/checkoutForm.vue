@@ -3,7 +3,7 @@
 
     <div v-if="chargeId" class="purchased-receipt lc-padding-vertical-32 lc-text-align-center">
       <p class="lc-margin-bottom-24">
-        {{ $t('LikeBundle.purchaseLikeBundle.label.youHavePurchased', { product: product.name }) }}
+        {{ $t('BackerPage.productList.label.youHavePurchased', { product: product.name }) }}
         <span class="reference-number lc-font-size-24">
           {{ chargeId }}
         </span>
@@ -26,16 +26,27 @@
           v-for="p in products"
           :key="p.id"
           class="product"
-          @click="onClick(p.id)">
+          @click="onClickProduct(p.id)">
           <div>
-            <div class="like-coin-amount">
-              <div>
-                {{ p.likeCoinAmount }}
+
+            <div class="product-preview">
+              <div :style="{ backgroundImage: `url(${p.image})` }" />
+            </div>
+
+            <div class="product-details">
+
+              <div class="info-wrapper">
+                <h1 class="name">{{ p.name }} </h1>
+                <p class="description" v-html="p.description" />
+                <span class="delivery">
+                  {{ $t('BackerPage.productList.label.delivery', { time: p.delivery })  }}
+                </span>
               </div>
+
+              <div class="price">{{ p.amount / 100 }}</div>
+
             </div>
-            <div class="price">
-              {{ p.amount / 100 }}
-            </div>
+
           </div>
         </li>
       </ul>
@@ -74,7 +85,7 @@ export default {
     async queryIAP() {
       this.products = await this.queryIAPProducts();
     },
-    async onClick(id) {
+    async onClickProduct(id) {
       if (!this.getUserInfo.isEmailVerified) {
         this.$emit('emailNotVerified');
         return;
@@ -140,6 +151,7 @@ $product-item-radius: 8px;
 .product-list {
   ul {
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
 
@@ -154,12 +166,12 @@ $product-item-radius: 8px;
 
       flex-shrink: 0;
 
-      width: #{100% / 3};
+      width: 100%;
       min-width: 164px;
       padding: 8px;
 
       &.dummy {
-        height: 244px;
+        height: 198px;
 
         @keyframes flash-bg {
           0% { background-color: $like-gray-2; }
@@ -190,26 +202,10 @@ $product-item-radius: 8px;
       }
 
       &:not(.dummy) {
-        &:nth-child(3n + 1) {
-          .like-coin-amount > div{
-            background-image: linear-gradient(244deg, #DEE9E4, #C1F3F5);
-          }
-        }
-
-        &:nth-child(3n + 2) {
-          .like-coin-amount > div {
-            background-image: linear-gradient(244deg, #F0E4DC, #DAEBE6);
-          }
-        }
-
-        &:nth-child(3n + 3) {
-          .like-coin-amount > div {
-            background-image: linear-gradient(244deg, #ffdfd2, #EBE5DF);
-          }
-        }
-
         > div {
           position: relative;
+
+          display: flex;
 
           cursor: pointer;
           transition: box-shadow, transform .2s ease-out;
@@ -217,6 +213,13 @@ $product-item-radius: 8px;
           border-radius: $product-item-radius;
           background-color: white;
           box-shadow: 0 0 0 0px $like-green;
+
+          @media (max-width: 600px) {
+            flex-direction: column;
+
+            max-width: 240px;margin-right: auto;
+            margin-left: auto;
+          }
 
           &:hover {
             z-index: 1;
@@ -254,10 +257,22 @@ $product-item-radius: 8px;
         }
       }
 
-      .like-coin-amount {
+      .product-preview {
         position: relative;
 
-        padding-top: 100%;
+        overflow: hidden;
+        flex-shrink: 0;
+
+        width: 100%;
+        max-width: 240px;
+        min-height: 198px;
+
+        border-radius: $product-item-radius 0px 0px $product-item-radius;
+        background-image: linear-gradient(250deg, #FFDFD2, #C1F3F5);
+
+        @media (max-width: 600px) {
+          border-radius: $product-item-radius $product-item-radius 0px 0px;
+        }
 
         > div {
           position: absolute;
@@ -266,42 +281,73 @@ $product-item-radius: 8px;
           bottom: 0;
           left: 0;
 
-          padding: 42px 16px 22px;
+          padding-top: 56.25%;
 
-          text-align: center;
+          background-position: center;
+          background-size: cover;
+        }
+      }
 
-          color: $like-green;
-          border-top-left-radius: $product-item-radius;
-          border-top-right-radius: $product-item-radius;
+      .product-details {
+        position: relative;
 
-          font-size: 38px;
-          line-height: 52px;
+        display: flex;
+        overflow: hidden;
+        flex-direction: column;
+        flex-grow: 1;
 
-          &::after {
+        border-radius: 0px $product-item-radius $product-item-radius 0px;
+
+        @media (max-width: 600px) {
+          border-radius:  0px 0px $product-item-radius $product-item-radius;
+        }
+
+        .info-wrapper {
+          flex-grow: 1;
+
+          padding: 16px 20px 8px;
+
+          .name {
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 1.35;
+          }
+
+          .description {
+            margin-top: 4px;
+
+            color: $like-gray-4;
+
+            font-size: 14px;
+            line-height: 1.4;
+          }
+
+          .delivery {
             display: block;
 
-            content: "LIKE";
+            margin-top: 16px;
 
-            color: $like-gray-5;
-
-            font-size: 16px;
-            line-height: 22px;
+            font-size: 12px;
+            line-height: 1.80;
           }
         }
       }
 
       .price {
-        padding: 22px 8px 16px;
+        padding: 4px 32px;
 
-        text-align: center;
+        text-align: right;
 
-        color: $like-dark-brown-2;
+        color: $like-green;
+        background-image: linear-gradient(254deg, #ffdfd2, #c1f3f5);
 
         font-size: 30px;
         font-weight: 600;
         line-height: 40px;
 
         &::before {
+          margin-right: 8px;
+
           content: "USD";
 
           font-size: 12px;

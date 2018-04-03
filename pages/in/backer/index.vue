@@ -1,5 +1,5 @@
 <template>
-  <div class="bundlesale-page">
+  <div class="backer-page">
     <div class="lc-container-0 lc-narrow">
 
       <section class="lc-container-1 lc-section-block">
@@ -31,18 +31,15 @@
         <div class="lc-container-2-extend">
           <div class="lc-container-3-extend-bg" />
           <div class="lc-container-3">
-            <div class="lc-padding-top-32 lc-padding-bottom-16">
+            <div class="lc-padding-vertical-32">
 
               <section class="lc-text-align-center">
                 <h1 class="lc-font-size-42 lc-color-like-green lc-font-weight-600">
-                  {{ $t('LikeBundle.title') }}
+                  {{ $t('BackerPage.title') }}
                 </h1>
                 <h2 class="lc-margin-top-12 lc-font-size-38 lc-font-weight-300">
-                  {{ $t('LikeBundle.label.tagline') }}
+                  {{ $t('BackerPage.label.tagline') }}
                 </h2>
-                <h3 class="lc-margin-top-12 lc-font-size-18 lc-font-weight-400">
-                  {{ $t('LikeBundle.label.whileSuppliesLast') }}
-                </h3>
               </section>
 
             </div>
@@ -52,7 +49,7 @@
         <div class="lc-container-2">
           <div class="lc-container-3 lc-bg-gray-1">
             <div class="lc-container-4 lc-padding-vertical-32 lc-text-align-center">
-              {{ $t('LikeBundle.label.description')}}
+              {{ $t('BackerPage.label.description')}}
             </div>
           </div>
         </div>
@@ -63,7 +60,7 @@
               <nuxt-link
                 class="lc-font-size-12 lc-underline"
                 :to="{ name: 'in-tokensale' }">
-                {{ $t('LikeBundle.button.purchaseInETH') }}
+                {{ $t('BackerPage.button.purchaseInETH') }}
               </nuxt-link>
             </div>
           </div>
@@ -82,7 +79,7 @@
           <div class="lc-container-2">
             <div class="lc-container-header-title">
               <h1 class="lc-font-size-32 lc-mobile">
-                {{ $t('LikeBundle.purchaseLikeBundle.title') }}
+                {{ $t('BackerPage.productList.title') }}
               </h1>
             </div>
           </div>
@@ -100,7 +97,7 @@
       <!-- END - Purchase LikeCoin Section -->
 
     </div>
-    <email-dialog ref="emailDialog" :emailRef="'in-bundle'" />
+    <email-dialog ref="emailDialog" :emailRef="'in-backer'" />
   </div>
 </template>
 
@@ -114,7 +111,7 @@ import EmailDialog from '~/components/dialogs/EmailDialog';
 import likeCoinIcon from '@/assets/like-coin.svg';
 
 export default {
-  name: 'bundlesale',
+  name: 'backer-page',
   layout: 'narrowWithHeader',
   components: {
     checkoutForm,
@@ -144,29 +141,29 @@ export default {
         this.$router.push({
           name: 'in-register',
           ref: 'in-bundle',
-          query: { redirect: `${window.location.protocol}//${window.location.host}/in/bundle/` },
+          query: { redirect: `${window.location.protocol}//${window.location.host}/in/backer/` },
         });
       }
     },
   },
   head() {
     return {
-      title: this.$t('LikeBundle.title'),
+      title: this.$t('BackerPage.title'),
       meta: [
         {
           hid: 'og_title',
           property: 'og:title',
-          content: this.$t('LikeBundle.title'),
+          content: this.$t('BackerPage.title'),
         },
         {
           hid: 'description',
           name: 'description',
-          content: this.$t('LikeBundle.label.description'),
+          content: this.$t('BackerPage.label.description'),
         },
         {
           hid: 'og_description',
           property: 'og:description',
-          content: this.$t('LikeBundle.label.description'),
+          content: this.$t('BackerPage.label.description'),
         },
       ],
     };
@@ -190,7 +187,7 @@ export default {
 <style lang="scss" scoped>
 @import "~assets/index";
 
-.bundlesale-page {
+.backer-page {
   margin-bottom: 18px;
 
   .lc-container-3-extend-bg {
