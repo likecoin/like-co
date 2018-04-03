@@ -1,5 +1,5 @@
 <template>
-  <section class="lc-container-0 lc-carousel md-xsmall-hide">
+  <section class="lc-container-0 lc-carousel lc-mobile-hide">
     <div v-swiper:mySwiper="swiperOptions">
       <div class="swiper-wrapper">
         <div class="swiper-slide" v-for="slide in slides" :key="slide.id">
