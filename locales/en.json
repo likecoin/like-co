@@ -538,19 +538,19 @@
       "noETH": "No ETH?"
     }
   },
-  "LikeBundle": {
-    "title": "Like Bundle",
+  "BackerPage": {
+    "title": "Support LikeCoin",
     "label": {
       "tagline": "Don't have ETH? No worry!",
-      "whileSuppliesLast": "While supplies last",
       "description": "We have small amount of LikeCoin to sale in fiat..bla bla bla. will be sent to your wallet when public token sales starts, expected to be April 23 2018."
     },
     "button": {
-      "purchaseInETH": "Purchase in ETH"
+      "purchaseInETH": "Support LikeCoin in ETH"
     },
-    "purchaseLikeBundle": {
-      "title": "Purchase Like Bundle",
+    "productList": {
+      "title": "Support",
       "label": {
+        "delivery": "Delivery: {time}",
         "youHavePurchased": "You have purchased {product}, the reference number is:"
       }
     }

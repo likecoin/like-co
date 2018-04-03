@@ -115,7 +115,7 @@
             <div class="lc-container-4 lc-padding-top-16 lc-text-align-center">
               <nuxt-link
                 class="lc-font-size-12 lc-underline"
-                :to="{ name: 'in-bundle' }">
+                :to="{ name: 'in-backer' }">
                 {{ $t('TokenSale.button.noETH') }}
               </nuxt-link>
             </div>
@@ -600,10 +600,6 @@ export default {
 @import "~assets/variables";
 @import "~assets/default";
 @import "~assets/input";
-
-.lc-container-3 {
-  background-color: $like-gray-1;
-}
 
 .tokensale-page {
   margin-bottom: 18px;
