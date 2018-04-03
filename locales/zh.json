@@ -550,7 +550,6 @@
     "productList": {
       "title": "支持 LikeCoin",
       "label": {
-        "delivery": "運送於：{time}",
         "youHavePurchased": "你已購買 {product} ，參考編號：",
         "description0": "Backer Tier0",
         "description1": "Backer Tier1",

@@ -38,9 +38,6 @@
               <div class="info-wrapper">
                 <h1 class="name">{{ p.name }} </h1>
                 <p class="description">{{ $t(`BackerPage.productList.label.description${index}`) }}</p>
-                <span class="delivery">
-                  {{ $t('BackerPage.productList.label.delivery', { time: p.delivery })  }}
-                </span>
               </div>
 
               <div class="price">{{ p.amount / 100 }}</div>
@@ -320,15 +317,6 @@ $product-item-radius: 8px;
 
             font-size: 14px;
             line-height: 1.4;
-          }
-
-          .delivery {
-            display: block;
-
-            margin-top: 16px;
-
-            font-size: 12px;
-            line-height: 1.80;
           }
         }
       }
