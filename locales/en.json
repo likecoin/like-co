@@ -609,5 +609,10 @@
       "comicAuthor": "Comic Author",
       "multimediaDesigner": "Multimedia Designer"
     }
+  },
+  "Error": {
+    "button": {
+      "toIndex": "Return to Index"
+    }
   }
 }

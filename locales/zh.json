@@ -609,5 +609,10 @@
       "comicAuthor": "漫畫家",
       "multimediaDesigner": "多媒體設計師"
     }
+  },
+  "Error": {
+    "button": {
+      "toIndex": "返回主頁"
+    }
   }
 }
