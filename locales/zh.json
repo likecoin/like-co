@@ -295,8 +295,7 @@
     "Header": {
       "label": {
         "store": "like.co",
-        "test": "test",
-        "beta": "beta"
+        "test": "test"
       }
     },
     "Footer": {

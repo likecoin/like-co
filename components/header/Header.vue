@@ -4,7 +4,7 @@
       <nuxt-link :class="['title', { test: isTest }]" :to="{ name: 'index' }">
         {{ $t('Store.Header.label.store') }}
         <span class="sup">
-          {{ isTest ? $t('Store.Header.label.test') : $t('Store.Header.label.beta') }}
+          {{ isTest ? $t('Store.Header.label.test') : '' }}
         </span>
       </nuxt-link>
       <div class="icons">
