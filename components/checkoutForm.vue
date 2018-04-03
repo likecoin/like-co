@@ -40,7 +40,6 @@
         </li>
       </ul>
     </div>
-    <email-dialog ref="emailDialog" :emailRef="'in-bundle'" />
 
   </div>
 </template>
@@ -49,13 +48,11 @@
 import { mapActions, mapGetters } from 'vuex';
 
 import MaterialButton from '~/components/MaterialButton';
-import EmailDialog from '~/components/dialogs/EmailDialog';
 
 export default {
   name: 'checkoutForm',
   components: {
     MaterialButton,
-    EmailDialog,
   },
   data() {
     return {
@@ -79,7 +76,7 @@ export default {
     },
     async onClick(id) {
       if (!this.getUserInfo.isEmailVerified) {
-        this.$refs.emailDialog.show(this.getUserInfo.email || '');
+        this.$emit('emailNotVerified');
         return;
       }
       this.product = this.products.find(p => p.id === id);

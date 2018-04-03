@@ -91,7 +91,7 @@
         <div class="lc-container-2">
           <div class="lc-container-3 lc-bg-gray-1">
             <div class="lc-container-4 lc-padding-vertical-32">
-              <checkoutForm />
+              <checkoutForm @emailNotVerified="onNeedEmailVerify"/>
             </div>
           </div>
         </div>
@@ -100,6 +100,7 @@
       <!-- END - Purchase LikeCoin Section -->
 
     </div>
+    <email-dialog ref="emailDialog" :emailRef="'in-bundle'" />
   </div>
 </template>
 
@@ -108,6 +109,7 @@
 import { mapGetters } from 'vuex';
 
 import checkoutForm from '~/components/checkoutForm';
+import EmailDialog from '~/components/dialogs/EmailDialog';
 
 import likeCoinIcon from '@/assets/like-coin.svg';
 
@@ -116,6 +118,7 @@ export default {
   layout: 'narrowWithHeader',
   components: {
     checkoutForm,
+    EmailDialog,
   },
   data() {
     return {
@@ -133,6 +136,9 @@ export default {
     ]),
   },
   methods: {
+    onNeedEmailVerify() {
+      this.$refs.emailDialog.show(this.getUserInfo.email || '');
+    },
     redirectToRegisterPageIfNeeded() {
       if (!this.getUserIsRegistered) {
         this.$router.push({
