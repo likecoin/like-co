@@ -7,14 +7,20 @@
     <h3 class="lc-font-size-18 lc-font-weight-600 lc-margin-top-16">
       {{ $t('Home.Flag.content') }}
     </h3>
+    <language-switch class="lc-tablet-pc-hide" />
   </div>
 </template>
 
 <script>
+import LanguageSwitch from '~/components/LanguageSwitch';
+
 import likeCoinIcon from '@/assets/like-coin.svg';
 
 export default {
   name: 'header-flag',
+  components: {
+    LanguageSwitch,
+  },
   data() {
     return {
       likeCoinIcon,
@@ -34,6 +40,12 @@ export default {
   .logo {
     width: 142px;
     height: 142px;
+  }
+
+  > .language-switch {
+    position: absolute;
+    top: 24px;
+    right: 24px;
   }
 
   @media (min-width: 600px + 1px) {

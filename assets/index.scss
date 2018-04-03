@@ -428,6 +428,12 @@ $font-weight-list: 300 400 600;
   z-index: 9999 !important;
 }
 
+@media (min-width: 601px) {
+  .lc-tablet-pc-hide {
+    display: none !important;
+  }
+}
+
 
 @media (max-width: 768px) {
   .lc-tablet-hide {
@@ -447,14 +453,6 @@ $font-weight-list: 300 400 600;
 
       width: calc(100% + 48px);
     }
-  }
-
-  /* Deprecated! Please use lc-mobile-* */
-  .md-xsmall-hide {
-    display: none !important;
-  }
-  .md-xsmall-show {
-    display: inherit !important;
   }
 
   .lc-mobile-hide {

@@ -9,10 +9,10 @@
       </nuxt-link>
       <div class="icons">
         <platform-icon-bar />
-        <language-switch class="md-xsmall-hide" />
+        <language-switch class="lc-mobile-hide" />
       </div>
     </div>
-    <div class="lc-container-3 md-xsmall-hide">
+    <div class="lc-container-3 lc-mobile-hide">
       <material-button
         v-if="!shouldHideRegister"
         className="account-btn"
