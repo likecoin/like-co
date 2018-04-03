@@ -30,8 +30,8 @@ module.exports = {
 
     browser
       .url(`${devServer}/${testUser}`)
-      .waitForElementVisible('.payment-container', 2000)
-      .verify.containsText('.payment-container', testUser)
+      .waitForElementVisible('.address-container', 2000)
+      .verify.containsText('.address-container', testUser)
       .click('#paymentInfo')
       .clearValue('#paymentInfo input[type=text]')
       .setValue('#paymentInfo input[type=text]', 2)

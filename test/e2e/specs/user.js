@@ -15,7 +15,7 @@ module.exports = {
       .url(devServer)
       .click('.lc-container-3 button.account-btn')
       .waitForElementVisible('#registerForm', 2000)
-      .pause(2000)
+      .pause(6000)
       .setValue('#registerForm input[type=text][required=required]', 'testacct')
       .submitForm('#registerForm')
       .pause(2000)
@@ -49,11 +49,12 @@ module.exports = {
     browser
       .url(`${devServer}/in/edit`)
       .waitForElementVisible('#editForm', 2000)
+      .pause(6000)
       .click('#editForm .input-display-name')
-      .waitForElementVisible('#edit-confirm-btn', 2000)
+      .waitForElementVisible('#editForm div.btn-container div:nth-child(1) button', 2000)
       .setValue('#editForm .input-display-name', inputSequence)
       .pause(2000)
-      .click('#edit-confirm-btn')
+      .click('#editForm div.btn-container div:nth-child(1) button')
       .pause(2000)
       .windowHandles(function func(res) {
         const metamaskPopup = res.value[1];
