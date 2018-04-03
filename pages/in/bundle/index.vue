@@ -110,7 +110,6 @@ import { mapGetters } from 'vuex';
 import checkoutForm from '~/components/checkoutForm';
 
 import likeCoinIcon from '@/assets/like-coin.svg';
-import { KYC_STATUS_ENUM } from '@/constant';
 
 export default {
   name: 'bundlesale',
@@ -134,9 +133,13 @@ export default {
     ]),
   },
   methods: {
-    redirectToTokenSalePageIfNeeded() {
-      if (!this.getUserIsRegistered || this.KYCStatus < KYC_STATUS_ENUM.STANDARD) {
-        this.$router.push({ name: 'in-tokensale' });
+    redirectToRegisterPageIfNeeded() {
+      if (!this.getUserIsRegistered) {
+        this.$router.push({
+          name: 'in-register',
+          ref: 'in-bundle',
+          query: { redirect: `${window.location.protocol}//${window.location.host}/in/bundle/` },
+        });
       }
     },
   },
@@ -165,13 +168,13 @@ export default {
   watch: {
     getUserIsFetching(f) {
       if (!f) {
-        this.redirectToTokenSalePageIfNeeded();
+        this.redirectToRegisterPageIfNeeded();
       }
     },
   },
   mounted() {
     if (!this.getUserIsFetching) {
-      this.redirectToTokenSalePageIfNeeded();
+      this.redirectToRegisterPageIfNeeded();
     }
   },
 };
