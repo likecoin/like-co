@@ -1,6 +1,7 @@
 {
   "name": "likecoin-store",
   "version": "1.0.0",
+  "license": "GPL-3.0",
   "description": "Nuxt.js project",
   "author": "William Chong <williamchong007@msn.com>",
   "private": true,
