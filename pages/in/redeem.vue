@@ -3,9 +3,12 @@
 </template>
 
 <script>
-import * as types from '@/store/mutation-types';
-import LikeRegisterForm from '~/components/LikeRegisterForm';
 import { mapGetters } from 'vuex';
+
+import LikeRegisterForm from '~/components/LikeRegisterForm';
+
+import * as types from '@/store/mutation-types';
+
 
 export default {
   name: 'Redeem',
