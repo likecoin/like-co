@@ -551,9 +551,9 @@
       "title": "Shop",
       "label": {
         "youHavePurchased": "You have purchased {product}, the reference number is:",
-        "description0": "Backer Tier0",
-        "description1": "Backer Tier1",
-        "description2": "Backer Tier2"
+        "description0": "eBook by the founder<br />The Road of Game<br />PDF and mobi versions",
+        "description1": "Paperbacks and eBooks bundle<br />The Road of Game<br />+Good Gamer Karma<br />bundle<br />Paperback, PDF and mobi version",
+        "description2": "Autographed paperbacks and eBooks bundle<br />The Road of Game<br />+Good Gamer Karma<br />Author autographed paperbacks with reader's name,<br />PDF and mobi versions"
       }
     }
   },

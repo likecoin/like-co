@@ -37,7 +37,7 @@
 
               <div class="info-wrapper">
                 <h1 class="name">{{ p.name }} </h1>
-                <p class="description">{{ $t(`BackerPage.productList.label.description${index}`) }}</p>
+                <p class="description" v-html="$t(`BackerPage.productList.label.description${index}`)"/>
               </div>
 
               <div class="price">{{ p.amount / 100 }}</div>
