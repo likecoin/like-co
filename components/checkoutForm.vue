@@ -23,7 +23,7 @@
       </ul>
       <ul v-else>
         <li
-          v-for="p in products"
+          v-for="(p, index) in products"
           :key="p.id"
           class="product"
           @click="onClickProduct(p.id)">
@@ -37,7 +37,7 @@
 
               <div class="info-wrapper">
                 <h1 class="name">{{ p.name }} </h1>
-                <p class="description" v-html="p.description" />
+                <p class="description">{{ $t(`BackerPage.productList.label.description${index}`) }}</p>
                 <span class="delivery">
                   {{ $t('BackerPage.productList.label.delivery', { time: p.delivery })  }}
                 </span>

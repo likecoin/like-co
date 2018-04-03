@@ -550,7 +550,10 @@
       "title": "Support",
       "label": {
         "delivery": "Delivery: {time}",
-        "youHavePurchased": "You have purchased {product}, the reference number is:"
+        "youHavePurchased": "You have purchased {product}, the reference number is:",
+        "description0": "Backer Tier0",
+        "description1": "Backer Tier1",
+        "description2": "Backer Tier2"
       }
     }
   },
