@@ -48,9 +48,9 @@
 
         <div class="lc-container-2">
           <div class="lc-container-3 lc-bg-gray-1">
-            <div class="lc-container-4 lc-padding-vertical-32 lc-text-align-center">
-              {{ $t('BackerPage.label.description')}}
-            </div>
+            <div
+              class="lc-container-4 lc-padding-vertical-32 lc-text-align-center"
+              v-html="$t('BackerPage.label.description')" />
           </div>
         </div>
 
