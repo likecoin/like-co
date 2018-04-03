@@ -47,7 +47,7 @@
             </md-field>
             <md-field class="lc-margin-top-12 lc-margin-bottom-24 lc-mobile">
               <label>{{ $t('Register.form.referrer') }}</label>
-              <md-input v-model="referrer" />
+              <md-input v-model="referrer" @change="referrer=referrer.toLowerCase()" />
             </md-field>
             <md-field class="lc-margin-top-12 lc-margin-bottom-24 lc-mobile" v-if="isEdit && !isRedeemingCoupon">
               <label>{{ $t('Register.form.displayName') }}</label>
