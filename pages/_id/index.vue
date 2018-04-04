@@ -384,7 +384,8 @@ p {
 .create-account-wrapper {
   .md-button {
     width: 256px;
-    margin: 16px 0;
+    display: block;
+    margin: 16px auto;
   }
   a {
     text-decoration: underline;
