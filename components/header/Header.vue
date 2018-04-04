@@ -13,13 +13,15 @@
       </div>
     </div>
     <div class="lc-container-3 lc-mobile-hide">
-      <material-button
-        v-if="!shouldHideRegister"
-        className="account-btn"
-        :hasShadow="true"
-        @click="onSignUpClick">
-        {{ getButtonText }}
-      </material-button>
+      <div class="account-btn-wrapper">
+        <material-button
+          v-if="!shouldHideRegister"
+          className="account-btn"
+          :hasShadow="true"
+          @click="onSignUpClick">
+          {{ getButtonText }}
+        </material-button>
+      </div>
     </div>
   </div>
 </template>
@@ -91,14 +93,17 @@ export default {
 
     @media (max-width: 768px) {
       flex-direction: column;
+
       padding: 12px 0;
     }
   }
 
   .title {
-    font-size: 18px;
-    color: $like-green;
     text-decoration: none;
+
+    color: $like-green;
+
+    font-size: 18px;
 
     &.test {
       color: $like-red;
@@ -106,6 +111,7 @@ export default {
 
     > .sup {
       vertical-align: super;
+
       font-size: 12px;
     }
 
@@ -116,22 +122,26 @@ export default {
 
   .icons {
     display: flex;
-    flex-direction: row;
     align-items: center;
+    flex-direction: row;
   }
 
-  .account-btn {
+  .account-btn-wrapper {
     position: absolute;
     z-index: 2;
     right: 8px;
-    bottom: -16px;
+    bottom: 0;
 
     width: 188px;
 
-    font-size: 18px;
+    transform: translateY(50%);
 
-    > :global(.md-ripple) {
-      padding: 0;
+    .account-btn {
+      font-size: 18px;
+
+      > :global(.md-ripple) {
+        padding: 0;
+      }
     }
   }
 }
