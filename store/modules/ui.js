@@ -19,6 +19,8 @@ import {
   UI_LOGIN_OVERRIDE,
   UI_HEADER_UPDATE,
   UI_SET_TX_DIALOG_ACTION,
+  UI_OPEN_SLIDING_MENU,
+  UI_CLOSE_SLIDING_MENU,
 } from '../mutation-types';
 import * as getters from './getters/ui';
 import * as actions from './actions/ui';
@@ -39,6 +41,7 @@ const state = {
   isLoading: false,
   isBlocking: false,
   isShowingTxPopup: false,
+  isSlidingMenuOpen: false,
   isLoginOverride: false,
   txDialogActionRoute: null,
   txDialogActionText: '',
@@ -124,6 +127,12 @@ const mutations = {
     } = payload;
     if (txDialogActionRoute !== undefined) state.txDialogActionRoute = txDialogActionRoute;
     if (txDialogActionText !== undefined) state.txDialogActionText = txDialogActionText;
+  },
+  [UI_OPEN_SLIDING_MENU](state) {
+    state.isSlidingMenuOpen = true;
+  },
+  [UI_CLOSE_SLIDING_MENU](state) {
+    state.isSlidingMenuOpen = false;
   },
 };
 

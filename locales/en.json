@@ -24,6 +24,17 @@
     "minute": "minute | minutes",
     "second": "second | seconds"
   },
+  "Menu": {
+    "button": {
+      "menu": "menu",
+      "close": "close"
+    },
+    "item": {
+      "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
+      "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
+      "support": "@:Footer.button.support"
+    }
+  },
   "Sign": {
     "Message": {
       "registerUser": "Registering with the following user info",

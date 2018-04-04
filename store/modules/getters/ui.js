@@ -33,3 +33,5 @@ export const getTxDialogActionRoute = state => state.txDialogActionRoute;
 export const getTxDialogActionText = state => state.txDialogActionText;
 
 export const getCurrentLocale = state => state.locale;
+
+export const getIsSlidingMenuOpen = state => state.isSlidingMenuOpen;

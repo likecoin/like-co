@@ -24,6 +24,17 @@
     "minute": "分鐘",
     "second": "秒"
   },
+  "Menu": {
+    "button": {
+      "menu": "選單",
+      "close": "關閉"
+    },
+    "item": {
+      "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
+      "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
+      "support": "@:Footer.button.support"
+    }
+  },
   "Sign": {
     "Message": {
       "registerUser": "確認註冊以下帳號",

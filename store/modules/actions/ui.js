@@ -57,3 +57,11 @@ export const closeInfoToolbar = ({ commit }) => {
 export const setTxDialogAction = ({ commit }, payload) => {
   commit(types.UI_SET_TX_DIALOG_ACTION, payload);
 };
+
+export const openSlidingMenu = ({ commit }) => {
+  commit(types.UI_OPEN_SLIDING_MENU);
+};
+
+export const closeSlidingMenu = ({ commit }) => {
+  commit(types.UI_CLOSE_SLIDING_MENU);
+};

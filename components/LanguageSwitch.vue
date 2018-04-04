@@ -4,15 +4,21 @@
     md-size="small"
     md-align-trigger>
 
-    <md-button class="md-icon-button md-dense" md-menu-trigger>
-      <simple-svg
-        :filepath="I18nIcon"
-        width="24px"
-        height="24px"
-        :fill="color"
-        stroke="transparent"
-        />
-    </md-button>
+    <div class="button-wrapper" md-menu-trigger>
+      <label v-if="isShowLabel">
+        {{ $t(`Language.${$i18n.locale}`) }}
+      </label>
+
+      <md-button class="md-icon-button md-dense">
+        <simple-svg
+          :filepath="I18nIcon"
+          width="24px"
+          height="24px"
+          :fill="color"
+          stroke="transparent"
+          />
+      </md-button>
+    </div>
 
     <md-menu-content>
 
@@ -36,6 +42,10 @@ import I18nIcon from '@/assets/icons/i18n.svg';
 export default {
   name: 'language-switch',
   props: {
+    isShowLabel: {
+      type: Boolean,
+      default: false,
+    },
     color: {
       type: String,
       default: 'black',
@@ -69,15 +79,23 @@ export default {
 }
 
 .language-switch {
-  margin: 0 6px;
+  .button-wrapper {
+    display: flex;
+    align-items: center;
 
-  cursor: pointer;
+    cursor: pointer;
+    user-select: none;
+  }
 
-  > .md-button {
-    background-color: transparent;
-
+  .md-button {
     overflow: hidden;
+
     border-radius: 50%;
+    background-color: transparent;
+  }
+
+  .md-icon-button {
+    margin: 0;
   }
 }
 
