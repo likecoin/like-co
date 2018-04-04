@@ -121,11 +121,16 @@ export default {
 }
 
 .md-toolbar {
-  height: 40px;
-  min-height: unset;
+  min-height: 40px;
   padding: 0 24px;
 
   font-size: 20px;
+
+  @media (max-width: 600px) {
+    padding: 8px 12px;
+
+    font-size: 18px;
+  }
 
   border-bottom: 1px solid $like-gray-1;
 
