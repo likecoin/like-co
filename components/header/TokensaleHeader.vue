@@ -1,70 +1,88 @@
 <template>
-  <section class="section-avatar">
-    <div class="icon">
-      <nuxt-link :to="{ name: 'in-tokensale' }">
-        <img alt="likecoin" class="main-icon" :src="likeCoinIcon" />
-      </nuxt-link>
+  <section class="lc-transaction-header">
+    <div class="lc-container-2">
+      <div class="lc-container-3 lc-bg-gray-1 icon-wrapper">
+        <div class="icon">
+          <nuxt-link :to="{ name: 'in-tokensale' }">
+            <img alt="likecoin" class="main-icon" :src="likeCoinIcon" />
+          </nuxt-link>
+        </div>
+      </div>
     </div>
-    <div class="heading">
-      <section
-        class="tokensale-state"
-        v-if="!isNotFound">
-        <div class="header">
-          TokenSale
+
+    <div class="lc-container-2-extend">
+      <div class="lc-container-3-extend-bg" />
+      <div class="lc-container-3">
+        <div class="heading lc-font-size-42 lc-padding-top-32 lc-padding-bottom-24 lc-mobile">
+          <section
+            class="tokensale-state"
+            v-if="!isNotFound">
+            <div class="header lc-font-size-20">
+              TokenSale
+            </div>
+            <div v-if="amount" class="amount lc-font-weight-300">
+              {{ $t(`Transaction.header.label.ethAmount`, { amount }) }} →
+              {{ $t(`Transaction.header.label.likecoinAmount`, { amount: amountOfLikeCoin }) }}
+            </div>
+            <div v-else />
+          </section>
+          <h1 v-else class="error">
+            <md-icon class="md-size-2x">error</md-icon>
+            {{ $t('Transaction.header.label.notFound') }}
+          </h1>
         </div>
-        <div v-if="amount" class="amount">
-          {{ $t(`Transaction.header.label.ethAmount`, { amount }) }} → 
-          {{ $t(`Transaction.header.label.likecoinAmount`, { amount: amountOfLikeCoin }) }}
-        </div>
-        <div v-else />
-      </section>
-      <h1 v-else class="error">
-        <md-icon class="md-size-2x">error</md-icon>
-        {{ $t('Transaction.header.label.notFound') }}
-      </h1>
+      </div>
     </div>
-    <section v-if="!isNotFound">
-      <section v-if="failReason==2"><!-- timeout !-->
-        <h1 style="color: #fc5757">
-          <md-icon class="status-icon error-icon">
-            error
-          </md-icon>
-          {{ $t('Transaction.header.label.timeout') }}
-        </h1>
-      </section>
-      <section v-else-if="failReason==1" class="tokensale-container">
-        <h1 style="color: #fc5757">
-          <md-icon class="status-icon error-icon">
-            error
-          </md-icon>
-          {{ $t('Transaction.header.label.failed') }}
-        </h1>
-      </section>
-      <section v-else-if="isPending" class="tokensale-container">
-        <h1 style="color: #d9b503">
-          {{ $t('Transaction.header.label.pending') }}
-        </h1>
-        <md-progress-bar md-mode="indeterminate"></md-progress-bar>
-        <div class="pending-description">
-          {{ $t('Dialog.tokensale.label.waiting') }}
-        </div>
-      </section>
-      <section v-else class="tokensale-container">
-        <h1 style="color: #16a122">
-          <md-icon class="status-icon tick-icon">
-            check
-          </md-icon>
-          {{ $t('Transaction.header.label.completed') }}
-        </h1>
-        <div class="date-content">{{ dateCompleted }}</div>
-      </section>
-    </section>
+
+    <div class="lc-container-2">
+      <div class="lc-container-3 lc-bg-gray-1 icon-wrapper">
+
+        <section v-if="!isNotFound" class="tokensale-container lc-padding-vertical-48 lc-mobile">
+          <section v-if="failReason === 2"><!-- timeout !-->
+            <h1 class="failed">
+              <md-icon class="status-icon error-icon">
+                error
+              </md-icon>
+              {{ $t('Transaction.header.label.timeout') }}
+            </h1>
+          </section>
+          <section v-else-if="failReason === 1">
+            <h1 class="failed">
+              <md-icon class="status-icon error-icon">
+                error
+              </md-icon>
+              {{ $t('Transaction.header.label.failed') }}
+            </h1>
+          </section>
+          <section v-else-if="isPending">
+            <h1 class="pending">
+              {{ $t('Transaction.header.label.pending') }}
+            </h1>
+            <md-progress-bar md-mode="indeterminate" />
+            <div class="pending-description lc-font-size-16 lc-font-weight-300">
+              {{ $t('Dialog.transaction.label.waiting') }}
+            </div>
+          </section>
+          <section v-else>
+            <h1 class="success lc-margin-bottom-12">
+              <img class="status-icon" :src="TickIcon" />
+              {{ $t('Transaction.header.label.completed') }}
+            </h1>
+            <div class="lc-font-size-20">
+              {{ dateCompleted }}
+            </div>
+          </section>
+        </section>
+      </div>
+    </div>
   </section>
 </template>
 
 
 <script>
 import likeCoinIcon from '@/assets/like-coin.svg';
+import TickIcon from '@/assets/tokensale/tick.svg';
+
 import { ETH_TO_LIKECOIN_RATIO } from '@/constant';
 
 export default {
@@ -75,6 +93,7 @@ export default {
     return {
       defaultText: 'Redeem your free LikeCoin',
       likeCoinIcon,
+      TickIcon,
     };
   },
   computed: {
@@ -96,34 +115,24 @@ export default {
 
 <style lang="scss" scoped>
 @import "~assets/variables";
-
 $status-icon-size: 32px;
 
-.section-avatar {
+.lc-transaction-header {
   position: relative;
 
-  overflow: visible;
+  .icon-wrapper {
+    display: flex;
+    justify-content: center;
 
-  max-width: 560px;
-  min-height: 408px;
-  margin: -137px auto 0;
-  padding: 113px 0 1px;
+    .icon {
+      width: 128px;
+      height: 128px;
 
-  background: $like-gray-1;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  .icon {
-    width: 128px;
-    height: 128px;
-
-    position: relative;
-    z-index: 1;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 1px solid rgba(0,0,0, 0.2);
+      position: relative;
+      z-index: 1;
+      border-radius: 50%;
+      overflow: hidden;
+    }
   }
 
   .heading {
@@ -131,18 +140,16 @@ $status-icon-size: 32px;
     display: flex;
     flex-direction: row;
 
-    width: 120%;
     margin-top: -24px;
-    padding: 28px;
 
     text-align: center;
 
     border-radius: 8px;
-    background-image: linear-gradient(238deg, $like-light-blue, $like-gradient-1);
 
-    font-size: 42px;
 
     .tokensale-state {
+      display: flex;
+      flex-direction: column;
       align-items: center;
       width: 100%;
 
@@ -152,7 +159,10 @@ $status-icon-size: 32px;
 
       .amount {
         flex: 3;
-        line-height: 42px;
+      }
+
+      @media (max-width: 600px) {
+        margin-top: 16px;
       }
     }
 
@@ -160,16 +170,6 @@ $status-icon-size: 32px;
       margin: 0;
 
       text-align: center;
-    }
-
-    .send-state {
-      text-align: left;
-      font-size: 14px;
-    }
-
-    .user-section {
-      text-align: right;
-      font-size: 14px;
     }
   }
 }
@@ -184,24 +184,48 @@ $status-icon-size: 32px;
 }
 
 .tokensale-container {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-
-  margin: 42px;
+  text-align: center;
 
   h1 {
     position: relative;
 
-    margin: 0;
-
     font-size: 32px;
-  }
 
-  .date-content {
-    margin-top: 12px;
+    &.fail {
+      color: $like-red;
+    }
+    &.pending {
+      color: #d9b503;
+    }
+    &.success {
+      color: $like-green-2;
+    }
 
-    font-size: 20px;
+    .status-icon {
+      position: absolute;
+      top: 4px;
+      left: 8px;
+
+      color: $like-green-2;
+
+      width: $status-icon-size;
+    }
+
+    .error-icon {
+      color: $like-red;
+    }
+
+    @media (max-width: 600px) {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+
+      .status-icon {
+        position: relative;
+        top: 0;
+        left: 0;
+      }
+    }
   }
 
   .md-progress-bar {
@@ -209,44 +233,9 @@ $status-icon-size: 32px;
     width: 100%;
   }
 
-  .status-icon {
-    position: absolute;
-    top: 8px;
-    left: #{-$status-icon-size - 12px};
-
-    color: $like-green-2;
-
-    font-size: $status-icon-size !important;
-  }
-
-  .tick-icon {
-    color: $like-green-2;
-  }
-
-  .error-icon {
-    color: $like-red;
-  }
-
   .pending-description {
     margin-top: 20px;
-    font-size: 16px;
-    font-weight: 300;
     color: $like-gray-4;
-  }
-}
-
-.usertitle {
-  font-weight: 600;
-}
-
-@media (max-width: 768px) {
-  body .section-avatar {
-    margin-top: -112px;
-
-    .heading {
-      padding-left: 60px;
-      padding-right: 60px;
-    }
   }
 }
 </style>
