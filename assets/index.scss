@@ -63,7 +63,7 @@ html, body {
 }
 
 a,
-a:not(.md-button) {
+.md-theme-default a:not(.md-button) {
   cursor: pointer;
   transition: opacity, color .2s ease-in-out;
 
