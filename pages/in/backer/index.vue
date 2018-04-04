@@ -83,7 +83,10 @@
       <!-- END - Purchase LikeCoin Section -->
 
     </div>
+
     <email-dialog ref="emailDialog" :emailRef="'in-backer'" />
+
+    <tool-bars :disableError="['web3', 'testnet', 'locked']" />
   </div>
 </template>
 
@@ -91,17 +94,20 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import checkoutForm from '~/components/checkoutForm';
+import CheckoutForm from '~/components/checkoutForm';
 import EmailDialog from '~/components/dialogs/EmailDialog';
 import NarrowPageHeader from '~/components/header/NarrowPageHeader';
+import ToolBars from '~/components/toolbars/ToolBars';
+
 
 export default {
   name: 'backer-page',
   layout: 'narrowWithHeader',
   components: {
-    checkoutForm,
+    CheckoutForm,
     EmailDialog,
     NarrowPageHeader,
+    ToolBars,
   },
   computed: {
     KYCStatus() {

@@ -268,6 +268,7 @@
     </div>
 
     <view-etherscan :address="wallet" />
+    <tool-bars />
   </div>
 </template>
 
@@ -278,12 +279,14 @@ import BigNumber from 'bignumber.js';
 import EthHelper from '@/util/EthHelper';
 import User from '@/util/User';
 import { logTrackerEvent } from '@/util/EventLogger';
+
+import ClaimDialog from '~/components/dialogs/ClaimDialog';
+import InputDialog from '~/components/dialogs/InputDialog';
 import LikeCoinAmount from '~/components/LikeCoinAmount';
 import MaterialButton from '~/components/MaterialButton';
 import ReferralAction from '~/components/ReferralAction';
-import ClaimDialog from '~/components/dialogs/ClaimDialog';
-import InputDialog from '~/components/dialogs/InputDialog';
 // import TransactionHistory from '~/components/TransactionHistory';
+import ToolBars from '~/components/toolbars/ToolBars';
 import ViewEtherscan from '~/components/ViewEtherscan';
 
 import { ONE_LIKE } from '@/constant';
@@ -322,6 +325,7 @@ export default {
     LikeCoinAmount,
     MaterialButton,
     ReferralAction,
+    ToolBars,
     // TransactionHistory,
     ViewEtherscan,
   },

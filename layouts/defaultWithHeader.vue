@@ -31,7 +31,6 @@
       </div>
     </footer>
 
-    <tool-bars :disableError="getIfDisableError" />
   </div>
 </template>
 
@@ -39,17 +38,14 @@
 <script>
 import MyFooter from '~/components/footer/Footer';
 import SiteHeader from '~/components/header/Header';
-import ToolBars from '~/components/toolbars/ToolBars';
 
 export default {
   components: {
     MyFooter,
     SiteHeader,
-    ToolBars,
   },
   computed: {
     getIfDisableError() {
-      if (['in-whitepaper'].includes(this.$route.name)) return ['web3', 'testnet', 'locked'];
       return false;
     },
   },

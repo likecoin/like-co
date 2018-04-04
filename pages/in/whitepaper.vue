@@ -13,12 +13,16 @@
         </li>
       </ul>
     </div>
+
+    <tool-bars :disableError="['web3', 'testnet', 'locked']" />
   </div>
 </template>
 
 
 <script>
 import Document from '~/components/whitepaper/Document';
+import ToolBars from '~/components/toolbars/ToolBars';
+
 import { logTrackerEvent } from '@/util/EventLogger';
 
 import onePagerIcon from '~/assets/whitepaper/one-pager.svg';
@@ -76,6 +80,7 @@ export default {
   layout: 'defaultWithHeader',
   components: {
     Document,
+    ToolBars,
   },
   data() {
     return {

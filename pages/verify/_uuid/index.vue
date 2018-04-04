@@ -33,13 +33,18 @@
         </div>
       </div>
     </div>
+
+    <tool-bars :disableError="['web3', 'locked']" />
   </div>
 </template>
 
 <script>
-import { logTrackerEvent } from '@/util/EventLogger';
-import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import { mapActions, mapGetters } from 'vuex';
+
+import ClaimDialog from '~/components/dialogs/ClaimDialog';
+import ToolBars from '~/components/toolbars/ToolBars';
+
+import { logTrackerEvent } from '@/util/EventLogger';
 
 export default {
   name: 'VerifyEmail',
@@ -55,6 +60,7 @@ export default {
   },
   components: {
     ClaimDialog,
+    ToolBars,
   },
   computed: {
     uuid() {

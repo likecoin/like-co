@@ -267,6 +267,8 @@
       :message="popupMessage"
       @onConfirm="popupMessage=''"
     />
+
+    <tool-bars :disableError="['web3', 'testnet', 'locked']" />
   </div>
 </template>
 
@@ -275,12 +277,13 @@
 import BigNumber from 'bignumber.js';
 
 import CountdownTimer from '~/components/CountdownTimer';
+import KYCForm from '~/components/KYCForm';
 import NumberInput from '~/components/NumberInput';
 import MaterialButton from '~/components/MaterialButton';
-import TokenSaleProgress from '~/components/TokenSaleProgress';
 import PopupDialog from '~/components/dialogs/PopupDialog';
 import NarrowPageHeader from '~/components/header/NarrowPageHeader';
-import KYCForm from '~/components/KYCForm';
+import TokenSaleProgress from '~/components/TokenSaleProgress';
+import ToolBars from '~/components/toolbars/ToolBars';
 
 import AddIcon from '@/assets/icons/add.svg';
 import EthIcon from '@/assets/tokensale/eth.svg';
@@ -305,13 +308,14 @@ export default {
   name: 'tokensale',
   layout: 'narrowWithHeader',
   components: {
-    CountdownTimer,
-    NumberInput,
-    MaterialButton,
     'tokensale-progress': TokenSaleProgress,
-    PopupDialog,
-    NarrowPageHeader,
+    CountdownTimer,
     KYCForm,
+    MaterialButton,
+    NarrowPageHeader,
+    NumberInput,
+    PopupDialog,
+    ToolBars,
   },
   data() {
     return {
