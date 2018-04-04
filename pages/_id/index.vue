@@ -400,14 +400,6 @@ p {
   }
 }
 
-#paymentInfo {
-  margin: 0 40px 16px;
-
-  .number-input {
-    margin: 16px 0 40px;
-  }
-}
-
 #payment-confirm {
   display: block;
 

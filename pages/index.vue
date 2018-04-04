@@ -99,6 +99,7 @@ const imgUrl = path => images(`./${path}`);
 
 export default {
   name: 'home',
+  layout: 'defaultWithoutHeader',
   components: {
     Advisors,
     BlockSection,

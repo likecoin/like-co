@@ -77,7 +77,6 @@ const documents = [
 
 export default {
   name: 'WhitePaper',
-  layout: 'defaultWithHeader',
   components: {
     Document,
     ToolBars,

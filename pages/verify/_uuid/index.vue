@@ -48,7 +48,6 @@ import { logTrackerEvent } from '@/util/EventLogger';
 
 export default {
   name: 'VerifyEmail',
-  layout: 'defaultWithHeader',
   data() {
     return {
       errorMsg: '',

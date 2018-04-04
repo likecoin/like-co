@@ -41,7 +41,6 @@ import ToolBars from '~/components/toolbars/ToolBars';
 
 export default {
   name: 'ClaimCoupon',
-  layout: 'defaultWithHeader',
   data() {
     return {
       errorMsg: '',

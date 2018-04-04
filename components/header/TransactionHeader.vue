@@ -250,6 +250,8 @@ $status-icon-size: 32px;
   .pending-description {
     margin-top: 20px;
     color: $like-gray-4;
+
+    text-align: left;
   }
 }
 

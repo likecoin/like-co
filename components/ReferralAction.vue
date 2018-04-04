@@ -274,7 +274,7 @@ export default {
 
   #form-btn {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
 
     margin: 0 auto;
 
