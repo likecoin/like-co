@@ -119,4 +119,18 @@ export default {
 
 <style lang="scss" scoped>
 @import "~assets/default";
+
+.like-register-form-wrapper {
+  @media (max-width: 600px) {
+    margin-top: -24px;
+  }
+
+  .lc-container-header-title {
+    margin: 0;
+
+    @media (min-width: 769px) {
+      width: calc(66.66% - 88px);
+    }
+  }
+}
 </style>

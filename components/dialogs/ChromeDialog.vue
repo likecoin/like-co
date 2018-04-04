@@ -41,11 +41,4 @@ export default {
 .title-bar {
   background-image: linear-gradient(252deg, #d2f0f0, #f0e6b4);
 }
-
-@media (max-width: 768px) {
-  .md-dialog {
-    position: absolute;
-    min-width: 350px;
-  }
-}
 </style>

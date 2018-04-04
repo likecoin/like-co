@@ -1,5 +1,6 @@
 <template>
-  <md-dialog :md-active.sync="showDialog"
+  <md-dialog
+    :md-active.sync="showDialog"
     :md-close-on-esc="false"
     :md-click-outside-to-close="false"
     :md-fullscreen="false">

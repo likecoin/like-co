@@ -149,6 +149,8 @@ export default {
       font-weight: 300;
 
       @media (max-width: 600px) {
+        left: 28px;
+
         margin-left: 4px;
         margin-right: 4px;
       }

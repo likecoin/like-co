@@ -87,7 +87,7 @@
                   </div>
                 </material-button>
 
-                <div v-else-if="!getUserIsRegistered" class="lc-container-3 create-account-wrapper">
+                <div v-else-if="!getUserIsRegistered" class="create-account-wrapper">
                   <p>{{ $t('KYC.label.createID') }}</p>
                   <material-button @click="$router.push({ name: 'in-register'})">
                     {{ $t('KYC.button.createID') }}
@@ -385,13 +385,9 @@ p {
 }
 
 .create-account-wrapper {
-  text-align: center;
-
-  background-color: transparent;
-
   .md-button {
     width: 256px;
-    margin-top: 32px;
+    margin: 16px 0;
   }
   a {
     text-decoration: underline;
