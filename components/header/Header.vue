@@ -55,7 +55,7 @@ export default {
     },
     shouldHideRegister() {
       return (
-        (!this.getUserIsRegistered && this.$route.name === 'in-register')
+        (!this.getUserIsRegistered && ['in-register', 'in-redeem'].includes(this.$route.name))
         || this.$route.name === 'in-edit'
       );
     },

@@ -34,3 +34,16 @@ export const INITIAL_TOKENSALE_ETH = new BigNumber(5400);
 
 export const SALE_DATE_ANNOUNCE_DATE = moment('2018-04-09T00:00:00+0800');
 export const SALE_DATE = moment('2018-04-23T00:00:00+0800');
+
+
+const toolbarsDisableError = {
+  'in-whitepaper': ['web3', 'testnet', 'locked'],
+  'verify-uuid': ['web3', 'locked'],
+  'in-tx-id': ['web3', 'locked'],
+  id: ['web3', 'testnet', 'locked'],
+  'claim-id-coupon': ['web3', 'locked'],
+  'in-backer': ['web3', 'testnet', 'locked'],
+  'in-tokensale': ['web3', 'testnet', 'locked'],
+  'in-tokensale-tx-id': ['web3', 'locked'],
+};
+export const getToolbarsDisableError = route => (toolbarsDisableError[route] || false);

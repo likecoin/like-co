@@ -3,10 +3,10 @@
     <md-icon v-if="isError">error</md-icon>
     <md-icon v-else>check</md-icon>
 
-    <span v-if="isError">
-      {{ $t('General.label.error') }}:&nbsp;
-    </span>
     <div class="md-layout-item">
+      <span v-if="isError">
+        {{ $t('General.label.error') }}:
+      </span>
       <slot />
     </div>
 

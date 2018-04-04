@@ -91,7 +91,7 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import checkoutForm from '~/components/checkoutForm';
+import CheckoutForm from '~/components/checkoutForm';
 import EmailDialog from '~/components/dialogs/EmailDialog';
 import NarrowPageHeader from '~/components/header/NarrowPageHeader';
 
@@ -99,7 +99,7 @@ export default {
   name: 'backer-page',
   layout: 'narrowWithHeader',
   components: {
-    checkoutForm,
+    CheckoutForm,
     EmailDialog,
     NarrowPageHeader,
   },

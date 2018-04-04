@@ -1,18 +1,20 @@
 <template>
   <md-toolbar :class="styleClass" v-if="txHash" >
-  	<section v-if="isInTx">
-      <md-progress-spinner :md-diameter="24" :md-stroke="2" md-mode="indeterminate" />
-    </section>
-    <md-icon v-else>check</md-icon>
     <div class="md-layout-item">
+    	<section v-if="isInTx">
+        <md-progress-spinner :md-diameter="24" :md-stroke="2" md-mode="indeterminate" />
+      </section>
+      <md-icon v-else>check</md-icon>
       {{ isInTx ? `${$t('Transaction.header.label.pending')}...` : `${$t('Transaction.header.label.completed')}!` }}
     </div>
-    <nuxt-link :to="{ name: 'in-tx-id', params: { id: txHash, tx: txInfo } }">
-      <md-button>{{ $t('Transaction.label.viewTx') }}</md-button>
-	</nuxt-link>
-    <md-button v-if="!isInTx" class="md-icon-button" @click="$emit('onClose')">
-      <md-icon>close</md-icon>
-    </md-button>
+    <div class="btn-container">
+      <nuxt-link :to="{ name: 'in-tx-id', params: { id: txHash, tx: txInfo } }">
+        <md-button>{{ $t('Transaction.label.viewTx') }}</md-button>
+    	</nuxt-link>
+      <md-button v-if="!isInTx" class="md-icon-button" @click="$emit('onClose')">
+        <md-icon>close</md-icon>
+      </md-button>
+    </div>
   </md-toolbar>
 </template>
 
@@ -35,6 +37,18 @@
 @import "~assets/variables";
 
 .md-toolbar {
+  > .md-layout-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  > .btn-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
   .md-progress-spinner {
     margin-right: 12px;
   }
@@ -42,6 +56,8 @@
   a .md-button {
     color: $like-green;
     text-decoration: underline;
+
+    height: 24px;
   }
 
   > .md-icon {

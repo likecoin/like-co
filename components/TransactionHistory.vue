@@ -51,8 +51,7 @@ function getLikeCoinByValue(value) {
 }
 
 export default {
-  name: 'Edit',
-  layout: 'baseWithBackground',
+  name: 'transaction-history',
   props: ['address', 'showTokensale'],
   data() {
     return {

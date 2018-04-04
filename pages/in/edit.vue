@@ -294,7 +294,6 @@ import TickIcon from '@/assets/tokensale/tick.svg';
 
 export default {
   name: 'Edit',
-  layout: 'defaultWithHeader',
   data() {
     return {
       avatarFile: null,
@@ -613,6 +612,7 @@ $profile-icon-mobile-size: 88px;
       .input-display-name {
         @media (max-width: 768px) {
           text-align: center;
+          width: 100%;
         }
       }
     }

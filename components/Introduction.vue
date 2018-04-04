@@ -85,6 +85,10 @@ export default {
     @media (min-width: 601px) {
       min-width: 250px;
       min-height: 250px;
+
+      max-width: 275px;
+      max-height: 275px;
+
       margin: -50px 0;
     }
 

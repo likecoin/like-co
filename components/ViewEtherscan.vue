@@ -1,7 +1,7 @@
 <template>
-  <div id="view-etherscan">
+  <div id="view-etherscan" class="lc-padding-vertical-32">
     <a
-     class="view-url"
+     class="view-url lc-font-weight-300 lc-font-size-16 lc-color-like-green"
      :href="getUrl"
      target="_blank"
      rel="noopener noreferrer"
@@ -37,14 +37,10 @@ export default {
 @import "~assets/variables";
 
 #view-etherscan {
-  padding: 32px;
-
   text-align: center;
 
   .view-url {
     text-decoration: underline;
-
-    color: $like-green;
   }
 }
 </style>

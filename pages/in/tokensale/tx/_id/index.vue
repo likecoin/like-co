@@ -1,35 +1,47 @@
 <template>
   <div>
-    <tokensale-header
-      :isNotFound="isNotFound"
-      :failReason="failReason"
-      :isEth="isEth"
-      :icon="toAvatar"
-      :toId="toId"
-      :toName="toName"
-      :toAddress="to"
-      :timestamp="timestamp"
-      :amount="amount" />
+    <div class="lc-container-0 lc-narrow">
+      <section class="lc-container-1 lc-section-block">
+        <tokensale-header
+          :isNotFound="isNotFound"
+          :failReason="failReason"
+          :isEth="isEth"
+          :icon="toAvatar"
+          :toId="toId"
+          :toName="toName"
+          :toAddress="to"
+          :timestamp="timestamp"
+          :amount="amount" />
 
-    <div class="tx-container" v-if="!isNotFound">
+        <div class="lc-container-2 lc-margin-top-16">
+          <div class="lc-container-3 lc-bg-gray-1">
+            <div class="tx-container lc-padding-top-32 lc-padding-bottom-16" v-if="!isNotFound">
+              <section class="tx-info">
+                <section v-if="fromId" class="section-container">
+                  <div class="key">
+                    {{ $t('Transaction.label.senderName') }}
+                  </div>
+                  <nuxt-link :to="{ name: 'id', params: { id: fromId } }">
+                    <div class="value lc-font-size-20">
+                      {{ fromName }}
+                    </div>
+                  </nuxt-link>
+                </section>
+                <section class="section-container">
+                  <div class="key">
+                    {{ $t('Transaction.label.senderAddress') }}
+                  </div>
+                  <a :href="`${ETHERSCAN_HOST}/address/${from}#tokentxns`" target="_blank" rel="noopener">
+                    <div class="address value">
+                      {{ from }}
+                    </div>
+                  </a>
+                </section>
+              </section>
+            </div>
+          </div>
+        </div>
 
-      <section class="extra tx-info">
-        <section v-if="fromId" class="section-container">
-          <div class="key">
-            {{ $t('Transaction.label.senderName') }}
-          </div>
-          <nuxt-link :to="{ name: 'id', params: { id: fromId } }">
-            <div class="value">{{ fromName }}</div>
-          </nuxt-link>
-        </section>
-        <section class="section-container">
-          <div class="key">
-            {{ $t('Transaction.label.senderAddress') }}
-          </div>
-          <a :href="`${ETHERSCAN_HOST}/address/${from}#tokentxns`" target="_blank" rel="noopener">
-            <div class="address value">{{ from }}</div>
-          </a>
-        </section>
       </section>
     </div>
     <view-etherscan :transaction="txId" />
@@ -53,7 +65,7 @@ const PENDING_UPDATE_INTERVAL = 1000; // 1s
 
 export default {
   name: 'transaction',
-  layout: 'base',
+  layout: 'narrowWithHeader',
   data() {
     return {
       isEth: false,
@@ -181,49 +193,30 @@ export default {
 <style lang="scss" scoped>
 @import "~assets/variables";
 
-.tx-info {
-  width: 100%;
-  max-width: 560px;
-  background: $like-gray-1;
-  margin: 0 auto;
-  padding: 17px 0;
-
-  .extra {
-    margin: 17px auto;
-  }
-}
-
 .section-container {
-  margin: 16px 40px;
+  margin-bottom: 16px;
 
   .key {
-    font-size: 14px;
-    margin: 4px 0;
     color: $like-dark-brown-1;
   }
 
-  a {
-    color: #28646e;
+  .value {
+    word-wrap: break-word;
+    color: $like-green;
+  }
 
+  .remark {
+    color: $like-gray-5;
+  }
+
+  a {
     &:hover {
       text-decoration: none;
     }
 
-    .value {
-      margin: 0 auto;
-      text-align: left;
-      font-size: 20px;
-      word-wrap: break-word;
-    }
-
     .address.value {
-      font-size: 19px;
+      font-size: 19.5px;
     }
   }
 }
-
-.extra {
-  margin: 20px auto;
-}
-
 </style>
