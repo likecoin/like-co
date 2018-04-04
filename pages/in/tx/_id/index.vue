@@ -1,61 +1,83 @@
 <template>
   <div>
-    <transaction-header
-      :isNotFound="isNotFound"
-      :failReason="failReason"
-      :isEth="isEth"
-      :icon="toAvatar"
-      :toId="toId"
-      :toName="toName"
-      :toAddress="to"
-      :timestamp="timestamp"
-      :amount="amount" />
+    <div class="lc-container-0 lc-narrow">
+      <section class="lc-container-1 lc-section-block">
+        <transaction-header
+          :isNotFound="isNotFound"
+          :failReason="failReason"
+          :isEth="isEth"
+          :icon="toAvatar"
+          :toId="toId"
+          :toName="toName"
+          :toAddress="to"
+          :timestamp="timestamp"
+          :amount="amount" />
 
-    <div class="tx-container" v-if="!isNotFound">
-      <section class="tx-info">
-        <section v-if="toId" class="section-container">
-          <div class="key">
-            {{ $t('Transaction.label.recipientId') }}
+        <div class="lc-container-2">
+          <div class="lc-container-3 lc-bg-gray-1">
+            <div class="tx-container lc-padding-bottom-8" v-if="!isNotFound">
+              <section v-if="toId" class="section-container">
+                <div class="key">
+                  {{ $t('Transaction.label.recipientId') }}
+                </div>
+                <nuxt-link :to="{ name: 'id', params: { id: toId } }">
+                  <div class="value lc-font-size-20">
+                    {{ toId }}
+                  </div>
+                </nuxt-link>
+              </section>
+              <section class="section-container">
+                <div class="key">
+                  {{ $t('Transaction.label.recipientAddress') }}
+                </div>
+                <a :href="`${ETHERSCAN_HOST}/address/${to}#tokentxns`" target="_blank" rel="noopener">
+                  <div class="address value lc-font-size-20">
+                    {{ to }}
+                  </div>
+                </a>
+              </section>
+            </div>
           </div>
-          <nuxt-link :to="{ name: 'id', params: { id: toId } }">
-            <div class="value">{{ toId }}</div>
-          </nuxt-link>
-        </section>
-        <section class="section-container">
-          <div class="key">
-            {{ $t('Transaction.label.recipientAddress') }}
-          </div>
-          <a :href="`${ETHERSCAN_HOST}/address/${to}#tokentxns`" target="_blank" rel="noopener">
-            <div class="address value">{{ to }}</div>
-          </a>
-        </section>
-      </section>
+        </div>
 
-      <section class="extra tx-info">
-        <section v-if="fromId" class="section-container">
-          <div class="key">
-            {{ $t('Transaction.label.senderName') }}
+        <div class="lc-container-2 lc-margin-top-16">
+          <div class="lc-container-3 lc-bg-gray-1">
+            <div class="tx-container lc-padding-top-32 lc-padding-bottom-16" v-if="!isNotFound">
+              <section v-if="fromId" class="section-container">
+                <div class="key">
+                  {{ $t('Transaction.label.senderName') }}
+                </div>
+                <nuxt-link :to="{ name: 'id', params: { id: fromId } }">
+                  <div class="value lc-font-size-20">
+                    {{ fromName }}
+                  </div>
+                </nuxt-link>
+              </section>
+              <section class="section-container">
+                <div class="key">
+                  {{ $t('Transaction.label.senderAddress') }}
+                </div>
+                <a
+                  :href="`${ETHERSCAN_HOST}/address/${from}#tokentxns`"
+                  target="_blank"
+                  rel="noopener">
+                  <div class="address value lc-font-size-20">
+                    {{ from }}
+                  </div>
+                </a>
+              </section>
+              <section v-if="remarks" class="section-container">
+                <div class="key">
+                  {{ $t('Transaction.label.remarks') }}
+                </div>
+                <div class="remark lc-font-size-16">
+                  {{ remarks }}
+                </div>
+              </section>
+            </div>
           </div>
-          <nuxt-link :to="{ name: 'id', params: { id: fromId } }">
-            <div class="value">{{ fromName }}</div>
-          </nuxt-link>
-        </section>
-        <section class="section-container">
-          <div class="key">
-            {{ $t('Transaction.label.senderAddress') }}
-          </div>
-          <a :href="`${ETHERSCAN_HOST}/address/${from}#tokentxns`" target="_blank" rel="noopener">
-            <div class="address value">{{ from }}</div>
-          </a>
-        </section>
-      </section>
-      <section v-if="remarks" class="extra tx-info">
-        <section class="section-container">
-          <div class="key">
-            {{ $t('Transaction.label.remarks') }}
-          </div>
-          <div class="value">{{ remarks }}</div>
-        </section>
+        </div>
+
       </section>
     </div>
     <view-etherscan :transaction="txId" />
@@ -80,7 +102,7 @@ const PENDING_UPDATE_INTERVAL = 1000; // 1s
 
 export default {
   name: 'transaction',
-  layout: 'base',
+  layout: 'narrowWithHeader',
   data() {
     return {
       isEth: false,
@@ -219,56 +241,34 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 @import "~assets/variables";
 
-.tx-info {
-  width: 100%;
-  max-width: 560px;
-  background: $like-gray-1;
-  margin: 0 auto;
-  padding: 17px 0;
-
-  .extra {
-    margin: 17px auto;
-  }
-}
-
 .section-container {
-  margin: 16px 40px;
+  margin-bottom: 16px;
 
   .key {
-    font-size: 14px;
-    margin: 4px 0;
     color: $like-dark-brown-1;
   }
 
   .value {
-    margin: 0 auto;
-    font-size: 20px;
     word-wrap: break-word;
-    color: #28646e;
+    color: $like-green;
+  }
+
+  .remark {
+    color: $like-gray-5;
   }
 
   a {
-
     &:hover {
       text-decoration: none;
     }
 
-    .value {
-      text-align: left;
-    }
-
     .address.value {
-      font-size: 19px;
+      font-size: 19.5px;
     }
   }
-}
-
-.extra {
-  margin: 20px auto;
 }
 
 </style>

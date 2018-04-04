@@ -347,13 +347,13 @@ $font-weight-list: 300 400 600;
 
 .lc-color- {
   &like-green {
-    color: $like-green;
+    color: $like-green !important;
   }
   &like-light-blue {
-    color: $like-light-blue;
+    color: $like-light-blue !important;
   }
   &like-gray-4 {
-    color: $like-gray-4;
+    color: $like-gray-4 !important;
   }
 }
 
