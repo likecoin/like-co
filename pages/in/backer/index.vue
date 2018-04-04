@@ -8,21 +8,7 @@
           <div class="lc-container-3 lc-bg-gray-1">
             <div class="lc-container-4 ">
 
-              <nav class="nav-menu">
-                <span>
-                  <nuxt-link :to="{ name: 'in-whitepaper' }">
-                    {{ $t('TokenSale.button.whitePaper') }}
-                  </nuxt-link>
-                </span>
-
-                <img class="like-coin-token" :src="likeCoinIcon" />
-
-                <span>
-                  <nuxt-link to="/">
-                    {{ $t('TokenSale.button.aboutLikeCoin') }}
-                  </nuxt-link>
-                </span>
-              </nav>
+              <narrow-page-header />
 
             </div>
           </div>
@@ -107,8 +93,7 @@ import { mapGetters } from 'vuex';
 
 import checkoutForm from '~/components/checkoutForm';
 import EmailDialog from '~/components/dialogs/EmailDialog';
-
-import likeCoinIcon from '@/assets/like-coin.svg';
+import NarrowPageHeader from '~/components/header/NarrowPageHeader';
 
 export default {
   name: 'backer-page',
@@ -116,11 +101,7 @@ export default {
   components: {
     checkoutForm,
     EmailDialog,
-  },
-  data() {
-    return {
-      likeCoinIcon,
-    };
+    NarrowPageHeader,
   },
   computed: {
     KYCStatus() {
@@ -185,57 +166,13 @@ export default {
 
 
 <style lang="scss" scoped>
-@import "~assets/index";
+@import "~assets/variables";
 
 .backer-page {
   margin-bottom: 18px;
 
   .lc-container-3-extend-bg {
     background-image: linear-gradient(250deg, #FFDFD2, #C1F3F5);
-  }
-}
-
-.nav-menu {
-  position: relative;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  padding-top: 16px;
-
-  @media (max-width: 600px) {
-    flex-direction: column;
-  }
-
-  .like-coin-token {
-    z-index: 1;
-
-    width: 144px;
-    height: 144px;
-    margin: 16px;
-    margin-bottom: -16px;
-
-    @media (min-width: 769px) {
-      margin-top: -32px;
-    }
-    @media (max-width: 600px) {
-      order: 999;
-    }
-  }
-
-  span {
-    flex: 1;
-
-    a {
-      text-decoration: underline;
-
-      color: #28646E;
-    }
-
-    &:last-child {
-      text-align: right;
-    }
   }
 }
 </style>

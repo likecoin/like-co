@@ -8,23 +8,7 @@
           <div class="lc-container-3 lc-bg-gray-1">
             <div class="lc-container-4 ">
 
-              <nav class="nav-menu">
-
-                <span>
-                  <nuxt-link :to="{ name: 'in-whitepaper' }">
-                    {{ $t('TokenSale.button.whitePaper') }}
-                  </nuxt-link>
-                </span>
-
-                <img class="user-avatar" :src="avatar || likeCoinIcon" />
-
-                <span>
-                  <nuxt-link to="/">
-                    {{ $t('TokenSale.button.aboutLikeCoin') }}
-                  </nuxt-link>
-                </span>
-
-              </nav>
+              <narrow-page-header :icon="avatar" />
 
             </div>
           </div>
@@ -144,12 +128,12 @@ import BigNumber from 'bignumber.js';
 import NumberInput from '~/components/NumberInput';
 import EthIcon from '@/assets/tokensale/eth.svg';
 import MaterialButton from '~/components/MaterialButton';
+import NarrowPageHeader from '~/components/header/NarrowPageHeader';
 
 import EthHelper from '@/util/EthHelper';
 import { apiGetUserById } from '@/util/api/api';
 
 import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
-import likeCoinIcon from '@/assets/likecoin.svg';
 
 
 const ONE_LIKE = new BigNumber(10).pow(18);
@@ -180,11 +164,11 @@ export default {
   components: {
     NumberInput,
     MaterialButton,
+    NarrowPageHeader,
   },
   data() {
     return {
       EthIcon,
-      likeCoinIcon,
       isBadAddress: false,
       isBadAmount: false,
       isSupportTransferDeleteaged: true,
@@ -352,52 +336,6 @@ export default {
 
 .payment-page {
   margin-bottom: 18px;
-}
-
-.nav-menu {
-  position: relative;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  padding-top: 16px;
-
-  @media (max-width: 600px) {
-    flex-direction: column;
-  }
-
-  .user-avatar {
-    z-index: 1;
-
-    width: 144px;
-    height: 144px;
-    margin: 16px;
-    margin-bottom: -16px;
-
-    border-radius: 50%;
-
-    @media (min-width: 769px) {
-      margin-top: -32px;
-    }
-    @media (max-width: 600px) {
-      order: 999;
-    }
-  }
-
-  span {
-    flex: 1;
-
-    a {
-      text-decoration: underline;
-
-      color: #28646E;
-    }
-
-    &:last-child {
-      text-align: right;
-    }
-  }
 }
 
 .lc-container-3-extend-bg {
