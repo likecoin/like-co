@@ -63,7 +63,7 @@ export default {
       const userInfo = {
         user: this.getUserInfo.user,
         displayName: this.getUserInfo.displayName,
-        wallet: this.wallet,
+        wallet: this.getUserInfo.wallet,
         email: this.email,
       };
       const data = await User.formatAndSignUserInfo(userInfo, this.$t('Sign.Message.signKYC'));

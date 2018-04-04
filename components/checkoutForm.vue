@@ -8,11 +8,23 @@
           {{ chargeId }}
         </span>
       </p>
-      <material-button
-        style="max-width: 200px"
-        @click="reset(true)">
-        {{ $t('General.button.ok') }}
-      </material-button>
+      <div v-if="getUserIsRegistered" class="lc-padding-vertical-32">
+        <material-button
+          style="max-width: 200px"
+          @click="reset(true)">
+          {{ $t('General.button.ok') }}
+        </material-button>
+      </div>
+      <div v-else class="lc-padding-vertical-32">
+        <p class="lc-margin-bottom-24">
+          {{ $t('BackerPage.label.notRegistered') }}
+        </p>
+        <material-button
+          style="max-width: 200px"
+          @click="gotoRegister">
+          {{ $t('BackerPage.button.register') }}
+        </material-button>
+      </div>
     </div>
 
     <div v-else class="product-list">
@@ -83,6 +95,9 @@ export default {
     async queryIAP() {
       this.products = await this.queryIAPProducts();
     },
+    gotoRegister() {
+      this.$router.push({ name: 'in-register' });
+    },
     async onClickProduct(id) {
       if (this.getUserIsRegistered && !this.getUserInfo.isEmailVerified) {
         this.$emit('emailNotVerified');
@@ -98,17 +113,16 @@ export default {
         name: this.product.name[this.$i18n.locale],
         currency: 'USD',
         amount: this.product.amount,
-        email,
+        email: email || '',
         token: async (token) => {
           const payload = {
             user,
             from: wallet,
-            email,
-            token: token.id,
+            token,
           };
           const res = await this.purchaseIAP({ id, payload });
           this.product = res.product;
-          this.chargeId = res.chargeId;
+          this.chargeId = res.receiptNumber || res.chargeId;
         },
       });
     },
@@ -132,7 +146,6 @@ $product-item-radius: 8px;
   .reference-number {
     display: block;
 
-    width: 300px;
     min-width: 200px;
     max-width: 100%;
     margin: 24px auto 32px;

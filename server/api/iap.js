@@ -61,7 +61,8 @@ router.post('/iap/purchase/:productId', async (req, res) => {
         description: description[DEFAULT_LOCALE],
         productId,
       },
-      source: token,
+      receipt_email: token.email,
+      source: token.id,
     });
 
     if (user) {
