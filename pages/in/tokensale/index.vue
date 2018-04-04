@@ -267,8 +267,6 @@
       :message="popupMessage"
       @onConfirm="popupMessage=''"
     />
-
-    <tool-bars :disableError="['web3', 'testnet', 'locked']" />
   </div>
 </template>
 
@@ -283,7 +281,6 @@ import MaterialButton from '~/components/MaterialButton';
 import PopupDialog from '~/components/dialogs/PopupDialog';
 import NarrowPageHeader from '~/components/header/NarrowPageHeader';
 import TokenSaleProgress from '~/components/TokenSaleProgress';
-import ToolBars from '~/components/toolbars/ToolBars';
 
 import AddIcon from '@/assets/icons/add.svg';
 import EthIcon from '@/assets/tokensale/eth.svg';
@@ -315,7 +312,6 @@ export default {
     NarrowPageHeader,
     NumberInput,
     PopupDialog,
-    ToolBars,
   },
   data() {
     return {

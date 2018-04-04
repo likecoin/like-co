@@ -80,10 +80,7 @@
 
       </section>
     </div>
-
     <view-etherscan :transaction="txId" />
-
-    <tool-bars :disableError="['web3', 'locked']" />
   </div>
 </template>
 
@@ -95,7 +92,6 @@ import EthHelper from '@/util/EthHelper';
 import { ETHERSCAN_HOST } from '@/constant';
 import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 
-import ToolBars from '~/components/toolbars/ToolBars';
 import TransactionHeader from '~/components/header/TransactionHeader';
 import ViewEtherscan from '~/components/ViewEtherscan';
 
@@ -171,7 +167,6 @@ export default {
     };
   },
   components: {
-    ToolBars,
     TransactionHeader,
     ViewEtherscan,
   },

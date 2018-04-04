@@ -45,8 +45,6 @@
       </section>
     </div>
     <view-etherscan :transaction="txId" />
-
-    <tool-bars :disableError="['web3', 'locked']" />
   </div>
 </template>
 
@@ -58,7 +56,6 @@ import EthHelper from '@/util/EthHelper';
 import { ETHERSCAN_HOST } from '@/constant';
 
 import TokensaleHeader from '~/components/header/TokensaleHeader';
-import ToolBars from '~/components/toolbars/ToolBars';
 import ViewEtherscan from '~/components/ViewEtherscan';
 
 import { apiGetTxById, apiCheckIsUser } from '@/util/api/api';
@@ -119,7 +116,6 @@ export default {
   },
   components: {
     TokensaleHeader,
-    ToolBars,
     ViewEtherscan,
   },
   computed: {

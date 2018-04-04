@@ -31,6 +31,7 @@
       </div>
     </footer>
 
+    <tool-bars :disableError="getIfDisableError" />
   </div>
 </template>
 
@@ -38,15 +39,19 @@
 <script>
 import MyFooter from '~/components/footer/Footer';
 import SiteHeader from '~/components/header/Header';
+import ToolBars from '~/components/toolbars/ToolBars';
+
+import { getToolbarsDisableError } from '~/constant';
 
 export default {
   components: {
     MyFooter,
     SiteHeader,
+    ToolBars,
   },
   computed: {
     getIfDisableError() {
-      return false;
+      return getToolbarsDisableError(this.$route.name);
     },
   },
 };

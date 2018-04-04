@@ -115,9 +115,8 @@
 
       </section>
       <!-- END - Send LikeCoin Section -->
-    </div>
 
-    <tool-bars :disableError="['web3', 'testnet', 'locked']" />
+    </div>
   </div>
 </template>
 
@@ -126,11 +125,10 @@
 import { mapActions, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
 
+import NumberInput from '~/components/NumberInput';
 import EthIcon from '@/assets/tokensale/eth.svg';
 import MaterialButton from '~/components/MaterialButton';
 import NarrowPageHeader from '~/components/header/NarrowPageHeader';
-import NumberInput from '~/components/NumberInput';
-import ToolBars from '~/components/toolbars/ToolBars';
 
 import EthHelper from '@/util/EthHelper';
 import { apiGetUserById } from '@/util/api/api';
@@ -164,10 +162,9 @@ export default {
   name: 'payment',
   layout: 'narrowWithHeader',
   components: {
+    NumberInput,
     MaterialButton,
     NarrowPageHeader,
-    NumberInput,
-    ToolBars,
   },
   data() {
     return {

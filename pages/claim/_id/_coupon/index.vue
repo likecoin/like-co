@@ -28,16 +28,12 @@
         </div>
       </div>
     </div>
-
-    <tool-bars :disableError="['web3', 'locked']" />
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
-import ToolBars from '~/components/toolbars/ToolBars';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'ClaimCoupon',
@@ -50,7 +46,6 @@ export default {
   },
   components: {
     ClaimDialog,
-    ToolBars,
   },
   computed: {
     user() {
