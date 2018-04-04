@@ -50,11 +50,12 @@ export async function signTransaction(addr, txData, pendingCount) {
 
 export async function sendTransactionWithLoop(addr, txData) {
   const counterRef = txLogRef.doc('!counter');
-  let pendingCount = await db.runTransaction(t => t.get(counterRef).then((d) => {
+  let pendingCount = await db.runTransaction(async (t) => {
+    const d = await t.get(counterRef);
     const v = d.data().value + 1;
-    t.update(counterRef, { value: v });
+    await t.update(counterRef, { value: v });
     return d.data().value;
-  }));
+  });
   let tx = await signTransaction(addr, txData, pendingCount);
   let txHash;
   try {
