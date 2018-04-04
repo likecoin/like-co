@@ -552,7 +552,7 @@
     "productList": {
       "title": "Shop",
       "label": {
-        "youHavePurchased": "You have purchased {product}, the receipt will be sent to your email.Reference number:"
+        "youHavePurchased": "You have purchased {product}, the receipt will be sent to your email {email}. Reference number:"
       }
     }
   },

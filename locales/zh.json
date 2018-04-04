@@ -552,7 +552,7 @@
     "productList": {
       "title": "商店",
       "label": {
-        "youHavePurchased": "你已購買 {product} ，收據將會發送至你的電郵。參考編號："
+        "youHavePurchased": "你已購買 {product} ，收據將會發送至你的電郵 {email}。參考編號："
       }
     }
   },

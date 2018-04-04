@@ -3,7 +3,7 @@
 
     <div v-if="chargeId" class="purchased-receipt lc-padding-vertical-32 lc-text-align-center">
       <p class="lc-margin-bottom-24">
-        {{ $t('BackerPage.productList.label.youHavePurchased', { product: product.name[$i18n.locale] }) }}
+        {{ $t('BackerPage.productList.label.youHavePurchased', { email: email, product: product.name[$i18n.locale] }) }}
         <span class="reference-number lc-font-size-24">
           {{ chargeId }}
         </span>
@@ -79,6 +79,7 @@ export default {
       products: [],
       product: {},
       chargeId: '',
+      email: '',
     };
   },
   computed: {
@@ -121,6 +122,7 @@ export default {
             token,
           };
           const res = await this.purchaseIAP({ id, payload });
+          this.email = token.email;
           this.product = res.product;
           this.chargeId = res.receiptNumber || res.chargeId;
         },
