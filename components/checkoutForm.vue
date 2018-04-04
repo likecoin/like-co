@@ -72,6 +72,7 @@ export default {
   computed: {
     ...mapGetters([
       'getUserInfo',
+      'getUserIsRegistered',
     ]),
   },
   methods: {
@@ -83,7 +84,7 @@ export default {
       this.products = await this.queryIAPProducts();
     },
     async onClickProduct(id) {
-      if (!this.getUserInfo.isEmailVerified) {
+      if (this.getUserIsRegistered && !this.getUserInfo.isEmailVerified) {
         this.$emit('emailNotVerified');
         return;
       }

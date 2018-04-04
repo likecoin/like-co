@@ -1,7 +1,6 @@
 import { Router } from 'express';
 
 import {
-  KYC_STATUS_ENUM,
   PUBSUB_TOPIC_MISC,
 } from '../../constant';
 import publisher from '../util/gcloudPub';
@@ -24,11 +23,20 @@ router.post('/iap/purchase/:productId', async (req, res) => {
       token,
     } = req.body;
     const productRef = iapRef.doc(productId);
-    const userRef = dbRef.doc(user);
-
-    const [productDoc, userDoc] = await Promise.all([productRef.get(), userRef.get()]);
-    if (!userDoc.exists) throw new Error('Invalid user');
+    const productDoc = await productRef.get();
     if (!productDoc.exists) throw new Error('Invalid product');
+
+    let userRef = null;
+    let wallet = '';
+    let email = '';
+
+    if (user) {
+      userRef = dbRef.doc(user);
+      const userDoc = userRef.get();
+      if (!userDoc.exists) throw new Error('Invalid user');
+      ({ wallet, email } = userDoc.data());
+      if (wallet !== from) throw new Error('User wallet not match');
+    }
 
     const {
       name,
@@ -38,10 +46,6 @@ router.post('/iap/purchase/:productId', async (req, res) => {
     } = productDoc.data();
     if (!amount) throw new Error('Product not available for now');
 
-    const userData = userDoc.data();
-    if (userData.KYC < KYC_STATUS_ENUM.STANDARD) throw new Error('need KYC');
-    const { wallet, email } = userDoc.data();
-    if (wallet !== from) throw new Error('User wallet not match');
 
     const DEFAULT_LOCALE = 'en';
 
@@ -51,25 +55,26 @@ router.post('/iap/purchase/:productId', async (req, res) => {
       description: description[DEFAULT_LOCALE],
       statement_descriptor: statementDescriptor || description[DEFAULT_LOCALE],
       metadata: {
-        user,
+        user: user || '',
         email,
         name: name[DEFAULT_LOCALE],
         description: description[DEFAULT_LOCALE],
         productId,
       },
-      receipt_email: email,
       source: token,
     });
 
-    await userRef.collection('Stripe').doc(charge.id).set({
-      chargeId: charge.id,
-      amount,
-      name: name[DEFAULT_LOCALE],
-      description: description[DEFAULT_LOCALE],
-      statement_descriptor: statementDescriptor || description[DEFAULT_LOCALE],
-      productId,
-      ts: Date.now(),
-    }, { merge: true });
+    if (user) {
+      await userRef.collection('Stripe').doc(charge.id).set({
+        chargeId: charge.id,
+        amount,
+        name: name[DEFAULT_LOCALE],
+        description: description[DEFAULT_LOCALE],
+        statement_descriptor: statementDescriptor || description[DEFAULT_LOCALE],
+        productId,
+        ts: Date.now(),
+      }, { merge: true });
+    }
 
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventStripePurchase',
@@ -84,7 +89,11 @@ router.post('/iap/purchase/:productId', async (req, res) => {
       productId,
     });
 
-    res.json({ product: productDoc.data(), chargeId: charge.id });
+    res.json({
+      product: productDoc.data(),
+      chargeId: charge.id,
+      receiptNumber: charge.receipt_number,
+    });
   } catch (err) {
     console.error(err);
     const msg = err.message || err;

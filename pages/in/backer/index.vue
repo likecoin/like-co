@@ -108,23 +108,13 @@ export default {
       return this.getUserInfo.KYC;
     },
     ...mapGetters([
-      'getUserIsFetching',
       'getUserIsRegistered',
       'getUserInfo',
     ]),
   },
   methods: {
     onNeedEmailVerify() {
-      this.$refs.emailDialog.show(this.getUserInfo.email || '');
-    },
-    redirectToRegisterPageIfNeeded() {
-      if (!this.getUserIsRegistered) {
-        this.$router.push({
-          name: 'in-register',
-          ref: 'in-bundle',
-          query: { redirect: `${window.location.protocol}//${window.location.host}/in/backer/` },
-        });
-      }
+      if (this.getUserIsRegistered) this.$refs.emailDialog.show(this.getUserInfo.email || '');
     },
   },
   head() {
@@ -148,18 +138,6 @@ export default {
         },
       ],
     };
-  },
-  watch: {
-    getUserIsFetching(f) {
-      if (!f) {
-        this.redirectToRegisterPageIfNeeded();
-      }
-    },
-  },
-  mounted() {
-    if (!this.getUserIsFetching) {
-      this.redirectToRegisterPageIfNeeded();
-    }
   },
 };
 </script>
