@@ -6,10 +6,10 @@
       </div>
     </section>
 
-    <section class="lc-container-1 lc-header">
-      <div class="underlay gray lc-mobile-hide" />
+    <section class="lc-container-1 lc-header lc-mobile-hide">
+      <div class="underlay gray" />
       <div class="lc-container-2">
-        <site-header />
+        <site-header :isShowAccountButton="true" />
       </div>
     </section>
 
@@ -79,7 +79,7 @@ import { mapGetters } from 'vuex';
 import BlockSection from '~/components/BlockSection';
 import CustomLink from '~/components/CustomLink';
 import MaterialButton from '~/components/MaterialButton';
-import SiteHeader from '~/components/header/Header';
+import SiteHeader from '~/components/header/HeaderWithMenuButton';
 import PlatformIconBar from '~/components/PlatformIconBar';
 
 import Advisors from '~/components/home/Advisors';

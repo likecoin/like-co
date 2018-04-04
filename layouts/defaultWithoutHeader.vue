@@ -1,5 +1,17 @@
 <template>
-  <div class="lc-page-wrapper">
+  <div
+    :class="[
+      'lc-page-wrapper',
+      'with-sliding-menu',
+      {
+        'slide-menu-open': getIsSlidingMenuOpen,
+      },
+    ]">
+
+    <div class="slide-menu-wrapper">
+      <sliding-menu />
+    </div>
+
     <div class="lc-page-content">
       <nuxt/>
     </div>
@@ -14,11 +26,20 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 import MyFooter from '~/components/footer/Footer';
+import SlidingMenu from '~/components/SlidingMenu/index';
 
 export default {
   components: {
     MyFooter,
+    SlidingMenu,
+  },
+  computed: {
+    ...mapGetters([
+      'getIsSlidingMenuOpen',
+    ]),
   },
 };
 </script>
@@ -31,7 +52,7 @@ export default {
   flex-direction: column;
   justify-content: space-between;
 
-  height: 100%;
+  min-height: 100%;
 
   .lc-page-content {
     flex: 1;

@@ -76,6 +76,50 @@ a,
 
 /* Layout System - Begin */
 
+.lc-page-wrapper {
+  &.with-sliding-menu {
+    transition: transform .5s ease-in-out;
+    position: relative;
+
+    &::before {
+      content: " ";
+      position: absolute;
+      background-color: white;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    &.slide-menu-open {
+      transform: translateX(-320px);
+
+      @media (max-width: 600px) {
+        transform: translateX(-260px);
+      }
+    }
+
+    .slide-menu-wrapper {
+      z-index: -30;
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 320px;
+      bottom: 0;
+
+      transform: translateX(100%);
+
+      background-color: $like-gray-1;
+
+      @media (max-width: 600px) {
+        width: 260px;
+      }
+    }
+  }
+}
+
 .lc-container-0,
 .lc-container-1,
 [class^="lc-container-2"],
@@ -88,7 +132,7 @@ a,
 
   .underlay {
     position: absolute;
-    z-index: -1;
+    z-index: 0;
     top: 0;
     left: 0;
 

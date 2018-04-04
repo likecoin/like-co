@@ -62,6 +62,7 @@ module.exports = {
   },
 
   router: {
+    middleware: 'sliding-menu',
     extendRoutes(routes, resolve) {
       routes.push({
         path: '/verify/:uuid/:coupon',

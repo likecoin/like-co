@@ -1,5 +1,17 @@
 <template>
-  <div class="lc-page-wrapper">
+  <div
+    :class="[
+      'lc-page-wrapper',
+      'with-sliding-menu',
+      {
+        'slide-menu-open': getIsSlidingMenuOpen,
+      },
+    ]">
+
+    <div class="slide-menu-wrapper">
+      <sliding-menu />
+    </div>
+
     <header class="lc-page-header">
 
       <div class="lc-container-0 header-bg lc-narrow">
@@ -86,7 +98,8 @@
 import { mapGetters } from 'vuex';
 
 import MyFooter from '~/components/footer/Footer';
-import SiteHeader from '~/components/header/Header';
+import SiteHeader from '~/components/header/HeaderWithMenuButton';
+import SlidingMenu from '~/components/SlidingMenu/index';
 import ToolBars from '~/components/toolbars/ToolBars';
 
 import Description from '~/components/Description';
@@ -103,6 +116,7 @@ export default {
     ToolBars,
     MyFooter,
     SiteHeader,
+    SlidingMenu,
     Introduction,
     Description,
   },
@@ -112,6 +126,7 @@ export default {
       'getHeaderSubtitle',
       'getHeaderIcon',
       'getHeaderTitle',
+      'getIsSlidingMenuOpen',
     ]),
   },
 };

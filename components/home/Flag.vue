@@ -7,19 +7,19 @@
     <h3 class="lc-font-size-18 lc-font-weight-600 lc-margin-top-16">
       {{ $t('Home.Flag.content') }}
     </h3>
-    <language-switch class="lc-tablet-pc-hide" />
+    <menu-button class="lc-tablet-pc-hide" />
   </div>
 </template>
 
 <script>
-import LanguageSwitch from '~/components/LanguageSwitch';
+import MenuButton from '~/components/SlidingMenu/MenuButton';
 
 import likeCoinIcon from '@/assets/like-coin.svg';
 
 export default {
   name: 'header-flag',
   components: {
-    LanguageSwitch,
+    MenuButton,
   },
   data() {
     return {
@@ -42,7 +42,7 @@ export default {
     height: 142px;
   }
 
-  > .language-switch {
+  > .toggle-menu-button {
     position: absolute;
     top: 24px;
     right: 24px;
