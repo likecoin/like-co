@@ -8,21 +8,7 @@
           <div class="lc-container-3 lc-bg-gray-1">
             <div class="lc-container-4 ">
 
-              <nav class="nav-menu">
-                <span>
-                  <nuxt-link :to="{ name: 'in-whitepaper' }">
-                    {{ $t('TokenSale.button.whitePaper') }}
-                  </nuxt-link>
-                </span>
-
-                <img class="like-coin-token" :src="likeCoinIcon" />
-
-                <span>
-                  <nuxt-link to="/">
-                    {{ $t('TokenSale.button.aboutLikeCoin') }}
-                  </nuxt-link>
-                </span>
-              </nav>
+              <narrow-page-header />
 
             </div>
           </div>
@@ -293,11 +279,11 @@ import NumberInput from '~/components/NumberInput';
 import MaterialButton from '~/components/MaterialButton';
 import TokenSaleProgress from '~/components/TokenSaleProgress';
 import PopupDialog from '~/components/dialogs/PopupDialog';
+import NarrowPageHeader from '~/components/header/NarrowPageHeader';
 import KYCForm from '~/components/KYCForm';
 
 import AddIcon from '@/assets/icons/add.svg';
 import EthIcon from '@/assets/tokensale/eth.svg';
-import likeCoinIcon from '@/assets/like-coin.svg';
 import QuestionIcon from '@/assets/tokensale/question.svg';
 
 import EthHelper from '@/util/EthHelper';
@@ -324,13 +310,13 @@ export default {
     MaterialButton,
     'tokensale-progress': TokenSaleProgress,
     PopupDialog,
+    NarrowPageHeader,
     KYCForm,
   },
   data() {
     return {
       AddIcon,
       EthIcon,
-      likeCoinIcon,
       QuestionIcon,
 
       KYC_STATUS_ENUM,
@@ -630,50 +616,6 @@ export default {
     }
   }
 }
-
-.nav-menu {
-  position: relative;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  padding-top: 16px;
-
-  @media (max-width: 600px) {
-    flex-direction: column;
-  }
-
-  .like-coin-token {
-    z-index: 1;
-
-    width: 144px;
-    height: 144px;
-    margin: 16px;
-    margin-bottom: -16px;
-
-    @media (min-width: 769px) {
-      margin-top: -32px;
-    }
-    @media (max-width: 600px) {
-      order: 999;
-    }
-  }
-
-  span {
-    flex: 1;
-
-    a {
-      text-decoration: underline;
-      color: $like-green;
-    }
-
-    &:last-child {
-      text-align: right;
-    }
-  }
-}
-
 
 .tokensale-progress-wrapper {
   padding-right: 0;
