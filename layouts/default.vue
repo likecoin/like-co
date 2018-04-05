@@ -52,7 +52,7 @@
 import { mapGetters } from 'vuex';
 
 import MyFooter from '~/components/footer/Footer';
-import SiteHeader from '~/components/header/Header';
+import SiteHeader from '~/components/header/HeaderWithMenuButton';
 import SlidingMenu from '~/components/SlidingMenu/index';
 import ToolBars from '~/components/toolbars/ToolBars';
 
