@@ -91,7 +91,7 @@ import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import MaterialButton from '~/components/MaterialButton';
 
 import { toDataUrl } from '@likecoin/ethereum-blockies';
-import { ETHERSCAN_HOST } from '@/constant';
+import { ETHERSCAN_HOST, W3C_EMAIL_REGEX } from '@/constant';
 
 const URL = require('url-parse');
 
@@ -117,6 +117,7 @@ export default {
       confirmContent: '',
       onConfirm: () => {},
       ETHERSCAN_HOST,
+      W3C_EMAIL_REGEX,
     };
   },
   components: {
