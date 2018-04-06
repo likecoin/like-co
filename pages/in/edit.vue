@@ -344,6 +344,9 @@ export default {
     getAmountAction() {
       return this.canGetFreeLikeCoin ? this.onGetCouponClick : this.onClickBuyLikeCoin;
     },
+    canGetFreeLikeCoin() {
+      return this.getUserInfo.referrer && !this.getUserInfo.isEmailVerified && !this.isVerifying;
+    },
   },
   methods: {
     ...mapActions([
@@ -353,7 +356,6 @@ export default {
       'sendVerifyEmail',
       'sendCouponCodeEmail',
       'refreshUserInfo',
-      'checkCanGetFreeLikeCoin',
       'fetchUserReferralStats',
     ]),
     onEditDisplayName() {
@@ -397,7 +399,6 @@ export default {
       this.email = user.email;
       this.updateLikeCoin();
       this.updateReferralStat();
-      this.updateCanGetFreeLikeCoin(user);
       // this.$refs.txHistory.updateTokenSaleHistory();
     },
     async updateLikeCoin() {
@@ -413,23 +414,6 @@ export default {
         const { pending, verified } = await this.fetchUserReferralStats(this.user);
         this.referralPending = pending;
         this.referralVerified = verified;
-      } catch (err) {
-        console.log(err);
-      }
-    },
-    async updateCanGetFreeLikeCoin(user) {
-      try {
-        this.canGetFreeLikeCoin = false;
-        this.freeCoupon = '';
-        if (user.referrer) {
-          const res = await this.checkCanGetFreeLikeCoin(this.user);
-          if (res.coupon) {
-            this.canGetFreeLikeCoin = !res.isClaimed;
-            this.freeCoupon = res.coupon;
-          } else {
-            this.canGetFreeLikeCoin = !user.isEmailVerified && !this.isVerifying;
-          }
-        }
       } catch (err) {
         console.log(err);
       }
@@ -482,9 +466,7 @@ export default {
         return;
       }
       logTrackerEvent(this, 'RegFlow', 'ClickGetFreeLikeCoin', 'click get free likecoin', 1);
-      if (this.getUserInfo.isEmailVerified) {
-        this.submitGetCoupon();
-      } else {
+      if (!this.getUserInfo.isEmailVerified) {
         this.$refs.inputDialog.onInputText();
       }
     },
@@ -497,26 +479,10 @@ export default {
         return this.onSubmitEdit();
       }
       this.$refs.inputDialog.showDialog = false;
-      if (this.getUserInfo.isEmailVerified) {
-        return this.submitGetCoupon();
+      if (!this.getUserInfo.isEmailVerified) {
+        return this.onVerifyEmail();
       }
-      return this.onVerifyEmail();
-    },
-    async submitGetCoupon() {
-      if (!this.canGetFreeLikeCoin || !this.freeCoupon) {
-        return;
-      }
-      try {
-        // directly claim
-        this.couponCode = this.freeCoupon;
-        await this.$refs.claimDialog.onDirectClaimCoupon({
-          wallet: this.wallet,
-          coupon: this.couponCode,
-        });
-        logTrackerEvent(this, 'RegFlow', 'GetRedPocketSuccessful', 'redeem the red pocket', 1);
-      } catch (err) {
-        console.error(err);
-      }
+      return () => {};
     },
   },
   watch: {
@@ -826,6 +792,10 @@ $profile-icon-mobile-size: 88px;
         border: 0;
       }
     }
+  }
+
+  input:disabled {
+    opacity: 1;
   }
 }
 

@@ -57,8 +57,6 @@ export const apiPostAdvancedKYC = (form) => {
   return axios.post('/api/kyc/advanced', params);
 };
 
-export const apiCheckCanGetFreeLikeCoin = user => axios.get(`/api/coupon/sentto/v2/${user}`);
-
 export const apiSendCouponCodeEmail = (id, coupon, locale) => axios.post(`/api/email/verify/user/${id}`, { coupon, locale });
 
 export const apiSendInvitationEmail = (user, email) => axios.post(

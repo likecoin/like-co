@@ -85,7 +85,6 @@ export default {
     padding: 48px 8px;
 
     @media (max-width: 768px) {
-      justify-content: flex-end;
       padding: 12px;
     }
   }

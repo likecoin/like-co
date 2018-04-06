@@ -53,9 +53,5 @@ export default {
 
     font-size: 12px;
   }
-
-  @media (max-width: 768px) {
-    display: none;
-  }
 }
 </style>
