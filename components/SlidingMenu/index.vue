@@ -118,33 +118,44 @@ export default {
 @import "~assets/variables";
 
 .lc-sliding-menu {
+  position: relative;
+
+  height: 100vh;
+
   > div {
     position: absolute;
     top: 0;
-    left: 0;
     right: 0;
     bottom: 0;
+    left: 0;
+
     display: flex;
+    overflow-y: auto;
     flex-direction: column;
   }
 }
 
 .language-switch-wrapper {
-  background-color: $like-green;
-  min-height: 52px;
   display: flex;
-  justify-content: flex-end;
   align-items: center;
+  flex-shrink: 0;
+  justify-content: flex-end;
+
+  min-height: 52px;
   padding: 10px 24px;
+
   color: white;
+  background-color: $like-green;
 }
 
 .social-media-links-wrapper {
-  background-color: white;
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+
   padding: 10px 24px;
 
-  display: flex;
-  justify-content: center;
+  background-color: white;
 }
 
 .menus-wrapper {
@@ -263,5 +274,9 @@ $sliding-menu-narrow-width: 260px;
       }
     }
   }
+}
+
+body[lc-sliding-menu="open"] {
+  overflow-y: hidden;
 }
 </style>
