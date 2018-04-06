@@ -266,7 +266,7 @@ export default {
     }
 
     .address.value {
-      font-size: 19.5px;
+      font-size: 19px;
     }
   }
 }

@@ -203,6 +203,8 @@ $status-icon-size: 32px;
   h1 {
     position: relative;
 
+    display: inline-flex;
+
     font-size: 32px;
 
     &.fail {
@@ -215,30 +217,27 @@ $status-icon-size: 32px;
       color: $like-green-2;
     }
 
+    @media (max-width: 600px) {
+      font-size: 26px;
+    }
+
     .status-icon {
       position: absolute;
-      top: 4px;
-      left: 8px;
+      top: 2px;
+      left: -42px;
 
       color: $like-green-2;
 
       width: $status-icon-size;
+      height: $status-icon-size;
+
+      @media (max-width: 600px) {
+        display: none;
+      }
     }
 
     .error-icon {
       color: $like-red;
-    }
-
-    @media (max-width: 600px) {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-
-      .status-icon {
-        position: relative;
-        top: 0;
-        left: 0;
-      }
     }
   }
 
