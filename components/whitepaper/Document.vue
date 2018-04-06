@@ -3,7 +3,7 @@
     <div class="lc-document-wrapper">
       <div class="title">{{ title }}</div>
       <img class="image" :src="imageSrc" />
-      <ul class="language-list lc-verticle-inset-5">
+      <ul class="language-list lc-margin-vertical-32 lc-mobile">
         <li
           v-for="link in mainLocaleSrc"
           :key="link.languageKey">
@@ -17,7 +17,7 @@
     <div
       class="other-languages-list"
       v-if="otherLocaleSrc.length > 0">
-      <ul class="language-list lc-verticle-inset-5">
+      <ul class="language-list lc-margin-vertical-32 lc-mobile">
         <li
           v-for="link in otherLocaleSrc"
           :key="link.languageKey">
