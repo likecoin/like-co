@@ -1,10 +1,10 @@
 <template>
-  <md-toolbar :class="styleClass" v-if="txHash" >
+  <md-toolbar :class="styleClass" v-if="txHash" md-elevation="0">
     <div class="md-layout-item">
     	<section v-if="isInTx">
         <md-progress-spinner :md-diameter="24" :md-stroke="2" md-mode="indeterminate" />
       </section>
-      <md-icon v-else>check</md-icon>
+      <img v-else class="status-icon" :src="TickIcon" />
       {{ isInTx ? `${$t('Transaction.header.label.pending')}...` : `${$t('Transaction.header.label.completed')}!` }}
     </div>
     <div class="btn-container">
@@ -19,18 +19,25 @@
 </template>
 
 <script>
-  export default {
-    name: 'TxToolbar',
-    props: ['txHash', 'txInfo', 'isInTx'],
-    computed: {
-      styleClass() {
-        const cls = ['md-layout'];
-        if (this.isInTx) cls.push('pending');
-        else cls.push('complete');
-        return cls;
-      },
+import TickIcon from '@/assets/tokensale/tick.svg';
+
+export default {
+  name: 'TxToolbar',
+  props: ['txHash', 'txInfo', 'isInTx'],
+  data() {
+    return {
+      TickIcon,
+    };
+  },
+  computed: {
+    styleClass() {
+      const cls = ['md-layout'];
+      if (this.isInTx) cls.push('pending');
+      else cls.push('complete');
+      return cls;
     },
-  };
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -41,6 +48,13 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+
+    .status-icon {
+      width: 24px;
+      height: 24px;
+
+      margin-right: 8px;
+    }
   }
 
   > .btn-container {
