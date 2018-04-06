@@ -37,6 +37,8 @@ export default {
 @import "~assets/variables";
 
 #view-etherscan {
+  position: relative;
+
   text-align: center;
 
   .view-url {
