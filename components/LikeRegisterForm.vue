@@ -40,7 +40,7 @@
             <md-field class="lc-margin-top-12 lc-margin-bottom-24 lc-mobile">
               <label>{{ $t('Register.form.email') }}</label>
               <md-input
-                pattern="^[a-zA-Z0-9.!#$%&'*/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+                :pattern="W3C_EMAIL_REGEX"
                 v-model="email"
                 :title="$t('Register.form.error.emailFormat')"
               />

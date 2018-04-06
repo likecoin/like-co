@@ -125,9 +125,10 @@
                         {{ $t('Edit.label.addEmail') }}
                       </label>
                       <md-input
-                        type="email"
                         class="input-display input-info"
+                        :pattern="W3C_EMAIL_REGEX"
                         v-model="email"
+                        :title="$t('Register.form.error.emailFormat')"
                         ref="inputEmail"
                         :disabled="getUserInfo.isEmailVerified || !isProfileEdit" />
                       <md-button
@@ -286,7 +287,7 @@ import InputDialog from '~/components/dialogs/InputDialog';
 // import TransactionHistory from '~/components/TransactionHistory';
 import ViewEtherscan from '~/components/ViewEtherscan';
 
-import { ONE_LIKE } from '@/constant';
+import { ONE_LIKE, W3C_EMAIL_REGEX } from '@/constant';
 
 import EditIcon from '@/assets/icons/edit.svg';
 import EditWhiteIcon from '@/assets/icons/edit-white.svg';
@@ -296,6 +297,7 @@ export default {
   name: 'Edit',
   data() {
     return {
+      W3C_EMAIL_REGEX,
       avatarFile: null,
       avatarData: null,
       user: '',

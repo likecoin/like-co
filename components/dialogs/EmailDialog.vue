@@ -2,8 +2,8 @@
   <input-dialog
     ref="inputDialog"
     :text="email"
-    type="email"
-    :title="$t('Dialog.emailInput.title')"
+    :pattern="W3C_EMAIL_REGEX"
+    :title="$t('Register.form.error.emailFormat')"
     :content="$t('Dialog.emailInput.content')"
     :label="$t('Dialog.emailInput.label')"
     @confirm="onInputDialogConfirm" />
@@ -12,6 +12,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import { logTrackerEvent } from '@/util/EventLogger';
+import { W3C_EMAIL_REGEX } from '@/constant';
 import InputDialog from '~/components/dialogs/InputDialog';
 import User from '@/util/User';
 
@@ -27,6 +28,7 @@ export default {
   },
   data() {
     return {
+      W3C_EMAIL_REGEX,
       email: '',
     };
   },

@@ -77,7 +77,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
     }
 
     if (email) {
-      if (!(W3C_EMAIL_REGEX.test(email))) throw new Error('invalid email');
+      if (!IS_TESTNET && !(W3C_EMAIL_REGEX.test(email))) throw new Error('invalid email');
       if (disposableDomains.includes(email.split('@')[1])) {
         throw new Error('email domain not allowed');
       }
