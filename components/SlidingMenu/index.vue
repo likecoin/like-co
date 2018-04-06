@@ -1,40 +1,43 @@
 <template>
-  <div class="lc-sliding-menu-wrapper">
-    <nav class="lc-sliding-menu">
-      <div>
+  <div class="lc-sliding-menu-container">
+    <div class="dismiss-overlay" @click="closeSlidingMenu" />
+    <div class="lc-sliding-menu-wrapper">
+      <nav class="lc-sliding-menu">
+        <div>
 
-        <div class="language-switch-wrapper">
-          <language-switch color="white" :isShowLabel="true" />
-        </div>
-
-        <div class="social-media-links-wrapper">
-          <platform-icon-bar />
-        </div>
-
-        <div class="menus-wrapper">
-          <div
-            v-for="m in MENU_ITEMS"
-            :class="['menu', m.section]">
-            <ul>
-              <li v-if="m.section === 'primary'">
-                <menu-item
-                  :title="getButtonText"
-                  :isHighlighted="true"
-                  @click="onClickAccountButton" />
-              </li>
-              <li v-for="i in m.items" :key="i.key">
-                <menu-item
-                  :title="i.title || $t(`Menu.item.${i.key}`)"
-                  :to="i.to"
-                  :isHighlighted="i.isHighlighted"
-                  :isExternal="i.isExternal" />
-              </li>
-            </ul>
+          <div class="language-switch-wrapper">
+            <language-switch color="white" :isShowLabel="true" />
           </div>
-        </div>
 
-      </div>
-    </nav>
+          <div class="social-media-links-wrapper">
+            <platform-icon-bar />
+          </div>
+
+          <div class="menus-wrapper">
+            <div
+              v-for="m in MENU_ITEMS"
+              :class="['menu', m.section]">
+              <ul>
+                <li v-if="m.section === 'primary'">
+                  <menu-item
+                    :title="getButtonText"
+                    :isHighlighted="true"
+                    @click="onClickAccountButton" />
+                </li>
+                <li v-for="i in m.items" :key="i.key">
+                  <menu-item
+                    :title="i.title || $t(`Menu.item.${i.key}`)"
+                    :to="i.to"
+                    :isHighlighted="i.isHighlighted"
+                    :isExternal="i.isExternal" />
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </nav>
+    </div>
   </div>
 </template>
 
@@ -122,6 +125,7 @@ export default {
   methods: {
     ...mapActions([
       'showLoginWindow',
+      'closeSlidingMenu',
     ]),
     onClickAccountButton() {
       if (!this.getUserIsRegistered && this.showLogin) {
@@ -139,6 +143,24 @@ export default {
 
 <style lang="scss" scoped>
 @import "~assets/variables";
+
+.dismiss-overlay {
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  display: block;
+
+  width: 100vw;
+
+  content: " ";
+
+  [lc-sliding-menu="close"] & {
+    display: none;
+  }
+}
 
 .lc-sliding-menu {
   position: relative;
@@ -183,12 +205,12 @@ export default {
 
 .menus-wrapper {
   border-top: 1px solid $like-green;
-  padding: 64px 24px 24px 52px;
+  padding: 64px 24px 100px 52px;
 
   flex-grow: 1;
 
   @media (max-width: 600px) {
-    padding: 32px 24px 24px 32px;
+    padding: 32px 24px 100px 32px;
   }
 
   .menu {
