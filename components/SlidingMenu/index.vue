@@ -12,54 +12,22 @@
         </div>
 
         <div class="menus-wrapper">
-          <div class="menu primary">
+          <div
+            v-for="m in MENU_ITEMS"
+            :class="['menu', m.section]">
             <ul>
-              <li v-if="!shouldHideRegister">
-                <div class="menu-item highlighted">
-                  <a @click="onSignUpClick">
-                    <span>{{ getButtonText }}</span>
-                  </a>
-                </div>
+              <li v-if="m.section === 'primary'">
+                <menu-item
+                  :title="getButtonText"
+                  :isHighlighted="true"
+                  @click="onClickAccountButton" />
               </li>
-              <li v-if="$route.name !== 'index'">
-                <div class="menu-item">
-                  <nuxt-link to="/">
-                    <span>{{ $t('Menu.item.aboutLikeCoin') }}</span>
-                  </nuxt-link>
-                </div>
-              </li>
-              <li v-if="$route.name !== 'in-tokensale'">
-                <div class="menu-item">
-                  <nuxt-link :to="{ name: 'in-tokensale' }">
-                    <span>{{ $t('Menu.item.joinTokenSale') }}</span>
-                  </nuxt-link>
-                </div>
-              </li>
-              <li v-if="$route.name !== 'in-backer'">
-                <div class="menu-item">
-                  <nuxt-link :to="{ name: 'in-backer' }">
-                    <span>{{ $t('Menu.item.backer') }}</span>
-                  </nuxt-link>
-                </div>
-              </li>
-              <li v-if="$route.name !== 'in-whitepaper'">
-                <div class="menu-item">
-                  <nuxt-link :to="{ name: 'in-whitepaper' }">
-                    <span>{{ $t('Menu.item.whitepaper') }}</span>
-                  </nuxt-link>
-                </div>
-              </li>
-            </ul>
-          </div>
-
-          <div class="menu secondary">
-            <ul>
-              <li>
-                <div class="menu-item">
-                  <a href="https://help.like.co/">
-                    <span>{{ $t('Menu.item.support') }}</span>
-                  </a>
-                </div>
+              <li v-for="i in m.items" :key="i.key">
+                <menu-item
+                  :title="i.title || $t(`Menu.item.${i.key}`)"
+                  :to="i.to"
+                  :isHighlighted="i.isHighlighted"
+                  :isExternal="i.isExternal" />
               </li>
             </ul>
           </div>
@@ -74,8 +42,43 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-import PlatformIconBar from '~/components/PlatformIconBar';
 import LanguageSwitch from '~/components/LanguageSwitch';
+import PlatformIconBar from '~/components/PlatformIconBar';
+import MenuItem from './MenuItem';
+
+const MENU_ITEMS = [
+  {
+    section: 'primary',
+    items: [
+      {
+        key: 'aboutLikeCoin',
+        to: '/',
+      },
+      {
+        key: 'joinTokenSale',
+        to: { name: 'in-tokensale' },
+      },
+      {
+        key: 'backer',
+        to: { name: 'in-backer' },
+      },
+      {
+        key: 'whitepaper',
+        to: { name: 'in-whitepaper' },
+      },
+    ],
+  },
+  {
+    section: 'secondary',
+    items: [
+      {
+        key: 'support',
+        to: 'https://help.like.co/',
+        isExternal: true,
+      },
+    ],
+  },
+];
 
 export default {
   name: 'sliding-menu',
@@ -83,14 +86,20 @@ export default {
     'showLogin',
   ],
   components: {
-    PlatformIconBar,
+    MenuItem,
     LanguageSwitch,
+    PlatformIconBar,
   },
   head() {
     return {
       bodyAttrs: {
         'lc-sliding-menu': this.getIsSlidingMenuOpen ? 'open' : 'close',
       },
+    };
+  },
+  data() {
+    return {
+      MENU_ITEMS,
     };
   },
   computed: {
@@ -114,7 +123,7 @@ export default {
     ...mapActions([
       'showLoginWindow',
     ]),
-    onSignUpClick() {
+    onClickAccountButton() {
       if (!this.getUserIsRegistered && this.showLogin) {
         this.showLoginWindow();
       } else {
@@ -194,47 +203,10 @@ export default {
 
     &:not(:first-child) {
       margin-top: 40px;
-    }
-  }
-}
 
-.menu-item {
-  font-weight: 300;
-  color: $like-green;
-  cursor: pointer;
-
-  &:hover {
-    > a::before {
-      width: 100%;
-    }
-  }
-
-  &.highlighted {
-    font-weight: 600;
-  }
-
-  .primary & {
-    font-size: 20px;
-  }
-
-  .secondary & {
-    font-size: 16px;
-  }
-
-  > a {
-    position: relative;
-    text-decoration: none;
-
-    &::before {
-      content: " ";
-      position: absolute;
-      top: calc(100% + 3px);
-      left: 0;
-      height: 2px;
-      background-color: $like-green;
-      width: 0%;
-
-      transition: width 0.25s ease-out;
+      @media (max-width: 600px) {
+        margin-top: 20px;
+      }
     }
   }
 }
