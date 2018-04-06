@@ -15,6 +15,18 @@
 
     <carousel />
 
+    <div class="lc-container-0">
+      <div class="lc-container-1">
+        <div class="lc-container-2">
+          <div class="lc-container-3">
+            <div class="social-links-container-mobile lc-tablet-pc-hide lc-margin-vertical-8">
+              <platform-icon-bar />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <cta-section />
 
     <protocol />
@@ -69,6 +81,21 @@
         </div>
       </div>
     </section>
+
+    <div class="social-links-container lc-mobile-hide">
+      <div class="lc-container-0">
+        <div class="lc-container-1">
+          <div class="platform-icon-bar-wrapper">
+            <div>
+              <div>
+                <platform-icon-bar :isVertical="true" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -308,6 +335,46 @@ $carousel-height: 488px;
       }
     }
   }
+}
+
+.social-links-container {
+  position: fixed;
+  z-index: 20;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  pointer-events: none;
+
+  .platform-icon-bar-wrapper {
+    position: relative;
+
+    height: 100%;
+
+    > div {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 12px;
+
+      > div {
+        display: flex;
+        align-items: center;
+
+        height: 100%;
+
+        :global(> div) {
+          pointer-events: auto;
+        }
+      }
+    }
+  }
+}
+
+.social-links-container-mobile {
+  display: flex;
+  justify-content: center;
 }
 
 </style>

@@ -1,5 +1,5 @@
 <template>
-<div class="icon-bar">
+<div :class="['icon-bar', { vertical: isVertical }]">
   <md-button
     class="md-icon-button"
     v-for="(platform, index) in platforms"
@@ -41,6 +41,12 @@ const platforms = [
 
 export default {
   name: 'platform-icon-bar',
+  props: {
+    isVertical: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       platforms,
@@ -60,6 +66,15 @@ export default {
 .icon-bar {
   display: flex;
   align-items: center;
+
+  &.vertical {
+    justify-content: center;
+    flex-direction: column;
+    
+    .md-icon-button {
+      margin: 0;
+    }
+  }
 
   .md-icon-button {
     &:last-child {
