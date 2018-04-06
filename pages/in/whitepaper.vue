@@ -1,7 +1,7 @@
 <template>
   <div class="lc-container-1 lk-whitepaper-page">
     <div class="lc-container-2">
-      <ul class="document-list">
+      <ul class="document-list lc-margin-top-64 lc-mobile">
         <li
           v-for="(doc, index) in documents"
           :key="index">
@@ -106,8 +106,6 @@ export default {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-
-  margin-top: 70px;
 
   list-style: none;
 

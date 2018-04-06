@@ -602,6 +602,12 @@ export default {
     margin: 0 10px;
   }
 
+  .lc-container-header-title {
+    @media (max-width: 600px) {
+      margin: 0 32px;
+    }
+  }
+
   .create-account-wrapper {
     text-align: center;
     background-color: transparent;
