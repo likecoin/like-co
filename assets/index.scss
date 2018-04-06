@@ -219,7 +219,7 @@ a,
   }
 }
 
-$spacing-list: 0 4 8 12 16 24 32 48;
+$spacing-list: 0 4 8 12 16 24 32 48 64;
 
 @each $i in $spacing-list {
   .lc-margin-vertical-#{$i},
