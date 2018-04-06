@@ -16,6 +16,7 @@
           <div class="menus-wrapper">
             <div
               v-for="m in MENU_ITEMS"
+              :key="m.section"
               :class="['menu', m.section]">
               <ul>
                 <li v-if="m.section === 'primary'">
@@ -26,7 +27,7 @@
                 </li>
                 <li v-for="i in m.items" :key="i.key">
                   <menu-item
-                    :title="i.title || $t(`Menu.item.${i.key}`)"
+                    :title="$t(`Menu.item.${i.key}`)"
                     :to="i.to"
                     :isHighlighted="i.isHighlighted"
                     :isExternal="i.isExternal" />
@@ -55,7 +56,7 @@ const MENU_ITEMS = [
     items: [
       {
         key: 'aboutLikeCoin',
-        to: '/',
+        to: { name: 'index' },
       },
       {
         key: 'joinTokenSale',
