@@ -40,6 +40,7 @@ export default {
   methods: {
     ...mapActions([
       'newUser',
+      'setInfoMsg',
       'sendVerifyEmail',
     ]),
     onCancel() {
@@ -50,14 +51,15 @@ export default {
       this.$nextTick(() => this.$refs.inputDialog.onInputText());
     },
     async onInputDialogConfirm(inputText) {
+      this.$refs.inputDialog.showDialog = false;
       if (this.email !== inputText) {
         this.email = inputText;
         await this.updateEmail();
       }
       await this.sendVerifyEmail({ id: this.getUserInfo.user, ref: this.emailRef || '' });
+      this.setInfoMsg(this.$t('Edit.label.verifying'));
       logTrackerEvent(this, 'RegFlow', 'StartEmailVerify', 'click confirm after enter email and the email is valid', 1);
       this.$emit('submit', this.inputText);
-      this.$refs.inputDialog.showDialog = false;
     },
     async updateEmail() {
       const userInfo = {
