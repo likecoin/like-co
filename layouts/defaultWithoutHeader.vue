@@ -1,16 +1,7 @@
 <template>
-  <div
-    :class="[
-      'lc-page-wrapper',
-      'with-sliding-menu',
-      {
-        'slide-menu-open': getIsSlidingMenuOpen,
-      },
-    ]">
+  <div class="lc-page-wrapper with-sliding-menu">
 
-    <div class="slide-menu-wrapper">
-      <sliding-menu />
-    </div>
+    <sliding-menu />
 
     <div class="lc-page-content">
       <nuxt/>
@@ -26,8 +17,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
 import MyFooter from '~/components/footer/Footer';
 import SlidingMenu from '~/components/SlidingMenu/index';
 
@@ -35,11 +24,6 @@ export default {
   components: {
     MyFooter,
     SlidingMenu,
-  },
-  computed: {
-    ...mapGetters([
-      'getIsSlidingMenuOpen',
-    ]),
   },
 };
 </script>

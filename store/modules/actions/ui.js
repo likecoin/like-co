@@ -3,6 +3,7 @@ import * as types from '@/store/mutation-types';
 
 export const setLocale = ({ commit }, locale) => {
   commit(types.UI_SET_LOCALE, locale);
+  commit(types.UI_CLOSE_SLIDING_MENU);
 };
 
 export const setMetamaskError = ({ commit }, msg) => {

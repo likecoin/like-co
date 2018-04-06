@@ -49,6 +49,8 @@ export default {
 $button-interspace: 10px;
 
 .toggle-menu-button {
+  position: relative;
+
   overflow: hidden;
 
   height: 34px;
@@ -60,6 +62,8 @@ $button-interspace: 10px;
   font-size: 18px;
 
   &.open {
+    z-index: 10010;
+
     > div {
       transform: translateY(-50%);
     }

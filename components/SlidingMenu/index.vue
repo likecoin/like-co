@@ -1,65 +1,88 @@
 <template>
-  <nav class="sliding-menu">
-    <div>
+  <div class="lc-sliding-menu-container">
+    <div class="dismiss-overlay" @click="closeSlidingMenu" />
+    <div class="lc-sliding-menu-wrapper">
+      <nav class="lc-sliding-menu">
+        <div>
 
-      <div class="language-switch-wrapper">
-        <language-switch color="white" :isShowLabel="true" />
-      </div>
+          <div class="language-switch-wrapper">
+            <language-switch color="white" :isShowLabel="true" />
+          </div>
 
-      <div class="social-media-links-wrapper">
-        <platform-icon-bar />
-      </div>
+          <div class="social-media-links-wrapper">
+            <platform-icon-bar />
+          </div>
 
-      <div class="menus-wrapper">
-        <div class="menu primary">
-          <ul>
-            <li v-if="!shouldHideRegister">
-              <div class="menu-item highlighted">
-                <a @click="onSignUpClick">
-                  <span>{{ getButtonText }}</span>
-                </a>
-              </div>
-            </li>
-            <li v-if="$route.name !== 'index'">
-              <div class="menu-item">
-                <nuxt-link to="/">
-                  <span>{{ $t('Menu.item.aboutLikeCoin') }}</span>
-                </nuxt-link>
-              </div>
-            </li>
-            <li v-if="$route.name !== 'in-tokensale'">
-              <div class="menu-item">
-                <nuxt-link :to="{ name: 'in-tokensale' }">
-                  <span>{{ $t('Menu.item.joinTokenSale') }}</span>
-                </nuxt-link>
-              </div>
-            </li>
-          </ul>
+          <div class="menus-wrapper">
+            <div
+              v-for="m in MENU_ITEMS"
+              :key="m.section"
+              :class="['menu', m.section]">
+              <ul>
+                <li v-if="m.section === 'primary'">
+                  <menu-item
+                    :title="getButtonText"
+                    :isHighlighted="true"
+                    @click="onClickAccountButton" />
+                </li>
+                <li v-for="i in m.items" :key="i.key">
+                  <menu-item
+                    :title="$t(`Menu.item.${i.key}`)"
+                    :to="i.to"
+                    :isHighlighted="i.isHighlighted"
+                    :isExternal="i.isExternal" />
+                </li>
+              </ul>
+            </div>
+          </div>
+
         </div>
-
-        <div class="menu secondary">
-          <ul>
-            <li>
-              <div class="menu-item">
-                <a href="https://help.like.co/">
-                  <span>{{ $t('Menu.item.support') }}</span>
-                </a>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-
+      </nav>
     </div>
-  </nav>
+  </div>
 </template>
 
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-import PlatformIconBar from '~/components/PlatformIconBar';
 import LanguageSwitch from '~/components/LanguageSwitch';
+import PlatformIconBar from '~/components/PlatformIconBar';
+import MenuItem from './MenuItem';
+
+const MENU_ITEMS = [
+  {
+    section: 'primary',
+    items: [
+      {
+        key: 'aboutLikeCoin',
+        to: { name: 'index' },
+      },
+      {
+        key: 'joinTokenSale',
+        to: { name: 'in-tokensale' },
+      },
+      {
+        key: 'backer',
+        to: { name: 'in-backer' },
+      },
+      {
+        key: 'whitepaper',
+        to: { name: 'in-whitepaper' },
+      },
+    ],
+  },
+  {
+    section: 'secondary',
+    items: [
+      {
+        key: 'support',
+        to: 'https://help.like.co/',
+        isExternal: true,
+      },
+    ],
+  },
+];
 
 export default {
   name: 'sliding-menu',
@@ -67,8 +90,21 @@ export default {
     'showLogin',
   ],
   components: {
-    PlatformIconBar,
+    MenuItem,
     LanguageSwitch,
+    PlatformIconBar,
+  },
+  head() {
+    return {
+      htmlAttrs: {
+        'lc-sliding-menu': this.getIsSlidingMenuOpen ? 'open' : 'close',
+      },
+    };
+  },
+  data() {
+    return {
+      MENU_ITEMS,
+    };
   },
   computed: {
     getButtonText() {
@@ -84,13 +120,15 @@ export default {
     ...mapGetters([
       'getUserInfo',
       'getUserIsRegistered',
+      'getIsSlidingMenuOpen',
     ]),
   },
   methods: {
     ...mapActions([
       'showLoginWindow',
+      'closeSlidingMenu',
     ]),
-    onSignUpClick() {
+    onClickAccountButton() {
       if (!this.getUserIsRegistered && this.showLogin) {
         this.showLoginWindow();
       } else {
@@ -107,51 +145,80 @@ export default {
 <style lang="scss" scoped>
 @import "~assets/variables";
 
-.sliding-menu {
+.dismiss-overlay {
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  display: block;
+
+  width: 100vw;
+
+  content: " ";
+
+  [lc-sliding-menu="close"] & {
+    display: none;
+  }
+}
+
+.lc-sliding-menu {
+  position: relative;
+
+  height: 100vh;
 
   > div {
     position: absolute;
     top: 0;
-    left: 0;
     right: 0;
     bottom: 0;
+    left: 0;
+
     display: flex;
+    overflow-y: auto;
     flex-direction: column;
   }
 }
 
 .language-switch-wrapper {
-  background-color: $like-green;
-  min-height: 52px;
   display: flex;
-  justify-content: flex-end;
   align-items: center;
+  flex-shrink: 0;
+  justify-content: flex-end;
+
+  min-height: 52px;
   padding: 10px 24px;
+
   color: white;
+  background-color: $like-green;
 }
 
 .social-media-links-wrapper {
-  background-color: white;
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+
   padding: 10px 24px;
 
-  display: flex;
-  justify-content: center;
+  background-color: white;
 }
 
 .menus-wrapper {
   border-top: 1px solid $like-green;
-  padding: 64px 24px 24px 52px;
+  padding: 64px 24px 100px 52px;
 
   flex-grow: 1;
 
   @media (max-width: 600px) {
-    padding: 32px 24px 24px 32px;
+    padding: 32px 24px 100px 32px;
   }
 
   .menu {
     ul {
       list-style: none;
       margin: -10px;
+      padding: 0;
 
       li {
         padding: 10px;
@@ -160,48 +227,70 @@ export default {
 
     &:not(:first-child) {
       margin-top: 40px;
+
+      @media (max-width: 600px) {
+        margin-top: 20px;
+      }
     }
   }
 }
+</style>
 
-.menu-item {
-  font-weight: 300;
-  color: $like-green;
-  cursor: pointer;
+<style lang="scss">
+@import "~assets/variables";
 
-  &:hover {
-    > a::before {
-      width: 100%;
-    }
+$sliding-menu-width: 320px;
+$sliding-menu-narrow-width: 260px;
+
+.lc-sliding-menu-wrapper {
+  z-index: -30;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: $sliding-menu-width;
+  bottom: 0;
+
+  transform: translateX(100%);
+
+  background-color: $like-gray-1;
+
+  @media (max-width: 600px) {
+    width: $sliding-menu-narrow-width;
   }
+}
 
-  &.highlighted {
-    font-weight: 600;
-  }
-
-  .primary & {
-    font-size: 20px;
-  }
-
-  .secondary & {
-    font-size: 16px;
-  }
-
-  > a {
+.lc-page-wrapper {
+  &.with-sliding-menu {
+    transition: transform .5s ease-in-out;
     position: relative;
-    text-decoration: none;
 
     &::before {
       content: " ";
       position: absolute;
-      top: calc(100% + 3px);
+      background-color: white;
+      top: 0;
       left: 0;
-      height: 2px;
-      background-color: $like-green;
-      width: 0%;
+      right: 0;
+      bottom: 0;
 
-      transition: width 0.25s ease-out;
+      box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
     }
+
+    [lc-sliding-menu="open"] & {
+      transform: translateX(-#{$sliding-menu-width});
+
+      @media (max-width: 600px) {
+        transform: translateX(-#{$sliding-menu-narrow-width});
+      }
+    }
+  }
+}
+
+[lc-sliding-menu="open"] {
+  overflow-y: hidden;
+
+  body {
+    overflow-y: hidden;
   }
 }
 </style>
