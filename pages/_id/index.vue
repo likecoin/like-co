@@ -174,9 +174,15 @@ export default {
       isSupportTransferDeleteaged: true,
     };
   },
-  asyncData({ params, redirect, error }) {
+  asyncData({
+    route,
+    params,
+    query,
+    redirect,
+    error,
+  }) {
     if (params.id !== params.id.toLowerCase()) {
-      redirect({ name: 'id', params: { id: params.id.toLowerCase() } });
+      redirect({ name: route.name, params: { ...params, id: params.id.toLowerCase() }, query });
     }
     return apiGetUserById(params.id)
       .then((res) => {
