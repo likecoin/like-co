@@ -95,7 +95,7 @@ export default {
   },
   head() {
     return {
-      bodyAttrs: {
+      htmlAttrs: {
         'lc-sliding-menu': this.getIsSlidingMenuOpen ? 'open' : 'close',
       },
     };
@@ -217,6 +217,7 @@ export default {
     ul {
       list-style: none;
       margin: -10px;
+      padding: 0;
 
       li {
         padding: 10px;
@@ -284,7 +285,11 @@ $sliding-menu-narrow-width: 260px;
   }
 }
 
-body[lc-sliding-menu="open"] {
+[lc-sliding-menu="open"] {
   overflow-y: hidden;
+
+  body {
+    overflow-y: hidden;
+  }
 }
 </style>
