@@ -109,12 +109,15 @@ export default {
         user,
         wallet,
         email,
+        isEmailVerified,
       } = this.getUserInfo;
+      let stripeEmail = '';
+      if (email && isEmailVerified) stripeEmail = email;
       this.$checkout.open({
         name: this.product.name[this.$i18n.locale],
         currency: 'USD',
         amount: this.product.amount,
-        email: email || '',
+        email: stripeEmail,
         token: async (token) => {
           const payload = {
             user,

@@ -32,7 +32,7 @@ router.post('/iap/purchase/:productId', async (req, res) => {
 
     if (user) {
       userRef = dbRef.doc(user);
-      const userDoc = userRef.get();
+      const userDoc = await userRef.get();
       if (!userDoc.exists) throw new Error('Invalid user');
       ({ wallet, email } = userDoc.data());
       if (wallet !== from) throw new Error('User wallet not match');
