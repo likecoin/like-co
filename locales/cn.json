@@ -235,6 +235,11 @@
         "signUp": "注册"
       }
     },
+    "HeroVideo": {
+      "button": {
+        "watchVideo": "观看影片"
+      }
+    },
     "Flag": {
       "title": "化Like为Coin 回馈创作",
       "content": ""

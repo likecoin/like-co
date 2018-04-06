@@ -57,6 +57,7 @@ module.exports = {
         'https://widget.intercom.io',
         'https://checkout.stripe.com',
         'https://connect.facebook.net',
+        'https://player.vimeo.com',
       ],
     },
   },
@@ -116,20 +117,28 @@ module.exports = {
     ['@nuxtjs/google-tag-manager', { id: process.env.GTM_ID || 'GTM-XXXXXXX' }],
   ],
   plugins: [
-    { src: '~/plugins/vue-material' },
-    { src: '~/plugins/vue-i18n' },
-    { src: '~/plugins/vue-stripe', ssr: false },
     { src: '~/plugins/EthHelper', ssr: false },
-    { src: '~/plugins/vue-intercom', ssr: false },
+    { src: '~/plugins/vue-i18n' },
     { src: '~/plugins/vue-image-lightbox', ssr: false },
+    { src: '~/plugins/vue-intercom', ssr: false },
+    { src: '~/plugins/vue-material' },
     { src: '~/plugins/vue-simple-svg' },
+    { src: '~/plugins/vue-stripe', ssr: false },
     { src: '~/plugins/vue-swiper', ssr: false },
+    { src: '~/plugins/vue-vimeo-player', ssr: false },
   ],
   /*
   ** Add axios globally
   */
   build: {
-    vendor: ['axios', 'bignumber.js', 'vue-material', 'vue-i18n', 'moment'],
+    vendor: [
+      'axios',
+      'bignumber.js',
+      'moment',
+      'vue-i18n',
+      'vue-material',
+      'vue-vimeo-player',
+    ],
     /*
     ** Run ESLINT on save
     */
