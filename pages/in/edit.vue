@@ -793,6 +793,10 @@ $profile-icon-mobile-size: 88px;
       }
     }
   }
+
+  input:disabled {
+    opacity: 1;
+  }
 }
 
 
