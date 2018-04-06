@@ -1,16 +1,7 @@
 <template>
-  <div
-    :class="[
-      'lc-page-wrapper',
-      'with-sliding-menu',
-      {
-        'slide-menu-open': getIsSlidingMenuOpen,
-      },
-    ]">
+  <div class="lc-page-wrapper with-sliding-menu">
 
-    <div class="slide-menu-wrapper">
-      <sliding-menu />
-    </div>
+    <sliding-menu />
 
     <header class="lc-page-header">
 
@@ -126,7 +117,6 @@ export default {
       'getHeaderSubtitle',
       'getHeaderIcon',
       'getHeaderTitle',
-      'getIsSlidingMenuOpen',
     ]),
   },
 };

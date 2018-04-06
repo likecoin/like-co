@@ -1,18 +1,9 @@
 <template>
-  <div
-    :class="[
-      'lc-page-wrapper',
-      'with-sliding-menu',
-      {
-        'slide-menu-open': getIsSlidingMenuOpen,
-      },
-    ]">
+  <div class="lc-page-wrapper with-sliding-menu">
 
     <tool-bars :disableError="getIfDisableError" />
 
-    <div class="slide-menu-wrapper">
-      <sliding-menu />
-    </div>
+    <sliding-menu />
 
     <header class="lc-page-header">
 
@@ -49,8 +40,6 @@
 
 
 <script>
-import { mapGetters } from 'vuex';
-
 import MyFooter from '~/components/footer/Footer';
 import SiteHeader from '~/components/header/HeaderWithMenuButton';
 import SlidingMenu from '~/components/SlidingMenu/index';
@@ -70,9 +59,6 @@ export default {
     getIfDisableError() {
       return getToolbarsDisableError(this.$route.name);
     },
-    ...mapGetters([
-      'getIsSlidingMenuOpen',
-    ]),
   },
 };
 </script>
