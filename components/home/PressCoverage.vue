@@ -41,7 +41,7 @@ const presses = [
   },
   {
     src: '/images/press-logo/appledaily.jpg',
-    link: 'https://hk.finance.appledaily.com/finance/daily/article/20180305/20322849',
+    link: 'https://video.appledaily.com.hk/mcp/encode/2018/03/05/3560694/20180304_fin_100AD_w.mp4',
   },
   {
     src: '/images/press-logo/881903.svg',

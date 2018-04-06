@@ -31,6 +31,10 @@ import AvatarGrid from '../AvatarGrid';
 
 const SUPPORTERS = [
   {
+    key: '6-club',
+    avatar: '/images/supporters/6-club.svg',
+  },
+  {
     key: 'annie-zhang',
     avatar: '/images/supporters/annie-zhang.png',
   },
