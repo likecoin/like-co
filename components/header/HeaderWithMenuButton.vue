@@ -3,12 +3,7 @@
 
     <div class="navigation-menu">
 
-      <nuxt-link :class="['title', { test: isTest }]" :to="{ name: 'index' }">
-        {{ $t('Store.Header.label.store') }}
-        <span class="sup">
-          {{ isTest ? $t('Store.Header.label.test') : '' }}
-        </span>
-      </nuxt-link>
+      <site-title />
 
       <menu-button />
 
@@ -34,8 +29,7 @@ import { mapActions, mapGetters } from 'vuex';
 
 import MaterialButton from '~/components/MaterialButton';
 import MenuButton from '~/components/SlidingMenu/MenuButton';
-
-import { IS_TESTNET } from '@/constant';
+import SiteTitle from '~/components/SiteTitle';
 
 export default {
   name: 'site-header',
@@ -46,11 +40,7 @@ export default {
   components: {
     MaterialButton,
     MenuButton,
-  },
-  data() {
-    return {
-      isTest: IS_TESTNET,
-    };
+    SiteTitle,
   },
   computed: {
     getButtonText() {
@@ -97,28 +87,6 @@ export default {
     @media (max-width: 768px) {
       justify-content: flex-end;
       padding: 12px;
-    }
-  }
-
-  .title {
-    text-decoration: none;
-
-    color: $like-green;
-
-    font-size: 18px;
-
-    &.test {
-      color: $like-red;
-    }
-
-    > .sup {
-      vertical-align: super;
-
-      font-size: 12px;
-    }
-
-    @media (max-width: 768px) {
-      display: none;
     }
   }
 

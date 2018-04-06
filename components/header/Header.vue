@@ -1,12 +1,7 @@
 <template>
   <div id="site-header">
     <div class="navigation-menu">
-      <nuxt-link :class="['title', { test: isTest }]" :to="{ name: 'index' }">
-        {{ $t('Store.Header.label.store') }}
-        <span class="sup">
-          {{ isTest ? $t('Store.Header.label.test') : '' }}
-        </span>
-      </nuxt-link>
+      <site-title />
       <div class="icons">
         <platform-icon-bar />
         <language-switch class="lc-mobile-hide" />
@@ -30,10 +25,10 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-import { IS_TESTNET } from '@/constant';
 import LanguageSwitch from '~/components/LanguageSwitch';
 import MaterialButton from '~/components/MaterialButton';
 import PlatformIconBar from '~/components/PlatformIconBar';
+import SiteTitle from '~/components/SiteTitle';
 
 export default {
   name: 'site-header',
@@ -42,11 +37,7 @@ export default {
     LanguageSwitch,
     MaterialButton,
     PlatformIconBar,
-  },
-  data() {
-    return {
-      isTest: IS_TESTNET,
-    };
+    SiteTitle,
   },
   computed: {
     getButtonText() {
@@ -95,28 +86,6 @@ export default {
       flex-direction: column;
 
       padding: 12px 0;
-    }
-  }
-
-  .title {
-    text-decoration: none;
-
-    color: $like-green;
-
-    font-size: 18px;
-
-    &.test {
-      color: $like-red;
-    }
-
-    > .sup {
-      vertical-align: super;
-
-      font-size: 12px;
-    }
-
-    @media (max-width: 768px) {
-      display: none;
     }
   }
 
