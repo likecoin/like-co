@@ -35,6 +35,20 @@
                   </nuxt-link>
                 </div>
               </li>
+              <li v-if="$route.name !== 'in-backer'">
+                <div class="menu-item">
+                  <nuxt-link :to="{ name: 'in-backer' }">
+                    <span>{{ $t('Menu.item.backer') }}</span>
+                  </nuxt-link>
+                </div>
+              </li>
+              <li v-if="$route.name !== 'in-whitepaper'">
+                <div class="menu-item">
+                  <nuxt-link :to="{ name: 'in-whitepaper' }">
+                    <span>{{ $t('Menu.item.whitepaper') }}</span>
+                  </nuxt-link>
+                </div>
+              </li>
             </ul>
           </div>
 
