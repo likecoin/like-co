@@ -24,11 +24,11 @@
         </nuxt-link>
       </section>
       <section v-else>
-        <a href="https://likecoin.foundation/" target="_blank" rel="noopener">
-          <md-button class="primary md-primary md-raised">
+        <nuxt-link :to="{ name: 'in-tokensale' }">
+          <md-button class="primary md-primary md-raised" @click="$emit('onClose')">
             {{ $t('Dialog.transaction.button.buyCoin') }}
           </md-button>
-        </a>
+        </nuxt-link>
         <nuxt-link :to="actionRoute">
           <md-button class="secondary md-primary md-raised" @click="$emit('onClose')">
             {{ actionText }}
