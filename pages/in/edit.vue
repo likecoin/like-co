@@ -167,28 +167,34 @@
       </div>
     </div>
 
-    <div v-if="ENABLE_TX_HISTORY" class="transaction-history-container">
+    <div v-if="ENABLE_TX_HISTORY" class="lc-margin-top-48 lc-mobile">
       <section class="lc-container-1">
         <div class="lc-container-header">
           <div class="lc-container-2 lc-container-header-overlay">
-            <div class="lc-container-3" />
+            <div class="lc-container-3 lc-bg-gray-1" />
           </div>
-          <div class="lc-container-3">
-            <div class="lc-container-4">
-              <div class="lc-container-header-title">
-                <h1>{{ $t('TransactionHistory.title') }}</h1>
+          <div class="lc-container-2">
+            <div class="lc-container-3">
+              <div class="lc-container-4">
+                <div class="lc-container-header-title">
+                  <h1 class="lc-font-size-32 lc-mobile">
+                    {{ $t('TransactionHistory.title') }}
+                  </h1>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="lc-container-3 lc-verticle-inset-5 transaction-history-wrapper">
-          <div class="lc-container-4">
-            <transaction-history
-              ref="txHistory"
-              :address="wallet"
-              :showTokensale="true"
-              />
+        <div class="lc-container-2">
+          <div class="lc-container-3 lc-padding-vertical-32 lc-bg-gray-1">
+            <div class="lc-container-4">
+              <transaction-history
+                ref="txHistory"
+                :address="wallet"
+                :showTokensale="true"
+                />
+            </div>
           </div>
         </div>
       </section>
@@ -580,30 +586,17 @@ $profile-margin: 48px;
 $profile-icon-size: 128px;
 $profile-icon-mobile-size: 88px;
 
-.verified {
-  color: $like-green-2;
-
-  .md-icon {
-    color: $like-green-2;
-  }
-}
-
 .edit-form-container {
-  > .lc-container-1 {
-    width: 100%;
-  }
-
   .lc-container-header-title {
     margin: 0;
 
     @media (min-width: #{768px + 1px}) {
       width: calc(66.66% - 88px);
     }
-  }
 
-  .lc-container-header-title {
-    margin: 0;
-    width: calc(66.66% - 88px);
+    @media (max-width: 768px) {
+      width: 100%;
+    }
   }
 
   #editForm {
@@ -781,6 +774,10 @@ $profile-icon-mobile-size: 88px;
           margin-top: -20px;
         }
 
+        .md-disabled {
+          padding-top: 0;
+        }
+
         .md-has-value .input-display-hint {
           opacity: 0;
         }
@@ -792,6 +789,14 @@ $profile-icon-mobile-size: 88px;
         &.likecoin-id {
           @media (min-width: 769px) {
             display: none;
+          }
+        }
+
+        .verified {
+          color: $like-green-2;
+
+          .md-icon {
+            color: $like-green-2;
           }
         }
       }
@@ -857,14 +862,6 @@ $profile-icon-mobile-size: 88px;
 
   input:disabled {
     opacity: 1;
-  }
-
-  .transaction-history-container {
-    margin-top: 56px;
-    .transaction-history-wrapper,
-    .lc-container-header-overlay {
-      background-color: $like-gray-1;
-    }
   }
 }
 

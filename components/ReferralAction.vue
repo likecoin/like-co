@@ -46,7 +46,7 @@
               :disabled="isProfileEdit" />
           </md-field>
         </div>
-        <div v-if="!isProfileEdit" id="form-btn" class="md-layout-item md-size-33 md-xsmall-size-66 lc-padding-top-16">
+        <div v-if="!isProfileEdit" id="form-btn" class="md-layout-item md-size-33 md-xsmall-size-66">
           <material-button
             id="confirm-btn"
             type="submit"
@@ -259,6 +259,10 @@ export default {
   .invite-by-email-wrapper {
     .input-redeem-hint {
       font-size: 20px;
+
+      @media (max-width: 600px) {
+        font-size: 16px;
+      }
     }
 
     .md-focused .input-redeem-hint,
@@ -283,7 +287,6 @@ export default {
     }
 
     #confirm-btn {
-      width: 100%;
       height: 40px;
     }
   }

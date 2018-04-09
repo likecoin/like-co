@@ -69,7 +69,7 @@
           </md-table-cell>
         </md-table-row>
       </md-table>
-      <a class="lc-verticle-inset-4 show-more" v-if="hasMore" href="" @click.prevent="onShowMore">
+      <a class="lc-padding-top-16 show-more" v-if="hasMore" href="" @click.prevent="onShowMore">
         {{ $t('TransactionHistory.button.showMore') }}
       </a>
     </div>
