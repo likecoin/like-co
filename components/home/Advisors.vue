@@ -1,26 +1,35 @@
 <template>
-  <section class="lc-container-1" id="advisors">
-    <div class="lc-container-2">
-      <div class="block-section">
+  <section class="lc-container-0" id="advisors">
+    <div class="lc-container-1">
 
-        <!-- Section title -->
-        <div class="lc-container-3">
-          <div class="lc-container-4">
-            <div class="section-title">
-              {{ $t('Home.Advisors.title') }}
+      <!-- Section Title -->
+      <div class="lc-container-header">
+        <div class="lc-container-2 lc-container-header-overlay">
+          <div class="lc-container-3 lc-bg-gray-1 lc-mobile-hide" />
+        </div>
+        <div class="lc-container-2">
+          <div class="lc-container-3">
+            <div class="lc-container-4">
+              <div class="lc-container-header-title">
+                <h1 class="lc-font-size-32 lc-mobile">
+                  {{ $t('Home.Advisors.title') }}
+                </h1>
+              </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="lc-container-3">
+      <div class="lc-container-2">
+        <div class="lc-container-3 lc-bg-gray-1">
           <div class="lc-container-4">
-            <div class="section-content">
+            <div class="lc-padding-top-24 lc-padding-bottom-32">
               <avatar-grid :items="advisors" />
             </div>
           </div>
         </div>
-
       </div>
+
     </div>
   </section>
 </template>
@@ -69,14 +78,3 @@ export default {
   },
 };
 </script>
-
-
-<style lang="scss" scoped>
-@import "~assets/variables";
-
-#advisors {
-  @media (min-width: 601px) {
-    padding-top: 36px;
-  }
-}
-</style>

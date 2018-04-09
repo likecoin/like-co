@@ -47,7 +47,7 @@
       </div>
     </section> -->
 
-    <advisors />
+    <advisors class="lc-margin-top-48" />
 
     <early-supporters />
 
