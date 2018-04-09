@@ -35,7 +35,7 @@
 
     <token-distribution class="lc-margin-top-48" />
 
-    <early-adopters />
+    <early-adopters class="lc-margin-top-48" />
 
     <press-coverage />
 
