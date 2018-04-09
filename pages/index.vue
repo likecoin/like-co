@@ -356,13 +356,18 @@ $carousel-height: 488px;
       position: absolute;
       top: 0;
       bottom: 0;
-      left: 12px;
+      left: 0;
 
       > div {
         display: flex;
         align-items: center;
 
         height: 100%;
+        margin-left: 12px;
+
+        @media (max-width: 768px) {
+          margin-left: 4px;
+        }
 
         :global(> div) {
           pointer-events: auto;
