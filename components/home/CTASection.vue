@@ -283,15 +283,22 @@ export default {
     flex-direction: column;
     justify-content: center;
 
+    margin: 0;
+    padding: 0;
+
     list-style: none;
 
     > li {
       width: 100%;
+      padding: 4px;
     }
   }
 
   .cta-btn {
-    min-width: 256px;
+    min-width: 200px;
+    margin: 0;
+    padding-right: 12px;
+    padding-left: 12px;
 
     background-image: linear-gradient(73deg, $like-gradient-2, $like-gradient-3);
 
@@ -319,6 +326,7 @@ export default {
       flex-wrap: wrap;
 
       margin: -20px;
+      padding: 0;
 
       list-style: none;
 
