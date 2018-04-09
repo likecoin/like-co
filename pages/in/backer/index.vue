@@ -147,8 +147,6 @@ export default {
 @import "~assets/variables";
 
 .backer-page {
-  margin-bottom: 18px;
-
   .lc-container-3-extend-bg {
     background-image: linear-gradient(250deg, #FFDFD2, #C1F3F5);
   }

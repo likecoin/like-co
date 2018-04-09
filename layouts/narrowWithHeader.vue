@@ -1,5 +1,5 @@
 <template>
-  <div class="lc-page-wrapper with-sliding-menu">
+  <div class="lc-page-wrapper lc-narrow with-sliding-menu">
 
     <tool-bars :disableError="getIfDisableError" />
 
@@ -7,7 +7,7 @@
 
     <header class="lc-page-header">
 
-      <div class="lc-container-0 header-bg lc-narrow">
+      <div class="lc-container-0 header-bg">
         <div class="lc-container-1">
           <div class="lc-container-2">
             <div class="lc-container-3" />
@@ -68,41 +68,26 @@ export default {
 @import "~assets/variables";
 @import "~assets/default";
 
-.lc-page-wrapper {
-  display: flex;
-  flex-direction: column;
+.lc-page-header {
+  position: relative;
 
-  min-height: 100%;
-
-  .lc-page-header {
-    position: relative;
-
-    .lc-container-2 #site-header {
-      padding-right: 0;
-      padding-left: 0;
-    }
-
-    .header-bg {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-
-      pointer-events: none;
-
-      .lc-container-3 {
-        background-color: $like-gray-1;
-      }
-    }
+  .lc-container-2 #site-header {
+    padding-right: 0;
+    padding-left: 0;
   }
 
-  .lc-page-content {
-    flex: 1;
-  }
+  .header-bg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
 
-  .lc-page-footer {
-    padding: 0;
+    pointer-events: none;
+
+    .lc-container-3 {
+      background-color: $like-gray-1;
+    }
   }
 }
 </style>

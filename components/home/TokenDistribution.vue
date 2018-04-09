@@ -1,38 +1,46 @@
 <template>
-  <section class="lc-container-1 lc-distribution" id="distribution">
-    <div class="lc-container-2">
-      <div class="block-section">
+  <section class="lc-container-0 lc-distribution" id="distribution">
+    <div class="lc-container-1">
 
-        <!-- Section title -->
-        <div class="lc-container-3">
-          <div class="lc-container-4">
-            <div class="section-title">
-              {{ $t('Home.TokenDistribution.title') }}
+      <!-- Section title -->
+      <div class="lc-container-header">
+        <div class="lc-container-2 lc-container-header-overlay">
+          <div class="lc-container-3 lc-bg-gray-1 lc-mobile-hide" />
+        </div>
+        <div class="lc-container-2">
+          <div class="lc-container-3">
+            <div class="lc-container-4">
+              <div class="lc-container-header-title">
+                <h1 class="lc-font-size-32 lc-mobile">
+                  {{ $t('Home.TokenDistribution.title') }}
+                </h1>
+              </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Mobile version begin -->
-        <div class="lc-container-3 lc-tablet-pc-hide">
+      <!-- BEGIN - Section Content -->
+      <div class="lc-container-2">
+
+        <div class="lc-container-3 lc-bg-gray-1 lc-tablet-pc-hide">
           <div class="lc-container-4">
-            <div class="section-content">
+            <div class="lc-padding-top-24">
               {{ $t('Home.TokenDistribution.content') }}
             </div>
           </div>
         </div>
-        <!-- Mobile version end -->
 
-        <!-- Desktop version begin -->
-        <div class="lc-container-3 token-distribution-wrapper">
+        <div class="lc-container-3 lc-bg-gray-1 token-distribution-wrapper">
           <div class="lc-container-4">
-            <div class="section-content">
+            <div class="token-distribution lc-padding-vertical-32">
 
-              <div class="data">
+              <div class="content">
 
-                <div :class="`year-btn-container ${isYear0 ? 'left' : 'right'}`">
+                <div :class="['year-btn-container', isYear0 ? 'left' : 'right']">
 
                   <div
-                    :class="`year-btn${isYear0 ? ' active' : ''}`"
+                    :class="['year-btn', { active: isYear0 }]"
                     @mouseenter="clickYear0Button(true)"
                     @click="clickYear0Button(true)">
                     <h1>2018</h1>
@@ -41,7 +49,7 @@
                   </div>
 
                   <div
-                    :class="`year-btn${!isYear0 ? ' active' : ''}`"
+                    :class="['year-btn', { active: !isYear0 }]"
                     @mouseenter="clickYear0Button(false)"
                     @click="clickYear0Button(false)">
                     <h1>2028+</h1>
@@ -51,7 +59,7 @@
 
                 </div>
 
-                <div class="lc-mobile-hide">
+                <div class="lc-padding-top-24 lc-mobile-hide">
                   {{ $t('Home.TokenDistribution.content') }}
                 </div>
               </div>
@@ -63,25 +71,21 @@
             </div>
           </div>
         </div>
-        <!-- Desktop verison end -->
 
       </div>
+      <!-- END - Section Content -->
+
     </div>
   </section>
 </template>
 
+
 <script>
-import BlockSection from '~/components/BlockSection';
-
-
 const images = require.context('../../assets/home/token-distribution');
 const chartUrl = path => images(`./${path}`);
 
 export default {
   name: 'token-distribution',
-  components: {
-    BlockSection,
-  },
   data() {
     return {
       isYear0: true,
@@ -96,15 +100,13 @@ export default {
 };
 </script>
 
+
 <style lang="scss" scoped>
 @import "~assets/variables";
 
-.lc-distribution {
-  @media (min-width: 601px) {
-    margin-top: 52px;
-    padding-top: 36px;
-  }
+$year-switch-border-radius: 6px;
 
+.lc-distribution {
   .token-distribution-wrapper {
     position: relative;
 
@@ -112,118 +114,130 @@ export default {
       &::before {
         position: absolute;
         top: 35%;
-        left: 0;
         right: 0;
         bottom: 0;
-        background-color: white;
+        left: 0;
+
         content: " ";
+
+        background-color: white;
       }
     }
 
-    .section-content {
+    .token-distribution {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
 
-      @media (max-width: 768px) {
+      @media (max-width: 860px) {
         flex-direction: column;
-        padding-top: 0;
       }
 
-      .data {
+      .content {
         width: 100%;
-        @media (max-width: 768px) {
+
+        @media (max-width: 860px) {
           order: 1;
+
+          margin-top: 24px;
+
           text-align: center;
-        }
-        @media (max-width: 600px) {
-          margin-bottom: 32px;
         }
 
         .year-btn-container {
-          $year-switch-border-radius: 6px;
-
           position: relative;
+
           display: inline-flex;
           flex-direction: row;
-          background-color: #e6e6e6;
-          border-radius: $year-switch-border-radius;
-          margin-bottom: 24px;
 
-          max-width: 408px;
           width: 100%;
+          max-width: 408px;
+
+          border-radius: $year-switch-border-radius;
+          background-color: #e6e6e6;
 
           // Underlay
           &::before {
             position: absolute;
-
             top: 0;
-            left: 0;
             bottom: 0;
+            left: 0;
 
             width: 50%;
 
+            content: " ";
+            transition: left .4s ease-in-out;
+
+            border-radius: $year-switch-border-radius;
             background-image: linear-gradient(244deg, #d2f0f0, #f0e6b4);
             box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
-            border-radius: $year-switch-border-radius;
-
-            content: " ";
-
-            transition: left .4s ease-in-out;
           }
+
           &.right::before {
             left: 50%;
           }
 
+          @media (max-width: 860px) {
+            margin-bottom: 24px;
+          }
+
           .year-btn {
             position: relative;
+
             width: 50%;
             padding: 12px 0;
-            border-radius: 6px;
-            text-align: center;
+
             cursor: pointer;
             transition: all .3s ease-in-out;
+            text-align: center;
 
-            @media (max-width: 768px) {
+            border-radius: 6px;
+
+            @media (max-width: 860px) {
               padding: 10px 0 4px;
             }
 
             > * {
-              color: #9b9b9b;
               transition: all .2s ease-out;
+
+              color: #9b9b9b;
             }
 
             h1 {
-              @media (max-width: 768px) {
-                line-height: 30px;
+              @media (max-width: 860px) {
                 font-size: 22px;
                 font-weight: 500;
+                line-height: 30px;
               }
             }
 
             hr {
-              border: 1px solid #9b9b9b;
-              margin: 6px auto;
-              max-width: 56px;
               width: 100%;
+              max-width: 56px;
+              margin: 6px auto;
 
-              @media (max-width: 768px) {
+              border: 1px solid #9b9b9b;
+
+              @media (max-width: 860px) {
                 max-width: 32px;
               }
             }
 
             span {
               display: block;
+
               font-size: 12px;
               font-weight: 600;
               line-height: 1.2;
 
-              @media (max-width: 768px) {
-                margin-top: 8px;
+              @media (max-width: 860px) {
                 position: absolute;
                 top: 100%;
-                left: 0;
                 right: 0;
+                left: 0;
+
+                margin-top: 8px;
+
                 text-align: center;
               }
             }
@@ -239,33 +253,29 @@ export default {
               }
             }
           }
-
-          + div {
-            margin: 8px;
-          }
         }
       }
 
       .chart {
         position: relative;
-        margin: -10% 0 -10% 24px;
-        width: 100%;
-        max-width: 376px;
+
         display: block;
         flex-shrink: 0;
 
-        @media (max-width: 768px) {
+        width: 100%;
+        max-width: 376px;
+        margin: -7% 0 -7% 24px;
+
+        @media (max-width: 860px) {
           order: 0;
-          margin: 0 auto;
-          padding: 0 12px 24px;
+
           width: 100%;
-        }
-        @media (min-width: 601px) and (max-width: 768px) {
-          margin-top: 32px;
+          margin: 0 auto;
         }
 
         img {
           display: block;
+
           width: 100%;
         }
       }

@@ -1,82 +1,85 @@
 <template>
   <div>
-    <section class="lc-container-1">
-      <div class="lc-container-2">
-        <header-flag />
+    <section class="lc-container-0">
+      <div class="lc-container-1">
+        <div class="lc-container-2">
+          <header-flag />
+        </div>
       </div>
     </section>
 
-    <section class="lc-container-1 lc-header lc-mobile-hide">
-      <div class="underlay gray" />
-      <div class="lc-container-2">
-        <site-header :isShowAccountButton="true" />
+    <section class="lc-container-0 lc-header lc-mobile-hide">
+      <div class="lc-container-1">
+        <div class="underlay gray" />
+        <div class="lc-container-2">
+          <site-header :isShowAccountButton="true" />
+        </div>
       </div>
     </section>
 
     <carousel />
 
-    <div class="lc-container-0">
+    <section class="lc-container-0">
       <div class="lc-container-1">
         <div class="lc-container-2">
           <div class="lc-container-3">
-            <div class="social-links-container-mobile lc-tablet-pc-hide lc-margin-vertical-8">
+            <div class="social-links-container-mobile lc-tablet-pc-hide lc-padding-vertical-8">
               <platform-icon-bar />
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
     <cta-section />
 
-    <protocol />
+    <likecoin-stack class="lc-margin-top-32" />
 
-    <road-map />
+    <road-map class="lc-margin-top-48" />
 
-    <token-distribution />
+    <token-distribution class="lc-margin-top-48" />
 
-    <early-adopters />
+    <early-adopters class="lc-margin-top-48" />
 
-    <press-coverage />
+    <press-coverage class="lc-margin-top-48" />
 
-    <!-- <section class="lc-container-1 lc-backer">
-      <div class="lc-container-2">
-        <block-section
-          :title="$t('Home.Backers.title')">
-        </block-section/>
-      </div>
-    </section> -->
+    <advisors class="lc-margin-top-48" />
 
-    <advisors />
+    <early-supporters class="lc-margin-top-48" />
 
-    <early-supporters />
+    <team class="lc-margin-top-48" />
 
-    <section class="lc-container-1 lc-team" id="team">
-      <div class="lc-container-2">
-        <block-section
-          :title="$t('Home.Team.title')">
-          <team />
-        </block-section/>
+    <section class="lc-container-0">
+      <div class="lc-container-1">
+        <div class="lc-container-2">
+          <div class="lc-container-3">
+            <div class="social-links-container-mobile lc-tablet-pc-hide lc-padding-vertical-12">
+              <platform-icon-bar />
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <div class="platform-bar lc-tablet-pc-hide">
-      <platform-icon-bar />
-    </div>
-
     <cta-section class="bottom" />
 
-    <section class="lc-container-1 lc-community lc-mobile-hide">
-      <div class="lc-container-2">
-        <div class="lc-container-3">
-          <div class="platforms">
-            <span>{{ $t('Home.Community.title') }}</span>
-            <platform-icon-bar />
-          </div>
-          <div class="faq">
-            <custom-link
-              :title="$t('Home.Community.button.faq')"
-              href="http://intercom.help/likecoin" />
+    <section class="lc-container-0 lc-community lc-mobile-hide">
+      <div class="lc-container-1">
+        <div class="lc-container-2">
+          <div class="lc-container-3">
+
+            <div class="lc-community-content lc-padding-vertical-24">
+              <div class="platforms">
+                <span>{{ $t('Home.Community.title') }}</span>
+                <platform-icon-bar />
+              </div>
+              <div class="faq">
+                <custom-link
+                  :title="$t('Home.Community.button.faq')"
+                  href="http://intercom.help/likecoin" />
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -99,11 +102,11 @@
   </div>
 </template>
 
+
 <script>
 /* global fbq */
 import { mapGetters } from 'vuex';
 
-import BlockSection from '~/components/BlockSection';
 import CustomLink from '~/components/CustomLink';
 import MaterialButton from '~/components/MaterialButton';
 import SiteHeader from '~/components/header/HeaderWithMenuButton';
@@ -116,7 +119,7 @@ import HeaderFlag from '~/components/home/Flag';
 import EarlyAdopters from '~/components/home/EarlyAdopters';
 import EarlySupporters from '~/components/home/EarlySupporters';
 import PressCoverage from '~/components/home/PressCoverage';
-import Protocol from '~/components/home/Protocol';
+import LikecoinStack from '~/components/home/Stack';
 import RoadMap from '~/components/home/RoadMap';
 import Team from '~/components/home/Team';
 import TokenDistribution from '~/components/home/TokenDistribution';
@@ -129,7 +132,6 @@ export default {
   layout: 'defaultWithoutHeader',
   components: {
     Advisors,
-    BlockSection,
     Carousel,
     'cta-section': CTASection,
     CustomLink,
@@ -139,7 +141,7 @@ export default {
     MaterialButton,
     PlatformIconBar,
     PressCoverage,
-    Protocol,
+    LikecoinStack,
     RoadMap,
     SiteHeader,
     Team,
@@ -189,78 +191,10 @@ export default {
 
 $carousel-height: 488px;
 
-.lc-header {
-  position: relative;
-}
-
-.lc-description {
-  &:not(.last) {
-    margin-bottom: 24px;
-    padding-bottom: 24px;
-  }
-
-  .lc-container-3 {
-    display: flex;
-    flex-direction: row;
-  }
-
-  .sale-description-container {
-    position: relative;
-    flex: 2;
-
-    padding: 24px 8px;
-
-    h1 {
-      margin: 8px 0 32px;
-    }
-
-    h2 {
-      font-size: 42px;
-      font-weight: 600;
-    }
-
-    .links {
-      > a {
-        margin-right: 48px;
-
-        color: $like-green !important;
-        text-decoration: underline;
-        cursor: pointer;
-        font-size: 20px;
-
-        &:hover {
-          opacity: 0.7;
-        }
-      }
-    }
-  }
-
-  .btn-container {
-    display: flex;
-    align-items: center;
-    flex: 1;
-
-    .redeem-btn {
-    	background-image: linear-gradient(73deg, #3c286e, #6e2828);
-
-    	&.festive {
-        background-image: linear-gradient(73deg, #812d4c, #f75353);
-      }
-    }
-  }
-}
-
-.lc-team {
-  min-height: 700px;
-}
-
 .lc-community {
-  margin-top: 24px;
-  padding-bottom: 64px;
-
   font-size: 20px;
 
-  .lc-container-3 {
+  .lc-community-content {
     display: flex;
     flex-direction: row;
 
@@ -287,53 +221,7 @@ $carousel-height: 488px;
 
 .cta-section.bottom {
   @media (min-width: 600px) {
-    margin-top: 58px;
-  }
-}
-
-.md-button {
-  width: 100%;
-  height: auto;
-
-  border-radius: 0;
-
-  color: $like-white;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
-
-  font-size: 24px;
-  line-height: 32px;
-
-  :global(.md-ripple) {
-    padding: 8px;
-
-    :global(.md-button-content) > a {
-      color: $like-white;
-      text-decoration: none;
-    }
-  }
-}
-
-@media (min-width: 601px) {
-  .lc-partner {
-    margin-top: 94px;
-  }
-
-  .lc-backer,
-  .lc-advisor,
-  .lc-team {
-    margin-top: 12px;
-    padding-top: 36px;
-  }
-}
-
-@media (max-width: 600px) {
-  body {
-    .platform-bar {
-      margin: 12px;
-      > .icon-bar {
-        justify-content: center;
-      }
-    }
+    margin-top: 64px;
   }
 }
 

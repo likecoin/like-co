@@ -552,18 +552,6 @@ $profile-icon-size: 128px;
 $profile-icon-mobile-size: 88px;
 
 .edit-form-container {
-  .lc-container-header-title {
-    margin: 0;
-
-    @media (min-width: #{768px + 1px}) {
-      width: calc(66.66% - 88px);
-    }
-
-    @media (max-width: 768px) {
-      width: 100%;
-    }
-  }
-
   #editForm {
     position: relative;
 

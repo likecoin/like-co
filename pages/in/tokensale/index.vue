@@ -592,8 +592,6 @@ export default {
 @import "~assets/input";
 
 .tokensale-page {
-  margin-bottom: 18px;
-
   ul {
     padding: 0;
 
@@ -604,12 +602,6 @@ export default {
     display: inline-block;
 
     margin: 0 10px;
-  }
-
-  .lc-container-header-title {
-    @media (max-width: 600px) {
-      margin: 0 32px;
-    }
   }
 
   .create-account-wrapper {

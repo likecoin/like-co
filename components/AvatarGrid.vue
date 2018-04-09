@@ -9,6 +9,7 @@
           :title="item.title"
           :subtitle="item.subtitle"
           :description="item.description"
+          :platforms="item.platforms"
         />
       </li>
 

@@ -26,7 +26,6 @@
 </template>
 
 <script>
-import BlockSection from '~/components/BlockSection';
 import CreatorButton from '~/components/CreatorButton';
 
 
@@ -50,7 +49,6 @@ const slides = [
 export default {
   name: 'carousel',
   components: {
-    BlockSection,
     CreatorButton,
   },
   data() {

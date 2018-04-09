@@ -268,9 +268,9 @@
         "likeCoinForAppreciate": "Send LikeCoin Red Pocket"
       }
     },
-    "Protocol": {
+    "Stack": {
       "title": "LikeCoin Stack",
-      "content": "--paragraph in LikeCoin Protocol---",
+      "content": "--paragraph in LikeCoin Stack---",
       "layer": {
         "provider": {
           "title": "DApps",

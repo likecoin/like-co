@@ -16,6 +16,7 @@
   </div>
 </template>
 
+
 <script>
 import MyFooter from '~/components/footer/Footer';
 import SlidingMenu from '~/components/SlidingMenu/index';
@@ -27,23 +28,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-@import "~assets/variables";
-
-.lc-page-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  min-height: 100%;
-
-  .lc-page-content {
-    flex: 1;
-  }
-
-  .lc-page-footer {
-    padding: 0;
-  }
-}
-</style>

@@ -67,22 +67,6 @@ export default {
 @import "~assets/variables";
 @import "~assets/default";
 
-.lc-page-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  min-height: 100%;
-
-  .lc-page-footer {
-    padding: 0;
-  }
-
-  .lc-page-content {
-    flex: 1;
-  }
-}
-
 .lc-container-2 #site-header {
   padding-right: 0;
   padding-left: 0;
