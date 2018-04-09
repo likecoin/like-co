@@ -1,55 +1,82 @@
 <template>
-  <section class="lc-container-1 lc-road-map" id="roadmap">
-    <div class="lc-container-2">
-      <div class="block-section road-map-container">
+  <section class="lc-container-0 lc-road-map" id="roadmap">
+    <div class="lc-container-1">
 
-        <!-- Section title -->
-        <div class="lc-container-3">
-          <div class="lc-container-4">
-            <div class="section-title">
-              {{ $t('Home.RoadMap.title') }}
+      <!-- Section Title -->
+      <div class="lc-container-header">
+        <div class="lc-container-2 lc-container-header-overlay">
+          <div class="lc-container-3 lc-bg-gray-1 lc-mobile-hide" />
+        </div>
+        <div class="lc-container-2">
+          <div class="lc-container-3">
+            <div class="lc-container-4">
+              <div class="lc-container-header-title">
+                <h1 class="lc-font-size-32 lc-mobile">
+                  {{ $t('Home.RoadMap.title') }}
+                </h1>
+              </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="lc-container-3 timeline-section">
-          <div class="lc-container-4">
-            <div class="section-content">
+      <!-- BEGIN - Section Content -->
+      <div class="lc-container-2 timeline-section">
 
-              <div class="timeline">
-                <div
-                  :class="`milestone${milestonesStatus.length === index + 1 ? ' last' : ''}`"
-                  v-for="(milestoneStatus, index) in milestonesStatus">
-                  <div class="date">{{ $t(`Home.RoadMap.timeline[${index}].time`) }}</div>
-                  <div class="line">
-                    <div :class="`dot${milestoneStatus ? ' active' : ''}`" />
-                  </div>
-                  <div class="event">{{ $t(`Home.RoadMap.timeline[${index}].title`) }}</div>
-                </div>
-                <div class="progress" />
+        <!-- <div class="lc-container-3 lc-bg-gray-1 lc-mobile-show">
+          <div class="lc-container-4 lc-padding-vertical-32">
+            <div class="content">
+              {{ $t('Home.RoadMap.content') }}
+            </div>
+          </div>
+        </div> -->
+
+        <div class="lc-container-3 lc-bg-gray-1-tablet-pc">
+          <div class="lc-container-4 lc-padding-vertical-32">
+
+            <div class="road-map-container">
+
+              <!-- BEGIN - Timeline -->
+              <div class="timeline lc-margin-bottom-12">
+                <ul>
+                  <li
+                  v-for="(isReached, index) in milestones"
+                  :class="['milestone', { last: index === milestones.length - 1}]">
+
+                    <div class="date">{{ $t(`Home.RoadMap.timeline[${index}].time`) }}</div>
+
+                    <div v-if="index === 0" class="progress" />
+
+                    <div class="line">
+                      <div :class="['dot', { isReached: 'active' }]" />
+                    </div>
+
+                    <div class="event">{{ $t(`Home.RoadMap.timeline[${index}].title`) }}</div>
+
+                  </li>
+
+                </ul>
               </div>
+              <!-- END - Timeline -->
 
-              <div class="links-wrapper">
+              <!-- <div class="content lc-margin-top-24 lc-mobile-hide">
+                {{ $t('Home.RoadMap.content') }}
+              </div> -->
+
+              <div class="links-wrapper lc-margin-top-12">
                 <nuxt-link :to="{ name: 'in-tokensale' }">
                   {{ $t('Home.Sale.button.joinTokenSale') }}
                 </nuxt-link>
               </div>
 
             </div>
+
           </div>
         </div>
 
-        <!-- <div class="lc-container-3 content-section">
-          <div class="lc-container-4">
-            <div class="section-content">
-              <div class="content">
-                {{ $t('Home.RoadMap.content') }}
-              </div>
-            </div>
-          </div>
-        </div> -->
-
       </div>
+      <!-- END - ection Content -->
+
     </div>
   </section>
 </template>
@@ -58,7 +85,7 @@
 import BlockSection from '~/components/BlockSection';
 
 
-const milestonesStatus = [true, true, true, false, false, false, false];
+const milestones = [true, true, true, false, false, false, false];
 
 export default {
   name: 'road-map',
@@ -67,7 +94,7 @@ export default {
   },
   data() {
     return {
-      milestonesStatus,
+      milestones,
     };
   },
 };
@@ -81,42 +108,24 @@ $timeline-width: 16px;
 $progress-bar-percentage: 38%;
 
 .lc-road-map {
-  margin-top: 52px;
-  padding-top: 36px;
-
-  @media (max-width: 600px) {
-    margin-top: 12px;
-  }
-
   .road-map-container {
     display: flex;
     flex-direction: column;
-
-    .section-title {
-      z-index: 1;
-    }
   }
 
-  .timeline-section {
-    @media (max-width: 600px) {
-      background-color: white;
-    }
-
-    .section-content {
-      @media (min-width: 769px) {
-        padding-bottom: 0;
-      }
-    }
-  }
   .timeline {
-    position: relative;
+    > ul {
+      position: relative;
 
-    display: flex;
-    flex-direction: row;
+      display: flex;
 
-    margin-bottom: 12px;
+      margin: 0;
+      padding: 0;
 
-    @media (min-width: 769px) {
+      list-style: none;
+    }
+
+    @media (min-width: 860px + 1px) {
       margin-right: #{-54px - $timeline-radius / 2};
     }
     @media (max-width: 600px) {
@@ -124,9 +133,11 @@ $progress-bar-percentage: 38%;
     }
 
     .milestone {
-      color: $like-dark-brown-1;
-      min-width: 96px;
       flex: 1;
+
+      min-width: 96px;
+
+      color: $like-dark-brown-1;
 
       font-size: 12px;
 
@@ -142,17 +153,17 @@ $progress-bar-percentage: 38%;
 
         .dot {
           position: relative;
+          z-index: 1;
 
           width: 10px;
           height: 10px;
+
           border-radius: 50%;
           background-color: $like-gray-4;
 
           &.active {
             background-color: $like-green;
           }
-
-          z-index: 1;
         }
       }
 
@@ -161,25 +172,30 @@ $progress-bar-percentage: 38%;
           border-radius: $timeline-radius 0 0 $timeline-radius;
         }
       }
+
       &.last {
-        .event {
-          @media (min-width: 769px) {
-            margin-right: 40px;
-          }
+        @media (min-width: 860px + 1px) {
+          padding-right: 60px;
         }
+
         .line {
           border-radius: 0 $timeline-radius $timeline-radius 0;
+
+          @media (min-width: 860px + 1px) {
+            width: calc(100% + 60px);
+          }
         }
       }
     }
 
     .progress {
       position: absolute;
-      background-image: linear-gradient(to left, $like-light-blue, $like-gradient-1);;
+
       width: $progress-bar-percentage;
       height: $timeline-width;
+
       border-radius: $timeline-radius;
-      top: 24px;
+      background-image: linear-gradient(to left, $like-light-blue, $like-gradient-1);;
     }
   }
 
@@ -187,95 +203,81 @@ $progress-bar-percentage: 38%;
     display: flex;
     justify-content: center;
 
-    margin-top: 24px;
-    margin-bottom: 16px;
-
     > a {
       text-decoration: underline;
-
-      color: $like-green;
     }
   }
-}
 
-@media (min-width: 769px) {
-  .content-section .section-content {
-    display: flex;
-    justify-content: flex-end;
-    padding-top: 0;
-
-    .content {
-      width: 66.66%;
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  body .lc-road-map .road-map-container {
-    display: flex;
-    flex-direction: column;
-
-    .timeline-section {
-      order: 1;
-    }
-
-    .timeline {
+  @media (max-width: 860px) {
+    .road-map-container {
+      display: flex;
       flex-direction: column;
-      align-items: center;
 
-      .milestone {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-
-        min-height: 66px;
-
-        .date, .event {
-          width: 130px;
-          margin-top: -4px;
+      .timeline {
+        > ul {
+          align-items: center;
+          flex-direction: column;
         }
 
-        .event {
-          order: 0;
-          text-align: right;
-          padding-right: 12px;
+        .milestone {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+
+          min-height: 66px;
+
+          > div {
+            padding-bottom: 24px;
+          }
+
+          .date,
+          .event {
+            width: 130px;
+            margin-top: -4px;
+          }
+
+          .event {
+            order: 0;
+
+            padding-right: 12px;
+
+            text-align: right;
+          }
+
+          .date {
+            order: 2;
+
+            padding-left: 12px;
+          }
+
+          .line {
+            order: 1;
+
+            width: $timeline-width;
+            height: auto;
+          }
+
+          &:first-child {
+            .line {
+              border-radius: $timeline-radius $timeline-radius 0 0;
+            }
+          }
+          &.last {
+            .line {
+              border-radius: 0 0 $timeline-radius $timeline-radius;
+            }
+          }
         }
 
-        .date {
-          order: 2;
-          padding-left: 12px;
-        }
+        .progress {
+          top: 0;
 
-        .line {
           width: $timeline-width;
-          height: auto;
+          height: $progress-bar-percentage;
 
-          order: 1;
-        }
-
-        &:first-child {
-          .line {
-            border-radius: $timeline-radius $timeline-radius 0 0;
-          }
-        }
-        &.last {
-          .line {
-            border-radius: 0 0 $timeline-radius $timeline-radius;
-          }
+          background-image: linear-gradient(to top, #d2f0f0, #f0e6b4);
         }
       }
-
-      .progress {
-        top: 0;
-        width: $timeline-width;
-        height: $progress-bar-percentage;
-        background-image: linear-gradient(to top, #d2f0f0, #f0e6b4);
-      }
-    }
-
-    > .content {
-      order: 0;
-      margin-bottom: 32px;
     }
   }
 }

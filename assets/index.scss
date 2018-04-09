@@ -386,6 +386,12 @@ $font-weight-list: 300 400 600;
   }
   &gray-1 {
     background-color: $like-gray-1;
+
+    &-tablet-pc {
+      @media (min-width: 600px + 1px) {
+        background-color: $like-gray-1;
+      }
+    }
   }
 }
 

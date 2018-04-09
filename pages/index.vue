@@ -31,7 +31,7 @@
 
     <likecoin-stack class="lc-margin-top-32" />
 
-    <road-map />
+    <road-map class="lc-margin-top-48" />
 
     <token-distribution />
 
