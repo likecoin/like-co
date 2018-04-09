@@ -571,14 +571,6 @@ $profile-icon-mobile-size: 88px;
     width: 100%;
   }
 
-  .lc-container-header-title {
-    margin: 0;
-
-    @media (min-width: #{768px + 1px}) {
-      width: calc(66.66% - 88px);
-    }
-  }
-
   #editForm {
     position: relative;
 
