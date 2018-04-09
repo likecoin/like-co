@@ -39,14 +39,6 @@
 
     <press-coverage class="lc-margin-top-48" />
 
-    <!-- <section class="lc-container-1 lc-backer">
-      <div class="lc-container-2">
-        <block-section
-          :title="$t('Home.Backers.title')">
-        </block-section/>
-      </div>
-    </section> -->
-
     <advisors class="lc-margin-top-48" />
 
     <early-supporters class="lc-margin-top-48" />
