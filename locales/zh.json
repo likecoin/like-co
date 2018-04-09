@@ -86,9 +86,9 @@
         "likeCoinForAppreciate": "送出 LikeCoin 紅包"
       }
     },
-    "Protocol": {
+    "Stack": {
       "title": "技術：LikeCoin Stack",
-      "content": "--paragraph in LikeCoin Protocol---",
+      "content": "--paragraph in LikeCoin Stack---",
       "layer": {
         "provider": {
           "title": "DApps",

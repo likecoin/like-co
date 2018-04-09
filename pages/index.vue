@@ -29,7 +29,7 @@
 
     <cta-section />
 
-    <protocol />
+    <likecoin-stack class="lc-margin-top-32" />
 
     <road-map />
 
@@ -124,7 +124,7 @@ import HeaderFlag from '~/components/home/Flag';
 import EarlyAdopters from '~/components/home/EarlyAdopters';
 import EarlySupporters from '~/components/home/EarlySupporters';
 import PressCoverage from '~/components/home/PressCoverage';
-import Protocol from '~/components/home/Protocol';
+import LikecoinStack from '~/components/home/Stack';
 import RoadMap from '~/components/home/RoadMap';
 import Team from '~/components/home/Team';
 import TokenDistribution from '~/components/home/TokenDistribution';
@@ -147,7 +147,7 @@ export default {
     MaterialButton,
     PlatformIconBar,
     PressCoverage,
-    Protocol,
+    LikecoinStack,
     RoadMap,
     SiteHeader,
     Team,
