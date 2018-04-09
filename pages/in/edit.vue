@@ -311,7 +311,6 @@ export default {
       EditIcon,
       EditWhiteIcon,
       TickIcon,
-      canGetFreeLikeCoin: false,
       freeCoupon: '',
       referralPending: 0,
       referralVerified: 0,
