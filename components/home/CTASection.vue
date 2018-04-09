@@ -25,7 +25,7 @@
                 <div class="token-sale-timer-wrapper">
                   <countdown-timer
                     class="cta-section-token-sale-timer"
-                    :date="SALE_DATE_ANNOUNCE_DATE"
+                    :date="SALE_DATE"
                   />
                 </div>
               </div>
