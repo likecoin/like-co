@@ -37,7 +37,7 @@
 
     <early-adopters class="lc-margin-top-48" />
 
-    <press-coverage />
+    <press-coverage class="lc-margin-top-48" />
 
     <!-- <section class="lc-container-1 lc-backer">
       <div class="lc-container-2">
