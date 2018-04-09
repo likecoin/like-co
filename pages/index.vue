@@ -33,7 +33,7 @@
 
     <road-map class="lc-margin-top-48" />
 
-    <token-distribution />
+    <token-distribution class="lc-margin-top-48" />
 
     <early-adopters />
 
