@@ -75,7 +75,7 @@
         </div>
 
       </div>
-      <!-- END - ection Content -->
+      <!-- END - Section Content -->
 
     </div>
   </section>
