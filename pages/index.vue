@@ -51,14 +51,7 @@
 
     <early-supporters />
 
-    <section class="lc-container-1 lc-team" id="team">
-      <div class="lc-container-2">
-        <block-section
-          :title="$t('Home.Team.title')">
-          <team />
-        </block-section/>
-      </div>
-    </section>
+    <team />
 
     <section class="lc-container-0">
       <div class="lc-container-1">
@@ -256,10 +249,6 @@ $carousel-height: 488px;
       }
     }
   }
-}
-
-.lc-team {
-  min-height: 700px;
 }
 
 .lc-community {
