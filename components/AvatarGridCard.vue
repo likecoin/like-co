@@ -36,7 +36,7 @@ export default {
     title: String,
     subtitle: String,
     description: String,
-    platforms: Object,
+    platforms: Array,
   },
   methods: {
     imgUrl,
