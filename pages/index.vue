@@ -1,15 +1,19 @@
 <template>
   <div>
-    <section class="lc-container-1">
-      <div class="lc-container-2">
-        <header-flag />
+    <section class="lc-container-0">
+      <div class="lc-container-1">
+        <div class="lc-container-2">
+          <header-flag />
+        </div>
       </div>
     </section>
 
-    <section class="lc-container-1 lc-header lc-mobile-hide">
-      <div class="underlay gray" />
-      <div class="lc-container-2">
-        <site-header :isShowAccountButton="true" />
+    <section class="lc-container-0 lc-header lc-mobile-hide">
+      <div class="lc-container-1">
+        <div class="underlay gray" />
+        <div class="lc-container-2">
+          <site-header :isShowAccountButton="true" />
+        </div>
       </div>
     </section>
 
@@ -66,17 +70,23 @@
 
     <cta-section class="bottom" />
 
-    <section class="lc-container-1 lc-community lc-mobile-hide">
-      <div class="lc-container-2">
-        <div class="lc-container-3">
-          <div class="platforms">
-            <span>{{ $t('Home.Community.title') }}</span>
-            <platform-icon-bar />
-          </div>
-          <div class="faq">
-            <custom-link
-              :title="$t('Home.Community.button.faq')"
-              href="http://intercom.help/likecoin" />
+    <section class="lc-container-0 lc-community lc-mobile-hide">
+      <div class="lc-container-1">
+        <div class="lc-container-2">
+          <div class="lc-container-3">
+
+            <div class="lc-community-content lc-padding-vertical-24">
+              <div class="platforms">
+                <span>{{ $t('Home.Community.title') }}</span>
+                <platform-icon-bar />
+              </div>
+              <div class="faq">
+                <custom-link
+                  :title="$t('Home.Community.button.faq')"
+                  href="http://intercom.help/likecoin" />
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -189,78 +199,14 @@ export default {
 
 $carousel-height: 488px;
 
-.lc-header {
-  position: relative;
-}
-
-.lc-description {
-  &:not(.last) {
-    margin-bottom: 24px;
-    padding-bottom: 24px;
-  }
-
-  .lc-container-3 {
-    display: flex;
-    flex-direction: row;
-  }
-
-  .sale-description-container {
-    position: relative;
-    flex: 2;
-
-    padding: 24px 8px;
-
-    h1 {
-      margin: 8px 0 32px;
-    }
-
-    h2 {
-      font-size: 42px;
-      font-weight: 600;
-    }
-
-    .links {
-      > a {
-        margin-right: 48px;
-
-        color: $like-green !important;
-        text-decoration: underline;
-        cursor: pointer;
-        font-size: 20px;
-
-        &:hover {
-          opacity: 0.7;
-        }
-      }
-    }
-  }
-
-  .btn-container {
-    display: flex;
-    align-items: center;
-    flex: 1;
-
-    .redeem-btn {
-    	background-image: linear-gradient(73deg, #3c286e, #6e2828);
-
-    	&.festive {
-        background-image: linear-gradient(73deg, #812d4c, #f75353);
-      }
-    }
-  }
-}
-
 .lc-team {
   min-height: 700px;
 }
 
 .lc-community {
-  margin-top: 24px;
-  padding-bottom: 64px;
-
   font-size: 20px;
 
-  .lc-container-3 {
+  .lc-community-content {
     display: flex;
     flex-direction: row;
 
@@ -310,19 +256,6 @@ $carousel-height: 488px;
       color: $like-white;
       text-decoration: none;
     }
-  }
-}
-
-@media (min-width: 601px) {
-  .lc-partner {
-    margin-top: 94px;
-  }
-
-  .lc-backer,
-  .lc-advisor,
-  .lc-team {
-    margin-top: 12px;
-    padding-top: 36px;
   }
 }
 
