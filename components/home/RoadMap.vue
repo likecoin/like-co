@@ -81,17 +81,12 @@
   </section>
 </template>
 
+
 <script>
-import BlockSection from '~/components/BlockSection';
-
-
 const milestones = [true, true, true, false, false, false, false];
 
 export default {
   name: 'road-map',
-  components: {
-    BlockSection,
-  },
   data() {
     return {
       milestones,
@@ -99,6 +94,7 @@ export default {
   },
 };
 </script>
+
 
 <style lang="scss" scoped>
 @import "~assets/variables";

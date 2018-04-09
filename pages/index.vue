@@ -102,11 +102,11 @@
   </div>
 </template>
 
+
 <script>
 /* global fbq */
 import { mapGetters } from 'vuex';
 
-import BlockSection from '~/components/BlockSection';
 import CustomLink from '~/components/CustomLink';
 import MaterialButton from '~/components/MaterialButton';
 import SiteHeader from '~/components/header/HeaderWithMenuButton';
@@ -132,7 +132,6 @@ export default {
   layout: 'defaultWithoutHeader',
   components: {
     Advisors,
-    BlockSection,
     Carousel,
     'cta-section': CTASection,
     CustomLink,
@@ -191,10 +190,6 @@ export default {
 @import "~assets/variables";
 
 $carousel-height: 488px;
-
-.lc-team {
-  min-height: 700px;
-}
 
 .lc-community {
   font-size: 20px;

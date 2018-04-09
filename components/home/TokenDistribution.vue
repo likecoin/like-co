@@ -79,18 +79,13 @@
   </section>
 </template>
 
+
 <script>
-import BlockSection from '~/components/BlockSection';
-
-
 const images = require.context('../../assets/home/token-distribution');
 const chartUrl = path => images(`./${path}`);
 
 export default {
   name: 'token-distribution',
-  components: {
-    BlockSection,
-  },
   data() {
     return {
       isYear0: true,
@@ -104,6 +99,7 @@ export default {
   },
 };
 </script>
+
 
 <style lang="scss" scoped>
 @import "~assets/variables";
