@@ -49,7 +49,7 @@
 
     <advisors class="lc-margin-top-48" />
 
-    <early-supporters />
+    <early-supporters class="lc-margin-top-48" />
 
     <section class="lc-container-1 lc-team" id="team">
       <div class="lc-container-2">
