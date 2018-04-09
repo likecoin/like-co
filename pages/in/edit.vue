@@ -167,11 +167,32 @@
       </div>
     </div>
 
-<!--     <transaction-history
-      ref="txHistory"
-      :address="wallet"
-      :showTokensale="true"
-      /> -->
+    <div v-if="ENABLE_TX_HISTORY" class="transaction-history-container">
+      <section class="lc-container-1">
+        <div class="lc-container-header">
+          <div class="lc-container-2 lc-container-header-overlay">
+            <div class="lc-container-3" />
+          </div>
+          <div class="lc-container-3">
+            <div class="lc-container-4">
+              <div class="lc-container-header-title">
+                <h1>{{ $t('TransactionHistory.title') }}</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lc-container-3 lc-verticle-inset-5 transaction-history-wrapper">
+          <div class="lc-container-4">
+            <transaction-history
+              ref="txHistory"
+              :address="wallet"
+              :showTokensale="true"
+              />
+          </div>
+        </div>
+      </section>
+    </div>
 
     <div :class="['lc-margin-top-48', 'lc-mobile', { disabled: isProfileEdit }]" id="coupon">
       <section class="lc-container-1">
@@ -284,7 +305,7 @@ import MaterialButton from '~/components/MaterialButton';
 import ReferralAction from '~/components/ReferralAction';
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import InputDialog from '~/components/dialogs/InputDialog';
-// import TransactionHistory from '~/components/TransactionHistory';
+import TransactionHistory from '~/components/TransactionHistory';
 import ViewEtherscan from '~/components/ViewEtherscan';
 
 import { ONE_LIKE, W3C_EMAIL_REGEX } from '@/constant';
@@ -298,6 +319,7 @@ export default {
   data() {
     return {
       W3C_EMAIL_REGEX,
+      ENABLE_TX_HISTORY: false,
       avatarFile: null,
       avatarData: null,
       user: '',
@@ -323,7 +345,7 @@ export default {
     LikeCoinAmount,
     MaterialButton,
     ReferralAction,
-    // TransactionHistory,
+    TransactionHistory,
     ViewEtherscan,
   },
   computed: {
@@ -398,7 +420,7 @@ export default {
       this.updateLikeCoin();
       this.updateReferralStat();
       this.updateCanGetFreeLikeCoin(user);
-      // this.$refs.txHistory.updateTokenSaleHistory();
+      if (this.ENABLE_TX_HISTORY) this.$refs.txHistory.updateTokenSaleHistory();
     },
     async updateLikeCoin() {
       try {
@@ -577,6 +599,11 @@ $profile-icon-mobile-size: 88px;
     @media (min-width: #{768px + 1px}) {
       width: calc(66.66% - 88px);
     }
+  }
+
+  .lc-container-header-title {
+    margin: 0;
+    width: calc(66.66% - 88px);
   }
 
   #editForm {
@@ -831,8 +858,19 @@ $profile-icon-mobile-size: 88px;
   input:disabled {
     opacity: 1;
   }
+
+  .transaction-history-container {
+    margin-top: 56px;
+    .transaction-history-wrapper,
+    .lc-container-header-overlay {
+      background-color: $like-gray-1;
+    }
+  }
 }
 
+.section-redeem-edit-mode {
+  opacity: .3;
+}
 
 #coupon {
   #redeemForm {
