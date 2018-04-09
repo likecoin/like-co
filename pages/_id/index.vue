@@ -340,10 +340,6 @@ export default {
 <style lang="scss" scoped>
 @import "~assets/variables";
 
-.payment-page {
-  margin-bottom: 18px;
-}
-
 .lc-container-3-extend-bg {
   .ether & {
     background-image: linear-gradient(261deg, #a8a8a8, #6886a1);

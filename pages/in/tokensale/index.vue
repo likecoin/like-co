@@ -592,8 +592,6 @@ export default {
 @import "~assets/input";
 
 .tokensale-page {
-  margin-bottom: 18px;
-
   ul {
     padding: 0;
 
