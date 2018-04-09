@@ -7,12 +7,28 @@
       <h2>{{ subtitle }}</h2>
       <p class="description" v-html="description" />
 
+      <div class="platforms" v-if="platforms">
+        <md-button
+          class="md-icon-button"
+          target="_blank"
+          rel="noopener noreferrer"
+          v-for="({ key, value }, index) in platforms"
+          :href="value"
+          :key="key"
+        >
+          <img :alt="key" v-lazy="imgUrl(`icons/${key}-dark.svg`)" />
+        </md-button>
+      </div>
     </div>
   </div>
 </template>
 
 
 <script>
+const images = require.context('../assets/');
+const imgUrl = path => images(`./${path}`);
+
+
 export default {
   name: 'avatar-grid-card',
   props: {
@@ -20,6 +36,10 @@ export default {
     title: String,
     subtitle: String,
     description: String,
+    platforms: Object,
+  },
+  methods: {
+    imgUrl,
   },
 };
 </script>
@@ -52,7 +72,6 @@ export default {
       margin: auto;
 
       border-radius: 50%;
-      background-color: #EEE;
 
       & + * {
         margin-top: 16px;
@@ -93,6 +112,13 @@ export default {
       text-decoration: underline;
 
       color: $like-green;
+    }
+
+    .platforms {
+      text-align: center;
+      .md-button:hover {
+        opacity: .7;
+      }
     }
   }
 }

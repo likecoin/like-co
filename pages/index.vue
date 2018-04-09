@@ -47,14 +47,7 @@
 
     <early-supporters class="lc-margin-top-48" />
 
-    <section class="lc-container-1 lc-team" id="team">
-      <div class="lc-container-2">
-        <block-section
-          :title="$t('Home.Team.title')">
-          <team />
-        </block-section/>
-      </div>
-    </section>
+    <team class="lc-margin-top-48" />
 
     <section class="lc-container-0">
       <div class="lc-container-1">
