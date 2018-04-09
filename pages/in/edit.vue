@@ -167,11 +167,38 @@
       </div>
     </div>
 
-<!--     <transaction-history
-      ref="txHistory"
-      :address="wallet"
-      :showTokensale="true"
-      /> -->
+    <div v-if="ENABLE_TX_HISTORY" class="lc-margin-top-48 lc-mobile">
+      <section class="lc-container-1">
+        <div class="lc-container-header">
+          <div class="lc-container-2 lc-container-header-overlay">
+            <div class="lc-container-3 lc-bg-gray-1" />
+          </div>
+          <div class="lc-container-2">
+            <div class="lc-container-3">
+              <div class="lc-container-4">
+                <div class="lc-container-header-title">
+                  <h1 class="lc-font-size-32 lc-mobile">
+                    {{ $t('TransactionHistory.title') }}
+                  </h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lc-container-2">
+          <div class="lc-container-3 lc-padding-vertical-32 lc-bg-gray-1">
+            <div class="lc-container-4">
+              <transaction-history
+                ref="txHistory"
+                :address="wallet"
+                :showTokensale="true"
+                />
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
 
     <div :class="['lc-margin-top-48', 'lc-mobile', { disabled: isProfileEdit }]" id="coupon">
       <section class="lc-container-1">
@@ -284,7 +311,7 @@ import MaterialButton from '~/components/MaterialButton';
 import ReferralAction from '~/components/ReferralAction';
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import InputDialog from '~/components/dialogs/InputDialog';
-// import TransactionHistory from '~/components/TransactionHistory';
+import TransactionHistory from '~/components/TransactionHistory';
 import ViewEtherscan from '~/components/ViewEtherscan';
 
 import { ONE_LIKE, W3C_EMAIL_REGEX } from '@/constant';
@@ -298,6 +325,7 @@ export default {
   data() {
     return {
       W3C_EMAIL_REGEX,
+      ENABLE_TX_HISTORY: false,
       avatarFile: null,
       avatarData: null,
       user: '',
@@ -323,7 +351,7 @@ export default {
     LikeCoinAmount,
     MaterialButton,
     ReferralAction,
-    // TransactionHistory,
+    TransactionHistory,
     ViewEtherscan,
   },
   computed: {
@@ -398,7 +426,7 @@ export default {
       this.updateLikeCoin();
       this.updateReferralStat();
       this.updateCanGetFreeLikeCoin(user);
-      // this.$refs.txHistory.updateTokenSaleHistory();
+      if (this.ENABLE_TX_HISTORY) this.$refs.txHistory.updateTokenSaleHistory();
     },
     async updateLikeCoin() {
       try {
@@ -558,19 +586,7 @@ $profile-margin: 48px;
 $profile-icon-size: 128px;
 $profile-icon-mobile-size: 88px;
 
-.verified {
-  color: $like-green-2;
-
-  .md-icon {
-    color: $like-green-2;
-  }
-}
-
 .edit-form-container {
-  > .lc-container-1 {
-    width: 100%;
-  }
-
   #editForm {
     position: relative;
 
@@ -746,6 +762,10 @@ $profile-icon-mobile-size: 88px;
           margin-top: -20px;
         }
 
+        .md-disabled {
+          padding-top: 0;
+        }
+
         .md-has-value .input-display-hint {
           opacity: 0;
         }
@@ -757,6 +777,14 @@ $profile-icon-mobile-size: 88px;
         &.likecoin-id {
           @media (min-width: 769px) {
             display: none;
+          }
+        }
+
+        .verified {
+          color: $like-green-2;
+
+          .md-icon {
+            color: $like-green-2;
           }
         }
       }
@@ -825,6 +853,9 @@ $profile-icon-mobile-size: 88px;
   }
 }
 
+.section-redeem-edit-mode {
+  opacity: .3;
+}
 
 #coupon {
   #redeemForm {
