@@ -57,6 +57,8 @@ export const apiPostAdvancedKYC = (form) => {
   return axios.post('/api/kyc/advanced', params);
 };
 
+export const apiGetAdvancedKYC = id => axios.get(`/api/kyc/advanced/${id}`);
+
 export const apiSendCouponCodeEmail = (id, coupon, locale) => axios.post(`/api/email/verify/user/${id}`, { coupon, locale });
 
 export const apiSendInvitationEmail = (user, email) => axios.post(

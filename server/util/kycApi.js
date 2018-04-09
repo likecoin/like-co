@@ -44,6 +44,11 @@ export async function callKYCAPI(payload) {
     passportFile,
     email,
   } = payload;
+  const status = await getKYCAPIStatus(id);
+  if (status && status !== 'NOT_FOUND') {
+    return status;
+  };
+
   const rfrID = user;
   const createPayload = {
     domain_name: KYC_DOMAIN,

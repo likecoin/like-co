@@ -240,10 +240,10 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
       currentBlock,
       nonce: pendingCount,
     });
-    const updatePayload = {};
-    if (KYC && KYC >= KYC_STATUS_ENUM.STANDARD) {
-      updatePayload.pendingKYC = true;
-    } else {
+    const updatePayload = {
+      pendingKYC: true,
+    };
+    if (!KYC || KYC < KYC_STATUS_ENUM.STANDARD) {
       updatePayload.KYC = KYC_STATUS_ENUM.PENDING;
     }
     const updateUser = userRef.update(updatePayload);

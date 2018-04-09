@@ -404,6 +404,8 @@ export default {
   methods: {
     ...mapActions([
       'sendPayment',
+      'fetchAdvancedKYC',
+      'refreshUser',
       'sendEthPayment',
       'queryEthPrice',
       'setErrorMsg',
@@ -502,6 +504,10 @@ export default {
     async checkStatus() {
       if (this.getUserIsRegistered) {
         this.isKYCTxPass = await EthHelper.queryKYCStatus(this.getLocalWallet);
+        if (this.getUserInfo.pendingKYC) {
+          const { status } = this.fetchAdvancedKYC(this.getUserInfo.user);
+          if (status !== 'PENDING') this.refreshUser();
+        }
       } else {
         this.isKYCTxPass = null;
       }
