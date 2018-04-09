@@ -343,8 +343,10 @@ test('KYC: Advanced KYC, User wallet not match case', async (t) => {
     notPRC: true,
     notUSA: true,
     isUSAAccredited: false,
-    passportName: 'William',
+    firstName: 'William',
+    lastName: 'Chong',
     country: 'Hong Kong',
+    nationality: 'Hong Kong',
     document0SHA256: 'B82689328893425978193B5CEA4C7E31D582E10906765D7C8D213230EE176AE5',
     document1SHA256: 'FD9507718F404ED8551CD30608B71AD1EC8CA3BCA904CADB192B4081F918E9E3',
   }));

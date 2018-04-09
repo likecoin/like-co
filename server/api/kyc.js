@@ -41,6 +41,7 @@ const LikeCoinICO = new web3.eth.Contract(
 
 const SUPPORTED_DOCUMENT_TYPE = new Set([
   'jpg',
+  'jpeg',
   'png',
 ]);
 
@@ -232,6 +233,7 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
       notUSA,
       isUSAAccredited,
       country,
+      nationality,
       firstName,
       lastName,
       txHash,
@@ -272,6 +274,7 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
       firstName,
       lastName,
       country,
+      nationality,
       document0SHA256,
       document1SHA256,
       txHash,
@@ -285,8 +288,8 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
       user,
       firstName,
       lastName,
-      nationality,
       country,
+      nationality,
       selfieFile: files[0],
       passportFile: files[1],
       email,

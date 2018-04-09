@@ -150,7 +150,7 @@
         </span>
 
         <div class="image-upload-field">
-          <label>{{ $t('KYC.label.selfie') }}</label>
+          <label>{{ $t('KYC.label.recentSelfie') }}</label>
           <div class="image-upload-wrapper">
             <div v-if="!!selfieFileName" class="image-name-text">
               {{ selfieFileName }}
@@ -163,7 +163,7 @@
           <input
             type="file"
             ref="selfieImageInput"
-            accept="image/*"
+            accept="image/png, image/jpeg"
             @change="handleselfieImageChange"
             required />
         </div>
@@ -182,7 +182,7 @@
           <input
             type="file"
             ref="passportImageInput"
-            accept="image/*"
+            accept="image/png, image/jpeg"
             @change="handlePassportImageChange"
             required />
         </div>
@@ -310,6 +310,7 @@ export default {
       firstName: '',
       lastName: '',
       country: '',
+      nationality: '',
       // documentData0: null,
       // documentData1: null,
       passportIdPageFileName: null,
@@ -501,11 +502,11 @@ export default {
       if (isAdv) {
         userInfo.firstName = firstName;
         userInfo.lastName = lastName;
-        if (!COUNTRY_LIST.inclueds(country)) {
+        if (!COUNTRY_LIST.includes(country)) {
           this.isCountryInvalid = true;
           return;
         }
-        if (!NATIONALITY_LIST.inclueds(nationality)) {
+        if (!NATIONALITY_LIST.includes(nationality)) {
           this.isNationalityInvalid = true;
           return;
         }

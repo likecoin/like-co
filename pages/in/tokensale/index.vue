@@ -506,7 +506,7 @@ export default {
         this.isKYCTxPass = await EthHelper.queryKYCStatus(this.getLocalWallet);
         if (this.getUserInfo.pendingKYC) {
           const { status } = this.fetchAdvancedKYC(this.getUserInfo.user);
-          if (status !== 'PENDING') this.refreshUser();
+          if (status === 'CLEARED' || status === 'ACCEPTED') this.refreshUser();
         }
       } else {
         this.isKYCTxPass = null;

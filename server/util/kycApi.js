@@ -44,10 +44,10 @@ export async function callKYCAPI(payload) {
     passportFile,
     email,
   } = payload;
-  const status = await getKYCAPIStatus(id);
+  const status = await getKYCAPIStatus(user);
   if (status && status !== 'NOT_FOUND') {
     return status;
-  };
+  }
 
   const rfrID = user;
   const createPayload = {
@@ -65,7 +65,7 @@ export async function callKYCAPI(payload) {
     product_service_complexity: 'COMPLEX',
   };
   const { data: createData } = await axios.post(KYC_CREATE_PATH, createPayload);
-  console.log(`Advanced KYC ${user}: ${createData}`);
+  console.log(`Advanced KYC ${user}: ${JSON.stringify(createData)}`);
 
   const selfieForm = new FormData();
   selfieForm.append('document_type', 'SELFIE');
@@ -80,20 +80,20 @@ export async function callKYCAPI(payload) {
     axios.post(KYC_UPLOAD_PATH, selfieForm, formDataConfig(selfieForm)),
     axios.post(KYC_UPLOAD_PATH, passportForm, formDataConfig(passportForm)),
   ]);
-  console.log(`Advanced KYC ${user}: ${selfieData}`);
-  console.log(`Advanced KYC ${user}: ${passportData}`);
+  console.log(`Advanced KYC ${user}: ${JSON.stringify(selfieData)}`);
+  console.log(`Advanced KYC ${user}: ${JSON.stringify(passportData)}`);
 
   const faceForm = new FormData();
   faceForm.append('cust_rfr_id', rfrID);
   faceForm.append('source_doc_id', passportData.id);
   faceForm.append('target_doc_id', selfieData.id);
   const { data: faceData } = await axios.post(KYC_CHECK_PATH, faceForm, formDataConfig(faceForm));
-  console.log(`Advanced KYC ${user}: ${faceData}`);
+  console.log(`Advanced KYC ${user}: ${JSON.stringify(faceData)}`);
 
   const { data: reportData } = await axios.post(KYC_REPORT_PATH, {
     cust_rfr_id: rfrID,
   });
-  console.log(`Advanced KYC ${user}: ${reportData}`);
+  console.log(`Advanced KYC ${user}: ${JSON.stringify(reportData)}`);
 
   return getKYCAPIStatus(user);
 }
