@@ -47,8 +47,10 @@ const User = {
       notUSA,
       isUSAAccredited,
       isBelowThersold,
-      passportName,
+      firstName,
+      lastName,
       country,
+      nationality,
       documentFile0,
       documentFile1,
     } = userInfo;
@@ -70,8 +72,10 @@ const User = {
       notUSA,
       isUSAAccredited,
       isBelowThersold,
-      passportName,
+      firstName,
+      lastName,
       country,
+      nationality,
       document0SHA256,
       document1SHA256,
     }, null, 2);

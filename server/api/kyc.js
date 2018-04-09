@@ -6,12 +6,17 @@ import {
   personalEcRecover,
   sendTransactionWithLoop,
 } from '../util/web3';
+
+import {
+  callKYCAPI,
+  getKYCAPIStatus,
+} from '../util/kycApi';
+
 import {
   KYC_STATUS_ENUM,
   IS_TESTNET,
   PUBSUB_TOPIC_MISC,
 } from '../../constant';
-import { uploadFileAndGetMeta } from '../util/fileupload';
 import { logRegisterKYC } from '../util/logger';
 import publisher from '../util/gcloudPub';
 
@@ -42,17 +47,15 @@ const SUPPORTED_DOCUMENT_TYPE = new Set([
 const multer = Multer({
   storage: Multer.memoryStorage(),
   limits: {
-    fileSize: 5 * 1024 * 1024, // no larger than 5mb, you can change as needed.
+    fileSize: 2 * 1024 * 1024, // no larger than 5mb, you can change as needed.
   },
 });
 
-async function handleDocumentUpload(user, file, documentSHA256s, index) {
+function handleDocumentUpload(user, file, documentSHA256) {
   const type = imageType(file.buffer);
   if (!SUPPORTED_DOCUMENT_TYPE.has(type && type.ext)) throw new Error('unsupported file format!');
   const hash256 = sha256(file.buffer);
-  if (hash256 !== documentSHA256s[index]) throw new Error('document sha not match');
-  const [meta] = await uploadFileAndGetMeta(file, `ico/likecoin_store_user_${user}_${index}_${IS_TESTNET ? 'test' : 'main'}`);
-  return meta;
+  if (hash256 !== documentSHA256) throw new Error('document sha not match');
 }
 
 router.post('/kyc', async (req, res) => {
@@ -179,7 +182,9 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
       notPRC,
       notUSA,
       isUSAAccredited,
-      passportName,
+      firstName,
+      lastName,
+      nationality,
       country,
       document0SHA256,
       document1SHA256,
@@ -189,10 +194,14 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
     if (Math.abs(ts - Date.now()) > ONE_DATE_IN_MS) {
       throw new Error('payload expired');
     }
-    if (!notPRC || (!notUSA && !isUSAAccredited) || !passportName || !country) throw new Error('Invalid KYC');
+    if (!notPRC || (!notUSA && !isUSAAccredited) || !firstName || !lastName || !country) throw new Error('Invalid KYC');
     if (!document0SHA256 || !document1SHA256) throw new Error('Invalid checksum');
 
-    const documentSHA256s = [document0SHA256, document1SHA256];
+    const { files } = req;
+    if (!files || files.length !== 2) throw new Error('Invalid document');
+
+    handleDocumentUpload(user, files[0], document0SHA256);
+    handleDocumentUpload(user, files[1], document1SHA256);
 
     const userRef = dbRef.doc(user);
     const userDoc = await userRef.get();
@@ -202,12 +211,6 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
     if (wallet !== from) throw new Error('User wallet not match');
 
     if (userDoc.data().pendingKYC || userDoc.data().KYC >= KYC_STATUS_ENUM.ADVANCED) throw new Error('KYC already in progress');
-
-    const { files } = req;
-    if (!files || files.length !== 2) throw new Error('Invalid document');
-
-    const document0 = await handleDocumentUpload(user, files[0], documentSHA256s, 0);
-    const document1 = await handleDocumentUpload(user, files[1], documentSHA256s, 1);
 
     const methodCall = LikeCoinICO.methods.registerKYC([wallet]);
     const txData = methodCall.encodeABI();
@@ -229,9 +232,8 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
       notUSA,
       isUSAAccredited,
       country,
-      passportName,
-      document0,
-      document1,
+      firstName,
+      lastName,
       txHash,
       clientTs: ts,
       ts: Date.now(),
@@ -267,7 +269,8 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
       notPRC,
       notUSA,
       isUSAAccredited,
-      passportName,
+      firstName,
+      lastName,
       country,
       document0SHA256,
       document1SHA256,
@@ -278,12 +281,42 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
     });
 
     res.json({ txHash });
+    const status = await callKYCAPI({
+      user,
+      firstName,
+      lastName,
+      nationality,
+      country,
+      selfieFile: files[0],
+      passportFile: files[1],
+      email,
+    });
+    if (status === 'CLEARED' || status === 'ACCEPTED') {
+      await userRef.update({
+        KYC: KYC_STATUS_ENUM.ADVANCED,
+        pendingKYC: false,
+      });
+    }
   } catch (err) {
     console.error(err);
     const msg = err.message || err;
     console.error(msg);
     res.status(400).send(msg);
   }
+});
+
+router.get('/kyc/advanced/:id', async (req, res) => {
+  const { id } = req.params;
+  const status = await getKYCAPIStatus(id);
+  if (status === 'CLEARED' || status === 'ACCEPTED') {
+    await dbRef
+      .doc(id)
+      .update({
+        KYC: KYC_STATUS_ENUM.ADVANCED,
+        pendingKYC: false,
+      });
+  }
+  res.json({ status });
 });
 
 export default router;
