@@ -15,17 +15,17 @@
 
     <carousel />
 
-    <div class="lc-container-0">
+    <section class="lc-container-0">
       <div class="lc-container-1">
         <div class="lc-container-2">
           <div class="lc-container-3">
-            <div class="social-links-container-mobile lc-tablet-pc-hide lc-margin-vertical-8">
+            <div class="social-links-container-mobile lc-tablet-pc-hide lc-padding-vertical-8">
               <platform-icon-bar />
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
     <cta-section />
 
@@ -60,9 +60,17 @@
       </div>
     </section>
 
-    <div class="platform-bar lc-tablet-pc-hide">
-      <platform-icon-bar />
-    </div>
+    <section class="lc-container-0">
+      <div class="lc-container-1">
+        <div class="lc-container-2">
+          <div class="lc-container-3">
+            <div class="social-links-container-mobile lc-tablet-pc-hide lc-padding-vertical-12">
+              <platform-icon-bar />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <cta-section class="bottom" />
 
@@ -287,7 +295,7 @@ $carousel-height: 488px;
 
 .cta-section.bottom {
   @media (min-width: 600px) {
-    margin-top: 58px;
+    margin-top: 64px;
   }
 }
 
@@ -323,17 +331,6 @@ $carousel-height: 488px;
   .lc-team {
     margin-top: 12px;
     padding-top: 36px;
-  }
-}
-
-@media (max-width: 600px) {
-  body {
-    .platform-bar {
-      margin: 12px;
-      > .icon-bar {
-        justify-content: center;
-      }
-    }
   }
 }
 
