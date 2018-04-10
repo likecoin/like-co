@@ -78,12 +78,11 @@ a,
 .lc-page-wrapper {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 
   min-height: 100%;
 
   .lc-page-content {
-    flex: 1;
+    flex-grow: 1;
   }
 
   .lc-page-footer {
