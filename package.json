@@ -69,7 +69,7 @@
     "vue-simple-svg": "^1.2.5",
     "vuex": "^3.0.1",
     "web3": "^1.0.0-beta.28",
-    "web3-provider-engine": "^13.6.6"
+    "web3-provider-engine": "^14.0.0"
   },
   "devDependencies": {
     "ava": "^0.25.0",
