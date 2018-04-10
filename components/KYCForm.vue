@@ -123,7 +123,7 @@
           <md-input v-model="lastName" required />
         </md-field>
 
-        <md-field>
+        <md-field class="autocomplete-field">
           <md-autocomplete
             v-model="country"
             :md-options="COUNTRY_LIST"
@@ -136,7 +136,7 @@
           {{ $t('KYC.label.invalidCountry') }}
         </span>
 
-        <md-field>
+        <md-field class="autocomplete-field">
           <md-autocomplete
             v-model="nationality"
             :md-options="NATIONALITY_LIST"
@@ -369,7 +369,7 @@ export default {
       if (pendingKYC || isSubmittedAdvancedVerification) {
         advancedStatusIcon = PendingIcon;
       } else if (KYCStatus === KYC_STATUS_ENUM.ADVANCED) {
-        accountStatusIcon = TickIcon;
+        advancedStatusIcon = TickIcon;
       }
 
       const steps = [
@@ -873,7 +873,9 @@ input[type="file"] {
         }
       }
     }
-
+    .autocomplete-field:after {
+      height: 0;
+    }
     .invalid-country-error {
       color: $like-green-2;
     }
