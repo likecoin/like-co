@@ -43,6 +43,8 @@
   font-size: 24px;
   line-height: 32px;
 
+  white-space: normal;
+
   &.shadow {
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
   }
