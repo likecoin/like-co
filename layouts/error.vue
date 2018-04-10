@@ -1,5 +1,5 @@
 <template>
-  <div class="lc-container-0 lc-narrow">
+  <div class="lc-container-0">
     <div class="lc-container-1">
       <div class="lc-container-2">
         <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-32">
