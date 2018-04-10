@@ -1,28 +1,18 @@
 <template>
   <div class="lc-page-wrapper lc-narrow with-sliding-menu">
 
-    <tool-bars :disableError="getIfDisableError" />
-
     <sliding-menu />
 
     <header class="lc-page-header">
-
-      <div class="lc-container-0 header-bg">
-        <div class="lc-container-1">
-          <div class="lc-container-2">
-            <div class="lc-container-3" />
-          </div>
-        </div>
-      </div>
-
       <div class="lc-container-0">
         <div class="lc-container-1">
           <div class="lc-container-2">
-            <site-header :showLogin="true" />
+            <div class="lc-bg-gray-1">
+              <site-header :showLogin="true" />
+            </div>
           </div>
         </div>
       </div>
-
     </header>
 
     <div class="lc-page-content">
@@ -35,6 +25,7 @@
       </div>
     </footer>
 
+    <tool-bars :disableError="getIfDisableError" />
   </div>
 </template>
 

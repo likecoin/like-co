@@ -4,15 +4,6 @@
     <sliding-menu />
 
     <header class="lc-page-header">
-
-      <div class="lc-container-0 header-bg lc-narrow">
-        <div class="lc-container-1">
-          <div class="lc-container-2">
-            <div class="lc-container-3" />
-          </div>
-        </div>
-      </div>
-
       <div class="lc-container-0">
         <div class="lc-container-1">
           <div class="underlay gray lc-mobile-hide" />
@@ -21,7 +12,6 @@
           </div>
         </div>
       </div>
-
     </header>
 
     <div class="lc-page-content">
@@ -61,14 +51,3 @@ export default {
   },
 };
 </script>
-
-
-<style lang="scss" scoped>
-@import "~assets/variables";
-@import "~assets/default";
-
-.lc-container-2 #site-header {
-  padding-right: 0;
-  padding-left: 0;
-}
-</style>
