@@ -1,3 +1,4 @@
+import cn from './cn.json';
 import de from './de.json';
 import en from './en.json';
 import es from './es.json';
@@ -7,6 +8,7 @@ import ru from './ru.json';
 import zh from './zh.json';
 
 const messages = {
+  cn,
   de,
   en,
   es,

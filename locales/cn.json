@@ -1,0 +1,845 @@
+{
+  "General": {
+    "label": {
+      "error": "失败",
+      "success": "成功"
+    },
+    "button": {
+      "confirm": "确认",
+      "cancel": "取消",
+      "send": "传送",
+      "yes": "是",
+      "no": "否",
+      "ok": "OK"
+    }
+  },
+  "Language": {
+      "ab": "аҧсуа бызшәа, аҧсшәа",
+      "aa": "Afaraf",
+      "af": "Afrikaans",
+      "ak": "Akan",
+      "sq": "Shqip",
+      "am": "አማርኛ",
+      "ar": "العربية",
+      "an": "aragonés",
+      "hy": "Հայերեն",
+      "as": "অসমীয়া",
+      "av": "авар мацӀ, магӀарул мацӀ",
+      "ae": "avesta",
+      "ay": "aymar aru",
+      "az": "azərbaycan dili",
+      "bm": "bamanankan",
+      "ba": "башҡорт теле",
+      "eu": "euskara, euskera",
+      "be": "беларуская мова",
+      "bn": "বাংলা",
+      "bh": "भोजपुरी",
+      "bi": "Bislama",
+      "bs": "bosanski jezik",
+      "br": "brezhoneg",
+      "bg": "български език",
+      "my": "ဗမာစာ",
+      "ca": "català, valencià",
+      "ch": "Chamoru",
+      "ce": "нохчийн мотт",
+      "ny": "chiCheŵa, chinyanja",
+      "cv": "чӑваш чӗлхи",
+      "kw": "Kernewek",
+      "co": "corsu, lingua corsa",
+      "cr": "ᓀᐦᐃᔭᐍᐏᐣ",
+      "hr": "hrvatski jezik",
+      "cs": "čeština, český jazyk",
+      "da": "dansk",
+      "dv": "ދިވެހި",
+      "nl": "Nederlands, Vlaams",
+      "dz": "རྫོང་ཁ",
+      "en": "English",
+      "eo": "Esperanto",
+      "et": "eesti, eesti keel",
+      "ee": "Eʋegbe",
+      "fo": "føroyskt",
+      "fj": "vosa Vakaviti",
+      "fi": "suomi, suomen kieli",
+      "fr": "français",
+      "ff": "Fulfulde, Pulaar, Pular",
+      "gl": "Galego",
+      "ka": "ქართული",
+      "de": "Deutsch",
+      "el": "ελληνικά",
+      "gn": "Avañe'ẽ",
+      "gu": "ગુજરાતી",
+      "ht": "Kreyòl ayisyen",
+      "ha": "(Hausa) هَوُسَ",
+      "he": "עברית",
+      "hz": "Otjiherero",
+      "hi": "हिन्दी, हिंदी",
+      "ho": "Hiri Motu",
+      "hu": "magyar",
+      "ia": "Interlingua",
+      "id": "Bahasa Indonesia",
+      "ie": "Originally called Occidental; then Interlingue after WWII",
+      "ga": "Gaeilge",
+      "ig": "Asụsụ Igbo",
+      "ik": "Iñupiaq, Iñupiatun",
+      "io": "Ido",
+      "is": "Íslenska",
+      "it": "Italiano",
+      "iu": "ᐃᓄᒃᑎᑐᑦ",
+      "ja": "日本语",
+      "jv": "ꦧꦱꦗꦮ, Basa Jawa",
+      "kl": "kalaallisut, kalaallit oqaasii",
+      "kn": "ಕನ್ನಡ",
+      "kr": "Kanuri",
+      "ks": "कश्मीरी, كشميري‎",
+      "kk": "қазақ тілі",
+      "km": "ខ្មែរ, ខេមរភាសា, ភាសាខ្មែរ",
+      "ki": "Gĩkũyũ",
+      "rw": "Ikinyarwanda",
+      "ky": "Кыргызча, Кыргыз тили",
+      "kv": "коми кыв",
+      "kg": "Kikongo",
+      "ko": "한국어",
+      "ku": "Kurdî, كوردی‎",
+      "kj": "Kuanyama",
+      "la": "latine, lingua latina",
+      "lb": "Lëtzebuergesch",
+      "lg": "Luganda",
+      "li": "Limburgs",
+      "ln": "Lingála",
+      "lo": "ພາສາລາວ",
+      "lt": "lietuvių kalba",
+      "lu": "Kiluba",
+      "lv": "Latviešu Valoda",
+      "gv": "Gaelg, Gailck",
+      "mk": "македонски јазик",
+      "mg": "fiteny malagasy",
+      "ms": "Bahasa Melayu, بهاس ملايو‎",
+      "ml": "മലയാളം",
+      "mt": "Malti",
+      "mi": "te reo Māori",
+      "mr": "मराठी",
+      "mh": "Kajin M̧ajeļ",
+      "mn": "Монгол хэл",
+      "na": "Dorerin Naoero",
+      "nv": "Diné bizaad",
+      "nd": "isiNdebele",
+      "ne": "नेपाली",
+      "ng": "Owambo",
+      "nb": "Norsk Bokmål",
+      "nn": "Norsk Nynorsk",
+      "no": "Norsk",
+      "ii": "ꆈꌠ꒿ Nuosuhxop",
+      "nr": "isiNdebele",
+      "oc": "occitan, lenga d'òc",
+      "oj": "ᐊᓂᔑᓈᐯᒧᐎᓐ",
+      "cu": "ѩзыкъ словѣньскъ",
+      "om": "Afaan Oromoo",
+      "or": "ଓଡ଼ିଆ",
+      "os": "ирон æвзаг",
+      "pa": "ਪੰਜਾਬੀ",
+      "pi": "पाऴि",
+      "fa": "فارسی",
+      "pl": "Język Polski, Polszczyzna",
+      "ps": "پښتو",
+      "pt": "Português",
+      "qu": "Runa Simi, Kichwa",
+      "rm": "Rumantsch Grischun",
+      "rn": "Ikirundi",
+      "ro": "Română",
+      "ru": "Русский",
+      "sa": "संस्कृतम्",
+      "sc": "sardu",
+      "sd": "सिन्धी, سنڌي، سندھی‎",
+      "se": "Davvisámegiella",
+      "sm": "gagana fa'a Samoa",
+      "sg": "yângâ tî sängö",
+      "sr": "српски језик",
+      "gd": "Gàidhlig",
+      "sn": "chiShona",
+      "si": "සිංහල",
+      "sk": "Slovenčina, Slovenský Jazyk",
+      "sl": "Slovenski Jezik, Slovenščina",
+      "so": "Soomaaliga, af Soomaali",
+      "st": "Sesotho",
+      "es": "Español",
+      "su": "Basa Sunda",
+      "sw": "Kiswahili",
+      "ss": "SiSwati",
+      "sv": "Svenska",
+      "ta": "தமிழ்",
+      "te": "తెలుగు",
+      "tg": "тоҷикӣ, toçikī, تاجیکی‎",
+      "th": "ไทย",
+      "ti": "ትግርኛ",
+      "bo": "བོད་ཡིག",
+      "tk": "Türkmen, Түркмен",
+      "tl": "Wikang Tagalog",
+      "tn": "Setswana",
+      "to": "Faka Tonga",
+      "tr": "Türkçe",
+      "ts": "Xitsonga",
+      "tt": "татар теле, tatar tele",
+      "tw": "Twi",
+      "ty": "Reo Tahiti",
+      "ug": "ئۇيغۇرچە‎, Uyghurche",
+      "uk": "Українська",
+      "ur": "اردو",
+      "uz": "Oʻzbek, Ўзбек, أۇزبېك‎",
+      "ve": "Tshivenḓa",
+      "vi": "Tiếng Việt",
+      "vo": "Volapük",
+      "wa": "Walon",
+      "cy": "Cymraeg",
+      "wo": "Wollof",
+      "fy": "Frysk",
+      "xh": "isiXhosa",
+      "yi": "ייִדיש",
+      "yo": "Yorùbá",
+      "za": "Saɯ cueŋƅ, Saw cuengh",
+      "zh": "正體中文",
+      "cn": "简体中文",
+      "zu": "isiZulu"
+  },
+  "Date": {
+    "day": "日",
+    "hour": "小时",
+    "minute": "分钟",
+    "second": "秒"
+  },
+  "Menu": {
+    "button": {
+      "menu": "选单",
+      "close": "关闭"
+    },
+    "item": {
+      "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
+      "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
+      "backer": "@:BackerPage.title",
+      "whitepaper": "@:Whitepaper.Button.whitepaper",
+      "support": "@:Footer.button.support"
+    }
+  },
+  "Sign": {
+    "Message": {
+      "registerUser": "Registering with the following user info",
+      "editUser": "Updating user info",
+      "signKYC": "ID Verify user with the following Info"
+    }
+  },
+  "Home": {
+    "Header": {
+      "button": {
+        "signIn": "登入",
+        "signUp": "注册"
+      }
+    },
+    "Flag": {
+      "title": "化Like为Coin 回馈创作",
+      "content": ""
+    },
+    "Sale": {
+      "title": {
+        "earlyBirdTokenSale": "早鸟代币发售",
+        "publicTokenSale": "公开代币发售",
+        "secure25Percent": "立即行动可享额外25%奖励",
+        "nowLive": "现正进行"
+      },
+      "label": {
+        "contactOurTeam": "请经右下角对话按钮与我们联络",
+        "contactUsThroughButton": "请按右下角对话按钮",
+        "startOn": "开始于",
+        "completedPercent": "已完成 {percent}%"
+      },
+      "button": {
+        "whitepaper": "白皮书",
+        "onePage": "计画介绍",
+        "redeem": "领取红包",
+        "createID": "注册 LikeCoin ID ，改革内容创作生态",
+        "createNow": "马上注册",
+        "buyCoin": "购买 LikeCoin",
+        "imInterested": "我有兴趣",
+        "joinTokenSale": "参与代币发售",
+        "joinNow": "立即参与",
+        "supportLikeCoin": "支持回馈创作运动"
+      }
+    },
+    "Creator": {
+      "button": {
+        "likeCoinForAppreciate": "送出 LikeCoin 红包"
+      }
+    },
+    "Protocol": {
+      "title": "技术：LikeCoin Stack",
+      "content": "--paragraph in LikeCoin Protocol---",
+      "layer": {
+        "provider": {
+          "title": "DApps",
+          "example": {
+            "oice": "oice Visual Novel",
+            "ccImages": "puttyimages",
+            "media": "blogchain.md"
+          }
+        },
+        "service": {
+          "title": "LikeCoin Services",
+          "example": {
+            "button": "Like Button",
+            "store": "like.co",
+            "token": "LikeCoin Token"
+          }
+        },
+        "eth": {
+          "title": "Ethereum Blockchain",
+          "example": {
+            "contract": "Smart Contracts",
+            "fingerprint": "Fingerprints",
+            "metadata": "Metadata Hash"
+          }
+        },
+        "ipfs": {
+          "title": "IPFS Node",
+          "example": {
+            "oice": "oice Node",
+            "cc": "puttyimages Node",
+            "stock": "blogchain Node"
+          }
+        }
+      }
+    },
+    "RoadMap": {
+      "title": "路线图",
+      "content": "--paragraph in Road Map---",
+      "timeline": [
+        {
+          "title": "发想、研发",
+          "time": "2017 Q1-Q3"
+        },
+        {
+          "title": "天使支持者销售",
+          "time": "2017 Q4"
+        },
+        {
+          "title": "推出 LikeCoin 代币、ID及 Like.co",
+          "time": "2018 Q1"
+        },
+        {
+          "title": "puttyimages 原型",
+          "time": "2018 Q2"
+        },
+        {
+          "title": "推出 puttyimages",
+          "time": "2018 Q3"
+        },
+        {
+          "title": "推出 Like 键",
+          "time": "2018 Q4"
+        },
+        {
+          "title": "推出 blogchain.md；扩大 LikeCoin 生态系统规模",
+          "time": "2019"
+        }
+      ]
+    },
+    "TokenDistribution": {
+      "title": "代币分配",
+      "content": "先发行8亿个代币，未来10+年逐步增发至最终20亿个，其中一半分配予创作者",
+      "yearButton": {
+        "year0": "元年",
+        "year10": "十多年后"
+      },
+      "pieChartLanguage": "hans"
+    },
+    "EarlyAdopters": {
+      "title": "首批合作伙伴"
+    },
+    "PressCoverage": {
+      "title": "媒体报导"
+    },
+    "EarlySupporters": {
+      "title": "首批支持者",
+      "supporter": {
+        "6-club": {
+          "title": "左堤六号",
+          "subtitle": ""
+        },
+        "annie-zhang": {
+          "title": "张洁平",
+          "subtitle": "端传媒主编"
+        },
+        "greg-song": {
+          "title": "宋汉生",
+          "subtitle": "aNobii及OneSky创办人"
+        },
+        "harry-xiao": {
+          "title": "Harry Xiao",
+          "subtitle": "Founder, MeshBox"
+        },
+        "heartherm-huang": {
+          "title": "黄何",
+          "subtitle": "量数币创办人"
+        },
+        "jacky-chu": {
+          "title": "Jacky Chu",
+          "subtitle": "BTC、ETH、IOTA、VEN及ARDR的早期投资者"
+        }
+      }
+    },
+    "Advisors": {
+      "title": "顾问",
+      "advisor": {
+        "alex-lau": {
+          "title": "Alex Lau",
+          "description": "Blockchain Open Source Advisor of <a href=\"https://cm.5miles.com/\" target=\"_blank\" rel=\"noopener\">CyberMiles</a>, <a href=\"https://www.webank.com/\" target=\"_blank\" rel=\"noopener\">Webank</a> and <a href=\"https://www.trubuzz.com\" target=\"_blank\" rel=\"noopener\">TruBuzz</a>; R&D Engineering Consultant of SUSE Linux Enterprise Storage"
+        },
+        "haggen-so": {
+          "title": "苏孝恒博士",
+          "description": "<a href=\"https://cota.hk/\" target=\"_blank\" rel=\"noopener\">香港创意开放科技协会</a>的创办人及行政总裁; Project Manager of the <a href=\"https://creativecommons.org/\" target=\"_blank\" rel=\"noopener\">Creative Commons</a>"
+        },
+        "jon-phillips": {
+          "title": "Jon Phillips",
+          "description": "Founder of <a href=\"https://openclipart.org/\" target=\"_blank\" rel=\"noopener\">Openclipart</a>; Developer of <a href=\"https://inkscape.org/\" target=\"_blank\" rel=\"noopener\">Inkscape</a>; Founder of Qi Hardware."
+        },
+        "isaac-mao": {
+          "title": "毛向辉",
+          "description": "<a href=\"https://musicoin.org/\" target=\"_blank\" rel=\"noopener\">Musicoin</a>创办人; CNBlogs.org创办人; Project Lead of iCommons China, Creative Commons China Team."
+        }
+      }
+    },
+    "Team": {
+      "title": "团队",
+      "member": {
+        "kin": {
+          "name": "kin ko",
+          "title": "Product Design"
+        },
+        "aludirk": {
+          "name": "Aludirk Wong",
+          "title": "System Architect"
+        },
+        "jacky": {
+          "name": "Jacky Ko",
+          "title": "CMO"
+        },
+        "william": {
+          "name": "William Chong",
+          "title": "Full Stack Developer"
+        },
+        "chung": {
+          "name": "Chung Wu",
+          "title": "Blockchain Developer"
+        },
+        "edmond": {
+          "name": "Edmond Yu",
+          "title": "Operation"
+        },
+        "simonb": {
+          "name": "Simon But",
+          "title": "Growth Hacker"
+        },
+        "david": {
+          "name": "David Ng",
+          "title": "Full Stack Developer"
+        },
+        "miles": {
+          "name": "Miles Wong",
+          "title": "Full Stack Developer"
+        },
+        "joshua": {
+          "name": "Joshua Lo",
+          "title": "Designer"
+        },
+        "michael": {
+          "name": "Michael Cheung",
+          "title": "Full Stack Developer"
+        }
+      }
+    },
+    "Community": {
+      "title": "LikeCoin 社群: ",
+      "button": {
+        "faq": "FAQ"
+      }
+    }
+  },
+  "Footer": {
+    "label": {
+      "contract": "LikeCoin Contract: "
+    },
+    "button": {
+      "about": "有关 LikeCoin Foundation",
+      "support": "客户服务"
+    }
+  },
+  "Email": {
+    "VerifiyEmail": {
+      "subject": "like.co 帐号验证",
+      "body": "您好 {{name}}!<p>欢迎来到 like.co ！请到下列网址验证您的电邮地址:<br/><a href=\"https://like.co/verify/{{uuid}}?ref={{ref}}\" style=\"word-break: break-all; color: #28646E\">https://like.co/verify/{{uuid}}?ref={{ref}}</a></p>"
+    },
+    "VerifiyAndCouponEmail": {
+      "subject": "like.co 帐号验证",
+      "body": "您好 {{name}}！<p>欢迎来到 like.co ！请到下列网址验证您的电邮地址，换领您的免费 LikeCoin：<br/><a href=\"https://like.co/verify/{{uuid}}/{{coupon}}?ref={{ref}}\" style=\"word-break: break-all; color: #28646E\">https://like.co/verify/{{uuid}}/{{coupon}}?ref={{ref}}</a></p><p>您的换领券编号：{{coupon}}</p>"
+    },
+    "preSaleEmail": {
+      "subject": "您已经成功参加 LikeCoin 早鸟代币发售",
+      "body": "您好 {{name}}!<p>多谢您参与 LikeCoin 的早鸟代币发售</p><p>在确认了你的 {{eth}} ETH 付款后, {{base}} + {{bonus}} 个 LikeCoin 将会在 LikeCoin 公开代币发售开始时, 送到你的钱包内.</p>交易参考地址:<br/><a href=\"https://etherscan.io/tx/{{txHash}}\" style=\"word-break: break-all; color: #28646E\">https://etherscan.io/tx/{{txHash}}</a></p><p>与此同时, 你可以参加我们的<a href=\"https://like.co/in/edit#referral\" style=\"color: #28646E\">推荐计划</a>，赚取更多 LikeCoin!</p><p>如有查询或意见，欢迎随时在官方网站联络我们.</p>"
+    },
+    "signature": "<p>LikeCoin Foundation<br/><a href=\"https://like.co\" style=\"color: #28646E\">https://like.co</a></p>"
+  },
+  "Whitepaper": {
+    "Button": {
+      "whitepaper": "技术白皮书",
+      "onepager": "计画介绍"
+    }
+  },
+  "Store": {
+    "Header": {
+      "label": {
+        "store": "like.co",
+        "test": "test"
+      }
+    },
+    "Footer": {
+      "label": {
+        "contract": "LikeCoin 合约地址: ",
+        "visit": "Visit our website for more information: "
+      }
+    }
+  },
+  "Dialog": {
+    "metamask": {
+      "button": {
+        "install": "安装 MetaMask",
+        "doneInstalled": "成功安装"
+      },
+      "title": {
+        "switchRinkeby": "请切换至 Rinkeby 测试网络",
+        "switchMain": "请切换至 Mainnet 正式网络",
+        "web3": "需要插件",
+        "locked": "请登入 MetaMask",
+        "sign": "在 MetaMask 按 Sign",
+        "connectledger": "连接 Ledger 钱包",
+        "signledger": "在 Ledger 钱包按 Sign"
+      },
+      "content": {
+        "switchRinkeby": "like.co 需要使用 Rinkeby 测试网，请切换至 Rinkeby.",
+        "switchMain": "like.co 需要使用正式网络，请切换至 Mainnet。",
+        "web3": "like.co 需要 MetaMask 用作登入。请使用 Chrome 浏览器以安装 MetaMask 插件.<br /> <span style='color:red'>请记录好 MetaMask 的 seed words。<span>",
+        "locked": "like.co 需要读取 MetaMask ，请登入 MetaMask",
+        "sign": "请在 Metamask 按 [Sign]",
+        "connectledger": "请连接和解锁 Ledger 钱包，并开启 Ethereum app。请留意必须要开启 Ethereum app 的浏览器支援 (Browser support) 功能才能使用 like.co。<br /> 详情可参考 <a href=\"https://support.ledgerwallet.com/hc/en-us/articles/115005198565\" target=\"_blank\" rel=\"noopener\">Ledger 官网</a>",
+        "signledger": "请在 Ledger 钱包按[确认]按钮"
+      },
+      "label": {
+        "hardwareWallet": "... 或连接你的硬体钱包",
+        "ledger": "连接你的 Ledger"
+      }
+    },
+    "chrome": {
+      "title": "需使用电脑版 Chrome 浏览器",
+      "content": "like.co 需宜用支援以太坊加密货币钱包 MetaMask 的浏览器。<br />请使用电脑版 Chrome 浏览器并安装 MetaMask 插件",
+      "button": {
+        "install": "安装 Chrome"
+      }
+    },
+    "coupon": {
+      "title": {
+        "error": "兑换码错误",
+        "claim": "兑换红包"
+      },
+      "label": {
+        "confirming": "读取兑换码中…",
+        "error": "兑换码无效",
+        "invalidCoupon": "兑换码无效",
+        "redirecting": "返回个人页面中…",
+        "confirmToClaim": "你确定要兑换 {value} 个 LikeCoin 吗？"
+      }
+    },
+    "transaction": {
+      "label": {
+        "waiting": "区块链正处理交易，根据网络繁忙程度，将于数分钟到帐。请随意浏览 LikeCoin。",
+        "newUser": "你还没有 LikeCoin ID，请先注册帐号。"
+      },
+      "button": {
+        "createID": "注册 LikeCoin ID",
+        "buyCoin": "购买 LikeCoin"
+      }
+    },
+    "blocker": {
+      "title": "处理中…",
+      "content": "处理中，请勿关闭浏览器"
+    },
+    "emailInput": {
+      "title": "认证邮箱",
+      "content": "请先认证你的电邮地址",
+      "label": "你的电邮地址"
+    }
+  },
+  "Toolbar": {
+    "etherscan": {
+      "button": {
+        "view": "于 Etherscan.io 查看 "
+      }
+    }
+  },
+  "Register": {
+    "header": {
+      "title": "注册 LikeCoin ID・改革内容创作生态",
+      "titleReferral": "{name} 邀请你注册 LikeCoin ID",
+      "content": "很好，你已经有 MetaMask，可以申请 LikeCoin ID 了。",
+      "redeem": "兑换你的 LikeCoin 红包",
+      "button": {
+        "what": "LikeCoin：化Like为Coin"
+      }
+    },
+    "label": {
+      "register": "注册",
+      "registerRedeem": "注册并兑换"
+    },
+    "form": {
+      "createID": "注册 LikeCoin ID* (最少7个英文字母/数目字)",
+      "walletAddress": "以太坊钱包地址",
+      "email": "电邮地址 (可选)",
+      "referrer": "邀请人 LikeCoin ID (可选)",
+      "amount": "LikeCoin 数量",
+      "displayName": "显示名",
+      "claim": "领取",
+      "couponCode": "兑换码 (可选)",
+      "label": {
+        "updatedInfo": "资料已经更新",
+        "viewPage": "到个人页面"
+      },
+      "error": {
+        "alphanumeric": "请使用最少 7位英文字母或数字",
+        "addressFormat": "钱包地址错误",
+        "emailFormat": "请使用没有+号的有效电邮"
+      }
+    }
+  },
+  "Edit": {
+    "label": {
+      "id": "LikeCoin ID:",
+      "likeCoinAmount": "LikeCoin 数量",
+      "address": "钱包地址",
+      "email": "邮件地址",
+      "addEmail": "增加邮件地址",
+      "redeemCoin": "兑换 LikeCoin",
+      "redeemCode": "兑换码 (可选)",
+      "validCodeRequired": "请输入有效兑换码",
+      "verified": "成功验证",
+      "verifying": "验证码已发送，请查邮箱",
+      "unverified": "仍未认证",
+      "verifyEmail": "认证邮箱"
+    },
+    "referral": {
+      "title": "推荐计划",
+      "description": "广邀好友加入 like.co，获得免费 LikeCoin！你的朋友使用你的邀请连结注册 LikeCoin 帐号，并验证邮件箱地址后，双方都会获得收到额外的 LikeCoin 兑换码",
+      "pending": "未认证邮箱",
+      "verified": "已确认",
+      "emailInvite": "发电邮邀请",
+      "altInvite": "或是使用下列途径",
+      "copyUrl": "复制连结",
+      "facebook": "Facebook",
+      "twitter": "Twitter",
+      "send": "发送",
+      "sent": "邀请邮件已发送至 {email}",
+      "verifyEmailFirst": "请先认证你的电邮地址",
+      "tweetContent": "加入 like.co，获得免费 LikeCoin!",
+      "ogTitle": "化Like为Coin 回馈创作",
+      "ogDescription": "{name} 邀请你注册 LikeCoin ID ，改革内容创作生态"
+    },
+    "button": {
+      "buyCoin": "购买 LikeCoin",
+      "getFreeCoin": "领取 LikeCoin"
+    }
+  },
+  "Verify": {
+    "label": {
+      "toIndex": "返回主页",
+      "toEdit": "到个人页面",
+      "redirect": "跳转页面",
+      "verifying": "认证中",
+      "referral": "作为被邀请者，你将会收到email，获得免费 LikeCoin"
+    }
+  },
+  "Transaction": {
+    "header": {
+      "label": {
+        "ethAmount": "{amount} ETH",
+        "likecoinAmount": "{amount} LikeCoin",
+        "sending": "转帐中",
+        "sent": "已发送",
+        "to": "到 ",
+        "notFound": "交易码不存在",
+        "pending": "已提交至区块链",
+        "failed": "交易失败",
+        "timeout": "交易逾时",
+        "completed": "交易完成"
+      }
+    },
+    "label": {
+      "recipientId": "收款者 LikeCoin ID",
+      "recipientAddress": "收款者钱包地址",
+      "senderName": "转帐者姓名",
+      "senderAddress": "转帐者钱包地址",
+      "sendTo": "转帐 {coin} 给 <span class='usertitle'>{title}</span>",
+      "remarks": "备注",
+      "viewTx": "查看交易",
+      "amountToSend": "转帐 {coin} 金额",
+      "invalidAmount": "金额无效",
+      "enterValidNumber": "请输入有效小数位",
+      "userNotFound": "收款者不存在"
+    },
+    "head": {
+      "title": "LikeCoin - 化Like为Coin",
+      "description": "回馈创作 - 发 LikeCoin 给 {name}"
+    },
+    "error": {
+      "notSupported": "你的钱包不支援这个功能",
+      "ethInsufficient": "钱包内的 ETH 数量不足",
+      "likecoinInsufficient": "钱包内的 LikeCoin 数量不足",
+      "sameUser": "不能转账给自己"
+    }
+  },
+  "WhitePaper": {
+    "label": {
+      "whitePaper": "白皮书",
+      "comingSoon": "即将推出，敬请期待"
+    }
+  },
+  "TokenSale": {
+    "title": "代币发售",
+    "preSaleTitle": "早鸟优惠",
+    "label": {
+      "prepareToJoin": "准备加入代币发售",
+      "publicSaleStartIn": "公开发售于:",
+      "preSaleEndIn": "额外25%奖励完结于:",
+      "preSaleBonus": "额外25%奖励",
+      "preSaleBonusCondition": "购买 10 ETH 以上即可享有",
+      "joinPreSale": "立刻参与早鸟优惠",
+      "token": "代币",
+      "exchangeRate": "兑换率",
+      "supply": "供应量",
+      "preSaleDescription0": "购买 {base} LikeCoin + 额外 {bonus} LikeCoin 奖励.",
+      "preSaleDescription1": "早鸟 LikeCoin 将会在公开发售开始后发送至你的钱包.",
+      "whatIsETH": "甚么是 ETH ?",
+      "bonusAndLimitedOffer": "限时 25% 额外奖赏",
+      "limitedOfferCondition": "购买 10 ETH 以上即可享有",
+      "amountLikeToPurhcase": "LIKE 的购买数量",
+      "tokensaleBadAmount": "金额无效，代币发售最低购买额为 0.1 ETH，最高购买额少于 10000 ETH。",
+      "bonus": "奖励",
+      "bonusLockUp": "额外的 LikeCoin 奖赏会在你的钱包锁上，6 个月内不能传送。",
+      "amountWillBeSentWhenSalesStart": "您所购买的 LikeCoin 以及其额外奖赏将于公众代币发售开始时发送，预计将于 April 23 2018 开始。额外的 LikeCoin 奖赏会在你的钱包锁上，并且 6 个月内不能传送。",
+      "whatIsEthLink": "https://help.like.co/likecoin-常見問題/什麼是-eth"
+    },
+    "button": {
+      "aboutLikeCoin": "关于 LikeCoin",
+      "whitePaper": "@:WhitePaper.label.whitePaper",
+      "noETH": "没有ETH？"
+    }
+  },
+  "BackerPage": {
+    "title": "支持回馈创作运动",
+    "label": {
+      "tagline": "购买纪念书籍",
+      "description": "LikeCoin 要推动的是一场重新分配内容创作利益的运动。我们的内容均以共享创意授权，我们的源代码为开源，均可在 <a href=\"https://github.com/likecoin\">Github</a> 下载。<br/><br/><a href=\"http://sched.co/E6zv\">LikeCoin 于 Creative Commons Summit 2018 的工作坊</a>",
+      "notRegistered": "立刻注册 LikeCoin ID，加入这场运动"
+    },
+    "button": {
+      "register": "注册 LikeCoin ID",
+      "purchaseInETH": "使用以太币购买"
+    },
+    "productList": {
+      "title": "商店",
+      "label": {
+        "youHavePurchased": "你已购买 {product} ，收据将会发送至你的电邮 {email}。参考编号："
+      }
+    }
+  },
+  "KYC": {
+    "label": {
+      "kyc": "身份认证",
+      "kycNeeded": "需要进行身份认证才能参与",
+      "advKycNeeded": "大额购买需要进行进阶身份认证",
+      "emailVerify": "请先认证您的电邮地址",
+      "createID": "注册 LikeCoin ID 收发 LikeCoin 及参与代币发售",
+      "verifyToPurchase": "验证您的个人资料，在代币发售时即可购买 LikeCoin",
+      "emailVerification": "电邮认证",
+      "accountVerification": "帐户认证",
+      "advancedVerification": "进阶认证",
+      "verifyEmailPlaceholder": "输入电邮作验证",
+      "checkEmail": "电邮已发送，请检查",
+      "emailVerified": "电邮已验证",
+      "proceedToAccountVerification": "进行帐户认证",
+      "isPrcCitizen": "您是否中华人民共和国公民（不包括台湾、香港、澳门）？",
+      "isUsaCitizen": "您是否美国公民？",
+      "isUsaAccredited": "您是否美国合格投资者(accredited investor)?",
+      "isPurchaseExceedAmount": "您购买的金额是否超过 {amount} 美金？",
+      "passportName": "护照姓名",
+      "country": "地区",
+      "invalidCountry": "请选择地区",
+      "passportIdPage": "护照 ID 页 *",
+      "addressProof": "住址证明 (三个月以内) *",
+      "canPurchaseLessThanAmount": "您可购买少于美金 {amount} 的 LikeCoin",
+      "canPurchaseMoreThanAmount": "您可购买多于美金 {amount} 的 LikeCoin",
+      "advancedVerificationInProgress": "您可购买少于美金 {amount} 的 LikeCoin，在进阶认证通过后，你将可购买更多",
+      "purchaseMore": "我想购买更多",
+      "accountVeritifed": "帐号已验证",
+      "canPurchaseWhenPublicSale": "代币发售时您将可在此购买 LikeCoin",
+      "verifyToPurchaseOverAmount": "验证您的身份以购买 USD {amount} 以上数量的 LikeCoin",
+      "waitingConfirmation": "等待确认",
+      "timeWaitForAccountVerification": "过程大约需时两分钟…",
+      "timeWaitForAdvancedVerification": "过程大约需时五个工作天…",
+      "contactUs": "请在右下对话圈与我们联络",
+      "contactThroughIntercom": "请在 Intercom 与我们联络",
+      "preSaleBonusDescription": "10 ETH 或以上的交易将会获得 25% 奖励"
+    },
+    "button": {
+      "createID": "注册 LikeCoin ID",
+      "sendEmailAgain": "再次发送",
+      "start": "开始",
+      "next": "下一步",
+      "upload": "上传",
+      "reupload": "重新上传"
+    }
+  },
+  "Creator": {
+    "title": {
+      "artist": "艺术家",
+      "comicAuthor": "漫画家",
+      "multimediaDesigner": "多媒体设计师"
+    }
+  },
+  "TransactionHistory": {
+    "title": "交易记录",
+    "header": {
+      "status": "状态",
+      "fromOrTo": "由/到",
+      "time": "时间",
+      "value": "价值"
+    },
+    "label": {
+      "in": "收入",
+      "out": "支出",
+      "fail": "失败",
+      "tokensale": "代币发售",
+      "earlybird": "早鸟发售",
+      "earlyBeliever": "支持者",
+      "timePending": "等待完成…",
+      "timeExpired": "逾期",
+      "coupon": "红包",
+      "noRecord": "暂时没有您的记录。",
+      "to": "到",
+      "from": "由",
+      "unknown": "未知"
+    },
+    "button": {
+      "view": "查阅",
+      "showMore": "展示更多"
+    }
+  },
+  "Error": {
+    "button": {
+      "toIndex": "返回主页"
+    }
+  }
+}
