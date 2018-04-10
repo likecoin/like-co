@@ -767,6 +767,7 @@
       "kyc": "ID Verification",
       "kycNeeded": "ID Verification is needed to participate in LikeCoin token sale",
       "advKycNeeded": "Advanced ID Verification is needed for large amount of purchase",
+      "advKycPending": "Your Advanced ID Verification is still in PENDING state, Please contact us in intercom if it took longer than 5 working days",
       "emailVerify": "Please provide and verify your email.",
       "createID": "Create LikeCoin ID to send and recive LikeCoin, and participate in the tokensale.",
       "verifyToPurchase": "Verifiy your information to purchase LikeCoin once public sale is live.",

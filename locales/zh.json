@@ -767,6 +767,7 @@
       "kyc": "身份認證",
       "kycNeeded": "需要進行身份認證才能參與",
       "advKycNeeded": "大額購買需要進行進階身份認證",
+      "advKycPending": "您的進階身份認證正在處理中，如已超過五個工作天請在 Intercom 與我們聯絡",
       "emailVerify": "請先認證您的電郵地址",
       "createID": "註冊 LikeCoin ID 收發 LikeCoin 及參與代幣發售",
       "verifyToPurchase": "驗證您的個人資料，在代幣發售時即可購買 LikeCoin",

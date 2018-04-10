@@ -1,4 +1,8 @@
 import * as Axios from 'axios';
+import {
+  PUBSUB_TOPIC_MISC,
+} from '../../constant';
+import publisher from '../util/gcloudPub';
 
 const FormData = require('form-data');
 
@@ -65,35 +69,53 @@ export async function callKYCAPI(payload) {
     product_service_complexity: 'COMPLEX',
   };
   const { data: createData } = await axios.post(KYC_CREATE_PATH, createPayload);
+  const { check_status_url: checkStatusUrl } = createData;
   console.log(`Advanced KYC ${user}: ${JSON.stringify(createData)}`);
 
-  const selfieForm = new FormData();
-  selfieForm.append('document_type', 'SELFIE');
-  selfieForm.append('cust_rfr_id', rfrID);
-  selfieForm.append('file', selfieFile.buffer, selfieFile.originalname);
+  try {
+    const selfieForm = new FormData();
+    selfieForm.append('document_type', 'SELFIE');
+    selfieForm.append('cust_rfr_id', rfrID);
+    selfieForm.append('file', selfieFile.buffer, selfieFile.originalname);
 
-  const passportForm = new FormData();
-  passportForm.append('document_type', 'PASSPORT');
-  passportForm.append('cust_rfr_id', rfrID);
-  passportForm.append('file', passportFile.buffer, passportFile.originalname);
-  const [{ data: selfieData }, { data: passportData }] = await Promise.all([
-    axios.post(KYC_UPLOAD_PATH, selfieForm, formDataConfig(selfieForm)),
-    axios.post(KYC_UPLOAD_PATH, passportForm, formDataConfig(passportForm)),
-  ]);
-  console.log(`Advanced KYC ${user}: ${JSON.stringify(selfieData)}`);
-  console.log(`Advanced KYC ${user}: ${JSON.stringify(passportData)}`);
+    const passportForm = new FormData();
+    passportForm.append('document_type', 'PASSPORT');
+    passportForm.append('cust_rfr_id', rfrID);
+    passportForm.append('file', passportFile.buffer, passportFile.originalname);
+    const [{ data: selfieData }, { data: passportData }] = await Promise.all([
+      axios.post(KYC_UPLOAD_PATH, selfieForm, formDataConfig(selfieForm)),
+      axios.post(KYC_UPLOAD_PATH, passportForm, formDataConfig(passportForm)),
+    ]);
+    console.log(`Advanced KYC ${user}: ${JSON.stringify(selfieData)}`);
+    console.log(`Advanced KYC ${user}: ${JSON.stringify(passportData)}`);
 
-  const faceForm = new FormData();
-  faceForm.append('cust_rfr_id', rfrID);
-  faceForm.append('source_doc_id', passportData.id);
-  faceForm.append('target_doc_id', selfieData.id);
-  const { data: faceData } = await axios.post(KYC_CHECK_PATH, faceForm, formDataConfig(faceForm));
-  console.log(`Advanced KYC ${user}: ${JSON.stringify(faceData)}`);
+    const faceForm = new FormData();
+    faceForm.append('cust_rfr_id', rfrID);
+    faceForm.append('source_doc_id', passportData.id);
+    faceForm.append('target_doc_id', selfieData.id);
+    const { data: faceData } = await axios.post(KYC_CHECK_PATH, faceForm, formDataConfig(faceForm));
+    console.log(`Advanced KYC ${user}: ${JSON.stringify(faceData)}`);
 
-  const { data: reportData } = await axios.post(KYC_REPORT_PATH, {
-    cust_rfr_id: rfrID,
-  });
-  console.log(`Advanced KYC ${user}: ${JSON.stringify(reportData)}`);
+    if (faceData.compare_result === 'UNCERTAIN' || faceData.compare_result === 'NOT MATCH') {
+      throw new Error(faceData.compare_result);
+    }
 
-  return getKYCAPIStatus(user);
+    const { data: reportData } = await axios.post(KYC_REPORT_PATH, {
+      cust_rfr_id: rfrID,
+    });
+    console.log(`Advanced KYC ${user}: ${JSON.stringify(reportData)}`);
+
+    return getKYCAPIStatus(user);
+  } catch (err) {
+    const error = JSON.stringify((err.response && err.response.data) || err.message || err);
+    console.error(error);
+    publisher.publish(PUBSUB_TOPIC_MISC, null, {
+      logType: 'eventKYCFail',
+      user,
+      error,
+      email: email || undefined,
+      checkStatusUrl: checkStatusUrl || undefined,
+    });
+    return 'ERROR';
+  }
 }
