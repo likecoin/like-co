@@ -3,7 +3,7 @@
 
     <div v-if="chargeId" class="purchased-receipt lc-padding-vertical-32 lc-text-align-center">
       <p class="lc-margin-bottom-24">
-        {{ $t('BackerPage.productList.label.youHavePurchased', { email: email, product: product.name[$i18n.locale] }) }}
+        {{ $t('BackerPage.productList.label.youHavePurchased', { email: email, product: getLocalized(product.name) }) }}
         <span class="reference-number lc-font-size-24">
           {{ chargeId }}
         </span>
@@ -48,8 +48,8 @@
             <div class="product-details">
 
               <div class="info-wrapper">
-                <h1 class="name">{{ p.name[$i18n.locale] }}</h1>
-                <p class="description" v-html="p.description[$i18n.locale]" />
+                <h1 class="name">{{ getLocalized(p.name) }}</h1>
+                <p class="description" v-html="getLocalized(p.description)" />
               </div>
 
               <div class="price">{{ p.amount / 100 }}</div>
@@ -96,6 +96,9 @@ export default {
     async queryIAP() {
       this.products = await this.queryIAPProducts();
     },
+    getLocalized(t) {
+      return t[this.$i18n.locale] || t[this.$i18n.fallbackLocale];
+    },
     gotoRegister() {
       this.$router.push({ name: 'in-register' });
     },
@@ -114,7 +117,7 @@ export default {
       let stripeEmail = '';
       if (email && isEmailVerified) stripeEmail = email;
       this.$checkout.open({
-        name: this.product.name[this.$i18n.locale],
+        name: this.getLocalized(this.product.name),
         currency: 'USD',
         amount: this.product.amount,
         email: stripeEmail,
