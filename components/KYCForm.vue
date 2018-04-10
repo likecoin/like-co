@@ -164,7 +164,7 @@
             type="file"
             ref="selfieImageInput"
             accept="image/png, image/jpeg"
-            @change="handleselfieImageChange"
+            @change="handleSelfieImageChange"
             required />
         </div>
 
@@ -403,7 +403,7 @@ export default {
     openPicker(inputFile) {
       this.$refs[inputFile].click();
     },
-    handleselfieImageChange(event) {
+    handleSelfieImageChange(event) {
       const { files } = event.target;
       if (files && files[0]) {
         this.selfieFileName = files[0].name;

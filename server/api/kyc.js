@@ -48,7 +48,7 @@ const SUPPORTED_DOCUMENT_TYPE = new Set([
 const multer = Multer({
   storage: Multer.memoryStorage(),
   limits: {
-    fileSize: 2 * 1024 * 1024, // no larger than 5mb, you can change as needed.
+    fileSize: 2 * 1024 * 1024, // no larger than 2mb, you can change as needed.
   },
 });
 
