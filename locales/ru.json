@@ -210,7 +210,6 @@
         "item": {
             "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
             "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
-            "backer": "@:BackerPage.title",
             "whitepaper": "@:Whitepaper.Button.whitepaper",
             "support": "@:Footer.button.support"
         }
