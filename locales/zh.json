@@ -239,6 +239,11 @@
       "title": "化Like為Coin 回饋創作",
       "content": ""
     },
+    "HeroVideo": {
+      "button": {
+        "watchVideo": "觀看影片"
+      }
+    },
     "Sale": {
       "title": {
         "earlyBirdTokenSale": "早鳥代幣發售",

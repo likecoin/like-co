@@ -17,7 +17,7 @@
       </div>
     </section>
 
-    <carousel />
+    <hero-video />
 
     <section class="lc-container-0">
       <div class="lc-container-1">
@@ -115,6 +115,7 @@ import PlatformIconBar from '~/components/PlatformIconBar';
 import Advisors from '~/components/home/Advisors';
 import CTASection from '~/components/home/CTASection';
 import Carousel from '~/components/home/Carousel';
+import HeroVideo from '~/components/home/HeroVideo';
 import HeaderFlag from '~/components/home/Flag';
 import EarlyAdopters from '~/components/home/EarlyAdopters';
 import EarlySupporters from '~/components/home/EarlySupporters';
@@ -138,6 +139,7 @@ export default {
     EarlyAdopters,
     EarlySupporters,
     HeaderFlag,
+    HeroVideo,
     MaterialButton,
     PlatformIconBar,
     PressCoverage,
@@ -227,7 +229,7 @@ $carousel-height: 488px;
 
 .social-links-container {
   position: fixed;
-  z-index: 20;
+  z-index: 3;
   top: 0;
   right: 0;
   bottom: 0;

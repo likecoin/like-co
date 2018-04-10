@@ -239,6 +239,11 @@
       "title": "Reinventing the Like",
       "content": "Rewarding Contents by Proof of Creativity"
     },
+    "HeroVideo": {
+      "button": {
+        "watchVideo": "Watch the Video"
+      }
+    },
     "Sale": {
       "title": {
         "earlyBirdTokenSale": "Early Bird Token Sale",
