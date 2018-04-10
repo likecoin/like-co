@@ -4,17 +4,17 @@
       <div class="description">
         <div v-if="stage === 92">
           <!-- Finished Advanced KYC -->
-          {{  $t('KYC.label.canPurchaseMoreThanAmount', { amount: KYC_USD_LIMIT }) }}
+          {{  $t('KYC.label.canPurchaseMoreThanAmount', { amount: KYC_ETH_LIMIT }) }}
         </div>
         <div v-else-if="isPreSale && KYCStatus >= KYC_STATUS_ENUM.STANDARD">
           {{ $t('KYC.label.preSaleBonusDescription') }}
         </div>
         <div v-else-if="pendingKYC || isSubmittedAdvancedVerification">
-          {{ $t('KYC.label.advancedVerificationInProgress', { amount: KYC_USD_LIMIT }) }}
+          {{ $t('KYC.label.advancedVerificationInProgress', { amount: KYC_ETH_LIMIT }) }}
         </div>
         <div v-else-if="stage === 91">
           <!-- Finished Standard KYC -->
-          {{ $t('KYC.label.canPurchaseLessThanAmount', { amount: KYC_USD_LIMIT }) }}
+          {{ $t('KYC.label.canPurchaseLessThanAmount', { amount: KYC_ETH_LIMIT }) }}
           <br>
           <input type="submit" :value="$t('KYC.label.purchaseMore')" />
         </div>
@@ -110,7 +110,7 @@
       <div class="advanced-verification-wrapper lc-verticle-inset-5">
         <p class="lc-verticle-inset-3">
           {{ $t('KYC.label.verifyToPurchaseOverAmount', {
-            amount: KYC_USD_LIMIT,
+            amount: KYC_ETH_LIMIT,
           }) }}
         </p>
 
@@ -278,7 +278,7 @@ import TickIcon from '@/assets/tokensale/tick.svg';
 
 import MaterialButton from '~/components/MaterialButton';
 
-import { KYC_USD_LIMIT, KYC_STATUS_ENUM } from '@/constant';
+import { KYC_ETH_LIMIT, KYC_STATUS_ENUM } from '@/constant';
 import { logTrackerEvent } from '@/util/EventLogger';
 import COUNTRY_LIST from '@/constant/country-list';
 import NATIONALITY_LIST from '@/constant/nationality-list';
@@ -298,7 +298,7 @@ export default {
       COUNTRY_LIST,
       NATIONALITY_LIST,
 
-      KYC_USD_LIMIT,
+      KYC_ETH_LIMIT,
       KYC_STATUS_ENUM,
 
       email: '',
