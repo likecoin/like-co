@@ -65,11 +65,12 @@
     "vue-intercom": "^1.0.12",
     "vue-lazyload": "^1.2.1",
     "vue-material": "^1.0.0-beta-8",
-    "vue-stripe-checkout": "^1.0.3",
     "vue-simple-svg": "^1.2.5",
+    "vue-stripe-checkout": "^1.0.3",
     "vuex": "^3.0.1",
     "web3": "^1.0.0-beta.28",
-    "web3-provider-engine": "^13.6.6"
+    "web3-provider-engine": "^13.6.6",
+    "xml": "^1.0.1"
   },
   "devDependencies": {
     "ava": "^0.25.0",
