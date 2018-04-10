@@ -12,6 +12,16 @@ config.GCLOUD_PUBSUB_ENABLE = false;
 config.STRIPE_TEST_KEY = '';
 config.STRIPE_PROD_KEY = '';
 
+config.KYC_TOKEN = '';
+config.KYC_HOST = '';
+config.KYC_APP = '';
+config.KYC_DOMAIN = '';
+config.KYC_QUERY_PATH = '';
+config.KYC_CREATE_PATH = '';
+config.KYC_UPLOAD_PATH = '';
+config.KYC_CHECK_PATH = '';
+config.KYC_REPORT_PATH = '';
+
 config.APP_SERVER = '';
 
 module.exports = config;

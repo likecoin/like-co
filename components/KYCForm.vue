@@ -115,14 +115,18 @@
         </p>
 
         <md-field>
-          <label>{{ $t('KYC.label.passportName') }}</label>
-          <md-input v-model="passportName" required />
+          <label>{{ $t('KYC.label.firstName') }}</label>
+          <md-input v-model="firstName" required />
+        </md-field>
+        <md-field>
+          <label>{{ $t('KYC.label.lastName') }}</label>
+          <md-input v-model="lastName" required />
         </md-field>
 
         <md-field>
           <md-autocomplete
             v-model="country"
-            :md-options="COUNTRY_NAME_LIST"
+            :md-options="COUNTRY_LIST"
             md-dense
             required>
             <label>{{ $t('KYC.label.country') }}</label>
@@ -131,6 +135,38 @@
         <span v-if="isCountryInvalid" class="invalid-country-error">
           {{ $t('KYC.label.invalidCountry') }}
         </span>
+
+        <md-field>
+          <md-autocomplete
+            v-model="nationality"
+            :md-options="NATIONALITY_LIST"
+            md-dense
+            required>
+            <label>{{ $t('KYC.label.nationality') }}</label>
+          </md-autocomplete>
+        </md-field>
+        <span v-if="isNationalityInvalid" class="invalid-country-error">
+          {{ $t('KYC.label.invalidNationality') }}
+        </span>
+
+        <div class="image-upload-field">
+          <label>{{ $t('KYC.label.recentSelfie') }}</label>
+          <div class="image-upload-wrapper">
+            <div v-if="!!selfieFileName" class="image-name-text">
+              {{ selfieFileName }}
+            </div>
+            <md-button
+              @click="openPicker('selfieImageInput')">
+              {{ !!selfieFileName ? $t('KYC.button.reupload') : $t('KYC.button.upload') }}
+            </md-button>
+          </div>
+          <input
+            type="file"
+            ref="selfieImageInput"
+            accept="image/png, image/jpeg"
+            @change="handleSelfieImageChange"
+            required />
+        </div>
 
         <div class="image-upload-field">
           <label>{{ $t('KYC.label.passportIdPage') }}</label>
@@ -146,29 +182,11 @@
           <input
             type="file"
             ref="passportImageInput"
-            accept="image/*"
+            accept="image/png, image/jpeg"
             @change="handlePassportImageChange"
             required />
         </div>
 
-        <div class="image-upload-field">
-          <label>{{ $t('KYC.label.addressProof') }}</label>
-          <div class="image-upload-wrapper">
-            <div v-if="!!addressProofFileName" class="image-name-text">
-              {{ addressProofFileName }}
-            </div>
-            <md-button
-              @click="openPicker('addressProofImageInput')">
-              {{ !!addressProofFileName ? $t('KYC.button.reupload') : $t('KYC.button.upload') }}
-            </md-button>
-          </div>
-          <input
-            type="file"
-            ref="addressProofImageInput"
-            accept="image/*"
-            @change="handleAddressProofImageChange"
-            required />
-        </div>
       </div>
       <material-button type="submit" form="kycForm">
         {{ $t('General.button.confirm') }}
@@ -263,6 +281,7 @@ import MaterialButton from '~/components/MaterialButton';
 import { KYC_USD_LIMIT, KYC_STATUS_ENUM } from '@/constant';
 import { logTrackerEvent } from '@/util/EventLogger';
 import COUNTRY_LIST from '@/constant/country-list';
+import NATIONALITY_LIST from '@/constant/nationality-list';
 import User from '@/util/User';
 import EthHelper from '@/util/EthHelper';
 import { mapActions } from 'vuex';
@@ -276,6 +295,8 @@ export default {
   data() {
     return {
       TickIcon,
+      COUNTRY_LIST,
+      NATIONALITY_LIST,
 
       KYC_USD_LIMIT,
       KYC_STATUS_ENUM,
@@ -286,18 +307,21 @@ export default {
       notUSA: true,
       isUSAAccredited: false,
       isBelowThersold: true,
-      passportName: '',
+      firstName: '',
+      lastName: '',
       country: '',
+      nationality: '',
       // documentData0: null,
       // documentData1: null,
       passportIdPageFileName: null,
-      addressProofFileName: null,
+      selfieFileName: null,
       documentFile0: '',
       documentFile1: '',
       txHash: '',
 
       isAdvanced: false,
       isCountryInvalid: false,
+      isNationalityInvalid: false,
       isWaitingEmailVerification: false,
       isSubmittedAdvancedVerification: false,
     };
@@ -308,9 +332,6 @@ export default {
     },
     pendingKYC() {
       return this.user.pendingKYC;
-    },
-    COUNTRY_NAME_LIST() {
-      return COUNTRY_LIST.map(country => country.name);
     },
     KYCNotPass() {
       return (!this.notPRC || (!this.notUSA && !this.isUSAAccredited));
@@ -382,28 +403,28 @@ export default {
     openPicker(inputFile) {
       this.$refs[inputFile].click();
     },
+    handleSelfieImageChange(event) {
+      const { files } = event.target;
+      if (files && files[0]) {
+        this.selfieFileName = files[0].name;
+
+        [this.documentFile0] = Object.values(files);
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.documentData1 = e.target.result;
+        };
+        reader.readAsDataURL(files[0]);
+      }
+    },
     handlePassportImageChange(event) {
       const { files } = event.target;
       if (files && files[0]) {
         this.passportIdPageFileName = files[0].name;
 
-        [this.documentFile0] = Object.values(files);
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          this.documentData0 = e.target.result;
-        };
-        reader.readAsDataURL(files[0]);
-      }
-    },
-    handleAddressProofImageChange(event) {
-      const { files } = event.target;
-      if (files && files[0]) {
-        this.addressProofFileName = files[0].name;
-
         [this.documentFile1] = Object.values(files);
         const reader = new FileReader();
         reader.onload = (e) => {
-          this.documentData1 = e.target.result;
+          this.documentData0 = e.target.result;
         };
         reader.readAsDataURL(files[0]);
       }
@@ -463,7 +484,9 @@ export default {
         notUSA,
         isUSAAccredited,
         wallet,
-        passportName,
+        firstName,
+        lastName,
+        nationality,
         country,
         documentFile0,
         documentFile1,
@@ -477,14 +500,18 @@ export default {
         isUSAAccredited,
       };
       if (isAdv) {
-        userInfo.passportName = passportName;
-        // retrieve country code from choice
-        const selectedCountry = COUNTRY_LIST.find(c => c.name === country);
-        if (!selectedCountry) {
+        userInfo.firstName = firstName;
+        userInfo.lastName = lastName;
+        if (!COUNTRY_LIST.includes(country)) {
           this.isCountryInvalid = true;
           return;
         }
-        userInfo.country = selectedCountry.code;
+        if (!NATIONALITY_LIST.includes(nationality)) {
+          this.isNationalityInvalid = true;
+          return;
+        }
+        userInfo.country = country;
+        userInfo.nationality = nationality;
         userInfo.documentFile0 = documentFile0;
         userInfo.documentFile1 = documentFile1;
       }
