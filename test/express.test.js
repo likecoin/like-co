@@ -358,5 +358,5 @@ test('KYC: Advanced KYC, User wallet not match case', async (t) => {
   }).catch(err => err.response);
 
   t.is(res.status, 400);
-  t.is(res.data, 'User wallet not match');
+  t.is(res.data, 'Invalid document');
 });
