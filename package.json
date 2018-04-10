@@ -70,7 +70,8 @@
     "vue-stripe-checkout": "^1.0.3",
     "vuex": "^3.0.1",
     "web3": "^1.0.0-beta.28",
-    "web3-provider-engine": "^13.6.6"
+    "web3-provider-engine": "^13.6.6",
+    "xml": "^1.0.1"
   },
   "devDependencies": {
     "ava": "^0.25.0",
