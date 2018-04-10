@@ -65,6 +65,10 @@ const presses = [
     title: 'Mingpao (明報), 2017.10.07',
   },
   {
+    src: '/images/press-logo/hkej.svg',
+    link: 'http://startupbeat.hkej.com/?p=57661',
+  },
+  {
     src: '/images/press-logo/hk01.png',
     link: 'https://geme.hk01.com/channel/%E6%B4%BB%E5%8B%95/103842/oice%E3%80%8C%E6%88%91%E8%87%AA%E7%94%B1%E6%88%91%E5%B0%8E%E3%80%8D%E8%A6%96%E8%A6%BA%E5%B0%8F%E8%AA%AA%E5%89%B5%E4%BD%9C%E6%AF%94%E8%B3%BD%E7%B0%A1%E4%BB%8B%E6%9C%83',
   },
