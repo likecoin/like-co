@@ -76,6 +76,16 @@ const MENU_ITEMS = [
     section: 'secondary',
     items: [
       {
+        key: 'press',
+        to: 'https://press.like.co/',
+        isExternal: true,
+      },
+      {
+        key: 'poc',
+        to: 'https://meme.like.co/',
+        isExternal: true,
+      },
+      {
         key: 'support',
         to: 'https://help.like.co/',
         isExternal: true,

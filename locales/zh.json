@@ -216,7 +216,9 @@
       "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
       "backer": "@:BackerPage.title",
       "whitepaper": "@:Whitepaper.Button.whitepaper",
-      "support": "@:Footer.button.support"
+      "support": "@:Footer.button.support",
+      "press": "媒體",
+      "poc": "概念驗證"
     }
   },
   "Sign": {
