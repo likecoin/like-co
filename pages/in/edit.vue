@@ -533,7 +533,7 @@ export default {
       if (!this.getUserIsRegistered) {
         this.$router.push({ name: 'in-register' });
       } else {
-        if (this.$route.params.showEmail) {
+        if (this.$route.params.showEmail && !this.getUserInfo.isEmailVerified) {
           this.$nextTick(() => this.$refs.inputDialog.onInputText());
         }
         this.updateInfo();

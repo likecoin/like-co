@@ -90,7 +90,7 @@ import ErrorIcon from '@/assets/txHistory/invalid.svg';
 import LockIcon from '@/assets/txHistory/lock.svg';
 
 import EthHelper from '@/util/EthHelper';
-import { ETH_TO_LIKECOIN_RATIO, ONE_LIKE } from '@/constant';
+import { ETH_TO_LIKECOIN_RATIO, ONE_LIKE, TRANSACTION_QUERY_LIMIT } from '@/constant';
 import { LIKE_COIN_ICO_ADDRESS, LIKE_COIN_PRESALE_ADDRESS } from '@/constant/contract/likecoin-ico';
 
 function getLikeCoinByETH(eth) {
@@ -202,7 +202,7 @@ export default {
         addr: this.address,
         ts: (this.txHistory[this.txHistory.length - 1].ts - 1),
       });
-      if (!data || !data.length) this.hasMore = false;
+      if (!data || !data.length || data.length < TRANSACTION_QUERY_LIMIT) this.hasMore = false;
       this.txHistory = this.txHistory.concat(data);
     },
     async updateTokenSaleHistory() {
@@ -212,7 +212,10 @@ export default {
         this.ICOTotalETH = new BigNumber(eth).dividedBy(ONE_LIKE).toFixed(4);
         this.txHistory = await this.queryTxHistoryByAddr({ addr: this.address });
         this.isHistoryFetched = true;
-        if (!this.txHistory || !this.txHistory.length) this.hasMore = false;
+        if (!this.txHistory || !this.txHistory.length
+          || this.txHistory.length < TRANSACTION_QUERY_LIMIT) {
+          this.hasMore = false;
+        }
       } catch (err) {
         console.error(err);
       }

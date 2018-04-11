@@ -22,6 +22,8 @@ export const REDIRECT_WHITE_LIST = whiteList;
 
 export const REDIRECT_NAME_WHITE_LIST = ['in-tokensale', 'in-bundle'];
 
+export const TRANSACTION_QUERY_LIMIT = 10;
+
 export const KYC_ETH_LIMIT = 10;
 
 export const KYC_STATUS_ENUM = {
