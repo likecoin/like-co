@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import cors from 'cors';
 import { toDataUrl } from '@likecoin/ethereum-blockies';
 import xml from 'xml';
 import { IS_TESTNET } from '../../constant';
@@ -13,7 +14,7 @@ const {
 
 const router = Router();
 
-router.get('/oembed', async (req, res) => {
+router.get('/oembed', cors(), async (req, res) => {
   try {
     const { url } = req.query;
     if (!url) {
