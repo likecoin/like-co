@@ -4,7 +4,14 @@
 body {
   z-index: -2;
 
-  font-family: 'Open Sans', 'source-han-sans-traditional', 'Source Sans Pro', 'Noto Sans', 'Microsoft JhengHei', Arial, sans-serif;
+  font-family: 'Open Sans',
+               'source-han-sans-traditional',
+               'source-han-sans-simplified-c',
+               'Source Sans Pro',
+               'Noto Sans',
+               'Microsoft JhengHei',
+               Arial,
+               sans-serif;
 
   .md-button {
     text-transform: none;
