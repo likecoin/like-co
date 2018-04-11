@@ -50,6 +50,13 @@ const ValidationHelper = {
       ts,
     };
   },
+  filterMissionData({
+    reward,
+  }) {
+    return {
+      reward,
+    };
+  },
 };
 
 export default ValidationHelper;
