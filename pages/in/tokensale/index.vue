@@ -45,8 +45,8 @@
 
             <div class="lc-container-4">
               <div class="tokensale-amount lc-verticle-inset-2 lc-text-align-center">
-                <span class="current lc-color-like-green lc-font-size-46 lc-font-weight-300">{{ currentTokenSaleAmount }}</span>
-                <span class="max lc-font-size-20 lc-font-weight-400"> / {{ maxTokenSaleAmount }} ETH</span>
+                <span class="current lc-color-like-green lc-font-size-46 lc-font-weight-300">{{ currentTokenSaleAmount.toFixed(2) }}</span>
+                <span class="max lc-font-size-20 lc-font-weight-400"> / {{ maxTokenSaleAmount.toFixed(2) }} ETH</span>
               </div>
             </div>
           </div>
@@ -295,8 +295,8 @@ import {
   ETH_TO_LIKECOIN_RATIO,
   ETHERSCAN_HOST,
   INITIAL_TOKENSALE_ETH,
-  KYC_USD_LIMIT,
   KYC_STATUS_ENUM,
+  KYC_ETH_LIMIT,
   ONE_LIKE,
   SALE_DATE,
 } from '@/constant';
@@ -322,6 +322,7 @@ export default {
       QuestionIcon,
 
       KYC_STATUS_ENUM,
+      KYC_ETH_LIMIT,
       SALE_DATE,
       ETH_TO_LIKECOIN_RATIO,
       LIKE_CONTRACT_ADDRESS: `${ETHERSCAN_HOST}/address/${LIKE_COIN_ADDRESS}`,
@@ -427,13 +428,15 @@ export default {
         return;
       }
       this.isBadAmount = false;
-      const usdPrice = await this.queryEthPrice();
-      const usdAmount = usdPrice * this.amount;
       if (!this.isPreSale
-        && usdAmount > KYC_USD_LIMIT
+        && amount.gt(KYC_ETH_LIMIT)
         && this.getUserInfo.KYC < KYC_STATUS_ENUM.ADVANCED) {
-        this.popupMessage = this.$t('KYC.label.advKycNeeded');
-        this.needExtraKYC = true;
+        if (this.getUserInfo.pendingKYC) {
+          this.popupMessage = this.$t('KYC.label.advKycPending');
+        } else {
+          this.popupMessage = this.$t('KYC.label.advKycNeeded');
+          this.needExtraKYC = true;
+        }
         return;
       }
       try {

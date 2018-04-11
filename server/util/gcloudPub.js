@@ -33,7 +33,7 @@ publisher.publish = async (publishTopic, req, obj) => {
     appServer: config.APP_SERVER || 'test-store',
     ethNetwork,
     uuidv4: uuidv4(),
-    requestIP: req.headers['x-real-ip'] || req.ip,
+    requestIP: req ? (req.headers['x-real-ip'] || req.ip) : undefined,
   });
 
   const data = JSON.stringify(obj);
