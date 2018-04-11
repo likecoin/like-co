@@ -9,10 +9,12 @@
         <div>
           <no-ssr>
             <vimeo-player
-              ref="player"
               class="video-player"
               :video-id="videoId"
               :autoplay="true"
+              :options="{
+                playsinline: false,
+              }"
               @ended="close" />
           </no-ssr>
         </div>
@@ -48,8 +50,8 @@ export default {
     },
   },
   watch: {
-    isShowDialog(val) {
-      this.$emit('toggle', val);
+    isShowDialog(isOpen) {
+      this.$emit('toggle', isOpen);
     },
   },
 };
