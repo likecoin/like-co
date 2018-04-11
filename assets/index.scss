@@ -1,6 +1,11 @@
 @import "functions";
 @import "variables";
 
+* {
+  margin: 0;
+  padding: 0;
+}
+
 body {
   z-index: -2;
 

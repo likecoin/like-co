@@ -2,7 +2,7 @@
   <div>
     <md-field :class="['lc-number-input', { 'has-currency': !!this.currencyTitle }]">
       <label v-html="label" />
-      <div class="lc-number-input-wrapper">
+      <div class="lc-number-input-wrapper lc-margin-top-12">
         <md-button class="value-button" @click="onAmountAdd(-1)">
           <img :src="MinusIcon" />
         </md-button>
@@ -118,6 +118,8 @@ export default {
 @import "~assets/input";
 
 .lc-number-input {
+  margin: 0;
+
   label {
     color: $like-dark-brown-1 !important;
 
@@ -136,7 +138,6 @@ export default {
     justify-content: space-between;
 
     width: 100%;
-    margin-top: 12px;
 
     .currency-title {
       position: absolute;
