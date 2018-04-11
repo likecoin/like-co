@@ -13,8 +13,11 @@
                     class="video-player"
                     :video-id="getHeroVideoId"
                     :autoplay="true"
-                    :options="{ background: true }"
                     :loop="true"
+                    :options="{
+                      background: true,
+                      muted: true,
+                    }"
                     @play="onPlay" />
                 </no-ssr>
               </div>
