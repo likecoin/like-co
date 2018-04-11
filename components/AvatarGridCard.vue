@@ -8,16 +8,27 @@
       <p class="description" v-html="description" />
 
       <div class="platforms" v-if="platforms">
-        <md-button
-          class="md-icon-button"
-          target="_blank"
-          rel="noopener noreferrer"
-          v-for="({ key, value }, index) in platforms"
-          :href="value"
-          :key="key"
-        >
-          <img :alt="key" v-lazy="imgUrl(`icons/${key}-dark.svg`)" />
-        </md-button>
+        <div class="platform" v-for="({ key, to, isInternal }, index) in platforms" :key="key">
+
+          <nuxt-link
+            v-if="isInternal"
+            :to="to">
+            <md-button class="md-icon-button">
+              <img :alt="key" :src="imgUrl(`icons/${key}-dark.svg`)" />
+            </md-button>
+          </nuxt-link>
+
+          <md-button
+            v-else
+            class="md-icon-button"
+            rel="noopener noreferrer"
+            target="_blank"
+            :href="to"
+          >
+            <img :alt="key" :src="imgUrl(`icons/${key}-dark.svg`)" />
+          </md-button>
+
+        </div>
       </div>
     </div>
   </div>
@@ -116,8 +127,21 @@ export default {
 
     .platforms {
       text-align: center;
-      .md-button:hover {
-        opacity: .7;
+
+      .platform {
+        display: inline-block;
+      }
+
+      .md-button {
+        margin: 0;
+
+        &:hover {
+          opacity: .7;
+        }
+
+        :global(.md-ripple) {
+          padding: 0 6px;
+        }
       }
     }
   }

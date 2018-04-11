@@ -50,14 +50,32 @@ const SUPPORTERS = [
   {
     key: 'greg-song',
     avatar: '/images/supporters/greg-song.png',
+    platforms: [
+      {
+        key: 'linkedin',
+        to: 'https://www.linkedin.com/in/gregsung/',
+      },
+    ],
   },
   {
     key: 'harry-xiao',
     avatar: '/images/supporters/harry-xiao.png',
+    platforms: [
+      {
+        key: 'linkedin',
+        to: 'https://www.linkedin.com/in/yong-quan-xiao-3419061a/',
+      },
+    ],
   },
   {
     key: 'heartherm-huang',
     avatar: '/images/supporters/heartherm-huang.png',
+    platforms: [
+      {
+        key: 'linkedin',
+        to: 'https://www.linkedin.com/in/heathermhuang/',
+      },
+    ],
   },
   {
     key: 'jacky-chu',
@@ -76,11 +94,11 @@ export default {
     },
   },
   methods: {
-    translateSupporter({ key, avatar }) {
+    translateSupporter({ key, ...userInfo }) {
       return {
         title: this.$t(`Home.EarlySupporters.supporter.${key}.title`),
         subtitle: this.$t(`Home.EarlySupporters.supporter.${key}.subtitle`),
-        avatar,
+        ...userInfo,
       };
     },
   },
