@@ -201,6 +201,10 @@ export default {
 .email-notice,
 .referral-description {
   color: $like-gray-4;
+
+  @media (max-width: 600px) {
+    font-size: 18px;
+  }
 }
 
 #referralForm {

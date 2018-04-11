@@ -191,7 +191,11 @@ $progress-bar-percentage: 38%;
       height: $timeline-width;
 
       border-radius: $timeline-radius;
-      background-image: linear-gradient(to left, $like-light-blue, $like-gradient-1);;
+      background-image: linear-gradient(to left, $like-light-blue, $like-gradient-1);
+
+      @media (min-width: #{860px + 1px}) {
+        left: 0;
+      }
     }
   }
 

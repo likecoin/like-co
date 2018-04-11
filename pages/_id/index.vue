@@ -21,7 +21,7 @@
 
               <section class="lc-text-align-center">
                 <h1
-                  class="lc-font-size-42 receiver-title"
+                  class="lc-font-size-42 lc-font-weight-300 lc-mobile"
                   v-html="$t('Transaction.label.sendTo', { title: displayName, coin: isEth ? 'ETH' : 'LikeCoin' })"
                   />
               </section>
@@ -38,13 +38,17 @@
                 <div class="address-title">
                   {{ $t('Transaction.label.recipientId') }}
                 </div>
-                <div class="address-content">{{ id }}</div>
+                <div class="address-content">
+                  {{ id }}
+                </div>
               </section>
               <section v-if="wallet" class="address-container">
                 <div class="address-title">
                   {{ $t('Transaction.label.recipientAddress') }}
                 </div>
-                <div class="address-content">{{ wallet }}</div>
+                <div class="address-content">
+                  {{ wallet }}
+                </div>
               </section>
 
             </div>
@@ -58,11 +62,11 @@
 
         <div class="lc-container-2">
           <div class="lc-container-3 lc-bg-gray-1">
-            <div class="lc-container-4 lc-padding-vertical-32">
+            <div class="lc-container-4 lc-padding-top-24 lc-padding-bottom-32">
 
               <form id="paymentInfo" v-on:submit.prevent="onSubmit">
                 <input v-model="wallet" hidden required disabled />
-                <div class="number-input">
+                <div class="number-input lc-padding-bottom-32">
                   <number-input
                     :currencyTitle="isEth ? 'ETH' : ''"
                     :amount="amount"
@@ -346,10 +350,6 @@ export default {
   }
 }
 
-.receiver-title {
-  font-weight: 300;
-}
-
 .address-container {
   & + & {
     margin-top: 18px;
@@ -370,7 +370,7 @@ export default {
   white-space: nowrap;
   text-overflow: ellipsis;
 
-  font-size: 20px;
+  font-size: 19px;
   line-height: 1.2;
 }
 

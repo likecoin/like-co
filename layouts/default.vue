@@ -6,7 +6,7 @@
     <header class="lc-page-header">
       <div class="lc-container-0">
         <div class="lc-container-1">
-          <div class="underlay gray lc-mobile-hide" />
+          <div class="underlay lc-mobile-hide" />
           <div class="lc-container-2">
             <site-header/>
           </div>

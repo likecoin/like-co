@@ -1,9 +1,21 @@
 <template>
   <div class="lc-document">
-    <div class="lc-document-wrapper">
-      <div class="title">{{ title }}</div>
-      <img class="image" :src="imageSrc" />
-      <ul class="language-list lc-margin-vertical-32 lc-mobile">
+    <div class="lc-container-header">
+      <div class="lc-container-header-overlay">
+        <div class="lc-container-3 lc-bg-gray-1 lc-mobile-hide" />
+      </div>
+      <div class="lc-container-2">
+        <div class="lc-container-header-title">
+          <h1 class="lc-font-size-32 lc-mobile">
+            {{ title }}
+          </h1>
+        </div>
+      </div>
+    </div>
+
+    <div class="lc-document-wrapper lc-padding-top-24 lc-bg-gray-1">
+      <img :src="imageSrc" />
+      <ul class="language-list lc-padding-vertical-24 lc-mobile">
         <li
           v-for="link in mainLocaleSrc"
           :key="link.languageKey">
@@ -17,7 +29,7 @@
     <div
       class="other-languages-list"
       v-if="otherLocaleSrc.length > 0">
-      <ul class="language-list lc-margin-vertical-32 lc-mobile">
+      <ul class="language-list lc-padding-vertical-24 lc-mobile">
         <li
           v-for="link in otherLocaleSrc"
           :key="link.languageKey">
@@ -60,32 +72,18 @@ export default {
 @import "~assets/variables";
 
 .lc-document {
+  .lc-container-header-title {
+    @media (min-width: #{768px + 1px}) {
+      margin: 0 !important;
+    }
+  }
+
   .lc-document-wrapper {
     display: flex;
     flex-direction: column;
     justify-content: center;
 
     width: 100%;
-
-    background-color: $like-gray-1;
-
-  }
-  .title {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    height: 48px;
-    margin: -24px 50px 0;
-
-  	background-color: $like-light-blue;
-
-    font-size: 32px;
-    font-weight: 300;
-  }
-
-  .image {
-    margin-top: 24px;
   }
 
   .language-list {
@@ -95,7 +93,7 @@ export default {
       display: flex;
       justify-content: center;
 
-      margin: 4px;
+      padding: 0 8px;
     }
   }
 

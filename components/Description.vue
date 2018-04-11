@@ -52,8 +52,6 @@ export default {
 
     padding: 0 16px 66px 8px;
 
-    text-align: left;
-
     font-size: 20px;
     line-height: 30px;
 
