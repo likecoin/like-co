@@ -42,18 +42,42 @@ const ADVISORS = [
   {
     key: 'alex-lau',
     avatar: '/images/advisors/alex-lau.png',
+    platforms: [
+      {
+        key: 'linkedin',
+        to: 'https://hk.linkedin.com/in/avengermojo',
+      },
+    ],
   },
   {
     key: 'haggen-so',
     avatar: '/images/advisors/haggen-so.jpg',
+    platforms: [
+      {
+        key: 'linkedin',
+        to: 'https://www.linkedin.com/in/haggenso/',
+      },
+    ],
   },
   {
     key: 'jon-phillips',
     avatar: '/images/advisors/jon-phillips.jpg',
+    platforms: [
+      {
+        key: 'linkedin',
+        to: 'https://www.linkedin.com/comm/in/jon-phillips-99416189',
+      },
+    ],
   },
   {
     key: 'isaac-mao',
     avatar: '/images/advisors/isaac-mao.jpg',
+    platforms: [
+      {
+        key: 'linkedin',
+        to: 'https://www.linkedin.com/in/isaacmao/',
+      },
+    ],
   },
 ];
 
@@ -68,11 +92,11 @@ export default {
     },
   },
   methods: {
-    translateAdvisor({ key, avatar }) {
+    translateAdvisor({ key, ...userInfo }) {
       return {
         title: this.$t(`Home.Advisors.advisor.${key}.title`),
         description: this.$t(`Home.Advisors.advisor.${key}.description`),
-        avatar,
+        ...userInfo,
       };
     },
   },
