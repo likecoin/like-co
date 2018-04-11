@@ -314,7 +314,7 @@ import InputDialog from '~/components/dialogs/InputDialog';
 import TransactionHistory from '~/components/TransactionHistory';
 import ViewEtherscan from '~/components/ViewEtherscan';
 
-import { ONE_LIKE, W3C_EMAIL_REGEX } from '@/constant';
+import { ONE_LIKE, W3C_EMAIL_REGEX, SALE_DATE } from '@/constant';
 
 import EditIcon from '@/assets/icons/edit.svg';
 import EditWhiteIcon from '@/assets/icons/edit-white.svg';
@@ -325,7 +325,6 @@ export default {
   data() {
     return {
       W3C_EMAIL_REGEX,
-      ENABLE_TX_HISTORY: false,
       avatarFile: null,
       avatarData: null,
       user: '',
@@ -354,6 +353,9 @@ export default {
     ViewEtherscan,
   },
   computed: {
+    ENABLE_TX_HISTORY() {
+      return (new Date() >= SALE_DATE);
+    },
     ...mapGetters([
       'getUserInfo',
       'getIsInTransaction',
