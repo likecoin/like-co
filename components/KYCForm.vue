@@ -243,8 +243,8 @@
     </section>
 
     <!-- Account / Advanced Verification Passed -->
-    <!-- <section
-      v-else-if="stage === 91 || stage === 92"
+    <section
+      v-else-if="!(isPreSale || isICOStarted) && (stage === 91 || stage === 92)"
       class="account-verified-section">
       <div class="verified-wrapper">
         <div class="description">
@@ -255,7 +255,7 @@
           <p>{{ $t('KYC.label.canPurchaseWhenPublicSale') }}</p>
         </div>
       </div>
-    </section> -->
+    </section>
 
     <section
       v-else-if="stage === 99"
@@ -282,7 +282,7 @@ import { mapActions } from 'vuex';
 
 export default {
   name: 'KYC',
-  props: ['isKYCTxPass', 'isPreSale', 'user', 'wallet'],
+  props: ['isKYCTxPass', 'isPreSale', 'isICOStarted', 'user', 'wallet'],
   components: {
     MaterialButton,
   },
