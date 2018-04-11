@@ -802,7 +802,7 @@
       "timeWaitForAdvancedVerification": "It will take about 5 working days…",
       "contactUs": "Please contact us at the bottom-right dialogue bubble for further assistance.",
       "contactThroughIntercom": "Please contact us here in Intercom.",
-      "preSaleBonETHescription": "25% bonus for 10 ETH purchase and above"
+      "preSaleBonusDescription": "25% bonus for 10 ETH purchase and above"
     },
     "button": {
       "createID": "Create LikeCoin ID",

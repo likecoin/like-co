@@ -296,6 +296,7 @@ import {
   ETHERSCAN_HOST,
   INITIAL_TOKENSALE_ETH,
   KYC_STATUS_ENUM,
+  KYC_ETH_LIMIT,
   ONE_LIKE,
   SALE_DATE,
 } from '@/constant';
@@ -321,6 +322,7 @@ export default {
       QuestionIcon,
 
       KYC_STATUS_ENUM,
+      KYC_ETH_LIMIT,
       SALE_DATE,
       ETH_TO_LIKECOIN_RATIO,
       LIKE_CONTRACT_ADDRESS: `${ETHERSCAN_HOST}/address/${LIKE_COIN_ADDRESS}`,
@@ -427,7 +429,7 @@ export default {
       }
       this.isBadAmount = false;
       if (!this.isPreSale
-        && amount.gt('10')
+        && amount.gt(KYC_ETH_LIMIT)
         && this.getUserInfo.KYC < KYC_STATUS_ENUM.ADVANCED) {
         if (this.getUserInfo.pendingKYC) {
           this.popupMessage = this.$t('KYC.label.advKycPending');

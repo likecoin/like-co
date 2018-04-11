@@ -122,29 +122,23 @@
           <label>{{ $t('KYC.label.lastName') }}</label>
           <md-input v-model="lastName" required />
         </md-field>
-
-        <md-field class="autocomplete-field">
-          <md-autocomplete
-            v-model="country"
-            :md-options="COUNTRY_LIST"
-            md-dense
-            required>
-            <label>{{ $t('KYC.label.country') }}</label>
-          </md-autocomplete>
-        </md-field>
+        <md-autocomplete
+          v-model="country"
+          :md-options="COUNTRY_LIST"
+          md-dense
+          required>
+          <label>{{ $t('KYC.label.country') }}</label>
+        </md-autocomplete>
         <span v-if="isCountryInvalid" class="invalid-country-error">
           {{ $t('KYC.label.invalidCountry') }}
         </span>
-
-        <md-field class="autocomplete-field">
-          <md-autocomplete
-            v-model="nationality"
-            :md-options="NATIONALITY_LIST"
-            md-dense
-            required>
-            <label>{{ $t('KYC.label.nationality') }}</label>
-          </md-autocomplete>
-        </md-field>
+        <md-autocomplete
+          v-model="nationality"
+          :md-options="NATIONALITY_LIST"
+          md-dense
+          required>
+          <label>{{ $t('KYC.label.nationality') }}</label>
+        </md-autocomplete>
         <span v-if="isNationalityInvalid" class="invalid-country-error">
           {{ $t('KYC.label.invalidNationality') }}
         </span>
@@ -872,9 +866,6 @@ input[type="file"] {
           margin-bottom: 0;
         }
       }
-    }
-    .autocomplete-field:after {
-      height: 0;
     }
     .invalid-country-error {
       color: $like-green-2;
