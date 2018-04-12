@@ -167,38 +167,6 @@
       </div>
     </div>
 
-    <div v-if="ENABLE_TX_HISTORY" class="lc-margin-top-48 lc-mobile">
-      <section class="lc-container-1">
-        <div class="lc-container-header">
-          <div class="lc-container-2 lc-container-header-overlay">
-            <div class="lc-container-3 lc-bg-gray-1" />
-          </div>
-          <div class="lc-container-2">
-            <div class="lc-container-3">
-              <div class="lc-container-4">
-                <div class="lc-container-header-title">
-                  <h1 class="lc-font-size-32 lc-mobile">
-                    {{ $t('TransactionHistory.title') }}
-                  </h1>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="lc-container-2">
-          <div class="lc-container-3 lc-padding-vertical-32 lc-bg-gray-1">
-            <div class="lc-container-4">
-              <transaction-history
-                ref="txHistory"
-                :address="wallet"
-                :showTokensale="true"
-                />
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
 
     <div :class="['lc-margin-top-48', 'lc-mobile', { disabled: isProfileEdit }]" id="coupon">
       <section class="lc-container-1">
@@ -256,6 +224,38 @@
     </div>
 
 
+    <div class="bonus-container lc-margin-top-48 lc-mobile">
+      <section class="lc-container-1">
+        <div class="lc-container-header">
+          <div class="lc-container-2 lc-container-header-overlay">
+            <div class="lc-container-3 lc-bg-gray-1" />
+          </div>
+          <div class="lc-container-2">
+            <div class="lc-container-3">
+              <div class="lc-container-4">
+                <div class="lc-container-header-title">
+                  <h1 class="lc-font-size-32 lc-mobile">
+                    {{ $t('BonusPage.title') }}
+                  </h1>
+                </div>
+                <material-button class="lc-container-header-button">
+                  {{ $t('BonusPage.button.moreBonus') }}
+                </material-button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lc-container-2">
+          <div class="lc-container-3 lc-padding-vertical-32 lc-bg-gray-1">
+            <div class="lc-container-4">
+              <!-- Add me -->
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
     <div class="referral-form-container lc-margin-top-48 lc-mobile" id="referral">
       <div :class="{ disabled: isProfileEdit }">
 
@@ -293,6 +293,40 @@
           </div>
         </section>
       </div>
+    </div>
+
+
+    <div v-if="ENABLE_TX_HISTORY" class="lc-margin-top-48 lc-mobile">
+      <section class="lc-container-1">
+        <div class="lc-container-header">
+          <div class="lc-container-2 lc-container-header-overlay">
+            <div class="lc-container-3 lc-bg-gray-1" />
+          </div>
+          <div class="lc-container-2">
+            <div class="lc-container-3">
+              <div class="lc-container-4">
+                <div class="lc-container-header-title">
+                  <h1 class="lc-font-size-32 lc-mobile">
+                    {{ $t('TransactionHistory.title') }}
+                  </h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lc-container-2">
+          <div class="lc-container-3 lc-padding-vertical-32 lc-bg-gray-1">
+            <div class="lc-container-4">
+              <transaction-history
+                ref="txHistory"
+                :address="wallet"
+                :showTokensale="true"
+                />
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
 
     <view-etherscan :address="wallet" />
