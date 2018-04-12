@@ -46,7 +46,8 @@ router.get('/mission/list/:id', async (req, res) => {
     const userMisionList = userMissionCol.docs.map(d => d.id);
     const missionDone = userMissionCol.docs.filter(d => d.data().done).map(d => d.id);
 
-    const replyMissionList = userMissionCol.docs.filter(d => !d.data().bonusId);
+    const replyMissionList = userMissionCol.docs
+      .filter(d => !d.data().bonusId).map(d => ({ id: d.id, ...d.data() }));
     for (let index = 0; index < missionCol.docs.length; index += 1) {
       const m = missionCol.docs[index];
       if (!userMisionList.includes(m.id)) {
@@ -54,14 +55,14 @@ router.get('/mission/list/:id', async (req, res) => {
         const fullfilled = requires.every(id => missionDone.includes(id));
         // eslint-disable-next-line no-await-in-loop
         if (fullfilled && (await checkAlreadyDone(m, { u: userDoc, doneList: missionDone }))) {
-          replyMissionList.push(m);
+          replyMissionList.push({ id: m.id, ...m.data() });
+        } else {
+          let target = replyMissionList.find(d => d.id === m.id);
+          target = Object.assign(m.data(), target);
         }
       }
     }
-    const missions = replyMissionList.map(d => ({
-      id: d.id,
-      ...Validate.filterMissionData(d.data()),
-    }));
+    const missions = replyMissionList.map(d => ({ ...Validate.filterMissionData(d) }));
     res.json(missions);
   } catch (err) {
     const msg = err.message || err;
