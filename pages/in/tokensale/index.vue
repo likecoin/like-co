@@ -21,15 +21,16 @@
 
               <section class="countdown-section lc-text-align-center">
                 <h1 class="lc-font-size-42 lc-font-weight-600">
-                  {{ isPreSale ? $t('TokenSale.preSaleTitle') : $t('TokenSale.title') }} <span class="lc-font-weight-300 lc-color-like-green">LIVE</span>
+                  {{ isPreSale ? $t('TokenSale.preSaleTitle') : $t('TokenSale.title') }} 
+                  <span v-if="isPreSale || isICOStarted" class="lc-font-weight-300 lc-color-like-green">LIVE</span>
                 </h1>
                 <h2 v-if="isPreSale" class="lc-margin-top-12 lc-font-size-38 lc-font-weight-300">
                   {{ $t('TokenSale.label.bonusAndLimitedOffer') }}
                 </h2>
-                <h3 class="lc-margin-top-12 lc-font-size-14 lc-font-weight-400">
+                <h3 v-if="isPreSale || !isICOStarted" class="lc-margin-top-12 lc-font-size-14 lc-font-weight-400">
                   {{ isPreSale ? $t('TokenSale.label.limitedOfferCondition') : $t('TokenSale.label.publicSaleStartIn') }}
                 </h3>
-                <!-- <countdown-timer :date="SALE_DATE" /> -->
+                <countdown-timer v-if="!isPreSale && !isICOStarted" :date="SALE_DATE" />
               </section>
 
             </div>
@@ -38,7 +39,7 @@
 
         <div class="lc-container-2">
 
-          <div v-if="!isPreSale" class="tokensale-progress-wrapper lc-container-3 lc-bg-gray-1 lc-verticle-inset-4">
+          <div v-if="isICOStarted" class="tokensale-progress-wrapper lc-container-3 lc-bg-gray-1 lc-verticle-inset-4">
             <tokensale-progress
               :progress="currentTokenSaleAmount.toFixed(2)"
               :total="maxTokenSaleAmount.toFixed(2)"/>
@@ -50,7 +51,7 @@
               </div>
             </div>
           </div>
-          <div v-else class="tokensale-presale-wrapper lc-container-3 lc-bg-gray-1">
+          <div v-else-if="isPreSale" class="tokensale-presale-wrapper lc-container-3 lc-bg-gray-1">
             <div class="lc-container-4 lc-padding-vertical-32">
               {{ $t('TokenSale.label.amountWillBeSentWhenSalesStart')}}
             </div>
@@ -169,6 +170,7 @@
                   <KYCForm
                     :isKYCTxPass="isKYCTxPass"
                     :isPreSale="isPreSale"
+                    :isICOStarted="isICOStarted"
                     :user="getUserInfo"
                     :wallet="getLocalWallet"
                     @showPaymentForm="handleShowPaymentForm" />
@@ -221,7 +223,10 @@
         </div>
       </section>
 
-      <section v-if="canICO && !needExtraKYC && shouldShowPaymentForm" class="lc-container-1 lc-verticle-inset-3">
+      <section
+        v-if="(isPreSale || isICOStarted) && canICO && !needExtraKYC && shouldShowPaymentForm"
+        class="lc-container-1 lc-verticle-inset-3"
+      >
         <div class="lc-container-2">
           <div class="lc-container-3 lc-bg-gray-1">
             <div class="lc-container-4 lc-padding-vertical-24">
@@ -301,6 +306,7 @@ import {
   KYC_ETH_LIMIT,
   ONE_LIKE,
   SALE_DATE,
+  SALE_DATE_ANNOUNCE_DATE,
 } from '@/constant';
 import { logTrackerEvent } from '@/util/EventLogger';
 import { mapActions, mapGetters } from 'vuex';
@@ -378,7 +384,10 @@ export default {
       return this.isPreSale ? LIKE_COIN_PRESALE_ADDRESS : LIKE_COIN_ICO_ADDRESS;
     },
     isPreSale() {
-      return (new Date() < SALE_DATE);
+      return (new Date() < SALE_DATE_ANNOUNCE_DATE);
+    },
+    isICOStarted() {
+      return (new Date() >= SALE_DATE);
     },
     preSaleBonus() {
       if (!this.preSaleBase || Number(this.displayAmount) < 10) return new BigNumber(0);
