@@ -5,13 +5,19 @@
 
     <header class="lc-page-header">
       <div class="lc-container-0">
-        <div class="lc-container-1">
+
+        <div class="lc-container-1 lc-narrow-page-header-overlay">
           <div class="lc-container-2">
-            <div class="lc-bg-gray-1">
-              <site-header :showLogin="true" />
-            </div>
+            <div class="lc-container-3 lc-bg-gray-1" />
           </div>
         </div>
+
+        <div class="lc-container-1">
+          <div class="lc-container-2">
+            <site-header :showLogin="true" />
+          </div>
+        </div>
+
       </div>
     </header>
 

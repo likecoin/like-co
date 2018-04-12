@@ -57,9 +57,6 @@ export default {
   }
 
   > .title h1 {
-    display: flex;
-    align-items: center;
-
     margin-left: 24px;
 
     @media (max-width: 768px) {

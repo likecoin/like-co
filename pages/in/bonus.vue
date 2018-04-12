@@ -52,7 +52,7 @@
 
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
 
 import EthHelper from '@/util/EthHelper';
@@ -97,11 +97,16 @@ export default {
     ...mapGetters([
       'getUserIsFetching',
       'getUserIsRegistered',
+      'getUserInfo',
     ]),
   },
   methods: {
+    ...mapActions([
+      'refreshMissionList',
+    ]),
     async updateInfo() {
       this.updateLikeCoin();
+      this.updateMission();
     },
     async updateLikeCoin() {
       try {
@@ -110,6 +115,9 @@ export default {
       } catch (err) {
         console.log(err);
       }
+    },
+    async updateMission() {
+      this.refreshMissionList(this.getUserInfo.user);
     },
   },
   watch: {

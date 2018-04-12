@@ -1,3 +1,7 @@
+import {
+  GETTING_STARTED_TASKS,
+} from '../constant';
+
 const ValidationHelper = {
   checkAddressValid(addr) {
     return addr.length === 42 && addr.substr(0, 2) === '0x';
@@ -48,6 +52,29 @@ const ValidationHelper = {
       remarks,
       completeTs,
       ts,
+    };
+  },
+  filterMissionData(m) {
+    const {
+      id,
+      reward,
+      done,
+      seen,
+      bonusId,
+      isClaimed,
+    } = m;
+    const misc = {};
+    GETTING_STARTED_TASKS.forEach((task) => {
+      if (m[task]) misc[task] = m[task];
+    });
+    return {
+      id,
+      reward,
+      done,
+      seen,
+      bonusId,
+      isClaimed,
+      ...misc,
     };
   },
 };

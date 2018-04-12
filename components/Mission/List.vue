@@ -18,10 +18,10 @@
       <ul>
         <li v-for="t in missions" :key="t.id">
           <mission-item
-            :title="t.title"
+            :title="getTitle(t)"
             :reward="t.reward"
-            :state="t.state"
-            :is-new="!!t.isNew"
+            :state="t.done ? 'completed' : 'active'"
+            :is-new="!t.seen"
             @click="onClick(t)" />
         </li>
       </ul>
@@ -58,6 +58,9 @@ export default {
       if (this.state !== 'claimed') {
         this.$emit('click', t);
       }
+    },
+    getTitle(t) {
+      return this.$t(`Mission.${t.id}.title`);
     },
   },
 };

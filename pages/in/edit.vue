@@ -221,7 +221,7 @@
         </div>
 
         <div class="lc-container-2">
-          <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-32 section-content">
+          <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-32">
             <div class="lc-container-4">
               <form id="redeemForm" v-on:submit.prevent="onSubmitCoupon">
                 <md-field>
@@ -235,7 +235,7 @@
                     :title="$t('Edit.label.validCodeRequired')"
                     required />
                 </md-field>
-                <div v-if="!isProfileEdit" id="form-btn" class="lc-padding-top-48">
+                <div v-if="!isProfileEdit" id="form-btn" class="lc-padding-top-48 lc-mobile">
                   <material-button
                     id="confirm-btn"
                     type="submit"
@@ -278,7 +278,7 @@
           </div>
 
           <div class="lc-container-2">
-            <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-32 section-content">
+            <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-32">
               <div class="lc-container-4">
                 <referral-action
                   :user="user"
@@ -533,7 +533,7 @@ export default {
       if (!this.getUserIsRegistered) {
         this.$router.push({ name: 'in-register' });
       } else {
-        if (this.$route.params.showEmail) {
+        if (this.$route.params.showEmail && !this.getUserInfo.isEmailVerified) {
           this.$nextTick(() => this.$refs.inputDialog.onInputText());
         }
         this.updateInfo();

@@ -5,6 +5,7 @@ import {
   ONE_LIKE,
   ETH_TO_LIKECOIN_RATIO,
   PUBSUB_TOPIC_MISC,
+  TRANSACTION_QUERY_LIMIT,
 } from '../../constant';
 import Validate from '../../util/ValidationHelper';
 import { logTransferDelegatedTx, logETHTx } from '../util/logger';
@@ -278,7 +279,6 @@ router.get('/tx/id/:id', async (req, res) => {
 
 router.get('/tx/history/addr/:addr', async (req, res) => {
   try {
-    const TRANSACTION_QUERY_LIMIT = 10;
     const { addr } = req.params;
     let { ts, count } = req.query;
     ts = Number(ts);

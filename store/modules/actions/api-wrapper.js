@@ -2,8 +2,9 @@ import * as types from '@/store/mutation-types';
 
 // Use this wrapper for non-batch actions
 async function apiWrapper(commit, promise, opt) {
-  const blocking = (opt && opt.blocking);
-  commit(blocking ? types.UI_START_BLOCKING_LOADING : types.UI_START_LOADING);
+  if (!opt) opt = {}; // eslint-disable-line no-param-reassign
+  const { blocking, slient } = opt;
+  if (!slient) commit(blocking ? types.UI_START_BLOCKING_LOADING : types.UI_START_LOADING);
   try {
     const res = await promise;
     commit(blocking ? types.UI_STOP_BLOCKING_LOADING : types.UI_STOP_LOADING);

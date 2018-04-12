@@ -175,38 +175,40 @@
                 </section>
 
                 <section v-if="isPreSale && canICO" class="like-coin-rate-section lc-padding-top-24 lc-padding-botton-0 lc-mobile">
-                  <div>
-                    <div class="title">
-                      {{ $t('TokenSale.label.amountLikeToPurhcase') }}
-                    </div>
-                    <md-field class="lc-padding-top-8 lc-padding-top-0-mobile">
-                      <div class="coin-value-wrapper lc-padding-bottom-8 lc-padding-bottom-0-mobile">
-                        <span>LIKE</span>
-                        <md-input
-                          :value="preSaleBase"
-                          @keypress="onAmountKeypress"
-                          @input="onAmountInput" />
+                  <div class="like-coin-amount">
+                    <div>
+                      <div class="title">
+                        {{ $t('TokenSale.label.amountLikeToPurhcase') }}
                       </div>
-                    </md-field>
+                      <md-field class="lc-padding-top-8 lc-padding-top-0-mobile">
+                        <div class="coin-value-wrapper lc-padding-bottom-8 lc-padding-bottom-0-mobile">
+                          <span>LIKE</span>
+                          <md-input
+                            :value="preSaleBase"
+                            @keypress="onAmountKeypress"
+                            @input="onAmountInput" />
+                        </div>
+                      </md-field>
+                    </div>
+
+                    <img class="add-sign" :src="AddIcon" />
+
+                    <div>
+                      <div class="title">
+                        {{ $t('TokenSale.label.bonus') }}
+                      </div>
+                      <md-field class="lc-padding-top-8 lc-padding-top-0-mobile">
+                        <div class="coin-value-wrapper lc-padding-bottom-8 lc-padding-bottom-0-mobile">
+                          <span>LIKE</span>
+                          <md-input :value="preSaleBonus" disabled />
+                        </div>
+                      </md-field>
+                    </div>
                   </div>
 
-                  <img class="add-sign" :src="AddIcon" />
-
-                  <div>
-                    <div class="title">
-                      {{ $t('TokenSale.label.bonus') }}
-                    </div>
-                    <md-field class="lc-padding-top-8 lc-padding-top-0-mobile">
-                      <div class="coin-value-wrapper lc-padding-bottom-8 lc-padding-bottom-0-mobile">
-                        <span>LIKE</span>
-                        <md-input :value="preSaleBonus" disabled />
-                      </div>
-                    </md-field>
-                    <div class="remark lc-padding-top-8 lc-color-like-gray-4 lc-font-size-12">
-                      {{ $t('TokenSale.label.bonusLockUp') }}
-                    </div>
+                  <div class="remark lc-padding-top-8 lc-color-like-gray-4 lc-font-size-12">
+                    {{ $t('TokenSale.label.bonusLockUp') }}
                   </div>
-
                 </section>
 
                 <!-- <section v-else-if="KYCStatus==KYC_STATUS_ENUM.PENDING">
@@ -769,55 +771,73 @@ export default {
 
 .like-coin-rate-section {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 
-  @media (max-width: 600px) {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  > div {
-    flex: 1;
+  > .like-coin-amount {
+    display: flex;
+    flex-direction: row;
 
     @media (max-width: 600px) {
-      max-width: 200px;
+      flex-direction: column;
+      align-items: center;
     }
 
-    .title {
-      color: $like-dark-brown-1;
+    > div {
+      flex: 1;
 
       @media (max-width: 600px) {
-        text-align: center;
-      }
-    }
-
-    .md-field {
-      &.md-disabled::after {
-        background-image: none;
+        max-width: 200px;
       }
 
-      .coin-value-wrapper {
-        display: flex;
-        align-items: center;
+      .title {
+        color: $like-dark-brown-1;
 
-        .md-input {
-          font-size: 34px;
-          width: 160px;
-          height: 100%;
-          text-align: right;
-          margin-left: 8px;
+        @media (max-width: 600px) {
+          text-align: center;
+        }
+      }
+
+      .md-field {
+        &.md-disabled::after {
+          background-image: none;
+        }
+
+        .coin-value-wrapper {
+          display: flex;
+          align-items: center;
+
+          .md-input {
+            font-size: 34px;
+            width: 160px;
+            height: 100%;
+            text-align: right;
+            margin-left: 8px;
+          }
         }
       }
     }
+
+    .add-sign {
+      margin: 32px;
+      width: 24px;
+
+      @media (max-width: 600px) {
+        margin: 16px;
+        width: 18px;
+      }
+    }
   }
 
-  .add-sign {
-    margin: 32px;
-    width: 24px;
+  .remark {
+    width: calc(50% - 48px);
+
+    align-self: flex-end;
 
     @media (max-width: 600px) {
-      margin: 16px;
-      width: 18px;
+      width: 100%;
+      max-width: 200px;
+
+      align-self: center;
     }
   }
 }

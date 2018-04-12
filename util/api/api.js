@@ -42,6 +42,12 @@ export const apiPostNewUser = (form) => {
   return axios.put('/api/users/new', params);
 };
 
+export const apiFetchMissionList = id => axios.get(`/api/mission/list/${id}`);
+
+export const apiPostSeenMission = (id, payload) => axios.post(`/api/mission/seen/${id}`, payload);
+
+export const apiPostStepMission = (id, payload) => axios.post(`/api/mission/step/${id}`, payload);
+
 export const apiPostKYC = payload => axios.post('/api/kyc', payload);
 
 export const apiPostAdvancedKYC = (form) => {
