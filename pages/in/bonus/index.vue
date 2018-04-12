@@ -41,7 +41,7 @@
           <div class="lc-container-2">
             <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-32 section-content">
               <div class="lc-container-4">
-                List of Bonus
+                <mission-list :missions="missions" />
               </div>
             </div>
           </div>
@@ -49,7 +49,10 @@
           <div class="lc-container-2 lc-margin-top-4" id="invitees-task">
             <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-32 section-content">
               <div class="lc-container-4">
-                Invitees Task
+                <invitee-mission-list
+                  :missions="missions"
+                  username="joshkiu"
+                  :is-new="true" />
               </div>
             </div>
           </div>
@@ -107,7 +110,62 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
+import InviteeMissionList from '@/components/Mission/InviteeList';
+import MissionList from '@/components/Mission/List';
 import ReferralAction from '@/components/ReferralAction';
+
+const MISSIONS = [
+  {
+    id: '1',
+    title: 'Invite 20000 Friends to Join Token Sale',
+    reward: '100000000000 LIKE',
+    state: 'active',
+    isNew: true,
+  },
+  {
+    id: '2',
+    title: 'Invite Friends',
+    reward: '8 LIKE <span class="small">(each)</span>',
+    state: 'completed',
+  },
+  {
+    id: '3',
+    title: 'Join Token Sale',
+    reward: '100 LIKE',
+    state: 'completed',
+  },
+  {
+    id: '4',
+    title: 'Invite Friends to Join Token Sale',
+    reward: '2.5% <span class="small">bonus</span>',
+    state: 'active',
+    isNew: true,
+  },
+  {
+    id: '5',
+    title: 'Getting Start',
+    reward: '3 LIKE',
+    state: 'active',
+  },
+  {
+    id: '6',
+    title: 'Invite Friends',
+    reward: '8 LIKE <span class="small">(each)</span>',
+    state: 'completed',
+  },
+  {
+    id: '7',
+    title: 'Join Token Sale',
+    reward: '100 LIKE',
+    state: 'completed',
+  },
+  {
+    id: '8',
+    title: 'Invite Friends to Join Token Sale',
+    reward: '2.5% <span class="small">bonus</span>',
+    state: 'active',
+  },
+];
 
 export default {
   name: 'bonus-index',
@@ -115,10 +173,13 @@ export default {
     return {
       referralPending: 0,
       referralVerified: 0,
+      missions: MISSIONS,
       user: '',
     };
   },
   components: {
+    InviteeMissionList,
+    MissionList,
     ReferralAction,
   },
   computed: {
