@@ -42,11 +42,11 @@ export const apiPostNewUser = (form) => {
   return axios.put('/api/users/new', params);
 };
 
-export const apiQueryMission = id => axios.get(`/api/mission/list/${id}`);
+export const apiFetchMissionList = id => axios.get(`/api/mission/list/${id}`);
 
-export const apiSeenMission = (id, payload) => axios.post(`/api/mission/seen/${id}`);
+export const apiPostSeenMission = (id, payload) => axios.post(`/api/mission/seen/${id}`, payload);
 
-export const apiStepMission = (id, payload) => axios.post(`/api/mission/step/${id}`);
+export const apiPostStepMission = (id, payload) => axios.post(`/api/mission/step/${id}`, payload);
 
 export const apiPostKYC = payload => axios.post('/api/kyc', payload);
 

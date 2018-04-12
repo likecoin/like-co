@@ -56,10 +56,10 @@ router.get('/mission/list/:id', async (req, res) => {
         // eslint-disable-next-line no-await-in-loop
         if (fullfilled && (await checkAlreadyDone(m, { u: userDoc, doneList: missionDone }))) {
           replyMissionList.push({ id: m.id, ...m.data() });
-        } else {
-          let target = replyMissionList.find(d => d.id === m.id);
-          target = Object.assign(m.data(), target);
         }
+      } else {
+        const targetIndex = replyMissionList.findIndex(d => d.id === m.id);
+        replyMissionList[targetIndex] = Object.assign(m.data(), replyMissionList[targetIndex]);
       }
     }
     const missions = replyMissionList.map(d => ({ ...Validate.filterMissionData(d) }));

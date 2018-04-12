@@ -58,6 +58,9 @@ const ValidationHelper = {
     const {
       id,
       reward,
+      done,
+      bonusId,
+      isClaimed,
     } = m;
     const misc = {};
     GETTING_STARTED_TASKS.forEach((task) => {
@@ -66,6 +69,9 @@ const ValidationHelper = {
     return {
       id,
       reward,
+      done,
+      bonusId,
+      isClaimed,
       ...misc,
     };
   },
