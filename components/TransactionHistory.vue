@@ -164,7 +164,7 @@ export default {
       }
       if (this.isTokensale(tx)) {
         return `
-          ${formatAmount(1, 'ETH')}
+          ${formatAmount(value, 'ETH')}
           <span class="to">→</span>
           ${formatAmount(getLikeCoinByETH(tx.value || 0), 'LIKE')}
         `;
