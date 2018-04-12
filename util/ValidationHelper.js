@@ -59,6 +59,7 @@ const ValidationHelper = {
       id,
       reward,
       done,
+      seen,
       bonusId,
       isClaimed,
     } = m;
@@ -70,6 +71,7 @@ const ValidationHelper = {
       id,
       reward,
       done,
+      seen,
       bonusId,
       isClaimed,
       ...misc,

@@ -13,8 +13,9 @@ export async function refreshMissionList({ commit }, id) {
   commit(types.MISSION_SET_MISSION_LIST, missions);
 }
 
-export async function postSeenMission({ commit }, { user, missionId }) {
-  return apiWrapper(commit, api.apiPostSeenMission(missionId, { user }), { blocking: true });
+export async function setMissionSeen({ commit }, { user, missionId }) {
+  await apiWrapper(commit, api.apiPostSeenMission(missionId, { user }), { slient: true });
+  commit(types.MISSION_SET_MISSION_SEEN, missionId);
 }
 
 export async function postStepMission({ commit }, { user, missionId, taskId }) {
