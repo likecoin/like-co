@@ -1,6 +1,7 @@
 import en from './en.json';
 import zh from './zh.json';
 import cn from './cn.json';
+import ja from './ja.json';
 import ko from './ko.json';
 import de from './de.json';
 import es from './es.json';
@@ -13,6 +14,7 @@ const messages = {
   en,
   zh,
   cn,
+  ja,
   ko,
   de,
   es,
