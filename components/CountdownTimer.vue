@@ -42,9 +42,9 @@ export default {
       if (this.date) {
         const difference = new Date(Math.abs(this.date - Date.now()));
         this.day = Math.floor(difference.getTime() / 86400000);
-        this.hour = difference.getHours();
-        this.minute = difference.getMinutes();
-        this.second = difference.getSeconds();
+        this.hour = difference.getUTCHours();
+        this.minute = difference.getUTCMinutes();
+        this.second = difference.getUTCSeconds();
       }
     },
   },
