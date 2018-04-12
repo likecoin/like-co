@@ -73,11 +73,11 @@ router.get('/mission/list/:id', async (req, res) => {
 
 router.post('/mission/seen/:id', async (req, res) => {
   try {
-    const username = req.params.id;
+    const missionId = req.params.id;
     const {
-      missionId,
+      user,
     } = req.body;
-    const userMissionRef = dbRef.doc(username).collection('mission').doc(missionId);
+    const userMissionRef = dbRef.doc(user).collection('mission').doc(missionId);
     await userMissionRef.set({ seen: true }, { merge: true });
     res.sendStatus(200);
   } catch (err) {
@@ -87,14 +87,21 @@ router.post('/mission/seen/:id', async (req, res) => {
   }
 });
 
-router.post('/mission/getting_start/:id', async (req, res) => {
+router.post('/mission/step/:id', async (req, res) => {
   try {
-    const username = req.params.id;
+    const missionId = req.params.id;
     const {
+      user,
       taskId,
     } = req.body;
-    if (!GETTING_STARTED_TASKS.includes(taskId)) throw new Error('task unknown');
-    const userMissionRef = dbRef.doc(username).collection('mission').doc('gettingStart');
+    switch (missionId) {
+      case 'gettingStart': {
+        if (!GETTING_STARTED_TASKS.includes(taskId)) throw new Error('task unknown');
+        break;
+      }
+      default: throw new Error('mission unknown');
+    }
+    const userMissionRef = dbRef.doc(user).collection('mission').doc(missionId);
     await userMissionRef.set({
       [taskId]: true,
     }, { merge: true });
