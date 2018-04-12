@@ -167,7 +167,7 @@
       </div>
     </div>
 
-    <div v-if="ENABLE_TX_HISTORY" class="lc-margin-top-48 lc-mobile">
+    <div v-if="isEnableTxHistory" class="lc-margin-top-48 lc-mobile">
       <section class="lc-container-1">
         <div class="lc-container-header">
           <div class="lc-container-2 lc-container-header-overlay">
@@ -353,7 +353,7 @@ export default {
     ViewEtherscan,
   },
   computed: {
-    ENABLE_TX_HISTORY() {
+    isEnableTxHistory() {
       return (new Date() >= SALE_DATE);
     },
     ...mapGetters([
@@ -428,7 +428,7 @@ export default {
       this.email = user.email;
       this.updateLikeCoin();
       this.updateReferralStat();
-      if (this.ENABLE_TX_HISTORY) this.$refs.txHistory.updateTokenSaleHistory();
+      if (this.isEnableTxHistory) this.$refs.txHistory.updateTokenSaleHistory();
     },
     async updateLikeCoin() {
       try {
