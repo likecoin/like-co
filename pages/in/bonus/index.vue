@@ -141,6 +141,7 @@ export default {
     ...mapActions([
       'fetchUserReferralStats',
       'setMissionSeen',
+      'claimMission',
     ]),
     async updateInfo() {
       const user = this.getUserInfo;
@@ -158,8 +159,8 @@ export default {
     },
     onMissionClick(m) {
       if (!m.seen) this.setMissionSeen({ missionId: m.id, user: this.getUserInfo.user });
+      if (m.done) this.claimMission({ missionId: m.id, user: this.getUserInfo.user });
     },
-
   },
   watch: {
     getUserIsFetching(f) {

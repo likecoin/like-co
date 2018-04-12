@@ -48,6 +48,10 @@ export const apiPostSeenMission = (id, payload) => axios.post(`/api/mission/seen
 
 export const apiPostStepMission = (id, payload) => axios.post(`/api/mission/step/${id}`, payload);
 
+export const apiClaimMission = (user, missionId) => axios.post(
+  `${LIKECOIN_API_BASE}/mission/claim`,
+  { user, missionId },
+);
 export const apiPostKYC = payload => axios.post('/api/kyc', payload);
 
 export const apiPostAdvancedKYC = (form) => {

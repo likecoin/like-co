@@ -25,3 +25,8 @@ export async function postStepMission({ commit }, { user, missionId, taskId }) {
     { blocking: true },
   );
 }
+
+export async function claimMission({ commit }, { user, missionId }) {
+  await apiWrapper(commit, api.apiClaimMission(user, missionId));
+  commit(types.MISSION_SET_MISSION_CLAIMED, missionId);
+}
