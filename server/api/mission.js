@@ -11,6 +11,7 @@ import Validate from '../../util/ValidationHelper';
 const {
   userCollection: dbRef,
   missionCollection: missionsRef,
+  payoutCollection: bonusRef,
 } = require('../util/firebase');
 
 const router = Router();
@@ -106,6 +107,54 @@ router.post('/mission/step/:id', async (req, res) => {
       [taskId]: true,
     }, { merge: true });
     res.sendStatus(200);
+  } catch (err) {
+    const msg = err.message || err;
+    console.error(msg);
+    res.status(400).send(msg);
+  }
+});
+
+router.get('/referral/list/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const query = await dbRef.doc(id).collection('referrals').get();
+    const referees = query.docs.map(d => {
+      const { referrerBonusId, isEmailVerified } = d.data();
+      return { id: d.id, claimed: !!referrerBonusId, isEmailVerified };
+    });
+    res.json(referees);
+  } catch (err) {
+    const msg = err.message || err;
+    console.error(msg);
+    res.status(400).send(msg);
+  }
+});
+
+router.get('/referral/list/bonus/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const doc = await bonusRef
+      .where('toId', '==', id)
+      .where('referrer', '==', id)
+      .where('waitForClaim', '==', true)
+      .get();
+    res.json(doc.docs.map(d => ({ id: d.id, ...Validate.filterTxData(d.data()) })));
+  } catch (err) {
+    const msg = err.message || err;
+    console.error(msg);
+    res.status(400).send(msg);
+  }
+});
+
+router.get('/referral/list/referee/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const doc = await bonusRef
+      .where('toId', '==', id)
+      .where('referee', '==', id)
+      .where('waitForClaim', '==', true)
+      .get();
+    res.json(doc.docs.map(d => ({ id: d.id, ...Validate.filterTxData(d.data()) })));
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);

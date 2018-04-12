@@ -77,6 +77,23 @@ const ValidationHelper = {
       ...misc,
     };
   },
+  filterPayoutData({
+    id,
+    type,
+    referrer,
+    referee,
+    waitForClaim,
+    value,
+  }) {
+    return {
+      id,
+      type,
+      referrer,
+      referee,
+      waitForClaim,
+      value,
+    };
+  },
 };
 
 export default ValidationHelper;
