@@ -111,8 +111,8 @@ function formatAmount(value, currency) {
   const integerPart = valueParts[0];
   const decimalPart = valueParts[1] ? valueParts[1].padEnd(2, '00') : '00';
   return `
-    <span class="integer">${integerPart}.</span>
-    <span class="decimal">${decimalPart}</span>
+    <span class="lc-font-size-14">${integerPart}.</span>
+    <span class="lc-font-size-12">${decimalPart}</span>
     <span class="currency">${currency}</span>
   `;
 }
@@ -226,33 +226,42 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~assets/index";
+@import "~assets/variables";
 
 .lc-transaction-history {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-
   .md-table {
+    -webkit-overflow-scrolling: touch;
+
     background-color: transparent;
+
     :global(.md-table-content) {
       background-color: transparent;
     }
+
+    :global(.md-scrollbar::-webkit-scrollbar) {
+      width: 0;
+      height: 0;
+    }
+
     :global(.md-table-head-label) {
       height: 14px;
     }
+
     :global(.md-table-head-label),
     :global(.md-table-cell-container) {
       padding-left: 0;
+
       line-height: 14px;
     }
+
     :global(.md-table-head-container) {
-      padding: 6px 0;
       height: initial;
+      padding: 6px 0;
     }
 
     .md-table-head {
       color: $like-dark-brown-1;
+
       font-size: 14px;
       font-weight: normal;
 
@@ -271,13 +280,16 @@ export default {
         border-bottom: 1px solid #E6E6E6;
       }
       .md-table-cell {
-        border-top-color: #E6E6E6;
+        white-space: nowrap;
+
         color: $like-dark-brown-1;
+        border-top-color: #E6E6E6;
 
         &.status {
+          padding-left: 8px;
+
           font-size: 10px;
           font-weight: 600;
-          padding-left: 8px;
 
           &.in,
           &.tokensale,
@@ -298,14 +310,16 @@ export default {
 
         &.from-to-cell {
           span {
-            font-size: 10px;
             margin-right: 2px;
+
+            font-size: 10px;
           }
         }
 
         &.time-cell {
           &.pending {
             color: #9b9b9b;
+
             font-style: italic;
           }
           &.expired {
@@ -315,7 +329,9 @@ export default {
 
         &.view-cell {
           width: 56px;
+
           text-align: right;
+
           :global(.md-table-cell-container) {
             padding: 0 8px;
           }
@@ -334,12 +350,15 @@ export default {
           .value {
             font-size: 0;
 
-            :global(.integer) { font-size: 14px; }
-            :global(.decimal) { font-size: 12px; }
-            :global(.currency) { font-size: 10px; margin-left: 4px; }
+            :global(.currency) {
+              margin-left: 4px;
+
+              font-size: 10px;
+            }
             :global(.to) {
-              font-size: 14px;
               margin: 4px;
+
+              font-size: 14px;
             }
           }
         }
@@ -349,9 +368,10 @@ export default {
 
   a {
     font-size: 14px;
-    color: $like-green;
 
     &.show-more {
+      display: block;
+
       text-align: center;
     }
   }
