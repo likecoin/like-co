@@ -51,3 +51,5 @@ const toolbarsDisableError = {
   'in-tokensale-tx-id': ['web3', 'locked'],
 };
 export const getToolbarsDisableError = route => (toolbarsDisableError[route] || false);
+
+export const GETTING_STARTED_TASKS = ['taskTelegram', 'taskVideo', 'taskTokensale'];

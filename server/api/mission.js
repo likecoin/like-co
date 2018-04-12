@@ -1,9 +1,9 @@
 import { Router } from 'express';
 
-// import {
-//   IS_TESTNET,
-//   PUBSUB_TOPIC_MISC,
-// } from '../../constant';
+import {
+  GETTING_STARTED_TASKS,
+  // PUBSUB_TOPIC_MISC,
+} from '../../constant';
 
 import Validate from '../../util/ValidationHelper';
 // import publisher from '../util/gcloudPub';
@@ -76,8 +76,27 @@ router.post('/mission/seen/:id', async (req, res) => {
     const {
       missionId,
     } = req.body;
-    const userMissionRef = await dbRef.doc(username).collection('mission').doc(missionId);
+    const userMissionRef = dbRef.doc(username).collection('mission').doc(missionId);
     await userMissionRef.set({ seen: true }, { merge: true });
+    res.sendStatus(200);
+  } catch (err) {
+    const msg = err.message || err;
+    console.error(msg);
+    res.status(400).send(msg);
+  }
+});
+
+router.post('/mission/getting_start/:id', async (req, res) => {
+  try {
+    const username = req.params.id;
+    const {
+      taskId,
+    } = req.body;
+    if (!GETTING_STARTED_TASKS.includes(taskId)) throw new Error('task unknown');
+    const userMissionRef = dbRef.doc(username).collection('mission').doc('gettingStart');
+    await userMissionRef.set({
+      [taskId]: true,
+    }, { merge: true });
     res.sendStatus(200);
   } catch (err) {
     const msg = err.message || err;
