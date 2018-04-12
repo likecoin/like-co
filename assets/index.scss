@@ -263,12 +263,18 @@ a,
   }
 }
 
-$spacing-list: 0 4 8 12 16 24 32 48 64;
+$spacing-list: 0 4 8 12 16 24 32 40 48 64;
 
 @each $i in $spacing-list {
   .lc-margin-vertical-#{$i},
   .lc-margin-top-#{$i} {
     margin-top: $i * 1px;
+
+    &-mobile {
+      @media (max-width: 600px) {
+        margin-top: $i * 1px;
+      }
+    }
 
     @if $i > 12 {
       &.lc-mobile {
@@ -283,6 +289,12 @@ $spacing-list: 0 4 8 12 16 24 32 48 64;
   .lc-margin-bottom-#{$i} {
     margin-bottom: $i * 1px;
 
+    &-mobile {
+      @media (max-width: 600px) {
+        margin-bottom: $i * 1px;
+      }
+    }
+
     @if $i > 12 {
       &.lc-mobile {
         @media (max-width: 600px) {
@@ -296,6 +308,12 @@ $spacing-list: 0 4 8 12 16 24 32 48 64;
   .lc-padding-top-#{$i} {
     padding-top: $i * 1px;
 
+    &-mobile {
+      @media (max-width: 600px) {
+        padding-top: $i * 1px;
+      }
+    }
+
     @if $i > 12 {
       &.lc-mobile {
         @media (max-width: 600px) {
@@ -308,6 +326,12 @@ $spacing-list: 0 4 8 12 16 24 32 48 64;
   .lc-padding-vertical-#{$i},
   .lc-padding-bottom-#{$i} {
     padding-bottom: $i * 1px;
+
+    &-mobile {
+      @media (max-width: 600px) {
+        padding-bottom: $i * 1px;
+      }
+    }
 
     @if $i > 12 {
       &.lc-mobile {
@@ -347,6 +371,12 @@ $spacing-list: 0 4 8 12 16 24 32 48 64;
   }
 }
 
+@media (min-width: 600px + 1px) {
+  .lc-width-2-3 {
+    width: 2 / 3 * 100%;
+  }
+}
+
 $font-size-list: 10 12 14 16 18 20 24 32 38 42 46 56;
 
 @each $i in $font-size-list {
@@ -354,7 +384,7 @@ $font-size-list: 10 12 14 16 18 20 24 32 38 42 46 56;
     font-size: $i * 1px;
     line-height: 1.35;
 
-    @if $i > 24 {
+    @if $i > 14 {
       &.lc-mobile {
         @media (max-width: 600px) {
           font-size: ($i - 4) * 1px;
@@ -378,6 +408,12 @@ $font-weight-list: 300 400 600;
   }
   &center {
     text-align: center;
+
+    &-mobile {
+      @media (max-width: 600px) {
+        text-align: center;
+      }
+    }
   }
   &right {
     text-align: right;

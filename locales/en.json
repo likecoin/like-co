@@ -762,6 +762,25 @@
       }
     }
   },
+  "BonusPage": {
+    "title": "LikeCoin Bonus",
+    "header": {
+      "likeCoinBonus": "LikeCoin Bonus"
+    },
+    "label": {
+      "description": "You and your friend can both earn a LikeCoin coupon when you successfully invite a friend to sign up using your affiliate link. Please note that your friend's account email needs to be verified for you and your friend to earn the coupons."
+    },
+    "tab": {
+      "bonus": "Bonus",
+      "history": "Bonus History"
+    },
+    "HistoryTab": {
+      "title": "Bonus History",
+      "header": {
+        "completedBonus": "Completed Bonus"
+      }
+    }
+  },
   "KYC": {
     "label": {
       "kyc": "ID Verification",
