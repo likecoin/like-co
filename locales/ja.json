@@ -201,10 +201,10 @@
       "zu": "isiZulu"
     },
     "Date": {
-        "day": "日 | 日",
-        "hour": "時間｜時間",
-        "minute": "分｜分",
-        "second": "秒|秒"
+        "day": "日",
+        "hour": "時間",
+        "minute": "分",
+        "second": "秒"
     },
     "Menu": {
         "button": {
@@ -784,4 +784,4 @@
             "multimediaDesigner": "マルチメディアデザイナー"
         }
     }
-}
+}
