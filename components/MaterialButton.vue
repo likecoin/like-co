@@ -51,7 +51,9 @@
 
   &.disabled {
     opacity: 1 !important;
-    background-color: #e6e6e6;
+    color: $like-gray-4 !important;
+    background-color: $like-gray-3 !important;
+    background-image: none !important;
   }
 
   :global(.md-ripple) {
