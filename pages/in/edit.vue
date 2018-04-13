@@ -505,7 +505,7 @@ export default {
     async onInputDialogConfirm(inputText) {
       if (this.email !== inputText) {
         this.email = inputText;
-        return this.onSubmitEdit();
+        await this.onSubmitEdit();
       }
       this.$refs.inputDialog.showDialog = false;
       if (!this.getUserInfo.isEmailVerified) {
