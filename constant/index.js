@@ -34,7 +34,7 @@ export const KYC_STATUS_ENUM = {
 };
 
 export const ETH_TO_LIKECOIN_RATIO = 40000;
-export const INITIAL_TOKENSALE_ETH = new BigNumber(5600);
+export const INITIAL_TOKENSALE_ETH = new BigNumber(5400);
 
 export const SALE_DATE_ANNOUNCE_DATE = moment('2018-04-13T18:00:00+0800');
 export const SALE_DATE = moment('2018-04-23T12:00:00+0800');
