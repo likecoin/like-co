@@ -117,6 +117,7 @@ module.exports = {
     ['@nuxtjs/google-tag-manager', { id: process.env.GTM_ID || 'GTM-XXXXXXX' }],
   ],
   plugins: [
+    { src: '~/plugins/polyfill.js' },
     { src: '~/plugins/EthHelper', ssr: false },
     { src: '~/plugins/vue-i18n' },
     { src: '~/plugins/vue-image-lightbox', ssr: false },
