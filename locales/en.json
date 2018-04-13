@@ -369,6 +369,10 @@
           "title": "Six Club Fund",
           "subtitle": ""
         },
+        "u-domain": {
+          "title": "UDomain",
+          "subtitle": ""
+        },
         "annie-zhang": {
           "title": "Annie Zhang",
           "subtitle": "Chief Editor, Initium Media"
@@ -388,6 +392,10 @@
         "jacky-chu": {
           "title": "Jacky Chu",
           "subtitle": "Early investor of BTC, ETH, IOTA, VEN and ARDR"
+        },
+        "to-cheung": {
+          "title": "To Cheung",
+          "subtitle": ""
         }
       }
     },
