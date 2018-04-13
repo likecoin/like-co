@@ -13,13 +13,24 @@
     </header>
 
     <div>
-      <ul>
+      <ul class="lc-mobile-hide">
         <li v-for="i in INVITEES" :key="i.username">
           <invitee-list
             :missions="i.missions"
             :is-small="true"
             @click="onClick" />
         </li>
+      </ul>
+      <ul class="lc-mobile-show">
+        <swiper>
+          <li class="swiper-slide" v-for="i in INVITEES" :key="i.username">
+            <invitee-list
+              :missions="i.missions"
+              :username="i.username"
+              :is-small="true"
+              @click="onClick" />
+          </li>
+        </swiper>
       </ul>
     </div>
 
@@ -29,6 +40,7 @@
 
 <script>
 import InviteeList from './InviteeList';
+import Swiper from './Swiper';
 
 const INVITEES = [
   {
@@ -130,6 +142,7 @@ export default {
   name: 'invitee-mission-grid-list',
   components: {
     InviteeList,
+    Swiper,
   },
   data() {
     return {

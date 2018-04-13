@@ -18,7 +18,7 @@
 import { mapActions, mapGetters } from 'vuex';
 
 import MenuIcon from '@/assets/icons/menu.svg';
-import ArrowIcon from '@/assets/icons/arrow.svg';
+import ArrowIcon from '@/assets/icons/arrow-right.svg';
 
 export default {
   name: 'menu-button',
