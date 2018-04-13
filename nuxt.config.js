@@ -117,7 +117,6 @@ module.exports = {
     ['@nuxtjs/google-tag-manager', { id: process.env.GTM_ID || 'GTM-XXXXXXX' }],
   ],
   plugins: [
-    { src: '~/plugins/polyfill.js' },
     { src: '~/plugins/EthHelper', ssr: false },
     { src: '~/plugins/vue-i18n' },
     { src: '~/plugins/vue-image-lightbox', ssr: false },
@@ -134,12 +133,26 @@ module.exports = {
   build: {
     vendor: [
       'axios',
+      'babel-polyfill',
       'bignumber.js',
       'moment',
       'vue-i18n',
       'vue-material',
       'vue-vimeo-player',
     ],
+    babel: {
+      presets: ({ isServer }) => [
+        [
+          'vue-app',
+          {
+            targets: isServer
+              ? { node: '8.11.1' }
+              : { browsers: ['defaults'] },
+            useBuiltIns: true,
+          },
+        ],
+      ],
+    },
     /*
     ** Run ESLINT on save
     */
@@ -152,6 +165,8 @@ module.exports = {
           exclude: /(node_modules)/,
         });
       }
+      const babelLoader = config.module.rules.find(rule => rule.loader === 'babel-loader');
+      babelLoader.exclude = /node_modules\/(?!abi-decoder|@likecoin\/ethereum-blockies)/;
     },
   },
 };
