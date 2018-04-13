@@ -45,6 +45,7 @@ const toolbarsDisableError = {
   'verify-uuid': ['web3', 'locked'],
   'in-tx-id': ['web3', 'locked'],
   id: ['web3', 'testnet', 'locked'],
+  'id-amount': ['web3', 'testnet', 'locked'],
   'claim-id-coupon': ['web3', 'locked'],
   'in-backer': ['web3', 'testnet', 'locked'],
   'in-tokensale': ['web3', 'testnet', 'locked'],
