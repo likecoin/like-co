@@ -14,7 +14,8 @@ async function apiWrapper(commit, promise, opt) {
     /* hacky way to bypass own 404 page messing up layout */
     const isHtml = !!(response
       && response.data
-      && response.data.includes('<!DOCTYPE html>'));
+      && (response.data.includes('<!DOCTYPE html>')
+        || response.data.includes('<html>')));
     const errorMsg = (isHtml ? response.statusText : (response && response.data))
       || error.message
       || error;
