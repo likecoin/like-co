@@ -51,6 +51,7 @@
     "babel-polyfill": "^6.26.0",
     "bignumber.js": "^6.0.0",
     "body-parser": "^1.18.2",
+    "classlist-polyfill": "^1.2.0",
     "compression": "^1.7.1",
     "cors": "^2.8.4",
     "cross-env": "^5.0.1",

@@ -135,6 +135,7 @@ module.exports = {
       'axios',
       'babel-polyfill',
       'bignumber.js',
+      'classlist-polyfill',
       'moment',
       'vue-i18n',
       'vue-material',
