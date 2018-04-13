@@ -34,6 +34,10 @@ const platforms = [
     url: 'https://github.com/likecoin/',
   },
   {
+    name: 'twitter',
+    url: 'https://twitter.com/likecoin_fdn',
+  },
+  {
     name: 'youtube',
     url: 'https://www.youtube.com/c/LikeCoin',
   },
@@ -70,6 +74,12 @@ export default {
 .icon-bar {
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  @media (max-width: 600px) {
+    max-width: 210px;
+  }
 
   &.vertical {
     justify-content: center;
