@@ -104,7 +104,7 @@ export default {
       if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)) {
         return false;
       }
-      return (/Chrome/i.test(ua) && /Google/i.test(uv));
+      return (/Chrome/i.test(ua) && /Google/i.test(uv)) && !(/OPR/i.test(ua));
     },
   },
 };
