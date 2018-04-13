@@ -39,7 +39,7 @@
 
         <div class="lc-container-2">
 
-          <div v-if="isICOStarted" class="tokensale-progress-wrapper lc-container-3 lc-bg-gray-1 lc-verticle-inset-4">
+          <div v-if="!isPreSale" class="tokensale-progress-wrapper lc-container-3 lc-bg-gray-1 lc-verticle-inset-4">
             <tokensale-progress
               :progress="currentTokenSaleAmount.toFixed(2)"
               :total="maxTokenSaleAmount.toFixed(2)"/>
