@@ -49,10 +49,9 @@
           <div class="lc-container-2 lc-margin-top-4" id="invitees-task">
             <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-32 section-content">
               <div class="lc-container-4">
-                <invitee-mission-list
-                  :missions="missions"
-                  username="joshkiu"
-                  :is-new="true" />
+
+                <invitee-mission-grid-list />
+
               </div>
             </div>
           </div>
@@ -110,7 +109,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-import InviteeMissionList from '@/components/Mission/InviteeList';
+import InviteeMissionGridList from '@/components/Mission/InviteeGridList';
 import MissionList from '@/components/Mission/List';
 import ReferralAction from '@/components/ReferralAction';
 
@@ -124,7 +123,7 @@ export default {
     };
   },
   components: {
-    InviteeMissionList,
+    InviteeMissionGridList,
     MissionList,
     ReferralAction,
   },

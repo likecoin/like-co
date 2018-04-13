@@ -167,7 +167,8 @@
       </div>
     </div>
 
-    <div v-if="ENABLE_TX_HISTORY" class="lc-margin-top-48 lc-mobile">
+
+    <div class="bonus-container lc-margin-top-48 lc-mobile">
       <section class="lc-container-1">
         <div class="lc-container-header">
           <div class="lc-container-2 lc-container-header-overlay">
@@ -178,9 +179,14 @@
               <div class="lc-container-4">
                 <div class="lc-container-header-title">
                   <h1 class="lc-font-size-32 lc-mobile">
-                    {{ $t('TransactionHistory.title') }}
+                    {{ $t('BonusPage.title') }}
                   </h1>
                 </div>
+                  <material-button
+                    class="lc-container-header-button"
+                    @click="$router.push({ name: 'in-bonus' })">
+                    {{ $t('BonusPage.button.moreBonus') }}
+                  </material-button>
               </div>
             </div>
           </div>
@@ -189,16 +195,13 @@
         <div class="lc-container-2">
           <div class="lc-container-3 lc-padding-vertical-32 lc-bg-gray-1">
             <div class="lc-container-4">
-              <transaction-history
-                ref="txHistory"
-                :address="wallet"
-                :showTokensale="true"
-                />
+              <!-- Add me -->
             </div>
           </div>
         </div>
       </section>
     </div>
+
 
     <div :class="['lc-margin-top-48', 'lc-mobile', { disabled: isProfileEdit }]" id="coupon">
       <section class="lc-container-1">
@@ -256,43 +259,37 @@
     </div>
 
 
-    <div class="referral-form-container lc-margin-top-48 lc-mobile" id="referral">
-      <div :class="{ disabled: isProfileEdit }">
-
-        <section class="lc-container-1">
-          <div class="lc-container-header">
-            <div class="lc-container-2 lc-container-header-overlay">
-              <div class="lc-container-3 lc-bg-gray-1" />
-            </div>
-            <div class="lc-container-2">
-              <div class="lc-container-3">
-                <div class="lc-container-4">
-                  <div class="lc-container-header-title">
-                    <h1 class="lc-font-size-32 lc-mobile">
-                      {{ $t('Edit.referral.title') }}
-                    </h1>
-                  </div>
+    <div v-if="ENABLE_TX_HISTORY" class="lc-margin-top-48 lc-mobile">
+      <section class="lc-container-1">
+        <div class="lc-container-header">
+          <div class="lc-container-2 lc-container-header-overlay">
+            <div class="lc-container-3 lc-bg-gray-1" />
+          </div>
+          <div class="lc-container-2">
+            <div class="lc-container-3">
+              <div class="lc-container-4">
+                <div class="lc-container-header-title">
+                  <h1 class="lc-font-size-32 lc-mobile">
+                    {{ $t('TransactionHistory.title') }}
+                  </h1>
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
-          <div class="lc-container-2">
-            <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-32">
-              <div class="lc-container-4">
-                <referral-action
-                  :user="user"
-                  :pending="referralPending"
-                  :verified="referralVerified"
-                  :isEmailVerified="getUserInfo.isEmailVerified"
-                  :isProfileEdit="isProfileEdit"
-                  :isBlocked="getIsPopupBlocking"
+        <div class="lc-container-2">
+          <div class="lc-container-3 lc-padding-vertical-32 lc-bg-gray-1">
+            <div class="lc-container-4">
+              <transaction-history
+                ref="txHistory"
+                :address="wallet"
+                :showTokensale="true"
                 />
-              </div>
             </div>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
     </div>
 
     <view-etherscan :address="wallet" />
@@ -308,7 +305,6 @@ import User from '@/util/User';
 import { logTrackerEvent } from '@/util/EventLogger';
 import LikeCoinAmount from '~/components/LikeCoinAmount';
 import MaterialButton from '~/components/MaterialButton';
-import ReferralAction from '~/components/ReferralAction';
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import InputDialog from '~/components/dialogs/InputDialog';
 import TransactionHistory from '~/components/TransactionHistory';
@@ -340,8 +336,6 @@ export default {
       EditWhiteIcon,
       TickIcon,
       freeCoupon: '',
-      referralPending: 0,
-      referralVerified: 0,
     };
   },
   components: {
@@ -349,7 +343,6 @@ export default {
     InputDialog,
     LikeCoinAmount,
     MaterialButton,
-    ReferralAction,
     TransactionHistory,
     ViewEtherscan,
   },
@@ -425,22 +418,12 @@ export default {
       this.wallet = user.wallet;
       this.email = user.email;
       this.updateLikeCoin();
-      this.updateReferralStat();
       if (this.ENABLE_TX_HISTORY) this.$refs.txHistory.updateTokenSaleHistory();
     },
     async updateLikeCoin() {
       try {
         const balance = await EthHelper.queryLikeCoinBalance(this.wallet);
         this.likeCoinValueStr = new BigNumber(balance).dividedBy(ONE_LIKE).toFixed(4);
-      } catch (err) {
-        console.log(err);
-      }
-    },
-    async updateReferralStat() {
-      try {
-        const { pending, verified } = await this.fetchUserReferralStats(this.user);
-        this.referralPending = pending;
-        this.referralVerified = verified;
       } catch (err) {
         console.log(err);
       }
