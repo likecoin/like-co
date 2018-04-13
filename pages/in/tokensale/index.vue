@@ -533,7 +533,7 @@ export default {
       }
     },
     triggerIntercom() {
-      if (this.$intercom) {
+      if (this.$intercom && (this.isPreSale || this.isICOStarted)) {
         this.$router.push({ query: Object.assign({}, this.$route.query, { interested: 'true' }) });
         this.$intercom.update();
         this.$intercom.show();
