@@ -1,0 +1,783 @@
+{
+    "General": {
+        "label": {
+            "success": "성공",
+            "error": "오류"
+        },
+        "button": {
+            "confirm": "확인",
+            "cancel": "취소",
+            "send": "전송",
+            "yes": "예",
+            "no": "아니요",
+            "ok": "OK"
+        }
+    },
+    "Language": {
+      "ab": "аҧсуа бызшәа, аҧсшәа",
+      "aa": "Afaraf",
+      "af": "Afrikaans",
+      "ak": "Akan",
+      "sq": "Shqip",
+      "am": "አማርኛ",
+      "ar": "العربية",
+      "an": "aragonés",
+      "hy": "Հայերեն",
+      "as": "অসমীয়া",
+      "av": "авар мацӀ, магӀарул мацӀ",
+      "ae": "avesta",
+      "ay": "aymar aru",
+      "az": "azərbaycan dili",
+      "bm": "bamanankan",
+      "ba": "башҡорт теле",
+      "eu": "euskara, euskera",
+      "be": "беларуская мова",
+      "bn": "বাংলা",
+      "bh": "भोजपुरी",
+      "bi": "Bislama",
+      "bs": "bosanski jezik",
+      "br": "brezhoneg",
+      "bg": "български език",
+      "my": "ဗမာစာ",
+      "ca": "català, valencià",
+      "ch": "Chamoru",
+      "ce": "нохчийн мотт",
+      "ny": "chiCheŵa, chinyanja",
+      "cv": "чӑваш чӗлхи",
+      "kw": "Kernewek",
+      "co": "corsu, lingua corsa",
+      "cr": "ᓀᐦᐃᔭᐍᐏᐣ",
+      "hr": "hrvatski jezik",
+      "cs": "čeština, český jazyk",
+      "da": "dansk",
+      "dv": "ދިވެހި",
+      "nl": "Nederlands, Vlaams",
+      "dz": "རྫོང་ཁ",
+      "en": "English",
+      "eo": "Esperanto",
+      "et": "eesti, eesti keel",
+      "ee": "Eʋegbe",
+      "fo": "føroyskt",
+      "fj": "vosa Vakaviti",
+      "fi": "suomi, suomen kieli",
+      "fr": "français",
+      "ff": "Fulfulde, Pulaar, Pular",
+      "gl": "Galego",
+      "ka": "ქართული",
+      "de": "Deutsch",
+      "el": "ελληνικά",
+      "gn": "Avañe'ẽ",
+      "gu": "ગુજરાતી",
+      "ht": "Kreyòl ayisyen",
+      "ha": "(Hausa) هَوُسَ",
+      "he": "עברית",
+      "hz": "Otjiherero",
+      "hi": "हिन्दी, हिंदी",
+      "ho": "Hiri Motu",
+      "hu": "magyar",
+      "ia": "Interlingua",
+      "id": "Bahasa Indonesia",
+      "ie": "Originally called Occidental; then Interlingue after WWII",
+      "ga": "Gaeilge",
+      "ig": "Asụsụ Igbo",
+      "ik": "Iñupiaq, Iñupiatun",
+      "io": "Ido",
+      "is": "Íslenska",
+      "it": "Italiano",
+      "iu": "ᐃᓄᒃᑎᑐᑦ",
+      "ja": "日本語",
+      "jv": "ꦧꦱꦗꦮ, Basa Jawa",
+      "kl": "kalaallisut, kalaallit oqaasii",
+      "kn": "ಕನ್ನಡ",
+      "kr": "Kanuri",
+      "ks": "कश्मीरी, كشميري‎",
+      "kk": "қазақ тілі",
+      "km": "ខ្មែរ, ខេមរភាសា, ភាសាខ្មែរ",
+      "ki": "Gĩkũyũ",
+      "rw": "Ikinyarwanda",
+      "ky": "Кыргызча, Кыргыз тили",
+      "kv": "коми кыв",
+      "kg": "Kikongo",
+      "ko": "한국어",
+      "ku": "Kurdî, كوردی‎",
+      "kj": "Kuanyama",
+      "la": "latine, lingua latina",
+      "lb": "Lëtzebuergesch",
+      "lg": "Luganda",
+      "li": "Limburgs",
+      "ln": "Lingála",
+      "lo": "ພາສາລາວ",
+      "lt": "lietuvių kalba",
+      "lu": "Kiluba",
+      "lv": "Latviešu Valoda",
+      "gv": "Gaelg, Gailck",
+      "mk": "македонски јазик",
+      "mg": "fiteny malagasy",
+      "ms": "Bahasa Melayu, بهاس ملايو‎",
+      "ml": "മലയാളം",
+      "mt": "Malti",
+      "mi": "te reo Māori",
+      "mr": "मराठी",
+      "mh": "Kajin M̧ajeļ",
+      "mn": "Монгол хэл",
+      "na": "Dorerin Naoero",
+      "nv": "Diné bizaad",
+      "nd": "isiNdebele",
+      "ne": "नेपाली",
+      "ng": "Owambo",
+      "nb": "Norsk Bokmål",
+      "nn": "Norsk Nynorsk",
+      "no": "Norsk",
+      "ii": "ꆈꌠ꒿ Nuosuhxop",
+      "nr": "isiNdebele",
+      "oc": "occitan, lenga d'òc",
+      "oj": "ᐊᓂᔑᓈᐯᒧᐎᓐ",
+      "cu": "ѩзыкъ словѣньскъ",
+      "om": "Afaan Oromoo",
+      "or": "ଓଡ଼ିଆ",
+      "os": "ирон æвзаг",
+      "pa": "ਪੰਜਾਬੀ",
+      "pi": "पाऴि",
+      "fa": "فارسی",
+      "pl": "Język Polski, Polszczyzna",
+      "ps": "پښتو",
+      "pt": "Português",
+      "qu": "Runa Simi, Kichwa",
+      "rm": "Rumantsch Grischun",
+      "rn": "Ikirundi",
+      "ro": "Română",
+      "ru": "Русский",
+      "sa": "संस्कृतम्",
+      "sc": "sardu",
+      "sd": "सिन्धी, سنڌي، سندھی‎",
+      "se": "Davvisámegiella",
+      "sm": "gagana fa'a Samoa",
+      "sg": "yângâ tî sängö",
+      "sr": "српски језик",
+      "gd": "Gàidhlig",
+      "sn": "chiShona",
+      "si": "සිංහල",
+      "sk": "Slovenčina, Slovenský Jazyk",
+      "sl": "Slovenski Jezik, Slovenščina",
+      "so": "Soomaaliga, af Soomaali",
+      "st": "Sesotho",
+      "es": "Español",
+      "su": "Basa Sunda",
+      "sw": "Kiswahili",
+      "ss": "SiSwati",
+      "sv": "Svenska",
+      "ta": "தமிழ்",
+      "te": "తెలుగు",
+      "tg": "тоҷикӣ, toçikī, تاجیکی‎",
+      "th": "ไทย",
+      "ti": "ትግርኛ",
+      "bo": "བོད་ཡིག",
+      "tk": "Türkmen, Түркмен",
+      "tl": "Wikang Tagalog",
+      "tn": "Setswana",
+      "to": "Faka Tonga",
+      "tr": "Türkçe",
+      "ts": "Xitsonga",
+      "tt": "татар теле, tatar tele",
+      "tw": "Twi",
+      "ty": "Reo Tahiti",
+      "ug": "ئۇيغۇرچە‎, Uyghurche",
+      "uk": "Українська",
+      "ur": "اردو",
+      "uz": "Oʻzbek, Ўзбек, أۇزبېك‎",
+      "ve": "Tshivenḓa",
+      "vi": "Tiếng Việt",
+      "vo": "Volapük",
+      "wa": "Walon",
+      "cy": "Cymraeg",
+      "wo": "Wollof",
+      "fy": "Frysk",
+      "xh": "isiXhosa",
+      "yi": "ייִדיש",
+      "yo": "Yorùbá",
+      "za": "Saɯ cueŋƅ, Saw cuengh",
+      "zh": "正體中文",
+      "cn": "简体中文",
+      "zu": "isiZulu"
+    },
+    "Date": {
+        "day": "일",
+        "hour": "시간",
+        "minute": "분",
+        "second": "초"
+    },
+    "Menu": {
+        "item": {
+          "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
+          "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
+          "whitepaper": "@:Whitepaper.Button.whitepaper",
+          "support": "@:Footer.button.support"
+        }
+    },
+    "Sign": {
+        "Message": {
+            "registerUser": "다음 사용자 정보로 등록함",
+            "editUser": "사용자 정보 업데이트 중",
+            "signKYC": "다음 정보로 사용자 ID 확인"
+        }
+    },
+    "Home": {
+        "Header": {
+            "button": {
+                "signIn": "로그인",
+                "signUp": "회원 가입"
+            }
+        },
+        "Flag": {
+            "title": "Like의 재발견",
+            "content": "창의성 증명을 통한 콘텐츠 보상"
+        },
+        "Sale": {
+            "title": {
+                "earlyBirdTokenSale": "얼리 버드 토큰 판매",
+                "publicTokenSale": "공개 토큰 판매",
+                "secure25Percent": "지금 구매하시면 25% 보너스 확보",
+                "nowLive": "현재 라이브 중"
+            },
+            "label": {
+                "contactOurTeam": "하단 우측 대화창을 클릭해서 저희 팀에게 문의하세요",
+                "contactUsThroughButton": "하단 우측 버튼으로 저희에게 문의하세요",
+                "startOn": "다음 시간 후에 시작:",
+                "completedPercent": "{percent}% 완료됨"
+            },
+            "button": {
+                "whitepaper": "백지",
+                "onePage": "한 페이지",
+                "redeem": "레드 포켓 받기",
+                "createID": "LikeCoin ID를 생성하여 참가하기",
+                "createNow": "지금 생성하기",
+                "buyCoin": "LikeCoin 구매",
+                "imInterested": "관심이 있습니다",
+                "joinTokenSale": "토큰 판매 참가",
+                "joinNow": "지금 참가하기"
+            }
+        },
+        "Creator": {
+            "button": {
+                "likeCoinForAppreciate": "LikeCoin 레드 포켓 전송"
+            }
+        },
+        "Protocol": {
+            "title": "LikeCoin 스택",
+            "content": "--LikeCoin 프로토콜 내 단락---",
+            "layer": {
+                "provider": {
+                    "title": "DApps",
+                    "example": {
+                        "oice": "oice 비주얼 노벨",
+                        "ccImages": "puttyimages",
+                        "media": "blogchain.md"
+                    }
+                },
+                "service": {
+                    "title": "LikeCoin 서비스",
+                    "example": {
+                        "button": "좋아요 버튼",
+                        "store": "like.co",
+                        "token": "LikeCoin 토큰"
+                    }
+                },
+                "eth": {
+                    "title": "이더리움 블록체인",
+                    "example": {
+                        "contract": "스마트 주소록",
+                        "fingerprint": "지문",
+                        "metadata": "메타데이터 해시"
+                    }
+                },
+                "ipfs": {
+                    "title": "IPFS 노드",
+                    "example": {
+                        "oice": "oice 노드",
+                        "cc": "puttyimages 노드",
+                        "stock": "blogchain 노드"
+                    }
+                }
+            }
+        },
+        "RoadMap": {
+            "title": "로드맵",
+            "content": "--로드맵 내 단락---",
+            "timeline": [
+                {
+                    "title": "브레인스토밍, R&D",
+                    "time": "2017 Q1-Q3"
+                },
+                {
+                    "title": "조기 신봉자 판매",
+                    "time": "2017 Q4"
+                },
+                {
+                    "title": "LikeCoin 토큰, ID 및 Like.co 런칭",
+                    "time": "2018 Q1"
+                },
+                {
+                    "title": "puttyimages 및 blogchain.md 프로토타입",
+                    "time": "2018 Q2"
+                },
+                {
+                    "title": "puttyimages 런칭",
+                    "time": "2018 Q3"
+                },
+                {
+                    "title": "Like 버튼 런칭",
+                    "time": "2018 Q4"
+                },
+                {
+                    "title": "blogchain.md 런칭 및 LikeCoin 생태계 규모 확대",
+                    "time": "2019"
+                }
+            ]
+        },
+        "TokenDistribution": {
+            "title": "토큰 배분",
+            "content": "8억 토큰 선행, 이후 10년 이상에 걸쳐 서서히 주조하여 20억 도달. 창의성 증명에 대한 대가로 창시자들에게 10억 토큰 보상",
+            "yearButton": {
+                "year0": "0년차",
+                "year10": "10+년차"
+            },
+            "pieChartLanguage": "ko"
+        },
+        "EarlyAdopters": {
+            "title": "얼리 어답터"
+        },
+        "PressCoverage": {
+            "title": "언론 보도"
+        },
+        "EarlySupporters": {
+            "title": "얼리 서포터",
+            "supporter": {
+                "annie-zhang": {
+                    "title": "애니 장",
+                    "subtitle": "Initium Media 편집장"
+                },
+                "greg-song": {
+                    "title": "그레그 성",
+                    "subtitle": "aNobii 및 OneSky 창립자"
+                },
+                "harry-xiao": {
+                    "title": "해리 샤오",
+                    "subtitle": "MeshBox 창립자"
+                },
+                "heartherm-huang": {
+                    "title": "허섬 황",
+                    "subtitle": "Measurable Token 창립자"
+                },
+                "jacky-chu": {
+                    "title": "재키 추",
+                    "subtitle": "BTC, ETH, IOTA, VEN 및 ARDR 조기 투자자"
+                }
+            }
+        },
+        "Advisors": {
+            "title": "고문",
+            "advisor": {
+                "alex-lau": {
+                    "title": "알렉스 류",
+                    "description": "<a href=\"https://cm.5miles.com/\" target=\"_blank\" rel=\"noopener\">CyberMiles</a>, <a href=\"https://www.webank.com/\" target=\"_blank\" rel=\"noopener\">Webank</a> 및 <a href=\"https://www.trubuzz.com\" target=\"_blank\" rel=\"noopener\">TruBuzz</a> 블록체인 오픈 소스 고문; R&D SUSE Linux 엔터프라이즈 스토리지 엔지니어링 컨설턴트"
+                },
+                "haggen-so": {
+                    "title": "하겐 소 박사",
+                    "description": "<a href=\"https://cota.hk/\" target=\"_blank\" rel=\"noopener\">Hong Kong Creative Open Technology Association</a> 창립자 겸 회장; <a href=\"https://creativecommons.org/\" target=\"_blank\" rel=\"noopener\">Creative Commons</a> 프로젝트 매니저"
+                },
+                "jon-phillips": {
+                    "title": "존 필립스",
+                    "description": "<a href=\"https://openclipart.org/\" target=\"_blank\" rel=\"noopener\">Openclipart</a> 창립자; <a href=\"https://inkscape.org/\" target=\"_blank\" rel=\"noopener\">Inkscape</a> 개발자; Qi Hardware 창립자."
+                },
+                "isaac-mao": {
+                    "title": "이삭 마오",
+                    "description": "<a href=\"https://musicoin.org/\" target=\"_blank\" rel=\"noopener\">Musicoin</a> 창립자; CNBlogs.org 창립자; Creative Commons China Team의 iCommons China 프로젝트 리더 ."
+                }
+            }
+        },
+        "Team": {
+            "title": "팀",
+            "member": {
+                "kin": {
+                    "name": "kin ko",
+                    "title": "제품 디자인"
+                },
+                "aludirk": {
+                    "name": "알루덕 웡",
+                    "title": "시스템 설계자"
+                },
+                "jacky": {
+                    "name": "재키 코",
+                    "title": "CMO"
+                },
+                "william": {
+                    "name": "윌리엄 총",
+                    "title": "풀 스택 개발자"
+                },
+                "chung": {
+                    "name": "청 우",
+                    "title": "블록체인 개발자"
+                },
+                "edmond": {
+                    "name": "에드먼드 유",
+                    "title": "운용"
+                },
+                "simonb": {
+                    "name": "사이먼 벗",
+                    "title": "그로스 해커"
+                },
+                "david": {
+                    "name": "데이빗 응",
+                    "title": "풀 스택 개발자"
+                },
+                "miles": {
+                    "name": "마일즈 웡",
+                    "title": "풀 스택 개발자"
+                },
+                "joshua": {
+                    "name": "죠슈아 로",
+                    "title": "디자이너"
+                },
+                "michael": {
+                    "name": "마이클 청",
+                    "title": "풀 스택 개발자"
+                }
+            }
+        },
+        "Community": {
+            "title": "LikeCoin 커뮤니티: ",
+            "button": {
+                "faq": "FAQ"
+            }
+        }
+    },
+    "Footer": {
+        "label": {
+            "contract": "LikeCoin 약정: "
+        },
+        "button": {
+            "aboutFoundation": "LikeCoin 재단 소개",
+            "support": "지원"
+        }
+    },
+    "Email": {
+        "VerifiyEmail": {
+            "subject": "like.co 이메일을 인증하세요",
+            "body": "{{name}}님, 안녕하세요!<p>like.co에 잘 오셨습니다! 이메일을 인증하시려면 다음 링크를 클릭하세요:<br/><a href=\"https://like.co/verify/{{uuid}}?ref={{ref}}\" style=\"word-break: break-all; color: #28646E\">https://like.co/verify/{{uuid}}?ref={{ref}}</a></p>"
+        },
+        "VerifiyAndCouponEmail": {
+            "subject": "본인의 like.co 이메일을 인증하고 LikeCoin을 받으세요",
+            "body" : "{{name}}님, 안녕하세요!<p>like.co에 잘 오셨습니다! 이메일을 인증하고 레드 포켓을 받으려면 다음 링크를 클릭하세요:<br/><a href=\"https://like.co/verify/{{uuid}}/{{coupon}}?ref={{ref}}\" style=\"word-break: break-all; color: #28646E\">https://like.co/verify/{{uuid}}/{{coupon}}?ref={{ref}}</a></p><p>받으실 쿠폰 코드: {{coupon}}</p>"
+        },
+        "preSaleEmail": {
+            "subject": "LikeCoin 얼리 버드 사전 판매에 성공적으로 가입하셨습니다",
+            "body" : "{{name}}님, 안녕하세요!<p>LikeCoin 얼리 버드 사전 판매에 가입해 주셔서 감사합니다!</p><p>귀하의 {{eth}} ETH 지불이 확인되면, 저희 공매가 시작된 이후에 {{base}} + {{bonus}} LikeCoin을 수령하시게 됩니다.</p><p>트랜잭션 URL:<br/><a href=\"https://etherscan.io/tx/{{txHash}}\" style=\"word-break: break-all; color: #28646E\">https://etherscan.io/tx/{{txHash}}</a></p><p>또한, 귀하께서는 저희가 제공하는 <a href=\"https://like.co/in/edit#referral\" style=\"color: #28646E\">협력 프로그램</a>에 참가해서 추가 LikeCoin을 획득하실 수도 있어요!</p><p>질문이나 의견이 있으시면 언제든 저희 공식 웹사이트를 통해 문의해 주세요.</p>"
+        },
+        "signature" : "<p>LikeCoin 재단<br/><a href=\"https://like.co\" style=\"color: #28646E\">https://like.co</a></p>"
+    },
+    "Whitepaper": {
+        "Button": {
+            "whitepaper": "백지",
+            "onepager": "한 페이지"
+        }
+    },
+    "Store": {
+        "Header": {
+            "label": {
+                "store": "like.co",
+                "test": "테스트"
+            }
+        },
+        "Footer": {
+            "label": {
+                "contract": "LikeCoin 약정: ",
+                "visit": "자세한 내용은 저희 웹사이트를 방문해서 참조해 주세요: "
+            }
+        }
+    },
+    "Dialog": {
+        "metamask": {
+            "button": {
+                "install": "Metamask 설치",
+                "doneInstalled": "완료! 설치됨"
+            },
+            "title": {
+                "switchRinkeby": "Rinkeby 네트워크로 전환해 주십시오",
+                "switchMain": "Main 네트워크로 전환해 주십시오",
+                "web3": "플러그인이 필요합니다",
+                "locked": "Metamask를 해제해 주십시오",
+                "sign": "Metamask에 접속",
+                "connectledger": "Ledger 지갑에 연결하기",
+                "signledger": "Ledger 지갑에 접속"
+            },
+            "content": {
+                "switchRinkeby": "like.co를 실행하려면 Rinkeby가 필요합니다. 정확한 네트워크로 전환해 주십시오.",
+                "switchMain": "like.co를 실행하려면 Main이 필요합니다. 정확한 네트워크로 전환해 주십시오.",
+                "web3": "like.co를 실행하려면 Metamask가 필요합니다. Chrome으로 전환해서 Metamask 확장을 설치해 주십시오.<br /> <span style='color:red'>시드 단어를 안전하게 보관하시는 걸 잊지 마세요!<span>",
+                "locked": "like.co를 실행하려면 Metamask가 필요합니다. Metamask를 해제해 주십시오.",
+                "sign": "계속하시려면 Metamask 접속 개시를 클릭하세요.",
+                "connectledger" : "Ledger 지갑에 접속한 후 잠금을 풀어 주신 다음, 이더리움 앱으로 전환해 주십시오. 이더리움 앱의 브라우저 지원 모드가 반드시 like.co 사용에 대해 <b>YES</b>로 돼 있어야 합니다.<br /> 자세한 내용을 보시려면 다음  사이트를 방문해 주세요: <a href=\"https://support.ledgerwallet.com/hc/en-us/articles/115005198565\" target=\"_blank\" rel=\"noopener\">Ledger 지원</a>",
+                "signledger": "계속하시려면 Ledger 지갑에서 확인을 눌러 주세요."
+            },
+            "label": {
+                "hardwareWallet": "... 또는, 하드웨어 지갑에 접속하세요.",
+                "ledger": "Ledger에 연결하기"
+            }
+        },
+        "chrome": {
+            "title": "데스크톱 Chrome이 필요합니다",
+            "content": "like.co는 ETH 지갑 확장 MetaMask를 지원하는 브라우저를 필요로 합니다.<br />데스크톱 Chrome으로 전환하신 후에 MetaMask 플러그인을 설치하세요.",
+            "button": {
+                "install": "Chrome 설치"
+            }
+        },
+        "coupon": {
+            "title": {
+                "error": "쿠폰 오류",
+                "claim": "쿠폰 받기"
+            },
+            "label": {
+                "confirming": "쿠폰 콘텐트 로딩 중...",
+                "error": "유효하지 않은 쿠폰 코드입니다!",
+                "invalidCoupon": "유효하지 않은 쿠폰",
+                "redirecting": "내 계정 페이지로 리디렉팅합니다...",
+                "confirmToClaim": "정말로 {value} LikeCoin을 받으시겠습니까?"
+            }
+        },
+        "transaction": {
+            "label": {
+                "waiting": "블록체인 확인 대기 중입니다. 네트워크 트래픽으로 몇 분 정도 걸릴 수 있습니다. 작업이 완료될 때까지 like.co를 브라우징하실 수 있습니다",
+                "newUser": "LikeCoin ID가 마음에 들지 않으셨나 보군요. 지금 생성하기."
+            },
+            "button": {
+                "createID": "LikeCoin ID 생성하기",
+                "buyCoin": "LikeCoin 구매"
+            }
+        },
+        "blocker": {
+            "title": "처리 중...",
+            "content": "요청을 처리 중입니다. 브라우저를 닫지 말아 주세요"
+        },
+        "emailInput": {
+            "title": "이메일을 인증하세요",
+            "content": "이메일을 제공 및 인증하세요.",
+            "label": "내 이메일 주소"
+        }
+    },
+    "Toolbar": {
+        "etherscan": {
+            "button": {
+                "view": "Etherscan에서 보기"
+            }
+        }
+    },
+    "Register": {
+        "header": {
+            "title": "LikeCoin ID를 생성해서 LikeCoin을 전송 및 수령",
+            "titleReferral": "{name}에 가입해서 LikeCoin ID를 생성",
+            "content": "잘하셨어요! Metamask는 이미 설치돼 있는 것 같습니다. 이제 LikeCoin을 수령 또는 전송하실 준비가 완료됐습니다.",
+            "redeem": "무료 LikeCoin 수령하기",
+            "button": {
+                "what": "LikeCoin이란?"
+            }
+        },
+        "label": {
+            "register": "계정 생성",
+            "registerRedeem": "계정 생성 및 수령"
+        },
+        "form": {
+            "createID": "LikeCoin ID* 생성하기 (최소 7 글자)",
+            "walletAddress": "지갑 주소",
+            "email": "이메일 (선택 사항)",
+            "referrer": "LikeCoin ID 추천인 (선택 사항)",
+            "amount": "LikeCoin 수량:",
+            "displayName": "표시명",
+            "claim": "얻음",
+            "couponCode": "쿠폰 코드 (선택 사항)",
+            "label": {
+                "updatedInfo": "귀하의 정보가 업데이트됐습니다.",
+                "viewPage": "내 페이지 보기"
+            },
+            "error": {
+                "alphanumeric": "최소 7자리 영문자 및 숫자로 입력하세요",
+                "addressFormat": "유효하지 않은 주소 포맷",
+                "emailFormat": "+ 문자 없이 유효한 이메일 주소를 입력하세요"
+            }
+        }
+    },
+    "Edit": {
+        "label": {
+            "id": "LikeCoin ID:",
+            "likeCoinAmount": "LikeCoin 수량",
+            "address": "내 주소",
+            "email": "내 이메일",
+            "addEmail": "이메일 주소 추가",
+            "redeemCoin": "LikeCoin 수령",
+            "redeemCode": "코드 수령 (선택 사항)",
+            "validCodeRequired": "유효한 쿠폰 코드를 입력하세요",
+            "verified": "인증됐습니다",
+            "verifying": "인증을 전송했습니다. 수신함을 확인하세요!",
+            "unverified": "인증 미완료",
+            "verifyEmail": "이메일을 인증하세요"
+        },
+        "referral": {
+            "title": "협력 프로그램",
+            "description": "협력 링크를 사용해서 초청받은 친구가 성공적으로 가입 완료되면 귀하와 친구분 모두 LikeCoin 쿠폰을 받으실 수 있습니다. 친구의 계정 이메일이 인증돼야 본인 및 친구 모두 쿠폰을 받을 수 있다는 점에 유의하세요.",
+            "pending": "이메일 인증 대기 중",
+            "verified": "확인됨",
+            "emailInvite": "친구를 이메일로 초대하기",
+            "altInvite": "또는 다음 방법으로 초대:",
+            "copyUrl": "URL 복사",
+            "facebook": "Facebook",
+            "twitter": "Twitter",
+            "send": "전송",
+            "sent": "{email}에게 초대 이메일 전송됨",
+            "verifyEmailFirst": "이메일을 인증해서 협력 프로그램에 가입하세요.",
+            "tweetContent": "지금 저와 Like.co에서 같이 가입해서 LikeCoin을 무료로 받으세요!",
+            "ogTitle": "LikeCoin - Like의 재발견",
+            "ogDescription": "창의성 증명을 통한 콘텐츠 보상. 지금 {name}에 가입 및 등록하세요!"
+        },
+        "button": {
+            "buyCoin": "LikeCoin 구매",
+            "getFreeCoin": "무료 LikeCoin 받기"
+        }
+    },
+    "Verify": {
+        "label": {
+            "toIndex": "색인으로 돌아가는 중",
+            "toEdit": "계정 페이지로 돌아가는 중",
+            "redirect": "페이지 리디렉트",
+            "verifying": "인증 중",
+            "referral": "협력 프로그램의 일환으로, LikeCoin 쿠폰을 동봉하여 이메일을 보내 드립니다"
+        }
+    },
+    "Transaction": {
+        "header": {
+            "label": {
+                "ethAmount": "{amount} ETH",
+                "likecoinAmount": "{amount} LikeCoin",
+                "sending": "전송 중",
+                "sent": "전송됨",
+                "to": "수신인 ",
+                "notFound": "트랜잭션을 찾을 수 없거나 like.co 트랜잭션이 아닙니다",
+                "pending": "블록체인에 제출됨",
+                "failed": "트랜잭션 실패",
+                "timeout": "트랜잭션 만료됨",
+                "completed": "트랜잭션 완료"
+            }
+        },
+        "label": {
+            "recipientId": "LikeCoin ID 수신인",
+            "recipientAddress": "수신인 주소",
+            "senderName": "전송인 표시명",
+            "senderAddress": "전송인 주소",
+            "sendTo": "{coin}을/를 <span class='usertitle'>{title}님께 전송</span>",
+            "remarks": "비고",
+            "viewTx": "트랜잭션 보기",
+            "amountToSend": "전송할 {coin}의 수량",
+            "invalidAmount": "유효하지 않은 수량",
+            "enterValidNumber": "유효한 십진수 숫자를 입력하세요",
+            "userNotFound": "사용자를 찾을 수 없음"
+        },
+        "head": {
+            "title": "LikeCoin - Like의 재발견.",
+            "description": "창의성 증명을 통한 콘텐츠 보상. {name}님께 LikeCoin 전송"
+        },
+        "error": {
+            "notSupported": "귀하의 지갑은 이 기능을 지원하지 않습니다",
+            "ethInsufficient": "지갑 내에 ETH가 부족합니다.",
+            "likecoinInsufficient": "지갑 내에 LikeCoin이 부족합니다.",
+            "sameUser": "전송인과 수신인은 같을 수 없습니다"
+        }
+    },
+    "WhitePaper": {
+        "label": {
+            "whitePaper": "백지",
+            "comingSoon": "곧 지원됨"
+        }
+    },
+    "TokenSale": {
+        "title": "토큰 판매",
+        "preSaleTitle": "얼리 버드",
+        "label": {
+            "prepareToJoin": "토큰 판매 참가 준비하기",
+            "publicSaleStartIn": "공개 판매가 다음 시간 후에 시작합니다:",
+            "preSaleEndIn": "25% 보너스가 다음 시간 후에 종료됩니다:",
+            "preSaleBonus": "25% 보너스",
+            "preSaleBonusCondition": "10ETH 이상 전용",
+            "joinPreSale": "지금 얼리 버드 참가하기",
+            "token": "토큰",
+            "exchangeRate": "환율",
+            "supply": "공급",
+            "preSaleDescription0": "{base} LikeCoin + {bonus} 보너스를 구매하고자 합니다.",
+            "preSaleDescription1": "공개 판매가 시작되면 귀하의 지갑에 LikeCoin이 전송됩니다.",
+            "whatIsETH": "ETH란?",
+            "bonusAndLimitedOffer": "25% 보너스, 한시적 할인",
+            "limitedOfferCondition": "10 ETH 이상 구매 전용",
+            "amountLikeToPurhcase": "구매할 LIKE 수량",
+            "tokensaleBadAmount": "유효하지 않은 금액입니다. 최소 0.1 ETH, 10,000 ETH 미만이어야 합니다",
+            "bonus": "보너스",
+            "bonusLockUp": "보너스 LikeCoin은 귀하의 지갑 안에 잠금 상태로 되어 6개월 동안 양도할 수 없습니다.",
+            "amountWillBeSentWhenSalesStart": "공개 토큰 판매가 시작되면 구매하신 LikeCoin 및 보너스 LikeCoin이 귀하의 지갑으로 전송됩니다. 예정일은 2018년 4월 23일입니다. 보너스 LikeCoin은 귀하의 지갑 안에 잠금 상태로 되어 6개월 동안 양도할 수 없습니다.",
+            "whatIsEthLink": "https://help.like.co/likecoin-faq/what-is-eth"
+        },
+        "button": {
+            "aboutLikeCoin": "LikeCoin 자세히 알아보기",
+            "whitePaper": "@:WhitePaper.label.whitePaper"
+        }
+    },
+    "KYC": {
+        "label": {
+            "kyc": "ID 인증",
+            "kycNeeded": "LikeCoin 토큰 판매에 참가하려면 ID 인증이 필요합니다",
+            "advKycNeeded": "많은 금액을 구매하시려면 고급 ID 인증이 필요합니다",
+            "emailVerify": "이메일을 제공 및 인증하세요.",
+            "createID": "LikeCoin 전송 및 수령을 하시려면 LikeCoin ID를 생성하고, 토큰 판매에 참가하세요.",
+            "verifyToPurchase": "공개 판매가 진행되면 본인의 정보를 인증해서 LikeCoin을 구매하세요.",
+            "emailVerification": "이메일 인증",
+            "accountVerification": "계정 인증",
+            "advancedVerification": "고급 인증",
+            "verifyEmailPlaceholder": "이메일을 인증하세요",
+            "checkEmail": "이메일 전송함. 확인을 부탁합니다",
+            "emailVerified": "이메일 인증됨",
+            "proceedToAccountVerification": "계정 인증 과정으로 진행",
+            "isPrcCitizen": "PRC (중화 인민 공화국) 시민이십니까?",
+            "isUsaCitizen": "USA (아메리카 합중국) 시민이십니까?",
+            "isUsaAccredited": "미국 내의 공인 투자자이십니까?",
+            "isPurchaseExceedAmount": "미화 {amount}을/를 넘는 금액 만큼 구매하실 예정이십니까?",
+            "passportName": "성명 (여권상의 이름과 동일해야 함)",
+            "country": "국가",
+            "invalidCountry": "국가를 선택하세요.",
+            "passportIdPage": "여권 ID 페이지 *",
+            "addressProof": "주소 증빙 (3개월 이내) *",
+            "canPurchaseLessThanAmount": "미화 {amount} 미만으로 구매하실 수 있습니다",
+            "canPurchaseMoreThanAmount": "미화 {amount} 이상을 구매하실 수 있습니다",
+            "advancedVerificationInProgress": "미화 {amount} 미만으로 구매하실 수 있습니다. 고급 인증이 완료되면, 더 많이 구매하실 수 있습니다.",
+            "purchaseMore": "더 많이 구매하고 싶습니다.",
+            "accountVeritifed": "계정 인증됨",
+            "canPurchaseWhenPublicSale": "공개 판매가 진행되면 여기서 LikeCoin을 구매하실 수 있습니다.",
+            "verifyToPurchaseOverAmount": "미화 {amount}을/를 넘는 금액을 구매하려면 ID를 인증해 주십시오",
+            "waitingConfirmation": "확인 대기 중.",
+            "timeWaitForAccountVerification": "2분 정도 소요될 예정입니다...",
+            "timeWaitForAdvancedVerification": "5 영업일 정도 소요될 예정입니다...",
+            "contactUs": "추가 지원을 받으시려면 하단 우측의 대화창을 통해 문의해 주시기 바랍니다.",
+            "contactThroughIntercom": "이곳의 Intercom을 통해서 문의해 주시기 바랍니다.",
+            "preSaleBonusDescription": "10 ETH 이상 구매시 25% 보너스 보상"
+        },
+        "button": {
+            "createID": "LikeCoin ID 생성하기",
+            "sendEmailAgain": "다시 전송",
+            "start": "시작",
+            "next": "다음",
+            "upload": "업로드",
+            "reupload": "재업로드"
+        }
+    },
+    "Creator": {
+        "title": {
+            "artist": "아티스트",
+            "comicAuthor": "만화가",
+            "multimediaDesigner": "멀티미디어 디자이너"
+        }
+    }
+}
