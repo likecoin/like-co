@@ -126,6 +126,7 @@ module.exports = {
     { src: '~/plugins/vue-stripe', ssr: false },
     { src: '~/plugins/vue-swiper', ssr: false },
     { src: '~/plugins/vue-vimeo-player', ssr: false },
+    { src: '~/plugins/polyfill.js', ssr: false },
   ],
   /*
   ** Add axios globally
