@@ -111,7 +111,9 @@ ul {
     }
 
     @media (min-width: 600px + 1px) {
-      padding: 8px;
+      .large & {
+        padding: 8px;
+      }
 
       .mission-list.large:not(.grid) & {
         box-sizing: content-box;

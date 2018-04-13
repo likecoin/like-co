@@ -53,7 +53,6 @@ export default {
 @import "~assets/variables";
 
 .invitee-mission-list {
-  border-top: 1px solid #E6E6E6;
   padding-top: 16px;
 }
 
