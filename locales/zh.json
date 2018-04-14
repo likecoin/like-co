@@ -223,9 +223,9 @@
   },
   "Sign": {
     "Message": {
-      "registerUser": "Registering with the following user info",
-      "editUser": "Updating user info",
-      "signKYC": "ID Verify user with the following Info"
+      "registerUser": "確認註冊以下帳號",
+      "editUser": "確認修改帳號資訊",
+      "signKYC": "確認以下用戶資訊"
     }
   },
   "Home": {
