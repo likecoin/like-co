@@ -223,9 +223,9 @@
   },
   "Sign": {
     "Message": {
-      "registerUser": "Registering with the following user info",
-      "editUser": "Updating user info",
-      "signKYC": "ID Verify user with the following Info"
+      "registerUser": "确认注册以下帐号",
+      "editUser": "确认修改帐号资讯",
+      "signKYC": "确认以下用户资讯"
     }
   },
   "Home": {
@@ -235,14 +235,14 @@
         "signUp": "注册"
       }
     },
+    "Flag": {
+      "title": "化Like为Coin 回馈创作",
+      "content": ""
+    },
     "HeroVideo": {
       "button": {
         "watchVideo": "观看影片"
       }
-    },
-    "Flag": {
-      "title": "化Like为Coin 回馈创作",
-      "content": ""
     },
     "Sale": {
       "title": {
@@ -275,9 +275,9 @@
         "likeCoinForAppreciate": "送出 LikeCoin 红包"
       }
     },
-    "Protocol": {
+    "Stack": {
       "title": "技术：LikeCoin Stack",
-      "content": "--paragraph in LikeCoin Protocol---",
+      "content": "--paragraph in LikeCoin Stack---",
       "layer": {
         "provider": {
           "title": "DApps",
@@ -782,11 +782,14 @@
       "isUsaCitizen": "您是否美国公民？",
       "isUsaAccredited": "您是否美国合格投资者(accredited investor)?",
       "isPurchaseExceedAmount": "您购买的金额是否超过 {amount} ETH？",
-      "passportName": "护照姓名",
-      "country": "地区",
-      "invalidCountry": "请选择地区",
-      "passportIdPage": "护照 ID 页 *",
-      "addressProof": "住址证明 (三个月以内) *",
+      "firstName": "名字(同护照)",
+      "lastName": "姓氏(同护照)",
+      "country": "居住地区",
+      "nationality": "国籍",
+      "invalidCountry": "请在列表内选择地区",
+      "invalidNationality": "请在列表内选择国籍",
+      "passportIdPage": "护照 ID 页，脸孔正置 (大小限制 2MB)*",
+      "recentSelfie": "自拍大头照，脸孔正置 (大小限制 2MB)*",
       "canPurchaseLessThanAmount": "您可购买少于 {amount} ETH 的 LikeCoin",
       "canPurchaseMoreThanAmount": "您可购买多于 {amount} ETH 的 LikeCoin",
       "advancedVerificationInProgress": "您可购买少于 {amount} ETH 的 LikeCoin，在进阶认证通过后，你将可购买更多",
