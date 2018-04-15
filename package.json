@@ -25,14 +25,21 @@
   },
   "babel": {
     "presets": [
-      "es2015"
+      [
+        "env",
+        {
+          "targets": {
+            "node": "8.11.1"
+          }
+        }
+      ]
     ]
   },
   "dependencies": {
     "@google-cloud/pubsub": "^0.17.0",
     "@ledgerhq/hw-app-eth": "^4.7.3",
     "@ledgerhq/hw-transport-u2f": "^4.7.3",
-    "@ledgerhq/web3-subprovider": "^4.7.3",
+    "@ledgerhq/web3-subprovider": "^4.11.0",
     "@likecoin/ethereum-blockies": "^0.1.1",
     "@likecoin/likecoin-email-templates": "^1.0.1",
     "@likecoin/vue-image-lightbox": "^5.5.3",
@@ -41,6 +48,7 @@
     "abi-decoder": "^1.0.9",
     "aws-sdk": "^2.193.0",
     "axios": "^0.18.0",
+    "babel-polyfill": "^6.26.0",
     "bignumber.js": "^6.0.0",
     "body-parser": "^1.18.2",
     "compression": "^1.7.1",
@@ -72,7 +80,7 @@
     "vue-vimeo-player": "0.0.6",
     "vuex": "^3.0.1",
     "web3": "^1.0.0-beta.28",
-    "web3-provider-engine": "^13.6.6",
+    "web3-provider-engine": "^14.0.2",
     "xml": "^1.0.1"
   },
   "devDependencies": {

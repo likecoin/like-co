@@ -2,8 +2,8 @@
 import Web3 from 'web3';
 
 /* for ledger */
-import ProviderEngine from 'web3-provider-engine';
-import FetchSubprovider from 'web3-provider-engine/subproviders/fetch';
+import ProviderEngine from 'web3-provider-engine/dist/es5';
+import FetchSubprovider from 'web3-provider-engine/dist/es5/subproviders/fetch';
 import TransportU2F from '@ledgerhq/hw-transport-u2f';
 import createLedgerSubprovider from '@ledgerhq/web3-subprovider';
 
