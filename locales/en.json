@@ -393,10 +393,6 @@
         "jacky-chu": {
           "title": "Jacky Chu",
           "subtitle": "Early investor of BTC, ETH, IOTA, VEN and ARDR"
-        },
-        "to-cheung": {
-          "title": "To Cheung",
-          "subtitle": "Founder and CEO of UDomain, Early investor of BTC"
         }
       }
     },
@@ -418,6 +414,10 @@
         "isaac-mao": {
           "title": "Isaac Mao",
           "description": "Founder of <a href=\"https://musicoin.org/\" target=\"_blank\" rel=\"noopener\">Musicoin</a>; Founder of CNBlogs.org; Project Lead of iCommons China, Creative Commons China Team."
+        },
+        "to-cheung": {
+          "title": "To Cheung",
+          "description": "Founder and CEO of <a href=\"https://www.udomain.hk/\" target=\"_blank\" rel=\"noopener\">UDomain</a>; Early investor of BTC"
         }
       }
     },
