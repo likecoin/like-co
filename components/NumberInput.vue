@@ -79,7 +79,14 @@ export default {
       this.emitChange(formatAmount(newAmount.toFixed()));
     },
     onAmountKeypress(e) {
-      if (e.code === 'Enter') {
+      // Allow simple command in Firefox input (Ctrl/Cmd + A/C/V/X, left, right, backspace)
+      if (
+        (['KeyA', 'KeyC', 'KeyV', 'KeyX'].includes(e.code) && (e.ctrlKey === true || e.metaKey === true)) ||
+        e.code === 'ArrowLeft' ||
+        e.code === 'ArrowRight' ||
+        e.code === 'Enter' ||
+        e.code === 'Backspace'
+      ) {
         return;
       }
       if (!/[0-9.]/.test(e.key)) {
