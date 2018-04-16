@@ -845,7 +845,8 @@
       "noRecord": "暂时没有您的记录。",
       "to": "到",
       "from": "由",
-      "unknown": "未知"
+      "unknown": "未知",
+      "lockUntilDate": "锁上直至 {date}"
     },
     "button": {
       "view": "查阅",

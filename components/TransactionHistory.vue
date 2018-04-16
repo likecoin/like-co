@@ -54,6 +54,13 @@
                 v-if="isTxFailed(tx)"
                 :src="ErrorIcon" />
               <div
+                v-else-if="isFromBonus(tx)">
+                <img :src="LockIcon" />
+                <md-tooltip>
+                  {{ $t('TransactionHistory.label.lockUntilDate', { date: BONUS_LOCK_UNTIL_DATE })}}
+                </md-tooltip>
+              </div>
+              <div
                 class="value"
                 v-html="getValue(tx)" />
             </div>
@@ -90,8 +97,18 @@ import ErrorIcon from '@/assets/txHistory/invalid.svg';
 import LockIcon from '@/assets/txHistory/lock.svg';
 
 import EthHelper from '@/util/EthHelper';
-import { ETH_TO_LIKECOIN_RATIO, ONE_LIKE, TRANSACTION_QUERY_LIMIT } from '@/constant';
-import { LIKE_COIN_ICO_ADDRESS, LIKE_COIN_PRESALE_ADDRESS } from '@/constant/contract/likecoin-ico';
+import {
+  ETH_TO_LIKECOIN_RATIO,
+  ONE_LIKE,
+  TRANSACTION_QUERY_LIMIT,
+  BONUS_LOCK_UNTIL_DATE,
+} from '@/constant';
+import {
+  LIKE_COIN_ICO_ADDRESS,
+  LIKE_COIN_PRESALE_ADDRESS,
+  LIKE_COIN_PRESALE_FROM_ADDRESS,
+  LIKE_COIN_BONUS_FROM_ADDRESS,
+} from '@/constant/contract/likecoin-ico';
 
 function getLikeCoinByETH(eth) {
   return new BigNumber(eth).dividedBy(ONE_LIKE)
@@ -126,6 +143,7 @@ export default {
   props: ['address', 'showTokensale'],
   data() {
     return {
+      BONUS_LOCK_UNTIL_DATE,
       ErrorIcon,
       LockIcon,
       ICOTotalCoin: 0,
@@ -147,6 +165,7 @@ export default {
       'queryTxHistoryByAddr',
     ]),
     getStatus(tx) {
+      if (this.isFromBonus(tx) || this.isFromPresale(tx)) return 'earlybird';
       if (this.isTokensale(tx)) return 'tokensale';
       if (this.isPresale(tx)) return 'earlybird';
       if (this.isTxFailed(tx)) return 'fail';
@@ -172,6 +191,8 @@ export default {
       return formatAmount(value, 'LIKE');
     },
     getFromToId(tx) {
+      if (this.isFromPresale(tx)) return 'presale';
+      if (this.isFromBonus(tx)) return 'bonus';
       if (this.isPresale(tx)) return 'earlybird';
       if (this.isTokensale(tx)) return 'tokensale';
       if (tx.type === 'claimCoupon') return 'coupon';
@@ -187,6 +208,12 @@ export default {
       if (tx.status === 'pending') return this.$t('TransactionHistory.label.timePending');
       if (tx.status === 'timeout') return this.$t('TransactionHistory.label.timeExpired');
       return tx.completeTs ? formatUTCTime(tx.completeTs) : '';
+    },
+    isFromPresale(tx) {
+      return tx.from === LIKE_COIN_PRESALE_FROM_ADDRESS;
+    },
+    isFromBonus(tx) {
+      return tx.from === LIKE_COIN_BONUS_FROM_ADDRESS;
     },
     isPresale(tx) {
       return tx.to === LIKE_COIN_PRESALE_ADDRESS;
@@ -344,8 +371,10 @@ export default {
             color: #9b9b9b;
           }
           img {
-            margin-top: -4px;
+            margin-top: -2px;
             margin-right: 4px;
+
+            min-width: 10px;
           }
           .value {
             font-size: 0;
