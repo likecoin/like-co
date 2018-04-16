@@ -79,29 +79,31 @@
             <div class="lc-container-4">
               <div class="address-section">
                 <div :class="['address-container', { edit: isProfileEdit }]">
-                  <div class="address-field likecoin-id lc-tablet-show">
+                  <div :class="['address-field', 'likecoin-id', 'lc-tablet-show', { disabled: isProfileEdit }]">
                     <div class="address-title">
                       {{ $t('Edit.label.id') }}
                     </div>
                     <nuxt-link v-if="user" :to="{ name: 'id', params: { id: user } }">
-                      <div :class="['lc-font-size-20', { disabled: isProfileEdit }]">
+                      <div class="lc-font-size-20">
                         {{ user }}
                       </div>
                     </nuxt-link>
                   </div>
-                  <div class="address-field">
-                    <div :class="['address-title', { disabled: isProfileEdit }]">
+                  <div :class="['address-field', { disabled: isProfileEdit }]">
+                    <div class="address-title">
                       {{ $t('Edit.label.address') }}
                     </div>
                     <md-field class="md-field-display">
                       <md-input
-                        :class="['input-info', { disabled: isProfileEdit }]"
+                        class="input-info"
                         v-model="wallet"
                         required
                         disabled />
                     </md-field>
                   </div>
-                  <div class="address-field" @click="onEditEmail">
+                  <div
+                    :class="['address-field', { disabled: getUserInfo.isEmailVerified && isProfileEdit }]"
+                    @click="onEditEmail">
                     <div class="address-title">
                       {{ $t('Edit.label.email') }}
                       <span v-if="!isProfileEdit">
@@ -120,7 +122,8 @@
                         </span>
                       </span>
                     </div>
-                    <md-field :class="(!getUserInfo.isEmailVerified && isProfileEdit) ? 'md-field-edit-mode' : 'md-field-pre-edit'">
+                    <md-field
+                      :class="['md-field-display', (!getUserInfo.isEmailVerified && isProfileEdit) ? 'md-field-edit-mode' : 'md-field-pre-edit']">
                       <label class="input-display-hint lc-font-size-20">
                         {{ $t('Edit.label.addEmail') }}
                       </label>
@@ -739,12 +742,6 @@ $profile-icon-mobile-size: 88px;
 
         .md-focused .input-display-hint {
           opacity: 0;
-        }
-
-        &.likecoin-id {
-          @media (min-width: 769px) {
-            display: none;
-          }
         }
 
         .verified {
