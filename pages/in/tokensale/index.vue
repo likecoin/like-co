@@ -128,24 +128,22 @@
         class="lc-container-1 lc-section-block"
         v-else-if="!getUserIsRegistered"
       >
-        <div class="lc-container-header">
-          <div class="lc-container-2">
-            <div class="lc-container-3 lc-bg-gray-1 create-account-wrapper">
-              <p class="lc-color-like-gray-4 lc-text-align-center">
-                {{ $t('KYC.label.createID') }}
-              </p>
-              <material-button @click="redirectToRegister">
-                {{ $t('KYC.button.createID') }}
-              </material-button>
-              <p>
-                <a
-                  class="lc-color-like-gray-4 lc-underline"
-                  href="#"
-                  @click="showLoginWindow">
-                  {{ $t('Home.Header.button.signIn') }}
-                </a>
-              </p>
-            </div>
+        <div class="lc-container-2">
+          <div class="lc-container-3 lc-bg-gray-1 create-account-wrapper">
+            <p class="lc-color-like-gray-4 lc-text-align-center">
+              {{ $t('KYC.label.createID') }}
+            </p>
+            <material-button @click="redirectToRegister">
+              {{ $t('KYC.button.createID') }}
+            </material-button>
+            <p>
+              <a
+                class="lc-color-like-gray-4 lc-underline"
+                href="#"
+                @click="showLoginWindow">
+                {{ $t('Home.Header.button.signIn') }}
+              </a>
+            </p>
           </div>
         </div>
       </section>
@@ -646,6 +644,10 @@ export default {
   padding-right: 0;
   padding-left: 0;
 
+  @media (max-width: 600px) {
+    overflow: hidden;
+  }
+
   > div {
     margin-right: -8px;
     margin-left: -8px;
@@ -676,25 +678,19 @@ export default {
 
 
 .token-info-section {
-  .lc-container-3 {
-    @media (min-width: 601px) {
-      padding-right: 0;
-    }
-  }
-
   .info-grid {
     > ul {
       display: flex;
       flex-wrap: wrap;
 
-      margin: -20px -10px;
+      margin: -20px -12px;
       padding: 0;
 
       list-style: none;
 
-      @media (max-width: 600px) {
-        justify-content: center;
+      justify-content: center;
 
+      @media (max-width: 600px) {
         margin: -12px;
       }
       @media (max-width: 480px) {
@@ -732,6 +728,7 @@ export default {
             &.label {
               font-size: 14px;
               font-weight: 400;
+              flex-shrink: 0;
             }
 
             &.value {
@@ -754,9 +751,13 @@ export default {
         }
 
         &.what-is-eth {
+          width: 100%;
           display: flex;
           align-items: center;
           flex-grow: 1;
+          justify-content: center;
+
+          margin-top: 0;
 
           a {
             display: flex;
@@ -765,15 +766,12 @@ export default {
             text-decoration: underline;
 
             span {
-              flex-shrink: 0;
+              text-align: center;
             }
-            img {
-              margin-left: 8px;
-            }
-          }
 
-          @media (max-width: 600px) {
-            justify-content: center;
+            img {
+              margin-left: 4px;
+            }
           }
         }
       }

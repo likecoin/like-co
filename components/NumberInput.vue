@@ -79,7 +79,14 @@ export default {
       this.emitChange(formatAmount(newAmount.toFixed()));
     },
     onAmountKeypress(e) {
-      if (e.code === 'Enter') {
+      // Allow simple command in Firefox input (Ctrl/Cmd + A/C/V/X, left, right, backspace)
+      if (
+        (['KeyA', 'KeyC', 'KeyV', 'KeyX'].includes(e.code) && (e.ctrlKey === true || e.metaKey === true)) ||
+        e.code === 'ArrowLeft' ||
+        e.code === 'ArrowRight' ||
+        e.code === 'Enter' ||
+        e.code === 'Backspace'
+      ) {
         return;
       }
       if (!/[0-9.]/.test(e.key)) {
@@ -146,14 +153,15 @@ export default {
       margin: 0 16px;
 
       color: $like-gray-5;
+
       font-size: 16px;
       font-weight: 300;
 
       @media (max-width: 600px) {
         left: 28px;
 
-        margin-left: 4px;
         margin-right: 4px;
+        margin-left: 4px;
       }
     }
 
@@ -173,25 +181,26 @@ export default {
     }
 
     .payment-input {
-      width: 0; /* not sure why */
+      width: 100%;
+      min-width: 0;
       height: 100%;
-      line-height: 76px;
       padding: 0 12px;
 
       text-align: center;
 
       font-size: 56px;
       font-weight: 300;
+      line-height: 76px;
 
       -webkit-text-fill-color: $like-gray-5;
 
       &.with-currency {
-        padding-left: 48px;
         padding-right: 48px;
+        padding-left: 48px;
 
         @media (max-width: 600px) {
-          padding-left: 32px;
           padding-right: 32px;
+          padding-left: 32px;
         }
       }
 

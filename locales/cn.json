@@ -384,14 +384,6 @@
         "heartherm-huang": {
           "title": "黄何",
           "subtitle": "量数币创办人"
-        },
-        "jacky-chu": {
-          "title": "Jacky Chu",
-          "subtitle": "BTC、ETH、IOTA、VEN及ARDR的早期投资者"
-        },
-        "to-cheung": {
-          "title": "章涛",
-          "subtitle": "UDomain创办人，BTC的早期投资者"
         }
       }
     },
@@ -413,6 +405,10 @@
         "isaac-mao": {
           "title": "毛向辉",
           "description": "<a href=\"https://musicoin.org/\" target=\"_blank\" rel=\"noopener\">Musicoin</a>创办人; CNBlogs.org创办人; Project Lead of iCommons China, Creative Commons China Team."
+        },
+        "to-cheung": {
+          "title": "章涛",
+          "description": "<a href=\"https://www.udomain.hk/\" target=\"_blank\" rel=\"noopener\">UDomain</a>创办人及行政总裁; BTC的早期投资者"
         }
       }
     },
@@ -845,7 +841,8 @@
       "noRecord": "暂时没有您的记录。",
       "to": "到",
       "from": "由",
-      "unknown": "未知"
+      "unknown": "未知",
+      "lockUntilDate": "锁上直至 {date}"
     },
     "button": {
       "view": "查阅",

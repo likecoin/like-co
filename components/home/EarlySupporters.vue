@@ -85,10 +85,6 @@ const SUPPORTERS = [
     key: 'jacky-chu',
     avatar: '/images/supporters/jacky-chu.png',
   },
-  {
-    key: 'to-cheung',
-    avatar: '/images/supporters/to-cheung.jpg',
-  },
 ];
 
 export default {
