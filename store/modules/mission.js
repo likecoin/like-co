@@ -17,7 +17,7 @@ import * as getters from './getters/mission';
 const state = {
   missions: [],
   referrals: [],
-  proxyReward: {},
+  proxyBonus: {},
 };
 
 const mutations = {
@@ -35,28 +35,32 @@ const mutations = {
     state.referrals = referrals;
   },
   [MISSION_SET_REFERRAL_BONUS_LIST](state, bonus) {
-    state.proxyReward = {};
+    state.proxyBonus = {};
     bonus.forEach((t) => {
-      const referree = state.referrals.find(r => r.id === t.referee);
-      const mission = referree.missions.find(m => m.referralPayoutType === t.type);
-      if (!mission.refereeReward) mission.refereeReward = new BigNumber(0);
-      Vue.set(mission, 'refereeReward', mission.refereeReward.plus(new BigNumber(t.value)));
-      let proxyReward = state.proxyReward[mission.referralClaimProxy];
-      if (!proxyReward) proxyReward = new BigNumber(0);
+      const referee = state.referrals.find(r => r.id === t.referee);
+      const mission = referee.missions.find(m => m.referralPayoutType === t.type);
+      if (!mission.pendingReferralBonus) mission.pendingReferralBonus = new BigNumber(0);
+      Vue.set(mission, 'pendingReferralBonus', mission.pendingReferralBonus.plus(new BigNumber(t.value)));
+      let proxyBonus = state.proxyBonus[mission.referralClaimProxy];
+      if (!proxyBonus) proxyBonus = new BigNumber(0);
       Vue.set(
-        state.proxyReward,
+        state.proxyBonus,
         mission.referralClaimProxy,
-        proxyReward.plus(new BigNumber(t.value)),
+        proxyBonus.plus(new BigNumber(t.value)),
       );
     });
   },
   [MISSION_SET_REFERRAL_MISSION_CLAIMED](state, missionId) {
-    Vue.set(state.proxyReward, missionId, undefined);
+    Vue.set(state.proxyBonus, missionId, undefined);
     state.referrals.forEach((r, rIndex) => {
       r.missions.forEach((m, mIndex) => {
         if (m.referralClaimProxy === missionId) {
           // to trigger array reactivity
-          Vue.set(state.referrals[rIndex].missions, mIndex, { ...m, refereeReward: undefined });
+          Vue.set(
+            state.referrals[rIndex].missions,
+            mIndex,
+            { ...m, pendingReferralBonus: undefined },
+          );
         }
       });
     });

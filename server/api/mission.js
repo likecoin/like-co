@@ -72,7 +72,9 @@ router.get('/mission/list/:id', async (req, res) => {
         const requires = m.data().require;
         const fullfilled = requires.every(id => missionDone.includes(id));
         // eslint-disable-next-line no-await-in-loop
-        if (fullfilled && !(await checkAlreadyDone(m, { u: userDoc, doneList: missionDone }))) {
+        if (fullfilled
+          && (!m.data().isRefereeOnly || userDoc.data().referrer)
+          && !(await checkAlreadyDone(m, { u: userDoc, doneList: missionDone }))) {
           replyMissionList.push({ id: m.id, ...m.data() });
         }
       } else {

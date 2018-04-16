@@ -54,7 +54,7 @@ export default {
     },
     isNew() {
       if (this.isReferral) {
-        return !!this.mission.refereeReward;
+        return !!this.mission.pendingReferralBonus;
       } else if (this.mission.isProxy) {
         return !!this.getProxyMissionReward(this.mission.id);
       }
@@ -62,8 +62,8 @@ export default {
     },
     reward() {
       if (this.isReferral) {
-        if (this.mission.refereeReward) {
-          return new BigNumber(this.mission.refereeReward).div(ONE_LIKE).toFixed(2);
+        if (this.mission.pendingReferralBonus) {
+          return new BigNumber(this.mission.pendingReferralBonus).div(ONE_LIKE).toFixed(2);
         }
         return this.mission.referralReward;
       } else if (this.mission.isProxy && this.getProxyMissionReward(this.mission.id)) {
@@ -73,7 +73,7 @@ export default {
     },
     state() {
       if (this.mission.isClaimed) return 'claimed';
-      if (this.isReferral && this.mission.refereeReward) {
+      if (this.isReferral && this.mission.pendingReferralBonus) {
         return 'completed';
       } else if (this.mission.isProxy) {
         if (this.getProxyMissionReward(this.mission.id)) return 'completed';

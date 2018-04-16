@@ -45,20 +45,23 @@ export async function refreshReferralMissionList({ commit }, id) {
   commit(types.MISSION_SET_REFERRAL_BONUS_LIST, bonus);
 }
 
-export async function onMissionClick({ commit, rootState }, m) {
+export async function onMissionClick({ commit, state, rootState }, m) {
   const { user } = rootState.user.user; // module.object.username...
   if (m.isReferral) {
-    claimReferralBonus({ commit }, {
-      missionId: m.referralClaimProxy,
-      type: m.referralPayoutType,
-      user,
-    });
+    if (m.pendingReferralBonus) { // referral && has pending bonus
+      return claimReferralBonus({ commit }, {
+        missionId: m.referralClaimProxy,
+        type: m.referralPayoutType,
+        user,
+      });
+    }
   } else {
     if (!m.seen) setMissionSeen({ commit }, { missionId: m.id, user });
-    if (m.isProxy) {
-      claimReferralBonus({ commit }, { missionId: m.id, type: m.targetPayoutType, user });
+    if (m.isProxy && state.proxyBonus[m.id]) { // is proxy and can claim
+      return claimReferralBonus({ commit }, { missionId: m.id, type: m.targetPayoutType, user });
     } else if (m.done) {
-      claimMission({ commit }, { missionId: m.id, user });
+      return claimMission({ commit }, { missionId: m.id, user });
     }
   }
+  return false;
 }
