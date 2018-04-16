@@ -36,8 +36,8 @@ export const KYC_STATUS_ENUM = {
 export const ETH_TO_LIKECOIN_RATIO = 40000;
 export const INITIAL_TOKENSALE_ETH = new BigNumber(5400);
 
-export const SALE_DATE_ANNOUNCE_DATE = moment('2018-04-13T00:00:00+0800');
-export const SALE_DATE = moment('2018-04-23T00:00:00+0800');
+export const SALE_DATE_ANNOUNCE_DATE = moment('2018-04-13T18:00:00+0800');
+export const SALE_DATE = moment('2018-04-23T12:00:00+0800');
 
 
 const toolbarsDisableError = {
@@ -45,6 +45,7 @@ const toolbarsDisableError = {
   'verify-uuid': ['web3', 'locked'],
   'in-tx-id': ['web3', 'locked'],
   id: ['web3', 'testnet', 'locked'],
+  'id-amount': ['web3', 'testnet', 'locked'],
   'claim-id-coupon': ['web3', 'locked'],
   'in-backer': ['web3', 'testnet', 'locked'],
   'in-tokensale': ['web3', 'testnet', 'locked'],

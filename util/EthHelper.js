@@ -2,8 +2,8 @@
 import Web3 from 'web3';
 
 /* for ledger */
-import ProviderEngine from 'web3-provider-engine';
-import FetchSubprovider from 'web3-provider-engine/subproviders/fetch';
+import ProviderEngine from 'web3-provider-engine/dist/es5';
+import FetchSubprovider from 'web3-provider-engine/dist/es5/subproviders/fetch';
 import TransportU2F from '@ledgerhq/hw-transport-u2f';
 import createLedgerSubprovider from '@ledgerhq/web3-subprovider';
 
@@ -229,9 +229,11 @@ class EthHelper {
     if (t.value > 0) return this.getEthTransferInfo(txHash, t);
     if (t.to.toLowerCase() !== LIKE_COIN_ADDRESS.toLowerCase()) throw new Error('Not LikeCoin transaction');
     const decoded = abiDecoder.decodeMethod(t.input);
-    const isDelegated = (decoded.name === 'transferDelegated');
-    if (decoded.name !== 'transfer' && !isDelegated) throw new Error('Not LikeCoin Store transaction');
-
+    const isDelegated = decoded.name === 'transferDelegated';
+    const isLock = decoded.name === 'transferAndLock';
+    if (decoded.name !== 'transfer' && !isDelegated && !isLock) {
+      throw new Error('Not LikeCoin Store transaction');
+    }
     const txTo = decoded.params.find(p => p.name === '_to').value;
     let _to = this.web3.utils.toChecksumAddress(txTo);
     let _from = isDelegated ? decoded.params.find(p => p.name === '_from').value : t.from;
@@ -259,12 +261,20 @@ class EthHelper {
     }
     if (!r.logs || !r.logs.length) throw new Error('Cannot fetch transaction Data');
     const logs = abiDecoder.decodeLogs(r.logs);
-    const targetLogs = logs.filter(l => (l.events.find(e => e.name === 'to').value) === txTo);
-    if (!targetLogs || !targetLogs.length) throw new Error('Cannot parse receipt');
-    const [log] = targetLogs;
-    _to = this.web3.utils.toChecksumAddress(log.events.find(p => (p.name === 'to')).value);
-    _from = this.web3.utils.toChecksumAddress(log.events.find(p => (p.name === 'from')).value);
-    _value = log.events.find(p => (p.name === 'value')).value;
+    if (isDelegated) {
+      const targetLogs = logs.filter(l => (l.events.find(e => e.name === 'to').value) === txTo);
+      if (!targetLogs || !targetLogs.length) throw new Error('Cannot parse receipt');
+      const [log] = targetLogs;
+      _to = this.web3.utils.toChecksumAddress(log.events.find(p => (p.name === 'to')).value);
+      _from = isDelegated ? this.web3.utils.toChecksumAddress(log.events.find(p => (p.name === 'from')).value) : t.from;
+      _value = log.events.find(p => (p.name === 'value')).value;
+    } else if (isLock) {
+      const targetLogs = logs.filter(l => (l.name === 'Transfer'));
+      if (!targetLogs || !targetLogs.length) throw new Error('Cannot parse receipt');
+      const [log] = targetLogs;
+      _to = this.web3.utils.toChecksumAddress(log.events.find(p => (p.name === 'to')).value);
+      _value = log.events.find(p => (p.name === 'value')).value;
+    }
     return {
       _to,
       _from,

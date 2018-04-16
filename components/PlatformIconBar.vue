@@ -26,12 +26,20 @@ const platforms = [
     url: 'https://medium.com/likecoin',
   },
   {
-    name: 'twitter',
-    url: 'https://twitter.com/likecoin_fdn',
+    name: 'bitcoin',
+    url: 'https://bitcointalk.org/index.php?topic=3205270',
   },
   {
     name: 'github',
     url: 'https://github.com/likecoin/',
+  },
+  {
+    name: 'twitter',
+    url: 'https://twitter.com/likecoin_fdn',
+  },
+  {
+    name: 'youtube',
+    url: 'https://www.youtube.com/c/LikeCoin',
   },
   {
     name: 'facebook',
@@ -66,22 +74,34 @@ export default {
 .icon-bar {
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  @media (max-width: 600px) {
+    max-width: 210px;
+  }
 
   &.vertical {
     justify-content: center;
     flex-direction: column;
-    
+
     .md-icon-button {
       margin: 0;
     }
   }
 
   .md-icon-button {
+    margin: 0 2px;
+
     &:last-child {
       margin-right: 0;
     }
     &:hover {
       opacity: .7;
+    }
+
+    :global(.md-ripple) {
+      padding: 0 6px;
     }
   }
 

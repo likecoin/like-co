@@ -44,6 +44,10 @@ const SUPPORTERS = [
     avatar: '/images/supporters/6-club.svg',
   },
   {
+    key: 'u-domain',
+    avatar: '/images/supporters/u-domain.jpg',
+  },
+  {
     key: 'annie-zhang',
     avatar: '/images/supporters/annie-zhang.png',
   },
@@ -80,6 +84,10 @@ const SUPPORTERS = [
   {
     key: 'jacky-chu',
     avatar: '/images/supporters/jacky-chu.png',
+  },
+  {
+    key: 'to-cheung',
+    avatar: '/images/supporters/to-cheung.jpg',
   },
 ];
 

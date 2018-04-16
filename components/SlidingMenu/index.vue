@@ -209,7 +209,7 @@ export default {
   flex-shrink: 0;
   justify-content: center;
 
-  padding: 10px 24px;
+  padding: 10px 6px;
 
   background-color: white;
 }

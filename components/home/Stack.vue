@@ -278,6 +278,8 @@ $layer-best-width: 400px;
   padding-top: 6px;
   padding-bottom: 44px;
 
+  overflow: hidden;
+
   .layer {
     position: relative;
 
