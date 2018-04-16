@@ -138,6 +138,7 @@ export default {
   },
   methods: {
     ...mapActions([
+      'refreshMissionList',
       'fetchUserReferralStats',
       'setMissionSeen',
       'claimMission',

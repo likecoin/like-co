@@ -11,7 +11,7 @@
 
       <header>
         <div class="column-labels">
-          <span>LIKE</span>
+          <nuxt-link :to="{ name: 'id', params: { id: username } }"><span>LIKE</span></nuxt-link>
         </div>
       </header>
 
@@ -19,9 +19,9 @@
         <li v-for="t in missions" :key="t.id">
           <mission-item
             :title="getTitle(t)"
-            :reward="t.reward"
-            :state="t.done ? 'completed' : 'active'"
-            :is-new="!t.seen"
+            :reward="isReferral ? t.referralReward : t.reward"
+            :state="getMissionState(t)"
+            :is-new="!t.seen && !t.done"
             @click="onClick(t)" />
         </li>
       </ul>
@@ -37,6 +37,10 @@ import MissionItem from './Item';
 export default {
   name: 'mission-list',
   props: {
+    username: {
+      type: String,
+      default: '',
+    },
     missions: {
       type: Array,
       default: () => [],
@@ -46,6 +50,10 @@ export default {
       default: false,
     },
     isSmall: {
+      type: Boolean,
+      default: false,
+    },
+    isReferral: {
       type: Boolean,
       default: false,
     },
@@ -61,6 +69,10 @@ export default {
     },
     getTitle(t) {
       return this.$t(`Mission.${t.id}.title`);
+    },
+    getMissionState(t) {
+      if (t.isClaimed) return 'claimed';
+      return t.done ? 'completed' : 'active';
     },
   },
 };

@@ -9,7 +9,13 @@
         </div>
       </header>
 
-      <mission-list :missions="missions" :is-small="true" @click="onClick"/>
+      <mission-list
+        :missions="missions"
+        :username="username"
+        :is-small="true"
+        :is-referral="true"
+        @click="onClick"
+      />
 
     </div>
   </div>

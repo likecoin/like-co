@@ -14,19 +14,20 @@
 
     <div>
       <ul class="lc-mobile-hide">
-        <li v-for="i in INVITEES" :key="i.username">
+        <li v-for="i in getReferralMissionList" :key="i.id">
           <invitee-list
             :missions="i.missions"
+            :username="i.id"
             :is-small="true"
             @click="onClick" />
         </li>
       </ul>
       <ul class="lc-mobile-show">
         <swiper>
-          <li class="swiper-slide" v-for="i in INVITEES" :key="i.username">
+          <li class="swiper-slide" v-for="i in getReferralMissionList" :key="i.id">
             <invitee-list
               :missions="i.missions"
-              :username="i.username"
+              :username="i.id"
               :is-small="true"
               @click="onClick" />
           </li>
@@ -39,104 +40,9 @@
 
 
 <script>
+import { mapGetters } from 'vuex';
 import InviteeList from './InviteeList';
 import Swiper from './Swiper';
-
-const INVITEES = [
-  {
-    username: 'joshkiu',
-    isNew: true,
-    missions: [
-      {
-        id: '2',
-        title: 'Invite Friends',
-        reward: '8 LIKE <span class="small">(each)</span>',
-        state: 'claimed',
-      },
-      {
-        id: '3',
-        title: 'Join Token Sale',
-        reward: '100 LIKE',
-        state: 'active',
-      },
-    ],
-  },
-  {
-    username: 'ckxpress',
-    isNew: true,
-    missions: [
-      {
-        id: '2',
-        title: 'Invite Friends',
-        reward: '8 LIKE <span class="small">(each)</span>',
-        state: 'claimed',
-      },
-      {
-        id: '3',
-        title: 'Join Token Sale',
-        reward: '100 LIKE',
-        state: 'completed',
-      },
-      {
-        id: '4',
-        title: 'Invite Friends to Join Token Sale',
-        reward: '2.5% <span class="small">bonus</span>',
-        state: 'active',
-        isNew: true,
-      },
-    ],
-  },
-  {
-    username: 'williamchong007',
-    isNew: true,
-    missions: [
-      {
-        id: '2',
-        title: 'Invite Friends',
-        reward: '8 LIKE <span class="small">(each)</span>',
-        state: 'active',
-      },
-    ],
-  },
-  {
-    username: 'mileswong',
-    isNew: true,
-    missions: [
-      {
-        id: '3',
-        title: 'Join Token Sale',
-        reward: '100 LIKE',
-        state: 'completed',
-      },
-      {
-        id: '4',
-        title: 'Invite Friends to Join Token Sale',
-        reward: '2.5% <span class="small">bonus</span>',
-        state: 'active',
-        isNew: true,
-      },
-    ],
-  },
-  {
-    username: 'simonbut',
-    isNew: true,
-    missions: [
-      {
-        id: '3',
-        title: 'Join Token Sale',
-        reward: '100 LIKE',
-        state: 'active',
-      },
-      {
-        id: '4',
-        title: 'Invite Friends to Join Token Sale',
-        reward: '2.5% <span class="small">bonus</span>',
-        state: 'active',
-        isNew: true,
-      },
-    ],
-  },
-];
 
 export default {
   name: 'invitee-mission-grid-list',
@@ -144,10 +50,10 @@ export default {
     InviteeList,
     Swiper,
   },
-  data() {
-    return {
-      INVITEES,
-    };
+  computed: {
+    ...mapGetters([
+      'getReferralMissionList',
+    ]),
   },
   methods: {
     onClick(mission) {

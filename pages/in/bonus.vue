@@ -103,6 +103,7 @@ export default {
   methods: {
     ...mapActions([
       'refreshMissionList',
+      'refreshReferralMissionList',
     ]),
     async updateInfo() {
       this.updateLikeCoin();
@@ -117,6 +118,7 @@ export default {
       }
     },
     async updateMission() {
+      this.refreshReferralMissionList(this.getUserInfo.user);
       this.refreshMissionList(this.getUserInfo.user);
     },
   },
