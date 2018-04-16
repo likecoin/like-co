@@ -850,7 +850,8 @@
       "noRecord": "Currently no record found.",
       "to": "To",
       "from": "From",
-      "unknown": "Unknown"
+      "unknown": "Unknown",
+      "lockUntilDate": "Lock until {date}"
     },
     "button": {
       "view": "view",
