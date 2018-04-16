@@ -676,25 +676,19 @@ export default {
 
 
 .token-info-section {
-  .lc-container-3 {
-    @media (min-width: 601px) {
-      padding-right: 0;
-    }
-  }
-
   .info-grid {
     > ul {
       display: flex;
       flex-wrap: wrap;
 
-      margin: -20px -10px;
+      margin: -20px -12px;
       padding: 0;
 
       list-style: none;
 
-      @media (max-width: 600px) {
-        justify-content: center;
+      justify-content: center;
 
+      @media (max-width: 600px) {
         margin: -12px;
       }
       @media (max-width: 480px) {
@@ -754,9 +748,13 @@ export default {
         }
 
         &.what-is-eth {
+          width: 100%;
           display: flex;
           align-items: center;
           flex-grow: 1;
+          justify-content: center;
+
+          margin-top: 0;
 
           a {
             display: flex;
@@ -765,15 +763,12 @@ export default {
             text-decoration: underline;
 
             span {
-              flex-shrink: 0;
+              text-align: center;
             }
-            img {
-              margin-left: 8px;
-            }
-          }
 
-          @media (max-width: 600px) {
-            justify-content: center;
+            img {
+              margin-left: 4px;
+            }
           }
         }
       }
