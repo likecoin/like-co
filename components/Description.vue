@@ -1,7 +1,7 @@
 <template>
   <section id="description">
     <div class="details">
-      <div>{{ content || sentence }}</div>
+      <div>{{ content || $t('Register.header.content') }}</div>
     </div>
     <div class="links">
       <div v-if="showButton" class="link what">
@@ -10,7 +10,7 @@
          target="_blank"
          rel="noopener noreferrer"
         >
-          {{ buttonWhat }}
+          {{ $t('Register.header.button.what') }}
         </a>
       </div>
     </div>
@@ -27,12 +27,6 @@ export default {
       type: Boolean,
       default: true,
     },
-  },
-  data() {
-    return {
-      sentence: this.$t('Register.header.content'),
-      buttonWhat: this.$t('Register.header.button.what'),
-    };
   },
 };
 </script>
