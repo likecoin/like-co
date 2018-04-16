@@ -9,7 +9,7 @@ import {
   MISSION_SET_MISSION_CLAIMED,
   MISSION_SET_REFERRAL_LIST,
   MISSION_SET_REFERRAL_BONUS_LIST,
-  MISSION_SET_REFERRAL_MISSION_CLAIMED,
+  MISSION_SET_REFERRAL_TYPE_CLAIMED,
 } from '../mutation-types';
 import * as actions from './actions/mission';
 import * as getters from './getters/mission';
@@ -38,23 +38,28 @@ const mutations = {
     state.proxyBonus = {};
     bonus.forEach((t) => {
       const referee = state.referrals.find(r => r.id === t.referee);
-      const mission = referee.missions.find(m => m.referralPayoutType === t.type);
-      if (!mission.pendingReferralBonus) mission.pendingReferralBonus = new BigNumber(0);
-      Vue.set(mission, 'pendingReferralBonus', mission.pendingReferralBonus.plus(new BigNumber(t.value)));
-      let proxyBonus = state.proxyBonus[mission.referralClaimProxy];
+      if (referee) {
+        const mission = referee.missions.find(m => m.referralPayoutType === t.type);
+        if (!mission.pendingReferralBonus) mission.pendingReferralBonus = new BigNumber(0);
+        Vue.set(mission, 'pendingReferralBonus', mission.pendingReferralBonus.plus(new BigNumber(t.value)));
+      }
+      const mission = state.missions.find(m => m.targetPayoutType === t.type);
+      if (!mission) return; // error case
+      let proxyBonus = state.proxyBonus[mission.id];
       if (!proxyBonus) proxyBonus = new BigNumber(0);
       Vue.set(
         state.proxyBonus,
-        mission.referralClaimProxy,
+        mission.id,
         proxyBonus.plus(new BigNumber(t.value)),
       );
     });
   },
-  [MISSION_SET_REFERRAL_MISSION_CLAIMED](state, missionId) {
-    Vue.set(state.proxyBonus, missionId, undefined);
+  [MISSION_SET_REFERRAL_TYPE_CLAIMED](state, type) {
+    const mission = state.missions.find(m => m.targetPayoutType === type);
+    Vue.set(state.proxyBonus, mission.id, undefined);
     state.referrals.forEach((r, rIndex) => {
       r.missions.forEach((m, mIndex) => {
-        if (m.referralClaimProxy === missionId) {
+        if (m.referralPayoutType === type) {
           // to trigger array reactivity
           Vue.set(
             state.referrals[rIndex].missions,

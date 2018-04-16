@@ -172,28 +172,22 @@ router.get('/referral/list/:id', async (req, res) => {
 router.get('/referral/list/bonus/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const doc = await bonusRef
-      .where('toId', '==', id)
-      .where('referrer', '==', id)
-      .where('waitForClaim', '==', true)
-      .get();
-    res.json(doc.docs.map(d => ({ id: d.id, ...Validate.filterPayoutData(d.data()) })));
-  } catch (err) {
-    const msg = err.message || err;
-    console.error(msg);
-    res.status(400).send(msg);
-  }
-});
-
-router.get('/referral/list/referee/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const doc = await bonusRef
-      .where('toId', '==', id)
-      .where('referee', '==', id)
-      .where('waitForClaim', '==', true)
-      .get();
-    res.json(doc.docs.map(d => ({ id: d.id, ...Validate.filterPayoutData(d.data()) })));
+    const [referrerDoc, refereeDoc] = await Promise.all([
+      bonusRef
+        .where('toId', '==', id)
+        .where('referrer', '==', id)
+        .where('waitForClaim', '==', true)
+        .get(),
+      bonusRef
+        .where('toId', '==', id)
+        .where('referee', '==', id)
+        .where('waitForClaim', '==', true)
+        .get(),
+    ]);
+    let results = [];
+    results = results.concat(referrerDoc.docs.map(d => ({ id: d.id, ...Validate.filterPayoutData(d.data()) })));
+    results = results.concat(refereeDoc.docs.map(d => ({ id: d.id, ...Validate.filterPayoutData(d.data()) })));
+    res.json(results);
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
