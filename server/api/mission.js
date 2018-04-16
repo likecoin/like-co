@@ -71,9 +71,9 @@ router.get('/mission/list/:id', async (req, res) => {
       if (!userMisionList.includes(m.id)) {
         const requires = m.data().require;
         const fullfilled = requires.every(id => missionDone.includes(id));
-        // eslint-disable-next-line no-await-in-loop
         if (fullfilled
           && (!m.data().isRefereeOnly || userDoc.data().referrer)
+          // eslint-disable-next-line no-await-in-loop
           && !(await checkAlreadyDone(m, { u: userDoc, doneList: missionDone }))) {
           replyMissionList.push({ id: m.id, ...m.data() });
         }
@@ -114,17 +114,21 @@ router.post('/mission/step/:id', async (req, res) => {
       user,
       taskId,
     } = req.body;
+    const userMissionRef = dbRef.doc(user).collection('mission').doc(missionId);
+    const doc = await userMissionRef.get();
+    let done = false;
     switch (missionId) {
       case 'gettingStart': {
         if (!GETTING_STARTED_TASKS.includes(taskId)) throw new Error('task unknown');
+        const doneTasks = [taskId, ...doc.data().keys];
+        done = GETTING_STARTED_TASKS.every(t => doneTasks.indexOf(t) >= 0);
         break;
       }
       default: throw new Error('mission unknown');
     }
-    const userMissionRef = dbRef.doc(user).collection('mission').doc(missionId);
-    await userMissionRef.set({
-      [taskId]: true,
-    }, { merge: true });
+    const payload = { [taskId]: true };
+    if (done) payload.done = true;
+    await userMissionRef.set({ payload }, { merge: true });
     res.sendStatus(200);
   } catch (err) {
     const msg = err.message || err;
@@ -185,8 +189,10 @@ router.get('/referral/list/bonus/:id', async (req, res) => {
         .get(),
     ]);
     let results = [];
-    results = results.concat(referrerDoc.docs.map(d => ({ id: d.id, ...Validate.filterPayoutData(d.data()) })));
-    results = results.concat(refereeDoc.docs.map(d => ({ id: d.id, ...Validate.filterPayoutData(d.data()) })));
+    results = results.concat(referrerDoc.docs
+      .map(d => ({ id: d.id, ...Validate.filterPayoutData(d.data()) })));
+    results = results.concat(refereeDoc.docs
+      .map(d => ({ id: d.id, ...Validate.filterPayoutData(d.data()) })));
     res.json(results);
   } catch (err) {
     const msg = err.message || err;
