@@ -56,7 +56,10 @@ export async function onMissionClick({ commit, state, rootState }, m) {
     if (m.isProxy && state.proxyBonus[m.id]) { // is proxy and can claim
       return claimReferralBonus({ commit }, { type: m.targetPayoutType, user });
     } else if (m.done) {
-      return claimMission({ commit }, { missionId: m.id, user });
+      const promises = [claimMission({ commit }, { missionId: m.id, user })];
+      /* short cut hacks for different missions */
+      if (m.id === 'joinTokenSale') promises.push(claimReferralBonus({ commit }, { type: 'ico-referee', user }));
+      return Promise.all(promises);
     }
   }
   return false;
