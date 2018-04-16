@@ -16,18 +16,20 @@ const {
 
 const router = Router();
 
-function checkReferralMissionDone(m, { u }) {
+function getIfReferralMissionDone(m, { u }) {
   const { id } = m;
   const user = u.data();
   let done = false;
   let isClaimed = false;
   switch (id) {
     case 'verifyEmail': {
-      if (user.isEmailVerified) return true;
+      if (user.isEmailVerified) done = true;
+      if (user.referrerBonusId) isClaimed = true;
       break;
     }
     default: return false;
   }
+  if (done || isClaimed) return { done, isClaimed };
   return false;
 }
 
@@ -141,14 +143,14 @@ router.get('/referral/list/:id', async (req, res) => {
       for (let index = 0; index < missionCol.docs.length; index += 1) {
         const m = missionCol.docs[index];
         const requires = m.data().require;
-        const fullfilled = requires.every(id => missionDone.includes(id));
+        const fullfilled = requires.every(mId => missionDone.includes(mId));
         if (fullfilled) {
-          const done = checkReferralMissionDone(m, { u: r });
+          const done = getIfReferralMissionDone(m, { u: r });
           if (done) missionDone.push(m.id);
           missions.push({
             id: m.id,
-            done,
             ...m.data(),
+            ...done,
           });
         }
       }

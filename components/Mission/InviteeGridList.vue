@@ -14,7 +14,7 @@
 
     <div>
       <ul class="lc-mobile-hide">
-        <li v-for="i in getReferralMissionList" :key="i.id">
+        <li v-for="i in invitees" :key="i.id">
           <invitee-list
             :missions="i.missions"
             :username="i.id"
@@ -24,7 +24,7 @@
       </ul>
       <ul class="lc-mobile-show">
         <swiper>
-          <li class="swiper-slide" v-for="i in getReferralMissionList" :key="i.id">
+          <li class="swiper-slide" v-for="i in invitees" :key="i.id">
             <invitee-list
               :missions="i.missions"
               :username="i.id"
@@ -40,20 +40,20 @@
 
 
 <script>
-import { mapGetters } from 'vuex';
 import InviteeList from './InviteeList';
 import Swiper from './Swiper';
 
 export default {
   name: 'invitee-mission-grid-list',
+  props: {
+    invitees: {
+      type: Array,
+      default: () => [],
+    },
+  },
   components: {
     InviteeList,
     Swiper,
-  },
-  computed: {
-    ...mapGetters([
-      'getReferralMissionList',
-    ]),
   },
   methods: {
     onClick(mission) {

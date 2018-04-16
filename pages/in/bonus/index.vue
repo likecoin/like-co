@@ -50,7 +50,7 @@
             <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-32 section-content">
               <div class="lc-container-4">
 
-                <invitee-mission-grid-list />
+                <invitee-mission-grid-list :invitees="getReferralMissionList" />
 
               </div>
             </div>
@@ -134,11 +134,11 @@ export default {
       'getUserIsFetching',
       'getUserIsRegistered',
       'getMissionList',
+      'getReferralMissionList',
     ]),
   },
   methods: {
     ...mapActions([
-      'refreshMissionList',
       'fetchUserReferralStats',
       'setMissionSeen',
       'claimMission',

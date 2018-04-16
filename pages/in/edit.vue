@@ -198,7 +198,7 @@
         <div class="lc-container-2">
           <div class="lc-container-3 lc-padding-vertical-32 lc-bg-gray-1">
             <div class="lc-container-4">
-              <!-- Add me -->
+              <mission-list :missions="shortMissionList" @click="onMissionClick"/>
             </div>
           </div>
         </div>
@@ -308,11 +308,11 @@ import User from '@/util/User';
 import { logTrackerEvent } from '@/util/EventLogger';
 import LikeCoinAmount from '~/components/LikeCoinAmount';
 import MaterialButton from '~/components/MaterialButton';
+import MissionList from '@/components/Mission/List';
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import InputDialog from '~/components/dialogs/InputDialog';
 import TransactionHistory from '~/components/TransactionHistory';
 import ViewEtherscan from '~/components/ViewEtherscan';
-
 import { ONE_LIKE, W3C_EMAIL_REGEX, SALE_DATE } from '@/constant';
 
 import EditIcon from '@/assets/icons/edit.svg';
@@ -345,6 +345,7 @@ export default {
     InputDialog,
     LikeCoinAmount,
     MaterialButton,
+    MissionList,
     TransactionHistory,
     ViewEtherscan,
   },
@@ -359,7 +360,11 @@ export default {
       'getCurrentLocale',
       'getUserIsFetching',
       'getUserIsRegistered',
+      'getMissionList',
     ]),
+    shortMissionList() {
+      return this.getMissionList.slice(0, 4);
+    },
     getAmountHref() {
       return this.canGetFreeLikeCoin ? '' : '';
     },
@@ -382,6 +387,7 @@ export default {
       'sendCouponCodeEmail',
       'refreshUserInfo',
       'fetchUserReferralStats',
+      'refreshMissionList',
     ]),
     onEditDisplayName() {
       if (this.isProfileEdit) {
@@ -423,8 +429,8 @@ export default {
       this.wallet = user.wallet;
       this.email = user.email;
       this.updateLikeCoin();
-      this.updateReferralStat();
       if (this.isEnableTxHistory) this.$refs.txHistory.updateTokenSaleHistory();
+      if (!this.shortMissionList.length) this.refreshMissionList(this.getUserInfo.user);
     },
     async updateLikeCoin() {
       try {
@@ -488,6 +494,10 @@ export default {
     },
     onClickBuyLikeCoin() {
       this.$router.push({ name: 'in-tokensale' });
+    },
+    onMissionClick(m) {
+      if (!m.seen) this.setMissionSeen({ missionId: m.id, user: this.getUserInfo.user });
+      if (m.done) this.claimMission({ missionId: m.id, user: this.getUserInfo.user });
     },
     async onInputDialogConfirm(inputText) {
       if (this.email !== inputText) {
