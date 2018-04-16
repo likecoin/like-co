@@ -139,7 +139,7 @@ export default {
     filteredHistory() {
       return this.txHistory
         .filter(t => (t.type !== 'logRegisterKYC'))
-        .filter(t => (t.type !== 'transferETH' || this.isTokensale(t)));
+        .filter(t => (t.type !== 'transferETH' || this.isTokensale(t) || this.isPresale(t)));
     },
   },
   methods: {
