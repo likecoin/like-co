@@ -65,7 +65,7 @@ router.get('/mission/list/:id', async (req, res) => {
     const missionDone = userMissionCol.docs.filter(d => d.data().done).map(d => d.id);
 
     const replyMissionList = userMissionCol.docs
-      .filter(d => !d.data().bonusId).map(d => ({ id: d.id, ...d.data() }));
+      .filter(d => (d.staying || !d.data().bonusId)).map(d => ({ id: d.id, ...d.data() }));
     for (let index = 0; index < missionCol.docs.length; index += 1) {
       const m = missionCol.docs[index];
       if (!userMisionList.includes(m.id)) {
@@ -175,7 +175,7 @@ router.get('/referral/list/bonus/:id', async (req, res) => {
       .where('referrer', '==', id)
       .where('waitForClaim', '==', true)
       .get();
-    res.json(doc.docs.map(d => ({ id: d.id, ...Validate.filterTxData(d.data()) })));
+    res.json(doc.docs.map(d => ({ id: d.id, ...Validate.filterPayoutData(d.data()) })));
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
@@ -191,7 +191,7 @@ router.get('/referral/list/referee/:id', async (req, res) => {
       .where('referee', '==', id)
       .where('waitForClaim', '==', true)
       .get();
-    res.json(doc.docs.map(d => ({ id: d.id, ...Validate.filterTxData(d.data()) })));
+    res.json(doc.docs.map(d => ({ id: d.id, ...Validate.filterPayoutData(d.data()) })));
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);

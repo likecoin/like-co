@@ -388,6 +388,7 @@ export default {
       'refreshUserInfo',
       'fetchUserReferralStats',
       'refreshMissionList',
+      'onMissionClick',
     ]),
     onEditDisplayName() {
       if (this.isProfileEdit) {
@@ -494,10 +495,6 @@ export default {
     },
     onClickBuyLikeCoin() {
       this.$router.push({ name: 'in-tokensale' });
-    },
-    onMissionClick(m) {
-      if (!m.seen) this.setMissionSeen({ missionId: m.id, user: this.getUserInfo.user });
-      if (m.done) this.claimMission({ missionId: m.id, user: this.getUserInfo.user });
     },
     async onInputDialogConfirm(inputText) {
       if (this.email !== inputText) {

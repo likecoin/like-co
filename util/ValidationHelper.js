@@ -59,9 +59,12 @@ const ValidationHelper = {
       id,
       reward,
       referralReward,
+      referralPayoutType,
+      referralClaimProxy,
       done,
       seen,
       bonusId,
+      isProxy,
       isClaimed,
     } = m;
     const misc = {};
@@ -72,9 +75,12 @@ const ValidationHelper = {
       id,
       reward,
       referralReward,
+      referralPayoutType,
+      referralClaimProxy,
       done,
       seen,
       bonusId,
+      isProxy,
       isClaimed,
       ...misc,
     };

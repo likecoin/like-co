@@ -140,8 +140,7 @@ export default {
   methods: {
     ...mapActions([
       'fetchUserReferralStats',
-      'setMissionSeen',
-      'claimMission',
+      'onMissionClick',
     ]),
     async updateInfo() {
       const user = this.getUserInfo;
@@ -156,10 +155,6 @@ export default {
       } catch (err) {
         console.log(err);
       }
-    },
-    onMissionClick(m) {
-      if (!m.seen) this.setMissionSeen({ missionId: m.id, user: this.getUserInfo.user });
-      if (m.done) this.claimMission({ missionId: m.id, user: this.getUserInfo.user });
     },
   },
   watch: {

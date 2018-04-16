@@ -16,13 +16,11 @@
       </header>
 
       <ul>
-        <li v-for="t in missions" :key="t.id">
+        <li v-for="m in missions" :key="m.id">
           <mission-item
-            :title="getTitle(t)"
-            :reward="isReferral ? t.referralReward : t.reward"
-            :state="getMissionState(t)"
-            :is-new="!t.seen && !t.done"
-            @click="onClick(t)" />
+            :mission="m"
+            :isReferral="isReferral"
+            @click="onClick(m)" />
         </li>
       </ul>
 
@@ -62,17 +60,10 @@ export default {
     MissionItem,
   },
   methods: {
-    onClick(t) {
+    onClick(m) {
       if (this.state !== 'claimed') {
-        this.$emit('click', t);
+        this.$emit('click', m);
       }
-    },
-    getTitle(t) {
-      return this.$t(`Mission.${t.id}.title`);
-    },
-    getMissionState(t) {
-      if (t.isClaimed) return 'claimed';
-      return t.done ? 'completed' : 'active';
     },
   },
 };

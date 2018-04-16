@@ -23,32 +23,64 @@
 
 <script>
 import LikeCoinIcon from '@/assets/like-coin.svg';
+import { mapGetters } from 'vuex';
+import BigNumber from 'bignumber.js';
+import { ONE_LIKE } from '@/constant';
 
 export default {
   name: 'mission-item',
   props: {
-    title: {
-      type: String,
+    mission: {
+      type: Object,
+      default: {},
     },
-    reward: {
-      type: String,
-    },
-    icon: {
-      type: String,
-    },
-    state: {
-      type: String,
-      default: 'active',
-    },
-    isNew: {
+    isReferral: {
       type: Boolean,
       default: false,
     },
   },
   data() {
     return {
+      icon: null,
       LikeCoinIcon,
     };
+  },
+  computed: {
+    ...mapGetters([
+      'getProxyMissionReward',
+    ]),
+    title() {
+      return this.$t(`This.mission.${this.mission.id}.title`);
+    },
+    isNew() {
+      if (this.isReferral) {
+        return !!this.mission.refereeReward;
+      } else if (this.mission.isProxy) {
+        return !!this.getProxyMissionReward(this.mission.id);
+      }
+      return !this.mission.seen && !this.mission.done;
+    },
+    reward() {
+      if (this.isReferral) {
+        if (this.mission.refereeReward) {
+          return new BigNumber(this.mission.refereeReward).div(ONE_LIKE).toFixed(2);
+        }
+        return this.mission.referralReward;
+      } else if (this.mission.isProxy && this.getProxyMissionReward(this.mission.id)) {
+        return this.getProxyMissionReward(this.mission.id).div(ONE_LIKE).toFixed(2);
+      }
+      return this.mission.reward;
+    },
+    state() {
+      if (this.mission.isClaimed) return 'claimed';
+      if (this.isReferral && this.mission.refereeReward) {
+        return 'completed';
+      } else if (this.mission.isProxy) {
+        if (this.getProxyMissionReward(this.mission.id)) return 'completed';
+        return 'active';
+      }
+      return this.mission.done ? 'completed' : 'active';
+    },
   },
 };
 </script>

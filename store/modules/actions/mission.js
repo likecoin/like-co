@@ -31,6 +31,11 @@ export async function claimMission({ commit }, { user, missionId }) {
   commit(types.MISSION_SET_MISSION_CLAIMED, missionId);
 }
 
+export async function claimReferralBonus({ commit }, { user, mission }) {
+  commit(types.MISSION_SET_REFERRAL_MISSION_CLAIMED, mission);
+  await apiWrapper(commit, api.apiClaimReferralBonus(user, mission.targetPayoutType));
+}
+
 export async function refreshReferralMissionList({ commit }, id) {
   const [missions, bonus] = await Promise.all([
     apiWrapper(commit, api.apiFetchReferralMissionList(id)),
@@ -38,4 +43,14 @@ export async function refreshReferralMissionList({ commit }, id) {
   ]);
   commit(types.MISSION_SET_REFERRAL_LIST, missions);
   commit(types.MISSION_SET_REFERRAL_BONUS_LIST, bonus);
+}
+
+export async function onMissionClick({ commit, rootState }, m) {
+  const user = rootState.user.user.user; // module.object.name...
+  if (!m.seen) setMissionSeen({ commit }, { missionId: m.id, user });
+  if (m.isProxy) {
+    claimReferralBonus({ commit }, { mission: m, user });
+  } else if (m.done) {
+    claimMission({ commit }, { missionId: m.id, user });
+  }
 }
