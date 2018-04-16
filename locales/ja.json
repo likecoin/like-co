@@ -233,7 +233,7 @@
             }
         },
         "Flag": {
-            "title": "Likeを改革しましょう",
+            "title": "「いいね」がコインに。 クリエイターは報酬を。",
             "content": "プルーフオブクリエイティビティによる高価値なコンテンツ"
         },
         "Sale": {
@@ -609,7 +609,7 @@
         "label": {
             "id": "LikeCoin ID:",
             "likeCoinAmount": "LikeCoinの金額",
-            "address": "メールアドレス",
+            "address": "ウォレットアドレス",
             "email": "メールアドレス",
             "addEmail": "メールアドレスを追加",
             "redeemCoin": "LikeCoinと引き換える",
@@ -630,7 +630,7 @@
             "copyUrl": "URLをコピー",
             "facebook": "Facebook",
             "twitter": "Twitter",
-            "send": "送金",
+            "send": "招待",
             "sent": "{email}に招待メールが送信されました",
             "verifyEmailFirst": "メールアドレスを確認してアフィリエイトプログラムに参加しましょう。",
             "tweetContent": "私と一緒にLike.coに参加して無料のLikeCoinを獲得しましょう！",
