@@ -33,12 +33,12 @@ export async function postStepMission({ commit }, { user, missionId, taskId }) {
 }
 
 export async function claimMission({ commit }, { user, missionId }) {
-  await apiWrapper(commit, api.apiClaimMission(user, missionId));
+  await apiWrapper(commit, api.apiClaimMission(user, missionId), { blocking: true });
   commit(types.MISSION_SET_MISSION_CLAIMED, missionId);
 }
 
 export async function claimReferralBonus({ commit }, { user, type }) {
-  await apiWrapper(commit, api.apiClaimReferralBonus(user, type));
+  await apiWrapper(commit, api.apiClaimReferralBonus(user, type), { blocking: true });
   commit(types.MISSION_SET_REFERRAL_TYPE_CLAIMED, type);
 }
 
