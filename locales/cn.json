@@ -388,10 +388,6 @@
         "jacky-chu": {
           "title": "Jacky Chu",
           "subtitle": "BTC、ETH、IOTA、VEN及ARDR的早期投资者"
-        },
-        "to-cheung": {
-          "title": "章涛",
-          "subtitle": "UDomain创办人，BTC的早期投资者"
         }
       }
     },
@@ -413,6 +409,10 @@
         "isaac-mao": {
           "title": "毛向辉",
           "description": "<a href=\"https://musicoin.org/\" target=\"_blank\" rel=\"noopener\">Musicoin</a>创办人; CNBlogs.org创办人; Project Lead of iCommons China, Creative Commons China Team."
+        },
+        "to-cheung": {
+          "title": "章涛",
+          "description": "<a href=\"https://www.udomain.hk/\" target=\"_blank\" rel=\"noopener\">UDomain</a>创办人及行政总裁; BTC的早期投资者"
         }
       }
     },

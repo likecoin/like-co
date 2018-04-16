@@ -79,6 +79,16 @@ const ADVISORS = [
       },
     ],
   },
+  {
+    key: 'to-cheung',
+    avatar: '/images/supporters/to-cheung.jpg',
+    platforms: [
+      {
+        key: 'linkedin',
+        to: 'https://www.linkedin.com/in/cheungto/',
+      },
+    ],
+  },
 ];
 
 export default {
