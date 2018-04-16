@@ -30,3 +30,12 @@ export async function claimMission({ commit }, { user, missionId }) {
   await apiWrapper(commit, api.apiClaimMission(user, missionId));
   commit(types.MISSION_SET_MISSION_CLAIMED, missionId);
 }
+
+export async function refreshReferralMissionList({ commit }, id) {
+  const [missions, bonus] = await Promise.all([
+    apiWrapper(commit, api.apiFetchReferralMissionList(id)),
+    apiWrapper(commit, api.apiFetchReferralBonusList(id)),
+  ]);
+  commit(types.MISSION_SET_REFERRAL_LIST, missions);
+  commit(types.MISSION_SET_REFERRAL_BONUS_LIST, bonus);
+}

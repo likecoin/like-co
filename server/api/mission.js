@@ -16,6 +16,21 @@ const {
 
 const router = Router();
 
+function checkReferralMissionDone(m, { u }) {
+  const { id } = m;
+  const user = u.data();
+  let done = false;
+  let isClaimed = false;
+  switch (id) {
+    case 'verifyEmail': {
+      if (user.isEmailVerified) return true;
+      break;
+    }
+    default: return false;
+  }
+  return false;
+}
+
 async function checkAlreadyDone(m, { u, doneList }) {
   const { id } = m;
   const mission = m.data();
@@ -27,14 +42,14 @@ async function checkAlreadyDone(m, { u, doneList }) {
       if (user.isEmailVerified) isDone = true;
       break;
     }
-    default: return true;
+    default: return false;
   }
-  if (!isDone) return true;
+  if (!isDone) return false;
   const payload = { done: true };
   doneList.push(id);
   if (!mission.reward) payload.bonusId = 'none';
   await dbRef.doc(username).collection('mission').doc(id).set(payload, { merge: true });
-  return !!(mission.reward);
+  return !(mission.reward);
 }
 
 router.get('/mission/list/:id', async (req, res) => {
@@ -55,7 +70,7 @@ router.get('/mission/list/:id', async (req, res) => {
         const requires = m.data().require;
         const fullfilled = requires.every(id => missionDone.includes(id));
         // eslint-disable-next-line no-await-in-loop
-        if (fullfilled && (await checkAlreadyDone(m, { u: userDoc, doneList: missionDone }))) {
+        if (fullfilled && !(await checkAlreadyDone(m, { u: userDoc, doneList: missionDone }))) {
           replyMissionList.push({ id: m.id, ...m.data() });
         }
       } else {
@@ -118,9 +133,29 @@ router.get('/referral/list/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const query = await dbRef.doc(id).collection('referrals').get();
-    const referees = query.docs.map(d => {
-      const { referrerBonusId, isEmailVerified } = d.data();
-      return { id: d.id, claimed: !!referrerBonusId, isEmailVerified };
+    const missionCol = await missionsRef.where('isReferral', '==', true).orderBy('priority').get();
+
+    const referees = query.docs.map((r) => {
+      const missions = [];
+      const missionDone = [];
+      for (let index = 0; index < missionCol.docs.length; index += 1) {
+        const m = missionCol.docs[index];
+        const requires = m.data().require;
+        const fullfilled = requires.every(id => missionDone.includes(id));
+        if (fullfilled) {
+          const done = checkReferralMissionDone(m, { u: r });
+          if (done) missionDone.push(m.id);
+          missions.push({
+            id: m.id,
+            done,
+            ...m.data(),
+          });
+        }
+      }
+      return {
+        id: r.id,
+        missions: missions.map(d => ({ ...Validate.filterMissionData(d) })),
+      };
     });
     res.json(referees);
   } catch (err) {

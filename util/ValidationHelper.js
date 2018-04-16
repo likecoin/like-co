@@ -58,6 +58,7 @@ const ValidationHelper = {
     const {
       id,
       reward,
+      referralReward,
       done,
       seen,
       bonusId,
@@ -70,6 +71,7 @@ const ValidationHelper = {
     return {
       id,
       reward,
+      referralReward,
       done,
       seen,
       bonusId,

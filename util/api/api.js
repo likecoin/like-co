@@ -52,6 +52,11 @@ export const apiClaimMission = (user, missionId) => axios.post(
   `${LIKECOIN_API_BASE}/mission/claim`,
   { user, missionId },
 );
+
+export const apiFetchReferralMissionList = id => axios.get(`/api/referral/list/${id}`);
+
+export const apiFetchReferralBonusList = id => axios.get(`/api/referral/list/bonus/${id}`);
+
 export const apiPostKYC = payload => axios.post('/api/kyc', payload);
 
 export const apiPostAdvancedKYC = (form) => {

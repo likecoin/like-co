@@ -5,12 +5,15 @@ import {
   MISSION_SET_MISSION_LIST,
   MISSION_SET_MISSION_SEEN,
   MISSION_SET_MISSION_CLAIMED,
+  MISSION_SET_REFERRAL_LIST,
+  MISSION_SET_REFERRAL_BONUS_LIST,
 } from '../mutation-types';
 import * as actions from './actions/mission';
 import * as getters from './getters/mission';
 
 const state = {
   missions: [],
+  referrals: [],
 };
 
 const mutations = {
@@ -23,6 +26,15 @@ const mutations = {
   },
   [MISSION_SET_MISSION_CLAIMED](state, missionId) {
     state.missions = state.missions.filter(m => m.id !== missionId);
+  },
+  [MISSION_SET_REFERRAL_LIST](state, referrals) {
+    state.referrals = referrals;
+  },
+  [MISSION_SET_REFERRAL_BONUS_LIST](state, bonus) {
+    bonus.forEach(() => {
+    //   state.referrals
+    });
+    // = bonus;
   },
 };
 
