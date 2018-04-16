@@ -71,7 +71,14 @@ export default {
 .video-container {
   position: relative;
 
-  padding-top: 9 / 16 * 100%;
+  &:before {
+    display: block;
+
+    width: 100%;
+    padding-top: (9 / 16) * 100%;
+
+    content: "";
+  }
 
   > div {
     position: absolute;
@@ -79,8 +86,6 @@ export default {
     right: 0;
     bottom: 0;
     left: 0;
-
-    width: 100%;
 
     :global(> div) {
       width: 100%;
