@@ -128,24 +128,22 @@
         class="lc-container-1 lc-section-block"
         v-else-if="!getUserIsRegistered"
       >
-        <div class="lc-container-header">
-          <div class="lc-container-2">
-            <div class="lc-container-3 lc-bg-gray-1 create-account-wrapper">
-              <p class="lc-color-like-gray-4 lc-text-align-center">
-                {{ $t('KYC.label.createID') }}
-              </p>
-              <material-button @click="redirectToRegister">
-                {{ $t('KYC.button.createID') }}
-              </material-button>
-              <p>
-                <a
-                  class="lc-color-like-gray-4 lc-underline"
-                  href="#"
-                  @click="showLoginWindow">
-                  {{ $t('Home.Header.button.signIn') }}
-                </a>
-              </p>
-            </div>
+        <div class="lc-container-2">
+          <div class="lc-container-3 lc-bg-gray-1 create-account-wrapper">
+            <p class="lc-color-like-gray-4 lc-text-align-center">
+              {{ $t('KYC.label.createID') }}
+            </p>
+            <material-button @click="redirectToRegister">
+              {{ $t('KYC.button.createID') }}
+            </material-button>
+            <p>
+              <a
+                class="lc-color-like-gray-4 lc-underline"
+                href="#"
+                @click="showLoginWindow">
+                {{ $t('Home.Header.button.signIn') }}
+              </a>
+            </p>
           </div>
         </div>
       </section>
@@ -646,6 +644,10 @@ export default {
   padding-right: 0;
   padding-left: 0;
 
+  @media (max-width: 600px) {
+    overflow: hidden;
+  }
+
   > div {
     margin-right: -8px;
     margin-left: -8px;
@@ -726,6 +728,7 @@ export default {
             &.label {
               font-size: 14px;
               font-weight: 400;
+              flex-shrink: 0;
             }
 
             &.value {
