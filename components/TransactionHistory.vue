@@ -192,7 +192,7 @@ export default {
     },
     getFromToId(tx) {
       if (this.isFromPresale(tx)) return 'presale';
-      if (this.isFromBonus(tx)) return 'bonus';
+      if (this.isFromBonus(tx)) return 'presalebonus';
       if (this.isPresale(tx)) return 'earlybird';
       if (this.isTokensale(tx)) return 'tokensale';
       if (tx.type === 'claimCoupon') return 'coupon';
