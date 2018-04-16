@@ -50,11 +50,11 @@ const mutations = {
       );
     });
   },
-  [MISSION_SET_REFERRAL_MISSION_CLAIMED](state, mission) {
-    Vue.set(state.proxyReward, mission.id, undefined);
+  [MISSION_SET_REFERRAL_MISSION_CLAIMED](state, missionId) {
+    Vue.set(state.proxyReward, missionId, undefined);
     state.referrals.forEach((r, rIndex) => {
       r.missions.forEach((m, mIndex) => {
-        if (m.referralClaimProxy === mission.id) {
+        if (m.referralClaimProxy === missionId) {
           // to trigger array reactivity
           Vue.set(state.referrals[rIndex].missions, mIndex, { ...m, refereeReward: undefined });
         }

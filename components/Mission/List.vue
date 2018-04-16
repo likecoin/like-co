@@ -62,7 +62,7 @@ export default {
   methods: {
     onClick(m) {
       if (this.state !== 'claimed') {
-        this.$emit('click', m);
+        this.$emit('click', ({ ...m, isReferral: this.isReferral }));
       }
     },
   },

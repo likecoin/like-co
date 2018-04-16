@@ -50,7 +50,7 @@
             <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-32 section-content">
               <div class="lc-container-4">
 
-                <invitee-mission-grid-list :invitees="getReferralMissionList" />
+                <invitee-mission-grid-list :invitees="getReferralMissionList" @click="onMissionClick" />
 
               </div>
             </div>
