@@ -1,5 +1,6 @@
 <template>
   <div class="lc-page-wrapper with-sliding-menu">
+    <tool-bars />
 
     <sliding-menu />
 
@@ -71,7 +72,6 @@
       </div>
     </footer>
 
-    <tool-bars />
   </div>
 </template>
 

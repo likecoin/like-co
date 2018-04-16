@@ -29,8 +29,6 @@
 @import "~assets/variables";
 
 .md-toolbar {
-  position: fixed;
-
   background-image: linear-gradient(263deg, $like-light-blue, $like-gradient-1);
 
   > .md-icon {
