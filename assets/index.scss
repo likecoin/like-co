@@ -553,6 +553,122 @@ $font-weight-list: 300 400 600;
 
 /* Layout System - End */
 
-.md-field:not(.md-has-value) input.md-input {
-  font-size: 16px;
+
+.md-field {
+  &:not(.md-has-value) input.md-input {
+    font-size: 16px;
+  }
+
+  &.md-likecoin {
+    &.md-has-value,
+    &.md-focused:not(.md-has-value) {
+      label {
+        font-size: 14px;
+      }
+    }
+
+    &.md-theme-default {
+      &.md-focused {
+        label {
+          color: $like-dark-brown-1;
+        }
+      }
+    }
+  }
+}
+
+
+/* Button */
+
+.lc-button-group {
+  text-align: center;
+
+  & + & {
+    margin-top: 32px;
+  }
+
+  > label {
+    display: block;
+    color: $like-dark-brown-1;
+  }
+}
+
+.md-button.md-likecoin {
+  min-height: 40px;
+  line-height: 1;
+
+  @media (min-width: 600px + 1px) {
+    font-size: 24px;
+    min-width: 256px;
+  }
+
+  @media (max-width: 600px) {
+    font-size: 16px;
+    min-width: 180px;
+  }
+
+  &:not([disabled="disabled"]) {
+    color: white;
+  }
+
+  &[disabled="disabled"] {
+    background-color: #E6E6E6;
+  }
+
+  &:not([disabled="disabled"]) {
+    color: white;
+    background-color: $like-green;
+
+    &.lc-cancel {
+      background-color: $like-gradient-3;
+    }
+
+    &.lc-facebook {
+      background-color: #3B5998;
+    }
+
+    &.lc-twitter {
+      background-color: #1EA1F2;
+    }
+  }
+
+  .md-button-content {
+    width: 100%;
+  }
+}
+
+.md-icon {
+  .md-likecoin & {
+    position: absolute;
+    left: 0;
+
+    width: 26px;
+    min-width: 26px;
+    height: 26px;
+    margin: 0 8px;
+
+    font-size: 26px !important;
+
+    @media (max-width: 600px) {
+      width: 18px;
+      min-width: 18px;
+      height: 18px;
+      margin: 0 4px;
+
+      font-size: 18px !important;
+    }
+  }
+
+  &.md-icon-font {
+    .md-likecoin & {
+      color: white;
+    }
+  }
+
+  &.md-icon-image svg {
+    .md-likecoin & {
+      fill: white !important;
+      stroke: white !important;
+    }
+  }
 }
