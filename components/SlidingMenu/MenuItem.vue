@@ -91,6 +91,8 @@ export default {
     position: relative;
     text-decoration: none;
 
+    display: inline-flex;
+
     &::before {
       content: " ";
       position: absolute;
