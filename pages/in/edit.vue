@@ -296,6 +296,7 @@
     </div>
 
     <view-etherscan :address="wallet" />
+    <mission-dialog />
   </div>
 </template>
 
@@ -309,6 +310,7 @@ import { logTrackerEvent } from '@/util/EventLogger';
 import LikeCoinAmount from '~/components/LikeCoinAmount';
 import MaterialButton from '~/components/MaterialButton';
 import MissionList from '@/components/Mission/List';
+import MissionDialog from '@/components/dialogs/MissionDialog';
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import InputDialog from '~/components/dialogs/InputDialog';
 import TransactionHistory from '~/components/TransactionHistory';
@@ -346,6 +348,7 @@ export default {
     LikeCoinAmount,
     MaterialButton,
     MissionList,
+    MissionDialog,
     TransactionHistory,
     ViewEtherscan,
   },
