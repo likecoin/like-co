@@ -68,8 +68,8 @@ router.get('/mission/list/:id', async (req, res) => {
       const m = missionCol.docs[index];
       if (!userMisionList.includes(m.id)) {
         const requires = m.data().require;
-        const fullfilled = requires.every(id => missionDone.includes(id));
-        if (fullfilled
+        const fulfilled = requires.every(id => missionDone.includes(id));
+        if (fulfilled
           && (!m.data().isRefereeOnly || userDoc.data().referrer)
           // eslint-disable-next-line no-await-in-loop
           && !(await checkAlreadyDone(m, { u: userDoc, doneList: missionDone }))) {
@@ -123,7 +123,7 @@ router.post('/mission/step/:id', async (req, res) => {
       case 'gettingStart': {
         if (!GETTING_STARTED_TASKS.includes(taskId)) throw new Error('task unknown');
         const doneTasks = [taskId, ...doc.data().keys];
-        done = GETTING_STARTED_TASKS.every(t => doneTasks.indexOf(t) >= 0);
+        done = GETTING_STARTED_TASKS.every(t => doneTasks.includes(t));
         break;
       }
       default: throw new Error('mission unknown');
@@ -176,8 +176,8 @@ router.get('/referral/list/:id', async (req, res) => {
       for (let index = 0; index < missionCol.docs.length; index += 1) {
         const m = missionCol.docs[index];
         const requires = m.data().require;
-        const fullfilled = requires.every(mId => missionDone.includes(mId));
-        if (fullfilled) {
+        const fulfilled = requires.every(mId => missionDone.includes(mId));
+        if (fulfilled) {
           const done = getIfReferralMissionDone(m, { u: r });
           if (done) missionDone.push(m.id);
           missions.push({

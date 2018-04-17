@@ -56,7 +56,7 @@ export default {
       if (this.isReferral) {
         return !!this.mission.pendingReferralBonus;
       } else if (this.mission.isProxy) {
-        return !!this.getProxyMissionReward(this.mission.id);
+        return !this.mission.seen || !!this.getProxyMissionReward(this.mission.id);
       }
       return !this.mission.seen && !this.mission.done;
     },
