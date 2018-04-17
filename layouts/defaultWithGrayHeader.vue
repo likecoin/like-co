@@ -1,5 +1,6 @@
 <template>
   <div class="lc-page-wrapper with-sliding-menu">
+    <tool-bars :disableError="getIfDisableError" />
 
     <sliding-menu />
 
@@ -24,7 +25,6 @@
       </div>
     </footer>
 
-    <tool-bars :disableError="getIfDisableError" />
   </div>
 </template>
 
