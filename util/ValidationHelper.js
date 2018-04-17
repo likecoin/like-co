@@ -65,7 +65,6 @@ const ValidationHelper = {
       seen,
       bonusId,
       isProxy,
-      isClaimed,
     } = m;
     const misc = {};
     GETTING_STARTED_TASKS.forEach((task) => {
@@ -79,9 +78,8 @@ const ValidationHelper = {
       targetPayoutType,
       done,
       seen,
-      bonusId,
       isProxy,
-      isClaimed,
+      isClaimed: !!bonusId,
       ...misc,
     };
   },

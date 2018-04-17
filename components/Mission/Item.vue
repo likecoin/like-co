@@ -63,22 +63,23 @@ export default {
     reward() {
       if (this.isReferral) {
         if (this.mission.pendingReferralBonus) {
-          return new BigNumber(this.mission.pendingReferralBonus).div(ONE_LIKE).toFixed(2);
+          return `${new BigNumber(this.mission.pendingReferralBonus).div(ONE_LIKE).toFixed(2)} LIKE`;
         }
         return this.mission.referralReward;
       } else if (this.mission.isProxy && this.getProxyMissionReward(this.mission.id)) {
-        return this.getProxyMissionReward(this.mission.id).div(ONE_LIKE).toFixed(2);
+        return `${this.getProxyMissionReward(this.mission.id).div(ONE_LIKE).toFixed(2)} LIKE`;
       }
       return this.mission.reward;
     },
     state() {
-      if (this.mission.isClaimed) return 'claimed';
-      if (this.isReferral && this.mission.pendingReferralBonus) {
-        return 'completed';
+      if (this.isReferral) {
+        if (this.mission.pendingReferralBonus) return 'completed';
+        return this.mission.done ? 'claimed' : 'active';
       } else if (this.mission.isProxy) {
         if (this.getProxyMissionReward(this.mission.id)) return 'completed';
-        return 'active';
+        return this.mission.done ? 'claimed' : 'active';
       }
+      if (this.mission.isClaimed) return 'claimed';
       return this.mission.done ? 'completed' : 'active';
     },
   },

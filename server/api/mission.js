@@ -19,17 +19,13 @@ const router = Router();
 function getIfReferralMissionDone(m, { u }) {
   const { id } = m;
   const user = u.data();
-  let done = false;
-  let isClaimed = false;
   switch (id) {
     case 'verifyEmail': {
-      if (user.isEmailVerified) done = true;
-      if (user.referrerBonusId) isClaimed = true;
+      if (user.isEmailVerified) return true;
       break;
     }
     default: return false;
   }
-  if (done || isClaimed) return { done, isClaimed };
   return false;
 }
 
@@ -51,7 +47,7 @@ async function checkAlreadyDone(m, { u, doneList }) {
   doneList.push(id);
   if (!mission.reward) payload.bonusId = 'none';
   await dbRef.doc(username).collection('mission').doc(id).set(payload, { merge: true });
-  return !(mission.reward);
+  return (mission.staying || !mission.reward);
 }
 
 router.get('/mission/list/:id', async (req, res) => {
@@ -65,7 +61,7 @@ router.get('/mission/list/:id', async (req, res) => {
     const missionDone = userMissionCol.docs.filter(d => d.data().done).map(d => d.id);
 
     const replyMissionList = userMissionCol.docs
-      .filter(d => (d.staying || !d.data().bonusId)).map(d => ({ id: d.id, ...d.data() }));
+      .filter(d => !d.data().bonusId).map(d => ({ id: d.id, ...d.data() }));
     for (let index = 0; index < missionCol.docs.length; index += 1) {
       const m = missionCol.docs[index];
       if (!userMisionList.includes(m.id)) {
@@ -79,7 +75,11 @@ router.get('/mission/list/:id', async (req, res) => {
         }
       } else {
         const targetIndex = replyMissionList.findIndex(d => d.id === m.id);
-        replyMissionList[targetIndex] = Object.assign(m.data(), replyMissionList[targetIndex]);
+        if (targetIndex >= 0) {
+          replyMissionList[targetIndex] = Object.assign(m.data(), replyMissionList[targetIndex]);
+        } else if (m.data().staying) {
+          replyMissionList.push({ id: m.id, ...m.data() });
+        }
       }
     }
     const missions = replyMissionList.map(d => ({ ...Validate.filterMissionData(d) }));
@@ -156,7 +156,7 @@ router.get('/referral/list/:id', async (req, res) => {
           missions.push({
             id: m.id,
             ...m.data(),
-            ...done,
+            done,
           });
         }
       }
