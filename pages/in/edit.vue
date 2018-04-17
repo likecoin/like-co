@@ -262,7 +262,7 @@
     </div>
 
 
-    <div v-if="isEnableTxHistory" class="lc-margin-top-48 lc-mobile">
+    <div class="lc-margin-top-48 lc-mobile">
       <section class="lc-container-1">
         <div class="lc-container-header">
           <div class="lc-container-2 lc-container-header-overlay">
@@ -313,7 +313,7 @@ import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import InputDialog from '~/components/dialogs/InputDialog';
 import TransactionHistory from '~/components/TransactionHistory';
 import ViewEtherscan from '~/components/ViewEtherscan';
-import { ONE_LIKE, W3C_EMAIL_REGEX, SALE_DATE } from '@/constant';
+import { ONE_LIKE, W3C_EMAIL_REGEX } from '@/constant';
 
 import EditIcon from '@/assets/icons/edit.svg';
 import EditWhiteIcon from '@/assets/icons/edit-white.svg';
@@ -350,9 +350,6 @@ export default {
     ViewEtherscan,
   },
   computed: {
-    isEnableTxHistory() {
-      return (new Date() >= SALE_DATE);
-    },
     ...mapGetters([
       'getUserInfo',
       'getIsInTransaction',
@@ -430,7 +427,7 @@ export default {
       this.wallet = user.wallet;
       this.email = user.email;
       this.updateLikeCoin();
-      if (this.isEnableTxHistory) this.$refs.txHistory.updateTokenSaleHistory();
+      this.$refs.txHistory.updateTokenSaleHistory();
       if (!this.shortMissionList.length) this.refreshMissionList(this.getUserInfo.user);
     },
     async updateLikeCoin() {
