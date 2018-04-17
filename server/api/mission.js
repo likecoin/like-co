@@ -53,8 +53,10 @@ async function checkAlreadyDone(m, { u, doneList }) {
 router.get('/mission/list/:id', async (req, res) => {
   try {
     const username = req.params.id;
-    const missionCol = await missionsRef.orderBy('priority').get();
-    const userDoc = await dbRef.doc(username).get();
+    const [missionCol, userDoc] = await Promise.all([
+      missionsRef.orderBy('priority').get(),
+      dbRef.doc(username).get(),
+    ]);
     if (!userDoc.exists) throw new Error('user not exist');
     const userMissionCol = await dbRef.doc(username).collection('mission').get();
     const userMisionList = userMissionCol.docs.map(d => d.id);
@@ -130,6 +132,31 @@ router.post('/mission/step/:id', async (req, res) => {
     if (done) payload.done = true;
     await userMissionRef.set({ payload }, { merge: true });
     res.sendStatus(200);
+  } catch (err) {
+    const msg = err.message || err;
+    console.error(msg);
+    res.status(400).send(msg);
+  }
+});
+
+router.get('/mission/list/history/:id', async (req, res) => {
+  try {
+    const username = req.params.id;
+    const userDoc = await dbRef.doc(username).get();
+    if (!userDoc.exists) throw new Error('user not exist');
+    const [userMissionCol, missionCol] = await Promise.all([
+      dbRef.doc(username).collection('mission').get(),
+      missionsRef.orderBy('priority').get(),
+    ]);
+    const doneList = userMissionCol.docs
+      .filter(d => d.data().done).map(d => ({ id: d.id, ...d.data() }));
+
+    for (let index = 0; index < doneList.length; index += 1) {
+      const mission = missionCol.docs.find(m => (m.id === doneList[index].id));
+      doneList[index] = Object.assign({}, { ...mission.data(), ...doneList[index] });
+    }
+    const missions = doneList.map(d => ({ ...Validate.filterMissionData(d) }));
+    res.json(missions);
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);

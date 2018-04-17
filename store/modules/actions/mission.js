@@ -8,6 +8,10 @@ export async function fetchMissionList({ commit }, id) {
   return apiWrapper(commit, api.apiFetchMissionList(id));
 }
 
+export async function fetchMissionHistoryList({ commit }, id) {
+  return apiWrapper(commit, api.apiFetchMissionHistoryList(id));
+}
+
 export async function refreshMissionList({ commit }, id) {
   const [missions, referralMissions, bonus] = await Promise.all([
     apiWrapper(commit, api.apiFetchMissionList(id)),
