@@ -124,6 +124,7 @@ export default {
 }
 
 .mission-card {
+  box-sizing: border-box;
   padding: 16px 4px 32px;
 
   border-radius: 8px;
