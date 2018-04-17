@@ -5,19 +5,24 @@
     :md-click-outside-to-close="false"
     :md-fullscreen="false">
     <div class="title-bar" />
+
     <div class="dialog-content">
-      <md-dialog-title v-if="title">{{ title }}</md-dialog-title>
+      <md-dialog-title v-if="title">
+        {{ title }}
+      </md-dialog-title>
+
       <md-dialog-content v-if="confirmContent">
         <md-icon v-if="isError">error</md-icon>
         <span v-html="confirmContent" />
       </md-dialog-content>
+
       <section>
-        <md-button id="btn-confirm" class="md-primary" @click="onConfirm">
+        <material-button id="btn-confirm" @click="onConfirm">
           {{ $t('General.button.confirm') }}
-        </md-button>
-        <md-button v-if="!isError" id="btn-cancel" class="md-primary" @click="onCancel">
+        </material-button>
+        <material-button v-if="!isError" id="btn-cancel" @click="onCancel">
           {{ $t('General.button.cancel') }}
-        </md-button>
+        </material-button>
       </section>
     </div>
   </md-dialog>
@@ -26,9 +31,15 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
+import MaterialButton from '~/components/MaterialButton';
+
+
 export default {
   name: 'claim-dialog',
   props: ['couponCode', 'wallet'],
+  components: {
+    MaterialButton,
+  },
   data() {
     return {
       showDialog: false,
@@ -111,12 +122,6 @@ export default {
 
       #btn-cancel {
         background-color: $like-gradient-3;
-        color: $like-white;
-      }
-
-      #btn-confirm {
-        background-color: $like-green;
-        color: $like-white;
       }
     }
   }

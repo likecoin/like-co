@@ -1,8 +1,11 @@
 <template>
-  <md-dialog :md-active.sync="!!this.case"
+  <md-dialog
+    class="metamask-dialog"
+    :md-active.sync="!!this.case"
     :md-close-on-esc="false"
     :md-click-outside-to-close="false"
     :md-fullscreen="false">
+
     <img class="foxy" :src="icon" />
 
     <div class="title-bar">
@@ -17,19 +20,25 @@
       <md-dialog-title>
         {{ title }}
       </md-dialog-title>
-      <md-dialog-content><span v-html="content" /></md-dialog-content>
+
+      <md-dialog-content>
+        <span v-html="content" />
+      </md-dialog-content>
+
       <img v-if="image" :src="image" />
+
       <section v-if="isInstallMetamask">
         <a href="https://metamask.io/" target="_blank" rel="noopener">
-          <md-button class="primary md-primary md-raised" @click="onInstallClick">
+          <material-button class="primary" @click="onInstallClick">
             {{ $t('Dialog.metamask.button.install') }}
-          </md-button>
+          </material-button>
         </a>
-        <md-button class="secondary md-primary md-raised" @click="refreshPage">
+        <material-button @click="refreshPage">
           {{ $t('Dialog.metamask.button.doneInstalled') }}
-        </md-button>
+        </material-button>
       </section>
-      <section v-if="isNotSign" class="hw-wallet">
+
+      <section v-if="isNotSign" class="lc-font-size-12 lc-margin-top-8">
         <!-- Only support ledger for now -->
 <!--    <div v-if="isHardware">
         </div>
@@ -39,9 +48,9 @@
           <a href="#" @click.prevent="onLedger">{{ $t('Dialog.metamask.label.ledger') }}</a>
         </div>
         <div v-else>
-          <md-button class="secondary md-primary md-raised" @click="onCancel">
-          {{ $t('General.button.cancel') }}
-          </md-button>
+          <material-button @click="onCancel">
+            {{ $t('General.button.cancel') }}
+          </material-button>
         </div>
       </section>
     </div>
@@ -49,7 +58,8 @@
 </template>
 
 <script>
-import LanguageSwitch from '~/components/LanguageSwitch';
+import LanguageSwitch from '@/components/LanguageSwitch';
+import MaterialButton from '@/components/MaterialButton';
 
 import { IS_TESTNET } from '@/constant';
 import { logTrackerEvent } from '@/util/EventLogger';
@@ -65,6 +75,7 @@ export default {
   props: ['case', 'webThreeType'],
   components: {
     LanguageSwitch,
+    MaterialButton,
   },
   data() {
     return {
@@ -148,35 +159,24 @@ export default {
 <style lang="scss" scoped>
 @import "~assets/dialog";
 
-.title-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.metamask-dialog {
+  .title-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-  background-image: linear-gradient(252deg, #ed8526, #eebe78);
+    background-image: linear-gradient(252deg, #ed8526, #eebe78);
 
-  > div {
-    position: relative;
+    > div {
+      position: relative;
 
-    padding: 0 8px;
+      padding: 0 8px;
+    }
   }
-}
 
-.md-button.primary {
-  background-color: #ed8526 !important;
-}
-
-.md-button.secondary {
-  background-color: #28646e !important;
-}
-
-.md-dialog {
-  > .md-dialog-container {
-    .dialog-content {
-      section.hw-wallet {
-        font-size: 12px;
-        margin-top: 5px;
-      }
+  .dialog-content {
+    .md-button.primary {
+      background-color: #ed8526;
     }
   }
 }
