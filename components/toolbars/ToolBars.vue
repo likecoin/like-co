@@ -15,8 +15,8 @@
 
       <div v-if="checkShouldShowError(getMetamaskError)">
         <chrome-dialog
-          v-if="showShowChromeDialog"
-          :show="showShowChromeDialog" />
+          v-if="shouldShowChromeDialog"
+          :show="shouldShowChromeDialog" />
         <metamask-dialog
           v-else-if="!!getMetamaskError"
           :case="getMetamaskError"
@@ -86,7 +86,7 @@ export default {
     TxDialog,
   },
   computed: {
-    showShowChromeDialog() {
+    shouldShowChromeDialog() {
       return this.getMetamaskError === 'web3' && !this.checkIsDesktopChrome();
     },
     ...mapGetters([

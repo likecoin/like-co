@@ -20,7 +20,7 @@ $title-bar-height: 48px;
     .dialog-content {
       display: flex;
       flex-direction: column;
-      padding: #{$title-bar-height + 4px} 16px 32px 32px;
+      padding: #{$title-bar-height + 8px} 32px 32px;
 
       @media (max-width: 600px) {
         padding-left: 12px;
@@ -49,28 +49,31 @@ $title-bar-height: 48px;
       }
 
       .md-dialog-content {
+        @extend .lc-margin-bottom-16;
+
         margin-top: 4px;
         font-size: 16px;
         line-height: 26px;
         color: $like-gray-4;
 
         @media (max-width: 600px) {
-          padding: 0 12px 24px;
+          padding: 0 12px;
         }
 
         &:first-child {
           padding-top: 0;
         }
+
+        .md-field {
+          padding-top: 16px;
+        }
       }
 
       .md-button {
-        width: 256px;
-        height: 40px;
-        font-size: 24px;
+        @extend .lc-margin-top-8;
 
-        border-radius: 0;
-
-        margin: 4px;
+        width: auto;
+        min-width: 256px;
       }
 
       img {

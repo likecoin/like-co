@@ -41,7 +41,11 @@
   background-color: $like-green;
 
   font-size: 24px;
-  line-height: 32px;
+  line-height: 1.35;
+
+  @media (max-width: 600px) {
+    font-size: 20px;
+  }
 
   white-space: normal;
 
@@ -57,7 +61,7 @@
   }
 
   :global(.md-ripple) {
-    padding: 8px;
+    padding: 4px 12px;
 
     :global(.md-button-content) {
       position: initial;
