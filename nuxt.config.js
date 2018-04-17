@@ -166,8 +166,6 @@ module.exports = {
           exclude: /(node_modules)/,
         });
       }
-      const babelLoader = config.module.rules.find(rule => rule.loader === 'babel-loader');
-      babelLoader.exclude = /node_modules\/(?!abi-decoder|@likecoin\/ethereum-blockies)/;
     },
   },
 };
