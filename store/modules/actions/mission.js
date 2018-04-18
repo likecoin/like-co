@@ -66,5 +66,8 @@ export async function onMissionClick({ commit, state, rootState }, m) {
       return Promise.all(promises);
     }
   }
+
+  commit(types.UI_SET_MISSION_DIALOG, m);
+
   return false;
 }

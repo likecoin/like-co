@@ -47,6 +47,8 @@
 
     <nuxt-child />
 
+    <mission-dialog />
+
   </div>
 </template>
 
@@ -55,8 +57,10 @@
 import { mapActions, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
 
+import MissionDialog from '@/components/dialogs/MissionDialog';
+import LikeCoinAmount from '@/components/LikeCoinAmount';
+
 import EthHelper from '@/util/EthHelper';
-import LikeCoinAmount from '~/components/LikeCoinAmount';
 
 import { ONE_LIKE } from '@/constant';
 
@@ -92,6 +96,7 @@ export default {
   },
   components: {
     LikeCoinAmount,
+    MissionDialog,
   },
   computed: {
     ...mapGetters([
