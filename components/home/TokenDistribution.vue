@@ -87,7 +87,7 @@ export default {
   name: 'token-distribution',
   data() {
     return {
-      isYear0: true,
+      isYear0: false,
     };
   },
   computed: {
@@ -99,6 +99,9 @@ export default {
     clickYear0Button(isYear0) {
       this.isYear0 = isYear0;
     },
+  },
+  mounted() {
+    this.clickYear0Button(true);
   },
 };
 </script>
