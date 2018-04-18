@@ -133,6 +133,18 @@ module.exports = {
   ** Add axios globally
   */
   build: {
+    scopeHoisting: true,
+    extractCSS: true,
+    postcss: {
+      plugins: {
+        'postcss-import': {},
+        'postcss-url': {},
+        'postcss-cssnext': {
+          browsers: ['defaults'],
+        },
+      },
+    },
+    parallel: true,
     vendor: [
       'axios',
       'babel-polyfill',
