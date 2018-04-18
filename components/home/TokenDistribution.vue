@@ -65,7 +65,7 @@
               </div>
 
               <div class="chart">
-                <img :src="chartUrl(`${$t('Home.TokenDistribution.pieChartLanguage')}-${isYear0 ? '2018' : '2028'}.svg`)">
+                <img :src="chartSrc" />
               </div>
 
             </div>
@@ -81,8 +81,7 @@
 
 
 <script>
-const images = require.context('../../assets/home/token-distribution');
-const chartUrl = path => images(`./${path}`);
+const images = require.context('~/assets/home/token-distribution', false);
 
 export default {
   name: 'token-distribution',
@@ -91,8 +90,12 @@ export default {
       isYear0: true,
     };
   },
+  computed: {
+    chartSrc() {
+      return images(`./${this.$t('Home.TokenDistribution.pieChartLanguage')}-${this.isYear0 ? '2018' : '2028'}.svg`);
+    },
+  },
   methods: {
-    chartUrl,
     clickYear0Button(isYear0) {
       this.isYear0 = isYear0;
     },
