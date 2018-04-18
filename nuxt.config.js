@@ -105,8 +105,6 @@ module.exports = {
   ** Global CSS
   */
   css: [
-    { src: 'vue-material/dist/vue-material.min.css', lang: 'css' },
-    { src: '~/assets/theme.scss', lang: 'scss' }, // include vue-material theme engine
     { src: '~/assets/index.scss', lang: 'scss' },
     'swiper/dist/css/swiper.css',
     '~/assets/css/main.css',
@@ -122,6 +120,7 @@ module.exports = {
   ],
   plugins: [
     { src: '~/plugins/EthHelper', ssr: false },
+    { src: '~/plugins/vue-clipboard2', ssr: false },
     { src: '~/plugins/vue-i18n' },
     { src: '~/plugins/vue-image-lightbox', ssr: false },
     { src: '~/plugins/vue-intercom', ssr: false },
@@ -153,6 +152,7 @@ module.exports = {
       'bignumber.js',
       'classlist-polyfill',
       'moment',
+      'vue-clipboard2',
       'vue-i18n',
       'vue-material',
       'vue-vimeo-player',

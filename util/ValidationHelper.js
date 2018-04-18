@@ -1,3 +1,5 @@
+import { GETTING_STARTED_TASKS } from '../constant';
+
 const ValidationHelper = {
   checkAddressValid(addr) {
     return addr.length === 42 && addr.substr(0, 2) === '0x';
@@ -48,6 +50,52 @@ const ValidationHelper = {
       remarks,
       completeTs,
       ts,
+    };
+  },
+  filterMissionData(m) {
+    const {
+      id,
+      reward,
+      referralReward,
+      referralPayoutType,
+      targetPayoutType,
+      done,
+      seen,
+      bonusId,
+      isProxy,
+    } = m;
+    const misc = {};
+    GETTING_STARTED_TASKS.forEach((task) => {
+      if (m[task]) misc[task] = m[task];
+    });
+    return {
+      id,
+      reward,
+      referralReward,
+      referralPayoutType,
+      targetPayoutType,
+      done,
+      seen,
+      isProxy,
+      isClaimed: !!bonusId,
+      ...misc,
+    };
+  },
+  filterPayoutData({
+    id,
+    type,
+    referrer,
+    referee,
+    waitForClaim,
+    value,
+  }) {
+    return {
+      id,
+      type,
+      referrer,
+      referee,
+      waitForClaim,
+      value,
     };
   },
 };

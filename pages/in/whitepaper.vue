@@ -38,6 +38,18 @@ const onePagerSrc = [
     languageKey: 'cn',
     src: '/in/likecoin-onepager-cn.pdf',
   },
+  {
+    languageKey: 'ru',
+    src: '/in/likecoin-onepager-ru.pdf',
+  },
+  {
+    languageKey: 'ja',
+    src: '/in/likecoin-onepager-ja.pdf',
+  },
+  {
+    languageKey: 'ko',
+    src: '/in/likecoin-onepager-ko.pdf',
+  },
 ];
 const whitePaperSrc = [
   {

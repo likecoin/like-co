@@ -314,10 +314,17 @@ router.post('/email/verify/:uuid', async (req, res) => {
         verificationUUID: FieldValue.delete(),
         isEmailVerified: true,
       });
+
+      const promises = [];
+      const payload = { done: true };
       const { referrer } = user.data();
       if (referrer) {
-        await dbRef.doc(referrer).collection('referrals').doc(user.id).update({ isEmailVerified: true });
+        promises.push(dbRef.doc(referrer).collection('referrals').doc(user.id).update({ isEmailVerified: true }));
+      } else {
+        payload.bonusId = 'none';
       }
+      promises.push(dbRef.doc(user.id).collection('mission').doc('verifyEmail').set(payload, { merge: true }));
+      await Promise.all(promises);
       res.json({ referrer: !!user.data().referrer, wallet: user.data().wallet });
       const userObj = user.data();
       publisher.publish(PUBSUB_TOPIC_MISC, req, {
