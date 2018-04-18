@@ -1,3 +1,7 @@
+/* eslint import/no-extraneous-dependencies: "off" */
+const webpack = require('webpack');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+
 module.exports = {
   /*
   ** Headers of the page
@@ -131,6 +135,18 @@ module.exports = {
   ** Add axios globally
   */
   build: {
+    scopeHoisting: true,
+    extractCSS: true,
+    postcss: {
+      plugins: {
+        'postcss-import': {},
+        'postcss-url': {},
+        'postcss-cssnext': {
+          browsers: ['defaults'],
+        },
+      },
+    },
+    parallel: true,
     vendor: [
       'axios',
       'babel-polyfill',
@@ -154,6 +170,13 @@ module.exports = {
         ],
       ],
     },
+    plugins: [
+      // Ignore all locale files of moment.js
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+      new OptimizeCssAssetsPlugin({
+        cssProcessorOptions: { discardComments: { removeAll: true } },
+      }),
+    ],
     /*
     ** Run ESLINT on save
     */
@@ -166,8 +189,6 @@ module.exports = {
           exclude: /(node_modules)/,
         });
       }
-      const babelLoader = config.module.rules.find(rule => rule.loader === 'babel-loader');
-      babelLoader.exclude = /node_modules\/(?!abi-decoder|@likecoin\/ethereum-blockies)/;
     },
   },
 };
