@@ -7,6 +7,8 @@ export const apiCheckIsUser = addr => axios.get(`/api/users/addr/${addr}`);
 
 export const apiGetUserById = id => axios.get(`/api/users/id/${id}`);
 
+export const apiGetUserMinById = id => axios.get(`/api/users/id/${id}/min`);
+
 export const apiGetTxById = id => axios.get(`/api/tx/id/${id}`);
 
 export const apiGetTxToByAddr = addr => axios.get(`/api/tx/addr/to/${addr}`);

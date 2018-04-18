@@ -12,6 +12,7 @@ import {
   MISSION_SET_REFERRAL_LIST,
   MISSION_SET_REFERRAL_BONUS_LIST,
   MISSION_SET_REFERRAL_TYPE_CLAIMED,
+  MISSION_SET_REFERRAL_AVATAR,
 } from '../mutation-types';
 import * as actions from './actions/mission';
 import * as getters from './getters/mission';
@@ -43,6 +44,10 @@ const mutations = {
   },
   [MISSION_SET_REFERRAL_LIST](state, referrals) {
     state.referrals = referrals;
+  },
+  [MISSION_SET_REFERRAL_AVATAR](state, { userId, avatar }) {
+    const referral = state.referrals.find(r => r.id === userId);
+    if (referral) Vue.set(referral, 'avatar', avatar);
   },
   [MISSION_SET_REFERRAL_BONUS_LIST](state, bonus) {
     state.proxyBonus = {};

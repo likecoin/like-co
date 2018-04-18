@@ -21,6 +21,10 @@ export async function refreshMissionList({ commit }, id) {
   commit(types.MISSION_SET_MISSION_LIST, missions);
   commit(types.MISSION_SET_REFERRAL_LIST, referralMissions);
   commit(types.MISSION_SET_REFERRAL_BONUS_LIST, bonus);
+  referralMissions.forEach(async (r) => {
+    const { avatar } = await apiWrapper(commit, api.apiGetUserMinById(r.id), { slient: true });
+    commit(types.MISSION_SET_REFERRAL_AVATAR, { userId: r.id, avatar });
+  });
 }
 
 export async function setMissionSeen({ commit }, { user, missionId }) {

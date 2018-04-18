@@ -27,6 +27,19 @@ const ValidationHelper = {
       isEmailVerified,
     };
   },
+  filterUserDataMin({
+    user,
+    displayName,
+    avatar,
+    wallet,
+  }) {
+    return {
+      user,
+      displayName,
+      avatar,
+      wallet,
+    };
+  },
   filterTxData({
     from,
     fromId,

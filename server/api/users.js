@@ -224,6 +224,24 @@ router.get('/users/id/:id', async (req, res) => {
   }
 });
 
+router.get('/users/id/:id/min', async (req, res) => {
+  try {
+    const username = req.params.id;
+    const doc = await dbRef.doc(username).get();
+    if (doc.exists) {
+      const payload = doc.data();
+      if (!payload.avatar) payload.avatar = toDataUrl(payload.wallet);
+      res.json(Validate.filterUserDataMin(payload));
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (err) {
+    const msg = err.message || err;
+    console.error(msg);
+    res.status(400).send(msg);
+  }
+});
+
 router.get('/users/addr/:addr', async (req, res) => {
   try {
     const { addr } = req.params;
