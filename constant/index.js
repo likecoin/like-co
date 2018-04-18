@@ -54,4 +54,4 @@ const toolbarsDisableError = {
 };
 export const getToolbarsDisableError = route => (toolbarsDisableError[route] || false);
 
-export const GETTING_STARTED_TASKS = ['taskTelegram', 'taskVideo', 'taskTokensale'];
+export const GETTING_STARTED_TASKS = ['taskTelegram', 'taskVideo', 'taskPaymentPage'];

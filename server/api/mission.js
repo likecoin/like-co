@@ -122,7 +122,7 @@ router.post('/mission/step/:id', async (req, res) => {
     switch (missionId) {
       case 'gettingStart': {
         if (!GETTING_STARTED_TASKS.includes(taskId)) throw new Error('task unknown');
-        const doneTasks = [taskId, ...doc.data().keys];
+        const doneTasks = [taskId, ...Object.keys(doc.data())];
         done = GETTING_STARTED_TASKS.every(t => doneTasks.includes(t));
         break;
       }
@@ -130,8 +130,8 @@ router.post('/mission/step/:id', async (req, res) => {
     }
     const payload = { [taskId]: true };
     if (done) payload.done = true;
-    await userMissionRef.set({ payload }, { merge: true });
-    res.sendStatus(200);
+    await userMissionRef.set(payload, { merge: true });
+    res.json(payload);
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);

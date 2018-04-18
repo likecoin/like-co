@@ -29,11 +29,14 @@ export async function setMissionSeen({ commit }, { user, missionId }) {
 }
 
 export async function postStepMission({ commit }, { user, missionId, taskId }) {
-  return apiWrapper(
+  const { done } = await apiWrapper(
     commit,
     api.apiPostStepMission(missionId, { user, taskId }),
     { blocking: true },
   );
+  commit(types.MISSION_STEP_MISSION, { missionId, taskId });
+  if (done) commit(types.MISSION_SET_MISSION_DONE, { missionId });
+  return done;
 }
 
 export async function claimMission({ commit }, { user, missionId }) {

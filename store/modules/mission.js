@@ -7,6 +7,8 @@ import {
   MISSION_SET_MISSION_LIST,
   MISSION_SET_MISSION_SEEN,
   MISSION_SET_MISSION_CLAIMED,
+  MISSION_STEP_MISSION,
+  MISSION_SET_MISSION_DONE,
   MISSION_SET_REFERRAL_LIST,
   MISSION_SET_REFERRAL_BONUS_LIST,
   MISSION_SET_REFERRAL_TYPE_CLAIMED,
@@ -30,6 +32,14 @@ const mutations = {
   },
   [MISSION_SET_MISSION_CLAIMED](state, missionId) {
     state.missions = state.missions.filter(m => m.id !== missionId);
+  },
+  [MISSION_STEP_MISSION](state, { missionId, taskId }) {
+    const mission = state.missions.find(m => m.id === missionId);
+    Vue.set(mission, taskId, true);
+  },
+  [MISSION_SET_MISSION_DONE](state, { missionId }) {
+    const mission = state.missions.find(m => m.id === missionId);
+    Vue.set(mission, 'done', true);
   },
   [MISSION_SET_REFERRAL_LIST](state, referrals) {
     state.referrals = referrals;

@@ -56,6 +56,7 @@ const ValidationHelper = {
     const {
       id,
       reward,
+      refereeReward,
       referralReward,
       referralPayoutType,
       targetPayoutType,
@@ -71,6 +72,7 @@ const ValidationHelper = {
     return {
       id,
       reward,
+      refereeReward,
       referralReward,
       referralPayoutType,
       targetPayoutType,
