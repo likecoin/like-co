@@ -71,40 +71,10 @@
             <!-- END - Verify Email Section -->
 
             <!-- BEGIN - Invite Friend Section -->
-            <div
+            <invite-friend-form
               v-else-if="getPopupMission.id === 'inviteFriend'"
-              class="invite-friend-form">
-
-              <md-field class="md-likecoin">
-                <label>Invite your friend by email</label>
-                <md-input v-model="inline"></md-input>
-              </md-field>
-
-              <div class="lc-button-group">
-                <md-button class="md-likecoin">
-                  {{ $t('General.button.send') }}
-                </md-button>
-              </div>
-
-              <div class="lc-button-group">
-                <label>Or invite by</label>
-                <md-button class="md-likecoin lc-with-icon">
-                  <md-icon :md-src="LinkIcon" />
-                  <span>Copy URL</span>
-                </md-button>
-                <br/>
-                <md-button class="md-likecoin lc-facebook lc-with-icon">
-                  <md-icon :md-src="FacebookIcon" />
-                  <span>Facebook</span>
-                </md-button>
-                <br/>
-                <md-button class="md-likecoin lc-twitter lc-with-icon">
-                  <md-icon :md-src="TwitterIcon" />
-                  <span>Twitter</span>
-                </md-button>
-              </div>
-
-            </div>
+              form-id="mission-invite-friend-form"
+              @invite="onInviteFriend" />
             <!-- END - Invite Friend Section -->
 
             <!-- BEGIN - Join Token Sale Section -->
@@ -138,6 +108,10 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
+import InviteFriendForm from '~/components/InviteFriendForm';
+
+import { logTrackerEvent } from '@/util/EventLogger';
+
 import LikeCoinIcon from '@/assets/like-coin.svg';
 import LinkIcon from '@/assets/icons/fillable/link.svg';
 import FacebookIcon from '@/assets/icons/fillable/facebook.svg';
@@ -145,6 +119,9 @@ import TwitterIcon from '@/assets/icons/fillable/twitter.svg';
 
 export default {
   name: 'mission-dialog',
+  components: {
+    InviteFriendForm,
+  },
   data() {
     return {
       FacebookIcon,
@@ -169,6 +146,23 @@ export default {
   },
   methods: {
     ...mapActions([]),
+    onInviteFriend(type) {
+      switch (type) {
+        case 'email':
+          logTrackerEvent(this, 'Mission', 'ClickGetFreeLikeCoin', 'email invite', 1);
+          break;
+        case 'url':
+          logTrackerEvent(this, 'Mission', 'sendInvitation', 'copy invite link', 1);
+          break;
+        case 'facebook':
+          logTrackerEvent(this, 'Mission', 'sendInvitation', 'fb share invite', 1);
+          break;
+        case 'twitter':
+          logTrackerEvent(this, 'Mission', 'sendInvitation', 'twitter invite', 1);
+          break;
+        default:
+      }
+    },
     onDismiss() {
       this.isShowDialog = false;
     },

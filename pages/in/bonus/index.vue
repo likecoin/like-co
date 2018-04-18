@@ -86,13 +86,32 @@
           <div class="lc-container-2">
             <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-32 section-content">
               <div class="lc-container-4">
-                <referral-action
-                  :user="user"
-                  :pending="referralPending"
-                  :verified="referralVerified"
-                  :isEmailVerified="getUserInfo.isEmailVerified"
-                  :isBlocked="getIsPopupBlocking"
-                />
+
+                <div
+                  v-if="!getUserInfo.isEmailVerified"
+                  class="lc-font-size-20 lc-color-like-gray-4 lc-mobile">
+                  {{ $t('Edit.referral.verifyEmailFirst') }}
+                </div>
+
+                <div v-else>
+                  <div class="md-layout referral-action">
+                    <div class="md-layout-item md-medium-size-50 md-small-size-100 lc-margin-bottom-16 lc-font-size-20 lc-color-like-gray-4 lc-mobile">
+                      {{ $t('Edit.referral.description') }}
+                    </div>
+
+                    <div class="md-layout-item md-medium-size-50 md-small-size-100 lc-margin-bottom-16-mobile">
+                      <referral-stats
+                        :pending="referralPending"
+                        :verified="referralVerified"
+                      />
+                    </div>
+                  </div>
+
+                  <invite-friend-form
+                    :is-full-width="true"
+                    @invite="onInvite" />
+                </div>
+
               </div>
             </div>
           </div>
@@ -109,9 +128,12 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
+import InviteFriendForm from '~/components/InviteFriendForm';
 import InviteeMissionGridList from '@/components/Mission/InviteeGridList';
 import MissionList from '@/components/Mission/List';
-import ReferralAction from '@/components/ReferralAction';
+import ReferralStats from '@/components/ReferralStats';
+
+import { logTrackerEvent } from '@/util/EventLogger';
 
 export default {
   name: 'bonus-index',
@@ -123,13 +145,13 @@ export default {
     };
   },
   components: {
+    InviteFriendForm,
     InviteeMissionGridList,
     MissionList,
-    ReferralAction,
+    ReferralStats,
   },
   computed: {
     ...mapGetters([
-      'getIsPopupBlocking',
       'getUserInfo',
       'getUserIsFetching',
       'getUserIsRegistered',
@@ -154,6 +176,23 @@ export default {
         this.referralVerified = verified;
       } catch (err) {
         console.log(err);
+      }
+    },
+    onInvite(type) {
+      switch (type) {
+        case 'email':
+          logTrackerEvent(this, 'Referral', 'ClickGetFreeLikeCoin', 'email invite', 1);
+          break;
+        case 'url':
+          logTrackerEvent(this, 'Referral', 'sendInvitation', 'copy invite link', 1);
+          break;
+        case 'facebook':
+          logTrackerEvent(this, 'Referral', 'sendInvitation', 'fb share invite', 1);
+          break;
+        case 'twitter':
+          logTrackerEvent(this, 'Referral', 'sendInvitation', 'twitter invite', 1);
+          break;
+        default:
       }
     },
   },
