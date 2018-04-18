@@ -1,6 +1,6 @@
 <template>
   <div :class="['task-item', state]" @click="$emit('click')">
-    <span class="lc-font-weight-600">{{ title }}</span>
+    <span class="title">{{ title }}</span>
   </div>
 </template>
 
@@ -72,6 +72,10 @@ export default {
     height: 32px;
 
     content: " ";
+  }
+
+  .title {
+    font-weight: 600;
   }
 }
 </style>
