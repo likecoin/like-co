@@ -1,5 +1,6 @@
 @import "functions";
 @import "variables";
+@import "theme";
 
 * {
   margin: 0;
@@ -553,8 +554,16 @@ $font-weight-list: 300 400 600;
 
 /* Layout System - End */
 
-
 .md-field {
+  label {
+    overflow: hidden;
+
+    width: 100%;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
   &:not(.md-has-value) input.md-input {
     font-size: 16px;
   }

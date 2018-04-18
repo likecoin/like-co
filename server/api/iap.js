@@ -1,8 +1,6 @@
 import { Router } from 'express';
 
-import {
-  PUBSUB_TOPIC_MISC,
-} from '../../constant';
+import { PUBSUB_TOPIC_MISC } from '../../constant';
 import publisher from '../util/gcloudPub';
 
 import stripe from '../util/stripe';

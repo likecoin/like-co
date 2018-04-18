@@ -1,6 +1,4 @@
-import {
-  GETTING_STARTED_TASKS,
-} from '../constant';
+import { GETTING_STARTED_TASKS } from '../constant';
 
 const ValidationHelper = {
   checkAddressValid(addr) {

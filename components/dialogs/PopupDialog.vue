@@ -6,52 +6,63 @@
     :md-fullscreen="false">
     <div class="title-bar" />
     <div class="dialog-content">
-      <md-dialog-title v-if="header">{{ header }}</md-dialog-title>
+      <md-dialog-title v-if="header">
+        {{ header }}
+      </md-dialog-title>
+
       <md-dialog-content v-if="message">
         <span v-html="message" />
       </md-dialog-content>
+
       <section>
-        <md-button id="btn-confirm" class="md-primary" @click="onDialogConfirm">
+        <material-button id="btn-confirm" @click="onDialogConfirm">
           {{ buttonText }}
-        </md-button>
+        </material-button>
       </section>
     </div>
   </md-dialog>
 </template>
 
+
 <script>
-  export default {
-    name: 'PopupDialog',
-    props: ['allowClose', 'header', 'message', 'confirmText'],
-    data() {
-      return {
-        showDialog: false,
-      };
+import MaterialButton from '@/components/MaterialButton';
+
+export default {
+  name: 'PopupDialog',
+  props: ['allowClose', 'header', 'message', 'confirmText'],
+  components: {
+    MaterialButton,
+  },
+  data() {
+    return {
+      showDialog: false,
+    };
+  },
+  computed: {
+    buttonText() {
+      if (this.confirmText) return this.confirmText;
+      return this.$t('General.button.confirm');
     },
-    computed: {
-      buttonText() {
-        if (this.confirmText) return this.confirmText;
-        return this.$t('General.button.confirm');
-      },
+  },
+  methods: {
+    toggleSync() {
+      this.showDialog = !this.showDialog;
     },
-    methods: {
-      toggleSync() {
-        this.showDialog = !this.showDialog;
-      },
-      onDialogConfirm() {
-        this.$emit('onConfirm');
-      },
+    onDialogConfirm() {
+      this.$emit('onConfirm');
     },
-    watch: {
-      message(e) {
-        this.showDialog = !!e;
-      },
+  },
+  watch: {
+    message(e) {
+      this.showDialog = !!e;
     },
-    mounted() {
-      this.showDialog = !!this.message;
-    },
-  };
+  },
+  mounted() {
+    this.showDialog = !!this.message;
+  },
+};
 </script>
+
 
 <style lang="scss" scoped>
 @import "~assets/dialog";
@@ -66,16 +77,6 @@
       display: flex;
       flex-direction: column;
       margin-top: 36px;
-
-      #btn-cancel {
-        background-color: $like-gradient-3;
-        color: $like-white;
-      }
-
-      #btn-confirm {
-        background-color: $like-green;
-        color: $like-white;
-      }
     }
   }
 }

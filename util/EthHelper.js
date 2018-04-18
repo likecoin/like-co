@@ -11,7 +11,7 @@ import { LIKE_COIN_ABI, LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin';
 import { LIKE_COIN_ICO_ABI, LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 import { IS_TESTNET, INFURA_HOST } from '@/constant';
 
-const abiDecoder = require('abi-decoder');
+const abiDecoder = require('@likecoin/abi-decoder/dist/es5');
 
 abiDecoder.addABI(LIKE_COIN_ABI);
 
