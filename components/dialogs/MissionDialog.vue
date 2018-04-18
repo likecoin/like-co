@@ -54,7 +54,7 @@
                     state: 'active',
                   },
                 ]"
-                @click="onClickTask" />
+                @click="onClickGettingStartTask" />
 
               <div class="lc-button-group">
                 <md-button class="md-likecoin" @click="onDismiss">
@@ -155,6 +155,7 @@ export default {
   computed: {
     ...mapGetters([
       'getPopupMission',
+      'getUserInfo',
     ]),
     icon() {
       return this.getPopupMission.icon || LikeCoinIcon;
@@ -185,9 +186,49 @@ export default {
         default:
       }
     },
-    onClickTask(t) {
-      // TODO
-      console.log('onClickTask', t);
+    onClickGettingStartTask(t) {
+      switch (t.id) {
+        case 'paymentPageView':
+          window.open(`/${this.getUserInfo.displayName}`, 'payment-page');
+          break;
+
+        case 'introductionVideoWatch': {
+          let link = 'https://youtu.be/';
+          switch (this.$i18n.locale) {
+            case 'cn':
+            case 'zh':
+              link += '344nFHa7fC0';
+              break;
+            case 'ja':
+              link += 'YbMTQ3F1isU';
+              break;
+            default:
+              link += '28spMOgMs3o';
+          }
+          window.open(link, 'youtube');
+          break;
+        }
+
+        case 'telegramGroupJoin': {
+          let link = 'https://t.me/likecoin';
+          switch (this.$i18n.locale) {
+            case 'ja':
+              link += '_jp';
+              break;
+            case 'ru':
+              link += '_ru';
+              break;
+            case 'ko':
+              link += '_kr';
+              break;
+            default:
+          }
+          window.open(link, 'telegram-group');
+          break;
+        }
+
+        default:
+      }
     },
     onDismiss() {
       this.isShowDialog = false;
