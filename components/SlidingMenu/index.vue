@@ -286,7 +286,6 @@ $sliding-menu-narrow-width: 260px;
 .lc-page-wrapper {
   &.with-sliding-menu {
     position: relative;
-    transform: translateX(0);
 
     transition: transform .5s ease-in-out;
 
