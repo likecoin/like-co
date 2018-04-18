@@ -1,7 +1,5 @@
 import stripePackage from 'stripe';
-import {
-  IS_TESTNET,
-} from '../../constant';
+import { IS_TESTNET } from '../../constant';
 
 const config = require('@ServerConfig/config.js'); // eslint-disable-line import/no-extraneous-dependencies
 

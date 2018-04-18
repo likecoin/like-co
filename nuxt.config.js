@@ -1,3 +1,5 @@
+const webpack = require('webpack'); // eslint-disable-line import/no-extraneous-dependencies
+
 module.exports = {
   /*
   ** Headers of the page
@@ -131,6 +133,18 @@ module.exports = {
   ** Add axios globally
   */
   build: {
+    scopeHoisting: true,
+    extractCSS: true,
+    postcss: {
+      plugins: {
+        'postcss-import': {},
+        'postcss-url': {},
+        'postcss-cssnext': {
+          browsers: ['defaults'],
+        },
+      },
+    },
+    parallel: true,
     vendor: [
       'axios',
       'babel-polyfill',
@@ -154,6 +168,10 @@ module.exports = {
         ],
       ],
     },
+    plugins: [
+      // Ignore all locale files of moment.js
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    ],
     /*
     ** Run ESLINT on save
     */
@@ -166,8 +184,6 @@ module.exports = {
           exclude: /(node_modules)/,
         });
       }
-      const babelLoader = config.module.rules.find(rule => rule.loader === 'babel-loader');
-      babelLoader.exclude = /node_modules\/(?!abi-decoder|@likecoin\/ethereum-blockies)/;
     },
   },
 };

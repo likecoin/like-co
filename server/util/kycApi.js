@@ -1,7 +1,5 @@
 import * as Axios from 'axios';
-import {
-  PUBSUB_TOPIC_MISC,
-} from '../../constant';
+import { PUBSUB_TOPIC_MISC } from '../../constant';
 import publisher from '../util/gcloudPub';
 
 const FormData = require('form-data');
