@@ -8,7 +8,7 @@
 
         <header>
           <div class="mission-icon" >
-            <img :src="icon" />
+            <mission-icon :mission-id="getPopupMission.id" />
           </div>
 
           <div class="left"/>
@@ -46,7 +46,7 @@
                   {
                     id: 'introductionVideoWatch',
                     title: 'Watch introduction Video',
-                    state: 'completed',
+                    state: 'active',
                   },
                   {
                     id: 'telegramGroupJoin',
@@ -129,11 +129,11 @@
 import { mapActions, mapGetters } from 'vuex';
 
 import InviteFriendForm from '~/components/InviteFriendForm';
+import MissionIcon from '~/components/Mission/Icon';
 import TaskList from '~/components/Mission/TaskList';
 
 import { logTrackerEvent } from '@/util/EventLogger';
 
-import LikeCoinIcon from '@/assets/like-coin.svg';
 import LinkIcon from '@/assets/icons/fillable/link.svg';
 import FacebookIcon from '@/assets/icons/fillable/facebook.svg';
 import TwitterIcon from '@/assets/icons/fillable/twitter.svg';
@@ -142,6 +142,7 @@ export default {
   name: 'mission-dialog',
   components: {
     InviteFriendForm,
+    MissionIcon,
     TaskList,
   },
   data() {
@@ -157,9 +158,6 @@ export default {
       'getPopupMission',
       'getUserInfo',
     ]),
-    icon() {
-      return this.getPopupMission.icon || LikeCoinIcon;
-    },
     title() {
       return this.$t(`Mission.${this.getPopupMission.id}.title`);
     },

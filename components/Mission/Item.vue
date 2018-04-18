@@ -9,7 +9,7 @@
 
         <div class="mission-card-container">
           <h2 class="reward-label" v-html="reward" />
-          <img class="mission-icon" :src="icon || LikeCoinIcon" />
+          <mission-icon class="mission-icon" :mission-id="mission.id" />
           <h1 class="title-label"><span>{{ title }}</span></h1>
         </div>
       </div>
@@ -22,13 +22,18 @@
 
 
 <script>
-import LikeCoinIcon from '@/assets/like-coin.svg';
 import { mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
+
+import MissionIcon from '@/components/Mission/Icon';
+
 import { ONE_LIKE } from '@/constant';
 
 export default {
   name: 'mission-item',
+  components: {
+    MissionIcon,
+  },
   props: {
     mission: {
       type: Object,
@@ -38,12 +43,6 @@ export default {
       type: Boolean,
       default: false,
     },
-  },
-  data() {
-    return {
-      icon: null,
-      LikeCoinIcon,
-    };
   },
   computed: {
     ...mapGetters([
@@ -385,25 +384,25 @@ export default {
     background-size: 32px 32px;
 
     .active & {
-      background-image: url('~/assets/icons/mission/active-small.svg');
+      background-image: url('~/assets/mission/misc/active-small.svg');
     }
 
     .completed & {
-      background-image: url('~/assets/icons/mission/completed-small.svg');
+      background-image: url('~/assets/mission/misc/completed-small.svg');
     }
 
     .claimed & {
-      background-image: url('~/assets/icons/mission/claimed-small.svg');
+      background-image: url('~/assets/mission/misc/claimed-small.svg');
     }
 
     @media (min-width: 600px + 1px) {
       .large .active & {
-        background-image: url('~/assets/icons/mission/active.svg');
+        background-image: url('~/assets/mission/misc/active.svg');
       }
 
       .large .completed &,
       .large .claimed & {
-        background-image: url('~/assets/icons/mission/completed.svg');
+        background-image: url('~/assets/mission/misc/completed.svg');
       }
     }
   }
