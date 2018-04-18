@@ -1,11 +1,14 @@
 <template>
-  <ul class="task-list">
-    <li v-for="m in missions" :key="m.id">
-      <task-item
-        :mission="m"
-        @click="onClick(m)" />
-    </li>
-  </ul>
+  <div class="task-list">
+    <ul>
+      <li v-for="t in tasks" :key="t.id">
+        <task-item
+          :title="t.title"
+          :state="t.state"
+          @click="onClick(t)" />
+      </li>
+    </ul>
+  </div>
 </template>
 
 
@@ -15,17 +18,19 @@ import TaskItem from './TaskItem';
 export default {
   name: 'task-list',
   props: {
-    missions: {
+    tasks: {
       type: Array,
-      default: [],
+      default() {
+        return [];
+      },
     },
   },
   components: {
     TaskItem,
   },
   methods: {
-    onClick() {
-      // do something
+    onClick(t) {
+      this.$emit('click', t);
     },
   },
 };
@@ -36,13 +41,19 @@ export default {
 @import "~assets/variables";
 
 .task-list {
-  display: flex;
-  flex-direction: column;
+  margin: 24px 0;
 
-  list-style: none;
+  ul {
+    margin: -4px 0;
 
-  li {
-    padding: 4px 0;
+    display: flex;
+    flex-direction: column;
+
+    list-style: none;
+
+    li {
+      padding: 4px 0;
+    }
   }
 }
 </style>

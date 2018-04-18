@@ -36,6 +36,26 @@
               v-if="getPopupMission.id === 'gettingStart'"
               class="getting-start-form">
 
+              <task-list
+                :tasks="[
+                  {
+                    id: 'paymentPageView',
+                    title: 'View your Like ID payment page',
+                    state: 'active',
+                  },
+                  {
+                    id: 'introductionVideoWatch',
+                    title: 'Watch introduction Video',
+                    state: 'completed',
+                  },
+                  {
+                    id: 'telegramGroupJoin',
+                    title: 'Join LikeCoin telegram group',
+                    state: 'active',
+                  },
+                ]"
+                @click="onClickTask" />
+
               <div class="lc-button-group">
                 <md-button class="md-likecoin" @click="onDismiss">
                 {{ $t('General.button.ok') }}
@@ -109,6 +129,7 @@
 import { mapActions, mapGetters } from 'vuex';
 
 import InviteFriendForm from '~/components/InviteFriendForm';
+import TaskList from '~/components/Mission/TaskList';
 
 import { logTrackerEvent } from '@/util/EventLogger';
 
@@ -121,6 +142,7 @@ export default {
   name: 'mission-dialog',
   components: {
     InviteFriendForm,
+    TaskList,
   },
   data() {
     return {
@@ -162,6 +184,10 @@ export default {
           break;
         default:
       }
+    },
+    onClickTask(t) {
+      // TODO
+      console.log('onClickTask', t);
     },
     onDismiss() {
       this.isShowDialog = false;
