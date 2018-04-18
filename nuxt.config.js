@@ -1,3 +1,5 @@
+const webpack = require('webpack'); // eslint-disable-line import/no-extraneous-dependencies
+
 module.exports = {
   /*
   ** Headers of the page
@@ -154,6 +156,10 @@ module.exports = {
         ],
       ],
     },
+    plugins: [
+      // Ignore all locale files of moment.js
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    ],
     /*
     ** Run ESLINT on save
     */
