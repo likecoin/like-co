@@ -1,4 +1,6 @@
-const webpack = require('webpack'); // eslint-disable-line import/no-extraneous-dependencies
+/* eslint import/no-extraneous-dependencies: "off" */
+const webpack = require('webpack');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = {
   /*
@@ -171,6 +173,9 @@ module.exports = {
     plugins: [
       // Ignore all locale files of moment.js
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+      new OptimizeCssAssetsPlugin({
+        cssProcessorOptions: { discardComments: { removeAll: true } },
+      }),
     ],
     /*
     ** Run ESLINT on save
