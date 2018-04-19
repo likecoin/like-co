@@ -128,7 +128,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-import InviteFriendForm from '~/components/InviteFriendForm';
+import InviteFriendForm from '~/components/forms/InviteFriendForm';
 import InviteeMissionGridList from '@/components/Mission/InviteeGridList';
 import MissionList from '@/components/Mission/List';
 import ReferralStats from '@/components/ReferralStats';
