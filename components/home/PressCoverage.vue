@@ -77,6 +77,10 @@ const presses = [
     link: 'https://www.am730.com.hk/column/%E8%B2%A1%E7%B6%93/%E6%8E%98%E9%87%91%E6%8E%98%E7%A4%A6%E6%8E%98likecoin-120913',
   },
   {
+    src: '/images/press-logo/blockcast.png',
+    link: 'http://blockcast.it/2018/04/19/blockcast-interview-likecoin-founder-kin-ko/',
+  },
+  {
     src: '/images/press-logo/inside.svg',
     link: 'https://www.inside.com.tw/2018/03/18/like-to-coin',
   },
@@ -87,10 +91,6 @@ const presses = [
   {
     src: '/images/press-logo/mrblock.png',
     link: 'https://www.youtube.com/watch?feature=youtu.be&v=GzL4WqgetIY&app=desktop',
-  },
-  {
-    src: '/images/press-logo/borislee.png',
-    link: 'http://www.borislee.hk/2018-01/media/how-blockchain-and-token-sales-help-new-media-get-income/',
   },
 ];
 
