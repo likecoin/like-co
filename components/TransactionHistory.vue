@@ -54,7 +54,7 @@
                 v-if="isTxFailed(tx)"
                 :src="ErrorIcon" />
               <div
-                v-else-if="isFromBonus(tx)">
+                v-else-if="isFromPreSaleBonus(tx)">
                 <img :src="LockIcon" />
                 <md-tooltip>
                   {{ $t('TransactionHistory.label.lockUntilDate', { date: BONUS_LOCK_UNTIL_DATE })}}
@@ -102,12 +102,13 @@ import {
   ONE_LIKE,
   TRANSACTION_QUERY_LIMIT,
   BONUS_LOCK_UNTIL_DATE,
+  BONUS_ADDRESS,
 } from '@/constant';
 import {
   LIKE_COIN_ICO_ADDRESS,
   LIKE_COIN_PRESALE_ADDRESS,
   LIKE_COIN_PRESALE_FROM_ADDRESS,
-  LIKE_COIN_BONUS_FROM_ADDRESS,
+  LIKE_COIN_PRESALE_BONUS_FROM_ADDRESS,
 } from '@/constant/contract/likecoin-ico';
 
 function getLikeCoinByETH(eth) {
@@ -165,7 +166,7 @@ export default {
       'queryTxHistoryByAddr',
     ]),
     getStatus(tx) {
-      if (this.isFromBonus(tx) || this.isFromPresale(tx)) return 'earlybird';
+      if (this.isFromPreSaleBonus(tx) || this.isFromPresale(tx)) return 'earlybird';
       if (this.isTokensale(tx)) return 'tokensale';
       if (this.isPresale(tx)) return 'earlybird';
       if (this.isTxFailed(tx)) return 'fail';
@@ -192,7 +193,8 @@ export default {
     },
     getFromToId(tx) {
       if (this.isFromPresale(tx)) return 'presale';
-      if (this.isFromBonus(tx)) return 'presalebonus';
+      if (this.isFromBonus(tx)) return 'bonus';
+      if (this.isFromPreSaleBonus(tx)) return 'presalebonus';
       if (this.isPresale(tx)) return 'earlybird';
       if (this.isTokensale(tx)) return 'tokensale';
       if (tx.type === 'claimCoupon') return 'coupon';
@@ -213,7 +215,10 @@ export default {
       return tx.from === LIKE_COIN_PRESALE_FROM_ADDRESS;
     },
     isFromBonus(tx) {
-      return tx.from === LIKE_COIN_BONUS_FROM_ADDRESS;
+      return tx.from === BONUS_ADDRESS;
+    },
+    isFromPreSaleBonus(tx) {
+      return tx.from === LIKE_COIN_PRESALE_BONUS_FROM_ADDRESS;
     },
     isPresale(tx) {
       return tx.to === LIKE_COIN_PRESALE_ADDRESS;
