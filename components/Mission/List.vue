@@ -127,7 +127,7 @@ ul {
 
       .mission-list.large:not(.grid) & {
         box-sizing: content-box;
-        min-width: 188px;
+        width: 188px;
       }
 
       .large.grid & {
@@ -145,11 +145,11 @@ ul {
           width: 1 / 3 * 100%;
         }
 
-        @media (max-width: 732px) {
+        @media (max-width: 712px) {
           width: 1 / 2 * 100%;
         }
 
-        @media (max-width: 472px) {
+        @media (max-width: 600px) {
           width: 100%;
         }
       }
