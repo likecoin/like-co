@@ -134,7 +134,6 @@ module.exports = {
   */
   build: {
     scopeHoisting: true,
-    extractCSS: true,
     postcss: {
       plugins: {
         'postcss-import': {},
