@@ -1,56 +1,35 @@
 <template>
-  <md-dialog
-    class="input-dialog"
-    :md-active.sync="showDialog"
-    :md-close-on-esc="false"
-    :md-click-outside-to-close="false"
-    :md-fullscreen="false">
-    <div class="title-bar" />
-    <div class="dialog-content">
-      <md-dialog-title v-if="title">
-        {{ title }}
-      </md-dialog-title>
+  <base-dialog ref="dialog" class="input-dialog">
 
-      <md-dialog-content v-if="content">
-        <span class="span-dialog-content" v-html="content" />
-      </md-dialog-content>
+    <h1
+      v-if="title"
+      class="lc-margin-bottom-16 lc-font-size-32 lc-font-weight-400 lc-color-like-dark-brown-1 lc-mobile">
+      {{ title }}
+    </h1>
 
-      <form id="dialogForm" @keydown.esc="onCancel" @submit.prevent="onConfirm">
-        <md-dialog-content>
-          <md-field>
-            <label>
-              {{ label }}
-            </label>
-            <md-input
-              :type="type"
-              v-model="inputText"
-              required />
-          </md-field>
+    <p
+      v-if="content"
+      class="lc-margin-bottom-16 lc-font-size-14 lc-font-weight-400 lc-color-like-green"
+      v-html="content" />
 
-          <span class="span-md-field-hint" v-if="getInfoIsError && getInfoMsg">
-            <md-icon>error</md-icon>
-            Error: {{ getInfoMsg }}
-          </span>
-        </md-dialog-content>
+    <single-input-form
+      ref="form"
+      :type="type"
+      :text="text"
+      :label="label"
+      :errorText="getInfoIsError ? getInfoMsg : ''"
+      @cancel="onCancel"
+      @submit="onSubmit"/>
 
-        <section>
-          <material-button id="btn-confirm" type="submit" form="dialogForm">
-            {{ $t('General.button.confirm') }}
-          </material-button>
-          <material-button id="btn-cancel" @click="onCancel" form="dialogForm">
-            {{ $t('General.button.cancel') }}
-          </material-button>
-        </section>
-      </form>
-    </div>
-
-  </md-dialog>
+  </base-dialog>
 </template>
+
 
 <script>
 import { mapGetters } from 'vuex';
 
-import MaterialButton from '@/components/MaterialButton';
+import BaseDialog from '~/components/dialogs/BaseDialog';
+import SingleInputForm from '@/components/forms/SingleInputForm';
 
 export default {
   name: 'input-dialog',
@@ -72,13 +51,8 @@ export default {
     },
   },
   components: {
-    MaterialButton,
-  },
-  data() {
-    return {
-      showDialog: false,
-      inputText: '',
-    };
+    BaseDialog,
+    SingleInputForm,
   },
   computed: {
     ...mapGetters([
@@ -88,46 +62,12 @@ export default {
   },
   methods: {
     onCancel() {
-      this.showDialog = false;
+      this.$refs.dialog.hide();
     },
-    onConfirm() {
-      this.$emit('confirm', this.inputText);
-    },
-    onInputText() {
-      this.showDialog = true;
-      this.inputText = this.text;
+    onSubmit(value) {
+      this.$refs.dialog.hide();
+      this.$emit('submit', value);
     },
   },
 };
 </script>
-
-<style lang="scss" scoped>
-@import "~assets/variables";
-@import "~assets/dialog";
-
-.input-dialog {
-  .title-bar {
-    background-image: linear-gradient(252deg, $like-light-blue, $like-gradient-1);
-  }
-
-  .span-dialog-content {
-    color: $like-green;
-  }
-
-  .span-md-field-hint {
-    font-size: 10px;
-    color: $like-red;
-  }
-
-  #dialogForm {
-    > section {
-      display: flex;
-      flex-direction: column;
-
-      #btn-cancel {
-        background-color: $like-gradient-3;
-      }
-    }
-  }
-}
-</style>

@@ -68,12 +68,13 @@
 
           <input-dialog
             ref="inputDialog"
-            :text="email"
             type="email"
+            :pattern="W3C_EMAIL_REGEX"
+            :text="email"
             :title="$t('Dialog.emailInput.title')"
             :content="$t('Dialog.emailInput.content')"
             :label="$t('Dialog.emailInput.label')"
-            @confirm="onInputDialogConfirm" />
+            @submit="onInputDialogConfirm" />
 
           <div class="lc-container-3">
             <div class="lc-container-4">
@@ -468,7 +469,6 @@ export default {
         };
         const data = await User.formatAndSignUserInfo(userInfo, this.$t('Sign.Message.editUser'));
         await this.newUser(data);
-        this.$refs.inputDialog.showDialog = false;
         this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${this.user}">${this.$t('Register.form.label.viewPage')}</a>`);
         this.refreshUserInfo(this.user);
         this.isProfileEdit = false;
@@ -490,7 +490,7 @@ export default {
       }
       logTrackerEvent(this, 'RegFlow', 'ClickGetFreeLikeCoin', 'click get free likecoin', 1);
       if (!this.getUserInfo.isEmailVerified) {
-        this.$refs.inputDialog.onInputText();
+        this.$refs.inputDialog.show();
       }
     },
     onClickBuyLikeCoin() {
@@ -501,7 +501,7 @@ export default {
         this.email = inputText;
         await this.onSubmitEdit();
       }
-      this.$refs.inputDialog.showDialog = false;
+      this.$refs.inputDialog.hide();
       if (!this.getUserInfo.isEmailVerified) {
         return this.onVerifyEmail();
       }
@@ -530,7 +530,7 @@ export default {
         this.$router.push({ name: 'in-register' });
       } else {
         if (this.$route.params.showEmail && !this.getUserInfo.isEmailVerified) {
-          this.$nextTick(() => this.$refs.inputDialog.onInputText());
+          this.$nextTick(() => this.$refs.inputDialog.show());
         }
         this.updateInfo();
       }
