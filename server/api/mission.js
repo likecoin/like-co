@@ -40,14 +40,19 @@ async function checkAlreadyDone(m, { u, doneList }) {
       if (user.isEmailVerified) isDone = true;
       break;
     }
+    case 'inviteFriend': {
+      const query = await u.ref.collection('referrals').where('isEmailVerified', '==', true).get();
+      if (query.docs.length) isDone = true;
+      break;
+    }
     default: return false;
   }
   if (!isDone) return false;
   const payload = { done: true };
   doneList.push(id);
-  if (!mission.reward) payload.bonusId = 'none';
+  if (!mission.reward || mission.staying) payload.bonusId = 'none';
   await dbRef.doc(username).collection('mission').doc(id).set(payload, { merge: true });
-  return (mission.staying || !mission.reward);
+  return (!mission.staying && !mission.reward);
 }
 
 router.get('/mission/list/:id', async (req, res) => {
