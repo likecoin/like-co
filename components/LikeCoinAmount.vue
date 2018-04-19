@@ -2,7 +2,7 @@
   <section class="likecoin-amount-section">
     <div id="likecoin-amount">
       <div :class="['title', 'lc-font-size-14', { 'text-opaque': isOpaque }]">
-        {{ $t('Edit.label.likeCoinAmount') }}
+        {{ amountText || $t('Edit.label.likeCoinAmount') }}
       </div>
       <div
         :class="[
@@ -43,7 +43,7 @@ import MaterialButton from '~/components/MaterialButton';
 
 export default {
   name: 'like-coin-amount',
-  props: ['value', 'isOpaque', 'linkHref', 'linkText'],
+  props: ['value', 'isOpaque', 'linkHref', 'linkText', 'amountText'],
   components: {
     MaterialButton,
   },

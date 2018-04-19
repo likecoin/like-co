@@ -16,6 +16,7 @@
 
           <like-coin-amount
             class="likecoin-amount-section lc-padding-bottom-0-mobile lc-margin-top-32"
+            :amountText="$t('BonusPage.label.earned')"
             :value="likeCoinAmountStr" />
 
           <div class="lc-container-3">
@@ -55,14 +56,9 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import BigNumber from 'bignumber.js';
 
 import MissionDialog from '@/components/dialogs/MissionDialog';
 import LikeCoinAmount from '@/components/LikeCoinAmount';
-
-import EthHelper from '@/util/EthHelper';
-
-import { ONE_LIKE } from '@/constant';
 
 export default {
   name: 'bonus-page',
@@ -108,6 +104,7 @@ export default {
   methods: {
     ...mapActions([
       'refreshMissionList',
+      'fetchUserTotalBonus',
     ]),
     async updateInfo() {
       this.updateLikeCoin();
@@ -115,8 +112,7 @@ export default {
     },
     async updateLikeCoin() {
       try {
-        const balance = await EthHelper.queryLikeCoinBalance(this.wallet);
-        this.likeCoinAmountStr = new BigNumber(balance).dividedBy(ONE_LIKE).toFixed(4);
+        this.likeCoinAmountStr = await this.fetchUserTotalBonus(this.getUserInfo.user);
       } catch (err) {
         console.log(err);
       }

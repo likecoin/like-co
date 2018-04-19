@@ -17,6 +17,8 @@ export const apiGetTxFromByAddr = addr => axios.get(`/api/tx/addr/from/${addr}`)
 
 export const apiGetReferralById = id => axios.get(`/api/users/referral/${id}`);
 
+export const apiGetTotalBonusById = id => axios.get(`/api/users/bonus/${id}`);
+
 export const apiCheckCoupon = code => axios.get(`/api/coupon/coupon/${code}`);
 
 export const apiClaimCoupon = (coupon, to) => {

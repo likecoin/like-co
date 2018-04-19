@@ -775,7 +775,8 @@
     },
     "label": {
       "description": "You and your friend can both earn a LikeCoin coupon when you successfully invite a friend to sign up using your affiliate link. Please note that your friend's account email needs to be verified for you and your friend to earn the coupons.",
-      "inviteeMissionDescription": "You and your invitees can both recive LikeCoin when they complete a mission"
+      "inviteeMissionDescription": "You and your invitees can both recive LikeCoin when they complete a mission",
+      "earned": "LikeCoin earned"
     },
     "button": {
       "moreBonus": "More Bonus"
