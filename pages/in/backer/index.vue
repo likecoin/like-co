@@ -86,6 +86,7 @@
 
     <verify-email-dialog
       ref="emailDialog"
+      :email="this.getUserInfo.email || ''"
       :email-ref="'in-backer'" />
 
   </div>
@@ -118,7 +119,7 @@ export default {
   },
   methods: {
     onNeedEmailVerify() {
-      if (this.getUserIsRegistered) this.$refs.emailDialog.show(this.getUserInfo.email || '');
+      if (this.getUserIsRegistered) this.$refs.emailDialog.show();
     },
   },
   head() {

@@ -21,7 +21,7 @@ import User from '@/util/User';
 import { W3C_EMAIL_REGEX } from '@/constant';
 
 export default {
-  name: 'email-form',
+  name: 'verify-email-form',
   props: {
     formId: {
       type: String,
@@ -77,7 +77,6 @@ export default {
     },
     async onSubmit(inputText) {
       if (this.email !== inputText) {
-        this.email = inputText;
         await this.updateEmail();
       }
 

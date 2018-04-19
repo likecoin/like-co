@@ -33,7 +33,7 @@ import VerifyEmailForm from '~/components/forms/VerifyEmailForm';
 import { logTrackerEvent } from '@/util/EventLogger';
 
 export default {
-  name: 'email-dialog',
+  name: 'verify-email-dialog',
   props: {
     emailRef: {
       default: '',
@@ -43,15 +43,9 @@ export default {
     BaseDialog,
     VerifyEmailForm,
   },
-  data() {
-    return {
-      email: '',
-    };
-  },
   methods: {
-    show(email) {
-      if (email) this.email = email;
-      this.$nextTick(() => this.$refs.dialog.show());
+    show() {
+      this.$refs.dialog.show();
     },
     hide() {
       this.$refs.dialog.hide();
