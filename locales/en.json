@@ -584,6 +584,23 @@
       "title": "Please Verify your email",
       "content": "Please provide and verify your email.",
       "label": "Your email address"
+    },
+    "trust": {
+      "title": {
+        "switchTrust": "Wallet app required",
+        "switchRinkeby": "Please switch to Rinkeby network",
+        "switchMain": "Please switch to Main network"
+      },
+      "description": {
+        "switchTrust": "like.co requires ETH Wallet to work. Please install or switch to Trust Wallet App.",
+        "switchRinkeby": "like.co requires Rinkeby to work. Please switch to the correct network.",
+        "switchMain": "like.co requires Main to work. Please switch to the correct network.",
+        "switchMainCaption": "Switch to Mainnet by:<br>Settings > Nerwork > Ethereum (ETH)",
+        "switchRinkebyCaption": "Switch to Rinkeby by:<br>Settings > Nerwork > Rinkeby (ETH)"
+      },
+      "button": {
+        "openWithTrust": "Open With Trust"
+      }
     }
   },
   "Toolbar": {
