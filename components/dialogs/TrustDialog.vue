@@ -1,6 +1,6 @@
 <template>
   <base-dialog
-    :isShowDialog="isShowDialog"
+    ref="base"
     :mdProps="{
       mdClickOutsideToClose: false,
       mdCloseOnEsc: false,
@@ -53,10 +53,12 @@ import TrustMainImage from '@/assets/icons/trust/trust_main.png';
 import TrustRinkebyImage from '@/assets/icons/trust/trust_rinkeby.jpg';
 
 import LanguageSwitch from '@/components/LanguageSwitch';
+import { TRUST_URL } from '@/constant';
 import BaseDialog from './BaseDialog';
 
 export default {
-  name: 'PopupDialog',
+  name: 'TrustDialog',
+  props: ['case', 'webThreeType'],
   components: {
     BaseDialog,
     LanguageSwitch,
@@ -65,11 +67,15 @@ export default {
     return {
       TrustIcon,
       isShowDialog: true,
-      isMain: false,
-      isTrust: false,
     };
   },
   computed: {
+    isMain() {
+      return this.case !== 'testnet';
+    },
+    isTrust() {
+      return this.webThreeType === 'window';
+    },
     title() {
       if (!this.isTrust) return this.$t('Dialog.trust.title.switchTrust');
       return this.$t(`Dialog.trust.title.switch${this.isMain ? 'Main' : 'Rinkeby'}`);
@@ -103,12 +109,11 @@ export default {
   },
   methods: {
     openTrust() {
-      // TODO: open with trust (using deep link probably)
-      // TODO: log event
+      global.window.open(TRUST_URL);
     },
   },
   mounted() {
-    // TODO: log any events?
+    this.$nextTick(() => this.$refs.base.show());
   },
 };
 </script>

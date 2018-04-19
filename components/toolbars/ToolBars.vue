@@ -14,13 +14,21 @@
         :message="getPopupInfo" />
 
       <div v-if="checkShouldShowError(getMetamaskError)">
-        <chrome-dialog
-          v-if="shouldShowChromeDialog"
-          :show="shouldShowChromeDialog" />
-        <metamask-dialog
-          v-else-if="!!getMetamaskError"
-          :case="getMetamaskError"
-          :webThreeType="getWeb3Type" />
+        <div v-if="checkIsMobile()">
+          <trust-dialog
+            v-if="!!getMetamaskError"
+            :case="getMetamaskError"
+            :webThreeType="getWeb3Type"/>
+        </div>
+        <div v-else>
+          <chrome-dialog
+            v-if="shouldShowChromeDialog"
+            :show="shouldShowChromeDialog" />
+          <metamask-dialog
+            v-else-if="!!getMetamaskError"
+            :case="getMetamaskError"
+            :webThreeType="getWeb3Type" />
+        </div>
       </div>
 
       <blocker-dialog :show="getIsPopupBlocking"/>
@@ -33,8 +41,6 @@
         :txDialogActionRoute="getTxDialogActionRoute"
         :txDialogActionText="getTxDialogActionText"
         @onClose="closeTxDialog" />
-
-      <trust-dialog />
 
       <loading-toolbar
         :isLoading="getIsLoading"
@@ -128,12 +134,19 @@ export default {
       if (Array.isArray(this.disableError)) return !this.disableError.includes(err);
       return true;
     },
-    checkIsDesktopChrome() {
-      const ua = window.navigator.userAgent;
-      const uv = window.navigator.vendor;
+    checkIsMobile() {
+      if (!global.window) return false;
+      const ua = global.window.navigator.userAgent;
       if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)) {
-        return false;
+        return true;
       }
+      return false;
+    },
+    checkIsDesktopChrome() {
+      if (!global.window) return false;
+      const ua = global.window.navigator.userAgent;
+      const uv = global.window.navigator.vendor;
+      if (this.checkIsMobile()) return false;
       return (/Chrome/i.test(ua) && /Google/i.test(uv)) && !(/OPR/i.test(ua));
     },
   },
