@@ -20,7 +20,7 @@ $title-bar-height: 48px;
     .dialog-content {
       display: flex;
       flex-direction: column;
-      padding: #{$title-bar-height + 8px} 32px 32px;
+      padding: #{$title-bar-height + 8px} 16px 32px;
 
       @media (max-width: 600px) {
         padding-left: 12px;
@@ -99,7 +99,7 @@ $title-bar-height: 48px;
 }
 
 .foxy {
-  position: fixed;
+  position: absolute;
   top: -50px;
   z-index: 999;
   left: calc(50% - 55px);
