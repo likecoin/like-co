@@ -25,7 +25,9 @@
         <md-dialog-content class="md-dialog-content">
           <div class="mission-dialog-content">
 
-            <div class="reward-label">{{ getPopupMission.reward }}</div>
+            <div class="reward-label">
+              {{ getPopupMission.isReferral ? getPopupMission.referralReward : getPopupMission.reward }}
+            </div>
 
             <h1 class="title-label">{{ title }}</h1>
 
@@ -67,11 +69,11 @@
 
             <!-- BEGIN - Verify Email Section -->
             <div
-              v-if="getPopupMission.id === 'verifyEmail'"
+              v-else-if="!getPopupMission.isReferral && getPopupMission.id === 'verifyEmail'"
               class="verify-email-form">
 
               <md-field class="md-likecoin">
-                <label>Invite your friend by email</label>
+                <label>{{ $t('Mission.verifyEmail.label.yourEmailAddress') }}</label>
                 <md-input v-model="inline"></md-input>
               </md-field>
 
@@ -79,7 +81,7 @@
                 <md-button class="md-likecoin">
                   {{ $t('General.button.confirm') }}
                 </md-button>
-                <br/>
+                <br>
                 <md-button
                   class="md-likecoin lc-cancel"
                   @click="onDismiss">
@@ -90,6 +92,24 @@
             </div>
             <!-- END - Verify Email Section -->
 
+
+            <!-- BEGIN - Invitee Verify Email Section -->
+            <div
+              v-else-if="getPopupMission.isReferral && getPopupMission.id === 'verifyEmail'"
+              class="verify-email-form">
+
+              <div class="lc-button-group">
+                <md-button
+                  class="md-likecoin"
+                  @click="onDismiss">
+                  {{ $t('General.button.ok') }}
+                </md-button>
+              </div>
+
+            </div>
+            <!-- END - Verify Email Section -->
+
+
             <!-- BEGIN - Invite Friend Section -->
             <invite-friend-form
               v-else-if="getPopupMission.id === 'inviteFriend'"
@@ -99,7 +119,7 @@
 
             <!-- BEGIN - Join Token Sale Section -->
             <div
-              v-else-if="getPopupMission.id === 'joinTokenSale'"
+              v-else-if="!getPopupMission.isReferral && getPopupMission.id === 'joinTokenSale'"
               class="join-tokensale-form">
 
               <div class="lc-button-group">
@@ -117,6 +137,37 @@
             </div>
             <!-- END - Join Token Sale Section -->
 
+            <!-- BEGIN - Invitee Join Token Sale Section -->
+            <div
+              v-else-if="getPopupMission.isReferral && getPopupMission.id === 'joinTokenSale'"
+              class="join-tokensale-form">
+
+              <div class="lc-button-group">
+                <md-button
+                  class="md-likecoin"
+                  @click="onDismiss">
+                  {{ $t('General.button.ok') }}
+                </md-button>
+              </div>
+
+            </div>
+            <!-- END - Join Token Sale Section -->
+
+            <!-- BEGIN - Invite Token Sale Section -->
+            <div
+              v-else-if="getPopupMission.id === 'inviteTokenSale'"
+              class="invite-tokensale-form">
+
+              <div class="lc-button-group">
+                <md-button
+                  class="md-likecoin"
+                  @click="onDismiss">
+                  {{ $t('General.button.ok') }}
+                </md-button>
+              </div>
+
+            </div>
+            <!-- END - Invite Token Sale Section -->
           </div>
         </md-dialog-content>
     </md-dialog>
@@ -162,7 +213,9 @@ export default {
       return this.$t(`Mission.${this.getPopupMission.id}.title`);
     },
     description() {
-      return this.$t(`Mission.${this.getPopupMission.id}.description`);
+      const { id, invitee, isReferral } = this.getPopupMission;
+      const referralPostfix = isReferral ? 'Referral' : '';
+      return this.$t(`Mission.${id}${referralPostfix}.description`, { invitee });
     },
   },
   methods: {
@@ -258,6 +311,11 @@ $mobile-icon-size: 72px;
 
   :global(.md-dialog-container) {
     overflow: visible;
+  }
+
+  :global(.bold) {
+    font-weight: 600;
+    color: $like-green;
   }
 }
 
@@ -364,4 +422,5 @@ header {
     margin-bottom: 32px;
   }
 }
+
 </style>
