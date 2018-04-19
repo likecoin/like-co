@@ -162,7 +162,7 @@
 import { mapActions, mapGetters } from 'vuex';
 
 import BaseDialog from '~/components/dialogs/BaseDialog';
-import InviteFriendForm from '~/components/InviteFriendForm';
+import InviteFriendForm from '~/components/forms/InviteFriendForm';
 import MissionIcon from '~/components/Mission/Icon';
 import TaskList from '~/components/Mission/TaskList';
 
