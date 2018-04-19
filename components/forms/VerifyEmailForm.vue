@@ -62,12 +62,12 @@ export default {
       'setInfoMsg',
       'sendVerifyEmail',
     ]),
-    async updateEmail() {
+    async updateEmail(newEmail) {
       const userInfo = {
         user: this.getUserInfo.user,
         displayName: this.getUserInfo.displayName,
         wallet: this.getUserInfo.wallet,
-        email: this.email,
+        email: newEmail,
       };
       const data = await User.formatAndSignUserInfo(userInfo, this.$t('Sign.Message.signKYC'));
       return this.newUser(data);
@@ -79,7 +79,7 @@ export default {
       this.$emit('submit', inputText);
 
       if (this.email !== inputText) {
-        await this.updateEmail();
+        await this.updateEmail(inputText);
       }
 
       await this.sendVerifyEmail({ id: this.getUserInfo.user, ref: this.emailRef || '' });
