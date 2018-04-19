@@ -50,7 +50,7 @@ export default {
       'getUserInfo',
     ]),
     title() {
-      return this.$t(`This.mission.${this.mission.id}.title`);
+      return this.$t(`Mission.${this.mission.id}.title`);
     },
     isNew() {
       if (this.isReferral) {
