@@ -16,7 +16,7 @@
               <md-input
                 v-model="user"
                 pattern="[a-z0-9-_]{7,20}"
-                @change="user=user.toLowerCase()"
+                @change="user=user.toLowerCase().trim()"
                 :disabled="isEdit"
                 :title="$t('Register.form.error.alphanumeric')"
                 required />
@@ -42,6 +42,7 @@
               <md-input
                 :pattern="W3C_EMAIL_REGEX"
                 v-model="email"
+                @change="email=email.trim()"
                 :title="$t('Register.form.error.emailFormat')"
               />
             </md-field>
