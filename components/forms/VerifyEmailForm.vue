@@ -76,14 +76,14 @@ export default {
       this.$emit('cancel');
     },
     async onSubmit(inputText) {
+      this.$emit('submit', inputText);
+
       if (this.email !== inputText) {
         await this.updateEmail();
       }
 
       await this.sendVerifyEmail({ id: this.getUserInfo.user, ref: this.emailRef || '' });
       this.setInfoMsg(this.$t('Edit.label.verifying'));
-
-      this.$emit('submit', this.inputText);
     },
   },
 };

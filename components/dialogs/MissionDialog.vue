@@ -195,8 +195,15 @@ export default {
   },
   methods: {
     ...mapActions([]),
+    show() {
+      this.$refs.dialog.show();
+    },
+    hide() {
+      this.$refs.dialog.hide();
+    },
     onVerifyEmail() {
       // TODO
+      this.hide();
     },
     onInviteFriend(type) {
       switch (type) {
@@ -260,12 +267,12 @@ export default {
       }
     },
     onDismiss() {
-      this.$refs.dialog.hide();
+      this.hide();
     },
   },
   watch: {
     getPopupMission(m) {
-      if (m) this.$refs.dialog.show();
+      if (m) this.show();
     },
   },
 };
