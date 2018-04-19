@@ -1,5 +1,4 @@
 @import "variables";
-@import "~vue-material/dist/vue-material.min"; // Hack to work around text extract order
 @import "~vue-material/dist/theme/engine"; // Import the theme engine
 
 @include md-register-theme("default", (

@@ -85,7 +85,7 @@ export default {
         }
       }
     },
-    async onDirectClaimCoupon({ wallet: claimWallet, coupon: claimCoupon }) {
+    async onDirectClaimCoupon({ wallet: claimWallet, coupon: claimCoupon } = {}) {
       const wallet = claimWallet || this.wallet;
       const coupon = claimCoupon || this.couponCode;
       this.showDialog = false;
