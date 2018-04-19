@@ -55,22 +55,12 @@
               v-else-if="!getPopupMission.isReferral && getPopupMission.id === 'verifyEmail'"
               class="verify-email-form">
 
-              <md-field class="md-likecoin">
-                <label>{{ $t('Mission.verifyEmail.label.yourEmailAddress') }}</label>
-                <md-input v-model="inline"></md-input>
-              </md-field>
-
-              <div class="lc-button-group">
-                <md-button class="md-likecoin">
-                  {{ $t('General.button.confirm') }}
-                </md-button>
-                <br>
-                <md-button
-                  class="md-likecoin lc-cancel"
-                  @click="onDismiss">
-                  {{ $t('General.button.cancel') }}
-                </md-button>
-              </div>
+              <verify-email-form
+                ref="form"
+                :email="this.getUserInfo.email"
+                :label="$t('Dialog.emailInput.label')"
+                @cancel="onDismiss"
+                @submit="onVerifyEmail"/>
 
             </div>
             <!-- END - Verify Email Section -->
@@ -163,6 +153,7 @@ import { mapActions, mapGetters } from 'vuex';
 
 import BaseDialog from '~/components/dialogs/BaseDialog';
 import InviteFriendForm from '~/components/forms/InviteFriendForm';
+import VerifyEmailForm from '~/components/forms/VerifyEmailForm';
 import MissionIcon from '~/components/Mission/Icon';
 import TaskList from '~/components/Mission/TaskList';
 
@@ -177,6 +168,7 @@ export default {
   components: {
     BaseDialog,
     InviteFriendForm,
+    VerifyEmailForm,
     MissionIcon,
     TaskList,
   },
@@ -203,6 +195,9 @@ export default {
   },
   methods: {
     ...mapActions([]),
+    onVerifyEmail() {
+      // TODO
+    },
     onInviteFriend(type) {
       switch (type) {
         case 'email':
