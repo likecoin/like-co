@@ -197,7 +197,9 @@ export default {
     },
   },
   methods: {
-    ...mapActions([]),
+    ...mapActions([
+      'postStepMission',
+    ]),
     show() {
       this.$refs.dialog.show();
     },
@@ -208,11 +210,6 @@ export default {
       // TODO
       this.hide();
     },
-  },
-  methods: {
-    ...mapActions([
-      'postStepMission',
-    ]),
     onInviteFriend(type) {
       switch (type) {
         case 'email':
