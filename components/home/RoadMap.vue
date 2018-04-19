@@ -131,7 +131,7 @@ $progress-bar-percentage: 43%;
     .milestone {
       flex: 1;
 
-      min-width: 96px;
+      min-width: 110px;
 
       color: $like-dark-brown-1;
 
@@ -160,6 +160,15 @@ $progress-bar-percentage: 43%;
           &.active {
             background-color: $like-green;
           }
+        }
+      }
+
+      @media (min-width: #{860px + 1px}) {
+        .date {
+          display: flex;
+          align-items: flex-end;
+
+          min-height: 48px;
         }
       }
 
@@ -232,7 +241,7 @@ $progress-bar-percentage: 43%;
 
           .date,
           .event {
-            width: 130px;
+            width: 136px;
             margin-top: -4px;
           }
 
