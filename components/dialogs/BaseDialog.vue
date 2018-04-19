@@ -108,6 +108,8 @@ $lc-dialog-icon-size-small: 72px;
 
   min-height: $lc-dialog-header-height;
 
+  padding: 0 8px;
+
   &::before {
     position: absolute;
     top: 0;

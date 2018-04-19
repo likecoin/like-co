@@ -34,6 +34,8 @@
         :txDialogActionText="getTxDialogActionText"
         @onClose="closeTxDialog" />
 
+      <trust-dialog />
+
       <loading-toolbar
         :isLoading="getIsLoading"
         :isInTransaction="getIsInTransaction" />
@@ -62,28 +64,33 @@
   </no-ssr>
 </template>
 <script>
-import InfoToolbar from '~/components/toolbars/InfoToolbar';
-import TxToolbar from '~/components/toolbars/TxToolbar';
-import LoadingToolbar from '~/components/toolbars/LoadingToolbar';
-import PopupDialog from '~/components/dialogs/PopupDialog';
-import BlockerDialog from '~/components/dialogs/BlockerDialog';
-import MetamaskDialog from '~/components/dialogs/MetamaskDialog';
-import ChromeDialog from '~/components/dialogs/ChromeDialog';
-import TxDialog from '~/components/dialogs/TxDialog';
 import { mapActions, mapGetters } from 'vuex';
+
+import BlockerDialog from '~/components/dialogs/BlockerDialog';
+import ChromeDialog from '~/components/dialogs/ChromeDialog';
+import MetamaskDialog from '~/components/dialogs/MetamaskDialog';
+import PopupDialog from '~/components/dialogs/PopupDialog';
+import TrustDialog from '~/components/dialogs/TrustDialog';
+import TxDialog from '~/components/dialogs/TxDialog';
+
+import InfoToolbar from '~/components/toolbars/InfoToolbar';
+import LoadingToolbar from '~/components/toolbars/LoadingToolbar';
+import TxToolbar from '~/components/toolbars/TxToolbar';
 
 export default {
   name: 'ToolBars',
   props: ['disableError'],
   components: {
-    LoadingToolbar,
-    InfoToolbar,
-    TxToolbar,
-    PopupDialog,
     BlockerDialog,
-    MetamaskDialog,
     ChromeDialog,
+    MetamaskDialog,
+    PopupDialog,
+    TrustDialog,
     TxDialog,
+
+    InfoToolbar,
+    LoadingToolbar,
+    TxToolbar,
   },
   computed: {
     shouldShowChromeDialog() {
