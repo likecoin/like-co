@@ -227,13 +227,6 @@ export default {
       margin: 0;
 
       background-color: #3375bb;
-
-      /* styles to be removed after commit about .md-likecoin is merged */
-      min-width: 256px;
-      min-height: 40px;
-      font-size: 24px;
-      color: $like-white;
-      border-radius: 0;
     }
   }
 }
