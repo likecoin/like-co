@@ -3,7 +3,7 @@
     <base-dialog ref="dialog" class="with-icon">
 
       <div slot="header-center" class="lc-dialog-icon">
-        <mission-icon :mission-id="getPopupMission.id" />
+        <mission-icon :mission-id="missionId" />
       </div>
 
           <div class="mission-dialog-content">
@@ -36,7 +36,7 @@
 
             <!-- BEGIN - Verify Email Section -->
             <div
-              v-else-if="!getPopupMission.isReferral && getPopupMission.id === 'verifyEmail'"
+              v-else-if="!isReferral && missionId === 'verifyEmail'"
               class="verify-email-form">
 
               <verify-email-form
@@ -52,7 +52,7 @@
 
             <!-- BEGIN - Invitee Verify Email Section -->
             <div
-              v-else-if="getPopupMission.isReferral && getPopupMission.id === 'verifyEmail'"
+              v-else-if="isReferral && missionId === 'verifyEmail'"
               class="verify-email-form">
 
               <div class="lc-button-group">
@@ -76,7 +76,7 @@
 
             <!-- BEGIN - Join Token Sale Section -->
             <div
-              v-else-if="!getPopupMission.isReferral && getPopupMission.id === 'joinTokenSale' || 'refereeTokenSale'"
+              v-else-if="!isReferral && isJoinTokenSaleMission"
               class="join-tokensale-form">
 
               <div class="lc-button-group">
@@ -99,7 +99,7 @@
 
             <!-- BEGIN - Invitee Join Token Sale Section -->
             <div
-              v-else-if="getPopupMission.isReferral && getPopupMission.id === 'joinTokenSale' || 'refereeTokenSale'"
+              v-else-if="isReferral && isJoinTokenSaleMission"
               class="join-tokensale-form">
 
               <div class="lc-button-group">
@@ -115,7 +115,7 @@
 
             <!-- BEGIN - Invite Token Sale Section -->
             <div
-              v-else-if="getPopupMission.id === 'inviteTokenSale'"
+              v-else-if="missionId === 'inviteTokenSale'"
               class="invite-tokensale-form">
 
               <div class="lc-button-group">
@@ -166,6 +166,8 @@ export default {
       FacebookIcon,
       LinkIcon,
       TwitterIcon,
+      isReferral: false,
+      invitee: '',
     };
   },
   computed: {
@@ -181,12 +183,15 @@ export default {
       return this.$t(`Mission.${this.missionId}.title`);
     },
     description() {
-      const { id, invitee, isReferral } = this.getPopupMission;
-      const referralPostfix = isReferral ? 'Referral' : '';
-      return this.$t(`Mission.${id}${referralPostfix}.description`, { invitee });
+      const referralPostfix = this.isReferral ? 'Referral' : '';
+      const { invitee } = this;
+      return this.$t(`Mission.${this.missionId}${referralPostfix}.description`, { invitee });
     },
     missionId() {
       return this.mission.id;
+    },
+    isJoinTokenSaleMission() {
+      return (this.missionId === 'joinTokenSale' || this.missionId === 'refereeTokenSale');
     },
     getTasks() {
       return GETTING_STARTED_TASKS.map(id => ({
@@ -282,7 +287,12 @@ export default {
   },
   watch: {
     getPopupMission(m) {
-      if (m) this.show();
+      if (m) {
+        const { invitee, isReferral } = m;
+        this.invitee = invitee;
+        this.isReferral = isReferral;
+        this.show();
+      }
     },
   },
 };
