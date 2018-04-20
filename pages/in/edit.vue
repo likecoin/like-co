@@ -190,15 +190,11 @@
         </div>
 
         <div class="lc-container-2">
-          <div class="lc-container-3 lc-padding-vertical-32 lc-bg-gray-1">
-            <div class="lc-container-4">
-              <transaction-history
-                ref="txHistory"
-                :address="wallet"
-                :showTokensale="true"
-                />
-            </div>
-          </div>
+          <transaction-history
+            ref="txHistory"
+            :address="wallet"
+            :showTokensale="true"
+            />
         </div>
       </section>
     </div>
