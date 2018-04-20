@@ -628,7 +628,10 @@ $font-weight-list: 300 400 600;
 
 .md-button.md-likecoin {
   min-height: 40px;
-  line-height: 1;
+  line-height: 1.5;
+
+  white-space: normal;
+  height: auto;
 
   @media (min-width: 600px + 1px) {
     font-size: 24px;
