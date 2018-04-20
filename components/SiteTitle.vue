@@ -25,7 +25,7 @@ export default {
   },
   computed: {
     getToPage() {
-      return this.getUserIsRegistered ? 'in-edit' : 'index';
+      return this.getUserIsRegistered ? 'in' : 'index';
     },
     ...mapGetters([
       'getUserIsRegistered',
