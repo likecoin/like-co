@@ -131,6 +131,12 @@ export default {
       }
       return null;
     },
+    isAndroid() {
+      return /(android)/i.test(navigator.userAgent);
+    },
+    isIOS() {
+      return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    },
   },
   methods: {
     openTrust() {
@@ -138,16 +144,10 @@ export default {
       const currentURI = window.location.href;
       const url = `${TRUST_URL}${encodeURIComponent(currentURI)}`;
       if (this.isAndroid) {
-        window.open(`intent://browser?target=${currentURI}/#Intent;scheme=trust;package=com.wallet.crypto.trustapp;S.browser_fallback_url=${encodeURIComponent(url)};end`);
+        window.open(`intent://browser?target=${currentURI}/#Intent;scheme=trust;package=com.wallet.crypto.trustapp;S.browser_fallback_url=;end`);
       } else {
         window.open(url);
       }
-    },
-    isAndroid() {
-      return /(android)/i.test(navigator.userAgent);
-    },
-    isIOS() {
-      return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     },
     tryTrustInstalled() {
       if (this.$route.query.notrust) return;
@@ -159,7 +159,7 @@ export default {
             const url = new URL(currentURI, true);
             url.query.notrust = 'true';
             url.set('query', url.query);
-            // window.location.href = url.toString();
+            window.location.href = url.toString();
           } catch (err) {
             // invalid URL;
           }
