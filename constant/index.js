@@ -63,3 +63,5 @@ e.g. joinTokenSale also claims refereeTokenSale, so hideh refereeTokenSale */
 export const MERGED_MISSIONS = {
   refereeTokenSale: 'joinTokenSale',
 };
+
+export const TRUST_URL = 'https://eps2.app.link?openURL=';

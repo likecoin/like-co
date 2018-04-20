@@ -14,13 +14,21 @@
         :message="getPopupInfo" />
 
       <div v-if="checkShouldShowError(getMetamaskError)">
-        <chrome-dialog
-          v-if="shouldShowChromeDialog"
-          :show="shouldShowChromeDialog" />
-        <metamask-dialog
-          v-else-if="!!getMetamaskError"
-          :case="getMetamaskError"
-          :webThreeType="getWeb3Type" />
+        <div v-if="checkIsMobile()">
+          <trust-dialog
+            v-if="!!getMetamaskError"
+            :case="getMetamaskError"
+            :webThreeType="getWeb3Type"/>
+        </div>
+        <div v-else>
+          <chrome-dialog
+            v-if="shouldShowChromeDialog"
+            :show="shouldShowChromeDialog" />
+          <metamask-dialog
+            v-else-if="!!getMetamaskError"
+            :case="getMetamaskError"
+            :webThreeType="getWeb3Type" />
+        </div>
       </div>
 
       <blocker-dialog :show="getIsPopupBlocking"/>
@@ -62,28 +70,33 @@
   </no-ssr>
 </template>
 <script>
-import InfoToolbar from '~/components/toolbars/InfoToolbar';
-import TxToolbar from '~/components/toolbars/TxToolbar';
-import LoadingToolbar from '~/components/toolbars/LoadingToolbar';
-import PopupDialog from '~/components/dialogs/PopupDialog';
-import BlockerDialog from '~/components/dialogs/BlockerDialog';
-import MetamaskDialog from '~/components/dialogs/MetamaskDialog';
-import ChromeDialog from '~/components/dialogs/ChromeDialog';
-import TxDialog from '~/components/dialogs/TxDialog';
 import { mapActions, mapGetters } from 'vuex';
+
+import BlockerDialog from '~/components/dialogs/BlockerDialog';
+import ChromeDialog from '~/components/dialogs/ChromeDialog';
+import MetamaskDialog from '~/components/dialogs/MetamaskDialog';
+import PopupDialog from '~/components/dialogs/PopupDialog';
+import TrustDialog from '~/components/dialogs/TrustDialog';
+import TxDialog from '~/components/dialogs/TxDialog';
+
+import InfoToolbar from '~/components/toolbars/InfoToolbar';
+import LoadingToolbar from '~/components/toolbars/LoadingToolbar';
+import TxToolbar from '~/components/toolbars/TxToolbar';
 
 export default {
   name: 'ToolBars',
   props: ['disableError'],
   components: {
-    LoadingToolbar,
-    InfoToolbar,
-    TxToolbar,
-    PopupDialog,
     BlockerDialog,
-    MetamaskDialog,
     ChromeDialog,
+    MetamaskDialog,
+    PopupDialog,
+    TrustDialog,
     TxDialog,
+
+    InfoToolbar,
+    LoadingToolbar,
+    TxToolbar,
   },
   computed: {
     shouldShowChromeDialog() {
@@ -121,12 +134,19 @@ export default {
       if (Array.isArray(this.disableError)) return !this.disableError.includes(err);
       return true;
     },
-    checkIsDesktopChrome() {
-      const ua = window.navigator.userAgent;
-      const uv = window.navigator.vendor;
+    checkIsMobile() {
+      if (!global.window) return false;
+      const ua = global.window.navigator.userAgent;
       if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)) {
-        return false;
+        return true;
       }
+      return false;
+    },
+    checkIsDesktopChrome() {
+      if (!global.window) return false;
+      const ua = global.window.navigator.userAgent;
+      const uv = global.window.navigator.vendor;
+      if (this.checkIsMobile()) return false;
       return (/Chrome/i.test(ua) && /Google/i.test(uv)) && !(/OPR/i.test(ua));
     },
   },

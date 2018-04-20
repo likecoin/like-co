@@ -85,17 +85,25 @@ $lc-dialog-header-height: 48px;
 $lc-dialog-icon-size: 110px;
 $lc-dialog-icon-size-small: 72px;
 
+$lc-dialog-border-radius: 8px;
+
 .lc-dialog {
   overflow: visible;
 
-  max-width: 450px;
-
-  @media (min-width: 600px + 1px) {
-    border-radius: 8px;
-  }
-
   :global(.md-dialog-container) {
     overflow: visible;
+  }
+
+  &:not(.md-dialog-fullscreen) {
+    border-radius: $lc-dialog-border-radius;
+  }
+
+  @media (min-width: 600px + 1px) {
+    max-width: 450px;
+
+    &.md-dialog-fullscreen {
+      border-radius: $lc-dialog-border-radius;
+    }
   }
 }
 
@@ -107,6 +115,8 @@ $lc-dialog-icon-size-small: 72px;
   justify-content: space-between;
 
   min-height: $lc-dialog-header-height;
+
+  padding: 0 8px;
 
   &::before {
     position: absolute;
@@ -120,9 +130,16 @@ $lc-dialog-icon-size-small: 72px;
 
     background-image: linear-gradient(252deg, #d2f0f0, #f0e6b4);
 
+    .lc-dialog:not(.md-dialog-fullscreen) & {
+      border-top-left-radius: $lc-dialog-border-radius;
+      border-top-right-radius: $lc-dialog-border-radius;
+    }
+
     @media (min-width: 600px + 1px) {
-      border-top-left-radius: 8px;
-      border-top-right-radius: 8px;
+      .lc-dialog.md-dialog-fullscreen & {
+        border-top-left-radius: $lc-dialog-border-radius;
+        border-top-right-radius: $lc-dialog-border-radius;
+      }
     }
   }
 }
