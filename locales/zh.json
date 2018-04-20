@@ -543,7 +543,7 @@
     },
     "chrome": {
       "title": "需使用電腦版 Chrome 瀏覽器",
-      "content": "like.co 需宜用支援以太坊加密貨幣錢包 MetaMask 的瀏覽器。<br />請使用電腦版 Chrome 瀏覽器並安裝 MetaMask 插件",
+      "content": "like.co 需要用支援以太坊加密貨幣錢包 MetaMask 的瀏覽器。<br />請使用電腦版 Chrome 瀏覽器並安裝 MetaMask 插件",
       "button": {
         "install": "安裝 Chrome"
       }

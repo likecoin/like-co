@@ -207,11 +207,18 @@
         "second": "Sekunde | Sekunden"
     },
     "Menu": {
+        "button": {
+            "menu": "Menü",
+            "close": "schließen"
+        },
         "item": {
             "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
             "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
+            "backer": "@:BackerPage.title",
             "whitepaper": "@:Whitepaper.Button.whitepaper",
-            "support": "@:Footer.button.support"
+            "support": "@:Footer.button.support",
+            "press": "Drücken",
+            "poc": "Machbarkeitsnachweis"
         }
     },
     "Sign": {
@@ -231,6 +238,11 @@
         "Flag": {
             "title": "„Gefällt mir“ neu definiert",
             "content": "Belohnen von Inhalten durch Kreativitätsnachweis"
+        },
+        "HeroVideo": {
+            "button": {
+                "watchVideo": "Video ansehen"
+            }
         },
         "Sale": {
             "title": {
@@ -254,7 +266,8 @@
                 "buyCoin": "LikeCoin erwerben",
                 "imInterested": "Ich bin interessiert",
                 "joinTokenSale": "Am Token-Verkauf teilnehmen",
-                "joinNow": "Jetzt anmelden"
+                "joinNow": "Jetzt anmelden",
+                "supportLikeCoin": "Die Bewegung unterstützen"
             }
         },
         "Creator": {
@@ -262,7 +275,7 @@
                 "likeCoinForAppreciate": "LikeCoins schenken"
             }
         },
-        "Protocol": {
+        "Stack": {
             "title": "LikeCoin-Stack",
             "content": "--paragraph in LikeCoin Protocol---",
             "layer": {
@@ -336,7 +349,7 @@
         },
         "TokenDistribution": {
             "title": "Token-Verteilung",
-            "content": "800 Mio. Token im Voraus, Prägung in den kommenden 10+ Jahren und begrenzt auf 2 Bio. 1 Bio. Token gehen an Ersteller nach Kreativitätsnachweis",
+            "content": "800 Mio. Token im Voraus, Prägung in den kommenden mindestens 10 Jahren und begrenzt auf 2 Mrd. 1 Mrd. Token gehen an Ersteller nach Kreativitätsnachweis",
             "yearButton": {
                 "year0": "Jahr 0",
                 "year10": "Jahr 10+"
@@ -352,6 +365,14 @@
         "EarlySupporters": {
             "title": "Frühe Unterstützer",
             "supporter": {
+                "6-club": {
+                    "title": "Sechs-Clubs-Fonds",
+                    "subtitle": ""
+                },
+                "u-domain": {
+                    "title": "UDomain",
+                    "subtitle": ""
+                },
                 "annie-zhang": {
                     "title": "Annie Zhang",
                     "subtitle": "Chefredakteur, Initium Media"
@@ -371,6 +392,10 @@
                 "jacky-chu": {
                     "title": "Jacky Chu",
                     "subtitle": "Früher Investor bei BTC, ETH, IOTA, VEN und ARDR"
+                },
+                "to-cheung": {
+                    "title": "An Cheung",
+                    "subtitle": ""
                 }
             }
         },
@@ -723,11 +748,44 @@
         },
         "button": {
             "aboutLikeCoin": "Über LikeCoin",
-            "whitePaper": "@:WhitePaper.label.whitePaper"
+            "whitePaper": "@:WhitePaper.label.whitePaper",
+            "noETH": "Kein ETH?"
+        }
+    },
+    "BackerPage": {
+        "title": "Die Bewegung unterstützen",
+        "label": {
+            "tagline": "Unsere Bücher kaufen.",
+            "description": "Das LikeCoin-Protokoll ist eine Bewegung zur Neuverteilung der Einnahmen, die durch Inhalte unter einer Creative-Commons-Lizenz entstehen. Unsere Inhalte sind frei verwendbar, und unsere Quellcodes sind Open Source auf <a href=\"https://github.com/likecoin\">Github</a>.<br/><br/><a href=\"http://sched.co/E6zv\">Unsere Präsentation auf dem Creative-Commons-Gipfel 2018</a>",
+            "notRegistered": "Erstellen Sie eine LikeCoin-ID und schließen Sie sich der Bewegung an"
+        },
+        "button": {
+            "register": "ID erstellen",
+            "purchaseInETH": "LikeCoin in ETH unterstützen"
+        },
+        "productList": {
+            "title": "Shop",
+            "label": {
+                "youHavePurchased": "Sie haben {product} gekauft, die Quittung wird an Ihre E-Mail-Adresse {email} geschickt. Referenznummer:"
+            }
         }
     },
     "KYC": {
         "label": {
+            "advKycPending": "Ihre Bestätigung für die erweiterte ID ist immer noch im Zustand AUSSTEHEND. Bitte wenden Sie sich im Interkom an uns, wenn es länger als 5 Tage dauert.",
+            "isPurchaseExceedAmount": "Werden Sie mehr als {amount} ETH kaufen?",
+            "firstName": "Vorname (wie im Reisepass)",
+            "lastName": "Nachname (wie im Reisepass)",
+            "country": "Wohnsitzland",
+            "nationality": "Nationalität",
+            "invalidCountry": "Bitte wählen Sie ein gültiges Land aus der Liste.",
+            "invalidNationality": "Bitte wählen Sie eine gültige Nationalität aus der Liste.",
+            "passportIdPage": "Reisepass-ID-Seite mit dem Gesicht aufrecht (max. Größe 2 MB)*",
+            "recentSelfie": "Selfie mit dem Gesicht aufrecht (max. Größe 2 MB)*",
+            "canPurchaseLessThanAmount": "Sie können weniger als {amount} ETH kaufen",
+            "canPurchaseMoreThanAmount": "Sie können mehr als {amount} ETH kaufen",
+            "advancedVerificationInProgress": "Sie können weniger als {amount} ETH kaufen. Sobald die erweiterte Überprüfung erfolgreich abgeschlossen wurde, können Sie mehr erwerben.",
+            "verifyToPurchaseOverAmount": "Bestätigen Sie Ihre Identität und kaufen Sie mehr als {amount} ETH",
             "kyc": "ID-Überprüfung",
             "kycNeeded": "Zur Teilnahme am Verkauf von LikeCoin Token ist eine ID-Überprüfung erforderlich.",
             "advKycNeeded": "Für größere Transaktionen ist eine erweiterte ID-Überprüfung erforderlich.",
@@ -744,19 +802,11 @@
             "isPrcCitizen": "Sind Sie Bürger der VR China?",
             "isUsaCitizen": "Sind Sie Bürger der USA?",
             "isUsaAccredited": "Sind Sie ein akkreditierter Investor in den USA?",
-            "isPurchaseExceedAmount": "Planen Sie mehr als {amount} ETH zu erwerben?",
             "passportName": "Name (der gleiche Name wie in Ihrem Reisepass)",
-            "country": "Land",
-            "invalidCountry": "Bitte Land auswählen.",
-            "passportIdPage": "Reisepass-ID Seite *",
             "addressProof": "Bestätigung des Wohnsitzes (nicht älter als 3 Monate) *",
-            "canPurchaseLessThanAmount": "Sie können weniger als {amount} ETH erwerben",
-            "canPurchaseMoreThanAmount": "Sie können mehr als {amount} ETH erwerben",
-            "advancedVerificationInProgress": "Sie können weniger als {amount} ETH erwerben. Sobald die erweiterte Überprüfung erfolgreich abgeschlossen wurde, können Sie mehr erwerben.",
             "purchaseMore": "Ich möchte mehr erwerben.",
             "accountVeritifed": "Konto bestätigt",
             "canPurchaseWhenPublicSale": "Wenn der öffentliche Verkauf gestartet wurde, können Sie hier LikeCoins erwerben.",
-            "verifyToPurchaseOverAmount": "Um mehr als {amount} ETH zu erwerben, muss Ihre Identität bestätigt werden",
             "waitingConfirmation": "Warten auf Bestätigung.",
             "timeWaitForAccountVerification": "Das wird ungefähr 2 Minuten dauern …",
             "timeWaitForAdvancedVerification": "Das wird ungefähr 5 Werktage dauern …",
@@ -778,6 +828,39 @@
             "artist": "Künstler",
             "comicAuthor": "Comic-Autor",
             "multimediaDesigner": "Multimedia-Designer"
+        }
+    },
+    "TransactionHistory": {
+        "title": "Transaktionsverlauf",
+        "header": {
+            "status": "Status",
+            "fromOrTo": "Von/An",
+            "time": "Zeit",
+            "value": "Wert"
+        },
+        "label": {
+            "in": "EINGANG",
+            "out": "AUSGANG",
+            "fail": "FEHLGESCHLAGEN",
+            "tokensale": "Token-Verkauf",
+            "earlybird": "Earlybird",
+            "earlyBeliever": "Früher Unterstützer",
+            "timePending": "Ausstehend ...",
+            "timeExpired": "Abgelaufen",
+            "coupon": "Gutschein",
+            "noRecord": "Momentan kein Datensatz gefunden.",
+            "to": "An",
+            "from": "Von",
+            "unknown": "Unbekannt"
+        },
+        "button": {
+            "view": "ansehen",
+            "showMore": "mehr anzeigen"
+        }
+    },
+    "Error": {
+        "button": {
+            "toIndex": "Zurück zum Index"
         }
     }
 }

@@ -207,11 +207,18 @@
         "second": "с | с"
     },
     "Menu": {
+        "button": {
+            "menu": "меню",
+            "close": "закрыть"
+        },
         "item": {
             "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
             "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
+            "backer": "@:BackerPage.title",
             "whitepaper": "@:Whitepaper.Button.whitepaper",
-            "support": "@:Footer.button.support"
+            "support": "@:Footer.button.support",
+            "press": "Пресса",
+            "poc": "Подтверждение концепции"
         }
     },
     "Sign": {
@@ -231,6 +238,11 @@
         "Flag": {
             "title": "Революция лайков!",
             "content": "Весомое вознаграждение — достойная оценка творчества"
+        },
+        "HeroVideo": {
+            "button": {
+                "watchVideo": "Смотреть видео"
+            }
         },
         "Sale": {
             "title": {
@@ -254,7 +266,8 @@
                 "buyCoin": "Купить LikeCoin",
                 "imInterested": "Желаю участвовать",
                 "joinTokenSale": "Участвовать в продаже токенов",
-                "joinNow": "Принять участие"
+                "joinNow": "Регистрация",
+                "supportLikeCoin": "Поддержать движение"
             }
         },
         "Creator": {
@@ -262,7 +275,7 @@
                 "likeCoinForAppreciate": "Отправить конверт с токенами LikeCoin"
             }
         },
-        "Protocol": {
+        "Stack": {
             "title": "Стек LikeCoin",
             "content": "--параграф протокола LikeCoin---",
             "layer": {
@@ -336,7 +349,7 @@
         },
         "TokenDistribution": {
             "title": "Дистрибуция токенов",
-            "content": "Первоначально 800 млн токенов, постепенный майнинг в последующие 10+ лет вплоть до 2 млрд. 1 млрд токенов будет выдан авторам как вознаграждение за их творчество.",
+            "content": "Предварительная эмиссия 800 млн токенов, постепенная эмиссия в течение ближайших 10+ лет до 2 млрд токенов. 1 млрд токенов присуждается авторам на основании подтверждения творчества.",
             "yearButton": {
                 "year0": "Год 0",
                 "year10": "Год 10+"
@@ -352,6 +365,14 @@
         "EarlySupporters": {
             "title": "Первые соратники",
             "supporter": {
+                "6-club": {
+                    "title": "Six Club Fund",
+                    "subtitle": ""
+                },
+                "u-domain": {
+                    "title": "UDomain",
+                    "subtitle": ""
+                },
                 "annie-zhang": {
                     "title": "Анни Чжан",
                     "subtitle": "Главный редактор, Initium Media"
@@ -371,6 +392,10 @@
                 "jacky-chu": {
                     "title": "Джеки Чу",
                     "subtitle": "Ранний инвестор BTC, ETH, IOTA, VEN, ARDR"
+                },
+                "to-cheung": {
+                    "title": "To Cheung",
+                    "subtitle": ""
                 }
             }
         },
@@ -723,11 +748,44 @@
         },
         "button": {
             "aboutLikeCoin": "Сведения о LikeCoin",
-            "whitePaper": "@:WhitePaper.label.whitePaper"
+            "whitePaper": "@:WhitePaper.label.whitePaper",
+            "noETH": "Нет ETH?"
+        }
+    },
+    "BackerPage": {
+        "title": "Поддержать движение",
+        "label": {
+            "tagline": "Купите наши книги.",
+            "description": "Протокол LikeCoin — это движение в поддержку перераспределения дохода, который сгенерирован контентом, лицензированным Creative Commons. Наш контент можно использовать без ограничений, и наш исходный код открыт на <a href=\"https://github.com/likecoin\">Github</a>.<br/><br/><a href=\"http://sched.co/E6zv\">Наша презентация на саммите Creative Commons в 2018 г.</a>",
+            "notRegistered": "Зарегистрируйте LikeCoin ID и присоединитесь к движению"
+        },
+        "button": {
+            "register": "Регистрация ID",
+            "purchaseInETH": "Поддержать LikeCoin в ETH"
+        },
+        "productList": {
+            "title": "Магазин",
+            "label": {
+                "youHavePurchased": "Вы купили: {product}, чек будет отправлен на ваш эл. адрес {email}. Номер для ссылок:"
+            }
         }
     },
     "KYC": {
         "label": {
+            "advKycPending": "Расширенная проверка личности еще на стадии ОЖИДАНИЯ. Свяжитесь с нами в Intercom, если она займет более 5 рабочих дней.",
+            "isPurchaseExceedAmount": "Вы собираетесь купить более {amount} ETH?",
+            "firstName": "Имя (как в паспорте)",
+            "lastName": "Фамилия (как в паспорте)",
+            "country": "Страна проживания",
+            "nationality": "Гражданство",
+            "invalidCountry": "Выберите страну из списка.",
+            "invalidNationality": "Выберите гражданство из списка.",
+            "passportIdPage": "Страница паспорта с фотографией анфас (размер не более 2 Мб)*",
+            "recentSelfie": "Селфи анфас (размер не более 2 Мб)*",
+            "canPurchaseLessThanAmount": "Вы можете купить менее {amount} ETH",
+            "canPurchaseMoreThanAmount": "Вы можете купить более {amount} ETH",
+            "advancedVerificationInProgress": "Вы можете купить менее {amount} ETH. После успешной расширенной проверки можно будет купить больше.",
+            "verifyToPurchaseOverAmount": "Подтвердите свою личность, чтобы купить более {amount} ETH",
             "kyc": "Подтверждение личности",
             "kycNeeded": "Для участия в продаже токенов LikeCoin необходимо подтвердить свою личность",
             "advKycNeeded": "Для покупки больших сумм требуется расширенная проверка личности",
@@ -744,19 +802,11 @@
             "isPrcCitizen": "У вас гражданство КНР?",
             "isUsaCitizen": "У вас гражданство США?",
             "isUsaAccredited": "Вы являетесь аккредитованным инвестором в США?",
-            "isPurchaseExceedAmount": "Вы будете приобретать более {amount}ETH?",
             "passportName": "Ф.И.О. (как указано в паспарте)",
-            "country": "Страна",
-            "invalidCountry": "Выберите страну.",
-            "passportIdPage": "Разворот паспорта с фотографией *",
             "addressProof": "Подтверждение адреса (срок: 3 месяца) *",
-            "canPurchaseLessThanAmount": "Вы можете купить не более {amount}ETH",
-            "canPurchaseMoreThanAmount": "Вы можете купить максимум {amount}ETH",
-            "advancedVerificationInProgress": "Вы можете купить не более {amount}ETH. После прохождения расширенной проверки в сможете купить больше.",
             "purchaseMore": "Я хочу купить больше",
             "accountVeritifed": "Счет подтвержден",
             "canPurchaseWhenPublicSale": "В ходе публичной продажи вы сможете купить здесь LikeCoin.",
-            "verifyToPurchaseOverAmount": "Подтвердите свою личность, чтобы купить больше {amount}ETH",
             "waitingConfirmation": "Ожидание подтверждения",
             "timeWaitForAccountVerification": "Процесс займет примерно 2 минуты…",
             "timeWaitForAdvancedVerification": "Процесс займет примерно 5 рабочих дней…",
@@ -778,6 +828,39 @@
             "artist": "Художник",
             "comicAuthor": "Автор комиксов",
             "multimediaDesigner": "Мультимедийный дизайнер"
+        }
+    },
+    "TransactionHistory": {
+        "title": "История трансакций",
+        "header": {
+            "status": "Статус",
+            "fromOrTo": "От/кому",
+            "time": "Время",
+            "value": "Сумма"
+        },
+        "label": {
+            "in": "ВХ.",
+            "out": "ИСХ.",
+            "fail": "НЕУДАЧНО",
+            "tokensale": "Продажа токенов",
+            "earlybird": "Ранняя пташка",
+            "earlyBeliever": "Ранний сторонник",
+            "timePending": "Ожидается...",
+            "timeExpired": "Срок истек",
+            "coupon": "Купон",
+            "noRecord": "Данные не найдены.",
+            "to": "Кому",
+            "from": "От",
+            "unknown": "Неизвестно"
+        },
+        "button": {
+            "view": "смотреть",
+            "showMore": "еще"
+        }
+    },
+    "Error": {
+        "button": {
+            "toIndex": "К указателю"
         }
     }
 }
