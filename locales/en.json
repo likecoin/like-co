@@ -595,8 +595,12 @@
         "switchTrust": "like.co requires ETH Wallet to work. Please install or switch to Trust Wallet App.",
         "switchRinkeby": "like.co requires Rinkeby to work. Please switch to the correct network.",
         "switchMain": "like.co requires Main to work. Please switch to the correct network.",
-        "switchMainCaption": "Switch to Mainnet by:<br>Settings > Nerwork > Ethereum (ETH)",
-        "switchRinkebyCaption": "Switch to Rinkeby by:<br>Settings > Nerwork > Rinkeby (ETH)"
+        "switchMainCaption": "Switch to Mainnet by:<br>Settings > Network > Ethereum (ETH)",
+        "switchRinkebyCaption": "Switch to Rinkeby by:<br>Settings > Network > Rinkeby (ETH)"
+      },
+      "label": {
+        "help": "how to register on mobile",
+        "registerMobileLink": "https://help.like.co/likecoin-faq/newbies/registering-likecoin-id-on-mobile"
       },
       "button": {
         "openWithTrust": "Open With Trust"

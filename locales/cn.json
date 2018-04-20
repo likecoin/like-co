@@ -579,6 +579,27 @@
       "title": "认证邮箱",
       "content": "请先认证你的电邮地址",
       "label": "你的电邮地址"
+    },
+    "trust": {
+      "title": {
+        "switchTrust": "需要安装电子钱包",
+        "switchRinkeby": "请切换至 Rinkeby 测试网络",
+        "switchMain": "请切换至 Mainnet 正式网络"
+      },
+      "description": {
+        "switchTrust": "like.co 需要 ETH 电子钱包用作登入。请安装 Trust 电子钱包.",
+        "switchRinkeby": "like.co 需要使用 Rinkeby 测试网，请切换至 Rinkeby.",
+        "switchMain": "like.co 需要使用正式网络，请切换至 Mainnet。",
+        "switchMainCaption": "切换至 Mainnet:<br>Settings > Network > Ethereum (ETH)",
+        "switchRinkebyCaption": "切换至 Rinkeby:<br>Settings > Network > Rinkeby (ETH)"
+      },
+      "label": {
+        "help": "如何在手机上注册",
+        "registerMobileLink": "https://help.like.co/likecoin-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/%E6%96%B0%E6%89%8B%E4%B8%8A%E8%B7%AF/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%89%8B%E6%9C%BA%E4%B8%8A%E6%B3%A8%E5%86%8C-likecoin-%E5%B8%90%E5%8F%B7"
+      },
+      "button": {
+        "openWithTrust": "开启 Trust"
+      }
     }
   },
   "Toolbar": {

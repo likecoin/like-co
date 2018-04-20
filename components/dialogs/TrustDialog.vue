@@ -42,6 +42,9 @@
             <material-button class="trust" v-if="buttonText" @click="openTrust">
               {{ buttonText }}
             </material-button>
+            <div class="lc-font-size-12 lc-margin-top-8">
+              <a :href="getHelpLink" >{{ $t('Dialog.trust.label.help') }}</a>
+            </div>
           </div>
         </div>
       </div>
@@ -132,6 +135,9 @@ export default {
         return this.$t('Dialog.trust.button.openWithTrust');
       }
       return null;
+    },
+    getHelpLink() {
+      return this.$t('Dialog.trust.label.registerMobileLink');
     },
     isAndroid() {
       return /(android)/i.test(navigator.userAgent);

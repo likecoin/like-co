@@ -583,6 +583,12 @@
             "title": "이메일을 인증하세요",
             "content": "이메일을 제공 및 인증하세요.",
             "label": "내 이메일 주소"
+        },
+        "trust": {
+            "label": {
+                "help": "모바일에서LikeCoin ID등록방법",
+                "registerMobileLink": "https://help.like.co/likecoin-%EC%9E%90%EC%A3%BC%EB%AC%BB%EB%8A%94%EC%A7%88%EB%AC%B8-faq/%EC%B4%88%EB%B3%B4%EC%9E%90/%EB%AA%A8%EB%B0%94%EC%9D%BC%EC%97%90%EC%84%9Clikecoin-id%EB%93%B1%EB%A1%9D%EB%B0%A9%EB%B2%95"
+            }
         }
     },
     "Toolbar": {
