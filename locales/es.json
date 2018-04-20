@@ -207,11 +207,18 @@
         "second": "segundo | segundos"
     },
     "Menu": {
+        "button": {
+            "menu": "menú",
+            "close": "cerrar"
+        },
         "item": {
             "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
             "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
+            "backer": "@:BackerPage.title",
             "whitepaper": "@:Whitepaper.Button.whitepaper",
-            "support": "@:Footer.button.support"
+            "support": "@:Footer.button.support",
+            "press": "Prensa",
+            "poc": "Prueba de concepto"
         }
     },
     "Sign": {
@@ -231,6 +238,11 @@
         "Flag": {
             "title": "Reinventar el Me gusta",
             "content": "Recompensa de contenidos con Prueba de creatividad"
+        },
+        "HeroVideo": {
+            "button": {
+                "watchVideo": "Ver el vídeo"
+            }
         },
         "Sale": {
             "title": {
@@ -254,7 +266,8 @@
                 "buyCoin": "Comprar LikeCoin",
                 "imInterested": "Me interesa",
                 "joinTokenSale": "Unirte a la venta de tokens",
-                "joinNow": "Unirte ahora"
+                "joinNow": "Unirte ahora",
+                "supportLikeCoin": "Apoya el movimiento"
             }
         },
         "Creator": {
@@ -262,7 +275,7 @@
                 "likeCoinForAppreciate": "Enviar LikeCoin Red Pocket"
             }
         },
-        "Protocol": {
+        "Stack": {
             "title": "Acumulación de LikeCoin",
             "content": "--párrafo en protocolo LikeCoin---",
             "layer": {
@@ -352,6 +365,14 @@
         "EarlySupporters": {
             "title": "Primeros usuarios",
             "supporter": {
+                "6-club": {
+                    "title": "Six Club Fund",
+                    "subtitle": ""
+                },
+                "u-domain": {
+                    "title": "UDomain",
+                    "subtitle": ""
+                },
                 "annie-zhang": {
                     "title": "Annie Zhang",
                     "subtitle": "Editor jefe, Initium Media"
@@ -388,6 +409,10 @@
                 "isaac-mao": {
                     "title": "Isaac Mao",
                     "description": "Fundador de <a href=\"https://musicoin.org/\" target=\"_blank\" rel=\"noopener\">Musicoin</a>; Fundador de CNBlogs.org; Jefe de Proyecto de iCommons China, Creative Commons China Team."
+                },
+                "to-cheung": {
+                    "title": "Para Cheung",
+                    "subtitle": ""
                 }
             }
         },
@@ -719,11 +744,44 @@
         },
         "button": {
             "aboutLikeCoin": "Acerca de LikeCoin",
-            "whitePaper": "@:WhitePaper.label.whitePaper"
+            "whitePaper": "@:WhitePaper.label.whitePaper",
+            "noETH": "¿No tienes ETH?"
+        }
+    },
+    "BackerPage": {
+        "title": "Apoya el movimiento",
+        "label": {
+            "tagline": "Compra nuestros libros.",
+            "description": "El protocolo LikeCoin es un movimiento de redistribución de ingresos generados por contenidos con licencia de Creative Commons. Nuestros contenidos son gratuitos y nuestros códigos fuente están abiertos en <a href=\"https://github.com/likecoin\">Github</a>.<br/><br/><a href=\"http://sched.co/E6zv\">Nuestra presentación en la Cumbre de Creative Commons 2018</a>",
+            "notRegistered": "Crea una ID de LikeCoin y únete al movimiento"
+        },
+        "button": {
+            "register": "Crear una ID",
+            "purchaseInETH": "Apoya a LikeCoin en ETH"
+        },
+        "productList": {
+            "title": "Tienda",
+            "label": {
+                "youHavePurchased": "Has comprado {product}. Enviaremos el recibo a tu dirección {email}. Número de referencia:"
+            }
         }
     },
     "KYC": {
         "label": {
+            "advKycPending": "Tu verificación de ID avanzada sigue en estado Pendiente. Ponte en contacto con nosotros a través de Intercom si lleva más de 5 días laborables.",
+            "isPurchaseExceedAmount": "¿Vas a comprar más de {amount} ETH?",
+            "firstName": "Nombre (el mismo que aparece en tu pasaporte)",
+            "lastName": "Apellido (el mismo que aparece en tu pasaporte)",
+            "country": "País de residencia",
+            "nationality": "Nacionalidad",
+            "invalidCountry": "Selecciona un país válido de la lista.",
+            "invalidNationality": "Selecciona una nacionalidad válida de la lista.",
+            "passportIdPage": "Página de ID de pasaporte cara arriba (tamaño límite 2 MB)*",
+            "recentSelfie": "Selfi cara arriba (tamaño límite 2 MB)*",
+            "canPurchaseLessThanAmount": "Puedes comprar menos de {amount} ETH",
+            "canPurchaseMoreThanAmount": "Puedes comprar más de {amount} ETH",
+            "advancedVerificationInProgress": "Puedes comprar menos de {amount} ETH. Cuando se complete la verificación avanzada, podrás comprar más.",
+            "verifyToPurchaseOverAmount": "Verifica tu identidad y compra más de {amount} ETH",
             "kyc": "Verificación de ID",
             "kycNeeded": "Se necesita una Verificación de ID para participar en la venta de tokens de LikeCoin",
             "advKycNeeded": "Se necesita una Verificación de ID avanzada para comprar una gran cantidad",
@@ -740,19 +798,11 @@
             "isPrcCitizen": "¿Eres ciudadano de China?",
             "isUsaCitizen": "¿Eres ciudadano de los EE. UU.?",
             "isUsaAccredited": "¿Eres un inversor acreditado de los EE. UU.?",
-            "isPurchaseExceedAmount": "¿Vas a comprar más de {amount} ETH?",
             "passportName": "Nombre (el mismo que aparece en tu pasaporte)",
-            "country": "País",
-            "invalidCountry": "Selecciona un país",
-            "passportIdPage": "Página de ID de pasaporte*",
             "addressProof": "Certificado de residencia (máximo 3 meses de antigüedad)*",
-            "canPurchaseLessThanAmount": "Puedes comprar menos de {amount} ETH",
-            "canPurchaseMoreThanAmount": "Puedes comprar más de {amount} ETH",
-            "advancedVerificationInProgress": "Puedes comprar menos de {amount} ETH. Cuando se complete la verificación avanzada, podrás comprar más.",
             "purchaseMore": "Quiero comprar más.",
             "accountVeritifed": "Cuenta verificada",
             "canPurchaseWhenPublicSale": "Cuando la venta pública se inicie, puedes comprar LikeCoin aquí.",
-            "verifyToPurchaseOverAmount": "Verifica tu identidad y compra más de {amount} ETH",
             "waitingConfirmation": "Esperando confirmación...",
             "timeWaitForAccountVerification": "Tardará unos 2 minutos...",
             "timeWaitForAdvancedVerification": "Tardará unos 5 días laborables...",
@@ -774,6 +824,39 @@
             "artist": "Artista",
             "comicAuthor": "Autor de cómic",
             "multimediaDesigner": "Diseñador multimedia"
+        }
+    },
+    "TransactionHistory": {
+        "title": "Historial de transacción",
+        "header": {
+            "status": "Estado",
+            "fromOrTo": "De/Para",
+            "time": "Tiempo",
+            "value": "Valor"
+        },
+        "label": {
+            "in": "ENTRADA",
+            "out": "SALIDA",
+            "fail": "NO COMPLETADO",
+            "tokensale": "Venta de tokens",
+            "earlybird": "Anticipada",
+            "earlyBeliever": "Primeros compradores",
+            "timePending": "Pendiente...",
+            "timeExpired": "Caducado",
+            "coupon": "Cupón",
+            "noRecord": "No se encuentra ningún registro en este momento.",
+            "to": "Para",
+            "from": "De",
+            "unknown": "Desconocido"
+        },
+        "button": {
+            "view": "ver",
+            "showMore": "mostrar más"
+        }
+    },
+    "Error": {
+        "button": {
+            "toIndex": "Volver al índice"
         }
     }
 }

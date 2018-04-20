@@ -207,11 +207,18 @@
         "second": "seconde | secondes"
     },
     "Menu": {
+        "button": {
+            "menu": "menu",
+            "close": "fermer"
+        },
         "item": {
             "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
             "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
+            "backer": "@:BackerPage.title",
             "whitepaper": "@:Whitepaper.Button.whitepaper",
-            "support": "@:Footer.button.support"
+            "support": "@:Footer.button.support",
+            "press": "Presse",
+            "poc": "Preuve de concept"
         }
     },
     "Sign": {
@@ -231,6 +238,11 @@
         "Flag": {
             "title": "Réinvention du J’aime",
             "content": "Récompenser les contenus par preuve de créativité"
+        },
+        "HeroVideo": {
+            "button": {
+                "watchVideo": "Regarder la vidéo"
+            }
         },
         "Sale": {
             "title": {
@@ -254,7 +266,8 @@
                 "buyCoin": "Acheter des LikeCoin",
                 "imInterested": "Cela m’intéresse",
                 "joinTokenSale": "Participer à la vente de jetons",
-                "joinNow": "Participer maintenant"
+                "joinNow": "S'inscrire maintenant",
+                "supportLikeCoin": "Soutenir le mouvement"
             }
         },
         "Creator": {
@@ -262,7 +275,7 @@
                 "likeCoinForAppreciate": "Envoyer une enveloppe rouge LikeCoin"
             }
         },
-        "Protocol": {
+        "Stack": {
             "title": "Stack LikeCoin",
             "content": "--paragraphe dans le protocole LikeCoin---",
             "layer": {
@@ -336,7 +349,7 @@
         },
         "TokenDistribution": {
             "title": "Distribution des jetons",
-            "content": "800 millions de jetons au préalable, battement progressif au cours des 10 prochaines années avec un cap de 2 milliards. 1 milliard de jetons attribués aux créateurs par preuve de créativité",
+            "content": "800 millions de jetons initiaux, qui augmenteront graduellement dans les 10 prochaines années et plafonnés à 2 milliards. 1 milliard offert aux créateurs en récompense par preuve de créativité",
             "yearButton": {
                 "year0": "1re année",
                 "year10": "10e année+"
@@ -352,6 +365,14 @@
         "EarlySupporters": {
             "title": "Supporteurs précoces",
             "supporter": {
+                "6-club": {
+                    "title": "Fond Six Club",
+                    "subtitle": ""
+                },
+                "u-domain": {
+                    "title": "UDomain",
+                    "subtitle": ""
+                },
                 "annie-zhang": {
                     "title": "Annie Zhang",
                     "subtitle": "Rédactrice en chef, Initium Media"
@@ -388,6 +409,10 @@
                 "isaac-mao": {
                     "title": "Isaac Mao",
                     "description": "Fondateur de <a href=\"https://musicoin.org/\" target=\"_blank\" rel=\"noopener\">Musicoin</a>; Fondateur de CNBlogs.org; Chef de projet chez iCommons China, équipe chinoise de Creative Commons."
+                },
+                "to-cheung": {
+                    "title": "À Cheung",
+                    "subtitle": ""
                 }
             }
         },
@@ -719,11 +744,44 @@
         },
         "button": {
             "aboutLikeCoin": "À propos de LikeCoin",
-            "whitePaper": "@:WhitePaper.label.whitePaper"
+            "whitePaper": "@:WhitePaper.label.whitePaper",
+            "noETH": "Pas d'ETH ?"
+        }
+    },
+    "BackerPage": {
+        "title": "Soutenir le mouvement",
+        "label": {
+            "tagline": "Achetez nos livres.",
+            "description": "Le protocole LikeCoin est un mouvement visant à redistribuer les revenus générés par les contenus sous licence de Creative Commons. Nos contenus sont libres d'utilisation et nos contenus sont en open source sur <a href=\"https://github.com/likecoin\">Github</a>.<br/><br/><a href=\"http://sched.co/E6zv\">Notre présentation au Creative Commons Summit 2018</a>",
+            "notRegistered": "Crez un ID LikeCoin et rejoignez le mouvement"
+        },
+        "button": {
+            "register": "Créer un ID",
+            "purchaseInETH": "Soutenir LikeCoin en ETH"
+        },
+        "productList": {
+            "title": "Boutique",
+            "label": {
+                "youHavePurchased": "Vous avez acheté {product}, le reçu vous sera envoyé par e-mail sur {email}. Numéro de référence :"
+            }
         }
     },
     "KYC": {
         "label": {
+            "advKycPending": "Votre vérification d'ID avancée est toujours dans l'état EN ATTENTE. Veuillez nous contacter sur l'intercom si cela prend plus longtemps que 5 jours ouvrables.",
+            "isPurchaseExceedAmount": "Allez-vous acheter plus de {amount} d'ETH ?",
+            "firstName": "Prénom (tel qu'il apparaît sur votre passeport)",
+            "lastName": "Nom (tel qu'il apparaît sur votre passeport)",
+            "country": "Pays de résidence",
+            "nationality": "Nationalité",
+            "invalidCountry": "Veuillez sélectionner un pays valide dans la liste.",
+            "invalidNationality": "Veuillez sélectionner une nationalité valide dans la liste.",
+            "passportIdPage": "Page d'ID du passeport avec le visage à la verticale (limite de taille 2 Mo)*",
+            "recentSelfie": "Selfie avec visage à la verticale (limite de taille 2 mo)*",
+            "canPurchaseLessThanAmount": "Vous pouvez acheter moins de {amount} d'ETH",
+            "canPurchaseMoreThanAmount": "Vous pouvez acheter plus de {amount} d'ETH",
+            "advancedVerificationInProgress": "Vous pouvez acheter moins de {amount} d'ETH. Vous pourrez en acheter plus une fois la vérification avancée réussie.",
+            "verifyToPurchaseOverAmount": "Vérifiez votre identité pour acheter plus de {amount} d'ETH",
             "kyc": "Vérification d’identité",
             "kycNeeded": "Une vérification d’identité est nécessaire pour participer à la vente de jetons LikeCoin",
             "advKycNeeded": "Une vérification d’identité avancée est nécessaire pour les montants d’achat conséquents",
@@ -740,19 +798,11 @@
             "isPrcCitizen": "Êtes-vous citoyen de la RPC ?",
             "isUsaCitizen": "Êtes-vous citoyen des États-Unis ?",
             "isUsaAccredited": "Êtes-vous un investisseur accrédité aux États-Unis ?",
-            "isPurchaseExceedAmount": "Allez-vous acheter plus de {amount} $ ?",
             "passportName": "Nom (identique à celui sur votre passeport)",
-            "country": "Pays",
-            "invalidCountry": "Veuillez sélectionner votre pays.",
-            "passportIdPage": "Page d’identité du passeport *",
             "addressProof": "Preuve d’adresse (datant de moins de 3 mois)*",
-            "canPurchaseLessThanAmount": "Vous pouvez acheter moins de {amount} ETH",
-            "canPurchaseMoreThanAmount": "Vous pouvez acheter plus de {amount} ETH",
-            "advancedVerificationInProgress": "Vous pouvez acheter moins de {amount} ETH. Si la vérification d’identité avancée est réussie, vous pouvez acheter davantage.",
             "purchaseMore": "Je souhaite acheter plus de ça.",
             "accountVeritifed": "Compte vérifié",
             "canPurchaseWhenPublicSale": "Vous pourrez acheter des LikeCoin ici une fois la vente publique est lancée.",
-            "verifyToPurchaseOverAmount": "Vérifiez votre identité et achetez plus de {amount} ETH",
             "waitingConfirmation": "En attente de confirmation.",
             "timeWaitForAccountVerification": "Cela prendra environ 2 minutes…",
             "timeWaitForAdvancedVerification": "Cela prendra environ 5 jours ouvrables…",
@@ -774,6 +824,39 @@
             "artist": "Artiste",
             "comicAuthor": "Auteur de bande dessinée",
             "multimediaDesigner": "Designer multimédia"
+        }
+    },
+    "TransactionHistory": {
+        "title": "Historique de transactions",
+        "header": {
+            "status": "État",
+            "fromOrTo": "De/À",
+            "time": "Heure",
+            "value": "Valeur"
+        },
+        "label": {
+            "in": "ENTRANT",
+            "out": "SORTANT",
+            "fail": "Échec",
+            "tokensale": "Vente de jeton",
+            "earlybird": "Pré-inscription",
+            "earlyBeliever": "Premiers soutiens",
+            "timePending": "En attente...",
+            "timeExpired": "Expiré",
+            "coupon": "Coupon",
+            "noRecord": "Actuellement aucun enregistrement trouvé",
+            "to": "À",
+            "from": "De",
+            "unknown": "Inconnu"
+        },
+        "button": {
+            "view": "voir",
+            "showMore": "afficher plus"
+        }
+    },
+    "Error": {
+        "button": {
+            "toIndex": "Revenir à l'index"
         }
     }
 }
