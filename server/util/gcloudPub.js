@@ -34,6 +34,7 @@ publisher.publish = async (publishTopic, req, obj) => {
     ethNetwork,
     uuidv4: uuidv4(),
     requestIP: req ? (req.headers['x-real-ip'] || req.ip) : undefined,
+    agent: req ? (req.headers['x-ucbrowser-ua'] || req.headers['user-agent']) : undefined,
   });
 
   const data = JSON.stringify(obj);
