@@ -55,3 +55,5 @@ const toolbarsDisableError = {
   'in-tokensale-tx-id': ['web3', 'locked'],
 };
 export const getToolbarsDisableError = route => (toolbarsDisableError[route] || false);
+
+export const TRUST_URL = 'https://eps2.app.link/?openURL=';
