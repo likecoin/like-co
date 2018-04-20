@@ -143,6 +143,7 @@ import { mapActions, mapGetters } from 'vuex';
 import BaseDialog from '~/components/dialogs/BaseDialog';
 import InviteFriendForm from '~/components/forms/InviteFriendForm';
 import VerifyEmailForm from '~/components/forms/VerifyEmailForm';
+import MissionCompletedBanner from '~/components/Mission/CompletedBanner';
 import MissionIcon from '~/components/Mission/Icon';
 import TaskList from '~/components/Mission/TaskList';
 import { GETTING_STARTED_TASKS } from '@/constant';
@@ -159,6 +160,7 @@ export default {
     BaseDialog,
     InviteFriendForm,
     VerifyEmailForm,
+    MissionCompletedBanner,
     MissionIcon,
     TaskList,
   },
