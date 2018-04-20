@@ -120,16 +120,22 @@ function createCollection(data) {
         forEach: f => docs.forEach(f),
       });
     },
+    orderBy: () => data,
   };
 }
 
 const userCollection = createCollection(userData);
-
 const txCollection = createCollection(txData);
+const iapCollection = createCollection([]);
+const missionCollection = createCollection([]);
+const payoutCollection = createCollection([]);
 
 module.exports = {
   userCollection,
   txCollection,
+  iapCollection,
+  missionCollection,
+  payoutCollection,
   bucket: {},
   FieldValue,
 };

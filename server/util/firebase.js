@@ -6,8 +6,12 @@ const serviceAccount = require('@ServerConfig/serviceAccountKey.json'); // eslin
 
 if (process.env.CI) {
   module.exports = {
+    db: {},
     userCollection: {},
     txCollection: {},
+    iapCollection: {},
+    missionCollection: {},
+    payoutCollection: {},
     bucket: {},
     FieldValue,
   };
