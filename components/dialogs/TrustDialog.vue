@@ -55,7 +55,7 @@ import TrustMainImage from '@/assets/icons/trust/trust_main.png';
 import TrustRinkebyImage from '@/assets/icons/trust/trust_rinkeby.jpg';
 
 import LanguageSwitch from '@/components/LanguageSwitch';
-import { TRUST_URL } from '@/constant';
+import { IS_TESTNET, TRUST_URL } from '@/constant';
 import BaseDialog from './BaseDialog';
 
 export default {
@@ -68,39 +68,51 @@ export default {
   data() {
     return {
       TrustIcon,
+      trustNetImg: IS_TESTNET ? TrustRinkebyImage : TrustMainImage,
       isShowDialog: true,
     };
   },
   computed: {
-    isMain() {
-      return this.case !== 'testnet';
-    },
     isTrust() {
       return this.webThreeType === 'window';
     },
     title() {
-      if (!this.isTrust) return this.$t('Dialog.trust.title.switchTrust');
-      return this.$t(`Dialog.trust.title.switch${this.isMain ? 'Main' : 'Rinkeby'}`);
+      switch (this.case) {
+        case 'web3':
+          return this.$t('Dialog.trust.title.switchTrust');
+        case 'testnet':
+          return this.$t(`Dialog.trust.title.switch${IS_TESTNET ? 'Rinkeby' : 'Main'}`);
+        default:
+          return '';
+      }
     },
     description() {
-      if (!this.isTrust) {
-        return this.$t('Dialog.trust.description.switchTrust');
+      switch (this.case) {
+        case 'web3':
+          return this.$t('Dialog.trust.description.switchTrust');
+        case 'testnet':
+          return this.$t(`Dialog.trust.description.switch${IS_TESTNET ? 'Rinkeby' : 'Main'}`);
+        default:
+          return '';
       }
-      return this.$t(`Dialog.trust.description.switch${this.isMain ? 'Main' : 'Rinkeby'}`);
     },
     image() {
-      let image = null;
-      if (this.isTrust) {
-        image = this.isMain ? TrustMainImage : TrustRinkebyImage;
+      switch (this.case) {
+        case 'testnet':
+          return this.trustNetImg;
+        case 'sign':
+        case 'locked':
+        default:
+          return '';
       }
-      return image;
     },
     imageCaption() {
-      let caption = null;
-      if (this.isTrust) {
-        caption = this.$t(`Dialog.trust.description.switch${this.isMain ? 'Main' : 'Rinkeby'}Caption`);
+      switch (this.case) {
+        case 'testnet':
+          return this.$t(`Dialog.trust.description.switch${IS_TESTNET ? 'Rinkeby' : 'Main'}Caption`);
+        default:
+          return '';
       }
-      return caption;
     },
     buttonText() {
       if (!this.isTrust) {
@@ -111,11 +123,25 @@ export default {
   },
   methods: {
     openTrust() {
-      global.window.open(TRUST_URL);
+      const { window } = global;
+      window.open(`${TRUST_URL}${encodeURIComponent(window.location.href)}`);
     },
   },
   mounted() {
-    this.$nextTick(() => this.$refs.base.show());
+    if (this.case && this.case !== 'sign') {
+      this.$nextTick(() => this.$refs.base.show());
+    } else {
+      this.$nextTick(() => this.$refs.base.hide());
+    }
+  },
+  watch: {
+    case(c) {
+      if (c && c !== 'sign') {
+        this.$refs.base.show();
+      } else {
+        this.$refs.base.hide();
+      }
+    },
   },
 };
 </script>
