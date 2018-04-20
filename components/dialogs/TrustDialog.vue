@@ -4,7 +4,6 @@
     :mdProps="{
       mdClickOutsideToClose: false,
       mdCloseOnEsc: false,
-      mdFullscreen: false,
     }"
     class="with-icon">
 
@@ -17,29 +16,32 @@
       </template>
       <!-- END - Header Section -->
 
-      <div class="trust-dialog-content">
 
-        <h1 v-if="title" class="title-label lc-font-size-32 lc-font-weight-300 lc-mobile">
-          {{ title }}
-        </h1>
+      <div class="lc-dialog-container-1">
+        <div class="trust-dialog-content">
 
-        <div
-          class="description lc-margin-vertical-12 lc-color-like-gray-4"
-          v-if="description"
-          v-html="description" />
+          <h1 v-if="title" class="title-label lc-font-size-32 lc-font-weight-300 lc-mobile">
+            {{ title }}
+          </h1>
 
-        <figure v-if="image">
-          <img :src="image" />
-          <figcaption
-            class="lc-color-like-green lc-padding-top-16"
-            v-if="imageCaption"
-            v-html="imageCaption" />
-        </figure>
+          <div
+            class="description lc-margin-vertical-12 lc-color-like-gray-4"
+            v-if="description"
+            v-html="description" />
 
-        <div v-if="!isTrust" class="lc-button-group lc-margin-top-24">
-          <md-button class="md-likecoin trust" v-if="buttonText" @click="openTrust">
-            {{ buttonText }}
-          </md-button>
+          <figure v-if="image">
+            <img :src="image" />
+            <figcaption
+              class="lc-color-like-green lc-padding-top-16"
+              v-if="imageCaption"
+              v-html="imageCaption" />
+          </figure>
+
+          <div v-if="!isTrust" class="lc-button-group lc-margin-top-24">
+            <md-button class="md-likecoin trust" v-if="buttonText" @click="openTrust">
+              {{ buttonText }}
+            </md-button>
+          </div>
         </div>
       </div>
 
