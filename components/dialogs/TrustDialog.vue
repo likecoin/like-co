@@ -59,6 +59,8 @@ import LanguageSwitch from '@/components/LanguageSwitch';
 import { IS_TESTNET, TRUST_URL } from '@/constant';
 import BaseDialog from './BaseDialog';
 
+const URL = require('url-parse');
+
 export default {
   name: 'TrustDialog',
   props: ['case', 'webThreeType'],
@@ -129,16 +131,48 @@ export default {
       }
       return null;
     },
+    isAndroid() {
+      return /(android)/i.test(navigator.userAgent);
+    },
+    isIOS() {
+      return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    },
   },
   methods: {
     openTrust() {
       const { window } = global;
-      window.open(`${TRUST_URL}${encodeURIComponent(window.location.href)}`);
+      const currentURI = window.location.href;
+      const url = `${TRUST_URL}${encodeURIComponent(currentURI)}`;
+      if (this.isAndroid) {
+        window.open(`intent://browser?target=${currentURI}/#Intent;scheme=trust;package=com.wallet.crypto.trustapp;S.browser_fallback_url=;end`);
+      } else {
+        window.open(url);
+      }
+    },
+    tryTrustInstalled() {
+      if (this.$route.query.notrust) return;
+      if (this.isIOS) {
+        const currentURI = window.location.href;
+        window.location.href = `trust://browser?target=${currentURI}`;
+        setTimeout(() => {
+          try {
+            const url = new URL(currentURI, true);
+            url.query.notrust = 'true';
+            url.set('query', url.query);
+            window.location.href = url.toString();
+          } catch (err) {
+            // invalid URL;
+          }
+        }, 100);
+      }
     },
   },
   mounted() {
     if (this.case && this.case !== 'sign') {
-      this.$nextTick(() => this.$refs.base.show());
+      this.$nextTick(() => {
+        this.$refs.base.show();
+        this.tryTrustInstalled();
+      });
     } else {
       this.$nextTick(() => this.$refs.base.hide());
     }

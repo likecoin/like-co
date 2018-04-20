@@ -54,4 +54,4 @@ const toolbarsDisableError = {
 };
 export const getToolbarsDisableError = route => (toolbarsDisableError[route] || false);
 
-export const TRUST_URL = 'https://eps2.app.link?openURL=';
+export const TRUST_URL = 'https://eps2.app.link/?openURL=';
