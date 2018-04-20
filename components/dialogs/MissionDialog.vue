@@ -3,13 +3,13 @@
     <base-dialog ref="dialog" class="with-icon">
 
       <div slot="header-center" class="lc-dialog-icon">
-        <mission-icon :mission-id="getPopupMission.id" />
+        <mission-icon :mission-id="missionId" />
       </div>
 
           <div class="mission-dialog-content">
 
             <div class="reward-label">
-              {{ getPopupMission.isReferral ? getPopupMission.referralReward : getPopupMission.reward }}
+              {{ mission.isReferral ? mission.referralReward : mission.reward }}
             </div>
 
             <h1 class="title-label">{{ title }}</h1>
@@ -18,27 +18,11 @@
 
             <!-- BEGIN - Getting Start Section -->
             <div
-              v-if="getPopupMission.id === 'gettingStart'"
+              v-if="mission.id === 'gettingStart'"
               class="getting-start-form">
 
               <task-list
-                :tasks="[
-                  {
-                    id: 'paymentPageView',
-                    title: 'View your Like ID payment page',
-                    state: 'active',
-                  },
-                  {
-                    id: 'introductionVideoWatch',
-                    title: 'Watch introduction Video',
-                    state: 'active',
-                  },
-                  {
-                    id: 'telegramGroupJoin',
-                    title: 'Join LikeCoin telegram group',
-                    state: 'active',
-                  },
-                ]"
+                :tasks="getTasks"
                 @click="onClickGettingStartTask" />
 
               <div class="lc-button-group">
@@ -52,7 +36,7 @@
 
             <!-- BEGIN - Verify Email Section -->
             <div
-              v-else-if="!getPopupMission.isReferral && getPopupMission.id === 'verifyEmail'"
+              v-else-if="!isReferral && missionId === 'verifyEmail'"
               class="verify-email-form">
 
               <verify-email-form
@@ -68,7 +52,7 @@
 
             <!-- BEGIN - Invitee Verify Email Section -->
             <div
-              v-else-if="getPopupMission.isReferral && getPopupMission.id === 'verifyEmail'"
+              v-else-if="isReferral && missionId === 'verifyEmail'"
               class="verify-email-form">
 
               <div class="lc-button-group">
@@ -85,18 +69,21 @@
 
             <!-- BEGIN - Invite Friend Section -->
             <invite-friend-form
-              v-else-if="getPopupMission.id === 'inviteFriend'"
+              v-else-if="mission.id === 'inviteFriend'"
               form-id="mission-invite-friend-form"
               @invite="onInviteFriend" />
             <!-- END - Invite Friend Section -->
 
             <!-- BEGIN - Join Token Sale Section -->
             <div
-              v-else-if="!getPopupMission.isReferral && getPopupMission.id === 'joinTokenSale'"
+              v-else-if="!isReferral && isJoinTokenSaleMission"
               class="join-tokensale-form">
 
               <div class="lc-button-group">
-                <md-button class="md-likecoin">
+                <md-button
+                  class="md-likecoin"
+                  @click="$router.to({ name: 'in-tokensale' })"
+                >
                   {{ $t('Home.Sale.button.joinNow') }}
                 </md-button>
                 <br />
@@ -112,7 +99,7 @@
 
             <!-- BEGIN - Invitee Join Token Sale Section -->
             <div
-              v-else-if="getPopupMission.isReferral && getPopupMission.id === 'joinTokenSale'"
+              v-else-if="isReferral && isJoinTokenSaleMission"
               class="join-tokensale-form">
 
               <div class="lc-button-group">
@@ -128,7 +115,7 @@
 
             <!-- BEGIN - Invite Token Sale Section -->
             <div
-              v-else-if="getPopupMission.id === 'inviteTokenSale'"
+              v-else-if="missionId === 'inviteTokenSale'"
               class="invite-tokensale-form">
 
               <div class="lc-button-group">
@@ -156,6 +143,7 @@ import InviteFriendForm from '~/components/forms/InviteFriendForm';
 import VerifyEmailForm from '~/components/forms/VerifyEmailForm';
 import MissionIcon from '~/components/Mission/Icon';
 import TaskList from '~/components/Mission/TaskList';
+import { GETTING_STARTED_TASKS } from '@/constant';
 
 import { logTrackerEvent } from '@/util/EventLogger';
 
@@ -174,27 +162,49 @@ export default {
   },
   data() {
     return {
+      GETTING_STARTED_TASKS,
       FacebookIcon,
       LinkIcon,
       TwitterIcon,
+      isReferral: false,
+      invitee: '',
     };
   },
   computed: {
     ...mapGetters([
       'getPopupMission',
+      'getMissionById',
       'getUserInfo',
     ]),
+    mission() {
+      return this.getMissionById(this.getPopupMission.id) || {};
+    },
     title() {
-      return this.$t(`Mission.${this.getPopupMission.id}.title`);
+      return this.$t(`Mission.${this.missionId}.title`);
     },
     description() {
-      const { id, invitee, isReferral } = this.getPopupMission;
-      const referralPostfix = isReferral ? 'Referral' : '';
-      return this.$t(`Mission.${id}${referralPostfix}.description`, { invitee });
+      const referralPostfix = this.isReferral ? 'Referral' : '';
+      const { invitee } = this;
+      return this.$t(`Mission.${this.missionId}${referralPostfix}.description`, { invitee });
+    },
+    missionId() {
+      return this.mission.id;
+    },
+    isJoinTokenSaleMission() {
+      return (this.missionId === 'joinTokenSale' || this.missionId === 'refereeTokenSale');
+    },
+    getTasks() {
+      return GETTING_STARTED_TASKS.map(id => ({
+        id,
+        title: `Mission.${this.missionId}.${id}`,
+        state: this.mission[id] ? 'completed' : 'active',
+      }));
     },
   },
   methods: {
-    ...mapActions([]),
+    ...mapActions([
+      'postStepMission',
+    ]),
     show() {
       this.$refs.dialog.show();
     },
@@ -222,13 +232,13 @@ export default {
         default:
       }
     },
-    onClickGettingStartTask(t) {
+    async onClickGettingStartTask(t) {
       switch (t.id) {
-        case 'paymentPageView':
+        case 'taskPaymentPage':
           window.open(`/${this.getUserInfo.displayName}`, 'payment-page');
           break;
 
-        case 'introductionVideoWatch': {
+        case 'taskVideo': {
           let link = 'https://youtu.be/';
           switch (this.$i18n.locale) {
             case 'cn':
@@ -245,7 +255,7 @@ export default {
           break;
         }
 
-        case 'telegramGroupJoin': {
+        case 'taskTelegram': {
           let link = 'https://t.me/likecoin';
           switch (this.$i18n.locale) {
             case 'ja':
@@ -265,6 +275,11 @@ export default {
 
         default:
       }
+      await this.postStepMission({
+        user: this.getUserInfo.user,
+        missionId: this.missionId,
+        taskId: t.id,
+      });
     },
     onDismiss() {
       this.hide();
@@ -272,7 +287,12 @@ export default {
   },
   watch: {
     getPopupMission(m) {
-      if (m) this.show();
+      if (m) {
+        const { invitee, isReferral } = m;
+        this.invitee = invitee;
+        this.isReferral = isReferral;
+        this.show();
+      }
     },
   },
 };

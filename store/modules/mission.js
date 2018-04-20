@@ -7,9 +7,12 @@ import {
   MISSION_SET_MISSION_LIST,
   MISSION_SET_MISSION_SEEN,
   MISSION_SET_MISSION_CLAIMED,
+  MISSION_STEP_MISSION,
+  MISSION_SET_MISSION_DONE,
   MISSION_SET_REFERRAL_LIST,
   MISSION_SET_REFERRAL_BONUS_LIST,
   MISSION_SET_REFERRAL_TYPE_CLAIMED,
+  MISSION_SET_REFERRAL_AVATAR,
 } from '../mutation-types';
 import * as actions from './actions/mission';
 import * as getters from './getters/mission';
@@ -31,8 +34,20 @@ const mutations = {
   [MISSION_SET_MISSION_CLAIMED](state, missionId) {
     state.missions = state.missions.filter(m => m.id !== missionId);
   },
+  [MISSION_STEP_MISSION](state, { missionId, taskId }) {
+    const mission = state.missions.find(m => m.id === missionId);
+    Vue.set(mission, taskId, true);
+  },
+  [MISSION_SET_MISSION_DONE](state, { missionId }) {
+    const mission = state.missions.find(m => m.id === missionId);
+    Vue.set(mission, 'done', true);
+  },
   [MISSION_SET_REFERRAL_LIST](state, referrals) {
     state.referrals = referrals;
+  },
+  [MISSION_SET_REFERRAL_AVATAR](state, { userId, avatar }) {
+    const referral = state.referrals.find(r => r.id === userId);
+    if (referral) Vue.set(referral, 'avatar', avatar);
   },
   [MISSION_SET_REFERRAL_BONUS_LIST](state, bonus) {
     state.proxyBonus = {};

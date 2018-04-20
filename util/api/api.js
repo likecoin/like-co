@@ -7,6 +7,8 @@ export const apiCheckIsUser = addr => axios.get(`/api/users/addr/${addr}`);
 
 export const apiGetUserById = id => axios.get(`/api/users/id/${id}`);
 
+export const apiGetUserMinById = id => axios.get(`/api/users/id/${id}/min`);
+
 export const apiGetTxById = id => axios.get(`/api/tx/id/${id}`);
 
 export const apiGetTxToByAddr = addr => axios.get(`/api/tx/addr/to/${addr}`);
@@ -14,6 +16,8 @@ export const apiGetTxToByAddr = addr => axios.get(`/api/tx/addr/to/${addr}`);
 export const apiGetTxFromByAddr = addr => axios.get(`/api/tx/addr/from/${addr}`);
 
 export const apiGetReferralById = id => axios.get(`/api/users/referral/${id}`);
+
+export const apiGetTotalBonusById = id => axios.get(`/api/users/bonus/${id}`);
 
 export const apiCheckCoupon = code => axios.get(`/api/coupon/coupon/${code}`);
 

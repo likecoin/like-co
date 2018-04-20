@@ -18,6 +18,7 @@
           <invitee-list
             :missions="i.missions"
             :username="i.id"
+            :avatar="i.avatar"
             :is-small="true"
             @click="onClick" />
         </li>

@@ -47,9 +47,10 @@ export default {
   computed: {
     ...mapGetters([
       'getProxyMissionReward',
+      'getUserInfo',
     ]),
     title() {
-      return this.$t(`This.mission.${this.mission.id}.title`);
+      return this.$t(`Mission.${this.mission.id}.title`);
     },
     isNew() {
       if (this.isReferral) {
@@ -67,6 +68,12 @@ export default {
         return this.mission.referralReward;
       } else if (this.mission.isProxy && this.getProxyMissionReward(this.mission.id)) {
         return `${this.getProxyMissionReward(this.mission.id).div(ONE_LIKE).toFixed(2)} LIKE`;
+      } else if (this.getUserInfo.referrer) {
+        if (this.mission.refereeReward) {
+          return this.mission.refereeReward;
+        } else if (this.mission.refereeExtraReward) {
+          return `${this.mission.reward} + ${this.mission.refereeExtraReward}`;
+        }
       }
       return this.mission.reward;
     },

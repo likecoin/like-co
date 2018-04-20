@@ -27,6 +27,19 @@ const ValidationHelper = {
       isEmailVerified,
     };
   },
+  filterUserDataMin({
+    user,
+    displayName,
+    avatar,
+    wallet,
+  }) {
+    return {
+      user,
+      displayName,
+      avatar,
+      wallet,
+    };
+  },
   filterTxData({
     from,
     fromId,
@@ -56,6 +69,8 @@ const ValidationHelper = {
     const {
       id,
       reward,
+      refereeReward,
+      refereeExtraReward,
       referralReward,
       referralPayoutType,
       targetPayoutType,
@@ -71,6 +86,8 @@ const ValidationHelper = {
     return {
       id,
       reward,
+      refereeReward,
+      refereeExtraReward,
       referralReward,
       referralPayoutType,
       targetPayoutType,

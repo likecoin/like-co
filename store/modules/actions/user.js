@@ -93,6 +93,11 @@ export async function fetchUserReferralStats({ commit }, id) {
   return apiWrapper(commit, api.apiGetReferralById(id));
 }
 
+export async function fetchUserTotalBonus({ commit }, id) {
+  const { bonus } = await apiWrapper(commit, api.apiGetTotalBonusById(id));
+  return bonus;
+}
+
 export async function sendCouponCodeEmail({ commit, rootState }, data) {
   return apiWrapper(
     commit,
