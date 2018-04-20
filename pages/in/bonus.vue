@@ -157,7 +157,13 @@ export default {
 <style lang="scss" scoped>
 @import "~assets/variables";
 
-.bonus-page {
+.likecoin-amount-section {
+  width: calc(2 / 3 * 100% + 72px);
+
+  :global(#likecoin-amount) {
+    background-color: $like-light-blue;
+    background-image: none;
+  }
 }
 
 .lc-tabs {
