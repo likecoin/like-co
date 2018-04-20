@@ -124,7 +124,7 @@ export default {
 
 .mission-card {
   box-sizing: border-box;
-  padding: 16px 4px 32px;
+  padding: 16px 4px 40px;
 
   border-radius: 8px;
   background-color: white;
@@ -223,7 +223,7 @@ export default {
       line-height: 54px;
 
       > span {
-        line-height: 26px;
+        line-height: 22px;
       }
     }
   }
@@ -253,9 +253,12 @@ export default {
     }
 
     .large & {
+      height: 28px;
+
       text-align: center;
 
       font-size: 20px;
+      line-height: 28px;
     }
   }
 
@@ -273,7 +276,7 @@ export default {
   width: 96px;
   height: 96px;
   margin-top: 16px;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 
   @media (min-width: 600px + 1px) {
     .large & {
