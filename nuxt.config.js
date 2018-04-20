@@ -1,3 +1,5 @@
+const webpack = require('webpack'); // eslint-disable-line import/no-extraneous-dependencies
+
 module.exports = {
   /*
   ** Headers of the page
@@ -117,7 +119,6 @@ module.exports = {
     ['@nuxtjs/google-tag-manager', { id: process.env.GTM_ID || 'GTM-XXXXXXX' }],
   ],
   plugins: [
-    { src: '~/plugins/polyfill.js' },
     { src: '~/plugins/EthHelper', ssr: false },
     { src: '~/plugins/vue-i18n' },
     { src: '~/plugins/vue-image-lightbox', ssr: false },
@@ -132,13 +133,43 @@ module.exports = {
   ** Add axios globally
   */
   build: {
+    scopeHoisting: true,
+    postcss: {
+      plugins: {
+        'postcss-import': {},
+        'postcss-url': {},
+        'postcss-cssnext': {
+          browsers: ['defaults'],
+        },
+      },
+    },
+    parallel: true,
     vendor: [
       'axios',
+      'babel-polyfill',
       'bignumber.js',
+      'classlist-polyfill',
       'moment',
       'vue-i18n',
       'vue-material',
       'vue-vimeo-player',
+    ],
+    babel: {
+      presets: ({ isServer }) => [
+        [
+          'vue-app',
+          {
+            targets: isServer
+              ? { node: '8.11.1' }
+              : { browsers: ['defaults'] },
+            useBuiltIns: true,
+          },
+        ],
+      ],
+    },
+    plugins: [
+      // Ignore all locale files of moment.js
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     ],
     /*
     ** Run ESLINT on save

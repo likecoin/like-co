@@ -1,32 +1,43 @@
 <template>
-  <md-dialog :md-active.sync="show"
+  <md-dialog
+    :md-active.sync="show"
     :md-close-on-esc="false"
     :md-click-outside-to-close="false"
     :md-fullscreen="false">
+
     <img class="foxy" :src="icon" />
     <div class="title-bar" />
+
     <div class="dialog-content">
       <md-dialog-title>
         {{ $t('Dialog.chrome.title') }}
       </md-dialog-title>
+
       <md-dialog-content>
         <div v-html="$t('Dialog.chrome.content')" />
       </md-dialog-content>
+
       <a href="https://www.google.com/chrome/browser/desktop/index.html" target="_blank" rel="noopener">
-        <md-button class="primary md-primary md-raised">
+        <material-button class="md-primary md-raised">
           {{ $t('Dialog.chrome.button.install') }}
-        </md-button>
+        </material-button>
       </a>
     </div>
+
   </md-dialog>
 </template>
 
 <script>
+import MaterialButton from '@/components/MaterialButton';
+
 import chromeIcon from '@/assets/icons/chrome.png';
 
 export default {
   name: 'ChromeDialog',
   props: ['show'],
+  components: {
+    MaterialButton,
+  },
   data() {
     return {
       icon: chromeIcon,

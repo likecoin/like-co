@@ -1,84 +1,101 @@
 <template>
-  <div>
-    <!-- Progress Bar -->
-    <md-progress-bar
-      v-if="!isHistoryFetched"
-      md-mode="indeterminate" />
-
-    <!-- Transaction List -->
-    <div class="lc-transaction-history" v-else-if="filteredHistory && filteredHistory.length">
-      <md-table>
-        <md-table-row>
-          <md-table-head class="status-header">
-            {{ $t('TransactionHistory.header.status') }}
-          </md-table-head>
-          <md-table-head>
-            {{ $t('TransactionHistory.header.fromOrTo') }}
-          </md-table-head>
-          <md-table-head>
-            {{ $t('TransactionHistory.header.time') }}
-          </md-table-head>
-          <md-table-head>
-            {{ $t('TransactionHistory.header.value') }}
-          </md-table-head>
-        </md-table-row>
-
-        <md-table-row v-for="tx in filteredHistory" :key="tx.id">
-          <md-table-cell :class="['status', getStatus(tx)]">
-            {{ $t(`TransactionHistory.label.${getStatus(tx)}`) }}
-          </md-table-cell>
-
-          <md-table-cell class="from-to-cell">
-            <span>
-              {{ $t(`TransactionHistory.label.${getFromTo(tx)}`) }}:
-            </span>
-            <nuxt-link
-              v-if="getFromToId(tx)"
-              :to="{ name: 'id', params: { id: getFromToId(tx) } }">
-              {{ getFromToId(tx) }}
-            </nuxt-link>
-            <span v-else>{{ $t('TransactionHistory.label.unknown') }}</span>
-          </md-table-cell>
-
-          <md-table-cell
-            :class="['time-cell', {
-              pending: tx.status === 'pending',
-              expired: tx.status === 'timeout',
-            }]">
-            {{ getTime(tx) }}
-          </md-table-cell>
-
-          <md-table-cell>
-            <div :class="['value-cell', { error: isTxFailed(tx) }]">
-              <img
-                v-if="isTxFailed(tx)"
-                :src="ErrorIcon" />
-              <div
-                class="value"
-                v-html="getValue(tx)" />
-            </div>
-          </md-table-cell>
-
-          <md-table-cell class="view-cell">
-            <nuxt-link :to="{
-              name: isTokensale(tx) ? 'in-tokensale-tx-id' : 'in-tx-id',
-              params: { id: tx.id },
-            }">
-              {{ $t('TransactionHistory.button.view') }}
-            </nuxt-link>
-          </md-table-cell>
-        </md-table-row>
-      </md-table>
-      <a class="lc-padding-top-16 show-more" v-if="hasMore" href="" @click.prevent="onShowMore">
-        {{ $t('TransactionHistory.button.showMore') }}
-      </a>
-    </div>
-
-    <!-- Empty Placeholder -->
-    <div v-else>
-      {{ $t('TransactionHistory.label.noRecord') }}
+  <!-- Progress Bar -->
+  <div
+    v-if="!isHistoryFetched"
+    class="lc-container-3 lc-padding-vertical-64 lc-bg-gray-1">
+    <div class="lc-container-4">
+      <md-progress-bar md-mode="indeterminate" />
     </div>
   </div>
+
+  <!-- Transaction List -->
+  <div
+    v-else-if="filteredHistory && filteredHistory.length"
+    class="lc-transaction-history lc-padding-top-32 lc-padding-bottom-48 lc-bg-gray-1">
+    <md-table>
+      <md-table-row>
+        <md-table-head class="status-header">
+          {{ $t('TransactionHistory.header.status') }}
+        </md-table-head>
+        <md-table-head>
+          {{ $t('TransactionHistory.header.fromOrTo') }}
+        </md-table-head>
+        <md-table-head>
+          {{ $t('TransactionHistory.header.time') }}
+        </md-table-head>
+        <md-table-head class="right">
+          {{ $t('TransactionHistory.header.value') }}
+        </md-table-head>
+        <md-table-head />
+      </md-table-row>
+
+      <md-table-row v-for="tx in filteredHistory" class="lc-container-3" :key="tx.id">
+        <md-table-cell :class="['status', getStatus(tx)]">
+          {{ $t(`TransactionHistory.label.${getStatus(tx)}`) }}
+        </md-table-cell>
+
+        <md-table-cell class="from-to-cell">
+          <span>
+            {{ $t(`TransactionHistory.label.${getFromTo(tx)}`) }}:
+          </span>
+          <nuxt-link
+            v-if="getFromToId(tx)"
+            :to="{ name: 'id', params: { id: getFromToId(tx) } }">
+            {{ getFromToId(tx) }}
+          </nuxt-link>
+          <span v-else>{{ $t('TransactionHistory.label.unknown') }}</span>
+        </md-table-cell>
+
+        <md-table-cell
+          :class="['time-cell', {
+            pending: tx.status === 'pending',
+            expired: tx.status === 'timeout',
+          }]">
+          {{ getTime(tx) }}
+        </md-table-cell>
+
+        <md-table-cell>
+          <div :class="['value-cell right', { error: isTxFailed(tx) }]">
+            <img
+              v-if="isTxFailed(tx)"
+              :src="ErrorIcon" />
+            <div
+              v-else-if="isFromPreSaleBonus(tx)">
+              <img :src="LockIcon" />
+              <md-tooltip>
+                {{ $t('TransactionHistory.label.lockUntilDate', { date: BONUS_LOCK_UNTIL_DATE })}}
+              </md-tooltip>
+            </div>
+            <div
+              class="value"
+              v-html="getValue(tx)" />
+          </div>
+        </md-table-cell>
+
+        <md-table-cell class="view-cell">
+          <nuxt-link :to="{
+            name: isTokensale(tx) ? 'in-tokensale-tx-id' : 'in-tx-id',
+            params: { id: tx.id },
+          }">
+            {{ $t('TransactionHistory.button.view') }}
+          </nuxt-link>
+        </md-table-cell>
+      </md-table-row>
+    </md-table>
+    <a class="lc-padding-top-16 show-more" v-if="hasMore" href="" @click.prevent="onShowMore">
+      {{ $t('TransactionHistory.button.showMore') }}
+    </a>
+  </div>
+
+  <!-- Empty Placeholder -->
+  <div
+    v-else
+    class="lc-container-3 lc-padding-vertical-64 lc-bg-gray-1">
+    <div class="lc-container-4">
+      <div class="lc-text-align-center">{{ $t('TransactionHistory.label.noRecord') }}</div>
+    </div>
+  </div>
+
 </template>
 
 <script>
@@ -90,8 +107,19 @@ import ErrorIcon from '@/assets/txHistory/invalid.svg';
 import LockIcon from '@/assets/txHistory/lock.svg';
 
 import EthHelper from '@/util/EthHelper';
-import { ETH_TO_LIKECOIN_RATIO, ONE_LIKE, TRANSACTION_QUERY_LIMIT } from '@/constant';
-import { LIKE_COIN_ICO_ADDRESS, LIKE_COIN_PRESALE_ADDRESS } from '@/constant/contract/likecoin-ico';
+import {
+  ETH_TO_LIKECOIN_RATIO,
+  ONE_LIKE,
+  TRANSACTION_QUERY_LIMIT,
+  BONUS_LOCK_UNTIL_DATE,
+  BONUS_ADDRESS,
+} from '@/constant';
+import {
+  LIKE_COIN_ICO_ADDRESS,
+  LIKE_COIN_PRESALE_ADDRESS,
+  LIKE_COIN_PRESALE_FROM_ADDRESS,
+  LIKE_COIN_PRESALE_BONUS_FROM_ADDRESS,
+} from '@/constant/contract/likecoin-ico';
 
 function getLikeCoinByETH(eth) {
   return new BigNumber(eth).dividedBy(ONE_LIKE)
@@ -126,6 +154,7 @@ export default {
   props: ['address', 'showTokensale'],
   data() {
     return {
+      BONUS_LOCK_UNTIL_DATE,
       ErrorIcon,
       LockIcon,
       ICOTotalCoin: 0,
@@ -139,7 +168,7 @@ export default {
     filteredHistory() {
       return this.txHistory
         .filter(t => (t.type !== 'logRegisterKYC'))
-        .filter(t => (t.type !== 'transferETH' || this.isTokensale(t)));
+        .filter(t => (t.type !== 'transferETH' || this.isTokensale(t) || this.isPresale(t)));
     },
   },
   methods: {
@@ -147,6 +176,7 @@ export default {
       'queryTxHistoryByAddr',
     ]),
     getStatus(tx) {
+      if (this.isFromPreSaleBonus(tx) || this.isFromPresale(tx)) return 'earlybird';
       if (this.isTokensale(tx)) return 'tokensale';
       if (this.isPresale(tx)) return 'earlybird';
       if (this.isTxFailed(tx)) return 'fail';
@@ -172,6 +202,9 @@ export default {
       return formatAmount(value, 'LIKE');
     },
     getFromToId(tx) {
+      if (this.isFromPresale(tx)) return 'presale';
+      if (this.isFromBonus(tx)) return 'bonus';
+      if (this.isFromPreSaleBonus(tx)) return 'presalebonus';
       if (this.isPresale(tx)) return 'earlybird';
       if (this.isTokensale(tx)) return 'tokensale';
       if (tx.type === 'claimCoupon') return 'coupon';
@@ -187,6 +220,15 @@ export default {
       if (tx.status === 'pending') return this.$t('TransactionHistory.label.timePending');
       if (tx.status === 'timeout') return this.$t('TransactionHistory.label.timeExpired');
       return tx.completeTs ? formatUTCTime(tx.completeTs) : '';
+    },
+    isFromPresale(tx) {
+      return tx.from === LIKE_COIN_PRESALE_FROM_ADDRESS;
+    },
+    isFromBonus(tx) {
+      return tx.from === BONUS_ADDRESS;
+    },
+    isFromPreSaleBonus(tx) {
+      return tx.from === LIKE_COIN_PRESALE_BONUS_FROM_ADDRESS;
     },
     isPresale(tx) {
       return tx.to === LIKE_COIN_PRESALE_ADDRESS;
@@ -259,11 +301,20 @@ export default {
       padding: 6px 0;
     }
 
+    :global(.md-table-content) {
+      padding-left: 32px;
+      padding-right: 32px;
+    }
+
     .md-table-head {
       color: $like-dark-brown-1;
 
       font-size: 14px;
       font-weight: normal;
+
+      &.right {
+        text-align: right;
+      }
 
       &.status-header {
         width: 102px;
@@ -340,12 +391,19 @@ export default {
         .value-cell {
           display: flex;
           flex-direction: row;
+
+          &.right {
+            justify-content: flex-end;
+          }
+
           &.error {
             color: #9b9b9b;
           }
           img {
-            margin-top: -4px;
+            margin-top: -2px;
             margin-right: 4px;
+
+            min-width: 10px;
           }
           .value {
             font-size: 0;

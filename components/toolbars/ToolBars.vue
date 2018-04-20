@@ -1,13 +1,30 @@
 <template>
   <no-ssr>
     <div class="toolbars">
-      <popup-dialog v-if="checkShouldShowError(getPopupError)" :allowClose="false" header="Error" :message="getPopupError" />
-      <popup-dialog :allowClose="true" header="Info" :message="getPopupInfo"/>
+
+      <popup-dialog
+        v-if="checkShouldShowError(getPopupError)"
+        :allowClose="false"
+        header="Error"
+        :message="getPopupError" />
+
+      <popup-dialog
+        :allowClose="true"
+        header="Info"
+        :message="getPopupInfo" />
+
       <div v-if="checkShouldShowError(getMetamaskError)">
-        <chrome-dialog v-if="showShowChromeDialog" :show="showShowChromeDialog"/>
-        <metamask-dialog v-else-if="!!getMetamaskError" :case="getMetamaskError" :webThreeType="getWeb3Type"/>
+        <chrome-dialog
+          v-if="shouldShowChromeDialog"
+          :show="shouldShowChromeDialog" />
+        <metamask-dialog
+          v-else-if="!!getMetamaskError"
+          :case="getMetamaskError"
+          :webThreeType="getWeb3Type" />
       </div>
+
       <blocker-dialog :show="getIsPopupBlocking"/>
+
       <tx-dialog
         :show="getIsShowingTxPopup"
         :txId="getPendingTx"
@@ -16,13 +33,18 @@
         :txDialogActionRoute="getTxDialogActionRoute"
         :txDialogActionText="getTxDialogActionText"
         @onClose="closeTxDialog" />
-      <loading-toolbar :isLoading="getIsLoading" :isInTransaction="getIsInTransaction"/>
+
+      <loading-toolbar
+        :isLoading="getIsLoading"
+        :isInTransaction="getIsInTransaction" />
+
       <tx-toolbar
         v-if="getPendingTx"
         :txHash="getPendingTx"
         :txInfo="getPendingTxInfo"
         :isInTx="getIsInTransaction"
         @onClose="closeTxToolbar" />
+
       <info-toolbar
         v-if="getInfoMsg"
         :isError="getInfoIsError"
@@ -35,6 +57,7 @@
           {{ $t('Edit.label.redeemCoin') }}
         </nuxt-link>
       </info-toolbar>
+
     </div>
   </no-ssr>
 </template>
@@ -63,7 +86,7 @@ export default {
     TxDialog,
   },
   computed: {
-    showShowChromeDialog() {
+    shouldShowChromeDialog() {
       return this.getMetamaskError === 'web3' && !this.checkIsDesktopChrome();
     },
     ...mapGetters([
@@ -113,7 +136,7 @@ export default {
 @import "~assets/variables";
 
 .toolbars {
-  position: fixed;
+  position: relative;
   z-index: 999;
   top: 0px;
 

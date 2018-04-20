@@ -48,7 +48,7 @@
                     <div v-if="index === 0" class="progress" />
 
                     <div class="line">
-                      <div :class="['dot', { isReached: 'active' }]" />
+                      <div :class="['dot', { active: isReached }]" />
                     </div>
 
                     <div class="event">{{ $t(`Home.RoadMap.timeline[${index}].title`) }}</div>
@@ -83,7 +83,7 @@
 
 
 <script>
-const milestones = [true, true, true, false, false, false, false];
+const milestones = [true, true, true, true, false, false, false];
 
 export default {
   name: 'road-map',
@@ -101,7 +101,7 @@ export default {
 
 $timeline-radius: 12px;
 $timeline-width: 16px;
-$progress-bar-percentage: 38%;
+$progress-bar-percentage: 43%;
 
 .lc-road-map {
   .road-map-container {
@@ -131,7 +131,7 @@ $progress-bar-percentage: 38%;
     .milestone {
       flex: 1;
 
-      min-width: 96px;
+      min-width: 110px;
 
       color: $like-dark-brown-1;
 
@@ -160,6 +160,15 @@ $progress-bar-percentage: 38%;
           &.active {
             background-color: $like-green;
           }
+        }
+      }
+
+      @media (min-width: #{860px + 1px}) {
+        .date {
+          display: flex;
+          align-items: flex-end;
+
+          min-height: 48px;
         }
       }
 
@@ -232,7 +241,7 @@ $progress-bar-percentage: 38%;
 
           .date,
           .event {
-            width: 130px;
+            width: 136px;
             margin-top: -4px;
           }
 

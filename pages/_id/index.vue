@@ -385,10 +385,14 @@ p {
 
 .create-account-wrapper {
   .md-button {
-    width: 256px;
     display: block;
+
+    width: auto;
+    min-width: 256px;
+    max-width: 320px;
     margin: 16px auto;
   }
+
   a {
     text-decoration: underline;
 

@@ -79,29 +79,31 @@
             <div class="lc-container-4">
               <div class="address-section">
                 <div :class="['address-container', { edit: isProfileEdit }]">
-                  <div class="address-field likecoin-id lc-tablet-show">
+                  <div :class="['address-field', 'likecoin-id', 'lc-tablet-show', { disabled: isProfileEdit }]">
                     <div class="address-title">
                       {{ $t('Edit.label.id') }}
                     </div>
                     <nuxt-link v-if="user" :to="{ name: 'id', params: { id: user } }">
-                      <div :class="['lc-font-size-20', { disabled: isProfileEdit }]">
+                      <div class="lc-font-size-20">
                         {{ user }}
                       </div>
                     </nuxt-link>
                   </div>
-                  <div class="address-field">
-                    <div :class="['address-title', { disabled: isProfileEdit }]">
+                  <div :class="['address-field', { disabled: isProfileEdit }]">
+                    <div class="address-title">
                       {{ $t('Edit.label.address') }}
                     </div>
                     <md-field class="md-field-display">
                       <md-input
-                        :class="['input-info', { disabled: isProfileEdit }]"
+                        class="input-info"
                         v-model="wallet"
                         required
                         disabled />
                     </md-field>
                   </div>
-                  <div class="address-field" @click="onEditEmail">
+                  <div
+                    :class="['address-field', { disabled: getUserInfo.isEmailVerified && isProfileEdit }]"
+                    @click="onEditEmail">
                     <div class="address-title">
                       {{ $t('Edit.label.email') }}
                       <span v-if="!isProfileEdit">
@@ -120,7 +122,8 @@
                         </span>
                       </span>
                     </div>
-                    <md-field :class="(!getUserInfo.isEmailVerified && isProfileEdit) ? 'md-field-edit-mode' : 'md-field-pre-edit'">
+                    <md-field
+                      :class="['md-field-display', (!getUserInfo.isEmailVerified && isProfileEdit) ? 'md-field-edit-mode' : 'md-field-pre-edit']">
                       <label class="input-display-hint lc-font-size-20">
                         {{ $t('Edit.label.addEmail') }}
                       </label>
@@ -167,7 +170,7 @@
       </div>
     </div>
 
-    <div v-if="isEnableTxHistory" class="lc-margin-top-48 lc-mobile">
+    <div class="lc-margin-top-48 lc-mobile">
       <section class="lc-container-1">
         <div class="lc-container-header">
           <div class="lc-container-2 lc-container-header-overlay">
@@ -187,15 +190,11 @@
         </div>
 
         <div class="lc-container-2">
-          <div class="lc-container-3 lc-padding-vertical-32 lc-bg-gray-1">
-            <div class="lc-container-4">
-              <transaction-history
-                ref="txHistory"
-                :address="wallet"
-                :showTokensale="true"
-                />
-            </div>
-          </div>
+          <transaction-history
+            ref="txHistory"
+            :address="wallet"
+            :showTokensale="true"
+            />
         </div>
       </section>
     </div>
@@ -314,7 +313,7 @@ import InputDialog from '~/components/dialogs/InputDialog';
 import TransactionHistory from '~/components/TransactionHistory';
 import ViewEtherscan from '~/components/ViewEtherscan';
 
-import { ONE_LIKE, W3C_EMAIL_REGEX, SALE_DATE } from '@/constant';
+import { ONE_LIKE, W3C_EMAIL_REGEX } from '@/constant';
 
 import EditIcon from '@/assets/icons/edit.svg';
 import EditWhiteIcon from '@/assets/icons/edit-white.svg';
@@ -353,9 +352,6 @@ export default {
     ViewEtherscan,
   },
   computed: {
-    isEnableTxHistory() {
-      return (new Date() >= SALE_DATE);
-    },
     ...mapGetters([
       'getUserInfo',
       'getIsInTransaction',
@@ -428,7 +424,7 @@ export default {
       this.email = user.email;
       this.updateLikeCoin();
       this.updateReferralStat();
-      if (this.isEnableTxHistory) this.$refs.txHistory.updateTokenSaleHistory();
+      this.$refs.txHistory.updateTokenSaleHistory();
     },
     async updateLikeCoin() {
       try {
@@ -739,12 +735,6 @@ $profile-icon-mobile-size: 88px;
 
         .md-focused .input-display-hint {
           opacity: 0;
-        }
-
-        &.likecoin-id {
-          @media (min-width: 769px) {
-            display: none;
-          }
         }
 
         .verified {

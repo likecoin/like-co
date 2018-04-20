@@ -21,9 +21,15 @@
               <ul>
                 <li v-if="m.section === 'primary'">
                   <menu-item
+                    v-if="!getUserIsRegistered && showLogin"
                     :title="getButtonText"
                     :isHighlighted="true"
                     @click="onClickAccountButton" />
+                  <menu-item
+                    v-else
+                    :title="getButtonText"
+                    :isHighlighted="true"
+                    :to="{ name: 'in' }" />
                 </li>
                 <li v-for="i in m.items" :key="i.key">
                   <menu-item
@@ -142,9 +148,7 @@ export default {
       if (!this.getUserIsRegistered && this.showLogin) {
         this.showLoginWindow();
       } else {
-        this.$router.push({
-          name: this.getUserIsRegistered ? 'in-edit' : 'in-register',
-        });
+        this.$router.push({ name: 'in' });
       }
     },
   },
@@ -156,7 +160,7 @@ export default {
 @import "~assets/variables";
 
 .dismiss-overlay {
-  position: fixed;
+  position: absolute;
   z-index: 9999;
   top: 0;
   right: 0;
@@ -209,7 +213,7 @@ export default {
   flex-shrink: 0;
   justify-content: center;
 
-  padding: 10px 24px;
+  padding: 10px 6px;
 
   background-color: white;
 }
@@ -253,44 +257,47 @@ $sliding-menu-width: 320px;
 $sliding-menu-narrow-width: 260px;
 
 .lc-sliding-menu-wrapper {
-  z-index: -30;
-  position: fixed;
+  position: absolute;
   top: 0;
-  right: 0;
-  width: $sliding-menu-width;
+  right: -$sliding-menu-width;
   bottom: 0;
 
-  transform: translateX(100%);
+  width: $sliding-menu-width;
 
   background-color: $like-gray-1;
 
+  &::after {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+
+    width: 4px;
+
+    content: " ";
+    pointer-events: none;
+
+    background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.0));
+  }
+
   @media (max-width: 600px) {
+    right: -$sliding-menu-narrow-width;
+
     width: $sliding-menu-narrow-width;
   }
 }
 
 .lc-page-wrapper {
   &.with-sliding-menu {
-    transition: transform .5s ease-in-out;
     position: relative;
 
-    &::before {
-      content: " ";
-      position: absolute;
-      background-color: white;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-
-      box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
-    }
+    transition: transform .5s ease-in-out;
 
     [lc-sliding-menu="open"] & {
-      transform: translateX(-#{$sliding-menu-width});
+      transform: translateX(-$sliding-menu-width);
 
       @media (max-width: 600px) {
-        transform: translateX(-#{$sliding-menu-narrow-width});
+        transform: translateX(-$sliding-menu-narrow-width);
       }
     }
   }

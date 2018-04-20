@@ -201,10 +201,10 @@
       "zu": "isiZulu"
     },
     "Date": {
-        "day": "日 | 日",
-        "hour": "時間｜時間",
-        "minute": "分｜分",
-        "second": "秒|秒"
+        "day": "日",
+        "hour": "時間",
+        "minute": "分",
+        "second": "秒"
     },
     "Menu": {
         "button": {
@@ -236,7 +236,7 @@
             }
         },
         "Flag": {
-            "title": "Likeを改革しましょう",
+            "title": "「いいね」がコインに。 クリエイターは報酬を。",
             "content": "プルーフオブクリエイティビティによる高価値なコンテンツ"
         },
         "HeroVideo": {
@@ -388,14 +388,6 @@
                 "heartherm-huang": {
                     "title": "Heartherm Huang",
                     "subtitle": "Measurable Token創設者"
-                },
-                "jacky-chu": {
-                    "title": "Jacky Chu",
-                    "subtitle": "BTC、ETH、IOTA、VEN、ARDRの初期投資家"
-                },
-                "to-cheung": {
-                    "title": "To Cheung",
-                    "subtitle": ""
                 }
             }
         },
@@ -417,6 +409,10 @@
                 "isaac-mao": {
                     "title": "Isaac Mao",
                     "description": "<a href=\"https://musicoin.org/\" target=\"_blank\" rel=\"noopener\">Musicoin</a>の創立者。CNBlogs.orgの創立者。iCommons China、クリエイティブ・コモンズ中国チームのプロジェクトリーダー"
+                },
+                "to-cheung": {
+                    "title": "To Cheung",
+                    "subtitle": ""
                 }
             }
         },
@@ -634,7 +630,7 @@
         "label": {
             "id": "LikeCoin ID:",
             "likeCoinAmount": "LikeCoinの金額",
-            "address": "メールアドレス",
+            "address": "ウォレットアドレス",
             "email": "メールアドレス",
             "addEmail": "メールアドレスを追加",
             "redeemCoin": "LikeCoinと引き換える",
@@ -655,7 +651,7 @@
             "copyUrl": "URLをコピー",
             "facebook": "Facebook",
             "twitter": "Twitter",
-            "send": "送金",
+            "send": "招待",
             "sent": "{email}に招待メールが送信されました",
             "verifyEmailFirst": "メールアドレスを確認してアフィリエイトプログラムに参加しましょう。",
             "tweetContent": "私と一緒にLike.coに参加して無料のLikeCoinを獲得しましょう！",
@@ -740,7 +736,7 @@
             "bonusAndLimitedOffer": "25%ボーナス、期間限定オファー",
             "limitedOfferCondition": "10ETH以上の購入",
             "amountLikeToPurhcase": "購入するLIKEの金額",
-            "tokensaleBadAmount": "無効な金額です。0.1ETH～10,000ETHの間で指定してください",
+            "tokensaleBadAmount": "無効な金額です。0.1ETH～1,000ETHの間で指定してください",
             "bonus": "ボーナス",
             "bonusLockUp": "ボーナスのLikeCoinはウォレット内にロックアップされ、6ヶ月間は移管できません。",
             "amountWillBeSentWhenSalesStart": "購入済みおよびボーナスのLikeCoinはトークン公売開始時（2018年4月23日予定）にお使いのウォレットに送金されます。ボーナスのLikeCoinはウォレット内にロックアップされ、6ヶ月間は移管できません。",

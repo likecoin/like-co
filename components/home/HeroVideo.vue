@@ -71,17 +71,22 @@ export default {
     };
   },
   computed: {
-    getIsChinese() {
-      return this.$i18n.locale === 'zh' || this.$i18n.locale === 'cn';
-    },
     getHeroVideoId() {
-      return this.getIsChinese ? '263989554' : '264012719';
+      return this.$i18n.locale === 'zh' ? '263989554' : '264012719';
     },
     getDialogVideoId() {
-      return this.getIsChinese ? '263110337' : '263833566';
+      switch (this.$i18n.locale) {
+        case 'cn': return '264581697';
+
+        case 'ja': return '264582297';
+
+        case 'zh': return '263110337';
+
+        default: return '263833566';
+      }
     },
     getThumbnailImageFileName() {
-      return this.getIsChinese ? 'live-action' : 'infographic';
+      return this.$i18n.locale === 'zh' ? 'live-action' : 'infographic';
     },
   },
   methods: {

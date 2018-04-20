@@ -3,6 +3,8 @@ import moment from 'moment';
 
 export const { IS_TESTNET } = process.env;
 
+export const BONUS_ADDRESS = IS_TESTNET ? '0xC75c0b2a92fd823A05C7AE3949ad6f1aB20Dd37E' : '0x65b8E5D9d95e707349789E42fa2f88EE5B20B072';
+
 export const ETHERSCAN_HOST = IS_TESTNET ? 'https://rinkeby.etherscan.io' : 'https://etherscan.io';
 
 export const INFURA_HOST = IS_TESTNET ? 'https://rinkeby.infura.io/ywCD9mvUruQeYcZcyghk' : 'https://mainnet.infura.io/ywCD9mvUruQeYcZcyghk';
@@ -34,10 +36,11 @@ export const KYC_STATUS_ENUM = {
 };
 
 export const ETH_TO_LIKECOIN_RATIO = 40000;
-export const INITIAL_TOKENSALE_ETH = new BigNumber(5600);
+export const INITIAL_TOKENSALE_ETH = new BigNumber(5400);
 
 export const SALE_DATE_ANNOUNCE_DATE = moment('2018-04-13T18:00:00+0800');
-export const SALE_DATE = moment('2018-04-23T12:00:00+0800');
+export const SALE_DATE = moment('2018-05-07T12:00:00+0800');
+export const BONUS_LOCK_UNTIL_DATE = moment.unix(1540267200);
 
 
 const toolbarsDisableError = {

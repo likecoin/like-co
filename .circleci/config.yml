@@ -25,7 +25,7 @@ jobs:
           name: Curl Test
           command: |
             sleep 5
-            curl --retry 10 --retry-delay 5 -v http://localhost:3000/
+            curl --retry 10 --retry-delay 5 -v http://127.0.0.1:3000/
       - save_cache:
           key: likecoin-store-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
           paths:

@@ -101,10 +101,6 @@ export default {
 
     .account-btn {
       font-size: 18px;
-
-      > :global(.md-ripple) {
-        padding: 0;
-      }
     }
   }
 }

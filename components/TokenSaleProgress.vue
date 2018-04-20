@@ -38,9 +38,7 @@
 
 
 <script>
-import {
-  INITIAL_TOKENSALE_ETH,
-} from '@/constant';
+import { INITIAL_TOKENSALE_ETH } from '@/constant';
 
 export default {
   name: 'tokensale-progress',

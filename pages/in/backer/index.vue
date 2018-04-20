@@ -74,7 +74,7 @@
         <div class="lc-container-2">
           <div class="lc-container-3 lc-bg-gray-1">
             <div class="lc-container-4 lc-padding-vertical-32">
-              <checkoutForm @emailNotVerified="onNeedEmailVerify"/>
+              <checkout-form @emailNotVerified="onNeedEmailVerify"/>
             </div>
           </div>
         </div>

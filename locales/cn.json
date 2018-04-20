@@ -384,10 +384,6 @@
         "heartherm-huang": {
           "title": "黄何",
           "subtitle": "量数币创办人"
-        },
-        "jacky-chu": {
-          "title": "Jacky Chu",
-          "subtitle": "BTC、ETH、IOTA、VEN及ARDR的早期投资者"
         }
       }
     },
@@ -409,6 +405,10 @@
         "isaac-mao": {
           "title": "毛向辉",
           "description": "<a href=\"https://musicoin.org/\" target=\"_blank\" rel=\"noopener\">Musicoin</a>创办人; CNBlogs.org创办人; Project Lead of iCommons China, Creative Commons China Team."
+        },
+        "to-cheung": {
+          "title": "章涛",
+          "description": "<a href=\"https://www.udomain.hk/\" target=\"_blank\" rel=\"noopener\">UDomain</a>创办人及行政总裁; BTC的早期投资者"
         }
       }
     },
@@ -732,7 +732,7 @@
       "bonusAndLimitedOffer": "限时 25% 额外奖赏",
       "limitedOfferCondition": "购买 10 ETH 以上即可享有",
       "amountLikeToPurhcase": "LIKE 的购买数量",
-      "tokensaleBadAmount": "金额无效，代币发售最低购买额为 0.1 ETH，最高购买额少于 10000 ETH。",
+      "tokensaleBadAmount": "金额无效，代币发售最低购买额为 0.1 ETH，最高购买额少于 1000 ETH。",
       "bonus": "奖励",
       "bonusLockUp": "额外的 LikeCoin 奖赏会在你的钱包锁上，6 个月内不能传送。",
       "amountWillBeSentWhenSalesStart": "您所购买的 LikeCoin 以及其额外奖赏将于公众代币发售开始时发送，预计将于 April 23 2018 开始。额外的 LikeCoin 奖赏会在你的钱包锁上，并且 6 个月内不能传送。",
@@ -841,7 +841,8 @@
       "noRecord": "暂时没有您的记录。",
       "to": "到",
       "from": "由",
-      "unknown": "未知"
+      "unknown": "未知",
+      "lockUntilDate": "锁上直至 {date}"
     },
     "button": {
       "view": "查阅",

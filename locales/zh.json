@@ -249,6 +249,7 @@
         "earlyBirdTokenSale": "早鳥代幣發售",
         "publicTokenSale": "公開代幣發售",
         "secure25Percent": "立即行動可享額外25%獎勵",
+        "comingSoon": "敬請期待",
         "nowLive": "現正進行"
       },
       "label": {
@@ -384,10 +385,6 @@
         "heartherm-huang": {
           "title": "黄何",
           "subtitle": "量數幣創辦人"
-        },
-        "jacky-chu": {
-          "title": "Jacky Chu",
-          "subtitle": "BTC、ETH、IOTA、VEN及ARDR的早期投資者"
         }
       }
     },
@@ -409,6 +406,10 @@
         "isaac-mao": {
           "title": "毛向輝",
           "description": "<a href=\"https://musicoin.org/\" target=\"_blank\" rel=\"noopener\">Musicoin</a>創辦人; CNBlogs.org創辦人; Project Lead of iCommons China, Creative Commons China Team."
+        },
+        "to-cheung": {
+          "title": "章濤",
+          "description": "<a href=\"https://www.udomain.hk/\" target=\"_blank\" rel=\"noopener\">UDomain</a>創辦人及行政總裁; BTC的早期投資者"
         }
       }
     },
@@ -732,7 +733,7 @@
       "bonusAndLimitedOffer": "限時 25% 額外獎賞",
       "limitedOfferCondition": "購買 10 ETH 以上即可享有",
       "amountLikeToPurhcase": "LIKE 的購買數量",
-      "tokensaleBadAmount": "金額無效，代幣發售最低購買額為 0.1 ETH，最高購買額少於 10000 ETH。",
+      "tokensaleBadAmount": "金額無效，代幣發售最低購買額為 0.1 ETH，最高購買額少於 1000 ETH。",
       "bonus": "獎勵",
       "bonusLockUp": "額外的 LikeCoin 獎賞會在你的錢包鎖上，6 個月內不能傳送。",
       "amountWillBeSentWhenSalesStart": "您所購買的 LikeCoin 以及其額外獎賞將於公眾代幣發售開始時發送，預計將於 April 23 2018 開始。額外的 LikeCoin 獎賞會在你的錢包鎖上，並且 6 個月內不能傳送。",
@@ -829,8 +830,8 @@
       "value": "價值"
     },
     "label": {
-      "in": "收入",
-      "out": "支出",
+      "in": "轉入",
+      "out": "轉出",
       "fail": "失敗",
       "tokensale": "代幣發售",
       "earlybird": "早鳥發售",
@@ -841,7 +842,8 @@
       "noRecord": "暫時沒有您的記錄。",
       "to": "到",
       "from": "由",
-      "unknown": "未知"
+      "unknown": "未知",
+      "lockUntilDate": "鎖上直至 {date}"
     },
     "button": {
       "view": "查閱",

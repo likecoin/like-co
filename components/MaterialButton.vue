@@ -41,7 +41,11 @@
   background-color: $like-green;
 
   font-size: 24px;
-  line-height: 32px;
+  line-height: 1.35;
+
+  @media (max-width: 600px) {
+    font-size: 20px;
+  }
 
   white-space: normal;
 
@@ -51,11 +55,13 @@
 
   &.disabled {
     opacity: 1 !important;
-    background-color: #e6e6e6;
+    color: $like-gray-4 !important;
+    background-color: $like-gray-3 !important;
+    background-image: none !important;
   }
 
   :global(.md-ripple) {
-    padding: 8px;
+    padding: 4px 12px;
 
     :global(.md-button-content) {
       position: initial;

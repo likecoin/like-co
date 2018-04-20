@@ -63,6 +63,9 @@ $signature-icon-overlap: 16px;
     @media (max-width: 600px) {
       flex-wrap: wrap;
       justify-content: center;
+
+      margin-right: -#{$horizontal-interspace / 4};
+      margin-left: -#{$horizontal-interspace / 4};
     }
   }
 
@@ -78,6 +81,9 @@ $signature-icon-overlap: 16px;
     }
 
     @media (max-width: 600px) {
+      margin-right: #{$horizontal-interspace / 4};
+      margin-left: #{$horizontal-interspace / 4};
+
       text-align: center;
     }
 
