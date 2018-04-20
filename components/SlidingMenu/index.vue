@@ -21,9 +21,15 @@
               <ul>
                 <li v-if="m.section === 'primary'">
                   <menu-item
+                    v-if="!getUserIsRegistered && showLogin"
                     :title="getButtonText"
                     :isHighlighted="true"
                     @click="onClickAccountButton" />
+                  <menu-item
+                    v-else
+                    :title="getButtonText"
+                    :isHighlighted="true"
+                    :to="{ name: 'in' }" />
                 </li>
                 <li v-for="i in m.items" :key="i.key">
                   <menu-item
@@ -142,9 +148,7 @@ export default {
       if (!this.getUserIsRegistered && this.showLogin) {
         this.showLoginWindow();
       } else {
-        this.$router.push({
-          name: this.getUserIsRegistered ? 'in-edit' : 'in-register',
-        });
+        this.$router.push({ name: 'in' });
       }
     },
   },
