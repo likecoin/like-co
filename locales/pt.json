@@ -711,7 +711,7 @@
             "bonusAndLimitedOffer": "Bônus de 25%, Oferta por Tempo Limitado",
             "limitedOfferCondition": "para compra de 10 ETH e acima",
             "amountLikeToPurhcase": "Quantidade de LIKE para Comprar",
-            "tokensaleBadAmount": "Quantidade inválida, mínimo de 0,1 ETH e máximo de 10.000 ETH",
+            "tokensaleBadAmount": "Quantidade inválida, mínimo de 0,1 ETH e máximo de 1.000 ETH",
             "bonus": "Bônus",
             "bonusLockUp": "O LikeCoin de bônus ficará bloqueado na sua carteira e não poderá ser transferido por 6 meses.",
             "amountWillBeSentWhenSalesStart": "Os LikeCoins comprados e de bônus serão enviados para sua carteira quando a venda pública de tokens começar, com data prevista para 23 de Abril de 2018. O LikeCoin de bônus ficará bloqueado na sua carteira e não poderá ser transferido por 6 meses.",

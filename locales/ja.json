@@ -715,7 +715,7 @@
             "bonusAndLimitedOffer": "25%ボーナス、期間限定オファー",
             "limitedOfferCondition": "10ETH以上の購入",
             "amountLikeToPurhcase": "購入するLIKEの金額",
-            "tokensaleBadAmount": "無効な金額です。0.1ETH～10,000ETHの間で指定してください",
+            "tokensaleBadAmount": "無効な金額です。0.1ETH～1,000ETHの間で指定してください",
             "bonus": "ボーナス",
             "bonusLockUp": "ボーナスのLikeCoinはウォレット内にロックアップされ、6ヶ月間は移管できません。",
             "amountWillBeSentWhenSalesStart": "購入済みおよびボーナスのLikeCoinはトークン公売開始時（2018年4月23日予定）にお使いのウォレットに送金されます。ボーナスのLikeCoinはウォレット内にロックアップされ、6ヶ月間は移管できません。",

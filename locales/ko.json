@@ -711,7 +711,7 @@
             "bonusAndLimitedOffer": "25% 보너스, 한시적 할인",
             "limitedOfferCondition": "10 ETH 이상 구매 전용",
             "amountLikeToPurhcase": "구매할 LIKE 수량",
-            "tokensaleBadAmount": "유효하지 않은 금액입니다. 최소 0.1 ETH, 10,000 ETH 미만이어야 합니다",
+            "tokensaleBadAmount": "유효하지 않은 금액입니다. 최소 0.1 ETH, 1,000 ETH 미만이어야 합니다",
             "bonus": "보너스",
             "bonusLockUp": "보너스 LikeCoin은 귀하의 지갑 안에 잠금 상태로 되어 6개월 동안 양도할 수 없습니다.",
             "amountWillBeSentWhenSalesStart": "공개 토큰 판매가 시작되면 구매하신 LikeCoin 및 보너스 LikeCoin이 귀하의 지갑으로 전송됩니다. 예정일은 2018년 4월 23일입니다. 보너스 LikeCoin은 귀하의 지갑 안에 잠금 상태로 되어 6개월 동안 양도할 수 없습니다.",

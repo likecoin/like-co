@@ -435,7 +435,7 @@ export default {
         return;
       }
       const amount = new BigNumber(this.amount);
-      if (!amount || amount.lt('0.1') || amount.gte('10000')) {
+      if (!amount || amount.lt('0.1') || amount.gte('1000')) {
         this.isBadAmount = true;
         return;
       }

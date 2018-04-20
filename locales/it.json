@@ -711,7 +711,7 @@
             "bonusAndLimitedOffer": "Bonus del 25%, offerta limitata nel tempo",
             "limitedOfferCondition": "per l’acquisto di 10 o più ETH",
             "amountLikeToPurhcase": "Numero di LIKE per acquistare",
-            "tokensaleBadAmount": "Importo non valido, minimum 0,1 ETH e fino a 10.000 ETH",
+            "tokensaleBadAmount": "Importo non valido, minimum 0,1 ETH e fino a 1.000 ETH",
             "bonus": "Bonus",
             "bonusLockUp": "Il LikeCoin bonus sarà bloccato sul tuo wallet e non potrà essere trasferito per 6 mesi.",
             "amountWillBeSentWhenSalesStart": "I LikeCoin acquistati e il bonus saranno inviati al tuo wallet all’inizio della vendita pubblica, con data prevista il 23 aprile 2018. Il LikeCoin bonus sarà bloccato sul tuo wallet e non potrà essere trasferito per 6 mesi.",
