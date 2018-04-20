@@ -39,9 +39,9 @@
           </figure>
 
           <div v-if="!isTrust" class="lc-button-group lc-margin-top-24">
-            <md-button class="md-likecoin trust" v-if="buttonText" @click="openTrust">
+            <material-button class="trust" v-if="buttonText" @click="openTrust">
               {{ buttonText }}
-            </md-button>
+            </material-button>
           </div>
         </div>
       </div>
@@ -56,6 +56,7 @@ import TrustMainImage from '@/assets/icons/trust/trust_main.png';
 import TrustRinkebyImage from '@/assets/icons/trust/trust_rinkeby.jpg';
 
 import LanguageSwitch from '@/components/LanguageSwitch';
+import MaterialButton from '@/components/MaterialButton';
 import { IS_TESTNET, TRUST_URL } from '@/constant';
 import BaseDialog from './BaseDialog';
 
@@ -67,6 +68,7 @@ export default {
   components: {
     BaseDialog,
     LanguageSwitch,
+    MaterialButton,
   },
   data() {
     return {
@@ -222,14 +224,9 @@ export default {
     text-align: center;
 
     .md-button.trust {
-      background-color: #3375bb;
+      margin: 0;
 
-      /* styles to be removed after commit about .md-likecoin is merged */
-      min-width: 256px;
-      min-height: 40px;
-      font-size: 24px;
-      color: $like-white;
-      border-radius: 0;
+      background-color: #3375bb;
     }
   }
 }
