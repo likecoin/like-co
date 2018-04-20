@@ -4,6 +4,7 @@
     :mdProps="{
       mdClickOutsideToClose: false,
       mdCloseOnEsc: false,
+      mdFullscreen: isFullscreen,
     }"
     class="with-icon">
 
@@ -94,6 +95,14 @@ export default {
           return this.$t(`Dialog.trust.description.switch${IS_TESTNET ? 'Rinkeby' : 'Main'}`);
         default:
           return '';
+      }
+    },
+    isFullscreen() {
+      switch (this.case) {
+        case 'web3':
+          return false;
+        default:
+          return true;
       }
     },
     image() {

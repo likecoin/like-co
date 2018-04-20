@@ -90,7 +90,7 @@ $lc-dialog-icon-size-small: 72px;
 
   max-width: 450px;
 
-  @media (min-width: 600px + 1px) {
+  &:not(.md-dialog-fullscreen) {
     border-radius: 8px;
   }
 
@@ -122,7 +122,7 @@ $lc-dialog-icon-size-small: 72px;
 
     background-image: linear-gradient(252deg, #d2f0f0, #f0e6b4);
 
-    @media (min-width: 600px + 1px) {
+    .lc-dialog:not(.md-dialog-fullscreen) & {
       border-top-left-radius: 8px;
       border-top-right-radius: 8px;
     }
