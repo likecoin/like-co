@@ -60,7 +60,7 @@ import MaterialButton from '@/components/MaterialButton';
 import { IS_TESTNET, TRUST_URL } from '@/constant';
 import BaseDialog from './BaseDialog';
 
-const URL = require('url-parse');
+// const URL = require('url-parse');
 
 export default {
   name: 'TrustDialog',
@@ -152,21 +152,22 @@ export default {
       }
     },
     tryTrustInstalled() {
-      if (this.$route.query.notrust) return;
-      if (this.isIOS) {
-        const currentURI = window.location.href;
-        window.location.href = `trust://browser?target=${currentURI}`;
-        setTimeout(() => {
-          try {
-            const url = new URL(currentURI, true);
-            url.query.notrust = 'true';
-            url.set('query', url.query);
-            window.location.href = url.toString();
-          } catch (err) {
-            // invalid URL;
-          }
-        }, 100);
-      }
+      /* DISABLE DUE TO TRUST CRASHING */
+      // if (this.$route.query.notrust) return;
+      // if (this.isIOS) {
+      //   const currentURI = window.location.href;
+      //   window.location.href = `trust://browser?target=${currentURI}`;
+      //   setTimeout(() => {
+      //     try {
+      //       const url = new URL(currentURI, true);
+      //       url.query.notrust = 'true';
+      //       url.set('query', url.query);
+      //       window.location.href = url.toString();
+      //     } catch (err) {
+      //       // invalid URL;
+      //     }
+      //   }, 100);
+      // }
     },
   },
   mounted() {
