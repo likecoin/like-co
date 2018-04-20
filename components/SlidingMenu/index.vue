@@ -292,6 +292,7 @@ $sliding-menu-narrow-width: 260px;
     position: relative;
 
     transition: transform .5s ease-in-out;
+    will-change: transform;
 
     [lc-sliding-menu="open"] & {
       transform: translateX(-$sliding-menu-width);
