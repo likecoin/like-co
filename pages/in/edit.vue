@@ -199,7 +199,11 @@
         <div class="lc-container-2">
           <div class="lc-container-3 lc-padding-vertical-32 lc-bg-gray-1">
             <div class="lc-container-4">
-              <mission-list :missions="shortMissionList" @click="onMissionClick"/>
+
+              <mission-list
+                :missions="shortMissionList"
+                :is-grid="false"
+                @click="onMissionClick"/>
 
               <div class="section-btn-container lc-padding-top-24 bonus-button-container">
                 <md-button

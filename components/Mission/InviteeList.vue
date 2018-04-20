@@ -10,6 +10,7 @@
       </header>
 
       <mission-list
+        layout="small"
         :missions="missions"
         :username="username"
         :is-small="true"
