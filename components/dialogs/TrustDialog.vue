@@ -59,6 +59,8 @@ import LanguageSwitch from '@/components/LanguageSwitch';
 import { IS_TESTNET, TRUST_URL } from '@/constant';
 import BaseDialog from './BaseDialog';
 
+const URL = require('url-parse');
+
 export default {
   name: 'TrustDialog',
   props: ['case', 'webThreeType'],
@@ -135,10 +137,28 @@ export default {
       const { window } = global;
       window.open(`${TRUST_URL}${encodeURIComponent(window.location.href)}`);
     },
+    tryTrustInstalled() {
+      if (this.$route.query.notrust) return;
+      const currentURI = window.location.href;
+      window.location.href = `trust://browser?target=${currentURI}`;
+      setTimeout(() => {
+        try {
+          const url = new URL(currentURI, true);
+          url.query.notrust = 'true';
+          url.set('query', url.query);
+          window.location.href = url.toString();
+        } catch (err) {
+          // invalid URL;
+        }
+      }, 100);
+    },
   },
   mounted() {
     if (this.case && this.case !== 'sign') {
-      this.$nextTick(() => this.$refs.base.show());
+      this.$nextTick(() => {
+        this.$refs.base.show();
+        this.tryTrustInstalled();
+      });
     } else {
       this.$nextTick(() => this.$refs.base.hide());
     }
