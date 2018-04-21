@@ -190,9 +190,9 @@ export default {
         }
         const userInfo = {
           avatarFile: this.avatarFile,
-          user: this.user,
+          user: this.user.toLowerCase().trim(),
           wallet: this.wallet,
-          email: this.email,
+          email: this.email.trim(),
           referrer: this.referrer,
           locale: this.getCurrentLocale,
         };
