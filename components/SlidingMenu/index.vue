@@ -20,23 +20,31 @@
               :class="['menu', m.section]">
               <ul>
                 <li v-if="m.section === 'primary'">
+                  <menu-item :to="{ name: 'index' }">
+                    <md-icon :md-src="HomeIcon"></md-icon>
+                  </menu-item>
+                </li>
+                <li v-if="m.section === 'primary'">
                   <menu-item
                     v-if="!getUserIsRegistered && showLogin"
-                    :title="getButtonText"
                     :isHighlighted="true"
-                    @click="onClickAccountButton" />
+                    @click="onClickAccountButton">
+                    {{ getButtonText }}
+                  </menu-item>
                   <menu-item
                     v-else
-                    :title="getButtonText"
                     :isHighlighted="true"
-                    :to="{ name: 'in' }" />
+                    :to="{ name: 'in' }">
+                    {{ getButtonText }}
+                  </menu-item>
                 </li>
                 <li v-for="i in m.items" :key="i.key">
                   <menu-item
-                    :title="$t(`Menu.item.${i.key}`)"
                     :to="i.to"
                     :isHighlighted="i.isHighlighted"
-                    :isExternal="i.isExternal" />
+                    :isExternal="i.isExternal">
+                    {{ $t(`Menu.item.${i.key}`) }}
+                  </menu-item>
                 </li>
               </ul>
             </div>
@@ -52,6 +60,8 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
+import HomeIcon from '@/assets/icons/home.svg';
+
 import LanguageSwitch from '~/components/LanguageSwitch';
 import PlatformIconBar from '~/components/PlatformIconBar';
 import MenuItem from './MenuItem';
@@ -60,10 +70,6 @@ const MENU_ITEMS = [
   {
     section: 'primary',
     items: [
-      {
-        key: 'aboutLikeCoin',
-        to: { name: 'index' },
-      },
       {
         key: 'joinTokenSale',
         to: { name: 'in-tokensale' },
@@ -120,6 +126,7 @@ export default {
   data() {
     return {
       MENU_ITEMS,
+      HomeIcon,
     };
   },
   computed: {
@@ -235,7 +242,11 @@ export default {
       padding: 0;
 
       li {
-        padding: 10px;
+        padding: 8px;
+
+        @media (max-width: 600px) {
+          padding: 6px;
+        }
       }
     }
 
