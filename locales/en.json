@@ -213,6 +213,7 @@
     },
     "item": {
       "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
+      "bonus": "LikeCoin Bonus",
       "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
       "backer": "@:BackerPage.title",
       "whitepaper": "@:Whitepaper.Button.whitepaper",
