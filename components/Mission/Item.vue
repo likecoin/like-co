@@ -1,10 +1,10 @@
 <template>
-  <div :class="['mission-item', state]" @click="$emit('click')">
+  <div :class="['mission-item', layout, state]" @click="$emit('click')">
     <div>
 
       <div class="mission-card">
-        <div class="action-button-wrapper">
-          <div class="action-button" />
+        <div class="mission-action-button">
+          <mission-state-icon :layout="layout" :state="state" />
         </div>
 
         <div class="mission-card-container">
@@ -26,6 +26,7 @@ import { mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
 
 import MissionIcon from '@/components/Mission/Icon';
+import MissionStateIcon from '@/components/Mission/StateIcon';
 
 import { ONE_LIKE } from '@/constant';
 
@@ -33,8 +34,16 @@ export default {
   name: 'mission-item',
   components: {
     MissionIcon,
+    MissionStateIcon,
   },
   props: {
+    layout: {
+      type: String,
+      validator(value) {
+        return ['small', 'large', 'fluid'].indexOf(value) !== -1;
+      },
+      default: 'fluid',
+    },
     mission: {
       type: Object,
       default: {},
@@ -96,47 +105,84 @@ export default {
 <style lang="scss" scoped>
 @import "~assets/variables";
 
-.mission-item {
-  width: 100%;
-
+@mixin large-mission-item {
   > div {
-    position: relative;
+    display: block;
 
-    display: flex;
+    padding-bottom: 26px;
+  }
 
-    @media (min-width: 600px + 1px) {
-      .large & {
-        display: block;
+  .mission-card-container {
+    display: block;
 
-        padding-bottom: 26px;
+    text-align: center;
+  }
+
+  .title-label {
+    height: 52px;
+
+    color: $like-dark-brown-2;
+
+    font-size: 20px;
+    line-height: 54px;
+
+    > span {
+      line-height: 22px;
+    }
+  }
+
+  .reward-label {
+    height: 28px;
+
+    text-align: center;
+
+    font-size: 20px;
+    line-height: 28px;
+
+    :global(.small) {
+      font-size: 12px;
+    }
+  }
+
+  &.fluid {
+    &.completed,
+    &.claimed {
+      .reward-label {
+        color: currentColor;
       }
     }
   }
-}
 
-.mission-card-container {
-  position: relative;
+  .mission-icon {
+    display: inline-block;
+  }
 
-  display: flex;
-  align-items: center;
+  .mission-action-button {
+    bottom: 0;
+    left: 50%;
 
-  @media (min-width: 600px + 1px) {
-    .large & {
-      display: block;
+    transform: translateX(-50%);
+  }
 
-      text-align: center;
+  .new-label {
+    right: 0;
+    bottom: 0;
+
+    margin-right: 8px;
+    margin-bottom: 4px;
+
+    &::after {
+      content: "NEW";
+
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1;
     }
   }
 }
 
-.mission-card {
-  box-sizing: border-box;
-  padding: 16px 4px 40px;
-
-  border-radius: 8px;
-  background-color: white;
-
-  @mixin mission-card() {
+@mixin small-mission-item {
+  .mission-card {
     width: 100%;
     padding: 4px 10px 4px 40px;
 
@@ -146,57 +192,92 @@ export default {
     border-radius: 4px;
   }
 
-  @mixin mission-card-completed() {
-    transition: transform .15s ease-in,
-                box-shadow .15s ease-in;
-
-    color: white;
-    background-color: $like-green-2;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
-
-    &:hover {
-      transform: translateY(-2px);
-
-      box-shadow: 0 4px 6px 1px rgba(0, 0, 0, 0.3);
-    }
-
-    &:active {
-      transform: translateY(0);
-
-      box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.5);
-    }
+  .reward-label {
+    color: currentColor;
   }
 
-  @mixin mission-card-claimed() {
-    cursor: auto;
+  .new-label {
+    top: 50%;
+    left: -20px;
 
-    color: #9B9B9B;
-    background-color: #EFEFEF;
+    transform: translateY(-50%);
   }
 
-  @media (max-width: 600px) {
-    @include mission-card();
+  &.completed {
+    .mission-card {
+      transition: transform .15s ease-in,
+                  box-shadow .15s ease-in;
 
-    .completed & {
-      @include mission-card-completed();
-    }
+      color: white;
+      background-color: $like-green-2;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
 
-    .claimed & {
-      @include mission-card-claimed();
+      &:hover {
+        transform: translateY(-2px);
+
+        box-shadow: 0 4px 6px 1px rgba(0, 0, 0, 0.3);
+      }
+
+      &:active {
+        transform: translateY(0);
+
+        box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.5);
+      }
     }
   }
 
-  .small & {
-    @include mission-card();
-  }
-  .small .completed & {
-    @include mission-card-completed();
-  }
-  .small .claimed & {
-    @include mission-card-claimed();
+  &.claimed {
+    .mission-card {
+      cursor: auto;
+
+      color: #9B9B9B;
+      background-color: #EFEFEF;
+    }
   }
 }
 
+.mission-item {
+  width: 100%;
+
+  > div {
+    position: relative;
+
+    display: flex;
+  }
+
+  &.small {
+    @include small-mission-item();
+  }
+
+  &.large {
+    @include large-mission-item();
+  }
+
+  &.fluid {
+    @media (min-width: 600px + 1px) {
+      @include large-mission-item();
+    }
+
+    @media (max-width: 600px) {
+      @include small-mission-item();
+    }
+  }
+}
+
+.mission-card-container {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+}
+
+.mission-card {
+  box-sizing: border-box;
+  padding: 16px 4px 40px;
+
+  border-radius: 8px;
+  background-color: white;
+}
 
 .title-label {
   overflow: hidden;
@@ -217,22 +298,6 @@ export default {
     vertical-align: middle;
 
     line-height: 20px;
-
-  }
-
-  @media (min-width: 600px + 1px) {
-    .large & {
-      height: 52px;
-
-      color: $like-dark-brown-2;
-
-      font-size: 20px;
-      line-height: 54px;
-
-      > span {
-        line-height: 22px;
-      }
-    }
   }
 }
 
@@ -249,32 +314,6 @@ export default {
 
   font-size: 12px;
   font-weight: 600;
-
-  .small & {
-    color: currentColor;
-  }
-
-  @media (min-width: 600px + 1px) {
-    :global(.small) {
-      font-size: 12px;
-    }
-
-    .large & {
-      height: 28px;
-
-      text-align: center;
-
-      font-size: 20px;
-      line-height: 28px;
-    }
-  }
-
-  @media (max-width: 600px) {
-    .large .completed &,
-    .large .claimed & {
-      color: currentColor;
-    }
-  }
 }
 
 .mission-icon {
@@ -284,138 +323,14 @@ export default {
   height: 96px;
   margin-top: 16px;
   margin-bottom: 8px;
-
-  @media (min-width: 600px + 1px) {
-    .large & {
-      display: inline-block;
-    }
-  }
 }
 
-.action-button-wrapper {
+.mission-action-button {
   position: absolute;
   bottom: 50%;
   left: 4px;
 
   transform: translateY(50%);
-
-  @media (min-width: 600px + 1px) {
-    .large & {
-      bottom: 0;
-      left: 50%;
-
-      transform: translateX(-50%);
-    }
-  }
-}
-
-.action-button {
-  position: relative;
-
-  width: 32px;
-  height: 32px;
-
-  @media (min-width: 600px + 1px) {
-    .large & {
-      width: 52px;
-      height: 52px;
-
-      border-radius: 50%;
-      background-color: white;
-    }
-
-    .large .active &,
-    .large .completed & {
-      cursor: pointer;
-      transition: transform .15s ease-in,
-                  box-shadow .15s ease-in;
-
-      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.5);
-
-      &:hover {
-        transform: translateY(-2px);
-
-        box-shadow: 0 4px 6px 1px rgba(0, 0, 0, 0.3);
-      }
-
-      &:active {
-        transform: translateY(0);
-
-        box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.5);
-      }
-    }
-
-    // Outer fill color (Border)
-    .large .active & {
-      background-image: linear-gradient(215deg, #D2F0F0, #F0E6B4);
-    }
-
-    .large .claimed & {
-      background-color: $like-green;
-    }
-
-    // Inner fill color
-    &::before {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-
-      margin: 3px;
-
-      content: " ";
-
-      border-radius: 50%;
-
-      .large .active & {
-        background-color: white;
-      }
-
-      .large .completed & {
-        background-color: $like-green-2;
-      }
-    }
-  }
-
-  // Icon
-  &::after {
-    position: relative;
-
-    display: block;
-
-    width: 100%;
-    height: 100%;
-
-    content: " ";
-
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 32px 32px;
-
-    .active & {
-      background-image: url('~/assets/mission/misc/active-small.svg');
-    }
-
-    .completed & {
-      background-image: url('~/assets/mission/misc/completed-small.svg');
-    }
-
-    .claimed & {
-      background-image: url('~/assets/mission/misc/claimed-small.svg');
-    }
-
-    @media (min-width: 600px + 1px) {
-      .large .active & {
-        background-image: url('~/assets/mission/misc/active.svg');
-      }
-
-      .large .completed &,
-      .large .claimed & {
-        background-image: url('~/assets/mission/misc/completed.svg');
-      }
-    }
-  }
 }
 
 .new-label {
@@ -436,39 +351,6 @@ export default {
     border-radius: 50%;
     background-color: currentColor;
     box-shadow: 0 0 6px 0 #FF4949;
-  }
-
-  @mixin new-label-small() {
-    top: 50%;
-    left: -20px;
-
-    transform: translateY(-50%);
-  }
-
-  .small & {
-    @include new-label-small();
-  }
-
-  @media (min-width: 600px + 1px) {
-    .large & {
-      right: 0;
-      bottom: 0;
-
-      margin-right: 8px;
-      margin-bottom: 4px;
-
-      &::after {
-        content: "NEW";
-
-        font-size: 12px;
-        font-weight: 600;
-        line-height: 1;
-      }
-    }
-  }
-
-  @media (max-width: 600px) {
-    @include new-label-small();
   }
 }
 </style>

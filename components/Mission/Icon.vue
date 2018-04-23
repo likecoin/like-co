@@ -1,5 +1,5 @@
 <template>
-  <img :src="src" />
+  <img class="mission-icon" :src="src" />
 </template>
 
 
