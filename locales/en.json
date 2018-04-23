@@ -599,7 +599,10 @@
         "switchRinkebyCaption": "Switch to Rinkeby by:<br>Settings > Network > Rinkeby (ETH)"
       },
       "label": {
-        "help": "how to register on mobile",
+        "useTrustBrowser": "Use <span style=\"color: #28646e; font-weight: bold;\">Trust Wallet Browser</span> to visit:",
+        "clickToCopy": "Click to copy url",
+        "copied": "Copied",
+        "help": "How to register on mobile",
         "registerMobileLink": "https://help.like.co/likecoin-faq/newbies/registering-likecoin-id-on-mobile"
       },
       "button": {
