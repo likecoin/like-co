@@ -83,7 +83,7 @@
             <div class="lc-button-group">
               <md-button
                 class="md-likecoin"
-                @click="$router.to({ name: 'in-tokensale' })"
+                @click="$router.push({ name: 'in-tokensale' })"
               >
                 {{ $t('Home.Sale.button.joinNow') }}
               </md-button>
