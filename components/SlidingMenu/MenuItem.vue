@@ -9,10 +9,10 @@
     @click="onClickMenuItem">
 
     <a v-if="isExternal || !to" :href="to">
-      <span>{{ title }}</span>
+      <slot/>
     </a>
     <nuxt-link v-else :to="to">
-      <span>{{ title }}</span>
+      <slot/>
     </nuxt-link>
 
   </div>
@@ -30,10 +30,6 @@ export default {
     },
     to: {
       type: [String, Object],
-    },
-    title: {
-      type: String,
-      default: '',
     },
     isExternal: {
       type: Boolean,
@@ -103,6 +99,10 @@ export default {
       width: 0%;
 
       transition: width 0.25s ease-out;
+    }
+
+    :global(svg) {
+      fill: $like-green !important;
     }
   }
 }
