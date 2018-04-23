@@ -120,6 +120,7 @@ module.exports = {
   ],
   plugins: [
     { src: '~/plugins/EthHelper', ssr: false },
+    { src: '~/plugins/vue-clipboard2', ssr: false },
     { src: '~/plugins/vue-i18n' },
     { src: '~/plugins/vue-image-lightbox', ssr: false },
     { src: '~/plugins/vue-intercom', ssr: false },
@@ -150,6 +151,7 @@ module.exports = {
       'bignumber.js',
       'classlist-polyfill',
       'moment',
+      'vue-clipboard2',
       'vue-i18n',
       'vue-material',
       'vue-vimeo-player',
