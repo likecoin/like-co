@@ -61,11 +61,12 @@ export const apiGetAdvancedKYC = id => axios.get(`/api/kyc/advanced/${id}`);
 
 export const apiSendCouponCodeEmail = (id, coupon, locale) => axios.post(`/api/email/verify/user/${id}`, { coupon, locale });
 
-export const apiSendInvitationEmail = (user, email) => axios.post(
+export const apiSendInvitationEmail = (user, email, locale) => axios.post(
   `${LIKECOIN_API_BASE}/store-invite`,
   {
     referrerId: user,
     email,
+    locale,
   },
 );
 
