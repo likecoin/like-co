@@ -207,11 +207,18 @@
         "second": "secondo | secondi"
     },
     "Menu": {
+        "button": {
+            "menu": "menu",
+            "close": "chiudi"
+        },
         "item": {
             "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
             "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
+            "backer": "@:BackerPage.title",
             "whitepaper": "@:Whitepaper.Button.whitepaper",
-            "support": "@:Footer.button.support"
+            "support": "@:Footer.button.support",
+            "press": "Stampa",
+            "poc": "Prova di concetto"
         }
     },
     "Sign": {
@@ -231,6 +238,11 @@
         "Flag": {
             "title": "Un nuovo modo di concepire il Like",
             "content": "Contenuti premiati mediante la prova di creatività."
+        },
+        "HeroVideo": {
+            "button": {
+                "watchVideo": "Guarda il video"
+            }
         },
         "Sale": {
             "title": {
@@ -254,7 +266,8 @@
                 "buyCoin": "Acquista LikeCoin",
                 "imInterested": "Mi interessa",
                 "joinTokenSale": "Partecipa alla vendita di token",
-                "joinNow": "Iscriviti ora"
+                "joinNow": "Iscriviti ora",
+                "supportLikeCoin": "Sostieni il movimento"
             }
         },
         "Creator": {
@@ -262,7 +275,7 @@
                 "likeCoinForAppreciate": "Invia LikeCoin Red Pocket"
             }
         },
-        "Protocol": {
+        "Stack": {
             "title": "LikeCoin Stack",
             "content": "--paragraph in LikeCoin Protocol---",
             "layer": {
@@ -336,7 +349,7 @@
         },
         "TokenDistribution": {
             "title": "Distribuzione di token",
-            "content": "800 milioni di token iniziali con mining graduale nei prossimi 10+ anni, con un massimo di 2 miliardi di tokenl. 1 miliardo di token assegnati ai creatori mediante la prova di creatività.",
+            "content": "800 milioni di token iniziali con mining graduale nei prossimi 10+ anni, con un massimo di 2 miliardi di token. 1 miliardo di token assegnati ai creatori mediante la prova di creatività",
             "yearButton": {
                 "year0": "Anno 0",
                 "year10": "Anno 10+"
@@ -352,6 +365,14 @@
         "EarlySupporters": {
             "title": "Primi sostenitori",
             "supporter": {
+                "6-club": {
+                    "title": "Six Club Fund",
+                    "subtitle": ""
+                },
+                "u-domain": {
+                    "title": "UDomain",
+                    "subtitle": ""
+                },
                 "annie-zhang": {
                     "title": "Annie Zhang",
                     "subtitle": "Chief Editor, Initium Media"
@@ -388,6 +409,10 @@
                 "isaac-mao": {
                     "title": "Isaac Mao",
                     "description": "Fondatore di  <a href=\"https://musicoin.org/\" target=\"_blank\" rel=\"noopener\">Musicoin</a>; Fondatore di  CNBlogs.org; Project Lead di iCommons China, Creative Commons China Team."
+                },
+                "to-cheung": {
+                    "title": "A Cheung",
+                    "subtitle": ""
                 }
             }
         },
@@ -711,7 +736,7 @@
             "bonusAndLimitedOffer": "Bonus del 25%, offerta limitata nel tempo",
             "limitedOfferCondition": "per l’acquisto di 10 o più ETH",
             "amountLikeToPurhcase": "Numero di LIKE per acquistare",
-            "tokensaleBadAmount": "Importo non valido, minimum 0,1 ETH e fino a 10.000 ETH",
+            "tokensaleBadAmount": "Importo non valido, minimum 0,1 ETH e fino a 1.000 ETH",
             "bonus": "Bonus",
             "bonusLockUp": "Il LikeCoin bonus sarà bloccato sul tuo wallet e non potrà essere trasferito per 6 mesi.",
             "amountWillBeSentWhenSalesStart": "I LikeCoin acquistati e il bonus saranno inviati al tuo wallet all’inizio della vendita pubblica, con data prevista il 23 aprile 2018. Il LikeCoin bonus sarà bloccato sul tuo wallet e non potrà essere trasferito per 6 mesi.",
@@ -719,11 +744,44 @@
         },
         "button": {
             "aboutLikeCoin": "Informazioni su LikeCoin",
-            "whitePaper": "@:WhitePaper.label.whitePaper"
+            "whitePaper": "@:WhitePaper.label.whitePaper",
+            "noETH": "Nessun ETH?"
+        }
+    },
+    "BackerPage": {
+        "title": "Sostieni il movimento",
+        "label": {
+            "tagline": "Acquista i libri.",
+            "description": "Il protocollo LikeCoin protocol è un movimento creato per ridistribuire i redditi generati da contenuti con licenza di Creative Commons. L'uso dei nostri contenuti è gratuito e i nostri codici sono disponibili su <a href=\"https://github.com/likecoin\">Github</a>.<br/><br/><a href=\"http://sched.co/E6zv\">La nostra presentazione presso il Creative Commons Summit 2018</a>",
+            "notRegistered": "Crea un LikeCoin ID per partecipare al movimento"
+        },
+        "button": {
+            "register": "Crea ID",
+            "purchaseInETH": "Sostieni LikeCoin con ETH"
+        },
+        "productList": {
+            "title": "Negozio",
+            "label": {
+                "youHavePurchased": "Hai acquistato {product}, la tua ricevuta sarà inviata all'indirizzo {email}. Numero di riferimento:"
+            }
         }
     },
     "KYC": {
         "label": {
+            "advKycPending": "La tua verifica avanzata d'identità è ancora IN CORSO. Qualora siano trascorsi 5 giorni lavorativi, ti preghiamo di contattarci sull'intercom",
+            "isPurchaseExceedAmount": "Vuoi acquistare una quantità superiore a {amount} ETH?",
+            "firstName": "Nome (come risulta sul tuo passaporto)",
+            "lastName": "Cognome (come risulta sul tuo passaporto)",
+            "country": "Paese di residenza",
+            "nationality": "Nazionalità",
+            "invalidCountry": "Seleziona un paese valido sull'elenco.",
+            "invalidNationality": "Seleziona una nazionalità valida sull'elenco.",
+            "passportIdPage": "Pagina del passaporto con il volto verso l'alto (dimensioni massime 2MB)*",
+            "recentSelfie": "Selfie con il volto verso l'alto (dimensioni massime 2MB)*",
+            "canPurchaseLessThanAmount": "Il tuo acquisto può essere inferiore a {amount} ETH",
+            "canPurchaseMoreThanAmount": "Il tuo acquisto può essere superiore a {amount} ETH",
+            "advancedVerificationInProgress": "Il tuo acquisto può essere inferiore a {amount} ETH. Una volta completata la verifica avanzata, potrai completare altri acquisti.",
+            "verifyToPurchaseOverAmount": "Verifica la tua identità per effettuare acquisti del valore superiore a {amount} ETH",
             "kyc": "Verifica ID",
             "kycNeeded": "La verifica dell’identità è necessaria per partecipare alla vendita di token LikeCoin",
             "advKycNeeded": "Per acquistare grandi quantità di LikeCoin, è necessaria una verifica avanzata dell’identità",
@@ -740,19 +798,11 @@
             "isPrcCitizen": "Vivi nella Repubblica Popolare Cinese?",
             "isUsaCitizen": "Vivi negli Stati Uniti d’America?",
             "isUsaAccredited": "Sei un Accredited Investor negli Stati Uniti d’America?",
-            "isPurchaseExceedAmount": "Il tuo acquisto sarà superiore a {amount} ETH?",
             "passportName": "Nome (come risulta sul tuo passaporto)",
-            "country": "Paese",
-            "invalidCountry": "Seleziona il tuo Paese.",
-            "passportIdPage": "Pagina ID passaporto*",
             "addressProof": "Prova d’indirizzo (documento datato non più di 3 mesi fa) *",
-            "canPurchaseLessThanAmount": "Il tuo acquisto può essere inferiore a {amount} ETH",
-            "canPurchaseMoreThanAmount": "Il tuo acquisto può essere superiore a {amount} ETH",
-            "advancedVerificationInProgress": "Il tuo acquisto può essere inferiore a {amount} ETH. Una volta completata la verifica avanzata, potrai completare altri acquisti.",
             "purchaseMore": "Voglio completare un acquisto di valore superiore.",
             "accountVeritifed": "Account verificato",
             "canPurchaseWhenPublicSale": "Una volta iniziata la vendita pubblica, puoi acquistare LikeCoin qui.",
-            "verifyToPurchaseOverAmount": "Verifica la tua identità per effettuare acquisti del valore superiore a {amount} ETH?",
             "waitingConfirmation": "In attesa di conferma.",
             "timeWaitForAccountVerification": "L’operazione impiega circa 2 minuti.",
             "timeWaitForAdvancedVerification": "L’operazione impiega circa 5 giorni lavorativi.",
@@ -774,6 +824,39 @@
             "artist": "Artista",
             "comicAuthor": "Autore di fumetti",
             "multimediaDesigner": "Multimedia Designer"
+        }
+    },
+    "TransactionHistory": {
+        "title": "Cronologia transazioni",
+        "header": {
+            "status": "Stato",
+            "fromOrTo": "Da/A",
+            "time": "Ora",
+            "value": "Valore"
+        },
+        "label": {
+            "in": "IN",
+            "out": "OUT",
+            "fail": "NON RIUSCITO",
+            "tokensale": "VenditaToken",
+            "earlybird": "Precursore",
+            "earlyBeliever": "Prevendita",
+            "timePending": "In corso...",
+            "timeExpired": "Scaduto",
+            "coupon": "Coupon",
+            "noRecord": "Nessuna voce",
+            "to": "A",
+            "from": "Da",
+            "unknown": "Sconosciuto"
+        },
+        "button": {
+            "view": "visualizza",
+            "showMore": "mostra altro"
+        }
+    },
+    "Error": {
+        "button": {
+            "toIndex": "Ritorna all'indice"
         }
     }
 }

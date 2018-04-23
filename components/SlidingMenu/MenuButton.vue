@@ -66,6 +66,7 @@ $button-interspace: 10px;
 
     > div {
       transform: translateY(-50%);
+      will-change: transform;
     }
   }
 

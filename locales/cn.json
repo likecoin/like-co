@@ -543,7 +543,7 @@
     },
     "chrome": {
       "title": "需使用电脑版 Chrome 浏览器",
-      "content": "like.co 需宜用支援以太坊加密货币钱包 MetaMask 的浏览器。<br />请使用电脑版 Chrome 浏览器并安装 MetaMask 插件",
+      "content": "like.co 需要用支援以太坊加密货币钱包 MetaMask 的浏览器。<br />请使用电脑版 Chrome 浏览器并安装 MetaMask 插件",
       "button": {
         "install": "安装 Chrome"
       }
@@ -579,6 +579,27 @@
       "title": "认证邮箱",
       "content": "请先认证你的电邮地址",
       "label": "你的电邮地址"
+    },
+    "trust": {
+      "title": {
+        "switchTrust": "需要安装电子钱包",
+        "switchRinkeby": "请切换至 Rinkeby 测试网络",
+        "switchMain": "请切换至 Mainnet 正式网络"
+      },
+      "description": {
+        "switchTrust": "like.co 需要 ETH 电子钱包用作登入。请安装 Trust 电子钱包.",
+        "switchRinkeby": "like.co 需要使用 Rinkeby 测试网，请切换至 Rinkeby.",
+        "switchMain": "like.co 需要使用正式网络，请切换至 Mainnet。",
+        "switchMainCaption": "切换至 Mainnet:<br>Settings > Network > Ethereum (ETH)",
+        "switchRinkebyCaption": "切换至 Rinkeby:<br>Settings > Network > Rinkeby (ETH)"
+      },
+      "label": {
+        "help": "如何在手机上注册",
+        "registerMobileLink": "https://help.like.co/likecoin-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/%E6%96%B0%E6%89%8B%E4%B8%8A%E8%B7%AF/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%89%8B%E6%9C%BA%E4%B8%8A%E6%B3%A8%E5%86%8C-likecoin-%E5%B8%90%E5%8F%B7"
+      },
+      "button": {
+        "openWithTrust": "开启 Trust"
+      }
     }
   },
   "Toolbar": {
@@ -732,7 +753,7 @@
       "bonusAndLimitedOffer": "限时 25% 额外奖赏",
       "limitedOfferCondition": "购买 10 ETH 以上即可享有",
       "amountLikeToPurhcase": "LIKE 的购买数量",
-      "tokensaleBadAmount": "金额无效，代币发售最低购买额为 0.1 ETH，最高购买额少于 10000 ETH。",
+      "tokensaleBadAmount": "金额无效，代币发售最低购买额为 0.1 ETH，最高购买额少于 1000 ETH。",
       "bonus": "奖励",
       "bonusLockUp": "额外的 LikeCoin 奖赏会在你的钱包锁上，6 个月内不能传送。",
       "amountWillBeSentWhenSalesStart": "您所购买的 LikeCoin 以及其额外奖赏将于公众代币发售开始时发送，预计将于 April 23 2018 开始。额外的 LikeCoin 奖赏会在你的钱包锁上，并且 6 个月内不能传送。",

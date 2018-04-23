@@ -42,6 +42,9 @@
             <md-button class="md-likecoin trust" v-if="buttonText" @click="openTrust">
               {{ buttonText }}
             </md-button>
+            <div class="lc-font-size-12 lc-margin-top-8">
+              <a :href="getHelpLink" >{{ $t('Dialog.trust.label.help') }}</a>
+            </div>
           </div>
         </div>
       </div>
@@ -56,8 +59,11 @@ import TrustMainImage from '@/assets/icons/trust/trust_main.png';
 import TrustRinkebyImage from '@/assets/icons/trust/trust_rinkeby.jpg';
 
 import LanguageSwitch from '@/components/LanguageSwitch';
+import MaterialButton from '@/components/MaterialButton';
 import { IS_TESTNET, TRUST_URL } from '@/constant';
 import BaseDialog from './BaseDialog';
+
+// const URL = require('url-parse');
 
 export default {
   name: 'TrustDialog',
@@ -65,6 +71,7 @@ export default {
   components: {
     BaseDialog,
     LanguageSwitch,
+    MaterialButton,
   },
   data() {
     return {
@@ -129,16 +136,52 @@ export default {
       }
       return null;
     },
+    getHelpLink() {
+      return this.$t('Dialog.trust.label.registerMobileLink');
+    },
+    isAndroid() {
+      return /(android)/i.test(navigator.userAgent);
+    },
+    isIOS() {
+      return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    },
   },
   methods: {
     openTrust() {
       const { window } = global;
-      window.open(`${TRUST_URL}${encodeURIComponent(window.location.href)}`);
+      const currentURI = window.location.href;
+      const url = `${TRUST_URL}${encodeURIComponent(currentURI)}`;
+      if (this.isAndroid) {
+        window.open(`intent://browser?target=${currentURI}/#Intent;scheme=trust;package=com.wallet.crypto.trustapp;S.browser_fallback_url=;end`);
+      } else {
+        window.open(url);
+      }
+    },
+    tryTrustInstalled() {
+      /* DISABLE DUE TO TRUST CRASHING */
+      // if (this.$route.query.notrust) return;
+      // if (this.isIOS) {
+      //   const currentURI = window.location.href;
+      //   window.location.href = `trust://browser?target=${currentURI}`;
+      //   setTimeout(() => {
+      //     try {
+      //       const url = new URL(currentURI, true);
+      //       url.query.notrust = 'true';
+      //       url.set('query', url.query);
+      //       window.location.href = url.toString();
+      //     } catch (err) {
+      //       // invalid URL;
+      //     }
+      //   }, 100);
+      // }
     },
   },
   mounted() {
     if (this.case && this.case !== 'sign') {
-      this.$nextTick(() => this.$refs.base.show());
+      this.$nextTick(() => {
+        this.$refs.base.show();
+        this.tryTrustInstalled();
+      });
     } else {
       this.$nextTick(() => this.$refs.base.hide());
     }
@@ -188,14 +231,9 @@ export default {
     text-align: center;
 
     .md-button.trust {
-      background-color: #3375bb;
+      margin: 0;
 
-      /* styles to be removed after commit about .md-likecoin is merged */
-      min-width: 256px;
-      min-height: 40px;
-      font-size: 24px;
-      color: $like-white;
-      border-radius: 0;
+      background-color: #3375bb;
     }
   }
 }

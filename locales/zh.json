@@ -544,7 +544,7 @@
     },
     "chrome": {
       "title": "需使用電腦版 Chrome 瀏覽器",
-      "content": "like.co 需宜用支援以太坊加密貨幣錢包 MetaMask 的瀏覽器。<br />請使用電腦版 Chrome 瀏覽器並安裝 MetaMask 插件",
+      "content": "like.co 需要用支援以太坊加密貨幣錢包 MetaMask 的瀏覽器。<br />請使用電腦版 Chrome 瀏覽器並安裝 MetaMask 插件",
       "button": {
         "install": "安裝 Chrome"
       }
@@ -580,6 +580,27 @@
       "title": "認證郵箱",
       "content": "請先認證你的電郵地址",
       "label": "你的電郵地址"
+    },
+    "trust": {
+      "title": {
+        "switchTrust": "需要安裝電子錢包",
+        "switchRinkeby": "請切換至 Rinkeby 測試網絡",
+        "switchMain": "請切換至 Mainnet 正式網絡"
+      },
+      "description": {
+        "switchTrust": "like.co 需要 ETH 電子錢包用作登入。請安裝 Trust 電子錢包.",
+        "switchRinkeby": "like.co 需要使用 Rinkeby 測試網，請切換至 Rinkeby.",
+        "switchMain": "like.co 需要使用正式網絡，請切換至 Mainnet。",
+        "switchMainCaption": "切換至 Mainnet:<br>Settings > Network > Ethereum (ETH)",
+        "switchRinkebyCaption": "切換至 Rinkeby:<br>Settings > Network > Rinkeby (ETH)"
+      },
+      "label": {
+        "help": "如何在手機上註冊",
+        "registerMobileLink": "https://help.like.co/likecoin-%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C/%E6%96%B0%E6%89%8B%E4%B8%8A%E8%B7%AF/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%89%8B%E6%A9%9F%E4%B8%8A%E8%A8%BB%E5%86%8A-likecoin-%E5%B8%B3%E8%99%9F"
+      },
+      "button": {
+        "openWithTrust": "開啟 Trust"
+      }
     }
   },
   "Toolbar": {
@@ -733,7 +754,7 @@
       "bonusAndLimitedOffer": "限時 25% 額外獎賞",
       "limitedOfferCondition": "購買 10 ETH 以上即可享有",
       "amountLikeToPurhcase": "LIKE 的購買數量",
-      "tokensaleBadAmount": "金額無效，代幣發售最低購買額為 0.1 ETH，最高購買額少於 10000 ETH。",
+      "tokensaleBadAmount": "金額無效，代幣發售最低購買額為 0.1 ETH，最高購買額少於 1000 ETH。",
       "bonus": "獎勵",
       "bonusLockUp": "額外的 LikeCoin 獎賞會在你的錢包鎖上，6 個月內不能傳送。",
       "amountWillBeSentWhenSalesStart": "您所購買的 LikeCoin 以及其額外獎賞將於公眾代幣發售開始時發送，預計將於 April 23 2018 開始。額外的 LikeCoin 獎賞會在你的錢包鎖上，並且 6 個月內不能傳送。",
@@ -830,8 +851,8 @@
       "value": "價值"
     },
     "label": {
-      "in": "收入",
-      "out": "支出",
+      "in": "轉入",
+      "out": "轉出",
       "fail": "失敗",
       "tokensale": "代幣發售",
       "earlybird": "早鳥發售",

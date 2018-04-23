@@ -207,11 +207,18 @@
         "second": "초"
     },
     "Menu": {
+        "button": {
+            "menu": "메뉴",
+            "close": "닫기"
+        },
         "item": {
-          "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
-          "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
-          "whitepaper": "@:Whitepaper.Button.whitepaper",
-          "support": "@:Footer.button.support"
+            "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
+            "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
+            "backer": "@:BackerPage.title",
+            "whitepaper": "@:Whitepaper.Button.whitepaper",
+            "support": "@:Footer.button.support",
+            "press": "언론",
+            "poc": "개념 증명"
         }
     },
     "Sign": {
@@ -231,6 +238,11 @@
         "Flag": {
             "title": "Like의 재발견",
             "content": "창의성 증명을 통한 콘텐츠 보상"
+        },
+        "HeroVideo": {
+            "button": {
+                "watchVideo": "동영상 보기"
+            }
         },
         "Sale": {
             "title": {
@@ -254,7 +266,8 @@
                 "buyCoin": "LikeCoin 구매",
                 "imInterested": "관심이 있습니다",
                 "joinTokenSale": "토큰 판매 참가",
-                "joinNow": "지금 참가하기"
+                "joinNow": "지금 가입하기",
+                "supportLikeCoin": "운동을 지원"
             }
         },
         "Creator": {
@@ -262,7 +275,7 @@
                 "likeCoinForAppreciate": "LikeCoin 레드 포켓 전송"
             }
         },
-        "Protocol": {
+        "Stack": {
             "title": "LikeCoin 스택",
             "content": "--LikeCoin 프로토콜 내 단락---",
             "layer": {
@@ -352,6 +365,14 @@
         "EarlySupporters": {
             "title": "얼리 서포터",
             "supporter": {
+                "6-club": {
+                    "title": "Six Club 펀드",
+                    "subtitle": ""
+                },
+                "u-domain": {
+                    "title": "UDomain",
+                    "subtitle": ""
+                },
                 "annie-zhang": {
                     "title": "애니 장",
                     "subtitle": "Initium Media 편집장"
@@ -388,6 +409,10 @@
                 "isaac-mao": {
                     "title": "이삭 마오",
                     "description": "<a href=\"https://musicoin.org/\" target=\"_blank\" rel=\"noopener\">Musicoin</a> 창립자; CNBlogs.org 창립자; Creative Commons China Team의 iCommons China 프로젝트 리더 ."
+                },
+                "to-cheung": {
+                    "title": "Cheung에게",
+                    "subtitle": ""
                 }
             }
         },
@@ -558,6 +583,12 @@
             "title": "이메일을 인증하세요",
             "content": "이메일을 제공 및 인증하세요.",
             "label": "내 이메일 주소"
+        },
+        "trust": {
+            "label": {
+                "help": "모바일에서LikeCoin ID등록방법",
+                "registerMobileLink": "https://help.like.co/likecoin-%EC%9E%90%EC%A3%BC%EB%AC%BB%EB%8A%94%EC%A7%88%EB%AC%B8-faq/%EC%B4%88%EB%B3%B4%EC%9E%90/%EB%AA%A8%EB%B0%94%EC%9D%BC%EC%97%90%EC%84%9Clikecoin-id%EB%93%B1%EB%A1%9D%EB%B0%A9%EB%B2%95"
+            }
         }
     },
     "Toolbar": {
@@ -711,7 +742,7 @@
             "bonusAndLimitedOffer": "25% 보너스, 한시적 할인",
             "limitedOfferCondition": "10 ETH 이상 구매 전용",
             "amountLikeToPurhcase": "구매할 LIKE 수량",
-            "tokensaleBadAmount": "유효하지 않은 금액입니다. 최소 0.1 ETH, 10,000 ETH 미만이어야 합니다",
+            "tokensaleBadAmount": "유효하지 않은 금액입니다. 최소 0.1 ETH, 1,000 ETH 미만이어야 합니다",
             "bonus": "보너스",
             "bonusLockUp": "보너스 LikeCoin은 귀하의 지갑 안에 잠금 상태로 되어 6개월 동안 양도할 수 없습니다.",
             "amountWillBeSentWhenSalesStart": "공개 토큰 판매가 시작되면 구매하신 LikeCoin 및 보너스 LikeCoin이 귀하의 지갑으로 전송됩니다. 예정일은 2018년 4월 23일입니다. 보너스 LikeCoin은 귀하의 지갑 안에 잠금 상태로 되어 6개월 동안 양도할 수 없습니다.",
@@ -719,11 +750,44 @@
         },
         "button": {
             "aboutLikeCoin": "LikeCoin 자세히 알아보기",
-            "whitePaper": "@:WhitePaper.label.whitePaper"
+            "whitePaper": "@:WhitePaper.label.whitePaper",
+            "noETH": "ETH가 없으세요?"
+        }
+    },
+    "BackerPage": {
+        "title": "운동을 지원",
+        "label": {
+            "tagline": "저희 책을 사 보세요.",
+            "description": "LikeCoin 프로토콜은 Creative Commons에 의거하여 라이센스를 받은 콘텐츠에서 비롯된 소득을 재분배하려는 운동입니다. 저희 콘텐츠는 자유롭게 사용할 수 있으며 저희 소스 코드는 오픈 소스로 <a href=\"https://github.com/likecoin\">Github에서 보실 수 있습니다</a>.<br/><br/><a href=\"http://sched.co/E6zv\">2018년도 Creative Commons 회의에서 발표한 저희 프레젠테이션</a>",
+            "notRegistered": "LikeCoin ID를 생성하여 운동에 참가하기"
+        },
+        "button": {
+            "register": "LikeCoin ID 생성하기",
+            "purchaseInETH": "ETH에서 LikeCoin 지원하기"
+        },
+        "productList": {
+            "title": "매점",
+            "label": {
+                "youHavePurchased": "{product}을/를 구매하셨습니다. 영수증은 이메일을 통해 {email}(으)로 전송됩니다. 조회 번호:"
+            }
         }
     },
     "KYC": {
         "label": {
+            "advKycPending": "고객님의 고급 ID 인증이 아직 대기 중 상태입니다. 5 영업일을 넘게 소요된 경우, 인터콤을 통해 문의해 주시기 바랍니다.",
+            "isPurchaseExceedAmount": "ETH {amount}을/를 넘는 금액 만큼 구매하실 예정이십니까?",
+            "firstName": "이름 (여권의 성명과 동일해야 함)",
+            "lastName": "성 (여권의 성명과 동일해야 함)",
+            "country": "거주 국가",
+            "nationality": "국적",
+            "invalidCountry": "리스트에서 유효한 국가를 선택하세요.",
+            "invalidNationality": "리스트에서 유효한 국적을 선택하세요.",
+            "passportIdPage": "얼굴 정방향으로 여권의 ID 페이지 (용량 제한 2MB)*",
+            "recentSelfie": "얼굴 정방향으로 본인 셀카 (용량 제한 2MB)*",
+            "canPurchaseLessThanAmount": "ETH {amount} 미만 금액 만큼 구매하실 수 있습니다",
+            "canPurchaseMoreThanAmount": "ETH {amount}을/를 넘는 금액 만큼 구매하실 수 있습니다",
+            "advancedVerificationInProgress": "ETH {amount} 미만 금액 만큼 구매하실 수 있습니다. 고급 인증이 완료되면, 더 많이 구매하실 수 있습니다.",
+            "verifyToPurchaseOverAmount": "ETH {amount}을/를 넘는 금액을 구매하려면 ID를 인증해 주십시오",
             "kyc": "ID 인증",
             "kycNeeded": "LikeCoin 토큰 판매에 참가하려면 ID 인증이 필요합니다",
             "advKycNeeded": "많은 금액을 구매하시려면 고급 ID 인증이 필요합니다",
@@ -740,19 +804,11 @@
             "isPrcCitizen": "PRC (중화 인민 공화국) 시민이십니까?",
             "isUsaCitizen": "USA (아메리카 합중국) 시민이십니까?",
             "isUsaAccredited": "미국 내의 공인 투자자이십니까?",
-            "isPurchaseExceedAmount": "미화 {amount}을/를 넘는 금액 만큼 구매하실 예정이십니까?",
             "passportName": "성명 (여권상의 이름과 동일해야 함)",
-            "country": "국가",
-            "invalidCountry": "국가를 선택하세요.",
-            "passportIdPage": "여권 ID 페이지 *",
             "addressProof": "주소 증빙 (3개월 이내) *",
-            "canPurchaseLessThanAmount": "미화 {amount} 미만으로 구매하실 수 있습니다",
-            "canPurchaseMoreThanAmount": "미화 {amount} 이상을 구매하실 수 있습니다",
-            "advancedVerificationInProgress": "미화 {amount} 미만으로 구매하실 수 있습니다. 고급 인증이 완료되면, 더 많이 구매하실 수 있습니다.",
             "purchaseMore": "더 많이 구매하고 싶습니다.",
             "accountVeritifed": "계정 인증됨",
             "canPurchaseWhenPublicSale": "공개 판매가 진행되면 여기서 LikeCoin을 구매하실 수 있습니다.",
-            "verifyToPurchaseOverAmount": "미화 {amount}을/를 넘는 금액을 구매하려면 ID를 인증해 주십시오",
             "waitingConfirmation": "확인 대기 중.",
             "timeWaitForAccountVerification": "2분 정도 소요될 예정입니다...",
             "timeWaitForAdvancedVerification": "5 영업일 정도 소요될 예정입니다...",
@@ -774,6 +830,39 @@
             "artist": "아티스트",
             "comicAuthor": "만화가",
             "multimediaDesigner": "멀티미디어 디자이너"
+        }
+    },
+    "TransactionHistory": {
+        "title": "트랜잭션 히스토리",
+        "header": {
+            "status": "상태",
+            "fromOrTo": "에서/까지",
+            "time": "시간",
+            "value": "값"
+        },
+        "label": {
+            "in": "IN",
+            "out": "OUT",
+            "fail": "실패",
+            "tokensale": "TokenSale",
+            "earlybird": "Earlybird",
+            "earlyBeliever": "조기 신봉자",
+            "timePending": "대기 중...",
+            "timeExpired": "만료됨",
+            "coupon": "쿠폰",
+            "noRecord": "현재 기록이 없습니다.",
+            "to": "수신인",
+            "from": "송신인",
+            "unknown": "알 수 없음"
+        },
+        "button": {
+            "view": "보기",
+            "showMore": "자세히 보기"
+        }
+    },
+    "Error": {
+        "button": {
+            "toIndex": "색인으로 돌아가기"
         }
     }
 }

@@ -595,8 +595,12 @@
         "switchTrust": "like.co requires ETH Wallet to work. Please install or switch to Trust Wallet App.",
         "switchRinkeby": "like.co requires Rinkeby to work. Please switch to the correct network.",
         "switchMain": "like.co requires Main to work. Please switch to the correct network.",
-        "switchMainCaption": "Switch to Mainnet by:<br>Settings > Nerwork > Ethereum (ETH)",
-        "switchRinkebyCaption": "Switch to Rinkeby by:<br>Settings > Nerwork > Rinkeby (ETH)"
+        "switchMainCaption": "Switch to Mainnet by:<br>Settings > Network > Ethereum (ETH)",
+        "switchRinkebyCaption": "Switch to Rinkeby by:<br>Settings > Network > Rinkeby (ETH)"
+      },
+      "label": {
+        "help": "how to register on mobile",
+        "registerMobileLink": "https://help.like.co/likecoin-faq/newbies/registering-likecoin-id-on-mobile"
       },
       "button": {
         "openWithTrust": "Open With Trust"
@@ -754,7 +758,7 @@
       "bonusAndLimitedOffer": "25% bonus, Limited Time Offer",
       "limitedOfferCondition": "for 10 ETH purchase and above",
       "amountLikeToPurhcase": "Amount of LIKE to Purchase",
-      "tokensaleBadAmount": "Invalid amount, minimum 0.1 ETH, and less than 10,000 ETH",
+      "tokensaleBadAmount": "Invalid amount, minimum 0.1 ETH, and less than 1,000 ETH",
       "bonus": "Bonus",
       "bonusLockUp": "The bonus LikeCoin will be lock up in your wallet and cannot be transferred for 6 months.",
       "amountWillBeSentWhenSalesStart": "The purchased and bonus LikeCoin will be sent to your wallet when public token sales starts, expected to be April 23 2018. The bonus LikeCoin will be lock up in your wallet and cannot be transferred for 6 months.",

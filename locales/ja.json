@@ -208,14 +208,17 @@
     },
     "Menu": {
         "button": {
-          "menu": "選單",
-          "close": "關閉"
+            "menu": "メニュー",
+            "close": "閉じる"
         },
         "item": {
-          "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
-          "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
-          "whitepaper": "@:Whitepaper.Button.whitepaper",
-          "support": "@:Footer.button.support"
+            "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
+            "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
+            "backer": "@:BackerPage.title",
+            "whitepaper": "@:Whitepaper.Button.whitepaper",
+            "support": "@:Footer.button.support",
+            "press": "プレス",
+            "poc": "概念実証"
         }
     },
     "Sign": {
@@ -235,6 +238,11 @@
         "Flag": {
             "title": "「いいね」がコインに。 クリエイターは報酬を。",
             "content": "プルーフオブクリエイティビティによる高価値なコンテンツ"
+        },
+        "HeroVideo": {
+            "button": {
+                "watchVideo": "動画を観る"
+            }
         },
         "Sale": {
             "title": {
@@ -258,7 +266,8 @@
                 "buyCoin": "LikeCoinを購入",
                 "imInterested": "興味があります",
                 "joinTokenSale": "トークン販売に参加",
-                "joinNow": "今すぐ参加"
+                "joinNow": "今すぐ参加",
+                "supportLikeCoin": "活動をサポートする"
             }
         },
         "Creator": {
@@ -266,7 +275,7 @@
                 "likeCoinForAppreciate": "LikeCoinのレッドポケットを送る"
             }
         },
-        "Protocol": {
+        "Stack": {
             "title": "LikeCoinスタック",
             "content": "--LikeCoinプロトコルの一節---",
             "layer": {
@@ -340,7 +349,7 @@
         },
         "TokenDistribution": {
             "title": "トークン分配",
-            "content": "先行8億トークン、今後10年以上に渡り段階的に鋳造し、20億を上限とします。プルーフオブクリエイティビティにより、作成者達に対して報酬として10億トークンが付与されます。",
+            "content": "先行8億トークン、今後10年以上に渡り段階的に鋳造し、20億を上限とします。プルーフオブクリエイティビティにより、作成者達に対して報酬として10億トークンが付与されます",
             "yearButton": {
                 "year0": "0年",
                 "year10": "10年以上"
@@ -356,6 +365,14 @@
         "EarlySupporters": {
             "title": "アーリーサポーター",
             "supporter": {
+                "6-club": {
+                    "title": "シックス・クラブ・ファンド",
+                    "subtitle": ""
+                },
+                "u-domain": {
+                    "title": "UDomain",
+                    "subtitle": ""
+                },
                 "annie-zhang": {
                     "title": "Annie Zhang",
                     "subtitle": "Initium Media 編集長"
@@ -392,6 +409,10 @@
                 "isaac-mao": {
                     "title": "Isaac Mao",
                     "description": "<a href=\"https://musicoin.org/\" target=\"_blank\" rel=\"noopener\">Musicoin</a>の創立者。CNBlogs.orgの創立者。iCommons China、クリエイティブ・コモンズ中国チームのプロジェクトリーダー"
+                },
+                "to-cheung": {
+                    "title": "To Cheung",
+                    "subtitle": ""
                 }
             }
         },
@@ -562,6 +583,12 @@
             "title": "メールアドレスを確認してください",
             "content": "メールアドレスの指定と確認を行ってください。",
             "label": "メールアドレス"
+        },
+        "trust": {
+            "label": {
+                "help": "モバイルでのLikeCoin登録",
+                "registerMobileLink": "https://help.like.co/likecoin-%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F/%E5%88%9D%E5%BF%83%E8%80%85%E3%83%8A%E3%83%93/%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E3%81%A7%E3%81%AElikecoin%E7%99%BB%E9%8C%B2"
+            }
         }
     },
     "Toolbar": {
@@ -715,7 +742,7 @@
             "bonusAndLimitedOffer": "25%ボーナス、期間限定オファー",
             "limitedOfferCondition": "10ETH以上の購入",
             "amountLikeToPurhcase": "購入するLIKEの金額",
-            "tokensaleBadAmount": "無効な金額です。0.1ETH～10,000ETHの間で指定してください",
+            "tokensaleBadAmount": "無効な金額です。0.1ETH～1,000ETHの間で指定してください",
             "bonus": "ボーナス",
             "bonusLockUp": "ボーナスのLikeCoinはウォレット内にロックアップされ、6ヶ月間は移管できません。",
             "amountWillBeSentWhenSalesStart": "購入済みおよびボーナスのLikeCoinはトークン公売開始時（2018年4月23日予定）にお使いのウォレットに送金されます。ボーナスのLikeCoinはウォレット内にロックアップされ、6ヶ月間は移管できません。",
@@ -723,11 +750,44 @@
         },
         "button": {
             "aboutLikeCoin": "LikeCoinについて",
-            "whitePaper": "@:WhitePaper.label.whitePaper"
+            "whitePaper": "@:WhitePaper.label.whitePaper",
+            "noETH": "ETHがありませんか？"
+        }
+    },
+    "BackerPage": {
+        "title": "活動をサポートする",
+        "label": {
+            "tagline": "当社の本を購入してください。",
+            "description": "LikeCoinプロトコルとは、クリエイティブ・コモンズからランセンスを受けたコンテンツによって生じた収入を再配分する活動です。当社のコンテンツは自由に利用することができ、ソースコードは<a href=\"https://github.com/likecoin\">Github</a>のオープンソースです。<br/><br/><a href=\"http://sched.co/E6zv\">クリエイティブ・コモンズ・サミット2018での当社のプレゼンテーション</a>",
+            "notRegistered": "LikeCoin IDを作成して活動に参加する"
+        },
+        "button": {
+            "register": "IDを作成する",
+            "purchaseInETH": "ETHでLikeCoinをサポートする"
+        },
+        "productList": {
+            "title": "ショップ",
+            "label": {
+                "youHavePurchased": "あなたは{product}を購入しました。お使いのメールアドレス（{email}）宛に受領書が送信されます。参照番号:"
+            }
         }
     },
     "KYC": {
         "label": {
+            "advKycPending": "お客様の詳細な身分証明書の確認はまだ保留中の状態です。5営業日以上かかっている場合は「インターコム」からお問い合わせください",
+            "isPurchaseExceedAmount": "{amount}ETH以上を購入しますか？",
+            "firstName": "名（パスポート表記通り）",
+            "lastName": "姓（パスポート表記通り）",
+            "country": "居住国",
+            "nationality": "国籍",
+            "invalidCountry": "一覧から有効な国を選択してください。",
+            "invalidNationality": "一覧から有効な国籍を選択してください。",
+            "passportIdPage": "正面を向いた顔写真付きのパスポート身分証明ページ（サイズ上限２MB)*",
+            "recentSelfie": "正面を向いた顔の自撮り写真（サイズ上限２MB)*",
+            "canPurchaseLessThanAmount": "{amount}ETHまで購入できます",
+            "canPurchaseMoreThanAmount": "{amount}ETHi以上購入できます",
+            "advancedVerificationInProgress": "{amount}ETHまで購入できます。詳細な認証が完了したらもっと購入できるようになります。",
+            "verifyToPurchaseOverAmount": "身分確認を行って{amount}ETH以上購入してください",
             "kyc": "身分証明書の確認",
             "kycNeeded": "LikeCoinトークン販売に参加するには身分証明書の確認が必要です",
             "advKycNeeded": "高額購入にはより詳細な身分証明書の確認が必要です",
@@ -744,19 +804,11 @@
             "isPrcCitizen": "あなたは中華人民共和国の市民ですか？",
             "isUsaCitizen": "あなたはアメリカ市民ですか？",
             "isUsaAccredited": "あなたは米国の適格投資家ですか？",
-            "isPurchaseExceedAmount": "{amount}米ドル以上を購入しますか？",
             "passportName": "名前（パスポート表記通り）",
-            "country": "国",
-            "invalidCountry": "国を選択してください。",
-            "passportIdPage": "パスポート身分証明ページ *",
             "addressProof": "住所の証明（3ヶ月以内に発行されたもの） *",
-            "canPurchaseLessThanAmount": "{amount}米ドル未満でも購入できます",
-            "canPurchaseMoreThanAmount": "{amount}米ドル以上でも購入できます",
-            "advancedVerificationInProgress": "{amount}米ドルまで購入できます。詳細な認証が完了したらもっと購入できるようになります。",
             "purchaseMore": "それ以上の価格の購入を希望します。",
             "accountVeritifed": "アカウント認証済み",
             "canPurchaseWhenPublicSale": "公売の開催中はこちらでLikeCoinを購入できます。",
-            "verifyToPurchaseOverAmount": "身分確認を行って{amount}米ドル以上購入してください",
             "waitingConfirmation": "確認待ち中です。",
             "timeWaitForAccountVerification": "2分ほどかかります…",
             "timeWaitForAdvancedVerification": "5営業日ほどかかります…",
@@ -778,6 +830,39 @@
             "artist": "アーティスト",
             "comicAuthor": "漫画家",
             "multimediaDesigner": "マルチメディアデザイナー"
+        }
+    },
+    "TransactionHistory": {
+        "title": "取引履歴",
+        "header": {
+            "status": "ステータス",
+            "fromOrTo": "送金元/送金先",
+            "time": "時間",
+            "value": "値"
+        },
+        "label": {
+            "in": "収入",
+            "out": "支出",
+            "fail": "失敗",
+            "tokensale": "トークン販売",
+            "earlybird": "先取り",
+            "earlyBeliever": "アーリービリーバー",
+            "timePending": "保留中...",
+            "timeExpired": "期限切れ",
+            "coupon": "クーポン",
+            "noRecord": "現在記録は見つかりませんでした。",
+            "to": "送金先",
+            "from": "送金元",
+            "unknown": "不明"
+        },
+        "button": {
+            "view": "詳細",
+            "showMore": "さらに表示する"
+        }
+    },
+    "Error": {
+        "button": {
+            "toIndex": "インデックスに戻る"
         }
     }
 }

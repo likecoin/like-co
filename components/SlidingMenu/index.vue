@@ -20,17 +20,31 @@
               :class="['menu', m.section]">
               <ul>
                 <li v-if="m.section === 'primary'">
+                  <menu-item :to="{ name: 'index' }">
+                    <md-icon :md-src="HomeIcon"></md-icon>
+                  </menu-item>
+                </li>
+                <li v-if="m.section === 'primary'">
                   <menu-item
-                    :title="getButtonText"
+                    v-if="!getUserIsRegistered && showLogin"
                     :isHighlighted="true"
-                    @click="onClickAccountButton" />
+                    @click="onClickAccountButton">
+                    {{ getButtonText }}
+                  </menu-item>
+                  <menu-item
+                    v-else
+                    :isHighlighted="true"
+                    :to="{ name: 'in' }">
+                    {{ getButtonText }}
+                  </menu-item>
                 </li>
                 <li v-for="i in m.items" :key="i.key">
                   <menu-item
-                    :title="$t(`Menu.item.${i.key}`)"
                     :to="i.to"
                     :isHighlighted="i.isHighlighted"
-                    :isExternal="i.isExternal" />
+                    :isExternal="i.isExternal">
+                    {{ $t(`Menu.item.${i.key}`) }}
+                  </menu-item>
                 </li>
               </ul>
             </div>
@@ -46,6 +60,8 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
+import HomeIcon from '@/assets/icons/home.svg';
+
 import LanguageSwitch from '~/components/LanguageSwitch';
 import PlatformIconBar from '~/components/PlatformIconBar';
 import MenuItem from './MenuItem';
@@ -54,10 +70,6 @@ const MENU_ITEMS = [
   {
     section: 'primary',
     items: [
-      {
-        key: 'aboutLikeCoin',
-        to: { name: 'index' },
-      },
       {
         key: 'joinTokenSale',
         to: { name: 'in-tokensale' },
@@ -114,6 +126,7 @@ export default {
   data() {
     return {
       MENU_ITEMS,
+      HomeIcon,
     };
   },
   computed: {
@@ -142,9 +155,7 @@ export default {
       if (!this.getUserIsRegistered && this.showLogin) {
         this.showLoginWindow();
       } else {
-        this.$router.push({
-          name: this.getUserIsRegistered ? 'in-edit' : 'in-register',
-        });
+        this.$router.push({ name: 'in' });
       }
     },
   },
@@ -231,7 +242,11 @@ export default {
       padding: 0;
 
       li {
-        padding: 10px;
+        padding: 8px;
+
+        @media (max-width: 600px) {
+          padding: 6px;
+        }
       }
     }
 
@@ -288,6 +303,7 @@ $sliding-menu-narrow-width: 260px;
     position: relative;
 
     transition: transform .5s ease-in-out;
+    will-change: transform;
 
     [lc-sliding-menu="open"] & {
       transform: translateX(-$sliding-menu-width);
