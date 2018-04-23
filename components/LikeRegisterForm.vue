@@ -48,7 +48,7 @@
             </md-field>
             <md-field class="lc-margin-top-12 lc-margin-bottom-24 lc-mobile">
               <label>{{ $t('Register.form.referrer') }}</label>
-              <md-input v-model="referrer" @change="referrer=referrer.toLowerCase()" />
+              <md-input v-model="referrer" @change="referrer=referrer.toLowerCase().trim()" />
             </md-field>
             <md-field class="lc-margin-top-12 lc-margin-bottom-24 lc-mobile" v-if="isEdit && !isRedeemingCoupon">
               <label>{{ $t('Register.form.displayName') }}</label>
@@ -193,7 +193,7 @@ export default {
           user: this.user.toLowerCase().trim(),
           wallet: this.wallet,
           email: this.email.trim(),
-          referrer: this.referrer,
+          referrer: this.referrer.toLowerCase().trim(),
           locale: this.getCurrentLocale,
         };
         const data = await User.formatAndSignUserInfo(userInfo, this.$t('Sign.Message.registerUser'));
