@@ -154,7 +154,9 @@ export default {
 @import "~assets/variables";
 
 .likecoin-amount-section {
-  width: calc(2 / 3 * 100% + 72px);
+  @media (min-width: 768px + 1px) {
+    width: calc(2 / 3 * 100% + 72px);
+  }
 
   :global(#likecoin-amount) {
     background-color: $like-light-blue;
