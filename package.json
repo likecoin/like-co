@@ -40,7 +40,7 @@
     "@ledgerhq/hw-app-eth": "^4.7.3",
     "@ledgerhq/hw-transport-u2f": "^4.7.3",
     "@ledgerhq/web3-subprovider": "^4.11.0",
-    "@likecoin/abi-decoder": "^1.1.1",
+    "@likecoin/abi-decoder": "^2.0.0",
     "@likecoin/ethereum-blockies": "^0.1.2",
     "@likecoin/likecoin-email-templates": "^1.0.2",
     "@likecoin/vue-image-lightbox": "^5.5.3",
