@@ -262,7 +262,8 @@ class EthHelper {
     if (!r.logs || !r.logs.length) throw new Error('Cannot fetch transaction Data');
     const logs = abiDecoder.decodeLogs(r.logs);
     if (isDelegated) {
-      const targetLogs = logs.filter(l => (l.events.find(e => e.name === 'to').value) === txTo);
+      const targetLogs = logs.filter(l => (l.events
+        .find(e => e.name === 'to').value.toLowerCase()) === txTo.toLowerCase());
       if (!targetLogs || !targetLogs.length) throw new Error('Cannot parse receipt');
       const [log] = targetLogs;
       _to = this.web3.utils.toChecksumAddress(log.events.find(p => (p.name === 'to')).value);
