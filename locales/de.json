@@ -477,7 +477,7 @@
             "contract": "LikeCoin-Vertrag:"
         },
         "button": {
-            "aboutFoundation": "Über die LikeCoin Stiftung",
+            "aboutFoundation": "Über die LikeCoin Foundation",
             "support": "Support"
         }
     },
@@ -494,7 +494,7 @@
             "subject": "Sie sind erfolgreich dem LikeCoin Frühnutzer-Vorverkauf beigetreten",
             "body": "Hallo {{name}}!<p>Danke für die Beteiligung am LikeCoin Frühnutzer-Ververkauf!</p><p>Nach erfolgreicher Überprüfung Ihrer Zahlung von {{eth}} ETH erhalten Sie {{base}} + {{bonus}} LikeCoins, wenn unser öffentlicher Verkauf beginnt.</p><p>Transaktions-URL:<br/><a href=\"https://etherscan.io/tx/{{txHash}}\" style=\"word-break: break-all; color: #28646E\">https://etherscan.io/tx/{{txHash}}</a></p><p>Bis dahin können Sie sich an unserem <a href=\"https://like.co/in/edit#referral\" style=\"color: #28646E\">Partnerprogramm</a> beteiligen und so ein paar LikeCoins extra verdienen!</p><p>Bei Fragen oder Anregungen können Sie sich jederzeit über unsere offizielle Internetseite an uns wenden.</p>"
         },
-        "signature": "<p>LikeCoin Stiftung<br/><a href=\"https://like.co\" style=\"color: #28646E\">https://like.co</a></p>"
+        "signature": "<p>LikeCoin Foundation<br/><a href=\"https://like.co\" style=\"color: #28646E\">https://like.co</a></p>"
     },
     "Whitepaper": {
         "Button": {
