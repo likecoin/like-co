@@ -247,7 +247,11 @@ a,
       .lc-page-wrapper:not(.lc-narrow) & {
         margin-right: 1 / 3 * 100%;
         margin-left: 0;
+      }
+    }
 
+    @media (min-width: 960 + 1px) {
+      .lc-page-wrapper:not(.lc-narrow) & {
         + .lc-container-header-button {
           position: absolute;
           top: 0;
@@ -255,11 +259,13 @@ a,
 
           width: 25%;
           height: 36px;
+
+          min-width: unset;
         }
       }
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 960px) {
       .lc-page-wrapper:not(.lc-narrow) & {
         + .lc-container-header-button {
           display: none;

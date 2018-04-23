@@ -186,11 +186,11 @@
                     {{ $t('BonusPage.title') }}
                   </h1>
                 </div>
-                  <material-button
-                    class="lc-container-header-button"
-                    @click="$router.push({ name: 'in-bonus' })">
-                    {{ $t('BonusPage.button.moreBonus') }}
-                  </material-button>
+                <md-button
+                  class="md-likecoin lc-container-header-button"
+                  @click="$router.push({ name: 'in-bonus' })">
+                  {{ $t('BonusPage.button.moreBonus') }}
+                </md-button>
               </div>
             </div>
           </div>
@@ -200,6 +200,14 @@
           <div class="lc-container-3 lc-padding-vertical-32 lc-bg-gray-1">
             <div class="lc-container-4">
               <mission-list :missions="shortMissionList" @click="onMissionClick"/>
+
+              <div class="section-btn-container lc-padding-top-24 bonus-button-container">
+                <md-button
+                  class="section-button md-likecoin"
+                  @click="$router.push({ name: 'in-bonus' })">
+                  {{ $t('BonusPage.button.moreBonus') }}
+                </md-button>
+              </div>
             </div>
           </div>
         </div>
@@ -242,14 +250,15 @@
                     :title="$t('Edit.label.validCodeRequired')"
                     required />
                 </md-field>
-                <div v-if="!isProfileEdit" id="form-btn" class="lc-padding-top-48 lc-mobile">
-                  <material-button
+                <div v-if="!isProfileEdit" class="section-btn-container lc-padding-top-48 lc-mobile">
+                  <md-button
+                    class="section-button md-likecoin"
                     id="confirm-btn"
                     type="submit"
                     form="redeemForm"
                     :disabled="getIsInTransaction">
                     {{ $t('General.button.confirm') }}
-                  </material-button>
+                  </md-button>
                 </div>
               </form>
             </div>
@@ -817,23 +826,26 @@ $profile-icon-mobile-size: 88px;
     :not(.md-focused) .input-redeem-hint {
       font-size: 20px;
     }
+  }
+}
 
-    #form-btn {
-      text-align: center;
+.section-btn-container {
+  text-align: center;
 
-      #confirm-btn {
-        width: 256px;
-        height: 40px;
-        margin: 0;
-      }
+  @media (min-width: 768 + 1px) {
+    text-align: right;
 
-      @media (min-width: 601px) {
-        text-align: right;
+    .section-button {
+      width: calc(33.33% - 16px);
+    }
+  }
 
-        #confirm-btn {
-          width: calc(33.33% - 16px);
-        }
-      }
+}
+
+.bonus-container {
+  .bonus-button-container {
+    @media (min-width: 960 + 1px) {
+      display: none;
     }
   }
 }
