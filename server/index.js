@@ -10,7 +10,7 @@ import api from './api';
 const path = require('path');
 
 i18n.configure({
-  locales: ['en', 'zh'],
+  locales: ['en', 'zh', 'it', 'es', 'ru', 'pt', 'ja', 'ko', 'cn', 'fr', 'de'],
   directory: path.resolve(__dirname, '../locales'),
   objectNotation: true,
 });
