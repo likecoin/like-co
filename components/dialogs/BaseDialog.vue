@@ -164,6 +164,8 @@ $lc-dialog-border-radius: 8px;
 
 .lc-dialog-content {
   padding-top: 16px;
+  padding-left: 0;
+  padding-right: 0;
 
   .lc-dialog.with-icon & {
     padding-top: ($lc-dialog-icon-size - $lc-dialog-header-height) / 2 + 16px;
@@ -172,5 +174,27 @@ $lc-dialog-border-radius: 8px;
       padding-top: 8px + $lc-dialog-icon-size-small - $lc-dialog-header-height + 16px;
     }
   }
+}
+
+.lc-dialog-container-1,
+.lc-dialog-container-2 {
+  position: relative;
+
+  height: 100%;
+}
+
+.lc-dialog-container-1 {
+  padding-left: 40px;
+  padding-right: 40px;
+
+  @media (max-width: 960px) {
+    padding-right: 24px;
+    padding-left: 24px;
+  }
+}
+
+.lc-dialog-container-2 {
+  padding-left: 16px;
+  padding-right: 16px;
 }
 </style>

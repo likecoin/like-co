@@ -1,25 +1,27 @@
 <template>
   <base-dialog ref="dialog" class="input-dialog">
 
-    <h1
-      v-if="title"
-      class="lc-margin-bottom-16 lc-font-size-32 lc-font-weight-400 lc-color-like-dark-brown-1 lc-mobile">
-      {{ title }}
-    </h1>
+    <div class="lc-dialog-container-1">
+      <h1
+        v-if="title"
+        class="lc-margin-bottom-16 lc-font-size-32 lc-font-weight-400 lc-color-like-dark-brown-1 lc-mobile">
+        {{ title }}
+      </h1>
 
-    <p
-      v-if="content"
-      class="lc-margin-bottom-16 lc-font-size-14 lc-font-weight-400 lc-color-like-green"
-      v-html="content" />
+      <p
+        v-if="content"
+        class="lc-margin-bottom-16 lc-font-size-14 lc-font-weight-400 lc-color-like-green"
+        v-html="content" />
 
-    <single-input-form
-      ref="form"
-      :type="type"
-      :text="text"
-      :label="label"
-      :errorText="getInfoIsError ? getInfoMsg : ''"
-      @cancel="onCancel"
-      @submit="onSubmit"/>
+      <single-input-form
+        ref="form"
+        :type="type"
+        :text="text"
+        :label="label"
+        :errorText="getInfoIsError ? getInfoMsg : ''"
+        @cancel="onCancel"
+        @submit="onSubmit"/>
+    </div>
 
   </base-dialog>
 </template>

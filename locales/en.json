@@ -932,6 +932,12 @@
     "joinTokenSaleReferral": {
       "title": "@:Mission.joinTokenSale.title",
       "description": "Every time <span class=\"bold\">{invitee}</span> participate in token, you both will get 2.5% LIKE bonus. No matter how much and how frequently."
+    },
+    "completedBanner": {
+      "label": {
+        "completed": "Completed!",
+        "bonusTransferShortly": "The bonus LikeCoin will be transferred to you shortly."
+      }
     }
   }
 }
