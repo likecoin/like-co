@@ -729,12 +729,12 @@ $profile-icon-mobile-size: 88px;
           padding-top: 0;
         }
 
-        .md-has-value .input-display-hint {
-          opacity: 0;
-        }
-
-        .md-focused .input-display-hint {
-          opacity: 0;
+        .md-has-value,
+        .md-focused {
+          .input-display-hint {
+            opacity: 0;
+            pointer-events: none;
+          }
         }
 
         .verified {
