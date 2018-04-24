@@ -146,8 +146,11 @@ module.exports = {
     },
     parallel: true,
     vendor: [
+      'core-js/fn/object/assign',
+      'core-js/fn/object/values',
+      'core-js/fn/string/includes',
+      'core-js/fn/array/includes',
       'axios',
-      'babel-polyfill',
       'bignumber.js',
       'classlist-polyfill',
       'moment',
@@ -162,9 +165,8 @@ module.exports = {
           'vue-app',
           {
             targets: isServer
-              ? { node: '8.11.1' }
-              : { browsers: ['defaults'] },
-            useBuiltIns: true,
+              ? { node: '8.11.1', uglify: false }
+              : { browsers: ['defaults'], uglify: false },
           },
         ],
       ],
