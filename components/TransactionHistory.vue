@@ -145,8 +145,8 @@ function formatAmount(value, currency) {
   `;
 }
 
-function formatUTCTime(date) {
-  return `${moment.utc(date).format('D-M-YYYY HH:mm:ss')} (UTC)`;
+function formatUTCTimeToLocal(date) {
+  return moment.utc(date).local().format('D-M-YYYY HH:mm:ss UTCZZ');
 }
 
 export default {
@@ -219,7 +219,7 @@ export default {
     getTime(tx) {
       if (tx.status === 'pending') return this.$t('TransactionHistory.label.timePending');
       if (tx.status === 'timeout') return this.$t('TransactionHistory.label.timeExpired');
-      return tx.completeTs ? formatUTCTime(tx.completeTs) : '';
+      return tx.completeTs ? formatUTCTimeToLocal(tx.completeTs) : '';
     },
     isFromPresale(tx) {
       return tx.from === LIKE_COIN_PRESALE_FROM_ADDRESS;
