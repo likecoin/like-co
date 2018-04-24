@@ -24,7 +24,7 @@
             @click="onClick(m)" />
         </li>
 
-        <li v-for="p in 3" :key="p.id" v-if="missions.length <= 0">
+        <li v-for="p in NUM_PLACEHOLDERS" :key="p.id" v-if="missions.length <= 0">
           <mission-item-placeholder :layout="layout"/>
         </li>
       </ul>
@@ -64,6 +64,11 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  data() {
+    return {
+      NUM_PLACEHOLDERS: 3,
+    };
   },
   components: {
     MissionItem,
