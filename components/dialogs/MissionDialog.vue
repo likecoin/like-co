@@ -200,7 +200,7 @@ export default {
     getTasks() {
       return GETTING_STARTED_TASKS.map(id => ({
         id,
-        title: `Mission.${this.missionId}.${id}`,
+        title: this.$t(`Mission.${this.missionId}.${id}`),
         state: this.mission[id] ? 'completed' : 'active',
       }));
     },

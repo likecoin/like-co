@@ -909,7 +909,10 @@
   "Mission": {
     "gettingStart": {
       "title": "Getting Start",
-      "description": "Welcome to join the movement. LikeCoin aims to reinvent the Like by realigning creativity and reward. In <a href=\"https://like.co\">like.co</a>, you are not only can buy and send LikeCoin, but also earn LikeCoin by participating in the LIKE ecology. <span class=\"bold\">View your Like ID payment page, watch introduction video and join our telegram group to get 3 LikeCoin!</span>"
+      "description": "Welcome to join the movement. LikeCoin aims to reinvent the Like by realigning creativity and reward. In <a href=\"https://like.co\">like.co</a>, you are not only can buy and send LikeCoin, but also earn LikeCoin by participating in the LIKE ecology. <span class=\"bold\">View your Like ID payment page, watch introduction video and join our telegram group to get 3 LikeCoin!</span>",
+      "taskTelegram": "Join LikeCoin Telegram Group",
+      "taskVideo": "Watch introduction video",
+      "taskPaymentPage": "Take a look at your personal page"
     },
     "inviteFriend": {
       "title": "Invite a friend to join LikeCoin",
@@ -917,7 +920,11 @@
     },
     "joinTokenSale": {
       "title": "Join Token Sale",
-      "description": "Join toke sale now, 100 LIKE bonus will be given to you.<br><br>And don't forget the referral bonus. Every time you participate in token sale, you and the candidate will also get 2.5% LIKE bonus too no matter how much and how frequently."
+      "description": "Join toke sale now, 100 LIKE bonus will be given to you.<br><br>And don't forget the referral bonus. Every time you participate in token sale, you and your referrer will also get 2.5% LIKE bonus too no matter how much and how frequently."
+    },
+    "refereeTokenSale": {
+      "title": "@:Mission.joinTokenSale.title",
+      "description": "Join toke sale now. Every time you participate in token sale, you and your referrer will also get 2.5% LIKE bonus too no matter how much and how frequently."
     },
     "inviteTokenSale": {
       "title": "Invite a friend to join Token Sale",
