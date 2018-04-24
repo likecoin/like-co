@@ -9,7 +9,7 @@ import createLedgerSubprovider from '@ledgerhq/web3-subprovider';
 
 import { LIKE_COIN_ABI, LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin';
 import { LIKE_COIN_ICO_ABI, LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
-import { IS_TESTNET, INFURA_HOST } from '@/constant';
+import { IS_TESTNET, INFURA_HOST, CONFIRMATION_NEEDED } from '@/constant';
 
 const abiDecoder = require('@likecoin/abi-decoder/dist/es5');
 
@@ -137,12 +137,18 @@ class EthHelper {
   }
 
   async waitForTxToBeMined(txHash) {
-    let txReceipt;
-    while (!txReceipt) {
+    let done = false;
+    while (!done) {
       /* eslint-disable no-await-in-loop */
       await timeout(1000);
-      txReceipt = await this.web3.eth.getTransactionReceipt(txHash);
+      const [t, txReceipt, currentBlockNumber] = await Promise.all([
+        this.web3.eth.getTransaction(txHash),
+        this.web3.eth.getTransactionReceipt(txHash),
+        this.web3.eth.getBlockNumber(),
+      ]);
       if (txReceipt && (txReceipt.status === 0 || txReceipt.status === '0x0')) throw new Error('Transaction failed');
+      done = t && txReceipt && currentBlockNumber && t.blockNumber
+        && (currentBlockNumber - t.blockNumber > CONFIRMATION_NEEDED);
     }
   }
 
@@ -168,9 +174,14 @@ class EthHelper {
   }
 
   async getTransactionCompleted(txHash) {
-    const t = await this.web3.eth.getTransaction(txHash);
-    if (!t) return 0;
-    if (t.blockNumber) {
+    const [t, currentBlockNumber] = await Promise.all([
+      this.web3.eth.getTransaction(txHash),
+      this.web3.eth.getBlockNumber(),
+    ]);
+    if (!t || !currentBlockNumber) {
+      return 0;
+    }
+    if (t.blockNumber && (currentBlockNumber - t.blockNumber > CONFIRMATION_NEEDED)) {
       const [r, block] = await Promise.all([
         this.web3.eth.getTransactionReceipt(txHash),
         this.web3.eth.getBlock(t.blockNumber),
@@ -186,14 +197,16 @@ class EthHelper {
     };
   }
 
-  async getEthTransferInfo(txHash, tx) {
+  async getEthTransferInfo(txHash, tx, blockNo) {
     let t = tx;
+    let currentBlockNumber = blockNo;
     if (!t) t = await this.web3.eth.getTransaction(txHash);
-    if (!t) throw new Error('Cannot find transaction');
+    if (!blockNo) currentBlockNumber = await this.web3.eth.getBlockNumber();
+    if (!t || !currentBlockNumber) throw new Error('Cannot find transaction');
     let _to = this.web3.utils.toChecksumAddress(t.to);
     let _from = this.web3.utils.toChecksumAddress(t.from);
     let _value = t.value;
-    if (!t.blockNumber) {
+    if (!t.blockNumber || (currentBlockNumber - t.blockNumber < CONFIRMATION_NEEDED)) {
       return {
         isEth: true,
         _from,
@@ -220,13 +233,19 @@ class EthHelper {
 
   async getTransferInfo(txHash, opt) {
     const { blocking } = opt;
-    let t = await this.web3.eth.getTransaction(txHash);
-    while (!t && blocking) {
+    let [t, currentBlockNumber] = await Promise.all([
+      this.web3.eth.getTransaction(txHash),
+      this.web3.eth.getBlockNumber(),
+    ]);
+    while ((!t || !currentBlockNumber) && blocking) {
       await timeout(1000); // eslint-disable-line no-await-in-loop
-      t = await this.web3.eth.getTransaction(txHash);
+      ([t, currentBlockNumber] = await Promise.all([
+        this.web3.eth.getTransaction(txHash),
+        this.web3.eth.getBlockNumber(),
+      ]));
     }
-    if (!t) throw new Error('Cannot find transaction');
-    if (t.value > 0) return this.getEthTransferInfo(txHash, t);
+    if (!t || !currentBlockNumber) throw new Error('Cannot find transaction');
+    if (t.value > 0) return this.getEthTransferInfo(txHash, t, currentBlockNumber);
     if (t.to.toLowerCase() !== LIKE_COIN_ADDRESS.toLowerCase()) throw new Error('Not LikeCoin transaction');
     const decoded = abiDecoder.decodeMethod(t.input);
     const isDelegated = decoded.name === 'transferDelegated';
@@ -239,7 +258,7 @@ class EthHelper {
     let _from = isDelegated ? decoded.params.find(p => p.name === '_from').value : t.from;
     _from = this.web3.utils.toChecksumAddress(_from);
     let _value = decoded.params.find(p => p.name === '_value').value;
-    if (!t.blockNumber) {
+    if (!t.blockNumber || (currentBlockNumber - t.blockNumber < CONFIRMATION_NEEDED)) {
       return {
         _from,
         _to,
