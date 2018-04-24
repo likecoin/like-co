@@ -4,7 +4,9 @@
 
       <div class="mission-card">
         <div class="mission-action-button">
-          <mission-state-icon :layout="layout" :state="state" />
+          <!-- spinner just for poc -->
+          <md-progress-spinner v-if="state==='pending'" md-mode="indeterminate" />
+          <mission-state-icon v-else :layout="layout" :state="state" />
         </div>
 
         <div class="mission-card-container">
@@ -95,7 +97,8 @@ export default {
         return this.mission.done ? 'claimed' : 'active';
       }
       if (this.mission.isClaimed) return 'claimed';
-      return this.mission.done ? 'completed' : 'active';
+      if (this.mission.done) return 'completed';
+      return (this.mission.status === 'pending') ? 'pending' : 'active';
     },
   },
 };
