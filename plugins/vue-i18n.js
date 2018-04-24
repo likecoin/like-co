@@ -18,7 +18,7 @@ async function loadLanguageAsync(i18n, lang) {
     i18n.loadedLanguages = [defaultLocale];
   }
   if (!i18n.loadedLanguages.includes(lang)) {
-    const msgs = await import(/* webpackChunkName: "lang-[request]" */ `@/locales/${lang}`);
+    const msgs = await import(/* webpackChunkName: "lang-[request]" */ `@/locales/client/${lang}`);
     i18n.setLocaleMessage(lang, msgs);
     i18n.loadedLanguages.push(lang);
   }

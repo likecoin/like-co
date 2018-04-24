@@ -1,4 +1,4 @@
-import en from './en.json';
+import en from './client/en.json';
 // import zh from './zh.json';
 // import cn from './cn.json';
 // import ja from './ja.json';

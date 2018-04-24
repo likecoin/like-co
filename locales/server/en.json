@@ -1,0 +1,17 @@
+{
+  "Email": {
+    "VerifiyEmail": {
+      "subject": "Verify your like.co email",
+      "body": "Hi {{name}}!<p>Welcome to like.co! To verify your email, click the following link:<br/><a href=\"https://like.co/verify/{{uuid}}?ref={{ref}}\" style=\"word-break: break-all; color: #28646E\">https://like.co/verify/{{uuid}}?ref={{ref}}</a></p>"
+    },
+    "VerifiyAndCouponEmail": {
+      "subject": "Verify your like.co email and claim your LikeCoin",
+      "body": "Hi {{name}}!<p>Welcome to like.co! To verify your email and receive red pocket, click the following link:<br/><a href=\"https://like.co/verify/{{uuid}}/{{coupon}}?ref={{ref}}\" style=\"word-break: break-all; color: #28646E\">https://like.co/verify/{{uuid}}/{{coupon}}?ref={{ref}}</a></p><p>Your coupon code: {{coupon}}</p>"
+    },
+    "preSaleEmail": {
+      "subject": "You have successfully joined LikeCoin early-bird presale",
+      "body": "Hi {{name}}!<p>Thank you for joining LikeCoin early-bird presale!</p><p>After we have confirmed your payment of {{eth}} ETH, you will receive {{base}} + {{bonus}} LikeCoin when our public sale starts.</p><p>Transaction URL:<br/><a href=\"https://etherscan.io/tx/{{txHash}}\" style=\"word-break: break-all; color: #28646E\">https://etherscan.io/tx/{{txHash}}</a></p><p>Meanwhile, you can participate in our <a href=\"https://like.co/in/edit#referral\" style=\"color: #28646E\">Affiliate Program</a> to earn extra LikeCoin!</p><p>Feel free to contact us on our official website should you have any thoughts or question.</p>"
+    },
+    "signature": "<p>LikeCoin Foundation<br/><a href=\"https://like.co\" style=\"color: #28646E\">https://like.co</a></p>"
+  }
+}

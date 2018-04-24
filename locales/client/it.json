@@ -481,21 +481,6 @@
             "support": "Supporto"
         }
     },
-    "Email": {
-        "VerifiyEmail": {
-            "subject": "Verifica il tuo indirizzo like.co",
-            "body": "Ciao {{name}}!<p>Benvenut@ su like.co! Clicca il seguente collegamento per verificare la tua email:<br/><a href=\"https://like.co/verify/{{uuid}}?ref={{ref}}\" style=\"word-break: break-all; color: #28646E\">https://like.co/verify/{{uuid}}?ref={{ref}}</a></p>"
-        },
-        "VerifiyAndCouponEmail": {
-            "subject": "Verifica il tuo indirizzo like.co e ottieni il tuo LikeCoin",
-            "body": "Ciao {{name}}!<p>Benvenut@ su like.co! Per verifica il tuo indirizzo email e ricevere red pocket, clicca il seguente collegamento:<br/><a href=\"https://like.co/verify/{{uuid}}/{{coupon}}?ref={{ref}}\" style=\"word-break: break-all; color: #28646E\">https://like.co/verify/{{uuid}}/{{coupon}}?ref={{ref}}</a></p><p>Il codice del tuo coupon: {{coupon}}</p>"
-        },
-        "preSaleEmail": {
-            "subject": "Hai completato l’iscrizione alla prevendita di LikeCoin",
-            "body": "Ciao {{name}}!<p>Grazie per partecipare alla prevendita di LikeCoin!</p><p>Una volta confermato il tuo pagamento di {{eth}} ETH, riceverai {{base}} + {{bonus}} LikeCoin all’inizio della nostra vendita pubblica.</p><p>URL della transazione:<br/><a href=\"https://etherscan.io/tx/{{txHash}}\" style=\"word-break: break-all; color: #28646E\">https://etherscan.io/tx/{{txHash}}</a></p><p>Nel frattempo, puoi partecipare al nostro <a href=\"https://like.co/in/edit#referral\" style=\"color: #28646E\">Programma per affiliati</a> e ottenere LikeCoin in più!</p><p>Per informazioni o suggerimenti, ti preghiamo di contattarci sul nostro sito web ufficiale.</p>"
-        },
-        "signature": "<p>LikeCoin Foundation<br/><a href=\"https://like.co\" style=\"color: #28646E\">https://like.co</a></p>"
-    },
     "Whitepaper": {
         "Button": {
             "whitepaper": "Whitepaper",

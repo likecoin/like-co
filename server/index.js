@@ -12,7 +12,7 @@ const path = require('path');
 
 i18n.configure({
   locales: supportedLocales,
-  directory: path.resolve(__dirname, '../locales'),
+  directory: path.resolve(__dirname, '../locales/server'),
   objectNotation: true,
 });
 
