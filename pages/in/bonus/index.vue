@@ -46,7 +46,10 @@
             </div>
           </div>
 
-          <div class="lc-container-2 lc-margin-top-4" id="invitees-task">
+          <div
+            class="lc-container-2 lc-margin-top-4"
+            id="invitees-task"
+            v-if="getMissionList.length > 0">
             <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-32 section-content">
               <div class="lc-container-4">
 

@@ -23,6 +23,10 @@
             :is-referral="isReferral"
             @click="onClick(m)" />
         </li>
+
+        <li v-for="p in NUM_PLACEHOLDERS" :key="p.id" v-if="missions.length <= 0">
+          <mission-item-placeholder :layout="layout"/>
+        </li>
       </ul>
 
     </div>
@@ -32,6 +36,7 @@
 
 <script>
 import MissionItem from './Item';
+import MissionItemPlaceholder from './ItemPlaceholder';
 
 export default {
   name: 'mission-list',
@@ -60,8 +65,14 @@ export default {
       default: false,
     },
   },
+  data() {
+    return {
+      NUM_PLACEHOLDERS: 3,
+    };
+  },
   components: {
     MissionItem,
+    MissionItemPlaceholder,
   },
   methods: {
     onClick(m) {
@@ -118,6 +129,10 @@ export default {
         }
       }
     }
+  }
+
+  li:last-child .mission-item-placeholder {
+    display: none;
   }
 }
 
