@@ -1,0 +1,17 @@
+{
+    "Email": {
+        "VerifiyEmail": {
+            "subject": "Verifica tu cuenta de like.co",
+            "body": "¡Hola, {{name}}!<p>¡Bienvenido a like.co! Para verificar tu correo electrónico, haz clic en el siguiente enlace:<br/><a href=\"https://like.co/verify/{{uuid}}?ref={{ref}}\" style=\"word-break: break-all; color: #28646E\">https://like.co/verify/{{uuid}}?ref={{ref}}</a></p>"
+        },
+        "VerifiyAndCouponEmail": {
+            "subject": "Verifica tu dirección de correo electrónico de like.co y reclama tus LikeCoin",
+            "body": "¡Hola, {{name}}!<p>¡Bienvenido a like.co! Para verificar tu correo electrónico, haz clic en el siguiente enlace:<br/><a href=\"https://like.co/verify/{{uuid}}/{{coupon}}?ref={{ref}}\" style=\"word-break: break-all; color: #28646E\">https://like.co/verify/{{uuid}}/{{coupon}}?ref={{ref}}</a></p><p>Tu código de cupón: {{coupon}}</p>"
+        },
+        "preSaleEmail": {
+            "subject": "Te has unido correctamente a la preventa anticipada de LikeCoin",
+            "body": "¡Hola, {{name}}!<p>¡Gracias por unirte a la preventa anticipada de LikeCoin!</p><p>Después de confirmar el pago de {{eth}} ETH, recibirás {{base}} + {{bonus}} LikeCoin cuando comience la venta pública.</p><p>URL de transacción:<br/><a href=\"https://etherscan.io/tx/{{txHash}}\" style=\"word-break: break-all; color: #28646E\">https://etherscan.io/tx/{{txHash}}</a></p><p>Mientras tanto, puedes participar en nuestro <a href=\"https://like.co/in/edit#referral\" style=\"color: #28646E\">Programa de afiliación</a> para ganar más LikeCoin.</p><p>Si tienes alguna duda o pregunta, ponte en contacto con nuestro sitio web oficial.</p>"
+        },
+        "signature": "<p>LikeCoin Foundation<br/><a href=\"https://like.co\" style=\"color: #28646E\">https://like.co</a></p>"
+    }
+}

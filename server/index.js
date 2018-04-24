@@ -4,14 +4,15 @@ import compression from 'compression';
 import bodyParser from 'body-parser';
 import { Nuxt, Builder } from 'nuxt';
 import { IS_TESTNET } from '../constant';
+import { supportedLocales } from '../locales';
 
 import api from './api';
 
 const path = require('path');
 
 i18n.configure({
-  locales: ['en', 'zh', 'it', 'es', 'ru', 'pt', 'ja', 'ko', 'cn', 'fr', 'de'],
-  directory: path.resolve(__dirname, '../locales'),
+  locales: supportedLocales,
+  directory: path.resolve(__dirname, '../locales/server'),
   objectNotation: true,
 });
 
