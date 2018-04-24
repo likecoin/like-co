@@ -15,19 +15,33 @@
         </div>
       </header>
 
-      <ul>
-        <li v-for="m in missions" :key="m.id">
-          <mission-item
-            :layout="layout"
-            :mission="m"
-            :is-referral="isReferral"
-            @click="onClick(m)" />
-        </li>
+      <div
+       :class="[
+        'mission-item-list-wrapper',
+         {
+           'overflow-left': canScrollLeft,
+           'overflow-right': canScrollRight,
+         },
+       ]">
+        <ul ref="list" @scroll="onLayout">
 
-        <li v-for="p in NUM_PLACEHOLDERS" :key="p.id" v-if="missions.length <= 0">
-          <mission-item-placeholder :layout="layout"/>
-        </li>
-      </ul>
+          <li v-for="m in missions" :key="m.id">
+            <mission-item
+              :layout="layout"
+              :mission="m"
+              :is-referral="isReferral"
+              @click="onClick(m)" />
+          </li>
+
+          <li
+            v-for="p in NUM_PLACEHOLDERS"
+            v-if="missions.length <= 0"
+            :key="`placeholder-${p}`">
+            <mission-item-placeholder :layout="layout"/>
+          </li>
+
+        </ul>
+      </div>
 
     </div>
   </div>
@@ -35,6 +49,8 @@
 
 
 <script>
+import _throttle from 'lodash.throttle';
+
 import MissionItem from './Item';
 import MissionItemPlaceholder from './ItemPlaceholder';
 
@@ -65,16 +81,38 @@ export default {
       default: false,
     },
   },
-  data() {
-    return {
-      NUM_PLACEHOLDERS: 3,
-    };
-  },
   components: {
     MissionItem,
     MissionItemPlaceholder,
   },
+  data() {
+    return {
+      NUM_PLACEHOLDERS: 3,
+      canScrollLeft: false,
+      canScrollRight: false,
+    };
+  },
+  computed: {
+    shouldShowScrollIndicator() {
+      return this.layout !== 'small' && !this.isGrid;
+    },
+  },
   methods: {
+    updateScrollIndicator() {
+      const { clientWidth, scrollWidth, scrollLeft } = this.$refs.list;
+
+      if (scrollLeft !== 0) {
+        this.canScrollLeft = true;
+      } else {
+        this.canScrollLeft = false;
+      }
+
+      if (scrollLeft + clientWidth >= scrollWidth) {
+        this.canScrollRight = false;
+      } else {
+        this.canScrollRight = true;
+      }
+    },
     onClick(m) {
       if (this.state !== 'claimed') {
         this.$emit('click', ({
@@ -84,6 +122,22 @@ export default {
         }));
       }
     },
+    onLayout: _throttle(function () { this.updateScrollIndicator(); }, 20),
+  },
+  watch: {
+    missions() {
+      this.$nextTick(() => this.updateScrollIndicator());
+    },
+  },
+  mounted() {
+    if (this.shouldShowScrollIndicator) {
+      window.addEventListener('resize', this.onLayout);
+    }
+  },
+  beforeDestroy() {
+    if (this.shouldShowScrollIndicator) {
+      window.removeEventListener('resize', this.onLayout);
+    }
   },
 };
 </script>
@@ -113,6 +167,7 @@ export default {
     ul {
       overflow-x: auto;
 
+      padding-top: 12px;
       padding-bottom: 18px;
 
       li {
@@ -133,6 +188,41 @@ export default {
 
   li:last-child .mission-item-placeholder {
     display: none;
+  }
+
+  .mission-item-list-wrapper {
+    position: relative;
+
+    overflow-x: hidden;
+
+    &::before,
+    &::after {
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      bottom: 0;
+
+      width: 10px;
+
+      content: "";
+      transition: opacity .2s ease;
+
+      opacity: 0;
+      background-image: radial-gradient(ellipse at center, rgba(0,0,0,.15) 0%, rgba(0,0,0,.05) 65%, rgba(0,0,0,0) 75%);
+    }
+
+    &::before {
+      left: -5px;
+    }
+
+    &::after {
+      right: -5px;
+    }
+
+    &.overflow-left::before,
+    &.overflow-right::after {
+      opacity: 1;
+    }
   }
 }
 
