@@ -5,6 +5,7 @@ const { FieldValue } = require('firebase-admin').firestore;
 /* eslint import/no-unresolved: "off" */
 const userData = require('../../test/data/user.json').users;
 const txData = require('../../test/data/tx.json').tx;
+const missionData = require('../../test/data/mission.json').missions;
 
 function docData(obj) {
   const res = {
@@ -48,32 +49,32 @@ function querySnapshotDocs(data) {
 }
 
 function collectionWhere(data, field, op, value) {
+  let whereData = data;
   if (op === '==') {
-    const whereData = data.filter(d => d[field] === value);
-    const docs = querySnapshotDocs(whereData);
-    const queryObj = {
-      where: (sField, sOp, sValue) => collectionWhere(whereData, sField, sOp, sValue),
-      orderBy: (sField, order = 'asc') => {
-        if (sField in data[0] && (order === 'asc' || order === 'desc')) {
-          return queryObj;
-        }
-        throw new Error('orderBy is incorrect.');
-      },
-      startAt: () => queryObj,
-      limit: (limit) => {
-        if (Number.isInteger(limit)) {
-          return queryObj;
-        }
-        throw new Error('limit should be integer.');
-      },
-      get: () => global.Promise.resolve({
-        docs,
-        forEach: f => docs.forEach(f),
-      }),
-    };
-    return queryObj;
+    whereData = data.filter(d => d[field] === value);
   }
-  throw new Error(`Do not support ${op} currently.`);
+  const docs = querySnapshotDocs(whereData);
+  const queryObj = {
+    where: (sField, sOp, sValue) => collectionWhere(whereData, sField, sOp, sValue),
+    orderBy: (sField, order = 'asc') => {
+      if (sField in data[0] && (order === 'asc' || order === 'desc')) {
+        return queryObj;
+      }
+      throw new Error('orderBy is incorrect.');
+    },
+    startAt: () => queryObj,
+    limit: (limit) => {
+      if (Number.isInteger(limit)) {
+        return queryObj;
+      }
+      throw new Error('limit should be integer.');
+    },
+    get: () => global.Promise.resolve({
+      docs,
+      forEach: f => docs.forEach(f),
+    }),
+  };
+  return queryObj;
 }
 
 function collectionDoc(data, id) {
@@ -120,14 +121,14 @@ function createCollection(data) {
         forEach: f => docs.forEach(f),
       });
     },
-    orderBy: () => data,
+    orderBy: () => collectionWhere(data),
   };
 }
 
 const userCollection = createCollection(userData);
 const txCollection = createCollection(txData);
 const iapCollection = createCollection([]);
-const missionCollection = createCollection([]);
+const missionCollection = createCollection(missionData);
 const payoutCollection = createCollection([]);
 
 module.exports = {
