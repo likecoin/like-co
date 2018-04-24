@@ -145,7 +145,6 @@ export default {
   }
 
   &.fluid {
-    &.completed,
     &.claimed {
       .reward-label {
         color: currentColor;
