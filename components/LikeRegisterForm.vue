@@ -179,7 +179,7 @@ export default {
       this.$refs.inputFile.click();
     },
     onCancel() {
-      this.$router.push({ name: 'in-edit' });
+      this.$router.push({ name: 'in' });
     },
     async onSubmit() {
       try {
@@ -200,7 +200,7 @@ export default {
         await this.newUser(data);
         await this.isUser(this.wallet);
         if (this.couponCode) {
-          this.setTxDialogAction({ txDialogActionRoute: { name: 'in-edit' }, txDialogActionText: 'View Account' });
+          this.setTxDialogAction({ txDialogActionRoute: { name: 'in' }, txDialogActionText: 'View Account' });
           await this.$refs.claimDialog.onSubmit();
         } else {
           this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${this.user}">${this.$t('Register.form.label.viewPage')}</a>`);
@@ -244,7 +244,7 @@ export default {
         const { hash } = document.location;
         this.$router.replace({
           hash,
-          name: 'in-edit',
+          name: 'in',
           params: { showEmail: !!this.email },
           query: this.$route.query.ref ? { ref: this.$route.query.ref } : {},
           // only preserve $ref for now

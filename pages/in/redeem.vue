@@ -18,7 +18,7 @@ export default {
   },
   fetch({ store, redirect }) {
     if (store.getters.getUserIsRegistered) {
-      redirect({ name: 'in-edit' });
+      redirect({ name: 'in' });
       return;
     }
     const title = 'Register.header.title';

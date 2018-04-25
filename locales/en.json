@@ -649,6 +649,13 @@
       }
     }
   },
+  "In": {
+    "tab": {
+      "overview": "Overview",
+      "bonus": "Bonus",
+      "history": "Bonus History"
+    }
+  },
   "Edit": {
     "label": {
       "id": "LikeCoin ID:",
@@ -798,14 +805,11 @@
     "label": {
       "description": "You and your friend can both earn a LikeCoin coupon when you successfully invite a friend to sign up using your affiliate link. Please note that your friend's account email needs to be verified for you and your friend to earn the coupons.",
       "inviteeMissionDescription": "You and your invitees can both recive LikeCoin when they complete a mission",
-      "earned": "LikeCoin earned"
+      "earned": "You have earned",
+      "likeBonus": "LIKE Bonus"
     },
     "button": {
       "moreBonus": "More Bonus"
-    },
-    "tab": {
-      "bonus": "Bonus",
-      "history": "Bonus History"
     },
     "HistoryTab": {
       "title": "Bonus History",

@@ -1,7 +1,7 @@
 <template>
   <div class="bonus-tab">
 
-    <!-- Description -->
+    <!-- BEGIN - LikeCoin Bonus Amount Section -->
     <div class="lc-container-0">
       <div class="lc-container-1">
         <div class="lc-container-2">
@@ -10,13 +10,23 @@
               <div class="lc-width-2-3 lc-margin-top-32 lc-padding-vertical-8 lc-font-size-18 lc-color-like-gray-4 lc-mobile">
                 {{ $t('BonusPage.label.description') }}
               </div>
+              <h2 class="lc-margin-vertical-16 lc-font-size-14 lc-font-weight-400 lc-text-align-center-mobile">
+                {{ $t('BonusPage.label.earned') }}
+              </h2>
+            </div>
+          </div>
+          <div class="earned-bonus-amount-section lc-container-3">
+            <div class="lc-container-4">
+              <span class="like-bonus-amount">{{ likeBonusAmountStr }}</span>
+              <span class="like-bonus-label">{{ $t('BonusPage.label.likeBonus') }}</span>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <!-- END - LikeCoin Bonus Amount Section -->
 
-    <!-- BEGIN - LikeCoin Bonus Section -->
+    <!-- BEGIN - Mission Section -->
     <section class="likecoin-bonus-section lc-margin-top-48 lc-mobile">
       <div class="lc-container-0">
         <div class="lc-container-1">
@@ -62,7 +72,7 @@
         </div>
       </div>
     </section>
-    <!-- END - LikeCoin Bonus Section -->
+    <!-- END - Mission Section -->
 
     <!-- BEGIN - Referral Section -->
     <section class="referral-form-section lc-margin-top-48 lc-mobile" id="referral">
@@ -142,6 +152,7 @@ export default {
   name: 'bonus-index',
   data() {
     return {
+      likeBonusAmountStr: '',
       referralPending: 0,
       referralVerified: 0,
       user: '',
@@ -165,12 +176,21 @@ export default {
   methods: {
     ...mapActions([
       'fetchUserReferralStats',
+      'fetchUserTotalBonus',
       'onMissionClick',
     ]),
     async updateInfo() {
       const user = this.getUserInfo;
       this.user = user.user;
       this.updateReferralStat();
+      this.updateLikeBonus();
+    },
+    async updateLikeBonus() {
+      try {
+        this.likeBonusAmountStr = await this.fetchUserTotalBonus(this.getUserInfo.user);
+      } catch (err) {
+        console.log(err);
+      }
     },
     async updateReferralStat() {
       try {
@@ -222,6 +242,75 @@ export default {
 <style lang="scss" scoped>
 @import "~assets/variables";
 
-.bonus-tab {
+.earned-bonus-amount-section {
+  @media (max-width: 600px) {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  > div {
+    display: flex;
+    align-items: center;
+
+    font-weight: 300;
+
+    @media (max-width: 768px) {
+      align-items: stretch;
+      flex-direction: column;
+    }
+
+    @media (max-width: 600px) {
+      padding-right: 0;
+      padding-left: 0;
+    }
+  }
+
+  .like-bonus-amount {
+    min-height: 98px;
+    padding: 0 12px;
+
+    text-align: center;
+
+    color: $like-gray-5;
+    background-image: linear-gradient(240deg, #d2f0f0, #f0e6b4);
+
+    font-size: 56px;
+    line-height: 98px;
+
+    @media (max-width: 1024px - 1px) {
+      min-height: 72px;
+
+      font-size: 42px;
+      line-height: 72px;
+    }
+
+    @media (min-width: 768px + 1px) {
+      width: calc(100% * 2 / 3);
+    }
+
+    @media (min-width: 600px + 1px) {
+      border-radius: 8px;
+    }
+  }
+
+  .like-bonus-label {
+    font-size: 42px;
+    line-height: 1.1;
+
+    @media (max-width: 1024px - 1px) {
+      font-size: 32px;
+    }
+
+    @media (min-width: 768px + 1px) {
+      margin-left: 8px;
+      padding-left: 24px;
+    }
+
+    @media (max-width: 768px) {
+      margin: 8px 0;
+
+      text-align: center;
+    }
+  }
 }
 </style>

@@ -47,7 +47,7 @@ export default {
     shouldHideRegister() {
       return (
         (!this.getUserIsRegistered && ['in-register', 'in-redeem'].includes(this.$route.name))
-        || this.$route.name === 'in-edit'
+        || this.$route.name === 'in'
       );
     },
     ...mapGetters([
@@ -63,7 +63,7 @@ export default {
       if (!this.getUserIsRegistered && this.showLogin) {
         this.showLoginWindow();
       } else {
-        this.$router.push({ name: this.getUserIsRegistered ? 'in-edit' : 'in-register' });
+        this.$router.push({ name: this.getUserIsRegistered ? 'in' : 'in-register' });
       }
     },
   },
