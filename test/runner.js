@@ -19,29 +19,29 @@ function unsetStub() {
   execSync('mv ./constant/contract/likecoin.js.bak ./constant/contract/likecoin.js');
 }
 
+function IsPortUsing() {
+  const ret = execSync('netstat -aln');
+  return ret.toString('utf8').includes('127.0.0.1.3000');
+}
+
+// Check port 3000 is using
+if (IsPortUsing()) {
+  console.error('Error: Server port is being used.');
+  process.exit();
+}
+
 // Start testing server...
 // spawn as new group of processes
 process.env['CI'] = true; // unit test env
 setStub();
 const server = spawn('npm', ['run', 'dev'], { detached: true });
+console.log('Starting unit test server. Ctrl + C to quit.');
 
 process.on('SIGINT', () => {
   // catch SIGINT
   killServer(-server.pid, 'SIGINT');
   unsetStub();
 });
-
-// Tests
-function runBackendTest() {
-  const backend = spawn('npm', ['run', 'test'], { stdio: 'inherit' });
-  backend.on('exit', (code) => {
-    killServer(-server.pid, 'SIGINT');
-    if (code !== 0) {
-      unsetStub();
-      process.exit(code);
-    }
-  });
-}
 
 let curlCount = 0;
 function waitServerReady() {
@@ -55,11 +55,11 @@ function waitServerReady() {
   const serverReady = spawn('curl', ['-s', '-o', '/dev/null', 'http://localhost:3000/'], { stdio: 'inherit' });
   serverReady.on('exit', (code) => {
     if (code !== 0) {
-      console.log(`Waiting server ready fail and retry. Error code: ${code}`);
+      console.log(`Waiting server ready. curl retry. Code: ${code}`);
       setTimeout(waitServerReady, 5000);
     } else {
       // run tests
-      runBackendTest();
+      console.log('Server ready. Run test in new window e.g. \'npm run test\'.');
     }
   });
 }
