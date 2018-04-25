@@ -56,15 +56,21 @@ export default {
   watch: {
     getUserIsFetching(f) {
       if (!f) {
-        if (this.getUserIsRegistered) {
+        if (!this.getUserIsRegistered) {
+          this.$router.push({ name: 'in-register' });
+        } else {
           this.updateInfo();
         }
       }
     },
   },
   mounted() {
-    if (!this.getUserIsFetching && this.getUserIsRegistered) {
-      this.updateInfo();
+    if (!this.getUserIsFetching) {
+      if (!this.getUserIsRegistered) {
+        this.$router.push({ name: 'in-register' });
+      } else {
+        this.updateInfo();
+      }
     }
   },
 };

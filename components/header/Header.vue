@@ -63,7 +63,7 @@ export default {
       if (!this.getUserIsRegistered && this.showLogin) {
         this.showLoginWindow();
       } else {
-        this.$router.push({ name: 'in' });
+        this.$router.push({ name: this.getUserIsRegistered ? 'in' : 'in-register' });
       }
     },
   },

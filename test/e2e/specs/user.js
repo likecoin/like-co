@@ -31,8 +31,7 @@ module.exports = {
         const originalWindow = res.value[0];
         this.switchWindow(originalWindow);
       })
-      .waitForElementVisible('#editForm', 5000)
-      .verify.urlContains('edit')
+      .waitForElementVisible('#user-info-form', 5000)
       .waitForElementVisible('.toolbars', 1000)
       .verify.containsText('.toolbars > div > div > span', 'View your page')
       .end();
@@ -47,14 +46,14 @@ module.exports = {
     inputSequence.push('Test Name');
 
     browser
-      .url(`${devServer}/in/edit`)
-      .waitForElementVisible('#editForm', 2000)
+      .url(`${devServer}/in`)
+      .waitForElementVisible('#user-info-form', 2000)
       .pause(6000)
-      .click('#editForm .input-display-name')
-      .waitForElementVisible('#editForm div.btn-container div:nth-child(1) button', 2000)
-      .setValue('#editForm .input-display-name', inputSequence)
+      .click('#user-info-form .input-display-name')
+      .waitForElementVisible('#user-info-form div.btn-container div:nth-child(1) button', 2000)
+      .setValue('#user-info-form .input-display-name', inputSequence)
       .pause(2000)
-      .click('#editForm div.btn-container div:nth-child(1) button')
+      .click('#user-info-form div.btn-container div:nth-child(1) button')
       .pause(2000)
       .windowHandles(function func(res) {
         const metamaskPopup = res.value[1];
@@ -68,8 +67,7 @@ module.exports = {
         const originalWindow = res.value[0];
         this.switchWindow(originalWindow);
       })
-      .waitForElementVisible('#editForm', 5000)
-      .verify.urlContains('edit')
+      .waitForElementVisible('#user-info-form', 5000)
       .waitForElementVisible('.toolbars', 1000)
       .pause(1000)
       .verify.containsText('.toolbars > div > div > span', 'View your page')
@@ -79,7 +77,7 @@ module.exports = {
   'Claim coupon test and error dialog': (browser) => {
     const devServer = browser.globals.devServerURL;
     browser
-      .url(`${devServer}/in/edit`)
+      .url(`${devServer}/in`)
       .waitForElementVisible('#redeemForm', 2000)
       .click('#redeemForm input[type=text]')
       .setValue('#redeemForm input[type=text]', '22223333')

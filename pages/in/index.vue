@@ -217,7 +217,9 @@ export default {
   watch: {
     getUserIsFetching(f) {
       if (!f) {
-        if (this.getUserIsRegistered) {
+        if (!this.getUserIsRegistered) {
+          this.$router.push({ name: 'in-register' });
+        } else {
           this.updateInfo();
         }
       }
@@ -229,11 +231,15 @@ export default {
       const element = document.querySelector(hash);
       if (element) element.scrollIntoView();
     }
-    if (!this.getUserIsFetching && this.getUserIsRegistered) {
-      if (this.$route.params.showEmail && !this.getUserInfo.isEmailVerified) {
-        this.$nextTick(() => this.$refs.inputDialog.show());
+    if (!this.getUserIsFetching) {
+      if (!this.getUserIsRegistered) {
+        this.$router.push({ name: 'in-register' });
+      } else {
+        if (this.$route.params.showEmail && !this.getUserInfo.isEmailVerified) {
+          this.$nextTick(() => this.$refs.inputDialog.show());
+        }
+        this.updateInfo();
       }
-      this.updateInfo();
     }
   },
 };
