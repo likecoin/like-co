@@ -29,6 +29,7 @@ export default async ({
   app,
   store,
   req,
+  res,
   query,
 }) => {
   // Set i18n instance on app to use it in middleware and pages asyncData/fetch
@@ -48,8 +49,16 @@ export default async ({
       }
     });
     locale = query.language || window.localStorage.language || navLang;
+    if (!supportedLocales.includes(locale)) locale = defaultLocale;
   } else if (req) {
-    locale = query.language || req.acceptsLanguages(supportedLocales) || defaultLocale;
+    locale = (
+      query.language
+      || req.cookies.language
+      || req.acceptsLanguages(supportedLocales)
+      || defaultLocale
+    );
+    if (!supportedLocales.includes(locale)) locale = defaultLocale;
+    res.cookie('language', locale);
   }
   app.i18n = new VueI18n({
     locale,
