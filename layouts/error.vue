@@ -22,9 +22,23 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   props: ['error'],
   layout: 'narrowWithHeader',
+  computed: {
+    ...mapGetters([
+      'getCurrentLocale',
+    ]),
+  },
+  head() {
+    return {
+      bodyAttrs: {
+        'lc-lang': this.getCurrentLocale,
+      },
+    };
+  },
 };
 </script>
 
