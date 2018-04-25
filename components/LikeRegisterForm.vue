@@ -11,7 +11,14 @@
         </div>
         <div class="md-layout md-layout-item">
           <div class="md-layout-item">
-            <md-field class="lc-margin-top-12 lc-margin-bottom-24 lc-mobile">
+
+            <md-field
+              :class="[
+                'lc-margin-top-12 lc-margin-bottom-24 lc-mobile',
+                {
+                  'md-invalid': getInfoMsg === 'USER_ALREADY_EXIST',
+                },
+              ]">
               <label>{{ $t('Register.form.createID') }}</label>
               <md-input
                 v-model="user"
@@ -20,7 +27,9 @@
                 :disabled="isEdit"
                 :title="$t('Register.form.error.alphanumeric')"
                 required />
+              <span class="md-error">{{ $t(`Error.${getInfoMsg}`) }}</span>
             </md-field>
+
             <md-field :class="['lc-margin-top-12', 'lc-margin-bottom-24', 'lc-mobile', { 'md-invalid': isBadAddress }]">
               <label>{{ $t('Register.form.walletAddress') }}</label>
               <md-input v-model="wallet" maxlength="42" required disabled />
@@ -28,6 +37,7 @@
                 {{ $t('Register.form.error.addressFormat') }}
               </span>
             </md-field>
+
             <div v-if="isEdit && !isNaN(likeCoinBalance) && !isRedeemingCoupon">
               {{ $t('Register.form.amount') }}
               <a
@@ -37,7 +47,14 @@
                 {{ likeCoinBalance }}
               </a>
             </div>
-            <md-field class="lc-margin-top-12 lc-margin-bottom-24 lc-mobile">
+
+            <md-field
+              :class="[
+                'lc-margin-top-12 lc-margin-bottom-24 lc-mobile',
+                {
+                  'md-invalid': getInfoMsg === 'EMAIL_ALREADY_USED',
+                },
+              ]">
               <label>{{ $t('Register.form.email') }}</label>
               <md-input
                 :pattern="W3C_EMAIL_REGEX"
@@ -45,11 +62,21 @@
                 @change="email=email.trim()"
                 :title="$t('Register.form.error.emailFormat')"
               />
+              <span class="md-error">{{ $t(`Error.${getInfoMsg}`) }}</span>
             </md-field>
-            <md-field class="lc-margin-top-12 lc-margin-bottom-24 lc-mobile">
+
+            <md-field
+              :class="[
+                'lc-margin-top-12 lc-margin-bottom-24 lc-mobile',
+                {
+                  'md-invalid': getInfoMsg === 'REFERRER_NOT_EXIST',
+                },
+              ]">
               <label>{{ $t('Register.form.referrer') }}</label>
               <md-input v-model="referrer" @change="referrer=referrer.toLowerCase().trim()" />
+              <span class="md-error">{{ $t(`Error.${getInfoMsg}`) }}</span>
             </md-field>
+
             <md-field class="lc-margin-top-12 lc-margin-bottom-24 lc-mobile" v-if="isEdit && !isRedeemingCoupon">
               <label>{{ $t('Register.form.displayName') }}</label>
               <md-input v-model="displayName" />
@@ -128,6 +155,7 @@ export default {
   computed: {
     ...mapGetters([
       'getUserInfo',
+      'getInfoMsg',
       'getIsPopupBlocking',
       'getLocalWallet',
       'getCurrentLocale',
