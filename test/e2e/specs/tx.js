@@ -10,7 +10,7 @@ module.exports = {
   /* eslint quote-props: "off" */
   'Tx status': (browser) => {
     const devServer = browser.globals.devServerURL;
-    const testTx = '0xe8d6792a60aab25caf23c75b58b53d47175386aa335156627faf1c7246360ae9';
+    const testTx = '0xd6938bfb1ab8313a23f5fa37a51cc7d91d17eecba46190c2c7f13662b12566e5';
 
     browser
       .url(`${devServer}/in/tx/${testTx}`)
