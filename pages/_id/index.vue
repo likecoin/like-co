@@ -47,7 +47,7 @@
                   {{ $t('Transaction.label.recipientAddress') }}
                 </div>
                 <div class="address-content">
-                  {{ wallet }}
+                  {{ maskedWallet }}
                 </div>
               </section>
 
@@ -249,6 +249,9 @@ export default {
     isEth() {
       /* HACK because nuxt cannot easily pass route with params */
       return this.$route.name === 'id-eth' || this.$route.name === 'id-eth-amount';
+    },
+    maskedWallet() {
+      return this.wallet.replace(/(0x.{10}).*(.{10})/, '$1...$2');
     },
   },
   methods: {
