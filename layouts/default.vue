@@ -30,6 +30,8 @@
 
 
 <script>
+import { mapGetters } from 'vuex';
+
 import MyFooter from '~/components/footer/Footer';
 import SiteHeader from '~/components/header/HeaderWithMenuButton';
 import SlidingMenu from '~/components/SlidingMenu/index';
@@ -45,9 +47,19 @@ export default {
     ToolBars,
   },
   computed: {
+    ...mapGetters([
+      'getCurrentLocale',
+    ]),
     getIfDisableError() {
       return getToolbarsDisableError(this.$route.name);
     },
+  },
+  head() {
+    return {
+      bodyAttrs: {
+        'lc-lang': this.getCurrentLocale,
+      },
+    };
   },
 };
 </script>

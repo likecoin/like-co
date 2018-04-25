@@ -107,7 +107,15 @@ export default {
       'getHeaderSubtitle',
       'getHeaderIcon',
       'getHeaderTitle',
+      'getCurrentLocale',
     ]),
+  },
+  head() {
+    return {
+      bodyAttrs: {
+        'lc-lang': this.getCurrentLocale,
+      },
+    };
   },
 };
 </script>

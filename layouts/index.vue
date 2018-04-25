@@ -36,6 +36,8 @@
 
 
 <script>
+import { mapGetters } from 'vuex';
+
 import MyFooter from '~/components/footer/Footer';
 import PlatformIconBar from '~/components/PlatformIconBar';
 import SlidingMenu from '~/components/SlidingMenu/index';
@@ -45,6 +47,18 @@ export default {
     MyFooter,
     PlatformIconBar,
     SlidingMenu,
+  },
+  computed: {
+    ...mapGetters([
+      'getCurrentLocale',
+    ]),
+  },
+  head() {
+    return {
+      bodyAttrs: {
+        'lc-lang': this.getCurrentLocale,
+      },
+    };
   },
 };
 </script>
