@@ -76,6 +76,7 @@ const ValidationHelper = {
       targetPayoutType,
       done,
       seen,
+      status,
       bonusId,
       isProxy,
     } = m;
@@ -93,6 +94,7 @@ const ValidationHelper = {
       targetPayoutType,
       done,
       seen,
+      status,
       isProxy,
       isClaimed: !!bonusId,
       ...misc,
