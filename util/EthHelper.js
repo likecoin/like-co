@@ -1,21 +1,31 @@
 /* eslint-disable no-underscore-dangle */
 import Web3 from 'web3';
 
-/* for ledger */
-import ProviderEngine from 'web3-provider-engine/dist/es5';
-import FetchSubprovider from 'web3-provider-engine/dist/es5/subproviders/fetch';
-import TransportU2F from '@ledgerhq/hw-transport-u2f';
-import createLedgerSubprovider from '@ledgerhq/web3-subprovider';
-
 import { LIKE_COIN_ABI, LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin';
 import { LIKE_COIN_ICO_ABI, LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
-import { IS_TESTNET, INFURA_HOST } from '@/constant';
+import { IS_TESTNET, INFURA_HOST, CONFIRMATION_NEEDED } from '@/constant';
 
 const abiDecoder = require('@likecoin/abi-decoder/dist/es5');
 
 abiDecoder.addABI(LIKE_COIN_ABI);
 
-function createLedgerWeb3(networkId) {
+async function createLedgerWeb3(networkId) {
+  /* for ledger */
+  let [
+    ProviderEngine,
+    FetchSubprovider,
+    TransportU2F,
+    createLedgerSubprovider,
+  ] = await Promise.all([
+    import(/* webpackChunkName: "ledger" */ 'web3-provider-engine/dist/es5'),
+    import(/* webpackChunkName: "ledger" */ 'web3-provider-engine/dist/es5/subproviders/fetch'),
+    import(/* webpackChunkName: "ledger" */ '@ledgerhq/hw-transport-u2f'),
+    import(/* webpackChunkName: "ledger" */ '@ledgerhq/web3-subprovider'),
+  ]);
+  if (ProviderEngine.default) ProviderEngine = ProviderEngine.default;
+  if (FetchSubprovider.default) FetchSubprovider = FetchSubprovider.default;
+  if (TransportU2F.default) TransportU2F = TransportU2F.default;
+  if (createLedgerSubprovider.default) createLedgerSubprovider = createLedgerSubprovider.default;
   const engine = new ProviderEngine();
   const getTransport = () => TransportU2F.create();
   const ledger = createLedgerSubprovider(getTransport, {
@@ -78,7 +88,7 @@ class EthHelper {
     }
     if (initType || typeof window.web3 !== 'undefined') {
       if (initType === 'ledger' && this.web3Type !== 'ledger') {
-        this.web3 = createLedgerWeb3(IS_TESTNET ? 4 : 1);
+        this.web3 = await createLedgerWeb3(IS_TESTNET ? 4 : 1);
         this.setWeb3Type('ledger');
       } else if (!this.web3 || this.web3Type !== 'window') {
         this.setWeb3Type('window');
@@ -137,12 +147,18 @@ class EthHelper {
   }
 
   async waitForTxToBeMined(txHash) {
-    let txReceipt;
-    while (!txReceipt) {
+    let done = false;
+    while (!done) {
       /* eslint-disable no-await-in-loop */
       await timeout(1000);
-      txReceipt = await this.web3.eth.getTransactionReceipt(txHash);
+      const [t, txReceipt, currentBlockNumber] = await Promise.all([
+        this.web3.eth.getTransaction(txHash),
+        this.web3.eth.getTransactionReceipt(txHash),
+        this.web3.eth.getBlockNumber(),
+      ]);
       if (txReceipt && (txReceipt.status === 0 || txReceipt.status === '0x0')) throw new Error('Transaction failed');
+      done = t && txReceipt && currentBlockNumber && t.blockNumber
+        && (currentBlockNumber - t.blockNumber > CONFIRMATION_NEEDED);
     }
   }
 
@@ -168,9 +184,14 @@ class EthHelper {
   }
 
   async getTransactionCompleted(txHash) {
-    const t = await this.web3.eth.getTransaction(txHash);
-    if (!t) return 0;
-    if (t.blockNumber) {
+    const [t, currentBlockNumber] = await Promise.all([
+      this.web3.eth.getTransaction(txHash),
+      this.web3.eth.getBlockNumber(),
+    ]);
+    if (!t || !currentBlockNumber) {
+      return 0;
+    }
+    if (t.blockNumber && (currentBlockNumber - t.blockNumber > CONFIRMATION_NEEDED)) {
       const [r, block] = await Promise.all([
         this.web3.eth.getTransactionReceipt(txHash),
         this.web3.eth.getBlock(t.blockNumber),
@@ -186,14 +207,16 @@ class EthHelper {
     };
   }
 
-  async getEthTransferInfo(txHash, tx) {
+  async getEthTransferInfo(txHash, tx, blockNo) {
     let t = tx;
+    let currentBlockNumber = blockNo;
     if (!t) t = await this.web3.eth.getTransaction(txHash);
-    if (!t) throw new Error('Cannot find transaction');
+    if (!blockNo) currentBlockNumber = await this.web3.eth.getBlockNumber();
+    if (!t || !currentBlockNumber) throw new Error('Cannot find transaction');
     let _to = this.web3.utils.toChecksumAddress(t.to);
     let _from = this.web3.utils.toChecksumAddress(t.from);
     let _value = t.value;
-    if (!t.blockNumber) {
+    if (!t.blockNumber || (currentBlockNumber - t.blockNumber < CONFIRMATION_NEEDED)) {
       return {
         isEth: true,
         _from,
@@ -220,13 +243,19 @@ class EthHelper {
 
   async getTransferInfo(txHash, opt) {
     const { blocking } = opt;
-    let t = await this.web3.eth.getTransaction(txHash);
-    while (!t && blocking) {
+    let [t, currentBlockNumber] = await Promise.all([
+      this.web3.eth.getTransaction(txHash),
+      this.web3.eth.getBlockNumber(),
+    ]);
+    while ((!t || !currentBlockNumber) && blocking) {
       await timeout(1000); // eslint-disable-line no-await-in-loop
-      t = await this.web3.eth.getTransaction(txHash);
+      ([t, currentBlockNumber] = await Promise.all([
+        this.web3.eth.getTransaction(txHash),
+        this.web3.eth.getBlockNumber(),
+      ]));
     }
-    if (!t) throw new Error('Cannot find transaction');
-    if (t.value > 0) return this.getEthTransferInfo(txHash, t);
+    if (!t || !currentBlockNumber) throw new Error('Cannot find transaction');
+    if (t.value > 0) return this.getEthTransferInfo(txHash, t, currentBlockNumber);
     if (t.to.toLowerCase() !== LIKE_COIN_ADDRESS.toLowerCase()) throw new Error('Not LikeCoin transaction');
     const decoded = abiDecoder.decodeMethod(t.input);
     const isDelegated = decoded.name === 'transferDelegated';
@@ -239,7 +268,7 @@ class EthHelper {
     let _from = isDelegated ? decoded.params.find(p => p.name === '_from').value : t.from;
     _from = this.web3.utils.toChecksumAddress(_from);
     let _value = decoded.params.find(p => p.name === '_value').value;
-    if (!t.blockNumber) {
+    if (!t.blockNumber || (currentBlockNumber - t.blockNumber < CONFIRMATION_NEEDED)) {
       return {
         _from,
         _to,
@@ -262,7 +291,8 @@ class EthHelper {
     if (!r.logs || !r.logs.length) throw new Error('Cannot fetch transaction Data');
     const logs = abiDecoder.decodeLogs(r.logs);
     if (isDelegated) {
-      const targetLogs = logs.filter(l => (l.events.find(e => e.name === 'to').value) === txTo);
+      const targetLogs = logs.filter(l => (l.events
+        .find(e => e.name === 'to').value.toLowerCase()) === txTo.toLowerCase());
       if (!targetLogs || !targetLogs.length) throw new Error('Cannot parse receipt');
       const [log] = targetLogs;
       _to = this.web3.utils.toChecksumAddress(log.events.find(p => (p.name === 'to')).value);

@@ -57,7 +57,9 @@
         v-if="getInfoMsg"
         :isError="getInfoIsError"
         @onClose="closeInfoToolbar">
-        <span v-if="getInfoIsError">{{ getInfoMsg }}</span>
+        <span v-if="getInfoIsError">
+          {{ $i18n.te(`Error.${getInfoMsg}`) ? $t(`Error.${getInfoMsg}`) : getInfoMsg }}
+        </span>
         <span v-else v-html="getInfoMsg" />
         <nuxt-link
           :to="{ name: 'in-redeem' }"

@@ -92,7 +92,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       if (isOldUser) {
         const { wallet: docWallet } = doc.data();
         oldUserObj = doc.data();
-        if (docWallet !== from) throw new Error('User already exist');
+        if (docWallet !== from) throw new Error('USER_ALREADY_EXIST');
       }
       return { isOldUser, oldUserObj };
     });
@@ -109,7 +109,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       snapshot.forEach((doc) => {
         const docUser = doc.id;
         if (user !== docUser) {
-          throw new Error('Email already used');
+          throw new Error('EMAIL_ALREADY_USED');
         }
       });
       return true;
@@ -147,7 +147,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
     let hasReferrer = false;
     if (!isOldUser && referrer) {
       const referrerRef = await dbRef.doc(referrer).get();
-      if (!referrerRef.exists) throw new Error('referrer not exist');
+      if (!referrerRef.exists) throw new Error('REFERRER_NOT_EXIST');
       if (!referrerRef.data().isEmailVerified) throw new Error('referrer email not verified');
       hasReferrer = referrerRef.exists;
     }

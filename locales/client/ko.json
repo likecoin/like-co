@@ -477,24 +477,9 @@
             "contract": "LikeCoin 약정: "
         },
         "button": {
-            "aboutFoundation": "LikeCoin 재단 소개",
+            "aboutFoundation": "LikeCoin Foundation",
             "support": "지원"
         }
-    },
-    "Email": {
-        "VerifiyEmail": {
-            "subject": "like.co 이메일을 인증하세요",
-            "body": "{{name}}님, 안녕하세요!<p>like.co에 잘 오셨습니다! 이메일을 인증하시려면 다음 링크를 클릭하세요:<br/><a href=\"https://like.co/verify/{{uuid}}?ref={{ref}}\" style=\"word-break: break-all; color: #28646E\">https://like.co/verify/{{uuid}}?ref={{ref}}</a></p>"
-        },
-        "VerifiyAndCouponEmail": {
-            "subject": "본인의 like.co 이메일을 인증하고 LikeCoin을 받으세요",
-            "body" : "{{name}}님, 안녕하세요!<p>like.co에 잘 오셨습니다! 이메일을 인증하고 레드 포켓을 받으려면 다음 링크를 클릭하세요:<br/><a href=\"https://like.co/verify/{{uuid}}/{{coupon}}?ref={{ref}}\" style=\"word-break: break-all; color: #28646E\">https://like.co/verify/{{uuid}}/{{coupon}}?ref={{ref}}</a></p><p>받으실 쿠폰 코드: {{coupon}}</p>"
-        },
-        "preSaleEmail": {
-            "subject": "LikeCoin 얼리 버드 사전 판매에 성공적으로 가입하셨습니다",
-            "body" : "{{name}}님, 안녕하세요!<p>LikeCoin 얼리 버드 사전 판매에 가입해 주셔서 감사합니다!</p><p>귀하의 {{eth}} ETH 지불이 확인되면, 저희 공매가 시작된 이후에 {{base}} + {{bonus}} LikeCoin을 수령하시게 됩니다.</p><p>트랜잭션 URL:<br/><a href=\"https://etherscan.io/tx/{{txHash}}\" style=\"word-break: break-all; color: #28646E\">https://etherscan.io/tx/{{txHash}}</a></p><p>또한, 귀하께서는 저희가 제공하는 <a href=\"https://like.co/in/edit#referral\" style=\"color: #28646E\">협력 프로그램</a>에 참가해서 추가 LikeCoin을 획득하실 수도 있어요!</p><p>질문이나 의견이 있으시면 언제든 저희 공식 웹사이트를 통해 문의해 주세요.</p>"
-        },
-        "signature" : "<p>LikeCoin 재단<br/><a href=\"https://like.co\" style=\"color: #28646E\">https://like.co</a></p>"
     },
     "Whitepaper": {
         "Button": {

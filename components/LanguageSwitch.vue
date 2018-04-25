@@ -36,6 +36,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+import { supportedLocales } from '@/locales';
 import I18nIcon from '@/assets/icons/i18n.svg';
 
 
@@ -54,7 +55,7 @@ export default {
   data() {
     return {
       I18nIcon,
-      locales: Object.keys(this.$i18n.messages),
+      locales: supportedLocales,
     };
   },
   methods: {
@@ -62,7 +63,8 @@ export default {
       'setLocale',
     ]),
     onChangeLanguage(locale) {
-      this.$i18n.locale = locale;
+      this.$i18n.loadLanguageAsync(locale);
+      this.$cookie.set('language', locale);
       this.setLocale(locale);
     },
   },

@@ -85,20 +85,6 @@
       </div>
     </section>
 
-    <div class="social-links-container lc-mobile-hide">
-      <div class="lc-container-0">
-        <div class="lc-container-1">
-          <div class="platform-icon-bar-wrapper">
-            <div>
-              <div>
-                <platform-icon-bar :isVertical="true" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
   </div>
 </template>
 
@@ -130,7 +116,7 @@ const imgUrl = path => images(`./${path}`);
 
 export default {
   name: 'home',
-  layout: 'defaultWithoutHeader',
+  layout: 'index',
   components: {
     Advisors,
     Carousel,
@@ -224,46 +210,6 @@ $carousel-height: 488px;
 .cta-section.bottom {
   @media (min-width: 600px) {
     margin-top: 64px;
-  }
-}
-
-.social-links-container {
-  position: fixed;
-  z-index: 3;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-
-  pointer-events: none;
-
-  .platform-icon-bar-wrapper {
-    position: relative;
-
-    height: 100%;
-
-    > div {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-
-      > div {
-        display: flex;
-        align-items: center;
-
-        height: 100%;
-        margin-left: 12px;
-
-        @media (max-width: 768px) {
-          margin-left: 4px;
-        }
-
-        :global(> div) {
-          pointer-events: auto;
-        }
-      }
-    }
   }
 }
 

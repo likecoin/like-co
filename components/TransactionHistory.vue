@@ -145,8 +145,8 @@ function formatAmount(value, currency) {
   `;
 }
 
-function formatUTCTime(date) {
-  return `${moment.utc(date).format('D-M-YYYY HH:mm:ss')} (UTC)`;
+function formatUTCTimeToLocal(date) {
+  return moment.utc(date).local().format('D-M-YYYY HH:mm:ss UTCZZ');
 }
 
 export default {
@@ -168,7 +168,7 @@ export default {
     filteredHistory() {
       return this.txHistory
         .filter(t => (t.type !== 'logRegisterKYC'))
-        .filter(t => (t.type !== 'transferETH' || this.isTokensale(t) || this.isPresale(t)));
+        .filter(t => (t.type !== 'transferETH' || this.isTokensale(t)));
     },
   },
   methods: {
@@ -203,7 +203,7 @@ export default {
     },
     getFromToId(tx) {
       if (this.isFromPresale(tx)) return 'presale';
-      if (this.isFromBonus(tx)) return 'bonus';
+      if (this.isFromBonus(tx)) return 'likecoinbonus';
       if (this.isFromPreSaleBonus(tx)) return 'presalebonus';
       if (this.isPresale(tx)) return 'earlybird';
       if (this.isTokensale(tx)) return 'tokensale';
@@ -219,7 +219,7 @@ export default {
     getTime(tx) {
       if (tx.status === 'pending') return this.$t('TransactionHistory.label.timePending');
       if (tx.status === 'timeout') return this.$t('TransactionHistory.label.timeExpired');
-      return tx.completeTs ? formatUTCTime(tx.completeTs) : '';
+      return tx.completeTs ? formatUTCTimeToLocal(tx.completeTs) : '';
     },
     isFromPresale(tx) {
       return tx.from === LIKE_COIN_PRESALE_FROM_ADDRESS;

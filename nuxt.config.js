@@ -101,7 +101,7 @@ module.exports = {
     { src: 'vue-material/dist/vue-material.min.css', lang: 'css' },
     { src: '~/assets/theme.scss', lang: 'scss' }, // include vue-material theme engine
     { src: '~/assets/index.scss', lang: 'scss' },
-    'swiper/dist/css/swiper.css',
+    'swiper/dist/css/swiper.min.css',
     '~/assets/css/main.css',
   ],
   modules: [
@@ -115,15 +115,16 @@ module.exports = {
   ],
   plugins: [
     { src: '~/plugins/EthHelper', ssr: false },
-    { src: '~/plugins/vue-clipboard2', ssr: false },
+    { src: '~/plugins/vue-cookie', ssr: false },
     { src: '~/plugins/vue-i18n' },
-    { src: '~/plugins/vue-image-lightbox', ssr: false },
-    { src: '~/plugins/vue-intercom', ssr: false },
     { src: '~/plugins/vue-material' },
     { src: '~/plugins/vue-simple-svg' },
+    { src: '~/plugins/vue-intercom', ssr: false },
+    { src: '~/plugins/vue-vimeo-player', ssr: false },
+    { src: '~/plugins/vue-image-lightbox', ssr: false },
     { src: '~/plugins/vue-stripe', ssr: false },
     { src: '~/plugins/vue-swiper', ssr: false },
-    { src: '~/plugins/vue-vimeo-player', ssr: false },
+    { src: '~/plugins/vue-clipboard2', ssr: false },
   ],
   /*
   ** Add axios globally
@@ -141,8 +142,11 @@ module.exports = {
     },
     parallel: true,
     vendor: [
+      'core-js/fn/object/assign',
+      'core-js/fn/object/values',
+      'core-js/fn/string/includes',
+      'core-js/fn/array/includes',
       'axios',
-      'babel-polyfill',
       'bignumber.js',
       'classlist-polyfill',
       'moment',
@@ -157,9 +161,8 @@ module.exports = {
           'vue-app',
           {
             targets: isServer
-              ? { node: '8.11.1' }
-              : { browsers: ['defaults'] },
-            useBuiltIns: true,
+              ? { node: '8.11.1', uglify: false }
+              : { browsers: ['defaults'], uglify: false },
           },
         ],
       ],

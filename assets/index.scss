@@ -10,14 +10,31 @@ body {
   position: static;
   z-index: -2;
 
-  font-family: 'Open Sans',
-               'source-han-sans-traditional',
-               'source-han-sans-simplified-c',
-               'Source Sans Pro',
-               'Noto Sans',
-               'Microsoft JhengHei',
-               Arial,
-               sans-serif;
+  font-family: 'Open Sans', $base-font-list;
+
+  &[lc-lang="ja"] {
+    font-family: 'Open Sans',
+                 'source-han-sans-japanese',
+                 $base-font-list;
+  }
+
+  &[lc-lang="ko"] {
+    font-family: 'Open Sans',
+                 'source-han-sans-korean',
+                 $base-font-list;
+  }
+
+  &[lc-lang="zh"] {
+    font-family: 'Open Sans',
+                 'source-han-sans-traditional',
+                 $base-font-list;
+  }
+
+  &[lc-lang="cn"] {
+    font-family: 'Open Sans',
+                 'source-han-sans-simplified-c',
+                 $base-font-list;
+  }
 
   .md-button {
     text-transform: none;

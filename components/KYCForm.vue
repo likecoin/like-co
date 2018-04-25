@@ -515,7 +515,7 @@ export default {
       logTrackerEvent(
         this,
         'TokenSale',
-        isAdv ? 'CompleteStandardKYC' : 'CompleteAdvancedKYC',
+        isAdv ? 'FinishAdvancedKYC' : 'FinishStandardKYC',
         'press "confirm" on tokensale page',
         1,
       );

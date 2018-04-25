@@ -115,10 +115,10 @@ export async function sendCouponCodeEmail({ commit, rootState }, data) {
   );
 }
 
-export async function sendInvitationEmail({ commit }, data) {
+export async function sendInvitationEmail({ commit, rootState }, data) {
   return apiWrapper(
     commit,
-    api.apiSendInvitationEmail(data.user, data.email),
+    api.apiSendInvitationEmail(data.user, data.email, rootState.ui.locale),
     { blocking: true },
   );
 }

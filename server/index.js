@@ -1,17 +1,19 @@
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import i18n from 'i18n';
 import compression from 'compression';
 import bodyParser from 'body-parser';
 import { Nuxt, Builder } from 'nuxt';
 import { IS_TESTNET } from '../constant';
+import { supportedLocales } from '../locales';
 
 import api from './api';
 
 const path = require('path');
 
 i18n.configure({
-  locales: ['en', 'zh'],
-  directory: path.resolve(__dirname, '../locales'),
+  locales: supportedLocales,
+  directory: path.resolve(__dirname, '../locales/server'),
   objectNotation: true,
 });
 
@@ -30,6 +32,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(cookieParser());
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

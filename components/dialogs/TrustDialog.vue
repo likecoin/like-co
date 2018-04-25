@@ -19,14 +19,14 @@
 
 
       <div class="lc-dialog-container-1">
-        <div class="trust-dialog-content">
+        <div class="trust-dialog-content lc-color-like-gray-4">
 
           <h1 v-if="title" class="title-label lc-font-size-32 lc-font-weight-300 lc-mobile">
             {{ title }}
           </h1>
 
           <div
-            class="description lc-margin-vertical-12 lc-color-like-gray-4"
+            class="description lc-margin-vertical-12"
             v-if="description"
             v-html="description" />
 
@@ -38,12 +38,31 @@
               v-html="imageCaption" />
           </figure>
 
-          <div v-if="!isTrust" class="lc-button-group lc-margin-top-24">
-            <md-button class="md-likecoin trust" v-if="buttonText" @click="openTrust">
-              {{ buttonText }}
-            </md-button>
-            <div class="lc-font-size-12 lc-margin-top-8">
-              <a :href="getHelpLink" >{{ $t('Dialog.trust.label.help') }}</a>
+          <div v-if="!isTrust" class="open-trust-container">
+            <div class="link-wrapper lc-margin-vertical-32">
+              <p
+                class="lc-font-size-16"
+                v-html="$t('Dialog.trust.label.useTrustBrowser')" />
+              <span>
+                ({{ $t(`Dialog.trust.label.${isCopied ? 'copied' : 'clickToCopy'}`) }})
+              </span>
+              <br>
+              <img
+                class="lc-margin-top-12"
+                :src="InLinkIcon"
+                v-clipboard:copy="COPY_URL"
+                v-clipboard:success="handleClipboardCopySucceed" />
+            </div>
+
+            <div class="lc-button-group">
+              <md-button class="trust" v-if="buttonText" @click="openTrust">
+                {{ buttonText }}
+              </md-button>
+              <div class="lc-font-size-12 lc-margin-top-12">
+                <a :href="getHelpLink">
+                  {{ $t('Dialog.trust.label.help') }}
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -54,6 +73,7 @@
 
 
 <script>
+import InLinkIcon from '@/assets/icons/trust/in-link.svg';
 import TrustIcon from '@/assets/icons/trust/trust.svg';
 import TrustMainImage from '@/assets/icons/trust/trust_main.png';
 import TrustRinkebyImage from '@/assets/icons/trust/trust_rinkeby.jpg';
@@ -75,9 +95,11 @@ export default {
   },
   data() {
     return {
+      InLinkIcon,
       TrustIcon,
+      COPY_URL: 'https://like.co/in',
       trustNetImg: IS_TESTNET ? TrustRinkebyImage : TrustMainImage,
-      isShowDialog: true,
+      isCopied: false,
     };
   },
   computed: {
@@ -147,6 +169,9 @@ export default {
     },
   },
   methods: {
+    handleClipboardCopySucceed() {
+      this.isCopied = true;
+    },
     openTrust() {
       const { window } = global;
       const currentURI = window.location.href;
@@ -227,13 +252,16 @@ export default {
     }
   }
 
-  .lc-button-group {
+  .open-trust-container {
     text-align: center;
 
     .md-button.trust {
       margin: 0;
 
       background-color: #3375bb;
+    }
+    a:not(.md-button) {
+      text-decoration: underline;
     }
   }
 }
