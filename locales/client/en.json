@@ -866,6 +866,9 @@
   "Error": {
     "button": {
       "toIndex": "Return to Index"
-    }
+    },
+    "EMAIL_ALREADY_USED": "Email already used",
+    "REFERRER_NOT_EXIST": "Referrer not exist",
+    "USER_ALREADY_EXIST": "User already exist"
   }
 }
