@@ -1,13 +1,15 @@
 import { Router } from 'express';
+import BigNumber from 'bignumber.js';
 
 import {
   GETTING_STARTED_TASKS,
+  ONE_LIKE,
   // PUBSUB_TOPIC_MISC,
 } from '../../constant';
 
 import Validate from '../../util/ValidationHelper';
 // import publisher from '../util/gcloudPub';
-
+// TODO add logs
 const {
   userCollection: dbRef,
   missionCollection: missionsRef,
@@ -162,6 +164,29 @@ router.get('/mission/list/history/:id', async (req, res) => {
     }
     const missions = doneList.map(d => ({ ...Validate.filterMissionData(d) }));
     res.json(missions);
+  } catch (err) {
+    const msg = err.message || err;
+    console.error(msg);
+    res.status(400).send(msg);
+  }
+});
+
+router.get('/mission/list/history/:id/bonus', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const query = await dbRef.doc(id).collection('bonus').get();
+    const obj = query.docs
+      .filter(t => t.data().txHash && t.data().value)
+      .reduce((acc, t) => {
+        const { value, type } = t.data();
+        if (!acc[type]) acc[type] = new BigNumber(0);
+        acc[type] = acc[type].plus(new BigNumber(value));
+        return acc;
+      }, {});
+    Object.keys(obj).forEach((key) => {
+      obj[key] = obj[key].dividedBy(ONE_LIKE).toFixed(4);
+    });
+    res.json(obj);
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
