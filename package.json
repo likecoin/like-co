@@ -15,7 +15,7 @@
     "lint": "eslint --ext .js,.vue .",
     "prepare": "cd node_modules/web3-core-requestmanager/src && sed -i.bak \"/var global = Function('return this')();/d\" givenProvider.js && rm givenProvider.js.bak",
     "test": "npm run test:api && npm run test:e2e",
-    "test:api": "ava -v test/api/express.test.js",
+    "test:api": "ava -v test/api/*.test.js",
     "test:nuxt": "ava -v test/nuxt/nuxt.test.js",
     "test:e2e": "./node_modules/.bin/nightwatch --config test/e2e/nightwatch.conf.js"
   },

@@ -1,41 +1,22 @@
 import test from 'ava';
+import {
+  url,
+  testingUser1,
+  testingDisplayName1,
+  testingEmail1,
+  testingWallet1,
+  testingUser2,
+  testingEmail2,
+  testingWallet2,
+  invalidWallet,
+  testingWallet3,
+  privateKey1,
+  privateKey3,
+} from './data';
 
 const sigUtil = require('eth-sig-util');
 const Web3 = require('web3');
 const axios = require('axios');
-
-const userData = require('../data/user.json');
-const txData = require('../data/tx.json');
-
-//
-// test data
-//
-const url = 'http://localhost:3000';
-const {
-  id: testingUser1,
-  displayName: testingDisplayName1,
-  email: testingEmail1,
-  wallet: testingWallet1,
-} = userData.users[0];
-const {
-  id: testingUser2,
-  email: testingEmail2,
-  wallet: testingWallet2,
-} = userData.users[1];
-const invalidWallet = '4b25758E41f9240C8EB8831cEc7F1a02686387fa';
-const testingWallet3 = '0x9113EC0624802E6BB2b13d7e123C91Aa5D130314'; // wallet that is not used
-
-const {
-  id: txHash,
-  from: txFrom,
-  to: txTo,
-  value: txValue,
-} = txData.tx[0];
-
-// confidential
-const privateKey1 = '0x3b298aeb848c19257e334160b52aae9790fbae9607bd68aea8cfcfc89572cb15';
-// const privateKey2 = '0x8163e9a0e9ec131844c520d292380bd93f39fd45d1bbce5c8ae3d2a4ef0a702b';
-const privateKey3 = '0xd9d199217049b92cb321d3e636b1d6642d89af0cef08b56d61bf04467b4d3862';
 
 //
 // functions
@@ -272,47 +253,6 @@ test('USER: Get user by address', async (t) => {
   t.is(res.data.user, testingUser1);
   t.is(res.data.wallet, testingWallet1);
   t.is(res.data.displayName, testingDisplayName1);
-});
-
-test('PAYMENT: Payment. Case: Invalid address.', async (t) => {
-  const res = await axios.post(`${url}/api/payment`, {
-    from: txFrom,
-    to: invalidWallet,
-    value: 1,
-    maxReward: 0,
-    nonce: 1,
-    signature: '',
-  }, {
-    headers: {
-      Accept: 'application/json',
-    },
-  }).catch(err => err.response);
-  t.is(res.status, 400);
-});
-
-test('PAYMENT: Get tx by id', async (t) => {
-  const res = await axios.get(`${url}/api/tx/id/${txHash}`)
-    .catch(err => err.response);
-
-  t.is(res.status, 200);
-  t.is(res.data.from, txFrom);
-  t.is(res.data.to, txTo);
-  t.is(res.data.value, txValue);
-});
-
-test('PAYMENT: Get tx history by addr', async (t) => {
-  const res = await axios.get(`${url}/api/tx/history/addr/${txTo}`)
-    .catch(err => err.response);
-
-  t.is(res.status, 200);
-  // check test record exists
-  for (let i = 0; i < res.data.length; i += 1) {
-    if (res.data[i].id === txHash) {
-      t.is(res.data[i].from, txFrom);
-      t.is(res.data[i].to, txTo);
-      t.is(res.data[i].value, txValue);
-    }
-  }
 });
 
 test('KYC: Standard KYC, User wallet not match case', async (t) => {
