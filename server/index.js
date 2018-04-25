@@ -1,4 +1,5 @@
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import i18n from 'i18n';
 import compression from 'compression';
 import bodyParser from 'body-parser';
@@ -31,6 +32,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(cookieParser());
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
