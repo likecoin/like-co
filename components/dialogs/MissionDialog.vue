@@ -16,6 +16,7 @@
           <h1 class="title-label">{{ title }}</h1>
 
           <div class="description" v-html="description" />
+          <div class="description" v-if="subDescription" v-html="subDescription" />
 
           <!-- BEGIN - Getting Start Section -->
           <div
@@ -191,8 +192,14 @@ export default {
       const { invitee } = this;
       return this.$t(`Mission.${this.missionId}${referralPostfix}.description`, { invitee });
     },
+    subDescription() {
+      if (this.hasReferrer && this.missionId === 'joinTokenSale') {
+        return this.$t('Mission.joinTokenSale.subDescription');
+      }
+      return null;
+    },
     missionId() {
-      return this.mission.id;
+      return this.mission.id || this.getPopupMission.id;
     },
     isJoinTokenSaleMission() {
       return (this.missionId === 'joinTokenSale' || this.missionId === 'refereeTokenSale');
@@ -203,6 +210,9 @@ export default {
         title: this.$t(`Mission.${this.missionId}.${id}`),
         state: this.mission[id] ? 'completed' : 'active',
       }));
+    },
+    hasReferrer() {
+      return this.getUserInfo.referrer;
     },
   },
   methods: {
@@ -360,6 +370,11 @@ export default {
 
   &:not(:last-child) {
     margin-bottom: 32px;
+  }
+
+  :global(.bold) {
+    font-weight: 600;
+    color: $like-green;
   }
 }
 

@@ -920,7 +920,8 @@
     },
     "joinTokenSale": {
       "title": "Join Token Sale",
-      "description": "Join toke sale now, 100 LIKE bonus will be given to you.<br><br>And don't forget the referral bonus. Every time you participate in token sale, you and your referrer will also get 2.5% LIKE bonus too no matter how much and how frequently."
+      "description": "Join toke sale now, 100 LIKE bonus will be given to you.",
+      "subDescription": "And don't forget the referral bonus. Every time you participate in token sale, you and your referrer will also get 2.5% LIKE bonus too no matter how much and how frequently."
     },
     "refereeTokenSale": {
       "title": "@:Mission.joinTokenSale.title",
