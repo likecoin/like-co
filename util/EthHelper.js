@@ -1,12 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import Web3 from 'web3';
 
-/* for ledger */
-import ProviderEngine from 'web3-provider-engine/dist/es5';
-import FetchSubprovider from 'web3-provider-engine/dist/es5/subproviders/fetch';
-import TransportU2F from '@ledgerhq/hw-transport-u2f';
-import createLedgerSubprovider from '@ledgerhq/web3-subprovider';
-
 import { LIKE_COIN_ABI, LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin';
 import { LIKE_COIN_ICO_ABI, LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 import { IS_TESTNET, INFURA_HOST, CONFIRMATION_NEEDED } from '@/constant';
@@ -15,7 +9,23 @@ const abiDecoder = require('@likecoin/abi-decoder/dist/es5');
 
 abiDecoder.addABI(LIKE_COIN_ABI);
 
-function createLedgerWeb3(networkId) {
+async function createLedgerWeb3(networkId) {
+  /* for ledger */
+  let [
+    ProviderEngine,
+    FetchSubprovider,
+    TransportU2F,
+    createLedgerSubprovider,
+  ] = await Promise.all([
+    import(/* webpackChunkName: "ledger" */ 'web3-provider-engine/dist/es5'),
+    import(/* webpackChunkName: "ledger" */ 'web3-provider-engine/dist/es5/subproviders/fetch'),
+    import(/* webpackChunkName: "ledger" */ '@ledgerhq/hw-transport-u2f'),
+    import(/* webpackChunkName: "ledger" */ '@ledgerhq/web3-subprovider'),
+  ]);
+  if (ProviderEngine.default) ProviderEngine = ProviderEngine.default;
+  if (FetchSubprovider.default) FetchSubprovider = FetchSubprovider.default;
+  if (TransportU2F.default) TransportU2F = TransportU2F.default;
+  if (createLedgerSubprovider.default) createLedgerSubprovider = createLedgerSubprovider.default;
   const engine = new ProviderEngine();
   const getTransport = () => TransportU2F.create();
   const ledger = createLedgerSubprovider(getTransport, {
@@ -78,7 +88,7 @@ class EthHelper {
     }
     if (initType || typeof window.web3 !== 'undefined') {
       if (initType === 'ledger' && this.web3Type !== 'ledger') {
-        this.web3 = createLedgerWeb3(IS_TESTNET ? 4 : 1);
+        this.web3 = await createLedgerWeb3(IS_TESTNET ? 4 : 1);
         this.setWeb3Type('ledger');
       } else if (!this.web3 || this.web3Type !== 'window') {
         this.setWeb3Type('window');
