@@ -875,5 +875,10 @@
     "button": {
       "toIndex": "返回主頁"
     }
+  },
+  "Mission": {
+    "gettingStart": {
+      "taskTelegram": "讚好 FB 專頁"
+    }
   }
 }

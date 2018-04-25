@@ -256,11 +256,20 @@ export default {
           let link = 'https://youtu.be/';
           switch (this.$i18n.locale) {
             case 'cn':
-            case 'zh':
               link += '344nFHa7fC0';
+              break;
+            case 'zh':
+              if (window.navigator.language === 'zh-HK') {
+                link += 'MCeXL2WpK10';
+              } else {
+                link += '344nFHa7fC0';
+              }
               break;
             case 'ja':
               link += 'YbMTQ3F1isU';
+              break;
+            case 'ru':
+              link += 'MXkcdOg3Hkk';
               break;
             default:
               link += '28spMOgMs3o';
@@ -272,6 +281,9 @@ export default {
         case 'taskTelegram': {
           let link = 'https://t.me/likecoin';
           switch (this.$i18n.locale) {
+            case 'zh':
+              link = 'https://www.facebook.com/LikeCoin.Foundation';
+              break;
             case 'ja':
               link += '_jp';
               break;
