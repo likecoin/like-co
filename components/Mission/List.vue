@@ -155,7 +155,7 @@ export default {
     ul {
       flex-wrap: wrap;
 
-      margin: -8px;
+      margin: 0 -8px;
 
       li {
         padding: 8px;
