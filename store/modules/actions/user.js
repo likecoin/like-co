@@ -47,9 +47,7 @@ export async function isUser({ commit, state }, addr) {
     }
     if (currentUser !== oldUser) {
       commit(types.UI_INFO_MSG, '');
-      commit(types.MISSION_SET_MISSION_LIST, []);
-      commit(types.MISSION_SET_REFERRAL_LIST, []);
-      commit(types.MISSION_SET_REFERRAL_BONUS_LIST, []);
+      commit(types.MISSION_CLEAR_ALL);
     }
     commit(types.USER_SET_FETCHING, false);
   } catch (error) {

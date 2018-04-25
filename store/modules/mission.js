@@ -13,6 +13,9 @@ import {
   MISSION_SET_REFERRAL_BONUS_LIST,
   MISSION_SET_REFERRAL_TYPE_CLAIMED,
   MISSION_SET_REFERRAL_AVATAR,
+  MISSION_SET_MISSION_HISTORY_LIST,
+  MISSION_SET_MISSION_BONUS_HISTORY,
+  MISSION_CLEAR_ALL,
 } from '../mutation-types';
 import * as actions from './actions/mission';
 import * as getters from './getters/mission';
@@ -21,6 +24,8 @@ const state = {
   missions: [],
   referrals: [],
   proxyBonus: {},
+  historyMissions: [],
+  historyBonus: {},
 };
 
 const mutations = {
@@ -84,6 +89,31 @@ const mutations = {
         }
       });
     });
+  },
+  [MISSION_SET_MISSION_HISTORY_LIST](state, missions) {
+    state.historyMissions = missions.map(m => ({ ...m, isHistory: true }));
+  },
+  [MISSION_SET_MISSION_BONUS_HISTORY](state, bonus) {
+    state.historyBonus = {};
+    Object.keys(bonus).forEach((type) => {
+      const value = bonus[type];
+      const mission = state.missions.find(m => m.targetPayoutType === type);
+      if (!mission) return; // error case
+      let historyBonus = state.historyBonus[mission.id];
+      if (!historyBonus) historyBonus = new BigNumber(0);
+      Vue.set(
+        state.historyBonus,
+        mission.id,
+        historyBonus.plus(new BigNumber(value)),
+      );
+    });
+  },
+  [MISSION_CLEAR_ALL](state) {
+    state.missions = [];
+    state.referrals = [];
+    state.proxyBonus = {};
+    state.historyMissions = [];
+    state.historyBonus = {};
   },
 };
 
