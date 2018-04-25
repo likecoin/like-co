@@ -835,6 +835,10 @@ $profile-icon-mobile-size: 88px;
   @media (min-width: 768 + 1px) {
     text-align: right;
 
+    .bonus-container & {
+      text-align: center;
+    }
+
     .section-button {
       width: calc(33.33% - 16px);
     }

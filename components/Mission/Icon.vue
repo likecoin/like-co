@@ -18,7 +18,12 @@ export default {
   computed: {
     src() {
       try {
-        return missionImages(`./${this.missionId}.svg`);
+        let iconFilename = this.missionId;
+        if (iconFilename === 'refereeTokenSale') {
+          iconFilename = 'joinTokenSale';
+        }
+
+        return missionImages(`./${iconFilename}.svg`);
       } catch (error) {
         return LikeCoinIcon;
       }
