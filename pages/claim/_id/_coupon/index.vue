@@ -14,7 +14,7 @@
               </span>
               <span v-else-if="isVerified">
                 {{ $t('General.label.success') }},
-                <nuxt-link :to="{ name: 'in-edit' }">
+                <nuxt-link :to="{ name: 'in' }">
                   {{ $t('Verify.label.toEdit') }}
                 </nuxt-link>
                 ...
@@ -72,10 +72,10 @@ export default {
               coupon: this.couponCode,
             });
           } catch (err) {
-            setTimeout(() => this.$router.push({ name: 'in-edit' }), 3000);
+            setTimeout(() => this.$router.push({ name: 'in' }), 3000);
           }
         } else {
-          setTimeout(() => this.$router.push({ name: 'in-edit' }), 3000);
+          setTimeout(() => this.$router.push({ name: 'in' }), 3000);
         }
       } catch (err) {
         this.errorMsg = err.message || err;
