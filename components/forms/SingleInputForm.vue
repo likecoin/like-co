@@ -6,7 +6,6 @@
     @submit.prevent="onSubmit">
 
     <md-field :class="['md-likecoin', { 'md-invalid': !!errorText }]">
-      <md-icon v-if="errorText" class="md-accent">warning</md-icon>
       <label>{{ label }}</label>
       <md-input
         :type="type"
@@ -14,10 +13,10 @@
         :autocomplete="autocomplete"
         v-model="inputText"
         required />
-      <span class="md-error">
-        {{ errorText }}
-      </span>
     </md-field>
+    <p v-if="errorText" class="md-error lc-font-size-12">
+      {{ errorText }}
+    </p>
 
     <div class="lc-button-group">
       <md-button
@@ -106,5 +105,6 @@ export default {
 
 .md-error {
   color: $like-red;
+  margin: -24px 0 24px;
 }
 </style>
