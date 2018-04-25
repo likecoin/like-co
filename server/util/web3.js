@@ -1,4 +1,5 @@
-import { INFURA_HOST } from '../../constant';
+import { INFURA_HOST, PUBSUB_TOPIC_MISC } from '../../constant';
+import publisher from './gcloudPub';
 
 const {
   db,
@@ -63,23 +64,35 @@ export async function sendTransactionWithLoop(addr, txData) {
   } catch (err) {
     console.log(`Nonce ${pendingCount} failed, trying web3 pending`);
   }
-  while (!txHash) {
-    /* eslint-disable no-await-in-loop */
-    pendingCount = await web3.eth.getTransactionCount(address, 'pending');
-    tx = await signTransaction(addr, txData, pendingCount);
-    txHash = await sendTransaction(tx);
-    if (!txHash) {
-      await timeout(200);
+  try {
+    while (!txHash) {
+      /* eslint-disable no-await-in-loop */
+      pendingCount = await web3.eth.getTransactionCount(address, 'pending');
+      tx = await signTransaction(addr, txData, pendingCount);
+      txHash = await sendTransaction(tx);
+      if (!txHash) {
+        await timeout(200);
+      }
     }
+    await db.runTransaction(t => t.get(counterRef).then((d) => {
+      if (pendingCount + 1 > d.data().value) {
+        return t.update(counterRef, {
+          value: pendingCount + 1,
+        });
+      }
+      return Promise.resolve();
+    }));
+  } catch (err) {
+    await publisher.publish(PUBSUB_TOPIC_MISC, null, {
+      logType: 'eventInfuraError',
+      fromWallet: address,
+      txHash,
+      rawSignedTx: tx.rawTransaction,
+      txNonce: pendingCount,
+      error: err.toString(),
+    });
+    throw err;
   }
-  await db.runTransaction(t => t.get(counterRef).then((d) => {
-    if (pendingCount + 1 > d.data().value) {
-      return t.update(counterRef, {
-        value: pendingCount + 1,
-      });
-    }
-    return Promise.resolve();
-  }));
   return {
     tx,
     txHash,
