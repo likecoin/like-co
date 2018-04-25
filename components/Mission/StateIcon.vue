@@ -1,11 +1,18 @@
 <template>
-  <div :class="['mission-state-icon', layout, state]" />
+  <div :class="['mission-state-icon', layout, state]">
+    <loading-indicator :layout="layout" />
+  </div>
 </template>
 
 
 <script>
+import LoadingIndicator from './LoadingIndicator';
+
 export default {
   name: 'mission-state-icon',
+  components: {
+    LoadingIndicator,
+  },
   props: {
     layout: {
       type: String,
@@ -47,7 +54,8 @@ export default {
   }
 
   &.active,
-  &.completed {
+  &.completed,
+  &.pending {
     cursor: pointer;
     transition: transform .15s ease-in,
                 box-shadow .15s ease-in;
@@ -67,13 +75,16 @@ export default {
     }
   }
 
-  &.active {
+  &.active,
+  &.pending {
     background-image: linear-gradient(215deg, #D2F0F0, #F0E6B4);
 
     &::before {
       background-color: white;
     }
+  }
 
+  &.active {
     &::after {
       background-image: url('~/assets/mission/misc/active.svg');
     }
@@ -94,6 +105,14 @@ export default {
 
   &.claimed {
     background-color: $like-green;
+  }
+
+  &.pending {
+    background-image: linear-gradient(215deg, #D2F0F0, #F0E6B4);
+
+    &::after {
+      height: 0;
+    }
   }
 }
 

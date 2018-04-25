@@ -4,9 +4,7 @@
 
       <div class="mission-card">
         <div class="mission-action-button">
-          <!-- spinner just for poc -->
-          <md-progress-spinner v-if="state==='pending'" md-mode="indeterminate" />
-          <mission-state-icon v-else :layout="layout" :state="state" />
+          <mission-state-icon :layout="layout" :state="state" />
         </div>
 
         <div class="mission-card-container">
