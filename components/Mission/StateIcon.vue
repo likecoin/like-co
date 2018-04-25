@@ -1,6 +1,8 @@
 <template>
   <div :class="['mission-state-icon', layout, state]">
-    <loading-indicator :layout="layout" />
+    <loading-indicator
+      v-if="state === 'pending'"
+      :layout="layout" />
   </div>
 </template>
 
