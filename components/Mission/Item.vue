@@ -56,12 +56,17 @@ export default {
   computed: {
     ...mapGetters([
       'getProxyMissionReward',
+      'getMissionHistoryReward',
       'getUserInfo',
     ]),
+    isHistory() {
+      return (this.mission || {}).isHistory;
+    },
     title() {
       return this.$t(`Mission.${this.mission.id}.title`);
     },
     isNew() {
+      if (this.isHistory) return false;
       if (this.isReferral) {
         return !!this.mission.pendingReferralBonus;
       } else if (this.mission.isProxy) {
@@ -70,6 +75,10 @@ export default {
       return !this.mission.seen && !this.mission.done;
     },
     reward() {
+      if (this.isHistory && this.getMissionHistoryReward(this.mission.id)) {
+        /* history api return toFixed(4) so no need div(ONE_LIKE) */
+        return `${this.getMissionHistoryReward(this.mission.id).toFixed(2)} LIKE`;
+      }
       if (this.isReferral) {
         if (this.mission.pendingReferralBonus) {
           return `${new BigNumber(this.mission.pendingReferralBonus).div(ONE_LIKE).toFixed(2)} LIKE`;
@@ -87,6 +96,7 @@ export default {
       return this.mission.reward;
     },
     state() {
+      if (this.isHistory) return 'claimed';
       if (this.isReferral) {
         if (this.mission.pendingReferralBonus) return 'completed';
         return this.mission.done ? 'claimed' : 'active';

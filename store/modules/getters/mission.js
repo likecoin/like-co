@@ -19,4 +19,8 @@ export const getReferralMissionList = state => state.referrals;
 
 export const getProxyMissionReward = state => id => state.proxyBonus[id];
 
+export const getMissionHistorylist = state => state.historyMissions;
+
+export const getMissionHistoryReward = state => id => state.historyBonus[id];
+
 export const getMissionById = state => id => state.missions.find(m => m.id === id);

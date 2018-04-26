@@ -50,6 +50,8 @@ export const apiFetchMissionList = id => axios.get(`/api/mission/list/${id}`);
 
 export const apiFetchMissionHistoryList = id => axios.get(`/api/mission/list/history/${id}`);
 
+export const apiFetchMissionHistoryBonus = id => axios.get(`/api/mission/list/history/${id}/bonus`);
+
 export const apiPostSeenMission = (id, payload) => axios.post(`/api/mission/seen/${id}`, payload);
 
 export const apiPostStepMission = (id, payload) => axios.post(`/api/mission/step/${id}`, payload);

@@ -25,7 +25,7 @@
           <div class="lc-container-2">
             <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-32 section-content">
               <div class="lc-container-4">
-                <mission-list :missions="missions" :is-grid="true" />
+                <mission-list :missions="getMissionHistorylist" :is-grid="true" />
               </div>
             </div>
           </div>
@@ -70,21 +70,19 @@ export default {
       'getUserInfo',
       'getUserIsFetching',
       'getUserIsRegistered',
+      'getMissionHistorylist',
     ]),
   },
   methods: {
     ...mapActions([
-      'fetchMissionHistoryList',
+      'refreshMissionHistoryList',
     ]),
-    async updateCompletedMission() {
-      this.missions = await this.fetchMissionHistoryList(this.getUserInfo.user);
-    },
   },
   watch: {
     getUserIsFetching(f) {
       if (!f) {
         if (this.getUserIsRegistered) {
-          this.updateCompletedMission();
+          this.refreshMissionHistoryList(this.getUserInfo.user);
         }
       }
     },
@@ -92,7 +90,7 @@ export default {
   mounted() {
     if (!this.getUserIsFetching) {
       if (this.getUserIsRegistered) {
-        this.updateCompletedMission();
+        this.refreshMissionHistoryList(this.getUserInfo.user);
       }
     }
   },
