@@ -250,6 +250,13 @@ export default {
       }
     },
     async onClickGettingStartTask(t) {
+      /* post first due to trust problem */
+      this.postStepMission({
+        user: this.getUserInfo.user,
+        missionId: this.missionId,
+        taskId: t.id,
+      });
+
       switch (t.id) {
         case 'taskPaymentPage':
           window.open(`/${this.getUserInfo.displayName}`, 'payment-page');
@@ -301,14 +308,8 @@ export default {
           window.open(link, 'telegram-group');
           break;
         }
-
         default:
       }
-      await this.postStepMission({
-        user: this.getUserInfo.user,
-        missionId: this.missionId,
-        taskId: t.id,
-      });
     },
     onDismiss() {
       this.hide();
