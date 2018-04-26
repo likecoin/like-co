@@ -34,4 +34,16 @@ export const getTxDialogActionText = state => state.txDialogActionText;
 
 export const getCurrentLocale = state => state.locale;
 
+export const getCurrentLocaleISO = (state) => {
+  const { locale } = state;
+  switch (locale) {
+    case 'zh':
+      return 'zh-Hant';
+    case 'cn':
+      return 'zh-Hans';
+    default:
+      return locale;
+  }
+};
+
 export const getIsSlidingMenuOpen = state => state.isSlidingMenuOpen;
