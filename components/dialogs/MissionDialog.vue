@@ -1,6 +1,9 @@
 <template>
   <div class="mission-dialog">
-    <base-dialog ref="dialog" class="with-icon">
+    <base-dialog
+      ref="dialog"
+      class="with-icon"
+      :isShowCloseButton="true">
 
       <div slot="header-center" class="lc-dialog-icon">
         <mission-icon :mission-id="missionId" />
