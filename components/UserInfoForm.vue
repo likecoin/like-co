@@ -224,17 +224,14 @@ export default {
       'getUserIsFetching',
       'getUserIsRegistered',
     ]),
-    canGetFreeLikeCoin() {
-      return this.getUserInfo.referrer && !this.getUserInfo.isEmailVerified && !this.isVerifying;
-    },
     getAmountAction() {
-      return this.canGetFreeLikeCoin ? this.onGetCouponClick : this.onClickBuyLikeCoin;
+      return this.onClickBuyLikeCoin;
     },
     getAmountHref() {
-      return this.canGetFreeLikeCoin ? '' : '';
+      return '';
     },
     getAmountText() {
-      return this.canGetFreeLikeCoin ? this.$t('Edit.button.getFreeCoin') : this.$t('Edit.button.buyCoin');
+      return this.$t('Edit.button.buyCoin');
     },
   },
   methods: {
@@ -311,15 +308,6 @@ export default {
       } catch (err) {
         this.updateInfo();
         console.error(err);
-      }
-    },
-    async onGetCouponClick() {
-      if (!this.canGetFreeLikeCoin) {
-        return;
-      }
-      logTrackerEvent(this, 'RegFlow', 'ClickGetFreeLikeCoin', 'click get free likecoin', 1);
-      if (!this.getUserInfo.isEmailVerified) {
-        this.$refs.inputDialog.show();
       }
     },
     async onVerifyEmail() {
