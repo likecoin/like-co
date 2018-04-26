@@ -66,7 +66,7 @@ export default {
       return this.$t(`Mission.${this.mission.id}.title`);
     },
     isNew() {
-      if (this.isHistory) return false;
+      if (this.isHistory || this.mission.upcoming) return false;
       if (this.isReferral) {
         return !!this.mission.pendingReferralBonus;
       } else if (this.mission.isProxy) {
@@ -104,6 +104,7 @@ export default {
         if (this.getProxyMissionReward(this.mission.id)) return 'completed';
         return this.mission.done ? 'claimed' : 'active';
       }
+      if (this.mission.upcoming) return 'upcoming';
       if (this.mission.isClaimed) return 'claimed';
       if (this.mission.done) return 'completed';
       return (this.mission.status === 'pending') ? 'pending' : 'active';

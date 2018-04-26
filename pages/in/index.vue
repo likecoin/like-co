@@ -30,7 +30,7 @@
             <div class="lc-container-4">
 
               <mission-list
-                :missions="shortMissionList"
+                :missions="getShortMissionList"
                 :is-grid="false"
                 @click="onMissionClick"/>
 
@@ -182,11 +182,8 @@ export default {
       'getCurrentLocale',
       'getUserIsFetching',
       'getUserIsRegistered',
-      'getMissionList',
+      'getShortMissionList',
     ]),
-    shortMissionList() {
-      return this.getMissionList.slice(0, 4);
-    },
   },
   methods: {
     ...mapActions([
@@ -204,7 +201,7 @@ export default {
       const user = this.getUserInfo;
       this.wallet = user.wallet;
       this.$refs.txHistory.updateTokenSaleHistory();
-      if (!this.shortMissionList.length) this.refreshMissionList(this.getUserInfo.user);
+      if (!this.getShortMissionList.length) this.refreshMissionList(this.getUserInfo.user);
     },
     async onSubmitCoupon() {
       try {

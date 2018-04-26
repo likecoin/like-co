@@ -15,6 +15,9 @@ export const getMissionList = (state) => {
 
 export const getNewMissionlist = state => state.missions.filter(m => !m.seen);
 
+export const getShortMissionList =
+  state => getMissionList(state).filter(m => !m.upcoming).slice(0, 4);
+
 export const getReferralMissionList = state => state.referrals;
 
 export const getProxyMissionReward = state => id => state.proxyBonus[id];
