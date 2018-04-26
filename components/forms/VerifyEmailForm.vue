@@ -77,13 +77,12 @@ export default {
     },
     async onSubmit(inputText) {
       this.$emit('submit', inputText);
-
+      const msg = this.$t('Edit.label.verifying');
       if (this.email !== inputText) {
         await this.updateEmail(inputText);
       }
-
       await this.sendVerifyEmail({ id: this.getUserInfo.user, ref: this.emailRef || '' });
-      this.setInfoMsg(this.$t('Edit.label.verifying'));
+      this.setInfoMsg(msg);
     },
   },
 };
