@@ -90,6 +90,8 @@ $lc-dialog-border-radius: 8px;
 .lc-dialog {
   overflow: visible;
 
+  height: 100%;
+
   :global(.md-dialog-container) {
     overflow: visible;
   }
