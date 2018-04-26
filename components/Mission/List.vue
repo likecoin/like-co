@@ -5,11 +5,13 @@
       layout,
       {
         grid: isGrid,
+        loading: isLoading,
+        swippable: isSwippable,
       },
     ]">
     <div>
 
-      <header>
+      <header v-if="!isSwippable">
         <div class="column-labels">
           <nuxt-link :to="{ name: 'id', params: { id: username } }"><span>LIKE</span></nuxt-link>
         </div>
@@ -21,9 +23,10 @@
          {
            'overflow-left': canScrollLeft,
            'overflow-right': canScrollRight,
+           'lc-mobile-hide': isSwippable,
          },
        ]">
-        <ul ref="list" @scroll="onLayout">
+        <ul ref="list"  @scroll="onLayout">
 
           <li v-for="m in missions" :key="m.id">
             <mission-item
@@ -48,6 +51,31 @@
         </ul>
       </div>
 
+      <swiper
+        v-if="isSwippable"
+        class="lc-mobile-show"
+        :is-loading="missions.length <= 0"
+        @click="onClickSlide">
+
+        <div
+          v-for="m in missions"
+          :key="m.id"
+          class="swiper-slide">
+          <mission-item
+            layout="large"
+            :mission="m"
+            :is-referral="isReferral" />
+        </div>
+
+        <div
+          v-for="p in NUM_PLACEHOLDERS"
+          v-if="missions.length <= 0"
+          :key="`placeholder-${p}`"
+          class="swiper-slide">
+          <mission-item-placeholder layout="large"/>
+        </div>
+      </swiper>
+
     </div>
   </div>
 </template>
@@ -58,6 +86,7 @@ import _throttle from 'lodash.throttle';
 
 import MissionItem from './Item';
 import MissionItemPlaceholder from './ItemPlaceholder';
+import Swiper from './Swiper';
 
 export default {
   name: 'mission-list',
@@ -77,17 +106,24 @@ export default {
       type: Array,
       default: () => [],
     },
+    isLoading: {
+      type: Boolean,
+      default: null,
+    },
     isGrid: {
       type: Boolean,
       default: true,
     },
+    isSwippable: {
+      type: Boolean,
+      default: true,
+    },
+    swipperId: {
+      type: String,
+    },
     isReferral: {
       type: Boolean,
       default: false,
-    },
-    isLoading: {
-      type: Boolean,
-      default: null,
     },
     emptyPlaceholder: {
       type: String,
@@ -97,6 +133,7 @@ export default {
   components: {
     MissionItem,
     MissionItemPlaceholder,
+    Swiper,
   },
   data() {
     return {
@@ -139,6 +176,11 @@ export default {
           invitee: this.username,
           isReferral: this.isReferral,
         }));
+      }
+    },
+    onClickSlide(i) {
+      if (this.missions.length > 0) {
+        this.onClick(this.missions[i]);
       }
     },
     onLayout: _throttle(function () { this.updateScrollIndicator(); }, 20),
@@ -297,6 +339,12 @@ export default {
       @media (max-width: 600px) {
         width: 100%;
       }
+    }
+  }
+
+  &.swippable {
+    .swiper-slide {
+      width: 188px;
     }
   }
 }

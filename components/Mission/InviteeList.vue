@@ -13,7 +13,7 @@
         layout="small"
         :missions="missions"
         :username="username"
-        :is-small="true"
+        :is-swippable="false"
         :is-referral="true"
         @click="onClick"
       />

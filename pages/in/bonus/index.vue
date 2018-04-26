@@ -48,26 +48,49 @@
             </div>
           </div>
 
-          <div class="lc-container-2">
-            <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-32 section-content">
-              <div class="lc-container-4">
-                <mission-list :missions="getMissionList" @click="onMissionClick"/>
+          <div id="my-missions" class="lc-container-2">
+            <div class="lc-container-3 lc-container-no-padding-mobile lc-bg-gray-1 lc-padding-vertical-32 section-content">
+              <div class="lc-container-4 lc-container-no-padding-mobile">
+                <mission-list
+                  swipper-id="my-missions"
+                  :missions="getMissionList"
+                  @click="onMissionClick" />
               </div>
             </div>
           </div>
 
+          <!-- BEGIN - Invitee missions -->
           <div
-            class="lc-container-2 lc-margin-top-4"
-            id="invitees-task"
-            v-if="getMissionList.length > 0">
-            <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-32 section-content">
+            v-if="getMissionList.length > 0"
+            id="invitee-mission"
+            class="lc-container-2 lc-margin-top-4">
+
+            <div class="lc-container-3 lc-padding-top-32 lc-bg-gray-1">
               <div class="lc-container-4">
-
-                <invitee-mission-grid-list :invitees="getReferralMissionList" @click="onMissionClick" />
-
+                <header>
+                  <div>
+                    <h2 class="lc-font-size-14 lc-color-like-gray-4 lc-margin-bottom-4">
+                      {{ $t('BonusPage.header.inviteeMission') }}
+                    </h2>
+                    <p class="lc-font-size-14 lc-bg-gray-9b">
+                      {{ $t('BonusPage.label.inviteeMissionDescription') }}
+                    </p>
+                  </div>
+                </header>
               </div>
             </div>
+
+            <div class="lc-container-3 lc-container-no-padding-mobile lc-bg-gray-1 lc-padding-bottom-32 section-content">
+              <div class="lc-container-4 lc-container-no-padding-mobile">
+                <invitee-mission-grid-list
+                  swiper-id="invitee-mission"
+                  :invitees="getReferralMissionList"
+                  @click="onMissionClick" />
+              </div>
+            </div>
+
           </div>
+          <!-- END - Invitee missions -->
 
         </div>
       </div>
@@ -241,6 +264,67 @@ export default {
 
 <style lang="scss" scoped>
 @import "~assets/variables";
+
+#invitee-mission {
+  header {
+    @mixin invitee-mission-header($percent) {
+      &::after {
+        width: calc(#{100% - $percent} - 16px);
+      }
+
+      > div {
+        max-width: $percent;
+      }
+    }
+
+    position: relative;
+
+    &::after {
+      display: block;
+
+      height: 1px;
+
+      content: " ";
+
+      background-color: #E6E6E6;
+    }
+
+    > div {
+      width: 100%;
+    }
+
+    @media (min-width: 1366px + 1px) {
+      @include invitee-mission-header(25%);
+    }
+
+    @media (min-width: 960px + 1px) and (max-width: 1366px) {
+      @include invitee-mission-header(1 / 3 * 100%);
+    }
+
+    @media (min-width: 600px + 1px) {
+      &::after {
+        position: absolute;
+        top: 50%;
+        right: 0;
+
+        margin-right: 8px;
+        margin-left: 8px;
+      }
+
+      @media (max-width: 960px) {
+        @include invitee-mission-header(50%);
+      }
+    }
+
+    @media (max-width: 600px) {
+      &::after {
+        position: relative;
+
+        margin-top: 16px;
+      }
+    }
+  }
+}
 
 .earned-bonus-amount-section {
   @media (max-width: 600px) {

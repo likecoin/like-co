@@ -1,4 +1,5 @@
 @import "functions";
+@import "mixin";
 @import "variables";
 
 * {
@@ -131,6 +132,7 @@ a,
   position: relative;
 
   height: 100%;
+  box-sizing: border-box;
 
   .underlay {
     position: absolute;
@@ -151,6 +153,16 @@ a,
 
     @media (max-width: 600px) {
       width: 100%;
+    }
+  }
+
+  &.lc-container-no-padding {
+    @include padding-x(0);
+
+    &-mobile {
+      @media (max-width: 600px) {
+        @include padding-x(0);
+      }
     }
   }
 }
