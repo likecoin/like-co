@@ -64,6 +64,7 @@
 
 
 <script>
+import { mapGetters } from 'vuex';
 import MissionDialog from '@/components/dialogs/MissionDialog';
 import MyFooter from '~/components/footer/Footer';
 import SiteHeader from '~/components/header/HeaderWithMenuButton';
@@ -86,6 +87,20 @@ export default {
     getIfDisableError() {
       return getToolbarsDisableError(this.$route.name);
     },
+    ...mapGetters([
+      'getCurrentLocale',
+      'getCurrentLocaleISO',
+    ]),
+  },
+  head() {
+    return {
+      htmlAttrs: {
+        lang: this.getCurrentLocaleISO,
+      },
+      bodyAttrs: {
+        'lc-lang': this.getCurrentLocale,
+      },
+    };
   },
 };
 </script>
