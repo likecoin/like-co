@@ -1,6 +1,10 @@
-import { MERGED_MISSIONS } from '@/constant';
+import { MERGED_MISSIONS, ONE_LIKE } from '@/constant';
 
-export const getProxyMissionReward = state => id => state.proxyBonus[id];
+export const getProxyMissionReward = state => (id) => {
+  const reward = state.proxyBonus[id];
+  if (reward) return reward.div(ONE_LIKE).toFixed(2);
+  return null;
+};
 
 const canClaim = (state, m) => (
   (m.isProxy && !!getProxyMissionReward(state)(m.id))

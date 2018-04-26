@@ -84,9 +84,18 @@ export default {
           return `${new BigNumber(this.mission.pendingReferralBonus).div(ONE_LIKE).toFixed(2)} LIKE`;
         }
         return this.mission.referralReward;
-      } else if (this.mission.isProxy && this.getProxyMissionReward(this.mission.id)) {
-        return `${this.getProxyMissionReward(this.mission.id).div(ONE_LIKE).toFixed(2)} LIKE`;
-      } else if (this.getUserInfo.referrer) {
+      }
+      if (this.mission.isProxy && this.getProxyMissionReward(this.mission.id)) {
+        return `${this.getProxyMissionReward(this.mission.id)} LIKE`;
+      }
+      if (this.getUserInfo.referrer) {
+        /* joinTokenSale HACK */
+        if (this.mission.id === 'joinTokenSale' && this.mission.done) {
+          let reward = Number.parseInt(this.mission.reward, 10);
+          const extra = this.getProxyMissionReward('refereeTokenSale');
+          if (extra) reward += Number.parseInt(extra, 10);
+          return `${reward} LIKE`;
+        }
         if (this.mission.refereeReward) {
           return this.mission.refereeReward;
         } else if (this.mission.refereeExtraReward) {
