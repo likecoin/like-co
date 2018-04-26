@@ -22,8 +22,11 @@
         <div class="lc-container-2 lc-padding-bottom-8">
           <user-info-form />
         </div>
+      </div>
 
-        <!-- BEGIN - Tab bar section -->
+      <!-- BEGIN - Tab bar section -->
+      <div class="lc-container-1">
+        <div class="underlay gray" />
         <md-tabs class="lc-tabs lc-container-2 lc-width-2-3 md-transparent" md-sync-route>
 
           <template slot="md-tab"  slot-scope="{ tab }">
@@ -44,8 +47,8 @@
             to="/in/bonus/history" />
 
         </md-tabs>
-        <!-- END - Tab bar section -->
       </div>
+      <!-- END - Tab bar section -->
 
       <div class="tab-wrapper">
         <nuxt/>
