@@ -30,9 +30,14 @@
       </section>
 
       <section v-else>
-        <nuxt-link :to="{ name: 'in-tokensale' }">
+        <nuxt-link v-if="$route.name !== 'in-tokensale'" :to="{ name: 'in-tokensale' }">
           <material-button class="primary" @click="$emit('onClose')">
             {{ $t('Dialog.transaction.button.buyCoin') }}
+          </material-button>
+        </nuxt-link>
+        <nuxt-link v-else :to="{ name: 'in' }">
+          <material-button class="primary" @click="$emit('onClose')">
+            {{ $t('Dialog.transaction.button.myAccount') }}
           </material-button>
         </nuxt-link>
         <nuxt-link :to="actionRoute">
