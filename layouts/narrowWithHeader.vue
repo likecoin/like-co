@@ -57,6 +57,7 @@ export default {
   computed: {
     ...mapGetters([
       'getCurrentLocale',
+      'getCurrentLocaleISO',
     ]),
     getIfDisableError() {
       return getToolbarsDisableError(this.$route.name);
@@ -64,6 +65,9 @@ export default {
   },
   head() {
     return {
+      htmlAttrs: {
+        lang: this.getCurrentLocaleISO,
+      },
       bodyAttrs: {
         'lc-lang': this.getCurrentLocale,
       },
