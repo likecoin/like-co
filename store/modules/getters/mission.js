@@ -1,5 +1,12 @@
 import { MERGED_MISSIONS } from '@/constant';
 
+export const getProxyMissionReward = state => id => state.proxyBonus[id];
+
+const canClaim = (state, m) => (
+  (m.isProxy && !!getProxyMissionReward(state)(m.id))
+  || (!m.isProxy && m.done)
+);
+
 export const getMissionList = (state) => {
   const missions = [];
   state.missions.forEach((m) => {
@@ -10,7 +17,18 @@ export const getMissionList = (state) => {
     }
     missions.push(m);
   });
-  return missions;
+  return missions.sort((a, b) => {
+    if (canClaim(state, a) !== canClaim(state, b)) {
+      return canClaim(state, a) ? -1 : 1;
+    }
+    if (a.seen !== b.seen) {
+      return a.seen ? 1 : -1;
+    }
+    if (a.isProxy !== b.isProxy) {
+      return a.isProxy ? 1 : -1;
+    }
+    return 0;
+  });
 };
 
 export const getNewMissionlist = state => state.missions.filter(m => !m.seen);
@@ -19,8 +37,6 @@ export const getShortMissionList =
   state => getMissionList(state).filter(m => !m.upcoming).slice(0, 4);
 
 export const getReferralMissionList = state => state.referrals;
-
-export const getProxyMissionReward = state => id => state.proxyBonus[id];
 
 export const getMissionHistorylist = state => state.historyMissions;
 
