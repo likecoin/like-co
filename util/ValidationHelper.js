@@ -79,6 +79,7 @@ const ValidationHelper = {
       status,
       bonusId,
       isProxy,
+      upcoming,
     } = m;
     const misc = {};
     GETTING_STARTED_TASKS.forEach((task) => {
@@ -97,6 +98,7 @@ const ValidationHelper = {
       status,
       isProxy,
       isClaimed: !!bonusId,
+      upcoming,
       ...misc,
     };
   },

@@ -73,21 +73,27 @@ router.get('/mission/list/:id', async (req, res) => {
       .filter(d => !d.data().bonusId).map(d => ({ id: d.id, ...d.data() }));
     for (let index = 0; index < missionCol.docs.length; index += 1) {
       const m = missionCol.docs[index];
+      const missionData = m.data();
+
+      if (missionData.startTs && Date.now() < missionData.startTs) {
+        missionData.upcoming = true;
+      }
+
       if (!userMisionList.includes(m.id)) {
-        const requires = m.data().require;
+        const requires = missionData.require;
         const fulfilled = requires.every(id => missionDone.includes(id));
         if (fulfilled
-          && (!m.data().isRefereeOnly || userDoc.data().referrer)
+          && (!missionData.isRefereeOnly || userDoc.data().referrer)
           // eslint-disable-next-line no-await-in-loop
           && !(await checkAlreadyDone(m, { u: userDoc, doneList: missionDone }))) {
-          replyMissionList.push({ id: m.id, ...m.data() });
+          replyMissionList.push({ id: m.id, ...missionData });
         }
       } else {
         const targetIndex = replyMissionList.findIndex(d => d.id === m.id);
         if (targetIndex >= 0) {
-          replyMissionList[targetIndex] = Object.assign(m.data(), replyMissionList[targetIndex]);
-        } else if (m.data().staying) {
-          replyMissionList.push({ id: m.id, ...m.data() });
+          replyMissionList[targetIndex] = Object.assign(missionData, replyMissionList[targetIndex]);
+        } else if (missionData.staying) {
+          replyMissionList.push({ id: m.id, ...missionData });
         }
       }
     }
@@ -207,7 +213,10 @@ router.get('/referral/list/:id', async (req, res) => {
         const m = missionCol.docs[index];
         const requires = m.data().require;
         const fulfilled = requires.every(mId => missionDone.includes(mId));
-        if (fulfilled) {
+
+        /* Dont send upcoming to referee */
+        const upcoming = m.data().startTs && Date.now() < m.data().startTs;
+        if (fulfilled && !upcoming) {
           const done = getIfReferralMissionDone(m, { u: r });
           if (done) missionDone.push(m.id);
           missions.push({
