@@ -907,9 +907,10 @@
     "gettingStart": {
       "title": "Getting Start",
       "description": "Welcome to join the movement. LikeCoin aims to reinvent the Like by realigning creativity and reward. In <a href=\"https://like.co\">like.co</a>, you are not only can buy and send LikeCoin, but also earn LikeCoin by participating in the LIKE ecology. <span class=\"bold\">View your Like ID payment page, watch introduction video and join our telegram group to get 3 LikeCoin!</span>",
-      "taskTelegram": "Join LikeCoin Telegram Group",
+      "taskTelegram": "Follow @likecoin_fdn on Twitter",
+      "taskOnepager": "Take a look at our one pager",
       "taskVideo": "Watch introduction video",
-      "taskPaymentPage": "Take a look at your personal page"
+      "taskPaymentPage": "Take a look at your payment page"
     },
     "inviteFriend": {
       "title": "Invite a friend to join LikeCoin",
