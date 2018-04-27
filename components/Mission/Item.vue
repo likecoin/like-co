@@ -358,9 +358,9 @@ export default {
   font-weight: 600;
 }
 
-.title-label,
-.reward-label {
-  .upcoming & {
+.upcoming {
+  .title-label,
+  .reward-label {
     color: $like-gray-4 !important;
   }
 }
