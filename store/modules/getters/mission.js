@@ -39,8 +39,8 @@ export const getNewMissionlist = state => state.missions.filter(m => !m.seen);
 
 export const getShortMissionList =
   state => getMissionList(state)
-  .filter(m => (!m.upcoming || Date.now() >= m.upcoming))
-  .slice(0, 4);
+    .filter(m => (!m.upcoming || Date.now() >= m.upcoming))
+    .slice(0, 4);
 
 export const getReferralMissionList = state => state.referrals;
 
