@@ -70,8 +70,10 @@ export async function onMissionClick({ commit, state, rootState }, m) {
     }
   } else {
     if (!m.seen) setMissionSeen({ commit }, { missionId: m.id, user });
-    if (m.isProxy && state.proxyBonus[m.id]) { // is proxy and can claim
-      return claimReferralBonus({ commit }, { type: m.targetPayoutType, user });
+    if (m.isProxy) {
+      if (state.proxyBonus[m.id]) { // is proxy and can claim
+        return claimReferralBonus({ commit }, { type: m.targetPayoutType, user });
+      }
     } else if (m.done) {
       const promises = [claimMission({ commit }, { missionId: m.id, user })];
       /* short cut hacks for different missions */
