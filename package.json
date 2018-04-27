@@ -14,9 +14,15 @@
     "precommit": "npm run lint",
     "lint": "eslint --ext .js,.vue .",
     "prepare": "cd node_modules/web3-core-requestmanager/src && sed -i.bak \"/var global = Function('return this')();/d\" givenProvider.js && rm givenProvider.js.bak",
-    "test:express": "ava -v test/express.test.js",
-    "test:nuxt": "ava -v test/nuxt.test.js",
-    "test:e2e": "./node_modules/.bin/nightwatch --config test/e2e/nightwatch.conf.js"
+    "test": "npm run test:api && npm run test:e2e",
+    "test:api": "ava -v test/api/*.test.js",
+    "test:api:user": "ava -v test/api/user.test.js",
+    "test:api:payment": "ava -v test/api/payment.test.js",
+    "test:nuxt": "ava -v test/nuxt/nuxt.test.js",
+    "test:e2e": "./node_modules/.bin/nightwatch --config test/e2e/nightwatch.conf.js",
+    "test:e2e:home": "./node_modules/.bin/nightwatch -c test/e2e/nightwatch.conf.js -g home.js",
+    "test:e2e:tx": "./node_modules/.bin/nightwatch -c test/e2e/nightwatch.conf.js -g tx.js",
+    "test:e2e:user": "./node_modules/.bin/nightwatch -c test/e2e/nightwatch.conf.js -g user.js"
   },
   "ava": {
     "require": [
