@@ -25,7 +25,11 @@
           <div class="lc-container-2">
             <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-32 section-content">
               <div class="lc-container-4">
-                <mission-list :missions="getMissionHistorylist" :is-grid="true" />
+                <mission-list
+                  :missions="getMissionHistorylist"
+                  :is-grid="true"
+                  :is-loading="!getIsHistoryMissionsFetched"
+                  :empty-placeholder="$t('BonusPage.HistoryTab.label.emptyHistoryPlaceholder')"/>
               </div>
             </div>
           </div>
@@ -71,6 +75,7 @@ export default {
       'getUserIsFetching',
       'getUserIsRegistered',
       'getMissionHistorylist',
+      'getIsHistoryMissionsFetched',
     ]),
   },
   methods: {

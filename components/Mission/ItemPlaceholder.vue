@@ -1,17 +1,17 @@
 <template>
-  <div :class="['mission-item-placeholder', layout]" @click="$emit('click')">
-    <div>
-      <div class="placeholder-card">
-        <div class="animated-background">
-          <div class="background-masker icon-top" />
-          <div class="background-masker icon-middle" />
-          <div class="background-masker icon-bottom" />
+  <div
+    :class="['mission-item-placeholder', layout, { animated }]"
+    @click="$emit('click')">
+    <div class="placeholder-card">
+      <div class="animated-background">
+        <div class="background-masker icon-top" />
+        <div class="background-masker icon-middle" />
+        <div class="background-masker icon-bottom" />
 
-          <div class="background-masker amount-vertical" />
-          <div class="background-masker label-in-between" />
+        <div class="background-masker amount-vertical" />
+        <div class="background-masker label-in-between" />
 
-          <div class="animated-background icon-placeholder" />
-        </div>
+        <div class="animated-background icon-placeholder" />
       </div>
     </div>
   </div>
@@ -28,6 +28,10 @@ export default {
         return ['small', 'large', 'fluid'].indexOf(value) !== -1;
       },
       default: 'fluid',
+    },
+    animated: {
+      type: Boolean,
+      default: true,
     },
   },
 };
@@ -162,6 +166,9 @@ export default {
 .mission-item-placeholder {
   width: 100%;
 
+  display: flex;
+  flex-shrink: 0;
+
   &.small {
     @include small-mission-item-placeholder();
   }
@@ -186,16 +193,19 @@ export default {
 
   height: 188px;
 
-  animation-name: placeholder-shimmer;
-  animation-duration: 1s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
+  background: #eee;
 
-  background: #f6f7f8;
-  background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
-  background-size: 800px 104px;
+  .animated & {
+    animation-name: placeholder-shimmer;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
 
-  animation-fill-mode: forwards;
+    background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+    background-size: 800px 104px;
+
+    animation-fill-mode: forwards;
+  }
 }
 
 .background-masker {
@@ -205,6 +215,8 @@ export default {
 }
 
 .placeholder-card {
+  flex: 1;
+
   box-sizing: border-box;
 
   background-color: $like-white;

@@ -805,6 +805,9 @@
       "title": "Bonus History",
       "header": {
         "completedBonus": "Completed Bonus"
+      },
+      "label": {
+        "emptyHistoryPlaceholder": "Completed bonus will be shown here."
       }
     }
   },

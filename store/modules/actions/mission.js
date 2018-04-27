@@ -9,6 +9,7 @@ export async function fetchMissionList({ commit }, id) {
 }
 
 export async function refreshMissionHistoryList({ commit }, id) {
+  commit(types.MISSION_START_FETCHING_MISSION_HISTORY_LIST);
   const [missions, bonus] = await Promise.all([
     apiWrapper(commit, api.apiFetchMissionHistoryList(id)),
     apiWrapper(commit, api.apiFetchMissionHistoryBonus(id)),

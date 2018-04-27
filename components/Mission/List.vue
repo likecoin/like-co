@@ -35,9 +35,14 @@
 
           <li
             v-for="p in NUM_PLACEHOLDERS"
-            v-if="missions.length <= 0"
+            v-if="isLoadingList"
             :key="`placeholder-${p}`">
             <mission-item-placeholder :layout="layout"/>
+          </li>
+
+          <li v-if="isEmptyList && emptyPlaceholder" class="empty-list-placeholder">
+            <mission-item-placeholder :layout="layout" :animated="false" />
+            <span>{{ emptyPlaceholder }}</span>
           </li>
 
         </ul>
@@ -80,6 +85,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    isLoading: {
+      type: Boolean,
+      default: null,
+    },
+    emptyPlaceholder: {
+      type: String,
+      default: '',
+    },
   },
   components: {
     MissionItem,
@@ -95,6 +108,12 @@ export default {
   computed: {
     shouldShowScrollIndicator() {
       return this.layout !== 'small' && !this.isGrid;
+    },
+    isLoadingList() {
+      return this.missions.length <= 0 && (this.isLoading || this.isLoading === null);
+    },
+    isEmptyList() {
+      return this.missions.length <= 0 && !this.isLoading;
     },
   },
   methods: {
@@ -186,7 +205,7 @@ export default {
     }
   }
 
-  li:last-child .mission-item-placeholder {
+  li:last-child:not(.empty-list-placeholder) .mission-item-placeholder {
     display: none;
   }
 
@@ -298,5 +317,32 @@ ul {
   color: $like-green;
 
   font-size: 12px;
+}
+
+.empty-list-placeholder {
+  display: flex;
+
+  span {
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 600 + 1px) {
+    flex-direction: row;
+
+    span {
+      display: flex;
+      align-items: center;
+
+      margin-left: 24px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+
+    span {
+      margin-top: 12px;
+    }
+  }
 }
 </style>
