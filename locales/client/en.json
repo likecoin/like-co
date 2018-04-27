@@ -952,7 +952,7 @@
     },
     "common": {
       "label": {
-        "upcomingDate": "<span class=\"bold\">LikeCoin public sale will start on 7th May.</span>"
+        "upcomingDate": "<span class=\"bold\">LikeCoin public sale will start on {upcoming}.</span>"
       }
     }
   }

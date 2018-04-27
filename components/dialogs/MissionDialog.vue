@@ -143,6 +143,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import moment from 'moment';
 
 import BaseDialog from '~/components/dialogs/BaseDialog';
 import InviteFriendForm from '~/components/forms/InviteFriendForm';
@@ -194,7 +195,11 @@ export default {
       const referralPostfix = this.isReferral ? 'Referral' : '';
       const { invitee } = this;
       return `
-        ${this.mission.upcoming ? this.$t('Mission.common.label.upcomingDate') : ''}
+        ${this.mission.upcoming ? this.$t(
+    'Mission.common.label.upcomingDate',
+    { upcoming: moment.utc(this.mission.upcoming).local().format('D-M-YYYY') },
+  )
+    : ''}
         ${this.$t(`Mission.${this.missionId}${referralPostfix}.description`, { invitee })}
       `;
     },
