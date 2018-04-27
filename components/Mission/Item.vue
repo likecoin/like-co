@@ -114,8 +114,7 @@ export default {
         if (this.mission.pendingReferralBonus) return 'completed';
         return this.mission.done ? 'claimed' : 'active';
       } else if (this.mission.isProxy) {
-        if (this.getProxyMissionReward(this.mission.id)) return 'completed';
-        return this.mission.done ? 'claimed' : 'active';
+        return this.getProxyMissionReward(this.mission.id) ? 'completed' : 'active';
       }
       if (this.mission.upcoming && Date.now() < this.mission.upcoming) return 'upcoming';
       if (this.mission.isClaimed) return 'claimed';
