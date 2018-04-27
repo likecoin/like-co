@@ -47,6 +47,12 @@ async function checkAlreadyDone(m, { u, doneList }) {
       if (query.docs.length) isDone = true;
       break;
     }
+    case 'refereeTokenSale': {
+      if (!user.referrer) return false;
+      const query = await u.ref.collection('referrals').where('isICO', '==', true).get();
+      if (query.docs.length) isDone = true;
+      break;
+    }
     default: return false;
   }
   if (!isDone) return false;
@@ -66,11 +72,16 @@ router.get('/mission/list/:id', async (req, res) => {
     ]);
     if (!userDoc.exists) throw new Error('user not exist');
     const userMissionCol = await dbRef.doc(username).collection('mission').get();
+    const proxyMissions = missionCol.docs.reduce((res, m) => {
+      if (m.data().isProxy) res[m.id] = true;
+      return res;
+    }, {});
     const userMisionList = userMissionCol.docs.map(d => d.id);
     const missionDone = userMissionCol.docs.filter(d => d.data().done).map(d => d.id);
 
     const replyMissionList = userMissionCol.docs
-      .filter(d => !d.data().bonusId).map(d => ({ id: d.id, ...d.data() }));
+      .filter(d => (!d.data().bonusId || proxyMissions[d.id]))
+      .map(d => ({ id: d.id, ...d.data() }));
     for (let index = 0; index < missionCol.docs.length; index += 1) {
       const m = missionCol.docs[index];
       const missionData = m.data();
