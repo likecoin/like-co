@@ -2,7 +2,7 @@
   <div class="mission-dialog">
     <base-dialog
       ref="dialog"
-      class="with-icon"
+      :class="['with-icon', { upcoming: isUpcomingMission }]"
       :isShowCloseButton="true">
 
       <div slot="header-center" class="lc-dialog-icon">
@@ -89,7 +89,7 @@
                 class="md-likecoin"
                 @click="$router.push({ name: 'in-tokensale' })"
               >
-                {{ $t('Home.Sale.button.joinNow') }}
+                {{ $t(`Home.Sale.button.${this.isUpcomingMission ? 'prepareToJoin' : 'joinNow'}`) }}
               </md-button>
               <br />
               <md-button
@@ -193,7 +193,10 @@ export default {
     description() {
       const referralPostfix = this.isReferral ? 'Referral' : '';
       const { invitee } = this;
-      return this.$t(`Mission.${this.missionId}${referralPostfix}.description`, { invitee });
+      return `
+        ${this.mission.upcoming ? this.$t('Mission.common.label.upcomingDate') : ''}
+        ${this.$t(`Mission.${this.missionId}${referralPostfix}.description`, { invitee })}
+      `;
     },
     subDescription() {
       if (this.hasReferrer && this.missionId === 'joinTokenSale') {
@@ -216,6 +219,9 @@ export default {
     },
     hasReferrer() {
       return this.getUserInfo.referrer;
+    },
+    isUpcomingMission() {
+      return this.mission.upcoming;
     },
   },
   methods: {
@@ -339,13 +345,34 @@ export default {
   background-image: linear-gradient(252deg, #d2f0f0, #f0e6b4);
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.7);
 
+  .upcoming & {
+    background: #e6e6e6;
+  }
+
+  &::before {
+    position: absolute;
+    z-index: -1;
+    top: 4px;
+    right: 4px;
+    bottom: 4px;
+    left: 4px;
+
+    content: "";
+
+    border-radius: 50%;
+    background-color: $like-white;
+  }
+
   @media (max-width: 600px) {
     padding: 2px;
   }
 
-  > img {
-    border-radius: 50%;
-    background-color: white;
+  .mission-icon {
+    color: $like-green;
+
+    .upcoming & {
+      color: #9b9b9b;
+    }
   }
 }
 
@@ -377,6 +404,10 @@ export default {
   .small {
     font-size: 12px;
   }
+
+  .upcoming & {
+    color: $like-gray-4;
+  }
 }
 
 .description {
@@ -391,6 +422,12 @@ export default {
   :global(.bold) {
     font-weight: 600;
     color: $like-green;
+  }
+}
+
+.md-dialog.upcoming {
+  :global(.lc-dialog-header::before) {
+    background-image: linear-gradient(266deg, #ececec, #c0c0c0);
   }
 }
 

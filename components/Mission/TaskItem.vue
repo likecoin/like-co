@@ -72,7 +72,8 @@ export default {
     }
 
     &::before {
-      background-image: url('~/assets/mission/misc/active-small.svg');
+      mask: url('~/assets/mission/misc/active-small.svg');
+      background-color: $like-green;
     }
   }
 
@@ -80,7 +81,8 @@ export default {
     background-color: $like-white;
 
     &::before {
-      background-image: url('~/assets/mission/misc/completed-task.svg');
+      mask: url('~/assets/mission/misc/completed-small.svg');
+      background-color: $like-green-2;
     }
   }
 
