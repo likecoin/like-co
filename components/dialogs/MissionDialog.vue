@@ -299,7 +299,7 @@ export default {
           break;
         }
 
-        case 'taskTelegram': {
+        case 'taskSocial': {
           let link = 'https://twitter.com/likecoin_fdn';
           switch (this.$i18n.locale) {
             case 'zh':
@@ -307,7 +307,7 @@ export default {
               break;
             default:
           }
-          window.open(link, 'telegram-group');
+          window.open(link, 'social-group');
           break;
         }
         default:
