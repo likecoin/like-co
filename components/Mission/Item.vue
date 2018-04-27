@@ -141,10 +141,14 @@ export default {
     display: block;
 
     text-align: center;
+
+    color: $like-green;
   }
 
   .title-label {
     height: 52px;
+
+    color: $like-dark-brown-2;
 
     font-size: 20px;
     line-height: 54px;
@@ -257,6 +261,13 @@ export default {
     }
   }
 
+  &.active,
+  &.pending {
+    .reward-label {
+      color: $like-green;
+    }
+  }
+
   &.claimed {
     .mission-card {
       cursor: auto;
@@ -341,7 +352,7 @@ export default {
   white-space: nowrap;
   text-overflow: ellipsis;
 
-  color: $like-green;
+  color: currentColor;
 
   font-size: 12px;
   font-weight: 600;
@@ -350,7 +361,7 @@ export default {
 .title-label,
 .reward-label {
   .upcoming & {
-    color: $like-gray-4;
+    color: $like-gray-4 !important;
   }
 }
 
