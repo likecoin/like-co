@@ -72,9 +72,9 @@ router.get('/mission/list/:id', async (req, res) => {
     ]);
     if (!userDoc.exists) throw new Error('user not exist');
     const userMissionCol = await dbRef.doc(username).collection('mission').get();
-    const proxyMissions = missionCol.docs.reduce((res, m) => {
-      if (m.data().isProxy) res[m.id] = true;
-      return res;
+    const proxyMissions = missionCol.docs.reduce((accu, m) => {
+      if (m.data().isProxy) accu[m.id] = true; // eslint-disable-line no-param-reassign
+      return accu;
     }, {});
     const userMisionList = userMissionCol.docs.map(d => d.id);
     const missionDone = userMissionCol.docs.filter(d => d.data().done).map(d => d.id);
