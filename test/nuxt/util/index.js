@@ -2,7 +2,7 @@ import { Nuxt, Builder } from 'nuxt';
 import { resolve } from 'path';
 
 export default async function initNuxt() {
-  const rootDir = resolve(__dirname, '../../');
+  const rootDir = resolve(__dirname, '../../../');
   let config = {};
   try {
     /* eslint global-require: "off" */

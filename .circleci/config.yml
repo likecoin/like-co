@@ -43,23 +43,15 @@ jobs:
           name: Node Environment
           command: |
             sudo apt-get update
-            sudo apt-get -y install curl git make g++
+            sudo apt-get -y install curl git make g++ net-tools
             sudo curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
             sudo apt-get -y install nodejs
       - run:
           name: Dependencies
           command: sudo npm config set unsafe-perm true && sudo npm install
       - run:
-          name: Unit Test Preparation
-          command: |
-            cp test/stub/server/util/firebase.js server/util/firebase.js
-            cp test/stub/server/util/ses.js server/util/ses.js
-      - run:
-          name: Build
-          command: npm run build_testnet_server
-      - run:
           name: Unit Test Server
-          command: npm run dev
+          command: node test/runner.js
           background: true
       - run:
           name: Curl Unit Test Server
@@ -71,7 +63,7 @@ jobs:
           command: xvfb-run --server-args="-screen 0 1600x1200x24" npm run test:e2e
       - run:
           name: Unit Test (Backend)
-          command: npm run test:express
+          command: npm run test:api
       - save_cache:
           key: likecoin-store-unit-test-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
           paths:
