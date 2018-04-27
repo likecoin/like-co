@@ -1,12 +1,18 @@
 <template>
-  <section class="lc-swiper">
-    <div v-swiper:mySwiper="swiperOptions">
-      <div class="swiper-wrapper">
-        <slot />
-      </div>
+  <div
+    :class="[
+      'mission-swiper',
+      {
+        loading: isLoading,
+      },
+    ]"
+    v-swiper:swiper="swiperOptions">
+
+    <div class="swiper-wrapper" @click="onClick">
+      <slot />
     </div>
 
-    <div class="navigations lc-margin-top-24">
+    <div class="swiper-navigations">
       <div class="swiper-pagination swiper-pagination-bullets" />
       <div class="swiper-button-next">
         <simple-svg
@@ -25,7 +31,8 @@
         />
       </div>
     </div>
-  </section>
+
+  </div>
 </template>
 
 
@@ -33,28 +40,53 @@
 import ArrowLeftIcon from '@/assets/icons/arrow-left.svg';
 import ArrowRightIcon from '@/assets/icons/arrow-right.svg';
 
-
 export default {
   name: 'swiper',
+  props: {
+    swiperId: {
+      type: String,
+    },
+    isLoading: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       ArrowLeftIcon,
       ArrowRightIcon,
-
-      swiperOptions: {
+    };
+  },
+  computed: {
+    swiperOptions() {
+      return {
         slidesPerView: 'auto',
         centeredSlides: true,
-        spaceBetween: 100,
+        spaceBetween: 16,
         navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
+          nextEl: this.getSelector('.swiper-button-next'),
+          prevEl: this.getSelector('.swiper-button-prev'),
         },
         pagination: {
-          el: '.swiper-pagination',
+          el: this.getSelector('.swiper-pagination'),
           clickable: true,
         },
-      },
-    };
+      };
+    },
+  },
+  methods: {
+    getSelector(selector) {
+      return this.swiperId ? `#${this.swiperId} ${selector}` : selector;
+    },
+    onClick() {
+      const { activeIndex, clickedIndex } = this.swiper;
+
+      if (activeIndex === clickedIndex) {
+        this.$emit('click', clickedIndex);
+      } else {
+        this.swiper.slideTo(clickedIndex);
+      }
+    },
   },
 };
 </script>
@@ -63,72 +95,104 @@ export default {
 <style lang="scss" scoped>
 @import "~assets/variables";
 
-.lc-swiper {
+.mission-swiper {
   width: 100%;
+}
 
-  :global(.swiper-container) {
-    padding: 0 16px;
+.swiper-navigations {
+  position: relative;
+
+  margin-top: 16px;
+  padding-bottom: 16px;
+
+  opacity: 1;
+
+  transition: opacity .15s ease-in-out;
+
+  .loading & {
+    opacity: 0;
+    pointer-events: none;
   }
+}
 
-  .navigations {
-    position: relative;
+.swiper-wrapper {
+  padding-bottom: 8px;
 
-    margin-right: -16px;
-    margin-left: -16px;
+  .swiper-slide {
+    > * {
+      transition-timing-function: cubic-bezier();
+      transition-duration: .15s;
+      transition-property: transform, opacity;
+    }
 
-    .swiper-button-prev,
-    .swiper-button-next {
-      top: 16px;
+    &:not(.swiper-slide-active) {
+      > * {
+        transform: scale(0.95);
 
-      width: 21px;
-      height: 16px;
+        opacity: 0.5;
+      }
+    }
+  }
+}
 
-      background-image: none;
+.swiper-button {
+  &-prev,
+  &-next {
+    top: 16px;
+
+    width: 21px;
+    height: 16px;
+
+    background-image: none;
+
+    .simple-svg-wrapper :global(svg) {
+      fill: $like-green !important;
+    }
+
+    &.swiper-button-disabled {
+      opacity: 1;
 
       .simple-svg-wrapper :global(svg) {
-        fill: $like-green !important;
-      }
-
-      &.swiper-button-disabled {
-        opacity: 1;
-        .simple-svg-wrapper :global(svg) {
-          fill: #e6e6e6 !important;
-        }
+        fill: #e6e6e6 !important;
       }
     }
+  }
 
-    .swiper-button-prev {
-      left: 0;
-    }
-    .swiper-button-next {
-      right: 0;
-    }
+  &-prev {
+    left: 8px;
+  }
 
-    .swiper-pagination {
-      position: relative;
+  &-next {
+    right: 8px;
+  }
+}
 
-      display: flex;
-      align-items: center;
-      flex-direction: row;
-      justify-content: center;
+.swiper-pagination {
+  position: relative;
 
-      width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
 
-      :global(.swiper-pagination-bullet) {
-        width: 3px;
-        height: 3px;
-        margin: 0 4px;
+  width: 100%;
 
-        opacity: 1;
-        border-radius: 50%;
-        background: #9b9b9b;
-      }
-      :global(.swiper-pagination-bullet-active) {
-        width: 5px;
-        height: 5px;
+  :global(.swiper-pagination-bullet) {
+    width: 3px;
+    height: 3px;
+    margin: 0 4px;
 
-        background: $like-green;
-      }
+    transition: background-color .15s cubic-bezier();
+
+    opacity: 1;
+    border-radius: 50%;
+    background-color: #9b9b9b;
+
+    &:global(-active) {
+      width: 5px;
+      height: 5px;
+
+      background-color: $like-green;
     }
   }
 }

@@ -1,41 +1,29 @@
 <template>
   <div class="invitee-mission-grid-list">
 
-    <header>
-      <div>
-        <h2 class="lc-font-size-14 lc-color-like-gray-4 lc-margin-bottom-4">
-          {{ $t('BonusPage.header.inviteeMission') }}
-        </h2>
-        <p class="lc-font-size-14 lc-bg-gray-9b">
-          {{ $t('BonusPage.label.inviteeMissionDescription') }}
-        </p>
-      </div>
-    </header>
+    <ul class="lc-mobile-hide">
+      <li v-for="i in invitees" :key="i.id">
+        <invitee-list
+          :missions="i.missions"
+          :username="i.id"
+          :avatar="i.avatar"
+          @click="onClick" />
+      </li>
+    </ul>
 
-    <div>
-      <ul class="lc-mobile-hide">
-        <li v-for="i in invitees" :key="i.id">
-          <invitee-list
-            :missions="i.missions"
-            :username="i.id"
-            :avatar="i.avatar"
-            :is-small="true"
-            @click="onClick" />
-        </li>
-      </ul>
-      <ul class="lc-mobile-show">
-        <swiper>
-          <li class="swiper-slide" v-for="i in invitees" :key="i.id">
+    <swiper class="lc-mobile-show" :swiper-id="swiperId">
+      <div class="swiper-slide" v-for="i in invitees" :key="i.id">
+        <div class="lc-container-3">
+          <div class="lc-container-4">
             <invitee-list
               :missions="i.missions"
               :username="i.id"
               :avatar="i.avatar"
-              :is-small="true"
               @click="onClick" />
-          </li>
-        </swiper>
-      </ul>
-    </div>
+          </div>
+        </div>
+      </div>
+    </swiper>
 
   </div>
 </template>
@@ -51,6 +39,9 @@ export default {
     invitees: {
       type: Array,
       default: () => [],
+    },
+    swiperId: {
+      type: String,
     },
   },
   components: {
@@ -82,56 +73,6 @@ export default {
     content: " ";
 
     background-color: #E6E6E6;
-  }
-}
-
-@mixin header($percent) {
-  &::after {
-    width: calc(#{100% - $percent} - 16px);
-  }
-
-  > div {
-    max-width: $percent;
-  }
-}
-
-header {
-  position: relative;
-
-  > div {
-    width: 100%;
-  }
-
-  @media (min-width: 1366px + 1px) {
-    @include header(25%);
-  }
-
-  @media (min-width: 960px + 1px) and (max-width: 1366px) {
-    @include header(1 / 3 * 100%);
-  }
-
-  @media (min-width: 600px + 1px) {
-    &::after {
-      position: absolute;
-      top: 50%;
-      right: 0;
-
-      height: 1px;
-      margin-right: 8px;
-      margin-left: 8px;
-
-      content: " ";
-
-      background-color: #E6E6E6;
-    }
-
-    @media (max-width: 960px) {
-      @include header(50%);
-    }
-  }
-
-  @media (max-width: 600px) {
-    padding-bottom: 16px;
   }
 }
 

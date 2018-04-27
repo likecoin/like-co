@@ -28,8 +28,9 @@
                 <mission-list
                   :missions="getMissionHistorylist"
                   :is-grid="true"
+                  :is-swippable="false"
                   :is-loading="!getIsHistoryMissionsFetched"
-                  :empty-placeholder="$t('BonusPage.HistoryTab.label.emptyHistoryPlaceholder')"/>
+                  :empty-placeholder="$t('BonusPage.HistoryTab.label.emptyHistoryPlaceholder')" />
               </div>
             </div>
           </div>
