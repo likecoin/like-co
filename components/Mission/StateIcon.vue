@@ -38,6 +38,8 @@ export default {
   width: 52px;
   height: 52px;
 
+  padding: 10px;
+
   border-radius: 50%;
   background-color: white;
 
@@ -88,14 +90,16 @@ export default {
 
   &.active {
     &::after {
-      background-image: url('~/assets/mission/misc/active.svg');
+      mask: url('~/assets/mission/misc/active.svg');
+      background-color: $like-green;
     }
   }
 
   &.completed,
   &.claimed {
     &::after {
-      background-image: url('~/assets/mission/misc/completed.svg');
+      mask: url('~/assets/mission/misc/completed.svg');
+      background-color: $like-white;
     }
   }
 
@@ -116,6 +120,11 @@ export default {
       height: 0;
     }
   }
+
+  &.upcoming {
+    border: solid 2px #e6e6e6;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  }
 }
 
 @mixin small-mission-state-icon {
@@ -124,20 +133,23 @@ export default {
 
   &.active {
     &::after {
-      background-image: url('~/assets/mission/misc/active-small.svg');
+      mask: url('~/assets/mission/misc/active-small.svg');
+      background-color: $like-green;
     }
   }
 
-  &.completed {
-    &::after {
-      background-image: url('~/assets/mission/misc/completed-small.svg');
-    }
-  }
-
+  &.completed,
   &.claimed {
     &::after {
-     background-image: url('~/assets/mission/misc/claimed-small.svg');
+      mask: url('~/assets/mission/misc/completed-small.svg');
     }
+  }
+
+  &.completed::after {
+    background-color: $like-white;
+  }
+  &.claimed::after {
+    background-color: #9b9b9b;
   }
 }
 
@@ -174,6 +186,13 @@ export default {
 
     @media (max-width: 600px) {
       @include small-mission-state-icon();
+    }
+  }
+
+  &.upcoming {
+    &::after {
+      mask: url('~/assets/mission/misc/upcoming.svg');
+      background-color: #9b9b9b;
     }
   }
 }

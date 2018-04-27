@@ -1,5 +1,9 @@
 <template>
-  <img class="mission-icon" :src="src" />
+  <simple-svg
+    class="mission-icon"
+    :filepath="src"
+    fill="currentColor"
+  />
 </template>
 
 

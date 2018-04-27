@@ -14,7 +14,8 @@
         </div>
       </div>
 
-      <span v-if="isNew" class="new-label" />
+      <span v-if="isNew" class="item-label new" />
+      <span v-if="isUpcoming" class="item-label upcoming" />
 
     </div>
   </div>
@@ -73,6 +74,9 @@ export default {
         return !this.mission.seen || !!this.getProxyMissionReward(this.mission.id);
       }
       return !this.mission.seen && !this.mission.done;
+    },
+    isUpcoming() {
+      return this.mission.upcoming;
     },
     reward() {
       if (this.isHistory && this.getMissionHistoryReward(this.mission.id)) {
@@ -133,8 +137,6 @@ export default {
   .title-label {
     height: 52px;
 
-    color: $like-dark-brown-2;
-
     font-size: 20px;
     line-height: 54px;
 
@@ -175,19 +177,32 @@ export default {
     transform: translateX(-50%);
   }
 
-  .new-label {
+  .item-label {
     right: 0;
     bottom: 0;
 
-    margin-right: 8px;
     margin-bottom: 4px;
 
     &::after {
-      content: "NEW";
-
       font-size: 12px;
       font-weight: 600;
       line-height: 1;
+    }
+
+    &.new {
+      margin-right: 8px;
+
+      &::after {
+        content: "NEW";
+      }
+    }
+
+    &.upcoming {
+      margin-right: 16px;
+
+      &::after {
+        content: "SOON";
+      }
     }
   }
 }
@@ -203,11 +218,7 @@ export default {
     border-radius: 4px;
   }
 
-  .reward-label {
-    color: currentColor;
-  }
-
-  .new-label {
+  .item-label.new {
     top: 50%;
     left: -20px;
 
@@ -327,6 +338,13 @@ export default {
   font-weight: 600;
 }
 
+.title-label,
+.reward-label {
+  .upcoming & {
+    color: $like-gray-4;
+  }
+}
+
 .mission-icon {
   display: none;
 
@@ -334,6 +352,12 @@ export default {
   height: 96px;
   margin-top: 16px;
   margin-bottom: 8px;
+
+  color: $like-green;
+
+  .upcoming & {
+    color: #9b9b9b;
+  }
 }
 
 .mission-action-button {
@@ -344,7 +368,7 @@ export default {
   transform: translateY(50%);
 }
 
-.new-label {
+.item-label {
   position: absolute;
 
   display: flex;
@@ -352,7 +376,7 @@ export default {
 
   color: #ff5151;
 
-  &:before {
+  &.new:before {
     width: 6px;
     height: 6px;
     margin: 3px 6px;
@@ -362,6 +386,10 @@ export default {
     border-radius: 50%;
     background-color: currentColor;
     box-shadow: 0 0 6px 0 #FF4949;
+  }
+
+  &.upcoming {
+    color: #9b9b9b;
   }
 }
 </style>

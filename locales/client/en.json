@@ -269,6 +269,7 @@
         "imInterested": "I'm interested",
         "joinTokenSale": "Join Token Sale",
         "joinNow": "Join Now",
+        "prepareToJoin": "Prepare to Join",
         "supportLikeCoin": "Support the Movement"
       }
     },
@@ -946,6 +947,11 @@
       "label": {
         "completed": "Completed!",
         "bonusTransferShortly": "The bonus LikeCoin will be transferred to you shortly."
+      }
+    },
+    "common": {
+      "label": {
+        "upcomingDate": "<span class=\"bold\">LikeCoin public sale will start on 7th May.</span>"
       }
     }
   }
