@@ -63,8 +63,10 @@ const mutations = {
       const referee = state.referrals.find(r => r.id === t.referee);
       if (referee) {
         const mission = referee.missions.find(m => m.referralPayoutType === t.type);
-        if (!mission.pendingReferralBonus) mission.pendingReferralBonus = new BigNumber(0);
-        Vue.set(mission, 'pendingReferralBonus', mission.pendingReferralBonus.plus(new BigNumber(t.value)));
+        if (mission) {
+          if (!mission.pendingReferralBonus) mission.pendingReferralBonus = new BigNumber(0);
+          Vue.set(mission, 'pendingReferralBonus', mission.pendingReferralBonus.plus(new BigNumber(t.value)));
+        }
       }
       const mission = state.missions.find(m => m.targetPayoutType === t.type);
       if (!mission) return; // error case

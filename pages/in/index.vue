@@ -201,7 +201,7 @@ export default {
       const user = this.getUserInfo;
       this.wallet = user.wallet;
       this.$refs.txHistory.updateTokenSaleHistory();
-      if (!this.getShortMissionList.length) this.refreshMissionList(this.getUserInfo.user);
+      this.refreshMissionList(this.getUserInfo.user);
     },
     async onSubmitCoupon() {
       try {
