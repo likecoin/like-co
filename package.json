@@ -19,7 +19,10 @@
     "test:api:user": "ava -v test/api/user.test.js",
     "test:api:payment": "ava -v test/api/payment.test.js",
     "test:nuxt": "ava -v test/nuxt/nuxt.test.js",
-    "test:e2e": "./node_modules/.bin/nightwatch --config test/e2e/nightwatch.conf.js"
+    "test:e2e": "./node_modules/.bin/nightwatch --config test/e2e/nightwatch.conf.js",
+    "test:e2e:home": "./node_modules/.bin/nightwatch -c test/e2e/nightwatch.conf.js -g home.js",
+    "test:e2e:tx": "./node_modules/.bin/nightwatch -c test/e2e/nightwatch.conf.js -g tx.js",
+    "test:e2e:user": "./node_modules/.bin/nightwatch -c test/e2e/nightwatch.conf.js -g user.js"
   },
   "ava": {
     "require": [
