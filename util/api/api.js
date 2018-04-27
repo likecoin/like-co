@@ -7,6 +7,8 @@ export const apiCheckIsUser = addr => axios.get(`/api/users/addr/${addr}`);
 
 export const apiGetUserById = id => axios.get(`/api/users/id/${id}`);
 
+export const apiGetUserMinById = id => axios.get(`/api/users/id/${id}/min`);
+
 export const apiGetTxById = id => axios.get(`/api/tx/id/${id}`);
 
 export const apiGetTxToByAddr = addr => axios.get(`/api/tx/addr/to/${addr}`);
@@ -14,6 +16,8 @@ export const apiGetTxToByAddr = addr => axios.get(`/api/tx/addr/to/${addr}`);
 export const apiGetTxFromByAddr = addr => axios.get(`/api/tx/addr/from/${addr}`);
 
 export const apiGetReferralById = id => axios.get(`/api/users/referral/${id}`);
+
+export const apiGetTotalBonusById = id => axios.get(`/api/users/bonus/${id}`);
 
 export const apiCheckCoupon = code => axios.get(`/api/coupon/coupon/${code}`);
 
@@ -41,6 +45,30 @@ export const apiPostNewUser = (form) => {
   });
   return axios.put('/api/users/new', params);
 };
+
+export const apiFetchMissionList = id => axios.get(`/api/mission/list/${id}`);
+
+export const apiFetchMissionHistoryList = id => axios.get(`/api/mission/list/history/${id}`);
+
+export const apiFetchMissionHistoryBonus = id => axios.get(`/api/mission/list/history/${id}/bonus`);
+
+export const apiPostSeenMission = (id, payload) => axios.post(`/api/mission/seen/${id}`, payload);
+
+export const apiPostStepMission = (id, payload) => axios.post(`/api/mission/step/${id}`, payload);
+
+export const apiClaimMission = (user, missionId) => axios.post(
+  `${LIKECOIN_API_BASE}/mission/claim`,
+  { user, missionId },
+);
+
+export const apiClaimReferralBonus = (user, type) => axios.post(
+  `${LIKECOIN_API_BASE}/referral/claim`,
+  { user, type },
+);
+
+export const apiFetchReferralMissionList = id => axios.get(`/api/referral/list/${id}`);
+
+export const apiFetchReferralBonusList = id => axios.get(`/api/referral/list/bonus/${id}`);
 
 export const apiPostKYC = payload => axios.post('/api/kyc', payload);
 

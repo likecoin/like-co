@@ -38,7 +38,10 @@
                     {{ getButtonText }}
                   </menu-item>
                 </li>
-                <li v-for="i in m.items" :key="i.key">
+                <li
+                  v-for="i in m.items"
+                  v-if="getUserIsRegistered || !i.isRegistered"
+                  :key="i.key">
                   <menu-item
                     :to="i.to"
                     :isHighlighted="i.isHighlighted"
@@ -70,6 +73,15 @@ const MENU_ITEMS = [
   {
     section: 'primary',
     items: [
+      {
+        key: 'aboutLikeCoin',
+        to: { name: 'index' },
+      },
+      {
+        key: 'bonus',
+        to: { name: 'in-bonus' },
+        isRegistered: true,
+      },
       {
         key: 'joinTokenSale',
         to: { name: 'in-tokensale' },
@@ -137,7 +149,7 @@ export default {
     shouldHideRegister() {
       return (
         (!this.getUserIsRegistered && ['in-register', 'in-redeem'].includes(this.$route.name))
-        || this.$route.name === 'in-edit'
+        || this.$route.name === 'in'
       );
     },
     ...mapGetters([

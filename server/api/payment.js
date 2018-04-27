@@ -222,6 +222,13 @@ router.post('/payment/eth', async (req, res) => {
       }
       const promises = [
         fromUserRef.collection(isPreSale ? 'PreSale' : 'ICO').doc(txHash).create(updateObj),
+        fromUserRef.collection('mission').doc('joinTokenSale').get()
+          .then((doc) => {
+            if (!doc.exists || !doc.data().done) {
+              return doc.ref.set({ status: 'pending' }, { merge: true });
+            }
+            return true;
+          }),
       ];
       if (isPreSale) {
         promises.push(fromUserRef.update({ isPreSale }));

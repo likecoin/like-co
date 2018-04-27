@@ -8,6 +8,8 @@ export const getPopupError = state => state.popupError;
 
 export const getPopupInfo = state => state.popupInfo;
 
+export const getPopupMission = state => state.popupMission;
+
 export const getIsInTransaction = state => state.isInTransaction;
 
 export const getIsLoading = state => state.isLoading;

@@ -646,7 +646,7 @@
     },
     "referral": {
       "title": "推薦計劃",
-      "description": "廣邀好友加入 like.co，獲得免費 LikeCoin！你的朋友使用你的邀請連結註冊 LikeCoin 帳號，並驗證郵件箱地址後，雙方都會獲得收到額外的 LikeCoin 兌換碼",
+      "description": "廣邀好友加入 like.co，獲得免費 LikeCoin！你的朋友使用你的邀請連結註冊 LikeCoin 帳號，並驗證郵件箱地址後，雙方都會獲得收到額外的 LikeCoin",
       "pending": "未認證郵箱",
       "verified": "已確認",
       "emailInvite": "發電郵邀請",
@@ -859,6 +859,59 @@
   "Error": {
     "button": {
       "toIndex": "返回主頁"
+    }
+  },
+  "Mission": {
+    "gettingStart": {
+      "title": "一切從這裡開始",
+      "description": "歡迎參與這場回饋創作運動。LikeCoin 要推動的是一場重新分配內容創作利益的運動。在<a href=\"https://like.co\">like.co</a>，你除了可買賣和輸送 LikeCoin 外，還可以透過 Like 生態圈賺取 LikeCoin。<span class=\"bold\">檢視你的轉帳頁面，觀看介紹影片，以及讚好 LikeCoin 的 FB 專頁，藉此獲得 3 枚 LikeCoin 獎賞！</span>",
+      "taskSocial": "讚好 FB 專頁",
+      "taskOnepager": "閱讀 LikeCoin 的計畫介紹",
+      "taskVideo": "觀看介紹影片",
+      "taskPaymentPage": "檢視你的轉帳頁面"
+    },
+    "inviteFriend": {
+      "title": "邀請你的朋友加入 LikeCoin",
+      "description": "邀請朋友加入我們，你跟你的朋友皆可獲取 8 枚 LikeCoin 獎賞。"
+    },
+    "joinTokenSale": {
+      "title": "參與代幣發售",
+      "description": "立即參與代幣發售，你可獲得額外 100 枚 LikeCoin。",
+      "subDescription": "不要忘記推薦獎金哦～每次你參與代幣發售，你跟你的邀請人皆可獲得額外 2.5% LIKE 獎賞！"
+    },
+    "refereeTokenSale": {
+      "title": "@:Mission.joinTokenSale.title",
+      "description": "請即參與代幣發售，每次你參與代幣發售，你跟你的邀請人皆可獲得額外 2.5% LIKE 獎賞！"
+    },
+    "inviteTokenSale": {
+      "title": "邀請你的朋友參與代幣發售",
+      "description": "你的受邀者每次參與代幣發售，你都可獲得額外 2.5% LIKE！"
+    },
+    "verifyEmail": {
+      "title": "驗證電郵地址",
+      "description": "驗證電郵以獲取免費的 LikeCoin 獎賞。",
+      "label": {
+        "yourEmailAddress": "你的電郵地址"
+      }
+    },
+    "verifyEmailReferral": {
+      "title": "@:Mission.verifyEmail.title",
+      "description": "需要 <span class=\"bold\">{invitee}</span> 驗證其電郵地址。<br><br>一經驗證，你跟<span class=\"bold\">{invitee}</span>將獲取 8 枚 LikeCoin 獎賞！"
+    },
+    "joinTokenSaleReferral": {
+      "title": "@:Mission.joinTokenSale.title",
+      "description": "每次 <span class=\"bold\">{invitee}</span> 參與代幣發售，你跟你的邀請人皆可獲得額外 2.5% LIKE 獎賞！"
+    },
+    "completedBanner": {
+      "label": {
+        "completed": "完成！",
+        "bonusTransferShortly": "LikeCoin 獎賞正在轉帳給你，快到了。"
+      }
+    },
+    "common": {
+      "label": {
+        "upcomingDate": "<span class=\"bold\">LikeCoin 公開代幣發售將於 {upcoming} 開始.</span>"
+      }
     }
   }
 }
