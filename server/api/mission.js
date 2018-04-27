@@ -76,7 +76,7 @@ router.get('/mission/list/:id', async (req, res) => {
       const missionData = m.data();
 
       if (missionData.startTs && Date.now() < missionData.startTs) {
-        missionData.upcoming = true;
+        missionData.upcoming = missionData.startTs;
       }
 
       if (!userMisionList.includes(m.id)) {
