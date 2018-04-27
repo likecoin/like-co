@@ -49,7 +49,7 @@
     "@likecoin/abi-decoder": "^2.0.0",
     "@likecoin/ethereum-blockies": "^0.1.2",
     "@likecoin/likecoin-email-templates": "^1.0.2",
-    "@likecoin/vue-image-lightbox": "^5.5.3",
+    "@likecoin/vue-image-lightbox": "^5.5.4",
     "@nuxtjs/google-analytics": "^2.0.2",
     "@nuxtjs/google-tag-manager": "^1.1.0",
     "aws-sdk": "^2.224.1",
