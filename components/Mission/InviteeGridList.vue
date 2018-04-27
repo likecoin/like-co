@@ -41,7 +41,7 @@ export default {
       default: () => [],
     },
     swiperId: {
-
+      type: String,
     },
   },
   components: {

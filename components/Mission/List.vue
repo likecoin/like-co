@@ -179,7 +179,7 @@ export default {
       }
     },
     onClickSlide(i) {
-      if (this.missions.length > 0) {
+      if (this.missions.length > 0 && i < this.missions.length) {
         this.onClick(this.missions[i]);
       }
     },
