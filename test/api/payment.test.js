@@ -8,7 +8,6 @@ import {
   txValue,
 } from './data';
 
-const sigUtil = require('eth-sig-util');
 const axios = require('axios');
 
 test('PAYMENT: Payment. Case: Invalid address.', async (t) => {
