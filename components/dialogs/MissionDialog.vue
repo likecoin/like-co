@@ -268,6 +268,11 @@ export default {
           window.open(`/${this.getUserInfo.displayName}`, 'payment-page');
           break;
 
+        case 'taskOnepager': {
+          window.open('/in/whitepaper', 'onpager-page');
+          break;
+        }
+
         case 'taskVideo': {
           let link = 'https://youtu.be/';
           switch (this.$i18n.locale) {
@@ -294,24 +299,15 @@ export default {
           break;
         }
 
-        case 'taskTelegram': {
-          let link = 'https://t.me/likecoin';
+        case 'taskSocial': {
+          let link = 'https://twitter.com/likecoin_fdn';
           switch (this.$i18n.locale) {
             case 'zh':
               link = 'https://www.facebook.com/LikeCoin.Foundation';
               break;
-            case 'ja':
-              link += '_jp';
-              break;
-            case 'ru':
-              link += '_ru';
-              break;
-            case 'ko':
-              link += '_kr';
-              break;
             default:
           }
-          window.open(link, 'telegram-group');
+          window.open(link, 'social-group');
           break;
         }
         default:

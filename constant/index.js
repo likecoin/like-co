@@ -58,7 +58,7 @@ const toolbarsDisableError = {
 };
 export const getToolbarsDisableError = route => (toolbarsDisableError[route] || false);
 
-export const GETTING_STARTED_TASKS = ['taskTelegram', 'taskVideo', 'taskPaymentPage'];
+export const GETTING_STARTED_TASKS = ['taskSocial', 'taskOnepager', 'taskVideo', 'taskPaymentPage'];
 
 /* Dont show key if value exist
 e.g. joinTokenSale also claims refereeTokenSale, so hideh refereeTokenSale */
