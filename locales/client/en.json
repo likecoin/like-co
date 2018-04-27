@@ -663,7 +663,7 @@
     },
     "referral": {
       "title": "Affiliate Program",
-      "description": "You and your friend can both earn a LikeCoin coupon when you successfully invite a friend to sign up using your affiliate link. Please note that your friend's account email needs to be verified for you and your friend to earn the coupons.",
+      "description": "You and your friend can both earn a LikeCoin bonus if your friend has signed up successfully by your affiliate link.  Please note that the email address has to be verified for you and your friend to be entitled to the bonus.",
       "pending": "Waiting for email verification",
       "verified": "Confirmed",
       "emailInvite": "Invite your friend by email",
@@ -793,8 +793,8 @@
       "inviteeMission": "Invitee Mission"
     },
     "label": {
-      "description": "You and your friend can both earn a LikeCoin coupon when you successfully invite a friend to sign up using your affiliate link. Please note that your friend's account email needs to be verified for you and your friend to earn the coupons.",
-      "inviteeMissionDescription": "You and your invitees can both recive LikeCoin when they complete a mission",
+      "description": "You and your friend can both earn a LikeCoin bonus if your friend has signed up successfully by your affiliate link.  Please note that the email address has to be verified for you and your friend to be entitled to the bonus.",
+      "inviteeMissionDescription": "You and your invitees can both receive LikeCoin for each completed mission",
       "earned": "You have earned",
       "likeBonus": "LIKE Bonus"
     },
@@ -902,9 +902,9 @@
     "button": {
       "toIndex": "Return to Index"
     },
-    "EMAIL_ALREADY_USED": "Email already used",
-    "REFERRER_NOT_EXIST": "Referrer not exist",
-    "USER_ALREADY_EXIST": "User already exist"
+    "EMAIL_ALREADY_USED": "Email is already used",
+    "REFERRER_NOT_EXIST": "Referrer does not exist",
+    "USER_ALREADY_EXIST": "User already exists"
   },
   "Mission": {
     "gettingStart": {
@@ -921,16 +921,16 @@
     },
     "joinTokenSale": {
       "title": "Join Token Sale",
-      "description": "Join toke sale now, 100 LIKE bonus will be given to you.",
-      "subDescription": "And don't forget the referral bonus. Every time you participate in token sale, you and your referrer will also get 2.5% LIKE bonus too no matter how much and how frequently."
+      "description": "Join token sale now and get 100 LIKE bonus",
+      "subDescription": "And don't forget the referral bonus, it can be huge!  Every time you participate in token sale, you and your referrer will both get 2.5% additional token bonus too, NO UPPER LIMIT!"
     },
     "refereeTokenSale": {
       "title": "@:Mission.joinTokenSale.title",
-      "description": "Join toke sale now. Every time you participate in token sale, you and your referrer will also get 2.5% LIKE bonus too no matter how much and how frequently."
+      "description": "And don't forget the referral bonus, it can be huge!  Every time you participate in token sale, you and your referrer will both get 2.5% additional token bonus too, NO UPPER LIMIT!"
     },
     "inviteTokenSale": {
       "title": "Invite a friend to join Token Sale",
-      "description": "Every time your invitees participate in token, you both will get 2.5% LIKE bonus. No matter how much and how frequently."
+      "description": "Every time your invitees participate in token sale, you both will get 2.5% LIKE bonus, NO UPPER LIMIT."
     },
     "verifyEmail": {
       "title": "Verify email address",
@@ -945,12 +945,12 @@
     },
     "joinTokenSaleReferral": {
       "title": "@:Mission.joinTokenSale.title",
-      "description": "Every time <span class=\"bold\">{invitee}</span> participate in token, you both will get 2.5% LIKE bonus. No matter how much and how frequently."
+      "description": "Every time <span class=\"bold\">{invitee}</span> participate in token sale, you both will get 2.5% LIKE bonus. No UPPER LIMIT."
     },
     "completedBanner": {
       "label": {
         "completed": "Completed!",
-        "bonusTransferShortly": "The bonus LikeCoin will be transferred to you shortly."
+        "bonusTransferShortly": "The LikeCoin bonus will be transferred to you shortly."
       }
     },
     "common": {
