@@ -73,6 +73,7 @@ export default {
     ...mapActions([
       'verifyEmailByUUID',
       'refreshUserInfo',
+      'showLoginWindow',
     ]),
     async verifyEmail() {
       this.isVerified = false;
@@ -91,10 +92,16 @@ export default {
             });
             logTrackerEvent(this, 'RegFlow', 'GetRedPocketSuccessful', 'redeem the red pocket', 1);
           } catch (err) {
-            this.redirectTimer = setTimeout(() => this.$router.push({ name: this.redirect ? this.redirect : 'in' }), 3000);
+            this.redirectTimer = setTimeout(() => {
+              this.showLoginWindow(); // force showing login window for redirect
+              this.$router.push({ name: this.redirect ? this.redirect : 'in' });
+            }, 3000);
           }
         } else if (!this.referrer) {
-          this.redirectTimer = setTimeout(() => this.$router.push({ name: this.redirect ? this.redirect : 'in' }), 3000);
+          this.redirectTimer = setTimeout(() => {
+            this.showLoginWindow(); // force showing login window for redirect
+            this.$router.push({ name: this.redirect ? this.redirect : 'in' });
+          }, 3000);
         }
       } catch (err) {
         this.errorMsg = err.message || err;
