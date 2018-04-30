@@ -6,7 +6,8 @@
         loading: isLoading,
       },
     ]"
-    v-swiper:swiper="swiperOptions">
+    v-swiper:swiper="swiperOptions"
+    @slideChange="onSlideChange">
 
     <div class="swiper-wrapper" @click="onClick">
       <slot />
@@ -86,6 +87,11 @@ export default {
       } else {
         this.swiper.slideTo(clickedIndex);
       }
+    },
+    onSlideChange() {
+      const { activeIndex } = this.swiper;
+
+      this.$emit('slideChange', { activeIndex });
     },
   },
 };
