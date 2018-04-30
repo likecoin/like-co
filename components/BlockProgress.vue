@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="!isHidden"
     :class="['lc-block-progress', { loading: isLoading }]"
     :style="style.root">
     <div :style="style.innerDiv">
@@ -19,6 +20,7 @@ export default {
     return {
       LikeCoinSpin,
       isLoading: true,
+      isHidden: false,
       style: {
         root: {
           position: 'fixed',
@@ -45,11 +47,13 @@ export default {
   methods: {
     start() {
       this.isLoading = true;
+      this.isHidden = false;
     },
     finish() {
+      this.isLoading = false;
       setTimeout(() => {
-        this.isLoading = false;
-      }, 300);
+        this.isHidden = true;
+      }, 150);
     },
   },
   mounted() {
@@ -65,7 +69,6 @@ export default {
 
   &:not(.loading) {
     opacity: 0;
-    pointer-events: none;
   }
 }
 </style>
