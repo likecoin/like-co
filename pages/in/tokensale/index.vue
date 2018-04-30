@@ -27,13 +27,10 @@
                 <h2 v-if="isPreSale" class="lc-margin-top-12 lc-font-size-38 lc-font-weight-300">
                   {{ $t('TokenSale.label.bonusAndLimitedOffer') }}
                 </h2>
-                <!-- <h3 v-if="isPreSale || !isICOStarted" class="lc-margin-top-12 lc-font-size-14 lc-font-weight-400">
+                <h3 v-if="isPreSale || !isICOStarted" class="lc-margin-top-12 lc-font-size-14 lc-font-weight-400">
                   {{ isPreSale ? $t('TokenSale.label.limitedOfferCondition') : $t('TokenSale.label.publicSaleStartIn') }}
                 </h3>
-                <countdown-timer v-if="!isPreSale && !isICOStarted" :date="SALE_DATE" /> -->
-                <h3 class="lc-margin-top-12 lc-font-size-14 lc-font-weight-400">
-                  {{ $t('Home.Sale.title.comingSoon') }}
-                </h3>
+                <countdown-timer v-if="!isPreSale && !isICOStarted" :date="SALE_DATE" />
               </section>
 
             </div>
