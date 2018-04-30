@@ -85,7 +85,8 @@
                 <invitee-mission-grid-list
                   swiper-id="invitee-mission"
                   :invitees="getReferralMissionList"
-                  @click="onReferralMissionClick" />
+                  @click="onReferralMissionClick"
+                  @slideChange="onReferralSeen" />
               </div>
             </div>
 
@@ -202,6 +203,7 @@ export default {
       'fetchUserTotalBonus',
       'onMissionClick',
       'onReferralMissionClick',
+      'onReferralSeen',
     ]),
     async updateInfo() {
       const user = this.getUserInfo;

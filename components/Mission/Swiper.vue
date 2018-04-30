@@ -71,6 +71,11 @@ export default {
           el: this.getSelector('.swiper-pagination'),
           clickable: true,
         },
+        on: {
+          slideChange: () => {
+            this.onSlideChange();
+          },
+        },
       };
     },
   },
@@ -86,6 +91,11 @@ export default {
       } else {
         this.swiper.slideTo(clickedIndex);
       }
+    },
+    onSlideChange() {
+      const { activeIndex } = this.swiper;
+
+      this.$emit('slideChange', { activeIndex });
     },
   },
 };
