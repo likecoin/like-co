@@ -9,9 +9,9 @@
         <mission-icon :mission-id="missionId" />
       </div>
 
-      <div class="lc-dialog-container-1">
-        <div class="mission-dialog-content">
+      <div class="mission-dialog-content">
 
+        <div class="lc-dialog-container-1">
           <div class="reward-label">
             {{ mission.isReferral ? mission.referralReward : mission.reward }}
           </div>
@@ -20,7 +20,13 @@
 
           <div class="description" v-html="description" />
           <div class="description" v-if="subDescription" v-html="subDescription" />
+        </div>
 
+        <mission-completed-banner
+          v-if="isCompleted"
+          class="lc-margin-top-32"
+          @click="onDismiss" />
+        <div v-else class="lc-dialog-container-1">
           <!-- BEGIN - Getting Start Section -->
           <div
             v-if="mission.id === 'gettingStart'"
@@ -134,6 +140,7 @@
           </div>
           <!-- END - Invite Token Sale Section -->
         </div>
+
       </div>
 
     </base-dialog>
@@ -176,6 +183,7 @@ export default {
       LinkIcon,
       TwitterIcon,
       isReferral: false,
+      isCompleted: false,
       invitee: '',
     };
   },
@@ -325,9 +333,10 @@ export default {
   watch: {
     getPopupMission(m) {
       if (m) {
-        const { invitee, isReferral } = m;
+        const { invitee, isReferral, isCompleted } = m;
         this.invitee = invitee;
         this.isReferral = isReferral;
+        this.isCompleted = !!isCompleted;
         this.show();
       }
     },
