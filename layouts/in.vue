@@ -30,7 +30,9 @@
         <md-tabs class="lc-tabs lc-container-2 lc-width-2-3 md-transparent" md-sync-route>
 
           <template slot="md-tab"  slot-scope="{ tab }">
-            <span class="lc-tab-item-label">{{ tab.label }}</span>
+            <span :class="['lc-tab-item-label', { new: tab.data.isNew }]">
+              {{ tab.label }}
+            </span>
           </template>
 
           <md-tab
@@ -40,6 +42,7 @@
           <md-tab
             id="bonus-tab"
             :md-label="$t('In.tab.bonus')"
+            :md-template-data="{ isNew: hasNewInvitee }"
             to="/in/bonus" />
           <md-tab
             id="history-tab"
@@ -90,9 +93,13 @@ export default {
     getIfDisableError() {
       return getToolbarsDisableError(this.$route.name);
     },
+    hasNewInvitee() {
+      return this.getReferralMissionList.some(referral => !referral.seen);
+    },
     ...mapGetters([
       'getCurrentLocale',
       'getCurrentLocaleISO',
+      'getReferralMissionList',
     ]),
   },
   head() {
@@ -145,11 +152,31 @@ export default {
 }
 
 .lc-tab-item-label {
+  position: relative;
+
   font-size: 14px;
   font-weight: 600;
 
   a:not(.md-active) & {
     color: $like-gray-4;
+  }
+
+  &.new:before {
+    position: absolute;
+    top: 50%;
+    bottom: 0;
+    left: -16px;
+
+    width: 6px;
+    height: 6px;
+    margin-top: 1px;
+
+    content: " ";
+    transform: translateY(-50%);
+
+    border-radius: 50%;
+    background-color: #ff5151;
+    box-shadow: 0 0 6px 0 #FF4949;
   }
 }
 
