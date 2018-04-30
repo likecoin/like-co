@@ -78,7 +78,9 @@ export async function onMissionClick({ commit, state, rootState }, m) {
       const promises = [claimMission({ commit }, { missionId: m.id, user })];
       /* short cut hacks for different missions */
       if (m.id === 'joinTokenSale') promises.push(claimReferralBonus({ commit }, { type: 'ico-referee', user }));
-      return Promise.all(promises);
+      return Promise.all(promises).then(() => {
+        commit(types.UI_SET_MISSION_DIALOG, { ...m, isCompleted: true });
+      });
     }
   }
 
