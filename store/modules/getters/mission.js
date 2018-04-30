@@ -22,6 +22,9 @@ export const getMissionList = (state) => {
     missions.push(m);
   });
   return missions.sort((a, b) => {
+    if (a.upcoming !== b.upcoming) {
+      return a.upcoming ? 1 : -1;
+    }
     if (canClaim(state, a) !== canClaim(state, b)) {
       return canClaim(state, a) ? -1 : 1;
     }
