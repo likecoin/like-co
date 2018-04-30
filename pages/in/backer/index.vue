@@ -83,7 +83,12 @@
       <!-- END - Purchase LikeCoin Section -->
 
     </div>
-    <email-dialog ref="emailDialog" :emailRef="'in-backer'" />
+
+    <verify-email-dialog
+      ref="emailDialog"
+      :email="this.getUserInfo.email || ''"
+      :email-ref="'in-backer'" />
+
   </div>
 </template>
 
@@ -92,16 +97,16 @@
 import { mapGetters } from 'vuex';
 
 import CheckoutForm from '~/components/checkoutForm';
-import EmailDialog from '~/components/dialogs/EmailDialog';
 import NarrowPageHeader from '~/components/header/NarrowPageHeader';
+import VerifyEmailDialog from '~/components/dialogs/VerifyEmailDialog';
 
 export default {
   name: 'backer-page',
   layout: 'narrowWithHeader',
   components: {
     CheckoutForm,
-    EmailDialog,
     NarrowPageHeader,
+    VerifyEmailDialog,
   },
   computed: {
     KYCStatus() {
@@ -114,7 +119,7 @@ export default {
   },
   methods: {
     onNeedEmailVerify() {
-      if (this.getUserIsRegistered) this.$refs.emailDialog.show(this.getUserInfo.email || '');
+      if (this.getUserIsRegistered) this.$refs.emailDialog.show();
     },
   },
   head() {

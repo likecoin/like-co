@@ -1,0 +1,401 @@
+<template>
+  <div class="bonus-tab">
+
+    <!-- BEGIN - LikeCoin Bonus Amount Section -->
+    <div class="lc-container-0">
+      <div class="lc-container-1">
+        <div class="lc-container-2">
+          <div class="lc-container-3">
+            <div class="lc-container-4">
+              <div class="lc-width-2-3 lc-margin-top-32 lc-padding-vertical-8 lc-font-size-18 lc-color-like-gray-4 lc-mobile">
+                {{ $t('BonusPage.label.description') }}
+              </div>
+              <h2 class="lc-margin-vertical-16 lc-font-size-14 lc-font-weight-400 lc-text-align-center-mobile">
+                {{ $t('BonusPage.label.earned') }}
+              </h2>
+            </div>
+          </div>
+          <div class="earned-bonus-amount-section lc-container-3">
+            <div class="lc-container-4">
+              <span class="like-bonus-amount">{{ likeBonusAmountStr }}</span>
+              <span class="like-bonus-label">{{ $t('BonusPage.label.likeBonus') }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END - LikeCoin Bonus Amount Section -->
+
+    <!-- BEGIN - Mission Section -->
+    <section class="likecoin-bonus-section lc-margin-top-48 lc-mobile">
+      <div class="lc-container-0">
+        <div class="lc-container-1">
+
+          <div class="lc-container-header">
+            <div class="lc-container-2 lc-container-header-overlay">
+              <div class="lc-container-3 lc-bg-gray-1" />
+            </div>
+            <div class="lc-container-2">
+              <div class="lc-container-3">
+                <div class="lc-container-4">
+                  <div class="lc-container-header-title">
+                    <h1 class="lc-font-size-32 lc-mobile">
+                      {{ $t('BonusPage.header.likeCoinBonus') }}
+                    </h1>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="my-missions" class="lc-container-2">
+            <div class="lc-container-3 lc-container-no-padding-mobile lc-bg-gray-1 lc-padding-vertical-32 section-content">
+              <div class="lc-container-4 lc-container-no-padding-mobile">
+                <mission-list
+                  swipper-id="my-missions"
+                  :missions="getMissionList"
+                  @click="onMissionClick" />
+              </div>
+            </div>
+          </div>
+
+          <!-- BEGIN - Invitee missions -->
+          <div
+            v-if="getMissionList.length > 0"
+            id="invitee-mission"
+            class="lc-container-2 lc-margin-top-4">
+
+            <div class="lc-container-3 lc-padding-top-32 lc-bg-gray-1">
+              <div class="lc-container-4">
+                <header>
+                  <div>
+                    <h2 class="lc-font-size-14 lc-color-like-gray-4 lc-margin-bottom-4">
+                      {{ $t('BonusPage.header.inviteeMission') }}
+                    </h2>
+                    <p class="lc-font-size-14 lc-bg-gray-9b">
+                      {{ $t('BonusPage.label.inviteeMissionDescription') }}
+                    </p>
+                  </div>
+                </header>
+              </div>
+            </div>
+
+            <div class="lc-container-3 lc-container-no-padding-mobile lc-bg-gray-1 lc-padding-bottom-32 section-content">
+              <div class="lc-container-4 lc-container-no-padding-mobile">
+                <invitee-mission-grid-list
+                  swiper-id="invitee-mission"
+                  :invitees="getReferralMissionList"
+                  @click="onReferralMissionClick" />
+              </div>
+            </div>
+
+          </div>
+          <!-- END - Invitee missions -->
+
+        </div>
+      </div>
+    </section>
+    <!-- END - Mission Section -->
+
+    <!-- BEGIN - Referral Section -->
+    <section class="referral-form-section lc-margin-top-48 lc-mobile" id="referral">
+      <div class="lc-container-0">
+        <div class="lc-container-1">
+
+          <div class="lc-container-header">
+            <div class="lc-container-2 lc-container-header-overlay">
+              <div class="lc-container-3 lc-bg-gray-1" />
+            </div>
+            <div class="lc-container-2">
+              <div class="lc-container-3">
+                <div class="lc-container-4">
+                  <div class="lc-container-header-title">
+                    <h1 class="lc-font-size-32 lc-mobile">
+                      {{ $t('Edit.referral.title') }}
+                    </h1>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lc-container-2">
+            <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-32 section-content">
+              <div class="lc-container-4">
+
+                <div
+                  v-if="!getUserInfo.isEmailVerified"
+                  class="lc-font-size-20 lc-color-like-gray-4 lc-mobile">
+                  {{ $t('Edit.referral.verifyEmailFirst') }}
+                </div>
+
+                <div v-else>
+                  <div class="md-layout referral-action">
+                    <div class="md-layout-item md-medium-size-50 md-small-size-100 lc-margin-bottom-16 lc-font-size-20 lc-color-like-gray-4 lc-mobile">
+                      {{ $t('Edit.referral.description') }}
+                    </div>
+
+                    <div class="md-layout-item md-medium-size-50 md-small-size-100 lc-margin-bottom-16-mobile">
+                      <referral-stats
+                        :pending="referralPending"
+                        :verified="referralVerified"
+                      />
+                    </div>
+                  </div>
+
+                  <invite-friend-form
+                    :is-full-width="true"
+                    @invite="onInvite" />
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    <!-- END - Referral Section -->
+
+  </div>
+</template>
+
+
+<script>
+import { mapActions, mapGetters } from 'vuex';
+
+import InviteFriendForm from '~/components/forms/InviteFriendForm';
+import InviteeMissionGridList from '@/components/Mission/InviteeGridList';
+import MissionList from '@/components/Mission/List';
+import ReferralStats from '@/components/ReferralStats';
+
+import { logTrackerEvent } from '@/util/EventLogger';
+
+export default {
+  name: 'bonus-index',
+  data() {
+    return {
+      likeBonusAmountStr: '',
+      referralPending: 0,
+      referralVerified: 0,
+      user: '',
+    };
+  },
+  components: {
+    InviteFriendForm,
+    InviteeMissionGridList,
+    MissionList,
+    ReferralStats,
+  },
+  computed: {
+    ...mapGetters([
+      'getUserInfo',
+      'getUserIsFetching',
+      'getUserIsRegistered',
+      'getMissionList',
+      'getReferralMissionList',
+    ]),
+  },
+  methods: {
+    ...mapActions([
+      'fetchUserReferralStats',
+      'fetchUserTotalBonus',
+      'onMissionClick',
+      'onReferralMissionClick',
+    ]),
+    async updateInfo() {
+      const user = this.getUserInfo;
+      this.user = user.user;
+      this.updateReferralStat();
+      this.updateLikeBonus();
+    },
+    async updateLikeBonus() {
+      try {
+        this.likeBonusAmountStr = await this.fetchUserTotalBonus(this.getUserInfo.user);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async updateReferralStat() {
+      try {
+        const { pending, verified } = await this.fetchUserReferralStats(this.user);
+        this.referralPending = pending;
+        this.referralVerified = verified;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    onInvite(type) {
+      switch (type) {
+        case 'email':
+          logTrackerEvent(this, 'Referral', 'ClickGetFreeLikeCoin', 'email invite', 1);
+          break;
+        case 'url':
+          logTrackerEvent(this, 'Referral', 'sendInvitation', 'copy invite link', 1);
+          break;
+        case 'facebook':
+          logTrackerEvent(this, 'Referral', 'sendInvitation', 'fb share invite', 1);
+          break;
+        case 'twitter':
+          logTrackerEvent(this, 'Referral', 'sendInvitation', 'twitter invite', 1);
+          break;
+        default:
+      }
+    },
+  },
+  watch: {
+    getUserIsFetching(f) {
+      if (!f) {
+        if (this.getUserIsRegistered) {
+          this.updateInfo();
+        }
+      }
+    },
+  },
+  mounted() {
+    if (!this.getUserIsFetching) {
+      if (this.getUserIsRegistered) {
+        this.updateInfo();
+      }
+    }
+  },
+};
+</script>
+
+
+<style lang="scss" scoped>
+@import "~assets/variables";
+
+#invitee-mission {
+  header {
+    @mixin invitee-mission-header($percent) {
+      &::after {
+        width: calc(#{100% - $percent} - 16px);
+      }
+
+      > div {
+        max-width: $percent;
+      }
+    }
+
+    position: relative;
+
+    &::after {
+      display: block;
+
+      height: 1px;
+
+      content: " ";
+
+      background-color: #E6E6E6;
+    }
+
+    > div {
+      width: 100%;
+    }
+
+    @media (min-width: 1366px + 1px) {
+      @include invitee-mission-header(25%);
+    }
+
+    @media (min-width: 960px + 1px) and (max-width: 1366px) {
+      @include invitee-mission-header(1 / 3 * 100%);
+    }
+
+    @media (min-width: 600px + 1px) {
+      &::after {
+        position: absolute;
+        top: 50%;
+        right: 0;
+
+        margin-right: 8px;
+        margin-left: 8px;
+      }
+
+      @media (max-width: 960px) {
+        @include invitee-mission-header(50%);
+      }
+    }
+
+    @media (max-width: 600px) {
+      &::after {
+        position: relative;
+
+        margin-top: 16px;
+      }
+    }
+  }
+}
+
+.earned-bonus-amount-section {
+  @media (max-width: 600px) {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  > div {
+    display: flex;
+    align-items: center;
+
+    font-weight: 300;
+
+    @media (max-width: 768px) {
+      align-items: stretch;
+      flex-direction: column;
+    }
+
+    @media (max-width: 600px) {
+      padding-right: 0;
+      padding-left: 0;
+    }
+  }
+
+  .like-bonus-amount {
+    min-height: 98px;
+    padding: 0 12px;
+
+    text-align: center;
+
+    color: $like-gray-5;
+    background-image: linear-gradient(240deg, #d2f0f0, #f0e6b4);
+
+    font-size: 56px;
+    line-height: 98px;
+
+    @media (max-width: 1024px - 1px) {
+      min-height: 72px;
+
+      font-size: 42px;
+      line-height: 72px;
+    }
+
+    @media (min-width: 768px + 1px) {
+      width: calc(100% * 2 / 3);
+    }
+
+    @media (min-width: 600px + 1px) {
+      border-radius: 8px;
+    }
+  }
+
+  .like-bonus-label {
+    font-size: 42px;
+    line-height: 1.1;
+
+    @media (max-width: 1024px - 1px) {
+      font-size: 32px;
+    }
+
+    @media (min-width: 768px + 1px) {
+      margin-left: 8px;
+      padding-left: 24px;
+    }
+
+    @media (max-width: 768px) {
+      margin: 8px 0;
+
+      text-align: center;
+    }
+  }
+}
+</style>

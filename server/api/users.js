@@ -1,9 +1,11 @@
 import { Router } from 'express';
 import { toDataUrl } from '@likecoin/ethereum-blockies';
+import BigNumber from 'bignumber.js';
 import { sendVerificationEmail, sendVerificationWithCouponEmail } from '../util/ses';
 import {
   IS_TESTNET,
   PUBSUB_TOPIC_MISC,
+  ONE_LIKE,
 } from '../../constant';
 
 import Validate from '../../util/ValidationHelper';
@@ -224,6 +226,24 @@ router.get('/users/id/:id', async (req, res) => {
   }
 });
 
+router.get('/users/id/:id/min', async (req, res) => {
+  try {
+    const username = req.params.id;
+    const doc = await dbRef.doc(username).get();
+    if (doc.exists) {
+      const payload = doc.data();
+      if (!payload.avatar) payload.avatar = toDataUrl(payload.wallet);
+      res.json(Validate.filterUserDataMin(payload));
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (err) {
+    const msg = err.message || err;
+    console.error(msg);
+    res.status(400).send(msg);
+  }
+});
+
 router.get('/users/addr/:addr', async (req, res) => {
   try {
     const { addr } = req.params;
@@ -314,10 +334,17 @@ router.post('/email/verify/:uuid', async (req, res) => {
         verificationUUID: FieldValue.delete(),
         isEmailVerified: true,
       });
+
+      const promises = [];
+      const payload = { done: true };
       const { referrer } = user.data();
       if (referrer) {
-        await dbRef.doc(referrer).collection('referrals').doc(user.id).update({ isEmailVerified: true });
+        promises.push(dbRef.doc(referrer).collection('referrals').doc(user.id).update({ isEmailVerified: true }));
+      } else {
+        payload.bonusId = 'none';
       }
+      promises.push(dbRef.doc(user.id).collection('mission').doc('verifyEmail').set(payload, { merge: true }));
+      await Promise.all(promises);
       res.json({ referrer: !!user.data().referrer, wallet: user.data().wallet });
       const userObj = user.data();
       publisher.publish(PUBSUB_TOPIC_MISC, req, {
@@ -334,6 +361,21 @@ router.post('/email/verify/:uuid', async (req, res) => {
     } else {
       res.sendStatus(404);
     }
+  } catch (err) {
+    const msg = err.message || err;
+    console.error(msg);
+    res.status(400).send(msg);
+  }
+});
+
+router.get('/users/bonus/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const query = await dbRef.doc(id).collection('bonus').get();
+    const sum = query.docs
+      .filter(t => t.data().txHash && t.data().value)
+      .reduce((acc, t) => acc.plus(new BigNumber(t.data().value)), new BigNumber(0));
+    res.json({ bonus: sum.dividedBy(ONE_LIKE).toFixed(4) });
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);

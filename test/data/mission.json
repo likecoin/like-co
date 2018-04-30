@@ -1,0 +1,20 @@
+{
+    "missions": [
+        {
+            "id": "gettingStart",
+            "priority": 1,
+            "require": [
+                "verifyEmail"
+            ],
+            "reward": "8 LIKE"
+        },
+        {
+            "id": "verifyEmail",
+            "isReferral": true,
+            "priority": 0,
+            "referralPayoutType": "referral",
+            "referralReward": "8 LIKE",
+            "require": []
+        }
+    ]
+}

@@ -34,17 +34,24 @@ export async function refreshUser({ commit, state }) {
   }
 }
 
-export async function isUser({ commit }, addr) {
+export async function isUser({ commit, state }, addr) {
   try {
     commit(types.USER_SET_FETCHING, true);
     const { data: user } = await api.apiCheckIsUser(addr);
+    const oldUser = state.user.user;
+    const currentUser = (user || {}).user;
     if (user && user.user) {
       commit(types.USER_SET_USER_INFO, user);
     } else {
       commit(types.USER_SET_USER_INFO, {});
     }
+    if (currentUser !== oldUser) {
+      commit(types.UI_INFO_MSG, '');
+      commit(types.MISSION_CLEAR_ALL);
+    }
     commit(types.USER_SET_FETCHING, false);
   } catch (error) {
+    console.error(error);
     commit(types.USER_SET_USER_INFO, {});
     commit(types.USER_SET_FETCHING, false);
     // do nothing
@@ -91,6 +98,11 @@ export async function refreshUserInfo({ commit }, id) {
 
 export async function fetchUserReferralStats({ commit }, id) {
   return apiWrapper(commit, api.apiGetReferralById(id));
+}
+
+export async function fetchUserTotalBonus({ commit }, id) {
+  const { bonus } = await apiWrapper(commit, api.apiGetTotalBonusById(id));
+  return bonus;
 }
 
 export async function sendCouponCodeEmail({ commit, rootState }, data) {

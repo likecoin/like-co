@@ -55,9 +55,9 @@
             </div>
 
             <div class="lc-button-group">
-              <material-button class="trust" v-if="buttonText" @click="openTrust">
+              <md-button class="trust" v-if="buttonText" @click="openTrust">
                 {{ buttonText }}
-              </material-button>
+              </md-button>
               <div class="lc-font-size-12 lc-margin-top-12">
                 <a :href="getHelpLink">
                   {{ $t('Dialog.trust.label.help') }}
