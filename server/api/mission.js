@@ -277,6 +277,7 @@ router.get('/referral/list/:id', async (req, res) => {
       }
       return {
         id: r.id,
+        seen: !!r.data().seen,
         missions: missions.map(d => ({ ...Validate.filterMissionData(d) })),
       };
     });
@@ -309,6 +310,22 @@ router.get('/referral/list/bonus/:id', async (req, res) => {
     results = results.concat(refereeDoc.docs
       .map(d => ({ id: d.id, ...Validate.filterPayoutData(d.data()) })));
     res.json(results);
+  } catch (err) {
+    const msg = err.message || err;
+    console.error(msg);
+    res.status(400).send(msg);
+  }
+});
+
+router.post('/referral/seen/:id', async (req, res) => {
+  try {
+    const user = req.params.id;
+    const {
+      referralId,
+    } = req.body;
+    const userReferralRef = dbRef.doc(user).collection('referrals').doc(referralId);
+    await userReferralRef.update({ seen: true });
+    res.sendStatus(200);
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);

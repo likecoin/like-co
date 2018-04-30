@@ -70,6 +70,8 @@ export const apiFetchReferralMissionList = id => axios.get(`/api/referral/list/$
 
 export const apiFetchReferralBonusList = id => axios.get(`/api/referral/list/bonus/${id}`);
 
+export const apiPostSeenReferral = (id, { referralId }) => axios.post(`/api/referral/seen/${id}`, { referralId });
+
 export const apiPostKYC = payload => axios.post('/api/kyc', payload);
 
 export const apiPostAdvancedKYC = (form) => {

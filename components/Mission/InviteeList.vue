@@ -48,8 +48,8 @@ export default {
     MissionList,
   },
   methods: {
-    onClick(t) {
-      this.$emit('click', t);
+    onClick(mission) {
+      this.$emit('click', { mission, referralId: this.username });
     },
   },
 };
