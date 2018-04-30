@@ -117,6 +117,7 @@ module.exports = {
       },
     }],
     ['@nuxtjs/google-tag-manager', { id: process.env.GTM_ID || 'GTM-XXXXXXX' }],
+    '@nuxtjs/sentry',
   ],
   plugins: [
     { src: '~/plugins/EthHelper', ssr: false },
