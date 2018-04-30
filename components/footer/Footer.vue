@@ -37,8 +37,12 @@ export default {
     },
   },
   mounted() {
+    const {
+      user,
+      displayName,
+      email,
+    } = this.getUserInfo;
     if (this.$intercom) {
-      const { user, displayName, email } = this.getUserInfo;
       const language = this.getCurrentLocale;
       const opt = { LikeCoin: true };
       if (user) opt.user_id = user;
@@ -47,22 +51,36 @@ export default {
       if (language) opt.language = language;
       this.$intercom.boot(opt);
     }
+    if (this.$raven) {
+      this.$raven.setUserContext({
+        id: user,
+        username: displayName,
+        email,
+      });
+    }
   },
   watch: {
     getUserInfo(e) {
+      const {
+        user,
+        displayName,
+        email,
+        wallet,
+      } = e;
       if (this.$intercom) {
-        const {
-          user,
-          displayName,
-          email,
-          wallet,
-        } = e;
         const opt = { LikeCoin: true };
         if (user) opt.user_id = user;
         if (displayName) opt.name = displayName;
         if (email) opt.email = email;
         if (wallet) opt.wallet = wallet;
         this.$intercom.update(opt);
+      }
+      if (this.$raven) {
+        this.$raven.setUserContext({
+          id: user,
+          username: displayName,
+          email,
+        });
       }
     },
     getCurrentLocale(language) {
