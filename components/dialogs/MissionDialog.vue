@@ -166,6 +166,10 @@ import LinkIcon from '@/assets/icons/fillable/link.svg';
 import FacebookIcon from '@/assets/icons/fillable/facebook.svg';
 import TwitterIcon from '@/assets/icons/fillable/twitter.svg';
 
+function timeout(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 export default {
   name: 'mission-dialog',
   components: {
@@ -270,11 +274,15 @@ export default {
     },
     async onClickGettingStartTask(t) {
       /* post first due to trust problem */
-      this.postStepMission({
-        user: this.getUserInfo.user,
-        missionId: this.missionId,
-        taskId: t.id,
-      });
+      await Promise.race([
+        this.postStepMission({
+          user: this.getUserInfo.user,
+          missionId: this.missionId,
+          taskId: t.id,
+        }),
+        // magic time to allow popup and xhr call without being blocked
+        timeout(23),
+      ]);
 
       switch (t.id) {
         case 'taskPaymentPage':
