@@ -176,7 +176,6 @@ export default {
 
     border-radius: 50%;
     background-color: #ff5151;
-    -webkit-box-shadow: 0 0 6px 0 #FF4949;
     box-shadow: 0 0 6px 0 #FF4949;
   }
 }
