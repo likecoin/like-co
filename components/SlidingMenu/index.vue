@@ -74,10 +74,6 @@ const MENU_ITEMS = [
     section: 'primary',
     items: [
       {
-        key: 'aboutLikeCoin',
-        to: { name: 'index' },
-      },
-      {
         key: 'bonus',
         to: { name: 'in-bonus' },
         isRegistered: true,
