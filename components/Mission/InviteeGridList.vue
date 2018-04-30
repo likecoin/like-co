@@ -12,7 +12,7 @@
       </li>
     </ul>
 
-    <swiper class="lc-mobile-show" :swiper-id="swiperId">
+    <swiper class="lc-mobile-show" :swiper-id="swiperId" @slideChange="onSlideChange">
       <div class="swiper-slide" v-for="i in invitees" :key="i.id">
         <div class="lc-container-3">
           <div class="lc-container-4">
@@ -53,6 +53,15 @@ export default {
   methods: {
     onClick({ mission, referralId }) {
       this.$emit('click', { mission, referralId });
+    },
+    onSlideChange({ activeIndex }) {
+      const activeInvitee = this.invitees[activeIndex];
+
+      if (activeInvitee && !activeInvitee.seen) {
+        this.$emit('slideChange', {
+          referralId: activeInvitee.id,
+        });
+      }
     },
   },
 };

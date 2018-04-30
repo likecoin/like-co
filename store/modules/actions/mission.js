@@ -89,7 +89,7 @@ export async function onMissionClick({ commit, state, rootState }, m) {
   return false;
 }
 
-export async function onReferralMissionClick(ctx, { mission, referralId }) {
+export async function onReferralSeen(ctx, { referralId }) {
   const { state, rootState, commit } = ctx;
   const { user } = rootState.user.user; // module.object.username...
   const referral = state.referrals.find(r => r.id === referralId);
@@ -97,5 +97,9 @@ export async function onReferralMissionClick(ctx, { mission, referralId }) {
     await apiWrapper(commit, api.apiPostSeenReferral(user, { referralId }), { slient: true });
     commit(types.MISSION_SET_REFERRAL_SEEN, referralId);
   }
+}
+
+export async function onReferralMissionClick(ctx, { mission, referralId }) {
+  onReferralSeen(ctx, { referralId });
   return onMissionClick(ctx, mission);
 }
