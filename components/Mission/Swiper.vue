@@ -6,7 +6,8 @@
         loading: isLoading,
       },
     ]"
-    v-swiper:swiper="swiperOptions">
+    v-swiper:swiper="swiperOptions"
+    @slideChange="onSlideChange">
 
     <div class="swiper-wrapper" @click="onClick">
       <slot />
@@ -70,11 +71,6 @@ export default {
         pagination: {
           el: this.getSelector('.swiper-pagination'),
           clickable: true,
-        },
-        on: {
-          slideChange: () => {
-            this.onSlideChange();
-          },
         },
       };
     },
