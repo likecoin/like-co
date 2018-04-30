@@ -270,7 +270,7 @@ export default {
 
       switch (t.id) {
         case 'taskPaymentPage':
-          window.open(`/${this.getUserInfo.displayName}`, 'payment-page');
+          window.open(`/${this.getUserInfo.user}`, 'payment-page');
           break;
 
         case 'taskOnepager': {
