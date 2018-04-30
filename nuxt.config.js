@@ -34,9 +34,9 @@ module.exports = {
     ],
   },
   /*
-  ** Customize the progress bar color
-  */
-  loading: { color: '#448aff' },
+   ** Custom loading component
+   */
+  loading: '~/components/BlockProgress.vue',
 
   render: {
     csp: {

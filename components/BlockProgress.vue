@@ -42,8 +42,18 @@ export default {
       },
     };
   },
+  methods: {
+    start() {
+      this.isLoading = true;
+    },
+    finish() {
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 300);
+    },
+  },
   mounted() {
-    this.isLoading = false;
+    this.finish();
   },
 };
 </script>
