@@ -13,6 +13,7 @@ import {
   MISSION_SET_REFERRAL_BONUS_LIST,
   MISSION_SET_REFERRAL_TYPE_CLAIMED,
   MISSION_SET_REFERRAL_AVATAR,
+  MISSION_SET_REFERRAL_SEEN,
   MISSION_SET_MISSION_HISTORY_LIST,
   MISSION_SET_MISSION_BONUS_HISTORY,
   MISSION_CLEAR_ALL,
@@ -94,6 +95,10 @@ const mutations = {
         }
       });
     });
+  },
+  [MISSION_SET_REFERRAL_SEEN](state, referralId) {
+    const referral = state.referrals.find(r => r.id === referralId);
+    if (referral) Vue.set(referral, 'seen', true);
   },
   [MISSION_SET_MISSION_HISTORY_LIST](state, missions) {
     state.historyMissions = missions.map(m => ({ ...m, isHistory: true }));
