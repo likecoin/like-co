@@ -20,11 +20,14 @@ import {
 import { logRegisterKYC } from '../util/logger';
 import publisher from '../util/gcloudPub';
 
+const uuidv4 = require('uuid/v4');
 const Multer = require('multer');
 
 const LIKECOIN_ICO = require('../../constant/contract/likecoin-ico');
 const {
+  db,
   userCollection: dbRef,
+  payoutCollection: bonusRef,
 } = require('../util/firebase');
 
 const sha256 = require('js-sha256');
@@ -51,6 +54,43 @@ const multer = Multer({
     fileSize: 2 * 1024 * 1024, // no larger than 2mb, you can change as needed.
   },
 });
+
+async function claimKYCReward(user) {
+  const {
+    wallet,
+    email,
+    displayName,
+    id: username,
+  } = user;
+  try {
+    const id = uuidv4();
+    const payoutQuery =
+      bonusRef.where('type', '==', 'startKYC').where('toId', '==', username).limit(1);
+    await db.runTransaction(async (t) => {
+      const payoutObj = {
+        type: 'startKYC',
+        toId: username,
+        to: wallet,
+        txHash: null,
+      };
+      const tQuery = await t.get(payoutQuery);
+      if (tQuery.docs.length > 0) {
+        throw new Error('Cannot create bonus document');
+      }
+      return t.create(bonusRef.doc(id), payoutObj);
+    });
+    await publisher.publish(PUBSUB_TOPIC_MISC, null, {
+      logType: 'eventStartKYCReward',
+      toUser: username,
+      toWallet: wallet,
+      toDisplayName: displayName,
+      toEmail: email,
+      payoutId: id,
+    });
+  } catch (err) {
+    console.error(err);
+  }
+}
 
 function handleDocumentUpload(user, file, documentSHA256) {
   const type = imageType(file.buffer);
@@ -126,7 +166,8 @@ router.post('/kyc', async (req, res) => {
     const updateUser = userRef.update({
       KYC: KYC_STATUS_ENUM.STANDARD,
     });
-    await Promise.all([upateKYC, updateUser]);
+    const updateReward = claimKYCReward({ id: userDoc.id, ...userDoc.data() });
+    await Promise.all([upateKYC, updateUser, updateReward]);
 
     await logRegisterKYC({
       txHash,
@@ -249,7 +290,8 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
       updatePayload.KYC = KYC_STATUS_ENUM.PENDING;
     }
     const updateUser = userRef.update(updatePayload);
-    await Promise.all([upateKYC, updateUser]);
+    const updateReward = claimKYCReward({ id: userDoc.id, ...userDoc.data() });
+    await Promise.all([upateKYC, updateUser, updateReward]);
 
     await logRegisterKYC({
       txHash,
