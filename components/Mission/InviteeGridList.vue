@@ -7,6 +7,7 @@
           :missions="i.missions"
           :username="i.id"
           :avatar="i.avatar"
+          :isNew="!i.seen"
           @click="onClick" />
       </li>
     </ul>
@@ -19,6 +20,7 @@
               :missions="i.missions"
               :username="i.id"
               :avatar="i.avatar"
+              :isNew="!i.seen"
               @click="onClick" />
           </div>
         </div>
@@ -49,8 +51,8 @@ export default {
     Swiper,
   },
   methods: {
-    onClick(mission) {
-      this.$emit('click', mission);
+    onClick({ mission, referralId }) {
+      this.$emit('click', { mission, referralId });
     },
   },
 };

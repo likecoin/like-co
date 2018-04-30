@@ -4,12 +4,12 @@ import BigNumber from 'bignumber.js';
 import {
   GETTING_STARTED_TASKS,
   ONE_LIKE,
-  // PUBSUB_TOPIC_MISC,
+  PUBSUB_TOPIC_MISC,
 } from '../../constant';
 
 import Validate from '../../util/ValidationHelper';
-// import publisher from '../util/gcloudPub';
-// TODO add logs
+import publisher from '../util/gcloudPub';
+
 const {
   userCollection: dbRef,
   missionCollection: missionsRef,
@@ -126,6 +126,24 @@ router.post('/mission/seen/:id', async (req, res) => {
     const userMissionRef = dbRef.doc(user).collection('mission').doc(missionId);
     await userMissionRef.set({ seen: true }, { merge: true });
     res.sendStatus(200);
+    const userDoc = await dbRef.doc(user).get();
+    const {
+      email,
+      displayName,
+      wallet,
+      referrer,
+      locale,
+    } = userDoc.data();
+    publisher.publish(PUBSUB_TOPIC_MISC, req, {
+      logType: 'eventMissionSeen',
+      user,
+      email: email || undefined,
+      displayName,
+      wallet,
+      referrer: referrer || undefined,
+      locale,
+      missionId,
+    });
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
@@ -156,6 +174,26 @@ router.post('/mission/step/:id', async (req, res) => {
     if (done) payload.done = true;
     await userMissionRef.set(payload, { merge: true });
     res.json(payload);
+    const userDoc = await dbRef.doc(user).get();
+    const {
+      email,
+      displayName,
+      wallet,
+      referrer,
+      locale,
+    } = userDoc.data();
+    publisher.publish(PUBSUB_TOPIC_MISC, req, {
+      logType: 'eventMissionStep',
+      user,
+      email: email || undefined,
+      displayName,
+      wallet,
+      referrer: referrer || undefined,
+      locale,
+      missionId,
+      taskId,
+      missionDone: done,
+    });
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
@@ -239,6 +277,7 @@ router.get('/referral/list/:id', async (req, res) => {
       }
       return {
         id: r.id,
+        seen: !!r.data().seen,
         missions: missions.map(d => ({ ...Validate.filterMissionData(d) })),
       };
     });
@@ -271,6 +310,22 @@ router.get('/referral/list/bonus/:id', async (req, res) => {
     results = results.concat(refereeDoc.docs
       .map(d => ({ id: d.id, ...Validate.filterPayoutData(d.data()) })));
     res.json(results);
+  } catch (err) {
+    const msg = err.message || err;
+    console.error(msg);
+    res.status(400).send(msg);
+  }
+});
+
+router.post('/referral/seen/:id', async (req, res) => {
+  try {
+    const user = req.params.id;
+    const {
+      referralId,
+    } = req.body;
+    const userReferralRef = dbRef.doc(user).collection('referrals').doc(referralId);
+    await userReferralRef.update({ seen: true });
+    res.sendStatus(200);
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
