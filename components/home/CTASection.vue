@@ -21,14 +21,13 @@
                 v-else-if="now.isBefore(SALE_DATE)"
                 class="cta-section-body-content">
                 <h1>{{ $t('Home.Sale.title.publicTokenSale') }}</h1>
-                <h6>{{ $t('Home.Sale.title.comingSoon') }}</h6>
-                <!-- <h6>{{ $t('Home.Sale.label.startOn') }}</h6>
+                <h6>{{ $t('Home.Sale.label.startOn') }}</h6>
                 <div class="token-sale-timer-wrapper">
                   <countdown-timer
                     class="cta-section-token-sale-timer"
                     :date="SALE_DATE"
                   />
-                </div> -->
+                </div>
               </div>
               <!-- END - After announcing token sale date -->
               <!-- BEGIN - After token sale begins -->
