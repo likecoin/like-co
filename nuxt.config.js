@@ -34,9 +34,9 @@ module.exports = {
     ],
   },
   /*
-  ** Customize the progress bar color
-  */
-  loading: { color: '#448aff' },
+   ** Custom loading component
+   */
+  loading: '~/components/BlockProgress.vue',
 
   render: {
     csp: {
@@ -112,6 +112,7 @@ module.exports = {
       },
     }],
     ['@nuxtjs/google-tag-manager', { id: process.env.GTM_ID || 'GTM-XXXXXXX' }],
+    '@nuxtjs/sentry',
   ],
   plugins: [
     { src: '~/plugins/EthHelper', ssr: false },
