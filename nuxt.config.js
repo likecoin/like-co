@@ -8,6 +8,7 @@ module.exports = {
     IS_TESTNET: process.env.IS_TESTNET,
     INTERCOM_APPID: process.env.INTERCOM_APPID,
     STRIPE_TOKEN: process.env.STRIPE_TOKEN,
+    SENTRY_DSN: process.env.SENTRY_DSN,
   },
   head: {
     title: 'LikeCoin - Reinventing the Like.',
