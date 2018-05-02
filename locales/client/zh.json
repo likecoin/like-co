@@ -772,28 +772,28 @@
       }
     }
   },
-    "BonusPage": {
-    "title": "LikeCoin Bonus",
+  "BonusPage": {
+    "title": "LikeCoin 奬賞",
     "header": {
-      "likeCoinBonus": "LikeCoin Bonus",
-      "inviteeMission": "Invitee Mission"
+      "likeCoinBonus": "LikeCoin 奬賞",
+      "inviteeMission": "受邀者任務"
     },
     "label": {
-      "description": "You and your friend can both earn a LikeCoin bonus if your friend has signed up successfully by your affiliate link.  Please note that the email address has to be verified for you and your friend to be entitled to the bonus.",
-      "inviteeMissionDescription": "You and your invitees can both receive LikeCoin for each completed mission",
-      "earned": "You have earned",
-      "likeBonus": "LIKE Bonus"
+      "description": "如果你的朋友成功以你的推薦鏈結註冊，你和你的朋友都可獲得LikeCoin奬賞。留意你和你的朋友的電郵地址必須已通過驗證才能得到奬賞。",
+      "inviteeMissionDescription": "你和你的受邀者均可因每一個完成的任務而獲得LikeCoin",
+      "earned": "你已賺取",
+      "likeBonus": "LIKE 奬賞"
     },
     "button": {
-      "moreBonus": "More Bonus"
+      "moreBonus": "更多奬賞"
     },
     "HistoryTab": {
-      "title": "Bonus History",
+      "title": "奬賞記錄",
       "header": {
-        "completedBonus": "Completed Bonus"
+        "completedBonus": "已完成的任務"
       },
       "label": {
-        "emptyHistoryPlaceholder": "Completed bonus will be shown here."
+        "emptyHistoryPlaceholder": "此處查看已獲得的奬賞"
       }
     }
   },
