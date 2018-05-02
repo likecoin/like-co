@@ -273,6 +273,7 @@ export default {
         if (query.ref) {
           const newQuery = Object.assign({}, query);
           delete newQuery.ref;
+          if (newQuery.from) delete newQuery.from;
           this.$router.push({ name: query.ref, query: newQuery });
         } else {
           const { hash } = document.location;
