@@ -17,13 +17,15 @@
       </ul>
 
       <no-ssr>
-        <lightbox
-          class="lc-image-grid_lightbox"
-          ref="lightbox"
-          :images="images"
-          :showLightBox="false"
-          :showThumbs="false"
-        />
+        <portal to="light-box">
+          <lightbox
+            class="lc-image-grid_lightbox"
+            ref="lightbox"
+            :images="images"
+            :showLightBox="false"
+            :showThumbs="false"
+          />
+        </portal>
       </no-ssr>
 
     </div>

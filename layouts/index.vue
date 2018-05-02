@@ -31,6 +31,8 @@
       </div>
     </div>
 
+    <portal-target name="light-box" />
+
   </div>
 </template>
 
