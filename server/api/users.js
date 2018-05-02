@@ -11,6 +11,7 @@ import {
 import Validate from '../../util/ValidationHelper';
 import { personalEcRecover, web3 } from '../util/web3';
 import { uploadFileAndGetLink } from '../util/fileupload';
+import { jwtSign, jwtAuth } from '../util/jwt';
 import publisher from '../util/gcloudPub';
 
 const Multer = require('multer');
@@ -172,7 +173,9 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       await dbRef.doc(referrer).collection('referrals').doc(user).create({ timestamp: Date.now() });
     }
 
-    res.sendStatus(200);
+    const token = jwtSign({ user, wallet });
+    res.json({ token });
+
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: !isOldUser ? 'eventUserRegister' : 'eventUserEdit',
       user,
@@ -190,9 +193,44 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
   }
 });
 
-router.get('/users/referral/:id', async (req, res) => {
+router.post('/users/login/check', jwtAuth, (req, res) => {
+  const { wallet } = req.body;
+  if (req.user.wallet !== wallet) {
+    res.status(401).send('LOGIN_NEEDED');
+    return;
+  }
+  res.sendStatus(200);
+});
+
+router.post('/users/login', async (req, res) => {
+  try {
+    const { from, payload, sign } = req.body;
+    const recovered = personalEcRecover(payload, sign);
+    if (recovered.toLowerCase() !== from.toLowerCase()) {
+      throw new Error('recovered address not match');
+    }
+    const query = await dbRef.where('wallet', '==', from).get();
+    if (query.docs.length > 0) {
+      const user = query.docs[0].id;
+      const token = jwtSign({ user, wallet: from });
+      res.json({ token });
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (err) {
+    const msg = err.message || err;
+    console.error(msg);
+    res.status(400).send(msg);
+  }
+});
+
+router.get('/users/referral/:id', jwtAuth, async (req, res) => {
   try {
     const username = req.params.id;
+    if (req.user.user !== username) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
     const col = await dbRef.doc(username).collection('referrals').get();
     if (col.docs) {
       const pending = col.docs.filter(d => !d.data().isEmailVerified).length;
@@ -208,9 +246,13 @@ router.get('/users/referral/:id', async (req, res) => {
   }
 });
 
-router.get('/users/id/:id', async (req, res) => {
+router.get('/users/id/:id', jwtAuth, async (req, res) => {
   try {
     const username = req.params.id;
+    if (req.user.user !== username) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
     const doc = await dbRef.doc(username).get();
     if (doc.exists) {
       const payload = doc.data();
@@ -244,16 +286,37 @@ router.get('/users/id/:id/min', async (req, res) => {
   }
 });
 
-router.get('/users/addr/:addr', async (req, res) => {
+router.get('/users/addr/:addr', jwtAuth, async (req, res) => {
   try {
     const { addr } = req.params;
     if (!Validate.checkAddressValid(addr)) throw new Error('Invalid address');
+    if (req.user.wallet !== addr) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
     const query = await dbRef.where('wallet', '==', addr).get();
     if (query.docs.length > 0) {
       const payload = query.docs[0].data();
       if (!payload.avatar) payload.avatar = toDataUrl(payload.wallet);
       payload.user = query.docs[0].id;
       res.json(Validate.filterUserData(payload));
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (err) {
+    const msg = err.message || err;
+    console.error(msg);
+    res.status(400).send(msg);
+  }
+});
+
+router.get('/users/addr/:addr/min', async (req, res) => {
+  try {
+    const { addr } = req.params;
+    if (!Validate.checkAddressValid(addr)) throw new Error('Invalid address');
+    const query = await dbRef.where('wallet', '==', addr).get();
+    if (query.docs.length > 0) {
+      res.sendStatus(200);
     } else {
       res.sendStatus(404);
     }
@@ -368,9 +431,13 @@ router.post('/email/verify/:uuid', async (req, res) => {
   }
 });
 
-router.get('/users/bonus/:id', async (req, res) => {
+router.get('/users/bonus/:id', jwtAuth, async (req, res) => {
   try {
     const { id } = req.params;
+    if (req.user.user !== id) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
     const query = await dbRef.doc(id).collection('bonus').get();
     const sum = query.docs
       .filter(t => t.data().txHash && t.data().value)
