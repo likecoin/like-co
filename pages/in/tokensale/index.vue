@@ -362,12 +362,23 @@ export default {
       meta.push({
         hid: 'description',
         name: 'description',
-        content: this.$t('Tokensale.head.fromDescription'),
+        content: this.$t('TokenSale.head.fromDescription'),
       });
       meta.push({
         hid: 'og_description',
         property: 'og:description',
-        content: this.$t('Tokensale.head.fromDescription'),
+        content: this.$t('TokenSale.head.fromDescription'),
+      });
+    } else {
+      meta.push({
+        hid: 'description',
+        name: 'description',
+        content: this.$t('TokenSale.head.description'),
+      });
+      meta.push({
+        hid: 'og_description',
+        property: 'og:description',
+        content: this.$t('TokenSale.head.description'),
       });
     }
     return {
