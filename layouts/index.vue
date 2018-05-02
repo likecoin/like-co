@@ -31,7 +31,9 @@
       </div>
     </div>
 
-    <portal-target name="light-box" />
+    <no-ssr>
+      <portal-target name="light-box" />
+    </no-ssr>
 
   </div>
 </template>
