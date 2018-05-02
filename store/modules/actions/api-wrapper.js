@@ -1,7 +1,7 @@
 import * as types from '@/store/mutation-types';
 
 // Use this wrapper for non-batch actions
-async function apiWrapper(commit, promise, opt = {}) {
+async function apiWrapper({ commit, dispatch }, promise, opt = {}) {
   const { blocking, slient } = opt;
   if (!slient) commit(blocking ? types.UI_START_BLOCKING_LOADING : types.UI_START_LOADING);
   try {

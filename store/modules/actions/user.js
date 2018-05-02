@@ -5,8 +5,8 @@ import { REDIRECT_NAME_WHITE_LIST } from '@/constant';
 
 import apiWrapper from './api-wrapper';
 
-export async function newUser({ commit }, data) {
-  return apiWrapper(commit, api.apiPostNewUser(data), { blocking: true });
+export async function newUser(ctx, data) {
+  return apiWrapper(ctx, api.apiPostNewUser(data), { blocking: true });
 }
 
 export function setLocalWallet({ commit }, wallet) {
@@ -20,7 +20,7 @@ export function setUserIsFetching({ commit }, fetching) {
 export async function refreshUser({ commit, state }) {
   try {
     commit(types.USER_SET_FETCHING, true);
-    const { data: user } = await api.apiCheckIsUser(state.wallet);
+    const { user } = await api.apiCheckIsUser(state.wallet);
     if (user && user.user) {
       commit(types.USER_SET_USER_INFO, user);
     } else {
@@ -58,8 +58,8 @@ export async function isUser({ commit, state }, addr) {
   }
 }
 
-export async function getWalletByUser({ commit }, id) {
-  const { wallet } = await apiWrapper(commit, api.apiGetUserById(id), { blocking: true });
+export async function getWalletByUser(ctx, id) {
+  const { wallet } = await apiWrapper(ctx, api.apiGetUserById(id), { blocking: true });
   return wallet;
 }
 
@@ -81,10 +81,10 @@ export async function verifyEmailByUUID({ commit, rootState }, uuid) {
   );
 }
 
-export async function refreshUserInfo({ commit }, id) {
+export async function refreshUserInfo({ commit, dispatch }, id) {
   try {
     commit(types.USER_SET_FETCHING, true);
-    const { data: user } = await api.apiGetUserById(id);
+    const user = await apiWrapper({ commit, dispatch }, api.apiGetUserById(id), { slient: true });
     if (user) {
       user.user = id;
       commit(types.USER_SET_USER_INFO, user);
@@ -96,40 +96,40 @@ export async function refreshUserInfo({ commit }, id) {
   }
 }
 
-export async function fetchUserReferralStats({ commit }, id) {
-  return apiWrapper(commit, api.apiGetReferralById(id));
+export async function fetchUserReferralStats({ commit, dispatch }, id) {
+  return apiWrapper({ commit, dispatch }, api.apiGetReferralById(id));
 }
 
-export async function fetchUserTotalBonus({ commit }, id) {
-  const { bonus } = await apiWrapper(commit, api.apiGetTotalBonusById(id));
+export async function fetchUserTotalBonus({ commit, dispatch }, id) {
+  const { bonus } = await apiWrapper({ commit, dispatch }, api.apiGetTotalBonusById(id));
   return bonus;
 }
 
-export async function sendCouponCodeEmail({ commit, rootState }, data) {
+export async function sendCouponCodeEmail({ commit, dispatch, rootState }, data) {
   return apiWrapper(
-    commit,
+    { commit, dispatch },
     api.apiSendCouponCodeEmail(data.user, data.coupon, rootState.ui.locale),
     { blocking: true },
   );
 }
 
-export async function sendInvitationEmail({ commit, rootState }, data) {
+export async function sendInvitationEmail({ commit, dispatch, rootState }, data) {
   return apiWrapper(
-    commit,
+    { commit, dispatch },
     api.apiSendInvitationEmail(data.user, data.email, rootState.ui.locale),
     { blocking: true },
   );
 }
 
-export async function sendKYC({ commit }, { payload, isAdv }) {
+export async function sendKYC(ctx, { payload, isAdv }) {
   return apiWrapper(
-    commit,
+    ctx,
     isAdv ? api.apiPostAdvancedKYC(payload) : api.apiPostKYC(payload),
     { blocking: true },
   );
 }
 
-export async function fetchAdvancedKYC({ commit }, id) {
-  return apiWrapper(commit, api.apiGetAdvancedKYC(id));
+export async function fetchAdvancedKYC({ commit, dispatch }, id) {
+  return apiWrapper({ commit, dispatch }, api.apiGetAdvancedKYC(id));
 }
 

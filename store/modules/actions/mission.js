@@ -4,46 +4,51 @@ import * as types from '@/store/mutation-types';
 
 import apiWrapper from './api-wrapper';
 
-export async function fetchMissionList({ commit }, id) {
-  return apiWrapper(commit, api.apiFetchMissionList(id));
+export async function fetchMissionList({ commit, dispatch }, id) {
+  return apiWrapper({ commit, dispatch }, api.apiFetchMissionList(id));
 }
 
-export async function refreshMissionHistoryList({ commit }, id) {
+export async function refreshMissionHistoryList({ commit, dispatch }, id) {
   commit(types.MISSION_START_FETCHING_MISSION_HISTORY_LIST);
   const [missions, bonus] = await Promise.all([
-    apiWrapper(commit, api.apiFetchMissionHistoryList(id)),
-    apiWrapper(commit, api.apiFetchMissionHistoryBonus(id)),
+    apiWrapper({ commit, dispatch }, api.apiFetchMissionHistoryList(id)),
+    apiWrapper({ commit, dispatch }, api.apiFetchMissionHistoryBonus(id)),
   ]);
   commit(types.MISSION_SET_MISSION_HISTORY_LIST, missions);
   commit(types.MISSION_SET_MISSION_BONUS_HISTORY, bonus);
   commit(types.MISSION_END_FETCHING_MISSION_HISTORY_LIST);
 }
 
-export async function refreshMissionList({ commit }, id) {
+export async function refreshMissionList(ctx, id) {
+  const { commit } = ctx;
   commit(types.MISSION_START_FETCHING_MISSION_LIST);
   const [missions, referralMissions, bonus] = await Promise.all([
-    apiWrapper(commit, api.apiFetchMissionList(id)),
-    apiWrapper(commit, api.apiFetchReferralMissionList(id)),
-    apiWrapper(commit, api.apiFetchReferralBonusList(id)),
+    apiWrapper(ctx, api.apiFetchMissionList(id)),
+    apiWrapper(ctx, api.apiFetchReferralMissionList(id)),
+    apiWrapper(ctx, api.apiFetchReferralBonusList(id)),
   ]);
   commit(types.MISSION_SET_MISSION_LIST, missions);
   commit(types.MISSION_SET_REFERRAL_LIST, referralMissions);
   commit(types.MISSION_SET_REFERRAL_BONUS_LIST, bonus);
   referralMissions.forEach(async (r) => {
-    const { avatar } = await apiWrapper(commit, api.apiGetUserMinById(r.id), { slient: true });
+    const { avatar } = await apiWrapper(ctx, api.apiGetUserMinById(r.id), { slient: true });
     commit(types.MISSION_SET_REFERRAL_AVATAR, { userId: r.id, avatar });
   });
   commit(types.MISSION_END_FETCHING_MISSION_LIST);
 }
 
-export async function setMissionSeen({ commit }, { user, missionId }) {
-  await apiWrapper(commit, api.apiPostSeenMission(missionId, { user }), { slient: true });
+export async function setMissionSeen({ commit, dispatch }, { user, missionId }) {
+  await apiWrapper(
+    { commit, dispatch },
+    api.apiPostSeenMission(missionId, { user }),
+    { slient: true },
+  );
   commit(types.MISSION_SET_MISSION_SEEN, missionId);
 }
 
-export async function postStepMission({ commit }, { user, missionId, taskId }) {
+export async function postStepMission({ commit, dispatch }, { user, missionId, taskId }) {
   const { done } = await apiWrapper(
-    commit,
+    { commit, dispatch },
     api.apiPostStepMission(missionId, { user, taskId }),
     { blocking: true },
   );
@@ -52,37 +57,38 @@ export async function postStepMission({ commit }, { user, missionId, taskId }) {
   return done;
 }
 
-export async function claimMission({ commit }, { user, missionId }) {
-  await apiWrapper(commit, api.apiClaimMission(user, missionId), { blocking: true });
+export async function claimMission({ commit, dispatch }, { user, missionId }) {
+  await apiWrapper({ commit, dispatch }, api.apiClaimMission(user, missionId), { blocking: true });
   commit(types.MISSION_SET_MISSION_CLAIMED, missionId);
 }
 
-export async function claimReferralBonus({ commit }, { user, type }) {
-  await apiWrapper(commit, api.apiClaimReferralBonus(user, type), { blocking: true });
+export async function claimReferralBonus({ commit, dispatch }, { user, type }) {
+  await apiWrapper({ commit, dispatch }, api.apiClaimReferralBonus(user, type), { blocking: true });
   commit(types.MISSION_SET_REFERRAL_TYPE_CLAIMED, type);
 }
 
-export async function onMissionClick({ commit, state, rootState }, m) {
+export async function onMissionClick(ctx, m) {
+  const { commit, state, rootState } = ctx;
   const { user } = rootState.user.user; // module.object.username...
   if (m.isReferral) {
     if (m.pendingReferralBonus) { // referral && has pending bonus
-      return claimReferralBonus({ commit }, {
+      return claimReferralBonus(ctx, {
         type: m.referralPayoutType,
         user,
       });
     }
   } else {
-    if (!m.seen) setMissionSeen({ commit }, { missionId: m.id, user });
+    if (!m.seen) setMissionSeen(ctx, { missionId: m.id, user });
     if (m.isProxy) {
       if (state.proxyBonus[m.id]) { // is proxy and can claim
-        await claimReferralBonus({ commit }, { type: m.targetPayoutType, user });
+        await claimReferralBonus(ctx, { type: m.targetPayoutType, user });
         commit(types.UI_SET_MISSION_DIALOG, { ...m, isCompleted: true });
         return true;
       }
     } else if (m.done) {
-      const promises = [claimMission({ commit }, { missionId: m.id, user })];
+      const promises = [claimMission(ctx, { missionId: m.id, user })];
       /* short cut hacks for different missions */
-      if (m.id === 'joinTokenSale') promises.push(claimReferralBonus({ commit }, { type: 'ico-referee', user }));
+      if (m.id === 'joinTokenSale') promises.push(claimReferralBonus(ctx, { type: 'ico-referee', user }));
       return Promise.all(promises).then(() => {
         commit(types.UI_SET_MISSION_DIALOG, { ...m, isCompleted: true });
       });
@@ -99,7 +105,11 @@ export async function onReferralSeen(ctx, { referralId }) {
   const { user } = rootState.user.user; // module.object.username...
   const referral = state.referrals.find(r => r.id === referralId);
   if (referral && !referral.seen) {
-    await apiWrapper(commit, api.apiPostSeenReferral(user, { referralId }), { slient: true });
+    await apiWrapper(
+      ctx,
+      api.apiPostSeenReferral(user, { referralId }),
+      { slient: true },
+    );
     commit(types.MISSION_SET_REFERRAL_SEEN, referralId);
   }
 }
