@@ -739,6 +739,9 @@
   "TokenSale": {
     "title": "Token Sale",
     "preSaleTitle": "Early Bird",
+    "head": {
+      "fromDescription": "Join LikeCoin token sale with my referral code to get 2.5% extra bonus"
+    },
     "label": {
       "prepareToJoin": "Prepare to Join Token Sale",
       "publicSaleStartIn": "Public Sale Start in:",

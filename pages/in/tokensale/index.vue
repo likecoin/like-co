@@ -351,30 +351,27 @@ export default {
     };
   },
   head() {
+    const meta = [
+      {
+        hid: 'og_image',
+        property: 'og:image',
+        content: 'https://like.co/tokensale_og.jpg',
+      },
+    ];
+    if (this.$route.query.from) {
+      meta.push({
+        hid: 'description',
+        name: 'description',
+        content: this.$t('Tokensale.head.fromDescription'),
+      });
+      meta.push({
+        hid: 'og_description',
+        property: 'og:description',
+        content: this.$t('Tokensale.head.fromDescription'),
+      });
+    }
     return {
-      title: this.$t('Transaction.head.title', { name: this.displayName }),
-      meta: [
-        {
-          hid: 'og_title',
-          property: 'og:title',
-          content: this.$t('Transaction.head.title', { name: this.displayName }),
-        },
-        {
-          hid: 'description',
-          name: 'description',
-          content: this.$t('Transaction.head.description', { name: this.displayName }),
-        },
-        {
-          hid: 'og_description',
-          property: 'og:description',
-          content: this.$t('Transaction.head.description', { name: this.displayName }),
-        },
-        {
-          hid: 'og_image',
-          property: 'og:image',
-          content: `${this.avatar}`,
-        },
-      ],
+      meta,
     };
   },
   computed: {
