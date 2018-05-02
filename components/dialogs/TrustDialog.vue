@@ -176,11 +176,7 @@ export default {
       const { window } = global;
       const currentURI = window.location.href;
       const url = `${TRUST_URL}${encodeURIComponent(currentURI)}`;
-      if (this.isAndroid) {
-        window.open(`intent://browser?target=${currentURI}/#Intent;scheme=trust;package=com.wallet.crypto.trustapp;S.browser_fallback_url=;end`);
-      } else {
-        window.open(url);
-      }
+      window.open(url);
     },
     tryTrustInstalled() {
       /* DISABLE DUE TO TRUST CRASHING */
