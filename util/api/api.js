@@ -3,7 +3,9 @@ import { IS_TESTNET } from '@/constant';
 
 const LIKECOIN_API_BASE = IS_TESTNET ? 'https://api.like.co/test' : 'https://api.like.co';
 
-export const apiCheckIsUser = addr => axios.get(`/api/users/addr/${addr}`);
+export const apiCheckIsUser = addr => axios.get(`/api/users/addr/${addr}/min`);
+
+export const apiGetUserByAddr = addr => axios.get(`/api/users/addr/${addr}`);
 
 export const apiGetUserById = id => axios.get(`/api/users/id/${id}`);
 
@@ -45,6 +47,10 @@ export const apiPostNewUser = (form) => {
   });
   return axios.put('/api/users/new', params);
 };
+
+export const apiCheckUserAuth = wallet => axios.post('/api/users/login/check', { wallet });
+
+export const apiLoginUser = payload => axios.post('/api/users/login', payload);
 
 export const apiFetchMissionList = id => axios.get(`/api/mission/list/${id}`);
 

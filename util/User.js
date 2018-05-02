@@ -1,5 +1,6 @@
 import EthHelper from '@/util/EthHelper';
 import FileHelper from '@/util/FileHelper';
+import { LOGIN_MESSAGE } from '@/constant';
 
 const User = {
   async formatAndSignUserInfo(userInfo, signMessage) {
@@ -34,6 +35,18 @@ const User = {
       avatar: avatarFile,
       payload: EthHelper.utf8ToHex(payload),
       sign,
+      from: wallet,
+    };
+    return data;
+  },
+
+  async signLogin(wallet, loginMessage = LOGIN_MESSAGE) {
+    if (!wallet) return null;
+    const payload = loginMessage;
+    const sign = await EthHelper.signUserPayload(payload);
+    const data = {
+      sign,
+      payload,
       from: wallet,
     };
     return data;
