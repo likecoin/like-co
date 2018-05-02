@@ -417,54 +417,54 @@
       "member": {
         "kin": {
           "name": "kin ko",
-          "title": "Product Design"
+          "title": "產品設計"
         },
         "aludirk": {
           "name": "Aludirk Wong",
-          "title": "System Architect"
+          "title": "系統設計"
         },
         "jacky": {
           "name": "Jacky Ko",
-          "title": "CMO"
+          "title": "市場推廣主管"
         },
         "william": {
           "name": "William Chong",
-          "title": "Full Stack Developer"
+          "title": "全方位開發者"
         },
         "chung": {
           "name": "Chung Wu",
-          "title": "Blockchain Developer"
+          "title": "區塊鏈開發者"
         },
         "edmond": {
           "name": "Edmond Yu",
-          "title": "Operation"
+          "title": "營運"
         },
         "simonb": {
           "name": "Simon But",
-          "title": "Growth Hacker"
+          "title": "成長駭客"
         },
         "david": {
           "name": "David Ng",
-          "title": "Full Stack Developer"
+          "title": "全方位開發者"
         },
         "miles": {
           "name": "Miles Wong",
-          "title": "Full Stack Developer"
+          "title": "全方位開發者"
         },
         "joshua": {
           "name": "Joshua Lo",
-          "title": "Designer"
+          "title": "設計師"
         },
         "michael": {
           "name": "Michael Cheung",
-          "title": "Full Stack Developer"
+          "title": "全方位開發者"
         }
       }
     },
     "Community": {
       "title": "LikeCoin 社群: ",
       "button": {
-        "faq": "FAQ"
+        "faq": "常見問題"
       }
     }
   },
@@ -553,7 +553,8 @@
       },
       "button": {
         "createID": "註冊 LikeCoin ID",
-        "buyCoin": "購買 LikeCoin"
+        "buyCoin": "購買 LikeCoin",
+        "myAccount": "我的帳號"
       }
     },
     "blocker": {
@@ -579,6 +580,9 @@
         "switchRinkebyCaption": "切換至 Rinkeby:<br>Settings > Network > Rinkeby (ETH)"
       },
       "label": {
+        "useTrustBrowser": "使用 <span style=\"color: #28646e; font-weight: bold;\">Trust Wallet Browser</span> 瀏覽:",
+        "clickToCopy": "點擊複製推薦網址",
+        "copied": "已複製",
         "help": "如何在手機上註冊",
         "registerMobileLink": "https://help.like.co/likecoin-%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C/%E6%96%B0%E6%89%8B%E4%B8%8A%E8%B7%AF/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%89%8B%E6%A9%9F%E4%B8%8A%E8%A8%BB%E5%86%8A-likecoin-%E5%B8%B3%E8%99%9F"
       },
@@ -768,6 +772,31 @@
       }
     }
   },
+    "BonusPage": {
+    "title": "LikeCoin Bonus",
+    "header": {
+      "likeCoinBonus": "LikeCoin Bonus",
+      "inviteeMission": "Invitee Mission"
+    },
+    "label": {
+      "description": "You and your friend can both earn a LikeCoin bonus if your friend has signed up successfully by your affiliate link.  Please note that the email address has to be verified for you and your friend to be entitled to the bonus.",
+      "inviteeMissionDescription": "You and your invitees can both receive LikeCoin for each completed mission",
+      "earned": "You have earned",
+      "likeBonus": "LIKE Bonus"
+    },
+    "button": {
+      "moreBonus": "More Bonus"
+    },
+    "HistoryTab": {
+      "title": "Bonus History",
+      "header": {
+        "completedBonus": "Completed Bonus"
+      },
+      "label": {
+        "emptyHistoryPlaceholder": "Completed bonus will be shown here."
+      }
+    }
+  },
   "KYC": {
     "label": {
       "kyc": "身份認證",
@@ -858,11 +887,14 @@
   "Error": {
     "button": {
       "toIndex": "返回主頁"
-    }
+    },
+    "EMAIL_ALREADY_USED": "此電郵地址已被註冊",
+    "REFERRER_NOT_EXIST": "推薦人的 LikeCoin ID 不存在",
+    "USER_ALREADY_EXIST": "帳戶已經存在"
   },
   "Mission": {
     "gettingStart": {
-      "title": "一切從這裡開始",
+      "title": "新手上路",
       "description": "歡迎參與這場回饋創作運動。LikeCoin 要推動的是一場重新分配內容創作利益的運動。在<a href=\"https://like.co\">like.co</a>，你除了可買賣和輸送 LikeCoin 外，還可以透過 Like 生態圈賺取 LikeCoin。<span class=\"bold\">檢視你的轉帳頁面，觀看介紹影片，以及讚好 LikeCoin 的 FB 專頁，藉此獲得 3 枚 LikeCoin 獎賞！</span>",
       "taskSocial": "讚好 FB 專頁",
       "taskOnepager": "閱讀 LikeCoin 的計畫介紹",
@@ -870,21 +902,21 @@
       "taskPaymentPage": "檢視你的轉帳頁面"
     },
     "inviteFriend": {
-      "title": "邀請你的朋友加入 LikeCoin",
-      "description": "邀請朋友加入我們，你跟你的朋友皆可獲取 8 枚 LikeCoin 獎賞。"
+      "title": "邀請朋友註冊 LikeCoin ID",
+      "description": "邀請朋友註冊LikeCoin ID，你跟你的朋友皆可獲取 8 枚 LikeCoin 獎賞。"
     },
     "joinTokenSale": {
       "title": "參與代幣發售",
       "description": "立即參與代幣發售，你可獲得額外 100 枚 LikeCoin。",
-      "subDescription": "不要忘記推薦獎金哦～每次你參與代幣發售，你跟你的邀請人皆可獲得額外 2.5% LIKE 獎賞！"
+      "subDescription": "不要忘記推薦獎金哦～每次你參與代幣發售，你跟你的推薦人皆可獲得額外 2.5% LIKE 獎賞！"
     },
     "refereeTokenSale": {
       "title": "@:Mission.joinTokenSale.title",
-      "description": "請即參與代幣發售，每次你參與代幣發售，你跟你的邀請人皆可獲得額外 2.5% LIKE 獎賞！"
+      "description": "請即參與代幣發售，每次你參與代幣發售，你跟你的推薦人皆可獲得額外 2.5% LIKE 獎賞！"
     },
     "inviteTokenSale": {
-      "title": "邀請你的朋友參與代幣發售",
-      "description": "你的受邀者每次參與代幣發售，你都可獲得額外 2.5% LIKE！"
+      "title": "邀請朋友參與代幣發售",
+      "description": "受你邀者而成功註冊的朋友每次參與代幣發售，你都可獲得額外 2.5% LIKE！"
     },
     "verifyEmail": {
       "title": "驗證電郵地址",
