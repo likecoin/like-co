@@ -2,11 +2,52 @@
 import * as api from '@/util/api/api';
 import * as types from '@/store/mutation-types';
 import { REDIRECT_NAME_WHITE_LIST } from '@/constant';
+import { setJWTToken } from '~/plugins/axios';
+import User from '@/util/User';
 
 import apiWrapper from './api-wrapper';
 
 export async function newUser(ctx, data) {
-  return apiWrapper(ctx, api.apiPostNewUser(data), { blocking: true });
+  const { state, dispatch } = ctx;
+  const { token } = apiWrapper(ctx, api.apiPostNewUser(data), { blocking: true });
+  if (token) {
+    setJWTToken(token);
+    dispatch('refreshUser', state.wallet);
+  }
+}
+
+export async function loginUser({ state, dispatch }) {
+  try {
+    await api.apiCheckUserAuth(state.wallet);
+    dispatch('refreshUser', state.wallet);
+  } catch (err) {
+    const payload = await User.signLogin(state.wallet);
+    if (!payload) return;
+    const { data } = await api.apiLoginUser(payload);
+    if (data && data.token) {
+      setJWTToken(data.token);
+      dispatch('refreshUser', state.wallet);
+    }
+  }
+}
+
+export async function onWalletChanged({ state, commit, dispatch }) {
+  try {
+    commit(types.UI_INFO_MSG, '');
+    commit(types.MISSION_CLEAR_ALL);
+    if (!state.wallet) return;
+    await api.apiCheckIsUser(state.wallet);
+    commit(types.USER_AWAITING_AUTH, true);
+  } catch (err) {
+    return;
+  }
+  try {
+    await api.apiCheckUserAuth(state.wallet);
+    dispatch('refreshUser', state.wallet);
+    commit(types.USER_AWAITING_AUTH, false);
+  } catch (err) {
+    // no op
+  }
 }
 
 export function setLocalWallet({ commit }, wallet) {
@@ -17,10 +58,14 @@ export function setUserIsFetching({ commit }, fetching) {
   commit(types.USER_SET_FETCHING, fetching);
 }
 
+export function setUserNeedAuth({ commit }, needAuth) {
+  commit(types.USER_AWAITING_AUTH, needAuth);
+}
+
 export async function refreshUser({ commit, state }, addr) {
   try {
     commit(types.USER_SET_FETCHING, true);
-    const { data: user } = await api.apiCheckIsUser(addr);
+    const { data: user } = await api.apiGetUserByAddr(addr);
     const oldUser = state.user.user;
     const currentUser = (user || {}).user;
     if (user && user.user) {

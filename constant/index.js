@@ -17,6 +17,8 @@ export const W3C_EMAIL_REGEX = IS_TESTNET ? '.*' : '^[a-zA-Z0-9.!#$%&\'*/=?^_`{|
 
 export const PUBSUB_TOPIC_MISC = 'misc';
 
+export const LOGIN_MESSAGE = 'Login - Reinventing the Like';
+
 export const ONE_LIKE = new BigNumber(10).pow(18);
 
 const whiteList = ['oicetest.lakoo.com', 'oice.com', 'like.co', 'rinkeby.like.co'];

@@ -57,7 +57,11 @@ export async function checkCoupon({ commit, dispatch }, code) {
 
 export async function claimCoupon({ commit, dispatch }, { coupon, to }) {
   try {
-    const { txHash } = await apiWrapper({ commit, dispatch }, api.apiClaimCoupon(coupon, to), { blocking: true });
+    const { txHash } = await apiWrapper(
+      { commit, dispatch },
+      api.apiClaimCoupon(coupon, to),
+      { blocking: true },
+    );
     commit(types.UI_START_LOADING_TX);
     commit(types.PAYMENT_SET_PENDING_HASH, txHash);
     commit(types.PAYMENT_SET_PENDING_TX_INFO, { to });
@@ -73,7 +77,7 @@ export async function claimCoupon({ commit, dispatch }, { coupon, to }) {
   }
 }
 
-export const closeTxToolbar = ({ commit, dispatch }) => {
+export const closeTxToolbar = ({ commit }) => {
   commit(types.PAYMENT_SET_PENDING_HASH, '');
 };
 
