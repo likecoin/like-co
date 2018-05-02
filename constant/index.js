@@ -66,4 +66,4 @@ export const MERGED_MISSIONS = {
   refereeTokenSale: 'joinTokenSale',
 };
 
-export const TRUST_URL = 'https://eps2.app.link/?openURL=';
+export const TRUST_URL = 'https://links.trustwalletapp.com/a/key_live_lfvIpVeI9TFWxPCqwU8rZnogFqhnzs4D?&event=openURL&url=';
