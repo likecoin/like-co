@@ -9,6 +9,7 @@ import {
 
 import Validate from '../../util/ValidationHelper';
 import publisher from '../util/gcloudPub';
+import { jwtAuth } from '../util/jwt';
 
 const {
   userCollection: dbRef,
@@ -63,9 +64,13 @@ async function checkAlreadyDone(m, { u, doneList }) {
   return (!mission.staying && !mission.reward);
 }
 
-router.get('/mission/list/:id', async (req, res) => {
+router.get('/mission/list/:id', jwtAuth, async (req, res) => {
   try {
     const username = req.params.id;
+    if (req.user.user !== username) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
     const [missionCol, userDoc] = await Promise.all([
       missionsRef.orderBy('priority').get(),
       dbRef.doc(username).get(),
@@ -124,12 +129,16 @@ router.get('/mission/list/:id', async (req, res) => {
   }
 });
 
-router.post('/mission/seen/:id', async (req, res) => {
+router.post('/mission/seen/:id', jwtAuth, async (req, res) => {
   try {
     const missionId = req.params.id;
     const {
       user,
     } = req.body;
+    if (req.user.user !== user) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
     const userMissionRef = dbRef.doc(user).collection('mission').doc(missionId);
     await userMissionRef.set({ seen: true }, { merge: true });
     res.sendStatus(200);
@@ -140,13 +149,17 @@ router.post('/mission/seen/:id', async (req, res) => {
   }
 });
 
-router.post('/mission/step/:id', async (req, res) => {
+router.post('/mission/step/:id', jwtAuth, async (req, res) => {
   try {
     const missionId = req.params.id;
     const {
       user,
       taskId,
     } = req.body;
+    if (req.user.user !== user) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
     const userMissionRef = dbRef.doc(user).collection('mission').doc(missionId);
     const doc = await userMissionRef.get();
     let done = false;
@@ -190,9 +203,13 @@ router.post('/mission/step/:id', async (req, res) => {
   }
 });
 
-router.get('/mission/list/history/:id', async (req, res) => {
+router.get('/mission/list/history/:id', jwtAuth, async (req, res) => {
   try {
     const username = req.params.id;
+    if (req.user.user !== username) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
     const userDoc = await dbRef.doc(username).get();
     if (!userDoc.exists) throw new Error('user not exist');
     const [userMissionCol, missionCol] = await Promise.all([
@@ -215,9 +232,13 @@ router.get('/mission/list/history/:id', async (req, res) => {
   }
 });
 
-router.get('/mission/list/history/:id/bonus', async (req, res) => {
+router.get('/mission/list/history/:id/bonus', jwtAuth, async (req, res) => {
   try {
     const { id } = req.params;
+    if (req.user.user !== id) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
     const query = await dbRef.doc(id).collection('bonus').get();
     const obj = query.docs
       .filter(t => t.data().txHash && t.data().value)
@@ -238,9 +259,13 @@ router.get('/mission/list/history/:id/bonus', async (req, res) => {
   }
 });
 
-router.get('/referral/list/:id', async (req, res) => {
+router.get('/referral/list/:id', jwtAuth, async (req, res) => {
   try {
     const { id } = req.params;
+    if (req.user.user !== id) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
     const query = await dbRef.doc(id).collection('referrals').get();
     const missionCol = await missionsRef.where('isReferral', '==', true).orderBy('priority').get();
 
@@ -281,9 +306,13 @@ router.get('/referral/list/:id', async (req, res) => {
   }
 });
 
-router.get('/referral/list/bonus/:id', async (req, res) => {
+router.get('/referral/list/bonus/:id', jwtAuth, async (req, res) => {
   try {
     const { id } = req.params;
+    if (req.user.user !== id) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
     const [referrerDoc, refereeDoc] = await Promise.all([
       bonusRef
         .where('toId', '==', id)
@@ -309,9 +338,13 @@ router.get('/referral/list/bonus/:id', async (req, res) => {
   }
 });
 
-router.post('/referral/seen/:id', async (req, res) => {
+router.post('/referral/seen/:id', jwtAuth, async (req, res) => {
   try {
     const user = req.params.id;
+    if (req.user.user !== user) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
     const {
       referralId,
     } = req.body;
