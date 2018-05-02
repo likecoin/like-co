@@ -87,7 +87,7 @@ export default {
       return this.formId || 'referral-form';
     },
     shareURL() {
-      return `https://like.co/register?from=${this.getUserInfo.displayName}`;
+      return `https://like.co/ref/${this.getUserInfo.displayName}`;
     },
     twitterURL() {
       return `https://twitter.com/intent/tweet?hashtags=likecoin&url=${encodeURI(this.shareURL)}&text=${encodeURI(this.$t('Edit.referral.tweetContent'))}`;
