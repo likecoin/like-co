@@ -417,54 +417,54 @@
       "member": {
         "kin": {
           "name": "kin ko",
-          "title": "Product Design"
+          "title": "产品设计"
         },
         "aludirk": {
           "name": "Aludirk Wong",
-          "title": "System Architect"
+          "title": "系统设计"
         },
         "jacky": {
           "name": "Jacky Ko",
-          "title": "CMO"
+          "title": "市场推广主管"
         },
         "william": {
           "name": "William Chong",
-          "title": "Full Stack Developer"
+          "title": "全端开发者"
         },
         "chung": {
           "name": "Chung Wu",
-          "title": "Blockchain Developer"
+          "title": "区块链开发者"
         },
         "edmond": {
           "name": "Edmond Yu",
-          "title": "Operation"
+          "title": "营运"
         },
         "simonb": {
           "name": "Simon But",
-          "title": "Growth Hacker"
+          "title": "成长骇客"
         },
         "david": {
           "name": "David Ng",
-          "title": "Full Stack Developer"
+          "title": "全端开发者"
         },
         "miles": {
           "name": "Miles Wong",
-          "title": "Full Stack Developer"
+          "title": "全端开发者"
         },
         "joshua": {
           "name": "Joshua Lo",
-          "title": "Designer"
+          "title": "设计师"
         },
         "michael": {
           "name": "Michael Cheung",
-          "title": "Full Stack Developer"
+          "title": "全端开发者"
         }
       }
     },
     "Community": {
       "title": "LikeCoin 社群: ",
       "button": {
-        "faq": "FAQ"
+        "faq": "常见问题"
       }
     }
   },
@@ -539,10 +539,10 @@
         "claim": "兑换红包"
       },
       "label": {
-        "confirming": "读取兑换码中…",
+        "confirming": "读取兑换码中...",
         "error": "兑换码无效",
         "invalidCoupon": "兑换码无效",
-        "redirecting": "返回个人页面中…",
+        "redirecting": "返回个人页面中...",
         "confirmToClaim": "你确定要兑换 {value} 个 LikeCoin 吗？"
       }
     },
@@ -553,11 +553,12 @@
       },
       "button": {
         "createID": "注册 LikeCoin ID",
-        "buyCoin": "购买 LikeCoin"
+        "buyCoin": "购买 LikeCoin",
+        "myAccount": "我的帐号"
       }
     },
     "blocker": {
-      "title": "处理中…",
+      "title": "处理中...",
       "content": "处理中，请勿关闭浏览器"
     },
     "emailInput": {
@@ -579,8 +580,11 @@
         "switchRinkebyCaption": "切换至 Rinkeby:<br>Settings > Network > Rinkeby (ETH)"
       },
       "label": {
+        "useTrustBrowser": "使用 <span style=\"color: #28646e; font-weight: bold;\">Trust Wallet Browser</span> 浏览:",
+        "clickToCopy": "点击复制推荐网址",
+        "copied": "已复制",
         "help": "如何在手机上注册",
-        "registerMobileLink": "https://help.like.co/likecoin-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/%E6%96%B0%E6%89%8B%E4%B8%8A%E8%B7%AF/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%89%8B%E6%9C%BA%E4%B8%8A%E6%B3%A8%E5%86%8C-likecoin-%E5%B8%90%E5%8F%B7"
+        "registerMobileLink": "https://help.like.co/likecoin-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/%E6%96%B0%E6%89%8B%E4%B8%8A%E8%B7%AF/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%89%8B%E6%9C%BA%E4%B8%8A%E6%B3%A8%E5%86%8C-likecoin-id"
       },
       "button": {
         "openWithTrust": "开启 Trust"
@@ -645,7 +649,7 @@
     },
     "referral": {
       "title": "推荐计划",
-      "description": "广邀好友加入 like.co，获得免费 LikeCoin！你的朋友使用你的邀请连结注册 LikeCoin 帐号，并验证邮件箱地址后，双方都会获得收到额外的 LikeCoin 兑换码",
+      "description": "广邀好友加入 like.co，获得免费 LikeCoin！你的朋友使用你的邀请连结注册 LikeCoin 帐号，并验证邮件箱地址后，双方都会获得收到额外的 LikeCoin",
       "pending": "未认证邮箱",
       "verified": "已确认",
       "emailInvite": "发电邮邀请",
@@ -742,7 +746,7 @@
       "bonus": "奖励",
       "bonusLockUp": "额外的 LikeCoin 奖赏会在你的钱包锁上，6 个月内不能传送。",
       "amountWillBeSentWhenSalesStart": "您所购买的 LikeCoin 以及其额外奖赏将于公众代币发售开始时发送，预计将于 April 23 2018 开始。额外的 LikeCoin 奖赏会在你的钱包锁上，并且 6 个月内不能传送。",
-      "whatIsEthLink": "https://help.like.co/likecoin-常見問題/什麼是-eth"
+      "whatIsEthLink": "https://help.like.co/likecoin-常见问题/什么是-eth"
     },
     "button": {
       "aboutLikeCoin": "关于 LikeCoin",
@@ -765,6 +769,31 @@
       "title": "商店",
       "label": {
         "youHavePurchased": "你已购买 {product} ，收据将会发送至你的电邮 {email}。参考编号："
+      }
+    }
+  },
+  "BonusPage": {
+    "title": "LikeCoin 奖赏",
+    "header": {
+      "likeCoinBonus": "LikeCoin 奖赏",
+      "inviteeMission": "受邀者任务"
+    },
+    "label": {
+      "description": "如果你的朋友成功以你的推荐链结注册，你和你的朋友都可获得LikeCoin奖赏。留意你和你的朋友的电邮地址必须已通过验证才能得到奖赏。",
+      "inviteeMissionDescription": "你和你的受邀者均可因每一个完成的任务而获得LikeCoin",
+      "earned": "你已赚取",
+      "likeBonus": "LIKE 奖赏"
+    },
+    "button": {
+      "moreBonus": "更多奖赏"
+    },
+    "HistoryTab": {
+      "title": "奖赏记录",
+      "header": {
+        "completedBonus": "已完成的任务"
+      },
+      "label": {
+        "emptyHistoryPlaceholder": "此处查看已获得的奖赏"
       }
     }
   },
@@ -835,13 +864,13 @@
       "value": "价值"
     },
     "label": {
-      "in": "收入",
-      "out": "支出",
+      "in": "转入",
+      "out": "转出",
       "fail": "失败",
       "tokensale": "代币发售",
       "earlybird": "早鸟发售",
       "earlyBeliever": "支持者",
-      "timePending": "等待完成…",
+      "timePending": "等待完成...",
       "timeExpired": "逾期",
       "coupon": "红包",
       "noRecord": "暂时没有您的记录。",
@@ -858,6 +887,62 @@
   "Error": {
     "button": {
       "toIndex": "返回主页"
+    },
+    "EMAIL_ALREADY_USED": "此电邮地址已被注册",
+    "REFERRER_NOT_EXIST": "推荐人的 LikeCoin ID 不存在",
+    "USER_ALREADY_EXIST": "帐户已经存在"
+  },
+  "Mission": {
+    "gettingStart": {
+      "title": "新手上路",
+      "description": "欢迎参与这场回馈创作运动。LikeCoin 要推动的是一场重新分配内容创作利益的运动。在<a href=\"https://like.co\">like.co</a>，你除了可买卖和输送 LikeCoin 外，还可以透过 Like 生态圈赚取 LikeCoin。<span class=\"bold\">检视你的转帐页面，观看介绍影片，以及赞好 LikeCoin 的 FB 专页，借此获得 3 枚 LikeCoin 奖赏！</span>",
+      "taskSocial": "赞好 FB 专页",
+      "taskOnepager": "阅读 LikeCoin 的计画介绍",
+      "taskVideo": "观看介绍影片",
+      "taskPaymentPage": "检视你的转帐页面"
+    },
+    "inviteFriend": {
+      "title": "邀请朋友注册 LikeCoin ID",
+      "description": "邀请朋友注册LikeCoin ID，你跟你的朋友皆可获取 8 枚 LikeCoin 奖赏。"
+    },
+    "joinTokenSale": {
+      "title": "参与代币发售",
+      "description": "立即参与代币发售，你可获得额外 100 枚 LikeCoin。",
+      "subDescription": "不要忘记推荐奖金哦～每次你参与代币发售，你跟你的推荐人皆可获得额外 2.5% LIKE 奖赏！"
+    },
+    "refereeTokenSale": {
+      "title": "@:Mission.joinTokenSale.title",
+      "description": "请即参与代币发售，每次你参与代币发售，你跟你的推荐人皆可获得额外 2.5% LIKE 奖赏！"
+    },
+    "inviteTokenSale": {
+      "title": "邀请朋友参与代币发售",
+      "description": "受你邀者而成功注册的朋友每次参与代币发售，你都可获得额外 2.5% LIKE！"
+    },
+    "verifyEmail": {
+      "title": "验证电邮地址",
+      "description": "验证电邮以获取免费的 LikeCoin 奖赏。",
+      "label": {
+        "yourEmailAddress": "你的电邮地址"
+      }
+    },
+    "verifyEmailReferral": {
+      "title": "@:Mission.verifyEmail.title",
+      "description": "需要 <span class=\"bold\">{invitee}</span> 验证其电邮地址。<br><br>一经验证，你跟<span class=\"bold\">{invitee}</span>将获取 8 枚 LikeCoin 奖赏！"
+    },
+    "joinTokenSaleReferral": {
+      "title": "@:Mission.joinTokenSale.title",
+      "description": "每次 <span class=\"bold\">{invitee}</span> 参与代币发售，你跟你的邀请人皆可获得额外 2.5% LIKE 奖赏！"
+    },
+    "completedBanner": {
+      "label": {
+        "completed": "完成！",
+        "bonusTransferShortly": "LikeCoin 奖赏正在转帐给你，快到了。"
+      }
+    },
+    "common": {
+      "label": {
+        "upcomingDate": "<span class=\"bold\">LikeCoin 公开代币发售将于 {upcoming} 开始.</span>"
+      }
     }
   }
 }
