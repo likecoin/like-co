@@ -127,6 +127,7 @@ module.exports = {
     { src: '~/plugins/vue-stripe', ssr: false },
     { src: '~/plugins/vue-swiper', ssr: false },
     { src: '~/plugins/vue-clipboard2', ssr: false },
+    { src: '~/plugins/vue-portal', ssr: false },
   ],
   /*
   ** Add axios globally
