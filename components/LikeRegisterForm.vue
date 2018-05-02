@@ -269,14 +269,21 @@ export default {
       if (e && !this.isRedeemingCoupon) {
         this.user = this.getUserInfo.user;
         this.tryRedirect();
-        const { hash } = document.location;
-        this.$router.replace({
-          hash,
-          name: 'in',
-          params: { showEmail: !!this.email },
-          query: this.$route.query.ref ? { ref: this.$route.query.ref } : {},
-          // only preserve $ref for now
-        });
+        const { query } = this.$route;
+        if (query.ref) {
+          const newQuery = Object.assign({}, query);
+          delete newQuery.ref;
+          if (newQuery.from) delete newQuery.from;
+          this.$router.push({ name: query.ref, query: newQuery });
+        } else {
+          const { hash } = document.location;
+          this.$router.replace({
+            hash,
+            name: 'in',
+            params: { showEmail: !!this.email },
+            query,
+          });
+        }
       }
     },
     getLocalWallet(w) {

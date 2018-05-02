@@ -196,6 +196,7 @@ export default {
       'getPopupMission',
       'getMissionById',
       'getUserInfo',
+      'getWeb3Type',
     ]),
     mission() {
       return this.getMissionById(this.getPopupMission.id) || {};
@@ -240,6 +241,9 @@ export default {
     isUpcomingMission() {
       return this.mission.upcoming;
     },
+    isTrust() {
+      return this.getWeb3Type === 'window' && window.web3 && window.web3.currentProvider.isTrust;
+    },
   },
   methods: {
     ...mapActions([
@@ -272,6 +276,13 @@ export default {
         default:
       }
     },
+    openURL(url, name) {
+      if (this.isTrust) {
+        window.location.assign(url);
+      } else {
+        window.open(url, name || '_blank');
+      }
+    },
     async onClickGettingStartTask(t) {
       /* post first due to trust problem */
       await Promise.race([
@@ -286,11 +297,11 @@ export default {
 
       switch (t.id) {
         case 'taskPaymentPage':
-          window.open(`/${this.getUserInfo.user}`, 'payment-page');
+          this.openURL(`/${this.getUserInfo.user}`, 'payment-page');
           break;
 
         case 'taskOnepager': {
-          window.open('/in/whitepaper', 'onpager-page');
+          this.openURL('/in/whitepaper', 'onpager-page');
           break;
         }
 
@@ -316,7 +327,7 @@ export default {
             default:
               link += '28spMOgMs3o';
           }
-          window.open(link, 'youtube');
+          this.openURL(link, 'youtube');
           break;
         }
 
@@ -328,7 +339,7 @@ export default {
               break;
             default:
           }
-          window.open(link, 'social-group');
+          this.openURL(link, 'social-group');
           break;
         }
         default:

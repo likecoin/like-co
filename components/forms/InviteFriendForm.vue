@@ -87,7 +87,7 @@ export default {
       return this.formId || 'referral-form';
     },
     shareURL() {
-      return `https://like.co/register?from=${this.getUserInfo.displayName}`;
+      return `https://like.co/ref/${this.getUserInfo.user}`;
     },
     twitterURL() {
       return `https://twitter.com/intent/tweet?hashtags=likecoin&url=${encodeURI(this.shareURL)}&text=${encodeURI(this.$t('Edit.referral.tweetContent'))}`;
@@ -102,7 +102,7 @@ export default {
       this.$emit('invite', type);
     },
     async onSendEmail() {
-      await this.sendInvitationEmail({ email: this.email, user: this.getUserInfo.displayName });
+      await this.sendInvitationEmail({ email: this.email, user: this.getUserInfo.user });
       this.setInfoMsg(this.$t('Edit.referral.sent', { email: this.email }));
       this.email = '';
       this.onInvite('email');
