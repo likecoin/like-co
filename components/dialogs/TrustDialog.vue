@@ -55,7 +55,7 @@
             </div>
 
             <div class="lc-button-group">
-              <md-button class="trust" v-if="buttonText" @click="openTrust">
+              <md-button class="md-likecoin trust" v-if="buttonText" @click="openTrust">
                 {{ buttonText }}
               </md-button>
               <div class="lc-font-size-12 lc-margin-top-12">
