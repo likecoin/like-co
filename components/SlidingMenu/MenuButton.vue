@@ -1,15 +1,19 @@
 <template>
-  <div :class="['toggle-menu-button', { open: getIsSlidingMenuOpen }]">
-    <div>
+  <div
+    :class="['toggle-menu-button', { open: getIsSlidingMenuOpen }]"
+    @click="toggleMenu">
 
-      <div @click="openSlidingMenu">
-        <span>{{ $t('Menu.button.menu') }}</span><img :src="MenuIcon" />
-      </div>
-      <div @click="closeSlidingMenu">
-        <span>{{ $t('Menu.button.close') }}</span><img :src="ArrowIcon" />
-      </div>
-
+    <div class="nav-label">
+      <div>{{ $t('Menu.button.menu') }}</div>
+      <div>{{ $t('Menu.button.close') }}</div>
     </div>
+
+    <div class="nav-icon">
+      <span />
+      <span />
+      <span />
+    </div>
+
   </div>
 </template>
 
@@ -17,17 +21,8 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-import MenuIcon from '@/assets/icons/menu.svg';
-import ArrowIcon from '@/assets/icons/arrow-right.svg';
-
 export default {
   name: 'menu-button',
-  data() {
-    return {
-      MenuIcon,
-      ArrowIcon,
-    };
-  },
   computed: {
     ...mapGetters([
       'getIsSlidingMenuOpen',
@@ -38,6 +33,13 @@ export default {
       'openSlidingMenu',
       'closeSlidingMenu',
     ]),
+    toggleMenu() {
+      if (this.getIsSlidingMenuOpen) {
+        this.closeSlidingMenu();
+      } else {
+        this.openSlidingMenu();
+      }
+    },
   },
 };
 </script>
@@ -46,58 +48,117 @@ export default {
 <style lang="scss" scoped>
 @import "~assets/variables";
 
-$button-interspace: 10px;
+$button-interspace: 7px;
+$hamburger-interspace: 5px;
+
+@mixin hamburger-transform($pos: 1) {
+  transform: translateY($pos * $hamburger-interspace) rotateZ(-30deg * $pos) scaleX(0.6);
+}
+
+@keyframes menu-button-animation {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(2px); }
+}
 
 .toggle-menu-button {
   position: relative;
 
+  display: flex;
   overflow: hidden;
 
   height: 34px;
 
+  cursor: pointer;
   text-align: right;
 
   color: $like-green;
 
-  font-size: 18px;
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0) 0%,
+    rgba(0,0,0,1) 20%, 
+    rgba(0,0,0,1) 80%,
+    rgba(0,0,0,0) 100%);
+
+  &:hover {
+    .nav-label div {
+      animation: {
+        name: menu-button-animation;
+        duration: .4s;
+        direction: alternate;
+        timing-function: ease-in-out;
+        iteration-count: infinite;
+      }
+    }
+  }
 
   &.open {
     z-index: 10010;
 
-    > div {
-      transform: translateY(-50%);
+    .nav-label {
+      transform: translateY(-100%);
+
       will-change: transform;
-    }
-  }
-
-  > div {
-    margin: 0 -#{$button-interspace};
-
-    transition: transform 0.15s ease-out;
-
-    > div {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-
-      padding: $button-interspace;
-
-      cursor: pointer;
-      user-select: none;
-
-      &:hover {
-        transform: translateY(-1px);
-      }
 
       span {
-        font-size: 18px;
-        line-height: 14px;
+        opacity: 1;
       }
+    }
+  }
+}
 
-      img {
-        width: 20px;
-        height: 14px;
-        margin-left: 16px;
+.nav-label {
+  margin: 0 -#{$button-interspace};
+
+  transition: transform .5s ease-out;
+
+  will-change: transform;
+
+  > div {
+    padding: $button-interspace;
+
+    user-select: none;
+    transition: opacity .5s ease-out;
+
+    font-size: 18px;
+    line-height: 20px;
+
+    will-change: opacity;
+  }
+}
+
+.nav-icon {
+  position: relative;
+
+  width: 20px;
+  height: 20px;
+  margin: $button-interspace 0 $button-interspace $button-interspace;
+
+  span {
+    position: absolute;
+    right: 0;
+    left: 0;
+
+    height: 2px;
+
+    transition: transform .5s ease-out;
+    transform-origin: left center;
+
+    background-color: currentColor;
+
+    will-change: transform;
+
+    @for $i from 1 through 3 {
+      &:nth-of-type(#{$i}) {
+        top: 4px + $hamburger-interspace * ($i - 1);
+
+        .open & {
+          @if $i == 1 {
+            @include hamburger-transform();
+          } @else if $i == 3 {
+            @include hamburger-transform(-1);
+          }
+        }
       }
     }
   }
