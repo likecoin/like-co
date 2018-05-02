@@ -768,6 +768,31 @@
       }
     }
   },
+  "BonusPage": {
+    "title": "LikeCoin 奬賞",
+    "header": {
+      "likeCoinBonus": "LikeCoin 奬賞",
+      "inviteeMission": "受邀者任務"
+    },
+    "label": {
+      "description": "如果你的朋友成功以你的推薦鏈結註冊，你和你的朋友都可獲得LikeCoin奬賞。留意你和你的朋友的電郵地址必須已通過驗證才能得到奬賞。",
+      "inviteeMissionDescription": "你和你的受邀者均可因每一個完成的任務而獲得LikeCoin",
+      "earned": "你已賺取",
+      "likeBonus": "LIKE 奬賞"
+    },
+    "button": {
+      "moreBonus": "更多奬賞"
+    },
+    "HistoryTab": {
+      "title": "奬賞記錄",
+      "header": {
+        "completedBonus": "已完成的任務"
+      },
+      "label": {
+        "emptyHistoryPlaceholder": "此處查看已獲得的奬賞"
+      }
+    }
+  },
   "KYC": {
     "label": {
       "kyc": "身份認證",
