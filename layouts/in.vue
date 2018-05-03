@@ -77,7 +77,7 @@
 
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import MissionDialog from '@/components/dialogs/MissionDialog';
 import MyFooter from '~/components/footer/Footer';
 import SiteHeader from '~/components/header/HeaderWithMenuButton';
@@ -107,6 +107,7 @@ export default {
       'getCurrentLocale',
       'getCurrentLocaleISO',
       'getReferralMissionList',
+      'getUserNeedAuth',
     ]),
   },
   head() {
@@ -118,6 +119,23 @@ export default {
         'lc-lang': this.getCurrentLocale,
       },
     };
+  },
+  methods: {
+    ...mapActions([
+      'loginUser',
+    ]),
+  },
+  watch: {
+    getUserNeedAuth(a) {
+      if (a) {
+        this.loginUser();
+      }
+    },
+  },
+  mounted() {
+    if (this.getUserNeedAuth) {
+      this.loginUser();
+    }
   },
 };
 </script>
