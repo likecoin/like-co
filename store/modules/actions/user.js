@@ -8,11 +8,9 @@ import User from '@/util/User';
 import apiWrapper from './api-wrapper';
 
 export async function newUser(ctx, data) {
-  const { state, dispatch } = ctx;
-  const { token } = apiWrapper(ctx, api.apiPostNewUser(data), { blocking: true });
+  const { token } = await apiWrapper(ctx, api.apiPostNewUser(data), { blocking: true });
   if (token) {
     setJWTToken(token);
-    await dispatch('refreshUser', state.wallet);
   }
 }
 
@@ -33,8 +31,12 @@ export async function loginUser({ state, commit, dispatch }) {
   }
 }
 
-export async function onWalletChanged({ state, commit, dispatch }) {
+export async function onWalletChanged({ state, commit, dispatch }, wallet) {
   try {
+    if (state.wallet !== wallet) {
+      commit(types.USER_SET_USER_INFO, {});
+    }
+    commit(types.USER_SET_LOCAL_WALLET, wallet);
     commit(types.UI_INFO_MSG, '');
     commit(types.MISSION_CLEAR_ALL);
     if (!state.wallet) return;
@@ -50,14 +52,6 @@ export async function onWalletChanged({ state, commit, dispatch }) {
   } catch (err) {
     // no op
   }
-}
-
-export function setLocalWallet({ commit }, wallet) {
-  commit(types.USER_SET_LOCAL_WALLET, wallet);
-}
-
-export function setUserIsFetching({ commit }, fetching) {
-  commit(types.USER_SET_FETCHING, fetching);
 }
 
 export function setWeb3IsFetching({ commit }, fetching) {
@@ -92,6 +86,20 @@ export async function refreshUser({ commit, state }, addr) {
   }
 }
 
+export async function refreshUserInfo({ commit, dispatch }, id) {
+  try {
+    commit(types.USER_SET_FETCHING, true);
+    const user = await apiWrapper({ commit, dispatch }, api.apiGetUserById(id), { slient: true });
+    if (user) {
+      user.user = id;
+      commit(types.USER_SET_USER_INFO, user);
+    }
+    commit(types.USER_SET_FETCHING, false);
+  } catch (error) {
+    commit(types.USER_SET_FETCHING, false);
+    throw error;
+  }
+}
 export async function getWalletByUser(ctx, id) {
   const { wallet } = await apiWrapper(ctx, api.apiGetUserById(id), { blocking: true });
   return wallet;
@@ -113,21 +121,6 @@ export async function verifyEmailByUUID({ commit, rootState }, uuid) {
     api.apiVerifyEmailByUUID(uuid, rootState.ui.locale),
     { blocking: true },
   );
-}
-
-export async function refreshUserInfo({ commit, dispatch }, id) {
-  try {
-    commit(types.USER_SET_FETCHING, true);
-    const user = await apiWrapper({ commit, dispatch }, api.apiGetUserById(id), { slient: true });
-    if (user) {
-      user.user = id;
-      commit(types.USER_SET_USER_INFO, user);
-    }
-    commit(types.USER_SET_FETCHING, false);
-  } catch (error) {
-    commit(types.USER_SET_FETCHING, false);
-    throw error;
-  }
 }
 
 export async function fetchUserReferralStats({ commit, dispatch }, id) {

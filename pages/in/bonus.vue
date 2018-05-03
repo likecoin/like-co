@@ -56,9 +56,7 @@ export default {
   watch: {
     getUserIsReady(a) {
       if (a) {
-        if (!this.getUserIsRegistered) {
-          this.$router.push({ name: 'in-register' });
-        } else {
+        if (this.getUserIsRegistered) {
           this.updateInfo();
         }
       }
@@ -66,9 +64,7 @@ export default {
   },
   mounted() {
     if (this.getUserIsReady) {
-      if (!this.getUserIsRegistered) {
-        this.$router.push({ name: 'in-register' });
-      } else {
+      if (this.getUserIsRegistered) {
         this.updateInfo();
       }
     }

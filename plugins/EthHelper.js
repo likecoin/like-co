@@ -13,8 +13,7 @@ export default ({ store }) => {
       store.dispatch('setMetamaskError', '');
     },
     onWalletCb: async (wallet) => {
-      await store.dispatch('setLocalWallet', wallet);
-      await store.dispatch('onWalletChanged');
+      await store.dispatch('onWalletChanged', wallet);
       await store.dispatch('setWeb3IsFetching', false);
     },
     onSetWeb3: (type) => {
