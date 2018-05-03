@@ -107,6 +107,9 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'getUserIsReady',
+      'getUserIsRegistered',
+      'getUserNeedAuth',
       'getDesc',
       'getHeaderSubtitle',
       'getHeaderIcon',
@@ -124,6 +127,19 @@ export default {
         'lc-lang': this.getCurrentLocale,
       },
     };
+  },
+  watch: {
+    getUserNeedAuth(a) {
+      if (a) this.$router.push({ name: 'in' });
+    },
+    getUserIsRegistered(u) {
+      if (u) this.$router.push({ name: 'in' });
+    },
+  },
+  mounted() {
+    if (this.getUserNeedAuth || this.getUserIsRegistered) {
+      this.$router.replace({ name: 'in' });
+    }
   },
 };
 </script>

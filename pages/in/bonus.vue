@@ -49,16 +49,16 @@ export default {
   watch: {
     getUserIsReady(a) {
       if (a) {
-        if (!this.getUserIsRegistered) {
-          this.$router.push({ name: 'in-register', query: this.$route.query });
+        if (this.getUserIsRegistered) {
+          this.updateInfo();
         }
       }
     },
   },
   mounted() {
     if (this.getUserIsReady) {
-      if (!this.getUserIsRegistered) {
-        this.$router.push({ name: 'in-register', query: this.$route.query });
+      if (this.getUserIsRegistered) {
+        this.updateInfo();
       }
     }
   },

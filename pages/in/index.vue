@@ -236,16 +236,9 @@ export default {
   watch: {
     getUserIsReady(a) {
       if (a) {
-        if (!this.getUserIsRegistered) {
-          this.$router.push({ name: 'in-register', query: this.$route.query });
-        } else {
+        if (this.getUserIsRegistered) {
           this.updateInfo();
         }
-      }
-    },
-    getUserNeedAuth(a) {
-      if (a) {
-        this.loginUser();
       }
     },
   },
@@ -267,13 +260,9 @@ export default {
       if (element) element.scrollIntoView();
     }
     if (this.getUserIsReady) {
-      if (!this.getUserIsRegistered) {
-        this.$router.push({ name: 'in-register', query: this.$route.query });
-      } else {
+      if (this.getUserIsRegistered) {
         this.updateInfo();
       }
-    } else if (this.getUserNeedAuth) {
-      this.loginUser();
     }
   },
 };

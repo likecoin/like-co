@@ -13,4 +13,6 @@ export const getUserIsReady = (state) => {
 
 export const getUserIsRegistered = state => !!state.user.wallet;
 
+export const getUserNeedRegister = state => (getUserIsReady(state) && !getUserIsRegistered(state));
+
 export const getLocalWallet = state => state.wallet;

@@ -108,6 +108,7 @@ export default {
       'getCurrentLocaleISO',
       'getReferralMissionList',
       'getUserNeedAuth',
+      'getUserNeedRegister',
     ]),
   },
   head() {
@@ -131,10 +132,18 @@ export default {
         this.loginUser();
       }
     },
+    getUserNeedRegister(a) {
+      if (a) {
+        this.$router.push({ name: 'in-register' });
+      }
+    },
   },
   mounted() {
     if (this.getUserNeedAuth) {
       this.loginUser();
+    }
+    if (this.getUserNeedRegister) {
+      this.$router.replace({ name: 'in-register' });
     }
   },
 };
