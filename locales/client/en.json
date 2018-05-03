@@ -10,7 +10,9 @@
       "send": "Send",
       "yes": "Yes",
       "no": "No",
-      "ok": "OK"
+      "ok": "OK",
+      "copy": "Copy",
+      "copied": "Copied"
     }
   },
   "Language": {
@@ -665,6 +667,8 @@
       "description": "You and your friend can both earn a LikeCoin bonus if your friend has signed up successfully by your affiliate link.  Please note that the email address has to be verified for you and your friend to be entitled to the bonus.",
       "pending": "Waiting for email verification",
       "verified": "Confirmed",
+      "shareUrl": "Invite your friend by URL",
+      "orByEmail": "Or by email",
       "emailInvite": "Invite your friend by email",
       "altInvite": "Or invite by:",
       "copyUrl": "Copy URL",
