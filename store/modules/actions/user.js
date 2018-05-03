@@ -17,24 +17,7 @@ export function setUserIsFetching({ commit }, fetching) {
   commit(types.USER_SET_FETCHING, fetching);
 }
 
-export async function refreshUser({ commit, state }) {
-  try {
-    commit(types.USER_SET_FETCHING, true);
-    const { user } = await api.apiCheckIsUser(state.wallet);
-    if (user && user.user) {
-      commit(types.USER_SET_USER_INFO, user);
-    } else {
-      commit(types.USER_SET_USER_INFO, {});
-    }
-    commit(types.USER_SET_FETCHING, false);
-  } catch (error) {
-    commit(types.USER_SET_USER_INFO, {});
-    commit(types.USER_SET_FETCHING, false);
-    // do nothing
-  }
-}
-
-export async function isUser({ commit, state }, addr) {
+export async function refreshUser({ commit, state }, addr) {
   try {
     commit(types.USER_SET_FETCHING, true);
     const { data: user } = await api.apiCheckIsUser(addr);
