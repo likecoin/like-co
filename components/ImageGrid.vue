@@ -3,11 +3,11 @@
     <div>
 
       <ul>
-        <li v-for="(item, index) in items">
+        <li v-for="item in items" :key="item.id">
 
           <a
             :href="!item.isLightBox && item.link"
-            @click="item.isLightBox && openLightBox(index)"
+            @click="item.isLightBox && openLightBox(item.id)"
             target="_blank"
             rel="noopener">
             <img v-lazy="item.src" />
@@ -49,9 +49,9 @@ export default {
     const images = [];
     const imagesMap = {};
 
-    this.items.forEach((item, index) => {
+    this.items.forEach((item) => {
       if (item.isLightBox) {
-        imagesMap[index] = images.length;
+        imagesMap[item.id] = images.length;
         images.push({
           src: item.link,
           caption: item.title,
@@ -65,8 +65,11 @@ export default {
     };
   },
   methods: {
-    openLightBox(index) {
-      this.$refs.lightbox.showImage(this.imagesMap[index]);
+    openLightBox(id) {
+      const index = this.imagesMap[id];
+      if (index !== undefined && this.$refs.lightbox) {
+        this.$refs.lightbox.showImage(index);
+      }
     },
   },
 };
