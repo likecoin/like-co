@@ -81,6 +81,7 @@
           <!-- BEGIN - Invite Friend Section -->
           <invite-friend-form
             v-else-if="mission.id === 'inviteFriend'"
+            class="lc-margin-top-24"
             form-id="mission-invite-friend-form"
             @invite="onInviteFriend" />
           <!-- END - Invite Friend Section -->
