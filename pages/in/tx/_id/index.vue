@@ -95,7 +95,7 @@ import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 import TransactionHeader from '~/components/header/TransactionHeader';
 import ViewEtherscan from '~/components/ViewEtherscan';
 
-import { apiGetTxById, apiCheckIsUser } from '@/util/api/api';
+import { apiGetTxById, apiGetUserMinById } from '@/util/api/api';
 
 const ONE_LIKE = new BigNumber(10).pow(18);
 const PENDING_UPDATE_INTERVAL = 1000; // 1s
@@ -112,9 +112,7 @@ export default {
       status: 'pending',
       from: '',
       to: '',
-      fromId: '',
       fromName: '',
-      toId: '',
       toName: '',
       toAvatar: '',
       remarks: '',
@@ -140,7 +138,9 @@ export default {
       .then((res) => {
         const {
           to,
+          toId,
           from,
+          fromId,
           value,
           status,
           remarks,
@@ -153,7 +153,9 @@ export default {
         }
         return {
           to,
+          toId,
           from,
+          fromId,
           value,
           status,
           remarks,
@@ -200,16 +202,14 @@ export default {
       this.to = to;
       this.startLoading();
       const [fromData, toData] = await Promise.all([
-        apiCheckIsUser(from).catch(() => {}),
-        apiCheckIsUser(to).catch(() => {}),
+        apiGetUserMinById(this.fromId).catch(() => {}),
+        apiGetUserMinById(this.toId).catch(() => {}),
       ]);
       this.stopLoading();
       if (fromData && fromData.data) {
-        this.fromId = fromData.data.user;
         this.fromName = fromData.data.displayName || fromData.data.user;
       }
       if (toData && toData.data) {
-        this.toId = toData.data.user;
         this.toName = toData.data.displayName || toData.data.user;
         this.toAvatar = toData.data.avatar;
       }
