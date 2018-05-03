@@ -6,6 +6,7 @@ import kyc from './kyc';
 import iap from './iap';
 import mission from './mission';
 import oembed from './oembed';
+import { startPoller } from '../util/poller';
 
 const router = Router();
 
@@ -21,4 +22,5 @@ router.get('/healthz', (req, res) => {
   res.sendStatus(200);
 });
 
+if (!process.env.CI) startPoller();
 export default router;

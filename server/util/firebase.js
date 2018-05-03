@@ -12,6 +12,7 @@ if (process.env.CI) {
     iapCollection: {},
     missionCollection: {},
     payoutCollection: {},
+    configCollection: {},
     bucket: {},
     FieldValue,
   };
@@ -27,6 +28,7 @@ if (process.env.CI) {
   const iapCollection = db.collection(config.FIRESTORE_IAP_ROOT);
   const missionCollection = db.collection(config.FIRESTORE_MISSION_ROOT);
   const payoutCollection = db.collection(config.FIRESTORE_PAYOUT_ROOT);
+  const configCollection = db.collection(config.FIRESTORE_CONFIG_ROOT);
   const bucket = admin.storage().bucket();
 
   module.exports = {
@@ -36,6 +38,7 @@ if (process.env.CI) {
     iapCollection,
     missionCollection,
     payoutCollection,
+    configCollection,
     bucket,
     FieldValue,
   };

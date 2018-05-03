@@ -11,6 +11,7 @@ import Validate from '../../util/ValidationHelper';
 import { logTransferDelegatedTx, logETHTx } from '../util/logger';
 import { web3, sendTransactionWithLoop } from '../util/web3';
 import { sendPreSale } from '../util/ses';
+import { tokensaleInitial } from '../util/poller';
 
 import publisher from '../util/gcloudPub';
 
@@ -328,6 +329,16 @@ router.get('/tx/tokensale/:addr', async (req, res) => {
       .orderBy('ts', 'desc')
       .get();
     res.json(doc.docs.map(d => ({ id: d.id, ...Validate.filterTxData(d.data()) })));
+  } catch (err) {
+    const msg = err.message || err;
+    console.error(msg);
+    res.status(400).send(msg);
+  }
+});
+
+router.get('/tokensale/initial', async (req, res) => {
+  try {
+    res.json({ initial: tokensaleInitial });
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
