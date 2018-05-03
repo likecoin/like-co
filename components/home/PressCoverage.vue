@@ -122,18 +122,16 @@ export default {
     };
   },
   mounted() {
-    const query = /[?&]press=([^&]*)/.exec(window.location.search);
-    if (query && query[1]) {
-      const imageId = query[1];
-
-      const press = this.presses.find(({ id }) => id === imageId);
-      if (imageId && press) {
+    const pressId = this.$route.query.press;
+    if (pressId) {
+      const press = this.presses.find(({ id }) => id === pressId);
+      if (press) {
         const element = document.querySelector('#press');
         if (element) element.scrollIntoView();
 
         if (press.isLightBox) {
           this.$nextTick(() => {
-            this.$refs.imageGrid.openLightBox(imageId);
+            this.$refs.imageGrid.openLightBox(pressId);
           });
         }
       }
