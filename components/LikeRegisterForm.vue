@@ -24,7 +24,6 @@
                 v-model="user"
                 pattern="[a-z0-9-_]{7,20}"
                 @change="user=user.toLowerCase().trim()"
-                :disabled="isEdit"
                 :title="$t('Register.form.error.alphanumeric')"
                 required />
               <span class="md-error">{{ $t(`Error.${getInfoMsg}`) }}</span>
@@ -37,16 +36,6 @@
                 {{ $t('Register.form.error.addressFormat') }}
               </span>
             </md-field>
-
-            <div v-if="isEdit && !isNaN(likeCoinBalance) && !isRedeemingCoupon">
-              {{ $t('Register.form.amount') }}
-              <a
-                :href="`${ETHERSCAN_HOST}/address/${wallet}#tokentxns`"
-                target="_blank"
-                rel="noopener">
-                {{ likeCoinBalance }}
-              </a>
-            </div>
 
             <md-field
               :class="[
@@ -77,15 +66,8 @@
               <span class="md-error">{{ $t(`Error.${getInfoMsg}`) }}</span>
             </md-field>
 
-            <md-field class="lc-margin-top-12 lc-margin-bottom-24 lc-mobile" v-if="isEdit && !isRedeemingCoupon">
-              <label>{{ $t('Register.form.displayName') }}</label>
-              <md-input v-model="displayName" />
-            </md-field>
-            <md-field class="lc-margin-top-12 lc-margin-bottom-24 lc-mobile" v-if="isRedeem || isEdit">
+            <md-field class="lc-margin-top-12 lc-margin-bottom-24 lc-mobile" v-if="isRedeem">
               <label>
-                <span v-if="isEdit">
-                  {{ $t('Register.form.claim') }}
-                </span>
                 {{ $t('Register.form.couponCode') }}
               </label>
               <md-input v-model="couponCode" pattern="[2-9A-HJ-NP-Za-km-z]{8}" />
@@ -121,7 +103,6 @@ import { mapActions, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
 import VueRecaptcha from 'vue-recaptcha';
 
-import EthHelper from '@/util/EthHelper';
 import User from '@/util/User';
 import { logTrackerEvent } from '@/util/EventLogger';
 
@@ -131,13 +112,9 @@ import MaterialButton from '~/components/MaterialButton';
 import { toDataUrl } from '@likecoin/ethereum-blockies';
 import { ETHERSCAN_HOST, W3C_EMAIL_REGEX, IS_TESTNET } from '@/constant';
 
-const URL = require('url-parse');
-
-const ONE_LIKE = new BigNumber(10).pow(18);
-
 export default {
   name: 'LikeRegisterForm',
-  props: ['isEdit', 'isRedeem', 'redirect'],
+  props: ['isRedeem'],
   data() {
     return {
       avatarFile: null,
@@ -145,16 +122,11 @@ export default {
       avatarData: null,
       user: '',
       email: this.$route.query.email || '',
-      displayName: '',
       couponCode: '',
       referrer: this.$route.query.from || '',
-      likeCoinBalance: NaN,
       wallet: this.getLocalWallet,
       reCaptchaResponse: '',
       isBadAddress: false,
-      isConfirming: false,
-      confirmContent: '',
-      onConfirm: () => {},
       ETHERSCAN_HOST,
       W3C_EMAIL_REGEX,
       IS_TESTNET,
@@ -173,28 +145,20 @@ export default {
       'getLocalWallet',
       'getCurrentLocale',
     ]),
-    isRedeemingCoupon() {
-      return this.couponCode;
-    },
   },
   methods: {
     ...mapActions([
       'newUser',
-      'getBlockie',
-      'setPageHeader',
       'setInfoMsg',
       'setErrorMsg',
-      'checkCoupon',
       'refreshUser',
       'setTxDialogAction',
     ]),
     async setMyLikeCoin(wallet) {
       this.wallet = wallet;
-      if (!this.avatarFile && !this.isEdit) {
+      if (!this.avatarFile) {
         this.avatarData = toDataUrl(wallet);
       }
-      const balance = await EthHelper.queryLikeCoinBalance(wallet);
-      this.likeCoinBalance = new BigNumber(balance).dividedBy(ONE_LIKE).toFixed(4);
     },
     checkAddress() {
       return this.wallet.length === 42 && this.wallet.substr(0, 2) === '0x';
@@ -210,18 +174,8 @@ export default {
         reader.readAsDataURL(files[0]);
       }
     },
-    updateInfo() {
-      const user = this.getUserInfo;
-      this.user = user.user;
-      this.displayName = user.displayName;
-      this.email = user.email;
-      this.avatarData = user.avatar;
-    },
     openPicker() {
       this.$refs.inputFile.click();
-    },
-    onCancel() {
-      this.$router.push({ name: 'in' });
     },
     onCaptchaVerify(response) {
       this.reCaptchaResponse = response;
@@ -251,7 +205,6 @@ export default {
         };
         const data = await User.formatAndSignUserInfo(userInfo, this.$t('Sign.Message.registerUser'));
         await this.newUser({ reCaptchaResponse, ...data });
-        await this.refreshUser(this.wallet);
         if (this.couponCode) {
           this.setTxDialogAction({ txDialogActionRoute: { name: 'in' }, txDialogActionText: 'View Account' });
           await this.$refs.claimDialog.onSubmit();
@@ -262,55 +215,20 @@ export default {
         if (this.referrer) {
           logTrackerEvent(this, 'RegFlow', 'CompleteReferrer', 'created new account with referrer', 1);
         }
-        this.tryRedirect();
+        await this.refreshUser(this.wallet);
+        this.$emit('registered', this.user);
       } catch (err) {
         console.error(err);
       }
     },
-    tryRedirect() {
-      if (this.redirect) {
-        try {
-          const url = new URL(this.redirect, true);
-          url.query.likecoinId = this.user;
-          url.set('query', url.query);
-          window.location.href = url.toString();
-        } catch (err) {
-          // invalid URL;
-        }
-      }
-    },
   },
   mounted() {
-    if (this.isEdit) {
-      this.updateInfo();
-    }
     const localWallet = this.getLocalWallet;
     if (localWallet) {
       this.setMyLikeCoin(localWallet);
     }
   },
   watch: {
-    isEdit(e) {
-      if (e && !this.isRedeemingCoupon) {
-        this.user = this.getUserInfo.user;
-        this.tryRedirect();
-        const { query } = this.$route;
-        if (query.ref) {
-          const newQuery = Object.assign({}, query);
-          delete newQuery.ref;
-          if (newQuery.from) delete newQuery.from;
-          this.$router.push({ name: query.ref, query: newQuery });
-        } else {
-          const { hash } = document.location;
-          this.$router.replace({
-            hash,
-            name: 'in',
-            params: { showEmail: !!this.email },
-            query,
-          });
-        }
-      }
-    },
     getLocalWallet(w) {
       if (w) {
         this.setMyLikeCoin(w);

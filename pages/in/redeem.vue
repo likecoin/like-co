@@ -1,10 +1,8 @@
 <template>
-  <like-register-form :isEdit="isEdit" :isRedeem="true"/>
+  <like-register-form :isRedeem="true" @registered="onSubmit"/>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
 import LikeRegisterForm from '~/components/LikeRegisterForm';
 
 import * as types from '@/store/mutation-types';
@@ -41,10 +39,23 @@ export default {
       ],
     };
   },
-  computed: {
-    ...mapGetters({
-      isEdit: 'getUserIsRegistered',
-    }),
+  methods: {
+    onSubmit() {
+      const { query } = this.$route;
+      if (query.ref) {
+        const newQuery = Object.assign({}, query);
+        delete newQuery.ref;
+        if (newQuery.from) delete newQuery.from;
+        this.$router.push({ name: query.ref, query: newQuery });
+      } else {
+        const { hash } = document.location;
+        this.$router.replace({
+          hash,
+          name: 'in',
+          query,
+        });
+      }
+    },
   },
 };
 </script>
