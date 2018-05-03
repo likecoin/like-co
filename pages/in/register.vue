@@ -1,5 +1,5 @@
 <template>
-  <like-register-form :isEdit="isEdit" :redirect="redirect" />
+  <like-register-form @registered="onSubmit" />
 </template>
 
 <script>
@@ -81,13 +81,46 @@ export default {
     title() {
       return this.referrer ? this.$t('Register.header.titleReferral', { name: this.referrer }) : this.$t('Register.header.title');
     },
-    ...mapGetters({
-      isEdit: 'getUserIsRegistered',
-      getDesc: 'getDesc',
-      getHeaderSubtitle: 'getHeaderSubtitle',
-      getHeaderIcon: 'getHeaderIcon',
-      getHeaderTitle: 'getHeaderTitle',
-    }),
+    ...mapGetters([
+      'getUserIsRegistered',
+      'getUserInfo',
+      'getDesc',
+      'getHeaderSubtitle',
+      'getHeaderIcon',
+      'getHeaderTitle',
+    ]),
+  },
+  methods: {
+    onSubmit(user) {
+      this.tryRedirect(user);
+      const { query } = this.$route;
+      if (query.ref) {
+        const newQuery = Object.assign({}, query);
+        delete newQuery.ref;
+        if (newQuery.from) delete newQuery.from;
+        this.$router.push({ name: query.ref, query: newQuery });
+      } else {
+        const { hash } = document.location;
+        this.$router.replace({
+          hash,
+          name: 'in',
+          params: { showEmail: !!this.getUserInfo.email },
+          query,
+        });
+      }
+    },
+    tryRedirect(user) {
+      if (this.redirect) {
+        try {
+          const url = new URL(this.redirect, true);
+          url.query.likecoinId = user;
+          url.set('query', url.query);
+          window.location.href = url.toString();
+        } catch (err) {
+          // invalid URL;
+        }
+      }
+    },
   },
 };
 </script>

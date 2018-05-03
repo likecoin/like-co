@@ -1,5 +1,5 @@
 <template>
-  <like-register-form :isEdit="isEdit" :isRedeem="true"/>
+  <like-register-form :isRedeem="true" @registered="onSubmit"/>
 </template>
 
 <script>
@@ -42,9 +42,28 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      isEdit: 'getUserIsRegistered',
-    }),
+    ...mapGetters([
+      'getUserInfo',
+    ]),
+  },
+  methods: {
+    onSubmit() {
+      const { query } = this.$route;
+      if (query.ref) {
+        const newQuery = Object.assign({}, query);
+        delete newQuery.ref;
+        if (newQuery.from) delete newQuery.from;
+        this.$router.push({ name: query.ref, query: newQuery });
+      } else {
+        const { hash } = document.location;
+        this.$router.replace({
+          hash,
+          name: 'in',
+          params: { showEmail: !!this.getUserInfo.email },
+          query,
+        });
+      }
+    },
   },
 };
 </script>
