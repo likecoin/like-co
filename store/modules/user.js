@@ -4,6 +4,7 @@ import {
   USER_SET_USER_INFO,
   USER_SET_LOCAL_WALLET,
   USER_SET_FETCHING,
+  USER_SET_WEB3_FETCHING,
   USER_AWAITING_AUTH,
 } from '../mutation-types';
 import * as actions from './actions/user';
@@ -12,8 +13,9 @@ import * as getters from './getters/user';
 const state = {
   user: {},
   wallet: '',
-  isFetching: true,
-  isAwaitingAuth: true,
+  isFetching: false,
+  isAwaitingAuth: false,
+  web3Fetching: true,
 };
 
 const mutations = {
@@ -25,6 +27,9 @@ const mutations = {
   },
   [USER_SET_FETCHING](state, isFetching) {
     state.isFetching = isFetching;
+  },
+  [USER_SET_WEB3_FETCHING](state, web3Fetching) {
+    state.web3Fetching = web3Fetching;
   },
   [USER_AWAITING_AUTH](state, isAwaitingAuth) {
     state.isAwaitingAuth = isAwaitingAuth;
