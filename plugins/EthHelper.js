@@ -14,7 +14,7 @@ export default ({ store }) => {
     },
     onWalletCb: (wallet) => {
       store.dispatch('setLocalWallet', wallet);
-      store.dispatch('isUser', wallet);
+      store.dispatch('refreshUser', wallet);
     },
     onSetWeb3: (type) => {
       store.dispatch('setWeb3Type', type);

@@ -171,7 +171,7 @@ export default {
       'setPageHeader',
       'setInfoMsg',
       'checkCoupon',
-      'isUser',
+      'refreshUser',
       'setTxDialogAction',
     ]),
     async setMyLikeCoin(wallet) {
@@ -226,7 +226,7 @@ export default {
         };
         const data = await User.formatAndSignUserInfo(userInfo, this.$t('Sign.Message.registerUser'));
         await this.newUser(data);
-        await this.isUser(this.wallet);
+        await this.refreshUser(this.wallet);
         if (this.couponCode) {
           this.setTxDialogAction({ txDialogActionRoute: { name: 'in' }, txDialogActionText: 'View Account' });
           await this.$refs.claimDialog.onSubmit();
