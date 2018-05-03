@@ -16,10 +16,11 @@ export async function newUser(ctx, data) {
   }
 }
 
-export async function loginUser({ state, dispatch }) {
+export async function loginUser({ state, commit, dispatch }) {
   try {
     await api.apiCheckUserAuth(state.wallet);
     dispatch('refreshUser', state.wallet);
+    commit(types.USER_AWAITING_AUTH, false);
   } catch (err) {
     const payload = await User.signLogin(state.wallet);
     if (!payload) return;
@@ -27,6 +28,7 @@ export async function loginUser({ state, dispatch }) {
     if (data && data.token) {
       setJWTToken(data.token);
       await dispatch('refreshUser', state.wallet);
+      commit(types.USER_AWAITING_AUTH, false);
     }
   }
 }
@@ -56,6 +58,10 @@ export function setLocalWallet({ commit }, wallet) {
 
 export function setUserIsFetching({ commit }, fetching) {
   commit(types.USER_SET_FETCHING, fetching);
+}
+
+export function setWeb3IsFetching({ commit }, fetching) {
+  commit(types.USER_SET_WEB3_FETCHING, fetching);
 }
 
 export function setUserNeedAuth({ commit }, needAuth) {
