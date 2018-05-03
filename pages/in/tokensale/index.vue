@@ -410,6 +410,7 @@ export default {
       return this.getUserInfo.pendingKYC || false;
     },
     ...mapGetters([
+      'getUserIsReady',
       'getUserIsFetching',
       'getUserIsRegistered',
       'getUserInfo',

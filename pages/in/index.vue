@@ -180,7 +180,8 @@ export default {
       'getIsInTransaction',
       'getIsPopupBlocking',
       'getCurrentLocale',
-      'getUserIsFetching',
+      'getUserIsReady',
+      'getUserNeedAuth',
       'getUserIsRegistered',
       'getShortMissionList',
     ]),
@@ -188,6 +189,7 @@ export default {
   methods: {
     ...mapActions([
       'newUser',
+      'loginUser',
       'setInfoMsg',
       'checkCoupon',
       'sendVerifyEmail',
@@ -212,13 +214,18 @@ export default {
     },
   },
   watch: {
-    getUserIsFetching(f) {
-      if (!f) {
+    getUserIsReady(a) {
+      if (a) {
         if (!this.getUserIsRegistered) {
           this.$router.push({ name: 'in-register' });
         } else {
           this.updateInfo();
         }
+      }
+    },
+    getUserNeedAuth(a) {
+      if (a) {
+        this.loginUser();
       }
     },
   },
@@ -228,12 +235,14 @@ export default {
       const element = document.querySelector(hash);
       if (element) element.scrollIntoView();
     }
-    if (!this.getUserIsFetching) {
+    if (this.getUserIsReady) {
       if (!this.getUserIsRegistered) {
         this.$router.push({ name: 'in-register' });
       } else {
         this.updateInfo();
       }
+    } else if (this.getUserNeedAuth) {
+      this.loginUser();
     }
   },
 };

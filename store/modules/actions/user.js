@@ -12,7 +12,7 @@ export async function newUser(ctx, data) {
   const { token } = apiWrapper(ctx, api.apiPostNewUser(data), { blocking: true });
   if (token) {
     setJWTToken(token);
-    dispatch('refreshUser', state.wallet);
+    await dispatch('refreshUser', state.wallet);
   }
 }
 
@@ -26,7 +26,7 @@ export async function loginUser({ state, dispatch }) {
     const { data } = await api.apiLoginUser(payload);
     if (data && data.token) {
       setJWTToken(data.token);
-      dispatch('refreshUser', state.wallet);
+      await dispatch('refreshUser', state.wallet);
     }
   }
 }
@@ -43,7 +43,7 @@ export async function onWalletChanged({ state, commit, dispatch }) {
   }
   try {
     await api.apiCheckUserAuth(state.wallet);
-    dispatch('refreshUser', state.wallet);
+    await dispatch('refreshUser', state.wallet);
     commit(types.USER_AWAITING_AUTH, false);
   } catch (err) {
     // no op
