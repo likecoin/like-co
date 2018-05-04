@@ -144,7 +144,6 @@ import LikeCoinAmount from '~/components/LikeCoinAmount';
 import MaterialButton from '~/components/MaterialButton';
 import MissionList from '@/components/Mission/List';
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
-import InputDialog from '~/components/dialogs/InputDialog';
 import TransactionHistory from '~/components/TransactionHistory';
 import ViewEtherscan from '~/components/ViewEtherscan';
 
@@ -167,7 +166,6 @@ export default {
   },
   components: {
     ClaimDialog,
-    InputDialog,
     LikeCoinAmount,
     MaterialButton,
     MissionList,
