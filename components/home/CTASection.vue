@@ -177,7 +177,7 @@ export default {
         .plus(INITIAL_TOKENSALE_ETH);
     },
   },
-  created() {
+  mounted() {
     if (!moment().isBefore(SALE_DATE)) {
       this.updateTokenSaleProgress();
     }
