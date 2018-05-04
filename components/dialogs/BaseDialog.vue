@@ -4,7 +4,7 @@
     v-bind="getMdProps"
     :md-active.sync="isShowDialog">
 
-    <header class="lc-dialog-header">
+    <header class="lc-dialog-header lc-section-header">
       <div class="left">
         <slot name="header-left" />
       </div>
@@ -80,9 +80,6 @@ export default {
 <style lang="scss">
 @import "~assets/variables";
 
-$lc-dialog-header-height: 48px;
-
-$lc-dialog-icon-size: 110px;
 $lc-dialog-icon-size-small: 72px;
 
 $lc-dialog-border-radius: 8px;
@@ -110,28 +107,7 @@ $lc-dialog-border-radius: 8px;
 }
 
 .lc-dialog-header {
-  position: relative;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  min-height: $lc-dialog-header-height;
-
-  padding: 0 8px;
-
   &::before {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-
-    height: $lc-dialog-header-height;
-
-    content: "";
-
-    background-image: linear-gradient(252deg, #d2f0f0, #f0e6b4);
-
     .lc-dialog:not(.md-dialog-fullscreen) & {
       border-top-left-radius: $lc-dialog-border-radius;
       border-top-right-radius: $lc-dialog-border-radius;
@@ -147,14 +123,6 @@ $lc-dialog-border-radius: 8px;
 }
 
 .lc-dialog-icon {
-  position: absolute;
-  z-index: 30;
-  top: calc(50% - #{$lc-dialog-icon-size} / 2);
-  left: calc(50% - #{$lc-dialog-icon-size} / 2);
-
-  width: $lc-dialog-icon-size;
-  height: $lc-dialog-icon-size;
-
   @media (max-width: 600px) {
     top: 8px;
     left: calc(50% - #{$lc-dialog-icon-size-small} / 2);
@@ -170,10 +138,10 @@ $lc-dialog-border-radius: 8px;
   padding-right: 0;
 
   .lc-dialog.with-icon & {
-    padding-top: ($lc-dialog-icon-size - $lc-dialog-header-height) / 2 + 16px;
+    padding-top: ($lc-raised-icon-size - $lc-header-height) / 2 + 16px;
 
     @media (max-width: 600px) {
-      padding-top: 8px + $lc-dialog-icon-size-small - $lc-dialog-header-height + 16px;
+      padding-top: 8px + $lc-dialog-icon-size-small - $lc-header-height + 16px;
     }
   }
 }

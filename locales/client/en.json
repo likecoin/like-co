@@ -738,6 +738,12 @@
       "comingSoon": "Coming Soon"
     }
   },
+  "ReferralPage": {
+    "title": "{name} has invited you to join LikeCoin",
+    "label": {
+      "invitation": "Create a LikeCoin ID to send, recive LikeCoin and participate in the tokensale.<br/><br/>Create a LikeCoin ID now you and {name} will get 8 Like bonus. Participate in tokensale, you will both get 2.5% bonus."
+    }
+  },
   "TokenSale": {
     "title": "Token Sale",
     "head": {
