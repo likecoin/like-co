@@ -10,7 +10,9 @@
       "send": "Send",
       "yes": "Yes",
       "no": "No",
-      "ok": "OK"
+      "ok": "OK",
+      "copy": "Copy",
+      "copied": "Copied"
     }
   },
   "Language": {
@@ -665,6 +667,8 @@
       "description": "You and your friend can both earn a LikeCoin bonus if your friend has signed up successfully by your affiliate link.  Please note that the email address has to be verified for you and your friend to be entitled to the bonus.",
       "pending": "Waiting for email verification",
       "verified": "Confirmed",
+      "shareUrl": "Invite your friend by URL",
+      "orByEmail": "Or by email",
       "emailInvite": "Invite your friend by email",
       "altInvite": "Or invite by:",
       "copyUrl": "Copy URL",
@@ -734,6 +738,12 @@
     "label": {
       "whitePaper": "WhitePaper",
       "comingSoon": "Coming Soon"
+    }
+  },
+  "ReferralPage": {
+    "title": "{name} has invited you to join LikeCoin",
+    "label": {
+      "invitation": "Create a LikeCoin ID to send, recive LikeCoin and participate in the tokensale.<br/><br/>Create a LikeCoin ID now you and {name} will get 8 Like bonus. Participate in tokensale, you will both get 2.5% bonus."
     }
   },
   "TokenSale": {

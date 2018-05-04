@@ -1,14 +1,34 @@
 <template>
   <div :class="['invite-friend-form', { 'full-width': isFullWidth }]">
 
-    <form :id="getFormId" v-on:submit.prevent="onSendEmail">
+    <div class="text-field share-url">
       <md-field class="md-likecoin">
-        <label>{{ $t('Edit.referral.emailInvite') }}</label>
+        <label>{{ $t('Edit.referral.shareUrl') }}</label>
         <md-input
-          v-model="email"
-          type="email"
-          required />
+          :value="shareURL"
+          readonly />
+        <md-button
+          class="copy-button"
+          v-clipboard:copy="shareURL"
+          v-clipboard:success="onCopyURL">
+          {{ $t(`General.button.${hasCopiedURL ? 'copied' : 'copy'}`) }}
+        </md-button>
       </md-field>
+    </div>
+
+    <form :id="getFormId" v-on:submit.prevent="onSendEmail">
+      <div class="text-field email">
+        <label class="lc-color-like-dark-brown-1">
+          {{ $t('Edit.referral.orByEmail') }}
+        </label>
+        <md-field class="md-likecoin">
+          <md-input
+            v-model="email"
+            :placeholder="$t('Edit.referral.emailInvite')"
+            type="email"
+            required />
+        </md-field>
+      </div>
 
       <div class="lc-button-group">
         <md-button
@@ -24,7 +44,7 @@
     <div :class="['lc-button-group lc-margin-top-16', { 'full-width': isFullWidth }]">
       <label>{{ $t('Edit.referral.altInvite') }}</label>
 
-      <md-button
+      <!-- <md-button
         class="md-likecoin lc-with-icon"
         v-clipboard:copy="shareURL"
         v-clipboard:success="onCopyURL">
@@ -32,7 +52,7 @@
         <md-icon v-else :md-src="LinkIcon" />
         {{ $t('Edit.referral.copyUrl') }}
       </md-button>
-      <br/>
+      <br/> -->
       <md-button
         class="md-likecoin lc-facebook lc-with-icon"
         @click="onShareFacebook">
@@ -140,24 +160,68 @@ export default {
 <style lang="scss" scoped>
 @import "~assets/variables";
 
-.invite-friend-form.full-width {
-  @media (min-width: 768px + 1px) {
-    > form {
-      display: flex;
-      align-items: center;
+.invite-friend-form {
+  .copy-button {
+    width: auto;
+    min-width: auto;
+    height: 24px;
+    margin: 0 0 0 4px;
 
+    color: $like-green;
+
+    font-size: 12px;
+    line-height: 24px;
+  }
+
+  .text-field {
+    &.share-url {
       .md-field {
+        label {
+          color: $like-brown;
+        }
+
+        input {
+          color: $like-green;
+
+          font-size: 18px;
+          font-weight: 600;
+
+          -webkit-text-fill-color: $like-green;
+        }
+      }
+    }
+
+    &.email {
+      .md-field {
+        margin-top: -16px;
+      }
+    }
+  }
+
+  &.full-width {
+    @media (min-width: 768px + 1px) {
+      .text-field {
         width: 2 / 3 * 100%;
+
+        &.share-url {
+          padding-right: 4px;
+        }
       }
 
-      .lc-button-group {
-        width: calc(1 / 3 * 100% - 8px);
-        margin-left: 16px;
+      > form {
+        display: flex;
+        align-items: center;
 
-        > * {
-          width: 100%;
-          min-width: auto;
-          margin: 0;
+        .lc-button-group {
+          width: calc(1 / 3 * 100% - 8px);
+          margin-bottom: 10px;
+          margin-left: 16px;
+
+          > * {
+            width: 100%;
+            min-width: auto;
+            margin: 0;
+          }
         }
       }
     }
