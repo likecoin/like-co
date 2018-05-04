@@ -118,11 +118,14 @@ export default {
     ...mapActions([
       'loginUser',
     ]),
+    async triggerLoginSign() {
+      if (!(await this.loginUser())) this.$router.go(-1);
+    },
   },
   watch: {
     getUserNeedAuth(a) {
       if (a) {
-        this.loginUser();
+        this.triggerLoginSign();
       }
     },
     getUserNeedRegister(a) {
@@ -133,7 +136,7 @@ export default {
   },
   mounted() {
     if (this.getUserNeedAuth) {
-      this.loginUser();
+      this.triggerLoginSign();
     }
     if (this.getUserNeedRegister) {
       this.$router.replace({ name: 'in-register' });
