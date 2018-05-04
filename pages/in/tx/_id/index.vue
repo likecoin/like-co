@@ -164,6 +164,13 @@ export default {
   head() {
     return {
       title: 'View Transaction State - Like.co',
+      meta: [
+        {
+          hid: 'og_image',
+          property: 'og:image',
+          content: 'https://like.co/images/og/sale.png',
+        },
+      ],
     };
   },
   components: {
