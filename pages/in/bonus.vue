@@ -20,7 +20,7 @@ export default {
         {
           hid: 'description',
           name: 'description',
-          content: this.$t('BonusPage.description'),
+          content: this.$t('BonusPage.label.description'),
         },
         {
           hid: 'og_title',
@@ -30,7 +30,7 @@ export default {
         {
           hid: 'og_description',
           property: 'og:description',
-          content: this.$t('BonusPage.description'),
+          content: this.$t('BonusPage.label.description'),
         },
       ],
     };
