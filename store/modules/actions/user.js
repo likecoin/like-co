@@ -16,6 +16,12 @@ export async function newUser(ctx, data) {
 
 export async function loginUser({ state, commit, dispatch }) {
   try {
+    await api.apiCheckIsUser(state.wallet);
+  } catch (err) {
+    return; // not user, let it pass
+  }
+  try {
+    commit(types.USER_AWAITING_AUTH, true);
     await api.apiCheckUserAuth(state.wallet);
     dispatch('refreshUser', state.wallet);
     commit(types.USER_AWAITING_AUTH, false);
