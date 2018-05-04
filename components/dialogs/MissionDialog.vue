@@ -5,9 +5,11 @@
       :class="['with-icon', { upcoming: isUpcomingMission }]"
       :isShowCloseButton="true">
 
-      <div slot="header-center" class="lc-dialog-icon">
-        <mission-icon :mission-id="missionId" />
-      </div>
+      <template slot="header-center">
+        <div class="lc-dialog-icon lc-raised-icon">
+          <mission-icon :mission-id="missionId" />
+        </div>
+      </template>
 
       <div class="mission-dialog-content">
 
@@ -369,28 +371,8 @@ export default {
 @import "~assets/variables";
 
 .lc-dialog-icon {
-  padding: 4px;
-
-  border-radius: 50%;
-  background-image: linear-gradient(252deg, #d2f0f0, #f0e6b4);
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.7);
-
   .upcoming & {
     background: #e6e6e6;
-  }
-
-  &::before {
-    position: absolute;
-    z-index: -1;
-    top: 4px;
-    right: 4px;
-    bottom: 4px;
-    left: 4px;
-
-    content: "";
-
-    border-radius: 50%;
-    background-color: $like-white;
   }
 
   @media (max-width: 600px) {

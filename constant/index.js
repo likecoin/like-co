@@ -56,6 +56,7 @@ const toolbarsDisableError = {
   'in-backer': ['web3', 'testnet', 'locked'],
   'in-tokensale': ['web3', 'testnet', 'locked'],
   'in-tokensale-tx-id': ['web3', 'locked'],
+  'ref-id': ['web3', 'testnet', 'locked'],
 };
 export const getToolbarsDisableError = route => (toolbarsDisableError[route] || false);
 
