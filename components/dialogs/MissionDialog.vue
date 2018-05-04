@@ -447,11 +447,6 @@ export default {
   &:not(:last-child) {
     margin-bottom: 32px;
   }
-
-  :global(.bold) {
-    font-weight: 600;
-    color: $like-green;
-  }
 }
 
 .md-dialog.upcoming {

@@ -246,9 +246,7 @@
         },
         "Sale": {
             "title": {
-                "earlyBirdTokenSale": "얼리 버드 토큰 판매",
                 "publicTokenSale": "공개 토큰 판매",
-                "secure25Percent": "지금 구매하시면 25% 보너스 확보",
                 "nowLive": "현재 라이브 중"
             },
             "label": {
@@ -710,14 +708,9 @@
     },
     "TokenSale": {
         "title": "토큰 판매",
-        "preSaleTitle": "얼리 버드",
         "label": {
             "prepareToJoin": "토큰 판매 참가 준비하기",
             "publicSaleStartIn": "공개 판매가 다음 시간 후에 시작합니다:",
-            "preSaleEndIn": "25% 보너스가 다음 시간 후에 종료됩니다:",
-            "preSaleBonus": "25% 보너스",
-            "preSaleBonusCondition": "10ETH 이상 전용",
-            "joinPreSale": "지금 얼리 버드 참가하기",
             "token": "토큰",
             "exchangeRate": "환율",
             "supply": "공급",

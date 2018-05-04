@@ -92,6 +92,10 @@ $separator-size: 10px;
       left: 0;
       bottom: 0;
       background-image: linear-gradient(to left, #62317a, #28646e 10%, #ffdc89);
+
+      width: 0;
+      will-change: width;
+      transition: width .4s ease-in-out;
     }
 
     ul > li::after {

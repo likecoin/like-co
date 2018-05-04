@@ -680,7 +680,7 @@ input[type="file"] {
       flex-shrink: 0;
 
       min-width: 120px;
-      padding-left: 36px;
+      padding-left: 42px;
 
       > li {
         position: relative;
