@@ -1,5 +1,5 @@
 <template>
-  <like-register-form :isRedeem="true" @registered="onSubmit"/>
+  <like-register-form :isRedeem="true" />
 </template>
 
 <script>
@@ -38,24 +38,6 @@ export default {
         },
       ],
     };
-  },
-  methods: {
-    onSubmit() {
-      const { query } = this.$route;
-      if (query.ref) {
-        const newQuery = Object.assign({}, query);
-        delete newQuery.ref;
-        if (newQuery.from) delete newQuery.from;
-        this.$router.push({ name: query.ref, query: newQuery });
-      } else {
-        const { hash } = document.location;
-        this.$router.replace({
-          hash,
-          name: 'in',
-          query,
-        });
-      }
-    },
   },
 };
 </script>
