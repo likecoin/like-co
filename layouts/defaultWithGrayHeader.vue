@@ -1,29 +1,33 @@
 <template>
-  <div class="lc-page-wrapper with-sliding-menu">
+  <div class="lc-layout">
     <tool-bars :disableError="getIfDisableError" />
 
-    <sliding-menu />
+    <div class="lc-page-wrapper with-sliding-menu">
 
-    <header class="lc-page-header">
-      <div class="lc-container-0">
-        <div class="lc-container-1">
-          <div class="underlay gray" />
-          <div class="lc-container-2">
-            <site-header/>
+      <sliding-menu />
+
+      <header class="lc-page-header">
+        <div class="lc-container-0">
+          <div class="lc-container-1">
+            <div class="underlay gray" />
+            <div class="lc-container-2">
+              <site-header/>
+            </div>
           </div>
         </div>
-      </div>
-    </header>
+      </header>
 
-    <div class="lc-page-content">
-      <nuxt/>
+      <div class="lc-page-content">
+        <nuxt/>
+      </div>
+
+      <footer class="lc-page-footer">
+        <div class="lc-container-0">
+          <my-footer/>
+        </div>
+      </footer>
+
     </div>
-
-    <footer class="lc-page-footer">
-      <div class="lc-container-0">
-        <my-footer/>
-      </div>
-    </footer>
 
   </div>
 </template>
