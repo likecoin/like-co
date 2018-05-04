@@ -215,7 +215,7 @@ export default {
     getUserIsFetching(f) {
       if (!f) {
         if (!this.getUserIsRegistered) {
-          this.$router.push({ name: 'in-register' });
+          this.$router.push({ name: 'in-register', query: this.$route.query });
         } else {
           this.updateInfo();
         }
@@ -230,7 +230,7 @@ export default {
     }
     if (!this.getUserIsFetching) {
       if (!this.getUserIsRegistered) {
-        this.$router.push({ name: 'in-register' });
+        this.$router.push({ name: 'in-register', query: this.$route.query });
       } else {
         this.updateInfo();
       }
