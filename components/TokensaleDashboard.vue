@@ -116,6 +116,7 @@ import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 import {
   ONE_LIKE,
   SALE_DATE,
+  SALE_END_DATE,
   SALE_DATE_ANNOUNCE_DATE,
   TOKENSALE_SOFTCAP_ETH,
 } from '@/constant';
@@ -131,6 +132,7 @@ export default {
       QuestionIcon,
 
       SALE_DATE,
+      SALE_END_DATE,
 
       currentTokenSaleAmount: 0,
       maxTokenSaleAmount: new BigNumber('12600'),
