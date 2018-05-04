@@ -246,9 +246,7 @@
         },
         "Sale": {
             "title": {
-                "earlyBirdTokenSale": "Ранняя продажа токенов",
                 "publicTokenSale": "Публичная продажа токенов",
-                "secure25Percent": "Действуйте сейчас, чтобы получить бонус 25%",
                 "nowLive": "Уже идет"
             },
             "label": {
@@ -710,14 +708,9 @@
     },
     "TokenSale": {
         "title": "Продажа токенов",
-        "preSaleTitle": "Ранняя продажа",
         "label": {
             "prepareToJoin": "Приготовьтесь к участию в продаже токенов",
             "publicSaleStartIn": "Публичная продажа начнется через:",
-            "preSaleEndIn": "Бонус 25% закончится через:",
-            "preSaleBonus": "Бонус 25%",
-            "preSaleBonusCondition": "за 10ETH и больше",
-            "joinPreSale": "Участвуйте в ранней продаже",
             "token": "Токен",
             "exchangeRate": "Курс обмена",
             "supply": "Объем эмиссии",

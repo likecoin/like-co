@@ -1,7 +1,13 @@
 <template>
   <div class="overview-page">
 
-    <div class="bonus-container lc-margin-top-48 lc-mobile">
+    <div class="cta-wrapper lc-margin-top-8">
+      <cta-section
+        :isShowFooter="false"
+        :isShowSupportButton="false" />
+      </div>
+
+    <div class="bonus-container lc-margin-top-48">
       <section class="lc-container-1">
         <div class="lc-container-header">
           <div class="lc-container-2 lc-container-header-overlay">
@@ -140,6 +146,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
+import CTASection from '~/components/home/CTASection';
 import LikeCoinAmount from '~/components/LikeCoinAmount';
 import MaterialButton from '~/components/MaterialButton';
 import MissionList from '@/components/Mission/List';
@@ -166,6 +173,7 @@ export default {
     };
   },
   components: {
+    'cta-section': CTASection,
     ClaimDialog,
     InputDialog,
     LikeCoinAmount,

@@ -246,9 +246,7 @@
     },
     "Sale": {
       "title": {
-        "earlyBirdTokenSale": "早鸟代币发售",
         "publicTokenSale": "公开代币发售",
-        "secure25Percent": "立即行动可享额外25%奖励",
         "nowLive": "现正进行"
       },
       "label": {
@@ -725,14 +723,9 @@
   },
   "TokenSale": {
     "title": "代币发售",
-    "preSaleTitle": "早鸟优惠",
     "label": {
       "prepareToJoin": "准备加入代币发售",
       "publicSaleStartIn": "公开发售于:",
-      "preSaleEndIn": "额外25%奖励完结于:",
-      "preSaleBonus": "额外25%奖励",
-      "preSaleBonusCondition": "购买 10 ETH 以上即可享有",
-      "joinPreSale": "立刻参与早鸟优惠",
       "token": "代币",
       "exchangeRate": "兑换率",
       "supply": "供应量",

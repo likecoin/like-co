@@ -8,17 +8,9 @@
           <div class="lc-container-4">
 
             <div class="cta-section-body">
-              <!-- BEGIN - Before announcing token sale date -->
-              <div
-                v-if="now.isBefore(SALE_DATE_ANNOUNCE_DATE)"
-                class="cta-section-body-content">
-                <h1>{{ $t('Home.Sale.title.earlyBirdTokenSale') }}</h1>
-                <h2>{{ $t('Home.Sale.title.secure25Percent') }}</h2>
-              </div>
-              <!-- END - Before announcing token sale date -->
               <!-- BEGIN - After announcing token sale date -->
               <div
-                v-else-if="now.isBefore(SALE_DATE)"
+                v-if="now.isBefore(SALE_DATE)"
                 class="cta-section-body-content">
                 <h1>{{ $t('Home.Sale.title.publicTokenSale') }}</h1>
                 <h6>{{ $t('Home.Sale.label.startOn') }}</h6>
@@ -34,12 +26,17 @@
               <div
                 v-else
                 class="cta-section-body-content">
-                <h1>{{ $t('Home.Sale.title.publicTokenSale') }} <span class="now-live">{{ $t('Home.Sale.title.nowLive') }}</span></h1>
-                <h2 class="completed-percentage">
+                <h1>
+                  {{ $t('Home.Sale.title.publicTokenSale') }}
+                  <span class="now-live">{{ $t('Home.Sale.title.nowLive') }}</span>
+                </h1>
+                <h2 class="completed-percentage" v-if="tokenSalePercentage">
                   {{ $t('Home.Sale.label.completedPercent', { percent: tokenSalePercentage }) }}
                 </h2>
                 <div class="token-sale-progress-wrapper">
-                  <tokensale-progress class="cta-section-token-sale-progress" />
+                  <tokensale-progress
+                    class="cta-section-token-sale-progress"
+                    :progress="tokenSaleProgress" />
                 </div>
               </div>
               <!-- END - After token sale begins -->
@@ -51,6 +48,7 @@
                   <li v-if="now.isBefore(SALE_DATE)">
                     <material-button
                       class="cta-btn"
+                      :hasShadow="true"
                       @click=onClickJoinTokenSaleButton>
                       {{ $t('Home.Sale.button.joinTokenSale') }}
                     </material-button>
@@ -60,14 +58,16 @@
                   <li v-else>
                     <material-button
                       class="cta-btn"
+                      :hasShadow="true"
                       @click=onClickJoinTokenSaleButton>
                       {{ $t('Home.Sale.button.joinNow') }}
                     </material-button>
                   </li>
                   <!-- END - After token sale begins -->
-                  <li>
+                  <li v-if="isShowSupportButton">
                     <material-button
                       class="cta-btn support"
+                      :hasShadow="true"
                       @click=onClickSupportLikeCoinButton>
                       {{ $t('Home.Sale.button.supportLikeCoin') }}
                     </material-button>
@@ -81,7 +81,7 @@
         </div>
       </div>
 
-      <div class="lc-container-2">
+      <div class="lc-container-2" v-if="isShowFooter">
         <div class="lc-container-3">
           <div class="lc-container-4">
 
@@ -113,14 +113,20 @@
 
 
 <script>
+import BigNumber from 'bignumber.js';
 import moment from 'moment';
 
 import { logTrackerEvent } from '@/util/EventLogger';
 import CountdownTimer from '~/components/CountdownTimer';
 import MaterialButton from '~/components/MaterialButton';
 import TokenSaleProgress from '~/components/TokenSaleProgress';
+
+import EthHelper from '@/util/EthHelper';
+import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 import {
-  SALE_DATE_ANNOUNCE_DATE,
+  INITIAL_TOKENSALE_ETH,
+  TOKENSALE_SOFTCAP_ETH,
+  ONE_LIKE,
   SALE_DATE,
 } from '@/constant';
 
@@ -131,13 +137,30 @@ export default {
     MaterialButton,
     'tokensale-progress': TokenSaleProgress,
   },
+  props: {
+    isShowFooter: {
+      type: Boolean,
+      default: true,
+    },
+    isShowSupportButton: {
+      type: Boolean,
+      default: true,
+    },
+  },
   data() {
     return {
-      tokenSalePercentage: 128,
-      now: moment(),
       SALE_DATE,
-      SALE_DATE_ANNOUNCE_DATE,
+      now: moment(),
+      currentTokenSaleAmount: 0,
     };
+  },
+  computed: {
+    tokenSalePercentage() {
+      return Math.round((this.currentTokenSaleAmount / TOKENSALE_SOFTCAP_ETH) * 100);
+    },
+    tokenSaleProgress() {
+      return this.currentTokenSaleAmount.toFixed(2);
+    },
   },
   methods: {
     onClickJoinTokenSaleButton() {
@@ -148,6 +171,16 @@ export default {
       logTrackerEvent(this, 'RegFlow', 'ClickedSupportLikeCoinButton', 'User wants to support LikeCoin', 1);
       this.$router.push({ name: 'in-backer' });
     },
+    async updateTokenSaleProgress() {
+      const amount = await EthHelper.queryEthBalance(LIKE_COIN_ICO_ADDRESS);
+      this.currentTokenSaleAmount = new BigNumber(amount).dividedBy(ONE_LIKE)
+        .plus(INITIAL_TOKENSALE_ETH);
+    },
+  },
+  created() {
+    if (!moment().isBefore(SALE_DATE)) {
+      this.updateTokenSaleProgress();
+    }
   },
 };
 </script>
@@ -200,7 +233,7 @@ export default {
     }
 
     .now-live {
-      color: #28646e;
+      color: $like-green;
 
       font-size: 32px;
       font-weight: 300;
@@ -297,8 +330,6 @@ export default {
   .cta-btn {
     min-width: 200px;
     margin: 0;
-    padding-right: 12px;
-    padding-left: 12px;
 
     background-image: linear-gradient(73deg, $like-gradient-2, $like-gradient-3);
 
