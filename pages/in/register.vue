@@ -3,8 +3,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
 import Description from '~/components/Description';
 import Introduction from '~/components/Introduction';
 import LikeRegisterForm from '~/components/LikeRegisterForm';
@@ -81,33 +79,10 @@ export default {
     title() {
       return this.referrer ? this.$t('Register.header.titleReferral', { name: this.referrer }) : this.$t('Register.header.title');
     },
-    ...mapGetters([
-      'getUserIsRegistered',
-      'getUserInfo',
-      'getDesc',
-      'getHeaderSubtitle',
-      'getHeaderIcon',
-      'getHeaderTitle',
-    ]),
   },
   methods: {
     onSubmit(user) {
       this.tryRedirect(user);
-      const { query } = this.$route;
-      if (query.ref) {
-        const newQuery = Object.assign({}, query);
-        delete newQuery.ref;
-        if (newQuery.from) delete newQuery.from;
-        this.$router.push({ name: query.ref, query: newQuery });
-      } else {
-        const { hash } = document.location;
-        this.$router.replace({
-          hash,
-          name: 'in',
-          params: { showEmail: !!this.getUserInfo.email },
-          query,
-        });
-      }
     },
     tryRedirect(user) {
       if (this.redirect) {

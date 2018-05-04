@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 import MyFooter from '~/components/footer/Footer';
 import SiteHeader from '~/components/header/HeaderWithMenuButton';
@@ -128,17 +128,42 @@ export default {
       },
     };
   },
+  methods: {
+    ...mapActions([
+      'loginUser',
+    ]),
+    async triggerLoginSign() {
+      if (!(await this.loginUser())) {
+        this.$router.go(-1);
+      } else {
+        this.redirectToUserPage();
+      }
+    },
+    redirectToUserPage() {
+      const { query } = this.$route;
+      if (query.ref) {
+        const newQuery = Object.assign({}, query);
+        delete newQuery.ref;
+        if (newQuery.from) delete newQuery.from;
+        this.$router.push({ name: query.ref, query: newQuery });
+      } else {
+        this.$router.push({ name: 'in' });
+      }
+    },
+  },
   watch: {
     getUserNeedAuth(a) {
-      if (a) this.$router.push({ name: 'in' });
+      if (a) this.triggerLoginSign();
     },
     getUserIsRegistered(u) {
-      if (u) this.$router.push({ name: 'in' });
+      if (u) this.redirectToUserPage();
     },
   },
   mounted() {
-    if (this.getUserNeedAuth || this.getUserIsRegistered) {
-      this.$router.replace({ name: 'in' });
+    if (this.getUserIsRegistered) {
+      this.redirectToUserPage();
+    } else if (this.getUserNeedAuth) {
+      this.triggerLoginSign();
     }
   },
 };
