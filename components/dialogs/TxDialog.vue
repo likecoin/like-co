@@ -22,7 +22,7 @@
         <md-dialog-content class="new-user lc-font-weight-600">
           {{ $t('Dialog.transaction.label.newUser') }}
         </md-dialog-content>
-        <nuxt-link :to="{ name: 'in-register' }">
+        <nuxt-link :to="{ name: 'in-register', query: $route.query }">
           <material-button @click="$emit('onClose')">
             {{ $t('Dialog.transaction.button.createID') }}
           </material-button>

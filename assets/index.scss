@@ -749,3 +749,8 @@ $font-weight-list: 300 400 600;
     }
   }
 }
+
+span.bold {
+  @extend .lc-color-like-green;
+  @extend .lc-font-weight-600;
+}

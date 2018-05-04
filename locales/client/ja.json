@@ -246,9 +246,7 @@
         },
         "Sale": {
             "title": {
-                "earlyBirdTokenSale": "先取りトークン販売",
                 "publicTokenSale": "トークン公売",
-                "secure25Percent": "今すぐ実行して25%ボーナスを確定させましょう",
                 "nowLive": "現在開催中"
             },
             "label": {
@@ -710,14 +708,9 @@
     },
     "TokenSale": {
         "title": "トークン販売",
-        "preSaleTitle": "先取り",
         "label": {
             "prepareToJoin": "トークン販売に参加する準備をする",
             "publicSaleStartIn": "公売開始まで:",
-            "preSaleEndIn": "25％ボーナス終了まで:",
-            "preSaleBonus": "25%ボーナス",
-            "preSaleBonusCondition": "10ETH以上",
-            "joinPreSale": "今すぐ「先取り」に参加",
             "token": "トークン",
             "exchangeRate": "交換レート",
             "supply": "供給",

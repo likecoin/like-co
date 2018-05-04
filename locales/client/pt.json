@@ -246,9 +246,7 @@
         },
         "Sale": {
             "title": {
-                "earlyBirdTokenSale": "Pré-Venda de Tokens Inicial",
                 "publicTokenSale": "Venda Pública de Tokens",
-                "secure25Percent": "Seja rápido para garantir o bônus de 25%",
                 "nowLive": "Aberto"
             },
             "label": {
@@ -704,14 +702,9 @@
     },
     "TokenSale": {
         "title": "Venda de Tokens",
-        "preSaleTitle": "Pré-Venda Inicial",
         "label": {
             "prepareToJoin": "Prepare-se para Participar da Venda de Tokens",
             "publicSaleStartIn": "A venda pública começa em:",
-            "preSaleEndIn": "O bônus de 25% termina em:",
-            "preSaleBonus": "Bônus de 25%",
-            "preSaleBonusCondition": "para 10 ETH e acima",
-            "joinPreSale": "Participe Agora da Pré-Venda Inicial",
             "token": "Token",
             "exchangeRate": "Taxa de Câmbio",
             "supply": "Suprimento",

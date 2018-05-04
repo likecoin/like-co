@@ -20,17 +20,23 @@
             <div class="lc-padding-top-32 lc-padding-bottom-16">
 
               <section class="countdown-section lc-text-align-center">
-                <h1 class="lc-font-size-42 lc-font-weight-600">
-                  {{ isPreSale ? $t('TokenSale.preSaleTitle') : $t('TokenSale.title') }} 
-                  <span v-if="isPreSale || isICOStarted" class="lc-font-weight-300 lc-color-like-green">LIVE</span>
+                <h1 class="lc-font-size-42 lc-font-weight-600 lc-mobile">
+                  {{ $t('TokenSale.title') }}
+                  <span
+                    v-if="isICOStarted"
+                    class="lc-font-weight-300 lc-color-like-green">
+                    {{ $t('Home.Sale.title.nowLive') }}
+                  </span>
                 </h1>
-                <h2 v-if="isPreSale" class="lc-margin-top-12 lc-font-size-38 lc-font-weight-300">
-                  {{ $t('TokenSale.label.bonusAndLimitedOffer') }}
+                <h2
+                  v-if="isICOStarted && tokenSalePercentage"
+                  class="completed-percentage lc-font-weight-600 lc-color-like-green lc-padding-top-24 lc-padding-bottom-16 lc-mobile">
+                  {{ $t('Home.Sale.label.completedPercent', { percent: tokenSalePercentage }) }}
                 </h2>
-                <h3 v-if="isPreSale || !isICOStarted" class="lc-margin-top-12 lc-font-size-14 lc-font-weight-400">
-                  {{ isPreSale ? $t('TokenSale.label.limitedOfferCondition') : $t('TokenSale.label.publicSaleStartIn') }}
+                <h3 v-if="!isICOStarted" class="lc-margin-top-12 lc-font-size-14 lc-font-weight-400">
+                  {{ $t('TokenSale.label.publicSaleStartIn') }}
                 </h3>
-                <countdown-timer v-if="!isPreSale && !isICOStarted" :date="SALE_DATE" />
+                <countdown-timer v-if="!isICOStarted" :date="SALE_DATE" />
               </section>
 
             </div>
@@ -39,27 +45,33 @@
 
         <div class="lc-container-2">
 
-          <div v-if="!isPreSale" class="tokensale-progress-wrapper lc-container-3 lc-bg-gray-1 lc-verticle-inset-4">
+          <div class="tokensale-progress-wrapper lc-container-3 lc-bg-gray-1 lc-padding-vertical-16">
             <tokensale-progress
               :progress="currentTokenSaleAmount.toFixed(2)"
               :total="maxTokenSaleAmount.toFixed(2)"/>
 
             <div class="lc-container-4">
-              <div class="tokensale-amount lc-verticle-inset-2 lc-text-align-center">
+              <div class="tokensale-amount lc-padding-top-12 lc-text-align-center">
                 <span class="current lc-color-like-green lc-font-size-46 lc-font-weight-300">{{ currentTokenSaleAmount.toFixed(2) }}</span>
                 <span class="max lc-font-size-20 lc-font-weight-400"> / {{ maxTokenSaleAmount.toFixed(2) }} ETH</span>
               </div>
             </div>
           </div>
-          <div v-else-if="isPreSale" class="tokensale-presale-wrapper lc-container-3 lc-bg-gray-1">
-            <div class="lc-container-4 lc-padding-vertical-32">
-              {{ $t('TokenSale.label.amountWillBeSentWhenSalesStart')}}
+
+          <section v-if="isICOStarted" class="token-info-section lc-margin-top-8">
+            <div class="lc-container-3 lc-bg-gray-1">
+              <div class="lc-container-4 lc-padding-vertical-16">
+                <div class="lc-text-align-center">
+                  {{ $t('TokenSale.label.publicSaleEndIn') }}
+                </div>
+                <countdown-timer :date="SALE_END_DATE" />
+              </div>
             </div>
-          </div>
+          </section>
 
           <section class="token-info-section lc-margin-top-8">
             <div class="lc-container-3 lc-bg-gray-1">
-              <div class="lc-container-4 lc-verticle-inset-4">
+              <div class="lc-container-4 lc-padding-vertical-16">
                 <div class="info-grid">
                   <ul>
                     <li>
@@ -154,7 +166,7 @@
           <div class="lc-container-2">
             <div class="lc-container-header-title">
               <h1 class="lc-font-size-32 lc-mobile">
-                {{ isPreSale ? $t('TokenSale.label.joinPreSale') : $t('TokenSale.label.prepareToJoin') }}
+                {{ isICOStarted ? $t('TokenSale.label.joinTokenSaleNow') : $t('TokenSale.label.prepareToJoin') }}
               </h1>
             </div>
           </div>
@@ -174,92 +186,49 @@
                     @showPaymentForm="handleShowPaymentForm" />
                 </section>
 
-                <section v-if="isPreSale && canICO" class="like-coin-rate-section lc-padding-top-24 lc-padding-botton-0 lc-mobile">
-                  <div class="like-coin-amount">
-                    <div>
-                      <div class="title">
-                        {{ $t('TokenSale.label.amountLikeToPurhcase') }}
-                      </div>
-                      <md-field class="lc-padding-top-8 lc-padding-top-0-mobile">
-                        <div class="coin-value-wrapper lc-padding-bottom-8 lc-padding-bottom-0-mobile">
-                          <span>LIKE</span>
-                          <md-input
-                            :value="preSaleBase"
-                            @keypress="onAmountKeypress"
-                            @input="onAmountInput" />
-                        </div>
-                      </md-field>
+                <section
+                  v-if="isICOStarted && canICO && !needExtraKYC && shouldShowPaymentForm"
+                  class="lc-padding-top-32">
+                  <form
+                    id="paymentInfo"
+                    v-on:submit.prevent="onSubmit">
+                    <input v-model="wallet" hidden required disabled />
+                    <div class="lc-padding-bottom-24 lc-mobile">
+                      <number-input
+                        currencyTitle="ETH"
+                        :amount="displayAmount"
+                        :decimalPlaceLimit="4"
+                        :isBadAmount="isBadAmount"
+                        :badAmountMessage="$t('TokenSale.label.tokensaleBadAmount')"
+                        :label="$t('Transaction.label.amountToSend', { coin: isEth ? 'ETH' : 'LikeCoin' })"
+                        @onChange="handleAmountChange"
+                      />
+                      <div
+                        class="eth-to-like-amount lc-margin-top-12 lc-text-align-center lc-color-like-dark-brown-1"
+                        v-html="$t('TokenSale.label.likeAmountWillGet', { amount: likeBase })" />
                     </div>
-
-                    <img class="add-sign" :src="AddIcon" />
-
-                    <div>
-                      <div class="title">
-                        {{ $t('TokenSale.label.bonus') }}
-                      </div>
-                      <md-field class="lc-padding-top-8 lc-padding-top-0-mobile">
-                        <div class="coin-value-wrapper lc-padding-bottom-8 lc-padding-bottom-0-mobile">
-                          <span>LIKE</span>
-                          <md-input :value="preSaleBonus" disabled />
+                    <!-- <md-field>
+                      <md-input placeholder="Remark (optional)" />
+                    </md-field> -->
+                    <div class="lc-margin-top-16 lc-margin-bottom-8">
+                      <material-button
+                        id="payment-confirm"
+                        type="submit"
+                        form="paymentInfo"
+                        :disabled="getIsInTransaction || !getLocalWallet">
+                        <div class="button-content-wrapper">
+                          <img :src="EthIcon" />
+                          {{ $t('General.button.send') }}
                         </div>
-                      </md-field>
+                      </material-button>
                     </div>
-                  </div>
-
-                  <div class="remark lc-padding-top-8 lc-color-like-gray-4 lc-font-size-12">
-                    {{ $t('TokenSale.label.bonusLockUp') }}
-                  </div>
+                  </form>
                 </section>
 
                 <!-- <section v-else-if="KYCStatus==KYC_STATUS_ENUM.PENDING">
                   <md-progress-bar md-mode="indeterminate" />
                   KYC ALREADY PENDING
                 </section> -->
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section
-        v-if="(isPreSale || isICOStarted) && canICO && !needExtraKYC && shouldShowPaymentForm"
-        class="lc-container-1 lc-verticle-inset-3"
-      >
-        <div class="lc-container-2">
-          <div class="lc-container-3 lc-bg-gray-1">
-            <div class="lc-container-4 lc-padding-vertical-24">
-              <div class="inner-container">
-                <form
-                  id="paymentInfo"
-                  v-on:submit.prevent="onSubmit">
-                  <input v-model="wallet" hidden required disabled />
-                  <div class="lc-padding-bottom-24 lc-mobile">
-                    <number-input
-                      currencyTitle="ETH"
-                      :amount="displayAmount"
-                      :decimalPlaceLimit="4"
-                      :isBadAmount="isBadAmount"
-                      :badAmountMessage="$t('TokenSale.label.tokensaleBadAmount')"
-                      :label="$t('Transaction.label.amountToSend', { coin: isEth ? 'ETH' : 'LikeCoin' })"
-                      @onChange="handleAmountChange"
-                    />
-                  </div>
-                  <!-- <md-field>
-                    <md-input placeholder="Remark (optional)" />
-                  </md-field> -->
-                  <div class="lc-verticle-inset-4">
-                    <material-button
-                      id="payment-confirm"
-                      type="submit"
-                      form="paymentInfo"
-                      :disabled="getIsInTransaction || !getLocalWallet">
-                      <div class="button-content-wrapper">
-                        <img :src="EthIcon" />
-                        {{ $t('General.button.send') }}
-                      </div>
-                    </material-button>
-                  </div>
-                </form>
               </div>
             </div>
           </div>
@@ -299,12 +268,13 @@ import { LIKE_COIN_ICO_ADDRESS, LIKE_COIN_PRESALE_ADDRESS } from '@/constant/con
 import {
   ETH_TO_LIKECOIN_RATIO,
   ETHERSCAN_HOST,
-  INITIAL_TOKENSALE_ETH,
   KYC_STATUS_ENUM,
   KYC_ETH_LIMIT,
   ONE_LIKE,
   SALE_DATE,
+  SALE_END_DATE,
   SALE_DATE_ANNOUNCE_DATE,
+  TOKENSALE_SOFTCAP_ETH,
 } from '@/constant';
 import { logTrackerEvent } from '@/util/EventLogger';
 import { mapActions, mapGetters } from 'vuex';
@@ -330,6 +300,7 @@ export default {
       KYC_STATUS_ENUM,
       KYC_ETH_LIMIT,
       SALE_DATE,
+      SALE_END_DATE,
       ETH_TO_LIKECOIN_RATIO,
       LIKE_CONTRACT_ADDRESS: `${ETHERSCAN_HOST}/address/${LIKE_COIN_ADDRESS}`,
 
@@ -344,9 +315,9 @@ export default {
       displayName: 'LikeCoin TokenSale',
       displayAmount: this.$route.params.amount || '0.00',
       amount: this.$route.params.amount || '0.00',
-      preSaleBase: '0',
+      likeBase: '0',
       popupMessage: '',
-      currentTokenSaleAmount: INITIAL_TOKENSALE_ETH,
+      currentTokenSaleAmount: 0,
       maxTokenSaleAmount: new BigNumber('12600'),
     };
   },
@@ -395,11 +366,6 @@ export default {
     isICOStarted() {
       return (new Date() >= SALE_DATE);
     },
-    preSaleBonus() {
-      if (!this.preSaleBase || Number(this.displayAmount) < 10) return new BigNumber(0);
-      const preSaleBase = new BigNumber(this.preSaleBase);
-      return preSaleBase.multipliedBy(new BigNumber(0.25)).toString();
-    },
     canICO() {
       return this.isKYCTxPass && this.KYCStatus >= KYC_STATUS_ENUM.STANDARD;
     },
@@ -408,6 +374,9 @@ export default {
     },
     pendingKYC() {
       return this.getUserInfo.pendingKYC || false;
+    },
+    tokenSalePercentage() {
+      return (this.currentTokenSaleAmount / TOKENSALE_SOFTCAP_ETH).toFixed(2) * 100;
     },
     ...mapGetters([
       'getUserIsReady',
@@ -500,15 +469,6 @@ export default {
             'buy LikeCoin on tokensale page',
             Number(this.amount),
           );
-          if (this.preSaleBonus && this.preSaleBonus !== '0') {
-            logTrackerEvent(
-              this,
-              'Tokensale',
-              'buyLikeCoinEarilybird',
-              'buy LikeCoin on tokensale page (is Early Bird)',
-              Number(this.amount),
-            );
-          }
         } catch (err) {
           // just to prevent anything wrong from Number(this.amount)
         }
@@ -558,7 +518,7 @@ export default {
       this.displayAmount = value;
       this.amount = value.toString();
       if (!this.displayAmount) {
-        this.preSaleBase = '0';
+        this.likeBase = '0';
         return;
       }
       let newValue;
@@ -568,7 +528,7 @@ export default {
       } catch (err) {
         newValue = new BigNumber(0);
       }
-      this.preSaleBase = newValue.toString();
+      this.likeBase = newValue.toString();
     },
     handleShowPaymentForm(show) {
       this.shouldShowPaymentForm = show;
@@ -588,7 +548,7 @@ export default {
         e.preventDefault();
         return;
       }
-      this.preSaleBase = newValue;
+      this.likeBase = newValue;
     },
     onAmountInput(likeAmount) {
       try {
@@ -657,7 +617,7 @@ export default {
     overflow: hidden;
   }
 
-  > div {
+  > .lc-tokensale-progress {
     margin-right: -8px;
     margin-left: -8px;
   }
@@ -675,8 +635,11 @@ export default {
   .current {
     color: $like-green;
 
-    font-size: 46px;
     line-height: 62px;
+
+    @media (max-width: 600px) {
+      font-size: 36px;
+    }
   }
 
   .max {
@@ -745,6 +708,8 @@ export default {
               font-weight: 300;
 
               @media (max-width: 480px) {
+                font-size: 18px;
+
                 text-align: right;
               }
             }
@@ -766,7 +731,9 @@ export default {
           flex-grow: 1;
           justify-content: center;
 
-          margin-top: 0;
+          @media (min-width: 480 + 1px) {
+            margin-top: 0;
+          }
 
           a {
             display: flex;
@@ -889,6 +856,14 @@ export default {
         left: 16px;
       }
     }
+  }
+}
+
+.completed-percentage {
+  font-size: 56px;
+
+  @media (max-width: 600px) {
+    font-size: 28px;
   }
 }
 </style>

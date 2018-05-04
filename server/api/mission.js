@@ -135,24 +135,6 @@ router.post('/mission/seen/:id', jwtAuth, async (req, res) => {
     const userMissionRef = dbRef.doc(user).collection('mission').doc(missionId);
     await userMissionRef.set({ seen: true }, { merge: true });
     res.sendStatus(200);
-    const userDoc = await dbRef.doc(user).get();
-    const {
-      email,
-      displayName,
-      wallet,
-      referrer,
-      locale,
-    } = userDoc.data();
-    publisher.publish(PUBSUB_TOPIC_MISC, req, {
-      logType: 'eventMissionSeen',
-      user,
-      email: email || undefined,
-      displayName,
-      wallet,
-      referrer: referrer || undefined,
-      locale,
-      missionId,
-    });
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
