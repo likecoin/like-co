@@ -102,6 +102,33 @@ export default {
       return {};
     }
   },
+  head() {
+    return {
+      title: this.$t('ReferralPage.title', { name: this.displayName }),
+      meta: [
+        {
+          hid: 'og_title',
+          property: 'og:title',
+          content: this.$t('ReferralPage.title', { name: this.displayName }),
+        },
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.$t('ReferralPage.label.invitation', { name: this.displayName }),
+        },
+        {
+          hid: 'og_description',
+          property: 'og:description',
+          content: this.$t('ReferralPage.label.invitation', { name: this.displayName }),
+        },
+        {
+          hid: 'og_image',
+          property: 'og:image',
+          content: 'https://like.co/images/og/sale.png',
+        },
+      ],
+    };
+  },
 };
 </script>
 
