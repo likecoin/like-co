@@ -18,6 +18,7 @@ import { mapActions, mapGetters } from 'vuex';
 import SingleInputForm from '@/components/forms/SingleInputForm';
 
 import User from '@/util/User';
+import { logTrackerEvent } from '@/util/EventLogger';
 import { W3C_EMAIL_REGEX } from '@/constant';
 
 export default {
@@ -82,6 +83,7 @@ export default {
         await this.updateEmail(inputText);
       }
       await this.sendVerifyEmail({ id: this.getUserInfo.user, ref: this.emailRef || '' });
+      logTrackerEvent(this, 'RegFlow', 'StartEmailVerify', 'click confirm after enter email and the email is valid', 1);
       this.setInfoMsg(msg);
     },
   },
