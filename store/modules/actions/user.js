@@ -18,23 +18,34 @@ export async function loginUser({ state, commit, dispatch }) {
   try {
     await api.apiCheckIsUser(state.wallet);
   } catch (err) {
-    return; // not user, let it pass
+    return true; // not user, let it pass
   }
+
   try {
     commit(types.USER_AWAITING_AUTH, true);
     await api.apiCheckUserAuth(state.wallet);
     dispatch('refreshUser', state.wallet);
     commit(types.USER_AWAITING_AUTH, false);
+    return true;
   } catch (err) {
-    const payload = await User.signLogin(state.wallet);
-    if (!payload) return;
-    const { data } = await api.apiLoginUser(payload);
-    if (data && data.token) {
-      setJWTToken(data.token);
-      await dispatch('refreshUser', state.wallet);
-      commit(types.USER_AWAITING_AUTH, false);
-    }
+    // not authed, continue
   }
+  let payload;
+  try {
+    payload = await User.signLogin(state.wallet);
+  } catch (e) {
+    // rejected signing, return false;
+    return false;
+  }
+  if (!payload) return false;
+
+  const { data } = await api.apiLoginUser(payload);
+  if (data && data.token) {
+    setJWTToken(data.token);
+    await dispatch('refreshUser', state.wallet);
+    commit(types.USER_AWAITING_AUTH, false);
+  }
+  return true;
 }
 
 export async function onWalletChanged({ state, commit, dispatch }, wallet) {
