@@ -130,6 +130,7 @@ const txCollection = createCollection(txData);
 const iapCollection = createCollection([]);
 const missionCollection = createCollection(missionData);
 const payoutCollection = createCollection([]);
+const configCollection = createCollection([]);
 
 module.exports = {
   userCollection,
@@ -137,6 +138,7 @@ module.exports = {
   iapCollection,
   missionCollection,
   payoutCollection,
+  configCollection,
   bucket: {},
   FieldValue,
 };

@@ -125,6 +125,17 @@ export default {
       );
     },
   },
+  head() {
+    return {
+      meta: [
+        {
+          hid: 'og_image',
+          property: 'og:image',
+          content: 'https://like.co/document_og.png',
+        },
+      ],
+    };
+  },
 };
 </script>
 

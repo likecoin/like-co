@@ -430,6 +430,7 @@ export default {
       'setErrorMsg',
       'closeTxDialog',
       'showLoginWindow',
+      'queryTokensaleInitial',
     ]),
     checkAddress() {
       return this.wallet.length === 42 && this.wallet.substr(0, 2) === '0x';
@@ -549,8 +550,9 @@ export default {
     },
     async updateTokenSaleProgress() {
       const amount = await EthHelper.queryEthBalance(LIKE_COIN_ICO_ADDRESS);
+      const initial = await this.queryTokensaleInitial();
       this.currentTokenSaleAmount = new BigNumber(amount).dividedBy(ONE_LIKE)
-        .plus(INITIAL_TOKENSALE_ETH);
+        .plus(initial);
     },
     handleAmountChange(value) {
       this.displayAmount = value;

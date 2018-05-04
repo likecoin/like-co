@@ -118,3 +118,5 @@ export const apiPurchaseIAP = (id, payload) => axios.post(`/api/iap/purchase/${i
 export const apiQueryIAPProducts = () => axios.get('/api/iap/list');
 
 export const apiQueryEthPrice = () => axios.get('https://api.coinmarketcap.com/v1/ticker/ethereum/?convert=USD');
+
+export const apiQueryTokensaleInitial = () => axios.get('/api/tokensale/initial');

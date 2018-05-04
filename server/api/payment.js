@@ -12,6 +12,8 @@ import { logTransferDelegatedTx, logETHTx } from '../util/logger';
 import { web3, sendTransactionWithLoop } from '../util/web3';
 import { sendPreSale } from '../util/ses';
 import { jwtAuth } from '../util/jwt';
+import { tokensaleInitial } from '../util/poller';
+
 import publisher from '../util/gcloudPub';
 
 const LIKECOIN = require('../../constant/contract/likecoin');
@@ -336,6 +338,16 @@ router.get('/tx/tokensale/:addr', jwtAuth, async (req, res) => {
       .orderBy('ts', 'desc')
       .get();
     res.json(doc.docs.map(d => ({ id: d.id, ...Validate.filterTxData(d.data()) })));
+  } catch (err) {
+    const msg = err.message || err;
+    console.error(msg);
+    res.status(400).send(msg);
+  }
+});
+
+router.get('/tokensale/initial', async (req, res) => {
+  try {
+    res.json({ initial: tokensaleInitial });
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
