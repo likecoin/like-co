@@ -11,6 +11,7 @@ import Validate from '../../util/ValidationHelper';
 import { logTransferDelegatedTx, logETHTx } from '../util/logger';
 import { web3, sendTransactionWithLoop } from '../util/web3';
 import { sendPreSale } from '../util/ses';
+import { jwtAuth } from '../util/jwt';
 import { tokensaleInitial } from '../util/poller';
 
 import publisher from '../util/gcloudPub';
@@ -285,9 +286,13 @@ router.get('/tx/id/:id', async (req, res) => {
   }
 });
 
-router.get('/tx/history/addr/:addr', async (req, res) => {
+router.get('/tx/history/addr/:addr', jwtAuth, async (req, res) => {
   try {
     const { addr } = req.params;
+    if (req.user.wallet !== addr) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
     let { ts, count } = req.query;
     ts = Number(ts);
     if (!ts || Number.isNaN(ts)) ts = Date.now();
@@ -320,9 +325,13 @@ router.get('/tx/history/addr/:addr', async (req, res) => {
   }
 });
 
-router.get('/tx/tokensale/:addr', async (req, res) => {
+router.get('/tx/tokensale/:addr', jwtAuth, async (req, res) => {
   try {
     const { addr } = req.params;
+    if (req.user.wallet !== addr) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
     const doc = await txLogRef
       .where('from', '==', web3.utils.toChecksumAddress(addr))
       .where('to', '==', LIKECOIN_ICO.LIKE_COIN_ICO_ADDRESS)

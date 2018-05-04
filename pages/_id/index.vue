@@ -135,7 +135,7 @@ import MaterialButton from '~/components/MaterialButton';
 import NarrowPageHeader from '~/components/header/NarrowPageHeader';
 
 import EthHelper from '@/util/EthHelper';
-import { apiGetUserById } from '@/util/api/api';
+import { apiGetUserMinById } from '@/util/api/api';
 
 import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 
@@ -188,7 +188,7 @@ export default {
     if (params.id !== params.id.toLowerCase()) {
       redirect({ name: route.name, params: { ...params, id: params.id.toLowerCase() }, query });
     }
-    return apiGetUserById(params.id)
+    return apiGetUserMinById(params.id)
       .then((res) => {
         const { wallet, avatar, displayName } = res.data;
         const amount = formatAmount(params.amount || 1);

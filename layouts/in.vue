@@ -75,7 +75,7 @@
 
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import MissionDialog from '@/components/dialogs/MissionDialog';
 import MyFooter from '~/components/footer/Footer';
 import SiteHeader from '~/components/header/HeaderWithMenuButton';
@@ -105,6 +105,8 @@ export default {
       'getCurrentLocale',
       'getCurrentLocaleISO',
       'getReferralMissionList',
+      'getUserNeedAuth',
+      'getUserNeedRegister',
     ]),
   },
   head() {
@@ -116,6 +118,34 @@ export default {
         'lc-lang': this.getCurrentLocale,
       },
     };
+  },
+  methods: {
+    ...mapActions([
+      'loginUser',
+    ]),
+    async triggerLoginSign() {
+      if (!(await this.loginUser())) this.$router.go(-1);
+    },
+  },
+  watch: {
+    getUserNeedAuth(a) {
+      if (a) {
+        this.triggerLoginSign();
+      }
+    },
+    getUserNeedRegister(a) {
+      if (a) {
+        this.$router.push({ name: 'in-register', query: this.$route.query });
+      }
+    },
+  },
+  mounted() {
+    if (this.getUserNeedAuth) {
+      this.triggerLoginSign();
+    }
+    if (this.getUserNeedRegister) {
+      this.$router.replace({ name: 'in-register', query: this.$route.query });
+    }
   },
 };
 </script>

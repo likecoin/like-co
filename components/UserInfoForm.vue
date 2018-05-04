@@ -220,7 +220,7 @@ export default {
       'getIsInTransaction',
       'getIsPopupBlocking',
       'getUserInfo',
-      'getUserIsFetching',
+      'getUserIsReady',
       'getUserIsRegistered',
     ]),
     getAmountAction() {
@@ -345,14 +345,14 @@ export default {
     },
   },
   watch: {
-    getUserIsFetching(value) {
-      if (!value && this.getUserIsRegistered) {
+    getUserIsReady(value) {
+      if (value && this.getUserIsRegistered) {
         this.updateInfo();
       }
     },
   },
   mounted() {
-    if (!this.getUserIsFetching && this.getUserIsRegistered) {
+    if (this.getUserIsReady && this.getUserIsRegistered) {
       if (this.$route.params.showEmail && !this.getUserInfo.isEmailVerified) {
         this.$nextTick(() => this.$refs.inputDialog.show());
       }

@@ -1,10 +1,8 @@
 <template>
-  <like-register-form :isEdit="isEdit" :isRedeem="true"/>
+  <like-register-form :isRedeem="true" />
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
 import LikeRegisterForm from '~/components/LikeRegisterForm';
 
 import * as types from '@/store/mutation-types';
@@ -40,11 +38,6 @@ export default {
         },
       ],
     };
-  },
-  computed: {
-    ...mapGetters({
-      isEdit: 'getUserIsRegistered',
-    }),
   },
 };
 </script>

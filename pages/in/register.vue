@@ -1,10 +1,8 @@
 <template>
-  <like-register-form :isEdit="isEdit" :redirect="redirect" />
+  <like-register-form @registered="onSubmit" />
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
 import Description from '~/components/Description';
 import Introduction from '~/components/Introduction';
 import LikeRegisterForm from '~/components/LikeRegisterForm';
@@ -81,13 +79,23 @@ export default {
     title() {
       return this.referrer ? this.$t('Register.header.titleReferral', { name: this.referrer }) : this.$t('Register.header.title');
     },
-    ...mapGetters({
-      isEdit: 'getUserIsRegistered',
-      getDesc: 'getDesc',
-      getHeaderSubtitle: 'getHeaderSubtitle',
-      getHeaderIcon: 'getHeaderIcon',
-      getHeaderTitle: 'getHeaderTitle',
-    }),
+  },
+  methods: {
+    onSubmit(user) {
+      this.tryRedirect(user);
+    },
+    tryRedirect(user) {
+      if (this.redirect) {
+        try {
+          const url = new URL(this.redirect, true);
+          url.query.likecoinId = user;
+          url.set('query', url.query);
+          window.location.href = url.toString();
+        } catch (err) {
+          // invalid URL;
+        }
+      }
+    },
   },
 };
 </script>

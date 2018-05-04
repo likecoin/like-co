@@ -10,8 +10,9 @@ export const setMetamaskError = ({ commit }, msg) => {
   commit(types.UI_SET_METAMASK_ERROR, msg);
 };
 
-export const showLoginWindow = ({ commit }) => {
+export const showLoginWindow = ({ commit, dispatch }) => {
   commit(types.UI_LOGIN_OVERRIDE, true);
+  dispatch('loginUser');
 };
 
 export const setWeb3Type = ({ commit }, type) => {
