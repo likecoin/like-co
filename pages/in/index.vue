@@ -222,6 +222,17 @@ export default {
       }
     },
   },
+  head() {
+    return {
+      meta: [
+        {
+          hid: 'og_image',
+          property: 'og:image',
+          content: 'https://like.co/home_og.png',
+        },
+      ],
+    };
+  },
   mounted() {
     const { hash } = document.location;
     if (hash) {

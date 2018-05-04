@@ -351,36 +351,45 @@ export default {
     };
   },
   head() {
-    const meta = [
-      {
-        hid: 'og_image',
-        property: 'og:image',
-        content: 'https://like.co/tokensale_og.jpg',
-      },
-    ];
+    let meta;
     if (this.$route.query.from) {
-      meta.push({
-        hid: 'description',
-        name: 'description',
-        content: this.$t('TokenSale.head.fromDescription'),
-      });
-      meta.push({
-        hid: 'og_description',
-        property: 'og:description',
-        content: this.$t('TokenSale.head.fromDescription'),
-      });
+      meta = [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.$t('TokenSale.head.fromDescription'),
+        },
+        {
+          hid: 'og_description',
+          property: 'og:description',
+          content: this.$t('TokenSale.head.fromDescription'),
+        },
+        {
+          hid: 'og_image',
+          property: 'og:image',
+          content: 'https://like.co/tokensale_og.jpg',
+        },
+      ];
     } else {
-      meta.push({
-        hid: 'description',
-        name: 'description',
-        content: this.$t('TokenSale.head.description'),
-      });
-      meta.push({
-        hid: 'og_description',
-        property: 'og:description',
-        content: this.$t('TokenSale.head.description'),
-      });
+      meta = [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.$t('TokenSale.head.description'),
+        },
+        {
+          hid: 'og_description',
+          property: 'og:description',
+          content: this.$t('TokenSale.head.description'),
+        },
+        {
+          hid: 'og_image',
+          property: 'og:image',
+          content: 'https://like.co/sale_og.png',
+        },
+      ];
     }
+
     return {
       meta,
     };

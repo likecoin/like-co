@@ -231,7 +231,7 @@ export default {
         {
           hid: 'og_image',
           property: 'og:image',
-          content: `${this.avatar}`,
+          content: 'https://like.co/tokensale_og.jpg',
         },
       ],
     };
