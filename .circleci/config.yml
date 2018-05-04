@@ -5,6 +5,7 @@ jobs:
     docker:
       - image: node:8
     steps:
+      - run: yarn global add npm@6
       - checkout
       - restore_cache:
           key: likecoin-store-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}-{{ checksum ".circleci/config.yml" }}
@@ -46,6 +47,7 @@ jobs:
             sudo apt-get -y install curl git make g++ net-tools
             sudo curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
             sudo apt-get -y install nodejs
+            sudo npm install npm@6 -g
       - run:
           name: Dependencies
           command: sudo npm config set unsafe-perm true && sudo npm install
