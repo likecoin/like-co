@@ -63,8 +63,14 @@ export default {
     ]),
   },
   methods: {
-    onCancel() {
+    show() {
+      this.$refs.dialog.show();
+    },
+    hide() {
       this.$refs.dialog.hide();
+    },
+    onCancel() {
+      this.hide();
     },
     onSubmit(value) {
       this.$refs.dialog.hide();
