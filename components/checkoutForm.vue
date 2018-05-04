@@ -100,7 +100,7 @@ export default {
       return t[this.$i18n.locale] || t[this.$i18n.fallbackLocale];
     },
     gotoRegister() {
-      this.$router.push({ name: 'in-register' });
+      this.$router.push({ name: 'in-register', query: this.$route.query });
     },
     async onClickProduct(id) {
       if (this.getUserIsRegistered && !this.getUserInfo.isEmailVerified) {

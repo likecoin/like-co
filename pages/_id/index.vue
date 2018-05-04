@@ -93,7 +93,7 @@
 
                 <div v-else-if="!getUserIsRegistered" class="create-account-wrapper">
                   <p>{{ $t('KYC.label.createID') }}</p>
-                  <material-button @click="$router.push({ name: 'in-register'})">
+                  <material-button @click="$router.push({ name: 'in-register', query: $route.query })">
                     {{ $t('KYC.button.createID') }}
                   </material-button>
                   <p><a href="#" @click="showLoginWindow">{{ $t('Home.Header.button.signIn') }}</a></p>
