@@ -30,9 +30,20 @@
                   {{ $t('Home.Sale.title.publicTokenSale') }}
                   <span class="now-live">{{ $t('Home.Sale.title.nowLive') }}</span>
                 </h1>
-                <h2 class="completed-percentage" v-if="tokenSalePercentage">
-                  {{ $t('Home.Sale.label.completedPercent', { percent: tokenSalePercentage }) }}
-                </h2>
+
+                <div :class="['tokensale-status', { animated: isTokenSalePeriod }]">
+                  <div>
+                    <countdown-timer
+                      v-if="isTokenSalePeriod"
+                      class="cta-section-token-sale-timer"
+                      :date="SALE_END_DATE"
+                    />
+                    <h2 v-if="tokenSalePercentage" class="completed-percentage">
+                      {{ $t('Home.Sale.label.completedPercent', { percent: tokenSalePercentage }) }}
+                    </h2>
+                  </div>
+                </div>
+
                 <div class="token-sale-progress-wrapper">
                   <tokensale-progress
                     class="cta-section-token-sale-progress"
@@ -128,6 +139,7 @@ import {
   TOKENSALE_SOFTCAP_ETH,
   ONE_LIKE,
   SALE_DATE,
+  SALE_END_DATE,
 } from '@/constant';
 
 export default {
@@ -150,6 +162,8 @@ export default {
   data() {
     return {
       SALE_DATE,
+      SALE_END_DATE,
+
       now: moment(),
       currentTokenSaleAmount: 0,
     };
@@ -160,6 +174,9 @@ export default {
     },
     tokenSaleProgress() {
       return this.currentTokenSaleAmount.toFixed(2);
+    },
+    isTokenSalePeriod() {
+      return this.now.isAfter(SALE_DATE) && this.now.isBefore(SALE_END_DATE);
     },
   },
   methods: {
@@ -261,6 +278,7 @@ export default {
     }
 
     &.completed-percentage {
+      margin-top: 0;
       color: $like-green;
 
       font-size: 44px;
@@ -421,8 +439,6 @@ export default {
   }
 
   .cta-section-token-sale-timer {
-    margin-top: 8px;
-
     ul {
       li {
         &::after {
@@ -450,6 +466,65 @@ export default {
             color: $like-light-blue !important;
           }
         }
+      }
+    }
+  }
+}
+
+@keyframes tokensale-status-animation {
+  0%, 45% {
+    transform: translateY(0);
+  }
+  55%, 100% {
+    transform: translateY(-50%);
+  }
+}
+
+$tokensale-status-height: 96px;
+$tokensale-status-height-small: 64px;
+$tokensale-status-gutter: 8px;
+
+.tokensale-status.animated {
+  overflow: hidden;
+  margin: -$tokensale-status-gutter 0;
+
+  height: $tokensale-status-height + $tokensale-status-gutter * 2;
+
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0) 2%,
+    rgba(0,0,0,1) 12%,
+    rgba(0,0,0,1) 88%,
+    rgba(0,0,0,0) 98%);
+
+  @media (max-width: 768px) {
+    height: $tokensale-status-height-small + $tokensale-status-gutter * 2;
+  }
+
+  > div {
+    animation: {
+      name: tokensale-status-animation;
+      duration: 5s;
+      delay: 3s;
+      direction: alternate;
+      timing-function: ease-in-out;
+      iteration-count: infinite;
+    }
+
+    > * {
+      height: $tokensale-status-height;
+      padding: $tokensale-status-gutter 0;
+
+      line-height: $tokensale-status-height;
+
+      @media (max-width: 768px) {
+        height: $tokensale-status-height-small;
+
+        line-height: $tokensale-status-height-small;
+      }
+
+      @media (max-width: 600px) {
+        margin: auto;
       }
     }
   }
