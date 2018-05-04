@@ -145,6 +145,28 @@ export default {
     color: $like-green;
   }
 
+  &.completed {
+    .mission-card {
+      background-image: linear-gradient(215deg, #D2F0F0, #F0E6B4);
+      box-shadow: 0 0 3px 1px rgba(240, 238, 156, 0.8);
+
+      &::before {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        margin: 4px;
+
+        content: "";
+
+        border-radius: 4px;
+        background-color: $like-white;
+      }
+    }
+  }
+
   .title-label {
     height: 52px;
 
@@ -187,7 +209,7 @@ export default {
     bottom: 0;
     left: 50%;
 
-    transform: translateX(-50%);
+    transform: translateX(-50%) translateY(50%);
   }
 
   .item-label {
@@ -314,6 +336,8 @@ export default {
 }
 
 .mission-card {
+  position: relative;
+
   box-sizing: border-box;
   padding: 16px 4px 40px;
 
