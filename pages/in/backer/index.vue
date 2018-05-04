@@ -146,7 +146,7 @@ export default {
         {
           hid: 'og_image',
           property: 'og:image',
-          content: 'https://like.co/sale_og.png',
+          content: 'https://like.co/images/og/sale.png',
         },
       ],
     };
