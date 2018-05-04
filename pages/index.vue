@@ -158,6 +158,11 @@ export default {
           property: 'og:description',
           content: this.$t('Home.Flag.content'),
         },
+        {
+          hid: 'og_image',
+          property: 'og:image',
+          content: 'https://like.co/images/og/home.png',
+        },
       ],
     };
   },

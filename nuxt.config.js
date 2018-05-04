@@ -11,14 +11,14 @@ module.exports = {
     SENTRY_DSN: process.env.SENTRY_DSN,
   },
   head: {
-    title: 'LikeCoin - Reinventing the Like.',
+    title: 'LikeCoin - Reinventing the Like',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { name: 'mobile-web-app-capable', content: 'yes' },
-      { hid: 'description', name: 'description', content: 'Rewarding Contents by Proof of Creativity' },
-      { hid: 'og_title', property: 'og:title', content: 'LikeCoin - Reinventing the Like.' },
-      { hid: 'og_description', property: 'og:description', content: 'Rewarding Contents by Proof of Creativity' },
+      { hid: 'description', name: 'description', content: 'With our unique LikeRank algorithm and decentralized Like button, we trace content footprint and reward all creators involved. This is called Proof of Creativity.' },
+      { hid: 'og_title', property: 'og:title', content: 'LikeCoin - Reinventing the Like' },
+      { hid: 'og_description', property: 'og:description', content: 'With our unique LikeRank algorithm and decentralized Like button, we trace content footprint and reward all creators involved. This is called Proof of Creativity.' },
       { hid: 'og_image', property: 'og:image', content: 'https://like.co/logo.png' },
       { hid: 'og_image_alt', property: 'og:image:alt', content: 'LikeCoin' },
       { hid: 'theme-color', name: 'theme-color', content: '#D2F0F0' },

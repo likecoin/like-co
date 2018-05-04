@@ -123,6 +123,8 @@ export default {
     },
   },
   head() {
+    // strip out html tag in description
+    const ogDescription = this.$t('BackerPage.label.description').replace(/<.*?>/g, '');
     return {
       title: this.$t('BackerPage.title'),
       meta: [
@@ -134,12 +136,17 @@ export default {
         {
           hid: 'description',
           name: 'description',
-          content: this.$t('BackerPage.label.description'),
+          content: ogDescription,
         },
         {
           hid: 'og_description',
           property: 'og:description',
-          content: this.$t('BackerPage.label.description'),
+          content: ogDescription,
+        },
+        {
+          hid: 'og_image',
+          property: 'og:image',
+          content: 'https://like.co/images/og/sale.png',
         },
       ],
     };
