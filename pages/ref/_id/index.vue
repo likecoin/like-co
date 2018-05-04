@@ -104,22 +104,22 @@ export default {
   },
   head() {
     return {
-      title: this.$t('ReferralPage.title', { name: this.displayName }),
+      title: this.$t('ReferralPage.og.title', { name: this.displayName }),
       meta: [
         {
           hid: 'og_title',
           property: 'og:title',
-          content: this.$t('ReferralPage.title', { name: this.displayName }),
+          content: this.$t('ReferralPage.og.title', { name: this.displayName }),
         },
         {
           hid: 'description',
           name: 'description',
-          content: this.$t('ReferralPage.label.invitation', { name: this.displayName }),
+          content: this.$t('ReferralPage.og.description', { name: this.displayName }),
         },
         {
           hid: 'og_description',
           property: 'og:description',
-          content: this.$t('ReferralPage.label.invitation', { name: this.displayName }),
+          content: this.$t('ReferralPage.og.description', { name: this.displayName }),
         },
         {
           hid: 'og_image',
