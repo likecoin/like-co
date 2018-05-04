@@ -1,4 +1,7 @@
 const webpack = require('webpack'); // eslint-disable-line import/no-extraneous-dependencies
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin'); // eslint-disable-line import/no-extraneous-dependencies
+
+const shouldCache = !!process.env.CI;
 
 module.exports = {
   /*
@@ -134,6 +137,8 @@ module.exports = {
   */
   build: {
     scopeHoisting: true,
+    cache: shouldCache,
+    uglify: { cache: shouldCache },
     postcss: {
       plugins: {
         'postcss-import': {},
@@ -178,6 +183,7 @@ module.exports = {
     ** Run ESLINT on save
     */
     extend(config, ctx) {
+      if (shouldCache) config.plugins.push(new HardSourceWebpackPlugin());
       if (ctx.isClient) {
         config.module.rules.push({
           enforce: 'pre',
