@@ -1,107 +1,22 @@
 <template>
   <div class="tokensale-page">
 
-    <div class="lc-container-0 lc-narrow">
+    <section class="lc-container-0">
+      <div class="lc-container-1 lc-section-block">
 
-      <section class="lc-container-1 lc-section-block">
         <div class="lc-container-2">
           <div class="lc-container-3 lc-bg-gray-1">
             <div class="lc-container-4 ">
-
               <narrow-page-header />
-
             </div>
           </div>
         </div>
 
-        <div class="lc-container-2-extend">
-          <div class="lc-container-3-extend-bg" />
-          <div class="lc-container-3">
-            <div class="lc-padding-top-32 lc-padding-bottom-16">
-
-              <section class="countdown-section lc-text-align-center">
-                <h1 class="lc-font-size-42 lc-font-weight-600">
-                  {{ isPreSale ? $t('TokenSale.preSaleTitle') : $t('TokenSale.title') }} 
-                  <span v-if="isPreSale || isICOStarted" class="lc-font-weight-300 lc-color-like-green">LIVE</span>
-                </h1>
-                <h2 v-if="isPreSale" class="lc-margin-top-12 lc-font-size-38 lc-font-weight-300">
-                  {{ $t('TokenSale.label.bonusAndLimitedOffer') }}
-                </h2>
-                <h3 v-if="isPreSale || !isICOStarted" class="lc-margin-top-12 lc-font-size-14 lc-font-weight-400">
-                  {{ isPreSale ? $t('TokenSale.label.limitedOfferCondition') : $t('TokenSale.label.publicSaleStartIn') }}
-                </h3>
-                <countdown-timer v-if="!isPreSale && !isICOStarted" :date="SALE_DATE" />
-              </section>
-
-            </div>
-          </div>
-        </div>
-
-        <div class="lc-container-2">
-
-          <div v-if="!isPreSale" class="tokensale-progress-wrapper lc-container-3 lc-bg-gray-1 lc-verticle-inset-4">
-            <tokensale-progress
-              :progress="currentTokenSaleAmount.toFixed(2)"
-              :total="maxTokenSaleAmount.toFixed(2)"/>
-
-            <div class="lc-container-4">
-              <div class="tokensale-amount lc-verticle-inset-2 lc-text-align-center">
-                <span class="current lc-color-like-green lc-font-size-46 lc-font-weight-300">{{ currentTokenSaleAmount.toFixed(2) }}</span>
-                <span class="max lc-font-size-20 lc-font-weight-400"> / {{ maxTokenSaleAmount.toFixed(2) }} ETH</span>
-              </div>
-            </div>
-          </div>
-          <div v-else-if="isPreSale" class="tokensale-presale-wrapper lc-container-3 lc-bg-gray-1">
-            <div class="lc-container-4 lc-padding-vertical-32">
-              {{ $t('TokenSale.label.amountWillBeSentWhenSalesStart')}}
-            </div>
-          </div>
-
-          <section class="token-info-section lc-margin-top-8">
-            <div class="lc-container-3 lc-bg-gray-1">
-              <div class="lc-container-4 lc-verticle-inset-4">
-                <div class="info-grid">
-                  <ul>
-                    <li>
-                      <div>
-                        <span class="label">{{ $t('TokenSale.label.token') }}</span>
-                        <span class="value highlight" >
-                          LIKE
-                        </span>
-                      </div>
-                    </li>
-                    <li>
-                      <div>
-                        <span class="label">{{ $t('TokenSale.label.exchangeRate') }}</span>
-                        <span class="value">1 ETH / 40,000 LIKE</span>
-                      </div>
-                    </li>
-                    <li>
-                      <div>
-                        <span class="label">{{ $t('TokenSale.label.supply') }}</span>
-                        <span class="value">600,000,000</span>
-                      </div>
-                    </li>
-                    <li class="what-is-eth">
-                      <a
-                        :href="$t('TokenSale.label.whatIsEthLink')"
-                        ref="noopener"
-                        target="_blank">
-                        <span class="lc-font-size-12">{{ $t('TokenSale.label.whatIsETH') }}</span>
-                        <img :src="QuestionIcon" />
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </section>
-
-        </div>
+        <tokensale-dashboard />
 
         <div v-if="canICO" class="lc-container-2">
-          <div class="lc-container-3 lc-bg-transparent">
-            <div class="lc-container-4 lc-padding-top-16 lc-text-align-center">
+          <div class="lc-container-3">
+            <div class="lc-container-4 lc-padding-vertical-16 lc-text-align-center">
               <nuxt-link
                 class="lc-font-size-12 lc-underline"
                 :to="{ name: 'in-backer' }">
@@ -110,51 +25,61 @@
             </div>
           </div>
         </div>
-      </section>
 
-      <!-- KYC Sections start -->
-      <section
+      </div>
+    </section>
+
+    <section class="lc-container-0">
+      <!-- Loading -->
+      <div
         v-if="getUserIsFetching || isKYCTxPass===undefined"
         class="lc-container-1 lc-padding-vertical-32">
         <div class="lc-container-2">
           <md-progress-bar md-mode="indeterminate" />
         </div>
-      </section>
+      </div>
 
-      <section
-        class="lc-container-1 lc-section-block"
+      <!-- Not registered -->
+      <div
         v-else-if="!getUserIsRegistered"
-      >
+        class="lc-container-1 lc-section-block lc-margin-top-32">
         <div class="lc-container-2">
-          <div class="lc-container-3 lc-bg-gray-1 create-account-wrapper">
-            <p class="lc-color-like-gray-4 lc-text-align-center">
-              {{ $t('KYC.label.createID') }}
-            </p>
-            <material-button @click="redirectToRegister">
-              {{ $t('KYC.button.createID') }}
-            </material-button>
-            <p>
+          <div class="lc-container-3">
+            <div class="lc-container-4 lc-text-align-center">
+
+              <p class="lc-color-like-gray-4">
+                {{ $t('KYC.label.createID') }}
+              </p>
+
+              <md-button
+                class="md-likecoin lc-margin-top-24"
+                @click="redirectToRegister">
+                {{ $t('KYC.button.createID') }}
+              </md-button>
+              <br />
               <a
                 class="lc-color-like-gray-4 lc-underline"
                 href="#"
                 @click="showLoginWindow">
                 {{ $t('Home.Header.button.signIn') }}
               </a>
-            </p>
+
+            </div>
           </div>
         </div>
-      </section>
+      </div>
 
-      <section class="lc-container-1 lc-section-block" v-else>
+      <!-- Tokensale and KYC -->
+      <div v-else class="lc-container-1 lc-section-block">
+
         <div class="lc-container-header">
           <div class="lc-container-2 lc-container-header-overlay">
             <div class="lc-container-3 lc-bg-gray-1" />
           </div>
-
           <div class="lc-container-2">
             <div class="lc-container-header-title">
               <h1 class="lc-font-size-32 lc-mobile">
-                {{ isPreSale ? $t('TokenSale.label.joinPreSale') : $t('TokenSale.label.prepareToJoin') }}
+                {{ isICOStarted ? $t('TokenSale.label.joinTokenSaleNow') : $t('TokenSale.label.prepareToJoin') }}
               </h1>
             </div>
           </div>
@@ -163,110 +88,63 @@
         <div class="lc-container-2">
           <div class="lc-container-3 lc-bg-gray-1">
             <div class="lc-container-4 lc-padding-vertical-24">
-              <div class="inner-container">
-                <section>
-                  <KYCForm
-                    :isKYCTxPass="isKYCTxPass"
-                    :isPreSale="isPreSale"
-                    :isICOStarted="isICOStarted"
-                    :user="getUserInfo"
-                    :wallet="getLocalWallet"
-                    @showPaymentForm="handleShowPaymentForm" />
-                </section>
 
-                <section v-if="isPreSale && canICO" class="like-coin-rate-section lc-padding-top-24 lc-padding-botton-0 lc-mobile">
-                  <div class="like-coin-amount">
-                    <div>
-                      <div class="title">
-                        {{ $t('TokenSale.label.amountLikeToPurhcase') }}
-                      </div>
-                      <md-field class="lc-padding-top-8 lc-padding-top-0-mobile">
-                        <div class="coin-value-wrapper lc-padding-bottom-8 lc-padding-bottom-0-mobile">
-                          <span>LIKE</span>
-                          <md-input
-                            :value="preSaleBase"
-                            @keypress="onAmountKeypress"
-                            @input="onAmountInput" />
-                        </div>
-                      </md-field>
+              <KYCForm
+                :isKYCTxPass="isKYCTxPass"
+                :isPreSale="isPreSale"
+                :isICOStarted="isICOStarted"
+                :user="getUserInfo"
+                :wallet="getLocalWallet"
+                @showPaymentForm="handleShowPaymentForm" />
+
+              <form
+                v-if="isICOStarted && canICO && !needExtraKYC && shouldShowPaymentForm"
+                id="paymentInfo"
+                class="lc-padding-top-32"
+                v-on:submit.prevent="onSubmit">
+                <input v-model="wallet" hidden required disabled />
+                <div class="lc-padding-bottom-24 lc-mobile">
+                  <number-input
+                    currencyTitle="ETH"
+                    :amount="displayAmount"
+                    :decimalPlaceLimit="4"
+                    :isBadAmount="isBadAmount"
+                    :badAmountMessage="$t('TokenSale.label.tokensaleBadAmount')"
+                    :label="$t('Transaction.label.amountToSend', { coin: isEth ? 'ETH' : 'LikeCoin' })"
+                    @onChange="handleAmountChange"
+                  />
+                  <div
+                    class="eth-to-like-amount lc-margin-top-12 lc-text-align-center lc-color-like-dark-brown-1"
+                    v-html="$t('TokenSale.label.likeAmountWillGet', { amount: likeBase })" />
+                </div>
+                <!-- <md-field>
+                  <md-input placeholder="Remark (optional)" />
+                </md-field> -->
+                <div class="lc-margin-top-16 lc-margin-bottom-8">
+                  <material-button
+                    id="payment-confirm"
+                    type="submit"
+                    form="paymentInfo"
+                    :disabled="getIsInTransaction || !getLocalWallet">
+                    <div class="button-content-wrapper">
+                      <img :src="EthIcon" />
+                      {{ $t('General.button.send') }}
                     </div>
+                  </material-button>
+                </div>
+              </form>
 
-                    <img class="add-sign" :src="AddIcon" />
+              <!-- <div v-else-if="KYCStatus==KYC_STATUS_ENUM.PENDING">
+                <md-progress-bar md-mode="indeterminate" />
+                KYC ALREADY PENDING
+              </div> -->
 
-                    <div>
-                      <div class="title">
-                        {{ $t('TokenSale.label.bonus') }}
-                      </div>
-                      <md-field class="lc-padding-top-8 lc-padding-top-0-mobile">
-                        <div class="coin-value-wrapper lc-padding-bottom-8 lc-padding-bottom-0-mobile">
-                          <span>LIKE</span>
-                          <md-input :value="preSaleBonus" disabled />
-                        </div>
-                      </md-field>
-                    </div>
-                  </div>
-
-                  <div class="remark lc-padding-top-8 lc-color-like-gray-4 lc-font-size-12">
-                    {{ $t('TokenSale.label.bonusLockUp') }}
-                  </div>
-                </section>
-
-                <!-- <section v-else-if="KYCStatus==KYC_STATUS_ENUM.PENDING">
-                  <md-progress-bar md-mode="indeterminate" />
-                  KYC ALREADY PENDING
-                </section> -->
-              </div>
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
-      <section
-        v-if="(isPreSale || isICOStarted) && canICO && !needExtraKYC && shouldShowPaymentForm"
-        class="lc-container-1 lc-verticle-inset-3"
-      >
-        <div class="lc-container-2">
-          <div class="lc-container-3 lc-bg-gray-1">
-            <div class="lc-container-4 lc-padding-vertical-24">
-              <div class="inner-container">
-                <form
-                  id="paymentInfo"
-                  v-on:submit.prevent="onSubmit">
-                  <input v-model="wallet" hidden required disabled />
-                  <div class="lc-padding-bottom-24 lc-mobile">
-                    <number-input
-                      currencyTitle="ETH"
-                      :amount="displayAmount"
-                      :decimalPlaceLimit="4"
-                      :isBadAmount="isBadAmount"
-                      :badAmountMessage="$t('TokenSale.label.tokensaleBadAmount')"
-                      :label="$t('Transaction.label.amountToSend', { coin: isEth ? 'ETH' : 'LikeCoin' })"
-                      @onChange="handleAmountChange"
-                    />
-                  </div>
-                  <!-- <md-field>
-                    <md-input placeholder="Remark (optional)" />
-                  </md-field> -->
-                  <div class="lc-verticle-inset-4">
-                    <material-button
-                      id="payment-confirm"
-                      type="submit"
-                      form="paymentInfo"
-                      :disabled="getIsInTransaction || !getLocalWallet">
-                      <div class="button-content-wrapper">
-                        <img :src="EthIcon" />
-                        {{ $t('General.button.send') }}
-                      </div>
-                    </material-button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-    </div>
+    </section>
 
     <popup-dialog
       :allowClose="false"
@@ -281,17 +159,15 @@
 <script>
 import BigNumber from 'bignumber.js';
 
-import CountdownTimer from '~/components/CountdownTimer';
+import TokensaleDashboard from '~/components/TokensaleDashboard';
 import KYCForm from '~/components/KYCForm';
 import NumberInput from '~/components/NumberInput';
 import MaterialButton from '~/components/MaterialButton';
 import PopupDialog from '~/components/dialogs/PopupDialog';
 import NarrowPageHeader from '~/components/header/NarrowPageHeader';
-import TokenSaleProgress from '~/components/TokenSaleProgress';
 
 import AddIcon from '@/assets/icons/add.svg';
 import EthIcon from '@/assets/tokensale/eth.svg';
-import QuestionIcon from '@/assets/tokensale/question.svg';
 
 import EthHelper from '@/util/EthHelper';
 import { LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin';
@@ -299,11 +175,11 @@ import { LIKE_COIN_ICO_ADDRESS, LIKE_COIN_PRESALE_ADDRESS } from '@/constant/con
 import {
   ETH_TO_LIKECOIN_RATIO,
   ETHERSCAN_HOST,
-  INITIAL_TOKENSALE_ETH,
   KYC_STATUS_ENUM,
   KYC_ETH_LIMIT,
   ONE_LIKE,
   SALE_DATE,
+  SALE_END_DATE,
   SALE_DATE_ANNOUNCE_DATE,
 } from '@/constant';
 import { logTrackerEvent } from '@/util/EventLogger';
@@ -313,8 +189,7 @@ export default {
   name: 'tokensale',
   layout: 'narrowWithHeader',
   components: {
-    'tokensale-progress': TokenSaleProgress,
-    CountdownTimer,
+    TokensaleDashboard,
     KYCForm,
     MaterialButton,
     NarrowPageHeader,
@@ -325,11 +200,11 @@ export default {
     return {
       AddIcon,
       EthIcon,
-      QuestionIcon,
 
       KYC_STATUS_ENUM,
       KYC_ETH_LIMIT,
       SALE_DATE,
+      SALE_END_DATE,
       ETH_TO_LIKECOIN_RATIO,
       LIKE_CONTRACT_ADDRESS: `${ETHERSCAN_HOST}/address/${LIKE_COIN_ADDRESS}`,
 
@@ -344,10 +219,8 @@ export default {
       displayName: 'LikeCoin TokenSale',
       displayAmount: this.$route.params.amount || '0.00',
       amount: this.$route.params.amount || '0.00',
-      preSaleBase: '0',
+      likeBase: '0',
       popupMessage: '',
-      currentTokenSaleAmount: INITIAL_TOKENSALE_ETH,
-      maxTokenSaleAmount: new BigNumber('12600'),
     };
   },
   head() {
@@ -404,11 +277,6 @@ export default {
     isICOStarted() {
       return (new Date() >= SALE_DATE);
     },
-    preSaleBonus() {
-      if (!this.preSaleBase || Number(this.displayAmount) < 10) return new BigNumber(0);
-      const preSaleBase = new BigNumber(this.preSaleBase);
-      return preSaleBase.multipliedBy(new BigNumber(0.25)).toString();
-    },
     canICO() {
       return this.isKYCTxPass && this.KYCStatus >= KYC_STATUS_ENUM.STANDARD;
     },
@@ -438,7 +306,6 @@ export default {
       'setErrorMsg',
       'closeTxDialog',
       'showLoginWindow',
-      'queryTokensaleInitial',
     ]),
     checkAddress() {
       return this.wallet.length === 42 && this.wallet.substr(0, 2) === '0x';
@@ -508,15 +375,6 @@ export default {
             'buy LikeCoin on tokensale page',
             Number(this.amount),
           );
-          if (this.preSaleBonus && this.preSaleBonus !== '0') {
-            logTrackerEvent(
-              this,
-              'Tokensale',
-              'buyLikeCoinEarilybird',
-              'buy LikeCoin on tokensale page (is Early Bird)',
-              Number(this.amount),
-            );
-          }
         } catch (err) {
           // just to prevent anything wrong from Number(this.amount)
         }
@@ -556,17 +414,11 @@ export default {
         this.$intercom.show();
       }
     },
-    async updateTokenSaleProgress() {
-      const amount = await EthHelper.queryEthBalance(LIKE_COIN_ICO_ADDRESS);
-      const initial = await this.queryTokensaleInitial();
-      this.currentTokenSaleAmount = new BigNumber(amount).dividedBy(ONE_LIKE)
-        .plus(initial);
-    },
     handleAmountChange(value) {
       this.displayAmount = value;
       this.amount = value.toString();
       if (!this.displayAmount) {
-        this.preSaleBase = '0';
+        this.likeBase = '0';
         return;
       }
       let newValue;
@@ -576,7 +428,7 @@ export default {
       } catch (err) {
         newValue = new BigNumber(0);
       }
-      this.preSaleBase = newValue.toString();
+      this.likeBase = newValue.toString();
     },
     handleShowPaymentForm(show) {
       this.shouldShowPaymentForm = show;
@@ -596,7 +448,7 @@ export default {
         e.preventDefault();
         return;
       }
-      this.preSaleBase = newValue;
+      this.likeBase = newValue;
     },
     onAmountInput(likeAmount) {
       try {
@@ -618,7 +470,6 @@ export default {
   },
   mounted() {
     if (!this.getUserIsFetching) this.checkStatus();
-    this.updateTokenSaleProgress();
   },
 };
 </script>
@@ -640,159 +491,6 @@ export default {
     display: inline-block;
 
     margin: 0 10px;
-  }
-
-  .create-account-wrapper {
-    text-align: center;
-    background-color: transparent;
-
-    p {
-      max-width: 422px;
-      margin: auto;
-    }
-    .md-button {
-      width: 256px;
-      margin-top: 32px;
-    }
-  }
-}
-
-.tokensale-progress-wrapper {
-  padding-right: 0;
-  padding-left: 0;
-
-  @media (max-width: 600px) {
-    overflow: hidden;
-  }
-
-  > div {
-    margin-right: -8px;
-    margin-left: -8px;
-  }
-}
-
-.tokensale-presale-wrapper {
-  text-align: center;
-}
-
-.tokensale-amount {
-  text-align: center;
-
-  font-weight: 300;
-
-  .current {
-    color: $like-green;
-
-    font-size: 46px;
-    line-height: 62px;
-  }
-
-  .max {
-    font-size: 20px;
-    font-weight: 400;
-  }
-}
-
-
-.token-info-section {
-  .info-grid {
-    > ul {
-      display: flex;
-      flex-wrap: wrap;
-
-      margin: -20px -12px;
-      padding: 0;
-
-      list-style: none;
-
-      justify-content: center;
-
-      @media (max-width: 600px) {
-        margin: -12px;
-      }
-      @media (max-width: 480px) {
-        flex-direction: column;
-      }
-
-      > li {
-        flex-shrink: 0;
-
-        margin: 20px 10px;
-
-        @media (max-width: 600px) {
-          margin: 12px;
-        }
-
-        > div {
-          margin: -4px;
-
-          @media (max-width: 480px) {
-            display: flex;
-            justify-content: space-between;
-          }
-
-          .highlight {
-            color: #28646e;
-
-            font-weight: 600 !important;
-          }
-
-          > a, span {
-            display: block;
-
-            margin: 4px;
-
-            &.label {
-              font-size: 14px;
-              font-weight: 400;
-              flex-shrink: 0;
-            }
-
-            &.value {
-              font-size: 20px;
-              font-weight: 300;
-
-              @media (max-width: 480px) {
-                text-align: right;
-              }
-            }
-          }
-
-          a {
-            text-decoration: none;
-
-            &:hover {
-              opacity: .7;
-            }
-          }
-        }
-
-        &.what-is-eth {
-          width: 100%;
-          display: flex;
-          align-items: center;
-          flex-grow: 1;
-          justify-content: center;
-
-          margin-top: 0;
-
-          a {
-            display: flex;
-            flex-direction: row;
-
-            text-decoration: underline;
-
-            span {
-              text-align: center;
-            }
-
-            img {
-              margin-left: 4px;
-            }
-          }
-        }
-      }
-    }
   }
 }
 

@@ -1,70 +1,75 @@
 <template>
-  <div class="lc-page-wrapper with-sliding-menu">
+  <div class="lc-layout">
     <tool-bars :disableError="getIfDisableError" />
 
-    <sliding-menu />
+    <div class="lc-page-wrapper with-sliding-menu">
 
-    <header class="lc-page-header">
-      <div class="lc-container-0">
-        <div class="lc-container-1">
-          <div class="underlay gray lc-mobile-hide" />
-          <div class="lc-container-2">
-            <site-header/>
+      <sliding-menu />
+
+      <header class="lc-page-header">
+        <div class="lc-container-0">
+          <div class="lc-container-1">
+            <div class="underlay gray lc-mobile-hide" />
+            <div class="lc-container-2">
+              <site-header/>
+            </div>
           </div>
         </div>
-      </div>
-    </header>
+      </header>
 
-    <div class="lc-page-content">
+      <div class="lc-page-content">
 
-      <div class="lc-container-1">
-        <div class="underlay gray lc-mobile-hide" />
-        <div class="lc-container-2 lc-padding-bottom-8">
-          <user-info-form />
+        <div class="lc-container-1">
+          <div class="underlay gray lc-mobile-hide" />
+          <div class="lc-container-2 lc-padding-bottom-8">
+            <user-info-form />
+          </div>
+        </div>
+
+        <!-- BEGIN - Tab bar section -->
+        <div class="lc-container-1">
+          <div class="underlay gray" />
+          <md-tabs class="lc-tabs lc-container-2 lc-width-2-3 md-transparent" md-sync-route>
+
+            <template slot="md-tab"  slot-scope="{ tab }">
+              <span :class="['lc-tab-item-label', { new: tab.data.isNew }]">
+                {{ tab.label }}
+              </span>
+            </template>
+
+            <md-tab
+              id="overview-tab"
+              :md-label="$t('In.tab.overview')"
+              to="/in" />
+            <md-tab
+              id="bonus-tab"
+              :md-label="$t('In.tab.bonus')"
+              :md-template-data="{ isNew: hasNewInvitee }"
+              to="/in/bonus" />
+            <md-tab
+              id="history-tab"
+              :md-label="$t('In.tab.history')"
+              to="/in/bonus/history" />
+
+          </md-tabs>
+        </div>
+        <!-- END - Tab bar section -->
+
+        <div class="tab-wrapper">
+          <nuxt/>
         </div>
       </div>
 
-      <!-- BEGIN - Tab bar section -->
-      <div class="lc-container-1">
-        <div class="underlay gray" />
-        <md-tabs class="lc-tabs lc-container-2 lc-width-2-3 md-transparent" md-sync-route>
+      <footer class="lc-page-footer">
+        <div class="lc-container-0">
+          <my-footer/>
+        </div>
+      </footer>
 
-          <template slot="md-tab"  slot-scope="{ tab }">
-            <span :class="['lc-tab-item-label', { new: tab.data.isNew }]">
-              {{ tab.label }}
-            </span>
-          </template>
-
-          <md-tab
-            id="overview-tab"
-            :md-label="$t('In.tab.overview')"
-            to="/in" />
-          <md-tab
-            id="bonus-tab"
-            :md-label="$t('In.tab.bonus')"
-            :md-template-data="{ isNew: hasNewInvitee }"
-            to="/in/bonus" />
-          <md-tab
-            id="history-tab"
-            :md-label="$t('In.tab.history')"
-            to="/in/bonus/history" />
-
-        </md-tabs>
-      </div>
-      <!-- END - Tab bar section -->
-
-      <div class="tab-wrapper">
-        <nuxt/>
-      </div>
     </div>
 
-    <footer class="lc-page-footer">
-      <div class="lc-container-0">
-        <my-footer/>
-      </div>
-    </footer>
-
     <mission-dialog />
+
   </div>
 </template>
 

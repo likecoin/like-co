@@ -59,7 +59,6 @@
         :value="likeCoinValueStr"
         :isOpaque="isEditing"
         :linkHref="!isEditing ? getAmountHref : ''"
-        :linkText="!isEditing ? getAmountText : ''"
         @onTextClick="getAmountAction" />
 
       <div class="lc-container-3">
@@ -140,7 +139,7 @@
                   {{ $t('General.button.confirm') }}
                 </material-button>
               </div>
-              <div class="edit-form-btn lc-margin-top-8">
+              <div class="edit-form-btn">
                 <material-button
                   id="edit-cancel-btn"
                   :disabled="getIsPopupBlocking"
@@ -518,6 +517,7 @@ $profile-icon-mobile-size: 88px;
         > button {
           height: 40px;
           margin-left: 0;
+          margin-bottom: 0;
         }
 
         #edit-cancel-btn {

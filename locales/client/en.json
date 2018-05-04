@@ -10,7 +10,9 @@
       "send": "Send",
       "yes": "Yes",
       "no": "No",
-      "ok": "OK"
+      "ok": "OK",
+      "copy": "Copy",
+      "copied": "Copied"
     }
   },
   "Language": {
@@ -247,16 +249,14 @@
     },
     "Sale": {
       "title": {
-        "earlyBirdTokenSale": "Early Bird Token Sale",
         "publicTokenSale": "Public Token Sale",
-        "secure25Percent": "Act now to secure 25% bonus",
         "nowLive": "Now Live"
       },
       "label": {
         "contactOurTeam": "Contact our team by clicking the bottom right dialogue bubble",
         "contactUsThroughButton": "Contact us through the bottom right button",
         "startOn": "Start in:",
-        "completedPercent": "{percent}% completed"
+        "completedPercent": "{percent}% Completed"
       },
       "button": {
         "whitepaper": "Whitepaper",
@@ -665,6 +665,8 @@
       "description": "You and your friend can both earn a LikeCoin bonus if your friend has signed up successfully by your affiliate link.  Please note that the email address has to be verified for you and your friend to be entitled to the bonus.",
       "pending": "Waiting for email verification",
       "verified": "Confirmed",
+      "shareUrl": "Invite your friend by URL",
+      "orByEmail": "Or by email",
       "emailInvite": "Invite your friend by email",
       "altInvite": "Or invite by:",
       "copyUrl": "Copy URL",
@@ -736,9 +738,14 @@
       "comingSoon": "Coming Soon"
     }
   },
+  "ReferralPage": {
+    "title": "{name} has invited you to join LikeCoin",
+    "label": {
+      "invitation": "Create a LikeCoin ID to send, recive LikeCoin and participate in the tokensale.<br/><br/>Create a LikeCoin ID now you and {name} will get 8 Like bonus. Participate in tokensale, you will both get 2.5% bonus."
+    }
+  },
   "TokenSale": {
     "title": "Token Sale",
-    "preSaleTitle": "Early Bird",
     "head": {
       "description": "Join LikeCoin token sale, reward contents by Proof of Creativity",
       "fromDescription": "Join LikeCoin token sale with my referral code to get 2.5% extra bonus"
@@ -746,10 +753,7 @@
     "label": {
       "prepareToJoin": "Prepare to Join Token Sale",
       "publicSaleStartIn": "Public Sale Start in:",
-      "preSaleEndIn": "25% bonus ends in:",
-      "preSaleBonus": "25% Bonus",
-      "preSaleBonusCondition": "for 10ETH and above",
-      "joinPreSale": "Join Early Bird Now",
+      "publicSaleEndIn": "Token Sale End in:",
       "token": "Token",
       "exchangeRate": "Exchange Rate",
       "supply": "Supply",
@@ -763,7 +767,9 @@
       "bonus": "Bonus",
       "bonusLockUp": "The bonus LikeCoin will be lock up in your wallet and cannot be transferred for 6 months.",
       "amountWillBeSentWhenSalesStart": "The purchased and bonus LikeCoin will be sent to your wallet when public token sales starts, expected to be April 23 2018. The bonus LikeCoin will be lock up in your wallet and cannot be transferred for 6 months.",
-      "whatIsEthLink": "https://help.like.co/likecoin-faq/what-is-eth"
+      "whatIsEthLink": "https://help.like.co/likecoin-faq/what-is-eth",
+      "joinTokenSaleNow": "Join Token Sale Now",
+      "likeAmountWillGet": "You will get <span class=\"bold\">{amount}</span> LIKE"
     },
     "button": {
       "aboutLikeCoin": "About LikeCoin",

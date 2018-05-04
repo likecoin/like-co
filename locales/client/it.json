@@ -246,9 +246,7 @@
         },
         "Sale": {
             "title": {
-                "earlyBirdTokenSale": "Prevendita token",
                 "publicTokenSale": "Vendita pubblica di token",
-                "secure25Percent": "Acquista subito e ricevi un bonus del 25%",
                 "nowLive": "Ora iniziata"
             },
             "label": {
@@ -704,14 +702,9 @@
     },
     "TokenSale": {
         "title": "Vendita di token",
-        "preSaleTitle": "Anticipata",
         "label": {
             "prepareToJoin": "Preparati a partecipare alla vendita di token",
             "publicSaleStartIn": "La vendita pubblica inizia tra:",
-            "preSaleEndIn": "Il bonus del 25% termina tra:",
-            "preSaleBonus": "Bonus del 25%",
-            "preSaleBonusCondition": "per 10 o più ETH",
-            "joinPreSale": "Partecipa subito alla vendita anticipata",
             "token": "Token",
             "exchangeRate": "Tasso di cambio",
             "supply": "Disponibilità",
