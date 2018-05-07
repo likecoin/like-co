@@ -95,8 +95,13 @@ jobs:
           command: |
             gcloud docker -- pull us.gcr.io/${PROJECT_NAME}/like-store:latest || true
             docker build . -t like-store --cache-from us.gcr.io/${PROJECT_NAME}/like-store:latest \
-            --build-arg IS_TESTNET='TRUE' --build-arg INTERCOM_APPID=${TEST_INTERCOM_APPID} --build-arg STRIPE_TOKEN=${STRIPE_TEST_TOKEN} \
-            --build-arg SENTRY_DSN=${TEST_SENTRY_DSN}
+            --build-arg IS_TESTNET='TRUE' \
+            --build-arg INTERCOM_APPID=${TEST_INTERCOM_APPID} \
+            --build-arg STRIPE_TOKEN=${STRIPE_TEST_TOKEN} \
+            --build-arg SENTRY_DSN=${TEST_SENTRY_DSN} \
+            --build-arg SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN} \
+            --build-arg SENTRY_PROJECT=${TEST_SENTRY_PROJECT} \
+            --build-arg RELEASE=${CIRCLE_SHA1}
             docker tag like-store:latest us.gcr.io/${PROJECT_NAME}/like-store:latest
             docker tag like-store:latest us.gcr.io/${PROJECT_NAME}/like-store:test-${CIRCLE_SHA1}
       - run:
@@ -133,8 +138,14 @@ jobs:
           command: |
             gcloud docker -- pull us.gcr.io/${PROJECT_NAME}/like-store:latest || true
             docker build . -t like-store --cache-from us.gcr.io/${PROJECT_NAME}/like-store:latest \
-            --build-arg INTERCOM_APPID=${INTERCOM_APPID} --build-arg GA_TRACKING_ID=${GA_TRACKING_ID} \
-            --build-arg GTM_ID=${GTM_ID} --build-arg STRIPE_TOKEN=${STRIPE_PROD_TOKEN} --build-arg SENTRY_DSN=${SENTRY_DSN}
+            --build-arg INTERCOM_APPID=${INTERCOM_APPID} \
+            --build-arg GA_TRACKING_ID=${GA_TRACKING_ID} \
+            --build-arg GTM_ID=${GTM_ID} \
+            --build-arg STRIPE_TOKEN=${STRIPE_PROD_TOKEN} \
+            --build-arg SENTRY_DSN=${SENTRY_DSN} \
+            --build-arg SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN} \
+            --build-arg SENTRY_PROJECT=${SENTRY_PROJECT} \
+            --build-arg RELEASE=${CIRCLE_SHA1}
             docker tag like-store:latest us.gcr.io/${PROJECT_NAME}/like-store:latest
             docker tag like-store:latest us.gcr.io/${PROJECT_NAME}/like-store:main-${CIRCLE_SHA1}
       - run:

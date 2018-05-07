@@ -99,6 +99,7 @@
     "xml": "^1.0.1"
   },
   "devDependencies": {
+    "@sentry/webpack-plugin": "^1.5.2",
     "ava": "^0.25.0",
     "babel-eslint": "^8.2.3",
     "backpack-core": "^0.7.0",

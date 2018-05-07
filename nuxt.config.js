@@ -1,5 +1,7 @@
-const webpack = require('webpack'); // eslint-disable-line import/no-extraneous-dependencies
-const HardSourceWebpackPlugin = require('hard-source-webpack-plugin'); // eslint-disable-line import/no-extraneous-dependencies
+/* eslint import/no-extraneous-dependencies: "off" */
+const webpack = require('webpack');
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
+const SentryPlugin = require('@sentry/webpack-plugin');
 
 const shouldCache = !!process.env.CI;
 
@@ -178,12 +180,24 @@ module.exports = {
       // Ignore all locale files of moment.js
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     ],
-    /*
-    ** Run ESLINT on save
-    */
-    extend(config, ctx) {
-      if (shouldCache) config.plugins.push(new HardSourceWebpackPlugin());
-      if (ctx.isClient) {
+
+    extend(config, { isClient }) {
+      if (shouldCache) {
+        config.plugins.push(new HardSourceWebpackPlugin());
+      }
+      if (process.env.RELEASE && process.env.SENTRY_AUTH_TOKEN) {
+        if (isClient) config.devtool = '#source-map'; // eslint-disable-line no-param-reassign
+        config.plugins.push(new SentryPlugin({
+          release: process.env.RELEASE,
+          include: ['.nuxt/dist'],
+          ignore: ['node_modules', '.nuxt/dist/server-bundle.json', '.nuxt/dist/img', '.nuxt/dist'],
+          configFile: '.sentryclirc',
+        }));
+      }
+      if (isClient) {
+        /*
+        ** Run ESLINT on save
+        */
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
