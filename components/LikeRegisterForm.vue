@@ -280,6 +280,7 @@ export default {
           this.$router.replace({
             hash,
             name: 'in',
+            params: { showEmail: !!this.email },
             query,
           });
         }
