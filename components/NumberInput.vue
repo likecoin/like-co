@@ -6,7 +6,8 @@
         <md-button class="value-button" @click="onAmountAdd(-1)">
           <img :src="MinusIcon" />
         </md-button>
-        <span class="currency-title" v-if="!!currencyTitle">
+
+        <span v-if="!!currencyTitle" class="currency-code">
           {{ currencyTitle }}
         </span>
 
@@ -149,16 +150,22 @@ export default {
 
     width: 100%;
 
-    .currency-title {
+    .currency-code {
+      $currency-code-size: 16px;
+
       position: absolute;
+      top: calc((100% + #{$currency-code-size}) / 2);
       left: 42px;
 
       margin: 0 16px;
 
+      user-select: none;
+
       color: $like-gray-5;
 
-      font-size: 16px;
+      font-size: $currency-code-size;
       font-weight: 300;
+      line-height: 1;
 
       @media (max-width: 600px) {
         left: 28px;
