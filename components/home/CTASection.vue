@@ -475,18 +475,26 @@ export default {
   }
 }
 
-@keyframes tokensale-status-animation {
-  0%, 45% {
-    transform: translateY(0);
-  }
-  55%, 100% {
-    transform: translateY(-50%);
-  }
-}
 
 $tokensale-status-height: 96px;
 $tokensale-status-height-small: 64px;
 $tokensale-status-gutter: 8px;
+
+$tokensale-status-height-map: (
+  small: $tokensale-status-height-small,
+  normal: $tokensale-status-height,
+);
+
+@each $key, $value in $tokensale-status-height-map {
+  @keyframes tokensale-status-animation-#{$key} {
+    0%, 45% {
+      transform: translateY(0);
+    }
+    55%, 100% {
+      transform: translateY(-$value);
+    }
+  }
+}
 
 .tokensale-status.animated {
   overflow: hidden;
@@ -507,12 +515,16 @@ $tokensale-status-gutter: 8px;
 
   > div {
     animation: {
-      name: tokensale-status-animation;
+      name: tokensale-status-animation-normal;
       duration: 5s;
       delay: 3s;
       direction: alternate;
       timing-function: ease-in-out;
       iteration-count: infinite;
+    }
+
+    @media (max-width: 768px) {
+      animation-name: tokensale-status-animation-small;
     }
 
     > * {
