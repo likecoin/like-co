@@ -198,7 +198,7 @@ class EthHelper {
       ]);
       return {
         ts: (block && r) ? block.timestamp : 0,
-        isFailed: (r && r.status === '0x0'),
+        isFailed: (r && (r.status === false || r.status === '0x0')),
       };
     }
     return {
@@ -233,7 +233,7 @@ class EthHelper {
     _value = t.value;
     return {
       isEth: true,
-      isFailed: r && r.status === '0x0',
+      isFailed: r && (r.status === false || r.status === '0x0'),
       _to,
       _from,
       _value,
@@ -279,9 +279,9 @@ class EthHelper {
       this.web3.eth.getTransactionReceipt(txHash),
       this.web3.eth.getBlock(t.blockNumber),
     ]);
-    if (!r || r.status === '0x0') {
+    if (!r || r.status === false || r.status === '0x0') {
       return {
-        isFailed: (r && r.status === '0x0'),
+        isFailed: (r && (r.status === false || r.status === '0x0')),
         _to,
         _from,
         _value,
