@@ -124,6 +124,7 @@
 
 
 <script>
+import { mapActions } from 'vuex';
 import BigNumber from 'bignumber.js';
 import moment from 'moment';
 
@@ -135,7 +136,6 @@ import TokenSaleProgress from '~/components/TokenSaleProgress';
 import EthHelper from '@/util/EthHelper';
 import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 import {
-  INITIAL_TOKENSALE_ETH,
   TOKENSALE_SOFTCAP_ETH,
   ONE_LIKE,
   SALE_DATE,
@@ -180,6 +180,9 @@ export default {
     },
   },
   methods: {
+    ...mapActions([
+      'queryTokensaleInitial',
+    ]),
     onClickJoinTokenSaleButton() {
       logTrackerEvent(this, 'RegFlow', 'ClickedIAmInterestedButton', 'User is interested in early bird token sale', 1);
       this.$router.push({ name: 'in-tokensale' });
@@ -190,8 +193,9 @@ export default {
     },
     async updateTokenSaleProgress() {
       const amount = await EthHelper.queryEthBalance(LIKE_COIN_ICO_ADDRESS);
+      const initial = await this.queryTokensaleInitial();
       this.currentTokenSaleAmount = new BigNumber(amount).dividedBy(ONE_LIKE)
-        .plus(INITIAL_TOKENSALE_ETH);
+        .plus(initial);
     },
   },
   mounted() {
