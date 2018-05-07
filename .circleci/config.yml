@@ -8,7 +8,7 @@ jobs:
       - run: yarn global add npm@6
       - checkout
       - restore_cache:
-          key: likecoin-store-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}-{{ checksum ".circleci/config.yml" }}
+          key: likecoin-store-{{ .Environment.CACHE_UUID }}-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}-{{ checksum ".circleci/config.yml" }}
       - run:
           name: Dependencies
           command: npm config set unsafe-perm true && npm install
@@ -28,7 +28,7 @@ jobs:
             sleep 5
             curl --retry 10 --retry-delay 5 -v http://127.0.0.1:3000/
       - save_cache:
-          key: likecoin-store-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}-{{ checksum ".circleci/config.yml" }}
+          key: likecoin-store-{{ .Environment.CACHE_UUID }}-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}-{{ checksum ".circleci/config.yml" }}
           paths:
             - ./node_modules
   unit_test:
@@ -39,7 +39,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: likecoin-store-unit-test-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}-{{ checksum ".circleci/config.yml" }}
+          key: likecoin-store-unit-test-{{ .Environment.CACHE_UUID }}-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}-{{ checksum ".circleci/config.yml" }}
       - run:
           name: Node Environment
           command: |
@@ -67,7 +67,7 @@ jobs:
           name: Unit Test (Backend)
           command: npm run test:api
       - save_cache:
-          key: likecoin-store-unit-test-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}-{{ checksum ".circleci/config.yml" }}
+          key: likecoin-store-unit-test-{{ .Environment.CACHE_UUID }}-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}-{{ checksum ".circleci/config.yml" }}
           paths:
             - ./node_modules
   deploy_rinkeby:
