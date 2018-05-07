@@ -13,9 +13,7 @@
 
         <md-input
           :class="['payment-input', { 'with-currency': !!currencyTitle }]"
-          type="number"
           pattern="[0-9]*(\.[0-9]*)?"
-          min="0"
           :title="$t('Transaction.label.enterValidNumber')"
           :value="amount"
           @keypress="onAmountKeypress"
