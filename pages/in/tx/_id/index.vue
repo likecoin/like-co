@@ -226,7 +226,7 @@ export default {
     this.timestamp = 0;
     if (this.to) this.updateUI(this.from, this.to);
     if (this.value) {
-      this.amount = new BigNumber(this.value).div(ONE_LIKE).toString();
+      this.amount = new BigNumber(this.value).div(ONE_LIKE).toFixed();
     }
     if (this.status === 'timeout') this.failReason = 2;
     try {
@@ -234,7 +234,7 @@ export default {
       this.isEth = tx.isEth;
       if (!this.failReason) this.failReason = tx.isFailed ? 1 : 0;
       /* eslint-disable no-underscore-dangle */
-      if (tx._value !== undefined) this.amount = new BigNumber(tx._value).div(ONE_LIKE).toString();
+      if (tx._value !== undefined) this.amount = new BigNumber(tx._value).div(ONE_LIKE).toFixed();
       this.updateUI(tx._from, tx._to);
       this.timestamp = tx.timestamp;
       if (!this.timestamp) {

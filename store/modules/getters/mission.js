@@ -2,7 +2,7 @@ import { MERGED_MISSIONS, ONE_LIKE } from '@/constant';
 
 export const getProxyMissionReward = state => (id) => {
   const reward = state.proxyBonus[id];
-  if (reward) return reward.div(ONE_LIKE).toFixed(2);
+  if (reward) return reward.div(ONE_LIKE).toFixed();
   return null;
 };
 
