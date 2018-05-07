@@ -480,10 +480,12 @@ export default {
         wallet,
         firstName,
         lastName,
-        nationality,
-        country,
         documentFile0,
         documentFile1,
+      } = this;
+      let {
+        nationality,
+        country,
       } = this;
       const { user } = this.user;
       const userInfo = {
@@ -493,6 +495,8 @@ export default {
         notUSA,
         isUSAAccredited,
       };
+      nationality = nationality.trim().toUpperCase();
+      country = country.trim().toUpperCase();
       if (isAdv) {
         userInfo.firstName = firstName;
         userInfo.lastName = lastName;
