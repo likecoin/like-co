@@ -61,6 +61,16 @@
         :linkHref="!isEditing ? getAmountHref : ''"
         @onTextClick="getAmountAction" />
 
+      <input-dialog
+        ref="inputDialog"
+        type="email"
+        :pattern="W3C_EMAIL_REGEX"
+        :text="email"
+        :title="$t('Dialog.emailInput.title')"
+        :content="$t('Dialog.emailInput.content')"
+        :label="$t('Dialog.emailInput.label')"
+        @submit="onInputDialogConfirm" />
+
       <div class="lc-container-3">
         <div class="lc-container-4">
           <div class="address-section">
@@ -175,6 +185,7 @@ import TickIcon from '@/assets/tokensale/tick.svg';
 import LikeCoinAmount from '~/components/LikeCoinAmount';
 import MaterialButton from '~/components/MaterialButton';
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
+import InputDialog from '~/components/dialogs/InputDialog';
 
 export default {
   name: 'Edit',
@@ -199,6 +210,7 @@ export default {
   },
   components: {
     ClaimDialog,
+    InputDialog,
     LikeCoinAmount,
     MaterialButton,
   },
@@ -303,6 +315,17 @@ export default {
       this.setInfoMsg(this.$t('Edit.label.verifying'));
       this.isVerifying = true;
     },
+    async onInputDialogConfirm(inputText) {
+      if (this.email !== inputText) {
+        this.email = inputText;
+        await this.onSubmitEdit();
+      }
+      this.$refs.inputDialog.hide();
+      if (!this.getUserInfo.isEmailVerified) {
+        return this.onVerifyEmail();
+      }
+      return () => {};
+    },
     async updateLikeCoin() {
       try {
         const balance = await EthHelper.queryLikeCoinBalance(this.wallet);
@@ -330,6 +353,9 @@ export default {
   },
   mounted() {
     if (!this.getUserIsFetching && this.getUserIsRegistered) {
+      if (this.$route.params.showEmail && !this.getUserInfo.isEmailVerified) {
+        this.$nextTick(() => this.$refs.inputDialog.show());
+      }
       this.updateInfo();
     }
   },

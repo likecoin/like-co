@@ -587,6 +587,7 @@ export default {
     goToEdit() {
       this.$router.push({
         name: 'in',
+        params: { showEmail: !this.user.isEmailVerified },
         query: { ref: 'tokensale' },
       });
     },
