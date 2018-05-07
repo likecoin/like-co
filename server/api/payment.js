@@ -107,8 +107,8 @@ router.post('/payment', async (req, res) => {
       from,
       to,
       value,
-      fromId,
-      toId,
+      fromId: fromId || null,
+      toId: toId || null,
       currentBlock,
       nonce: pendingCount,
       rawSignedTx: tx.rawTransaction,
@@ -200,8 +200,8 @@ router.post('/payment/eth', async (req, res) => {
       from,
       to,
       value,
-      fromId,
-      toId,
+      fromId: fromId || null,
+      toId: toId || null,
     });
     if ((isPreSale && to === LIKECOIN_ICO.LIKE_COIN_PRESALE_ADDRESS) ||
       (to === LIKECOIN_ICO.LIKE_COIN_ICO_ADDRESS)) {
@@ -213,7 +213,7 @@ router.post('/payment/eth', async (req, res) => {
       }
       const updateObj = {
         txHash,
-        fromId,
+        fromId: fromId || null,
         value,
         base: base.toString(),
         ts: Date.now(),
