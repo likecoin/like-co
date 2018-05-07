@@ -136,7 +136,6 @@ module.exports = {
   ** Add axios globally
   */
   build: {
-    scopeHoisting: true,
     cache: shouldCache,
     uglify: { cache: shouldCache },
     postcss: {
