@@ -46,7 +46,7 @@ export async function callKYCAPI(payload) {
     passportFile,
     email,
   } = payload;
-  const status = await getKYCAPIStatus(user);
+  let status = await getKYCAPIStatus(user);
   if (status && status !== 'NOT_FOUND') {
     return status;
   }
@@ -103,7 +103,17 @@ export async function callKYCAPI(payload) {
     });
     console.log(`Advanced KYC ${user}: ${JSON.stringify(reportData)}`);
 
-    return getKYCAPIStatus(user);
+    status = await getKYCAPIStatus(user);
+    if (status !== 'CLEARED' && status !== 'ACCEPTED') {
+      publisher.publish(PUBSUB_TOPIC_MISC, null, {
+        logType: 'eventKYCFail',
+        user,
+        error: `status: ${status}`,
+        email: email || undefined,
+        checkStatusUrl: checkStatusUrl || undefined,
+      });
+    }
+    return status;
   } catch (err) {
     const error = JSON.stringify((err.response && err.response.data) || err.message || err);
     console.error(error);
