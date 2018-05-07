@@ -1,5 +1,5 @@
 <template>
-  <div class="bonus-tab">
+  <div id="earn" class="bonus-tab">
 
     <!-- BEGIN - LikeCoin Bonus Amount Section -->
     <div class="lc-container-0">
@@ -27,7 +27,7 @@
     <!-- END - LikeCoin Bonus Amount Section -->
 
     <!-- BEGIN - Mission Section -->
-    <section class="likecoin-bonus-section lc-margin-top-48 lc-mobile">
+    <section id="mission" class="likecoin-bonus-section lc-margin-top-48 lc-mobile">
       <div class="lc-container-0">
         <div class="lc-container-1">
 
@@ -48,11 +48,11 @@
             </div>
           </div>
 
-          <div id="my-missions" class="lc-container-2">
+          <div id="my-mission" class="lc-container-2">
             <div class="lc-container-3 lc-container-no-padding-mobile lc-bg-gray-1 lc-padding-vertical-32 section-content">
               <div class="lc-container-4 lc-container-no-padding-mobile">
                 <mission-list
-                  swipper-id="my-missions"
+                  swipper-id="my-mission"
                   :missions="getMissionList"
                   @click="onMissionClick" />
               </div>
@@ -99,7 +99,7 @@
     <!-- END - Mission Section -->
 
     <!-- BEGIN - Referral Section -->
-    <section class="referral-form-section lc-margin-top-48 lc-mobile" id="referral">
+    <section id="referral" class="referral-form-section lc-margin-top-48 lc-mobile">
       <div class="lc-container-0">
         <div class="lc-container-1">
 
@@ -255,6 +255,12 @@ export default {
     },
   },
   mounted() {
+    const { hash } = document.location;
+    if (hash) {
+      const element = document.querySelector(hash);
+      if (element) element.scrollIntoView();
+    }
+
     if (!this.getUserIsFetching) {
       if (this.getUserIsRegistered) {
         this.updateInfo();
