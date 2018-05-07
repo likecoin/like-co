@@ -12,7 +12,9 @@
 
         <md-input
           :class="['payment-input', { 'with-currency': !!currencyTitle }]"
+          type="number"
           pattern="[0-9]*(\.[0-9]*)?"
+          min="0"
           :title="$t('Transaction.label.enterValidNumber')"
           :value="amount"
           @keypress="onAmountKeypress"
@@ -89,13 +91,14 @@ export default {
       ) {
         return;
       }
-      if (!/[0-9.]/.test(e.key)) {
+      const key = e.key || String.fromCharCode(e.keyCode);
+      if (!/[0-9.]/.test(key)) {
         e.preventDefault();
         return;
       }
       const { value } = e.target;
       const newValue =
-        value.slice(0, e.target.selectionStart) + e.key + value.slice(e.target.selectionEnd);
+        value.slice(0, e.target.selectionStart) + key + value.slice(e.target.selectionEnd);
       const isInvalidDecimals = (
         Number.isInteger(this.decimalPlaceLimit) && // is valid decimal place limit
         newValue.indexOf('.') >= 0 && // is decimal number
