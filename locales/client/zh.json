@@ -901,11 +901,11 @@
     "joinTokenSale": {
       "title": "參與代幣發售",
       "description": "立即參與代幣發售，你可獲得額外 100 枚 LikeCoin。",
-      "subDescription": "不要忘記推薦獎金哦～每次你參與代幣發售，你跟你的推薦人皆可獲得額外 2.5% LIKE 獎賞！"
+      "subDescription": "不要忘記推薦獎金哦～每次你參與代幣發售，你跟你的推薦人皆可獲得額外 2.5% LIKE 獎賞！<br /> <br /><i>請留意，經過第三方渠道如 MyEthShop 參與代幣發行的話，會完成不了 like.co 的代幣發售任務，得不到額外的 LikeCoin 獎勵。</i>"
     },
     "refereeTokenSale": {
       "title": "@:Mission.joinTokenSale.title",
-      "description": "請即參與代幣發售，每次你參與代幣發售，你跟你的推薦人皆可獲得額外 2.5% LIKE 獎賞！"
+      "description": "請即參與代幣發售，每次你參與代幣發售，你跟你的推薦人皆可獲得額外 2.5% LIKE 獎賞！<br /> <br /><i>請留意，經過第三方渠道如 MyEthShop 參與代幣發行的話，會完成不了 like.co 的代幣發售任務，得不到額外的 LikeCoin 獎勵。</i>"
     },
     "inviteTokenSale": {
       "title": "邀請朋友參與代幣發售",

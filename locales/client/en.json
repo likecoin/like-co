@@ -935,11 +935,11 @@
     "joinTokenSale": {
       "title": "Join Token Sale",
       "description": "Join token sale now and get 100 LIKE bonus",
-      "subDescription": "And don't forget the referral bonus, it can be huge!  Every time you participate in token sale, you and your referrer will both get 2.5% additional token bonus too, NO UPPER LIMIT!"
+      "subDescription": "And don't forget the referral bonus, it can be huge!  Every time you participate in token sale, you and your referrer will both get 2.5% additional token bonus too, NO UPPER LIMIT! <br/> <br/> <i>Note: If you join the token sale through third parties, e.g. MyEthShop, this mission will not be completed. As a result, you will not get bonus for this mission.</i>"
     },
     "refereeTokenSale": {
       "title": "@:Mission.joinTokenSale.title",
-      "description": "And don't forget the referral bonus, it can be huge!  Every time you participate in token sale, you and your referrer will both get 2.5% additional token bonus too, NO UPPER LIMIT!"
+      "description": "And don't forget the referral bonus, it can be huge!  Every time you participate in token sale, you and your referrer will both get 2.5% additional token bonus too, NO UPPER LIMIT! <br/> <br/> <i>Note: If you join the token sale through third parties, e.g. MyEthShop, this mission will not be completed. As a result, you will not get bonus for this mission.</i>"
     },
     "inviteTokenSale": {
       "title": "Invite a friend to join Token Sale",
