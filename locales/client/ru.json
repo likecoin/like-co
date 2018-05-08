@@ -1,8 +1,8 @@
 {
     "General": {
         "label": {
-            "success": "Выполнено",
-            "error": "Ошибка"
+            "error": "Ошибка",
+            "success": "Готово"
         },
         "button": {
             "confirm": "Подтвердить",
@@ -77,7 +77,7 @@
         "hu": "magyar",
         "ia": "Interlingua",
         "id": "Bahasa Indonesia",
-        "ie": "Originally called Occidental; then Interlingue after WWII",
+        "ie": "Первоначальное название — Окцидента́ль, после Второй мировой войны — Интерли́нгве.",
         "ga": "Gaeilge",
         "ig": "Asụsụ Igbo",
         "ik": "Iñupiaq, Iñupiatun",
@@ -213,19 +213,20 @@
         },
         "item": {
             "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
+            "bonus": "Бонус LikeCoin",
             "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
             "backer": "@:BackerPage.title",
             "whitepaper": "@:Whitepaper.Button.whitepaper",
             "support": "@:Footer.button.support",
-            "press": "Пресса",
-            "poc": "Подтверждение концепции"
+            "press": "СМИ",
+            "poc": "Обоснование концепции"
         }
     },
     "Sign": {
         "Message": {
-            "registerUser": "Регистрация пользователя со следующими сведениями:",
+            "registerUser": "Регистрация с нижеуказанными сведениями о пользователе",
             "editUser": "Обновление сведений о пользователе",
-            "signKYC": "Проверка личности пользователя со следующими сведениями:"
+            "signKYC": "Подтверждение личности пользователя с нижеуказанными сведениями"
         }
     },
     "Home": {
@@ -237,20 +238,22 @@
         },
         "Flag": {
             "title": "Революция лайков!",
-            "content": "Весомое вознаграждение — достойная оценка творчества"
+            "content": "Вознаграждение авторов по технологии Proof of Creativity"
         },
         "HeroVideo": {
             "button": {
-                "watchVideo": "Смотреть видео"
+                "watchVideo": "Смотрите видео"
             }
         },
         "Sale": {
             "title": {
+                "earlyBirdTokenSale": "Ранняя предпродажа токенов",
                 "publicTokenSale": "Публичная продажа токенов",
+                "secure25Percent": "Действуйте сейчас, чтобы получить бонус 25%",
                 "nowLive": "Уже идет"
             },
             "label": {
-                "contactOurTeam": "Свяжитесь с нашей командой с помощью области диалога в нижнем правом углу",
+                "contactOurTeam": "Свяжитесь с нашей командой с помощью области чата в нижнем правом углу",
                 "contactUsThroughButton": "Чтобы связаться с нами, нажмите кнопку в нижнем правом углу",
                 "startOn": "Начало через:",
                 "completedPercent": "{percent}% выполнено"
@@ -259,23 +262,24 @@
                 "whitepaper": "Брошюра",
                 "onePage": "Краткое описание",
                 "redeem": "Получить конверт с токенами",
-                "createID": "Чтобы участвовать, создайте идентификатор LikeCoin",
+                "createID": "Для участия создайте идентификатор LikeCoin",
                 "createNow": "Создать сейчас",
                 "buyCoin": "Купить LikeCoin",
                 "imInterested": "Желаю участвовать",
-                "joinTokenSale": "Участвовать в продаже токенов",
-                "joinNow": "Регистрация",
+                "joinTokenSale": "Примите участие в продаже токенов",
+                "joinNow": "Принять участие",
+                "prepareToJoin": "Приготовьтесь к участию",
                 "supportLikeCoin": "Поддержать движение"
             }
         },
         "Creator": {
             "button": {
-                "likeCoinForAppreciate": "Отправить конверт с токенами LikeCoin"
+                "likeCoinForAppreciate": "Отправить LikeCoin в подарок"
             }
         },
         "Stack": {
             "title": "Стек LikeCoin",
-            "content": "--параграф протокола LikeCoin---",
+            "content": "--Параграф о стеке LikeCoin---",
             "layer": {
                 "provider": {
                     "title": "Децентрализованные приложения",
@@ -302,25 +306,25 @@
                     }
                 },
                 "ipfs": {
-                    "title": "Узел IPFS",
+                    "title": "Узлы IPFS",
                     "example": {
-                        "oice": "Узел oice",
+                        "oice": "узел oice",
                         "cc": "Узел puttyimages",
-                        "stock": "Узел blogchain"
+                        "stock": "узел blogchain"
                     }
                 }
             }
         },
         "RoadMap": {
             "title": "План развития",
-            "content": "--параграф плана развития---",
+            "content": "--Параграф плана развития---",
             "timeline": [
                 {
                     "title": "Формирование идей, научно-исследовательская работа",
-                    "time": "I–IV кв. 2017"
+                    "time": "I–III кв. 2017"
                 },
                 {
-                    "title": "Продажа для первых пользователей",
+                    "title": "Продажа первым пользователям",
                     "time": "IV кв. 2017"
                 },
                 {
@@ -333,7 +337,7 @@
                 },
                 {
                     "title": "Запуск puttyimages",
-                    "time": "II кв. 2018"
+                    "time": "III кв. 2018"
                 },
                 {
                     "title": "Запуск кнопки «Нравится»",
@@ -347,18 +351,18 @@
         },
         "TokenDistribution": {
             "title": "Дистрибуция токенов",
-            "content": "Предварительная эмиссия 800 млн токенов, постепенная эмиссия в течение ближайших 10+ лет до 2 млрд токенов. 1 млрд токенов присуждается авторам на основании подтверждения творчества.",
+            "content": "Предварительная эмиссия 800 млн токенов, постепенная эмиссия в течение ближайших 10+ лет до 2 млрд токенов. 1 млрд токенов будет выдан авторам по технологии Proof of Creativity.",
             "yearButton": {
                 "year0": "Год 0",
                 "year10": "Год 10+"
             },
-            "pieChartLanguage": "ru"
+            "pieChartLanguage": "en"
         },
         "EarlyAdopters": {
             "title": "Первые пользователи"
         },
         "PressCoverage": {
-            "title": "Пресс-релиз"
+            "title": "Освещение в СМИ"
         },
         "EarlySupporters": {
             "title": "Первые соратники",
@@ -390,11 +394,11 @@
             }
         },
         "Advisors": {
-            "title": "Советники",
+            "title": "Консультанты",
             "advisor": {
                 "alex-lau": {
                     "title": "Алекс Лау",
-                    "description": "Советник по открытому исходному коду блокчейн в <a href=\"https://cm.5miles.com/\" target=\"_blank\" rel=\"noopener\">CyberMiles</a>, <a href=\"https://www.webank.com/\" target=\"_blank\" rel=\"noopener\">Webank</a> и <a href=\"https://www.trubuzz.com\" target=\"_blank\" rel=\"noopener\">TruBuzz</a>; консультант по научно-исследовательской работе в SUSE Linux Enterprise Storage"
+                    "description": "Советник по открытому исходному коду блокчейн в <a href=\"https://cm.5miles.com/\" target=\"_blank\" rel=\"noopener\">CyberMiles</a>, <a href=\"https://www.webank.com/\" target=\"_blank\" rel=\"noopener\">Webank<a href=\"https://www.webank.com/\" target=\"_blank\" rel=\"noopener\"> и <a href=\"https://www.trubuzz.com\" target=\"_blank\" rel=\"noopener\">TruBuzz</a>; консультант по научно-исследовательской работе в SUSE Linux Enterprise Storage"
                 },
                 "haggen-so": {
                     "title": "Др. Хагген Со",
@@ -409,8 +413,8 @@
                     "description": "Основатель <a href=\"https://musicoin.org/\" target=\"_blank\" rel=\"noopener\">Musicoin</a>; основатель CNBlogs.org; руководитель проекта iCommons China, Creative Commons China Team."
                 },
                 "to-cheung": {
-                    "title": "To Cheung",
-                    "subtitle": ""
+                    "title": "То Чунь",
+                    "description": "Основатель и генеральный директор <a href=\"https://www.udomain.hk/\" target=\"_blank\" rel=\"noopener\">UDomain</a>; Ранний инвестор BTC"
                 }
             }
         },
@@ -458,13 +462,13 @@
                     "title": "Дизайнер"
                 },
                 "michael": {
-                    "name": "Мйкл Чунь",
+                    "name": "Майкл Чунь",
                     "title": "Фуллстек-разработчик"
                 }
             }
         },
         "Community": {
-            "title": "Сообщество LikeCoin: ",
+            "title": "Сообщество LikeCoin:",
             "button": {
                 "faq": "Вопросы и ответы"
             }
@@ -472,16 +476,16 @@
     },
     "Footer": {
         "label": {
-            "contract": "Договор LikeCoin: "
+            "contract": "Договор LikeCoin:"
         },
         "button": {
-            "aboutFoundation": "LikeCoin Foundation",
+            "aboutFoundation": "О фонде LikeCoin",
             "support": "Поддержка"
         }
     },
     "Whitepaper": {
         "Button": {
-            "whitepaper": "Брощюра",
+            "whitepaper": "Брошюра",
             "onepager": "Краткое описание"
         }
     },
@@ -489,13 +493,13 @@
         "Header": {
             "label": {
                 "store": "like.co",
-                "test": "тест"
+                "test": "Тест"
             }
         },
         "Footer": {
             "label": {
-                "contract": "Договор LikeCoin: ",
-                "visit": "Ознакомьтесь с более подробной информацией на нашем веб-сайте: "
+                "contract": "Договор LikeCoin:",
+                "visit": "Ознакомьтесь с более подробной информацией на нашем веб-сайте:"
             }
         }
     },
@@ -503,7 +507,7 @@
         "metamask": {
             "button": {
                 "install": "Установить Metamask",
-                "doneInstalled": "Расширение установлено."
+                "doneInstalled": "Готово! Установлено"
             },
             "title": {
                 "switchRinkeby": "Переключитесь на сеть Rinkeby",
@@ -520,12 +524,12 @@
                 "web3": "Для работы like.co требуется Metamask. Откройте браузер Chrome и установите расширение Metamask.<br /> <span style='color:red'>Запомните или сохраните свою сид-фразу в надежном месте!<span>",
                 "locked": "Для работы like.co требуется Metamask. Войдите в Metamask.",
                 "sign": "Для продолжения нажмите кнопку «Подписать в Metamask».",
-                "connectledger": "Подключите и войдите в свой кошелек Ledger, затем откройте приложение Ethereum. Для использования like.co в приложении Ethereum должен быть установлен режим поддержки браузера «<b>ДА</b>».<br /> С дополнительной информацией можно ознакомиться на веб-сайте <a href=\"https://support.ledgerwallet.com/hc/en-us/articles/115005198565\" target=\"_blank\" rel=\"noopener\">поддержки Ledger</a>.",
+                "connectledger": "Подключите и войдите в свой кошелек Ledger, затем откройте приложение Ethereum. Для использования like.co в приложении Ethereum должен быть установлен режим поддержки браузера «<b>ДА</b>». С дополнительной информацией можно ознакомиться на веб-сайте <a href=\"https://support.ledgerwallet.com/hc/en-us/articles/115005198565\" target=\"_blank\" rel=\"noopener\">поддержки Ledger</a>.",
                 "signledger": "Для продолжения нажмите кнопку подтверждения в кошельке Ledger."
             },
             "label": {
                 "hardwareWallet": "…Либо подключите аппаратный кошелек",
-                "ledger": "Установить соединение с Ledger"
+                "ledger": "Подключение к Ledger"
             }
         },
         "chrome": {
@@ -542,7 +546,7 @@
             },
             "label": {
                 "confirming": "Загрузка содержимого купона…",
-                "error": "Недопустимый код купона!",
+                "error": "Недействительный код купона!",
                 "invalidCoupon": "Недействительный купон",
                 "redirecting": "Переадресация на страницу вашего счета…",
                 "confirmToClaim": "Вы действительно хотите получить {value} LikeCoin?"
@@ -555,35 +559,54 @@
             },
             "button": {
                 "createID": "Создать идентификатор LikeCoin",
-                "buyCoin": "Купить LikeCoin"
+                "buyCoin": "Купить LikeCoin",
+                "myAccount": "Мой счет"
             }
         },
         "blocker": {
-            "title": "Обработка…",
+            "title": "Обработка...",
             "content": "Ваш запрос обрабатывается, не закрывайте браузер"
         },
         "emailInput": {
             "title": "Подтвердите свой адрес эл. почты",
-            "content": "Укажите и подтвердите свой адрес эл. почты",
-            "label": "Ваш адрес эл. почты"
+            "content": "Укажите и подтвердите свой адрес эл. почты.",
+            "label": "Ваш адрес эл. почты"
         },
         "trust": {
+            "title": {
+                "switchTrust": "Требуется приложение-кошелек",
+                "switchRinkeby": "Переключитесь на сеть Rinkeby",
+                "switchMain": "Переключитесь на основную сеть"
+            },
+            "description": {
+                "switchTrust": "Для работы like.co требуется кошелек ETH. Установите или переключитесь на приложение Trust Wallet.",
+                "switchRinkeby": "Для работы like.co требуется Rinkeby. Переключитесь на корректную сеть.",
+                "switchMain": "Для работы like.co требуется основная сеть. Переключитесь на корректную сеть.",
+                "switchMainCaption": "Переключение на основную сеть<br>Настройки > Сеть > Ethereum (ETH)",
+                "switchRinkebyCaption": "Переключение на Rinkeby:<br>Настройки > Сеть > Rinkeby (ETH)"
+            },
             "label": {
-                "help": "Регистрация идентификатора LikeCoin на мобильном устройстве",
-                "registerMobileLink": "https://help.like.co/likecoin-%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D1%8B-%D0%B8-%D0%BE%D1%82%D0%B2%D0%B5%D1%82%D1%8B/%D0%BD%D0%BE%D0%B2%D0%B8%D1%87%D0%BA%D0%B0%D0%BC/%D1%80%D0%B5%D0%B3%D0%B8%D1%81%D1%82%D1%80%D0%B0%D1%86%D0%B8%D1%8F-%D0%B8%D0%B4%D0%B5%D0%BD%D1%82%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%82%D0%BE%D1%80%D0%B0-likecoin-%D0%BD%D0%B0-%D0%BC%D0%BE%D0%B1%D0%B8%D0%BB%D1%8C%D0%BD%D0%BE%D0%BC-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%B5"
+                "useTrustBrowser": "С помощью <span style=\"color: #28646e; font-weight: bold;\">браузера Trust Wallet</span> откройте ссылку:",
+                "clickToCopy": "Нажмите, чтобы скопировать URL",
+                "copied": "Скопирован",
+                "help": "Процедура регистрации на мобильном устройстве",
+                "registerMobileLink": "https://help.like.co/likecoin-faq/newbies/registering-likecoin-id-on-mobile"
+            },
+            "button": {
+                "openWithTrust": "Открыть с помощью Trust"
             }
         }
     },
     "Toolbar": {
         "etherscan": {
             "button": {
-                "view": "Просмотреть в Etherscan"
+                "view": "Просмотреть на Etherscan"
             }
         }
     },
     "Register": {
         "header": {
-            "title": "Создайте идентификатор LikeCoin, чтобы отправлять и получать LikeCoin",
+            "title": "Чтобы отправлять и получать LikeCoin, создайте идентификатор LikeCoin",
             "titleReferral": "Присоединяйтесь к {name} и создайте идентификатор LikeCoin",
             "content": "Отлично! Похоже, у вас уже установлен Metamask. Теперь вы можете получать и отправлять LikeCoin.",
             "redeem": "Получите LikeCoin бесплатно",
@@ -611,8 +634,15 @@
             "error": {
                 "alphanumeric": "Введите как минимум 7 буквенно-цифровых символов",
                 "addressFormat": "Недопустимый формат адреса",
-                "emailFormat": "Укажите действующий адрес эл. почты без символа «+»"
+                "emailFormat": "Укажите действующий адрес эл. почты без символа «+»"
             }
+        }
+    },
+    "In": {
+        "tab": {
+            "overview": "Обзор",
+            "bonus": "Бонус",
+            "history": "История бонусов"
         }
     },
     "Edit": {
@@ -620,19 +650,19 @@
             "id": "Идентификатор LikeCoin:",
             "likeCoinAmount": "Сумма LikeCoin",
             "address": "Ваш адрес",
-            "email": "Ваш адрес эл. почты",
-            "addEmail": "Добавить адрес эл. почты",
+            "email": "Ваш адрес эл. почты",
+            "addEmail": "Добавить адрес эл. почты",
             "redeemCoin": "Получить LikeCoin",
             "redeemCode": "Воспользоваться кодом (необязательно)",
             "validCodeRequired": "Введите действительный код купона",
             "verified": "Подтвержден",
             "verifying": "Отправлено проверочное письмо, проверьте входящую корреспонденцию!",
             "unverified": "Не подтвержден",
-            "verifyEmail": "Подтвердите свой адрес эл. почты"
+            "verifyEmail": "Подтвердите свой адрес эл. почты"
         },
         "referral": {
             "title": "Партнерская программа",
-            "description": "Пригласите друга, и если он зарегистрируется по вашей партнерской ссылке, вы и ваш друг могут получить купон LikeCoin. Обратите внимание, что для получения вами и вашим другом купонов, адрес эл. почты вашего друга должен быть подтвержден.",
+            "description": "Вы и ваш друг можете заработать бонусные LikeCoin, если ваш друг успешно зарегистрируется по вашей партнерской ссылке.  Обратите внимание, что для получения бонуса как вы, так и ваш друг должны подтвердить свои адреса эл. почты.",
             "pending": "Ожидание подтверждения адреса эл. почты",
             "verified": "Подтвержден",
             "emailInvite": "Пригласите друга по эл. почте",
@@ -641,11 +671,11 @@
             "facebook": "Facebook",
             "twitter": "Twitter",
             "send": "Отправить",
-            "sent": "Отправлено пригласительное письмо: {email}",
+            "sent": "Приглашение отправлено: {email}",
             "verifyEmailFirst": "Чтобы вступить в партнерскую программу, подтвердите свой адрес эл. почты.",
-            "tweetContent": "Присоединяйтесь ко мне Like.co и бесплатно получите токены LikeCoin!",
+            "tweetContent": "Присоединяйтесь ко мне на Like.co и бесплатно получите токены LikeCoin!",
             "ogTitle": "LikeCoin — революция лайков!",
-            "ogDescription": "Весомое вознаграждение — достойная оценка творчества. Присоединяйтесь к {name} — регистрируйтесь сейчас!"
+            "ogDescription": "Вознаграждение авторов по технологии Proof of Creativity. Присоединяйтесь к {name} — регистрируйтесь сейчас!"
         },
         "button": {
             "buyCoin": "Купить LikeCoin",
@@ -656,9 +686,9 @@
         "label": {
             "toIndex": "Возврат к начальной странице",
             "toEdit": "Возврат к странице счета",
-            "redirect": "Перейти на другую страницу",
-            "verifying": "Подтверждение",
-            "referral": "В рамках партнерской программы вы получите эл. письмо с купоном LikeCoin"
+            "redirect": "Переход на другую страницу",
+            "verifying": "Проверка",
+            "referral": "В рамках партнерской программы вы теперь можете получить бесплатные LikeCoin в разделе бонусов"
         }
     },
     "Transaction": {
@@ -667,8 +697,8 @@
                 "ethAmount": "{amount} ETH",
                 "likecoinAmount": "{amount} LikeCoin",
                 "sending": "Отправка",
-                "sent": "Отправка",
-                "to": "получатель: ",
+                "sent": "Отправлено",
+                "to": "кому:",
                 "notFound": "Транзакция не найдена или не является транзакцией like.co",
                 "pending": "Отправлено в блокчейн",
                 "failed": "Не удалось выполнить транзакцию",
@@ -677,21 +707,21 @@
             }
         },
         "label": {
-            "recipientId": "Идентификатор получателя LikeCoin",
+            "recipientId": "Идентификатор LikeCoin получателя",
             "recipientAddress": "Адрес получателя",
             "senderName": "Отображаемое имя отправителя",
             "senderAddress": "Адрес отправителя",
-            "sendTo": "Отправка {coin}, получатель: <span class='usertitle'>{title}</span>",
+            "sendTo": "Отправить {coin}: <span class='usertitle'>{title}</span>",
             "remarks": "Примечания",
             "viewTx": "Просмотреть транзакцию",
-            "amountToSend": "Сумма {coin} к отправке",
+            "amountToSend": "Сумма {coin} к оплате",
             "invalidAmount": "Недопустимая сумма",
             "enterValidNumber": "Введите допустимое десятичное число",
             "userNotFound": "Пользователь не найден"
         },
         "head": {
             "title": "LikeCoin — революция лайков!",
-            "description": "Весомое вознаграждение — достойная оценка творчества. Отправить LikeCoin получателю: {name}"
+            "description": "Вознаграждение авторов по технологии Proof of Creativity. Отправить LikeCoin: {name}"
         },
         "error": {
             "notSupported": "Ваш кошелек не поддерживает эту функцию",
@@ -708,22 +738,31 @@
     },
     "TokenSale": {
         "title": "Продажа токенов",
+        "preSaleTitle": "Ранняя предпродажа",
+        "head": {
+            "description": "Примите участие в продаже токенов Join LikeCoin, вознаградите авторов по технологии Proof of Creativity",
+            "fromDescription": "Примите участие в продаже токенов LikeCoin с моим рекомендательным кодом, чтобы получить дополнительный бонус 2,5%"
+        },
         "label": {
             "prepareToJoin": "Приготовьтесь к участию в продаже токенов",
-            "publicSaleStartIn": "Публичная продажа начнется через:",
+            "publicSaleStartIn": "Публичная продажа начинается через:",
+            "preSaleEndIn": "Бонус 25% предлагается до:",
+            "preSaleBonus": "Бонус 25%",
+            "preSaleBonusCondition": "за 10ETH и более",
+            "joinPreSale": "Примите участие в ранней предпродаже",
             "token": "Токен",
             "exchangeRate": "Курс обмена",
             "supply": "Объем эмиссии",
-            "preSaleDescription0": "Вы покупаете {base} LikeCoin + {bonus} бонус.",
-            "preSaleDescription1": "LikeCoin будут отправлены на ваш кошелек после начала публичной продажи.",
+            "preSaleDescription0": "Вы покупаете {base} LikeCoin + бонус {bonus}.",
+            "preSaleDescription1": "LikeCoin будут переведены в ваш кошелек, когда начнется публичная продажа.",
             "whatIsETH": "Что такое ETH?",
-            "bonusAndLimitedOffer": "Бонус 25%, ограниченное по времени предложение",
-            "limitedOfferCondition": "за покупку 10ETH и больше",
-            "amountLikeToPurhcase": "Количество LIKE к покупке",
-            "tokensaleBadAmount": "Недопустимая сумма, минимум 0,1 ETH, максимум 1,000 ETH",
+            "bonusAndLimitedOffer": "Бонус 25%, временное предложение",
+            "limitedOfferCondition": "за покупку как минимум 10 ETH",
+            "amountLikeToPurhcase": "Сумма LIKE к покупке",
+            "tokensaleBadAmount": "Недопустимая сумма, минимум 0,1 ETH, максимум 1000 ETH",
             "bonus": "Бонус",
-            "bonusLockUp": "Бонусные LikeCoin будут заблокированы в вашем кошельке, их невозможно будет перевести в течение 6 месяцев.",
-            "amountWillBeSentWhenSalesStart": "Купленные и бонусные LikeCoin будут отправлены в ваш кошелек при начале публичной продажи, запланированной на 23 апреля 2018 г. Бонусные LikeCoin будут заблокированы в вашем кошельке, их нельзя будет перевести в течение 6 месяцев.",
+            "bonusLockUp": "Бонусные LikeCoin будут заблокированы в вашем кошельке, их нельзя будет перевести в течение 6 месяцев.",
+            "amountWillBeSentWhenSalesStart": "Купленные и бонусные LikeCoin будут отправлены в ваш кошелек при начале публичной продажи, запланированной на 23 апреля 2018 г. Бонусные LikeCoin будут заблокированы в вашем кошельке, их нельзя будет перевести в течение 6 месяцев.",
             "whatIsEthLink": "https://help.like.co/likecoin-faq/what-is-eth"
         },
         "button": {
@@ -733,66 +772,89 @@
         }
     },
     "BackerPage": {
-        "title": "Поддержать движение",
+        "title": "Поддержите движение",
         "label": {
             "tagline": "Купите наши книги.",
             "description": "Протокол LikeCoin — это движение в поддержку перераспределения дохода, который сгенерирован контентом, лицензированным Creative Commons. Наш контент можно использовать без ограничений, и наш исходный код открыт на <a href=\"https://github.com/likecoin\">Github</a>.<br/><br/><a href=\"http://sched.co/E6zv\">Наша презентация на саммите Creative Commons в 2018 г.</a>",
-            "notRegistered": "Зарегистрируйте LikeCoin ID и присоединитесь к движению"
+            "notRegistered": "Зарегистрируйте идентификатор LikeCoin и присоединяйтесь к движению"
         },
         "button": {
-            "register": "Регистрация ID",
-            "purchaseInETH": "Поддержать LikeCoin в ETH"
+            "register": "Создать идентификатор",
+            "purchaseInETH": "Поддержите LikeCoin в ETH"
         },
         "productList": {
             "title": "Магазин",
             "label": {
-                "youHavePurchased": "Вы купили: {product}, чек будет отправлен на ваш эл. адрес {email}. Номер для ссылок:"
+                "youHavePurchased": "Вы купили: {product}, чек будет отправлен на ваш адрес эл. почты {email}. Справочный номер:"
+            }
+        }
+    },
+    "BonusPage": {
+        "title": "Бонус LikeCoin",
+        "header": {
+            "likeCoinBonus": "Бонус LikeCoin",
+            "inviteeMission": "Задание приглашенного"
+        },
+        "label": {
+            "description": "Вы и ваш друг можете заработать бонусные LikeCoin, если ваш друг успешно зарегистрируется по вашей партнерской ссылке.  Обратите внимание, что для получения бонуса как вы, так и ваш друг должны подтвердить свои адреса эл. почты.",
+            "inviteeMissionDescription": "За каждую выполненную миссию вы и приглашенные вами пользователи получите LikeCoin",
+            "earned": "Вы заработали",
+            "likeBonus": "Бонусные LIKE"
+        },
+        "button": {
+            "moreBonus": "Еще бонусы"
+        },
+        "HistoryTab": {
+            "title": "История бонусов",
+            "header": {
+                "completedBonus": "Начисленные бонусы"
+            },
+            "label": {
+                "emptyHistoryPlaceholder": "Здесь будут отображаться начисленные бонусы"
             }
         }
     },
     "KYC": {
         "label": {
-            "advKycPending": "Расширенная проверка личности еще на стадии ОЖИДАНИЯ. Свяжитесь с нами в Intercom, если она займет более 5 рабочих дней.",
-            "isPurchaseExceedAmount": "Вы собираетесь купить более {amount} ETH?",
-            "firstName": "Имя (как в паспорте)",
-            "lastName": "Фамилия (как в паспорте)",
-            "country": "Страна проживания",
-            "nationality": "Гражданство",
-            "invalidCountry": "Выберите страну из списка.",
-            "invalidNationality": "Выберите гражданство из списка.",
-            "passportIdPage": "Страница паспорта с фотографией анфас (размер не более 2 Мб)*",
-            "recentSelfie": "Селфи анфас (размер не более 2 Мб)*",
-            "canPurchaseLessThanAmount": "Вы можете купить менее {amount} ETH",
-            "canPurchaseMoreThanAmount": "Вы можете купить более {amount} ETH",
-            "advancedVerificationInProgress": "Вы можете купить менее {amount} ETH. После успешной расширенной проверки можно будет купить больше.",
-            "verifyToPurchaseOverAmount": "Подтвердите свою личность, чтобы купить более {amount} ETH",
             "kyc": "Подтверждение личности",
             "kycNeeded": "Для участия в продаже токенов LikeCoin необходимо подтвердить свою личность",
             "advKycNeeded": "Для покупки больших сумм требуется расширенная проверка личности",
-            "emailVerify": "Укажите и подтвердите свой адрес эл. почты.",
+            "advKycPending": "Вы еще В ПРОЦЕССЕ расширенной проверки личности. Свяжитесь с нами в Intercom, если проверка занимает более 5 рабочих дней.",
+            "emailVerify": "Укажите и подтвердите свой адрес эл. почты.",
             "createID": "Создайте идентификатор LikeCoin, чтобы отправлять и получать LikeCoin, а также участвовать в продаже токенов.",
-            "verifyToPurchase": "Подтвердите сведения о себе, чтобы купить LikeCoin в хоте публичной продажи.",
+            "verifyToPurchase": "Подтвердите сведения о себе, чтобы купить LikeCoin в ходе публичной продажи.",
             "emailVerification": "Подтверждение адреса эл. почты",
             "accountVerification": "Подтверждение счета",
-            "advancedVerification": "Расширенная проверка",
-            "verifyEmailPlaceholder": "Подтвердите свой адрес эл. почты",
-            "checkEmail": "Эл. письмо отправлено. Проверьте почту.",
-            "emailVerified": "Адрес эл. почты подтвержден",
+            "advancedVerification": "Подтверждение счета",
+            "verifyEmailPlaceholder": "Подтвердите свой адрес эл. почты",
+            "checkEmail": "Эл. письмо отправлено. Проверьте почту.",
+            "emailVerified": "Адрес эл. почты подтвержден",
             "proceedToAccountVerification": "Перейти к подтверждению счета",
             "isPrcCitizen": "У вас гражданство КНР?",
             "isUsaCitizen": "У вас гражданство США?",
             "isUsaAccredited": "Вы являетесь аккредитованным инвестором в США?",
-            "passportName": "Ф.И.О. (как указано в паспарте)",
-            "addressProof": "Подтверждение адреса (срок: 3 месяца) *",
-            "purchaseMore": "Я хочу купить больше",
+            "isPurchaseExceedAmount": "Вы будете приобретать более {amount} ETH?",
+            "firstName": "Имя (как указано в паспорте)",
+            "lastName": "Фамилия (как указана в паспорте)",
+            "country": "Страна регистрации",
+            "nationality": "Гражданство",
+            "invalidCountry": "Выберите допустимую страну из списка.",
+            "invalidNationality": "Выберите допустимое гражданство из списка.",
+            "passportIdPage": "Страница паспорта с фотографией анфас (размер не более 2 Мб)*",
+            "recentSelfie": "Селфи анфас (размер не более 2 Мб)*",
+            "canPurchaseLessThanAmount": "Вы можете купить не более {amount} ETH",
+            "canPurchaseMoreThanAmount": "Вы можете купить более {amount} ETH",
+            "advancedVerificationInProgress": "Вы можете купить не более {amount} ETH. После прохождения расширенной проверки в сможете купить больше.",
+            "purchaseMore": "Я хочу купить больше.",
             "accountVeritifed": "Счет подтвержден",
             "canPurchaseWhenPublicSale": "В ходе публичной продажи вы сможете купить здесь LikeCoin.",
+            "verifyToPurchaseOverAmount": "Подтвердите свою личность, чтобы купить больше {amount} ETH",
             "waitingConfirmation": "Ожидание подтверждения",
-            "timeWaitForAccountVerification": "Процесс займет примерно 2 минуты…",
+            "timeWaitForAccountVerification": "Процесс займет примерно 2 минуты…",
             "timeWaitForAdvancedVerification": "Процесс займет примерно 5 рабочих дней…",
-            "contactUs": "Для получения помощи свяжитесь с нами с помощью области диалога в правом нижнем углу.",
+            "contactUs": "Для получения помощи свяжитесь с нами с помощью области чата в правом нижнем углу.",
             "contactThroughIntercom": "Свяжитесь с нами в Intercom.",
-            "preSaleBonusDescription": "Бонус 25% за покупку не менее 10 ETH"
+            "preSaleBonusDescription": "Бонус 25% за покупку не менее 10 ETH"
         },
         "button": {
             "createID": "Создать идентификатор LikeCoin",
@@ -811,7 +873,7 @@
         }
     },
     "TransactionHistory": {
-        "title": "История трансакций",
+        "title": "История транзакций",
         "header": {
             "status": "Статус",
             "fromOrTo": "От/кому",
@@ -823,24 +885,81 @@
             "out": "ИСХ.",
             "fail": "НЕУДАЧНО",
             "tokensale": "Продажа токенов",
-            "earlybird": "Ранняя пташка",
-            "earlyBeliever": "Ранний сторонник",
-            "timePending": "Ожидается...",
-            "timeExpired": "Срок истек",
+            "earlybird": "Ранняя предпродажа",
+            "earlyBeliever": "Первым пользователям",
+            "timePending": "Не подтверждена…",
+            "timeExpired": "Просрочена",
             "coupon": "Купон",
-            "noRecord": "Данные не найдены.",
+            "noRecord": "Сведения не найдены.",
             "to": "Кому",
-            "from": "От",
-            "unknown": "Неизвестно"
+            "from": "От кого",
+            "unknown": "Неизвестно",
+            "lockUntilDate": "Блокировка до {date}"
         },
         "button": {
-            "view": "смотреть",
-            "showMore": "еще"
+            "view": "Просмотр",
+            "showMore": "Показать еще"
         }
     },
     "Error": {
         "button": {
-            "toIndex": "К указателю"
+            "toIndex": "Вернуться к индексу"
+        },
+        "EMAIL_ALREADY_USED": "Такой адрес эл. почты уже используется",
+        "REFERRER_NOT_EXIST": "Рекомендатель не существует",
+        "USER_ALREADY_EXIST": "Файл уже существует"
+    },
+    "Mission": {
+        "gettingStart": {
+            "title": "Первые шаги",
+            "description": "Добро пожаловать в наши ряды! LikeCoin — это новое воплощение лайков, призванное стать весомым вознаграждением за творчество. На сайте <a href=\"https://like.co\">like.co</a> вы можете не только покупать и отправлять LikeCoin, но и зарабатывать LikeCoin, участвуя в экосистеме LIKE. <span class=\"bold\">Ознакомьтесь с платежной страницей для своего идентификатора Like ID, посмотрите вступительное видео и вступайте в нашу группу Telegram, чтобы получить 3 LikeCoin!</span>",
+            "taskSocial": "Читайте @likecoin_fdn в Twitter",
+            "taskOnepager": "Ознакомьтесь с кратким описанием нашей платформы",
+            "taskVideo": "Просмотрите вступительное видео",
+            "taskPaymentPage": "Ознакомьтесь со своей платежной страницей"
+        },
+        "inviteFriend": {
+            "title": "Пригласите друга в LikeCoin",
+            "description": "Если вы пригласите в наше сообщество одного или нескольких друзей, то вы и ваши друзья получат по 8 LIKE."
+        },
+        "joinTokenSale": {
+            "title": "Примите участие в продаже токенов",
+            "description": "Примите участие в продаже токенов и получите бонус: 100 LIKE",
+            "subDescription": "И не забывайте о партнерском бонусе, он может быть огромным!  При каждом вашем участии в продаже токенов вы и ваш рекомендатель будете получать 2,5% дополнительных бонусных токенов. ВЕРХНЕГО ПРЕДЕЛА НЕТ!"
+        },
+        "refereeTokenSale": {
+            "title": "@:Mission.joinTokenSale.title",
+            "description": "И не забывайте о партнерском бонусе, он может быть огромным!  При каждом вашем участии в продаже токенов вы и ваш рекомендатель будете получать 2,5% дополнительных бонусных токенов. ВЕРХНЕГО ПРЕДЕЛА НЕТ!"
+        },
+        "inviteTokenSale": {
+            "title": "Пригласите друга на продажу токенов",
+            "description": "При каждом участии приглашенного вами лица в продаже токенов вы оба будете получать 2,5% бонусных LIKE. ВЕРХНЕГО ПРЕДЕЛА НЕТ!"
+        },
+        "verifyEmail": {
+            "title": "Подтвердите адрес эл. почты",
+            "description": "Подтвердите свой адрес эл. почты, чтобы бесплатно получить бонус LikeCoin",
+            "label": {
+                "yourEmailAddress": "Ваш адрес эл. почты"
+            }
+        },
+        "verifyEmailReferral": {
+            "title": "@:Mission.verifyEmail.title",
+            "description": "Попросите <span class=\"bold\">{invitee}</span> подтвердить адрес эл. почты.<br><br>Еще один шаг, и вы и <span class=\"bold\">{invitee}</span> получите бонус: 8 LIKE."
+        },
+        "joinTokenSaleReferral": {
+            "title": "@:Mission.joinTokenSale.title",
+            "description": "При каждом участии <span class=\"bold\">{invitee}</span> в продаже токенов вы оба будете получать 2,5% бонусных LIKE. ВЕРХНЕГО ПРЕДЕЛА НЕТ."
+        },
+        "completedBanner": {
+            "label": {
+                "completed": "Выполнено!",
+                "bonusTransferShortly": "Скоро вам будут переведены бонусные LikeCoin."
+            }
+        },
+        "common": {
+            "label": {
+                "upcomingDate": "<span class=\"bold\">Публичная продажа LikeCoin начнется {upcoming}.</span>"
+            }
         }
     }
 }
