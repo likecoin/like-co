@@ -1,8 +1,8 @@
 <template>
-  <div :class="['mission-item', layout, state]" @click="$emit('click')">
+  <div :class="['mission-item', layout, state]">
     <div>
 
-      <div class="mission-card">
+      <div class="mission-card" @click="$emit('click')">
         <div class="mission-action-button">
           <mission-state-icon :layout="layout" :state="state" />
         </div>
@@ -145,6 +145,47 @@ export default {
     color: $like-green;
   }
 
+  &:not(.claimed) {
+    .mission-card {
+      .mission-action-button::before {
+        position: absolute;
+        z-index: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        height: 100%;
+
+        content: "";
+        transition: box-shadow .2s ease-in-out;
+
+        border-bottom-right-radius: 50%;
+        border-bottom-left-radius: 50%;
+        box-shadow: 0 0 0 0 transparent;
+
+        clip-path: polygon(-50% 50%, 150% 50%, 150% 150%, 0% 150%);
+      }
+    }
+
+    &:not(.completed) {
+      .mission-card {
+        &:hover {
+          box-shadow: 0 3px 20px 2px #00000020;
+
+          .mission-action-button::before {
+            box-shadow: 0 5px 20px 0 #00000025;
+          }
+        }
+
+        &:active {
+          .mission-action-button::before {
+            box-shadow: 0 1px 3px 0 #00000040;
+          }
+        }
+      }
+    }
+  }
+
   &.completed {
     .mission-card {
       background-image: linear-gradient(215deg, #D2F0F0, #F0E6B4);
@@ -163,6 +204,40 @@ export default {
 
         border-radius: 4px;
         background-color: $like-white;
+      }
+
+      &:not(:hover):not(:active) {
+        .mission-action-button {
+          @keyframes completed-mission-action-button-shaking {
+            0%, 50% {
+              transform: rotateZ(0deg);
+            }
+            70% {
+              transform: rotateZ(-3deg);
+            }
+            85% {
+              transform: rotateZ(6deg);
+            }
+            100% {
+              transform: rotateZ(-12deg);
+            }
+          }
+
+          transform-origin: center top;
+          animation-name: completed-mission-action-button-shaking;
+          animation-duration: 1s;
+          animation-timing-function: ease-in;
+          animation-iteration-count: infinite;
+          animation-direction: alternate;
+        }
+      }
+
+      &:hover:not(:active) {
+        box-shadow: 0 0 16px 2px rgba(240, 238, 156, 0.8);
+
+        .mission-action-button::before {
+          box-shadow: 0 0 16px 4px rgb(240, 238, 156);
+        }
       }
     }
   }
@@ -206,10 +281,8 @@ export default {
   }
 
   .mission-action-button {
-    bottom: 0;
-    left: 50%;
-
-    transform: translateX(-50%) translateY(50%);
+    bottom: -26px;
+    left: calc(50% - 26px);
   }
 
   .item-label {
@@ -247,10 +320,14 @@ export default {
     width: 100%;
     padding: 4px 10px 4px 40px;
 
-    cursor: pointer;
     user-select: none;
 
     border-radius: 4px;
+  }
+
+  .mission-action-button {
+    top: calc(50% - 32px / 2);
+    left: 4px;
   }
 
   .item-label.new {
@@ -267,19 +344,6 @@ export default {
 
       color: white;
       background-color: $like-green-2;
-      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
-
-      &:hover {
-        transform: translateY(-2px);
-
-        box-shadow: 0 4px 6px 1px rgba(0, 0, 0, 0.3);
-      }
-
-      &:active {
-        transform: translateY(0);
-
-        box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.5);
-      }
     }
   }
 
@@ -307,6 +371,28 @@ export default {
     position: relative;
 
     display: flex;
+  }
+
+  &:not(.claimed) {
+    .mission-card {
+      cursor: pointer;
+      transition: transform .2s ease-in-out,
+                  box-shadow .2s ease-in-out;
+
+      &:hover {
+        box-shadow: 0 3px 28px 0 #00000030;
+      }
+
+      &:active {
+        transform: translateY(1px);
+
+        box-shadow: 0 1px 3px 0 #00000040;
+      }
+    }
+  }
+
+  &.claimed {
+    pointer-events: none;
   }
 
   &.small {
@@ -406,10 +492,6 @@ export default {
 
 .mission-action-button {
   position: absolute;
-  bottom: 50%;
-  left: 4px;
-
-  transform: translateY(50%);
 }
 
 .item-label {

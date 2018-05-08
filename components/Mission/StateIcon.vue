@@ -59,24 +59,9 @@ export default {
 
   &.active,
   &.completed,
-  &.pending {
-    cursor: pointer;
-    transition: transform .15s ease-in,
-                box-shadow .15s ease-in;
-
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.5);
-
-    &:hover {
-      transform: translateY(-2px);
-
-      box-shadow: 0 4px 6px 1px rgba(0, 0, 0, 0.3);
-    }
-
-    &:active {
-      transform: translateY(0);
-
-      box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.5);
-    }
+  &.pending,
+  &.upcoming {
+    box-shadow: 0 1px 5px 1px rgba(0, 0, 0, 0.3);
   }
 
   &.active,
@@ -123,7 +108,6 @@ export default {
 
   &.upcoming {
     border: solid 2px #e6e6e6;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
   }
 }
 

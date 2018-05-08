@@ -32,15 +32,17 @@
         </div>
 
         <div class="lc-container-2">
-          <div class="lc-container-3 lc-container-no-padding-mobile lc-padding-vertical-32 lc-bg-gray-1">
-            <div class="lc-container-4 lc-container-no-padding-mobile">
 
-              <mission-list
-                :missions="getShortMissionList"
-                :is-grid="false"
-                @click="onMissionClick"/>
+          <div class="lc-padding-top-32 lc-bg-gray-1">
+            <mission-list
+              :missions="getShortMissionList"
+              :is-grid="false"
+              @click="onMissionClick"/>
+          </div>
 
-              <div class="section-btn-container lc-padding-top-24 bonus-button-container">
+          <div class="lc-container-3 lc-padding-top-24 lc-padding-bottom-32 lc-bg-gray-1">
+            <div class="lc-container-4">
+              <div class="section-btn-container bonus-button-container">
                 <md-button
                   class="section-button md-likecoin"
                   @click="$router.push({ name: 'in-bonus' })">
@@ -49,6 +51,7 @@
               </div>
             </div>
           </div>
+
         </div>
       </section>
     </div>
