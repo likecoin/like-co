@@ -102,6 +102,8 @@ export default {
 @import "~assets/variables";
 
 .mission-swiper {
+  overflow: visible;
+
   width: 100%;
 }
 

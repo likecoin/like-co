@@ -18,15 +18,15 @@
       </header>
 
       <div
-       :class="[
-        'mission-item-list-wrapper',
-         {
-           'overflow-left': canScrollLeft,
-           'overflow-right': canScrollRight,
-           'lc-mobile-hide': isSwippable,
-         },
-       ]">
-        <ul ref="list"  @scroll="onLayout">
+        :class="[
+          'mission-item-list-wrapper',
+          {
+            'overflow-left': canScrollLeft,
+            'overflow-right': canScrollRight,
+            'lc-mobile-hide': isSwippable,
+          },
+        ]">
+        <ul ref="list" @scroll="onLayout">
 
           <li v-for="m in missions" :key="m.id">
             <mission-item
@@ -43,7 +43,9 @@
             <mission-item-placeholder :layout="layout"/>
           </li>
 
-          <li v-if="isEmptyList && emptyPlaceholder" class="empty-list-placeholder">
+          <li
+            v-if="isEmptyList && emptyPlaceholder"
+            class="empty-list-placeholder">
             <mission-item-placeholder :layout="layout" :animated="false" />
             <span>{{ emptyPlaceholder }}</span>
           </li>
@@ -217,6 +219,7 @@ export default {
       flex-wrap: wrap;
 
       margin: 0 -8px;
+      padding: 0;
 
       li {
         padding: 8px;
@@ -225,7 +228,13 @@ export default {
   }
 
   &:not(.grid) {
+    .mission-item-list-wrapper {
+      overflow-x: hidden;
+    }
+
     ul {
+      position: relative;
+
       overflow-x: auto;
 
       padding-top: 12px;
@@ -236,12 +245,31 @@ export default {
         width: 188px;
         min-width: 188px;
 
+
         &:not(:first-child) {
           padding-left: 8px;
         }
 
         &:not(:last-child) {
           padding-right: 8px;
+        }
+
+        &:first-child {
+          padding-left: 40px + 8px;
+        }
+
+        &:last-child {
+          padding-right: 40px + 8px;
+        }
+
+        @media (max-width: 768px) {
+          &:first-child {
+            padding-left: 24px + 8px;
+          }
+
+          &:last-child {
+            padding-right: 24px + 8px;
+          }
         }
       }
     }
@@ -253,8 +281,6 @@ export default {
 
   .mission-item-list-wrapper {
     position: relative;
-
-    overflow-x: hidden;
 
     &::before,
     &::after {
@@ -292,6 +318,7 @@ export default {
     flex-direction: column;
 
     margin: -4px;
+    padding: 0;
 
     li {
       padding: 4px;
@@ -351,8 +378,6 @@ export default {
 
 ul {
   display: flex;
-
-  padding: 0;
 
   list-style: none;
 }
