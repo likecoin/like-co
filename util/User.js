@@ -24,7 +24,7 @@ const User = {
       ts,
       avatarSHA256,
       wallet,
-      email,
+      email: email === 'verified' ? undefined : email,
       referrer,
       locale,
     }, null, 2);

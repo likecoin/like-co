@@ -68,6 +68,25 @@
         </nuxt-link>
       </info-toolbar>
 
+      <md-snackbar
+        v-if="getInfoMsg"
+        :md-position="center" :md-active="getInfoMsg" md-persistent >
+        <span v-if="getInfoIsError">
+          {{ $i18n.te(`Error.${getInfoMsg}`) ? $t(`Error.${getInfoMsg}`) : getInfoMsg }}
+        </span>
+        <span v-else v-html="getInfoMsg" />
+        <nuxt-link
+          :to="{ name: 'in-redeem' }"
+          v-if="getInfoMsg === $t('Transaction.error.likecoinInsufficient')">
+          {{ $t('Edit.label.redeemCoin') }}
+        </nuxt-link>
+        <md-button
+          class="md-icon-button"
+          @click="closeInfoToolbar">
+          <md-icon>close</md-icon>
+        </md-button>
+      </md-snackbar>
+
     </div>
   </no-ssr>
 </template>
