@@ -373,7 +373,7 @@ export default {
             'Tokensale',
             'buyLikeCoin',
             'buy LikeCoin on tokensale page',
-            Number(this.amount),
+            Number(this.amount) * 1000, // make ETH input to be integer .
           );
         } catch (err) {
           // just to prevent anything wrong from Number(this.amount)
