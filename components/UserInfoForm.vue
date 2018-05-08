@@ -119,6 +119,7 @@
                   </span>
                 </div>
                 <md-field
+                  v-if="email !== 'verified'"
                   :class="['md-field-display', (!getUserInfo.isEmailVerified && isEditing) ? 'md-field-edit-mode' : 'md-field-pre-edit']">
                   <label class="input-display-hint lc-font-size-20">
                     {{ $t('Edit.label.addEmail') }}

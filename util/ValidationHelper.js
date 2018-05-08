@@ -4,17 +4,21 @@ const ValidationHelper = {
   checkAddressValid(addr) {
     return addr.length === 42 && addr.substr(0, 2) === '0x';
   },
-  filterUserData({
-    user,
-    displayName,
-    email,
-    avatar,
-    wallet,
-    referrer,
-    KYC,
-    pendingKYC,
-    isEmailVerified,
-  }) {
+  filterUserData(u) {
+    const {
+      user,
+      displayName,
+      avatar,
+      wallet,
+      referrer,
+      KYC,
+      pendingKYC,
+      isEmailVerified,
+    } = u;
+    let {
+      email,
+    } = u;
+    if (isEmailVerified) email = 'verified';
     return {
       user,
       displayName,
