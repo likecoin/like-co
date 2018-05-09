@@ -5,11 +5,9 @@
       :class="['with-icon', { upcoming: isUpcomingMission }]"
       :isShowCloseButton="true">
 
-      <template slot="header-center">
-        <div class="lc-dialog-icon lc-raised-icon">
-          <mission-icon :mission-id="missionId" />
-        </div>
-      </template>
+      <div slot="header-center" class="lc-section-header-icon lc-dialog-icon lc-raised-icon">
+        <mission-icon :mission-id="missionId" />
+      </div>
 
       <div class="mission-dialog-content">
 

@@ -632,6 +632,23 @@ $font-weight-list: 300 400 600;
 
     background-image: linear-gradient(252deg, #d2f0f0, #f0e6b4);
   }
+
+  .lc-section-header-icon {
+    position: absolute;
+    z-index: 30;
+    top: calc(50% - #{$lc-section-header-icon-size} / 2);
+    left: calc(50% - #{$lc-section-header-icon-size} / 2);
+
+    width: $lc-section-header-icon-size;
+    height: $lc-section-header-icon-size;
+
+    > img {
+      display: block;
+
+      width: 100%;
+      height: 100%;
+    }
+  }
 }
 
 
@@ -658,16 +675,6 @@ $font-weight-list: 300 400 600;
 
   * {
     border-radius: 50%;
-  }
-
-  .lc-section-header & {
-    position: absolute;
-    z-index: 30;
-    top: calc(50% - #{$lc-raised-icon-size} / 2);
-    left: calc(50% - #{$lc-raised-icon-size} / 2);
-
-    width: $lc-raised-icon-size;
-    height: $lc-raised-icon-size;
   }
 }
 
