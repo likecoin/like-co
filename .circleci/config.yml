@@ -100,6 +100,7 @@ jobs:
             --build-arg STRIPE_TOKEN=${STRIPE_TEST_TOKEN} \
             --build-arg SENTRY_DSN=${TEST_SENTRY_DSN} \
             --build-arg SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN} \
+            --build-arg SENTRY_REPORT_URI=${TEST_SENTRY_REPORT_URI} \
             --build-arg SENTRY_PROJECT=${TEST_SENTRY_PROJECT} \
             --build-arg RELEASE=${CIRCLE_SHA1}
             docker tag like-store:latest us.gcr.io/${PROJECT_NAME}/like-store:latest
@@ -144,6 +145,7 @@ jobs:
             --build-arg STRIPE_TOKEN=${STRIPE_PROD_TOKEN} \
             --build-arg SENTRY_DSN=${SENTRY_DSN} \
             --build-arg SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN} \
+            --build-arg SENTRY_REPORT_URI=${SENTRY_REPORT_URI} \
             --build-arg SENTRY_PROJECT=${SENTRY_PROJECT} \
             --build-arg RELEASE=${CIRCLE_SHA1}
             docker tag like-store:latest us.gcr.io/${PROJECT_NAME}/like-store:latest
