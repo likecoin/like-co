@@ -55,10 +55,13 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import moment from 'moment';
 import * as api from '@/util/api/api';
 
 import NarrowPageHeader from '~/components/header/NarrowPageHeader';
 import TokensaleDashboard from '~/components/TokensaleDashboard';
+
+import { SALE_END_DATE } from '@/constant';
 
 export default {
   name: 'referral-page',
@@ -83,12 +86,15 @@ export default {
     ]),
   },
   methods: {
+    getIsTokenSaleEnded() {
+      return moment().isAfter(SALE_END_DATE);
+    },
     onClickCreateLikeCoinIdButton() {
       this.$router.push({
         name: 'in-register',
         query: {
           from: this.referrerId,
-          ref: 'in-tokensale',
+          ref: this.getIsTokenSaleEnded() ? '' : 'in-tokensale',
         },
       });
     },
@@ -138,7 +144,11 @@ export default {
     getUserIsFetching(f) {
       if (!f) {
         if (this.getUserIsRegistered) {
-          this.$router.push({ name: 'in-tokensale' });
+          if (this.getIsTokenSaleEnded()) {
+            this.$router.push({ name: 'in' });
+          } else {
+            this.$router.push({ name: 'in-tokensale' });
+          }
         }
       }
     },
@@ -146,7 +156,11 @@ export default {
   mounted() {
     if (!this.getUserIsFetching) {
       if (this.getUserIsRegistered) {
-        this.$router.push({ name: 'in-tokensale' });
+        if (this.getIsTokenSaleEnded()) {
+          this.$router.push({ name: 'in' });
+        } else {
+          this.$router.push({ name: 'in-tokensale' });
+        }
       }
     }
   },

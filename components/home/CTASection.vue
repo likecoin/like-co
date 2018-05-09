@@ -66,7 +66,7 @@
                   </li>
                   <!-- END - Before token sale begins -->
                   <!-- BEGIN - After token sale begins -->
-                  <li v-else>
+                  <li v-else-if="now.isBefore(SALE_END_DATE)">
                     <material-button
                       class="cta-btn"
                       :hasShadow="true"
@@ -75,6 +75,16 @@
                     </material-button>
                   </li>
                   <!-- END - After token sale begins -->
+                  <!-- BEGIN - After token sale end -->
+                  <li v-else>
+                    <material-button
+                      class="cta-btn"
+                      :hasShadow="true"
+                      @click=onClickRegisterButton>
+                      {{ $t('Home.Sale.button.createNow') }}
+                    </material-button>
+                  </li>
+                  <!-- END - After token sale end -->
                   <li v-if="isShowSupportButton">
                     <material-button
                       class="cta-btn support"
@@ -183,6 +193,9 @@ export default {
     ...mapActions([
       'queryTokensaleInitial',
     ]),
+    onClickRegisterButton() {
+      this.$router.push({ name: 'in-register' });
+    },
     onClickJoinTokenSaleButton() {
       logTrackerEvent(this, 'RegFlow', 'ClickedIAmInterestedButton', 'User is interested in early bird token sale', 1);
       this.$router.push({ name: 'in-tokensale' });

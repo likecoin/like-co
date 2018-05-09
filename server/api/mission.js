@@ -107,7 +107,8 @@ router.get('/mission/list/:id', async (req, res) => {
           if (!notExpired) {
             replyMissionList.splice(targetIndex, 1);
           } else {
-            replyMissionList[targetIndex] = Object.assign(missionData, replyMissionList[targetIndex]);
+            replyMissionList[targetIndex] =
+              Object.assign(missionData, replyMissionList[targetIndex]);
           }
         } else if (notExpired && missionData.staying) {
           replyMissionList.push({ id: m.id, ...missionData });
