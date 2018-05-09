@@ -120,15 +120,15 @@ $lc-dialog-border-radius: 8px;
       }
     }
   }
-}
 
-.lc-dialog-icon {
-  @media (max-width: 600px) {
-    top: 8px;
-    left: calc(50% - #{$lc-dialog-icon-size-small} / 2);
+  .lc-dialog-icon {
+    @media (max-width: 600px) {
+      top: 8px;
+      left: calc(50% - #{$lc-dialog-icon-size-small} / 2);
 
-    width: $lc-dialog-icon-size-small;
-    height: $lc-dialog-icon-size-small;
+      width: $lc-dialog-icon-size-small;
+      height: $lc-dialog-icon-size-small;
+    }
   }
 }
 
@@ -138,10 +138,10 @@ $lc-dialog-border-radius: 8px;
   padding-right: 0;
 
   .lc-dialog.with-icon & {
-    padding-top: ($lc-raised-icon-size - $lc-header-height) / 2 + 16px;
+    padding-top: ($lc-section-header-icon-size - $lc-header-height) / 2 + 16px;
 
     @media (max-width: 600px) {
-      padding-top: 8px + $lc-dialog-icon-size-small - $lc-header-height + 16px;
+      padding-top: 8px + $lc-dialog-icon-size-small - $lc-header-height + 8px;
     }
   }
 }

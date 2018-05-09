@@ -23,7 +23,7 @@
 
           <header class="lc-padding-top-32">
             <div class="lc-section-header">
-              <div class="lc-raised-icon">
+              <div class="lc-section-header-icon lc-raised-icon">
                 <img :src="avatar" />
               </div>
             </div>

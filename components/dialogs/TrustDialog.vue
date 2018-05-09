@@ -9,7 +9,7 @@
     class="with-icon">
 
       <!-- START - Header Section -->
-      <div slot="header-center" class="lc-dialog-icon">
+      <div slot="header-center" class="lc-section-header-icon lc-dialog-icon">
         <img :src="TrustIcon" />
       </div>
       <template slot="header-right">
@@ -26,8 +26,8 @@
           </h1>
 
           <div
-            class="description lc-margin-vertical-12"
             v-if="description"
+            class="description lc-margin-vertical-12 lc-mobile"
             v-html="description" />
 
           <figure v-if="image">
@@ -39,11 +39,11 @@
           </figure>
 
           <div v-if="!isTrust" class="open-trust-container">
-            <div class="link-wrapper lc-margin-vertical-32">
+            <div class="link-wrapper lc-margin-top-24 lc-margin-bottom-12 lc-mobile">
               <p
-                class="lc-font-size-16"
+                class="lc-font-size-16 lc-mobile"
                 v-html="$t('Dialog.trust.label.useTrustBrowser')" />
-              <span>
+              <span class="lc-font-size-12">
                 ({{ $t(`Dialog.trust.label.${isCopied ? 'copied' : 'clickToCopy'}`) }})
               </span>
               <br>
@@ -55,7 +55,10 @@
             </div>
 
             <div class="lc-button-group">
-              <md-button class="md-likecoin trust" v-if="buttonText" @click="openTrust">
+              <md-button
+                v-if="buttonText"
+                class="md-likecoin trust"
+                @click="openTrust">
                 {{ buttonText }}
               </md-button>
               <div class="lc-font-size-12 lc-margin-top-12">
