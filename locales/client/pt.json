@@ -1,8 +1,8 @@
 {
     "General": {
         "label": {
-            "success": "Sucesso",
-            "error": "Erro"
+            "error": "Erro",
+            "success": "Sucesso"
         },
         "button": {
             "confirm": "Confirmar",
@@ -77,7 +77,7 @@
         "hu": "magyar",
         "ia": "Interlingua",
         "id": "Bahasa Indonesia",
-        "ie": "Originally called Occidental; then Interlingue after WWII",
+        "ie": "Originalmente chamada Occidental; passou a ser Interlingue após a Segunda Guerra Mundial",
         "ga": "Gaeilge",
         "ig": "Asụsụ Igbo",
         "ik": "Iñupiaq, Iñupiatun",
@@ -213,6 +213,7 @@
         },
         "item": {
             "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
+            "bonus": "Bônus de LikeCoin",
             "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
             "backer": "@:BackerPage.title",
             "whitepaper": "@:Whitepaper.Button.whitepaper",
@@ -231,8 +232,8 @@
     "Home": {
         "Header": {
             "button": {
-                "signIn": "Entrar",
-                "signUp": "Registrar"
+                "signIn": "Iniciar sessão",
+                "signUp": "Cadastrar-se"
             }
         },
         "Flag": {
@@ -241,18 +242,20 @@
         },
         "HeroVideo": {
             "button": {
-                "watchVideo": "Assistir Vídeo"
+                "watchVideo": "Assista ao Vídeo"
             }
         },
         "Sale": {
             "title": {
-                "publicTokenSale": "Venda Pública de Tokens",
-                "nowLive": "Aberto"
+                "earlyBirdTokenSale": "Pré-Venda de Tokens Inicial",
+                "publicTokenSale": "Venda de Tokens Pública",
+                "secure25Percent": "Seja rápido para garantir o bônus de 25%",
+                "nowLive": "Já Disponível"
             },
             "label": {
                 "contactOurTeam": "Contate nossa equipe ao clicar no balão de diálogo no canto direito inferior",
                 "contactUsThroughButton": "Entre em contato conosco através do botão no canto direito inferior",
-                "startOn": "Início em:",
+                "startOn": "Começa em:",
                 "completedPercent": "{percent}% concluído"
             },
             "button": {
@@ -265,7 +268,8 @@
                 "imInterested": "Estou interessado",
                 "joinTokenSale": "Participar da Venda de Tokens",
                 "joinNow": "Participar Agora",
-                "supportLikeCoin": "Apoiar o Movimento"
+                "prepareToJoin": "Prepare-se para Participar",
+                "supportLikeCoin": "Suporte o Movimento"
             }
         },
         "Creator": {
@@ -275,7 +279,7 @@
         },
         "Stack": {
             "title": "Stack LikeCoin",
-            "content": "--- parágrafo no Protocolo LikeCoin ---",
+            "content": "--parágrafo em Stack LikeCoin---",
             "layer": {
                 "provider": {
                     "title": "DApps",
@@ -286,7 +290,7 @@
                     }
                 },
                 "service": {
-                    "title": "Serviços do LikeCoin",
+                    "title": "Serviços LikeCoin",
                     "example": {
                         "button": "Botão Curtir",
                         "store": "like.co",
@@ -313,7 +317,7 @@
         },
         "RoadMap": {
             "title": "Roadmap",
-            "content": "--- parágrafo no Roadmap ---",
+            "content": "--parágrafo no Roadmap---",
             "timeline": [
                 {
                     "title": "Brainstorming, P&D",
@@ -332,7 +336,7 @@
                     "time": "2018 T2"
                 },
                 {
-                    "title": "Lançamento do puttyimages",
+                    "title": "Lançamento de puttyimages",
                     "time": "2018 T3"
                 },
                 {
@@ -347,21 +351,21 @@
         },
         "TokenDistribution": {
             "title": "Distribuição de Tokens",
-            "content": "800 milhões de tokens iniciais, com mineração gradual nos próximos 10 anos ou mais e limitados a 2 bilhões. 1 bilhão de tokens serão fornecidos como recompensa a criadores através de comprovação de autoria",
+            "content": "800 milhões de tokens iniciais, com produção gradual nos próximos 10 anos ou mais e limitados a 2 bilhões. 1 bilhão de tokens serão fornecidos como recompensa a criadores através de comprovação de autoria.",
             "yearButton": {
                 "year0": "Ano 0",
                 "year10": "Ano 10+"
             },
-            "pieChartLanguage": "pt"
+            "pieChartLanguage": "en"
         },
         "EarlyAdopters": {
             "title": "Usuários Iniciais"
         },
         "PressCoverage": {
-            "title": "Cobertura da Imprensa"
+            "title": "Cobertura de Imprensa"
         },
         "EarlySupporters": {
-            "title": "Apoiadores Iniciais",
+            "title": "Investidores Iniciais",
             "supporter": {
                 "6-club": {
                     "title": "Fundo Six Club",
@@ -409,8 +413,8 @@
                     "description": "Fundador da <a href=\"https://musicoin.org/\" target=\"_blank\" rel=\"noopener\">Musicoin</a>; Fundador da CNBlogs.org; Líder de Projeto da iCommons China, Equipe Creative Commons China."
                 },
                 "to-cheung": {
-                    "title": "Para Cheung",
-                    "subtitle": ""
+                    "title": "To Cheung",
+                    "description": "Fundador e CEO da <a href=\"https://www.udomain.hk/\" target=\"_blank\" rel=\"noopener\">UDomain</a>; Investidor Inicial da BTC"
                 }
             }
         },
@@ -419,7 +423,7 @@
             "member": {
                 "kin": {
                     "name": "kin ko",
-                    "title": "Projeto de Produto"
+                    "title": "Design de Produto"
                 },
                 "aludirk": {
                     "name": "Aludirk Wong",
@@ -439,7 +443,7 @@
                 },
                 "edmond": {
                     "name": "Edmond Yu",
-                    "title": "Operação"
+                    "title": "Operações"
                 },
                 "simonb": {
                     "name": "Simon But",
@@ -464,9 +468,9 @@
             }
         },
         "Community": {
-            "title": "Comunidade LikeCoin: ",
+            "title": "Comunidade LikeCoin:",
             "button": {
-                "faq": "FAQ"
+                "faq": "Perguntas Frequentes"
             }
         }
     },
@@ -495,7 +499,7 @@
         "Footer": {
             "label": {
                 "contract": "Contrato LikeCoin: ",
-                "visit": "Acesse nosso site para obter mais informações: "
+                "visit": "Visite nosso site para mais informações: "
             }
         }
     },
@@ -509,9 +513,9 @@
                 "switchRinkeby": "Troque para a rede Rinkeby",
                 "switchMain": "Troque para a rede Main",
                 "web3": "Requer plugin",
-                "locked": "Desbloqueie o MetaMask",
+                "locked": "Desbloqueie o Metamask",
                 "sign": "Assinar no MetaMask",
-                "connectledger": "Conectar a carteira Ledger",
+                "connectledger": "Conectar à carteira Ledger",
                 "signledger": "Assinar na carteira Ledger"
             },
             "content": {
@@ -537,11 +541,11 @@
         },
         "coupon": {
             "title": {
-                "error": "Erro de Cupom",
+                "error": "Erro de cupom",
                 "claim": "Resgatar cupom"
             },
             "label": {
-                "confirming": "Carregando conteúdo do cupom...",
+                "confirming": "Carregando conteúdos do cupom...",
                 "error": "Código de cupom inválido!",
                 "invalidCoupon": "Cupom inválido",
                 "redirecting": "Redirecionando para a página da sua conta...",
@@ -555,7 +559,8 @@
             },
             "button": {
                 "createID": "Criar ID LikeCoin",
-                "buyCoin": "Comprar LikeCoin"
+                "buyCoin": "Comprar LikeCoin",
+                "myAccount": "Minha Conta"
             }
         },
         "blocker": {
@@ -566,23 +571,47 @@
             "title": "Verifique seu e-mail",
             "content": "Forneça e verifique seu e-mail.",
             "label": "Seu endereço de e-mail"
+        },
+        "trust": {
+            "title": {
+                "switchTrust": "Requer app Wallet",
+                "switchRinkeby": "Troque para a rede Rinkeby",
+                "switchMain": "Troque para a rede Main"
+            },
+            "description": {
+                "switchTrust": "O like.co requer uma carteira ETH para funcionar. Instale ou troque para o app Trust Wallet.",
+                "switchRinkeby": "O like.co precisa do Rinkeby para funcionar. Troque para a rede correta.",
+                "switchMain": "O like.co precisa do Main para funcionar. Troque para a rede correta.",
+                "switchMainCaption": "Troque para Mainnet em:<br>Configurações > Rede > Ethereum (ETH)",
+                "switchRinkebyCaption": "Troque para Rinkeby em:<br>Configurações > Rede > Rinkeby (ETH)"
+            },
+            "label": {
+                "useTrustBrowser": "Use o <span style=\"color: #28646e; font-weight: bold;\">Navegador Trust Wallet</span> para visitar:",
+                "clickToCopy": "Clique para copiar o url",
+                "copied": "Copiado",
+                "help": "Como registrar em dispositivos móveis",
+                "registerMobileLink": "https://help.like.co/likecoin-faq/newbies/registering-likecoin-id-on-mobile"
+            },
+            "button": {
+                "openWithTrust": "Abrir com Trust"
+            }
         }
     },
     "Toolbar": {
         "etherscan": {
             "button": {
-                "view": "Exibir no Etherscan"
+                "view": "Ver no Etherscan"
             }
         }
     },
     "Register": {
         "header": {
-            "title": "Crie um ID LikeCoin para enviar e receber LikeCoin",
+            "title": "Crie um ID LikeCoin para enviar e receber LikeCoins",
             "titleReferral": "Junte-se a {name} e crie um ID LikeCoin",
             "content": "Ótimo! Parece que você já possui o MetaMask instalado. Agora, você está pronto para receber ou enviar LikeCoin.",
             "redeem": "Resgate seu LikeCoin grátis",
             "button": {
-                "what": "O que é o LikeCoin?"
+                "what": "O que é LikeCoin?"
             }
         },
         "label": {
@@ -597,16 +626,23 @@
             "amount": "Quantidade de LikeCoins:",
             "displayName": "Nome de Exibição",
             "claim": "Solicitar",
-            "couponCode": "Código de Cupom (opcional)",
+            "couponCode": "Código do Cupom (opcional)",
             "label": {
                 "updatedInfo": "Suas informações foram atualizadas.",
-                "viewPage": "Exibir sua página"
+                "viewPage": "Ver sua página"
             },
             "error": {
                 "alphanumeric": "Insira pelo menos 7 caracteres alfanuméricos",
                 "addressFormat": "Formato de endereço inválido",
-                "emailFormat": "Insira um endereço de e-mail válido sem o caractere +"
+                "emailFormat": "Insira um endereço de e-mail válido sem o caracter +"
             }
+        }
+    },
+    "In": {
+        "tab": {
+            "overview": "Visão Geral",
+            "bonus": "Bônus",
+            "history": "Histórico de Bônus"
         }
     },
     "Edit": {
@@ -616,18 +652,18 @@
             "address": "Seu Endereço",
             "email": "Seu E-mail",
             "addEmail": "Adicionar endereço de e-mail",
-            "redeemCoin": "Resgatar LikeCoins",
-            "redeemCode": "Código de Resgate (Opcional)",
+            "redeemCoin": "Resgatar LikeCoin",
+            "redeemCode": "Resgatar Código (Opcional)",
             "validCodeRequired": "Insira um código de cupom válido",
             "verified": "Verificado",
             "verifying": "Verificação enviada, consulte sua caixa de entrada!",
-            "unverified": "Não Verificado",
-            "verifyEmail": "Verificar seu e-mail"
+            "unverified": "Não verificado",
+            "verifyEmail": "Verifique seu e-mail"
         },
         "referral": {
             "title": "Programa de Afiliados",
-            "description": "Você e seu amigo podem receber um cupom do LikeCoin quando você convidar um amigo para se inscrever usando o seu link de afiliado. Lembre-se que o e-mail da conta do seu amigo precisa ser verificado para que você e o seu amigo recebam os cupons.",
-            "pending": "Aguardando verificação do e-mail",
+            "description": "Você e seu amigo podem receber um bônus de LikeCoin se o seu amigo se inscrever com êxito usando o seu link de afiliado. Observe que o endereço de e-mail precisa ser verificado para que você e o seu amigo tenham direito ao bônus.",
+            "pending": "Aguardando verificação de e-mail",
             "verified": "Confirmado",
             "emailInvite": "Convide seu amigo por e-mail",
             "altInvite": "Ou convide por:",
@@ -639,7 +675,7 @@
             "verifyEmailFirst": "Verifique seu e-mail para participar do programa de afiliados.",
             "tweetContent": "Venha participar comigo do Like.co e receba seu LikeCoin grátis!",
             "ogTitle": "LikeCoin - Reinventando a Curtida",
-            "ogDescription": "Recompensando conteúdo através de prova de criatividade. Junte-se a {name} e registre-se agora!"
+            "ogDescription": "Recompensando conteúdos através de prova de criatividade. Junte-se a {name} e registre-se agora!"
         },
         "button": {
             "buyCoin": "Comprar LikeCoin",
@@ -652,7 +688,7 @@
             "toEdit": "retornando para a página da conta",
             "redirect": "redirecionar página",
             "verifying": "Verificando",
-            "referral": "Como parte do programa de afiliados, você receberá um e-mail com um cupom do LikeCoin"
+            "referral": "Como parte do programa de afiliados, você agora pode solicitar LikeCoin gratuitamente na seção de bônus"
         }
     },
     "Transaction": {
@@ -671,13 +707,13 @@
             }
         },
         "label": {
-            "recipientId": "ID LikeCoin do Destinatário",
-            "recipientAddress": "Endereço do Destinatário",
+            "recipientId": "ID LikeCoin do Recipiente",
+            "recipientAddress": "Endereço do Recipiente",
             "senderName": "Nome de Exibição do Remetente",
             "senderAddress": "Endereço do Remetente",
             "sendTo": "Enviar {coin} para <span class='usertitle'>{title}</span>",
             "remarks": "Observações",
-            "viewTx": "Exibir Transação",
+            "viewTx": "Ver Transação",
             "amountToSend": "Quantidade de {coin} para enviar",
             "invalidAmount": "Quantidade inválida",
             "enterValidNumber": "Insira um número decimal válido",
@@ -685,7 +721,7 @@
         },
         "head": {
             "title": "LikeCoin - Reinventando a Curtida.",
-            "description": "Recompensando conteúdo através de prova de criatividade. Envie LikeCoin para {name}"
+            "description": "Recompensando conteúdos através de prova de criatividade. Envie LikeCoin para {name}"
         },
         "error": {
             "notSupported": "Sua carteira não suporta esta função",
@@ -702,23 +738,35 @@
     },
     "TokenSale": {
         "title": "Venda de Tokens",
+        "preSaleTitle": "Pré-Venda Inicial",
+        "head": {
+            "description": "Participe da venda de tokens LikeCoin, recompense conteúdos através de prova de criatividade",
+            "fromDescription": "Participe da venda de tokens LikeCoin com meu código de indicação e receba um bônus extra de 2,5%"
+        },
         "label": {
             "prepareToJoin": "Prepare-se para Participar da Venda de Tokens",
             "publicSaleStartIn": "A venda pública começa em:",
+            "publicSaleEndIn": "A Venda de Tokens termina em:",
+            "preSaleEndIn": "O bônus de 25% termina em:",
+            "preSaleBonus": "Bônus de 25%",
+            "preSaleBonusCondition": "para 10 ETH e acima",
+            "joinPreSale": "Participe da Pré-Venda Inicial Agora",
             "token": "Token",
             "exchangeRate": "Taxa de Câmbio",
             "supply": "Suprimento",
             "preSaleDescription0": "Você está comprando {base} LikeCoin + {bonus} de bônus.",
             "preSaleDescription1": "O LikeCoin será enviado para sua carteira quando a venda pública começar.",
             "whatIsETH": "O que é ETH?",
-            "bonusAndLimitedOffer": "Bônus de 25%, Oferta por Tempo Limitado",
+            "bonusAndLimitedOffer": "25% de bônus, Oferta de Tempo Limitado",
             "limitedOfferCondition": "para compra de 10 ETH e acima",
             "amountLikeToPurhcase": "Quantidade de LIKE para Comprar",
             "tokensaleBadAmount": "Quantidade inválida, mínimo de 0,1 ETH e máximo de 1.000 ETH",
             "bonus": "Bônus",
             "bonusLockUp": "O LikeCoin de bônus ficará bloqueado na sua carteira e não poderá ser transferido por 6 meses.",
             "amountWillBeSentWhenSalesStart": "Os LikeCoins comprados e de bônus serão enviados para sua carteira quando a venda pública de tokens começar, com data prevista para 23 de Abril de 2018. O LikeCoin de bônus ficará bloqueado na sua carteira e não poderá ser transferido por 6 meses.",
-            "whatIsEthLink": "https://help.like.co/likecoin-faq/what-is-eth"
+            "whatIsEthLink": "https://help.like.co/likecoin-faq/what-is-eth",
+			"joinTokenSaleNow": "Participar da Venda de Tokens Agora",
+			"likeAmountWillGet": "Você receberá <span class=\"bold\">{amount}</span> LIKE"
         },
         "button": {
             "aboutLikeCoin": "Sobre o LikeCoin",
@@ -730,7 +778,7 @@
         "title": "Apoie o movimento",
         "label": {
             "tagline": "Compre nossos livros.",
-            "description": "O protocolo LikeCoin é um movimento para redistribuir a receita gerada por conteúdo licenciado sob a Creative Commons. O nosso conteúdo pode ser usado gratuitamente e nossos códigos fonte são códigos abertos no <a href=\"https://github.com/likecoin\">Github</a>.<br/><br/><a href=\"http://sched.co/E6zv\">Nossa apresentação no Creative Commons Summit 2018</a>",
+            "description": "O protocolo LikeCoin é um movimento para redistribuir a receita gerada por conteúdos licenciados sob a Creative Commons. Os nossos conteúdos podem ser usados gratuitamente e nossos códigos fonte são códigos abertos no <a href=\"https://github.com/likecoin\">Github</a>.<br/><br/><a href=\"http://sched.co/E6zv\">Nossa apresentação no Creative Commons Summit 2018</a>",
             "notRegistered": "Crie um ID LikeCoin e participe do movimento"
         },
         "button": {
@@ -744,11 +792,52 @@
             }
         }
     },
+    "BonusPage": {
+        "title": "Bônus de LikeCoin",
+        "header": {
+            "likeCoinBonus": "Bônus de LikeCoin",
+            "inviteeMission": "Missão de Convidado"
+        },
+        "label": {
+            "description": "Você e seu amigo podem receber um bônus de LikeCoin se o seu amigo conseguir se inscrever usando o seu link de afiliado. Lembre-se que o endereço e-mail precisa ser verificado para que você e o seu amigo tenham direito ao bônus.",
+            "inviteeMissionDescription": "Você e os seus convidados podem receber LikeCoin por cada missão concluída",
+            "earned": "Você recebeu",
+            "likeBonus": "Bônus LIKE"
+        },
+        "button": {
+            "moreBonus": "Mais Bônus"
+        },
+        "HistoryTab": {
+            "title": "Histórico de Bônus",
+            "header": {
+                "completedBonus": "Bônus Concluído"
+            },
+            "label": {
+                "emptyHistoryPlaceholder": "O bônus concluído será mostrado aqui."
+            }
+        }
+    },
     "KYC": {
         "label": {
+            "kyc": "Verificação de ID",
+            "kycNeeded": "A Verificação de ID é necessária para participar da venda de tokens LikeCoin",
+            "advKycNeeded": "A Verificação de ID Avançada é necessária para compras de grande valor",
             "advKycPending": "Sua Verificação de ID Avançada ainda está PENDENTE. Entre em contato conosco na Intercom se isso demorar mais de 5 dias úteis",
-            "isPurchaseExceedAmount": "Você irá comprar mais de {amount} ETH?",
-            "firstName": "Nome (como está no seu passaporte)",
+            "emailVerify": "Forneça e verifique seu e-mail.",
+            "createID": "Crie um ID LikeCoin para enviar e receber LikeCoin, e participe da venda de tokens.",
+            "verifyToPurchase": "Verifique suas informações para comprar LikeCoin quando a venda pública estiver aberta.",
+            "emailVerification": "Verificação de E-mail",
+            "accountVerification": "Verificação de Conta",
+            "advancedVerification": "Verificação Avançada",
+            "verifyEmailPlaceholder": "Verifique seu e-mail",
+            "checkEmail": "E-mail enviado. Verifique por favor",
+            "emailVerified": "E-mail Verificado",
+            "proceedToAccountVerification": "Continuar para verificação de conta",
+            "isPrcCitizen": "Você é um cidadão da RPC?",
+            "isUsaCitizen": "Você é um cidadão dos EUA?",
+            "isUsaAccredited": "Você é um investidor credenciado nos EUA?",
+            "isPurchaseExceedAmount": "Você deseja comprar mais de {amount} ETH?",
+            "firstName": "Primeiro Nome (como está no seu passaporte)",
             "lastName": "Sobrenome (como está no seu passaporte)",
             "country": "País de residência",
             "nationality": "Nacionalidade",
@@ -758,35 +847,17 @@
             "recentSelfie": "Selfie com o rosto na vertical (limite de 2MB)*",
             "canPurchaseLessThanAmount": "Você pode comprar menos de {amount} ETH",
             "canPurchaseMoreThanAmount": "Você pode comprar mais de {amount} ETH",
-            "advancedVerificationInProgress": "Você pode comprar menos de {amount} ETH. Depois que a verificação avançada for aprovada, você poderá comprar mais.",
-            "verifyToPurchaseOverAmount": "Verifique sua identidade para comprar mais de {amount} ETH",
-            "kyc": "Verificação de ID",
-            "kycNeeded": "A verificação de ID é necessária para participar da venda de tokens LikeCoin",
-            "advKycNeeded": "A verificação de ID avançada é necessária para compras em grandes valores",
-            "emailVerify": "Forneça e verifique seu e-mail.",
-            "createID": "Crie um ID LikeCoin para enviar e receber LikeCoin e participar da venda de tokens.",
-            "verifyToPurchase": "Verifique suas informações para comprar LikeCoin quando a venda pública estiver aberta.",
-            "emailVerification": "Verificação de E-mail",
-            "accountVerification": "Verificação de Conta",
-            "advancedVerification": "Verificação Avançada",
-            "verifyEmailPlaceholder": "Verificar seu e-mail",
-            "checkEmail": "E-mail enviado, consulte sua caixa de entrada",
-            "emailVerified": "E-mail Verificado",
-            "proceedToAccountVerification": "Continuar para verificação de conta",
-            "isPrcCitizen": "Você é cidadão da RPC?",
-            "isUsaCitizen": "Você é cidadão dos EUA?",
-            "isUsaAccredited": "Você é um investidor credenciado nos EUA?",
-            "passportName": "Nome (como está no seu passaporte)",
-            "addressProof": "Comprovação de Endereço (em 3 meses) *",
+            "advancedVerificationInProgress": "Você pode comprar menos de {amount} EHT. Depois que a verificação avançada for aprovada, você poderá comprar mais.",
             "purchaseMore": "Eu quero comprar mais que isso.",
             "accountVeritifed": "Conta Verificada",
             "canPurchaseWhenPublicSale": "Quando a venda pública for aberta, você poderá comprar LikeCoin aqui.",
+            "verifyToPurchaseOverAmount": "Verifique sua identidade para comprar mais de {amount} ETH",
             "waitingConfirmation": "Aguardando confirmação.",
-            "timeWaitForAccountVerification": "Isso irá demorar cerca de 2 minutos…",
-            "timeWaitForAdvancedVerification": "Isso irá demorar cerca de 5 dias úteis…",
+            "timeWaitForAccountVerification": "Isso vai demorar cerca de 2 minutos…",
+            "timeWaitForAdvancedVerification": "Isso vai demorar cerca de 5 dias úteis…",
             "contactUs": "Entre em contato conosco usando o balão de diálogo no canto direito inferior para obter ajuda.",
             "contactThroughIntercom": "Entre em contato conosco aqui na Intercom.",
-            "preSaleBonusDescription": "Bônus de 25% para compra de 10 ETH e acima"
+            "preSaleBonusDescription": "25% de bônus para compra de 10 ETH e acima"
         },
         "button": {
             "createID": "Criar ID LikeCoin",
@@ -820,12 +891,13 @@
             "earlybird": "Acesso Antecipado",
             "earlyBeliever": "Investidor Inicial",
             "timePending": "Pendente...",
-            "timeExpired": "Expirado",
+            "timeExpired": "Expirou",
             "coupon": "Cupom",
             "noRecord": "Nenhum registro encontrado.",
             "to": "Para",
             "from": "De",
-            "unknown": "Desconhecido"
+            "unknown": "Desconhecido",
+            "lockUntilDate": "Bloquear até {date}"
         },
         "button": {
             "view": "exibir",
@@ -835,6 +907,62 @@
     "Error": {
         "button": {
             "toIndex": "Retornar ao Índice"
+        },
+        "EMAIL_ALREADY_USED": "O e-mail já está sendo usado",
+        "REFERRER_NOT_EXIST": "O Indicador não existe.",
+        "USER_ALREADY_EXIST": "O usuário já existe"
+    },
+    "Mission": {
+        "gettingStart": {
+            "title": "Introdução",
+            "description": "Seja bem-vindo ao movimento. O objetivo do LikeCoin é reinventar a Curtida conjugando criatividade e recompensa. No site <a href=\"https://like.co\">like.co</a>, você poderá não só comprar e vender LikeCoin, como também receber LikeCoin participando do ecossistema LIKE. <span class=\"bold\">Consulte a página de pagamento do seu ID Like, assista ao vídeo de introdução e junte-se ao nosso grupo de telegrama para receber 3 LikeCoins!</span>",
+            "taskSocial": "Siga @likecoin_fdn no Twitter",
+            "taskOnepager": "Veja o nosso sumário",
+            "taskVideo": "Assista ao vídeo de introdução",
+            "taskPaymentPage": "Veja a sua página de pagamento"
+        },
+        "inviteFriend": {
+            "title": "Convide um amigo para se juntar ao LikeCoin",
+            "description": "Convide um amigo (ou amigos) para se juntar a nós, 8 LIKE para você e para os seus amigos."
+        },
+        "joinTokenSale": {
+            "title": "Participe da Venda de Tokens",
+            "description": "Participe da venda de tokens agora e obtenha um bônus de 100 LIKE",
+            "subDescription": "E não se esqueça do bônus de indicação - ele pode ser enorme! Sempre que você participa da venda de tokens, você e o seu indicador recebem um bônus de token adicional de 2,5% também, SEM LIMITE MÁXIMO!"
+        },
+        "refereeTokenSale": {
+            "title": "@:Mission.joinTokenSale.title",
+            "description": "E não se esqueça do bônus de indicação - ele pode ser enorme! Sempre que você participa da venda de tokens, você e o seu indicador recebem um bônus de token adicional de 2,5% também, SEM LIMITE MÁXIMO!"
+        },
+        "inviteTokenSale": {
+            "title": "Convide um amigo para participar da Venda de Tokens",
+            "description": "Sempre que alguém que você convidou participa da venda de tokens, vocês dois recebem um bônus de LIKE de 2,5%, SEM LIMITE MÁXIMO!"
+        },
+        "verifyEmail": {
+            "title": "Verifique seu endereço de e-mail",
+            "description": "Verifique seu endereço de e-mail para obter um bônus de LikeCoin grátis",
+            "label": {
+                "yourEmailAddress": "Seu endereço de e-mail"
+            }
+        },
+        "verifyEmailReferral": {
+            "title": "@:Mission.verifyEmail.title",
+            "description": "Requer <span class=\"bold\">{invitee}</span> para verificar o e-mail.<br><br>Mais uma etapa e você e <span class=\"bold\">{invitee}</span> receberão um bônus de 8 LIKE."
+        },
+        "joinTokenSaleReferral": {
+            "title": "@:Mission.joinTokenSale.title",
+            "description": "Sempre que <span class=\"bold\">{invitee}</span> participar da venda de tokens, vocês dois receberão um bônus de LIKE de 2,5%. SEM LIMITE MÁXIMO."
+        },
+        "completedBanner": {
+            "label": {
+                "completed": "Concluído!",
+                "bonusTransferShortly": "O bônus de LikeCoin será transferido para você em breve."
+            }
+        },
+        "common": {
+            "label": {
+                "upcomingDate": "<span class=\"bold\">A venda pública de LikeCoin começará em {upcoming}.</span>"
+            }
         }
     }
 }

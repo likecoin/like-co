@@ -746,6 +746,7 @@
         "label": {
             "prepareToJoin": "トークン販売参加の準備をしましょう",
             "publicSaleStartIn": "一般販売開始まで:",
+            "publicSaleEndIn": "トークン販売終了まで:",
             "preSaleEndIn": "25%ボーナス終了時まで:",
             "preSaleBonus": "25%ボーナス",
             "preSaleBonusCondition": "10ETH 以上",
@@ -763,7 +764,9 @@
             "bonus": "ボーナス",
             "bonusLockUp": "ボーナスのLikeCoinはウォレットにロックアップされ、6か月間は移管できません。",
             "amountWillBeSentWhenSalesStart": "購入済みおよびボーナスのLikeCoinはトークン一般販売開始時（2018年4月23日予定）にご利用のウォレットに送金されます。ボーナスのLikeCoinはウォレット内にロックアップされ、6ヶ月間は移管できません。",
-            "whatIsEthLink": "https://help.like.co/likecoin-faq/what-is-eth"
+            "whatIsEthLink": "https://help.like.co/likecoin-faq/what-is-eth",
+			"joinTokenSaleNow": "トークンセールに今すぐ参加する",
+			"likeAmountWillGet": "<span class=\"bold\">{amount}</span>件の「いいね」を獲得できます"
         },
         "button": {
             "aboutLikeCoin": "LikeCoinについて",

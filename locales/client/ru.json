@@ -746,6 +746,7 @@
         "label": {
             "prepareToJoin": "Приготовьтесь к участию в продаже токенов",
             "publicSaleStartIn": "Публичная продажа начинается через:",
+            "publicSaleEndIn": "Продажа токенов завершится через:",
             "preSaleEndIn": "Бонус 25% предлагается до:",
             "preSaleBonus": "Бонус 25%",
             "preSaleBonusCondition": "за 10ETH и более",
@@ -763,7 +764,9 @@
             "bonus": "Бонус",
             "bonusLockUp": "Бонусные LikeCoin будут заблокированы в вашем кошельке, их нельзя будет перевести в течение 6 месяцев.",
             "amountWillBeSentWhenSalesStart": "Купленные и бонусные LikeCoin будут отправлены в ваш кошелек при начале публичной продажи, запланированной на 23 апреля 2018 г. Бонусные LikeCoin будут заблокированы в вашем кошельке, их нельзя будет перевести в течение 6 месяцев.",
-            "whatIsEthLink": "https://help.like.co/likecoin-faq/what-is-eth"
+            "whatIsEthLink": "https://help.like.co/likecoin-faq/what-is-eth",
+			"joinTokenSaleNow": "Примите участие в продаже токенов",
+			"likeAmountWillGet": "Вы получите <span class=\"bold\">{amount}</span> LIKE"
         },
         "button": {
             "aboutLikeCoin": "Сведения о LikeCoin",
