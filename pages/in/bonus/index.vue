@@ -1,29 +1,41 @@
 <template>
-  <div id="earn" class="bonus-tab">
+  <div class="bonus-tab">
 
-    <!-- BEGIN - LikeCoin Bonus Amount Section -->
-    <div class="lc-container-0">
+    <section class="lc-container-0">
       <div class="lc-container-1">
         <div class="lc-container-2">
           <div class="lc-container-3">
+            <div class="lc-container-4 lc-width-2-3 lc-margin-top-32 lc-padding-vertical-8 lc-font-size-18 lc-color-like-gray-4 lc-mobile">
+              {{ $t('BonusPage.label.description') }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BEGIN - LikeCoin Bonus Amount Section -->
+    <section id="earn" class="lc-container-0">
+      <div class="lc-container-1">
+        <div class="lc-container-2">
+
+          <div class="lc-container-3">
             <div class="lc-container-4">
-              <div class="lc-width-2-3 lc-margin-top-32 lc-padding-vertical-8 lc-font-size-18 lc-color-like-gray-4 lc-mobile">
-                {{ $t('BonusPage.label.description') }}
-              </div>
-              <h2 class="lc-margin-vertical-16 lc-font-size-14 lc-font-weight-400 lc-text-align-center-mobile">
+              <h2 class="lc-padding-vertical-16 lc-font-size-14 lc-font-weight-400 lc-text-align-center-mobile">
                 {{ $t('BonusPage.label.earned') }}
               </h2>
             </div>
           </div>
+
           <div class="earned-bonus-amount-section lc-container-3">
             <div class="lc-container-4">
               <span class="like-bonus-amount">{{ likeBonusAmountStr }}</span>
               <span class="like-bonus-label">{{ $t('BonusPage.label.likeBonus') }}</span>
             </div>
           </div>
+
         </div>
       </div>
-    </div>
+    </section>
     <!-- END - LikeCoin Bonus Amount Section -->
 
     <!-- BEGIN - Mission Section -->
