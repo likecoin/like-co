@@ -31,6 +31,13 @@ export default {
   },
   asyncData({ query, store, redirect }) {
     if (store.getters.getUserIsRegistered) {
+      if (query.ref) {
+        const newQuery = Object.assign({}, query);
+        delete newQuery.ref;
+        if (newQuery.from) delete newQuery.from;
+        redirect({ name: query.ref, query: newQuery });
+        return {};
+      }
       redirect({ name: 'in' });
       return {};
     }
