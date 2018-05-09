@@ -47,16 +47,17 @@ export default {
       const opt = { LikeCoin: true };
       if (user) opt.user_id = user;
       if (displayName) opt.name = displayName;
-      if (email) opt.email = email;
+      if (email && email !== 'verified') opt.email = email;
       if (language) opt.language = language;
       this.$intercom.boot(opt);
     }
     if (this.$raven) {
-      this.$raven.setUserContext({
+      const opt = {
         id: user,
         username: displayName,
-        email,
-      });
+      };
+      if (email && email !== 'verified') opt.email = email;
+      this.$raven.setUserContext(opt);
     }
   },
   watch: {
@@ -71,16 +72,17 @@ export default {
         const opt = { LikeCoin: true };
         if (user) opt.user_id = user;
         if (displayName) opt.name = displayName;
-        if (email) opt.email = email;
+        if (email && email !== 'verified') opt.email = email;
         if (wallet) opt.wallet = wallet;
         this.$intercom.update(opt);
       }
       if (this.$raven) {
-        this.$raven.setUserContext({
+        const opt = {
           id: user,
           username: displayName,
-          email,
-        });
+        };
+        if (email && email !== 'verified') opt.email = email;
+        this.$raven.setUserContext(opt);
       }
     },
     getCurrentLocale(language) {
