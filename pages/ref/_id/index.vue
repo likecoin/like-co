@@ -54,6 +54,7 @@
 
 
 <script>
+import { mapGetters } from 'vuex';
 import * as api from '@/util/api/api';
 
 import NarrowPageHeader from '~/components/header/NarrowPageHeader';
@@ -76,6 +77,10 @@ export default {
     referrerId() {
       return this.$route.params.id;
     },
+    ...mapGetters([
+      'getUserIsFetching',
+      'getUserIsRegistered',
+    ]),
   },
   methods: {
     onClickCreateLikeCoinIdButton() {
@@ -128,6 +133,22 @@ export default {
         },
       ],
     };
+  },
+  watch: {
+    getUserIsFetching(f) {
+      if (!f) {
+        if (this.getUserIsRegistered) {
+          this.$router.push({ name: 'in-tokensale' });
+        }
+      }
+    },
+  },
+  mounted() {
+    if (!this.getUserIsFetching) {
+      if (this.getUserIsRegistered) {
+        this.$router.push({ name: 'in-tokensale' });
+      }
+    }
   },
 };
 </script>
