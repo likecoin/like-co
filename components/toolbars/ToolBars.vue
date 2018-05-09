@@ -70,7 +70,7 @@
 
       <md-snackbar
         v-if="getInfoMsg"
-        :md-position="center" :md-active="getInfoMsg" md-persistent >
+        md-position="center" :md-active="!!getInfoMsg" md-persistent >
         <span v-if="getInfoIsError">
           {{ $i18n.te(`Error.${getInfoMsg}`) ? $t(`Error.${getInfoMsg}`) : getInfoMsg }}
         </span>
