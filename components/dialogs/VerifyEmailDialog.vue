@@ -40,6 +40,9 @@ export default {
     emailRef: {
       default: '',
     },
+    email: {
+      default: '',
+    },
   },
   components: {
     BaseDialog,
