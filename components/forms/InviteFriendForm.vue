@@ -138,10 +138,10 @@ export default {
           action_type: 'og.shares',
           action_properties: JSON.stringify({
             object: {
-              'og:url': this.shareUrl,
+              'og:url': this.shareURL,
               'og:title': this.$t('Edit.referral.ogTitle'),
               'og:description': this.$t('Edit.referral.ogDescription', { name: this.getUserInfo.displayName }),
-              'og:image': 'https://like.co/logo.png',
+              'og:image': 'https://like.co/images/og/tokensale.jpg',
             },
           }),
         });
