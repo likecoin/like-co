@@ -217,8 +217,8 @@ export default {
       needExtraKYC: false,
       id: 'tokensale',
       displayName: 'LikeCoin TokenSale',
-      displayAmount: this.$route.params.amount || '0.00',
-      amount: this.$route.params.amount || '0.00',
+      displayAmount: this.$route.params.amount || '1.50',
+      amount: this.$route.params.amount || '1.50',
       likeBase: '0',
       popupMessage: '',
     };
@@ -469,6 +469,7 @@ export default {
     },
   },
   mounted() {
+    this.handleAmountChange(this.amount);
     if (!this.getUserIsFetching) this.checkStatus();
   },
 };
