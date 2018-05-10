@@ -1,7 +1,7 @@
 <template>
   <div class="overview-page">
 
-    <cta-section
+    <cta-section v-if="!getIsTokenSaleEnded()"
       class="lc-margin-top-8"
       :isShowFooter="false"
       :isShowSupportButton="false" />
@@ -145,6 +145,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import { getIsTokenSaleEnded } from '@/util/helperFn';
 
 import CTASection from '~/components/home/CTASection';
 import LikeCoinAmount from '~/components/LikeCoinAmount';
@@ -210,6 +211,7 @@ export default {
       'refreshMissionList',
       'onMissionClick',
     ]),
+    getIsTokenSaleEnded,
     refreshMissions() {
       this.refreshMissionList(this.getUserInfo.user);
     },
