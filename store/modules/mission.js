@@ -141,14 +141,14 @@ const mutations = {
   },
   [MISSION_END_FETCHING_MISSION_LIST](state) {
     state.isFetching = false;
-    if (!state.isFetched) state.isFetched = true;
+    state.isFetched = true;
   },
   [MISSION_START_FETCHING_MISSION_HISTORY_LIST](state) {
     state.isFetchingMissionHistory = true;
   },
   [MISSION_END_FETCHING_MISSION_HISTORY_LIST](state) {
     state.isFetchingMissionHistory = false;
-    if (!state.isFetchedMissionHistory) state.isFetchedMissionHistory = true;
+    state.isFetchedMissionHistory = true;
   },
 };
 
