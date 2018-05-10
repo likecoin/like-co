@@ -58,6 +58,7 @@
         class="likecoin-amount-section"
         :value="likeCoinValueStr"
         :isOpaque="isEditing"
+        :linkText="getAmountText"
         :linkHref="!isEditing ? getAmountHref : ''"
         @onTextClick="getAmountAction" />
 
@@ -176,6 +177,7 @@ import BigNumber from 'bignumber.js';
 import EthHelper from '@/util/EthHelper';
 import User from '@/util/User';
 import { logTrackerEvent } from '@/util/EventLogger';
+import { getIsTokenSaleEnded } from '@/util/helperFn';
 
 import { ONE_LIKE, W3C_EMAIL_REGEX } from '@/constant';
 
@@ -231,7 +233,7 @@ export default {
       return '';
     },
     getAmountText() {
-      return this.$t('Edit.button.buyCoin');
+      return getIsTokenSaleEnded() ? this.$t('Edit.button.buyCoin') : '';
     },
   },
   methods: {
