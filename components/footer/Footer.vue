@@ -81,7 +81,7 @@ export default {
         this.$intercom.update({ ETH });
       }
     },
-    getUserInfo(e) {
+    async getUserInfo(e) {
       const {
         user,
         displayName,
