@@ -134,16 +134,8 @@ export default {
     onShareFacebook() {
       if (window.FB && window.FB.ui) {
         window.FB.ui({
-          method: 'share_open_graph',
-          action_type: 'og.shares',
-          action_properties: JSON.stringify({
-            object: {
-              'og:url': this.shareURL,
-              'og:title': this.$t('Edit.referral.ogTitle'),
-              'og:description': this.$t('Edit.referral.ogDescription', { name: this.getUserInfo.displayName }),
-              'og:image': 'https://like.co/images/og/tokensale.jpg',
-            },
-          }),
+          method: 'share',
+          href: this.shareURL,
         });
         this.onInvite('facebook');
       }
