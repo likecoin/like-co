@@ -93,7 +93,11 @@ export default {
         if (user) opt.user_id = user;
         if (displayName) opt.name = displayName;
         if (email && email !== 'verified') opt.email = email;
-        if (wallet) opt.wallet = wallet;
+        if (wallet) {
+          opt.wallet = wallet;
+          const amount = await EthHelper.queryEthBalance(wallet);
+          opt.ETH = new BigNumber(amount).dividedBy(ONE_LIKE).toFixed(4);
+        }
         this.$intercom.update(opt);
       }
       if (this.$raven) {
