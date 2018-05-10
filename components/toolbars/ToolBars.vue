@@ -204,4 +204,12 @@ export default {
     height: 20px;
   }
 }
+
+.md-snackbar {
+  background-color: $like-green;
+
+  :global(.md-icon) {
+    color: $like-white;
+  }
+}
 </style>
