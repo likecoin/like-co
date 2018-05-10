@@ -8,7 +8,7 @@
 
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'bonus-page',
@@ -44,27 +44,13 @@ export default {
     ...mapGetters([
       'getUserIsFetching',
       'getUserIsRegistered',
-      'getUserInfo',
     ]),
-  },
-  methods: {
-    ...mapActions([
-      'refreshMissionList',
-    ]),
-    async updateInfo() {
-      this.updateMission();
-    },
-    async updateMission() {
-      this.refreshMissionList(this.getUserInfo.user);
-    },
   },
   watch: {
     getUserIsFetching(f) {
       if (!f) {
         if (!this.getUserIsRegistered) {
           this.$router.push({ name: 'in-register', query: this.$route.query });
-        } else {
-          this.updateInfo();
         }
       }
     },
@@ -73,8 +59,6 @@ export default {
     if (!this.getUserIsFetching) {
       if (!this.getUserIsRegistered) {
         this.$router.push({ name: 'in-register', query: this.$route.query });
-      } else {
-        this.updateInfo();
       }
     }
   },

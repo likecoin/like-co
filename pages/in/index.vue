@@ -1,13 +1,12 @@
 <template>
   <div class="overview-page">
 
-    <div class="cta-wrapper lc-margin-top-8">
-      <cta-section
-        :isShowFooter="false"
-        :isShowSupportButton="false" />
-      </div>
+    <cta-section
+      class="lc-margin-top-8"
+      :isShowFooter="false"
+      :isShowSupportButton="false" />
 
-    <div class="bonus-container lc-margin-top-48">
+    <div class="bonus-container lc-container-0 lc-margin-top-48">
       <section class="lc-container-1">
         <div class="lc-container-header">
           <div class="lc-container-2 lc-container-header-overlay">
@@ -20,6 +19,13 @@
                   <h1 class="lc-font-size-32 lc-mobile">
                     {{ $t('BonusPage.title') }}
                   </h1>
+                  <div
+                    v-if="getIsFetchedMissions"
+                    class="lc-container-header-button-wrapper lc-mobile-hide">
+                    <refresh-button
+                      :is-refreshing="getIsFetchingMissions"
+                      @click="refreshMissions" />
+                  </div>
                 </div>
                 <md-button
                   class="md-likecoin lc-container-header-button"
@@ -37,6 +43,7 @@
             <mission-list
               :missions="getShortMissionList"
               :is-grid="false"
+              :is-loading="getIsFetchingMissions || !getIsFetchedMissions"
               @click="onMissionClick"/>
           </div>
 
@@ -56,8 +63,7 @@
       </section>
     </div>
 
-
-    <div id="coupon" class="lc-margin-top-48 lc-mobile">
+    <div id="coupon" class="lc-container-0 lc-margin-top-48 lc-mobile">
       <section class="lc-container-1">
 
         <div class="lc-container-header">
@@ -112,37 +118,28 @@
         :wallet="wallet" />
     </div>
 
+    <transaction-history
+      ref="txHistory"
+      id="transaction"
+      class="lc-margin-top-48 lc-mobile"
+      :address="wallet"
+      :is-fetching.sync="isFetchingTranscationHistory" />
 
-    <div class="lc-margin-top-48 lc-mobile">
-      <section class="lc-container-1">
-        <div class="lc-container-header">
-          <div class="lc-container-2 lc-container-header-overlay">
-            <div class="lc-container-3 lc-bg-gray-1" />
-          </div>
-          <div class="lc-container-2">
-            <div class="lc-container-3">
-              <div class="lc-container-4">
-                <div class="lc-container-header-title">
-                  <h1 class="lc-font-size-32 lc-mobile">
-                    {{ $t('TransactionHistory.title') }}
-                  </h1>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
+    <div class="lc-container-0 lc-margin-top-24 lc-mobile-show">
+      <div class="lc-container-1">
         <div class="lc-container-2">
-          <transaction-history
-            ref="txHistory"
-            :address="wallet"
-            :showTokensale="true"
-            />
+          <div class="lc-container-3 lc-flex lc-justify-content-center">
+            <refresh-button
+              :is-refreshing="getIsFetchingMissions || isFetchingTranscationHistory"
+              :is-outline="true"
+              @click="updateInfo" />
+          </div>
         </div>
-      </section>
+      </div>
     </div>
 
     <view-etherscan :address="wallet" />
+
   </div>
 </template>
 
@@ -156,6 +153,7 @@ import MissionList from '@/components/Mission/List';
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import InputDialog from '~/components/dialogs/InputDialog';
 import TransactionHistory from '~/components/TransactionHistory';
+import RefreshButton from '~/components/RefreshButton';
 import ViewEtherscan from '~/components/ViewEtherscan';
 
 import EditIcon from '@/assets/icons/edit.svg';
@@ -173,6 +171,7 @@ export default {
       EditWhiteIcon,
       TickIcon,
       freeCoupon: '',
+      isFetchingTranscationHistory: false,
     };
   },
   components: {
@@ -183,6 +182,7 @@ export default {
     MaterialButton,
     MissionList,
     TransactionHistory,
+    RefreshButton,
     ViewEtherscan,
   },
   computed: {
@@ -191,6 +191,8 @@ export default {
       'getIsInTransaction',
       'getIsPopupBlocking',
       'getCurrentLocale',
+      'getIsFetchingMissions',
+      'getIsFetchedMissions',
       'getUserIsFetching',
       'getUserIsRegistered',
       'getShortMissionList',
@@ -208,11 +210,14 @@ export default {
       'refreshMissionList',
       'onMissionClick',
     ]),
-    async updateInfo() {
+    refreshMissions() {
+      this.refreshMissionList(this.getUserInfo.user);
+    },
+    updateInfo() {
       const user = this.getUserInfo;
       this.wallet = user.wallet;
       this.$refs.txHistory.updateTokenSaleHistory();
-      this.refreshMissionList(this.getUserInfo.user);
+      this.refreshMissions();
     },
     async onSubmitCoupon() {
       try {
