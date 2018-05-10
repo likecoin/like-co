@@ -17,7 +17,10 @@ import {
   MISSION_SET_MISSION_HISTORY_LIST,
   MISSION_SET_MISSION_BONUS_HISTORY,
   MISSION_CLEAR_ALL,
+  MISSION_START_FETCHING_MISSION_LIST,
+  MISSION_END_FETCHING_MISSION_LIST,
   MISSION_START_FETCHING_MISSION_HISTORY_LIST,
+  MISSION_END_FETCHING_MISSION_HISTORY_LIST,
 } from '../mutation-types';
 import * as actions from './actions/mission';
 import * as getters from './getters/mission';
@@ -29,7 +32,10 @@ const state = {
   historyMissions: [],
   historyBonus: {},
 
-  isHistoryMissionsFetched: false,
+  isFetched: false,
+  isFetching: false,
+  isFetchedMissionHistory: false,
+  isFetchingMissionHistory: false,
 };
 
 const mutations = {
@@ -102,7 +108,7 @@ const mutations = {
   },
   [MISSION_SET_MISSION_HISTORY_LIST](state, missions) {
     state.historyMissions = missions.map(m => ({ ...m, isHistory: true }));
-    state.isHistoryMissionsFetched = true;
+    state.isFetchedMissionHistory = true;
   },
   [MISSION_SET_MISSION_BONUS_HISTORY](state, bonus) {
     state.historyBonus = {};
@@ -125,10 +131,24 @@ const mutations = {
     state.proxyBonus = {};
     state.historyMissions = [];
     state.historyBonus = {};
-    state.isHistoryMissionsFetched = false;
+    state.isFetching = false;
+    state.isFetched = false;
+    state.isFetchingMissionHistory = false;
+    state.isFetchedMissionHistory = false;
+  },
+  [MISSION_START_FETCHING_MISSION_LIST](state) {
+    state.isFetching = true;
+  },
+  [MISSION_END_FETCHING_MISSION_LIST](state) {
+    state.isFetching = false;
+    if (!state.isFetched) state.isFetched = true;
   },
   [MISSION_START_FETCHING_MISSION_HISTORY_LIST](state) {
-    state.isHistoryMissionsFetched = false;
+    state.isFetchingMissionHistory = true;
+  },
+  [MISSION_END_FETCHING_MISSION_HISTORY_LIST](state) {
+    state.isFetchingMissionHistory = false;
+    if (!state.isFetchedMissionHistory) state.isFetchedMissionHistory = true;
   },
 };
 

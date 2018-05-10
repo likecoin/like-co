@@ -283,7 +283,7 @@ a,
     position: relative;
 
     margin: 0 64px 0;
-    padding: 2px 8px;
+    padding: 2px 48px;
 
     text-align: center;
 
@@ -327,6 +327,23 @@ a,
 
     > * {
       font-weight: 300;
+    }
+  }
+
+  &-button-wrapper {
+    position: absolute;
+    top: 50%;
+
+    margin: 0 8px;
+
+    transform: translateY(-50%);
+
+    &:last-child {
+      right: 0px;
+    }
+
+    &.first-child {
+      left: 0px;
     }
   }
 }
@@ -843,4 +860,11 @@ $font-weight-list: 300 400 600;
 span.bold {
   @extend .lc-color-like-green;
   @extend .lc-font-weight-600;
+}
+
+
+.simple-svg-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

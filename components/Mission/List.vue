@@ -28,26 +28,26 @@
         ]">
         <ul ref="list" @scroll="onLayout">
 
-          <li v-for="m in missions" :key="m.id">
+          <li
+            v-if="isEmptyList"
+            class="empty-list-placeholder">
+            <mission-item-placeholder :layout="layout" :animated="false" />
+            <span>{{ emptyPlaceholder }}</span>
+          </li>
+
+          <li
+            v-else-if="isLoading"
+            v-for="p in NUM_PLACEHOLDERS"
+            :key="`placeholder-${p}`">
+            <mission-item-placeholder :layout="layout"/>
+          </li>
+
+          <li v-for="m in missions" v-if="!isLoading" :key="m.id">
             <mission-item
               :layout="layout"
               :mission="m"
               :is-referral="isReferral"
               @click="onClick(m)" />
-          </li>
-
-          <li
-            v-for="p in NUM_PLACEHOLDERS"
-            v-if="isLoadingList"
-            :key="`placeholder-${p}`">
-            <mission-item-placeholder :layout="layout"/>
-          </li>
-
-          <li
-            v-if="isEmptyList && emptyPlaceholder"
-            class="empty-list-placeholder">
-            <mission-item-placeholder :layout="layout" :animated="false" />
-            <span>{{ emptyPlaceholder }}</span>
           </li>
 
         </ul>
@@ -56,10 +56,19 @@
       <swiper
         v-if="isSwippable"
         class="lc-mobile-show"
-        :is-loading="missions.length <= 0"
+        :is-loading="isLoading"
         @click="onClickSlide">
 
         <div
+          v-for="p in NUM_PLACEHOLDERS"
+          v-if="isLoading"
+          :key="`placeholder-${p}`"
+          class="swiper-slide">
+          <mission-item-placeholder layout="large"/>
+        </div>
+
+        <div
+          v-if="!isLoading"
           v-for="m in missions"
           :key="m.id"
           class="swiper-slide">
@@ -69,13 +78,6 @@
             :is-referral="isReferral" />
         </div>
 
-        <div
-          v-for="p in NUM_PLACEHOLDERS"
-          v-if="missions.length <= 0"
-          :key="`placeholder-${p}`"
-          class="swiper-slide">
-          <mission-item-placeholder layout="large"/>
-        </div>
       </swiper>
 
     </div>
@@ -110,7 +112,7 @@ export default {
     },
     isLoading: {
       type: Boolean,
-      default: null,
+      default: false,
     },
     isGrid: {
       type: Boolean,
@@ -147,9 +149,6 @@ export default {
   computed: {
     shouldShowScrollIndicator() {
       return this.layout !== 'small' && !this.isGrid;
-    },
-    isLoadingList() {
-      return this.missions.length <= 0 && (this.isLoading || this.isLoading === null);
     },
     isEmptyList() {
       return this.missions.length <= 0 && !this.isLoading;

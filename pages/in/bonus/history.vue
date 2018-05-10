@@ -16,6 +16,13 @@
                     <h1 class="lc-font-size-32 lc-mobile">
                       {{ $t('BonusPage.HistoryTab.header.completedBonus') }}
                     </h1>
+                    <div
+                      v-if="getIsFetchedMissionHistory"
+                      class="lc-container-header-button-wrapper lc-mobile-hide">
+                      <refresh-button
+                        :is-refreshing="getIsFetchingMissionHistory"
+                        @click="refreshHistory" />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -29,9 +36,16 @@
                   :missions="getMissionHistorylist"
                   :is-grid="true"
                   :is-swippable="false"
-                  :is-loading="!getIsHistoryMissionsFetched"
+                  :is-loading="getIsFetchingMissionHistory || !getIsFetchedMissionHistory"
                   :empty-placeholder="$t('BonusPage.HistoryTab.label.emptyHistoryPlaceholder')" />
               </div>
+            </div>
+
+            <div class="lc-container-3 lc-margin-top-24 lc-flex lc-justify-content-center lc-mobile-show">
+              <refresh-button
+                :is-refreshing="getIsFetchingMissionHistory"
+                :is-outline="true"
+                @click="refreshHistory" />
             </div>
           </div>
 
@@ -47,6 +61,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import MissionList from '@/components/Mission/List';
+import RefreshButton from '@/components/RefreshButton';
 
 export default {
   name: 'history-tab',
@@ -64,11 +79,7 @@ export default {
   },
   components: {
     MissionList,
-  },
-  data() {
-    return {
-      missions: [],
-    };
+    RefreshButton,
   },
   computed: {
     ...mapGetters([
@@ -76,19 +87,23 @@ export default {
       'getUserIsFetching',
       'getUserIsRegistered',
       'getMissionHistorylist',
-      'getIsHistoryMissionsFetched',
+      'getIsFetchedMissionHistory',
+      'getIsFetchingMissionHistory',
     ]),
   },
   methods: {
     ...mapActions([
       'refreshMissionHistoryList',
     ]),
+    refreshHistory() {
+      this.refreshMissionHistoryList(this.getUserInfo.user);
+    },
   },
   watch: {
     getUserIsFetching(f) {
       if (!f) {
         if (this.getUserIsRegistered) {
-          this.refreshMissionHistoryList(this.getUserInfo.user);
+          this.refreshHistory();
         }
       }
     },
@@ -96,7 +111,7 @@ export default {
   mounted() {
     if (!this.getUserIsFetching) {
       if (this.getUserIsRegistered) {
-        this.refreshMissionHistoryList(this.getUserInfo.user);
+        this.refreshHistory();
       }
     }
   },
