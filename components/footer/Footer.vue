@@ -17,8 +17,11 @@
   </footer>
 </template>
 <script>
+import BigNumber from 'bignumber.js';
+import EthHelper from '@/util/EthHelper';
+
 import { mapGetters } from 'vuex';
-import { ETHERSCAN_HOST } from '@/constant';
+import { ETHERSCAN_HOST, ONE_LIKE } from '@/constant';
 import { LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin';
 
 export default {
@@ -31,6 +34,7 @@ export default {
     ...mapGetters([
       'getUserInfo',
       'getCurrentLocale',
+      'getLocalWallet',
     ]),
     getAddress() {
       return `${ETHERSCAN_HOST}/address/${this.contractAddress}`;
@@ -42,6 +46,7 @@ export default {
       displayName,
       email,
     } = this.getUserInfo;
+    const wallet = this.getLocalWallet;
     if (this.$intercom) {
       const language = this.getCurrentLocale;
       const opt = { LikeCoin: true };
@@ -49,6 +54,14 @@ export default {
       if (displayName) opt.name = displayName;
       if (email && email !== 'verified') opt.email = email;
       if (language) opt.language = language;
+      if (wallet) {
+        opt.wallet = wallet;
+        EthHelper.queryEthBalance(wallet)
+          .then((amount) => {
+            const ETH = new BigNumber(amount).dividedBy(ONE_LIKE).toFixed(4);
+            this.$intercom.update({ ETH });
+          });
+      }
       this.$intercom.boot(opt);
     }
     if (this.$raven) {
@@ -61,6 +74,13 @@ export default {
     }
   },
   watch: {
+    async getLocalWallet(w) {
+      if (w && this.$intercom) {
+        const amount = await EthHelper.queryEthBalance(w);
+        const ETH = new BigNumber(amount).dividedBy(ONE_LIKE).toFixed(4);
+        this.$intercom.update({ ETH });
+      }
+    },
     getUserInfo(e) {
       const {
         user,
