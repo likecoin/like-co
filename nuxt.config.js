@@ -85,7 +85,7 @@ module.exports = {
           '*',
         ],
         'media-src': [
-          'https://js.intercomcdn.com',
+          'https://*.intercomcdn.com',
         ],
         'connect-src': [
           "'self'",
@@ -94,6 +94,7 @@ module.exports = {
           'https://api.like.co',
           'https://*.intercom.io',
           'wss://*.intercom.io',
+          'https://*.intercomcdn.com',
           'https://checkout.stripe.com',
           'https://*.typekit.net',
           'https://vimeo.com',
