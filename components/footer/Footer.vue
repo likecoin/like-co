@@ -59,7 +59,7 @@ export default {
         EthHelper.queryEthBalance(wallet)
           .then((amount) => {
             const ETH = new BigNumber(amount).dividedBy(ONE_LIKE).toFixed(4);
-            this.$intercom.update({ ETH });
+            this.$intercom.update({ ETH: Number(ETH) });
           });
       }
       this.$intercom.boot(opt);
@@ -74,13 +74,6 @@ export default {
     }
   },
   watch: {
-    async getLocalWallet(w) {
-      if (w && this.$intercom) {
-        const amount = await EthHelper.queryEthBalance(w);
-        const ETH = new BigNumber(amount).dividedBy(ONE_LIKE).toFixed(4);
-        this.$intercom.update({ ETH });
-      }
-    },
     async getUserInfo(e) {
       const {
         user,
@@ -96,7 +89,7 @@ export default {
         if (wallet) {
           opt.wallet = wallet;
           const amount = await EthHelper.queryEthBalance(wallet);
-          opt.ETH = new BigNumber(amount).dividedBy(ONE_LIKE).toFixed(4);
+          opt.ETH = Number(new BigNumber(amount).dividedBy(ONE_LIKE).toFixed(4));
         }
         this.$intercom.update(opt);
       }
