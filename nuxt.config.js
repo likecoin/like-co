@@ -68,6 +68,8 @@ module.exports = {
           'https://use.typekit.net',
         ],
         'font-src': [
+          "'self'",
+          'data:',
           'https://fonts.gstatic.com',
           'https://fonts.googleapis.com',
           'https://use.typekit.net',
@@ -99,12 +101,13 @@ module.exports = {
           'https://*.typekit.net',
           'https://vimeo.com',
           'https://*.infura.io',
+          'https://*.doubleclick.net',
           'https://www.google-analytics.com',
         ],
         'style-src': [
           "'self'",
           "'unsafe-inline'",
-          'http://fonts.googleapis.com',
+          'https://fonts.googleapis.com',
         ],
         'report-uri': [
           process.env.SENTRY_REPORT_URI,
