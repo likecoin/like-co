@@ -74,13 +74,6 @@ export default {
     }
   },
   watch: {
-    async getLocalWallet(w) {
-      if (w && this.$intercom) {
-        const amount = await EthHelper.queryEthBalance(w);
-        const ETH = new BigNumber(amount).dividedBy(ONE_LIKE).toFixed(4);
-        this.$intercom.update({ ETH: Number(ETH) });
-      }
-    },
     async getUserInfo(e) {
       const {
         user,
