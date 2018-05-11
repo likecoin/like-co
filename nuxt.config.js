@@ -69,6 +69,7 @@ module.exports = {
           'https://connect.facebook.net',
           'https://player.vimeo.com',
           'https://use.typekit.net',
+          'https://*.intercom.io',
         ],
         'font-src': [
           "'self'",
@@ -96,17 +97,8 @@ module.exports = {
         'connect-src': [
           "'self'",
           'data:',
-          'https://sentry.io',
-          'https://api.like.co',
-          'https://*.intercom.io',
+          '*',
           'wss://*.intercom.io',
-          'https://*.intercomcdn.com',
-          'https://checkout.stripe.com',
-          'https://*.typekit.net',
-          'https://vimeo.com',
-          'https://*.infura.io',
-          'https://*.doubleclick.net',
-          'https://www.google-analytics.com',
         ],
         'style-src': [
           "'self'",
