@@ -82,7 +82,7 @@ module.exports = {
         'frame-src': [
           'https://www.google.com/',
           'https://player.vimeo.com/',
-          'https://staticxx.facebook.com',
+          'https://*.facebook.com',
           'https://checkout.stripe.com/',
           'https://*.doubleclick.net',
         ],
