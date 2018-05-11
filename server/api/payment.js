@@ -41,29 +41,10 @@ router.post('/payment', async (req, res) => {
     }
     const balance = await LikeCoin.methods.balanceOf(from).call();
     if ((new BigNumber(balance)).lt(new BigNumber(value))) throw new Error('Not enough balance');
-    const methodCall = LikeCoin.methods.transferDelegated(
-      from,
-      to,
-      value,
-      maxReward,
-      maxReward,
-      nonce,
-      signature,
-    );
-    const txData = methodCall.encodeABI();
-    const {
-      tx,
-      txHash,
-      pendingCount,
-      delegatorAddress,
-    } = await sendTransactionWithLoop(
-      LIKECOIN.LIKE_COIN_ADDRESS,
-      txData,
-    );
-    res.json({ txHash });
     const fromQuery = dbRef.where('wallet', '==', from).get().then((snapshot) => {
       if (snapshot.docs.length > 0) {
         const fromUser = snapshot.docs[0].data();
+        if (fromUser.isBlackListed) throw new Error('ERROR_FROM_BAK');
         return {
           fromId: snapshot.docs[0].id,
           fromDisplayName: fromUser.displayName,
@@ -77,6 +58,7 @@ router.post('/payment', async (req, res) => {
     const toQuery = dbRef.where('wallet', '==', to).get().then((snapshot) => {
       if (snapshot.docs.length > 0) {
         const toUser = snapshot.docs[0].data();
+        if (toUser.isBlackListed) throw new Error('ERROR_TO_BAK');
         return {
           toId: snapshot.docs[0].id,
           toDisplayName: toUser.displayName,
@@ -102,6 +84,26 @@ router.post('/payment', async (req, res) => {
     },
     currentBlock,
     ] = await Promise.all([fromQuery, toQuery, web3.eth.getBlockNumber()]);
+    const methodCall = LikeCoin.methods.transferDelegated(
+      from,
+      to,
+      value,
+      maxReward,
+      maxReward,
+      nonce,
+      signature,
+    );
+    const txData = methodCall.encodeABI();
+    const {
+      tx,
+      txHash,
+      pendingCount,
+      delegatorAddress,
+    } = await sendTransactionWithLoop(
+      LIKECOIN.LIKE_COIN_ADDRESS,
+      txData,
+    );
+    res.json({ txHash });
     await logTransferDelegatedTx({
       txHash,
       from,
