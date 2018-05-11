@@ -12,7 +12,11 @@
       </li>
     </ul>
 
-    <swiper class="lc-mobile-show" :swiper-id="swiperId" @slideChange="onSlideChange">
+    <swiper
+      class="lc-mobile-show"
+      :swiper-id="swiperId"
+      :is-show-pagination="invitees && invitees.length > 1"
+      @slideChange="onSlideChange">
       <div class="swiper-slide" v-for="i in invitees" :key="i.id">
         <div class="lc-container-3">
           <div class="lc-container-4">

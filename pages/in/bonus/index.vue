@@ -82,7 +82,7 @@
 
           <!-- BEGIN - Invitee missions -->
           <div
-            v-if="!getIsFetchingMissions && getIsFetchedMissions && getReferralMissionList"
+            v-if="!getIsFetchingMissions && getIsFetchedMissions && getReferralMissionList && getReferralMissionList.length > 0"
             id="invitee-mission"
             class="lc-container-2 lc-margin-top-4">
 

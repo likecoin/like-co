@@ -277,7 +277,14 @@ export default {
   }
 
   .mission-icon {
-    display: inline-block;
+    width: 96px;
+    height: 96px;
+    margin: 16px auto 8px;
+
+    color: $like-green;
+  }
+  &.upcoming .mission-icon {
+    color: #9B9B9B;
   }
 
   .mission-action-button {
@@ -335,6 +342,10 @@ export default {
     left: -20px;
 
     transform: translateY(-50%);
+  }
+
+  .mission-icon {
+    display: none;
   }
 
   &.completed {
@@ -472,21 +483,6 @@ export default {
   .title-label,
   .reward-label {
     color: $like-gray-4 !important;
-  }
-}
-
-.mission-icon {
-  display: none;
-
-  width: 96px;
-  height: 96px;
-  margin-top: 16px;
-  margin-bottom: 8px;
-
-  color: $like-green;
-
-  .upcoming & {
-    color: #9b9b9b;
   }
 }
 
