@@ -17,7 +17,7 @@
                   v-if="isFetchedTx"
                   class="lc-container-header-button-wrapper lc-mobile-hide">
                   <refresh-button
-                    :is-refreshing="isFetchingTx"
+                    :is-refreshing="isEmptyList && isFetchingTx"
                     @click="updateTokenSaleHistory" />
                 </div>
               </div>
@@ -27,18 +27,22 @@
       </div>
 
       <div class="lc-container-2">
-        <!-- Progress Bar -->
+        <!-- Empty Placeholder -->
         <div
-          v-if="!isFetchedTx || isFetchingTx"
+          v-if="!isFetchingTx && isFetchedTx && isEmptyList"
           class="lc-container-3 lc-padding-vertical-64 lc-bg-gray-1">
-          <div class="lc-container-4">
-            <md-progress-bar md-mode="indeterminate" />
+          <div
+            class="lc-container-4">
+            <div class="lc-text-align-center">
+              {{ $t('TransactionHistory.label.noRecord') }}
+            </div>
           </div>
         </div>
+
         <!-- Transaction List -->
         <div
-          v-else-if="filteredHistory && filteredHistory.length"
-          class="lc-transaction-history lc-padding-top-32 lc-padding-bottom-48 lc-bg-gray-1">
+          v-else-if="!isEmptyList"
+          class="lc-transaction-history lc-padding-top-32 lc-bg-gray-1 lc-mobile">
           <md-table>
             <md-table-row>
               <md-table-head class="status-header">
@@ -109,20 +113,34 @@
               </md-table-cell>
             </md-table-row>
           </md-table>
-          <a class="lc-padding-top-16 show-more" v-if="hasMore" href="" @click.prevent="onShowMore">
-            {{ $t('TransactionHistory.button.showMore') }}
-          </a>
+
         </div>
-        <!-- Empty Placeholder -->
+
+        <!-- Progress Bar & More Button -->
         <div
-          v-else
-          class="lc-container-3 lc-padding-vertical-64 lc-bg-gray-1">
+          :class="[
+            'lc-container-3 lc-bg-gray-1 lc-mobile',
+            isEmptyList ? 'lc-padding-vertical-64' : 'lc-padding-bottom-32',
+          ]">
           <div class="lc-container-4">
-            <div class="lc-text-align-center">{{ $t('TransactionHistory.label.noRecord') }}</div>
+
+            <md-progress-bar v-if="isFetchingTx" md-mode="indeterminate" />
+
+            <div
+              v-else-if="hasMore"
+              class="lc-text-align-center lc-padding-top-4">
+              <a
+                class="lc-margin-top-16 show-more"
+                href=""
+                @click.prevent="onShowMore">
+                {{ $t('TransactionHistory.button.showMore') }}
+              </a>
+            </div>
+
           </div>
         </div>
-      </div>
 
+      </div>
     </div>
   </section>
 </template>
@@ -204,7 +222,7 @@ export default {
       ICOTotalCoin: 0,
       ICOTotalETH: 0,
       txHistory: [],
-      hasMore: true,
+      hasMore: false,
 
       isFetchedTx: this.isFetched,
       isFetchingTx: this.isFetching,
@@ -215,6 +233,9 @@ export default {
       return this.txHistory
         .filter(t => (t.type !== 'logRegisterKYC'))
         .filter(t => (t.type !== 'transferETH' || this.isTokensale(t)));
+    },
+    isEmptyList() {
+      return !(this.filteredHistory && this.filteredHistory.length);
     },
   },
   methods: {
@@ -267,6 +288,10 @@ export default {
       if (tx.status === 'timeout') return this.$t('TransactionHistory.label.timeExpired');
       return tx.completeTs ? formatUTCTimeToLocal(tx.completeTs) : '';
     },
+    setIsFetching(value = true) {
+      this.isFetchingTx = value;
+      this.$emit('update:isFetching', value);
+    },
     isFromPresale(tx) {
       return tx.from === LIKE_COIN_PRESALE_FROM_ADDRESS;
     },
@@ -286,16 +311,20 @@ export default {
       return tx.status === 'fail' || tx.status === 'timeout';
     },
     async onShowMore() {
+      this.setIsFetching();
       const data = await this.queryTxHistoryByAddr({
         addr: this.address,
         ts: (this.txHistory[this.txHistory.length - 1].ts - 1),
       });
       if (!data || !data.length || data.length < TRANSACTION_QUERY_LIMIT) this.hasMore = false;
       this.txHistory = this.txHistory.concat(data);
+      this.setIsFetching(false);
     },
     async updateTokenSaleHistory() {
-      this.isFetchingTx = true;
-      this.$emit('update:isFetching', this.isFetchingTx);
+      this.hasMore = false;
+      this.txHistory = [];
+      this.setIsFetching();
+
       try {
         const { coin, eth } = await EthHelper.getAddressPurchaseTotal(this.address);
         this.ICOTotalCoin = new BigNumber(coin).dividedBy(ONE_LIKE).toFixed(4);
@@ -303,15 +332,18 @@ export default {
         this.txHistory = await this.queryTxHistoryByAddr({ addr: this.address });
         this.isFetchedTx = true;
         this.$emit('update:isFetched', this.isFetchedTx);
-        if (!this.txHistory || !this.txHistory.length
-          || this.txHistory.length < TRANSACTION_QUERY_LIMIT) {
-          this.hasMore = false;
+        if (
+          this.txHistory
+          && this.txHistory.length
+          && this.txHistory.length >= TRANSACTION_QUERY_LIMIT
+        ) {
+          this.hasMore = true;
         }
       } catch (err) {
         console.error(err);
       }
-      this.isFetchingTx = false;
-      this.$emit('update:isFetching', this.isFetchingTx);
+
+      this.setIsFetching(false);
     },
   },
 };
@@ -320,6 +352,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "~assets/variables";
+@import "~assets/mixin";
 
 .lc-transaction-history {
   .md-table {
@@ -353,8 +386,11 @@ export default {
     }
 
     :global(.md-table-content) {
-      padding-left: 32px;
-      padding-right: 32px;
+      @include padding-x(40 + 8)
+
+      @media (max-width: 600px) {
+        @include padding-x(24 + 8)
+      }
     }
 
     .md-table-head {
