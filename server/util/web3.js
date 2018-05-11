@@ -1,5 +1,6 @@
 import { INFURA_HOST, PUBSUB_TOPIC_MISC } from '../../constant';
 import publisher from './gcloudPub';
+import { gasPrice } from './poller';
 
 const {
   db,
@@ -15,7 +16,6 @@ const accounts = require('@ServerConfig/accounts.js'); // eslint-disable-line im
 const {
   address,
   privateKey,
-  gasPrice,
   gasLimit,
 } = accounts[0];
 
