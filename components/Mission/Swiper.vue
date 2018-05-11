@@ -13,7 +13,13 @@
       <slot />
     </div>
 
-    <div class="swiper-navigations">
+    <div
+      :class="[
+        'swiper-navigations',
+        {
+          hidden: isLoading || !isShowPagination,
+        },
+      ]">
       <div class="swiper-pagination swiper-pagination-bullets" />
       <div class="swiper-button-next">
         <simple-svg
@@ -50,6 +56,10 @@ export default {
     isLoading: {
       type: Boolean,
       default: false,
+    },
+    isShowPagination: {
+      type: Boolean,
+      default: true,
     },
   },
   data() {
@@ -117,9 +127,8 @@ export default {
 
   transition: opacity .15s ease-in-out;
 
-  .loading & {
-    opacity: 0;
-    pointer-events: none;
+  &.hidden {
+    display: none;
   }
 }
 

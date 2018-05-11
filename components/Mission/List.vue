@@ -28,26 +28,27 @@
         ]">
         <ul ref="list" @scroll="onLayout">
 
-          <li v-for="m in missions" :key="m.id">
+          <li
+            v-if="isEmptyList && !isLoading"
+            class="item-placeholder empty">
+            <mission-item-placeholder :layout="layout" :animated="false" />
+            <span>{{ emptyPlaceholder }}</span>
+          </li>
+
+          <li
+            v-else-if="isLoading"
+            v-for="p in NUM_PLACEHOLDERS"
+            class="item-placeholder"
+            :key="`placeholder-${p}`">
+            <mission-item-placeholder :layout="layout"/>
+          </li>
+
+          <li v-for="m in missions" v-if="!isLoading" :key="m.id">
             <mission-item
               :layout="layout"
               :mission="m"
               :is-referral="isReferral"
               @click="onClick(m)" />
-          </li>
-
-          <li
-            v-for="p in NUM_PLACEHOLDERS"
-            v-if="isLoadingList"
-            :key="`placeholder-${p}`">
-            <mission-item-placeholder :layout="layout"/>
-          </li>
-
-          <li
-            v-if="isEmptyList && emptyPlaceholder"
-            class="empty-list-placeholder">
-            <mission-item-placeholder :layout="layout" :animated="false" />
-            <span>{{ emptyPlaceholder }}</span>
           </li>
 
         </ul>
@@ -56,10 +57,27 @@
       <swiper
         v-if="isSwippable"
         class="lc-mobile-show"
-        :is-loading="missions.length <= 0"
+        :is-loading="isLoading"
+        :is-show-pagination="this.missions.length > 1"
         @click="onClickSlide">
 
         <div
+          v-for="p in NUM_PLACEHOLDERS"
+          v-if="isLoading"
+          :key="`placeholder-${p}`"
+          class="swiper-slide">
+          <mission-item-placeholder layout="large" />
+        </div>
+
+        <div v-if="isEmptyList && !isLoading" class="swiper-slide">
+          <div class="item-placeholder empty">
+            <mission-item-placeholder layout="large" :animated="false" />
+            <span>{{ emptyPlaceholder }}</span>
+          </div>
+        </div>
+
+        <div
+          v-if="!isLoading"
           v-for="m in missions"
           :key="m.id"
           class="swiper-slide">
@@ -69,13 +87,6 @@
             :is-referral="isReferral" />
         </div>
 
-        <div
-          v-for="p in NUM_PLACEHOLDERS"
-          v-if="missions.length <= 0"
-          :key="`placeholder-${p}`"
-          class="swiper-slide">
-          <mission-item-placeholder layout="large"/>
-        </div>
       </swiper>
 
     </div>
@@ -110,7 +121,7 @@ export default {
     },
     isLoading: {
       type: Boolean,
-      default: null,
+      default: false,
     },
     isGrid: {
       type: Boolean,
@@ -139,7 +150,7 @@ export default {
   },
   data() {
     return {
-      NUM_PLACEHOLDERS: 3,
+      NUM_PLACEHOLDERS: 6,
       canScrollLeft: false,
       canScrollRight: false,
     };
@@ -148,11 +159,8 @@ export default {
     shouldShowScrollIndicator() {
       return this.layout !== 'small' && !this.isGrid;
     },
-    isLoadingList() {
-      return this.missions.length <= 0 && (this.isLoading || this.isLoading === null);
-    },
     isEmptyList() {
-      return this.missions.length <= 0 && !this.isLoading;
+      return this.missions.length <= 0;
     },
   },
   methods: {
@@ -190,6 +198,12 @@ export default {
   watch: {
     missions() {
       this.$nextTick(() => this.updateScrollIndicator());
+    },
+    isLoading() {
+      this.$nextTick(() => {
+        this.$refs.list.scrollLeft = 0;
+        this.updateScrollIndicator();
+      });
     },
   },
   mounted() {
@@ -275,10 +289,6 @@ export default {
     }
   }
 
-  li:last-child:not(.empty-list-placeholder) .mission-item-placeholder {
-    display: none;
-  }
-
   .mission-item-list-wrapper {
     position: relative;
 
@@ -322,6 +332,10 @@ export default {
 
     li {
       padding: 4px;
+
+      &.item-placeholder:nth-child(n + 4) {
+        display: none;
+      }
     }
   }
 }
@@ -344,27 +358,55 @@ export default {
       @include small-mission-list();
     }
 
-    ul li {
-      width: 1 / 6 * 100%;
+    &.grid {
+      ul li {
+        @mixin list-item($num-of-child) {
+          width: calc(1 / #{$num-of-child} * 100%);
 
-      @media (max-width: 1384px) {
-        width: 1 / 5 * 100%;
+          @media (min-width: 600px + 1px) {
+            &.item-placeholder:nth-child(n + #{$num-of-child + 1}) {
+              display: none;
+            }
+          }
+        }
+
+        @include list-item(6);
+
+        @media (max-width: 1384px) {
+          @include list-item(5);
+        }
+
+        @media (max-width: 1188px) {
+          @include list-item(4);
+        }
+
+        @media (max-width: 928px) {
+          @include list-item(3);
+        }
+
+        @media (max-width: 712px) {
+          @include list-item(2);
+        }
+
+        @media (max-width: 600px) {
+          width: 100%;
+        }
+
+        &.item-placeholder {
+          @media (min-width: 600px + 1px) {
+            padding-bottom: 34px;
+          }
+        }
       }
+    }
 
-      @media (max-width: 1188px) {
-        width: 1 / 4 * 100%;
-      }
-
-      @media (max-width: 928px) {
-        width: 1 / 3 * 100%;
-      }
-
-      @media (max-width: 712px) {
-        width: 1 / 2 * 100%;
-      }
-
-      @media (max-width: 600px) {
-        width: 100%;
+    &:not(.grid) {
+      ul li {
+        &.item-placeholder {
+          @media (min-width: 600px + 1px) {
+            padding-bottom: 26px;
+          }
+        }
       }
     }
   }
@@ -392,7 +434,7 @@ ul {
   font-size: 12px;
 }
 
-.empty-list-placeholder {
+.item-placeholder.empty {
   display: flex;
 
   span {
@@ -415,6 +457,8 @@ ul {
 
     span {
       margin-top: 12px;
+
+      text-align: center;
     }
   }
 }

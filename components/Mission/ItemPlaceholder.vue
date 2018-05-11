@@ -4,14 +4,25 @@
     @click="$emit('click')">
     <div class="placeholder-card">
       <div class="animated-background">
+        <div
+          class="background-masker amount-label left"
+          :style="style.amountLabel" />
+        <div
+          class="background-masker amount-label right"
+          :style="style.amountLabel" />
         <div class="background-masker icon-top" />
-        <div class="background-masker icon-middle" />
+        <div class="background-masker icon-middle left" />
+        <div class="background-masker icon-middle right" />
         <div class="background-masker icon-bottom" />
 
         <div class="background-masker amount-vertical" />
         <div class="background-masker label-in-between" />
-
-        <div class="animated-background icon-placeholder" />
+        <div
+          class="background-masker label-newline left"
+          :style="style.descriptionLabel" />
+        <div
+          class="background-masker label-newline right"
+          :style="style.descriptionLabel" />
       </div>
     </div>
   </div>
@@ -19,6 +30,10 @@
 
 
 <script>
+function randomPercentage(min, max) {
+  return `${Math.floor(Math.random() * ((max - min) + 1)) + min}%`;
+}
+
 export default {
   name: 'mission-item-placeholder',
   props: {
@@ -34,6 +49,18 @@ export default {
       default: true,
     },
   },
+  data() {
+    return {
+      style: {
+        amountLabel: {
+          width: randomPercentage(10, 20),
+        },
+        descriptionLabel: {
+          width: randomPercentage(15, 35),
+        },
+      },
+    };
+  },
 };
 </script>
 
@@ -42,131 +69,189 @@ export default {
 @import "~assets/variables";
 
 @mixin large-mission-item-placeholder {
+  .placeholder-card {
+    padding: 24px 4px 32px;
+
+    border-radius: 8px;
+  }
+
   .animated-background {
-    height: 204px;
-    margin: 0 20px;
+    margin: 0 20px 8px;
 
-    &.icon-placeholder {
-      top: 44px;
-
-      width: 96px;
-      height: 96px;
-      margin: auto;
-    }
+    $top: 0;
 
     .background-masker {
+      &.amount-label {
+        top: $top;
+
+        $height: 20px; $top: $top + $height;
+        height: $height;
+
+        &.left {
+          left: 0;
+        }
+
+        &.right {
+          right: 0;
+        }
+      }
+
       &.icon-top {
-        top: 28px;
+        top: $top;
         right: 0;
         left: 0;
 
-        height: 16px;
+        $height: 24px; $top: $top + $height;
+        height: $height;
       }
 
       &.icon-middle {
-        top: 44px;
+        top: $top;
 
-        width: 100%;
-        height: 96px;
+        $height: 80px; $top: $top + $height;
+        width: calc((100% - #{$height}) / 2);
+        height: $height;
+
+        &.left {
+          left: 0;
+        }
+
+        &.right {
+          right: 0;
+        }
       }
 
       &.icon-bottom {
-        top: 140px;
+        top: $top;
         right: 0;
         left: 0;
 
-        height: 16px;
+        $height: 24px; $top: $top + $height;
+        height: $height;
       }
+
+      $top: $top + 20px;
 
       &.label-in-between {
-        top: 176px;
+        top: $top;
         right: 0;
         left: 0;
 
-        height: 8px;
+        $height: 4px; $top: $top + $height;
+        height: $height;
+      }
+
+      &.label-newline {
+        top: $top;
+
+        $height: 20px; $top: $top + $height;
+        height: $height;
+
+        &.left {
+          left: 0;
+        }
+
+        &.right {
+          right: 0;
+        }
       }
     }
-  }
 
-  .placeholder-card {
-    padding: 16px 4px 40px;
-
-    border-radius: 8px;
+    height: $top;
   }
 }
 
 @mixin small-mission-item-placeholder {
+  .placeholder-card {
+    padding: 10px;
+
+    border-radius: 4px;
+  }
+
   .animated-background {
-    height: 32px;
-
-    &.icon-placeholder {
-      top: 4px;
-      bottom: 0;
-      left: -36px;
-
-      width: 24px;
-      height: 24px;
-      margin: auto 0;
-
-      border-radius: 50%;
-    }
+    $height: 32px;
+    height: $height;
 
     .background-masker {
-      &.icon-top,
-      &.icon-bottom {
-        width: 100%;
-      }
+      $icon-padding: 4px;
+      $amount-percent: 28%;
+
       &.icon-top {
         top: 0;
       }
+
+      &.icon-top,
       &.icon-bottom {
-        top: 24px;
+        left: 0;
+
+        width: $height - $icon-padding;
+        height: $icon-padding;
+      }
+
+      &.icon-bottom {
+        bottom: 0;
       }
 
       &.icon-middle {
         top: 0;
-        right: 48px;
+        bottom: 0;
 
-        width: 24px;
-        height: 32px;
+        &.left {
+          left: 0;
+
+          width: $icon-padding;
+        }
+
+        &.right {
+          left: $height - $icon-padding;
+
+          width: 16px;
+        }
       }
 
       &.label-in-between {
-        top: 14px;
-        right: 48px;
-        left: 0;
+        top: calc(50% - 1px);
+        left: $height - $icon-padding;
 
-        height: 4px;
+        height: 2px;
+      }
+
+      &.label-in-between,
+      &.label-newline.right {
+        right: $amount-percent;
+      }
+
+      &.label-newline.right {
+        top: 50%;
+        bottom: 0;
+      }
+
+      &.amount-label.left {
+        left: 100% - $amount-percent;
+      }
+
+      &.amount-label.left,
+      &.amount-vertical {
+        top: 0;
+        bottom: 0;
       }
 
       &.amount-vertical {
-        top: 0;
         right: 0;
 
-        width: 48px;
-        height: 32px;
+        width: $amount-percent;
 
-        border-top: 4px solid $like-white;
-        border-bottom: 6px solid $like-white;
+        border-top: 8px solid $like-white;
+        border-bottom: 8px solid $like-white;
         background: none;
       }
     }
-  }
-
-  .placeholder-card {
-    width: 100%;
-    padding: 10px 10px 10px 48px;
-
-    user-select: none;
-
-    border-radius: 4px;
   }
 }
 
 .mission-item-placeholder {
   width: 100%;
 
-  display: flex;
   flex-shrink: 0;
 
   &.small {
@@ -188,23 +273,35 @@ export default {
   }
 }
 
+.placeholder-card {
+  pointer-events: none;
+
+  background-color: $like-white;
+}
+
 .animated-background {
   position: relative;
 
-  height: 188px;
-
-  background: #eee;
+  background: #EEE;
 
   .animated & {
-    animation-name: placeholder-shimmer;
-    animation-duration: 1s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
+    @keyframes placeholder-shimmer {
+      0% { background-position-x: 100%; }
+      100% { background-position-x: -100%; }
+    }
 
-    background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
-    background-size: 800px 104px;
+    animation: {
+      name: placeholder-shimmer;
+      duration: .8s;
+      timing-function: linear;
+      iteration-count: infinite;
+      fill-mode: forwards;
+    };
 
-    animation-fill-mode: forwards;
+    background: {
+      image: linear-gradient(to right, #EEE 8%, #DDD 24%, #EEE 32%);
+      size: 200%;
+    }
   }
 }
 
@@ -212,22 +309,5 @@ export default {
   position: absolute;
 
   background: $like-white;
-}
-
-.placeholder-card {
-  flex: 1;
-
-  box-sizing: border-box;
-
-  background-color: $like-white;
-}
-
-@keyframes placeholder-shimmer {
-  0% {
-    background-position: -468px 0;
-  }
-  100% {
-    background-position: 468px 0;
-  }
 }
 </style>

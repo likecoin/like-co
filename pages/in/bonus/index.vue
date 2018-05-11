@@ -54,6 +54,13 @@
                     <h1 class="lc-font-size-32 lc-mobile">
                       {{ $t('BonusPage.header.likeCoinBonus') }}
                     </h1>
+                    <div
+                      v-if="getIsFetchedMissions"
+                      class="lc-container-header-button-wrapper lc-mobile-hide">
+                      <refresh-button
+                        :is-refreshing="getIsFetchingMissions"
+                        @click="updateInfo" />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -66,6 +73,8 @@
                 <mission-list
                   swipper-id="my-mission"
                   :missions="getMissionList"
+                  :is-loading="getIsFetchingMissions || !getIsFetchedMissions"
+                  :empty-placeholder="$t('BonusPage.placeholder.emptyMission')"
                   @click="onMissionClick" />
               </div>
             </div>
@@ -73,7 +82,7 @@
 
           <!-- BEGIN - Invitee missions -->
           <div
-            v-if="getMissionList.length > 0"
+            v-if="!getIsFetchingMissions && getIsFetchedMissions && getReferralMissionList && getReferralMissionList.length > 0"
             id="invitee-mission"
             class="lc-container-2 lc-margin-top-4">
 
@@ -104,6 +113,13 @@
 
           </div>
           <!-- END - Invitee missions -->
+
+          <div class="lc-container-3 lc-margin-top-24 lc-flex lc-justify-content-center lc-mobile-show">
+            <refresh-button
+              :is-refreshing="getIsFetchingMissions"
+              :is-outline="true"
+              @click="updateInfo" />
+          </div>
 
         </div>
       </div>
@@ -181,6 +197,7 @@ import InviteFriendForm from '~/components/forms/InviteFriendForm';
 import InviteeMissionGridList from '@/components/Mission/InviteeGridList';
 import MissionList from '@/components/Mission/List';
 import ReferralStats from '@/components/ReferralStats';
+import RefreshButton from '~/components/RefreshButton';
 
 import { logTrackerEvent } from '@/util/EventLogger';
 
@@ -199,9 +216,12 @@ export default {
     InviteeMissionGridList,
     MissionList,
     ReferralStats,
+    RefreshButton,
   },
   computed: {
     ...mapGetters([
+      'getIsFetchingMissions',
+      'getIsFetchedMissions',
       'getUserInfo',
       'getUserIsFetching',
       'getUserIsRegistered',
@@ -213,6 +233,7 @@ export default {
     ...mapActions([
       'fetchUserReferralStats',
       'fetchUserTotalBonus',
+      'refreshMissionList',
       'onMissionClick',
       'onReferralMissionClick',
       'onReferralSeen',
@@ -222,6 +243,7 @@ export default {
       this.user = user.user;
       this.updateReferralStat();
       this.updateLikeBonus();
+      this.refreshMissionList(user.user);
     },
     async updateLikeBonus() {
       try {
