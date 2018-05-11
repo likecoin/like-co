@@ -14,7 +14,7 @@
     </section>
 
     <!-- BEGIN - LikeCoin Bonus Amount Section -->
-    <section id="earn" class="lc-container-0">
+    <section class="lc-container-0">
       <div class="lc-container-1">
         <div class="lc-container-2">
 
@@ -39,7 +39,7 @@
     <!-- END - LikeCoin Bonus Amount Section -->
 
     <!-- BEGIN - Mission Section -->
-    <section id="mission" class="likecoin-bonus-section lc-margin-top-48 lc-mobile">
+    <section id="earn" class="likecoin-bonus-section lc-margin-top-48 lc-mobile">
       <div class="lc-container-0">
         <div class="lc-container-1">
 
@@ -417,5 +417,9 @@ export default {
       text-align: center;
     }
   }
+}
+
+.referral-form-section {
+  min-height: 400px;
 }
 </style>
