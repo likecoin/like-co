@@ -73,6 +73,6 @@ export const MERGED_MISSIONS = {
 export const TRUST_URL = 'https://links.trustwalletapp.com/a/key_live_lfvIpVeI9TFWxPCqwU8rZnogFqhnzs4D?&event=openURL&url=';
 
 export const EXTRA_EMAIL_BLACLIST = [
-  'mziqo.com',
+  'tutye.com',
 ];
 
