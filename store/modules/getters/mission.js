@@ -53,4 +53,8 @@ export const getMissionHistoryReward = state => id => state.historyBonus[id];
 
 export const getMissionById = state => id => state.missions.find(m => m.id === id);
 
-export const getIsHistoryMissionsFetched = state => state.isHistoryMissionsFetched;
+export const getIsFetchingMissions = state => state.isFetching;
+export const getIsFetchedMissions = state => state.isFetched;
+
+export const getIsFetchingMissionHistory = state => state.isFetchingMissionHistory;
+export const getIsFetchedMissionHistory = state => state.isFetchedMissionHistory;

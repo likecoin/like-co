@@ -811,6 +811,9 @@
       "earned": "You have earned",
       "likeBonus": "LIKE Bonus"
     },
+    "placeholder": {
+      "emptyMission": "New mission is coming soon"
+    },
     "button": {
       "moreBonus": "More Bonus"
     },

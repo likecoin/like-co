@@ -16,9 +16,11 @@ export async function refreshMissionHistoryList({ commit }, id) {
   ]);
   commit(types.MISSION_SET_MISSION_HISTORY_LIST, missions);
   commit(types.MISSION_SET_MISSION_BONUS_HISTORY, bonus);
+  commit(types.MISSION_END_FETCHING_MISSION_HISTORY_LIST);
 }
 
 export async function refreshMissionList({ commit }, id) {
+  commit(types.MISSION_START_FETCHING_MISSION_LIST);
   const [missions, referralMissions, bonus] = await Promise.all([
     apiWrapper(commit, api.apiFetchMissionList(id)),
     apiWrapper(commit, api.apiFetchReferralMissionList(id)),
@@ -31,6 +33,7 @@ export async function refreshMissionList({ commit }, id) {
     const { avatar } = await apiWrapper(commit, api.apiGetUserMinById(r.id), { slient: true });
     commit(types.MISSION_SET_REFERRAL_AVATAR, { userId: r.id, avatar });
   });
+  commit(types.MISSION_END_FETCHING_MISSION_LIST);
 }
 
 export async function setMissionSeen({ commit }, { user, missionId }) {
