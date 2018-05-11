@@ -6,7 +6,7 @@
      target="_blank"
      rel="noopener noreferrer"
     >
-      {{ text || defaultText }}
+      {{ text || $t('Toolbar.etherscan.button.view') }}
     </a>
   </div>
 </template>
@@ -19,7 +19,6 @@ export default {
   props: ['text', 'address', 'transaction'],
   data() {
     return {
-      defaultText: this.$t('Toolbar.etherscan.button.view'),
       etherscanUrl: ETHERSCAN_HOST,
     };
   },
