@@ -634,6 +634,7 @@
       "error": {
         "alphanumeric": "Please enter at least 7 alphanumeric characters",
         "addressFormat": "Invalid address format",
+        "reCaptcha": "Please complete the reCAPTCHA challenge",
         "emailFormat": "Please enter a valid email address without + character"
       }
     }
