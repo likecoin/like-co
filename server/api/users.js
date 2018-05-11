@@ -6,8 +6,8 @@ import {
   IS_TESTNET,
   PUBSUB_TOPIC_MISC,
   ONE_LIKE,
-  EXTRA_EMAIL_BLACLIST,
 } from '../../constant';
+import { emailBlacklist } from '../util/poller';
 
 import Validate from '../../util/ValidationHelper';
 import { personalEcRecover, web3 } from '../util/web3';
@@ -26,7 +26,6 @@ const {
   FieldValue,
 } = require('../util/firebase');
 
-const BLACK_LIST_DOMAIN = disposableDomains.concat(EXTRA_EMAIL_BLACLIST);
 const SUPPORTED_AVATER_TYPE = new Set([
   'jpg',
   'png',
@@ -82,6 +81,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
 
     if (email) {
       if ((process.env.CI || !IS_TESTNET) && !(W3C_EMAIL_REGEX.test(email))) throw new Error('invalid email');
+      const BLACK_LIST_DOMAIN = disposableDomains.concat(emailBlacklist);
       if (BLACK_LIST_DOMAIN.includes(email.split('@')[1])) {
         throw new Error('email domain not allowed');
       }

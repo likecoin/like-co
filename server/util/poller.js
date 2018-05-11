@@ -1,4 +1,7 @@
-import { INITIAL_TOKENSALE_ETH_VALUE } from '../../constant';
+import {
+  INITIAL_TOKENSALE_ETH_VALUE,
+  EXTRA_EMAIL_BLACLIST,
+} from '../../constant';
 
 const configRef = require('../util/firebase').configCollection;
 const accounts = require('@ServerConfig/accounts.js'); // eslint-disable-line import/no-extraneous-dependencies
@@ -6,8 +9,10 @@ const accounts = require('@ServerConfig/accounts.js'); // eslint-disable-line im
 /* eslint import/no-mutable-exports: "off" */
 export let tokensaleInitial = INITIAL_TOKENSALE_ETH_VALUE;
 export let { gasPrice } = accounts[0];
+export let emailBlacklist = EXTRA_EMAIL_BLACLIST;
 let unsubscribeTokensaleInitial;
 let unsubscribeGasPrice;
+let unsubscribeEmailBlacklist;
 
 function pollTokensaleInitial() {
   try {
@@ -79,9 +84,45 @@ function pollGasPrice() {
   }
 }
 
+function pollEmailBlacklist() {
+  try {
+    const watchRef = configRef.doc('emailBlacklist');
+    const watch = () => {
+      if (!unsubscribeEmailBlacklist) {
+        unsubscribeEmailBlacklist = watchRef.onSnapshot((docSnapshot) => {
+          if (docSnapshot.exists) {
+            const { list } = docSnapshot.data();
+            emailBlacklist = list;
+          }
+        }, (err) => {
+          console.error(err.message || err); // eslint-disable-line no-console
+          if (typeof unsubscribeEmailBlacklist === 'function') {
+            unsubscribeEmailBlacklist();
+            unsubscribeEmailBlacklist = null;
+          }
+          const timer = setInterval(() => {
+            console.log('Trying to restart watcher (email blacklist)...'); // eslint-disable-line no-console
+            try {
+              watch();
+              clearInterval(timer);
+            } catch (innerErr) {
+              console.log('Watcher restart failed (email blacklist)'); // eslint-disable-line no-console
+            }
+          }, 10000);
+        });
+      }
+    };
+    watch();
+  } catch (err) {
+    const msg = err.message || err;
+    console.error(msg); // eslint-disable-line no-console
+  }
+}
+
 export function startPoller() {
   pollTokensaleInitial();
   pollGasPrice();
+  pollEmailBlacklist();
 }
 
 export function stopPoller() {
@@ -92,5 +133,9 @@ export function stopPoller() {
   if (typeof unsubscribeGasPrice === 'function') {
     unsubscribeGasPrice();
     unsubscribeGasPrice = null;
+  }
+  if (typeof unsubscribeEmailBlacklist === 'function') {
+    unsubscribeEmailBlacklist();
+    unsubscribeEmailBlacklist = null;
   }
 }
