@@ -64,7 +64,7 @@
     "core-js": "^2.5.5",
     "cors": "^2.8.4",
     "cross-env": "^5.1.4",
-    "disposable-email-domains": "^1.0.31",
+    "disposable-email-domains": "^1.0.32",
     "eth-sig-util": "^1.4.2",
     "express": "^4.16.3",
     "firebase-admin": "^5.12.0",
