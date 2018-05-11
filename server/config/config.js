@@ -15,6 +15,8 @@ config.GCLOUD_PUBSUB_ENABLE = false;
 config.STRIPE_TEST_KEY = '';
 config.STRIPE_PROD_KEY = '';
 
+config.RECAPTCHA_SECRET = '';
+
 config.KYC_TOKEN = '';
 config.KYC_HOST = '';
 config.KYC_APP = '';

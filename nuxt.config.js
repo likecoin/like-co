@@ -33,6 +33,7 @@ module.exports = {
       { src: '/vendor/typekit.js' },
       { src: '/vendor/fb/pixel.js' },
       { src: '/vendor/fb/sdk.js' },
+      { src: 'https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit' },
     ],
     link: [
       { rel: 'icon', type: 'image/png', href: '/favicon.png' },
@@ -57,6 +58,8 @@ module.exports = {
           'https://www.google-analytics.com',
           'https://www.googletagmanager.com',
           'https://www.googleadservices.com',
+          'https://www.google.com',
+          'https://www.gstatic.com/',
           'https://googleads.g.doubleclick.net',
           'https://sp.analytics.yahoo.com',
           'https://s.yimg.com',
@@ -76,6 +79,7 @@ module.exports = {
           'https://js.intercomcdn.com',
         ],
         'frame-src': [
+          'https://www.google.com/',
           'https://player.vimeo.com/',
           'https://staticxx.facebook.com',
           'https://checkout.stripe.com/',

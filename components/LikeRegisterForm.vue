@@ -93,6 +93,14 @@
           </div>
         </div>
       </div>
+      <!-- TODO: fix style -->
+      <div style="display:flex">
+        <div style="flex: 1" class=".lc-mobile-hide"/>
+        <vue-recaptcha
+          @verify="onCaptchaVerify"
+          sitekey="6LfQqlgUAAAAADGckz6BtIuD_sU6cJhWDJ__OBx7">
+        </vue-recaptcha>
+      </div>
       <div id="form-btn" class="lc-margin-top-16 lc-mobile">
         <material-button
           id="confirm-btn"
@@ -110,6 +118,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
+import VueRecaptcha from 'vue-recaptcha';
 
 import EthHelper from '@/util/EthHelper';
 import User from '@/util/User';
@@ -140,6 +149,7 @@ export default {
       referrer: this.$route.query.from || '',
       likeCoinBalance: NaN,
       wallet: this.getLocalWallet,
+      reCaptchaResponse: '',
       isBadAddress: false,
       isConfirming: false,
       confirmContent: '',
@@ -151,6 +161,7 @@ export default {
   components: {
     ClaimDialog,
     MaterialButton,
+    VueRecaptcha,
   },
   computed: {
     ...mapGetters([
@@ -170,6 +181,7 @@ export default {
       'getBlockie',
       'setPageHeader',
       'setInfoMsg',
+      'setErrorMsg',
       'checkCoupon',
       'isUser',
       'setTxDialogAction',
@@ -209,11 +221,19 @@ export default {
     onCancel() {
       this.$router.push({ name: 'in' });
     },
+    onCaptchaVerify(response) {
+      this.reCaptchaResponse = response;
+    },
     async onSubmit() {
       try {
         this.isBadAddress = false;
         if (!this.checkAddress()) {
           this.isBadAddress = true;
+          return;
+        }
+        const { reCaptchaResponse } = this;
+        if (!reCaptchaResponse) {
+          this.setErrorMsg(this.$t('Register.form.error.reCaptcha'));
           return;
         }
         const userInfo = {
@@ -225,7 +245,7 @@ export default {
           locale: this.getCurrentLocale,
         };
         const data = await User.formatAndSignUserInfo(userInfo, this.$t('Sign.Message.registerUser'));
-        await this.newUser(data);
+        await this.newUser({ reCaptchaResponse, ...data });
         await this.isUser(this.wallet);
         if (this.couponCode) {
           this.setTxDialogAction({ txDialogActionRoute: { name: 'in' }, txDialogActionText: 'View Account' });
