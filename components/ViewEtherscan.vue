@@ -19,7 +19,6 @@ export default {
   props: ['text', 'address', 'transaction'],
   data() {
     return {
-      defaultText: this.$t('Toolbar.etherscan.button.view'),
       etherscanUrl: ETHERSCAN_HOST,
     };
   },
@@ -28,6 +27,9 @@ export default {
       if (this.address) return `${this.etherscanUrl}/address/${this.address}/#tokentxns`;
       if (this.transaction) return `${this.etherscanUrl}/tx/${this.transaction}`;
       return this.etherscanUrl;
+    },
+    defaultText() {
+      return this.$t('Toolbar.etherscan.button.view');
     },
   },
 };
