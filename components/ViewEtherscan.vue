@@ -6,7 +6,7 @@
      target="_blank"
      rel="noopener noreferrer"
     >
-      {{ text || defaultText }}
+      {{ text || $t('Toolbar.etherscan.button.view') }}
     </a>
   </div>
 </template>
@@ -27,9 +27,6 @@ export default {
       if (this.address) return `${this.etherscanUrl}/address/${this.address}/#tokentxns`;
       if (this.transaction) return `${this.etherscanUrl}/tx/${this.transaction}`;
       return this.etherscanUrl;
-    },
-    defaultText() {
-      return this.$t('Toolbar.etherscan.button.view');
     },
   },
 };
