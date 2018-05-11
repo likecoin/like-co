@@ -261,12 +261,16 @@ export default {
       }
     },
     onEditEmail() {
-      if (this.isUserEmailVerified || !this.verifyEmailMission) return;
+      if (this.isUserEmailVerified) return;
       // open mission dialog for verifyEmail directly
-      this.onMissionClick({
-        ...this.verifyEmailMission,
-        isReferral: false,
-      });
+      if (this.verifyEmailMission) {
+        this.onMissionClick({
+          ...this.verifyEmailMission,
+          isReferral: false,
+        });
+      } else {
+        this.$refs.inputDialog.show();
+      }
     },
     onChangeAvatar(event) {
       const { files } = event.target;
