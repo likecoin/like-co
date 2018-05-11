@@ -867,4 +867,8 @@ span.bold {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  > svg {
+    flex: 1;
+  }
 }
