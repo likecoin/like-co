@@ -634,7 +634,7 @@
             "error": {
                 "alphanumeric": "Inserisci almeno 7 caratteri alfanumerici",
                 "addressFormat": "Formato indirizzo non valido",
-                "emailFormat": "Inserisci un indirizzo email valido che non contenga il segno '+'"
+                "emailFormat": "Inserisci un indirizzo email valido che non contenga il segno '.'/'+'"
             }
         }
     },
