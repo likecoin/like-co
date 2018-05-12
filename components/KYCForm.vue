@@ -97,6 +97,10 @@
           </div>
         </div>
       </div>
+      <vue-recaptcha
+        @verify="onCaptchaVerify"
+        sitekey="6LfQqlgUAAAAADGckz6BtIuD_sU6cJhWDJ__OBx7">
+      </vue-recaptcha>
       <material-button :disabled="KYCNotPass" type="submit" form="kycForm">
         {{ $t('General.button.confirm') }}
       </material-button>
@@ -182,6 +186,10 @@
         </div>
 
       </div>
+      <vue-recaptcha
+        @verify="onCaptchaVerify"
+        sitekey="6LfQqlgUAAAAADGckz6BtIuD_sU6cJhWDJ__OBx7">
+      </vue-recaptcha>
       <material-button type="submit" form="kycForm">
         {{ $t('General.button.confirm') }}
       </material-button>
@@ -269,6 +277,7 @@
 import CircleIcon from '@/assets/tokensale/circle.svg';
 import PendingIcon from '@/assets/tokensale/pending.svg';
 import TickIcon from '@/assets/tokensale/tick.svg';
+import VueRecaptcha from 'vue-recaptcha';
 
 import MaterialButton from '~/components/MaterialButton';
 
@@ -285,6 +294,7 @@ export default {
   props: ['isKYCTxPass', 'isPreSale', 'isICOStarted', 'user', 'wallet'],
   components: {
     MaterialButton,
+    VueRecaptcha,
   },
   data() {
     return {
@@ -295,6 +305,7 @@ export default {
       KYC_ETH_LIMIT,
       KYC_STATUS_ENUM,
 
+      reCaptchaResponse: '',
       email: '',
       stage: 0,
       notPRC: true,
@@ -393,7 +404,11 @@ export default {
       'sendVerifyEmail',
       'sendKYC',
       'refreshUserInfo',
+      'setErrorMsg',
     ]),
+    onCaptchaVerify(response) {
+      this.reCaptchaResponse = response;
+    },
     openPicker(inputFile) {
       this.$refs[inputFile].click();
     },
@@ -473,6 +488,11 @@ export default {
       }
     },
     async signKYC(isAdv) {
+      const { reCaptchaResponse } = this;
+      if (!reCaptchaResponse) {
+        this.setErrorMsg(this.$t('Register.form.error.reCaptcha'));
+        return;
+      }
       const {
         notPRC,
         notUSA,
@@ -515,7 +535,10 @@ export default {
       }
       const payload = await User.formatAndSignKYC(userInfo, this.$t('Sign.Message.signKYC'));
       this.txHash = '';
-      const { txHash } = await this.sendKYC({ payload, isAdv });
+      const { txHash } = await this.sendKYC({
+        payload: { reCaptchaResponse, ...payload },
+        isAdv,
+      });
       logTrackerEvent(
         this,
         'TokenSale',
