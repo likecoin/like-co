@@ -626,7 +626,7 @@
       "error": {
         "alphanumeric": "请使用最少 7位英文字母或数字",
         "addressFormat": "钱包地址错误",
-        "emailFormat": "请使用没有+号的有效电邮"
+        "emailFormat": "请使用没有./+号的有效电邮"
       }
     }
   },

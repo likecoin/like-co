@@ -634,7 +634,7 @@
             "error": {
                 "alphanumeric": "최소 7자리 영문자 및 숫자로 입력하세요",
                 "addressFormat": "유효하지 않은 주소 포맷",
-                "emailFormat": "+ 문자 없이 유효한 이메일 주소를 입력하세요"
+                "emailFormat": "./+ 문자 없이 유효한 이메일 주소를 입력하세요"
             }
         }
     },

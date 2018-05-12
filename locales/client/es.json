@@ -634,7 +634,7 @@
             "error": {
                 "alphanumeric": "Ingresa al menos 7 caracteres alfanuméricos",
                 "addressFormat": "Formato de dirección no válido",
-                "emailFormat": "Ingresa una dirección de correo electrónico válida sin el carácter +"
+                "emailFormat": "Ingresa una dirección de correo electrónico válida sin el carácter ./+"
             }
         }
     },
