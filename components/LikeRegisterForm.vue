@@ -59,7 +59,7 @@
               <md-input
                 :pattern="W3C_EMAIL_REGEX"
                 v-model="email"
-                @change="email=email.trim()"
+                @change="email=email.toLowerCase().trim()"
                 :title="$t('Register.form.error.emailFormat')"
               />
               <span class="md-error">{{ $t(`Error.${getInfoMsg}`) }}</span>
@@ -240,7 +240,7 @@ export default {
           avatarFile: this.avatarFile,
           user: this.user.toLowerCase().trim(),
           wallet: this.wallet,
-          email: this.email.trim(),
+          email: this.email.toLowerCase().trim(),
           referrer: this.referrer.toLowerCase().trim(),
           locale: this.getCurrentLocale,
         };

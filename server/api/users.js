@@ -65,16 +65,19 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
     }
 
     const message = web3.utils.hexToUtf8(payload);
+    const actualPayload = JSON.parse(message.substr(message.indexOf('{')));
     const {
       user,
       displayName,
       wallet,
       avatarSHA256,
-      email,
       ts,
       referrer,
       locale,
-    } = JSON.parse(message.substr(message.indexOf('{')));
+    } = actualPayload;
+
+    let { email } = actualPayload;
+
     // trims away sign message header before JSON
 
     // check address match
@@ -89,6 +92,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
 
     if (email) {
       if ((process.env.CI || !IS_TESTNET) && !(W3C_EMAIL_REGEX.test(email))) throw new Error('invalid email');
+      email = email.toLowerCase;
       const BLACK_LIST_DOMAIN = disposableDomains.concat(emailBlacklist);
       if (BLACK_LIST_DOMAIN.includes(email.split('@')[1])) {
         throw new Error('email domain not allowed');
