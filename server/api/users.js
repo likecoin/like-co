@@ -92,7 +92,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
 
     if (email) {
       if ((process.env.CI || !IS_TESTNET) && !(W3C_EMAIL_REGEX.test(email))) throw new Error('invalid email');
-      email = email.toLowerCase;
+      email = email.toLowerCase();
       const BLACK_LIST_DOMAIN = disposableDomains.concat(emailBlacklist);
       if (BLACK_LIST_DOMAIN.includes(email.split('@')[1])) {
         throw new Error('email domain not allowed');
