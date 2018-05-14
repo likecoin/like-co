@@ -242,6 +242,9 @@
         <p>
           {{ $t(`KYC.label.timeWaitFor${(pendingKYC || isSubmittedAdvancedVerification) ? 'Advanced' : 'Account'}Verification`) }}
         </p>
+        <p>
+          {{ $t(`KYC.label.emailNotification`) }}
+        </p>
       </div>
       <material-button
         type="submit"
