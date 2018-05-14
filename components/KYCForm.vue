@@ -165,7 +165,7 @@
             ref="selfieImageInput"
             accept="image/png, image/jpeg"
             @change="handleSelfieImageChange"
-            required />
+            :required="documentFile0 ? null : 'required'" />
         </div>
 
         <div class="image-upload-field">
@@ -184,7 +184,7 @@
             ref="passportImageInput"
             accept="image/png, image/jpeg"
             @change="handlePassportImageChange"
-            required />
+            :required="documentFile1 ? null : 'required'" />
         </div>
 
       </div>
