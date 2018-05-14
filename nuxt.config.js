@@ -83,6 +83,7 @@ module.exports = {
           'https://www.google.com/',
           'https://player.vimeo.com/',
           'https://*.facebook.com',
+          'https://*.facebook.net',
           'https://checkout.stripe.com/',
           'https://*.doubleclick.net',
         ],
@@ -93,6 +94,7 @@ module.exports = {
         ],
         'media-src': [
           'https://*.intercomcdn.com',
+          'https://*.gstatic.com',
         ],
         'connect-src': [
           "'self'",
