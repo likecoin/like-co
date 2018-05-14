@@ -293,7 +293,7 @@ import { mapActions } from 'vuex';
 
 export default {
   name: 'KYC',
-  props: ['isKYCTxPass', 'isPreSale', 'isICOStarted', 'user', 'wallet'],
+  props: ['isKYCTxPass', 'isPreSale', 'isICOStarted', 'needExtraKYC', 'user', 'wallet'],
   components: {
     MaterialButton,
     VueRecaptcha,
@@ -347,7 +347,6 @@ export default {
       let emailStatusIcon = TickIcon;
       let accountStatusIcon = CircleIcon;
       let advancedStatusIcon = CircleIcon;
-
 
       const {
         stage,
@@ -633,6 +632,11 @@ export default {
     },
     user() {
       this.updateKYC();
+    },
+    needExtraKYC(value) {
+      if (value) {
+        this.stage = 2;
+      }
     },
   },
 };

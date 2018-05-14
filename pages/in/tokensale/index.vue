@@ -93,6 +93,7 @@
                 :isKYCTxPass="isKYCTxPass"
                 :isPreSale="isPreSale"
                 :isICOStarted="isICOStarted"
+                :needExtraKYC="needExtraKYC"
                 :user="getUserInfo"
                 :wallet="getLocalWallet"
                 @showPaymentForm="handleShowPaymentForm" />
