@@ -822,7 +822,7 @@
             "kyc": "Verificação de ID",
             "kycNeeded": "A Verificação de ID é necessária para participar da venda de tokens LikeCoin",
             "advKycNeeded": "A Verificação de ID Avançada é necessária para compras de grande valor",
-            "advKycPending": "Sua Verificação de ID Avançada ainda está PENDENTE. Entre em contato conosco na Intercom se isso demorar mais de 5 dias úteis",
+            "advKycPending": "Sua Verificação de ID Avançada ainda está PENDENTE. Entre em contato conosco na Intercom se isso demorar mais de 1 dias úteis",
             "emailVerify": "Forneça e verifique seu e-mail.",
             "createID": "Crie um ID LikeCoin para enviar e receber LikeCoin, e participe da venda de tokens.",
             "verifyToPurchase": "Verifique suas informações para comprar LikeCoin quando a venda pública estiver aberta.",
@@ -854,7 +854,7 @@
             "verifyToPurchaseOverAmount": "Verifique sua identidade para comprar mais de {amount} ETH",
             "waitingConfirmation": "Aguardando confirmação.",
             "timeWaitForAccountVerification": "Isso vai demorar cerca de 2 minutos…",
-            "timeWaitForAdvancedVerification": "Isso vai demorar cerca de 5 dias úteis…",
+            "timeWaitForAdvancedVerification": "Isso vai demorar cerca de 1 dias úteis…",
             "contactUs": "Entre em contato conosco usando o balão de diálogo no canto direito inferior para obter ajuda.",
             "contactThroughIntercom": "Entre em contato conosco aqui na Intercom.",
             "preSaleBonusDescription": "25% de bônus para compra de 10 ETH e acima"

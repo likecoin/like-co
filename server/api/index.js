@@ -22,5 +22,18 @@ router.get('/healthz', (req, res) => {
   res.sendStatus(200);
 });
 
+function errorHandler(err, req, res, next) {
+  if (res.headersSent) {
+    return next(err);
+  }
+  // Handle multer error
+  if (err.code && err.code === 'LIMIT_FILE_SIZE') {
+    return res.status(400).send('FILE_TOO_LARGE');
+  }
+  return res.status(500);
+}
+
+router.use(errorHandler);
+
 if (!process.env.CI) startPoller();
 export default router;

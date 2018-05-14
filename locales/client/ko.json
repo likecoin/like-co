@@ -822,7 +822,7 @@
             "kyc": "ID 인증",
             "kycNeeded": "LikeCoin 토큰 판매에 참가하려면 ID 인증이 필요합니다",
             "advKycNeeded": "많은 금액을 구매하시려면 고급 ID 인증이 필요합니다",
-            "advKycPending": "고객님의 고급 ID 인증이 아직 대기 중 상태입니다. 5 영업일을 넘게 소요된 경우, 인터콤을 통해 문의해 주시기 바랍니다.",
+            "advKycPending": "고객님의 고급 ID 인증이 아직 대기 중 상태입니다. 1 영업일을 넘게 소요된 경우, 인터콤을 통해 문의해 주시기 바랍니다.",
             "emailVerify": "이메일을 제공 및 인증하세요.",
             "createID": "LikeCoin 전송 및 수령을 하시려면 LikeCoin ID를 생성하고, 토큰 판매에 참가하세요.",
             "verifyToPurchase": "공개 판매가 진행되면 본인의 정보를 인증해서 LikeCoin을 구매하세요.",
@@ -854,7 +854,7 @@
             "verifyToPurchaseOverAmount": "ETH {amount}을/를 넘는 금액을 구매하려면 ID를 인증해 주십시오",
             "waitingConfirmation": "확인 대기 중.",
             "timeWaitForAccountVerification": "2분 정도 소요될 예정입니다...",
-            "timeWaitForAdvancedVerification": "5 영업일 정도 소요될 예정입니다...",
+            "timeWaitForAdvancedVerification": "1 영업일 정도 소요될 예정입니다...",
             "contactUs": "추가 지원을 받으시려면 하단 우측의 대화창을 통해 문의해 주시기 바랍니다.",
             "contactThroughIntercom": "이곳의 Intercom을 통해서 문의해 주시기 바랍니다.",
             "preSaleBonusDescription": "10 ETH 이상 구매시 25% 보너스 보상"

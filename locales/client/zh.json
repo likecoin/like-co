@@ -795,7 +795,7 @@
       "kyc": "身份認證",
       "kycNeeded": "需要進行身份認證才能參與",
       "advKycNeeded": "大額購買需要進行進階身份認證",
-      "advKycPending": "您的進階身份認證正在處理中，如已超過五個工作天請在 Intercom 與我們聯絡",
+      "advKycPending": "您的進階身份認證正在處理中，如已超過 1 個工作天請在 Intercom 與我們聯絡",
       "emailVerify": "請先認證您的電郵地址",
       "createID": "註冊 LikeCoin ID 收發 LikeCoin 及參與代幣發售",
       "verifyToPurchase": "驗證您的個人資料，在代幣發售時即可購買 LikeCoin",
@@ -827,7 +827,7 @@
       "verifyToPurchaseOverAmount": "驗證您的身份以購買 {amount} ETH 以上數量的 LikeCoin",
       "waitingConfirmation": "等待確認",
       "timeWaitForAccountVerification": "過程大約需時兩分鐘…",
-      "timeWaitForAdvancedVerification": "過程大約需時五個工作天…",
+      "timeWaitForAdvancedVerification": "過程大約需時 1 個工作天…",
       "contactUs": "請在右下對話圈與我們聯絡",
       "contactThroughIntercom": "請在 Intercom 與我們聯絡",
       "preSaleBonusDescription": "10 ETH 或以上的交易將會獲得 25% 獎勵"

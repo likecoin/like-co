@@ -822,7 +822,7 @@
             "kyc": "ID 認証",
             "kycNeeded": "LikeCoinトークン販売に参加するには身分証明が必要です",
             "advKycNeeded": "高額購入には詳細な身分証明が必要です",
-            "advKycPending": "お客様の詳細な身分証明はまだ保留中の状態です。5営業日以上かかっている場合は「インターコム」からお問い合わせください",
+            "advKycPending": "お客様の詳細な身分証明はまだ保留中の状態です。1営業日以上かかっている場合は「インターコム」からお問い合わせください",
             "emailVerify": "メールアドレスを入力し、認証を行ってください。",
             "createID": "LikeCoinを送受信するためにLikeCoin IDを作成し、トークン販売に参加しましょう。",
             "verifyToPurchase": "一般販売が開始されたら、情報を認証してLikeCoinを購入してください。",
@@ -854,7 +854,7 @@
             "verifyToPurchaseOverAmount": "{amount} ETHを超える購入を行うには身分証明を行ってください",
             "waitingConfirmation": "確認待ちです。",
             "timeWaitForAccountVerification": "2分ほどかかります…",
-            "timeWaitForAdvancedVerification": "約5営業日かかります…",
+            "timeWaitForAdvancedVerification": "約1営業日かかります…",
             "contactUs": "さらにヘルプが必要な場合は、右下のダイアログ吹き出しからお問い合わせください。",
             "contactThroughIntercom": "こちらのインターコムからお問い合わせください。",
             "preSaleBonusDescription": "10ETH以上の購入で25％のボーナス"
