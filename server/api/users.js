@@ -185,6 +185,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       updateObj.email = email;
       updateObj.verificationUUID = FieldValue.delete();
       updateObj.isEmailVerified = false;
+      updateObj.lastVerifyTs = FieldValue.delete();
     }
     if (url) updateObj.avatar = url;
     if (locale) updateObj.locale = locale;

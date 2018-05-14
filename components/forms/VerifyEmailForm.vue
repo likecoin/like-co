@@ -62,6 +62,7 @@ export default {
       'newUser',
       'setInfoMsg',
       'sendVerifyEmail',
+      'refreshUserInfo',
     ]),
     async updateEmail(newEmail) {
       const userInfo = {
@@ -81,6 +82,7 @@ export default {
       const msg = this.$t('Edit.label.verifying');
       if (this.email !== inputText) {
         await this.updateEmail(inputText);
+        this.refreshUserInfo(this.getUserInfo.user);
       }
       await this.sendVerifyEmail({ id: this.getUserInfo.user, ref: this.emailRef || '' });
       logTrackerEvent(this, 'RegFlow', 'StartEmailVerify', 'click confirm after enter email and the email is valid', 1);

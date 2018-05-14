@@ -9,47 +9,71 @@
       <!-- BEGIN - User info section -->
       <div class="lc-container-3">
         <div class="lc-container-4">
-          <section class="user-info-section">
+          <div class="form-wrapper">
+            <section :class="['user-info-section', { edit: isEditing }]">
 
-            <div class="user-avatar-wrapper">
-              <img class="avatar" :src="avatarData" />
-              <md-button
-                :class="{ 'input-display-btn': !isEditing }"
-                @click="openPicker">
-                <img :src="EditWhiteIcon" />
-              </md-button>
-              <input type="file" ref="inputFile" accept="image/*" @change="onChangeAvatar" />
-            </div>
-
-            <div class="user-identity">
-              <div :class="['likecoin-id', 'lc-tablet-hide', 'lc-font-size-20', { disabled: isEditing }]">
-                <span class="user-id-label">
-                  {{ $t('Edit.label.id') }}&nbsp;
-                </span>
-                <nuxt-link v-if="user" :to="{ name: 'id', params: { id: user } }">
-                  {{ user }}
-                </nuxt-link>
+              <div class="user-avatar-wrapper">
+                <img class="avatar" :src="avatarData" />
+                <md-button
+                  :class="{ 'input-display-btn': !isEditing }"
+                  @click="openPicker">
+                  <img :src="EditWhiteIcon" />
+                </md-button>
+                <input type="file" ref="inputFile" accept="image/*" @change="onChangeAvatar" />
               </div>
 
-              <div @click="onEditDisplayName">
-                <md-field :class="['lc-margin-bottom-4', 'lc-padding-top-0', isEditing ? 'md-field-edit-mode' : 'md-field-pre-edit']">
-                  <md-input
-                    ref="inputDisplayName"
-                    class="input-display-name input-display"
-                    v-model="displayName"
-                    :disabled="!isEditing"
-                    required />
-                  <md-button
-                    :class="['lc-tablet-hide', { 'input-display-btn': !isEditing }]"
-                    @click="onEditDisplayName"
-                    v-if="!isEditing">
-                    <img :src="EditIcon" />
-                  </md-button>
-                </md-field>
+              <div class="user-identity">
+                <div :class="['likecoin-id', 'lc-tablet-hide', 'lc-font-size-20', { disabled: isEditing }]">
+                  <span class="user-id-label">
+                    {{ $t('Edit.label.id') }}&nbsp;
+                  </span>
+                  <nuxt-link v-if="user" :to="{ name: 'id', params: { id: user } }">
+                    {{ user }}
+                  </nuxt-link>
+                </div>
+
+                <div @click="onEditDisplayName">
+                  <md-field :class="['lc-margin-bottom-4', 'lc-padding-top-0', isEditing ? 'md-field-edit-mode' : 'md-field-pre-edit']">
+                    <md-input
+                      ref="inputDisplayName"
+                      class="input-display-name input-display"
+                      v-model="displayName"
+                      :disabled="!isEditing"
+                      required />
+                    <md-button
+                      :class="['lc-tablet-hide', { 'input-display-btn': !isEditing }]"
+                      @click="onEditDisplayName"
+                      v-if="!isEditing">
+                      <img :src="EditIcon" />
+                    </md-button>
+                  </md-field>
+                </div>
+              </div>
+
+            </section>
+
+
+            <div v-if="isEditing" class="btn-container lc-margin-top-12">
+              <div class="edit-form-btn">
+                <md-button
+                  class="md-likecoin"
+                  type="submit"
+                  form="user-info-form"
+                  :disabled="getIsPopupBlocking">
+                  {{ $t('General.button.confirm') }}
+                </md-button>
+              </div>
+              <div class="edit-form-btn">
+                <md-button
+                  class="md-likecoin"
+                  id="edit-cancel-btn"
+                  :disabled="getIsPopupBlocking"
+                  @click="onCancel">
+                  {{ $t('General.button.cancel') }}
+                </md-button>
               </div>
             </div>
-
-          </section>
+          </div>
         </div>
       </div>
       <!-- END - User info section -->
@@ -74,8 +98,8 @@
       <div class="lc-container-3">
         <div class="lc-container-4">
           <div class="address-section">
-            <div :class="['address-container', { edit: isEditing }]">
-              <div :class="['address-field', 'likecoin-id', 'lc-tablet-show', { disabled: isEditing }]">
+            <div :class="['address-container', { edit: isEditing, disabled: isEditing }]">
+              <div class="address-field likecoin-id lc-tablet-show">
                 <div class="address-title">
                   {{ $t('Edit.label.id') }}
                 </div>
@@ -85,7 +109,7 @@
                   </div>
                 </nuxt-link>
               </div>
-              <div :class="['address-field', { disabled: isEditing }]">
+              <div class="address-field">
                 <div class="address-title">
                   {{ $t('Edit.label.address') }}
                 </div>
@@ -98,29 +122,26 @@
                 </md-field>
               </div>
               <div
-                :class="['address-field', { disabled: getUserInfo.isEmailVerified && isEditing }]"
+                class="address-field"
                 @click="onEditEmail">
                 <div class="address-title">
                   {{ $t('Edit.label.email') }}
-                  <span v-if="!isEditing">
-                    <span class="verified" v-if="getUserInfo.isEmailVerified">
+                  <span>
+                    <span class="verified" v-if="isUserEmailVerified">
                       <img :src="TickIcon" />
                       {{ $t('Edit.label.verified') }}
                     </span>
                     <span v-else-if="isVerifying">
-                      {{ $t('Edit.label.verifying') }}
+                      ({{ $t('Edit.label.verifying') }})
                     </span>
                     <span v-else-if="email">
                       ({{ $t('Edit.label.unverified') }})
-                      <a href="" @click.prevent.stop="onVerifyEmail">
-                        {{ $t('Edit.label.verifyEmail') }}
-                      </a>
                     </span>
                   </span>
                 </div>
                 <md-field
-                  v-if="email !== 'verified'"
-                  :class="['md-field-display', (!getUserInfo.isEmailVerified && isEditing) ? 'md-field-edit-mode' : 'md-field-pre-edit']">
+                  v-if="!isUserEmailVerified"
+                  class="md-field-display md-field-pre-edit">
                   <label class="input-display-hint lc-font-size-20">
                     {{ $t('Edit.label.addEmail') }}
                   </label>
@@ -130,33 +151,8 @@
                     v-model="email"
                     :title="$t('Register.form.error.emailFormat')"
                     ref="inputEmail"
-                    :disabled="getUserInfo.isEmailVerified || !isEditing" />
-                  <md-button
-                    :class="{ 'input-display-btn': !isEditing }"
-                    @click="onEditEmail"
-                    v-if="!getUserInfo.isEmailVerified && !isEditing">
-                    <img :src="EditIcon" />
-                  </md-button>
+                    disabled />
                 </md-field>
-              </div>
-            </div>
-
-            <div v-if="isEditing" class="btn-container">
-              <div class="edit-form-btn">
-                <material-button
-                  type="submit"
-                  form="user-info-form"
-                  :disabled="getIsPopupBlocking">
-                  {{ $t('General.button.confirm') }}
-                </material-button>
-              </div>
-              <div class="edit-form-btn">
-                <material-button
-                  id="edit-cancel-btn"
-                  :disabled="getIsPopupBlocking"
-                  @click="onCancel">
-                  {{ $t('General.button.cancel') }}
-                </material-button>
               </div>
             </div>
 
@@ -223,6 +219,7 @@ export default {
       'getUserInfo',
       'getUserIsFetching',
       'getUserIsRegistered',
+      'getMissionList',
     ]),
     getAmountAction() {
       return this.onClickBuyLikeCoin;
@@ -233,16 +230,19 @@ export default {
     getAmountText() {
       return this.$t('Edit.button.buyCoin');
     },
+    isUserEmailVerified() {
+      return this.getUserInfo.isEmailVerified;
+    },
+    verifyEmailMission() {
+      return this.getMissionList.find(mission => mission.id === 'verifyEmail');
+    },
   },
   methods: {
     ...mapActions([
       'newUser',
       'setInfoMsg',
-      'checkCoupon',
       'sendVerifyEmail',
-      'sendCouponCodeEmail',
       'refreshUserInfo',
-      'fetchUserReferralStats',
       'onMissionClick',
     ]),
     openPicker() {
@@ -261,14 +261,16 @@ export default {
       }
     },
     onEditEmail() {
-      if (this.getUserInfo.isEmailVerified) return;
-      if (this.isEditing) {
-        this.$nextTick(() => this.$refs.inputEmail.$el.focus());
-        return;
-      }
-      this.isEditing = !this.isEditing;
-      if (this.isEditing) {
-        this.$nextTick(() => this.$refs.inputEmail.$el.focus());
+      if (this.isUserEmailVerified) return;
+
+      if (this.verifyEmailMission) {
+        // open mission dialog for verifyEmail directly
+        this.onMissionClick({
+          ...this.verifyEmailMission,
+          isReferral: false,
+        });
+      } else {
+        this.$refs.inputDialog.show();
       }
     },
     onChangeAvatar(event) {
@@ -322,7 +324,7 @@ export default {
         await this.onSubmitEdit();
       }
       this.$refs.inputDialog.hide();
-      if (!this.getUserInfo.isEmailVerified) {
+      if (!this.isUserEmailVerified) {
         return this.onVerifyEmail();
       }
       return () => {};
@@ -354,7 +356,7 @@ export default {
   },
   mounted() {
     if (!this.getUserIsFetching && this.getUserIsRegistered) {
-      if (this.$route.params.showEmail && !this.getUserInfo.isEmailVerified) {
+      if (this.$route.params.showEmail && !this.isUserEmailVerified) {
         this.$nextTick(() => this.$refs.inputDialog.show());
       }
       this.updateInfo();
@@ -404,19 +406,30 @@ $profile-icon-mobile-size: 88px;
     }
   };
 
+  .form-wrapper {
+    display: flex;
+    flex-direction: row;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
+  }
+
   .user-info-section {
     display: flex;
     align-items: center;
     flex-direction: row;
 
     @media (min-width: #{768px + 1px}) {
-      width: 66.66%;
+      flex: 2;
     }
 
     @media (max-width: 768px) {
       flex-direction: column;
 
-      margin-bottom: 40px;
+      &:not(.edit) {
+        margin-bottom: 40px;
+      }
     }
   }
 
@@ -424,6 +437,10 @@ $profile-icon-mobile-size: 88px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+
+    @media (min-width: 768 + 1px) {
+      padding-right: 64px;
+    }
 
     @media (max-width: 768px) {
       align-items: center;
@@ -438,6 +455,34 @@ $profile-icon-mobile-size: 88px;
         width: 100%;
 
         text-align: center;
+      }
+    }
+  }
+
+  .btn-container {
+    z-index: 2;
+
+    flex: 1;
+
+    @media (max-width: 768px) {
+      align-self: center;
+      flex-direction: column;
+
+      width: 256px;
+    }
+
+    .edit-form-btn {
+      > button {
+        width: 100%;
+        height: 40px;
+        margin-bottom: 0;
+        margin-left: 0;
+
+        border-radius: 0;
+      }
+
+      #edit-cancel-btn {
+        background-color: $like-gradient-3;
       }
     }
   }
@@ -505,64 +550,27 @@ $profile-icon-mobile-size: 88px;
     display: flex;
     flex-direction: column;
 
-    margin-top: -12px;
+    margin-top: -16px;
   }
 
   .address-section {
     display: flex;
     flex-direction: row;
 
+    margin-top: 12px;
+
     @media (max-width: 768px) {
       flex-direction: column;
-
-      margin-top: 12px;
     }
 
     .address-container {
-      flex: 2;
-
-      &.edit {
-        @media (min-width: 769px) {
-          padding-right: 64px;
-        }
-      }
-    }
-
-    .btn-container {
-      align-self: flex-end;
       flex: 1;
-
-      @media (max-width: 768px) {
-        align-self: center;
-        flex-direction: column;
-
-        width: 256px;
-        margin-top: 12px;
-      }
-
-      .edit-form-btn {
-        > button {
-          height: 40px;
-          margin-left: 0;
-          margin-bottom: 0;
-        }
-
-        #edit-cancel-btn {
-          background-color: $like-gradient-3;
-        }
-      }
     }
   }
 
   .address-container {
     display: flex;
     flex-direction: column;
-
-    margin: -12px 0 0;
-
-    &.edit {
-      margin-top: 12px;
-    }
 
     .address-title {
       color: $like-dark-brown-1;
@@ -585,8 +593,9 @@ $profile-icon-mobile-size: 88px;
       .md-has-value,
       .md-focused {
         .input-display-hint {
-          opacity: 0;
           pointer-events: none;
+
+          opacity: 0;
         }
       }
 

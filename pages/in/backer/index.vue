@@ -86,7 +86,7 @@
 
     <verify-email-dialog
       ref="emailDialog"
-      :email="this.getUserInfo.email || ''"
+      :email="this.getUserInfo.email"
       :email-ref="'in-backer'" />
 
   </div>
