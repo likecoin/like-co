@@ -85,6 +85,10 @@ const whitePaperSrc = [
     src: '/in/likecoin-whitepaper-cn.pdf',
   },
   {
+    languageKey: 'ko',
+    src: '/in/likecoin-whitepaper-ko.pdf',
+  },
+  {
     languageKey: 'ru',
     src: '/in/likecoin-whitepaper-ru.pdf',
   },
