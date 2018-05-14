@@ -129,6 +129,7 @@
         <md-autocomplete
           v-model="country"
           :md-options="COUNTRY_LIST"
+          @md-changed="e => this.country = e"
           md-dense
           required>
           <label>{{ $t('KYC.label.country') }}</label>
@@ -138,6 +139,7 @@
         </span>
         <md-autocomplete
           v-model="nationality"
+          @md-changed="e => this.nationality = e"
           :md-options="NATIONALITY_LIST"
           md-dense
           required>
