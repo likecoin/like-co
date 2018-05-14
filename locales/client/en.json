@@ -865,7 +865,8 @@
       "verifyToPurchaseOverAmount": "Verifiy your identity and to purchase more than {amount} ETH",
       "waitingConfirmation": "Waiting for confirmation.",
       "timeWaitForAccountVerification": "It will take about 2 minutes…",
-      "timeWaitForAdvancedVerification": "It will take about 1 working day…",
+      "timeWaitForAdvancedVerification": "It usually takes less than 1 working day",
+      "emailNotification": "You will receive email notification when it is done",
       "contactUs": "Please contact us at the bottom-right dialogue bubble for further assistance.",
       "contactThroughIntercom": "Please contact us here in Intercom.",
       "preSaleBonusDescription": "25% bonus for 10 ETH purchase and above"

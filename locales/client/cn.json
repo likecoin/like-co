@@ -827,7 +827,8 @@
       "verifyToPurchaseOverAmount": "验证您的身份以购买 {amount} ETH 以上数量的 LikeCoin",
       "waitingConfirmation": "等待确认",
       "timeWaitForAccountVerification": "过程大约需时两分钟…",
-      "timeWaitForAdvancedVerification": "过程大约需时 1 个工作天…",
+      "timeWaitForAdvancedVerification": "过程需时一般少于 1 个工作天",
+      "emailNotification": "完成时你将会收到电邮通知",
       "contactUs": "请在右下对话圈与我们联络",
       "contactThroughIntercom": "请在 Intercom 与我们联络",
       "preSaleBonusDescription": "10 ETH 或以上的交易将会获得 25% 奖励"
