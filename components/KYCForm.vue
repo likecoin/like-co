@@ -296,6 +296,8 @@ import User from '@/util/User';
 import EthHelper from '@/util/EthHelper';
 import { mapActions } from 'vuex';
 
+const FILE_SIZE_LIMIT = 2 * 1024 * 1024; // 2MB
+
 export default {
   name: 'KYC',
   props: ['isKYCTxPass', 'isPreSale', 'isICOStarted', 'needExtraKYC', 'user', 'wallet'],
@@ -424,8 +426,11 @@ export default {
     handleSelfieImageChange(event) {
       const { files } = event.target;
       if (files && files[0]) {
+        if (files[0].size > FILE_SIZE_LIMIT) {
+          this.setErrorMsg(this.$t('Error.FILE_TOO_LARGE'));
+          return;
+        }
         this.selfieFileName = files[0].name;
-
         [this.documentFile0] = Object.values(files);
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -437,8 +442,11 @@ export default {
     handlePassportImageChange(event) {
       const { files } = event.target;
       if (files && files[0]) {
+        if (files[0].size > FILE_SIZE_LIMIT) {
+          this.setErrorMsg(this.$t('Error.FILE_TOO_LARGE'));
+          return;
+        }
         this.passportIdPageFileName = files[0].name;
-
         [this.documentFile1] = Object.values(files);
         const reader = new FileReader();
         reader.onload = (e) => {
