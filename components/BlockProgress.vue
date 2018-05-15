@@ -4,21 +4,23 @@
     :class="['lc-block-progress', { loading: isLoading }]"
     :style="style.root">
     <div :style="style.innerDiv">
-      <img :src="LikeCoinSpin" :style="style.img" />
+      <spinner :size="56" />
     </div>
   </div>
 </template>
 
 
 <script>
-import LikeCoinSpin from '~/assets/img/likecoin-spin.gif';
+import Spinner from '@/components/Spinner';
 
-const SPINNER_SIZE = '56px';
+const SPINNER_SIZE = 56;
 
 export default {
+  components: {
+    Spinner,
+  },
   data() {
     return {
-      LikeCoinSpin,
       isLoading: true,
       isHidden: false,
       style: {
@@ -33,13 +35,8 @@ export default {
         },
         innerDiv: {
           position: 'fixed',
-          top: `calc((100% - ${SPINNER_SIZE}) / 2)`,
-          left: `calc((100% - ${SPINNER_SIZE}) / 2)`,
-        },
-        img: {
-          display: 'block',
-          width: SPINNER_SIZE,
-          height: SPINNER_SIZE,
+          top: `calc((100% - ${SPINNER_SIZE}px) / 2)`,
+          left: `calc((100% - ${SPINNER_SIZE}px) / 2)`,
         },
       },
     };

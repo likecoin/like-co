@@ -85,6 +85,8 @@ export default {
   }
 
   .completed-button-wrapper {
+    cursor: pointer;
+
     > * {
       margin: -26px auto 0;
 

@@ -711,6 +711,10 @@ $font-weight-list: 300 400 600;
   }
 
   &.md-likecoin {
+    &.no-label {
+      margin-top: -16px;
+    }
+
     &.md-has-value,
     &.md-focused:not(.md-has-value) {
       label {
@@ -801,18 +805,30 @@ $font-weight-list: 300 400 600;
 
   &:not([disabled="disabled"]) {
     color: white;
-    background-color: $like-green;
+
+    @mixin lc-button-style($color) {
+      &.outline {
+        color: $color;
+        border: 2px solid currentColor;
+      }
+
+      &:not(.outline) {
+        background-color: $color;
+      }
+    };
+
+    @include lc-button-style($like-green);
 
     &.lc-cancel {
-      background-color: $like-gradient-3;
+      @include lc-button-style($like-gradient-3);
     }
 
     &.lc-facebook {
-      background-color: #3B5998;
+      @include lc-button-style(#3B5998);
     }
 
     &.lc-twitter {
-      background-color: #1EA1F2;
+      @include lc-button-style(#1EA1F2);
     }
   }
 
@@ -829,7 +845,7 @@ $font-weight-list: 300 400 600;
     width: 26px;
     min-width: 26px;
     height: 28px;
-    margin: 0 8px;
+    margin: 0 8px 0 0;
 
     font-size: 26px !important;
 
@@ -845,14 +861,14 @@ $font-weight-list: 300 400 600;
 
   &.md-icon-font {
     .md-likecoin & {
-      color: white;
+      color: currentColor;
     }
   }
 
   &.md-icon-image svg {
     .md-likecoin & {
-      fill: white !important;
-      stroke: white !important;
+      fill: currentColor !important;
+      stroke: currentColor !important;
     }
   }
 }
@@ -870,5 +886,33 @@ span.bold {
 
   > svg {
     flex: 1;
+  }
+}
+
+/* Transition */
+
+.lc-transition {
+  &-default {
+    &-enter-active {
+      transition: max-height 1.2s ease-in-out,
+                  opacity 1.2s ease-out;
+    }
+
+    &-leave-active {
+      transition: max-height .8s ease-in-out,
+                  opacity .8s ease-in;
+    }
+
+    &-enter-active,
+    &-leave {
+      opacity: 1;
+      max-height: 100vh;
+    }
+
+    &-enter,
+    &-leave-to {
+      opacity: 0;
+      max-height: 0;
+    }
   }
 }
