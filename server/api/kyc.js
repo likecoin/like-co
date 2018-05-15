@@ -142,7 +142,7 @@ router.post('/kyc', async (req, res) => {
       currentBlock,
       nonce: pendingCount,
       KYC: KYC_STATUS_ENUM.STANDARD,
-    });
+    }, { merge: true });
     const updateUser = userRef.update({
       KYC: KYC_STATUS_ENUM.STANDARD,
     });
@@ -277,7 +277,7 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
       ts: Date.now(),
       currentBlock,
       nonce: pendingCount,
-    });
+    }, { merge: true });
     const updatePayload = {
       pendingKYC: true,
     };
@@ -338,7 +338,7 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
         }),
         userRef.collection('ICO').doc('KYC').set({
           KYC: KYC_STATUS_ENUM.ADVANCED,
-        }),
+        }, { merge: true }),
       ]);
     }
   } catch (err) {
@@ -360,7 +360,7 @@ router.get('/kyc/advanced/:id', async (req, res) => {
       }),
       dbRef.doc(id).collection('ICO').doc('KYC').set({
         KYC: KYC_STATUS_ENUM.ADVANCED,
-      }),
+      }, { merge: true }),
     ]);
   }
   res.json({ status });
@@ -381,7 +381,7 @@ router.post('/kyc/advanced/cmd', async (req, res) => {
         }),
         userRef.collection('ICO').doc('KYC').set({
           KYC: KYC_STATUS_ENUM.ADVANCED,
-        }),
+        }, { merge: true }),
       ]);
     }
     res.json({ status });
