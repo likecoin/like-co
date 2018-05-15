@@ -198,7 +198,10 @@
         @expired="onCaptchaExpired"
         sitekey="6LfQqlgUAAAAADGckz6BtIuD_sU6cJhWDJ__OBx7">
       </vue-recaptcha>
-      <material-button type="submit" form="kycForm">
+      <material-button
+        :disabled="!reCaptchaResponse || !documentFile0 || !documentFile1"
+        type="submit"
+        form="kycForm">
         {{ $t('General.button.confirm') }}
       </material-button>
     </section>
