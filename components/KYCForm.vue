@@ -427,7 +427,7 @@ export default {
       const { files } = event.target;
       if (files && files[0]) {
         if (files[0].size > FILE_SIZE_LIMIT) {
-          this.setErrorMsg(this.$t('KYC.label.error.fileSize'));
+          this.setErrorMsg(this.$t('Error.FILE_TOO_LARGE'));
           return;
         }
         this.selfieFileName = files[0].name;
@@ -443,7 +443,7 @@ export default {
       const { files } = event.target;
       if (files && files[0]) {
         if (files[0].size > FILE_SIZE_LIMIT) {
-          this.setErrorMsg(this.$t('KYC.label.error.fileSize'));
+          this.setErrorMsg(this.$t('Error.FILE_TOO_LARGE'));
           return;
         }
         this.passportIdPageFileName = files[0].name;

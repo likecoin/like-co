@@ -869,10 +869,7 @@
       "emailNotification": "You will receive email notification when it is done",
       "contactUs": "Please contact us at the bottom-right dialogue bubble for further assistance.",
       "contactThroughIntercom": "Please contact us here in Intercom.",
-      "preSaleBonusDescription": "25% bonus for 10 ETH purchase and above",
-      "error": {
-        "fileSize": "Filesize limit exceeded"
-      }
+      "preSaleBonusDescription": "25% bonus for 10 ETH purchase and above"
     },
     "button": {
       "createID": "Create LikeCoin ID",
@@ -924,6 +921,7 @@
       "toIndex": "Return to Index"
     },
     "EMAIL_ALREADY_USED": "Email is already used",
+    "FILE_TOO_LARGE": "Filesize limit exceeded",
     "REFERRER_NOT_EXIST": "Referrer does not exist",
     "USER_ALREADY_EXIST": "User already exists"
   },
