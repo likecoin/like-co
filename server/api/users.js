@@ -96,6 +96,15 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       const BLACK_LIST_DOMAIN = disposableDomains.concat(emailBlacklist);
       const parts = email.split('@');
       if (BLACK_LIST_DOMAIN.includes(parts[1])) {
+        publisher.publish(PUBSUB_TOPIC_MISC, req, {
+          logType: 'eventBlockEmail',
+          user,
+          email,
+          displayName,
+          wallet,
+          referrer: referrer || undefined,
+          locale,
+        });
         throw new Error('email domain not allowed');
       }
       if (parts[1] === 'gmail.com') {
