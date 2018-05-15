@@ -99,6 +99,7 @@
       </div>
       <vue-recaptcha
         @verify="onCaptchaVerify"
+        @expired="onCaptchaExpired"
         sitekey="6LfQqlgUAAAAADGckz6BtIuD_sU6cJhWDJ__OBx7">
       </vue-recaptcha>
       <material-button :disabled="KYCNotPass" type="submit" form="kycForm">
@@ -190,6 +191,7 @@
       </div>
       <vue-recaptcha
         @verify="onCaptchaVerify"
+        @expired="onCaptchaExpired"
         sitekey="6LfQqlgUAAAAADGckz6BtIuD_sU6cJhWDJ__OBx7">
       </vue-recaptcha>
       <material-button type="submit" form="kycForm">
@@ -412,6 +414,9 @@ export default {
     ]),
     onCaptchaVerify(response) {
       this.reCaptchaResponse = response;
+    },
+    onCaptchaExpired() {
+      this.reCaptchaResponse = '';
     },
     openPicker(inputFile) {
       this.$refs[inputFile].click();

@@ -98,6 +98,7 @@
         <div style="flex: 1" class=".lc-mobile-hide"/>
         <vue-recaptcha
           @verify="onCaptchaVerify"
+          @expired="onCaptchaExpired"
           sitekey="6LfQqlgUAAAAADGckz6BtIuD_sU6cJhWDJ__OBx7">
         </vue-recaptcha>
       </div>
@@ -223,6 +224,9 @@ export default {
     },
     onCaptchaVerify(response) {
       this.reCaptchaResponse = response;
+    },
+    onCaptchaExpired() {
+      this.reCaptchaResponse = '';
     },
     async onSubmit() {
       try {
