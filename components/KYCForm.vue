@@ -167,6 +167,8 @@
             accept="image/png, image/jpeg"
             @change="handleSelfieImageChange"
             :required="documentFile0 ? null : 'required'" />
+          <md-progress-spinner v-if="selfieFileName && !documentData0" md-mode="indeterminate" />
+          <img v-else-if="documentData0" :src="documentData0" />
         </div>
 
         <div class="image-upload-field">
@@ -186,6 +188,8 @@
             accept="image/png, image/jpeg"
             @change="handlePassportImageChange"
             :required="documentFile1 ? null : 'required'" />
+          <md-progress-spinner v-if="passportIdPageFileName && !documentData1" md-mode="indeterminate" />
+          <img v-else-if="documentData1" :src="documentData1" />
         </div>
 
       </div>
@@ -296,6 +300,8 @@ import User from '@/util/User';
 import EthHelper from '@/util/EthHelper';
 import { mapActions } from 'vuex';
 
+const pica = require('pica/dist/pica')({ features: ['js', 'ww'] });
+
 const FILE_SIZE_LIMIT = 2 * 1024 * 1024; // 2MB
 
 export default {
@@ -325,8 +331,8 @@ export default {
       lastName: '',
       country: '',
       nationality: '',
-      // documentData0: null,
-      // documentData1: null,
+      documentData0: null,
+      documentData1: null,
       passportIdPageFileName: null,
       selfieFileName: null,
       documentFile0: '',
@@ -423,18 +429,43 @@ export default {
     openPicker(inputFile) {
       this.$refs[inputFile].click();
     },
+    async handleImageResize(img) {
+      const offScreenCanvas = document.createElement('canvas');
+      let width;
+      let height;
+      if (img.width > img.height) {
+        width = 2048;
+        height = (width * img.height) / img.width;
+      } else {
+        height = 2048;
+        width = (height * img.width) / img.height;
+      }
+      offScreenCanvas.width = width;
+      offScreenCanvas.height = height;
+      return pica.resize(img, offScreenCanvas, 2)
+        .then(result => pica.toBlob(result, 'image/jpeg', 0.90));
+    },
     handleSelfieImageChange(event) {
       const { files } = event.target;
       if (files && files[0]) {
-        if (files[0].size > FILE_SIZE_LIMIT) {
-          this.setErrorMsg(this.$t('Error.FILE_TOO_LARGE'));
-          return;
-        }
-        this.selfieFileName = files[0].name;
-        [this.documentFile0] = Object.values(files);
+        let [file] = Object.values(files);
+        this.documentData0 = null;
         const reader = new FileReader();
         reader.onload = (e) => {
-          this.documentData1 = e.target.result;
+          const img = new Image();
+          img.onload = async () => {
+            if (file.size > FILE_SIZE_LIMIT) {
+              file = await this.handleImageResize(img);
+            }
+            if (file.size > FILE_SIZE_LIMIT) {
+              this.setErrorMsg(this.$t('Error.FILE_TOO_LARGE'));
+              return;
+            }
+            this.documentData0 = URL.createObjectURL(file);
+            this.documentFile0 = file;
+          };
+          img.src = e.target.result;
+          this.selfieFileName = file.name;
         };
         reader.readAsDataURL(files[0]);
       }
@@ -442,15 +473,24 @@ export default {
     handlePassportImageChange(event) {
       const { files } = event.target;
       if (files && files[0]) {
-        if (files[0].size > FILE_SIZE_LIMIT) {
-          this.setErrorMsg(this.$t('Error.FILE_TOO_LARGE'));
-          return;
-        }
-        this.passportIdPageFileName = files[0].name;
-        [this.documentFile1] = Object.values(files);
+        let [file] = Object.values(files);
+        this.documentData1 = null;
         const reader = new FileReader();
         reader.onload = (e) => {
-          this.documentData0 = e.target.result;
+          const img = new Image();
+          img.onload = async () => {
+            if (file.size > FILE_SIZE_LIMIT) {
+              file = await this.handleImageResize(img);
+            }
+            if (file.size > FILE_SIZE_LIMIT) {
+              this.setErrorMsg(this.$t('Error.FILE_TOO_LARGE'));
+              return;
+            }
+            this.documentData1 = URL.createObjectURL(file);
+            this.documentFile1 = file;
+          };
+          img.src = e.target.result;
+          this.passportIdPageFileName = file.name;
         };
         reader.readAsDataURL(files[0]);
       }
