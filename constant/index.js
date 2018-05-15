@@ -56,7 +56,7 @@ const toolbarsDisableError = {
   'id-amount': ['web3', 'testnet', 'locked'],
   'claim-id-coupon': ['web3', 'locked'],
   'in-backer': ['web3', 'testnet', 'locked'],
-  'in-tokensale': ['web3', 'testnet', 'locked'],
+  'in-tokensale': ['web3', 'locked'],
   'in-tokensale-tx-id': ['web3', 'locked'],
   'ref-id': ['web3', 'testnet', 'locked'],
 };
