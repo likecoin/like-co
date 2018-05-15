@@ -52,7 +52,7 @@
     "@likecoin/likecoin-email-templates": "^1.0.2",
     "@likecoin/vue-image-lightbox": "^5.5.4",
     "@nuxtjs/google-analytics": "^2.0.2",
-    "@nuxtjs/google-tag-manager": "^1.1.0",
+    "@nuxtjs/google-tag-manager": "^2.0.0",
     "@nuxtjs/sentry": "^1.0.3",
     "aws-sdk": "^2.224.1",
     "axios": "^0.18.0",
