@@ -869,7 +869,10 @@
       "emailNotification": "You will receive email notification when it is done",
       "contactUs": "Please contact us at the bottom-right dialogue bubble for further assistance.",
       "contactThroughIntercom": "Please contact us here in Intercom.",
-      "preSaleBonusDescription": "25% bonus for 10 ETH purchase and above"
+      "preSaleBonusDescription": "25% bonus for 10 ETH purchase and above",
+      "error": {
+        "fileSize": "Filesize limit exceeded"
+      }
     },
     "button": {
       "createID": "Create LikeCoin ID",
