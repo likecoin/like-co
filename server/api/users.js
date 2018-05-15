@@ -95,6 +95,15 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       email = email.toLowerCase();
       const BLACK_LIST_DOMAIN = disposableDomains.concat(emailBlacklist);
       if (BLACK_LIST_DOMAIN.includes(email.split('@')[1])) {
+        publisher.publish(PUBSUB_TOPIC_MISC, req, {
+          logType: 'eventBlockEmail',
+          user,
+          email,
+          displayName,
+          wallet,
+          referrer: referrer || undefined,
+          locale,
+        });
         throw new Error('email domain not allowed');
       }
     }
