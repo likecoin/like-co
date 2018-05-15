@@ -58,7 +58,7 @@ module.exports = {
           'https://www.google-analytics.com',
           'https://www.googletagmanager.com',
           'https://www.googleadservices.com',
-          'https://www.google.com',
+          'https://*.google.com',
           'https://www.gstatic.com/',
           'https://googleads.g.doubleclick.net',
           'https://sp.analytics.yahoo.com',
