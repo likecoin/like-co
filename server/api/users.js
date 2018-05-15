@@ -47,7 +47,7 @@ const multer = Multer({
 
 const ONE_DATE_IN_MS = 86400000;
 const THIRTY_S_IN_MS = 30000;
-const W3C_EMAIL_REGEX = /^[a-zA-Z0-9!#$%&'*/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+const W3C_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
 const router = Router();
 
@@ -94,7 +94,8 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       if ((process.env.CI || !IS_TESTNET) && !(W3C_EMAIL_REGEX.test(email))) throw new Error('invalid email');
       email = email.toLowerCase();
       const BLACK_LIST_DOMAIN = disposableDomains.concat(emailBlacklist);
-      if (BLACK_LIST_DOMAIN.includes(email.split('@')[1])) {
+      const parts = email.split('@');
+      if (BLACK_LIST_DOMAIN.includes(parts[1])) {
         publisher.publish(PUBSUB_TOPIC_MISC, req, {
           logType: 'eventBlockEmail',
           user,
@@ -105,6 +106,9 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
           locale,
         });
         throw new Error('email domain not allowed');
+      }
+      if (parts[1] === 'gmail.com') {
+        email = `${parts[0].split('.').join('')}@${parts[1]}`;
       }
     }
 

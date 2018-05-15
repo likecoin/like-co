@@ -141,6 +141,7 @@ router.post('/kyc', async (req, res) => {
       ts: Date.now(),
       currentBlock,
       nonce: pendingCount,
+      KYC: KYC_STATUS_ENUM.STANDARD,
     });
     const updateUser = userRef.update({
       KYC: KYC_STATUS_ENUM.STANDARD,
@@ -330,10 +331,15 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
       email,
     });
     if (status === 'CLEARED' || status === 'ACCEPTED') {
-      await userRef.update({
-        KYC: KYC_STATUS_ENUM.ADVANCED,
-        pendingKYC: false,
-      });
+      await Promise.all([
+        userRef.update({
+          KYC: KYC_STATUS_ENUM.ADVANCED,
+          pendingKYC: false,
+        }),
+        userRef.collection('ICO').doc('KYC').set({
+          KYC: KYC_STATUS_ENUM.ADVANCED,
+        }),
+      ]);
     }
   } catch (err) {
     console.error(err);
@@ -347,14 +353,44 @@ router.get('/kyc/advanced/:id', async (req, res) => {
   const { id } = req.params;
   const status = await getKYCAPIStatus(id);
   if (status === 'CLEARED' || status === 'ACCEPTED') {
-    await dbRef
-      .doc(id)
-      .update({
+    await Promise.all([
+      dbRef.doc(id).update({
         KYC: KYC_STATUS_ENUM.ADVANCED,
         pendingKYC: false,
-      });
+      }),
+      dbRef.doc(id).collection('ICO').doc('KYC').set({
+        KYC: KYC_STATUS_ENUM.ADVANCED,
+      }),
+    ]);
   }
   res.json({ status });
+});
+
+router.post('/kyc/advanced/cmd', async (req, res) => {
+  try {
+    const { text: id } = req.body;
+    const userRef = dbRef.doc(id);
+    const userDoc = await userRef.get();
+    if (!userDoc.exists) throw new Error('Invalid user');
+    const status = await getKYCAPIStatus(id);
+    if (status === 'CLEARED' || status === 'ACCEPTED') {
+      await Promise.all([
+        userRef.update({
+          KYC: KYC_STATUS_ENUM.ADVANCED,
+          pendingKYC: false,
+        }),
+        userRef.collection('ICO').doc('KYC').set({
+          KYC: KYC_STATUS_ENUM.ADVANCED,
+        }),
+      ]);
+    }
+    res.json({ status });
+  } catch (err) {
+    console.error(err);
+    const msg = err.message || err;
+    console.error(msg);
+    res.status(400).send(msg);
+  }
 });
 
 export default router;
