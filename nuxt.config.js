@@ -90,6 +90,7 @@ module.exports = {
         'img-src': [
           "'self'",
           'data:',
+          'blob:',
           '*',
         ],
         'media-src': [
@@ -106,6 +107,10 @@ module.exports = {
           "'self'",
           "'unsafe-inline'",
           'https://fonts.googleapis.com',
+        ],
+        'worker-src': [
+          "'self'",
+          'blob:',
         ],
         'report-uri': [
           process.env.SENTRY_REPORT_URI,
