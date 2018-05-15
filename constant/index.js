@@ -13,7 +13,7 @@ export const ETH_NETWORK_NAME = IS_TESTNET ? 'rinkeby' : 'mainnet';
 
 export const CONFIRMATION_NEEDED = 6;
 
-export const W3C_EMAIL_REGEX = IS_TESTNET ? '.*' : '^[a-zA-Z0-9!#$%&\'*/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$';
+export const W3C_EMAIL_REGEX = IS_TESTNET ? '.*' : '^[a-zA-Z0-9.!#$%&\'*/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$';
 
 export const PUBSUB_TOPIC_MISC = 'misc';
 
