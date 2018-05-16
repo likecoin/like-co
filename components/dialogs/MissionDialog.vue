@@ -362,11 +362,11 @@ export default {
 
       switch (t.id) {
         case 'taskPaymentPage':
-          this.openURL(`/${this.getUserInfo.user}`, 'payment-page');
+          openURL(`/${this.getUserInfo.user}`, 'payment-page');
           break;
 
         case 'taskOnepager': {
-          this.openURL('/in/whitepaper', 'onpager-page');
+          openURL('/in/whitepaper', 'onpager-page');
           break;
         }
 
