@@ -5,10 +5,7 @@
       <div v-if="isError" key="error" class="lc-dialog-container-0">
         <div class="lc-dialog-container-1">
           <p class="lc-font-size-16 lc-text-align-center lc-margin-vertical-32">
-            {{ $t('Error.MISSION_COMPLETE_FAILURE') }}
-            <span v-if="errorMessage">
-              <br/><br/>{{ errorMessage }}
-            </span>
+            {{ $t('Error.MISSION_COMPLETE_FAILURE') }}<span v-if="errorMessage"><br/><br/>{{ errorMessage }}</span>
           </p>
         </div>
 
@@ -112,7 +109,8 @@ export default {
       } catch (error) {
         if (error.response) {
           const { data, statusText } = error.response;
-          this.errorMessage = data || statusText;
+          const localeKey = `Error.${data || statusText}`;
+          if (this.$te(localeKey)) this.errorMessage = this.$t(localeKey);
         }
         this.isError = true;
       }
