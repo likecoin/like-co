@@ -23,7 +23,8 @@
     "test:e2e": "./node_modules/.bin/nightwatch --config test/e2e/nightwatch.conf.js",
     "test:e2e:home": "./node_modules/.bin/nightwatch -c test/e2e/nightwatch.conf.js -g home.js",
     "test:e2e:tx": "./node_modules/.bin/nightwatch -c test/e2e/nightwatch.conf.js -g tx.js",
-    "test:e2e:user": "./node_modules/.bin/nightwatch -c test/e2e/nightwatch.conf.js -g user.js"
+    "test:e2e:user": "./node_modules/.bin/nightwatch -c test/e2e/nightwatch.conf.js -g user.js",
+    "test:e2e:mission": "./node_modules/.bin/nightwatch -c test/e2e/nightwatch.conf.js -g mission.js"
   },
   "ava": {
     "require": [

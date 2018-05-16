@@ -14,8 +14,7 @@ module.exports = {
     browser
       .url(devServer)
       .click('.lc-container-3 button.account-btn')
-      .waitForElementVisible('#registerForm', 2000)
-      .pause(6000)
+      .waitForElementVisible('#registerForm', 5000)
       .setValue('#registerForm input[type=text][required=required]', 'testacct')
       .submitForm('#registerForm')
       .pause(2000)

@@ -1,20 +1,70 @@
 {
     "missions": [
         {
+            "id": "verifyEmail",
+            "priority": 0,
+            "require": [
+            ],
+            "referralPayoutType": "referralv2",
+            "isReferral": true,
+            "referralReward": "8 LIKE",
+            "refereeReward": "8 LIKE"
+        },
+        {
             "id": "gettingStart",
             "priority": 1,
             "require": [
                 "verifyEmail"
             ],
-            "reward": "8 LIKE"
+            "reward": "3 LIKE"
         },
         {
-            "id": "verifyEmail",
+            "id": "inviteFriend",
+            "isProxy": true,
+            "priority": 1,
+            "reward": "8 LIKE",
+            "staying": true,
+            "targetPayoutType": "referralv2",
+            "require": [
+                "verifyEmail"
+            ]
+        },
+        {
+            "id": "inviteTokenSale",
+            "reward": "2.5%",
+            "startTs": 1425665600000,
+            "staying": true,
+            "targetPayoutType": "ico-referrer",
+            "require": [
+                "inviteFriend"
+            ],
+            "isProxy": true,
+            "priority": 2
+        },
+        {
+            "id": "joinTokenSale",
+            "require": [
+                "verifyEmail"
+            ],
+            "refereeExtraReward": "2.5 %",
+            "priority": 1,
+            "referralPayoutType": "ico-referrer",
             "isReferral": true,
-            "priority": 0,
-            "referralPayoutType": "referral",
-            "referralReward": "8 LIKE",
-            "require": []
+            "reward": "100 LIKE",
+            "startTs": 1425665600000,
+            "referralReward": "2.5 %"
+        },
+        {
+            "id": "refereeTokenSale",
+            "isRefereeOnly": true,
+            "reward": "2.5%",
+            "startTs": 1425665600000,
+            "targetPayoutType": "ico-referee",
+            "require": [
+                "joinTokenSale"
+            ],
+            "isProxy": true,
+            "priority": 2
         }
     ]
 }

@@ -20,6 +20,28 @@
                 "referrals": [
                 ]
             }
+        },
+        {
+            "id": "testacctreferrer",
+            "displayName": "testacctReferrer",
+            "email": "testacctreferrer@likecoin.store",
+            "wallet": "0x0ecE4870B4D37e725c08FCFe2a24c794a651d6d8",
+            "isEmailVerified": true,
+            "collection": {
+              "referrals": [
+                {
+                  "id": "testacctreferee"
+                }
+              ]
+            }
+        },
+        {
+            "id": "testacctreferee",
+            "displayName": "testacctReferee",
+            "email": "testacctreferee@likecoin.store",
+            "wallet": "0x0FB3aE1eb4e2e9c3F0f241d5c73fB5D5069c21A5",
+            "verificationUUID": "00000000-0000-0000-0000-000000000001",
+            "referrer": "testacctreferrer"
         }
     ]
 }
