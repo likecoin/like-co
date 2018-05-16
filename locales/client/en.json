@@ -983,9 +983,9 @@
       "description": "Every time <span class=\"bold\">{invitee}</span> participate in token sale, you both will get 2.5% LIKE bonus. No UPPER LIMIT."
     },
     "twitter": {
-      "title": "Retweet!",
-      "description": "Retweet our post to get LikeCoin",
-      "linkedDescription": "Retweet our <a href=\"{postLink}\" target=\"_blank\">post</a> to get LikeCoin",
+      "title": "Follow and Retweet!",
+      "description": "Follow and retweet our post to get LikeCoin",
+      "linkedDescription": "Follow and retweet our <a href=\"{postLink}\" target=\"_blank\">post</a> to get LikeCoin",
       "header": {
         "pasteURL": "Paste your tweet url here"
       },

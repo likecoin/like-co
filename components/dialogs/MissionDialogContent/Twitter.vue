@@ -97,7 +97,7 @@ export default {
       }
     },
     image() {
-      return `/images/mission/twitter/quote-tweet-${this.step === 2 ? 2 : 1}.png`;
+      return `/images/mission/twitter/quote-tweet-${this.step === 2 ? 2 : 1}.gif`;
     },
   },
   methods: {
