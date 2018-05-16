@@ -86,11 +86,20 @@ function collectionDoc(data, id) {
       id: obj.id,
       data: () => docData(obj),
     };
+    if (!obj.collection) {
+      obj.collection = {};
+    }
   } else {
     docObj = {};
   }
+
   return {
-    get: () => global.Promise.resolve(docObj),
+    get: function get() {
+      return global.Promise.resolve({
+        ...docObj,
+        ref: this,
+      });
+    },
     set: (setData, config) => docSet(data, id, setData, config),
     create: (setData, config) => docSet(data, id, setData, config),
     update: (updateData) => {
@@ -100,10 +109,9 @@ function collectionDoc(data, id) {
       throw new Error('Doc not exists for update.');
     },
     collection: (collectionId) => {
-      // define sub-collection if try to query
-      obj.collection = {
-        [collectionId]: [],
-      };
+      if (!obj.collection[collectionId]) {
+        obj.collection[collectionId] = [];
+      }
       /* eslint no-use-before-define: "off" */
       return createCollection(obj.collection[collectionId]);
     },

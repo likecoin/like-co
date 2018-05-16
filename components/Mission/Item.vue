@@ -1,5 +1,5 @@
 <template>
-  <div :class="['mission-item', layout, state]">
+  <div :class="['mission-item', layout, state, mission.id]">
     <div>
 
       <div class="mission-card" @click="$emit('click')">
