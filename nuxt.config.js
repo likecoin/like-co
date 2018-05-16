@@ -96,6 +96,7 @@ module.exports = {
         'media-src': [
           'https://*.intercomcdn.com',
           'https://*.gstatic.com',
+          'https://video.appledaily.com.hk',
         ],
         'connect-src': [
           "'self'",

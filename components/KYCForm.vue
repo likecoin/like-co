@@ -127,10 +127,12 @@
           <label>{{ $t('KYC.label.lastName') }}</label>
           <md-input v-model="lastName" required />
         </md-field>
+        <!-- @md-opened workaround for autocomplete bug -->
         <md-autocomplete
           v-model="country"
           :md-options="COUNTRY_LIST"
           @md-changed="e => this.country = e"
+          @md-opened="() => { this.country += ' '; this.country = this.country.substring(0, this.country.length - 1) }"
           md-dense
           required>
           <label>{{ $t('KYC.label.country') }}</label>
@@ -138,9 +140,11 @@
         <span v-if="isCountryInvalid" class="invalid-country-error">
           {{ $t('KYC.label.invalidCountry') }}
         </span>
+        <!-- @md-opened workaround for autocomplete bug -->
         <md-autocomplete
           v-model="nationality"
           @md-changed="e => this.nationality = e"
+          @md-opened="() => { this.nationality += ' '; this.nationality = this.nationality.substring(0, this.nationality.length - 1) }"
           :md-options="NATIONALITY_LIST"
           md-dense
           required>
