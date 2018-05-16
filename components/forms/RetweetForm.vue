@@ -4,7 +4,7 @@
     <copy-text-field
       v-if="currentStep < 2"
       :label="$t('Form.Retweet.label.retweet')"
-      :text="`${TWEET_COMMENT} ${TWEET_URL} #${TWEET_HASHTAG}`"
+      :text="text"
       @copy="onCopy" />
 
     <div v-else>
@@ -50,11 +50,6 @@ import TwitterIcon from '@/assets/icons/fillable/twitter.svg';
 
 import CopyTextField from '@/components/CopyTextField';
 
-const TWEET_URL = 'https://twitter.com/likecoin_fdn/status/993685600443162630';
-const TWEET_COMMENT = 'Reinventing the Like';
-const TWEET_HASHTAG = 'LikeCoin';
-const WEB_INDENT_URL = `https://twitter.com/intent/tweet?hashtags=${TWEET_HASHTAG}&url=${encodeURI(TWEET_URL)}&text=${encodeURI(TWEET_COMMENT)}`;
-
 export default {
   name: 'retweet-form',
   props: {
@@ -62,15 +57,21 @@ export default {
       type: Number,
       default: 0,
     },
+    url: {
+      type: String,
+      required: true,
+    },
+    comment: String,
+    hashtags: {
+      type: Array,
+      default: () => ['LikeCoin'],
+    },
   },
   components: {
     CopyTextField,
   },
   data() {
     return {
-      TWEET_URL,
-      TWEET_COMMENT,
-      TWEET_HASHTAG,
       TwitterIcon,
 
       currentStep: this.step,
@@ -86,6 +87,19 @@ export default {
           return this.$t('General.button.done');
       }
     },
+    hashtagsString() {
+      return this.hashtags.reduce((s, t) => `${s} #${t}`, '').trim();
+    },
+    indentURL() {
+      return `https://twitter.com/intent/tweet?hashtags=${this.hashtags.join()}&url=${encodeURI(this.url)}&text=${encodeURI(this.comment)}`;
+    },
+    text() {
+      return [
+        this.comment,
+        this.url,
+        this.hashtagsString,
+      ].reduce((text, t) => (t ? `${text} ${t}` : text));
+    },
   },
   methods: {
     nextStep(max = 2) {
@@ -98,7 +112,7 @@ export default {
     onClickButton() {
       switch (this.currentStep) {
         case 0:
-          openURL(this, WEB_INDENT_URL, 'twitter', 'height=285,width=550,resizable=1,noopener');
+          openURL(this, this.indentURL, 'twitter', 'height=285,width=550,resizable=1,noopener');
           break;
         case 2:
           this.$emit('complete', this.retweetLink);

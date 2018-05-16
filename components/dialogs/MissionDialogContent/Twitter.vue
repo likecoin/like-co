@@ -6,6 +6,9 @@
         <div class="lc-dialog-container-1">
           <p class="lc-font-size-16 lc-text-align-center lc-margin-vertical-32">
             {{ $t('Error.MISSION_COMPLETE_FAILURE') }}
+            <span v-if="errorMessage">
+              <br/><br/>{{ errorMessage }}
+            </span>
           </p>
         </div>
 
@@ -21,12 +24,18 @@
       <div v-else-if="isLoading" class="lc-dialog-container-0">
         <div class="lc-dialog-container-1 lc-padding-vertical-32">
           <spinner :size="48" />
+          <p class="lc-margin-top-24 lc-text-align-center">
+            {{ $t('Mission.twitter.label.verifying') }}
+          </p>
         </div>
       </div>
 
       <div v-else key="normal" class="lc-dialog-container-0">
         <div class="lc-dialog-container-1">
           <h1 class="lc-font-size-32">{{ title }}</h1>
+          <p
+            class="lc-font-size-16 lc-color-like-gray-4"
+            v-html="$t('Mission.twitter.linkedDescription', { postLink: TWEET_URL } )" />
         </div>
 
         <div class="instruction-image">
@@ -36,6 +45,8 @@
         <div class="lc-dialog-container-1">
           <retweet-form
             :step.sync="step"
+            :url="TWEET_URL"
+            comment="Reinventing the Like"
             @cancel="onCancel"
             @complete="onComplete" />
         </div>
@@ -52,6 +63,8 @@ import * as api from '@/util/api/api';
 import RetweetForm from '~/components/forms/RetweetForm';
 import Spinner from '~/components/Spinner';
 
+const TWEET_URL = 'https://twitter.com/likecoin_fdn/status/993685600443162630';
+
 export default {
   name: 'twitter-mission',
   props: {
@@ -66,9 +79,12 @@ export default {
   },
   data() {
     return {
+      TWEET_URL,
+
       step: 0,
       isError: false,
       isLoading: false,
+      errorMessage: '',
     };
   },
   computed: {
@@ -94,7 +110,10 @@ export default {
         await api.apiPostTwitterMission(this.userId, tweetLink);
         this.$emit('complete');
       } catch (error) {
-        console.error(error);
+        if (error.response) {
+          const { data, statusText } = error.response;
+          this.errorMessage = data || statusText;
+        }
         this.isError = true;
       }
       this.isLoading = false;

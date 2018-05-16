@@ -923,14 +923,14 @@
     },
     "EMAIL_ALREADY_USED": "Email is already used",
     "FILE_TOO_LARGE": "Filesize limit exceeded",
-    "MISSION_COMPLETE_FAILURE": "Error occurs when completing the mission. Please try again later.",
+    "MISSION_COMPLETE_FAILURE": "Error occurs when completing the mission",
     "REFERRER_NOT_EXIST": "Referrer does not exist",
     "USER_ALREADY_EXIST": "User already exists"
   },
   "Form": {
     "Retweet": {
       "label": {
-        "retweet": "Retweet our post with comment",
+        "retweet": "Retweet with the following comment",
         "pasteURL": "Paste the tweet link here"
       },
       "placeholer": {
@@ -984,8 +984,13 @@
     },
     "twitter": {
       "title": "Retweet!",
+      "description": "Retweet our post to get LikeCoin",
+      "linkedDescription": "Retweet our <a href=\"{postLink}\" target=\"_blank\">post</a> to get LikeCoin",
       "header": {
         "pasteURL": "Paste your tweet url here"
+      },
+      "label": {
+        "verifying": "Verifying the tweet"
       }
     },
     "completedBanner": {
