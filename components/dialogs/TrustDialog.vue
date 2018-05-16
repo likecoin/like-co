@@ -164,12 +164,6 @@ export default {
     getHelpLink() {
       return this.$t('Dialog.trust.label.registerMobileLink');
     },
-    isAndroid() {
-      return /(android)/i.test(navigator.userAgent);
-    },
-    isIOS() {
-      return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-    },
   },
   methods: {
     handleClipboardCopySucceed() {

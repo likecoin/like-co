@@ -4,6 +4,7 @@ import Web3 from 'web3';
 import { LIKE_COIN_ABI, LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin';
 import { LIKE_COIN_ICO_ABI, LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 import { IS_TESTNET, INFURA_HOST, CONFIRMATION_NEEDED } from '@/constant';
+import { isIOS } from '@/util/client';
 
 const abiDecoder = require('@likecoin/abi-decoder/dist/es5');
 
@@ -177,7 +178,7 @@ class EthHelper {
 
   getIsSupportTransferDelegated() {
     /* Trust not support Bignumber yet */
-    if (this.web3Type === 'window' && window.web3 && window.web3.currentProvider.isTrust) {
+    if (this.web3Type === 'window' && window.web3 && window.web3.currentProvider.isTrust && !isIOS()) {
       return false;
     }
     return (this.web3Type !== 'ledger' && this.web3Type !== 'infura');
