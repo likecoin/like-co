@@ -1010,7 +1010,12 @@
     },
     "common": {
       "label": {
-        "upcomingDate": "<span class=\"bold\">LikeCoin public sale will start on {upcoming}.</span>"
+        "upcomingDate": "<span class=\"bold\">LikeCoin public sale will start on {upcoming}.</span>",
+        "desktopRequired": "This bonus require desktop to complete",
+        "pleaseUseDesktop": "Please visit like.co with desktop computer and chrome broswer."
+      },
+      "button": {
+        "desktopFAQ": "How can I access this account on desktop?"
       }
     }
   }
