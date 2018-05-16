@@ -418,7 +418,7 @@ class EthHelper {
     return Promise.resolve(postData);
   }
 
-  async sendTransaction(to, value) {
+  async sendTransaction(to, value, { gasPrice, gasLimit } = {}) {
     if (!this.isInited) return Promise.reject(new Error('No web3'));
     if (this.onSign) this.onSign();
     const txEventEmitter = new Promise((resolve, reject) => {
@@ -426,6 +426,8 @@ class EthHelper {
         from: this.wallet,
         to,
         value,
+        gasPrice,
+        gasLimit,
       })
         .on('transactionHash', (hash) => {
           if (this.onSigned) this.onSigned();
