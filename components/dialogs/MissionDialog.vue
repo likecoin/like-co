@@ -9,140 +9,158 @@
         <mission-icon :mission-id="missionId" />
       </div>
 
-      <div class="mission-dialog-content">
+      <transition name="lc-transition-default" mode="out-in">
+        <div
+          v-if="!isCompleted && isCustomLayout"
+          key="custom"
+          class="mission-dialog-content">
 
-        <div class="lc-dialog-container-1">
-          <div class="reward-label">
-            {{ mission.isReferral ? mission.referralReward : mission.reward }}
-          </div>
+          <twitter-mission
+            v-if="missionId === 'twitter'"
+            :userId="getUserInfo.user"
+            @cancel="onDismiss"
+            @complete="onCompleteMission" />
 
-          <h1 class="title-label">{{ title }}</h1>
-
-          <div class="description" v-html="description" />
-          <div class="description" v-if="subDescription" v-html="subDescription" />
         </div>
+        <div
+          v-else
+          key="generic"
+          class="mission-dialog-content">
 
-        <mission-completed-banner
-          v-if="isCompleted"
-          class="lc-margin-top-32"
-          @click="onDismiss" />
-        <div v-else class="lc-dialog-container-1">
-          <!-- BEGIN - Getting Start Section -->
-          <div
-            v-if="mission.id === 'gettingStart'"
-            class="getting-start-form">
-
-            <task-list
-              :tasks="getTasks"
-              @click="onClickGettingStartTask" />
-
-            <div class="lc-button-group">
-              <md-button class="md-likecoin" @click="onDismiss">
-              {{ $t('General.button.ok') }}
-              </md-button>
+          <div class="lc-dialog-container-1">
+            <div class="reward-label">
+              {{ mission.isReferral ? mission.referralReward : mission.reward }}
             </div>
 
+            <h1 class="title-label">{{ title }}</h1>
+
+            <div class="description" v-if="description" v-html="description" />
+            <div class="description" v-if="subDescription" v-html="subDescription" />
           </div>
-          <!-- END - Getting Start Section -->
 
-          <!-- BEGIN - Verify Email Section -->
+          <mission-completed-banner
+            v-if="isCompleted"
+            class="lc-margin-top-32 lc-mobile"
+            @click="onDismiss" />
+
           <div
-            v-else-if="!isReferral && missionId === 'verifyEmail'"
-            class="verify-email-form">
+            v-if="!isCompleted"
+            class="lc-dialog-container-1 lc-margin-top-24 lc-mobile">
+            <!-- BEGIN - Getting Start Section -->
+            <div
+              v-if="mission.id === 'gettingStart'"
+              class="getting-start-form">
 
-            <verify-email-form
-              ref="form"
-              :email="this.getUserInfo.email"
-              :label="$t('Dialog.emailInput.label')"
-              @cancel="onDismiss"
-              @submit="onVerifyEmail"/>
+              <task-list
+                :tasks="getTasks"
+                @click="onClickGettingStartTask" />
 
-          </div>
-          <!-- END - Verify Email Section -->
-
-
-          <!-- BEGIN - Invitee Verify Email Section -->
-          <div
-            v-else-if="isReferral && missionId === 'verifyEmail'"
-            class="verify-email-form">
-
-            <div class="lc-button-group">
-              <md-button
-                class="md-likecoin"
-                @click="onDismiss">
+              <div class="lc-button-group">
+                <md-button class="md-likecoin" @click="onDismiss">
                 {{ $t('General.button.ok') }}
-              </md-button>
+                </md-button>
+              </div>
+
             </div>
+            <!-- END - Getting Start Section -->
 
-          </div>
-          <!-- END - Verify Email Section -->
+            <!-- BEGIN - Verify Email Section -->
+            <div
+              v-else-if="!isReferral && missionId === 'verifyEmail'"
+              class="verify-email-form">
 
+              <verify-email-form
+                ref="form"
+                :email="this.getUserInfo.email"
+                :label="$t('Dialog.emailInput.label')"
+                @cancel="onDismiss"
+                @submit="onVerifyEmail"/>
 
-          <!-- BEGIN - Invite Friend Section -->
-          <invite-friend-form
-            v-else-if="mission.id === 'inviteFriend'"
-            class="lc-margin-top-24"
-            form-id="mission-invite-friend-form"
-            @invite="onInviteFriend" />
-          <!-- END - Invite Friend Section -->
-
-          <!-- BEGIN - Join Token Sale Section -->
-          <div
-            v-else-if="!isReferral && isJoinTokenSaleMission"
-            class="join-tokensale-form">
-
-            <div class="lc-button-group">
-              <md-button
-                class="md-likecoin"
-                @click="$router.push({ name: 'in-tokensale' })"
-              >
-                {{ $t(`Home.Sale.button.${this.isUpcomingMission ? 'prepareToJoin' : 'joinNow'}`) }}
-              </md-button>
-              <br />
-              <md-button
-                class="md-likecoin lc-cancel"
-                @click="onDismiss">
-                {{ $t('General.button.cancel') }}
-              </md-button>
             </div>
+            <!-- END - Verify Email Section -->
 
-          </div>
-          <!-- END - Join Token Sale Section -->
+            <!-- BEGIN - Invitee Verify Email Section -->
+            <div
+              v-else-if="isReferral && missionId === 'verifyEmail'"
+              class="verify-email-form">
 
-          <!-- BEGIN - Invitee Join Token Sale Section -->
-          <div
-            v-else-if="isReferral && isJoinTokenSaleMission"
-            class="join-tokensale-form">
+              <div class="lc-button-group">
+                <md-button
+                  class="md-likecoin"
+                  @click="onDismiss">
+                  {{ $t('General.button.ok') }}
+                </md-button>
+              </div>
 
-            <div class="lc-button-group">
-              <md-button
-                class="md-likecoin"
-                @click="onDismiss">
-                {{ $t('General.button.ok') }}
-              </md-button>
             </div>
+            <!-- END - Verify Email Section -->
 
-          </div>
-          <!-- END - Join Token Sale Section -->
+            <!-- BEGIN - Invite Friend Section -->
+            <invite-friend-form
+              v-else-if="mission.id === 'inviteFriend'"
+              class="lc-margin-top-24"
+              form-id="mission-invite-friend-form"
+              @invite="onInviteFriend" />
+            <!-- END - Invite Friend Section -->
 
-          <!-- BEGIN - Invite Token Sale Section -->
-          <div
-            v-else-if="missionId === 'inviteTokenSale'"
-            class="invite-tokensale-form">
+            <!-- BEGIN - Join Token Sale Section -->
+            <div
+              v-else-if="!isReferral && isJoinTokenSaleMission"
+              class="join-tokensale-form">
 
-            <div class="lc-button-group">
-              <md-button
-                class="md-likecoin"
-                @click="onDismiss">
-                {{ $t('General.button.ok') }}
-              </md-button>
+              <div class="lc-button-group">
+                <md-button
+                  class="md-likecoin"
+                  @click="$router.push({ name: 'in-tokensale' })"
+                >
+                  {{ $t(`Home.Sale.button.${this.isUpcomingMission ? 'prepareToJoin' : 'joinNow'}`) }}
+                </md-button>
+                <br />
+                <md-button
+                  class="md-likecoin lc-cancel"
+                  @click="onDismiss">
+                  {{ $t('General.button.cancel') }}
+                </md-button>
+              </div>
+
             </div>
+            <!-- END - Join Token Sale Section -->
 
+            <!-- BEGIN - Invitee Join Token Sale Section -->
+            <div
+              v-else-if="isReferral && isJoinTokenSaleMission"
+              class="join-tokensale-form">
+
+              <div class="lc-button-group">
+                <md-button
+                  class="md-likecoin"
+                  @click="onDismiss">
+                  {{ $t('General.button.ok') }}
+                </md-button>
+              </div>
+
+            </div>
+            <!-- END - Join Token Sale Section -->
+
+            <!-- BEGIN - Invite Token Sale Section -->
+            <div
+              v-else-if="missionId === 'inviteTokenSale'"
+              class="invite-tokensale-form">
+
+              <div class="lc-button-group">
+                <md-button
+                  class="md-likecoin"
+                  @click="onDismiss">
+                  {{ $t('General.button.ok') }}
+                </md-button>
+              </div>
+
+            </div>
+            <!-- END - Invite Token Sale Section -->
           </div>
-          <!-- END - Invite Token Sale Section -->
+
         </div>
-
-      </div>
+      </transition>
 
     </base-dialog>
   </div>
@@ -159,9 +177,11 @@ import VerifyEmailForm from '~/components/forms/VerifyEmailForm';
 import MissionCompletedBanner from '~/components/Mission/CompletedBanner';
 import MissionIcon from '~/components/Mission/Icon';
 import TaskList from '~/components/Mission/TaskList';
+import TwitterMission from '~/components/dialogs/MissionDialogContent/Twitter';
 import { GETTING_STARTED_TASKS } from '@/constant';
 
 import { logTrackerEvent } from '@/util/EventLogger';
+import { openURL } from '@/util/client';
 
 import LinkIcon from '@/assets/icons/fillable/link.svg';
 import FacebookIcon from '@/assets/icons/fillable/facebook.svg';
@@ -179,6 +199,7 @@ export default {
     VerifyEmailForm,
     MissionCompletedBanner,
     MissionIcon,
+    TwitterMission,
     TaskList,
   },
   data() {
@@ -197,10 +218,17 @@ export default {
       'getPopupMission',
       'getMissionById',
       'getUserInfo',
-      'getWeb3Type',
     ]),
     mission() {
       return this.getMissionById(this.getPopupMission.id) || {};
+    },
+    isCustomLayout() {
+      switch (this.missionId) {
+        case 'twitter':
+          return true;
+        default:
+          return false;
+      }
     },
     title() {
       return this.$t(`Mission.${this.missionId}.title`);
@@ -242,19 +270,21 @@ export default {
     isUpcomingMission() {
       return this.mission.upcoming;
     },
-    isTrust() {
-      return this.getWeb3Type === 'window' && window.web3 && window.web3.currentProvider.isTrust;
-    },
   },
   methods: {
     ...mapActions([
       'postStepMission',
+      'refreshMissionList',
+      'onMissionClick',
     ]),
     show() {
       this.$refs.dialog.show();
     },
     hide() {
       this.$refs.dialog.hide();
+    },
+    refreshMissions() {
+      this.refreshMissionList(this.getUserInfo.user);
     },
     onVerifyEmail() {
       // TODO
@@ -275,13 +305,6 @@ export default {
           logTrackerEvent(this, 'Mission', 'sendInvitation', 'twitter invite', 1);
           break;
         default:
-      }
-    },
-    openURL(url, name) {
-      if (this.isTrust) {
-        window.location.assign(url);
-      } else {
-        window.open(url, name || '_blank');
       }
     },
     async onClickGettingStartTask(t) {
@@ -328,7 +351,7 @@ export default {
             default:
               link += '28spMOgMs3o';
           }
-          this.openURL(link, 'youtube');
+          openURL(this, link, 'youtube');
           break;
         }
 
@@ -340,11 +363,19 @@ export default {
               break;
             default:
           }
-          this.openURL(link, 'social-group');
+          openURL(this, link, 'social-group');
           break;
         }
         default:
       }
+    },
+    async onCompleteMission() {
+      this.hide();
+      await this.onMissionClick({
+        ...this.mission,
+        done: true,
+      });
+      this.refreshMissions();
     },
     onDismiss() {
       this.hide();
@@ -435,5 +466,4 @@ export default {
     background-image: linear-gradient(266deg, #ececec, #c0c0c0);
   }
 }
-
 </style>

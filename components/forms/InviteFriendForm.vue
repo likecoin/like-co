@@ -1,27 +1,17 @@
 <template>
   <div :class="['invite-friend-form', { 'full-width': isFullWidth }]">
 
-    <div class="text-field share-url">
-      <md-field class="md-likecoin">
-        <label>{{ $t('Edit.referral.shareUrl') }}</label>
-        <md-input
-          :value="shareURL"
-          readonly />
-        <md-button
-          class="copy-button"
-          v-clipboard:copy="shareURL"
-          v-clipboard:success="onCopyURL">
-          {{ $t(`General.button.${hasCopiedURL ? 'copied' : 'copy'}`) }}
-        </md-button>
-      </md-field>
-    </div>
+    <copy-text-field
+      :label="$t('Edit.referral.shareUrl')"
+      :text="shareURL"
+      @copy="onCopyURL" />
 
     <form :id="getFormId" v-on:submit.prevent="onSendEmail">
       <div class="text-field email">
         <label class="lc-color-like-dark-brown-1">
           {{ $t('Edit.referral.orByEmail') }}
         </label>
-        <md-field class="md-likecoin">
+        <md-field class="md-likecoin no-label">
           <md-input
             v-model="email"
             :placeholder="$t('Edit.referral.emailInvite')"
@@ -79,6 +69,8 @@ import LinkIcon from '@/assets/icons/fillable/link.svg';
 import FacebookIcon from '@/assets/icons/fillable/facebook.svg';
 import TwitterIcon from '@/assets/icons/fillable/twitter.svg';
 
+import CopyTextField from '@/components/CopyTextField';
+
 export default {
   name: 'invite-friend-form',
   props: {
@@ -89,6 +81,9 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  components: {
+    CopyTextField,
   },
   data() {
     return {
@@ -153,43 +148,6 @@ export default {
 @import "~assets/variables";
 
 .invite-friend-form {
-  .copy-button {
-    width: auto;
-    min-width: auto;
-    height: 24px;
-    margin: 0 0 0 4px;
-
-    color: $like-green;
-
-    font-size: 12px;
-    line-height: 24px;
-  }
-
-  .text-field {
-    &.share-url {
-      .md-field {
-        label {
-          color: $like-brown;
-        }
-
-        input {
-          color: $like-green;
-
-          font-size: 18px;
-          font-weight: 600;
-
-          -webkit-text-fill-color: $like-green;
-        }
-      }
-    }
-
-    &.email {
-      .md-field {
-        margin-top: -16px;
-      }
-    }
-  }
-
   &.full-width {
     @media (min-width: 768px + 1px) {
       .text-field {

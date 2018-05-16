@@ -12,7 +12,8 @@
       "no": "No",
       "ok": "OK",
       "copy": "Copy",
-      "copied": "Copied"
+      "copied": "Copied",
+      "done": "Done"
     }
   },
   "Language": {
@@ -923,8 +924,23 @@
     },
     "EMAIL_ALREADY_USED": "Email is already used",
     "FILE_TOO_LARGE": "Filesize limit exceeded",
+    "MISSION_COMPLETE_FAILURE": "Error occurs when completing the mission",
     "REFERRER_NOT_EXIST": "Referrer does not exist",
     "USER_ALREADY_EXIST": "User already exists"
+  },
+  "Form": {
+    "Retweet": {
+      "label": {
+        "retweet": "Retweet with the following comment",
+        "pasteURL": "Paste the tweet link here"
+      },
+      "placeholer": {
+        "tweetLink": "Tweet link"
+      },
+      "button": {
+        "retweet": "Retweet"
+      }
+    }
   },
   "Mission": {
     "gettingStart": {
@@ -966,6 +982,17 @@
     "joinTokenSaleReferral": {
       "title": "@:Mission.joinTokenSale.title",
       "description": "Every time <span class=\"bold\">{invitee}</span> participate in token sale, you both will get 2.5% LIKE bonus. No UPPER LIMIT."
+    },
+    "twitter": {
+      "title": "Follow and Retweet!",
+      "description": "Follow and retweet our post to get LikeCoin",
+      "linkedDescription": "Follow and retweet our <a href=\"{postLink}\" target=\"_blank\">post</a> to get LikeCoin",
+      "header": {
+        "pasteURL": "Paste your tweet url here"
+      },
+      "label": {
+        "verifying": "Verifying the tweet"
+      }
     },
     "completedBanner": {
       "label": {

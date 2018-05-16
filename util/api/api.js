@@ -66,6 +66,11 @@ export const apiClaimReferralBonus = (user, type) => axios.post(
   { user, type },
 );
 
+export const apiPostTwitterMission = (user, url) => axios.post(
+  `${LIKECOIN_API_BASE}/mission/twitter`,
+  { user, url },
+);
+
 export const apiFetchReferralMissionList = id => axios.get(`/api/referral/list/${id}`);
 
 export const apiFetchReferralBonusList = id => axios.get(`/api/referral/list/bonus/${id}`);
