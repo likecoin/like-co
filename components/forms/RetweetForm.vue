@@ -91,12 +91,13 @@ export default {
       return this.hashtags.reduce((s, t) => `${s} #${t}`, '').trim();
     },
     indentURL() {
-      return `https://twitter.com/intent/tweet?hashtags=${this.hashtags.join()}&url=${encodeURI(this.url)}&text=${encodeURI(this.comment)}`;
+      return this.url;
+      // return `https://twitter.com/intent/tweet?hashtags=${this.hashtags.join()}&url=${encodeURI(this.url)}&text=${encodeURI(this.comment)}`; // NOTE: Temporary
     },
     text() {
       return [
         this.comment,
-        this.url,
+        // this.url, // NOTE: Temporary
         this.hashtagsString,
       ].reduce((text, t) => (t ? `${text} ${t}` : text));
     },
@@ -107,7 +108,7 @@ export default {
       this.$emit('update:step', this.currentStep);
     },
     onCopy() {
-      this.nextStep(1);
+      // this.nextStep(1); // NOTE: Temporary
     },
     onClickButton() {
       switch (this.currentStep) {

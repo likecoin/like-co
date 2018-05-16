@@ -14,7 +14,7 @@
         :message="getPopupInfo" />
 
       <div v-if="checkShouldShowError(getMetamaskError)">
-        <div v-if="checkIsMobile()">
+        <div v-if="checkIsMobileClient()">
           <trust-dialog
             v-if="!!getMetamaskError"
             :case="getMetamaskError"
@@ -93,6 +93,11 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
+import {
+  checkIsMobileClient,
+  checkIsDesktopChrome,
+} from '@/util/client';
+
 import BlockerDialog from '~/components/dialogs/BlockerDialog';
 import ChromeDialog from '~/components/dialogs/ChromeDialog';
 import MetamaskDialog from '~/components/dialogs/MetamaskDialog';
@@ -121,7 +126,7 @@ export default {
   },
   computed: {
     shouldShowChromeDialog() {
-      return this.getMetamaskError === 'web3' && !this.checkIsDesktopChrome();
+      return this.getMetamaskError === 'web3' && !checkIsDesktopChrome();
     },
     ...mapGetters([
       'getInfoIsError',
@@ -148,27 +153,13 @@ export default {
       'closeTxToolbar',
       'closeInfoToolbar',
     ]),
+    checkIsMobileClient,
     checkShouldShowError(err) {
       if (this.getIsLoginOverride) return true;
       if (this.disableError === true) return false;
       if (this.disableError === err) return false;
       if (Array.isArray(this.disableError)) return !this.disableError.includes(err);
       return true;
-    },
-    checkIsMobile() {
-      if (!global.window) return false;
-      const ua = global.window.navigator.userAgent;
-      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)) {
-        return true;
-      }
-      return false;
-    },
-    checkIsDesktopChrome() {
-      if (!global.window) return false;
-      const ua = global.window.navigator.userAgent;
-      const uv = global.window.navigator.vendor;
-      if (this.checkIsMobile()) return false;
-      return (/Chrome/i.test(ua) && /Google/i.test(uv)) && !(/OPR/i.test(ua));
     },
   },
 };

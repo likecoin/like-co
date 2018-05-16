@@ -11,7 +11,7 @@
 
       <transition name="lc-transition-default" mode="out-in">
         <div
-          v-if="!isCompleted && isCustomLayout"
+          v-if="!shouldShowDesktopOnly && !isCompleted && isCustomLayout"
           key="custom"
           class="mission-dialog-content">
 
@@ -43,8 +43,36 @@
             class="lc-margin-top-32 lc-mobile"
             @click="onDismiss" />
 
+          <div v-else-if="shouldShowDesktopOnly" class="lc-dialog-container-1">
+            <simple-svg
+              class="lc-color-like-green lc-margin-vertical-16"
+              :filepath="RequiredDesktopIcon"
+              width="290px"
+              height="270px"
+              fill="currentColor"
+              stroke="transparent" />
+
+            <p class="lc-color-like-gray-4 lc-color-like-gray-4 lc-margin-vertical-16">
+              {{ $t('Mission.common.label.pleaseUseDesktop') }}
+            </p>
+
+            <div class="lc-text-align-center">
+              <a
+                class="lc-font-size-16 lc-underline"
+                href="https://help.like.co/likecoin-faq/newbies/accessing-my-likecoin-id-on-a-computer-which-is-previously-registered-on-mobile" target="_blank">
+                {{ $t('Mission.common.button.desktopFAQ') }}
+              </a>
+            </div>
+
+            <div class="lc-button-group lc-margin-top-16">
+              <md-button class="md-likecoin lc-cancel" @click="onDismiss">
+              {{ $t('General.button.cancel') }}
+              </md-button>
+            </div>
+          </div>
+
           <div
-            v-if="!isCompleted"
+            v-else
             class="lc-dialog-container-1 lc-margin-top-24 lc-mobile">
             <!-- BEGIN - Getting Start Section -->
             <div
@@ -181,11 +209,12 @@ import TwitterMission from '~/components/dialogs/MissionDialogContent/Twitter';
 import { GETTING_STARTED_TASKS } from '@/constant';
 
 import { logTrackerEvent } from '@/util/EventLogger';
-import { openURL } from '@/util/client';
+import { openURL, checkIsMobileClient } from '@/util/client';
 
 import LinkIcon from '@/assets/icons/fillable/link.svg';
 import FacebookIcon from '@/assets/icons/fillable/facebook.svg';
 import TwitterIcon from '@/assets/icons/fillable/twitter.svg';
+import RequiredDesktopIcon from '@/assets/mission/misc/required-desktop.svg';
 
 function timeout(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -208,6 +237,7 @@ export default {
       FacebookIcon,
       LinkIcon,
       TwitterIcon,
+      RequiredDesktopIcon,
       isReferral: false,
       isCompleted: false,
       invitee: '',
@@ -234,6 +264,10 @@ export default {
       return this.$t(`Mission.${this.missionId}.title`);
     },
     description() {
+      if (this.shouldShowDesktopOnly) {
+        return this.$t('Mission.common.label.desktopRequired');
+      }
+
       const referralPostfix = this.isReferral ? 'Referral' : '';
       const { invitee } = this;
       return `
@@ -246,13 +280,20 @@ export default {
       `;
     },
     subDescription() {
-      if (this.hasReferrer && this.missionId === 'joinTokenSale') {
+      if (
+        !this.shouldShowDesktopOnly
+        && this.hasReferrer
+        && this.missionId === 'joinTokenSale'
+      ) {
         return this.$t('Mission.joinTokenSale.subDescription');
       }
       return null;
     },
     missionId() {
       return this.mission.id || this.getPopupMission.id;
+    },
+    shouldShowDesktopOnly() {
+      return this.mission.isDesktopOnly && checkIsMobileClient();
     },
     isJoinTokenSaleMission() {
       return (this.missionId === 'joinTokenSale' || this.missionId === 'refereeTokenSale');
@@ -321,11 +362,11 @@ export default {
 
       switch (t.id) {
         case 'taskPaymentPage':
-          this.openURL(`/${this.getUserInfo.user}`, 'payment-page');
+          openURL(`/${this.getUserInfo.user}`, 'payment-page');
           break;
 
         case 'taskOnepager': {
-          this.openURL('/in/whitepaper', 'onpager-page');
+          openURL('/in/whitepaper', 'onpager-page');
           break;
         }
 
