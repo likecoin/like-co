@@ -91,7 +91,7 @@ export default {
     async onComplete(tweetLink) {
       this.isLoading = true;
       try {
-        await api.apiPostTwitterMission('this.userId', tweetLink);
+        await api.apiPostTwitterMission(this.userId, tweetLink);
         this.$emit('complete');
       } catch (error) {
         console.error(error);
