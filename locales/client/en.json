@@ -774,6 +774,7 @@
       "amountWillBeSentWhenSalesStart": "The purchased and bonus LikeCoin will be sent to your wallet when public token sales starts, expected to be April 23 2018. The bonus LikeCoin will be lock up in your wallet and cannot be transferred for 6 months.",
       "whatIsEthLink": "https://help.like.co/likecoin-faq/what-is-eth",
       "joinTokenSaleNow": "Join Token Sale Now",
+      "gasPriceDeducted": "Reserving ETH for blockchain transaction cost",
       "likeAmountWillGet": "You will get <span class=\"bold\">{amount}</span> LIKE"
     },
     "button": {

@@ -304,6 +304,7 @@ export default {
       'refreshUser',
       'sendEthPayment',
       'queryEthPrice',
+      'setInfoMsg',
       'setErrorMsg',
       'closeTxDialog',
       'showLoginWindow',
@@ -318,7 +319,7 @@ export default {
         return;
       }
       const amount = new BigNumber(this.amount);
-      if (!amount || amount.lt('0.1') || amount.gte('1000')) {
+      if (!amount || amount.lt('0.099') || amount.gte('1000')) {
         this.isBadAmount = true;
         return;
       }
@@ -348,14 +349,25 @@ export default {
         } else {
           balance = await EthHelper.queryLikeCoinBalance(from);
         }
-        const valueToSend = ONE_LIKE.multipliedBy(new BigNumber(this.amount));
+
+        const valueToSend = ONE_LIKE.multipliedBy(amount);
+
         if ((new BigNumber(balance)).lt(valueToSend)) {
           this.setErrorMsg(this.$t(`Transaction.error.${this.isEth ? 'eth' : 'likecoin'}Insufficient`));
           return;
         }
+
+        // check enough gas
+        if (valueToSend.plus(ONE_LIKE.multipliedBy(0.00085)).gt(balance)) {
+          this.amount = amount.minus(0.00085); // auto deduce for gas price
+          this.handleAmountChange(this.amount);
+          this.setInfoMsg(this.$t('TokenSale.label.gasPriceDeducted'));
+          return;
+        }
+
         let txHash;
         if (this.isEth) {
-          txHash = await EthHelper.sendTransaction(to, valueToSend);
+          txHash = await EthHelper.sendTransaction(to, valueToSend, { gasPrice: '10000000000', gasLimit: '85000' });
           const value = valueToSend;
           await this.sendEthPayment({
             from,

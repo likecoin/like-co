@@ -739,7 +739,8 @@
       "bonus": "獎勵",
       "bonusLockUp": "額外的 LikeCoin 獎賞會在你的錢包鎖上，6 個月內不能傳送。",
       "amountWillBeSentWhenSalesStart": "您所購買的 LikeCoin 以及其額外獎賞將於公眾代幣發售開始時發送，預計將於 April 23 2018 開始。額外的 LikeCoin 獎賞會在你的錢包鎖上，並且 6 個月內不能傳送。",
-      "whatIsEthLink": "https://help.like.co/likecoin-常見問題/什麼是-eth"
+      "whatIsEthLink": "https://help.like.co/likecoin-常見問題/什麼是-eth",
+      "gasPriceDeducted": "需預留區塊鏈交易費用"
     },
     "button": {
       "aboutLikeCoin": "關於 LikeCoin",
