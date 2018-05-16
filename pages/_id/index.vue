@@ -100,15 +100,17 @@
                 </div>
 
                 <div v-else>
-                  <p v-if="!isSupportTransferDeleteaged">{{ $t('Transaction.error.notSupported') }}</p>
-                  <material-button
-                    id="payment-confirm"
-                    class="md-raised md-primary likecoin"
-                    type="submit"
-                    form="paymentInfo"
-                    :disabled="getIsInTransaction || !isSupportTransferDeleteaged ||  (!getLocalWallet)">
-                    {{ $t('General.button.confirm') }}
-                  </material-button>
+                  <no-ssr>
+                    <p v-if="!isSupportTransferDeleteaged">{{ $t('Transaction.error.notSupported') }}</p>
+                    <material-button
+                      id="payment-confirm"
+                      class="md-raised md-primary likecoin"
+                      type="submit"
+                      form="paymentInfo"
+                      :disabled="getIsInTransaction || !isSupportTransferDeleteaged ||  (!getLocalWallet)">
+                      {{ $t('General.button.confirm') }}
+                    </material-button>
+                  </no-ssr>
                 </div>
 
               </form>
