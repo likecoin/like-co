@@ -19,7 +19,7 @@
             v-if="missionId === 'twitter'"
             :userId="getUserInfo.user"
             @cancel="onDismiss"
-            @complete="onCompleteTwitterMission" />
+            @complete="onCompleteMission" />
 
         </div>
         <div
@@ -275,6 +275,7 @@ export default {
     ...mapActions([
       'postStepMission',
       'refreshMissionList',
+      'onMissionClick',
     ]),
     show() {
       this.$refs.dialog.show();
@@ -368,8 +369,12 @@ export default {
         default:
       }
     },
-    onCompleteTwitterMission() {
-      this.isCompleted = true;
+    async onCompleteMission() {
+      this.hide();
+      await this.onMissionClick({
+        ...this.mission,
+        done: true,
+      });
       this.refreshMissions();
     },
     onDismiss() {
