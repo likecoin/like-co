@@ -886,6 +886,20 @@
     "REFERRER_NOT_EXIST": "推荐人的 LikeCoin ID 不存在",
     "USER_ALREADY_EXIST": "帐户已经存在"
   },
+  "Form": {
+    "Retweet": {
+      "label": {
+        "retweet": "转推以下推文",
+        "pasteURL": "贴上你的推文连结"
+      },
+      "placeholer": {
+        "tweetLink": "推文连结"
+      },
+      "button": {
+        "retweet": "转推"
+      }
+    }
+  },
   "Mission": {
     "gettingStart": {
       "title": "新手上路",
@@ -926,6 +940,17 @@
     "joinTokenSaleReferral": {
       "title": "@:Mission.joinTokenSale.title",
       "description": "每次 <span class=\"bold\">{invitee}</span> 参与代币发售，你跟你的邀请人皆可获得额外 2.5% LIKE 奖赏！"
+    },
+    "twitter": {
+      "title": "跟随并转推！",
+      "description": "跟随并转推以获得 LikeCoin",
+      "linkedDescription": "跟随并转推我们的 <a href=\"{postLink}\" target=\"_blank\">推文</a> 以获得 LikeCoin",
+      "header": {
+        "pasteURL": "贴上你的推文连结"
+      },
+      "label": {
+        "verifying": "推文验证中"
+      }
     },
     "completedBanner": {
       "label": {
