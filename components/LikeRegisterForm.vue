@@ -129,7 +129,7 @@ import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import MaterialButton from '~/components/MaterialButton';
 
 import { toDataUrl } from '@likecoin/ethereum-blockies';
-import { ETHERSCAN_HOST, W3C_EMAIL_REGEX } from '@/constant';
+import { ETHERSCAN_HOST, W3C_EMAIL_REGEX, IS_TESTNET } from '@/constant';
 
 const URL = require('url-parse');
 
@@ -157,6 +157,7 @@ export default {
       onConfirm: () => {},
       ETHERSCAN_HOST,
       W3C_EMAIL_REGEX,
+      IS_TESTNET,
     };
   },
   components: {
@@ -236,7 +237,7 @@ export default {
           return;
         }
         const { reCaptchaResponse } = this;
-        if (!reCaptchaResponse) {
+        if (!reCaptchaResponse && !this.IS_TESTNET) {
           this.setErrorMsg(this.$t('Register.form.error.reCaptcha'));
           return;
         }
