@@ -13,19 +13,6 @@ const sigUtil = require('eth-sig-util');
 export const web3 = new Web3(new Web3.providers.HttpProvider(INFURA_HOST));
 const accounts = require('@ServerConfig/accounts.js'); // eslint-disable-line import/no-extraneous-dependencies
 
-const [
-  {
-    address0,
-    privateKey0,
-    gasLimit0,
-  },
-  {
-    address1,
-    privateKey1,
-    gasLimit1,
-  },
-] = accounts;
-
 function timeout(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -61,7 +48,7 @@ async function sendWithLoop(
   txData,
   { gasLimit, privateKey, address },
 ) {
-  const counterRef = txLogRef.doc(`!counter_${address1}`);
+  const counterRef = txLogRef.doc(`!counter_${address}`);
   let pendingCount = await db.runTransaction(async (t) => {
     const d = await t.get(counterRef);
     const v = d.data().value + 1;
@@ -113,28 +100,38 @@ async function sendWithLoop(
 }
 
 export async function sendTransactionWithLoop(addr, txData) {
+  const {
+    address,
+    privateKey,
+    gasLimit,
+  } = accounts[0];
   return sendWithLoop(
     addr,
     txData,
     {
-      gasLimit0,
-      privateKey0,
-      address0,
+      gasLimit,
+      privateKey,
+      address,
     },
   );
 }
 
 export async function sendPriorityTransactionWithLoop(addr, txData) {
-  if (!address1) {
+  if (!accounts[1]) {
     return sendTransactionWithLoop(addr, txData);
   }
+  const {
+    address,
+    privateKey,
+    gasLimit,
+  } = accounts[1];
   return sendWithLoop(
     addr,
     txData,
     {
-      gasLimit1,
-      privateKey1,
-      address1,
+      gasLimit,
+      privateKey,
+      address,
     },
   );
 }
