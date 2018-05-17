@@ -43,8 +43,8 @@
               v-if="isICOEnded"
               class="lc-color-like-green lc-font-size-18 lc-font-weight-600">
               {{ $t('TokenSale.label.raised') }}:
-              <br class="lc-mobile-show" />
             </span>
+            <br v-if="isICOEnded" class="lc-mobile-show" />
             <span class="amount">
               <span class="current lc-color-like-green lc-font-size-46 lc-font-weight-300">{{ currentTokenSaleAmount.toFixed(2) }}</span>
               <span class="max lc-font-size-20 lc-font-weight-400"> / {{ maxTokenSaleAmount.toFixed(2) }} ETH</span>
@@ -154,9 +154,7 @@ export default {
     isICOStarted() {
       return (new Date() >= SALE_DATE);
     },
-    isICOEnded() {
-      return getIsTokenSaleEnded();
-    },
+    isICOEnded: getIsTokenSaleEnded,
     tokenSalePercentage() {
       return (this.currentTokenSaleAmount / TOKENSALE_SOFTCAP_ETH).toFixed(2) * 100;
     },

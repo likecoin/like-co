@@ -279,9 +279,7 @@ export default {
     isICOStarted() {
       return (new Date() >= SALE_DATE);
     },
-    isICOEnded() {
-      return getIsTokenSaleEnded();
-    },
+    isICOEnded: getIsTokenSaleEnded,
     canICO() {
       return this.isKYCTxPass && this.KYCStatus >= KYC_STATUS_ENUM.STANDARD;
     },

@@ -4,14 +4,14 @@
 
       <div class="lc-container-2">
         <div class="underlay gradient" />
-        <div class="lc-container-3">
+        <div class="lc-container-3 lc-container-no-padding-mobile">
           <div class="lc-container-4">
 
             <div class="cta-section-body">
               <!-- BEGIN - After announcing token sale date -->
               <div
                 v-if="now.isBefore(SALE_DATE)"
-                class="cta-section-body-content">
+                class="cta-section-body-content lc-text-align-center-mobile">
                 <h1>{{ $t('Home.Sale.title.publicTokenSale') }}</h1>
                 <h6>{{ $t('Home.Sale.label.startOn') }}</h6>
                 <div class="token-sale-timer-wrapper">
@@ -25,7 +25,7 @@
               <!-- BEGIN - After token sale begins -->
               <div
                 v-else
-                class="cta-section-body-content">
+                class="cta-section-body-content lc-text-align-center-mobile">
                 <h1>
                   {{ $t('Home.Sale.title.publicTokenSale') }}
                   <span class="status">
@@ -270,8 +270,6 @@ export default {
 
   @media (max-width: 600px) {
     width: 100%;
-
-    text-align: center;
   }
 
   h1 {
