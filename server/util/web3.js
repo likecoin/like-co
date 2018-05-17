@@ -13,11 +13,18 @@ const sigUtil = require('eth-sig-util');
 export const web3 = new Web3(new Web3.providers.HttpProvider(INFURA_HOST));
 const accounts = require('@ServerConfig/accounts.js'); // eslint-disable-line import/no-extraneous-dependencies
 
-const {
-  address,
-  privateKey,
-  gasLimit,
-} = accounts[0];
+const [
+  {
+    address0,
+    privateKey0,
+    gasLimit0,
+  },
+  {
+    address1,
+    privateKey1,
+    gasLimit1,
+  },
+] = accounts;
 
 function timeout(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -39,7 +46,7 @@ export function sendTransaction(tx) {
   });
 }
 
-export async function signTransaction(addr, txData, pendingCount) {
+export async function signTransaction(addr, txData, pendingCount, gasLimit, privateKey) {
   return web3.eth.accounts.signTransaction({
     to: addr,
     nonce: pendingCount,
@@ -49,15 +56,19 @@ export async function signTransaction(addr, txData, pendingCount) {
   }, privateKey);
 }
 
-export async function sendTransactionWithLoop(addr, txData) {
-  const counterRef = txLogRef.doc('!counter');
+async function sendWithLoop(
+  addr,
+  txData,
+  { gasLimit, privateKey, address },
+) {
+  const counterRef = txLogRef.doc(`!counter_${address1}`);
   let pendingCount = await db.runTransaction(async (t) => {
     const d = await t.get(counterRef);
     const v = d.data().value + 1;
     await t.update(counterRef, { value: v });
     return d.data().value;
   });
-  let tx = await signTransaction(addr, txData, pendingCount);
+  let tx = await signTransaction(addr, txData, pendingCount, gasLimit, privateKey);
   let txHash;
   try {
     txHash = await sendTransaction(tx);
@@ -68,7 +79,7 @@ export async function sendTransactionWithLoop(addr, txData) {
     while (!txHash) {
       /* eslint-disable no-await-in-loop */
       pendingCount = await web3.eth.getTransactionCount(address, 'pending');
-      tx = await signTransaction(addr, txData, pendingCount);
+      tx = await signTransaction(addr, txData, pendingCount, gasLimit, privateKey);
       txHash = await sendTransaction(tx);
       if (!txHash) {
         await timeout(200);
@@ -99,6 +110,33 @@ export async function sendTransactionWithLoop(addr, txData) {
     delegatorAddress: address,
     pendingCount,
   };
+}
+
+export async function sendTransactionWithLoop(addr, txData) {
+  return sendWithLoop(
+    addr,
+    txData,
+    {
+      gasLimit0,
+      privateKey0,
+      address0,
+    },
+  );
+}
+
+export async function sendPriorityTransactionWithLoop(addr, txData) {
+  if (!address1) {
+    return sendTransactionWithLoop(addr, txData);
+  }
+  return sendWithLoop(
+    addr,
+    txData,
+    {
+      gasLimit1,
+      privateKey1,
+      address1,
+    },
+  );
 }
 
 export default web3;
