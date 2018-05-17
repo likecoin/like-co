@@ -89,11 +89,13 @@ router.get('/mission/list/:id', async (req, res) => {
       if (missionData.startTs && Date.now() < missionData.startTs) {
         missionData.upcoming = missionData.startTs;
       }
+      const notExpired = !missionData.endTs || Date.now() < missionData.endTs;
 
       if (!userMisionList.includes(m.id)) {
         const requires = missionData.require;
         const fulfilled = requires.every(id => missionDone.includes(id));
         if (fulfilled
+          && notExpired
           && (!missionData.isRefereeOnly || userDoc.data().referrer)
           // eslint-disable-next-line no-await-in-loop
           && !(await checkAlreadyDone(m, { u: userDoc, doneList: missionDone }))) {
@@ -102,8 +104,13 @@ router.get('/mission/list/:id', async (req, res) => {
       } else {
         const targetIndex = replyMissionList.findIndex(d => d.id === m.id);
         if (targetIndex >= 0) {
-          replyMissionList[targetIndex] = Object.assign(missionData, replyMissionList[targetIndex]);
-        } else if (missionData.staying) {
+          if (!notExpired) {
+            replyMissionList.splice(targetIndex, 1);
+          } else {
+            replyMissionList[targetIndex] =
+              Object.assign(missionData, replyMissionList[targetIndex]);
+          }
+        } else if (notExpired && missionData.staying) {
           replyMissionList.push({ id: m.id, ...missionData });
         }
       }
@@ -250,11 +257,14 @@ router.get('/referral/list/:id', async (req, res) => {
         if (fulfilled && !upcoming) {
           const done = getIfReferralMissionDone(m, { u: r });
           if (done) missionDone.push(m.id);
-          missions.push({
-            id: m.id,
-            ...m.data(),
-            done,
-          });
+          const notExpired = !m.data().endTs || Date.now() > m.data().endTs;
+          if (done || notExpired) {
+            missions.push({
+              id: m.id,
+              ...m.data(),
+              done,
+            });
+          }
         }
       }
       return {

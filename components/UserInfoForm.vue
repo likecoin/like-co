@@ -82,6 +82,7 @@
         class="likecoin-amount-section"
         :value="likeCoinValueStr"
         :isOpaque="isEditing"
+        :linkText="getAmountText"
         :linkHref="!isEditing ? getAmountHref : ''"
         @onTextClick="getAmountAction" />
 
@@ -228,7 +229,7 @@ export default {
       return '';
     },
     getAmountText() {
-      return this.$t('Edit.button.buyCoin');
+      return '';
     },
     isUserEmailVerified() {
       return this.getUserInfo.isEmailVerified;

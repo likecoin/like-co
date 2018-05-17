@@ -218,6 +218,7 @@
       "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
       "bonus": "LikeCoin Bonus",
       "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
+      "tokenSale": "@:TokenSale.title",
       "backer": "@:BackerPage.title",
       "whitepaper": "@:Whitepaper.Button.whitepaper",
       "support": "@:Footer.button.support",
@@ -251,7 +252,8 @@
     "Sale": {
       "title": {
         "publicTokenSale": "Public Token Sale",
-        "nowLive": "Now Live"
+        "nowLive": "Now Live",
+        "isOver": "is over"
       },
       "label": {
         "contactOurTeam": "Contact our team by clicking the bottom right dialogue bubble",
@@ -776,7 +778,8 @@
       "whatIsEthLink": "https://help.like.co/likecoin-faq/what-is-eth",
       "joinTokenSaleNow": "Join Token Sale Now",
       "gasPriceDeducted": "Reserving ETH for blockchain transaction cost",
-      "likeAmountWillGet": "You will get <span class=\"bold\">{amount}</span> LIKE"
+      "likeAmountWillGet": "You will get <span class=\"bold\">{amount}</span> LIKE",
+      "raised": "Raised"
     },
     "button": {
       "aboutLikeCoin": "About LikeCoin",
@@ -837,8 +840,9 @@
       "advKycNeeded": "Advanced ID Verification is needed for large amount of purchase",
       "advKycPending": "Your Advanced ID Verification is still in PENDING state, Please contact us in intercom if it took longer than 1 working day",
       "emailVerify": "Please provide and verify your email.",
-      "createID": "Create LikeCoin ID to send and recive LikeCoin, and participate in the tokensale.",
-      "verifyToPurchase": "Verifiy your information to purchase LikeCoin once public sale is live.",
+      "createID": "Create LikeCoin ID to send and receive LikeCoin, and participate in the tokensale.",
+      "createIDSendReceive": "Create LikeCoin ID to send and receive LikeCoin.",
+      "verifyToPurchase": "Verify your information to purchase LikeCoin once public sale is live.",
       "emailVerification": "Email Verification",
       "accountVerification": "Account Verification",
       "advancedVerification": "Advanced Verification",

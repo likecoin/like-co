@@ -4,34 +4,24 @@
 
       <div class="lc-container-2">
         <div class="underlay gradient" />
-        <div class="lc-container-3">
+        <div class="lc-container-3 lc-container-no-padding-mobile">
           <div class="lc-container-4">
 
             <div class="cta-section-body">
-              <!-- BEGIN - After announcing token sale date -->
-              <div
-                v-if="now.isBefore(SALE_DATE)"
-                class="cta-section-body-content">
-                <h1>{{ $t('Home.Sale.title.publicTokenSale') }}</h1>
-                <h6>{{ $t('Home.Sale.label.startOn') }}</h6>
-                <div class="token-sale-timer-wrapper">
-                  <countdown-timer
-                    class="cta-section-token-sale-timer"
-                    :date="SALE_DATE"
-                  />
-                </div>
-              </div>
-              <!-- END - After announcing token sale date -->
               <!-- BEGIN - After token sale begins -->
               <div
-                v-else
-                class="cta-section-body-content">
+                v-if="now.isSameOrAfter(SALE_DATE)"
+                class="cta-section-body-content lc-text-align-center-mobile">
                 <h1>
                   {{ $t('Home.Sale.title.publicTokenSale') }}
-                  <span class="now-live">{{ $t('Home.Sale.title.nowLive') }}</span>
+                  <span class="status">
+                    {{ $t(`Home.Sale.title.${isICOEnded ? 'isOver' : 'nowLive'}`) }}
+                  </span>
                 </h1>
 
-                <div :class="['tokensale-status', { animated: isTokenSalePeriod }]">
+                <div
+                  v-if="isTokenSalePeriod"
+                  :class="['tokensale-status', { animated: isTokenSalePeriod }]">
                   <div>
                     <countdown-timer
                       v-if="isTokenSalePeriod"
@@ -42,6 +32,16 @@
                       {{ $t('Home.Sale.label.completedPercent', { percent: tokenSalePercentage }) }}
                     </h2>
                   </div>
+                </div>
+
+                <div v-if="isICOEnded && tokenSaleProgress" class="raised-eth">
+                  <span class="lc-font-size-16 lc-font-weight-600">
+                    {{ $t('TokenSale.label.raised') }}:
+                  </span>
+                  <br class="lc-mobile-show" />
+                  <span class="amount lc-font-weight-300 lc-font-size-46 lc-mobile">
+                    {{ tokenSaleProgress }} ETH
+                  </span>
                 </div>
 
                 <div class="token-sale-progress-wrapper">
@@ -55,18 +55,8 @@
 
               <div class="cta-section-body-buttons">
                 <ul>
-                  <!-- BEGIN - Before token sale begins -->
-                  <li v-if="now.isBefore(SALE_DATE)">
-                    <material-button
-                      class="cta-btn"
-                      :hasShadow="true"
-                      @click=onClickJoinTokenSaleButton>
-                      {{ $t('Home.Sale.button.joinTokenSale') }}
-                    </material-button>
-                  </li>
-                  <!-- END - Before token sale begins -->
                   <!-- BEGIN - After token sale begins -->
-                  <li v-else>
+                  <li v-if="isTokenSalePeriod">
                     <material-button
                       class="cta-btn"
                       :hasShadow="true"
@@ -75,7 +65,17 @@
                     </material-button>
                   </li>
                   <!-- END - After token sale begins -->
-                  <li v-if="isShowSupportButton">
+                  <!-- BEGIN - After token sale end -->
+                  <li v-else>
+                    <material-button
+                      class="cta-btn"
+                      :hasShadow="true"
+                      @click=onClickRegisterButton>
+                      {{ $t('Dialog.transaction.button.createID') }}
+                    </material-button>
+                  </li>
+                  <!-- END - After token sale end -->
+                  <li v-if="isShowSupportButton && !isICOEnded">
                     <material-button
                       class="cta-btn support"
                       :hasShadow="true"
@@ -134,6 +134,7 @@ import MaterialButton from '~/components/MaterialButton';
 import TokenSaleProgress from '~/components/TokenSaleProgress';
 
 import EthHelper from '@/util/EthHelper';
+import postICOMixin from '@/util/mixin/postICO';
 import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 import {
   TOKENSALE_SOFTCAP_ETH,
@@ -149,6 +150,7 @@ export default {
     MaterialButton,
     'tokensale-progress': TokenSaleProgress,
   },
+  mixins: [postICOMixin],
   props: {
     isShowFooter: {
       type: Boolean,
@@ -176,13 +178,16 @@ export default {
       return this.currentTokenSaleAmount.toFixed(2);
     },
     isTokenSalePeriod() {
-      return this.now.isAfter(SALE_DATE) && this.now.isBefore(SALE_END_DATE);
+      return this.now.isAfter(SALE_DATE) && !this.isICOEnded;
     },
   },
   methods: {
     ...mapActions([
       'queryTokensaleInitial',
     ]),
+    onClickRegisterButton() {
+      this.$router.push({ name: 'in-register' });
+    },
     onClickJoinTokenSaleButton() {
       logTrackerEvent(this, 'RegFlow', 'ClickedIAmInterestedButton', 'User is interested in early bird token sale', 1);
       this.$router.push({ name: 'in-tokensale' });
@@ -239,8 +244,6 @@ export default {
 
   @media (max-width: 600px) {
     width: 100%;
-
-    text-align: center;
   }
 
   h1 {
@@ -253,7 +256,7 @@ export default {
       font-size: 26px;
     }
 
-    .now-live {
+    .status {
       color: $like-green;
 
       font-size: 32px;
@@ -323,6 +326,20 @@ export default {
 
     @media (max-width: 600px) {
       color: $like-gray-3;
+    }
+  }
+
+  .raised-eth {
+    color: $like-green;
+
+    .amount {
+      padding: 0 12px;
+    }
+
+    @media (max-width: 600px) {
+      margin-top: 24px;
+
+      color: $like-white;
     }
   }
 }
