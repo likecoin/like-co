@@ -120,7 +120,7 @@ import TokenSaleProgress from '~/components/TokenSaleProgress';
 import QuestionIcon from '@/assets/tokensale/question.svg';
 
 import EthHelper from '@/util/EthHelper';
-import { getIsTokenSaleEnded } from '@/util/helperFn';
+import postICOMixin from '@/util/mixin/postICO';
 import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 import {
   ONE_LIKE,
@@ -136,6 +136,7 @@ export default {
     'tokensale-progress': TokenSaleProgress,
     CountdownTimer,
   },
+  mixins: [postICOMixin],
   data() {
     return {
       QuestionIcon,
@@ -154,7 +155,6 @@ export default {
     isICOStarted() {
       return (new Date() >= SALE_DATE);
     },
-    isICOEnded: getIsTokenSaleEnded,
     tokenSalePercentage() {
       return (this.currentTokenSaleAmount / TOKENSALE_SOFTCAP_ETH).toFixed(2) * 100;
     },
