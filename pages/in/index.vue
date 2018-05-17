@@ -1,7 +1,8 @@
 <template>
   <div class="overview-page">
 
-    <cta-section v-if="!getIsTokenSaleEnded()"
+    <cta-section
+      v-if="!getIsTokenSaleEnded()"
       class="lc-margin-top-8"
       :isShowFooter="false"
       :isShowSupportButton="false" />

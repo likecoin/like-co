@@ -214,6 +214,7 @@
     "item": {
       "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
       "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
+      "tokenSale": "@:TokenSale.title",
       "backer": "@:BackerPage.title",
       "whitepaper": "@:Whitepaper.Button.whitepaper",
       "support": "@:Footer.button.support",
@@ -247,7 +248,8 @@
     "Sale": {
       "title": {
         "publicTokenSale": "公開代幣發售",
-        "nowLive": "現正進行"
+        "nowLive": "現正進行",
+        "isOver": "已經結束"
       },
       "label": {
         "contactOurTeam": "請經右下角對話按鈕與我們聯絡",
@@ -740,7 +742,8 @@
       "bonusLockUp": "額外的 LikeCoin 獎賞會在你的錢包鎖上，6 個月內不能傳送。",
       "amountWillBeSentWhenSalesStart": "您所購買的 LikeCoin 以及其額外獎賞將於公眾代幣發售開始時發送，預計將於 April 23 2018 開始。額外的 LikeCoin 獎賞會在你的錢包鎖上，並且 6 個月內不能傳送。",
       "whatIsEthLink": "https://help.like.co/likecoin-常見問題/什麼是-eth",
-      "gasPriceDeducted": "需預留區塊鏈交易費用"
+      "gasPriceDeducted": "需預留區塊鏈交易費用",
+      "raised": "共籌得"
     },
     "button": {
       "aboutLikeCoin": "關於 LikeCoin",
@@ -799,6 +802,7 @@
       "advKycPending": "您的進階身份認證正在處理中，如已超過 1 個工作天請在 Intercom 與我們聯絡",
       "emailVerify": "請先認證您的電郵地址",
       "createID": "註冊 LikeCoin ID 收發 LikeCoin 及參與代幣發售",
+      "createIDSendReceive": "註冊 LikeCoin ID 收發 LikeCoin",
       "verifyToPurchase": "驗證您的個人資料，在代幣發售時即可購買 LikeCoin",
       "emailVerification": "電郵認證",
       "accountVerification": "帳戶認證",
