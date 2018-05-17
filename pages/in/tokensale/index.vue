@@ -14,7 +14,7 @@
 
         <tokensale-dashboard />
 
-        <div v-if="canICO" class="lc-container-2">
+        <div v-if="canICO && !isICOEnded" class="lc-container-2">
           <div class="lc-container-3">
             <div class="lc-container-4 lc-padding-vertical-16 lc-text-align-center">
               <nuxt-link
@@ -32,7 +32,7 @@
     <section class="lc-container-0">
       <!-- Loading -->
       <div
-        v-if="getUserIsFetching || isKYCTxPass===undefined"
+        v-if="(getUserIsFetching || isKYCTxPass===undefined) && !isICOEnded"
         class="lc-container-1 lc-padding-vertical-32">
         <div class="lc-container-2">
           <md-progress-bar md-mode="indeterminate" />
@@ -48,7 +48,7 @@
             <div class="lc-container-4 lc-text-align-center">
 
               <p class="lc-color-like-gray-4">
-                {{ $t('KYC.label.createID') }}
+                {{ $t(`KYC.label.${isICOEnded ? 'createIDSendReceive' : 'createID'}`) }}
               </p>
 
               <md-button
@@ -70,7 +70,7 @@
       </div>
 
       <!-- Tokensale and KYC -->
-      <div v-else class="lc-container-1 lc-section-block">
+      <div v-else-if="!isICOEnded" class="lc-container-1 lc-section-block">
 
         <div class="lc-container-header">
           <div class="lc-container-2 lc-container-header-overlay">
@@ -171,6 +171,7 @@ import AddIcon from '@/assets/icons/add.svg';
 import EthIcon from '@/assets/tokensale/eth.svg';
 
 import EthHelper from '@/util/EthHelper';
+import { getIsTokenSaleEnded } from '@/util/helperFn';
 import { LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin';
 import { LIKE_COIN_ICO_ADDRESS, LIKE_COIN_PRESALE_ADDRESS } from '@/constant/contract/likecoin-ico';
 import {
@@ -277,6 +278,9 @@ export default {
     },
     isICOStarted() {
       return (new Date() >= SALE_DATE);
+    },
+    isICOEnded() {
+      return getIsTokenSaleEnded();
     },
     canICO() {
       return this.isKYCTxPass && this.KYCStatus >= KYC_STATUS_ENUM.STANDARD;

@@ -12,7 +12,7 @@
               <span
                 v-if="isICOStarted"
                 class="lc-font-weight-300 lc-color-like-green">
-                {{ $t('Home.Sale.title.nowLive') }}
+                {{ $t(`Home.Sale.title.${isICOEnded ? 'isOver' : 'nowLive'}`) }}
               </span>
             </h1>
             <h2
@@ -39,13 +39,21 @@
 
         <div class="lc-container-4">
           <div class="tokensale-amount lc-padding-top-12 lc-text-align-center">
-            <span class="current lc-color-like-green lc-font-size-46 lc-font-weight-300">{{ currentTokenSaleAmount.toFixed(2) }}</span>
-            <span class="max lc-font-size-20 lc-font-weight-400"> / {{ maxTokenSaleAmount.toFixed(2) }} ETH</span>
+            <span
+              v-if="isICOEnded"
+              class="lc-color-like-green lc-font-size-18 lc-font-weight-600">
+              {{ $t('TokenSale.label.raised') }}:
+              <br class="lc-mobile-show" />
+            </span>
+            <span class="amount">
+              <span class="current lc-color-like-green lc-font-size-46 lc-font-weight-300">{{ currentTokenSaleAmount.toFixed(2) }}</span>
+              <span class="max lc-font-size-20 lc-font-weight-400"> / {{ maxTokenSaleAmount.toFixed(2) }} ETH</span>
+            </span>
           </div>
         </div>
       </div>
 
-      <section v-if="isICOStarted" class="lc-margin-top-8">
+      <section v-if="isICOStarted && !isICOEnded" class="lc-margin-top-8">
         <div class="lc-container-3 lc-bg-gray-1">
           <div class="lc-container-4 lc-padding-vertical-16">
             <div class="lc-text-align-center">
@@ -64,7 +72,7 @@
                 <li>
                   <div>
                     <span class="label">{{ $t('TokenSale.label.token') }}</span>
-                    <span class="value highlight" >
+                    <span class="value highlight">
                       LIKE
                     </span>
                   </div>
@@ -81,7 +89,7 @@
                     <span class="value">600,000,000</span>
                   </div>
                 </li>
-                <li class="what-is-eth">
+                <li class="what-is-eth" v-if="!isICOEnded">
                   <a
                     :href="$t('TokenSale.label.whatIsEthLink')"
                     ref="noopener"
@@ -112,6 +120,7 @@ import TokenSaleProgress from '~/components/TokenSaleProgress';
 import QuestionIcon from '@/assets/tokensale/question.svg';
 
 import EthHelper from '@/util/EthHelper';
+import { getIsTokenSaleEnded } from '@/util/helperFn';
 import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 import {
   ONE_LIKE,
@@ -144,6 +153,9 @@ export default {
     },
     isICOStarted() {
       return (new Date() >= SALE_DATE);
+    },
+    isICOEnded() {
+      return getIsTokenSaleEnded();
     },
     tokenSalePercentage() {
       return (this.currentTokenSaleAmount / TOKENSALE_SOFTCAP_ETH).toFixed(2) * 100;
@@ -189,6 +201,10 @@ export default {
   text-align: center;
 
   font-weight: 300;
+
+  .amount {
+    padding: 0 12px;
+  }
 
   .current {
     color: $like-green;

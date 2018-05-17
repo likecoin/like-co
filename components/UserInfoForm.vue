@@ -173,7 +173,6 @@ import BigNumber from 'bignumber.js';
 import EthHelper from '@/util/EthHelper';
 import User from '@/util/User';
 import { logTrackerEvent } from '@/util/EventLogger';
-import { getIsTokenSaleEnded } from '@/util/helperFn';
 
 import { ONE_LIKE, W3C_EMAIL_REGEX } from '@/constant';
 
@@ -230,7 +229,7 @@ export default {
       return '';
     },
     getAmountText() {
-      return getIsTokenSaleEnded() ? this.$t('Edit.button.buyCoin') : '';
+      return '';
     },
     isUserEmailVerified() {
       return this.getUserInfo.isEmailVerified;
