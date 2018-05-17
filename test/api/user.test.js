@@ -59,7 +59,7 @@ test.serial('USER: Email verification', async (t) => {
 });
 
 test.serial('USER: Verify uuid. Case: wrong uuid', async (t) => {
-  const uuid = '00000000-0000-0000-0000-000000000001';
+  const uuid = '99999999-0000-0000-0000-000000000000';
   const res = await axios.post(`${url}/api/email/verify/${uuid}`, {
     headers: {
       Accept: 'application/json',

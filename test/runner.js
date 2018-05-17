@@ -34,7 +34,7 @@ if (IsPortUsing()) {
 // spawn as new group of processes
 process.env.CI = true; // unit test env
 setStub();
-const server = spawn('npm', ['run', 'dev'], { detached: true });
+const server = spawn('npm', ['run', 'dev'], { detached: true, stdio: 'inherit' });
 console.log('Starting unit test server. Ctrl + C to quit.');
 
 process.on('SIGINT', () => {

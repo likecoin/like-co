@@ -156,16 +156,18 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
     if (!isOldUser) {
       if (!/^[a-z0-9-_]+$/.test(user)) throw new Error('Invalid user name char');
       if (user.length < 7 || user.length > 20) throw new Error('Invalid user name length');
-      if (!reCaptchaResponse) throw new Error('reCAPTCHA missing');
-      const { data } = await axios.post(
-        'https://www.google.com/recaptcha/api/siteverify',
-        querystring.stringify({
-          secret: RECAPTCHA_SECRET,
-          response: reCaptchaResponse,
-          remoteip: req.headers['x-real-ip'] || req.ip,
-        }),
-      );
-      if (!data || !data.success) throw new Error('reCAPTCHA Failed');
+      if (!IS_TESTNET) {
+        if (!reCaptchaResponse) throw new Error('reCAPTCHA missing');
+        const { data } = await axios.post(
+          'https://www.google.com/recaptcha/api/siteverify',
+          querystring.stringify({
+            secret: RECAPTCHA_SECRET,
+            response: reCaptchaResponse,
+            remoteip: req.headers['x-real-ip'] || req.ip,
+          }),
+        );
+        if (!data || !data.success) throw new Error('reCAPTCHA Failed');
+      }
     }
 
     // update avatar
