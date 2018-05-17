@@ -3,7 +3,9 @@ import moment from 'moment';
 
 export const { IS_TESTNET } = process.env;
 
-export const BONUS_ADDRESS = IS_TESTNET ? '0xC75c0b2a92fd823A05C7AE3949ad6f1aB20Dd37E' : '0x65b8E5D9d95e707349789E42fa2f88EE5B20B072';
+export const BONUS_ADDRESSES = IS_TESTNET ?
+  ['0xC75c0b2a92fd823A05C7AE3949ad6f1aB20Dd37E', '0x1cf94c2bbA216e3f1ecff7762af47844C43d3FdA']
+  : ['0x65b8E5D9d95e707349789E42fa2f88EE5B20B072', '0x1cf94c2bbA216e3f1ecff7762af47844C43d3FdA'];
 
 export const ETHERSCAN_HOST = IS_TESTNET ? 'https://rinkeby.etherscan.io' : 'https://etherscan.io';
 

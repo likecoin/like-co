@@ -5,7 +5,7 @@ import Validate from '../../util/ValidationHelper';
 import {
   web3,
   personalEcRecover,
-  sendTransactionWithLoop,
+  sendPriorityTransactionWithLoop,
 } from '../util/web3';
 
 import {
@@ -126,7 +126,7 @@ router.post('/kyc', async (req, res) => {
       txHash,
       delegatorAddress,
       pendingCount,
-    } = await sendTransactionWithLoop(
+    } = await sendPriorityTransactionWithLoop(
       LIKECOIN_ICO.LIKE_COIN_ICO_ADDRESS,
       txData,
     );
@@ -174,6 +174,7 @@ router.post('/kyc', async (req, res) => {
       txStatus: 'pending',
       txNonce: pendingCount,
       currentBlock,
+      delegatorAddress: web3.utils.toChecksumAddress(delegatorAddress),
     });
 
     res.json({ txHash });
@@ -260,7 +261,7 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
       txHash,
       pendingCount,
       delegatorAddress,
-    } = await sendTransactionWithLoop(
+    } = await sendPriorityTransactionWithLoop(
       LIKECOIN_ICO.LIKE_COIN_ICO_ADDRESS,
       txData,
     );
@@ -321,6 +322,7 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
       txStatus: 'pending',
       txNonce: pendingCount,
       currentBlock,
+      delegatorAddress: web3.utils.toChecksumAddress(delegatorAddress),
     });
 
     res.json({ txHash });
