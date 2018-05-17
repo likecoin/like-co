@@ -19,6 +19,9 @@ export default {
     if (!this.isICOEnded) {
       this.timer = setInterval(() => {
         this.isICOEnded = getIsTokenSaleEnded();
+        if (this.isICOEnded) {
+          this.clearTimer();
+        }
       }, 1000);
     }
   },
