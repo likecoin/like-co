@@ -67,6 +67,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "~assets/variables";
+@import "~assets/mixin";
 
 @mixin large-mission-item-placeholder {
   .placeholder-card {
@@ -285,23 +286,7 @@ export default {
   background: #EEE;
 
   .animated & {
-    @keyframes placeholder-shimmer {
-      0% { background-position-x: 100%; }
-      100% { background-position-x: -100%; }
-    }
-
-    animation: {
-      name: placeholder-shimmer;
-      duration: .8s;
-      timing-function: linear;
-      iteration-count: infinite;
-      fill-mode: forwards;
-    };
-
-    background: {
-      image: linear-gradient(to right, #EEE 8%, #DDD 24%, #EEE 32%);
-      size: 200%;
-    }
+    @include background-image-sliding-animation-x(linear-gradient(to right, #EEE 8%, #DDD 24%, #EEE 32%));
   }
 }
 

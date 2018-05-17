@@ -1,71 +1,67 @@
 <template>
-  <md-dialog
-    class="tx-dialog"
-    :md-active.sync="showDialog"
-    :md-close-on-esc="false"
-    :md-click-outside-to-close="false"
-    :md-fullscreen="false">
+  <base-dialog
+    :is-show="show"
+    :md-props="{
+      mdClickOutsideToClose: false,
+      mdCloseOnEsc: false,
+      mdFullscreen: false,
+    }"
+    class="tx-dialog">
 
-    <div class="title-bar" />
-
-    <div class="dialog-content">
-      <md-dialog-title>
-        <md-progress-spinner :md-diameter="28" :md-stroke="2" md-mode="indeterminate" />
+    <div class="lc-dialog-container-1 lc-margin-bottom-16">
+      <h1 class="lc-font-size-32 lc-margin-bottom-8">
         {{ $t('Transaction.header.label.pending')}}...
-      </md-dialog-title>
-
-      <md-dialog-content>
+      </h1>
+      <p class="lc-font-size-16 lc-color-like-gray-4">
         {{ $t('Dialog.transaction.label.waiting') }}
-      </md-dialog-content>
-
-      <section v-if="isNewUser">
-        <md-dialog-content class="new-user lc-font-weight-600">
-          {{ $t('Dialog.transaction.label.newUser') }}
-        </md-dialog-content>
-        <nuxt-link :to="{ name: 'in-register', query: $route.query }">
-          <material-button @click="$emit('onClose')">
-            {{ $t('Dialog.transaction.button.createID') }}
-          </material-button>
-        </nuxt-link>
-      </section>
-
-      <section v-else>
-        <nuxt-link v-if="$route.name !== 'in-tokensale'" :to="{ name: 'in-tokensale' }">
-          <material-button class="primary" @click="$emit('onClose')">
-            {{ $t('Dialog.transaction.button.buyCoin') }}
-          </material-button>
-        </nuxt-link>
-        <nuxt-link v-else :to="{ name: 'in' }">
-          <material-button class="primary" @click="$emit('onClose')">
-            {{ $t('Dialog.transaction.button.myAccount') }}
-          </material-button>
-        </nuxt-link>
-        <nuxt-link :to="actionRoute">
-          <material-button @click="$emit('onClose')">
-            {{ actionText }}
-          </material-button>
-        </nuxt-link>
-      </section>
+      </p>
     </div>
 
-  </md-dialog>
+    <div v-if="isNewUser" class="lc-dialog-container-1">
+      <p class="lc-color-like-green lc-font-weight-600 lc-margin-bottom-16">
+        {{ $t('Dialog.transaction.label.newUser') }}
+      </p>
+      <div class="lc-button-group">
+        <nuxt-link :to="{ name: 'in-register', query: $route.query }">
+          <md-button class="md-likecoin" @click="$emit('onClose')">
+            {{ $t('Dialog.transaction.button.createID') }}
+          </md-button>
+        </nuxt-link>
+      </div>
+    </div>
+
+    <div v-else class="lc-dialog-container-1">
+      <div class="lc-button-group">
+        <nuxt-link v-if="$route.name !== 'in-tokensale'" :to="{ name: 'in-tokensale' }">
+          <md-button class="md-likecoin" @click="$emit('onClose')">
+            {{ $t('Dialog.transaction.button.buyCoin') }}
+          </md-button>
+        </nuxt-link>
+        <nuxt-link v-else :to="{ name: 'in' }">
+          <md-button class="md-likecoin" @click="$emit('onClose')">
+            {{ $t('Dialog.transaction.button.myAccount') }}
+          </md-button>
+        </nuxt-link>
+        <nuxt-link :to="actionRoute">
+          <md-button class="md-likecoin lc-secondary" @click="$emit('onClose')">
+            {{ actionText }}
+          </md-button>
+        </nuxt-link>
+      </div>
+    </div>
+
+  </base-dialog>
 </template>
 
 
 <script>
-import MaterialButton from '@/components/MaterialButton';
+import BaseDialog from '~/components/dialogs/BaseDialog';
 
 export default {
   name: 'txDialog',
   props: ['show', 'txId', 'txInfo', 'isNewUser', 'txDialogActionRoute', 'txDialogActionText'],
   components: {
-    MaterialButton,
-  },
-  data() {
-    return {
-      showDialog: this.show,
-      defaultActionText: this.$t('Transaction.label.viewTx'),
-    };
+    BaseDialog,
   },
   computed: {
     defaultActionRoute() {
@@ -75,12 +71,7 @@ export default {
       return this.txDialogActionRoute || this.defaultActionRoute;
     },
     actionText() {
-      return this.txDialogActionText || this.defaultActionText;
-    },
-  },
-  watch: {
-    show(show) {
-      this.showDialog = show;
+      return this.txDialogActionText || this.$t('Transaction.label.viewTx');
     },
   },
 };
@@ -88,22 +79,11 @@ export default {
 
 
 <style lang="scss" scoped>
-@import "~assets/variables";
-@import "~assets/dialog";
+@import "~assets/mixin";
 
 .tx-dialog {
-  .title-bar {
-    background-image: linear-gradient(to right, #90c2ed, #6faeee 20%, #d7ecec);
-  }
-
-  .primary {
-    background: linear-gradient(73deg, #3c286e, #6e2828);
-  }
-
-  .new-user {
-    color: #26646f;
+  :global(.lc-dialog-header::before) {
+    @include background-image-sliding-animation-x(linear-gradient(to right, #90c2ed, #6faeee 20%, #d7ecec, #90c2ed));
   }
 }
-
-
 </style>
