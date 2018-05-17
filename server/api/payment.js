@@ -53,7 +53,7 @@ router.post('/payment', async (req, res) => {
           fromLocale: fromUser.locale,
         };
       }
-      return true;
+      return {};
     });
     const toQuery = dbRef.where('wallet', '==', to).get().then((snapshot) => {
       if (snapshot.docs.length > 0) {
@@ -67,7 +67,7 @@ router.post('/payment', async (req, res) => {
           toLocale: toUser.locale,
         };
       }
-      return true;
+      return {};
     });
     const [{
       fromId,
@@ -169,7 +169,7 @@ router.post('/payment/eth', async (req, res) => {
           fromLocale: fromUser.locale,
         };
       }
-      return true;
+      return {};
     });
     const toQuery = dbRef.where('wallet', '==', to).get().then((snapshot) => {
       if (snapshot.docs.length > 0) {
@@ -182,7 +182,7 @@ router.post('/payment/eth', async (req, res) => {
           toLocale: toUser.locale,
         };
       }
-      return true;
+      return {};
     });
     const [{
       fromId,
