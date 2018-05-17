@@ -174,6 +174,7 @@ router.post('/kyc', async (req, res) => {
       txStatus: 'pending',
       txNonce: pendingCount,
       currentBlock,
+      delegatorAddress: web3.utils.toChecksumAddress(delegatorAddress),
     });
 
     res.json({ txHash });
@@ -321,6 +322,7 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
       txStatus: 'pending',
       txNonce: pendingCount,
       currentBlock,
+      delegatorAddress: web3.utils.toChecksumAddress(delegatorAddress),
     });
 
     res.json({ txHash });
