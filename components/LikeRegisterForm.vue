@@ -100,7 +100,6 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import BigNumber from 'bignumber.js';
 import VueRecaptcha from 'vue-recaptcha';
 
 import User from '@/util/User';
