@@ -1,43 +1,43 @@
 <template>
-  <md-dialog
-    :md-active.sync="showDialog"
-    :md-close-on-esc="false"
-    :md-click-outside-to-close="false"
-    :md-fullscreen="false">
-    <div class="title-bar" />
-    <div class="dialog-content">
-      <md-dialog-title>
-        <md-progress-spinner :md-diameter="28" :md-stroke="2" class="md-accent" md-mode="indeterminate" />
+  <base-dialog
+    :is-show="show"
+    :md-props="{
+      mdClickOutsideToClose: false,
+      mdCloseOnEsc: false,
+      mdFullscreen: false,
+    }"
+    class="blocker-dialog">
+    <div class="lc-dialog-container-1 lc-padding-bottom-24">
+      <h1 class="lc-font-size-32 lc-margin-bottom-8">
         {{ $t('Dialog.blocker.title') }}
-      </md-dialog-title>
-      <md-dialog-content>
+      </h1>
+      <p class="lc-font-size-16 lc-color-like-gray-4">
         {{ $t('Dialog.blocker.content') }}
-      </md-dialog-content>
+      </p>
     </div>
-  </md-dialog>
+  </base-dialog>
 </template>
 
+
 <script>
-  export default {
-    name: 'BlockerDialog',
-    props: ['show'],
-    data() {
-      return {
-        showDialog: this.show,
-      };
-    },
-    watch: {
-      show(show) {
-        this.showDialog = show;
-      },
-    },
-  };
+import BaseDialog from '~/components/dialogs/BaseDialog';
+
+export default {
+  name: 'blocker-dialog',
+  props: ['show'],
+  components: {
+    BaseDialog,
+  },
+};
 </script>
 
-<style lang="scss" scoped>
-@import "~assets/dialog";
 
-.title-bar {
-  background-image: linear-gradient(to right, #ed9090, #ee6f6f 20%, #ecd7d7);
+<style lang="scss" scoped>
+@import "~assets/mixin";
+
+.blocker-dialog {
+  :global(.lc-dialog-header::before) {
+    @include background-image-sliding-animation-x(linear-gradient(to right, #ed9090, #ee6f6f 20%, #ecd7d7, #ed9090));
+  }
 }
 </style>
