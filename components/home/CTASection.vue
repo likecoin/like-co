@@ -8,23 +8,9 @@
           <div class="lc-container-4">
 
             <div class="cta-section-body">
-              <!-- BEGIN - After announcing token sale date -->
-              <div
-                v-if="now.isBefore(SALE_DATE)"
-                class="cta-section-body-content lc-text-align-center-mobile">
-                <h1>{{ $t('Home.Sale.title.publicTokenSale') }}</h1>
-                <h6>{{ $t('Home.Sale.label.startOn') }}</h6>
-                <div class="token-sale-timer-wrapper">
-                  <countdown-timer
-                    class="cta-section-token-sale-timer"
-                    :date="SALE_DATE"
-                  />
-                </div>
-              </div>
-              <!-- END - After announcing token sale date -->
               <!-- BEGIN - After token sale begins -->
               <div
-                v-else
+                v-if="now.isSameOrAfter(SALE_DATE)"
                 class="cta-section-body-content lc-text-align-center-mobile">
                 <h1>
                   {{ $t('Home.Sale.title.publicTokenSale') }}
@@ -69,18 +55,8 @@
 
               <div class="cta-section-body-buttons">
                 <ul>
-                  <!-- BEGIN - Before token sale begins -->
-                  <li v-if="now.isBefore(SALE_DATE)">
-                    <material-button
-                      class="cta-btn"
-                      :hasShadow="true"
-                      @click=onClickJoinTokenSaleButton>
-                      {{ $t('Home.Sale.button.joinTokenSale') }}
-                    </material-button>
-                  </li>
-                  <!-- END - Before token sale begins -->
                   <!-- BEGIN - After token sale begins -->
-                  <li v-else-if="now.isBefore(SALE_END_DATE)">
+                  <li v-if="isTokenSalePeriod">
                     <material-button
                       class="cta-btn"
                       :hasShadow="true"
@@ -95,7 +71,7 @@
                       class="cta-btn"
                       :hasShadow="true"
                       @click=onClickRegisterButton>
-                      {{ isICOEnded ? $t('Dialog.transaction.button.createID') : $t('Home.Sale.button.createNow') }}
+                      {{ $t('Dialog.transaction.button.createID') }}
                     </material-button>
                   </li>
                   <!-- END - After token sale end -->
@@ -158,7 +134,7 @@ import MaterialButton from '~/components/MaterialButton';
 import TokenSaleProgress from '~/components/TokenSaleProgress';
 
 import EthHelper from '@/util/EthHelper';
-import { getIsTokenSaleEnded } from '@/util/helperFn';
+import postICOMixin from '@/util/mixin/postICO';
 import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 import {
   TOKENSALE_SOFTCAP_ETH,
@@ -174,6 +150,7 @@ export default {
     MaterialButton,
     'tokensale-progress': TokenSaleProgress,
   },
+  mixins: [postICOMixin],
   props: {
     isShowFooter: {
       type: Boolean,
@@ -201,10 +178,7 @@ export default {
       return this.currentTokenSaleAmount.toFixed(2);
     },
     isTokenSalePeriod() {
-      return this.now.isAfter(SALE_DATE) && this.now.isBefore(SALE_END_DATE);
-    },
-    isICOEnded() {
-      return getIsTokenSaleEnded();
+      return this.now.isAfter(SALE_DATE) && !this.isICOEnded;
     },
   },
   methods: {
