@@ -53,8 +53,11 @@ export default {
 @import "~assets/variables";
 
 .menu-item {
+  display: inline;
+
   font-weight: 300;
   color: $like-green;
+
   cursor: pointer;
 
   &:hover {
