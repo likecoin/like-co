@@ -29,7 +29,9 @@
         <!-- BEGIN - Tab bar section -->
         <div class="lc-container-1">
           <div class="underlay gray" />
-          <md-tabs class="lc-tabs lc-container-2 lc-width-2-3 md-transparent" md-sync-route>
+          <md-tabs
+            class="lc-tabs lc-container-2 lc-width-2-3 md-transparent"
+            :md-active-tab="$route.name">
 
             <template slot="md-tab"  slot-scope="{ tab }">
               <span :class="['lc-tab-item-label', { new: tab.data.isNew }]">
@@ -38,16 +40,16 @@
             </template>
 
             <md-tab
-              id="overview-tab"
+              id="in"
               :md-label="$t('In.tab.overview')"
               to="/in" />
             <md-tab
-              id="bonus-tab"
+              id="in-bonus"
               :md-label="$t('In.tab.bonus')"
               :md-template-data="{ isNew: hasNewInvitee }"
               to="/in/bonus" />
             <md-tab
-              id="history-tab"
+              id="in-bonus-history"
               :md-label="$t('In.tab.history')"
               to="/in/bonus/history" />
 
