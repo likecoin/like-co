@@ -350,7 +350,7 @@ export default {
         return;
       }
       const amount = new BigNumber(this.amount);
-      if (!amount || amount.lt('0.099') || amount.gte('1000')) {
+      if (!amount || amount.lt('0.098') || amount.gte('1000')) {
         this.isBadAmount = true;
         return;
       }
@@ -389,8 +389,8 @@ export default {
         }
 
         // check enough gas
-        if (valueToSend.plus(ONE_LIKE.multipliedBy(0.00085)).gt(balance)) {
-          this.amount = amount.minus(0.00085); // auto deduce for gas price
+        if (valueToSend.plus(ONE_LIKE.multipliedBy(0.0017)).gt(balance)) {
+          this.amount = amount.minus(0.0017); // auto deduce for gas price
           this.handleAmountChange(this.amount);
           this.setInfoMsg(this.$t('TokenSale.label.gasPriceDeducted'));
           return;
@@ -398,7 +398,7 @@ export default {
 
         let txHash;
         if (this.isEth) {
-          txHash = await EthHelper.sendTransaction(to, valueToSend, { gasPrice: '10000000000', gasLimit: '85000' });
+          txHash = await EthHelper.sendTransaction(to, valueToSend, { gasPrice: '20000000000', gasLimit: '85000' });
           const value = valueToSend;
           await this.sendEthPayment({
             from,
