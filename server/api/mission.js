@@ -104,7 +104,7 @@ router.get('/mission/list/:id', async (req, res) => {
       } else {
         const targetIndex = replyMissionList.findIndex(d => d.id === m.id);
         if (targetIndex >= 0) {
-          if (!notExpired) {
+          if (!notExpired && (!missionDone.includes(m.id) && !m.data().isProxy)) {
             replyMissionList.splice(targetIndex, 1);
           } else {
             replyMissionList[targetIndex] =

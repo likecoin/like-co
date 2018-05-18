@@ -19,6 +19,7 @@ export const getMissionList = (state) => {
       /* dont push into return array if is merged mission */
       if (state.missions.find(t => t.id === target)) return;
     }
+    if (m.endTs && m.endTs < Date.now() && !canClaim(state, m)) return;
     missions.push(m);
   });
   return missions.sort((a, b) => {
