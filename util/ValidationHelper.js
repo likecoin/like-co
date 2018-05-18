@@ -84,6 +84,7 @@ const ValidationHelper = {
       bonusId,
       isProxy,
       upcoming,
+      endTs,
       isDesktopOnly,
       isMobileOnly,
     } = m;
@@ -105,6 +106,7 @@ const ValidationHelper = {
       isProxy,
       isClaimed: !!bonusId,
       upcoming,
+      endTs,
       isDesktopOnly,
       isMobileOnly,
       ...misc,
