@@ -32,20 +32,67 @@
     <section class="lc-container-0">
       <!-- Loading -->
       <div
-        v-if="(getUserIsFetching || isKYCTxPass===undefined) && !isICOEnded"
+        v-if="getUserIsFetching || isKYCTxPass === undefined"
         class="lc-container-1 lc-padding-vertical-32">
         <div class="lc-container-2">
           <md-progress-bar md-mode="indeterminate" />
         </div>
       </div>
 
-      <!-- Not registered -->
       <div
-        v-else-if="!getUserIsRegistered"
-        class="lc-container-1 lc-section-block lc-margin-top-32">
-        <div class="lc-container-2">
-          <div class="lc-container-3">
-            <div class="lc-container-4 lc-text-align-center">
+        v-else
+        :class="[
+          'lc-container-1 lc-section-block',
+          {
+            'lc-margin-top-32 lc-padding-top-32': isICOEnded,
+          },
+        ]">
+
+        <!-- BEGIN - Section Header -->
+        <div v-if="isICOEnded" class="lc-container-2">
+          <header>
+            <div class="lc-section-header">
+              <div class="lc-section-header-icon lc-raised-icon">
+                <img src="/images/avatar/ckxpress.jpeg" />
+              </div>
+            </div>
+          </header>
+        </div>
+
+        <div v-else-if="getUserIsRegistered" class="lc-container-header">
+          <div class="lc-container-2 lc-container-header-overlay">
+            <div class="lc-container-3 lc-bg-gray-1" />
+          </div>
+          <div class="lc-container-2">
+            <div class="lc-container-header-title">
+              <h1 class="lc-font-size-32 lc-mobile">
+                {{ isICOStarted ? $t('TokenSale.label.joinTokenSaleNow') : $t('TokenSale.label.prepareToJoin') }}
+              </h1>
+            </div>
+          </div>
+        </div>
+        <!-- END - Section Header -->
+        
+        <!-- BEGIN - Section Body -->
+        <div class="lc-container-2" >
+          <div
+            :class="[
+              'lc-container-3',
+              {
+                'lc-padding-vertical-32 lc-bg-gray-1': (!isICOEnded && getUserIsRegistered) || isICOEnded,
+              },
+            ]">
+            
+            <div v-if="isICOEnded" class="lc-container-4 lc-margin-top-16">
+              <h1 class="lc-margin-bottom-32 lc-color-like-green lc-font-size-32 lc-font-weight-600 lc-text-align-center">
+                {{ $t('TokenSale.header.thankyou') }}
+              </h1>
+            </div>
+
+            <!-- Not registered -->
+            <div
+              v-if="!getUserIsRegistered" 
+              class="lc-container-4 lc-text-align-center lc-margin-top-32">
 
               <p class="lc-color-like-gray-4">
                 {{ $t(`KYC.label.${isICOEnded ? 'createIDSendReceive' : 'createID'}`) }}
@@ -65,29 +112,9 @@
               </a>
 
             </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tokensale and KYC -->
-      <div v-else-if="!isICOEnded" class="lc-container-1 lc-section-block">
-
-        <div class="lc-container-header">
-          <div class="lc-container-2 lc-container-header-overlay">
-            <div class="lc-container-3 lc-bg-gray-1" />
-          </div>
-          <div class="lc-container-2">
-            <div class="lc-container-header-title">
-              <h1 class="lc-font-size-32 lc-mobile">
-                {{ isICOStarted ? $t('TokenSale.label.joinTokenSaleNow') : $t('TokenSale.label.prepareToJoin') }}
-              </h1>
-            </div>
-          </div>
-        </div>
-
-        <div class="lc-container-2">
-          <div class="lc-container-3 lc-bg-gray-1">
-            <div class="lc-container-4 lc-padding-vertical-24">
+        
+            <!-- Tokensale and KYC -->
+            <div v-else-if="!isICOEnded" class="lc-container-4">
 
               <KYCForm
                 :isKYCTxPass="isKYCTxPass"
@@ -142,9 +169,11 @@
 
             </div>
           </div>
-        </div>
-      </div>
 
+        </div>
+        <!-- END - Section Body -->
+
+      </div>
     </section>
 
     <popup-dialog
