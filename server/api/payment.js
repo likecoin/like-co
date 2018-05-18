@@ -11,7 +11,7 @@ import Validate from '../../util/ValidationHelper';
 import { logTransferDelegatedTx, logETHTx } from '../util/logger';
 import { web3, sendTransactionWithLoop } from '../util/web3';
 import { sendPreSale } from '../util/ses';
-import { tokensaleInitial } from '../util/poller';
+import { getTokensaleInitial } from '../util/poller';
 
 import publisher from '../util/gcloudPub';
 
@@ -340,7 +340,7 @@ router.get('/tx/tokensale/:addr', async (req, res) => {
 
 router.get('/tokensale/initial', async (req, res) => {
   try {
-    res.json({ initial: tokensaleInitial });
+    res.json({ initial: getTokensaleInitial() });
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
