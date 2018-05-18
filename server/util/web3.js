@@ -1,6 +1,6 @@
 import { INFURA_HOST, PUBSUB_TOPIC_MISC } from '../../constant';
 import publisher from './gcloudPub';
-import { gasPrice } from './poller';
+import { getGasPrice } from './poller';
 
 const {
   db,
@@ -44,7 +44,7 @@ export async function signTransaction(addr, txData, pendingCount) {
     to: addr,
     nonce: pendingCount,
     data: txData,
-    gasPrice,
+    gasPrice: getGasPrice(),
     gas: gasLimit,
   }, privateKey);
 }

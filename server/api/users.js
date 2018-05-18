@@ -7,7 +7,7 @@ import {
   PUBSUB_TOPIC_MISC,
   ONE_LIKE,
 } from '../../constant';
-import { emailBlacklist, emailNoDot } from '../util/poller';
+import { getEmailBlacklist, getEmailNoDot } from '../util/poller';
 
 import axios from '../../plugins/axios';
 import Validate from '../../util/ValidationHelper';
@@ -93,7 +93,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
     if (email) {
       if ((process.env.CI || !IS_TESTNET) && !(W3C_EMAIL_REGEX.test(email))) throw new Error('invalid email');
       email = email.toLowerCase();
-      const BLACK_LIST_DOMAIN = disposableDomains.concat(emailBlacklist);
+      const BLACK_LIST_DOMAIN = disposableDomains.concat(getEmailBlacklist());
       const parts = email.split('@');
       if (BLACK_LIST_DOMAIN.includes(parts[1])) {
         publisher.publish(PUBSUB_TOPIC_MISC, req, {
@@ -107,7 +107,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
         });
         throw new Error('email domain not allowed');
       }
-      if (emailNoDot.includes(parts[1])) {
+      if (getEmailNoDot().includes(parts[1])) {
         email = `${parts[0].split('.').join('')}@${parts[1]}`;
       }
     }

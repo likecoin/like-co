@@ -6,11 +6,10 @@ import {
 const configRef = require('../util/firebase').configCollection;
 const accounts = require('@ServerConfig/accounts.js'); // eslint-disable-line import/no-extraneous-dependencies
 
-/* eslint import/no-mutable-exports: "off" */
-export let tokensaleInitial = INITIAL_TOKENSALE_ETH_VALUE;
-export let { gasPrice } = accounts[0];
-export let emailBlacklist = EXTRA_EMAIL_BLACLIST;
-export let emailNoDot = [];
+let tokensaleInitial = INITIAL_TOKENSALE_ETH_VALUE;
+let { gasPrice } = accounts[0];
+let emailBlacklist = EXTRA_EMAIL_BLACLIST;
+let emailNoDot = [];
 let unsubscribeTokensaleInitial;
 let unsubscribeGasPrice;
 let unsubscribeEmailBlacklist;
@@ -138,12 +137,12 @@ function pollEmailNoDot() {
             unsubscribeEmailNoDot = null;
           }
           const timer = setInterval(() => {
-            console.log('Trying to restart watcher (email no bot)...'); // eslint-disable-line no-console
+            console.log('Trying to restart watcher (email no dot)...'); // eslint-disable-line no-console
             try {
               watch();
               clearInterval(timer);
             } catch (innerErr) {
-              console.log('Watcher restart failed (email no bot)'); // eslint-disable-line no-console
+              console.log('Watcher restart failed (email no dot)'); // eslint-disable-line no-console
             }
           }, 10000);
         });
@@ -180,4 +179,20 @@ export function stopPoller() {
     unsubscribeEmailNoDot();
     unsubscribeEmailNoDot = null;
   }
+}
+
+export function getTokensaleInitial() {
+  return tokensaleInitial;
+}
+
+export function getGasPrice() {
+  return gasPrice;
+}
+
+export function getEmailBlacklist() {
+  return emailBlacklist;
+}
+
+export function getEmailNoDot() {
+  return emailNoDot;
 }
