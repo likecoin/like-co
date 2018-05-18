@@ -257,7 +257,7 @@ router.get('/referral/list/:id', async (req, res) => {
         if (fulfilled && !upcoming) {
           const done = getIfReferralMissionDone(m, { u: r });
           if (done) missionDone.push(m.id);
-          const notExpired = !m.data().endTs || Date.now() > m.data().endTs;
+          const notExpired = !m.data().endTs || Date.now() < m.data().endTs;
           if (done || notExpired) {
             missions.push({
               id: m.id,
