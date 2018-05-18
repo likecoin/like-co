@@ -252,6 +252,7 @@ export default {
       amount: this.$route.params.amount || '1.50',
       likeBase: '0',
       popupMessage: '',
+      updateKYCTimer: null,
     };
   },
   head() {
@@ -434,9 +435,25 @@ export default {
       const { query } = this.$route;
       this.$router.push({ name: 'in-register', query: { ref: 'in-tokensale', ...query } });
     },
+    setupKYCTimer() {
+      this.updateKYCTimer = setTimeout(async () => {
+        this.isKYCTxPass = await EthHelper.queryKYCStatus(this.getLocalWallet);
+        if (!this.isKYCTxPass) this.setupKYCTimer();
+      }, 5000);
+    },
+    clearKYCTimer() {
+      if (this.updateKYCTimer) {
+        clearTimeout(this.updateKYCTimer);
+        this.updateKYCTimer = null;
+      }
+    },
     async checkStatus() {
+      this.clearKYCTimer();
       if (this.getUserIsRegistered) {
         this.isKYCTxPass = await EthHelper.queryKYCStatus(this.getLocalWallet);
+        if (!this.isKYCTxPass && this.KYCStatus) {
+          this.setupKYCTimer();
+        }
         if (this.getUserInfo.pendingKYC) {
           const { status } = this.fetchAdvancedKYC(this.getUserInfo.user);
           if (status === 'CLEARED' || status === 'ACCEPTED') this.refreshUser();
