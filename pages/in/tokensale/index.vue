@@ -14,7 +14,7 @@
 
         <tokensale-dashboard />
 
-        <div v-if="canICO && !isICOEnded" class="lc-container-2">
+        <div v-if="canICO && !getIsICOEnded" class="lc-container-2">
           <div class="lc-container-3">
             <div class="lc-container-4 lc-padding-vertical-16 lc-text-align-center">
               <nuxt-link
@@ -44,12 +44,12 @@
         :class="[
           'lc-container-1 lc-section-block',
           {
-            'lc-margin-top-32 lc-padding-top-32': isICOEnded,
+            'lc-margin-top-32 lc-padding-top-32': getIsICOEnded,
           },
         ]">
 
         <!-- BEGIN - Section Header -->
-        <div v-if="isICOEnded" class="lc-container-2">
+        <div v-if="getIsICOEnded" class="lc-container-2">
           <header>
             <div class="lc-section-header">
               <div class="lc-section-header-icon lc-raised-icon">
@@ -79,11 +79,11 @@
             :class="[
               'lc-container-3',
               {
-                'lc-padding-vertical-32 lc-bg-gray-1': (!isICOEnded && getUserIsRegistered) || isICOEnded,
+                'lc-padding-vertical-32 lc-bg-gray-1': (!getIsICOEnded && getUserIsRegistered) || getIsICOEnded,
               },
             ]">
             
-            <div v-if="isICOEnded" class="lc-container-4 lc-margin-top-16">
+            <div v-if="getIsICOEnded" class="lc-container-4 lc-margin-top-16">
               <h1 class="lc-margin-bottom-32 lc-color-like-green lc-font-size-32 lc-font-weight-600 lc-text-align-center">
                 {{ $t('TokenSale.header.thankyou') }}
               </h1>
@@ -95,7 +95,7 @@
               class="lc-container-4 lc-text-align-center lc-margin-top-32">
 
               <p class="lc-color-like-gray-4">
-                {{ $t(`KYC.label.${isICOEnded ? 'createIDSendReceive' : 'createID'}`) }}
+                {{ $t(`KYC.label.${getIsICOEnded ? 'createIDSendReceive' : 'createID'}`) }}
               </p>
 
               <md-button
@@ -114,7 +114,7 @@
             </div>
         
             <!-- Tokensale and KYC -->
-            <div v-else-if="!isICOEnded" class="lc-container-4">
+            <div v-else-if="!getIsICOEnded" class="lc-container-4">
 
               <KYCForm
                 :isKYCTxPass="isKYCTxPass"
@@ -200,7 +200,7 @@ import AddIcon from '@/assets/icons/add.svg';
 import EthIcon from '@/assets/tokensale/eth.svg';
 
 import EthHelper from '@/util/EthHelper';
-import { getIsTokenSaleEnded } from '@/util/helperFn';
+import postICOMixin from '@/util/mixin/postICO';
 import { LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin';
 import { LIKE_COIN_ICO_ADDRESS, LIKE_COIN_PRESALE_ADDRESS } from '@/constant/contract/likecoin-ico';
 import {
@@ -219,6 +219,7 @@ import { mapActions, mapGetters } from 'vuex';
 export default {
   name: 'tokensale',
   layout: 'narrowWithHeader',
+  mixins: [postICOMixin],
   components: {
     TokensaleDashboard,
     KYCForm,
@@ -244,6 +245,7 @@ export default {
       isEth: true,
       isKYCTxPass: undefined,
       shouldShowPaymentForm: true,
+      isProcessingICO: false,
 
       needExtraKYC: false,
       id: 'tokensale',
@@ -309,7 +311,6 @@ export default {
     isICOStarted() {
       return (new Date() >= SALE_DATE);
     },
-    isICOEnded: getIsTokenSaleEnded,
     canICO() {
       return this.isKYCTxPass && this.KYCStatus >= KYC_STATUS_ENUM.STANDARD;
     },
@@ -318,6 +319,9 @@ export default {
     },
     pendingKYC() {
       return this.getUserInfo.pendingKYC || false;
+    },
+    getIsICOEnded() {
+      return !this.isProcessingICO && this.getIsICOEnded;
     },
     ...mapGetters([
       'getUserIsFetching',
@@ -345,14 +349,17 @@ export default {
       return this.wallet.length === 42 && this.wallet.substr(0, 2) === '0x';
     },
     async onSubmit() {
+      this.isProcessingICO = true;
       this.isBadAddress = false;
       if (!this.checkAddress()) {
         this.isBadAddress = true;
+        this.isProcessingICO = false;
         return;
       }
       const amount = new BigNumber(this.amount);
       if (!amount || amount.lt('0.098') || amount.gte('1000')) {
         this.isBadAmount = true;
+        this.isProcessingICO = false;
         return;
       }
       this.isBadAmount = false;
@@ -365,6 +372,7 @@ export default {
           this.popupMessage = this.$t('KYC.label.advKycNeeded');
           this.needExtraKYC = true;
         }
+        this.isProcessingICO = false;
         return;
       }
       try {
@@ -374,6 +382,7 @@ export default {
         const to = this.wallet;
         if (from === to) {
           this.setErrorMsg(this.$t('Transaction.error.sameUser'));
+          this.isProcessingICO = false;
           return;
         }
         if (this.isEth) {
@@ -386,6 +395,7 @@ export default {
 
         if ((new BigNumber(balance)).lt(valueToSend)) {
           this.setErrorMsg(this.$t(`Transaction.error.${this.isEth ? 'eth' : 'likecoin'}Insufficient`));
+          this.isProcessingICO = false;
           return;
         }
 
@@ -394,6 +404,7 @@ export default {
           this.amount = amount.minus(0.0017); // auto deduce for gas price
           this.handleAmountChange(this.amount);
           this.setInfoMsg(this.$t('TokenSale.label.gasPriceDeducted'));
+          this.isProcessingICO = false;
           return;
         }
 
@@ -430,6 +441,7 @@ export default {
       } catch (error) {
         console.error(error);
       }
+      this.isProcessingICO = false;
     },
     redirectToRegister() {
       const { query } = this.$route;
