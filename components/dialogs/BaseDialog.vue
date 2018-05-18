@@ -37,6 +37,10 @@
 export default {
   name: 'base-dialog',
   props: {
+    isShow: {
+      type: Boolean,
+      default: false,
+    },
     isShowCloseButton: {
       type: Boolean,
       default: false,
@@ -50,7 +54,7 @@ export default {
   },
   data() {
     return {
-      isShowDialog: false,
+      isShowDialog: this.isShow,
     };
   },
   computed: {
@@ -71,6 +75,14 @@ export default {
     },
     onDismiss() {
       this.hide();
+    },
+  },
+  watch: {
+    isShow(isShow) {
+      this.isShowDialog = isShow;
+    },
+    isShowDialog(isShowDialog) {
+      this.$emit('update:isShow', isShowDialog);
     },
   },
 };

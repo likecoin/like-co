@@ -1015,8 +1015,8 @@
     "common": {
       "label": {
         "upcomingDate": "<span class=\"bold\">LikeCoin public sale will start on {upcoming}.</span>",
-        "desktopRequired": "This bonus requires desktop to complete",
-        "pleaseUseDesktop": "Please visit like.co with desktop computer and chrome broswer."
+        "desktopRequired": "This bonus requires desktop browser to complete",
+        "pleaseUseDesktop": "Please visit like.co with Chrome for Desktop."
       },
       "button": {
         "desktopFAQ": "How can I access this account on desktop?"

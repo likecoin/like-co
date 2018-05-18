@@ -806,7 +806,7 @@ $font-weight-list: 300 400 600;
   &:not([disabled="disabled"]) {
     color: white;
 
-    @mixin lc-button-style($color) {
+    @mixin lc-button-style($color, $image: false) {
       &.outline {
         color: $color;
         border: 2px solid currentColor;
@@ -814,10 +814,18 @@ $font-weight-list: 300 400 600;
 
       &:not(.outline) {
         background-color: $color;
+
+        @if ($image) {
+          background-image: $image;
+        }
       }
     };
 
     @include lc-button-style($like-green);
+
+    &.lc-secondary {
+      @include lc-button-style(#3c286e, linear-gradient(73deg, #3c286e, #6e2828));
+    }
 
     &.lc-cancel {
       @include lc-button-style($like-gradient-3);
