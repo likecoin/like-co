@@ -114,7 +114,11 @@ const mutations = {
     state.historyBonus = {};
     Object.keys(bonus).forEach((type) => {
       const value = bonus[type];
-      const mission = state.missions.find(m => m.targetPayoutType === type);
+      let mission = state.historyMissions.find(m => m.targetPayoutType === type);
+      if (!mission && type.includes('mission-')) {
+        const missionId = type.slice('mission-'.length);
+        mission = state.historyMissions.find(m => m.id === missionId);
+      }
       if (!mission) return; // error case
       let historyBonus = state.historyBonus[mission.id];
       if (!historyBonus) historyBonus = new BigNumber(0);
