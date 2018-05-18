@@ -137,6 +137,7 @@ router.post('/payment', async (req, res) => {
       txNonce: pendingCount,
       currentBlock,
       txSignature: signature,
+      delegatorAddress: web3.utils.toChecksumAddress(delegatorAddress),
     });
   } catch (err) {
     console.error(err);

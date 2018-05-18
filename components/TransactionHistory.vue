@@ -159,7 +159,7 @@ import {
   ONE_LIKE,
   TRANSACTION_QUERY_LIMIT,
   BONUS_LOCK_UNTIL_DATE,
-  BONUS_ADDRESS,
+  BONUS_ADDRESSES,
 } from '@/constant';
 import {
   LIKE_COIN_ICO_ADDRESS,
@@ -296,7 +296,7 @@ export default {
       return tx.from === LIKE_COIN_PRESALE_FROM_ADDRESS;
     },
     isFromBonus(tx) {
-      return tx.from === BONUS_ADDRESS;
+      return BONUS_ADDRESSES.includes(tx.from);
     },
     isFromPreSaleBonus(tx) {
       return tx.from === LIKE_COIN_PRESALE_BONUS_FROM_ADDRESS;

@@ -56,6 +56,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import * as api from '@/util/api/api';
+import { getIsTokenSaleEnded } from '@/util/helperFn';
 
 import NarrowPageHeader from '~/components/header/NarrowPageHeader';
 import TokensaleDashboard from '~/components/TokensaleDashboard';
@@ -88,7 +89,7 @@ export default {
         name: 'in-register',
         query: {
           from: this.referrerId,
-          ref: 'in-tokensale',
+          ref: getIsTokenSaleEnded() ? '' : 'in-tokensale',
         },
       });
     },
@@ -138,7 +139,11 @@ export default {
     getUserIsFetching(f) {
       if (!f) {
         if (this.getUserIsRegistered) {
-          this.$router.push({ name: 'in-tokensale' });
+          if (getIsTokenSaleEnded()) {
+            this.$router.push({ name: 'in' });
+          } else {
+            this.$router.push({ name: 'in-tokensale' });
+          }
         }
       }
     },
@@ -146,7 +151,11 @@ export default {
   mounted() {
     if (!this.getUserIsFetching) {
       if (this.getUserIsRegistered) {
-        this.$router.push({ name: 'in-tokensale' });
+        if (getIsTokenSaleEnded()) {
+          this.$router.push({ name: 'in' });
+        } else {
+          this.$router.push({ name: 'in-tokensale' });
+        }
       }
     }
   },

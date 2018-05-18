@@ -62,6 +62,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import { getIsTokenSaleEnded } from '@/util/helperFn';
 
 import HomeIcon from '@/assets/icons/home.svg';
 
@@ -79,7 +80,7 @@ const MENU_ITEMS = [
         isRegistered: true,
       },
       {
-        key: 'joinTokenSale',
+        key: getIsTokenSaleEnded() ? 'tokenSale' : 'joinTokenSale',
         to: { name: 'in-tokensale' },
       },
       {

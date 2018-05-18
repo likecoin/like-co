@@ -2,6 +2,7 @@
   <div class="overview-page">
 
     <cta-section
+      v-if="!isICOEnded"
       class="lc-margin-top-8"
       :isShowFooter="false"
       :isShowSupportButton="false" />
@@ -160,9 +161,12 @@ import EditIcon from '@/assets/icons/edit.svg';
 import EditWhiteIcon from '@/assets/icons/edit-white.svg';
 import TickIcon from '@/assets/tokensale/tick.svg';
 
+import postICOMixin from '@/util/mixin/postICO';
+
 export default {
   name: 'in',
   layout: 'in',
+  mixins: [postICOMixin],
   data() {
     return {
       couponCode: '',
