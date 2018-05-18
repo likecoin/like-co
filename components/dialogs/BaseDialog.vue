@@ -110,7 +110,7 @@ $lc-dialog-border-radius: 8px;
   }
 
   @media (min-width: 600px + 1px) {
-    max-width: 450px;
+    width: 450px;
 
     &.md-dialog-fullscreen {
       border-radius: $lc-dialog-border-radius;
