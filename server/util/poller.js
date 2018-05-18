@@ -10,9 +10,11 @@ const accounts = require('@ServerConfig/accounts.js'); // eslint-disable-line im
 export let tokensaleInitial = INITIAL_TOKENSALE_ETH_VALUE;
 export let { gasPrice } = accounts[0];
 export let emailBlacklist = EXTRA_EMAIL_BLACLIST;
+export let emailNoDot = [];
 let unsubscribeTokensaleInitial;
 let unsubscribeGasPrice;
 let unsubscribeEmailBlacklist;
+let unsubscribeEmailNoDot;
 
 function pollTokensaleInitial() {
   try {
@@ -119,10 +121,46 @@ function pollEmailBlacklist() {
   }
 }
 
+function pollEmailNoDot() {
+  try {
+    const watchRef = configRef.doc('emailNoDot');
+    const watch = () => {
+      if (!unsubscribeEmailNoDot) {
+        unsubscribeEmailNoDot = watchRef.onSnapshot((docSnapshot) => {
+          if (docSnapshot.exists) {
+            const { list } = docSnapshot.data();
+            emailNoDot = list;
+          }
+        }, (err) => {
+          console.error(err.message || err); // eslint-disable-line no-console
+          if (typeof unsubscribeEmailNoDot === 'function') {
+            unsubscribeEmailNoDot();
+            unsubscribeEmailNoDot = null;
+          }
+          const timer = setInterval(() => {
+            console.log('Trying to restart watcher (email no bot)...'); // eslint-disable-line no-console
+            try {
+              watch();
+              clearInterval(timer);
+            } catch (innerErr) {
+              console.log('Watcher restart failed (email no bot)'); // eslint-disable-line no-console
+            }
+          }, 10000);
+        });
+      }
+    };
+    watch();
+  } catch (err) {
+    const msg = err.message || err;
+    console.error(msg); // eslint-disable-line no-console
+  }
+}
+
 export function startPoller() {
   pollTokensaleInitial();
   pollGasPrice();
   pollEmailBlacklist();
+  pollEmailNoDot();
 }
 
 export function stopPoller() {
@@ -137,5 +175,9 @@ export function stopPoller() {
   if (typeof unsubscribeEmailBlacklist === 'function') {
     unsubscribeEmailBlacklist();
     unsubscribeEmailBlacklist = null;
+  }
+  if (typeof unsubscribeEmailNoDot === 'function') {
+    unsubscribeEmailNoDot();
+    unsubscribeEmailNoDot = null;
   }
 }

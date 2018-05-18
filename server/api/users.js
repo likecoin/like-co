@@ -7,7 +7,7 @@ import {
   PUBSUB_TOPIC_MISC,
   ONE_LIKE,
 } from '../../constant';
-import { emailBlacklist } from '../util/poller';
+import { emailBlacklist, emailNoDot } from '../util/poller';
 
 import axios from '../../plugins/axios';
 import Validate from '../../util/ValidationHelper';
@@ -107,7 +107,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
         });
         throw new Error('email domain not allowed');
       }
-      if (parts[1] === 'gmail.com') {
+      if (emailNoDot.includes(parts[1])) {
         email = `${parts[0].split('.').join('')}@${parts[1]}`;
       }
     }
