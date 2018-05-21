@@ -40,7 +40,7 @@
                     <material-button
                     class="cta-btn"
                     :hasShadow="true"
-                    @click=onClickSupportLikeCoinButton>
+                    @click="onClickSupportLikeCoinButton">
                     {{ $t('Home.Sale.button.supportLikeCoin') }}
                     </material-button>
                   </li>
@@ -48,7 +48,7 @@
                     <material-button
                       class="cta-btn"
                       :hasShadow="true"
-                      @click=onClickRegisterButton>
+                      @click="onClickSignInButton">
                       {{ $t('Home.Header.button.signIn') }}
                     </material-button>
                   </li>
@@ -56,7 +56,7 @@
                     <material-button
                       class="cta-btn"
                       :hasShadow="true"
-                      @click=onClickRegisterButton>
+                      @click="onClickRegisterButton">
                       {{ $t('Home.Header.button.signUp') }}
                     </material-button>
                   </li>
@@ -64,7 +64,7 @@
                     <material-button
                       class="cta-btn support"
                       :hasShadow="true"
-                      @click=onClickTokenSaleButton>
+                      @click="onClickTokenSaleButton">
                       {{ $t('Home.Sale.button.aboutTokenSale') }}
                     </material-button>
                   </li>
@@ -172,6 +172,13 @@ export default {
     },
     onClickTokenSaleButton() {
       this.$router.push({ name: 'in-tokensale' });
+    },
+    onClickSignInButton() {
+      if (this.$route.name === 'index') {
+        this.$router.push({ name: 'in' });
+      } else {
+        this.showLoginWindow();
+      }
     },
     onClickSupportLikeCoinButton() {
       logTrackerEvent(this, 'RegFlow', 'ClickedSupportLikeCoinButton', 'User wants to support LikeCoin', 1);

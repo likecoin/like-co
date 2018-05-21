@@ -66,7 +66,11 @@ export default {
       if (this.getUserIsRegistered) {
         this.$router.push({ name: 'in' });
       } else if (this.getUserNeedAuth) {
-        this.showLoginWindow();
+        if (this.$route.name === 'index') {
+          this.$router.push({ name: 'in' });
+        } else {
+          this.showLoginWindow();
+        }
       } else {
         this.$router.push({
           name: 'in-register',

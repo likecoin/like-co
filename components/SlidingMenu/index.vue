@@ -34,7 +34,7 @@
                   <menu-item
                     v-else-if="getUserNeedAuth"
                     :isHighlighted="true"
-                    @click="showLoginWindow">
+                    @click="onClickSignInButton">
                     {{ $t('Home.Header.button.signIn') }}
                   </menu-item>
                   <menu-item
@@ -154,6 +154,13 @@ export default {
       'showLoginWindow',
       'closeSlidingMenu',
     ]),
+    onClickSignInButton() {
+      if (this.$route.name === 'index') {
+        this.$router.push({ name: 'in' });
+      } else {
+        this.showLoginWindow();
+      }
+    },
   },
 };
 </script>
