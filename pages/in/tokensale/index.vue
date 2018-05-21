@@ -67,23 +67,23 @@
               v-else
               class="lc-container-4 lc-text-align-center lc-margin-top-32">
               <md-button
+                v-if="getUserNeedAuth"
+                class="md-likecoin"
+                @click="showLoginWindow">
+                {{ $t('Home.Header.button.signIn') }}
+              </md-button>
+              <md-button
+                v-else
                 class="md-likecoin"
                 @click="redirectToRegister">
                 {{ $t('KYC.button.createID') }}
               </md-button>
-              <br />
-              <a
-                class="lc-color-like-gray-4 lc-underline"
-                href="#"
-                @click="showLoginWindow">
-                {{ $t('Home.Header.button.signIn') }}
-              </a>
             </div>
           
           </div>
 
           <div
-            v-if="!getUserIsRegistered"
+            v-if="!getUserIsRegistered && !getUserNeedAuth"
             class="lc-container-3 lc-margin-top-16 lc-text-align-center">
             <div class="lc-container-4">
               <p class="lc-color-like-gray-4">
@@ -161,6 +161,7 @@ export default {
       'getUserIsReady',
       'getUserIsFetching',
       'getUserIsRegistered',
+      'getUserNeedAuth',
     ]),
   },
   methods: {

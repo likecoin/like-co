@@ -35,7 +35,6 @@ export default {
   name: 'site-header',
   props: [
     'isShowAccountButton',
-    'showLogin',
   ],
   components: {
     MaterialButton,
@@ -45,7 +44,7 @@ export default {
   computed: {
     getButtonText() {
       if (this.getUserIsRegistered) return this.getUserInfo.user;
-      return this.$t(this.showLogin ? 'Home.Header.button.signIn' : 'Home.Header.button.signUp');
+      return this.$t(this.getUserNeedAuth ? 'Home.Header.button.signIn' : 'Home.Header.button.signUp');
     },
     shouldHideRegister() {
       return (
@@ -56,6 +55,7 @@ export default {
     ...mapGetters([
       'getUserInfo',
       'getUserIsRegistered',
+      'getUserNeedAuth',
     ]),
   },
   methods: {
@@ -63,10 +63,15 @@ export default {
       'showLoginWindow',
     ]),
     onSignUpClick() {
-      if (!this.getUserIsRegistered && this.showLogin) {
+      if (this.getUserIsRegistered) {
+        this.$router.push({ name: 'in' });
+      } else if (this.getUserNeedAuth) {
         this.showLoginWindow();
       } else {
-        this.$router.push({ name: 'in' });
+        this.$router.push({
+          name: 'in-register',
+          query: { ...this.$route.query, ref: this.$route.name },
+        });
       }
     },
   },

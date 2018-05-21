@@ -44,12 +44,20 @@
                     {{ $t('Home.Sale.button.supportLikeCoin') }}
                     </material-button>
                   </li>
+                  <li v-else-if="getUserNeedAuth">
+                    <material-button
+                      class="cta-btn"
+                      :hasShadow="true"
+                      @click=onClickRegisterButton>
+                      {{ $t('Home.Header.button.signIn') }}
+                    </material-button>
+                  </li>
                   <li v-else>
                     <material-button
                       class="cta-btn"
                       :hasShadow="true"
                       @click=onClickRegisterButton>
-                      {{ $t('Dialog.transaction.button.createID') }}
+                      {{ $t('Home.Header.button.signUp') }}
                     </material-button>
                   </li>
                   <li>
@@ -142,6 +150,7 @@ export default {
   computed: {
     ...mapGetters([
       'getUserIsRegistered',
+      'getUserNeedAuth',
     ]),
     tokenSaleProgress() {
       return this.currentTokenSaleAmount.toFixed(2);
@@ -155,6 +164,7 @@ export default {
   },
   methods: {
     ...mapActions([
+      'showLoginWindow',
       'queryTokensaleInitial',
     ]),
     onClickRegisterButton() {
