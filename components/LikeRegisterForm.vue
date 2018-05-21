@@ -113,6 +113,11 @@
       </div>
     </form>
     <claim-dialog ref="claimDialog" :couponCode="couponCode" :wallet="wallet" />
+    <referrer-dialog
+      :is-show="shouldShowReferrerDialog"
+      :referred-id="referrer"
+      v-bind="referrerInfo"
+      @dismiss="handleReferrerDialogDismiss" />
   </div>
 </template>
 
@@ -125,7 +130,10 @@ import EthHelper from '@/util/EthHelper';
 import User from '@/util/User';
 import { logTrackerEvent } from '@/util/EventLogger';
 
+import * as api from '@/util/api/api';
+
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
+import ReferrerDialog from '~/components/dialogs/ReferrerDialog';
 import MaterialButton from '~/components/MaterialButton';
 
 import { toDataUrl } from '@likecoin/ethereum-blockies';
@@ -148,6 +156,7 @@ export default {
       displayName: '',
       couponCode: '',
       referrer: this.$route.query.from || '',
+      referrerInfo: {},
       likeCoinBalance: NaN,
       wallet: this.getLocalWallet,
       reCaptchaResponse: '',
@@ -158,10 +167,13 @@ export default {
       ETHERSCAN_HOST,
       W3C_EMAIL_REGEX,
       IS_TESTNET,
+
+      shouldShowReferrerDialog: false,
     };
   },
   components: {
     ClaimDialog,
+    ReferrerDialog,
     MaterialButton,
     VueRecaptcha,
   },
@@ -183,6 +195,7 @@ export default {
       'getBlockie',
       'setPageHeader',
       'setInfoMsg',
+      'setErrorDisabled',
       'setErrorMsg',
       'checkCoupon',
       'isUser',
@@ -279,8 +292,30 @@ export default {
         }
       }
     },
+    async fetchReferrerInfo() {
+      this.shouldShowReferrerDialog = true;
+      this.setErrorDisabled(true);
+      try {
+        const response = await api.apiGetUserMinById(this.referrer);
+        const { avatar, displayName } = response.data;
+        this.referrerInfo = {
+          avatar,
+          displayName,
+        };
+      } catch (error) {
+        this.shouldShowReferrerDialog = false;
+        this.setErrorDisabled(false);
+      }
+    },
+    handleReferrerDialogDismiss() {
+      this.shouldShowReferrerDialog = false;
+      this.setErrorDisabled(false);
+    },
   },
   mounted() {
+    if (this.referrer) {
+      this.fetchReferrerInfo();
+    }
     if (this.isEdit) {
       this.updateInfo();
     }
