@@ -4,6 +4,8 @@ export const getInfoIsError = state => state.infoIsError;
 
 export const getIsLoginOverride = state => state.isLoginOverride;
 
+export const getIsErrorDisabled = state => state.isErrorDisabled;
+
 export const getPopupError = state => state.popupError;
 
 export const getPopupInfo = state => state.popupInfo;
