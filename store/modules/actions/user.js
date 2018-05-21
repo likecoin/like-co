@@ -122,19 +122,19 @@ export async function getWalletByUser(ctx, id) {
   return wallet;
 }
 
-export async function sendVerifyEmail({ commit, rootState }, { id, ref }) {
+export async function sendVerifyEmail({ commit, dispatch, rootState }, { id, ref }) {
   let redirect = '';
   if (REDIRECT_NAME_WHITE_LIST.indexOf(ref) > -1) redirect = ref;
   return apiWrapper(
-    commit,
+    { commit, dispatch },
     api.apiSendVerifyEmail(id, redirect, rootState.ui.locale),
     { blocking: true },
   );
 }
 
-export async function verifyEmailByUUID({ commit, rootState }, uuid) {
+export async function verifyEmailByUUID({ commit, dispatch, rootState }, uuid) {
   return apiWrapper(
-    commit,
+    { commit, dispatch },
     api.apiVerifyEmailByUUID(uuid, rootState.ui.locale),
     { blocking: true },
   );
