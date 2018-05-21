@@ -84,7 +84,7 @@ export default {
   computed: {
     ...mapGetters([
       'getUserInfo',
-      'getUserIsFetching',
+      'getUserIsReady',
       'getUserIsRegistered',
       'getMissionHistorylist',
       'getIsFetchedMissionHistory',
@@ -100,8 +100,8 @@ export default {
     },
   },
   watch: {
-    getUserIsFetching(f) {
-      if (!f) {
+    getUserIsReady(a) {
+      if (a) {
         if (this.getUserIsRegistered) {
           this.refreshHistory();
         }
@@ -109,7 +109,7 @@ export default {
     },
   },
   mounted() {
-    if (!this.getUserIsFetching) {
+    if (this.getUserIsReady) {
       if (this.getUserIsRegistered) {
         this.refreshHistory();
       }

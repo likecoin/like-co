@@ -223,7 +223,7 @@ export default {
       'getIsFetchingMissions',
       'getIsFetchedMissions',
       'getUserInfo',
-      'getUserIsFetching',
+      'getUserIsReady',
       'getUserIsRegistered',
       'getMissionList',
       'getReferralMissionList',
@@ -280,8 +280,8 @@ export default {
     },
   },
   watch: {
-    getUserIsFetching(f) {
-      if (!f) {
+    getUserIsReady(a) {
+      if (a) {
         if (this.getUserIsRegistered) {
           this.updateInfo();
         }
@@ -295,7 +295,7 @@ export default {
       if (element) element.scrollIntoView();
     }
 
-    if (!this.getUserIsFetching) {
+    if (this.getUserIsReady) {
       if (this.getUserIsRegistered) {
         this.updateInfo();
       }

@@ -3,18 +3,18 @@ import EthHelper from '@/util/EthHelper';
 export default ({ store }) => {
   EthHelper.initApp({
     errCb: (err) => {
-      store.dispatch('setUserIsFetching', false);
+      store.dispatch('setWeb3IsFetching', false);
       store.dispatch('setMetamaskError', err);
     },
     retryCb: () => {
-      store.dispatch('setUserIsFetching', true);
+      store.dispatch('setWeb3IsFetching', true);
     },
     clearErrCb: () => {
       store.dispatch('setMetamaskError', '');
     },
-    onWalletCb: (wallet) => {
-      store.dispatch('setLocalWallet', wallet);
-      store.dispatch('isUser', wallet);
+    onWalletCb: async (wallet) => {
+      await store.dispatch('onWalletChanged', wallet);
+      await store.dispatch('setWeb3IsFetching', false);
     },
     onSetWeb3: (type) => {
       store.dispatch('setWeb3Type', type);

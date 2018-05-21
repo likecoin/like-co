@@ -42,23 +42,23 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'getUserIsFetching',
+      'getUserIsReady',
       'getUserIsRegistered',
     ]),
   },
   watch: {
-    getUserIsFetching(f) {
-      if (!f) {
-        if (!this.getUserIsRegistered) {
-          this.$router.push({ name: 'in-register', query: this.$route.query });
+    getUserIsReady(a) {
+      if (a) {
+        if (this.getUserIsRegistered) {
+          this.updateInfo();
         }
       }
     },
   },
   mounted() {
-    if (!this.getUserIsFetching) {
-      if (!this.getUserIsRegistered) {
-        this.$router.push({ name: 'in-register', query: this.$route.query });
+    if (this.getUserIsReady) {
+      if (this.getUserIsRegistered) {
+        this.updateInfo();
       }
     }
   },

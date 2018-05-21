@@ -158,6 +158,7 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'getUserIsReady',
       'getUserIsFetching',
       'getUserIsRegistered',
     ]),

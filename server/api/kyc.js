@@ -20,6 +20,7 @@ import {
 } from '../../constant';
 import { logRegisterKYC } from '../util/logger';
 import publisher from '../util/gcloudPub';
+import { jwtAuth } from '../util/jwt';
 
 const { RECAPTCHA_SECRET } = require('@ServerConfig/config.js'); // eslint-disable-line import/no-extraneous-dependencies
 const querystring = require('querystring');
@@ -355,8 +356,12 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
   }
 });
 
-router.get('/kyc/advanced/:id', async (req, res) => {
+router.get('/kyc/advanced/:id', jwtAuth, async (req, res) => {
   const { id } = req.params;
+  if (req.user.user !== id) {
+    res.status(401).send('LOGIN_NEEDED');
+    return;
+  }
   const status = await getKYCAPIStatus(id);
   if (status === 'CLEARED' || status === 'ACCEPTED') {
     await Promise.all([
