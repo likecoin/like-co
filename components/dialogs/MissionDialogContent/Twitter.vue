@@ -60,7 +60,7 @@ import * as api from '@/util/api/api';
 import RetweetForm from '~/components/forms/RetweetForm';
 import Spinner from '~/components/Spinner';
 
-const TWEET_URL = 'https://twitter.com/likecoin_fdn/status/993685600443162630';
+const TWEET_URL = 'https://twitter.com/likecoin_fdn/status/998505329854836738';
 
 export default {
   name: 'twitter-mission',
