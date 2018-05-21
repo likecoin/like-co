@@ -8,8 +8,6 @@
 
 
 <script>
-import { mapGetters } from 'vuex';
-
 export default {
   name: 'bonus-page',
   layout: 'in',
@@ -39,28 +37,6 @@ export default {
         },
       ],
     };
-  },
-  computed: {
-    ...mapGetters([
-      'getUserIsReady',
-      'getUserIsRegistered',
-    ]),
-  },
-  watch: {
-    getUserIsReady(a) {
-      if (a) {
-        if (this.getUserIsRegistered) {
-          this.updateInfo();
-        }
-      }
-    },
-  },
-  mounted() {
-    if (this.getUserIsReady) {
-      if (this.getUserIsRegistered) {
-        this.updateInfo();
-      }
-    }
   },
 };
 </script>
