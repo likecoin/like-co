@@ -8,64 +8,42 @@
           <div class="lc-container-4">
 
             <div class="cta-section-body">
-              <!-- BEGIN - After token sale begins -->
-              <div
-                v-if="now.isSameOrAfter(SALE_DATE)"
-                class="cta-section-body-content lc-text-align-center-mobile">
+
+              <div class="cta-section-body-content lc-text-align-center-mobile">
                 <h1>
                   {{ $t('Home.Sale.title.publicTokenSale') }}
                   <span class="status">
-                    {{ $t(`Home.Sale.title.${isICOEnded ? 'isOver' : 'nowLive'}`) }}
+                    {{ $t('Home.Sale.title.isOver') }}
                   </span>
                 </h1>
 
-                <div
-                  v-if="isTokenSalePeriod"
-                  :class="['tokensale-status', { animated: isTokenSalePeriod }]">
-                  <div>
-                    <countdown-timer
-                      v-if="isTokenSalePeriod"
-                      class="cta-section-token-sale-timer"
-                      :date="SALE_END_DATE"
-                    />
-                    <h2 v-if="tokenSalePercentage" class="completed-percentage">
-                      {{ $t('Home.Sale.label.completedPercent', { percent: tokenSalePercentage }) }}
-                    </h2>
-                  </div>
-                </div>
-
-                <div v-if="isICOEnded && tokenSaleProgress" class="raised-eth">
+                <div v-if="tokenSalePercentage" class="raised-eth">
                   <span class="lc-font-size-16 lc-font-weight-600">
                     {{ $t('TokenSale.label.raised') }}:
                   </span>
                   <br class="lc-mobile-show" />
                   <span class="amount lc-font-weight-300 lc-font-size-46 lc-mobile">
-                    {{ tokenSaleProgress }} ETH
+                    >{{ tokenSalePercentage }}%
                   </span>
                 </div>
 
-                <div class="token-sale-progress-wrapper">
+                <div class="token-sale-progress-wrapper lc-margin-top-8">
                   <tokensale-progress
                     class="cta-section-token-sale-progress"
                     :progress="tokenSaleProgress" />
                 </div>
               </div>
-              <!-- END - After token sale begins -->
-
 
               <div class="cta-section-body-buttons">
                 <ul>
-                  <!-- BEGIN - After token sale begins -->
-                  <li v-if="isTokenSalePeriod">
+                  <li v-if="getUserIsRegistered">
                     <material-button
-                      class="cta-btn"
-                      :hasShadow="true"
-                      @click=onClickJoinTokenSaleButton>
-                      {{ $t('Home.Sale.button.joinNow') }}
+                    class="cta-btn"
+                    :hasShadow="true"
+                    @click=onClickSupportLikeCoinButton>
+                    {{ $t('Home.Sale.button.supportLikeCoin') }}
                     </material-button>
                   </li>
-                  <!-- END - After token sale begins -->
-                  <!-- BEGIN - After token sale end -->
                   <li v-else>
                     <material-button
                       class="cta-btn"
@@ -74,13 +52,12 @@
                       {{ $t('Dialog.transaction.button.createID') }}
                     </material-button>
                   </li>
-                  <!-- END - After token sale end -->
-                  <li v-if="isShowSupportButton && !isICOEnded">
+                  <li>
                     <material-button
                       class="cta-btn support"
                       :hasShadow="true"
-                      @click=onClickSupportLikeCoinButton>
-                      {{ $t('Home.Sale.button.supportLikeCoin') }}
+                      @click=onClickTokenSaleButton>
+                      {{ $t('Home.Sale.button.aboutTokenSale') }}
                     </material-button>
                   </li>
                 </ul>
@@ -124,23 +101,20 @@
 
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
-import moment from 'moment';
 
 import { logTrackerEvent } from '@/util/EventLogger';
+
 import CountdownTimer from '~/components/CountdownTimer';
 import MaterialButton from '~/components/MaterialButton';
 import TokenSaleProgress from '~/components/TokenSaleProgress';
 
 import EthHelper from '@/util/EthHelper';
-import postICOMixin from '@/util/mixin/postICO';
 import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 import {
   TOKENSALE_SOFTCAP_ETH,
   ONE_LIKE,
-  SALE_DATE,
-  SALE_END_DATE,
 } from '@/constant';
 
 export default {
@@ -150,7 +124,6 @@ export default {
     MaterialButton,
     'tokensale-progress': TokenSaleProgress,
   },
-  mixins: [postICOMixin],
   props: {
     isShowFooter: {
       type: Boolean,
@@ -163,22 +136,21 @@ export default {
   },
   data() {
     return {
-      SALE_DATE,
-      SALE_END_DATE,
-
-      now: moment(),
       currentTokenSaleAmount: 0,
     };
   },
   computed: {
-    tokenSalePercentage() {
-      return Math.round((this.currentTokenSaleAmount / TOKENSALE_SOFTCAP_ETH) * 100);
-    },
+    ...mapGetters([
+      'getUserIsRegistered',
+    ]),
     tokenSaleProgress() {
       return this.currentTokenSaleAmount.toFixed(2);
     },
-    isTokenSalePeriod() {
-      return this.now.isAfter(SALE_DATE) && !this.isICOEnded;
+    tokenSalePercentage() {
+      return Math.max(
+        180,
+        Math.floor((this.currentTokenSaleAmount / TOKENSALE_SOFTCAP_ETH) * 10) * 10,
+      );
     },
   },
   methods: {
@@ -188,8 +160,7 @@ export default {
     onClickRegisterButton() {
       this.$router.push({ name: 'in-register' });
     },
-    onClickJoinTokenSaleButton() {
-      logTrackerEvent(this, 'RegFlow', 'ClickedIAmInterestedButton', 'User is interested in early bird token sale', 1);
+    onClickTokenSaleButton() {
       this.$router.push({ name: 'in-tokensale' });
     },
     onClickSupportLikeCoinButton() {
@@ -204,9 +175,7 @@ export default {
     },
   },
   mounted() {
-    if (!moment().isBefore(SALE_DATE)) {
-      this.updateTokenSaleProgress();
-    }
+    this.updateTokenSaleProgress();
   },
 };
 </script>
@@ -429,136 +398,10 @@ export default {
   }
 }
 
-.token-sale-timer-wrapper {
-  @media (max-width: 600px) {
-    margin-right: -8px;
-    margin-left: -8px;
-  }
-}
-
-.cta-section-token-sale-timer {
-  max-width: 480px;
-}
-
 .token-sale-progress-wrapper {
-  margin-top: 16px;
-
-  @media (max-width: 600px) {
-    margin-right: 0;
-  }
-}
-</style>
-
-<style lang="scss">
-@import "~assets/variables";
-
-.cta-section {
-  .cta-section-token-sale-progress .lc-tokensale-progress-bar {
+  :global(.lc-tokensale-progress-bar) {
     @media (max-width: 600px) {
       box-shadow: 0px 0px 3px 5px rgba(0, 0, 0, 0.1);
-    }
-  }
-
-  .cta-section-token-sale-timer {
-    ul {
-      li {
-        &::after {
-          @media (max-width: 600px) {
-            background-color: $like-light-blue !important;
-          }
-        }
-
-        .date-value {
-          @media (max-width: 768px) {
-            font-size: 38px !important;
-            line-height: 44px !important;
-          }
-        }
-
-        .date-unit {
-          @media (max-width: 768px) {
-            font-size: 12px !important;
-          }
-        }
-
-        .date-value,
-        .date-unit {
-          @media (max-width: 600px) {
-            color: $like-light-blue !important;
-          }
-        }
-      }
-    }
-  }
-}
-
-
-$tokensale-status-height: 96px;
-$tokensale-status-height-small: 64px;
-$tokensale-status-gutter: 8px;
-
-$tokensale-status-height-map: (
-  small: $tokensale-status-height-small,
-  normal: $tokensale-status-height,
-);
-
-@each $key, $value in $tokensale-status-height-map {
-  @keyframes tokensale-status-animation-#{$key} {
-    0%, 45% {
-      transform: translateY(0);
-    }
-    55%, 100% {
-      transform: translateY(-$value);
-    }
-  }
-}
-
-.tokensale-status.animated {
-  overflow: hidden;
-  margin: -$tokensale-status-gutter 0;
-
-  height: $tokensale-status-height + $tokensale-status-gutter * 2;
-
-  mask-image: linear-gradient(
-    to bottom,
-    rgba(0,0,0,0) 2%,
-    rgba(0,0,0,1) 12%,
-    rgba(0,0,0,1) 88%,
-    rgba(0,0,0,0) 98%);
-
-  @media (max-width: 768px) {
-    height: $tokensale-status-height-small + $tokensale-status-gutter * 2;
-  }
-
-  > div {
-    animation: {
-      name: tokensale-status-animation-normal;
-      duration: 5s;
-      delay: 3s;
-      direction: alternate;
-      timing-function: ease-in-out;
-      iteration-count: infinite;
-    }
-
-    @media (max-width: 768px) {
-      animation-name: tokensale-status-animation-small;
-    }
-
-    > * {
-      height: $tokensale-status-height;
-      padding: $tokensale-status-gutter 0;
-
-      line-height: $tokensale-status-height;
-
-      @media (max-width: 768px) {
-        height: $tokensale-status-height-small;
-
-        line-height: $tokensale-status-height-small;
-      }
-
-      @media (max-width: 600px) {
-        margin: auto;
-      }
     }
   }
 }

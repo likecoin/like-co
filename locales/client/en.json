@@ -13,7 +13,8 @@
       "ok": "OK",
       "copy": "Copy",
       "copied": "Copied",
-      "done": "Done"
+      "done": "Done",
+      "myAccount": "My Account"
     }
   },
   "Language": {
@@ -269,6 +270,7 @@
         "createNow": "Create Now",
         "buyCoin": "Buy LikeCoin",
         "imInterested": "I'm interested",
+        "aboutTokenSale": "About Token Sale",
         "joinTokenSale": "Join Token Sale",
         "joinNow": "Join Now",
         "prepareToJoin": "Prepare to Join",
@@ -782,7 +784,8 @@
       "joinTokenSaleNow": "Join Token Sale Now",
       "gasPriceDeducted": "Reserving ETH for blockchain transaction cost",
       "likeAmountWillGet": "You will get <span class=\"bold\">{amount}</span> LIKE",
-      "raised": "Raised"
+      "raised": "Raised",
+      "thankyou": "Our token sale is officially ended. We have reached >180% of our target, thanks so much! We are collecting the numbers from various sales channel and will announce the final result soon."
     },
     "button": {
       "aboutLikeCoin": "About LikeCoin",
