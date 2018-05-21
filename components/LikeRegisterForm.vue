@@ -112,12 +112,14 @@
         </material-button>
       </div>
     </form>
+    
     <claim-dialog ref="claimDialog" :couponCode="couponCode" :wallet="wallet" />
+    
     <referrer-dialog
-      :is-show="shouldShowReferrerDialog"
+      :is-show.sync="shouldShowReferrerDialog"
       :referred-id="referrer"
-      v-bind="referrerInfo"
-      @dismiss="handleReferrerDialogDismiss" />
+      v-bind="referrerInfo" />
+
   </div>
 </template>
 
@@ -129,8 +131,6 @@ import VueRecaptcha from 'vue-recaptcha';
 import EthHelper from '@/util/EthHelper';
 import User from '@/util/User';
 import { logTrackerEvent } from '@/util/EventLogger';
-
-import * as api from '@/util/api/api';
 
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import ReferrerDialog from '~/components/dialogs/ReferrerDialog';
@@ -193,6 +193,7 @@ export default {
     ...mapActions([
       'newUser',
       'getBlockie',
+      'getMiniUserById',
       'setPageHeader',
       'setInfoMsg',
       'setErrorDisabled',
@@ -293,23 +294,17 @@ export default {
       }
     },
     async fetchReferrerInfo() {
-      this.shouldShowReferrerDialog = true;
       this.setErrorDisabled(true);
       try {
-        const response = await api.apiGetUserMinById(this.referrer);
-        const { avatar, displayName } = response.data;
+        const { avatar, displayName } = await this.getMiniUserById(this.referrer);
         this.referrerInfo = {
           avatar,
           displayName,
         };
+        this.shouldShowReferrerDialog = true;
       } catch (error) {
         this.shouldShowReferrerDialog = false;
-        this.setErrorDisabled(false);
       }
-    },
-    handleReferrerDialogDismiss() {
-      this.shouldShowReferrerDialog = false;
-      this.setErrorDisabled(false);
     },
   },
   mounted() {
@@ -350,6 +345,9 @@ export default {
       if (w) {
         this.setMyLikeCoin(w);
       }
+    },
+    shouldShowReferrerDialog(isShow) {
+      this.setErrorDisabled(isShow);
     },
   },
 };

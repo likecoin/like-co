@@ -96,6 +96,10 @@ export async function refreshUserInfo({ commit }, id) {
   }
 }
 
+export async function getMiniUserById({ commit }, id) {
+  return apiWrapper(commit, api.apiGetUserMinById(id), { slient: true });
+}
+
 export async function fetchUserReferralStats({ commit }, id) {
   return apiWrapper(commit, api.apiGetReferralById(id));
 }
