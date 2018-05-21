@@ -63,16 +63,20 @@ class EthHelper {
     onWalletCb,
     onSetWeb3,
     onSign,
+    onLogin,
     onSigned,
   }) {
-    this.wallet = '';
-    this.errCb = errCb;
-    this.clearErrCb = clearErrCb;
-    this.retryCb = retryCb;
-    this.onWalletCb = onWalletCb;
-    this.onSetWeb3 = onSetWeb3;
-    this.onSign = onSign;
-    this.onSigned = onSigned;
+    Object.assign(this, {
+      wallet: '',
+      errCb,
+      clearErrCb,
+      retryCb,
+      onWalletCb,
+      onSetWeb3,
+      onSign,
+      onLogin,
+      onSigned,
+    });
     this.pollForWeb3();
   }
 
@@ -451,10 +455,21 @@ class EthHelper {
     return txEventEmitter;
   }
 
+  async signLogin(payload) {
+    if (!this.isInited) return Promise.reject(new Error('No web3'));
+    if (this.onLogin) this.onLogin();
+    return this.personalSign(payload);
+  }
+
   async signUserPayload(payload) {
     if (!this.isInited) return Promise.reject(new Error('No web3'));
-    const from = this.getWallet();
     if (this.onSign) this.onSign();
+    return this.personalSign(payload);
+  }
+
+  async personalSign(payload) {
+    if (!this.isInited) return Promise.reject(new Error('No web3'));
+    const from = this.getWallet();
     try {
       const rawSignature = await this.web3.eth.personal.sign(payload, from);
       if (this.onSigned) this.onSigned();

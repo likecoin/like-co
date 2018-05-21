@@ -22,6 +22,9 @@ export default ({ store }) => {
     onSign: () => {
       store.dispatch('setMetamaskError', 'sign');
     },
+    onLogin: () => {
+      store.dispatch('setMetamaskError', 'login');
+    },
     onSigned: () => {
       store.dispatch('setMetamaskError', '');
     },

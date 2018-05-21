@@ -92,15 +92,15 @@ export default {
       return this.case === 'web3';
     },
     isNotSign() {
-      return this.case !== 'sign';
+      return this.case !== 'sign' && this.case !== 'login';
     },
     isMetamask() {
       return this.webThreeType === 'window' || this.webThreeType === 'infura';
     },
     title() {
       if (!this.isMetamask) {
-        if (this.case === 'sign') {
-          return this.$t(`Dialog.metamask.title.sign${this.webThreeType}`);
+        if (this.$i18n.te(`Dialog.metamask.title.${this.case}${this.webThreeType}`)) {
+          return this.$t(`Dialog.metamask.title.${this.case}${this.webThreeType}`);
         }
         return this.$t(`Dialog.metamask.title.connect${this.webThreeType}`);
       }
@@ -111,8 +111,8 @@ export default {
     },
     content() {
       if (!this.isMetamask) {
-        if (this.case === 'sign') {
-          return this.$t(`Dialog.metamask.content.sign${this.webThreeType}`);
+        if (this.$i18n.te(`Dialog.metamask.content.${this.case}${this.webThreeType}`)) {
+          return this.$t(`Dialog.metamask.content.${this.case}${this.webThreeType}`);
         }
         return this.$t(`Dialog.metamask.content.connect${this.webThreeType}`);
       }
