@@ -105,9 +105,9 @@ export async function queryEthPrice({ commit, dispatch }) {
   }
 }
 
-export async function queryTokensaleInitial({ commit }) {
+export async function queryTokensaleInitial({ commit, dispatch }) {
   try {
-    const data = await apiWrapper(commit, api.apiQueryTokensaleInitial(), { slient: true });
+    const data = await apiWrapper({ commit, dispatch }, api.apiQueryTokensaleInitial(), { slient: true });
     return new BigNumber(data.initial);
   } catch (err) {
     return INITIAL_TOKENSALE_ETH;
