@@ -34,7 +34,7 @@
                   <menu-item
                     v-else
                     :isHighlighted="true"
-                    :to="{ name: 'in' }">
+                    :to="{ name: 'in-register', query: { ref: $route.name } }">
                     {{ getButtonText }}
                   </menu-item>
                 </li>

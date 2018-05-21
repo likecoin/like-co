@@ -10,6 +10,18 @@
 
     <div class="title-bar">
       <div class="left">
+        <md-button
+          v-if="shouldShowReturnButton"
+          class="md-icon-button md-dense"
+          @click="handleReturnButtonClick">
+          <simple-svg
+            :filepath="ArrowIcon"
+            width="18px"
+            height="18px"
+            fill="white"
+            stroke="transparent"
+            />
+        </md-button>
       </div>
       <div class="right">
         <language-switch color="white" />
@@ -58,12 +70,15 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 import LanguageSwitch from '@/components/LanguageSwitch';
 import MaterialButton from '@/components/MaterialButton';
 
 import { IS_TESTNET } from '@/constant';
 import { logTrackerEvent } from '@/util/EventLogger';
 import EthHelper from '@/util/EthHelper';
+import ArrowIcon from '@/assets/icons/arrow-left.svg';
 import metamaskIcon from '@/assets/icons/metamask.svg';
 import ledgerIcon from '@/assets/icons/ledger.svg';
 import metamaskNetImg from '@/assets/img/meta_net.png';
@@ -79,6 +94,7 @@ export default {
   },
   data() {
     return {
+      ArrowIcon,
       metamaskNetImg: IS_TESTNET ? metamaskTestNetImg : metamaskNetImg,
       isHardware: false,
     };
@@ -96,6 +112,9 @@ export default {
     },
     isMetamask() {
       return this.webThreeType === 'window' || this.webThreeType === 'infura';
+    },
+    shouldShowReturnButton() {
+      return this.case === 'locked';
     },
     title() {
       if (!this.isMetamask) {
@@ -134,6 +153,9 @@ export default {
     },
   },
   methods: {
+    ...mapActions([
+      'hideLoginWindow',
+    ]),
     refreshPage() {
       logTrackerEvent(this, 'RegFlow', 'InstallMetamaskSuccessfull', 'click install metamask complete and the metamask CTA disappear', 1);
       window.location.reload();
@@ -146,6 +168,17 @@ export default {
     },
     onCancel() {
       EthHelper.resetWeb3();
+    },
+    handleReturnButtonClick() {
+      const { name, query } = this.$route;
+      if (query.ref !== undefined) {
+        this.$router.go(-1);
+      } else if (name !== 'in-register') {
+        this.hideLoginWindow();
+        EthHelper.clearErrCb();
+      } else {
+        this.$router.push({ name: 'index' });
+      }
     },
   },
   mounted() {

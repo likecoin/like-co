@@ -158,7 +158,7 @@ export default {
       'queryTokensaleInitial',
     ]),
     onClickRegisterButton() {
-      this.$router.push({ name: 'in-register' });
+      this.$router.push({ name: 'in-register', query: { ref: this.$route.name } });
     },
     onClickTokenSaleButton() {
       this.$router.push({ name: 'in-tokensale' });
