@@ -43,7 +43,7 @@ const User = {
   async signLogin(wallet, loginMessage = LOGIN_MESSAGE) {
     if (!wallet) return null;
     const payload = loginMessage;
-    const sign = await EthHelper.signUserPayload(payload);
+    const sign = await EthHelper.signLogin(payload);
     const data = {
       sign,
       payload,
