@@ -146,6 +146,8 @@ export default {
         delete newQuery.ref;
         if (newQuery.from) delete newQuery.from;
         this.$router.push({ name: query.ref, query: newQuery });
+      } else if (query.ref !== undefined) {
+        this.$router.go(-1);
       } else {
         this.$router.push({ name: 'in' });
       }

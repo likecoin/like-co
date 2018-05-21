@@ -93,7 +93,7 @@
 
                 <div v-else-if="!getUserIsRegistered" class="create-account-wrapper">
                   <p>{{ $t('KYC.label.createID') }}</p>
-                  <material-button @click="$router.push({ name: 'in-register', query: $route.query })">
+                  <material-button @click="onClickCreateID">
                     {{ $t('KYC.button.createID') }}
                   </material-button>
                   <p><a href="#" @click="showLoginWindow">{{ $t('Home.Header.button.signIn') }}</a></p>
@@ -264,6 +264,9 @@ export default {
     ]),
     checkAddress() {
       return this.wallet.length === 42 && this.wallet.substr(0, 2) === '0x';
+    },
+    onClickCreateID() {
+      this.$router.push({ name: 'in-register', query: { ref: '', ...this.$route.query } });
     },
     async onSubmit() {
       if (this.getMetamaskError) {
