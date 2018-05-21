@@ -17,6 +17,7 @@ import {
   UI_STOP_ALL_LOADING,
   UI_CLOSE_TX_DIALOG,
   UI_LOGIN_OVERRIDE,
+  UI_DISABLE_ERROR,
   UI_HEADER_UPDATE,
   UI_SET_TX_DIALOG_ACTION,
   UI_SET_MISSION_DIALOG,
@@ -45,6 +46,7 @@ const state = {
   isShowingTxPopup: false,
   isSlidingMenuOpen: false,
   isLoginOverride: false,
+  isErrorDisabled: false,
   txDialogActionRoute: null,
   txDialogActionText: '',
 };
@@ -112,6 +114,9 @@ const mutations = {
   },
   [UI_LOGIN_OVERRIDE](state, bool) {
     state.isLoginOverride = bool;
+  },
+  [UI_DISABLE_ERROR](state, bool) {
+    state.isErrorDisabled = bool;
   },
   [UI_HEADER_UPDATE](state, payload) {
     const {

@@ -131,6 +131,7 @@ export default {
     ...mapGetters([
       'getInfoIsError',
       'getInfoMsg',
+      'getIsErrorDisabled',
       'getIsLoginOverride',
       'getPopupError',
       'getPopupInfo',
@@ -155,6 +156,7 @@ export default {
     ]),
     checkIsMobileClient,
     checkShouldShowError(err) {
+      if (this.getIsErrorDisabled) return false;
       if (this.getIsLoginOverride) return true;
       if (this.disableError === true) return false;
       if (this.disableError === err) return false;

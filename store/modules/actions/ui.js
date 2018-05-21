@@ -14,6 +14,10 @@ export const showLoginWindow = ({ commit }) => {
   commit(types.UI_LOGIN_OVERRIDE, true);
 };
 
+export const setErrorDisabled = ({ commit }, bool) => {
+  commit(types.UI_DISABLE_ERROR, bool);
+};
+
 export const setWeb3Type = ({ commit }, type) => {
   commit(types.UI_SET_WEB3_TYPE, type);
 };
