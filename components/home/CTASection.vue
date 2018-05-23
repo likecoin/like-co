@@ -40,23 +40,31 @@
                     <material-button
                     class="cta-btn"
                     :hasShadow="true"
-                    @click=onClickSupportLikeCoinButton>
+                    @click="onClickSupportLikeCoinButton">
                     {{ $t('Home.Sale.button.supportLikeCoin') }}
+                    </material-button>
+                  </li>
+                  <li v-else-if="getUserNeedAuth">
+                    <material-button
+                      class="cta-btn"
+                      :hasShadow="true"
+                      @click="onClickSignInButton">
+                      {{ $t('Home.Header.button.signIn') }}
                     </material-button>
                   </li>
                   <li v-else>
                     <material-button
                       class="cta-btn"
                       :hasShadow="true"
-                      @click=onClickRegisterButton>
-                      {{ $t('Dialog.transaction.button.createID') }}
+                      @click="onClickRegisterButton">
+                      {{ $t('Home.Header.button.signUp') }}
                     </material-button>
                   </li>
                   <li>
                     <material-button
                       class="cta-btn support"
                       :hasShadow="true"
-                      @click=onClickTokenSaleButton>
+                      @click="onClickTokenSaleButton">
                       {{ $t('Home.Sale.button.aboutTokenSale') }}
                     </material-button>
                   </li>
@@ -142,6 +150,7 @@ export default {
   computed: {
     ...mapGetters([
       'getUserIsRegistered',
+      'getUserNeedAuth',
     ]),
     tokenSaleProgress() {
       return this.currentTokenSaleAmount.toFixed(2);
@@ -155,13 +164,21 @@ export default {
   },
   methods: {
     ...mapActions([
+      'showLoginWindow',
       'queryTokensaleInitial',
     ]),
     onClickRegisterButton() {
-      this.$router.push({ name: 'in-register' });
+      this.$router.push({ name: 'in-register', query: { ref: this.$route.name } });
     },
     onClickTokenSaleButton() {
       this.$router.push({ name: 'in-tokensale' });
+    },
+    onClickSignInButton() {
+      if (this.$route.name === 'index') {
+        this.$router.push({ name: 'in' });
+      } else {
+        this.showLoginWindow();
+      }
     },
     onClickSupportLikeCoinButton() {
       logTrackerEvent(this, 'RegFlow', 'ClickedSupportLikeCoinButton', 'User wants to support LikeCoin', 1);

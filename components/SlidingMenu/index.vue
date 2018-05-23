@@ -26,16 +26,22 @@
                 </li>
                 <li v-if="m.section === 'primary'">
                   <menu-item
-                    v-if="!getUserIsRegistered && showLogin"
+                    v-if="getUserIsRegistered"
                     :isHighlighted="true"
-                    @click="onClickAccountButton">
-                    {{ getButtonText }}
+                    :to="{ name: 'in' }">
+                    {{ getUserInfo.user }}
+                  </menu-item>
+                  <menu-item
+                    v-else-if="getUserNeedAuth"
+                    :isHighlighted="true"
+                    @click="onClickSignInButton">
+                    {{ $t('Home.Header.button.signIn') }}
                   </menu-item>
                   <menu-item
                     v-else
                     :isHighlighted="true"
-                    :to="{ name: 'in' }">
-                    {{ getButtonText }}
+                    :to="{ name: 'in-register', query: { ref: $route.name } }">
+                    {{ $t('Home.Header.button.signUp') }}
                   </menu-item>
                 </li>
                 <li
@@ -117,9 +123,6 @@ const MENU_ITEMS = [
 
 export default {
   name: 'sliding-menu',
-  props: [
-    'showLogin',
-  ],
   components: {
     MenuItem,
     LanguageSwitch,
@@ -139,19 +142,10 @@ export default {
     };
   },
   computed: {
-    getButtonText() {
-      if (this.getUserIsRegistered) return this.getUserInfo.user;
-      return this.$t(this.showLogin ? 'Home.Header.button.signIn' : 'Home.Header.button.signUp');
-    },
-    shouldHideRegister() {
-      return (
-        (!this.getUserIsRegistered && ['in-register', 'in-redeem'].includes(this.$route.name))
-        || this.$route.name === 'in'
-      );
-    },
     ...mapGetters([
       'getUserInfo',
       'getUserIsRegistered',
+      'getUserNeedAuth',
       'getIsSlidingMenuOpen',
     ]),
   },
@@ -160,11 +154,11 @@ export default {
       'showLoginWindow',
       'closeSlidingMenu',
     ]),
-    onClickAccountButton() {
-      if (!this.getUserIsRegistered && this.showLogin) {
-        this.showLoginWindow();
-      } else {
+    onClickSignInButton() {
+      if (this.$route.name === 'index') {
         this.$router.push({ name: 'in' });
+      } else {
+        this.showLoginWindow();
       }
     },
   },

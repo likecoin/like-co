@@ -17,7 +17,7 @@
 
           <div class="lc-container-1">
             <div class="lc-container-2">
-              <site-header :showLogin="true" />
+              <site-header />
             </div>
           </div>
 
