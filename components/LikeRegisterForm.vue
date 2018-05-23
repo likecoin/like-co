@@ -99,7 +99,7 @@
     
     <referrer-dialog
       :is-show.sync="shouldShowReferrerDialog"
-      :referred-id="referrer"
+      :referrer-id="referrer"
       v-bind="referrerInfo" />
 
   </div>
@@ -245,7 +245,9 @@ export default {
         };
         this.shouldShowReferrerDialog = true;
       } catch (error) {
-        this.shouldShowReferrerDialog = false;
+        this.setErrorDisabled(false);
+        const { from, ...query } = this.$route.query;
+        this.$router.replace({ name: 'in-register', query });
       }
     },
   },

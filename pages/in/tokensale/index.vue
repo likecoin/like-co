@@ -56,9 +56,7 @@
               v-if="getUserIsRegistered"
               class="lc-container-4 lc-text-align-center lc-margin-top-24">
               <nuxt-link :to="{ name: 'in' }">
-                <md-button
-                  class="md-likecoin"
-                  @click="redirectToRegister">
+                <md-button class="md-likecoin">
                   {{ $t('General.button.myAccount') }}
                 </md-button>
               </nuxt-link>
