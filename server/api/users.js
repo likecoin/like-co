@@ -205,7 +205,18 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       const referrerRef = await dbRef.doc(referrer).get();
       if (!referrerRef.exists) throw new Error('REFERRER_NOT_EXIST');
       if (!referrerRef.data().isEmailVerified) throw new Error('referrer email not verified');
-      if (referrerRef.data().isBlackListed) throw new Error('referrer limit exceeded');
+      if (referrerRef.data().isBlackListed) {
+        publisher.publish(PUBSUB_TOPIC_MISC, req, {
+          logType: 'eventBlockReferrer',
+          user,
+          email,
+          displayName,
+          wallet,
+          referrer,
+          locale,
+        });
+        throw new Error('referrer limit exceeded');
+      }
       hasReferrer = referrerRef.exists;
     }
 
