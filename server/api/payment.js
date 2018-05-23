@@ -51,6 +51,7 @@ router.post('/payment', async (req, res) => {
           fromEmail: fromUser.email,
           fromReferrer: fromUser.referrer,
           fromLocale: fromUser.locale,
+          fromRegisterTime: fromUser.timestamp,
         };
       }
       return {};
@@ -65,6 +66,7 @@ router.post('/payment', async (req, res) => {
           toEmail: toUser.email,
           toReferrer: toUser.referrer,
           toLocale: toUser.locale,
+          toRegisterTime: toUser.timestamp,
         };
       }
       return {};
@@ -75,12 +77,14 @@ router.post('/payment', async (req, res) => {
       fromEmail,
       fromReferrer,
       fromLocale,
+      fromRegisterTime,
     }, {
       toId,
       toDisplayName,
       toEmail,
       toReferrer,
       toLocale,
+      toRegisterTime,
     },
     currentBlock,
     ] = await Promise.all([fromQuery, toQuery, web3.eth.getBlockNumber()]);
@@ -124,12 +128,14 @@ router.post('/payment', async (req, res) => {
       fromEmail,
       fromReferrer,
       fromLocale,
+      fromRegisterTime,
       toUser: toId,
       toWallet: to,
       toDisplayName,
       toEmail,
       toReferrer,
       toLocale,
+      toRegisterTime,
       likeAmount: new BigNumber(value).dividedBy(ONE_LIKE).toNumber(),
       likeAmountUnitStr: new BigNumber(value).toFixed(),
       txHash,
@@ -168,6 +174,7 @@ router.post('/payment/eth', async (req, res) => {
           fromEmail: fromUser.email,
           fromReferrer: fromUser.referrer,
           fromLocale: fromUser.locale,
+          fromRegisterTime: fromUser.timestamp,
         };
       }
       return {};
@@ -181,6 +188,7 @@ router.post('/payment/eth', async (req, res) => {
           toEmail: toUser.email,
           toReferrer: toUser.referrer,
           toLocale: toUser.locale,
+          toRegisterTime: toUser.timestamp,
         };
       }
       return {};
@@ -191,12 +199,14 @@ router.post('/payment/eth', async (req, res) => {
       fromEmail,
       fromReferrer,
       fromLocale,
+      fromRegisterTime,
     }, {
       toId,
       toDisplayName,
       toEmail,
       toReferrer,
       toLocale,
+      toRegisterTime,
     }] = await Promise.all([fromQuery, toQuery]);
     await logETHTx({
       txHash,
@@ -251,12 +261,14 @@ router.post('/payment/eth', async (req, res) => {
       fromEmail,
       fromReferrer,
       fromLocale,
+      fromRegisterTime,
       toUser: toId,
       toWallet: to,
       toDisplayName,
       toEmail,
       toReferrer,
       toLocale,
+      toRegisterTime,
       ETHAmount: new BigNumber(value).dividedBy(ONE_LIKE).toNumber(),
       ETHAmountUnitStr: new BigNumber(value).toFixed(),
       txHash,

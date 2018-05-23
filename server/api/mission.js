@@ -183,6 +183,7 @@ router.post('/mission/step/:id', jwtAuth, async (req, res) => {
       wallet,
       referrer,
       locale,
+      timestamp: registerTime,
     } = userDoc.data();
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventMissionStep',
@@ -195,6 +196,7 @@ router.post('/mission/step/:id', jwtAuth, async (req, res) => {
       missionId,
       taskId,
       missionDone: done,
+      registerTime,
     });
   } catch (err) {
     const msg = err.message || err;

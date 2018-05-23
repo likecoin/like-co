@@ -226,6 +226,7 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
       avatar: url || oldAvatar,
       referrer: referrer || undefined,
       locale,
+      registerTime: isOldUser ? oldUserObj.timestamp : updateObj.timestamp,
     });
   } catch (err) {
     const msg = err.message || err;
@@ -419,6 +420,7 @@ router.post('/email/verify/user/:id/', async (req, res) => {
       verificationUUID,
       referrer: user.referrer,
       locale: user.locale,
+      registerTime: user.timestamp,
     });
   } catch (err) {
     const msg = err.message || err;
@@ -461,6 +463,7 @@ router.post('/email/verify/:uuid', async (req, res) => {
         verificationUUID,
         referrer: userObj.referrer,
         locale: userObj.locale,
+        registerTime: userObj.timestamp,
       });
     } else {
       res.sendStatus(404);

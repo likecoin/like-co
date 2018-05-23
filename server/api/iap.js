@@ -27,12 +27,19 @@ router.post('/iap/purchase/:productId', async (req, res) => {
     let userRef = null;
     let wallet = '';
     let email = '';
+    let referrer;
+    let timestamp;
 
     if (user) {
       userRef = dbRef.doc(user);
       const userDoc = await userRef.get();
       if (!userDoc.exists) throw new Error('Invalid user');
-      ({ wallet, email } = userDoc.data());
+      ({
+        wallet,
+        email,
+        referrer,
+        timestamp,
+      } = userDoc.data());
       if (wallet !== from) throw new Error('User wallet not match');
     }
 
@@ -86,6 +93,8 @@ router.post('/iap/purchase/:productId', async (req, res) => {
       productName: name[DEFAULT_LOCALE],
       description: description[DEFAULT_LOCALE],
       productId,
+      referrer,
+      registerTime: timestamp,
     });
 
     res.json({

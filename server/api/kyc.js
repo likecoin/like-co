@@ -113,7 +113,12 @@ router.post('/kyc', async (req, res) => {
     const userDoc = await userRef.get();
     if (!userDoc.exists) throw new Error('Invalid user');
     if (!userDoc.data().isEmailVerified) throw new Error('Email not verified');
-    const { wallet, email } = userDoc.data();
+    const {
+      wallet,
+      email,
+      referrer,
+      timestamp,
+    } = userDoc.data();
     if (wallet !== from) throw new Error('User wallet not match');
 
     const kycCheck = await LikeCoinICO.methods.kycDone(from).call();
@@ -176,6 +181,8 @@ router.post('/kyc', async (req, res) => {
       txNonce: pendingCount,
       currentBlock,
       delegatorAddress: web3.utils.toChecksumAddress(delegatorAddress),
+      referrer,
+      registerTime: timestamp,
     });
 
     res.json({ txHash });
@@ -250,7 +257,13 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
     const userDoc = await userRef.get();
     if (!userDoc.exists) throw new Error('Invalid user');
     if (!userDoc.data().isEmailVerified) throw new Error('Email not verified');
-    const { wallet, email, KYC } = userDoc.data();
+    const {
+      wallet,
+      email,
+      KYC,
+      referrer,
+      timestamp,
+    } = userDoc.data();
     if (wallet !== from) throw new Error('User wallet not match');
 
     if (userDoc.data().pendingKYC || userDoc.data().KYC >= KYC_STATUS_ENUM.ADVANCED) throw new Error('KYC already in progress');
@@ -324,6 +337,8 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
       txNonce: pendingCount,
       currentBlock,
       delegatorAddress: web3.utils.toChecksumAddress(delegatorAddress),
+      referrer,
+      registerTime: timestamp,
     });
 
     res.json({ txHash });
