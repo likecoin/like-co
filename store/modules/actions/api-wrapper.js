@@ -20,6 +20,7 @@ async function apiWrapper({ commit, dispatch }, promise, opt = {}) {
     /* hacky way to bypass own 404 page messing up layout */
     const isHtml = !!(response
       && response.data
+      && typeof response.data === 'string'
       && (response.data.includes('<!DOCTYPE html>')
         || response.data.includes('<html>')));
     const isTooLarge = (response && response.status === 413);
