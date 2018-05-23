@@ -71,7 +71,7 @@ export default {
       } else {
         this.$router.push({
           name: 'in-register',
-          query: { ...this.$route.query, ref: this.$route.name },
+          query: { ...this.$route.query, ref: '' },
         });
       }
     },
