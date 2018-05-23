@@ -44,7 +44,19 @@ router.post('/payment', async (req, res) => {
     const fromQuery = dbRef.where('wallet', '==', from).get().then((snapshot) => {
       if (snapshot.docs.length > 0) {
         const fromUser = snapshot.docs[0].data();
-        if (fromUser.isBlackListed) throw new Error('ERROR_FROM_BAK');
+        if (fromUser.isBlackListed) {
+          publisher.publish(PUBSUB_TOPIC_MISC, req, {
+            logType: 'eventBakError',
+            user: snapshot.docs[0].id,
+            wallet: fromUser.wallet,
+            displayName: fromUser.displayName,
+            email: fromUser.email,
+            referrer: fromUser.referrer,
+            locale: fromUser.locale,
+            registerTime: fromUser.timestamp,
+          });
+          throw new Error('ERROR_FROM_BAK');
+        }
         return {
           fromId: snapshot.docs[0].id,
           fromDisplayName: fromUser.displayName,
@@ -59,7 +71,19 @@ router.post('/payment', async (req, res) => {
     const toQuery = dbRef.where('wallet', '==', to).get().then((snapshot) => {
       if (snapshot.docs.length > 0) {
         const toUser = snapshot.docs[0].data();
-        if (toUser.isBlackListed) throw new Error('ERROR_TO_BAK');
+        if (toUser.isBlackListed) {
+          publisher.publish(PUBSUB_TOPIC_MISC, req, {
+            logType: 'eventBakError',
+            user: snapshot.docs[0].id,
+            wallet: toUser.wallet,
+            displayName: toUser.displayName,
+            email: toUser.email,
+            referrer: toUser.referrer,
+            locale: toUser.locale,
+            registerTime: toUser.timestamp,
+          });
+          throw new Error('ERROR_TO_BAK');
+        }
         return {
           toId: snapshot.docs[0].id,
           toDisplayName: toUser.displayName,
