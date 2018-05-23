@@ -26,7 +26,7 @@ async function apiWrapper({ commit, dispatch }, promise, opt = {}) {
     const errorMsg = ((isHtml || isTooLarge) ? response.statusText : (response && response.data))
       || error.message
       || error;
-    commit(types.UI_ERROR_MSG, errorMsg);
+    if (!slient) commit(types.UI_ERROR_MSG, errorMsg);
     console.error(error);
     throw new Error(errorMsg);
   }
