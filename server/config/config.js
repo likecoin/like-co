@@ -27,6 +27,9 @@ config.KYC_UPLOAD_PATH = '';
 config.KYC_CHECK_PATH = '';
 config.KYC_REPORT_PATH = '';
 
+config.REGISTER_LIMIT_WINDOW = 6000;
+config.REGISTER_LIMIT_COUNT = 0;
+
 config.APP_SERVER = '';
 
 module.exports = config;

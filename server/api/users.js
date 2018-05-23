@@ -16,7 +16,12 @@ import { uploadFileAndGetLink } from '../util/fileupload';
 import { jwtSign, jwtAuth } from '../util/jwt';
 import publisher from '../util/gcloudPub';
 
-const { RECAPTCHA_SECRET } = require('@ServerConfig/config.js'); // eslint-disable-line import/no-extraneous-dependencies
+const {
+  RECAPTCHA_SECRET,
+  REGISTER_LIMIT_WINDOW,
+  REGISTER_LIMIT_COUNT,
+} = require('@ServerConfig/config.js'); // eslint-disable-line import/no-extraneous-dependencies
+
 const querystring = require('querystring');
 const Multer = require('multer');
 const sha256 = require('js-sha256');
@@ -24,6 +29,7 @@ const sharp = require('sharp');
 const imageType = require('image-type');
 const uuidv4 = require('uuid/v4');
 const disposableDomains = require('disposable-email-domains');
+const RateLimit = require('express-rate-limit');
 
 const {
   userCollection: dbRef,
@@ -52,7 +58,20 @@ const W3C_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0
 
 const router = Router();
 
-router.put('/users/new', multer.single('avatar'), async (req, res) => {
+const apiLimiter = new RateLimit({
+  windowMs: REGISTER_LIMIT_WINDOW,
+  max: REGISTER_LIMIT_COUNT || 0,
+  delayMs: 0, // disabled
+  skipFailedRequests: true,
+  keyGenereator: req => (req.headers['x-real-ip'] || req.ip),
+  onLimitReached: (req) => {
+    publisher.publish(PUBSUB_TOPIC_MISC, req, {
+      logType: 'eventAPILimitReached',
+    });
+  },
+});
+
+router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res) => {
   try {
     const {
       from,
