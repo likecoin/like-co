@@ -40,7 +40,7 @@
                   <menu-item
                     v-else
                     :isHighlighted="true"
-                    :to="{ name: 'in-register', query: { ref: $route.name } }">
+                    :to="{ name: 'in-register' }">
                     {{ $t('Home.Header.button.signUp') }}
                   </menu-item>
                 </li>
