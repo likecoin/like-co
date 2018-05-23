@@ -1,7 +1,11 @@
 <template>
   <md-field class="md-likecoin copy-text-field">
     <label>{{ label }}</label>
-    <md-input :value="text" readonly />
+    <md-input
+      ref="inputText"
+      :value="text"
+      readonly
+      @click.native="onClickInput" />
     <md-button
       v-clipboard:copy="text"
       v-clipboard:success="onCopy">
@@ -34,6 +38,9 @@ export default {
       this.hasCopiedURL = true;
       this.$emit('copy');
     },
+    onClickInput() {
+      this.$refs.inputText.$el.select();
+    },
   },
 };
 </script>
@@ -54,6 +61,8 @@ export default {
     font-weight: 600;
 
     -webkit-text-fill-color: $like-green;
+
+    text-overflow: ellipsis;
   }
 
   .md-button {

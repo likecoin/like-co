@@ -43,7 +43,7 @@
           <retweet-form
             :step.sync="step"
             :url="TWEET_URL"
-            comment="Reinventing the Like"
+            :comment="comment"
             @cancel="onCancel"
             @complete="onComplete" />
         </div>
@@ -95,6 +95,9 @@ export default {
     },
     image() {
       return `/images/mission/twitter/quote-tweet-${this.step === 2 ? 2 : 1}.gif`;
+    },
+    comment() {
+      return `Join: http://like.co/ref/${this.userId}`;
     },
   },
   methods: {
