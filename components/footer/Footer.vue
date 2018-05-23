@@ -35,6 +35,8 @@ export default {
       'getUserInfo',
       'getCurrentLocale',
       'getLocalWallet',
+      'getInfoMsg',
+      'getInfoIsError',
     ]),
     getAddress() {
       return `${ETHERSCAN_HOST}/address/${this.contractAddress}`;
@@ -105,6 +107,12 @@ export default {
     getCurrentLocale(language) {
       if (this.$intercom) {
         this.$intercom.update({ language });
+      }
+    },
+    getInfoMsg(message) {
+      if (this.getInfoIsError && this.$intercom) {
+        this.$intercom.update({ lastError: message });
+        this.$intercom.trackEvent('likecoin-store_error', { message });
       }
     },
   },
