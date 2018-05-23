@@ -31,7 +31,7 @@ module.exports = {
         this.switchWindow(originalWindow);
       })
       .waitForElementVisible('#user-info-form', 5000)
-      .waitForElementVisible('.toolbars', 1000)
+      .waitForElementVisible('.toolbars', 3000)
       .verify.containsText('.toolbars > div > div > span', 'View your page')
       .end();
   },
@@ -67,7 +67,7 @@ module.exports = {
         this.switchWindow(originalWindow);
       })
       .waitForElementVisible('#user-info-form', 5000)
-      .waitForElementVisible('.toolbars', 1000)
+      .waitForElementVisible('.toolbars', 3000)
       .pause(1000)
       .verify.containsText('.toolbars > div > div > span', 'View your page')
       .end();

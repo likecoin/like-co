@@ -12,6 +12,20 @@ module.exports = {
     browser.page.metamask().acceptTerms('testacctreferee');
     browser
       .url(`${devServer}/in/bonus`)
+      .pause(2000)
+      .windowHandles(function func(res) {
+        const metamaskPopup = res.value[1];
+        this.switchWindow(metamaskPopup);
+      })
+      .pause(1000)
+      .verify.title('MetaMask Notification')
+      .click('#app-content button:nth-child(2)')
+      .pause(1000)
+      .windowHandles(function func(res) {
+        const originalWindow = res.value[0];
+        this.switchWindow(originalWindow);
+      })
+      .pause(3000)
       // check `new` verify email mission exists for just registered user
       .waitForElementVisible('#my-mission .mission-item.verifyEmail', 5000)
       .verify.elementPresent('#my-mission .mission-item.verifyEmail .item-label.new')
@@ -72,6 +86,19 @@ module.exports = {
     browser.page.metamask().acceptTerms('testacctreferrer');
     browser
       .url(`${devServer}/in/bonus`)
+      .pause(2000)
+      .windowHandles(function func(res) {
+        const metamaskPopup = res.value[1];
+        this.switchWindow(metamaskPopup);
+      })
+      .pause(1000)
+      .verify.title('MetaMask Notification')
+      .click('#app-content button:nth-child(2)')
+      .pause(1000)
+      .windowHandles(function func(res) {
+        const originalWindow = res.value[0];
+        this.switchWindow(originalWindow);
+      })
       .pause(3000)
       .verify.elementNotPresent('#my-mission .mission-item.verifyEmail')
       .waitForElementVisible('#invitee-mission .invitee-mission-grid-list', 5000)

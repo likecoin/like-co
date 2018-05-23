@@ -91,14 +91,19 @@
                   </div>
                 </material-button>
 
-                <div v-else-if="!getUserIsRegistered" class="create-account-wrapper">
-                  <p>{{ $t('KYC.label.createID') }}</p>
-                  <material-button @click="$router.push({ name: 'in-register', query: $route.query })">
-                    {{ $t('KYC.button.createID') }}
-                  </material-button>
-                  <p><a href="#" @click="showLoginWindow">{{ $t('Home.Header.button.signIn') }}</a></p>
+                <div v-else-if="getUserNeedAuth" class="create-account-wrapper">
+                  <md-button class="md-likecoin" @click="showLoginWindow">
+                    {{ $t('Home.Header.button.signIn') }}
+                  </md-button>
                 </div>
 
+                <div v-else-if="!getUserIsRegistered" class="create-account-wrapper">
+                  <p>{{ $t('KYC.label.createID') }}</p>
+                  <md-button class="md-likecoin" @click="onClickSignUpButton">
+                    {{ $t('KYC.button.createID') }}
+                  </md-button>
+                </div>
+                
                 <div v-else>
                   <no-ssr><p v-if="!isSupportTransferDeleteaged">{{ $t('Transaction.error.notSupported') }}</p></no-ssr>
                   <no-ssr><material-button
@@ -241,6 +246,7 @@ export default {
       'getIsInTransaction',
       'getLocalWallet',
       'getUserIsRegistered',
+      'getUserNeedAuth',
       'getMetamaskError',
       'getWeb3Type',
       'getIsShowingTxPopup',
@@ -331,6 +337,12 @@ export default {
     handleAmountChange(value) {
       this.amount = value;
     },
+    onClickSignUpButton() {
+      this.$router.push({
+        name: 'in-register',
+        query: { ...this.$route.query, ref: this.$route.name },
+      });
+    },
   },
   watch: {
     getWeb3Type() {
@@ -389,10 +401,6 @@ p {
 .create-account-wrapper {
   .md-button {
     display: block;
-
-    width: auto;
-    min-width: 256px;
-    max-width: 320px;
     margin: 16px auto;
   }
 
