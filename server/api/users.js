@@ -94,7 +94,8 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
     if (email) {
       if ((process.env.CI || !IS_TESTNET) && !(W3C_EMAIL_REGEX.test(email))) throw new Error('invalid email');
       email = email.toLowerCase();
-      const BLACK_LIST_DOMAIN = disposableDomains.concat(getEmailBlacklist());
+      const customBlackList = getEmailBlacklist();
+      const BLACK_LIST_DOMAIN = disposableDomains.concat(customBlackList);
       const parts = email.split('@');
       if (BLACK_LIST_DOMAIN.includes(parts[1])) {
         publisher.publish(PUBSUB_TOPIC_MISC, req, {
@@ -108,6 +109,21 @@ router.put('/users/new', multer.single('avatar'), async (req, res) => {
         });
         throw new Error('email domain not allowed');
       }
+      customBlackList.forEach((keyword) => {
+        if (parts[1].includes(keyword)) {
+          publisher.publish(PUBSUB_TOPIC_MISC, req, {
+            logType: 'eventBlockEmail',
+            user,
+            email,
+            displayName,
+            wallet,
+            keyword,
+            referrer: referrer || undefined,
+            locale,
+          });
+          throw new Error('email domain needs extra verification, please contact us in intercom');
+        }
+      });
       if (getEmailNoDot().includes(parts[1])) {
         email = `${parts[0].split('.').join('')}@${parts[1]}`;
       }
