@@ -207,14 +207,13 @@ export default {
         if (this.couponCode) {
           this.setTxDialogAction({ txDialogActionRoute: { name: 'in' }, txDialogActionText: 'View Account' });
           await this.$refs.claimDialog.onSubmit();
-        } else {
-          this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${this.user}">${this.$t('Register.form.label.viewPage')}</a>`);
         }
         logTrackerEvent(this, 'RegFlow', 'CompleteRegistration', 'click confirm to create new account and the action success', 1);
         if (this.referrer) {
           logTrackerEvent(this, 'RegFlow', 'CompleteReferrer', 'created new account with referrer', 1);
         }
         await this.refreshUser(this.wallet);
+        this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${this.user}">${this.$t('Register.form.label.viewPage')}</a>`);
         this.$emit('registered', this.user);
       } catch (err) {
         console.error(err);
