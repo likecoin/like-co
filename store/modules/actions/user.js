@@ -144,6 +144,10 @@ export async function fetchUserReferralStats({ commit, dispatch }, id) {
   return apiWrapper({ commit, dispatch }, api.apiGetReferralById(id));
 }
 
+export async function getMiniUserById({ commit, dispatch }, id) {
+  return apiWrapper({ commit, dispatch }, api.apiGetUserMinById(id), { slient: true });
+}
+
 export async function fetchUserTotalBonus({ commit, dispatch }, id) {
   const { bonus } = await apiWrapper({ commit, dispatch }, api.apiGetTotalBonusById(id));
   return bonus;
