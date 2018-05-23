@@ -125,3 +125,11 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.copy-text-field.md-field.md-has-value {
+  :global(.md-input) {
+    font-size: 14px;
+  }
+}
+</style>
