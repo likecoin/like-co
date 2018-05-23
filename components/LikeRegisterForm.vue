@@ -112,7 +112,14 @@
         </material-button>
       </div>
     </form>
+    
     <claim-dialog ref="claimDialog" :couponCode="couponCode" :wallet="wallet" />
+    
+    <referrer-dialog
+      :is-show.sync="shouldShowReferrerDialog"
+      :referred-id="referrer"
+      v-bind="referrerInfo" />
+
   </div>
 </template>
 
@@ -126,6 +133,7 @@ import User from '@/util/User';
 import { logTrackerEvent } from '@/util/EventLogger';
 
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
+import ReferrerDialog from '~/components/dialogs/ReferrerDialog';
 import MaterialButton from '~/components/MaterialButton';
 
 import { toDataUrl } from '@likecoin/ethereum-blockies';
@@ -148,6 +156,7 @@ export default {
       displayName: '',
       couponCode: '',
       referrer: this.$route.query.from || '',
+      referrerInfo: {},
       likeCoinBalance: NaN,
       wallet: this.getLocalWallet,
       reCaptchaResponse: '',
@@ -158,10 +167,13 @@ export default {
       ETHERSCAN_HOST,
       W3C_EMAIL_REGEX,
       IS_TESTNET,
+
+      shouldShowReferrerDialog: false,
     };
   },
   components: {
     ClaimDialog,
+    ReferrerDialog,
     MaterialButton,
     VueRecaptcha,
   },
@@ -181,8 +193,10 @@ export default {
     ...mapActions([
       'newUser',
       'getBlockie',
+      'getMiniUserById',
       'setPageHeader',
       'setInfoMsg',
+      'setErrorDisabled',
       'setErrorMsg',
       'checkCoupon',
       'isUser',
@@ -279,8 +293,24 @@ export default {
         }
       }
     },
+    async fetchReferrerInfo() {
+      this.setErrorDisabled(true);
+      try {
+        const { avatar, displayName } = await this.getMiniUserById(this.referrer);
+        this.referrerInfo = {
+          avatar,
+          displayName,
+        };
+        this.shouldShowReferrerDialog = true;
+      } catch (error) {
+        this.shouldShowReferrerDialog = false;
+      }
+    },
   },
   mounted() {
+    if (this.referrer) {
+      this.fetchReferrerInfo();
+    }
     if (this.isEdit) {
       this.updateInfo();
     }
@@ -315,6 +345,9 @@ export default {
       if (w) {
         this.setMyLikeCoin(w);
       }
+    },
+    shouldShowReferrerDialog(isShow) {
+      this.setErrorDisabled(isShow);
     },
   },
 };

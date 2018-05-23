@@ -747,7 +747,7 @@
   "ReferralPage": {
     "title": "{name} has invited you to join LikeCoin",
     "label": {
-      "invitation": "Create a LikeCoin ID to send, recive LikeCoin and participate in the token sale.<br/><br/>Create a LikeCoin ID now you and {name} will get 8 Like bonus. Participate in token sale, you will both get 2.5% bonus."
+      "invitation": "Create a LikeCoin ID to send and receive LikeCoin.<br/><br/>Create a LikeCoin ID now you and {name} will get 8 Like bonus."
     },
     "og": {
       "title": "{name} has invited you to join LikeCoin",
