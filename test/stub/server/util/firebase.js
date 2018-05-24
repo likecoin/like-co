@@ -6,6 +6,7 @@ const { FieldValue } = require('firebase-admin').firestore;
 const userData = require('../../test/data/user.json').users;
 const txData = require('../../test/data/tx.json').tx;
 const missionData = require('../../test/data/mission.json').missions;
+const bonusData = require('../../test/data/bonus.json').bonus;
 
 function docData(obj) {
   const res = {
@@ -90,7 +91,9 @@ function collectionDoc(data, id) {
       obj.collection = {};
     }
   } else {
-    docObj = {};
+    docObj = {
+      data: () => undefined,
+    };
   }
 
   return {
@@ -137,7 +140,7 @@ const userCollection = createCollection(userData);
 const txCollection = createCollection(txData);
 const iapCollection = createCollection([]);
 const missionCollection = createCollection(missionData);
-const payoutCollection = createCollection([]);
+const payoutCollection = createCollection(bonusData);
 const configCollection = createCollection([]);
 
 module.exports = {
