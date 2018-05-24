@@ -17,6 +17,7 @@ import {
 const sigUtil = require('eth-sig-util');
 const Web3 = require('web3');
 const axios = require('axios');
+const jwt = require('jsonwebtoken');
 
 //
 // functions
@@ -49,7 +50,7 @@ test.serial('USER: Register or edit user. Case: success', async (t) => {
   axios.defaults.headers.common.Authorization = `Bearer ${res.data.token}`;
 });
 
-test.serial('USER: Email verification', async (t) => {
+test.serial('USER: Email verification (Need restart server for clean memory data)', async (t) => {
   const res = await axios.post(`${url}/api/email/verify/user/${testingUser1}`, {}, {
     headers: {
       Accept: 'application/json',
@@ -69,7 +70,7 @@ test.serial('USER: Verify uuid. Case: wrong uuid', async (t) => {
   t.is(res.status, 404);
 });
 
-test.serial('USER: Verify uuid. Case: success', async (t) => {
+test.serial('USER: Verify uuid. Case: success (Need restart server for clean memory data)', async (t) => {
   const uuid = '00000000-0000-0000-0000-000000000000';
   const res = await axios.post(`${url}/api/email/verify/${uuid}`, {
     headers: {
@@ -238,8 +239,13 @@ for (let i = 0; i < userCases.length; i += 1) {
 }
 
 test('USER: Get user by id', async (t) => {
-  const res = await axios.get(`${url}/api/users/id/${testingUser1}`)
-    .catch(err => err.response);
+  const user = testingUser1;
+  const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
+  const res = await axios.get(`${url}/api/users/id/${user}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }).catch(err => err.response);
 
   t.is(res.status, 200);
   t.is(res.data.wallet, testingWallet1);
@@ -247,8 +253,13 @@ test('USER: Get user by id', async (t) => {
 });
 
 test('USER: Get user by address', async (t) => {
-  const res = await axios.get(`${url}/api/users/addr/${testingWallet1}`)
-    .catch(err => err.response);
+  const wallet = testingWallet1;
+  const token = jwt.sign({ wallet }, 'likecoin', { expiresIn: '7d' });
+  const res = await axios.get(`${url}/api/users/addr/${wallet}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }).catch(err => err.response);
 
   t.is(res.status, 200);
   t.is(res.data.user, testingUser1);

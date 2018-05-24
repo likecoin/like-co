@@ -7,6 +7,27 @@
             "wallet": "0x4b25758E41f9240C8EB8831cEc7F1a02686387fa",
             "collection": {
                 "referrals": [
+                    {
+                        "id": "testuser"
+                    }
+                ],
+                "mission": [
+                    {
+                        "id": "verifyEmail",
+                        "done": true
+                    },
+                    {
+                        "id": "gettingStart",
+                        "done": true
+                    }
+                ],
+                "bonus": [
+                    {
+                        "id": "00000000-0000-0000-0000-000000000000",
+                        "txHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                        "type": "mission-gettingStart",
+                        "value": "3000000000000000000"
+                    }
                 ]
             }
         },
@@ -16,6 +37,7 @@
             "email": "testuser@likecoin.store",
             "wallet": "0x76ECdE1CC1D2D87D7f20c2C6EAe7529a7379920c",
             "verificationUUID": "00000000-0000-0000-0000-000000000000",
+            "referrer": "testing",
             "collection": {
                 "referrals": [
                 ]

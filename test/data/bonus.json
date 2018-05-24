@@ -1,0 +1,11 @@
+{
+    "bonus": [
+        {
+            "id": "00000000-0000-0000-0000-000000000000",
+            "toId": "testing",
+            "referrer": "testing",
+            "value": "8000000000000000000",
+            "waitForClaim": true
+        }
+    ]
+}

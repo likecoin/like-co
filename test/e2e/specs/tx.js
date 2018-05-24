@@ -1,10 +1,11 @@
-const { initBrowser } = require('../util/index.js');
+const { initBrowser, setAuthLocalStorage } = require('../util/index.js');
 
 module.exports = {
   beforeEach: (browser) => {
     initBrowser(browser);
     browser.pause(1000);
     browser.page.metamask().acceptTerms();
+    setAuthLocalStorage(browser, browser.globals.devServerURL, 'testacct', '0x7FCE12d55AcA8a55471CEd6cFd4548b49b0d1AB5');
   },
 
   /* eslint quote-props: "off" */
