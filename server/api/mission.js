@@ -144,6 +144,25 @@ router.post('/mission/seen/:id', jwtAuth, async (req, res, next) => {
   }
 });
 
+
+router.post('/mission/hide/:id', jwtAuth, async (req, res, next) => {
+  try {
+    const missionId = req.params.id;
+    const {
+      user,
+    } = req.body;
+    if (req.user.user !== user) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
+    const userMissionRef = dbRef.doc(user).collection('mission').doc(missionId);
+    await userMissionRef.set({ hide: true }, { merge: true });
+    res.sendStatus(200);
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.post('/mission/step/:id', jwtAuth, async (req, res, next) => {
   try {
     const missionId = req.params.id;
