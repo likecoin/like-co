@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+
 function initBrowser(browser) {
   browser
     .pause(5000)
@@ -11,4 +13,16 @@ function initBrowser(browser) {
     });
 }
 
-module.exports = { initBrowser };
+function jwtSign(user, wallet) {
+  return jwt.sign({ user, wallet }, 'likecoin', { expiresIn: '7d' });
+}
+
+function setAuthLocalStorage(browser, url, user, wallet) {
+  const auth = jwtSign(user, wallet);
+  browser
+    .url(url)
+    .execute(`localStorage.auth = '${auth}';`)
+    .pause(1000);
+}
+
+module.exports = { initBrowser, setAuthLocalStorage };
