@@ -58,9 +58,9 @@ const multer = Multer({
 
 function handleDocumentUpload(user, file, documentSHA256) {
   const type = imageType(file.buffer);
-  if (!SUPPORTED_DOCUMENT_TYPE.has(type && type.ext)) throw new Error('unsupported file format!');
+  if (!SUPPORTED_DOCUMENT_TYPE.has(type && type.ext)) throw new TypeError('unsupported file format!');
   const hash256 = sha256(file.buffer);
-  if (hash256 !== documentSHA256) throw new Error('document sha not match');
+  if (hash256 !== documentSHA256) throw new TypeError('document sha not match');
 }
 
 router.post('/kyc', async (req, res) => {
@@ -73,16 +73,16 @@ router.post('/kyc', async (req, res) => {
     } = req.body;
 
     if (!Validate.checkAddressValid(from)) {
-      throw new Error('Invalid address');
+      throw new TypeError('Invalid address');
     }
 
     const recovered = personalEcRecover(payload, sign);
     if (recovered.toLowerCase() !== from.toLowerCase()) {
-      throw new Error('recovered address not match');
+      throw new TypeError('recovered address not match');
     }
 
     if (!IS_TESTNET) {
-      if (!reCaptchaResponse) throw new Error('reCAPTCHA missing');
+      if (!reCaptchaResponse) throw new TypeError('reCAPTCHA missing');
       const { data } = await axios.post(
         'https://www.google.com/recaptcha/api/siteverify',
         querystring.stringify({
@@ -91,7 +91,7 @@ router.post('/kyc', async (req, res) => {
           remoteip: req.headers['x-real-ip'] || req.ip,
         }),
       );
-      if (!data || !data.success) throw new Error('reCAPTCHA Failed');
+      if (!data || !data.success) throw new TypeError('reCAPTCHA Failed');
     }
 
     const message = web3.utils.hexToUtf8(payload);
@@ -105,25 +105,25 @@ router.post('/kyc', async (req, res) => {
 
     // Check ts expire
     if (Math.abs(ts - Date.now()) > ONE_DATE_IN_MS) {
-      throw new Error('payload expired');
+      throw new TypeError('payload expired');
     }
-    if (!notPRC || (!notUSA && !isUSAAccredited)) throw new Error('Invalid KYC');
+    if (!notPRC || (!notUSA && !isUSAAccredited)) throw new TypeError('Invalid KYC');
 
     const userRef = dbRef.doc(user);
     const userDoc = await userRef.get();
-    if (!userDoc.exists) throw new Error('Invalid user');
-    if (!userDoc.data().isEmailVerified) throw new Error('Email not verified');
+    if (!userDoc.exists) throw new TypeError('Invalid user');
+    if (!userDoc.data().isEmailVerified) throw new TypeError('Email not verified');
     const {
       wallet,
       email,
       referrer,
       timestamp,
     } = userDoc.data();
-    if (wallet !== from) throw new Error('User wallet not match');
+    if (wallet !== from) throw new TypeError('User wallet not match');
 
     const kycCheck = await LikeCoinICO.methods.kycDone(from).call();
-    if (!IS_TESTNET && kycCheck) throw new Error('Already KYC-ed');
-    if (userDoc.data().pendingKYC || userDoc.data().KYC) throw new Error('KYC already in progress');
+    if (!IS_TESTNET && kycCheck) throw new TypeError('Already KYC-ed');
+    if (userDoc.data().pendingKYC || userDoc.data().KYC) throw new TypeError('KYC already in progress');
 
     const methodCall = LikeCoinICO.methods.registerKYC([wallet]);
     const txData = methodCall.encodeABI();
@@ -190,7 +190,11 @@ router.post('/kyc', async (req, res) => {
     console.error(err);
     const msg = err.message || err;
     console.error(msg);
-    res.status(400).send(msg);
+    if (err instanceof TypeError) {
+      res.status(400).send(msg);
+    } else {
+      res.sendStatus(500);
+    }
   }
 });
 
@@ -204,16 +208,16 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
     } = req.body;
 
     if (!Validate.checkAddressValid(from)) {
-      throw new Error('Invalid address');
+      throw new TypeError('Invalid address');
     }
 
     const recovered = personalEcRecover(payload, sign);
     if (recovered.toLowerCase() !== from.toLowerCase()) {
-      throw new Error('recovered address not match');
+      throw new TypeError('recovered address not match');
     }
 
     if (!IS_TESTNET) {
-      if (!reCaptchaResponse) throw new Error('reCAPTCHA missing');
+      if (!reCaptchaResponse) throw new TypeError('reCAPTCHA missing');
       const { data } = await axios.post(
         'https://www.google.com/recaptcha/api/siteverify',
         querystring.stringify({
@@ -222,7 +226,7 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
           remoteip: req.headers['x-real-ip'] || req.ip,
         }),
       );
-      if (!data || !data.success) throw new Error('reCAPTCHA Failed');
+      if (!data || !data.success) throw new TypeError('reCAPTCHA Failed');
     }
 
     const message = web3.utils.hexToUtf8(payload);
@@ -242,21 +246,21 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
 
     // Check ts expire
     if (Math.abs(ts - Date.now()) > ONE_DATE_IN_MS) {
-      throw new Error('payload expired');
+      throw new TypeError('payload expired');
     }
-    if (!notPRC || (!notUSA && !isUSAAccredited) || !firstName || !lastName || !country) throw new Error('Invalid KYC');
-    if (!document0SHA256 || !document1SHA256) throw new Error('Invalid checksum');
+    if (!notPRC || (!notUSA && !isUSAAccredited) || !firstName || !lastName || !country) throw new TypeError('Invalid KYC');
+    if (!document0SHA256 || !document1SHA256) throw new TypeError('Invalid checksum');
 
     const { files } = req;
-    if (!files || files.length !== 2) throw new Error('Invalid document');
+    if (!files || files.length !== 2) throw new TypeError('Invalid document');
 
     handleDocumentUpload(user, files[0], document0SHA256);
     handleDocumentUpload(user, files[1], document1SHA256);
 
     const userRef = dbRef.doc(user);
     const userDoc = await userRef.get();
-    if (!userDoc.exists) throw new Error('Invalid user');
-    if (!userDoc.data().isEmailVerified) throw new Error('Email not verified');
+    if (!userDoc.exists) throw new TypeError('Invalid user');
+    if (!userDoc.data().isEmailVerified) throw new TypeError('Email not verified');
     const {
       wallet,
       email,
@@ -264,9 +268,9 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
       referrer,
       timestamp,
     } = userDoc.data();
-    if (wallet !== from) throw new Error('User wallet not match');
+    if (wallet !== from) throw new TypeError('User wallet not match');
 
-    if (userDoc.data().pendingKYC || userDoc.data().KYC >= KYC_STATUS_ENUM.ADVANCED) throw new Error('KYC already in progress');
+    if (userDoc.data().pendingKYC || userDoc.data().KYC >= KYC_STATUS_ENUM.ADVANCED) throw new TypeError('KYC already in progress');
 
     const methodCall = LikeCoinICO.methods.registerKYC([wallet]);
     const txData = methodCall.encodeABI();
@@ -367,7 +371,11 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
     console.error(err);
     const msg = err.message || err;
     console.error(msg);
-    res.status(400).send(msg);
+    if (err instanceof TypeError) {
+      res.status(400).send(msg);
+    } else {
+      res.sendStatus(500);
+    }
   }
 });
 
@@ -397,7 +405,7 @@ router.post('/kyc/advanced/cmd', async (req, res) => {
     const { text: id } = req.body;
     const userRef = dbRef.doc(id);
     const userDoc = await userRef.get();
-    if (!userDoc.exists) throw new Error('Invalid user');
+    if (!userDoc.exists) throw new TypeError('Invalid user');
     const status = await getKYCAPIStatus(id);
     if (status === 'CLEARED' || status === 'ACCEPTED') {
       await Promise.all([
@@ -415,7 +423,11 @@ router.post('/kyc/advanced/cmd', async (req, res) => {
     console.error(err);
     const msg = err.message || err;
     console.error(msg);
-    res.status(400).send(msg);
+    if (err instanceof TypeError) {
+      res.status(400).send(msg);
+    } else {
+      res.sendStatus(500);
+    }
   }
 });
 

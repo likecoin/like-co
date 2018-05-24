@@ -81,7 +81,7 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res) =
     } = req.body;
     const recovered = personalEcRecover(payload, sign);
     if (recovered.toLowerCase() !== from.toLowerCase()) {
-      throw new Error('recovered address not match');
+      throw new TypeError('recovered address not match');
     }
 
     const message = web3.utils.hexToUtf8(payload);
@@ -102,16 +102,16 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res) =
 
     // check address match
     if (from !== wallet || !Validate.checkAddressValid(wallet)) {
-      throw new Error('wallet address not match');
+      throw new TypeError('wallet address not match');
     }
 
     // Check ts expire
     if (Math.abs(ts - Date.now()) > ONE_DATE_IN_MS) {
-      throw new Error('payload expired');
+      throw new TypeError('payload expired');
     }
 
     if (email) {
-      if ((process.env.CI || !IS_TESTNET) && !(W3C_EMAIL_REGEX.test(email))) throw new Error('invalid email');
+      if ((process.env.CI || !IS_TESTNET) && !(W3C_EMAIL_REGEX.test(email))) throw new TypeError('invalid email');
       email = email.toLowerCase();
       const customBlackList = getEmailBlacklist();
       const BLACK_LIST_DOMAIN = disposableDomains.concat(customBlackList);
@@ -126,7 +126,7 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res) =
           referrer: referrer || undefined,
           locale,
         });
-        throw new Error('email domain not allowed');
+        throw new TypeError('email domain not allowed');
       }
       customBlackList.forEach((keyword) => {
         if (parts[1].includes(keyword)) {
@@ -140,7 +140,7 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res) =
             referrer: referrer || undefined,
             locale,
           });
-          throw new Error('email domain needs extra verification, please contact us in intercom');
+          throw new TypeError('email domain needs extra verification, please contact us in intercom');
         }
       });
       if (getEmailNoDot().includes(parts[1])) {
@@ -155,7 +155,7 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res) =
       if (isOldUser) {
         const { wallet: docWallet } = doc.data();
         oldUserObj = doc.data();
-        if (docWallet !== from) throw new Error('USER_ALREADY_EXIST');
+        if (docWallet !== from) throw new TypeError('USER_ALREADY_EXIST');
       }
       return { isOldUser, oldUserObj };
     });
@@ -163,7 +163,7 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res) =
       snapshot.forEach((doc) => {
         const docUser = doc.id;
         if (user !== docUser) {
-          throw new Error('Wallet already exist');
+          throw new TypeError('Wallet already exist');
         }
       });
       return true;
@@ -172,7 +172,7 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res) =
       snapshot.forEach((doc) => {
         const docUser = doc.id;
         if (user !== docUser) {
-          throw new Error('EMAIL_ALREADY_USED');
+          throw new TypeError('EMAIL_ALREADY_USED');
         }
       });
       return true;
@@ -190,10 +190,10 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res) =
 
     // check username length
     if (!isOldUser) {
-      if (!/^[a-z0-9-_]+$/.test(user)) throw new Error('Invalid user name char');
-      if (user.length < 7 || user.length > 20) throw new Error('Invalid user name length');
+      if (!/^[a-z0-9-_]+$/.test(user)) throw new TypeError('Invalid user name char');
+      if (user.length < 7 || user.length > 20) throw new TypeError('Invalid user name length');
       if (!IS_TESTNET) {
-        if (!reCaptchaResponse) throw new Error('reCAPTCHA missing');
+        if (!reCaptchaResponse) throw new TypeError('reCAPTCHA missing');
         const { data } = await axios.post(
           'https://www.google.com/recaptcha/api/siteverify',
           querystring.stringify({
@@ -202,7 +202,7 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res) =
             remoteip: req.headers['x-real-ip'] || req.ip,
           }),
         );
-        if (!data || !data.success) throw new Error('reCAPTCHA Failed');
+        if (!data || !data.success) throw new TypeError('reCAPTCHA Failed');
       }
     }
 
@@ -211,9 +211,9 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res) =
     let url;
     if (file) {
       const type = imageType(file.buffer);
-      if (!SUPPORTED_AVATER_TYPE.has(type && type.ext)) throw new Error('unsupported file format!');
+      if (!SUPPORTED_AVATER_TYPE.has(type && type.ext)) throw new TypeError('unsupported file format!');
       const hash256 = sha256(file.buffer);
-      if (hash256 !== avatarSHA256) throw new Error('avatar sha not match');
+      if (hash256 !== avatarSHA256) throw new TypeError('avatar sha not match');
       const resizedBuffer = await sharp(file.buffer).resize(400, 400).toBuffer();
       file.buffer = resizedBuffer;
       [url] = await uploadFileAndGetLink(file, `likecoin_store_user_${user}_${IS_TESTNET ? 'test' : 'main'}`);
@@ -222,8 +222,8 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res) =
     let hasReferrer = false;
     if (!isOldUser && referrer) {
       const referrerRef = await dbRef.doc(referrer).get();
-      if (!referrerRef.exists) throw new Error('REFERRER_NOT_EXIST');
-      if (!referrerRef.data().isEmailVerified) throw new Error('referrer email not verified');
+      if (!referrerRef.exists) throw new TypeError('REFERRER_NOT_EXIST');
+      if (!referrerRef.data().isEmailVerified) throw new TypeError('referrer email not verified');
       if (referrerRef.data().isBlackListed) {
         publisher.publish(PUBSUB_TOPIC_MISC, req, {
           logType: 'eventBlockReferrer',
@@ -234,7 +234,7 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res) =
           referrer,
           locale,
         });
-        throw new Error('referrer limit exceeded');
+        throw new TypeError('referrer limit exceeded');
       }
       hasReferrer = referrerRef.exists;
     }
@@ -244,7 +244,7 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res) =
       wallet,
     };
     if (email && email !== oldEmail) {
-      if (oldEmail && oldUserObj.isEmailVerified) throw new Error('email already verified');
+      if (oldEmail && oldUserObj.isEmailVerified) throw new TypeError('email already verified');
       updateObj.email = email;
       updateObj.verificationUUID = FieldValue.delete();
       updateObj.isEmailVerified = false;
@@ -277,7 +277,11 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res) =
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
-    res.status(400).send(msg);
+    if (err instanceof TypeError) {
+      res.status(400).send(msg);
+    } else {
+      res.sendStatus(500);
+    }
   }
 });
 
@@ -295,7 +299,7 @@ router.post('/users/login', async (req, res) => {
     const { from, payload, sign } = req.body;
     const recovered = personalEcRecover(payload, sign);
     if (recovered.toLowerCase() !== from.toLowerCase()) {
-      throw new Error('recovered address not match');
+      throw new TypeError('recovered address not match');
     }
     const query = await dbRef.where('wallet', '==', from).get();
     if (query.docs.length > 0) {
@@ -308,7 +312,11 @@ router.post('/users/login', async (req, res) => {
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
-    res.status(400).send(msg);
+    if (err instanceof TypeError) {
+      res.status(400).send(msg);
+    } else {
+      res.sendStatus(500);
+    }
   }
 });
 
@@ -330,7 +338,11 @@ router.get('/users/referral/:id', jwtAuth, async (req, res) => {
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
-    res.status(400).send(msg);
+    if (err instanceof TypeError) {
+      res.status(400).send(msg);
+    } else {
+      res.sendStatus(500);
+    }
   }
 });
 
@@ -352,7 +364,11 @@ router.get('/users/id/:id', jwtAuth, async (req, res) => {
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
-    res.status(400).send(msg);
+    if (err instanceof TypeError) {
+      res.status(400).send(msg);
+    } else {
+      res.sendStatus(500);
+    }
   }
 });
 
@@ -370,14 +386,18 @@ router.get('/users/id/:id/min', async (req, res) => {
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
-    res.status(400).send(msg);
+    if (err instanceof TypeError) {
+      res.status(400).send(msg);
+    } else {
+      res.sendStatus(500);
+    }
   }
 });
 
 router.get('/users/addr/:addr', jwtAuth, async (req, res) => {
   try {
     const { addr } = req.params;
-    if (!Validate.checkAddressValid(addr)) throw new Error('Invalid address');
+    if (!Validate.checkAddressValid(addr)) throw new TypeError('Invalid address');
     if (req.user.wallet !== addr) {
       res.status(401).send('LOGIN_NEEDED');
       return;
@@ -394,14 +414,18 @@ router.get('/users/addr/:addr', jwtAuth, async (req, res) => {
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
-    res.status(400).send(msg);
+    if (err instanceof TypeError) {
+      res.status(400).send(msg);
+    } else {
+      res.sendStatus(500);
+    }
   }
 });
 
 router.get('/users/addr/:addr/min', async (req, res) => {
   try {
     const { addr } = req.params;
-    if (!Validate.checkAddressValid(addr)) throw new Error('Invalid address');
+    if (!Validate.checkAddressValid(addr)) throw new TypeError('Invalid address');
     const query = await dbRef.where('wallet', '==', addr).get();
     if (query.docs.length > 0) {
       res.sendStatus(200);
@@ -411,7 +435,11 @@ router.get('/users/addr/:addr/min', async (req, res) => {
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
-    res.status(400).send(msg);
+    if (err instanceof TypeError) {
+      res.status(400).send(msg);
+    } else {
+      res.sendStatus(500);
+    }
   }
 });
 
@@ -425,10 +453,10 @@ router.post('/email/verify/user/:id/', async (req, res) => {
     let verificationUUID;
     if (doc.exists) {
       user = doc.data();
-      if (!user.email) throw new Error('Invalid email');
-      if (user.isEmailVerified) throw new Error('Already verified');
+      if (!user.email) throw new TypeError('Invalid email');
+      if (user.isEmailVerified) throw new TypeError('Already verified');
       if (user.lastVerifyTs && Math.abs(user.lastVerifyTs - Date.now()) < THIRTY_S_IN_MS) {
-        throw new Error('An email has already been sent recently, Please try again later');
+        throw new TypeError('An email has already been sent recently, Please try again later');
       }
       ({ verificationUUID } = user);
       if (!verificationUUID) {
@@ -471,7 +499,11 @@ router.post('/email/verify/user/:id/', async (req, res) => {
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
-    res.status(400).send(msg);
+    if (err instanceof TypeError) {
+      res.status(400).send(msg);
+    } else {
+      res.sendStatus(500);
+    }
   }
 });
 
@@ -517,7 +549,11 @@ router.post('/email/verify/:uuid', async (req, res) => {
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
-    res.status(400).send(msg);
+    if (err instanceof TypeError) {
+      res.status(400).send(msg);
+    } else {
+      res.sendStatus(500);
+    }
   }
 });
 
@@ -536,7 +572,11 @@ router.get('/users/bonus/:id', jwtAuth, async (req, res) => {
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
-    res.status(400).send(msg);
+    if (err instanceof TypeError) {
+      res.status(400).send(msg);
+    } else {
+      res.sendStatus(500);
+    }
   }
 });
 

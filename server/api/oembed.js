@@ -18,16 +18,16 @@ router.get('/oembed', cors(), async (req, res) => {
   try {
     const { url } = req.query;
     if (!url) {
-      throw new Error('No url query in oEmbed request');
+      throw new TypeError('No url query in oEmbed request');
     }
     const match = queryUrlRegexp.exec(url);
     if (!match) {
-      throw new Error(`Invalid url query (${url}) in oEmbed request`);
+      throw new TypeError(`Invalid url query (${url}) in oEmbed request`);
     }
     const username = match[1];
     const format = req.query.format || 'json';
     if (!['json', 'xml'].includes(format)) {
-      throw new Error(`Invalid format ${format} in oEmbed request`);
+      throw new TypeError(`Invalid format ${format} in oEmbed request`);
     }
 
     const maxWidth = Number.parseInt(req.query.maxwidth || 100, 10);
@@ -67,7 +67,11 @@ router.get('/oembed', cors(), async (req, res) => {
     console.error(err);
     const msg = err.message || err;
     console.error(msg);
-    res.status(400).send(msg);
+    if (err instanceof TypeError) {
+      res.status(400).send(msg);
+    } else {
+      res.sendStatus(500);
+    }
   }
 });
 
