@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import BigNumber from 'bignumber.js';
+import { ValidationError } from '../../util/ValidationHelper';
 
 import {
   GETTING_STARTED_TASKS,
@@ -75,7 +76,7 @@ router.get('/mission/list/:id', jwtAuth, async (req, res) => {
       missionsRef.orderBy('priority').get(),
       dbRef.doc(username).get(),
     ]);
-    if (!userDoc.exists) throw new TypeError('user not exist');
+    if (!userDoc.exists) throw new ValidationError('user not exist');
     const userMissionCol = await dbRef.doc(username).collection('mission').get();
     const proxyMissions = missionCol.docs.reduce((accu, m) => {
       if (m.data().isProxy) accu[m.id] = true; // eslint-disable-line no-param-reassign
@@ -125,7 +126,7 @@ router.get('/mission/list/:id', jwtAuth, async (req, res) => {
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
-    if (err instanceof TypeError) {
+    if (err instanceof ValidationError) {
       res.status(400).send(msg);
     } else {
       res.sendStatus(500);
@@ -149,7 +150,7 @@ router.post('/mission/seen/:id', jwtAuth, async (req, res) => {
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
-    if (err instanceof TypeError) {
+    if (err instanceof ValidationError) {
       res.status(400).send(msg);
     } else {
       res.sendStatus(500);
@@ -173,12 +174,12 @@ router.post('/mission/step/:id', jwtAuth, async (req, res) => {
     let done = false;
     switch (missionId) {
       case 'gettingStart': {
-        if (!GETTING_STARTED_TASKS.includes(taskId)) throw new TypeError('task unknown');
+        if (!GETTING_STARTED_TASKS.includes(taskId)) throw new ValidationError('task unknown');
         const doneTasks = [taskId, ...Object.keys(doc.data())];
         done = GETTING_STARTED_TASKS.every(t => doneTasks.includes(t));
         break;
       }
-      default: throw new TypeError('mission unknown');
+      default: throw new ValidationError('mission unknown');
     }
     const payload = { [taskId]: true };
     if (done) payload.done = true;
@@ -209,7 +210,7 @@ router.post('/mission/step/:id', jwtAuth, async (req, res) => {
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
-    if (err instanceof TypeError) {
+    if (err instanceof ValidationError) {
       res.status(400).send(msg);
     } else {
       res.sendStatus(500);
@@ -225,7 +226,7 @@ router.get('/mission/list/history/:id', jwtAuth, async (req, res) => {
       return;
     }
     const userDoc = await dbRef.doc(username).get();
-    if (!userDoc.exists) throw new TypeError('user not exist');
+    if (!userDoc.exists) throw new ValidationError('user not exist');
     const [userMissionCol, missionCol] = await Promise.all([
       dbRef.doc(username).collection('mission').get(),
       missionsRef.orderBy('priority').get(),
@@ -242,7 +243,7 @@ router.get('/mission/list/history/:id', jwtAuth, async (req, res) => {
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
-    if (err instanceof TypeError) {
+    if (err instanceof ValidationError) {
       res.status(400).send(msg);
     } else {
       res.sendStatus(500);
@@ -273,7 +274,7 @@ router.get('/mission/list/history/:id/bonus', jwtAuth, async (req, res) => {
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
-    if (err instanceof TypeError) {
+    if (err instanceof ValidationError) {
       res.status(400).send(msg);
     } else {
       res.sendStatus(500);
@@ -324,7 +325,7 @@ router.get('/referral/list/:id', jwtAuth, async (req, res) => {
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
-    if (err instanceof TypeError) {
+    if (err instanceof ValidationError) {
       res.status(400).send(msg);
     } else {
       res.sendStatus(500);
@@ -360,7 +361,7 @@ router.get('/referral/list/bonus/:id', jwtAuth, async (req, res) => {
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
-    if (err instanceof TypeError) {
+    if (err instanceof ValidationError) {
       res.status(400).send(msg);
     } else {
       res.sendStatus(500);
@@ -384,7 +385,7 @@ router.post('/referral/seen/:id', jwtAuth, async (req, res) => {
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
-    if (err instanceof TypeError) {
+    if (err instanceof ValidationError) {
       res.status(400).send(msg);
     } else {
       res.sendStatus(500);

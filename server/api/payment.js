@@ -8,6 +8,7 @@ import {
   TRANSACTION_QUERY_LIMIT,
 } from '../../constant';
 import Validate from '../../util/ValidationHelper';
+import { ValidationError } from '../../util/ValidationHelper';
 import { logTransferDelegatedTx, logETHTx } from '../util/logger';
 import { web3, sendTransactionWithLoop } from '../util/web3';
 import { sendPreSale } from '../util/ses';
@@ -37,10 +38,10 @@ router.post('/payment', async (req, res) => {
       signature,
     } = req.body;
     if (!Validate.checkAddressValid(to) || !Validate.checkAddressValid(from)) {
-      throw new TypeError('Invalid address');
+      throw new ValidationError('Invalid address');
     }
     const balance = await LikeCoin.methods.balanceOf(from).call();
-    if ((new BigNumber(balance)).lt(new BigNumber(value))) throw new TypeError('Not enough balance');
+    if ((new BigNumber(balance)).lt(new BigNumber(value))) throw new ValidationError('Not enough balance');
     const fromQuery = dbRef.where('wallet', '==', from).get().then((snapshot) => {
       if (snapshot.docs.length > 0) {
         const fromUser = snapshot.docs[0].data();
@@ -55,7 +56,7 @@ router.post('/payment', async (req, res) => {
             locale: fromUser.locale,
             registerTime: fromUser.timestamp,
           });
-          throw new TypeError('ERROR_FROM_BAK');
+          throw new ValidationError('ERROR_FROM_BAK');
         }
         return {
           fromId: snapshot.docs[0].id,
@@ -82,7 +83,7 @@ router.post('/payment', async (req, res) => {
             locale: toUser.locale,
             registerTime: toUser.timestamp,
           });
-          throw new TypeError('ERROR_TO_BAK');
+          throw new ValidationError('ERROR_TO_BAK');
         }
         return {
           toId: snapshot.docs[0].id,
@@ -173,7 +174,7 @@ router.post('/payment', async (req, res) => {
     console.error(err);
     const msg = err.message || err;
     console.error(msg);
-    if (err instanceof TypeError) {
+    if (err instanceof ValidationError) {
       res.status(400).send(msg);
     } else {
       res.sendStatus(500);
@@ -307,7 +308,7 @@ router.post('/payment/eth', async (req, res) => {
     console.error(err);
     const msg = err.message || err;
     console.error(msg);
-    if (err instanceof TypeError) {
+    if (err instanceof ValidationError) {
       res.status(400).send(msg);
     } else {
       res.sendStatus(500);
@@ -328,7 +329,7 @@ router.get('/tx/id/:id', async (req, res) => {
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
-    if (err instanceof TypeError) {
+    if (err instanceof ValidationError) {
       res.status(400).send(msg);
     } else {
       res.sendStatus(500);
@@ -371,7 +372,7 @@ router.get('/tx/history/addr/:addr', jwtAuth, async (req, res) => {
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
-    if (err instanceof TypeError) {
+    if (err instanceof ValidationError) {
       res.status(400).send(msg);
     } else {
       res.sendStatus(500);
@@ -395,7 +396,7 @@ router.get('/tx/tokensale/:addr', jwtAuth, async (req, res) => {
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
-    if (err instanceof TypeError) {
+    if (err instanceof ValidationError) {
       res.status(400).send(msg);
     } else {
       res.sendStatus(500);
@@ -409,7 +410,7 @@ router.get('/tokensale/initial', async (req, res) => {
   } catch (err) {
     const msg = err.message || err;
     console.error(msg);
-    if (err instanceof TypeError) {
+    if (err instanceof ValidationError) {
       res.status(400).send(msg);
     } else {
       res.sendStatus(500);

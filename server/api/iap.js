@@ -4,6 +4,7 @@ import { PUBSUB_TOPIC_MISC } from '../../constant';
 import publisher from '../util/gcloudPub';
 
 import stripe from '../util/stripe';
+import { ValidationError } from '../../util/ValidationHelper';
 
 const {
   iapCollection: iapRef,
@@ -22,7 +23,7 @@ router.post('/iap/purchase/:productId', async (req, res) => {
     } = req.body;
     const productRef = iapRef.doc(productId);
     const productDoc = await productRef.get();
-    if (!productDoc.exists) throw new TypeError('Invalid product');
+    if (!productDoc.exists) throw new ValidationError('Invalid product');
 
     let userRef = null;
     let wallet = '';
@@ -33,14 +34,14 @@ router.post('/iap/purchase/:productId', async (req, res) => {
     if (user) {
       userRef = dbRef.doc(user);
       const userDoc = await userRef.get();
-      if (!userDoc.exists) throw new TypeError('Invalid user');
+      if (!userDoc.exists) throw new ValidationError('Invalid user');
       ({
         wallet,
         email,
         referrer,
         timestamp,
       } = userDoc.data());
-      if (wallet !== from) throw new TypeError('User wallet not match');
+      if (wallet !== from) throw new ValidationError('User wallet not match');
     }
 
     const {
@@ -49,7 +50,7 @@ router.post('/iap/purchase/:productId', async (req, res) => {
       description,
       statementDescriptor,
     } = productDoc.data();
-    if (!amount) throw new TypeError('Product not available for now');
+    if (!amount) throw new ValidationError('Product not available for now');
 
 
     const DEFAULT_LOCALE = 'en';
@@ -106,7 +107,7 @@ router.post('/iap/purchase/:productId', async (req, res) => {
     console.error(err);
     const msg = err.message || err;
     console.error(msg);
-    if (err instanceof TypeError) {
+    if (err instanceof ValidationError) {
       res.status(400).send(msg);
     } else {
       res.sendStatus(500);
@@ -123,7 +124,7 @@ router.get('/iap/list', async (req, res) => {
     console.error(err);
     const msg = err.message || err;
     console.error(msg);
-    if (err instanceof TypeError) {
+    if (err instanceof ValidationError) {
       res.status(400).send(msg);
     } else {
       res.sendStatus(500);

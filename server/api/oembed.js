@@ -3,6 +3,7 @@ import cors from 'cors';
 import { toDataUrl } from '@likecoin/ethereum-blockies';
 import xml from 'xml';
 import { IS_TESTNET } from '../../constant';
+import { ValidationError } from '../../util/ValidationHelper';
 
 const hostname = IS_TESTNET ? 'rinkeby.like.co' : 'like.co';
 const escapedHostname = hostname.replace(/\./g, '\\.');
@@ -18,16 +19,16 @@ router.get('/oembed', cors(), async (req, res) => {
   try {
     const { url } = req.query;
     if (!url) {
-      throw new TypeError('No url query in oEmbed request');
+      throw new ValidationError('No url query in oEmbed request');
     }
     const match = queryUrlRegexp.exec(url);
     if (!match) {
-      throw new TypeError(`Invalid url query (${url}) in oEmbed request`);
+      throw new ValidationError(`Invalid url query (${url}) in oEmbed request`);
     }
     const username = match[1];
     const format = req.query.format || 'json';
     if (!['json', 'xml'].includes(format)) {
-      throw new TypeError(`Invalid format ${format} in oEmbed request`);
+      throw new ValidationError(`Invalid format ${format} in oEmbed request`);
     }
 
     const maxWidth = Number.parseInt(req.query.maxwidth || 100, 10);
@@ -67,7 +68,7 @@ router.get('/oembed', cors(), async (req, res) => {
     console.error(err);
     const msg = err.message || err;
     console.error(msg);
-    if (err instanceof TypeError) {
+    if (err instanceof ValidationError) {
       res.status(400).send(msg);
     } else {
       res.sendStatus(500);
