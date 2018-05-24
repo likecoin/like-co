@@ -7,8 +7,7 @@ import {
   PUBSUB_TOPIC_MISC,
   TRANSACTION_QUERY_LIMIT,
 } from '../../constant';
-import Validate from '../../util/ValidationHelper';
-import { ValidationError } from '../../util/ValidationHelper';
+import { ValidationHelper as Validate, ValidationError } from '../../util/ValidationHelper';
 import { logTransferDelegatedTx, logETHTx } from '../util/logger';
 import { web3, sendTransactionWithLoop } from '../util/web3';
 import { sendPreSale } from '../util/ses';
@@ -27,7 +26,7 @@ const router = Router();
 
 const LikeCoin = new web3.eth.Contract(LIKECOIN.LIKE_COIN_ABI, LIKECOIN.LIKE_COIN_ADDRESS);
 
-router.post('/payment', async (req, res) => {
+router.post('/payment', async (req, res, next) => {
   try {
     const {
       from,
@@ -172,17 +171,11 @@ router.post('/payment', async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    const msg = err.message || err;
-    console.error(msg);
-    if (err instanceof ValidationError) {
-      res.status(400).send(msg);
-    } else {
-      res.sendStatus(500);
-    }
+    next(err);
   }
 });
 
-router.post('/payment/eth', async (req, res) => {
+router.post('/payment/eth', async (req, res, next) => {
   try {
     const {
       from,
@@ -306,17 +299,11 @@ router.post('/payment/eth', async (req, res) => {
     res.json({ txHash });
   } catch (err) {
     console.error(err);
-    const msg = err.message || err;
-    console.error(msg);
-    if (err instanceof ValidationError) {
-      res.status(400).send(msg);
-    } else {
-      res.sendStatus(500);
-    }
+    next(err);
   }
 });
 
-router.get('/tx/id/:id', async (req, res) => {
+router.get('/tx/id/:id', async (req, res, next) => {
   try {
     const txHash = req.params.id;
     const doc = await txLogRef.doc(txHash).get();
@@ -327,17 +314,11 @@ router.get('/tx/id/:id', async (req, res) => {
       res.sendStatus(404);
     }
   } catch (err) {
-    const msg = err.message || err;
-    console.error(msg);
-    if (err instanceof ValidationError) {
-      res.status(400).send(msg);
-    } else {
-      res.sendStatus(500);
-    }
+    next(err);
   }
 });
 
-router.get('/tx/history/addr/:addr', jwtAuth, async (req, res) => {
+router.get('/tx/history/addr/:addr', jwtAuth, async (req, res, next) => {
   try {
     const { addr } = req.params;
     if (req.user.wallet !== addr) {
@@ -370,17 +351,11 @@ router.get('/tx/history/addr/:addr', jwtAuth, async (req, res) => {
     results.splice(count);
     res.json(results);
   } catch (err) {
-    const msg = err.message || err;
-    console.error(msg);
-    if (err instanceof ValidationError) {
-      res.status(400).send(msg);
-    } else {
-      res.sendStatus(500);
-    }
+    next(err);
   }
 });
 
-router.get('/tx/tokensale/:addr', jwtAuth, async (req, res) => {
+router.get('/tx/tokensale/:addr', jwtAuth, async (req, res, next) => {
   try {
     const { addr } = req.params;
     if (req.user.wallet !== addr) {
@@ -394,27 +369,15 @@ router.get('/tx/tokensale/:addr', jwtAuth, async (req, res) => {
       .get();
     res.json(doc.docs.map(d => ({ id: d.id, ...Validate.filterTxData(d.data()) })));
   } catch (err) {
-    const msg = err.message || err;
-    console.error(msg);
-    if (err instanceof ValidationError) {
-      res.status(400).send(msg);
-    } else {
-      res.sendStatus(500);
-    }
+    next(err);
   }
 });
 
-router.get('/tokensale/initial', async (req, res) => {
+router.get('/tokensale/initial', async (req, res, next) => {
   try {
     res.json({ initial: getTokensaleInitial() });
   } catch (err) {
-    const msg = err.message || err;
-    console.error(msg);
-    if (err instanceof ValidationError) {
-      res.status(400).send(msg);
-    } else {
-      res.sendStatus(500);
-    }
+    next(err);
   }
 });
 

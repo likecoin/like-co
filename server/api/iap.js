@@ -13,7 +13,7 @@ const {
 
 const router = Router();
 
-router.post('/iap/purchase/:productId', async (req, res) => {
+router.post('/iap/purchase/:productId', async (req, res, next) => {
   try {
     const { productId } = req.params;
     const {
@@ -105,30 +105,18 @@ router.post('/iap/purchase/:productId', async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    const msg = err.message || err;
-    console.error(msg);
-    if (err instanceof ValidationError) {
-      res.status(400).send(msg);
-    } else {
-      res.sendStatus(500);
-    }
+    next(err);
   }
 });
 
 
-router.get('/iap/list', async (req, res) => {
+router.get('/iap/list', async (req, res, next) => {
   try {
     const doc = await iapRef.get();
     res.json(doc.docs.map(d => ({ id: d.id, ...d.data() })));
   } catch (err) {
     console.error(err);
-    const msg = err.message || err;
-    console.error(msg);
-    if (err instanceof ValidationError) {
-      res.status(400).send(msg);
-    } else {
-      res.sendStatus(500);
-    }
+    next(err);
   }
 });
 

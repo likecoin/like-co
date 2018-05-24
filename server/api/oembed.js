@@ -15,7 +15,7 @@ const {
 
 const router = Router();
 
-router.get('/oembed', cors(), async (req, res) => {
+router.get('/oembed', cors(), async (req, res, next) => {
   try {
     const { url } = req.query;
     if (!url) {
@@ -66,13 +66,7 @@ router.get('/oembed', cors(), async (req, res) => {
     }
   } catch (err) {
     console.error(err);
-    const msg = err.message || err;
-    console.error(msg);
-    if (err instanceof ValidationError) {
-      res.status(400).send(msg);
-    } else {
-      res.sendStatus(500);
-    }
+    next(err);
   }
 });
 

@@ -10,8 +10,7 @@ import {
 import { getEmailBlacklist, getEmailNoDot } from '../util/poller';
 
 import axios from '../../plugins/axios';
-import Validate from '../../util/ValidationHelper';
-import { ValidationError } from '../../util/ValidationHelper';
+import { ValidationHelper as Validate, ValidationError } from '../../util/ValidationHelper';
 import { personalEcRecover, web3 } from '../util/web3';
 import { uploadFileAndGetLink } from '../util/fileupload';
 import { jwtSign, jwtAuth } from '../util/jwt';
@@ -72,7 +71,7 @@ const apiLimiter = new RateLimit({
   },
 });
 
-router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res) => {
+router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res, next) => {
   try {
     const {
       from,
@@ -276,13 +275,7 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res) =
       registerTime: isOldUser ? oldUserObj.timestamp : updateObj.timestamp,
     });
   } catch (err) {
-    const msg = err.message || err;
-    console.error(msg);
-    if (err instanceof ValidationError) {
-      res.status(400).send(msg);
-    } else {
-      res.sendStatus(500);
-    }
+    next(err);
   }
 });
 
@@ -295,7 +288,7 @@ router.post('/users/login/check', jwtAuth, (req, res) => {
   res.sendStatus(200);
 });
 
-router.post('/users/login', async (req, res) => {
+router.post('/users/login', async (req, res, next) => {
   try {
     const { from, payload, sign } = req.body;
     const recovered = personalEcRecover(payload, sign);
@@ -311,17 +304,11 @@ router.post('/users/login', async (req, res) => {
       res.sendStatus(404);
     }
   } catch (err) {
-    const msg = err.message || err;
-    console.error(msg);
-    if (err instanceof ValidationError) {
-      res.status(400).send(msg);
-    } else {
-      res.sendStatus(500);
-    }
+    next(err);
   }
 });
 
-router.get('/users/referral/:id', jwtAuth, async (req, res) => {
+router.get('/users/referral/:id', jwtAuth, async (req, res, next) => {
   try {
     const username = req.params.id;
     if (req.user.user !== username) {
@@ -337,17 +324,11 @@ router.get('/users/referral/:id', jwtAuth, async (req, res) => {
       res.json({ pending: 0, verified: 0 });
     }
   } catch (err) {
-    const msg = err.message || err;
-    console.error(msg);
-    if (err instanceof ValidationError) {
-      res.status(400).send(msg);
-    } else {
-      res.sendStatus(500);
-    }
+    next(err);
   }
 });
 
-router.get('/users/id/:id', jwtAuth, async (req, res) => {
+router.get('/users/id/:id', jwtAuth, async (req, res, next) => {
   try {
     const username = req.params.id;
     if (req.user.user !== username) {
@@ -363,17 +344,11 @@ router.get('/users/id/:id', jwtAuth, async (req, res) => {
       res.sendStatus(404);
     }
   } catch (err) {
-    const msg = err.message || err;
-    console.error(msg);
-    if (err instanceof ValidationError) {
-      res.status(400).send(msg);
-    } else {
-      res.sendStatus(500);
-    }
+    next(err);
   }
 });
 
-router.get('/users/id/:id/min', async (req, res) => {
+router.get('/users/id/:id/min', async (req, res, next) => {
   try {
     const username = req.params.id;
     const doc = await dbRef.doc(username).get();
@@ -385,17 +360,11 @@ router.get('/users/id/:id/min', async (req, res) => {
       res.sendStatus(404);
     }
   } catch (err) {
-    const msg = err.message || err;
-    console.error(msg);
-    if (err instanceof ValidationError) {
-      res.status(400).send(msg);
-    } else {
-      res.sendStatus(500);
-    }
+    next(err);
   }
 });
 
-router.get('/users/addr/:addr', jwtAuth, async (req, res) => {
+router.get('/users/addr/:addr', jwtAuth, async (req, res, next) => {
   try {
     const { addr } = req.params;
     if (!Validate.checkAddressValid(addr)) throw new ValidationError('Invalid address');
@@ -413,17 +382,11 @@ router.get('/users/addr/:addr', jwtAuth, async (req, res) => {
       res.sendStatus(404);
     }
   } catch (err) {
-    const msg = err.message || err;
-    console.error(msg);
-    if (err instanceof ValidationError) {
-      res.status(400).send(msg);
-    } else {
-      res.sendStatus(500);
-    }
+    next(err);
   }
 });
 
-router.get('/users/addr/:addr/min', async (req, res) => {
+router.get('/users/addr/:addr/min', async (req, res, next) => {
   try {
     const { addr } = req.params;
     if (!Validate.checkAddressValid(addr)) throw new ValidationError('Invalid address');
@@ -434,17 +397,11 @@ router.get('/users/addr/:addr/min', async (req, res) => {
       res.sendStatus(404);
     }
   } catch (err) {
-    const msg = err.message || err;
-    console.error(msg);
-    if (err instanceof ValidationError) {
-      res.status(400).send(msg);
-    } else {
-      res.sendStatus(500);
-    }
+    next(err);
   }
 });
 
-router.post('/email/verify/user/:id/', async (req, res) => {
+router.post('/email/verify/user/:id/', async (req, res, next) => {
   try {
     const username = req.params.id;
     const { coupon, ref } = req.body;
@@ -498,17 +455,11 @@ router.post('/email/verify/user/:id/', async (req, res) => {
       registerTime: user.timestamp,
     });
   } catch (err) {
-    const msg = err.message || err;
-    console.error(msg);
-    if (err instanceof ValidationError) {
-      res.status(400).send(msg);
-    } else {
-      res.sendStatus(500);
-    }
+    next(err);
   }
 });
 
-router.post('/email/verify/:uuid', async (req, res) => {
+router.post('/email/verify/:uuid', async (req, res, next) => {
   try {
     const verificationUUID = req.params.uuid;
     const query = await dbRef.where('verificationUUID', '==', verificationUUID).get();
@@ -548,17 +499,11 @@ router.post('/email/verify/:uuid', async (req, res) => {
       res.sendStatus(404);
     }
   } catch (err) {
-    const msg = err.message || err;
-    console.error(msg);
-    if (err instanceof ValidationError) {
-      res.status(400).send(msg);
-    } else {
-      res.sendStatus(500);
-    }
+    next(err);
   }
 });
 
-router.get('/users/bonus/:id', jwtAuth, async (req, res) => {
+router.get('/users/bonus/:id', jwtAuth, async (req, res, next) => {
   try {
     const { id } = req.params;
     if (req.user.user !== id) {
@@ -571,13 +516,7 @@ router.get('/users/bonus/:id', jwtAuth, async (req, res) => {
       .reduce((acc, t) => acc.plus(new BigNumber(t.data().value)), new BigNumber(0));
     res.json({ bonus: sum.dividedBy(ONE_LIKE).toFixed(4) });
   } catch (err) {
-    const msg = err.message || err;
-    console.error(msg);
-    if (err instanceof ValidationError) {
-      res.status(400).send(msg);
-    } else {
-      res.sendStatus(500);
-    }
+    next(err);
   }
 });
 

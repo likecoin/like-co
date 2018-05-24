@@ -1,8 +1,7 @@
 import { Router } from 'express';
 
 import axios from '../../plugins/axios';
-import Validate from '../../util/ValidationHelper';
-import { ValidationError } from '../../util/ValidationHelper';
+import { ValidationHelper as Validate, ValidationError } from '../../util/ValidationHelper';
 import {
   web3,
   personalEcRecover,
@@ -64,7 +63,7 @@ function handleDocumentUpload(user, file, documentSHA256) {
   if (hash256 !== documentSHA256) throw new ValidationError('document sha not match');
 }
 
-router.post('/kyc', async (req, res) => {
+router.post('/kyc', async (req, res, next) => {
   try {
     const {
       from,
@@ -189,17 +188,11 @@ router.post('/kyc', async (req, res) => {
     res.json({ txHash });
   } catch (err) {
     console.error(err);
-    const msg = err.message || err;
-    console.error(msg);
-    if (err instanceof ValidationError) {
-      res.status(400).send(msg);
-    } else {
-      res.sendStatus(500);
-    }
+    next(err);
   }
 });
 
-router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
+router.post('/kyc/advanced', multer.array('documents', 2), async (req, res, next) => {
   try {
     const {
       from,
@@ -370,13 +363,7 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res) => {
     }
   } catch (err) {
     console.error(err);
-    const msg = err.message || err;
-    console.error(msg);
-    if (err instanceof ValidationError) {
-      res.status(400).send(msg);
-    } else {
-      res.sendStatus(500);
-    }
+    next(err);
   }
 });
 
@@ -401,7 +388,7 @@ router.get('/kyc/advanced/:id', jwtAuth, async (req, res) => {
   res.json({ status });
 });
 
-router.post('/kyc/advanced/cmd', async (req, res) => {
+router.post('/kyc/advanced/cmd', async (req, res, next) => {
   try {
     const { text: id } = req.body;
     const userRef = dbRef.doc(id);
@@ -422,13 +409,7 @@ router.post('/kyc/advanced/cmd', async (req, res) => {
     res.json({ status });
   } catch (err) {
     console.error(err);
-    const msg = err.message || err;
-    console.error(msg);
-    if (err instanceof ValidationError) {
-      res.status(400).send(msg);
-    } else {
-      res.sendStatus(500);
-    }
+    next(err);
   }
 });
 
