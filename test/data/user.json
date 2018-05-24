@@ -4,7 +4,6 @@
             "id": "testing",
             "displayName": "testing",
             "email": "testing@likecoin.store",
-            "isEmailVerified": true,
             "wallet": "0x4b25758E41f9240C8EB8831cEc7F1a02686387fa",
             "collection": {
                 "referrals": [
