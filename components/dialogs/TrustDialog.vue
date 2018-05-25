@@ -137,6 +137,9 @@ export default {
           return true;
       }
     },
+    isNotSign() {
+      return this.case !== 'sign' && this.case !== 'login';
+    },
     image() {
       switch (this.case) {
         case 'testnet':
@@ -195,7 +198,7 @@ export default {
     },
   },
   mounted() {
-    if (this.case && this.case !== 'sign') {
+    if (this.case && this.isNotSign) {
       this.$nextTick(() => {
         this.$refs.base.show();
         this.tryTrustInstalled();
