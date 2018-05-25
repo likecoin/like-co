@@ -4,6 +4,7 @@ import { PUBSUB_TOPIC_MISC } from '../../constant';
 import publisher from '../util/gcloudPub';
 
 import stripe from '../util/stripe';
+import { ValidationError } from '../../util/ValidationHelper';
 
 const {
   iapCollection: iapRef,
@@ -12,7 +13,7 @@ const {
 
 const router = Router();
 
-router.post('/iap/purchase/:productId', async (req, res) => {
+router.post('/iap/purchase/:productId', async (req, res, next) => {
   try {
     const { productId } = req.params;
     const {
@@ -22,7 +23,7 @@ router.post('/iap/purchase/:productId', async (req, res) => {
     } = req.body;
     const productRef = iapRef.doc(productId);
     const productDoc = await productRef.get();
-    if (!productDoc.exists) throw new Error('Invalid product');
+    if (!productDoc.exists) throw new ValidationError('Invalid product');
 
     let userRef = null;
     let wallet = '';
@@ -33,14 +34,14 @@ router.post('/iap/purchase/:productId', async (req, res) => {
     if (user) {
       userRef = dbRef.doc(user);
       const userDoc = await userRef.get();
-      if (!userDoc.exists) throw new Error('Invalid user');
+      if (!userDoc.exists) throw new ValidationError('Invalid user');
       ({
         wallet,
         email,
         referrer,
         timestamp,
       } = userDoc.data());
-      if (wallet !== from) throw new Error('User wallet not match');
+      if (wallet !== from) throw new ValidationError('User wallet not match');
     }
 
     const {
@@ -49,7 +50,7 @@ router.post('/iap/purchase/:productId', async (req, res) => {
       description,
       statementDescriptor,
     } = productDoc.data();
-    if (!amount) throw new Error('Product not available for now');
+    if (!amount) throw new ValidationError('Product not available for now');
 
 
     const DEFAULT_LOCALE = 'en';
@@ -104,22 +105,18 @@ router.post('/iap/purchase/:productId', async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    const msg = err.message || err;
-    console.error(msg);
-    res.status(400).send(msg);
+    next(err);
   }
 });
 
 
-router.get('/iap/list', async (req, res) => {
+router.get('/iap/list', async (req, res, next) => {
   try {
     const doc = await iapRef.get();
     res.json(doc.docs.map(d => ({ id: d.id, ...d.data() })));
   } catch (err) {
     console.error(err);
-    const msg = err.message || err;
-    console.error(msg);
-    res.status(400).send(msg);
+    next(err);
   }
 });
 

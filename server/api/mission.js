@@ -6,8 +6,7 @@ import {
   ONE_LIKE,
   PUBSUB_TOPIC_MISC,
 } from '../../constant';
-
-import Validate from '../../util/ValidationHelper';
+import { ValidationHelper as Validate, ValidationError } from '../../util/ValidationHelper';
 import publisher from '../util/gcloudPub';
 import { jwtAuth } from '../util/jwt';
 
@@ -64,7 +63,7 @@ async function checkAlreadyDone(m, { u, doneList }) {
   return (!mission.staying && !mission.reward);
 }
 
-router.get('/mission/list/:id', jwtAuth, async (req, res) => {
+router.get('/mission/list/:id', jwtAuth, async (req, res, next) => {
   try {
     const username = req.params.id;
     if (req.user.user !== username) {
@@ -75,7 +74,7 @@ router.get('/mission/list/:id', jwtAuth, async (req, res) => {
       missionsRef.orderBy('priority').get(),
       dbRef.doc(username).get(),
     ]);
-    if (!userDoc.exists) throw new Error('user not exist');
+    if (!userDoc.exists) throw new ValidationError('user not exist');
     const userMissionCol = await dbRef.doc(username).collection('mission').get();
     const proxyMissions = missionCol.docs.reduce((accu, m) => {
       if (m.data().isProxy) accu[m.id] = true; // eslint-disable-line no-param-reassign
@@ -123,13 +122,11 @@ router.get('/mission/list/:id', jwtAuth, async (req, res) => {
     const missions = replyMissionList.map(d => ({ ...Validate.filterMissionData(d) }));
     res.json(missions);
   } catch (err) {
-    const msg = err.message || err;
-    console.error(msg);
-    res.status(400).send(msg);
+    next(err);
   }
 });
 
-router.post('/mission/seen/:id', jwtAuth, async (req, res) => {
+router.post('/mission/seen/:id', jwtAuth, async (req, res, next) => {
   try {
     const missionId = req.params.id;
     const {
@@ -143,13 +140,11 @@ router.post('/mission/seen/:id', jwtAuth, async (req, res) => {
     await userMissionRef.set({ seen: true }, { merge: true });
     res.sendStatus(200);
   } catch (err) {
-    const msg = err.message || err;
-    console.error(msg);
-    res.status(400).send(msg);
+    next(err);
   }
 });
 
-router.post('/mission/step/:id', jwtAuth, async (req, res) => {
+router.post('/mission/step/:id', jwtAuth, async (req, res, next) => {
   try {
     const missionId = req.params.id;
     const {
@@ -165,12 +160,12 @@ router.post('/mission/step/:id', jwtAuth, async (req, res) => {
     let done = false;
     switch (missionId) {
       case 'gettingStart': {
-        if (!GETTING_STARTED_TASKS.includes(taskId)) throw new Error('task unknown');
+        if (!GETTING_STARTED_TASKS.includes(taskId)) throw new ValidationError('task unknown');
         const doneTasks = [taskId, ...Object.keys(doc.data())];
         done = GETTING_STARTED_TASKS.every(t => doneTasks.includes(t));
         break;
       }
-      default: throw new Error('mission unknown');
+      default: throw new ValidationError('mission unknown');
     }
     const payload = { [taskId]: true };
     if (done) payload.done = true;
@@ -199,13 +194,11 @@ router.post('/mission/step/:id', jwtAuth, async (req, res) => {
       registerTime,
     });
   } catch (err) {
-    const msg = err.message || err;
-    console.error(msg);
-    res.status(400).send(msg);
+    next(err);
   }
 });
 
-router.get('/mission/list/history/:id', jwtAuth, async (req, res) => {
+router.get('/mission/list/history/:id', jwtAuth, async (req, res, next) => {
   try {
     const username = req.params.id;
     if (req.user.user !== username) {
@@ -213,7 +206,7 @@ router.get('/mission/list/history/:id', jwtAuth, async (req, res) => {
       return;
     }
     const userDoc = await dbRef.doc(username).get();
-    if (!userDoc.exists) throw new Error('user not exist');
+    if (!userDoc.exists) throw new ValidationError('user not exist');
     const [userMissionCol, missionCol] = await Promise.all([
       dbRef.doc(username).collection('mission').get(),
       missionsRef.orderBy('priority').get(),
@@ -228,13 +221,11 @@ router.get('/mission/list/history/:id', jwtAuth, async (req, res) => {
     const missions = doneList.map(d => ({ ...Validate.filterMissionData(d) }));
     res.json(missions);
   } catch (err) {
-    const msg = err.message || err;
-    console.error(msg);
-    res.status(400).send(msg);
+    next(err);
   }
 });
 
-router.get('/mission/list/history/:id/bonus', jwtAuth, async (req, res) => {
+router.get('/mission/list/history/:id/bonus', jwtAuth, async (req, res, next) => {
   try {
     const { id } = req.params;
     if (req.user.user !== id) {
@@ -255,13 +246,11 @@ router.get('/mission/list/history/:id/bonus', jwtAuth, async (req, res) => {
     });
     res.json(obj);
   } catch (err) {
-    const msg = err.message || err;
-    console.error(msg);
-    res.status(400).send(msg);
+    next(err);
   }
 });
 
-router.get('/referral/list/:id', jwtAuth, async (req, res) => {
+router.get('/referral/list/:id', jwtAuth, async (req, res, next) => {
   try {
     const { id } = req.params;
     if (req.user.user !== id) {
@@ -302,13 +291,11 @@ router.get('/referral/list/:id', jwtAuth, async (req, res) => {
     });
     res.json(referees);
   } catch (err) {
-    const msg = err.message || err;
-    console.error(msg);
-    res.status(400).send(msg);
+    next(err);
   }
 });
 
-router.get('/referral/list/bonus/:id', jwtAuth, async (req, res) => {
+router.get('/referral/list/bonus/:id', jwtAuth, async (req, res, next) => {
   try {
     const { id } = req.params;
     if (req.user.user !== id) {
@@ -334,13 +321,11 @@ router.get('/referral/list/bonus/:id', jwtAuth, async (req, res) => {
       .map(d => ({ id: d.id, ...Validate.filterPayoutData(d.data()) })));
     res.json(results);
   } catch (err) {
-    const msg = err.message || err;
-    console.error(msg);
-    res.status(400).send(msg);
+    next(err);
   }
 });
 
-router.post('/referral/seen/:id', jwtAuth, async (req, res) => {
+router.post('/referral/seen/:id', jwtAuth, async (req, res, next) => {
   try {
     const user = req.params.id;
     if (req.user.user !== user) {
@@ -354,9 +339,7 @@ router.post('/referral/seen/:id', jwtAuth, async (req, res) => {
     await userReferralRef.update({ seen: true });
     res.sendStatus(200);
   } catch (err) {
-    const msg = err.message || err;
-    console.error(msg);
-    res.status(400).send(msg);
+    next(err);
   }
 });
 

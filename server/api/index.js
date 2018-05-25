@@ -7,6 +7,7 @@ import iap from './iap';
 import mission from './mission';
 import oembed from './oembed';
 import { startPoller } from '../util/poller';
+import { ValidationError } from '../../util/ValidationHelper';
 
 const router = Router();
 
@@ -23,8 +24,13 @@ router.get('/healthz', (req, res) => {
 });
 
 function errorHandler(err, req, res, next) {
+  const msg = err.message || err;
+  console.error(msg);
   if (res.headersSent) {
     return next(err);
+  }
+  if (err instanceof ValidationError) {
+    return res.status(400).send(msg);
   }
   // Handle multer error
   if (err.code && err.code === 'LIMIT_FILE_SIZE') {

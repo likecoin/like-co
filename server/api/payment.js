@@ -7,7 +7,7 @@ import {
   PUBSUB_TOPIC_MISC,
   TRANSACTION_QUERY_LIMIT,
 } from '../../constant';
-import Validate from '../../util/ValidationHelper';
+import { ValidationHelper as Validate, ValidationError } from '../../util/ValidationHelper';
 import { logTransferDelegatedTx, logETHTx } from '../util/logger';
 import { web3, sendTransactionWithLoop } from '../util/web3';
 import { sendPreSale } from '../util/ses';
@@ -26,7 +26,7 @@ const router = Router();
 
 const LikeCoin = new web3.eth.Contract(LIKECOIN.LIKE_COIN_ABI, LIKECOIN.LIKE_COIN_ADDRESS);
 
-router.post('/payment', async (req, res) => {
+router.post('/payment', async (req, res, next) => {
   try {
     const {
       from,
@@ -37,10 +37,10 @@ router.post('/payment', async (req, res) => {
       signature,
     } = req.body;
     if (!Validate.checkAddressValid(to) || !Validate.checkAddressValid(from)) {
-      throw new Error('Invalid address');
+      throw new ValidationError('Invalid address');
     }
     const balance = await LikeCoin.methods.balanceOf(from).call();
-    if ((new BigNumber(balance)).lt(new BigNumber(value))) throw new Error('Not enough balance');
+    if ((new BigNumber(balance)).lt(new BigNumber(value))) throw new ValidationError('Not enough balance');
     const fromQuery = dbRef.where('wallet', '==', from).get().then((snapshot) => {
       if (snapshot.docs.length > 0) {
         const fromUser = snapshot.docs[0].data();
@@ -55,7 +55,7 @@ router.post('/payment', async (req, res) => {
             locale: fromUser.locale,
             registerTime: fromUser.timestamp,
           });
-          throw new Error('ERROR_FROM_BAK');
+          throw new ValidationError('ERROR_FROM_BAK');
         }
         return {
           fromId: snapshot.docs[0].id,
@@ -82,7 +82,7 @@ router.post('/payment', async (req, res) => {
             locale: toUser.locale,
             registerTime: toUser.timestamp,
           });
-          throw new Error('ERROR_TO_BAK');
+          throw new ValidationError('ERROR_TO_BAK');
         }
         return {
           toId: snapshot.docs[0].id,
@@ -171,13 +171,11 @@ router.post('/payment', async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    const msg = err.message || err;
-    console.error(msg);
-    res.status(400).send(msg);
+    next(err);
   }
 });
 
-router.post('/payment/eth', async (req, res) => {
+router.post('/payment/eth', async (req, res, next) => {
   try {
     const {
       from,
@@ -301,13 +299,11 @@ router.post('/payment/eth', async (req, res) => {
     res.json({ txHash });
   } catch (err) {
     console.error(err);
-    const msg = err.message || err;
-    console.error(msg);
-    res.status(400).send(msg);
+    next(err);
   }
 });
 
-router.get('/tx/id/:id', async (req, res) => {
+router.get('/tx/id/:id', async (req, res, next) => {
   try {
     const txHash = req.params.id;
     const doc = await txLogRef.doc(txHash).get();
@@ -318,13 +314,11 @@ router.get('/tx/id/:id', async (req, res) => {
       res.sendStatus(404);
     }
   } catch (err) {
-    const msg = err.message || err;
-    console.error(msg);
-    res.status(400).send(msg);
+    next(err);
   }
 });
 
-router.get('/tx/history/addr/:addr', jwtAuth, async (req, res) => {
+router.get('/tx/history/addr/:addr', jwtAuth, async (req, res, next) => {
   try {
     const { addr } = req.params;
     if (req.user.wallet !== addr) {
@@ -357,13 +351,11 @@ router.get('/tx/history/addr/:addr', jwtAuth, async (req, res) => {
     results.splice(count);
     res.json(results);
   } catch (err) {
-    const msg = err.message || err;
-    console.error(msg);
-    res.status(400).send(msg);
+    next(err);
   }
 });
 
-router.get('/tx/tokensale/:addr', jwtAuth, async (req, res) => {
+router.get('/tx/tokensale/:addr', jwtAuth, async (req, res, next) => {
   try {
     const { addr } = req.params;
     if (req.user.wallet !== addr) {
@@ -377,19 +369,15 @@ router.get('/tx/tokensale/:addr', jwtAuth, async (req, res) => {
       .get();
     res.json(doc.docs.map(d => ({ id: d.id, ...Validate.filterTxData(d.data()) })));
   } catch (err) {
-    const msg = err.message || err;
-    console.error(msg);
-    res.status(400).send(msg);
+    next(err);
   }
 });
 
-router.get('/tokensale/initial', async (req, res) => {
+router.get('/tokensale/initial', async (req, res, next) => {
   try {
     res.json({ initial: getTokensaleInitial() });
   } catch (err) {
-    const msg = err.message || err;
-    console.error(msg);
-    res.status(400).send(msg);
+    next(err);
   }
 });
 
