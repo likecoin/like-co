@@ -731,6 +731,9 @@
   },
   "TokenSale": {
     "title": "代幣發售",
+    "header": {
+      "thankyou": "謝謝大家支持"
+    },
     "label": {
       "prepareToJoin": "準備加入代幣發售",
       "publicSaleStartIn": "公開發售於:",
@@ -749,7 +752,8 @@
       "amountWillBeSentWhenSalesStart": "您所購買的 LikeCoin 以及其額外獎賞將於公眾代幣發售開始時發送，預計將於 April 23 2018 開始。額外的 LikeCoin 獎賞會在你的錢包鎖上，並且 6 個月內不能傳送。",
       "whatIsEthLink": "https://help.like.co/likecoin-常見問題/什麼是-eth",
       "gasPriceDeducted": "需預留區塊鏈交易費用",
-      "raised": "共籌得"
+      "raised": "共籌得",
+      "thankyou": "LikeCoin 公開代幣發售經已完結。我們達到了大於目標180%的成績，衷心感謝大家！我們現正從其他銷售渠道收集數據，會盡快整理並公佈最終籌得的款項數字。"
     },
     "button": {
       "aboutLikeCoin": "關於 LikeCoin",
