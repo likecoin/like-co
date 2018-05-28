@@ -146,7 +146,7 @@ export default {
       this.triggerLoginSign();
     }
     if (this.getUserNeedRegister) {
-      this.$router.replace({ name: 'in-register', query: { ref: '', ...this.$route.query } });
+      this.$router.push({ name: 'in-register', query: { ref: '', ...this.$route.query } });
     }
   },
 };
