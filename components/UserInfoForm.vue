@@ -154,6 +154,13 @@
                     ref="inputEmail"
                     disabled />
                 </md-field>
+                <md-switch
+                  class="md-primary"
+                  v-model="isEmailEnabled"
+                  @change="activateEdit"
+                  >
+                  {{ $t('Register.form.enableEmail') }}
+                </md-switch>
               </div>
             </div>
 
@@ -198,6 +205,7 @@ export default {
       couponCode: '',
       displayName: '',
       email: '',
+      isEmailEnabled: false,
       freeCoupon: '',
       isEditing: false,
       isVerifying: false,
@@ -250,7 +258,9 @@ export default {
       this.isEditing = true;
       this.$refs.inputFile.click();
     },
-
+    activateEdit() {
+      this.isEditing = true;
+    },
     onEditDisplayName() {
       if (this.isEditing) {
         this.$nextTick(() => this.$refs.inputDisplayName.$el.focus());
@@ -301,6 +311,7 @@ export default {
           displayName: this.displayName,
           wallet: this.wallet,
           email: this.email,
+          isEmailEnabled: this.isEmailEnabled,
           locale: this.getCurrentLocale,
         };
         const data = await User.formatAndSignUserInfo(userInfo, this.$t('Sign.Message.editUser'));
@@ -345,6 +356,7 @@ export default {
       this.avatarData = user.avatar;
       this.wallet = user.wallet;
       this.email = user.email;
+      this.isEmailEnabled = (user.isEmailEnabled !== false);
       this.updateLikeCoin();
     },
   },
