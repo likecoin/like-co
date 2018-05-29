@@ -74,9 +74,13 @@
                 <platform-icon-bar />
               </div>
               <div class="faq">
-                <custom-link
-                  :title="$t('Home.Community.button.faq')"
-                  href="http://intercom.help/likecoin" />
+                <a
+                  class="lc-color-like-green lc-underline lc-font-size-20"
+                  :href="$t('Home.Community.button.faqLink')"
+                  ref="noopener"
+                  target="_blank">
+                  {{ $t('Home.Community.button.faq') }}
+                </a>
               </div>
             </div>
 
@@ -93,7 +97,6 @@
 /* global fbq */
 import { mapGetters } from 'vuex';
 
-import CustomLink from '~/components/CustomLink';
 import MaterialButton from '~/components/MaterialButton';
 import SiteHeader from '~/components/header/HeaderWithMenuButton';
 import PlatformIconBar from '~/components/PlatformIconBar';
@@ -121,7 +124,6 @@ export default {
     Advisors,
     Carousel,
     'cta-section': CTASection,
-    CustomLink,
     EarlyAdopters,
     EarlySupporters,
     HeaderFlag,

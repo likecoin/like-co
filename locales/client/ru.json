@@ -472,7 +472,8 @@
         "Community": {
             "title": "Сообщество LikeCoin:",
             "button": {
-                "faq": "Вопросы и ответы"
+                "faq": "Вопросы и ответы",
+                "faqLink": "https://help.like.co/likecoin-Вопросы-и-ответы"
             }
         }
     },

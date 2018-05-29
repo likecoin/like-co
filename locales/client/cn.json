@@ -466,7 +466,8 @@
     "Community": {
       "title": "LikeCoin 社群: ",
       "button": {
-        "faq": "常见问题"
+        "faq": "常见问题",
+        "faqLink": "https://help.like.co/likecoin-常见问题"
       }
     }
   },
