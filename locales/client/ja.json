@@ -472,7 +472,8 @@
         "Community": {
             "title": "LikeCoin コミュニティ ",
             "button": {
-                "faq": "よくある質問"
+                "faq": "よくある質問",
+                "faqLink": "https://help.like.co/likecoin-よくある質問"
             }
         }
     },

@@ -475,7 +475,8 @@
     "Community": {
       "title": "LikeCoin Community: ",
       "button": {
-        "faq": "FAQ"
+        "faq": "FAQ",
+        "faqLink": "https://help.like.co/likecoin-faq"
       }
     }
   },
