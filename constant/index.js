@@ -78,3 +78,7 @@ export const EXTRA_EMAIL_BLACLIST = [
 ];
 
 export const QRYPTOS_LIKEETH_URL = 'https://home.qryptos.com/basic/LIKEETH';
+
+export const DOMAIN_URL = IS_TESTNET ? 'https://rinkeby.like.co' : 'https://like.co';
+
+export const LIKE_BTN_IMG_URL = `${DOMAIN_URL}/images/like-button/LikeButton_embedly.png`;

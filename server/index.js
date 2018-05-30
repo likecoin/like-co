@@ -26,7 +26,9 @@ app.set('port', port);
 if (process.env.NODE_ENV === 'production') app.disable('x-powered-by');
 
 app.use((req, res, next) => {
-  res.setHeader('X-Frame-Options', 'DENY');
+  if (!/^\/in\/embed\/[a-z0-9-_]+$/.test(req.path)) {
+    res.setHeader('X-Frame-Options', 'DENY');
+  }
   res.setHeader('X-XSS-Protection', '1; mode=block');
   res.setHeader('Referrer-Policy', 'strict-origin');
   next();
