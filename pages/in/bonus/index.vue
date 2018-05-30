@@ -75,7 +75,7 @@
                   :missions="getMissionList"
                   :is-loading="getIsFetchingMissions || !getIsFetchedMissions"
                   :empty-placeholder="$t('BonusPage.placeholder.emptyMission')"
-                  @click="onMissionClick" />
+                  @click="onMissionClick" :selected-mission="selectedMission"/>
               </div>
             </div>
           </div>
@@ -209,6 +209,11 @@ export default {
       referralPending: 0,
       referralVerified: 0,
       user: '',
+    };
+  },
+  asyncData({ query }) {
+    return {
+      selectedMission: query.selectedMission,
     };
   },
   components: {
