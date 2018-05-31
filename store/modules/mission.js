@@ -5,6 +5,7 @@ import BigNumber from 'bignumber.js';
 
 import {
   MISSION_SET_MISSION_LIST,
+  MISSION_SET_MISSION_HIDDEN_LIST,
   MISSION_SET_MISSION_SEEN,
   MISSION_SET_MISSION_CLAIMED,
   MISSION_STEP_MISSION,
@@ -27,6 +28,7 @@ import * as getters from './getters/mission';
 
 const state = {
   missions: [],
+  hiddenMissions: [],
   referrals: [],
   proxyBonus: {},
   historyMissions: [],
@@ -41,6 +43,9 @@ const state = {
 const mutations = {
   [MISSION_SET_MISSION_LIST](state, missions) {
     state.missions = missions;
+  },
+  [MISSION_SET_MISSION_HIDDEN_LIST](state, hiddenMissions) {
+    state.hiddenMissions = hiddenMissions;
   },
   [MISSION_SET_MISSION_SEEN](state, missionId) {
     const mission = state.missions.find(m => m.id === missionId);

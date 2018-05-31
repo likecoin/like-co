@@ -87,6 +87,7 @@ export const ValidationHelper = {
       endTs,
       isDesktopOnly,
       isMobileOnly,
+      hide,
     } = m;
     const misc = {};
     GETTING_STARTED_TASKS.forEach((task) => {
@@ -111,6 +112,7 @@ export const ValidationHelper = {
       isDesktopOnly,
       isMobileOnly,
       isHidable,
+      hide,
       ...misc,
     };
   },
