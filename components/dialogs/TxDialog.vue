@@ -32,14 +32,7 @@
 
     <div v-else class="lc-dialog-container-1">
       <div class="lc-button-group">
-        <nuxt-link 
-          v-if="!isICOEnded && $route.name !== 'in-tokensale'"
-          :to="{ name: 'in-tokensale' }">
-          <md-button class="md-likecoin" @click="$emit('onClose')">
-            {{ $t('Dialog.transaction.button.buyCoin') }}
-          </md-button>
-        </nuxt-link>
-        <nuxt-link v-else :to="{ name: 'in' }">
+        <nuxt-link :to="{ name: 'in' }">
           <md-button class="md-likecoin" @click="$emit('onClose')">
             {{ $t('Dialog.transaction.button.myAccount') }}
           </md-button>
@@ -57,8 +50,6 @@
 
 
 <script>
-import postICOMixin from '@/util/mixin/postICO';
-
 import BaseDialog from '~/components/dialogs/BaseDialog';
 
 export default {
@@ -67,7 +58,6 @@ export default {
   components: {
     BaseDialog,
   },
-  mixins: [postICOMixin],
   computed: {
     defaultActionRoute() {
       return { name: 'in-tx-id', params: { id: this.txId, tx: this.txInfo } };

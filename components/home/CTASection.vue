@@ -17,20 +17,19 @@
                   </span>
                 </h1>
 
-                <div v-if="tokenSalePercentage" class="raised-eth">
+                <div class="raised-eth">
                   <span class="lc-font-size-16 lc-font-weight-600">
                     {{ $t('TokenSale.label.raised') }}:
                   </span>
                   <br class="lc-mobile-show" />
                   <span class="amount lc-font-weight-300 lc-font-size-46 lc-mobile">
-                    >{{ tokenSalePercentage }}%
+                    {{ tokenSaleAmount }} ETH
                   </span>
                 </div>
 
                 <div class="token-sale-progress-wrapper lc-margin-top-8">
                   <tokensale-progress
-                    class="cta-section-token-sale-progress"
-                    :progress="tokenSaleProgress" />
+                    class="cta-section-token-sale-progress" />
                 </div>
               </div>
 
@@ -110,25 +109,17 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import BigNumber from 'bignumber.js';
 
 import { logTrackerEvent } from '@/util/EventLogger';
 
-import CountdownTimer from '~/components/CountdownTimer';
 import MaterialButton from '~/components/MaterialButton';
 import TokenSaleProgress from '~/components/TokenSaleProgress';
 
-import EthHelper from '@/util/EthHelper';
-import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
-import {
-  TOKENSALE_SOFTCAP_ETH,
-  ONE_LIKE,
-} from '@/constant';
+import { FINAL_TOKENSALE_ETH_VALUE } from '@/constant';
 
 export default {
   name: 'cta-section',
   components: {
-    CountdownTimer,
     MaterialButton,
     'tokensale-progress': TokenSaleProgress,
   },
@@ -144,7 +135,7 @@ export default {
   },
   data() {
     return {
-      currentTokenSaleAmount: 0,
+      tokenSaleAmount: FINAL_TOKENSALE_ETH_VALUE,
     };
   },
   computed: {
@@ -152,20 +143,10 @@ export default {
       'getUserIsRegistered',
       'getUserNeedAuth',
     ]),
-    tokenSaleProgress() {
-      return this.currentTokenSaleAmount.toFixed(2);
-    },
-    tokenSalePercentage() {
-      return Math.max(
-        180,
-        Math.floor((this.currentTokenSaleAmount / TOKENSALE_SOFTCAP_ETH) * 10) * 10,
-      );
-    },
   },
   methods: {
     ...mapActions([
       'showLoginWindow',
-      'queryTokensaleInitial',
     ]),
     onClickRegisterButton() {
       this.$router.push({ name: 'in-register', query: { ref: '' } });
@@ -184,15 +165,6 @@ export default {
       logTrackerEvent(this, 'RegFlow', 'ClickedSupportLikeCoinButton', 'User wants to support LikeCoin', 1);
       this.$router.push({ name: 'in-backer' });
     },
-    async updateTokenSaleProgress() {
-      const amount = await EthHelper.queryEthBalance(LIKE_COIN_ICO_ADDRESS);
-      const initial = await this.queryTokensaleInitial();
-      this.currentTokenSaleAmount = new BigNumber(amount).dividedBy(ONE_LIKE)
-        .plus(initial);
-    },
-  },
-  mounted() {
-    this.updateTokenSaleProgress();
   },
 };
 </script>

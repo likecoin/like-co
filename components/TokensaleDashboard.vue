@@ -9,21 +9,13 @@
           <section class="countdown-section lc-text-align-center">
             <h1 class="lc-font-size-42 lc-font-weight-600 lc-mobile">
               {{ $t('TokenSale.title') }}
-              <span
-                v-if="isICOStarted"
-                class="lc-font-weight-300 lc-color-like-green">
-                {{ $t(`Home.Sale.title.${isICOEnded ? 'isOver' : 'nowLive'}`) }}
+              <span class="lc-font-weight-300 lc-color-like-green">
+                {{ $t('Home.Sale.title.isOver') }}
               </span>
             </h1>
-            <h2
-              v-if="isICOStarted && tokenSalePercentage"
-              class="completed-percentage lc-font-weight-600 lc-color-like-green lc-padding-top-24 lc-padding-bottom-16 lc-mobile">
+            <h2 class="completed-percentage lc-font-weight-600 lc-color-like-green lc-padding-top-24 lc-padding-bottom-16 lc-mobile">
               {{ $t('Home.Sale.label.completedPercent', { percent: tokenSalePercentage }) }}
             </h2>
-            <h3 v-if="!isICOStarted" class="lc-margin-top-12 lc-font-size-14 lc-font-weight-400">
-              {{ $t('TokenSale.label.publicSaleStartIn') }}
-            </h3>
-            <countdown-timer v-if="!isICOStarted" :date="SALE_DATE" />
           </section>
 
         </div>
@@ -34,35 +26,25 @@
 
       <div class="tokensale-progress-wrapper lc-container-3 lc-bg-gray-1 lc-padding-vertical-16">
         <tokensale-progress
-          :progress="currentTokenSaleAmount.toFixed(2)"
-          :total="maxTokenSaleAmount.toFixed(2)"/>
+          :total="maxTokenSaleAmount"/>
 
         <div class="lc-container-4">
           <div class="tokensale-amount lc-padding-top-12 lc-text-align-center">
-            <span
-              v-if="isICOEnded"
-              class="lc-color-like-green lc-font-size-18 lc-font-weight-600">
+            <span class="lc-color-like-green lc-font-size-18 lc-font-weight-600">
               {{ $t('TokenSale.label.raised') }}:
             </span>
-            <br v-if="isICOEnded" class="lc-mobile-show" />
+            <br class="lc-mobile-show" />
             <span class="amount">
-              <span class="current lc-color-like-green lc-font-size-46 lc-font-weight-300">{{ currentTokenSaleAmount.toFixed(2) }}</span>
-              <span class="max lc-font-size-20 lc-font-weight-400"> / {{ maxTokenSaleAmount.toFixed(2) }} ETH</span>
+              <span class="current lc-color-like-green lc-font-size-46 lc-font-weight-300">
+                {{ tokenSaleAmount }}
+              </span>
+              <span class="max lc-font-size-20 lc-font-weight-400">
+                 / {{ maxTokenSaleAmount }} ETH
+               </span>
             </span>
           </div>
         </div>
       </div>
-
-      <section v-if="isICOStarted && !isICOEnded" class="lc-margin-top-8">
-        <div class="lc-container-3 lc-bg-gray-1">
-          <div class="lc-container-4 lc-padding-vertical-16">
-            <div class="lc-text-align-center">
-              {{ $t('TokenSale.label.publicSaleEndIn') }}
-            </div>
-            <countdown-timer :date="SALE_END_DATE" />
-          </div>
-        </div>
-      </section>
 
       <section class="token-info-section lc-margin-top-8">
         <div class="lc-container-3 lc-bg-gray-1">
@@ -89,15 +71,6 @@
                     <span class="value">600,000,000</span>
                   </div>
                 </li>
-                <li class="what-is-eth" v-if="!isICOEnded">
-                  <a
-                    :href="$t('TokenSale.label.whatIsEthLink')"
-                    ref="noopener"
-                    target="_blank">
-                    <span class="lc-font-size-12">{{ $t('TokenSale.label.whatIsETH') }}</span>
-                    <img :src="QuestionIcon" />
-                  </a>
-                </li>
               </ul>
             </div>
           </div>
@@ -112,66 +85,25 @@
 
 <script>
 import BigNumber from 'bignumber.js';
-import { mapActions } from 'vuex';
 
-import CountdownTimer from '~/components/CountdownTimer';
 import TokenSaleProgress from '~/components/TokenSaleProgress';
 
-import QuestionIcon from '@/assets/tokensale/question.svg';
-
-import EthHelper from '@/util/EthHelper';
-import postICOMixin from '@/util/mixin/postICO';
-import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 import {
-  ONE_LIKE,
-  SALE_DATE,
-  SALE_END_DATE,
-  SALE_DATE_ANNOUNCE_DATE,
-  TOKENSALE_SOFTCAP_ETH,
+  FINAL_TOKENSALE_ETH_VALUE,
+  FINAL_TOKENSALE_PERCENTAGE,
 } from '@/constant';
 
 export default {
   name: 'tokensale-dashboard',
   components: {
     'tokensale-progress': TokenSaleProgress,
-    CountdownTimer,
   },
-  mixins: [postICOMixin],
   data() {
     return {
-      QuestionIcon,
-
-      SALE_DATE,
-      SALE_END_DATE,
-
-      currentTokenSaleAmount: 0,
-      maxTokenSaleAmount: new BigNumber('12600'),
+      tokenSaleAmount: FINAL_TOKENSALE_ETH_VALUE,
+      tokenSalePercentage: FINAL_TOKENSALE_PERCENTAGE,
+      maxTokenSaleAmount: new BigNumber('12600').toFixed(2),
     };
-  },
-  computed: {
-    isPreSale() {
-      return (new Date() < SALE_DATE_ANNOUNCE_DATE);
-    },
-    isICOStarted() {
-      return (new Date() >= SALE_DATE);
-    },
-    tokenSalePercentage() {
-      return (this.currentTokenSaleAmount / TOKENSALE_SOFTCAP_ETH).toFixed(2) * 100;
-    },
-  },
-  methods: {
-    ...mapActions([
-      'queryTokensaleInitial',
-    ]),
-    async updateTokenSaleProgress() {
-      const amount = await EthHelper.queryEthBalance(LIKE_COIN_ICO_ADDRESS);
-      const initial = await this.queryTokensaleInitial();
-      this.currentTokenSaleAmount = new BigNumber(amount).dividedBy(ONE_LIKE)
-        .plus(initial);
-    },
-  },
-  mounted() {
-    this.updateTokenSaleProgress();
   },
 };
 </script>
@@ -187,11 +119,6 @@ export default {
 
   @media (max-width: 600px) {
     overflow: hidden;
-  }
-
-  > .lc-tokensale-progress {
-    margin-right: -8px;
-    margin-left: -8px;
   }
 }
 
@@ -263,7 +190,7 @@ export default {
             font-weight: 600 !important;
           }
 
-          > a, span {
+          > span {
             display: block;
 
             margin: 4px;
@@ -283,41 +210,6 @@ export default {
 
                 text-align: right;
               }
-            }
-          }
-
-          a {
-            text-decoration: none;
-
-            &:hover {
-              opacity: .7;
-            }
-          }
-        }
-
-        &.what-is-eth {
-          width: 100%;
-          display: flex;
-          align-items: center;
-          flex-grow: 1;
-          justify-content: center;
-
-          @media (min-width: 480 + 1px) {
-            margin-top: 0;
-          }
-
-          a {
-            display: flex;
-            flex-direction: row;
-
-            text-decoration: underline;
-
-            span {
-              text-align: center;
-            }
-
-            img {
-              margin-left: 4px;
             }
           }
         }

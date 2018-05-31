@@ -42,13 +42,10 @@ export const KYC_STATUS_ENUM = {
 };
 
 export const ETH_TO_LIKECOIN_RATIO = 40000;
-export const INITIAL_TOKENSALE_ETH_VALUE = 5400;
-export const INITIAL_TOKENSALE_ETH = new BigNumber(INITIAL_TOKENSALE_ETH_VALUE);
+export const FINAL_TOKENSALE_ETH_VALUE = 7562.26;
+export const FINAL_TOKENSALE_PERCENTAGE = 180;
 export const TOKENSALE_SOFTCAP_ETH = new BigNumber(4200);
 
-export const SALE_DATE_ANNOUNCE_DATE = moment('2018-04-13T18:00:00+0800');
-export const SALE_DATE = moment('2018-05-07T12:00:00+0800');
-export const SALE_END_DATE = moment('2018-05-21T12:00:00+0800');
 export const BONUS_LOCK_UNTIL_DATE = moment.unix(1540267200);
 
 
@@ -79,4 +76,3 @@ export const TRUST_URL = 'https://links.trustwalletapp.com/a/key_live_lfvIpVeI9T
 export const EXTRA_EMAIL_BLACLIST = [
   'tutye.com',
 ];
-

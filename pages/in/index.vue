@@ -1,12 +1,6 @@
 <template>
   <div class="overview-page">
 
-    <cta-section
-      v-if="!isICOEnded"
-      class="lc-margin-top-8"
-      :isShowFooter="false"
-      :isShowSupportButton="false" />
-
     <div class="bonus-container lc-container-0 lc-margin-top-48">
       <section class="lc-container-1">
         <div class="lc-container-header">
@@ -147,7 +141,6 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-import CTASection from '~/components/home/CTASection';
 import LikeCoinAmount from '~/components/LikeCoinAmount';
 import MaterialButton from '~/components/MaterialButton';
 import MissionList from '@/components/Mission/List';
@@ -161,12 +154,10 @@ import EditIcon from '@/assets/icons/edit.svg';
 import EditWhiteIcon from '@/assets/icons/edit-white.svg';
 import TickIcon from '@/assets/tokensale/tick.svg';
 
-import postICOMixin from '@/util/mixin/postICO';
 
 export default {
   name: 'in',
   layout: 'in',
-  mixins: [postICOMixin],
   data() {
     return {
       couponCode: '',
@@ -179,7 +170,6 @@ export default {
     };
   },
   components: {
-    'cta-section': CTASection,
     ClaimDialog,
     InputDialog,
     LikeCoinAmount,
