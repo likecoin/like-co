@@ -1,10 +1,8 @@
 /* eslint import/prefer-default-export: "off" */
-import BigNumber from 'bignumber.js';
 
 import * as api from '@/util/api/api';
 import * as types from '@/store/mutation-types';
 import EthHelper from '@/util/EthHelper';
-import { INITIAL_TOKENSALE_ETH } from '@/constant';
 import apiWrapper from './api-wrapper';
 
 export async function sendPayment({ commit, dispatch }, payload) {
@@ -102,18 +100,5 @@ export async function queryEthPrice({ commit, dispatch }) {
     return data.price_usd;
   } catch (err) {
     return 1;
-  }
-}
-
-export async function queryTokensaleInitial({ commit, dispatch }) {
-  try {
-    const data = await apiWrapper(
-      { commit, dispatch },
-      api.apiQueryTokensaleInitial(),
-      { slient: true },
-    );
-    return new BigNumber(data.initial);
-  } catch (err) {
-    return INITIAL_TOKENSALE_ETH;
   }
 }
