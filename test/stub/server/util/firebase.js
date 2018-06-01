@@ -1,12 +1,13 @@
+/* eslint import/no-unresolved: "off" */
+/* eslint import/extensions: "off" */
+import { INFURA_HOST } from '../../constant';
+
 console.log('Using stub (firebase.js)'); /* eslint no-console: "off" */
 
 const accounts = require('@ServerConfig/accounts.js'); // eslint-disable-line import/no-extraneous-dependencies
-import { INFURA_HOST } from '../../constant';
-
 const { FieldValue } = require('firebase-admin').firestore;
 const Web3 = require('web3');
 
-/* eslint import/no-unresolved: "off" */
 const userData = require('../../test/data/user.json').users;
 const txData = require('../../test/data/tx.json').tx;
 const missionData = require('../../test/data/mission.json').missions;
@@ -153,7 +154,7 @@ const configCollection = createCollection([]);
 
 function runTransaction(updateFunc) {
   return updateFunc({
-    get: (ref) => ref.get(),
+    get: ref => ref.get(),
     create: (ref, data) => ref.create(data),
     set: (ref, data, config) => ref.create(data, config),
     update: (ref, data) => ref.update(data),
@@ -170,7 +171,7 @@ async function initDb() {
 function createDb() {
   return {
     runTransaction: updateFunc => runTransaction(updateFunc),
-  }
+  };
 }
 
 initDb();
