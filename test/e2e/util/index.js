@@ -22,7 +22,7 @@ function setAuthLocalStorage(browser, url, user, wallet) {
   browser
     .url(url)
     .execute(`localStorage.auth = '${auth}';`)
-    .pause(1000);
+    .pause(2000);
 }
 
 module.exports = { initBrowser, setAuthLocalStorage };

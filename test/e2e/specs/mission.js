@@ -17,10 +17,10 @@ module.exports = {
         const metamaskPopup = res.value[1];
         this.switchWindow(metamaskPopup);
       })
-      .pause(1000)
+      .pause(2000)
       .verify.title('MetaMask Notification')
       .click('#app-content button:nth-child(2)')
-      .pause(1000)
+      .pause(2000)
       .windowHandles(function func(res) {
         const originalWindow = res.value[0];
         this.switchWindow(originalWindow);
@@ -91,10 +91,10 @@ module.exports = {
         const metamaskPopup = res.value[1];
         this.switchWindow(metamaskPopup);
       })
-      .pause(1000)
+      .pause(2000)
       .verify.title('MetaMask Notification')
       .click('#app-content button:nth-child(2)')
-      .pause(1000)
+      .pause(2000)
       .windowHandles(function func(res) {
         const originalWindow = res.value[0];
         this.switchWindow(originalWindow);
