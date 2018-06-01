@@ -77,6 +77,8 @@ export const apiPostTwitterMission = (user, url) => axios.post(
   { user, url },
 );
 
+export const apiPostHideMission = (id, payload) => axios.post(`/api/mission/hide/${id}`, payload);
+
 export const apiFetchReferralMissionList = id => axios.get(`/api/referral/list/${id}`);
 
 export const apiFetchReferralBonusList = id => axios.get(`/api/referral/list/bonus/${id}`);
