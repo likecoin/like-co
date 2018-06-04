@@ -7,6 +7,7 @@ console.log('Using stub (firebase.js)'); /* eslint no-console: "off" */
 const accounts = require('@ServerConfig/accounts.js'); // eslint-disable-line import/no-extraneous-dependencies
 const { FieldValue } = require('firebase-admin').firestore;
 const Web3 = require('web3');
+const cloneDeep = require('lodash.clonedeep');
 
 const userData = require('../../test/data/user.json').users;
 const txData = require('../../test/data/tx.json').tx;
@@ -90,7 +91,7 @@ function collectionDoc(data, id) {
   const obj = data.find(d => d.id === id);
   if (obj) {
     // deep clone data object
-    const cloneObj = JSON.parse(JSON.stringify(obj));
+    const cloneObj = cloneDeep(obj);
     docObj = {
       exists: true,
       id: obj.id,
