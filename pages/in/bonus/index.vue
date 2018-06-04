@@ -230,7 +230,7 @@ export default {
       'getReferralMissionList',
     ]),
     selectedMission() {
-      return this.$route.query.selectedMission;
+      return this.getMissionList.find(m => m.id === this.$route.query.selectedMission);
     },
   },
   methods: {

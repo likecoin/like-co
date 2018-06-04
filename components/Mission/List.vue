@@ -143,7 +143,7 @@ export default {
       default: '',
     },
     selectedMission: {
-      type: String,
+      type: Object,
       default: null,
     },
   },
@@ -208,10 +208,7 @@ export default {
         this.$refs.list.scrollLeft = 0;
         this.updateScrollIndicator();
         if (this.selectedMission) {
-          const mission = this.missions.find(m => m.id === this.selectedMission);
-          if (mission) {
-            this.onClick(mission);
-          }
+          this.onClick(this.selectedMission);
         }
       });
     },
