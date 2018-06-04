@@ -212,11 +212,6 @@ export default {
       user: '',
     };
   },
-  asyncData({ query }) {
-    return {
-      selectedMission: query.selectedMission,
-    };
-  },
   components: {
     InviteFriendForm,
     InviteeMissionGridList,
@@ -234,6 +229,9 @@ export default {
       'getMissionList',
       'getReferralMissionList',
     ]),
+    selectedMission() {
+      return this.$route.query.selectedMission;
+    },
   },
   methods: {
     ...mapActions([
