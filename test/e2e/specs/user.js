@@ -36,6 +36,7 @@ module.exports = {
       .end();
   },
 
+  // Prerequisite: user registered
   'Edit': (browser) => {
     const devServer = browser.globals.devServerURL;
     const inputSequence = [];
@@ -75,6 +76,7 @@ module.exports = {
       .end();
   },
 
+  // Prerequisite: user registered
   'Claim coupon test and error dialog': (browser) => {
     const devServer = browser.globals.devServerURL;
     setAuthLocalStorage(browser, devServer, 'testacct', '0x7FCE12d55AcA8a55471CEd6cFd4548b49b0d1AB5');
@@ -90,6 +92,68 @@ module.exports = {
       .waitForElementVisible('.md-dialog', 2000)
       .verify.containsText('.md-dialog', 'Coupon Error')
       .click('.md-dialog #btn-confirm')
+      .end();
+  },
+
+  // Prerequisite: user registered
+  'Payment send LIKE': (browser) => {
+    const devServer = browser.globals.devServerURL;
+    const testUser = 'testing';
+    const amount = 0.0001;
+    setAuthLocalStorage(browser, devServer, 'testacct', '0x7FCE12d55AcA8a55471CEd6cFd4548b49b0d1AB5');
+
+    browser
+      .url(`${devServer}/${testUser}/${amount}`)
+      .waitForElementVisible('.address-container', 5000)
+      .verify.containsText('.address-container', testUser)
+      .submitForm('#paymentInfo')
+      .pause(2000)
+      .windowHandles(function func(res) {
+        const metamaskPopup = res.value[1];
+        this.switchWindow(metamaskPopup);
+      })
+      .pause(2000)
+      .waitForElementVisible('div.font-small', 5000)
+      .verify.containsText('div.font-small', '0x4b25758E41f9240C8EB8831cEc7F1a02686387fa')
+      .verify.containsText('div.font-small', '100 000 000 000 000')
+      .click('div.flex-row.flex-space-around > button:nth-child(2)')
+      .pause(2000)
+      .windowHandles(function func(res) {
+        const originalWindow = res.value[0];
+        this.switchWindow(originalWindow);
+      })
+      .pause(5000)
+      .verify.containsText('.md-dialog-container', 'Submitted to blockchain')
+      .end();
+  },
+
+  // Prerequisite: user registered
+  'Payment send ETH': (browser) => {
+    const devServer = browser.globals.devServerURL;
+    const testUser = 'testing';
+    const amount = 0.000001;
+    setAuthLocalStorage(browser, devServer, 'testacct', '0x7FCE12d55AcA8a55471CEd6cFd4548b49b0d1AB5');
+
+    browser
+      .url(`${devServer}/${testUser}/eth/${amount}`)
+      .waitForElementVisible('.address-container', 5000)
+      .verify.containsText('.address-container', testUser)
+      .submitForm('#paymentInfo')
+      .pause(2000)
+      .windowHandles(function func(res) {
+        const metamaskPopup = res.value[1];
+        this.switchWindow(metamaskPopup);
+      })
+      .pause(2000)
+      .waitForElementVisible('#pending-tx-form', 5000)
+      .submitForm('#pending-tx-form')
+      .pause(2000)
+      .windowHandles(function func(res) {
+        const originalWindow = res.value[0];
+        this.switchWindow(originalWindow);
+      })
+      .pause(5000)
+      .verify.containsText('.md-dialog-container', 'Submitted to blockchain')
       .end();
   },
 };
