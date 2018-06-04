@@ -104,7 +104,7 @@ module.exports = {
 
     browser
       .url(`${devServer}/${testUser}/${amount}`)
-      .waitForElementVisible('.address-container', 3000)
+      .waitForElementVisible('.address-container', 5000)
       .verify.containsText('.address-container', testUser)
       .submitForm('#paymentInfo')
       .pause(2000)
@@ -136,7 +136,7 @@ module.exports = {
 
     browser
       .url(`${devServer}/${testUser}/eth/${amount}`)
-      .waitForElementVisible('.address-container', 3000)
+      .waitForElementVisible('.address-container', 5000)
       .verify.containsText('.address-container', testUser)
       .submitForm('#paymentInfo')
       .pause(2000)
