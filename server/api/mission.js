@@ -163,7 +163,7 @@ router.post('/mission/hide/:id', jwtAuth, async (req, res, next) => {
     } = missionDoc.data();
     const userMissionRef = dbRef.doc(user).collection('mission').doc(missionId);
     const userMissionDoc = userMissionRef.get();
-    if (!userMissionDoc) throw new ValidationError('mission unknown');
+    if (!userMissionDoc) throw new ValidationError('user mission not exist');
     const {
       done,
     } = userMissionDoc.data();
