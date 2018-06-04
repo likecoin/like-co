@@ -75,7 +75,8 @@
                   :missions="getMissionList"
                   :is-loading="getIsFetchingMissions || !getIsFetchedMissions"
                   :empty-placeholder="$t('BonusPage.placeholder.emptyMission')"
-                  @click="onMissionClick" :selected-mission="selectedMission"/>
+                  :selected-mission="selectedMission"
+                  @click="onMissionClick" />
               </div>
             </div>
           </div>
