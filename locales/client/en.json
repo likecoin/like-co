@@ -637,6 +637,7 @@
       "displayName": "Display Name",
       "claim": "Claim",
       "couponCode": "Coupon Code (optional)",
+      "enableEmail": "Receive email notification for LikeCoin transaction and news update",
       "label": {
         "updatedInfo": "Your information have been updated.",
         "viewPage": "View your page"

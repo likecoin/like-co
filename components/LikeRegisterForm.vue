@@ -50,9 +50,13 @@
                 v-model="email"
                 @change="email=email.toLowerCase().trim()"
                 :title="$t('Register.form.error.emailFormat')"
+                required
               />
               <span class="md-error">{{ $t(`Error.${getInfoMsg}`) }}</span>
             </md-field>
+            <md-switch v-model="isEmailEnabled" class="md-primary">
+              {{ $t('Register.form.enableEmail') }}
+            </md-switch>
 
             <md-field
               :class="[
@@ -129,6 +133,7 @@ export default {
       avatarData: null,
       user: '',
       email: this.$route.query.email || '',
+      isEmailEnabled: false,
       couponCode: '',
       referrer: this.$route.query.from || '',
       referrerInfo: {},
@@ -215,6 +220,7 @@ export default {
           user: this.user.toLowerCase().trim(),
           wallet: this.wallet,
           email: this.email.toLowerCase().trim(),
+          isEmailEnabled: this.isEmailEnabled,
           referrer: this.referrer.toLowerCase().trim(),
           locale: this.getCurrentLocale,
         };

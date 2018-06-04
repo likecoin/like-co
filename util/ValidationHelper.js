@@ -14,6 +14,7 @@ export const ValidationHelper = {
       KYC,
       pendingKYC,
       isEmailVerified,
+      isEmailEnabled,
     } = u;
     let {
       email,
@@ -29,6 +30,7 @@ export const ValidationHelper = {
       KYC,
       pendingKYC,
       isEmailVerified,
+      isEmailEnabled,
     };
   },
   filterUserDataMin({

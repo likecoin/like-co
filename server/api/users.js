@@ -91,6 +91,7 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res, n
       displayName,
       wallet,
       avatarSHA256,
+      isEmailEnabled,
       ts,
       referrer,
       locale,
@@ -242,6 +243,7 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res, n
     const updateObj = {
       displayName,
       wallet,
+      isEmailEnabled,
     };
     if (email && email !== oldEmail) {
       if (oldEmail && oldUserObj.isEmailVerified) throw new ValidationError('email already verified');
