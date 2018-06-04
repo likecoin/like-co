@@ -1,12 +1,20 @@
+/* eslint import/no-unresolved: "off" */
+/* eslint import/extensions: "off" */
+import { INFURA_HOST } from '../../constant';
+
 console.log('Using stub (firebase.js)'); /* eslint no-console: "off" */
 
+const accounts = require('@ServerConfig/accounts.js'); // eslint-disable-line import/no-extraneous-dependencies
 const { FieldValue } = require('firebase-admin').firestore;
+const Web3 = require('web3');
+const cloneDeep = require('lodash.clonedeep');
 
-/* eslint import/no-unresolved: "off" */
 const userData = require('../../test/data/user.json').users;
 const txData = require('../../test/data/tx.json').tx;
 const missionData = require('../../test/data/mission.json').missions;
 const bonusData = require('../../test/data/bonus.json').bonus;
+
+const web3 = new Web3(new Web3.providers.HttpProvider(INFURA_HOST));
 
 function docData(obj) {
   const res = {
@@ -82,10 +90,12 @@ function collectionDoc(data, id) {
   let docObj;
   const obj = data.find(d => d.id === id);
   if (obj) {
+    // deep clone data object
+    const cloneObj = cloneDeep(obj);
     docObj = {
       exists: true,
       id: obj.id,
-      data: () => docData(obj),
+      data: () => docData(cloneObj),
     };
     if (!obj.collection) {
       obj.collection = {};
@@ -143,7 +153,33 @@ const missionCollection = createCollection(missionData);
 const payoutCollection = createCollection(bonusData);
 const configCollection = createCollection([]);
 
+function runTransaction(updateFunc) {
+  return updateFunc({
+    get: ref => ref.get(),
+    create: (ref, data) => ref.create(data),
+    set: (ref, data, config) => ref.create(data, config),
+    update: (ref, data) => ref.update(data),
+  });
+}
+
+async function initDb() {
+  const delegatorAddress = accounts[0].address;
+  const pendingCount = await web3.eth.getTransactionCount(delegatorAddress, 'pending');
+  await txCollection.doc(`!counter_${delegatorAddress}`).set({ value: pendingCount });
+  return true;
+}
+
+function createDb() {
+  return {
+    runTransaction: updateFunc => runTransaction(updateFunc),
+  };
+}
+
+initDb();
+const db = createDb();
+
 module.exports = {
+  db,
   userCollection,
   txCollection,
   iapCollection,
