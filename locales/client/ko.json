@@ -624,7 +624,7 @@
         "form": {
             "createID": "LikeCoin ID* 생성하기 (최소 7 글자)",
             "walletAddress": "지갑 주소",
-            "email": "이메일 (선택 사항)",
+            "email": "이메일",
             "referrer": "LikeCoin ID 추천인 (선택 사항)",
             "amount": "LikeCoin 수량:",
             "displayName": "표시명",

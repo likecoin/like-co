@@ -54,9 +54,6 @@
               />
               <span class="md-error">{{ $t(`Error.${getInfoMsg}`) }}</span>
             </md-field>
-            <md-switch v-model="isEmailEnabled" class="md-primary">
-              {{ $t('Register.form.enableEmail') }}
-            </md-switch>
 
             <md-field
               :class="[
@@ -76,17 +73,26 @@
               </label>
               <md-input v-model="couponCode" pattern="[2-9A-HJ-NP-Za-km-z]{8}" />
             </md-field>
+
+            <div class="check-box-list">
+              <md-checkbox class="md-likecoin" v-model="isEmailEnabled">
+                {{ $t('Register.form.enableEmail') }}
+              </md-checkbox>
+              <div class="term-agreement">
+                <md-checkbox class="md-likecoin" v-model="isTermsAgreed" />
+                <label @click="selectAgreeTerms" v-html="$t('Register.form.agreeTerms')" />
+              </div>
+            </div>
+
+            <vue-recaptcha
+              class="lc-margin-top-32"
+              @verify="onCaptchaVerify"
+              @expired="onCaptchaExpired"
+              sitekey="6LfQqlgUAAAAADGckz6BtIuD_sU6cJhWDJ__OBx7">
+            </vue-recaptcha>
+
           </div>
         </div>
-      </div>
-      <!-- TODO: fix style -->
-      <div style="display:flex">
-        <div style="flex: 1" class=".lc-mobile-hide"/>
-        <vue-recaptcha
-          @verify="onCaptchaVerify"
-          @expired="onCaptchaExpired"
-          sitekey="6LfQqlgUAAAAADGckz6BtIuD_sU6cJhWDJ__OBx7">
-        </vue-recaptcha>
       </div>
       <div id="form-btn" class="lc-margin-top-16 lc-mobile">
         <material-button
@@ -98,9 +104,9 @@
         </material-button>
       </div>
     </form>
-    
+
     <claim-dialog ref="claimDialog" :couponCode="couponCode" :wallet="wallet" />
-    
+
     <referrer-dialog
       :is-show.sync="shouldShowReferrerDialog"
       :referrer-id="referrer"
@@ -134,6 +140,7 @@ export default {
       user: '',
       email: this.$route.query.email || '',
       isEmailEnabled: false,
+      isTermsAgreed: false,
       couponCode: '',
       referrer: this.$route.query.from || '',
       referrerInfo: {},
@@ -203,11 +210,18 @@ export default {
     onCaptchaExpired() {
       this.reCaptchaResponse = '';
     },
+    selectAgreeTerms() {
+      this.isTermsAgreed = !this.isTermsAgreed;
+    },
     async onSubmit() {
       try {
         this.isBadAddress = false;
         if (!this.checkAddress()) {
           this.isBadAddress = true;
+          return;
+        }
+        if (!this.isTermsAgreed) {
+          this.setErrorMsg(this.$t('Register.form.error.terms'));
           return;
         }
         const { reCaptchaResponse } = this;
@@ -381,5 +395,34 @@ input[type="file"] {
   padding: 0;
 
   border: 0;
+}
+
+.check-box-list {
+  display: flex;
+  flex-direction: column;
+
+  .md-checkbox {
+    margin: 0;
+  }
+
+  .term-agreement {
+    display: flex;
+    flex-direction: row;
+
+    color: $like-dark-brown-1;
+
+    label {
+      padding-top: 6px;
+      padding-left: 8px;
+
+      cursor: pointer;
+
+      :global(a) {
+        text-decoration: underline;
+
+        color: currentColor;
+      }
+    }
+  }
 }
 </style>

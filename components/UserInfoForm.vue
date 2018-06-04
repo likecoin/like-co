@@ -154,13 +154,13 @@
                     ref="inputEmail"
                     disabled />
                 </md-field>
-                <md-switch
-                  class="md-primary"
+
+                <md-checkbox
+                  class="md-likecoin lc-margin-top-16"
                   v-model="isEmailEnabled"
-                  @change="activateEdit"
-                  >
+                  @change="activateEdit">
                   {{ $t('Register.form.enableEmail') }}
-                </md-switch>
+                </md-checkbox>
               </div>
             </div>
 

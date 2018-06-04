@@ -356,7 +356,7 @@ a,
   }
 }
 
-$spacing-list: 0 4 8 12 16 24 32 40 48 64;
+$spacing-list: 0 4 8 12 16 24 32 40 48 56 64;
 
 @each $i in $spacing-list {
   .lc-margin-vertical-#{$i},
@@ -892,6 +892,41 @@ $line-height-map: (
       fill: currentColor !important;
       stroke: currentColor !important;
     }
+  }
+}
+
+.md-checkbox.md-likecoin {
+  padding: 6px 8px;
+
+  :global(.md-checkbox-container) {
+    width: 12px;
+    min-width: 12px;
+    height: 12px;
+    margin-top: 4px;
+
+    border: 1px solid $like-gray-4;
+    border-radius: 4px;
+    background-color: $like-white;
+
+    &:after {
+      top: -3px;
+      left: 3px;
+    }
+
+    :global(.md-ripple) {
+      width: 36px !important;
+      height: 36px !important;
+    }
+  }
+
+  &.md-checked {
+    :global(.md-checkbox-container) {
+      background-color: $like-green;
+    }
+  }
+
+  :global(.md-checkbox-label) {
+    height: unset;
   }
 }
 
