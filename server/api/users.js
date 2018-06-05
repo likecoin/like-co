@@ -269,6 +269,7 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res, n
 
     const token = jwtSign({ user, wallet });
     res.cookie('likecoin_auth', token, AUTH_COOKIE_OPTION);
+    res.cookie('__session', token, AUTH_COOKIE_OPTION);
     res.sendStatus(200);
 
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
@@ -293,6 +294,10 @@ router.post('/users/login/check', jwtAuth, (req, res) => {
     res.status(401).send('LOGIN_NEEDED');
     return;
   }
+  // eslint-disable-next-line no-underscore-dangle
+  if (req.cookies.__session !== req.cookies.likecoin_auth) {
+    res.cookie('__session', req.cookies.likecoin_auth, AUTH_COOKIE_OPTION);
+  }
   res.sendStatus(200);
 });
 
@@ -308,6 +313,7 @@ router.post('/users/login', async (req, res, next) => {
       const user = query.docs[0].id;
       const token = jwtSign({ user, wallet: from });
       res.cookie('likecoin_auth', token, AUTH_COOKIE_OPTION);
+      res.cookie('__session', token, AUTH_COOKIE_OPTION);
       res.sendStatus(200);
     } else {
       res.sendStatus(404);
