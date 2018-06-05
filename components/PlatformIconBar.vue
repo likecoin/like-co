@@ -26,10 +26,6 @@ const platforms = [
     url: 'https://medium.com/likecoin',
   },
   {
-    name: 'bitcoin',
-    url: 'https://bitcointalk.org/index.php?topic=3205270',
-  },
-  {
     name: 'github',
     url: 'https://github.com/likecoin/',
   },

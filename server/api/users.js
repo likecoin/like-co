@@ -63,7 +63,7 @@ const apiLimiter = new RateLimit({
   max: REGISTER_LIMIT_COUNT || 0,
   delayMs: 0, // disabled
   skipFailedRequests: true,
-  keyGenereator: req => (req.headers['x-real-ip'] || req.ip),
+  keyGenerator: req => (req.headers['x-real-ip'] || req.ip),
   onLimitReached: (req) => {
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventAPILimitReached',
