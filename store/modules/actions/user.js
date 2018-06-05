@@ -2,16 +2,12 @@
 import * as api from '@/util/api/api';
 import * as types from '@/store/mutation-types';
 import { REDIRECT_NAME_WHITE_LIST } from '@/constant';
-import { setJWTToken } from '~/plugins/axios';
 import User from '@/util/User';
 
 import apiWrapper from './api-wrapper';
 
 export async function newUser(ctx, data) {
-  const { token } = await apiWrapper(ctx, api.apiPostNewUser(data), { blocking: true });
-  if (token) {
-    setJWTToken(token);
-  }
+  return apiWrapper(ctx, api.apiPostNewUser(data), { blocking: true });
 }
 
 export async function loginUser({ state, commit, dispatch }) {
@@ -40,11 +36,8 @@ export async function loginUser({ state, commit, dispatch }) {
   if (!payload) return false;
 
   const { data } = await api.apiLoginUser(payload);
-  if (data && data.token) {
-    setJWTToken(data.token);
-    await dispatch('refreshUser', state.wallet);
-    commit(types.USER_AWAITING_AUTH, false);
-  }
+  await dispatch('refreshUser', state.wallet);
+  commit(types.USER_AWAITING_AUTH, false);
   return true;
 }
 

@@ -45,6 +45,13 @@ const SUPPORTED_AVATER_TYPE = new Set([
   'bmp',
 ]);
 
+const AUTH_COOKIE_OPTION = {
+  maxAge: 31556926000, // 365d
+  domain: process.env.NODE_ENV !== 'production' ? undefined : '.like.co',
+  secure: process.env.NODE_ENV === 'production',
+  httpOnly: true,
+};
+
 const multer = Multer({
   storage: Multer.memoryStorage(),
   limits: {
@@ -261,7 +268,8 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res, n
     }
 
     const token = jwtSign({ user, wallet });
-    res.json({ token });
+    res.cookie('likecoin_auth', token, AUTH_COOKIE_OPTION);
+    res.sendStatus(200);
 
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: !isOldUser ? 'eventUserRegister' : 'eventUserEdit',
@@ -299,7 +307,8 @@ router.post('/users/login', async (req, res, next) => {
     if (query.docs.length > 0) {
       const user = query.docs[0].id;
       const token = jwtSign({ user, wallet: from });
-      res.json({ token });
+      res.cookie('likecoin_auth', token, AUTH_COOKIE_OPTION);
+      res.sendStatus(200);
     } else {
       res.sendStatus(404);
     }
