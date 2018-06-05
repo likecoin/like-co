@@ -605,6 +605,12 @@
       "button": {
         "openWithTrust": "Open With Trust"
       }
+    },
+    "emailNotification": {
+      "title": "Delivering Bonus",
+      "content": "The transaction is pending for blockchain confirmation. It may take a few minutes depending on the network condition. Turn on notification so that we can inform you the progress.",
+      "button": "Turn on notification",
+      "label": "No, thank you"
     }
   },
   "Toolbar": {
