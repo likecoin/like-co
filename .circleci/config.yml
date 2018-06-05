@@ -130,9 +130,9 @@ jobs:
             echo ${GCLOUD_SERVICE_KEY} | base64 -d > /account-auth.json
             gcloud auth activate-service-account --key-file /account-auth.json
             gcloud config set project ${PROJECT_NAME}
-            gcloud --quiet config set container/cluster ${POC_CLUSTER_NAME}
+            gcloud --quiet config set container/cluster ${PROD_CLUSTER_NAME}
             gcloud config set compute/zone ${CLOUDSDK_COMPUTE_ZONE}
-            gcloud --quiet container clusters get-credentials ${POC_CLUSTER_NAME}
+            gcloud --quiet container clusters get-credentials ${PROD_CLUSTER_NAME}
       - setup_docker_engine
       - run:
           name: Build image
