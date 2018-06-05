@@ -936,6 +936,16 @@
       "showMore": "show more"
     }
   },
+  "Settings": {
+    "title": "LikeCoin ID Settings",
+    "label": {
+      "contactUs": "Contact us for {deleteAccount} or {requestReport}"
+    },
+    "button": {
+      "deleteAccount": "Delete Account",
+      "requestReport": "Request for report"
+    }
+  },
   "PoliciesPage": {
     "title": "Terms and Policy"
   },
