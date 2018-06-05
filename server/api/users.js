@@ -522,4 +522,24 @@ router.get('/users/bonus/:id', jwtAuth, async (req, res, next) => {
   }
 });
 
+router.post('/users/email/:id', jwtAuth, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    if (req.user.user !== id) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
+    const doc = await dbRef.doc(id).get();
+    if (!doc.exists) throw new Error('user not found');
+    const {
+      isEmailEnabled,
+    } = req.body;
+    if (typeof (isEmailEnabled) !== 'boolean') throw new Error('invalid input');
+    await doc.ref.update({ isEmailEnabled });
+    res.sendStatus(200);
+  } catch (err) {
+    next(err);
+  }
+});
+
 export default router;
