@@ -936,6 +936,15 @@
       "showMore": "show more"
     }
   },
+  "PoliciesPage": {
+    "title": "Terms and Policy"
+  },
+  "TermsOfUsePage": {
+    "title": "Terms of Use"
+  },
+  "PrivacyPolicyPage": {
+    "title": "Privacy Policy"
+  },
   "Error": {
     "button": {
       "toIndex": "Return to Index"
