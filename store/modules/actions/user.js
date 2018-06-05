@@ -35,7 +35,7 @@ export async function loginUser({ state, commit, dispatch }) {
   }
   if (!payload) return false;
 
-  const { data } = await api.apiLoginUser(payload);
+  await api.apiLoginUser(payload);
   await dispatch('refreshUser', state.wallet);
   commit(types.USER_AWAITING_AUTH, false);
   return true;

@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const expressjwt = require('express-jwt');
-const UnauthorizedError = require('express-jwt').UnauthorizedError;
+const { UnauthorizedError } = require('express-jwt');
 const config = require('@ServerConfig/config.js'); // eslint-disable-line import/no-extraneous-dependencies
 
 let secret = config.JWT_SECRET;
@@ -16,7 +16,6 @@ function getToken(req) {
     return req.cookies.likecoin_auth;
   }
   throw new UnauthorizedError('credentials_required', { message: 'No authorization token was found' });
-  return null;
 }
 
 export const jwtSign = payload => jwt.sign(payload, secret, { expiresIn: '7d' });
