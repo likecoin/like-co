@@ -21,8 +21,10 @@ function setAuthLocalStorage(browser, url, user, wallet) {
   const auth = jwtSign(user, wallet);
   browser
     .url(url)
-    .execute(`localStorage.auth = '${auth}';`)
-    .pause(2000);
+    .setCookie({
+      name: 'likecoin_auth',
+      value: auth,
+    });
 }
 
 module.exports = { initBrowser, setAuthLocalStorage };

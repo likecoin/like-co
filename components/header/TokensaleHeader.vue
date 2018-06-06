@@ -80,7 +80,7 @@
 
 
 <script>
-import likeCoinIcon from '@/assets/like-coin.svg';
+import likeCoinIcon from '@/assets/logo/icon.svg';
 import TickIcon from '@/assets/tokensale/tick.svg';
 
 import { ETH_TO_LIKECOIN_RATIO } from '@/constant';
