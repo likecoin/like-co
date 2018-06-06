@@ -623,7 +623,7 @@
         "form": {
             "createID": "LikeCoin-ID erstellen* (mind. 7 Zeichen)",
             "walletAddress": "Wallet-Adresse",
-            "email": "E-Mail (optional)",
+            "email": "E-Mail",
             "referrer": "LikeCoin-ID des Werbers (optional)",
             "amount": "LikeCoin-Betrag:",
             "displayName": "Anzeigename",

@@ -631,13 +631,14 @@
     "form": {
       "createID": "Create a LikeCoin ID* (minimum 7 characters)",
       "walletAddress": "Wallet address",
-      "email": "Email (optional)",
+      "email": "Email",
       "referrer": "Referrer LikeCoin ID (optional)",
       "amount": "Amount of LikeCoin:",
       "displayName": "Display Name",
       "claim": "Claim",
       "couponCode": "Coupon Code (optional)",
       "enableEmail": "Receive email notification for LikeCoin transaction and news update",
+      "agreeTerms": "I agree to <a href=\"https://google.com\" rel=\"noopener noreferrer\" target=\"_blank\">Terms of Use</a>, <a href=\"https://google.com\" rel=\"noopener noreferrer\" target=\"_blank\">Acceptable Use Policy</a> and <a href=\"https://google.com\" rel=\"noopener noreferrer\" target=\"_blank\">Privacy Policy</a>",
       "label": {
         "updatedInfo": "Your information have been updated.",
         "viewPage": "View your page"
@@ -646,7 +647,8 @@
         "alphanumeric": "Please enter at least 7 alphanumeric characters",
         "addressFormat": "Invalid address format",
         "reCaptcha": "Please complete the reCAPTCHA challenge",
-        "emailFormat": "Please enter a valid email address without . or + character"
+        "emailFormat": "Please enter a valid email address without . or + character",
+        "terms": "Please agree our terms and policies to proceed."
       }
     }
   },
