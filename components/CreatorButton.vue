@@ -20,6 +20,8 @@
 </template>
 
 <script>
+import likeCoinIcon from '@/assets/logo/icon.svg';
+
 export default {
   name: 'creator-button',
   props: {
@@ -27,7 +29,7 @@ export default {
       default: undefined,
     },
     src: {
-      default: '/images/logo/icon.svg',
+      default: likeCoinIcon,
     },
     id: {
       default: '',
