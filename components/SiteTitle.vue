@@ -3,7 +3,7 @@
     :class="['site-title', { test: isTest }]"
     :to="{ name: getToPage }">
 
-    {{ $t('Store.Header.label.store') }}
+    <img alt="like.co/in" src="/images/logo/in-link.svg" />
     <span v-if="isTest" class="sup">
       {{ $t('Store.Header.label.test') }}
     </span>

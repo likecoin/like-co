@@ -4,7 +4,7 @@
       <div class="lc-container-2">
         <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-32">
           <div class="lc-container-4 error-container">
-            <img src="../assets/like-coin.svg" alt="LikeCoin Logo" />
+            <img src="/images/logo/icon.svg" alt="LikeCoin Logo" />
             <h1 class="lc-font-size-56 lc-margin-vertical-32">
               {{ error.statusCode }}
             </h1>

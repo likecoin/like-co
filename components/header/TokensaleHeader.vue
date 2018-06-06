@@ -4,7 +4,7 @@
       <div class="lc-container-3 lc-bg-gray-1 icon-wrapper">
         <div class="icon">
           <nuxt-link :to="{ name: 'in-tokensale' }">
-            <img alt="likecoin" class="main-icon" :src="likeCoinIcon" />
+            <img alt="likecoin" class="main-icon" src="/images/logo/icon.svg" />
           </nuxt-link>
         </div>
       </div>
@@ -80,7 +80,6 @@
 
 
 <script>
-import likeCoinIcon from '@/assets/like-coin.svg';
 import TickIcon from '@/assets/tokensale/tick.svg';
 
 import { ETH_TO_LIKECOIN_RATIO } from '@/constant';
@@ -92,7 +91,6 @@ export default {
   data() {
     return {
       defaultText: 'Redeem your free LikeCoin',
-      likeCoinIcon,
       TickIcon,
     };
   },
