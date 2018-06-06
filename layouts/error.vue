@@ -4,7 +4,7 @@
       <div class="lc-container-2">
         <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-32">
           <div class="lc-container-4 error-container">
-            <img src="/images/logo/icon.svg" alt="LikeCoin Logo" />
+            <img :src="likeCoinIcon" alt="LikeCoin Logo" />
             <h1 class="lc-font-size-56 lc-margin-vertical-32">
               {{ error.statusCode }}
             </h1>
@@ -24,9 +24,16 @@
 <script>
 import { mapGetters } from 'vuex';
 
+import likeCoinIcon from '@/assets/logo/icon.svg';
+
 export default {
   props: ['error'],
   layout: 'narrowWithHeader',
+  data() {
+    return {
+      likeCoinIcon,
+    };
+  },
   computed: {
     ...mapGetters([
       'getCurrentLocale',

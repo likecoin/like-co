@@ -6,7 +6,7 @@
           <nuxt-link v-if="toId" :to="{ name: 'id', params: { id: toId } }">
             <img alt="avatar" class="main-icon" :src="icon" />
           </nuxt-link>
-          <img v-else alt="likecoin" class="main-icon" src="/images/logo/icon.svg" />
+          <img v-else alt="likecoin" class="main-icon" :src="likeCoinIcon" />
         </div>
       </div>
     </div>
@@ -86,6 +86,7 @@
 
 
 <script>
+import likeCoinIcon from '@/assets/logo/icon.svg';
 import TickIcon from '@/assets/tokensale/tick.svg';
 
 export default {
@@ -95,6 +96,7 @@ export default {
   data() {
     return {
       defaultText: 'Redeem your free LikeCoin',
+      likeCoinIcon,
       TickIcon,
     };
   },

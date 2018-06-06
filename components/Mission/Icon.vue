@@ -8,6 +8,8 @@
 
 
 <script>
+import likeCoinIcon from '@/assets/logo/icon.svg';
+
 const missionImages = require.context('@/assets/mission/icons');
 
 export default {
@@ -27,7 +29,7 @@ export default {
 
         return missionImages(`./${iconFilename}.svg`);
       } catch (error) {
-        return '/images/logo/icon.svg';
+        return likeCoinIcon;
       }
     },
   },
