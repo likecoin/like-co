@@ -1,5 +1,6 @@
 FROM node:8
 WORKDIR /app
+RUN yarn global add npm@6.0.1
 COPY package.json package-lock.json /app/
 RUN npm config set unsafe-perm true && npm install
 ADD . /app

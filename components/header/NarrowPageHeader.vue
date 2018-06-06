@@ -26,7 +26,7 @@
 
 
 <script>
-import likeCoinIcon from '@/assets/like-coin.svg';
+import likeCoinIcon from '@/assets/logo/icon.svg';
 
 export default {
   name: 'narrow-page-header',

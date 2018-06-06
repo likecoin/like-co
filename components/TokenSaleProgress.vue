@@ -38,14 +38,14 @@
 
 
 <script>
-import { INITIAL_TOKENSALE_ETH } from '@/constant';
+import { FINAL_TOKENSALE_ETH_VALUE } from '@/constant';
 
 export default {
   name: 'tokensale-progress',
   props: {
     progress: {
       type: String,
-      default: INITIAL_TOKENSALE_ETH.toFixed(2),
+      default: FINAL_TOKENSALE_ETH_VALUE.toFixed(2),
     },
     total: {
       type: String,

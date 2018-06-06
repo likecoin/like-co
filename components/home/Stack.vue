@@ -107,9 +107,6 @@
 
 
 <script>
-import likeCoinIcon from '~/assets/home/protocol-likecoin.svg';
-
-
 const images = require.context('../../assets/home');
 const imgUrl = path => images(`./${path}`);
 
@@ -138,7 +135,6 @@ export default {
   data() {
     return {
       layers,
-      likeCoinIcon,
     };
   },
   methods: {
