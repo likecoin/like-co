@@ -1,6 +1,6 @@
 <template>
   <div class="lc-flag">
-    <img class="logo" alt="LikeCoin" src="/images/logo/icon-label.svg" />
+    <img class="logo" alt="LikeCoin" :src="likeCoinIcon" />
     <div class="content">
       <h1 class="lc-font-size-38 lc-font-weight-300 lc-margin-top-16">
         {{ $t('Home.Flag.title') }}
@@ -16,11 +16,18 @@
 <script>
 import MenuButton from '~/components/SlidingMenu/MenuButton';
 
+import likeCoinIcon from '@/assets/logo/icon-label.svg';
+
 
 export default {
   name: 'header-flag',
   components: {
     MenuButton,
+  },
+  data() {
+    return {
+      likeCoinIcon,
+    };
   },
 };
 </script>

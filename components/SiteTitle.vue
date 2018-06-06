@@ -3,7 +3,7 @@
     :class="['site-title', { test: isTest }]"
     :to="{ name: getToPage }">
 
-    <img alt="like.co/in" src="/images/logo/in-link.svg" />
+    <img alt="like.co/in" :src="likeCoinIcon" />
     <span v-if="isTest" class="sup">
       {{ $t('Store.Header.label.test') }}
     </span>
@@ -15,12 +15,14 @@
 import { mapGetters } from 'vuex';
 
 import { IS_TESTNET } from '@/constant';
+import likeCoinIcon from '@/assets/logo/in-link.svg';
 
 export default {
   name: 'site-title',
   data() {
     return {
       isTest: IS_TESTNET,
+      likeCoinIcon,
     };
   },
   computed: {
