@@ -10,7 +10,7 @@
       </span>
 
       <span class="signature-icon">
-        <img :src="icon || likeCoinIcon" />
+        <img :src="icon || '/images/logo/icon.svg'" />
       </span>
 
       <span>
@@ -26,16 +26,9 @@
 
 
 <script>
-import likeCoinIcon from '@/assets/like-coin.svg';
-
 export default {
   name: 'narrow-page-header',
   props: ['icon'],
-  data() {
-    return {
-      likeCoinIcon,
-    };
-  },
 };
 </script>
 

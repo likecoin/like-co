@@ -4,7 +4,7 @@
       <img
         alt="like-coin"
         class="main-icon"
-        :src="icon || defaultIcon" />
+        :src="icon || '/images/logo/icon.svg'" />
     </div>
     <div class="title">
       <h1 class="lc-font-size-42">
@@ -16,15 +16,12 @@
 
 
 <script>
-import likeCoinIcon from '../assets/likecoin.svg';
-
 export default {
   name: 'introduction',
   props: ['title', 'icon'],
   data() {
     return {
       defaultText: 'Register.header.redeem',
-      defaultIcon: likeCoinIcon,
     };
   },
 };
