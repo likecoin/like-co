@@ -84,7 +84,7 @@ router.post('/kyc', async (req, res, next) => {
     if (!IS_TESTNET) {
       if (!reCaptchaResponse) throw new ValidationError('reCAPTCHA missing');
       const { data } = await axios.post(
-        'https://www.google.com/recaptcha/api/siteverify',
+        'https://www.recaptcha.net/api/siteverify',
         querystring.stringify({
           secret: RECAPTCHA_SECRET,
           response: reCaptchaResponse,
@@ -213,7 +213,7 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res, next
     if (!IS_TESTNET) {
       if (!reCaptchaResponse) throw new ValidationError('reCAPTCHA missing');
       const { data } = await axios.post(
-        'https://www.google.com/recaptcha/api/siteverify',
+        'https://www.recaptcha.net/api/siteverify',
         querystring.stringify({
           secret: RECAPTCHA_SECRET,
           response: reCaptchaResponse,

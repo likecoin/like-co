@@ -630,7 +630,7 @@
         "form": {
             "createID": "Crie um ID LikeCoin* (mínimo de 7 caracteres)",
             "walletAddress": "Endereço da carteira",
-            "email": "E-mail (opcional)",
+            "email": "E-mail",
             "referrer": "ID LikeCoin do Padrinho (opcional)",
             "amount": "Quantidade de LikeCoins:",
             "displayName": "Nome de Exibição",
