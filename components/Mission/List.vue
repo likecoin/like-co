@@ -207,7 +207,7 @@ export default {
       this.$nextTick(() => {
         this.$refs.list.scrollLeft = 0;
         this.updateScrollIndicator();
-        if (this.selectedMission) {
+        if (!this.isLoading && this.selectedMission) {
           this.onClick(this.selectedMission);
         }
       });
