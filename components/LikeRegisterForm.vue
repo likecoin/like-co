@@ -25,6 +25,7 @@
                 pattern="[a-z0-9-_]{7,20}"
                 @change="user=user.toLowerCase().trim()"
                 :title="$t('Register.form.error.alphanumeric')"
+                v-bind="getTestAttribute('userId')"
                 required />
               <span class="md-error">{{ $t(`Error.${getInfoMsg}`) }}</span>
             </md-field>
@@ -50,6 +51,7 @@
                 v-model="email"
                 @change="email=email.toLowerCase().trim()"
                 :title="$t('Register.form.error.emailFormat')"
+                v-bind="getTestAttribute('email')"
                 required
               />
               <span class="md-error">{{ $t(`Error.${getInfoMsg}`) }}</span>
@@ -79,8 +81,13 @@
                 {{ $t('Register.form.enableEmail') }}
               </md-checkbox>
               <div class="term-agreement">
-                <md-checkbox class="md-likecoin" v-model="isTermsAgreed" />
-                <label @click="selectAgreeTerms" v-html="$t('Register.form.agreeTerms')" />
+                <md-checkbox
+                  class="md-likecoin"
+                  v-model="isTermsAgreed" />
+                <label
+                  @click="selectAgreeTerms"
+                  v-bind="getTestAttribute('agreeTerms')" 
+                  v-html="$t('Register.form.agreeTerms')" />
               </div>
             </div>
 
@@ -121,6 +128,7 @@ import VueRecaptcha from 'vue-recaptcha';
 
 import User from '@/util/User';
 import { logTrackerEvent } from '@/util/EventLogger';
+import getTestAttribute from '@/util/test';
 
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import ReferrerDialog from '~/components/dialogs/ReferrerDialog';
@@ -213,6 +221,7 @@ export default {
     selectAgreeTerms() {
       this.isTermsAgreed = !this.isTermsAgreed;
     },
+    getTestAttribute,
     async onSubmit() {
       try {
         this.isBadAddress = false;
