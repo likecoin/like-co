@@ -202,7 +202,7 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res, n
       if (!IS_TESTNET) {
         if (!reCaptchaResponse) throw new ValidationError('reCAPTCHA missing');
         const { data } = await axios.post(
-          'https://www.recaptcha.net/api/siteverify',
+          'https://www.recaptcha.net/recaptcha/api/siteverify',
           querystring.stringify({
             secret: RECAPTCHA_SECRET,
             response: reCaptchaResponse,
