@@ -86,7 +86,7 @@
                   v-model="isTermsAgreed" />
                 <label
                   @click="selectAgreeTerms"
-                  v-bind="getTestAttribute('agreeTerms')" 
+                  v-bind="getTestAttribute('agreeTerms')"
                   v-html="$t('Register.form.agreeTerms')" />
               </div>
             </div>
@@ -221,7 +221,7 @@ export default {
     selectAgreeTerms() {
       this.isTermsAgreed = !this.isTermsAgreed;
     },
-    getTestAttribute,
+    getTestAttribute: getTestAttribute('registerForm'),
     async onSubmit() {
       try {
         this.isBadAddress = false;

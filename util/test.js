@@ -1,11 +1,11 @@
 import { IS_TESTNET } from '@/constant';
 
-const getTestAttribute = name => (
-  IS_TESTNET ?
-    {
-      'lc-test': name,
-    } :
+const getTestAttribute = prefix => testId => (
+  IS_TESTNET ? ({
+    'lc-test': `${prefix}-${testId}`,
+  }) : (
     null
+  )
 );
 
 export default getTestAttribute;

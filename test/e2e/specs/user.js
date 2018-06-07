@@ -17,11 +17,11 @@ module.exports = {
       .url(devServer)
       .click('.lc-container-3 button.account-btn')
       .waitForElementVisible('#registerForm', 5000)
-      .setValue('#registerForm input[lc-test=userId]', newId)
-      .setValue('#registerForm input[lc-test=email]', newIdEmail)
+      .setValue('input[lc-test=registerForm-userId]', newId)
+      .setValue('input[lc-test=registerForm-email]', newIdEmail)
       .submitForm('#registerForm')
       .waitForElementVisible('.md-toolbar', 2000) // alert user for not ticking accept terms & policies checkbox
-      .click('#registerForm label[lc-test=agreeTerms]')
+      .click('label[lc-test=registerForm-agreeTerms]')
       .submitForm('#registerForm')
       .pause(2000)
       .windowHandles(function func(res) {
