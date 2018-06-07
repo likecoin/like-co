@@ -60,6 +60,7 @@ module.exports = {
           'https://www.googleadservices.com',
           'https://*.google.com',
           'https://recaptcha.net',
+          'https://www.recaptcha.net',
           'https://www.gstatic.com/',
           'https://googleads.g.doubleclick.net',
           'https://sp.analytics.yahoo.com',
@@ -83,6 +84,7 @@ module.exports = {
         'frame-src': [
           'https://www.google.com/',
           'https://recaptcha.net',
+          'https://www.recaptcha.net',
           'https://player.vimeo.com/',
           'https://*.facebook.com',
           'https://*.facebook.net',
