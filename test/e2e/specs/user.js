@@ -11,12 +11,17 @@ module.exports = {
   'Register': (browser) => {
     const devServer = browser.globals.devServerURL;
     const newId = 'testacct';
+    const newIdEmail = 'testacct_@like.co';
 
     browser
       .url(devServer)
       .click('.lc-container-3 button.account-btn')
       .waitForElementVisible('#registerForm', 5000)
-      .setValue('#registerForm input[type=text][required=required]', newId)
+      .setValue('input[lc-test=registerForm-userId]', newId)
+      .setValue('input[lc-test=registerForm-email]', newIdEmail)
+      .submitForm('#registerForm')
+      .waitForElementVisible('.md-toolbar', 2000) // alert user for not ticking accept terms & policies checkbox
+      .click('label[lc-test=registerForm-agreeTerms]')
       .submitForm('#registerForm')
       .pause(2000)
       .windowHandles(function func(res) {
