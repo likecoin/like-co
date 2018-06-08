@@ -139,9 +139,11 @@ export default {
     },
     deleteAccount() {
       logTrackerEvent(this, 'Settings', 'deleteAccount', 'User wants to delete account', 1);
+      if (this.$intercom) this.$intercom.showNewMessage(this.$t('Settings.label.deleteAccountPrePopulatedMessage'));
     },
     requestReport() {
       logTrackerEvent(this, 'Settings', 'requestReport', 'User wants to fire a report request', 1);
+      if (this.$intercom) this.$intercom.showNewMessage(this.$t('Settings.label.requestReportPrePopulatedMessage'));
     },
   },
   watch: {

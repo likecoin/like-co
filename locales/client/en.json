@@ -939,7 +939,9 @@
   "Settings": {
     "title": "LikeCoin ID Settings",
     "label": {
-      "contactUs": "Contact us for {deleteAccount} or {requestReport}"
+      "contactUs": "Contact us for {deleteAccount} or {requestReport}",
+      "deleteAccountPrePopulatedMessage": "I want to delete my account",
+      "requestReportPrePopulatedMessage": "I want to request an account data report "
     },
     "button": {
       "deleteAccount": "Delete Account",
