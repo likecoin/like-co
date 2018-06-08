@@ -75,6 +75,7 @@
                   :missions="getMissionList"
                   :is-loading="getIsFetchingMissions || !getIsFetchedMissions"
                   :empty-placeholder="$t('BonusPage.placeholder.emptyMission')"
+                  :selected-mission="selectedMission"
                   @click="onMissionClick" />
               </div>
             </div>
@@ -228,6 +229,9 @@ export default {
       'getMissionList',
       'getReferralMissionList',
     ]),
+    selectedMission() {
+      return this.getMissionList.find(m => m.id === this.$route.query.selectedMission);
+    },
   },
   methods: {
     ...mapActions([
