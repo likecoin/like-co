@@ -630,7 +630,7 @@
         "form": {
             "createID": "Cree un ID de LikeCoin* (mínimo 7 caracteres)",
             "walletAddress": "Dirección del monedero",
-            "email": "Correo electrónico (opcional)",
+            "email": "Correo electrónico",
             "referrer": "ID de LikeCoin de su referente (opcional)",
             "amount": "Cantidad de LikeCoin:",
             "displayName": "Nombre para mostrar",

@@ -33,7 +33,7 @@ module.exports = {
       { src: '/vendor/typekit.js' },
       { src: '/vendor/fb/pixel.js' },
       { src: '/vendor/fb/sdk.js' },
-      { src: 'https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit' },
+      { src: 'https://www.recaptcha.net/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit' },
     ],
     link: [
       { rel: 'icon', type: 'image/png', href: '/favicon.png' },
@@ -59,6 +59,8 @@ module.exports = {
           'https://www.googletagmanager.com',
           'https://www.googleadservices.com',
           'https://*.google.com',
+          'https://recaptcha.net',
+          'https://www.recaptcha.net',
           'https://www.gstatic.com/',
           'https://googleads.g.doubleclick.net',
           'https://sp.analytics.yahoo.com',
@@ -81,6 +83,8 @@ module.exports = {
         ],
         'frame-src': [
           'https://www.google.com/',
+          'https://recaptcha.net',
+          'https://www.recaptcha.net',
           'https://player.vimeo.com/',
           'https://*.facebook.com',
           'https://*.facebook.net',
