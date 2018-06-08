@@ -51,3 +51,6 @@ export const getCurrentLocaleISO = (state) => {
 };
 
 export const getIsSlidingMenuOpen = state => state.isSlidingMenuOpen;
+
+export const getIsShowingPromptNotificationDialog = state =>
+  state.isShowingPromptNotificationDialog;

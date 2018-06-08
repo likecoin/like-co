@@ -1,5 +1,7 @@
 /* eslint import/prefer-default-export: "off" */
 import * as types from '@/store/mutation-types';
+import * as api from '@/util/api/api';
+import apiWrapper from './api-wrapper';
 
 export const setLocale = ({ commit }, locale) => {
   commit(types.UI_SET_LOCALE, locale);
@@ -75,3 +77,27 @@ export const openSlidingMenu = ({ commit }) => {
 export const closeSlidingMenu = ({ commit }) => {
   commit(types.UI_CLOSE_SLIDING_MENU);
 };
+
+export const setPromptNotificationDialog = ({ commit }, payload) => {
+  commit(types.UI_SET_PROMPT_NOTIFICATION_DIALOG, payload);
+};
+
+export async function setNotification({ commit, dispatch }, payload) {
+  try {
+    const {
+      id,
+      isEmailEnabled,
+      user,
+    } = payload;
+    await apiWrapper({
+      commit, dispatch,
+    }, api.apiSetNotification(id, isEmailEnabled), { blocking: true });
+    commit(types.UI_SET_PROMPT_NOTIFICATION_DIALOG, false);
+    user.isEmailEnabled = isEmailEnabled;
+    commit(types.USER_SET_USER_INFO, user);
+  } catch (error) {
+    commit(types.UI_STOP_ALL_LOADING);
+    commit(types.UI_ERROR_MSG, error.message || error);
+    throw error;
+  }
+}

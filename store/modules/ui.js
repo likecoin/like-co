@@ -23,6 +23,7 @@ import {
   UI_SET_MISSION_DIALOG,
   UI_OPEN_SLIDING_MENU,
   UI_CLOSE_SLIDING_MENU,
+  UI_SET_PROMPT_NOTIFICATION_DIALOG,
 } from '../mutation-types';
 import * as getters from './getters/ui';
 import * as actions from './actions/ui';
@@ -49,6 +50,7 @@ const state = {
   isErrorDisabled: false,
   txDialogActionRoute: null,
   txDialogActionText: '',
+  isShowingPromptNotificationDialog: false,
 };
 
 const mutations = {
@@ -143,6 +145,9 @@ const mutations = {
   },
   [UI_CLOSE_SLIDING_MENU](state) {
     state.isSlidingMenuOpen = false;
+  },
+  [UI_SET_PROMPT_NOTIFICATION_DIALOG](state, payload) {
+    state.isShowingPromptNotificationDialog = payload;
   },
 };
 

@@ -3,7 +3,8 @@
     <base-dialog
       ref="dialog"
       :class="['with-icon', { upcoming: isUpcomingMission }]"
-      :isShowCloseButton="true">
+      :isShowCloseButton="true"
+      @update:isShow="onDialogUpdate($event)">
 
       <div slot="header-center" class="lc-section-header-icon lc-dialog-icon lc-raised-icon">
         <mission-icon :mission-id="missionId" />
@@ -317,6 +318,7 @@ export default {
       'postStepMission',
       'refreshMissionList',
       'onMissionClick',
+      'setPromptNotificationDialog',
     ]),
     show() {
       this.$refs.dialog.show();
@@ -420,6 +422,13 @@ export default {
     },
     onDismiss() {
       this.hide();
+      const isMissionDialogShow = false;
+      this.onDialogUpdate(isMissionDialogShow);
+    },
+    onDialogUpdate(isMissionDialogShow) {
+      if (this.getUserInfo.isEmailEnabled === false && !isMissionDialogShow && this.isCompleted) {
+        this.setPromptNotificationDialog(true);
+      }
     },
   },
   watch: {
