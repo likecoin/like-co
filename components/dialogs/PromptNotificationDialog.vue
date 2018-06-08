@@ -1,6 +1,5 @@
 <template>
   <base-dialog
-    ref="dialog"
     :is-show="getIsShowingPromptNotificationDialog"
     :md-props="{
       mdClickOutsideToClose: false,
