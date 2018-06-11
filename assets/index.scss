@@ -946,6 +946,61 @@ span.bold {
   }
 }
 
+
+.lc-article {
+  & + & {
+    margin-top: 64px;
+  }
+
+  h1 {
+    font-size: 20px;
+    margin: 48px 0 24px;
+    font-weight: bold;
+  }
+
+  h2 {
+    font-size: 16px;
+    margin: 32px 0 16px;
+    font-weight: bold;
+  }
+
+  p,
+  ol, 
+  ul{
+    margin: {
+      top: 16px;
+      bottom: 16px;
+    }
+    font-size: 12px;
+    font-weight: normal;
+  }
+
+  ul {
+    padding-left: 16px;
+
+    li {
+      margin: {
+        top: 8px;
+        bottom: 8px;
+      }
+    }
+  }
+  
+  ol {
+    padding-left: 20px;
+
+    &.h2 {
+      font-size: 16px;
+      font-weight: bold;
+    }
+  }
+
+  .bold {
+    color: $like-dark-brown-1 !important;
+  }
+}
+
+
 /* Transition */
 
 .lc-transition {

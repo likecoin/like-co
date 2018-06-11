@@ -942,6 +942,27 @@
       "showMore": "show more"
     }
   },
+  "Settings": {
+    "title": "LikeCoin ID Settings",
+    "label": {
+      "contactUs": "Contact us for {deleteAccount} or {requestReport}",
+      "deleteAccountPrePopulatedMessage": "I want to delete my account",
+      "requestReportPrePopulatedMessage": "I want to request an account data report "
+    },
+    "button": {
+      "deleteAccount": "Delete Account",
+      "requestReport": "Request for report"
+    }
+  },
+  "PoliciesPage": {
+    "title": "Terms and Policy"
+  },
+  "TermsOfUsePage": {
+    "title": "Terms of Use"
+  },
+  "PrivacyPolicyPage": {
+    "title": "Privacy Policy"
+  },
   "Error": {
     "button": {
       "toIndex": "Return to Index"

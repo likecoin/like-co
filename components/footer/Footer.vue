@@ -7,7 +7,7 @@
           <span class="contract-address lc-mobile-hide">{{ $t('Footer.label.contract') }}<a :href="getAddress" target="_blank" rel="noopener">{{ contractAddress }}</a></span>
 
           <div class="right footer-links">
-            <!-- <a href="http://lakoo.org">{{ $t('Footer.button.aboutFoundation') }}</a> -->
+            <nuxt-link :to="{ name: 'in-policies' }">{{ $t('PoliciesPage.title') }}</nuxt-link>
             <a href="https://help.like.co/">{{ $t('Footer.button.support') }}</a>
           </div>
 
@@ -124,21 +124,24 @@ export default {
 
 footer {
   position: relative;
-  padding: 12px 0;
-  width: 100%;
 
-  background-color: $like-white;
+  width: 100%;
+  padding: 12px 0;
+
   border-top: 0;
+  background-color: $like-white;
 
   // Gradient separator
   &::before {
     position: absolute;
-    left: 0;
     right: 0;
     bottom: 100%;
+    left: 0;
+
     height: 2px;
 
     content: " ";
+
     background-image: linear-gradient(269deg, $like-light-blue, $like-gradient-1);
   }
 
@@ -149,6 +152,7 @@ footer {
 
   .contract-address {
     text-align: left;
+
     font-size: 10px;
 
     a {
@@ -159,6 +163,7 @@ footer {
   .footer-links {
     display: flex;
     flex-wrap: wrap;
+
     margin-left: 24px;
 
     // Prevent overlapping with Intercom button
@@ -174,10 +179,13 @@ footer {
 
     > a {
       display: block;
+
+      text-align: left;
+
       color: #6B6B6B;
+
       font-size: 12px;
       font-weight: 400;
-      text-align: left;
 
       &:not(:last-child) {
         margin-right: 24px;
