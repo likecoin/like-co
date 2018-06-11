@@ -1,7 +1,7 @@
 <template>
   <div class="overview-page">
 
-    <div class="bonus-container lc-container-0 lc-margin-top-48">
+    <div id="earn" class="bonus-container lc-container-0 lc-margin-top-48">
       <section class="lc-container-1">
         <div class="lc-container-header">
           <div class="lc-container-2 lc-container-header-overlay">
