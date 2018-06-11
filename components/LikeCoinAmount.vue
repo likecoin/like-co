@@ -17,15 +17,14 @@
     </div>
 
     <div v-if="linkHref && linkText" class="links">
-      <material-button class="link what">
-        <a
-         :href="linkHref"
-         target="_blank"
-         rel="noopener noreferrer"
-        >
-          {{ linkText }}
-        </a>
-      </material-button>
+      <a
+        :href="linkHref"
+        target="_blank"
+        rel="noopener noreferrer">
+        <material-button class="link what">
+            {{ linkText }}
+        </material-button>
+      </a>
     </div>
 
     <div v-else-if="linkText" class="links" @click="onClick">

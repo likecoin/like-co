@@ -60,12 +60,16 @@
                     </material-button>
                   </li>
                   <li>
-                    <material-button
-                      class="cta-btn support"
-                      :hasShadow="true"
-                      @click="onClickTokenSaleButton">
-                      {{ $t('Home.Sale.button.aboutTokenSale') }}
-                    </material-button>
+                    <a
+                      :href="QRYPTOS_LIKEETH_URL"
+                      rel="noopener noreferrer"
+                      target="_blank">
+                      <material-button
+                        class="cta-btn support"
+                        :hasShadow="true">
+                        {{ $t('Home.Sale.button.tradeAtQRYPTOS') }}
+                      </material-button>
+                    </a>
                   </li>
                 </ul>
               </div>
@@ -115,7 +119,10 @@ import { logTrackerEvent } from '@/util/EventLogger';
 import MaterialButton from '~/components/MaterialButton';
 import TokenSaleProgress from '~/components/TokenSaleProgress';
 
-import { FINAL_TOKENSALE_ETH_VALUE } from '@/constant';
+import {
+  FINAL_TOKENSALE_ETH_VALUE,
+  QRYPTOS_LIKEETH_URL,
+} from '@/constant';
 
 export default {
   name: 'cta-section',
@@ -136,6 +143,7 @@ export default {
   data() {
     return {
       tokenSaleAmount: FINAL_TOKENSALE_ETH_VALUE,
+      QRYPTOS_LIKEETH_URL,
     };
   },
   computed: {
