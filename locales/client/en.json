@@ -644,7 +644,8 @@
       "claim": "Claim",
       "couponCode": "Coupon Code (optional)",
       "enableEmail": "Receive email notification for LikeCoin transaction and news update",
-      "agreeTerms": "I agree to <a href=\"https://google.com\" rel=\"noopener noreferrer\" target=\"_blank\">Terms of Use</a>, <a href=\"https://google.com\" rel=\"noopener noreferrer\" target=\"_blank\">Acceptable Use Policy</a> and <a href=\"https://google.com\" rel=\"noopener noreferrer\" target=\"_blank\">Privacy Policy</a>",
+      "privacyPolicy": "Privacy Policy",
+      "agreeTerms": "I agree to {privacyPolicy}.",
       "label": {
         "updatedInfo": "Your information have been updated.",
         "viewPage": "View your page"
