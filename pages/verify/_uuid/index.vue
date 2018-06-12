@@ -21,7 +21,7 @@
                 <nuxt-link v-if="redirect" :to="{ name: redirect }">
                   {{ $t('Verify.label.redirect') }}
                 </nuxt-link>
-                <nuxt-link v-else :to="{ name: 'in' }">
+                <nuxt-link v-else :to="{ name: 'in', hash: '#earn' }">
                   {{ $t('Verify.label.toEdit') }}
                 </nuxt-link>
                 ...
@@ -94,13 +94,21 @@ export default {
           } catch (err) {
             this.redirectTimer = setTimeout(() => {
               this.showLoginWindow(); // force showing login window for redirect
-              this.$router.push({ name: this.redirect ? this.redirect : 'in' });
+              if (this.redirect) {
+                this.$router.push({ name: this.redirect });
+              } else {
+                this.$router.push({ name: 'in', hash: '#earn' });
+              }
             }, 3000);
           }
         } else if (!this.referrer) {
           this.redirectTimer = setTimeout(() => {
             this.showLoginWindow(); // force showing login window for redirect
-            this.$router.push({ name: this.redirect ? this.redirect : 'in' });
+            if (this.redirect) {
+              this.$router.push({ name: this.redirect });
+            } else {
+              this.$router.push({ name: 'in', hash: '#earn' });
+            }
           }, 3000);
         }
       } catch (err) {
