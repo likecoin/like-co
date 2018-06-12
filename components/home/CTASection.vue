@@ -36,36 +36,35 @@
               <div class="cta-section-body-buttons">
                 <ul>
                   <li v-if="getUserIsRegistered">
-                    <material-button
-                    class="cta-btn"
-                    :hasShadow="true"
-                    @click="onClickSupportLikeCoinButton">
-                    {{ $t('Home.Sale.button.supportLikeCoin') }}
-                    </material-button>
+                    <md-button
+                      class="cta-btn md-likecoin shadow"
+                      @click="onClickSupportLikeCoinButton">
+                      {{ $t('Home.Sale.button.supportLikeCoin') }}
+                    </md-button>
                   </li>
                   <li v-else-if="getUserNeedAuth">
-                    <material-button
-                      class="cta-btn"
-                      :hasShadow="true"
+                    <md-button
+                      class="cta-btn md-likecoin shadow"
                       @click="onClickSignInButton">
                       {{ $t('Home.Header.button.signIn') }}
-                    </material-button>
+                    </md-button>
                   </li>
                   <li v-else>
-                    <material-button
-                      class="cta-btn"
-                      :hasShadow="true"
+                    <md-button
+                      class="cta-btn md-likecoin shadow"
                       @click="onClickRegisterButton">
                       {{ $t('Home.Header.button.signUp') }}
-                    </material-button>
+                    </md-button>
                   </li>
                   <li>
-                    <material-button
-                      class="cta-btn support"
-                      :hasShadow="true"
-                      @click="onClickTokenSaleButton">
-                      {{ $t('Home.Sale.button.aboutTokenSale') }}
-                    </material-button>
+                    <md-button
+                      class="cta-btn support md-likecoin shadow lc-text-align-center"
+                      :href="QRYPTOS_LIKEETH_URL"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                        {{ $t('Home.Sale.button.tradeAtQRYPTOS') }}
+                    </md-button>
                   </li>
                 </ul>
               </div>
@@ -112,15 +111,16 @@ import { mapActions, mapGetters } from 'vuex';
 
 import { logTrackerEvent } from '@/util/EventLogger';
 
-import MaterialButton from '~/components/MaterialButton';
 import TokenSaleProgress from '~/components/TokenSaleProgress';
 
-import { FINAL_TOKENSALE_ETH_VALUE } from '@/constant';
+import {
+  FINAL_TOKENSALE_ETH_VALUE,
+  QRYPTOS_LIKEETH_URL,
+} from '@/constant';
 
 export default {
   name: 'cta-section',
   components: {
-    MaterialButton,
     'tokensale-progress': TokenSaleProgress,
   },
   props: {
@@ -136,6 +136,7 @@ export default {
   data() {
     return {
       tokenSaleAmount: FINAL_TOKENSALE_ETH_VALUE,
+      QRYPTOS_LIKEETH_URL,
     };
   },
   computed: {
@@ -393,5 +394,9 @@ export default {
       box-shadow: 0px 0px 3px 5px rgba(0, 0, 0, 0.1);
     }
   }
+}
+
+.md-button.md-likecoin {
+  width: 100%;
 }
 </style>

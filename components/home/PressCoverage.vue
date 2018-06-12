@@ -88,6 +88,11 @@ const presses = [
     title: 'Commercial Radio Hong Kong, 2018.01.01',
   },
   {
+    id: 'nextmedia',
+    src: '/images/press-logo/nextmedia.png',
+    link: 'http://nextplus.nextmedia.com/news/spot/20180523/588342',
+  },
+  {
     id: 'mingpao',
     src: '/images/press-logo/ming-pao.svg',
     link: '/images/articles/20171007-mingbao.jpg',
