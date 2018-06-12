@@ -1,7 +1,7 @@
 import axios from '~/plugins/axios';
 import { IS_TESTNET } from '@/constant';
 
-const LIKECOIN_API_BASE = IS_TESTNET ? 'https://api.like.co/test' : 'https://api.like.co';
+const LIKECOIN_API_BASE = IS_TESTNET ? 'https://api.rinkeby.like.co' : 'https://api.like.co';
 
 export const apiCheckIsUser = addr => axios.get(`/api/users/addr/${addr}/min`);
 
