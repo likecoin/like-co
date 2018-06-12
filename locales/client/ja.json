@@ -659,7 +659,7 @@
         "label": {
             "id": "LikeCoin ID:",
             "likeCoinAmount": "LikeCoinの金額",
-            "address": "住所",
+            "address": "ウォレットのアドレス",
             "email": "メールアドレス",
             "addEmail": "メールアドレスを追加する",
             "redeemCoin": "LikeCoinと引き換える",
