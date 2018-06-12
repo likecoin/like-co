@@ -624,7 +624,7 @@
         "form": {
             "createID": "LikeCoin IDを作成する（最低7文字）",
             "walletAddress": "ウォレットのアドレス",
-            "email": "メールアドレス（任意）",
+            "email": "メールアドレス",
             "referrer": "紹介者のLikeCoin ID（任意）",
             "amount": "LikeCoinの金額:",
             "displayName": "ディスプレイ名",

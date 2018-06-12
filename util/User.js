@@ -12,6 +12,7 @@ const User = {
       email,
       referrer,
       locale,
+      isEmailEnabled,
     } = userInfo;
     const ts = Date.now();
     let avatarSHA256;
@@ -26,6 +27,7 @@ const User = {
       avatarSHA256,
       wallet,
       email: email === 'verified' ? undefined : email,
+      isEmailEnabled,
       referrer,
       locale,
     }, null, 2);

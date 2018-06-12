@@ -623,7 +623,7 @@
         "form": {
             "createID": "Créez un identifiant LikeCoin* (7 caractères au minimum)",
             "walletAddress": "Adresse de portefeuille",
-            "email": "E-mail (facultatif)",
+            "email": "E-mail",
             "referrer": "Identifiant du parrain LikeCoin (facultatif)",
             "amount": "Montant de LikeCoin :",
             "displayName": "Nom d’utilisateur",

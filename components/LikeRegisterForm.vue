@@ -25,6 +25,7 @@
                 pattern="[a-z0-9-_]{7,20}"
                 @change="user=user.toLowerCase().trim()"
                 :title="$t('Register.form.error.alphanumeric')"
+                v-bind="getTestAttribute('userId')"
                 required />
               <span class="md-error">{{ $t(`Error.${getInfoMsg}`) }}</span>
             </md-field>
@@ -50,6 +51,8 @@
                 v-model="email"
                 @change="email=email.toLowerCase().trim()"
                 :title="$t('Register.form.error.emailFormat')"
+                v-bind="getTestAttribute('email')"
+                required
               />
               <span class="md-error">{{ $t(`Error.${getInfoMsg}`) }}</span>
             </md-field>
@@ -72,17 +75,31 @@
               </label>
               <md-input v-model="couponCode" pattern="[2-9A-HJ-NP-Za-km-z]{8}" />
             </md-field>
+
+            <div class="check-box-list">
+              <md-checkbox class="md-likecoin" v-model="isEmailEnabled">
+                {{ $t('Register.form.enableEmail') }}
+              </md-checkbox>
+              <div class="term-agreement">
+                <md-checkbox
+                  class="md-likecoin"
+                  v-model="isTermsAgreed" />
+                <label
+                  @click="selectAgreeTerms"
+                  v-bind="getTestAttribute('agreeTerms')"
+                  v-html="$t('Register.form.agreeTerms')" />
+              </div>
+            </div>
+
+            <vue-recaptcha
+              class="lc-margin-top-32"
+              @verify="onCaptchaVerify"
+              @expired="onCaptchaExpired"
+              sitekey="6LfQqlgUAAAAADGckz6BtIuD_sU6cJhWDJ__OBx7">
+            </vue-recaptcha>
+
           </div>
         </div>
-      </div>
-      <!-- TODO: fix style -->
-      <div style="display:flex">
-        <div style="flex: 1" class=".lc-mobile-hide"/>
-        <vue-recaptcha
-          @verify="onCaptchaVerify"
-          @expired="onCaptchaExpired"
-          sitekey="6LfQqlgUAAAAADGckz6BtIuD_sU6cJhWDJ__OBx7">
-        </vue-recaptcha>
       </div>
       <div id="form-btn" class="lc-margin-top-16 lc-mobile">
         <material-button
@@ -94,9 +111,9 @@
         </material-button>
       </div>
     </form>
-    
+
     <claim-dialog ref="claimDialog" :couponCode="couponCode" :wallet="wallet" />
-    
+
     <referrer-dialog
       :is-show.sync="shouldShowReferrerDialog"
       :referrer-id="referrer"
@@ -111,6 +128,7 @@ import VueRecaptcha from 'vue-recaptcha';
 
 import User from '@/util/User';
 import { logTrackerEvent } from '@/util/EventLogger';
+import getTestAttribute from '@/util/test';
 
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import ReferrerDialog from '~/components/dialogs/ReferrerDialog';
@@ -129,6 +147,8 @@ export default {
       avatarData: null,
       user: '',
       email: this.$route.query.email || '',
+      isEmailEnabled: false,
+      isTermsAgreed: false,
       couponCode: '',
       referrer: this.$route.query.from || '',
       referrerInfo: {},
@@ -198,11 +218,19 @@ export default {
     onCaptchaExpired() {
       this.reCaptchaResponse = '';
     },
+    selectAgreeTerms() {
+      this.isTermsAgreed = !this.isTermsAgreed;
+    },
+    getTestAttribute: getTestAttribute('registerForm'),
     async onSubmit() {
       try {
         this.isBadAddress = false;
         if (!this.checkAddress()) {
           this.isBadAddress = true;
+          return;
+        }
+        if (!this.isTermsAgreed) {
+          this.setErrorMsg(this.$t('Register.form.error.terms'));
           return;
         }
         const { reCaptchaResponse } = this;
@@ -215,6 +243,7 @@ export default {
           user: this.user.toLowerCase().trim(),
           wallet: this.wallet,
           email: this.email.toLowerCase().trim(),
+          isEmailEnabled: this.isEmailEnabled,
           referrer: this.referrer.toLowerCase().trim(),
           locale: this.getCurrentLocale,
         };
@@ -375,5 +404,34 @@ input[type="file"] {
   padding: 0;
 
   border: 0;
+}
+
+.check-box-list {
+  display: flex;
+  flex-direction: column;
+
+  .md-checkbox {
+    margin: 0;
+  }
+
+  .term-agreement {
+    display: flex;
+    flex-direction: row;
+
+    color: $like-dark-brown-1;
+
+    label {
+      padding-top: 6px;
+      padding-left: 8px;
+
+      cursor: pointer;
+
+      :global(a) {
+        text-decoration: underline;
+
+        color: currentColor;
+      }
+    }
+  }
 }
 </style>

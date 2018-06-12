@@ -84,6 +84,14 @@ export default {
     @media (max-width: 600px) {
       font-size: 12px;
     }
+
+    :global(.md-icon),
+    :global(svg) {
+      width: 16px;
+      height: 16px;
+      min-width: 16px;
+      min-width: 16px;
+    }
   }
 
   > a {
@@ -91,6 +99,7 @@ export default {
     text-decoration: none;
 
     display: inline-flex;
+    align-items: center;
 
     &::before {
       content: " ";
@@ -102,6 +111,14 @@ export default {
       width: 0%;
 
       transition: width 0.25s ease-out;
+    }
+
+    :global(.md-svg-loader) {
+      display: inline-flex;
+    }
+
+    :global(.md-icon:not(:last-child)) {
+      margin-right: 4px;
     }
 
     :global(svg) {
