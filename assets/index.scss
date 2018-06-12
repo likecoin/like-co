@@ -852,6 +852,10 @@ $line-height-map: (
     &.lc-twitter {
       @include lc-button-style(#1EA1F2);
     }
+
+    &.shadow {
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+    }
   }
 
   .md-button-content {

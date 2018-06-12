@@ -17,15 +17,14 @@
     </div>
 
     <div v-if="linkHref && linkText" class="links">
-      <material-button class="link what">
-        <a
-         :href="linkHref"
-         target="_blank"
-         rel="noopener noreferrer"
-        >
-          {{ linkText }}
-        </a>
-      </material-button>
+      <md-button
+        class="link what md-likecoin lc-text-align-center"
+        :href="linkHref"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        {{ linkText }}
+      </md-button>
     </div>
 
     <div v-else-if="linkText" class="links" @click="onClick">
@@ -39,14 +38,9 @@
 
 
 <script>
-import MaterialButton from '~/components/MaterialButton';
-
 export default {
   name: 'like-coin-amount',
   props: ['value', 'isOpaque', 'linkHref', 'linkText', 'amountText'],
-  components: {
-    MaterialButton,
-  },
   data() {
     return {
       defaultValue: '0.0000',
@@ -151,8 +145,6 @@ export default {
   }
 
   .link {
-    display: flex;
-
     margin: 0;
 
     transition: opacity .2s ease-in-out;
@@ -173,5 +165,9 @@ export default {
       text-decoration: underline;
     }
   }
+}
+
+.md-button.md-likecoin {
+  width: 100%;
 }
 </style>
