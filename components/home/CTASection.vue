@@ -58,13 +58,12 @@
                   </li>
                   <li>
                     <md-button
-                      class="cta-btn support md-likecoin shadow">
-                      <a
+                      class="cta-btn support md-likecoin shadow lc-text-align-center"
                       :href="QRYPTOS_LIKEETH_URL"
                       rel="noopener noreferrer"
-                      target="_blank">
+                      target="_blank"
+                    >
                         {{ $t('Home.Sale.button.tradeAtQRYPTOS') }}
-                      </a>
                     </md-button>
                   </li>
                 </ul>
@@ -399,11 +398,5 @@ export default {
 
 .md-button.md-likecoin {
   width: 100%;
-
-  a {
-    display: block;
-
-    color: $like-white;
-  }
 }
 </style>

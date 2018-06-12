@@ -18,14 +18,12 @@
 
     <div v-if="linkHref && linkText" class="links">
       <md-button
-        class="link what md-likecoin">
-        <a
-          class="lc-color-white"
-          :href="linkHref"
-          target="_blank"
-          rel="noopener noreferrer">
-          {{ linkText }}
-        </a>
+        class="link what md-likecoin lc-text-align-center"
+        :href="linkHref"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        {{ linkText }}
       </md-button>
     </div>
 
@@ -147,8 +145,6 @@ export default {
   }
 
   .link {
-    display: flex;
-
     margin: 0;
 
     transition: opacity .2s ease-in-out;
@@ -173,9 +169,5 @@ export default {
 
 .md-button.md-likecoin {
   width: 100%;
-
-  a {
-    display: block;
-  }
 }
 </style>
