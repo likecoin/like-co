@@ -84,10 +84,21 @@
                 <md-checkbox
                   class="md-likecoin"
                   v-model="isTermsAgreed" />
-                <label
-                  @click="selectAgreeTerms"
+                <i18n
+                  path="Register.form.agreeTerms"
+                  tag="label"
                   v-bind="getTestAttribute('agreeTerms')"
-                  v-html="$t('Register.form.agreeTerms')" />
+                  @click="selectAgreeTerms"
+                >
+                  <a
+                    href="/in/policies/privacy"
+                    place="privacyPolicy"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >{{
+                    $t('Register.form.privacyPolicy')
+                  }}</a>
+                </i18n>
               </div>
             </div>
 
