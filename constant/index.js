@@ -76,3 +76,5 @@ export const TRUST_URL = 'https://links.trustwalletapp.com/a/key_live_lfvIpVeI9T
 export const EXTRA_EMAIL_BLACLIST = [
   'tutye.com',
 ];
+
+export const QRYPTOS_LIKEETH_URL = 'https://home.qryptos.com/basic/LIKEETH';
