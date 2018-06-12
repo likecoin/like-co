@@ -36,40 +36,36 @@
               <div class="cta-section-body-buttons">
                 <ul>
                   <li v-if="getUserIsRegistered">
-                    <material-button
-                    class="cta-btn"
-                    :hasShadow="true"
-                    @click="onClickSupportLikeCoinButton">
-                    {{ $t('Home.Sale.button.supportLikeCoin') }}
-                    </material-button>
+                    <md-button
+                      class="cta-btn md-likecoin shadow"
+                      @click="onClickSupportLikeCoinButton">
+                      {{ $t('Home.Sale.button.supportLikeCoin') }}
+                    </md-button>
                   </li>
                   <li v-else-if="getUserNeedAuth">
-                    <material-button
-                      class="cta-btn"
-                      :hasShadow="true"
+                    <md-button
+                      class="cta-btn md-likecoin shadow"
                       @click="onClickSignInButton">
                       {{ $t('Home.Header.button.signIn') }}
-                    </material-button>
+                    </md-button>
                   </li>
                   <li v-else>
-                    <material-button
-                      class="cta-btn"
-                      :hasShadow="true"
+                    <md-button
+                      class="cta-btn md-likecoin shadow"
                       @click="onClickRegisterButton">
                       {{ $t('Home.Header.button.signUp') }}
-                    </material-button>
+                    </md-button>
                   </li>
                   <li>
-                    <a
+                    <md-button
+                      class="cta-btn support md-likecoin shadow">
+                      <a
                       :href="QRYPTOS_LIKEETH_URL"
                       rel="noopener noreferrer"
                       target="_blank">
-                      <material-button
-                        class="cta-btn support"
-                        :hasShadow="true">
                         {{ $t('Home.Sale.button.tradeAtQRYPTOS') }}
-                      </material-button>
-                    </a>
+                      </a>
+                    </md-button>
                   </li>
                 </ul>
               </div>
@@ -116,7 +112,6 @@ import { mapActions, mapGetters } from 'vuex';
 
 import { logTrackerEvent } from '@/util/EventLogger';
 
-import MaterialButton from '~/components/MaterialButton';
 import TokenSaleProgress from '~/components/TokenSaleProgress';
 
 import {
@@ -127,7 +122,6 @@ import {
 export default {
   name: 'cta-section',
   components: {
-    MaterialButton,
     'tokensale-progress': TokenSaleProgress,
   },
   props: {
@@ -400,6 +394,16 @@ export default {
     @media (max-width: 600px) {
       box-shadow: 0px 0px 3px 5px rgba(0, 0, 0, 0.1);
     }
+  }
+}
+
+.md-button.md-likecoin {
+  width: 100%;
+
+  a {
+    display: block;
+
+    color: $like-white;
   }
 }
 </style>
