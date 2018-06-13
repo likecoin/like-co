@@ -292,11 +292,17 @@ export default {
     },
     getMissionList(list) {
       if (list.length > 0) {
-        if (this.$route.query.selectedMission) {
-          this.fetchSelectedMission({
-            missionId: this.$route.query.selectedMission,
-            userMissionList: list.map(l => l.id),
-          });
+        const { selectedMission } = this.$route.query;
+        const mission = list.find(m => m.id === selectedMission);
+        if (selectedMission) {
+          if (mission) {
+            this.onMissionClick(mission);
+          } else {
+            this.fetchSelectedMission({
+              missionId: this.$route.query.selectedMission,
+              userMissionList: list.map(l => l.id),
+            });
+          }
         }
       }
     },

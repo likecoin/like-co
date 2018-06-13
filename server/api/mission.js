@@ -255,6 +255,7 @@ router.get('/mission/:missionId/user/:userId', jwtAuth, async (req, res, next) =
     const { missionId, userId } = req.params;
     const { userMissionList = [] } = req.query;
 
+    // retrieve whole mission doc to trace back required mission chain
     const [missionCol, userMission] = await Promise.all([
       missionsRef.get(),
       dbRef.doc(userId).collection('mission').doc(missionId).get(),
