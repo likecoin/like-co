@@ -142,10 +142,6 @@ export default {
       type: String,
       default: '',
     },
-    selectedMission: {
-      type: Object,
-      default: null,
-    },
   },
   components: {
     MissionItem,
@@ -207,9 +203,6 @@ export default {
       this.$nextTick(() => {
         this.$refs.list.scrollLeft = 0;
         this.updateScrollIndicator();
-        if (!this.isLoading && this.selectedMission) {
-          this.onClick(this.selectedMission);
-        }
       });
     },
   },

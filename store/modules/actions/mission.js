@@ -4,6 +4,26 @@ import * as types from '@/store/mutation-types';
 
 import apiWrapper from './api-wrapper';
 
+export async function fetchSelectedMission(
+  { commit, dispatch, rootState },
+  { missionId, userMissionList },
+) {
+  const { user } = rootState.user.user;
+  const mission = await apiWrapper(
+    { commit, dispatch },
+    api.apiFetchUserMission({
+      missionId,
+      user,
+      params: { userMissionList },
+    }),
+  );
+
+  commit(types.MISSION_SET_SELECTED_MISSION, {
+    ...mission,
+    isFromUrl: true,
+  });
+}
+
 export async function fetchMissionList({ commit, dispatch }, id) {
   return apiWrapper({ commit, dispatch }, api.apiFetchMissionList(id));
 }
@@ -98,6 +118,18 @@ export async function onMissionClick(ctx, m) {
   commit(types.UI_SET_MISSION_DIALOG, m);
 
   return false;
+}
+
+export async function onMissionClickFromUrl(ctx, mission) {
+  const { commit } = ctx;
+  const { isMissionRequired, isClaimed, isExpired } = mission;
+  if (isMissionRequired || isClaimed || isExpired) {
+    // open dialog for handling edge cases from url
+    commit(types.UI_SET_MISSION_DIALOG, mission);
+    return false;
+  }
+
+  return onMissionClick(ctx, mission);
 }
 
 export async function onReferralSeen(ctx, { referralId }) {

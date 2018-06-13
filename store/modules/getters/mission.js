@@ -59,3 +59,5 @@ export const getIsFetchedMissions = state => state.isFetched;
 
 export const getIsFetchingMissionHistory = state => state.isFetchingMissionHistory;
 export const getIsFetchedMissionHistory = state => state.isFetchedMissionHistory;
+
+export const getSelectedMission = state => state.selectedMission;
