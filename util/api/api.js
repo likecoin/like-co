@@ -72,7 +72,7 @@ export const apiClaimMission = (user, missionId) => axios.post(
 );
 
 export const apiClaimReferralBonus = (user, type) => axios.post(
-  `${LIKECOIN_API_BASE}/referral/claim`,
+  `${LIKECOIN_API_BASE}/mission/referral/claim`,
   { user, type },
 );
 
@@ -107,7 +107,7 @@ export const apiGetAdvancedKYC = id => axios.get(`/api/kyc/advanced/${id}`);
 export const apiSendCouponCodeEmail = (id, coupon, locale) => axios.post(`/api/email/verify/user/${id}`, { coupon, locale });
 
 export const apiSendInvitationEmail = (user, email, locale) => axios.post(
-  `${LIKECOIN_API_BASE}/store-invite`,
+  `${LIKECOIN_API_BASE}/misc/store-invite`,
   {
     referrerId: user,
     email,
