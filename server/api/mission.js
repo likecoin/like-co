@@ -250,6 +250,65 @@ router.get('/mission/list/history/:id/bonus', jwtAuth, async (req, res, next) =>
   }
 });
 
+router.get('/mission/:missionId/user/:userId', jwtAuth, async (req, res, next) => {
+  try {
+    const { missionId, userId } = req.params;
+    const { userMissionList = [] } = req.query;
+
+    const [missionCol, userMission] = await Promise.all([
+      missionsRef.get(),
+      dbRef.doc(userId).collection('mission').doc(missionId).get(),
+    ]);
+
+    const getMission = id => missionCol.docs.find(d => d.id === id);
+
+    const mission = getMission(missionId);
+    if (!mission) {
+      res.json({ isExpired: true });
+      return;
+    }
+
+    const missionData = mission.data();
+    const userMissionData = userMission.data();
+
+    const isExpired = !!missionData.endTs && Date.now() >= missionData.endTs;
+    const isClaimed = userMissionData ?
+      (userMissionData.done && !!userMissionData.bonusId) :
+      false;
+    const isMissionRequired = !userMissionData;
+
+    const require = [];
+    // get the required mission that has to be fulfilled first by user
+    if (isMissionRequired) {
+      let requiredMissions = missionData.require;
+      while (requiredMissions && requiredMissions.length > 0) {
+        // filter mission that is available to user
+        const userExistingMission = requiredMissions.filter(m => userMissionList.includes(m))[0];
+        if (!userExistingMission) {
+          requiredMissions = getMission(requiredMissions[0]).data().require;
+        } else {
+          require.push(userExistingMission);
+          requiredMissions = [];
+        }
+      }
+    }
+
+    res.json({
+      ...Validate.filterMissionData({
+        id: missionId,
+        ...missionData,
+        ...userMissionData,
+      }),
+      isExpired,
+      isClaimed,
+      isMissionRequired,
+      require,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.get('/referral/list/:id', jwtAuth, async (req, res, next) => {
   try {
     const { id } = req.params;
