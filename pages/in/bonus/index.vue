@@ -75,7 +75,6 @@
                   :missions="getMissionList"
                   :is-loading="getIsFetchingMissions || !getIsFetchedMissions"
                   :empty-placeholder="$t('BonusPage.placeholder.emptyMission')"
-                  :selected-mission="selectedMission"
                   @click="onMissionClick" />
               </div>
             </div>
@@ -228,10 +227,8 @@ export default {
       'getUserIsRegistered',
       'getMissionList',
       'getReferralMissionList',
+      'getSelectedMission',
     ]),
-    selectedMission() {
-      return this.getMissionList.find(m => m.id === this.$route.query.selectedMission);
-    },
   },
   methods: {
     ...mapActions([
@@ -241,6 +238,8 @@ export default {
       'onMissionClick',
       'onReferralMissionClick',
       'onReferralSeen',
+      'fetchSelectedMission',
+      'onMissionClickFromUrl',
     ]),
     async updateInfo() {
       const user = this.getUserInfo;
@@ -289,6 +288,27 @@ export default {
         if (this.getUserIsRegistered) {
           this.updateInfo();
         }
+      }
+    },
+    getMissionList(list) {
+      if (list.length > 0) {
+        const { selectedMission } = this.$route.query;
+        const mission = list.find(m => m.id === selectedMission);
+        if (selectedMission) {
+          if (mission) {
+            this.onMissionClick(mission);
+          } else {
+            this.fetchSelectedMission({
+              missionId: this.$route.query.selectedMission,
+              userMissionList: list.map(l => l.id),
+            });
+          }
+        }
+      }
+    },
+    getSelectedMission(mission) {
+      if (mission) {
+        this.onMissionClickFromUrl(mission);
       }
     },
   },

@@ -52,6 +52,10 @@ export const apiCheckUserAuth = wallet => axios.post('/api/users/login/check', {
 
 export const apiLoginUser = payload => axios.post('/api/users/login', payload);
 
+export const apiFetchUserMission = ({ missionId, user, params }) => axios.get(`/api/mission/${missionId}/user/${user}`, {
+  params,
+});
+
 export const apiFetchMissionList = id => axios.get(`/api/mission/list/${id}`);
 
 export const apiFetchMissionHistoryList = id => axios.get(`/api/mission/list/history/${id}`);

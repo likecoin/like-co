@@ -11,7 +11,8 @@
       "yes": "是",
       "no": "否",
       "ok": "OK",
-      "myAccount": "我的帳號"
+      "myAccount": "我的帳號",
+      "next": "下一步"
     }
   },
   "Language": {
@@ -971,13 +972,27 @@
     },
     "completedBanner": {
       "label": {
-        "completed": "完成！",
-        "bonusTransferShortly": "LikeCoin 獎賞正在轉帳給你，快到了。"
+        "complete": "完成！",
+        "completed": "完成",
+        "bonusTransferShortly": "LikeCoin 獎賞正在轉帳給你，快到了。",
+        "completedAlready": "你已完成這個任務。",
+        "viewHistory": "查閱獎賞記錄"
       }
     },
     "common": {
       "label": {
         "upcomingDate": "<span class=\"bold\">LikeCoin 公開代幣發售將於 {upcoming} 開始.</span>"
+      }
+    },
+    "notFound": {
+      "title": "噢… 找不到獎賞",
+      "bonusPage": "獎賞頁面",
+      "description": "很抱歉，您想找的獎賞不存在或已逾期，您可到我們的 {bonusPage} 查看更多其他獎賞。"
+    },
+    "missionRequired": {
+      "verifyEmail": {
+        "title": "請驗證電郵地址",
+        "description": "您需要先驗證您的電郵地址才能解鎖 {bonusTask} 獎賞。"
       }
     }
   }
