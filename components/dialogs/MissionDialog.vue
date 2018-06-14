@@ -51,7 +51,7 @@
                 <div place="bonusPage" @click="onDismiss">
                   <nuxt-link
                     class="lc-font-weight-600 lc-color-like-green lc-underline"
-                    :to="{ name: 'in-bonus-index' }"
+                    :to="{ name: 'in-bonus' }"
                   >{{
                     $t('Mission.notFound.bonusPage')
                   }}</nuxt-link>
