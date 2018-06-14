@@ -137,7 +137,7 @@ export default {
     },
     getUserNeedRegister(a) {
       if (a) {
-        this.$router.push({ name: 'in-register', query: { ref: '', ...this.$route.query } });
+        this.$router.push({ name: 'in-register', query: { ref: 'in', ...this.$route.query } });
       }
     },
   },
@@ -146,7 +146,7 @@ export default {
       this.triggerLoginSign();
     }
     if (this.getUserNeedRegister) {
-      this.$router.push({ name: 'in-register', query: { ref: '', ...this.$route.query } });
+      this.$router.push({ name: 'in-register', query: { ref: 'in', ...this.$route.query } });
     }
   },
 };
