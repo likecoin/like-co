@@ -5,13 +5,13 @@
       :class="[
         {
           upcoming: isUpcomingMission,
-          'with-icon': !isExpired,
+          'with-icon': !isUnfinishedAndExpired,
         }
       ]"
       :isShowCloseButton="true">
 
       <div
-        v-if="!isExpired"
+        v-if="!isUnfinishedAndExpired"
         slot="header-center"
         class="lc-section-header-icon lc-dialog-icon lc-raised-icon">
         <mission-icon :mission-id="missionId" />
@@ -42,7 +42,7 @@
 
             <h1 class="title-label">{{ title }}</h1>
 
-            <div v-if="isExpired">
+            <div v-if="isUnfinishedAndExpired">
               <i18n
                 class="description"
                 path="Mission.notFound.description"
@@ -118,7 +118,7 @@
 
             <!-- BEGIN - Mission Not Found Section -->
             <div
-              v-if="isExpired">
+              v-if="mission.isExpired">
 
               <div class="lc-button-group">
                 <md-button class="md-likecoin" @click="onDismiss">
@@ -339,7 +339,7 @@ export default {
       return this.mission.isReferral ? this.mission.referralReward : this.mission.reward;
     },
     title() {
-      if (this.isExpired) {
+      if (this.isUnfinishedAndExpired) {
         return this.$t('Mission.notFound.title');
       } else if (this.isMissionRequired) {
         return this.$t(`Mission.missionRequired.${this.mission.require[0]}.title`);
@@ -397,8 +397,8 @@ export default {
     isUpcomingMission() {
       return this.mission.upcoming;
     },
-    isExpired() {
-      return this.mission.isExpired;
+    isUnfinishedAndExpired() {
+      return this.mission.isExpired && !this.mission.isClaimed;
     },
     isMissionRequired() {
       return this.mission.isMissionRequired && this.mission.require.length > 0;
