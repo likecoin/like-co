@@ -239,7 +239,7 @@
         "Header": {
             "button": {
                 "signIn": "Conectarse",
-                "signUp": "Registro"
+                "signUp": "Conectarse"
             }
         },
         "Flag": {
