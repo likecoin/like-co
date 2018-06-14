@@ -45,6 +45,13 @@ const SUPPORTED_AVATER_TYPE = new Set([
   'bmp',
 ]);
 
+const AUTH_COOKIE_OPTION = {
+  maxAge: 31556926000, // 365d
+  domain: process.env.NODE_ENV !== 'production' ? undefined : '.like.co',
+  secure: process.env.NODE_ENV === 'production',
+  httpOnly: true,
+};
+
 const multer = Multer({
   storage: Multer.memoryStorage(),
   limits: {
@@ -63,7 +70,7 @@ const apiLimiter = new RateLimit({
   max: REGISTER_LIMIT_COUNT || 0,
   delayMs: 0, // disabled
   skipFailedRequests: true,
-  keyGenereator: req => (req.headers['x-real-ip'] || req.ip),
+  keyGenerator: req => (req.headers['x-real-ip'] || req.ip),
   onLimitReached: (req) => {
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventAPILimitReached',
@@ -196,7 +203,7 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res, n
       if (!IS_TESTNET) {
         if (!reCaptchaResponse) throw new ValidationError('reCAPTCHA missing');
         const { data } = await axios.post(
-          'https://www.google.com/recaptcha/api/siteverify',
+          'https://www.recaptcha.net/recaptcha/api/siteverify',
           querystring.stringify({
             secret: RECAPTCHA_SECRET,
             response: reCaptchaResponse,
@@ -263,7 +270,9 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res, n
     }
 
     const token = jwtSign({ user, wallet });
-    res.json({ token });
+    res.cookie('likecoin_auth', token, AUTH_COOKIE_OPTION);
+    res.cookie('__session', token, AUTH_COOKIE_OPTION);
+    res.sendStatus(200);
 
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: !isOldUser ? 'eventUserRegister' : 'eventUserEdit',
@@ -287,6 +296,10 @@ router.post('/users/login/check', jwtAuth, (req, res) => {
     res.status(401).send('LOGIN_NEEDED');
     return;
   }
+  // eslint-disable-next-line no-underscore-dangle
+  if (req.cookies.__session !== req.cookies.likecoin_auth) {
+    res.cookie('__session', req.cookies.likecoin_auth, AUTH_COOKIE_OPTION);
+  }
   res.sendStatus(200);
 });
 
@@ -301,7 +314,9 @@ router.post('/users/login', async (req, res, next) => {
     if (query.docs.length > 0) {
       const user = query.docs[0].id;
       const token = jwtSign({ user, wallet: from });
-      res.json({ token });
+      res.cookie('likecoin_auth', token, AUTH_COOKIE_OPTION);
+      res.cookie('__session', token, AUTH_COOKIE_OPTION);
+      res.sendStatus(200);
     } else {
       res.sendStatus(404);
     }

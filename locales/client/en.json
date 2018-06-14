@@ -14,7 +14,8 @@
       "copy": "Copy",
       "copied": "Copied",
       "done": "Done",
-      "myAccount": "My Account"
+      "myAccount": "My Account",
+      "next": "Next"
     }
   },
   "Language": {
@@ -238,7 +239,7 @@
     "Header": {
       "button": {
         "signIn": "Sign In",
-        "signUp": "Sign Up"
+        "signUp": "Sign In"
       }
     },
     "Flag": {
@@ -274,6 +275,7 @@
         "joinTokenSale": "Join Token Sale",
         "joinNow": "Join Now",
         "prepareToJoin": "Prepare to Join",
+        "tradeAtQRYPTOS": "Trade at QRYPTOS",
         "supportLikeCoin": "Support the Movement"
       }
     },
@@ -1049,8 +1051,11 @@
     },
     "completedBanner": {
       "label": {
-        "completed": "Completed!",
-        "bonusTransferShortly": "The LikeCoin bonus will be transferred to you shortly."
+        "complete": "Complete!",
+        "completed": "Completed",
+        "bonusTransferShortly": "The LikeCoin bonus will be transferred to you shortly.",
+        "completedAlready": "You have completed this bonus already.",
+        "viewHistory": "View bonus history"
       }
     },
     "common": {
@@ -1061,6 +1066,17 @@
       },
       "button": {
         "desktopFAQ": "How can I access this account on desktop?"
+      }
+    },
+    "notFound": {
+      "title": "Oops... Bonus not found",
+      "bonusPage": "bonus page",
+      "description": "We are sorry that this bonus might have been expired. You can visit our {bonusPage} for more LikeCoin bonus."
+    },
+    "missionRequired": {
+      "verifyEmail": {
+        "title": "Please Verify Email",
+        "description": "You need to verify your email before the {bonusTask} bonus"
       }
     }
   }

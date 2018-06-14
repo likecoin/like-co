@@ -1,18 +1,28 @@
 <template>
-  <div class="lc-mission-completed-banner">
+  <div :class="['lc-mission-completed-banner', { animated }]">
 
     <div class="banner-content lc-dialog-container-1">
       <div class="lc-dialog-container-2 lc-padding-vertical-32 lc-mobile">
-        <div class="mission-description md-layout md-alignment-center-center">
+        <div class="lc-flex lc-flex-direction-column lc-align-items-center">
 
           <h1 class="lc-font-size-32 lc-font-weight-400 lc-color-white lc-padding-bottom-4">
-            {{ $t('Mission.completedBanner.label.completed') }}
+            {{ title }}
           </h1>
 
-          <p v-if="isShowDescription" class="lc-font-size-16 lc-color-white lc-text-align-center">
-            {{ $t('Mission.completedBanner.label.bonusTransferShortly') }}
+          <p v-if="isShowDescription" class="lc-font-size-16 lc-color-white">
+            {{ description }}
           </p>
 
+
+        </div>
+        <div class="lc-text-align-center lc-margin-top-8" @click="$emit('click')">
+          <nuxt-link
+            v-if="isClaimed"
+            class="lc-underline"
+            :to="{ name: 'in-bonus-history' }"
+          >
+            {{ $t('Mission.completedBanner.label.viewHistory') }}
+          </nuxt-link>
         </div>
       </div>
     </div>
@@ -31,6 +41,14 @@ import MissionStateIcon from './StateIcon';
 export default {
   name: 'mission-completed-banner',
   props: {
+    animated: {
+      default: true,
+      type: Boolean,
+    },
+    isClaimed: {
+      default: false,
+      type: Boolean,
+    },
     isShowDescription: {
       default: true,
       type: Boolean,
@@ -38,6 +56,18 @@ export default {
   },
   components: {
     MissionStateIcon,
+  },
+  computed: {
+    title() {
+      return this.isClaimed ?
+        this.$t('Mission.completedBanner.label.completed') :
+        this.$t('Mission.completedBanner.label.complete');
+    },
+    description() {
+      return this.isClaimed ?
+        this.$t('Mission.completedBanner.label.completedAlready') :
+        this.$t('Mission.completedBanner.label.bonusTransferShortly');
+    },
   },
 };
 </script>
@@ -89,12 +119,14 @@ export default {
 
     > * {
       margin: -26px auto 0;
-
-      animation: mission-completed;
-      animation-duration: .7s;
-      animation-timing-function: ease-in;
-      animation-iteration-count: 1;
     }
+  }
+
+  &.animated .completed-button-wrapper > * {
+    animation: mission-completed;
+    animation-duration: .7s;
+    animation-timing-function: ease-in;
+    animation-iteration-count: 1;
   }
 }
 </style>

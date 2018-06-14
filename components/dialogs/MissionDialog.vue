@@ -2,11 +2,18 @@
   <div class="mission-dialog">
     <base-dialog
       ref="dialog"
-      :class="['with-icon', { upcoming: isUpcomingMission }]"
+      :class="[
+        {
+          upcoming: isUpcomingMission,
+          'with-icon': !isUnfinishedAndExpired,
+        }
+      ]"
       :isShowCloseButton="true"
       @update:isShow="onDialogUpdate($event)">
-
-      <div slot="header-center" class="lc-section-header-icon lc-dialog-icon lc-raised-icon">
+      <div
+        v-if="!isUnfinishedAndExpired"
+        slot="header-center"
+        class="lc-section-header-icon lc-dialog-icon lc-raised-icon">
         <mission-icon :mission-id="missionId" />
       </div>
 
@@ -29,19 +36,52 @@
           class="mission-dialog-content">
 
           <div class="lc-dialog-container-1">
-            <div class="reward-label">
-              {{ mission.isReferral ? mission.referralReward : mission.reward }}
+            <div v-if="reward" class="reward-label">
+              {{ reward }}
             </div>
 
             <h1 class="title-label">{{ title }}</h1>
 
-            <div class="description" v-if="description" v-html="description" />
+            <div v-if="isUnfinishedAndExpired">
+              <i18n
+                class="description"
+                path="Mission.notFound.description"
+                tag="div"
+              >
+                <div place="bonusPage" @click="onDismiss">
+                  <nuxt-link
+                    class="lc-font-weight-600 lc-color-like-green lc-underline"
+                    :to="{ name: 'in-bonus' }"
+                  >{{
+                    $t('Mission.notFound.bonusPage')
+                  }}</nuxt-link>
+                </div>
+              </i18n>
+            </div>
+            <div v-else-if="isMissionRequired">
+              <i18n
+                class="description"
+                :path="`Mission.missionRequired.${mission.require[0]}.description`"
+                tag="div"
+              >
+                <span
+                  class="lc-font-weight-600 lc-color-like-dark-brown-2"
+                  place="bonusTask"
+                >{{
+                  $t(`Mission.${mission.id}.title`)
+                }}</span>
+              </i18n>
+            </div>
+            <div class="description" v-else-if="description" v-html="description" />
+
             <div class="description" v-if="subDescription" v-html="subDescription" />
           </div>
 
           <mission-completed-banner
-            v-if="isCompleted"
+            v-if="isCompleted || mission.isClaimed"
             class="lc-margin-top-32 lc-mobile"
+            :animated="isCompleted"
+            :isClaimed="mission.isClaimed"
             @click="onDismiss" />
 
           <div v-else-if="shouldShowDesktopOnly" class="lc-dialog-container-1">
@@ -75,9 +115,36 @@
           <div
             v-else
             class="lc-dialog-container-1 lc-margin-top-24 lc-mobile">
+
+            <!-- BEGIN - Mission Not Found Section -->
+            <div
+              v-if="mission.isExpired">
+
+              <div class="lc-button-group">
+                <md-button class="md-likecoin" @click="onDismiss">
+                {{ $t('General.button.ok') }}
+                </md-button>
+              </div>
+
+            </div>
+            <!-- END - Mission Not Found Section -->
+
+            <!-- BEGIN - Required Other Mission Section -->
+            <div
+              v-else-if="isMissionRequired">
+
+              <div class="lc-button-group">
+                <md-button class="md-likecoin" @click="onClickNextMission">
+                  {{ $t('General.button.next') }}
+                </md-button>
+              </div>
+
+            </div>
+            <!-- END - Required Other Mission Section -->
+
             <!-- BEGIN - Getting Start Section -->
             <div
-              v-if="mission.id === 'gettingStart'"
+              v-else-if="mission.id === 'gettingStart'"
               class="getting-start-form">
 
               <task-list
@@ -249,9 +316,15 @@ export default {
       'getPopupMission',
       'getMissionById',
       'getUserInfo',
+      'getMissionList',
+      'getSelectedMission',
     ]),
     mission() {
-      return this.getMissionById(this.getPopupMission.id) || {};
+      return (
+        this.getMissionById(this.getPopupMission.id) ||
+        this.getSelectedMission ||
+        {}
+      );
     },
     isCustomLayout() {
       switch (this.missionId) {
@@ -261,10 +334,22 @@ export default {
           return false;
       }
     },
+    reward() {
+      if (this.mission.isFromUrl) return '';
+      return this.mission.isReferral ? this.mission.referralReward : this.mission.reward;
+    },
     title() {
+      if (this.isUnfinishedAndExpired) {
+        return this.$t('Mission.notFound.title');
+      } else if (this.isMissionRequired) {
+        return this.$t(`Mission.missionRequired.${this.mission.require[0]}.title`);
+      }
       return this.$t(`Mission.${this.missionId}.title`);
     },
     description() {
+      if (this.mission.isFromUrl) {
+        return '';
+      }
       if (this.shouldShowDesktopOnly) {
         return this.$t('Mission.common.label.desktopRequired');
       }
@@ -311,6 +396,12 @@ export default {
     },
     isUpcomingMission() {
       return this.mission.upcoming;
+    },
+    isUnfinishedAndExpired() {
+      return this.mission.isExpired && !this.mission.isClaimed;
+    },
+    isMissionRequired() {
+      return this.mission.isMissionRequired && this.mission.require.length > 0;
     },
   },
   methods: {
@@ -430,6 +521,16 @@ export default {
         this.setPromptNotificationDialog(true);
       }
     },
+    onClickNextMission() {
+      const mission = this.getMissionList.find(m => m.id === this.mission.require[0]);
+      if (mission) {
+        this.onMissionClick({
+          ...mission,
+        });
+      } else {
+        this.hide();
+      }
+    },
   },
   watch: {
     getPopupMission(m) {
@@ -508,6 +609,10 @@ export default {
 
   &:not(:last-child) {
     margin-bottom: 32px;
+  }
+
+  > div:not([place='']) {
+    display: inline;
   }
 }
 

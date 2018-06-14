@@ -11,7 +11,11 @@
             "yes": "예",
             "no": "아니요",
             "ok": "OK",
-            "myAccount": "내 계정"
+            "copy": "복사",
+            "copied": "복사됨",
+            "done": "완료",
+            "myAccount": "내 계정",
+            "next": "다음"
         }
     },
     "Language": {
@@ -78,7 +82,7 @@
         "hu": "magyar",
         "ia": "Interlingua",
         "id": "Bahasa Indonesia",
-        "ie": "원래는 Occidental로 불렸으며, 세계2차대전 이후로는 Interlingue로 칭해짐.",
+        "ie": "기존에는 Occidental로 불렸으며, 세계2차대전 이후 Interlingue로 칭해짐",
         "ga": "Gaeilge",
         "ig": "Asụsụ Igbo",
         "ik": "Iñupiaq, Iñupiatun",
@@ -202,15 +206,15 @@
         "zu": "isiZulu"
     },
     "Date": {
-        "day": "일",
-        "hour": "시간",
-        "minute": "분",
-        "second": "초"
+        "day": "일 | 일",
+        "hour": "시간 | 시간",
+        "minute": "분 | 분",
+        "second": "초 | 초"
     },
     "Menu": {
         "button": {
             "menu": "메뉴",
-            "close": "닫기"
+            "close": "닫음"
         },
         "item": {
             "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
@@ -226,7 +230,7 @@
     },
     "Sign": {
         "Message": {
-            "registerUser": "다음 사용자 정보로 등록함",
+            "registerUser": "다음 사용자 정보로 등록",
             "editUser": "사용자 정보 업데이트 중",
             "signKYC": "다음 정보로 사용자 ID 확인"
         }
@@ -234,8 +238,8 @@
     "Home": {
         "Header": {
             "button": {
-                "signIn": "로그인",
-                "signUp": "회원 가입"
+                "signIn": "사인 인",
+                "signUp": "사인 인"
             }
         },
         "Flag": {
@@ -249,10 +253,9 @@
         },
         "Sale": {
             "title": {
-                "earlyBirdTokenSale": "얼리 버드 토큰 판매",
                 "publicTokenSale": "공개 토큰 판매",
-                "secure25Percent": "지금 구매하시면 25% 보너스 확보",
-                "nowLive": "현재 라이브 중"
+                "nowLive": "현재 라이브 중",
+                "isOver": "종료됨"
             },
             "label": {
                 "contactOurTeam": "하단 우측 대화창을 클릭해서 저희 팀에게 문의하세요",
@@ -268,9 +271,10 @@
                 "createNow": "지금 생성하기",
                 "buyCoin": "LikeCoin 구매",
                 "imInterested": "관심이 있습니다",
-                "joinTokenSale": "토큰 판매 참가",
+                "aboutTokenSale": "토큰 판매 관련 정보",
+                "joinTokenSale": "토큰 판매 참가하기",
                 "joinNow": "지금 참가하기",
-                "prepareToJoin": "가입 준비하기",
+                "prepareToJoin": "참가 준비하기",
                 "supportLikeCoin": "운동을 지원"
             }
         },
@@ -294,7 +298,7 @@
                 "service": {
                     "title": "LikeCoin 서비스",
                     "example": {
-                        "button": "좋아요 버튼",
+                        "button": "Like 버튼",
                         "store": "like.co",
                         "token": "LikeCoin 토큰"
                     }
@@ -353,7 +357,7 @@
         },
         "TokenDistribution": {
             "title": "토큰 배분",
-            "content": "8억 토큰 선행, 이후 10년 이상에 걸쳐 서서히 주조하여 20억 도달. 창의성 증명에 대한 대가로 창시자들에게 10억 토큰 보상",
+            "content": "8억 토큰 선행, 이후 10년 이상에 걸쳐 서서히 주조하여 20억 도달.  창의성 증명에 대한 대가로 창시자들에게 10억 토큰 보상",
             "yearButton": {
                 "year0": "0년차",
                 "year10": "10+년차"
@@ -415,7 +419,7 @@
                     "description": "<a href=\"https://musicoin.org/\" target=\"_blank\" rel=\"noopener\">Musicoin</a> 창립자; CNBlogs.org 창립자; Creative Commons China Team의 iCommons China 프로젝트 리더 ."
                 },
                 "to-cheung": {
-                    "title": "Cheung에게",
+                    "title": "토 청",
                     "description": "<a href=\"https://www.udomain.hk/\" target=\"_blank\" rel=\"noopener\">UDomain</a> 창립자 겸 CEO; BTC 조기 투자자"
                 }
             }
@@ -472,8 +476,7 @@
         "Community": {
             "title": "LikeCoin 커뮤니티: ",
             "button": {
-                "faq": "FAQ",
-                "faqLink": "https://help.like.co/likecoin-자주묻는질문-faq"
+                "faq": "FAQ"
             }
         }
     },
@@ -518,21 +521,25 @@
                 "web3": "플러그인이 필요합니다",
                 "locked": "Metamask를 해제해 주십시오",
                 "sign": "Metamask에 접속",
-                "connectledger": "Ledger 지갑에 연결하기",
-                "signledger": "Ledger 지갑에 접속"
+                "login": "Metamask에 접속해서 로그인",
+                "connectledger": "Ledger 지갑에 연결",
+                "signledger": "Ledger 지갑에 접속",
+                "loginledger": "Ledger 지갑에 접속해서 로그인"
             },
             "content": {
                 "switchRinkeby": "like.co를 실행하려면 Rinkeby가 필요합니다. 정확한 네트워크로 전환해 주십시오.",
                 "switchMain": "like.co를 실행하려면 Main이 필요합니다. 정확한 네트워크로 전환해 주십시오.",
                 "web3": "like.co를 실행하려면 Metamask가 필요합니다. Chrome으로 전환해서 Metamask 확장을 설치해 주십시오.<br /> <span style='color:red'>시드 단어를 안전하게 보관하시는 걸 잊지 마세요!<span>",
                 "locked": "like.co를 실행하려면 Metamask가 필요합니다. Metamask를 해제해 주십시오.",
-                "sign": "계속하시려면 Metamask 접속 개시를 클릭하세요.",
-                "connectledger": "Ledger 지갑에 접속한 후 잠금을 풀어 주신 다음, 이더리움 앱으로 전환해 주십시오. 이더리움 앱의 브라우저 지원 모드가 반드시 like.co 사용에 대해 <b>YES</b>로 돼 있어야 합니다.<br /> 자세한 내용을 보시려면 다음  사이트를 방문해 주세요: <a href=\"https://support.ledgerwallet.com/hc/en-us/articles/115005198565\" target=\"_blank\" rel=\"noopener\">Ledger 지원</a>",
-                "signledger": "계속하시려면 Ledger 지갑에서 확인을 눌러 주세요."
+                "sign": "계속하려면 Metamask에 접속을 클릭하세요.",
+                "login": "로그인하려면 Metamask에 접속을 클릭하세요.",
+                "connectledger": "Ledger 지갑에 접속한 후 잠금을 풀어 주신 다음, 이더리움 앱으로 전환해 주십시오. 이더리움 앱의 브라우저 지원 모드가 반드시 like.co 사용에 대해 <b>YES</b>로 돼 있어야 합니다.<br /> 자세한 내용을 보시려면 다음 사이트를 방문해 주세요: <a href=\"https://support.ledgerwallet.com/hc/en-us/articles/115005198565\" target=\"_blank\" rel=\"noopener\">Ledger 지원</a>",
+                "signledger": "계속하시려면 Ledger 지갑에서 확인을 눌러 주세요.",
+                "loginledger": "로그인하시려면 Ledger 지갑에서 확인을 눌러 주세요."
             },
             "label": {
-                "hardwareWallet": "... 또는, 하드웨어 지갑에 접속하세요.",
-                "ledger": "Ledger에 연결하기"
+                "hardwareWallet": "... 또는, 하드웨어 지갑에 접속하세요",
+                "ledger": "Ledger에 연결"
             }
         },
         "chrome": {
@@ -558,7 +565,7 @@
         "transaction": {
             "label": {
                 "waiting": "블록체인 확인 대기 중입니다. 네트워크 트래픽으로 몇 분 정도 걸릴 수 있습니다. 작업이 완료될 때까지 like.co를 브라우징하실 수 있습니다",
-                "newUser": "LikeCoin ID가 마음에 들지 않으셨나 보군요. 지금 생성하기."
+                "newUser": "LikeCoin ID가 없으신 것 같습니다. 지금 생성하기."
             },
             "button": {
                 "createID": "LikeCoin ID 생성하기",
@@ -577,7 +584,7 @@
         },
         "trust": {
             "title": {
-                "switchTrust": "지갑 앱 필요",
+                "switchTrust": "지갑 앱이 필요합니다",
                 "switchRinkeby": "Rinkeby 네트워크로 전환해 주십시오",
                 "switchMain": "Main 네트워크로 전환해 주십시오"
             },
@@ -585,8 +592,8 @@
                 "switchTrust": "like.co를 실행하려면 ETH 지갑이 필요합니다. Trust 지갑 앱을 설치 또는 전환하세요.",
                 "switchRinkeby": "like.co를 실행하려면 Rinkeby가 필요합니다. 정확한 네트워크로 전환해 주십시오.",
                 "switchMain": "like.co를 실행하려면 Main이 필요합니다. 정확한 네트워크로 전환해 주십시오.",
-                "switchMainCaption": "Mainnet으로 전환하는 방법:<br>설정 > 네트워크 > 이더리움 (ETH)",
-                "switchRinkebyCaption": "Rinkeby로 전환하는 방법:<br>설정 > 네트워크 > Rinkeby (ETH)"
+                "switchMainCaption": "Mainnet으로 전환하는 방법: <br>설정 > 네트워크 > 이더리움 (ETH)",
+                "switchRinkebyCaption": "Rinkeby로 전환하는 방법: <br>설정 > 네트워크 > Rinkeby (ETH)"
             },
             "label": {
                 "useTrustBrowser": "<span style=\"color: #28646e; font-weight: bold;\">Trust 지갑 브라우저</span>를 사용해서 방문하세요:",
@@ -619,7 +626,7 @@
         },
         "label": {
             "register": "계정 생성",
-            "registerRedeem": "계정 생성 및 수령"
+            "registerRedeem": "계정 생성하고 받기"
         },
         "form": {
             "createID": "LikeCoin ID* 생성하기 (최소 7 글자)",
@@ -637,7 +644,8 @@
             "error": {
                 "alphanumeric": "최소 7자리 영문자 및 숫자로 입력하세요",
                 "addressFormat": "유효하지 않은 주소 포맷",
-                "emailFormat": "./+ 문자 없이 유효한 이메일 주소를 입력하세요"
+                "reCaptcha": "reCAPTCHA 작성을 완료하세요",
+                "emailFormat": ". 또는 + 문자 없이 유효한 이메일 주소를 입력하세요"
             }
         }
     },
@@ -655,8 +663,8 @@
             "address": "내 주소",
             "email": "내 이메일",
             "addEmail": "이메일 주소 추가",
-            "redeemCoin": "LikeCoin 수령",
-            "redeemCode": "코드 수령 (선택 사항)",
+            "redeemCoin": "LikeCoin 받기",
+            "redeemCode": "코드 받기 (선택 사항)",
             "validCodeRequired": "유효한 쿠폰 코드를 입력하세요",
             "verified": "인증됐습니다",
             "verifying": "인증을 전송했습니다. 수신함을 확인하세요!",
@@ -668,15 +676,17 @@
             "description": "친구분께서 귀하의 제휴 링크를 통해 성공적으로 회원 가입을 하신 경우, 친구분과 본인 두 분 모두 LikeCoin 보너스를 받으실 수 있습니다.  친구분과 본인께서 보너스를 받기 위해서는 두 분의 이메일 주소가 인증돼야 한다는 점에 유의하세요.",
             "pending": "이메일 인증 대기 중",
             "verified": "확인됨",
-            "emailInvite": "친구를 이메일로 초대하기",
-            "altInvite": "또는 다음 방법으로 초대:",
+            "shareUrl": "URL로 친구 초대하기",
+            "orByEmail": "또는 이메일로",
+            "emailInvite": "이메일로 친구 초대하기",
+            "altInvite": "또는 다음을 통해 초대:",
             "copyUrl": "URL 복사",
             "facebook": "Facebook",
             "twitter": "Twitter",
             "send": "전송",
             "sent": "{email}에게 초대 이메일 전송됨",
             "verifyEmailFirst": "이메일을 인증해서 제휴 프로그램에 가입하세요.",
-            "tweetContent": "지금 저와 Like.co에서 같이 가입해서 LikeCoin을 무료로 받으세요!",
+            "tweetContent": "지금 저와 Like.co에 같이 가입해서 LikeCoin을 무료로 받으세요!",
             "ogTitle": "LikeCoin - Like의 재발견",
             "ogDescription": "창의성 증명을 통한 콘텐츠 보상. 지금 {name}에 가입 및 등록하세요!"
         },
@@ -736,28 +746,36 @@
     "WhitePaper": {
         "label": {
             "whitePaper": "백지",
-            "comingSoon": "곧 지원됨"
+            "comingSoon": "출시 예정"
+        }
+    },
+    "ReferralPage": {
+        "title": "{name}님께서 LikeCoin 가입에 귀하를 초대했습니다",
+        "label": {
+            "invitation": "LikeCoin ID를 생성해서 LikeCoin을 전송하고 받으세요.<br/><br/>지금 LikeCoin ID를 생성하시면 본인과 {name}님 모두에게 보너스로 8 Like를 드립니다."
+        },
+        "og": {
+            "title": "{name}님께서 LikeCoin 가입에 귀하를 초대했습니다",
+            "description": "지금 LikeCoin ID를 생성하시면 본인과 {name}님 모두에게 보너스로 8 Like를 드립니다. 토큰 판매에 참여하시면, 두 분 모두에게 2.5% 추가 보너스를 드립니다."
         }
     },
     "TokenSale": {
         "title": "토큰 판매",
-        "preSaleTitle": "얼리 버드",
         "head": {
-            "description": "LikeCoin 토큰 판매에 참여하고, 창의성 증명을 통해 콘텐츠를 보상하세요",
+            "description": "LikeCoin 토큰 판매에 참여하고, 창의성의 증명을 통해 콘텐츠 보상을 받으세요",
             "fromDescription": "내 추천인 코드로 LikeCoin 토큰 판매에 참여하고 2.5% 추가 보너스 받기"
+        },
+        "header": {
+            "thankyou": "지원해 주셔서 감사합니다"
         },
         "label": {
             "prepareToJoin": "토큰 판매 참가 준비하기",
             "publicSaleStartIn": "공개 판매가 다음 시간 후에 시작합니다:",
-            "publicSaleEndIn": "토큰 판매 종료까지:",
-            "preSaleEndIn": "25% 보너스가 다음 시간 후에 종료됩니다:",
-            "preSaleBonus": "25% 보너스",
-            "preSaleBonusCondition": "10ETH 이상 전용",
-            "joinPreSale": "지금 얼리 버드 참가하기",
+            "publicSaleEndIn": "토큰 판매가 다음 시간 후에 종료됩니다:",
             "token": "토큰",
             "exchangeRate": "환율",
             "supply": "공급",
-            "preSaleDescription0": "{base} LikeCoin + {bonus} 보너스를 구매하고자 합니다.",
+            "preSaleDescription0": "{base} LikeCoin + {bonus} 보너스를 구매하려고 합니다.",
             "preSaleDescription1": "공개 판매가 시작되면 귀하의 지갑에 LikeCoin이 전송됩니다.",
             "whatIsETH": "ETH란?",
             "bonusAndLimitedOffer": "25% 보너스, 한시적 할인",
@@ -768,28 +786,31 @@
             "bonusLockUp": "보너스 LikeCoin은 귀하의 지갑 안에 잠금 상태로 되어 6개월 동안 양도할 수 없습니다.",
             "amountWillBeSentWhenSalesStart": "공개 토큰 판매가 시작되면 구매하신 LikeCoin 및 보너스 LikeCoin이 귀하의 지갑으로 전송됩니다. 예정일은 2018년 4월 23일입니다. 보너스 LikeCoin은 귀하의 지갑 안에 잠금 상태로 되어 6개월 동안 양도할 수 없습니다.",
             "whatIsEthLink": "https://help.like.co/likecoin-faq/what-is-eth",
-			"joinTokenSaleNow": "지금 토큰 판매에 참가하기",
-			"likeAmountWillGet": "<span class=\"bold\">{amount}</span>좋아요를 받게 됩니다"
+            "joinTokenSaleNow": "지금 토큰 판매 참가하기",
+            "gasPriceDeducted": "ETH를 블록체인 트랜잭션 비용으로 예약하기",
+            "likeAmountWillGet": "<span class=\"bold\">{amount}</span> LIKE를 받으시게 됩니다",
+            "raised": "증가됨",
+            "thankyou": "저희 토큰 판매는 공식적으로 종료됐습니다. 저희는 목표치의 180% 이상을 달성했습니다. 정말 감사합니다! 다양한 판매 채널로부터 수치를 집계 중이며 최종 결과를 곧 공개할 예정입니다."
         },
         "button": {
-            "aboutLikeCoin": "LikeCoin 자세히 알아보기",
+            "aboutLikeCoin": "LikeCoin 소개",
             "whitePaper": "@:WhitePaper.label.whitePaper",
             "noETH": "ETH가 없으세요?"
         }
     },
     "BackerPage": {
-        "title": "운동을 지원",
+        "title": "운동 지원하기",
         "label": {
             "tagline": "저희 책을 사 보세요.",
-            "description": "LikeCoin 프로토콜은 Creative Commons에 의거하여 라이센스를 받은 콘텐츠에서 비롯된 소득을 재분배하려는 운동입니다. 저희 콘텐츠는 자유롭게 사용할 수 있으며 저희 소스 코드는 오픈 소스로 <a href=\"https://github.com/likecoin\">Github에서 보실 수 있습니다</a>.<br/><br/><a href=\"http://sched.co/E6zv\">2018년도 Creative Commons 회의에서 발표한 저희 프레젠테이션</a>",
+            "description": "LikeCoin 프로토콜은 Creative Commons에 의거하여 라이센스를 받은 콘텐츠에서 비롯된 소득을 재분배하려는 운동입니다. 저희 콘텐츠는 자유롭게 사용할 수 있으며 저희 소스 코드는 오픈 소스로 <a href=\"https://github.com/likecoin\">Github에서 보실 수 있습니다</a>. <br/><br/><a href=\"http://sched.co/E6zv\">2018년도 Creative Commons 회의에서 발표한 저희 프레젠테이션</a>",
             "notRegistered": "LikeCoin ID를 생성하여 운동에 참가하기"
         },
         "button": {
-            "register": "LikeCoin ID 생성하기",
+            "register": "ID 생성하기",
             "purchaseInETH": "ETH에서 LikeCoin 지원하기"
         },
         "productList": {
-            "title": "매점",
+            "title": "상점",
             "label": {
                 "youHavePurchased": "{product}을/를 구매하셨습니다. 영수증은 이메일을 통해 {email}(으)로 전송됩니다. 조회 번호:"
             }
@@ -802,10 +823,13 @@
             "inviteeMission": "초청인 미션"
         },
         "label": {
-            "description": "친구분께서 귀하의 제휴 링크를 통해 성공적으로 회원 가입을 하신 경우, 친구분과 본인 두 분 모두 LikeCoin 보너스를 받으실 수 있습니다.  친구분과 본인께서 보너스를 받기 위해서는 두 분의 이메일 주소가 인증돼야 한다는 점에 유의하세요.",
+            "description": "친구분께서 귀하의 제휴 링크를 통해 성공적으로 회원 가입을 하신 경우, 친구분과 본인 두 분 모두 LikeCoin 보너스를 받으실 수 있습니다. 친구분과 본인께서 보너스를 받기 위해서는 두 분의 이메일 주소가 인증돼야 한다는 점에 유의하세요.",
             "inviteeMissionDescription": "완료된 미션 하나마다 본인과 초청인 모두 LikeCoin을 받으실 수 있습니다",
             "earned": "귀하께서 받은 수량",
-            "likeBonus": "좋아요 보너스"
+            "likeBonus": "LIKE 보너스"
+        },
+        "placeholder": {
+            "emptyMission": "신규 미션이 곧 출시됩니다"
         },
         "button": {
             "moreBonus": "추가 보너스"
@@ -816,7 +840,7 @@
                 "completedBonus": "완료된 보너스"
             },
             "label": {
-                "emptyHistoryPlaceholder": "완료된 보너스가 여기에 표시됩니다."
+                "emptyHistoryPlaceholder": "완료된 보너스가 여기 표시됩니다."
             }
         }
     },
@@ -825,16 +849,16 @@
             "kyc": "ID 인증",
             "kycNeeded": "LikeCoin 토큰 판매에 참가하려면 ID 인증이 필요합니다",
             "advKycNeeded": "많은 금액을 구매하시려면 고급 ID 인증이 필요합니다",
-            "advKycPending": "고객님의 고급 ID 인증이 아직 대기 중 상태입니다. 1 영업일을 넘게 소요된 경우, 인터콤을 통해 문의해 주시기 바랍니다.",
+            "advKycPending": "고객님의 고급 ID 인증이 아직 대기 중 상태입니다. 5 영업일을 넘게 소요된 경우, 인터콤을 통해 문의해 주시기 바랍니다",
             "emailVerify": "이메일을 제공 및 인증하세요.",
             "createID": "LikeCoin 전송 및 수령을 하시려면 LikeCoin ID를 생성하고, 토큰 판매에 참가하세요.",
-            "createIDSendReceive": "LikeCoin 전송 및 수령을 하시려면 LikeCoin ID를 생성하고.",
+            "createIDSendReceive": "LikeCoin ID를 생성해서 LikeCoin을 전송하고 받아 보세요.",
             "verifyToPurchase": "공개 판매가 진행되면 본인의 정보를 인증해서 LikeCoin을 구매하세요.",
             "emailVerification": "이메일 인증",
             "accountVerification": "계정 인증",
             "advancedVerification": "고급 인증",
             "verifyEmailPlaceholder": "이메일을 인증하세요",
-            "checkEmail": "이메일 전송함. 확인을 부탁합니다",
+            "checkEmail": "이메일 전송함. 확인 부탁드립니다",
             "emailVerified": "이메일 인증됨",
             "proceedToAccountVerification": "계정 인증 과정으로 진행",
             "isPrcCitizen": "PRC (중화 인민 공화국) 시민이십니까?",
@@ -847,18 +871,19 @@
             "nationality": "국적",
             "invalidCountry": "리스트에서 유효한 국가를 선택하세요.",
             "invalidNationality": "리스트에서 유효한 국적을 선택하세요.",
-            "passportIdPage": "얼굴 정방향으로 여권의 ID 페이지 (용량 제한 2MB)*",
-            "recentSelfie": "얼굴 정방향으로 본인 셀카 (용량 제한 2MB)*",
-            "canPurchaseLessThanAmount": "ETH {amount} 미만 금액 만큼 구매하실 수 있습니다",
+            "passportIdPage": "정방향 얼굴 사진이 표시된 여권의 ID 페이지 (용량 제한 2MB)*",
+            "recentSelfie": "정방향 본인 얼굴 셀카 (용량 제한 2MB)*",
+            "canPurchaseLessThanAmount": "ETH {amount} 미만의 금액 만큼 구매하실 수 있습니다",
             "canPurchaseMoreThanAmount": "ETH {amount}을/를 넘는 금액 만큼 구매하실 수 있습니다",
-            "advancedVerificationInProgress": "ETH {amount} 미만 금액 만큼 구매하실 수 있습니다. 고급 인증이 완료되면, 더 많이 구매하실 수 있습니다.",
+            "advancedVerificationInProgress": "ETH {amount} 미만의 금액 만큼 구매하실 수 있습니다. 고급 인증이 완료되면, 더 많이 구매하실 수 있습니다.",
             "purchaseMore": "더 많이 구매하고 싶습니다.",
             "accountVeritifed": "계정 인증됨",
             "canPurchaseWhenPublicSale": "공개 판매가 진행되면 여기서 LikeCoin을 구매하실 수 있습니다.",
-            "verifyToPurchaseOverAmount": "ETH {amount}을/를 넘는 금액을 구매하려면 ID를 인증해 주십시오",
-            "waitingConfirmation": "확인 대기 중.",
+            "verifyToPurchaseOverAmount": "ETH {amount}을/를 넘는 금액 만큼 구매하려면 ID를 인증해 주십시오",
+            "waitingConfirmation": "확인 대기 중입니다.",
             "timeWaitForAccountVerification": "2분 정도 소요될 예정입니다...",
-            "timeWaitForAdvancedVerification": "1 영업일 정도 소요될 예정입니다...",
+            "timeWaitForAdvancedVerification": "보통 1 영업일 내로 완료됩니다",
+            "emailNotification": "완료되면 이메일 알림을 보내 드립니다",
             "contactUs": "추가 지원을 받으시려면 하단 우측의 대화창을 통해 문의해 주시기 바랍니다.",
             "contactThroughIntercom": "이곳의 Intercom을 통해서 문의해 주시기 바랍니다.",
             "preSaleBonusDescription": "10 ETH 이상 구매시 25% 보너스 보상"
@@ -866,7 +891,7 @@
         "button": {
             "createID": "LikeCoin ID 생성하기",
             "sendEmailAgain": "다시 전송",
-            "start": "시작",
+            "start": "시작하기",
             "next": "다음",
             "upload": "업로드",
             "reupload": "재업로드"
@@ -897,7 +922,7 @@
             "timePending": "대기 중...",
             "timeExpired": "만료됨",
             "coupon": "쿠폰",
-            "noRecord": "현재 기록이 없습니다.",
+            "noRecord": "현재 검색된 기록이 없습니다.",
             "to": "수신인",
             "from": "송신인",
             "unknown": "알 수 없음",
@@ -905,7 +930,7 @@
         },
         "button": {
             "view": "보기",
-            "showMore": "자세히 보기"
+            "showMore": "더 보기"
         }
     },
     "Error": {
@@ -913,13 +938,37 @@
             "toIndex": "색인으로 돌아가기"
         },
         "EMAIL_ALREADY_USED": "이메일이 이미 사용 중입니다",
+        "FILE_TOO_LARGE": "파일 크기 제한을 초과했습니다",
+        "MISSION_ALREADY_DONE": "이 미션은 이미 수행했습니다",
+        "MISSION_COMPLETE_FAILURE": "미션 완료시 오류 발생",
         "REFERRER_NOT_EXIST": "추천인이 존재하지 않습니다",
-        "USER_ALREADY_EXIST": "사용자가 이미 존재합니다"
+        "TWITTER_ALREADY_EXIST": "이 Twitter 계정은 이미 사용 중입니다",
+        "TWITTER_API_FAILURE": "트윗을 확인할 수 없습니다. 나중에 다시 시도하세요",
+        "TWITTER_CONTENT_INVALID": "#LikeCoin으로 트윗을 보내세요",
+        "TWITTER_NOT_FOLLOW": "Twitter에서 @likecoin_fdn을 팔로우하세요",
+        "TWITTER_QUOTE_INVALID": "정확한 트윗으로 다시 트윗해주세요",
+        "TWITTER_URL_INVALID": "트윗 URL이 유효하지 않습니다",
+        "USER_ALREADY_EXIST": "사용자가 이미 존재합니다",
+        "USER_NOT_EXIST": "사용자가 존재하지 않습니다"
+    },
+    "Form": {
+        "Retweet": {
+            "label": {
+                "retweet": "다음 내용을 포함해서 리트윗하세요",
+                "pasteURL": "트윗 링크를 여기에 붙여넣으세요"
+            },
+            "placeholer": {
+                "tweetLink": "트윗 링크"
+            },
+            "button": {
+                "retweet": "리트윗"
+            }
+        }
     },
     "Mission": {
         "gettingStart": {
             "title": "시작하기",
-            "description": "운동에 참여하신 것을 환영합니다. LikeCoin은 창의성 및 보상을 재조정하여 좋아요를 재발견하는 것을 목표로 합니다. <a href=\"https://like.co\">like.co</a>에서, 귀하께서는 LikeCoin을 매매할 수 있음은 물론이고, 또한 좋아요 생태학에 참가하여 LikeCoin을 획득하실 수도 있습니다. <span class=\"bold\">본인의 Like ID 지불 페이지를 검토하고, 소개 동영상을 시청하시고 저희 telegram 그룹에 가입하시면 LikeCoin 3개를 드립니다!</span>",
+            "description": "운동에 참여하신 것을 환영합니다. LikeCoin은 창의성 및 보상을 재조정하여 Like를 재발견하는 것을 목표로 합니다. <a href=\"https://like.co\">like.co</a>에서, 귀하께서는 LikeCoin을 매매할 수 있음은 물론이고, 또한 LIKE 생태학에 참가하여 LikeCoin을 획득하실 수도 있습니다. <span class=\"bold\">본인의 Like ID 지불 페이지를 검토하고, 소개 동영상을 시청하시고 저희 telegram 그룹에 가입하시면 LikeCoin 3개를 드립니다!</span>",
             "taskSocial": "Twitter에서 @likecoin_fdn 팔로우하기",
             "taskOnepager": "저희 한 페이지짜리 설명 보기",
             "taskVideo": "소개 동영상 시청하기",
@@ -927,20 +976,20 @@
         },
         "inviteFriend": {
             "title": "LikeCoin에 친구 초대하기",
-            "description": "친구들을 초대해서 가입시키면, 본인 및 친구분께 좋아요를 8개 드립니다."
+            "description": "친구 (혹은 친구들)을 초대해서 가입시키면, 본인 및 친구분께 LIKE를 8개 드립니다."
         },
         "joinTokenSale": {
             "title": "토큰 판매 참가",
-            "description": "지금 토큰 판매에 참가하시면 좋아요 보너스 100을 드립니다",
-            "subDescription": "추천인 보너스도 잊지 마세요, 굉장히 큽니다!  토큰 판매에 참가하실 때마다 추천인과 본인 모두에게 2.5% 추가 토큰 보너스도 드립니다. 상한선은 없고요!"
+            "description": "지금 토큰 판매에 참가하시면 LIKE 보너스 100을 드립니다",
+            "subDescription": "추천인 보너스도 잊지 마세요, 굉장히 큽니다!  토큰 판매에 참가하실 때마다 추천인과 본인 모두에게 2.5% 추가 토큰 보너스도 드립니다. 상한선은 없고요! <br/> <br/> <i>주: MyEthShop 등, 제삼자를 통해서 토큰 판매에 참가하신 경우, 이 미션은 완료되지 않습니다. 결과적으로, 이 미션에 대한 보너스는 받으실 수 없습니다.</i>"
         },
         "refereeTokenSale": {
             "title": "@:Mission.joinTokenSale.title",
-            "description": "추천인 보너스도 잊지 마세요, 굉장히 큽니다!  토큰 판매에 참가하실 때마다 추천인과 본인 모두에게 2.5% 추가 토큰 보너스도 드립니다. 상한선은 없고요!"
+            "description": "추천인 보너스도 잊지 마세요, 굉장히 큽니다!  토큰 판매에 참가하실 때마다 추천인과 본인 모두에게 2.5% 추가 토큰 보너스도 드립니다. 상한선은 없고요! <br/> <br/> <i>주: MyEthShop 등, 제삼자를 통해서 토큰 판매에 참가하신 경우, 이 미션은 완료되지 않습니다. 결과적으로, 이 미션에 대한 보너스는 받으실 수 없습니다.</i>"
         },
         "inviteTokenSale": {
             "title": "토큰 판매에 친구 초대하기",
-            "description": "초대한 친구분들이 토큰 판매에 참가하실 때마다 두 분 모두에게 2.5% 좋아요 보너스도 드립니다. 상한선은 없고요."
+            "description": "초대한 친구분들이 토큰 판매에 참가하실 때마다 두 분 모두에게 2.5% LIKE 보너스도 드립니다. 상한선은 없고요."
         },
         "verifyEmail": {
             "title": "이메일 주소 인증",
@@ -955,7 +1004,18 @@
         },
         "joinTokenSaleReferral": {
             "title": "@:Mission.joinTokenSale.title",
-            "description": "<span class=\"bold\">{invitee}</span>님께서 토큰 판매에 참가하실 때마다, 두 분 모두에게 2.5% 좋아요 보너스를 드립니다. 상한선 없음."
+            "description": "<span class=\"bold\">{invitee}</span>님께서 토큰 판매에 참가하실 때마다, 두 분 모두에게 2.5% LIKE 보너스를 드립니다. 상한선 없음."
+        },
+        "twitter": {
+            "title": "팔로우 및 리트윗하세요!",
+            "description": "저희 포스트를 팔로우 및 리트윗하시면 LikeCoin을 드립니다",
+            "linkedDescription": "저희 <a href=\"{postLink}\" target=\"_blank\">포스트</a>를 팔로우 및 리트윗하시면 LikeCoin을 드립니다",
+            "header": {
+                "pasteURL": "귀하의 트윗 url을 여기에 붙여넣으세요"
+            },
+            "label": {
+                "verifying": "트윗 인증 중"
+            }
         },
         "completedBanner": {
             "label": {
@@ -965,7 +1025,12 @@
         },
         "common": {
             "label": {
-                "upcomingDate": "<span class=\"bold\">LikeCoin 공개 판매가 {upcoming}에 시작됩니다.</span>"
+                "upcomingDate": "<span class=\"bold\">LikeCoin 공개 판매가 {upcoming}에 시작됩니다.</span>",
+                "desktopRequired": "이 보너스를 완료하려면 데스크톱 브라우저가 필요합니다",
+                "pleaseUseDesktop": "데스크톱용 Chrome으로 like.co를 방문해 주세요."
+            },
+            "button": {
+                "desktopFAQ": "데스크톱에서 이 계정에 액세스하려면 어떻게 해야 하나요?"
             }
         }
     }

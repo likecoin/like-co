@@ -22,6 +22,7 @@ import {
   MISSION_END_FETCHING_MISSION_LIST,
   MISSION_START_FETCHING_MISSION_HISTORY_LIST,
   MISSION_END_FETCHING_MISSION_HISTORY_LIST,
+  MISSION_SET_SELECTED_MISSION,
 } from '../mutation-types';
 import * as actions from './actions/mission';
 import * as getters from './getters/mission';
@@ -33,6 +34,7 @@ const state = {
   proxyBonus: {},
   historyMissions: [],
   historyBonus: {},
+  selectedMission: null,
 
   isFetched: false,
   isFetching: false,
@@ -158,6 +160,9 @@ const mutations = {
   [MISSION_END_FETCHING_MISSION_HISTORY_LIST](state) {
     state.isFetchingMissionHistory = false;
     state.isFetchedMissionHistory = true;
+  },
+  [MISSION_SET_SELECTED_MISSION](state, selectedMission) {
+    state.selectedMission = selectedMission;
   },
 };
 

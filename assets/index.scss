@@ -121,6 +121,12 @@ a,
       align-items: center;
     }
   }
+
+  &.lc-flex-direction- {
+    &column {
+      flex-direction: column;
+    }
+  }
 }
 
 
@@ -544,6 +550,9 @@ $line-height-map: (
   &like-dark-brown-1 {
     color: $like-dark-brown-1 !important;
   }
+  &like-dark-brown-2 {
+    color: $like-dark-brown-2 !important;
+  }
   &gray-9b {
     color: $gray-9b !important;
   }
@@ -851,6 +860,10 @@ $line-height-map: (
 
     &.lc-twitter {
       @include lc-button-style(#1EA1F2);
+    }
+
+    &.shadow {
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
     }
   }
 

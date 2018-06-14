@@ -83,8 +83,7 @@
         :value="likeCoinValueStr"
         :isOpaque="isEditing"
         :linkText="getAmountText"
-        :linkHref="!isEditing ? getAmountHref : ''"
-        @onTextClick="getAmountAction" />
+        :linkHref="getAmountHref" />
 
       <input-dialog
         ref="inputDialog"
@@ -181,7 +180,11 @@ import EthHelper from '@/util/EthHelper';
 import User from '@/util/User';
 import { logTrackerEvent } from '@/util/EventLogger';
 
-import { ONE_LIKE, W3C_EMAIL_REGEX } from '@/constant';
+import {
+  ONE_LIKE,
+  W3C_EMAIL_REGEX,
+  QRYPTOS_LIKEETH_URL,
+} from '@/constant';
 
 import EditIcon from '@/assets/icons/edit.svg';
 import EditWhiteIcon from '@/assets/icons/edit-white.svg';
@@ -230,14 +233,11 @@ export default {
       'getUserIsRegistered',
       'getMissionList',
     ]),
-    getAmountAction() {
-      return this.onClickBuyLikeCoin;
-    },
     getAmountHref() {
-      return '';
+      return this.isEditing ? '' : QRYPTOS_LIKEETH_URL;
     },
     getAmountText() {
-      return '';
+      return this.isEditing ? '' : this.$t('Home.Sale.button.tradeAtQRYPTOS');
     },
     isUserEmailVerified() {
       return this.getUserInfo.isEmailVerified;
@@ -294,9 +294,6 @@ export default {
         };
         reader.readAsDataURL(files[0]);
       }
-    },
-    onClickBuyLikeCoin() {
-      this.$router.push({ name: 'in-tokensale' });
     },
     onCancel() {
       this.avatarFile = null;

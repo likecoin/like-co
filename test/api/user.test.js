@@ -46,7 +46,6 @@ test.serial('USER: Register or edit user. Case: success', async (t) => {
   });
 
   t.is(res.status, 200);
-  t.is(!!res.data.token, true);
   axios.defaults.headers.common.Authorization = `Bearer ${res.data.token}`;
 });
 

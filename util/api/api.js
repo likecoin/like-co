@@ -1,7 +1,7 @@
 import axios from '~/plugins/axios';
 import { IS_TESTNET } from '@/constant';
 
-const LIKECOIN_API_BASE = IS_TESTNET ? 'https://api.like.co/test' : 'https://api.like.co';
+const LIKECOIN_API_BASE = IS_TESTNET ? 'https://api.rinkeby.like.co' : 'https://api.like.co';
 
 export const apiCheckIsUser = addr => axios.get(`/api/users/addr/${addr}/min`);
 
@@ -52,6 +52,10 @@ export const apiCheckUserAuth = wallet => axios.post('/api/users/login/check', {
 
 export const apiLoginUser = payload => axios.post('/api/users/login', payload);
 
+export const apiFetchUserMission = ({ missionId, user, params }) => axios.get(`/api/mission/${missionId}/user/${user}`, {
+  params,
+});
+
 export const apiFetchMissionList = id => axios.get(`/api/mission/list/${id}`);
 
 export const apiFetchMissionHistoryList = id => axios.get(`/api/mission/list/history/${id}`);
@@ -68,7 +72,7 @@ export const apiClaimMission = (user, missionId) => axios.post(
 );
 
 export const apiClaimReferralBonus = (user, type) => axios.post(
-  `${LIKECOIN_API_BASE}/referral/claim`,
+  `${LIKECOIN_API_BASE}/mission/referral/claim`,
   { user, type },
 );
 
@@ -105,7 +109,7 @@ export const apiGetAdvancedKYC = id => axios.get(`/api/kyc/advanced/${id}`);
 export const apiSendCouponCodeEmail = (id, coupon, locale) => axios.post(`/api/email/verify/user/${id}`, { coupon, locale });
 
 export const apiSendInvitationEmail = (user, email, locale) => axios.post(
-  `${LIKECOIN_API_BASE}/store-invite`,
+  `${LIKECOIN_API_BASE}/misc/store-invite`,
   {
     referrerId: user,
     email,

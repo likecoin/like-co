@@ -124,11 +124,6 @@ export default {
           property: 'og:description',
           content: this.$t('TokenSale.head.fromDescription'),
         },
-        {
-          hid: 'og_image',
-          property: 'og:image',
-          content: 'https://like.co/images/og/tokensale.jpg',
-        },
       ];
     } else {
       meta = [
@@ -141,11 +136,6 @@ export default {
           hid: 'og_description',
           property: 'og:description',
           content: this.$t('TokenSale.head.description'),
-        },
-        {
-          hid: 'og_image',
-          property: 'og:image',
-          content: 'https://like.co/images/og/sale.png',
         },
       ];
     }
