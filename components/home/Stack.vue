@@ -206,8 +206,14 @@ $layer-best-width: 400px;
       }
 
       .examples-container {
-        background-image: linear-gradient(88deg, rgba(210, 240, 240, .4), rgba(210, 240, 240, .4) 27%, rgba(240, 230, 180, .4) 81%, rgba(240, 230, 180, .4), rgba(247, 247, 247, .4));
-
+        background-image: linear-gradient(
+          88deg,
+          rgba(210, 240, 240, .4),
+          rgba(210, 240, 240, .4) 27%,
+          rgba(240, 230, 180, .4) 81%,
+          rgba(240, 230, 180, .4),
+          rgba(247, 247, 247, .4)
+        );
         font-weight: bold;
       }
     }

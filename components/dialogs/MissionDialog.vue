@@ -209,7 +209,8 @@
                   class="md-likecoin"
                   @click="$router.push({ name: 'in-tokensale' })"
                 >
-                  {{ $t(`Home.Sale.button.${this.isUpcomingMission ? 'prepareToJoin' : 'joinNow'}`) }}
+                  {{ $t(`Home.Sale.button.${this.isUpcomingMission
+                      ? 'prepareToJoin' : 'joinNow'}`) }}
                 </md-button>
                 <br />
                 <md-button

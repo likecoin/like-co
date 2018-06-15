@@ -5,7 +5,13 @@
       <div class="lc-container-1">
         <div class="lc-container-2">
           <div class="lc-container-3">
-            <div class="lc-container-4 lc-width-2-3 lc-margin-top-32 lc-padding-vertical-8 lc-font-size-18 lc-color-like-gray-4 lc-mobile">
+            <div class="lc-container-4
+              lc-width-2-3
+              lc-margin-top-32
+              lc-padding-vertical-8
+              lc-font-size-18
+              lc-color-like-gray-4
+              lc-mobile">
               {{ $t('BonusPage.label.description') }}
             </div>
           </div>
@@ -20,7 +26,10 @@
 
           <div class="lc-container-3">
             <div class="lc-container-4">
-              <h2 class="lc-padding-vertical-16 lc-font-size-14 lc-font-weight-400 lc-text-align-center-mobile">
+              <h2 class="lc-padding-vertical-16
+                lc-font-size-14
+                lc-font-weight-400
+                lc-text-align-center-mobile">
                 {{ $t('BonusPage.label.earned') }}
               </h2>
             </div>
@@ -68,7 +77,11 @@
           </div>
 
           <div id="my-mission" class="lc-container-2">
-            <div class="lc-container-3 lc-container-no-padding-mobile lc-bg-gray-1 lc-padding-vertical-32 section-content">
+            <div class="lc-container-3
+              lc-container-no-padding-mobile
+              lc-bg-gray-1
+              lc-padding-vertical-32
+              section-content">
               <div class="lc-container-4 lc-container-no-padding-mobile">
                 <mission-list
                   swipper-id="my-mission"
@@ -82,7 +95,10 @@
 
           <!-- BEGIN - Invitee missions -->
           <div
-            v-if="!getIsFetchingMissions && getIsFetchedMissions && getReferralMissionList && getReferralMissionList.length > 0"
+            v-if="!getIsFetchingMissions
+              && getIsFetchedMissions
+              && getReferralMissionList
+              && getReferralMissionList.length > 0"
             id="invitee-mission"
             class="lc-container-2 lc-margin-top-4">
 
@@ -101,7 +117,11 @@
               </div>
             </div>
 
-            <div class="lc-container-3 lc-container-no-padding-mobile lc-bg-gray-1 lc-padding-bottom-32 section-content">
+            <div class="lc-container-3
+              lc-container-no-padding-mobile
+              lc-bg-gray-1
+              lc-padding-bottom-32
+              section-content">
               <div class="lc-container-4 lc-container-no-padding-mobile">
                 <invitee-mission-grid-list
                   swiper-id="invitee-mission"
@@ -114,7 +134,11 @@
           </div>
           <!-- END - Invitee missions -->
 
-          <div class="lc-container-3 lc-margin-top-24 lc-flex lc-justify-content-center lc-mobile-show">
+          <div class="lc-container-3
+            lc-margin-top-24
+            lc-flex
+            lc-justify-content-center
+            lc-mobile-show">
             <refresh-button
               :is-refreshing="getIsFetchingMissions"
               :is-outline="true"
@@ -160,11 +184,20 @@
 
                 <div v-else>
                   <div class="md-layout referral-action">
-                    <div class="md-layout-item md-medium-size-50 md-small-size-100 lc-margin-bottom-16 lc-font-size-20 lc-color-like-gray-4 lc-mobile">
+                    <div class="md-layout-item
+                      md-medium-size-50
+                      md-small-size-100
+                      lc-margin-bottom-16
+                      lc-font-size-20
+                      lc-color-like-gray-4
+                      lc-mobile">
                       {{ $t('Edit.referral.description') }}
                     </div>
 
-                    <div class="md-layout-item md-medium-size-50 md-small-size-100 lc-margin-bottom-16-mobile">
+                    <div class="md-layout-item
+                      md-medium-size-50
+                      md-small-size-100
+                      lc-margin-bottom-16-mobile">
                       <referral-stats
                         :pending="referralPending"
                         :verified="referralVerified"

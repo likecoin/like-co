@@ -41,7 +41,11 @@
               </div>
             </div>
 
-            <div class="lc-container-3 lc-margin-top-24 lc-flex lc-justify-content-center lc-mobile-show">
+            <div class="lc-container-3
+              lc-margin-top-24
+              lc-flex
+              lc-justify-content-center
+              lc-mobile-show">
               <refresh-button
                 :is-refreshing="getIsFetchingMissionHistory"
                 :is-outline="true"

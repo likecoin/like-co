@@ -27,8 +27,9 @@
 
         <div
           class="video-thumbnail"
-          :style="{ backgroundImage: `url(/images/video-thumbnails/${getThumbnailImageFileName}.jpg)` }" />
-
+          :style="{
+            backgroundImage: `url(/images/video-thumbnails/${getThumbnailImageFileName}.jpg)`
+          }" />
         <div
           class="play-overlay"
           @click="onClickPlayButton">

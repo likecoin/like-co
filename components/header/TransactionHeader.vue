@@ -19,7 +19,10 @@
             class="transaction-state"
             v-if="!isNotFound">
             <div class="send-state">
-              {{ isPending ? $t('Transaction.header.label.sending') : $t('Transaction.header.label.sent') }}
+              {{
+                isPending ? $t('Transaction.header.label.sending')
+                : $t('Transaction.header.label.sent')
+              }}
             </div>
             <div v-if="amount" class="amount lc-font-weight-300">
               {{ $t(`Transaction.header.label.${isEth ? 'eth' : 'likecoin'}Amount`, { amount }) }}

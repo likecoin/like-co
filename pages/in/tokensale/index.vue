@@ -43,7 +43,11 @@
           <div class="lc-container-3 lc-padding-vertical-32 lc-bg-gray-1">
 
             <div class="lc-container-4 lc-margin-top-16">
-              <h1 class="lc-margin-bottom-32 lc-color-like-green lc-font-size-32 lc-font-weight-600 lc-text-align-center">
+              <h1 class="lc-margin-bottom-32
+                lc-color-like-green
+                lc-font-size-32
+                lc-font-weight-600
+                lc-text-align-center">
                 {{ $t('TokenSale.header.thankyou') }}
               </h1>
 

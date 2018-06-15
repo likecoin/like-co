@@ -305,7 +305,12 @@ export default {
       transition: opacity .2s ease;
 
       opacity: 0;
-      background-image: radial-gradient(ellipse at center, rgba(0,0,0,.15) 0%, rgba(0,0,0,.05) 65%, rgba(0,0,0,0) 75%);
+      background-image: radial-gradient(
+        ellipse at center,
+        rgba(0,0,0,.15) 0%,
+        rgba(0,0,0,.05) 65%,
+        rgba(0,0,0,0) 75%
+      );
     }
 
     &::before {
