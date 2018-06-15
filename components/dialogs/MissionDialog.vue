@@ -366,12 +366,8 @@ export default {
       `;
     },
     subDescription() {
-      if (
-        !this.mission.isExpired
-        && !this.shouldShowDesktopOnly
-        && this.hasReferrer
-        && this.missionId === 'joinTokenSale'
-      ) {
+      if (this.mission.isExpired) return null;
+      if (this.hasReferrer && this.missionId === 'joinTokenSale') {
         return this.$t('Mission.joinTokenSale.subDescription');
       }
       return null;
