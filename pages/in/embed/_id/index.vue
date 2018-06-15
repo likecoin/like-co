@@ -14,9 +14,17 @@
       </div>
       <div class="provided-by-div">by LikeCoin reinvented LikeButton</div>
     </div>
-    <img :src="LIKE_BTN_IMG_URL"
-         alt="like-button"
-         class="like-button" >
+    <nuxt-link :to="getUserPath"
+      target="_blank">
+      <img :src="getLikeButtonSrc"
+           alt="like-button"
+           class="like-button"
+           @mouseover="setLikeButtonState('hover')"
+           @mousedown="setLikeButtonState('click')"
+           @mouseup="setLikeButtonState('normal')"
+           @mouseout="setLikeButtonState('normal')"
+           >
+    </nuxt-link>
   </div>
 </template>
 
@@ -33,6 +41,7 @@ export default {
       id: '',
       displayName: '',
       avatar: '',
+      likeButtonState: 'normal',
     };
   },
   asyncData({ params }) {
@@ -48,11 +57,37 @@ export default {
           avatar,
         };
       })
-      .catch(err => ({ id: err }));
+      .catch(() => {});
+  },
+  head() {
+    return {
+      link: [
+        {
+          rel: 'prefetch',
+          href: LIKE_BTN_IMG_URL.normal,
+        },
+        {
+          rel: 'prefetch',
+          href: LIKE_BTN_IMG_URL.hover,
+        },
+        {
+          rel: 'prefetch',
+          href: LIKE_BTN_IMG_URL.click,
+        },
+      ],
+    };
   },
   computed: {
     getUserPath() {
       return `/${this.id}`;
+    },
+    getLikeButtonSrc() {
+      return this.LIKE_BTN_IMG_URL[this.likeButtonState];
+    },
+  },
+  methods: {
+    setLikeButtonState(state) {
+      this.likeButtonState = state;
     },
   },
 };
