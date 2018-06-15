@@ -47,7 +47,7 @@ export default {
     },
     mission: {
       type: Object,
-      default: {},
+      default: () => ({}),
     },
     isReferral: {
       type: Boolean,

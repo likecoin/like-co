@@ -48,7 +48,7 @@ $border-radius-size: 6px;
 
 .lc-creator-button {
   width: 240px;
-	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
   border-radius: $border-radius-size;
 
   display: flex;
@@ -138,7 +138,7 @@ $border-radius-size: 6px;
 
     font-size: 12px;
 
-  	background-image: linear-gradient(81deg, #812d4c, #f75353);
+    background-image: linear-gradient(81deg, #812d4c, #f75353);
 
     border-bottom-left-radius: $border-radius-size;
     border-bottom-right-radius: $border-radius-size;

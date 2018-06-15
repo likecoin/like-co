@@ -94,9 +94,9 @@
         </material-button>
       </div>
     </form>
-    
+
     <claim-dialog ref="claimDialog" :couponCode="couponCode" :wallet="wallet" />
-    
+
     <referrer-dialog
       :is-show.sync="shouldShowReferrerDialog"
       :referrer-id="referrer"

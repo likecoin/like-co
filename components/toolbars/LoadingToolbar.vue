@@ -3,8 +3,8 @@
 </template>
 
 <script>
-  export default {
-    name: 'LoadingToolbar',
-    props: ['isLoading', 'isInTransaction'],
-  };
+export default {
+  name: 'LoadingToolbar',
+  props: ['isLoading', 'isInTransaction'],
+};
 </script>

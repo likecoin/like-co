@@ -193,7 +193,7 @@ export default {
         this.onClick(this.missions[i]);
       }
     },
-    onLayout: _throttle(function () { this.updateScrollIndicator(); }, 20),
+    onLayout: _throttle(() => { this.updateScrollIndicator(); }, 20),
   },
   watch: {
     missions() {

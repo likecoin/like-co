@@ -103,7 +103,7 @@
                     {{ $t('KYC.button.createID') }}
                   </md-button>
                 </div>
-                
+
                 <div v-else>
                   <no-ssr><p v-if="!isSupportTransferDeleteaged">{{ $t('Transaction.error.notSupported') }}</p></no-ssr>
                   <no-ssr><material-button
