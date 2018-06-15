@@ -30,7 +30,9 @@
                 <div class="key">
                   {{ $t('Transaction.label.recipientAddress') }}
                 </div>
-                <a :href="`${ETHERSCAN_HOST}/address/${to}#tokentxns`" target="_blank" rel="noopener">
+                <a :href="`${ETHERSCAN_HOST}/address/${to}#tokentxns`"
+                  target="_blank"
+                  rel="noopener">
                   <div class="address value lc-font-size-20">
                     {{ to }}
                   </div>

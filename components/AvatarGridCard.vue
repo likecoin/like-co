@@ -8,7 +8,7 @@
       <p class="description" v-html="description" />
 
       <div class="platforms" v-if="platforms">
-        <div class="platform" v-for="({ key, to, isInternal }, index) in platforms" :key="key">
+        <div class="platform" v-for="{ key, to, isInternal } in platforms" :key="key">
 
           <nuxt-link
             v-if="isInternal"

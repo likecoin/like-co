@@ -40,7 +40,7 @@
               <div class="timeline lc-margin-bottom-12">
                 <ul>
                   <li
-                  v-for="(isReached, index) in milestones"
+                  v-for="(isReached, index) in milestones" :key="index"
                   :class="['milestone', { last: index === milestones.length - 1}]">
 
                     <div class="date">{{ $t(`Home.RoadMap.timeline[${index}].time`) }}</div>

@@ -3,7 +3,12 @@
 
     <div v-if="chargeId" class="purchased-receipt lc-padding-vertical-32 lc-text-align-center">
       <p class="lc-margin-bottom-24">
-        {{ $t('BackerPage.productList.label.youHavePurchased', { email: email, product: getLocalized(product.name) }) }}
+        {{
+          $t(
+            'BackerPage.productList.label.youHavePurchased',
+            { email: email, product: getLocalized(product.name)},
+            )
+        }}
         <span class="reference-number lc-font-size-24">
           {{ chargeId }}
         </span>
@@ -35,7 +40,7 @@
       </ul>
       <ul v-else>
         <li
-          v-for="(p, index) in products"
+          v-for="p in products"
           :key="p.id"
           class="product"
           @click="onClickProduct(p.id)">

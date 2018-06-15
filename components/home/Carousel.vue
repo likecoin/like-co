@@ -4,7 +4,8 @@
       <div class="swiper-wrapper">
         <div class="swiper-slide" v-for="slide in slides" :key="slide.id">
           <div :style="{
-            'background-image': 'url(' + require(`~/assets/home/feature/${slide.id}-image.jpg`) + ')'
+            'background-image':
+            'url(' + require(`~/assets/home/feature/${slide.id}-image.jpg`) + ')'
           }">
             <div class="lc-container-1">
               <div class="lc-container-2">

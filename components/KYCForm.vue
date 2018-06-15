@@ -88,10 +88,18 @@
             {{ $t('KYC.label.isUsaAccredited') }}
           </label>
           <div class="md-layout md-layout-item options">
-            <md-radio v-model="isUSAAccredited" name="isUSAAccredited" class="md-layout-item" :value="true">
+            <md-radio
+              v-model="isUSAAccredited"
+              name="isUSAAccredited"
+              class="md-layout-item"
+              :value="true">
               {{ $t('General.button.yes') }}
             </md-radio>
-            <md-radio v-model="isUSAAccredited" name="isUSAAccredited" class="md-layout-item" :value="false">
+            <md-radio
+              v-model="isUSAAccredited"
+              name="isUSAAccredited"
+              class="md-layout-item"
+              :value="false">
               {{ $t('General.button.no') }}
             </md-radio>
           </div>
@@ -132,7 +140,10 @@
           v-model="country"
           :md-options="COUNTRY_LIST"
           @md-changed="e => this.country = e"
-          @md-opened="() => { this.country += ' '; this.country = this.country.substring(0, this.country.length - 1) }"
+          @md-opened="() => {
+            this.country += ' ';
+            this.country = this.country.substring(0, this.country.length - 1);
+          }"
           md-dense
           required>
           <label>{{ $t('KYC.label.country') }}</label>
@@ -144,7 +155,10 @@
         <md-autocomplete
           v-model="nationality"
           @md-changed="e => this.nationality = e"
-          @md-opened="() => { this.nationality += ' '; this.nationality = this.nationality.substring(0, this.nationality.length - 1) }"
+          @md-opened="() => {
+            this.nationality += ' ';
+            this.nationality = this.nationality.substring(0, this.nationality.length - 1);
+          }"
           :md-options="NATIONALITY_LIST"
           md-dense
           required>
@@ -192,7 +206,9 @@
             accept="image/png, image/jpeg"
             @change="handlePassportImageChange"
             :required="documentFile1 ? null : 'required'" />
-          <md-progress-spinner v-if="passportIdPageFileName && !documentData1" md-mode="indeterminate" />
+          <md-progress-spinner
+            v-if="passportIdPageFileName && !documentData1"
+            md-mode="indeterminate" />
           <img v-else-if="documentData1" :src="documentData1" />
         </div>
 
@@ -253,7 +269,10 @@
           {{ $t('KYC.label.waitingConfirmation') }}
         </h2>
         <p>
-          {{ $t(`KYC.label.timeWaitFor${(pendingKYC || isSubmittedAdvancedVerification) ? 'Advanced' : 'Account'}Verification`) }}
+          {{
+            $t(`KYC.label.timeWaitFor${(pendingKYC || isSubmittedAdvancedVerification)
+              ? 'Advanced' : 'Account'}Verification`)
+          }}
         </p>
         <p>
           {{ $t(`KYC.label.emailNotification`) }}

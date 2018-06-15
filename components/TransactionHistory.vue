@@ -94,7 +94,10 @@
                     v-else-if="isFromPreSaleBonus(tx)">
                     <img :src="LockIcon" />
                     <md-tooltip>
-                      {{ $t('TransactionHistory.label.lockUntilDate', { date: BONUS_LOCK_UNTIL_DATE })}}
+                      {{
+                        $t('TransactionHistory.label.lockUntilDate',
+                        { date: BONUS_LOCK_UNTIL_DATE })
+                      }}
                     </md-tooltip>
                   </div>
                   <div

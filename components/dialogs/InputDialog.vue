@@ -4,7 +4,11 @@
     <div class="lc-dialog-container-1">
       <h1
         v-if="title"
-        class="lc-margin-bottom-16 lc-font-size-32 lc-font-weight-400 lc-color-like-dark-brown-1 lc-mobile">
+        class="lc-margin-bottom-16
+          lc-font-size-32
+          lc-font-weight-400
+          lc-color-like-dark-brown-1
+          lc-mobile">
         {{ title }}
       </h1>
 
