@@ -367,7 +367,8 @@ export default {
     },
     subDescription() {
       if (
-        !this.shouldShowDesktopOnly
+        !this.mission.isExpired
+        && !this.shouldShowDesktopOnly
         && this.hasReferrer
         && this.missionId === 'joinTokenSale'
       ) {
