@@ -1,5 +1,5 @@
 <template>
-  <div class="user-info-div">
+  <div v-if='id' class="user-info-div">
     <div class="user-avatar-border">
       <div class="user-avatar-wrapper">
         <img class="avatar" :src="avatar" />
@@ -16,7 +16,7 @@
     </div>
     <nuxt-link :to="getUserPath"
       target="_blank">
-      <img :src="getLikeButtonSrc"
+      <img :src="likeButtonSrc"
            alt="like-button"
            class="like-button"
            @mouseover="setLikeButtonState('hover')"
@@ -26,22 +26,33 @@
            >
     </nuxt-link>
   </div>
+  <div v-else> Not found. </div>
 </template>
 
 <script>
-import { LIKE_BTN_IMG_URL } from '~/constant/';
 import { apiGetUserMinById } from '@/util/api/api';
+import likeButtonNormal from '@/assets/like-button/likebtn-normal.png';
+import likeButtonHover from '@/assets/like-button/likebtn-hover.png';
+import likeButtonClick from '@/assets/like-button/likebtn-click.png';
+
+const LIKE_BUTTON_STATE = {
+  normal: likeButtonNormal,
+  hover: likeButtonHover,
+  click: likeButtonClick,
+};
 
 export default {
   name: 'embed',
   layout: 'embed',
   data() {
     return {
-      LIKE_BTN_IMG_URL,
       id: '',
       displayName: '',
       avatar: '',
-      likeButtonState: 'normal',
+      likeButtonNormal,
+      likeButtonHover,
+      likeButtonClick,
+      likeButtonSrc: likeButtonNormal,
     };
   },
   asyncData({ params }) {
@@ -59,35 +70,14 @@ export default {
       })
       .catch(() => {});
   },
-  head() {
-    return {
-      link: [
-        {
-          rel: 'prefetch',
-          href: LIKE_BTN_IMG_URL.normal,
-        },
-        {
-          rel: 'prefetch',
-          href: LIKE_BTN_IMG_URL.hover,
-        },
-        {
-          rel: 'prefetch',
-          href: LIKE_BTN_IMG_URL.click,
-        },
-      ],
-    };
-  },
   computed: {
     getUserPath() {
       return `/${this.id}`;
     },
-    getLikeButtonSrc() {
-      return this.LIKE_BTN_IMG_URL[this.likeButtonState];
-    },
   },
   methods: {
     setLikeButtonState(state) {
-      this.likeButtonState = state;
+      this.likeButtonSrc = LIKE_BUTTON_STATE[state];
     },
   },
 };

@@ -2,7 +2,7 @@ import { Router } from 'express';
 import cors from 'cors';
 import { toDataUrl } from '@likecoin/ethereum-blockies';
 import xml from 'xml';
-import { IS_TESTNET, DOMAIN_URL } from '../../constant';
+import { IS_TESTNET } from '../../constant';
 import { ValidationError } from '../../util/ValidationHelper';
 
 const hostname = IS_TESTNET ? 'rinkeby.like.co' : 'like.co';
@@ -52,11 +52,11 @@ router.get('/oembed', cors(), async (req, res, next) => {
       thumbnail_width: thumbnailLength,
       thumbnail_height: thumbnailLength,
       html: `<iframe width="${maxWidth}" height="${maxHeight}"
-        src="${DOMAIN_URL}/in/embed/${username}"
+        src="https://${hostname}/in/embed/${username}"
         frameborder="0">
         </iframe>`,
       provider_name: 'LikeCoin',
-      provider_url: DOMAIN_URL,
+      provider_url: `https://${hostname}`,
       width: maxWidth,
       height: maxHeight,
     };
