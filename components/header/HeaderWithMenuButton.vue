@@ -72,9 +72,13 @@ export default {
           this.showLoginWindow();
         }
       } else {
+        let ref = '';
+        if (this.$route.name === 'index') {
+          ref = 'in';
+        }
         this.$router.push({
           name: 'in-register',
-          query: { ...this.$route.query, ref: '' },
+          query: { ...this.$route.query, ref },
         });
       }
     },
