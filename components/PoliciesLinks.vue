@@ -11,7 +11,7 @@
           {{ $t('PrivacyPolicyPage.title') }}
         </nuxt-link>
       </li>
-    </ul>  
+    </ul>
   </div>
 </template>
 

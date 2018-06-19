@@ -1,7 +1,7 @@
 <template>
   <div class="policies-page">
     <section class="lc-container-0">
-      
+
       <div class="lc-container-1">
         <div class="underlay lc-mobile-hide" />
         <div class="lc-container-2">
