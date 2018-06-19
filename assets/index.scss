@@ -11,7 +11,7 @@ body {
   position: static;
   z-index: -2;
 
-  font-family: 'Open Sans', $base-font-list;
+  font-family: 'Open Sans', $base-font-list !important;
 
   &[lc-lang="ja"] {
     font-family: 'Open Sans',
