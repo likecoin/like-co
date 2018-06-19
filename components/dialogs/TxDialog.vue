@@ -78,7 +78,9 @@ export default {
 
 .tx-dialog {
   :global(.lc-dialog-header::before) {
-    @include background-image-sliding-animation-x(linear-gradient(to right, #90c2ed, #6faeee 20%, #d7ecec, #90c2ed));
+    @include background-image-sliding-animation-x(
+      linear-gradient(to right, #90c2ed, #6faeee 20%, #d7ecec, #90c2ed)
+    );
   }
 }
 </style>

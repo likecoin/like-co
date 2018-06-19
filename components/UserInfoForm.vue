@@ -23,7 +23,12 @@
               </div>
 
               <div class="user-identity">
-                <div :class="['likecoin-id', 'lc-tablet-hide', 'lc-font-size-20', { disabled: isEditing }]">
+                <div :class="[
+                    'likecoin-id',
+                    'lc-tablet-hide',
+                    'lc-font-size-20',
+                    { disabled: isEditing }
+                  ]">
                   <span class="user-id-label">
                     {{ $t('Edit.label.id') }}&nbsp;
                   </span>
@@ -33,7 +38,11 @@
                 </div>
 
                 <div @click="onEditDisplayName">
-                  <md-field :class="['lc-margin-bottom-4', 'lc-padding-top-0', isEditing ? 'md-field-edit-mode' : 'md-field-pre-edit']">
+                  <md-field :class="[
+                      'lc-margin-bottom-4',
+                      'lc-padding-top-0',
+                      isEditing ? 'md-field-edit-mode' : 'md-field-pre-edit'
+                    ]">
                     <md-input
                       ref="inputDisplayName"
                       class="input-display-name input-display"

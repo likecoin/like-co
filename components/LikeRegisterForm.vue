@@ -30,7 +30,13 @@
               <span class="md-error">{{ $t(`Error.${getInfoMsg}`) }}</span>
             </md-field>
 
-            <md-field :class="['lc-margin-top-12', 'lc-margin-bottom-24', 'lc-mobile', { 'md-invalid': isBadAddress }]">
+            <md-field
+              :class="[
+                'lc-margin-top-12',
+                'lc-margin-bottom-24',
+                'lc-mobile',
+                { 'md-invalid': isBadAddress }
+              ]">
               <label>{{ $t('Register.form.walletAddress') }}</label>
               <md-input v-model="wallet" maxlength="42" required disabled />
               <span v-if="isBadAddress" class="md-error">

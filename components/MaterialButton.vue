@@ -9,23 +9,23 @@
 </template>
 
 <script>
-  export default {
-    name: 'material-button',
-    props: ['className', 'hasShadow', 'type', 'form', 'disabled'],
-    computed: {
-      classObject() {
-        return {
-          shadow: this.hasShadow,
-          disabled: this.disabled,
-        };
-      },
+export default {
+  name: 'material-button',
+  props: ['className', 'hasShadow', 'type', 'form', 'disabled'],
+  computed: {
+    classObject() {
+      return {
+        shadow: this.hasShadow,
+        disabled: this.disabled,
+      };
     },
-    methods: {
-      handleClick() {
-        this.$emit('click');
-      },
+  },
+  methods: {
+    handleClick() {
+      this.$emit('click');
     },
-  };
+  },
+};
 </script>
 
 <style lang="scss" scoped>

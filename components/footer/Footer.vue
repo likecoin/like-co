@@ -4,7 +4,12 @@
       <div class="lc-container-2">
         <div class="lc-content-wrapper">
 
-          <span class="contract-address lc-mobile-hide">{{ $t('Footer.label.contract') }}<a :href="getAddress" target="_blank" rel="noopener">{{ contractAddress }}</a></span>
+          <span class="contract-address lc-mobile-hide">
+            {{ $t('Footer.label.contract') }}
+            <a :href="getAddress" target="_blank" rel="noopener">
+             {{ contractAddress }}
+            </a>
+          </span>
 
           <div class="right footer-links">
             <nuxt-link :to="{ name: 'in-policies' }">{{ $t('PoliciesPage.title') }}</nuxt-link>

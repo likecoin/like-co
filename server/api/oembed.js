@@ -31,8 +31,8 @@ router.get('/oembed', cors(), async (req, res, next) => {
       throw new ValidationError(`Invalid format ${format} in oEmbed request`);
     }
 
-    const maxWidth = Number.parseInt(req.query.maxwidth || 100, 10);
-    const maxHeight = Number.parseInt(req.query.maxheight || 100, 10);
+    const maxWidth = Number.parseInt(req.query.maxwidth || 480, 10);
+    const maxHeight = Number.parseInt(req.query.maxheight || 170, 10);
     const thumbnailLength = Math.min(100, maxWidth, maxHeight);
 
     const doc = await dbRef.doc(username).get();
@@ -44,13 +44,21 @@ router.get('/oembed', cors(), async (req, res, next) => {
     if (!payload.avatar) payload.avatar = toDataUrl(payload.wallet);
 
     const oEmbedResponse = {
-      type: 'link',
+      type: 'rich',
       version: '1.0',
       title: `${payload.displayName} (${username})`,
       url: `https://${hostname}/${username}`,
       thumbnail_url: payload.avatar,
       thumbnail_width: thumbnailLength,
       thumbnail_height: thumbnailLength,
+      html: `<iframe width="${maxWidth}" height="${maxHeight}"
+        src="https://${hostname}/in/embed/${username}"
+        frameborder="0">
+        </iframe>`,
+      provider_name: 'LikeCoin',
+      provider_url: `https://${hostname}`,
+      width: maxWidth,
+      height: maxHeight,
     };
     switch (format) {
       case 'json':

@@ -286,7 +286,9 @@ export default {
   background: #EEE;
 
   .animated & {
-    @include background-image-sliding-animation-x(linear-gradient(to right, #EEE 8%, #DDD 24%, #EEE 32%));
+    @include background-image-sliding-animation-x(
+      linear-gradient(to right, #EEE 8%, #DDD 24%, #EEE 32%)
+    );
   }
 }
 

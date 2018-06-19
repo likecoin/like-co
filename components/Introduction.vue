@@ -36,7 +36,7 @@ export default {
 #intro {
   display: flex;
 
-	background-image: linear-gradient(238deg, $like-light-blue, $like-gradient-1);
+  background-image: linear-gradient(238deg, $like-light-blue, $like-gradient-1);
 
   @media (min-width: 601px) {
     align-items: center;

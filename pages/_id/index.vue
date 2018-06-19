@@ -22,7 +22,9 @@
               <section class="lc-text-align-center">
                 <h1
                   class="lc-font-size-42 lc-font-weight-300 lc-mobile"
-                  v-html="$t('Transaction.label.sendTo', { title: displayName, coin: isEth ? 'ETH' : 'LikeCoin' })"
+                  v-html="$t('Transaction.label.sendTo',
+                    { title: displayName, coin: isEth ? 'ETH' : 'LikeCoin' }
+                    )"
                   />
               </section>
 
@@ -71,7 +73,8 @@
                     :currencyTitle="isEth ? 'ETH' : ''"
                     :amount="amount"
                     :isBadAmount="isBadAmount"
-                    :label="$t('Transaction.label.amountToSend', { coin: isEth ? 'ETH' : 'LikeCoin' })"
+                    :label="$t('Transaction.label.amountToSend',
+                      { coin: isEth ? 'ETH' : 'LikeCoin' })"
                     @onChange="handleAmountChange"
                   />
                 </div>
@@ -103,17 +106,24 @@
                     {{ $t('KYC.button.createID') }}
                   </md-button>
                 </div>
-                
+
                 <div v-else>
-                  <no-ssr><p v-if="!isSupportTransferDeleteaged">{{ $t('Transaction.error.notSupported') }}</p></no-ssr>
-                  <no-ssr><material-button
-                    id="payment-confirm"
-                    class="md-raised md-primary likecoin"
-                    type="submit"
-                    form="paymentInfo"
-                    :disabled="getIsInTransaction || !isSupportTransferDeleteaged ||  (!getLocalWallet)">
-                    {{ $t('General.button.confirm') }}
-                  </material-button></no-ssr>
+                  <no-ssr>
+                    <p v-if="!isSupportTransferDeleteaged">
+                      {{ $t('Transaction.error.notSupported') }}
+                    </p></no-ssr>
+                  <no-ssr>
+                    <material-button
+                      id="payment-confirm"
+                      class="md-raised md-primary likecoin"
+                      type="submit"
+                      form="paymentInfo"
+                      :disabled="getIsInTransaction
+                        || !isSupportTransferDeleteaged
+                        || (!getLocalWallet)">
+                      {{ $t('General.button.confirm') }}
+                    </material-button>
+                  </no-ssr>
                 </div>
 
               </form>

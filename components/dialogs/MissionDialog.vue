@@ -209,7 +209,8 @@
                   class="md-likecoin"
                   @click="$router.push({ name: 'in-tokensale' })"
                 >
-                  {{ $t(`Home.Sale.button.${this.isUpcomingMission ? 'prepareToJoin' : 'joinNow'}`) }}
+                  {{ $t(`Home.Sale.button.${this.isUpcomingMission
+                      ? 'prepareToJoin' : 'joinNow'}`) }}
                 </md-button>
                 <br />
                 <md-button
@@ -366,11 +367,8 @@ export default {
       `;
     },
     subDescription() {
-      if (
-        !this.shouldShowDesktopOnly
-        && this.hasReferrer
-        && this.missionId === 'joinTokenSale'
-      ) {
+      if (this.mission.isExpired) return null;
+      if (this.hasReferrer && this.missionId === 'joinTokenSale') {
         return this.$t('Mission.joinTokenSale.subDescription');
       }
       return null;

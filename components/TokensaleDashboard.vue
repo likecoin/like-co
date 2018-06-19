@@ -13,7 +13,12 @@
                 {{ $t('Home.Sale.title.isOver') }}
               </span>
             </h1>
-            <h2 class="completed-percentage lc-font-weight-600 lc-color-like-green lc-padding-top-24 lc-padding-bottom-16 lc-mobile">
+            <h2 class="completed-percentage
+              lc-font-weight-600
+              lc-color-like-green
+              lc-padding-top-24
+              lc-padding-bottom-16
+              lc-mobile">
               {{ $t('Home.Sale.label.completedPercent', { percent: tokenSalePercentage }) }}
             </h2>
           </section>

@@ -22,7 +22,7 @@ export const jwtSign = payload => jwt.sign(payload, secret, { expiresIn: '7d' })
 
 export const jwtVerify = token => jwt.verify(token, secret);
 
-export const jwtAuth = function (req, res, next) {
+export const jwtAuth = (req, res, next) => {
   res.setHeader('Surrogate-Control', 'no-store');
   res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
   res.setHeader('Pragma', 'no-cache');

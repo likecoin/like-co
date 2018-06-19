@@ -54,7 +54,9 @@
         <!-- Only support ledger for now -->
 <!--    <div v-if="isHardware">
         </div>
-        <a href="#" v-else @click.prevent="isHardware=true">{{ $t('Dialog.metamask.label.hardwareWallet') }}</a>
+        <a href="#" v-else @click.prevent="isHardware=true">
+          {{ $t('Dialog.metamask.label.hardwareWallet') }}
+        </a>
       -->
         <div v-if="isMetamask">
           <a href="#" @click.prevent="onLedger">{{ $t('Dialog.metamask.label.ledger') }}</a>

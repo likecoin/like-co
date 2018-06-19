@@ -1,16 +1,19 @@
 <template>
   <md-toolbar :class="styleClass" v-if="txHash" md-elevation="0">
     <div class="md-layout-item">
-    	<section v-if="isInTx">
+      <section v-if="isInTx">
         <md-progress-spinner :md-diameter="24" :md-stroke="2" md-mode="indeterminate" />
       </section>
       <img v-else class="status-icon" :src="TickIcon" />
-      {{ isInTx ? `${$t('Transaction.header.label.pending')}...` : `${$t('Transaction.header.label.completed')}!` }}
+      {{
+        isInTx ? `${$t('Transaction.header.label.pending')}...`
+        : `${$t('Transaction.header.label.completed')}!`
+      }}
     </div>
     <div class="btn-container">
       <nuxt-link :to="{ name: 'in-tx-id', params: { id: txHash, tx: txInfo } }">
         <md-button>{{ $t('Transaction.label.viewTx') }}</md-button>
-    	</nuxt-link>
+      </nuxt-link>
       <md-button v-if="!isInTx" class="md-icon-button" @click="$emit('onClose')">
         <md-icon>close</md-icon>
       </md-button>

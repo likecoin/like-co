@@ -19,10 +19,10 @@
 </template>
 
 <script>
-  export default {
-    name: 'InfoToolbar',
-    props: ['message', 'isError'],
-  };
+export default {
+  name: 'InfoToolbar',
+  props: ['message', 'isError'],
+};
 </script>
 
 <style lang="scss" scoped>
