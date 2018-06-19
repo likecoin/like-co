@@ -55,7 +55,8 @@ module.exports = {
         'script-src': [
           "'self'",
           /* gtm inline code */
-          "'sha256-iuXaQeiad/7pk5Ih+zioILgFF9jt93hQCklW9N52YdU='",
+          "'sha256-X3ZM8SMe34uV9LglkNh69UN/Vkuo+blzT0E7mN1rUnQ='",
+          "'sha256-2xBjy9xHKMthpdhRq5DplVZ7EkoWxMla4wyUmB1jyFY='",
           'https://www.google-analytics.com',
           'https://www.googletagmanager.com',
           'https://www.googleadservices.com',
