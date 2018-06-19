@@ -84,6 +84,7 @@ export default {
   data() {
     return {
       isEmailEnabled: false,
+      isEmailPreviouslyEnabled: false,
       isLoading: false,
     };
   },
@@ -117,7 +118,8 @@ export default {
     },
     async updateInfo() {
       const user = this.getUserInfo;
-      this.isEmailEnabled = !!user.isEmailEnabled;
+      this.isEmailEnabled = (user.isEmailEnabled !== false);
+      this.isEmailPreviouslyEnabled = this.isEmailEnabled;
     },
     async confirmChanges() {
       this.isLoading = true;
@@ -134,6 +136,7 @@ export default {
         this.refreshUserInfo(user.user);
       } catch (err) {
         console.error(err);
+        this.isEmailEnabled = this.isEmailPreviouslyEnabled;
       }
       this.isLoading = false;
     },
