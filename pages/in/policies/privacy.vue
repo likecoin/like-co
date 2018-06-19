@@ -1,7 +1,8 @@
+<!-- eslint-disable max-len -->
 <template>
   <div class="privacy-policy-page">
     <section class="lc-container-0">
-      
+
       <div class="lc-container-1">
         <div class="underlay lc-mobile-hide" />
         <div class="lc-container-2">
@@ -12,13 +13,12 @@
           </div>
         </div>
       </div>
-
       <div class="lc-container-1">
         <div class="lc-container-2 lc-width-2-3">
           <div class="lc-container-3 lc-padding-vertical-24">
             <article class="lc-article">
               <p>This privacy policy (the “<span class="bold">Policy</span>”) outlines how LikeCoin Foundation Limited (together with our subsidiaries, from time to time, collectively called “<span class="bold">LikeCoin</span>” or “<span class="bold">We</span>”) to whose services/website you have registered (collectively “<span class="bold">LikeCoin</span>”, “<span class="bold">We</span>” or “<span class="bold">Us</span>”) collects, uses and manages the personal information of its users and customers. We encourage you to read the Policy carefully as it forms part of the relevant LikeCoin’s terms of use. For the purposes of applicable data protection laws,  LikeCoin is the “controller” of personal information collected through <a href="/">like.co</a>, other LikeCoin’s group websites and mobile applications (together the “<span class="bold">Site</span>”), and is the company you should contact if you have questions about the use of your personal information (see the “<span class="bold">Contact Us</span>” section below).  By visiting our Site, you accept and consent to the practices set out below.</p>
-              
+
               <h1 id="how-and-what-personal-data-we-collect">How and what personal data we collect</h1>
               <ol class="h2">
                 <li>
@@ -32,7 +32,7 @@
                   </ul>
                   <p>You acknowledge that we may rely upon such information and that you are responsible for any damages or losses which may result from any inaccuracies, including without limitation, the inappropriateness of a service/product to your profile.</p>
                 </li>
-                
+
                 <li>
                   <h2>When you transfer LikeCoin token to other LikeCoin token users</h2>
                   <p>If you transfer LikeCoin token in our website, we will keep the following records:</p>
