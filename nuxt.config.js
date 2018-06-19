@@ -33,7 +33,6 @@ module.exports = {
     script: [
       { src: 'https://use.typekit.net/ube6iww.js' },
       { src: '/vendor/typekit.js' },
-      { src: '/vendor/fb/pixel.js' },
       { src: '/vendor/fb/sdk.js' },
       { src: 'https://www.recaptcha.net/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit' },
     ],
@@ -167,12 +166,6 @@ module.exports = {
     '~/assets/css/main.css',
   ],
   modules: [
-    ['@nuxtjs/google-analytics', {
-      id: process.env.GA_TRACKING_ID || 'UA-12301-2',
-      autoTracking: {
-        exception: true,
-      },
-    }],
     ['@nuxtjs/google-tag-manager', { id: process.env.GTM_ID || 'GTM-XXXXXXX' }],
     '@nuxtjs/sentry',
   ],
