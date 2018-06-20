@@ -33,6 +33,7 @@ module.exports = {
     script: [
       { src: 'https://use.typekit.net/ube6iww.js' },
       { src: '/vendor/typekit.js' },
+      { src: '/vendor/fb/pixel.js' },
       { src: '/vendor/fb/sdk.js' },
       { src: 'https://www.recaptcha.net/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit' },
     ],
