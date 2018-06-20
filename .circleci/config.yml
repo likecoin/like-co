@@ -66,6 +66,8 @@ jobs:
       - run:
           name: Unit Test (Backend)
           command: npm run test:api
+      - store_artifacts:
+          path: ./screenshots
       - save_cache:
           key: likecoin-store-unit-test-{{ .Environment.CACHE_UUID }}-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}-{{ checksum ".circleci/config.yml" }}
           paths:
