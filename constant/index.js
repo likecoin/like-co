@@ -3,6 +3,8 @@ import moment from 'moment';
 
 export const { IS_TESTNET } = process.env;
 
+export const TEST_MODE = process.env.NODE_ENV !== 'production' || process.env.CI;
+
 export const BONUS_ADDRESSES = IS_TESTNET ?
   ['0xC75c0b2a92fd823A05C7AE3949ad6f1aB20Dd37E', '0x1cf94c2bbA216e3f1ecff7762af47844C43d3FdA']
   : ['0x65b8E5D9d95e707349789E42fa2f88EE5B20B072', '0x1cf94c2bbA216e3f1ecff7762af47844C43d3FdA'];

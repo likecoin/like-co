@@ -36,8 +36,10 @@ module.exports = {
         const originalWindow = res.value[0];
         this.switchWindow(originalWindow);
       })
-      .waitForElementVisible('.lc-container-3 button.account-btn', 5000)
-      .verify.containsText('.lc-container-3 button.account-btn > div', newId)
+      /* verify email dialog */
+      .waitForElementVisible('div.md-dialog.lc-dialog.input-dialog.md-dialog-fullscreen.md-theme-default', 5000)
+      .click('#single-input-form > div.lc-button-group > button.md-button.md-likecoin.lc-cancel.md-theme-default')
+      .verify.containsText('#user-info-form .user-identity > .likecoin-id > a', newId)
       .end();
   },
 

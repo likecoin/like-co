@@ -33,6 +33,12 @@ module.exports = {
       globals: {
         devServerURL: 'http://localhost:3000',
       },
+      screenshots: {
+        enabled: true,
+        path: './screenshots',
+        on_failure: true,
+        on_error: true,
+      },
       desiredCapabilities: {
         browserName: 'chrome',
         javascriptEnabled: true,

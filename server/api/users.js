@@ -4,6 +4,7 @@ import BigNumber from 'bignumber.js';
 import { sendVerificationEmail, sendVerificationWithCouponEmail } from '../util/ses';
 import {
   IS_TESTNET,
+  TEST_MODE,
   PUBSUB_TOPIC_MISC,
   ONE_LIKE,
 } from '../../constant';
@@ -47,8 +48,8 @@ const SUPPORTED_AVATER_TYPE = new Set([
 
 const AUTH_COOKIE_OPTION = {
   maxAge: 31556926000, // 365d
-  domain: process.env.NODE_ENV !== 'production' ? undefined : '.like.co',
-  secure: process.env.NODE_ENV === 'production',
+  domain: TEST_MODE ? undefined : '.like.co',
+  secure: !TEST_MODE,
   httpOnly: true,
 };
 
