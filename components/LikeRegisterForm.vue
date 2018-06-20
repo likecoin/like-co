@@ -56,6 +56,7 @@
                 v-model="email"
                 @change="email=email.toLowerCase().trim()"
                 :title="$t('Register.form.error.emailFormat')"
+                required
               />
               <span class="md-error">{{ $t(`Error.${getInfoMsg}`) }}</span>
             </md-field>
