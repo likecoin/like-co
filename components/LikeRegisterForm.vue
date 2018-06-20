@@ -22,7 +22,7 @@
               <label>{{ $t('Register.form.createID') }}</label>
               <md-input
                 v-model="user"
-                pattern="[a-z0-9-_]{7,20}"
+                :pattern="USER_ID_REGEX"
                 @change="user=user.toLowerCase().trim()"
                 :title="$t('Register.form.error.alphanumeric')"
                 v-bind="getTestAttribute('userId')"
@@ -117,7 +117,7 @@
           id="confirm-btn"
           type="submit"
           form="registerForm"
-          :disabled="getIsPopupBlocking">
+          :disabled="getIsPopupBlocking || !isFormValid">
           {{ $t('General.button.confirm') }}
         </material-button>
       </div>
@@ -148,6 +148,7 @@ import MaterialButton from '~/components/MaterialButton';
 import { toDataUrl } from '@likecoin/ethereum-blockies';
 import { ETHERSCAN_HOST, W3C_EMAIL_REGEX, IS_TESTNET } from '@/constant';
 
+const USER_ID_REGEX = '[a-z0-9-_]{7,20}';
 export default {
   name: 'LikeRegisterForm',
   props: ['isRedeem'],
@@ -168,6 +169,7 @@ export default {
       reCaptchaResponse: '',
       isBadAddress: false,
       ETHERSCAN_HOST,
+      USER_ID_REGEX,
       W3C_EMAIL_REGEX,
       IS_TESTNET,
       shouldShowReferrerDialog: false,
@@ -187,6 +189,11 @@ export default {
       'getLocalWallet',
       'getCurrentLocale',
     ]),
+    isFormValid() {
+      const isIdValid = new RegExp(USER_ID_REGEX).test(this.user);
+      const isEmailValid = new RegExp(W3C_EMAIL_REGEX).test(this.email);
+      return this.isTermsAgreed && isEmailValid && isIdValid && !!this.reCaptchaResponse;
+    },
   },
   methods: {
     ...mapActions([
