@@ -1,3 +1,5 @@
+import { TEST_MODE } from '../../constant';
+
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const expressjwt = require('express-jwt');
@@ -6,7 +8,7 @@ const config = require('@ServerConfig/config.js'); // eslint-disable-line import
 
 let secret = config.JWT_SECRET;
 if (!secret) {
-  secret = process.env.NODE_ENV !== 'production' ? 'likecoin' : crypto.randomBytes(64).toString('hex').slice(0, 64);
+  secret = TEST_MODE ? 'likecoin' : crypto.randomBytes(64).toString('hex').slice(0, 64);
 }
 
 function getToken(req) {

@@ -11,14 +11,15 @@ module.exports = {
   'Register': (browser) => {
     const devServer = browser.globals.devServerURL;
     const newId = 'testacct';
-
+    const newEmail = 'a@b.c';
     browser
       .url(devServer)
       .click('.lc-container-3 button.account-btn')
       .waitForElementVisible('#registerForm', 5000)
-      .setValue('#registerForm input[type=text][required=required]', newId)
+      .setValue('#registerForm > div.md-layout > div.md-layout.md-layout-item > div > div:nth-child(1) > input', newId)
+      .setValue('#registerForm > div.md-layout > div.md-layout.md-layout-item > div > div:nth-child(3) > input', newEmail)
       .submitForm('#registerForm')
-      .pause(2000)
+      .pause(1000)
       .windowHandles(function func(res) {
         const metamaskPopup = res.value[1];
         this.switchWindow(metamaskPopup);
@@ -31,8 +32,10 @@ module.exports = {
         const originalWindow = res.value[0];
         this.switchWindow(originalWindow);
       })
-      .waitForElementVisible('.lc-container-3 button.account-btn', 5000)
-      .verify.containsText('.lc-container-3 button.account-btn > div', newId)
+      /* verify email dialog */
+      .waitForElementVisible('div.md-dialog.lc-dialog.input-dialog.md-dialog-fullscreen.md-theme-default', 5000)
+      .click('#single-input-form > div.lc-button-group > button.md-button.md-likecoin.lc-cancel.md-theme-default')
+      .verify.containsText('#user-info-form .user-identity > .likecoin-id > a', newId)
       .end();
   },
 
