@@ -70,7 +70,7 @@ module.exports = {
         this.verify.equal(result.value.length, 5, 'There should be 5 windows open');
         const newWindow = result.value[0];
         this.switchWindow(newWindow);
-        this.verify.elementPresent('#my-mission .mission-list .mission-item-list-wrapper .mission-item.gettingStart.completed');
+        this.waitForElementVisible('#my-mission .mission-list .mission-item-list-wrapper .mission-item.gettingStart.completed', 1000);
       })
 
       // invite friend popup

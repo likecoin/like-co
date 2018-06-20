@@ -35,9 +35,15 @@ if (IsPortUsing()) {
 
 // Start testing server...
 // spawn as new group of processes
-process.env.CI = true; // unit test env
-setStub();
-const server = spawn('npm', ['run', 'dev'], { detached: true, stdio: 'inherit' });
+const testEnv = Object.create(process.env);
+testEnv.CI = true; // unit test env
+testEnv.NODE_ENV = 'production';
+testEnv.IS_TESTNET = true;
+if (!process.env.CI) {
+  setStub();
+  execSync('npm run build', { env: testEnv });
+}
+const server = spawn('npm', ['start'], { env: testEnv, detached: true, stdio: 'inherit' });
 console.log('Starting unit test server. Ctrl + C to quit.');
 
 process.on('SIGINT', () => {
