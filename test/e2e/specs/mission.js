@@ -61,11 +61,12 @@ module.exports = {
       .waitForElementVisible('.getting-start-form ul li:nth-child(4)', 2000) // 4 items in task list
       .execute(function func() {
         const tasks = document.querySelectorAll('.task-item');
-        tasks.forEach((task) => {
-          task.click();
+        tasks.forEach((task, index) => {
+          setTimeout(() => task.click(), 1000 * index);
         });
         return true;
       })
+      .pause(6000)
       .waitForElementVisible('.getting-start-form .md-button', 3000)
       .click('.getting-start-form .md-button')
       .windowHandles(function func(result) {
