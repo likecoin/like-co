@@ -351,6 +351,7 @@ export default {
       this.avatarData = user.avatar;
       this.wallet = user.wallet;
       this.email = user.email;
+      this.isEmailEnabled = (user.isEmailEnabled !== false);
       this.updateLikeCoin();
     },
   },

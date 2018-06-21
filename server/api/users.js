@@ -251,7 +251,6 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res, n
     const updateObj = {
       displayName,
       wallet,
-      isEmailEnabled,
     };
     if (email && email !== oldEmail) {
       if (oldEmail && oldUserObj.isEmailVerified) throw new ValidationError('email already verified');
@@ -259,6 +258,9 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res, n
       updateObj.verificationUUID = FieldValue.delete();
       updateObj.isEmailVerified = false;
       updateObj.lastVerifyTs = FieldValue.delete();
+    }
+    if (typeof isEmailEnabled !== 'undefined') {
+      updateObj.isEmailEnabled = isEmailEnabled;
     }
     if (url) updateObj.avatar = url;
     if (locale) updateObj.locale = locale;
