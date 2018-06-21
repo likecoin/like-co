@@ -29,6 +29,7 @@ module.exports = {
       this.click('#network_component');
       this.api.pause(1000);
       this.click('div.menu-droppo li:nth-child(5)');
+      this.api.pause(1000);
     },
     getAccountSeedPhase(accountId = 'testacct') {
       const seedPhase = {

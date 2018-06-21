@@ -318,7 +318,7 @@ test('OEMBED: success cases', async (t) => {
   res = await axios.get(`${url}/api/oembed?url=https://rinkeby.like.co/${testingUser1}`)
     .catch(err => err.response);
   t.is(res.status, 200);
-  t.is(res.data.type, 'link');
+  t.is(res.data.type, 'rich');
   t.is(res.data.title, `${testingDisplayName1} (${testingUser1})`);
   t.is(res.data.version, '1.0');
   t.is(res.data.url, `https://rinkeby.like.co/${testingUser1}`);
@@ -328,7 +328,7 @@ test('OEMBED: success cases', async (t) => {
   res = await axios.get(`${url}/api/oembed?url=http://rinkeby.like.co/${testingUser1}`)
     .catch(err => err.response);
   t.is(res.status, 200);
-  t.is(res.data.type, 'link');
+  t.is(res.data.type, 'rich');
   t.is(res.data.title, `${testingDisplayName1} (${testingUser1})`);
   t.is(res.data.version, '1.0');
   t.is(res.data.url, `https://rinkeby.like.co/${testingUser1}`);
@@ -338,7 +338,7 @@ test('OEMBED: success cases', async (t) => {
   res = await axios.get(`${url}/api/oembed?url=rinkeby.like.co/${testingUser1}`)
     .catch(err => err.response);
   t.is(res.status, 200);
-  t.is(res.data.type, 'link');
+  t.is(res.data.type, 'rich');
   t.is(res.data.title, `${testingDisplayName1} (${testingUser1})`);
   t.is(res.data.version, '1.0');
   t.is(res.data.url, `https://rinkeby.like.co/${testingUser1}`);
@@ -348,7 +348,7 @@ test('OEMBED: success cases', async (t) => {
   res = await axios.get(`${url}/api/oembed?url=www.rinkeby.like.co/${testingUser1}`)
     .catch(err => err.response);
   t.is(res.status, 200);
-  t.is(res.data.type, 'link');
+  t.is(res.data.type, 'rich');
   t.is(res.data.title, `${testingDisplayName1} (${testingUser1})`);
   t.is(res.data.version, '1.0');
   t.is(res.data.url, `https://rinkeby.like.co/${testingUser1}`);
@@ -358,7 +358,7 @@ test('OEMBED: success cases', async (t) => {
   res = await axios.get(`${url}/api/oembed?url=https://www.rinkeby.like.co/${testingUser1}`)
     .catch(err => err.response);
   t.is(res.status, 200);
-  t.is(res.data.type, 'link');
+  t.is(res.data.type, 'rich');
   t.is(res.data.title, `${testingDisplayName1} (${testingUser1})`);
   t.is(res.data.version, '1.0');
   t.is(res.data.url, `https://rinkeby.like.co/${testingUser1}`);
@@ -368,7 +368,7 @@ test('OEMBED: success cases', async (t) => {
   res = await axios.get(`${url}/api/oembed?url=https://rinkeby.like.co/${testingUser2}&maxwidth=50`)
     .catch(err => err.response);
   t.is(res.status, 200);
-  t.is(res.data.type, 'link');
+  t.is(res.data.type, 'rich');
   t.is(res.data.title, `${testingUser2} (${testingUser2})`);
   t.is(res.data.version, '1.0');
   t.is(res.data.url, `https://rinkeby.like.co/${testingUser2}`);

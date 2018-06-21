@@ -11,28 +11,33 @@ module.exports = {
   'Register': (browser) => {
     const devServer = browser.globals.devServerURL;
     const newId = 'testacct';
-
+    const newEmail = 'a@b.c';
     browser
       .url(devServer)
+      .waitForElementVisible('.lc-container-3 button.account-btn', 3000)
       .click('.lc-container-3 button.account-btn')
       .waitForElementVisible('#registerForm', 5000)
-      .setValue('#registerForm input[type=text][required=required]', newId)
+      .setValue('#registerForm > div.md-layout > div.md-layout.md-layout-item > div > div:nth-child(1) > input', newId)
+      .setValue('#registerForm > div.md-layout > div.md-layout.md-layout-item > div > div:nth-child(3) > input', newEmail)
       .submitForm('#registerForm')
-      .pause(2000)
+      .pause(1000)
       .windowHandles(function func(res) {
         const metamaskPopup = res.value[1];
         this.switchWindow(metamaskPopup);
       })
       .pause(1000)
       .verify.title('MetaMask Notification')
+      .waitForElementVisible('#app-content button:nth-child(2)', 3000)
       .click('#app-content button:nth-child(2)')
       .pause(1000)
       .windowHandles(function func(res) {
         const originalWindow = res.value[0];
         this.switchWindow(originalWindow);
       })
-      .waitForElementVisible('.lc-container-3 button.account-btn', 5000)
-      .verify.containsText('.lc-container-3 button.account-btn > div', newId)
+      /* verify email dialog */
+      .waitForElementVisible('div.md-dialog.lc-dialog.input-dialog.md-dialog-fullscreen.md-theme-default', 5000)
+      .click('#single-input-form > div.lc-button-group > button.md-button.md-likecoin.lc-cancel.md-theme-default')
+      .verify.containsText('#user-info-form .user-identity > .likecoin-id > a', newId)
       .end();
   },
 
@@ -50,11 +55,10 @@ module.exports = {
     browser
       .url(`${devServer}/in`)
       .waitForElementVisible('#user-info-form', 2000)
-      .pause(6000)
+      .waitForElementVisible('#user-info-form .input-display-name', 2000)
       .click('#user-info-form .input-display-name')
       .waitForElementVisible('#user-info-form div.btn-container div:nth-child(1) button', 2000)
       .setValue('#user-info-form .input-display-name', inputSequence)
-      .pause(2000)
       .click('#user-info-form div.btn-container div:nth-child(1) button')
       .pause(2000)
       .windowHandles(function func(res) {
@@ -63,6 +67,7 @@ module.exports = {
       })
       .pause(1000)
       .verify.title('MetaMask Notification')
+      .waitForElementVisible('#app-content button:nth-child(2)', 3000)
       .click('#app-content button:nth-child(2)')
       .pause(2000)
       .windowHandles(function func(res) {
@@ -83,7 +88,7 @@ module.exports = {
 
     browser
       .url(`${devServer}/in`)
-      .waitForElementVisible('#redeemForm', 2000)
+      .waitForElementVisible('#redeemForm input[type=text]', 2000)
       .click('#redeemForm input[type=text]')
       .setValue('#redeemForm input[type=text]', '22223333')
       .pause(1000)
@@ -114,6 +119,7 @@ module.exports = {
       })
       .pause(2000)
       .waitForElementVisible('div.font-small', 5000)
+      .waitForElementVisible('div.flex-row.flex-space-around > button:nth-child(2)', 3000)
       .verify.containsText('div.font-small', '0x4b25758E41f9240C8EB8831cEc7F1a02686387fa')
       .verify.containsText('div.font-small', '100 000 000 000 000')
       .click('div.flex-row.flex-space-around > button:nth-child(2)')
