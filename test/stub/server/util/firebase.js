@@ -25,11 +25,17 @@ function docData(obj) {
 }
 
 function docUpdate(obj, updateData) {
+  if (Object.values(updateData).some(v => typeof v === 'undefined')) {
+    throw new Error('Some value is undefined.');
+  }
   Object.assign(obj, updateData);
   return global.Promise.resolve();
 }
 
 function docSet(data, id, setData, config) {
+  if (Object.values(setData).some(v => typeof v === 'undefined')) {
+    throw new Error('Some value is undefined.');
+  }
   const obj = data.find(d => d.id === id);
   if (obj && config && config.merge) {
     return docUpdate(obj, setData);
