@@ -39,11 +39,15 @@ const testEnv = Object.create(process.env);
 testEnv.CI = true; // unit test env
 testEnv.NODE_ENV = 'production';
 testEnv.IS_TESTNET = true;
+testEnv.DISABLE_SERVER = 'TRUE';
 if (!process.env.CI) {
   setStub();
-  execSync('npm run build', { env: testEnv });
+  execSync('npm run build', { env: testEnv, stdio: 'inherit' });
 }
-const server = spawn('npm', ['start'], { env: testEnv, detached: true, stdio: 'inherit' });
+execSync('npm run test:e2e', { env: testEnv, stdio: 'inherit' });
+// execSync('npm run test:e2e', { env: testEnv, stdio: 'inherit' });
+
+// const server = spawn('npm', ['start'], { env: testEnv, detached: true, stdio: 'inherit' });
 console.log('Starting unit test server. Ctrl + C to quit.');
 
 process.on('SIGINT', () => {
@@ -51,26 +55,3 @@ process.on('SIGINT', () => {
   killServer(-server.pid, 'SIGINT');
   unsetStub();
 });
-
-let curlCount = 0;
-function waitServerReady() {
-  if (curlCount > 10) {
-    killServer(-server.pid, 'SIGINT');
-    return;
-  }
-  curlCount += 1;
-
-  // curl for server ready
-  const serverReady = spawn('curl', ['-s', '-o', '/dev/null', 'http://localhost:3000/'], { stdio: 'inherit' });
-  serverReady.on('exit', (code) => {
-    if (code !== 0) {
-      console.log(`Waiting server ready. curl retry. Code: ${code}`);
-      setTimeout(waitServerReady, 5000);
-    } else {
-      // run tests
-      console.log('Server ready. Run test in new window e.g. \'npm run test\'.');
-    }
-  });
-}
-
-setTimeout(waitServerReady, 5000);
