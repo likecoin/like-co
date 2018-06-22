@@ -629,7 +629,7 @@
             "registerRedeem": "Crear cuenta y canjear"
         },
         "form": {
-            "createID": "Cree un ID de LikeCoin* (mínimo 7 caracteres)",
+            "createID": "Cree un ID de LikeCoin (mínimo 7 caracteres)",
             "walletAddress": "Dirección del monedero",
             "email": "Correo electrónico",
             "referrer": "ID de LikeCoin de su referente (opcional)",

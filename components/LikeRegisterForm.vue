@@ -458,4 +458,9 @@ input[type="file"] {
     }
   }
 }
+
+.md-field.md-required label:after {
+  transform: translateX(2px);
+  right: initial;
+}
 </style>
