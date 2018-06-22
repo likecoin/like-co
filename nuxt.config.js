@@ -168,7 +168,10 @@ module.exports = {
     '~/assets/css/main.css',
   ],
   modules: [
-    ['@nuxtjs/google-tag-manager', { id: process.env.GTM_ID || 'GTM-XXXXXXX' }],
+    ['@nuxtjs/google-tag-manager', {
+      id: process.env.GTM_ID || 'GTM-XXXXXXX',
+      pageTracking: true,
+    }],
     '@nuxtjs/sentry',
   ],
   plugins: [
