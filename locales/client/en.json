@@ -637,7 +637,7 @@
       "registerRedeem": "Create Account and Redeem"
     },
     "form": {
-      "createID": "Create a LikeCoin ID* (minimum 7 characters)",
+      "createID": "Create a LikeCoin ID (minimum 7 characters)",
       "walletAddress": "Wallet address",
       "email": "Email",
       "referrer": "Referrer LikeCoin ID (optional)",

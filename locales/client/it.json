@@ -629,7 +629,7 @@
             "registerRedeem": "Crea un account e riscuoti"
         },
         "form": {
-            "createID": "Crea un ID LikeCoin* (minimo 7 caratteri)",
+            "createID": "Crea un ID LikeCoin (minimo 7 caratteri)",
             "walletAddress": "Indirizzo portafoglio",
             "email": "Email",
             "referrer": "ID LikeCoin referente (facoltativo)",
