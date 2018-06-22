@@ -20,9 +20,14 @@ function getToken(req) {
   throw new UnauthorizedError('credentials_required', { message: 'No authorization token was found' });
 }
 
-export const jwtSign = payload => jwt.sign(payload, secret, { expiresIn: '7d' });
+export const jwtSign = (payload) => {
+  const opt = {};
+  if (!payload.exp) opt.expiresIn = '7d';
+  return jwt.sign(payload, secret, opt);
+};
 
-export const jwtVerify = token => jwt.verify(token, secret);
+export const jwtVerify =
+  (token, { ignoreExpiration } = {}) => jwt.verify(token, secret, { ignoreExpiration });
 
 export const jwtAuth = (req, res, next) => {
   res.setHeader('Surrogate-Control', 'no-store');
