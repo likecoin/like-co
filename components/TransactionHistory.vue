@@ -185,7 +185,7 @@ function getLikeCoinByValue(value) {
 function formatAmount(value, currency) {
   if (Number.isNaN(Number(value))) return '0.00';
 
-  const stringValue = value.toString();
+  const stringValue = value.toFixed();
   const valueParts = stringValue.split('.');
 
   const integerPart = valueParts[0];

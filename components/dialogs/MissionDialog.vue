@@ -8,8 +8,8 @@
           'with-icon': !isUnfinishedAndExpired,
         }
       ]"
-      :isShowCloseButton="true">
-
+      :isShowCloseButton="true"
+      @update:isShow="onDialogUpdate($event)">
       <div
         v-if="!isUnfinishedAndExpired"
         slot="header-center"
@@ -407,6 +407,7 @@ export default {
       'postStepMission',
       'refreshMissionList',
       'onMissionClick',
+      'setPromptNotificationDialog',
     ]),
     show() {
       this.$refs.dialog.show();
@@ -510,6 +511,13 @@ export default {
     },
     onDismiss() {
       this.hide();
+      const isMissionDialogShow = false;
+      this.onDialogUpdate(isMissionDialogShow);
+    },
+    onDialogUpdate(isMissionDialogShow) {
+      if (this.getUserInfo.isEmailEnabled === false && !isMissionDialogShow && this.isCompleted) {
+        this.setPromptNotificationDialog(true);
+      }
     },
     onClickNextMission() {
       const mission = this.getMissionList.find(m => m.id === this.mission.require[0]);

@@ -629,7 +629,7 @@
             "registerRedeem": "계정 생성하고 받기"
         },
         "form": {
-            "createID": "LikeCoin ID* 생성하기 (최소 7 글자)",
+            "createID": "LikeCoin ID 생성하기 (최소 7 글자)",
             "walletAddress": "지갑 주소",
             "email": "이메일",
             "referrer": "LikeCoin ID 추천인 (선택 사항)",

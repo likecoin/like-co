@@ -250,11 +250,11 @@ router.post('/payment/eth', async (req, res, next) => {
         txHash,
         fromId: fromId || null,
         value,
-        base: base.toString(),
+        base: base.toFixed(),
         ts: Date.now(),
       };
       if (isPreSale) {
-        updateObj.bonus = bonus.toString();
+        updateObj.bonus = bonus.toFixed();
       }
       const promises = [
         fromUserRef.collection(isPreSale ? 'PreSale' : 'ICO').doc(txHash).create(updateObj),

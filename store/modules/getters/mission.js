@@ -2,7 +2,7 @@ import { MERGED_MISSIONS, ONE_LIKE } from '@/constant';
 
 export const getProxyMissionReward = state => (id) => {
   const reward = state.proxyBonus[id];
-  if (reward) return reward.div(ONE_LIKE).toFixed(2);
+  if (reward) return reward.div(ONE_LIKE).toFixed();
   return null;
 };
 
@@ -11,18 +11,18 @@ const canClaim = (state, m) => (
   || (!m.isProxy && m.done)
 );
 
-export const getMissionList = (state) => {
-  const missions = [];
-  state.missions.forEach((m) => {
+const filterMissions = (state, missions) => {
+  const filteredMissions = [];
+  missions.forEach((m) => {
     if (MERGED_MISSIONS[m.id]) {
       const target = MERGED_MISSIONS[m.id];
       /* dont push into return array if is merged mission */
-      if (state.missions.find(t => t.id === target)) return;
+      if (missions.find(t => t.id === target)) return;
     }
     if (m.endTs && m.endTs < Date.now() && !canClaim(state, m)) return;
-    missions.push(m);
+    filteredMissions.push(m);
   });
-  return missions.sort((a, b) => {
+  return filteredMissions.sort((a, b) => {
     if (a.upcoming !== b.upcoming) {
       return a.upcoming ? 1 : -1;
     }
@@ -38,6 +38,10 @@ export const getMissionList = (state) => {
     return 0;
   });
 };
+
+export const getMissionList = state => filterMissions(state, state.missions);
+
+export const getMissionHiddenList = state => filterMissions(state, state.hiddenMissions);
 
 export const getNewMissionlist = state => state.missions.filter(m => !m.seen);
 

@@ -71,6 +71,7 @@
     </div>
 
     <mission-dialog />
+    <prompt-notification-dialog />
 
   </div>
 </template>
@@ -79,6 +80,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import MissionDialog from '@/components/dialogs/MissionDialog';
+import PromptNotificationDialog from '@/components/dialogs/PromptNotificationDialog';
 import MyFooter from '~/components/footer/Footer';
 import SiteHeader from '~/components/header/HeaderWithMenuButton';
 import SlidingMenu from '~/components/SlidingMenu/index';
@@ -90,6 +92,7 @@ import { getToolbarsDisableError } from '~/constant';
 export default {
   components: {
     MissionDialog,
+    PromptNotificationDialog,
     MyFooter,
     SiteHeader,
     SlidingMenu,

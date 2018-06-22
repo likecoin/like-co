@@ -119,6 +119,7 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res, n
       displayName,
       wallet,
       avatarSHA256,
+      isEmailEnabled,
       ts,
       referrer,
       locale,
@@ -277,6 +278,9 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res, n
       updateObj.verificationUUID = FieldValue.delete();
       updateObj.isEmailVerified = false;
       updateObj.lastVerifyTs = FieldValue.delete();
+    }
+    if (typeof isEmailEnabled !== 'undefined') {
+      updateObj.isEmailEnabled = isEmailEnabled;
     }
     if (url) updateObj.avatar = url;
     if (locale) updateObj.locale = locale;
@@ -555,6 +559,26 @@ router.get('/users/bonus/:id', jwtAuth, async (req, res, next) => {
       .filter(t => t.data().txHash && t.data().value)
       .reduce((acc, t) => acc.plus(new BigNumber(t.data().value)), new BigNumber(0));
     res.json({ bonus: sum.dividedBy(ONE_LIKE).toFixed(4) });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post('/users/email/:id', jwtAuth, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    if (req.user.user !== id) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
+    const doc = await dbRef.doc(id).get();
+    if (!doc.exists) throw new Error('user not found');
+    const {
+      isEmailEnabled,
+    } = req.body;
+    if (typeof (isEmailEnabled) !== 'boolean') throw new Error('invalid input');
+    await doc.ref.update({ isEmailEnabled });
+    res.sendStatus(200);
   } catch (err) {
     next(err);
   }

@@ -193,6 +193,7 @@ module.exports = {
   */
   build: {
     cache: shouldCache,
+    extractCSS: true,
     uglify: { cache: shouldCache },
     postcss: {
       plugins: {

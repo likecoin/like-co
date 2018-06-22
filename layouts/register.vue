@@ -23,11 +23,7 @@
 
             <div class="lc-container-1">
               <div class="upper-left-corner lc-mobile-hide" />
-              <div class="lc-container-2 lc-padding-top-48 lc-padding-top-0-mobile">
-                <introduction
-                  class="lc-container-3"
-                  :title="getHeaderTitle"
-                  :icon="getHeaderIcon" />
+              <div class="lc-container-2 lc-padding-top-32-mobile">
                 <Description
                   class="lc-mobile-hide"
                   :content="getDesc"
@@ -36,7 +32,7 @@
               </div>
             </div>
 
-            <div class="lc-container-1 like-register-form-wrapper lc-margin-top-48">
+            <div class="lc-container-1 like-register-form-wrapper lc-margin-top-56">
 
               <div class="lc-container-header">
                 <div class="lc-container-2 lc-container-header-overlay">
@@ -88,7 +84,6 @@ import SlidingMenu from '~/components/SlidingMenu/index';
 import ToolBars from '~/components/toolbars/ToolBars';
 
 import Description from '~/components/Description';
-import Introduction from '~/components/Introduction';
 
 
 export default {
@@ -102,7 +97,6 @@ export default {
     MyFooter,
     SiteHeader,
     SlidingMenu,
-    Introduction,
     Description,
   },
   computed: {

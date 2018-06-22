@@ -14,6 +14,7 @@ export const ValidationHelper = {
       KYC,
       pendingKYC,
       isEmailVerified,
+      isEmailEnabled,
     } = u;
     let {
       email,
@@ -29,6 +30,7 @@ export const ValidationHelper = {
       KYC,
       pendingKYC,
       isEmailVerified,
+      isEmailEnabled,
     };
   },
   filterUserDataMin({
@@ -87,11 +89,13 @@ export const ValidationHelper = {
       endTs,
       isDesktopOnly,
       isMobileOnly,
+      hide,
     } = m;
     const misc = {};
     GETTING_STARTED_TASKS.forEach((task) => {
       if (m[task]) misc[task] = m[task];
     });
+    const isHidable = m.isHidable || (m.isHidableAfterDone && m.done);
     return {
       id,
       reward,
@@ -109,6 +113,8 @@ export const ValidationHelper = {
       endTs,
       isDesktopOnly,
       isMobileOnly,
+      isHidable,
+      hide,
       ...misc,
     };
   },

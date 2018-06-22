@@ -22,9 +22,10 @@
               <label>{{ $t('Register.form.createID') }}</label>
               <md-input
                 v-model="user"
-                pattern="[a-z0-9-_]{7,20}"
+                :pattern="USER_ID_REGEX"
                 @change="user=user.toLowerCase().trim()"
                 :title="$t('Register.form.error.alphanumeric')"
+                v-bind="getTestAttribute('userId')"
                 required />
               <span class="md-error">{{ $t(`Error.${getInfoMsg}`) }}</span>
             </md-field>
@@ -56,6 +57,7 @@
                 v-model="email"
                 @change="email=email.toLowerCase().trim()"
                 :title="$t('Register.form.error.emailFormat')"
+                v-bind="getTestAttribute('email')"
                 required
               />
               <span class="md-error">{{ $t(`Error.${getInfoMsg}`) }}</span>
@@ -79,24 +81,49 @@
               </label>
               <md-input v-model="couponCode" pattern="[2-9A-HJ-NP-Za-km-z]{8}" />
             </md-field>
+
+            <div class="check-box-list">
+              <md-checkbox class="md-likecoin" v-model="isEmailEnabled">
+                {{ $t('Register.form.enableEmail') }}
+              </md-checkbox>
+              <div class="term-agreement">
+                <md-checkbox
+                  class="md-likecoin"
+                  v-model="isTermsAgreed" />
+                <i18n
+                  path="Register.form.agreeTerms"
+                  tag="label"
+                  v-bind="getTestAttribute('agreeTerms')"
+                  @click="selectAgreeTerms"
+                >
+                  <a
+                    href="/in/policies/privacy"
+                    place="privacyPolicy"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >{{
+                    $t('Register.form.privacyPolicy')
+                  }}</a>
+                </i18n>
+              </div>
+            </div>
+
+            <vue-recaptcha
+              class="lc-margin-top-32"
+              @verify="onCaptchaVerify"
+              @expired="onCaptchaExpired"
+              sitekey="6LfQqlgUAAAAADGckz6BtIuD_sU6cJhWDJ__OBx7">
+            </vue-recaptcha>
+
           </div>
         </div>
-      </div>
-      <!-- TODO: fix style -->
-      <div style="display:flex">
-        <div style="flex: 1" class=".lc-mobile-hide"/>
-        <vue-recaptcha
-          @verify="onCaptchaVerify"
-          @expired="onCaptchaExpired"
-          sitekey="6LfQqlgUAAAAADGckz6BtIuD_sU6cJhWDJ__OBx7">
-        </vue-recaptcha>
       </div>
       <div id="form-btn" class="lc-margin-top-16 lc-mobile">
         <material-button
           id="confirm-btn"
           type="submit"
           form="registerForm"
-          :disabled="getIsPopupBlocking">
+          :disabled="getIsPopupBlocking || !isFormValid">
           {{ $t('General.button.confirm') }}
         </material-button>
       </div>
@@ -118,6 +145,7 @@ import VueRecaptcha from 'vue-recaptcha';
 
 import User from '@/util/User';
 import { logTrackerEvent } from '@/util/EventLogger';
+import getTestAttribute from '@/util/test';
 
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import ReferrerDialog from '~/components/dialogs/ReferrerDialog';
@@ -126,6 +154,7 @@ import MaterialButton from '~/components/MaterialButton';
 import { toDataUrl } from '@likecoin/ethereum-blockies';
 import { ETHERSCAN_HOST, W3C_EMAIL_REGEX, IS_TESTNET } from '@/constant';
 
+const USER_ID_REGEX = '[a-z0-9-_]{7,20}';
 export default {
   name: 'LikeRegisterForm',
   props: ['isRedeem'],
@@ -136,6 +165,8 @@ export default {
       avatarData: null,
       user: '',
       email: this.$route.query.email || '',
+      isEmailEnabled: false,
+      isTermsAgreed: false,
       couponCode: '',
       referrer: this.$route.query.from || '',
       referrerInfo: {},
@@ -144,6 +175,7 @@ export default {
       reCaptchaResponse: '',
       isBadAddress: false,
       ETHERSCAN_HOST,
+      USER_ID_REGEX,
       W3C_EMAIL_REGEX,
       IS_TESTNET,
       shouldShowReferrerDialog: false,
@@ -163,6 +195,11 @@ export default {
       'getLocalWallet',
       'getCurrentLocale',
     ]),
+    isFormValid() {
+      const isIdValid = new RegExp(USER_ID_REGEX).test(this.user);
+      const isEmailValid = new RegExp(W3C_EMAIL_REGEX).test(this.email);
+      return this.isTermsAgreed && isEmailValid && isIdValid && !!this.reCaptchaResponse;
+    },
   },
   methods: {
     ...mapActions([
@@ -205,11 +242,19 @@ export default {
     onCaptchaExpired() {
       this.reCaptchaResponse = '';
     },
+    selectAgreeTerms() {
+      this.isTermsAgreed = !this.isTermsAgreed;
+    },
+    getTestAttribute: getTestAttribute('registerForm'),
     async onSubmit() {
       try {
         this.isBadAddress = false;
         if (!this.checkAddress()) {
           this.isBadAddress = true;
+          return;
+        }
+        if (!this.isTermsAgreed) {
+          this.setErrorMsg(this.$t('Register.form.error.terms'));
           return;
         }
         const { reCaptchaResponse } = this;
@@ -222,6 +267,7 @@ export default {
           user: this.user.toLowerCase().trim(),
           wallet: this.wallet,
           email: this.email.toLowerCase().trim(),
+          isEmailEnabled: this.isEmailEnabled,
           referrer: this.referrer.toLowerCase().trim(),
           locale: this.getCurrentLocale,
         };
@@ -382,5 +428,39 @@ input[type="file"] {
   padding: 0;
 
   border: 0;
+}
+
+.check-box-list {
+  display: flex;
+  flex-direction: column;
+
+  .md-checkbox {
+    margin: 0;
+  }
+
+  .term-agreement {
+    display: flex;
+    flex-direction: row;
+
+    color: $like-dark-brown-1;
+
+    label {
+      padding-top: 6px;
+      padding-left: 8px;
+
+      cursor: pointer;
+
+      :global(a) {
+        text-decoration: underline;
+
+        color: currentColor;
+      }
+    }
+  }
+}
+
+.md-field.md-required label:after {
+  transform: translateX(2px);
+  right: initial;
 }
 </style>

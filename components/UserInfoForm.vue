@@ -162,6 +162,7 @@
                     ref="inputEmail"
                     disabled />
                 </md-field>
+
               </div>
             </div>
 
@@ -259,7 +260,6 @@ export default {
       this.isEditing = true;
       this.$refs.inputFile.click();
     },
-
     onEditDisplayName() {
       if (this.isEditing) {
         this.$nextTick(() => this.$refs.inputDisplayName.$el.focus());
@@ -351,6 +351,7 @@ export default {
       this.avatarData = user.avatar;
       this.wallet = user.wallet;
       this.email = user.email;
+      this.isEmailEnabled = (user.isEmailEnabled !== false);
       this.updateLikeCoin();
     },
   },

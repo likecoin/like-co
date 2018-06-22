@@ -25,7 +25,13 @@ export async function fetchSelectedMission(
 }
 
 export async function fetchMissionList({ commit, dispatch }, id) {
-  return apiWrapper({ commit, dispatch }, api.apiFetchMissionList(id));
+  const missions = await apiWrapper({ commit, dispatch }, api.apiFetchMissionList(id));
+  return missions.filter(m => !m.hide);
+}
+
+export async function fetchMissionHiddenList({ commit, dispatch }, id) {
+  const missions = await apiWrapper({ commit, dispatch }, api.apiFetchMissionList(id));
+  return missions.filter(m => m.hide);
 }
 
 export async function refreshMissionHistoryList({ commit, dispatch }, id) {
@@ -47,7 +53,8 @@ export async function refreshMissionList(ctx, id) {
     apiWrapper(ctx, api.apiFetchReferralMissionList(id)),
     apiWrapper(ctx, api.apiFetchReferralBonusList(id)),
   ]);
-  commit(types.MISSION_SET_MISSION_LIST, missions);
+  commit(types.MISSION_SET_MISSION_LIST, missions.filter(m => !m.hide));
+  commit(types.MISSION_SET_MISSION_HIDDEN_LIST, missions.filter(m => m.hide));
   commit(types.MISSION_SET_REFERRAL_LIST, referralMissions);
   commit(types.MISSION_SET_REFERRAL_BONUS_LIST, bonus);
   referralMissions.forEach(async (r) => {

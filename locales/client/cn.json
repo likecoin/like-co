@@ -618,7 +618,7 @@
       "registerRedeem": "注册并兑换"
     },
     "form": {
-      "createID": "注册 LikeCoin ID* (最少7个英文字母/数目字)",
+      "createID": "注册 LikeCoin ID (最少7个英文字母/数目字)",
       "walletAddress": "以太坊钱包地址",
       "email": "电邮地址",
       "referrer": "邀请人 LikeCoin ID (可选)",

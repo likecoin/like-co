@@ -13,7 +13,7 @@
             <platform-icon-bar />
           </div>
 
-          <div class="menus-wrapper">
+          <div class="menus-wrapper main">
             <div
               v-for="m in MENU_ITEMS"
               :key="m.section"
@@ -59,6 +59,21 @@
             </div>
           </div>
 
+          <div
+            v-if="getUserIsRegistered"
+            class="menus-wrapper bottom">
+            <div class="menu secondary">
+              <ul>
+                <li>
+                  <menu-item :to="{ name: 'in-settings' }">
+                    <md-icon :md-src="SettingsIcon" />
+                    <span>Settings</span>
+                  </menu-item>
+                </li>
+              </ul>
+            </div>
+          </div>
+
         </div>
       </nav>
     </div>
@@ -70,6 +85,7 @@
 import { mapActions, mapGetters } from 'vuex';
 
 import HomeIcon from '@/assets/icons/home.svg';
+import SettingsIcon from '@/assets/icons/settings.svg';
 
 import LanguageSwitch from '~/components/LanguageSwitch';
 import PlatformIconBar from '~/components/PlatformIconBar';
@@ -138,6 +154,7 @@ export default {
     return {
       MENU_ITEMS,
       HomeIcon,
+      SettingsIcon,
     };
   },
   computed: {
@@ -228,20 +245,24 @@ export default {
 }
 
 .menus-wrapper {
-  border-top: 1px solid $like-green;
-  padding: 64px 24px 100px 52px;
-
-  flex-grow: 1;
+  padding: 64px 24px 36px 52px;
 
   @media (max-width: 600px) {
-    padding: 32px 24px 100px 32px;
+    padding: 32px 24px 36px 32px;
+  }
+
+  &.main {
+    flex-grow: 1;
+
+    border-top: 1px solid $like-green;
   }
 
   .menu {
     ul {
-      list-style: none;
       margin: -10px;
       padding: 0;
+
+      list-style: none;
 
       li {
         padding: 8px;
@@ -305,6 +326,7 @@ $sliding-menu-narrow-width: 260px;
     position: relative;
 
     transition: transform .5s ease-in-out;
+
     will-change: transform;
 
     [lc-sliding-menu="open"] & {
