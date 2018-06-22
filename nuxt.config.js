@@ -56,7 +56,8 @@ module.exports = {
         'script-src': [
           "'self'",
           /* gtm inline code */
-          "'sha256-iuXaQeiad/7pk5Ih+zioILgFF9jt93hQCklW9N52YdU='",
+          "'sha256-X3ZM8SMe34uV9LglkNh69UN/Vkuo+blzT0E7mN1rUnQ='",
+          "'sha256-2xBjy9xHKMthpdhRq5DplVZ7EkoWxMla4wyUmB1jyFY='",
           'https://www.google-analytics.com',
           'https://www.googletagmanager.com',
           'https://www.googleadservices.com',
@@ -167,13 +168,10 @@ module.exports = {
     '~/assets/css/main.css',
   ],
   modules: [
-    ['@nuxtjs/google-analytics', {
-      id: process.env.GA_TRACKING_ID || 'UA-12301-2',
-      autoTracking: {
-        exception: true,
-      },
+    ['@nuxtjs/google-tag-manager', {
+      id: process.env.GTM_ID || 'GTM-XXXXXXX',
+      pageTracking: true,
     }],
-    ['@nuxtjs/google-tag-manager', { id: process.env.GTM_ID || 'GTM-XXXXXXX' }],
     '@nuxtjs/sentry',
   ],
   plugins: [

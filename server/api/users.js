@@ -14,7 +14,7 @@ import axios from '../../plugins/axios';
 import { ValidationHelper as Validate, ValidationError } from '../../util/ValidationHelper';
 import { personalEcRecover, web3 } from '../util/web3';
 import { uploadFileAndGetLink } from '../util/fileupload';
-import { jwtSign, jwtAuth } from '../util/jwt';
+import { jwtSign, jwtAuth, jwtVerify } from '../util/jwt';
 import publisher from '../util/gcloudPub';
 
 const {
@@ -65,6 +65,26 @@ const THIRTY_S_IN_MS = 30000;
 const W3C_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
 const router = Router();
+
+function setSessionCookie(req, res, payload) {
+  let token = jwtSign(payload);
+  if (req.cookies && req.cookies['__session']) { // eslint-disable-line dot-notation
+    const sessionCookie = req.cookies['__session'];// eslint-disable-line dot-notation
+    try {
+      const decoded = jwtVerify(sessionCookie, { ignoreExpiration: true });
+      token = jwtSign({ ...decoded, ...payload });
+    } catch (err) {
+      // do nth
+    }
+  }
+  res.cookie('__session', token, AUTH_COOKIE_OPTION);
+}
+
+function setAuthCookies(req, res, payload) {
+  const token = jwtSign(payload);
+  res.cookie('likecoin_auth', token, AUTH_COOKIE_OPTION);
+  setSessionCookie(req, res, payload);
+}
 
 const apiLimiter = new RateLimit({
   windowMs: REGISTER_LIMIT_WINDOW,
@@ -271,10 +291,7 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res, n
     if (hasReferrer) {
       await dbRef.doc(referrer).collection('referrals').doc(user).create({ timestamp: Date.now() });
     }
-
-    const token = jwtSign({ user, wallet });
-    res.cookie('likecoin_auth', token, AUTH_COOKIE_OPTION);
-    res.cookie('__session', token, AUTH_COOKIE_OPTION);
+    setAuthCookies(req, res, { user, wallet });
     res.sendStatus(200);
 
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
@@ -299,9 +316,18 @@ router.post('/users/login/check', jwtAuth, (req, res) => {
     res.status(401).send('LOGIN_NEEDED');
     return;
   }
-  // eslint-disable-next-line no-underscore-dangle
-  if (req.cookies.__session !== req.cookies.likecoin_auth) {
-    res.cookie('__session', req.cookies.likecoin_auth, AUTH_COOKIE_OPTION);
+  try {
+    // eslint-disable-next-line no-underscore-dangle
+    const payload = jwtVerify(req.cookies.__session, { ignoreExpiration: true });
+    if (!payload.user || !payload.wallet
+      || payload.user !== req.user.user
+      || payload.wallet !== req.user.wallet) {
+      throw new Error('session is missing user');
+    }
+  } catch (err) {
+    /* make sure exp exist */
+    if (!req.user.exp) req.user.exp = Math.floor(Date.now() / 1000);
+    setSessionCookie(req, res, req.user);
   }
   res.sendStatus(200);
 });
@@ -316,9 +342,7 @@ router.post('/users/login', async (req, res, next) => {
     const query = await dbRef.where('wallet', '==', from).get();
     if (query.docs.length > 0) {
       const user = query.docs[0].id;
-      const token = jwtSign({ user, wallet: from });
-      res.cookie('likecoin_auth', token, AUTH_COOKIE_OPTION);
-      res.cookie('__session', token, AUTH_COOKIE_OPTION);
+      setAuthCookies(req, res, { user, wallet: from });
       res.sendStatus(200);
     } else {
       res.sendStatus(404);
