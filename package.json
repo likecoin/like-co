@@ -45,7 +45,7 @@
     ]
   },
   "dependencies": {
-    "@google-cloud/pubsub": "^0.18.0",
+    "@google-cloud/pubsub": "^0.19.0",
     "@ledgerhq/hw-app-eth": "^4.7.3",
     "@ledgerhq/hw-transport-u2f": "^4.7.3",
     "@ledgerhq/web3-subprovider": "^4.11.0",
