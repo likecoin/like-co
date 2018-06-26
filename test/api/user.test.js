@@ -19,7 +19,7 @@ const Web3 = require('web3');
 const axiosist = require('axiosist');
 const jwt = require('jsonwebtoken');
 
-const app = require('../../build/main.js');
+const app = require('../../build/main.js'); // eslint-disable-line import/no-unresolved
 
 //
 // functions

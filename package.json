@@ -25,7 +25,8 @@
     "test:e2e:home": "./node_modules/.bin/nightwatch -c test/e2e/nightwatch.conf.js -g home.js",
     "test:e2e:tx": "./node_modules/.bin/nightwatch -c test/e2e/nightwatch.conf.js -g tx.js",
     "test:e2e:user": "./node_modules/.bin/nightwatch -c test/e2e/nightwatch.conf.js -g user.js",
-    "test:e2e:mission": "./node_modules/.bin/nightwatch -c test/e2e/nightwatch.conf.js -g mission.js"
+    "test:e2e:mission": "./node_modules/.bin/nightwatch -c test/e2e/nightwatch.conf.js -g mission.js",
+    "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "ava": {
     "require": [
@@ -109,6 +110,7 @@
     "ava": "^0.25.0",
     "axiosist": "^0.1.0",
     "babel-eslint": "^8.2.3",
+    "babel-register": "^6.26.0",
     "backpack-core": "^0.7.0",
     "chromedriver": "^2.37.0",
     "eslint": "^4.19.1",

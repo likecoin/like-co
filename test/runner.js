@@ -1,10 +1,5 @@
 /* eslint no-console: "off" */
-const { execSync, spawn } = require('child_process');
-
-function killServer(pid, sig) {
-  // kill whole group of processes
-  process.kill(pid, sig);
-}
+const { execSync } = require('child_process');
 
 function setStub() {
   execSync('cp ./server/util/firebase.js ./server/util/firebase.js.bak');
@@ -47,9 +42,17 @@ if (!process.env.CI) {
   execSync('npm run build', { env: testEnv, stdio: 'inherit' });
 }
 console.log('Running API test');
-execSync('npm run test:api', { env: testEnv, stdio: 'inherit' });
-console.log('Running E2E test');
-execSync('npm run test:e2e', { env: testEnv, stdio: 'inherit' });
+try {
+  execSync('npm run test:api', { env: testEnv, stdio: 'inherit' });
+} catch (e) {
+  console.error(e);
+}
+try {
+  console.log('Running E2E test');
+  execSync('npm run test:e2e', { env: testEnv, stdio: 'inherit' });
+} catch (e) {
+  console.error(e);
+}
 console.log('Unsetting Stub');
 unsetStub();
 console.log('Done');

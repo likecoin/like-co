@@ -3,7 +3,7 @@ const chromeDriver = require('chromedriver').path;
 const fs = require('fs');
 const http = require('http');
 
-const app = require('../../build/main.js');
+const app = require('../../build/main.js'); // eslint-disable-line import/no-unresolved
 
 const httpServer = http.createServer(app);
 
@@ -37,11 +37,11 @@ module.exports = {
       silent: true,
       globals: {
         devServerURL: 'http://localhost:3000',
-        before: function(done) {
+        before: (done) => {
           httpServer.listen('3000');
           done();
         },
-        after: function() {
+        after: () => {
           httpServer.close();
         },
       },
