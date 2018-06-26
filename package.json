@@ -30,7 +30,7 @@
   },
   "ava": {
     "require": [
-      "babel-register"
+      "./test/_register"
     ]
   },
   "babel": {
