@@ -5,6 +5,7 @@ const SentryPlugin = require('@sentry/webpack-plugin');
 
 const shouldCache = !!process.env.CI;
 
+/* istanbul ignore next */
 module.exports = {
   /*
   ** Headers of the page

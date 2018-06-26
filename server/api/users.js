@@ -221,6 +221,7 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res, n
     if (!isOldUser) {
       if (!/^[a-z0-9-_]+$/.test(user)) throw new ValidationError('Invalid user name char');
       if (user.length < 7 || user.length > 20) throw new ValidationError('Invalid user name length');
+      /* istanbul ignore if */
       if (!IS_TESTNET) {
         if (!reCaptchaResponse) throw new ValidationError('reCAPTCHA missing');
         const { data } = await axios.post(

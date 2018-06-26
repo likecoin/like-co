@@ -64,6 +64,7 @@ if (config.dev) {
 // Give nuxt middleware to express
 app.use(nuxt.render);
 
+/* istanbul ignore if */
 if (process.env.DISABLE_SERVER !== 'TRUE') {
   // Listen the server
   app.listen(port, host);

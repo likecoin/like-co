@@ -60,7 +60,7 @@ function waitServerReady() {
 
 // Start testing server...
 // spawn as new group of processes
-if (!process.env.CI) {
+if (!process.env.AUTO_TEST) {
   setStub();// spawn as new group of processes
   server = spawn('npm', ['run', 'dev'], { detached: true, stdio: 'inherit' });
   setTimeout(waitServerReady, 5000);
@@ -70,6 +70,11 @@ if (!process.env.CI) {
   testEnv.NODE_ENV = 'production';
   testEnv.IS_TESTNET = true;
   testEnv.DISABLE_SERVER = 'TRUE';
+  if (!process.env.CI) {
+    console.log('Building for test');
+    setStub();// spawn as new group of processes
+    execSync('npm run build', { env: testEnv, stdio: 'inherit' });
+  }
   console.log('Running API test');
   try {
     execSync('npm run test:api', { env: testEnv, stdio: 'inherit' });
