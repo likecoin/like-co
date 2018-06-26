@@ -1,5 +1,10 @@
 /* eslint no-console: "off" */
-const { execSync } = require('child_process');
+const { execSync, spawn } = require('child_process');
+
+function killServer(pid, sig) {
+  // kill whole group of processes
+  process.kill(pid, sig);
+}
 
 function setStub() {
   console.log('Setting Stub');
@@ -30,36 +35,61 @@ if (IsPortUsing()) {
   process.exit(1);
 }
 
+let server;
+let curlCount = 0;
+
+function waitServerReady() {
+  if (curlCount > 10) {
+    killServer(-server.pid, 'SIGINT');
+    return;
+  }
+  curlCount += 1;
+
+  // curl for server ready
+  const serverReady = spawn('curl', ['-s', '-o', '/dev/null', 'http://localhost:3000/'], { stdio: 'inherit' });
+  serverReady.on('exit', (code) => {
+    if (code !== 0) {
+      console.log(`Waiting server ready. curl retry. Code: ${code}`);
+      setTimeout(waitServerReady, 5000);
+    } else {
+      // run tests
+      console.log('Server ready. Run test in new window e.g. \'npm run test\'.');
+    }
+  });
+}
+
 // Start testing server...
 // spawn as new group of processes
-const testEnv = Object.create(process.env);
-testEnv.CI = true; // unit test env
-testEnv.NODE_ENV = 'production';
-testEnv.IS_TESTNET = true;
-testEnv.DISABLE_SERVER = 'TRUE';
 if (!process.env.CI) {
-  setStub();
-  console.log('Building for unit test');
-  execSync('npm run build', { env: testEnv, stdio: 'inherit' });
+  setStub();// spawn as new group of processes
+  server = spawn('npm', ['run', 'dev'], { detached: true, stdio: 'inherit' });
+  setTimeout(waitServerReady, 5000);
+} else {
+  const testEnv = Object.create(process.env);
+  testEnv.CI = true; // unit test env
+  testEnv.NODE_ENV = 'production';
+  testEnv.IS_TESTNET = true;
+  testEnv.DISABLE_SERVER = 'TRUE';
+  console.log('Running API test');
+  try {
+    execSync('npm run test:api', { env: testEnv, stdio: 'inherit' });
+  } catch (e) {
+    console.error(e);
+  }
+  execSync('rm -rf ./.nyc_output_merge && cp -R ./.nyc_output ./.nyc_output_merge');
+  try {
+    console.log('Running E2E test');
+    execSync('npm run test:e2e', { env: testEnv, stdio: 'inherit' });
+  } catch (e) {
+    console.error(e);
+  }
+  execSync('cp -a ./.nyc_output_merge/. ./.nyc_output');
+  unsetStub();
+  console.log('Done');
 }
-console.log('Running API test');
-try {
-  execSync('nyc npm run test:api', { env: testEnv, stdio: 'inherit' });
-} catch (e) {
-  console.error(e);
-}
-execSync('rm -rf ./.nyc_output_merge && cp -R ./.nyc_output ./.nyc_output_merge');
-try {
-  console.log('Running E2E test');
-  execSync('npm run test:e2e', { env: testEnv, stdio: 'inherit' });
-} catch (e) {
-  console.error(e);
-}
-execSync('cp -a ./.nyc_output_merge/. ./.nyc_output');
-unsetStub();
-console.log('Done');
 
 process.on('SIGINT', () => {
   // catch SIGINT
+  killServer(-server.pid, 'SIGINT');
   unsetStub();
 });
