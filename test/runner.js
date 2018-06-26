@@ -30,7 +30,7 @@ function IsPortUsing() {
 // Check port 3000 is using
 if (IsPortUsing()) {
   console.error('Error: Server port is being used.');
-  process.exit();
+  process.exit(1);
 }
 
 // Start testing server...
@@ -41,17 +41,20 @@ testEnv.NODE_ENV = 'production';
 testEnv.IS_TESTNET = true;
 testEnv.DISABLE_SERVER = 'TRUE';
 if (!process.env.CI) {
+  console.log('Setting Stub');
   setStub();
+  console.log('Building for unit test');
   execSync('npm run build', { env: testEnv, stdio: 'inherit' });
 }
+console.log('Running API test');
+execSync('npm run test:api', { env: testEnv, stdio: 'inherit' });
+console.log('Running E2E test');
 execSync('npm run test:e2e', { env: testEnv, stdio: 'inherit' });
-// execSync('npm run test:e2e', { env: testEnv, stdio: 'inherit' });
-
-// const server = spawn('npm', ['start'], { env: testEnv, detached: true, stdio: 'inherit' });
-console.log('Starting unit test server. Ctrl + C to quit.');
+console.log('Unsetting Stub');
+unsetStub();
+console.log('Done');
 
 process.on('SIGINT', () => {
   // catch SIGINT
-  killServer(-server.pid, 'SIGINT');
   unsetStub();
 });

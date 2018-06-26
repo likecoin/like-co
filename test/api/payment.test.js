@@ -9,10 +9,13 @@ import {
 } from './data';
 
 const jwt = require('jsonwebtoken');
-const axios = require('axios');
+const axiosist = require('axiosist');
+
+const app = require('../../build/main.js');
+
 
 test('PAYMENT: Payment. Case: Invalid address.', async (t) => {
-  const res = await axios.post(`${url}/api/payment`, {
+  const res = await axiosist(app).post(`${url}/api/payment`, {
     from: txFrom,
     to: invalidWallet,
     value: 1,
@@ -28,7 +31,7 @@ test('PAYMENT: Payment. Case: Invalid address.', async (t) => {
 });
 
 test('PAYMENT: Get tx by id', async (t) => {
-  const res = await axios.get(`${url}/api/tx/id/${txHash}`)
+  const res = await axiosist(app).get(`${url}/api/tx/id/${txHash}`)
     .catch(err => err.response);
 
   t.is(res.status, 200);
@@ -39,8 +42,8 @@ test('PAYMENT: Get tx by id', async (t) => {
 
 test('PAYMENT: Get tx history by addr', async (t) => {
   const token = jwt.sign({ wallet: txTo }, 'likecoin', { expiresIn: '7d' });
-  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-  const res = await axios.get(`${url}/api/tx/history/addr/${txTo}`)
+  axiosist(app).defaults.headers.common.Authorization = `Bearer ${token}`;
+  const res = await axiosist(app).get(`${url}/api/tx/history/addr/${txTo}`)
     .catch(err => err.response);
 
   t.is(res.status, 200);

@@ -15,8 +15,8 @@
     "precommit": "npm run lint",
     "lint": "eslint --ext .js,.vue .",
     "prepare": "cd node_modules/web3-core-requestmanager/src && sed -i.bak \"/var global = Function('return this')();/d\" givenProvider.js && rm givenProvider.js.bak",
-    "test": "npm run test:api && npm run test:e2e",
-    "test:api": "ava -v test/api/*.test.js",
+    "test": "node test/runner.js",
+    "test:api": "nyc ava -v test/api/*.test.js",
     "test:api:user": "ava -v test/api/user.test.js",
     "test:api:payment": "ava -v test/api/payment.test.js",
     "test:api:mission": "ava -v test/api/mission.test.js",
@@ -107,6 +107,7 @@
   "devDependencies": {
     "@sentry/webpack-plugin": "^1.5.2",
     "ava": "^0.25.0",
+    "axiosist": "^0.1.0",
     "babel-eslint": "^8.2.3",
     "backpack-core": "^0.7.0",
     "chromedriver": "^2.37.0",

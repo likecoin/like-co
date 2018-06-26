@@ -16,8 +16,10 @@ import {
 
 const sigUtil = require('eth-sig-util');
 const Web3 = require('web3');
-const axios = require('axios');
+const axiosist = require('axiosist');
 const jwt = require('jsonwebtoken');
+
+const app = require('../../build/main.js');
 
 //
 // functions
@@ -39,18 +41,18 @@ test.serial('USER: Register or edit user. Case: success', async (t) => {
     email: 'noreply@likecoin.store',
   }));
   const sign = signProfile(payload, privateKey1);
-  const res = await axios.put(`${url}/api/users/new`, {
+  const res = await axiosist(app).put(`${url}/api/users/new`, {
     from: testingWallet1,
     payload,
     sign,
   });
 
   t.is(res.status, 200);
-  axios.defaults.headers.common.Authorization = `Bearer ${res.data.token}`;
+  axiosist(app).defaults.headers.common.Authorization = `Bearer ${res.data.token}`;
 });
 
 test.serial('USER: Email verification (Need restart server for clean memory data)', async (t) => {
-  const res = await axios.post(`${url}/api/email/verify/user/${testingUser1}`, {}, {
+  const res = await axiosist(app).post(`${url}/api/email/verify/user/${testingUser1}`, {}, {
     headers: {
       Accept: 'application/json',
     },
@@ -61,7 +63,7 @@ test.serial('USER: Email verification (Need restart server for clean memory data
 
 test.serial('USER: Verify uuid. Case: wrong uuid', async (t) => {
   const uuid = '99999999-0000-0000-0000-000000000000';
-  const res = await axios.post(`${url}/api/email/verify/${uuid}`, {
+  const res = await axiosist(app).post(`${url}/api/email/verify/${uuid}`, {
     headers: {
       Accept: 'application/json',
     },
@@ -71,7 +73,7 @@ test.serial('USER: Verify uuid. Case: wrong uuid', async (t) => {
 
 test.serial('USER: Verify uuid. Case: success (Need restart server for clean memory data)', async (t) => {
   const uuid = '00000000-0000-0000-0000-000000000000';
-  const res = await axios.post(`${url}/api/email/verify/${uuid}`, {
+  const res = await axiosist(app).post(`${url}/api/email/verify/${uuid}`, {
     headers: {
       Accept: 'application/json',
     },
@@ -227,7 +229,7 @@ for (let i = 0; i < userCases.length; i += 1) {
   test(name, async (t) => {
     const formatedPayload = Web3.utils.utf8ToHex(JSON.stringify(payload));
     const sign = signProfile(formatedPayload, privateKey);
-    const res = await axios.put(`${url}/api/users/new`, {
+    const res = await axiosist(app).put(`${url}/api/users/new`, {
       from,
       payload: formatedPayload,
       sign,
@@ -240,7 +242,7 @@ for (let i = 0; i < userCases.length; i += 1) {
 test('USER: Get user by id', async (t) => {
   const user = testingUser1;
   const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
-  const res = await axios.get(`${url}/api/users/id/${user}`, {
+  const res = await axiosist(app).get(`${url}/api/users/id/${user}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -254,7 +256,7 @@ test('USER: Get user by id', async (t) => {
 test('USER: Get user by address', async (t) => {
   const wallet = testingWallet1;
   const token = jwt.sign({ wallet }, 'likecoin', { expiresIn: '7d' });
-  const res = await axios.get(`${url}/api/users/addr/${wallet}`, {
+  const res = await axiosist(app).get(`${url}/api/users/addr/${wallet}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -276,7 +278,7 @@ test('KYC: Standard KYC, User wallet not match case', async (t) => {
     isUSAAccredited: false,
   }));
   const sign = signProfile(payload, privateKey1);
-  const res = await axios.post(`${url}/api/kyc`, {
+  const res = await axiosist(app).post(`${url}/api/kyc`, {
     from: testingWallet1,
     payload,
     sign,
@@ -302,7 +304,7 @@ test('KYC: Advanced KYC, User wallet not match case', async (t) => {
     document1SHA256: 'FD9507718F404ED8551CD30608B71AD1EC8CA3BCA904CADB192B4081F918E9E3',
   }));
   const sign = signProfile(payload, privateKey1);
-  const res = await axios.post(`${url}/api/kyc/advanced`, {
+  const res = await axiosist(app).post(`${url}/api/kyc/advanced`, {
     from: testingWallet1,
     payload,
     sign,
@@ -315,7 +317,7 @@ test('KYC: Advanced KYC, User wallet not match case', async (t) => {
 test('OEMBED: success cases', async (t) => {
   let res;
 
-  res = await axios.get(`${url}/api/oembed?url=https://rinkeby.like.co/${testingUser1}`)
+  res = await axiosist(app).get(`${url}/api/oembed?url=https://rinkeby.like.co/${testingUser1}`)
     .catch(err => err.response);
   t.is(res.status, 200);
   t.is(res.data.type, 'rich');
@@ -325,7 +327,7 @@ test('OEMBED: success cases', async (t) => {
   t.is(res.data.thumbnail_width, 100);
   t.is(res.data.thumbnail_height, 100);
 
-  res = await axios.get(`${url}/api/oembed?url=http://rinkeby.like.co/${testingUser1}`)
+  res = await axiosist(app).get(`${url}/api/oembed?url=http://rinkeby.like.co/${testingUser1}`)
     .catch(err => err.response);
   t.is(res.status, 200);
   t.is(res.data.type, 'rich');
@@ -335,7 +337,7 @@ test('OEMBED: success cases', async (t) => {
   t.is(res.data.thumbnail_width, 100);
   t.is(res.data.thumbnail_height, 100);
 
-  res = await axios.get(`${url}/api/oembed?url=rinkeby.like.co/${testingUser1}`)
+  res = await axiosist(app).get(`${url}/api/oembed?url=rinkeby.like.co/${testingUser1}`)
     .catch(err => err.response);
   t.is(res.status, 200);
   t.is(res.data.type, 'rich');
@@ -345,7 +347,7 @@ test('OEMBED: success cases', async (t) => {
   t.is(res.data.thumbnail_width, 100);
   t.is(res.data.thumbnail_height, 100);
 
-  res = await axios.get(`${url}/api/oembed?url=www.rinkeby.like.co/${testingUser1}`)
+  res = await axiosist(app).get(`${url}/api/oembed?url=www.rinkeby.like.co/${testingUser1}`)
     .catch(err => err.response);
   t.is(res.status, 200);
   t.is(res.data.type, 'rich');
@@ -355,7 +357,7 @@ test('OEMBED: success cases', async (t) => {
   t.is(res.data.thumbnail_width, 100);
   t.is(res.data.thumbnail_height, 100);
 
-  res = await axios.get(`${url}/api/oembed?url=https://www.rinkeby.like.co/${testingUser1}`)
+  res = await axiosist(app).get(`${url}/api/oembed?url=https://www.rinkeby.like.co/${testingUser1}`)
     .catch(err => err.response);
   t.is(res.status, 200);
   t.is(res.data.type, 'rich');
@@ -365,7 +367,7 @@ test('OEMBED: success cases', async (t) => {
   t.is(res.data.thumbnail_width, 100);
   t.is(res.data.thumbnail_height, 100);
 
-  res = await axios.get(`${url}/api/oembed?url=https://rinkeby.like.co/${testingUser2}&maxwidth=50`)
+  res = await axiosist(app).get(`${url}/api/oembed?url=https://rinkeby.like.co/${testingUser2}&maxwidth=50`)
     .catch(err => err.response);
   t.is(res.status, 200);
   t.is(res.data.type, 'rich');
@@ -379,21 +381,21 @@ test('OEMBED: success cases', async (t) => {
 test('OEMBED: failure cases', async (t) => {
   let res;
 
-  res = await axios.get(`${url}/api/oembed?url=https://rinkeby.like.co/nosuchuser`)
+  res = await axiosist(app).get(`${url}/api/oembed?url=https://rinkeby.like.co/nosuchuser`)
     .catch(err => err.response);
   t.is(res.status, 404);
 
-  res = await axios.get(`${url}/api/oembed`)
+  res = await axiosist(app).get(`${url}/api/oembed`)
     .catch(err => err.response);
   t.is(res.status, 400);
   t.is(res.data, 'No url query in oEmbed request');
 
-  res = await axios.get(`${url}/api/oembed?url=www.invalidurl.like.co/testing`)
+  res = await axiosist(app).get(`${url}/api/oembed?url=www.invalidurl.like.co/testing`)
     .catch(err => err.response);
   t.is(res.status, 400);
   t.is(res.data, 'Invalid url query (www.invalidurl.like.co/testing) in oEmbed request');
 
-  res = await axios.get(`${url}/api/oembed?url=https://rinkeby.like.co/${testingUser1}&format=nosuchformat`)
+  res = await axiosist(app).get(`${url}/api/oembed?url=https://rinkeby.like.co/${testingUser1}&format=nosuchformat`)
     .catch(err => err.response);
   t.is(res.status, 400);
   t.is(res.data, 'Invalid format nosuchformat in oEmbed request');
