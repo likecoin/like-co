@@ -2,6 +2,7 @@
 const { execSync } = require('child_process');
 
 function setStub() {
+  console.log('Setting Stub');
   execSync('cp ./server/util/firebase.js ./server/util/firebase.js.bak');
   execSync('cp ./server/util/ses.js ./server/util/ses.js.bak');
   execSync('cp ./test/stub/server/util/* ./server/util/');
@@ -11,6 +12,7 @@ function setStub() {
 }
 
 function unsetStub() {
+  console.log('Unsetting Stub');
   execSync('mv ./server/util/firebase.js.bak ./server/util/firebase.js');
   execSync('mv ./server/util/ses.js.bak ./server/util/ses.js');
   execSync('mv ./constant/contract/likecoin.js.bak ./constant/contract/likecoin.js');
@@ -36,24 +38,24 @@ testEnv.NODE_ENV = 'production';
 testEnv.IS_TESTNET = true;
 testEnv.DISABLE_SERVER = 'TRUE';
 if (!process.env.CI) {
-  console.log('Setting Stub');
   setStub();
   console.log('Building for unit test');
   execSync('npm run build', { env: testEnv, stdio: 'inherit' });
 }
 console.log('Running API test');
 try {
-  execSync('npm run test:api', { env: testEnv, stdio: 'inherit' });
+  execSync('nyc npm run test:api', { env: testEnv, stdio: 'inherit' });
 } catch (e) {
   console.error(e);
 }
+execSync('rm -rf ./.nyc_output_merge && cp -R ./.nyc_output ./.nyc_output_merge');
 try {
   console.log('Running E2E test');
   execSync('npm run test:e2e', { env: testEnv, stdio: 'inherit' });
 } catch (e) {
   console.error(e);
 }
-console.log('Unsetting Stub');
+execSync('cp -a ./.nyc_output_merge/. ./.nyc_output');
 unsetStub();
 console.log('Done');
 
