@@ -26,6 +26,7 @@ topics.forEach((topic) => {
     });
 });
 
+/* istanbul ignore next */
 publisher.publish = async (publishTopic, req, obj) => {
   if (!config.GCLOUD_PUBSUB_ENABLE) return;
   Object.assign(obj, {
