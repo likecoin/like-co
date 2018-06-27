@@ -1,6 +1,7 @@
 /* eslint import/no-extraneous-dependencies: "off" */
 const webpack = require('webpack');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const SentryPlugin = require('@sentry/webpack-plugin');
 
 const shouldCache = !!process.env.CI;
@@ -235,6 +236,10 @@ module.exports = {
     plugins: [
       // Ignore all locale files of moment.js
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+      new OptimizeCssAssetsPlugin({
+        cssProcessorOptions: { safe: true, discardComments: { removeAll: true } },
+        canPrint: true,
+      }),
     ],
 
     extend(config, { isClient }) {
