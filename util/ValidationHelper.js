@@ -11,8 +11,6 @@ export const ValidationHelper = {
       avatar,
       wallet,
       referrer,
-      KYC,
-      pendingKYC,
       isEmailVerified,
       isEmailEnabled,
     } = u;
@@ -27,8 +25,6 @@ export const ValidationHelper = {
       avatar,
       wallet,
       referrer: !!referrer,
-      KYC,
-      pendingKYC,
       isEmailVerified,
       isEmailEnabled,
     };

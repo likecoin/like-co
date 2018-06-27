@@ -3,20 +3,16 @@ import BigNumber from 'bignumber.js';
 
 import {
   ONE_LIKE,
-  ETH_TO_LIKECOIN_RATIO,
   PUBSUB_TOPIC_MISC,
   TRANSACTION_QUERY_LIMIT,
 } from '../../constant';
 import { ValidationHelper as Validate, ValidationError } from '../../util/ValidationHelper';
 import { logTransferDelegatedTx, logETHTx } from '../util/logger';
 import { web3, sendTransactionWithLoop } from '../util/web3';
-import { sendPreSale } from '../util/ses';
-import { getTokensaleInitial } from '../util/poller';
 import { jwtAuth } from '../util/jwt';
 import publisher from '../util/gcloudPub';
 
 const LIKECOIN = require('../../constant/contract/likecoin');
-const LIKECOIN_ICO = require('../../constant/contract/likecoin-ico');
 const {
   txCollection: txLogRef,
   userCollection: dbRef,
@@ -182,13 +178,10 @@ router.post('/payment/eth', async (req, res, next) => {
       to,
       value,
       txHash,
-      isPreSale,
     } = req.body;
-    let fromUserRef;
     let fromUser;
     const fromQuery = dbRef.where('wallet', '==', from).get().then((snapshot) => {
       if (snapshot.docs.length > 0) {
-        fromUserRef = snapshot.docs[0].ref;
         fromUser = snapshot.docs[0].data();
         return {
           fromId: snapshot.docs[0].id,
@@ -238,43 +231,6 @@ router.post('/payment/eth', async (req, res, next) => {
       fromId: fromId || null,
       toId: toId || null,
     });
-    if ((isPreSale && to === LIKECOIN_ICO.LIKE_COIN_PRESALE_ADDRESS) ||
-      (to === LIKECOIN_ICO.LIKE_COIN_ICO_ADDRESS)) {
-      const eth = new BigNumber(value).dividedBy(ONE_LIKE);
-      const base = eth.multipliedBy(new BigNumber(ETH_TO_LIKECOIN_RATIO));
-      let bonus = new BigNumber(0);
-      if (isPreSale && eth.gte(new BigNumber(10))) {
-        bonus = base.multipliedBy(new BigNumber(0.25));
-      }
-      const updateObj = {
-        txHash,
-        fromId: fromId || null,
-        value,
-        base: base.toFixed(),
-        ts: Date.now(),
-      };
-      if (isPreSale) {
-        updateObj.bonus = bonus.toFixed();
-      }
-      const promises = [
-        fromUserRef.collection(isPreSale ? 'PreSale' : 'ICO').doc(txHash).create(updateObj),
-        fromUserRef.collection('mission').doc('joinTokenSale').get()
-          .then((doc) => {
-            if (!doc.exists || !doc.data().done) {
-              return doc.ref.set({ status: 'pending' }, { merge: true });
-            }
-            return true;
-          }),
-      ];
-      if (isPreSale) {
-        promises.push(fromUserRef.update({ isPreSale }));
-        promises.push(sendPreSale(res, fromUser, eth, base, bonus, txHash));
-      } else {
-        promises.push(fromUserRef.update({ isICO: true }));
-      }
-
-      await Promise.all(promises);
-    }
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventPayETH',
       fromUser: fromId,
@@ -350,32 +306,6 @@ router.get('/tx/history/addr/:addr', jwtAuth, async (req, res, next) => {
     results.sort((a, b) => (b.ts - a.ts));
     results.splice(count);
     res.json(results);
-  } catch (err) {
-    next(err);
-  }
-});
-
-router.get('/tx/tokensale/:addr', jwtAuth, async (req, res, next) => {
-  try {
-    const { addr } = req.params;
-    if (req.user.wallet !== addr) {
-      res.status(401).send('LOGIN_NEEDED');
-      return;
-    }
-    const doc = await txLogRef
-      .where('from', '==', web3.utils.toChecksumAddress(addr))
-      .where('to', '==', LIKECOIN_ICO.LIKE_COIN_ICO_ADDRESS)
-      .orderBy('ts', 'desc')
-      .get();
-    res.json(doc.docs.map(d => ({ id: d.id, ...Validate.filterTxData(d.data()) })));
-  } catch (err) {
-    next(err);
-  }
-});
-
-router.get('/tokensale/initial', async (req, res, next) => {
-  try {
-    res.json({ initial: getTokensaleInitial() });
   } catch (err) {
     next(err);
   }
