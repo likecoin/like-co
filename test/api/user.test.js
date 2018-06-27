@@ -242,7 +242,12 @@ for (let i = 0; i < userCases.length; i += 1) {
 test('USER: Get user by id', async (t) => {
   const user = testingUser1;
   const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
-  const res = await axiosist(app).get(`${url}/api/users/id/${user}`, {
+  let res = await axiosist(app).get(`${url}/api/users/id/${user}`)
+    .catch(err => err.response);
+
+  t.is(res.status, 401);
+
+  res = await axiosist(app).get(`${url}/api/users/id/${user}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -253,10 +258,25 @@ test('USER: Get user by id', async (t) => {
   t.is(res.data.displayName, testingDisplayName1);
 });
 
+test('USER: Get user by id min', async (t) => {
+  const user = testingUser1;
+  const res = await axiosist(app).get(`${url}/api/users/id/${user}/min`)
+    .catch(err => err.response);
+
+  t.is(res.status, 200);
+  t.is(res.data.wallet, testingWallet1);
+  t.not(res.data.email, testingEmail1);
+});
+
 test('USER: Get user by address', async (t) => {
   const wallet = testingWallet1;
   const token = jwt.sign({ wallet }, 'likecoin', { expiresIn: '7d' });
-  const res = await axiosist(app).get(`${url}/api/users/addr/${wallet}`, {
+  let res = await axiosist(app).get(`${url}/api/users/addr/${wallet}`)
+    .catch(err => err.response);
+
+  t.is(res.status, 401);
+
+  res = await axiosist(app).get(`${url}/api/users/addr/${wallet}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -268,89 +288,98 @@ test('USER: Get user by address', async (t) => {
   t.is(res.data.displayName, testingDisplayName1);
 });
 
-test('OEMBED: success cases', async (t) => {
-  let res;
-
-  res = await axiosist(app).get(`${url}/api/oembed?url=https://rinkeby.like.co/${testingUser1}`)
+test('USER: Get user by address min', async (t) => {
+  let wallet = testingWallet1;
+  let res = await axiosist(app).get(`${url}/api/users/addr/${wallet}/min`)
     .catch(err => err.response);
-  t.is(res.status, 200);
-  t.is(res.data.type, 'rich');
-  t.is(res.data.title, `${testingDisplayName1} (${testingUser1})`);
-  t.is(res.data.version, '1.0');
-  t.is(res.data.url, `https://rinkeby.like.co/${testingUser1}`);
-  t.is(res.data.thumbnail_width, 100);
-  t.is(res.data.thumbnail_height, 100);
 
-  res = await axiosist(app).get(`${url}/api/oembed?url=http://rinkeby.like.co/${testingUser1}`)
-    .catch(err => err.response);
   t.is(res.status, 200);
-  t.is(res.data.type, 'rich');
-  t.is(res.data.title, `${testingDisplayName1} (${testingUser1})`);
-  t.is(res.data.version, '1.0');
-  t.is(res.data.url, `https://rinkeby.like.co/${testingUser1}`);
-  t.is(res.data.thumbnail_width, 100);
-  t.is(res.data.thumbnail_height, 100);
 
-  res = await axiosist(app).get(`${url}/api/oembed?url=rinkeby.like.co/${testingUser1}`)
+  res = await axiosist(app).get(`${url}/api/users/addr/0xazdfsadf/min`)
     .catch(err => err.response);
-  t.is(res.status, 200);
-  t.is(res.data.type, 'rich');
-  t.is(res.data.title, `${testingDisplayName1} (${testingUser1})`);
-  t.is(res.data.version, '1.0');
-  t.is(res.data.url, `https://rinkeby.like.co/${testingUser1}`);
-  t.is(res.data.thumbnail_width, 100);
-  t.is(res.data.thumbnail_height, 100);
 
-  res = await axiosist(app).get(`${url}/api/oembed?url=www.rinkeby.like.co/${testingUser1}`)
-    .catch(err => err.response);
-  t.is(res.status, 200);
-  t.is(res.data.type, 'rich');
-  t.is(res.data.title, `${testingDisplayName1} (${testingUser1})`);
-  t.is(res.data.version, '1.0');
-  t.is(res.data.url, `https://rinkeby.like.co/${testingUser1}`);
-  t.is(res.data.thumbnail_width, 100);
-  t.is(res.data.thumbnail_height, 100);
+  t.is(res.status, 400);
 
-  res = await axiosist(app).get(`${url}/api/oembed?url=https://www.rinkeby.like.co/${testingUser1}`)
+  wallet = testingWallet3;
+  res = await axiosist(app).get(`${url}/api/users/addr/${wallet}/min`)
     .catch(err => err.response);
-  t.is(res.status, 200);
-  t.is(res.data.type, 'rich');
-  t.is(res.data.title, `${testingDisplayName1} (${testingUser1})`);
-  t.is(res.data.version, '1.0');
-  t.is(res.data.url, `https://rinkeby.like.co/${testingUser1}`);
-  t.is(res.data.thumbnail_width, 100);
-  t.is(res.data.thumbnail_height, 100);
 
-  res = await axiosist(app).get(`${url}/api/oembed?url=https://rinkeby.like.co/${testingUser2}&maxwidth=50`)
-    .catch(err => err.response);
-  t.is(res.status, 200);
-  t.is(res.data.type, 'rich');
-  t.is(res.data.title, `${testingUser2} (${testingUser2})`);
-  t.is(res.data.version, '1.0');
-  t.is(res.data.url, `https://rinkeby.like.co/${testingUser2}`);
-  t.is(res.data.thumbnail_width, 50);
-  t.is(res.data.thumbnail_height, 50);
+  t.is(res.status, 404);
 });
 
-test('OEMBED: failure cases', async (t) => {
-  let res;
-
-  res = await axiosist(app).get(`${url}/api/oembed?url=https://rinkeby.like.co/nosuchuser`)
+test('USER: check user login status', async (t) => {
+  const wallet = testingWallet1;
+  const token = jwt.sign({ wallet }, 'likecoin', { expiresIn: '7d' });
+  let res = await axiosist(app).post(`${url}/api/users/login/check`, {})
     .catch(err => err.response);
-  t.is(res.status, 404);
 
-  res = await axiosist(app).get(`${url}/api/oembed`)
-    .catch(err => err.response);
-  t.is(res.status, 400);
-  t.is(res.data, 'No url query in oEmbed request');
+  t.is(res.status, 401);
 
-  res = await axiosist(app).get(`${url}/api/oembed?url=www.invalidurl.like.co/testing`)
-    .catch(err => err.response);
-  t.is(res.status, 400);
-  t.is(res.data, 'Invalid url query (www.invalidurl.like.co/testing) in oEmbed request');
+  res = await axiosist(app).post(`${url}/api/users/login/check`, {
+    wallet,
+  }, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }).catch(err => err.response);
 
-  res = await axiosist(app).get(`${url}/api/oembed?url=https://rinkeby.like.co/${testingUser1}&format=nosuchformat`)
+  t.is(res.status, 200);
+});
+
+test('USER: Get user referral status', async (t) => {
+  const user = testingUser1;
+  const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
+  let res = await axiosist(app).get(`${url}/api/users/referral/${user}`)
     .catch(err => err.response);
-  t.is(res.status, 400);
-  t.is(res.data, 'Invalid format nosuchformat in oEmbed request');
+
+  t.is(res.status, 401);
+
+  res = await axiosist(app).get(`${url}/api/users/referral/${user}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }).catch(err => err.response);
+
+  t.is(res.status, 200);
+  t.is(res.data.pending, 0);
+  t.is(res.data.verified, 1);
+});
+
+test('USER: Get user bonus status', async (t) => {
+  const user = testingUser1;
+  const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
+  let res = await axiosist(app).get(`${url}/api/users/bonus/${user}`)
+    .catch(err => err.response);
+
+  t.is(res.status, 401);
+
+  res = await axiosist(app).get(`${url}/api/users/bonus/${user}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }).catch(err => err.response);
+
+  t.is(res.status, 200);
+  t.is(res.data.bonus, '3.0000');
+});
+
+test('USER: Post user notitication option', async (t) => {
+  const user = testingUser1;
+  const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
+  let res = await axiosist(app).post(`${url}/api/users/email/${user}`, {
+    isEmailEnabled: true,
+  }, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }).catch(err => err.response);
+
+  t.is(res.status, 200);
+  res = await axiosist(app).get(`${url}/api/users/id/${user}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  t.is(res.status, 200);
+  t.is(res.data.isEmailEnabled, true);
 });
