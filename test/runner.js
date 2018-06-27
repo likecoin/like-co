@@ -80,6 +80,7 @@ if (!process.env.AUTO_TEST) {
     execSync('npm run test:api', { env: testEnv, stdio: 'inherit' });
   } catch (e) {
     console.error(e);
+    process.exit(1);
   }
   execSync('rm -rf ./.nyc_output_merge && cp -R ./.nyc_output ./.nyc_output_merge');
   try {
@@ -87,6 +88,7 @@ if (!process.env.AUTO_TEST) {
     execSync('npm run test:e2e', { env: testEnv, stdio: 'inherit' });
   } catch (e) {
     console.error(e);
+    process.exit(1);
   }
   execSync('cp -a ./.nyc_output_merge/. ./.nyc_output');
   unsetStub();
