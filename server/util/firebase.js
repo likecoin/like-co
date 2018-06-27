@@ -1,8 +1,8 @@
 const admin = require('firebase-admin');
 const { FieldValue } = require('firebase-admin').firestore;
 
-const config = require('@ServerConfig/config.js'); // eslint-disable-line import/no-extraneous-dependencies
-const serviceAccount = require('@ServerConfig/serviceAccountKey.json'); // eslint-disable-line import/no-extraneous-dependencies
+const config = require('../config/config.js');
+const serviceAccount = require('../config/serviceAccountKey.json');
 
 if (process.env.CI) {
   module.exports = {
