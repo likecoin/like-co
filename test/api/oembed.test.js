@@ -73,19 +73,10 @@ test('OEMBED: success cases', async (t) => {
   t.is(res.data.thumbnail_height, 50);
 
   /* xml format test */
-  res = await axiosist(app).get(`${url}/api/oembed?url=https://rinkeby.like.co/${testingUser1}`, {
-    headers: {
-      'Content-Type': 'application/xml',
-    },
-  })
+  res = await axiosist(app).get(`${url}/api/oembed?url=https://rinkeby.like.co/${testingUser1}&format=xml`)
     .catch(err => err.response);
   t.is(res.status, 200);
-  t.is(res.data.type, 'rich');
-  t.is(res.data.title, `${testingDisplayName1} (${testingUser1})`);
-  t.is(res.data.version, '1.0');
-  t.is(res.data.url, `https://rinkeby.like.co/${testingUser1}`);
-  t.is(res.data.thumbnail_width, 100);
-  t.is(res.data.thumbnail_height, 100);
+  t.true(res.data.includes('<?xml version="1.0" encoding="utf-8" standalone="yes"?><oembed><type>rich</type><version>1.0</version><title>testing (testing)</title><url>https://rinkeby.like.co/testing</url>'));
 });
 
 test('OEMBED: failure cases', async (t) => {
