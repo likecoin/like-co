@@ -42,6 +42,21 @@ test('MISSION: See mission', async (t) => {
   t.is(res.status, 200);
 });
 
+test('MISSION: Hide mission. Case: not hidable', async (t) => {
+  const user = testingUser1;
+  const missionId = 'gettingStart';
+  const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
+  const res = await axiosist(app).post(`${url}/api/mission/hide/${missionId}`, {
+    user,
+  }, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }).catch(err => err.response);
+  t.is(res.status, 400);
+  t.is(res.data, 'mission not hidable');
+});
+
 test('MISSION: Finish step mission. Case: success', async (t) => {
   const user = testingUser1;
   const missionId = 'gettingStart';
@@ -126,6 +141,23 @@ test('MISSION: Get mission history bonus', async (t) => {
     hasGettingStart = true;
   }
   t.true(hasGettingStart);
+});
+
+
+test('MISSION: Get mission data by missionId', async (t) => {
+  const user = testingUser1;
+  const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
+  let res = await axiosist(app).get(`${url}/api/mission/gettingStart/user/${user}`)
+    .catch(err => err.response);
+  t.is(res.status, 401);
+
+  res = await axiosist(app).get(`${url}/api/mission/gettingStart/user/${user}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }).catch(err => err.response);
+  t.is(res.status, 200);
+  t.is(res.data.id, 'gettingStart');
 });
 
 test('MISSION: Get referral list', async (t) => {
