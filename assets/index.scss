@@ -752,6 +752,14 @@ $line-height-map: (
         }
       }
     }
+
+    .md-prefix {
+      line-height: 32px;
+    }
+
+    &.md-disabled .md-prefix {
+      color: $gray-9b;
+    }
   }
 }
 

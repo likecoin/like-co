@@ -987,6 +987,7 @@
   "Form": {
     "Retweet": {
       "label": {
+        "enterUsername": "Enter your twitter username",
         "retweet": "Retweet with the following comment",
         "pasteURL": "Paste the tweet link here"
       },
@@ -1049,6 +1050,13 @@
       "label": {
         "verifying": "Verifying the tweet"
       }
+    },
+    "twitterRetweet": {
+      "title": "Retweet!",
+      "description": "Retweet the following post"
+    },
+    "twitterBitmart": {
+      "title": "Retweet BitMart!"
     },
     "completedBanner": {
       "label": {
