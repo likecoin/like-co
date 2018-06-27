@@ -23,9 +23,17 @@
           key="custom"
           class="mission-dialog-content">
 
-          <twitter-mission
+          <quote-tweet-mission
             v-if="missionId === 'twitter'"
             :userId="getUserInfo.user"
+            @cancel="onDismiss"
+            @complete="onCompleteMission" />
+
+          <retweet-mission
+            v-else-if="missionId === 'twitterBitmart'"
+            :user-id="getUserInfo.user"
+            :mission-id="missionId"
+            tweet-url="https://twitter.com/BitMartExchange/status/1010271556742807552"
             @cancel="onDismiss"
             @complete="onCompleteMission" />
 
@@ -270,11 +278,12 @@ import moment from 'moment';
 
 import BaseDialog from '~/components/dialogs/BaseDialog';
 import InviteFriendForm from '~/components/forms/InviteFriendForm';
-import VerifyEmailForm from '~/components/forms/VerifyEmailForm';
 import MissionCompletedBanner from '~/components/Mission/CompletedBanner';
 import MissionIcon from '~/components/Mission/Icon';
+import QuoteTweetMission from '~/components/dialogs/MissionDialogContent/QuoteTweet';
+import RetweetMission from '~/components/dialogs/MissionDialogContent/Retweet';
 import TaskList from '~/components/Mission/TaskList';
-import TwitterMission from '~/components/dialogs/MissionDialogContent/Twitter';
+import VerifyEmailForm from '~/components/forms/VerifyEmailForm';
 import { GETTING_STARTED_TASKS } from '@/constant';
 
 import { logTrackerEvent } from '@/util/EventLogger';
@@ -294,11 +303,12 @@ export default {
   components: {
     BaseDialog,
     InviteFriendForm,
-    VerifyEmailForm,
     MissionCompletedBanner,
     MissionIcon,
-    TwitterMission,
+    QuoteTweetMission,
+    RetweetMission,
     TaskList,
+    VerifyEmailForm,
   },
   data() {
     return {
@@ -328,12 +338,7 @@ export default {
       );
     },
     isCustomLayout() {
-      switch (this.missionId) {
-        case 'twitter':
-          return true;
-        default:
-          return false;
-      }
+      return /^twitter.*/.test(this.missionId);
     },
     reward() {
       if (this.mission.isFromUrl) return '';

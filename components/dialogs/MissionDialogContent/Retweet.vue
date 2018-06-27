@@ -1,5 +1,5 @@
 <template>
-  <div class="twitter-mission">
+  <div class="retweet-mission">
     <transition name="lc-transition-default" mode="out-in">
 
       <div v-if="isError" key="error" class="lc-dialog-container-0">
@@ -30,21 +30,20 @@
 
       <div v-else key="normal" class="lc-dialog-container-0">
         <div class="lc-dialog-container-1">
-          <h1 class="lc-font-size-32">{{ title }}</h1>
-          <p
-            class="lc-font-size-16 lc-color-like-gray-4"
-            v-html="$t('Mission.twitter.linkedDescription', { postLink: TWEET_URL } )" />
+          <h1 class="lc-font-size-32">{{ $t('Mission.twitterRetweet.title') }}</h1>
+          <p class="lc-font-size-16 lc-color-like-gray-4">
+            {{ $t('Mission.twitterRetweet.description') }}
+          </p>
         </div>
 
         <div class="instruction-image">
-          <img :src="image" />
+          <img src="/images/mission/twitter/bitmart-retweet.gif" />
         </div>
 
         <div class="lc-dialog-container-1">
           <retweet-form
             :step.sync="step"
-            :url="TWEET_URL"
-            :comment="comment"
+            :url="tweetUrl"
             @cancel="onCancel"
             @complete="onComplete" />
         </div>
@@ -61,12 +60,18 @@ import * as api from '@/util/api/api';
 import RetweetForm from '~/components/forms/RetweetForm';
 import Spinner from '~/components/Spinner';
 
-const TWEET_URL = 'https://twitter.com/likecoin_fdn/status/998505329854836738';
-
 export default {
-  name: 'twitter-mission',
+  name: 'retweet-mission',
   props: {
     userId: {
+      type: String,
+      required: true,
+    },
+    missionId: {
+      type: String,
+      required: true,
+    },
+    tweetUrl: {
       type: String,
       required: true,
     },
@@ -77,38 +82,20 @@ export default {
   },
   data() {
     return {
-      TWEET_URL,
-
       step: 0,
       isError: false,
       isLoading: false,
       errorMessage: '',
     };
   },
-  computed: {
-    title() {
-      switch (this.step) {
-        case 2:
-          return this.$t('Mission.twitter.header.pasteURL');
-        default:
-          return this.$t('Mission.twitter.title');
-      }
-    },
-    image() {
-      return `/images/mission/twitter/quote-tweet-${this.step === 2 ? 2 : 1}.gif`;
-    },
-    comment() {
-      return `Join: http://like.co/ref/${this.userId}`;
-    },
-  },
   methods: {
     onCancel() {
       this.$emit('cancel');
     },
-    async onComplete(tweetLink) {
+    async onComplete(username) {
       this.isLoading = true;
       try {
-        await api.apiPostTwitterMission(this.userId, tweetLink);
+        await api.apiPostRetweetMission(this.userId, this.missionId, username);
         this.$emit('complete');
       } catch (error) {
         if (error.response) {

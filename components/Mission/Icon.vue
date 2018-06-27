@@ -23,10 +23,16 @@ export default {
     src() {
       try {
         let iconFilename = this.missionId;
-        if (iconFilename === 'refereeTokenSale') {
-          iconFilename = 'joinTokenSale';
+        switch (iconFilename) {
+          case 'refereeTokenSale':
+            iconFilename = 'joinTokenSale';
+            break;
+          case 'twitterBitmart':
+            iconFilename = 'twitterRetweet';
+            break;
+          default:
+            break;
         }
-
         return missionImages(`./${iconFilename}.svg`);
       } catch (error) {
         return likeCoinIcon;
