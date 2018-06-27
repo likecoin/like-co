@@ -81,6 +81,7 @@ router.post('/kyc', async (req, res, next) => {
       throw new ValidationError('recovered address not match');
     }
 
+    /* istanbul ignore if */
     if (!IS_TESTNET) {
       if (!reCaptchaResponse) throw new ValidationError('reCAPTCHA missing');
       const { data } = await axios.post(
@@ -122,6 +123,8 @@ router.post('/kyc', async (req, res, next) => {
     if (wallet !== from) throw new ValidationError('User wallet not match');
 
     const kycCheck = await LikeCoinICO.methods.kycDone(from).call();
+
+    /* istanbul ignore if */
     if (!IS_TESTNET && kycCheck) throw new ValidationError('Already KYC-ed');
     if (userDoc.data().pendingKYC || userDoc.data().KYC) throw new ValidationError('KYC already in progress');
 
@@ -210,6 +213,7 @@ router.post('/kyc/advanced', multer.array('documents', 2), async (req, res, next
       throw new ValidationError('recovered address not match');
     }
 
+    /* istanbul ignore if */
     if (!IS_TESTNET) {
       if (!reCaptchaResponse) throw new ValidationError('reCAPTCHA missing');
       const { data } = await axios.post(

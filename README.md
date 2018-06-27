@@ -2,7 +2,7 @@
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/likecoin/likecoin-store.svg)](https://greenkeeper.io/)
 
-[![CircleCI](https://circleci.com/gh/likecoin/likecoin-store.svg?style=svg)](https://circleci.com/gh/likecoin/likecoin-store) [![NSP Status](https://nodesecurity.io/orgs/likecoin/projects/00271dff-3cf8-4b38-8f70-ab2252205c4a/badge)](https://nodesecurity.io/orgs/likecoin/projects/00271dff-3cf8-4b38-8f70-ab2252205c4a)
+[![CircleCI](https://circleci.com/gh/likecoin/likecoin-store.svg?style=svg)](https://circleci.com/gh/likecoin/likecoin-store) [![NSP Status](https://nodesecurity.io/orgs/likecoin/projects/00271dff-3cf8-4b38-8f70-ab2252205c4a/badge)](https://nodesecurity.io/orgs/likecoin/projects/00271dff-3cf8-4b38-8f70-ab2252205c4a)[![codecov](https://codecov.io/gh/likecoin/likecoin-store/branch/master/graph/badge.svg)](https://codecov.io/gh/likecoin/likecoin-store)
 
 > Like.co, official site of LikeCoin Foundation
 

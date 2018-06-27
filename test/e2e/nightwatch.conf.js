@@ -1,6 +1,11 @@
 const serverPath = require('selenium-server').path;
 const chromeDriver = require('chromedriver').path;
 const fs = require('fs');
+const http = require('http');
+
+const app = require('../../build/main.js'); // eslint-disable-line import/no-unresolved
+
+const httpServer = http.createServer(app);
 
 // https://sqa.stackexchange.com/questions/22374/error-trying-to-add-chrome-extension-in-nightwatchjs
 function encode(file) {
@@ -32,6 +37,13 @@ module.exports = {
       silent: true,
       globals: {
         devServerURL: 'http://localhost:3000',
+        before: (done) => {
+          httpServer.listen('3000');
+          done();
+        },
+        after: () => {
+          httpServer.close();
+        },
       },
       screenshots: {
         enabled: true,

@@ -48,6 +48,7 @@ jobs:
             sudo curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
             sudo apt-get -y install nodejs
             sudo npm install npm@6.0.1 -g
+            sudo npm install codecov -g
       - run:
           name: Dependencies
           command: sudo npm config set unsafe-perm true && sudo npm install
@@ -67,20 +68,11 @@ jobs:
             IS_TESTNET: true
             NODE_ENV: production
       - run:
-          name: Unit Test Server
-          command: node test/runner.js
-          background: true
-      - run:
-          name: Curl Unit Test Server
-          command: |
-            sleep 5
-            wget -O- --retry-connrefused --waitretry=5 -t 10 http://localhost:3000/ > /dev/null
-      - run:
           name: Unit Test (Nightwatch)
-          command: xvfb-run --server-args="-screen 0 1600x1200x24" npm run test:e2e
+          command: xvfb-run --server-args="-screen 0 1600x1200x24" npm run test
       - run:
-          name: Unit Test (Backend)
-          command: npm run test:api
+          name: Upload coverage
+          command: npm run report-coverage
       - store_artifacts:
           path: ./screenshots
       - save_cache:

@@ -17,3 +17,6 @@ build
 webpack-cache
 
 screenshots
+
+.nyc_output
+.nyc_output_merge
