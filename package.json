@@ -35,18 +35,6 @@
       "./test/_register"
     ]
   },
-  "babel": {
-    "presets": [
-      [
-        "env",
-        {
-          "targets": {
-            "node": "8.11.1"
-          }
-        }
-      ]
-    ]
-  },
   "dependencies": {
     "@google-cloud/pubsub": "^0.18.0",
     "@ledgerhq/hw-app-eth": "^4.7.3",
