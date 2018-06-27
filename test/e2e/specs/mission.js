@@ -78,6 +78,7 @@ module.exports = {
 
       // invite friend popup
       .waitForElementVisible('#my-mission .mission-item.inviteFriend .mission-card', 3000)
+      .pause(2000) // sometime it cannot switch window quick enough
       .click('#my-mission .mission-item.inviteFriend .mission-card')
       .waitForElementPresent('.mission-dialog-content .invite-friend-form', 3000)
       .end();

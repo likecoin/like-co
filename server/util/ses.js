@@ -65,34 +65,3 @@ export async function sendVerificationWithCouponEmail(res, user, coupon, ref) {
   };
   return ses.sendEmail(params).promise();
 }
-
-export async function sendPreSale(res, user, eth, base, bonus, txHash) {
-  const params = {
-    Source: 'noreply@like.co',
-    Destination: {
-      ToAddresses: [user.email],
-    },
-    Message: {
-      Subject: {
-        Charset: 'UTF-8',
-        Data: res.__('Email.preSaleEmail.subject'),
-      },
-      Body: {
-        Html: {
-          Charset: 'UTF-8',
-          Data: EmailTemplate.Basic({
-            title: res.__('Email.preSaleEmail.subject'),
-            body: res.__('Email.preSaleEmail.body', {
-              name: user.displayName,
-              eth,
-              base,
-              bonus,
-              txHash,
-            }) + res.__('Email.signature'),
-          }),
-        },
-      },
-    },
-  };
-  return ses.sendEmail(params).promise();
-}
