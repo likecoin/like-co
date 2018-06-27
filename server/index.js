@@ -56,6 +56,7 @@ config.dev = !(process.env.NODE_ENV === 'production');
 const nuxt = new Nuxt(config);
 
 // Build only in dev mode
+/* istanbul ignore if */
 if (config.dev) {
   const builder = new Builder(nuxt);
   builder.build();
