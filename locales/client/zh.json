@@ -970,6 +970,14 @@
         "verifying": "推文驗證中"
       }
     },
+    "twitterRetweet": {
+      "title": "轉推！",
+      "description": "轉推這個帖。並到<a href=\"https://www.bitmart.com/vote/cn\" target=\"_blank\">BitMart</a> 投 LikeCoin 一票，支持我們上交易所。你的支持十分重要！"
+    },
+    "twitterBitmart": {
+      "title": "轉推 BitMart!",
+      "description":"還差一步 － 請立即到 <a href=\"https://www.bitmart.com/vote/cn\" target=\"_blank\">BitMart</a> 投 LikeCoin 一票，支持我們上交易所。你的支持十分重要！"
+    },
     "completedBanner": {
       "label": {
         "complete": "完成！",
