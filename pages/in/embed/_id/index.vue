@@ -79,7 +79,13 @@ export default {
   },
   computed: {
     getUserPath() {
-      return `/${this.id}/${this.amount || ''}`;
+      const amount = this.amount ? `/${this.amount}` : '';
+      const referrer = this.urlReferrer ? `/?referrer=${this.urlReferrer}` : '';
+      return `/${this.id}${amount}${referrer}`;
+    },
+    urlReferrer() {
+      const { query } = this.$route;
+      return query.referrer || '';
     },
   },
   methods: {
