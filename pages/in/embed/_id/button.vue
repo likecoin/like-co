@@ -14,37 +14,48 @@
       </div>
       <div class="provided-by-div">{{ $t('Embed.label.providedBy') }}</div>
     </div>
-    <md-button
-      class="md-likecoin"
-      @click="toUserPath"
-    >
-      {{ $t('Embed.button.sendLike', { amount: this.amount }) }}
-    </md-button>
+    <nuxt-link :to="getUserPath"
+      target="_blank">
+      <img :src="likeButtonSrc"
+           alt="like-button"
+           class="like-button"
+           @mouseover="setLikeButtonState('hover')"
+           @mousedown="setLikeButtonState('click')"
+           @mouseup="setLikeButtonState('normal')"
+           @mouseout="setLikeButtonState('normal')"
+           >
+    </nuxt-link>
   </div>
   <div v-else> Not found. </div>
 </template>
 
 <script>
 import { apiGetUserMinById } from '@/util/api/api';
+import likeButtonNormal from '@/assets/like-button/likebtn-normal.png';
+import likeButtonHover from '@/assets/like-button/likebtn-hover.png';
+import likeButtonClick from '@/assets/like-button/likebtn-click.png';
+
+const LIKE_BUTTON_STATE = {
+  normal: likeButtonNormal,
+  hover: likeButtonHover,
+  click: likeButtonClick,
+};
 
 export default {
-  name: 'embed-id',
+  name: 'embed-button',
   layout: 'embed',
   data() {
     return {
       id: '',
       displayName: '',
       avatar: '',
+      likeButtonNormal,
+      likeButtonHover,
+      likeButtonClick,
+      likeButtonSrc: likeButtonNormal,
     };
   },
   asyncData({ params }) {
-    let amount = 8;
-    try {
-      const parse = parseInt(params.amount, 10);
-      if (parse && !Number.isNaN(parse)) amount = parse;
-    } catch (e) {
-      // no op;
-    }
     return apiGetUserMinById(params.id)
       .then((res) => {
         const {
@@ -55,16 +66,14 @@ export default {
           id: params.id,
           displayName,
           avatar,
-          amount,
         };
       })
       .catch(() => {});
   },
   computed: {
     getUserPath() {
-      const amount = this.amount ? `/${this.amount}` : '';
       const referrer = this.urlReferrer ? `/?referrer=${this.urlReferrer}` : '';
-      return `/${this.id}${amount}${referrer}`;
+      return `https://button.like.co/${this.id}${referrer}`;
     },
     urlReferrer() {
       const { query } = this.$route;
@@ -72,8 +81,8 @@ export default {
     },
   },
   methods: {
-    toUserPath() {
-      window.open(this.getUserPath, 'noopener');
+    setLikeButtonState(state) {
+      this.likeButtonSrc = LIKE_BUTTON_STATE[state];
     },
   },
 };

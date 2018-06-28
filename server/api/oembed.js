@@ -58,7 +58,7 @@ router.get('/oembed', cors(), async (req, res, next) => {
       thumbnail_width: thumbnailLength,
       thumbnail_height: thumbnailLength,
       html: `<iframe width="${maxWidth}" height="${maxHeight}"
-        src="https://${hostname}/in/embed/${username}/${amount}"
+        src="https://${hostname}/in/embed/${username}/${isButton ? 'button' : amount}"
         frameborder="0">
         </iframe>`,
       provider_name: 'LikeCoin',

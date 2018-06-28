@@ -1089,5 +1089,14 @@
         "description": "You need to verify your email before the {bonusTask} bonus"
       }
     }
+  },
+  "Embed": {
+    "label": {
+      "support": "Support",
+      "providedBy": "by LikeCoin reinvented LikeButton"
+    },
+    "button": {
+      "sendLike": "Send {amount} LIKE"
+    }
   }
 }
