@@ -1,5 +1,5 @@
 <template>
-  <div class="twitter-mission">
+  <div class="quote-tweet-mission">
     <transition name="lc-transition-default" mode="out-in">
 
       <div v-if="isError" key="error" class="lc-dialog-container-0">
@@ -41,7 +41,7 @@
         </div>
 
         <div class="lc-dialog-container-1">
-          <retweet-form
+          <quote-tweet-form
             :step.sync="step"
             :url="TWEET_URL"
             :comment="comment"
@@ -58,13 +58,13 @@
 <script>
 import * as api from '@/util/api/api';
 
-import RetweetForm from '~/components/forms/RetweetForm';
+import QuoteTweetForm from '~/components/forms/QuoteTweetForm';
 import Spinner from '~/components/Spinner';
 
 const TWEET_URL = 'https://twitter.com/likecoin_fdn/status/998505329854836738';
 
 export default {
-  name: 'twitter-mission',
+  name: 'quote-tweet-mission',
   props: {
     userId: {
       type: String,
@@ -72,7 +72,7 @@ export default {
     },
   },
   components: {
-    RetweetForm,
+    QuoteTweetForm,
     Spinner,
   },
   data() {
@@ -114,7 +114,7 @@ export default {
         if (error.response) {
           const { data, statusText } = error.response;
           const localeKey = `Error.${data || statusText}`;
-          if (this.$te(localeKey)) this.errorMessage = this.$t(localeKey);
+          this.errorMessage = this.$te(localeKey) ? this.$t(localeKey) : data || statusText;
         }
         this.isError = true;
       }
