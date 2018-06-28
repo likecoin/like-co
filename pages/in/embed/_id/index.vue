@@ -171,12 +171,26 @@ $margin-right-offset: 45px;
   }
 
   .embed-superlike-div {
+    position: relative;
     margin-left: auto;
     margin-right: -$margin-right-offset - 8px;
     border-radius: 20px;
     width: $like-button-width + $icon-border-size * 2;
-    &:hover {
+    &:before {
+      content: "";
+      border-radius: 20px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      opacity: 0;
+      transition: .4s cubic-bezier(.4,0,.2,1);
       background: linear-gradient(67deg, $like-light-blue, $like-gradient-1);
+    }
+
+    &.hover:before {
+      opacity: 1;
     }
     .md-likecoin#embed-superlike-button {
       min-width: $like-button-width;
