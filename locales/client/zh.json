@@ -1007,10 +1007,12 @@
   "Embed": {
     "label": {
       "support": "支持",
-      "providedBy": "by LikeCoin 重建讚好"
+      "providedBy": "by LikeCoin 化讚為賞回饋創作",
+      "subtitle": "喜歡這篇文章",
+      "title": "化讚為賞回饋創作"
     },
     "button": {
-      "sendLike": "發 {amount} LIKE"
+      "sendLike": "賞"
     }
   }
 }

@@ -1093,10 +1093,12 @@
   "Embed": {
     "label": {
       "support": "Support",
-      "providedBy": "by LikeCoin reinvented LikeButton"
+      "providedBy": "by LikeCoin reinvented LikeButton",
+      "subtitle": "Like this article?",
+      "title": "Reward the writer with LIKE token"
     },
     "button": {
-      "sendLike": "Send {amount} LIKE"
+      "sendLike": "Reward"
     }
   }
 }
