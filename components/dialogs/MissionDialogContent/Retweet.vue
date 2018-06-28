@@ -101,7 +101,7 @@ export default {
         if (error.response) {
           const { data, statusText } = error.response;
           const localeKey = `Error.${data || statusText}`;
-          if (this.$te(localeKey)) this.errorMessage = this.$t(localeKey);
+          this.errorMessage = this.$te(localeKey) ? this.$t(localeKey) : data || statusText;
         }
         this.isError = true;
       }
