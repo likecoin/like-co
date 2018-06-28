@@ -1053,10 +1053,11 @@
     },
     "twitterRetweet": {
       "title": "Retweet!",
-      "description": "Retweet the following post"
+      "description": "Retweet the following post, and vote for LikeCoin on <a href=\"https://www.bitmart.com/vote\" target=\"_blank\">BitMart</a>!"
     },
     "twitterBitmart": {
-      "title": "Retweet BitMart!"
+      "title": "Retweet BitMart!",
+      "description":"One step away - vote NOW for LikeCoin to get us list on <a href=\"https://www.bitmart.com/vote\" target=\"_blank\">BitMart</a>.  Your support is important to us."
     },
     "completedBanner": {
       "label": {
