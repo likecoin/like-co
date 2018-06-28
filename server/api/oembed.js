@@ -6,7 +6,7 @@ import { IS_TESTNET } from '../../constant';
 import { ValidationError } from '../../util/ValidationHelper';
 
 const hostname = IS_TESTNET ? 'rinkeby.like.co' : 'like.co';
-const subdomain = ['rinkeby.', 'button.', 'button.rinkeby.'];
+const subdomain = ['www.', 'rinkeby.', 'button.', 'button.rinkeby.'];
 const queryUrlRegexp = new RegExp('^(?:https?:\\/\\/)?([a-z0-9.]+)?like\\.co\\/([-_a-z0-9]+)(?:/([0-9]+)?)?');
 
 const {
@@ -29,7 +29,6 @@ router.get('/oembed', cors(), async (req, res, next) => {
       throw new ValidationError(`Invalid subdomain (${url}) in oEmbed request`);
     }
     const isButton = match[1] && match[1].includes('button');
-    const urlHostname = `${match[1] || ''}like.co`;
     const username = match[2];
     const format = req.query.format || 'json';
     if (!['json', 'xml'].includes(format)) {
@@ -49,11 +48,15 @@ router.get('/oembed', cors(), async (req, res, next) => {
     const payload = doc.data();
     if (!payload.avatar) payload.avatar = toDataUrl(payload.wallet);
 
+    const urlHostname = `${match[1] || ''}like.co`;
+    let replyUrl = `https://${urlHostname}/${username}`;
+    if (amount) replyUrl += `/${amount}`;
+
     const oEmbedResponse = {
       type: 'rich',
       version: '1.0',
       title: `${payload.displayName} (${username})`,
-      url: `https://${urlHostname}/${username}/${amount}`,
+      url: replyUrl,
       thumbnail_url: payload.avatar,
       thumbnail_width: thumbnailLength,
       thumbnail_height: thumbnailLength,
