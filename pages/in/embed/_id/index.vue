@@ -42,7 +42,7 @@ const LIKE_BUTTON_STATE = {
 };
 
 export default {
-  name: 'embed',
+  name: 'embed-button',
   layout: 'embed',
   data() {
     return {
@@ -56,6 +56,12 @@ export default {
     };
   },
   asyncData({ params }) {
+    let amount = 0;
+    try {
+      amount = Number(params.amount);
+    } catch (e) {
+      // no op;
+    }
     return apiGetUserMinById(params.id)
       .then((res) => {
         const {
@@ -66,13 +72,14 @@ export default {
           id: params.id,
           displayName,
           avatar,
+          amount,
         };
       })
       .catch(() => {});
   },
   computed: {
     getUserPath() {
-      return `/${this.id}`;
+      return `/${this.id}/${this.amount || ''}`;
     },
   },
   methods: {
