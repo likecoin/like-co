@@ -31,9 +31,10 @@
       <div v-else key="normal" class="lc-dialog-container-0">
         <div class="lc-dialog-container-1">
           <h1 class="lc-font-size-32">{{ $t('Mission.twitterRetweet.title') }}</h1>
-          <p class="lc-font-size-16 lc-color-like-gray-4">
-            {{ $t('Mission.twitterRetweet.description') }}
-          </p>
+          <p
+            class="lc-font-size-16 lc-color-like-gray-4"
+            v-html="$t('Mission.twitterRetweet.description')"
+          />
         </div>
 
         <div class="instruction-image">
