@@ -965,6 +965,14 @@
         "verifying": "推文验证中"
       }
     },
+    "twitterRetweet": {
+      "title": "转推！",
+      "description": "转推这个帖。并到<a href=\"https://www.bitmart.com/vote/cn\" target=\"_blank\">BitMart</a> 投 LikeCoin 一票，支持我们上交易所。你的支持十分重要！"
+    },
+    "twitterBitmart": {
+      "title": "转推 BitMart!",
+      "description":"还差一步 － 请立即到 <a href=\"https://www.bitmart.com/vote/cn\" target=\"_blank\">BitMart</a> 投 LikeCoin 一票，支持我们上交易所。你的支持十分重要！"
+    },
     "completedBanner": {
       "label": {
         "complete": "完成！",
