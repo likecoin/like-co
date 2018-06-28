@@ -18,7 +18,7 @@
     </div>
     <div class="user-identity">
       <div class="subtitle-div">{{ $t('Embed.label.subtitle') }}</div>
-      <div class="title-div lc-padding-vertical-8">
+      <div class="title-div">
         <span class="title-message">{{ $t('Embed.label.title') }} </span>
       </div>
     </div>
@@ -193,6 +193,7 @@ $margin-right-offset: 45px;
       opacity: 1;
     }
     .md-likecoin#embed-superlike-button {
+      font-size: 20px;
       min-width: $like-button-width;
       max-width: $like-button-width;
       border-radius: 20px;
