@@ -1,24 +1,32 @@
 <template>
   <div class="referrer-dialog">
     <base-dialog
-      class="lc-dialog with-icon"
       :is-show="isShow"
-      v-on:update:isShow="$emit('update:isShow', $event)"
-      :is-show-close-button="true">
+      :is-show-close-button="true"
+      class="lc-dialog with-icon"
+      @update:isShow="$emit('update:isShow', $event)"
+    >
 
-      <div slot="header-center" class="lc-section-header-icon lc-dialog-icon lc-raised-icon">
-        <img :src="avatar" />
+      <div
+        slot="header-center"
+        class="lc-section-header-icon lc-dialog-icon lc-raised-icon"
+      >
+        <img :src="avatar">
       </div>
 
       <div class="lc-dialog-container-1">
         <h1
           class="lc-font-size-32 lc-font-weight-300 lc-margin-bottom-12"
-          v-html="$t('ReferralPage.title', { name: styledDisplayName })" />
+          v-html="$t('ReferralPage.title', { name: styledDisplayName })"
+        />
 
         <div v-html="$t('ReferralPage.label.invitation', { name: styledDisplayName })" />
 
         <div class="lc-flex lc-justify-content-center lc-margin-top-32">
-          <md-button class="md-likecoin" @click="$emit('update:isShow', false)">
+          <md-button
+            class="md-likecoin"
+            @click="$emit('update:isShow', false)"
+          >
             {{ $t('KYC.button.createID') }}
           </md-button>
         </div>
@@ -34,6 +42,9 @@ import BaseDialog from '~/components/dialogs/BaseDialog';
 
 export default {
   name: 'referrer-dialog',
+  components: {
+    BaseDialog,
+  },
   props: {
     isShow: {
       type: Boolean,
@@ -42,9 +53,6 @@ export default {
     referrerId: String,
     avatar: String,
     displayName: String,
-  },
-  components: {
-    BaseDialog,
   },
   computed: {
     styledDisplayName() {

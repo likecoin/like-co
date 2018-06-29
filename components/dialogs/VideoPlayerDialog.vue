@@ -2,20 +2,22 @@
   <div class="video-player-dialog">
 
     <md-dialog
-      class="md-dialog"
       :md-fullscreen="false"
-      :md-active.sync="isShowDialog">
+      :md-active.sync="isShowDialog"
+      class="md-dialog"
+    >
       <div class="video-container">
         <div>
           <no-ssr>
             <vimeo-player
-              class="video-player"
               :video-id="videoId"
               :autoplay="true"
               :options="{
                 playsinline: false,
               }"
-              @ended="close" />
+              class="video-player"
+              @ended="close"
+            />
           </no-ssr>
         </div>
       </div>
@@ -41,17 +43,17 @@ export default {
       isShowDialog: false,
     };
   },
+  watch: {
+    isShowDialog(isOpen) {
+      this.$emit('toggle', isOpen);
+    },
+  },
   methods: {
     open() {
       this.isShowDialog = true;
     },
     close() {
       this.isShowDialog = false;
-    },
-  },
-  watch: {
-    isShowDialog(isOpen) {
-      this.$emit('toggle', isOpen);
     },
   },
 };

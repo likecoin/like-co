@@ -1,5 +1,8 @@
 <template>
-  <div :class="['task-item', state]" @click="onClick">
+  <div
+    :class="['task-item', state]"
+    @click="onClick"
+  >
     <div>
       <h1 class="title-label">{{ title }}</h1>
     </div>

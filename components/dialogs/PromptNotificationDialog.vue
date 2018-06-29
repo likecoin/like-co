@@ -6,11 +6,12 @@
       mdCloseOnEsc: false,
       mdFullscreen: false,
     }"
-    class="prompt-email-dialog">
+    class="prompt-email-dialog"
+  >
 
     <div class="lc-dialog-container-1 lc-margin-bottom-16">
       <h1 class="lc-font-size-32 lc-margin-bottom-8">
-        {{ $t('Dialog.emailNotification.title')}}
+        {{ $t('Dialog.emailNotification.title') }}
       </h1>
       <p class="lc-font-size-16 lc-color-like-gray-4">
         {{ $t('Dialog.emailNotification.content') }}
@@ -19,15 +20,19 @@
 
     <div class="lc-dialog-container-1">
       <div class="lc-button-group">
-        <md-button class="md-likecoin"
-          @click="onEnableEmail" >
+        <md-button
+          class="md-likecoin"
+          @click="onEnableEmail"
+        >
           {{ $t('Dialog.emailNotification.button') }}
         </md-button>
       </div>
     </div>
     <div class="lc-text-align-center">
-      <a class="lc-font-size-14 lc-underline"
-        @click="onDismiss" >
+      <a
+        class="lc-font-size-14 lc-underline"
+        @click="onDismiss"
+      >
         {{ $t('Dialog.emailNotification.label') }}
       </a>
     </div>
@@ -41,7 +46,7 @@ import { mapActions, mapGetters } from 'vuex';
 import BaseDialog from '~/components/dialogs/BaseDialog';
 
 export default {
-  name: 'promptNotificationDialog',
+  name: 'prompt-notification-dialog',
   components: {
     BaseDialog,
   },

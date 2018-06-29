@@ -11,13 +11,20 @@
           :toName="toName"
           :toAddress="to"
           :timestamp="timestamp"
-          :amount="amount" />
+          :amount="amount"
+        />
 
         <div class="lc-container-2 lc-margin-top-16">
           <div class="lc-container-3 lc-bg-gray-1">
-            <div class="tx-container lc-padding-top-32 lc-padding-bottom-16" v-if="!isNotFound">
+            <div
+              v-if="!isNotFound"
+              class="tx-container lc-padding-top-32 lc-padding-bottom-16"
+            >
               <section class="tx-info">
-                <section v-if="fromId" class="section-container">
+                <section
+                  v-if="fromId"
+                  class="section-container"
+                >
                   <div class="key">
                     {{ $t('Transaction.label.senderName') }}
                   </div>
@@ -31,9 +38,11 @@
                   <div class="key">
                     {{ $t('Transaction.label.senderAddress') }}
                   </div>
-                  <a :href="`${ETHERSCAN_HOST}/address/${from}#tokentxns`"
+                  <a
+                    :href="`${ETHERSCAN_HOST}/address/${from}#tokentxns`"
                     target="_blank"
-                    rel="noopener">
+                    rel="noopener"
+                  >
                     <div class="address value">
                       {{ from }}
                     </div>
@@ -68,6 +77,10 @@ const PENDING_UPDATE_INTERVAL = 1000; // 1s
 export default {
   name: 'transaction',
   layout: 'narrowWithHeader',
+  components: {
+    TokensaleHeader,
+    ViewEtherscan,
+  },
   data() {
     return {
       isEth: false,
@@ -115,10 +128,6 @@ export default {
     return {
       title: 'View Transaction State - Like.co',
     };
-  },
-  components: {
-    TokensaleHeader,
-    ViewEtherscan,
   },
   computed: {
     isCompleted() {

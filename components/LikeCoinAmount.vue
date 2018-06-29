@@ -11,15 +11,19 @@
           {
             'text-opaque': isOpaque,
           },
-        ]">
+        ]"
+      >
         {{ value || defaultValue }}
       </div>
     </div>
 
-    <div v-if="linkHref && linkText" class="links">
+    <div
+      v-if="linkHref && linkText"
+      class="links"
+    >
       <md-button
-        class="link what md-likecoin lc-text-align-center"
         :href="linkHref"
+        class="link what md-likecoin lc-text-align-center"
         rel="noopener noreferrer"
         target="_blank"
       >
@@ -27,7 +31,11 @@
       </md-button>
     </div>
 
-    <div v-else-if="linkText" class="links" @click="onClick">
+    <div
+      v-else-if="linkText"
+      class="links"
+      @click="onClick"
+    >
       <material-button class="link what">
         <span> {{ linkText }} </span>
       </material-button>

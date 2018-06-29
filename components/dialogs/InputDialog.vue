@@ -1,5 +1,8 @@
 <template>
-  <base-dialog ref="dialog" class="input-dialog">
+  <base-dialog
+    ref="dialog"
+    class="input-dialog"
+  >
 
     <div class="lc-dialog-container-1">
       <h1
@@ -8,14 +11,16 @@
           lc-font-size-32
           lc-font-weight-400
           lc-color-like-dark-brown-1
-          lc-mobile">
+          lc-mobile"
+      >
         {{ title }}
       </h1>
 
       <p
         v-if="content"
         class="lc-margin-bottom-16 lc-font-size-14 lc-font-weight-400 lc-color-like-green"
-        v-html="content" />
+        v-html="content"
+      />
 
       <single-input-form
         ref="form"
@@ -24,7 +29,8 @@
         :label="label"
         :errorText="getInfoIsError ? getInfoMsg : ''"
         @cancel="onCancel"
-        @submit="onSubmit"/>
+        @submit="onSubmit"
+      />
     </div>
 
   </base-dialog>
@@ -39,6 +45,10 @@ import SingleInputForm from '@/components/forms/SingleInputForm';
 
 export default {
   name: 'input-dialog',
+  components: {
+    BaseDialog,
+    SingleInputForm,
+  },
   props: {
     text: {
       default: '',
@@ -55,10 +65,6 @@ export default {
     label: {
       default: '',
     },
-  },
-  components: {
-    BaseDialog,
-    SingleInputForm,
   },
   computed: {
     ...mapGetters([

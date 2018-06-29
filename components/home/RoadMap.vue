@@ -1,5 +1,8 @@
 <template>
-  <section class="lc-container-0 lc-road-map" id="roadmap">
+  <section
+    id="roadmap"
+    class="lc-container-0 lc-road-map"
+  >
     <div class="lc-container-1">
 
       <!-- Section Title -->
@@ -40,12 +43,17 @@
               <div class="timeline lc-margin-bottom-12">
                 <ul>
                   <li
-                  v-for="(isReached, index) in milestones" :key="index"
-                  :class="['milestone', { last: index === milestones.length - 1}]">
+                    v-for="(isReached, index) in milestones"
+                    :key="index"
+                    :class="['milestone', { last: index === milestones.length - 1}]"
+                  >
 
                     <div class="date">{{ $t(`Home.RoadMap.timeline[${index}].time`) }}</div>
 
-                    <div v-if="index === 0" class="progress" />
+                    <div
+                      v-if="index === 0"
+                      class="progress"
+                    />
 
                     <div class="line">
                       <div :class="['dot', { active: isReached }]" />

@@ -13,12 +13,14 @@
                 {{ $t('Home.Sale.title.isOver') }}
               </span>
             </h1>
-            <h2 class="completed-percentage
+            <h2
+              class="completed-percentage
               lc-font-weight-600
               lc-color-like-green
               lc-padding-top-24
               lc-padding-bottom-16
-              lc-mobile">
+              lc-mobile"
+            >
               {{ $t('Home.Sale.label.completedPercent', { percent: tokenSalePercentage }) }}
             </h2>
           </section>
@@ -31,21 +33,22 @@
 
       <div class="tokensale-progress-wrapper lc-container-3 lc-bg-gray-1 lc-padding-vertical-16">
         <tokensale-progress
-          :total="maxTokenSaleAmount"/>
+          :total="maxTokenSaleAmount"
+        />
 
         <div class="lc-container-4">
           <div class="tokensale-amount lc-padding-top-12 lc-text-align-center">
             <span class="lc-color-like-green lc-font-size-18 lc-font-weight-600">
               {{ $t('TokenSale.label.raised') }}:
             </span>
-            <br class="lc-mobile-show" />
+            <br class="lc-mobile-show">
             <span class="amount">
               <span class="current lc-color-like-green lc-font-size-46 lc-font-weight-300">
                 {{ tokenSaleAmount }}
               </span>
               <span class="max lc-font-size-20 lc-font-weight-400">
-                 / {{ maxTokenSaleAmount }} ETH
-               </span>
+                / {{ maxTokenSaleAmount }} ETH
+              </span>
             </span>
           </div>
         </div>

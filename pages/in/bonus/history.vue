@@ -18,10 +18,12 @@
                     </h1>
                     <div
                       v-if="getIsFetchedMissionHistory"
-                      class="lc-container-header-button-wrapper lc-mobile-hide">
+                      class="lc-container-header-button-wrapper lc-mobile-hide"
+                    >
                       <refresh-button
                         :is-refreshing="getIsFetchingMissionHistory"
-                        @click="refreshHistory" />
+                        @click="refreshHistory"
+                      />
                     </div>
                   </div>
                 </div>
@@ -37,19 +39,23 @@
                   :is-grid="true"
                   :is-swippable="false"
                   :is-loading="getIsFetchingMissionHistory || !getIsFetchedMissionHistory"
-                  :empty-placeholder="$t('BonusPage.HistoryTab.label.emptyHistoryPlaceholder')" />
+                  :empty-placeholder="$t('BonusPage.HistoryTab.label.emptyHistoryPlaceholder')"
+                />
               </div>
             </div>
 
-            <div class="lc-container-3
+            <div
+              class="lc-container-3
               lc-margin-top-24
               lc-flex
               lc-justify-content-center
-              lc-mobile-show">
+              lc-mobile-show"
+            >
               <refresh-button
                 :is-refreshing="getIsFetchingMissionHistory"
                 :is-outline="true"
-                @click="refreshHistory" />
+                @click="refreshHistory"
+              />
             </div>
           </div>
 

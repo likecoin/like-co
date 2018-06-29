@@ -10,7 +10,7 @@
       </span>
 
       <span class="signature-icon">
-        <img :src="icon || likeCoinIcon" />
+        <img :src="icon || likeCoinIcon">
       </span>
 
       <span>

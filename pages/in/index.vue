@@ -1,7 +1,10 @@
 <template>
   <div class="overview-page">
 
-    <div id="earn" class="bonus-container lc-container-0 lc-margin-top-48">
+    <div
+      id="earn"
+      class="bonus-container lc-container-0 lc-margin-top-48"
+    >
       <section class="lc-container-1">
         <div class="lc-container-header">
           <div class="lc-container-2 lc-container-header-overlay">
@@ -16,15 +19,18 @@
                   </h1>
                   <div
                     v-if="getIsFetchedMissions"
-                    class="lc-container-header-button-wrapper lc-mobile-hide">
+                    class="lc-container-header-button-wrapper lc-mobile-hide"
+                  >
                     <refresh-button
                       :is-refreshing="getIsFetchingMissions"
-                      @click="refreshMissions" />
+                      @click="refreshMissions"
+                    />
                   </div>
                 </div>
                 <md-button
                   class="md-likecoin lc-container-header-button"
-                  @click="$router.push({ name: 'in-bonus' })">
+                  @click="$router.push({ name: 'in-bonus' })"
+                >
                   {{ $t('BonusPage.button.moreBonus') }}
                 </md-button>
               </div>
@@ -39,7 +45,8 @@
               :missions="getShortMissionList"
               :is-grid="false"
               :is-loading="getIsFetchingMissions || !getIsFetchedMissions"
-              @click="onMissionClick"/>
+              @click="onMissionClick"
+            />
           </div>
 
           <div class="lc-container-3 lc-padding-top-24 lc-padding-bottom-32 lc-bg-gray-1">
@@ -47,7 +54,8 @@
               <div class="section-btn-container bonus-button-container">
                 <md-button
                   class="section-button md-likecoin"
-                  @click="$router.push({ name: 'in-bonus' })">
+                  @click="$router.push({ name: 'in-bonus' })"
+                >
                   {{ $t('BonusPage.button.moreBonus') }}
                 </md-button>
               </div>
@@ -58,7 +66,10 @@
       </section>
     </div>
 
-    <div id="coupon" class="lc-container-0 lc-margin-top-48 lc-mobile">
+    <div
+      id="coupon"
+      class="lc-container-0 lc-margin-top-48 lc-mobile"
+    >
       <section class="lc-container-1">
 
         <div class="lc-container-header">
@@ -81,24 +92,29 @@
         <div class="lc-container-2">
           <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-32">
             <div class="lc-container-4">
-              <form id="redeemForm" v-on:submit.prevent="onSubmitCoupon">
+              <form
+                id="redeemForm"
+                @submit.prevent="onSubmitCoupon"
+              >
                 <md-field>
                   <label class="input-redeem-hint lc-font-size-20">
                     {{ $t('Edit.label.redeemCode') }}
                   </label>
                   <md-input
-                    pattern="[2-9A-HJ-NP-Za-km-z]{8}"
                     v-model="couponCode"
                     :title="$t('Edit.label.validCodeRequired')"
-                    required />
+                    pattern="[2-9A-HJ-NP-Za-km-z]{8}"
+                    required
+                  />
                 </md-field>
                 <div class="section-btn-container lc-padding-top-48 lc-mobile">
                   <md-button
-                    class="section-button md-likecoin"
                     id="confirm-btn"
+                    :disabled="getIsInTransaction"
+                    class="section-button md-likecoin"
                     type="submit"
                     form="redeemForm"
-                    :disabled="getIsInTransaction">
+                  >
                     {{ $t('General.button.confirm') }}
                   </md-button>
                 </div>
@@ -110,15 +126,17 @@
       <claim-dialog
         ref="claimDialog"
         :couponCode="couponCode"
-        :wallet="wallet" />
+        :wallet="wallet"
+      />
     </div>
 
     <transaction-history
-      ref="txHistory"
       id="transaction"
-      class="lc-margin-top-48 lc-mobile"
+      ref="txHistory"
       :address="wallet"
-      :is-fetching.sync="isFetchingTranscationHistory" />
+      :is-fetching.sync="isFetchingTranscationHistory"
+      class="lc-margin-top-48 lc-mobile"
+    />
 
     <div class="lc-container-0 lc-margin-top-24 lc-mobile-show">
       <div class="lc-container-1">
@@ -127,7 +145,8 @@
             <refresh-button
               :is-refreshing="getIsFetchingMissions || isFetchingTranscationHistory"
               :is-outline="true"
-              @click="updateInfo" />
+              @click="updateInfo"
+            />
           </div>
         </div>
       </div>
@@ -158,6 +177,16 @@ import TickIcon from '@/assets/tokensale/tick.svg';
 export default {
   name: 'in',
   layout: 'in',
+  components: {
+    ClaimDialog,
+    InputDialog,
+    LikeCoinAmount,
+    MaterialButton,
+    MissionList,
+    TransactionHistory,
+    RefreshButton,
+    ViewEtherscan,
+  },
   data() {
     return {
       couponCode: '',
@@ -168,16 +197,6 @@ export default {
       freeCoupon: '',
       isFetchingTranscationHistory: false,
     };
-  },
-  components: {
-    ClaimDialog,
-    InputDialog,
-    LikeCoinAmount,
-    MaterialButton,
-    MissionList,
-    TransactionHistory,
-    RefreshButton,
-    ViewEtherscan,
   },
   computed: {
     ...mapGetters([

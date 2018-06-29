@@ -18,16 +18,26 @@
                 <span v-if="hasReferrer">
                   {{ $t('Verify.label.referral') }},
                 </span>
-                <nuxt-link v-if="redirect" :to="{ name: redirect }">
+                <nuxt-link
+                  v-if="redirect"
+                  :to="{ name: redirect }"
+                >
                   {{ $t('Verify.label.redirect') }}
                 </nuxt-link>
-                <nuxt-link v-else :to="{ name: 'in', hash: '#earn' }">
+                <nuxt-link
+                  v-else
+                  :to="{ name: 'in', hash: '#earn' }"
+                >
                   {{ $t('Verify.label.toEdit') }}
                 </nuxt-link>
                 ...
               </span>
               <span v-else>{{ $t('Verify.label.verifying') }}</span>
-              <claim-dialog ref="claimDialog" :couponCode="couponCode" :wallet="wallet" />
+              <claim-dialog
+                ref="claimDialog"
+                :couponCode="couponCode"
+                :wallet="wallet"
+              />
             </div>
           </div>
         </div>
@@ -42,7 +52,10 @@ import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
-  name: 'VerifyEmail',
+  name: 'verify-email',
+  components: {
+    ClaimDialog,
+  },
   data() {
     return {
       errorMsg: '',
@@ -51,9 +64,6 @@ export default {
       hasReferrer: false,
       redirectTimer: null,
     };
-  },
-  components: {
-    ClaimDialog,
   },
   computed: {
     uuid() {

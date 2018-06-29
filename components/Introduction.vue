@@ -1,10 +1,14 @@
 <template>
-  <section id="intro" class="lc-padding-vertical-32 lc-mobile">
+  <section
+    id="intro"
+    class="lc-padding-vertical-32 lc-mobile"
+  >
     <div class="icon">
       <img
+        :src="icon || likeCoinIcon"
         alt="like-coin"
         class="main-icon"
-        :src="icon || likeCoinIcon" />
+      >
     </div>
     <div class="title">
       <h1 class="lc-font-size-42">

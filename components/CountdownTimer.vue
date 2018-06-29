@@ -37,17 +37,6 @@ export default {
       second: 0,
     };
   },
-  methods: {
-    countdown() {
-      if (this.date) {
-        const difference = new Date(Math.abs(this.date - Date.now()));
-        this.day = Math.floor(difference.getTime() / 86400000);
-        this.hour = difference.getUTCHours();
-        this.minute = difference.getUTCMinutes();
-        this.second = difference.getUTCSeconds();
-      }
-    },
-  },
   created() {
     this.countdown();
   },
@@ -59,6 +48,17 @@ export default {
       clearInterval(this.timer);
       this.timer = undefined;
     }
+  },
+  methods: {
+    countdown() {
+      if (this.date) {
+        const difference = new Date(Math.abs(this.date - Date.now()));
+        this.day = Math.floor(difference.getTime() / 86400000);
+        this.hour = difference.getUTCHours();
+        this.minute = difference.getUTCMinutes();
+        this.second = difference.getUTCSeconds();
+      }
+    },
   },
 };
 </script>

@@ -4,11 +4,14 @@
       <div>{{ content || $t('Register.header.content') }}</div>
     </div>
     <div class="links">
-      <div v-if="showButton" class="link what">
+      <div
+        v-if="showButton"
+        class="link what"
+      >
         <a
-         href="https://likecoin.foundation/#/"
-         target="_blank"
-         rel="noopener noreferrer"
+          href="https://likecoin.foundation/#/"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           {{ $t('Register.header.button.what') }}
         </a>

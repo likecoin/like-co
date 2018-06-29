@@ -1,6 +1,10 @@
 <template>
   <div class="lc-flag">
-    <img class="logo" alt="LikeCoin" :src="likeCoinIcon" />
+    <img
+      :src="likeCoinIcon"
+      class="logo"
+      alt="LikeCoin"
+    >
     <div class="content">
       <h1 class="lc-font-size-38 lc-font-weight-300 lc-margin-top-16">
         {{ $t('Home.Flag.title') }}

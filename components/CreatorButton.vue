@@ -1,11 +1,13 @@
 <template>
   <div
-    :class="['lc-creator-button', 'cta', className]">
+    :class="['lc-creator-button', 'cta', className]"
+  >
     <nuxt-link
-      :to="{ name: 'id', params: { id } }">
+      :to="{ name: 'id', params: { id } }"
+    >
       <div class="creator-info">
         <div class="icon">
-          <img v-lazy="src" />
+          <img v-lazy="src">
         </div>
         <div class="details">
           <div class="name">{{ id }}</div>

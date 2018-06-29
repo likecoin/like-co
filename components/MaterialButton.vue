@@ -1,9 +1,10 @@
 <template>
   <md-button
     :class="[className, classObject]"
-    @click="handleClick"
     :type="type"
-    :form="form">
+    :form="form"
+    @click="handleClick"
+  >
     <slot />
   </md-button>
 </template>

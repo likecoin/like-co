@@ -11,7 +11,7 @@
           <div class="lc-container-1">
             <div class="underlay gray lc-mobile-hide" />
             <div class="lc-container-2">
-              <site-header/>
+              <site-header />
             </div>
           </div>
         </div>
@@ -30,10 +30,14 @@
         <div class="lc-container-1">
           <div class="underlay gray" />
           <md-tabs
+            :md-active-tab="$route.name"
             class="lc-tabs lc-container-2 lc-width-2-3 md-transparent"
-            :md-active-tab="$route.name">
+          >
 
-            <template slot="md-tab"  slot-scope="{ tab }">
+            <template
+              slot="md-tab"
+              slot-scope="{ tab }"
+            >
               <span :class="['lc-tab-item-label', { new: tab.data.isNew }]">
                 {{ tab.label }}
               </span>
@@ -42,29 +46,32 @@
             <md-tab
               id="in"
               :md-label="$t('In.tab.overview')"
-              to="/in" />
+              to="/in"
+            />
             <md-tab
               id="in-bonus"
               :md-label="$t('In.tab.bonus')"
               :md-template-data="{ isNew: hasNewInvitee }"
-              to="/in/bonus" />
+              to="/in/bonus"
+            />
             <md-tab
               id="in-bonus-history"
               :md-label="$t('In.tab.history')"
-              to="/in/bonus/history" />
+              to="/in/bonus/history"
+            />
 
           </md-tabs>
         </div>
         <!-- END - Tab bar section -->
 
         <div class="tab-wrapper">
-          <nuxt/>
+          <nuxt />
         </div>
       </div>
 
       <footer class="lc-page-footer">
         <div class="lc-container-0">
-          <my-footer/>
+          <my-footer />
         </div>
       </footer>
 

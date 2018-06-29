@@ -1,7 +1,7 @@
 <template>
   <simple-svg
-    class="mission-icon"
     :filepath="src"
+    class="mission-icon"
     fill="currentColor"
   />
 </template>

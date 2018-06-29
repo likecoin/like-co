@@ -1,10 +1,13 @@
 <template>
-  <div id="view-etherscan" class="lc-padding-vertical-32">
+  <div
+    id="view-etherscan"
+    class="lc-padding-vertical-32"
+  >
     <a
-     class="view-url lc-font-weight-300 lc-font-size-16 lc-color-like-green"
-     :href="getUrl"
-     target="_blank"
-     rel="noopener noreferrer"
+      :href="getUrl"
+      class="view-url lc-font-weight-300 lc-font-size-16 lc-color-like-green"
+      target="_blank"
+      rel="noopener noreferrer"
     >
       {{ text || $t('Toolbar.etherscan.button.view') }}
     </a>

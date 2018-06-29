@@ -1,5 +1,8 @@
 <template>
-  <section class="lc-container-0 lc-likecoin-stack" id="tech">
+  <section
+    id="tech"
+    class="lc-container-0 lc-likecoin-stack"
+  >
     <div class="lc-container-1">
 
       <div class="lc-container-header">
@@ -36,22 +39,25 @@
 
               <div class="likecoin-stack">
                 <div
-                  :class="`layer layer-${i + 1}`"
                   v-for="(layer, i) in layers"
-                  :key="i">
+                  :class="`layer layer-${i + 1}`"
+                  :key="i"
+                >
 
                   <div
+                    :style="`z-index: ${4 - i}`"
                     class="title"
-                    :style="`z-index: ${4 - i}`">
-                    <img :src="imgUrl(`layer-${i + 1}.png`)" />
-                    <span>{{ $t(`Home.Stack.layer.${layer.key}.title`)}}</span>
+                  >
+                    <img :src="imgUrl(`layer-${i + 1}.png`)">
+                    <span>{{ $t(`Home.Stack.layer.${layer.key}.title`) }}</span>
                   </div>
 
                   <div class="examples-container">
                     <div class="examples">
                       <div
                         v-for="(example, j) in layer.examples"
-                        :key="j">
+                        :key="j"
+                      >
                         {{ $t(`Home.Stack.layer.${layer.key}.example.${example}`) }}
                       </div>
                     </div>
@@ -68,25 +74,28 @@
 
           <div class="likecoin-stack-mobile">
             <div
-              :class="`layer layer-${i + 1}`"
               v-for="(layer, i) in layers"
-              :key="i">
+              :class="`layer layer-${i + 1}`"
+              :key="i"
+            >
 
               <div class="title">
-                <span>{{ $t(`Home.Stack.layer.${layer.key}.title`)}}</span>
+                <span>{{ $t(`Home.Stack.layer.${layer.key}.title`) }}</span>
               </div>
 
               <div
+                :style="`z-index: ${4 - i}`"
                 class="examples-container"
-                :style="`z-index: ${4 - i}`">
+              >
                 <div class="examples">
 
-                  <img :src="imgUrl(`layer-${i + 1}.png`)" />
+                  <img :src="imgUrl(`layer-${i + 1}.png`)">
 
                   <ul>
                     <li
                       v-for="(example, j) in layer.examples"
-                      :key="j">
+                      :key="j"
+                    >
                       {{ $t(`Home.Stack.layer.${layer.key}.example.${example}`) }}
                     </li>
                   </ul>

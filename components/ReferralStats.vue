@@ -5,7 +5,7 @@
       <span class="referral-stat-value">
         {{ pending }}
       </span>
-      <hr />
+      <hr>
       <span class="referral-stat-label">
         {{ $t('Edit.referral.pending') }}
       </span>
@@ -15,9 +15,9 @@
       <span class="referral-stat-value verified">
         {{ verified }}
       </span>
-      <hr />
+      <hr>
       <span class="referral-stat-label verified">
-        <img :src="TickIcon" />
+        <img :src="TickIcon">
         {{ $t('Edit.referral.verified') }}
       </span>
     </div>

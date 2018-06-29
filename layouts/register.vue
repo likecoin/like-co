@@ -11,7 +11,7 @@
           <div class="lc-container-1">
             <div class="underlay lc-mobile-hide" />
             <div class="lc-container-2">
-              <site-header/>
+              <site-header />
             </div>
           </div>
         </div>
@@ -25,9 +25,9 @@
               <div class="upper-left-corner lc-mobile-hide" />
               <div class="lc-container-2 lc-padding-top-32-mobile">
                 <Description
-                  class="lc-mobile-hide"
                   :content="getDesc"
                   :showButton="false"
+                  class="lc-mobile-hide"
                 />
               </div>
             </div>
@@ -66,7 +66,7 @@
 
       <footer class="lc-page-footer">
         <div class="lc-container-0">
-          <my-footer/>
+          <my-footer />
         </div>
       </footer>
 
@@ -87,17 +87,17 @@ import Description from '~/components/Description';
 
 
 export default {
-  data() {
-    return {
-      title: 'Register.label.registerRedeem',
-    };
-  },
   components: {
     ToolBars,
     MyFooter,
     SiteHeader,
     SlidingMenu,
     Description,
+  },
+  data() {
+    return {
+      title: 'Register.label.registerRedeem',
+    };
   },
   computed: {
     ...mapGetters([

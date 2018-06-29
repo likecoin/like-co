@@ -1,14 +1,15 @@
 <template>
   <single-input-form
     ref="form"
-    type="email"
-    autocomplete="email"
     :pattern="W3C_EMAIL_REGEX"
     :text="email"
     :label="label"
     :errorText="getInfoIsError ? getInfoMsg : ''"
+    type="email"
+    autocomplete="email"
     @cancel="onCancel"
-    @submit="onSubmit"/>
+    @submit="onSubmit"
+  />
 </template>
 
 
@@ -23,6 +24,9 @@ import { W3C_EMAIL_REGEX } from '@/constant';
 
 export default {
   name: 'verify-email-form',
+  components: {
+    SingleInputForm,
+  },
   props: {
     formId: {
       type: String,
@@ -38,9 +42,6 @@ export default {
     emailRef: {
       default: '',
     },
-  },
-  components: {
-    SingleInputForm,
   },
   data() {
     return {

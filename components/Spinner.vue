@@ -1,5 +1,9 @@
 <template>
-  <img class="lc-spinner" :src="LikeCoinSpin" :style="style" />
+  <img
+    :src="LikeCoinSpin"
+    :style="style"
+    class="lc-spinner"
+  >
 </template>
 
 

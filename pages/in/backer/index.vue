@@ -36,11 +36,12 @@
           <div class="lc-container-3 lc-bg-gray-1">
             <div
               class="lc-container-4 lc-padding-vertical-32 lc-text-align-center"
-              v-html="$t('BackerPage.label.description')" />
+              v-html="$t('BackerPage.label.description')"
+            />
           </div>
         </div>
 
-    <!--     <div class="lc-container-2">
+        <!--     <div class="lc-container-2">
           <div class="lc-container-3 lc-bg-transparent">
             <div class="lc-container-4 lc-padding-top-16 lc-text-align-center">
               <nuxt-link
@@ -74,7 +75,7 @@
         <div class="lc-container-2">
           <div class="lc-container-3 lc-bg-gray-1">
             <div class="lc-container-4 lc-padding-vertical-32">
-              <checkout-form @emailNotVerified="onNeedEmailVerify"/>
+              <checkout-form @emailNotVerified="onNeedEmailVerify" />
             </div>
           </div>
         </div>
@@ -86,8 +87,9 @@
 
     <verify-email-dialog
       ref="emailDialog"
-      :email="this.getUserInfo.email"
-      :email-ref="'in-backer'" />
+      :email="getUserInfo.email"
+      :email-ref="'in-backer'"
+    />
 
   </div>
 </template>

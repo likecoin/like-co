@@ -1,26 +1,31 @@
 <template>
   <md-dialog
-    class="metamask-dialog"
     :md-active.sync="!!this.case"
     :md-close-on-esc="false"
     :md-click-outside-to-close="false"
-    :md-fullscreen="false">
+    :md-fullscreen="false"
+    class="metamask-dialog"
+  >
 
-    <img class="foxy" :src="icon" />
+    <img
+      :src="icon"
+      class="foxy"
+    >
 
     <div class="title-bar">
       <div class="left">
         <md-button
           v-if="shouldShowReturnButton"
           class="md-icon-button md-dense"
-          @click="handleReturnButtonClick">
+          @click="handleReturnButtonClick"
+        >
           <simple-svg
             :filepath="ArrowIcon"
             width="18px"
             height="18px"
             fill="white"
             stroke="transparent"
-            />
+          />
         </md-button>
       </div>
       <div class="right">
@@ -37,11 +42,21 @@
         <span v-html="content" />
       </md-dialog-content>
 
-      <img v-if="image" :src="image" />
+      <img
+        v-if="image"
+        :src="image"
+      >
 
       <section v-if="isInstallMetamask">
-        <a href="https://metamask.io/" target="_blank" rel="noopener">
-          <material-button class="primary" @click="onInstallClick">
+        <a
+          href="https://metamask.io/"
+          target="_blank"
+          rel="noopener"
+        >
+          <material-button
+            class="primary"
+            @click="onInstallClick"
+          >
             {{ $t('Dialog.metamask.button.install') }}
           </material-button>
         </a>
@@ -50,16 +65,22 @@
         </material-button>
       </section>
 
-      <section v-if="isNotSign" class="lc-font-size-12 lc-margin-top-8">
+      <section
+        v-if="isNotSign"
+        class="lc-font-size-12 lc-margin-top-8"
+      >
         <!-- Only support ledger for now -->
-<!--    <div v-if="isHardware">
+        <!--    <div v-if="isHardware">
         </div>
         <a href="#" v-else @click.prevent="isHardware=true">
           {{ $t('Dialog.metamask.label.hardwareWallet') }}
         </a>
       -->
         <div v-if="isMetamask">
-          <a href="#" @click.prevent="onLedger">{{ $t('Dialog.metamask.label.ledger') }}</a>
+          <a
+            href="#"
+            @click.prevent="onLedger"
+          >{{ $t('Dialog.metamask.label.ledger') }}</a>
         </div>
         <div v-else>
           <material-button @click="onCancel">
@@ -88,12 +109,12 @@ import metamaskTestNetImg from '@/assets/img/meta_testnet.png';
 import metamaskUnlockImg from '@/assets/img/meta_unlock.png';
 
 export default {
-  name: 'MetamaskDialog',
-  props: ['case', 'webThreeType'],
+  name: 'metamask-dialog',
   components: {
     LanguageSwitch,
     MaterialButton,
   },
+  props: ['case', 'webThreeType'],
   data() {
     return {
       ArrowIcon,

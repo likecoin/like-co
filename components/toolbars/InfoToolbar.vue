@@ -1,5 +1,8 @@
 <template>
-  <md-toolbar class="md-layout" md-elevation="0">
+  <md-toolbar
+    class="md-layout"
+    md-elevation="0"
+  >
     <md-icon v-if="isError">error</md-icon>
     <md-icon v-else>check</md-icon>
 
@@ -12,7 +15,8 @@
 
     <md-button
       class="md-icon-button"
-      @click="$emit('onClose')">
+      @click="$emit('onClose')"
+    >
       <md-icon>close</md-icon>
     </md-button>
   </md-toolbar>
@@ -20,7 +24,7 @@
 
 <script>
 export default {
-  name: 'InfoToolbar',
+  name: 'info-toolbar',
   props: ['message', 'isError'],
 };
 </script>

@@ -21,9 +21,10 @@
               <ul>
                 <li>
                   <md-switch
-                    class="md-primary"
                     v-model="isEmailEnabled"
-                    :disabled="disabled" />
+                    :disabled="disabled"
+                    class="md-primary"
+                  />
                   <div class="description">
                     {{ $t('Register.form.enableEmail') }}
                   </div>
@@ -32,9 +33,10 @@
 
               <div class="confirm-button-wrapper">
                 <md-button
-                  class="md-likecoin"
                   :disabled="!hasChanged || disabled"
-                  @click="confirmChanges">
+                  class="md-likecoin"
+                  @click="confirmChanges"
+                >
                   {{ $t('General.button.confirm') }}
                 </md-button>
               </div>
@@ -52,10 +54,20 @@
           </div>
 
           <div class="lc-container-3">
-            <i18n tag="p" path="Settings.label.contactUs" class="contact-us">
-              <a place="deleteAccount" @click="deleteAccount">
+            <i18n
+              tag="p"
+              path="Settings.label.contactUs"
+              class="contact-us"
+            >
+              <a
+                place="deleteAccount"
+                @click="deleteAccount"
+              >
                 {{ $t('Settings.button.deleteAccount') }}</a>
-              <a place="requestReport" @click="requestReport">
+              <a
+                place="requestReport"
+                @click="requestReport"
+              >
                 {{ $t('Settings.button.requestReport') }}</a>
             </i18n>
           </div>

@@ -5,10 +5,12 @@
       ref="inputText"
       :value="text"
       readonly
-      @click.native="onClickInput" />
+      @click.native="onClickInput"
+    />
     <md-button
       v-clipboard:copy="text"
-      v-clipboard:success="onCopy">
+      v-clipboard:success="onCopy"
+    >
       {{ $t(`General.button.${hasCopiedURL ? 'copied' : 'copy'}`) }}
     </md-button>
   </md-field>

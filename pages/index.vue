@@ -75,10 +75,11 @@
               </div>
               <div class="faq">
                 <a
-                  class="lc-color-like-green lc-underline lc-font-size-20"
-                  :href="$t('Home.Community.button.faqLink')"
                   ref="noopener"
-                  target="_blank">
+                  :href="$t('Home.Community.button.faqLink')"
+                  class="lc-color-like-green lc-underline lc-font-size-20"
+                  target="_blank"
+                >
                   {{ $t('Home.Community.button.faq') }}
                 </a>
               </div>

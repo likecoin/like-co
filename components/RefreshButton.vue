@@ -7,17 +7,20 @@
         refreshing: isRefreshing,
       },
     ]"
-    :style="{ color }">
+    :style="{ color }"
+  >
     <md-button
-      class="md-icon-button"
       :disabled="isRefreshing"
-      @click="$emit('click')">
+      class="md-icon-button"
+      @click="$emit('click')"
+    >
       <simple-svg
         :filepath="RefreshIcon"
+        :fill="color"
         width="32px"
         height="32px"
-        :fill="color"
-        stroke="transparent" />
+        stroke="transparent"
+      />
     </md-button>
   </div>
 </template>

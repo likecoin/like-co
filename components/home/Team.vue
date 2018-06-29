@@ -1,5 +1,8 @@
 <template>
-  <section class="lc-container-0 lc-team" id="team">
+  <section
+    id="team"
+    class="lc-container-0 lc-team"
+  >
     <div class="lc-container-1">
 
       <!-- Section Title -->

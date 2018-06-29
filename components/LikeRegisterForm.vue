@@ -1,13 +1,25 @@
 <template>
   <div class="inner-container">
-    <form id="registerForm" v-on:submit.prevent="onSubmit">
+    <form
+      id="registerForm"
+      @submit.prevent="onSubmit"
+    >
       <div class="md-layout">
         <div class="icon">
-          <img v-if="avatarData" class="avatar" :src="avatarData" />
+          <img
+            v-if="avatarData"
+            :src="avatarData"
+            class="avatar"
+          >
           <md-button @click="openPicker">
             <md-icon class="md-size-2x">file_upload</md-icon>
           </md-button>
-          <input type="file" ref="inputFile" accept="image/*" @change="previewImage" />
+          <input
+            ref="inputFile"
+            type="file"
+            accept="image/*"
+            @change="previewImage"
+          >
         </div>
         <div class="md-layout md-layout-item">
           <div class="md-layout-item">
@@ -18,15 +30,17 @@
                 {
                   'md-invalid': getInfoMsg === 'USER_ALREADY_EXIST',
                 },
-              ]">
+              ]"
+            >
               <label>{{ $t('Register.form.createID') }}</label>
               <md-input
                 v-model="user"
                 :pattern="USER_ID_REGEX"
-                @change="user=user.toLowerCase().trim()"
                 :title="$t('Register.form.error.alphanumeric')"
                 v-bind="getTestAttribute('userId')"
-                required />
+                required
+                @change="user=user.toLowerCase().trim()"
+              />
               <span class="md-error">{{ $t(`Error.${getInfoMsg}`) }}</span>
             </md-field>
 
@@ -36,10 +50,19 @@
                 'lc-margin-bottom-24',
                 'lc-mobile',
                 { 'md-invalid': isBadAddress }
-              ]">
+              ]"
+            >
               <label>{{ $t('Register.form.walletAddress') }}</label>
-              <md-input v-model="wallet" maxlength="42" required disabled />
-              <span v-if="isBadAddress" class="md-error">
+              <md-input
+                v-model="wallet"
+                maxlength="42"
+                required
+                disabled
+              />
+              <span
+                v-if="isBadAddress"
+                class="md-error"
+              >
                 {{ $t('Register.form.error.addressFormat') }}
               </span>
             </md-field>
@@ -50,15 +73,16 @@
                 {
                   'md-invalid': getInfoMsg === 'EMAIL_ALREADY_USED',
                 },
-              ]">
+              ]"
+            >
               <label>{{ $t('Register.form.email') }}</label>
               <md-input
                 :pattern="W3C_EMAIL_REGEX"
                 v-model="email"
-                @change="email=email.toLowerCase().trim()"
                 :title="$t('Register.form.error.emailFormat')"
                 v-bind="getTestAttribute('email')"
                 required
+                @change="email=email.toLowerCase().trim()"
               />
               <span class="md-error">{{ $t(`Error.${getInfoMsg}`) }}</span>
             </md-field>
@@ -69,31 +93,45 @@
                 {
                   'md-invalid': getInfoMsg === 'REFERRER_NOT_EXIST',
                 },
-              ]">
+              ]"
+            >
               <label>{{ $t('Register.form.referrer') }}</label>
-              <md-input v-model="referrer" @change="referrer=referrer.toLowerCase().trim()" />
+              <md-input
+                v-model="referrer"
+                @change="referrer=referrer.toLowerCase().trim()"
+              />
               <span class="md-error">{{ $t(`Error.${getInfoMsg}`) }}</span>
             </md-field>
 
-            <md-field class="lc-margin-top-12 lc-margin-bottom-24 lc-mobile" v-if="isRedeem">
+            <md-field
+              v-if="isRedeem"
+              class="lc-margin-top-12 lc-margin-bottom-24 lc-mobile"
+            >
               <label>
                 {{ $t('Register.form.couponCode') }}
               </label>
-              <md-input v-model="couponCode" pattern="[2-9A-HJ-NP-Za-km-z]{8}" />
+              <md-input
+                v-model="couponCode"
+                pattern="[2-9A-HJ-NP-Za-km-z]{8}"
+              />
             </md-field>
 
             <div class="check-box-list">
-              <md-checkbox class="md-likecoin" v-model="isEmailEnabled">
+              <md-checkbox
+                v-model="isEmailEnabled"
+                class="md-likecoin"
+              >
                 {{ $t('Register.form.enableEmail') }}
               </md-checkbox>
               <div class="term-agreement">
                 <md-checkbox
+                  v-model="isTermsAgreed"
                   class="md-likecoin"
-                  v-model="isTermsAgreed" />
+                />
                 <i18n
+                  v-bind="getTestAttribute('agreeTerms')"
                   path="Register.form.agreeTerms"
                   tag="label"
-                  v-bind="getTestAttribute('agreeTerms')"
                   @click="selectAgreeTerms"
                 >
                   <a
@@ -110,31 +148,40 @@
 
             <vue-recaptcha
               class="lc-margin-top-32"
+              sitekey="6LfQqlgUAAAAADGckz6BtIuD_sU6cJhWDJ__OBx7"
               @verify="onCaptchaVerify"
               @expired="onCaptchaExpired"
-              sitekey="6LfQqlgUAAAAADGckz6BtIuD_sU6cJhWDJ__OBx7">
-            </vue-recaptcha>
+            />
 
           </div>
         </div>
       </div>
-      <div id="form-btn" class="lc-margin-top-16 lc-mobile">
+      <div
+        id="form-btn"
+        class="lc-margin-top-16 lc-mobile"
+      >
         <material-button
           id="confirm-btn"
+          :disabled="getIsPopupBlocking || !isFormValid"
           type="submit"
           form="registerForm"
-          :disabled="getIsPopupBlocking || !isFormValid">
+        >
           {{ $t('General.button.confirm') }}
         </material-button>
       </div>
     </form>
 
-    <claim-dialog ref="claimDialog" :couponCode="couponCode" :wallet="wallet" />
+    <claim-dialog
+      ref="claimDialog"
+      :couponCode="couponCode"
+      :wallet="wallet"
+    />
 
     <referrer-dialog
       :is-show.sync="shouldShowReferrerDialog"
       :referrer-id="referrer"
-      v-bind="referrerInfo" />
+      v-bind="referrerInfo"
+    />
 
   </div>
 </template>
@@ -156,7 +203,13 @@ import { ETHERSCAN_HOST, W3C_EMAIL_REGEX, IS_TESTNET } from '@/constant';
 
 const USER_ID_REGEX = '[a-z0-9-_]{7,20}';
 export default {
-  name: 'LikeRegisterForm',
+  name: 'like-register-form',
+  components: {
+    ClaimDialog,
+    ReferrerDialog,
+    MaterialButton,
+    VueRecaptcha,
+  },
   props: ['isRedeem'],
   data() {
     return {
@@ -180,12 +233,6 @@ export default {
       IS_TESTNET,
       shouldShowReferrerDialog: false,
     };
-  },
-  components: {
-    ClaimDialog,
-    ReferrerDialog,
-    MaterialButton,
-    VueRecaptcha,
   },
   computed: {
     ...mapGetters([
@@ -304,6 +351,16 @@ export default {
       }
     },
   },
+  watch: {
+    getLocalWallet(w) {
+      if (w) {
+        this.setMyLikeCoin(w);
+      }
+    },
+    shouldShowReferrerDialog(isShow) {
+      this.setErrorDisabled(isShow);
+    },
+  },
   mounted() {
     if (this.referrer) {
       this.fetchReferrerInfo();
@@ -315,16 +372,6 @@ export default {
     if (localWallet) {
       this.setMyLikeCoin(localWallet);
     }
-  },
-  watch: {
-    getLocalWallet(w) {
-      if (w) {
-        this.setMyLikeCoin(w);
-      }
-    },
-    shouldShowReferrerDialog(isShow) {
-      this.setErrorDisabled(isShow);
-    },
   },
 };
 

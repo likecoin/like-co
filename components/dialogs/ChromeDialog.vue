@@ -3,9 +3,13 @@
     :md-active.sync="show"
     :md-close-on-esc="false"
     :md-click-outside-to-close="false"
-    :md-fullscreen="false">
+    :md-fullscreen="false"
+  >
 
-    <img class="foxy" :src="icon" />
+    <img
+      :src="icon"
+      class="foxy"
+    >
     <div class="title-bar" />
 
     <div class="dialog-content">
@@ -17,7 +21,11 @@
         <div v-html="$t('Dialog.chrome.content')" />
       </md-dialog-content>
 
-      <a href="https://www.google.com/chrome/browser/desktop/index.html" target="_blank" rel="noopener">
+      <a
+        href="https://www.google.com/chrome/browser/desktop/index.html"
+        target="_blank"
+        rel="noopener"
+      >
         <material-button class="md-primary md-raised">
           {{ $t('Dialog.chrome.button.install') }}
         </material-button>
@@ -33,11 +41,11 @@ import MaterialButton from '@/components/MaterialButton';
 import chromeIcon from '@/assets/icons/chrome.png';
 
 export default {
-  name: 'ChromeDialog',
-  props: ['show'],
+  name: 'chrome-dialog',
   components: {
     MaterialButton,
   },
+  props: ['show'],
   data() {
     return {
       icon: chromeIcon,

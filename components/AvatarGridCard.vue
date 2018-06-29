@@ -2,30 +2,47 @@
   <div class="avatar-grid-card">
     <div>
 
-      <img v-lazy="avatar" />
+      <img v-lazy="avatar">
       <h1>{{ title }}</h1>
       <h2>{{ subtitle }}</h2>
-      <p class="description" v-html="description" />
+      <p
+        class="description"
+        v-html="description"
+      />
 
-      <div class="platforms" v-if="platforms">
-        <div class="platform" v-for="{ key, to, isInternal } in platforms" :key="key">
+      <div
+        v-if="platforms"
+        class="platforms"
+      >
+        <div
+          v-for="{ key, to, isInternal } in platforms"
+          :key="key"
+          class="platform"
+        >
 
           <nuxt-link
             v-if="isInternal"
-            :to="to">
+            :to="to"
+          >
             <md-button class="md-icon-button">
-              <img :alt="key" :src="imgUrl(`icons/${key}-dark.svg`)" />
+              <img
+                :alt="key"
+                :src="imgUrl(`icons/${key}-dark.svg`)"
+              >
             </md-button>
           </nuxt-link>
 
           <md-button
             v-else
+            :href="to"
             class="md-icon-button"
             rel="noopener noreferrer"
             target="_blank"
-            :href="to"
           >
-            <img :alt="key" :src="imgUrl(`icons/${key}-dark.svg`)" />
+            <img
+              :alt="key"
+              :src="imgUrl(`icons/${key}-dark.svg`)"
+            >
           </md-button>
 
         </div>

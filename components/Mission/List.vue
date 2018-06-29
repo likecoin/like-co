@@ -8,7 +8,8 @@
         loading: isLoading,
         swippable: isSwippable,
       },
-    ]">
+    ]"
+  >
     <div>
 
       <header v-if="!isSwippable">
@@ -25,30 +26,44 @@
             'overflow-right': canScrollRight,
             'lc-mobile-hide': isSwippable,
           },
-        ]">
-        <ul ref="list" @scroll="onLayout">
+        ]"
+      >
+        <ul
+          ref="list"
+          @scroll="onLayout"
+        >
 
           <li
             v-if="isEmptyList && !isLoading"
-            class="item-placeholder empty">
-            <mission-item-placeholder :layout="layout" :animated="false" />
+            class="item-placeholder empty"
+          >
+            <mission-item-placeholder
+              :layout="layout"
+              :animated="false"
+            />
             <span>{{ emptyPlaceholder }}</span>
           </li>
 
           <li
-            v-else-if="isLoading"
             v-for="p in NUM_PLACEHOLDERS"
+            v-else-if="isLoading"
+            :key="`placeholder-${p}`"
             class="item-placeholder"
-            :key="`placeholder-${p}`">
-            <mission-item-placeholder :layout="layout"/>
+          >
+            <mission-item-placeholder :layout="layout" />
           </li>
 
-          <li v-for="m in missions" v-if="!isLoading" :key="m.id">
+          <li
+            v-for="m in missions"
+            v-if="!isLoading"
+            :key="m.id"
+          >
             <mission-item
               :layout="layout"
               :mission="m"
               :is-referral="isReferral"
-              @click="onClick(m)" />
+              @click="onClick(m)"
+            />
           </li>
 
         </ul>
@@ -56,35 +71,45 @@
 
       <swiper
         v-if="isSwippable"
-        class="lc-mobile-show"
         :is-loading="isLoading"
-        :is-show-pagination="this.missions.length > 1"
-        @click="onClickSlide">
+        :is-show-pagination="missions.length > 1"
+        class="lc-mobile-show"
+        @click="onClickSlide"
+      >
 
         <div
           v-for="p in NUM_PLACEHOLDERS"
           v-if="isLoading"
           :key="`placeholder-${p}`"
-          class="swiper-slide">
+          class="swiper-slide"
+        >
           <mission-item-placeholder layout="large" />
         </div>
 
-        <div v-if="isEmptyList && !isLoading" class="swiper-slide">
+        <div
+          v-if="isEmptyList && !isLoading"
+          class="swiper-slide"
+        >
           <div class="item-placeholder empty">
-            <mission-item-placeholder layout="large" :animated="false" />
+            <mission-item-placeholder
+              :animated="false"
+              layout="large"
+            />
             <span>{{ emptyPlaceholder }}</span>
           </div>
         </div>
 
         <div
-          v-if="!isLoading"
           v-for="m in missions"
+          v-if="!isLoading"
           :key="m.id"
-          class="swiper-slide">
+          class="swiper-slide"
+        >
           <mission-item
-            layout="large"
             :mission="m"
-            :is-referral="isReferral" />
+            :is-referral="isReferral"
+            layout="large"
+          />
         </div>
 
       </swiper>
@@ -103,6 +128,11 @@ import Swiper from './Swiper';
 
 export default {
   name: 'mission-list',
+  components: {
+    MissionItem,
+    MissionItemPlaceholder,
+    Swiper,
+  },
   props: {
     layout: {
       type: String,
@@ -142,11 +172,6 @@ export default {
       type: String,
       default: '',
     },
-  },
-  components: {
-    MissionItem,
-    MissionItemPlaceholder,
-    Swiper,
   },
   data() {
     return {
