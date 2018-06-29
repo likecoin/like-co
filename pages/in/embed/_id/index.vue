@@ -1,61 +1,72 @@
 <template>
-  <div v-if='id' class="user-info-div">
+  <div v-if='id'
+    class="user-info-div lc-flex"
+    @mouseenter="onHover(true)"
+    @mouseleave="onHover(false)"
+    >
     <div class="user-avatar-border">
       <div class="user-avatar-wrapper">
         <img class="avatar" :src="avatar" />
       </div>
-    </div>
-    <div class="user-identity">
-      <div class="support-div">
-        <span class="support-message">Support </span>
+      <div class="display-name lc-text-align-center lc-padding-vertical-8">
         <nuxt-link :to="getUserPath"
           target="_blank"
-          class="display-name">{{ displayName }}</nuxt-link>
+          >
+          {{ displayName }}
+        </nuxt-link>
       </div>
-      <div class="provided-by-div">by LikeCoin reinvented LikeButton</div>
     </div>
-    <nuxt-link :to="getUserPath"
-      target="_blank">
-      <img :src="likeButtonSrc"
-           alt="like-button"
-           class="like-button"
-           @mouseover="setLikeButtonState('hover')"
-           @mousedown="setLikeButtonState('click')"
-           @mouseup="setLikeButtonState('normal')"
-           @mouseout="setLikeButtonState('normal')"
-           >
-    </nuxt-link>
+    <div class="user-identity">
+      <div class="subtitle-div">{{ $t('Embed.label.subtitle') }}</div>
+      <div class="title-div">
+        <span class="title-message">{{ $t('Embed.label.title') }} </span>
+      </div>
+    </div>
+    <div class="embed-superlike-div" :class="{ hover: hovering }">
+      <md-button
+        id="embed-superlike-button"
+        class="md-likecoin"
+        @click="toUserPath"
+      >
+        {{ $t('Embed.button.sendLike') }}
+      </md-button>
+    </div>
+    <div class="poweredby-message lc-text-align-right">
+      powered by
+      <a
+        href="https://like.co"
+        target="_blank"
+        rel="noopener"
+        >
+        LikeCoin
+      </a>
+    </div>
   </div>
   <div v-else> Not found. </div>
 </template>
 
 <script>
 import { apiGetUserMinById } from '@/util/api/api';
-import likeButtonNormal from '@/assets/like-button/likebtn-normal.png';
-import likeButtonHover from '@/assets/like-button/likebtn-hover.png';
-import likeButtonClick from '@/assets/like-button/likebtn-click.png';
-
-const LIKE_BUTTON_STATE = {
-  normal: likeButtonNormal,
-  hover: likeButtonHover,
-  click: likeButtonClick,
-};
 
 export default {
-  name: 'embed',
+  name: 'embed-id',
   layout: 'embed',
   data() {
     return {
       id: '',
       displayName: '',
       avatar: '',
-      likeButtonNormal,
-      likeButtonHover,
-      likeButtonClick,
-      likeButtonSrc: likeButtonNormal,
+      hovering: false,
     };
   },
   asyncData({ params }) {
+    let amount = 8;
+    try {
+      const parse = parseInt(params.amount, 10);
+      if (parse && !Number.isNaN(parse)) amount = parse;
+    } catch (e) {
+      // no op;
+    }
     return apiGetUserMinById(params.id)
       .then((res) => {
         const {
@@ -66,18 +77,28 @@ export default {
           id: params.id,
           displayName,
           avatar,
+          amount,
         };
       })
       .catch(() => {});
   },
   computed: {
     getUserPath() {
-      return `/${this.id}`;
+      const amount = this.amount ? `/${this.amount}` : '';
+      const referrer = this.urlReferrer ? `/?referrer=${this.urlReferrer}` : '';
+      return `/${this.id}${amount}${referrer}`;
+    },
+    urlReferrer() {
+      const { query } = this.$route;
+      return query.referrer || '';
     },
   },
   methods: {
-    setLikeButtonState(state) {
-      this.likeButtonSrc = LIKE_BUTTON_STATE[state];
+    toUserPath() {
+      window.open(this.getUserPath, 'noopener');
+    },
+    onHover(hovering) {
+      this.hovering = hovering;
     },
   },
 };
@@ -86,19 +107,29 @@ export default {
 <style lang="scss" scoped>
 @import "~assets/variables";
 
-$profile-icon-size: 128px;
-$like-button-pos: 80px;
+$profile-icon-size: 110px;
+$icon-border-size: 5px;
+$like-button-width: 90px;
+$margin-top-offset: 20px;
+$margin-right-offset: 45px;
 
 .user-info-div {
+  position:relative;
   align-items: center;
+  margin: $margin-top-offset $margin-right-offset $margin-top-offset 5px;
+  max-width: 425px;
+  max-height: 83px;
+  border-radius: 8px;
+  background-image: linear-gradient(238deg, $like-light-blue, $like-gradient-1);
 
   .user-avatar-border {
-    background: linear-gradient(242deg, #d2f0f0, #f0e6b4);
-    padding: 5px;
+    left: $icon-border-size;
+    margin: $margin-top-offset 8px;
+    background: linear-gradient(242deg, $like-light-blue, $like-gradient-1);
+    padding: $icon-border-size;
     border-radius: 50%;
-    width: $profile-icon-size;
-    height: $profile-icon-size;
-    float: left;
+    width: $profile-icon-size + $icon-border-size * 2;
+    height: $profile-icon-size + $icon-border-size * 2;
 
     .user-avatar-wrapper {
       overflow: hidden;
@@ -114,40 +145,79 @@ $like-button-pos: 80px;
         height: auto;
       }
     }
+
+    .display-name {
+      color: $like-green;
+      font-size: 18px;
+      font-weight: 600;
+    }
   }
 
   .user-identity {
-    width: 100%;
-    height: $profile-icon-size;
-    vertical-align: middle;
-    display: table-cell;
     padding: 8px;
-
-    .support-div {
-      font-size: 24px;
-
-      .support-message {
-        color: $like-dark-brown-1;
-        -webkit-text-fill-color: $like-dark-brown-1;
-      }
-
-      .display-name {
-        color: $like-green;
+    .title-div {
+      .title-message {
+        font-size: 24px;
         font-weight: 600;
-        -webkit-text-fill-color: $like-green;
       }
     }
 
-    .provided-by-div {
-      color: $like-gray-4;
-      padding-top: 4px;
+    .subtitle-div {
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.31;
+      color: $like-gray-5;
     }
   }
 
-  .like-button {
-    position: fixed;
-    top: $like-button-pos;
-    left: $like-button-pos;
+  .embed-superlike-div {
+    position: relative;
+    margin-left: auto;
+    margin-right: -$margin-right-offset - 8px;
+    border-radius: 20px;
+    width: $like-button-width + $icon-border-size * 2;
+    &:before {
+      content: "";
+      border-radius: 20px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      opacity: 0;
+      transition: .4s cubic-bezier(.4,0,.2,1);
+      background: linear-gradient(67deg, $like-light-blue, $like-gradient-1);
+    }
+
+    &.hover:before {
+      opacity: 1;
+    }
+    .md-likecoin#embed-superlike-button {
+      font-size: 20px;
+      min-width: $like-button-width;
+      max-width: $like-button-width;
+      border-radius: 20px;
+      &:active {
+        color: $like-green;
+        border-radius: 21px;
+        box-sizing: border-box;
+        background-color: $like-white;
+        border: solid 4px $like-green;
+      }
+    }
+  }
+  .poweredby-message {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 12px;
+    font-size: 10px;
+    font-weight: 600;
+    color: $gray-9b;
+    a {
+      color: $gray-9b;
+      text-decoration: underline;
+    }
   }
 }
 

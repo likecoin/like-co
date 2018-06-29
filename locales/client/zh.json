@@ -1003,5 +1003,16 @@
         "description": "您需要先驗證您的電郵地址才能解鎖 {bonusTask} 獎賞。"
       }
     }
+  },
+  "Embed": {
+    "label": {
+      "support": "支持",
+      "providedBy": "by LikeCoin 化讚為賞回饋創作",
+      "subtitle": "喜歡這篇文章",
+      "title": "化讚為賞回饋創作"
+    },
+    "button": {
+      "sendLike": "賞"
+    }
   }
 }

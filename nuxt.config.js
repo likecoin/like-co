@@ -152,6 +152,11 @@ module.exports = {
         path: '/:id/:amount?',
         component: resolve(__dirname, 'pages/_id/index.vue'),
       });
+      routes.push({
+        name: 'in-embed-id-amount',
+        path: '/in/embed/:id/:amount?',
+        component: resolve(__dirname, 'pages/in/embed/_id/index.vue'),
+      });
       routes.unshift({
         name: 'in-free',
         path: '/in/free',
