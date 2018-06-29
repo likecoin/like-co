@@ -180,7 +180,6 @@ $margin-right-offset: 45px;
   }
 
   .user-identity {
-    min-width: 150px;
     .subtitle-div {
       color: $like-gray-5;
     }
