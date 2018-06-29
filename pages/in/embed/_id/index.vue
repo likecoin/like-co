@@ -4,9 +4,11 @@
     @mouseenter="onHover(true)"
     @mouseleave="onHover(false)"
     >
-    <div class="user-avatar-border lc-container-1">
-      <div class="user-avatar-wrapper">
-        <img class="avatar" :src="avatar" />
+    <div class="user-avatar lc-container-1">
+      <div class="user-avatar-border">
+        <div class="user-avatar-wrapper">
+          <img class="avatar" :src="avatar" />
+        </div>
       </div>
       <div
         :class="[
@@ -15,6 +17,7 @@
           'lc-padding-vertical-8',
           'lc-font-size-18',
           'lc-font-weight-600',
+          'lc-mobile',
         ]">
         <nuxt-link :to="getUserPath"
           target="_blank"
@@ -140,6 +143,7 @@ $icon-border-size: 5px;
 $like-button-width: 90px;
 $margin-top-offset: 20px;
 $margin-right-offset: 45px;
+$responsive-offset: 15px;
 
 .user-info-div {
   position:relative;
@@ -149,36 +153,39 @@ $margin-right-offset: 45px;
   max-height: 83px;
   border-radius: 8px;
   background-image: linear-gradient(238deg, $like-light-blue, $like-gradient-1);
-
-  .user-avatar-border {
-    left: $icon-border-size;
+  .user-avatar {
+    position:relative;
     margin: $margin-top-offset 8px;
-    background: linear-gradient(242deg, $like-light-blue, $like-gradient-1);
-    padding: $icon-border-size;
-    border-radius: 50%;
-    width: $profile-icon-size + $icon-border-size * 2;
-    height: $profile-icon-size + $icon-border-size * 2;
-
-    .user-avatar-wrapper {
-      overflow: hidden;
-      border: 1px solid rgba(0,0,0, 0.2);
+    .user-avatar-border {
+      left: $icon-border-size;
+      background: linear-gradient(242deg, $like-light-blue, $like-gradient-1);
+      padding: $icon-border-size;
       border-radius: 50%;
-      @media (min-width: #{768px + 1px}) {
-        width: $profile-icon-size;
-        height: $profile-icon-size;
-      }
+      max-width: $profile-icon-size + $icon-border-size * 2;
+      min-width: $profile-icon-size - $responsive-offset;
+      .user-avatar-wrapper {
+        overflow: hidden;
+        border: 1px solid rgba(0,0,0, 0.2);
+        border-radius: 50%;
+        @media (min-width: #{768px + 1px}) {
+          width: $profile-icon-size;
+          height: $profile-icon-size;
+        }
 
-      .avatar {
-        width: auto;
-        height: auto;
+        .avatar {
+          display: block;
+          width: 100%;
+          height: 100%;
+        }
       }
     }
-
     .display-name {
       color: $like-green;
+      position: absolute;
+      top: 100%;
+      width: 100%;
     }
   }
-
   .user-identity {
     .subtitle-div {
       color: $like-gray-5;
@@ -208,10 +215,16 @@ $margin-right-offset: 45px;
       opacity: 1;
     }
     .md-likecoin#embed-superlike-button {
-      font-size: 20px;
-      min-width: $like-button-width;
-      max-width: $like-button-width;
       border-radius: 20px;
+      @media (min-width: 600px + 1px) {
+        min-width: $like-button-width;
+        font-size: 20px;
+      }
+
+      @media (max-width: 600px) {
+        min-width: $like-button-width - $responsive-offset;
+        font-size: 15px;
+      }
       &:active {
         color: $like-green;
         border-radius: 21px;
