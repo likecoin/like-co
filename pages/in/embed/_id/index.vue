@@ -1,14 +1,21 @@
 <template>
   <div v-if='id'
-    class="user-info-div lc-flex"
+    class="user-info-div lc-container-0 lc-flex"
     @mouseenter="onHover(true)"
     @mouseleave="onHover(false)"
     >
-    <div class="user-avatar-border">
+    <div class="user-avatar-border lc-container-1">
       <div class="user-avatar-wrapper">
         <img class="avatar" :src="avatar" />
       </div>
-      <div class="display-name lc-text-align-center lc-padding-vertical-8">
+      <div
+        :class="[
+          'display-name',
+          'lc-text-align-center',
+          'lc-padding-vertical-8',
+          'lc-font-size-18',
+          'lc-font-weight-600',
+        ]">
         <nuxt-link :to="getUserPath"
           target="_blank"
           >
@@ -16,13 +23,25 @@
         </nuxt-link>
       </div>
     </div>
-    <div class="user-identity">
-      <div class="subtitle-div">{{ $t('Embed.label.subtitle') }}</div>
+    <div class="user-identity lc-container-1">
+      <div
+        :class="[
+          'subtitle-div',
+          'lc-font-size-16',
+          'lc-line-height-1',
+          'lc-mobile',
+        ]">
+        {{ $t('Embed.label.subtitle') }}
+      </div>
       <div class="title-div">
-        <span class="title-message">{{ $t('Embed.label.title') }} </span>
+        <span
+          :class="['title-message', 'lc-font-size-20', 'lc-font-weight-600',
+            'lc-line-height-1_2', 'lc-mobile']">
+          {{ $t('Embed.label.title') }}
+        </span>
       </div>
     </div>
-    <div class="embed-superlike-div" :class="{ hover: hovering }">
+    <div class="embed-superlike-div lc-container-1" :class="{ hover: hovering }">
       <md-button
         id="embed-superlike-button"
         class="md-likecoin"
@@ -31,14 +50,19 @@
         {{ $t('Embed.button.sendLike') }}
       </md-button>
     </div>
-    <div class="poweredby-message lc-text-align-right">
-      powered by
+    <div
+      :class="['poweredby-message',
+        'lc-margin-top-12',
+        'lc-text-align-right',
+        'lc-font-size-10',
+        'lc-font-weight-600',
+      ]">
       <a
-        href="https://like.co"
+        :href="getReferralLink"
         target="_blank"
         rel="noopener"
         >
-        LikeCoin
+        {{ $t('Embed.label.createMyWidget') }}
       </a>
     </div>
   </div>
@@ -91,6 +115,10 @@ export default {
     urlReferrer() {
       const { query } = this.$route;
       return query.referrer || '';
+    },
+    getReferralLink() {
+      const referrer = this.urlReferrer ? `/?referrer=${this.urlReferrer}` : '';
+      return `https://like.co/ref/${this.id}${referrer}`;
     },
   },
   methods: {
@@ -148,24 +176,12 @@ $margin-right-offset: 45px;
 
     .display-name {
       color: $like-green;
-      font-size: 18px;
-      font-weight: 600;
     }
   }
 
   .user-identity {
-    padding: 8px;
-    .title-div {
-      .title-message {
-        font-size: 24px;
-        font-weight: 600;
-      }
-    }
-
+    min-width: 150px;
     .subtitle-div {
-      font-size: 16px;
-      font-weight: 500;
-      line-height: 1.31;
       color: $like-gray-5;
     }
   }
@@ -173,7 +189,7 @@ $margin-right-offset: 45px;
   .embed-superlike-div {
     position: relative;
     margin-left: auto;
-    margin-right: -$margin-right-offset - 8px;
+    margin-right: -$margin-right-offset;
     border-radius: 20px;
     width: $like-button-width + $icon-border-size * 2;
     &:before {
@@ -210,9 +226,6 @@ $margin-right-offset: 45px;
     position: absolute;
     top: 100%;
     right: 0;
-    margin-top: 12px;
-    font-size: 10px;
-    font-weight: 600;
     color: $gray-9b;
     a {
       color: $gray-9b;
