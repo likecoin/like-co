@@ -44,11 +44,14 @@
         </span>
       </div>
     </div>
-    <div class="embed-superlike-div lc-container-1" :class="{ hover: hovering }">
+    <div
+      class="embed-superlike-div lc-container-1 lc-text-align-center"
+      :class="{ hover: hovering }">
       <md-button
         id="embed-superlike-button"
         class="md-likecoin"
-        @click="toUserPath"
+        :href="getUserPath"
+        target="_blank"
       >
         {{ $t('Embed.button.sendLike') }}
       </md-button>
@@ -125,9 +128,6 @@ export default {
     },
   },
   methods: {
-    toUserPath() {
-      window.open(this.getUserPath, 'noopener');
-    },
     onHover(hovering) {
       this.hovering = hovering;
     },

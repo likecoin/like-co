@@ -21,8 +21,8 @@ export default {
   },
   data() {
     return {
-      isLoading: true,
-      isHidden: false,
+      isLoading: false,
+      isHidden: true,
       style: {
         root: {
           position: 'fixed',
