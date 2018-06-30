@@ -31,7 +31,7 @@
         :class="[
           'subtitle-div',
           'lc-font-size-16',
-          'lc-line-height-1',
+          'lc-line-height-1_6',
           'lc-mobile',
         ]">
         {{ $t('Embed.label.subtitle') }}

@@ -998,5 +998,17 @@
         "description": "您需要先验证您的电邮地址才能解锁 {bonusTask} 奖赏。"
       }
     }
+  },
+  "Embed": {
+    "label": {
+      "support": "支持",
+      "providedBy": "by LikeCoin 化赞为赏回馈创作",
+      "subtitle": "喜欢这篇文章",
+      "title": "化赞为赏 回馈创作",
+      "createMyWidget": "Create my LikeCoin widget"
+    },
+    "button": {
+      "sendLike": "赏"
+    }
   }
 }
