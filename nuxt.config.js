@@ -67,6 +67,7 @@ module.exports = {
           'https://recaptcha.net',
           'https://www.recaptcha.net',
           'https://www.gstatic.com/',
+          'https://www.gstatic.cn/',
           'https://googleads.g.doubleclick.net',
           'https://cdn.mouseflow.com',
           'https://ajax.googleapis.com',
@@ -105,6 +106,7 @@ module.exports = {
         'media-src': [
           'https://*.intercomcdn.com',
           'https://*.gstatic.com',
+          'https://*.gstatic.cn',
           'https://video.appledaily.com.hk',
         ],
         'connect-src': [
