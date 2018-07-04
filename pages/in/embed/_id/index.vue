@@ -4,8 +4,6 @@
     @mouseenter="onHover(true)"
     @mouseleave="onHover(false)"
     >
-
-    <div class="user-info-background" />
     <div class="user-avatar lc-container-1">
       <div class="user-avatar-border">
         <div class="user-avatar-wrapper">
@@ -17,6 +15,9 @@
           'display-name',
           'lc-text-align-center',
           'lc-padding-vertical-8',
+          'lc-font-size-18',
+          'lc-font-weight-600',
+          'lc-mobile',
         ]">
         <nuxt-link :to="getUserPath"
           target="_blank"
@@ -27,12 +28,18 @@
     </div>
     <div class="user-identity lc-container-1">
       <div
-        class="subtitle-div">
+        :class="[
+          'subtitle-div',
+          'lc-font-size-16',
+          'lc-line-height-1_6',
+          'lc-mobile',
+        ]">
         {{ $t('Embed.label.subtitle') }}
       </div>
       <div class="title-div">
         <span
-          class="title-message">
+          :class="['title-message', 'lc-font-size-20', 'lc-font-weight-600',
+            'lc-line-height-1_2', 'lc-mobile']">
           {{ $t('Embed.label.title') }}
         </span>
       </div>
@@ -132,69 +139,36 @@ export default {
 @import "~assets/variables";
 
 $profile-icon-size: 110px;
-$profile-icon-size-small: 78px;
 $icon-border-size: 5px;
 $like-button-width: 90px;
-$margin-top-offset: 20px;
 $margin-top-offset: 20px;
 $margin-right-offset: 45px;
 $responsive-offset: 15px;
 
 .user-info-div {
-  position: relative;
+  position:relative;
   align-items: center;
   margin: $margin-top-offset $margin-right-offset $margin-top-offset 5px;
   max-width: 425px;
   max-height: 83px;
-  @media (max-width: 480px) {
-    margin: 8px 25px 25px 25px;
-    flex-direction: column;
-    max-height: none;
-  }
-
-  .user-info-background {
-    position: absolute;
-    z-index: 0;
-    left: 0;
-    right: 0;
-    height: 100%;
-    width: 100%;
-    border-radius: 8px;
-    background-image: linear-gradient(77deg, $like-light-blue, $like-gradient-1);
-    @media (max-width: 480px) {
-      height: calc(90% - #{$profile-icon-size-small - 5px});
-      margin-top: $profile-icon-size-small - 5px;
-    }
-  }
-
+  border-radius: 8px;
+  background-image: linear-gradient(238deg, $like-light-blue, $like-gradient-1);
   .user-avatar {
-    position: relative;
+    position:relative;
     margin: $margin-top-offset 8px;
-    @media (max-width: 480px) {
-      margin: 0;
-      padding-left: 20px;
-      width: 100%;
-    }
     .user-avatar-border {
+      left: $icon-border-size;
       background: linear-gradient(242deg, $like-light-blue, $like-gradient-1);
       padding: $icon-border-size;
       border-radius: 50%;
       max-width: $profile-icon-size + $icon-border-size * 2;
       min-width: $profile-icon-size - $responsive-offset;
-      @media (max-width: 480px) {
-        max-width: $profile-icon-size-small + $icon-border-size * 2;
-        min-width: $profile-icon-size-small - $responsive-offset;
-      }
       .user-avatar-wrapper {
         overflow: hidden;
         border-radius: 50%;
         @media (min-width: #{768px + 1px}) {
           width: $profile-icon-size;
           height: $profile-icon-size;
-        }
-        @media (max-width: 480px) {
-          width: $profile-icon-size-small;
-          height: $profile-icon-size-small;
         }
 
         .avatar {
@@ -209,37 +183,11 @@ $responsive-offset: 15px;
       position: absolute;
       top: 100%;
       width: 100%;
-      font-size: 18px;
-      font-weight: 600;
-      @media (max-width: 480px) {
-        left: $profile-icon-size-small + 40px;
-        top: 0;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        font-size: 20px;
-      }
     }
   }
   .user-identity {
-    line-height: 1.1;
     .subtitle-div {
       color: $like-gray-5;
-      font-size: 16px;
-      line-height: 2.1;
-    }
-    .title-div {
-      font-size: 20px;
-      font-weight: 600;
-    }
-    @media (max-width: 480px) {
-      margin: 8px 18px;
-      .subtitle-div {
-        font-size: 16px;
-      }
-      .title-div {
-        font-size: 26px;
-      }
     }
   }
 
@@ -260,19 +208,11 @@ $responsive-offset: 15px;
       opacity: 0;
       transition: .4s cubic-bezier(.4,0,.2,1);
       background: linear-gradient(67deg, $like-light-blue, $like-gradient-1);
-
-      @media (max-width: 480px) {
-        background: none;
-      }
     }
+
     &.hover:before {
       opacity: 1;
     }
-
-    @media (max-width: 480px) {
-      margin-right: auto;
-    }
-
     .md-likecoin#embed-superlike-button {
       border-radius: 20px;
       box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.25);
@@ -285,7 +225,6 @@ $responsive-offset: 15px;
         min-width: $like-button-width - $responsive-offset;
         font-size: 15px;
       }
-
       &:active {
         color: $like-green;
         border-radius: 21px;
@@ -300,10 +239,6 @@ $responsive-offset: 15px;
     top: 100%;
     right: 0;
     color: $gray-9b;
-    @media (max-width: 480px) {
-      width: 100%;
-      text-align: center;
-    }
     a {
       color: $gray-9b;
       text-decoration: underline;
