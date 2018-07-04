@@ -50,9 +50,18 @@ export default {
       type: Boolean,
       default: false,
     },
-    referrerId: String,
-    avatar: String,
-    displayName: String,
+    referrerId: {
+      type: String,
+      default: '',
+    },
+    avatar: {
+      type: String,
+      default: '',
+    },
+    displayName: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
     styledDisplayName() {

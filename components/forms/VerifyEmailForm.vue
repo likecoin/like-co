@@ -30,6 +30,7 @@ export default {
   props: {
     formId: {
       type: String,
+      default: undefined,
     },
     email: {
       type: String,
@@ -40,6 +41,7 @@ export default {
       default: '',
     },
     emailRef: {
+      type: String,
       default: '',
     },
   },

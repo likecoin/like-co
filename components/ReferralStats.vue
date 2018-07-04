@@ -31,8 +31,14 @@ import TickIcon from '@/assets/tokensale/tick.svg';
 export default {
   name: 'referral-stats',
   props: {
-    pending: Number,
-    verified: Number,
+    pending: {
+      type: Number,
+      default: 0,
+    },
+    verified: {
+      type: Number,
+      default: 0,
+    },
   },
   data() {
     return {

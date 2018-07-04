@@ -5,7 +5,7 @@
   >
     <div class="icon">
       <img
-        :src="icon || likeCoinIcon"
+        :src="icon"
         alt="like-coin"
         class="main-icon"
       >
@@ -24,7 +24,16 @@ import likeCoinIcon from '@/assets/logo/icon.svg';
 
 export default {
   name: 'introduction',
-  props: ['title', 'icon'],
+  props: {
+    title: {
+      type: String,
+      default: '',
+    },
+    icon: {
+      type: String,
+      default: likeCoinIcon,
+    },
+  },
   data() {
     return {
       defaultText: 'Register.header.redeem',

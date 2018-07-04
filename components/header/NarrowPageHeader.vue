@@ -10,7 +10,7 @@
       </span>
 
       <span class="signature-icon">
-        <img :src="icon || likeCoinIcon">
+        <img :src="icon">
       </span>
 
       <span>
@@ -30,7 +30,12 @@ import likeCoinIcon from '@/assets/logo/icon.svg';
 
 export default {
   name: 'narrow-page-header',
-  props: ['icon'],
+  props: {
+    icon: {
+      type: String,
+      default: likeCoinIcon,
+    },
+  },
   data() {
     return {
       likeCoinIcon,

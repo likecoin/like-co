@@ -60,11 +60,26 @@ const imgUrl = path => images(`./${path}`);
 export default {
   name: 'avatar-grid-card',
   props: {
-    avatar: String,
-    title: String,
-    subtitle: String,
-    description: String,
-    platforms: Array,
+    avatar: {
+      type: String,
+      default: '',
+    },
+    title: {
+      type: String,
+      default: '',
+    },
+    subtitle: {
+      type: String,
+      default: '',
+    },
+    description: {
+      type: String,
+      default: '',
+    },
+    platforms: {
+      type: Array,
+      default: () => [],
+    },
   },
   methods: {
     imgUrl,

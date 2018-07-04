@@ -35,6 +35,7 @@ export default {
   props: {
     videoId: {
       type: String,
+      default: '',
     },
   },
   data() {

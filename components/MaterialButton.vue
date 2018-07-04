@@ -12,7 +12,28 @@
 <script>
 export default {
   name: 'material-button',
-  props: ['className', 'hasShadow', 'type', 'form', 'disabled'],
+  props: {
+    className: {
+      type: String,
+      default: undefined,
+    },
+    hasShadow: {
+      type: Boolean,
+      default: false,
+    },
+    type: {
+      type: String,
+      default: undefined,
+    },
+    form: {
+      type: String,
+      default: undefined,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+  },
   computed: {
     classObject() {
       return {

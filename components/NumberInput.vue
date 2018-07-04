@@ -72,7 +72,32 @@ function formatAmount(amount) {
 
 export default {
   name: 'number-input',
-  props: ['amount', 'label', 'currencyTitle', 'isBadAmount', 'badAmountMessage', 'decimalPlaceLimit'],
+  props: {
+    amount: {
+      type: String,
+      default: '',
+    },
+    label: {
+      type: String,
+      default: '',
+    },
+    currencyTitle: {
+      type: String,
+      default: '',
+    },
+    isBadAmount: {
+      type: Boolean,
+      default: false,
+    },
+    badAmountMessage: {
+      type: String,
+      default: '',
+    },
+    decimalPlaceLimit: {
+      type: Number,
+      default: undefined,
+    },
+  },
   data() {
     return {
       AddIcon,

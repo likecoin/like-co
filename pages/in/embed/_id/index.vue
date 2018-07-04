@@ -54,11 +54,12 @@
     </div>
     <div
       :class="{ hover: hovering }"
-      class="embed-superlike-div lc-container-1 lc-text-align-center">
+      class="embed-superlike-div lc-container-1 lc-text-align-center"
+    >
       <md-button
         id="embed-superlike-button"
-        class="md-likecoin"
         :href="getUserPath"
+        class="md-likecoin"
         target="_blank"
       >
         {{ $t('Embed.button.sendLike') }}

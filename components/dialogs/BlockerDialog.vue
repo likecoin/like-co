@@ -28,7 +28,12 @@ export default {
   components: {
     BaseDialog,
   },
-  props: ['show'],
+  props: {
+    show: {
+      type: Boolean,
+      default: false,
+    },
+  },
 };
 </script>
 

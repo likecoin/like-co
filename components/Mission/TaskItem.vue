@@ -16,8 +16,10 @@ export default {
   props: {
     title: {
       type: String,
+      default: '',
     },
     state: {
+      type: String,
       validator(value) {
         return value === 'active' || value === 'completed';
       },

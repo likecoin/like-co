@@ -50,6 +50,7 @@ export default {
   props: {
     formId: {
       type: String,
+      default: undefined,
     },
     type: {
       type: String,
@@ -57,9 +58,11 @@ export default {
     },
     autocomplete: {
       type: String,
+      default: undefined,
     },
     pattern: {
       type: String,
+      default: undefined,
     },
     text: {
       type: String,

@@ -163,6 +163,7 @@ export default {
     },
     swipperId: {
       type: String,
+      default: undefined,
     },
     isReferral: {
       type: Boolean,

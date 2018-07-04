@@ -25,7 +25,10 @@
 export default {
   name: 'description',
   props: {
-    content: String,
+    content: {
+      type: String,
+      default: '',
+    },
     showButton: {
       type: Boolean,
       default: true,

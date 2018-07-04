@@ -210,7 +210,12 @@ export default {
     MaterialButton,
     VueRecaptcha,
   },
-  props: ['isRedeem'],
+  props: {
+    isRedeem: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       avatarFile: null,

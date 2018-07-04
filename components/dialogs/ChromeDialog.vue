@@ -45,7 +45,12 @@ export default {
   components: {
     MaterialButton,
   },
-  props: ['show'],
+  props: {
+    show: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       icon: chromeIcon,

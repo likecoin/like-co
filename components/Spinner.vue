@@ -13,7 +13,10 @@ import LikeCoinSpin from '~/assets/img/likecoin-spin.gif';
 export default {
   name: 'lc-spinner',
   props: {
-    size: Number,
+    size: {
+      type: Number,
+      default: 0,
+    },
   },
   data() {
     return {

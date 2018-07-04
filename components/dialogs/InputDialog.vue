@@ -51,18 +51,23 @@ export default {
   },
   props: {
     text: {
+      type: String,
       default: '',
     },
     type: {
+      type: String,
       default: '',
     },
     title: {
+      type: String,
       default: 'Please enter your text',
     },
     content: {
+      type: String,
       default: 'Input your text',
     },
     label: {
+      type: String,
       default: '',
     },
   },

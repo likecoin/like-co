@@ -71,7 +71,10 @@ export default {
       type: String,
       required: true,
     },
-    comment: String,
+    comment: {
+      type: String,
+      default: '',
+    },
     hashtags: {
       type: Array,
       default: () => ['LikeCoin'],

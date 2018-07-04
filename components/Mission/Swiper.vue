@@ -57,6 +57,7 @@ export default {
   props: {
     swiperId: {
       type: String,
+      default: undefined,
     },
     isLoading: {
       type: Boolean,

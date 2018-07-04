@@ -9,6 +9,15 @@
 <script>
 export default {
   name: 'loading-toolbar',
-  props: ['isLoading', 'isInTransaction'],
+  props: {
+    isLoading: {
+      type: Boolean,
+      default: false,
+    },
+    isInTransaction: {
+      type: Boolean,
+      default: false,
+    },
+  },
 };
 </script>

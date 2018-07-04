@@ -26,6 +26,7 @@ export default {
     },
     state: {
       type: String,
+      default: undefined,
     },
   },
 };

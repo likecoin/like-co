@@ -50,9 +50,11 @@ export default {
   },
   props: {
     emailRef: {
+      type: String,
       default: '',
     },
     email: {
+      type: String,
       default: '',
     },
   },

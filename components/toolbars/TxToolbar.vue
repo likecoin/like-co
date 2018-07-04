@@ -42,7 +42,20 @@ import TickIcon from '@/assets/tokensale/tick.svg';
 
 export default {
   name: 'tx-toolbar',
-  props: ['txHash', 'txInfo', 'isInTx'],
+  props: {
+    txHash: {
+      type: String,
+      default: '',
+    },
+    txInfo: {
+      type: Object,
+      default: () => ({}),
+    },
+    isInTx: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       TickIcon,

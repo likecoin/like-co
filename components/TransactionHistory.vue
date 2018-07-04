@@ -229,7 +229,10 @@ export default {
     RefreshButton,
   },
   props: {
-    address: String,
+    address: {
+      type: String,
+      default: '',
+    },
     isFetched: {
       type: Boolean,
       default: false,

@@ -87,6 +87,7 @@ export default {
   props: {
     formId: {
       type: String,
+      default: '',
     },
     isFullWidth: {
       type: Boolean,

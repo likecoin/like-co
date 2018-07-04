@@ -28,15 +28,19 @@ export default {
   name: 'creator-button',
   props: {
     className: {
+      type: String,
       default: undefined,
     },
     src: {
+      type: String,
       default: likeCoinIcon,
     },
     id: {
+      type: String,
       default: '',
     },
     title: {
+      type: String,
       default: '',
     },
   },

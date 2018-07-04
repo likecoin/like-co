@@ -45,9 +45,12 @@ export default {
     MenuButton,
     SiteTitle,
   },
-  props: [
-    'isShowAccountButton',
-  ],
+  props: {
+    isShowAccountButton: {
+      type: Boolean,
+      default: false,
+    },
+  },
   computed: {
     getButtonText() {
       if (this.getUserIsRegistered) return this.getUserInfo.user;

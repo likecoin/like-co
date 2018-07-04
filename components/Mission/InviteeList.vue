@@ -40,9 +40,11 @@ export default {
   props: {
     avatar: {
       type: String,
+      default: '',
     },
     username: {
       type: String,
+      required: true,
     },
     isNew: {
       type: Boolean,

@@ -73,7 +73,32 @@ export default {
   components: {
     BaseDialog,
   },
-  props: ['show', 'txId', 'txInfo', 'isNewUser', 'txDialogActionRoute', 'txDialogActionText'],
+  props: {
+    show: {
+      type: Boolean,
+      default: false,
+    },
+    txId: {
+      type: String,
+      default: '',
+    },
+    txInfo: {
+      type: Object,
+      default: () => ({}),
+    },
+    isNewUser: {
+      type: Boolean,
+      default: false,
+    },
+    txDialogActionRoute: {
+      type: Object,
+      default: () => ({}),
+    },
+    txDialogActionText: {
+      type: String,
+      default: '',
+    },
+  },
   computed: {
     defaultActionRoute() {
       return { name: 'in-tx-id', params: { id: this.txId, tx: this.txInfo } };

@@ -17,6 +17,7 @@ export default {
   props: {
     missionId: {
       type: String,
+      required: true,
     },
   },
   computed: {

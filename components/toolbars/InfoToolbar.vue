@@ -25,7 +25,16 @@
 <script>
 export default {
   name: 'info-toolbar',
-  props: ['message', 'isError'],
+  props: {
+    message: {
+      type: String,
+      default: '',
+    },
+    isError: {
+      type: Boolean,
+      default: false,
+    },
+  },
 };
 </script>
 

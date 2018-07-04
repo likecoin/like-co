@@ -53,7 +53,24 @@ export default {
   components: {
     MaterialButton,
   },
-  props: ['title', 'imageSrc', 'linkSrc', 'mainLocales'],
+  props: {
+    title: {
+      type: String,
+      default: '',
+    },
+    imageSrc: {
+      type: String,
+      default: '',
+    },
+    linkSrc: {
+      type: String,
+      default: '',
+    },
+    mainLocales: {
+      type: String,
+      default: '',
+    },
+  },
   computed: {
     mainLocaleSrc() {
       return this.linkSrc.filter(src => this.mainLocales.includes(src.languageKey));

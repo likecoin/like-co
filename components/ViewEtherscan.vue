@@ -19,7 +19,20 @@ import { ETHERSCAN_HOST } from '@/constant';
 
 export default {
   name: 'view-etherscan',
-  props: ['text', 'address', 'transaction'],
+  props: {
+    text: {
+      type: String,
+      default: '',
+    },
+    address: {
+      type: String,
+      default: '',
+    },
+    transaction: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
       etherscanUrl: ETHERSCAN_HOST,

@@ -45,10 +45,12 @@ export default {
   components: {
     Lightbox,
   },
-  props: [
-    'items',
-    'lightboxId',
-  ],
+  props: {
+    items: {
+      type: Array,
+      default: () => [],
+    },
+  },
   data() {
     const images = [];
     const imagesMap = {};

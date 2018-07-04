@@ -33,7 +33,12 @@ import { mapGetters } from 'vuex';
 import likeCoinIcon from '@/assets/logo/icon.svg';
 
 export default {
-  props: ['error'],
+  props: {
+    error: {
+      type: Object,
+      required: true,
+    },
+  },
   layout: 'narrowWithHeader',
   data() {
     return {

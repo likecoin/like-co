@@ -36,7 +36,24 @@ export default {
   components: {
     MaterialButton,
   },
-  props: ['allowClose', 'header', 'message', 'confirmText'],
+  props: {
+    allowClose: {
+      type: Boolean,
+      default: false,
+    },
+    header: {
+      type: String,
+      default: '',
+    },
+    message: {
+      type: String,
+      default: '',
+    },
+    confirmText: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
       showDialog: false,

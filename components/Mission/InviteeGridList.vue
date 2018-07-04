@@ -62,6 +62,7 @@ export default {
     },
     swiperId: {
       type: String,
+      default: undefined,
     },
   },
   methods: {

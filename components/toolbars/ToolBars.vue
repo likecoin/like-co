@@ -144,7 +144,12 @@ export default {
     LoadingToolbar,
     TxToolbar,
   },
-  props: ['disableError'],
+  props: {
+    disableError: {
+      type: Boolean,
+      default: false,
+    },
+  },
   computed: {
     shouldShowChromeDialog() {
       return this.getMetamaskError === 'web3' && !checkIsDesktopChrome();

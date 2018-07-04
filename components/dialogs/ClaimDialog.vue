@@ -47,7 +47,16 @@ export default {
   components: {
     MaterialButton,
   },
-  props: ['couponCode', 'wallet'],
+  props: {
+    couponCode: {
+      type: String,
+      default: '',
+    },
+    wallet: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
       showDialog: false,

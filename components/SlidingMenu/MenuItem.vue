@@ -37,6 +37,7 @@ export default {
     },
     to: {
       type: [String, Object],
+      default: undefined,
     },
     isExternal: {
       type: Boolean,

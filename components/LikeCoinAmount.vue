@@ -13,7 +13,7 @@
           },
         ]"
       >
-        {{ value || defaultValue }}
+        {{ value }}
       </div>
     </div>
 
@@ -48,11 +48,27 @@
 <script>
 export default {
   name: 'like-coin-amount',
-  props: ['value', 'isOpaque', 'linkHref', 'linkText', 'amountText'],
-  data() {
-    return {
-      defaultValue: '0.0000',
-    };
+  props: {
+    value: {
+      type: String,
+      default: '0.0000',
+    },
+    isOpaque: {
+      type: Boolean,
+      default: false,
+    },
+    linkHref: {
+      type: String,
+      default: '',
+    },
+    linkText: {
+      type: String,
+      default: '',
+    },
+    amountText: {
+      type: String,
+      default: '',
+    },
   },
   methods: {
     onClick() {

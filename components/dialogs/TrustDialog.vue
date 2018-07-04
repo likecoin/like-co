@@ -110,7 +110,16 @@ export default {
     LanguageSwitch,
     MaterialButton,
   },
-  props: ['case', 'webThreeType'],
+  props: {
+    case: {
+      type: String,
+      default: '',
+    },
+    webThreeType: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
       InLinkIcon,

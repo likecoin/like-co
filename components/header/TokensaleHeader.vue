@@ -105,7 +105,36 @@ import { ETH_TO_LIKECOIN_RATIO } from '@/constant';
 export default {
   name: 'tokensale-header',
   /* failReason : 0 = none, 1 = failed, 2 = timeout */
-  props: ['icon', 'toId', 'toName', 'toAddress', 'timestamp', 'amount', 'isNotFound', 'failReason'],
+  props: {
+    toId: {
+      type: String,
+      default: '',
+    },
+    toName: {
+      type: String,
+      default: '',
+    },
+    toAddress: {
+      type: String,
+      default: '',
+    },
+    timestamp: {
+      type: Number,
+      default: 0,
+    },
+    amount: {
+      type: Number,
+      default: 0,
+    },
+    isNotFound: {
+      type: Boolean,
+      default: false,
+    },
+    failReason: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
       defaultText: 'Redeem your free LikeCoin',
