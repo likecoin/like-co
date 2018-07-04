@@ -44,9 +44,9 @@ export default {
   margin: 24px 0;
 
   ul {
-
     display: flex;
     flex-direction: column;
+
     margin: -4px 0;
 
     list-style: none;

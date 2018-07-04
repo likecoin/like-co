@@ -129,6 +129,7 @@ $like-button-pos: 80px;
   .user-identity {
 
     display: table-cell;
+
     width: 100%;
     height: $profile-icon-size;
 

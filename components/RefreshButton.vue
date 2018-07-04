@@ -54,8 +54,8 @@ export default {
 <style lang="scss" scoped>
 .lc-refresh-button {
   @keyframes rotation {
-    0% { transform: rotateZ(0deg) };
-    100% { transform: rotateZ(360deg) };
+    0% { transform: rotateZ(0deg) }
+    100% { transform: rotateZ(360deg) }
   }
 
   > * {

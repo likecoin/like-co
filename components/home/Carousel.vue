@@ -106,8 +106,8 @@ $carousel-height: 488px;
         > div {
           width: 100%;
           height: $carousel-height;
-          background-position: 50%;
 
+          background-position: 50%;
           background-size: cover;
         }
       }
@@ -120,6 +120,7 @@ $carousel-height: 488px;
 
         width: 72px;
         height: 4px;
+
         opacity: 1;
         border-radius: 0;
 

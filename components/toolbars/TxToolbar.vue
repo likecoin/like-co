@@ -75,6 +75,7 @@ export default {
     height: 24px;
 
     text-decoration: underline;
+
     color: $like-green;
   }
 

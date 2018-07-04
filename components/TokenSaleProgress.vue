@@ -83,6 +83,7 @@ $separator-size: 10px;
     position: relative;
 
     padding: 0 #{$separator-size / 2 + 4px};
+
     border-radius: 8px;
 
     background-color: $like-gray-3;
@@ -151,8 +152,8 @@ $separator-size: 10px;
           display: block;
 
           &.point-value {
-
             margin-right: 8px;
+
             font-size: 10px;
             font-weight: 600;
 
@@ -160,16 +161,16 @@ $separator-size: 10px;
           }
 
           &.point-legend {
-
             margin-right: 10px;
             margin-left: -10px;
+
             font-weight: 600;
           }
 
           &.point-value,
           &.point-legend {
-
             text-align: right;
+
             color: #462405;
           }
         }

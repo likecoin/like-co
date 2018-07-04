@@ -349,6 +349,7 @@ $icon-mobile-size: 88px;
       input {
 
         overflow: hidden;
+
         width: 100%;
 
         white-space: nowrap;
@@ -464,6 +465,7 @@ input[type="file"] {
 .md-field.md-required label:after {
 
   right: initial;
+
   transform: translateX(2px);
 }
 </style>

@@ -55,8 +55,8 @@ export default {
   }
 
   input {
-
     text-overflow: ellipsis;
+
     color: $like-green;
 
     font-size: 18px;

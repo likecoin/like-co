@@ -257,8 +257,8 @@ export default {
 }
 
 .mission-item-placeholder {
-
   flex-shrink: 0;
+
   width: 100%;
 
   &.small {

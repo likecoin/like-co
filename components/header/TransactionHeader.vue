@@ -135,6 +135,7 @@ $status-icon-size: 32px;
       z-index: 1;
 
       overflow: hidden;
+
       width: 128px;
       height: 128px;
 

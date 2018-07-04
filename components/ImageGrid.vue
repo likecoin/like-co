@@ -96,7 +96,9 @@ export default {
 
     margin: 0 8px;
     padding: 0;
+
     list-style: none;
+
     border-radius: 6px;
 
     background-color: white;
@@ -106,15 +108,15 @@ export default {
 
       flex-shrink: 0;
 
-      width: calc(100% * 1/4);
+      width: calc(100% * 1 / 4);
 
       padding: 16px 8px;
 
       @media (max-width: 1244px) {
-        width: calc(100% * 1/3);
+        width: calc(100% * 1 / 3);
       }
       @media (max-width: 768px) {
-        width: calc(100% * 1/2);
+        width: calc(100% * 1 / 2);
       }
       @media (max-width: 480px) {
         width: 100%;

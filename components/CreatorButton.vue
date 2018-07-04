@@ -47,14 +47,15 @@ export default {
 $border-radius-size: 6px;
 
 .lc-creator-button {
-
   display: flex;
   flex-direction: column;
+
   width: 240px;
 
   cursor: pointer;
 
   transition: transform .2s ease-in-out;
+
   border-radius: $border-radius-size;
 
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);

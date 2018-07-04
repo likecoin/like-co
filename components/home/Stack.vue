@@ -278,8 +278,8 @@ $layer-best-width: 400px;
 }
 
 .likecoin-stack-mobile {
-
   overflow: hidden;
+
   padding-top: 6px;
   padding-bottom: 44px;
 

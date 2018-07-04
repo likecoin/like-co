@@ -1,3 +1,4 @@
+/* stylelint-disable font-family-no-missing-generic-family-keyword  */
 @import "functions";
 @import "mixin";
 @import "variables";
@@ -5,6 +6,9 @@
 * {
   margin: 0;
   padding: 0;
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+  -webkit-padding-start: 0;
 }
 
 body {
@@ -60,17 +64,10 @@ h2 {
   line-height: 1.38;
 }
 
-* {
-  -webkit-margin-before: 0;
-  -webkit-margin-after: 0;
-  -webkit-padding-start: 0;
-}
-
 img {
   user-select: none;
 
   -webkit-user-drag: none;
-  user-drag: none;
   object-fit: contain;
 }
 
@@ -154,6 +151,7 @@ a,
 .lc-container-3,
 .lc-container-4 {
   position: relative;
+
   box-sizing: border-box;
 
   height: 100%;
@@ -501,6 +499,7 @@ $font-weight-list: 300 400 600;
   }
 }
 
+/* stylelint-disable unit-no-unknown */
 $line-height-map: (
   1: 1,
   1_2: 1.2,
@@ -508,6 +507,7 @@ $line-height-map: (
   1_6: 1.6,
   2: 2
 );
+/* stylelint-enable unit-no-unknown */
 
 @each $key, $value in $line-height-map {
   .lc-line-height-#{$key} {
@@ -638,9 +638,9 @@ $line-height-map: (
   }
 }
 
+.disabled,
 .disabled:active,
-.disabled:hover,
-.disabled {
+.disabled:hover {
   cursor: not-allowed !important;
   pointer-events: none !important;
 
@@ -699,6 +699,10 @@ $line-height-map: (
   background-image: linear-gradient(252deg, #d2f0f0, #f0e6b4);
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.5);
 
+  * {
+    border-radius: 50%;
+  }
+
   &::before {
     position: absolute;
     z-index: -1;
@@ -713,9 +717,6 @@ $line-height-map: (
     background-color: $like-white;
   }
 
-  * {
-    border-radius: 50%;
-  }
 }
 
 
@@ -806,8 +807,8 @@ $line-height-map: (
 }
 
 .md-button.md-likecoin {
-
   height: unset;
+
   white-space: normal;
 
   .md-ripple {
@@ -852,7 +853,7 @@ $line-height-map: (
           background-image: $image;
         }
       }
-    };
+    }
 
     @include lc-button-style($like-green);
 
@@ -978,16 +979,16 @@ span.bold {
   h1 {
 
     margin: 48px 0 24px;
-    font-size: 20px;
 
+    font-size: 20px;
     font-weight: bold;
   }
 
   h2 {
 
     margin: 32px 0 16px;
-    font-size: 16px;
 
+    font-size: 16px;
     font-weight: bold;
   }
 
@@ -1044,15 +1045,15 @@ span.bold {
 
     &-enter-active,
     &-leave {
-
       max-height: 100vh;
+
       opacity: 1;
     }
 
     &-enter,
     &-leave-to {
-
       max-height: 0;
+
       opacity: 0;
     }
   }

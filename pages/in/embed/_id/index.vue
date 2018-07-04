@@ -149,6 +149,7 @@ $responsive-offset: 15px;
   position:relative;
 
   align-items: center;
+
   max-width: 425px;
   max-height: 83px;
 
