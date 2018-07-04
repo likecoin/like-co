@@ -29,12 +29,11 @@
         ]"
       >
         <ul
+          v-if="isEmptyList && !isLoading"
           ref="list"
           @scroll="onLayout"
         >
-
           <li
-            v-if="isEmptyList && !isLoading"
             class="item-placeholder empty"
           >
             <mission-item-placeholder
@@ -43,19 +42,29 @@
             />
             <span>{{ emptyPlaceholder }}</span>
           </li>
+        </ul>
 
+        <ul
+          v-else-if="isLoading"
+          ref="list"
+          @scroll="onLayout"
+        >
           <li
             v-for="p in NUM_PLACEHOLDERS"
-            v-else-if="isLoading"
             :key="`placeholder-${p}`"
             class="item-placeholder"
           >
             <mission-item-placeholder :layout="layout" />
           </li>
+        </ul>
 
+        <ul
+          v-if="!isLoading"
+          ref="list"
+          @scroll="onLayout"
+        >
           <li
             v-for="m in missions"
-            v-if="!isLoading"
             :key="m.id"
           >
             <mission-item
@@ -65,7 +74,6 @@
               @click="onClick(m)"
             />
           </li>
-
         </ul>
       </div>
 
@@ -76,14 +84,14 @@
         class="lc-mobile-show"
         @click="onClickSlide"
       >
-
-        <div
-          v-for="p in NUM_PLACEHOLDERS"
-          v-if="isLoading"
-          :key="`placeholder-${p}`"
-          class="swiper-slide"
-        >
-          <mission-item-placeholder layout="large" />
+        <div v-if="isLoading">
+          <div
+            v-for="p in NUM_PLACEHOLDERS"
+            :key="`placeholder-${p}`"
+            class="swiper-slide"
+          >
+            <mission-item-placeholder layout="large" />
+          </div>
         </div>
 
         <div
@@ -98,18 +106,18 @@
             <span>{{ emptyPlaceholder }}</span>
           </div>
         </div>
-
-        <div
-          v-for="m in missions"
-          v-if="!isLoading"
-          :key="m.id"
-          class="swiper-slide"
-        >
-          <mission-item
-            :mission="m"
-            :is-referral="isReferral"
-            layout="large"
-          />
+        <div v-if="!isLoading">
+          <div
+            v-for="m in missions"
+            :key="m.id"
+            class="swiper-slide"
+          >
+            <mission-item
+              :mission="m"
+              :is-referral="isReferral"
+              layout="large"
+            />
+          </div>
         </div>
 
       </swiper>
