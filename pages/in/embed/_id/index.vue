@@ -163,6 +163,11 @@ $responsive-offset: 15px;
       border-radius: 50%;
       max-width: $profile-icon-size + $icon-border-size * 2;
       min-width: $profile-icon-size - $responsive-offset;
+
+      @media (max-width: 480px) {
+        min-width: auto;
+      }
+
       .user-avatar-wrapper {
         overflow: hidden;
         border-radius: 50%;
