@@ -165,7 +165,6 @@ $responsive-offset: 15px;
       min-width: $profile-icon-size - $responsive-offset;
       .user-avatar-wrapper {
         overflow: hidden;
-        border: 1px solid rgba(0,0,0, 0.2);
         border-radius: 50%;
         @media (min-width: #{768px + 1px}) {
           width: $profile-icon-size;
@@ -216,6 +215,7 @@ $responsive-offset: 15px;
     }
     .md-likecoin#embed-superlike-button {
       border-radius: 20px;
+      box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.25);
       @media (min-width: 600px + 1px) {
         min-width: $like-button-width;
         font-size: 20px;
