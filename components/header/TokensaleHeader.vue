@@ -126,18 +126,21 @@ $status-icon-size: 32px;
     justify-content: center;
 
     .icon {
-      width: 128px;
-      height: 128px;
 
       position: relative;
       z-index: 1;
-      border-radius: 50%;
+
       overflow: hidden;
+      width: 128px;
+      height: 128px;
+
+      border-radius: 50%;
     }
   }
 
   .heading {
     position: relative;
+
     display: flex;
     flex-direction: row;
 
@@ -150,8 +153,9 @@ $status-icon-size: 32px;
 
     .tokensale-state {
       display: flex;
-      flex-direction: column;
       align-items: center;
+      flex-direction: column;
+
       width: 100%;
 
       > * {
@@ -213,10 +217,10 @@ $status-icon-size: 32px;
       top: 2px;
       left: -42px;
 
-      color: $like-green-2;
-
       width: $status-icon-size;
       height: $status-icon-size;
+
+      color: $like-green-2;
 
       @media (max-width: 600px) {
         display: none;
@@ -229,12 +233,13 @@ $status-icon-size: 32px;
   }
 
   .md-progress-bar {
-    margin-top: 12px;
     width: 100%;
+    margin-top: 12px;
   }
 
   .pending-description {
     margin-top: 20px;
+
     color: $like-gray-4;
   }
 }

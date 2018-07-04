@@ -69,9 +69,9 @@ export default {
     height: inherit;
     padding: 18px 8px 32px;
 
-    background-color: white;
-
     border-radius: 6px;
+
+    background-color: white;
 
     > * {
       display: block;
@@ -90,16 +90,17 @@ export default {
     }
 
     h1 {
-      line-height: 1.35;
       font-size: 20px;
       font-weight: 600;
+      line-height: 1.35;
     }
 
     h2 {
       color: $like-gray-4;
-      line-height: 1.375;
+
       font-size: 16px;
       font-weight: 300;
+      line-height: 1.375;
     }
 
     h1,

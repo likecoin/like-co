@@ -56,7 +56,7 @@ export default {
 <style lang="scss" scoped>
 .error-container {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  flex-direction: column;
 }
 </style>

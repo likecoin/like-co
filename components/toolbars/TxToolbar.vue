@@ -49,8 +49,8 @@ export default {
 .md-toolbar {
   > .md-layout-item {
     display: flex;
-    flex-direction: row;
     align-items: center;
+    flex-direction: row;
 
     .status-icon {
       width: 24px;
@@ -62,8 +62,8 @@ export default {
 
   > .btn-container {
     display: flex;
-    flex-direction: row;
     align-items: center;
+    flex-direction: row;
   }
 
   .md-progress-spinner {
@@ -71,10 +71,11 @@ export default {
   }
 
   a .md-button {
-    color: $like-green;
-    text-decoration: underline;
 
     height: 24px;
+
+    text-decoration: underline;
+    color: $like-green;
   }
 
   > .md-icon {

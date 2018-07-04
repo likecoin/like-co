@@ -185,6 +185,7 @@ export default {
 .cta-section-body {
   display: flex;
   align-items: center;
+
   min-height: 212px;
 
   @media (max-width: 600px) {
@@ -245,6 +246,7 @@ export default {
 
     &.completed-percentage {
       margin-top: 0;
+
       color: $like-green;
 
       font-size: 44px;

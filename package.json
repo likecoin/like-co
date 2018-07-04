@@ -15,7 +15,7 @@
     "precommit": "npm run lint",
     "lint": "npm run lint:es && npm run lint:style",
     "lint:es": "eslint --ext .js,.vue .",
-    "lint:style": "stylelint -i .gitignore '**/*.{scss,vue}'",
+    "lint:style": "stylelint -i .gitignore '**/*.{scss,vue}' --fix",
     "prepare": "cd node_modules/web3-core-requestmanager/src && sed -i.bak \"/var global = Function('return this')();/d\" givenProvider.js && rm givenProvider.js.bak",
     "test": "AUTO_TEST=TRUE node test/runner.js",
     "test:api": "nyc ava -v test/api/*.test.js",

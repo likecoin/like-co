@@ -98,15 +98,20 @@ $like-button-pos: 80px;
   align-items: center;
 
   .user-avatar-border {
-    background: linear-gradient(242deg, #d2f0f0, #f0e6b4);
-    padding: 5px;
-    border-radius: 50%;
+
+    float: left;
+
     width: $profile-icon-size;
     height: $profile-icon-size;
-    float: left;
+
+    padding: 5px;
+
+    border-radius: 50%;
+    background: linear-gradient(242deg, #d2f0f0, #f0e6b4);
 
     .user-avatar-wrapper {
       overflow: hidden;
+
       border: 1px solid rgba(0,0,0, 0.2);
       border-radius: 50%;
       @media (min-width: #{768px + 1px}) {
@@ -122,11 +127,14 @@ $like-button-pos: 80px;
   }
 
   .user-identity {
+
+    display: table-cell;
     width: 100%;
     height: $profile-icon-size;
-    vertical-align: middle;
-    display: table-cell;
+
     padding: 8px;
+
+    vertical-align: middle;
 
     .support-div {
       font-size: 24px;
@@ -138,14 +146,16 @@ $like-button-pos: 80px;
 
       .display-name {
         color: $like-green;
+
         font-weight: 600;
         -webkit-text-fill-color: $like-green;
       }
     }
 
     .provided-by-div {
-      color: $like-gray-4;
       padding-top: 4px;
+
+      color: $like-gray-4;
     }
   }
 

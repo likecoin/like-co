@@ -490,10 +490,10 @@ export default {
             color: #9b9b9b;
           }
           img {
-            margin-top: -2px;
-            margin-right: 4px;
 
             min-width: 10px;
+            margin-top: -2px;
+            margin-right: 4px;
           }
           .value {
             font-size: 0;

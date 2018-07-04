@@ -55,10 +55,11 @@ export default {
 .menu-item {
   display: inline;
 
-  font-weight: 300;
+  cursor: pointer;
+
   color: $like-green;
 
-  cursor: pointer;
+  font-weight: 300;
 
   &:hover {
     > a::before {
@@ -88,29 +89,33 @@ export default {
     :global(.md-icon),
     :global(svg) {
       width: 16px;
+      min-width: 16px;
+      min-width: 16px;
       height: 16px;
-      min-width: 16px;
-      min-width: 16px;
     }
   }
 
   > a {
     position: relative;
-    text-decoration: none;
 
     display: inline-flex;
     align-items: center;
 
+    text-decoration: none;
+
     &::before {
-      content: " ";
       position: absolute;
       top: calc(100% + 3px);
       left: 0;
-      height: 2px;
-      background-color: $like-green;
+
       width: 0%;
+      height: 2px;
+
+      content: " ";
 
       transition: width 0.25s ease-out;
+
+      background-color: $like-green;
     }
 
     :global(.md-svg-loader) {

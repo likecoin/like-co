@@ -123,9 +123,9 @@ export default {
   margin-top: 16px;
   padding-bottom: 16px;
 
-  opacity: 1;
-
   transition: opacity .15s ease-in-out;
+
+  opacity: 1;
 
   &.hidden {
     display: none;

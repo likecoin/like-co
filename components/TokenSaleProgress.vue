@@ -81,21 +81,25 @@ $separator-size: 10px;
 .lc-tokensale-progress {
   .lc-tokensale-progress-bar {
     position: relative;
+
     padding: 0 #{$separator-size / 2 + 4px};
-    background-color: $like-gray-3;
     border-radius: 8px;
 
+    background-color: $like-gray-3;
+
     .progress {
-      border-radius: 8px;
       position: absolute;
       top: 0;
-      left: 0;
       bottom: 0;
-      background-image: linear-gradient(to left, #62317a, #28646e 10%, #ffdc89);
+      left: 0;
 
       width: 0;
-      will-change: width;
+
       transition: width .4s ease-in-out;
+
+      border-radius: 8px;
+      background-image: linear-gradient(to left, #62317a, #28646e 10%, #ffdc89);
+      will-change: width;
     }
 
     ul > li::after {
@@ -117,8 +121,8 @@ $separator-size: 10px;
   }
 
   .lc-tokensale-progress-legend {
-    padding: 0 #{$separator-size / 2 + 4px};
     margin-bottom: 4px;
+    padding: 0 #{$separator-size / 2 + 4px};
 
     @media (max-width: 600px) {
       display: none;
@@ -147,22 +151,26 @@ $separator-size: 10px;
           display: block;
 
           &.point-value {
-            font-weight: 600;
-            font-size: 10px;
+
             margin-right: 8px;
+            font-size: 10px;
+            font-weight: 600;
+
             line-height: 16px;
           }
 
           &.point-legend {
-            font-weight: 600;
+
             margin-right: 10px;
             margin-left: -10px;
+            font-weight: 600;
           }
 
           &.point-value,
           &.point-legend {
-            color: #462405;
+
             text-align: right;
+            color: #462405;
           }
         }
       }

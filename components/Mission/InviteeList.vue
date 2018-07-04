@@ -89,8 +89,17 @@ export default {
 
 .new-label {
   position: absolute;
+
+  top: 50%;
+  right: 0;
+
   display: flex;
   align-items: center;
+
+  margin-right: 8px;
+  margin-bottom: 4px;
+
+  transform: translateY(-50%);
 
   color: #ff5151;
 
@@ -105,14 +114,6 @@ export default {
     background-color: currentColor;
     box-shadow: 0 0 6px 0 #FF4949;
   }
-
-  top: 50%;
-  right: 0;
-
-  transform: translateY(-50%);
-
-  margin-right: 8px;
-  margin-bottom: 4px;
 
   &::after {
     content: "NEW";

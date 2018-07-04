@@ -214,6 +214,7 @@ $layer-best-width: 400px;
           rgba(240, 230, 180, .4),
           rgba(247, 247, 247, .4)
         );
+
         font-weight: bold;
       }
     }
@@ -277,10 +278,10 @@ $layer-best-width: 400px;
 }
 
 .likecoin-stack-mobile {
-  padding-top: 6px;
-  padding-bottom: 44px;
 
   overflow: hidden;
+  padding-top: 6px;
+  padding-bottom: 44px;
 
   .layer {
     position: relative;

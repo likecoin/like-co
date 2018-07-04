@@ -47,29 +47,32 @@ export default {
 $border-radius-size: 6px;
 
 .lc-creator-button {
-  width: 240px;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
-  border-radius: $border-radius-size;
 
   display: flex;
   flex-direction: column;
-
-  transition: transform .2s ease-in-out;
+  width: 240px;
 
   cursor: pointer;
+
+  transition: transform .2s ease-in-out;
+  border-radius: $border-radius-size;
+
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
 
   &:hover {
     transform: translateY(-8px);
   }
 
   > a {
-    color: initial;
     text-decoration: none;
+
+    color: initial;
   }
 
   .creator-info {
     display: flex;
     flex-direction: row;
+
     height: 56px;
 
     .icon {
@@ -79,32 +82,36 @@ $border-radius-size: 6px;
 
       width: 90px;
       height: 100%;
-      background-color: #d7ecec;
+
       border-radius: $border-radius-size 0 0 $border-radius-size;
+      background-color: #d7ecec;
 
       img {
+
+        z-index: 1;
+
         width: 72px;
         height: 72px;
 
-        border-radius: 50%;
         border: 1px solid $like-gray-3;
 
-        z-index: 1;
+        border-radius: 50%;
         object-fit: cover;
       }
     }
 
     .details {
       display: flex;
+      align-items: center;
       flex-direction: column;
       justify-content: center;
-      align-items: center;
 
       width: 150px;
       height: 100%;
-      background-color: $like-white;
-      border-radius: 0 $border-radius-size $border-radius-size 0;
+
       color: $like-dark-brown-2;
+      border-radius: 0 $border-radius-size $border-radius-size 0;
+      background-color: $like-white;
 
       .name {
         font-size: 20px;
@@ -131,17 +138,17 @@ $border-radius-size: 6px;
     align-items: center;
     justify-content: center;
 
-    color: $like-white;
-
     width: 100%;
     height: 24px;
 
-    font-size: 12px;
+    color: $like-white;
+    border-bottom-right-radius: $border-radius-size;
+
+    border-bottom-left-radius: $border-radius-size;
 
     background-image: linear-gradient(81deg, #812d4c, #f75353);
 
-    border-bottom-left-radius: $border-radius-size;
-    border-bottom-right-radius: $border-radius-size;
+    font-size: 12px;
 
   }
 

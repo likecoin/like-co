@@ -104,7 +104,8 @@ export default {
 @import "~assets/variables";
 
 .md-error {
-  color: $like-red;
+
   margin: -24px 0 24px;
+  color: $like-red;
 }
 </style>

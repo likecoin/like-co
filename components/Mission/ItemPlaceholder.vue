@@ -77,6 +77,8 @@ export default {
   }
 
   .animated-background {
+
+    height: $top;
     margin: 0 20px 8px;
 
     $top: 0;
@@ -85,8 +87,9 @@ export default {
       &.amount-label {
         top: $top;
 
-        $height: 20px; $top: $top + $height;
         height: $height;
+
+        $height: 20px; $top: $top + $height;
 
         &.left {
           left: 0;
@@ -102,16 +105,18 @@ export default {
         right: 0;
         left: 0;
 
-        $height: 24px; $top: $top + $height;
         height: $height;
+
+        $height: 24px; $top: $top + $height;
       }
 
       &.icon-middle {
         top: $top;
 
-        $height: 80px; $top: $top + $height;
         width: calc((100% - #{$height}) / 2);
         height: $height;
+
+        $height: 80px; $top: $top + $height;
 
         &.left {
           left: 0;
@@ -127,8 +132,9 @@ export default {
         right: 0;
         left: 0;
 
-        $height: 24px; $top: $top + $height;
         height: $height;
+
+        $height: 24px; $top: $top + $height;
       }
 
       $top: $top + 20px;
@@ -138,15 +144,17 @@ export default {
         right: 0;
         left: 0;
 
-        $height: 4px; $top: $top + $height;
         height: $height;
+
+        $height: 4px; $top: $top + $height;
       }
 
       &.label-newline {
         top: $top;
 
-        $height: 20px; $top: $top + $height;
         height: $height;
+
+        $height: 20px; $top: $top + $height;
 
         &.left {
           left: 0;
@@ -157,8 +165,6 @@ export default {
         }
       }
     }
-
-    height: $top;
   }
 }
 
@@ -251,9 +257,9 @@ export default {
 }
 
 .mission-item-placeholder {
-  width: 100%;
 
   flex-shrink: 0;
+  width: 100%;
 
   &.small {
     @include small-mission-item-placeholder();
