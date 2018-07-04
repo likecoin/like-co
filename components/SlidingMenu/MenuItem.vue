@@ -90,8 +90,8 @@ export default {
     :global(svg) {
       width: 16px;
       min-width: 16px;
-      min-width: 16px;
       height: 16px;
+      min-height: 16px;
     }
   }
 

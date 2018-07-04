@@ -829,10 +829,6 @@ $line-height-map: (
     line-height: 20px;
   }
 
-  &:not([disabled="disabled"]) {
-    color: white;
-  }
-
   &[disabled="disabled"] {
     background-color: #E6E6E6;
   }

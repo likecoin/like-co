@@ -363,10 +363,6 @@ export default {
 
     background-color: transparent;
 
-    :global(.md-table-content) {
-      background-color: transparent;
-    }
-
     :global(.md-scrollbar::-webkit-scrollbar) {
       width: 0;
       height: 0;
@@ -390,6 +386,8 @@ export default {
 
     :global(.md-table-content) {
       @include padding-x(40 + 8)
+
+      background-color: transparent;
 
       @media (max-width: 600px) {
         @include padding-x(24 + 8)
