@@ -131,14 +131,6 @@ export default {
       },
     };
   },
-  methods: {
-    ...mapActions([
-      'loginUser',
-    ]),
-    async triggerLoginSign() {
-      if (!(await this.loginUser())) this.$router.go(-1);
-    },
-  },
   watch: {
     getUserNeedAuth(a) {
       if (a) {
@@ -158,6 +150,14 @@ export default {
     if (this.getUserNeedRegister) {
       this.$router.push({ name: 'in-register', query: { ref: 'in', ...this.$route.query } });
     }
+  },
+  methods: {
+    ...mapActions([
+      'loginUser',
+    ]),
+    async triggerLoginSign() {
+      if (!(await this.loginUser())) this.$router.go(-1);
+    },
   },
 };
 </script>

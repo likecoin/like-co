@@ -253,6 +253,28 @@ export default {
       return this.isTermsAgreed && isEmailValid && isIdValid && !!this.reCaptchaResponse;
     },
   },
+  watch: {
+    getLocalWallet(w) {
+      if (w) {
+        this.setMyLikeCoin(w);
+      }
+    },
+    shouldShowReferrerDialog(isShow) {
+      this.setErrorDisabled(isShow);
+    },
+  },
+  mounted() {
+    if (this.referrer) {
+      this.fetchReferrerInfo();
+    }
+    if (this.isEdit) {
+      this.updateInfo();
+    }
+    const localWallet = this.getLocalWallet;
+    if (localWallet) {
+      this.setMyLikeCoin(localWallet);
+    }
+  },
   methods: {
     ...mapActions([
       'newUser',
@@ -355,28 +377,6 @@ export default {
         this.$router.replace({ name: 'in-register', query });
       }
     },
-  },
-  watch: {
-    getLocalWallet(w) {
-      if (w) {
-        this.setMyLikeCoin(w);
-      }
-    },
-    shouldShowReferrerDialog(isShow) {
-      this.setErrorDisabled(isShow);
-    },
-  },
-  mounted() {
-    if (this.referrer) {
-      this.fetchReferrerInfo();
-    }
-    if (this.isEdit) {
-      this.updateInfo();
-    }
-    const localWallet = this.getLocalWallet;
-    if (localWallet) {
-      this.setMyLikeCoin(localWallet);
-    }
   },
 };
 

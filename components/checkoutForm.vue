@@ -111,6 +111,9 @@ export default {
       'getUserIsRegistered',
     ]),
   },
+  mounted() {
+    this.queryIAP();
+  },
   methods: {
     ...mapActions([
       'purchaseIAP',
@@ -160,9 +163,6 @@ export default {
     reset() {
       this.chargeId = '';
     },
-  },
-  mounted() {
-    this.queryIAP();
   },
 };
 </script>

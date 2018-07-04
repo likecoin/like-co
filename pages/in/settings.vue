@@ -118,6 +118,32 @@ export default {
       );
     },
   },
+  watch: {
+    getUserNeedRegister(value) {
+      if (value) {
+        this.$router.push({ name: 'in-register', query: { ref: 'in-settings', ...this.$route.query } });
+      }
+    },
+    getUserNeedAuth(value) {
+      if (value) {
+        this.triggerLoginSign();
+      }
+    },
+    getUserIsReady(value) {
+      if (value && this.getUserIsRegistered) {
+        this.updateInfo();
+      }
+    },
+  },
+  mounted() {
+    if (this.getUserNeedRegister) {
+      this.$router.push({ name: 'in-register', query: { ref: 'in-settings', ...this.$route.query } });
+    } else if (this.getUserNeedAuth) {
+      this.triggerLoginSign();
+    } else if (this.getUserIsReady && this.getUserIsRegistered) {
+      this.updateInfo();
+    }
+  },
   methods: {
     ...mapActions([
       'loginUser',
@@ -160,32 +186,6 @@ export default {
       logTrackerEvent(this, 'Settings', 'requestReport', 'User wants to fire a report request', 1);
       if (this.$intercom) this.$intercom.showNewMessage(this.$t('Settings.label.requestReportPrePopulatedMessage'));
     },
-  },
-  watch: {
-    getUserNeedRegister(value) {
-      if (value) {
-        this.$router.push({ name: 'in-register', query: { ref: 'in-settings', ...this.$route.query } });
-      }
-    },
-    getUserNeedAuth(value) {
-      if (value) {
-        this.triggerLoginSign();
-      }
-    },
-    getUserIsReady(value) {
-      if (value && this.getUserIsRegistered) {
-        this.updateInfo();
-      }
-    },
-  },
-  mounted() {
-    if (this.getUserNeedRegister) {
-      this.$router.push({ name: 'in-register', query: { ref: 'in-settings', ...this.$route.query } });
-    } else if (this.getUserNeedAuth) {
-      this.triggerLoginSign();
-    } else if (this.getUserIsReady && this.getUserIsRegistered) {
-      this.updateInfo();
-    }
   },
 };
 </script>

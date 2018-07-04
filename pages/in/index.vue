@@ -212,6 +212,38 @@ export default {
       'getShortMissionList',
     ]),
   },
+  head() {
+    return {
+      meta: [
+        {
+          hid: 'og_image',
+          property: 'og:image',
+          content: 'https://like.co/images/og/sale.png',
+        },
+      ],
+    };
+  },
+  watch: {
+    getUserIsReady(a) {
+      if (a) {
+        if (this.getUserIsRegistered) {
+          this.updateInfo();
+        }
+      }
+    },
+  },
+  mounted() {
+    const { hash } = document.location;
+    if (hash) {
+      const element = document.querySelector(hash);
+      if (element) element.scrollIntoView();
+    }
+    if (this.getUserIsReady) {
+      if (this.getUserIsRegistered) {
+        this.updateInfo();
+      }
+    }
+  },
   methods: {
     ...mapActions([
       'newUser',
@@ -241,38 +273,6 @@ export default {
         console.error(err);
       }
     },
-  },
-  watch: {
-    getUserIsReady(a) {
-      if (a) {
-        if (this.getUserIsRegistered) {
-          this.updateInfo();
-        }
-      }
-    },
-  },
-  head() {
-    return {
-      meta: [
-        {
-          hid: 'og_image',
-          property: 'og:image',
-          content: 'https://like.co/images/og/sale.png',
-        },
-      ],
-    };
-  },
-  mounted() {
-    const { hash } = document.location;
-    if (hash) {
-      const element = document.querySelector(hash);
-      if (element) element.scrollIntoView();
-    }
-    if (this.getUserIsReady) {
-      if (this.getUserIsRegistered) {
-        this.updateInfo();
-      }
-    }
   },
 };
 </script>

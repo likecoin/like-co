@@ -284,6 +284,21 @@ export default {
       return this.getMissionList.find(mission => mission.id === 'verifyEmail');
     },
   },
+  watch: {
+    getUserIsReady(value) {
+      if (value && this.getUserIsRegistered) {
+        this.updateInfo();
+      }
+    },
+  },
+  mounted() {
+    if (this.getUserIsReady && this.getUserIsRegistered) {
+      if (this.$route.params.showEmail && !this.isUserEmailVerified) {
+        this.$nextTick(() => this.$refs.inputDialog.show());
+      }
+      this.updateInfo();
+    }
+  },
   methods: {
     ...mapActions([
       'newUser',
@@ -390,21 +405,6 @@ export default {
       this.isEmailEnabled = (user.isEmailEnabled !== false);
       this.updateLikeCoin();
     },
-  },
-  watch: {
-    getUserIsReady(value) {
-      if (value && this.getUserIsRegistered) {
-        this.updateInfo();
-      }
-    },
-  },
-  mounted() {
-    if (this.getUserIsReady && this.getUserIsRegistered) {
-      if (this.$route.params.showEmail && !this.isUserEmailVerified) {
-        this.$nextTick(() => this.$refs.inputDialog.show());
-      }
-      this.updateInfo();
-    }
   },
 };
 </script>

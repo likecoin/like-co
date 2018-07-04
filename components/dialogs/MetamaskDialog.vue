@@ -184,6 +184,11 @@ export default {
       }
     },
   },
+  mounted() {
+    if (this.isInstallMetamask) {
+      logTrackerEvent(this, 'RegFlow', 'AppearMetamaskCTA', 'metamask install cta appear', 1);
+    }
+  },
   methods: {
     ...mapActions([
       'hideLoginWindow',
@@ -212,11 +217,6 @@ export default {
         this.$router.push({ name: 'index' });
       }
     },
-  },
-  mounted() {
-    if (this.isInstallMetamask) {
-      logTrackerEvent(this, 'RegFlow', 'AppearMetamaskCTA', 'metamask install cta appear', 1);
-    }
   },
 };
 </script>

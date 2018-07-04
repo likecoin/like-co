@@ -208,6 +208,29 @@ export default {
       return this.$route.params.id;
     },
   },
+  async mounted() {
+    this.timestamp = 0;
+    if (this.to) this.updateUI(this.from, this.to);
+    if (this.value) {
+      this.amount = new BigNumber(this.value).div(ONE_LIKE).toFixed();
+    }
+    if (this.status === 'timeout') this.failReason = 2;
+    try {
+      const tx = await EthHelper.getTransferInfo(this.txId, { blocking: true });
+      this.isEth = tx.isEth;
+      if (!this.failReason) this.failReason = tx.isFailed ? 1 : 0;
+      /* eslint-disable no-underscore-dangle */
+      if (tx._value !== undefined) this.amount = new BigNumber(tx._value).div(ONE_LIKE).toFixed();
+      this.updateUI(tx._from, tx._to);
+      this.timestamp = tx.timestamp;
+      if (!this.timestamp) {
+        this.setupTimer();
+      }
+    } catch (err) {
+      console.error(err);
+      this.isNotFound = true;
+    }
+  },
   methods: {
     ...mapActions([
       'startLoading',
@@ -242,29 +265,6 @@ export default {
         this.toAvatar = toData.data.avatar;
       }
     },
-  },
-  async mounted() {
-    this.timestamp = 0;
-    if (this.to) this.updateUI(this.from, this.to);
-    if (this.value) {
-      this.amount = new BigNumber(this.value).div(ONE_LIKE).toFixed();
-    }
-    if (this.status === 'timeout') this.failReason = 2;
-    try {
-      const tx = await EthHelper.getTransferInfo(this.txId, { blocking: true });
-      this.isEth = tx.isEth;
-      if (!this.failReason) this.failReason = tx.isFailed ? 1 : 0;
-      /* eslint-disable no-underscore-dangle */
-      if (tx._value !== undefined) this.amount = new BigNumber(tx._value).div(ONE_LIKE).toFixed();
-      this.updateUI(tx._from, tx._to);
-      this.timestamp = tx.timestamp;
-      if (!this.timestamp) {
-        this.setupTimer();
-      }
-    } catch (err) {
-      console.error(err);
-      this.isNotFound = true;
-    }
   },
 };
 </script>

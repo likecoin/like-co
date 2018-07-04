@@ -138,9 +138,6 @@ export default {
     Team,
     TokenDistribution,
   },
-  methods: {
-    imgUrl,
-  },
   computed: {
     ...mapGetters([
       'getUserInfo',
@@ -177,6 +174,9 @@ export default {
       const element = document.querySelector(hash);
       if (element) element.scrollIntoView();
     }
+  },
+  methods: {
+    imgUrl,
   },
 };
 </script>

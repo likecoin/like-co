@@ -122,6 +122,21 @@ export default {
       },
     };
   },
+  watch: {
+    getUserNeedAuth(a) {
+      if (a) this.triggerLoginSign();
+    },
+    getUserIsRegistered(u) {
+      if (u) this.redirectToUserPage();
+    },
+  },
+  mounted() {
+    if (this.getUserIsRegistered) {
+      this.redirectToUserPage();
+    } else if (this.getUserNeedAuth) {
+      this.triggerLoginSign();
+    }
+  },
   methods: {
     ...mapActions([
       'loginUser',
@@ -146,21 +161,6 @@ export default {
         this.$router.push({ name: 'in', params: { showEmail: true } });
       }
     },
-  },
-  watch: {
-    getUserNeedAuth(a) {
-      if (a) this.triggerLoginSign();
-    },
-    getUserIsRegistered(u) {
-      if (u) this.redirectToUserPage();
-    },
-  },
-  mounted() {
-    if (this.getUserIsRegistered) {
-      this.redirectToUserPage();
-    } else if (this.getUserNeedAuth) {
-      this.triggerLoginSign();
-    }
   },
 };
 </script>

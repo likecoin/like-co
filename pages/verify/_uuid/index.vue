@@ -79,6 +79,15 @@ export default {
       'getUserInfo',
     ]),
   },
+  mounted() {
+    this.verifyEmail();
+  },
+  beforeDestroy() {
+    if (this.redirectTimer) {
+      clearTimeout(this.redirectTimer);
+      this.redirectTimer = null;
+    }
+  },
   methods: {
     ...mapActions([
       'verifyEmailByUUID',
@@ -126,15 +135,6 @@ export default {
         this.redirectTimer = setTimeout(() => this.$router.push({ name: 'index' }), 3000);
       }
     },
-  },
-  mounted() {
-    this.verifyEmail();
-  },
-  beforeDestroy() {
-    if (this.redirectTimer) {
-      clearTimeout(this.redirectTimer);
-      this.redirectTimer = null;
-    }
   },
 };
 </script>

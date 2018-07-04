@@ -294,6 +294,49 @@ export default {
       'getSelectedMission',
     ]),
   },
+  watch: {
+    getUserIsReady(a) {
+      if (a) {
+        if (this.getUserIsRegistered) {
+          this.updateInfo();
+        }
+      }
+    },
+    getMissionList(list) {
+      if (list.length > 0) {
+        const { selectedMission } = this.$route.query;
+        const mission = list.find(m => m.id === selectedMission);
+        if (selectedMission) {
+          if (mission) {
+            this.onMissionClick(mission);
+          } else {
+            this.fetchSelectedMission({
+              missionId: this.$route.query.selectedMission,
+              userMissionList: list.map(l => l.id),
+            });
+          }
+        }
+      }
+    },
+    getSelectedMission(mission) {
+      if (mission) {
+        this.onMissionClickFromUrl(mission);
+      }
+    },
+  },
+  mounted() {
+    const { hash } = document.location;
+    if (hash) {
+      const element = document.querySelector(hash);
+      if (element) element.scrollIntoView();
+    }
+
+    if (this.getUserIsReady) {
+      if (this.getUserIsRegistered) {
+        this.updateInfo();
+      }
+    }
+  },
   methods: {
     ...mapActions([
       'fetchUserReferralStats',
@@ -345,49 +388,6 @@ export default {
         default:
       }
     },
-  },
-  watch: {
-    getUserIsReady(a) {
-      if (a) {
-        if (this.getUserIsRegistered) {
-          this.updateInfo();
-        }
-      }
-    },
-    getMissionList(list) {
-      if (list.length > 0) {
-        const { selectedMission } = this.$route.query;
-        const mission = list.find(m => m.id === selectedMission);
-        if (selectedMission) {
-          if (mission) {
-            this.onMissionClick(mission);
-          } else {
-            this.fetchSelectedMission({
-              missionId: this.$route.query.selectedMission,
-              userMissionList: list.map(l => l.id),
-            });
-          }
-        }
-      }
-    },
-    getSelectedMission(mission) {
-      if (mission) {
-        this.onMissionClickFromUrl(mission);
-      }
-    },
-  },
-  mounted() {
-    const { hash } = document.location;
-    if (hash) {
-      const element = document.querySelector(hash);
-      if (element) element.scrollIntoView();
-    }
-
-    if (this.getUserIsReady) {
-      if (this.getUserIsRegistered) {
-        this.updateInfo();
-      }
-    }
   },
 };
 </script>

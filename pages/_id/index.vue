@@ -299,6 +299,14 @@ export default {
       return this.wallet.replace(/(0x.{10}).*(.{10})/, '$1...$2');
     },
   },
+  watch: {
+    getWeb3Type() {
+      this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
+    },
+  },
+  mounted() {
+    this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
+  },
   methods: {
     ...mapActions([
       'showLoginWindow',
@@ -382,14 +390,6 @@ export default {
         query: { ...this.$route.query, ref: '' },
       });
     },
-  },
-  watch: {
-    getWeb3Type() {
-      this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
-    },
-  },
-  mounted() {
-    this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
   },
 };
 </script>

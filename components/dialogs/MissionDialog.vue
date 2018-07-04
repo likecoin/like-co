@@ -465,6 +465,17 @@ export default {
       return this.mission.isMissionRequired && this.mission.require.length > 0;
     },
   },
+  watch: {
+    getPopupMission(m) {
+      if (m) {
+        const { invitee, isReferral, isCompleted } = m;
+        this.invitee = invitee;
+        this.isReferral = isReferral;
+        this.isCompleted = !!isCompleted;
+        this.show();
+      }
+    },
+  },
   methods: {
     ...mapActions([
       'postStepMission',
@@ -590,17 +601,6 @@ export default {
         });
       } else {
         this.hide();
-      }
-    },
-  },
-  watch: {
-    getPopupMission(m) {
-      if (m) {
-        const { invitee, isReferral, isCompleted } = m;
-        this.invitee = invitee;
-        this.isReferral = isReferral;
-        this.isCompleted = !!isCompleted;
-        this.show();
       }
     },
   },

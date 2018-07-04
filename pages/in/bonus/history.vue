@@ -101,14 +101,6 @@ export default {
       'getIsFetchingMissionHistory',
     ]),
   },
-  methods: {
-    ...mapActions([
-      'refreshMissionHistoryList',
-    ]),
-    refreshHistory() {
-      this.refreshMissionHistoryList(this.getUserInfo.user);
-    },
-  },
   watch: {
     getUserIsReady(a) {
       if (a) {
@@ -124,6 +116,14 @@ export default {
         this.refreshHistory();
       }
     }
+  },
+  methods: {
+    ...mapActions([
+      'refreshMissionHistoryList',
+    ]),
+    refreshHistory() {
+      this.refreshMissionHistoryList(this.getUserInfo.user);
+    },
   },
 };
 </script>

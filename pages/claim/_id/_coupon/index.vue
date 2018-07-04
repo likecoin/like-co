@@ -59,6 +59,9 @@ export default {
       return this.$route.params.coupon;
     },
   },
+  mounted() {
+    this.claimCoupon();
+  },
   methods: {
     ...mapActions([
       'getWalletByUser',
@@ -86,9 +89,6 @@ export default {
         setTimeout(() => this.$router.push({ name: 'index' }), 3000);
       }
     },
-  },
-  mounted() {
-    this.claimCoupon();
   },
 };
 </script>

@@ -189,6 +189,27 @@ export default {
       return this.missions.length <= 0;
     },
   },
+  watch: {
+    missions() {
+      this.$nextTick(() => this.updateScrollIndicator());
+    },
+    isLoading() {
+      this.$nextTick(() => {
+        this.$refs.list.scrollLeft = 0;
+        this.updateScrollIndicator();
+      });
+    },
+  },
+  mounted() {
+    if (this.shouldShowScrollIndicator) {
+      window.addEventListener('resize', this.onLayout);
+    }
+  },
+  beforeDestroy() {
+    if (this.shouldShowScrollIndicator) {
+      window.removeEventListener('resize', this.onLayout);
+    }
+  },
   methods: {
     updateScrollIndicator() {
       const { clientWidth, scrollWidth, scrollLeft } = this.$refs.list;
@@ -220,27 +241,6 @@ export default {
       }
     },
     onLayout: _throttle(function () { this.updateScrollIndicator(); }, 20),
-  },
-  watch: {
-    missions() {
-      this.$nextTick(() => this.updateScrollIndicator());
-    },
-    isLoading() {
-      this.$nextTick(() => {
-        this.$refs.list.scrollLeft = 0;
-        this.updateScrollIndicator();
-      });
-    },
-  },
-  mounted() {
-    if (this.shouldShowScrollIndicator) {
-      window.addEventListener('resize', this.onLayout);
-    }
-  },
-  beforeDestroy() {
-    if (this.shouldShowScrollIndicator) {
-      window.removeEventListener('resize', this.onLayout);
-    }
   },
 };
 </script>
