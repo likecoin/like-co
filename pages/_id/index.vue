@@ -269,6 +269,9 @@ export default {
     maskedWallet() {
       return this.wallet.replace(/(0x.{10}).*(.{10})/, '$1...$2');
     },
+    httpReferrer() {
+      return this.$route.query.referrer || document.referrer || undefined;
+    },
   },
   methods: {
     ...mapActions([
@@ -331,6 +334,7 @@ export default {
             this.setErrorMsg(this.$t('Transaction.error.notSupported'));
           }
           const payload = await EthHelper.signTransferDelegated(to, valueToSend, 0);
+          payload.httpReferrer = this.httpReferrer;
           txHash = await this.sendPayment(payload);
         }
         if (this.getIsShowingTxPopup) {
