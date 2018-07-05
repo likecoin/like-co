@@ -1,6 +1,9 @@
 <template>
   <div :class="['lc-loading-indicator', layout]">
-    <div v-for="(n, index) in NUM_DOTS" :key="index" />
+    <div
+      v-for="(n, index) in NUM_DOTS"
+      :key="index"
+    />
   </div>
 </template>
 
@@ -8,11 +11,6 @@
 <script>
 export default {
   name: 'loading-indicator',
-  data() {
-    return {
-      NUM_DOTS: 3,
-    };
-  },
   props: {
     layout: {
       type: String,
@@ -21,6 +19,11 @@ export default {
       },
       default: 'fluid',
     },
+  },
+  data() {
+    return {
+      NUM_DOTS: 3,
+    };
   },
 };
 </script>

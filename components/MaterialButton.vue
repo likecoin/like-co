@@ -1,9 +1,10 @@
 <template>
   <md-button
     :class="[className, classObject]"
-    @click="handleClick"
     :type="type"
-    :form="form">
+    :form="form"
+    @click="handleClick"
+  >
     <slot />
   </md-button>
 </template>
@@ -11,7 +12,28 @@
 <script>
 export default {
   name: 'material-button',
-  props: ['className', 'hasShadow', 'type', 'form', 'disabled'],
+  props: {
+    className: {
+      type: String,
+      default: undefined,
+    },
+    hasShadow: {
+      type: Boolean,
+      default: false,
+    },
+    type: {
+      type: String,
+      default: undefined,
+    },
+    form: {
+      type: String,
+      default: undefined,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+  },
   computed: {
     classObject() {
       return {

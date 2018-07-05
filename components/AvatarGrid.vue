@@ -2,7 +2,10 @@
   <div class="avatar-grid">
     <ul>
 
-      <li v-for="(item, index) in items" :key="item.key">
+      <li
+        v-for="(item, index) in items"
+        :key="item.key"
+      >
         <avatar-grid-card
           :key="item.key || index"
           :avatar="item.avatar"

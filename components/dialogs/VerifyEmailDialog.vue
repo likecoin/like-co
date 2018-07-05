@@ -1,10 +1,11 @@
 <template>
   <base-dialog
     ref="dialog"
-    class="email-dialog"
     :md-props="{
       mdCloseOnEsc: false,
-    }">
+    }"
+    class="email-dialog"
+  >
 
     <div class="lc-dialog-container-1">
       <h1
@@ -12,13 +13,15 @@
           lc-font-size-32
           lc-font-weight-400
           lc-color-like-dark-brown-1
-          lc-mobile">
+          lc-mobile"
+      >
         {{ $t('Register.form.error.emailFormat') }}
       </h1>
 
       <p
         class="lc-margin-bottom-16 lc-font-size-14 lc-font-weight-400 lc-color-like-green"
-        v-html="$t('Dialog.emailInput.content')" />
+        v-html="$t('Dialog.emailInput.content')"
+      />
 
       <verify-email-form
         ref="form"
@@ -26,7 +29,8 @@
         :label="$t('Dialog.emailInput.label')"
         :email-ref="emailRef"
         @cancel="onCancel"
-        @submit="onSubmit"/>
+        @submit="onSubmit"
+      />
     </div>
 
   </base-dialog>
@@ -40,17 +44,19 @@ import { logTrackerEvent } from '@/util/EventLogger';
 
 export default {
   name: 'verify-email-dialog',
-  props: {
-    emailRef: {
-      default: '',
-    },
-    email: {
-      default: '',
-    },
-  },
   components: {
     BaseDialog,
     VerifyEmailForm,
+  },
+  props: {
+    emailRef: {
+      type: String,
+      default: '',
+    },
+    email: {
+      type: String,
+      default: '',
+    },
   },
   methods: {
     show() {

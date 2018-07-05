@@ -11,12 +11,19 @@
           :toName="toName"
           :toAddress="to"
           :timestamp="timestamp"
-          :amount="amount" />
+          :amount="amount"
+        />
 
         <div class="lc-container-2">
           <div class="lc-container-3 lc-bg-gray-1">
-            <div class="tx-container lc-padding-bottom-8" v-if="!isNotFound">
-              <section v-if="toId" class="section-container">
+            <div
+              v-if="!isNotFound"
+              class="tx-container lc-padding-bottom-8"
+            >
+              <section
+                v-if="toId"
+                class="section-container"
+              >
                 <div class="key">
                   {{ $t('Transaction.label.recipientId') }}
                 </div>
@@ -30,9 +37,11 @@
                 <div class="key">
                   {{ $t('Transaction.label.recipientAddress') }}
                 </div>
-                <a :href="`${ETHERSCAN_HOST}/address/${to}#tokentxns`"
+                <a
+                  :href="`${ETHERSCAN_HOST}/address/${to}#tokentxns`"
                   target="_blank"
-                  rel="noopener">
+                  rel="noopener"
+                >
                   <div class="address value lc-font-size-20">
                     {{ to }}
                   </div>
@@ -44,8 +53,14 @@
 
         <div class="lc-container-2 lc-margin-top-16">
           <div class="lc-container-3 lc-bg-gray-1">
-            <div class="tx-container lc-padding-top-32 lc-padding-bottom-16" v-if="!isNotFound">
-              <section v-if="fromId" class="section-container">
+            <div
+              v-if="!isNotFound"
+              class="tx-container lc-padding-top-32 lc-padding-bottom-16"
+            >
+              <section
+                v-if="fromId"
+                class="section-container"
+              >
                 <div class="key">
                   {{ $t('Transaction.label.senderName') }}
                 </div>
@@ -62,13 +77,17 @@
                 <a
                   :href="`${ETHERSCAN_HOST}/address/${from}#tokentxns`"
                   target="_blank"
-                  rel="noopener">
+                  rel="noopener"
+                >
                   <div class="address value lc-font-size-20">
                     {{ from }}
                   </div>
                 </a>
               </section>
-              <section v-if="remarks" class="section-container">
+              <section
+                v-if="remarks"
+                class="section-container"
+              >
                 <div class="key">
                   {{ $t('Transaction.label.remarks') }}
                 </div>
@@ -105,6 +124,10 @@ const PENDING_UPDATE_INTERVAL = 1000; // 1s
 export default {
   name: 'transaction',
   layout: 'narrowWithHeader',
+  components: {
+    TransactionHeader,
+    ViewEtherscan,
+  },
   data() {
     return {
       isEth: false,
@@ -177,10 +200,6 @@ export default {
       ],
     };
   },
-  components: {
-    TransactionHeader,
-    ViewEtherscan,
-  },
   computed: {
     isCompleted() {
       return !!this.timestamp;
@@ -188,6 +207,29 @@ export default {
     txId() {
       return this.$route.params.id;
     },
+  },
+  async mounted() {
+    this.timestamp = 0;
+    if (this.to) this.updateUI(this.from, this.to);
+    if (this.value) {
+      this.amount = new BigNumber(this.value).div(ONE_LIKE).toFixed();
+    }
+    if (this.status === 'timeout') this.failReason = 2;
+    try {
+      const tx = await EthHelper.getTransferInfo(this.txId, { blocking: true });
+      this.isEth = tx.isEth;
+      if (!this.failReason) this.failReason = tx.isFailed ? 1 : 0;
+      /* eslint-disable no-underscore-dangle */
+      if (tx._value !== undefined) this.amount = new BigNumber(tx._value).div(ONE_LIKE).toFixed();
+      this.updateUI(tx._from, tx._to);
+      this.timestamp = tx.timestamp;
+      if (!this.timestamp) {
+        this.setupTimer();
+      }
+    } catch (err) {
+      console.error(err);
+      this.isNotFound = true;
+    }
   },
   methods: {
     ...mapActions([
@@ -223,29 +265,6 @@ export default {
         this.toAvatar = toData.data.avatar;
       }
     },
-  },
-  async mounted() {
-    this.timestamp = 0;
-    if (this.to) this.updateUI(this.from, this.to);
-    if (this.value) {
-      this.amount = new BigNumber(this.value).div(ONE_LIKE).toFixed();
-    }
-    if (this.status === 'timeout') this.failReason = 2;
-    try {
-      const tx = await EthHelper.getTransferInfo(this.txId, { blocking: true });
-      this.isEth = tx.isEth;
-      if (!this.failReason) this.failReason = tx.isFailed ? 1 : 0;
-      /* eslint-disable no-underscore-dangle */
-      if (tx._value !== undefined) this.amount = new BigNumber(tx._value).div(ONE_LIKE).toFixed();
-      this.updateUI(tx._from, tx._to);
-      this.timestamp = tx.timestamp;
-      if (!this.timestamp) {
-        this.setupTimer();
-      }
-    } catch (err) {
-      console.error(err);
-      this.isNotFound = true;
-    }
   },
 };
 </script>

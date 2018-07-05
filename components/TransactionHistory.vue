@@ -15,10 +15,12 @@
                 </h1>
                 <div
                   v-if="isFetchedTx"
-                  class="lc-container-header-button-wrapper lc-mobile-hide">
+                  class="lc-container-header-button-wrapper lc-mobile-hide"
+                >
                   <refresh-button
                     :is-refreshing="isEmptyList && isFetchingTx"
-                    @click="updateTokenSaleHistory" />
+                    @click="updateTokenSaleHistory"
+                  />
                 </div>
               </div>
             </div>
@@ -30,9 +32,11 @@
         <!-- Empty Placeholder -->
         <div
           v-if="!isFetchingTx && isFetchedTx && isEmptyList"
-          class="lc-container-3 lc-padding-vertical-64 lc-bg-gray-1">
+          class="lc-container-3 lc-padding-vertical-64 lc-bg-gray-1"
+        >
           <div
-            class="lc-container-4">
+            class="lc-container-4"
+          >
             <div class="lc-text-align-center">
               {{ $t('TransactionHistory.label.noRecord') }}
             </div>
@@ -42,7 +46,8 @@
         <!-- Transaction List -->
         <div
           v-else-if="!isEmptyList"
-          class="lc-transaction-history lc-padding-top-32 lc-bg-gray-1 lc-mobile">
+          class="lc-transaction-history lc-padding-top-32 lc-bg-gray-1 lc-mobile"
+        >
           <md-table>
             <md-table-row>
               <md-table-head class="status-header">
@@ -60,7 +65,11 @@
               <md-table-head />
             </md-table-row>
 
-            <md-table-row v-for="tx in filteredHistory" class="lc-container-3" :key="tx.id">
+            <md-table-row
+              v-for="tx in filteredHistory"
+              :key="tx.id"
+              class="lc-container-3"
+            >
               <md-table-cell :class="['status', getStatus(tx)]">
                 {{ $t(`TransactionHistory.label.${getStatus(tx)}`) }}
               </md-table-cell>
@@ -71,7 +80,8 @@
                 </span>
                 <nuxt-link
                   v-if="getFromToId(tx)"
-                  :to="{ name: 'id', params: { id: getFromToId(tx) } }">
+                  :to="{ name: 'id', params: { id: getFromToId(tx) } }"
+                >
                   {{ getFromToId(tx) }}
                 </nuxt-link>
                 <span v-else>{{ $t('TransactionHistory.label.unknown') }}</span>
@@ -81,7 +91,8 @@
                 :class="['time-cell', {
                   pending: tx.status === 'pending',
                   expired: tx.status === 'timeout',
-                }]">
+                }]"
+              >
                 {{ getTime(tx) }}
               </md-table-cell>
 
@@ -89,28 +100,33 @@
                 <div :class="['value-cell right', { error: isTxFailed(tx) }]">
                   <img
                     v-if="isTxFailed(tx)"
-                    :src="ErrorIcon" />
+                    :src="ErrorIcon"
+                  >
                   <div
-                    v-else-if="isFromPreSaleBonus(tx)">
-                    <img :src="LockIcon" />
+                    v-else-if="isFromPreSaleBonus(tx)"
+                  >
+                    <img :src="LockIcon">
                     <md-tooltip>
                       {{
                         $t('TransactionHistory.label.lockUntilDate',
-                        { date: BONUS_LOCK_UNTIL_DATE })
+                           { date: BONUS_LOCK_UNTIL_DATE })
                       }}
                     </md-tooltip>
                   </div>
                   <div
                     class="value"
-                    v-html="getValue(tx)" />
+                    v-html="getValue(tx)"
+                  />
                 </div>
               </md-table-cell>
 
               <md-table-cell class="view-cell">
-                <nuxt-link :to="{
-                  name: isTokensale(tx) ? 'in-tokensale-tx-id' : 'in-tx-id',
-                  params: { id: tx.id },
-                }">
+                <nuxt-link
+                  :to="{
+                    name: isTokensale(tx) ? 'in-tokensale-tx-id' : 'in-tx-id',
+                    params: { id: tx.id },
+                  }"
+                >
                   {{ $t('TransactionHistory.button.view') }}
                 </nuxt-link>
               </md-table-cell>
@@ -124,18 +140,24 @@
           :class="[
             'lc-container-3 lc-bg-gray-1 lc-mobile',
             isEmptyList ? 'lc-padding-vertical-64' : 'lc-padding-bottom-32',
-          ]">
+          ]"
+        >
           <div class="lc-container-4">
 
-            <md-progress-bar v-if="isFetchingTx" md-mode="indeterminate" />
+            <md-progress-bar
+              v-if="isFetchingTx"
+              md-mode="indeterminate"
+            />
 
             <div
               v-else-if="hasMore"
-              class="lc-text-align-center lc-padding-top-4">
+              class="lc-text-align-center lc-padding-top-4"
+            >
               <a
                 class="lc-margin-top-16 show-more"
                 href=""
-                @click.prevent="onShowMore">
+                @click.prevent="onShowMore"
+              >
                 {{ $t('TransactionHistory.button.showMore') }}
               </a>
             </div>
@@ -203,8 +225,14 @@ function formatUTCTimeToLocal(date) {
 
 export default {
   name: 'transaction-history',
+  components: {
+    RefreshButton,
+  },
   props: {
-    address: String,
+    address: {
+      type: String,
+      default: '',
+    },
     isFetched: {
       type: Boolean,
       default: false,
@@ -213,9 +241,6 @@ export default {
       type: Boolean,
       default: false,
     },
-  },
-  components: {
-    RefreshButton,
   },
   data() {
     return {

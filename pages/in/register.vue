@@ -14,7 +14,7 @@ import { REDIRECT_WHITE_LIST } from '@/constant';
 const URL = require('url-parse');
 
 export default {
-  name: 'Register',
+  name: 'register',
   layout: 'register',
   components: {
     Description,

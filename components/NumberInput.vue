@@ -1,32 +1,45 @@
 <template>
   <div>
-    <md-field :class="['lc-number-input', { 'has-currency': !!this.currencyTitle }]">
+    <md-field :class="['lc-number-input', { 'has-currency': !!currencyTitle }]">
       <label v-html="label" />
       <div class="lc-number-input-wrapper lc-margin-top-12">
-        <md-button class="value-button" @click="onAmountAdd(-1)">
-          <img :src="MinusIcon" />
+        <md-button
+          class="value-button"
+          @click="onAmountAdd(-1)"
+        >
+          <img :src="MinusIcon">
         </md-button>
 
-        <span v-if="!!currencyTitle" class="currency-code">
+        <span
+          v-if="!!currencyTitle"
+          class="currency-code"
+        >
           {{ currencyTitle }}
         </span>
 
         <md-input
           :class="['payment-input', { 'with-currency': !!currencyTitle }]"
-          pattern="[0-9]*(\.[0-9]*)?"
           :title="$t('Transaction.label.enterValidNumber')"
           :value="amount"
+          pattern="[0-9]*(\.[0-9]*)?"
+          required
           @keypress="onAmountKeypress"
           @input="onAmountInput"
           @focusout="formatAmount"
-          required />
+        />
 
-        <md-button class="value-button" @click="onAmountAdd(1)">
-          <img :src="AddIcon" />
+        <md-button
+          class="value-button"
+          @click="onAmountAdd(1)"
+        >
+          <img :src="AddIcon">
         </md-button>
       </div>
     </md-field>
-    <span v-if="isBadAmount" class="error">
+    <span
+      v-if="isBadAmount"
+      class="error"
+    >
       {{ badText }}
     </span>
   </div>
@@ -59,7 +72,32 @@ function formatAmount(amount) {
 
 export default {
   name: 'number-input',
-  props: ['amount', 'label', 'currencyTitle', 'isBadAmount', 'badAmountMessage', 'decimalPlaceLimit'],
+  props: {
+    amount: {
+      type: String,
+      default: '',
+    },
+    label: {
+      type: String,
+      default: '',
+    },
+    currencyTitle: {
+      type: String,
+      default: '',
+    },
+    isBadAmount: {
+      type: Boolean,
+      default: false,
+    },
+    badAmountMessage: {
+      type: String,
+      default: '',
+    },
+    decimalPlaceLimit: {
+      type: Number,
+      default: undefined,
+    },
+  },
   data() {
     return {
       AddIcon,

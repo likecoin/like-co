@@ -36,8 +36,8 @@ router.get('/oembed', cors(), async (req, res, next) => {
     }
     const amount = match[3] || '';
 
-    const maxWidth = Number.parseInt(req.query.maxwidth || 480, 10);
-    const maxHeight = Number.parseInt(req.query.maxheight || 170, 10);
+    const maxWidth = Number.parseInt(req.query.maxwidth || 500, 10);
+    const maxHeight = Number.parseInt(req.query.maxheight || 200, 10);
     const thumbnailLength = Math.min(100, maxWidth, maxHeight);
 
     const doc = await dbRef.doc(username).get();

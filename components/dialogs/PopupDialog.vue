@@ -3,7 +3,8 @@
     :md-active.sync="showDialog"
     :md-close-on-esc="false"
     :md-click-outside-to-close="false"
-    :md-fullscreen="false">
+    :md-fullscreen="false"
+  >
     <div class="title-bar" />
     <div class="dialog-content">
       <md-dialog-title v-if="header">
@@ -15,7 +16,10 @@
       </md-dialog-content>
 
       <section>
-        <material-button id="btn-confirm" @click="onDialogConfirm">
+        <material-button
+          id="btn-confirm"
+          @click="onDialogConfirm"
+        >
           {{ buttonText }}
         </material-button>
       </section>
@@ -28,10 +32,27 @@
 import MaterialButton from '@/components/MaterialButton';
 
 export default {
-  name: 'PopupDialog',
-  props: ['allowClose', 'header', 'message', 'confirmText'],
+  name: 'popup-dialog',
   components: {
     MaterialButton,
+  },
+  props: {
+    allowClose: {
+      type: Boolean,
+      default: false,
+    },
+    header: {
+      type: String,
+      default: '',
+    },
+    message: {
+      type: String,
+      default: '',
+    },
+    confirmText: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -44,14 +65,6 @@ export default {
       return this.$t('General.button.confirm');
     },
   },
-  methods: {
-    toggleSync() {
-      this.showDialog = !this.showDialog;
-    },
-    onDialogConfirm() {
-      this.$emit('onConfirm');
-    },
-  },
   watch: {
     message(e) {
       this.showDialog = !!e;
@@ -59,6 +72,14 @@ export default {
   },
   mounted() {
     this.showDialog = !!this.message;
+  },
+  methods: {
+    toggleSync() {
+      this.showDialog = !this.showDialog;
+    },
+    onDialogConfirm() {
+      this.$emit('onConfirm');
+    },
   },
 };
 </script>

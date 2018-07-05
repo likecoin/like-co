@@ -4,7 +4,11 @@
       <div class="lc-container-3 lc-bg-gray-1 icon-wrapper">
         <div class="icon">
           <nuxt-link :to="{ name: 'in-tokensale' }">
-            <img alt="likecoin" class="main-icon" :src="likeCoinIcon" />
+            <img
+              :src="likeCoinIcon"
+              alt="likecoin"
+              class="main-icon"
+            >
           </nuxt-link>
         </div>
       </div>
@@ -15,18 +19,25 @@
       <div class="lc-container-3">
         <div class="heading lc-font-size-42 lc-padding-top-32 lc-padding-bottom-24 lc-mobile">
           <section
+            v-if="!isNotFound"
             class="tokensale-state"
-            v-if="!isNotFound">
+          >
             <div class="header lc-font-size-20">
               TokenSale
             </div>
-            <div v-if="amount" class="amount lc-font-weight-300">
+            <div
+              v-if="amount"
+              class="amount lc-font-weight-300"
+            >
               {{ $t(`Transaction.header.label.ethAmount`, { amount }) }} →
               {{ $t(`Transaction.header.label.likecoinAmount`, { amount: amountOfLikeCoin }) }}
             </div>
             <div v-else />
           </section>
-          <h1 v-else class="error">
+          <h1
+            v-else
+            class="error"
+          >
             <md-icon class="md-size-2x">error</md-icon>
             {{ $t('Transaction.header.label.notFound') }}
           </h1>
@@ -37,7 +48,10 @@
     <div class="lc-container-2">
       <div class="lc-container-3 lc-bg-gray-1 icon-wrapper">
 
-        <section v-if="!isNotFound" class="tokensale-container lc-padding-vertical-48 lc-mobile">
+        <section
+          v-if="!isNotFound"
+          class="tokensale-container lc-padding-vertical-48 lc-mobile"
+        >
           <section v-if="failReason === 2"><!-- timeout !-->
             <h1 class="failed">
               <md-icon class="status-icon error-icon">
@@ -65,7 +79,10 @@
           </section>
           <section v-else>
             <h1 class="success lc-margin-bottom-12">
-              <img class="status-icon" :src="TickIcon" />
+              <img
+                :src="TickIcon"
+                class="status-icon"
+              >
               {{ $t('Transaction.header.label.completed') }}
             </h1>
             <div class="lc-font-size-20">
@@ -88,7 +105,36 @@ import { ETH_TO_LIKECOIN_RATIO } from '@/constant';
 export default {
   name: 'tokensale-header',
   /* failReason : 0 = none, 1 = failed, 2 = timeout */
-  props: ['icon', 'toId', 'toName', 'toAddress', 'timestamp', 'amount', 'isNotFound', 'failReason'],
+  props: {
+    toId: {
+      type: String,
+      default: '',
+    },
+    toName: {
+      type: String,
+      default: '',
+    },
+    toAddress: {
+      type: String,
+      default: '',
+    },
+    timestamp: {
+      type: Number,
+      default: 0,
+    },
+    amount: {
+      type: Number,
+      default: 0,
+    },
+    isNotFound: {
+      type: Boolean,
+      default: false,
+    },
+    failReason: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
       defaultText: 'Redeem your free LikeCoin',

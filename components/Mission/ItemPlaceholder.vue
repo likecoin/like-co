@@ -1,15 +1,18 @@
 <template>
   <div
     :class="['mission-item-placeholder', layout, { animated }]"
-    @click="$emit('click')">
+    @click="$emit('click')"
+  >
     <div class="placeholder-card">
       <div class="animated-background">
         <div
+          :style="style.amountLabel"
           class="background-masker amount-label left"
-          :style="style.amountLabel" />
+        />
         <div
+          :style="style.amountLabel"
           class="background-masker amount-label right"
-          :style="style.amountLabel" />
+        />
         <div class="background-masker icon-top" />
         <div class="background-masker icon-middle left" />
         <div class="background-masker icon-middle right" />
@@ -18,11 +21,13 @@
         <div class="background-masker amount-vertical" />
         <div class="background-masker label-in-between" />
         <div
+          :style="style.descriptionLabel"
           class="background-masker label-newline left"
-          :style="style.descriptionLabel" />
+        />
         <div
+          :style="style.descriptionLabel"
           class="background-masker label-newline right"
-          :style="style.descriptionLabel" />
+        />
       </div>
     </div>
   </div>

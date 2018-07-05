@@ -14,11 +14,12 @@
     </div>
 
     <div class="lc-document-wrapper lc-padding-top-24 lc-bg-gray-1">
-      <img :src="imageSrc" />
+      <img :src="imageSrc">
       <ul class="language-list lc-padding-vertical-24 lc-mobile">
         <li
           v-for="link in mainLocaleSrc"
-          :key="link.languageKey">
+          :key="link.languageKey"
+        >
           <material-button @click="handleClick(link.src)">
             {{ $t(`Language.${link.languageKey}`) }}
           </material-button>
@@ -27,12 +28,14 @@
     </div>
 
     <div
+      v-if="otherLocaleSrc.length > 0"
       class="other-languages-list"
-      v-if="otherLocaleSrc.length > 0">
+    >
       <ul class="language-list lc-padding-vertical-24 lc-mobile">
         <li
           v-for="link in otherLocaleSrc"
-          :key="link.languageKey">
+          :key="link.languageKey"
+        >
           <material-button @click="handleClick(link.src)">
             {{ $t(`Language.${link.languageKey}`) }}
           </material-button>
@@ -47,9 +50,26 @@ import MaterialButton from '~/components/MaterialButton';
 
 export default {
   name: 'document',
-  props: ['title', 'imageSrc', 'linkSrc', 'mainLocales'],
   components: {
     MaterialButton,
+  },
+  props: {
+    title: {
+      type: String,
+      default: '',
+    },
+    imageSrc: {
+      type: String,
+      default: '',
+    },
+    linkSrc: {
+      type: String,
+      default: '',
+    },
+    mainLocales: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
     mainLocaleSrc() {

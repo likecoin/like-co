@@ -1,12 +1,18 @@
 <template>
   <div class="lc-sliding-menu-container">
-    <div class="dismiss-overlay" @click="closeSlidingMenu" />
+    <div
+      class="dismiss-overlay"
+      @click="closeSlidingMenu"
+    />
     <div class="lc-sliding-menu-wrapper">
       <nav class="lc-sliding-menu">
         <div>
 
           <div class="language-switch-wrapper">
-            <language-switch color="white" :isShowLabel="true" />
+            <language-switch
+              :isShowLabel="true"
+              color="white"
+            />
           </div>
 
           <div class="social-media-links-wrapper">
@@ -17,41 +23,47 @@
             <div
               v-for="m in MENU_ITEMS"
               :key="m.section"
-              :class="['menu', m.section]">
+              :class="['menu', m.section]"
+            >
               <ul>
                 <li v-if="m.section === 'primary'">
                   <menu-item :to="{ name: 'index' }">
-                    <md-icon :md-src="HomeIcon"></md-icon>
+                    <md-icon :md-src="HomeIcon" />
                   </menu-item>
                 </li>
                 <li v-if="m.section === 'primary'">
                   <menu-item
                     v-if="getUserIsRegistered"
                     :isHighlighted="true"
-                    :to="{ name: 'in' }">
+                    :to="{ name: 'in' }"
+                  >
                     {{ getUserInfo.user }}
                   </menu-item>
                   <menu-item
                     v-else-if="getUserNeedAuth"
                     :isHighlighted="true"
-                    @click="onClickSignInButton">
+                    @click="onClickSignInButton"
+                  >
                     {{ $t('Home.Header.button.signIn') }}
                   </menu-item>
                   <menu-item
                     v-else
                     :isHighlighted="true"
-                    :to="{ name: 'in-register', query: { ref: $route.name } }">
+                    :to="{ name: 'in-register', query: { ref: '' } }"
+                  >
                     {{ $t('Home.Header.button.signUp') }}
                   </menu-item>
                 </li>
                 <li
                   v-for="i in m.items"
                   v-if="getUserIsRegistered || !i.isRegistered"
-                  :key="i.key">
+                  :key="i.key"
+                >
                   <menu-item
                     :to="i.to"
                     :isHighlighted="i.isHighlighted"
-                    :isExternal="i.isExternal">
+                    :isExternal="i.isExternal"
+                  >
                     {{ $t(`Menu.item.${i.key}`) }}
                   </menu-item>
                 </li>
@@ -61,7 +73,8 @@
 
           <div
             v-if="getUserIsRegistered"
-            class="menus-wrapper bottom">
+            class="menus-wrapper bottom"
+          >
             <div class="menu secondary">
               <ul>
                 <li>

@@ -1,5 +1,9 @@
 <template>
-  <img class="lc-spinner" :src="LikeCoinSpin" :style="style" />
+  <img
+    :src="LikeCoinSpin"
+    :style="style"
+    class="lc-spinner"
+  >
 </template>
 
 
@@ -9,7 +13,10 @@ import LikeCoinSpin from '~/assets/img/likecoin-spin.gif';
 export default {
   name: 'lc-spinner',
   props: {
-    size: Number,
+    size: {
+      type: Number,
+      default: 0,
+    },
   },
   data() {
     return {

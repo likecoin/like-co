@@ -21,7 +21,7 @@ const {
   RECAPTCHA_SECRET,
   REGISTER_LIMIT_WINDOW,
   REGISTER_LIMIT_COUNT,
-} = require('@ServerConfig/config.js'); // eslint-disable-line import/no-extraneous-dependencies
+} = require('../config/config.js'); // eslint-disable-line import/no-extraneous-dependencies
 
 const querystring = require('querystring');
 const Multer = require('multer');

@@ -1,13 +1,17 @@
 <template>
-  <div v-if='id'
+  <div
+    v-if="id"
     class="user-info-div lc-container-0 lc-flex"
     @mouseenter="onHover(true)"
     @mouseleave="onHover(false)"
-    >
+  >
     <div class="user-avatar lc-container-1">
       <div class="user-avatar-border">
         <div class="user-avatar-wrapper">
-          <img class="avatar" :src="avatar" />
+          <img
+            :src="avatar"
+            class="avatar"
+          >
         </div>
       </div>
       <div
@@ -18,10 +22,12 @@
           'lc-font-size-18',
           'lc-font-weight-600',
           'lc-mobile',
-        ]">
-        <nuxt-link :to="getUserPath"
+        ]"
+      >
+        <nuxt-link
+          :to="getUserPath"
           target="_blank"
-          >
+        >
           {{ displayName }}
         </nuxt-link>
       </div>
@@ -33,24 +39,27 @@
           'lc-font-size-16',
           'lc-line-height-1_6',
           'lc-mobile',
-        ]">
+        ]"
+      >
         {{ $t('Embed.label.subtitle') }}
       </div>
       <div class="title-div">
         <span
           :class="['title-message', 'lc-font-size-20', 'lc-font-weight-600',
-            'lc-line-height-1_2', 'lc-mobile']">
+                   'lc-line-height-1_2', 'lc-mobile']"
+        >
           {{ $t('Embed.label.title') }}
         </span>
       </div>
     </div>
     <div
+      :class="{ hover: hovering }"
       class="embed-superlike-div lc-container-1 lc-text-align-center"
-      :class="{ hover: hovering }">
+    >
       <md-button
         id="embed-superlike-button"
-        class="md-likecoin"
         :href="getUserPath"
+        class="md-likecoin"
         target="_blank"
       >
         {{ $t('Embed.button.sendLike') }}
@@ -58,16 +67,17 @@
     </div>
     <div
       :class="['poweredby-message',
-        'lc-margin-top-12',
-        'lc-text-align-right',
-        'lc-font-size-10',
-        'lc-font-weight-600',
-      ]">
+               'lc-margin-top-12',
+               'lc-text-align-right',
+               'lc-font-size-10',
+               'lc-font-weight-600',
+      ]"
+    >
       <a
         :href="getReferralLink"
         target="_blank"
         rel="noopener"
-        >
+      >
         {{ $t('Embed.label.createMyWidget') }}
       </a>
     </div>
@@ -157,6 +167,9 @@ $responsive-offset: 15px;
 
   border-radius: 8px;
   background-image: linear-gradient(238deg, $like-light-blue, $like-gradient-1);
+  @media (max-width: 480px) {
+    margin-top: 5px;
+  }
   .user-avatar {
     position:relative;
 
@@ -169,7 +182,16 @@ $responsive-offset: 15px;
       padding: $icon-border-size;
 
       border-radius: 50%;
+
       background: linear-gradient(242deg, $like-light-blue, $like-gradient-1);
+
+      max-width: $profile-icon-size + $icon-border-size * 2;
+      min-width: $profile-icon-size - $responsive-offset;
+
+      @media (max-width: 480px) {
+        min-width: auto;
+      }
+
       .user-avatar-wrapper {
         overflow: hidden;
 
@@ -194,6 +216,10 @@ $responsive-offset: 15px;
       width: 100%;
 
       color: $like-green;
+
+      @media (max-width: 480px) {
+        display: none;
+      }
     }
   }
   .user-identity {
@@ -223,6 +249,9 @@ $responsive-offset: 15px;
       opacity: 0;
       border-radius: 20px;
       background: linear-gradient(67deg, $like-light-blue, $like-gradient-1);
+      @media (max-width: 480px) {
+        background: none;
+      }
     }
 
     &.hover:before {
@@ -258,6 +287,9 @@ $responsive-offset: 15px;
     right: 0;
 
     color: $gray-9b;
+    @media (max-width: 480px) {
+      margin-top: 0px;
+    }
     a {
       text-decoration: underline;
 

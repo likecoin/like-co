@@ -1,5 +1,8 @@
 <template>
-  <section class="lc-container-0 lc-distribution" id="distribution">
+  <section
+    id="distribution"
+    class="lc-container-0 lc-distribution"
+  >
     <div class="lc-container-1">
 
       <!-- Section title -->
@@ -42,18 +45,20 @@
                   <div
                     :class="['year-btn', { active: isYear0 }]"
                     @mouseenter="clickYear0Button(true)"
-                    @click="clickYear0Button(true)">
+                    @click="clickYear0Button(true)"
+                  >
                     <h1>2018</h1>
-                    <hr />
+                    <hr>
                     <span>{{ $t('Home.TokenDistribution.yearButton.year0') }}</span>
                   </div>
 
                   <div
                     :class="['year-btn', { active: !isYear0 }]"
                     @mouseenter="clickYear0Button(false)"
-                    @click="clickYear0Button(false)">
+                    @click="clickYear0Button(false)"
+                  >
                     <h1>2028+</h1>
-                    <hr />
+                    <hr>
                     <span>{{ $t('Home.TokenDistribution.yearButton.year10') }}</span>
                   </div>
 
@@ -65,7 +70,7 @@
               </div>
 
               <div class="chart">
-                <img :src="chartSrc" />
+                <img :src="chartSrc">
               </div>
 
             </div>
@@ -95,13 +100,13 @@ export default {
       return images(`./${this.$t('Home.TokenDistribution.pieChartLanguage')}-${this.isYear0 ? '2018' : '2028'}.svg`);
     },
   },
+  mounted() {
+    this.clickYear0Button(true);
+  },
   methods: {
     clickYear0Button(isYear0) {
       this.isYear0 = isYear0;
     },
-  },
-  mounted() {
-    this.clickYear0Button(true);
   },
 };
 </script>

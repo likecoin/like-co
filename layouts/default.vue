@@ -11,19 +11,19 @@
           <div class="lc-container-1">
             <div class="underlay lc-mobile-hide" />
             <div class="lc-container-2">
-              <site-header/>
+              <site-header />
             </div>
           </div>
         </div>
       </header>
 
       <div class="lc-page-content">
-        <nuxt/>
+        <nuxt />
       </div>
 
       <footer class="lc-page-footer">
         <div class="lc-container-0">
-          <my-footer/>
+          <my-footer />
         </div>
       </footer>
 

@@ -2,7 +2,8 @@
   <div
     v-if="!isHidden"
     :class="['lc-block-progress', { loading: isLoading }]"
-    :style="style.root">
+    :style="style.root"
+  >
     <div :style="style.innerDiv">
       <spinner :size="56" />
     </div>
@@ -41,6 +42,9 @@ export default {
       },
     };
   },
+  mounted() {
+    this.finish();
+  },
   methods: {
     start() {
       this.isLoading = true;
@@ -52,9 +56,6 @@ export default {
         this.isHidden = true;
       }, 150);
     },
-  },
-  mounted() {
-    this.finish();
   },
 };
 </script>

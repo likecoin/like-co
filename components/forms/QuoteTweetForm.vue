@@ -5,7 +5,8 @@
       v-if="currentStep < 2"
       :label="$t('Form.Retweet.label.retweet')"
       :text="text"
-      @copy="onCopy" />
+      @copy="onCopy"
+    />
 
     <div v-else>
       <label class="lc-color-like-dark-brown-1">
@@ -14,7 +15,8 @@
       <md-field class="md-likecoin no-label">
         <md-input
           v-model="retweetLink"
-          :placeholder="$t('Form.Retweet.placeholer.tweetLink')" />
+          :placeholder="$t('Form.Retweet.placeholer.tweetLink')"
+        />
       </md-field>
     </div>
 
@@ -28,14 +30,19 @@
           },
         ]"
         :disabled="currentStep === 2 && !retweetLink"
-        @click="onClickButton">
-        <md-icon v-if="currentStep < 2" :md-src="TwitterIcon" />
+        @click="onClickButton"
+      >
+        <md-icon
+          v-if="currentStep < 2"
+          :md-src="TwitterIcon"
+        />
         {{ buttonText }}
       </md-button>
-      <br/>
+      <br>
       <md-button
         class="md-likecoin lc-cancel"
-        @click="$emit('cancel')">
+        @click="$emit('cancel')"
+      >
         {{ $t('General.button.cancel') }}
       </md-button>
     </div>
@@ -52,6 +59,9 @@ import CopyTextField from '@/components/CopyTextField';
 
 export default {
   name: 'quote-tweet-form',
+  components: {
+    CopyTextField,
+  },
   props: {
     step: {
       type: Number,
@@ -61,14 +71,14 @@ export default {
       type: String,
       required: true,
     },
-    comment: String,
+    comment: {
+      type: String,
+      default: '',
+    },
     hashtags: {
       type: Array,
       default: () => ['LikeCoin'],
     },
-  },
-  components: {
-    CopyTextField,
   },
   data() {
     return {

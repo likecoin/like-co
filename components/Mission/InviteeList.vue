@@ -3,18 +3,24 @@
     <div>
       <header>
         <div class="user-profile">
-          <img class="avatar" :src="avatar" />
+          <img
+            :src="avatar"
+            class="avatar"
+          >
           <span class="username-label">{{ username }}</span>
-          <span v-if="isNew" class="new-label" />
+          <span
+            v-if="isNew"
+            class="new-label"
+          />
         </div>
       </header>
 
       <mission-list
-        layout="small"
         :missions="missions"
         :username="username"
         :is-swippable="false"
         :is-referral="true"
+        layout="small"
         @click="onClick"
       />
 
@@ -28,12 +34,17 @@ import MissionList from './List';
 
 export default {
   name: 'invitee-mission-list',
+  components: {
+    MissionList,
+  },
   props: {
     avatar: {
       type: String,
+      default: '',
     },
     username: {
       type: String,
+      required: true,
     },
     isNew: {
       type: Boolean,
@@ -43,9 +54,6 @@ export default {
       type: Array,
       default: () => [],
     },
-  },
-  components: {
-    MissionList,
   },
   methods: {
     onClick(mission) {

@@ -124,7 +124,10 @@
               <p>Should you have any questions regarding the Policy, please contact Us at: <a href="mailto:privacy@like.co">privacy@like.co</a>. Please include your name, and mailing or email address to Us.</p>
             </article>
 
-            <article id="cookie-policy" class="lc-article">
+            <article
+              id="cookie-policy"
+              class="lc-article"
+            >
               <h1>LikeCoin Cookie Policy</h1>
               <ol>
                 <li><p>Our Sites uses cookies to distinguish you from other users of the Sites. This helps Us to provide you with a good experience when you browse our Site and also allows Us to improve our Sites.</p></li>

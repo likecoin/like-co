@@ -9,17 +9,23 @@
             {{ title }}
           </h1>
 
-          <p v-if="isShowDescription" class="lc-font-size-16 lc-color-white">
+          <p
+            v-if="isShowDescription"
+            class="lc-font-size-16 lc-color-white"
+          >
             {{ description }}
           </p>
 
 
         </div>
-        <div class="lc-text-align-center lc-margin-top-8" @click="$emit('click')">
+        <div
+          class="lc-text-align-center lc-margin-top-8"
+          @click="$emit('click')"
+        >
           <nuxt-link
             v-if="isClaimed"
-            class="lc-underline"
             :to="{ name: 'in-bonus-history' }"
+            class="lc-underline"
           >
             {{ $t('Mission.completedBanner.label.viewHistory') }}
           </nuxt-link>
@@ -27,8 +33,14 @@
       </div>
     </div>
 
-    <div class="completed-button-wrapper" @click="$emit('click')">
-      <mission-state-icon state="completed" layout="large" />
+    <div
+      class="completed-button-wrapper"
+      @click="$emit('click')"
+    >
+      <mission-state-icon
+        state="completed"
+        layout="large"
+      />
     </div>
 
   </div>
@@ -40,6 +52,9 @@ import MissionStateIcon from './StateIcon';
 
 export default {
   name: 'mission-completed-banner',
+  components: {
+    MissionStateIcon,
+  },
   props: {
     animated: {
       default: true,
@@ -53,9 +68,6 @@ export default {
       default: true,
       type: Boolean,
     },
-  },
-  components: {
-    MissionStateIcon,
   },
   computed: {
     title() {
