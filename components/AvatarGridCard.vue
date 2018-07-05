@@ -149,6 +149,15 @@ export default {
 
       font-size: 14px;
       font-weight: 300;
+
+      :global(a) {
+        &,
+        &:active {
+          text-decoration: underline;
+
+          color: $like-green;
+        }
+      }
     }
 
     a,
@@ -175,24 +184,6 @@ export default {
         :global(.md-ripple) {
           padding: 0 6px;
         }
-      }
-    }
-  }
-}
-</style>
-
-
-<style lang="scss">
-@import "~assets/variables";
-
-.avatar-grid-card {
-  > div {
-    .description {
-      a,
-      a:active {
-        text-decoration: underline;
-
-        color: $like-green;
       }
     }
   }

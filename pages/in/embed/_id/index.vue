@@ -179,14 +179,12 @@ $responsive-offset: 15px;
 
       min-width: $profile-icon-size - $responsive-offset;
       max-width: $profile-icon-size + $icon-border-size * 2;
+
       padding: $icon-border-size;
 
       border-radius: 50%;
 
       background: linear-gradient(242deg, $like-light-blue, $like-gradient-1);
-
-      max-width: $profile-icon-size + $icon-border-size * 2;
-      min-width: $profile-icon-size - $responsive-offset;
 
       @media (max-width: 480px) {
         min-width: auto;

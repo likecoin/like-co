@@ -14,7 +14,7 @@ module.exports = {
         ignorePseudoElements: ['global'],
       },
     ],
-    /* awating https://github.com/stylelint/stylelint/issues/3196 */
+    /* awaiting https://github.com/stylelint/stylelint/issues/3196 */
     'no-descending-specificity': null,
     'order/properties-order': [
       [

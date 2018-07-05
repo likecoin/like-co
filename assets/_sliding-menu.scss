@@ -1,0 +1,61 @@
+@import "~assets/variables";
+
+$sliding-menu-width: 320px;
+$sliding-menu-narrow-width: 260px;
+
+.lc-sliding-menu-wrapper {
+  position: absolute;
+  top: 0;
+  right: -$sliding-menu-width;
+  bottom: 0;
+
+  width: $sliding-menu-width;
+
+  background-color: $like-gray-1;
+
+  &::after {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+
+    width: 4px;
+
+    content: " ";
+    pointer-events: none;
+
+    background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.0));
+  }
+
+  @media (max-width: 600px) {
+    right: -$sliding-menu-narrow-width;
+
+    width: $sliding-menu-narrow-width;
+  }
+}
+
+.lc-page-wrapper {
+  &.with-sliding-menu {
+    position: relative;
+
+    transition: transform .5s ease-in-out;
+
+    will-change: transform;
+
+    [lc-sliding-menu="open"] & {
+      transform: translateX(-$sliding-menu-width);
+
+      @media (max-width: 600px) {
+        transform: translateX(-$sliding-menu-narrow-width);
+      }
+    }
+  }
+}
+
+[lc-sliding-menu="open"] {
+  overflow-y: hidden;
+
+  body {
+    overflow-y: hidden;
+  }
+}
