@@ -163,6 +163,9 @@ $responsive-offset: 15px;
   max-height: 83px;
   border-radius: 8px;
   background-image: linear-gradient(238deg, $like-light-blue, $like-gradient-1);
+  @media (max-width: 480px) {
+    margin-top: 5px;
+  }
   .user-avatar {
     position:relative;
     margin: $margin-top-offset 8px;
@@ -173,6 +176,11 @@ $responsive-offset: 15px;
       border-radius: 50%;
       max-width: $profile-icon-size + $icon-border-size * 2;
       min-width: $profile-icon-size - $responsive-offset;
+
+      @media (max-width: 480px) {
+        min-width: auto;
+      }
+
       .user-avatar-wrapper {
         overflow: hidden;
         border-radius: 50%;
@@ -193,6 +201,9 @@ $responsive-offset: 15px;
       position: absolute;
       top: 100%;
       width: 100%;
+      @media (max-width: 480px) {
+        display: none;
+      }
     }
   }
   .user-identity {
@@ -218,6 +229,9 @@ $responsive-offset: 15px;
       opacity: 0;
       transition: .4s cubic-bezier(.4,0,.2,1);
       background: linear-gradient(67deg, $like-light-blue, $like-gradient-1);
+      @media (max-width: 480px) {
+        background: none;
+      }
     }
 
     &.hover:before {
@@ -249,6 +263,9 @@ $responsive-offset: 15px;
     top: 100%;
     right: 0;
     color: $gray-9b;
+    @media (max-width: 480px) {
+      margin-top: 0px;
+    }
     a {
       color: $gray-9b;
       text-decoration: underline;
