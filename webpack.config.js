@@ -10,7 +10,6 @@ module.exports = {
     alias: {
       '~': __dirname,
       '@': __dirname,
-      '@ServerConfig': resolve(__dirname, 'server/config'),
     },
   },
 

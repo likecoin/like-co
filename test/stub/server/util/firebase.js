@@ -4,7 +4,7 @@ import { INFURA_HOST } from '../../constant';
 
 console.log('Using stub (firebase.js)'); /* eslint no-console: "off" */
 
-const accounts = require('@ServerConfig/accounts.js'); // eslint-disable-line import/no-extraneous-dependencies
+const accounts = require('../config/accounts.js'); // eslint-disable-line import/no-extraneous-dependencies
 const { FieldValue } = require('firebase-admin').firestore;
 const Web3 = require('web3');
 const cloneDeep = require('lodash.clonedeep');
