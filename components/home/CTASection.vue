@@ -21,7 +21,7 @@
                   <span class="lc-font-size-16 lc-font-weight-600">
                     {{ $t('TokenSale.label.raised') }}:
                   </span>
-                  <br class="lc-mobile-show" />
+                  <br class="lc-mobile-show">
                   <span class="amount lc-font-weight-300 lc-font-size-46 lc-mobile">
                     {{ tokenSaleAmount }} ETH
                   </span>
@@ -29,7 +29,8 @@
 
                 <div class="token-sale-progress-wrapper lc-margin-top-8">
                   <tokensale-progress
-                    class="cta-section-token-sale-progress" />
+                    class="cta-section-token-sale-progress"
+                  />
                 </div>
               </div>
 
@@ -38,32 +39,35 @@
                   <li v-if="getUserIsRegistered">
                     <md-button
                       class="cta-btn md-likecoin shadow"
-                      @click="onClickSupportLikeCoinButton">
+                      @click="onClickSupportLikeCoinButton"
+                    >
                       {{ $t('Home.Sale.button.supportLikeCoin') }}
                     </md-button>
                   </li>
                   <li v-else-if="getUserNeedAuth">
                     <md-button
                       class="cta-btn md-likecoin shadow"
-                      @click="onClickSignInButton">
+                      @click="onClickSignInButton"
+                    >
                       {{ $t('Home.Header.button.signIn') }}
                     </md-button>
                   </li>
                   <li v-else>
                     <md-button
                       class="cta-btn md-likecoin shadow"
-                      @click="onClickRegisterButton">
+                      @click="onClickRegisterButton"
+                    >
                       {{ $t('Home.Header.button.signUp') }}
                     </md-button>
                   </li>
                   <li>
                     <md-button
-                      class="cta-btn support md-likecoin shadow lc-text-align-center"
                       :href="QRYPTOS_LIKEETH_URL"
+                      class="cta-btn support md-likecoin shadow lc-text-align-center"
                       rel="noopener noreferrer"
                       target="_blank"
                     >
-                        {{ $t('Home.Sale.button.tradeAtQRYPTOS') }}
+                      {{ $t('Home.Sale.button.tradeAtQRYPTOS') }}
                     </md-button>
                   </li>
                 </ul>
@@ -75,7 +79,10 @@
         </div>
       </div>
 
-      <div class="lc-container-2" v-if="isShowFooter">
+      <div
+        v-if="isShowFooter"
+        class="lc-container-2"
+      >
         <div class="lc-container-3">
           <div class="lc-container-4">
 

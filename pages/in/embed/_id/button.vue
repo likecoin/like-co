@@ -1,29 +1,40 @@
 <template>
-  <div v-if='id' class="user-info-div">
+  <div
+    v-if="id"
+    class="user-info-div"
+  >
     <div class="user-avatar-border">
       <div class="user-avatar-wrapper">
-        <img class="avatar" :src="avatar" />
+        <img
+          :src="avatar"
+          class="avatar"
+        >
       </div>
     </div>
     <div class="user-identity">
       <div class="support-div">
         <span class="support-message">{{ $t('Embed.label.support') }} </span>
-        <nuxt-link :to="getUserPath"
+        <nuxt-link
+          :to="getUserPath"
           target="_blank"
-          class="display-name">{{ displayName }}</nuxt-link>
+          class="display-name"
+        >{{ displayName }}</nuxt-link>
       </div>
       <div class="provided-by-div">{{ $t('Embed.label.providedBy') }}</div>
     </div>
-    <nuxt-link :to="getUserPath"
-      target="_blank">
-      <img :src="likeButtonSrc"
-           alt="like-button"
-           class="like-button"
-           @mouseover="setLikeButtonState('hover')"
-           @mousedown="setLikeButtonState('click')"
-           @mouseup="setLikeButtonState('normal')"
-           @mouseout="setLikeButtonState('normal')"
-           >
+    <nuxt-link
+      :to="getUserPath"
+      target="_blank"
+    >
+      <img
+        :src="likeButtonSrc"
+        alt="like-button"
+        class="like-button"
+        @mouseover="setLikeButtonState('hover')"
+        @mousedown="setLikeButtonState('click')"
+        @mouseup="setLikeButtonState('normal')"
+        @mouseout="setLikeButtonState('normal')"
+      >
     </nuxt-link>
   </div>
   <div v-else> Not found. </div>

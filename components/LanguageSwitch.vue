@@ -2,9 +2,13 @@
   <md-menu
     class="language-switch"
     md-size="small"
-    md-align-trigger>
+    md-align-trigger
+  >
 
-    <div class="button-wrapper" md-menu-trigger>
+    <div
+      class="button-wrapper"
+      md-menu-trigger
+    >
       <label v-if="isShowLabel">
         {{ $t(`Language.${$i18n.locale}`) }}
       </label>
@@ -12,11 +16,11 @@
       <md-button class="md-icon-button md-dense">
         <simple-svg
           :filepath="I18nIcon"
+          :fill="color"
           width="24px"
           height="24px"
-          :fill="color"
           stroke="transparent"
-          />
+        />
       </md-button>
     </div>
 
@@ -25,7 +29,8 @@
       <md-menu-item
         v-for="locale in locales"
         :key="locale"
-        @click="onChangeLanguage(locale)">
+        @click="onChangeLanguage(locale)"
+      >
         {{ $t(`Language.${locale}`) }}
       </md-menu-item>
 

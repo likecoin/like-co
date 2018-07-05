@@ -7,7 +7,7 @@
         <div class="lc-container-2">
           <div class="lc-container-3 lc-padding-bottom-24">
             <h1 class="lc-font-size-20 lc-font-weight-400 lc-line-height-1_5">
-              {{ $t('PoliciesPage.title' )}}
+              {{ $t('PoliciesPage.title' ) }}
             </h1>
           </div>
         </div>

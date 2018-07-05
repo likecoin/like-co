@@ -2,7 +2,7 @@
   <div class="play-video-button">
     <div @click="$emit('click')">
       <span>{{ label }}</span>
-      <img :src="PlayButton" />
+      <img :src="PlayButton">
     </div>
   </div>
 </template>
@@ -16,6 +16,7 @@ export default {
   props: {
     label: {
       type: String,
+      default: undefined,
     },
   },
   data() {

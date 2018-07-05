@@ -1,5 +1,8 @@
 <template>
-  <section class="lc-container-0 lc-press-coverage" id="press">
+  <section
+    id="press"
+    class="lc-container-0 lc-press-coverage"
+  >
     <div class="lc-container-1">
 
       <!-- Section Title -->
@@ -27,7 +30,8 @@
               <image-grid
                 ref="imageGrid"
                 :items="presses"
-                lightboxId="presses" />
+                lightboxId="presses"
+              />
             </div>
           </div>
         </div>

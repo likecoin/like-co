@@ -9,7 +9,7 @@ import * as types from '@/store/mutation-types';
 
 
 export default {
-  name: 'Redeem',
+  name: 'redeem',
   layout: 'register',
   components: {
     LikeRegisterForm,

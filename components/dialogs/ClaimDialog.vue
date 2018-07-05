@@ -3,7 +3,8 @@
     :md-active.sync="showDialog"
     :md-close-on-esc="false"
     :md-click-outside-to-close="false"
-    :md-fullscreen="false">
+    :md-fullscreen="false"
+  >
     <div class="title-bar" />
 
     <div class="dialog-content">
@@ -17,10 +18,17 @@
       </md-dialog-content>
 
       <section>
-        <material-button id="btn-confirm" @click="onConfirm">
+        <material-button
+          id="btn-confirm"
+          @click="onConfirm"
+        >
           {{ $t('General.button.confirm') }}
         </material-button>
-        <material-button v-if="!isError" id="btn-cancel" @click="onCancel">
+        <material-button
+          v-if="!isError"
+          id="btn-cancel"
+          @click="onCancel"
+        >
           {{ $t('General.button.cancel') }}
         </material-button>
       </section>
@@ -36,9 +44,18 @@ import MaterialButton from '~/components/MaterialButton';
 
 export default {
   name: 'claim-dialog',
-  props: ['couponCode', 'wallet'],
   components: {
     MaterialButton,
+  },
+  props: {
+    couponCode: {
+      type: String,
+      default: '',
+    },
+    wallet: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {

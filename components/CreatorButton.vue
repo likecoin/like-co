@@ -1,11 +1,13 @@
 <template>
   <div
-    :class="['lc-creator-button', 'cta', className]">
+    :class="['lc-creator-button', 'cta', className]"
+  >
     <nuxt-link
-      :to="{ name: 'id', params: { id } }">
+      :to="{ name: 'id', params: { id } }"
+    >
       <div class="creator-info">
         <div class="icon">
-          <img v-lazy="src" />
+          <img v-lazy="src">
         </div>
         <div class="details">
           <div class="name">{{ id }}</div>
@@ -26,15 +28,19 @@ export default {
   name: 'creator-button',
   props: {
     className: {
+      type: String,
       default: undefined,
     },
     src: {
+      type: String,
       default: likeCoinIcon,
     },
     id: {
+      type: String,
       default: '',
     },
     title: {
+      type: String,
       default: '',
     },
   },

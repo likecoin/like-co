@@ -1,8 +1,9 @@
 <template>
   <md-dialog
-    class="lc-dialog"
     v-bind="getMdProps"
-    :md-active.sync="isShowDialog">
+    :md-active.sync="isShowDialog"
+    class="lc-dialog"
+  >
 
     <header class="lc-dialog-header lc-section-header">
       <div class="left">
@@ -17,7 +18,8 @@
         <md-button
           v-if="isShowCloseButton"
           class="md-icon-button lc-mobile-show"
-          @click="hide">
+          @click="hide"
+        >
           <md-icon>close</md-icon>
         </md-button>
       </div>
@@ -66,6 +68,14 @@ export default {
       };
     },
   },
+  watch: {
+    isShow(isShow) {
+      this.isShowDialog = isShow;
+    },
+    isShowDialog(isShowDialog) {
+      this.$emit('update:isShow', isShowDialog);
+    },
+  },
   methods: {
     show() {
       this.isShowDialog = true;
@@ -75,14 +85,6 @@ export default {
     },
     onDismiss() {
       this.hide();
-    },
-  },
-  watch: {
-    isShow(isShow) {
-      this.isShowDialog = isShow;
-    },
-    isShowDialog(isShowDialog) {
-      this.$emit('update:isShow', isShowDialog);
     },
   },
 };

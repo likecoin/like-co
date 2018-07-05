@@ -1,25 +1,36 @@
 <template>
   <div class="retweet-mission">
-    <transition name="lc-transition-default" mode="out-in">
+    <transition
+      name="lc-transition-default"
+      mode="out-in"
+    >
 
-      <div v-if="isError" key="error" class="lc-dialog-container-0">
+      <div
+        v-if="isError"
+        key="error"
+        class="lc-dialog-container-0"
+      >
         <div class="lc-dialog-container-1">
           <p class="lc-font-size-16 lc-text-align-center lc-margin-vertical-32">
             {{ $t('Error.MISSION_COMPLETE_FAILURE') }}
-            <span v-if="errorMessage"><br/><br/>{{ errorMessage }}</span>
+            <span v-if="errorMessage"><br><br>{{ errorMessage }}</span>
           </p>
         </div>
 
         <div class="lc-button-group">
           <md-button
             class="md-likecoin"
-            @click="onCancel">
+            @click="onCancel"
+          >
             {{ $t('General.button.ok') }}
           </md-button>
         </div>
       </div>
 
-      <div v-else-if="isLoading" class="lc-dialog-container-0">
+      <div
+        v-else-if="isLoading"
+        class="lc-dialog-container-0"
+      >
         <div class="lc-dialog-container-1 lc-padding-vertical-32">
           <spinner :size="48" />
           <p class="lc-margin-top-24 lc-text-align-center">
@@ -28,7 +39,11 @@
         </div>
       </div>
 
-      <div v-else key="normal" class="lc-dialog-container-0">
+      <div
+        v-else
+        key="normal"
+        class="lc-dialog-container-0"
+      >
         <div class="lc-dialog-container-1">
           <h1 class="lc-font-size-32">{{ $t('Mission.twitterRetweet.title') }}</h1>
           <p
@@ -38,7 +53,7 @@
         </div>
 
         <div class="instruction-image">
-          <img src="/images/mission/twitter/bitmart-retweet.gif" />
+          <img src="/images/mission/twitter/bitmart-retweet.gif">
         </div>
 
         <div class="lc-dialog-container-1">
@@ -46,7 +61,8 @@
             :step.sync="step"
             :url="tweetUrl"
             @cancel="onCancel"
-            @complete="onComplete" />
+            @complete="onComplete"
+          />
         </div>
       </div>
 
@@ -63,6 +79,10 @@ import Spinner from '~/components/Spinner';
 
 export default {
   name: 'retweet-mission',
+  components: {
+    RetweetForm,
+    Spinner,
+  },
   props: {
     userId: {
       type: String,
@@ -76,10 +96,6 @@ export default {
       type: String,
       required: true,
     },
-  },
-  components: {
-    RetweetForm,
-    Spinner,
   },
   data() {
     return {

@@ -9,25 +9,32 @@
         }
       ]"
       :isShowCloseButton="true"
-      @update:isShow="onDialogUpdate($event)">
+      @update:isShow="onDialogUpdate($event)"
+    >
       <div
         v-if="!isUnfinishedAndExpired"
         slot="header-center"
-        class="lc-section-header-icon lc-dialog-icon lc-raised-icon">
+        class="lc-section-header-icon lc-dialog-icon lc-raised-icon"
+      >
         <mission-icon :mission-id="missionId" />
       </div>
 
-      <transition name="lc-transition-default" mode="out-in">
+      <transition
+        name="lc-transition-default"
+        mode="out-in"
+      >
         <div
           v-if="!shouldShowDesktopOnly && !isCompleted && isCustomLayout"
           key="custom"
-          class="mission-dialog-content">
+          class="mission-dialog-content"
+        >
 
           <quote-tweet-mission
             v-if="missionId === 'twitter'"
             :userId="getUserInfo.user"
             @cancel="onDismiss"
-            @complete="onCompleteMission" />
+            @complete="onCompleteMission"
+          />
 
           <retweet-mission
             v-else-if="missionId === 'twitterBitmart'"
@@ -35,16 +42,21 @@
             :mission-id="missionId"
             tweet-url="https://twitter.com/BitMartExchange/status/1010271556742807552"
             @cancel="onDismiss"
-            @complete="onCompleteMission" />
+            @complete="onCompleteMission"
+          />
 
         </div>
         <div
           v-else
           key="generic"
-          class="mission-dialog-content">
+          class="mission-dialog-content"
+        >
 
           <div class="lc-dialog-container-1">
-            <div v-if="reward" class="reward-label">
+            <div
+              v-if="reward"
+              class="reward-label"
+            >
               {{ reward }}
             </div>
 
@@ -56,10 +68,13 @@
                 path="Mission.notFound.description"
                 tag="div"
               >
-                <div place="bonusPage" @click="onDismiss">
+                <div
+                  place="bonusPage"
+                  @click="onDismiss"
+                >
                   <nuxt-link
-                    class="lc-font-weight-600 lc-color-like-green lc-underline"
                     :to="{ name: 'in-bonus' }"
+                    class="lc-font-weight-600 lc-color-like-green lc-underline"
                   >{{
                     $t('Mission.notFound.bonusPage')
                   }}</nuxt-link>
@@ -68,8 +83,8 @@
             </div>
             <div v-else-if="isMissionRequired">
               <i18n
-                class="description"
                 :path="`Mission.missionRequired.${mission.require[0]}.description`"
+                class="description"
                 tag="div"
               >
                 <span
@@ -80,26 +95,39 @@
                 }}</span>
               </i18n>
             </div>
-            <div class="description" v-else-if="description" v-html="description" />
+            <div
+              v-else-if="description"
+              class="description"
+              v-html="description"
+            />
 
-            <div class="description" v-if="subDescription" v-html="subDescription" />
+            <div
+              v-if="subDescription"
+              class="description"
+              v-html="subDescription"
+            />
           </div>
 
           <mission-completed-banner
             v-if="isCompleted || mission.isClaimed"
-            class="lc-margin-top-32 lc-mobile"
             :animated="isCompleted"
             :isClaimed="mission.isClaimed"
-            @click="onDismiss" />
+            class="lc-margin-top-32 lc-mobile"
+            @click="onDismiss"
+          />
 
-          <div v-else-if="shouldShowDesktopOnly" class="lc-dialog-container-1">
+          <div
+            v-else-if="shouldShowDesktopOnly"
+            class="lc-dialog-container-1"
+          >
             <simple-svg
-              class="lc-color-like-green lc-margin-vertical-16"
               :filepath="RequiredDesktopIcon"
+              class="lc-color-like-green lc-margin-vertical-16"
               width="290px"
               height="270px"
               fill="currentColor"
-              stroke="transparent" />
+              stroke="transparent"
+            />
 
             <p class="lc-color-like-gray-4 lc-color-like-gray-4 lc-margin-vertical-16">
               {{ $t('Mission.common.label.pleaseUseDesktop') }}
@@ -108,29 +136,39 @@
             <div class="lc-text-align-center">
               <a
                 class="lc-font-size-16 lc-underline"
-                href="https://help.like.co/likecoin-faq/newbies/accessing-my-likecoin-id-on-a-computer-which-is-previously-registered-on-mobile" target="_blank">
+                href="https://help.like.co/likecoin-faq/newbies/accessing-my-likecoin-id-on-a-computer-which-is-previously-registered-on-mobile"
+                target="_blank"
+              >
                 {{ $t('Mission.common.button.desktopFAQ') }}
               </a>
             </div>
 
             <div class="lc-button-group lc-margin-top-16">
-              <md-button class="md-likecoin lc-cancel" @click="onDismiss">
-              {{ $t('General.button.cancel') }}
+              <md-button
+                class="md-likecoin lc-cancel"
+                @click="onDismiss"
+              >
+                {{ $t('General.button.cancel') }}
               </md-button>
             </div>
           </div>
 
           <div
             v-else
-            class="lc-dialog-container-1 lc-margin-top-24 lc-mobile">
+            class="lc-dialog-container-1 lc-margin-top-24 lc-mobile"
+          >
 
             <!-- BEGIN - Mission Not Found Section -->
             <div
-              v-if="mission.isExpired">
+              v-if="mission.isExpired"
+            >
 
               <div class="lc-button-group">
-                <md-button class="md-likecoin" @click="onDismiss">
-                {{ $t('General.button.ok') }}
+                <md-button
+                  class="md-likecoin"
+                  @click="onDismiss"
+                >
+                  {{ $t('General.button.ok') }}
                 </md-button>
               </div>
 
@@ -139,10 +177,14 @@
 
             <!-- BEGIN - Required Other Mission Section -->
             <div
-              v-else-if="isMissionRequired">
+              v-else-if="isMissionRequired"
+            >
 
               <div class="lc-button-group">
-                <md-button class="md-likecoin" @click="onClickNextMission">
+                <md-button
+                  class="md-likecoin"
+                  @click="onClickNextMission"
+                >
                   {{ $t('General.button.next') }}
                 </md-button>
               </div>
@@ -153,15 +195,20 @@
             <!-- BEGIN - Getting Start Section -->
             <div
               v-else-if="mission.id === 'gettingStart'"
-              class="getting-start-form">
+              class="getting-start-form"
+            >
 
               <task-list
                 :tasks="getTasks"
-                @click="onClickGettingStartTask" />
+                @click="onClickGettingStartTask"
+              />
 
               <div class="lc-button-group">
-                <md-button class="md-likecoin" @click="onDismiss">
-                {{ $t('General.button.ok') }}
+                <md-button
+                  class="md-likecoin"
+                  @click="onDismiss"
+                >
+                  {{ $t('General.button.ok') }}
                 </md-button>
               </div>
 
@@ -171,14 +218,16 @@
             <!-- BEGIN - Verify Email Section -->
             <div
               v-else-if="!isReferral && missionId === 'verifyEmail'"
-              class="verify-email-form">
+              class="verify-email-form"
+            >
 
               <verify-email-form
                 ref="form"
-                :email="this.getUserInfo.email"
+                :email="getUserInfo.email"
                 :label="$t('Dialog.emailInput.label')"
                 @cancel="onDismiss"
-                @submit="onVerifyEmail"/>
+                @submit="onVerifyEmail"
+              />
 
             </div>
             <!-- END - Verify Email Section -->
@@ -186,12 +235,14 @@
             <!-- BEGIN - Invitee Verify Email Section -->
             <div
               v-else-if="isReferral && missionId === 'verifyEmail'"
-              class="verify-email-form">
+              class="verify-email-form"
+            >
 
               <div class="lc-button-group">
                 <md-button
                   class="md-likecoin"
-                  @click="onDismiss">
+                  @click="onDismiss"
+                >
                   {{ $t('General.button.ok') }}
                 </md-button>
               </div>
@@ -204,26 +255,29 @@
               v-else-if="mission.id === 'inviteFriend'"
               class="lc-margin-top-24"
               form-id="mission-invite-friend-form"
-              @invite="onInviteFriend" />
+              @invite="onInviteFriend"
+            />
             <!-- END - Invite Friend Section -->
 
             <!-- BEGIN - Join Token Sale Section -->
             <div
               v-else-if="!isReferral && isJoinTokenSaleMission"
-              class="join-tokensale-form">
+              class="join-tokensale-form"
+            >
 
               <div class="lc-button-group">
                 <md-button
                   class="md-likecoin"
                   @click="$router.push({ name: 'in-tokensale' })"
                 >
-                  {{ $t(`Home.Sale.button.${this.isUpcomingMission
-                      ? 'prepareToJoin' : 'joinNow'}`) }}
+                  {{ $t(`Home.Sale.button.${isUpcomingMission
+                  ? 'prepareToJoin' : 'joinNow'}`) }}
                 </md-button>
-                <br />
+                <br>
                 <md-button
                   class="md-likecoin lc-cancel"
-                  @click="onDismiss">
+                  @click="onDismiss"
+                >
                   {{ $t('General.button.cancel') }}
                 </md-button>
               </div>
@@ -234,12 +288,14 @@
             <!-- BEGIN - Invitee Join Token Sale Section -->
             <div
               v-else-if="isReferral && isJoinTokenSaleMission"
-              class="join-tokensale-form">
+              class="join-tokensale-form"
+            >
 
               <div class="lc-button-group">
                 <md-button
                   class="md-likecoin"
-                  @click="onDismiss">
+                  @click="onDismiss"
+                >
                   {{ $t('General.button.ok') }}
                 </md-button>
               </div>
@@ -250,12 +306,14 @@
             <!-- BEGIN - Invite Token Sale Section -->
             <div
               v-else-if="missionId === 'inviteTokenSale'"
-              class="invite-tokensale-form">
+              class="invite-tokensale-form"
+            >
 
               <div class="lc-button-group">
                 <md-button
                   class="md-likecoin"
-                  @click="onDismiss">
+                  @click="onDismiss"
+                >
                   {{ $t('General.button.ok') }}
                 </md-button>
               </div>
@@ -407,6 +465,17 @@ export default {
       return this.mission.isMissionRequired && this.mission.require.length > 0;
     },
   },
+  watch: {
+    getPopupMission(m) {
+      if (m) {
+        const { invitee, isReferral, isCompleted } = m;
+        this.invitee = invitee;
+        this.isReferral = isReferral;
+        this.isCompleted = !!isCompleted;
+        this.show();
+      }
+    },
+  },
   methods: {
     ...mapActions([
       'postStepMission',
@@ -532,17 +601,6 @@ export default {
         });
       } else {
         this.hide();
-      }
-    },
-  },
-  watch: {
-    getPopupMission(m) {
-      if (m) {
-        const { invitee, isReferral, isCompleted } = m;
-        this.invitee = invitee;
-        this.isReferral = isReferral;
-        this.isCompleted = !!isCompleted;
-        this.show();
       }
     },
   },

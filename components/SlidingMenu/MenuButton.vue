@@ -1,7 +1,8 @@
 <template>
   <div
     :class="['toggle-menu-button', { open: getIsSlidingMenuOpen }]"
-    @click="toggleMenu">
+    @click="toggleMenu"
+  >
 
     <div class="nav-label">
       <div>{{ $t('Menu.button.menu') }}</div>

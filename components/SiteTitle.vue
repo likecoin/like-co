@@ -1,10 +1,17 @@
 <template>
   <nuxt-link
     :class="['site-title', { test: isTest }]"
-    :to="{ name: getToPage }">
+    :to="{ name: getToPage }"
+  >
 
-    <img alt="like.co/in" :src="likeCoinIcon" />
-    <span v-if="isTest" class="sup">
+    <img
+      :src="likeCoinIcon"
+      alt="like.co/in"
+    >
+    <span
+      v-if="isTest"
+      class="sup"
+    >
       {{ $t('Store.Header.label.test') }}
     </span>
 

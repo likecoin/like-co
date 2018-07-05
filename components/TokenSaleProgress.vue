@@ -1,13 +1,17 @@
 <template>
   <div class="lc-tokensale-progress">
     <div class="lc-tokensale-progress-legend">
-      <span class="progress" :style="{ width: `${progress / total * 100}%` }"/>
+      <span
+        :style="{ width: `${progress / total * 100}%` }"
+        class="progress"
+      />
       <ul>
-        <li class="reached"/>
+        <li class="reached" />
         <li
           v-for="data in points"
           :key="data.value"
-          :class="{ reached: progress / total > data.value / points.length }">
+          :class="{ reached: progress / total > data.value / points.length }"
+        >
           <div>
             <span class="point-legend">
               {{ data.legend }}
@@ -18,13 +22,17 @@
     </div>
 
     <div class="lc-tokensale-progress-bar">
-      <span class="progress" :style="{ width: `${progress / total * 100}%` }"/>
+      <span
+        :style="{ width: `${progress / total * 100}%` }"
+        class="progress"
+      />
       <ul>
-        <li class="reached"/>
+        <li class="reached" />
         <li
           v-for="data in points"
           :key="data.value"
-          :class="{ reached: progress / total > data.value / points.length }">
+          :class="{ reached: progress / total > data.value / points.length }"
+        >
           <div>
             <span class="point-value">
               {{ data.value * 100 }}%

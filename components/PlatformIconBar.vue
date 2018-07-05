@@ -1,16 +1,16 @@
 <template>
-<div :class="['icon-bar', { vertical: isVertical }]">
-  <md-button
-    class="md-icon-button"
-    v-for="(platform, index) in platforms"
-    :key="index"
-    :href="platform.url"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    <img :src="imgUrl(`${platform.name}.svg`)" />
-  </md-button>
-</div>
+  <div :class="['icon-bar', { vertical: isVertical }]">
+    <md-button
+      v-for="(platform, index) in platforms"
+      :key="index"
+      :href="platform.url"
+      class="md-icon-button"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <img :src="imgUrl(`${platform.name}.svg`)">
+    </md-button>
+  </div>
 </template>
 
 <script>

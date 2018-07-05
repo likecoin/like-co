@@ -6,7 +6,8 @@
       mdCloseOnEsc: false,
       mdFullscreen: false,
     }"
-    class="blocker-dialog">
+    class="blocker-dialog"
+  >
     <div class="lc-dialog-container-1 lc-padding-bottom-24">
       <h1 class="lc-font-size-32 lc-margin-bottom-8">
         {{ $t('Dialog.blocker.title') }}
@@ -24,9 +25,14 @@ import BaseDialog from '~/components/dialogs/BaseDialog';
 
 export default {
   name: 'blocker-dialog',
-  props: ['show'],
   components: {
     BaseDialog,
+  },
+  props: {
+    show: {
+      type: Boolean,
+      default: false,
+    },
   },
 };
 </script>

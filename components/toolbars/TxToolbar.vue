@@ -1,10 +1,22 @@
 <template>
-  <md-toolbar :class="styleClass" v-if="txHash" md-elevation="0">
+  <md-toolbar
+    v-if="txHash"
+    :class="styleClass"
+    md-elevation="0"
+  >
     <div class="md-layout-item">
       <section v-if="isInTx">
-        <md-progress-spinner :md-diameter="24" :md-stroke="2" md-mode="indeterminate" />
+        <md-progress-spinner
+          :md-diameter="24"
+          :md-stroke="2"
+          md-mode="indeterminate"
+        />
       </section>
-      <img v-else class="status-icon" :src="TickIcon" />
+      <img
+        v-else
+        :src="TickIcon"
+        class="status-icon"
+      >
       {{
         isInTx ? `${$t('Transaction.header.label.pending')}...`
         : `${$t('Transaction.header.label.completed')}!`
@@ -14,7 +26,11 @@
       <nuxt-link :to="{ name: 'in-tx-id', params: { id: txHash, tx: txInfo } }">
         <md-button>{{ $t('Transaction.label.viewTx') }}</md-button>
       </nuxt-link>
-      <md-button v-if="!isInTx" class="md-icon-button" @click="$emit('onClose')">
+      <md-button
+        v-if="!isInTx"
+        class="md-icon-button"
+        @click="$emit('onClose')"
+      >
         <md-icon>close</md-icon>
       </md-button>
     </div>
@@ -25,8 +41,21 @@
 import TickIcon from '@/assets/tokensale/tick.svg';
 
 export default {
-  name: 'TxToolbar',
-  props: ['txHash', 'txInfo', 'isInTx'],
+  name: 'tx-toolbar',
+  props: {
+    txHash: {
+      type: String,
+      default: '',
+    },
+    txInfo: {
+      type: Object,
+      default: () => ({}),
+    },
+    isInTx: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       TickIcon,

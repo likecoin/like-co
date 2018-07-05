@@ -1,15 +1,19 @@
 <template>
   <div
+    v-swiper:swiper="swiperOptions"
     :class="[
       'mission-swiper',
       {
         loading: isLoading,
       },
     ]"
-    v-swiper:swiper="swiperOptions"
-    @slideChange="onSlideChange">
+    @slideChange="onSlideChange"
+  >
 
-    <div class="swiper-wrapper" @click="onClick">
+    <div
+      class="swiper-wrapper"
+      @click="onClick"
+    >
       <slot />
     </div>
 
@@ -19,7 +23,8 @@
         {
           hidden: isLoading || !isShowPagination,
         },
-      ]">
+      ]"
+    >
       <div class="swiper-pagination swiper-pagination-bullets" />
       <div class="swiper-button-next">
         <simple-svg
@@ -52,6 +57,7 @@ export default {
   props: {
     swiperId: {
       type: String,
+      default: undefined,
     },
     isLoading: {
       type: Boolean,

@@ -6,13 +6,20 @@
         'highlighted': isHighlighted,
       },
     ]"
-    @click="onClickMenuItem">
+    @click="onClickMenuItem"
+  >
 
-    <a v-if="isExternal || !to" :href="to">
-      <slot/>
+    <a
+      v-if="isExternal || !to"
+      :href="to"
+    >
+      <slot />
     </a>
-    <nuxt-link v-else :to="to">
-      <slot/>
+    <nuxt-link
+      v-else
+      :to="to"
+    >
+      <slot />
     </nuxt-link>
 
   </div>
@@ -30,6 +37,7 @@ export default {
     },
     to: {
       type: [String, Object],
+      default: undefined,
     },
     isExternal: {
       type: Boolean,

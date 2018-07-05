@@ -2,7 +2,8 @@
   <div :class="['mission-state-icon', layout, state]">
     <loading-indicator
       v-if="state === 'pending'"
-      :layout="layout" />
+      :layout="layout"
+    />
   </div>
 </template>
 
@@ -25,6 +26,7 @@ export default {
     },
     state: {
       type: String,
+      default: undefined,
     },
   },
 };

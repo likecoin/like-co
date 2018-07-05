@@ -3,14 +3,18 @@
     <div>
 
       <ul>
-        <li v-for="item in items" :key="item.id">
+        <li
+          v-for="item in items"
+          :key="item.id"
+        >
 
           <a
             :href="!item.isLightBox && item.link"
-            @click="item.isLightBox && openLightBox(item.id)"
             target="_blank"
-            rel="noopener">
-            <img v-lazy="item.src" />
+            rel="noopener"
+            @click="item.isLightBox && openLightBox(item.id)"
+          >
+            <img v-lazy="item.src">
           </a>
 
         </li>
@@ -19,11 +23,11 @@
       <no-ssr>
         <portal to="light-box">
           <lightbox
-            class="lc-image-grid_lightbox"
             ref="lightbox"
             :images="images"
             :showLightBox="false"
             :showThumbs="false"
+            class="lc-image-grid_lightbox"
           />
         </portal>
       </no-ssr>
@@ -41,10 +45,12 @@ export default {
   components: {
     Lightbox,
   },
-  props: [
-    'items',
-    'lightboxId',
-  ],
+  props: {
+    items: {
+      type: Array,
+      default: () => [],
+    },
+  },
   data() {
     const images = [];
     const imagesMap = {};
