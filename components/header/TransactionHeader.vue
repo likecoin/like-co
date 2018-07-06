@@ -195,18 +195,22 @@ $status-icon-size: 32px;
     justify-content: center;
 
     .icon {
-      width: 128px;
-      height: 128px;
 
       position: relative;
       z-index: 1;
-      border-radius: 50%;
+
       overflow: hidden;
+
+      width: 128px;
+      height: 128px;
+
+      border-radius: 50%;
     }
   }
 
   .heading {
     position: relative;
+
     display: flex;
     flex-direction: row;
 
@@ -219,8 +223,9 @@ $status-icon-size: 32px;
 
     .transaction-state {
       display: flex;
-      flex-direction: row;
       align-items: center;
+      flex-direction: row;
+
       width: 100%;
 
       > * {
@@ -246,11 +251,13 @@ $status-icon-size: 32px;
 
     .send-state {
       text-align: left;
+
       font-size: 14px;
     }
 
     .user-section {
       text-align: right;
+
       font-size: 14px;
     }
   }
@@ -294,10 +301,10 @@ $status-icon-size: 32px;
       top: 2px;
       left: -42px;
 
-      color: $like-green-2;
-
       width: $status-icon-size;
       height: $status-icon-size;
+
+      color: $like-green-2;
 
       @media (max-width: 600px) {
         display: none;
@@ -310,15 +317,16 @@ $status-icon-size: 32px;
   }
 
   .md-progress-bar {
-    margin-top: 12px;
     width: 100%;
+    margin-top: 12px;
   }
 
   .pending-description {
     margin-top: 20px;
-    color: $like-gray-4;
 
     text-align: left;
+
+    color: $like-gray-4;
   }
 }
 

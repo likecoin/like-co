@@ -281,6 +281,7 @@ export default {
 
   .value {
     word-wrap: break-word;
+
     color: $like-green;
   }
 

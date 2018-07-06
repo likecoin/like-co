@@ -57,14 +57,14 @@ export default {
   }
 
   input {
+    text-overflow: ellipsis;
+
     color: $like-green;
 
     font-size: 18px;
     font-weight: 600;
 
     -webkit-text-fill-color: $like-green;
-
-    text-overflow: ellipsis;
   }
 
   .md-button {

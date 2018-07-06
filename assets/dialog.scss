@@ -4,10 +4,13 @@ $title-bar-height: 48px;
 
 .md-dialog {
   position: absolute;
+
+  overflow: visible;
+
   width: 450px;
   min-height: 188px;
+
   border-radius: 6px;
-  overflow: visible;
 
   @media (max-width: 600px) {
     max-width: 90%;
@@ -15,16 +18,18 @@ $title-bar-height: 48px;
 
   > .md-dialog-container {
     overflow: hidden;
+
     border-radius: 6px;
 
     .dialog-content {
       display: flex;
       flex-direction: column;
+
       padding: #{$title-bar-height + 8px} 40px 32px;
 
       @media (max-width: 600px) {
-        padding-left: 12px;
         padding-right: 12px;
+        padding-left: 12px;
       }
 
       .md-dialog-title {
@@ -33,11 +38,12 @@ $title-bar-height: 48px;
         @extend .lc-padding-top-16;
         @extend .lc-padding-bottom-8;
 
-        color: $like-dark-brown-2;
-        margin-bottom: 0;
-
         display: flex;
         align-items: center;
+
+        margin-bottom: 0;
+
+        color: $like-dark-brown-2;
 
         @media (max-width: 600px) {
           padding-left: 12px;
@@ -52,9 +58,11 @@ $title-bar-height: 48px;
         @extend .lc-margin-bottom-16;
 
         margin-top: 4px;
+
+        color: $like-gray-4;
+
         font-size: 16px;
         line-height: 26px;
-        color: $like-gray-4;
 
         @media (max-width: 600px) {
           padding: 0 12px;
@@ -82,25 +90,29 @@ $title-bar-height: 48px;
 
       section, a {
         display: flex;
-        flex-direction: column;
         align-items: center;
+        flex-direction: column;
       }
     }
   }
 }
 
 .title-bar {
-  border-radius: 6px 6px 0 0;
+
   position: absolute;
   top: 0px;
+
+  display: flex;
+
   width: 100%;
   height: $title-bar-height;
-  display: flex;
+
+  border-radius: 6px 6px 0 0;
 }
 
 .foxy {
   position: absolute;
-  top: -50px;
   z-index: 999;
+  top: -50px;
   left: calc(50% - 55px);
 }

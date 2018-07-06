@@ -448,7 +448,7 @@ $profile-icon-mobile-size: 88px;
       position: relative;
       z-index: 1001;
     }
-  };
+  }
 
   .form-wrapper {
     display: flex;

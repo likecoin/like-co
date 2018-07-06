@@ -78,6 +78,7 @@ export default {
   &.active {
     &::after {
       mask: url('~/assets/mission/misc/active.svg');
+
       background-color: $like-green;
     }
   }
@@ -86,6 +87,7 @@ export default {
   &.claimed {
     &::after {
       mask: url('~/assets/mission/misc/completed.svg');
+
       background-color: $like-white;
     }
   }
@@ -120,6 +122,7 @@ export default {
   &.active {
     &::after {
       mask: url('~/assets/mission/misc/active-small.svg');
+
       background-color: $like-green;
     }
   }
@@ -178,6 +181,7 @@ export default {
   &.upcoming {
     &::after {
       mask: url('~/assets/mission/misc/upcoming.svg');
+
       background-color: #9b9b9b;
     }
   }

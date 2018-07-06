@@ -163,7 +163,7 @@ export default {
       }
     }
 
-    height: $top;
+    height: $top; // stylelint-disable-line order/properties-order
   }
 }
 
@@ -256,9 +256,9 @@ export default {
 }
 
 .mission-item-placeholder {
-  width: 100%;
-
   flex-shrink: 0;
+
+  width: 100%;
 
   &.small {
     @include small-mission-item-placeholder();

@@ -45,16 +45,18 @@ export default {
 
 .lc-loading-indicator {
   display: flex;
+  align-items: center;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
-
-  color: $like-green;
 
   width: 100%;
   height: 100%;
 
+  color: $like-green;
+
   > div {
+    flex-shrink: 0;
+
     animation: wave 1.5s infinite ease-in-out;
 
     &:nth-child(1) {
@@ -63,16 +65,19 @@ export default {
     &:nth-child(2) {
       animation-delay: 0.15s;
     }
-    flex-shrink: 0;
 
     &::before {
-      content: " ";
       position: relative;
-      border-radius: 50%;
-      background: currentColor;
+
+      display: block;
+
       width: 100%;
       padding-top: 100%;
-      display: block;
+
+      content: " ";
+
+      border-radius: 50%;
+      background: currentColor;
     }
   }
 

@@ -207,6 +207,8 @@ export default {
   min-height: 40px;
   padding: 0 24px;
 
+  border-bottom: 1px solid $like-gray-1;
+
   font-size: 20px;
 
   @media (max-width: 600px) {
@@ -214,8 +216,6 @@ export default {
 
     font-size: 18px;
   }
-
-  border-bottom: 1px solid $like-gray-1;
 
   button.md-button {
     width: 20px;

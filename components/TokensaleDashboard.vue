@@ -161,12 +161,12 @@ export default {
       display: flex;
       flex-wrap: wrap;
 
+      justify-content: center;
+
       margin: -20px -12px;
       padding: 0;
 
       list-style: none;
-
-      justify-content: center;
 
       @media (max-width: 600px) {
         margin: -12px;
@@ -204,9 +204,10 @@ export default {
             margin: 4px;
 
             &.label {
+              flex-shrink: 0;
+
               font-size: 14px;
               font-weight: 400;
-              flex-shrink: 0;
             }
 
             &.value {
@@ -214,9 +215,10 @@ export default {
               font-weight: 300;
 
               @media (max-width: 480px) {
-                font-size: 18px;
 
                 text-align: right;
+
+                font-size: 18px;
               }
             }
           }

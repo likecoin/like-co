@@ -112,8 +112,9 @@ $carousel-height: 488px;
         > div {
           width: 100%;
           height: $carousel-height;
-          background-size: cover;
+
           background-position: 50%;
+          background-size: cover;
         }
       }
     }
@@ -122,11 +123,14 @@ $carousel-height: 488px;
       bottom: -5px;
 
       :global(.swiper-pagination-bullet) {
-        border-radius: 0;
+
         width: 72px;
         height: 4px;
-        background: $like-white;
+
         opacity: 1;
+        border-radius: 0;
+
+        background: $like-white;
       }
       :global(.swiper-pagination-bullet-active) {
         background: $like-green;

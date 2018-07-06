@@ -255,8 +255,8 @@ export default {
 
 .trust-dialog-content {
   @media (min-width: #{600px + 1px}) {
-    padding-left: 16px;
     padding-right: 16px;
+    padding-left: 16px;
   }
 
   .title-label {

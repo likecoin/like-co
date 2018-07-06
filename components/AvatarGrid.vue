@@ -46,14 +46,17 @@ export default {
 
   > ul {
     display: flex;
-    list-style: none;
+
     flex-wrap: wrap;
+
     margin: 0 auto;
     padding: 0;
 
+    list-style: none;
+
     li {
-      padding: 8px;
       width: 20%;
+      padding: 8px;
 
       @media (max-width: 1244px) {
         width: 25%;

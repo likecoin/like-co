@@ -57,9 +57,11 @@ export default {
   width: 100%;
   height: auto;
 
-  border-radius: 0;
+  white-space: normal;
 
   color: $like-white;
+
+  border-radius: 0;
   background-color: $like-green;
 
   font-size: 24px;
@@ -68,8 +70,6 @@ export default {
   @media (max-width: 600px) {
     font-size: 20px;
   }
-
-  white-space: normal;
 
   &.shadow {
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
@@ -89,8 +89,9 @@ export default {
       position: initial;
 
       > a {
-        color: $like-white;
         text-decoration: none;
+
+        color: $like-white;
       }
     }
   }

@@ -157,10 +157,14 @@ $responsive-offset: 15px;
 
 .user-info-div {
   position:relative;
+
   align-items: center;
-  margin: $margin-top-offset $margin-right-offset $margin-top-offset 5px;
+
   max-width: 425px;
   max-height: 83px;
+
+  margin: $margin-top-offset $margin-right-offset $margin-top-offset 5px;
+
   border-radius: 8px;
   background-image: linear-gradient(238deg, $like-light-blue, $like-gradient-1);
   @media (max-width: 480px) {
@@ -168,14 +172,19 @@ $responsive-offset: 15px;
   }
   .user-avatar {
     position:relative;
+
     margin: $margin-top-offset 8px;
     .user-avatar-border {
       left: $icon-border-size;
-      background: linear-gradient(242deg, $like-light-blue, $like-gradient-1);
-      padding: $icon-border-size;
-      border-radius: 50%;
-      max-width: $profile-icon-size + $icon-border-size * 2;
+
       min-width: $profile-icon-size - $responsive-offset;
+      max-width: $profile-icon-size + $icon-border-size * 2;
+
+      padding: $icon-border-size;
+
+      border-radius: 50%;
+
+      background: linear-gradient(242deg, $like-light-blue, $like-gradient-1);
 
       @media (max-width: 480px) {
         min-width: auto;
@@ -183,6 +192,7 @@ $responsive-offset: 15px;
 
       .user-avatar-wrapper {
         overflow: hidden;
+
         border-radius: 50%;
         @media (min-width: #{768px + 1px}) {
           width: $profile-icon-size;
@@ -191,16 +201,20 @@ $responsive-offset: 15px;
 
         .avatar {
           display: block;
+
           width: 100%;
           height: 100%;
         }
       }
     }
     .display-name {
-      color: $like-green;
       position: absolute;
       top: 100%;
+
       width: 100%;
+
+      color: $like-green;
+
       @media (max-width: 480px) {
         display: none;
       }
@@ -214,20 +228,24 @@ $responsive-offset: 15px;
 
   .embed-superlike-div {
     position: relative;
-    margin-left: auto;
-    margin-right: -$margin-right-offset;
-    border-radius: 20px;
+
     width: $like-button-width + $icon-border-size * 2;
+    margin-right: -$margin-right-offset;
+    margin-left: auto;
+
+    border-radius: 20px;
     &:before {
-      content: "";
-      border-radius: 20px;
       position: absolute;
       top: 0;
       right: 0;
-      left: 0;
       bottom: 0;
-      opacity: 0;
+      left: 0;
+
+      content: "";
       transition: .4s cubic-bezier(.4,0,.2,1);
+
+      opacity: 0;
+      border-radius: 20px;
       background: linear-gradient(67deg, $like-light-blue, $like-gradient-1);
       @media (max-width: 480px) {
         background: none;
@@ -242,19 +260,22 @@ $responsive-offset: 15px;
       box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.25);
       @media (min-width: 600px + 1px) {
         min-width: $like-button-width;
+
         font-size: 20px;
       }
 
       @media (max-width: 600px) {
         min-width: $like-button-width - $responsive-offset;
+
         font-size: 15px;
       }
       &:active {
-        color: $like-green;
-        border-radius: 21px;
         box-sizing: border-box;
-        background-color: $like-white;
+
+        color: $like-green;
         border: solid 4px $like-green;
+        border-radius: 21px;
+        background-color: $like-white;
       }
     }
   }
@@ -262,13 +283,15 @@ $responsive-offset: 15px;
     position: absolute;
     top: 100%;
     right: 0;
+
     color: $gray-9b;
     @media (max-width: 480px) {
       margin-top: 0px;
     }
     a {
-      color: $gray-9b;
       text-decoration: underline;
+
+      color: $gray-9b;
     }
   }
 }

@@ -57,21 +57,21 @@ export default {
 <style lang="scss" scoped>
 .lc-refresh-button {
   @keyframes rotation {
-    0% { transform: rotateZ(0deg) };
-    100% { transform: rotateZ(360deg) };
+    0% { transform: rotateZ(0deg) }
+    100% { transform: rotateZ(360deg) }
   }
 
   > * {
     animation-name: rotation;
     animation-duration: .5s;
+    animation-play-state: paused;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
-    animation-play-state: paused;
   }
 
   &.outline {
-    border-radius: 50%;
     border: solid 2px currentColor;
+    border-radius: 50%;
   }
 
   &.refreshing {

@@ -396,67 +396,6 @@ export default {
 <style lang="scss" scoped>
 @import "~assets/variables";
 
-#invitee-mission {
-  header {
-    @mixin invitee-mission-header($percent) {
-      &::after {
-        width: calc(#{100% - $percent} - 16px);
-      }
-
-      > div {
-        max-width: $percent;
-      }
-    }
-
-    position: relative;
-
-    &::after {
-      display: block;
-
-      height: 1px;
-
-      content: " ";
-
-      background-color: #E6E6E6;
-    }
-
-    > div {
-      width: 100%;
-    }
-
-    @media (min-width: 1366px + 1px) {
-      @include invitee-mission-header(25%);
-    }
-
-    @media (min-width: 960px + 1px) and (max-width: 1366px) {
-      @include invitee-mission-header(1 / 3 * 100%);
-    }
-
-    @media (min-width: 600px + 1px) {
-      &::after {
-        position: absolute;
-        top: 50%;
-        right: 0;
-
-        margin-right: 8px;
-        margin-left: 8px;
-      }
-
-      @media (max-width: 960px) {
-        @include invitee-mission-header(50%);
-      }
-    }
-
-    @media (max-width: 600px) {
-      &::after {
-        position: relative;
-
-        margin-top: 16px;
-      }
-    }
-  }
-}
-
 .earned-bonus-amount-section {
   @media (max-width: 600px) {
     padding-right: 0;
@@ -532,4 +471,66 @@ export default {
 .referral-form-section {
   min-height: 400px;
 }
+
+#invitee-mission {
+  header {
+    @mixin invitee-mission-header($percent) {
+      &::after {
+        width: calc(#{100% - $percent} - 16px);
+      }
+
+      > div {
+        max-width: $percent;
+      }
+    }
+
+    position: relative;
+
+    &::after {
+      display: block;
+
+      height: 1px;
+
+      content: " ";
+
+      background-color: #E6E6E6;
+    }
+
+    > div {
+      width: 100%;
+    }
+
+    @media (min-width: 1366px + 1px) {
+      @include invitee-mission-header(25%);
+    }
+
+    @media (min-width: 960px + 1px) and (max-width: 1366px) {
+      @include invitee-mission-header(1 / 3 * 100%);
+    }
+
+    @media (min-width: 600px + 1px) {
+      &::after {
+        position: absolute;
+        top: 50%;
+        right: 0;
+
+        margin-right: 8px;
+        margin-left: 8px;
+      }
+
+      @media (max-width: 960px) {
+        @include invitee-mission-header(50%);
+      }
+    }
+
+    @media (max-width: 600px) {
+      &::after {
+        position: relative;
+
+        margin-top: 16px;
+      }
+    }
+  }
+}
+
 </style>

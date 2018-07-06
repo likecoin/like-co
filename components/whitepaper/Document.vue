@@ -126,6 +126,7 @@ export default {
 
   .other-languages-list {
     margin-top: 8px;
+
     background-color: $like-gray-1;
   }
 }
