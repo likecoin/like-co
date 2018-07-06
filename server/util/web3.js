@@ -48,23 +48,40 @@ async function sendWithLoop(
   txData,
   { gasLimit, privateKey, address },
 ) {
-  const counterRef = txLogRef.doc(`!counter_${address}`);
-  let pendingCount = await db.runTransaction(async (t) => {
-    const d = await t.get(counterRef);
-    const v = d.data().value + 1;
-    await t.update(counterRef, { value: v });
-    return d.data().value;
-  });
-  let tx = await signTransaction(addr, txData, pendingCount, gasLimit, privateKey);
+  const RETRY_LIMIT = 10;
+  let retryCount = 0;
+  let retry = false;
   let txHash;
-  try {
-    txHash = await sendTransaction(tx);
-  } catch (err) {
-    console.log(`Nonce ${pendingCount} failed, trying web3 pending`);
-  }
+  let tx;
+  let pendingCount;
+  const counterRef = txLogRef.doc(`!counter_${address}`);
+  /* eslint-disable no-await-in-loop */
+  do {
+    retry = false;
+    pendingCount = await db.runTransaction(async (t) => {
+      const d = await t.get(counterRef);
+      const v = d.data().value + 1;
+      await t.update(counterRef, { value: v });
+      return d.data().value;
+    });
+    tx = await signTransaction(addr, txData, pendingCount, gasLimit, privateKey);
+    try {
+      txHash = await sendTransaction(tx);
+    } catch (err) {
+      console.error(err);
+      if (err.message.includes('replacement transaction underpriced')
+        || err.message.includes('known transaction:')
+        || err.message.includes('nonce too low')) {
+        console.log(`Nonce ${pendingCount} failed, trying web3 pending`);
+      } else {
+        retry = true;
+        retryCount += 1;
+        await timeout(500);
+      }
+    }
+  } while (retry && retryCount < RETRY_LIMIT);
   try {
     while (!txHash) {
-      /* eslint-disable no-await-in-loop */
       pendingCount = await web3.eth.getTransactionCount(address, 'pending');
       tx = await signTransaction(addr, txData, pendingCount, gasLimit, privateKey);
       txHash = await sendTransaction(tx);
@@ -72,6 +89,7 @@ async function sendWithLoop(
         await timeout(200);
       }
     }
+    /* eslint-enable no-await-in-loop */
     await db.runTransaction(t => t.get(counterRef).then((d) => {
       if (pendingCount + 1 > d.data().value) {
         return t.update(counterRef, {
