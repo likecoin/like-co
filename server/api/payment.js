@@ -31,6 +31,7 @@ router.post('/payment', async (req, res, next) => {
       maxReward,
       nonce,
       signature,
+      httpReferrer,
     } = req.body;
     if (!Validate.checkAddressValid(to) || !Validate.checkAddressValid(from)) {
       throw new ValidationError('Invalid address');
@@ -164,6 +165,7 @@ router.post('/payment', async (req, res, next) => {
       currentBlock,
       txSignature: signature,
       delegatorAddress: web3.utils.toChecksumAddress(delegatorAddress),
+      sourceURL: httpReferrer,
     });
   } catch (err) {
     console.error(err);
