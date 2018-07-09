@@ -692,7 +692,7 @@
         "sent": "已发送",
         "to": "到 ",
         "notFound": "交易码不存在",
-        "pending": "已提交至区块链",
+        "pending": "交易指令已达",
         "failed": "交易失败",
         "timeout": "交易逾时",
         "completed": "交易完成"
