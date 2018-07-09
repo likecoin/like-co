@@ -162,8 +162,20 @@
                     ref="inputEmail"
                     disabled />
                 </md-field>
-
               </div>
+
+              <div class="address-field">
+                {{ $t('Edit.label.accountConnection') }}
+              </div>
+              <social-media-connect
+                v-if="getUserInfo"
+                class="lc-margin-vertical-8"
+                :user="{
+                  isConnectedFacebook: true,
+                }"
+                type="mini"
+              />
+
             </div>
 
           </div>
@@ -197,6 +209,7 @@ import LikeCoinAmount from '~/components/LikeCoinAmount';
 import MaterialButton from '~/components/MaterialButton';
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import InputDialog from '~/components/dialogs/InputDialog';
+import SocialMediaConnect from '~/components/SocialMediaConnect';
 
 export default {
   name: 'Edit',
@@ -224,6 +237,7 @@ export default {
     InputDialog,
     LikeCoinAmount,
     MaterialButton,
+    SocialMediaConnect,
   },
   computed: {
     ...mapGetters([

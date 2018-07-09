@@ -681,7 +681,8 @@
       "verified": "Verified",
       "verifying": "Verfication sent, Please check your inbox!",
       "unverified": "Unverifed",
-      "verifyEmail": "Verify your email"
+      "verifyEmail": "Verify your email",
+      "accountConnection": "Account connection"
     },
     "referral": {
       "title": "Affiliate Program",
