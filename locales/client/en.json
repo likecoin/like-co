@@ -566,7 +566,7 @@
     },
     "transaction": {
       "label": {
-        "waiting": "Waiting for the blockchain to confirm. It may take a few minutes depends on network traffic. Meanwhile you may browse around like.co",
+        "waiting": "Your request to transfer LIKE is well received and will be executed. Depending on the traffic on blockchain, please expect the LIKE will arrive recipient wallet in 12 hours or in extreme cases a few days, although in practice it normally takes a lot shorter.",
         "newUser": "Seems you don’t have a LikeCoin ID. Create now."
       },
       "button": {
@@ -725,7 +725,7 @@
         "sent": "Sent",
         "to": "to ",
         "notFound": "Transaction Not Found or not a like.co transaction",
-        "pending": "Submitted to blockchain",
+        "pending": "Transaction Ordered",
         "failed": "Transaction Failed",
         "timeout": "Transaction Expired",
         "completed": "Transaction Completed"

@@ -696,7 +696,7 @@
         "sent": "已發送",
         "to": "到 ",
         "notFound": "交易碼不存在",
-        "pending": "已提交至區塊鏈",
+        "pending": "交易指令已達",
         "failed": "交易失敗",
         "timeout": "交易逾時",
         "completed": "交易完成"
