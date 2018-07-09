@@ -17,7 +17,7 @@ config.STRIPE_PROD_KEY = '';
 
 config.RECAPTCHA_SECRET = '';
 
-config.FACEBOOK_APP_ID = ''
+config.FACEBOOK_APP_ID = '';
 config.FACEBOOK_APP_SECRET = '';
 
 config.REGISTER_LIMIT_WINDOW = 6000;
