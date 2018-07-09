@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 
 const TYPE = {
   READONLY: 'readonly',
@@ -94,8 +95,12 @@ export default {
         return !!TYPE[value.toUpperCase()];
       },
     },
-    user: {
+    platforms: {
       type: Object,
+      required: true,
+    },
+    username: {
+      type: String,
       required: true,
     },
   },
@@ -113,23 +118,44 @@ export default {
     },
   },
   methods: {
+    ...mapActions([
+      'linkSocialPlatform',
+    ]),
     getIconPath(id) {
       return iconFolder(`./${id}.svg`);
     },
     getIsConnected(id) {
-      const key = `isConnected${id.charAt(0).toUpperCase() + id.slice(1)}`;
-      return !!this.user[key];
+      return !!this.platforms[id];
     },
     onClickButton(socialMedia) {
       const isConnected = this.getIsConnected(socialMedia.id);
-      if (isConnected) {
+      if (!isConnected) {
         this.connect(socialMedia);
+      } else if (this.platforms[socialMedia.id].url) {
+        window.open(
+          this.platforms[socialMedia.id].url,
+          '_blank',
+          'noopener',
+        );
       }
     },
     connect(socialMedia) {
       switch (socialMedia.id) {
         case 'facebook':
-          // TODO
+          if (!window.FB) return;
+          window.FB.login((response) => {
+            if (response.authResponse.accessToken) {
+              this.linkSocialPlatform({
+                platform: 'facebook',
+                payload: {
+                  user: this.username,
+                  access_token: response.authResponse.accessToken,
+                },
+              });
+            } else {
+              // error case
+            }
+          }, { scope: 'public_profile,user_link' });
           break;
         default:
           break;

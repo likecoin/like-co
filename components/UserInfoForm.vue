@@ -168,11 +168,10 @@
                 {{ $t('Edit.label.accountConnection') }}
               </div>
               <social-media-connect
-                v-if="getUserInfo"
+                v-if="getUserInfo.user"
                 class="lc-margin-vertical-8"
-                :user="{
-                  isConnectedFacebook: true,
-                }"
+                :platforms="getUserSocialPlatforms"
+                :username="getUserInfo.user"
                 type="mini"
               />
 
@@ -181,7 +180,6 @@
           </div>
         </div>
       </div>
-
     </div>
   </form>
 </template>
@@ -245,6 +243,7 @@ export default {
       'getIsInTransaction',
       'getIsPopupBlocking',
       'getUserInfo',
+      'getUserSocialPlatforms',
       'getUserIsReady',
       'getUserIsRegistered',
       'getMissionList',
