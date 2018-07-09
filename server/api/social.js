@@ -15,13 +15,9 @@ const { userCollection: dbRef } = require('../util/firebase');
 
 const router = Router();
 
-router.get('/social/list/:id', jwtAuth, async (req, res, next) => {
+router.get('/social/list/:id', async (req, res, next) => {
   try {
     const username = req.params.id;
-    if (req.user.user !== username) {
-      res.status(401).send('LOGIN_NEEDED');
-      return;
-    }
     const col = await dbRef.doc(username).collection('social').get();
     const replyObj = {};
     col.docs.forEach((d) => {
