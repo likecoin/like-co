@@ -1,8 +1,14 @@
 <template>
-  <div :class="[
-    'social-media-connect',
-    `social-media-connect--${type}`
-  ]">
+  <div
+    v-if="socialMediaList.length > 0"
+    :class="[
+      'social-media-connect',
+      `social-media-connect--${type}`,
+      {
+        'social-media-connect--center': !!center,
+      },
+    ]"
+  >
     <div>
 
       <ul>
@@ -54,6 +60,8 @@
 <script>
 import { mapActions } from 'vuex';
 
+import { openURL } from '~/util/client';
+
 const TYPE = {
   READONLY: 'readonly',
   MINI: 'mini',
@@ -65,13 +73,14 @@ const SOCIAL_MEDIA_LIST = [
     id: 'facebook',
     tier: 1,
   },
+  /*
   {
     id: 'flickr',
     tier: 1,
   },
   {
     id: 'medium',
-    tier: 2,
+    tier: 1,
   },
   {
     id: 'twitter',
@@ -81,6 +90,7 @@ const SOCIAL_MEDIA_LIST = [
     id: 'instagram',
     tier: 1,
   },
+  */
 ];
 
 const iconFolder = require.context('../assets/icons/social-media/');
@@ -103,17 +113,23 @@ export default {
       type: String,
       required: true,
     },
+    center: {
+      type: [Boolean, String],
+      default: false,
+    },
   },
   computed: {
     isMini() {
       return this.type === TYPE.MINI;
     },
     socialMediaList() {
-      return SOCIAL_MEDIA_LIST.filter((socialMedia) => {
-        if (this.type !== TYPE.LARGE && socialMedia.tier > 1) {
-          return false;
-        }
-        return true;
+      return SOCIAL_MEDIA_LIST.filter(({ id, tier }) => {
+        const isConnected = this.getIsConnected(id);
+        return (
+          (this.type === TYPE.READONLY && isConnected) ||
+          (this.type === TYPE.MINI && (isConnected || tier === 1)) ||
+          this.type === TYPE.LARGE
+        );
       });
     },
   },
@@ -132,7 +148,8 @@ export default {
       if (!isConnected) {
         this.connect(socialMedia);
       } else if (this.platforms[socialMedia.id].url) {
-        window.open(
+        openURL(
+          this,
           this.platforms[socialMedia.id].url,
           '_blank',
           'noopener',
@@ -172,6 +189,9 @@ export default {
   > div {
     display: flex;
   }
+  &--center > div {
+    justify-content: center;
+  }
 
   ul {
     display: flex;
@@ -187,21 +207,27 @@ export default {
     }
   }
 
+
   &__button {
     margin: 2px;
+
+    background-color: $like-gray-5;
+
+    cursor: pointer;
+
+    &:hover {
+      background-color: darken($like-gray-5, 10);
+    }
+    &:active {
+      background-color: darken($like-gray-5, 20);
+    }
 
     transition: background-color .25s ease;
 
     border: none;
     border-radius: 50%;
 
-    &--connected {
-      background-color: $like-gray-5;
-    }
-
     &--disconnected {
-      cursor: pointer;
-
       background-color: $gray-c0;
 
       &:hover {
