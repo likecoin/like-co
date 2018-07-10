@@ -2,10 +2,9 @@ import { Router } from 'express';
 import cors from 'cors';
 import { toDataUrl } from '@likecoin/ethereum-blockies';
 import xml from 'xml';
-import { IS_TESTNET } from '../../constant';
+import { EXTERNAL_HOSTNAME } from '../../constant';
 import { ValidationError } from '../../util/ValidationHelper';
 
-const hostname = IS_TESTNET ? 'rinkeby.like.co' : 'like.co';
 const subdomain = ['www.', 'rinkeby.', 'button.', 'button.rinkeby.'];
 const queryUrlRegexp = new RegExp('^(?:https?:\\/\\/)?([a-z0-9.]+)?like\\.co\\/([-_a-z0-9]+)(?:/([0-9]+)?)?');
 
@@ -61,11 +60,11 @@ router.get('/oembed', cors(), async (req, res, next) => {
       thumbnail_width: thumbnailLength,
       thumbnail_height: thumbnailLength,
       html: `<iframe width="${maxWidth}" height="${maxHeight}"
-        src="https://${hostname}/in/embed/${username}/${isButton ? 'button' : amount}"
+        src="https://${EXTERNAL_HOSTNAME}/in/embed/${username}/${isButton ? 'button' : amount}"
         frameborder="0">
         </iframe>`,
       provider_name: 'LikeCoin',
-      provider_url: `https://${hostname}`,
+      provider_url: `https://${EXTERNAL_HOSTNAME}`,
       width: maxWidth,
       height: maxHeight,
     };
