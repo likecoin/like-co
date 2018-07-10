@@ -72,13 +72,14 @@ export function setUserNeedAuth({ commit }, needAuth) {
   commit(types.USER_AWAITING_AUTH, needAuth);
 }
 
-export async function refreshUser({ commit, state }, addr) {
+export async function refreshUser({ commit, state, dispatch }, addr) {
   try {
     commit(types.USER_SET_FETCHING, true);
     const { data: user } = await api.apiGetUserByAddr(addr);
     const oldUser = state.user.user;
     const currentUser = (user || {}).user;
     if (user && user.user) {
+      await dispatch('fetchtSocialListById', user.user);
       commit(types.USER_SET_USER_INFO, user);
     } else {
       commit(types.USER_SET_USER_INFO, {});
@@ -144,6 +145,21 @@ export async function getMiniUserById({ commit, dispatch }, id) {
 export async function fetchUserTotalBonus({ commit, dispatch }, id) {
   const { bonus } = await apiWrapper({ commit, dispatch }, api.apiGetTotalBonusById(id));
   return bonus;
+}
+
+export async function fetchtSocialListById({ commit, dispatch }, id) {
+  const platforms = await apiWrapper({ commit, dispatch }, api.apiGetSocialListById(id));
+  commit(types.USER_SET_SOCIAL, platforms);
+  return true;
+}
+
+export async function linkSocialPlatform({ commit, dispatch }, { platform, payload }) {
+  const { displayName, url } = await apiWrapper(
+    { commit, dispatch },
+    api.apiLinkSocialPlatform(platform, payload),
+  );
+  commit(types.USER_LINK_SOCIAL, { id: platform, displayName, url });
+  return true;
 }
 
 export async function sendCouponCodeEmail({ commit, dispatch, rootState }, data) {

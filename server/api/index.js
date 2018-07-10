@@ -5,6 +5,7 @@ import payment from './payment';
 import iap from './iap';
 import mission from './mission';
 import oembed from './oembed';
+import social from './social';
 import { startPoller } from '../util/poller';
 import { ValidationError } from '../../util/ValidationHelper';
 
@@ -16,6 +17,7 @@ router.use(payment);
 router.use(iap);
 router.use(mission);
 router.use(oembed);
+router.use(social);
 
 router.get('/healthz', (req, res) => {
   res.sendStatus(200);
@@ -34,7 +36,7 @@ function errorHandler(err, req, res, next) {
   if (err.code && err.code === 'LIMIT_FILE_SIZE') {
     return res.status(400).send('FILE_TOO_LARGE');
   }
-  return res.status(500);
+  return res.sendStatus(500);
 }
 
 router.use(errorHandler);
