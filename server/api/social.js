@@ -9,6 +9,11 @@ import { ValidationHelper as Validate, ValidationError } from '../../util/Valida
 
 const { userCollection: dbRef } = require('../util/firebase');
 
+async function checkPlatformAlreadyLinked(user, platform) {
+  const doc = await dbRef.doc(user).collection('social').doc(platform).get();
+  return doc.data() && doc.data().isLinked;
+}
+
 const router = Router();
 
 router.get('/social/list/:id', async (req, res, next) => {
@@ -17,7 +22,8 @@ router.get('/social/list/:id', async (req, res, next) => {
     const col = await dbRef.doc(username).collection('social').get();
     const replyObj = {};
     col.docs.forEach((d) => {
-      replyObj[d.id] = Validate.filterSocialPlatform({ ...d.data() });
+      const { isLinked } = d.data();
+      if (isLinked) replyObj[d.id] = Validate.filterSocialPlatform({ ...d.data() });
     });
     res.json(replyObj);
   } catch (err) {
@@ -25,7 +31,17 @@ router.get('/social/list/:id', async (req, res, next) => {
   }
 });
 
-router.get('/social/link/facebook/:user', jwtAuth, async (req, res) => res.sendStatus(200));
+router.get('/social/link/facebook/:user', jwtAuth, async (req, res, next) => {
+  try {
+    const { user } = req.params;
+    if (await checkPlatformAlreadyLinked(user, 'facebook')) {
+      throw new ValidationError('already linked');
+    }
+    res.sendStatus(200);
+  } catch (err) {
+    next(err);
+  }
+});
 
 router.post('/social/link/facebook', jwtAuth, async (req, res, next) => {
   try {
@@ -35,6 +51,9 @@ router.post('/social/link/facebook', jwtAuth, async (req, res, next) => {
     } = req.body;
     if (!accessToken || !user) {
       throw new ValidationError('invalid payload');
+    }
+    if (await checkPlatformAlreadyLinked(user, 'facebook')) {
+      throw new ValidationError('already linked');
     }
     const {
       displayName,
@@ -48,6 +67,7 @@ router.post('/social/link/facebook', jwtAuth, async (req, res, next) => {
       appId,
       accessToken,
       url: link,
+      isLinked: true,
       ts: Date.now(),
     });
     res.json({
@@ -89,6 +109,9 @@ router.get('/social/link/flickr/:user', jwtAuth, async (req, res, next) => {
       res.status(401).send('LOGIN_NEEDED');
       return;
     }
+    if (await checkPlatformAlreadyLinked(user, 'flickr')) {
+      throw new ValidationError('already linked');
+    }
     const { oAuthToken, oAuthTokenSecret } = await fetchFlickrOAuthToken(user);
     await dbRef.doc(user).collection('social').doc('flickr').set({
       oAuthToken,
@@ -118,8 +141,10 @@ router.post('/social/link/flickr', jwtAuth, async (req, res, next) => {
     const {
       oAuthToken: token,
       oAuthTokenSecret,
+      isLinked,
     } = doc.data();
 
+    if (isLinked) throw new ValidationError('already linked');
     if (token !== oAuthToken) {
       throw new ValidationError('oauth token not match');
     }
@@ -155,7 +180,7 @@ router.post('/social/link/flickr', jwtAuth, async (req, res, next) => {
     } = userDoc.data();
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventSocialLink',
-      platform: 'facebook',
+      platform: 'flickr',
       user,
       email: email || undefined,
       displayName,

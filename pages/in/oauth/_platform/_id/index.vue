@@ -15,10 +15,7 @@
 
               <span v-else-if="isDone">
                 {{ $t('General.label.success') }},
-                <nuxt-link v-if="redirect" :to="{ name: redirect }">
-                  {{ $t('Verify.label.redirect') }}
-                </nuxt-link>
-                <nuxt-link v-else :to="{ name: 'in' }">
+                <nuxt-link :to="{ name: 'in' }">
                   {{ $t('Verify.label.toEdit') }}
                 </nuxt-link>
                 ...
