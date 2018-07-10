@@ -4,6 +4,7 @@ import { PUBSUB_TOPIC_MISC } from '../../constant';
 import publisher from '../util/gcloudPub';
 import { jwtAuth } from '../util/jwt';
 import { fetchFacebookUser } from '../oauth/facebook';
+import { fetchFlickrOAuthToken, fetchFlickrUser } from '../oauth/flickr';
 import { ValidationHelper as Validate, ValidationError } from '../../util/ValidationHelper';
 
 const { userCollection: dbRef } = require('../util/firebase');
@@ -24,7 +25,7 @@ router.get('/social/list/:id', async (req, res, next) => {
   }
 });
 
-router.get('/social/link/facebook', jwtAuth, async (req, res) => res.sendStatus(200));
+router.get('/social/link/facebook/:user', jwtAuth, async (req, res) => res.sendStatus(200));
 
 router.post('/social/link/facebook', jwtAuth, async (req, res, next) => {
   try {
@@ -81,6 +82,95 @@ router.post('/social/link/facebook', jwtAuth, async (req, res, next) => {
   }
 });
 
+router.get('/social/link/flickr/:user', jwtAuth, async (req, res, next) => {
+  try {
+    const { user } = req.params;
+    if (req.user.user !== user) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
+    const { oAuthToken, oAuthTokenSecret } = await fetchFlickrOAuthToken(user);
+    await dbRef.doc(user).collection('social').doc('flickr').set({
+      oAuthToken,
+      oAuthTokenSecret,
+    }, { merge: true });
+    res.json({ oAuthToken });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post('/social/link/flickr', jwtAuth, async (req, res, next) => {
+  try {
+    const {
+      oAuthVerifier,
+      oAuthToken,
+      user,
+    } = req.body;
+    if (req.user.user !== user) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
+    if (!oAuthVerifier || !oAuthToken || !user) {
+      throw new ValidationError('invalid payload');
+    }
+    const doc = await dbRef.doc(user).collection('social').doc('flickr').get();
+    const {
+      oAuthToken: token,
+      oAuthTokenSecret,
+    } = doc.data();
+
+    if (token !== oAuthToken) {
+      throw new ValidationError('oauth token not match');
+    }
+    const {
+      fullName,
+      userId,
+      userName,
+      oAuthToken: newOAuthToken,
+      oAuthTokenSecret: newOAuthSecret,
+    } = await fetchFlickrUser(oAuthToken, oAuthTokenSecret, oAuthVerifier);
+    const url = `https://www.flickr.com/people/${userId}`;
+    await dbRef.doc(user).collection('social').doc('flickr').set({
+      userName,
+      userId,
+      url,
+      oAuthToken: newOAuthToken,
+      oAuthTokenSecret: newOAuthSecret,
+      isLinked: true,
+      ts: Date.now(),
+    }, { merge: true });
+    res.json({
+      platform: 'flickr',
+      displayName: userName,
+      url,
+    });
+    const userDoc = await dbRef.doc(user).get();
+    const {
+      email,
+      displayName,
+      wallet,
+      referrer,
+      locale,
+    } = userDoc.data();
+    publisher.publish(PUBSUB_TOPIC_MISC, req, {
+      logType: 'eventSocialLink',
+      platform: 'facebook',
+      user,
+      email: email || undefined,
+      displayName,
+      wallet,
+      referrer: referrer || undefined,
+      locale,
+      flickrName: fullName,
+      flickrUserName: userName,
+      flickrID: userId,
+      flickrURL: url,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
 
 router.post('/social/unlink/:platform', jwtAuth, async (req, res, next) => {
   try {
