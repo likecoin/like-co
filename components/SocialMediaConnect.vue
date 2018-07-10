@@ -73,11 +73,11 @@ const SOCIAL_MEDIA_LIST = [
     id: 'facebook',
     tier: 1,
   },
-  /*
   {
     id: 'flickr',
     tier: 1,
   },
+  /*
   {
     id: 'medium',
     tier: 1,
@@ -135,6 +135,7 @@ export default {
   },
   methods: {
     ...mapActions([
+      'fetchSocialPlatformToken',
       'linkSocialPlatform',
     ]),
     getIconPath(id) {
@@ -156,9 +157,9 @@ export default {
         );
       }
     },
-    connect(socialMedia) {
+    async connect(socialMedia) {
       switch (socialMedia.id) {
-        case 'facebook':
+        case 'facebook': {
           if (!window.FB) return;
           window.FB.login((response) => {
             if (response.authResponse.accessToken) {
@@ -174,6 +175,15 @@ export default {
             }
           }, { scope: 'public_profile,user_link' });
           break;
+        }
+        case 'flickr': {
+          const { oAuthToken } = await this.fetchSocialPlatformToken({
+            platform: 'flickr',
+            id: this.username,
+          });
+          document.location = `https://www.flickr.com/services/oauth/authorize?oauth_token=${oAuthToken}&perms=read`;
+          break;
+        }
         default:
           break;
       }
