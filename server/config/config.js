@@ -26,7 +26,8 @@ config.FLICKR_APP_SECRET = '';
 config.MEDIUM_APP_ID = '';
 config.MEDIUM_APP_SECRET = '';
 
-
+config.TWITTER_API_KEY = '';
+config.TWITTER_API_SECRET = '';
 
 config.REGISTER_LIMIT_WINDOW = 6000;
 config.REGISTER_LIMIT_COUNT = 0;
