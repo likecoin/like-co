@@ -9,6 +9,7 @@ import facebook from './facebook';
 import flickr from './flickr';
 import medium from './medium';
 import twitter from './twitter';
+import instagram from './instagram';
 
 const { userCollection: dbRef } = require('../../util/firebase');
 
@@ -18,6 +19,7 @@ router.use(facebook);
 router.use(flickr);
 router.use(medium);
 router.use(twitter);
+router.use(instagram);
 
 router.get('/social/list/:id', async (req, res, next) => {
   try {

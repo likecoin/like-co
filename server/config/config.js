@@ -29,6 +29,9 @@ config.MEDIUM_APP_SECRET = '';
 config.TWITTER_API_KEY = '';
 config.TWITTER_API_SECRET = '';
 
+config.INSTAGRAM_APP_ID = '';
+config.INSTAGRAM_APP_SECRET = '';
+
 config.REGISTER_LIMIT_WINDOW = 6000;
 config.REGISTER_LIMIT_COUNT = 0;
 

@@ -81,7 +81,8 @@ export default {
           });
           break;
         }
-        case 'medium': {
+        case 'medium':
+        case 'instagram': {
           await this.linkSocialPlatform({
             platform: this.platform,
             payload: {
