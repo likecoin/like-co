@@ -7,6 +7,7 @@ import { ValidationHelper as Validate, ValidationError } from '../../../util/Val
 
 import facebook from './facebook';
 import flickr from './flickr';
+import medium from './medium';
 
 const { userCollection: dbRef } = require('../../util/firebase');
 
@@ -14,6 +15,7 @@ const router = Router();
 
 router.use(facebook);
 router.use(flickr);
+router.use(medium);
 
 router.get('/social/list/:id', async (req, res, next) => {
   try {
