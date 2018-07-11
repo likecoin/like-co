@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'oAuthConnect',
@@ -42,11 +42,20 @@ export default {
     };
   },
   computed: {
+    ...mapGetters([
+      'getUserInfo',
+    ]),
     platform() {
       return this.$route.params.platform;
     },
     username() {
-      return this.$route.params.id;
+      const param = this.$route.params.id;
+      if (param) return param;
+      const { state } = this.$route.query;
+      if (state && state.split(':').length > 0) {
+        return state.split('-')[0];
+      }
+      return this.getUserInfo.user;
     },
   },
   methods: {
@@ -61,10 +70,21 @@ export default {
       switch (this.platform) {
         case 'flickr': {
           await this.linkSocialPlatform({
-            platform: 'flickr',
+            platform: this.platform,
             payload: {
               oAuthToken: this.$route.query.oauth_token,
               oAuthVerifier: this.$route.query.oauth_verifier,
+              user: this.username,
+            },
+          });
+          break;
+        }
+        case 'medium': {
+          await this.linkSocialPlatform({
+            platform: this.platform,
+            payload: {
+              code: this.$route.query.code,
+              state: this.$route.query.state,
               user: this.username,
             },
           });

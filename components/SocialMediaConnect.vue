@@ -77,11 +77,11 @@ const SOCIAL_MEDIA_LIST = [
     id: 'flickr',
     tier: 1,
   },
-  /*
   {
     id: 'medium',
     tier: 1,
   },
+  /*
   {
     id: 'twitter',
     tier: 1,
@@ -176,7 +176,8 @@ export default {
           }, { scope: 'public_profile,pages_show_list,user_link' });
           break;
         }
-        case 'flickr': {
+        case 'flickr':
+        case 'medium': {
           const { url } = await this.fetchSocialPlatformLink({
             platform: socialMedia.id,
             id: this.username,
