@@ -51,7 +51,8 @@ export default {
     username() {
       const param = this.$route.params.id;
       if (param) return param;
-      const { state } = this.$route.query;
+      const { state, user } = this.$route.query;
+      if (user) return user;
       if (state && state.split(':').length > 0) {
         return state.split('-')[0];
       }
@@ -68,7 +69,8 @@ export default {
     },
     async connect() {
       switch (this.platform) {
-        case 'flickr': {
+        case 'flickr':
+        case 'twitter': {
           await this.linkSocialPlatform({
             platform: this.platform,
             payload: {
@@ -101,7 +103,7 @@ export default {
     getUserNeedAuth(a) {
       if (a) {
         this.triggerLoginSign();
-      } else if (!this.isDone) {
+      } else if (this.username && !this.isDone) {
         this.connect();
       }
     },
@@ -110,13 +112,18 @@ export default {
         this.$router.push({ name: 'in-register', query: { ref: 'in', ...this.$route.query } });
       }
     },
+    username(name) {
+      if (name && !this.done) {
+        this.connect();
+      }
+    },
   },
   mounted() {
     if (this.getUserNeedAuth) {
       this.triggerLoginSign();
     } else if (this.getUserNeedRegister) {
       this.$router.push({ name: 'in-register', query: { ref: 'in', ...this.$route.query } });
-    } else {
+    } else if (this.username) {
       this.connect();
     }
   },
