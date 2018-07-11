@@ -20,7 +20,7 @@ const oauth = new OAuth({
     crypto.createHmac('sha1', key).update(text).digest('base64'),
 });
 
-export async function fetchFlickrOAuthToken(user) {
+export async function fetchFlickrOAuthInfo(user) {
   const oAuthCallback = `https://${EXTERNAL_HOSTNAME}/in/oauth/flickr/${user}`;
   const req = {
     url: 'https://www.flickr.com/services/oauth/request_token',
@@ -38,7 +38,8 @@ export async function fetchFlickrOAuthToken(user) {
     oauth_token: oAuthToken,
     oauth_token_secret: oAuthTokenSecret,
   } = payload;
-  return { oAuthToken, oAuthTokenSecret };
+  const url = `https://www.flickr.com/services/oauth/authorize?oauth_token=${oAuthToken}&perms=read`;
+  return { url, oAuthToken, oAuthTokenSecret };
 }
 
 export async function fetchFlickrUser(oAuthToken, oAuthTokenSecret, oAuthVerifier) {

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { checkPlatformAlreadyLinked } from './index';
-import { fetchFlickrOAuthToken, fetchFlickrUser } from '../../oauth/flickr';
+import { fetchFlickrOAuthInfo, fetchFlickrUser } from '../../oauth/flickr';
 import { PUBSUB_TOPIC_MISC } from '../../../constant';
 import publisher from '../../util/gcloudPub';
 import { jwtAuth } from '../../util/jwt';
@@ -20,12 +20,12 @@ router.get('/social/link/flickr/:user', jwtAuth, async (req, res, next) => {
     if (await checkPlatformAlreadyLinked(user, 'flickr')) {
       throw new ValidationError('already linked');
     }
-    const { oAuthToken, oAuthTokenSecret } = await fetchFlickrOAuthToken(user);
+    const { url, oAuthToken, oAuthTokenSecret } = await fetchFlickrOAuthInfo(user);
     await dbRef.doc(user).collection('social').doc('flickr').set({
       oAuthToken,
       oAuthTokenSecret,
     }, { merge: true });
-    res.json({ oAuthToken });
+    res.json({ url, oAuthToken });
   } catch (err) {
     next(err);
   }

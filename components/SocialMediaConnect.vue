@@ -135,7 +135,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'fetchSocialPlatformToken',
+      'fetchSocialPlatformLink',
       'linkSocialPlatform',
     ]),
     getIconPath(id) {
@@ -177,11 +177,11 @@ export default {
           break;
         }
         case 'flickr': {
-          const { oAuthToken } = await this.fetchSocialPlatformToken({
-            platform: 'flickr',
+          const { url } = await this.fetchSocialPlatformLink({
+            platform: socialMedia.id,
             id: this.username,
           });
-          document.location = `https://www.flickr.com/services/oauth/authorize?oauth_token=${oAuthToken}&perms=read`;
+          document.location = url;
           break;
         }
         default:
