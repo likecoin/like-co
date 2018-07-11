@@ -81,3 +81,5 @@ export const EXTRA_EMAIL_BLACLIST = [
 ];
 
 export const QRYPTOS_LIKEETH_URL = 'https://trade.qryptos.com/basic/LIKEETH';
+
+export const EXTERNAL_HOSTNAME = IS_TESTNET ? 'rinkeby.like.co' : 'like.co';

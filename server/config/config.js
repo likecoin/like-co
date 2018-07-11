@@ -20,6 +20,9 @@ config.RECAPTCHA_SECRET = '';
 config.FACEBOOK_APP_ID = '';
 config.FACEBOOK_APP_SECRET = '';
 
+config.FLICKR_APP_KEY = '';
+config.FLICKR_APP_SECRET = '';
+
 config.REGISTER_LIMIT_WINDOW = 6000;
 config.REGISTER_LIMIT_COUNT = 0;
 
