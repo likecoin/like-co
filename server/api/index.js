@@ -24,7 +24,7 @@ router.get('/healthz', (req, res) => {
 });
 
 function errorHandler(err, req, res, next) {
-  const msg = err.message || err;
+  const msg = (err.response && err.response.data) || err.message || err;
   console.error(msg);
   if (res.headersSent) {
     return next(err);

@@ -35,7 +35,6 @@ export async function fetchMediumUser(code) {
     method: req.method,
     data: querystring.stringify(req.data),
   });
-  console.log(data);
   const { access_token: accessToken, refresh_token: refreshToken } = data;
   if (!accessToken) throw new ValidationError('fail to get medium access token');
   ({ data } = await axios.get(
