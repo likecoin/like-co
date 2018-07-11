@@ -173,7 +173,7 @@ export default {
             } else {
               // error case
             }
-          }, { scope: 'public_profile,user_link' });
+          }, { scope: 'public_profile,pages_show_list,user_link' });
           break;
         }
         case 'flickr': {

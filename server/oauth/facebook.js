@@ -15,11 +15,14 @@ export async function fetchFacebookUser(accessToken) {
   const { user_id: userId, app_id: appId } = data.data;
   ({ data } = await axios.get(`https://graph.facebook.com/me?access_token=${accessToken}&fields=id,name,link`));
   const { name: displayName, link } = data;
+  ({ data } = await axios.get(`https://graph.facebook.com/me/accounts?access_token=${accessToken}&fields=id,name,link`));
+  const pages = data.data;
   return {
     displayName,
     link,
     userId,
     appId,
+    pages,
   };
 }
 

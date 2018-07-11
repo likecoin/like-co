@@ -60,6 +60,7 @@ router.post('/social/link/facebook', jwtAuth, async (req, res, next) => {
       link,
       userId,
       appId,
+      pages,
     } = await fetchFacebookUser(accessToken);
     await dbRef.doc(user).collection('social').doc('facebook').create({
       displayName,
@@ -67,6 +68,7 @@ router.post('/social/link/facebook', jwtAuth, async (req, res, next) => {
       appId,
       accessToken,
       url: link,
+      pages,
       isLinked: true,
       ts: Date.now(),
     });
