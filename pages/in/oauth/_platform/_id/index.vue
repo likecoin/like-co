@@ -5,16 +5,13 @@
         <div class="lc-container-2">
           <div class="lc-container-3">
             <div class="lc-container-4">
-              <span v-if="errorMsg">
-                {{ $t('General.label.error') }}: {{ errorMsg }},
-                <nuxt-link :to="{ name: 'index' }">
-                  {{ $t('Verify.label.toIndex') }}
-                </nuxt-link>
-                ...
-              </span>
-
-              <span v-else-if="isDone">
-                {{ $t('General.label.success') }},
+              <span v-if="isDone || errorMsg">
+                <span v-if="errorMsg">
+                  {{ $t('General.label.error') }}: {{ errorMsg }},
+                </span>
+                <span v-else>
+                  {{ $t('General.label.success') }},
+                </span>
                 <nuxt-link :to="{ name: 'in' }">
                   {{ $t('Verify.label.toEdit') }}
                 </nuxt-link>
@@ -68,33 +65,39 @@ export default {
       if (!(await this.loginUser())) this.$router.push({ name: 'index' });
     },
     async connect() {
-      switch (this.platform) {
-        case 'flickr':
-        case 'twitter': {
-          await this.linkSocialPlatform({
-            platform: this.platform,
-            payload: {
-              oAuthToken: this.$route.query.oauth_token,
-              oAuthVerifier: this.$route.query.oauth_verifier,
-              user: this.username,
-            },
-          });
-          break;
+      if (this.this.isDone) return;
+      try {
+        switch (this.platform) {
+          case 'flickr':
+          case 'twitter': {
+            await this.linkSocialPlatform({
+              platform: this.platform,
+              payload: {
+                oAuthToken: this.$route.query.oauth_token,
+                oAuthVerifier: this.$route.query.oauth_verifier,
+                user: this.username,
+              },
+            });
+            break;
+          }
+          case 'medium':
+          case 'instagram': {
+            await this.linkSocialPlatform({
+              platform: this.platform,
+              payload: {
+                code: this.$route.query.code,
+                state: this.$route.query.state,
+                user: this.username,
+              },
+            });
+            break;
+          }
+          default:
+            break;
         }
-        case 'medium':
-        case 'instagram': {
-          await this.linkSocialPlatform({
-            platform: this.platform,
-            payload: {
-              code: this.$route.query.code,
-              state: this.$route.query.state,
-              user: this.username,
-            },
-          });
-          break;
-        }
-        default:
-          break;
+      } catch (err) {
+        this.errorMsg = (err.response && err.response.data) || err.message || err;
+        return;
       }
       this.isDone = true;
       this.$router.push({ name: 'in' });
@@ -104,7 +107,7 @@ export default {
     getUserNeedAuth(a) {
       if (a) {
         this.triggerLoginSign();
-      } else if (this.username && !this.isDone) {
+      } else if (this.username) {
         this.connect();
       }
     },
@@ -114,12 +117,23 @@ export default {
       }
     },
     username(name) {
-      if (name && !this.done) {
+      if (name) {
         this.connect();
+      }
+    },
+    errorMsg(m) {
+      if (m) {
+        this.redirectTimer = setTimeout(() => {
+          this.$router.push({ name: 'in' });
+        }, 5000);
       }
     },
   },
   mounted() {
+    if (this.$route.query.error) {
+      this.errorMsg = this.$route.query.error || this.$route.query.denied;
+      this.isDone = true;
+    }
     if (this.getUserNeedAuth) {
       this.triggerLoginSign();
     } else if (this.getUserNeedRegister) {
