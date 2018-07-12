@@ -52,6 +52,7 @@
       class="social-media-connect"
       :username="id"
       :platforms="platforms"
+      :limit="6"
     />
 
     <div class="powered-by-message">

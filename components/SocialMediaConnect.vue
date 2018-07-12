@@ -117,20 +117,26 @@ export default {
       type: [Boolean, String],
       default: false,
     },
+    limit: {
+      type: Number,
+      default: undefined,
+    },
   },
   computed: {
     isMini() {
       return this.type === TYPE.MINI;
     },
     socialMediaList() {
-      return SOCIAL_MEDIA_LIST.filter(({ id, tier }) => {
-        const isConnected = this.getIsConnected(id);
-        return (
-          (this.type === TYPE.READONLY && isConnected) ||
-          (this.type === TYPE.MINI && (isConnected || tier === 1)) ||
-          this.type === TYPE.LARGE
-        );
-      });
+      return SOCIAL_MEDIA_LIST
+        .filter(({ id, tier }) => {
+          const isConnected = this.getIsConnected(id);
+          return (
+            (this.type === TYPE.READONLY && isConnected) ||
+            (this.type === TYPE.MINI && (isConnected || tier === 1)) ||
+            this.type === TYPE.LARGE
+          );
+        })
+        .slice(0, this.limit);
     },
   },
   methods: {
