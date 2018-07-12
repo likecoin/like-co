@@ -11,12 +11,14 @@ const {
 const SCOPE = 'basic';
 
 export function fetchInstagramOAuthInfo(user) {
+  if (!INSTAGRAM_APP_ID || !INSTAGRAM_APP_SECRET) throw new ValidationError('instagram app not configured');
   const callbackURI = `https://${EXTERNAL_HOSTNAME}/in/oauth/instagram?user=${user}`;
   const url = `https://api.instagram.com/oauth/authorize?client_id=${INSTAGRAM_APP_ID}&scope=${SCOPE}&response_type=code&redirect_uri=${callbackURI}`;
   return { url };
 }
 
 export async function fetchInstagramUser(code, user) {
+  if (!INSTAGRAM_APP_ID || !INSTAGRAM_APP_SECRET) throw new ValidationError('instagram app not configured');
   const callbackURI = `https://${EXTERNAL_HOSTNAME}/in/oauth/instagram?user=${user}`;
   const req = {
     url: 'https://api.instagram.com/oauth/access_token',

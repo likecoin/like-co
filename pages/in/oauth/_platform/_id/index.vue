@@ -65,7 +65,7 @@ export default {
       if (!(await this.loginUser())) this.$router.push({ name: 'index' });
     },
     async connect() {
-      if (this.this.isDone) return;
+      if (this.isDone) return;
       try {
         switch (this.platform) {
           case 'flickr':

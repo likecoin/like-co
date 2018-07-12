@@ -13,12 +13,14 @@ const CALLBACK_URI = `https://${EXTERNAL_HOSTNAME}/in/oauth/medium`;
 const SCOPE = 'basicProfile';
 
 export function fetchMediumOAuthInfo(user) {
+  if (!MEDIUM_APP_ID || !MEDIUM_APP_SECRET) throw new ValidationError('medium app not configured');
   const state = `${user}-${crypto.randomBytes(20).toString('hex')}`;
   const url = `https://medium.com/m/oauth/authorize?client_id=${MEDIUM_APP_ID}&scope=${SCOPE}&state=${state}&response_type=code&redirect_uri=${CALLBACK_URI}`;
   return { url, state };
 }
 
 export async function fetchMediumUser(code) {
+  if (!MEDIUM_APP_ID || !MEDIUM_APP_SECRET) throw new ValidationError('medium app not configured');
   const req = {
     url: 'https://api.medium.com/v1/tokens',
     method: 'POST',

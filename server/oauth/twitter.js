@@ -21,6 +21,7 @@ const oauth = new OAuth({
 });
 
 export async function fetchTwitterOAuthInfo(user) {
+  if (!TWITTER_API_KEY || !TWITTER_API_SECRET) throw new ValidationError('twitter app not configured');
   const oAuthCallback = `https://${EXTERNAL_HOSTNAME}/in/oauth/twitter?user=${user}`;
   const req = {
     url: 'https://api.twitter.com/oauth/request_token',
@@ -43,6 +44,7 @@ export async function fetchTwitterOAuthInfo(user) {
 }
 
 export async function fetchTwitterUser(oAuthToken, oAuthTokenSecret, oAuthVerifier) {
+  if (!TWITTER_API_KEY || !TWITTER_API_SECRET) throw new ValidationError('twitter app not configured');
   const token = {
     key: oAuthToken,
     secret: oAuthTokenSecret,

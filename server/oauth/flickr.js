@@ -21,6 +21,7 @@ const oauth = new OAuth({
 });
 
 export async function fetchFlickrOAuthInfo(user) {
+  if (!FLICKR_APP_KEY || !FLICKR_APP_SECRET) throw new ValidationError('flickr app not configured');
   const oAuthCallback = `https://${EXTERNAL_HOSTNAME}/in/oauth/flickr/${user}`;
   const req = {
     url: 'https://www.flickr.com/services/oauth/request_token',
@@ -43,6 +44,7 @@ export async function fetchFlickrOAuthInfo(user) {
 }
 
 export async function fetchFlickrUser(oAuthToken, oAuthTokenSecret, oAuthVerifier) {
+  if (!FLICKR_APP_KEY || !FLICKR_APP_SECRET) throw new ValidationError('flickr app not configured');
   const token = {
     key: oAuthToken,
     secret: oAuthTokenSecret,
