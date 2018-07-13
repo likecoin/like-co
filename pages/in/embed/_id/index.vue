@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if='id'
-    class="likecoin-embed"
-  >
+  <div class="likecoin-embed">
 
     <div class="likecoin-embed__badge">
       <div class="likecoin-embed__badge__content">
@@ -68,7 +65,6 @@
     </div>
 
   </div>
-  <div v-else> Not found. </div>
 </template>
 
 <script>
@@ -85,7 +81,10 @@ export default {
   components: {
     SocialMediaConnect,
   },
-  asyncData({ params }) {
+  asyncData({
+    params,
+    error,
+  }) {
     let amount = 8;
     try {
       const parse = parseInt(params.amount, 10);
@@ -95,7 +94,7 @@ export default {
     }
     const { id } = params;
     return Promise.all([
-      apiGetUserMinById(id).catch(() => {}),
+      apiGetUserMinById(id),
       apiGetSocialListById(id).catch(() => {}),
     ]).then((res) => {
       const {
@@ -109,6 +108,8 @@ export default {
         amount,
         platforms: res[1].data,
       };
+    }).catch(() => {
+      error({ statusCode: 404, message: '' });
     });
   },
   computed: {
