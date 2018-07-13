@@ -52,7 +52,7 @@
       class="social-media-connect"
       :username="id"
       :platforms="platforms"
-      :limit="6"
+      :limit="5"
     />
 
     <div class="powered-by-message">
@@ -340,21 +340,23 @@ $button-height: 42 + $button-border-width * 2;
   > :global(div) {
     justify-content: flex-end;
 
-    margin-left: 38vw;
+    margin-left: 42vw;
 
     :global(ul) {
       justify-content: flex-end;
 
-      margin: normalized(-2);
+      margin: normalized(-4) normalized(-6);
 
       :global(li) {
-        padding: normalized(2);
+        padding: normalized(4) normalized(6);
       }
     }
   }
 
   :global(.social-media-connect__button) {
-    margin: normalized(2);
+    display: block;
+
+    margin: 0;
 
     :global(svg),
     :global(.simple-svg-wrapper) {
@@ -375,8 +377,6 @@ $button-height: 42 + $button-border-width * 2;
   line-height: normalized(10.5);
 
   @media screen and (max-width: 414px) {
-    margin-top: 0;
-
     font-size: normalized(12);
     line-height: normalized(13);
   }
