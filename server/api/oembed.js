@@ -2,7 +2,6 @@ import { Router } from 'express';
 import cors from 'cors';
 import { toDataUrl } from '@likecoin/ethereum-blockies';
 import xml from 'xml';
-import { EXTERNAL_HOSTNAME } from '../../constant';
 import { ValidationError } from '../../util/ValidationHelper';
 
 const subdomain = ['www.', 'rinkeby.', 'button.', 'button.rinkeby.'];
@@ -27,6 +26,7 @@ router.get('/oembed', cors(), async (req, res, next) => {
     if (match[1] && !subdomain.includes(match[1])) {
       throw new ValidationError(`Invalid subdomain (${url}) in oEmbed request`);
     }
+    const hostname = (match[1] && match[1].includes('rinkeby')) ? 'rinkeby.like.co' : 'like.co';
     const isButton = match[1] && match[1].includes('button');
     const username = match[2];
     const format = req.query.format || 'json';
@@ -60,11 +60,11 @@ router.get('/oembed', cors(), async (req, res, next) => {
       thumbnail_width: thumbnailLength,
       thumbnail_height: thumbnailLength,
       html: `<iframe width="${maxWidth}" height="${maxHeight}"
-        src="https://${EXTERNAL_HOSTNAME}/in/embed/${username}/${isButton ? 'button' : amount}"
+        src="https://${hostname}/in/embed/${username}/${isButton ? 'button' : amount}"
         frameborder="0">
         </iframe>`,
       provider_name: 'LikeCoin',
-      provider_url: `https://${EXTERNAL_HOSTNAME}`,
+      provider_url: `https://${hostname}`,
       width: maxWidth,
       height: maxHeight,
     };

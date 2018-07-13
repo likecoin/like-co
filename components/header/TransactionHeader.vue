@@ -67,8 +67,8 @@
             <h1 class="pending">
               {{ $t('Transaction.header.label.pending') }}
             </h1>
-            <md-progress-bar md-mode="indeterminate" />
-            <div class="pending-description lc-font-size-16 lc-font-weight-300">
+            <div class="pending-progress" />
+            <div class="pending-description lc-font-size-16 lc-font-weight-400">
               {{ $t('Dialog.transaction.label.waiting') }}
             </div>
           </div>
@@ -119,6 +119,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "~assets/variables";
+@import "~assets/mixin";
 
 $status-icon-size: 32px;
 
@@ -130,18 +131,21 @@ $status-icon-size: 32px;
     justify-content: center;
 
     .icon {
+      position: relative;
+      z-index: 1;
+
+      overflow: hidden;
+
       width: 128px;
       height: 128px;
 
-      position: relative;
-      z-index: 1;
       border-radius: 50%;
-      overflow: hidden;
     }
   }
 
   .heading {
     position: relative;
+
     display: flex;
     flex-direction: row;
 
@@ -154,8 +158,9 @@ $status-icon-size: 32px;
 
     .transaction-state {
       display: flex;
-      flex-direction: row;
       align-items: center;
+      flex-direction: row;
+
       width: 100%;
 
       > * {
@@ -181,11 +186,13 @@ $status-icon-size: 32px;
 
     .send-state {
       text-align: left;
+
       font-size: 14px;
     }
 
     .user-section {
       text-align: right;
+
       font-size: 14px;
     }
   }
@@ -214,7 +221,7 @@ $status-icon-size: 32px;
       color: $like-red;
     }
     &.pending {
-      color: #d9b503;
+      color: #6faeee;
     }
     &.success {
       color: $like-green-2;
@@ -229,10 +236,10 @@ $status-icon-size: 32px;
       top: 2px;
       left: -42px;
 
-      color: $like-green-2;
-
       width: $status-icon-size;
       height: $status-icon-size;
+
+      color: $like-green-2;
 
       @media (max-width: 600px) {
         display: none;
@@ -245,15 +252,25 @@ $status-icon-size: 32px;
   }
 
   .md-progress-bar {
-    margin-top: 12px;
     width: 100%;
+    margin-top: 12px;
+  }
+
+  .pending-progress {
+    height: 6px;
+    margin: 16px 0;
+
+    @include background-image-sliding-animation-x(
+      linear-gradient(to right, #90c2ed, #6faeee 20%, #d7ecec)
+    );
   }
 
   .pending-description {
     margin-top: 20px;
-    color: $like-gray-4;
 
     text-align: left;
+
+    color: $like-gray-4;
   }
 }
 

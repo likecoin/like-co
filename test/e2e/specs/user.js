@@ -132,8 +132,7 @@ module.exports = {
         const originalWindow = res.value[0];
         this.switchWindow(originalWindow);
       })
-      .pause(5000)
-      .verify.containsText('.md-dialog-container', 'Submitted to blockchain')
+      .waitForElementVisible('.tx-dialog', 5000)
       .end();
   },
 
@@ -162,8 +161,7 @@ module.exports = {
         const originalWindow = res.value[0];
         this.switchWindow(originalWindow);
       })
-      .pause(5000)
-      .verify.containsText('.md-dialog-container', 'Submitted to blockchain')
+      .waitForElementVisible('.tx-dialog', 5000)
       .end();
   },
 };
