@@ -153,8 +153,8 @@ export async function fetchtSocialListById({ commit, dispatch }, id) {
   return true;
 }
 
-export async function fetchSocialPlatformToken({ commit, dispatch }, { platform, id }) {
-  return apiWrapper({ commit, dispatch }, api.apiGetSocialPlatformToken(platform, id));
+export async function fetchSocialPlatformLink({ commit, dispatch }, { platform, id }) {
+  return apiWrapper({ commit, dispatch }, api.apiGetSocialPlatformLink(platform, id));
 }
 
 export async function linkSocialPlatform({ commit, dispatch }, { platform, payload }) {

@@ -77,7 +77,6 @@ const SOCIAL_MEDIA_LIST = [
     id: 'flickr',
     tier: 1,
   },
-  /*
   {
     id: 'medium',
     tier: 1,
@@ -90,7 +89,6 @@ const SOCIAL_MEDIA_LIST = [
     id: 'instagram',
     tier: 1,
   },
-  */
 ];
 
 const iconFolder = require.context('../assets/icons/social-media/');
@@ -141,7 +139,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'fetchSocialPlatformToken',
+      'fetchSocialPlatformLink',
       'linkSocialPlatform',
     ]),
     getIconPath(id) {
@@ -182,16 +180,14 @@ export default {
           }, { scope: 'public_profile,pages_show_list,user_link' });
           break;
         }
-        case 'flickr': {
-          const { oAuthToken } = await this.fetchSocialPlatformToken({
-            platform: 'flickr',
+        default: {
+          const { url } = await this.fetchSocialPlatformLink({
+            platform: socialMedia.id,
             id: this.username,
           });
-          document.location = `https://www.flickr.com/services/oauth/authorize?oauth_token=${oAuthToken}&perms=read`;
+          document.location = url;
           break;
         }
-        default:
-          break;
       }
     },
   },
