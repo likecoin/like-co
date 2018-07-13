@@ -9,7 +9,9 @@
 
         <div class="user-info">
           <div class="user-info__avatar">
-            <img :src="avatar" />
+            <div>
+              <img :src="avatar" />
+            </div>
           </div>
 
           <div class="user-info__display-name">
@@ -182,19 +184,32 @@ $button-height: 42 + $button-border-width * 2;
   margin: normalized(-$avatar-vertical-offset) normalized(8);
 
   &__avatar {
-    padding: normalized($avatar-border-width);
+    position: relative;
+
+    width: normalized($avatar-size);
+    height: normalized($avatar-size);
 
     border-radius: 50%;
     background: linear-gradient(70deg, $like-light-blue, $like-gradient-1);
 
+    > div {
+      position: absolute;
+      top: normalized($avatar-border-width);
+      right: normalized($avatar-border-width);
+      bottom: normalized($avatar-border-width);
+      left: normalized($avatar-border-width);
+
+      overflow: hidden;
+
+      border-radius: inherit;
+      background-color: white;
+    }
+
     img {
       display: block;
-      overflow: hidden;
 
       width: 100%;
       height: 100%;
-
-      border-radius: inherit;
     }
   }
 
