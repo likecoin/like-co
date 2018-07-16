@@ -17,15 +17,20 @@ config.STRIPE_PROD_KEY = '';
 
 config.RECAPTCHA_SECRET = '';
 
-config.KYC_TOKEN = '';
-config.KYC_HOST = '';
-config.KYC_APP = '';
-config.KYC_DOMAIN = '';
-config.KYC_QUERY_PATH = '';
-config.KYC_CREATE_PATH = '';
-config.KYC_UPLOAD_PATH = '';
-config.KYC_CHECK_PATH = '';
-config.KYC_REPORT_PATH = '';
+config.FACEBOOK_APP_ID = '';
+config.FACEBOOK_APP_SECRET = '';
+
+config.FLICKR_APP_KEY = '';
+config.FLICKR_APP_SECRET = '';
+
+config.MEDIUM_APP_ID = '';
+config.MEDIUM_APP_SECRET = '';
+
+config.TWITTER_API_KEY = '';
+config.TWITTER_API_SECRET = '';
+
+config.INSTAGRAM_APP_ID = '';
+config.INSTAGRAM_APP_SECRET = '';
 
 config.REGISTER_LIMIT_WINDOW = 6000;
 config.REGISTER_LIMIT_COUNT = 0;

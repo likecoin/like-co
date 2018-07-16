@@ -86,6 +86,7 @@ export const ValidationHelper = {
       isDesktopOnly,
       isMobileOnly,
       hide,
+      staying,
     } = m;
     const misc = {};
     GETTING_STARTED_TASKS.forEach((task) => {
@@ -111,6 +112,7 @@ export const ValidationHelper = {
       isMobileOnly,
       isHidable,
       hide,
+      staying,
       ...misc,
     };
   },
@@ -129,6 +131,17 @@ export const ValidationHelper = {
       referee,
       waitForClaim,
       value,
+    };
+  },
+  filterSocialPlatform({
+    id,
+    url,
+    displayName,
+  }) {
+    return {
+      id,
+      url,
+      displayName,
     };
   },
 };

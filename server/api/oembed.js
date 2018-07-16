@@ -2,10 +2,8 @@ import { Router } from 'express';
 import cors from 'cors';
 import { toDataUrl } from '@likecoin/ethereum-blockies';
 import xml from 'xml';
-import { IS_TESTNET } from '../../constant';
 import { ValidationError } from '../../util/ValidationHelper';
 
-const hostname = IS_TESTNET ? 'rinkeby.like.co' : 'like.co';
 const subdomain = ['www.', 'rinkeby.', 'button.', 'button.rinkeby.'];
 const queryUrlRegexp = new RegExp('^(?:https?:\\/\\/)?([a-z0-9.]+)?like\\.co\\/([-_a-z0-9]+)(?:/([0-9]+)?)?');
 
@@ -28,6 +26,7 @@ router.get('/oembed', cors(), async (req, res, next) => {
     if (match[1] && !subdomain.includes(match[1])) {
       throw new ValidationError(`Invalid subdomain (${url}) in oEmbed request`);
     }
+    const hostname = (match[1] && match[1].includes('rinkeby')) ? 'rinkeby.like.co' : 'like.co';
     const isButton = match[1] && match[1].includes('button');
     const username = match[2];
     const format = req.query.format || 'json';

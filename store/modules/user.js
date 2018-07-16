@@ -1,11 +1,14 @@
 /* eslint no-shadow: "off" */
 /* eslint no-param-reassign: "off" */
+import Vue from 'vue'; // eslint-disable-line import/no-extraneous-dependencies
 import {
   USER_SET_USER_INFO,
   USER_SET_LOCAL_WALLET,
   USER_SET_FETCHING,
   USER_SET_WEB3_FETCHING,
   USER_AWAITING_AUTH,
+  USER_SET_SOCIAL,
+  USER_LINK_SOCIAL,
 } from '../mutation-types';
 import * as actions from './actions/user';
 import * as getters from './getters/user';
@@ -16,6 +19,7 @@ const state = {
   isFetching: false,
   isAwaitingAuth: false,
   web3Fetching: true,
+  platforms: {},
 };
 
 const mutations = {
@@ -33,6 +37,13 @@ const mutations = {
   },
   [USER_AWAITING_AUTH](state, isAwaitingAuth) {
     state.isAwaitingAuth = isAwaitingAuth;
+  },
+  [USER_SET_SOCIAL](state, platforms) {
+    state.platforms = platforms;
+  },
+  [USER_LINK_SOCIAL](state, payload) {
+    const { id, displayName, url } = payload;
+    Vue.set(state.platforms, id, { displayName, url });
   },
 };
 

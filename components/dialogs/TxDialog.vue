@@ -9,9 +9,17 @@
     class="tx-dialog"
   >
 
+    <template slot="header-center">
+      <check-icon
+        class="check-icon"
+        state="completed"
+        layout="large"
+      />
+    </template>
+
     <div class="lc-dialog-container-1 lc-margin-bottom-16">
       <h1 class="lc-font-size-32 lc-margin-bottom-8">
-        {{ $t('Transaction.header.label.pending') }}...
+        {{ $t('Transaction.header.label.pending') }}
       </h1>
       <p class="lc-font-size-16 lc-color-like-gray-4">
         {{ $t('Dialog.transaction.label.waiting') }}
@@ -67,11 +75,13 @@
 
 <script>
 import BaseDialog from '~/components/dialogs/BaseDialog';
+import CheckIcon from '~/components/Mission/StateIcon';
 
 export default {
   name: 'tx-dialog',
   components: {
     BaseDialog,
+    CheckIcon,
   },
   props: {
     show: {
@@ -115,13 +125,9 @@ export default {
 
 
 <style lang="scss" scoped>
-@import "~assets/mixin";
-
 .tx-dialog {
-  :global(.lc-dialog-header::before) {
-    @include background-image-sliding-animation-x(
-      linear-gradient(to right, #90c2ed, #6faeee 20%, #d7ecec, #90c2ed)
-    );
+  .check-icon {
+    margin-top: 24px;
   }
 }
 </style>

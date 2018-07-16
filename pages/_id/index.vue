@@ -35,11 +35,19 @@
         <div class="lc-container-2">
           <div class="lc-container-3 lc-bg-gray-1">
             <div class="lc-container-4 lc-padding-vertical-32">
+              <social-media-connect
+                class="lc-margin-bottom-16"
+                type="readonly"
+                :username="id"
+                :platforms="platforms"
+                center
+              />
 
               <section
                 v-if="id"
                 class="address-container"
               >
+
                 <div class="address-title">
                   {{ $t('Transaction.label.recipientId') }}
                 </div>
@@ -177,9 +185,13 @@ import NumberInput from '~/components/NumberInput';
 import EthIcon from '@/assets/tokensale/eth.svg';
 import MaterialButton from '~/components/MaterialButton';
 import NarrowPageHeader from '~/components/header/NarrowPageHeader';
+import SocialMediaConnect from '~/components/SocialMediaConnect';
 
 import EthHelper from '@/util/EthHelper';
-import { apiGetUserMinById } from '@/util/api/api';
+import {
+  apiGetUserMinById,
+  apiGetSocialListById,
+} from '@/util/api/api';
 
 import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 
@@ -213,6 +225,7 @@ export default {
     NumberInput,
     MaterialButton,
     NarrowPageHeader,
+    SocialMediaConnect,
   },
   data() {
     return {
@@ -222,7 +235,7 @@ export default {
       isSupportTransferDeleteaged: true,
     };
   },
-  asyncData({
+  async asyncData({
     route,
     params,
     query,
@@ -232,7 +245,7 @@ export default {
     if (params.id !== params.id.toLowerCase()) {
       redirect({ name: route.name, params: { ...params, id: params.id.toLowerCase() }, query });
     }
-    return apiGetUserMinById(params.id)
+    const data = await apiGetUserMinById(params.id)
       .then((res) => {
         const { wallet, avatar, displayName } = res.data;
         const amount = formatAmount(params.amount || 1);
@@ -252,6 +265,14 @@ export default {
       .catch((e) => { // eslint-disable-line no-unused-vars
         error({ statusCode: 404, message: '' });
       });
+
+    if (data) {
+      data.platforms = await apiGetSocialListById(params.id)
+        .then(res => res.data)
+        .catch(() => {});
+    }
+
+    return data;
   },
   head() {
     return {

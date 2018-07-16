@@ -123,6 +123,7 @@ router.post('/payment', async (req, res, next) => {
       tx,
       txHash,
       pendingCount,
+      gasPrice,
       delegatorAddress,
     } = await sendTransactionWithLoop(
       LIKECOIN.LIKE_COIN_ADDRESS,
@@ -162,6 +163,7 @@ router.post('/payment', async (req, res, next) => {
       txHash,
       txStatus: 'pending',
       txNonce: pendingCount,
+      gasPrice,
       currentBlock,
       txSignature: signature,
       delegatorAddress: web3.utils.toChecksumAddress(delegatorAddress),

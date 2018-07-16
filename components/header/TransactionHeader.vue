@@ -92,8 +92,8 @@
             <h1 class="pending">
               {{ $t('Transaction.header.label.pending') }}
             </h1>
-            <md-progress-bar md-mode="indeterminate" />
-            <div class="pending-description lc-font-size-16 lc-font-weight-300">
+            <div class="pending-progress" />
+            <div class="pending-description lc-font-size-16 lc-font-weight-400">
               {{ $t('Dialog.transaction.label.waiting') }}
             </div>
           </div>
@@ -184,6 +184,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "~assets/variables";
+@import "~assets/mixin";
 
 $status-icon-size: 32px;
 
@@ -286,7 +287,7 @@ $status-icon-size: 32px;
       color: $like-red;
     }
     &.pending {
-      color: #d9b503;
+      color: #6faeee;
     }
     &.success {
       color: $like-green-2;
@@ -319,6 +320,15 @@ $status-icon-size: 32px;
   .md-progress-bar {
     width: 100%;
     margin-top: 12px;
+  }
+
+  .pending-progress {
+    height: 6px;
+    margin: 16px 0;
+
+    @include background-image-sliding-animation-x(
+      linear-gradient(to right, #90c2ed, #6faeee 20%, #d7ecec)
+    );
   }
 
   .pending-description {

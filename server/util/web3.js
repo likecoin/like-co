@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js';
 import { INFURA_HOST, PUBSUB_TOPIC_MISC } from '../../constant';
 import publisher from './gcloudPub';
 import { getGasPrice } from './poller';
@@ -33,12 +34,12 @@ export function sendTransaction(tx) {
   });
 }
 
-export async function signTransaction(addr, txData, pendingCount, gasLimit, privateKey) {
+export async function signTransaction(addr, txData, pendingCount, gasPrice, gasLimit, privateKey) {
   return web3.eth.accounts.signTransaction({
     to: addr,
     nonce: pendingCount,
     data: txData,
-    gasPrice: getGasPrice(),
+    gasPrice,
     gas: gasLimit,
   }, privateKey);
 }
@@ -48,23 +49,41 @@ async function sendWithLoop(
   txData,
   { gasLimit, privateKey, address },
 ) {
+  const RETRY_LIMIT = 10;
+  let retryCount = 0;
+  let retry = false;
+  let txHash;
+  let tx;
+  const networkGas = await web3.eth.getGasPrice();
+  const gasPrice = BigNumber.min(getGasPrice(), networkGas).toString();
   const counterRef = txLogRef.doc(`!counter_${address}`);
+  /* eslint-disable no-await-in-loop */
   let pendingCount = await db.runTransaction(async (t) => {
     const d = await t.get(counterRef);
     const v = d.data().value + 1;
     await t.update(counterRef, { value: v });
     return d.data().value;
   });
-  let tx = await signTransaction(addr, txData, pendingCount, gasLimit, privateKey);
-  let txHash;
-  try {
-    txHash = await sendTransaction(tx);
-  } catch (err) {
-    console.log(`Nonce ${pendingCount} failed, trying web3 pending`);
-  }
+  do {
+    retry = false;
+    tx = await signTransaction(addr, txData, pendingCount, gasPrice, gasLimit, privateKey);
+    try {
+      txHash = await sendTransaction(tx);
+    } catch (err) {
+      console.error(err);
+      if (err.message.includes('replacement transaction underpriced')
+        || err.message.includes('known transaction:')
+        || err.message.includes('nonce too low')) {
+        console.log(`Nonce ${pendingCount} failed, trying web3 pending`);
+      } else {
+        retry = true;
+        retryCount += 1;
+        await timeout(500);
+      }
+    }
+  } while (retry && retryCount < RETRY_LIMIT);
   try {
     while (!txHash) {
-      /* eslint-disable no-await-in-loop */
       pendingCount = await web3.eth.getTransactionCount(address, 'pending');
       tx = await signTransaction(addr, txData, pendingCount, gasLimit, privateKey);
       txHash = await sendTransaction(tx);
@@ -72,6 +91,7 @@ async function sendWithLoop(
         await timeout(200);
       }
     }
+    /* eslint-enable no-await-in-loop */
     await db.runTransaction(t => t.get(counterRef).then((d) => {
       if (pendingCount + 1 > d.data().value) {
         return t.update(counterRef, {
@@ -94,6 +114,7 @@ async function sendWithLoop(
   return {
     tx,
     txHash,
+    gasPrice,
     delegatorAddress: address,
     pendingCount,
   };
