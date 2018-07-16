@@ -36,10 +36,10 @@
           <div class="lc-container-3 lc-bg-gray-1">
             <div class="lc-container-4 lc-padding-vertical-32">
               <social-media-connect
-                class="lc-margin-bottom-16"
-                type="readonly"
                 :username="id"
                 :platforms="platforms"
+                class="lc-margin-bottom-16"
+                type="readonly"
                 center
               />
 

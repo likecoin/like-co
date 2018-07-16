@@ -30,7 +30,7 @@
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
-  name: 'oAuthConnect',
+  name: 'oauth-connect',
   data() {
     return {
       errorMsg: '',
@@ -55,6 +55,51 @@ export default {
       }
       return this.getUserInfo.user;
     },
+  },
+  watch: {
+    getUserNeedAuth(a) {
+      if (a) {
+        this.triggerLoginSign();
+      } else if (this.username) {
+        this.connect();
+      }
+    },
+    getUserNeedRegister(a) {
+      if (a) {
+        this.$router.push({ name: 'in-register', query: { ref: 'in', ...this.$route.query } });
+      }
+    },
+    username(name) {
+      if (name) {
+        this.connect();
+      }
+    },
+    errorMsg(m) {
+      if (m) {
+        this.redirectTimer = setTimeout(() => {
+          this.$router.push({ name: 'in' });
+        }, 5000);
+      }
+    },
+  },
+  mounted() {
+    if (this.$route.query.error) {
+      this.errorMsg = this.$route.query.error || this.$route.query.denied;
+      this.isDone = true;
+    }
+    if (this.getUserNeedAuth) {
+      this.triggerLoginSign();
+    } else if (this.getUserNeedRegister) {
+      this.$router.push({ name: 'in-register', query: { ref: 'in', ...this.$route.query } });
+    } else if (this.username) {
+      this.connect();
+    }
+  },
+  beforeDestroy() {
+    if (this.redirectTimer) {
+      clearTimeout(this.redirectTimer);
+      this.redirectTimer = null;
+    }
   },
   methods: {
     ...mapActions([
@@ -102,51 +147,6 @@ export default {
       this.isDone = true;
       this.$router.push({ name: 'in' });
     },
-  },
-  watch: {
-    getUserNeedAuth(a) {
-      if (a) {
-        this.triggerLoginSign();
-      } else if (this.username) {
-        this.connect();
-      }
-    },
-    getUserNeedRegister(a) {
-      if (a) {
-        this.$router.push({ name: 'in-register', query: { ref: 'in', ...this.$route.query } });
-      }
-    },
-    username(name) {
-      if (name) {
-        this.connect();
-      }
-    },
-    errorMsg(m) {
-      if (m) {
-        this.redirectTimer = setTimeout(() => {
-          this.$router.push({ name: 'in' });
-        }, 5000);
-      }
-    },
-  },
-  mounted() {
-    if (this.$route.query.error) {
-      this.errorMsg = this.$route.query.error || this.$route.query.denied;
-      this.isDone = true;
-    }
-    if (this.getUserNeedAuth) {
-      this.triggerLoginSign();
-    } else if (this.getUserNeedRegister) {
-      this.$router.push({ name: 'in-register', query: { ref: 'in', ...this.$route.query } });
-    } else if (this.username) {
-      this.connect();
-    }
-  },
-  beforeDestroy() {
-    if (this.redirectTimer) {
-      clearTimeout(this.redirectTimer);
-      this.redirectTimer = null;
-    }
   },
 };
 </script>

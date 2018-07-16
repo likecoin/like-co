@@ -109,7 +109,7 @@
           </div>
 
           <mission-completed-banner
-            v-if="isCompleted || mission.isClaimed  && !mission.staying"
+            v-if="isCompleted || mission.isClaimed && !mission.staying"
             :animated="isCompleted"
             :isClaimed="mission.isClaimed"
             class="lc-margin-top-32 lc-mobile"

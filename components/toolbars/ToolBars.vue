@@ -146,7 +146,7 @@ export default {
   },
   props: {
     disableError: {
-      type: Boolean,
+      type: [Boolean, Array],
       default: false,
     },
   },

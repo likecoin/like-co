@@ -7,7 +7,7 @@
         <div class="user-info">
           <div class="user-info__avatar">
             <div>
-              <img :src="avatar" />
+              <img :src="avatar">
             </div>
           </div>
 
@@ -37,8 +37,8 @@
         <div class="embed-superlike">
           <md-button
             id="embed-superlike__button"
-            class="md-likecoin"
             :href="getUserPath"
+            class="md-likecoin"
             target="_blank"
           >
             {{ $t('Embed.button.sendLike') }}
@@ -48,10 +48,10 @@
     </div>
 
     <social-media-connect
-      class="social-media-connect"
       :username="id"
       :platforms="platforms"
       :limit="5"
+      class="social-media-connect"
     />
 
     <div class="powered-by-message">
@@ -133,78 +133,6 @@ export default {
 <style lang="scss" scoped>
 @import "~assets/variables";
 
-<<<<<<< HEAD
-$profile-icon-size: 110px;
-$icon-border-size: 5px;
-$like-button-width: 90px;
-$margin-top-offset: 20px;
-$margin-right-offset: 45px;
-$responsive-offset: 15px;
-
-.user-info-div {
-  position:relative;
-
-  align-items: center;
-
-  max-width: 425px;
-  max-height: 83px;
-
-  margin: $margin-top-offset $margin-right-offset $margin-top-offset 5px;
-
-  border-radius: 8px;
-  background-image: linear-gradient(238deg, $like-light-blue, $like-gradient-1);
-  @media (max-width: 480px) {
-    margin-top: 5px;
-  }
-  .user-avatar {
-    position:relative;
-
-    margin: $margin-top-offset 8px;
-    .user-avatar-border {
-      left: $icon-border-size;
-
-      min-width: $profile-icon-size - $responsive-offset;
-      max-width: $profile-icon-size + $icon-border-size * 2;
-
-      padding: $icon-border-size;
-
-      border-radius: 50%;
-
-      background: linear-gradient(242deg, $like-light-blue, $like-gradient-1);
-
-      @media (max-width: 480px) {
-        min-width: auto;
-      }
-
-      .user-avatar-wrapper {
-        overflow: hidden;
-
-        border-radius: 50%;
-        @media (min-width: #{768px + 1px}) {
-          width: $profile-icon-size;
-          height: $profile-icon-size;
-        }
-
-        .avatar {
-          display: block;
-
-          width: 100%;
-          height: 100%;
-        }
-      }
-    }
-    .display-name {
-      position: absolute;
-      top: 100%;
-
-      width: 100%;
-
-      color: $like-green;
-
-      @media (max-width: 480px) {
-        display: none;
-      }
-=======
 // badge size + offset superlike button width / 2
 // 425 + 120 / 2
 $full-width: 485;
@@ -312,7 +240,6 @@ $button-height: 42 + $button-border-width * 2;
       font-size: inherit;
       font-weight: inherit;
       line-height: inherit;
->>>>>>> master
     }
   }
 }
@@ -381,29 +308,6 @@ $button-height: 42 + $button-border-width * 2;
   #embed-superlike__button {
     position: relative;
 
-<<<<<<< HEAD
-    width: $like-button-width + $icon-border-size * 2;
-    margin-right: -$margin-right-offset;
-    margin-left: auto;
-
-    border-radius: 20px;
-    &:before {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-
-      content: "";
-      transition: .4s cubic-bezier(.4,0,.2,1);
-
-      opacity: 0;
-      border-radius: 20px;
-      background: linear-gradient(67deg, $like-light-blue, $like-gradient-1);
-      @media (max-width: 480px) {
-        background: none;
-      }
-=======
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -429,51 +333,11 @@ $button-height: 42 + $button-border-width * 2;
       color: $like-green;
       border: solid normalized(4) $like-green;
       background-color: $like-white;
->>>>>>> master
     }
 
     &::before {
       border-radius: inherit;
     }
-<<<<<<< HEAD
-    .md-likecoin#embed-superlike-button {
-      border-radius: 20px;
-      box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.25);
-      @media (min-width: 600px + 1px) {
-        min-width: $like-button-width;
-
-        font-size: 20px;
-      }
-
-      @media (max-width: 600px) {
-        min-width: $like-button-width - $responsive-offset;
-
-        font-size: 15px;
-      }
-      &:active {
-        box-sizing: border-box;
-
-        color: $like-green;
-        border: solid 4px $like-green;
-        border-radius: 21px;
-        background-color: $like-white;
-      }
-    }
-  }
-  .poweredby-message {
-    position: absolute;
-    top: 100%;
-    right: 0;
-
-    color: $gray-9b;
-    @media (max-width: 480px) {
-      margin-top: 0px;
-    }
-    a {
-      text-decoration: underline;
-
-      color: $gray-9b;
-=======
 
     :global(.md-ripple) {
       flex-grow: 1;
@@ -514,7 +378,6 @@ $button-height: 42 + $button-border-width * 2;
     :global(.simple-svg-wrapper) {
       width: normalized(32) !important;
       height: normalized(32) !important;
->>>>>>> master
     }
   }
 }

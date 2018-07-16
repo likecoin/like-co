@@ -205,9 +205,9 @@
               </div>
               <social-media-connect
                 v-if="getUserInfo.user"
-                class="lc-margin-vertical-8"
                 :platforms="getUserSocialPlatforms"
                 :username="getUserInfo.user"
+                class="lc-margin-vertical-8"
                 type="mini"
               />
 

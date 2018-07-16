@@ -6,7 +6,7 @@ const querystring = require('querystring');
 const {
   INSTAGRAM_APP_ID,
   INSTAGRAM_APP_SECRET,
-} = require('@ServerConfig/config.js'); // eslint-disable-line import/no-extraneous-dependencies
+} = require('../config/config.js'); // eslint-disable-line import/no-extraneous-dependencies
 
 const SCOPE = 'basic';
 

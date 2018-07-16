@@ -225,9 +225,14 @@ export default {
   &__button {
     margin: 2px;
 
-    background-color: $like-gray-5;
-
     cursor: pointer;
+
+    transition: background-color .25s ease;
+
+    border: none;
+    border-radius: 50%;
+
+    background-color: $like-gray-5;
 
     &:hover {
       background-color: darken($like-gray-5, 10);
@@ -235,11 +240,6 @@ export default {
     &:active {
       background-color: darken($like-gray-5, 20);
     }
-
-    transition: background-color .25s ease;
-
-    border: none;
-    border-radius: 50%;
 
     &--disconnected {
       background-color: $gray-c0;
