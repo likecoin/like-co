@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js';
 import { INFURA_HOST, PUBSUB_TOPIC_MISC } from '../../constant';
 import publisher from './gcloudPub';
 import { getGasPrice } from './poller';
@@ -34,11 +35,13 @@ export function sendTransaction(tx) {
 }
 
 export async function signTransaction(addr, txData, pendingCount, gasLimit, privateKey) {
+  const networkGas = await web3.eth.getGasPrice();
+  const gasPrice = BigNumber.min(getGasPrice(), networkGas).toString();
   return web3.eth.accounts.signTransaction({
     to: addr,
     nonce: pendingCount,
     data: txData,
-    gasPrice: getGasPrice(),
+    gasPrice,
     gas: gasLimit,
   }, privateKey);
 }
