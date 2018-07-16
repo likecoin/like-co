@@ -34,9 +34,7 @@ export function sendTransaction(tx) {
   });
 }
 
-export async function signTransaction(addr, txData, pendingCount, gasLimit, privateKey) {
-  const networkGas = await web3.eth.getGasPrice();
-  const gasPrice = BigNumber.min(getGasPrice(), networkGas).toString();
+export async function signTransaction(addr, txData, pendingCount, gasPrice, gasLimit, privateKey) {
   return web3.eth.accounts.signTransaction({
     to: addr,
     nonce: pendingCount,
@@ -57,6 +55,8 @@ async function sendWithLoop(
   let txHash;
   let tx;
   let pendingCount;
+  const networkGas = await web3.eth.getGasPrice();
+  const gasPrice = BigNumber.min(getGasPrice(), networkGas).toString();
   const counterRef = txLogRef.doc(`!counter_${address}`);
   /* eslint-disable no-await-in-loop */
   do {
@@ -67,7 +67,7 @@ async function sendWithLoop(
       await t.update(counterRef, { value: v });
       return d.data().value;
     });
-    tx = await signTransaction(addr, txData, pendingCount, gasLimit, privateKey);
+    tx = await signTransaction(addr, txData, pendingCount, gasPrice, gasLimit, privateKey);
     try {
       txHash = await sendTransaction(tx);
     } catch (err) {
@@ -115,6 +115,7 @@ async function sendWithLoop(
   return {
     tx,
     txHash,
+    gasPrice,
     delegatorAddress: address,
     pendingCount,
   };
