@@ -27,9 +27,13 @@ export function sendTransaction(tx) {
     const txEventEmitter = web3.eth.sendSignedTransaction(tx.rawTransaction);
     txEventEmitter.on('transactionHash', resolve)
       .on('error', (err) => {
-        if (err.message === 'Returned error: replacement transaction underpriced'
-          || err.message.includes('Returned error: known transaction:')) resolve(false);
-        else reject(err);
+        if (err.message === 'Returned error: replacement transaction underpriced') {
+          resolve(false);
+        } else if (err.message.includes('Returned error: known transaction:')) {
+          resolve(web3.utils.sha3(tx.rawTransaction));
+        } else {
+          reject(err);
+        }
       });
   });
 }
@@ -72,7 +76,6 @@ async function sendWithLoop(
     } catch (err) {
       console.error(err);
       if (err.message.includes('replacement transaction underpriced')
-        || err.message.includes('known transaction:')
         || err.message.includes('nonce too low')) {
         console.log(`Nonce ${pendingCount} failed, trying web3 pending`);
       } else {
