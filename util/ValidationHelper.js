@@ -133,6 +133,17 @@ export const ValidationHelper = {
       value,
     };
   },
+  filterSocialPlatform({
+    id,
+    url,
+    displayName,
+  }) {
+    return {
+      id,
+      url,
+      displayName,
+    };
+  },
 };
 
 export class ValidationError extends Error {

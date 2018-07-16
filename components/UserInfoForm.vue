@@ -162,14 +162,24 @@
                     ref="inputEmail"
                     disabled />
                 </md-field>
-
               </div>
+
+              <div class="address-field">
+                {{ $t('Edit.label.accountConnection') }}
+              </div>
+              <social-media-connect
+                v-if="getUserInfo.user"
+                class="lc-margin-vertical-8"
+                :platforms="getUserSocialPlatforms"
+                :username="getUserInfo.user"
+                type="mini"
+              />
+
             </div>
 
           </div>
         </div>
       </div>
-
     </div>
   </form>
 </template>
@@ -197,6 +207,7 @@ import LikeCoinAmount from '~/components/LikeCoinAmount';
 import MaterialButton from '~/components/MaterialButton';
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import InputDialog from '~/components/dialogs/InputDialog';
+import SocialMediaConnect from '~/components/SocialMediaConnect';
 
 export default {
   name: 'Edit',
@@ -224,6 +235,7 @@ export default {
     InputDialog,
     LikeCoinAmount,
     MaterialButton,
+    SocialMediaConnect,
   },
   computed: {
     ...mapGetters([
@@ -231,6 +243,7 @@ export default {
       'getIsInTransaction',
       'getIsPopupBlocking',
       'getUserInfo',
+      'getUserSocialPlatforms',
       'getUserIsReady',
       'getUserIsRegistered',
       'getMissionList',

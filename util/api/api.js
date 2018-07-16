@@ -141,3 +141,11 @@ export const apiQueryIAPProducts = () => axios.get('/api/iap/list');
 export const apiQueryEthPrice = () => axios.get('https://api.coinmarketcap.com/v1/ticker/ethereum/?convert=USD');
 
 export const apiSetNotification = (id, isEmailEnabled) => axios.post(`/api/users/email/${id}`, { isEmailEnabled });
+
+export const apiGetSocialListById = id => axios.get(`/api/social/list/${id}`);
+
+export const apiGetSocialPlatformLink = (platform, id) => axios.get(`/api/social/link/${platform}/${id}`);
+
+export const apiLinkSocialPlatform = (platform, payload) => axios.post(`/api/social/link/${platform}`, payload);
+
+export const apiUnlinkSocialPlatform = (platform, payload) => axios.post(`/api/social/unlink/${platform}`, payload);
