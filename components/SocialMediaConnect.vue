@@ -85,10 +85,12 @@ const SOCIAL_MEDIA_LIST = [
     id: 'twitter',
     tier: 1,
   },
+  /*
   {
     id: 'instagram',
     tier: 1,
   },
+  */
 ];
 
 const iconFolder = require.context('../assets/icons/social-media/');
