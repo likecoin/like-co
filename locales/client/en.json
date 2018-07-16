@@ -1102,5 +1102,16 @@
     "button": {
       "sendLike": "Reward"
     }
+  },
+  "Pay": {
+    "label": {
+      "needToPay": "Need to pay",
+      "dontWorryWithoutLikeCoin": "No LikeCoin? Don't worry! You can earn 13 or more LikeCoin after you have registered LikeCoin ID",
+      "merchantNotFound": "Merchant not found",
+      "invalidTransaction": "Invalid transaction"
+    },
+    "button": {
+      "registrationTutorial": "Registration Tutorial"
+    }
   }
 }

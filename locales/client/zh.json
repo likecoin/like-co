@@ -1015,5 +1015,16 @@
     "button": {
       "sendLike": "賞"
     }
+  },
+  "Pay": {
+    "label": {
+      "needToPay": "需支付",
+      "dontWorryWithoutLikeCoin": "沒有 LikeCoin? 不用擔心，立即申請 LikeCoin ID 可擭得 13 LikeCoin 或以上",
+      "merchantNotFound": "找不到商戶",
+      "invalidTransaction": "無效交易"
+    },
+    "button": {
+      "registrationTutorial": "申請 LikeCoin ID 教學"
+    }
   }
 }
