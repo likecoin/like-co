@@ -149,3 +149,5 @@ export const apiGetSocialPlatformLink = (platform, id) => axios.get(`/api/social
 export const apiLinkSocialPlatform = (platform, payload) => axios.post(`/api/social/link/${platform}`, payload);
 
 export const apiUnlinkSocialPlatform = (platform, payload) => axios.post(`/api/social/unlink/${platform}`, payload);
+
+export const apiPostLikeButton = (id, count = 1) => axios.post(`/api/like/likebutton/${id}/${count}`);
