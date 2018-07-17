@@ -277,6 +277,11 @@ export default {
         return;
       }
       try {
+        if (!this.isSupportTransferDeleteaged) {
+          this.setErrorMsg(this.$t('Transaction.error.notSupported'));
+          return;
+        }
+
         if (!EthHelper.getWallet()) return;
         const from = EthHelper.getWallet();
         const to = this.wallet;
@@ -296,31 +301,34 @@ export default {
 
         const maxRewardToSend = ONE_LIKE.multipliedBy(new BigNumber(this.reward));
 
-        if (!EthHelper.getIsSupportTransferDelegated()) {
-          this.setErrorMsg(this.$t('Transaction.error.notSupported'));
-        }
-
         const payload = await EthHelper.signTransferDelegated(
           to,
           valueToSend.minus(maxRewardToSend),
           maxRewardToSend,
         );
+        const { payload: userPayload } = this.$route.query;
+        payload.userPayload = userPayload;
         payload.httpReferrer = this.httpReferrer;
+        payload.isWait = false;
         const txHash = await this.sendPayment(payload);
         if (this.getIsShowingTxPopup) {
           this.closeTxDialog();
-          const redirectURL = this.$route.query.redirect;
-          if (redirectURL) {
-            window.location.href = redirectURL;
-          } else {
-            this.$router.push({
-              name: 'in-tx-id',
-              params: {
-                id: txHash,
-                tx: this.getPendingTxInfo,
-              },
-            });
+        }
+        try {
+          const redirectURL = new URL(this.$route.query.redirect);
+          redirectURL.searchParams.append('txhash', txHash);
+          if (userPayload) {
+            redirectURL.searchParams.append('payload', userPayload);
           }
+          window.location.href = redirectURL.href;
+        } catch (error) {
+          this.$router.push({
+            name: 'in-tx-id',
+            params: {
+              id: txHash,
+              tx: this.getPendingTxInfo,
+            },
+          });
         }
       } catch (error) {
         console.error(error); // eslint-disable-line no-console
