@@ -57,6 +57,7 @@ router.post('/social/unlink/:platform', jwtAuth, async (req, res, next) => {
       wallet,
       referrer,
       locale,
+      timestamp,
     } = userDoc.data();
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventSocialUnlink',
@@ -67,6 +68,7 @@ router.post('/social/unlink/:platform', jwtAuth, async (req, res, next) => {
       wallet,
       referrer: referrer || undefined,
       locale,
+      registerTime: timestamp,
     });
   } catch (err) {
     next(err);
