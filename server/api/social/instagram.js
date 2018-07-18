@@ -71,6 +71,7 @@ router.post('/social/link/instagram', jwtAuth, async (req, res, next) => {
       wallet,
       referrer,
       locale,
+      timestamp,
     } = userDoc.data();
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventSocialLink',
@@ -85,6 +86,7 @@ router.post('/social/link/instagram', jwtAuth, async (req, res, next) => {
       instagramName: fullName,
       instagramUserName: displayName,
       instagramURL: url,
+      registerTime: timestamp,
     });
   } catch (err) {
     next(err);

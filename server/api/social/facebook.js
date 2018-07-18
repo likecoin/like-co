@@ -63,6 +63,7 @@ router.post('/social/link/facebook', jwtAuth, async (req, res, next) => {
       wallet,
       referrer,
       locale,
+      timestamp,
     } = userDoc.data();
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventSocialLink',
@@ -77,6 +78,7 @@ router.post('/social/link/facebook', jwtAuth, async (req, res, next) => {
       facebookID: userId,
       facebookAppId: appId,
       facebookURL: link,
+      registerTime: timestamp,
     });
   } catch (err) {
     next(err);
