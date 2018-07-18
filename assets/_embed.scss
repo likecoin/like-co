@@ -1,0 +1,18 @@
+@import "~assets/variables";
+
+// badge size + offset superlike button width / 2
+// 425 + 120 / 2
+$full-width: 485;
+
+$avatar-size: 110;
+$avatar-border-width: 5;
+$avatar-vertical-offset: 12;
+
+$button-border-width: 4;
+$button-shadow-width: 6;
+$button-width: 108 + $button-border-width * 2;
+$button-height: 42 + $button-border-width * 2;
+
+@function normalized($value: $full-width) {
+  @return $value / $full-width * 100vw;
+}
