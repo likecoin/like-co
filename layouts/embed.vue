@@ -20,6 +20,12 @@ export default {
 $social-media-button-size: normalized(32);
 
 html[likecoin-embed] {
+  font-size: $full-width * 1px;
+
+  @media screen and (max-width: $full-width * 1px) {
+    font-size: 100vw;
+  }
+
   .likecoin-embed {
     position: relative;
 
