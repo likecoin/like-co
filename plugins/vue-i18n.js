@@ -48,7 +48,7 @@ export default async ({
         navLang = key;
       }
     });
-    locale = query.language || window.localStorage.language || navLang;
+    locale = query.language || (window.localStorage && window.localStorage.language) || navLang;
     if (!supportedLocales.includes(locale)) locale = defaultLocale;
   } else if (req) {
     locale = (
