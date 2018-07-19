@@ -1,7 +1,7 @@
 <template>
-  <div class="likecoin-embed">
+  <div class="likecoin-embed likecoin-embed--button">
 
-    <div class="likecoin-embed__badge">
+    <div class="likecoin-embed__badge likecoin-embed__badge">
       <div class="likecoin-embed__badge__content">
 
         <embed-user-info
@@ -21,36 +21,34 @@
           </div>
         </div>
 
-        <div class="embed-superlike-button-wrapper">
-          <md-button
-            v-if="isSuperLike"
-            id="embed-superlike-button"
-            :href="getUserPath"
-            class="md-likecoin"
-            target="_blank"
-          >
-            SuperLike
-          </md-button>
-          <md-button
-            v-else
-            id="embed-superlike-button"
-            class="md-likecoin"
-            @click="onClickLike"
-          >
-            LIKE <span v-if="likeCount">{{ likeCount }}</span>
-          </md-button>
-        </div>
       </div>
     </div>
 
-    <social-media-connect
-      :username="id"
-      :platforms="platforms"
-      :limit="5"
-      class="social-media-connect"
-    />
+    <footer>
+      <social-media-connect
+        :username="id"
+        :platforms="platforms"
+        :limit="5"
+      />
 
-    <embed-create-widget-button :link="getReferralLink" />
+      <embed-create-widget-button :link="getReferralLink" />
+    </footer>
+
+    <md-button
+      v-if="isSuperLike"
+      :href="getUserPath"
+      class="md-likecoin"
+      target="_blank"
+    >
+      SuperLike
+    </md-button>
+    <md-button
+      v-else
+      class="md-likecoin"
+      @click="onClickLike"
+    >
+      LIKE <span v-if="likeCount">{{ likeCount }}</span>
+    </md-button>
 
   </div>
 </template>
@@ -96,6 +94,13 @@ export default {
 
 <style lang="scss" scoped>
 @import "~assets/embed";
+
+.likecoin-embed {
+  &__badge,
+  footer {
+    margin-right: normalized($button-border-width + $button-shadow-width);
+  }
+}
 
 .text-content {
   position: relative;

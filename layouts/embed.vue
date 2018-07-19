@@ -31,7 +31,6 @@ html[likecoin-embed] {
 
     width: normalized();
     margin-top: normalized($avatar-vertical-offset);
-    padding-right: normalized($button-width / 2 + $button-shadow-width);
 
     user-select: none;
 
@@ -45,7 +44,7 @@ html[likecoin-embed] {
         display: flex;
         align-items: center;
 
-        min-height: normalized(82);
+        min-height: normalized($avatar-size - $avatar-vertical-offset * 2);
         padding-right: normalized($button-width / 2 + $button-shadow-width);
       }
     }
@@ -120,6 +119,13 @@ html[likecoin-embed] {
         height: $social-media-button-size !important;
       }
     }
+  }
+
+  footer {
+    margin: 0;
+    padding: 0;
+
+    border: none;
   }
 }
 

@@ -34,14 +34,15 @@
       </div>
     </div>
 
-    <social-media-connect
-      :username="id"
-      :platforms="platforms"
-      :limit="5"
-      class="social-media-connect"
-    />
+    <footer>
+      <social-media-connect
+        :username="id"
+        :platforms="platforms"
+        :limit="5"
+      />
 
-    <embed-create-widget-button :link="getReferralLink" />
+      <embed-create-widget-button :link="getReferralLink" />
+    </footer>
 
   </div>
 </template>
@@ -58,6 +59,11 @@ export default {
 
 <style lang="scss" scoped>
 @import "~assets/embed";
+
+.likecoin-embed__badge,
+.likecoin-embed footer {
+  margin-right: normalized($button-width / 2 + $button-shadow-width);
+}
 
 .text-content {
   position: relative;
