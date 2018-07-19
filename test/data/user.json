@@ -5,6 +5,7 @@
             "displayName": "testing",
             "email": "testing@likecoin.store",
             "wallet": "0x4b25758E41f9240C8EB8831cEc7F1a02686387fa",
+            "merchantId": "testmerchantid",
             "collection": {
                 "referrals": [
                     {
