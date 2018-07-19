@@ -16,3 +16,5 @@ $button-height: 42 + $button-border-width * 2;
 @function normalized($value: $full-width) {
   @return $value / $full-width * 1rem;
 }
+
+$badge-border-radius: normalized(8);

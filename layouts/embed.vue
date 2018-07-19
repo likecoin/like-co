@@ -35,7 +35,7 @@ html[likecoin-embed] {
     user-select: none;
 
     &__badge {
-      border-radius: normalized(8);
+      border-radius: $badge-border-radius;
       background-image: linear-gradient(77deg, $like-light-blue, $like-gradient-1);
 
       &__content {
@@ -45,7 +45,6 @@ html[likecoin-embed] {
         align-items: center;
 
         min-height: normalized($avatar-size - $avatar-vertical-offset * 2);
-        padding-right: normalized($button-width / 2 + $button-shadow-width);
       }
     }
   }

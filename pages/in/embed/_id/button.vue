@@ -1,7 +1,46 @@
 <template>
   <div class="likecoin-embed likecoin-embed--button">
 
-    <div class="likecoin-embed__badge likecoin-embed__badge">
+    <div
+      v-if="isShowBackside"
+      class="likecoin-embed__badge likecoin-embed__badge--back"
+    >
+      <div class="likecoin-embed__badge__content">
+
+        <div
+          class="likecoin-embed__badge__close-btn"
+          @click="onClickCloseButton"
+        >
+          <md-icon>close</md-icon>
+        </div>
+
+        <div class="text-content">
+          <div class="text-content__subtitle">
+            {{ $t('Embed.label.subtitle') }}
+          </div>
+          <div class="text-content__title">
+            <span class="title-message">
+              {{ $t('Embed.label.title') }}
+            </span>
+          </div>
+        </div>
+
+        <div class="embed-superlike-button-wrapper">
+          <md-button
+            id="embed-superlike-button"
+            :href="getUserPath"
+            class="md-likecoin"
+            target="_blank"
+          >
+            {{ $t('Embed.button.sendLike') }}
+          </md-button>
+        </div>
+      </div>
+    </div>
+    <div
+      v-else
+      class="likecoin-embed__badge likecoin-embed__badge--front"
+    >
       <div class="likecoin-embed__badge__content">
 
         <embed-user-info
@@ -35,15 +74,6 @@
     </footer>
 
     <md-button
-      v-if="isSuperLike"
-      :href="getUserPath"
-      class="md-likecoin"
-      target="_blank"
-    >
-      SuperLike
-    </md-button>
-    <md-button
-      v-else
       class="md-likecoin"
       @click="onClickLike"
     >
@@ -76,17 +106,28 @@ export default {
     return {
       likeCount: 0,
       likeSent: 0,
+      shouldShowBackside: true,
     };
   },
   computed: {
     isSuperLike() {
       return (this.likeCount >= 5);
     },
+    isShowBackside() {
+      return this.isSuperLike && this.shouldShowBackside;
+    },
   },
   methods: {
     onClickLike() {
-      if (!this.isSuperLike) this.likeCount += 1;
+      if (this.isSuperLike) {
+        this.shouldShowBackside = true;
+      } else {
+        this.likeCount += 1;
+      }
       debouncedOnClick(this);
+    },
+    onClickCloseButton() {
+      this.shouldShowBackside = false;
     },
   },
 };
@@ -95,8 +136,53 @@ export default {
 <style lang="scss" scoped>
 @import "~assets/embed";
 
+$close-btn-width: 56;
+
 .likecoin-embed {
-  &__badge,
+  &__badge {
+    &--back {
+      margin-right: normalized($button-width / 2 + $button-shadow-width);
+
+      .likecoin-embed__badge__content {
+        padding-right: normalized($button-width / 2 + $button-shadow-width);
+        padding-left: normalized($close-btn-width + 24);
+      }
+    }
+
+    &__close-btn {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      width: normalized($close-btn-width);
+
+      cursor: pointer;
+
+      transition: background-color 0.2s ease;
+
+      border-top-left-radius: $badge-border-radius;
+      border-bottom-left-radius: $badge-border-radius;
+
+      background-color: rgba(white, 0.5);
+
+      &:hover:not(:active) {
+        background-color: rgba(white, 0.7);
+      }
+
+      :global(.md-icon) {
+        color: $like-green;
+
+        font-size: normalized(20) !important;
+      }
+    }
+  }
+
+  &__badge--front,
   footer {
     margin-right: normalized($button-border-width + $button-shadow-width);
   }

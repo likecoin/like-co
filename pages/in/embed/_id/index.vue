@@ -60,9 +60,17 @@ export default {
 <style lang="scss" scoped>
 @import "~assets/embed";
 
-.likecoin-embed__badge,
-.likecoin-embed footer {
-  margin-right: normalized($button-width / 2 + $button-shadow-width);
+.likecoin-embed {
+  &__badge,
+  & footer {
+    margin-right: normalized($button-width / 2 + $button-shadow-width);
+  }
+
+  &__badge {
+    &__content {
+      padding-right: normalized($button-width / 2 + $button-shadow-width);
+    }
+  }
 }
 
 .text-content {
