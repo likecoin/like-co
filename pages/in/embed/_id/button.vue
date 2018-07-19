@@ -1,67 +1,82 @@
 <template>
-  <div class="likecoin-embed likecoin-embed--button">
+  <div
+    :class="[
+      'likecoin-embed',
+      'likecoin-embed--button',
+      {
+        'likecoin-embed--flipped': isShowBackside,
+      },
+    ]"
+  >
 
-    <div
-      v-if="isShowBackside"
-      class="likecoin-embed__badge likecoin-embed__badge--back"
+    <transition
+      name="likecoin-embed__badge-flip-"
+      mode="out-in"
     >
-      <div class="likecoin-embed__badge__content">
+      <div
+        v-if="isShowBackside"
+        key="back"
+        class="likecoin-embed__badge likecoin-embed__badge--back"
+      >
+        <div class="likecoin-embed__badge__content">
 
-        <div
-          class="likecoin-embed__badge__close-btn"
-          @click="onClickCloseButton"
-        >
-          <md-icon>close</md-icon>
-        </div>
-
-        <div class="text-content">
-          <div class="text-content__subtitle">
-            {{ $t('Embed.label.subtitle') }}
-          </div>
-          <div class="text-content__title">
-            <span class="title-message">
-              {{ $t('Embed.label.title') }}
-            </span>
-          </div>
-        </div>
-
-        <div class="embed-superlike-button-wrapper">
-          <md-button
-            id="embed-superlike-button"
-            :href="getUserPath"
-            class="md-likecoin"
-            target="_blank"
+          <div
+            class="likecoin-embed__badge__close-btn"
+            @click="onClickCloseButton"
           >
-            {{ $t('Embed.button.sendLike') }}
-          </md-button>
-        </div>
-      </div>
-    </div>
-    <div
-      v-else
-      class="likecoin-embed__badge likecoin-embed__badge--front"
-    >
-      <div class="likecoin-embed__badge__content">
-
-        <embed-user-info
-          :avatar="avatar"
-          :display-name="displayName"
-          :link="getUserPath"
-        />
-
-        <div class="text-content">
-          <div class="text-content__subtitle">
-            {{ $t('Embed.label.subtitle') }}
+            <md-icon>close</md-icon>
           </div>
-          <div class="text-content__title">
-            <span class="title-message">
-              {{ $t('Embed.label.title') }}
-            </span>
+
+          <div class="text-content">
+            <div class="text-content__subtitle">
+              {{ $t('Embed.label.subtitle') }}
+            </div>
+            <div class="text-content__title">
+              <span class="title-message">
+                {{ $t('Embed.label.title') }}
+              </span>
+            </div>
+          </div>
+
+          <div class="embed-superlike-button-wrapper">
+            <md-button
+              id="embed-superlike-button"
+              :href="getUserPath"
+              class="md-likecoin"
+              target="_blank"
+            >
+              {{ $t('Embed.button.sendLike') }}
+            </md-button>
           </div>
         </div>
-
       </div>
-    </div>
+      <div
+        v-else
+        key="front"
+        class="likecoin-embed__badge likecoin-embed__badge--front"
+      >
+        <div class="likecoin-embed__badge__content">
+
+          <embed-user-info
+            :avatar="avatar"
+            :display-name="displayName"
+            :link="getUserPath"
+          />
+
+          <div class="text-content">
+            <div class="text-content__subtitle">
+              {{ $t('Embed.label.subtitle') }}
+            </div>
+            <div class="text-content__title">
+              <span class="title-message">
+                {{ $t('Embed.label.title') }}
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </transition>
 
     <footer>
       <social-media-connect
@@ -139,13 +154,39 @@ export default {
 $close-btn-width: 56;
 
 .likecoin-embed {
+  perspective: 800px;
+
   &__badge {
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+
     &--back {
       margin-right: normalized($button-width / 2 + $button-shadow-width);
 
       .likecoin-embed__badge__content {
         padding-right: normalized($button-width / 2 + $button-shadow-width);
         padding-left: normalized($close-btn-width + 24);
+      }
+    }
+
+    &-flip-- {
+      &enter-active,
+      &leave-active {
+        transition-property: opacity, transform;
+      }
+      &enter-active {
+        transition-timing-function: ease-out;
+        transition-duration: 0.3s;
+      }
+      &leave-active {
+        transition-timing-function: ease-in;
+        transition-duration: 0.2s;
+      }
+      &enter {
+        transform: translateZ(normalized(-100)) rotateX(-90deg);
+      }
+      &leave-to {
+        transform: translateZ(normalized(-100)) rotateX(90deg);
       }
     }
 
@@ -209,6 +250,16 @@ $close-btn-width: 56;
     font-size: normalized(18);
     font-weight: 600;
     line-height: normalized(18.5);
+  }
+}
+
+.social-media-connect {
+  transition: opacity 0.3s ease;
+
+  .likecoin-embed--flipped & {
+    pointer-events: none;
+
+    opacity: 0;
   }
 }
 </style>
