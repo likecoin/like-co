@@ -22,6 +22,13 @@ $social-media-button-size: normalized(32);
 html[likecoin-embed] {
   font-size: $full-width * 1px;
 
+  // Show button border when cursor fall into root element
+  &:hover {
+    .embed-superlike-button-wrapper::before {
+      opacity: 1;
+    }
+  }
+
   @media screen and (max-width: $full-width * 1px) {
     font-size: 100vw;
   }
@@ -79,11 +86,6 @@ html[likecoin-embed] {
       border-radius: normalized(25);
       background: linear-gradient(67deg, $like-light-blue, $like-gradient-1);
       box-shadow: 0 normalized(2) normalized($button-shadow-width) 0 rgba(0, 0, 0, 0.25);
-
-      // Show button border when cursor fall into root element
-      body:hover & {
-        opacity: 1;
-      }
     }
   }
 
