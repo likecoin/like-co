@@ -19,6 +19,7 @@
           <button
             :class="[
               'social-media-connect__button',
+              `social-media-connect__button--${socialMedia.id}`,
               `social-media-connect__button--${
                 getIsConnected(socialMedia.id) ? 'connected' : 'disconnected'
               }`,
@@ -199,6 +200,14 @@ export default {
 <style lang="scss" scoped>
 @import "~assets/variables";
 
+$hover-color-map: (
+  facebook: #3b5998,
+  flickr: #0063dc,
+  instagram: #c7548a,
+  medium: #231f20,
+  twitter: #1ea1f2,
+);
+
 .social-media-connect {
   > div {
     display: flex;
@@ -249,6 +258,17 @@ export default {
       }
       &:active {
         background-color: darken($gray-c0, 30);
+      }
+    }
+
+    @each $key, $value in $hover-color-map {
+      &--#{$key}#{&}--connected {
+        &:hover {
+          background-color: $value;
+        }
+        &:active {
+          background-color: darken($value, 10);
+        }
       }
     }
   }

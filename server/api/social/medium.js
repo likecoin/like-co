@@ -86,6 +86,7 @@ router.post('/social/link/medium', jwtAuth, async (req, res, next) => {
       wallet,
       referrer,
       locale,
+      timestamp,
     } = userDoc.data();
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventSocialLink',
@@ -100,6 +101,7 @@ router.post('/social/link/medium', jwtAuth, async (req, res, next) => {
       mediumName: fullName,
       mediumUserName: displayName,
       mediumURL: url,
+      registerTime: timestamp,
     });
   } catch (err) {
     next(err);
