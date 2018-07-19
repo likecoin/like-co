@@ -62,8 +62,12 @@ import mixin from '~/components/embed/mixin';
 
 const debounce = require('lodash.debounce');
 
-const debouncedOnClick = debounce((likeCount, id) => {
-  apiPostLikeButton(id, likeCount);
+const debouncedOnClick = debounce((that) => {
+  /* eslint-disable no-param-reassign */
+  const count = that.likeCount - that.likeSent;
+  apiPostLikeButton(that.id, count);
+  that.likeSent += that.likeCount;
+  /* eslint-enable no-param-reassign */
 }, 500);
 
 export default {
@@ -73,6 +77,7 @@ export default {
   data() {
     return {
       likeCount: 0,
+      likeSent: 0,
     };
   },
   computed: {
@@ -83,9 +88,7 @@ export default {
   methods: {
     onClickLike() {
       if (!this.isSuperLike) this.likeCount += 1;
-      console.log(this.isSuperLike);
-      console.log(this.likeCount);
-      debouncedOnClick(this.likeCount, this.id);
+      debouncedOnClick(this);
     },
   },
 };
