@@ -28,13 +28,21 @@
           </div>
 
           <div class="text-content">
-            <div class="text-content__subtitle">
-              {{ $t('Embed.label.subtitle') }}
-            </div>
-            <div class="text-content__title">
-              <span class="title-message">
-                {{ $t('Embed.label.title') }}
-              </span>
+            <i18n
+              tag="div"
+              class="text-content__subtitle"
+              path="Embed.label.rewardUserWithLikeToken"
+            >
+              <a
+                :href="getUserPath"
+                place="user"
+                rel="noopener noreferrer"
+                target="_blank"
+              >{{ displayName }}</a>
+            </i18n>
+            <div class="text-content__title text-content__title--amount">
+              {{ amount }} LIKE
+              <span class="amount-in-usd">= USD {{ amountInUSD }}</span>
             </div>
           </div>
 
@@ -65,13 +73,20 @@
 
           <div class="text-content">
             <div class="text-content__subtitle">
-              {{ $t('Embed.label.subtitle') }}
+              {{ $t('Embed.label.clickLikeButton') }}
             </div>
-            <div class="text-content__title">
-              <span class="title-message">
-                {{ $t('Embed.label.title') }}
-              </span>
-            </div>
+            <i18n
+              tag="div"
+              class="text-content__title"
+              path="Embed.label.supportUser"
+            >
+              <a
+                :href="getUserPath"
+                place="user"
+                rel="noopener noreferrer"
+                target="_blank"
+              >{{ displayName }}</a>
+            </i18n>
           </div>
 
         </div>
@@ -230,26 +245,22 @@ $close-btn-width: 56;
 }
 
 .text-content {
-  position: relative;
-
-  letter-spacing: 0;
-
-  &__subtitle {
-    color: $like-gray-5;
-
-    font-size: normalized(16);
-    font-weight: 500;
-    line-height: normalized(16.5);
-  }
-
   &__title {
-    margin-top: normalized(2);
+    font-size: normalized(24);
+    line-height: normalized(24.5);
 
-    color: black;
+    &--amount {
+        color: $like-green;
 
-    font-size: normalized(18);
-    font-weight: 600;
-    line-height: normalized(18.5);
+        .amount-in-usd {
+          margin-left: normalized(6);
+
+          color: $like-gray-5;
+
+          font-size: normalized(10);
+          line-height: normalized(10.5);
+        }
+      }
   }
 }
 

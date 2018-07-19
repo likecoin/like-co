@@ -56,6 +56,30 @@ html[likecoin-embed] {
     }
   }
 
+  .text-content {
+    position: relative;
+
+    letter-spacing: 0;
+
+    &__subtitle {
+      color: $like-gray-5;
+
+      font-size: normalized(16);
+      font-weight: 500;
+      line-height: normalized(16.5);
+    }
+
+    &__title {
+      margin-top: normalized(2);
+
+      color: black;
+
+      font-size: normalized(18);
+      font-weight: 600;
+      line-height: normalized(18.5);
+    }
+  }
+
   .embed-superlike-button-wrapper {
     position: absolute;
     right: 0;

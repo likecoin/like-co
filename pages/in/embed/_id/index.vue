@@ -15,9 +15,7 @@
             {{ $t('Embed.label.subtitle') }}
           </div>
           <div class="text-content__title">
-            <span class="title-message">
-              {{ $t('Embed.label.title') }}
-            </span>
+            {{ $t('Embed.label.title') }}
           </div>
         </div>
 
@@ -70,30 +68,6 @@ export default {
     &__content {
       padding-right: normalized($button-width / 2 + $button-shadow-width);
     }
-  }
-}
-
-.text-content {
-  position: relative;
-
-  letter-spacing: 0;
-
-  &__subtitle {
-    color: $like-gray-5;
-
-    font-size: normalized(16);
-    font-weight: 500;
-    line-height: normalized(16.5);
-  }
-
-  &__title {
-    margin-top: normalized(2);
-
-    color: black;
-
-    font-size: normalized(18);
-    font-weight: 600;
-    line-height: normalized(18.5);
   }
 }
 </style>
