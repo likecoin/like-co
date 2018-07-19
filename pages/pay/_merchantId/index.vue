@@ -89,48 +89,53 @@
             </div>
           </div>
 
-          <div class="lc-container-3 lc-margin-vertical-16">
-            <div class="lc-container-4">
+          <transition name="fade">
+            <div
+              v-if="getUserIsReady"
+              class="lc-container-3 lc-margin-vertical-16"
+            >
+              <div class="lc-container-4">
 
-              <div
-                v-if="!getUserIsRegistered"
-                class="registration-wrapper"
-              >
-                <p class="lc-text-align-center lc-color-gray-9b">
-                  {{ $t('Pay.label.dontWorryWithoutLikeCoin') }}
-                </p>
-                <md-button
-                  class="md-likecoin"
-                  @click="onClickSignUpButton"
+                <div
+                  v-if="!getUserIsRegistered"
+                  class="registration-wrapper"
                 >
-                  {{ $t('Pay.button.registrationTutorial') }}
-                </md-button>
-              </div>
-
-              <div v-else>
-                <no-ssr>
-                  <p v-if="!isSupportTransferDeleteaged">
-                    {{ $t('Transaction.error.notSupported') }}
+                  <p class="lc-text-align-center lc-color-gray-9b">
+                    {{ $t('Pay.label.dontWorryWithoutLikeCoin') }}
                   </p>
-                </no-ssr>
-                <no-ssr>
                   <md-button
-                    id="payment-confirm"
-                    :disabled="(
-                      getIsInTransaction
-                      || !isSupportTransferDeleteaged
-                      || (!getLocalWallet)
-                    )"
                     class="md-likecoin"
-                    @click="onSubmit"
+                    @click="onClickSignUpButton"
                   >
-                    {{ $t('General.button.confirm') }}
+                    {{ $t('Pay.button.registrationTutorial') }}
                   </md-button>
-                </no-ssr>
-              </div>
+                </div>
 
+                <div v-else>
+                  <no-ssr>
+                    <p v-if="!isSupportTransferDeleteaged">
+                      {{ $t('Transaction.error.notSupported') }}
+                    </p>
+                  </no-ssr>
+                  <no-ssr>
+                    <md-button
+                      id="payment-confirm"
+                      :disabled="(
+                        getIsInTransaction
+                        || !isSupportTransferDeleteaged
+                        || (!getLocalWallet)
+                      )"
+                      class="md-likecoin"
+                      @click="onSubmit"
+                    >
+                      {{ $t('General.button.confirm') }}
+                    </md-button>
+                  </no-ssr>
+                </div>
+
+              </div>
             </div>
-          </div>
+          </transition>
 
         </div>
       </section>
@@ -263,6 +268,7 @@ export default {
       'getWeb3Type',
       'getIsShowingTxPopup',
       'getPendingTxInfo',
+      'getUserIsReady',
     ]),
     maskedWallet() {
       return this.wallet.replace(/(0x.{10}).*(.{10})/, '$1...$2');
@@ -274,6 +280,11 @@ export default {
   watch: {
     getWeb3Type() {
       this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
+    },
+    getUserNeedAuth(value) {
+      if (value) {
+        this.showLoginWindow();
+      }
     },
   },
   mounted() {
