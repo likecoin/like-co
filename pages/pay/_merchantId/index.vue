@@ -35,7 +35,10 @@
                 </div>
               </section>
 
-              <section v-if="displayName" class="recipient-field">
+              <section
+                v-if="displayName"
+                class="recipient-field"
+              >
                 <div class="recipient-field__title">
                   {{ $t('Transaction.label.recipientId') }}
                 </div>
@@ -44,7 +47,10 @@
                 </div>
               </section>
 
-              <section v-if="wallet" class="recipient-field">
+              <section
+                v-if="wallet"
+                class="recipient-field"
+              >
                 <div class="recipient-field__title">
                   {{ $t('Transaction.label.recipientAddress') }}
                 </div>
@@ -110,10 +116,12 @@
                 <no-ssr>
                   <md-button
                     id="payment-confirm"
-                    class="md-likecoin"
-                    :disabled="getIsInTransaction
+                    :disabled="(
+                      getIsInTransaction
                       || !isSupportTransferDeleteaged
-                      || (!getLocalWallet)"
+                      || (!getLocalWallet)
+                    )"
+                    class="md-likecoin"
                     @click="onSubmit"
                   >
                     {{ $t('General.button.confirm') }}
@@ -263,6 +271,17 @@ export default {
       return this.$route.query.referrer || document.referrer || undefined;
     },
   },
+  watch: {
+    getWeb3Type() {
+      this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
+    },
+  },
+  mounted() {
+    this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
+    if (this.getUserNeedAuth) {
+      this.showLoginWindow();
+    }
+  },
   methods: {
     ...mapActions([
       'showLoginWindow',
@@ -340,17 +359,6 @@ export default {
         query: { ...this.$route.query, ref: '' },
       });
     },
-  },
-  watch: {
-    getWeb3Type() {
-      this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
-    },
-  },
-  mounted() {
-    this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
-    if (this.getUserNeedAuth) {
-      this.showLoginWindow();
-    }
   },
 };
 </script>

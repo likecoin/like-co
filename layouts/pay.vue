@@ -5,12 +5,12 @@
     <div class="lc-page-wrapper lc-narrow with-sliding-menu">
 
       <div class="lc-page-content">
-        <nuxt/>
+        <nuxt />
       </div>
 
       <footer class="lc-page-footer">
         <div class="lc-container-0">
-          <my-footer/>
+          <my-footer />
         </div>
       </footer>
 
