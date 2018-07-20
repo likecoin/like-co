@@ -3,6 +3,7 @@
     :class="[
       'likecoin-embed',
       'likecoin-embed--button',
+      `likecoin-embed--logged-${isLoggedIn ? 'in' : 'out'}`,
       {
         'likecoin-embed--flipped': isShowBackside,
       },
@@ -89,6 +90,61 @@
             </i18n>
           </div>
 
+          <div
+            v-if="!isLoggedIn"
+            class="login-tooltip"
+          >
+            <div>
+              <div class="login-tooltip__trigger-wrapper">
+                <transition
+                  name="login-tooltip__trigger--flip"
+                  mode="out-in"
+                >
+                  <button
+                    v-if="isLoginTooltipOpen"
+                    key="close"
+                    class="login-tooltip__trigger login-tooltip__trigger--close"
+                    @click="isLoginTooltipOpen = false"
+                  >
+                    <simple-svg
+                      :filepath="CloseButtonIcon"
+                      fill="currentColor"
+                      stroke="transparent"
+                    />
+                  </button>
+                  <button
+                    v-else
+                    key="open"
+                    class="login-tooltip__trigger login-tooltip__trigger--open"
+                    @click="isLoginTooltipOpen = true"
+                  >
+                    <simple-svg
+                      :filepath="QuestionButtonIcon"
+                      fill="currentColor"
+                      stroke="transparent"
+                    />
+                  </button>
+                </transition>
+              </div>
+              <div class="login-tooltip__bubble-wrapper">
+                <transition name="login-tooltip__bubble--pop-up">
+                  <i18n
+                    v-if="isLoginTooltipOpen"
+                    tag="div"
+                    path="Embed.label.loginAdvice"
+                    class="login-tooltip__bubble"
+                  >
+                    <a
+                      href="#"
+                      place="login"
+                      @click="isLoginTooltipOpen = false"
+                    >{{ $t('Embed.button.login') }}</a>
+                  </i18n>
+                </transition>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </transition>
@@ -109,8 +165,8 @@
     >
       LIKE <span v-if="likeCount">{{ likeCount }}</span>
     </md-button>
+
     <span v-if="totalLike">{{ totalLike }} LIKE</span>
-    <span v-if="!isLoggedIn">Please login</span>
 
   </div>
 </template>
@@ -120,6 +176,9 @@ import {
   apiPostLikeButton,
   apiGetLikeButtonStatus,
 } from '@/util/api/api';
+
+import CloseButtonIcon from '~/assets/like-button/close-btn.svg';
+import QuestionButtonIcon from '~/assets/like-button/question-btn.svg';
 
 import mixin from '~/components/embed/mixin';
 
@@ -139,7 +198,11 @@ export default {
   mixins: [mixin],
   data() {
     return {
+      CloseButtonIcon,
+      QuestionButtonIcon,
+
       isLoggedIn: false,
+      isLoginTooltipOpen: false,
       likeCount: 0,
       likeSent: 0,
       totalLike: 0,
@@ -199,6 +262,10 @@ $close-btn-width: 56;
   &__badge {
     backface-visibility: hidden;
     transform-style: preserve-3d;
+
+    .likecoin-embed--logged-out & {
+      background: #e6e6e6;
+    }
 
     &--back {
       margin-right: normalized($button-width / 2 + $button-shadow-width);
@@ -286,6 +353,155 @@ $close-btn-width: 56;
           line-height: normalized(10.5);
         }
       }
+  }
+}
+
+.login-tooltip {
+  position: absolute;
+  right: 0;
+
+  margin-right: normalized(12);
+
+  > div {
+    position: relative;
+  }
+
+  &__trigger {
+    display: block;
+
+    width: normalized(16);
+    height: normalized(16);
+
+    transition-timing-function: ease;
+    transition-duration: 0.25s;
+    transition-property: transform, background, color;
+
+    border: none;
+    border-radius: 50%;
+
+    @media screen and (max-width: 414px) {
+      width: normalized(18);
+      height: normalized(18);
+    }
+
+    &--flip- {
+      &enter-active {
+        transition-timing-function: ease-out;
+        transition-duration: 0.15s;
+      }
+      &leave-active {
+        transition-timing-function: ease-in;
+        transition-duration: 0.05s;
+      }
+      &enter,
+      &leave-to {
+        transform: scale(0);
+      }
+    }
+
+    &--open {
+      color: #9b9b9b;
+      background: none;
+
+      &:hover {
+        color: darken(#9b9b9b, 10);
+      }
+      &:active {
+        color: darken(#9b9b9b, 20);
+      }
+    }
+
+    &--close {
+      color: white;
+      background: $like-green;
+
+      &:hover {
+        color: darken(white, 20);
+        background: darken($like-green, 5);
+      }
+      &:active {
+        color: darken(white, 50);
+        background: darken($like-green, 15);
+      }
+    }
+
+    > div {
+      width: inherit;
+      height: inherit;
+    }
+  }
+
+  &__bubble {
+    &-wrapper {
+      position: absolute;
+      top: 50%;
+      right: calc(100% + #{normalized(4.5)});
+
+      transform: translateY(-50%);
+    }
+
+    position: relative;
+
+    width: normalized(208);
+
+    margin-right: normalized(8);
+    padding: normalized(8) normalized(12);
+
+    transform-origin: center right;
+
+    color: #9b9b9b;
+
+    border-radius: normalized(6);
+    background-color: white;
+
+    font-size: normalized(10);
+    line-height: normalized(14);
+
+    @media screen and (max-width: 414px) {
+      width: normalized(260);
+
+      font-size: normalized(12);
+      line-height: normalized(16);
+    }
+
+    &--pop-up- {
+      &enter-active {
+        transition-timing-function: ease-out;
+        transition-duration: 0.2s;
+      }
+      &leave-active {
+        transition-timing-function: ease-in;
+        transition-duration: 0.1s;
+      }
+      &enter,
+      &leave-to {
+        transform: scale(0);
+      }
+    }
+
+    // Triangle
+    &::before {
+      position: absolute;
+      top: 50%;
+      left: 100%;
+
+      width: 0;
+      height: 0;
+
+      content: '';
+
+      transform: translateY(-50%);
+
+      border-top: normalized(8) solid transparent;
+      border-bottom: normalized(8) solid transparent;
+      border-left: normalized(8) solid white;
+    }
+
+    a {
+      text-decoration: underline;
+
+      font-weight: 600;
+    }
   }
 }
 
