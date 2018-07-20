@@ -1,56 +1,114 @@
 <template>
-  <div class="likecoin-embed">
+  <div
+    :class="[
+      'likecoin-embed',
+      'likecoin-embed--button',
+      {
+        'likecoin-embed--flipped': isShowBackside,
+      },
+    ]"
+  >
 
-    <div class="likecoin-embed__badge">
-      <div class="likecoin-embed__badge__content">
+    <transition
+      name="likecoin-embed__badge-flip-"
+      mode="out-in"
+    >
+      <div
+        v-if="isShowBackside"
+        key="back"
+        class="likecoin-embed__badge likecoin-embed__badge--back"
+      >
+        <div class="likecoin-embed__badge__content">
 
-        <embed-user-info
-          :avatar="avatar"
-          :display-name="displayName"
-          :link="getUserPath"
-        />
-
-        <div class="text-content">
-          <div class="text-content__subtitle">
-            {{ $t('Embed.label.subtitle') }}
-          </div>
-          <div class="text-content__title">
-            <span class="title-message">
-              {{ $t('Embed.label.title') }}
-            </span>
-          </div>
-        </div>
-
-        <div class="embed-superlike-button-wrapper">
-          <md-button
-            v-if="isSuperLike"
-            id="embed-superlike-button"
-            :href="getUserPath"
-            class="md-likecoin"
-            target="_blank"
+          <div
+            class="likecoin-embed__badge__close-btn"
+            @click="onClickCloseButton"
           >
-            SuperLike
-          </md-button>
-          <md-button
-            v-else
-            id="embed-superlike-button"
-            class="md-likecoin"
-            @click="onClickLike"
-          >
-            LIKE <span v-if="likeCount">{{ likeCount }}</span>
-          </md-button>
+            <md-icon>close</md-icon>
+          </div>
+
+          <div class="text-content">
+            <i18n
+              tag="div"
+              class="text-content__subtitle"
+              path="Embed.label.rewardUserWithLikeToken"
+            >
+              <a
+                :href="getUserPath"
+                place="user"
+                rel="noopener noreferrer"
+                target="_blank"
+              >{{ displayName }}</a>
+            </i18n>
+            <div class="text-content__title text-content__title--amount">
+              {{ amount }} LIKE
+              <span class="amount-in-usd">= USD {{ amountInUSD }}</span>
+            </div>
+          </div>
+
+          <div class="embed-superlike-button-wrapper">
+            <md-button
+              id="embed-superlike-button"
+              :href="getUserPath"
+              class="md-likecoin"
+              target="_blank"
+            >
+              {{ $t('Embed.button.sendLike') }}
+            </md-button>
+          </div>
         </div>
       </div>
-    </div>
+      <div
+        v-else
+        key="front"
+        class="likecoin-embed__badge likecoin-embed__badge--front"
+      >
+        <div class="likecoin-embed__badge__content">
 
-    <social-media-connect
-      :username="id"
-      :platforms="platforms"
-      :limit="5"
-      class="social-media-connect"
-    />
+          <embed-user-info
+            :avatar="avatar"
+            :display-name="displayName"
+            :link="getUserPath"
+          />
 
-    <embed-create-widget-button :link="getReferralLink" />
+          <div class="text-content">
+            <div class="text-content__subtitle">
+              {{ $t('Embed.label.clickLikeButton') }}
+            </div>
+            <i18n
+              tag="div"
+              class="text-content__title"
+              path="Embed.label.supportUser"
+            >
+              <a
+                :href="getUserPath"
+                place="user"
+                rel="noopener noreferrer"
+                target="_blank"
+              >{{ displayName }}</a>
+            </i18n>
+          </div>
+
+        </div>
+      </div>
+    </transition>
+
+    <footer>
+      <social-media-connect
+        :username="id"
+        :platforms="platforms"
+        :limit="5"
+      />
+
+      <embed-create-widget-button :link="getReferralLink" />
+    </footer>
+
+    <md-button
+      class="md-likecoin"
+      @click="onClickLike"
+    >
+      LIKE <span v-if="likeCount">{{ likeCount }}</span>
+    </md-button>
 
   </div>
 </template>
@@ -78,17 +136,28 @@ export default {
     return {
       likeCount: 0,
       likeSent: 0,
+      shouldShowBackside: true,
     };
   },
   computed: {
     isSuperLike() {
       return (this.likeCount >= 5);
     },
+    isShowBackside() {
+      return this.isSuperLike && this.shouldShowBackside;
+    },
   },
   methods: {
     onClickLike() {
-      if (!this.isSuperLike) this.likeCount += 1;
+      if (this.isSuperLike) {
+        this.shouldShowBackside = true;
+      } else {
+        this.likeCount += 1;
+      }
       debouncedOnClick(this);
+    },
+    onClickCloseButton() {
+      this.shouldShowBackside = false;
     },
   },
 };
@@ -97,27 +166,111 @@ export default {
 <style lang="scss" scoped>
 @import "~assets/embed";
 
-.text-content {
-  position: relative;
+$close-btn-width: 56;
 
-  letter-spacing: 0;
+.likecoin-embed {
+  perspective: 800px;
 
-  &__subtitle {
-    color: $like-gray-5;
+  &__badge {
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
 
-    font-size: normalized(16);
-    font-weight: 500;
-    line-height: normalized(16.5);
+    &--back {
+      margin-right: normalized($button-width / 2 + $button-shadow-width);
+
+      .likecoin-embed__badge__content {
+        padding-right: normalized($button-width / 2 + $button-shadow-width);
+        padding-left: normalized($close-btn-width + 24);
+      }
+    }
+
+    &-flip-- {
+      &enter-active,
+      &leave-active {
+        transition-property: opacity, transform;
+      }
+      &enter-active {
+        transition-timing-function: ease-out;
+        transition-duration: 0.3s;
+      }
+      &leave-active {
+        transition-timing-function: ease-in;
+        transition-duration: 0.2s;
+      }
+      &enter {
+        transform: translateZ(normalized(-100)) rotateX(-90deg);
+      }
+      &leave-to {
+        transform: translateZ(normalized(-100)) rotateX(90deg);
+      }
+    }
+
+    &__close-btn {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      width: normalized($close-btn-width);
+
+      cursor: pointer;
+
+      transition: background-color 0.2s ease;
+
+      border-top-left-radius: $badge-border-radius;
+      border-bottom-left-radius: $badge-border-radius;
+
+      background-color: rgba(white, 0.5);
+
+      &:hover:not(:active) {
+        background-color: rgba(white, 0.7);
+      }
+
+      :global(.md-icon) {
+        color: $like-green;
+
+        font-size: normalized(20) !important;
+      }
+    }
   }
 
+  &__badge--front,
+  footer {
+    margin-right: normalized($button-border-width + $button-shadow-width);
+  }
+}
+
+.text-content {
   &__title {
-    margin-top: normalized(2);
+    font-size: normalized(24);
+    line-height: normalized(24.5);
 
-    color: black;
+    &--amount {
+        color: $like-green;
 
-    font-size: normalized(18);
-    font-weight: 600;
-    line-height: normalized(18.5);
+        .amount-in-usd {
+          margin-left: normalized(6);
+
+          color: $like-gray-5;
+
+          font-size: normalized(10);
+          line-height: normalized(10.5);
+        }
+      }
+  }
+}
+
+.social-media-connect {
+  transition: opacity 0.3s ease;
+
+  .likecoin-embed--flipped & {
+    pointer-events: none;
+
+    opacity: 0;
   }
 }
 </style>

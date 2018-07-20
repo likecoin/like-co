@@ -15,9 +15,7 @@
             {{ $t('Embed.label.subtitle') }}
           </div>
           <div class="text-content__title">
-            <span class="title-message">
-              {{ $t('Embed.label.title') }}
-            </span>
+            {{ $t('Embed.label.title') }}
           </div>
         </div>
 
@@ -34,14 +32,15 @@
       </div>
     </div>
 
-    <social-media-connect
-      :username="id"
-      :platforms="platforms"
-      :limit="5"
-      class="social-media-connect"
-    />
+    <footer>
+      <social-media-connect
+        :username="id"
+        :platforms="platforms"
+        :limit="5"
+      />
 
-    <embed-create-widget-button :link="getReferralLink" />
+      <embed-create-widget-button :link="getReferralLink" />
+    </footer>
 
   </div>
 </template>
@@ -59,27 +58,16 @@ export default {
 <style lang="scss" scoped>
 @import "~assets/embed";
 
-.text-content {
-  position: relative;
-
-  letter-spacing: 0;
-
-  &__subtitle {
-    color: $like-gray-5;
-
-    font-size: normalized(16);
-    font-weight: 500;
-    line-height: normalized(16.5);
+.likecoin-embed {
+  &__badge,
+  & footer {
+    margin-right: normalized($button-width / 2 + $button-shadow-width);
   }
 
-  &__title {
-    margin-top: normalized(2);
-
-    color: black;
-
-    font-size: normalized(18);
-    font-weight: 600;
-    line-height: normalized(18.5);
+  &__badge {
+    &__content {
+      padding-right: normalized($button-width / 2 + $button-shadow-width);
+    }
   }
 }
 </style>

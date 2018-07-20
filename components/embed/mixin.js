@@ -14,6 +14,7 @@ export default {
     SocialMediaConnect,
   },
   asyncData({
+    route,
     params,
     error,
   }) {
@@ -24,6 +25,14 @@ export default {
     } catch (e) {
       // no op;
     }
+
+    let amountInUSD;
+    if (/in-embed-id-button(-amount)?/.test(route.name)) {
+      amountInUSD = amount;
+      const USD_TO_LIKE = 0.0082625; // TODO: Real time price
+      amount = (amountInUSD / USD_TO_LIKE).toFixed(2);
+    }
+
     const { id } = params;
     return Promise.all([
       apiGetUserMinById(id),
@@ -38,6 +47,7 @@ export default {
         displayName,
         avatar,
         amount,
+        amountInUSD,
         platforms: res[1].data,
       };
     }).catch(() => {
