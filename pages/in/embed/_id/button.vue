@@ -110,11 +110,16 @@
       LIKE <span v-if="likeCount">{{ likeCount }}</span>
     </md-button>
 
+    <span v-if="!isLoggedIn">Please login</span>
+
   </div>
 </template>
 
 <script>
-import { apiPostLikeButton } from '@/util/api/api';
+import {
+  apiPostLikeButton,
+  apiGetLikeButtonStatus,
+} from '@/util/api/api';
 
 import mixin from '~/components/embed/mixin';
 
@@ -123,7 +128,7 @@ const debounce = require('lodash.debounce');
 const debouncedOnClick = debounce((that) => {
   /* eslint-disable no-param-reassign */
   const count = that.likeCount - that.likeSent;
-  apiPostLikeButton(that.id, count);
+  apiPostLikeButton(that.id, that.referrer, count);
   that.likeSent += that.likeCount;
   /* eslint-enable no-param-reassign */
 }, 500);
@@ -134,12 +139,16 @@ export default {
   mixins: [mixin],
   data() {
     return {
+      isLoggedIn: false,
       likeCount: 0,
       likeSent: 0,
       shouldShowBackside: true,
     };
   },
   computed: {
+    referrer() {
+      return this.$route.query.referrer || document.referrer || '';
+    },
     isSuperLike() {
       return (this.likeCount >= 5);
     },
@@ -147,7 +156,14 @@ export default {
       return this.isSuperLike && this.shouldShowBackside;
     },
   },
+  mounted() {
+    this.checkUser();
+  },
   methods: {
+    async checkUser() {
+      const { liker } = await apiGetLikeButtonStatus(this.id, this.referrer);
+      this.isLoggedIn = !!liker;
+    },
     onClickLike() {
       if (this.isSuperLike) {
         this.shouldShowBackside = true;
