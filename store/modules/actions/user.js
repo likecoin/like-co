@@ -1,7 +1,13 @@
-/* eslint import/prefer-default-export: "off" */
+import BigNumber from 'bignumber.js';
+
 import * as api from '@/util/api/api';
 import * as types from '@/store/mutation-types';
-import { REDIRECT_NAME_WHITE_LIST } from '@/constant';
+import {
+  REDIRECT_NAME_WHITE_LIST,
+  ONE_LIKE,
+} from '@/constant';
+
+import EthHelper from '@/util/EthHelper';
 import User from '@/util/User';
 
 import apiWrapper from './api-wrapper';
@@ -194,3 +200,11 @@ export async function fetchAdvancedKYC({ commit, dispatch }, id) {
   return apiWrapper({ commit, dispatch }, api.apiGetAdvancedKYC(id));
 }
 
+export async function queryLikeCoinWalletBalance({ commit, state }) {
+  try {
+    const balance = await EthHelper.queryLikeCoinBalance(state.wallet);
+    commit(types.USER_SET_LIKECOIN_AMOUNT, new BigNumber(balance).dividedBy(ONE_LIKE));
+  } catch (err) {
+    console.error(err);
+  }
+}

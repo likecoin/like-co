@@ -142,6 +142,8 @@ export const apiQueryIAPProducts = () => axios.get('/api/iap/list');
 
 export const apiQueryEthPrice = () => axios.get('https://api.coinmarketcap.com/v1/ticker/ethereum/?convert=USD');
 
+export const apiQueryLikeCoinFiatPrice = () => axios.get('https://api.coingecko.com/api/v3/coins/likecoin?localization=false', { withCredentials: false });
+
 export const apiSetNotification = (id, isEmailEnabled) => axios.post(`/api/users/email/${id}`, { isEmailEnabled });
 
 export const apiGetSocialListById = id => axios.get(`/api/social/list/${id}`);
