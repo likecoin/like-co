@@ -109,7 +109,7 @@
     >
       LIKE <span v-if="likeCount">{{ likeCount }}</span>
     </md-button>
-
+    <span v-if="totalLike">{{ totalLike }} LIKE</span>
     <span v-if="!isLoggedIn">Please login</span>
 
   </div>
@@ -142,6 +142,7 @@ export default {
       isLoggedIn: false,
       likeCount: 0,
       likeSent: 0,
+      totalLike: 0,
       shouldShowBackside: true,
     };
   },
@@ -157,12 +158,20 @@ export default {
     },
   },
   mounted() {
-    this.checkUser();
+    this.updateUser();
   },
   methods: {
-    async checkUser() {
-      const { liker } = await apiGetLikeButtonStatus(this.id, this.referrer);
-      this.isLoggedIn = !!liker;
+    async updateUser() {
+      try {
+        const { data } = await apiGetLikeButtonStatus(this.id, this.referrer);
+        const { liker, count, total } = data;
+        this.isLoggedIn = !!liker;
+        this.totalLike = total;
+        this.likeCount = count;
+        this.likeSent = count;
+      } catch (err) {
+        console.error(err); // eslint-disable-line no-console
+      }
     },
     onClickLike() {
       if (this.isSuperLike) {
