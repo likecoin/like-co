@@ -19,6 +19,10 @@
             <platform-icon-bar />
           </div>
 
+          <hr>
+
+          <account-overview v-if="getUserIsRegistered" />
+
           <div class="menus-wrapper main">
             <div
               v-for="m in MENU_ITEMS"
@@ -102,6 +106,7 @@ import SettingsIcon from '@/assets/icons/settings.svg';
 
 import LanguageSwitch from '~/components/LanguageSwitch';
 import PlatformIconBar from '~/components/PlatformIconBar';
+import AccountOverview from './AccountOverview';
 import MenuItem from './MenuItem';
 
 const MENU_ITEMS = [
@@ -152,6 +157,7 @@ const MENU_ITEMS = [
 export default {
   name: 'sliding-menu',
   components: {
+    AccountOverview,
     MenuItem,
     LanguageSwitch,
     PlatformIconBar,
@@ -232,6 +238,11 @@ export default {
     overflow-y: auto;
     flex-direction: column;
   }
+
+  hr {
+    border: none;
+    border-top: 2px solid $like-green;
+  }
 }
 
 .language-switch-wrapper {
@@ -266,8 +277,6 @@ export default {
 
   &.main {
     flex-grow: 1;
-
-    border-top: 1px solid $like-green;
   }
 
   .menu {

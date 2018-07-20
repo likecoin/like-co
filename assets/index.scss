@@ -481,7 +481,7 @@ $font-size-list: 10 12 14 16 18 20 24 32 38 42 46 56;
 
 @each $i in $font-size-list {
   .lc-font-size-#{$i} {
-    font-size: $i * 1px;
+    font-size: $i * 1px !important;
     line-height: 1.35;
 
     @if $i > 14 {
@@ -549,6 +549,9 @@ $line-height-map: (
   }
   &like-gray-4 {
     color: $like-gray-4 !important;
+  }
+  &like-gray-5 {
+    color: $like-gray-5 !important;
   }
   &like-dark-brown-1 {
     color: $like-dark-brown-1 !important;
