@@ -89,35 +89,48 @@
             </div>
           </div>
 
-          <transition name="fade">
-            <div
-              v-if="getUserIsReady"
-              class="lc-container-3 lc-margin-vertical-16"
-            >
-              <div class="lc-container-4">
+          <no-ssr>
+            <transition name="fade">
+              <div
+                v-if="getUserIsReady || getUserNeedAuth"
+                class="lc-container-3 lc-margin-vertical-16"
+              >
+                <div class="lc-container-4">
 
-                <div
-                  v-if="!getUserIsRegistered"
-                  class="registration-wrapper"
-                >
-                  <p class="lc-text-align-center lc-color-gray-9b">
-                    {{ $t('Pay.label.dontWorryWithoutLikeCoin') }}
-                  </p>
-                  <md-button
-                    class="md-likecoin"
-                    @click="onClickSignUpButton"
+                  <div
+                    v-if="getUserNeedAuth"
+                    class="action-section"
                   >
-                    {{ $t('Pay.button.registrationTutorial') }}
-                  </md-button>
-                </div>
+                    <md-button
+                      class="md-likecoin"
+                      @click="showLoginWindow"
+                    >
+                      {{ $t('Home.Header.button.signIn') }}
+                    </md-button>
+                  </div>
 
-                <div v-else>
-                  <no-ssr>
+                  <div
+                    v-else-if="!getUserIsRegistered"
+                    class="action-section"
+                  >
+                    <p class="lc-text-align-center lc-color-gray-9b">
+                      {{ $t('Pay.label.dontWorryWithoutLikeCoin') }}
+                    </p>
+                    <md-button
+                      class="md-likecoin"
+                      @click="onClickSignUpButton"
+                    >
+                      {{ $t('Pay.button.registrationTutorial') }}
+                    </md-button>
+                  </div>
+
+                  <div
+                    v-else
+                    class="action-section"
+                  >
                     <p v-if="!isSupportTransferDeleteaged">
                       {{ $t('Transaction.error.notSupported') }}
                     </p>
-                  </no-ssr>
-                  <no-ssr>
                     <md-button
                       id="payment-confirm"
                       :disabled="(
@@ -130,12 +143,12 @@
                     >
                       {{ $t('General.button.confirm') }}
                     </md-button>
-                  </no-ssr>
-                </div>
+                  </div>
 
+                </div>
               </div>
-            </div>
-          </transition>
+            </transition>
+          </no-ssr>
 
         </div>
       </section>
@@ -537,7 +550,7 @@ export default {
   }
 }
 
-.registration-wrapper {
+.action-section {
   .md-button {
     display: block;
 
