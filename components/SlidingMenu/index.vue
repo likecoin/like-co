@@ -21,7 +21,10 @@
 
           <hr>
 
-          <account-overview v-if="getUserIsRegistered" />
+          <account-overview
+            v-if="getUserIsRegistered"
+            class="lc-margin-bottom-24-mobile"
+          />
 
           <div class="menus-wrapper main">
             <div

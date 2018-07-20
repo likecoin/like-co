@@ -1,13 +1,16 @@
 <template>
-  <div class="account-overview lc-margin-bottom-24-mobile">
+  <div class="account-overview">
     <div class="account-overview__user">
       <img
         :src="getUserInfo.avatar"
         alt="avatar"
       >
-      <span class="account-overview__id lc-font-size-18 lc-font-weight-600 lc-color-like-green">
-        {{ getUserInfo.user }}
-      </span>
+      <div class="account-overview__id lc-font-size-18 lc-font-weight-600">
+        <span class="lc-color-gray-9b">ID:</span>
+        <span class="lc-color-like-green lc-line-height-1-2">
+          {{ getUserInfo.user }}
+        </span>
+      </div>
     </div>
 
     <div
@@ -98,8 +101,13 @@ export default {
   background-image: linear-gradient(221deg, #d2f0f0, #f0e6b4);
 
   &__user {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+
     padding-top: 16px;
     padding-left: 32px;
+
     img {
       width: 56px;
       height: 56px;
@@ -112,16 +120,27 @@ export default {
   }
 
   &__id {
-    display: inline-block;
-    overflow: hidden;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
 
-    width: 228px;
+    padding-left: 8px;
 
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    span:last-child {
+      display: inline-block;
+      overflow: hidden;
 
-    @media (min-width: 600px + 1px) {
-      padding-left: 8px;
+      padding-left: 4px;
+
+      white-space: nowrap;
+      text-overflow: ellipsis;
+
+      @media (min-width: 600px + 1px) {
+        width: 200px;
+      }
+      @media (max-width: 600px) {
+        width: 136px;
+      }
     }
   }
 
