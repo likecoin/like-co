@@ -150,4 +150,12 @@ export const apiLinkSocialPlatform = (platform, payload) => axios.post(`/api/soc
 
 export const apiUnlinkSocialPlatform = (platform, payload) => axios.post(`/api/social/unlink/${platform}`, payload);
 
-export const apiPostLikeButton = (id, count = 1) => axios.post(`/api/like/likebutton/${id}/${count}`);
+export const apiGetLikeButtonStatus =
+  (id, referrer) => axios.get(`/api/like/likebutton/${id}`, { headers: { 'Like-Referer': referrer } });
+
+export const apiPostLikeButton =
+  (id, referrer, count = 1) => axios.post(
+    `/api/like/likebutton/${id}/${count}`,
+    {},
+    { headers: { 'Like-Referer': referrer } },
+  );

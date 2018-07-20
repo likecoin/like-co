@@ -109,12 +109,17 @@
     >
       LIKE <span v-if="likeCount">{{ likeCount }}</span>
     </md-button>
+    <span v-if="totalLike">{{ totalLike }} LIKE</span>
+    <span v-if="!isLoggedIn">Please login</span>
 
   </div>
 </template>
 
 <script>
-import { apiPostLikeButton } from '@/util/api/api';
+import {
+  apiPostLikeButton,
+  apiGetLikeButtonStatus,
+} from '@/util/api/api';
 
 import mixin from '~/components/embed/mixin';
 
@@ -123,8 +128,8 @@ const debounce = require('lodash.debounce');
 const debouncedOnClick = debounce((that) => {
   /* eslint-disable no-param-reassign */
   const count = that.likeCount - that.likeSent;
-  apiPostLikeButton(that.id, count);
   that.likeSent += that.likeCount;
+  apiPostLikeButton(that.id, that.referrer, count);
   /* eslint-enable no-param-reassign */
 }, 500);
 
@@ -134,12 +139,17 @@ export default {
   mixins: [mixin],
   data() {
     return {
+      isLoggedIn: false,
       likeCount: 0,
       likeSent: 0,
+      totalLike: 0,
       shouldShowBackside: true,
     };
   },
   computed: {
+    referrer() {
+      return this.$route.query.referrer || document.referrer || '';
+    },
     isSuperLike() {
       return (this.likeCount >= 5);
     },
@@ -147,7 +157,22 @@ export default {
       return this.isSuperLike && this.shouldShowBackside;
     },
   },
+  mounted() {
+    this.updateUser();
+  },
   methods: {
+    async updateUser() {
+      try {
+        const { data } = await apiGetLikeButtonStatus(this.id, this.referrer);
+        const { liker, count, total } = data;
+        this.isLoggedIn = !!liker;
+        this.totalLike = total;
+        this.likeCount = count;
+        this.likeSent = count;
+      } catch (err) {
+        console.error(err); // eslint-disable-line no-console
+      }
+    },
     onClickLike() {
       if (this.isSuperLike) {
         this.shouldShowBackside = true;
