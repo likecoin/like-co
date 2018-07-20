@@ -133,6 +133,21 @@ router.post('/payment', async (req, res, next) => {
       LIKECOIN.LIKE_COIN_ADDRESS,
       txData,
     );
+    if (!toSubscriptionURL) {
+      res.json({ txHash });
+    }
+    await logTransferDelegatedTx({
+      txHash,
+      from,
+      to,
+      value,
+      fromId: fromId || null,
+      toId: toId || null,
+      currentBlock,
+      nonce: pendingCount,
+      rawSignedTx: tx.rawTransaction,
+      delegatorAddress: web3.utils.toChecksumAddress(delegatorAddress),
+    });
     const status = 'pending';
     if (toSubscriptionURL) {
       try {
@@ -149,20 +164,8 @@ router.post('/payment', async (req, res, next) => {
       } catch (err) {
         console.error(err); // eslint-disable-line no-console
       }
+      res.json({ txHash });
     }
-    res.json({ txHash });
-    await logTransferDelegatedTx({
-      txHash,
-      from,
-      to,
-      value,
-      fromId: fromId || null,
-      toId: toId || null,
-      currentBlock,
-      nonce: pendingCount,
-      rawSignedTx: tx.rawTransaction,
-      delegatorAddress: web3.utils.toChecksumAddress(delegatorAddress),
-    });
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventPay',
       fromUser: fromId,
@@ -277,7 +280,6 @@ router.post('/payment/eth', async (req, res, next) => {
       txHash,
       txStatus: 'pending',
     });
-    res.json({ txHash });
   } catch (err) {
     console.error(err);
     next(err);
