@@ -190,6 +190,7 @@ const debouncedOnClick = debounce((that) => {
   const count = that.likeCount - that.likeSent;
   that.likeSent += count;
   if (count > 0) apiPostLikeButton(that.id, that.referrer, count);
+  that.totalLike += count;
   /* eslint-enable no-param-reassign */
 }, 500);
 
