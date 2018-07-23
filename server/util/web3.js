@@ -88,7 +88,7 @@ async function sendWithLoop(
   try {
     while (!txHash) {
       pendingCount = await web3.eth.getTransactionCount(address, 'pending');
-      tx = await signTransaction(addr, txData, pendingCount, gasLimit, privateKey);
+      tx = await signTransaction(addr, txData, pendingCount, gasPrice, gasLimit, privateKey);
       txHash = await sendTransaction(tx);
       if (!txHash) {
         await timeout(200);
