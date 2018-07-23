@@ -133,9 +133,6 @@ router.post('/payment', async (req, res, next) => {
       LIKECOIN.LIKE_COIN_ADDRESS,
       txData,
     );
-    if (!toSubscriptionURL) {
-      res.json({ txHash });
-    }
     await logTransferDelegatedTx({
       txHash,
       from,
@@ -164,8 +161,8 @@ router.post('/payment', async (req, res, next) => {
       } catch (err) {
         console.error(err); // eslint-disable-line no-console
       }
-      res.json({ txHash });
     }
+    res.json({ txHash });
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventPay',
       fromUser: fromId,
