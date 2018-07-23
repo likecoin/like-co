@@ -14,7 +14,8 @@
         </template>
 
         <span class="lc-color-like-dark-brown-2 lc-font-size-20">
-          {{ numOfLikes }} Like from {{ likees.length }} people for "LikeCoin June 2018 Highlights"
+          {{ numOfLikes }} Like from {{ likees.length }} people
+          <span v-if="title">{{ title }}</span>
         </span>
 
         <div
@@ -66,6 +67,7 @@
 
 <script>
 import Vue from 'vue'; // eslint-disable-line import/no-extraneous-dependencies
+import axios from '~/plugins/axios';
 import LikeForm from '~/components/LikeForm';
 import {
   apiGetUserMinById,
@@ -80,11 +82,27 @@ export default {
     LikeForm,
   },
   async asyncData({ params, query }) {
-    const [{ data: likees }, { data: totalData }] = await Promise.all([
+    const promises = [
       apiGetLikeButtonLikerList(params.id, query.referrer),
       apiGetLikeButtonTotalCount(params.id, query.referrer),
-    ]);
+    ];
+    if (query.referrer) {
+      let url = query.referrer;
+      const mediumRegEx = '^(?:https?:\\/\\/)?medium\\.com\\/media\\/[a-zA-Z0-9_]+\\?postId=([a-zA-Z0-9_]+)';
+      const match = query.referrer.match(mediumRegEx);
+      if (match && match[1]) url = `https://medium.com/p/${match[1]}`;
+      promises.push(axios.get(url).catch(() => ''));
+    }
+    const [{ data: likees }, { data: totalData }, { data: html }] = await Promise.all(promises);
+    let title = '';
+    if (html) {
+      let match = html.match('<title>(.*?)</title>');
+      if (match && match[1]) [, title] = match;
+      match = html.match('"title":"(.*?)"');
+      if (match && match[1]) [, title] = match;
+    }
     return {
+      title,
       isShowAll: likees.length <= 8,
       numOfLikes: totalData.total,
       likees: likees.map(id => ({ id })),
