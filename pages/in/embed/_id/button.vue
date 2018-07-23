@@ -128,8 +128,8 @@ const debounce = require('lodash.debounce');
 const debouncedOnClick = debounce((that) => {
   /* eslint-disable no-param-reassign */
   const count = that.likeCount - that.likeSent;
-  that.likeSent += that.likeCount;
-  apiPostLikeButton(that.id, that.referrer, count);
+  that.likeSent += count;
+  if (count > 0) apiPostLikeButton(that.id, that.referrer, count);
   /* eslint-enable no-param-reassign */
 }, 500);
 
