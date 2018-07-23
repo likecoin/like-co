@@ -1,5 +1,6 @@
 export const UI_SET_LOCALE = 'UI_SET_LOCALE';
 export const UI_SET_METAMASK_ERROR = 'UI_SET_METAMASK_ERROR';
+export const UI_SET_SIGN_PAYLOAD_OBJECT = 'UI_SET_SIGN_PAYLOAD_OBJECT';
 export const UI_SET_WEB3_TYPE = 'UI_SET_WEB3_TYPE';
 export const UI_INFO_MSG = 'UI_INFO_MSG';
 export const UI_ERROR_MSG = 'UI_ERROR_MSG';

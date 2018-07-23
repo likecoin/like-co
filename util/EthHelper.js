@@ -413,7 +413,12 @@ class EthHelper {
     if (!this.getIsSupportTransferDelegated()) {
       return Promise.reject(new Error('Not Supported'));
     }
-    if (this.onSign) this.onSign();
+    if (this.onSign) {
+      this.onSign({
+        action: 'sendLIKE',
+        payload: { to, value },
+      });
+    }
     const from = this.getWallet();
     const signData = await this.genTypedSignData(from, to, value, maxReward);
     const nonce = signData.filter(param => param.name === 'nonce')[0].value;
