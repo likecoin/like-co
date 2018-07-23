@@ -69,11 +69,7 @@
       >
         <div class="likecoin-embed__badge__content">
 
-          <embed-user-info
-            :avatar="avatar"
-            :display-name="displayName"
-            :link="getUserPath"
-          />
+          <embed-user-info :avatar="avatar" />
 
           <div class="text-content">
             <div class="text-content__subtitle">
@@ -152,6 +148,12 @@
       </div>
     </transition>
 
+    <like-button
+      :total-like="totalLike"
+      :is-super-like="isSuperLike"
+      @like="onClickLike"
+    />
+
     <footer>
       <social-media-connect
         :username="id"
@@ -161,15 +163,6 @@
 
       <embed-create-widget-button :link="getReferralLink" />
     </footer>
-
-    <md-button
-      class="md-likecoin"
-      @click="onClickLike"
-    >
-      LIKE <span v-if="likeCount">{{ likeCount }}</span>
-    </md-button>
-
-    <span v-if="totalLike">{{ totalLike }} LIKE</span>
 
   </div>
 </template>
@@ -185,6 +178,7 @@ import CloseButtonIcon from '~/assets/like-button/close-btn.svg';
 import QuestionButtonIcon from '~/assets/like-button/question-btn.svg';
 
 import mixin from '~/components/embed/mixin';
+import LikeButton from '~/components/LikeButton';
 
 const debounce = require('lodash.debounce');
 
@@ -200,6 +194,9 @@ const debouncedOnClick = debounce((that) => {
 export default {
   name: 'embed-id-button',
   layout: 'embed',
+  components: {
+    LikeButton,
+  },
   mixins: [mixin],
   data() {
     return {
@@ -512,6 +509,13 @@ $close-btn-width: 56;
       font-weight: 600;
     }
   }
+}
+
+.like-button {
+  position: absolute;
+
+  margin-top: normalized(-18);
+  margin-left: normalized(44);
 }
 
 .social-media-connect {

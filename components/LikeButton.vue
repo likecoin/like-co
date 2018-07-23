@@ -1,0 +1,219 @@
+<template>
+  <div
+    :class="[
+      'like-button',
+      {
+        'like-button--super-like': isSuperLike,
+      },
+    ]"
+  >
+    <div>
+
+      <div class="like-button-wrapper">
+        <button
+          class="like-button-knob"
+          @click="$emit('like')"
+        >
+          <div class="like-button-knob__border" />
+          <div class="like-button-knob__content">
+            <simple-svg
+              :filepath="LikeClapIcon"
+              fill="currentColor"
+              stroke="transparent"
+            />
+          </div>
+        </button>
+
+        <div
+          class="like-button-stats"
+          @click="$emit('click-stats')"
+        >
+          <simple-svg
+            :filepath="LikeTextIcon"
+            class="like-button-stats__text-logo"
+            fill="currentColor"
+            stroke="transparent"
+          />
+          <span
+            v-if="totalLike > 0"
+            class="like-button-stats__total-like"
+          >{{ formattedTotalLike }}</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</template>
+
+<script>
+import LikeClapIcon from '~/assets/like-button/like-clap.svg';
+import LikeTextIcon from '~/assets/like-button/like-text.svg';
+
+export default {
+  name: 'like-button',
+  props: {
+    totalLike: {
+      type: Number,
+      default: 0,
+    },
+    isSuperLike: {
+      type: [Boolean, String],
+      default: false,
+    },
+  },
+  data() {
+    return {
+      LikeClapIcon,
+      LikeTextIcon,
+    };
+  },
+  computed: {
+    formattedTotalLike() {
+      let { totalLike } = this;
+      let suffix = '';
+      if (totalLike > 1000) {
+        totalLike = Math.floor(totalLike / 1000);
+        suffix = 'k';
+      }
+      return `${totalLike.toLocaleString('en')}${suffix}`;
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+@import "~assets/embed";
+
+$like-button-size: 80;
+$like-button-ring-width: 3;
+
+.like-button {
+  &-wrapper {
+    position: relative;
+
+    width: normalized($like-button-size);
+    height: normalized($like-button-size);
+
+    margin: normalized(10);
+    margin-right: normalized(90);
+  }
+
+  &-knob {
+    box-sizing: border-box;
+    width: inherit;
+    height: inherit;
+    padding: normalized($like-button-ring-width);
+
+    cursor: pointer;
+
+    transition-timing-function: ease;
+    transition-duration: 0.2s;
+    transition-property: color, transform;
+
+    color: $like-gray-5;
+    border: none;
+    background: none;
+
+    .like-button-wrapper:hover & {
+      color: $like-green;
+
+      &:active {
+        transform: scale(0.95);
+
+        color: white;
+      }
+    }
+    .like-button--super-like & {
+      color: white !important;
+    }
+
+    // Border
+    &__border {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+
+      content: '';
+      transition-timing-function: ease;
+      transition-duration: 0.2s;
+      transition-property: background, box-shadow, transform;
+
+      border-radius: 50%;
+      background: currentColor;
+
+      box-shadow: 0 normalized(2) normalized(6) 0 rgba(0, 0, 0, 0.25);
+
+      .like-button-knob:hover & {
+        box-shadow: normalized(2) normalized(4) normalized(6) 0 rgba(0, 0, 0, 0.25);
+      }
+      .like-button-knob:hover &,
+      .like-button--super-like & {
+        transform: scale(1.05);
+      }
+      .like-button-knob:active &,
+      .like-button--super-like & {
+        background: linear-gradient(47deg, #d2f0f0, #f0e6b4);
+        box-shadow: 0 normalized(2) normalized(6) 0 rgba(0, 0, 0, 0.25);
+      }
+    }
+
+    &__content {
+      position: relative;
+
+      width: normalized($like-button-size - $like-button-ring-width * 2);
+      height: normalized($like-button-size - $like-button-ring-width * 2);
+      padding: normalized(12);
+
+      transition: background-color 0.2s ease;
+
+      border-radius: 50%;
+      background-color: white;
+
+      .like-button-knob:active &,
+      .like-button--super-like & {
+        background-color: $like-green;
+      }
+    }
+  }
+
+  &-stats {
+    position: absolute;
+    top: calc(50% - #{normalized(13)});
+    left: normalized($like-button-size);
+
+    margin-left: normalized(20);
+
+    cursor: pointer;
+
+    &:active {
+      transform: translateY(normalized(1));
+    }
+
+    &__text-logo {
+      width: normalized(58);
+      height: normalized(24);
+
+      transition: color 0.2s ease;
+
+      color: $like-gray-5;
+
+      .like-button-wrapper:hover & {
+        color: $like-green;
+      }
+    }
+
+    &__total-like {
+      display: inline-block;
+
+      margin-top: normalized(4);
+
+      color: $like-green;
+
+      font-size: normalized(16);
+      font-weight: 600;
+    }
+  }
+}
+</style>
