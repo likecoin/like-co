@@ -27,8 +27,16 @@
             :key="index"
             class="user-avatar"
           >
-            <img :src="likee.avatar">
-            <span>{{ likee.displayName }}</span>
+            <img
+              v-if="likee.avatar"
+              :src="likee.avatar"
+            >
+            <nuxt-link
+              :to="{ name: 'id', params: { id: likee.id } }"
+            >
+              <span v-if="likee.displayName">{{ likee.displayName }}</span>
+              <span v-else>{{ likee.id }}</span>
+            </nuxt-link>
           </div>
 
           <transition name="lc-transition-default">
@@ -57,71 +65,56 @@
 
 
 <script>
+import Vue from 'vue'; // eslint-disable-line import/no-extraneous-dependencies
 import LikeForm from '~/components/LikeForm';
+import {
+  apiGetUserMinById,
+  apiGetLikeButtonLikerList,
+  apiGetLikeButtonTotalCount,
+} from '@/util/api/api';
 
 export default {
-  name: 'white-paper',
+  name: 'embed-id-list',
   layout: 'narrowWithHeader',
   components: {
     LikeForm,
   },
-  asyncData() {
-    const likees = [
-      {
-        avatar: 'https://storage.googleapis.com/likecoin-foundation.appspot.com/likecoin_store_user_mileswong_main?GoogleAccessId=firebase-adminsdk-eyzut@likecoin-foundation.iam.gserviceaccount.com&Expires=2430432000&Signature=v1Yc0vrIpSep%2Fc80erfTkuhOUIVPaQ%2Bq%2BufXtO1cE7%2FN6NoYGBh%2FXs6OYlFwFLF8VGpkxXB51sH5AyEn4vfeYJBD2zKWeHfJZsIn3whhRb1PEzgaPUMgKtliWM96z5tBKTm5N2D%2BYj9VJHpvbDc9iHW7Zky3TWfljdgg8SONRP816NyNT33DubvX0X2yLYLeg%2FHydXi%2Fz7xQH%2F17IWFm5n7n0vQ%2Be%2B350jnJu2kM0TCsY5%2BWBsXO2RvsFdEBwuv%2FMpC87pBKDs8%2FLQ2RI8YMr1jvvsL1lRDIrLY04yrHPBLZ1NpiaygPlmOnCtZVXfUcXSBowcY4CqVWt%2FhWXjJDpQ%3D%3D',
-        displayName: 'Miles Wong',
-      },
-      {
-        avatar: 'https://storage.googleapis.com/likecoin-foundation.appspot.com/likecoin_store_user_mileswong_main?GoogleAccessId=firebase-adminsdk-eyzut@likecoin-foundation.iam.gserviceaccount.com&Expires=2430432000&Signature=v1Yc0vrIpSep%2Fc80erfTkuhOUIVPaQ%2Bq%2BufXtO1cE7%2FN6NoYGBh%2FXs6OYlFwFLF8VGpkxXB51sH5AyEn4vfeYJBD2zKWeHfJZsIn3whhRb1PEzgaPUMgKtliWM96z5tBKTm5N2D%2BYj9VJHpvbDc9iHW7Zky3TWfljdgg8SONRP816NyNT33DubvX0X2yLYLeg%2FHydXi%2Fz7xQH%2F17IWFm5n7n0vQ%2Be%2B350jnJu2kM0TCsY5%2BWBsXO2RvsFdEBwuv%2FMpC87pBKDs8%2FLQ2RI8YMr1jvvsL1lRDIrLY04yrHPBLZ1NpiaygPlmOnCtZVXfUcXSBowcY4CqVWt%2FhWXjJDpQ%3D%3D',
-        displayName: 'Miles Wong',
-      },
-      {
-        avatar: 'https://storage.googleapis.com/likecoin-foundation.appspot.com/likecoin_store_user_mileswong_main?GoogleAccessId=firebase-adminsdk-eyzut@likecoin-foundation.iam.gserviceaccount.com&Expires=2430432000&Signature=v1Yc0vrIpSep%2Fc80erfTkuhOUIVPaQ%2Bq%2BufXtO1cE7%2FN6NoYGBh%2FXs6OYlFwFLF8VGpkxXB51sH5AyEn4vfeYJBD2zKWeHfJZsIn3whhRb1PEzgaPUMgKtliWM96z5tBKTm5N2D%2BYj9VJHpvbDc9iHW7Zky3TWfljdgg8SONRP816NyNT33DubvX0X2yLYLeg%2FHydXi%2Fz7xQH%2F17IWFm5n7n0vQ%2Be%2B350jnJu2kM0TCsY5%2BWBsXO2RvsFdEBwuv%2FMpC87pBKDs8%2FLQ2RI8YMr1jvvsL1lRDIrLY04yrHPBLZ1NpiaygPlmOnCtZVXfUcXSBowcY4CqVWt%2FhWXjJDpQ%3D%3D',
-        displayName: 'Miles Wong',
-      },
-      {
-        avatar: 'https://storage.googleapis.com/likecoin-foundation.appspot.com/likecoin_store_user_mileswong_main?GoogleAccessId=firebase-adminsdk-eyzut@likecoin-foundation.iam.gserviceaccount.com&Expires=2430432000&Signature=v1Yc0vrIpSep%2Fc80erfTkuhOUIVPaQ%2Bq%2BufXtO1cE7%2FN6NoYGBh%2FXs6OYlFwFLF8VGpkxXB51sH5AyEn4vfeYJBD2zKWeHfJZsIn3whhRb1PEzgaPUMgKtliWM96z5tBKTm5N2D%2BYj9VJHpvbDc9iHW7Zky3TWfljdgg8SONRP816NyNT33DubvX0X2yLYLeg%2FHydXi%2Fz7xQH%2F17IWFm5n7n0vQ%2Be%2B350jnJu2kM0TCsY5%2BWBsXO2RvsFdEBwuv%2FMpC87pBKDs8%2FLQ2RI8YMr1jvvsL1lRDIrLY04yrHPBLZ1NpiaygPlmOnCtZVXfUcXSBowcY4CqVWt%2FhWXjJDpQ%3D%3D',
-        displayName: 'Miles Wong',
-      },
-      {
-        avatar: 'https://storage.googleapis.com/likecoin-foundation.appspot.com/likecoin_store_user_mileswong_main?GoogleAccessId=firebase-adminsdk-eyzut@likecoin-foundation.iam.gserviceaccount.com&Expires=2430432000&Signature=v1Yc0vrIpSep%2Fc80erfTkuhOUIVPaQ%2Bq%2BufXtO1cE7%2FN6NoYGBh%2FXs6OYlFwFLF8VGpkxXB51sH5AyEn4vfeYJBD2zKWeHfJZsIn3whhRb1PEzgaPUMgKtliWM96z5tBKTm5N2D%2BYj9VJHpvbDc9iHW7Zky3TWfljdgg8SONRP816NyNT33DubvX0X2yLYLeg%2FHydXi%2Fz7xQH%2F17IWFm5n7n0vQ%2Be%2B350jnJu2kM0TCsY5%2BWBsXO2RvsFdEBwuv%2FMpC87pBKDs8%2FLQ2RI8YMr1jvvsL1lRDIrLY04yrHPBLZ1NpiaygPlmOnCtZVXfUcXSBowcY4CqVWt%2FhWXjJDpQ%3D%3D',
-        displayName: 'Miles Wong',
-      },
-      {
-        avatar: 'https://storage.googleapis.com/likecoin-foundation.appspot.com/likecoin_store_user_mileswong_main?GoogleAccessId=firebase-adminsdk-eyzut@likecoin-foundation.iam.gserviceaccount.com&Expires=2430432000&Signature=v1Yc0vrIpSep%2Fc80erfTkuhOUIVPaQ%2Bq%2BufXtO1cE7%2FN6NoYGBh%2FXs6OYlFwFLF8VGpkxXB51sH5AyEn4vfeYJBD2zKWeHfJZsIn3whhRb1PEzgaPUMgKtliWM96z5tBKTm5N2D%2BYj9VJHpvbDc9iHW7Zky3TWfljdgg8SONRP816NyNT33DubvX0X2yLYLeg%2FHydXi%2Fz7xQH%2F17IWFm5n7n0vQ%2Be%2B350jnJu2kM0TCsY5%2BWBsXO2RvsFdEBwuv%2FMpC87pBKDs8%2FLQ2RI8YMr1jvvsL1lRDIrLY04yrHPBLZ1NpiaygPlmOnCtZVXfUcXSBowcY4CqVWt%2FhWXjJDpQ%3D%3D',
-        displayName: 'Miles Wong',
-      },
-      {
-        avatar: 'https://storage.googleapis.com/likecoin-foundation.appspot.com/likecoin_store_user_mileswong_main?GoogleAccessId=firebase-adminsdk-eyzut@likecoin-foundation.iam.gserviceaccount.com&Expires=2430432000&Signature=v1Yc0vrIpSep%2Fc80erfTkuhOUIVPaQ%2Bq%2BufXtO1cE7%2FN6NoYGBh%2FXs6OYlFwFLF8VGpkxXB51sH5AyEn4vfeYJBD2zKWeHfJZsIn3whhRb1PEzgaPUMgKtliWM96z5tBKTm5N2D%2BYj9VJHpvbDc9iHW7Zky3TWfljdgg8SONRP816NyNT33DubvX0X2yLYLeg%2FHydXi%2Fz7xQH%2F17IWFm5n7n0vQ%2Be%2B350jnJu2kM0TCsY5%2BWBsXO2RvsFdEBwuv%2FMpC87pBKDs8%2FLQ2RI8YMr1jvvsL1lRDIrLY04yrHPBLZ1NpiaygPlmOnCtZVXfUcXSBowcY4CqVWt%2FhWXjJDpQ%3D%3D',
-        displayName: 'Miles Wong',
-      },
-      {
-        avatar: 'https://storage.googleapis.com/likecoin-foundation.appspot.com/likecoin_store_user_mileswong_main?GoogleAccessId=firebase-adminsdk-eyzut@likecoin-foundation.iam.gserviceaccount.com&Expires=2430432000&Signature=v1Yc0vrIpSep%2Fc80erfTkuhOUIVPaQ%2Bq%2BufXtO1cE7%2FN6NoYGBh%2FXs6OYlFwFLF8VGpkxXB51sH5AyEn4vfeYJBD2zKWeHfJZsIn3whhRb1PEzgaPUMgKtliWM96z5tBKTm5N2D%2BYj9VJHpvbDc9iHW7Zky3TWfljdgg8SONRP816NyNT33DubvX0X2yLYLeg%2FHydXi%2Fz7xQH%2F17IWFm5n7n0vQ%2Be%2B350jnJu2kM0TCsY5%2BWBsXO2RvsFdEBwuv%2FMpC87pBKDs8%2FLQ2RI8YMr1jvvsL1lRDIrLY04yrHPBLZ1NpiaygPlmOnCtZVXfUcXSBowcY4CqVWt%2FhWXjJDpQ%3D%3D',
-        displayName: 'Miles Wong',
-      },
-      {
-        avatar: 'https://storage.googleapis.com/likecoin-foundation.appspot.com/likecoin_store_user_mileswong_main?GoogleAccessId=firebase-adminsdk-eyzut@likecoin-foundation.iam.gserviceaccount.com&Expires=2430432000&Signature=v1Yc0vrIpSep%2Fc80erfTkuhOUIVPaQ%2Bq%2BufXtO1cE7%2FN6NoYGBh%2FXs6OYlFwFLF8VGpkxXB51sH5AyEn4vfeYJBD2zKWeHfJZsIn3whhRb1PEzgaPUMgKtliWM96z5tBKTm5N2D%2BYj9VJHpvbDc9iHW7Zky3TWfljdgg8SONRP816NyNT33DubvX0X2yLYLeg%2FHydXi%2Fz7xQH%2F17IWFm5n7n0vQ%2Be%2B350jnJu2kM0TCsY5%2BWBsXO2RvsFdEBwuv%2FMpC87pBKDs8%2FLQ2RI8YMr1jvvsL1lRDIrLY04yrHPBLZ1NpiaygPlmOnCtZVXfUcXSBowcY4CqVWt%2FhWXjJDpQ%3D%3D',
-        displayName: 'Miles Wong',
-      },
-      {
-        avatar: 'https://storage.googleapis.com/likecoin-foundation.appspot.com/likecoin_store_user_mileswong_main?GoogleAccessId=firebase-adminsdk-eyzut@likecoin-foundation.iam.gserviceaccount.com&Expires=2430432000&Signature=v1Yc0vrIpSep%2Fc80erfTkuhOUIVPaQ%2Bq%2BufXtO1cE7%2FN6NoYGBh%2FXs6OYlFwFLF8VGpkxXB51sH5AyEn4vfeYJBD2zKWeHfJZsIn3whhRb1PEzgaPUMgKtliWM96z5tBKTm5N2D%2BYj9VJHpvbDc9iHW7Zky3TWfljdgg8SONRP816NyNT33DubvX0X2yLYLeg%2FHydXi%2Fz7xQH%2F17IWFm5n7n0vQ%2Be%2B350jnJu2kM0TCsY5%2BWBsXO2RvsFdEBwuv%2FMpC87pBKDs8%2FLQ2RI8YMr1jvvsL1lRDIrLY04yrHPBLZ1NpiaygPlmOnCtZVXfUcXSBowcY4CqVWt%2FhWXjJDpQ%3D%3D',
-        displayName: 'Miles Wong',
-      },
-      {
-        avatar: 'https://storage.googleapis.com/likecoin-foundation.appspot.com/likecoin_store_user_mileswong_main?GoogleAccessId=firebase-adminsdk-eyzut@likecoin-foundation.iam.gserviceaccount.com&Expires=2430432000&Signature=v1Yc0vrIpSep%2Fc80erfTkuhOUIVPaQ%2Bq%2BufXtO1cE7%2FN6NoYGBh%2FXs6OYlFwFLF8VGpkxXB51sH5AyEn4vfeYJBD2zKWeHfJZsIn3whhRb1PEzgaPUMgKtliWM96z5tBKTm5N2D%2BYj9VJHpvbDc9iHW7Zky3TWfljdgg8SONRP816NyNT33DubvX0X2yLYLeg%2FHydXi%2Fz7xQH%2F17IWFm5n7n0vQ%2Be%2B350jnJu2kM0TCsY5%2BWBsXO2RvsFdEBwuv%2FMpC87pBKDs8%2FLQ2RI8YMr1jvvsL1lRDIrLY04yrHPBLZ1NpiaygPlmOnCtZVXfUcXSBowcY4CqVWt%2FhWXjJDpQ%3D%3D',
-        displayName: 'Miles Wong',
-      },
-    ];
+  async asyncData({ params, query }) {
+    const [{ data: likees }, { data: totalData }] = await Promise.all([
+      apiGetLikeButtonLikerList(params.id, query.referrer),
+      apiGetLikeButtonTotalCount(params.id, query.referrer),
+    ]);
     return {
       isShowAll: likees.length <= 8,
-      numOfLikes: 177,
-      likees,
+      numOfLikes: totalData.total,
+      likees: likees.map(id => ({ id })),
     };
   },
   data() {
     return {
       isShowAll: false,
     };
+  },
+  computed: {
+    referrer() {
+      return this.$route.query.referrer;
+    },
+  },
+  mounted() {
+    this.fetchList();
+  },
+  methods: {
+    async fetchList() {
+      this.likees.forEach(async (r) => {
+        try {
+          const { data } = await apiGetUserMinById(r.id);
+          Vue.set(r, 'avatar', data.avatar);
+          Vue.set(r, 'displayName', data.displayName);
+        } catch (err) {
+          console.error(err);
+        }
+      });
+    },
   },
 };
 </script>
