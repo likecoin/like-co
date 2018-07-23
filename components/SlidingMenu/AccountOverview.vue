@@ -57,15 +57,17 @@ export default {
       'getUserIsReady',
       'getUserIsRegistered',
       'getUserInfo',
-      'getLikeCoinUsdPrice',
-      'getUserLikeCoinAmount',
+      'getLikeCoinUsdNumericPrice',
+      'getUserLikeCoinAmountInBigNumber',
     ]),
     likeCoinStrValue() {
-      return this.getUserLikeCoinAmount ? this.getUserLikeCoinAmount.toFixed(2) : '';
+      return this.getUserLikeCoinAmountInBigNumber ? this.getUserLikeCoinAmountInBigNumber.toFixed(2) : '';
     },
     usdStrValue() {
-      if (this.getLikeCoinUsdPrice && this.getUserLikeCoinAmount) {
-        return this.getUserLikeCoinAmount.times(this.getLikeCoinUsdPrice).toFixed(2);
+      if (this.getLikeCoinUsdNumericPrice && this.getUserLikeCoinAmountInBigNumber) {
+        return (
+          this.getUserLikeCoinAmountInBigNumber.times(this.getLikeCoinUsdNumericPrice).toFixed(2)
+        );
       }
       return null;
     },

@@ -19,4 +19,4 @@ export const getLocalWallet = state => state.wallet;
 
 export const getUserSocialPlatforms = state => state.platforms;
 
-export const getUserLikeCoinAmount = state => state.likeCoin;
+export const getUserLikeCoinAmountInBigNumber = state => state.likeCoinAmountInBigNumber;

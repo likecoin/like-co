@@ -203,7 +203,7 @@ export async function fetchAdvancedKYC({ commit, dispatch }, id) {
 export async function queryLikeCoinWalletBalance({ commit, state }) {
   try {
     const balance = await EthHelper.queryLikeCoinBalance(state.wallet);
-    commit(types.USER_SET_LIKECOIN_AMOUNT, new BigNumber(balance).dividedBy(ONE_LIKE));
+    commit(types.USER_SET_LIKECOIN_BIG_NUMBER_AMOUNT, new BigNumber(balance).dividedBy(ONE_LIKE));
   } catch (err) {
     console.error(err);
   }

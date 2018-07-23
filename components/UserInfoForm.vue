@@ -278,7 +278,7 @@ export default {
       'getUserIsReady',
       'getUserIsRegistered',
       'getMissionList',
-      'getUserLikeCoinAmount',
+      'getUserLikeCoinAmountInBigNumber',
     ]),
     getAmountHref() {
       return this.isEditing ? '' : QRYPTOS_LIKEETH_URL;
@@ -293,7 +293,7 @@ export default {
       return this.getMissionList.find(mission => mission.id === 'verifyEmail');
     },
     likeCoinValueStr() {
-      return (this.getUserLikeCoinAmount || 0).toFixed(4);
+      return (this.getUserLikeCoinAmountInBigNumber || 0).toFixed(4);
     },
   },
   watch: {

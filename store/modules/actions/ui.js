@@ -105,7 +105,7 @@ export async function setNotification({ commit, dispatch }, payload) {
 export async function queryLikeCoinUsdPrice({ commit, dispatch }) {
   try {
     const data = await apiWrapper({ commit, dispatch }, api.apiQueryLikeCoinFiatPrice());
-    commit(types.UI_SET_LIKECOIN_USD_PRICE, data.market_data.current_price.usd);
+    commit(types.UI_SET_LIKECOIN_USD_NUMERIC_PRICE, data.market_data.current_price.usd);
   } catch (err) {
     console.error(err);
   }

@@ -9,7 +9,7 @@ import {
   USER_AWAITING_AUTH,
   USER_SET_SOCIAL,
   USER_LINK_SOCIAL,
-  USER_SET_LIKECOIN_AMOUNT,
+  USER_SET_LIKECOIN_BIG_NUMBER_AMOUNT,
 } from '../mutation-types';
 import * as actions from './actions/user';
 import * as getters from './getters/user';
@@ -21,7 +21,7 @@ const state = {
   isAwaitingAuth: false,
   web3Fetching: true,
   platforms: {},
-  likeCoin: null,
+  likeCoinAmountInBigNumber: null,
 };
 
 const mutations = {
@@ -47,8 +47,8 @@ const mutations = {
     const { id, displayName, url } = payload;
     Vue.set(state.platforms, id, { displayName, url });
   },
-  [USER_SET_LIKECOIN_AMOUNT](state, payload) {
-    state.likeCoin = payload;
+  [USER_SET_LIKECOIN_BIG_NUMBER_AMOUNT](state, payload) {
+    state.likeCoinAmountInBigNumber = payload;
   },
 };
 
