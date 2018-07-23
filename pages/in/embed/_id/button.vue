@@ -174,7 +174,8 @@
 <script>
 import {
   apiPostLikeButton,
-  apiGetLikeButtonStatus,
+  apiGetLikeButtonMyStatus,
+  apiGetLikeButtonTotalCount,
 } from '@/util/api/api';
 
 import CloseButtonIcon from '~/assets/like-button/close-btn.svg';
@@ -226,8 +227,12 @@ export default {
   methods: {
     async updateUser() {
       try {
-        const { data } = await apiGetLikeButtonStatus(this.id, this.referrer);
-        const { liker, count, total } = data;
+        const [{ data: myData }, { data: totalData }] = await Promise.all([
+          apiGetLikeButtonMyStatus(this.id, this.referrer),
+          apiGetLikeButtonTotalCount(this.id, this.referrer),
+        ]);
+        const { liker, count } = myData;
+        const { total } = totalData;
         this.isLoggedIn = !!liker;
         this.totalLike = total;
         this.likeCount = count;
