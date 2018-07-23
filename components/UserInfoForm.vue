@@ -223,14 +223,11 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import BigNumber from 'bignumber.js';
 
-import EthHelper from '@/util/EthHelper';
 import User from '@/util/User';
 import { logTrackerEvent } from '@/util/EventLogger';
 
 import {
-  ONE_LIKE,
   W3C_EMAIL_REGEX,
   QRYPTOS_LIKEETH_URL,
 } from '@/constant';
@@ -268,7 +265,6 @@ export default {
       freeCoupon: '',
       isEditing: false,
       isVerifying: false,
-      likeCoinValueStr: '',
       user: '',
       wallet: '',
     };
@@ -276,13 +272,13 @@ export default {
   computed: {
     ...mapGetters([
       'getCurrentLocale',
-      'getIsInTransaction',
       'getIsPopupBlocking',
       'getUserInfo',
       'getUserSocialPlatforms',
       'getUserIsReady',
       'getUserIsRegistered',
       'getMissionList',
+      'getUserLikeCoinAmountInBigNumber',
     ]),
     getAmountHref() {
       return this.isEditing ? '' : QRYPTOS_LIKEETH_URL;
@@ -295,6 +291,9 @@ export default {
     },
     verifyEmailMission() {
       return this.getMissionList.find(mission => mission.id === 'verifyEmail');
+    },
+    likeCoinValueStr() {
+      return (this.getUserLikeCoinAmountInBigNumber || 0).toFixed(4);
     },
   },
   watch: {
@@ -319,6 +318,7 @@ export default {
       'sendVerifyEmail',
       'refreshUserInfo',
       'onMissionClick',
+      'queryLikeCoinWalletBalance',
     ]),
     openPicker() {
       this.isEditing = true;
@@ -400,14 +400,6 @@ export default {
       }
       return () => {};
     },
-    async updateLikeCoin() {
-      try {
-        const balance = await EthHelper.queryLikeCoinBalance(this.wallet);
-        this.likeCoinValueStr = new BigNumber(balance).dividedBy(ONE_LIKE).toFixed(4);
-      } catch (err) {
-        console.error(err);
-      }
-    },
     async updateInfo() {
       const user = this.getUserInfo;
       this.user = user.user;
@@ -416,7 +408,7 @@ export default {
       this.wallet = user.wallet;
       this.email = user.email;
       this.isEmailEnabled = (user.isEmailEnabled !== false);
-      this.updateLikeCoin();
+      this.queryLikeCoinWalletBalance();
     },
   },
 };
