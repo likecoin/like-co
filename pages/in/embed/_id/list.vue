@@ -87,18 +87,19 @@ export default {
       apiGetLikeButtonTotalCount(params.id, query.referrer),
     ];
     if (query.referrer) {
-      let url = query.referrer;
+      let url = encodeURI(query.referrer);
+      /* TEMP: reformat medium referrer into medium post */
       const mediumRegEx = '^(?:https?:\\/\\/)?medium\\.com\\/media\\/[a-zA-Z0-9_]+\\?postId=([a-zA-Z0-9_]+)';
       const match = query.referrer.match(mediumRegEx);
       if (match && match[1]) url = `https://medium.com/p/${match[1]}`;
-      promises.push(axios.get(url).catch(() => ''));
+      /* Try to get html to fetch title below */
+      promises.push(axios.get(url, { responseType: 'text', headers: { Accept: 'text/html' } }).catch(() => ''));
     }
-    const [{ data: likees }, { data: totalData }, { data: html }] = await Promise.all(promises);
+    const [{ data: likees }, { data: totalData }, { data: html } = {}] =
+      await Promise.all(promises);
     let title = '';
     if (html) {
-      let match = html.match('<title>(.*?)</title>');
-      if (match && match[1]) [, title] = match;
-      match = html.match('"title":"(.*?)"');
+      const match = html.match('<title>(.*?)</title>');
       if (match && match[1]) [, title] = match;
     }
     return {
