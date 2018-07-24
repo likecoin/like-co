@@ -5,7 +5,7 @@
       'likecoin-embed--button',
       `likecoin-embed--logged-${isLoggedIn ? 'in' : 'out'}`,
       {
-        'likecoin-embed--flipped': isShowBackside,
+        'likecoin-embed--flipped': shouldShowBackside,
       },
     ]"
   >
@@ -15,7 +15,7 @@
       mode="out-in"
     >
       <div
-        v-if="isShowBackside"
+        v-if="shouldShowBackside"
         key="back"
         class="likecoin-embed__badge likecoin-embed__badge--back"
       >
@@ -151,8 +151,9 @@
     <like-button
       :like-count="likeCount"
       :total-like="totalLike"
-      :is-super-like="isSuperLike"
+      :is-super-like="shouldShowBackside"
       @like="onClickLike"
+      @super-like="onClickSuperLike"
     />
 
     <footer>
@@ -209,7 +210,7 @@ export default {
       likeCount: 0,
       likeSent: 0,
       totalLike: 0,
-      shouldShowBackside: true,
+      shouldShowBackside: false,
     };
   },
   computed: {
@@ -218,9 +219,6 @@ export default {
     },
     isSuperLike() {
       return (this.likeCount >= 5);
-    },
-    isShowBackside() {
-      return this.isSuperLike && this.shouldShowBackside;
     },
   },
   mounted() {
@@ -250,6 +248,9 @@ export default {
         this.likeCount += 1;
       }
       debouncedOnClick(this);
+    },
+    onClickSuperLike(isSuperLike) {
+      this.shouldShowBackside = isSuperLike;
     },
     onClickCloseButton() {
       this.shouldShowBackside = false;

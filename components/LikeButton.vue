@@ -3,50 +3,63 @@
     :class="[
       'like-button',
       {
-        'like-button--super-like': isSuperLike,
+        'like-button--super-like': isLocalSuperLike,
+        'like-button--pressed': isPressingKnob,
       },
     ]"
   >
     <div>
 
       <div class="like-button-wrapper">
-        <button
-          class="like-button-knob"
-          @click="onClickKnob"
+
+        <div class="like-button-slide-track" />
+
+        <div
+          ref="knobWrapper"
+          class="like-button-knob-wrapper"
         >
-          <transition
-            v-for="i in 12"
-            :key="i"
-            name="like-button__clap-effect-"
+          <button
+            ref="button"
+            :style="{ marginLeft: `${knobProgress * 100}%` }"
+            class="like-button-knob"
+            @mousedown="onPressKnob"
+            @touchstart="onPressKnob"
+            @click="onClickKnob"
           >
-            <div
-              v-if="isShowClapEffect"
-              class="like-button__clap-effect"
+            <transition
+              v-for="i in 12"
+              :key="i"
+              name="like-button__clap-effect-"
             >
+              <div
+                v-if="isShowClapEffect"
+                class="like-button__clap-effect"
+              >
+                <simple-svg
+                  :filepath="ClapEffectIcon"
+                  fill="currentColor"
+                  stroke="transparent"
+                />
+              </div>
+            </transition>
+
+            <div class="like-button-knob__border" />
+            <div class="like-button-knob__content">
               <simple-svg
-                :filepath="ClapEffectIcon"
+                :filepath="LikeClapIcon"
                 fill="currentColor"
                 stroke="transparent"
               />
             </div>
-          </transition>
-
-          <div class="like-button-knob__border" />
-          <div class="like-button-knob__content">
-            <simple-svg
-              :filepath="LikeClapIcon"
-              fill="currentColor"
-              stroke="transparent"
-            />
-          </div>
-          <transition name="like-button__like-count-bubble-">
-            <div
-              v-if="isJustClickedKnob"
-              :key="likeCount"
-              class="like-button__like-count-bubble"
-            >+{{ likeCount }}</div>
-          </transition>
-        </button>
+            <transition name="like-button__like-count-bubble-">
+              <div
+                v-if="isJustClickedKnob"
+                :key="likeCount"
+                class="like-button__like-count-bubble"
+              >+{{ likeCount }}</div>
+            </transition>
+          </button>
+        </div>
 
         <div
           class="like-button-stats"
@@ -70,6 +83,8 @@
 </template>
 
 <script>
+import _throttle from 'lodash.throttle';
+
 import ClapEffectIcon from '~/assets/like-button/clap-effect.svg';
 import LikeClapIcon from '~/assets/like-button/like-clap.svg';
 import LikeTextIcon from '~/assets/like-button/like-text.svg';
@@ -98,6 +113,12 @@ export default {
 
       isJustClickedKnob: false,
       isShowClapEffect: false,
+      isPressingKnob: false,
+      hasMovedKnob: false,
+      lastClientX: 0,
+      clientX: 0,
+      clampedClientX: 0,
+      knobProgress: this.isSuperLike ? 1 : 0,
     };
   },
   computed: {
@@ -110,20 +131,81 @@ export default {
       }
       return `${totalLike.toLocaleString('en')}${suffix}`;
     },
+    isLocalSuperLike() {
+      return this.knobProgress === 1;
+    },
+  },
+  watch: {
+    isSuperLike(isSuperLike) {
+      this.knobProgress = isSuperLike ? 1 : 0;
+    },
+  },
+  mounted() {
+    document.addEventListener('mousemove', this.onMovingKnob);
+    document.addEventListener('touchmove', this.onMovingKnob);
+    document.addEventListener('mouseup', this.onReleaseKnob);
+    document.addEventListener('touchend', this.onReleaseKnob);
+    document.addEventListener('click', this.onReleaseKnob);
+  },
+  beforeDestroy() {
+    document.removeEventListener('mousemove', this.onMovingKnob);
+    document.removeEventListener('touchmove', this.onMovingKnob);
+    document.removeEventListener('mouseup', this.onReleaseKnob);
+    document.removeEventListener('touchend', this.onReleaseKnob);
+    document.removeEventListener('click', this.onReleaseKnob);
   },
   methods: {
+    setClientX(e) {
+      this.clientX = e.targetTouches ? e.targetTouches[0].clientX : e.clientX;
+    },
     onClickKnob(e) {
-      this.isJustClickedKnob = true;
+      if (this.hasMovedKnob) return;
+
+      if (!this.isLocalSuperLike) {
+        this.isJustClickedKnob = true;
+        setTimeout(() => {
+          this.isJustClickedKnob = false;
+        }, 500);
+
+        this.isShowClapEffect = true;
+        this.$nextTick(() => {
+          this.isShowClapEffect = false;
+        });
+
+        this.$emit('like', e);
+      }
+    },
+    // eslint-disable-next-line func-names
+    onMovingKnob: _throttle(function (e) {
+      if (!this.isPressingKnob) return;
+
+      this.setClientX(e);
+      const diff = this.clientX - this.lastClientX;
+      this.lastClientX = this.clientX;
+
+      const { clientWidth: slidableWidth } = this.$refs.knobWrapper;
+      this.clampedClientX = Math.min(Math.max(this.clampedClientX + diff, 0), slidableWidth);
+      this.knobProgress = this.clampedClientX / slidableWidth;
+
+      if (!this.hasMovedKnob && Math.abs(diff) / slidableWidth > 0.1) {
+        this.hasMovedKnob = true;
+      }
+    }, 60),
+    onPressKnob(e) {
+      this.setClientX(e);
+      this.lastClientX = this.clientX;
+      this.isPressingKnob = true;
+    },
+    onReleaseKnob() {
+      if (this.isPressingKnob) {
+        this.isPressingKnob = false;
+        this.knobProgress = this.knobProgress > 0.5 ? 1 : 0;
+        this.$emit('super-like', this.isLocalSuperLike);
+      }
+
       setTimeout(() => {
-        this.isJustClickedKnob = false;
-      }, 500);
-
-      this.isShowClapEffect = true;
-      this.$nextTick(() => {
-        this.isShowClapEffect = false;
-      });
-
-      this.$emit('like', e);
+        this.hasMovedKnob = false;
+      }, 6);
     },
   },
 };
@@ -132,6 +214,8 @@ export default {
 <style lang="scss" scoped>
 @import "~assets/embed";
 
+$like-button-slide-track-width: 108;
+$like-button-slide-track-height: 16;
 $like-button-size: 80;
 $like-button-ring-width: 3;
 
@@ -148,17 +232,49 @@ $like-button-like-count-size: 24;
     margin-right: normalized(90);
   }
 
+  &-slide-track {
+    position: relative;
+
+    width: normalized($like-button-slide-track-width);
+    padding: normalized(($like-button-size - $like-button-slide-track-height) / 2) normalized(8);
+
+    &::before {
+      display: block;
+
+      height: normalized($like-button-slide-track-height);
+
+      content: '';
+
+      border-radius: normalized($like-button-slide-track-height);
+      background-color: #E6E6E6;
+    }
+  }
+
   &-knob {
+    &-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      width: normalized(28); // Range for sliding
+    }
+
+    position: relative;
+
+    display: inline-block;
+
     box-sizing: border-box;
-    width: inherit;
-    height: inherit;
+    width: normalized($like-button-size);
+    height: normalized($like-button-size);
     padding: normalized($like-button-ring-width);
 
     cursor: pointer;
+    user-select: none;
+    -webkit-user-drag: none;
 
     transition-timing-function: ease;
     transition-duration: 0.2s;
-    transition-property: color, transform;
+    transition-property: margin-left, color, transform;
 
     color: $like-gray-5;
     border: none;
@@ -166,15 +282,13 @@ $like-button-like-count-size: 24;
 
     .like-button-wrapper:hover & {
       color: $like-green;
-
-      &:active {
-        transform: scale(0.95);
-
-        color: white;
-      }
     }
+    .like-button--pressed &,
     .like-button--super-like & {
       color: white !important;
+    }
+    .like-button--pressed & {
+      transform: scale(0.95);
     }
 
     // Border
@@ -198,11 +312,14 @@ $like-button-like-count-size: 24;
       .like-button-knob:hover & {
         box-shadow: normalized(2) normalized(4) normalized(6) 0 rgba(0, 0, 0, 0.25);
       }
-      .like-button-knob:hover &,
       .like-button--super-like & {
+        transform: scale(1.02);
+      }
+      .like-button-knob:hover &,
+      .like-button--pressed & {
         transform: scale(1.05);
       }
-      .like-button-knob:active &,
+      .like-button--pressed &,
       .like-button--super-like & {
         background: linear-gradient(47deg, #d2f0f0, #f0e6b4);
         box-shadow: 0 normalized(2) normalized(6) 0 rgba(0, 0, 0, 0.25);
@@ -221,7 +338,7 @@ $like-button-like-count-size: 24;
       border-radius: 50%;
       background-color: white;
 
-      .like-button-knob:active &,
+      .like-button--pressed &,
       .like-button--super-like & {
         background-color: $like-green;
       }
@@ -312,9 +429,9 @@ $like-button-like-count-size: 24;
   &-stats {
     position: absolute;
     top: calc(50% - #{normalized(13)});
-    left: normalized($like-button-size);
+    left: normalized($like-button-slide-track-width);
 
-    margin-left: normalized(20);
+    margin-left: normalized(12);
 
     cursor: pointer;
 
