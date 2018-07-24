@@ -18,3 +18,5 @@ export const getUserNeedRegister = state => (getUserIsReady(state) && !getUserIs
 export const getLocalWallet = state => state.wallet;
 
 export const getUserSocialPlatforms = state => state.platforms;
+
+export const getUserLikeCoinAmountInBigNumber = state => state.likeCoinAmountInBigNumber;

@@ -409,6 +409,23 @@ router.get('/users/id/:id/min', async (req, res, next) => {
   }
 });
 
+router.get('/users/merchant/:id/min', async (req, res, next) => {
+  try {
+    const merchantId = req.params.id;
+    const query = await dbRef.where('merchantId', '==', merchantId).get();
+    if (query.docs.length > 0) {
+      const payload = query.docs[0].data();
+      if (!payload.avatar) payload.avatar = toDataUrl(payload.wallet);
+      payload.user = query.docs[0].id;
+      res.json(Validate.filterUserDataMin(payload));
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.get('/users/addr/:addr', jwtAuth, async (req, res, next) => {
   try {
     const { addr } = req.params;

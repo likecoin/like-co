@@ -105,7 +105,7 @@ export default {
     align-items: center;
     justify-content: space-between;
 
-    padding: 48px 8px;
+    padding: 40px 8px;
 
     @media (max-width: 768px) {
       padding: 12px;
