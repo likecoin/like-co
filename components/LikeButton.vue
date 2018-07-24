@@ -12,7 +12,7 @@
       <div class="like-button-wrapper">
         <button
           class="like-button-knob"
-          @click="$emit('like')"
+          @click="onClickKnob"
         >
           <div class="like-button-knob__border" />
           <div class="like-button-knob__content">
@@ -22,6 +22,13 @@
               stroke="transparent"
             />
           </div>
+          <transition name="like-button__like-count-bubble-">
+            <div
+              v-if="isJustClickedKnob"
+              :key="likeCount"
+              class="like-button__like-count-bubble"
+            >+{{ likeCount }}</div>
+          </transition>
         </button>
 
         <div
@@ -52,6 +59,10 @@ import LikeTextIcon from '~/assets/like-button/like-text.svg';
 export default {
   name: 'like-button',
   props: {
+    likeCount: {
+      type: Number,
+      default: 0,
+    },
     totalLike: {
       type: Number,
       default: 0,
@@ -65,6 +76,8 @@ export default {
     return {
       LikeClapIcon,
       LikeTextIcon,
+
+      isJustClickedKnob: false,
     };
   },
   computed: {
@@ -78,6 +91,16 @@ export default {
       return `${totalLike.toLocaleString('en')}${suffix}`;
     },
   },
+  methods: {
+    onClickKnob(e) {
+      this.isJustClickedKnob = true;
+      setTimeout(() => {
+        this.isJustClickedKnob = false;
+      }, 500);
+
+      this.$emit('like', e);
+    },
+  },
 };
 </script>
 
@@ -86,6 +109,8 @@ export default {
 
 $like-button-size: 80;
 $like-button-ring-width: 3;
+
+$like-button-like-count-size: 24;
 
 .like-button {
   &-wrapper {
@@ -174,6 +199,47 @@ $like-button-ring-width: 3;
       .like-button-knob:active &,
       .like-button--super-like & {
         background-color: $like-green;
+      }
+    }
+  }
+
+  &__like-count-bubble {
+    position: absolute;
+    bottom: 100%;
+    left: normalized(($like-button-size - $like-button-like-count-size) / 2);
+
+    width: normalized($like-button-like-count-size);
+    height: normalized($like-button-like-count-size);
+    margin-bottom: normalized(16);
+    padding: normalized(4);
+
+    transition-property: opacity, transform;
+
+    color: white;
+    border-radius: 50%;
+    background-color: $like-green;
+
+    font-size: normalized(12);
+    line-height: normalized(16);
+
+    &-- {
+      &enter-active {
+        transition-timing-function: ease-out;
+        transition-duration: 0.15s;
+      }
+      &leave-active {
+        transition-timing-function: ease-in;
+        transition-duration: 0.35s;
+      }
+      &enter {
+        transform: scale(0) translateY(normalized(72));
+      }
+      &leave-to {
+        transform: translateY(normalized(-24));
+      }
+      &enter,
+      &leave-to {
+        opacity: 0;
       }
     }
   }

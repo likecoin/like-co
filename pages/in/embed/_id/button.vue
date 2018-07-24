@@ -149,6 +149,7 @@
     </transition>
 
     <like-button
+      :like-count="likeCount"
       :total-like="totalLike"
       :is-super-like="isSuperLike"
       @like="onClickLike"
