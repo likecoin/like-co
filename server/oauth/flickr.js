@@ -8,7 +8,7 @@ const OAuth = require('oauth-1.0a');
 const {
   FLICKR_APP_KEY,
   FLICKR_APP_SECRET,
-} = require('@ServerConfig/config.js'); // eslint-disable-line import/no-extraneous-dependencies
+} = require('../config/config.js'); // eslint-disable-line import/no-extraneous-dependencies
 
 const oauth = new OAuth({
   consumer: {

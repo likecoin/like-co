@@ -7,17 +7,20 @@
         refreshing: isRefreshing,
       },
     ]"
-    :style="{ color }">
+    :style="{ color }"
+  >
     <md-button
-      class="md-icon-button"
       :disabled="isRefreshing"
-      @click="$emit('click')">
+      class="md-icon-button"
+      @click="$emit('click')"
+    >
       <simple-svg
         :filepath="RefreshIcon"
+        :fill="color"
         width="32px"
         height="32px"
-        :fill="color"
-        stroke="transparent" />
+        stroke="transparent"
+      />
     </md-button>
   </div>
 </template>
@@ -54,21 +57,21 @@ export default {
 <style lang="scss" scoped>
 .lc-refresh-button {
   @keyframes rotation {
-    0% { transform: rotateZ(0deg) };
-    100% { transform: rotateZ(360deg) };
+    0% { transform: rotateZ(0deg) }
+    100% { transform: rotateZ(360deg) }
   }
 
   > * {
     animation-name: rotation;
     animation-duration: .5s;
+    animation-play-state: paused;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
-    animation-play-state: paused;
   }
 
   &.outline {
-    border-radius: 50%;
     border: solid 2px currentColor;
+    border-radius: 50%;
   }
 
   &.refreshing {

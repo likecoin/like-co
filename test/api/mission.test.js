@@ -8,7 +8,7 @@ import {
 const jwt = require('jsonwebtoken');
 const axiosist = require('axiosist');
 
-const app = require('../../build/main.js'); // eslint-disable-line import/no-unresolved
+const app = require('../../server/index.js'); // eslint-disable-line import/no-unresolved
 
 test('MISSION: Get mission list', async (t) => {
   const user = testingUser1;

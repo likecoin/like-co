@@ -8,7 +8,8 @@
         loading: isLoading,
         swippable: isSwippable,
       },
-    ]">
+    ]"
+  >
     <div>
 
       <header v-if="!isSwippable">
@@ -25,66 +26,98 @@
             'overflow-right': canScrollRight,
             'lc-mobile-hide': isSwippable,
           },
-        ]">
-        <ul ref="list" @scroll="onLayout">
-
+        ]"
+      >
+        <ul
+          v-if="isEmptyList && !isLoading"
+          ref="list"
+          @scroll="onLayout"
+        >
           <li
-            v-if="isEmptyList && !isLoading"
-            class="item-placeholder empty">
-            <mission-item-placeholder :layout="layout" :animated="false" />
+            class="item-placeholder empty"
+          >
+            <mission-item-placeholder
+              :layout="layout"
+              :animated="false"
+            />
             <span>{{ emptyPlaceholder }}</span>
           </li>
+        </ul>
 
+        <ul
+          v-else-if="isLoading"
+          ref="list"
+          @scroll="onLayout"
+        >
           <li
-            v-else-if="isLoading"
             v-for="p in NUM_PLACEHOLDERS"
+            :key="`placeholder-${p}`"
             class="item-placeholder"
-            :key="`placeholder-${p}`">
-            <mission-item-placeholder :layout="layout"/>
+          >
+            <mission-item-placeholder :layout="layout" />
           </li>
+        </ul>
 
-          <li v-for="m in missions" v-if="!isLoading" :key="m.id">
+        <ul
+          v-if="!isLoading"
+          ref="list"
+          @scroll="onLayout"
+        >
+          <li
+            v-for="m in missions"
+            :key="m.id"
+          >
             <mission-item
               :layout="layout"
               :mission="m"
               :is-referral="isReferral"
-              @click="onClick(m)" />
+              @click="onClick(m)"
+            />
           </li>
-
         </ul>
       </div>
 
       <swiper
         v-if="isSwippable"
-        class="lc-mobile-show"
         :is-loading="isLoading"
-        :is-show-pagination="this.missions.length > 1"
-        @click="onClickSlide">
-
-        <div
-          v-for="p in NUM_PLACEHOLDERS"
-          v-if="isLoading"
-          :key="`placeholder-${p}`"
-          class="swiper-slide">
-          <mission-item-placeholder layout="large" />
-        </div>
-
-        <div v-if="isEmptyList && !isLoading" class="swiper-slide">
-          <div class="item-placeholder empty">
-            <mission-item-placeholder layout="large" :animated="false" />
-            <span>{{ emptyPlaceholder }}</span>
+        :is-show-pagination="missions.length > 1"
+        class="lc-mobile-show"
+        @click="onClickSlide"
+      >
+        <div v-if="isLoading">
+          <div
+            v-for="p in NUM_PLACEHOLDERS"
+            :key="`placeholder-${p}`"
+            class="swiper-slide"
+          >
+            <mission-item-placeholder layout="large" />
           </div>
         </div>
 
         <div
-          v-if="!isLoading"
-          v-for="m in missions"
-          :key="m.id"
-          class="swiper-slide">
-          <mission-item
-            layout="large"
-            :mission="m"
-            :is-referral="isReferral" />
+          v-if="isEmptyList && !isLoading"
+          class="swiper-slide"
+        >
+          <div class="item-placeholder empty">
+            <mission-item-placeholder
+              :animated="false"
+              layout="large"
+            />
+            <span>{{ emptyPlaceholder }}</span>
+          </div>
+        </div>
+        <div v-if="!isLoading">
+          <div
+            v-for="m in missions"
+            :key="m.id"
+            class="swiper-slide"
+          >
+            <mission-item
+              :mission="m"
+              :is-referral="isReferral"
+              layout="large"
+            />
+          </div>
         </div>
 
       </swiper>
@@ -103,6 +136,11 @@ import Swiper from './Swiper';
 
 export default {
   name: 'mission-list',
+  components: {
+    MissionItem,
+    MissionItemPlaceholder,
+    Swiper,
+  },
   props: {
     layout: {
       type: String,
@@ -133,6 +171,7 @@ export default {
     },
     swipperId: {
       type: String,
+      default: undefined,
     },
     isReferral: {
       type: Boolean,
@@ -142,11 +181,6 @@ export default {
       type: String,
       default: '',
     },
-  },
-  components: {
-    MissionItem,
-    MissionItemPlaceholder,
-    Swiper,
   },
   data() {
     return {
@@ -162,6 +196,27 @@ export default {
     isEmptyList() {
       return this.missions.length <= 0;
     },
+  },
+  watch: {
+    missions() {
+      this.$nextTick(() => this.updateScrollIndicator());
+    },
+    isLoading() {
+      this.$nextTick(() => {
+        this.$refs.list.scrollLeft = 0;
+        this.updateScrollIndicator();
+      });
+    },
+  },
+  mounted() {
+    if (this.shouldShowScrollIndicator) {
+      window.addEventListener('resize', this.onLayout);
+    }
+  },
+  beforeDestroy() {
+    if (this.shouldShowScrollIndicator) {
+      window.removeEventListener('resize', this.onLayout);
+    }
   },
   methods: {
     updateScrollIndicator() {
@@ -194,27 +249,6 @@ export default {
       }
     },
     onLayout: _throttle(function () { this.updateScrollIndicator(); }, 20),
-  },
-  watch: {
-    missions() {
-      this.$nextTick(() => this.updateScrollIndicator());
-    },
-    isLoading() {
-      this.$nextTick(() => {
-        this.$refs.list.scrollLeft = 0;
-        this.updateScrollIndicator();
-      });
-    },
-  },
-  mounted() {
-    if (this.shouldShowScrollIndicator) {
-      window.addEventListener('resize', this.onLayout);
-    }
-  },
-  beforeDestroy() {
-    if (this.shouldShowScrollIndicator) {
-      window.removeEventListener('resize', this.onLayout);
-    }
   },
 };
 </script>

@@ -2,7 +2,7 @@ import test from 'ava';
 import { url } from './data';
 
 const axiosist = require('axiosist');
-const app = require('../../build/main.js'); // eslint-disable-line import/no-unresolved
+const app = require('../../server/index.js'); // eslint-disable-line import/no-unresolved
 
 test('IAP: Get iap product list', async (t) => {
   const res = await axiosist(app).get(`${url}/api/iap/list`)

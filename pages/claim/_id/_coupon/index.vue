@@ -22,7 +22,11 @@
               <span v-else>
                 {{ $t('Verify.label.verifying') }}
               </span>
-              <claim-dialog ref="claimDialog" :couponCode="couponCode" :wallet="wallet" />
+              <claim-dialog
+                ref="claimDialog"
+                :couponCode="couponCode"
+                :wallet="wallet"
+              />
             </div>
           </div>
         </div>
@@ -36,16 +40,16 @@ import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import { mapActions } from 'vuex';
 
 export default {
-  name: 'ClaimCoupon',
+  name: 'claim-coupon',
+  components: {
+    ClaimDialog,
+  },
   data() {
     return {
       errorMsg: '',
       isVerified: false,
       wallet: '',
     };
-  },
-  components: {
-    ClaimDialog,
   },
   computed: {
     user() {
@@ -54,6 +58,9 @@ export default {
     couponCode() {
       return this.$route.params.coupon;
     },
+  },
+  mounted() {
+    this.claimCoupon();
   },
   methods: {
     ...mapActions([
@@ -82,9 +89,6 @@ export default {
         setTimeout(() => this.$router.push({ name: 'index' }), 3000);
       }
     },
-  },
-  mounted() {
-    this.claimCoupon();
   },
 };
 </script>

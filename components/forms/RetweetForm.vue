@@ -25,14 +25,19 @@
           },
         ]"
         :disabled="currentStep === 1 && !username"
-        @click="onClickButton">
-        <md-icon v-if="currentStep === 0" :md-src="TwitterIcon" />
+        @click="onClickButton"
+      >
+        <md-icon
+          v-if="currentStep === 0"
+          :md-src="TwitterIcon"
+        />
         {{ buttonText }}
       </md-button>
-      <br/>
+      <br>
       <md-button
         class="md-likecoin lc-cancel"
-        @click="$emit('cancel')">
+        @click="$emit('cancel')"
+      >
         {{ $t('General.button.cancel') }}
       </md-button>
     </div>
@@ -49,6 +54,9 @@ import CopyTextField from '@/components/CopyTextField';
 
 export default {
   name: 'retweet-form',
+  components: {
+    CopyTextField,
+  },
   props: {
     step: {
       type: Number,
@@ -58,9 +66,6 @@ export default {
       type: String,
       required: true,
     },
-  },
-  components: {
-    CopyTextField,
   },
   data() {
     return {

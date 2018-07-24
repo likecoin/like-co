@@ -2,22 +2,31 @@
   <div class="invitee-mission-grid-list">
 
     <ul class="lc-mobile-hide">
-      <li v-for="i in invitees" :key="i.id">
+      <li
+        v-for="i in invitees"
+        :key="i.id"
+      >
         <invitee-list
           :missions="i.missions"
           :username="i.id"
           :avatar="i.avatar"
           :isNew="!i.seen"
-          @click="onClick" />
+          @click="onClick"
+        />
       </li>
     </ul>
 
     <swiper
-      class="lc-mobile-show"
       :swiper-id="swiperId"
       :is-show-pagination="invitees && invitees.length > 1"
-      @slideChange="onSlideChange">
-      <div class="swiper-slide" v-for="i in invitees" :key="i.id">
+      class="lc-mobile-show"
+      @slideChange="onSlideChange"
+    >
+      <div
+        v-for="i in invitees"
+        :key="i.id"
+        class="swiper-slide"
+      >
         <div class="lc-container-3">
           <div class="lc-container-4">
             <invitee-list
@@ -25,7 +34,8 @@
               :username="i.id"
               :avatar="i.avatar"
               :isNew="!i.seen"
-              @click="onClick" />
+              @click="onClick"
+            />
           </div>
         </div>
       </div>
@@ -41,6 +51,10 @@ import Swiper from './Swiper';
 
 export default {
   name: 'invitee-mission-grid-list',
+  components: {
+    InviteeList,
+    Swiper,
+  },
   props: {
     invitees: {
       type: Array,
@@ -48,11 +62,8 @@ export default {
     },
     swiperId: {
       type: String,
+      default: undefined,
     },
-  },
-  components: {
-    InviteeList,
-    Swiper,
   },
   methods: {
     onClick({ mission, referralId }) {

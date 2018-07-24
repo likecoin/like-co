@@ -8,6 +8,7 @@ import {
   testingUser2,
   testingEmail2,
   testingWallet2,
+  testingMerchantId1,
   invalidWallet,
   testingWallet3,
   privateKey1,
@@ -19,7 +20,7 @@ const Web3 = require('web3');
 const axiosist = require('axiosist');
 const jwt = require('jsonwebtoken');
 
-const app = require('../../build/main.js'); // eslint-disable-line import/no-unresolved
+const app = require('../../server/index.js'); // eslint-disable-line import/no-unresolved
 
 //
 // functions
@@ -266,6 +267,18 @@ test('USER: Get user by id min', async (t) => {
   t.is(res.status, 200);
   t.is(res.data.wallet, testingWallet1);
   t.not(res.data.email, testingEmail1);
+});
+
+test('USER: Get user by merchant id min', async (t) => {
+  const merchantId = testingMerchantId1;
+  const res = await axiosist(app)
+    .get(`${url}/api/users/merchant/${merchantId}/min`)
+    .catch((err) => {
+      console.log('HHHHHHH', err.response);
+    });
+
+  t.is(res.status, 200);
+  t.is(res.data.wallet, testingWallet1);
 });
 
 test('USER: Get user by address', async (t) => {

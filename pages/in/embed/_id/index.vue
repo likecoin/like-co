@@ -7,7 +7,7 @@
         <div class="user-info">
           <div class="user-info__avatar">
             <div>
-              <img :src="avatar" />
+              <img :src="avatar">
             </div>
           </div>
 
@@ -37,8 +37,8 @@
         <div class="embed-superlike">
           <md-button
             id="embed-superlike__button"
-            class="md-likecoin"
             :href="getUserPath"
+            class="md-likecoin"
             target="_blank"
           >
             {{ $t('Embed.button.sendLike') }}
@@ -48,10 +48,10 @@
     </div>
 
     <social-media-connect
-      class="social-media-connect"
       :username="id"
       :platforms="platforms"
       :limit="5"
+      class="social-media-connect"
     />
 
     <div class="powered-by-message">

@@ -4,7 +4,7 @@ import { ValidationError } from '../../util/ValidationHelper';
 const {
   FACEBOOK_APP_ID,
   FACEBOOK_APP_SECRET,
-} = require('@ServerConfig/config.js'); // eslint-disable-line import/no-extraneous-dependencies
+} = require('../config/config.js'); // eslint-disable-line import/no-extraneous-dependencies
 
 export async function fetchFacebookUser(accessToken) {
   if (!FACEBOOK_APP_ID || !FACEBOOK_APP_SECRET) throw new ValidationError('facebook app not configured');

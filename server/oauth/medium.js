@@ -7,7 +7,7 @@ const querystring = require('querystring');
 const {
   MEDIUM_APP_ID,
   MEDIUM_APP_SECRET,
-} = require('@ServerConfig/config.js'); // eslint-disable-line import/no-extraneous-dependencies
+} = require('../config/config.js'); // eslint-disable-line import/no-extraneous-dependencies
 
 const CALLBACK_URI = `https://${EXTERNAL_HOSTNAME}/in/oauth/medium`;
 const SCOPE = 'basicProfile';

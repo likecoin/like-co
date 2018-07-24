@@ -1,5 +1,8 @@
 <template>
-  <div :class="['task-item', state]" @click="onClick">
+  <div
+    :class="['task-item', state]"
+    @click="onClick"
+  >
     <div>
       <h1 class="title-label">{{ title }}</h1>
     </div>
@@ -13,8 +16,10 @@ export default {
   props: {
     title: {
       type: String,
+      default: '',
     },
     state: {
+      type: String,
       validator(value) {
         return value === 'active' || value === 'completed';
       },
@@ -73,6 +78,7 @@ export default {
 
     &::before {
       mask: url('~/assets/mission/misc/active-small.svg');
+
       background-color: $like-green;
     }
   }
@@ -82,6 +88,7 @@ export default {
 
     &::before {
       mask: url('~/assets/mission/misc/completed-small.svg');
+
       background-color: $like-green-2;
     }
   }

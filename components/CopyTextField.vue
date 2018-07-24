@@ -5,10 +5,12 @@
       ref="inputText"
       :value="text"
       readonly
-      @click.native="onClickInput" />
+      @click.native="onClickInput"
+    />
     <md-button
       v-clipboard:copy="text"
-      v-clipboard:success="onCopy">
+      v-clipboard:success="onCopy"
+    >
       {{ $t(`General.button.${hasCopiedURL ? 'copied' : 'copy'}`) }}
     </md-button>
   </md-field>
@@ -55,14 +57,14 @@ export default {
   }
 
   input {
+    text-overflow: ellipsis;
+
     color: $like-green;
 
     font-size: 18px;
     font-weight: 600;
 
     -webkit-text-fill-color: $like-green;
-
-    text-overflow: ellipsis;
   }
 
   .md-button {

@@ -1,11 +1,15 @@
 <template>
   <div class="task-list">
     <ul>
-      <li v-for="t in tasks" :key="t.id">
+      <li
+        v-for="t in tasks"
+        :key="t.id"
+      >
         <task-item
           :title="t.title"
           :state="t.state"
-          @click="onClick(t)" />
+          @click="onClick(t)"
+        />
       </li>
     </ul>
   </div>
@@ -17,6 +21,9 @@ import TaskItem from './TaskItem';
 
 export default {
   name: 'task-list',
+  components: {
+    TaskItem,
+  },
   props: {
     tasks: {
       type: Array,
@@ -24,9 +31,6 @@ export default {
         return [];
       },
     },
-  },
-  components: {
-    TaskItem,
   },
   methods: {
     onClick(t) {
@@ -44,10 +48,10 @@ export default {
   margin: 24px 0;
 
   ul {
-    margin: -4px 0;
-
     display: flex;
     flex-direction: column;
+
+    margin: -4px 0;
 
     list-style: none;
 

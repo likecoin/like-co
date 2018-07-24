@@ -3,10 +3,22 @@
     <div class="lc-container-2">
       <div class="lc-container-3 lc-bg-gray-1 icon-wrapper">
         <div class="icon">
-          <nuxt-link v-if="toId" :to="{ name: 'id', params: { id: toId } }">
-            <img alt="avatar" class="main-icon" :src="icon" />
+          <nuxt-link
+            v-if="toId"
+            :to="{ name: 'id', params: { id: toId } }"
+          >
+            <img
+              :src="icon"
+              alt="avatar"
+              class="main-icon"
+            >
           </nuxt-link>
-          <img v-else alt="likecoin" class="main-icon" :src="likeCoinIcon" />
+          <img
+            v-else
+            :src="likeCoinIcon"
+            alt="likecoin"
+            class="main-icon"
+          >
         </div>
       </div>
     </div>
@@ -16,18 +28,25 @@
       <div class="lc-container-3">
         <div class="heading lc-font-size-42 lc-padding-top-32 lc-padding-bottom-24 lc-mobile">
           <section
+            v-if="!isNotFound"
             class="transaction-state"
-            v-if="!isNotFound">
+          >
             <div class="send-state">
               {{
                 isPending ? $t('Transaction.header.label.sending')
                 : $t('Transaction.header.label.sent')
               }}
             </div>
-            <div v-if="amount" class="amount lc-font-weight-300">
+            <div
+              v-if="amount"
+              class="amount lc-font-weight-300"
+            >
               {{ $t(`Transaction.header.label.${isEth ? 'eth' : 'likecoin'}Amount`, { amount }) }}
             </div>
-            <div v-if="name" class="user-section">
+            <div
+              v-if="name"
+              class="user-section"
+            >
               {{ $t('Transaction.header.label.to') }}
               <span class="lc-font-weight-600">
                 {{ name }}
@@ -35,7 +54,10 @@
             </div>
             <div v-else />
           </section>
-          <h1 v-else class="error">
+          <h1
+            v-else
+            class="error"
+          >
             <md-icon class="md-size-2x">error</md-icon>
             {{ $t('Transaction.header.label.notFound') }}
           </h1>
@@ -46,7 +68,10 @@
     <div class="lc-container-2">
       <div class="lc-container-3 lc-bg-gray-1 icon-wrapper">
 
-        <section v-if="!isNotFound" class="transaction-container lc-padding-vertical-48 lc-mobile">
+        <section
+          v-if="!isNotFound"
+          class="transaction-container lc-padding-vertical-48 lc-mobile"
+        >
           <div v-if="failReason === 2">
             <h1 class="failed">
               <md-icon class="status-icon error-icon">
@@ -74,7 +99,10 @@
           </div>
           <div v-else>
             <h1 class="success lc-margin-bottom-12">
-              <img class="status-icon" :src="TickIcon" />
+              <img
+                :src="TickIcon"
+                class="status-icon"
+              >
               {{ $t('Transaction.header.label.completed') }}
             </h1>
             <div class="lc-font-size-20">
@@ -95,7 +123,44 @@ import TickIcon from '@/assets/tokensale/tick.svg';
 export default {
   name: 'transaction-header',
   /* failReason : 0 = none, 1 = failed, 2 = timeout */
-  props: ['icon', 'toId', 'toName', 'toAddress', 'timestamp', 'amount', 'isNotFound', 'isEth', 'failReason'],
+  props: {
+    icon: {
+      type: String,
+      default: '',
+    },
+    toId: {
+      type: String,
+      default: '',
+    },
+    toName: {
+      type: String,
+      default: '',
+    },
+    toAddress: {
+      type: String,
+      default: '',
+    },
+    timestamp: {
+      type: Number,
+      default: 0,
+    },
+    amount: {
+      type: Number,
+      default: 0,
+    },
+    isNotFound: {
+      type: Boolean,
+      default: false,
+    },
+    isEth: {
+      type: Boolean,
+      default: false,
+    },
+    failReason: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
       defaultText: 'Redeem your free LikeCoin',
@@ -131,6 +196,7 @@ $status-icon-size: 32px;
     justify-content: center;
 
     .icon {
+
       position: relative;
       z-index: 1;
 

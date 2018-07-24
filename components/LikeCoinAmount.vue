@@ -11,15 +11,19 @@
           {
             'text-opaque': isOpaque,
           },
-        ]">
-        {{ value || defaultValue }}
+        ]"
+      >
+        {{ value }}
       </div>
     </div>
 
-    <div v-if="linkHref && linkText" class="links">
+    <div
+      v-if="linkHref && linkText"
+      class="links"
+    >
       <md-button
-        class="link what md-likecoin lc-text-align-center"
         :href="linkHref"
+        class="link what md-likecoin lc-text-align-center"
         rel="noopener noreferrer"
         target="_blank"
       >
@@ -27,7 +31,11 @@
       </md-button>
     </div>
 
-    <div v-else-if="linkText" class="links" @click="onClick">
+    <div
+      v-else-if="linkText"
+      class="links"
+      @click="onClick"
+    >
       <material-button class="link what">
         <span> {{ linkText }} </span>
       </material-button>
@@ -40,11 +48,27 @@
 <script>
 export default {
   name: 'like-coin-amount',
-  props: ['value', 'isOpaque', 'linkHref', 'linkText', 'amountText'],
-  data() {
-    return {
-      defaultValue: '0.0000',
-    };
+  props: {
+    value: {
+      type: String,
+      default: '0.0000',
+    },
+    isOpaque: {
+      type: Boolean,
+      default: false,
+    },
+    linkHref: {
+      type: String,
+      default: '',
+    },
+    linkText: {
+      type: String,
+      default: '',
+    },
+    amountText: {
+      type: String,
+      default: '',
+    },
   },
   methods: {
     onClick() {

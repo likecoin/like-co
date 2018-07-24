@@ -54,3 +54,5 @@ export const getIsSlidingMenuOpen = state => state.isSlidingMenuOpen;
 
 export const getIsShowingPromptNotificationDialog = state =>
   state.isShowingPromptNotificationDialog;
+
+export const getLikeCoinUsdNumericPrice = state => state.likeCoinUsdNumericPrice;

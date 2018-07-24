@@ -5,7 +5,10 @@ import * as types from '@/store/mutation-types';
 import EthHelper from '@/util/EthHelper';
 import apiWrapper from './api-wrapper';
 
-export async function sendPayment({ commit, dispatch }, payload) {
+export async function sendPayment(
+  { commit, dispatch },
+  { isWait = true, ...payload },
+) {
   try {
     const { txHash } = await apiWrapper(
       { commit, dispatch },
@@ -16,7 +19,7 @@ export async function sendPayment({ commit, dispatch }, payload) {
     commit(types.PAYMENT_SET_PENDING_HASH, txHash);
     const { from, to, value } = payload;
     commit(types.PAYMENT_SET_PENDING_TX_INFO, { from, to, value });
-    await EthHelper.waitForTxToBeMined(txHash);
+    if (isWait) await EthHelper.waitForTxToBeMined(txHash);
     commit(types.UI_STOP_LOADING_TX);
     return txHash;
   } catch (error) {

@@ -6,70 +6,85 @@
       mdCloseOnEsc: false,
       mdFullscreen: isFullscreen,
     }"
-    class="with-icon">
+    class="with-icon"
+  >
 
-      <!-- START - Header Section -->
-      <div slot="header-center" class="lc-section-header-icon lc-dialog-icon">
-        <img :src="TrustIcon" />
-      </div>
-      <template slot="header-right">
-        <language-switch color="white" />
-      </template>
-      <!-- END - Header Section -->
+    <!-- START - Header Section -->
+    <div
+      slot="header-center"
+      class="lc-section-header-icon lc-dialog-icon"
+    >
+      <img :src="TrustIcon">
+    </div>
+    <template slot="header-right">
+      <language-switch color="white" />
+    </template>
+    <!-- END - Header Section -->
 
 
-      <div class="lc-dialog-container-1">
-        <div class="trust-dialog-content lc-color-like-gray-4">
+    <div class="lc-dialog-container-1">
+      <div class="trust-dialog-content lc-color-like-gray-4">
 
-          <h1 v-if="title" class="title-label lc-font-size-32 lc-font-weight-300 lc-mobile">
-            {{ title }}
-          </h1>
+        <h1
+          v-if="title"
+          class="title-label lc-font-size-32 lc-font-weight-300 lc-mobile"
+        >
+          {{ title }}
+        </h1>
 
-          <div
-            v-if="description"
-            class="description lc-margin-vertical-12 lc-mobile"
-            v-html="description" />
+        <div
+          v-if="description"
+          class="description lc-margin-vertical-12 lc-mobile"
+          v-html="description"
+        />
 
-          <figure v-if="image">
-            <img :src="image" />
-            <figcaption
-              class="lc-color-like-green lc-padding-top-16"
-              v-if="imageCaption"
-              v-html="imageCaption" />
-          </figure>
+        <figure v-if="image">
+          <img :src="image">
+          <figcaption
+            v-if="imageCaption"
+            class="lc-color-like-green lc-padding-top-16"
+            v-html="imageCaption"
+          />
+        </figure>
 
-          <div v-if="!isTrust" class="open-trust-container">
-            <div class="link-wrapper lc-margin-top-24 lc-margin-bottom-12 lc-mobile">
-              <p
-                class="lc-font-size-16 lc-mobile"
-                v-html="$t('Dialog.trust.label.useTrustBrowser')" />
-              <span class="lc-font-size-12">
-                ({{ $t(`Dialog.trust.label.${isCopied ? 'copied' : 'clickToCopy'}`) }})
-              </span>
-              <br>
-              <img
-                class="lc-margin-top-12"
-                :src="InLinkIcon"
-                v-clipboard:copy="COPY_URL"
-                v-clipboard:success="handleClipboardCopySucceed" />
-            </div>
+        <div
+          v-if="!isTrust"
+          class="open-trust-container"
+        >
+          <div class="link-wrapper lc-margin-top-24 lc-margin-bottom-12 lc-mobile">
+            <p
+              class="lc-font-size-16 lc-mobile"
+              v-html="$t('Dialog.trust.label.useTrustBrowser')"
+            />
+            <span class="lc-font-size-12">
+              ({{ $t(`Dialog.trust.label.${isCopied ? 'copied' : 'clickToCopy'}`) }})
+            </span>
+            <br>
+            <img
+              v-clipboard:copy="COPY_URL"
+              v-clipboard:success="handleClipboardCopySucceed"
+              :src="InLinkIcon"
+              class="lc-margin-top-12"
+            >
+          </div>
 
-            <div class="lc-button-group">
-              <md-button
-                v-if="buttonText"
-                class="md-likecoin trust"
-                @click="openTrust">
-                {{ buttonText }}
-              </md-button>
-              <div class="lc-font-size-12 lc-margin-top-12">
-                <a :href="getHelpLink">
-                  {{ $t('Dialog.trust.label.help') }}
-                </a>
-              </div>
+          <div class="lc-button-group">
+            <md-button
+              v-if="buttonText"
+              class="md-likecoin trust"
+              @click="openTrust"
+            >
+              {{ buttonText }}
+            </md-button>
+            <div class="lc-font-size-12 lc-margin-top-12">
+              <a :href="getHelpLink">
+                {{ $t('Dialog.trust.label.help') }}
+              </a>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
   </base-dialog>
 </template>
@@ -89,12 +104,21 @@ import BaseDialog from './BaseDialog';
 // const URL = require('url-parse');
 
 export default {
-  name: 'TrustDialog',
-  props: ['case', 'webThreeType'],
+  name: 'trust-dialog',
   components: {
     BaseDialog,
     LanguageSwitch,
     MaterialButton,
+  },
+  props: {
+    case: {
+      type: String,
+      default: '',
+    },
+    webThreeType: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -168,6 +192,25 @@ export default {
       return this.$t('Dialog.trust.label.registerMobileLink');
     },
   },
+  watch: {
+    case(c) {
+      if (c && c !== 'sign') {
+        this.$refs.base.show();
+      } else {
+        this.$refs.base.hide();
+      }
+    },
+  },
+  mounted() {
+    if (this.case && this.isNotSign) {
+      this.$nextTick(() => {
+        this.$refs.base.show();
+        this.tryTrustInstalled();
+      });
+    } else {
+      this.$nextTick(() => this.$refs.base.hide());
+    }
+  },
   methods: {
     handleClipboardCopySucceed() {
       this.isCopied = true;
@@ -197,25 +240,6 @@ export default {
       // }
     },
   },
-  mounted() {
-    if (this.case && this.isNotSign) {
-      this.$nextTick(() => {
-        this.$refs.base.show();
-        this.tryTrustInstalled();
-      });
-    } else {
-      this.$nextTick(() => this.$refs.base.hide());
-    }
-  },
-  watch: {
-    case(c) {
-      if (c && c !== 'sign') {
-        this.$refs.base.show();
-      } else {
-        this.$refs.base.hide();
-      }
-    },
-  },
 };
 </script>
 
@@ -231,8 +255,8 @@ export default {
 
 .trust-dialog-content {
   @media (min-width: #{600px + 1px}) {
-    padding-left: 16px;
     padding-right: 16px;
+    padding-left: 16px;
   }
 
   .title-label {

@@ -23,9 +23,9 @@
                 <h1
                   class="lc-font-size-42 lc-font-weight-300 lc-mobile"
                   v-html="$t('Transaction.label.sendTo',
-                    { title: displayName, coin: isEth ? 'ETH' : 'LikeCoin' }
-                    )"
-                  />
+                             { title: displayName, coin: isEth ? 'ETH' : 'LikeCoin' }
+                  )"
+                />
               </section>
 
             </div>
@@ -35,16 +35,19 @@
         <div class="lc-container-2">
           <div class="lc-container-3 lc-bg-gray-1">
             <div class="lc-container-4 lc-padding-vertical-32">
-
               <social-media-connect
-                class="lc-margin-bottom-16"
-                type="readonly"
                 :username="id"
                 :platforms="platforms"
+                class="lc-margin-bottom-16"
+                type="readonly"
                 center
               />
 
-              <section v-if="id" class="address-container">
+              <section
+                v-if="id"
+                class="address-container"
+              >
+
                 <div class="address-title">
                   {{ $t('Transaction.label.recipientId') }}
                 </div>
@@ -52,7 +55,10 @@
                   {{ id }}
                 </div>
               </section>
-              <section v-if="wallet" class="address-container">
+              <section
+                v-if="wallet"
+                class="address-container"
+              >
                 <div class="address-title">
                   {{ $t('Transaction.label.recipientAddress') }}
                 </div>
@@ -74,15 +80,23 @@
           <div class="lc-container-3 lc-bg-gray-1">
             <div class="lc-container-4 lc-padding-top-24 lc-padding-bottom-32">
 
-              <form id="paymentInfo" v-on:submit.prevent="onSubmit">
-                <input v-model="wallet" hidden required disabled />
+              <form
+                id="paymentInfo"
+                @submit.prevent="onSubmit"
+              >
+                <input
+                  v-model="wallet"
+                  hidden
+                  required
+                  disabled
+                >
                 <div class="number-input lc-padding-bottom-32">
                   <number-input
                     :currencyTitle="isEth ? 'ETH' : ''"
                     :amount="amount"
                     :isBadAmount="isBadAmount"
                     :label="$t('Transaction.label.amountToSend',
-                      { coin: isEth ? 'ETH' : 'LikeCoin' })"
+                               { coin: isEth ? 'ETH' : 'LikeCoin' })"
                     @onChange="handleAmountChange"
                   />
                 </div>
@@ -90,27 +104,41 @@
                 <!--   <md-input placeholder="Remark (optional)" /> -->
                 <!-- </md-field> -->
 
-                <material-button v-if="isEth"
+                <material-button
+                  v-if="isEth"
                   id="payment-confirm"
+                  :disabled="getIsInTransaction"
                   class="md-raised md-primary eth"
                   type="submit"
                   form="paymentInfo"
-                  :disabled="getIsInTransaction">
+                >
                   <div class="button-content-wrapper">
-                    <img :src="EthIcon" />
+                    <img :src="EthIcon">
                     {{ $t('General.button.send') }}
                   </div>
                 </material-button>
 
-                <div v-else-if="getUserNeedAuth" class="create-account-wrapper">
-                  <md-button class="md-likecoin" @click="showLoginWindow">
+                <div
+                  v-else-if="getUserNeedAuth"
+                  class="create-account-wrapper"
+                >
+                  <md-button
+                    class="md-likecoin"
+                    @click="showLoginWindow"
+                  >
                     {{ $t('Home.Header.button.signIn') }}
                   </md-button>
                 </div>
 
-                <div v-else-if="!getUserIsRegistered" class="create-account-wrapper">
+                <div
+                  v-else-if="!getUserIsRegistered"
+                  class="create-account-wrapper"
+                >
                   <p>{{ $t('KYC.label.createID') }}</p>
-                  <md-button class="md-likecoin" @click="onClickSignUpButton">
+                  <md-button
+                    class="md-likecoin"
+                    @click="onClickSignUpButton"
+                  >
                     {{ $t('KYC.button.createID') }}
                   </md-button>
                 </div>
@@ -119,16 +147,17 @@
                   <no-ssr>
                     <p v-if="!isSupportTransferDeleteaged">
                       {{ $t('Transaction.error.notSupported') }}
-                    </p></no-ssr>
+                  </p></no-ssr>
                   <no-ssr>
                     <material-button
                       id="payment-confirm"
+                      :disabled="getIsInTransaction
+                        || !isSupportTransferDeleteaged
+                      || (!getLocalWallet)"
                       class="md-raised md-primary likecoin"
                       type="submit"
                       form="paymentInfo"
-                      :disabled="getIsInTransaction
-                        || !isSupportTransferDeleteaged
-                        || (!getLocalWallet)">
+                    >
                       {{ $t('General.button.confirm') }}
                     </material-button>
                   </no-ssr>
@@ -294,6 +323,14 @@ export default {
       return this.$route.query.referrer || document.referrer || undefined;
     },
   },
+  watch: {
+    getWeb3Type() {
+      this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
+    },
+  },
+  mounted() {
+    this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
+  },
   methods: {
     ...mapActions([
       'showLoginWindow',
@@ -379,14 +416,6 @@ export default {
       });
     },
   },
-  watch: {
-    getWeb3Type() {
-      this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
-    },
-  },
-  mounted() {
-    this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
-  },
 };
 </script>
 
@@ -436,6 +465,7 @@ p {
 .create-account-wrapper {
   .md-button {
     display: block;
+
     margin: 16px auto;
   }
 

@@ -1,16 +1,16 @@
 <template>
-<div :class="['icon-bar', { vertical: isVertical }]">
-  <md-button
-    class="md-icon-button"
-    v-for="(platform, index) in platforms"
-    :key="index"
-    :href="platform.url"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    <img :src="imgUrl(`${platform.name}.svg`)" />
-  </md-button>
-</div>
+  <div :class="['icon-bar', { vertical: isVertical }]">
+    <md-button
+      v-for="(platform, index) in platforms"
+      :key="index"
+      :href="platform.url"
+      class="md-icon-button"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <img :src="imgUrl(`${platform.name}.svg`)">
+    </md-button>
+  </div>
 </template>
 
 <script>
@@ -70,16 +70,16 @@ export default {
 .icon-bar {
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-wrap: wrap;
+  justify-content: center;
 
   @media (max-width: 600px) {
     max-width: 210px;
   }
 
   &.vertical {
-    justify-content: center;
     flex-direction: column;
+    justify-content: center;
 
     .md-icon-button {
       margin: 0;
@@ -103,7 +103,9 @@ export default {
 
   .language {
     margin-left: 16px;
+
     cursor: pointer;
+
     color: $like-green;
   }
 }

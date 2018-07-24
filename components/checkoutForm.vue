@@ -1,38 +1,52 @@
 <template>
   <div class="checkout-form">
 
-    <div v-if="chargeId" class="purchased-receipt lc-padding-vertical-32 lc-text-align-center">
+    <div
+      v-if="chargeId"
+      class="purchased-receipt lc-padding-vertical-32 lc-text-align-center"
+    >
       <p class="lc-margin-bottom-24">
         {{
           $t(
             'BackerPage.productList.label.youHavePurchased',
             { email: email, product: getLocalized(product.name)},
-            )
+          )
         }}
         <span class="reference-number lc-font-size-24">
           {{ chargeId }}
         </span>
       </p>
-      <div v-if="getUserIsRegistered" class="lc-padding-vertical-32">
+      <div
+        v-if="getUserIsRegistered"
+        class="lc-padding-vertical-32"
+      >
         <material-button
           style="max-width: 200px"
-          @click="reset(true)">
+          @click="reset(true)"
+        >
           {{ $t('General.button.ok') }}
         </material-button>
       </div>
-      <div v-else class="lc-padding-vertical-32">
+      <div
+        v-else
+        class="lc-padding-vertical-32"
+      >
         <p class="lc-margin-bottom-24">
           {{ $t('BackerPage.label.notRegistered') }}
         </p>
         <material-button
           style="max-width: 200px"
-          @click="gotoRegister">
+          @click="gotoRegister"
+        >
           {{ $t('BackerPage.button.register') }}
         </material-button>
       </div>
     </div>
 
-    <div v-else class="product-list">
+    <div
+      v-else
+      class="product-list"
+    >
       <ul v-if="products.length < 1">
         <li class="dummy" />
         <li class="dummy" />
@@ -43,7 +57,8 @@
           v-for="p in products"
           :key="p.id"
           class="product"
-          @click="onClickProduct(p.id)">
+          @click="onClickProduct(p.id)"
+        >
           <div>
 
             <div class="product-preview">
@@ -54,7 +69,10 @@
 
               <div class="info-wrapper">
                 <h1 class="name">{{ getLocalized(p.name) }}</h1>
-                <p class="description" v-html="getLocalized(p.description)" />
+                <p
+                  class="description"
+                  v-html="getLocalized(p.description)"
+                />
               </div>
 
               <div class="price">{{ p.amount / 100 }}</div>
@@ -75,7 +93,7 @@ import { mapActions, mapGetters } from 'vuex';
 import MaterialButton from '~/components/MaterialButton';
 
 export default {
-  name: 'checkoutForm',
+  name: 'checkout-form',
   components: {
     MaterialButton,
   },
@@ -92,6 +110,9 @@ export default {
       'getUserInfo',
       'getUserIsRegistered',
     ]),
+  },
+  mounted() {
+    this.queryIAP();
   },
   methods: {
     ...mapActions([
@@ -142,9 +163,6 @@ export default {
     reset() {
       this.chargeId = '';
     },
-  },
-  mounted() {
-    this.queryIAP();
   },
 };
 </script>

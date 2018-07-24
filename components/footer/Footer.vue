@@ -6,8 +6,12 @@
 
           <span class="contract-address lc-mobile-hide">
             {{ $t('Footer.label.contract') }}
-            <a :href="getAddress" target="_blank" rel="noopener">
-             {{ contractAddress }}
+            <a
+              :href="getAddress"
+              target="_blank"
+              rel="noopener"
+            >
+              {{ contractAddress }}
             </a>
           </span>
 
@@ -46,39 +50,6 @@ export default {
     getAddress() {
       return `${ETHERSCAN_HOST}/address/${this.contractAddress}`;
     },
-  },
-  mounted() {
-    const {
-      user,
-      displayName,
-      email,
-    } = this.getUserInfo;
-    const wallet = this.getLocalWallet;
-    if (this.$intercom) {
-      const language = this.getCurrentLocale;
-      const opt = { LikeCoin: true };
-      if (user) opt.user_id = user;
-      if (displayName) opt.name = displayName;
-      if (email && email !== 'verified') opt.email = email;
-      if (language) opt.language = language;
-      if (wallet) {
-        opt.wallet = wallet;
-        EthHelper.queryEthBalance(wallet)
-          .then((amount) => {
-            const ETH = new BigNumber(amount).dividedBy(ONE_LIKE).toFixed(4);
-            this.$intercom.update({ ETH: Number(ETH) });
-          });
-      }
-      this.$intercom.boot(opt);
-    }
-    if (this.$raven) {
-      const opt = {
-        id: user,
-        username: displayName,
-      };
-      if (email && email !== 'verified') opt.email = email;
-      this.$raven.setUserContext(opt);
-    }
   },
   watch: {
     async getUserInfo(e) {
@@ -120,6 +91,39 @@ export default {
         this.$intercom.trackEvent('likecoin-store_error', { message });
       }
     },
+  },
+  mounted() {
+    const {
+      user,
+      displayName,
+      email,
+    } = this.getUserInfo;
+    const wallet = this.getLocalWallet;
+    if (this.$intercom) {
+      const language = this.getCurrentLocale;
+      const opt = { LikeCoin: true };
+      if (user) opt.user_id = user;
+      if (displayName) opt.name = displayName;
+      if (email && email !== 'verified') opt.email = email;
+      if (language) opt.language = language;
+      if (wallet) {
+        opt.wallet = wallet;
+        EthHelper.queryEthBalance(wallet)
+          .then((amount) => {
+            const ETH = new BigNumber(amount).dividedBy(ONE_LIKE).toFixed(4);
+            this.$intercom.update({ ETH: Number(ETH) });
+          });
+      }
+      this.$intercom.boot(opt);
+    }
+    if (this.$raven) {
+      const opt = {
+        id: user,
+        username: displayName,
+      };
+      if (email && email !== 'verified') opt.email = email;
+      this.$raven.setUserContext(opt);
+    }
   },
 };
 </script>

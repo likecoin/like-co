@@ -3,7 +3,8 @@
     :id="getFormId"
     class="lc-form"
     @keydown.esc="onCancel"
-    @submit.prevent="onSubmit">
+    @submit.prevent="onSubmit"
+  >
 
     <md-field :class="['md-likecoin', { 'md-invalid': !!errorText }]">
       <label>{{ label }}</label>
@@ -12,24 +13,30 @@
         :pattern="pattern"
         :autocomplete="autocomplete"
         v-model="inputText"
-        required />
+        required
+      />
     </md-field>
-    <p v-if="errorText" class="md-error lc-font-size-12">
+    <p
+      v-if="errorText"
+      class="md-error lc-font-size-12"
+    >
       {{ errorText }}
     </p>
 
     <div class="lc-button-group">
       <md-button
+        :form="getFormId"
         class="md-likecoin"
         type="submit"
-        :form="getFormId">
+      >
         {{ $t('General.button.confirm') }}
       </md-button>
-      <br/>
+      <br>
       <md-button
-        class="md-likecoin lc-cancel"
         :form="getFormId"
-        @click="onCancel">
+        class="md-likecoin lc-cancel"
+        @click="onCancel"
+      >
         {{ $t('General.button.cancel') }}
       </md-button>
     </div>
@@ -43,6 +50,7 @@ export default {
   props: {
     formId: {
       type: String,
+      default: undefined,
     },
     type: {
       type: String,
@@ -50,9 +58,11 @@ export default {
     },
     autocomplete: {
       type: String,
+      default: undefined,
     },
     pattern: {
       type: String,
+      default: undefined,
     },
     text: {
       type: String,
@@ -77,6 +87,14 @@ export default {
       return this.formId || 'single-input-form';
     },
   },
+  watch: {
+    text(value) {
+      this.inputText = value;
+    },
+  },
+  created() {
+    this.inputText = this.text;
+  },
   methods: {
     onCancel() {
       this.$emit('cancel');
@@ -88,14 +106,6 @@ export default {
       return this.inputText;
     },
   },
-  watch: {
-    text(value) {
-      this.inputText = value;
-    },
-  },
-  created() {
-    this.inputText = this.text;
-  },
 };
 </script>
 
@@ -104,7 +114,8 @@ export default {
 @import "~assets/variables";
 
 .md-error {
-  color: $like-red;
   margin: -24px 0 24px;
+
+  color: $like-red;
 }
 </style>

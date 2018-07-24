@@ -7,7 +7,7 @@ import {
 } from './data';
 
 const axiosist = require('axiosist');
-const app = require('../../build/main.js'); // eslint-disable-line import/no-unresolved
+const app = require('../../server/index.js'); // eslint-disable-line import/no-unresolved
 
 test('OEMBED: success cases', async (t) => {
   let res;

@@ -1,57 +1,76 @@
 <template>
   <div class="lc-sliding-menu-container">
-    <div class="dismiss-overlay" @click="closeSlidingMenu" />
+    <div
+      class="dismiss-overlay"
+      @click="closeSlidingMenu"
+    />
     <div class="lc-sliding-menu-wrapper">
       <nav class="lc-sliding-menu">
         <div>
 
           <div class="language-switch-wrapper">
-            <language-switch color="white" :isShowLabel="true" />
+            <language-switch
+              :isShowLabel="true"
+              color="white"
+            />
           </div>
 
           <div class="social-media-links-wrapper">
             <platform-icon-bar />
           </div>
 
+          <hr>
+
+          <account-overview
+            v-if="getUserIsRegistered"
+            class="lc-margin-bottom-24-mobile"
+          />
+
           <div class="menus-wrapper main">
             <div
               v-for="m in MENU_ITEMS"
               :key="m.section"
-              :class="['menu', m.section]">
+              :class="['menu', m.section]"
+            >
               <ul>
                 <li v-if="m.section === 'primary'">
                   <menu-item :to="{ name: 'index' }">
-                    <md-icon :md-src="HomeIcon"></md-icon>
+                    <md-icon :md-src="HomeIcon" />
                   </menu-item>
                 </li>
                 <li v-if="m.section === 'primary'">
                   <menu-item
                     v-if="getUserIsRegistered"
                     :isHighlighted="true"
-                    :to="{ name: 'in' }">
+                    :to="{ name: 'in' }"
+                  >
                     {{ getUserInfo.user }}
                   </menu-item>
                   <menu-item
                     v-else-if="getUserNeedAuth"
                     :isHighlighted="true"
-                    @click="onClickSignInButton">
+                    @click="onClickSignInButton"
+                  >
                     {{ $t('Home.Header.button.signIn') }}
                   </menu-item>
                   <menu-item
                     v-else
                     :isHighlighted="true"
-                    :to="{ name: 'in-register', query: { ref: '' } }">
+                    :to="{ name: 'in-register', query: { ref: '' } }"
+                  >
                     {{ $t('Home.Header.button.signUp') }}
                   </menu-item>
                 </li>
                 <li
                   v-for="i in m.items"
                   v-if="getUserIsRegistered || !i.isRegistered"
-                  :key="i.key">
+                  :key="i.key"
+                >
                   <menu-item
                     :to="i.to"
                     :isHighlighted="i.isHighlighted"
-                    :isExternal="i.isExternal">
+                    :isExternal="i.isExternal"
+                  >
                     {{ $t(`Menu.item.${i.key}`) }}
                   </menu-item>
                 </li>
@@ -61,7 +80,8 @@
 
           <div
             v-if="getUserIsRegistered"
-            class="menus-wrapper bottom">
+            class="menus-wrapper bottom"
+          >
             <div class="menu secondary">
               <ul>
                 <li>
@@ -89,6 +109,7 @@ import SettingsIcon from '@/assets/icons/settings.svg';
 
 import LanguageSwitch from '~/components/LanguageSwitch';
 import PlatformIconBar from '~/components/PlatformIconBar';
+import AccountOverview from './AccountOverview';
 import MenuItem from './MenuItem';
 
 const MENU_ITEMS = [
@@ -139,6 +160,7 @@ const MENU_ITEMS = [
 export default {
   name: 'sliding-menu',
   components: {
+    AccountOverview,
     MenuItem,
     LanguageSwitch,
     PlatformIconBar,
@@ -219,6 +241,11 @@ export default {
     overflow-y: auto;
     flex-direction: column;
   }
+
+  hr {
+    border: none;
+    border-top: 2px solid $like-green;
+  }
 }
 
 .language-switch-wrapper {
@@ -253,8 +280,6 @@ export default {
 
   &.main {
     flex-grow: 1;
-
-    border-top: 1px solid $like-green;
   }
 
   .menu {
@@ -280,70 +305,6 @@ export default {
         margin-top: 20px;
       }
     }
-  }
-}
-</style>
-
-<style lang="scss">
-@import "~assets/variables";
-
-$sliding-menu-width: 320px;
-$sliding-menu-narrow-width: 260px;
-
-.lc-sliding-menu-wrapper {
-  position: absolute;
-  top: 0;
-  right: -$sliding-menu-width;
-  bottom: 0;
-
-  width: $sliding-menu-width;
-
-  background-color: $like-gray-1;
-
-  &::after {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-
-    width: 4px;
-
-    content: " ";
-    pointer-events: none;
-
-    background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.0));
-  }
-
-  @media (max-width: 600px) {
-    right: -$sliding-menu-narrow-width;
-
-    width: $sliding-menu-narrow-width;
-  }
-}
-
-.lc-page-wrapper {
-  &.with-sliding-menu {
-    position: relative;
-
-    transition: transform .5s ease-in-out;
-
-    will-change: transform;
-
-    [lc-sliding-menu="open"] & {
-      transform: translateX(-$sliding-menu-width);
-
-      @media (max-width: 600px) {
-        transform: translateX(-$sliding-menu-narrow-width);
-      }
-    }
-  }
-}
-
-[lc-sliding-menu="open"] {
-  overflow-y: hidden;
-
-  body {
-    overflow-y: hidden;
   }
 }
 </style>

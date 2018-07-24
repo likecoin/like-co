@@ -4,9 +4,13 @@
     <copy-text-field
       :label="$t('Edit.referral.shareUrl')"
       :text="shareURL"
-      @copy="onCopyURL" />
+      @copy="onCopyURL"
+    />
 
-    <form :id="getFormId" v-on:submit.prevent="onSendEmail">
+    <form
+      :id="getFormId"
+      @submit.prevent="onSendEmail"
+    >
       <div class="text-field email">
         <label class="lc-color-like-dark-brown-1">
           {{ $t('Edit.referral.orByEmail') }}
@@ -16,16 +20,18 @@
             v-model="email"
             :placeholder="$t('Edit.referral.emailInvite')"
             type="email"
-            required />
+            required
+          />
         </md-field>
       </div>
 
       <div class="lc-button-group">
         <md-button
+          :form="getFormId"
+          :disabled="!email"
           class="md-likecoin"
           type="submit"
-          :form="getFormId"
-          :disabled="!email">
+        >
           {{ $t('Edit.referral.send') }}
         </md-button>
       </div>
@@ -45,14 +51,16 @@
       <br/> -->
       <md-button
         class="md-likecoin lc-facebook lc-with-icon"
-        @click="onShareFacebook">
+        @click="onShareFacebook"
+      >
         <md-icon :md-src="FacebookIcon" />
         {{ $t('Edit.referral.facebook') }}
       </md-button>
-      <br/>
+      <br>
       <md-button
         class="md-likecoin lc-twitter lc-with-icon"
-        @click="onShareTwitter">
+        @click="onShareTwitter"
+      >
         <md-icon :md-src="TwitterIcon" />
         {{ $t('Edit.referral.twitter') }}
       </md-button>
@@ -73,17 +81,18 @@ import CopyTextField from '@/components/CopyTextField';
 
 export default {
   name: 'invite-friend-form',
+  components: {
+    CopyTextField,
+  },
   props: {
     formId: {
       type: String,
+      default: '',
     },
     isFullWidth: {
       type: Boolean,
       default: false,
     },
-  },
-  components: {
-    CopyTextField,
   },
   data() {
     return {

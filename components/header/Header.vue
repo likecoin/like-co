@@ -11,9 +11,10 @@
       <div class="account-btn-wrapper">
         <material-button
           v-if="!shouldHideRegister"
-          className="account-btn"
           :hasShadow="true"
-          @click="onSignUpClick">
+          className="account-btn"
+          @click="onSignUpClick"
+        >
           {{ getButtonText }}
         </material-button>
       </div>

@@ -4,14 +4,20 @@
       <div class="lc-container-2">
         <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-32">
           <div class="lc-container-4 error-container">
-            <img :src="likeCoinIcon" alt="LikeCoin Logo" />
+            <img
+              :src="likeCoinIcon"
+              alt="LikeCoin Logo"
+            >
             <h1 class="lc-font-size-56 lc-margin-vertical-32">
               {{ error.statusCode }}
             </h1>
             <h2>
               {{ error.message }}
             </h2>
-            <nuxt-link to="/" v-if="error.statusCode === 404">
+            <nuxt-link
+              v-if="error.statusCode === 404"
+              to="/"
+            >
               {{ $t('Error.button.toIndex') }}
             </nuxt-link>
           </div>
@@ -27,7 +33,12 @@ import { mapGetters } from 'vuex';
 import likeCoinIcon from '@/assets/logo/icon.svg';
 
 export default {
-  props: ['error'],
+  props: {
+    error: {
+      type: Object,
+      required: true,
+    },
+  },
   layout: 'narrowWithHeader',
   data() {
     return {
@@ -56,7 +67,7 @@ export default {
 <style lang="scss" scoped>
 .error-container {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  flex-direction: column;
 }
 </style>

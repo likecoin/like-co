@@ -1,8 +1,9 @@
 <template>
   <md-dialog
-    class="lc-dialog"
     v-bind="getMdProps"
-    :md-active.sync="isShowDialog">
+    :md-active.sync="isShowDialog"
+    class="lc-dialog"
+  >
 
     <header class="lc-dialog-header lc-section-header">
       <div class="left">
@@ -17,7 +18,8 @@
         <md-button
           v-if="isShowCloseButton"
           class="md-icon-button lc-mobile-show"
-          @click="hide">
+          @click="hide"
+        >
           <md-icon>close</md-icon>
         </md-button>
       </div>
@@ -66,6 +68,14 @@ export default {
       };
     },
   },
+  watch: {
+    isShow(isShow) {
+      this.isShowDialog = isShow;
+    },
+    isShowDialog(isShowDialog) {
+      this.$emit('update:isShow', isShowDialog);
+    },
+  },
   methods: {
     show() {
       this.isShowDialog = true;
@@ -75,14 +85,6 @@ export default {
     },
     onDismiss() {
       this.hide();
-    },
-  },
-  watch: {
-    isShow(isShow) {
-      this.isShowDialog = isShow;
-    },
-    isShowDialog(isShowDialog) {
-      this.$emit('update:isShow', isShowDialog);
     },
   },
 };
@@ -146,8 +148,8 @@ $lc-dialog-border-radius: 8px;
 
 .lc-dialog-content {
   padding-top: 16px;
-  padding-left: 0;
   padding-right: 0;
+  padding-left: 0;
 
   .lc-dialog.with-icon & {
     padding-top: ($lc-section-header-icon-size - $lc-header-height) / 2 + 16px;
@@ -166,8 +168,8 @@ $lc-dialog-border-radius: 8px;
 }
 
 .lc-dialog-container-1 {
-  padding-left: 40px;
   padding-right: 40px;
+  padding-left: 40px;
 
   @media (max-width: 960px) {
     padding-right: 24px;
@@ -176,7 +178,7 @@ $lc-dialog-border-radius: 8px;
 }
 
 .lc-dialog-container-2 {
-  padding-left: 16px;
   padding-right: 16px;
+  padding-left: 16px;
 }
 </style>

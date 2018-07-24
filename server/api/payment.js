@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { Router } from 'express';
 import BigNumber from 'bignumber.js';
 
@@ -35,6 +36,7 @@ router.post('/payment', async (req, res, next) => {
       nonce,
       signature,
       httpReferrer,
+      userPayload,
     } = req.body;
     if (!Validate.checkAddressValid(to) || !Validate.checkAddressValid(from)) {
       throw new ValidationError('Invalid address');
@@ -91,6 +93,7 @@ router.post('/payment', async (req, res, next) => {
           toReferrer: toUser.referrer,
           toLocale: toUser.locale,
           toRegisterTime: toUser.timestamp,
+          toSubscriptionURL: toUser.subscriptionURL,
         };
       }
       return {};
@@ -109,6 +112,7 @@ router.post('/payment', async (req, res, next) => {
       toReferrer,
       toLocale,
       toRegisterTime,
+      toSubscriptionURL,
     },
     currentBlock,
     ] = await Promise.all([fromQuery, toQuery, web3.eth.getBlockNumber()]);
@@ -132,7 +136,6 @@ router.post('/payment', async (req, res, next) => {
       LIKECOIN.LIKE_COIN_ADDRESS,
       txData,
     );
-    res.json({ txHash });
 
     const txRecord = {
       txHash,
@@ -155,6 +158,25 @@ router.post('/payment', async (req, res, next) => {
       }
     }
 
+    const status = 'pending';
+    if (toSubscriptionURL) {
+      try {
+        await axios.post(toSubscriptionURL, {
+          from,
+          maxReward,
+          signature,
+          status,
+          to,
+          txHash,
+          value,
+          userPayload,
+        });
+      } catch (err) {
+        console.error(err); // eslint-disable-line no-console
+      }
+    }
+    res.json({ txHash });
+
     await logTransferDelegatedTx(txRecord);
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventPay',
@@ -175,7 +197,7 @@ router.post('/payment', async (req, res, next) => {
       likeAmount: new BigNumber(value).dividedBy(ONE_LIKE).toNumber(),
       likeAmountUnitStr: new BigNumber(value).toFixed(),
       txHash,
-      txStatus: 'pending',
+      txStatus: status,
       txNonce: pendingCount,
       gasPrice,
       currentBlock,
@@ -270,7 +292,6 @@ router.post('/payment/eth', async (req, res, next) => {
       txHash,
       txStatus: 'pending',
     });
-    res.json({ txHash });
   } catch (err) {
     console.error(err);
     next(err);

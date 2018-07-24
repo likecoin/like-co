@@ -3,7 +3,8 @@
     id="user-info-form"
     :class="{ editing: isEditing }"
     @keydown.esc="onCancel"
-    @submit.prevent="onSubmitEdit">
+    @submit.prevent="onSubmitEdit"
+  >
     <div>
 
       <!-- BEGIN - User info section -->
@@ -13,47 +14,65 @@
             <section :class="['user-info-section', { edit: isEditing }]">
 
               <div class="user-avatar-wrapper">
-                <img class="avatar" :src="avatarData" />
+                <img
+                  :src="avatarData"
+                  class="avatar"
+                >
                 <md-button
                   :class="{ 'input-display-btn': !isEditing }"
-                  @click="openPicker">
-                  <img :src="EditWhiteIcon" />
+                  @click="openPicker"
+                >
+                  <img :src="EditWhiteIcon">
                 </md-button>
-                <input type="file" ref="inputFile" accept="image/*" @change="onChangeAvatar" />
+                <input
+                  ref="inputFile"
+                  type="file"
+                  accept="image/*"
+                  @change="onChangeAvatar"
+                >
               </div>
 
               <div class="user-identity">
-                <div :class="[
+                <div
+                  :class="[
                     'likecoin-id',
                     'lc-tablet-hide',
                     'lc-font-size-20',
                     { disabled: isEditing }
-                  ]">
+                  ]"
+                >
                   <span class="user-id-label">
                     {{ $t('Edit.label.id') }}&nbsp;
                   </span>
-                  <nuxt-link v-if="user" :to="{ name: 'id', params: { id: user } }">
+                  <nuxt-link
+                    v-if="user"
+                    :to="{ name: 'id', params: { id: user } }"
+                  >
                     {{ user }}
                   </nuxt-link>
                 </div>
 
                 <div @click="onEditDisplayName">
-                  <md-field :class="[
+                  <md-field
+                    :class="[
                       'lc-margin-bottom-4',
                       'lc-padding-top-0',
                       isEditing ? 'md-field-edit-mode' : 'md-field-pre-edit'
-                    ]">
+                    ]"
+                  >
                     <md-input
                       ref="inputDisplayName"
-                      class="input-display-name input-display"
                       v-model="displayName"
                       :disabled="!isEditing"
-                      required />
+                      class="input-display-name input-display"
+                      required
+                    />
                     <md-button
+                      v-if="!isEditing"
                       :class="['lc-tablet-hide', { 'input-display-btn': !isEditing }]"
                       @click="onEditDisplayName"
-                      v-if="!isEditing">
-                      <img :src="EditIcon" />
+                    >
+                      <img :src="EditIcon">
                     </md-button>
                   </md-field>
                 </div>
@@ -62,22 +81,27 @@
             </section>
 
 
-            <div v-if="isEditing" class="btn-container lc-margin-top-12">
+            <div
+              v-if="isEditing"
+              class="btn-container lc-margin-top-12"
+            >
               <div class="edit-form-btn">
                 <md-button
+                  :disabled="getIsPopupBlocking"
                   class="md-likecoin"
                   type="submit"
                   form="user-info-form"
-                  :disabled="getIsPopupBlocking">
+                >
                   {{ $t('General.button.confirm') }}
                 </md-button>
               </div>
               <div class="edit-form-btn">
                 <md-button
-                  class="md-likecoin"
                   id="edit-cancel-btn"
                   :disabled="getIsPopupBlocking"
-                  @click="onCancel">
+                  class="md-likecoin"
+                  @click="onCancel"
+                >
                   {{ $t('General.button.cancel') }}
                 </md-button>
               </div>
@@ -88,21 +112,23 @@
       <!-- END - User info section -->
 
       <like-coin-amount
-        class="likecoin-amount-section"
         :value="likeCoinValueStr"
         :isOpaque="isEditing"
         :linkText="getAmountText"
-        :linkHref="getAmountHref" />
+        :linkHref="getAmountHref"
+        class="likecoin-amount-section"
+      />
 
       <input-dialog
         ref="inputDialog"
-        type="email"
         :pattern="W3C_EMAIL_REGEX"
         :text="email"
         :title="$t('Dialog.emailInput.title')"
         :content="$t('Dialog.emailInput.content')"
         :label="$t('Dialog.emailInput.label')"
-        @submit="onInputDialogConfirm" />
+        type="email"
+        @submit="onInputDialogConfirm"
+      />
 
       <div class="lc-container-3">
         <div class="lc-container-4">
@@ -112,7 +138,10 @@
                 <div class="address-title">
                   {{ $t('Edit.label.id') }}
                 </div>
-                <nuxt-link v-if="user" :to="{ name: 'id', params: { id: user } }">
+                <nuxt-link
+                  v-if="user"
+                  :to="{ name: 'id', params: { id: user } }"
+                >
                   <div class="lc-font-size-20">
                     {{ user }}
                   </div>
@@ -124,20 +153,25 @@
                 </div>
                 <md-field class="md-field-display">
                   <md-input
-                    class="input-info"
                     v-model="wallet"
+                    class="input-info"
                     required
-                    disabled />
+                    disabled
+                  />
                 </md-field>
               </div>
               <div
                 class="address-field"
-                @click="onEditEmail">
+                @click="onEditEmail"
+              >
                 <div class="address-title">
                   {{ $t('Edit.label.email') }}
                   <span>
-                    <span class="verified" v-if="isUserEmailVerified">
-                      <img :src="TickIcon" />
+                    <span
+                      v-if="isUserEmailVerified"
+                      class="verified"
+                    >
+                      <img :src="TickIcon">
                       {{ $t('Edit.label.verified') }}
                     </span>
                     <span v-else-if="isVerifying">
@@ -150,17 +184,19 @@
                 </div>
                 <md-field
                   v-if="!isUserEmailVerified"
-                  class="md-field-display md-field-pre-edit">
+                  class="md-field-display md-field-pre-edit"
+                >
                   <label class="input-display-hint lc-font-size-20">
                     {{ $t('Edit.label.addEmail') }}
                   </label>
                   <md-input
-                    class="input-display input-info"
+                    ref="inputEmail"
                     :pattern="W3C_EMAIL_REGEX"
                     v-model="email"
                     :title="$t('Register.form.error.emailFormat')"
-                    ref="inputEmail"
-                    disabled />
+                    class="input-display input-info"
+                    disabled
+                  />
                 </md-field>
               </div>
 
@@ -169,9 +205,9 @@
               </div>
               <social-media-connect
                 v-if="getUserInfo.user"
-                class="lc-margin-vertical-8"
                 :platforms="getUserSocialPlatforms"
                 :username="getUserInfo.user"
+                class="lc-margin-vertical-8"
                 type="mini"
               />
 
@@ -187,14 +223,11 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import BigNumber from 'bignumber.js';
 
-import EthHelper from '@/util/EthHelper';
 import User from '@/util/User';
 import { logTrackerEvent } from '@/util/EventLogger';
 
 import {
-  ONE_LIKE,
   W3C_EMAIL_REGEX,
   QRYPTOS_LIKEETH_URL,
 } from '@/constant';
@@ -210,7 +243,14 @@ import InputDialog from '~/components/dialogs/InputDialog';
 import SocialMediaConnect from '~/components/SocialMediaConnect';
 
 export default {
-  name: 'Edit',
+  name: 'edit',
+  components: {
+    ClaimDialog,
+    InputDialog,
+    LikeCoinAmount,
+    MaterialButton,
+    SocialMediaConnect,
+  },
   data() {
     return {
       TickIcon,
@@ -225,28 +265,20 @@ export default {
       freeCoupon: '',
       isEditing: false,
       isVerifying: false,
-      likeCoinValueStr: '',
       user: '',
       wallet: '',
     };
   },
-  components: {
-    ClaimDialog,
-    InputDialog,
-    LikeCoinAmount,
-    MaterialButton,
-    SocialMediaConnect,
-  },
   computed: {
     ...mapGetters([
       'getCurrentLocale',
-      'getIsInTransaction',
       'getIsPopupBlocking',
       'getUserInfo',
       'getUserSocialPlatforms',
       'getUserIsReady',
       'getUserIsRegistered',
       'getMissionList',
+      'getUserLikeCoinAmountInBigNumber',
     ]),
     getAmountHref() {
       return this.isEditing ? '' : QRYPTOS_LIKEETH_URL;
@@ -260,6 +292,24 @@ export default {
     verifyEmailMission() {
       return this.getMissionList.find(mission => mission.id === 'verifyEmail');
     },
+    likeCoinValueStr() {
+      return (this.getUserLikeCoinAmountInBigNumber || 0).toFixed(4);
+    },
+  },
+  watch: {
+    getUserIsReady(value) {
+      if (value && this.getUserIsRegistered) {
+        this.updateInfo();
+      }
+    },
+  },
+  mounted() {
+    if (this.getUserIsReady && this.getUserIsRegistered) {
+      if (this.$route.params.showEmail && !this.isUserEmailVerified) {
+        this.$nextTick(() => this.$refs.inputDialog.show());
+      }
+      this.updateInfo();
+    }
   },
   methods: {
     ...mapActions([
@@ -268,6 +318,7 @@ export default {
       'sendVerifyEmail',
       'refreshUserInfo',
       'onMissionClick',
+      'queryLikeCoinWalletBalance',
     ]),
     openPicker() {
       this.isEditing = true;
@@ -349,14 +400,6 @@ export default {
       }
       return () => {};
     },
-    async updateLikeCoin() {
-      try {
-        const balance = await EthHelper.queryLikeCoinBalance(this.wallet);
-        this.likeCoinValueStr = new BigNumber(balance).dividedBy(ONE_LIKE).toFixed(4);
-      } catch (err) {
-        console.error(err);
-      }
-    },
     async updateInfo() {
       const user = this.getUserInfo;
       this.user = user.user;
@@ -365,23 +408,8 @@ export default {
       this.wallet = user.wallet;
       this.email = user.email;
       this.isEmailEnabled = (user.isEmailEnabled !== false);
-      this.updateLikeCoin();
+      this.queryLikeCoinWalletBalance();
     },
-  },
-  watch: {
-    getUserIsReady(value) {
-      if (value && this.getUserIsRegistered) {
-        this.updateInfo();
-      }
-    },
-  },
-  mounted() {
-    if (this.getUserIsReady && this.getUserIsRegistered) {
-      if (this.$route.params.showEmail && !this.isUserEmailVerified) {
-        this.$nextTick(() => this.$refs.inputDialog.show());
-      }
-      this.updateInfo();
-    }
   },
 };
 </script>
@@ -425,7 +453,7 @@ $profile-icon-mobile-size: 88px;
       position: relative;
       z-index: 1001;
     }
-  };
+  }
 
   .form-wrapper {
     display: flex;

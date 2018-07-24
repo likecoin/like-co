@@ -1,5 +1,8 @@
 <template>
-  <div id="site-header" class="with-sliding-menu">
+  <div
+    id="site-header"
+    class="with-sliding-menu"
+  >
 
     <div class="navigation-menu">
 
@@ -9,13 +12,17 @@
 
     </div>
 
-    <div v-if="isShowAccountButton" class="lc-container-3 lc-tablet-hide">
+    <div
+      v-if="isShowAccountButton"
+      class="lc-container-3 lc-tablet-hide"
+    >
       <div class="account-btn-wrapper">
         <material-button
           v-if="!shouldHideRegister"
-          className="account-btn"
           :hasShadow="true"
-          @click="onSignUpClick">
+          className="account-btn"
+          @click="onSignUpClick"
+        >
           {{ getButtonText }}
         </material-button>
       </div>
@@ -33,13 +40,16 @@ import SiteTitle from '~/components/SiteTitle';
 
 export default {
   name: 'site-header',
-  props: [
-    'isShowAccountButton',
-  ],
   components: {
     MaterialButton,
     MenuButton,
     SiteTitle,
+  },
+  props: {
+    isShowAccountButton: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     getButtonText() {
@@ -95,7 +105,7 @@ export default {
     align-items: center;
     justify-content: space-between;
 
-    padding: 48px 8px;
+    padding: 40px 8px;
 
     @media (max-width: 768px) {
       padding: 12px;

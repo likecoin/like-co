@@ -10,6 +10,7 @@ export const {
   displayName: testingDisplayName1,
   email: testingEmail1,
   wallet: testingWallet1,
+  merchantId: testingMerchantId1,
 } = userData.users[0];
 export const {
   id: testingUser2,

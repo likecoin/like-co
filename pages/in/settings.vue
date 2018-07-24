@@ -21,9 +21,10 @@
               <ul>
                 <li>
                   <md-switch
-                    class="md-primary"
                     v-model="isEmailEnabled"
-                    :disabled="disabled" />
+                    :disabled="disabled"
+                    class="md-primary"
+                  />
                   <div class="description">
                     {{ $t('Register.form.enableEmail') }}
                   </div>
@@ -32,9 +33,10 @@
 
               <div class="confirm-button-wrapper">
                 <md-button
-                  class="md-likecoin"
                   :disabled="!hasChanged || disabled"
-                  @click="confirmChanges">
+                  class="md-likecoin"
+                  @click="confirmChanges"
+                >
                   {{ $t('General.button.confirm') }}
                 </md-button>
               </div>
@@ -52,10 +54,20 @@
           </div>
 
           <div class="lc-container-3">
-            <i18n tag="p" path="Settings.label.contactUs" class="contact-us">
-              <a place="deleteAccount" @click="deleteAccount">
+            <i18n
+              tag="p"
+              path="Settings.label.contactUs"
+              class="contact-us"
+            >
+              <a
+                place="deleteAccount"
+                @click="deleteAccount"
+              >
                 {{ $t('Settings.button.deleteAccount') }}</a>
-              <a place="requestReport" @click="requestReport">
+              <a
+                place="requestReport"
+                @click="requestReport"
+              >
                 {{ $t('Settings.button.requestReport') }}</a>
             </i18n>
           </div>
@@ -106,6 +118,32 @@ export default {
       );
     },
   },
+  watch: {
+    getUserNeedRegister(value) {
+      if (value) {
+        this.$router.push({ name: 'in-register', query: { ref: 'in-settings', ...this.$route.query } });
+      }
+    },
+    getUserNeedAuth(value) {
+      if (value) {
+        this.triggerLoginSign();
+      }
+    },
+    getUserIsReady(value) {
+      if (value && this.getUserIsRegistered) {
+        this.updateInfo();
+      }
+    },
+  },
+  mounted() {
+    if (this.getUserNeedRegister) {
+      this.$router.push({ name: 'in-register', query: { ref: 'in-settings', ...this.$route.query } });
+    } else if (this.getUserNeedAuth) {
+      this.triggerLoginSign();
+    } else if (this.getUserIsReady && this.getUserIsRegistered) {
+      this.updateInfo();
+    }
+  },
   methods: {
     ...mapActions([
       'loginUser',
@@ -148,32 +186,6 @@ export default {
       logTrackerEvent(this, 'Settings', 'requestReport', 'User wants to fire a report request', 1);
       if (this.$intercom) this.$intercom.showNewMessage(this.$t('Settings.label.requestReportPrePopulatedMessage'));
     },
-  },
-  watch: {
-    getUserNeedRegister(value) {
-      if (value) {
-        this.$router.push({ name: 'in-register', query: { ref: 'in-settings', ...this.$route.query } });
-      }
-    },
-    getUserNeedAuth(value) {
-      if (value) {
-        this.triggerLoginSign();
-      }
-    },
-    getUserIsReady(value) {
-      if (value && this.getUserIsRegistered) {
-        this.updateInfo();
-      }
-    },
-  },
-  mounted() {
-    if (this.getUserNeedRegister) {
-      this.$router.push({ name: 'in-register', query: { ref: 'in-settings', ...this.$route.query } });
-    } else if (this.getUserNeedAuth) {
-      this.triggerLoginSign();
-    } else if (this.getUserIsReady && this.getUserIsRegistered) {
-      this.updateInfo();
-    }
   },
 };
 </script>

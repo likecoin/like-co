@@ -1,7 +1,7 @@
 import { EXTRA_EMAIL_BLACLIST } from '../../constant';
 
 const configRef = require('../util/firebase').configCollection;
-const accounts = require('@ServerConfig/accounts.js'); // eslint-disable-line import/no-extraneous-dependencies
+const accounts = require('../config/accounts.js'); // eslint-disable-line import/no-extraneous-dependencies
 
 let { gasPrice } = accounts[0];
 let emailBlacklist = EXTRA_EMAIL_BLACLIST;

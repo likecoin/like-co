@@ -11,6 +11,8 @@ export const apiGetUserById = id => axios.get(`/api/users/id/${id}`);
 
 export const apiGetUserMinById = id => axios.get(`/api/users/id/${id}/min`);
 
+export const apiGetUserMinByMerchantId = id => axios.get(`/api/users/merchant/${id}/min`);
+
 export const apiGetTxById = id => axios.get(`/api/tx/id/${id}`);
 
 export const apiGetTxToByAddr = addr => axios.get(`/api/tx/addr/to/${addr}`);
@@ -140,6 +142,8 @@ export const apiQueryIAPProducts = () => axios.get('/api/iap/list');
 
 export const apiQueryEthPrice = () => axios.get('https://api.coinmarketcap.com/v1/ticker/ethereum/?convert=USD');
 
+export const apiQueryLikeCoinFiatPrice = () => axios.get('https://api.coingecko.com/api/v3/coins/likecoin?localization=false', { withCredentials: false });
+
 export const apiSetNotification = (id, isEmailEnabled) => axios.post(`/api/users/email/${id}`, { isEmailEnabled });
 
 export const apiGetSocialListById = id => axios.get(`/api/social/list/${id}`);
@@ -149,3 +153,5 @@ export const apiGetSocialPlatformLink = (platform, id) => axios.get(`/api/social
 export const apiLinkSocialPlatform = (platform, payload) => axios.post(`/api/social/link/${platform}`, payload);
 
 export const apiUnlinkSocialPlatform = (platform, payload) => axios.post(`/api/social/unlink/${platform}`, payload);
+
+export const apiPostLikeButton = (id, count = 1) => axios.post(`/api/like/likebutton/${id}/${count}`);

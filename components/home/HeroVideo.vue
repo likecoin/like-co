@@ -10,7 +10,6 @@
                 <no-ssr>
                   <vimeo-player
                     ref="player"
-                    class="video-player"
                     :video-id="getHeroVideoId"
                     :autoplay="true"
                     :loop="true"
@@ -18,7 +17,9 @@
                       background: true,
                       muted: true,
                     }"
-                    @play="onPlay" />
+                    class="video-player"
+                    @play="onPlay"
+                  />
                 </no-ssr>
               </div>
             </div>
@@ -26,20 +27,23 @@
         </div>
 
         <div
-          class="video-thumbnail"
           :style="{
             backgroundImage: `url(/images/video-thumbnails/${getThumbnailImageFileName}.jpg)`
-          }" />
+          }"
+          class="video-thumbnail"
+        />
         <div
           class="play-overlay"
-          @click="onClickPlayButton">
-          <img :src="PlayTriangleIcon" />
+          @click="onClickPlayButton"
+        >
+          <img :src="PlayTriangleIcon">
         </div>
 
         <div class="play-button-wrapper">
           <play-video-button
             :label="$t('Home.HeroVideo.button.watchVideo')"
-            @click="onClickPlayButton" />
+            @click="onClickPlayButton"
+          />
         </div>
 
       </div>
@@ -48,7 +52,8 @@
     <video-player-dialog
       ref="videoPlayerDialog"
       :video-id="getDialogVideoId"
-      @toggle="onTogglePlayerDialog" />
+      @toggle="onTogglePlayerDialog"
+    />
 
   </section>
 </template>

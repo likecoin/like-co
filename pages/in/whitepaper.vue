@@ -4,12 +4,15 @@
       <ul class="document-list lc-margin-top-64 lc-mobile">
         <li
           v-for="(doc, index) in documents"
-          :key="index">
-          <document @click="logEvent(doc.type)"
+          :key="index"
+        >
+          <document
             :imageSrc="doc.imageSrc"
             :linkSrc="doc.linkSrc"
             :title="$t(doc.title)"
-            :mainLocales="doc.mainLocales" />
+            :mainLocales="doc.mainLocales"
+            @click="logEvent(doc.type)"
+          />
         </li>
       </ul>
     </div>
@@ -116,7 +119,7 @@ const documents = [
 ];
 
 export default {
-  name: 'WhitePaper',
+  name: 'white-paper',
   components: {
     Document,
   },

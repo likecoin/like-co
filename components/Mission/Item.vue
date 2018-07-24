@@ -2,20 +2,38 @@
   <div :class="['mission-item', layout, state, mission.id]">
     <div>
 
-      <div class="mission-card" @click="$emit('click')">
+      <div
+        class="mission-card"
+        @click="$emit('click')"
+      >
         <div class="mission-action-button">
-          <mission-state-icon :layout="layout" :state="state" />
+          <mission-state-icon
+            :layout="layout"
+            :state="state"
+          />
         </div>
 
         <div class="mission-card-container">
-          <h2 class="reward-label" v-html="reward" />
-          <mission-icon class="mission-icon" :mission-id="mission.id" />
+          <h2
+            class="reward-label"
+            v-html="reward"
+          />
+          <mission-icon
+            :mission-id="mission.id"
+            class="mission-icon"
+          />
           <h1 class="title-label"><span>{{ title }}</span></h1>
         </div>
       </div>
 
-      <span v-if="isNew" class="item-label new" />
-      <span v-if="isUpcoming" class="item-label upcoming" />
+      <span
+        v-if="isNew"
+        class="item-label new"
+      />
+      <span
+        v-if="isUpcoming"
+        class="item-label upcoming"
+      />
 
     </div>
   </div>

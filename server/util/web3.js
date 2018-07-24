@@ -12,7 +12,7 @@ const Web3 = require('web3');
 const sigUtil = require('eth-sig-util');
 
 export const web3 = new Web3(new Web3.providers.HttpProvider(INFURA_HOST));
-const accounts = require('@ServerConfig/accounts.js'); // eslint-disable-line import/no-extraneous-dependencies
+const accounts = require('../config/accounts.js'); // eslint-disable-line import/no-extraneous-dependencies
 
 function timeout(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));

@@ -1,25 +1,36 @@
 <template>
   <div class="quote-tweet-mission">
-    <transition name="lc-transition-default" mode="out-in">
+    <transition
+      name="lc-transition-default"
+      mode="out-in"
+    >
 
-      <div v-if="isError" key="error" class="lc-dialog-container-0">
+      <div
+        v-if="isError"
+        key="error"
+        class="lc-dialog-container-0"
+      >
         <div class="lc-dialog-container-1">
           <p class="lc-font-size-16 lc-text-align-center lc-margin-vertical-32">
             {{ $t('Error.MISSION_COMPLETE_FAILURE') }}
-            <span v-if="errorMessage"><br/><br/>{{ errorMessage }}</span>
+            <span v-if="errorMessage"><br><br>{{ errorMessage }}</span>
           </p>
         </div>
 
         <div class="lc-button-group">
           <md-button
             class="md-likecoin"
-            @click="onCancel">
+            @click="onCancel"
+          >
             {{ $t('General.button.ok') }}
           </md-button>
         </div>
       </div>
 
-      <div v-else-if="isLoading" class="lc-dialog-container-0">
+      <div
+        v-else-if="isLoading"
+        class="lc-dialog-container-0"
+      >
         <div class="lc-dialog-container-1 lc-padding-vertical-32">
           <spinner :size="48" />
           <p class="lc-margin-top-24 lc-text-align-center">
@@ -28,16 +39,21 @@
         </div>
       </div>
 
-      <div v-else key="normal" class="lc-dialog-container-0">
+      <div
+        v-else
+        key="normal"
+        class="lc-dialog-container-0"
+      >
         <div class="lc-dialog-container-1">
           <h1 class="lc-font-size-32">{{ title }}</h1>
           <p
             class="lc-font-size-16 lc-color-like-gray-4"
-            v-html="$t('Mission.twitter.linkedDescription', { postLink: TWEET_URL } )" />
+            v-html="$t('Mission.twitter.linkedDescription', { postLink: TWEET_URL } )"
+          />
         </div>
 
         <div class="instruction-image">
-          <img :src="image" />
+          <img :src="image">
         </div>
 
         <div class="lc-dialog-container-1">
@@ -46,7 +62,8 @@
             :url="TWEET_URL"
             :comment="comment"
             @cancel="onCancel"
-            @complete="onComplete" />
+            @complete="onComplete"
+          />
         </div>
       </div>
 
@@ -65,15 +82,15 @@ const TWEET_URL = 'https://twitter.com/likecoin_fdn/status/998505329854836738';
 
 export default {
   name: 'quote-tweet-mission',
+  components: {
+    QuoteTweetForm,
+    Spinner,
+  },
   props: {
     userId: {
       type: String,
       required: true,
     },
-  },
-  components: {
-    QuoteTweetForm,
-    Spinner,
   },
   data() {
     return {

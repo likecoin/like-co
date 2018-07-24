@@ -2,30 +2,47 @@
   <div class="avatar-grid-card">
     <div>
 
-      <img v-lazy="avatar" />
+      <img v-lazy="avatar">
       <h1>{{ title }}</h1>
       <h2>{{ subtitle }}</h2>
-      <p class="description" v-html="description" />
+      <p
+        class="description"
+        v-html="description"
+      />
 
-      <div class="platforms" v-if="platforms">
-        <div class="platform" v-for="{ key, to, isInternal } in platforms" :key="key">
+      <div
+        v-if="platforms"
+        class="platforms"
+      >
+        <div
+          v-for="{ key, to, isInternal } in platforms"
+          :key="key"
+          class="platform"
+        >
 
           <nuxt-link
             v-if="isInternal"
-            :to="to">
+            :to="to"
+          >
             <md-button class="md-icon-button">
-              <img :alt="key" :src="imgUrl(`icons/${key}-dark.svg`)" />
+              <img
+                :alt="key"
+                :src="imgUrl(`icons/${key}-dark.svg`)"
+              >
             </md-button>
           </nuxt-link>
 
           <md-button
             v-else
+            :href="to"
             class="md-icon-button"
             rel="noopener noreferrer"
             target="_blank"
-            :href="to"
           >
-            <img :alt="key" :src="imgUrl(`icons/${key}-dark.svg`)" />
+            <img
+              :alt="key"
+              :src="imgUrl(`icons/${key}-dark.svg`)"
+            >
           </md-button>
 
         </div>
@@ -43,11 +60,26 @@ const imgUrl = path => images(`./${path}`);
 export default {
   name: 'avatar-grid-card',
   props: {
-    avatar: String,
-    title: String,
-    subtitle: String,
-    description: String,
-    platforms: Array,
+    avatar: {
+      type: String,
+      default: '',
+    },
+    title: {
+      type: String,
+      default: '',
+    },
+    subtitle: {
+      type: String,
+      default: '',
+    },
+    description: {
+      type: String,
+      default: '',
+    },
+    platforms: {
+      type: Array,
+      default: () => [],
+    },
   },
   methods: {
     imgUrl,
@@ -69,9 +101,9 @@ export default {
     height: inherit;
     padding: 18px 8px 32px;
 
-    background-color: white;
-
     border-radius: 6px;
+
+    background-color: white;
 
     > * {
       display: block;
@@ -90,16 +122,17 @@ export default {
     }
 
     h1 {
-      line-height: 1.35;
       font-size: 20px;
       font-weight: 600;
+      line-height: 1.35;
     }
 
     h2 {
       color: $like-gray-4;
-      line-height: 1.375;
+
       font-size: 16px;
       font-weight: 300;
+      line-height: 1.375;
     }
 
     h1,
@@ -116,6 +149,15 @@ export default {
 
       font-size: 14px;
       font-weight: 300;
+
+      :global(a) {
+        &,
+        &:active {
+          text-decoration: underline;
+
+          color: $like-green;
+        }
+      }
     }
 
     a,
@@ -142,24 +184,6 @@ export default {
         :global(.md-ripple) {
           padding: 0 6px;
         }
-      }
-    }
-  }
-}
-</style>
-
-
-<style lang="scss">
-@import "~assets/variables";
-
-.avatar-grid-card {
-  > div {
-    .description {
-      a,
-      a:active {
-        text-decoration: underline;
-
-        color: $like-green;
       }
     }
   }

@@ -5,33 +5,38 @@
       <popup-dialog
         v-if="checkShouldShowError(getPopupError)"
         :allowClose="false"
+        :message="getPopupError"
         header="Error"
-        :message="getPopupError" />
+      />
 
       <popup-dialog
         :allowClose="true"
+        :message="getPopupInfo"
         header="Info"
-        :message="getPopupInfo" />
+      />
 
       <div v-if="checkShouldShowError(getMetamaskError)">
         <div v-if="checkIsMobileClient()">
           <trust-dialog
             v-if="!!getMetamaskError"
             :case="getMetamaskError"
-            :webThreeType="getWeb3Type"/>
+            :webThreeType="getWeb3Type"
+          />
         </div>
         <div v-else>
           <chrome-dialog
             v-if="shouldShowChromeDialog"
-            :show="shouldShowChromeDialog" />
+            :show="shouldShowChromeDialog"
+          />
           <metamask-dialog
             v-else-if="!!getMetamaskError"
             :case="getMetamaskError"
-            :webThreeType="getWeb3Type" />
+            :webThreeType="getWeb3Type"
+          />
         </div>
       </div>
 
-      <blocker-dialog :show="getIsPopupBlocking"/>
+      <blocker-dialog :show="getIsPopupBlocking" />
 
       <tx-dialog
         :show="getIsShowingTxPopup"
@@ -40,49 +45,65 @@
         :isNewUser="!getUserIsRegistered"
         :txDialogActionRoute="getTxDialogActionRoute"
         :txDialogActionText="getTxDialogActionText"
-        @onClose="closeTxDialog" />
+        @onClose="closeTxDialog"
+      />
 
       <loading-toolbar
         :isLoading="getIsLoading"
-        :isInTransaction="getIsInTransaction" />
+        :isInTransaction="getIsInTransaction"
+      />
 
       <tx-toolbar
         v-if="getPendingTx"
         :txHash="getPendingTx"
         :txInfo="getPendingTxInfo"
         :isInTx="getIsInTransaction"
-        @onClose="closeTxToolbar" />
+        @onClose="closeTxToolbar"
+      />
 
       <info-toolbar
         v-if="getInfoMsg"
         :isError="getInfoIsError"
-        @onClose="closeInfoToolbar">
+        @onClose="closeInfoToolbar"
+      >
         <span v-if="getInfoIsError">
           {{ $i18n.te(`Error.${getInfoMsg}`) ? $t(`Error.${getInfoMsg}`) : getInfoMsg }}
         </span>
-        <span v-else v-html="getInfoMsg" />
+        <span
+          v-else
+          v-html="getInfoMsg"
+        />
         <nuxt-link
+          v-if="getInfoMsg === $t('Transaction.error.likecoinInsufficient')"
           :to="{ name: 'in-redeem' }"
-          v-if="getInfoMsg === $t('Transaction.error.likecoinInsufficient')">
+        >
           {{ $t('Edit.label.redeemCoin') }}
         </nuxt-link>
       </info-toolbar>
 
       <md-snackbar
         v-if="getInfoMsg"
-        md-position="center" :md-active="!!getInfoMsg" md-persistent >
+        :md-active="!!getInfoMsg"
+        md-position="center"
+        md-persistent
+      >
         <span v-if="getInfoIsError">
           {{ $i18n.te(`Error.${getInfoMsg}`) ? $t(`Error.${getInfoMsg}`) : getInfoMsg }}
         </span>
-        <span v-else v-html="getInfoMsg" />
+        <span
+          v-else
+          v-html="getInfoMsg"
+        />
         <nuxt-link
+          v-if="getInfoMsg === $t('Transaction.error.likecoinInsufficient')"
           :to="{ name: 'in-redeem' }"
-          v-if="getInfoMsg === $t('Transaction.error.likecoinInsufficient')">
+        >
           {{ $t('Edit.label.redeemCoin') }}
         </nuxt-link>
         <md-button
           class="md-icon-button"
-          @click="closeInfoToolbar">
+          @click="closeInfoToolbar"
+        >
           <md-icon>close</md-icon>
         </md-button>
       </md-snackbar>
@@ -110,8 +131,7 @@ import LoadingToolbar from '~/components/toolbars/LoadingToolbar';
 import TxToolbar from '~/components/toolbars/TxToolbar';
 
 export default {
-  name: 'ToolBars',
-  props: ['disableError'],
+  name: 'tool-bars',
   components: {
     BlockerDialog,
     ChromeDialog,
@@ -123,6 +143,12 @@ export default {
     InfoToolbar,
     LoadingToolbar,
     TxToolbar,
+  },
+  props: {
+    disableError: {
+      type: [Boolean, Array],
+      default: false,
+    },
   },
   computed: {
     shouldShowChromeDialog() {
@@ -181,6 +207,8 @@ export default {
   min-height: 40px;
   padding: 0 24px;
 
+  border-bottom: 1px solid $like-gray-1;
+
   font-size: 20px;
 
   @media (max-width: 600px) {
@@ -188,8 +216,6 @@ export default {
 
     font-size: 18px;
   }
-
-  border-bottom: 1px solid $like-gray-1;
 
   button.md-button {
     width: 20px;

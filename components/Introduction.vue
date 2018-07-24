@@ -1,10 +1,14 @@
 <template>
-  <section id="intro" class="lc-padding-vertical-32 lc-mobile">
+  <section
+    id="intro"
+    class="lc-padding-vertical-32 lc-mobile"
+  >
     <div class="icon">
       <img
+        :src="icon"
         alt="like-coin"
         class="main-icon"
-        :src="icon || likeCoinIcon" />
+      >
     </div>
     <div class="title">
       <h1 class="lc-font-size-42">
@@ -20,7 +24,16 @@ import likeCoinIcon from '@/assets/logo/icon.svg';
 
 export default {
   name: 'introduction',
-  props: ['title', 'icon'],
+  props: {
+    title: {
+      type: String,
+      default: '',
+    },
+    icon: {
+      type: String,
+      default: likeCoinIcon,
+    },
+  },
   data() {
     return {
       defaultText: 'Register.header.redeem',
@@ -76,14 +89,16 @@ export default {
 
   > .icon {
     position: relative;
+
     overflow: hidden;
+
     border-radius: 50%;
 
     @media (min-width: 601px) {
       min-width: 250px;
-      min-height: 250px;
 
       max-width: 275px;
+      min-height: 250px;
       max-height: 275px;
 
       margin: -50px 0;

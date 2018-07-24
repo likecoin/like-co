@@ -5,13 +5,15 @@
       <div class="lc-container-1">
         <div class="lc-container-2">
           <div class="lc-container-3">
-            <div class="lc-container-4
+            <div
+              class="lc-container-4
               lc-width-2-3
               lc-margin-top-32
               lc-padding-vertical-8
               lc-font-size-18
               lc-color-like-gray-4
-              lc-mobile">
+              lc-mobile"
+            >
               {{ $t('BonusPage.label.description') }}
             </div>
           </div>
@@ -26,10 +28,12 @@
 
           <div class="lc-container-3">
             <div class="lc-container-4">
-              <h2 class="lc-padding-vertical-16
+              <h2
+                class="lc-padding-vertical-16
                 lc-font-size-14
                 lc-font-weight-400
-                lc-text-align-center-mobile">
+                lc-text-align-center-mobile"
+              >
                 {{ $t('BonusPage.label.earned') }}
               </h2>
             </div>
@@ -48,7 +52,10 @@
     <!-- END - LikeCoin Bonus Amount Section -->
 
     <!-- BEGIN - Mission Section -->
-    <section id="earn" class="likecoin-bonus-section lc-margin-top-48 lc-mobile">
+    <section
+      id="earn"
+      class="likecoin-bonus-section lc-margin-top-48 lc-mobile"
+    >
       <div class="lc-container-0">
         <div class="lc-container-1">
 
@@ -65,10 +72,12 @@
                     </h1>
                     <div
                       v-if="getIsFetchedMissions"
-                      class="lc-container-header-button-wrapper lc-mobile-hide">
+                      class="lc-container-header-button-wrapper lc-mobile-hide"
+                    >
                       <refresh-button
                         :is-refreshing="getIsFetchingMissions"
-                        @click="updateInfo" />
+                        @click="updateInfo"
+                      />
                     </div>
                   </div>
                 </div>
@@ -76,19 +85,25 @@
             </div>
           </div>
 
-          <div id="my-mission" class="lc-container-2">
-            <div class="lc-container-3
+          <div
+            id="my-mission"
+            class="lc-container-2"
+          >
+            <div
+              class="lc-container-3
               lc-container-no-padding-mobile
               lc-bg-gray-1
               lc-padding-vertical-32
-              section-content">
+              section-content"
+            >
               <div class="lc-container-4 lc-container-no-padding-mobile">
                 <mission-list
-                  swipper-id="my-mission"
                   :missions="getMissionList"
                   :is-loading="getIsFetchingMissions || !getIsFetchedMissions"
                   :empty-placeholder="$t('BonusPage.placeholder.emptyMission')"
-                  @click="onMissionClick" />
+                  swipper-id="my-mission"
+                  @click="onMissionClick"
+                />
               </div>
             </div>
           </div>
@@ -98,9 +113,10 @@
             v-if="!getIsFetchingMissions
               && getIsFetchedMissions
               && getReferralMissionList
-              && getReferralMissionList.length > 0"
+            && getReferralMissionList.length > 0"
             id="invitee-mission"
-            class="lc-container-2 lc-margin-top-4">
+            class="lc-container-2 lc-margin-top-4"
+          >
 
             <div class="lc-container-3 lc-padding-top-32 lc-bg-gray-1">
               <div class="lc-container-4">
@@ -117,32 +133,38 @@
               </div>
             </div>
 
-            <div class="lc-container-3
+            <div
+              class="lc-container-3
               lc-container-no-padding-mobile
               lc-bg-gray-1
               lc-padding-bottom-32
-              section-content">
+              section-content"
+            >
               <div class="lc-container-4 lc-container-no-padding-mobile">
                 <invitee-mission-grid-list
-                  swiper-id="invitee-mission"
                   :invitees="getReferralMissionList"
+                  swiper-id="invitee-mission"
                   @click="onReferralMissionClick"
-                  @slideChange="onReferralSeen" />
+                  @slideChange="onReferralSeen"
+                />
               </div>
             </div>
 
           </div>
           <!-- END - Invitee missions -->
 
-          <div class="lc-container-3
+          <div
+            class="lc-container-3
             lc-margin-top-24
             lc-flex
             lc-justify-content-center
-            lc-mobile-show">
+            lc-mobile-show"
+          >
             <refresh-button
               :is-refreshing="getIsFetchingMissions"
               :is-outline="true"
-              @click="updateInfo" />
+              @click="updateInfo"
+            />
           </div>
 
         </div>
@@ -151,7 +173,10 @@
     <!-- END - Mission Section -->
 
     <!-- BEGIN - Referral Section -->
-    <section id="referral" class="referral-form-section lc-margin-top-48 lc-mobile">
+    <section
+      id="referral"
+      class="referral-form-section lc-margin-top-48 lc-mobile"
+    >
       <div class="lc-container-0">
         <div class="lc-container-1">
 
@@ -178,26 +203,31 @@
 
                 <div
                   v-if="!getUserInfo.isEmailVerified"
-                  class="lc-font-size-20 lc-color-like-gray-4 lc-mobile">
+                  class="lc-font-size-20 lc-color-like-gray-4 lc-mobile"
+                >
                   {{ $t('Edit.referral.verifyEmailFirst') }}
                 </div>
 
                 <div v-else>
                   <div class="md-layout referral-action">
-                    <div class="md-layout-item
+                    <div
+                      class="md-layout-item
                       md-medium-size-50
                       md-small-size-100
                       lc-margin-bottom-16
                       lc-font-size-20
                       lc-color-like-gray-4
-                      lc-mobile">
+                      lc-mobile"
+                    >
                       {{ $t('Edit.referral.description') }}
                     </div>
 
-                    <div class="md-layout-item
+                    <div
+                      class="md-layout-item
                       md-medium-size-50
                       md-small-size-100
-                      lc-margin-bottom-16-mobile">
+                      lc-margin-bottom-16-mobile"
+                    >
                       <referral-stats
                         :pending="referralPending"
                         :verified="referralVerified"
@@ -207,7 +237,8 @@
 
                   <invite-friend-form
                     :is-full-width="true"
-                    @invite="onInvite" />
+                    @invite="onInvite"
+                  />
                 </div>
 
               </div>
@@ -236,6 +267,13 @@ import { logTrackerEvent } from '@/util/EventLogger';
 
 export default {
   name: 'bonus-index',
+  components: {
+    InviteFriendForm,
+    InviteeMissionGridList,
+    MissionList,
+    ReferralStats,
+    RefreshButton,
+  },
   data() {
     return {
       likeBonusAmountStr: '',
@@ -243,13 +281,6 @@ export default {
       referralVerified: 0,
       user: '',
     };
-  },
-  components: {
-    InviteFriendForm,
-    InviteeMissionGridList,
-    MissionList,
-    ReferralStats,
-    RefreshButton,
   },
   computed: {
     ...mapGetters([
@@ -262,6 +293,49 @@ export default {
       'getReferralMissionList',
       'getSelectedMission',
     ]),
+  },
+  watch: {
+    getUserIsReady(a) {
+      if (a) {
+        if (this.getUserIsRegistered) {
+          this.updateInfo();
+        }
+      }
+    },
+    getMissionList(list) {
+      if (list.length > 0) {
+        const { selectedMission } = this.$route.query;
+        const mission = list.find(m => m.id === selectedMission);
+        if (selectedMission) {
+          if (mission) {
+            this.onMissionClick(mission);
+          } else {
+            this.fetchSelectedMission({
+              missionId: this.$route.query.selectedMission,
+              userMissionList: list.map(l => l.id),
+            });
+          }
+        }
+      }
+    },
+    getSelectedMission(mission) {
+      if (mission) {
+        this.onMissionClickFromUrl(mission);
+      }
+    },
+  },
+  mounted() {
+    const { hash } = document.location;
+    if (hash) {
+      const element = document.querySelector(hash);
+      if (element) element.scrollIntoView();
+    }
+
+    if (this.getUserIsReady) {
+      if (this.getUserIsRegistered) {
+        this.updateInfo();
+      }
+    }
   },
   methods: {
     ...mapActions([
@@ -315,116 +389,12 @@ export default {
       }
     },
   },
-  watch: {
-    getUserIsReady(a) {
-      if (a) {
-        if (this.getUserIsRegistered) {
-          this.updateInfo();
-        }
-      }
-    },
-    getMissionList(list) {
-      if (list.length > 0) {
-        const { selectedMission } = this.$route.query;
-        const mission = list.find(m => m.id === selectedMission);
-        if (selectedMission) {
-          if (mission) {
-            this.onMissionClick(mission);
-          } else {
-            this.fetchSelectedMission({
-              missionId: this.$route.query.selectedMission,
-              userMissionList: list.map(l => l.id),
-            });
-          }
-        }
-      }
-    },
-    getSelectedMission(mission) {
-      if (mission) {
-        this.onMissionClickFromUrl(mission);
-      }
-    },
-  },
-  mounted() {
-    const { hash } = document.location;
-    if (hash) {
-      const element = document.querySelector(hash);
-      if (element) element.scrollIntoView();
-    }
-
-    if (this.getUserIsReady) {
-      if (this.getUserIsRegistered) {
-        this.updateInfo();
-      }
-    }
-  },
 };
 </script>
 
 
 <style lang="scss" scoped>
 @import "~assets/variables";
-
-#invitee-mission {
-  header {
-    @mixin invitee-mission-header($percent) {
-      &::after {
-        width: calc(#{100% - $percent} - 16px);
-      }
-
-      > div {
-        max-width: $percent;
-      }
-    }
-
-    position: relative;
-
-    &::after {
-      display: block;
-
-      height: 1px;
-
-      content: " ";
-
-      background-color: #E6E6E6;
-    }
-
-    > div {
-      width: 100%;
-    }
-
-    @media (min-width: 1366px + 1px) {
-      @include invitee-mission-header(25%);
-    }
-
-    @media (min-width: 960px + 1px) and (max-width: 1366px) {
-      @include invitee-mission-header(1 / 3 * 100%);
-    }
-
-    @media (min-width: 600px + 1px) {
-      &::after {
-        position: absolute;
-        top: 50%;
-        right: 0;
-
-        margin-right: 8px;
-        margin-left: 8px;
-      }
-
-      @media (max-width: 960px) {
-        @include invitee-mission-header(50%);
-      }
-    }
-
-    @media (max-width: 600px) {
-      &::after {
-        position: relative;
-
-        margin-top: 16px;
-      }
-    }
-  }
-}
 
 .earned-bonus-amount-section {
   @media (max-width: 600px) {
@@ -501,4 +471,66 @@ export default {
 .referral-form-section {
   min-height: 400px;
 }
+
+#invitee-mission {
+  header {
+    @mixin invitee-mission-header($percent) {
+      &::after {
+        width: calc(#{100% - $percent} - 16px);
+      }
+
+      > div {
+        max-width: $percent;
+      }
+    }
+
+    position: relative;
+
+    &::after {
+      display: block;
+
+      height: 1px;
+
+      content: " ";
+
+      background-color: #E6E6E6;
+    }
+
+    > div {
+      width: 100%;
+    }
+
+    @media (min-width: 1366px + 1px) {
+      @include invitee-mission-header(25%);
+    }
+
+    @media (min-width: 960px + 1px) and (max-width: 1366px) {
+      @include invitee-mission-header(1 / 3 * 100%);
+    }
+
+    @media (min-width: 600px + 1px) {
+      &::after {
+        position: absolute;
+        top: 50%;
+        right: 0;
+
+        margin-right: 8px;
+        margin-left: 8px;
+      }
+
+      @media (max-width: 960px) {
+        @include invitee-mission-header(50%);
+      }
+    }
+
+    @media (max-width: 600px) {
+      &::after {
+        position: relative;
+
+        margin-top: 16px;
+      }
+    }
+  }
+}
+
 </style>
