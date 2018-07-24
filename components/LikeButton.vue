@@ -53,10 +53,15 @@
             </div>
             <transition name="like-button__like-count-bubble-">
               <div
-                v-if="isJustClickedKnob"
+                v-if="isShowBubble"
                 :key="likeCount"
-                class="like-button__like-count-bubble"
-              >+{{ likeCount }}</div>
+                :class="[
+                  'like-button__like-count-bubble',
+                  {
+                    'like-button__like-count-bubble--max': isSuperLike,
+                  }
+                ]"
+              >{{ isSuperLike ? 'MAX' : `+${likeCount}` }}</div>
             </transition>
           </button>
         </div>
@@ -111,7 +116,7 @@ export default {
       LikeClapIcon,
       LikeTextIcon,
 
-      isJustClickedKnob: false,
+      isShowBubble: false,
       isShowClapEffect: false,
       isPressingKnob: false,
       hasMovedKnob: false,
@@ -162,9 +167,9 @@ export default {
       if (this.hasMovedKnob) return;
 
       if (!this.isLocalSuperLike) {
-        this.isJustClickedKnob = true;
+        this.isShowBubble = true;
         setTimeout(() => {
-          this.isJustClickedKnob = false;
+          this.isShowBubble = false;
         }, 500);
 
         this.isShowClapEffect = true;
@@ -357,12 +362,19 @@ $like-button-like-count-size: 24;
 
     transition-property: opacity, transform;
 
+    text-align: center;
+
     color: white;
     border-radius: 50%;
     background-color: $like-green;
 
     font-size: normalized(12);
+    font-weight: 600;
     line-height: normalized(16);
+
+    &--max {
+      font-size: normalized(7);
+    }
 
     &-- {
       &enter-active {
