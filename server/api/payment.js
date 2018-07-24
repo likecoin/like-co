@@ -175,9 +175,8 @@ router.post('/payment', async (req, res, next) => {
         console.error(err); // eslint-disable-line no-console
       }
     }
-    res.json({ txHash });
-
     await logTransferDelegatedTx(txRecord);
+    res.json({ txHash });
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventPay',
       fromUser: fromId,
@@ -271,6 +270,7 @@ router.post('/payment/eth', async (req, res, next) => {
       fromId: fromId || null,
       toId: toId || null,
     });
+    res.json({ txHash });
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventPayETH',
       fromUser: fromId,
