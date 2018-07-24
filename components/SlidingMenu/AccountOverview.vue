@@ -148,7 +148,7 @@ export default {
 
   &__account {
     @media (min-width: 600px + 1px) {
-      margin-top: -16px;
+      margin-top: -10px;
       padding-left: 96px;
     }
     @media (max-width: 600px) {
@@ -170,7 +170,7 @@ export default {
   }
 
   .md-likecoin {
-    bottom: -22px;
+    bottom: -18px;
 
     align-self: center;
 
