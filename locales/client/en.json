@@ -1101,11 +1101,13 @@
       "clickLikeButton": "Click the reinvented LikeButton to",
       "rewardUserWithLikeToken": "Reward {user} with LIKE token",
       "supportUser": "Support {user}",
-      "loginAdvice": "{login} the writer you like will generate more LikeCoin"
+      "loginAdvice": "{login} the writer you like will generate more LikeCoin",
+      "numLikesForArticle": "{numOfLikes} Like from {numOfLikees} people"
     },
     "button": {
       "login": "Login to LikeCoin ID",
-      "sendLike": "Reward"
+      "sendLike": "Reward",
+      "showMore": "show more"
     }
   },
   "Pay": {

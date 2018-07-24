@@ -14,8 +14,11 @@
         </template>
 
         <span class="lc-color-like-dark-brown-2 lc-font-size-20">
-          {{ numOfLikes }} Like from {{ likees.length }} people
-          <span v-if="title">{{ title }}</span>
+          {{ $t('Embed.label.numLikesForArticle', {
+            numOfLikees: likees.length,
+            numOfLikes,
+          }) }}
+          <span v-if="title">— "{{ title }}"</span>
         </span>
 
         <div
@@ -23,22 +26,11 @@
           :style="{ maxHeight: `${Math.ceil(likees.length / 2) * 74}px` }"
         >
 
-          <div
+          <user-avatar
             v-for="(likee, index) in likees"
             :key="index"
-            class="user-avatar"
-          >
-            <img
-              v-if="likee.avatar"
-              :src="likee.avatar"
-            >
-            <nuxt-link
-              :to="{ name: 'id', params: { id: likee.id } }"
-            >
-              <span v-if="likee.displayName">{{ likee.displayName }}</span>
-              <span v-else>{{ likee.id }}</span>
-            </nuxt-link>
-          </div>
+            :user="likee"
+          />
 
           <transition name="lc-transition-default">
             <div
@@ -53,10 +45,10 @@
         >
           <md-button
             v-if="!isShowAll"
-            class="lc-color-like-green"
+            class="lc-color-like-green lc-underline"
             @click="isShowAll = true"
           >
-            show more
+            {{ $t('Embed.button.showMore') }}
           </md-button>
         </div>
       </like-form>
@@ -67,8 +59,12 @@
 
 <script>
 import Vue from 'vue'; // eslint-disable-line import/no-extraneous-dependencies
+
 import axios from '~/plugins/axios';
+
 import LikeForm from '~/components/LikeForm';
+import UserAvatar from '~/components/UserAvatar';
+
 import {
   apiGetUserMinById,
   apiGetLikeButtonLikerList,
@@ -80,6 +76,7 @@ export default {
   layout: 'narrowWithHeader',
   components: {
     LikeForm,
+    UserAvatar,
   },
   async asyncData({ params, query }) {
     const promises = [
@@ -141,34 +138,16 @@ export default {
 
 <style lang="scss" scoped>
 @import "~assets/variables";
+@import "~assets/mixin";
 
-.user-avatar {
-  padding-top: 16px;
-  padding-bottom: 8px;
-
-  border-bottom: 1px solid #e6e6e6;
-
-  img {
-    width: 48px;
-    height: 48px;
-
-    border-radius: 50%;
-    background-color: $like-white;
-  }
-
-  span {
-    margin-left: 12px;
-
-    color: $like-green;
-
-    font-size: 18px;
-    font-weight: 600;
-  }
-}
-
+$user-avatar-image-size: 48px;
 .likee-list-page {
-  .md-button {
-    text-decoration: underline;
+  .user-avatar {
+    min-height: 72px;
+    padding-top: 16px;
+    padding-bottom: 8px;
+
+    border-bottom: 1px solid #e6e6e6;
   }
 }
 
@@ -181,7 +160,7 @@ export default {
   flex-wrap: wrap;
   justify-content: space-between;
 
-  transition: max-height 0.25s ease-out;
+  transition: max-height 0.25s ease-in-out;
 
   &:not(.expand) {
     max-height: 272px !important;
@@ -197,7 +176,7 @@ export default {
     left: 0;
 
     width: 100%;
-    height: 48px;
+    height: calc(100% - 226px);
 
     background-image: linear-gradient(to bottom, rgba(247, 247, 247, 0), $like-gray-1);
   }
