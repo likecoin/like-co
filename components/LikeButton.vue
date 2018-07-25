@@ -88,8 +88,6 @@
 </template>
 
 <script>
-import _throttle from 'lodash.throttle';
-
 import ClapEffectIcon from '~/assets/like-button/clap-effect.svg';
 import LikeClapIcon from '~/assets/like-button/like-clap.svg';
 import LikeTextIcon from '~/assets/like-button/like-text.svg';
@@ -124,6 +122,9 @@ export default {
       clientX: 0,
       clampedClientX: 0,
       knobProgress: this.isSuperLike ? 1 : 0,
+
+      bubbleTimer: null,
+      movedKnobTimer: null,
     };
   },
   computed: {
@@ -158,34 +159,21 @@ export default {
     document.removeEventListener('mouseup', this.onReleaseKnob);
     document.removeEventListener('touchend', this.onReleaseKnob);
     document.removeEventListener('click', this.onReleaseKnob);
+
+    if (this.bubbleTimer) {
+      clearTimeout(this.bubbleTimer);
+      this.bubbleTimer = null;
+    }
+    if (this.movedKnobTimer) {
+      clearTimeout(this.movedKnobTimer);
+      this.movedKnobTimer = null;
+    }
   },
   methods: {
     setClientX(e) {
       this.clientX = e.targetTouches ? e.targetTouches[0].clientX : e.clientX;
     },
-    onClickKnob(e) {
-      if (this.hasMovedKnob) return;
-
-      if (this.isLocalSuperLike) {
-        this.$emit('super-like', e, true);
-      } else {
-        this.isShowBubble = true;
-        setTimeout(() => {
-          this.isShowBubble = false;
-        }, 500);
-
-        this.isShowClapEffect = true;
-        this.$nextTick(() => {
-          this.isShowClapEffect = false;
-        });
-
-        this.$emit('like', e);
-      }
-    },
-    // eslint-disable-next-line func-names
-    onMovingKnob: _throttle(function (e) {
-      if (!this.isPressingKnob) return;
-
+    updateKnobProgressByEvent(e) {
       this.setClientX(e);
       const diff = this.clientX - this.lastClientX;
       this.lastClientX = this.clientX;
@@ -197,7 +185,36 @@ export default {
       if (!this.hasMovedKnob && Math.abs(diff) / slidableWidth > 0.1) {
         this.hasMovedKnob = true;
       }
-    }, 60),
+    },
+    onClickKnob(e) {
+      if (this.hasMovedKnob) return;
+
+      if (this.isLocalSuperLike) {
+        this.$emit('super-like', e, true);
+      } else {
+        this.isShowBubble = true;
+        this.bubbleTimer = setTimeout(() => {
+          this.isShowBubble = false;
+        }, 500);
+
+        this.isShowClapEffect = true;
+        this.$nextTick(() => {
+          this.isShowClapEffect = false;
+        });
+
+        this.$emit('like', e);
+      }
+    },
+    onMovingKnob(e) {
+      if (!this.isPressingKnob) return;
+
+      if (requestAnimationFrame) {
+        requestAnimationFrame(() => this.updateKnobProgressByEvent(e));
+      } else if (!this.hasMovedKnob) {
+        this.knobProgress = this.isLocalSuperLike ? 0 : 1;
+        this.hasMovedKnob = true;
+      }
+    },
     onPressKnob(e) {
       this.setClientX(e);
       this.lastClientX = this.clientX;
@@ -210,7 +227,7 @@ export default {
         this.$emit('super-like', e, this.isLocalSuperLike);
       }
 
-      setTimeout(() => {
+      this.movedKnobTimer = setTimeout(() => {
         this.hasMovedKnob = false;
       }, 6);
     },

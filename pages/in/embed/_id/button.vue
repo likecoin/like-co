@@ -251,7 +251,11 @@ export default {
       debouncedOnClick(this);
     },
     onClickSuperLike(e, isSuperLike) {
-      if (isSuperLike && this.shouldShowBackside) {
+      if (
+        isSuperLike &&
+        this.shouldShowBackside &&
+        this.$refs.superLikeButton
+      ) {
         this.$refs.superLikeButton.click(e);
       }
       this.shouldShowBackside = isSuperLike;
