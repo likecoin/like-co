@@ -166,7 +166,9 @@ export default {
     onClickKnob(e) {
       if (this.hasMovedKnob) return;
 
-      if (!this.isLocalSuperLike) {
+      if (this.isLocalSuperLike) {
+        this.$emit('super-like', e, true);
+      } else {
         this.isShowBubble = true;
         setTimeout(() => {
           this.isShowBubble = false;
@@ -201,11 +203,11 @@ export default {
       this.lastClientX = this.clientX;
       this.isPressingKnob = true;
     },
-    onReleaseKnob() {
+    onReleaseKnob(e) {
       if (this.isPressingKnob) {
         this.isPressingKnob = false;
         this.knobProgress = this.knobProgress > 0.5 ? 1 : 0;
-        this.$emit('super-like', this.isLocalSuperLike);
+        this.$emit('super-like', e, this.isLocalSuperLike);
       }
 
       setTimeout(() => {

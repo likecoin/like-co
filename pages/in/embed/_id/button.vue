@@ -50,6 +50,7 @@
           <div class="embed-superlike-button-wrapper">
             <a
               id="embed-superlike-button"
+              ref="superLikeButton"
               :href="getUserPath"
               target="_blank"
             >
@@ -249,7 +250,10 @@ export default {
       }
       debouncedOnClick(this);
     },
-    onClickSuperLike(isSuperLike) {
+    onClickSuperLike(e, isSuperLike) {
+      if (isSuperLike && this.shouldShowBackside) {
+        this.$refs.superLikeButton.click(e);
+      }
       this.shouldShowBackside = isSuperLike;
     },
     onClickCloseButton() {
@@ -342,6 +346,24 @@ $close-btn-width: 56;
   footer {
     margin-right: normalized($button-border-width + $button-shadow-width);
   }
+}
+
+#embed-superlike-button {
+  @keyframes super-like-button-shake {
+    0%, 86% { transform: rotateZ(0deg); }
+    88% { transform: rotateZ(2deg); }
+    90% { transform: rotateZ(-2deg); }
+    92% { transform: rotateZ(3deg); }
+    94% { transform: rotateZ(-3deg); }
+    98% { transform: rotateZ(1deg); }
+    100% { transform: rotateZ(0deg); }
+  }
+  animation-name: super-like-button-shake;
+  animation-duration: 3s;
+  animation-timing-function: ease-out;
+  animation-delay: -2s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
 }
 
 .text-content {
