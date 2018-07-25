@@ -155,6 +155,7 @@
       :is-super-like="shouldShowBackside"
       @like="onClickLike"
       @super-like="onClickSuperLike"
+      @click-stats="onClickLikeStats"
     />
 
     <footer>
@@ -259,6 +260,15 @@ export default {
         this.$refs.superLikeButton.click(e);
       }
       this.shouldShowBackside = isSuperLike;
+    },
+    onClickLikeStats() {
+      const { id } = this.$route.params;
+      const { referrer } = this.$route.query;
+      window.open(
+        `/in/embed/${id}/list${referrer ? `?referrer=${referrer}` : ''}`,
+        '_blank',
+        'menubar=no,location=no,width=576,height=768',
+      );
     },
     onClickCloseButton() {
       this.shouldShowBackside = false;
