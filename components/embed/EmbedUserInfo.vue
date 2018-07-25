@@ -6,7 +6,10 @@
       </div>
     </div>
 
-    <div class="embed-user-info__display-name">
+    <div
+      v-if="displayName"
+      class="embed-user-info__display-name"
+    >
       <div>
         <nuxt-link
           :to="link"

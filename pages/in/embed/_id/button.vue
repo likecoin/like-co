@@ -5,7 +5,7 @@
       'likecoin-embed--button',
       `likecoin-embed--logged-${isLoggedIn ? 'in' : 'out'}`,
       {
-        'likecoin-embed--flipped': isShowBackside,
+        'likecoin-embed--flipped': shouldShowBackside,
       },
     ]"
   >
@@ -15,7 +15,7 @@
       mode="out-in"
     >
       <div
-        v-if="isShowBackside"
+        v-if="shouldShowBackside"
         key="back"
         class="likecoin-embed__badge likecoin-embed__badge--back"
       >
@@ -48,14 +48,18 @@
           </div>
 
           <div class="embed-superlike-button-wrapper">
-            <md-button
+            <a
               id="embed-superlike-button"
+              ref="superLikeButton"
               :href="getUserPath"
-              class="md-likecoin"
               target="_blank"
             >
-              {{ $t('Embed.button.sendLike') }}
-            </md-button>
+              <div class="button-content-wrapper">
+                <div class="button-content">
+                  {{ $t('Embed.button.sendLike') }}
+                </div>
+              </div>
+            </a>
           </div>
         </div>
       </div>
@@ -66,11 +70,7 @@
       >
         <div class="likecoin-embed__badge__content">
 
-          <embed-user-info
-            :avatar="avatar"
-            :display-name="displayName"
-            :link="getUserPath"
-          />
+          <embed-user-info :avatar="avatar" />
 
           <div class="text-content">
             <div class="text-content__subtitle">
@@ -149,6 +149,14 @@
       </div>
     </transition>
 
+    <like-button
+      :like-count="likeCount"
+      :total-like="totalLike"
+      :is-super-like="shouldShowBackside"
+      @like="onClickLike"
+      @super-like="onClickSuperLike"
+    />
+
     <footer>
       <social-media-connect
         :username="id"
@@ -158,15 +166,6 @@
 
       <embed-create-widget-button :link="getReferralLink" />
     </footer>
-
-    <md-button
-      class="md-likecoin"
-      @click="onClickLike"
-    >
-      LIKE <span v-if="likeCount">{{ likeCount }}</span>
-    </md-button>
-
-    <span v-if="totalLike">{{ totalLike }} LIKE</span>
 
   </div>
 </template>
@@ -182,6 +181,7 @@ import CloseButtonIcon from '~/assets/like-button/close-btn.svg';
 import QuestionButtonIcon from '~/assets/like-button/question-btn.svg';
 
 import mixin from '~/components/embed/mixin';
+import LikeButton from '~/components/LikeButton';
 
 const debounce = require('lodash.debounce');
 
@@ -197,6 +197,9 @@ const debouncedOnClick = debounce((that) => {
 export default {
   name: 'embed-id-button',
   layout: 'embed',
+  components: {
+    LikeButton,
+  },
   mixins: [mixin],
   data() {
     return {
@@ -208,7 +211,7 @@ export default {
       likeCount: 0,
       likeSent: 0,
       totalLike: 0,
-      shouldShowBackside: true,
+      shouldShowBackside: false,
     };
   },
   computed: {
@@ -217,9 +220,6 @@ export default {
     },
     isSuperLike() {
       return (this.likeCount >= 5);
-    },
-    isShowBackside() {
-      return this.isSuperLike && this.shouldShowBackside;
     },
   },
   mounted() {
@@ -249,6 +249,16 @@ export default {
         this.likeCount += 1;
       }
       debouncedOnClick(this);
+    },
+    onClickSuperLike(e, isSuperLike) {
+      if (
+        isSuperLike &&
+        this.shouldShowBackside &&
+        this.$refs.superLikeButton
+      ) {
+        this.$refs.superLikeButton.click(e);
+      }
+      this.shouldShowBackside = isSuperLike;
     },
     onClickCloseButton() {
       this.shouldShowBackside = false;
@@ -340,6 +350,24 @@ $close-btn-width: 56;
   footer {
     margin-right: normalized($button-border-width + $button-shadow-width);
   }
+}
+
+#embed-superlike-button {
+  @keyframes super-like-button-shake {
+    0%, 86% { transform: rotateZ(0deg); }
+    88% { transform: rotateZ(2deg); }
+    90% { transform: rotateZ(-2deg); }
+    92% { transform: rotateZ(3deg); }
+    94% { transform: rotateZ(-3deg); }
+    98% { transform: rotateZ(1deg); }
+    100% { transform: rotateZ(0deg); }
+  }
+  animation-name: super-like-button-shake;
+  animation-duration: 3s;
+  animation-timing-function: ease-out;
+  animation-delay: -2s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
 }
 
 .text-content {
@@ -509,6 +537,13 @@ $close-btn-width: 56;
       font-weight: 600;
     }
   }
+}
+
+.like-button {
+  position: absolute;
+
+  margin-top: normalized(-18);
+  margin-left: normalized(44);
 }
 
 .social-media-connect {
