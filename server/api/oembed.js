@@ -51,6 +51,10 @@ router.get('/oembed', cors(), async (req, res, next) => {
     let replyUrl = `https://${urlHostname}/${username}`;
     if (amount) replyUrl += `/${amount}`;
 
+    const src = isButton ?
+      `https://${urlHostname}/in/embed/${username}/button/${amount}`
+      : `https://${hostname}/in/embed/${username}/${amount}`;
+
     const oEmbedResponse = {
       type: 'rich',
       version: '1.0',
@@ -60,7 +64,7 @@ router.get('/oembed', cors(), async (req, res, next) => {
       thumbnail_width: thumbnailLength,
       thumbnail_height: thumbnailLength,
       html: `<iframe width="${maxWidth}" height="${maxHeight}"
-        src="https://${hostname}/in/embed/${username}/${isButton ? 'button' : amount}"
+        src="${src}"
         frameborder="0">
         </iframe>`,
       provider_name: 'LikeCoin',
