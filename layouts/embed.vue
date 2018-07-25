@@ -163,18 +163,41 @@ html[likecoin-embed] {
   flex-grow: 1;
 
   width: 100%;
-  min-width: unset;
   margin: 0;
 
-  transition-property: background;
+  transition-property: background, color;
   text-align: center;
+  text-decoration: none;
   letter-spacing: 0;
 
+  color: white;
   border-radius: normalized(20);
+  background-color: $like-green;
   box-shadow: 0 normalized(2) normalized(6) 0 rgba(0, 0, 0, 0.25);
 
   font-size: normalized(20);
   line-height: normalized(20);
+
+  &::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    content: '';
+    transition: opacity 0.2s ease;
+
+    opacity: 0;
+    border-radius: inherit;
+    background-color: rgba(white, 0.2);
+  }
+
+  &:hover {
+    &::before {
+      opacity: 1;
+    }
+  }
 
   &:active {
     box-sizing: border-box;
@@ -184,17 +207,15 @@ html[likecoin-embed] {
     background-color: $like-white;
   }
 
-  &::before {
-    border-radius: inherit;
-  }
+  .button-content {
+    &-wrapper {
+      display: flex;
+      align-items: center;
+      flex-grow: 1;
+      justify-content: center;
 
-  :global(.md-ripple) {
-    flex-grow: 1;
-
-    min-height: 0;
-    padding: 0;
-
-    border-radius: inherit;
+      border-radius: inherit;
+    }
   }
 }
 </style>

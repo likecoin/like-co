@@ -48,14 +48,17 @@
           </div>
 
           <div class="embed-superlike-button-wrapper">
-            <md-button
+            <a
               id="embed-superlike-button"
               :href="getUserPath"
-              class="md-likecoin"
               target="_blank"
             >
-              {{ $t('Embed.button.sendLike') }}
-            </md-button>
+              <div class="button-content-wrapper">
+                <div class="button-content">
+                  {{ $t('Embed.button.sendLike') }}
+                </div>
+              </div>
+            </a>
           </div>
         </div>
       </div>
