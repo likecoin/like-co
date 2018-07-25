@@ -18,12 +18,14 @@
       name="lc-transition-default"
       mode="out-in"
     >
-      <nuxt-link
+      <a
         v-if="user.displayName"
-        :to="{ name: 'id', params: { id: user.id } }"
+        :href="`https://${EXTERNAL_HOSTNAME}/${user.id}`"
+        rel="noopener noreferrer"
+        target="_blank"
       >
         <span>{{ user.displayName }}</span>
-      </nuxt-link>
+      </a>
       <div
         v-else
         :style="style.displayNamePlaceholder"
@@ -35,6 +37,8 @@
 
 
 <script>
+import { EXTERNAL_HOSTNAME } from '@/constant';
+
 export default {
   name: 'user-avatar',
   props: {
@@ -45,6 +49,7 @@ export default {
   },
   data() {
     return {
+      EXTERNAL_HOSTNAME,
       style: {
         displayNamePlaceholder: {
           width: `${50 + Math.floor(Math.random() * 35)}%`,
