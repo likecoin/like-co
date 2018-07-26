@@ -564,7 +564,8 @@
       "button": {
         "createID": "註冊 LikeCoin ID",
         "buyCoin": "購買 LikeCoin",
-        "myAccount": "我的帳號"
+        "myAccount": "我的帳號",
+        "trade": "LikeCoin 交易"
       }
     },
     "blocker": {

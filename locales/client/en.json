@@ -573,7 +573,8 @@
       "button": {
         "createID": "Create LikeCoin ID",
         "buyCoin": "Buy LikeCoin",
-        "myAccount": "My Account"
+        "myAccount": "My Account",
+        "trade": "Trade LikeCoin"
       }
     },
     "blocker": {
