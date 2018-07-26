@@ -3,6 +3,7 @@
     :class="[
       'like-button',
       {
+        'like-button--liked': likeCount > 0,
         'like-button--super-like': isLocalSuperLike,
         'like-button--pressed': isPressingKnob,
       },
@@ -12,7 +13,16 @@
 
       <div class="like-button-wrapper">
 
-        <div class="like-button-slide-track" />
+        <no-ssr>
+          <div
+            :class="[
+              'like-button-slide-track',
+              {
+                'like-button-slide-track--disabled': !isKnobMovable,
+              },
+            ]"
+          />
+        </no-ssr>
 
         <div
           ref="knobWrapper"
@@ -23,8 +33,7 @@
             :style="{ marginLeft: `${knobProgress * 100}%` }"
             class="like-button-knob"
             @mousedown="onPressKnob"
-            @touchstart="onPressKnob"
-            @click="onClickKnob"
+            @mouseup="onPressedKnob"
           >
             <transition
               v-for="i in 12"
@@ -88,9 +97,14 @@
 </template>
 
 <script>
+import _debounce from 'lodash.debounce';
+
+import { checkIsMobileClient } from '~/util/client';
+
 import ClapEffectIcon from '~/assets/like-button/clap-effect.svg';
 import LikeClapIcon from '~/assets/like-button/like-clap.svg';
 import LikeTextIcon from '~/assets/like-button/like-text.svg';
+
 
 export default {
   name: 'like-button',
@@ -102,6 +116,10 @@ export default {
     totalLike: {
       type: Number,
       default: 0,
+    },
+    isToggled: {
+      type: [Boolean, String],
+      default: false,
     },
     isSuperLike: {
       type: [Boolean, String],
@@ -121,10 +139,9 @@ export default {
       lastClientX: 0,
       clientX: 0,
       clampedClientX: 0,
-      knobProgress: this.isSuperLike ? 1 : 0,
+      knobProgress: this.isToggled ? 1 : 0,
 
       bubbleTimer: null,
-      movedKnobTimer: null,
     };
   },
   computed: {
@@ -140,40 +157,54 @@ export default {
     isLocalSuperLike() {
       return this.knobProgress === 1;
     },
+    isKnobMovable() {
+      return !checkIsMobileClient();
+    },
   },
   watch: {
-    isSuperLike(isSuperLike) {
-      this.knobProgress = isSuperLike ? 1 : 0;
+    isToggled(value) {
+      this.knobProgress = value && this.isKnobMovable ? 1 : 0;
+    },
+    knobProgress(value) {
+      if (value > 0 && value < 1) {
+        this.debouncedSnapKnobProgress();
+      }
     },
   },
   mounted() {
-    document.addEventListener('mousemove', this.onMovingKnob);
-    document.addEventListener('touchmove', this.onMovingKnob);
-    document.addEventListener('mouseup', this.onReleaseKnob);
-    document.addEventListener('touchend', this.onReleaseKnob);
-    document.addEventListener('click', this.onReleaseKnob);
+    if (this.isKnobMovable) {
+      document.addEventListener('mousemove', this.onMovingKnob);
+      document.addEventListener('mouseup', this.onReleaseKnob);
+    }
   },
   beforeDestroy() {
-    document.removeEventListener('mousemove', this.onMovingKnob);
-    document.removeEventListener('touchmove', this.onMovingKnob);
-    document.removeEventListener('mouseup', this.onReleaseKnob);
-    document.removeEventListener('touchend', this.onReleaseKnob);
-    document.removeEventListener('click', this.onReleaseKnob);
+    if (this.isKnobMovable) {
+      document.removeEventListener('mousemove', this.onMovingKnob);
+      document.removeEventListener('mouseup', this.onReleaseKnob);
+    }
 
     if (this.bubbleTimer) {
       clearTimeout(this.bubbleTimer);
       this.bubbleTimer = null;
     }
-    if (this.movedKnobTimer) {
-      clearTimeout(this.movedKnobTimer);
-      this.movedKnobTimer = null;
-    }
   },
   methods: {
+    snapKnobProgress() {
+      if (!this.isPressingKnob) {
+        this.knobProgress = this.isKnobMovable && this.knobProgress > 0.5 ? 1 : 0;
+      }
+    },
+    debouncedSnapKnobProgress: _debounce(
+      // eslint-disable-next-line func-names
+      function () { this.snapKnobProgress(); },
+      50,
+    ),
     setClientX(e) {
       this.clientX = e.targetTouches ? e.targetTouches[0].clientX : e.clientX;
     },
     updateKnobProgressByEvent(e) {
+      this.lastMoveKnobTimeStamp = e.timeStamp;
+
       this.setClientX(e);
       const diff = this.clientX - this.lastClientX;
       this.lastClientX = this.clientX;
@@ -182,16 +213,16 @@ export default {
       this.clampedClientX = Math.min(Math.max(this.clampedClientX + diff, 0), slidableWidth);
       this.knobProgress = this.clampedClientX / slidableWidth;
 
-      if (!this.hasMovedKnob && Math.abs(diff) / slidableWidth > 0.1) {
+      if (!this.hasMovedKnob && Math.abs(diff) > 0) {
         this.hasMovedKnob = true;
       }
     },
-    onClickKnob(e) {
+    onPressedKnob(e) {
       if (this.hasMovedKnob) return;
 
-      if (this.isLocalSuperLike) {
+      if (this.knobProgress === 1) {
         this.$emit('super-like', e, true);
-      } else {
+      } else if (this.knobProgress === 0) {
         this.isShowBubble = true;
         this.bubbleTimer = setTimeout(() => {
           this.isShowBubble = false;
@@ -202,7 +233,13 @@ export default {
           this.isShowClapEffect = false;
         });
 
-        this.$emit('like', e);
+        if (this.isSuperLike) {
+          if (this.isKnobMovable) {
+            this.knobProgress = 1;
+          }
+        } else {
+          this.$emit('like', e);
+        }
       }
     },
     onMovingKnob(e) {
@@ -211,25 +248,25 @@ export default {
       if (requestAnimationFrame) {
         requestAnimationFrame(() => this.updateKnobProgressByEvent(e));
       } else if (!this.hasMovedKnob) {
-        this.knobProgress = this.isLocalSuperLike ? 0 : 1;
+        this.knobProgress = this.knobProgress > 0.5 ? 0 : 1;
         this.hasMovedKnob = true;
       }
     },
     onPressKnob(e) {
+      if (!this.isKnobMovable) return;
+
       this.setClientX(e);
       this.lastClientX = this.clientX;
       this.isPressingKnob = true;
+      this.hasMovedKnob = false;
     },
-    onReleaseKnob(e) {
-      if (this.isPressingKnob) {
-        this.isPressingKnob = false;
-        this.knobProgress = this.knobProgress > 0.5 ? 1 : 0;
-        this.$emit('super-like', e, this.isLocalSuperLike);
-      }
+    onReleaseKnob() {
+      if (!this.isPressingKnob) return;
 
-      this.movedKnobTimer = setTimeout(() => {
-        this.hasMovedKnob = false;
-      }, 6);
+      this.isPressingKnob = false;
+      this.snapKnobProgress();
+      this.$emit('toggle', this.isLocalSuperLike);
+      this.hasMovedKnob = false;
     },
   },
 };
@@ -249,6 +286,9 @@ $like-button-like-count-size: 24;
   &-wrapper {
     position: relative;
 
+    display: flex;
+    align-items: flex-start;
+
     width: normalized($like-button-size);
     height: normalized($like-button-size);
 
@@ -259,8 +299,18 @@ $like-button-like-count-size: 24;
   &-slide-track {
     position: relative;
 
+    flex-shrink: 0;
+
     width: normalized($like-button-slide-track-width);
     padding: normalized(($like-button-size - $like-button-slide-track-height) / 2) normalized(8);
+
+    &--disabled {
+      width: normalized($like-button-size + 8);
+
+      &::before {
+        display: none;
+      }
+    }
 
     &::before {
       display: block;
@@ -271,6 +321,26 @@ $like-button-like-count-size: 24;
 
       border-radius: normalized($like-button-slide-track-height);
       background-color: #E6E6E6;
+
+      .like-button--liked:not(.like-button--super-like) & {
+        @keyframes sliding-animation {
+          0% { background-position-x: 100%; }
+          100% { background-position-x: -100%; }
+        }
+
+        animation: {
+          name: sliding-animation;
+          duration: 0.8s;
+          timing-function: linear;
+          iteration-count: infinite;
+          fill-mode: forwards;
+        };
+
+        background: {
+          image: linear-gradient(to right, #E6E6E6, $like-green);
+          size: 200%;
+        }
+      }
     }
   }
 
@@ -285,7 +355,7 @@ $like-button-like-count-size: 24;
 
     position: relative;
 
-    display: inline-block;
+    display: block;
 
     box-sizing: border-box;
     width: normalized($like-button-size);
@@ -308,6 +378,7 @@ $like-button-like-count-size: 24;
       color: $like-green;
     }
     .like-button--pressed &,
+    .like-button--liked &,
     .like-button--super-like & {
       color: white !important;
     }
@@ -336,6 +407,7 @@ $like-button-like-count-size: 24;
       .like-button-knob:hover & {
         box-shadow: normalized(2) normalized(4) normalized(6) 0 rgba(0, 0, 0, 0.25);
       }
+      .like-button--liked &,
       .like-button--super-like & {
         transform: scale(1.02);
       }
@@ -344,6 +416,7 @@ $like-button-like-count-size: 24;
         transform: scale(1.05);
       }
       .like-button--pressed &,
+      .like-button--liked &,
       .like-button--super-like & {
         background: linear-gradient(47deg, #d2f0f0, #f0e6b4);
         box-shadow: 0 normalized(2) normalized(6) 0 rgba(0, 0, 0, 0.25);
@@ -363,6 +436,7 @@ $like-button-like-count-size: 24;
       background-color: white;
 
       .like-button--pressed &,
+      .like-button--liked &,
       .like-button--super-like & {
         background-color: $like-green;
       }
@@ -458,10 +532,7 @@ $like-button-like-count-size: 24;
   }
 
   &-stats {
-    position: absolute;
-    top: calc(50% - #{normalized(13)});
-    left: normalized($like-button-slide-track-width);
-
+    margin-top: calc(50% - #{normalized(13)});
     margin-left: normalized(12);
 
     cursor: pointer;
@@ -484,7 +555,7 @@ $like-button-like-count-size: 24;
     }
 
     &__total-like {
-      display: inline-block;
+      display: block;
 
       margin-top: normalized(4);
 
