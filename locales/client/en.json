@@ -1097,10 +1097,17 @@
       "providedBy": "by LikeCoin reinvented LikeButton",
       "subtitle": "Like this article?",
       "title": "Reward the writer with LIKE token",
-      "createMyWidget": "Create my LikeCoin widget"
+      "createMyWidget": "Create my LikeCoin widget",
+      "clickLikeButton": "Click the reinvented LikeButton to",
+      "rewardUserWithLikeToken": "Reward {user} with LIKE token",
+      "supportUser": "Support {user}",
+      "loginAdvice": "{login} the writer you like will generate more LikeCoin",
+      "numLikesForArticle": "{numOfLikes} Like from {numOfLikees} people"
     },
     "button": {
-      "sendLike": "Reward"
+      "login": "Login to LikeCoin ID",
+      "sendLike": "Reward",
+      "showMore": "show more"
     }
   },
   "Pay": {
