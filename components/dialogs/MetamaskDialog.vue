@@ -57,16 +57,19 @@
               target="_blank"
               rel="noopener"
             >
-              <material-button
-                class="primary"
+              <md-button
+                class="primary md-likecoin"
                 @click="onInstallClick"
               >
                 {{ $t('Dialog.metamask.button.install') }}
-              </material-button>
+              </md-button>
             </a>
-            <material-button @click="refreshPage">
+            <md-button
+              class="md-likecoin"
+              @click="refreshPage"
+            >
               {{ $t('Dialog.metamask.button.doneInstalled') }}
-            </material-button>
+            </md-button>
           </section>
 
           <section
@@ -90,9 +93,12 @@
               >{{ $t('Dialog.metamask.label.ledger') }}</a>
             </div>
             <div v-else>
-              <material-button @click="onCancel">
+              <md-button
+                class="md-likecoin"
+                @click="onCancel"
+              >
                 {{ $t('General.button.cancel') }}
-              </material-button>
+              </md-button>
             </div>
           </section>
         </div>
@@ -157,7 +163,6 @@ import { mapActions, mapGetters } from 'vuex';
 
 import BaseDialog from '~/components/dialogs/BaseDialog';
 import LanguageSwitch from '@/components/LanguageSwitch';
-import MaterialButton from '@/components/MaterialButton';
 
 import { IS_TESTNET, ONE_LIKE } from '@/constant';
 import { logTrackerEvent } from '@/util/EventLogger';
@@ -183,7 +188,6 @@ export default {
   components: {
     BaseDialog,
     LanguageSwitch,
-    MaterialButton,
   },
   props: {
     case: {
@@ -328,8 +332,13 @@ export default {
 
 .metamask-dialog {
   &__content {
-    .md-button.primary {
-      background-color: #ed8526;
+    .md-button {
+      width: 100%;
+      margin: 6px 0;
+
+      &.primary {
+        background-color: #ed8526;
+      }
     }
   }
 
