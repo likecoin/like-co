@@ -97,6 +97,11 @@ const presses = [
     link: 'http://nextplus.nextmedia.com/news/spot/20180523/588342',
   },
   {
+    id: 'breakazine',
+    src: '/images/press-logo/breakazine.png',
+    link: '/pdf/articles/breakazine.pdf',
+  },
+  {
     id: 'mingpao',
     src: '/images/press-logo/ming-pao.svg',
     link: '/images/articles/20171007-mingbao.jpg',
