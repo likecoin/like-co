@@ -30,6 +30,8 @@ export const getHeaderSubtitle = state => state.headerSubtitle;
 
 export const getMetamaskError = state => state.metamaskError;
 
+export const getSignPayloadObject = state => state.signPayloadObject;
+
 export const getWeb3Type = state => state.web3Type;
 
 export const getTxDialogActionRoute = state => state.txDialogActionRoute;

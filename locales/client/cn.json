@@ -513,7 +513,7 @@
         "switchMain": "请切换至 Mainnet 正式网络",
         "web3": "需要插件",
         "locked": "请登入 MetaMask",
-        "sign": "在 MetaMask 按 Sign",
+        "sign": "在 MetaMask 按 <span class=\"lc-font-weight-600 lc-color-like-dark-brown-2\">Sign</span>",
         "connectledger": "连接 Ledger 钱包",
         "signledger": "在 Ledger 钱包按 Sign"
       },
@@ -528,7 +528,8 @@
       },
       "label": {
         "hardwareWallet": "... 或连接你的硬体钱包",
-        "ledger": "连接你的 Ledger"
+        "ledger": "连接你的 Ledger",
+        "sending": "传送"
       }
     },
     "chrome": {
@@ -559,7 +560,8 @@
       "button": {
         "createID": "注册 LikeCoin ID",
         "buyCoin": "购买 LikeCoin",
-        "myAccount": "我的帐号"
+        "myAccount": "我的帐号",
+        "trade": "LikeCoin 交易"
       }
     },
     "blocker": {
