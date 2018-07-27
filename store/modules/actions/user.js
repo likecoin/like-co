@@ -172,6 +172,22 @@ export async function linkSocialPlatform({ commit, dispatch }, { platform, paylo
   return true;
 }
 
+export async function unlinkSocialPlatform({ commit, dispatch }, { platform, payload }) {
+  await apiWrapper(
+    { commit, dispatch },
+    api.apiUnlinkSocialPlatform(platform, payload),
+  );
+  commit(types.USER_UNLINK_SOCIAL, platform);
+}
+
+export async function selectFacebookPageLink({ commit, dispatch }, { pageId, payload }) {
+  const { url } = await apiWrapper(
+    { commit, dispatch },
+    api.apiSelectFacebookPageLink(pageId, payload),
+  );
+  commit(types.USER_SELECT_FACEBOOK_PAGE_LINK, url);
+}
+
 export async function sendCouponCodeEmail({ commit, dispatch, rootState }, data) {
   return apiWrapper(
     { commit, dispatch },
