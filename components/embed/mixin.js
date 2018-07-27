@@ -5,6 +5,7 @@ import SocialMediaConnect from '~/components/SocialMediaConnect';
 import {
   apiGetUserMinById,
   apiGetSocialListById,
+  apiQueryLikeCoinFiatPrice,
 } from '~/util/api/api';
 
 export default {
@@ -27,22 +28,26 @@ export default {
       // no op;
     }
 
-    let amountInUSD;
-    if (isButton) {
-      amountInUSD = amount;
-      const USD_TO_LIKE = 0.0082625; // TODO: Real time price
-      amount = (amountInUSD / USD_TO_LIKE).toFixed(2);
-    }
-
     const { id } = params;
     return Promise.all([
       apiGetUserMinById(id),
       apiGetSocialListById(id).catch(() => {}),
+      isButton && apiQueryLikeCoinFiatPrice()
+        .then(res => res.data.market_data.current_price.usd)
+        .catch(() => 0.0082625),
     ]).then((res) => {
       const {
         displayName,
         avatar,
       } = res[0].data;
+
+      let amountInUSD;
+      if (isButton) {
+        amountInUSD = amount;
+        const USD_TO_LIKE = res[2];
+        amount = (amountInUSD / USD_TO_LIKE).toFixed(2);
+      }
+
       return {
         id,
         displayName,
