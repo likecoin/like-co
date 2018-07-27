@@ -13,11 +13,8 @@ export const ValidationHelper = {
       referrer,
       isEmailVerified,
       isEmailEnabled,
-    } = u;
-    let {
       email,
     } = u;
-    if (isEmailVerified) email = 'verified';
     return {
       user,
       displayName,
