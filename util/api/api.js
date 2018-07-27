@@ -175,3 +175,5 @@ export const apiPostLikeButton =
     {},
     { params: { referrer } },
   );
+
+export const apiSelectFacebookPageLink = (pageId, payload) => axios.post(`/api/social/link/facebook/${pageId}`, payload);
