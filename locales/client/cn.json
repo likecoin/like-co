@@ -1012,5 +1012,14 @@
     "button": {
       "sendLike": "赏"
     }
+  },
+  "SocialMediaConnect": {
+    "label": {
+      "fbWall": "个人页面",
+      "linkTo": "连结至: "
+    },
+    "button": {
+      "connectToPlatform": "绑定你的 {platform} 帐号"
+    }
   }
 }

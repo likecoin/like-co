@@ -1122,5 +1122,14 @@
     "button": {
       "registrationTutorial": "Registration Tutorial"
     }
+  },
+  "SocialMediaConnect": {
+    "label": {
+      "fbWall": "Personal Profile",
+      "linkTo": "link to: "
+    },
+    "button": {
+      "connectToPlatform": "Connect to your {platform}"
+    }
   }
 }
