@@ -20,6 +20,8 @@ export default {
 $social-media-button-size: normalized(32);
 
 html[likecoin-embed] {
+  background-color: transparent !important;
+
   font-size: $full-width * 1px;
 
   // Show button border when cursor fall into root element
@@ -31,6 +33,10 @@ html[likecoin-embed] {
 
   @media screen and (max-width: $full-width * 1px) {
     font-size: 100vw;
+  }
+
+  body {
+    background-color: transparent !important;
   }
 
   .likecoin-embed {
