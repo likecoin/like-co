@@ -1056,5 +1056,14 @@
     "button": {
       "registrationTutorial": "申請 LikeCoin ID 教學"
     }
+  },
+  "SocialMediaConnect": {
+    "label": {
+      "fbWall": "個人頁面",
+      "linkTo": "連結至: "
+    },
+    "button": {
+      "connectToPlatform": "綁定你的 {platform} 帳號"
+    }
   }
 }

@@ -16,27 +16,82 @@
           v-for="socialMedia in socialMediaList"
           :key="socialMedia.id"
         >
-          <button
-            :class="[
-              'social-media-connect__button',
-              `social-media-connect__button--${socialMedia.id}`,
-              `social-media-connect__button--${
-                getIsConnected(socialMedia) ? 'connected' : 'disconnected'
-              }`,
-            ]"
-            type="button"
-            @click="onClickButton(socialMedia)"
+          <div
+            class="social-media-connect__button-wrapper"
+          >
+            <button
+              :class="[
+                'social-media-connect__button',
+                `social-media-connect__button--${socialMedia.id}`,
+                `social-media-connect__button--${
+                  getIsConnected(socialMedia) ? 'connected' : 'disconnected'
+                }`,
+              ]"
+              type="button"
+              @click="onClickConnectButton(socialMedia)"
+            >
+              <simple-svg
+                :filepath="getIconPath(socialMedia.id)"
+                :height="iconSize"
+                :width="iconSize"
+                fill="white"
+              />
+            </button>
+            <div
+              v-if="isLarge"
+              class="social-media-connect__label"
+            >
+              <i18n
+                v-if="!getIsConnected(socialMedia.id)"
+                class="social-media-connect__label--connect"
+                path="SocialMediaConnect.button.connectToPlatform"
+                @click="onClickConnectButton(socialMedia)"
+              >
+                <span place="platform">{{ socialMedia.id }}</span>
+              </i18n>
+              <p
+                v-else
+                class="social-media-connect__label--connected"
+                @click="onClickConnectButton(socialMedia)"
+              >
+                <span>{{ getSocialMediaUserDisplayName(socialMedia.id) }}</span>
+                <span>@{{ socialMedia.id }}</span>
+              </p>
+              <md-field
+                v-if="isLarge && getIsConnected(socialMedia.id) && socialMedia.id === 'facebook'"
+              >
+                <span class="lc-color-gray-9b lc-font-size-12">
+                  {{ $t('SocialMediaConnect.label.linkTo') }}
+                </span>
+                <md-select
+                  v-model="linkedFacebookAc"
+                  @md-selected="onSelectFacebookPageLink"
+                >
+                  <md-option
+                    v-for="page in facebookPages"
+                    :key="page.id"
+                    :value="page.id"
+                  >
+                    {{ page.name }}
+                  </md-option>
+                </md-select>
+              </md-field>
+            </div>
+          </div>
+          <md-button
+            v-if="isLarge && getIsConnected(socialMedia.id)"
+            class="md-icon-button"
+            @click="onClickDisconnectButton(socialMedia)"
           >
             <simple-svg
-              :filepath="getIconPath(socialMedia.id)"
-              fill="white"
-              width="36px"
-              height="36px"
+              :filepath="DeleteIcon"
+              height="24px"
+              width="24px"
             />
-          </button>
+          </md-button>
         </li>
 
-        <!-- Will not show until settings page is finished
+        <!-- show until more platforms are supported
         <li v-if="isMini">
           <md-button
             class="social-media-connect__add-button md-icon-button"
@@ -59,7 +114,9 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
+
+import DeleteIcon from '~/assets/icons/cross.svg';
 
 import { openURL } from '~/util/client';
 
@@ -131,9 +188,21 @@ export default {
       default: undefined,
     },
   },
+  data() {
+    return {
+      DeleteIcon,
+      linkedFacebookAc: null,
+    };
+  },
   computed: {
     isMini() {
       return this.type === TYPE.MINI;
+    },
+    isLarge() {
+      return this.type === TYPE.LARGE;
+    },
+    iconSize() {
+      return this.type === TYPE.LARGE ? '28px' : '36px';
     },
     socialMediaList() {
       return SOCIAL_MEDIA_LIST
@@ -148,11 +217,35 @@ export default {
         })
         .slice(0, this.limit);
     },
+    facebookPages() {
+      return [
+        {
+          id: this.platforms.facebook.id,
+          name: this.$t('SocialMediaConnect.label.fbWall'),
+        },
+        ...(this.platforms.facebook.pages || []),
+      ];
+    },
+    ...mapGetters(['getUserInfo']),
+  },
+  mounted() {
+    if (this.isLarge && this.platforms && this.platforms.facebook) {
+      const { facebook } = this.platforms;
+      let model = facebook.id;
+      (facebook.pages || []).forEach((page) => {
+        if (page.link === facebook.url) {
+          model = page.id;
+        }
+      });
+      // show which facebook page/ac is currently shown in public
+      this.linkedFacebookAc = model;
+    }
   },
   methods: {
     ...mapActions([
       'fetchSocialPlatformLink',
       'linkSocialPlatform',
+      'selectFacebookPageLink',
     ]),
     getIconPath(id) {
       return iconFolder(`./${id}.svg`);
@@ -162,7 +255,10 @@ export default {
         tier === 0 && (id === 'likecoin' && this.userLink)
       );
     },
-    onClickButton(socialMedia) {
+    getSocialMediaUserDisplayName(id) {
+      return this.platforms[id].displayName;
+    },
+    onClickConnectButton(socialMedia) {
       const { id, tier } = socialMedia;
       const platform = this.platforms[id];
       const isConnected = !!platform || tier === 0;
@@ -181,6 +277,9 @@ export default {
         }
         if (url) openURL(this, url, '_blank', 'noopener');
       }
+    },
+    onClickDisconnectButton(socialMedia) {
+      this.$emit('disconnect', socialMedia.id);
     },
     async connect(socialMedia) {
       switch (socialMedia.id) {
@@ -210,6 +309,14 @@ export default {
           break;
         }
       }
+    },
+    async onSelectFacebookPageLink(pageId) {
+      await this.selectFacebookPageLink({
+        pageId,
+        payload: {
+          user: this.getUserInfo.user,
+        },
+      });
     },
   },
 };
@@ -249,25 +356,37 @@ $hover-color-map: (
     }
   }
 
+  &__button-wrapper {
+    max-width: 100%;
+
+    cursor: pointer;
+
+    &:hover {
+      .social-media-connect__button {
+        background-color: darken($like-gray-5, 10);
+      }
+
+      .social-media-connect__label--connect {
+        color: darken($like-gray-4, 10);
+      }
+    }
+    &:active {
+      .social-media-connect__button {
+        background-color: darken($like-gray-5, 20);
+      }
+    }
+  }
+
 
   &__button {
     margin: 2px;
 
     cursor: pointer;
-
     transition: background-color .25s ease;
 
     border: none;
     border-radius: 50%;
-
     background-color: $like-gray-5;
-
-    &:hover {
-      background-color: darken($like-gray-5, 10);
-    }
-    &:active {
-      background-color: darken($like-gray-5, 20);
-    }
 
     &--disconnected {
       background-color: $gray-c0;
@@ -295,6 +414,107 @@ $hover-color-map: (
   &__add-button {
     margin: 0 -7px;
     padding: 7px;
+  }
+
+  &--large {
+    li {
+      width: 50%;
+
+      @media (max-width: 600px) {
+        width: 100%;
+      }
+
+      .md-icon-button {
+        width: auto;
+        min-width: auto;
+        height: auto;
+        margin: 3px 0 0 8px;
+
+        :global(.md-ripple) {
+          padding: 0;
+        }
+      }
+    }
+
+    .social-media-connect {
+      &__button-wrapper {
+        display: inline-flex;
+        align-items: center;
+      }
+
+      &__label {
+        margin-left: 8px;
+
+        p {
+          overflow: hidden;
+
+          cursor: pointer;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+
+        &--connect {
+          text-decoration: underline;
+
+          color: $like-gray-4;
+
+          span {
+            text-transform: capitalize;
+          }
+        }
+
+        &--connected {
+          font-weight: 600;
+
+          span:first-child {
+            color: $like-green;
+          }
+
+          span:last-child {
+            color: $gray-9b;
+          }
+        }
+      }
+    }
+  }
+}
+
+.md-field {
+  align-items: center;
+
+  min-height: auto;
+  margin: 0;
+  padding-top: 0;
+
+  &:before,
+  &:after {
+    content: none;
+  }
+
+  .md-menu {
+    margin-left: 4px;
+
+    :global(.md-input) {
+      height: 24px;
+      margin-top: -4px;
+      padding-top: 4px;
+
+      border-bottom: 1px solid $like-gray-5;
+
+      font-size: 12px;
+      font-weight: 600;
+
+      -webkit-text-fill-color: $like-gray-5;
+      &::placeholder {
+        font-size: 12px;
+      }
+    }
+  }
+
+  :global(.md-icon) {
+    width: 20px;
+    min-width: auto;
+    height: 20px;
   }
 }
 </style>
