@@ -18,7 +18,8 @@ export default {
     params,
     error,
   }) {
-    let amount = 8;
+    const isButton = /in-embed-id-button(-amount)?/.test(route.name);
+    let amount = isButton ? 0.25 : 8;
     try {
       const parse = parseInt(params.amount, 10);
       if (parse && !Number.isNaN(parse)) amount = parse;
@@ -27,7 +28,7 @@ export default {
     }
 
     let amountInUSD;
-    if (/in-embed-id-button(-amount)?/.test(route.name)) {
+    if (isButton) {
       amountInUSD = amount;
       const USD_TO_LIKE = 0.0082625; // TODO: Real time price
       amount = (amountInUSD / USD_TO_LIKE).toFixed(2);
