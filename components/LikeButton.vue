@@ -22,6 +22,7 @@
                 'like-button-slide-track--disabled': !isKnobMovable,
               },
             ]"
+            @click="onClickTrack"
           />
         </no-ssr>
 
@@ -285,6 +286,9 @@ export default {
       this.$emit('toggle', this.isLocalSuperLike);
       this.hasMovedKnob = false;
     },
+    onClickTrack() {
+      this.knobProgress = this.knobProgress > 0.5 ? 0 : 1;
+    },
   },
 };
 </script>
@@ -321,6 +325,10 @@ $like-button-like-count-size: 24;
     width: normalized($like-button-slide-track-width);
     padding: normalized(($like-button-size - $like-button-slide-track-height) / 2) normalized(8);
 
+    &:active {
+      transform: scale(0.98);
+    }
+
     &--disabled {
       width: normalized($like-button-size + 8);
 
@@ -335,6 +343,7 @@ $like-button-like-count-size: 24;
       height: normalized($like-button-slide-track-height);
 
       content: '';
+      cursor: pointer;
 
       border-radius: normalized($like-button-slide-track-height);
       background-color: #E6E6E6;
@@ -368,6 +377,8 @@ $like-button-like-count-size: 24;
       left: 0;
 
       width: normalized(28); // Range for sliding
+
+      pointer-events: none;
     }
 
     position: relative;
@@ -386,6 +397,8 @@ $like-button-like-count-size: 24;
     transition-timing-function: ease;
     transition-duration: 0.2s;
     transition-property: margin-left, color, transform;
+
+    pointer-events: all;
 
     color: $like-gray-5;
     border: none;
