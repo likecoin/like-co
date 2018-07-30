@@ -50,14 +50,14 @@
       class="lc-dialog-container-1"
     >
       <div class="lc-button-group">
-        <nuxt-link :to="{ name: 'in' }">
-          <md-button
-            class="md-likecoin"
-            @click="$emit('onClose')"
-          >
-            {{ $t('Dialog.transaction.button.myAccount') }}
-          </md-button>
-        </nuxt-link>
+        <md-button
+          :href="QRYPTOS_LIKEETH_URL"
+          class="md-likecoin"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {{ $t('Dialog.transaction.button.trade') }}
+        </md-button>
         <nuxt-link :to="actionRoute">
           <md-button
             class="md-likecoin lc-secondary"
@@ -76,6 +76,8 @@
 <script>
 import BaseDialog from '~/components/dialogs/BaseDialog';
 import CheckIcon from '~/components/Mission/StateIcon';
+
+import { QRYPTOS_LIKEETH_URL } from '@/constant';
 
 export default {
   name: 'tx-dialog',
@@ -108,6 +110,11 @@ export default {
       type: String,
       default: '',
     },
+  },
+  data() {
+    return {
+      QRYPTOS_LIKEETH_URL,
+    };
   },
   computed: {
     defaultActionRoute() {

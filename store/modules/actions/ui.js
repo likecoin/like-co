@@ -12,6 +12,10 @@ export const setMetamaskError = ({ commit }, msg) => {
   commit(types.UI_SET_METAMASK_ERROR, msg);
 };
 
+export const setSignPayloadObject = ({ commit }, payload = {}) => {
+  commit(types.UI_SET_SIGN_PAYLOAD_OBJECT, payload);
+};
+
 export const showLoginWindow = ({ commit, dispatch }) => {
   commit(types.UI_LOGIN_OVERRIDE, true);
   dispatch('loginUser');
