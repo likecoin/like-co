@@ -1062,6 +1062,17 @@
       "title": "Retweet BitMart!",
       "description":"One step away - vote NOW for LikeCoin to get us list on <a href=\"https://www.bitmart.com/vote\" target=\"_blank\">BitMart</a>.  Your support is important to us."
     },
+    "registerOice": {
+      "title": "Connect oice",
+      "step": {
+        "1": {
+          "description": "Register and connect LikeCoin in oice" 
+        },
+        "2": {
+          "description": "Verify connection" 
+        }
+      }
+    },
     "completedBanner": {
       "label": {
         "complete": "Complete!",
