@@ -6,6 +6,7 @@
         'like-button--liked': likeCount > 0,
         'like-button--super-like': isLocalSuperLike,
         'like-button--pressed': isPressingKnob,
+        'like-button--long-pressed': isLongPressingKnob,
       },
     ]"
   >
@@ -135,6 +136,7 @@ export default {
       isShowBubble: false,
       isShowClapEffect: false,
       isPressingKnob: false,
+      isLongPressingKnob: false,
       hasMovedKnob: false,
       lastClientX: 0,
       clientX: 0,
@@ -142,6 +144,7 @@ export default {
       knobProgress: this.isToggled ? 1 : 0,
 
       bubbleTimer: null,
+      longPressTimer: null,
     };
   },
   computed: {
@@ -186,6 +189,10 @@ export default {
     if (this.bubbleTimer) {
       clearTimeout(this.bubbleTimer);
       this.bubbleTimer = null;
+    }
+    if (this.longPressTimer) {
+      clearInterval(this.longPressTimer);
+      this.longPressTimer = null;
     }
   },
   methods: {
@@ -234,7 +241,7 @@ export default {
         });
 
         if (this.isSuperLike) {
-          if (this.isKnobMovable) {
+          if (this.isKnobMovable && !this.isLongPressingKnob) {
             this.knobProgress = 1;
           }
         } else {
@@ -259,8 +266,18 @@ export default {
       this.lastClientX = this.clientX;
       this.isPressingKnob = true;
       this.hasMovedKnob = false;
+      this.longPressTimer = setInterval(() => {
+        this.isLongPressingKnob = true;
+        this.onPressedKnob(e);
+      }, 180);
     },
     onReleaseKnob() {
+      this.isLongPressingKnob = false;
+      if (this.longPressTimer) {
+        clearInterval(this.longPressTimer);
+        this.longPressTimer = null;
+      }
+
       if (!this.isPressingKnob) return;
 
       this.isPressingKnob = false;
@@ -480,6 +497,10 @@ $like-button-like-count-size: 24;
       }
       &enter {
         transform: scale(0) translateY(normalized(72));
+
+        .like-button--long-pressed & {
+          transform: scale(0.9) translateY(normalized(2));
+        }
       }
       &leave-to {
         transform: translateY(normalized(-24));
