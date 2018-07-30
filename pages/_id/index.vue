@@ -99,6 +99,13 @@
                                { coin: isEth ? 'ETH' : 'LikeCoin' })"
                     @onChange="handleAmountChange"
                   />
+
+                  <p
+                    v-if="usdTransferStrValue"
+                    class="lc-margin-top-8 lc-text-align-center lc-color-gray-9b"
+                  >
+                    (${{ usdTransferStrValue }} USD)
+                  </p>
                 </div>
                 <!-- <md-field> -->
                 <!--   <md-input placeholder="Remark (optional)" /> -->
@@ -311,6 +318,7 @@ export default {
       'getWeb3Type',
       'getIsShowingTxPopup',
       'getPendingTxInfo',
+      'getLikeCoinUsdNumericPrice',
     ]),
     isEth() {
       /* HACK because nuxt cannot easily pass route with params */
@@ -321,6 +329,16 @@ export default {
     },
     httpReferrer() {
       return this.$route.query.referrer || document.referrer || undefined;
+    },
+    usdTransferStrValue() {
+      if (this.getLikeCoinUsdNumericPrice && this.amount) {
+        const value = new BigNumber(this.amount);
+        const usdValue = value.times(this.getLikeCoinUsdNumericPrice);
+        let decimalPlace = 2;
+        if (usdValue.lt(0.01)) decimalPlace = 4;
+        return value.times(this.getLikeCoinUsdNumericPrice).toFixed(decimalPlace);
+      }
+      return null;
     },
   },
   watch: {
