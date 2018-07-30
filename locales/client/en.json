@@ -681,8 +681,8 @@
       "redeemCode": "Redeem Code (Optional)",
       "validCodeRequired": "Please enter a valid coupon code",
       "verified": "Verified",
-      "verifying": "Verfication sent, Please check your inbox!",
-      "unverified": "Unverifed",
+      "verifying": "Verification link sent. Please check your inbox!",
+      "unverified": "Unverified",
       "verifyEmail": "Verify your email",
       "accountConnection": "Account connection"
     },
@@ -953,11 +953,16 @@
     "label": {
       "contactUs": "Contact us for {deleteAccount} or {requestReport}",
       "deleteAccountPrePopulatedMessage": "I want to delete my account",
-      "requestReportPrePopulatedMessage": "I want to request an account data report "
+      "requestReportPrePopulatedMessage": "I want to request an account data report ",
+      "receiveLikeCoinLink": "Receive LikeCoin link:",
+      "accountConnection": "You can connect to your accounts on various social platforms."
     },
     "button": {
       "deleteAccount": "Delete Account",
-      "requestReport": "Request for report"
+      "requestReport": "Request for report",
+      "editPortrait": "Edit Portrait",
+      "profile": "Profile",
+      "otherSettings": "Other Settings"
     }
   },
   "PoliciesPage": {
@@ -1132,6 +1137,15 @@
     },
     "button": {
       "registrationTutorial": "Registration Tutorial"
+    }
+  },
+  "SocialMediaConnect": {
+    "label": {
+      "fbWall": "Personal Profile",
+      "linkTo": "link to: "
+    },
+    "button": {
+      "connectToPlatform": "Connect to your {platform}"
     }
   }
 }

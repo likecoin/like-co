@@ -625,7 +625,7 @@
       "email": "电邮地址",
       "referrer": "邀请人 LikeCoin ID (可选)",
       "amount": "LikeCoin 数量",
-      "displayName": "显示名",
+      "displayName": "显示名称",
       "claim": "领取",
       "couponCode": "兑换码 (可选)",
       "label": {
@@ -1011,6 +1011,15 @@
     },
     "button": {
       "sendLike": "赏"
+    }
+  },
+  "SocialMediaConnect": {
+    "label": {
+      "fbWall": "个人页面",
+      "linkTo": "连结至: "
+    },
+    "button": {
+      "connectToPlatform": "绑定你的 {platform} 帐号"
     }
   }
 }
