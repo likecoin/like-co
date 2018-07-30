@@ -35,8 +35,8 @@ router.get('/oembed', cors(), async (req, res, next) => {
     }
     const amount = match[3] || '';
 
-    const maxWidth = Number.parseInt(req.query.maxwidth || 500, 10);
-    const maxHeight = Number.parseInt(req.query.maxheight || 200, 10);
+    const maxWidth = Number.parseInt(req.query.maxwidth || 485, 10);
+    const maxHeight = Number.parseInt(req.query.maxheight || (isButton ? 212 : 200), 10);
     const thumbnailLength = Math.min(100, maxWidth, maxHeight);
 
     const doc = await dbRef.doc(username).get();
@@ -51,6 +51,10 @@ router.get('/oembed', cors(), async (req, res, next) => {
     let replyUrl = `https://${urlHostname}/${username}`;
     if (amount) replyUrl += `/${amount}`;
 
+    const src = isButton ?
+      `https://${urlHostname}/in/embed/${username}/button/${amount}`
+      : `https://${hostname}/in/embed/${username}/${amount}`;
+
     const oEmbedResponse = {
       type: 'rich',
       version: '1.0',
@@ -60,7 +64,7 @@ router.get('/oembed', cors(), async (req, res, next) => {
       thumbnail_width: thumbnailLength,
       thumbnail_height: thumbnailLength,
       html: `<iframe width="${maxWidth}" height="${maxHeight}"
-        src="https://${hostname}/in/embed/${username}/${isButton ? 'button' : amount}"
+        src="${src}"
         frameborder="0">
         </iframe>`,
       provider_name: 'LikeCoin',

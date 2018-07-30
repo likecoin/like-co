@@ -23,6 +23,9 @@ const router = Router();
 
 const LikeCoin = new web3.eth.Contract(LIKECOIN.LIKE_COIN_ABI, LIKECOIN.LIKE_COIN_ADDRESS);
 
+/* temp hack to handle medium referrer */
+const mediumRegexp = new RegExp('^(?:https?:\\/\\/)?medium\\.com\\/media\\/[a-zA-Z0-9_]+\\?postId=([a-zA-Z0-9_]+)');
+
 router.post('/payment', async (req, res, next) => {
   try {
     const {
@@ -133,7 +136,8 @@ router.post('/payment', async (req, res, next) => {
       LIKECOIN.LIKE_COIN_ADDRESS,
       txData,
     );
-    await logTransferDelegatedTx({
+
+    const txRecord = {
       txHash,
       from,
       to,
@@ -144,7 +148,16 @@ router.post('/payment', async (req, res, next) => {
       nonce: pendingCount,
       rawSignedTx: tx.rawTransaction,
       delegatorAddress: web3.utils.toChecksumAddress(delegatorAddress),
-    });
+    };
+
+    /* temp hack to handle medium referrer */
+    if (httpReferrer) {
+      const match = mediumRegexp.exec(decodeURIComponent(httpReferrer));
+      if (match && match[1]) {
+        txRecord.remarks = `@LikeCoin Widget: https://medium.com/p/${match[1]}`;
+      }
+    }
+
     const status = 'pending';
     if (toSubscriptionURL) {
       try {
@@ -162,6 +175,7 @@ router.post('/payment', async (req, res, next) => {
         console.error(err); // eslint-disable-line no-console
       }
     }
+    await logTransferDelegatedTx(txRecord);
     res.json({ txHash });
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventPay',
@@ -256,6 +270,7 @@ router.post('/payment/eth', async (req, res, next) => {
       fromId: fromId || null,
       toId: toId || null,
     });
+    res.json({ txHash });
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventPayETH',
       fromUser: fromId,
