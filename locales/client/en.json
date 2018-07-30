@@ -522,7 +522,7 @@
         "switchMain": "Please switch to Main network",
         "web3": "Plugin required",
         "locked": "Please unlock Metamask",
-        "sign": "Sign on Metamask",
+        "sign": "<span class=\"lc-font-weight-600 lc-color-like-dark-brown-2\">Sign</span> on Metamask",
         "login": "Sign on Metamask to Login",
         "connectledger": "Connect to Ledger wallet",
         "signledger": "Sign on Ledger wallet",
@@ -541,7 +541,8 @@
       },
       "label": {
         "hardwareWallet": "... or connect to a hardware wallet",
-        "ledger": "connect to Ledger"
+        "ledger": "connect to Ledger",
+        "sending": "Sending"
       }
     },
     "chrome": {
@@ -572,7 +573,8 @@
       "button": {
         "createID": "Create LikeCoin ID",
         "buyCoin": "Buy LikeCoin",
-        "myAccount": "My Account"
+        "myAccount": "My Account",
+        "trade": "Trade LikeCoin"
       }
     },
     "blocker": {

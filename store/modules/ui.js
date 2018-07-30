@@ -25,6 +25,7 @@ import {
   UI_CLOSE_SLIDING_MENU,
   UI_SET_PROMPT_NOTIFICATION_DIALOG,
   UI_SET_LIKECOIN_USD_NUMERIC_PRICE,
+  UI_SET_SIGN_PAYLOAD_OBJECT,
 } from '../mutation-types';
 import * as getters from './getters/ui';
 import * as actions from './actions/ui';
@@ -32,6 +33,7 @@ import * as actions from './actions/ui';
 const state = {
   locale: 'en',
   metamaskError: '',
+  signPayloadObject: {},
   web3Type: 'window',
   infoIsError: false,
   infoMsg: '',
@@ -64,6 +66,9 @@ const mutations = {
   },
   [UI_SET_METAMASK_ERROR](state, err) {
     state.metamaskError = err;
+  },
+  [UI_SET_SIGN_PAYLOAD_OBJECT](state, payload) {
+    state.signPayloadObject = payload;
   },
   [UI_SET_WEB3_TYPE](state, type) {
     state.web3Type = type;

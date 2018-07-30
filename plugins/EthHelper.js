@@ -19,14 +19,16 @@ export default ({ store }) => {
     onSetWeb3: (type) => {
       store.dispatch('setWeb3Type', type);
     },
-    onSign: () => {
+    onSign: (payload) => {
       store.dispatch('setMetamaskError', 'sign');
+      if (payload) store.dispatch('setSignPayloadObject', payload);
     },
     onLogin: () => {
       store.dispatch('setMetamaskError', 'login');
     },
     onSigned: () => {
       store.dispatch('setMetamaskError', '');
+      store.dispatch('setSignPayloadObject', {});
     },
   });
 };

@@ -368,18 +368,18 @@ $spacing-list: 0 4 8 12 16 24 32 40 48 56 64;
 @each $i in $spacing-list {
   .lc-margin-vertical-#{$i},
   .lc-margin-top-#{$i} {
-    margin-top: $i * 1px;
+    margin-top: $i * 1px !important;
 
     &-mobile {
       @media (max-width: 600px) {
-        margin-top: $i * 1px;
+        margin-top: $i * 1px !important;
       }
     }
 
     @if $i > 12 {
       &.lc-mobile {
         @media (max-width: 600px) {
-          margin-top: $i / 2 * 1px + 4px;
+          margin-top: $i / 2 * 1px + 4px !important;
         }
       }
     }
@@ -387,18 +387,18 @@ $spacing-list: 0 4 8 12 16 24 32 40 48 56 64;
 
   .lc-margin-vertical-#{$i},
   .lc-margin-bottom-#{$i} {
-    margin-bottom: $i * 1px;
+    margin-bottom: $i * 1px !important;
 
     &-mobile {
       @media (max-width: 600px) {
-        margin-bottom: $i * 1px;
+        margin-bottom: $i * 1px !important;
       }
     }
 
     @if $i > 12 {
       &.lc-mobile {
         @media (max-width: 600px) {
-          margin-bottom: $i / 2 * 1px + 4px;
+          margin-bottom: $i / 2 * 1px + 4px !important;
         }
       }
     }
@@ -406,18 +406,18 @@ $spacing-list: 0 4 8 12 16 24 32 40 48 56 64;
 
   .lc-padding-vertical-#{$i},
   .lc-padding-top-#{$i} {
-    padding-top: $i * 1px;
+    padding-top: $i * 1px !important;
 
     &-mobile {
       @media (max-width: 600px) {
-        padding-top: $i * 1px;
+        padding-top: $i * 1px !important;
       }
     }
 
     @if $i > 12 {
       &.lc-mobile {
         @media (max-width: 600px) {
-          padding-top: $i / 2 * 1px + 4px;
+          padding-top: $i / 2 * 1px + 4px !important;
         }
       }
     }
@@ -425,18 +425,18 @@ $spacing-list: 0 4 8 12 16 24 32 40 48 56 64;
 
   .lc-padding-vertical-#{$i},
   .lc-padding-bottom-#{$i} {
-    padding-bottom: $i * 1px;
+    padding-bottom: $i * 1px !important;
 
     &-mobile {
       @media (max-width: 600px) {
-        padding-bottom: $i * 1px;
+        padding-bottom: $i * 1px !important;
       }
     }
 
     @if $i > 12 {
       &.lc-mobile {
         @media (max-width: 600px) {
-          padding-bottom: $i / 2 * 1px + 4px;
+          padding-bottom: $i / 2 * 1px + 4px !important;
         }
       }
     }
@@ -546,6 +546,9 @@ $line-height-map: (
   }
   &like-light-blue {
     color: $like-light-blue !important;
+  }
+  &like-gray-3 {
+    color: $like-gray-3 !important;
   }
   &like-gray-4 {
     color: $like-gray-4 !important;
