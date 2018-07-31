@@ -681,8 +681,8 @@
       "redeemCode": "Redeem Code (Optional)",
       "validCodeRequired": "Please enter a valid coupon code",
       "verified": "Verified",
-      "verifying": "Verfication sent, Please check your inbox!",
-      "unverified": "Unverifed",
+      "verifying": "Verification link sent. Please check your inbox!",
+      "unverified": "Unverified",
       "verifyEmail": "Verify your email",
       "accountConnection": "Account connection"
     },
@@ -953,11 +953,16 @@
     "label": {
       "contactUs": "Contact us for {deleteAccount} or {requestReport}",
       "deleteAccountPrePopulatedMessage": "I want to delete my account",
-      "requestReportPrePopulatedMessage": "I want to request an account data report "
+      "requestReportPrePopulatedMessage": "I want to request an account data report ",
+      "receiveLikeCoinLink": "Receive LikeCoin link:",
+      "accountConnection": "You can connect to your accounts on various social platforms."
     },
     "button": {
       "deleteAccount": "Delete Account",
-      "requestReport": "Request for report"
+      "requestReport": "Request for report",
+      "editPortrait": "Edit Portrait",
+      "profile": "Profile",
+      "otherSettings": "Other Settings"
     }
   },
   "PoliciesPage": {
@@ -986,8 +991,8 @@
     "TWITTER_URL_INVALID": "The tweet URL is invalid",
     "USER_ALREADY_EXIST": "User already exists",
     "USER_NOT_EXIST": "User is not exist",
-    "OICE_SERVER_ERROR": "Unable to verify. Please contact us.",
-    "OICE_LIKECOIN_ID_NOT_BIND": "LikeCoin ID has not bound"
+    "OICE_SERVER_ERROR": "Unable to verify, please try angin. If this still happen, please contact us.",
+    "OICE_LIKECOIN_ID_NOT_BIND": "The linkage of LikeCoin ID and oice account is not correct, please make sure your oice account have bind a LikeCoin ID, and that ID is same as your LikeCoin ID."
   },
   "Form": {
     "Retweet": {
@@ -1124,10 +1129,17 @@
       "providedBy": "by LikeCoin reinvented LikeButton",
       "subtitle": "Like this article?",
       "title": "Reward the writer with LIKE token",
-      "createMyWidget": "Create my LikeCoin widget"
+      "createMyWidget": "Create my LikeCoin widget",
+      "clickLikeButton": "Click the reinvented LikeButton to",
+      "rewardUserWithLikeToken": "Reward {user} with LIKE token",
+      "supportUser": "Support {user}",
+      "loginAdvice": "{login} the writer you like will generate more LikeCoin",
+      "numLikesForArticle": "{numOfLikes} Like from {numOfLikees} people"
     },
     "button": {
-      "sendLike": "Reward"
+      "login": "Login to LikeCoin ID",
+      "sendLike": "Reward",
+      "showMore": "show more"
     }
   },
   "Pay": {
@@ -1139,6 +1151,15 @@
     },
     "button": {
       "registrationTutorial": "Registration Tutorial"
+    }
+  },
+  "SocialMediaConnect": {
+    "label": {
+      "fbWall": "Personal Profile",
+      "linkTo": "link to: "
+    },
+    "button": {
+      "connectToPlatform": "Connect to your {platform}"
     }
   }
 }

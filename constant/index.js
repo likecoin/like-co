@@ -30,7 +30,7 @@ if (IS_TESTNET) whiteList.push('localhost');
 
 export const REDIRECT_WHITE_LIST = whiteList;
 
-export const REDIRECT_NAME_WHITE_LIST = ['in-tokensale', 'in-bundle'];
+export const REDIRECT_NAME_WHITE_LIST = ['in-tokensale', 'in-bundle', 'in-settings'];
 
 export const TRANSACTION_QUERY_LIMIT = 10;
 
@@ -54,6 +54,7 @@ const toolbarsDisableError = {
   'verify-uuid': ['web3', 'locked'],
   'in-tx-id': ['web3', 'locked'],
   id: ['web3', 'testnet', 'locked'],
+  'in-embed-id-list': ['web3', 'testnet', 'locked'],
   'id-amount': ['web3', 'testnet', 'locked'],
   'claim-id-coupon': ['web3', 'locked'],
   'in-backer': ['web3', 'testnet', 'locked'],
