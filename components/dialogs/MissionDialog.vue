@@ -691,4 +691,23 @@ export default {
     background-image: linear-gradient(266deg, #ececec, #c0c0c0);
   }
 }
+
+.mission-dialog-content {
+  :global(.instruction-image) {
+    display: block;
+
+    min-width: 418px;
+    padding: 16px 16px 24px;
+
+    > :global(img) {
+      border: solid 2px #E6E6E6;
+      border-radius: 8px;
+      background-color: $like-gray-1;
+    }
+
+    @media (max-width: 600px) {
+      min-width: 100%;
+    }
+  }
+}
 </style>

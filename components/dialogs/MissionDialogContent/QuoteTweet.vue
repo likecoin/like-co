@@ -140,25 +140,3 @@ export default {
   },
 };
 </script>
-
-
-<style lang="scss" scoped>
-@import "~assets/variables";
-
-.instruction-image {
-  display: block;
-
-  min-width: 418px;
-  padding: 16px 16px 24px;
-
-  > img {
-    border: solid 2px #E6E6E6;
-    border-radius: 8px;
-    background-color: $like-gray-1;
-  }
-
-  @media (max-width: 600px) {
-    min-width: 100%;
-  }
-}
-</style>

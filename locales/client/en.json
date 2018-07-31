@@ -985,7 +985,9 @@
     "TWITTER_QUOTE_INVALID": "Please retweet the correct tweet",
     "TWITTER_URL_INVALID": "The tweet URL is invalid",
     "USER_ALREADY_EXIST": "User already exists",
-    "USER_NOT_EXIST": "User is not exist"
+    "USER_NOT_EXIST": "User is not exist",
+    "OICE_SERVER_ERROR": "Unable to verify. Please contact us.",
+    "OICE_LIKECOIN_ID_NOT_BIND": "LikeCoin ID has not bound"
   },
   "Form": {
     "Retweet": {
@@ -1065,12 +1067,24 @@
     "registerOice": {
       "title": "Connect oice",
       "step": {
+        "0": {
+          "title": "Login to oice",
+          "description": "Login or register to oice",
+          "button": "Login to oice"
+        },
         "1": {
-          "description": "Register and connect LikeCoin in oice" 
+          "title": "Connect to oice",
+          "description": "Connect your oice account to LikeCoin ID",
+          "button": "Connect Now"
         },
         "2": {
-          "description": "Verify connection" 
+          "title": "Connect to oice",
+          "description": "Verfiy connection",
+          "button": "Verify"
         }
+      },
+      "label": {
+        "verifying": "Verifying with oice"
       }
     },
     "completedBanner": {

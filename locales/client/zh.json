@@ -904,7 +904,9 @@
     },
     "EMAIL_ALREADY_USED": "此電郵地址已被註冊",
     "REFERRER_NOT_EXIST": "推薦人的 LikeCoin ID 不存在",
-    "USER_ALREADY_EXIST": "帳戶已經存在"
+    "USER_ALREADY_EXIST": "帳戶已經存在",
+    "OICE_SERVER_ERROR": "伺服器錯誤，請重載網頁並重試。如重複出現該錯誤，請聯絡客服。",
+    "OICE_LIKECOIN_ID_NOT_BIND": "oice 跟 LikeCoin ID 的連結有誤，請確認你正在登入的 oice 帳號，有綁定 LikeCoin ID ，而且 綁定 ID 跟 目前 ID 一致。"
   },
   "Form": {
     "Retweet": {

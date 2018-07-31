@@ -35,7 +35,7 @@
         <div class="lc-dialog-container-1 lc-padding-vertical-32">
           <spinner :size="48" />
           <p class="lc-margin-top-24 lc-text-align-center">
-            {{ $t('Mission.twitter.label.verifying') }}
+            {{ $t('Mission.registerOice.label.verifying') }}
           </p>
         </div>
       </div>
@@ -53,10 +53,19 @@
           />
         </div>
 
-        <div class="lc-dialog-container-1 lc-margin-top-16">
+        <div class="instruction-image">
+          <img :src="image">
+        </div>
+
+        <div class="lc-dialog-container-1">
           <div class="lc-button-group">
             <md-button
-              class="md-likecoin"
+              :class="[
+                'md-likecoin',
+                {
+                  outline: step < 2,
+                },
+              ]"
               @click="onClickButton"
             >
               {{ buttonText }}
@@ -99,63 +108,68 @@ export default {
     return {
       step: 0,
       isError: false,
-      isLoading: false,
+      isLoading: true,
       errorMessage: '',
     };
   },
   computed: {
     title() {
-      switch (this.step) {
-        default:
-          return this.$t('Mission.registerOice.title');
-      }
+      return this.$t(`Mission.registerOice.step.${this.step}.title`);
     },
     description() {
+      return this.$t(`Mission.registerOice.step.${this.step}.description`);
+    },
+    image() {
       switch (this.step) {
+        case 0:
+          return '/images/mission/oice/register.png';
         default:
-          return this.$t(`Mission.registerOice.step.${this.step + 1}.description`);
+          return '/images/mission/oice/connect-likecoin.gif';
       }
     },
     buttonText() {
-      switch (this.step) {
-        case 0:
-          return this.$t('General.button.next');
-        default:
-          return this.$t('General.button.done');
-      }
+      return this.$t(`Mission.registerOice.step.${this.step}.button`);
     },
   },
+  mounted() {
+    this.onComplete({ isSlient: true });
+  },
   methods: {
+    nextStep(max = 2) {
+      if (this.step < max) this.step += 1;
+    },
     onCancel() {
       this.$emit('cancel');
-    },
-    nextStep(max = 1) {
-      if (this.step < max) this.step += 1;
     },
     onClickButton() {
       switch (this.step) {
         case 0:
-          openURL(this, 'https://oice.com/profile', 'oice');
+          openURL(this, 'https://oice.com/login', 'oice');
           break;
         case 1:
+          openURL(this, 'https://oice.com/profile', 'oice');
+          break;
+        case 2:
           this.onComplete();
           break;
         default:
       }
       this.nextStep();
     },
-    async onComplete() {
+    async onComplete({ isSlient } = { isSlient: false }) {
       this.isLoading = true;
       try {
         await apiPostRegisterOiceMission(this.userId);
         this.$emit('complete');
       } catch (error) {
-        if (error.response) {
-          const { data, statusText } = error.response;
-          const localeKey = `Error.${data || statusText}`;
-          this.errorMessage = this.$te(localeKey) ? this.$t(localeKey) : data || statusText;
+        if (!isSlient) {
+          if (error.response) {
+            const { data, statusText } = error.response;
+            const localeKey = `Error.${data || statusText}`;
+            this.errorMessage = this.$te(localeKey) ? this.$t(localeKey) : data || statusText;
+          }
+          this.isError = true;
         }
-        this.isError = true;
       }
       this.isLoading = false;
     },
