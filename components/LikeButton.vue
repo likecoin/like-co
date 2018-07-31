@@ -36,6 +36,7 @@
             class="like-button-knob"
             @mousedown="onPressKnob"
             @mouseup="onPressedKnob"
+            @mouseleave="onLeaveKnob"
           >
             <transition
               v-for="i in 12"
@@ -178,12 +179,14 @@ export default {
   mounted() {
     if (this.isKnobMovable) {
       document.addEventListener('mousemove', this.onMovingKnob);
+      document.addEventListener('mouseleave', this.onReleaseKnob);
       document.addEventListener('mouseup', this.onReleaseKnob);
     }
   },
   beforeDestroy() {
     if (this.isKnobMovable) {
       document.removeEventListener('mousemove', this.onMovingKnob);
+      document.removeEventListener('mouseleave', this.onReleaseKnob);
       document.removeEventListener('mouseup', this.onReleaseKnob);
     }
 
@@ -209,6 +212,13 @@ export default {
     ),
     setClientX(e) {
       this.clientX = e.targetTouches ? e.targetTouches[0].clientX : e.clientX;
+    },
+    clearLongPress() {
+      this.isLongPressingKnob = false;
+      if (this.longPressTimer) {
+        clearInterval(this.longPressTimer);
+        this.longPressTimer = null;
+      }
     },
     updateKnobProgressByEvent(e) {
       this.lastMoveKnobTimeStamp = e.timeStamp;
@@ -267,17 +277,15 @@ export default {
       this.lastClientX = this.clientX;
       this.isPressingKnob = true;
       this.hasMovedKnob = false;
-      this.longPressTimer = setInterval(() => {
-        this.isLongPressingKnob = true;
-        this.onPressedKnob(e);
-      }, 180);
+      if (!this.isLocalSuperLike) {
+        this.longPressTimer = setInterval(() => {
+          this.isLongPressingKnob = true;
+          this.onPressedKnob(e);
+        }, 180);
+      }
     },
     onReleaseKnob() {
-      this.isLongPressingKnob = false;
-      if (this.longPressTimer) {
-        clearInterval(this.longPressTimer);
-        this.longPressTimer = null;
-      }
+      this.clearLongPress();
 
       if (!this.isPressingKnob) return;
 
@@ -286,8 +294,12 @@ export default {
       this.$emit('toggle', this.isLocalSuperLike);
       this.hasMovedKnob = false;
     },
+    onLeaveKnob() {
+      this.clearLongPress();
+    },
     onClickTrack() {
       this.knobProgress = this.knobProgress > 0.5 ? 0 : 1;
+      this.$emit('toggle', this.isLocalSuperLike);
     },
   },
 };
