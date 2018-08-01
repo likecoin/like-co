@@ -565,7 +565,7 @@
         "createID": "註冊 LikeCoin ID",
         "buyCoin": "購買 LikeCoin",
         "myAccount": "我的帳號",
-        "trade": "LikeCoin 交易"
+        "trade": "買賣 LikeCoin"
       }
     },
     "blocker": {
@@ -904,7 +904,10 @@
     },
     "EMAIL_ALREADY_USED": "此電郵地址已被註冊",
     "REFERRER_NOT_EXIST": "推薦人的 LikeCoin ID 不存在",
-    "USER_ALREADY_EXIST": "帳戶已經存在"
+    "USER_ALREADY_EXIST": "帳戶已經存在",
+    "USER_NOT_EXIST": "帳戶不存在",
+    "OICE_SERVER_ERROR": "伺服器錯誤，請重載網頁並重試。如重複出現該錯誤，請聯絡客服。",
+    "OICE_LIKECOIN_ID_NOT_BIND": "oice 跟 LikeCoin ID 的連結有誤，請確認你正在登入的 oice 帳號，有綁定 LikeCoin ID ，而且 綁定 ID 跟 目前 ID 一致。"
   },
   "Form": {
     "Retweet": {
@@ -979,6 +982,29 @@
     "twitterBitmart": {
       "title": "轉推 BitMart!",
       "description":"還差一步 － 請立即到 <a href=\"https://www.bitmart.com/vote/cn\" target=\"_blank\">BitMart</a> 投 LikeCoin 一票，支持我們上交易所。你的支持十分重要！"
+    },
+    "registerOice": {
+      "title": "綁定 oice",
+      "step": {
+        "0": {
+          "title": "登入 oice",
+          "description": "登入或註冊 oice",
+          "button": "登入 oice"
+        },
+        "1": {
+          "title": "連結 oice",
+          "description": "連起你的 oice 帳號跟 LikeCoin ID",
+          "button": "連結吧"
+        },
+        "2": {
+          "title": "連結 oice",
+          "description": "驗證你己成功連結 oice 帳號到 LikeCoin ID",
+          "button": "驗證"
+        }
+      },
+      "label": {
+        "verifying": "驗證中"
+      }
     },
     "completedBanner": {
       "label": {

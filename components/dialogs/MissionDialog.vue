@@ -24,23 +24,30 @@
         mode="out-in"
       >
         <div
-          v-if="!shouldShowDesktopOnly && !isCompleted && isCustomLayout"
+          v-if="isCustomLayout && !isCompleted"
           key="custom"
           class="mission-dialog-content"
         >
 
           <quote-tweet-mission
-            v-if="missionId === 'twitter'"
+            v-if="!shouldShowDesktopOnly && missionId === 'twitter'"
             :userId="getUserInfo.user"
             @cancel="onDismiss"
             @complete="onCompleteMission"
           />
 
           <retweet-mission
-            v-else-if="missionId === 'twitterBitmart'"
+            v-else-if="!shouldShowDesktopOnly && missionId === 'twitterBitmart'"
             :user-id="getUserInfo.user"
             :mission-id="missionId"
             tweet-url="https://twitter.com/BitMartExchange/status/1010271556742807552"
+            @cancel="onDismiss"
+            @complete="onCompleteMission"
+          />
+
+          <connect-oice-mission
+            v-else-if="missionId === 'registerOice'"
+            :user-id="getUserInfo.user"
             @cancel="onDismiss"
             @complete="onCompleteMission"
           />
@@ -340,6 +347,7 @@ import MissionCompletedBanner from '~/components/Mission/CompletedBanner';
 import MissionIcon from '~/components/Mission/Icon';
 import QuoteTweetMission from '~/components/dialogs/MissionDialogContent/QuoteTweet';
 import RetweetMission from '~/components/dialogs/MissionDialogContent/Retweet';
+import ConnectOiceMission from '~/components/dialogs/MissionDialogContent/ConnectOice';
 import TaskList from '~/components/Mission/TaskList';
 import VerifyEmailForm from '~/components/forms/VerifyEmailForm';
 import { GETTING_STARTED_TASKS } from '@/constant';
@@ -365,6 +373,7 @@ export default {
     MissionIcon,
     QuoteTweetMission,
     RetweetMission,
+    ConnectOiceMission,
     TaskList,
     VerifyEmailForm,
   },
@@ -396,7 +405,7 @@ export default {
       );
     },
     isCustomLayout() {
-      return /^twitter.*/.test(this.missionId);
+      return /(^twitter.*|registerOice)/.test(this.missionId);
     },
     reward() {
       if (this.mission.isFromUrl) return '';
@@ -680,6 +689,25 @@ export default {
 .md-dialog.upcoming {
   :global(.lc-dialog-header::before) {
     background-image: linear-gradient(266deg, #ececec, #c0c0c0);
+  }
+}
+
+.mission-dialog-content {
+  :global(.instruction-image) {
+    display: block;
+
+    min-width: 418px;
+    padding: 16px 16px 24px;
+
+    > :global(img) {
+      border: solid 2px #E6E6E6;
+      border-radius: 8px;
+      background-color: $like-gray-1;
+    }
+
+    @media (max-width: 600px) {
+      min-width: 100%;
+    }
   }
 }
 </style>

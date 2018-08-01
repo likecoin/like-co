@@ -117,8 +117,8 @@
                       {{ $t('Pay.label.dontWorryWithoutLikeCoin') }}
                     </p>
                     <md-button
+                      :href="registrationTutorialLink"
                       class="md-likecoin"
-                      @click="onClickSignUpButton"
                     >
                       {{ $t('Pay.button.registrationTutorial') }}
                     </md-button>
@@ -273,6 +273,7 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'getCurrentLocale',
       'getIsInTransaction',
       'getLocalWallet',
       'getUserIsRegistered',
@@ -288,6 +289,16 @@ export default {
     },
     httpReferrer() {
       return this.$route.query.referrer || document.referrer || undefined;
+    },
+    registrationTutorialLink() {
+      switch (this.getCurrentLocale) {
+        case 'zh':
+          return 'https://help.like.co/likecoin-%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C/%E6%96%B0%E6%89%8B%E4%B8%8A%E8%B7%AF/%E5%A6%82%E4%BD%95%E5%9C%A8%E9%9B%BB%E8%85%A6%E8%A8%BB%E5%86%8A-likecoin-id';
+        case 'cn':
+          return 'https://help.like.co/likecoin-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/%E6%96%B0%E6%89%8B%E4%B8%8A%E8%B7%AF/%E5%A6%82%E4%BD%95%E5%9C%A8%E7%94%B5%E8%84%91%E6%B3%A8%E5%86%8C-likecoin-id';
+        default:
+          return 'https://help.like.co/likecoin-faq/newbies/registering-likecoin-id-on-computer';
+      }
     },
   },
   watch: {
@@ -376,12 +387,6 @@ export default {
       } catch (error) {
         console.error(error); // eslint-disable-line no-console
       }
-    },
-    onClickSignUpButton() {
-      this.$router.push({
-        name: 'in-register',
-        query: { ...this.$route.query, ref: '' },
-      });
     },
   },
 };
@@ -551,13 +556,17 @@ export default {
 }
 
 .action-section {
+  text-align: center;
+
   .md-button {
-    display: block;
+    &:not(a) {
+      display: block;
+    }
 
     margin: 16px auto;
   }
 
-  a {
+  a:not(.md-button) {
     text-decoration: underline;
 
     color: $like-gray-4;

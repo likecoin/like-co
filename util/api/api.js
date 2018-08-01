@@ -94,6 +94,11 @@ export const apiPostRetweetMission = (
   inputTwitterId,
 });
 
+export const apiPostRegisterOiceMission = user => axios.post(
+  `${LIKECOIN_API_BASE}/mission/registerOice`,
+  { user },
+);
+
 export const apiPostHideMission = (id, payload) => axios.post(`/api/mission/hide/${id}`, payload);
 
 export const apiFetchReferralMissionList = id => axios.get(`/api/referral/list/${id}`);
