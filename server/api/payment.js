@@ -158,6 +158,8 @@ router.post('/payment', async (req, res, next) => {
       }
     }
 
+    await logTransferDelegatedTx(txRecord);
+
     const status = 'pending';
     if (toSubscriptionURL) {
       try {
@@ -175,7 +177,6 @@ router.post('/payment', async (req, res, next) => {
         console.error(err); // eslint-disable-line no-console
       }
     }
-    await logTransferDelegatedTx(txRecord);
     res.json({ txHash });
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventPay',
