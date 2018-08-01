@@ -164,11 +164,15 @@ export async function fetchSocialPlatformLink({ commit, dispatch }, { platform, 
 }
 
 export async function linkSocialPlatform({ commit, dispatch }, { platform, payload }) {
-  const { displayName, url } = await apiWrapper(
+  const {
+    displayName, url, pages, id,
+  } = await apiWrapper(
     { commit, dispatch },
     api.apiLinkSocialPlatform(platform, payload),
   );
-  commit(types.USER_LINK_SOCIAL, { id: platform, displayName, url });
+  commit(types.USER_LINK_SOCIAL, {
+    platform, displayName, url, pages, id,
+  });
   return true;
 }
 

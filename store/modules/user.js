@@ -46,8 +46,12 @@ const mutations = {
     state.platforms = platforms;
   },
   [USER_LINK_SOCIAL](state, payload) {
-    const { id, displayName, url } = payload;
-    Vue.set(state.platforms, id, { displayName, url });
+    const {
+      platform, displayName, url, pages, id,
+    } = payload;
+    Vue.set(state.platforms, platform, {
+      displayName, id, url, pages,
+    });
   },
   [USER_UNLINK_SOCIAL](state, payload) {
     Vue.set(state.platforms, payload, undefined);

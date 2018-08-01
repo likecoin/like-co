@@ -122,37 +122,11 @@
                     </md-field>
                   </span>
                 </div>
-
-                <div class="profile-setting-page__field profile-setting-page__field--multi-line">
-                  <span class="lc-margin-top-8">
-                    {{ $t('Edit.label.accountConnection') }}
-                  </span>
-                  <span
-                    :class="[
-                      'profile-setting-page__account-connection-detail',
-                      'lc-margin-top-8',
-                      'lc-color-gray-9b'
-                    ]"
-                  >
-                    {{ $t('Settings.label.accountConnection') }}
-                  </span>
-                </div>
-
-                <div class="profile-setting-page__social lc-margin-top-24">
-                  <social-media-connect
-                    v-if="getUserInfo.user"
-                    :platforms="userSocialPlatforms"
-                    :username="getUserInfo.user"
-                    type="large"
-                    @disconnect="onClickSocialMediaDisconnect"
-                  />
-                </div>
-
               </div>
             </div>
-            <div class="profile-setting-page__confirm-btn lc-margin-top-32">
+            <div class="profile-setting-page__confirm-btn lc-margin-top-8">
               <md-button
-                :disabled="!hasChanged || disabled"
+                :disabled="!hasUserDetailsChanged || disabled"
                 class="md-likecoin"
                 form="account-setting-form"
                 type="submit"
@@ -161,6 +135,32 @@
               </md-button>
             </div>
           </form>
+
+          <div
+            v-if="getUserInfo.user"
+            class="profile-setting-page__account-connection"
+          >
+            <div class="profile-setting-page__field profile-setting-page__field--multi-line">
+              <span class="lc-margin-top-8">
+                {{ $t('Edit.label.accountConnection') }}
+              </span>
+              <span
+                :class="[
+                  'profile-setting-page__account-connection-detail',
+                  'lc-margin-top-8',
+                  'lc-color-gray-9b'
+                ]"
+              >
+                {{ $t('Settings.label.accountConnection') }}
+              </span>
+            </div>
+            <social-media-connect
+              :platforms="getUserSocialPlatforms"
+              :username="getUserInfo.user"
+              type="large"
+              @disconnect="onClickSocialMediaDisconnect"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -191,7 +191,6 @@ export default {
       avatar: '',
       avatarFile: null,
       displayName: '',
-      disconnectedSocialMedias: [],
       email: '',
       hasCopiedReceiveLikeCoinLink: false,
       isEmailEnabled: false,
@@ -220,21 +219,8 @@ export default {
         this.getUserInfo.displayName !== this.displayName
       );
     },
-    hasDisconnectedSocialMedia() {
-      return this.disconnectedSocialMedias.length > 0;
-    },
-    hasChanged() {
-      return this.hasUserDetailsChanged || this.hasDisconnectedSocialMedia;
-    },
     receiveLikeCoinLink() {
       return `https://${EXTERNAL_HOSTNAME}/${this.getUserInfo.user}`;
-    },
-    userSocialPlatforms() {
-      const platforms = { ...this.getUserSocialPlatforms };
-      this.disconnectedSocialMedias.forEach((s) => {
-        platforms[s] = undefined;
-      });
-      return platforms;
     },
   },
   watch: {
@@ -318,20 +304,6 @@ export default {
           console.error(err);
         }
       }
-
-      if (this.hasDisconnectedSocialMedia) {
-        try {
-          const promises = this.disconnectedSocialMedias.map(platform => this.unlinkSocialPlatform({
-            platform,
-            payload: {
-              user: this.getUserInfo.user,
-            },
-          }));
-          await Promise.all(promises);
-        } catch (err) {
-          console.error(err);
-        }
-      }
     },
     onCopyReceiveLikeCoinLink() {
       this.hasCopiedReceiveLikeCoinLink = true;
@@ -351,7 +323,12 @@ export default {
       }
     },
     onClickSocialMediaDisconnect(platform) {
-      this.disconnectedSocialMedias.push(platform);
+      this.unlinkSocialPlatform({
+        platform,
+        payload: {
+          user: this.getUserInfo.user,
+        },
+      });
     },
   },
 };
@@ -465,7 +442,10 @@ export default {
 
     &--one-line {
       flex-direction: row;
-      flex-wrap: wrap;
+
+      @media (min-width: 768px + 1px) {
+        flex-wrap: wrap;
+      }
 
       @media (max-width: 768px) {
         flex-direction: column;
@@ -506,6 +486,12 @@ export default {
 
     .simple-svg-wrapper {
       margin-right: 4px;
+    }
+  }
+
+  &__account-connection {
+    @media (min-width: 768px + 1px) {
+      margin-left: 176px;
     }
   }
 

@@ -228,18 +228,16 @@ export default {
     },
     ...mapGetters(['getUserInfo']),
   },
+  watch: {
+    platforms: {
+      handler(p) {
+        this.updateSelectedFacebookPage(p);
+      },
+      deep: true,
+    },
+  },
   mounted() {
-    if (this.isLarge && this.platforms && this.platforms.facebook) {
-      const { facebook } = this.platforms;
-      let model = facebook.id;
-      (facebook.pages || []).forEach((page) => {
-        if (page.link === facebook.url) {
-          model = page.id;
-        }
-      });
-      // show which facebook page/ac is currently shown in public
-      this.linkedFacebookAc = model;
-    }
+    this.updateSelectedFacebookPage(this.platforms);
   },
   methods: {
     ...mapActions([
@@ -318,6 +316,19 @@ export default {
         },
       });
     },
+    updateSelectedFacebookPage(platforms) {
+      if (this.isLarge && platforms && platforms.facebook) {
+        const { facebook } = platforms;
+        let model = facebook.id;
+        (facebook.pages || []).forEach((page) => {
+          if (page.link === facebook.url) {
+            model = page.id;
+          }
+        });
+        // show which facebook page/ac is currently shown in public
+        this.linkedFacebookAc = model;
+      }
+    },
   },
 };
 </script>
@@ -352,6 +363,9 @@ $hover-color-map: (
     list-style: none;
 
     > li {
+      display: flex;
+      flex-shrink: 0;
+
       padding: 8px 6px;
     }
   }
@@ -425,10 +439,10 @@ $hover-color-map: (
       }
 
       .md-icon-button {
-        width: auto;
+        width: 24px;
         min-width: auto;
-        height: auto;
-        margin: 3px 0 0 8px;
+        height: 24px;
+        margin-top: 3px;
 
         :global(.md-ripple) {
           padding: 0;

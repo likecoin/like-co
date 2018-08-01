@@ -63,6 +63,8 @@ router.post('/social/link/facebook', jwtAuth, async (req, res, next) => {
     res.json({
       platform: 'facebook',
       displayName,
+      id: userId,
+      pages,
       url: link,
     });
     const userDoc = await dbRef.doc(user).get();
