@@ -282,10 +282,14 @@ export default {
     if (this.isInstallMetamask) {
       logTrackerEvent(this, 'RegFlow', 'AppearMetamaskCTA', 'metamask install cta appear', 1);
     }
+    if (!this.getLikeCoinUsdNumericPrice) {
+      this.queryLikeCoinUsdPrice();
+    }
   },
   methods: {
     ...mapActions([
       'hideLoginWindow',
+      'queryLikeCoinUsdPrice',
     ]),
     refreshPage() {
       logTrackerEvent(this, 'RegFlow', 'InstallMetamaskSuccessfull', 'click install metamask complete and the metamask CTA disappear', 1);
