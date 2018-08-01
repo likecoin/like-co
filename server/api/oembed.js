@@ -4,7 +4,7 @@ import { toDataUrl } from '@likecoin/ethereum-blockies';
 import xml from 'xml';
 import { ValidationError } from '../../util/ValidationHelper';
 
-const subdomain = ['www.', 'rinkeby.', 'button.', 'button.rinkeby.'];
+const subdomain = ['www.', 'rinkeby.', 'button.', 'button.rinkeby.', 'widget.'];
 const queryUrlRegexp = new RegExp('^(?:https?:\\/\\/)?([a-z0-9.]+)?like\\.co\\/([-_a-z0-9]+)(?:/([0-9]+)?)?');
 
 const {
