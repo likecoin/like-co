@@ -1066,6 +1066,7 @@
     },
     "registerOice": {
       "title": "Connect oice",
+      "description": "Binding oice account with LikeCoin ID",
       "step": {
         "0": {
           "title": "Login to oice",
