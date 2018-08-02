@@ -171,13 +171,26 @@
               <div class="address-field">
                 {{ $t('Edit.label.accountConnection') }}
               </div>
-              <social-media-connect
-                v-if="getUserInfo.user"
-                :platforms="getUserSocialPlatforms"
-                :username="getUserInfo.user"
-                class="lc-margin-vertical-8"
-                type="mini"
-              />
+              <div class="lc-margin-vertical-8 lc-flex lc-align-items-center">
+                <social-media-connect
+                  v-if="getUserInfo.user"
+                  :platforms="getUserSocialPlatforms"
+                  :username="getUserInfo.user"
+                  type="mini"
+                />
+                <md-button
+                  :to="{ name: 'in-settings' }"
+                  class="social-media-connect__setting-icon md-icon-button"
+                  type="button"
+                >
+                  <simple-svg
+                    :filepath="SettingsIcon"
+                    fill="#c0c0c0"
+                    height="20px"
+                    width="20px"
+                  />
+                </md-button>
+              </div>
 
             </div>
 
@@ -203,6 +216,7 @@ import {
 
 import EditIcon from '@/assets/icons/edit.svg';
 import EditWhiteIcon from '@/assets/icons/edit-white.svg';
+import SettingsIcon from '@/assets/icons/settings.svg';
 import TickIcon from '@/assets/tokensale/tick.svg';
 
 import LikeCoinAmount from '~/components/LikeCoinAmount';
@@ -222,9 +236,10 @@ export default {
   },
   data() {
     return {
-      TickIcon,
       EditIcon,
       EditWhiteIcon,
+      SettingsIcon,
+      TickIcon,
       W3C_EMAIL_REGEX,
       avatarData: null,
       avatarFile: null,
@@ -706,5 +721,12 @@ input:disabled {
     height: 24px;
     margin: 0;
   }
+}
+
+.social-media-connect__setting-icon {
+  width: 24px;
+  min-width: auto;
+  height: 24px;
+  margin: -4px 0 0 16px;
 }
 </style>
