@@ -84,7 +84,7 @@
         class="lc-mobile-show"
         @click="onClickSlide"
       >
-        <div v-if="isLoading">
+        <template v-if="isLoading">
           <div
             v-for="p in NUM_PLACEHOLDERS"
             :key="`placeholder-${p}`"
@@ -92,7 +92,7 @@
           >
             <mission-item-placeholder layout="large" />
           </div>
-        </div>
+        </template>
 
         <div
           v-if="isEmptyList && !isLoading"
@@ -106,7 +106,7 @@
             <span>{{ emptyPlaceholder }}</span>
           </div>
         </div>
-        <div v-if="!isLoading">
+        <template v-if="!isLoading">
           <div
             v-for="m in missions"
             :key="m.id"
@@ -118,7 +118,7 @@
               layout="large"
             />
           </div>
-        </div>
+        </template>
 
       </swiper>
 
