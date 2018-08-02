@@ -64,6 +64,7 @@
                   {{ $t('SocialMediaConnect.label.linkTo') }}
                 </span>
                 <md-select
+                  v-if="linkedFacebookAc"
                   v-model="linkedFacebookAc"
                   @md-selected="onSelectFacebookPageLink"
                 >

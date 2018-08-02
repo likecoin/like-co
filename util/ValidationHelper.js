@@ -130,20 +130,22 @@ export const ValidationHelper = {
       value,
     };
   },
-  filterSocialPlatform({
+  filterSocialPlatformPersonal({
     userId,
-    url,
-    displayName,
     pages,
   }) {
-    const data = {
-      id: userId,
-      url,
-      displayName,
-    };
+    const data = { id: userId };
     if (pages) data.pages = pages;
-
     return data;
+  },
+  filterSocialPlatformPublic({
+    displayName,
+    url,
+  }) {
+    return {
+      displayName,
+      url,
+    };
   },
 };
 

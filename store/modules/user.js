@@ -8,6 +8,7 @@ import {
   USER_SET_WEB3_FETCHING,
   USER_AWAITING_AUTH,
   USER_SET_SOCIAL,
+  USER_SET_SOCIAL_DETAILS,
   USER_LINK_SOCIAL,
   USER_UNLINK_SOCIAL,
   USER_SET_LIKECOIN_BIG_NUMBER_AMOUNT,
@@ -44,6 +45,14 @@ const mutations = {
   },
   [USER_SET_SOCIAL](state, platforms) {
     state.platforms = platforms;
+  },
+  [USER_SET_SOCIAL_DETAILS](state, platforms) {
+    Object.keys(platforms).forEach((p) => {
+      Vue.set(state.platforms, p, {
+        ...state.platforms[p],
+        ...platforms[p],
+      });
+    });
   },
   [USER_LINK_SOCIAL](state, payload) {
     const {

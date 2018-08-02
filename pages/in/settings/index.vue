@@ -256,6 +256,7 @@ export default {
   },
   methods: {
     ...mapActions([
+      'fetchSocialListDetailsById',
       'loginUser',
       'newUser',
       'refreshUserInfo',
@@ -271,6 +272,8 @@ export default {
       this.avatar = user.avatar;
       this.displayName = user.displayName;
       this.email = user.email;
+
+      this.fetchSocialListDetailsById(user.user);
     },
     async onSubmit() {
       if (this.hasUserDetailsChanged) {

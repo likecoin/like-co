@@ -28,8 +28,26 @@ router.get('/social/list/:id', async (req, res, next) => {
     const replyObj = {};
     col.docs.forEach((d) => {
       const { isLinked } = d.data();
-      if (isLinked) replyObj[d.id] = Validate.filterSocialPlatform({ ...d.data() });
+      if (isLinked) replyObj[d.id] = Validate.filterSocialPlatformPublic({ ...d.data() });
     });
+    res.json(replyObj);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get('/social/list/:id/details', jwtAuth, async (req, res, next) => {
+  try {
+    const username = req.params.id;
+    if (req.user.user !== username) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
+
+    const doc = await dbRef.doc(username).collection('social').doc('facebook').get();
+    const replyObj = {
+      facebook: Validate.filterSocialPlatformPersonal({ ...doc.data() }),
+    };
     res.json(replyObj);
   } catch (err) {
     next(err);

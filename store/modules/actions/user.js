@@ -159,6 +159,11 @@ export async function fetchtSocialListById({ commit, dispatch }, id) {
   return true;
 }
 
+export async function fetchSocialListDetailsById({ commit, dispatch }, id) {
+  const platforms = await apiWrapper({ commit, dispatch }, api.apiGetSocialListDetialsById(id));
+  commit(types.USER_SET_SOCIAL_DETAILS, platforms);
+}
+
 export async function fetchSocialPlatformLink({ commit, dispatch }, { platform, id }) {
   return apiWrapper({ commit, dispatch }, api.apiGetSocialPlatformLink(platform, id));
 }

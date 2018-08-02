@@ -154,6 +154,8 @@ export const apiSetNotification = (id, isEmailEnabled) => axios.post(`/api/users
 
 export const apiGetSocialListById = id => axios.get(`/api/social/list/${id}`);
 
+export const apiGetSocialListDetialsById = id => axios.get(`/api/social/list/${id}/details`);
+
 export const apiGetSocialPlatformLink = (platform, id) => axios.get(`/api/social/link/${platform}/${id}`);
 
 export const apiLinkSocialPlatform = (platform, payload) => axios.post(`/api/social/link/${platform}`, payload);
