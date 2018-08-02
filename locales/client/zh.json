@@ -985,6 +985,7 @@
     },
     "registerOice": {
       "title": "綁定 oice",
+      "description": "綁定 oice 帳號及 LikeCoin ID",
       "step": {
         "0": {
           "title": "登入 oice",
