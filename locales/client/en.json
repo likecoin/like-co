@@ -1068,18 +1068,18 @@
       "title": "Connect oice",
       "step": {
         "0": {
-          "title": "Login to oice",
-          "description": "Login or register to oice",
+          "title": "1) Login to oice",
+          "description": "Step 1 of 3: Login to oice by any Google Account",
           "button": "Login to oice"
         },
         "1": {
-          "title": "Connect to oice",
-          "description": "Connect your oice account to LikeCoin ID",
-          "button": "Connect Now"
+          "title": "2) Link oice and LikeCoin ID",
+          "description": "Step 2 of 3: Input your LikeCoin ID in oice.com.",
+          "button": "Click to Link"
         },
         "2": {
-          "title": "Connect to oice",
-          "description": "Verfiy connection",
+          "title": "3) Verify the connection",
+          "description": "Step 3 of 3: Click \"Verify\", and done!",
           "button": "Verify"
         }
       },
