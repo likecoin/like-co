@@ -44,10 +44,14 @@ router.get('/social/list/:id/details', jwtAuth, async (req, res, next) => {
       return;
     }
 
-    const doc = await dbRef.doc(username).collection('social').doc('facebook').get();
-    const replyObj = {
-      facebook: Validate.filterSocialPlatformPersonal({ ...doc.data() }),
-    };
+    const replyObj = {};
+
+    const facebookDoc = await dbRef.doc(username).collection('social').doc('facebook').get();
+    const facebookData = facebookDoc.data();
+    if (facebookData) {
+      replyObj.facebook = Validate.filterSocialPlatformPersonal({ ...facebookData });
+    }
+
     res.json(replyObj);
   } catch (err) {
     next(err);

@@ -954,7 +954,7 @@
       "contactUs": "Contact us for {deleteAccount} or {requestReport}",
       "deleteAccountPrePopulatedMessage": "I want to delete my account",
       "requestReportPrePopulatedMessage": "I want to request an account data report ",
-      "receiveLikeCoinLink": "Receive LikeCoin link:",
+      "receiveLikeCoinLink": "Your LikeCoin payment link:",
       "accountConnection": "You can connect to your accounts on various social platforms."
     },
     "button": {

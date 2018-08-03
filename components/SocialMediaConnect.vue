@@ -232,13 +232,17 @@ export default {
   watch: {
     platforms: {
       handler(p) {
-        this.updateSelectedFacebookPage(p);
+        if (this.isLarge) {
+          this.refreshAddtionalDetails(p);
+        }
       },
       deep: true,
     },
   },
   mounted() {
-    this.updateSelectedFacebookPage(this.platforms);
+    if (this.isLarge) {
+      this.refreshAddtionalDetails(this.platforms);
+    }
   },
   methods: {
     ...mapActions([
@@ -317,8 +321,8 @@ export default {
         },
       });
     },
-    updateSelectedFacebookPage(platforms) {
-      if (this.isLarge && platforms && platforms.facebook) {
+    refreshAddtionalDetails(platforms) {
+      if (platforms && platforms.facebook) {
         const { facebook } = platforms;
         let model = facebook.id;
         (facebook.pages || []).forEach((page) => {
