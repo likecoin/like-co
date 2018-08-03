@@ -24,20 +24,20 @@
         mode="out-in"
       >
         <div
-          v-if="isCustomLayout && !isCompleted"
+          v-if="!shouldShowDesktopOnly && isCustomLayout && !isCompleted"
           key="custom"
           class="mission-dialog-content"
         >
 
           <quote-tweet-mission
-            v-if="!shouldShowDesktopOnly && missionId === 'twitter'"
+            v-if="missionId === 'twitter'"
             :userId="getUserInfo.user"
             @cancel="onDismiss"
             @complete="onCompleteMission"
           />
 
           <retweet-mission
-            v-else-if="!shouldShowDesktopOnly && missionId === 'twitterBitmart'"
+            v-else-if="missionId === 'twitterBitmart'"
             :user-id="getUserInfo.user"
             :mission-id="missionId"
             tweet-url="https://twitter.com/BitMartExchange/status/1010271556742807552"
