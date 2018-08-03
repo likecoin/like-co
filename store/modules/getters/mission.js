@@ -1,4 +1,5 @@
 import { MERGED_MISSIONS, ONE_LIKE } from '@/constant';
+import { checkIsMobileClient } from '@/util/client';
 
 export const getProxyMissionReward = state => (id) => {
   const reward = state.proxyBonus[id];
@@ -20,6 +21,7 @@ const filterMissions = (state, missions) => {
       if (missions.find(t => t.id === target)) return;
     }
     if (m.endTs && m.endTs < Date.now() && !canClaim(state, m)) return;
+    if (m.isDesktopOnly && checkIsMobileClient()) return;
     filteredMissions.push(m);
   });
   return filteredMissions.sort((a, b) => {
