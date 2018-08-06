@@ -6,32 +6,18 @@
 
         <embed-user-info
           :avatar="avatar"
-          :display-name="displayName"
           :link="getUserPath"
         />
 
         <div class="text-content">
-          <div class="text-content__subtitle">
-            {{ $t('Embed.label.subtitle') }}
+          <div class="text-content__title text-content__title--display-name">
+            <a :href="getUserPath">{{ displayName }}</a>
           </div>
           <div class="text-content__title">
-            {{ $t('Embed.label.title') }}
+            {{ $t('Embed.label.followMeOn') }}
           </div>
         </div>
 
-        <div class="embed-superlike-button-wrapper">
-          <a
-            id="embed-superlike-button"
-            :href="getUserPath"
-            target="_blank"
-          >
-            <div class="button-content-wrapper">
-              <div class="button-content">
-                {{ $t('Embed.button.sendLike') }}
-              </div>
-            </div>
-          </a>
-        </div>
       </div>
     </div>
 
@@ -39,7 +25,7 @@
       <social-media-connect
         :username="id"
         :platforms="platforms"
-        :limit="5"
+        :limit="6"
       />
 
       <embed-create-widget-button :link="getReferralLink" />
@@ -62,14 +48,19 @@ export default {
 @import "~assets/embed";
 
 .likecoin-embed {
-  &__badge,
-  & footer {
-    margin-right: normalized($button-width / 2 + $button-shadow-width);
-  }
+  .text-content {
+    &__title {
+      color: $like-gray-5;
 
-  &__badge {
-    &__content {
-      padding-right: normalized($button-width / 2 + $button-shadow-width);
+      font-size: normalized(26);
+      font-weight: 600;
+      line-height: normalized(32);
+
+      &--display-name {
+        color: $like-green;
+
+        font-size: normalized(22);
+      }
     }
   }
 }

@@ -1105,7 +1105,8 @@
       "rewardUserWithLikeToken": "Reward {user} with LIKE token",
       "supportUser": "Support {user}",
       "loginAdvice": "{login} the writer you like will generate more LikeCoin",
-      "numLikesForArticle": "{numOfLikes} Like from {numOfLikees} people"
+      "numLikesForArticle": "{numOfLikes} Like from {numOfLikees} people",
+      "followMeOn": "Follow me on"
     },
     "button": {
       "login": "Login to LikeCoin ID",
