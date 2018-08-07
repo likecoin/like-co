@@ -1013,7 +1013,8 @@
       "subtitle": "喜歡這篇文章",
       "title": "化讚為賞 回饋創作",
       "createMyWidget": "Create my LikeWidget",
-      "createMyButton": "Create my LikeButton"
+      "createMyButton": "Create my LikeButton",
+      "followMeOn": "關注我的消息"
     },
     "button": {
       "sendLike": "賞"

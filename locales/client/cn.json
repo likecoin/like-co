@@ -1007,7 +1007,8 @@
       "providedBy": "by LikeCoin 化赞为赏回馈创作",
       "subtitle": "喜欢这篇文章",
       "title": "化赞为赏 回馈创作",
-      "createMyWidget": "Create my LikeCoin widget"
+      "createMyWidget": "Create my LikeCoin widget",
+      "followMeOn": "关注我的消息"
     },
     "button": {
       "sendLike": "赏"
