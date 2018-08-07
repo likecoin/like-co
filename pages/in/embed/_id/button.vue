@@ -173,7 +173,10 @@
         :limit="5"
       />
 
-      <embed-create-widget-button :link="getReferralLink" />
+      <embed-create-widget-button
+        :link="getReferralLink"
+        is-button
+      />
     </footer>
 
   </div>

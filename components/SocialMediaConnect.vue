@@ -21,7 +21,7 @@
               'social-media-connect__button',
               `social-media-connect__button--${socialMedia.id}`,
               `social-media-connect__button--${
-                getIsConnected(socialMedia.id) ? 'connected' : 'disconnected'
+                getIsConnected(socialMedia) ? 'connected' : 'disconnected'
               }`,
             ]"
             type="button"
@@ -70,6 +70,10 @@ const TYPE = {
 };
 
 const SOCIAL_MEDIA_LIST = [
+  {
+    id: 'likecoin',
+    tier: 0,
+  },
   {
     id: 'facebook',
     tier: 1,
@@ -122,6 +126,10 @@ export default {
       type: Number,
       default: undefined,
     },
+    userLink: {
+      type: String,
+      default: undefined,
+    },
   },
   computed: {
     isMini() {
@@ -129,8 +137,9 @@ export default {
     },
     socialMediaList() {
       return SOCIAL_MEDIA_LIST
-        .filter(({ id, tier }) => {
-          const isConnected = this.getIsConnected(id);
+        .filter((socialMedia) => {
+          const { tier } = socialMedia;
+          const isConnected = this.getIsConnected(socialMedia);
           return (
             (this.type === TYPE.READONLY && isConnected) ||
             (this.type === TYPE.MINI && (isConnected || tier === 1)) ||
@@ -148,20 +157,29 @@ export default {
     getIconPath(id) {
       return iconFolder(`./${id}.svg`);
     },
-    getIsConnected(id) {
-      return !!this.platforms[id];
+    getIsConnected({ id, tier }) {
+      return !!this.platforms[id] || (
+        tier === 0 && (id === 'likecoin' && this.userLink)
+      );
     },
     onClickButton(socialMedia) {
-      const isConnected = this.getIsConnected(socialMedia.id);
+      const { id, tier } = socialMedia;
+      const platform = this.platforms[id];
+      const isConnected = !!platform || tier === 0;
       if (!isConnected) {
         this.connect(socialMedia);
-      } else if (this.platforms[socialMedia.id].url) {
-        openURL(
-          this,
-          this.platforms[socialMedia.id].url,
-          '_blank',
-          'noopener',
-        );
+      } else {
+        let url;
+        switch (id) {
+          case 'likecoin':
+            url = this.userLink;
+            break;
+
+          default:
+            if (platform) ({ url } = platform);
+            break;
+        }
+        if (url) openURL(this, url, '_blank', 'noopener');
       }
     },
     async connect(socialMedia) {
@@ -201,6 +219,7 @@ export default {
 @import "~assets/variables";
 
 $hover-color-map: (
+  likecoin: $like-green,
   facebook: #3b5998,
   flickr: #0063dc,
   instagram: #c7548a,

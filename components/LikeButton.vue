@@ -6,6 +6,7 @@
         'like-button--liked': likeCount > 0,
         'like-button--super-like': isLocalSuperLike,
         'like-button--pressed': isPressingKnob,
+        'like-button--long-pressed': isLongPressingKnob,
       },
     ]"
   >
@@ -21,6 +22,7 @@
                 'like-button-slide-track--disabled': !isKnobMovable,
               },
             ]"
+            @click="onClickTrack"
           />
         </no-ssr>
 
@@ -34,6 +36,7 @@
             class="like-button-knob"
             @mousedown="onPressKnob"
             @mouseup="onPressedKnob"
+            @mouseleave="onLeaveKnob"
           >
             <transition
               v-for="i in 12"
@@ -135,6 +138,7 @@ export default {
       isShowBubble: false,
       isShowClapEffect: false,
       isPressingKnob: false,
+      isLongPressingKnob: false,
       hasMovedKnob: false,
       lastClientX: 0,
       clientX: 0,
@@ -142,6 +146,7 @@ export default {
       knobProgress: this.isToggled ? 1 : 0,
 
       bubbleTimer: null,
+      longPressTimer: null,
     };
   },
   computed: {
@@ -174,18 +179,24 @@ export default {
   mounted() {
     if (this.isKnobMovable) {
       document.addEventListener('mousemove', this.onMovingKnob);
+      document.addEventListener('mouseleave', this.onReleaseKnob);
       document.addEventListener('mouseup', this.onReleaseKnob);
     }
   },
   beforeDestroy() {
     if (this.isKnobMovable) {
       document.removeEventListener('mousemove', this.onMovingKnob);
+      document.removeEventListener('mouseleave', this.onReleaseKnob);
       document.removeEventListener('mouseup', this.onReleaseKnob);
     }
 
     if (this.bubbleTimer) {
       clearTimeout(this.bubbleTimer);
       this.bubbleTimer = null;
+    }
+    if (this.longPressTimer) {
+      clearInterval(this.longPressTimer);
+      this.longPressTimer = null;
     }
   },
   methods: {
@@ -201,6 +212,13 @@ export default {
     ),
     setClientX(e) {
       this.clientX = e.targetTouches ? e.targetTouches[0].clientX : e.clientX;
+    },
+    clearLongPress() {
+      this.isLongPressingKnob = false;
+      if (this.longPressTimer) {
+        clearInterval(this.longPressTimer);
+        this.longPressTimer = null;
+      }
     },
     updateKnobProgressByEvent(e) {
       this.lastMoveKnobTimeStamp = e.timeStamp;
@@ -234,7 +252,7 @@ export default {
         });
 
         if (this.isSuperLike) {
-          if (this.isKnobMovable) {
+          if (this.isKnobMovable && !this.isLongPressingKnob) {
             this.knobProgress = 1;
           }
         } else {
@@ -259,14 +277,29 @@ export default {
       this.lastClientX = this.clientX;
       this.isPressingKnob = true;
       this.hasMovedKnob = false;
+      if (!this.isLocalSuperLike) {
+        this.longPressTimer = setInterval(() => {
+          this.isLongPressingKnob = true;
+          this.onPressedKnob(e);
+        }, 180);
+      }
     },
     onReleaseKnob() {
+      this.clearLongPress();
+
       if (!this.isPressingKnob) return;
 
       this.isPressingKnob = false;
       this.snapKnobProgress();
       this.$emit('toggle', this.isLocalSuperLike);
       this.hasMovedKnob = false;
+    },
+    onLeaveKnob() {
+      this.clearLongPress();
+    },
+    onClickTrack() {
+      this.knobProgress = this.knobProgress > 0.5 ? 0 : 1;
+      this.$emit('toggle', this.isLocalSuperLike);
     },
   },
 };
@@ -304,6 +337,10 @@ $like-button-like-count-size: 24;
     width: normalized($like-button-slide-track-width);
     padding: normalized(($like-button-size - $like-button-slide-track-height) / 2) normalized(8);
 
+    &:active {
+      transform: scale(0.98);
+    }
+
     &--disabled {
       width: normalized($like-button-size + 8);
 
@@ -318,6 +355,7 @@ $like-button-like-count-size: 24;
       height: normalized($like-button-slide-track-height);
 
       content: '';
+      cursor: pointer;
 
       border-radius: normalized($like-button-slide-track-height);
       background-color: #E6E6E6;
@@ -351,6 +389,8 @@ $like-button-like-count-size: 24;
       left: 0;
 
       width: normalized(28); // Range for sliding
+
+      pointer-events: none;
     }
 
     position: relative;
@@ -369,6 +409,8 @@ $like-button-like-count-size: 24;
     transition-timing-function: ease;
     transition-duration: 0.2s;
     transition-property: margin-left, color, transform;
+
+    pointer-events: all;
 
     color: $like-gray-5;
     border: none;
@@ -480,6 +522,10 @@ $like-button-like-count-size: 24;
       }
       &enter {
         transform: scale(0) translateY(normalized(72));
+
+        .like-button--long-pressed & {
+          transform: scale(0.9) translateY(normalized(2));
+        }
       }
       &leave-to {
         transform: translateY(normalized(-24));

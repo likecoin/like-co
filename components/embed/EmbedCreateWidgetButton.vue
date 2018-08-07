@@ -5,7 +5,7 @@
       target="_blank"
       rel="noopener"
     >
-      {{ $t('Embed.label.createMyWidget') }}
+      {{ $t(`Embed.label.createMy${isButton ? 'Button' : 'Widget'}`) }}
     </a>
   </div>
 </template>
@@ -17,6 +17,10 @@ export default {
     link: {
       type: String,
       default: 'https://like.co',
+    },
+    isButton: {
+      type: [Boolean, String],
+      default: false,
     },
   },
 };

@@ -1038,7 +1038,9 @@
       "providedBy": "by LikeCoin 化讚為賞回饋創作",
       "subtitle": "喜歡這篇文章",
       "title": "化讚為賞 回饋創作",
-      "createMyWidget": "Create my LikeCoin widget"
+      "createMyWidget": "Create my LikeWidget",
+      "createMyButton": "Create my LikeButton",
+      "followMeOn": "關注我的消息"
     },
     "button": {
       "sendLike": "賞"
