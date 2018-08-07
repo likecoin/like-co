@@ -42,7 +42,7 @@
               class="social-media-connect__label"
             >
               <i18n
-                v-if="!getIsConnected(socialMedia.id)"
+                v-if="!getIsConnected(socialMedia)"
                 class="social-media-connect__label--connect"
                 path="SocialMediaConnect.button.connectToPlatform"
                 @click="onClickConnectButton(socialMedia)"
@@ -58,7 +58,7 @@
                 <span>@{{ socialMedia.id }}</span>
               </p>
               <md-field
-                v-if="isLarge && getIsConnected(socialMedia.id) && socialMedia.id === 'facebook'"
+                v-if="isLarge && getIsConnected(socialMedia) && socialMedia.id === 'facebook'"
               >
                 <span class="lc-color-gray-9b lc-font-size-12">
                   {{ $t('SocialMediaConnect.label.linkTo') }}
@@ -80,7 +80,7 @@
             </div>
           </div>
           <md-button
-            v-if="isLarge && getIsConnected(socialMedia.id)"
+            v-if="isLarge && getIsConnected(socialMedia)"
             class="md-icon-button"
             @click="onClickDisconnectButton(socialMedia)"
           >
@@ -213,7 +213,7 @@ export default {
           return (
             (this.type === TYPE.READONLY && isConnected) ||
             (this.type === TYPE.MINI && (isConnected || tier === 1)) ||
-            this.type === TYPE.LARGE
+            (this.type === TYPE.LARGE && tier > 0)
           );
         })
         .slice(0, this.limit);
