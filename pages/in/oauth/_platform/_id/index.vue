@@ -12,7 +12,7 @@
                 <span v-else>
                   {{ $t('General.label.success') }},
                 </span>
-                <nuxt-link :to="{ name: 'in' }">
+                <nuxt-link :to="{ name: 'in-settings' }">
                   {{ $t('Verify.label.toEdit') }}
                 </nuxt-link>
                 ...
@@ -66,7 +66,7 @@ export default {
     },
     getUserNeedRegister(a) {
       if (a) {
-        this.$router.push({ name: 'in-register', query: { ref: 'in', ...this.$route.query } });
+        this.$router.push({ name: 'in-register', query: { ref: 'in-settings', ...this.$route.query } });
       }
     },
     username(name) {
@@ -77,7 +77,7 @@ export default {
     errorMsg(m) {
       if (m) {
         this.redirectTimer = setTimeout(() => {
-          this.$router.push({ name: 'in' });
+          this.$router.push({ name: 'in-settings' });
         }, 5000);
       }
     },
@@ -90,7 +90,7 @@ export default {
     if (this.getUserNeedAuth) {
       this.triggerLoginSign();
     } else if (this.getUserNeedRegister) {
-      this.$router.push({ name: 'in-register', query: { ref: 'in', ...this.$route.query } });
+      this.$router.push({ name: 'in-register', query: { ref: 'in-settings', ...this.$route.query } });
     } else if (this.username) {
       this.connect();
     }
@@ -145,7 +145,7 @@ export default {
         return;
       }
       this.isDone = true;
-      this.$router.push({ name: 'in' });
+      this.$router.push({ name: 'in-settings' });
     },
   },
 };

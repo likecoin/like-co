@@ -13,11 +13,8 @@ export const ValidationHelper = {
       referrer,
       isEmailVerified,
       isEmailEnabled,
-    } = u;
-    let {
       email,
     } = u;
-    if (isEmailVerified) email = 'verified';
     return {
       user,
       displayName,
@@ -133,15 +130,21 @@ export const ValidationHelper = {
       value,
     };
   },
-  filterSocialPlatform({
-    id,
-    url,
+  filterSocialPlatformPersonal({
+    userId,
+    pages,
+  }) {
+    const data = { id: userId };
+    if (pages) data.pages = pages;
+    return data;
+  },
+  filterSocialPlatformPublic({
     displayName,
+    url,
   }) {
     return {
-      id,
-      url,
       displayName,
+      url,
     };
   },
 };

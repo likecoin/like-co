@@ -629,7 +629,7 @@
       "email": "電郵地址",
       "referrer": "邀請人 LikeCoin ID (可選)",
       "amount": "LikeCoin 數量",
-      "displayName": "顯示名",
+      "displayName": "顯示名稱",
       "claim": "領取",
       "couponCode": "兌換碼 (可選)",
       "label": {
@@ -1055,6 +1055,15 @@
     },
     "button": {
       "registrationTutorial": "申請 LikeCoin ID 教學"
+    }
+  },
+  "SocialMediaConnect": {
+    "label": {
+      "fbWall": "個人頁面",
+      "linkTo": "連結至: "
+    },
+    "button": {
+      "connectToPlatform": "綁定你的 {platform} 帳號"
     }
   }
 }

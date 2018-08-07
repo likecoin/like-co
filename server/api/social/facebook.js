@@ -13,6 +13,10 @@ const router = Router();
 router.get('/social/link/facebook/:user', jwtAuth, async (req, res, next) => {
   try {
     const { user } = req.params;
+    if (req.user.user !== user) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
     if (await checkPlatformAlreadyLinked(user, 'facebook')) {
       throw new ValidationError('already linked');
     }
@@ -28,6 +32,10 @@ router.post('/social/link/facebook', jwtAuth, async (req, res, next) => {
       access_token: accessToken,
       user,
     } = req.body;
+    if (req.user.user !== user) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
     if (!accessToken || !user) {
       throw new ValidationError('invalid payload');
     }
@@ -47,6 +55,7 @@ router.post('/social/link/facebook', jwtAuth, async (req, res, next) => {
       appId,
       accessToken,
       url: link,
+      userLink: link,
       pages,
       isLinked: true,
       ts: Date.now(),
@@ -54,6 +63,8 @@ router.post('/social/link/facebook', jwtAuth, async (req, res, next) => {
     res.json({
       platform: 'facebook',
       displayName,
+      id: userId,
+      pages,
       url: link,
     });
     const userDoc = await dbRef.doc(user).get();
@@ -80,6 +91,49 @@ router.post('/social/link/facebook', jwtAuth, async (req, res, next) => {
       facebookURL: link,
       registerTime: timestamp,
     });
+  } catch (err) {
+    next(err);
+  }
+});
+
+
+router.post('/social/link/facebook/:pageId', jwtAuth, async (req, res, next) => {
+  try {
+    const { pageId } = req.params;
+    const { user } = req.body;
+    if (req.user.user !== user) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
+    if (!user) {
+      throw new ValidationError('invalid payload');
+    }
+    if (!await checkPlatformAlreadyLinked(user, 'facebook')) {
+      throw new ValidationError('facebook not linked');
+    }
+
+    const query = await dbRef.doc(user).collection('social').doc('facebook').get();
+    const fbData = query.data();
+
+    const payload = {};
+    if (!fbData.userLink) {
+      // move user profile link to userLink if not exists (for migration)
+      payload.userLink = fbData.url;
+    }
+
+    let url;
+    const selectedPage = (fbData.pages || []).find(page => page.id === pageId);
+    if (selectedPage) {
+      url = selectedPage.link;
+    } else if (fbData.userId === pageId && fbData.userLink) {
+      url = fbData.userLink;
+    }
+    if (url) {
+      payload.url = url;
+    }
+
+    await dbRef.doc(user).collection('social').doc('facebook').set(payload, { merge: true });
+    res.json({ url });
   } catch (err) {
     next(err);
   }
