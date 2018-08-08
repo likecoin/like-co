@@ -11,7 +11,11 @@
 
         <div class="text-content">
           <div class="text-content__title text-content__title--display-name">
-            <a :href="getUserPath">{{ displayName }}</a>
+            <a
+              :href="getUserPath"
+              target="_blank"
+              rel="noopener"
+            >{{ displayName }}</a>
           </div>
           <div class="text-content__title">
             {{ $t('Embed.label.followMeOn') }}
