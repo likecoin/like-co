@@ -838,27 +838,31 @@ $line-height-map: (
     line-height: 20px;
   }
 
+  @mixin lc-button-style($color, $image: false) {
+    &.outline {
+      color: $color;
+      border: 2px solid currentColor;
+    }
+
+    &:not(.outline) {
+      background-color: $color;
+
+      @if ($image) {
+        background-image: $image;
+      }
+    }
+  }
+
   &[disabled="disabled"] {
     background-color: #E6E6E6;
+
+    &.lc-alert {
+      @include lc-button-style($like-red);
+    }
   }
 
   &:not([disabled="disabled"]) {
     color: white;
-
-    @mixin lc-button-style($color, $image: false) {
-      &.outline {
-        color: $color;
-        border: 2px solid currentColor;
-      }
-
-      &:not(.outline) {
-        background-color: $color;
-
-        @if ($image) {
-          background-image: $image;
-        }
-      }
-    }
 
     @include lc-button-style($like-green);
 
@@ -998,7 +1002,7 @@ span.bold {
   }
 
   p,
-  ol, 
+  ol,
   ul{
     margin: {
       top: 16px;
@@ -1018,7 +1022,7 @@ span.bold {
       }
     }
   }
-  
+
   ol {
     padding-left: 20px;
 
