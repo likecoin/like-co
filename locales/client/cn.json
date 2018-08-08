@@ -711,7 +711,11 @@
       "amountToSend": "转帐 {coin} 金额",
       "invalidAmount": "金额无效",
       "enterValidNumber": "请输入有效小数位",
-      "userNotFound": "收款者不存在"
+      "userNotFound": "收款者不存在",
+      "unavailable": "由于 MetaMask 的新版本出现问题，导致 LikeCoin 转账服务暂时停止。感谢体谅。"
+    },
+    "button": {
+      "unavailable": "暂停转账服务"
     },
     "head": {
       "title": "LikeCoin - 化Like为Coin",
@@ -980,6 +984,7 @@
     },
     "registerOice": {
       "title": "绑定 oice",
+      "description": "绑定 oice 帐号及 LikeCoin ID",
       "step": {
         "0": {
           "title": "登入 oice",

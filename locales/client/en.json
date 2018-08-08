@@ -745,7 +745,11 @@
       "amountToSend": "Amount of {coin} to send",
       "invalidAmount": "Invalid amount",
       "enterValidNumber": "Please enter a valid decimal number",
-      "userNotFound": "User not found"
+      "userNotFound": "User not found",
+      "unavailable": "Due to an issue in the MetaMask new version, the LikeCoin transfer service is temporarily not available.  Thanks for your consideration."
+    },
+    "button": {
+      "unavailable": "Temporary Suspension of Transfer service"
     },
     "head": {
       "title": "LikeCoin - Reinventing the Like.",
@@ -1071,6 +1075,7 @@
     },
     "registerOice": {
       "title": "Connect oice",
+      "description": "Binding oice account with LikeCoin ID",
       "step": {
         "0": {
           "title": "1) Login to oice",
