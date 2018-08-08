@@ -715,7 +715,11 @@
       "amountToSend": "轉帳 {coin} 金額",
       "invalidAmount": "金額無效",
       "enterValidNumber": "請輸入有效小數位",
-      "userNotFound": "收款者不存在"
+      "userNotFound": "收款者不存在",
+      "unavailable": "由於 MetaMask 的新版本出現問題，導致 LikeCoin 轉賬服務暫時停止。感謝體諒。"
+    },
+    "button": {
+      "unavailable": "暫停轉賬服務"
     },
     "head": {
       "title": "LikeCoin - 化Like為Coin",

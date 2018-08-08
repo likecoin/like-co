@@ -156,18 +156,32 @@
                       {{ $t('Transaction.error.notSupported') }}
                   </p></no-ssr>
                   <no-ssr>
-                    <material-button
+                    <md-button
                       id="payment-confirm"
-                      :disabled="getIsInTransaction
+                      :class="['md-raised',
+                               'md-primary',
+                               'likecoin',
+                               'md-likecoin',
+                               { 'lc-alert': isP2pUnavailable },
+                      ]"
+                      :disabled="isP2pUnavailable
+                        || getIsInTransaction
                         || !isSupportTransferDeleteaged
                       || (!getLocalWallet)"
-                      class="md-raised md-primary likecoin"
                       type="submit"
                       form="paymentInfo"
                     >
-                      {{ $t('General.button.confirm') }}
-                    </material-button>
+                      {{
+                        isP2pUnavailable
+                          ? $t('Transaction.button.unavailable')
+                          : $t('General.button.confirm')
+                      }}
+                    </md-button>
                   </no-ssr>
+                  <p
+                    v-if="isP2pUnavailable"
+                    class="lc-margin-top-8"
+                  >{{ $t('Transaction.label.unavailable') }}</p>
                 </div>
 
               </form>
@@ -240,6 +254,7 @@ export default {
       isBadAddress: false,
       isBadAmount: false,
       isSupportTransferDeleteaged: true,
+      isP2pUnavailable: true,
     };
   },
   async asyncData({
@@ -497,8 +512,6 @@ p {
 #payment-confirm {
   display: block;
 
-  width: 256px;
-  height: 40px;
   margin: 0 auto;
 
   text-transform: none;
@@ -507,9 +520,12 @@ p {
     text-transform: none;
 
     color: $like-white;
-    background-color: $like-green;
 
     font-size: 24px;
+  }
+
+  &.lc-alert {
+    padding: 4px 0;
   }
 
   &.eth {
