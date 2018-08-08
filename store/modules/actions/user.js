@@ -159,17 +159,42 @@ export async function fetchtSocialListById({ commit, dispatch }, id) {
   return true;
 }
 
+export async function fetchSocialListDetailsById({ commit, dispatch }, id) {
+  const platforms = await apiWrapper({ commit, dispatch }, api.apiGetSocialListDetialsById(id));
+  commit(types.USER_SET_SOCIAL_DETAILS, platforms);
+}
+
 export async function fetchSocialPlatformLink({ commit, dispatch }, { platform, id }) {
   return apiWrapper({ commit, dispatch }, api.apiGetSocialPlatformLink(platform, id));
 }
 
 export async function linkSocialPlatform({ commit, dispatch }, { platform, payload }) {
-  const { displayName, url } = await apiWrapper(
+  const {
+    displayName, url, pages, id,
+  } = await apiWrapper(
     { commit, dispatch },
     api.apiLinkSocialPlatform(platform, payload),
   );
-  commit(types.USER_LINK_SOCIAL, { id: platform, displayName, url });
+  commit(types.USER_LINK_SOCIAL, {
+    platform, displayName, url, pages, id,
+  });
   return true;
+}
+
+export async function unlinkSocialPlatform({ commit, dispatch }, { platform, payload }) {
+  await apiWrapper(
+    { commit, dispatch },
+    api.apiUnlinkSocialPlatform(platform, payload),
+  );
+  commit(types.USER_UNLINK_SOCIAL, platform);
+}
+
+export async function selectFacebookPageLink({ commit, dispatch }, { pageId, payload }) {
+  const { url } = await apiWrapper(
+    { commit, dispatch },
+    api.apiSelectFacebookPageLink(pageId, payload),
+  );
+  commit(types.USER_SELECT_FACEBOOK_PAGE_LINK, url);
 }
 
 export async function sendCouponCodeEmail({ commit, dispatch, rootState }, data) {

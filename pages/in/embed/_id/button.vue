@@ -1,443 +1,581 @@
 <template>
-  <div class="likecoin-embed">
+  <div
+    :class="[
+      'likecoin-embed',
+      'likecoin-embed--button',
+      `likecoin-embed--logged-${isLoggedIn ? 'in' : 'out'}`,
+      {
+        'likecoin-embed--flipped': shouldShowBackside,
+      },
+    ]"
+  >
 
-    <div class="likecoin-embed__badge">
-      <div class="likecoin-embed__badge__content">
+    <transition
+      name="likecoin-embed__badge-flip-"
+      mode="out-in"
+    >
+      <div
+        v-if="shouldShowBackside"
+        key="back"
+        class="likecoin-embed__badge likecoin-embed__badge--back"
+      >
+        <div class="likecoin-embed__badge__content">
 
-        <div class="user-info">
-          <div class="user-info__avatar">
-            <div>
-              <img :src="avatar">
-            </div>
+          <div
+            class="likecoin-embed__badge__close-btn"
+            @click="onClickCloseButton"
+          >
+            <simple-svg
+              :filepath="CloseButtonIcon"
+              fill="currentColor"
+              stroke="transparent"
+            />
           </div>
 
-          <div class="user-info__display-name">
-            <div>
-              <nuxt-link
-                :to="getUserPath"
+          <div class="text-content">
+            <i18n
+              tag="div"
+              class="text-content__subtitle"
+              path="Embed.label.rewardUserWithLikeToken"
+            >
+              <a
+                :href="getUserPath"
+                place="user"
+                rel="noopener noreferrer"
                 target="_blank"
-              >
-                {{ displayName }}
-              </nuxt-link>
+              >{{ displayName }}</a>
+            </i18n>
+            <div class="text-content__title text-content__title--amount">
+              {{ amount }} LIKE
+              <span class="amount-in-usd">= USD {{ amountInUSD }}</span>
             </div>
           </div>
-        </div>
 
-        <div class="text-content">
-          <div class="text-content__subtitle">
-            {{ $t('Embed.label.subtitle') }}
+          <div class="embed-superlike-button-wrapper">
+            <a
+              id="embed-superlike-button"
+              ref="superLikeButton"
+              :href="getUserPath"
+              target="_blank"
+            >
+              <div class="button-content-wrapper">
+                <div class="button-content">
+                  {{ $t('Embed.button.sendLike') }}
+                </div>
+              </div>
+            </a>
           </div>
-          <div class="text-content__title">
-            <span class="title-message">
-              {{ $t('Embed.label.title') }}
-            </span>
-          </div>
-        </div>
-
-        <div class="embed-superlike">
-          <md-button
-            v-if="isSuperLike"
-            id="embed-superlike__button"
-            :href="getUserPath"
-            class="md-likecoin"
-            target="_blank"
-          >
-            SuperLike
-          </md-button>
-          <md-button
-            v-else
-            id="embed-superlike__button"
-            class="md-likecoin"
-            @click="onClickLike"
-          >
-            LIKE <span v-if="likeCount">{{ likeCount }}</span>
-          </md-button>
         </div>
       </div>
-    </div>
+      <div
+        v-else
+        key="front"
+        class="likecoin-embed__badge likecoin-embed__badge--front"
+      >
+        <div class="likecoin-embed__badge__content">
 
-    <social-media-connect
-      :username="id"
-      :platforms="platforms"
-      :limit="5"
-      class="social-media-connect"
+          <embed-user-info :avatar="avatar" />
+
+          <div class="text-content">
+            <div class="text-content__subtitle">
+              {{ $t('Embed.label.clickLikeButton') }}
+            </div>
+            <i18n
+              tag="div"
+              class="text-content__title"
+              path="Embed.label.supportUser"
+            >
+              <a
+                :href="getUserPath"
+                place="user"
+                rel="noopener noreferrer"
+                target="_blank"
+              >{{ displayName }}</a>
+            </i18n>
+          </div>
+
+          <div
+            v-if="!isLoggedIn"
+            class="login-tooltip"
+          >
+            <div>
+              <div class="login-tooltip__trigger-wrapper">
+                <transition
+                  name="login-tooltip__trigger--flip"
+                  mode="out-in"
+                >
+                  <button
+                    v-if="isLoginTooltipOpen"
+                    key="close"
+                    class="login-tooltip__trigger login-tooltip__trigger--close"
+                    @click="isLoginTooltipOpen = false"
+                  >
+                    <simple-svg
+                      :filepath="CloseButtonIcon"
+                      fill="currentColor"
+                      stroke="transparent"
+                    />
+                  </button>
+                  <button
+                    v-else
+                    key="open"
+                    class="login-tooltip__trigger login-tooltip__trigger--open"
+                    @click="isLoginTooltipOpen = true"
+                  >
+                    <simple-svg
+                      :filepath="QuestionButtonIcon"
+                      fill="currentColor"
+                      stroke="transparent"
+                    />
+                  </button>
+                </transition>
+              </div>
+              <div class="login-tooltip__bubble-wrapper">
+                <transition name="login-tooltip__bubble--pop-up">
+                  <i18n
+                    v-if="isLoginTooltipOpen"
+                    tag="div"
+                    path="Embed.label.loginAdvice"
+                    class="login-tooltip__bubble"
+                  >
+                    <a
+                      href="/in"
+                      target="_blank"
+                      rel="noopener"
+                      place="login"
+                      @click="isLoginTooltipOpen = false"
+                    >{{ $t('Embed.button.login') }}</a>
+                  </i18n>
+                </transition>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </transition>
+
+    <like-button
+      :like-count="likeCount"
+      :total-like="totalLike"
+      :is-toggled="shouldShowBackside"
+      :is-super-like="isSuperLike"
+      @toggle="onToggleLikeButton"
+      @like="onClickLike"
+      @super-like="onClickSuperLike"
+      @click-stats="onClickLikeStats"
     />
 
-    <div class="powered-by-message">
-      <a
-        :href="getReferralLink"
-        target="_blank"
-        rel="noopener"
-      >
-        {{ $t('Embed.label.createMyWidget') }}
-      </a>
-    </div>
+    <footer>
+      <social-media-connect
+        :username="id"
+        :platforms="platforms"
+        :limit="5"
+      />
+
+      <embed-create-widget-button
+        :link="getReferralLink"
+        is-button
+      />
+    </footer>
 
   </div>
 </template>
 
 <script>
 import {
-  apiGetUserMinById,
-  apiGetSocialListById,
   apiPostLikeButton,
+  apiGetLikeButtonMyStatus,
+  apiGetLikeButtonTotalCount,
 } from '@/util/api/api';
 
-import SocialMediaConnect from '~/components/SocialMediaConnect';
+import CloseButtonIcon from '~/assets/like-button/close-btn.svg';
+import QuestionButtonIcon from '~/assets/like-button/question-btn.svg';
+
+import mixin from '~/components/embed/mixin';
+import LikeButton from '~/components/LikeButton';
 
 const debounce = require('lodash.debounce');
 
-const debouncedOnClick = debounce((likeCount, id) => {
-  apiPostLikeButton(id, likeCount);
+const debouncedOnClick = debounce((that) => {
+  /* eslint-disable no-param-reassign */
+  const count = that.likeCount - that.likeSent;
+  that.likeSent += count;
+  if (count > 0) apiPostLikeButton(that.id, that.referrer, count);
+  that.totalLike += count;
+  /* eslint-enable no-param-reassign */
 }, 500);
 
 export default {
   name: 'embed-id-button',
   layout: 'embed',
   components: {
-    SocialMediaConnect,
+    LikeButton,
   },
+  mixins: [mixin],
   data() {
     return {
+      CloseButtonIcon,
+      QuestionButtonIcon,
+
+      isLoggedIn: false,
+      isLoginTooltipOpen: false,
       likeCount: 0,
+      likeSent: 0,
+      totalLike: 0,
+      shouldShowBackside: false,
     };
   },
-  asyncData({
-    params,
-    error,
-  }) {
-    let amount = 8;
-    try {
-      const parse = parseInt(params.amount, 10);
-      if (parse && !Number.isNaN(parse)) amount = parse;
-    } catch (e) {
-      // no op;
-    }
-    const { id } = params;
-    return Promise.all([
-      apiGetUserMinById(id),
-      apiGetSocialListById(id).catch(() => {}),
-    ]).then((res) => {
-      const {
-        displayName,
-        avatar,
-      } = res[0].data;
-      return {
-        id,
-        displayName,
-        avatar,
-        amount,
-        platforms: res[1].data,
-      };
-    }).catch(() => {
-      error({ statusCode: 404, message: '' });
-    });
-  },
   computed: {
+    referrer() {
+      return this.$route.query.referrer || document.referrer || '';
+    },
     isSuperLike() {
       return (this.likeCount >= 5);
     },
-    getUserPath() {
-      const amount = this.amount ? `/${this.amount}` : '';
-      const referrer = this.urlReferrer ? `/?referrer=${this.urlReferrer}` : '';
-      return `/${this.id}${amount}${referrer}`;
-    },
-    urlReferrer() {
-      const { query } = this.$route;
-      return query.referrer || '';
-    },
-    getReferralLink() {
-      const referrer = this.urlReferrer ? `/?referrer=${this.urlReferrer}` : '';
-      return `https://like.co/ref/${this.id}${referrer}`;
-    },
+  },
+  mounted() {
+    this.updateUser();
   },
   methods: {
+    async updateUser() {
+      try {
+        const [{ data: myData }, { data: totalData }] = await Promise.all([
+          apiGetLikeButtonMyStatus(this.id, this.referrer),
+          apiGetLikeButtonTotalCount(this.id, this.referrer),
+        ]);
+        const { liker, count } = myData;
+        const { total } = totalData;
+        this.isLoggedIn = !!liker;
+        this.totalLike = total;
+        this.likeCount = count;
+        this.likeSent = count;
+      } catch (err) {
+        console.error(err); // eslint-disable-line no-console
+      }
+    },
     onClickLike() {
-      if (!this.isSuperLike) this.likeCount += 1;
-      console.log(this.isSuperLike);
-      console.log(this.likeCount);
-      debouncedOnClick(this.likeCount, this.id);
+      if (this.isSuperLike) {
+        this.shouldShowBackside = true;
+      } else {
+        this.likeCount += 1;
+      }
+      debouncedOnClick(this);
+    },
+    onToggleLikeButton(isSuperLike) {
+      this.shouldShowBackside = isSuperLike;
+    },
+    onClickSuperLike(e) {
+      if (
+        this.shouldShowBackside &&
+        this.$refs.superLikeButton
+      ) {
+        this.$refs.superLikeButton.click(e);
+      }
+    },
+    onClickLikeStats() {
+      const { id } = this.$route.params;
+      const { referrer } = this.$route.query;
+      window.open(
+        `/in/embed/${id}/list${referrer ? `?referrer=${referrer}` : ''}`,
+        '_blank',
+        'menubar=no,location=no,width=576,height=768',
+      );
+    },
+    onClickCloseButton() {
+      this.shouldShowBackside = false;
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@import "~assets/variables";
+@import "~assets/embed";
 
-// badge size + offset superlike button width / 2
-// 425 + 120 / 2
-$full-width: 485;
-
-$avatar-size: 110;
-$avatar-border-width: 5;
-$avatar-vertical-offset: 12;
-
-$button-border-width: 4;
-$button-shadow-width: 6;
-$button-width: 108 + $button-border-width * 2;
-$button-height: 42 + $button-border-width * 2;
-
-@function normalized($value: $full-width) {
-  @return $value / $full-width * 100vw;
-}
+$close-btn-width: 56;
 
 .likecoin-embed {
-  position: relative;
-
-  width: normalized();
-  margin-top: normalized($avatar-vertical-offset);
-  padding-right: normalized($button-width / 2 + $button-shadow-width);
-
-  user-select: none;
+  perspective: 800px;
 
   &__badge {
-    border-radius: normalized(8);
-    background-image: linear-gradient(77deg, $like-light-blue, $like-gradient-1);
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
 
-    &__content {
-      position: relative;
+    .likecoin-embed--logged-out & {
+      background: #e6e6e6;
+    }
+
+    &--back {
+      margin-right: normalized($button-width / 2 + $button-shadow-width);
+
+      .likecoin-embed__badge__content {
+        padding-right: normalized($button-width / 2 + $button-shadow-width);
+        padding-left: normalized($close-btn-width + 24);
+      }
+    }
+
+    &-flip-- {
+      &enter-active,
+      &leave-active {
+        transition-property: opacity, transform;
+      }
+      &enter-active {
+        transition-timing-function: ease-out;
+        transition-duration: 0.3s;
+      }
+      &leave-active {
+        transition-timing-function: ease-in;
+        transition-duration: 0.2s;
+      }
+      &enter {
+        transform: translateZ(normalized(-100)) rotateX(-90deg);
+      }
+      &leave-to {
+        transform: translateZ(normalized(-100)) rotateX(90deg);
+      }
+    }
+
+    &__close-btn {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
 
       display: flex;
       align-items: center;
+      justify-content: center;
 
-      min-height: normalized(82);
-      padding-right: normalized($button-width / 2 + $button-shadow-width);
-    }
-  }
-}
+      width: normalized($close-btn-width);
 
-.user-info {
-  position: relative;
+      cursor: pointer;
 
-  flex-shrink: 0;
+      transition: background-color 0.2s ease;
 
-  width: normalized($avatar-size);
-  height: normalized($avatar-size);
-  margin: normalized(-$avatar-vertical-offset) normalized(8);
+      border-top-left-radius: $badge-border-radius;
+      border-bottom-left-radius: $badge-border-radius;
 
-  &__avatar {
-    position: relative;
+      background-color: rgba(white, 0.5);
 
-    width: normalized($avatar-size);
-    height: normalized($avatar-size);
+      &:hover:not(:active) {
+        background-color: rgba(white, 0.7);
+      }
 
-    border-radius: 50%;
-    background: linear-gradient(70deg, $like-light-blue, $like-gradient-1);
+      > div {
+        width: normalized(28);
+        height: normalized(28);
 
-    > div {
-      position: absolute;
-      top: normalized($avatar-border-width);
-      right: normalized($avatar-border-width);
-      bottom: normalized($avatar-border-width);
-      left: normalized($avatar-border-width);
-
-      overflow: hidden;
-
-      border-radius: inherit;
-      background-color: white;
-    }
-
-    img {
-      display: block;
-
-      width: 100%;
-      height: 100%;
-    }
-  }
-
-  &__display-name {
-    position: absolute;
-    top: 100%;
-
-    display: flex;
-    justify-content: center;
-
-    min-width: 100%;
-    margin-top: normalized(4);
-
-    letter-spacing: 0;
-
-    font-size: normalized(18);
-    font-weight: 600;
-    line-height: normalized(18.5);
-
-    a {
-      display: inline-block;
-
-      white-space: nowrap;
-
-      color: $like-green;
-
-      font-size: inherit;
-      font-weight: inherit;
-      line-height: inherit;
-    }
-  }
-}
-
-.text-content {
-  position: relative;
-
-  letter-spacing: 0;
-
-  &__subtitle {
-    color: $like-gray-5;
-
-    font-size: normalized(16);
-    font-weight: 500;
-    line-height: normalized(16.5);
-  }
-
-  &__title {
-    margin-top: normalized(2);
-
-    color: black;
-
-    font-size: normalized(18);
-    font-weight: 600;
-    line-height: normalized(18.5);
-  }
-}
-
-.embed-superlike {
-  position: absolute;
-  right: 0;
-
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-
-  width: auto;
-  min-width: normalized($button-width);
-  height: auto;
-  min-height: normalized($button-height);
-  margin-right: normalized(-$button-width / 2);
-  padding: normalized($button-border-width);
-
-  &:before {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-
-    content: "";
-    transition: 0.4s cubic-bezier(.4, 0, .2, 1);
-    transition-property: background, opacity;
-
-    opacity: 0;
-    border-radius: normalized(25);
-    background: linear-gradient(67deg, $like-light-blue, $like-gradient-1);
-    box-shadow: 0 normalized(2) normalized($button-shadow-width) 0 rgba(0, 0, 0, 0.25);
-
-    // Show button border when cursor fall into root element
-    body:hover & {
-      opacity: 1;
-    }
-  }
-
-  #embed-superlike__button {
-    position: relative;
-
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    flex-grow: 1;
-
-    width: 100%;
-    min-width: unset;
-    margin: 0;
-
-    transition-property: background;
-    text-align: center;
-    letter-spacing: 0;
-
-    border-radius: normalized(20);
-    box-shadow: 0 normalized(2) normalized(6) 0 rgba(0, 0, 0, 0.25);
-
-    font-size: normalized(20);
-    line-height: normalized(20);
-
-    &:active {
-      box-sizing: border-box;
-
-      color: $like-green;
-      border: solid normalized(4) $like-green;
-      background-color: $like-white;
-    }
-
-    &::before {
-      border-radius: inherit;
-    }
-
-    :global(.md-ripple) {
-      flex-grow: 1;
-
-      min-height: 0;
-      padding: 0;
-
-      border-radius: inherit;
-    }
-  }
-}
-
-.social-media-connect {
-  margin-top: normalized(8);
-
-  > :global(div) {
-    justify-content: flex-end;
-
-    margin-left: 42vw;
-
-    :global(ul) {
-      justify-content: flex-end;
-
-      margin: normalized(-4) normalized(-6);
-
-      :global(li) {
-        padding: normalized(4) normalized(6);
+        color: $like-green;
       }
     }
   }
 
-  :global(.social-media-connect__button) {
+  &__badge--front,
+  footer {
+    margin-right: normalized($button-border-width + $button-shadow-width);
+  }
+}
+
+#embed-superlike-button {
+  @keyframes super-like-button-shake {
+    0%, 86% { transform: rotateZ(0deg); }
+    88% { transform: rotateZ(2deg); }
+    90% { transform: rotateZ(-2deg); }
+    92% { transform: rotateZ(3deg); }
+    94% { transform: rotateZ(-3deg); }
+    98% { transform: rotateZ(1deg); }
+    100% { transform: rotateZ(0deg); }
+  }
+  animation-name: super-like-button-shake;
+  animation-duration: 3s;
+  animation-timing-function: ease-out;
+  animation-delay: -2s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+}
+
+.text-content {
+  &__title {
+    font-size: normalized(24);
+    line-height: normalized(24.5);
+
+    &--amount {
+        color: $like-green;
+
+        .amount-in-usd {
+          margin-left: normalized(6);
+
+          color: $like-gray-5;
+
+          font-size: normalized(10);
+          line-height: normalized(10.5);
+        }
+      }
+  }
+}
+
+.login-tooltip {
+  position: absolute;
+  right: 0;
+
+  margin-right: normalized(12);
+
+  > div {
+    position: relative;
+  }
+
+  &__trigger {
     display: block;
 
-    margin: 0;
+    width: normalized(16);
+    height: normalized(16);
 
-    :global(svg),
-    :global(.simple-svg-wrapper) {
-      width: normalized(32) !important;
-      height: normalized(32) !important;
+    transition-timing-function: ease;
+    transition-duration: 0.25s;
+    transition-property: transform, background, color;
+
+    border: none;
+    border-radius: 50%;
+
+    @media screen and (max-width: 414px) {
+      width: normalized(18);
+      height: normalized(18);
+    }
+
+    &--flip- {
+      &enter-active {
+        transition-timing-function: ease-out;
+        transition-duration: 0.15s;
+      }
+      &leave-active {
+        transition-timing-function: ease-in;
+        transition-duration: 0.05s;
+      }
+      &enter,
+      &leave-to {
+        transform: scale(0);
+      }
+    }
+
+    &--open {
+      color: #9b9b9b;
+      background: none;
+
+      &:hover {
+        color: darken(#9b9b9b, 10);
+      }
+      &:active {
+        color: darken(#9b9b9b, 20);
+      }
+    }
+
+    &--close {
+      color: white;
+      background: $like-green;
+
+      &:hover {
+        color: darken(white, 20);
+        background: darken($like-green, 5);
+      }
+      &:active {
+        color: darken(white, 50);
+        background: darken($like-green, 15);
+      }
+    }
+
+    > div {
+      width: inherit;
+      height: inherit;
+    }
+  }
+
+  &__bubble {
+    &-wrapper {
+      position: absolute;
+      top: 50%;
+      right: calc(100% + #{normalized(4.5)});
+
+      transform: translateY(-50%);
+    }
+
+    position: relative;
+
+    width: normalized(208);
+
+    margin-right: normalized(8);
+    padding: normalized(8) normalized(12);
+
+    transform-origin: center right;
+
+    color: #9b9b9b;
+
+    border-radius: normalized(6);
+    background-color: white;
+
+    font-size: normalized(10);
+    line-height: normalized(14);
+
+    @media screen and (max-width: 414px) {
+      width: normalized(260);
+
+      font-size: normalized(12);
+      line-height: normalized(16);
+    }
+
+    &--pop-up- {
+      &enter-active {
+        transition-timing-function: ease-out;
+        transition-duration: 0.2s;
+      }
+      &leave-active {
+        transition-timing-function: ease-in;
+        transition-duration: 0.1s;
+      }
+      &enter,
+      &leave-to {
+        transform: scale(0);
+      }
+    }
+
+    // Triangle
+    &::before {
+      position: absolute;
+      top: 50%;
+      left: 100%;
+
+      width: 0;
+      height: 0;
+
+      content: '';
+
+      transform: translateY(-50%);
+
+      border-top: normalized(8) solid transparent;
+      border-bottom: normalized(8) solid transparent;
+      border-left: normalized(8) solid white;
+    }
+
+    a {
+      text-decoration: underline;
+
+      font-weight: 600;
     }
   }
 }
 
-.powered-by-message {
-  margin-top: normalized(8);
+.like-button {
+  position: absolute;
 
-  text-align: right;
+  margin-top: normalized(-18);
+  margin-left: normalized(44);
+}
 
-  color: $gray-9b;
+.social-media-connect {
+  transition: opacity 0.3s ease;
 
-  font-size: normalized(10);
-  line-height: normalized(10.5);
+  .likecoin-embed--flipped & {
+    pointer-events: none;
 
-  @media screen and (max-width: 414px) {
-    font-size: normalized(12);
-    line-height: normalized(13);
-  }
-
-  a {
-    display: inline-block;
-
-    text-decoration: underline;
-
-    color: inherit;
-
-    font-size: inherit;
-    line-height: inherit;
+    opacity: 0;
   }
 }
 </style>

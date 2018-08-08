@@ -1,7 +1,8 @@
 import axios from '~/plugins/axios';
-import { IS_TESTNET } from '@/constant';
+import { IS_TESTNET, EXTERNAL_HOSTNAME } from '@/constant';
 
 const LIKECOIN_API_BASE = IS_TESTNET ? 'https://api.rinkeby.like.co' : 'https://api.like.co';
+const LIKECOIN_MISC_API_BASE = `https://${EXTERNAL_HOSTNAME}`;
 
 export const apiCheckIsUser = addr => axios.get(`/api/users/addr/${addr}/min`);
 
@@ -23,14 +24,14 @@ export const apiGetReferralById = id => axios.get(`/api/users/referral/${id}`);
 
 export const apiGetTotalBonusById = id => axios.get(`/api/users/bonus/${id}`);
 
-export const apiCheckCoupon = code => axios.get(`/api/coupon/coupon/${code}`);
+export const apiCheckCoupon = code => axios.get(`${LIKECOIN_MISC_API_BASE}/api/coupon/coupon/${code}`);
 
 export const apiClaimCoupon = (coupon, to) => {
   const payload = {
     coupon,
     to,
   };
-  return axios.post('/api/coupon/claim/', payload);
+  return axios.post(`${LIKECOIN_MISC_API_BASE}/api/coupon/claim/`, payload);
 };
 
 export const apiSendVerifyEmail = (id, ref, locale) => axios.post(`/api/email/verify/user/${id}`, { ref, locale });
@@ -153,10 +154,28 @@ export const apiSetNotification = (id, isEmailEnabled) => axios.post(`/api/users
 
 export const apiGetSocialListById = id => axios.get(`/api/social/list/${id}`);
 
+export const apiGetSocialListDetialsById = id => axios.get(`/api/social/list/${id}/details`);
+
 export const apiGetSocialPlatformLink = (platform, id) => axios.get(`/api/social/link/${platform}/${id}`);
 
 export const apiLinkSocialPlatform = (platform, payload) => axios.post(`/api/social/link/${platform}`, payload);
 
 export const apiUnlinkSocialPlatform = (platform, payload) => axios.post(`/api/social/unlink/${platform}`, payload);
 
-export const apiPostLikeButton = (id, count = 1) => axios.post(`/api/like/likebutton/${id}/${count}`);
+export const apiGetLikeButtonMyStatus =
+  (id, referrer) => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/likebutton/${id}/self`, { params: { referrer } });
+
+export const apiGetLikeButtonTotalCount =
+  (id, referrer) => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/likebutton/${id}/total`, { params: { referrer } });
+
+export const apiGetLikeButtonLikerList =
+  (id, referrer) => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/likebutton/${id}/list`, { params: { referrer } });
+
+export const apiPostLikeButton =
+  (id, referrer, count = 1) => axios.post(
+    `${LIKECOIN_MISC_API_BASE}/api/like/likebutton/${id}/${count}`,
+    {},
+    { params: { referrer } },
+  );
+
+export const apiSelectFacebookPageLink = (pageId, payload) => axios.post(`/api/social/link/facebook/${pageId}`, payload);

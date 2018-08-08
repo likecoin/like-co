@@ -99,8 +99,8 @@ module.exports = {
       .click('#confirm-btn')
       .pause(1000)
       .waitForElementVisible('.md-dialog', 2000)
-      .verify.containsText('.md-dialog', 'Coupon Error')
-      .click('.md-dialog #btn-confirm')
+      .verify.containsText('.md-dialog', 'Claim coupon')
+      .click('.md-dialog #btn-cancel')
       .end();
   },
 

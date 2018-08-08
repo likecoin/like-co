@@ -625,7 +625,7 @@
       "email": "电邮地址",
       "referrer": "邀请人 LikeCoin ID (可选)",
       "amount": "LikeCoin 数量",
-      "displayName": "显示名",
+      "displayName": "显示名称",
       "claim": "领取",
       "couponCode": "兑换码 (可选)",
       "label": {
@@ -1038,10 +1038,20 @@
       "providedBy": "by LikeCoin 化赞为赏回馈创作",
       "subtitle": "喜欢这篇文章",
       "title": "化赞为赏 回馈创作",
-      "createMyWidget": "Create my LikeCoin widget"
+      "createMyWidget": "Create my LikeCoin widget",
+      "followMeOn": "关注我的消息"
     },
     "button": {
       "sendLike": "赏"
+    }
+  },
+  "SocialMediaConnect": {
+    "label": {
+      "fbWall": "个人页面",
+      "linkTo": "连结至: "
+    },
+    "button": {
+      "connectToPlatform": "绑定你的 {platform} 帐号"
     }
   }
 }

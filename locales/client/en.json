@@ -681,8 +681,8 @@
       "redeemCode": "Redeem Code (Optional)",
       "validCodeRequired": "Please enter a valid coupon code",
       "verified": "Verified",
-      "verifying": "Verfication sent, Please check your inbox!",
-      "unverified": "Unverifed",
+      "verifying": "Verification link sent. Please check your inbox!",
+      "unverified": "Unverified",
       "verifyEmail": "Verify your email",
       "accountConnection": "Account connection"
     },
@@ -957,11 +957,16 @@
     "label": {
       "contactUs": "Contact us for {deleteAccount} or {requestReport}",
       "deleteAccountPrePopulatedMessage": "I want to delete my account",
-      "requestReportPrePopulatedMessage": "I want to request an account data report "
+      "requestReportPrePopulatedMessage": "I want to request an account data report ",
+      "receiveLikeCoinLink": "Your LikeCoin payment link:",
+      "accountConnection": "You can connect to your accounts on various social platforms."
     },
     "button": {
       "deleteAccount": "Delete Account",
-      "requestReport": "Request for report"
+      "requestReport": "Request for report",
+      "editPortrait": "Edit Portrait",
+      "profile": "Profile",
+      "otherSettings": "Other Settings"
     }
   },
   "PoliciesPage": {
@@ -1129,10 +1134,19 @@
       "providedBy": "by LikeCoin reinvented LikeButton",
       "subtitle": "Like this article?",
       "title": "Reward the writer with LIKE token",
-      "createMyWidget": "Create my LikeCoin widget"
+      "createMyWidget": "Create my LikeWidget",
+      "createMyButton": "Create my LikeButton",
+      "clickLikeButton": "Click the reinvented LikeButton to",
+      "rewardUserWithLikeToken": "Reward {user} with LIKE token",
+      "supportUser": "Support {user}",
+      "loginAdvice": "{login} the writer you like will generate more LikeCoin",
+      "numLikesForArticle": "{numOfLikes} Like from {numOfLikees} people",
+      "followMeOn": "Follow me on"
     },
     "button": {
-      "sendLike": "Reward"
+      "login": "Login to LikeCoin ID",
+      "sendLike": "Reward",
+      "showMore": "show more"
     }
   },
   "Pay": {
@@ -1144,6 +1158,15 @@
     },
     "button": {
       "registrationTutorial": "Registration Tutorial"
+    }
+  },
+  "SocialMediaConnect": {
+    "label": {
+      "fbWall": "Personal Profile",
+      "linkTo": "link to: "
+    },
+    "button": {
+      "connectToPlatform": "Connect to your {platform}"
     }
   }
 }

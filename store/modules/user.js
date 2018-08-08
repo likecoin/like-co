@@ -8,8 +8,11 @@ import {
   USER_SET_WEB3_FETCHING,
   USER_AWAITING_AUTH,
   USER_SET_SOCIAL,
+  USER_SET_SOCIAL_DETAILS,
   USER_LINK_SOCIAL,
+  USER_UNLINK_SOCIAL,
   USER_SET_LIKECOIN_BIG_NUMBER_AMOUNT,
+  USER_SELECT_FACEBOOK_PAGE_LINK,
 } from '../mutation-types';
 import * as actions from './actions/user';
 import * as getters from './getters/user';
@@ -43,9 +46,32 @@ const mutations = {
   [USER_SET_SOCIAL](state, platforms) {
     state.platforms = platforms;
   },
+  [USER_SET_SOCIAL_DETAILS](state, platforms) {
+    Object.keys(platforms).forEach((p) => {
+      Vue.set(state.platforms, p, {
+        ...state.platforms[p],
+        ...platforms[p],
+      });
+    });
+  },
   [USER_LINK_SOCIAL](state, payload) {
-    const { id, displayName, url } = payload;
-    Vue.set(state.platforms, id, { displayName, url });
+    const {
+      platform, displayName, url, pages, id,
+    } = payload;
+    Vue.set(state.platforms, platform, {
+      displayName, id, url, pages,
+    });
+  },
+  [USER_UNLINK_SOCIAL](state, payload) {
+    Vue.set(state.platforms, payload, undefined);
+  },
+  [USER_SELECT_FACEBOOK_PAGE_LINK](state, payload) {
+    if (payload) {
+      Vue.set(state.platforms, 'facebook', {
+        ...state.platforms.facebook,
+        url: payload,
+      });
+    }
   },
   [USER_SET_LIKECOIN_BIG_NUMBER_AMOUNT](state, payload) {
     state.likeCoinAmountInBigNumber = payload;

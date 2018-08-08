@@ -274,7 +274,6 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res, n
       wallet,
     };
     if (email && email !== oldEmail) {
-      if (oldEmail && oldUserObj.isEmailVerified) throw new ValidationError('email already verified');
       updateObj.email = email;
       updateObj.verificationUUID = FieldValue.delete();
       updateObj.isEmailVerified = false;

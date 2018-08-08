@@ -586,6 +586,9 @@ $line-height-map: (
       }
     }
   }
+  &like-gradient {
+    background-image: $like-linear-gradient;
+  }
 }
 
 

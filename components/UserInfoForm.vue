@@ -129,7 +129,6 @@
         type="email"
         @submit="onInputDialogConfirm"
       />
-
       <div class="lc-container-3">
         <div class="lc-container-4">
           <div class="address-section">
@@ -149,67 +148,49 @@
               </div>
               <div class="address-field">
                 <div class="address-title">
-                  {{ $t('Edit.label.address') }}
+                  {{ $t('Settings.label.receiveLikeCoinLink') }}
                 </div>
-                <md-field class="md-field-display">
-                  <md-input
-                    v-model="wallet"
-                    class="input-info"
-                    required
-                    disabled
-                  />
-                </md-field>
-              </div>
-              <div
-                class="address-field"
-                @click="onEditEmail"
-              >
-                <div class="address-title">
-                  {{ $t('Edit.label.email') }}
-                  <span>
-                    <span
-                      v-if="isUserEmailVerified"
-                      class="verified"
-                    >
-                      <img :src="TickIcon">
-                      {{ $t('Edit.label.verified') }}
-                    </span>
-                    <span v-else-if="isVerifying">
-                      ({{ $t('Edit.label.verifying') }})
-                    </span>
-                    <span v-else-if="email">
-                      ({{ $t('Edit.label.unverified') }})
-                    </span>
-                  </span>
+                <div class="receive-likecoin-link">
+                  <nuxt-link
+                    v-if="getUserInfo.user"
+                    :to="{ name: 'id', params: { id: getUserInfo.user } }"
+                    class="lc-font-size-20 lc-color-like-green"
+                  >
+                    {{ receiveLikeCoinLink }}
+                  </nuxt-link>
+                  <md-button
+                    v-clipboard:copy="receiveLikeCoinLink"
+                    v-clipboard:success="onCopyReceiveLikeCoinLink"
+                    class="lc-font-size-12 lc-color-like-green"
+                  >
+                    {{ $t(`General.button.${hasCopiedReceiveLikeCoinLink ? 'copied' : 'copy'}`) }}
+                  </md-button>
                 </div>
-                <md-field
-                  v-if="!isUserEmailVerified"
-                  class="md-field-display md-field-pre-edit"
-                >
-                  <label class="input-display-hint lc-font-size-20">
-                    {{ $t('Edit.label.addEmail') }}
-                  </label>
-                  <md-input
-                    ref="inputEmail"
-                    :pattern="W3C_EMAIL_REGEX"
-                    v-model="email"
-                    :title="$t('Register.form.error.emailFormat')"
-                    class="input-display input-info"
-                    disabled
-                  />
-                </md-field>
               </div>
 
               <div class="address-field">
                 {{ $t('Edit.label.accountConnection') }}
               </div>
-              <social-media-connect
-                v-if="getUserInfo.user"
-                :platforms="getUserSocialPlatforms"
-                :username="getUserInfo.user"
-                class="lc-margin-vertical-8"
-                type="mini"
-              />
+              <div class="lc-margin-vertical-8 lc-flex lc-align-items-center">
+                <social-media-connect
+                  v-if="getUserInfo.user"
+                  :platforms="getUserSocialPlatforms"
+                  :username="getUserInfo.user"
+                  type="mini"
+                />
+                <md-button
+                  :to="{ name: 'in-settings' }"
+                  class="social-media-connect__setting-icon md-icon-button"
+                  type="button"
+                >
+                  <simple-svg
+                    :filepath="SettingsIcon"
+                    fill="#c0c0c0"
+                    height="20px"
+                    width="20px"
+                  />
+                </md-button>
+              </div>
 
             </div>
 
@@ -230,10 +211,12 @@ import { logTrackerEvent } from '@/util/EventLogger';
 import {
   W3C_EMAIL_REGEX,
   QRYPTOS_LIKEETH_URL,
+  EXTERNAL_HOSTNAME,
 } from '@/constant';
 
 import EditIcon from '@/assets/icons/edit.svg';
 import EditWhiteIcon from '@/assets/icons/edit-white.svg';
+import SettingsIcon from '@/assets/icons/settings.svg';
 import TickIcon from '@/assets/tokensale/tick.svg';
 
 import LikeCoinAmount from '~/components/LikeCoinAmount';
@@ -253,9 +236,10 @@ export default {
   },
   data() {
     return {
-      TickIcon,
       EditIcon,
       EditWhiteIcon,
+      SettingsIcon,
+      TickIcon,
       W3C_EMAIL_REGEX,
       avatarData: null,
       avatarFile: null,
@@ -267,6 +251,7 @@ export default {
       isVerifying: false,
       user: '',
       wallet: '',
+      hasCopiedReceiveLikeCoinLink: false,
     };
   },
   computed: {
@@ -294,6 +279,9 @@ export default {
     },
     likeCoinValueStr() {
       return (this.getUserLikeCoinAmountInBigNumber || 0).toFixed(4);
+    },
+    receiveLikeCoinLink() {
+      return `https://${EXTERNAL_HOSTNAME}/${this.getUserInfo.user}`;
     },
   },
   watch: {
@@ -332,19 +320,6 @@ export default {
       this.isEditing = !this.isEditing;
       if (this.isEditing) {
         this.$nextTick(() => this.$refs.inputDisplayName.$el.focus());
-      }
-    },
-    onEditEmail() {
-      if (this.isUserEmailVerified) return;
-
-      if (this.verifyEmailMission) {
-        // open mission dialog for verifyEmail directly
-        this.onMissionClick({
-          ...this.verifyEmailMission,
-          isReferral: false,
-        });
-      } else {
-        this.$refs.inputDialog.show();
       }
     },
     onChangeAvatar(event) {
@@ -409,6 +384,9 @@ export default {
       this.email = user.email;
       this.isEmailEnabled = (user.isEmailEnabled !== false);
       this.queryLikeCoinWalletBalance();
+    },
+    onCopyReceiveLikeCoinLink() {
+      this.hasCopiedReceiveLikeCoinLink = true;
     },
   },
 };
@@ -718,5 +696,37 @@ $profile-icon-mobile-size: 88px;
 
 input:disabled {
   opacity: 1;
+}
+
+.receive-likecoin-link {
+  display: flex;
+  justify-content: space-between;
+
+  width: 100%;
+
+  @media (min-width: 600px + 1px) {
+    width: 66.6%;
+  }
+
+  a {
+    word-wrap: break-word;
+
+    @media (max-width: 600px) {
+      width: 80%;
+    }
+  }
+
+  .md-button {
+    min-width: auto;
+    height: 24px;
+    margin: 0;
+  }
+}
+
+.social-media-connect__setting-icon {
+  width: 24px;
+  min-width: auto;
+  height: 24px;
+  margin: -4px 0 0 16px;
 }
 </style>
