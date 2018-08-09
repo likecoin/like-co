@@ -6,6 +6,7 @@
       `social-media-connect--${type}`,
       {
         'social-media-connect--center': !!center,
+        'social-media-connect--colorful': !!colorful,
       },
     ]"
   >
@@ -187,6 +188,10 @@ export default {
     userLink: {
       type: String,
       default: undefined,
+    },
+    colorful: {
+      type: [Boolean, String],
+      default: false,
     },
   },
   data() {
@@ -420,8 +425,16 @@ $hover-color-map: (
 
     @each $key, $value in $hover-color-map {
       &--#{$key}#{&}--connected {
-        &:hover {
+        &:hover,
+        .social-media-connect--colorful & {
           background-color: $value;
+
+          &:hover {
+            background-color: lighten($value, 4);
+          }
+          &:active {
+            background-color: darken($value, 2);
+          }
         }
         &:active {
           background-color: darken($value, 10);
