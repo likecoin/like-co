@@ -31,6 +31,7 @@
         :user-link="getUserPath"
         :platforms="platforms"
         :limit="6"
+        colorful
       />
 
       <embed-create-widget-button :link="getReferralLink" />
