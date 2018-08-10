@@ -254,7 +254,7 @@ export default {
       isBadAddress: false,
       isBadAmount: false,
       isSupportTransferDeleteaged: true,
-      isP2pUnavailable: true,
+      isP2pUnavailable: false,
     };
   },
   async asyncData({
