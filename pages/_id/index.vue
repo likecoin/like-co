@@ -182,6 +182,20 @@
                     v-if="isP2pUnavailable"
                     class="lc-margin-top-8"
                   >{{ $t('Transaction.label.unavailable') }}</p>
+                  <div class="lc-text-align-center lc-margin-top-12">
+                    <i18n
+                      path="Transaction.label.updateMetamask"
+                      tag="p"
+                    >
+                      <span place="version">4.9.2</span>
+                    </i18n>
+                    <a
+                      :href="$t('Transaction.label.manualProcedureUrl')"
+                      class="lc-underline"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >{{ $t('Transaction.label.manualProcedure') }}</a>
+                  </div>
                 </div>
 
               </form>
@@ -487,7 +501,7 @@ export default {
 }
 
 p {
-  max-width: 422px;
+  max-width: 432px;
   margin: auto;
 
   text-align: center;

@@ -746,7 +746,10 @@
       "invalidAmount": "Invalid amount",
       "enterValidNumber": "Please enter a valid decimal number",
       "userNotFound": "User not found",
-      "unavailable": "Due to an issue in the MetaMask new version, the LikeCoin transfer service is temporarily not available.  Thanks for your consideration."
+      "unavailable": "Due to an issue in the MetaMask new version, the LikeCoin transfer service is temporarily not available.  Thanks for your consideration.",
+      "updateMetamask": "This service is available only for MetaMask v{version} and up.",
+      "manualProcedure": "Manual update procedure",
+      "manualProcedureUrl": "https://help.like.co/likecoin-faq/newbies/how-to-update-metamask-version"
     },
     "button": {
       "unavailable": "Temporary Suspension of Transfer service"
