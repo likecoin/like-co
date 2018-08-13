@@ -28,7 +28,6 @@
     <footer>
       <social-media-connect
         :username="id"
-        :user-link="getUserPath"
         :platforms="platforms"
         :limit="6"
         colorful
