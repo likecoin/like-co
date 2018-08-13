@@ -120,11 +120,11 @@ export default {
     onAmountKeypress(e) {
       // Allow simple command in Firefox input (Ctrl/Cmd + A/C/V/X, left, right, backspace)
       if (
-        (['KeyA', 'KeyC', 'KeyV', 'KeyX'].includes(e.code) && (e.ctrlKey === true || e.metaKey === true)) ||
-        e.code === 'ArrowLeft' ||
-        e.code === 'ArrowRight' ||
-        e.code === 'Enter' ||
-        e.code === 'Backspace'
+        (['KeyA', 'KeyC', 'KeyV', 'KeyX'].includes(e.code) && (e.ctrlKey === true || e.metaKey === true))
+        || e.code === 'ArrowLeft'
+        || e.code === 'ArrowRight'
+        || e.code === 'Enter'
+        || e.code === 'Backspace'
       ) {
         return;
       }
@@ -134,12 +134,13 @@ export default {
         return;
       }
       const { value } = e.target;
-      const newValue =
-        value.slice(0, e.target.selectionStart) + key + value.slice(e.target.selectionEnd);
+      const newValue = value.slice(0, e.target.selectionStart)
+        + key
+        + value.slice(e.target.selectionEnd);
       const isInvalidDecimals = (
-        Number.isInteger(this.decimalPlaceLimit) && // is valid decimal place limit
-        newValue.indexOf('.') >= 0 && // is decimal number
-        newValue.split('.')[1].length > this.decimalPlaceLimit // decimal place is larger than limit
+        Number.isInteger(this.decimalPlaceLimit) // is valid decimal place limit
+        && newValue.indexOf('.') >= 0 // is decimal number
+        && newValue.split('.')[1].length > this.decimalPlaceLimit // decimal place is larger than limit
       );
       if (!/^[0-9]*.?[0-9]*$/.test(newValue) || isInvalidDecimals) {
         e.preventDefault();

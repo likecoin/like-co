@@ -267,8 +267,8 @@ export default {
     },
     onClickSuperLike(e) {
       if (
-        this.shouldShowBackside &&
-        this.$refs.superLikeButton
+        this.shouldShowBackside
+        && this.$refs.superLikeButton
       ) {
         this.$refs.superLikeButton.click(e);
       }

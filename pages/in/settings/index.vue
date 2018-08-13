@@ -214,9 +214,9 @@ export default {
     },
     hasUserDetailsChanged() {
       return (
-        !!this.avatarFile ||
-        this.getUserInfo.email !== this.email ||
-        this.getUserInfo.displayName !== this.displayName
+        !!this.avatarFile
+        || this.getUserInfo.email !== this.email
+        || this.getUserInfo.displayName !== this.displayName
       );
     },
     receiveLikeCoinLink() {

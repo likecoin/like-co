@@ -17,11 +17,6 @@ import { uploadFileAndGetLink } from '../util/fileupload';
 import { jwtSign, jwtAuth, jwtVerify } from '../util/jwt';
 import publisher from '../util/gcloudPub';
 
-const {
-  RECAPTCHA_SECRET,
-  REGISTER_LIMIT_WINDOW,
-  REGISTER_LIMIT_COUNT,
-} = require('../config/config.js'); // eslint-disable-line import/no-extraneous-dependencies
 
 const querystring = require('querystring');
 const Multer = require('multer');
@@ -31,6 +26,11 @@ const imageType = require('image-type');
 const uuidv4 = require('uuid/v4');
 const disposableDomains = require('disposable-email-domains');
 const RateLimit = require('express-rate-limit');
+const {
+  RECAPTCHA_SECRET,
+  REGISTER_LIMIT_WINDOW,
+  REGISTER_LIMIT_COUNT,
+} = require('../config/config.js'); // eslint-disable-line import/no-extraneous-dependencies
 
 const {
   userCollection: dbRef,

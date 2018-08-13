@@ -54,7 +54,7 @@ export const getCurrentLocaleISO = (state) => {
 
 export const getIsSlidingMenuOpen = state => state.isSlidingMenuOpen;
 
-export const getIsShowingPromptNotificationDialog = state =>
-  state.isShowingPromptNotificationDialog;
+/* eslint-disable-next-line max-len */
+export const getIsShowingPromptNotificationDialog = state => state.isShowingPromptNotificationDialog;
 
 export const getLikeCoinUsdNumericPrice = state => state.likeCoinUsdNumericPrice;

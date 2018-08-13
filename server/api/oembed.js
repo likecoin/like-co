@@ -51,8 +51,8 @@ router.get('/oembed', cors(), async (req, res, next) => {
     let replyUrl = `https://${urlHostname}/${username}`;
     if (amount) replyUrl += `/${amount}`;
 
-    const src = isButton ?
-      `https://${urlHostname}/in/embed/${username}/button/${amount}`
+    const src = isButton
+      ? `https://${urlHostname}/in/embed/${username}/button/${amount}`
       : `https://${hostname}/in/embed/${username}/${amount}`;
 
     const oEmbedResponse = {

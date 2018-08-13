@@ -3,13 +3,13 @@ import { INFURA_HOST, PUBSUB_TOPIC_MISC } from '../../constant';
 import publisher from './gcloudPub';
 import { getGasPrice } from './poller';
 
+
+const Web3 = require('web3');
+const sigUtil = require('eth-sig-util');
 const {
   db,
   txCollection: txLogRef,
 } = require('./firebase');
-
-const Web3 = require('web3');
-const sigUtil = require('eth-sig-util');
 
 export const web3 = new Web3(new Web3.providers.HttpProvider(INFURA_HOST));
 const accounts = require('../config/accounts.js'); // eslint-disable-line import/no-extraneous-dependencies

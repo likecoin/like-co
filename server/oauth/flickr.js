@@ -16,8 +16,7 @@ const oauth = new OAuth({
     secret: FLICKR_APP_SECRET,
   },
   signature_method: 'HMAC-SHA1',
-  hash_function: (text, key) =>
-    crypto.createHmac('sha1', key).update(text).digest('base64'),
+  hash_function: (text, key) => crypto.createHmac('sha1', key).update(text).digest('base64'),
 });
 
 export async function fetchFlickrOAuthInfo(user) {
