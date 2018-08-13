@@ -712,7 +712,9 @@
       "invalidAmount": "金额无效",
       "enterValidNumber": "请输入有效小数位",
       "userNotFound": "收款者不存在",
-      "unavailable": "由于 MetaMask 的新版本出现问题，导致 LikeCoin 转账服务暂时停止。感谢体谅。"
+      "unavailable": "由于 MetaMask 的新版本出现问题，导致 LikeCoin 转账服务暂时停止。感谢体谅。",
+      "updateMetamask": "转账服务只适用于已安装 MetaMask 版本 {version} 或以上的浏览器。",
+      "manualProcedure": "手动安装指南"
     },
     "button": {
       "unavailable": "暂停转账服务"

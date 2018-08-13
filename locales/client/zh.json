@@ -716,7 +716,10 @@
       "invalidAmount": "金額無效",
       "enterValidNumber": "請輸入有效小數位",
       "userNotFound": "收款者不存在",
-      "unavailable": "由於 MetaMask 的新版本出現問題，導致 LikeCoin 轉賬服務暫時停止。感謝體諒。"
+      "unavailable": "由於 MetaMask 的新版本出現問題，導致 LikeCoin 轉賬服務暫時停止。感謝體諒。",
+      "updateMetamask": "轉賬服務只適用於已安裝 MetaMask 版本 {version} 或以上的瀏覽器。",
+      "manualProcedure": "手動安裝指南",
+      "manualProcedureUrl": "https://help.like.co/likecoin-%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C/%E6%96%B0%E6%89%8B%E4%B8%8A%E8%B7%AF/%E5%A6%82%E4%BD%95%E6%9B%B4%E6%96%B0-metamask-%E7%89%88%E6%9C%AC"
     },
     "button": {
       "unavailable": "暫停轉賬服務"
