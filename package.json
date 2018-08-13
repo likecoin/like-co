@@ -59,7 +59,7 @@
     "core-js": "^2.5.5",
     "cors": "^2.8.4",
     "cross-env": "^5.1.4",
-    "disposable-email-domains": "^1.0.34",
+    "disposable-email-domains": "^1.0.36",
     "eth-sig-util": "^1.4.2",
     "express": "^4.16.3",
     "express-jwt": "^5.3.1",
