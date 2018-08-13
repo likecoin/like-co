@@ -14,7 +14,8 @@ if (!secret) {
 function getToken(req) {
   if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
     return req.headers.authorization.split(' ')[1];
-  } if (req.cookies && req.cookies.likecoin_auth) {
+  }
+  if (req.cookies && req.cookies.likecoin_auth) {
     return req.cookies.likecoin_auth;
   }
   throw new UnauthorizedError('credentials_required', { message: 'No authorization token was found' });
