@@ -56,4 +56,3 @@ test('PAYMENT: Get tx history by addr', async (t) => {
     }
   }
 });
-

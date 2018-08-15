@@ -71,14 +71,14 @@ export default {
   },
   computed: {
     title() {
-      return this.isClaimed ?
-        this.$t('Mission.completedBanner.label.completed') :
-        this.$t('Mission.completedBanner.label.complete');
+      return this.isClaimed
+        ? this.$t('Mission.completedBanner.label.completed')
+        : this.$t('Mission.completedBanner.label.complete');
     },
     description() {
-      return this.isClaimed ?
-        this.$t('Mission.completedBanner.label.completedAlready') :
-        this.$t('Mission.completedBanner.label.bonusTransferShortly');
+      return this.isClaimed
+        ? this.$t('Mission.completedBanner.label.completedAlready')
+        : this.$t('Mission.completedBanner.label.bonusTransferShortly');
     },
   },
 };

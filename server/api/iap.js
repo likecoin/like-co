@@ -121,4 +121,3 @@ router.get('/iap/list', async (req, res, next) => {
 });
 
 export default router;
-

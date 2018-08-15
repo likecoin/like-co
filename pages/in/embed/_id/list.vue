@@ -92,8 +92,11 @@ export default {
       /* Try to get html to fetch title below */
       promises.push(axios.get(url, { responseType: 'text', headers: { Accept: 'text/html' } }).catch(() => ''));
     }
-    const [{ data: likees }, { data: totalData }, { data: html } = {}] =
-      await Promise.all(promises);
+    const [
+      { data: likees },
+      { data: totalData },
+      { data: html } = {},
+    ] = await Promise.all(promises);
     let title = '';
     if (html) {
       const match = html.match('<title>(.*?)</title>');

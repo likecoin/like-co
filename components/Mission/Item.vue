@@ -88,7 +88,8 @@ export default {
       if (this.isHistory || this.mission.upcoming) return false;
       if (this.isReferral) {
         return !!this.mission.pendingReferralBonus;
-      } else if (this.mission.isProxy) {
+      }
+      if (this.mission.isProxy) {
         return !this.mission.seen || !!this.getProxyMissionReward(this.mission.id);
       }
       return !this.mission.seen && !this.mission.done;
@@ -120,7 +121,8 @@ export default {
         }
         if (this.mission.refereeReward) {
           return this.mission.refereeReward;
-        } else if (this.mission.refereeExtraReward) {
+        }
+        if (this.mission.refereeExtraReward) {
           return `${this.mission.reward} + ${this.mission.refereeExtraReward}`;
         }
       }

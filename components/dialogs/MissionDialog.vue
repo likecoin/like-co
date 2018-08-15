@@ -399,9 +399,9 @@ export default {
     ]),
     mission() {
       return (
-        this.getMissionById(this.getPopupMission.id) ||
-        this.getSelectedMission ||
-        {}
+        this.getMissionById(this.getPopupMission.id)
+        || this.getSelectedMission
+        || {}
       );
     },
     isCustomLayout() {
@@ -414,7 +414,8 @@ export default {
     title() {
       if (this.isUnfinishedAndExpired) {
         return this.$t('Mission.notFound.title');
-      } else if (this.isMissionRequired) {
+      }
+      if (this.isMissionRequired) {
         return this.$t(`Mission.missionRequired.${this.mission.require[0]}.title`);
       }
       return this.$t(`Mission.${this.missionId}.title`);

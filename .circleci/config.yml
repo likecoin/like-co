@@ -34,7 +34,7 @@ jobs:
   unit_test:
     working_directory: ~/likecoin-store
     docker:
-      - image: selenium/standalone-chrome:3.11.0
+      - image: selenium/standalone-chrome:3.14.0
         user: root
     steps:
       - checkout
