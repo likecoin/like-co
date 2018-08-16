@@ -376,8 +376,10 @@ router.get('/referral/list/:id', jwtAuth, async (req, res, next) => {
           }
         }
       }
+      const bonusCooldown = r.data().bonusCooldown || 0;
       return {
         id: r.id,
+        bonusCooldown: bonusCooldown > Date.now() ? bonusCooldown : undefined,
         seen: !!r.data().seen,
         missions: missions.map(d => ({ ...Validate.filterMissionData(d) })),
       };
