@@ -377,6 +377,10 @@ export default {
   },
   mounted() {
     this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
+
+    if (!this.getLikeCoinUsdNumericPrice) {
+      this.queryLikeCoinUsdPrice();
+    }
   },
   methods: {
     ...mapActions([
@@ -385,6 +389,7 @@ export default {
       'sendEthPayment',
       'setErrorMsg',
       'closeTxDialog',
+      'queryLikeCoinUsdPrice',
     ]),
     checkAddress() {
       return this.wallet.length === 42 && this.wallet.substr(0, 2) === '0x';
