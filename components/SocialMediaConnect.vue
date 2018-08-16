@@ -121,6 +121,7 @@ import { mapActions, mapGetters } from 'vuex';
 import DeleteIcon from '~/assets/icons/cross.svg';
 
 import { openURL } from '~/util/client';
+import { logTrackerEvent } from '@/util/EventLogger';
 
 const TYPE = {
   READONLY: 'readonly',
@@ -283,7 +284,10 @@ export default {
             if (platform) ({ url } = platform);
             break;
         }
-        if (url) openURL(this, url, '_blank', 'noopener');
+        if (url) {
+          openURL(this, url, '_blank', 'noopener');
+          logTrackerEvent(this, 'LikeWidget', 'ClickSocialMedia', id, 1);
+        }
       }
     },
     onClickDisconnectButton(socialMedia) {
