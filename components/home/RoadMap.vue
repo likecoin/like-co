@@ -72,9 +72,13 @@
               </div> -->
 
               <div class="links-wrapper lc-margin-top-12">
-                <nuxt-link :to="{ name: 'in-tokensale' }">
-                  {{ $t('Home.Sale.button.joinTokenSale') }}
-                </nuxt-link>
+                <a
+                  :href="QRYPTOS_LIKEETH_URL"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {{ $t('Dialog.transaction.button.trade') }}
+                </a>
               </div>
 
             </div>
@@ -91,13 +95,16 @@
 
 
 <script>
-const milestones = [true, true, true, true, false, false, false];
+import { QRYPTOS_LIKEETH_URL } from '@/constant';
+
+const milestones = [true, true, true, true, true, false, false];
 
 export default {
   name: 'road-map',
   data() {
     return {
       milestones,
+      QRYPTOS_LIKEETH_URL,
     };
   },
 };
@@ -109,7 +116,7 @@ export default {
 
 $timeline-radius: 12px;
 $timeline-width: 16px;
-$progress-bar-percentage: 43%;
+$progress-bar-percentage: 58%;
 
 .lc-road-map {
   .road-map-container {
