@@ -9,7 +9,7 @@
         class="link what"
       >
         <a
-          href="https://likecoin.foundation/#/"
+          href="https://like.co/"
           target="_blank"
           rel="noopener noreferrer"
         >
