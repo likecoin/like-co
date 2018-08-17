@@ -6,6 +6,11 @@
         class="mission-card"
         @click="$emit('click')"
       >
+        <div
+          v-if="getUserIsInBonusCoolDown"
+        >
+          TODO: User Cooldown: {{ getUserIsInBonusCoolDown }}
+        </div>
         <div class="mission-action-button">
           <mission-state-icon
             :layout="layout"
@@ -77,6 +82,7 @@ export default {
       'getProxyMissionReward',
       'getMissionHistoryReward',
       'getUserInfo',
+      'getUserIsInBonusCoolDown',
     ]),
     isHistory() {
       return (this.mission || {}).isHistory;

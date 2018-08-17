@@ -11,6 +11,7 @@
           :username="i.id"
           :avatar="i.avatar"
           :isNew="!i.seen"
+          :bonusCoolDown="i.bonusCooldown"
           @click="onClick"
         />
       </li>

@@ -14,7 +14,11 @@
           />
         </div>
       </header>
-
+      <div
+        v-if="bonusCoolDown"
+      >
+        TODO: CoolDown {{ bonusCoolDown }}
+      </div>
       <mission-list
         :missions="missions"
         :username="username"
@@ -45,6 +49,10 @@ export default {
     username: {
       type: String,
       required: true,
+    },
+    bonusCoolDown: {
+      type: Number,
+      default: 0,
     },
     isNew: {
       type: Boolean,
