@@ -28,6 +28,8 @@ if (process.env.NODE_ENV === 'production') app.disable('x-powered-by');
 app.use((req, res, next) => {
   if (!/^\/in\/embed\/[-a-z0-9_]+/.test(req.path)) {
     res.setHeader('X-Frame-Options', 'DENY');
+  } else {
+    res.setHeader('Cache-Control', 'public, max-age=600, s-maxage=600, stale-if-error=604800, stale-while-revalidate=604800');
   }
   res.setHeader('X-XSS-Protection', '1; mode=block');
   res.setHeader('Referrer-Policy', 'strict-origin');
