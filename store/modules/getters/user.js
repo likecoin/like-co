@@ -15,6 +15,8 @@ export const getUserIsRegistered = state => !!state.user.wallet;
 
 export const getUserNeedRegister = state => (getUserIsReady(state) && !getUserIsRegistered(state));
 
+export const getUserIsInBonusCoolDown = state => state.user.bonusCooldown;
+
 export const getLocalWallet = state => state.wallet;
 
 export const getUserSocialPlatforms = state => state.platforms;
