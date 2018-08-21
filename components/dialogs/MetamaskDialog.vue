@@ -264,9 +264,9 @@ export default {
       }
     },
     likeTransferValue() {
-      return this.getSignPayloadObject ?
-        this.getSignPayloadObject.payload.value.dividedBy(ONE_LIKE) :
-        0;
+      return this.getSignPayloadObject
+        ? this.getSignPayloadObject.payload.value.dividedBy(ONE_LIKE)
+        : 0;
     },
     usdTransferStrValue() {
       if (this.getLikeCoinUsdNumericPrice && this.likeTransferValue) {

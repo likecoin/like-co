@@ -16,6 +16,7 @@ module.exports = {
     // don't require .vue extension when importing
     'import/extensions': ['error', 'always', {
       js: 'never',
+      mjs: 'never',
       vue: 'never'
     }],
     'vue/attributes-order': [

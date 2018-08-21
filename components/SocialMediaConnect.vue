@@ -217,9 +217,9 @@ export default {
           const { tier } = socialMedia;
           const isConnected = this.getIsConnected(socialMedia);
           return (
-            (this.type === TYPE.READONLY && isConnected) ||
-            (this.type === TYPE.MINI && (isConnected || tier === 1)) ||
-            (this.type === TYPE.LARGE && tier > 0)
+            (this.type === TYPE.READONLY && isConnected)
+            || (this.type === TYPE.MINI && (isConnected || tier === 1))
+            || (this.type === TYPE.LARGE && tier > 0)
           );
         })
         .slice(0, this.limit);

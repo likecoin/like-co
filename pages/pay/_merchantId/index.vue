@@ -210,10 +210,10 @@ export default {
     const bigAmount = new BigNumber(amount);
     const bigReward = new BigNumber(reward);
     if (
-      !redirect ||
-      !bigAmount ||
-      bigAmount.lt('0.000000000000000001') ||
-      bigReward.gt(bigAmount)
+      !redirect
+      || !bigAmount
+      || bigAmount.lt('0.000000000000000001')
+      || bigReward.gt(bigAmount)
     ) {
       error({
         statusCode: 400,

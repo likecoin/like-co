@@ -111,8 +111,10 @@ router.get('/mission/list/:id', jwtAuth, async (req, res, next) => {
           if (!notExpired && (!missionDone.includes(m.id) && !m.data().isProxy)) {
             replyMissionList.splice(targetIndex, 1);
           } else {
-            replyMissionList[targetIndex] =
-              Object.assign(missionData, replyMissionList[targetIndex]);
+            replyMissionList[targetIndex] = Object.assign(
+              missionData,
+              replyMissionList[targetIndex],
+            );
           }
         } else if (notExpired && missionData.staying) {
           replyMissionList.push({ id: m.id, ...missionData });
@@ -304,9 +306,9 @@ router.get('/mission/:missionId/user/:userId', jwtAuth, async (req, res, next) =
     const userMissionData = userMission.data();
 
     const isExpired = !!missionData.endTs && Date.now() >= missionData.endTs;
-    const isClaimed = userMissionData ?
-      (userMissionData.done && !!userMissionData.bonusId) :
-      false;
+    const isClaimed = userMissionData
+      ? (userMissionData.done && !!userMissionData.bonusId)
+      : false;
     const isMissionRequired = !userMissionData;
 
     const require = [];
