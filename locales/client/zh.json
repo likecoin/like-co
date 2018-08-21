@@ -364,7 +364,10 @@
       "title": "首批合作夥伴"
     },
     "PressCoverage": {
-      "title": "媒體報導"
+      "title": "媒體報導",
+      "button": {
+        "more": "更多報導"
+      }
     },
     "EarlySupporters": {
       "title": "首批支持者",
