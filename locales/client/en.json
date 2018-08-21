@@ -369,7 +369,10 @@
       "title": "Early Adopters"
     },
     "PressCoverage": {
-      "title": "Press Coverage"
+      "title": "Press Coverage",
+      "button": {
+        "more": "more coverage"
+      }
     },
     "EarlySupporters": {
       "title": "Early Supporters",
