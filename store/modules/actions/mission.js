@@ -111,7 +111,7 @@ export async function onMissionClick(ctx, m) {
         type: m.referralPayoutType,
         user,
       });
-      refreshMissionList(ctx, user);
+      await refreshMissionList(ctx, user);
       return true;
     }
   } else {
@@ -120,7 +120,7 @@ export async function onMissionClick(ctx, m) {
       if (state.proxyBonus[m.id] && !isBonusCooldown) { // is proxy and can claim
         await claimReferralBonus(ctx, { type: m.targetPayoutType, user });
         commit(types.UI_SET_MISSION_DIALOG, { ...m, isCompleted: true });
-        refreshMissionList(ctx, user);
+        await refreshMissionList(ctx, user);
         return true;
       }
     } else if (m.done && !isBonusCooldown) {

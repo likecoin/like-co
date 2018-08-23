@@ -123,7 +123,7 @@ export default {
       return this.mission.upcoming;
     },
     isCooldown() {
-      if (this.isCountdownFinished) return false;
+      if (this.isCountdownFinished || this.isHistory) return false;
       return (
         (this.mission.done && (this.bonusCooldown || this.getUserIsInBonusCoolDown > new Date()))
        || (this.mission.isProxy && this.getProxyMissionReward(this.mission.id) === '0')
@@ -186,8 +186,8 @@ export default {
       if (this.mission.isProxy) {
         const details = this.getProxyMissionDetails(this.mission.id);
         if (this.mission.id === 'inviteFriend') {
-          if (details && details.invitee && details.invitee.bonusCooldown) {
-            return details.invitee.bonusCooldown;
+          if (details && details.earliestInvitee && details.earliestInvitee.bonusCooldown) {
+            return details.earliestInvitee.bonusCooldown;
           }
         }
       }

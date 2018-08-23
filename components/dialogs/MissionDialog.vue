@@ -692,7 +692,7 @@ export default {
     },
     getProxyMissionRefereeId(missionId) {
       const proxyMission = this.getProxyMissionDetails(missionId);
-      return proxyMission ? proxyMission.invitee.id : null;
+      return proxyMission ? proxyMission.earliestInvitee.id : null;
     },
   },
 };

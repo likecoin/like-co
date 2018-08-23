@@ -99,13 +99,13 @@ const mutations = {
           baseReward: new BigNumber(t.value), // show when no claimable reward
         };
       }
-      if (mission.id === 'inviteFriend' && referee.bonusCooldown > new Date()) {
+      if (referee.bonusCooldown > new Date()) {
         if (
-          !proxyBonusObject.invitee
-          || proxyBonusObject.invitee.bonusCooldown > referee.bonusCooldown
+          !proxyBonusObject.earliestInvitee
+          || proxyBonusObject.earliestInvitee.bonusCooldown > referee.bonusCooldown
         ) {
           // for displaying the earliest claimable bonus from particular referee
-          proxyBonusObject.invitee = {
+          proxyBonusObject.earliestInvitee = {
             id: referee.id,
             bonusCooldown: referee.bonusCooldown,
           };
