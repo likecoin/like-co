@@ -15,6 +15,7 @@
       <header v-if="!isSwippable">
         <div class="column-labels">
           <nuxt-link
+            v-if="invitee && invitee.displayName"
             :to="{ name: 'id', params: { id: invitee.displayName } }"
           ><span>LIKE</span></nuxt-link>
         </div>

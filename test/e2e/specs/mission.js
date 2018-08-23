@@ -108,7 +108,7 @@ module.exports = {
       .waitForElementVisible('#invitee-mission .invitee-mission-grid-list', 5000)
       .verify.containsText(
         '.invitee-mission-list .username-label',
-        'testacctreferee',
+        'testacctReferee', // display name
       )
       .verify.elementPresent('.invitee-mission-list .user-profile .new-label')
       .getLocationInView('#invitee-mission')
