@@ -33,10 +33,6 @@ export default {
       },
       default: 'fluid',
     },
-    isFull: {
-      type: Boolean,
-      default: false,
-    },
   },
   data() {
     return {
@@ -48,6 +44,9 @@ export default {
     };
   },
   computed: {
+    isFull() {
+      return this.layout === 'small';
+    },
     dayLabel() {
       return this.day > 0 ? `${this.day}d` : null;
     },

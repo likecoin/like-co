@@ -27,7 +27,6 @@
             v-if="isCooldown"
             :date="countdownTime"
             :layout="layout"
-            :isFull="layout === 'small'"
             @finish="onCountdownFinish"
           />
           <h1
@@ -125,8 +124,11 @@ export default {
     isCooldown() {
       if (this.isCountdownFinished || this.isHistory) return false;
       return (
-        (this.mission.done && (this.bonusCooldown || this.getUserIsInBonusCoolDown > new Date()))
-       || (this.mission.isProxy && this.getProxyMissionReward(this.mission.id) === '0')
+        // only proxy related mission shows cooldown when done
+        (this.mission.isProxy || this.mission.referralPayoutType) && (
+          (this.mission.done && (this.bonusCooldown || this.getUserIsInBonusCoolDown > new Date()))
+          || (this.getProxyMissionReward(this.mission.id) === '0')
+        )
       );
     },
     countdownTime() {
@@ -184,8 +186,8 @@ export default {
     },
     proxyBonusCountdown() {
       if (this.mission.isProxy) {
-        const details = this.getProxyMissionDetails(this.mission.id);
         if (this.mission.id === 'inviteFriend') {
+          const details = this.getProxyMissionDetails(this.mission.id);
           if (details && details.earliestInvitee && details.earliestInvitee.bonusCooldown) {
             return details.earliestInvitee.bonusCooldown;
           }

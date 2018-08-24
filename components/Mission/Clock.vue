@@ -24,10 +24,10 @@ export default {
 $quarter-dot-size: 3px;
 $tick-rebound: 15;
 $degree-map: (
-  0: 0,
-  25: 90,
+  0: 360,
+  25: 270,
   50: 180,
-  75: 270,
+  75: 90,
 );
 
 @keyframes clock-tick {
@@ -36,16 +36,16 @@ $degree-map: (
       transform: rotate(#{$degree}deg);
     }
     #{$percentage + 4}% {
-      transform: rotate(#{$degree + 90}deg);
+      transform: rotate(#{$degree - 90}deg);
     }
     #{$percentage + 7}% {
-      transform: rotate(#{$degree + 90 - $tick-rebound}deg);
+      transform: rotate(#{$degree - 90 + $tick-rebound}deg);
     }
     #{$percentage + 10}% {
-      transform: rotate(#{$degree + 90}deg);
+      transform: rotate(#{$degree - 90}deg);
     }
     #{$percentage + 25}% {
-      transform: rotate(#{$degree + 90}deg);
+      transform: rotate(#{$degree - 90}deg);
     }
   }
 }
