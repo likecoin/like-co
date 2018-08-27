@@ -7,6 +7,7 @@ export const ValidationHelper = {
   filterUserData(u) {
     const {
       user,
+      bonusCooldown,
       displayName,
       avatar,
       wallet,
@@ -17,6 +18,7 @@ export const ValidationHelper = {
     } = u;
     return {
       user,
+      bonusCooldown: bonusCooldown > Date.now() ? bonusCooldown : undefined,
       displayName,
       email,
       avatar,

@@ -224,7 +224,7 @@
 
             <!-- BEGIN - Verify Email Section -->
             <div
-              v-else-if="!isReferral && missionId === 'verifyEmail'"
+              v-else-if="!isReferral && missionId === 'verifyEmail' && !bonusCooldown"
               class="verify-email-form"
             >
 
@@ -239,9 +239,20 @@
             </div>
             <!-- END - Verify Email Section -->
 
+            <!-- BEGIN - Verify Email with bonusCooldown Section -->
+            <div
+              v-else-if="!isReferral && missionId === 'verifyEmail' && bonusCooldown"
+            >
+              <mission-bonus-countdown
+                :bonus-cooldown="bonusCooldown"
+                @finish="onCompleteMission"
+              />
+            </div>
+            <!-- END - Verify Email with bonusCooldown Section -->
+
             <!-- BEGIN - Invitee Verify Email Section -->
             <div
-              v-else-if="isReferral && missionId === 'verifyEmail'"
+              v-else-if="isReferral && missionId === 'verifyEmail' && !bonusCooldown"
               class="verify-email-form"
             >
 
@@ -255,16 +266,51 @@
               </div>
 
             </div>
-            <!-- END - Verify Email Section -->
+            <!-- END - Invitee Verify Email Section -->
+
+            <!-- BEGIN - Invitee with bonusCooldown Verify Email Section -->
+            <div
+              v-else-if="isReferral && missionId === 'verifyEmail' && bonusCooldown"
+            >
+              <mission-bonus-countdown
+                :bonus-cooldown="bonusCooldown"
+                :id="invitee.id"
+                :display-name="invitee.displayName"
+                @finish="onCompleteMission"
+              />
+            </div>
+            <!-- END - Invitee with bonusCooldown Verify Email Section -->
 
             <!-- BEGIN - Invite Friend Section -->
             <invite-friend-form
-              v-else-if="mission.id === 'inviteFriend'"
+              v-else-if="isShowInviteMoreFriend || mission.id === 'inviteFriend' && !bonusCooldown"
               class="lc-margin-top-24"
               form-id="mission-invite-friend-form"
               @invite="onInviteFriend"
             />
             <!-- END - Invite Friend Section -->
+
+            <!-- BEGIN - Invite Friend With bonusCooldown Section -->
+            <div
+              v-else-if="mission.id === 'inviteFriend' && bonusCooldown"
+            >
+              <mission-bonus-countdown
+                :bonus-cooldown="bonusCooldown"
+                :id="getProxyMissionRefereeId(mission.id)"
+                :display-name="getRefereeDisplayName(getProxyMissionRefereeId(mission.id))"
+                @finish="onCompleteMission"
+              />
+
+              <div class="lc-text-align-center">
+                <md-button
+                  class="lc-color-like-green lc-underline"
+                  @click="isShowInviteMoreFriend = true"
+                >
+                  {{ $t('Mission.inviteFriend.button.invite') }}
+                </md-button>
+              </div>
+            </div>
+            <!-- END - Invite Friend With bonusCooldown Section -->
 
             <!-- BEGIN - Join Token Sale Section -->
             <div
@@ -351,6 +397,7 @@ import ConnectOiceMission from '~/components/dialogs/MissionDialogContent/Connec
 import TaskList from '~/components/Mission/TaskList';
 import VerifyEmailForm from '~/components/forms/VerifyEmailForm';
 import { GETTING_STARTED_TASKS } from '@/constant';
+import MissionBonusCountdown from '~/components/dialogs/MissionDialogContent/BonusCountdown';
 
 import { logTrackerEvent } from '@/util/EventLogger';
 import { openURL, checkIsMobileClient } from '@/util/client';
@@ -376,6 +423,7 @@ export default {
     ConnectOiceMission,
     TaskList,
     VerifyEmailForm,
+    MissionBonusCountdown,
   },
   data() {
     return {
@@ -386,7 +434,9 @@ export default {
       RequiredDesktopIcon,
       isReferral: false,
       isCompleted: false,
+      isShowInviteMoreFriend: false,
       invitee: '',
+      bonusCooldown: 0,
     };
   },
   computed: {
@@ -396,6 +446,8 @@ export default {
       'getUserInfo',
       'getMissionList',
       'getSelectedMission',
+      'getProxyMissionDetails',
+      'getRefereeDisplayName',
     ]),
     mission() {
       return (
@@ -418,6 +470,14 @@ export default {
       if (this.isMissionRequired) {
         return this.$t(`Mission.missionRequired.${this.mission.require[0]}.title`);
       }
+      if (this.bonusCooldown) {
+        switch (this.mission.id) {
+          case 'verifyEmail':
+            return this.$t('Mission.verifyEmail.cooldown.title');
+          default:
+            return null;
+        }
+      }
       return this.$t(`Mission.${this.missionId}.title`);
     },
     description() {
@@ -428,15 +488,26 @@ export default {
         return this.$t('Mission.common.label.desktopRequired');
       }
 
+      if (this.bonusCooldown) {
+        if (!(this.mission.id === 'inviteFriend' && this.isShowInviteMoreFriend)) {
+          return '';
+        }
+      }
+
       const referralPostfix = this.isReferral ? 'Referral' : '';
-      const { invitee } = this;
+      let localeParams;
+      if (referralPostfix) {
+        localeParams = {
+          invitee: this.invitee.displayName,
+        };
+      }
       return `
         ${this.mission.upcoming ? this.$t(
     'Mission.common.label.upcomingDate',
     { upcoming: moment.utc(this.mission.upcoming).local().format('D-M-YYYY') },
   )
     : ''}
-        ${this.$t(`Mission.${this.missionId}${referralPostfix}.description`, { invitee })}
+        ${this.$t(`Mission.${this.missionId}${referralPostfix}.description`, localeParams)}
       `;
     },
     subDescription() {
@@ -478,10 +549,14 @@ export default {
   watch: {
     getPopupMission(m) {
       if (m) {
-        const { invitee, isReferral, isCompleted } = m;
+        const {
+          invitee, isReferral, isCompleted, bonusCooldown,
+        } = m;
         this.invitee = invitee;
         this.isReferral = isReferral;
         this.isCompleted = !!isCompleted;
+        this.bonusCooldown = bonusCooldown;
+        this.isShowInviteMoreFriend = false;
         this.show();
       }
     },
@@ -587,8 +662,10 @@ export default {
     },
     async onCompleteMission() {
       this.hide();
+      // in case referee mission is not in user's mission list
+      const mission = Object.keys(this.mission) > 0 ? this.mission : this.getPopupMission;
       await this.onMissionClick({
-        ...this.mission,
+        ...mission,
         done: true,
       });
       this.refreshMissions();
@@ -612,6 +689,10 @@ export default {
       } else {
         this.hide();
       }
+    },
+    getProxyMissionRefereeId(missionId) {
+      const proxyMission = this.getProxyMissionDetails(missionId);
+      return proxyMission ? proxyMission.earliestInvitee.id : null;
     },
   },
 };

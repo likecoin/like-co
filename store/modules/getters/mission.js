@@ -1,10 +1,27 @@
 import { MERGED_MISSIONS, ONE_LIKE } from '@/constant';
 
-export const getProxyMissionReward = state => (id) => {
-  const reward = state.proxyBonus[id];
+function convertRewardToStrVal(reward) {
   if (reward) return reward.div(ONE_LIKE).toFixed();
   return null;
+}
+
+export const getProxyMissionBaseReward = state => (id) => {
+  const { baseReward } = state.proxyBonus[id] || {};
+  return convertRewardToStrVal(baseReward);
 };
+
+export const getProxyMissionReward = state => (id) => {
+  const { reward } = state.proxyBonus[id] || {};
+  return convertRewardToStrVal(reward);
+};
+
+export const getRefereeDisplayName = state => (refereeId) => {
+  const { referrals } = state;
+  const referee = referrals.find(({ id }) => id === refereeId);
+  return referee ? referee.displayName : null;
+};
+
+export const getProxyMissionDetails = state => id => state.proxyBonus[id];
 
 const canClaim = (state, m) => (
   (m.isProxy && !!getProxyMissionReward(state)(m.id))

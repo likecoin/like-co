@@ -67,29 +67,58 @@ const mutations = {
   [MISSION_SET_REFERRAL_LIST](state, referrals) {
     state.referrals = referrals;
   },
-  [MISSION_SET_REFERRAL_AVATAR](state, { userId, avatar }) {
+  [MISSION_SET_REFERRAL_AVATAR](state, { userId, avatar, displayName }) {
     const referral = state.referrals.find(r => r.id === userId);
-    if (referral) Vue.set(referral, 'avatar', avatar);
+    if (referral) {
+      Vue.set(referral, 'avatar', avatar);
+      Vue.set(referral, 'displayName', displayName);
+    }
   },
   [MISSION_SET_REFERRAL_BONUS_LIST](state, bonus) {
     state.proxyBonus = {};
     bonus.forEach((t) => {
       const referee = state.referrals.find(r => r.id === t.referee);
+      let claimableReward = 0;
       if (referee) {
         const mission = referee.missions.find(m => m.referralPayoutType === t.type);
         if (mission) {
           if (!mission.pendingReferralBonus) mission.pendingReferralBonus = new BigNumber(0);
           Vue.set(mission, 'pendingReferralBonus', mission.pendingReferralBonus.plus(new BigNumber(t.value)));
         }
+        if (!(referee.bonusCooldown && referee.bonusCooldown > new Date())) {
+          claimableReward = t.value;
+        }
       }
       const mission = state.missions.find(m => m.targetPayoutType === t.type);
       if (!mission) return; // error case
+
+      let proxyBonusObject = state.proxyBonus[mission.id];
+      if (!proxyBonusObject) {
+        proxyBonusObject = {
+          reward: new BigNumber(0),
+          baseReward: new BigNumber(t.value), // show when no claimable reward
+        };
+      }
+      if (referee.bonusCooldown > new Date()) {
+        if (
+          !proxyBonusObject.earliestInvitee
+          || proxyBonusObject.earliestInvitee.bonusCooldown > referee.bonusCooldown
+        ) {
+          // for displaying the earliest claimable bonus from particular referee
+          proxyBonusObject.earliestInvitee = {
+            id: referee.id,
+            bonusCooldown: referee.bonusCooldown,
+          };
+        }
+      }
+      proxyBonusObject.reward = proxyBonusObject.reward.plus(new BigNumber(claimableReward));
+
       let proxyBonus = state.proxyBonus[mission.id];
       if (!proxyBonus) proxyBonus = new BigNumber(0);
       Vue.set(
         state.proxyBonus,
         mission.id,
-        proxyBonus.plus(new BigNumber(t.value)),
+        proxyBonusObject,
       );
     });
   },

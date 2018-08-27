@@ -1030,7 +1030,10 @@
     },
     "inviteFriend": {
       "title": "Invite a friend to join LikeCoin",
-      "description": "Invite friend (or friends) to join us, 8 LIKE for both you and your friends."
+      "description": "Invite friend (or friends) to join us, 8 LIKE for both you and your friends.",
+      "button": {
+        "invite": "Invite more friends"
+      }
     },
     "joinTokenSale": {
       "title": "Join Token Sale",
@@ -1050,6 +1053,9 @@
       "description": "Verify your email to get free LikeCoin bonus",
       "label": {
         "yourEmailAddress": "Your email address"
+      },
+      "cooldown": {
+        "title": "Welcome to LikeCoin"
       }
     },
     "verifyEmailReferral": {
@@ -1116,7 +1122,9 @@
       "label": {
         "upcomingDate": "<span class=\"bold\">LikeCoin public sale will start on {upcoming}.</span>",
         "desktopRequired": "This bonus requires desktop browser to complete",
-        "pleaseUseDesktop": "Please visit like.co with Chrome for Desktop."
+        "pleaseUseDesktop": "Please visit like.co with Chrome for Desktop.",
+        "waitForBonus": "Wait for 3 days to claim your bonus",
+        "userJoinedLikeCoin": "{0} joined LikeCoin"
       },
       "button": {
         "desktopFAQ": "How can I access this account on desktop?"
