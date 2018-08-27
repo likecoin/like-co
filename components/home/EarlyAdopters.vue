@@ -44,10 +44,6 @@ import ImageGrid from '../ImageGrid';
 
 const adopters = [
   {
-    src: '/images/adopter-logo/famitsu.png',
-    link: 'https://www.famitsu.hk/',
-  },
-  {
     src: '/images/adopter-logo/lifehack.png',
     link: 'https://www.lifehack.org/',
   },
