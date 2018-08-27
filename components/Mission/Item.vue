@@ -4,13 +4,8 @@
 
       <div
         class="mission-card"
-        @click="$emit('click')"
+        @click="onClickMission"
       >
-        <div
-          v-if="getUserIsInBonusCoolDown"
-        >
-          TODO: User Cooldown: {{ getUserIsInBonusCoolDown }}
-        </div>
         <div class="mission-action-button">
           <mission-state-icon
             :layout="layout"
@@ -27,7 +22,17 @@
             :mission-id="mission.id"
             class="mission-icon"
           />
-          <h1 class="title-label"><span>{{ title }}</span></h1>
+
+          <mission-countdown-timer
+            v-if="isCooldown"
+            :date="countdownTime"
+            :layout="layout"
+            @finish="onCountdownFinish"
+          />
+          <h1
+            v-else
+            class="title-label"
+          ><span>{{ title }}</span></h1>
         </div>
       </div>
 
@@ -49,6 +54,7 @@
 import { mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
 
+import MissionCountdownTimer from '@/components/Mission/CountdownTimer';
 import MissionIcon from '@/components/Mission/Icon';
 import MissionStateIcon from '@/components/Mission/StateIcon';
 
@@ -57,6 +63,7 @@ import { ONE_LIKE } from '@/constant';
 export default {
   name: 'mission-item',
   components: {
+    MissionCountdownTimer,
     MissionIcon,
     MissionStateIcon,
   },
@@ -76,10 +83,21 @@ export default {
       type: Boolean,
       default: false,
     },
+    bonusCooldown: {
+      type: Number,
+      default: 0,
+    },
+  },
+  data() {
+    return {
+      isCountdownFinished: false,
+    };
   },
   computed: {
     ...mapGetters([
       'getProxyMissionReward',
+      'getProxyMissionBaseReward',
+      'getProxyMissionDetails',
       'getMissionHistoryReward',
       'getUserInfo',
       'getUserIsInBonusCoolDown',
@@ -103,6 +121,19 @@ export default {
     isUpcoming() {
       return this.mission.upcoming;
     },
+    isCooldown() {
+      if (this.isCountdownFinished || this.isHistory) return false;
+      return (
+        // only proxy related mission shows cooldown when done
+        (this.mission.isProxy || this.mission.referralPayoutType) && (
+          (this.mission.done && (this.bonusCooldown || this.getUserIsInBonusCoolDown > new Date()))
+          || (this.getProxyMissionReward(this.mission.id) === '0')
+        )
+      );
+    },
+    countdownTime() {
+      return this.bonusCooldown || this.getUserIsInBonusCoolDown || this.proxyBonusCountdown;
+    },
     reward() {
       if (this.isHistory && this.getMissionHistoryReward(this.mission.id)) {
         /* history api return toFixed(4) so no need div(ONE_LIKE) */
@@ -110,12 +141,16 @@ export default {
       }
       if (this.isReferral) {
         if (this.mission.pendingReferralBonus) {
-          return `${new BigNumber(this.mission.pendingReferralBonus).div(ONE_LIKE).toFixed(2)} LIKE`;
+          return `${new BigNumber(this.mission.pendingReferralBonus).div(ONE_LIKE).toFixed()} LIKE`;
         }
         return this.mission.referralReward;
       }
       if (this.mission.isProxy && this.getProxyMissionReward(this.mission.id)) {
-        return `${this.getProxyMissionReward(this.mission.id)} LIKE`;
+        let reward = this.getProxyMissionReward(this.mission.id);
+        if (reward === '0') {
+          reward = this.getProxyMissionBaseReward(this.mission.id);
+        }
+        return `${reward} LIKE`;
       }
       if (this.getUserInfo.referrer) {
         /* joinTokenSale HACK */
@@ -136,6 +171,7 @@ export default {
     },
     state() {
       if (this.isHistory) return 'claimed';
+      if (this.isCooldown) return 'cooldown';
       if (this.isReferral) {
         if (this.mission.pendingReferralBonus) return 'completed';
         return this.mission.done ? 'claimed' : 'active';
@@ -147,6 +183,29 @@ export default {
       if (this.mission.isClaimed) return 'claimed';
       if (this.mission.done) return 'completed';
       return (this.mission.status === 'pending') ? 'pending' : 'active';
+    },
+    proxyBonusCountdown() {
+      if (this.mission.isProxy) {
+        if (this.mission.id === 'inviteFriend') {
+          const details = this.getProxyMissionDetails(this.mission.id);
+          if (details && details.earliestInvitee && details.earliestInvitee.bonusCooldown) {
+            return details.earliestInvitee.bonusCooldown;
+          }
+        }
+      }
+      return null;
+    },
+  },
+  methods: {
+    onClickMission() {
+      const missionState = {};
+      if (this.isCooldown) {
+        missionState.bonusCooldown = this.countdownTime;
+      }
+      this.$emit('click', missionState);
+    },
+    onCountdownFinish() {
+      this.isCountdownFinished = true;
     },
   },
 };
@@ -268,6 +327,12 @@ export default {
     }
   }
 
+  &.cooldown {
+    .mission-countdown-timer {
+      height: 52px;
+    }
+  }
+
   .title-label {
     height: 52px;
 
@@ -385,7 +450,8 @@ export default {
   }
 
   &.active,
-  &.pending {
+  &.pending,
+  &.cooldown {
     .reward-label {
       color: $like-green;
     }
@@ -397,6 +463,25 @@ export default {
 
       color: #9B9B9B;
       background-color: #EFEFEF;
+    }
+  }
+
+  &.cooldown {
+    .mission-card {
+      height: 48px;
+    }
+
+    .mission-action-button,
+    .mission-card-container {
+      margin-left: 4px;
+    }
+
+    .mission-card-container {
+      padding-top: 12px;
+    }
+
+    .mission-state-icon {
+      padding: 4px;
     }
   }
 }

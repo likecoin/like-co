@@ -7,21 +7,21 @@
             :src="avatar"
             class="avatar"
           >
-          <span class="username-label">{{ username }}</span>
+          <nuxt-link
+            :to="{ name: 'id', params: { id: invitee.id } }"
+            class="username-label"
+          >{{ invitee.displayName }}</nuxt-link>
           <span
             v-if="isNew"
             class="new-label"
           />
         </div>
       </header>
-      <div
-        v-if="bonusCoolDown"
-      >
-        TODO: CoolDown {{ bonusCoolDown }}
-      </div>
+
       <mission-list
         :missions="missions"
-        :username="username"
+        :invitee="invitee"
+        :bonus-cooldown="bonusCoolDown"
         :is-swippable="false"
         :is-referral="true"
         layout="small"
@@ -46,9 +46,9 @@ export default {
       type: String,
       default: '',
     },
-    username: {
-      type: String,
-      required: true,
+    invitee: {
+      type: Object,
+      default: () => {},
     },
     bonusCoolDown: {
       type: Number,
@@ -96,8 +96,6 @@ export default {
   }
 
   .username-label {
-    color: $like-green;
-
     font-size: 18px;
     font-weight: 600;
   }

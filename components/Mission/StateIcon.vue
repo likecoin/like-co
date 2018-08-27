@@ -4,17 +4,22 @@
       v-if="state === 'pending'"
       :layout="layout"
     />
+    <mission-clock
+      v-if="state === 'cooldown'"
+    />
   </div>
 </template>
 
 
 <script>
 import LoadingIndicator from './LoadingIndicator';
+import MissionClock from './Clock';
 
 export default {
   name: 'mission-state-icon',
   components: {
     LoadingIndicator,
+    MissionClock,
   },
   props: {
     layout: {
@@ -62,12 +67,14 @@ export default {
   &.active,
   &.completed,
   &.pending,
-  &.upcoming {
+  &.upcoming,
+  &.cooldown {
     box-shadow: 0 1px 5px 1px rgba(0, 0, 0, 0.3);
   }
 
   &.active,
-  &.pending {
+  &.pending,
+  &.cooldown {
     background-image: linear-gradient(215deg, #D2F0F0, #F0E6B4);
 
     &::before {
@@ -102,7 +109,8 @@ export default {
     background-color: $like-green;
   }
 
-  &.pending {
+  &.pending,
+  &.cooldown {
     background-image: linear-gradient(215deg, #D2F0F0, #F0E6B4);
 
     &::after {

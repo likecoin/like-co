@@ -14,7 +14,10 @@
 
       <header v-if="!isSwippable">
         <div class="column-labels">
-          <nuxt-link :to="{ name: 'id', params: { id: username } }"><span>LIKE</span></nuxt-link>
+          <nuxt-link
+            v-if="invitee && invitee.displayName"
+            :to="{ name: 'id', params: { id: invitee.displayName } }"
+          ><span>LIKE</span></nuxt-link>
         </div>
       </header>
 
@@ -68,10 +71,11 @@
             :key="m.id"
           >
             <mission-item
+              :bonus-cooldown="bonusCooldown"
               :layout="layout"
               :mission="m"
               :is-referral="isReferral"
-              @click="onClick(m)"
+              @click="state => onClick(m, state)"
             />
           </li>
         </ul>
@@ -82,7 +86,6 @@
         :is-loading="isLoading"
         :is-show-pagination="missions.length > 1"
         class="lc-mobile-show"
-        @click="onClickSlide"
       >
         <template v-if="isLoading">
           <div
@@ -113,9 +116,11 @@
             class="swiper-slide"
           >
             <mission-item
+              :bonus-cooldown="bonusCooldown"
               :mission="m"
               :is-referral="isReferral"
               layout="large"
+              @click="state => onClick(m, state)"
             />
           </div>
         </template>
@@ -149,9 +154,9 @@ export default {
       },
       default: 'fluid',
     },
-    username: {
-      type: String,
-      default: '',
+    invitee: {
+      type: Object,
+      default: () => {},
     },
     missions: {
       type: Array,
@@ -180,6 +185,10 @@ export default {
     emptyPlaceholder: {
       type: String,
       default: '',
+    },
+    bonusCooldown: {
+      type: Number,
+      default: 0,
     },
   },
   data() {
@@ -220,6 +229,7 @@ export default {
   },
   methods: {
     updateScrollIndicator() {
+      if (!this.$refs.list) return;
       const { clientWidth, scrollWidth, scrollLeft } = this.$refs.list;
 
       if (scrollLeft !== 0) {
@@ -234,18 +244,14 @@ export default {
         this.canScrollRight = true;
       }
     },
-    onClick(m) {
+    onClick(m, state) {
       if (this.state !== 'claimed') {
         this.$emit('click', ({
           ...m,
-          invitee: this.username,
+          invitee: this.invitee,
           isReferral: this.isReferral,
+          ...state,
         }));
-      }
-    },
-    onClickSlide(i) {
-      if (this.missions.length > 0 && i < this.missions.length) {
-        this.onClick(this.missions[i]);
       }
     },
     onLayout: _throttle(function () { this.updateScrollIndicator(); }, 20),

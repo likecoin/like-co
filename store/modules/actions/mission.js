@@ -58,8 +58,14 @@ export async function refreshMissionList(ctx, id) {
   commit(types.MISSION_SET_REFERRAL_LIST, referralMissions);
   commit(types.MISSION_SET_REFERRAL_BONUS_LIST, bonus);
   referralMissions.forEach(async (r) => {
-    const { avatar } = await apiWrapper(ctx, api.apiGetUserMinById(r.id), { slient: true });
-    commit(types.MISSION_SET_REFERRAL_AVATAR, { userId: r.id, avatar });
+    const {
+      avatar, displayName,
+    } = await apiWrapper(ctx, api.apiGetUserMinById(r.id), { slient: true });
+    commit(types.MISSION_SET_REFERRAL_AVATAR, {
+      userId: r.id,
+      avatar,
+      displayName,
+    });
   });
   commit(types.MISSION_END_FETCHING_MISSION_LIST);
 }
@@ -97,22 +103,27 @@ export async function claimReferralBonus({ commit, dispatch }, { user, type }) {
 export async function onMissionClick(ctx, m) {
   const { commit, state, rootState } = ctx;
   const { user } = rootState.user.user; // module.object.username...
+  const isBonusCooldown = !!m.bonusCooldown && m.bonusCooldown > new Date();
+
   if (m.isReferral) {
-    if (m.pendingReferralBonus) { // referral && has pending bonus
-      return claimReferralBonus(ctx, {
+    if (m.pendingReferralBonus && !isBonusCooldown) { // referral && has pending bonus
+      await claimReferralBonus(ctx, {
         type: m.referralPayoutType,
         user,
       });
+      await refreshMissionList(ctx, user);
+      return true;
     }
   } else {
     if (!m.seen) setMissionSeen(ctx, { missionId: m.id, user });
     if (m.isProxy) {
-      if (state.proxyBonus[m.id]) { // is proxy and can claim
+      if (state.proxyBonus[m.id] && !isBonusCooldown) { // is proxy and can claim
         await claimReferralBonus(ctx, { type: m.targetPayoutType, user });
         commit(types.UI_SET_MISSION_DIALOG, { ...m, isCompleted: true });
+        await refreshMissionList(ctx, user);
         return true;
       }
-    } else if (m.done) {
+    } else if (m.done && !isBonusCooldown) {
       const promises = [claimMission(ctx, { missionId: m.id, user })];
       /* short cut hacks for different missions */
       if (m.id === 'joinTokenSale') promises.push(claimReferralBonus(ctx, { type: 'ico-referee', user }));
