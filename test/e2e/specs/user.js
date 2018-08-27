@@ -59,11 +59,11 @@ module.exports = {
     browser
       .url(`${devServer}/in`)
       .waitForElementVisible('#user-info-form', 2000)
-      .waitForElementVisible('#user-info-form .input-display-name', 2000)
-      .click('#user-info-form .input-display-name')
-      .waitForElementVisible('#user-info-form div.btn-container div:nth-child(1) button', 2000)
-      .setValue('#user-info-form .input-display-name', inputSequence)
-      .click('#user-info-form div.btn-container div:nth-child(1) button')
+      .waitForElementVisible('a[lc-test=userInfoForm-userDisplayName]', 2000)
+      .click('a[lc-test=userInfoForm-userDisplayName]')
+      .waitForElementVisible('form[lc-test=inSettings-accountSettingForm]', 2000)
+      .setValue('input[lc-test=inSettings-userDisplayName]', inputSequence)
+      .click('button[lc-test=inSettings-submitButton]')
       .pause(2000)
       .windowHandles(function func(res) {
         const metamaskPopup = res.value[1];
@@ -78,7 +78,7 @@ module.exports = {
         const originalWindow = res.value[0];
         this.switchWindow(originalWindow);
       })
-      .waitForElementVisible('#user-info-form', 5000)
+      .waitForElementVisible('form[lc-test=inSettings-accountSettingForm]', 5000)
       .waitForElementVisible('.toolbars', 3000)
       .pause(1000)
       .verify.containsText('.toolbars > div > div > span', 'View your page')

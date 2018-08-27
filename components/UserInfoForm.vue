@@ -43,6 +43,7 @@
               >
                 <nuxt-link
                   :to="{ name: 'in-settings' }"
+                  v-bind="getTestAttribute('userDisplayName')"
                   class="lc-color-like-dark-brown-1"
                 >
                   {{ displayName }}
@@ -338,14 +339,6 @@ $profile-icon-mobile-size: 88px;
 
     .user-id-label {
       color: $like-gray-5;
-    }
-
-    .input-display-name {
-      @media (max-width: 768px) {
-        width: 100%;
-
-        text-align: center;
-      }
     }
   }
 
