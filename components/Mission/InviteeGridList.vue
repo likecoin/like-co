@@ -8,9 +8,10 @@
       >
         <invitee-list
           :missions="i.missions"
-          :username="i.id"
+          :invitee="{ id: i.id, displayName: getRefereeDisplayName(i.id) }"
           :avatar="i.avatar"
           :isNew="!i.seen"
+          :bonusCoolDown="i.bonusCooldown"
           @click="onClick"
         />
       </li>
@@ -31,9 +32,10 @@
           <div class="lc-container-4">
             <invitee-list
               :missions="i.missions"
-              :username="i.id"
+              :invitee="{ id: i.id, displayName: getRefereeDisplayName(i.id) }"
               :avatar="i.avatar"
               :isNew="!i.seen"
+              :bonusCoolDown="i.bonusCooldown"
               @click="onClick"
             />
           </div>
@@ -46,6 +48,8 @@
 
 
 <script>
+import { mapGetters } from 'vuex';
+
 import InviteeList from './InviteeList';
 import Swiper from './Swiper';
 
@@ -64,6 +68,9 @@ export default {
       type: String,
       default: undefined,
     },
+  },
+  computed: {
+    ...mapGetters(['getRefereeDisplayName']),
   },
   methods: {
     onClick({ mission, referralId }) {

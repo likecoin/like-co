@@ -30,6 +30,7 @@ const {
   RECAPTCHA_SECRET,
   REGISTER_LIMIT_WINDOW,
   REGISTER_LIMIT_COUNT,
+  NEW_USER_BONUS_COOLDOWN,
 } = require('../config/config.js'); // eslint-disable-line import/no-extraneous-dependencies
 
 const {
@@ -284,12 +285,17 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res, n
     }
     if (url) updateObj.avatar = url;
     if (locale) updateObj.locale = locale;
-    if (!isOldUser) updateObj.timestamp = Date.now();
+
+    const timestampObj = { timestamp: Date.now() };
+    if (NEW_USER_BONUS_COOLDOWN) {
+      timestampObj.bonusCooldown = Date.now() + NEW_USER_BONUS_COOLDOWN;
+    }
+    if (!isOldUser) Object.assign(updateObj, timestampObj);
     if (hasReferrer) updateObj.referrer = referrer;
     await dbRef.doc(user).set(updateObj, { merge: true });
 
     if (hasReferrer) {
-      await dbRef.doc(referrer).collection('referrals').doc(user).create({ timestamp: Date.now() });
+      await dbRef.doc(referrer).collection('referrals').doc(user).create(timestampObj);
     }
     setAuthCookies(req, res, { user, wallet });
     res.sendStatus(200);
