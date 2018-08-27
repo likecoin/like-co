@@ -31,6 +31,7 @@
         <div class="lc-container-3 lc-padding-vertical-32 lc-bg-gray-1">
           <form
             id="account-setting-form"
+            v-bind="getTestAttribute('accountSettingForm')"
             @submit.prevent="onSubmit"
           >
             <div class="profile-setting-page__account-setting">
@@ -81,6 +82,7 @@
                     <md-field>
                       <md-input
                         v-model="displayName"
+                        v-bind="getTestAttribute('userDisplayName')"
                         required
                       />
                     </md-field>
@@ -127,6 +129,7 @@
             <div class="profile-setting-page__confirm-btn lc-margin-top-8">
               <md-button
                 :disabled="!hasUserDetailsChanged || disabled"
+                v-bind="getTestAttribute('submitButton')"
                 class="md-likecoin"
                 form="account-setting-form"
                 type="submit"
@@ -176,6 +179,7 @@ import {
   EXTERNAL_HOSTNAME,
   W3C_EMAIL_REGEX,
 } from '@/constant';
+import getTestAttribute from '@/util/test';
 
 import SocialMediaConnect from '~/components/SocialMediaConnect';
 
@@ -333,6 +337,7 @@ export default {
         },
       });
     },
+    getTestAttribute: getTestAttribute('inSettings'),
   },
 };
 </script>
