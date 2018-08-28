@@ -681,7 +681,7 @@
       "email": "Your E-mail",
       "addEmail": "Add email address",
       "redeemCoin": "Redeem LikeCoin",
-      "redeemCode": "Redeem Code (Optional)",
+      "redeemCode": "Redeem Code",
       "validCodeRequired": "Please enter a valid coupon code",
       "verified": "Verified",
       "verifying": "Verification link sent. Please check your inbox!",

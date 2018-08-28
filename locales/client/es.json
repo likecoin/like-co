@@ -664,7 +664,7 @@
             "email": "Su correo electrónico",
             "addEmail": "Su dirección de correo electrónico",
             "redeemCoin": "Canjear LikeCoin",
-            "redeemCode": "Código de canje (opcional)",
+            "redeemCode": "Código de canje",
             "validCodeRequired": "Por favor, indique un código de cupón válido",
             "verified": "Verificado",
             "verifying": "¡Verificación enviada, revise su bandeja de entrada!",

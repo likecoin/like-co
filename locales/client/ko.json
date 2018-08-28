@@ -664,7 +664,7 @@
             "email": "내 이메일",
             "addEmail": "이메일 주소 추가",
             "redeemCoin": "LikeCoin 받기",
-            "redeemCode": "코드 받기 (선택 사항)",
+            "redeemCode": "코드 받기",
             "validCodeRequired": "유효한 쿠폰 코드를 입력하세요",
             "verified": "인증됐습니다",
             "verifying": "인증을 전송했습니다. 수신함을 확인하세요!",

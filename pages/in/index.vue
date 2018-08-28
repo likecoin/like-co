@@ -66,70 +66,6 @@
       </section>
     </div>
 
-    <div
-      id="coupon"
-      class="lc-container-0 lc-margin-top-48 lc-mobile"
-    >
-      <section class="lc-container-1">
-
-        <div class="lc-container-header">
-          <div class="lc-container-2 lc-container-header-overlay">
-            <div class="lc-container-3 lc-bg-gray-1" />
-          </div>
-          <div class="lc-container-2">
-            <div class="lc-container-3">
-              <div class="lc-container-4">
-                <div class="lc-container-header-title">
-                  <h1 class="lc-font-size-32 lc-mobile">
-                    {{ $t('Edit.label.redeemCoin') }}
-                  </h1>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="lc-container-2">
-          <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-32">
-            <div class="lc-container-4">
-              <form
-                id="redeemForm"
-                @submit.prevent="onSubmitCoupon"
-              >
-                <md-field>
-                  <label class="input-redeem-hint lc-font-size-20">
-                    {{ $t('Edit.label.redeemCode') }}
-                  </label>
-                  <md-input
-                    v-model="couponCode"
-                    :title="$t('Edit.label.validCodeRequired')"
-                    pattern="[2-9A-HJ-NP-Za-km-z]{8}"
-                    required
-                  />
-                </md-field>
-                <div class="section-btn-container lc-padding-top-48 lc-mobile">
-                  <md-button
-                    id="confirm-btn"
-                    :disabled="getIsInTransaction"
-                    class="section-button md-likecoin"
-                    type="submit"
-                    form="redeemForm"
-                  >
-                    {{ $t('General.button.confirm') }}
-                  </md-button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </section>
-      <claim-dialog
-        ref="claimDialog"
-        :couponCode="couponCode"
-        :wallet="wallet"
-      />
-    </div>
-
     <transaction-history
       id="transaction"
       ref="txHistory"
@@ -163,8 +99,6 @@ import { mapActions, mapGetters } from 'vuex';
 import LikeCoinAmount from '~/components/LikeCoinAmount';
 import MaterialButton from '~/components/MaterialButton';
 import MissionList from '@/components/Mission/List';
-import ClaimDialog from '~/components/dialogs/ClaimDialog';
-import InputDialog from '~/components/dialogs/InputDialog';
 import TransactionHistory from '~/components/TransactionHistory';
 import RefreshButton from '~/components/RefreshButton';
 import ViewEtherscan from '~/components/ViewEtherscan';
@@ -178,8 +112,6 @@ export default {
   name: 'in',
   layout: 'in',
   components: {
-    ClaimDialog,
-    InputDialog,
     LikeCoinAmount,
     MaterialButton,
     MissionList,
@@ -189,7 +121,6 @@ export default {
   },
   data() {
     return {
-      couponCode: '',
       wallet: '',
       EditIcon,
       EditWhiteIcon,
@@ -201,7 +132,6 @@ export default {
   computed: {
     ...mapGetters([
       'getUserInfo',
-      'getIsInTransaction',
       'getIsPopupBlocking',
       'getCurrentLocale',
       'getIsFetchingMissions',
@@ -266,13 +196,6 @@ export default {
       this.$refs.txHistory.updateTokenSaleHistory();
       this.refreshMissions();
     },
-    async onSubmitCoupon() {
-      try {
-        await this.$refs.claimDialog.onSubmit();
-      } catch (err) {
-        console.error(err);
-      }
-    },
   },
 };
 </script>
@@ -282,14 +205,6 @@ export default {
 
 .section-redeem-edit-mode {
   opacity: .3;
-}
-
-#coupon {
-  #redeemForm {
-    :not(.md-focused) .input-redeem-hint {
-      font-size: 20px;
-    }
-  }
 }
 
 .section-btn-container {

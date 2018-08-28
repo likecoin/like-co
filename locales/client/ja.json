@@ -664,7 +664,7 @@
             "email": "メールアドレス",
             "addEmail": "メールアドレスを追加する",
             "redeemCoin": "LikeCoinと引き換える",
-            "redeemCode": "引き換えコード（任意）",
+            "redeemCode": "引き換えコード",
             "validCodeRequired": "有効なクーポンコードを入力してください",
             "verified": "確認済み",
             "verifying": "認証メールが送信されました。受信ボックスを確認してください！",

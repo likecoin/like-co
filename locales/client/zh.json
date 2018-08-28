@@ -654,7 +654,7 @@
       "email": "郵件地址",
       "addEmail": "增加郵件地址",
       "redeemCoin": "兌換 LikeCoin",
-      "redeemCode": "兌換碼 (可選)",
+      "redeemCode": "兌換碼",
       "validCodeRequired": "請輸入有效兌換碼",
       "verified": "成功驗證",
       "verifying": "驗證碼已發送，請查郵箱",

@@ -650,7 +650,7 @@
       "email": "邮件地址",
       "addEmail": "增加邮件地址",
       "redeemCoin": "兑换 LikeCoin",
-      "redeemCode": "兑换码 (可选)",
+      "redeemCode": "兑换码",
       "validCodeRequired": "请输入有效兑换码",
       "verified": "成功验证",
       "verifying": "验证码已发送，请查邮箱",
