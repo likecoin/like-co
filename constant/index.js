@@ -84,5 +84,35 @@ export const EXTRA_EMAIL_BLACLIST = [
 ];
 
 export const QRYPTOS_LIKEETH_URL = 'https://trade.qryptos.com/basic/LIKEETH';
+export const WORDPRESS_PLUGIN_URL = 'https://wordpress.org/plugins/likecoin/';
 
 export const EXTERNAL_HOSTNAME = IS_TESTNET ? 'rinkeby.like.co' : 'like.co';
+
+export const SOCIAL_MEDIA_LIST = [
+  {
+    id: 'likecoin',
+    tier: 0,
+  },
+  {
+    id: 'facebook',
+    tier: 1,
+  },
+  {
+    id: 'flickr',
+    tier: 1,
+  },
+  {
+    id: 'medium',
+    tier: 1,
+  },
+  {
+    id: 'twitter',
+    tier: 1,
+  },
+  /*
+  {
+    id: 'instagram',
+    tier: 1,
+  },
+  */
+];

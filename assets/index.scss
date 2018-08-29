@@ -9,6 +9,7 @@
 * {
   margin: 0;
   padding: 0;
+
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
   -webkit-padding-start: 0;
@@ -156,7 +157,6 @@ a,
   position: relative;
 
   box-sizing: border-box;
-
   height: 100%;
 
   .underlay {
@@ -312,7 +312,6 @@ a,
           right: 0;
 
           width: 25%;
-
           min-width: unset;
           height: 36px;
         }
@@ -774,6 +773,13 @@ $line-height-map: (
       color: $gray-9b;
     }
   }
+
+  &.no-underline {
+    &:before,
+    &:after {
+      content: none;
+    }
+  }
 }
 
 
@@ -966,6 +972,17 @@ $line-height-map: (
   }
 }
 
+/* select */
+
+.md-select.lc-likecoin {
+  padding-right: 4px;
+  padding-left: 12px;
+
+  border: 1px solid #d8d8d8;
+  border-radius: 4px;
+  background-color: white;
+}
+
 span.bold {
   @extend .lc-color-like-green;
   @extend .lc-font-weight-600;
@@ -989,7 +1006,6 @@ span.bold {
   }
 
   h1 {
-
     margin: 48px 0 24px;
 
     font-size: 20px;
@@ -997,7 +1013,6 @@ span.bold {
   }
 
   h2 {
-
     margin: 32px 0 16px;
 
     font-size: 16px;
@@ -1010,7 +1025,8 @@ span.bold {
     margin: {
       top: 16px;
       bottom: 16px;
-    }
+    };
+
     font-size: 12px;
     font-weight: normal;
   }
