@@ -125,7 +125,7 @@
     "nightwatch": "^0.9.20",
     "node-sass": "^4.8.3",
     "nyc": "^12.0.2",
-    "optimize-css-assets-webpack-plugin": "^3.2.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
     "sass-loader": "^7.0.1",
     "selenium-server": "^3.11.0",
     "stylelint": "^9.3.0",
