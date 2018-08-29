@@ -13,6 +13,7 @@ import {
   USER_UNLINK_SOCIAL,
   USER_SET_LIKECOIN_BIG_NUMBER_AMOUNT,
   USER_SELECT_FACEBOOK_PAGE_LINK,
+  USER_SET_SOCIAL_PLATFORMS_IS_PUBLIC,
 } from '../mutation-types';
 import * as actions from './actions/user';
 import * as getters from './getters/user';
@@ -72,6 +73,14 @@ const mutations = {
         url: payload,
       });
     }
+  },
+  [USER_SET_SOCIAL_PLATFORMS_IS_PUBLIC](state, { platforms }) {
+    Object.keys(platforms).forEach((id) => {
+      Vue.set(state.platforms, id, {
+        ...state.platforms[id],
+        isPublic: platforms[id],
+      });
+    });
   },
   [USER_SET_LIKECOIN_BIG_NUMBER_AMOUNT](state, payload) {
     state.likeCoinAmountInBigNumber = payload;

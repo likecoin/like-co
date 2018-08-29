@@ -85,7 +85,7 @@ export async function refreshUser({ commit, state, dispatch }, addr) {
     const oldUser = state.user.user;
     const currentUser = (user || {}).user;
     if (user && user.user) {
-      await dispatch('fetchtSocialListById', user.user);
+      await dispatch('fetchSocialListDetailsById', user.user);
       commit(types.USER_SET_USER_INFO, user);
     } else {
       commit(types.USER_SET_USER_INFO, {});
@@ -195,6 +195,14 @@ export async function selectFacebookPageLink({ commit, dispatch }, { pageId, pay
     api.apiSelectFacebookPageLink(pageId, payload),
   );
   commit(types.USER_SELECT_FACEBOOK_PAGE_LINK, url);
+}
+
+export async function updateSocialPlatformIsPublic({ commit, dispatch }, payload) {
+  await apiWrapper(
+    { commit, dispatch },
+    api.apiPostSocialPlatformsIsPublic(payload),
+  );
+  commit(types.USER_SET_SOCIAL_PLATFORMS_IS_PUBLIC, payload);
 }
 
 export async function sendCouponCodeEmail({ commit, dispatch, rootState }, data) {

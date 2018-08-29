@@ -135,9 +135,18 @@ export const ValidationHelper = {
   filterSocialPlatformPersonal({
     userId,
     pages,
+    displayName,
+    url,
+    isPublic,
   }) {
-    const data = { id: userId };
+    const data = {
+      displayName,
+      id: userId,
+      isPublic,
+      url,
+    };
     if (pages) data.pages = pages;
+    if (isPublic === undefined) data.isPublic = true;
     return data;
   },
   filterSocialPlatformPublic({

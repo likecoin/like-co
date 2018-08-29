@@ -27,8 +27,10 @@ router.get('/social/list/:id', async (req, res, next) => {
     const col = await dbRef.doc(username).collection('social').get();
     const replyObj = {};
     col.docs.forEach((d) => {
-      const { isLinked } = d.data();
-      if (isLinked) replyObj[d.id] = Validate.filterSocialPlatformPublic({ ...d.data() });
+      const { isLinked, isPublic } = d.data();
+      if (isLinked && isPublic !== false) {
+        replyObj[d.id] = Validate.filterSocialPlatformPublic({ ...d.data() });
+      }
     });
     res.json(replyObj);
   } catch (err) {
@@ -44,13 +46,15 @@ router.get('/social/list/:id/details', jwtAuth, async (req, res, next) => {
       return;
     }
 
+    const col = await dbRef.doc(username).collection('social').get();
     const replyObj = {};
 
-    const facebookDoc = await dbRef.doc(username).collection('social').doc('facebook').get();
-    const facebookData = facebookDoc.data();
-    if (facebookData) {
-      replyObj.facebook = Validate.filterSocialPlatformPersonal({ ...facebookData });
-    }
+    col.docs.forEach((d) => {
+      const { isLinked } = d.data();
+      if (isLinked) {
+        replyObj[d.id] = Validate.filterSocialPlatformPersonal({ ...d.data() });
+      }
+    });
 
     res.json(replyObj);
   } catch (err) {
@@ -92,6 +96,31 @@ router.post('/social/unlink/:platform', jwtAuth, async (req, res, next) => {
       locale,
       registerTime: timestamp,
     });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post('/social/public', jwtAuth, async (req, res, next) => {
+  try {
+    const {
+      user,
+      platforms,
+    } = req.body;
+    if (req.user.user !== user) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
+
+    console.log(platforms, dbRef.batch);
+    const promises = Object.keys(platforms).map((id) => {
+      const userReferralRef = dbRef.doc(user).collection('social').doc(id);
+      return userReferralRef.update({ isPublic: platforms[id] });
+    });
+
+    await Promise.all(promises);
+
+    res.sendStatus(200);
   } catch (err) {
     next(err);
   }
