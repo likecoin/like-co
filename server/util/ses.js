@@ -9,7 +9,7 @@ const ses = new aws.SES();
 
 export async function sendVerificationEmail(res, user, ref) {
   const params = {
-    Source: 'noreply@like.co',
+    Source: '"LikeCoin Foundation" <noreply@like.co>',
     Destination: {
       ToAddresses: [user.email],
     },
@@ -38,7 +38,7 @@ export async function sendVerificationEmail(res, user, ref) {
 
 export async function sendVerificationWithCouponEmail(res, user, coupon, ref) {
   const params = {
-    Source: 'noreply@like.co',
+    Source: '"LikeCoin Foundation" <noreply@like.co>',
     Destination: {
       ToAddresses: [user.email],
     },
