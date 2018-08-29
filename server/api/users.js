@@ -90,7 +90,6 @@ function setAuthCookies(req, res, payload) {
 const apiLimiter = new RateLimit({
   windowMs: REGISTER_LIMIT_WINDOW,
   max: REGISTER_LIMIT_COUNT || 0,
-  delayMs: 0, // disabled
   skipFailedRequests: true,
   keyGenerator: req => (req.headers['x-real-ip'] || req.ip),
   onLimitReached: (req) => {
