@@ -94,7 +94,7 @@ jobs:
           command: |
             echo ${GCLOUD_SERVICE_KEY} | base64 -d > /account-auth.json
             gcloud auth activate-service-account --key-file /account-auth.json
-            gcloud config set project ${PROJECT_NAME}
+            gcloud config set project ${TEST_PROJECT_NAME}
             gcloud --quiet config set container/cluster ${POC_CLUSTER_NAME}
             gcloud config set compute/zone ${CLOUDSDK_COMPUTE_ZONE}
             gcloud --quiet container clusters get-credentials ${POC_CLUSTER_NAME}
@@ -102,8 +102,8 @@ jobs:
       - run:
           name: Build image
           command: |
-            gcloud docker -- pull us.gcr.io/${PROJECT_NAME}/like-store:latest || true
-            docker build . -t like-store --cache-from us.gcr.io/${PROJECT_NAME}/like-store:latest \
+            gcloud docker -- pull us.gcr.io/${TEST_PROJECT_NAME}/like-store:latest || true
+            docker build . -t like-store --cache-from us.gcr.io/${TEST_PROJECT_NAME}/like-store:latest \
             --build-arg IS_TESTNET='TRUE' \
             --build-arg INTERCOM_APPID=${TEST_INTERCOM_APPID} \
             --build-arg GTM_ID=${TEST_GTM_ID} \
@@ -113,17 +113,17 @@ jobs:
             --build-arg SENTRY_REPORT_URI=${TEST_SENTRY_REPORT_URI} \
             --build-arg SENTRY_PROJECT=${TEST_SENTRY_PROJECT} \
             --build-arg RELEASE=${CIRCLE_SHA1}
-            docker tag like-store:latest us.gcr.io/${PROJECT_NAME}/like-store:latest
-            docker tag like-store:latest us.gcr.io/${PROJECT_NAME}/like-store:test-${CIRCLE_SHA1}
+            docker tag like-store:latest us.gcr.io/${TEST_PROJECT_NAME}/like-store:latest
+            docker tag like-store:latest us.gcr.io/${TEST_PROJECT_NAME}/like-store:test-${CIRCLE_SHA1}
       - run:
           name: Push images
           command: |
-            gcloud docker -- push us.gcr.io/${PROJECT_NAME}/like-store:latest
-            gcloud docker -- push us.gcr.io/${PROJECT_NAME}/like-store:test-${CIRCLE_SHA1}
+            gcloud docker -- push us.gcr.io/${TEST_PROJECT_NAME}/like-store:latest
+            gcloud docker -- push us.gcr.io/${TEST_PROJECT_NAME}/like-store:test-${CIRCLE_SHA1}
       - deploy:
           name: Deploy
           command: |
-            kubectl patch deployment like-store-rinkeby -p '{"spec":{"template":{"spec":{"containers":[{"name":"like-store","image":"us.gcr.io/'"$PROJECT_NAME"'/like-store:test-'"$CIRCLE_SHA1"'"}]}}}}'
+            kubectl patch deployment like-store-rinkeby -p '{"spec":{"template":{"spec":{"containers":[{"name":"like-store","image":"us.gcr.io/'"$TEST_PROJECT_NAME"'/like-store:test-'"$CIRCLE_SHA1"'"}]}}}}'
   deploy_mainnet:
     working_directory: ~/likecoin-store
     docker:
