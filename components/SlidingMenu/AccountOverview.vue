@@ -15,7 +15,7 @@
 
     <div
       v-if="usdStrValue"
-      class="account-overview__account"
+      class="account-overview__account lc-padding-bottom-16"
     >
       <div class="account-overview__like-amount">
         <span class="lc-font-size-38 lc-font-weight-300 lc-color-like-gray-5">
@@ -27,7 +27,7 @@
       </div>
     </div>
 
-    <div class="lc-text-align-center">
+    <!-- <div class="lc-text-align-center">
       <md-button
         :href="QRYPTOS_LIKEETH_URL"
         class="md-likecoin lc-secondary lc-font-size-18 lc-font-weight-600"
@@ -36,7 +36,7 @@
       >
         {{ $t('Home.Sale.button.buyCoin') }}
       </md-button>
-    </div>
+    </div> -->
   </div>
 </template>
 

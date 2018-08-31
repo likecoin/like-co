@@ -60,7 +60,7 @@
                       {{ $t('Home.Header.button.signUp') }}
                     </md-button>
                   </li>
-                  <li>
+                  <!-- <li>
                     <md-button
                       :href="QRYPTOS_LIKEETH_URL"
                       class="cta-btn support md-likecoin shadow lc-text-align-center"
@@ -69,7 +69,7 @@
                     >
                       {{ $t('Home.Sale.button.tradeAtQRYPTOS') }}
                     </md-button>
-                  </li>
+                  </li> -->
                 </ul>
               </div>
 
