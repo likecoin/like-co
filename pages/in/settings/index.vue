@@ -209,13 +209,14 @@
                     </label>
                     <md-input
                       v-model="couponCode"
+                      v-bind="getTestAttribute('redeemFormInput')"
                       :title="$t('Edit.label.validCodeRequired')"
                       pattern="[2-9A-HJ-NP-Za-km-z]{8}"
                       required
                     />
                   </md-field>
                   <md-button
-                    id="confirm-btn"
+                    v-bind="getTestAttribute('redeemFormConfirmBtn')"
                     :disabled="getIsInTransaction"
                     class="md-likecoin"
                     type="submit"

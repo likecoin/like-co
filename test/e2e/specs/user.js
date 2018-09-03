@@ -91,12 +91,12 @@ module.exports = {
     setAuthLocalStorage(browser, devServer, 'testacct', '0x7FCE12d55AcA8a55471CEd6cFd4548b49b0d1AB5');
 
     browser
-      .url(`${devServer}/in`)
-      .waitForElementVisible('#redeemForm input[type=text]', 2000)
-      .click('#redeemForm input[type=text]')
-      .setValue('#redeemForm input[type=text]', '22223333')
+      .url(`${devServer}/in/settings`)
+      .waitForElementVisible('input[lc-test=inSettings-redeemFormInput]', 2000)
+      .click('input[lc-test=inSettings-redeemFormInput]')
+      .setValue('input[lc-test=inSettings-redeemFormInput]', '22223333')
       .pause(1000)
-      .click('#confirm-btn')
+      .click('button[lc-test=inSettings-redeemFormConfirmBtn]')
       .pause(1000)
       .waitForElementVisible('.md-dialog', 2000)
       .verify.containsText('.md-dialog', 'Claim coupon')
