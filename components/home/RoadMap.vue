@@ -71,7 +71,7 @@
                 {{ $t('Home.RoadMap.content') }}
               </div> -->
 
-              <div class="links-wrapper lc-margin-top-12">
+              <!-- <div class="links-wrapper lc-margin-top-12">
                 <a
                   :href="QRYPTOS_LIKEETH_URL"
                   target="_blank"
@@ -79,7 +79,7 @@
                 >
                   {{ $t('Dialog.transaction.button.trade') }}
                 </a>
-              </div>
+              </div> -->
 
             </div>
 

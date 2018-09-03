@@ -66,10 +66,10 @@
 
       <like-coin-amount
         :value="likeCoinValueStr"
-        :linkText="$t('Home.Sale.button.tradeAtQRYPTOS')"
-        :linkHref="QRYPTOS_LIKEETH_URL"
         class="likecoin-amount-section"
       />
+      <!-- :linkText="$t('Home.Sale.button.tradeAtQRYPTOS')"
+      :linkHref="QRYPTOS_LIKEETH_URL" -->
 
       <input-dialog
         ref="inputDialog"
