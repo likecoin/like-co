@@ -119,6 +119,7 @@
 import { mapActions, mapGetters } from 'vuex';
 
 import DeleteIcon from '~/assets/icons/cross.svg';
+import LikeCoinIcon from '~/assets/logo/icon.svg';
 
 import { openURL } from '~/util/client';
 import { logTrackerEvent } from '@/util/EventLogger';
@@ -212,7 +213,7 @@ export default {
       return this.type === TYPE.LARGE ? '28px' : '36px';
     },
     socialMediaList() {
-      return SOCIAL_MEDIA_LIST
+      const platforms = SOCIAL_MEDIA_LIST
         .filter((socialMedia) => {
           const { tier } = socialMedia;
           const isConnected = this.getIsConnected(socialMedia);
@@ -221,8 +222,16 @@ export default {
             || (this.type === TYPE.MINI && (isConnected || tier === 1))
             || (this.type === TYPE.LARGE && tier > 0)
           );
-        })
-        .slice(0, this.limit);
+        });
+
+      const links = Object.keys(this.platforms)
+        .filter(id => this.platforms[id].isExternalLink)
+        .map(id => ({ id, url: this.platforms[id].url }));
+      links.sort(({ id: id1 }, { id: id2 }) => (
+        this.platforms[id1].order - this.platforms[id2].order
+      ));
+
+      return [...platforms, ...links].slice(0, this.limit);
     },
     facebookPages() {
       return [
@@ -257,7 +266,11 @@ export default {
       'selectFacebookPageLink',
     ]),
     getIconPath(id) {
-      return iconFolder(`./${id}.svg`);
+      try {
+        return iconFolder(`./${id}.svg`);
+      } catch (err) {
+        return LikeCoinIcon;
+      }
     },
     getIsConnected({ id, tier }) {
       return !!this.platforms[id] || (
