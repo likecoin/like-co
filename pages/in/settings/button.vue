@@ -451,6 +451,8 @@ export default {
       }
     }
     @media (max-width: 600px) {
+      padding-bottom: 0;
+
       border-top: $border-style-2;
     }
 

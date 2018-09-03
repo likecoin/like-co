@@ -28,7 +28,7 @@
                   </div>
                 </div>
                 <md-button
-                  class="md-likecoin lc-container-header-button"
+                  class="md-likecoin lc-container-header-button lc-font-size-20"
                   @click="$router.push({ name: 'in-bonus' })"
                 >
                   {{ $t('BonusPage.button.moreBonus') }}
