@@ -270,6 +270,7 @@
         "createID": "Create LikeCoin ID to participate in the movement",
         "createNow": "Create Now",
         "buyCoin": "Buy LikeCoin",
+        "earnCoin": "Earn LikeCoin",
         "imInterested": "I'm interested",
         "aboutTokenSale": "About Token Sale",
         "joinTokenSale": "Join Token Sale",
@@ -965,14 +966,41 @@
       "deleteAccountPrePopulatedMessage": "I want to delete my account",
       "requestReportPrePopulatedMessage": "I want to request an account data report ",
       "receiveLikeCoinLink": "Your LikeCoin payment link:",
-      "accountConnection": "You can connect to your accounts on various social platforms."
+      "accountConnection": "You can connect to your accounts on various social platforms.",
+      "earnByLikeButton": "Earn LikeCoin by Reinvented LikeButton",
+      "yourLikeButton": "Your LikeButton",
+      "displaySocialMediaOn": "Display socal mediea links on",
+      "selectSocialMediaLink": "Select social media links (maximum 5)",
+      "wordpress": {
+        "title": "WordPress",
+        "content": "Install LikeCoin Plugin to your WordPress Site"
+      },
+      "medium": {
+        "title": "Medium",
+        "content": "Apply your LikeButton in your story"
+      },
+      "oice": {
+        "title": "oice",
+        "content": "Create your visual noval on oice"
+      },
+      "otherLinks": "Other external links",
+      "preview": "Preview"
     },
     "button": {
       "deleteAccount": "Delete Account",
       "requestReport": "Request for report",
       "editPortrait": "Edit Portrait",
       "profile": "Profile",
-      "otherSettings": "Other Settings"
+      "otherSettings": "Others",
+      "likeButton": "LikeButton",
+      "learnMore": "Learn More",
+      "install": "Install",
+      "createStory": "Create Story",
+      "addCustomLink": "Add custom link"
+    },
+    "placeholder": {
+      "name": "Name",
+      "enterUrl": "Enter URL here"
     }
   },
   "PoliciesPage": {

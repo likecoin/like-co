@@ -12,7 +12,7 @@
             </md-button>
           </div>
 
-          <div class="like-button-settings__examples lc-margin-top-32">
+          <div class="like-button-settings__examples">
             <div
               v-for="item in categoryItems"
               :key="item.id"
@@ -41,10 +41,19 @@
                   rel="noopener noreferrer"
                   target="_blank"
                 >{{ $t('Settings.button.install') }}</md-button>
-                <div
+                <textarea
                   v-else-if="item.id === 'medium'"
-                  class="like-button-settings__medium-url"
-                >https://button.like.co/{{ getUserInfo.user }}</div>
+                  v-model="likeButtonUrl"
+                  readonly
+                  @focus="$event.target.select()"
+                />
+                <md-button
+                  v-if="item.id === 'oice'"
+                  :href="OICE_URL"
+                  class="md-likecoin outline"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >{{ $t('Settings.button.createStory') }}</md-button>
               </div>
             </div>
           </div>
@@ -90,12 +99,8 @@
                 <social-media-icon
                   v-for="socialMedia in socialMediaList"
                   :key="socialMedia.id"
-                  :id="socialMedia.id"
-                  :is-public="
-                    socialMediasIsPublicState[socialMedia.id] !== undefined
-                      ? socialMediasIsPublicState[socialMedia.id]
-                      : getUserSocialPlatforms[socialMedia.id].isPublic
-                  "
+                  :platform="socialMedia"
+                  :is-public="getSocialMediaIsPublic(socialMedia.id)"
                   @change="onSocialMediaPublicityChange"
                 />
                 <md-button
@@ -112,13 +117,26 @@
                 </md-button>
               </div>
               <div class="lc-text-align-right">
+                <div v-if="!isSubmittingForm">
+                  <md-button
+                    :disabled="isConfirmButtonDisabled"
+                    class="md-likecoin lc-margin-top-32"
+                    form="like-button-settings-form"
+                    type="submit"
+                  >
+                    {{ $t('General.button.confirm') }}
+                  </md-button>
+                </div>
                 <md-button
-                  :disabled="isConfirmButtonDisabled"
+                  v-else
                   class="md-likecoin lc-margin-top-32"
-                  form="like-button-settings-form"
-                  type="submit"
+                  disabled
                 >
-                  {{ $t('General.button.confirm') }}
+                  <md-progress-spinner
+                    :md-diameter="24"
+                    :md-stroke="2"
+                    md-mode="indeterminate"
+                  />
                 </md-button>
               </div>
             </form>
@@ -135,9 +153,13 @@ import Vue from 'vue';
 import { mapActions, mapGetters } from 'vuex';
 
 import SocialMediaIcon from '@/components/settings/SocialMediaIcon';
-import MockLikeButton from '@/components/embed/MockButton';
 
-import { WORDPRESS_PLUGIN_URL, SOCIAL_MEDIA_LIST } from '@/constant/index';
+import {
+  EXTERNAL_HOSTNAME,
+  OICE_URL,
+  SOCIAL_MEDIA_LIST,
+  WORDPRESS_PLUGIN_URL,
+} from '@/constant/index';
 import SettingsIcon from '@/assets/icons/settings.svg';
 
 const iconFolder = require.context('../../../assets/icons/social-media/');
@@ -153,20 +175,25 @@ const categoryItems = [
     icon: 'medium-with-bg',
     size: '32px',
   },
+  {
+    id: 'oice',
+    icon: 'oice',
+    size: '34px',
+  },
 ];
 
 export default {
   name: 'in-settings-button',
   components: {
     SocialMediaIcon,
-    MockLikeButton,
   },
   data() {
     return {
       isEmailEnabled: false,
       isEmailPreviouslyEnabled: false,
-      isLoading: false,
+      isSubmittingForm: false,
       categoryItems,
+      OICE_URL,
       WORDPRESS_PLUGIN_URL,
       SettingsIcon,
       socialMediasIsPublicState: {},
@@ -181,14 +208,40 @@ export default {
       'getUserNeedAuth',
       'getUserNeedRegister',
       'getUserSocialPlatforms',
+      'getUserSocialLinks',
     ]),
+    userLinkList() {
+      const links = Object.keys(this.getUserSocialLinks).map(id => ({
+        id,
+        ...this.getUserSocialLinks[id],
+        isExternalLink: true,
+      }));
+      links.sort((link1, link2) => link1.order - link2.order);
+      return links;
+    },
     socialMediaList() {
-      return SOCIAL_MEDIA_LIST
-        .filter(({ id }) => !!this.getUserSocialPlatforms[id]);
+      return [
+        ...SOCIAL_MEDIA_LIST.filter(({ id }) => !!this.getUserSocialPlatforms[id]),
+        ...this.userLinkList,
+      ];
+    },
+    publicSocialMedia() {
+      const platforms = {};
+      this.socialMediaList.forEach(({ id, ...data }) => {
+        if (this.getSocialMediaIsPublic(id)) {
+          platforms[id] = data;
+        }
+      });
+      return platforms;
     },
     isConfirmButtonDisabled() {
-      return !Object.keys(this.socialMediasIsPublicState)
-        .some(id => this.socialMediasIsPublicState[id] !== undefined);
+      return this.isSubmittingForm
+        || !Object.keys(this.socialMediasIsPublicState)
+          .some(id => this.socialMediasIsPublicState[id] !== undefined);
+    },
+    likeButtonUrl() {
+      if (!this.getUserInfo.user) return '';
+      return `https://button.like.co/${this.getUserInfo.user}`;
     },
   },
   watch: {
@@ -220,9 +273,6 @@ export default {
   methods: {
     ...mapActions([
       'loginUser',
-      'newUser',
-      'refreshUserInfo',
-      'setInfoMsg',
       'updateSocialPlatformIsPublic',
     ]),
     async triggerLoginSign() {
@@ -248,12 +298,21 @@ export default {
       }
     },
     async onSubmit() {
+      this.isSubmittingForm = true;
+
       await this.updateSocialPlatformIsPublic({
         platforms: this.socialMediasIsPublicState,
         user: this.getUserInfo.user,
       });
 
+      this.isSubmittingForm = false;
       this.socialMediasIsPublicState = {};
+    },
+    getSocialMediaIsPublic(id) {
+      if (this.socialMediasIsPublicState[id] !== undefined) {
+        return this.socialMediasIsPublicState[id];
+      }
+      return (this.getUserSocialPlatforms[id] || this.getUserSocialLinks[id]).isPublic;
     },
   },
 };
@@ -262,6 +321,19 @@ export default {
 
 <style lang="scss" scoped>
 @import "~assets/variables";
+
+@mixin separator {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  width: 2px;
+
+  content: ' ';
+
+  background-color: $gray-e6;
+}
 
 .like-button-settings {
   .lc-container-3 {
@@ -292,21 +364,42 @@ export default {
     padding-top: 16px;
   }
 
+  &__examples {
+    display: flex;
+    flex-wrap: wrap;
+
+    @media (max-width: 600px) {
+      flex-direction: column;
+    }
+  }
+
   &__example {
     position: relative;
 
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
 
-    width: 50%;
-    padding-left: 76px;
+    width: 100%;
+    margin-top: 24px;
+    padding: 12px 0 12px 76px;
 
-    &s {
-      display: flex;
+    @media (min-width: 600px + 1px) and (max-width: 1024px) {
+      width: 50%;
 
-      @media (max-width: 768px) {
-        flex-direction: column;
+      &:nth-child(odd):after {
+        @include separator();
       }
+    }
+    @media (min-width: 1024px + 1px) {
+      width: 33%;
+
+      &:not(:last-child):after {
+        @include separator();
+      }
+    }
+    @media (max-width: 600px) {
+      border-top: $border-style-2;
     }
 
     &-header {
@@ -323,17 +416,18 @@ export default {
       display: flex;
       flex-direction: column;
 
-      padding-top: 8px;
-      padding-right: 32px;
+      padding: 8px 32px 0 0;
 
       color: $like-gray-5;
 
       span {
         min-height: 48px;
+        margin-bottom: 8px;
       }
     }
 
     .md-button {
+      min-width: unset;
       max-width: 256px;
       margin: 0;
 
@@ -357,19 +451,28 @@ export default {
   }
 
   &__medium-url {
+  textarea {
+    margin-left: -44px;
     padding: 12px 10px;
 
+    resize: none;
     text-align: center;
     word-break: break-all;
 
     color: $like-dark-brown-2;
+    border: none;
+    outline: none;
     background-color: $gray-e6;
 
-    font-family: menlo, monospace;
+    font-family: menlo, 'Courier New', Courier, monospace;
     font-size: 16px;
   }
 
   &__social-media-settings {
+    @media (max-width: 600px) {
+      flex-direction: column;
+    }
+
     > div:first-child {
       margin-right: 72px;
     }

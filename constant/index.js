@@ -85,6 +85,7 @@ export const EXTRA_EMAIL_BLACLIST = [
 
 export const QRYPTOS_LIKEETH_URL = 'https://trade.qryptos.com/basic/LIKEETH';
 export const WORDPRESS_PLUGIN_URL = 'https://wordpress.org/plugins/likecoin/';
+export const OICE_URL = 'https://oice.com';
 
 export const EXTERNAL_HOSTNAME = IS_TESTNET ? 'rinkeby.like.co' : 'like.co';
 

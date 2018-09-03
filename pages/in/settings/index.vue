@@ -149,7 +149,6 @@
               </span>
               <span
                 :class="[
-                  'profile-setting-page__account-connection-detail',
                   'lc-margin-top-8',
                   'lc-color-gray-9b'
                 ]"
@@ -157,11 +156,16 @@
                 {{ $t('Settings.label.accountConnection') }}
               </span>
             </div>
+
             <social-media-connect
               :platforms="getUserSocialPlatforms"
               :username="getUserInfo.user"
               type="large"
               @disconnect="onClickSocialMediaDisconnect"
+            />
+
+            <external-links-panel
+              class="lc-margin-top-40"
             />
           </div>
         </div>
@@ -246,6 +250,7 @@ import {
 import getTestAttribute from '@/util/test';
 
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
+import ExternalLinksPanel from '~/components/settings/ExternalLinksPanel';
 import SocialMediaConnect from '~/components/SocialMediaConnect';
 
 import TickIcon from '@/assets/tokensale/tick.svg';
@@ -253,8 +258,9 @@ import TickIcon from '@/assets/tokensale/tick.svg';
 export default {
   name: 'settings-index',
   components: {
-    SocialMediaConnect,
     ClaimDialog,
+    ExternalLinksPanel,
+    SocialMediaConnect,
   },
   data() {
     return {
@@ -328,7 +334,6 @@ export default {
   },
   methods: {
     ...mapActions([
-      'fetchSocialListDetailsById',
       'loginUser',
       'newUser',
       'refreshUserInfo',
@@ -344,8 +349,6 @@ export default {
       this.avatar = user.avatar;
       this.displayName = user.displayName;
       this.email = user.email;
-
-      this.fetchSocialListDetailsById(user.user);
     },
     async onSubmit() {
       if (this.hasUserDetailsChanged) {
@@ -576,10 +579,6 @@ export default {
     @media (min-width: 768px + 1px) {
       margin-left: 176px;
     }
-  }
-
-  &__account-connection-detail {
-    max-width: 416px;
   }
 
   &__social {
