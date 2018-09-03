@@ -10,6 +10,7 @@ import flickr from './flickr';
 import medium from './medium';
 import twitter from './twitter';
 import instagram from './instagram';
+import link from './link';
 
 const { userCollection: dbRef } = require('../../util/firebase');
 
@@ -20,6 +21,7 @@ router.use(flickr);
 router.use(medium);
 router.use(twitter);
 router.use(instagram);
+router.use(link);
 
 router.get('/social/list/:id', async (req, res, next) => {
   try {
@@ -27,8 +29,8 @@ router.get('/social/list/:id', async (req, res, next) => {
     const col = await dbRef.doc(username).collection('social').get();
     const replyObj = {};
     col.docs.forEach((d) => {
-      const { isLinked, isPublic } = d.data();
-      if (isLinked && isPublic !== false) {
+      const { isLinked, isPublic, isExternalLink } = d.data();
+      if ((isLinked || isExternalLink) && isPublic !== false) {
         replyObj[d.id] = Validate.filterSocialPlatformPublic({ ...d.data() });
       }
     });
@@ -47,12 +49,17 @@ router.get('/social/list/:id/details', jwtAuth, async (req, res, next) => {
     }
 
     const col = await dbRef.doc(username).collection('social').get();
-    const replyObj = {};
+    const replyObj = {
+      platforms: {},
+      links: {},
+    };
 
     col.docs.forEach((d) => {
-      const { isLinked } = d.data();
+      const { isLinked, isExternalLink } = d.data();
       if (isLinked) {
-        replyObj[d.id] = Validate.filterSocialPlatformPersonal({ ...d.data() });
+        replyObj.platforms[d.id] = Validate.filterSocialPlatformPersonal({ ...d.data() });
+      } else if (isExternalLink) {
+        replyObj.links[d.id] = Validate.filterSocialLinksPersonal({ ...d.data() });
       }
     });
 
@@ -112,7 +119,6 @@ router.post('/social/public', jwtAuth, async (req, res, next) => {
       return;
     }
 
-    console.log(platforms, dbRef.batch);
     const promises = Object.keys(platforms).map((id) => {
       const userReferralRef = dbRef.doc(user).collection('social').doc(id);
       return userReferralRef.update({ isPublic: platforms[id] });

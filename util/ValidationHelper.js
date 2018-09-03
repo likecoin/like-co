@@ -142,19 +142,35 @@ export const ValidationHelper = {
     const data = {
       displayName,
       id: userId,
-      isPublic,
+      isPublic: isPublic !== false,
       url,
     };
     if (pages) data.pages = pages;
-    if (isPublic === undefined) data.isPublic = true;
     return data;
+  },
+  filterSocialLinksPersonal({
+    isPublic,
+    order,
+    siteDisplayName,
+    url,
+  }) {
+    return {
+      isPublic: isPublic !== false,
+      order,
+      siteDisplayName,
+      url,
+    };
   },
   filterSocialPlatformPublic({
     displayName,
+    isExternalLink,
+    order,
     url,
   }) {
     return {
       displayName,
+      isExternalLink,
+      order,
       url,
     };
   },

@@ -14,6 +14,8 @@ import {
   USER_SET_LIKECOIN_BIG_NUMBER_AMOUNT,
   USER_SELECT_FACEBOOK_PAGE_LINK,
   USER_SET_SOCIAL_PLATFORMS_IS_PUBLIC,
+  USER_ADD_SOCIAL_LINK,
+  USER_SET_SOCIAL_LINK,
 } from '../mutation-types';
 import * as actions from './actions/user';
 import * as getters from './getters/user';
@@ -25,6 +27,7 @@ const state = {
   isAwaitingAuth: false,
   web3Fetching: true,
   platforms: {},
+  links: {},
   likeCoinAmountInBigNumber: null,
 };
 
@@ -47,13 +50,9 @@ const mutations = {
   [USER_SET_SOCIAL](state, platforms) {
     state.platforms = platforms;
   },
-  [USER_SET_SOCIAL_DETAILS](state, platforms) {
-    Object.keys(platforms).forEach((p) => {
-      Vue.set(state.platforms, p, {
-        ...state.platforms[p],
-        ...platforms[p],
-      });
-    });
+  [USER_SET_SOCIAL_DETAILS](state, { links, platforms }) {
+    state.platforms = platforms;
+    state.links = links;
   },
   [USER_LINK_SOCIAL](state, payload) {
     const {
@@ -64,7 +63,11 @@ const mutations = {
     });
   },
   [USER_UNLINK_SOCIAL](state, payload) {
-    Vue.set(state.platforms, payload, undefined);
+    if (state.links[payload]) {
+      Vue.delete(state.links, payload);
+    } else {
+      Vue.delete(state.platforms, payload);
+    }
   },
   [USER_SELECT_FACEBOOK_PAGE_LINK](state, payload) {
     if (payload) {
@@ -81,6 +84,37 @@ const mutations = {
         isPublic: platforms[id],
       });
     });
+  },
+  [USER_ADD_SOCIAL_LINK](state, { id, ...data }) {
+    Vue.set(state.links, id, data);
+  },
+  [USER_SET_SOCIAL_LINK](state, { id, ...data }) {
+    if (data.order) {
+      const links = { ...state.links };
+      const oldOrder = state.links[id].order;
+      if (oldOrder > data.order) {
+        Object.keys(links).forEach((id) => {
+          const l = links[id];
+          if (l.order >= data.order && l.order < oldOrder) {
+            l.order += 1;
+          }
+        });
+      } else {
+        Object.keys(links).forEach((id) => {
+          const l = links[id];
+          if (l.order > oldOrder && l.order <= data.order) {
+            l.order -= 1;
+          }
+        });
+      }
+      links[id].order = data.order;
+      state.links = links;
+    } else {
+      Vue.set(state.links, id, {
+        ...state.links[id],
+        ...data,
+      });
+    }
   },
   [USER_SET_LIKECOIN_BIG_NUMBER_AMOUNT](state, payload) {
     state.likeCoinAmountInBigNumber = payload;

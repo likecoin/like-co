@@ -160,8 +160,8 @@ export async function fetchtSocialListById({ commit, dispatch }, id) {
 }
 
 export async function fetchSocialListDetailsById({ commit, dispatch }, id) {
-  const platforms = await apiWrapper({ commit, dispatch }, api.apiGetSocialListDetialsById(id));
-  commit(types.USER_SET_SOCIAL_DETAILS, platforms);
+  const payload = await apiWrapper({ commit, dispatch }, api.apiGetSocialListDetialsById(id));
+  commit(types.USER_SET_SOCIAL_DETAILS, payload);
 }
 
 export async function fetchSocialPlatformLink({ commit, dispatch }, { platform, id }) {
@@ -203,6 +203,22 @@ export async function updateSocialPlatformIsPublic({ commit, dispatch }, payload
     api.apiPostSocialPlatformsIsPublic(payload),
   );
   commit(types.USER_SET_SOCIAL_PLATFORMS_IS_PUBLIC, payload);
+}
+
+export async function addUserSocialLink({ commit, dispatch }, payload) {
+  const link = await apiWrapper(
+    { commit, dispatch },
+    api.apiPostAddUserSocialLink(payload),
+  );
+  commit(types.USER_ADD_SOCIAL_LINK, link);
+}
+
+export async function updateUserSocialLink({ commit, dispatch }, { linkId, payload }) {
+  await apiWrapper(
+    { commit, dispatch },
+    api.apiPostUpdateUserSocialLink(linkId, payload),
+  );
+  commit(types.USER_SET_SOCIAL_LINK, payload.link);
 }
 
 export async function sendCouponCodeEmail({ commit, dispatch, rootState }, data) {
