@@ -65,14 +65,45 @@
             <h1>{{ $t('Settings.label.yourLikeButton') }}</h1>
           </div>
 
-          <!-- <div>
-            <mock-like-button
-              :id="getUserInfo.user"
-              :avatar="getUserInfo.avatar"
-              :display-name="getUserInfo.displayName"
-              :platforms="getUserSocialPlatforms"
-            />
-          </div> -->
+          <div class="like-button-settings__preview-wrapper lc-margin-top-12">
+            <div
+              :class="[
+                'like-button-settings__preview-header',
+                'lc-padding-top-24',
+                'lc-padding-bottom-16',
+              ]"
+            >
+              <div class="like-button-settings__preview-header--left">
+                <span class="lc-font-weight-600 lc-color-like-gray-5">
+                  {{ $t('Settings.label.preview') }}
+                </span>
+                <md-field class="no-underline">
+                  <!-- <label for="movie">Movie</label> -->
+                  <md-select
+                    v-model="previewOption"
+                    class="lc-likecoin"
+                  >
+                    <md-option value="0">Medium Size</md-option>
+                  </md-select>
+                </md-field>
+              </div>
+              <div class="like-button-settings__preview-header--right">
+                <span class="like-button-settings__size--active">M</span>
+              </div>
+            </div>
+            <no-ssr>
+              <div class="like-button-settings__preview-content lc-text-align-center">
+                <iframe
+                  v-if="getUserInfo.user"
+                  ref="previewLikeButton"
+                  :src="previewLikeButtonUrl"
+                  class="lc-margin-top-64 lc-margin-bottom-32 lc-mobile"
+                  frameborder="0"
+                  @load="() => updatePreviewInfo()"
+                />
+              </div>
+            </no-ssr>
+          </div>
 
           <div class="like-button-settings__social-media-settings lc-flex lc-margin-top-24">
             <div>
@@ -84,8 +115,7 @@
                   v-model="displayLinkOption"
                   class="lc-likecoin"
                 >
-                  <md-option value="0">Medium only</md-option>
-                  <md-option value="1">WordPress only</md-option>
+                  <md-option value="0">All platforms</md-option>
                 </md-select>
               </md-field>
             </div>
@@ -198,6 +228,7 @@ export default {
       SettingsIcon,
       socialMediasIsPublicState: {},
       displayLinkOption: 0,
+      previewOption: 0,
     };
   },
   computed: {
@@ -243,6 +274,9 @@ export default {
       if (!this.getUserInfo.user) return '';
       return `https://button.like.co/${this.getUserInfo.user}`;
     },
+    previewLikeButtonUrl() {
+      return `https://${EXTERNAL_HOSTNAME}/in/embed/${this.getUserInfo.user}/preview/button`;
+    },
   },
   watch: {
     getUserNeedRegister(value) {
@@ -259,6 +293,12 @@ export default {
       if (value && this.getUserIsRegistered) {
         this.updateInfo();
       }
+    },
+    getUserInfo() {
+      this.updatePreviewInfo();
+    },
+    getUserSocialPlatforms() {
+      this.updatePreviewInfo();
     },
   },
   mounted() {
@@ -296,6 +336,7 @@ export default {
       } else {
         Vue.set(this.socialMediasIsPublicState, id, value);
       }
+      this.updatePreviewInfo();
     },
     async onSubmit() {
       this.isSubmittingForm = true;
@@ -307,6 +348,17 @@ export default {
 
       this.isSubmittingForm = false;
       this.socialMediasIsPublicState = {};
+    },
+    updatePreviewInfo(message = {
+      user: this.getUserInfo,
+      platforms: this.publicSocialMedia,
+    }) {
+      if (this.$refs.previewLikeButton) {
+        this.$refs.previewLikeButton.contentWindow.postMessage({
+          message,
+          type: 'updatePreviewInfo',
+        }, '*');
+      }
     },
     getSocialMediaIsPublic(id) {
       if (this.socialMediasIsPublicState[id] !== undefined) {
@@ -433,24 +485,61 @@ export default {
 
       text-align: center;
     }
+  }
 
-    &:nth-child(odd) {
-      &:after {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
+  &__preview {
+    &-wrapper {
+      background-color: $like-white;
 
-        width: 2px;
+      iframe {
+        user-select: none;
 
-        content: ' ';
+        @media (min-width: 600px + 1px) {
+          width: 470px;
+          height: 200px;
+        }
+        @media (max-width: 600px) {
+          width: 300px;
+          height: 140px;
+        }
+      }
+    }
 
-        background-color: $gray-e6;
+    &-header {
+      display: flex;
+      justify-content: space-between;
+
+      padding: 0 32px;
+
+      border-bottom: $border-style-2;
+
+      @media (max-width: 600px) {
+        padding: 0 12px;
+      }
+
+      > * {
+        display: flex;
+        align-items: center;
+      }
+
+      &--left {
+        .md-field {
+          margin-left: 16px;
+        }
+      }
+
+      &--right {
+        color: $gray-9b;
       }
     }
   }
 
-  &__medium-url {
+  &__size--active {
+    color: $like-gray-5;
+
+    font-weight: 600;
+  }
+
   textarea {
     margin-left: -44px;
     padding: 12px 10px;

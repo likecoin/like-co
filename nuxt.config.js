@@ -96,6 +96,7 @@ module.exports = {
           'https://*.facebook.net',
           'https://checkout.stripe.com/',
           'https://*.doubleclick.net',
+          "'self'",
         ],
         'img-src': [
           "'self'",
