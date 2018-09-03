@@ -79,10 +79,17 @@ const mutations = {
   },
   [USER_SET_SOCIAL_PLATFORMS_IS_PUBLIC](state, { platforms }) {
     Object.keys(platforms).forEach((id) => {
-      Vue.set(state.platforms, id, {
-        ...state.platforms[id],
-        isPublic: platforms[id],
-      });
+      if (state.platforms[id]) {
+        Vue.set(state.platforms, id, {
+          ...state.platforms[id],
+          isPublic: platforms[id],
+        });
+      } else {
+        Vue.set(state.links, id, {
+          ...state.links[id],
+          isPublic: platforms[id],
+        });
+      }
     });
   },
   [USER_ADD_SOCIAL_LINK](state, { id, ...data }) {

@@ -18,6 +18,7 @@ router.post('/social/links/new', jwtAuth, async (req, res, next) => {
     }
 
     const {
+      iconType,
       id,
       siteDisplayName,
       order,
@@ -30,6 +31,7 @@ router.post('/social/links/new', jwtAuth, async (req, res, next) => {
     if (linkDoc.exists) throw new ValidationError('link already exists');
 
     await dbRef.doc(user).collection('social').doc(id).create({
+      iconType,
       isExternalLink,
       isPublic,
       order,
@@ -38,6 +40,7 @@ router.post('/social/links/new', jwtAuth, async (req, res, next) => {
     });
 
     res.json({
+      iconType,
       id,
       isExternalLink,
       isPublic,
@@ -63,6 +66,7 @@ router.put('/social/links/:linkId', jwtAuth, async (req, res, next) => {
 
     const { linkId } = req.params;
     const {
+      iconType,
       siteDisplayName,
       url,
       order,
@@ -74,6 +78,7 @@ router.put('/social/links/:linkId', jwtAuth, async (req, res, next) => {
     const promises = [];
 
     const updateObj = {};
+    if (iconType) updateObj.iconType = iconType;
     if (siteDisplayName) updateObj.siteDisplayName = siteDisplayName;
     if (url) updateObj.url = url;
     if (order) {

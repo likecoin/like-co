@@ -17,10 +17,8 @@
       </div>
       <!-- END - Draggable handle -->
 
-      <!-- !! BEGIN - PENDING FOR DESIGN !! -->
-      <!--
       <simple-svg
-        :filepath="EditIcon"
+        :filepath="getIconPath(iconTypeModel || iconType)"
         class="external-link__platform-icon"
         fill="#4a4a4a"
         height="28px"
@@ -28,7 +26,7 @@
       />
 
       <div v-if="isEdit">
-        <lc-tooltip>
+        <lc-tooltip ref="tooltip">
           <div
             slot="activator"
             class="external-link__expand-icon"
@@ -43,18 +41,22 @@
           </div>
 
           <div class="external-link__tooltip-content">
-            <simple-svg
-              :filepath="EditIcon"
-              class="external-link__platform-icon"
-              fill="#4a4a4a"
-              height="28px"
-              width="28px"
-            />
+            <md-button
+              v-for="type in linkIconTypes"
+              :key="type"
+              class="md-icon-button"
+              @click="onSelectLinkType(type)"
+            >
+              <simple-svg
+                :filepath="getIconPath(type)"
+                fill="#4a4a4a"
+                height="28px"
+                width="28px"
+              />
+            </md-button>
           </div>
         </lc-tooltip>
       </div>
-      -->
-      <!-- !! END - PENDING FOR DESIGN !! -->
 
       <input
         v-if="isEdit"
@@ -80,7 +82,6 @@
           'no-content': !urlModel,
         }"
         :placeholder="$t('Settings.placeholder.enterUrl')"
-        type="url"
       >
       <span
         v-else
@@ -142,6 +143,12 @@ import DragIcon from '@/assets/icons/drag.svg';
 import EditIcon from '@/assets/icons/pencil.svg';
 import ExpandIcon from '@/assets/icons/expand.svg';
 import TickIcon from '@/assets/tokensale/tick.svg';
+import LikeCoinIcon from '@/assets/logo/icon.svg';
+
+import { W3C_EMAIL_REGEX } from '@/constant';
+
+const linkIconTypes = ['profile', 'blog', 'photo', 'mail', 'contact', 'link'];
+const iconFolder = require.context('../../assets/icons/social-media/link/');
 
 export default {
   name: 'external-link',
@@ -152,6 +159,10 @@ export default {
     id: {
       type: String,
       default: null,
+    },
+    iconType: {
+      type: String,
+      default: linkIconTypes[0],
     },
     isLoading: {
       type: Boolean,
@@ -180,9 +191,10 @@ export default {
       isEdit: false,
       isIconExpanded: false,
       isNew: false,
-      icon: null,
       siteDisplayNameModel: '',
       urlModel: '',
+      iconTypeModel: '',
+      linkIconTypes,
     };
   },
   computed: {
@@ -191,7 +203,10 @@ export default {
     },
     isValidUrl() {
       const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%_\+.~#?&\/\/=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)?/; // eslint-disable-line
-      return !!this.urlModel && urlRegex.test(this.urlModel);
+      return (
+        !!this.urlModel
+        && (urlRegex.test(this.urlModel) || new RegExp(W3C_EMAIL_REGEX).test(this.urlModel))
+      );
     },
     isValidInput() {
       return !!this.siteDisplayNameModel && this.isValidUrl;
@@ -207,6 +222,7 @@ export default {
   methods: {
     onClickEdit() {
       if (this.isEdit) {
+        // submit changes
         const link = {};
         if (this.siteDisplayNameModel !== this.siteDisplayName) {
           link.siteDisplayName = this.siteDisplayNameModel;
@@ -214,12 +230,16 @@ export default {
         if (this.urlModel !== this.url) {
           link.url = this.urlModel;
         }
+        if (this.iconTypeModel !== this.iconType) {
+          link.iconType = this.iconTypeModel || this.iconType;
+        }
         if (Object.keys(link).length > 0) {
           link.id = this.id;
           this.$emit('change', link);
         }
         this.isEdit = false;
       } else {
+        // show edit form
         if (!this.siteDisplayNameModel) {
           this.siteDisplayNameModel = this.siteDisplayName;
         }
@@ -238,6 +258,19 @@ export default {
           id: this.id,
           order: this.order,
         });
+      }
+    },
+    onSelectLinkType(type) {
+      this.iconTypeModel = type;
+      if (this.$refs.tooltip) {
+        this.$refs.tooltip.setContentVisibility(false, 0);
+      }
+    },
+    getIconPath(type) {
+      try {
+        return iconFolder(`./${type}.svg`);
+      } catch (error) {
+        return LikeCoinIcon;
       }
     },
   },
@@ -286,6 +319,10 @@ $shake-x: 4px;
   > * {
     display: flex;
     align-items: center;
+
+    @media (max-width: 600px) {
+      width: 50% !important;
+    }
   }
 
   &__left-wrapper {
@@ -314,6 +351,8 @@ $shake-x: 4px;
   &__url {
     max-width: 336px;
     margin-right: 16px;
+
+    word-break: break-all;
   }
 
   &__expand-icon {
@@ -324,10 +363,20 @@ $shake-x: 4px;
 
   &__tooltip-content {
     display: flex;
+
+    .md-button {
+      margin: 4px;
+    }
   }
 
   &:last-child {
     border-bottom: $border-style-1;
+  }
+
+  &__platform-icon {
+    width: 28px;
+    height: 28px;
+    margin-left: 8px;
   }
 
   input {
@@ -358,6 +407,12 @@ $shake-x: 4px;
     }
   }
 
+  :global(.lc-tooltip__content) {
+    background-color: $gray-e6;
+  }
+  :global(.lc-tooltip__content:after) {
+    border-bottom-color: $gray-e6;
+  }
   :global(.lc-tooltip__content:before),
   :global(.lc-tooltip__content:after) {
     left: 7px;

@@ -149,12 +149,14 @@ export const ValidationHelper = {
     return data;
   },
   filterSocialLinksPersonal({
+    iconType,
     isPublic,
     order,
     siteDisplayName,
     url,
   }) {
     return {
+      iconType,
       isPublic: isPublic !== false,
       order,
       siteDisplayName,
@@ -163,12 +165,14 @@ export const ValidationHelper = {
   },
   filterSocialPlatformPublic({
     displayName,
+    iconType,
     isExternalLink,
     order,
     url,
   }) {
     return {
       displayName,
+      iconType,
       isExternalLink,
       order,
       url,

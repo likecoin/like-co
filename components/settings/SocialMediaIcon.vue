@@ -11,7 +11,9 @@
     <lc-tooltip>
       <div
         slot="activator"
-        class="social-media-icon__icon-wrapper"
+        :class="['social-media-icon__icon-wrapper', {
+          'social-media-icon__icon-wrapper--link': platform.isExternalLink,
+        }]"
         @mouseover="onHover(true)"
         @mouseleave="onHover(false)"
         @click="onClick"
@@ -73,7 +75,10 @@ export default {
   computed: {
     iconPath() {
       try {
-        return iconFolder(`./${this.platform.id}.svg`);
+        const filePath = this.platform && this.platform.isExternalLink
+          ? `link/${this.platform.iconType}`
+          : `${this.platform.id}`;
+        return iconFolder(`./${filePath}.svg`);
       } catch (error) {
         return LikeCoinIcon;
       }
@@ -111,7 +116,10 @@ export default {
 
     opacity: 0.2;
     border-radius: 50%;
-    background-color: $like-gray-5;
+
+    &:not(.social-media-icon__icon-wrapper--link) {
+      background-color: $like-gray-5;
+    }
   }
 
   &--on {
@@ -127,6 +135,10 @@ export default {
 
     .social-media-icon__visibility {
       opacity: 1;
+    }
+
+    .social-media-icon__icon-wrapper--link {
+      background-color: $like-gray-5;
     }
   }
 

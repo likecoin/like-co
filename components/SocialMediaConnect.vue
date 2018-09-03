@@ -28,6 +28,7 @@
                   getIsConnected(socialMedia) ? 'connected' : 'disconnected'
                 }`,
               ]"
+              :title="getSocialMediaUrl(socialMedia)"
               type="button"
               @click="onClickConnectButton(socialMedia)"
             >
@@ -120,6 +121,8 @@ import { mapActions, mapGetters } from 'vuex';
 
 import DeleteIcon from '~/assets/icons/cross.svg';
 import LikeCoinIcon from '~/assets/logo/icon.svg';
+
+import { IS_TESTNET, W3C_EMAIL_REGEX } from '@/constant';
 
 import { openURL } from '~/util/client';
 import { logTrackerEvent } from '@/util/EventLogger';
@@ -267,7 +270,10 @@ export default {
     ]),
     getIconPath(id) {
       try {
-        return iconFolder(`./${id}.svg`);
+        const filePath = this.platforms[id] && this.platforms[id].isExternalLink
+          ? `link/${this.platforms[id].iconType}`
+          : id;
+        return iconFolder(`./${filePath}.svg`);
       } catch (err) {
         return LikeCoinIcon;
       }
@@ -287,18 +293,14 @@ export default {
       if (!isConnected) {
         this.connect(socialMedia);
       } else {
-        let url;
-        switch (id) {
-          case 'likecoin':
-            url = this.userLink;
-            break;
-
-          default:
-            if (platform) ({ url } = platform);
-            break;
-        }
+        const url = this.getSocialMediaUrl(socialMedia);
         if (url) {
-          openURL(this, url, '_blank', 'noopener');
+          const isEmail = !IS_TESTNET && new RegExp(W3C_EMAIL_REGEX).test(url);
+          let urlPath = url;
+          if (isEmail) {
+            urlPath = `mailto:${url}`;
+          }
+          openURL(this, urlPath, '_blank', 'noopener');
           logTrackerEvent(this, 'LikeWidget', 'ClickSocialMedia', id, 1);
         }
       }
@@ -354,6 +356,16 @@ export default {
         });
         // show which facebook page/ac is currently shown in public
         this.linkedFacebookAc = model;
+      }
+    },
+    getSocialMediaUrl({ id }) {
+      const platform = this.platforms[id];
+      switch (id) {
+        case 'likecoin':
+          return this.userLink;
+        default:
+          if (platform) return platform.url;
+          return null;
       }
     },
   },
@@ -565,5 +577,9 @@ $hover-color-map: (
     min-width: auto;
     height: 20px;
   }
+}
+
+button[class*=social-media-connect__button--link] {
+  background-color: transparent !important;
 }
 </style>

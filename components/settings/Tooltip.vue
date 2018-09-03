@@ -2,6 +2,7 @@
   <div class="lc-tooltip">
     <div
       ref="activator"
+      @click="onClickActivator"
       @mouseover="setContentVisibility(true)"
       @mouseleave="setContentVisibility(false)"
     >
@@ -57,17 +58,24 @@ export default {
         this.closeTimer = null;
       }
     },
-    setContentVisibility(isVisible) {
+    setContentVisibility(isVisible, delay) {
       if (isVisible) {
         this.clearTimer();
         this.openTimer = setTimeout(() => {
           this.isVisible = true;
-        }, this.openDelay);
+        }, delay >= 0 ? delay : this.openDelay);
       } else {
         this.clearTimer();
         this.closeTimer = setTimeout(() => {
           this.isVisible = false;
-        }, this.closeDelay);
+        }, delay >= 0 ? delay : this.openDelay);
+      }
+    },
+    onClickActivator() {
+      if (this.isVisible) {
+        this.setContentVisibility(false, 0);
+      } else {
+        this.setContentVisibility(true, 0);
       }
     },
   },
@@ -124,7 +132,7 @@ $arrow-size: 6px;
       }
       &leave-active {
         transition-timing-function: ease-in;
-        transition-duration: 0.35s;
+        transition-duration: 0.15s;
       }
       &enter {
         transform: translateY(0);
