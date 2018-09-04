@@ -42,7 +42,7 @@
 
           <div class="external-link__tooltip-content">
             <md-button
-              v-for="type in linkIconTypes"
+              v-for="type in LINK_ICON_TYPES"
               :key="type"
               class="md-icon-button"
               @click="onSelectLinkType(type)"
@@ -60,33 +60,33 @@
 
       <input
         v-if="isEdit"
-        v-model="siteDisplayNameModel"
+        v-model="siteDisplayNameInputValue"
         :class="{
-          invalid: !siteDisplayNameModel,
-          'no-content': !siteDisplayNameModel,
+          invalid: !siteDisplayNameInputValue,
+          'no-content': !siteDisplayNameInputValue,
         }"
         :placeholder="$t('Settings.placeholder.name')"
       >
       <span
         v-else
         class="external-link__name"
-      >{{ siteDisplayNameModel || siteDisplayName }}</span>
+      >{{ siteDisplayNameInputValue || siteDisplayName }}</span>
     </div>
 
     <div class="external-link__right-wrapper">
       <input
         v-if="isEdit"
-        v-model="urlModel"
+        v-model="urlInputValue"
         :class="{
           invalid: !isValidUrl,
-          'no-content': !urlModel,
+          'no-content': !urlInputValue,
         }"
         :placeholder="$t('Settings.placeholder.enterUrl')"
       >
       <span
         v-else
         class="external-link__url"
-      >{{ urlModel || url }}</span>
+      >{{ urlInputValue || url }}</span>
 
       <md-button
         v-if="isEdit"
@@ -145,9 +145,9 @@ import ExpandIcon from '@/assets/icons/expand.svg';
 import TickIcon from '@/assets/tokensale/tick.svg';
 import LikeCoinIcon from '@/assets/logo/icon.svg';
 
-import { W3C_EMAIL_REGEX } from '@/constant';
+import { LINK_ICON_TYPES } from '@/constant';
+import { isValidSocialLink } from '@/util/social';
 
-const linkIconTypes = ['profile', 'blog', 'photo', 'mail', 'contact', 'link'];
 const iconFolder = require.context('../../assets/icons/social-media/link/');
 
 export default {
@@ -162,7 +162,7 @@ export default {
     },
     iconType: {
       type: String,
-      default: linkIconTypes[0],
+      default: LINK_ICON_TYPES[0],
     },
     isLoading: {
       type: Boolean,
@@ -191,10 +191,10 @@ export default {
       isEdit: false,
       isIconExpanded: false,
       isNew: false,
-      siteDisplayNameModel: '',
-      urlModel: '',
+      siteDisplayNameInputValue: '',
+      urlInputValue: '',
       iconTypeModel: '',
-      linkIconTypes,
+      LINK_ICON_TYPES,
     };
   },
   computed: {
@@ -202,14 +202,10 @@ export default {
       return `external-link-${this.id}`;
     },
     isValidUrl() {
-      const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%_\+.~#?&\/\/=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)?/; // eslint-disable-line
-      return (
-        !!this.urlModel
-        && (urlRegex.test(this.urlModel) || new RegExp(W3C_EMAIL_REGEX).test(this.urlModel))
-      );
+      return !!this.urlInputValue && isValidSocialLink(this.urlInputValue);
     },
     isValidInput() {
-      return !!this.siteDisplayNameModel && this.isValidUrl;
+      return !!this.siteDisplayNameInputValue && this.isValidUrl;
     },
   },
   mounted() {
@@ -224,11 +220,11 @@ export default {
       if (this.isEdit) {
         // submit changes
         const link = {};
-        if (this.siteDisplayNameModel !== this.siteDisplayName) {
-          link.siteDisplayName = this.siteDisplayNameModel;
+        if (this.siteDisplayNameInputValue !== this.siteDisplayName) {
+          link.siteDisplayName = this.siteDisplayNameInputValue;
         }
-        if (this.urlModel !== this.url) {
-          link.url = this.urlModel;
+        if (this.urlInputValue !== this.url) {
+          link.url = this.urlInputValue;
         }
         if (this.iconTypeModel !== this.iconType) {
           link.iconType = this.iconTypeModel || this.iconType;
@@ -240,11 +236,11 @@ export default {
         this.isEdit = false;
       } else {
         // show edit form
-        if (!this.siteDisplayNameModel) {
-          this.siteDisplayNameModel = this.siteDisplayName;
+        if (!this.siteDisplayNameInputValue) {
+          this.siteDisplayNameInputValue = this.siteDisplayName;
         }
-        if (!this.urlModel) {
-          this.urlModel = this.url;
+        if (!this.urlInputValue) {
+          this.urlInputValue = this.url;
         }
 
         this.isEdit = true;

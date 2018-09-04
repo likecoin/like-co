@@ -117,7 +117,7 @@ export default {
       }
     },
     async onEnd({ newIndex, oldIndex }) {
-      // switch links order
+      // swap links order
       if (newIndex !== oldIndex) {
         const indexOffset = newIndex < oldIndex ? 1 : -1;
         this.onChangeLink({
@@ -129,23 +129,15 @@ export default {
     async onChangeLink(link) {
       const payload = {
         user: this.getUserInfo.user,
+        link,
       };
       if (!link.id) {
-        const ids = this.links.map(({ id }) => parseInt(id.slice(4), 10));
-        const newId = Math.max(...ids) + 1;
-        payload.link = {
-          ...link,
-          id: `link${newId}`,
-          order: Math.max(...this.links.map(({ order }) => order)) + 1,
-        };
-
         this.isAddingLink = true;
         await this.addUserSocialLink(payload);
         this.isAddingLink = false;
         this.hasNewLink = false;
       } else {
-        payload.link = link;
-        if (link.order) {
+        if (link.order !== undefined) {
           this.isUpdatingOrder = true;
         } else {
           this.loadingLinkIds.push(link.id);
@@ -156,7 +148,7 @@ export default {
           payload,
         });
 
-        if (link.order) {
+        if (link.order !== undefined) {
           this.isUpdatingOrder = false;
         } else {
           this.spliceLoadingId(link.id);

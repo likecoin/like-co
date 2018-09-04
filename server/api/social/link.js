@@ -2,6 +2,9 @@ import { Router } from 'express';
 import { jwtAuth } from '../../util/jwt';
 import { ValidationError } from '../../../util/ValidationHelper';
 
+import { LINK_ICON_TYPES } from '../../../constant/index';
+import { isValidSocialLink } from '../../../util/social';
+
 const { userCollection: dbRef } = require('../../util/firebase');
 
 const router = Router();
@@ -19,29 +22,56 @@ router.post('/social/links/new', jwtAuth, async (req, res, next) => {
 
     const {
       iconType,
-      id,
       siteDisplayName,
-      order,
       url,
     } = link;
+    if (
+      !LINK_ICON_TYPES.includes(iconType)
+      || !isValidSocialLink(url)
+      || !siteDisplayName
+    ) {
+      throw new ValidationError('incorrect link info');
+    }
     const isExternalLink = true;
     const isPublic = true; // default
 
-    const linkDoc = await dbRef.doc(user).collection('social').doc(id).get();
-    if (linkDoc.exists) throw new ValidationError('link already exists');
+    // determine id of new link
+    const col = await dbRef.doc(user).collection('social').get();
+    const linkIds = [];
+    col.docs.forEach(({ id }) => {
+      const result = /link(\d+)/.exec(id);
+      if (result) linkIds.push(parseInt(result[1], 10));
+    });
+    const currentMaxId = Math.max(...linkIds);
+    const newId = `link${currentMaxId < 0 ? 0 : currentMaxId + 1}`;
 
-    await dbRef.doc(user).collection('social').doc(id).create({
+    await dbRef.doc(user).collection('social').doc(newId).create({
       iconType,
       isExternalLink,
       isPublic,
-      order,
       siteDisplayName,
       url,
     });
 
+    const socialMeta = await dbRef.doc(user).collection('social').doc('meta').get();
+    const updateSocialMetaObj = {
+      externalLinkOrder: [newId],
+    };
+    let order = 0;
+    if (socialMeta.exists && socialMeta.data().externalLinkOrder) {
+      updateSocialMetaObj.externalLinkOrder = [
+        ...socialMeta.data().externalLinkOrder,
+        newId,
+      ];
+      order = socialMeta.data().externalLinkOrder.length;
+    }
+    await dbRef.doc(user).collection('social').doc('meta').set(updateSocialMetaObj, {
+      merge: true,
+    });
+
     res.json({
       iconType,
-      id,
+      id: newId,
       isExternalLink,
       isPublic,
       order,
@@ -75,39 +105,22 @@ router.put('/social/links/:linkId', jwtAuth, async (req, res, next) => {
     const linkDoc = await dbRef.doc(user).collection('social').doc(linkId).get();
     if (!linkDoc.exists) throw new ValidationError('link unknown');
 
-    const promises = [];
-
     const updateObj = {};
-    if (iconType) updateObj.iconType = iconType;
+    if (iconType && LINK_ICON_TYPES.includes(iconType)) updateObj.iconType = iconType;
     if (siteDisplayName) updateObj.siteDisplayName = siteDisplayName;
-    if (url) updateObj.url = url;
-    if (order) {
-      updateObj.order = order;
-
-      const oldOrder = linkDoc.data().order;
-      let query;
-      let orderOffset;
-      if (oldOrder > order) {
-        query = await dbRef.doc(user).collection('social')
-          .where('order', '>=', order)
-          .where('order', '<', oldOrder)
-          .get();
-        orderOffset = 1;
-      } else if (oldOrder < order) {
-        query = await dbRef.doc(user).collection('social')
-          .where('order', '>', oldOrder)
-          .where('order', '<=', order)
-          .get();
-        orderOffset = -1;
-      }
-      query.docs.forEach((l) => {
-        promises.push(dbRef.doc(user).collection('social').doc(l.id).update({
-          order: l.data().order + orderOffset,
-        }));
-      });
+    if (url && isValidSocialLink(url)) updateObj.url = url;
+    if (order !== undefined) {
+      const query = await dbRef.doc(user).collection('social').doc('meta').get();
+      const { externalLinkOrder } = query.data();
+      const oldOrder = externalLinkOrder.findIndex(id => id === linkId);
+      externalLinkOrder.splice(oldOrder, 1);
+      externalLinkOrder.splice(order, 0, linkId);
+      await dbRef.doc(user).collection('social').doc('meta').set({
+        externalLinkOrder,
+      }, { merge: true });
+    } else {
+      await dbRef.doc(user).collection('social').doc(linkId).set(updateObj, { merge: true });
     }
-    promises.push(dbRef.doc(user).collection('social').doc(linkId).set(updateObj, { merge: true }));
-    await Promise.all(promises);
 
     res.sendStatus(200);
   } catch (err) {

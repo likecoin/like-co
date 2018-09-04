@@ -23,15 +23,31 @@ router.use(twitter);
 router.use(instagram);
 router.use(link);
 
+function getLinkOrderMap(socialCol) {
+  const linkOrderMap = {};
+  socialCol.docs.forEach((doc) => {
+    if (doc.id === 'meta') {
+      const { externalLinkOrder } = doc.data();
+      externalLinkOrder.forEach((id, index) => {
+        linkOrderMap[id] = index;
+      });
+    }
+  });
+  return linkOrderMap;
+}
+
 router.get('/social/list/:id', async (req, res, next) => {
   try {
     const username = req.params.id;
     const col = await dbRef.doc(username).collection('social').get();
+
+    const linkOrderMap = getLinkOrderMap(col);
     const replyObj = {};
     col.docs.forEach((d) => {
       const { isLinked, isPublic, isExternalLink } = d.data();
       if ((isLinked || isExternalLink) && isPublic !== false) {
         replyObj[d.id] = Validate.filterSocialPlatformPublic({ ...d.data() });
+        if (isExternalLink) replyObj[d.id].order = linkOrderMap[d.id];
       }
     });
     res.json(replyObj);
@@ -54,12 +70,14 @@ router.get('/social/list/:id/details', jwtAuth, async (req, res, next) => {
       links: {},
     };
 
+    const linkOrderMap = getLinkOrderMap(col);
     col.docs.forEach((d) => {
       const { isLinked, isExternalLink } = d.data();
       if (isLinked) {
         replyObj.platforms[d.id] = Validate.filterSocialPlatformPersonal({ ...d.data() });
       } else if (isExternalLink) {
         replyObj.links[d.id] = Validate.filterSocialLinksPersonal({ ...d.data() });
+        replyObj.links[d.id].order = linkOrderMap[d.id];
       }
     });
 
@@ -108,7 +126,7 @@ router.post('/social/unlink/:platform', jwtAuth, async (req, res, next) => {
   }
 });
 
-router.post('/social/public', jwtAuth, async (req, res, next) => {
+router.patch('/social/public', jwtAuth, async (req, res, next) => {
   try {
     const {
       user,

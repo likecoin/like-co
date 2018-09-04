@@ -150,14 +150,14 @@ export const ValidationHelper = {
   },
   filterSocialLinksPersonal({
     iconType,
-    isPublic,
+    isPublic = true,
     order,
     siteDisplayName,
     url,
   }) {
     return {
       iconType,
-      isPublic: isPublic !== false,
+      isPublic,
       order,
       siteDisplayName,
       url,

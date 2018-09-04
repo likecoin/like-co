@@ -11,9 +11,12 @@
     <lc-tooltip>
       <div
         slot="activator"
-        :class="['social-media-icon__icon-wrapper', {
-          'social-media-icon__icon-wrapper--link': platform.isExternalLink,
-        }]"
+        :class="[
+          'social-media-icon__icon-wrapper',
+          {
+            'social-media-icon__icon-wrapper--link': platform.isExternalLink,
+          }
+        ]"
         @mouseover="onHover(true)"
         @mouseleave="onHover(false)"
         @click="onClick"

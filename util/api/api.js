@@ -176,7 +176,7 @@ export const apiPostLikeButton = (id, referrer, count = 1) => axios.post(
 
 export const apiSelectFacebookPageLink = (pageId, payload) => axios.post(`/api/social/link/facebook/${pageId}`, payload);
 
-export const apiPostSocialPlatformsIsPublic = payload => axios.post('/api/social/public', payload);
+export const apiPostSocialPlatformsIsPublic = payload => axios.patch('/api/social/public', payload);
 
 export const apiPostAddUserSocialLink = payload => axios.post('/api/social/links/new', payload);
 

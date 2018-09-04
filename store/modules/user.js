@@ -96,7 +96,7 @@ const mutations = {
     Vue.set(state.links, id, data);
   },
   [USER_SET_SOCIAL_LINK](state, { id, ...data }) {
-    if (data.order) {
+    if (data.order !== undefined) {
       const links = { ...state.links };
       const oldOrder = state.links[id].order;
       if (oldOrder > data.order) {
