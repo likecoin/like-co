@@ -24,6 +24,7 @@
     "test:api:mission": "ava -v test/api/mission.test.js",
     "test:api:iap": "ava -v test/api/iap.test.js",
     "test:api:oembed": "ava -v test/api/oembed.test.js",
+    "test:api:social": "ava -v test/api/social.test.js",
     "test:api:misc": "ava -v test/api/misc.test.js",
     "test:nuxt": "ava -v test/nuxt/nuxt.test.js",
     "test:e2e": "nyc ./node_modules/.bin/nightwatch --config test/e2e/nightwatch.conf.js",

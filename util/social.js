@@ -1,10 +1,10 @@
 import parse from 'url-parse';
 
-import { W3C_EMAIL_REGEX } from '../constant';
+import { EMAIL_REGEX } from '../constant';
 
 /* eslint-disable import/prefer-default-export */
 export const isValidSocialLink = (link) => {
-  let isValid = new RegExp(W3C_EMAIL_REGEX).test(link);
+  let isValid = new RegExp(EMAIL_REGEX).test(link);
   if (!isValid) {
     try {
       if (process.client) {

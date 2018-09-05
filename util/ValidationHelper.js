@@ -168,6 +168,7 @@ export const ValidationHelper = {
     iconType,
     isExternalLink,
     order,
+    siteDisplayName,
     url,
   }) {
     return {
@@ -175,6 +176,7 @@ export const ValidationHelper = {
       iconType,
       isExternalLink,
       order,
+      siteDisplayName,
       url,
     };
   },
