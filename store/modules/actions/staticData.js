@@ -12,3 +12,12 @@ export async function queryLikeCoinUsdPrice({ commit, dispatch }) {
     console.error(err);
   }
 }
+
+export async function fetchLikeStatistic({ commit, dispatch }) {
+  try {
+    const data = await apiWrapper({ commit, dispatch }, api.apiGetLikeStatistic());
+    commit(types.STATIC_DATA_SET_LIKE_STAT, data);
+  } catch (err) {
+    console.error(err);
+  }
+}
