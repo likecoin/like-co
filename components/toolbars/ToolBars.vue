@@ -6,13 +6,13 @@
         v-if="checkShouldShowError(getPopupError)"
         :allowClose="false"
         :message="getPopupError"
-        header="Error"
+        :header="$t('General.label.Error')"
       />
 
       <popup-dialog
         :allowClose="true"
         :message="getPopupInfo"
-        header="Info"
+        :header="$t('General.label.Info')"
       />
 
       <div v-if="checkShouldShowError(getMetamaskError)">

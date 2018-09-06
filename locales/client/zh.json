@@ -2,11 +2,14 @@
   "General": {
     "label": {
       "error": "失敗",
-      "success": "成功"
+      "success": "成功",
+      "info": "提示",
+      "warning": "警告"
     },
     "button": {
       "confirm": "確認",
       "cancel": "取消",
+      "open": "開啟",
       "send": "傳送",
       "yes": "是",
       "no": "否",
@@ -714,6 +717,7 @@
       "senderAddress": "轉帳者錢包地址",
       "sendTo": "轉帳 {coin} 給 <span class='usertitle'>{title}</span>",
       "remarks": "備註",
+      "httpReferrer": "來源 URL",
       "viewTx": "查看交易",
       "amountToSend": "轉帳 {coin} 金額",
       "invalidAmount": "金額無效",
@@ -722,7 +726,8 @@
       "unavailable": "由於 MetaMask 的新版本出現問題，導致 LikeCoin 轉賬服務暫時停止。感謝體諒。",
       "updateMetamask": "轉賬服務只適用於已安裝 MetaMask 版本 {version} 或以上的瀏覽器。",
       "manualProcedure": "手動安裝指南",
-      "manualProcedureUrl": "https://help.like.co/likecoin-%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C/%E6%96%B0%E6%89%8B%E4%B8%8A%E8%B7%AF/%E5%A6%82%E4%BD%95%E6%9B%B4%E6%96%B0-metamask-%E7%89%88%E6%9C%AC"
+      "manualProcedureUrl": "https://help.like.co/likecoin-%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C/%E6%96%B0%E6%89%8B%E4%B8%8A%E8%B7%AF/%E5%A6%82%E4%BD%95%E6%9B%B4%E6%96%B0-metamask-%E7%89%88%E6%9C%AC",      
+      "openReferrerWarning": "你正在開啟可能不安全的外部網站，確認繼續請再按一次開啟"
     },
     "button": {
       "unavailable": "暫停轉賬服務"

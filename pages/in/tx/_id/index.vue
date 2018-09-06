@@ -1,5 +1,11 @@
 <template>
   <div>
+    <popup-dialog
+      ref="urlWarningDialog"
+      :allowClose="true"
+      :header="$t('General.label.warning')"
+      @onConfirm="onOpenReferrerConfirm"
+    />
     <div class="lc-container-0 lc-narrow">
       <section class="lc-container-1 lc-section-block">
         <transaction-header
@@ -95,6 +101,22 @@
                   {{ remarks }}
                 </div>
               </section>
+              <section
+                v-if="httpReferrer"
+                class="section-container"
+              >
+                <div class="key">
+                  {{ $t('Transaction.label.httpReferrer') }}
+                </div>
+                <div class="remark lc-font-size-16">
+                  <a
+                    :href="httpReferrer"
+                    target="_blank"
+                    rel="noopener"
+                    @click.prevent="onClickReferrer"
+                  >{{ httpReferrer }}</a>
+                </div>
+              </section>
             </div>
           </div>
         </div>
@@ -115,8 +137,10 @@ import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 
 import TransactionHeader from '~/components/header/TransactionHeader';
 import ViewEtherscan from '~/components/ViewEtherscan';
+import PopupDialog from '~/components/dialogs/PopupDialog';
 
 import { apiGetTxById, apiGetUserMinById } from '@/util/api/api';
+import { openURL } from '~/util/client';
 
 const ONE_LIKE = new BigNumber(10).pow(18);
 const PENDING_UPDATE_INTERVAL = 1000; // 1s
@@ -127,6 +151,7 @@ export default {
   components: {
     TransactionHeader,
     ViewEtherscan,
+    PopupDialog,
   },
   data() {
     return {
@@ -171,6 +196,7 @@ export default {
           value,
           status,
           remarks,
+          httpReferrer,
         } = res.data;
         if (to === LIKE_COIN_ICO_ADDRESS) {
           return redirect({
@@ -186,6 +212,7 @@ export default {
           value,
           status,
           remarks,
+          httpReferrer,
         };
       })
       .catch(e => ({})); // eslint-disable-line no-unused-vars
@@ -238,6 +265,13 @@ export default {
       'startLoading',
       'stopLoading',
     ]),
+    onClickReferrer() {
+      this.$refs.urlWarningDialog.message = this.$t('Transaction.label.openReferrerWarning');
+    },
+    onOpenReferrerConfirm() {
+      this.$refs.urlWarningDialog.message = '';
+      openURL(this, this.httpReferrer, '_blank');
+    },
     setupTimer() {
       if (this.updateTimer) clearTimeout(this.updateTimer);
       this.updateTimer = setTimeout(async () => {

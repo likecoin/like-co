@@ -2,11 +2,14 @@
   "General": {
     "label": {
       "error": "Error",
-      "success": "Success"
+      "success": "Success",
+      "info": "Info",
+      "warning": "Warning"
     },
     "button": {
       "confirm": "Confirm",
       "cancel": "Cancel",
+      "open": "Open",
       "send": "Send",
       "yes": "Yes",
       "no": "No",
@@ -744,6 +747,7 @@
       "senderAddress": "Sender Address",
       "sendTo": "Send {coin} to <span class='usertitle'>{title}</span>",
       "remarks": "Remarks",
+      "httpReferrer": "Source URL",
       "viewTx": "View Transaction",
       "amountToSend": "Amount of {coin} to send",
       "invalidAmount": "Invalid amount",
@@ -752,7 +756,8 @@
       "unavailable": "Due to an issue in the MetaMask new version, the LikeCoin transfer service is temporarily not available.  Thanks for your consideration.",
       "updateMetamask": "This service is available only for MetaMask v{version} and up.",
       "manualProcedure": "Manual update procedure",
-      "manualProcedureUrl": "https://help.like.co/likecoin-faq/newbies/how-to-update-metamask-version"
+      "manualProcedureUrl": "https://help.like.co/likecoin-faq/newbies/how-to-update-metamask-version",
+      "openReferrerWarning": "You are opening an external site, which might be potentially dangerous. Click Open to continue."
     },
     "button": {
       "unavailable": "Temporary Suspension of Transfer service"

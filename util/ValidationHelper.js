@@ -50,6 +50,7 @@ export const ValidationHelper = {
     status,
     type,
     remarks,
+    httpReferrer,
     completeTs,
     ts,
   }) {
@@ -62,6 +63,7 @@ export const ValidationHelper = {
       status,
       type,
       remarks,
+      httpReferrer,
       completeTs,
       ts,
     };

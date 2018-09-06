@@ -1,8 +1,8 @@
 <template>
   <md-dialog
     :md-active.sync="showDialog"
-    :md-close-on-esc="false"
-    :md-click-outside-to-close="false"
+    :md-close-on-esc="allowClose"
+    :md-click-outside-to-close="allowClose"
     :md-fullscreen="false"
   >
     <div class="title-bar" />
