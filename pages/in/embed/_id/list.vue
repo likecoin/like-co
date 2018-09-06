@@ -86,7 +86,7 @@ export default {
     if (query.referrer) {
       let url = encodeURI(query.referrer);
       /* TEMP: reformat medium referrer into medium post */
-      const mediumRegEx = '^(?:https?:\\/\\/)?medium\\.com\\/media\\/[a-zA-Z0-9_]+\\?postId=([a-zA-Z0-9_]+)';
+      const mediumRegEx = /^(?:https?:\/\/)?[^/]*\/media\/[a-zA-Z0-9_]+(?:\?postId=([a-zA-Z0-9_]+))?/;
       const match = query.referrer.match(mediumRegEx);
       if (match && match[1]) url = `https://medium.com/p/${match[1]}`;
       /* Try to get html to fetch title below */
