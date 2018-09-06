@@ -84,7 +84,7 @@ export const EXTRA_EMAIL_BLACLIST = [
   'tutye.com',
 ];
 
-export const QRYPTOS_LIKEETH_URL = 'https://trade.qryptos.com/basic/LIKEETH';
+export const LIQUID_LIKEETH_URL = 'https://app.liquid.com/exchange/LIKEETH';
 export const WORDPRESS_PLUGIN_URL = 'https://wordpress.org/plugins/likecoin/';
 export const OICE_URL = 'https://oice.com';
 

@@ -35,11 +35,11 @@
         >{{ $t('Home.Sale.button.earnCoin') }}</md-button>
       </div>
       <a
-        :href="QRYPTOS_LIKEETH_URL"
+        :href="LIQUID_LIKEETH_URL"
         class="lc-underline lc-margin-top-12"
         rel="noopener noreferrer"
         target="_blank"
-      >{{ $t('Home.Sale.button.tradeAtQRYPTOS') }}</a>
+      >{{ $t('Home.Sale.button.tradeAtLiquid') }}</a>
     </div>
   </div>
 </template>
@@ -47,13 +47,13 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-import { QRYPTOS_LIKEETH_URL } from '@/constant';
+import { LIQUID_LIKEETH_URL } from '@/constant';
 
 export default {
   name: 'account-overview',
   data() {
     return {
-      QRYPTOS_LIKEETH_URL,
+      LIQUID_LIKEETH_URL,
     };
   },
   computed: {

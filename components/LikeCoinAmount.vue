@@ -17,11 +17,11 @@
       </div>
 
       <a
-        :href="QRYPTOS_LIKEETH_URL"
+        :href="LIQUID_LIKEETH_URL"
         class="lc-underline"
         rel="noopener noreferrer"
         target="_blank"
-      >{{ $t('Home.Sale.button.tradeAtQRYPTOS') }}</a>
+      >{{ $t('Home.Sale.button.tradeAtLiquid') }}</a>
     </div>
 
     <div
@@ -57,7 +57,7 @@
 
 
 <script>
-import { QRYPTOS_LIKEETH_URL } from '@/constant';
+import { LIQUID_LIKEETH_URL } from '@/constant';
 
 export default {
   name: 'like-coin-amount',
@@ -89,7 +89,7 @@ export default {
   },
   data() {
     return {
-      QRYPTOS_LIKEETH_URL,
+      LIQUID_LIKEETH_URL,
     };
   },
   methods: {

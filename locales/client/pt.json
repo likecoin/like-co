@@ -323,7 +323,6 @@
         },
         "RoadMap": {
             "title": "Roadmap",
-            "content": "--- parágrafo no Roadmap ---",
             "timeline": [
                 {
                     "title": "Brainstorming, P&D",

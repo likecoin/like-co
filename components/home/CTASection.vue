@@ -60,16 +60,16 @@
                       {{ $t('Home.Header.button.signUp') }}
                     </md-button>
                   </li>
-                  <!-- <li>
+                  <li>
                     <md-button
-                      :href="QRYPTOS_LIKEETH_URL"
+                      :href="LIQUID_LIKEETH_URL"
                       class="cta-btn support md-likecoin shadow lc-text-align-center"
                       rel="noopener noreferrer"
                       target="_blank"
                     >
-                      {{ $t('Home.Sale.button.tradeAtQRYPTOS') }}
+                      {{ $t('Home.Sale.button.tradeAtLiquid') }}
                     </md-button>
-                  </li> -->
+                  </li>
                 </ul>
               </div>
 
@@ -122,7 +122,7 @@ import TokenSaleProgress from '~/components/TokenSaleProgress';
 
 import {
   FINAL_TOKENSALE_ETH_VALUE,
-  QRYPTOS_LIKEETH_URL,
+  LIQUID_LIKEETH_URL,
 } from '@/constant';
 
 export default {
@@ -143,7 +143,7 @@ export default {
   data() {
     return {
       tokenSaleAmount: FINAL_TOKENSALE_ETH_VALUE,
-      QRYPTOS_LIKEETH_URL,
+      LIQUID_LIKEETH_URL,
     };
   },
   computed: {

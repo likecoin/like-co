@@ -276,7 +276,7 @@
         "joinTokenSale": "Join Token Sale",
         "joinNow": "Join Now",
         "prepareToJoin": "Prepare to Join",
-        "tradeAtQRYPTOS": "Trade at QRYPTOS",
+        "tradeAtLiquid": "Trade at Liquid",
         "supportLikeCoin": "Support the Movement"
       }
     },
@@ -325,7 +325,6 @@
     },
     "RoadMap": {
       "title": "Road Map",
-      "content": "--paragraph in Road Map---",
       "timeline": [
         {
           "title": "Brainstorming, R&D",
