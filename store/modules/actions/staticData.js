@@ -21,3 +21,34 @@ export async function fetchLikeStatistic({ commit, dispatch }) {
     console.error(err);
   }
 }
+
+export async function fetchLikeSuggestionList({ commit, dispatch }) {
+  try {
+    const [
+      suggestionObj = {},
+      { personal = [] } = {},
+    ] = await Promise.all([
+      apiWrapper({ commit, dispatch }, api.apiGetLikeURLSuggestion()),
+      apiWrapper({ commit, dispatch }, api.apiGetLikeURLPersonalSuggestion()),
+    ]);
+    const {
+      editorial = [],
+      mostLike = [],
+    } = suggestionObj;
+    commit(types.STATIC_DATA_SET_LIKE_SUGGEST_LIST, { editorial, personal, mostLike });
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+export async function fetchLikeSuggestionDetails({ commit, dispatch }, url) {
+  try {
+    const info = await apiWrapper(
+      { commit, dispatch },
+      api.apiGetLikeArticleInfo(url),
+    );
+    commit(types.STATIC_DATA_SET_LIKE_SUGGEST_DETAIL, { url, info });
+  } catch (err) {
+    console.error(err);
+  }
+}
