@@ -33,6 +33,8 @@
 
     <cta-section />
 
+    <suggestion-test />
+
     <likecoin-stack class="lc-margin-top-32" />
 
     <road-map class="lc-margin-top-48" />
@@ -89,7 +91,6 @@
         </div>
       </div>
     </section>
-
   </div>
 </template>
 
@@ -115,6 +116,8 @@ import RoadMap from '~/components/home/RoadMap';
 import Team from '~/components/home/Team';
 import TokenDistribution from '~/components/home/TokenDistribution';
 
+import SuggestionTest from '~/components/home/SuggestionTest';
+
 const images = require.context('../assets/home');
 const imgUrl = path => images(`./${path}`);
 
@@ -137,6 +140,7 @@ export default {
     SiteHeader,
     Team,
     TokenDistribution,
+    SuggestionTest,
   },
   computed: {
     ...mapGetters([
