@@ -131,8 +131,8 @@ export default {
       default: false,
     },
     failReason: {
-      type: String,
-      default: '',
+      type: Number,
+      default: 0,
     },
   },
   data() {
