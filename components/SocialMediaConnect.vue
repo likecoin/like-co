@@ -285,7 +285,7 @@ export default {
             break;
         }
         if (url) {
-          openURL(this, url, '_blank', 'noopener');
+          openURL(this, url, '_blank');
           logTrackerEvent(this, 'LikeWidget', 'ClickSocialMedia', id, 1);
         }
       }
