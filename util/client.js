@@ -33,6 +33,6 @@ export function openURL(vue, url, name, specs, replace) {
   if (checkIsTrustClient(vue)) {
     window.location.assign(url);
   } else {
-    window.open(url, name || '_blank', specs, replace);
+    window.open(url, name || '_blank', specs, replace).opener = null;
   }
 }
