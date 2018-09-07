@@ -21,7 +21,7 @@ export const EMAIL_REGEX = '^[a-zA-Z0-9.!#$%&\'*/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-z
 export const W3C_EMAIL_REGEX = IS_TESTNET ? '.*' : EMAIL_REGEX;
 
 /* TEMP: reformat medium referrer into medium post */
-export const MEDIUM_REGEX = '^(?:https?:\\/\\/)?medium\\.com\\/media\\/[a-zA-Z0-9_]+\\?postId=([a-zA-Z0-9_]+)';
+export const MEDIUM_REGEX = /^(?:https?:\/\/)?[^/]*\/media\/[a-zA-Z0-9_]+(?:\?postId=([a-zA-Z0-9_]+))?/;
 
 export const PUBSUB_TOPIC_MISC = 'misc';
 

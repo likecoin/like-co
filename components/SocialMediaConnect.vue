@@ -301,7 +301,7 @@ export default {
           if (isEmail) {
             urlPath = `mailto:${url}`;
           }
-          openURL(this, urlPath, '_blank', 'noopener');
+          openURL(this, urlPath, '_blank');
           logTrackerEvent(this, 'LikeWidget', 'ClickSocialMedia', id, 1);
         }
       }
