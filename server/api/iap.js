@@ -11,6 +11,11 @@ const {
   userCollection: dbRef,
 } = require('../util/firebase');
 
+const {
+  SUBSCRIPTION_PLAN_ID,
+} = require('../config/config.js'); // eslint-disable-line import/no-extraneous-dependencies
+
+
 const router = Router();
 
 router.post('/iap/purchase/:productId', async (req, res, next) => {
@@ -109,6 +114,97 @@ router.post('/iap/purchase/:productId', async (req, res, next) => {
   }
 });
 
+router.post('/iap/subscription/donation', async (req, res, next) => {
+  try {
+    const {
+      token,
+      user,
+    } = req.body;
+
+    if (!SUBSCRIPTION_PLAN_ID) throw new ValidationError('Subscription not configured');
+
+    const planId = SUBSCRIPTION_PLAN_ID;
+    let customerId;
+
+    if (user) {
+      const userRef = dbRef.doc(user);
+      const userDoc = await userRef.get();
+      if (!userDoc.exists) throw new ValidationError('Invalid user');
+
+      const stripeDoc = await userRef.collection('subscription').doc('stripe').get();
+      if (stripeDoc.exists && stripeDoc.data().customerId) {
+        ({ customerId } = stripeDoc.data());
+      }
+    }
+
+    if (customerId) {
+      const [sub] = await stripe.subscriptions.list({
+        customer: customerId,
+        plan: planId,
+        status: 'active',
+      });
+      if (sub) throw new ValidationError('Already subscripted');
+
+      await stripe.customers.update(customerId, {
+        email: token.email,
+        source: token.id,
+      });
+    } else {
+      const customer = await stripe.customers.create({
+        email: token.email,
+        source: token.id,
+      });
+      customerId = customer.id;
+    }
+
+    const subscription = await stripe.subscriptions.create({
+      customer: customerId,
+      items: [{ plan: planId }],
+    });
+    const subscriptionId = subscription.id;
+
+    if (user) {
+      const userRef = dbRef.doc(user);
+      await userRef.collection('subscription').doc('stripe').set({
+        customerId,
+        subscriptionId,
+        planId,
+        email: token.email,
+        ts: Date.now(),
+      }, { merge: true });
+
+      const currentPeriodEnd = subscription.current_period_end * 1000;
+      const currentPeriodStart = subscription.current_period_start * 1000;
+
+      await userRef.collection('subscription').doc('likecoin').set({
+        currentPeriodEnd,
+        currentPeriodStart,
+      }, { merge: true });
+      const currentTime = Date.now();
+      if (currentTime > currentPeriodStart && currentTime < currentPeriodEnd) {
+        await userRef.set({ isSubscriber: true }, { merge: true });
+      }
+    } else {
+      // TODO guest claim
+    }
+
+    publisher.publish(PUBSUB_TOPIC_MISC, req, {
+      logType: 'eventStripeSubscription',
+      user,
+      stripeEmail: token.email,
+      customerId,
+      subscriptionId,
+      planId,
+    });
+
+    res.json({
+      subscriptionId,
+    });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
 
 router.get('/iap/list', async (req, res, next) => {
   try {
