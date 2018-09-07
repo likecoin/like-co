@@ -236,7 +236,7 @@ export default {
       SettingsIcon,
       socialMediasIsPublicState: {},
       displaySocialMediaOption: null,
-      previewOption: DISPLAY_SOCIAL_MEDIA_OPTIONS[0],
+      previewOption: DISPLAY_SOCIAL_MEDIA_OPTIONS[1],
       DISPLAY_SOCIAL_MEDIA_OPTIONS,
     };
   },
