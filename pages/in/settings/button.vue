@@ -76,18 +76,23 @@
                   {{ $t('Settings.label.preview') }}
                 </span>
                 <md-field class="no-underline">
-                  <!-- <label for="movie">Movie</label> -->
                   <md-select
                     v-model="previewOption"
                     class="lc-likecoin"
                   >
-                    <md-option value="0">Medium Size</md-option>
+                    <md-option value="wp">
+                      {{ $t('Settings.label.wordpressVersion') }}
+                    </md-option>
+                    <md-option value="medium">
+                      {{ $t('Settings.label.mediumVersion') }}
+                    </md-option>
                   </md-select>
                 </md-field>
               </div>
-              <div class="like-button-settings__preview-header--right">
+              <!-- ! Uncomment when more sizes are supported ! -->
+              <!-- <div class="like-button-settings__preview-header--right">
                 <span class="like-button-settings__size--active">M</span>
-              </div>
+              </div> -->
             </div>
             <no-ssr>
               <div class="like-button-settings__preview-content lc-text-align-center">
@@ -110,10 +115,14 @@
               <md-field class="no-underline">
                 <!-- <label for="movie">Movie</label> -->
                 <md-select
-                  v-model="displayLinkOption"
+                  v-model="displaySocialMediaOption"
                   class="lc-likecoin"
                 >
-                  <md-option value="0">All platforms</md-option>
+                  <md-option
+                    v-for="option in DISPLAY_SOCIAL_MEDIA_OPTIONS"
+                    :key="option"
+                    :value="option"
+                  >{{ $t(`Settings.label.displayOption.${option}`) }}</md-option>
                 </md-select>
               </md-field>
             </div>
@@ -183,6 +192,7 @@ import { mapActions, mapGetters } from 'vuex';
 import SocialMediaIcon from '@/components/settings/SocialMediaIcon';
 
 import {
+  DISPLAY_SOCIAL_MEDIA_OPTIONS,
   EXTERNAL_HOSTNAME,
   OICE_URL,
   SOCIAL_MEDIA_LIST,
@@ -225,8 +235,9 @@ export default {
       WORDPRESS_PLUGIN_URL,
       SettingsIcon,
       socialMediasIsPublicState: {},
-      displayLinkOption: 0,
-      previewOption: 0,
+      displaySocialMediaOption: null,
+      previewOption: DISPLAY_SOCIAL_MEDIA_OPTIONS[0],
+      DISPLAY_SOCIAL_MEDIA_OPTIONS,
     };
   },
   computed: {
@@ -238,6 +249,7 @@ export default {
       'getUserNeedRegister',
       'getUserSocialPlatforms',
       'getUserSocialLinks',
+      'getUserSocialMeta',
     ]),
     userLinkList() {
       const links = Object.keys(this.getUserSocialLinks).map(id => ({
@@ -263,10 +275,19 @@ export default {
       });
       return platforms;
     },
+    isUpdatedSocialMediasIsPublicState() {
+      return Object.keys(this.socialMediasIsPublicState)
+        .some(id => this.socialMediasIsPublicState[id] !== undefined);
+    },
+    isUpdatedDisplaySocialMediaOption() {
+      return this.displaySocialMediaOption !== this.getUserSocialMeta.displaySocialMediaOption;
+    },
     isConfirmButtonDisabled() {
-      return this.isSubmittingForm
-        || !Object.keys(this.socialMediasIsPublicState)
-          .some(id => this.socialMediasIsPublicState[id] !== undefined);
+      if (this.isSubmittingForm) return true;
+      if (!this.isUpdatedSocialMediasIsPublicState && !this.isUpdatedDisplaySocialMediaOption) {
+        return true;
+      }
+      return false;
     },
     likeButtonUrl() {
       if (!this.getUserInfo.user) return '';
@@ -274,6 +295,15 @@ export default {
     },
     previewLikeButtonUrl() {
       return `https://${EXTERNAL_HOSTNAME}/in/embed/${this.getUserInfo.user}/preview/button`;
+    },
+    shouldPreviewShowSocialMedia() {
+      if (
+        this.previewOption === this.displaySocialMediaOption
+        || this.displaySocialMediaOption === 'all'
+      ) {
+        return true;
+      }
+      return false;
     },
   },
   watch: {
@@ -298,6 +328,12 @@ export default {
     getUserSocialPlatforms() {
       this.updatePreviewInfo();
     },
+    getUserSocialMeta({ displaySocialMediaOption }) {
+      this.displaySocialMediaOption = displaySocialMediaOption;
+    },
+    shouldPreviewShowSocialMedia() {
+      this.updatePreviewInfo();
+    },
   },
   mounted() {
     if (this.getUserNeedRegister) {
@@ -307,6 +343,8 @@ export default {
     } else if (this.getUserIsReady && this.getUserIsRegistered) {
       this.updateInfo();
     }
+
+    this.displaySocialMediaOption = this.getUserSocialMeta.displaySocialMediaOption;
   },
   methods: {
     ...mapActions([
@@ -334,22 +372,30 @@ export default {
       } else {
         Vue.set(this.socialMediasIsPublicState, id, value);
       }
-      this.updatePreviewInfo();
+
+      if (this.shouldPreviewShowSocialMedia) {
+        this.updatePreviewInfo();
+      }
     },
     async onSubmit() {
       this.isSubmittingForm = true;
-
-      await this.updateSocialPlatformIsPublic({
-        platforms: this.socialMediasIsPublicState,
+      const payload = {
         user: this.getUserInfo.user,
-      });
+      };
+      if (this.isUpdatedSocialMediasIsPublicState) {
+        payload.platforms = this.socialMediasIsPublicState;
+      }
+      if (this.isUpdatedDisplaySocialMediaOption) {
+        payload.displaySocialMediaOption = this.displaySocialMediaOption;
+      }
+      await this.updateSocialPlatformIsPublic(payload);
 
       this.isSubmittingForm = false;
       this.socialMediasIsPublicState = {};
     },
     updatePreviewInfo(message = {
       user: this.getUserInfo,
-      platforms: this.publicSocialMedia,
+      platforms: this.shouldPreviewShowSocialMedia ? this.publicSocialMedia : {},
     }) {
       if (this.$refs.previewLikeButton) {
         this.$refs.previewLikeButton.contentWindow.postMessage({

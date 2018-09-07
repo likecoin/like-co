@@ -120,3 +120,9 @@ export const SOCIAL_MEDIA_LIST = [
 ];
 
 export const LINK_ICON_TYPES = ['profile', 'blog', 'photo', 'mail', 'contact', 'link'];
+
+export const DISPLAY_SOCIAL_MEDIA_OPTIONS = [
+  'wp', // default
+  'medium',
+  'all',
+];

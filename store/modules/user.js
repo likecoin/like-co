@@ -28,6 +28,7 @@ const state = {
   web3Fetching: true,
   platforms: {},
   links: {},
+  socialMeta: {},
   likeCoinAmountInBigNumber: null,
 };
 
@@ -50,9 +51,10 @@ const mutations = {
   [USER_SET_SOCIAL](state, platforms) {
     state.platforms = platforms;
   },
-  [USER_SET_SOCIAL_DETAILS](state, { links, platforms }) {
+  [USER_SET_SOCIAL_DETAILS](state, { links, meta, platforms }) {
     state.platforms = platforms;
     state.links = links;
+    state.socialMeta = meta;
   },
   [USER_LINK_SOCIAL](state, payload) {
     const {
@@ -77,7 +79,7 @@ const mutations = {
       });
     }
   },
-  [USER_SET_SOCIAL_PLATFORMS_IS_PUBLIC](state, { platforms }) {
+  [USER_SET_SOCIAL_PLATFORMS_IS_PUBLIC](state, { platforms = {}, displaySocialMediaOption }) {
     Object.keys(platforms).forEach((id) => {
       if (state.platforms[id]) {
         Vue.set(state.platforms, id, {
@@ -91,6 +93,8 @@ const mutations = {
         });
       }
     });
+
+    Vue.set(state.socialMeta, 'displaySocialMediaOption', displaySocialMediaOption);
   },
   [USER_ADD_SOCIAL_LINK](state, { id, ...data }) {
     Vue.set(state.links, id, data);

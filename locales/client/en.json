@@ -983,7 +983,14 @@
         "content": "Create your visual noval on oice"
       },
       "otherLinks": "Other external links",
-      "preview": "Preview"
+      "preview": "Preview",
+      "mediumVersion": "Medium Version",
+      "wordpressVersion": "WordPress Version",
+      "displayOption": {
+        "all": "All platforms",
+        "medium": "Medium only",
+        "wp": "WordPress only"
+      }
     },
     "button": {
       "deleteAccount": "Delete Account",

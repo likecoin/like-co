@@ -1,4 +1,7 @@
-import { GETTING_STARTED_TASKS } from '../constant';
+import {
+  GETTING_STARTED_TASKS,
+  DISPLAY_SOCIAL_MEDIA_OPTIONS,
+} from '../constant';
 
 export const ValidationHelper = {
   checkAddressValid(addr) {
@@ -178,6 +181,13 @@ export const ValidationHelper = {
       order,
       siteDisplayName,
       url,
+    };
+  },
+  filterSocialLinksMeta({
+    displaySocialMediaOption = DISPLAY_SOCIAL_MEDIA_OPTIONS[0],
+  }) {
+    return {
+      displaySocialMediaOption,
     };
   },
 };
