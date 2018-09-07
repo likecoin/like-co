@@ -108,7 +108,7 @@
                 <div class="key">
                   {{ $t('Transaction.label.httpReferrer') }}
                 </div>
-                <div class="remark lc-font-size-16">
+                <div class="source-url lc-font-size-16">
                   <a
                     :href="httpReferrer"
                     target="_blank"
@@ -322,6 +322,10 @@ export default {
   }
 
   .remark {
+    color: $like-gray-5;
+  }
+
+  .source-url {
     color: $like-gray-5;
   }
 
