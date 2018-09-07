@@ -211,19 +211,19 @@ test.serial('SOCIAL: Edit social link displaySocialMediaOption. Case: success', 
   const user = testingUser1;
   const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
 
-  // default only show list on wp
+  // default show on all platform
   const res = await axiosist(app).get(`${url}/api/social/list/${user}?type=medium`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   }).catch(err => err.response);
   t.is(res.status, 200);
-  t.true(Object.keys(res.data).length === 0);
+  t.true(Object.keys(res.data).length > 0);
 
-  // change only allow medium to display
+  // change only allow wp to display
   const res2 = await axiosist(app).patch(`${url}/api/social/public`, {
     user,
-    displaySocialMediaOption: 'medium',
+    displaySocialMediaOption: 'wp',
   }, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -238,7 +238,7 @@ test.serial('SOCIAL: Edit social link displaySocialMediaOption. Case: success', 
     },
   }).catch(err => err.response);
   t.is(res3.status, 200);
-  t.true(Object.keys(res3.data).length > 0);
+  t.true(Object.keys(res3.data).length === 0);
 });
 
 test.serial('SOCIAL: Edit social link is public. Case: success', async (t) => {

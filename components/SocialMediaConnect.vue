@@ -371,7 +371,7 @@ export default {
     },
     getSocialMediaTitle({ id }) {
       const platform = this.platforms[id];
-      return (platform || {}).siteDisplayName || id;
+      return /link\d+/.test(id) ? platform.siteDisplayName : id;
     },
   },
 };
