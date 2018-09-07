@@ -758,7 +758,7 @@
       "updateMetamask": "This service is available only for MetaMask v{version} and up.",
       "manualProcedure": "Manual update procedure",
       "manualProcedureUrl": "https://help.like.co/likecoin-faq/newbies/how-to-update-metamask-version",
-      "openReferrerWarning": "You are opening an external site, which might be potentially dangerous. Click Open to continue.",
+      "openReferrerWarning": "You are opening an external site, which is potentially dangerous.",
       "openReferrerConfirmMessage": "Continue and open the link for me"
     },
     "button": {
