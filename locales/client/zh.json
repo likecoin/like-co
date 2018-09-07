@@ -4,7 +4,8 @@
       "error": "失敗",
       "success": "成功",
       "info": "提示",
-      "warning": "警告"
+      "warning": "警告",
+      "caution": "注意"
     },
     "button": {
       "confirm": "確認",
@@ -727,7 +728,8 @@
       "updateMetamask": "轉賬服務只適用於已安裝 MetaMask 版本 {version} 或以上的瀏覽器。",
       "manualProcedure": "手動安裝指南",
       "manualProcedureUrl": "https://help.like.co/likecoin-%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C/%E6%96%B0%E6%89%8B%E4%B8%8A%E8%B7%AF/%E5%A6%82%E4%BD%95%E6%9B%B4%E6%96%B0-metamask-%E7%89%88%E6%9C%AC",      
-      "openReferrerWarning": "你正在開啟可能不安全的外部網站，確認繼續請再按一次開啟"
+      "openReferrerWarning": "你正在開啟可能不安全的外部網站，確認繼續請再按一次開啟",
+      "openReferrerConfirmMessage": "我確認要開啟此連結"
     },
     "button": {
       "unavailable": "暫停轉賬服務"

@@ -4,6 +4,8 @@
     :md-close-on-esc="allowClose"
     :md-click-outside-to-close="allowClose"
     :md-fullscreen="false"
+    @md-closed="clearMessage"
+    @md-clicked-outside="clearMessage"
   >
     <div class="title-bar" />
     <div class="dialog-content">
@@ -23,6 +25,15 @@
           {{ buttonText }}
         </material-button>
       </section>
+      <div
+        v-if="subMessage"
+        class="lc-text-align-center"
+      >
+        <a
+          href="#"
+          @click.prevent="onSubMessageClick"
+        >{{ subMessage }}</a>
+      </div>
     </div>
   </md-dialog>
 </template>
@@ -49,7 +60,15 @@ export default {
       type: String,
       default: '',
     },
+    subMessage: {
+      type: String,
+      default: '',
+    },
     confirmText: {
+      type: String,
+      default: '',
+    },
+    cancelText: {
       type: String,
       default: '',
     },
@@ -58,12 +77,6 @@ export default {
     return {
       showDialog: false,
     };
-  },
-  computed: {
-    buttonText() {
-      if (this.confirmText) return this.confirmText;
-      return this.$t('General.button.confirm');
-    },
   },
   watch: {
     message(e) {
@@ -79,6 +92,18 @@ export default {
     },
     onDialogConfirm() {
       this.$emit('onConfirm');
+      this.clearMessage();
+    },
+    onDialogCancel() {
+      this.$emit('onCancel');
+      this.clearMessage();
+    },
+    onSubMessageClick() {
+      this.$emit('onSubMessageClick');
+      this.clearMessage();
+    },
+    clearMessage() {
+      this.$emit('update:message', '');
     },
   },
 };

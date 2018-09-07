@@ -3,8 +3,11 @@
     <popup-dialog
       ref="urlWarningDialog"
       :allowClose="true"
-      :header="$t('General.label.warning')"
-      @onConfirm="onOpenReferrerConfirm"
+      :header="$t('General.label.caution')"
+      :message.sync="urlWarningMessage"
+      :confirmText="$t('General.button.cancel')"
+      :subMessage="$t('Transaction.label.openReferrerConfirmMessage')"
+      @onSubMessageClick="onOpenReferrerConfirm"
     />
     <div class="lc-container-0 lc-narrow">
       <section class="lc-container-1 lc-section-block">
@@ -172,6 +175,7 @@ export default {
       value: '', // BN in string
       amount: 0,
       updateTimer: null,
+      urlWarningMessage: '', // HACK: used to trigger popup dialog
       ETHERSCAN_HOST,
     };
   },
@@ -266,10 +270,10 @@ export default {
       'stopLoading',
     ]),
     onClickReferrer() {
-      this.$refs.urlWarningDialog.message = this.$t('Transaction.label.openReferrerWarning');
+      // TODO: Fix PopupDialog to have a proper .open()
+      this.urlWarningMessage = this.$t('Transaction.label.openReferrerWarning');
     },
     onOpenReferrerConfirm() {
-      this.$refs.urlWarningDialog.message = '';
       openURL(this, this.httpReferrer, '_blank');
     },
     setupTimer() {
