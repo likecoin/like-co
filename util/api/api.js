@@ -152,7 +152,7 @@ export const apiQueryLikeCoinFiatPrice = () => axios.get('https://api.coingecko.
 
 export const apiSetNotification = (id, isEmailEnabled) => axios.post(`/api/users/email/${id}`, { isEmailEnabled });
 
-export const apiGetSocialListById = id => axios.get(`/api/social/list/${id}`);
+export const apiGetSocialListById = (id, type = '') => axios.get(`/api/social/list/${id}?type=${type}`);
 
 export const apiGetSocialListDetialsById = id => axios.get(`/api/social/list/${id}/details`);
 

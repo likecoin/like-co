@@ -71,6 +71,8 @@ import {
   apiGetLikeButtonTotalCount,
 } from '@/util/api/api';
 
+import { MEDIUM_REGEX } from '@/constant';
+
 export default {
   name: 'embed-id-list',
   layout: 'narrowWithHeader',
@@ -85,9 +87,7 @@ export default {
     ];
     if (query.referrer) {
       let url = encodeURI(query.referrer);
-      /* TEMP: reformat medium referrer into medium post */
-      const mediumRegEx = '^(?:https?:\\/\\/)?medium\\.com\\/media\\/[a-zA-Z0-9_]+\\?postId=([a-zA-Z0-9_]+)';
-      const match = query.referrer.match(mediumRegEx);
+      const match = query.referrer.match(MEDIUM_REGEX);
       if (match && match[1]) url = `https://medium.com/p/${match[1]}`;
       /* Try to get html to fetch title below */
       promises.push(axios.get(url, { responseType: 'text', headers: { Accept: 'text/html' } }).catch(() => ''));
