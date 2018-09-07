@@ -48,6 +48,24 @@ export async function fetchLikeSuggestionDetails({ commit, dispatch }, url) {
       api.apiGetLikeArticleInfo(url),
     );
     commit(types.STATIC_DATA_SET_LIKE_SUGGEST_DETAIL, { url, info });
+    return { info };
+  } catch (err) {
+    console.error(err);
+    return {};
+  }
+}
+
+export async function fetchUserMinInfo({ commit, dispatch }, id) {
+  try {
+    const {
+      avatar,
+      displayName,
+    } = await apiWrapper({ commit, dispatch }, api.apiGetUserMinById(id), { slient: true });
+    commit(types.STATIC_DATA_SET_USER_MIN_INFO, {
+      id,
+      avatar,
+      displayName,
+    });
   } catch (err) {
     console.error(err);
   }

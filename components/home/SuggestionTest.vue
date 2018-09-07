@@ -13,7 +13,7 @@
     >
       <section v-if="a.user">
         <div>{{ a.user }}</div>
-        <!-- <img :src=> -->
+        <img :src="(getUserMinInfoById(a.user)||{}).avatar">
         <div> LIKE: {{ a.like }} </div>
       </section>
       <a :href="a.url">
@@ -42,6 +42,7 @@ export default {
       'getTotalLIKERewardedStatistic',
       'getTotalLIKEArticleStatistic',
       'getSuggestedArticles',
+      'getUserMinInfoById',
     ]),
   },
   mounted() {
@@ -53,12 +54,16 @@ export default {
       'fetchLikeStatistic',
       'fetchLikeSuggestionList',
       'fetchLikeSuggestionDetails',
+      'fetchUserMinInfo',
     ]),
     async initList() {
       await this.fetchLikeSuggestionList();
       const list = this.getSuggestedArticles;
-      Object.keys(list).forEach((url) => {
-        this.fetchLikeSuggestionDetails(url);
+      Object.keys(list).forEach(async (url) => {
+        const { info } = await this.fetchLikeSuggestionDetails(url);
+        if (!this.getUserMinInfoById(info.user)) {
+          this.fetchUserMinInfo(info.user);
+        }
       });
     },
   },

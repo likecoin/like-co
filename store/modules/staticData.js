@@ -7,6 +7,7 @@ import {
   STATIC_DATA_SET_LIKE_STAT,
   STATIC_DATA_SET_LIKE_SUGGEST_LIST,
   STATIC_DATA_SET_LIKE_SUGGEST_DETAIL,
+  STATIC_DATA_SET_USER_MIN_INFO,
 } from '../mutation-types';
 import * as getters from './getters/staticData';
 import * as actions from './actions/staticData';
@@ -15,6 +16,7 @@ const state = {
   likeCoinUsdNumericPrice: 0,
   LIKEStat: {},
   suggestedArticle: {},
+  userInfos: {},
 };
 
 const mutations = {
@@ -36,6 +38,9 @@ const mutations = {
   },
   [STATIC_DATA_SET_LIKE_SUGGEST_DETAIL](state, { url, info }) {
     if (state.suggestedArticle[url]) Vue.set(state.suggestedArticle, url, { url, ...info });
+  },
+  [STATIC_DATA_SET_USER_MIN_INFO](state, { id, displayName, avatar }) {
+    Vue.set(state.userInfos, id, { displayName, avatar });
   },
 };
 
