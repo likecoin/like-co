@@ -26,7 +26,10 @@
       />
 
       <div v-if="isEdit">
-        <lc-tooltip ref="tooltip">
+        <lc-tooltip
+          ref="tooltip"
+          :is-listen-to-hover="false"
+        >
           <div
             slot="activator"
             class="external-link__expand-icon"
@@ -119,17 +122,33 @@
         </span>
       </md-button>
 
-      <md-button
-        class="md-icon-button"
-        @click="onClickCancel"
-      >
-        <simple-svg
-          :filepath="CrossIcon"
-          fill="#4a4a4a"
-          height="24px"
-          width="24px"
-        />
-      </md-button>
+      <template v-if="isEdit">
+        <md-button
+          class="md-icon-button"
+          @click="onClickCancel"
+        >
+          <simple-svg
+            :filepath="CrossIcon"
+            fill="#4a4a4a"
+            height="24px"
+            width="24px"
+          />
+        </md-button>
+
+        <hr>
+
+        <md-button
+          class="md-icon-button"
+          @click="onClickDelete"
+        >
+          <simple-svg
+            :filepath="DeleteIcon"
+            fill="#4a4a4a"
+            height="24px"
+            width="24px"
+          />
+        </md-button>
+      </template>
     </div>
 
   </form>
@@ -139,6 +158,7 @@
 import LcTooltip from '@/components/settings/Tooltip';
 
 import CrossIcon from '@/assets/icons/cross.svg';
+import DeleteIcon from '@/assets/icons/delete.svg';
 import DragIcon from '@/assets/icons/drag.svg';
 import EditIcon from '@/assets/icons/pencil.svg';
 import ExpandIcon from '@/assets/icons/expand.svg';
@@ -184,6 +204,7 @@ export default {
   data() {
     return {
       CrossIcon,
+      DeleteIcon,
       DragIcon,
       EditIcon,
       ExpandIcon,
@@ -242,19 +263,24 @@ export default {
         if (!this.urlInputValue) {
           this.urlInputValue = this.url;
         }
+        if (!this.iconTypeModel) {
+          this.iconTypeModel = this.iconType;
+        }
 
         this.isEdit = true;
       }
     },
     onClickCancel() {
-      if (this.isEdit && !this.isNew) {
-        this.isEdit = false;
-      } else {
-        this.$emit('remove', {
-          id: this.id,
-          order: this.order,
-        });
+      this.isEdit = false;
+      if (this.isNew) {
+        this.onClickDelete();
       }
+    },
+    onClickDelete() {
+      this.$emit('remove', {
+        id: this.id,
+        order: this.order,
+      });
     },
     onSelectLinkType(type) {
       this.iconTypeModel = type;
@@ -401,6 +427,14 @@ $shake-x: 4px;
     &.no-content {
       animation: none !important;
     }
+  }
+
+  hr {
+    height: 60%;
+    margin: 0 8px;
+
+    border: none;
+    border-left: $border-style-2;
   }
 
   :global(.lc-tooltip__content) {

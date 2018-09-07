@@ -41,12 +41,10 @@
                   rel="noopener noreferrer"
                   target="_blank"
                 >{{ $t('Settings.button.install') }}</md-button>
-                <textarea
+                <div
                   v-else-if="item.id === 'medium'"
-                  v-model="likeButtonUrl"
-                  readonly
-                  @focus="$event.target.select()"
-                />
+                  class="like-button-settings__like-button-url"
+                >{{ likeButtonUrl }}</div>
                 <md-button
                   v-if="item.id === 'oice'"
                   :href="OICE_URL"
@@ -542,17 +540,16 @@ export default {
     font-weight: 600;
   }
 
-  textarea {
+  &__like-button-url {
+    min-height: 44px;
     margin-left: -44px;
-    padding: 12px 10px;
+    padding: 12px 8px;
 
-    resize: none;
+    user-select: all;
     text-align: center;
     word-break: break-all;
 
     color: $like-dark-brown-2;
-    border: none;
-    outline: none;
     background-color: $gray-e6;
 
     font-family: menlo, 'Courier New', Courier, monospace;

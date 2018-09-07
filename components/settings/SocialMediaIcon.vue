@@ -8,7 +8,7 @@
       }
     ]"
   >
-    <lc-tooltip>
+    <lc-tooltip :is-listen-to-click="false">
       <div
         slot="activator"
         :class="[

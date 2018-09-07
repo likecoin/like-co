@@ -3,8 +3,8 @@
     <div
       ref="activator"
       @click="onClickActivator"
-      @mouseover="setContentVisibility(true)"
-      @mouseleave="setContentVisibility(false)"
+      @mouseover="onHover(true)"
+      @mouseleave="onHover(false)"
     >
       <slot name="activator" />
     </div>
@@ -12,9 +12,10 @@
     <transition name="lc-tooltip__content-">
       <div
         v-if="isVisible && !!$slots.default"
+        ref="content"
         :class="['lc-tooltip__content']"
-        @mouseover="setContentVisibility(true)"
-        @mouseleave="setContentVisibility(false)"
+        @mouseover="onHover(true)"
+        @mouseleave="onHover(false)"
       >
         <slot />
       </div>
@@ -29,6 +30,14 @@ export default {
     closeDelay: {
       type: Number,
       default: 300,
+    },
+    isListenToClick: {
+      type: Boolean,
+      default: true,
+    },
+    isListenToHover: {
+      type: Boolean,
+      default: true,
     },
     links: {
       type: Object,
@@ -45,6 +54,7 @@ export default {
     };
   },
   beforeDestroy() {
+    window.removeEventListener('click', this.onWindowClick);
     this.clearTimer();
   },
   methods: {
@@ -60,22 +70,40 @@ export default {
     },
     setContentVisibility(isVisible, delay) {
       if (isVisible) {
+        window.addEventListener('click', this.onWindowClick);
         this.clearTimer();
+
         this.openTimer = setTimeout(() => {
           this.isVisible = true;
         }, delay >= 0 ? delay : this.openDelay);
       } else {
+        window.removeEventListener('click', this.onWindowClick);
         this.clearTimer();
+
         this.closeTimer = setTimeout(() => {
           this.isVisible = false;
         }, delay >= 0 ? delay : this.openDelay);
       }
     },
     onClickActivator() {
+      if (!this.isListenToClick) return;
       if (this.isVisible) {
         this.setContentVisibility(false, 0);
       } else {
         this.setContentVisibility(true, 0);
+      }
+    },
+    onHover(isHover) {
+      if (!this.isListenToHover) return;
+      this.setContentVisibility(isHover);
+    },
+    onWindowClick({ target }) {
+      if (this.isVisible && this.$refs.activator && this.$refs.content) {
+        const isClickedTooltip = this.$refs.activator.contains(target)
+          || this.$refs.content.contains(target);
+        if (!isClickedTooltip) {
+          this.setContentVisibility(false, 0);
+        }
       }
     },
   },

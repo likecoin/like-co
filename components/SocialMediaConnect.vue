@@ -28,7 +28,7 @@
                   getIsConnected(socialMedia) ? 'connected' : 'disconnected'
                 }`,
               ]"
-              :title="getSocialMediaUrl(socialMedia)"
+              :title="getSocialMediaTitle(socialMedia)"
               type="button"
               @click="onClickConnectButton(socialMedia)"
             >
@@ -126,6 +126,7 @@ import { IS_TESTNET, W3C_EMAIL_REGEX } from '@/constant';
 
 import { openURL } from '~/util/client';
 import { logTrackerEvent } from '@/util/EventLogger';
+import { getUrlWithPrefix } from '@/util/social';
 
 const TYPE = {
   READONLY: 'readonly',
@@ -364,9 +365,13 @@ export default {
         case 'likecoin':
           return this.userLink;
         default:
-          if (platform) return platform.url;
+          if (platform) return getUrlWithPrefix(platform.url);
           return null;
       }
+    },
+    getSocialMediaTitle({ id }) {
+      const platform = this.platforms[id];
+      return (platform || {}).siteDisplayName || id;
     },
   },
 };
