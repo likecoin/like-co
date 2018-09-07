@@ -19,15 +19,23 @@
 
       <section>
         <material-button
+          v-if="confirmText"
           id="btn-confirm"
           @click="onDialogConfirm"
         >
-          {{ buttonText }}
+          {{ confirmText }}
+        </material-button>
+        <material-button
+          v-if="cancelText"
+          id="btn-cancel"
+          @click="onDialogCancel"
+        >
+          {{ cancelText }}
         </material-button>
       </section>
       <div
         v-if="subMessage"
-        class="lc-text-align-center"
+        class="lc-padding-top-8 lc-text-align-center"
       >
         <a
           href="#"
@@ -125,6 +133,10 @@ export default {
 
       margin-top: 36px;
     }
+  }
+
+  #btn-cancel {
+    background-color: $like-gradient-3;
   }
 }
 </style>

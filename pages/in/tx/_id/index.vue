@@ -5,7 +5,7 @@
       :allowClose="true"
       :header="$t('General.label.caution')"
       :message.sync="urlWarningMessage"
-      :confirmText="$t('General.button.cancel')"
+      :cancelText="$t('General.button.cancel')"
       :subMessage="$t('Transaction.label.openReferrerConfirmMessage')"
       @onSubMessageClick="onOpenReferrerConfirm"
     />

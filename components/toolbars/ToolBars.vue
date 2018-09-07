@@ -7,12 +7,14 @@
         :allowClose="false"
         :message="getPopupError"
         :header="$t('General.label.Error')"
+        :confirmText="$t('General.button.confirm')"
       />
 
       <popup-dialog
         :allowClose="true"
         :message="getPopupInfo"
         :header="$t('General.label.Info')"
+        :confirmText="$t('General.button.confirm')"
       />
 
       <div v-if="checkShouldShowError(getMetamaskError)">
