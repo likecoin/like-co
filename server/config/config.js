@@ -16,6 +16,8 @@ config.GCLOUD_PUBSUB_ENABLE = false;
 config.STRIPE_TEST_KEY = '';
 config.STRIPE_PROD_KEY = '';
 
+config.SUBSCRIPTION_PLAN_ID = '';
+
 config.RECAPTCHA_SECRET = '';
 
 config.FACEBOOK_APP_ID = '';

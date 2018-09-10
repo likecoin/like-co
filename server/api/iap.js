@@ -11,7 +11,7 @@ const {
   db,
   iapCollection: iapRef,
   userCollection: dbRef,
-  pendingSubscrptionCollection: subRef,
+  iapSubscriptionCollection: subRef,
 } = require('../util/firebase');
 
 const {
@@ -226,12 +226,9 @@ router.post('/iap/subscription/donation', jwtOptionalAuth, async (req, res, next
   }
 });
 
-router.delete('/iap/subscription/donation', jwtAuth, async (req, res, next) => {
+router.delete('/iap/subscription/donation/:user', jwtAuth, async (req, res, next) => {
   try {
-    const {
-      user,
-    } = req.body;
-
+    const { user } = req.params;
     if (!SUBSCRIPTION_PLAN_ID) throw new ValidationError('Subscription not configured');
 
     const planId = SUBSCRIPTION_PLAN_ID;

@@ -13,7 +13,7 @@ if (process.env.CI) {
     missionCollection: {},
     payoutCollection: {},
     configCollection: {},
-    pendingSubscrptionCollection: {},
+    iapSubscriptionCollection: {},
     bucket: {},
     FieldValue,
   };
@@ -31,7 +31,7 @@ if (process.env.CI) {
   const missionCollection = db.collection(config.FIRESTORE_MISSION_ROOT);
   const payoutCollection = db.collection(config.FIRESTORE_PAYOUT_ROOT);
   const configCollection = db.collection(config.FIRESTORE_CONFIG_ROOT);
-  const pendingSubscrptionCollection = db.collection(config.FIRESTORE_PENDING_SUBSCRIPTION_ROOT);
+  const iapSubscriptionCollection = db.collection(config.FIRESTORE_IAP_SUBSCRIPTION_ROOT);
   const bucket = admin.storage().bucket();
 
   module.exports = {
@@ -42,7 +42,7 @@ if (process.env.CI) {
     missionCollection,
     payoutCollection,
     configCollection,
-    pendingSubscrptionCollection,
+    iapSubscriptionCollection,
     bucket,
     FieldValue,
   };
