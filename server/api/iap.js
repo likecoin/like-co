@@ -5,6 +5,7 @@ import publisher from '../util/gcloudPub';
 
 import stripe from '../util/stripe';
 import { ValidationError } from '../../util/ValidationHelper';
+import { jwtAuth, jwtOptionalAuth } from '../util/jwt';
 
 const {
   iapCollection: iapRef,
@@ -114,12 +115,17 @@ router.post('/iap/purchase/:productId', async (req, res, next) => {
   }
 });
 
-router.post('/iap/subscription/donation', async (req, res, next) => {
+router.post('/iap/subscription/donation', jwtOptionalAuth, async (req, res, next) => {
   try {
     const {
       token,
       user,
     } = req.body;
+
+    if (user && req.user.user !== user) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
 
     if (!SUBSCRIPTION_PLAN_ID) throw new ValidationError('Subscription not configured');
 
@@ -179,17 +185,19 @@ router.post('/iap/subscription/donation', async (req, res, next) => {
       await userRef.collection('subscription').doc('likecoin').set({
         currentPeriodEnd,
         currentPeriodStart,
+        isCanceled: false,
+        isSubscribed: true,
       }, { merge: true });
       const currentTime = Date.now();
       if (currentTime > currentPeriodStart && currentTime < currentPeriodEnd) {
-        await userRef.set({ isSubscriber: true }, { merge: true });
+        await userRef.set({ isSubscribed: true }, { merge: true });
       }
     } else {
       // TODO guest claim
     }
 
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
-      logType: 'eventStripeSubscription',
+      logType: 'eventStripeNewSubscription',
       user,
       stripeEmail: token.email,
       customerId,
@@ -200,6 +208,64 @@ router.post('/iap/subscription/donation', async (req, res, next) => {
     res.json({
       subscriptionId,
     });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
+router.delete('/iap/subscription/donation', jwtAuth, async (req, res, next) => {
+  try {
+    const {
+      user,
+    } = req.body;
+
+    if (!SUBSCRIPTION_PLAN_ID) throw new ValidationError('Subscription not configured');
+
+    const planId = SUBSCRIPTION_PLAN_ID;
+
+    const userRef = dbRef.doc(user);
+    const stripeDoc = await userRef.collection('subscription').doc('stripe').get();
+    if (!stripeDoc.exists || !stripeDoc.data().customerId) {
+      res.status(404).send('SUBSCRIPTION_NOT_FOUND_C');
+      return;
+    }
+
+    const { customerId } = stripeDoc.data();
+
+    const [subscription] = await stripe.subscriptions.list({
+      customer: customerId,
+      plan: planId,
+      status: 'active',
+    });
+
+    if (!subscription) {
+      res.status(404).send('SUBSCRIPTION_NOT_FOUND_S');
+      return;
+    }
+    const subscriptionId = subscription.id;
+
+    await stripe.subscriptions.update({
+      customer: customerId,
+      subscription_exposed_id: subscriptionId,
+    });
+
+    await userRef.collection('subscription').doc('likecoin').update({
+      isCanceled: true,
+    });
+
+    publisher.publish(PUBSUB_TOPIC_MISC, req, {
+      logType: 'eventStripeCancelSubscription',
+      user,
+      customerId,
+      subscriptionId,
+      planId,
+    });
+
+    res.json({
+      subscriptionId,
+    });
+
   } catch (err) {
     console.error(err);
     next(err);

@@ -21,6 +21,16 @@ function getToken(req) {
   throw new UnauthorizedError('credentials_required', { message: 'No authorization token was found' });
 }
 
+function setNoCacheHeader(res) {
+  res.setHeader('Surrogate-Control', 'no-store');
+  res.setHeader(
+    'Cache-Control',
+    'no-store, no-cache, must-revalidate, proxy-revalidate',
+  );
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+}
+
 export const jwtSign = (payload) => {
   const opt = {};
   if (!payload.exp) opt.expiresIn = '7d';
@@ -33,15 +43,23 @@ export const jwtVerify = (
 ) => jwt.verify(token, secret, { ignoreExpiration });
 
 export const jwtAuth = (req, res, next) => {
-  res.setHeader('Surrogate-Control', 'no-store');
-  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
-  res.setHeader('Pragma', 'no-cache');
-  res.setHeader('Expires', '0');
+  setNoCacheHeader(res);
   expressjwt({ secret, getToken })(req, res, (e) => {
     if (e && e.name === 'UnauthorizedError') {
       res.status(401).send('LOGIN_NEEDED');
       return;
     }
+    next(e);
+  });
+};
+
+export const jwtOptionalAuth = (req, res, next) => {
+  setNoCacheHeader(res);
+  expressjwt({
+    credentialsRequired: false,
+    getToken,
+    secret,
+  })(req, res, (e) => {
     next(e);
   });
 };
