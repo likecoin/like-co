@@ -239,7 +239,7 @@ export default {
       isLoginTooltipOpen: false,
       likeCount: 0,
       likeSent: 0,
-      totalLike: 1024,
+      totalLike: 883,
       shouldShowBackside: false,
 
       /* through parent post message */
