@@ -323,7 +323,6 @@
         },
         "RoadMap": {
             "title": "Roadmap",
-            "content": "--paragraph in Road Map---",
             "timeline": [
                 {
                     "title": "Brainstorming, R&D",
@@ -664,7 +663,7 @@
             "email": "Ihre E-Mail-Adresse",
             "addEmail": "E-Mail-Adresse hinzufügen",
             "redeemCoin": "LikeCoin einlösen",
-            "redeemCode": "Code einlösen (Optional)",
+            "redeemCode": "Code einlösen",
             "validCodeRequired": "Bitte gültigen Gutscheincode eingeben",
             "verified": "Bestätigt",
             "verifying": "Bestätigung gesendet. Bitte überprüfen Sie Ihren Posteingang!",

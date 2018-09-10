@@ -67,19 +67,15 @@
               </div>
               <!-- END - Timeline -->
 
-              <!-- <div class="content lc-margin-top-24 lc-mobile-hide">
-                {{ $t('Home.RoadMap.content') }}
-              </div> -->
-
-              <!-- <div class="links-wrapper lc-margin-top-12">
+              <div class="links-wrapper lc-margin-top-12">
                 <a
-                  :href="QRYPTOS_LIKEETH_URL"
+                  :href="LIQUID_LIKEETH_URL"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   {{ $t('Dialog.transaction.button.trade') }}
                 </a>
-              </div> -->
+              </div>
 
             </div>
 
@@ -95,7 +91,7 @@
 
 
 <script>
-import { QRYPTOS_LIKEETH_URL } from '@/constant';
+import { LIQUID_LIKEETH_URL } from '@/constant';
 
 const milestones = [true, true, true, true, true, false, false];
 
@@ -104,7 +100,7 @@ export default {
   data() {
     return {
       milestones,
-      QRYPTOS_LIKEETH_URL,
+      LIQUID_LIKEETH_URL,
     };
   },
 };

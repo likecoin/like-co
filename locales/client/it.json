@@ -323,7 +323,6 @@
         },
         "RoadMap": {
             "title": "Tabella di marcia",
-            "content": "--paragrafo in Tabella di marcia---",
             "timeline": [
                 {
                     "title": "Brainstorming, R&S",
@@ -664,7 +663,7 @@
             "email": "Indirizzo email",
             "addEmail": "Aggiungi indirizzo email",
             "redeemCoin": "Riscuoti LikeCoin",
-            "redeemCode": "Riscatta codice (facoltativo)",
+            "redeemCode": "Riscatta codice",
             "validCodeRequired": "Inserisci un codice coupon valido",
             "verified": "Verificato",
             "verifying": "L'email di verifica è stata inviata. Controlla la casella di posta.",

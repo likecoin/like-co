@@ -7,6 +7,7 @@ import {
   apiGetSocialListById,
   apiQueryLikeCoinFiatPrice,
 } from '~/util/api/api';
+import { MEDIUM_REGEX } from '~/constant';
 
 export default {
   components: {
@@ -17,6 +18,7 @@ export default {
   asyncData({
     params,
     error,
+    query,
   }) {
     let amount;
     try {
@@ -27,9 +29,15 @@ export default {
     }
 
     const { id } = params;
+    let { type = '' } = query;
+    const { referrer = '' } = query;
+    if (!type && referrer.match(MEDIUM_REGEX)) {
+      type = 'medium';
+    }
+
     return Promise.all([
       apiGetUserMinById(id),
-      apiGetSocialListById(id).catch(() => {}),
+      apiGetSocialListById(id, type).catch(() => {}),
       !amount && apiQueryLikeCoinFiatPrice()
         .then(res => res.data.market_data.current_price.usd)
         .catch(() => 0.0082625),

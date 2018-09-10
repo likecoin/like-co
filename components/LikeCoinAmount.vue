@@ -15,20 +15,31 @@
       >
         {{ value }}
       </div>
+
+      <a
+        :href="LIQUID_LIKEETH_URL"
+        class="lc-underline"
+        rel="noopener noreferrer"
+        target="_blank"
+      >{{ $t('Home.Sale.button.tradeAtLiquid') }}</a>
     </div>
 
     <div
-      v-if="linkHref && linkText"
+      v-if="(linkHref || linkTo) && linkText"
       class="links"
     >
       <md-button
+        v-if="linkTo"
+        :to="linkTo"
+        class="link md-likecoin lc-text-align-center lc-font-weight-600 shadow"
+      >{{ linkText }}</md-button>
+      <md-button
+        v-else
         :href="linkHref"
-        class="link what md-likecoin lc-text-align-center"
+        class="link md-likecoin lc-text-align-center"
         rel="noopener noreferrer"
         target="_blank"
-      >
-        {{ linkText }}
-      </md-button>
+      >{{ linkText }}</md-button>
     </div>
 
     <div
@@ -36,9 +47,9 @@
       class="links"
       @click="onClick"
     >
-      <material-button class="link what">
-        <span> {{ linkText }} </span>
-      </material-button>
+      <md-button class="link md-likecoin">
+        <span>{{ linkText }}</span>
+      </md-button>
     </div>
 
   </section>
@@ -46,6 +57,8 @@
 
 
 <script>
+import { LIQUID_LIKEETH_URL } from '@/constant';
+
 export default {
   name: 'like-coin-amount',
   props: {
@@ -61,6 +74,10 @@ export default {
       type: String,
       default: '',
     },
+    linkTo: {
+      type: Object,
+      default: null,
+    },
     linkText: {
       type: String,
       default: '',
@@ -69,6 +86,11 @@ export default {
       type: String,
       default: '',
     },
+  },
+  data() {
+    return {
+      LIQUID_LIKEETH_URL,
+    };
   },
   methods: {
     onClick() {
@@ -116,16 +138,10 @@ export default {
       min-width: 128px;
       margin-right: 48px;
     }
-
-    @media (max-width: 768px) {
-      margin-bottom: 12px;
-
-      text-align: center;
-    }
   }
 
   > .value {
-    width: 100%;
+    flex: 1;
 
     word-wrap: break-word;
 
@@ -138,7 +154,9 @@ export default {
       font-size: 42px;
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
+      margin: 12px 0;
+
       font-size: 38px;
     }
   }
@@ -173,12 +191,10 @@ export default {
 
     transition: opacity .2s ease-in-out;
 
+    background-image: linear-gradient(73deg, $like-gradient-2, $like-gradient-3);
+
     &:not(:first-child) {
       margin-top: 8px;
-    }
-
-    &.what {
-      background-image: linear-gradient(73deg, $like-gradient-2, $like-gradient-3);
     }
 
     &:hover {

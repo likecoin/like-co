@@ -272,10 +272,10 @@ export default {
 }
 
 .menus-wrapper {
-  padding: 64px 24px 36px 52px;
+  padding: 104px 24px 36px 52px;
 
   @media (max-width: 600px) {
-    padding: 32px 24px 36px 32px;
+    padding: 64px 24px 36px 32px;
   }
 
   &.main {

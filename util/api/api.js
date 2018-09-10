@@ -152,7 +152,7 @@ export const apiQueryLikeCoinFiatPrice = () => axios.get('https://api.coingecko.
 
 export const apiSetNotification = (id, isEmailEnabled) => axios.post(`/api/users/email/${id}`, { isEmailEnabled });
 
-export const apiGetSocialListById = id => axios.get(`/api/social/list/${id}`);
+export const apiGetSocialListById = (id, type = '') => axios.get(`/api/social/list/${id}?type=${type}`);
 
 export const apiGetSocialListDetialsById = id => axios.get(`/api/social/list/${id}/details`);
 
@@ -175,3 +175,9 @@ export const apiPostLikeButton = (id, referrer, count = 1) => axios.post(
 );
 
 export const apiSelectFacebookPageLink = (pageId, payload) => axios.post(`/api/social/link/facebook/${pageId}`, payload);
+
+export const apiPostSocialPlatformsIsPublic = payload => axios.patch('/api/social/public', payload);
+
+export const apiPostAddUserSocialLink = payload => axios.post('/api/social/links/new', payload);
+
+export const apiPostUpdateUserSocialLink = (linkId, payload) => axios.put(`/api/social/links/${linkId}`, payload);

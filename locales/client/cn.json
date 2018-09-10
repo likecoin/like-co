@@ -270,7 +270,7 @@
         "joinTokenSale": "参与代币发售",
         "aboutTokenSale": "关于代币发售",
         "joinNow": "立即参与",
-        "tradeAtQRYPTOS": "在 QRYPTOS 交易",
+        "tradeAtLiquid": "在 Liquid 交易",
         "supportLikeCoin": "支持回馈创作运动"
       }
     },
@@ -319,7 +319,6 @@
     },
     "RoadMap": {
       "title": "路线图",
-      "content": "--paragraph in Road Map---",
       "timeline": [
         {
           "title": "发想、研发",
@@ -650,7 +649,7 @@
       "email": "邮件地址",
       "addEmail": "增加邮件地址",
       "redeemCoin": "兑换 LikeCoin",
-      "redeemCode": "兑换码 (可选)",
+      "redeemCode": "兑换码",
       "validCodeRequired": "请输入有效兑换码",
       "verified": "成功验证",
       "verifying": "验证码已发送，请查邮箱",
