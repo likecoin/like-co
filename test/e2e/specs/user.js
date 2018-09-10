@@ -124,7 +124,7 @@ module.exports = {
     setAuthLocalStorage(browser, devServer, 'testacct', '0x7FCE12d55AcA8a55471CEd6cFd4548b49b0d1AB5');
 
     browser
-      .url(`${devServer}/${testUser}/${amount}`)
+      .url(`${devServer}/${testUser}/${amount}?referrer=https%3A%2F%2Fmedium.com%2Fmedia%2Fe6e99507986506dc7b413b8968912977%3FpostId%3Ddf585d37b43a`)
       .waitForElementVisible('.address-container', 5000)
       .verify.containsText('.address-container', testUser)
       .submitForm('#paymentInfo')
@@ -145,6 +145,14 @@ module.exports = {
         this.switchWindow(originalWindow);
       })
       .waitForElementVisible('.tx-dialog', 5000)
+      .waitForElementVisible('button.md-button.md-likecoin.lc-secondary', 5000)
+      .click('button.md-button.md-likecoin.lc-secondary')
+      .pause(3000)
+      .refresh()
+      .waitForElementVisible('div.remark', 5000)
+      .verify.containsText('div.remark', '@LikeCoin Widget: https://medium.com/p/df585d37b43a')
+      .waitForElementVisible('div.source-url > a', 5000)
+      .verify.containsText('div.source-url > a', 'https://medium.com/p/df585d37b43a')
       .end();
   },
 

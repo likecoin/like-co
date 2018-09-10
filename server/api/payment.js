@@ -14,6 +14,8 @@ import { web3, sendTransactionWithLoop } from '../util/web3';
 import { jwtAuth } from '../util/jwt';
 import publisher from '../util/gcloudPub';
 
+const { URL } = require('url');
+
 const LIKECOIN = require('../../constant/contract/likecoin');
 const {
   txCollection: txLogRef,
@@ -150,9 +152,17 @@ router.post('/payment', async (req, res, next) => {
 
     /* temp hack to handle medium referrer */
     if (httpReferrer) {
-      const match = (decodeURIComponent(httpReferrer) || '').match(MEDIUM_REGEX);
+      let targetURL = httpReferrer;
+      const match = (decodeURIComponent(targetURL) || '').match(MEDIUM_REGEX);
       if (match && match[1]) {
-        txRecord.remarks = `@LikeCoin Widget: https://medium.com/p/${match[1]}`;
+        targetURL = `https://medium.com/p/${match[1]}`;
+        txRecord.remarks = `@LikeCoin Widget: ${targetURL}`;
+      }
+      try {
+        new URL(targetURL); // eslint-disable-line
+        txRecord.httpReferrer = targetURL;
+      } catch (err) {
+        // no op
       }
     }
 
