@@ -89,7 +89,9 @@ router.get('/social/list/:id/details', jwtAuth, async (req, res, next) => {
     const replyObj = {
       platforms: {},
       links: {},
-      meta: {},
+      meta: {
+        displaySocialMediaOption: DISPLAY_SOCIAL_MEDIA_OPTIONS[0],
+      },
     };
 
     const linkOrderMap = getLinkOrderMap(col);
