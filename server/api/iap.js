@@ -8,8 +8,10 @@ import { ValidationError } from '../../util/ValidationHelper';
 import { jwtAuth, jwtOptionalAuth } from '../util/jwt';
 
 const {
+  db,
   iapCollection: iapRef,
   userCollection: dbRef,
+  pendingSubscrptionCollection: subRef,
 } = require('../util/firebase');
 
 const {
@@ -134,10 +136,11 @@ router.post('/iap/subscription/donation', jwtOptionalAuth, async (req, res, next
 
     if (user) {
       const userRef = dbRef.doc(user);
-      const userDoc = await userRef.get();
+      const [userDoc, stripeDoc] = await Promise.all([
+        userRef.get(),
+        userRef.collection('subscription').doc('stripe').get(),
+      ]);
       if (!userDoc.exists) throw new ValidationError('Invalid user');
-
-      const stripeDoc = await userRef.collection('subscription').doc('stripe').get();
       if (stripeDoc.exists && stripeDoc.data().customerId) {
         ({ customerId } = stripeDoc.data());
       }
@@ -167,33 +170,44 @@ router.post('/iap/subscription/donation', jwtOptionalAuth, async (req, res, next
       customer: customerId,
       items: [{ plan: planId }],
     });
-    const subscriptionId = subscription.id;
 
+    const currentTime = Date.now();
+    const subscriptionId = subscription.id;
+    const stripePayload = {
+      customerId,
+      subscriptionId,
+      planId,
+      email: token.email,
+      ts: currentTime,
+    };
+
+    const subIdRef = subRef.doc(subscriptionId);
     if (user) {
       const userRef = dbRef.doc(user);
-      await userRef.collection('subscription').doc('stripe').set({
-        customerId,
-        subscriptionId,
-        planId,
-        email: token.email,
-        ts: Date.now(),
-      }, { merge: true });
-
       const currentPeriodEnd = subscription.current_period_end * 1000;
       const currentPeriodStart = subscription.current_period_start * 1000;
-
-      await userRef.collection('subscription').doc('likecoin').set({
+      const isSubscribed = (currentTime > currentPeriodStart && currentTime < currentPeriodEnd);
+      const likecoinPayload = {
         currentPeriodEnd,
         currentPeriodStart,
         isCanceled: false,
-        isSubscribed: true,
+        isSubscribed,
+      };
+      const batch = db.batch();
+      batch.set(userRef.collection('subscription').doc('likecoin'), likecoinPayload, { merge: true });
+      batch.set(userRef.collection('subscription').doc('stripe'), stripePayload, { merge: true });
+      batch.update(userRef, { isSubscribed });
+      batch.set(subIdRef, {
+        stripe: stripePayload,
+        isClaimed: true,
+        user,
       }, { merge: true });
-      const currentTime = Date.now();
-      if (currentTime > currentPeriodStart && currentTime < currentPeriodEnd) {
-        await userRef.set({ isSubscribed: true }, { merge: true });
-      }
+      await batch.commit();
     } else {
-      // TODO guest claim
+      await subIdRef.set({
+        stripe: stripePayload,
+        isClaimed: false,
+      }, { merge: true });
     }
 
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
@@ -205,9 +219,7 @@ router.post('/iap/subscription/donation', jwtOptionalAuth, async (req, res, next
       planId,
     });
 
-    res.json({
-      subscriptionId,
-    });
+    res.json({});
   } catch (err) {
     console.error(err);
     next(err);
@@ -262,10 +274,89 @@ router.delete('/iap/subscription/donation', jwtAuth, async (req, res, next) => {
       planId,
     });
 
-    res.json({
-      subscriptionId,
-    });
+    res.json({});
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
 
+router.post('/iap/subscription/claim', jwtOptionalAuth, async (req, res, next) => {
+  try {
+    const {
+      subscriptionId,
+      user,
+    } = req.body;
+
+    if (user && req.user.user !== user) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
+
+    const subIdRef = await subRef.doc(subscriptionId);
+    const userRef = dbRef.doc(user);
+    const userSubRef = userRef.collection('subscription').doc('likecoin');
+
+    const [subDoc, userDoc, userSubDoc] = await Promise.all([
+      subIdRef.get(),
+      userRef.get(),
+      userSubRef.get(),
+    ]);
+    if (!subDoc.exists) {
+      res.status(404).send('SUBSCRIPTION_NOT_FOUND');
+      return;
+    }
+    if (subDoc.data().isClaimed) {
+      res.status(400).send('SUBSCRIPTION_ALREADY_CLAIMED');
+      return;
+    }
+    if (!userDoc.exists) {
+      res.status(404).send('USER_NOT_FOUND');
+      return;
+    }
+    if (userSubDoc.exists && userSubDoc.data().isSubscribed && !userSubDoc.isCanceled) {
+      res.status(400).send('USER_ALREADY_HAS_ACTIVE_SUB');
+      return;
+    }
+
+    await db.runTransaction(t => t.get(subIdRef).then((d) => {
+      if (d.data().isClaimed) return Promise.reject(new Error('SUBSCRIPTION_ALREADY_CLAIMED'));
+      return t.update(subIdRef, {
+        isClaimed: true,
+        user,
+      });
+    }));
+
+    const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+    const currentTime = Date.now();
+    const currentPeriodEnd = subscription.current_period_end * 1000;
+    const currentPeriodStart = subscription.current_period_start * 1000;
+    const isSubscribed = (currentTime > currentPeriodStart && currentTime < currentPeriodEnd);
+    const likecoinPayload = {
+      currentPeriodEnd,
+      currentPeriodStart,
+      isCanceled: false,
+      isSubscribed,
+    };
+
+    const {
+      customerId,
+      planId,
+    } = subDoc.data().stripe;
+
+    const batch = db.batch();
+    batch.set(userRef.collection('subscription').doc('stripe'), subDoc.data().stripe, { merge: true });
+    batch.set(userRef.collection('subscription').doc('likecoin'), likecoinPayload, { merge: true });
+    await batch.commit();
+
+    publisher.publish(PUBSUB_TOPIC_MISC, req, {
+      logType: 'eventStripeClaimSubscription',
+      user,
+      customerId,
+      subscriptionId,
+      planId,
+    });
+    res.json({});
   } catch (err) {
     console.error(err);
     next(err);
