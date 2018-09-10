@@ -31,9 +31,11 @@ function getLinkOrderMap(socialCol) {
   socialCol.docs.forEach((doc) => {
     if (doc.id === 'meta') {
       const { externalLinkOrder } = doc.data();
-      externalLinkOrder.forEach((id, index) => {
-        linkOrderMap[id] = index;
-      });
+      if (externalLinkOrder) {
+        externalLinkOrder.forEach((id, index) => {
+          linkOrderMap[id] = index;
+        });
+      }
     }
   });
   return linkOrderMap;
@@ -172,7 +174,9 @@ router.patch('/social/public', jwtAuth, async (req, res, next) => {
 
     if (DISPLAY_SOCIAL_MEDIA_OPTIONS.includes(displaySocialMediaOption)) {
       promises.push(
-        dbRef.doc(user).collection('social').doc('meta').update({ displaySocialMediaOption }),
+        dbRef.doc(user).collection('social').doc('meta').set({
+          displaySocialMediaOption,
+        }, { merge: true }),
       );
     }
 
