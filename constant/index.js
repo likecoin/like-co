@@ -17,7 +17,11 @@ export const ETH_NETWORK_NAME = IS_TESTNET ? 'rinkeby' : 'mainnet';
 
 export const CONFIRMATION_NEEDED = 6;
 
-export const W3C_EMAIL_REGEX = IS_TESTNET ? '.*' : '^[a-zA-Z0-9.!#$%&\'*/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$';
+export const EMAIL_REGEX = '^[a-zA-Z0-9.!#$%&\'*/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$';
+export const W3C_EMAIL_REGEX = IS_TESTNET ? '.*' : EMAIL_REGEX;
+
+/* TEMP: reformat medium referrer into medium post */
+export const MEDIUM_REGEX = /^(?:https?:\/\/)?[^/]*\/media\/[a-zA-Z0-9_]+(?:\?postId=([a-zA-Z0-9_]+))?/;
 
 export const PUBSUB_TOPIC_MISC = 'misc';
 
@@ -83,6 +87,45 @@ export const EXTRA_EMAIL_BLACLIST = [
   'tutye.com',
 ];
 
-export const QRYPTOS_LIKEETH_URL = 'https://trade.qryptos.com/basic/LIKEETH';
+export const LIQUID_LIKEETH_URL = 'https://app.liquid.com/exchange/LIKEETH';
+export const WORDPRESS_PLUGIN_URL = 'https://wordpress.org/plugins/likecoin/';
+export const OICE_URL = 'https://oice.com';
 
 export const EXTERNAL_HOSTNAME = IS_TESTNET ? 'rinkeby.like.co' : 'like.co';
+
+export const SOCIAL_MEDIA_LIST = [
+  {
+    id: 'likecoin',
+    tier: 0,
+  },
+  {
+    id: 'facebook',
+    tier: 1,
+  },
+  {
+    id: 'flickr',
+    tier: 1,
+  },
+  {
+    id: 'medium',
+    tier: 1,
+  },
+  {
+    id: 'twitter',
+    tier: 1,
+  },
+  /*
+  {
+    id: 'instagram',
+    tier: 1,
+  },
+  */
+];
+
+export const LINK_ICON_TYPES = ['profile', 'blog', 'photo', 'mail', 'contact', 'link'];
+
+export const DISPLAY_SOCIAL_MEDIA_OPTIONS = [
+  'all', // default
+  'wp',
+  'medium',
+];

@@ -32,6 +32,11 @@ function docUpdate(obj, updateData) {
   return global.Promise.resolve();
 }
 
+function docDelete(data, { id }) {
+  const index = data.findIndex(obj => obj.id === id);
+  data.splice(index, 1);
+}
+
 function docSet(data, id, setData, config) {
   if (Object.values(setData).some(v => typeof v === 'undefined')) {
     throw new Error('Some value is undefined.');
@@ -126,6 +131,12 @@ function collectionDoc(data, id) {
         return docUpdate(obj, updateData);
       }
       throw new Error('Doc not exists for update.');
+    },
+    delete: () => {
+      if (obj) {
+        return docDelete(data, obj);
+      }
+      throw new Error('Doc not exists for deletion.');
     },
     collection: (collectionId) => {
       if (!obj.collection[collectionId]) {

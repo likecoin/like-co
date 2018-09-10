@@ -323,7 +323,6 @@
         },
         "RoadMap": {
             "title": "Feuille de route",
-            "content": "--paragraphe dans la Feuille de route---",
             "timeline": [
                 {
                     "title": "Brainstorming, R-D",
@@ -664,7 +663,7 @@
             "email": "Votre e-mail",
             "addEmail": "Ajouter une adresse e-mail",
             "redeemCoin": "Encaisser des LikeCoin",
-            "redeemCode": "Échanger un code (facultatif)",
+            "redeemCode": "Échanger un code",
             "validCodeRequired": "Veuillez entrer un code de coupon valide",
             "verified": "Vérifié(e)",
             "verifying": "E-mail de vérification envoyé, veuillez consulter votre boîte de réception !",

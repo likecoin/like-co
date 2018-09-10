@@ -149,7 +149,6 @@
               </span>
               <span
                 :class="[
-                  'profile-setting-page__account-connection-detail',
                   'lc-margin-top-8',
                   'lc-color-gray-9b'
                 ]"
@@ -157,15 +156,85 @@
                 {{ $t('Settings.label.accountConnection') }}
               </span>
             </div>
+
             <social-media-connect
               :platforms="getUserSocialPlatforms"
               :username="getUserInfo.user"
               type="large"
               @disconnect="onClickSocialMediaDisconnect"
             />
+
+            <external-links-panel
+              class="lc-margin-top-40"
+            />
           </div>
         </div>
       </div>
+    </div>
+
+    <div
+      id="coupon"
+      class="lc-container-0 lc-margin-top-48 lc-mobile"
+    >
+      <section class="lc-container-1">
+
+        <div class="lc-container-header">
+          <div class="lc-container-2 lc-container-header-overlay">
+            <div class="lc-container-3 lc-bg-gray-1" />
+          </div>
+          <div class="lc-container-2">
+            <div class="lc-container-3">
+              <div class="lc-container-4">
+                <div class="lc-container-header-title">
+                  <h1 class="lc-font-size-32 lc-mobile">
+                    {{ $t('Edit.label.redeemCoin') }}
+                  </h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lc-container-2">
+          <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-32">
+            <div class="lc-container-4">
+              <form
+                id="redeemForm"
+                @submit.prevent="onSubmitCoupon"
+              >
+                <div class="redeem-form__input-container">
+                  <md-field>
+                    <label class="lc-font-size-20">
+                      {{ $t('Edit.label.redeemCode') }}
+                    </label>
+                    <md-input
+                      v-model="couponCode"
+                      v-bind="getTestAttribute('redeemFormInput')"
+                      :title="$t('Edit.label.validCodeRequired')"
+                      pattern="[2-9A-HJ-NP-Za-km-z]{8}"
+                      required
+                    />
+                  </md-field>
+                  <md-button
+                    v-bind="getTestAttribute('redeemFormConfirmBtn')"
+                    :disabled="getIsInTransaction"
+                    class="md-likecoin"
+                    type="submit"
+                    form="redeemForm"
+                  >
+                    {{ $t('General.button.confirm') }}
+                  </md-button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+      <claim-dialog
+        ref="claimDialog"
+        :couponCode="couponCode"
+        :wallet="getUserInfo.wallet"
+      />
     </div>
   </div>
 </template>
@@ -181,6 +250,8 @@ import {
 } from '@/constant';
 import getTestAttribute from '@/util/test';
 
+import ClaimDialog from '~/components/dialogs/ClaimDialog';
+import ExternalLinksPanel from '~/components/settings/ExternalLinksPanel';
 import SocialMediaConnect from '~/components/SocialMediaConnect';
 
 import TickIcon from '@/assets/tokensale/tick.svg';
@@ -188,12 +259,15 @@ import TickIcon from '@/assets/tokensale/tick.svg';
 export default {
   name: 'settings-index',
   components: {
+    ClaimDialog,
+    ExternalLinksPanel,
     SocialMediaConnect,
   },
   data() {
     return {
       avatar: '',
       avatarFile: null,
+      couponCode: '',
       displayName: '',
       email: '',
       hasCopiedReceiveLikeCoinLink: false,
@@ -212,6 +286,7 @@ export default {
       'getUserNeedAuth',
       'getUserNeedRegister',
       'getUserSocialPlatforms',
+      'getIsInTransaction',
     ]),
     disabled() {
       return this.isLoading || !(this.getUserIsReady && this.getUserIsRegistered);
@@ -260,7 +335,6 @@ export default {
   },
   methods: {
     ...mapActions([
-      'fetchSocialListDetailsById',
       'loginUser',
       'newUser',
       'refreshUserInfo',
@@ -276,8 +350,6 @@ export default {
       this.avatar = user.avatar;
       this.displayName = user.displayName;
       this.email = user.email;
-
-      this.fetchSocialListDetailsById(user.user);
     },
     async onSubmit() {
       if (this.hasUserDetailsChanged) {
@@ -336,6 +408,13 @@ export default {
           user: this.getUserInfo.user,
         },
       });
+    },
+    async onSubmitCoupon() {
+      try {
+        await this.$refs.claimDialog.onSubmit();
+      } catch (err) {
+        console.error(err);
+      }
     },
     getTestAttribute: getTestAttribute('inSettings'),
   },
@@ -503,10 +582,6 @@ export default {
     }
   }
 
-  &__account-connection-detail {
-    max-width: 416px;
-  }
-
   &__social {
     :global(ul) {
       flex: 1;
@@ -519,6 +594,16 @@ export default {
     @media (max-width: 768px) {
       text-align: center;
     }
+  }
+}
+
+.redeem-form__input-container {
+  display: flex;
+
+  .md-button {
+    max-height: 40px;
+    margin-top: 12px;
+    margin-left: 24px;
   }
 }
 </style>

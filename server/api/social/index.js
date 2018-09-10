@@ -1,6 +1,9 @@
 import { Router } from 'express';
 
-import { PUBSUB_TOPIC_MISC } from '../../../constant';
+import {
+  PUBSUB_TOPIC_MISC,
+  DISPLAY_SOCIAL_MEDIA_OPTIONS,
+} from '../../../constant';
 import publisher from '../../util/gcloudPub';
 import { jwtAuth } from '../../util/jwt';
 import { ValidationHelper as Validate, ValidationError } from '../../../util/ValidationHelper';
@@ -10,6 +13,7 @@ import flickr from './flickr';
 import medium from './medium';
 import twitter from './twitter';
 import instagram from './instagram';
+import link from './link';
 
 const { userCollection: dbRef } = require('../../util/firebase');
 
@@ -20,17 +24,54 @@ router.use(flickr);
 router.use(medium);
 router.use(twitter);
 router.use(instagram);
+router.use(link);
+
+function getLinkOrderMap(socialCol) {
+  const linkOrderMap = {};
+  socialCol.docs.forEach((doc) => {
+    if (doc.id === 'meta') {
+      const { externalLinkOrder } = doc.data();
+      externalLinkOrder.forEach((id, index) => {
+        linkOrderMap[id] = index;
+      });
+    }
+  });
+  return linkOrderMap;
+}
 
 router.get('/social/list/:id', async (req, res, next) => {
   try {
     const username = req.params.id;
+    const { type } = req.query;
+
     const col = await dbRef.doc(username).collection('social').get();
+
+    const linkOrderMap = getLinkOrderMap(col);
     const replyObj = {};
+    let displaySocialMediaOption = DISPLAY_SOCIAL_MEDIA_OPTIONS[0];
     col.docs.forEach((d) => {
-      const { isLinked } = d.data();
-      if (isLinked) replyObj[d.id] = Validate.filterSocialPlatformPublic({ ...d.data() });
+      if (d.id === 'meta') {
+        const { displaySocialMediaOption: option } = d.data();
+        if (option) displaySocialMediaOption = option;
+      }
+
+      const { isLinked, isPublic, isExternalLink } = d.data();
+      if ((isLinked || isExternalLink) && isPublic !== false) {
+        replyObj[d.id] = Validate.filterSocialPlatformPublic({ ...d.data() });
+        if (isExternalLink) replyObj[d.id].order = linkOrderMap[d.id];
+      }
     });
-    res.json(replyObj);
+
+    const shouldShowList = (
+      !type
+      || displaySocialMediaOption === 'all'
+      || displaySocialMediaOption === type
+    );
+    if (shouldShowList) {
+      res.json(replyObj);
+    } else {
+      res.json({});
+    }
   } catch (err) {
     next(err);
   }
@@ -44,13 +85,26 @@ router.get('/social/list/:id/details', jwtAuth, async (req, res, next) => {
       return;
     }
 
-    const replyObj = {};
+    const col = await dbRef.doc(username).collection('social').get();
+    const replyObj = {
+      platforms: {},
+      links: {},
+      meta: {},
+    };
 
-    const facebookDoc = await dbRef.doc(username).collection('social').doc('facebook').get();
-    const facebookData = facebookDoc.data();
-    if (facebookData) {
-      replyObj.facebook = Validate.filterSocialPlatformPersonal({ ...facebookData });
-    }
+    const linkOrderMap = getLinkOrderMap(col);
+    col.docs.forEach((d) => {
+      const { isLinked, isExternalLink } = d.data();
+      if (isLinked) {
+        replyObj.platforms[d.id] = Validate.filterSocialPlatformPersonal({ ...d.data() });
+      } else if (isExternalLink) {
+        replyObj.links[d.id] = Validate.filterSocialLinksPersonal({ ...d.data() });
+        replyObj.links[d.id].order = linkOrderMap[d.id];
+      }
+      if (d.id === 'meta') {
+        replyObj.meta = Validate.filterSocialLinksMeta({ ...d.data() });
+      }
+    });
 
     res.json(replyObj);
   } catch (err) {
@@ -92,6 +146,37 @@ router.post('/social/unlink/:platform', jwtAuth, async (req, res, next) => {
       locale,
       registerTime: timestamp,
     });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.patch('/social/public', jwtAuth, async (req, res, next) => {
+  try {
+    const {
+      user,
+      platforms = {},
+      displaySocialMediaOption,
+    } = req.body;
+    if (req.user.user !== user) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
+
+    const promises = Object.keys(platforms).map((id) => {
+      const userReferralRef = dbRef.doc(user).collection('social').doc(id);
+      return userReferralRef.update({ isPublic: platforms[id] });
+    });
+
+    if (DISPLAY_SOCIAL_MEDIA_OPTIONS.includes(displaySocialMediaOption)) {
+      promises.push(
+        dbRef.doc(user).collection('social').doc('meta').update({ displaySocialMediaOption }),
+      );
+    }
+
+    await Promise.all(promises);
+
+    res.sendStatus(200);
   } catch (err) {
     next(err);
   }

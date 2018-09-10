@@ -15,7 +15,7 @@
 
     <div
       v-if="usdStrValue"
-      class="account-overview__account lc-padding-bottom-16"
+      class="account-overview__account lc-padding-bottom-32"
     >
       <div class="account-overview__like-amount">
         <span class="lc-font-size-38 lc-font-weight-300 lc-color-like-gray-5">
@@ -27,29 +27,33 @@
       </div>
     </div>
 
-    <!-- <div class="lc-text-align-center">
-      <md-button
-        :href="QRYPTOS_LIKEETH_URL"
-        class="md-likecoin lc-secondary lc-font-size-18 lc-font-weight-600"
+    <div class="account-overview__cta-wrapper lc-text-align-center">
+      <div @click="closeSlidingMenu">
+        <md-button
+          :to="{ 'name': 'in-settings-button' }"
+          class="md-likecoin lc-secondary lc-font-size-18 lc-font-weight-600"
+        >{{ $t('Home.Sale.button.earnCoin') }}</md-button>
+      </div>
+      <a
+        :href="LIQUID_LIKEETH_URL"
+        class="lc-underline lc-margin-top-12"
         rel="noopener noreferrer"
         target="_blank"
-      >
-        {{ $t('Home.Sale.button.buyCoin') }}
-      </md-button>
-    </div> -->
+      >{{ $t('Home.Sale.button.tradeAtLiquid') }}</a>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-import { QRYPTOS_LIKEETH_URL } from '@/constant';
+import { LIQUID_LIKEETH_URL } from '@/constant';
 
 export default {
   name: 'account-overview',
   data() {
     return {
-      QRYPTOS_LIKEETH_URL,
+      LIQUID_LIKEETH_URL,
     };
   },
   computed: {
@@ -88,6 +92,7 @@ export default {
   },
   methods: {
     ...mapActions([
+      'closeSlidingMenu',
       'queryLikeCoinUsdPrice',
       'queryLikeCoinWalletBalance',
     ]),
@@ -98,8 +103,9 @@ export default {
 
 <style lang="scss" scoped>
 @import "~assets/variables";
-
 .account-overview {
+  position: relative;
+
   background-image: linear-gradient(221deg, #d2f0f0, #f0e6b4);
 
   &__user {
@@ -170,8 +176,6 @@ export default {
   }
 
   .md-likecoin {
-    bottom: -18px;
-
     align-self: center;
 
     min-width: 188px;
@@ -182,6 +186,16 @@ export default {
     :global(.md-ripple) {
       min-height: 36px;
     }
+  }
+
+  &__cta-wrapper {
+    position: absolute;
+    bottom: -50px;
+
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
   }
 }
 </style>

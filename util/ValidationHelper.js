@@ -1,4 +1,7 @@
-import { GETTING_STARTED_TASKS } from '../constant';
+import {
+  GETTING_STARTED_TASKS,
+  DISPLAY_SOCIAL_MEDIA_OPTIONS,
+} from '../constant';
 
 export const ValidationHelper = {
   checkAddressValid(addr) {
@@ -137,18 +140,56 @@ export const ValidationHelper = {
   filterSocialPlatformPersonal({
     userId,
     pages,
+    displayName,
+    url,
+    isPublic,
   }) {
-    const data = { id: userId };
+    const data = {
+      displayName,
+      id: userId,
+      isPublic: isPublic !== false,
+      url,
+    };
     if (pages) data.pages = pages;
     return data;
   },
+  filterSocialLinksPersonal({
+    iconType,
+    isPublic = true,
+    order,
+    siteDisplayName,
+    url,
+  }) {
+    return {
+      iconType,
+      isPublic,
+      order,
+      siteDisplayName,
+      url,
+    };
+  },
   filterSocialPlatformPublic({
     displayName,
+    iconType,
+    isExternalLink,
+    order,
+    siteDisplayName,
     url,
   }) {
     return {
       displayName,
+      iconType,
+      isExternalLink,
+      order,
+      siteDisplayName,
       url,
+    };
+  },
+  filterSocialLinksMeta({
+    displaySocialMediaOption = DISPLAY_SOCIAL_MEDIA_OPTIONS[0],
+  }) {
+    return {
+      displaySocialMediaOption,
     };
   },
 };

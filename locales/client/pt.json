@@ -323,7 +323,6 @@
         },
         "RoadMap": {
             "title": "Roadmap",
-            "content": "--- parágrafo no Roadmap ---",
             "timeline": [
                 {
                     "title": "Brainstorming, P&D",
@@ -664,7 +663,7 @@
             "email": "Seu E-mail",
             "addEmail": "Adicionar endereço de e-mail",
             "redeemCoin": "Resgatar LikeCoin",
-            "redeemCode": "Código de Resgate (opcional)",
+            "redeemCode": "Código de Resgate",
             "validCodeRequired": "Insira um código de cupom válido",
             "verified": "Verificado",
             "verifying": "Verificação enviada, consulte sua caixa de entrada!",

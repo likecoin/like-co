@@ -13,6 +13,9 @@ import {
   USER_UNLINK_SOCIAL,
   USER_SET_LIKECOIN_BIG_NUMBER_AMOUNT,
   USER_SELECT_FACEBOOK_PAGE_LINK,
+  USER_SET_SOCIAL_PLATFORMS_IS_PUBLIC,
+  USER_ADD_SOCIAL_LINK,
+  USER_SET_SOCIAL_LINK,
 } from '../mutation-types';
 import * as actions from './actions/user';
 import * as getters from './getters/user';
@@ -24,6 +27,8 @@ const state = {
   isAwaitingAuth: false,
   web3Fetching: true,
   platforms: {},
+  links: {},
+  socialMeta: {},
   likeCoinAmountInBigNumber: null,
 };
 
@@ -46,13 +51,10 @@ const mutations = {
   [USER_SET_SOCIAL](state, platforms) {
     state.platforms = platforms;
   },
-  [USER_SET_SOCIAL_DETAILS](state, platforms) {
-    Object.keys(platforms).forEach((p) => {
-      Vue.set(state.platforms, p, {
-        ...state.platforms[p],
-        ...platforms[p],
-      });
-    });
+  [USER_SET_SOCIAL_DETAILS](state, { links, meta, platforms }) {
+    state.platforms = platforms;
+    state.links = links;
+    state.socialMeta = meta;
   },
   [USER_LINK_SOCIAL](state, payload) {
     const {
@@ -63,13 +65,65 @@ const mutations = {
     });
   },
   [USER_UNLINK_SOCIAL](state, payload) {
-    Vue.set(state.platforms, payload, undefined);
+    if (state.links[payload]) {
+      Vue.delete(state.links, payload);
+    } else {
+      Vue.delete(state.platforms, payload);
+    }
   },
   [USER_SELECT_FACEBOOK_PAGE_LINK](state, payload) {
     if (payload) {
       Vue.set(state.platforms, 'facebook', {
         ...state.platforms.facebook,
         url: payload,
+      });
+    }
+  },
+  [USER_SET_SOCIAL_PLATFORMS_IS_PUBLIC](state, { platforms = {}, displaySocialMediaOption }) {
+    Object.keys(platforms).forEach((id) => {
+      if (state.platforms[id]) {
+        Vue.set(state.platforms, id, {
+          ...state.platforms[id],
+          isPublic: platforms[id],
+        });
+      } else {
+        Vue.set(state.links, id, {
+          ...state.links[id],
+          isPublic: platforms[id],
+        });
+      }
+    });
+
+    Vue.set(state.socialMeta, 'displaySocialMediaOption', displaySocialMediaOption);
+  },
+  [USER_ADD_SOCIAL_LINK](state, { id, ...data }) {
+    Vue.set(state.links, id, data);
+  },
+  [USER_SET_SOCIAL_LINK](state, { id, ...data }) {
+    if (data.order !== undefined) {
+      const links = { ...state.links };
+      const oldOrder = state.links[id].order;
+      if (oldOrder > data.order) {
+        Object.keys(links).forEach((id) => {
+          const l = links[id];
+          if (l.order >= data.order && l.order < oldOrder) {
+            l.order += 1;
+          }
+        });
+      } else {
+        Object.keys(links).forEach((id) => {
+          const l = links[id];
+          if (l.order > oldOrder && l.order <= data.order) {
+            l.order -= 1;
+          }
+        });
+      }
+      links[id].order = data.order;
+      state.links = links;
+    } else {
+      Vue.set(state.links, id, {
+        ...state.links[id],
+        ...data,
       });
     }
   },

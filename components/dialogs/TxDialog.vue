@@ -50,14 +50,14 @@
       class="lc-dialog-container-1"
     >
       <div class="lc-button-group">
-        <!-- <md-button
-          :href="QRYPTOS_LIKEETH_URL"
+        <md-button
+          :href="LIQUID_LIKEETH_URL"
           class="md-likecoin"
           target="_blank"
           rel="noopener noreferrer"
         >
           {{ $t('Dialog.transaction.button.trade') }}
-        </md-button> -->
+        </md-button>
         <nuxt-link :to="actionRoute">
           <md-button
             class="md-likecoin lc-secondary"
@@ -77,7 +77,7 @@
 import BaseDialog from '~/components/dialogs/BaseDialog';
 import CheckIcon from '~/components/Mission/StateIcon';
 
-import { QRYPTOS_LIKEETH_URL } from '@/constant';
+import { LIQUID_LIKEETH_URL } from '@/constant';
 
 export default {
   name: 'tx-dialog',
@@ -113,7 +113,7 @@ export default {
   },
   data() {
     return {
-      QRYPTOS_LIKEETH_URL,
+      LIQUID_LIKEETH_URL,
     };
   },
   computed: {

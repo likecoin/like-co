@@ -3,6 +3,7 @@ import { Router } from 'express';
 import BigNumber from 'bignumber.js';
 
 import {
+  MEDIUM_REGEX,
   ONE_LIKE,
   PUBSUB_TOPIC_MISC,
   TRANSACTION_QUERY_LIMIT,
@@ -24,9 +25,6 @@ const {
 const router = Router();
 
 const LikeCoin = new web3.eth.Contract(LIKECOIN.LIKE_COIN_ABI, LIKECOIN.LIKE_COIN_ADDRESS);
-
-/* temp hack to handle medium referrer */
-const mediumRegEx = /^(?:https?:\/\/)?[^/]*\/media\/[a-zA-Z0-9_]+(?:\?postId=([a-zA-Z0-9_]+))?/;
 
 router.post('/payment', async (req, res, next) => {
   try {
@@ -155,7 +153,7 @@ router.post('/payment', async (req, res, next) => {
     /* temp hack to handle medium referrer */
     if (httpReferrer) {
       let targetURL = httpReferrer;
-      const match = (decodeURIComponent(targetURL) || '').match(mediumRegEx);
+      const match = (decodeURIComponent(targetURL) || '').match(MEDIUM_REGEX);
       if (match && match[1]) {
         targetURL = `https://medium.com/p/${match[1]}`;
         txRecord.remarks = `@LikeCoin Widget: ${targetURL}`;

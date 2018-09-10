@@ -44,7 +44,7 @@
                 <nuxt-link
                   :to="{ name: 'in-settings' }"
                   v-bind="getTestAttribute('userDisplayName')"
-                  class="lc-color-like-dark-brown-1"
+                  class="lc-color-like-dark-brown-1 lc-text-align-center"
                 >
                   {{ displayName }}
                 </nuxt-link>
@@ -66,10 +66,10 @@
 
       <like-coin-amount
         :value="likeCoinValueStr"
+        :linkText="$t('Home.Sale.button.earnCoin')"
+        :linkTo="{ name: 'in-settings-button' }"
         class="likecoin-amount-section"
       />
-      <!-- :linkText="$t('Home.Sale.button.tradeAtQRYPTOS')"
-      :linkHref="QRYPTOS_LIKEETH_URL" -->
 
       <input-dialog
         ref="inputDialog"
@@ -165,7 +165,6 @@ import getTestAttribute from '@/util/test';
 
 import {
   W3C_EMAIL_REGEX,
-  QRYPTOS_LIKEETH_URL,
   EXTERNAL_HOSTNAME,
 } from '@/constant';
 
@@ -197,7 +196,6 @@ export default {
       user: '',
       wallet: '',
       hasCopiedReceiveLikeCoinLink: false,
-      QRYPTOS_LIKEETH_URL,
     };
   },
   computed: {
@@ -371,6 +369,12 @@ $profile-icon-mobile-size: 88px;
     display: flex;
     flex-direction: column;
 
+    width: 100%;
+
+    @media (min-width: 768px + 1px) {
+      width: 2 / 3 * 100%;
+    }
+
     .address-title {
       color: $like-dark-brown-1;
     }
@@ -427,10 +431,6 @@ $profile-icon-mobile-size: 88px;
   justify-content: space-between;
 
   width: 100%;
-
-  @media (min-width: 600px + 1px) {
-    width: 66.6%;
-  }
 
   a {
     word-wrap: break-word;

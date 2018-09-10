@@ -29,6 +29,22 @@
                         "type": "mission-gettingStart",
                         "value": "3000000000000000000"
                     }
+                ],
+                "social": [
+                    {
+                        "id": "link0",
+                        "iconType": "profile",
+                        "siteDisplayName": "like.co",
+                        "url": "https://like.co",
+                        "isExternalLink": true,
+                        "isPublic": true
+                    },
+                    {
+                        "id": "meta",
+                        "externalLinkOrder": [
+                          "link0"
+                        ]
+                    }
                 ]
             }
         },

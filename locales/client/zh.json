@@ -274,7 +274,7 @@
         "joinTokenSale": "參與代幣發售",
         "aboutTokenSale": "關於代幣發售",
         "joinNow": "立即參與",
-        "tradeAtQRYPTOS": "在 QRYPTOS 交易",
+        "tradeAtLiquid": "在 Liquid 交易",
         "supportLikeCoin": "支持回饋創作運動"
       }
     },
@@ -658,7 +658,7 @@
       "email": "郵件地址",
       "addEmail": "增加郵件地址",
       "redeemCoin": "兌換 LikeCoin",
-      "redeemCode": "兌換碼 (可選)",
+      "redeemCode": "兌換碼",
       "validCodeRequired": "請輸入有效兌換碼",
       "verified": "成功驗證",
       "verifying": "驗證碼已發送，請查郵箱",
