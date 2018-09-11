@@ -28,9 +28,7 @@ const mutations = {
   },
   [STATIC_DATA_SET_LIKE_SUGGEST_LIST](state, { editorial = [], personal = [], mostLike = [] }) {
     const output = {};
-    let list = editorial.concat(personal).concat(mostLike);
-    const dedup = new Set();
-    list = list.filter(i => (dedup.has(i) ? false : dedup.add(i)));
+    const list = editorial.concat(personal).concat(mostLike);
     list.forEach((url) => {
       output[url] = { url };
     });
