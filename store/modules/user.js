@@ -94,7 +94,9 @@ const mutations = {
       }
     });
 
-    Vue.set(state.socialMeta, 'displaySocialMediaOption', displaySocialMediaOption);
+    if (displaySocialMediaOption) {
+      Vue.set(state.socialMeta, 'displaySocialMediaOption', displaySocialMediaOption);
+    }
   },
   [USER_ADD_SOCIAL_LINK](state, { id, ...data }) {
     Vue.set(state.links, id, data);
