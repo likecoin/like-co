@@ -18,7 +18,6 @@ function getToken(req) {
   if (req.cookies && req.cookies.likecoin_auth) {
     return req.cookies.likecoin_auth;
   }
-  throw new UnauthorizedError('credentials_required', { message: 'No authorization token was found' });
 }
 
 function setNoCacheHeader(res) {

@@ -97,22 +97,26 @@ export async function queryIAPProducts({ commit, dispatch }) {
   return apiWrapper({ commit, dispatch }, api.apiQueryIAPProducts());
 }
 
-export async function purchaseSubscription({ commit, dispatch }, { id, payload }) {
+export async function purchaseSubscription({ commit, dispatch }, payload) {
   return apiWrapper(
     { commit, dispatch },
-    api.apiPurchaseSubscription(id, payload),
+    api.apiPurchaseSubscription(payload),
     { blocking: true },
   );
 }
 
-export async function claimSubscription({ commit, dispatch }, { id, userId }) {
-  return apiWrapper({ commit, dispatch }, api.apiClaimSubscription(id, userId), { blocking: true });
-}
-
-export async function cancelSubscription({ commit, dispatch }, { id, payload }) {
+export async function claimSubscription({ commit, dispatch }, { subscriptionId, user }) {
   return apiWrapper(
     { commit, dispatch },
-    api.apiCancelSubscription(id, payload),
+    api.apiClaimSubscription({ subscriptionId, user }),
+    { blocking: true },
+  );
+}
+
+export async function cancelSubscription({ commit, dispatch }, userId) {
+  return apiWrapper(
+    { commit, dispatch },
+    api.apiCancelSubscription(userId),
     { blocking: true },
   );
 }

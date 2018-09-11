@@ -146,11 +146,11 @@ export const apiPurchaseIAP = (id, payload) => axios.post(`/api/iap/purchase/${i
 
 export const apiQueryIAPProducts = () => axios.get('/api/iap/list');
 
-export const apiPurchaseSubscription = (id, payload) => axios.post('/api/iap/subscription/donation', payload);
+export const apiPurchaseSubscription = payload => axios.post('/api/iap/subscription/donation', payload);
 
-export const apiCancelSubscription = (id, userId) => axios.delete(`/api/iap/subscription/donation/${userId}`);
+export const apiCancelSubscription = userId => axios.delete(`/api/iap/subscription/donation/${userId}`);
 
-export const apiClaimSubscription = (id, payload) => axios.post('/api/iap/subscription/claim', payload);
+export const apiClaimSubscription = payload => axios.post('/api/iap/subscription/claim', payload);
 
 export const apiQueryEthPrice = () => axios.get('https://api.coinmarketcap.com/v1/ticker/ethereum/?convert=USD');
 

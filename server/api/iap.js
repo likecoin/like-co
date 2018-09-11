@@ -129,6 +129,8 @@ router.post('/iap/subscription/donation', jwtOptionalAuth, async (req, res, next
       return;
     }
 
+    if (!token) res.status(400).send('MISSING TOKEN');
+
     if (!SUBSCRIPTION_PLAN_ID) throw new ValidationError('Subscription not configured');
 
     const planId = SUBSCRIPTION_PLAN_ID;
@@ -219,7 +221,7 @@ router.post('/iap/subscription/donation', jwtOptionalAuth, async (req, res, next
       planId,
     });
 
-    res.json({});
+    res.json({ subscriptionId });
   } catch (err) {
     console.error(err);
     next(err);
@@ -271,7 +273,7 @@ router.delete('/iap/subscription/donation/:user', jwtAuth, async (req, res, next
       planId,
     });
 
-    res.json({});
+    res.json({ subscriptionId });
   } catch (err) {
     console.error(err);
     next(err);
@@ -353,7 +355,7 @@ router.post('/iap/subscription/claim', jwtOptionalAuth, async (req, res, next) =
       subscriptionId,
       planId,
     });
-    res.json({});
+    res.json({ user, subscriptionId });
   } catch (err) {
     console.error(err);
     next(err);

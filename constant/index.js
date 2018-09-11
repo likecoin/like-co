@@ -52,24 +52,24 @@ export const TOKENSALE_SOFTCAP_ETH = new BigNumber(4200);
 
 export const BONUS_LOCK_UNTIL_DATE = moment.unix(1540267200);
 
+const ALL_ERRORS = ['web3', 'testnet', 'locked'];
 
 const toolbarsDisableError = {
-  'in-whitepaper': ['web3', 'testnet', 'locked'],
+  'in-whitepaper': ALL_ERRORS,
   'verify-uuid': ['web3', 'locked'],
   'in-tx-id': ['web3', 'locked'],
-  id: ['web3', 'testnet', 'locked'],
-  'in-embed-id-list': ['web3', 'testnet', 'locked'],
-  'id-amount': ['web3', 'testnet', 'locked'],
+  id: ALL_ERRORS,
+  'in-embed-id-list': ALL_ERRORS,
+  'id-amount': ALL_ERRORS,
   'claim-id-coupon': ['web3', 'locked'],
-  'in-backer': ['web3', 'testnet', 'locked'],
-  'in-policies': ['web3', 'testnet', 'locked'],
-  'in-policies-privacy': ['web3', 'testnet', 'locked'],
-  'in-policies-terms': ['web3', 'testnet', 'locked'],
+  'in-backer': ALL_ERRORS,
+  'in-policies': ALL_ERRORS,
+  'in-policies-privacy': ALL_ERRORS,
+  'in-policies-terms': ALL_ERRORS,
   'in-tokensale': ['web3', 'locked'],
   'in-tokensale-tx-id': ['web3', 'locked'],
-  'pay-merchantId': ['web3', 'testnet', 'locked'],
-  'pay-merchantId-amount': ['web3', 'testnet', 'locked'],
-  'ref-id': ['web3', 'testnet', 'locked'],
+  'pay-merchantId': ALL_ERRORS,
+  'pay-merchantId-amount': ALL_ERRORS,
 };
 export const getToolbarsDisableError = route => (toolbarsDisableError[route] || false);
 
