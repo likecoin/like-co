@@ -194,6 +194,21 @@ export const ValidationHelper = {
       displaySocialMediaOption,
     };
   },
+  filterUserSubscriptionInfo({
+    subscriptionId,
+    currentPeriodEnd,
+    currentPeriodStart,
+    isCanceled,
+    isSubscribed,
+  }) {
+    return {
+    subscriptionId,
+    currentPeriodEnd,
+    currentPeriodStart,
+    isCanceled,
+    isSubscribed,
+    };
+  },
 };
 
 export class ValidationError extends Error {

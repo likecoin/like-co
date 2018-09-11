@@ -148,6 +148,8 @@ export const apiQueryIAPProducts = () => axios.get('/api/iap/list');
 
 export const apiPurchaseSubscription = payload => axios.post('/api/iap/subscription/donation', payload);
 
+export const apiGetUserSubscriptionInfo = userId => axios.get(`/api/iap/subscription/donation/${userId}`);
+
 export const apiCancelSubscription = userId => axios.delete(`/api/iap/subscription/donation/${userId}`);
 
 export const apiClaimSubscription = payload => axios.post('/api/iap/subscription/claim', payload);

@@ -4,7 +4,7 @@ import { PUBSUB_TOPIC_MISC } from '../../constant';
 import publisher from '../util/gcloudPub';
 
 import stripe from '../util/stripe';
-import { ValidationError } from '../../util/ValidationHelper';
+import { ValidationHelper as Validate, ValidationError } from '../../util/ValidationHelper';
 import { jwtAuth, jwtOptionalAuth } from '../util/jwt';
 
 const {
@@ -222,6 +222,22 @@ router.post('/iap/subscription/donation', jwtOptionalAuth, async (req, res, next
     });
 
     res.json({ subscriptionId });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
+router.get('/iap/subscription/donation/:user', jwtAuth, async (req, res, next) => {
+  try {
+    const { user } = req.params;
+    const userRef = dbRef.doc(user);
+    const subDoc = await userRef.collection('subscription').doc('likecoin').get();
+    if (!subDoc.exists) {
+      res.status(404).send('SUBSCRIPTION_NOT_FOUND_C');
+      return;
+    }
+    res.json(Validate.filterUserSubscriptionInfo(subDoc.data()));
   } catch (err) {
     console.error(err);
     next(err);

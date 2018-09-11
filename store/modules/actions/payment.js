@@ -105,6 +105,13 @@ export async function purchaseSubscription({ commit, dispatch }, payload) {
   );
 }
 
+export async function fetchUserSubscriptionInfo({ commit, dispatch }, userId) {
+  return apiWrapper(
+    { commit, dispatch },
+    api.apiGetUserSubscriptionInfo(userId),
+  );
+}
+
 export async function claimSubscription({ commit, dispatch }, { subscriptionId, user }) {
   return apiWrapper(
     { commit, dispatch },
