@@ -478,6 +478,23 @@
         "faq": "常見問題",
         "faqLink": "https://help.like.co/likecoin-常見問題"
       }
+    },
+    "Banner": {
+      "label": {
+        "slogan": "化讚為賞",
+        "rewardPOC": "透過創造力證明回饋內容"
+      }
+    },
+    "ContentCivicsCTA": {
+      "button": {
+        "support": "我要支持"
+      }
+    },
+    "LikeButtonDemo": {
+      "label": {
+        "button": "LikeButton",
+        "description": "瀏覽支持 LikeButton 的網頁，只要點讚喜歡的內容，作者即能獲賞。"
+      }
     }
   },
   "Footer": {

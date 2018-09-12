@@ -487,6 +487,47 @@
         "faq": "FAQ",
         "faqLink": "https://help.like.co/likecoin-faq"
       }
+    },
+    "RewardStatistics": {
+      "label": {
+        "rewarded": "Rewarded",
+        "from": "from",
+        "to": "to",
+        "on": "on",
+        "readers": "Readers",
+        "creators": "Creators",
+        "contents": "Contents"
+      }
+    },
+    "Banner": {
+      "label": {
+        "slogan": "Reinventing the Like",
+        "rewardPOC": "Rewarding Contents by Proof of Creativity"
+      }
+    },
+    "ContentCivicsCTA": {
+      "title": "Content Civics",
+      "content": "This is content under Content Civics. The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog",
+      "button": {
+        "support": "Become a Content Civics"
+      }
+    },
+    "PlatformCoverage": {
+      "title": {
+        "seeOn": "See LikeCoin on:",
+        "buyOn": "Buy LikeCoin on:"
+      }
+    },
+    "LikeButtonDemo": {
+      "label": {
+        "button": "LikeButton",
+        "description": "Look for this LikeButton in LikeCoin Content. Creators will receive LIKE rewards if you appreciate it."
+      }
+    },
+    "Footer": {
+      "label": {
+        "join": "Join LikeCoin community for latest news and discussion"
+      }
     }
   },
   "Footer": {

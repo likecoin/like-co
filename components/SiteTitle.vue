@@ -5,7 +5,7 @@
   >
 
     <img
-      :src="likeCoinIcon"
+      :src="isColorLogo ? likeCoinColorIcon : likeCoinIcon"
       alt="like.co/in"
     >
     <span
@@ -23,13 +23,21 @@ import { mapGetters } from 'vuex';
 
 import { IS_TESTNET } from '@/constant';
 import likeCoinIcon from '@/assets/logo/in-link.svg';
+import likeCoinColorIcon from '@/assets/logo/color-icon-label-horizontal.svg';
 
 export default {
   name: 'site-title',
+  props: {
+    isColorLogo: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       isTest: IS_TESTNET,
       likeCoinIcon,
+      likeCoinColorIcon,
     };
   },
   computed: {

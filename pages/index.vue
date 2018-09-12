@@ -1,152 +1,141 @@
 <template>
-  <div>
-    <section class="lc-container-0">
-      <div class="lc-container-1">
-        <div class="lc-container-2">
-          <header-flag />
+  <div class="home-page">
+    <template v-if="!isMobileSize">
+      <section class="lc-container-0 lc-header lc-mobile-hide">
+        <div class="lc-container-1">
+          <div class="home-page__header-underlay" />
+          <div class="lc-container-2">
+            <site-header />
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="lc-container-0 lc-header lc-mobile-hide">
-      <div class="lc-container-1">
-        <div class="underlay gray" />
-        <div class="lc-container-2">
-          <site-header :isShowAccountButton="true" />
+      <section class="lc-container-0 lc-mobile-hide">
+        <div class="lc-container-1">
+          <home-banner />
         </div>
-      </div>
-    </section>
+      </section>
+    </template>
 
-    <hero-video />
-
-    <section class="lc-container-0">
+    <section class="lc-container-0 home-page__like-button-details">
       <div class="lc-container-1">
         <div class="lc-container-2">
-          <div class="lc-container-3">
-            <div class="social-links-container-mobile lc-tablet-pc-hide lc-padding-vertical-8">
-              <platform-icon-bar />
+          <div class="lc-container-3 lc-bg-gray-1 lc-container-no-padding-mobile">
+            <div class="lc-flex lc-flex-direction-column-mobile">
+              <like-button-demo
+                @popup="openContentCivicPopup"
+              />
+
+              <platform-icon-bar
+                class="lc-mobile-show"
+                size="medium"
+              />
+              <content-civics-cta
+                class="lc-margin-top-16 lc-container-3 lc-mobile-show"
+              />
+
+              <reward-statistics />
+            </div>
+
+            <div class="lc-container-4">
+              <mansory-article-list
+                class="lc-margin-top-24 lc-mobile"
+              />
+            </div>
+          </div>
+
+          <div class="lc-container-3 lc-bg-gray-1">
+            <div class="lc-padding-vertical-40 lc-mobile">
+              <content-civics-cta />
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <cta-section />
-
-    <suggestion-test />
-
-    <likecoin-stack class="lc-margin-top-32" />
-
-    <road-map class="lc-margin-top-48" />
-
-    <token-distribution class="lc-margin-top-48" />
-
-    <early-adopters class="lc-margin-top-48" />
-
-    <press-coverage class="lc-margin-top-48" />
-
-    <advisors class="lc-margin-top-48" />
-
-    <early-supporters class="lc-margin-top-48" />
-
-    <team class="lc-margin-top-48" />
+    <platform-coverage />
 
     <section class="lc-container-0">
       <div class="lc-container-1">
-        <div class="lc-container-2">
-          <div class="lc-container-3">
-            <div class="social-links-container-mobile lc-tablet-pc-hide lc-padding-vertical-12">
-              <platform-icon-bar />
+        <footer class="lc-page-footer lc-bg-green">
+          <platform-icon-bar
+            :size="isMobileSize ? 'medium' : 'large'"
+          />
+
+          <div class="lc-container-2">
+            <div
+              :class="[
+                'lc-container-3',
+                'lc-padding-bottom-24',
+                'lc-padding-top-64',
+                'lc-mobile',
+              ]"
+            >
+              <span class="home-page__join-label">
+                {{ $t('Home.Footer.label.join') }}
+              </span>
             </div>
           </div>
-        </div>
+        </footer>
       </div>
     </section>
 
-    <cta-section class="bottom" />
+    <like-button-dialog
+      :is-show.sync="isContentCivicDialogOpen"
+    />
 
-    <section class="lc-container-0 lc-community lc-mobile-hide">
-      <div class="lc-container-1">
-        <div class="lc-container-2">
-          <div class="lc-container-3">
-
-            <div class="lc-community-content lc-padding-vertical-24">
-              <div class="platforms">
-                <span>{{ $t('Home.Community.title') }}</span>
-                <platform-icon-bar />
-              </div>
-              <div class="faq">
-                <a
-                  ref="noopener"
-                  :href="$t('Home.Community.button.faqLink')"
-                  class="lc-color-like-green lc-underline lc-font-size-20"
-                  target="_blank"
-                >
-                  {{ $t('Home.Community.button.faq') }}
-                </a>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </section>
   </div>
 </template>
 
 
 <script>
-/* global fbq */
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
-import MaterialButton from '~/components/MaterialButton';
-import SiteHeader from '~/components/header/HeaderWithMenuButton';
-import PlatformIconBar from '~/components/PlatformIconBar';
+import ArticleDialog from '@/components/dialogs/ArticleDialog';
+import ContentCivicsCta from '@/components/home/ContentCivicsCTA';
+import HeaderFlag from '@/components/about/Flag';
+import HomeBanner from '@/components/home/Banner';
+import LikeButtonDemo from '@/components/home/LikeButtonDemo';
+import LikeButtonDialog from '@/components/dialogs/LikeButtonDialog';
+import MansoryArticleList from '@/components/home/MansoryArticleList';
+import PlatformCoverage from '@/components/home/PlatformCoverage';
+import PlatformIconBar from '@/components/PlatformIconBar';
+import SiteHeader from '@/components/header/HomeHeader';
+import RewardStatistics from '@/components/home/RewardStatistics';
 
-import Advisors from '~/components/home/Advisors';
-import CTASection from '~/components/home/CTASection';
-import Carousel from '~/components/home/Carousel';
-import HeroVideo from '~/components/home/HeroVideo';
-import HeaderFlag from '~/components/home/Flag';
-import EarlyAdopters from '~/components/home/EarlyAdopters';
-import EarlySupporters from '~/components/home/EarlySupporters';
-import PressCoverage from '~/components/home/PressCoverage';
-import LikecoinStack from '~/components/home/Stack';
-import RoadMap from '~/components/home/RoadMap';
-import Team from '~/components/home/Team';
-import TokenDistribution from '~/components/home/TokenDistribution';
-
-import SuggestionTest from '~/components/home/SuggestionTest';
-
-const images = require.context('../assets/home');
-const imgUrl = path => images(`./${path}`);
+import breakpointMixin from '@/util/mixins/breakpoint';
 
 export default {
   name: 'home',
   layout: 'index',
   components: {
-    Advisors,
-    Carousel,
-    'cta-section': CTASection,
-    EarlyAdopters,
-    EarlySupporters,
+    ArticleDialog,
+    ContentCivicsCta,
     HeaderFlag,
-    HeroVideo,
-    MaterialButton,
+    HomeBanner,
+    LikeButtonDemo,
+    LikeButtonDialog,
+    MansoryArticleList,
+    PlatformCoverage,
     PlatformIconBar,
-    PressCoverage,
-    LikecoinStack,
-    RoadMap,
+    RewardStatistics,
     SiteHeader,
-    Team,
-    TokenDistribution,
-    SuggestionTest,
+  },
+  mixins: [breakpointMixin],
+  data() {
+    return {
+      isContentCivicDialogOpen: false,
+    };
   },
   computed: {
     ...mapGetters([
       'getUserInfo',
       'getUserIsRegistered',
+      'getLikeCoinUsdNumericPrice',
     ]),
+    isMobileSize() {
+      return this.breakpoint.name === 'xs';
+    },
   },
   head() {
     return {
@@ -171,16 +160,17 @@ export default {
     };
   },
   mounted() {
-    fbq('track', 'ViewContent');
+    if (window.fbq) window.fbq('track', 'ViewContent');
 
-    const { hash } = document.location;
-    if (hash) {
-      const element = document.querySelector(hash);
-      if (element) element.scrollIntoView();
-    }
+    this.queryLikeCoinUsdPrice();
   },
   methods: {
-    imgUrl,
+    ...mapActions([
+      'queryLikeCoinUsdPrice',
+    ]),
+    openContentCivicPopup() {
+      this.isContentCivicDialogOpen = true;
+    },
   },
 };
 </script>
@@ -189,45 +179,97 @@ export default {
 <style lang="scss" scoped>
 @import "~assets/variables";
 
-$carousel-height: 488px;
+.lc-header {
+  border-bottom: 2px solid $like-green;
+}
 
-.lc-community {
-  font-size: 20px;
+.icon-bar {
+  &.vertical {
+    :global(svg) {
+      width: 36px !important;
+      height: 36px !important;
+    }
+  }
 
-  .lc-community-content {
-    display: flex;
-    flex-direction: row;
+  @media (max-width: 600px) {
+    max-width: unset;
 
-    > div {
-      display: flex;
-      align-items: center;
-      flex-direction: row;
+    :global(svg) {
+      width: 36px !important;
+      height: 36px !important;
+    }
+  }
 
-      &.platforms {
-        flex: 2;
-
-        > span {
-          margin-right: 16px;
-        }
-      }
-
-      &.faq {
-        flex: 1;
-        justify-content: center;
-      }
+  :global(.md-icon-button) {
+    @media (max-width: 600px) {
+      margin: 0 6px !important;
     }
   }
 }
 
-.cta-section.bottom {
-  @media (min-width: 600px) {
-    margin-top: 64px;
+.home-page {
+  &__header-underlay {
+    position: absolute;
+    right: 0;
+
+    width: 33%;
+    height: 100%;
+
+    background-image: linear-gradient(55deg, $like-light-blue, $like-gradient-1);
+  }
+
+  &__like-button-details {
+    @media (min-width: 600px + 1px) {
+      margin-top: -64px;
+    }
+
+    .icon-bar {
+      padding: 8px 0 !important;
+
+      background-color: white;
+    }
+  }
+
+  &__join-label {
+    color: #D7ECEC;
+  }
+
+  .reward-statistics {
+    flex: 1;
+
+    padding: 32px 8px 16px 0;
+
+    @media (max-width: 600px) {
+      padding-right: 16px;
+      padding-left: 16px;
+    }
+  }
+
+  .mansory-article-list {
+    @media (min-width: 600px + 1px) {
+      padding: 0 12px;
+    }
   }
 }
 
-.social-links-container-mobile {
-  display: flex;
-  justify-content: center;
-}
+footer {
+  position: relative;
 
+  margin-top: 96px;
+
+  color: $like-white;
+  border: none;
+
+  .icon-bar {
+    position: absolute;
+    z-index: 1;
+    top: -32px;
+    right: 0;
+    left: 0;
+
+    @media (max-width: 600px) {
+      top: -20px;
+    }
+  }
+}
 </style>

@@ -23,7 +23,10 @@
           <div class="platform-icon-bar-wrapper">
             <div>
               <div>
-                <platform-icon-bar :isVertical="true" />
+                <platform-icon-bar
+                  :isVertical="true"
+                  size="medium"
+                />
               </div>
             </div>
           </div>
