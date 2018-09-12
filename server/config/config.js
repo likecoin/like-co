@@ -16,7 +16,8 @@ config.GCLOUD_PUBSUB_ENABLE = false;
 config.STRIPE_TEST_KEY = '';
 config.STRIPE_PROD_KEY = '';
 
-config.SUBSCRIPTION_PLAN_ID = '';
+config.STRIPE_SUBSCRIPTION_PLAN_ID = '';
+config.STRIPE_WEBHOOK_SECRET = '';
 
 config.RECAPTCHA_SECRET = '';
 

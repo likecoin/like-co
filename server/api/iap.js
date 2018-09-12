@@ -16,7 +16,8 @@ const {
 } = require('../util/firebase');
 
 const {
-  SUBSCRIPTION_PLAN_ID,
+  STRIPE_SUBSCRIPTION_PLAN_ID,
+  STRIPE_WEBHOOK_SECRET,
 } = require('../config/config.js'); // eslint-disable-line import/no-extraneous-dependencies
 
 
@@ -132,9 +133,9 @@ router.post('/iap/subscription/donation', jwtOptionalAuth, async (req, res, next
 
     if (!token) res.status(400).send('MISSING TOKEN');
 
-    if (!SUBSCRIPTION_PLAN_ID) throw new ValidationError('Subscription not configured');
+    if (!STRIPE_SUBSCRIPTION_PLAN_ID) throw new ValidationError('Subscription not configured');
 
-    const planId = SUBSCRIPTION_PLAN_ID;
+    const planId = STRIPE_SUBSCRIPTION_PLAN_ID;
     let customerId;
     let userData;
 
@@ -191,11 +192,12 @@ router.post('/iap/subscription/donation', jwtOptionalAuth, async (req, res, next
       const userRef = dbRef.doc(user);
       const currentPeriodEnd = subscription.current_period_end * 1000;
       const currentPeriodStart = subscription.current_period_start * 1000;
+      const isCanceled = subscription.cancel_at_period_end;
       const isSubscribed = (currentTime > currentPeriodStart && currentTime < currentPeriodEnd);
       const likecoinPayload = {
         currentPeriodEnd,
         currentPeriodStart,
-        isCanceled: false,
+        isCanceled,
         isSubscribed,
       };
       const batch = db.batch();
@@ -252,9 +254,9 @@ router.get('/iap/subscription/donation/:user', jwtAuth, async (req, res, next) =
 router.delete('/iap/subscription/donation/:user', jwtAuth, async (req, res, next) => {
   try {
     const { user } = req.params;
-    if (!SUBSCRIPTION_PLAN_ID) throw new ValidationError('Subscription not configured');
+    if (!STRIPE_SUBSCRIPTION_PLAN_ID) throw new ValidationError('Subscription not configured');
 
-    const planId = SUBSCRIPTION_PLAN_ID;
+    const planId = STRIPE_SUBSCRIPTION_PLAN_ID;
 
     const userRef = dbRef.doc(user);
     const stripeDoc = await userRef.collection('subscription').doc('stripe').get();
@@ -379,6 +381,85 @@ router.post('/iap/subscription/claim', jwtOptionalAuth, async (req, res, next) =
       planId,
     });
     res.json({ user, subscriptionId });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
+router.post('/iap/subscription/hook', async (req, res, next) => {
+  try {
+    const sig = req.headers['stripe-signature'];
+    let event;
+    try {
+      event = stripe.webhooks.constructEvent(req.rawBody, sig, STRIPE_WEBHOOK_SECRET);
+    } catch (err) {
+      console.error(err);
+      res.sendStatus(400);
+      return;
+    }
+    switch (event.type) {
+      case 'invoice.payment_succeeded': {
+        const invoice = event.data.object;
+        const subscriptionItem = invoice.lines.data.find(i => i.type === 'subscription');
+        const subscriptionId = subscriptionItem.subscription;
+        const subDoc = await subRef.doc(subscriptionId).get();
+        if (!subDoc.exists) {
+          console.error(`Subscription ${subscriptionId} not found`);
+          break;
+        }
+        const { user } = subDoc.data();
+        if (user) {
+          const currentTime = Date.now();
+          const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+          const userRef = dbRef.doc(user);
+          const currentPeriodEnd = subscription.current_period_end * 1000;
+          const currentPeriodStart = subscription.current_period_start * 1000;
+          const isCanceled = subscription.cancel_at_period_end;
+          const isSubscribed = (currentTime > currentPeriodStart && currentTime < currentPeriodEnd);
+          const likecoinPayload = {
+            currentPeriodEnd,
+            currentPeriodStart,
+            isCanceled,
+            isSubscribed,
+          };
+          const batch = db.batch();
+          batch.set(userRef.collection('subscription').doc('likecoin'), likecoinPayload, { merge: true });
+          batch.update(userRef, { isSubscribed });
+          await batch.commit();
+        }
+        break;
+      }
+      case 'customer.subscription.deleted': {
+        const subscription = event.data.object;
+        const subscriptionId = subscription.id;
+        const subDoc = await subRef.doc(subscriptionId).get();
+        if (!subDoc.exists) {
+          console.error(`Subscription ${subscriptionId} not found`);
+          break;
+        }
+        const batch = db.batch();
+        batch.update(subRef.doc(subscriptionId), {
+          isDeleted: true,
+          deleteTs: Date.now(),
+        });
+
+        const { user } = subDoc.data();
+        if (user) {
+          const userRef = dbRef.doc(user);
+          const userStripeInfo = await userRef.collection('subscription').doc('stripe').get();
+          if ((userStripeInfo.data() || {}).subscriptionId === subscriptionId) {
+            batch.update(userRef.collection('subscription').doc('likecoin'), { isSubscribed: false });
+            batch.update(userRef, { isSubscribed: false });
+          }
+        }
+        await batch.commit();
+        break;
+      }
+      default:
+        // no op
+    }
+    res.sendStatus(200);
   } catch (err) {
     console.error(err);
     next(err);
