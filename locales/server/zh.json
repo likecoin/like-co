@@ -12,6 +12,14 @@
       "subject": "您已經成功參加 LikeCoin 早鳥代幣發售",
       "body": "您好 {{name}}!<p>多謝您參與 LikeCoin 的早鳥代幣發售</p><p>在確認了你的 {{eth}} ETH 付款後, {{base}} + {{bonus}} 個 LikeCoin 將會在 LikeCoin 公開代幣發售開始時, 送到你的錢包內.</p>交易參考地址:<br/><a href=\"https://etherscan.io/tx/{{txHash}}\" style=\"word-break: break-all; color: #28646E\">https://etherscan.io/tx/{{txHash}}</a></p><p>與此同時, 你可以參加我們的<a href=\"https://like.co/in/edit#referral\" style=\"color: #28646E\">推薦計劃</a>，賺取更多 LikeCoin!</p><p>如有查詢或意見，歡迎隨時在官方網站聯絡我們.</p>"
     },
+    "PendingSubscriptionEmail": {
+      "subject": "Please complete your LikeCoin donation subscription",
+      "body": "Hi!<p>Thank you for joining LikeCoin donation program!</p><p>Please register a like.co account below and complete the subscription process.</p><p><a href=\"http://like.co/in/donation/claim?subscriptionId={{subscriptionId}}&email={{email}}\" style=\"word-break: break-all; color: #28646E\">http://like.co/in/donation/claim?subscriptionId={{subscriptionId}}&email={{email}}</a></p><p>Feel free to contact us on our official website should you have any thoughts or question.</p>"
+    },
+    "SubscriptionThankYouEmail": {
+      "subject": "Thank you for joining the LikeCoin donation program",
+      "body": "Hi {{name}}!<p>Thank you for joining LikeCoin donation program!</p><p>For more details on the program, please check <a href=\"http://like.co/in/donation\" style=\"word-break: break-all; color: #28646E\">http://like.co/in/donation</a></p><p>Feel free to contact us on our official website should you have any thoughts or question.</p>"
+    },
     "signature": "<p>LikeCoin Foundation<br/><a href=\"https://like.co\" style=\"color: #28646E\">https://like.co</a></p>"
   }
 }

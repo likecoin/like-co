@@ -1,17 +1,21 @@
 {
-    "Email": {
-        "VerifiyEmail": {
-            "subject": "Vérifiez votre e-mail like.co",
-            "body": "Bonjour {{name}} !<p>Bienvenue sur like.co ! Pour vérifier votre e-mail, cliquez sur le lien suivant :<br/><a href=\"https://like.co/verify/{{uuid}}?ref={{ref}}\" style=\"word-break: break-all; color: #28646E\">https://like.co/verify/{{uuid}}?ref={{ref}}</a></p>"
-        },
-        "VerifiyAndCouponEmail": {
-            "subject": "Vérifiez votre e-mail like.co et récupérez votre LikeCoin",
-            "body": "Bonjour {{name}} !<p>Bienvenue sur like.co ! Pour vérifier votre e-mail et recevoir un e-mail et recevoir une enveloppe rouge, cliquez sur le lien suivant :<br/><a href=\"https://like.co/verify/{{uuid}}/{{coupon}}?ref={{ref}}\" style=\"word-break: break-all; color: #28646E\">https://like.co/verify/{{uuid}}/{{coupon}}?ref={{ref}}</a></p><p>Votre code de coupon : {{coupon}}</p>"
-        },
-        "preSaleEmail": {
-            "subject": "Vous avez bien rejoint la prévente de LikeCoin",
-            "body": "Bonjour {{name}} !<p>Merci d’avoir rejoint la prévente de LikeCoin !</p><p>Après avoir confirmé votre paiement de {{eth}} ETH, vous recevrez {{base}} + {{bonus}} LikeCoin lorsque notre vente publique sera lancée.</p><p>URL de transaction :<br/><a href=\"https://etherscan.io/tx/{{txHash}}\" style=\"word-break: break-all; color: #28646E\">https://etherscan.io/tx/{{txHash}}</a></p><p>Entre temps, vous pouvez participer à notre <a href=\"https://like.co/in/edit#referral\" style=\"color: #28646E\">Programme d’affiliation</a> pour gagner des LikeCoin supplémentaires !</p><p>N’hésitez pas à nous contacter sur notre site web officiel si vous avez des idées oi des questions.</p>"
-        },
-        "signature": "<p>Fondation LikeCoin<br/><a href=\"https://like.co\" style=\"color: #28646E\">https://like.co</a></p>"
-    }
+  "Email": {
+    "VerifiyEmail": {
+      "subject": "Vérifiez votre e-mail like.co",
+      "body": "Bonjour {{name}} !<p>Bienvenue sur like.co ! Pour vérifier votre e-mail, cliquez sur le lien suivant :<br/><a href=\"https://like.co/verify/{{uuid}}?ref={{ref}}\" style=\"word-break: break-all; color: #28646E\">https://like.co/verify/{{uuid}}?ref={{ref}}</a></p>"
+    },
+    "VerifiyAndCouponEmail": {
+      "subject": "Vérifiez votre e-mail like.co et récupérez votre LikeCoin",
+      "body": "Bonjour {{name}} !<p>Bienvenue sur like.co ! Pour vérifier votre e-mail et recevoir un e-mail et recevoir une enveloppe rouge, cliquez sur le lien suivant :<br/><a href=\"https://like.co/verify/{{uuid}}/{{coupon}}?ref={{ref}}\" style=\"word-break: break-all; color: #28646E\">https://like.co/verify/{{uuid}}/{{coupon}}?ref={{ref}}</a></p><p>Votre code de coupon : {{coupon}}</p>"
+    },
+    "PendingSubscriptionEmail": {
+      "subject": "Please complete your LikeCoin donation subscription",
+      "body": "Hi!<p>Thank you for joining LikeCoin donation program!</p><p>Please register a like.co account below and complete the subscription process.</p><p><a href=\"http://like.co/in/donation/claim?subscriptionId={{subscriptionId}}&email={{email}}\" style=\"word-break: break-all; color: #28646E\">http://like.co/in/donation/claim?subscriptionId={{subscriptionId}}&email={{email}}</a></p><p>Feel free to contact us on our official website should you have any thoughts or question.</p>"
+    },
+    "SubscriptionThankYouEmail": {
+      "subject": "Thank you for joining the LikeCoin donation program",
+      "body": "Hi {{name}}!<p>Thank you for joining LikeCoin donation program!</p><p>For more details on the program, please check <a href=\"http://like.co/in/donation\" style=\"word-break: break-all; color: #28646E\">http://like.co/in/donation</a></p><p>Feel free to contact us on our official website should you have any thoughts or question.</p>"
+    },
+    "signature": "<p>Fondation LikeCoin<br/><a href=\"https://like.co\" style=\"color: #28646E\">https://like.co</a></p>"
+  }
 }

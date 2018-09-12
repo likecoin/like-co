@@ -168,7 +168,11 @@ export default {
       this.$nextTick(() => {
         this.$router.push({
           name: 'in-register',
-          query: { subscriptionId: this.subscriptionId, ref: '' },
+          query: {
+            email: this.$route.query.email,
+            subscriptionId: this.subscriptionId,
+            ref: '',
+          },
         });
       });
     },

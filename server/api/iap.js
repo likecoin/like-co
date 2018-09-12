@@ -6,6 +6,7 @@ import publisher from '../util/gcloudPub';
 import stripe from '../util/stripe';
 import { ValidationHelper as Validate, ValidationError } from '../../util/ValidationHelper';
 import { jwtAuth, jwtOptionalAuth } from '../util/jwt';
+import { sendPendingSubscriptionEmail, sendSubscriptionThankYouEmail } from '../util/ses';
 
 const {
   db,
@@ -135,6 +136,7 @@ router.post('/iap/subscription/donation', jwtOptionalAuth, async (req, res, next
 
     const planId = SUBSCRIPTION_PLAN_ID;
     let customerId;
+    let userData;
 
     if (user) {
       const userRef = dbRef.doc(user);
@@ -146,6 +148,7 @@ router.post('/iap/subscription/donation', jwtOptionalAuth, async (req, res, next
       if (stripeDoc.exists && stripeDoc.data().customerId) {
         ({ customerId } = stripeDoc.data());
       }
+      userData = Validate.filterUserData(userDoc.data());
     }
 
     if (customerId) {
@@ -205,11 +208,13 @@ router.post('/iap/subscription/donation', jwtOptionalAuth, async (req, res, next
         user,
       }, { merge: true });
       await batch.commit();
+      await sendSubscriptionThankYouEmail(res, userData.email, userData);
     } else {
       await subIdRef.set({
         stripe: stripePayload,
         isClaimed: false,
       }, { merge: true });
+      await sendPendingSubscriptionEmail(res, token.email, subscriptionId);
     }
 
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
@@ -363,6 +368,8 @@ router.post('/iap/subscription/claim', jwtOptionalAuth, async (req, res, next) =
     batch.set(userRef.collection('subscription').doc('stripe'), subDoc.data().stripe, { merge: true });
     batch.set(userRef.collection('subscription').doc('likecoin'), likecoinPayload, { merge: true });
     await batch.commit();
+    const userData = Validate.filterUserData(userDoc.data());
+    await sendSubscriptionThankYouEmail(res, userData.email, userData);
 
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventStripeClaimSubscription',
