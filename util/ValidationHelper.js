@@ -202,11 +202,11 @@ export const ValidationHelper = {
     isSubscribed,
   }) {
     return {
-    subscriptionId,
-    currentPeriodEnd,
-    currentPeriodStart,
-    isCanceled,
-    isSubscribed,
+      subscriptionId,
+      currentPeriodEnd,
+      currentPeriodStart,
+      isCanceled,
+      isSubscribed,
     };
   },
 };

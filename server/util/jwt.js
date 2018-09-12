@@ -3,7 +3,6 @@ import { TEST_MODE } from '../../constant';
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const expressjwt = require('express-jwt');
-const { UnauthorizedError } = require('express-jwt');
 const config = require('../config/config.js'); // eslint-disable-line import/no-extraneous-dependencies
 
 let secret = config.JWT_SECRET;
@@ -18,6 +17,7 @@ function getToken(req) {
   if (req.cookies && req.cookies.likecoin_auth) {
     return req.cookies.likecoin_auth;
   }
+  return '';
 }
 
 function setNoCacheHeader(res) {
