@@ -19,6 +19,7 @@
     <div class="lc-container-3 lc-tablet-hide">
       <div class="home-header__account-btn-wrapper">
         <md-button
+          v-bind="getTestAttribute('registerButton')"
           class="md-likecoin shadow"
           @click="onSignUpClick"
         >{{ getButtonText }}</md-button>
@@ -33,6 +34,8 @@ import { mapActions, mapGetters } from 'vuex';
 
 import MenuButton from '~/components/SlidingMenu/MenuButton';
 import SiteTitle from '~/components/SiteTitle';
+
+import getTestAttribute from '@/util/test';
 
 export default {
   name: 'site-header',
@@ -79,6 +82,7 @@ export default {
         });
       }
     },
+    getTestAttribute: getTestAttribute('homeHeader'),
   },
 };
 </script>
