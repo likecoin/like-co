@@ -67,12 +67,9 @@ if (config.dev) {
 // Give nuxt middleware to express
 app.use(nuxt.render);
 
-/* istanbul ignore if */
-if (process.env.DISABLE_SERVER !== 'TRUE') {
-  // Listen the server
-  app.listen(port, host);
-  console.log(`Deploying on ${IS_TESTNET ? 'rinkeby' : 'mainnet'}`); // eslint-disable-line no-console
-  console.log(`Server listening on ${host}:${port}`); // eslint-disable-line no-console
-}
+// Listen the server
+app.listen(port, host);
+console.log(`Deploying on ${IS_TESTNET ? 'rinkeby' : 'mainnet'}`); // eslint-disable-line no-console
+console.log(`Server listening on ${host}:${port}`); // eslint-disable-line no-console
 
 module.exports = app;

@@ -60,7 +60,9 @@ jobs:
             sed -i.bak "s/0xB97Df12b24C119A052EE0D4Ba97bAc59Da86AB4B/0x2fDF85d31b023c471a7F54cF2E67bA5767ADaECa/" ./constant/contract/likecoin.js
       - run:
           name: Unit Test (api)
-          command: npm run test:api
+          command: |
+            npm run test:api
+            rm -rf ./.nyc_output_merge && cp -R ./.nyc_output ./.nyc_output_merge
       - run:
           name: Build
           command: npm run build
@@ -69,7 +71,9 @@ jobs:
             NODE_ENV: production
       - run:
           name: Unit Test (Nightwatch)
-          command: xvfb-run --server-args="-screen 0 1600x1200x24" npm run test
+          command: |
+            xvfb-run --server-args="-screen 0 1600x1200x24" npm run test
+            cp -a ./.nyc_output_merge/. ./.nyc_output
       - run:
           name: Upload coverage
           command: npm run report-coverage
