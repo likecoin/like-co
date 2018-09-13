@@ -160,7 +160,12 @@ a,
   }
 
   .lc-page-footer {
+    margin-top: 60px;
     padding: 0;
+
+    &--no-margin {
+      margin-top: 0;
+    }
   }
 }
 
@@ -515,7 +520,7 @@ $font-weight-list: 300 400 600;
 
 @each $i in $font-weight-list {
   .lc-font-weight-#{$i} {
-    font-weight: $i;
+    font-weight: $i !important;
   }
 }
 
@@ -1110,4 +1115,28 @@ span.bold {
       opacity: 0;
     }
   }
+
+  &-fade {
+    &-enter-active,
+    &-leave-active {
+      transition: opacity .3s ease-in;
+    }
+
+    &-enter-active,
+    &-leave {
+      opacity: 1;
+    }
+
+    &-enter,
+    &-leave-to {
+      opacity: 0;
+    }
+  }
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }

@@ -1100,5 +1100,52 @@
     "button": {
       "connectToPlatform": "綁定你的 {platform} 帳號"
     }
+  },
+  "LikeButtonIntro": {
+    "wordpress": {
+      "title": "安裝 LikeCoin 外掛",
+      "content": "{installWp}以為你的文章加上 LikeButton 吧。請放心，此外掛插件完全不是那種利用客戶端算力進行挖礦的惡意程序，而只跟讀者的「讚好」有關。LikeButton 也跟一般的廣告橫幅完全不同，它是用來特出創作者的品牌的。 {wpInstruction}",
+      "caption": "LikeButton will show on your post after installing the {plugin}",
+      "label": {
+        "installWp": "安裝 WordPress 外掛",
+        "instruction": "安裝教學",
+        "plugin": "LikeCoin Plugin"
+      },
+      "url": {
+        "instruction": "https://help.like.co/likecoin-%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C/%E7%94%A2%E5%93%81/%E5%A6%82%E4%BD%95%E5%9C%A8-wordpress-%E7%B6%B2%E7%AB%99%E4%B8%8A%E5%8A%A0%E5%85%A5-likebutton"
+      }
+    },
+    "medium": {
+      "title": "加上你的 LikeButton",
+      "content": "在 Medium 上加上你的 LikeButton 的方法十分簡單，只需於文章中插入一條網址便可以了，格式如下：",
+      "caption": "Simply type your LikeCoin link and press ‘Enter’ in your story"
+    },
+    "oice": {
+      "title": "連結你的 LikeCoin ID",
+      "content": "在 {oiceWebsite} 連結你的 LikeCoin ID。在 oice.com 連結你的 LikeCoin ID 以後，你創作的故事便會自動顯示出 LikeButton。 {oiceInstruction}",
+      "caption": "LikeButton will show aside with your story",
+      "label": {
+        "instruction": "點此教學"
+      },
+      "url": {
+        "instruction": "https://help.like.co/likecoin-%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C/%E7%94%A2%E5%93%81/%E5%A6%82%E4%BD%95%E5%9C%A8-oice-%E5%85%A7%E5%AE%B9%E4%B8%8A%E5%8A%A0%E5%85%A5-likebutton"
+      }
+    },
+    "title": {
+      "earn": "Earn LikeCoin by Reinvented LikeButton",
+      "poc": "創造力證明",
+      "slogan": "立即把讀者的點讚轉化為收入吧",
+      "campaign": "「化讚為賞」推廣活動已經開始",
+      "enroll": "參加活動"
+    },
+    "label": {
+      "earn": "為你的創作加上重新設計的讚賞鍵 (LikeButton)，把讀者的「點讚」化為收入；美觀的讚賞鍵還可以成為你的個人品牌名片，讓你跟讀者保持緊密聯繫。",
+      "poc": "LikeCoin 以「創造力」為標準量度創意內容的重要性，並參考作品所獲得的讚好，讓內容創作者可以獲得 LikeCoin 作為回報。我們稱這做法為「創造力證明」。",
+      "campaign": "立即以你的作品賺取 LIKE 吧！新的 LikeButton 目前已經支援三個平台： WordPress，Medium 及 oice。",
+      "enroll": "在你的創作中加上 LikeButton，讓你的讀者為你點讚，就是這麼簡單！我們正持續派出百萬計的 LikeCoin 回饋創作，請把握機會立即加入吧！"
+    },
+    "button": {
+      "startUsing": "開始使用"
+    }
   }
 }
