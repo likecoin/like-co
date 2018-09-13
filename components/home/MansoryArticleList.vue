@@ -19,6 +19,8 @@ import { mapActions, mapGetters } from 'vuex';
 import MansoryArticleItem from './MansoryArticleItem';
 import MansoryArticleItemPlaceholder from './MansoryArticleItemPlaceholder';
 
+const MAX_ARTICLES_DISPLAY = 12;
+
 export default {
   name: 'mansory-article-list',
   components: {
@@ -41,7 +43,7 @@ export default {
       handler(articlesObj) {
         this.articles = Object.keys(articlesObj)
           .map(key => articlesObj[key])
-          .slice(0, 12);
+          .slice(0, MAX_ARTICLES_DISPLAY);
       },
       deep: true,
     },

@@ -20,7 +20,7 @@
       {{ $t('Home.LikeButtonDemo.label.description') }}
     </p>
 
-    <like-button
+    <sample-like-button
       class="lc-margin-top-24"
       @like="openContentCivicPopup"
       @toggle="openContentCivicPopup"
@@ -30,14 +30,14 @@
 
 
 <script>
-import LikeButton from '~/components/home/LikeButton';
+import SampleLikeButton from '~/components/home/SampleLikeButton';
 import MenuButton from '~/components/SlidingMenu/MenuButton';
 import SiteTitle from '~/components/SiteTitle';
 
 export default {
   name: 'like-button-demo',
   components: {
-    LikeButton,
+    SampleLikeButton,
     MenuButton,
     SiteTitle,
   },

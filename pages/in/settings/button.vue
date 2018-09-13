@@ -26,9 +26,10 @@
           <div class="lc-container-3 lc-bg-gray-1">
             <div class="like-button-settings__header">
               <h1>{{ $t('Settings.label.earnByLikeButton') }}</h1>
-              <md-button class="lc-color-like-green lc-underline">
-                {{ $t('Settings.button.learnMore') }}
-              </md-button>
+              <md-button
+                class="lc-color-like-green lc-underline"
+                @click="isShowIntro = true"
+              >{{ $t('Settings.button.learnMore') }}</md-button>
             </div>
 
             <div class="like-button-settings__examples">

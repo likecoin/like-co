@@ -98,7 +98,7 @@ import LikeTextIcon from '~/assets/like-button/like-text.svg';
 
 
 export default {
-  name: 'like-button',
+  name: 'sample-like-button',
   props: {
     likeCount: {
       type: Number,
