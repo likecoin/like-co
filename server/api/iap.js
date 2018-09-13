@@ -153,12 +153,14 @@ router.post('/iap/subscription/donation', jwtOptionalAuth, async (req, res, next
     }
 
     if (customerId) {
-      const [sub] = await stripe.subscriptions.list({
+      const subscriptionList = await stripe.subscriptions.list({
         customer: customerId,
         plan: planId,
         status: 'active',
       });
-      if (sub) throw new ValidationError('Already subscripted');
+      if (subscriptionList && subscriptionList.length > 0) {
+        throw new ValidationError('Already subscripted');
+      }
 
       await stripe.customers.update(customerId, {
         email: token.email,
