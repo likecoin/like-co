@@ -1,6 +1,5 @@
 import test from 'ava';
 import {
-  url,
   testingUser1,
   testingDisplayName1,
   testingEmail1,
@@ -17,10 +16,8 @@ import {
 
 const sigUtil = require('eth-sig-util');
 const Web3 = require('web3');
-const axiosist = require('axiosist');
 const jwt = require('jsonwebtoken');
-
-const app = require('../../server/index.js'); // eslint-disable-line import/no-unresolved
+const axiosist = require('./axiosist');
 
 //
 // functions
@@ -42,18 +39,18 @@ test.serial('USER: Register or edit user. Case: success', async (t) => {
     email: 'noreply@likecoin.store',
   }));
   const sign = signProfile(payload, privateKey1);
-  const res = await axiosist(app).put(`${url}/api/users/new`, {
+  const res = await axiosist.put('/api/users/new', {
     from: testingWallet1,
     payload,
     sign,
   });
 
   t.is(res.status, 200);
-  axiosist(app).defaults.headers.common.Authorization = `Bearer ${res.data.token}`;
+  axiosist.defaults.headers.common.Authorization = `Bearer ${res.data.token}`;
 });
 
 test.serial('USER: Email verification (Need restart server for clean memory data)', async (t) => {
-  const res = await axiosist(app).post(`${url}/api/email/verify/user/${testingUser1}`, {}, {
+  const res = await axiosist.post(`/api/email/verify/user/${testingUser1}`, {}, {
     headers: {
       Accept: 'application/json',
     },
@@ -64,7 +61,7 @@ test.serial('USER: Email verification (Need restart server for clean memory data
 
 test.serial('USER: Verify uuid. Case: wrong uuid', async (t) => {
   const uuid = '99999999-0000-0000-0000-000000000000';
-  const res = await axiosist(app).post(`${url}/api/email/verify/${uuid}`, {
+  const res = await axiosist.post(`/api/email/verify/${uuid}`, {
     headers: {
       Accept: 'application/json',
     },
@@ -74,7 +71,7 @@ test.serial('USER: Verify uuid. Case: wrong uuid', async (t) => {
 
 test.serial('USER: Verify uuid. Case: success (Need restart server for clean memory data)', async (t) => {
   const uuid = '00000000-0000-0000-0000-000000000000';
-  const res = await axiosist(app).post(`${url}/api/email/verify/${uuid}`, {
+  const res = await axiosist.post(`/api/email/verify/${uuid}`, {
     headers: {
       Accept: 'application/json',
     },
@@ -230,7 +227,7 @@ for (let i = 0; i < userCases.length; i += 1) {
   test(name, async (t) => {
     const formatedPayload = Web3.utils.utf8ToHex(JSON.stringify(payload));
     const sign = signProfile(formatedPayload, privateKey);
-    const res = await axiosist(app).put(`${url}/api/users/new`, {
+    const res = await axiosist.put('/api/users/new', {
       from,
       payload: formatedPayload,
       sign,
@@ -243,12 +240,12 @@ for (let i = 0; i < userCases.length; i += 1) {
 test('USER: Get user by id', async (t) => {
   const user = testingUser1;
   const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
-  let res = await axiosist(app).get(`${url}/api/users/id/${user}`)
+  let res = await axiosist.get(`/api/users/id/${user}`)
     .catch(err => err.response);
 
   t.is(res.status, 401);
 
-  res = await axiosist(app).get(`${url}/api/users/id/${user}`, {
+  res = await axiosist.get(`/api/users/id/${user}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -261,7 +258,7 @@ test('USER: Get user by id', async (t) => {
 
 test('USER: Get user by id min', async (t) => {
   const user = testingUser1;
-  const res = await axiosist(app).get(`${url}/api/users/id/${user}/min`)
+  const res = await axiosist.get(`/api/users/id/${user}/min`)
     .catch(err => err.response);
 
   t.is(res.status, 200);
@@ -271,8 +268,8 @@ test('USER: Get user by id min', async (t) => {
 
 test('USER: Get user by merchant id min', async (t) => {
   const merchantId = testingMerchantId1;
-  const res = await axiosist(app)
-    .get(`${url}/api/users/merchant/${merchantId}/min`)
+  const res = await axiosist
+    .get(`/api/users/merchant/${merchantId}/min`)
     .catch((err) => {
       console.log('HHHHHHH', err.response);
     });
@@ -284,12 +281,12 @@ test('USER: Get user by merchant id min', async (t) => {
 test('USER: Get user by address', async (t) => {
   const wallet = testingWallet1;
   const token = jwt.sign({ wallet }, 'likecoin', { expiresIn: '7d' });
-  let res = await axiosist(app).get(`${url}/api/users/addr/${wallet}`)
+  let res = await axiosist.get(`/api/users/addr/${wallet}`)
     .catch(err => err.response);
 
   t.is(res.status, 401);
 
-  res = await axiosist(app).get(`${url}/api/users/addr/${wallet}`, {
+  res = await axiosist.get(`/api/users/addr/${wallet}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -303,18 +300,18 @@ test('USER: Get user by address', async (t) => {
 
 test('USER: Get user by address min', async (t) => {
   let wallet = testingWallet1;
-  let res = await axiosist(app).get(`${url}/api/users/addr/${wallet}/min`)
+  let res = await axiosist.get(`/api/users/addr/${wallet}/min`)
     .catch(err => err.response);
 
   t.is(res.status, 200);
 
-  res = await axiosist(app).get(`${url}/api/users/addr/0xazdfsadf/min`)
+  res = await axiosist.get('/api/users/addr/0xazdfsadf/min')
     .catch(err => err.response);
 
   t.is(res.status, 400);
 
   wallet = testingWallet3;
-  res = await axiosist(app).get(`${url}/api/users/addr/${wallet}/min`)
+  res = await axiosist.get(`/api/users/addr/${wallet}/min`)
     .catch(err => err.response);
 
   t.is(res.status, 404);
@@ -323,12 +320,12 @@ test('USER: Get user by address min', async (t) => {
 test('USER: check user login status', async (t) => {
   const wallet = testingWallet1;
   const token = jwt.sign({ wallet }, 'likecoin', { expiresIn: '7d' });
-  let res = await axiosist(app).post(`${url}/api/users/login/check`, {})
+  let res = await axiosist.post('/api/users/login/check', {})
     .catch(err => err.response);
 
   t.is(res.status, 401);
 
-  res = await axiosist(app).post(`${url}/api/users/login/check`, {
+  res = await axiosist.post('/api/users/login/check', {
     wallet,
   }, {
     headers: {
@@ -342,12 +339,12 @@ test('USER: check user login status', async (t) => {
 test('USER: Get user referral status', async (t) => {
   const user = testingUser1;
   const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
-  let res = await axiosist(app).get(`${url}/api/users/referral/${user}`)
+  let res = await axiosist.get(`/api/users/referral/${user}`)
     .catch(err => err.response);
 
   t.is(res.status, 401);
 
-  res = await axiosist(app).get(`${url}/api/users/referral/${user}`, {
+  res = await axiosist.get(`/api/users/referral/${user}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -361,12 +358,12 @@ test('USER: Get user referral status', async (t) => {
 test('USER: Get user bonus status', async (t) => {
   const user = testingUser1;
   const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
-  let res = await axiosist(app).get(`${url}/api/users/bonus/${user}`)
+  let res = await axiosist.get(`/api/users/bonus/${user}`)
     .catch(err => err.response);
 
   t.is(res.status, 401);
 
-  res = await axiosist(app).get(`${url}/api/users/bonus/${user}`, {
+  res = await axiosist.get(`/api/users/bonus/${user}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -379,7 +376,7 @@ test('USER: Get user bonus status', async (t) => {
 test('USER: Post user notitication option', async (t) => {
   const user = testingUser1;
   const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
-  let res = await axiosist(app).post(`${url}/api/users/email/${user}`, {
+  let res = await axiosist.post(`/api/users/email/${user}`, {
     isEmailEnabled: true,
   }, {
     headers: {
@@ -388,7 +385,7 @@ test('USER: Post user notitication option', async (t) => {
   }).catch(err => err.response);
 
   t.is(res.status, 200);
-  res = await axiosist(app).get(`${url}/api/users/id/${user}`, {
+  res = await axiosist.get(`/api/users/id/${user}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

@@ -75,13 +75,6 @@ if (!process.env.AUTO_TEST) {
     setStub();// spawn as new group of processes
     execSync('npm run build', { env: testEnv, stdio: 'inherit' });
   }
-  console.log('Running API test');
-  try {
-    execSync('npm run test:api', { env: testEnv, stdio: 'inherit' });
-  } catch (e) {
-    console.error(e);
-    process.exit(1);
-  }
   execSync('rm -rf ./.nyc_output_merge && cp -R ./.nyc_output ./.nyc_output_merge');
   try {
     console.log('Running E2E test');
