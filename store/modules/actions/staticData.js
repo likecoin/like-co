@@ -50,7 +50,7 @@ export async function fetchLikeSuggestionDetails({ commit, dispatch }, url) {
     commit(types.STATIC_DATA_SET_LIKE_SUGGEST_DETAIL, { url, info });
     return { info };
   } catch (err) {
-    commit(types.STATIC_DATA_SET_LIKE_SUGGEST_DETAIL, { url });
+    commit(types.STATIC_DATA_SET_LIKE_SUGGEST_DETAIL, { url, info: null });
     return {};
   }
 }

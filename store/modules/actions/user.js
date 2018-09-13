@@ -257,3 +257,12 @@ export async function queryLikeCoinWalletBalance({ commit, state }) {
     console.error(err);
   }
 }
+
+export async function updateUserReadContentStatus({ commit, dispatch }, { id, payload }) {
+  try {
+    await apiWrapper({ commit, dispatch }, api.apiPostUserReadContent(id, payload));
+    commit(types.USER_UPDATE_READ_CONTENT_STATUS, payload);
+  } catch (err) {
+    console.error(err);
+  }
+}
