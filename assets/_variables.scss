@@ -1,4 +1,5 @@
 $like-white: #ffffff;
+$like-black: #000000;
 
 $like-gray-1: #f7f7f7;
 $like-gray-2: #f4f4f4;
@@ -26,6 +27,7 @@ $like-gradient-2: #3C286E;
 $like-gradient-3: #6E2828;
 
 $like-linear-gradient: linear-gradient(258deg, $like-light-blue, $like-gradient-1);
+$like-linear-gradient-2: linear-gradient(74deg, $like-gradient-2, $like-gradient-3);
 
 $base-font-list:  'Source Sans Pro',
                   'Noto Sans',
@@ -38,3 +40,12 @@ $lc-section-header-icon-size: 110px;
 
 $border-style-1: 1px solid $like-gray-3;
 $border-style-2: 1px solid $gray-e6;
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

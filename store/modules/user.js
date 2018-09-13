@@ -16,6 +16,7 @@ import {
   USER_SET_SOCIAL_PLATFORMS_IS_PUBLIC,
   USER_ADD_SOCIAL_LINK,
   USER_SET_SOCIAL_LINK,
+  USER_UPDATE_READ_CONTENT_STATUS,
 } from '../mutation-types';
 import * as actions from './actions/user';
 import * as getters from './getters/user';
@@ -131,6 +132,12 @@ const mutations = {
   },
   [USER_SET_LIKECOIN_BIG_NUMBER_AMOUNT](state, payload) {
     state.likeCoinAmountInBigNumber = payload;
+  },
+  [USER_UPDATE_READ_CONTENT_STATUS](state, payload) {
+    Vue.set(state.user, 'read', {
+      ...state.user.read,
+      ...payload,
+    });
   },
 };
 

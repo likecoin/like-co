@@ -189,3 +189,5 @@ export const apiGetLikeArticleInfo = url => axios.get(`${LIKECOIN_MISC_API_BASE}
 export const apiGetLikeURLSuggestion = () => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/like/suggest/all`);
 
 export const apiGetLikeURLPersonalSuggestion = () => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/like/suggest/personal`);
+
+export const apiPostUserReadContent = (id, payload) => axios.put(`/api/users/read/${id}`, payload);

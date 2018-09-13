@@ -6,6 +6,15 @@
 /* sliding menu style for global */
 @import "sliding-menu";
 
+// google font does not support OpenType features
+@font-face {
+    font-family: 'Open Sans';
+    font-weight: normal;
+
+    src: url('/static/font/OpenSans-Regular.ttf');
+}
+
+
 * {
   margin: 0;
   padding: 0;
@@ -115,6 +124,9 @@ a,
     &center {
       justify-content: center;
     }
+    &space-between {
+      justify-content: space-between;
+    }
   }
 
   &.lc-align-items- {
@@ -126,6 +138,12 @@ a,
   &.lc-flex-direction- {
     &column {
       flex-direction: column;
+
+      &-mobile {
+        @media (max-width: 600px) {
+          flex-direction: column;
+        }
+      }
     }
   }
 }
@@ -144,6 +162,10 @@ a,
   .lc-page-footer {
     margin-top: 60px;
     padding: 0;
+
+    &--no-margin {
+      margin-top: 0;
+    }
   }
 }
 
@@ -329,6 +351,7 @@ a,
     @media (max-width: 600px) {
       margin-right: 0;
       margin-left: 0;
+      padding: 2px 24px;
     }
 
     > * {
@@ -362,7 +385,7 @@ a,
   }
 }
 
-$spacing-list: 0 4 8 12 16 24 32 40 48 56 64;
+$spacing-list: 0 4 8 12 16 20 24 32 40 48 56 64;
 
 @each $i in $spacing-list {
   .lc-margin-vertical-#{$i},
@@ -476,7 +499,7 @@ $spacing-list: 0 4 8 12 16 24 32 40 48 56 64;
   }
 }
 
-$font-size-list: 10 12 14 16 18 20 24 32 38 42 46 56;
+$font-size-list: 10 12 14 16 18 20 22 24 32 38 42 46 56;
 
 @each $i in $font-size-list {
   .lc-font-size-#{$i} {
@@ -486,7 +509,7 @@ $font-size-list: 10 12 14 16 18 20 24 32 38 42 46 56;
     @if $i > 14 {
       &.lc-mobile {
         @media (max-width: 600px) {
-          font-size: ($i - 4) * 1px;
+          font-size: ($i - 4) * 1px !important;
         }
       }
     }
@@ -497,7 +520,7 @@ $font-weight-list: 300 400 600;
 
 @each $i in $font-weight-list {
   .lc-font-weight-#{$i} {
-    font-weight: $i;
+    font-weight: $i !important;
   }
 }
 
@@ -587,6 +610,9 @@ $line-height-map: (
   }
   &like-gradient {
     background-image: $like-linear-gradient;
+  }
+  &green {
+    background-color: $like-green;
   }
 }
 
@@ -891,6 +917,10 @@ $line-height-map: (
       @include lc-button-style(#1EA1F2);
     }
 
+    &.lc-gradient-2 {
+      background-image: $like-linear-gradient-2;
+    }
+
     &.shadow {
       box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
     }
@@ -1085,4 +1115,28 @@ span.bold {
       opacity: 0;
     }
   }
+
+  &-fade {
+    &-enter-active,
+    &-leave-active {
+      transition: opacity .3s ease-in;
+    }
+
+    &-enter-active,
+    &-leave {
+      opacity: 1;
+    }
+
+    &-enter,
+    &-leave-to {
+      opacity: 0;
+    }
+  }
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }

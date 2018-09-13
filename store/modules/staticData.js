@@ -35,7 +35,14 @@ const mutations = {
     state.suggestedArticle = output;
   },
   [STATIC_DATA_SET_LIKE_SUGGEST_DETAIL](state, { url, info }) {
-    if (state.suggestedArticle[url]) Vue.set(state.suggestedArticle, url, { url, ...info });
+    if (state.suggestedArticle[url]) {
+      if (info) {
+        Vue.set(state.suggestedArticle, url, { url, ...info });
+      } else {
+        // remove article with incorrect referrer url from suggestion list
+        Vue.delete(state.suggestedArticle, url);
+      }
+    }
   },
   [STATIC_DATA_SET_USER_MIN_INFO](state, { id, displayName, avatar }) {
     Vue.set(state.userInfos, id, { displayName, avatar });

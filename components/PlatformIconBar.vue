@@ -1,5 +1,5 @@
 <template>
-  <div :class="['icon-bar', { vertical: isVertical }]">
+  <div :class="['icon-bar', size, { vertical: isVertical }]">
     <md-button
       v-for="(platform, index) in platforms"
       :key="index"
@@ -8,7 +8,13 @@
       target="_blank"
       rel="noopener noreferrer"
     >
-      <img :src="imgUrl(`${platform.name}.svg`)">
+      <simple-svg
+        :filepath="imgUrl(`${platform.name}.svg`)"
+        :width="iconSize"
+        :height="iconSize"
+        fill="white"
+        stroke="transparent"
+      />
     </md-button>
   </div>
 </template>
@@ -50,11 +56,34 @@ export default {
       type: Boolean,
       default: false,
     },
+    size: {
+      type: String,
+      validator(value) {
+        return ['small', 'medium', 'large'].indexOf(value) !== -1;
+      },
+      default: 'small',
+    },
   },
   data() {
     return {
       platforms,
     };
+  },
+  computed: {
+    iconSize() {
+      let size;
+      switch (this.size) {
+        case 'medium':
+          size = 40;
+          break;
+        case 'large':
+          size = 64;
+          break;
+        default:
+          size = 28;
+      }
+      return `${size}px`;
+    },
   },
   methods: {
     imgUrl(path) {
@@ -66,6 +95,8 @@ export default {
 
 <style lang="scss" scoped>
 @import "~assets/variables";
+
+$icon-size-large: 64px;
 
 .icon-bar {
   display: flex;
@@ -80,10 +111,6 @@ export default {
   &.vertical {
     flex-direction: column;
     justify-content: center;
-
-    .md-icon-button {
-      margin: 0;
-    }
   }
 
   .md-icon-button {
@@ -107,6 +134,29 @@ export default {
     cursor: pointer;
 
     color: $like-green;
+  }
+
+  :global(svg) {
+    fill: unset !important;
+    stroke: unset !important;
+  }
+}
+
+.md-icon-button {
+  .medium.vertical & {
+    margin: 8px 0;
+  }
+  .medium:not(.vertical) & {
+    margin: 0 8px;
+  }
+
+  .large & {
+    width: $icon-size-large;
+    min-width: $icon-size-large;
+    height: $icon-size-large;
+  }
+  .large:not(.vertical) & {
+    margin: 0 10px;
   }
 }
 </style>
