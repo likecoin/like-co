@@ -68,6 +68,10 @@ export default {
       this.$emit('update:isShow', isShowDialog);
     },
   },
+  beforeDestroy() {
+    const body = document.querySelector('body');
+    body.style.overflow = 'auto';
+  },
   methods: {
     closeDialog() {
       this.$emit('update:isShow', false);

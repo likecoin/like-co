@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  name: 'home-banner',
+  name: 'content-civics-cta',
   props: {
     isShowContent: {
       type: Boolean,

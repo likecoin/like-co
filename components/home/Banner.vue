@@ -65,7 +65,7 @@ export default {
     onGifLoaded() {
       this.loadGifTimer = setTimeout(() => {
         this.isGifFinished = true;
-      }, 21500); // time for the gif to finish a round
+      }, 18500); // time for the gif to finish a round
     },
   },
 };

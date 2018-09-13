@@ -48,7 +48,7 @@
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
-  name: 'site-header',
+  name: 'reward-statistics',
   props: {
     isShowAccountButton: {
       type: Boolean,

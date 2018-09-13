@@ -5,6 +5,7 @@
       :key="article.url"
     >
       <mansory-article-item
+        v-scroll-reveal
         v-if="article.title"
         :article="article"
       />

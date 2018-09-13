@@ -9,7 +9,7 @@
         <nuxt />
       </div>
 
-      <footer class="lc-page-footer">
+      <footer class="lc-page-footer lc-page-footer--no-margin">
         <div class="lc-container-0">
           <my-footer />
         </div>

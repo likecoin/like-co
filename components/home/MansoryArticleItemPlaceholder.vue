@@ -37,7 +37,7 @@
 
 <script>
 export default {
-  name: 'mansory-article-item-placeholder-placeholder',
+  name: 'mansory-article-item-placeholder',
   data() {
     return {
       titleWidth: `${50 + Math.random() * 45}%`,

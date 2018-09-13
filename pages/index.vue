@@ -80,9 +80,9 @@
       </div>
     </section>
 
-    <like-button-dialog
-      :is-show.sync="isContentCivicDialogOpen"
-    />
+    <article-dialog :is-show.sync="isLikeButtonIntroDialogOpen">
+      <like-button-intro />
+    </article-dialog>
 
   </div>
 </template>
@@ -96,7 +96,7 @@ import ContentCivicsCta from '@/components/home/ContentCivicsCTA';
 import HeaderFlag from '@/components/about/Flag';
 import HomeBanner from '@/components/home/Banner';
 import LikeButtonDemo from '@/components/home/LikeButtonDemo';
-import LikeButtonDialog from '@/components/dialogs/LikeButtonDialog';
+import LikeButtonIntro from '@/components/LikeButtonIntro';
 import MansoryArticleList from '@/components/home/MansoryArticleList';
 import PlatformCoverage from '@/components/home/PlatformCoverage';
 import PlatformIconBar from '@/components/PlatformIconBar';
@@ -114,7 +114,7 @@ export default {
     HeaderFlag,
     HomeBanner,
     LikeButtonDemo,
-    LikeButtonDialog,
+    LikeButtonIntro,
     MansoryArticleList,
     PlatformCoverage,
     PlatformIconBar,
@@ -124,7 +124,7 @@ export default {
   mixins: [breakpointMixin],
   data() {
     return {
-      isContentCivicDialogOpen: false,
+      isLikeButtonIntroDialogOpen: false,
     };
   },
   computed: {
@@ -169,7 +169,7 @@ export default {
       'queryLikeCoinUsdPrice',
     ]),
     openContentCivicPopup() {
-      this.isContentCivicDialogOpen = true;
+      this.isLikeButtonIntroDialogOpen = true;
     },
   },
 };
