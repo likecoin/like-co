@@ -305,7 +305,7 @@ router.delete('/iap/subscription/donation/:user', jwtAuth, async (req, res, next
   }
 });
 
-router.post('/iap/subscription/claim', jwtOptionalAuth, async (req, res, next) => {
+router.post('/iap/subscription/claim', jwtAuth, async (req, res, next) => {
   try {
     const {
       subscriptionId,
