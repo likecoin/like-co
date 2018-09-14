@@ -43,7 +43,8 @@ export default {
     getSuggestedArticleInfo: {
       handler() {
         this.articles = this.getSuggestedArticleList
-          .map(url => this.getSuggestedArticleInfo[url] || { url })
+          .filter(url => !!this.getSuggestedArticleInfo[url])
+          .map(url => this.getSuggestedArticleInfo[url])
           .slice(0, MAX_ARTICLES_DISPLAY);
       },
       deep: true,
