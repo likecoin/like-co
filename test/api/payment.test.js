@@ -1,6 +1,5 @@
 import test from 'ava';
 import {
-  url,
   invalidWallet,
   txHash,
   txFrom,
@@ -9,13 +8,10 @@ import {
 } from './data';
 
 const jwt = require('jsonwebtoken');
-const axiosist = require('axiosist');
-
-const app = require('../../server/index.js'); // eslint-disable-line import/no-unresolved
-
+const axiosist = require('./axiosist');
 
 test('PAYMENT: Payment. Case: Invalid address.', async (t) => {
-  const res = await axiosist(app).post(`${url}/api/payment`, {
+  const res = await axiosist.post('/api/payment', {
     from: txFrom,
     to: invalidWallet,
     value: 1,
@@ -31,7 +27,7 @@ test('PAYMENT: Payment. Case: Invalid address.', async (t) => {
 });
 
 test('PAYMENT: Get tx by id', async (t) => {
-  const res = await axiosist(app).get(`${url}/api/tx/id/${txHash}`)
+  const res = await axiosist.get(`/api/tx/id/${txHash}`)
     .catch(err => err.response);
 
   t.is(res.status, 200);
@@ -42,8 +38,8 @@ test('PAYMENT: Get tx by id', async (t) => {
 
 test('PAYMENT: Get tx history by addr', async (t) => {
   const token = jwt.sign({ wallet: txTo }, 'likecoin', { expiresIn: '7d' });
-  axiosist(app).defaults.headers.common.Authorization = `Bearer ${token}`;
-  const res = await axiosist(app).get(`${url}/api/tx/history/addr/${txTo}`)
+  axiosist.defaults.headers.common.Authorization = `Bearer ${token}`;
+  const res = await axiosist.get(`/api/tx/history/addr/${txTo}`)
     .catch(err => err.response);
 
   t.is(res.status, 200);

@@ -4,7 +4,6 @@ const txData = require('../data/tx.json');
 //
 // test data
 //
-export const url = 'http://localhost:3000';
 export const {
   id: testingUser1,
   displayName: testingDisplayName1,

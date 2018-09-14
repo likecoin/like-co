@@ -69,20 +69,6 @@ if (!process.env.AUTO_TEST) {
   testEnv.CI = true; // unit test env
   testEnv.NODE_ENV = 'production';
   testEnv.IS_TESTNET = true;
-  testEnv.DISABLE_SERVER = 'TRUE';
-  if (!process.env.CI) {
-    console.log('Building for test');
-    setStub();// spawn as new group of processes
-    execSync('npm run build', { env: testEnv, stdio: 'inherit' });
-  }
-  console.log('Running API test');
-  try {
-    execSync('npm run test:api', { env: testEnv, stdio: 'inherit' });
-  } catch (e) {
-    console.error(e);
-    process.exit(1);
-  }
-  execSync('rm -rf ./.nyc_output_merge && cp -R ./.nyc_output ./.nyc_output_merge');
   try {
     console.log('Running E2E test');
     execSync('npm run test:e2e', { env: testEnv, stdio: 'inherit' });
@@ -90,8 +76,6 @@ if (!process.env.AUTO_TEST) {
     console.error(e);
     process.exit(1);
   }
-  execSync('cp -a ./.nyc_output_merge/. ./.nyc_output');
-  unsetStub();
   console.log('Done');
 }
 

@@ -1,19 +1,16 @@
 import test from 'ava';
 import {
-  url,
   testingUser1,
   testingUser2,
 } from './data';
 
 const jwt = require('jsonwebtoken');
-const axiosist = require('axiosist');
-
-const app = require('../../server/index.js'); // eslint-disable-line import/no-unresolved
+const axiosist = require('./axiosist');
 
 test('MISSION: Get mission list', async (t) => {
   const user = testingUser1;
   const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
-  const res = await axiosist(app).get(`${url}/api/mission/list/${user}`, {
+  const res = await axiosist.get(`/api/mission/list/${user}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -32,7 +29,7 @@ test('MISSION: See mission', async (t) => {
   const user = testingUser1;
   const missionId = 'gettingStart';
   const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
-  const res = await axiosist(app).post(`${url}/api/mission/seen/${missionId}`, {
+  const res = await axiosist.post(`/api/mission/seen/${missionId}`, {
     user,
   }, {
     headers: {
@@ -46,7 +43,7 @@ test('MISSION: Hide mission. Case: not hidable', async (t) => {
   const user = testingUser1;
   const missionId = 'gettingStart';
   const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
-  const res = await axiosist(app).post(`${url}/api/mission/hide/${missionId}`, {
+  const res = await axiosist.post(`/api/mission/hide/${missionId}`, {
     user,
   }, {
     headers: {
@@ -62,7 +59,7 @@ test('MISSION: Finish step mission. Case: success', async (t) => {
   const missionId = 'gettingStart';
   const taskId = 'taskVideo';
   const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
-  const res = await axiosist(app).post(`${url}/api/mission/step/${missionId}`, {
+  const res = await axiosist.post(`/api/mission/step/${missionId}`, {
     user,
     taskId,
   }, {
@@ -78,7 +75,7 @@ test('MISSION: Finish step mission. Case: Unknown mission', async (t) => {
   const missionId = 'telegram'; // undefined mission
   const taskId = 'taskVideo';
   const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
-  const res = await axiosist(app).post(`${url}/api/mission/step/${missionId}`, {
+  const res = await axiosist.post(`/api/mission/step/${missionId}`, {
     user,
     taskId,
   }, {
@@ -94,7 +91,7 @@ test('MISSION: Finish step mission. Case: Unknown task', async (t) => {
   const missionId = 'gettingStart';
   const taskId = 'taskTelegram'; // undefined mission
   const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
-  const res = await axiosist(app).post(`${url}/api/mission/step/${missionId}`, {
+  const res = await axiosist.post(`/api/mission/step/${missionId}`, {
     user,
     taskId,
   }, {
@@ -108,7 +105,7 @@ test('MISSION: Finish step mission. Case: Unknown task', async (t) => {
 test('MISSION: Get mission history', async (t) => {
   const user = testingUser1;
   const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
-  const res = await axiosist(app).get(`${url}/api/mission/list/history/${user}`, {
+  const res = await axiosist.get(`/api/mission/list/history/${user}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -130,7 +127,7 @@ test('MISSION: Get mission history', async (t) => {
 test('MISSION: Get mission history bonus', async (t) => {
   const user = testingUser1;
   const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
-  const res = await axiosist(app).get(`${url}/api/mission/list/history/${user}/bonus`, {
+  const res = await axiosist.get(`/api/mission/list/history/${user}/bonus`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -147,11 +144,11 @@ test('MISSION: Get mission history bonus', async (t) => {
 test('MISSION: Get mission data by missionId', async (t) => {
   const user = testingUser1;
   const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
-  let res = await axiosist(app).get(`${url}/api/mission/gettingStart/user/${user}`)
+  let res = await axiosist.get(`/api/mission/gettingStart/user/${user}`)
     .catch(err => err.response);
   t.is(res.status, 401);
 
-  res = await axiosist(app).get(`${url}/api/mission/gettingStart/user/${user}`, {
+  res = await axiosist.get(`/api/mission/gettingStart/user/${user}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -163,7 +160,7 @@ test('MISSION: Get mission data by missionId', async (t) => {
 test('MISSION: Get referral list', async (t) => {
   const user = testingUser1;
   const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
-  const res = await axiosist(app).get(`${url}/api/referral/list/${user}`, {
+  const res = await axiosist.get(`/api/referral/list/${user}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -181,7 +178,7 @@ test('MISSION: Get referral list', async (t) => {
 test('MISSION: Get referral list bonus', async (t) => {
   const user = testingUser1;
   const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
-  const res = await axiosist(app).get(`${url}/api/referral/list/bonus/${user}`, {
+  const res = await axiosist.get(`/api/referral/list/bonus/${user}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -199,7 +196,7 @@ test('MISSION: Get referral list bonus', async (t) => {
 test('MISSION: See referral', async (t) => {
   const user = testingUser1;
   const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
-  const res = await axiosist(app).post(`${url}/api/referral/seen/${user}`, {
+  const res = await axiosist.post(`/api/referral/seen/${user}`, {
     referralId: testingUser2,
   }, {
     headers: {
