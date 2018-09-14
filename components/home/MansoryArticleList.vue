@@ -34,15 +34,16 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'getSuggestedArticles',
+      'getSuggestedArticleList',
+      'getSuggestedArticleInfo',
       'getUserMinInfoById',
     ]),
   },
   watch: {
-    getSuggestedArticles: {
-      handler(articlesObj) {
-        this.articles = Object.keys(articlesObj)
-          .map(key => articlesObj[key])
+    getSuggestedArticleInfo: {
+      handler() {
+        this.articles = this.getSuggestedArticleList
+          .map(url => this.getSuggestedArticleInfo[url] || { url })
           .slice(0, MAX_ARTICLES_DISPLAY);
       },
       deep: true,
@@ -59,7 +60,7 @@ export default {
     ]),
     async initList() {
       await this.fetchLikeSuggestionList();
-      Object.keys(this.getSuggestedArticles).forEach(async (url) => {
+      this.getSuggestedArticleList.forEach(async (url) => {
         await this.fetchLikeSuggestionDetails(url);
         const { info } = await this.fetchLikeSuggestionDetails(url);
         if (info && !this.getUserMinInfoById(info.user)) {
