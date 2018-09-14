@@ -15,7 +15,8 @@ import * as actions from './actions/staticData';
 const state = {
   likeCoinUsdNumericPrice: 0,
   LIKEStat: {},
-  suggestedArticle: {},
+  suggestedArticleInfo: {},
+  suggestedArticleList: [],
   userInfos: {},
 };
 
@@ -28,19 +29,22 @@ const mutations = {
   },
   [STATIC_DATA_SET_LIKE_SUGGEST_LIST](state, { editorial = [], personal = [], mostLike = [] }) {
     const output = {};
-    const list = editorial.concat(personal).concat(mostLike);
+    let list = editorial.concat(personal).concat(mostLike);
+    const dedup = new Set();
+    list = list.filter(i => (dedup.has(i) ? false : dedup.add(i)));
     list.forEach((url) => {
       output[url] = { url };
     });
-    state.suggestedArticle = output;
+    state.suggestedArticleInfo = output;
+    state.suggestedArticleList = list;
   },
   [STATIC_DATA_SET_LIKE_SUGGEST_DETAIL](state, { url, info }) {
-    if (state.suggestedArticle[url]) {
+    if (state.suggestedArticleInfo[url]) {
       if (info) {
-        Vue.set(state.suggestedArticle, url, { url, ...info });
+        Vue.set(state.suggestedArticleInfo, url, { url, ...info });
       } else {
         // remove article with incorrect referrer url from suggestion list
-        Vue.delete(state.suggestedArticle, url);
+        Vue.delete(state.suggestedArticleInfo, url);
       }
     }
   },

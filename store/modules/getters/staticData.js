@@ -10,6 +10,8 @@ export const getTotalLIKERewardedStatistic = state => state.LIKEStat.LIKEs;
 
 export const getTotalLIKEArticleStatistic = state => state.LIKEStat.totalArticle;
 
-export const getSuggestedArticles = state => state.suggestedArticle;
+export const getSuggestedArticleList = state => state.suggestedArticleList;
+
+export const getSuggestedArticleInfo = state => state.suggestedArticleInfo;
 
 export const getUserMinInfoById = state => id => state.userInfos[id];
