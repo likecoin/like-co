@@ -28,24 +28,14 @@ const mutations = {
     state.LIKEStat = payload;
   },
   [STATIC_DATA_SET_LIKE_SUGGEST_LIST](state, { editorial = [], personal = [], mostLike = [] }) {
-    const output = {};
     let list = editorial.concat(personal).concat(mostLike);
     const dedup = new Set();
     list = list.filter(i => (dedup.has(i) ? false : dedup.add(i)));
-    list.forEach((url) => {
-      output[url] = { url };
-    });
-    state.suggestedArticleInfo = output;
     state.suggestedArticleList = list;
   },
   [STATIC_DATA_SET_LIKE_SUGGEST_DETAIL](state, { url, info }) {
-    if (state.suggestedArticleInfo[url]) {
-      if (info) {
-        Vue.set(state.suggestedArticleInfo, url, { url, ...info });
-      } else {
-        // remove article with incorrect referrer url from suggestion list
-        Vue.delete(state.suggestedArticleInfo, url);
-      }
+    if (info) {
+      Vue.set(state.suggestedArticleInfo, url, { url, ...info });
     }
   },
   [STATIC_DATA_SET_USER_MIN_INFO](state, { id, displayName, avatar }) {
