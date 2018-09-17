@@ -1,23 +1,27 @@
 <template>
   <div class="reward-statistics">
     <div class="reward-statistics__total-reward-wrapper">
-      <span class="lc-font-size-18">
-        {{ $t('Home.RewardStatistics.label.rewarded') }}
-      </span>
-      <h2
-        v-if="getTotalLIKERewardedStatistic"
-        class="reward-statistics__rewarded-amount-label"
-      >
-        {{ totalLIKEStrValue }}
-        <span class="reward-statistics__unit-label">LIKE</span>
-      </h2>
-      <div
-        v-if="getLikeCoinUsdNumericPrice && getTotalLIKERewardedStatistic"
-        class="reward-statistics__rewarded-amount-usd-label lc-color-gray-9b"
-      >(USD {{ totalLIKEUSDStrValue }})</div>
+      <div>
+        <div
+          v-if="totalBackerStrValue !== '0'"
+          class="reward-statistics__rewarded-amount-label"
+        >
+          <h2>{{ totalBackerStrValue }}</h2>
+          <span class="reward-statistics__unit-label">
+            {{ $t('Home.RewardStatistics.label.backers') }}
+          </span>
+        </div>
+      </div>
+      <!-- !! Uncomment when content civics is ready !! -->
+      <!-- <div class="lc-flex lc-align-items-center">
+        <md-button
+          class="md-likecoin outline lc-font-size-14"
+        >Become a Content Civics</md-button>
+      </div> -->
+      <!-- !! Uncomment when content civics is ready !! -->
     </div>
 
-    <div class="reward-statistics__details-wrapper lc-margin-top-32 lc-mobile">
+    <div class="reward-statistics__details-wrapper lc-margin-top-24 lc-mobile">
       <div
         v-for="stat in stats"
         :key="stat.title"
@@ -47,10 +51,27 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
+function formatNumberWithPrefix(number) {
+  const units = [
+    { value: 1e6, symbol: 'M' },
+    { value: 1e3, symbol: 'k' },
+    { value: 1, symbol: '' },
+  ];
+
+  let formattedNumber = '0';
+  for (let i = 0; i < units.length; i += 1) {
+    if (number >= units[i].value) {
+      formattedNumber = `${(number / units[i].value).toFixed().toLocaleString()}${units[i].symbol}`;
+      break;
+    }
+  }
+  return formattedNumber;
+}
+
 export default {
   name: 'reward-statistics',
   props: {
-    isShowAccountButton: {
+    isLargeSize: {
       type: Boolean,
       default: false,
     },
@@ -66,11 +87,6 @@ export default {
     stats() {
       return [
         {
-          title: this.$t('Home.RewardStatistics.label.from'),
-          content: this.$t('Home.RewardStatistics.label.readers'),
-          value: (this.getTotalLikerStatistic || 0).toLocaleString(),
-        },
-        {
           title: this.$t('Home.RewardStatistics.label.to'),
           content: this.$t('Home.RewardStatistics.label.creators'),
           value: (this.getTotalLikeeStatistic || 0).toLocaleString(),
@@ -80,15 +96,21 @@ export default {
           content: this.$t('Home.RewardStatistics.label.contents'),
           value: (this.getTotalLIKEArticleStatistic || 0).toLocaleString(),
         },
+        {
+          title: this.$t('Home.RewardStatistics.label.rewarded'),
+          content: 'LIKE',
+          value: this.totalLIKEStrValue,
+        },
       ];
     },
-    totalLIKEStrValue() {
-      return Math.round(this.getTotalLIKERewardedStatistic || 0).toLocaleString();
+    totalBackerStrValue() {
+      return (this.getTotalLikerStatistic || 0).toLocaleString();
     },
-    totalLIKEUSDStrValue() {
-      return (
-        (this.getTotalLIKERewardedStatistic || 0) * this.getLikeCoinUsdNumericPrice
-      ).toFixed(2);
+    totalLIKEStrValue() {
+      if (!this.isLargeSize) {
+        return formatNumberWithPrefix(this.getTotalLIKERewardedStatistic || 0);
+      }
+      return Math.round(this.getTotalLIKERewardedStatistic || 0).toLocaleString();
     },
   },
   mounted() {
@@ -110,50 +132,56 @@ export default {
     position: relative;
 
     display: flex;
-    align-items: center;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
 
     @media (min-width: 600px + 1px) {
-      min-height: 145px;
+      min-height: 70px;
     }
 
     > * {
       color: $like-green;
+    }
 
-      font-weight: 600;
+    .md-button {
+      min-width: 190px;
+      height: 32px;
+      margin: 0;
+
+      color: #4a4a4a !important;
+      border: 1px solid currentColor !important;
+
+      :global(.md-ripple) {
+        min-height: unset !important;
+      }
     }
   }
 
   &__rewarded-amount-label {
-    animation: fade-in 0.35s ease-in;
+    display: flex;
+    align-items: flex-end;
 
-    font-size: 66px;
-
-    @media (max-width: 600px) {
-      font-size: 36px;
-    }
-  }
-
-  &__rewarded-amount-usd-label {
-    padding: 4px 16px;
+    margin: 8px 0;
 
     animation: fade-in 0.35s ease-in;
 
-    border-bottom: 2px solid $like-gray-3;
+    h2 {
+      margin-right: 8px;
 
-    @media (max-width: 600px) {
-      padding: 2px 0;
+      color: $like-green;
 
-      font-size: 12px;
+      font-size: 64px;
+      font-weight: 400;
+      line-height: 0.85;
+
+      @media (max-width: 600px) {
+        font-size: 36px;
+      }
     }
   }
 
   &__unit-label {
-    position: absolute;
-    top: 54px;
-    right: 0;
-
-    font-size: 22px;
+    font-size: 20px;
 
     @media (max-width: 600px) {
       top: 38px;
@@ -167,25 +195,28 @@ export default {
 
     > * {
       flex: 1;
-    }
 
-    > div:first-child {
-      span {
-        color: $gray-9b;
+      &:first-child {
+        .reward-statistics__stat-content {
+          border-left: 2px solid $gray-e6;
+        }
       }
-      .reward-statistics__stat-content {
-        color: $gray-9b;
-        border-left: 2px solid $gray-e6;
+
+      &:last-child {
+        @media (min-width: 1240px + 1px) {
+          flex: 2;
+        }
       }
     }
   }
 
   &__stat {
     &-title {
+      text-transform: lowercase;
+
       color: $gray-9b;
 
       font-size: 12px;
-      font-weight: 600;
 
       @media (max-width: 600px) {
         font-size: 10px;

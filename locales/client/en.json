@@ -494,7 +494,7 @@
         "from": "from",
         "to": "to",
         "on": "on",
-        "readers": "Readers",
+        "backers": "backers",
         "creators": "Creators",
         "contents": "Contents"
       }
@@ -1310,6 +1310,11 @@
     },
     "button": {
       "startUsing": "Start using"
+    }
+  },
+  "LikerList": {
+    "label": {
+      "aboutLikeCoin": "About LikeCoin"
     }
   }
 }

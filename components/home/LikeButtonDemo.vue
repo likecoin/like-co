@@ -9,7 +9,7 @@
         'lc-mobile-show'
       ]"
     >
-      <site-title isColorLogo />
+      <site-title :logoSrc="likeCoinIcon" />
       <menu-button :is-show-label="false" />
     </div>
 
@@ -34,12 +34,19 @@ import SampleLikeButton from '~/components/home/SampleLikeButton';
 import MenuButton from '~/components/SlidingMenu/MenuButton';
 import SiteTitle from '~/components/SiteTitle';
 
+import likeCoinIcon from '@/assets/logo/icon-label-horizontal.svg';
+
 export default {
   name: 'like-button-demo',
   components: {
     SampleLikeButton,
     MenuButton,
     SiteTitle,
+  },
+  data() {
+    return {
+      likeCoinIcon,
+    };
   },
   methods: {
     openContentCivicPopup() {

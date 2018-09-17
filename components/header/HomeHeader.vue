@@ -6,10 +6,10 @@
 
     <div class="home-header__navigation">
       <div class="home-header__navigation--left">
-        <site-title isColorLogo />
+        <site-title :logoSrc="likeCoinColorIcon" />
         <span
           v-if="getLikeCoinUsdNumericPrice"
-          class="home-header__like-rate bold"
+          class="home-header__like-rate bold lc-margin-top-4"
         >USD{{ usdPriceStr }} / LIKE</span>
       </div>
 
@@ -35,6 +35,8 @@ import { mapActions, mapGetters } from 'vuex';
 import MenuButton from '~/components/SlidingMenu/MenuButton';
 import SiteTitle from '~/components/SiteTitle';
 
+import likeCoinColorIcon from '@/assets/logo/color-icon-label-horizontal.svg';
+
 import getTestAttribute from '@/util/test';
 
 export default {
@@ -42,6 +44,11 @@ export default {
   components: {
     MenuButton,
     SiteTitle,
+  },
+  data() {
+    return {
+      likeCoinColorIcon,
+    };
   },
   computed: {
     ...mapGetters([

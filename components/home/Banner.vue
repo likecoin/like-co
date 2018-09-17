@@ -1,10 +1,7 @@
 <template>
   <div class="home-banner">
 
-    <div
-      v-if="isGifFinished"
-      class="home-banner__wrapper lc-margin-top-8"
-    >
+    <div class="home-banner__wrapper">
       <div class="home-banner__content">
         <h1 class="lc-color-like-dark-brown-2">
           {{ $t('Home.Banner.label.slogan') }}
@@ -20,19 +17,11 @@
         >{{ $t('Home.Banner.label.rewardPOC') }}</p>
       </div>
 
-      <div class="lc-text-align-center lc-margin-top-24">
+      <!-- !! Uncomment when content civics is ready !! -->
+      <!-- <div class="lc-text-align-center lc-margin-top-24">
         <content-civics-cta :is-show-content="false" />
-      </div>
-    </div>
-
-    <div
-      v-else
-      class="home-banner__gif lc-text-align-center"
-    >
-      <img
-        :src="PocGif"
-        @load="onGifLoaded"
-      >
+      </div> -->
+      <!-- !! Uncomment when content civics is ready !! -->
     </div>
 
     <div class="home-banner__bottom-underlay" />
@@ -41,32 +30,12 @@
 
 
 <script>
-import PocGif from '@/assets/home/wordpress-poc.gif';
-
-import ContentCivicsCta from './ContentCivicsCTA';
+// import ContentCivicsCta from './ContentCivicsCTA';
 
 export default {
   name: 'home-banner',
   components: {
-    ContentCivicsCta,
-  },
-  data() {
-    return {
-      isGifFinished: false,
-      PocGif,
-    };
-  },
-  beforeDestroy() {
-    if (this.loadGifTimer) {
-      clearTimeout(this.loadGifTimer);
-    }
-  },
-  methods: {
-    onGifLoaded() {
-      this.loadGifTimer = setTimeout(() => {
-        this.isGifFinished = true;
-      }, 18500); // time for the gif to finish a round
-    },
+    // ContentCivicsCta,
   },
 };
 </script>
@@ -76,13 +45,18 @@ export default {
 
 .home-banner {
   width: 100%;
-  height: 540px;
+  height: 358px;
   padding: 40px 112px;
 
   background-image: url('~/assets/home/banner.png');
   background-position: center;
+  background-size: cover;
 
   &__wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
     animation: fade-in 0.35s ease-in;
   }
 
@@ -90,7 +64,8 @@ export default {
     h1 {
       max-width: 400px;
 
-      font-size: 70px;
+      font-size: 60px;
+      line-height: 1.1;
     }
     p {
       max-width: 272px;

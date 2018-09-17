@@ -3,14 +3,13 @@
     <div class="mansory-article-item__wrapper">
       <div class="mansory-article-item__header">
         <div class="mansory-article-item__author">
-          <img
-            v-if="author"
-            :src="author.avatar"
-          >
           <nuxt-link
             v-if="author"
             :to="{ name: 'id', params: { id: article.user } }"
-          >{{ author.displayName }}</nuxt-link>
+          >
+            <img :src="author.avatar">
+            {{ author.displayName }}
+          </nuxt-link>
         </div>
 
         <div
@@ -27,26 +26,29 @@
         </div>
       </div>
 
-      <div
-        v-if="article.image"
-        class="mansory-article-item__og-image"
+      <a
+        :href="article.url"
+        rel="noopener noreferrer"
+        target="_blank"
+        class="mansory-article-item__og-wrapper"
       >
-        <img :src="article.image">
-      </div>
+        <div
+          v-if="article.image"
+          class="mansory-article-item__og-image"
+        >
+          <img :src="article.image">
+        </div>
 
-      <div class="mansory-article-item__content">
-        <a
-          :href="article.url"
-          rel="noopener noreferrer"
-          target="_blank"
-        >{{ decodeURIComponent(article.url) }}</a>
+        <div class="mansory-article-item__content">
+          <span>{{ articleUrlHost }}</span>
 
-        <h1>{{ article.title }}</h1>
+          <h1>{{ article.title }}</h1>
 
-        <p v-if="description">
-          {{ description }}
-        </p>
-      </div>
+          <p v-if="description">
+            {{ description }}
+          </p>
+        </div>
+      </a>
     </div>
   </article>
 </template>
@@ -81,6 +83,14 @@ export default {
     },
     author() {
       return this.getUserMinInfoById(this.article.user);
+    },
+    articleUrlHost() {
+      try {
+        const url = new URL(this.article.url);
+        return url.hostname.replace(/^www./, '');
+      } catch (err) {
+        return '';
+      }
     },
   },
   methods: {
@@ -135,6 +145,11 @@ $author-avatar-size: 36px;
 
     font-size: 18px;
 
+    a {
+      display: flex;
+      align-items: center;
+    }
+
     img {
       width: $author-avatar-size;
       height: $author-avatar-size;
@@ -149,23 +164,58 @@ $author-avatar-size: 36px;
   &__like-count {
     display: flex;
 
+    cursor: pointer;
+
     .simple-svg-wrapper {
       margin-top: -4px;
       margin-left: 8px;
     }
   }
 
+  &__og-wrapper {
+    text-decoration: none !important;
+
+    &:hover {
+      .mansory-article-item__og-image {
+        &:after {
+          opacity: 1;
+        }
+      }
+
+      .mansory-article-item__content {
+        background-color: $gray-e6;
+      }
+    }
+  }
+
   &__og-image {
+    position: relative;
+
+    @media (min-width: 600px + 1px) {
+      width: calc(100% + 16px);
+      margin-left: -8px;
+    }
+
+    &:after {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+
+      content: ' ';
+      transition: opacity .2s ease-in;
+
+      opacity: 0;
+      background-color: rgba(28, 28, 28, 0.08);
+    }
+
     img {
+      width: 100%;
+
       background-color: $like-white;
 
       object-fit: cover;
-
-      @media (min-width: 600px + 1px) {
-        width: calc(100% + 16px);
-        max-width: unset;
-        margin-left: -8px;
-      }
 
       @media (max-width: 600px) {
         border-right: none;
@@ -177,13 +227,18 @@ $author-avatar-size: 36px;
   &__content {
     padding: 8px 24px 16px;
 
-    a {
+    transition: background-color .2s ease-in;
+
+    color: $like-gray-5;
+
+    span {
       display: block;
       overflow: hidden;
 
       width: 80%;
 
       white-space: nowrap;
+      text-transform: lowercase;
       text-overflow: ellipsis;
 
       color: $like-gray-5;

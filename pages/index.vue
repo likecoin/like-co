@@ -30,25 +30,33 @@
                 class="lc-mobile-show"
                 size="medium"
               />
-              <content-civics-cta
+              <!-- !! Uncomment when content civics is ready !! -->
+              <!-- <content-civics-cta
                 class="lc-margin-top-16 lc-container-3 lc-mobile-show"
-              />
+              /> -->
+              <!-- !! Uncomment when content civics is ready !! -->
 
-              <reward-statistics />
+              <div class="lc-flex lc-justify-content-center lc-flex-grow-1">
+                <reward-statistics
+                  :is-large-size="breakpoint.width > 1240"
+                />
+              </div>
             </div>
 
             <div class="lc-container-4">
               <mansory-article-list
-                class="lc-margin-top-24 lc-mobile"
+                class="lc-margin-vertical-24 lc-mobile"
               />
             </div>
           </div>
 
-          <div class="lc-container-3 lc-bg-gray-1">
+          <!-- !! Uncomment when content civics is ready !! -->
+          <!-- <div class="lc-container-3 lc-bg-gray-1">
             <div class="lc-padding-vertical-40 lc-mobile">
               <content-civics-cta />
             </div>
-          </div>
+          </div> -->
+          <!-- !! Uncomment when content civics is ready !! -->
         </div>
       </div>
     </section>
@@ -80,8 +88,13 @@
       </div>
     </section>
 
-    <article-dialog :is-show.sync="isLikeButtonIntroDialogOpen">
-      <like-button-intro />
+    <article-dialog
+      :is-show.sync="isLikeButtonIntroDialogOpen"
+      :is-center="false"
+    >
+      <like-button-intro
+        class="lc-margin-top-32 lc-mobile"
+      />
     </article-dialog>
 
   </div>
@@ -92,7 +105,7 @@
 import { mapGetters, mapActions } from 'vuex';
 
 import ArticleDialog from '@/components/dialogs/ArticleDialog';
-import ContentCivicsCta from '@/components/home/ContentCivicsCTA';
+// import ContentCivicsCta from '@/components/home/ContentCivicsCTA';
 import HeaderFlag from '@/components/about/Flag';
 import HomeBanner from '@/components/home/Banner';
 import LikeButtonDemo from '@/components/home/LikeButtonDemo';
@@ -110,7 +123,7 @@ export default {
   layout: 'index',
   components: {
     ArticleDialog,
-    ContentCivicsCta,
+    // ContentCivicsCta,
     HeaderFlag,
     HomeBanner,
     LikeButtonDemo,
@@ -179,10 +192,6 @@ export default {
 <style lang="scss" scoped>
 @import "~assets/variables";
 
-.lc-header {
-  border-bottom: 2px solid $like-green;
-}
-
 .icon-bar {
   &.vertical {
     :global(svg) {
@@ -220,7 +229,7 @@ export default {
 
   &__like-button-details {
     @media (min-width: 600px + 1px) {
-      margin-top: -64px;
+      margin-top: -24px;
     }
 
     .icon-bar {
@@ -255,10 +264,12 @@ export default {
 footer {
   position: relative;
 
-  margin-top: 96px;
-
   color: $like-white;
   border: none;
+
+  &.lc-page-footer {
+    margin-top: 96px;
+  }
 
   .icon-bar {
     position: absolute;
