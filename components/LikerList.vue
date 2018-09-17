@@ -29,7 +29,7 @@
           <user-avatar
             v-for="(liker, index) in likers"
             :key="index"
-            :user="getUserMinInfoById(liker)"
+            :user="getUserDetails(liker)"
           />
 
           <transition name="lc-transition-default">
@@ -63,6 +63,8 @@ import { mapActions, mapGetters } from 'vuex';
 import LikeForm from '~/components/LikeForm';
 import UserAvatar from '~/components/UserAvatar';
 
+const NUM_DEFAULT_LIKERS_TO_SHOW = 8;
+
 export default {
   name: 'liker-list',
   components: {
@@ -89,29 +91,40 @@ export default {
       'getLikerListDetails',
       'getUserMinInfoById',
     ]),
+    likerListDetails() {
+      return this.getLikerListDetails(this.referrer) || {};
+    },
     hasFetchedListDetails() {
-      return this.getLikerListDetails(this.referrer).likers !== undefined;
+      return !!this.getLikerListDetails(this.referrer);
     },
     likers() {
-      return this.getLikerListDetails(this.referrer).likers || [];
+      return this.likerListDetails.likers || [];
     },
     numOfLikes() {
-      return this.getLikerListDetails(this.referrer).numOfLikes || 0;
+      return this.likerListDetails.numOfLikes || 0;
     },
   },
   watch: {
     likers(list) {
-      this.isShowAll = list.length <= 8;
+      this.isShowAll = list.length <= NUM_DEFAULT_LIKERS_TO_SHOW;
     },
   },
   mounted() {
-    const { id, referrer } = this;
-    this.fetchLikeButtonStatistics({ id, referrer });
+    const { id, referrer, hasFetchedListDetails } = this;
+    if (!hasFetchedListDetails) {
+      this.fetchLikeButtonStatistics({ id, referrer });
+    }
   },
   methods: {
     ...mapActions([
       'fetchLikeButtonStatistics',
     ]),
+    getUserDetails(id) {
+      return {
+        ...this.getUserMinInfoById(id),
+        id,
+      };
+    },
   },
 };
 </script>

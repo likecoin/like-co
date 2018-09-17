@@ -16,4 +16,4 @@ export const getSuggestedArticleInfo = state => state.suggestedArticleInfo;
 
 export const getUserMinInfoById = state => id => state.userInfos[id];
 
-export const getLikerListDetails = state => id => (state.likerListDetails[id] || {});
+export const getLikerListDetails = state => id => state.likerListDetails[id];
