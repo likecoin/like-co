@@ -6,8 +6,16 @@
       mdCloseOnEsc: false,
       mdFullscreen: true,
     }"
-    class="article-dialog"
+    :class="[
+      'article-dialog',
+      { 'article-dialog--center': isCenter }
+    ]"
   >
+    <div
+      slot="header-left"
+    >
+      <div class="article-dialog__title">{{ title }}</div>
+    </div>
     <div
       slot="header-right"
       class="article-dialog__close-btn"
@@ -43,6 +51,14 @@ export default {
     isShow: {
       type: Boolean,
       default: true,
+    },
+    isCenter: {
+      type: Boolean,
+      default: true,
+    },
+    title: {
+      type: String,
+      default: '',
     },
   },
   data() {
@@ -90,9 +106,11 @@ $dialog-top-margin: 40px;
 .article-dialog {
   width: 816px;
 
-  @media (min-width: 600px + 1px) {
-    max-height: calc(100% - #{$dialog-top-margin});
-    margin-top: $dialog-top-margin;
+  &:not(.article-dialog--center) {
+    @media (min-width: 600px + 1px) {
+      max-height: calc(100% - #{$dialog-top-margin});
+      margin-top: $dialog-top-margin;
+    }
   }
 
   :global(.lc-section-header) {
@@ -112,9 +130,17 @@ $dialog-top-margin: 40px;
     content: none;
   }
 
-  :global(.lc-dialog-content) {
-    padding-top: 46px;
+  :global(.left) {
+    max-width: 70%;
+
+    font-size: 18px;
   }
+
+  &__title { overflow: hidden;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    }
 
   &__close-btn {
     display: flex;

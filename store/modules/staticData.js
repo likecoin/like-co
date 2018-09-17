@@ -8,6 +8,7 @@ import {
   STATIC_DATA_SET_LIKE_SUGGEST_LIST,
   STATIC_DATA_SET_LIKE_SUGGEST_DETAIL,
   STATIC_DATA_SET_USER_MIN_INFO,
+  STATIC_DATA_SET_LIKER_LIST_DETAIL,
 } from '../mutation-types';
 import * as getters from './getters/staticData';
 import * as actions from './actions/staticData';
@@ -18,6 +19,7 @@ const state = {
   suggestedArticleInfo: {},
   suggestedArticleList: [],
   userInfos: {},
+  likerListDetails: {},
 };
 
 const mutations = {
@@ -40,6 +42,9 @@ const mutations = {
   },
   [STATIC_DATA_SET_USER_MIN_INFO](state, { id, displayName, avatar }) {
     Vue.set(state.userInfos, id, { displayName, avatar });
+  },
+  [STATIC_DATA_SET_LIKER_LIST_DETAIL](state, { id, ...payload }) {
+    Vue.set(state.likerListDetails, id, { ...payload });
   },
 };
 

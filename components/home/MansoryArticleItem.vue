@@ -13,7 +13,10 @@
           >{{ author.displayName }}</nuxt-link>
         </div>
 
-        <div class="mansory-article-item__like-count">
+        <div
+          class="mansory-article-item__like-count"
+          @click="onClickLikeCount"
+        >
           {{ article.like }}
           <simple-svg
             :filepath="LikeTextIcon"
@@ -78,6 +81,15 @@ export default {
     },
     author() {
       return this.getUserMinInfoById(this.article.user);
+    },
+  },
+  methods: {
+    onClickLikeCount() {
+      this.$emit('click-like-stat', {
+        id: this.article.user,
+        referrer: this.article.referrer,
+        title: this.article.title,
+      });
     },
   },
 };
