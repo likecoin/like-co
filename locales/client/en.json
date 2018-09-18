@@ -520,9 +520,9 @@
     },
     "LikeButtonDemo": {
       "label": {
-        "button": "LikeButton",
-        "lookForButton": "Look for this {LikeButton} in LikeCoin Content.",
-        "creatorGetLike": "Creators will receive LIKE rewards if you appreciate it."
+        "button": "",
+        "lookForButton": "Contents in the LikeCoin ecosystem feature {LikeButton}.",
+        "creatorGetLike": "Creators are rewarded daily in LikeCoin according to the number of Likes."
       }
     },
     "Footer": {
@@ -808,7 +808,7 @@
     },
     "head": {
       "title": "LikeCoin - Reinventing the Like.",
-      "description": "Rewarding contents by proof of creativity. Send LikeCoin to {name}"
+      "description": "Rewarding contents by Proof of Creativity. Send LikeCoin to {name}"
     },
     "error": {
       "notSupported": "Your wallet does not support this function",
@@ -1269,7 +1269,7 @@
   "LikeButtonIntro": {
     "wordpress": {
       "title": "Install LikeCoin plugin",
-      "content": "{installWp} to enable new LikeButtons in your posts by just one click.  The plugin is nothing to do with client browser’s computational power, all you need are reader’s Likes.  No annoying ads on the button, it is your own brand. {wpInstruction}",
+      "content": "{installWp} to enable new LikeButtons in your posts by just one click.  The plugin is nothing to do with client browser’s computational power, all you need are reader’s Likes. No annoying ads on the button, it is your own brand. {wpInstruction}",
       "caption": "LikeButton will show on your post after installed the {plugin}",
       "label": {
         "installWp": "Install WordPress plugin",
@@ -1304,10 +1304,10 @@
       "enroll": "Campaign Enrollment"
     },
     "label": {
-      "earn": "Add the reinvented LikeButton to your creative content to turn reader’s Likes into income.  Keep connected with your fans, promote your own brand with the nicely designed UI.",
-      "poc": "With the focus on rewarding content creators, LikeCoin(LIKE) measures the importance of creative contents, i.e. creativity, and let content creators to mine LikeCoin with their creative contents according to the Likes they get. We call the mechanism proof of creativity, or PoC.",
-      "campaign": "Act immediately to earn LIKE by your creative works.  There are three platforms that support the LikeButton now: WordPress, Medium and oice.",
-      "enroll": "Add the LikeButton to your creative works, get Likes from your fans, it’s that simple!  We are giving out millions of LikeCoin per month to reward creators.  Let’s go ahead for the bonus."
+      "earn": "Add the reinvented LikeButton to your creative contents to turn readers' Likes into passive income. Keep connected with your fans, promote your own brand with a nicely designed UI.",
+      "poc": "With the focus on rewarding content creators, LikeCoin (LIKE) measures the "creativity" of creative contents and let creators make passive income in LIKE with their creative contents according to the Likes they get. We call the mechanism Proof of Creativity, or PoC.",
+      "campaign": "Act immediately to earn LIKE by your creative works. There are three platforms that support the LikeButton now: WordPress-powered sites, Medium and oice.",
+      "enroll": "Add the LikeButton to your creative works; get Likes from your fans. It’s that simple! We are giving out millions of LikeCoin per month to reward creators. Let’s go ahead for the bonus."
     },
     "button": {
       "startUsing": "Start using"
