@@ -72,7 +72,7 @@ jobs:
       - run:
           name: Unit Test (Nightwatch)
           command: |
-            xvfb-run --server-args="-screen 0 1600x1200x24" npm run test
+            xvfb-run --server-args="-screen 0 1600x1200x24" npm run test:e2e
             cp -a ./.nyc_output_merge/. ./.nyc_output
       - run:
           name: Upload coverage
