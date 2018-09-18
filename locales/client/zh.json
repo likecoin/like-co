@@ -493,8 +493,8 @@
     "LikeButtonDemo": {
       "label": {
         "button": "LikeButton",
-        "lookForButton": "瀏覽支持 LikeButton 的網頁",
-        "creatorGetLike": "只要點讚喜歡的內容，作者即能獲賞。"
+        "lookForButton": "極簡用戶體驗。",
+        "creatorGetLike": "讀者點讚，作者獲賞。"
       }
     }
   },
