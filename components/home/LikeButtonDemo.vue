@@ -9,16 +9,24 @@
         'lc-mobile-show'
       ]"
     >
-      <site-title isColorLogo />
+      <site-title :logoSrc="likeCoinIcon" />
       <menu-button :is-show-label="false" />
     </div>
 
-    <h1 class="lc-font-size-32 lc-color-like-dark-brown-2">
-      {{ $t('Home.LikeButtonDemo.label.button') }}
-    </h1>
-    <p class="lc-margin-top-8 lc-color-like-gray-5 lc-font-weight-600">
-      {{ $t('Home.LikeButtonDemo.label.description') }}
-    </p>
+    <i18n
+      class="lc-font-size-18 lc-margin-top-8 lc-color-like-gray-5 lc-line-height-1_35"
+      path="Home.LikeButtonDemo.label.lookForButton"
+      tag="p"
+    >
+      <span
+        class="bold lc-cursor-pointer"
+        place="LikeButton"
+        @click="openContentCivicPopup"
+      >{{ $t('Home.LikeButtonDemo.label.button') }}</span>
+    </i18n>
+    <p
+      class="lc-font-weight-600 lc-margin-top-8"
+    >{{ $t('Home.LikeButtonDemo.label.creatorGetLike') }}</p>
 
     <sample-like-button
       class="lc-margin-top-24"
@@ -34,12 +42,19 @@ import SampleLikeButton from '~/components/home/SampleLikeButton';
 import MenuButton from '~/components/SlidingMenu/MenuButton';
 import SiteTitle from '~/components/SiteTitle';
 
+import likeCoinIcon from '@/assets/logo/icon-label-horizontal.svg';
+
 export default {
   name: 'like-button-demo',
   components: {
     SampleLikeButton,
     MenuButton,
     SiteTitle,
+  },
+  data() {
+    return {
+      likeCoinIcon,
+    };
   },
   methods: {
     openContentCivicPopup() {

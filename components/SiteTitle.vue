@@ -5,7 +5,7 @@
   >
 
     <img
-      :src="isColorLogo ? likeCoinColorIcon : likeCoinIcon"
+      :src="logoSrc"
       alt="like.co/in"
     >
     <span
@@ -28,9 +28,9 @@ import likeCoinColorIcon from '@/assets/logo/color-icon-label-horizontal.svg';
 export default {
   name: 'site-title',
   props: {
-    isColorLogo: {
-      type: Boolean,
-      default: false,
+    logoSrc: {
+      type: String,
+      default: likeCoinIcon,
     },
   },
   data() {

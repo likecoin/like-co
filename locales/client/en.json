@@ -494,7 +494,7 @@
         "from": "from",
         "to": "to",
         "on": "on",
-        "readers": "Readers",
+        "backers": "backers",
         "creators": "Creators",
         "contents": "Contents"
       }
@@ -521,7 +521,8 @@
     "LikeButtonDemo": {
       "label": {
         "button": "LikeButton",
-        "description": "Look for this LikeButton in LikeCoin Content. Creators will receive LIKE rewards if you appreciate it."
+        "lookForButton": "Look for this {LikeButton} in LikeCoin Content.",
+        "creatorGetLike": "Creators will receive LIKE rewards if you appreciate it."
       }
     },
     "Footer": {
@@ -1310,6 +1311,11 @@
     },
     "button": {
       "startUsing": "Start using"
+    }
+  },
+  "LikerList": {
+    "label": {
+      "aboutLikeCoin": "About LikeCoin"
     }
   }
 }

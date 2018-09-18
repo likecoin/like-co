@@ -9,7 +9,7 @@ export async function queryLikeCoinUsdPrice({ commit, dispatch }) {
     const data = await apiWrapper({ commit, dispatch }, api.apiQueryLikeCoinFiatPrice());
     commit(types.STATIC_DATA_SET_LIKECOIN_USD_NUMERIC_PRICE, data.market_data.current_price.usd);
   } catch (err) {
-    console.error(err);
+    console.error(err); // eslint-disable-line no-console
   }
 }
 
@@ -18,7 +18,7 @@ export async function fetchLikeStatistic({ commit, dispatch }) {
     const data = await apiWrapper({ commit, dispatch }, api.apiGetLikeStatistic());
     commit(types.STATIC_DATA_SET_LIKE_STAT, data);
   } catch (err) {
-    console.error(err);
+    console.error(err); // eslint-disable-line no-console
   }
 }
 
@@ -37,7 +37,7 @@ export async function fetchLikeSuggestionList({ commit, dispatch }) {
     } = suggestionObj;
     commit(types.STATIC_DATA_SET_LIKE_SUGGEST_LIST, { editorial, personal, mostLike });
   } catch (err) {
-    console.error(err);
+    console.error(err); // eslint-disable-line no-console
   }
 }
 
@@ -67,6 +67,33 @@ export async function fetchUserMinInfo({ commit, dispatch }, id) {
       displayName,
     });
   } catch (err) {
-    console.error(err);
+    console.error(err); // eslint-disable-line no-console
+  }
+}
+
+export async function fetchLikeButtonStatistics({ commit, dispatch, state }, { id, referrer }) {
+  try {
+    const promises = [
+      apiWrapper({ commit, dispatch }, api.apiGetLikeButtonLikerList(id, referrer)),
+      apiWrapper({ commit, dispatch }, api.apiGetLikeButtonTotalCount(id, referrer)),
+    ];
+
+    const [
+      likers,
+      { total: numOfLikes },
+    ] = await Promise.all(promises);
+    commit(types.STATIC_DATA_SET_LIKER_LIST_DETAIL, {
+      id: referrer,
+      likers,
+      numOfLikes,
+    });
+
+    likers.forEach((likerId) => {
+      if (!state.userInfos[likerId]) {
+        dispatch('fetchUserMinInfo', likerId);
+      }
+    });
+  } catch (err) {
+    console.error(err); // eslint-disable-line no-console
   }
 }

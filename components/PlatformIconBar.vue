@@ -120,11 +120,21 @@ $icon-size-large: 64px;
       margin-right: 0;
     }
     &:hover {
-      opacity: .7;
+      :global(svg) {
+        opacity: .7;
+      }
+    }
+
+    :global(.md-button-content) {
+      background-color: $like-white;
     }
 
     :global(.md-ripple) {
       padding: 0 6px;
+    }
+
+    :global(svg) {
+      transition: opacity .25s ease-in;
     }
   }
 
