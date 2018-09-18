@@ -51,9 +51,12 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
+const UPDATE_LIKE_STATISTICS_TIME_INTERVAL = 60000; // 1 minute
+const UPDATE_TOTAL_LIKE_TIME_INTERVAL = 8000; // 8 seconds
+const INITIAL_TOTAL_LIKE_DIFFERENCE = 50;
+
 function formatNumberWithPrefix(number) {
   const units = [
-    { value: 1e6, symbol: 'M' },
     { value: 1e3, symbol: 'k' },
     { value: 1, symbol: '' },
   ];
@@ -61,11 +64,15 @@ function formatNumberWithPrefix(number) {
   let formattedNumber = '0';
   for (let i = 0; i < units.length; i += 1) {
     if (number >= units[i].value) {
-      formattedNumber = `${(number / units[i].value).toFixed().toLocaleString()}${units[i].symbol}`;
+      formattedNumber = `${Math.round(number / units[i].value).toLocaleString()}${units[i].symbol}`;
       break;
     }
   }
   return formattedNumber;
+}
+
+function getRandomRange(min, max) {
+  return Math.round(min + Math.ceil(Math.random() * (max - min)));
 }
 
 export default {
@@ -75,6 +82,13 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  data() {
+    return {
+      displayTotalLIKE: 0,
+      fetchedTotalLIKE: 0,
+      totalLikeStep: 0,
+    };
   },
   computed: {
     ...mapGetters([
@@ -99,27 +113,65 @@ export default {
         {
           title: this.$t('Home.RewardStatistics.label.rewarded'),
           content: 'LIKE',
-          value: this.totalLIKEStrValue,
+          value: this.displayTotalLIKEStrValue,
         },
       ];
     },
     totalBackerStrValue() {
       return (this.getTotalLikerStatistic || 0).toLocaleString();
     },
-    totalLIKEStrValue() {
+    displayTotalLIKEStrValue() {
       if (!this.isLargeSize) {
-        return formatNumberWithPrefix(this.getTotalLIKERewardedStatistic || 0);
+        return formatNumberWithPrefix(this.displayTotalLIKE || 0);
       }
-      return Math.round(this.getTotalLIKERewardedStatistic || 0).toLocaleString();
+      return Math.round(this.displayTotalLIKE || 0).toLocaleString();
+    },
+  },
+  watch: {
+    getTotalLIKERewardedStatistic(val) {
+      if (!this.fetchedTotalLIKE) {
+        this.displayTotalLIKE = val - INITIAL_TOTAL_LIKE_DIFFERENCE;
+      }
+      this.fetchedTotalLIKE = val;
+      this.totalLikeStep = (val - this.displayTotalLIKE)
+        / (UPDATE_LIKE_STATISTICS_TIME_INTERVAL / UPDATE_TOTAL_LIKE_TIME_INTERVAL);
+
+      this.clearTotalLikeTimer();
+      this.randomUpdateTotalLIKE();
     },
   },
   mounted() {
     this.fetchLikeStatistic();
+    this.likeStatisticTimer = setInterval(() => {
+      this.fetchLikeStatistic();
+    }, UPDATE_LIKE_STATISTICS_TIME_INTERVAL);
+  },
+  beforeDestroy() {
+    if (this.likeStatisticTimer) {
+      clearInterval(this.likeStatisticTimer);
+    }
+    this.clearTotalLikeTimer();
   },
   methods: {
     ...mapActions([
       'fetchLikeStatistic',
     ]),
+    clearTotalLikeTimer() {
+      if (this.totalLikeTimer) {
+        clearTimeout(this.totalLikeTimer);
+      }
+    },
+    randomUpdateTotalLIKE() {
+      this.totalLikeTimer = setTimeout(() => {
+        const newDisplayLike = this.displayTotalLIKE + getRandomRange(
+          this.totalLikeStep / 2, this.totalLikeStep * 3 / 2,
+        );
+        this.displayTotalLIKE = Math.min(newDisplayLike, this.fetchedTotalLIKE);
+        if (this.displayTotalLIKE < this.fetchedTotalLIKE) {
+          this.randomUpdateTotalLIKE();
+        }
+      }, UPDATE_TOTAL_LIKE_TIME_INTERVAL);
+    },
   },
 };
 </script>
@@ -134,6 +186,8 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+
+    padding: 0 16px;
 
     @media (min-width: 600px + 1px) {
       min-height: 70px;
