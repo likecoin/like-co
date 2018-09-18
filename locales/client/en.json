@@ -521,8 +521,8 @@
     "LikeButtonDemo": {
       "label": {
         "button": "",
-        "lookForButton": "Contents in the LikeCoin ecosystem feature {LikeButton}.",
-        "creatorGetLike": "Creators are rewarded daily in LikeCoin according to the number of Likes."
+        "lookForButton": "For all contents featuring {LikeButton},",
+        "creatorGetLike": "creators are rewarded daily in LikeCoin (LIKE) according to the number of Likes received."
       }
     },
     "Footer": {
