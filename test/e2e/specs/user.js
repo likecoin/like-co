@@ -15,8 +15,8 @@ module.exports = {
 
     browser
       .url(devServer)
-      .waitForElementVisible('.lc-container-3 button.account-btn', 3000)
-      .click('.lc-container-3 button.account-btn')
+      .waitForElementVisible('button[lc-test=homeHeader-registerButton]', 3000)
+      .click('button[lc-test=homeHeader-registerButton]')
       .waitForElementVisible('#registerForm', 5000)
       .setValue('input[lc-test=registerForm-userId]', newId)
       .setValue('input[lc-test=registerForm-email]', newIdEmail)

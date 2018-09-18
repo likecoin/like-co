@@ -18,6 +18,7 @@ export const ValidationHelper = {
       isEmailVerified,
       isEmailEnabled,
       email,
+      read = {},
     } = u;
     return {
       user,
@@ -29,6 +30,7 @@ export const ValidationHelper = {
       referrer: !!referrer,
       isEmailVerified,
       isEmailEnabled,
+      read,
     };
   },
   filterUserDataMin({
