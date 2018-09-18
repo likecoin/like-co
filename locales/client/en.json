@@ -487,6 +487,47 @@
         "faq": "FAQ",
         "faqLink": "https://help.like.co/likecoin-faq"
       }
+    },
+    "RewardStatistics": {
+      "label": {
+        "rewarded": "Rewarded",
+        "from": "from",
+        "to": "to",
+        "on": "on",
+        "backers": "backers",
+        "creators": "Creators",
+        "contents": "Contents"
+      }
+    },
+    "Banner": {
+      "label": {
+        "slogan": "Reinventing the Like",
+        "rewardPOC": "Rewarding Contents by Proof of Creativity"
+      }
+    },
+    "ContentCivicsCTA": {
+      "title": "Content Civics",
+      "content": "This is content under Content Civics. The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog",
+      "button": {
+        "support": "Become a Content Civics"
+      }
+    },
+    "PlatformCoverage": {
+      "title": {
+        "seeOn": "See LikeCoin on:",
+        "buyOn": "Buy LikeCoin on:"
+      }
+    },
+    "LikeButtonDemo": {
+      "label": {
+        "button": "LikeButton",
+        "lookForButton": "For all contents featuring {LikeButton}, creators are rewarded daily in LikeCoin (LIKE) according to the number of Likes received."
+      }
+    },
+    "Footer": {
+      "label": {
+        "join": "Join LikeCoin community for latest news and discussion"
+      }
     }
   },
   "Footer": {
@@ -766,7 +807,7 @@
     },
     "head": {
       "title": "LikeCoin - Reinventing the Like.",
-      "description": "Rewarding contents by proof of creativity. Send LikeCoin to {name}"
+      "description": "Rewarding contents by Proof of Creativity. Send LikeCoin to {name}"
     },
     "error": {
       "notSupported": "Your wallet does not support this function",
@@ -1222,6 +1263,58 @@
     },
     "button": {
       "connectToPlatform": "Connect to your {platform}"
+    }
+  },
+  "LikeButtonIntro": {
+    "wordpress": {
+      "title": "Install LikeCoin plugin",
+      "content": "{installWp} to enable new LikeButtons in your posts by just one click.  The plugin is nothing to do with client browser’s computational power, all you need are reader’s Likes. No annoying ads on the button, it is your own brand. {wpInstruction}",
+      "caption": "LikeButton will show on your post after installed the {plugin}",
+      "label": {
+        "installWp": "Install WordPress plugin",
+        "instruction": "Installation Instruction",
+        "plugin": "LikeCoin Plugin"
+      },
+      "url": {
+        "instruction": "https://help.like.co/likecoin-faq/product/how-to-enable-likebutton-on-wordpress-website"
+      }
+    },
+    "medium": {
+      "title": "Adding your LikeButton",
+      "content": "It’s easy to insert the LikeButton into your Medium articles.  Just insert your LikeButton URL into your articles with the format below:",
+      "caption": "Simply type your LikeCoin link and press ‘Enter’ in your story"
+    },
+    "oice": {
+      "title": "Connect with LikeCoin ID",
+      "content": "Bind your LikeCoin ID in {oiceWebsite}. The LikeButton will appear automatically on your oice visual novel after you have bind your LikeCoin ID with your oice account. {oiceInstruction}",
+      "caption": "LikeButton will show aside with your story",
+      "label": {
+        "instruction": "View the instruction here"
+      },
+      "url": {
+        "instruction": "https://help.like.co/likecoin-faq/product/how-to-enable-likebutton-in-oice-content"
+      }
+    },
+    "title": {
+      "earn": "Earn LikeCoin by Reinvented LikeButton",
+      "poc": "Proof of Creativity",
+      "slogan": "Get Rewarded by Reader’s Likes NOW",
+      "campaign": "“Reinventing the Like” Campaign is Live",
+      "enroll": "Campaign Enrollment"
+    },
+    "label": {
+      "earn": "Add the reinvented LikeButton to your creative contents to turn readers' Likes into passive income. Keep connected with your fans, promote your own brand with a nicely designed UI.",
+      "poc": "With the focus on rewarding content creators, LikeCoin (LIKE) measures the \"creativity\" of creative contents and let creators make passive income in LIKE with their creative contents according to the Likes they get. We call the mechanism Proof of Creativity, or PoC.",
+      "campaign": "Act immediately to earn LIKE by your creative works. There are three platforms that support the LikeButton now: WordPress-powered sites, Medium and oice.",
+      "enroll": "Add the LikeButton to your creative works; get Likes from your fans. It’s that simple! We are giving out millions of LikeCoin per month to reward creators. Let’s go ahead for the bonus."
+    },
+    "button": {
+      "startUsing": "Start using"
+    }
+  },
+  "LikerList": {
+    "label": {
+      "aboutLikeCoin": "About LikeCoin"
     }
   }
 }

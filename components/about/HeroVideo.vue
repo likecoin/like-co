@@ -60,7 +60,7 @@
 
 <script>
 import VideoPlayerDialog from '@/components/dialogs/VideoPlayerDialog';
-import PlayVideoButton from '@/components/home/PlayVideoButton';
+import PlayVideoButton from '@/components/about/PlayVideoButton';
 
 import PlayTriangleIcon from '@/assets/icons/play-triangle.svg';
 

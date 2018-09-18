@@ -117,9 +117,8 @@ const MENU_ITEMS = [
     section: 'primary',
     items: [
       {
-        key: 'bonus',
-        to: { name: 'in-bonus' },
-        isRegistered: true,
+        key: 'aboutLikeCoin',
+        to: { name: 'in-about' },
       },
       {
         key: 'tokenSale',

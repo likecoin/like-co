@@ -181,3 +181,13 @@ export const apiPostSocialPlatformsIsPublic = payload => axios.patch('/api/socia
 export const apiPostAddUserSocialLink = payload => axios.post('/api/social/links/new', payload);
 
 export const apiPostUpdateUserSocialLink = (linkId, payload) => axios.put(`/api/social/links/${linkId}`, payload);
+
+export const apiGetLikeStatistic = () => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/like/stat`);
+
+export const apiGetLikeArticleInfo = url => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/like/suggest/info/`, { params: { url } });
+
+export const apiGetLikeURLSuggestion = () => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/like/suggest/all`);
+
+export const apiGetLikeURLPersonalSuggestion = () => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/like/suggest/personal`);
+
+export const apiPostUserReadContent = (id, payload) => axios.put(`/api/users/read/${id}`, payload);

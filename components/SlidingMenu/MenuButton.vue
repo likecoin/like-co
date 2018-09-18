@@ -4,7 +4,10 @@
     @click="toggleMenu"
   >
 
-    <div class="nav-label">
+    <div
+      v-if="isShowLabel"
+      class="nav-label"
+    >
       <div>{{ $t('Menu.button.menu') }}</div>
       <div>{{ $t('Menu.button.close') }}</div>
     </div>
@@ -24,6 +27,12 @@ import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'menu-button',
+  props: {
+    isShowLabel: {
+      type: Boolean,
+      default: true,
+    },
+  },
   computed: {
     ...mapGetters([
       'getIsSlidingMenuOpen',

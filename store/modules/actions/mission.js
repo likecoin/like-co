@@ -46,7 +46,7 @@ export async function refreshMissionHistoryList({ commit, dispatch }, id) {
 }
 
 export async function refreshMissionList(ctx, id) {
-  const { commit } = ctx;
+  const { commit, rootState } = ctx;
   commit(types.MISSION_START_FETCHING_MISSION_LIST);
   const [missions, referralMissions, bonus] = await Promise.all([
     apiWrapper(ctx, api.apiFetchMissionList(id)),
@@ -57,12 +57,29 @@ export async function refreshMissionList(ctx, id) {
   commit(types.MISSION_SET_MISSION_HIDDEN_LIST, missions.filter(m => m.hide));
   commit(types.MISSION_SET_REFERRAL_LIST, referralMissions);
   commit(types.MISSION_SET_REFERRAL_BONUS_LIST, bonus);
+  // TODO: merge with getUserMinInfoById getter in staticData
+  const { userInfos } = rootState.staticData;
   referralMissions.forEach(async (r) => {
-    const {
-      avatar, displayName,
-    } = await apiWrapper(ctx, api.apiGetUserMinById(r.id), { slient: true });
+    const userId = r.id;
+    let avatar;
+    let displayName;
+    if (userInfos[userId]) {
+      ({
+        avatar, displayName,
+      } = userInfos[userId]);
+    } else {
+      // TODO: merge with fetchUserMinInfo action in staticData
+      ({
+        avatar, displayName,
+      } = await apiWrapper(ctx, api.apiGetUserMinById(userId), { slient: true }));
+      commit(types.STATIC_DATA_SET_USER_MIN_INFO, {
+        id: userId,
+        avatar,
+        displayName,
+      });
+    }
     commit(types.MISSION_SET_REFERRAL_AVATAR, {
-      userId: r.id,
+      userId,
       avatar,
       displayName,
     });

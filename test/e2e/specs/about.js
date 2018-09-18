@@ -13,7 +13,7 @@ module.exports = {
     const devServer = browser.globals.devServerURL;
 
     browser
-      .url(devServer)
+      .url(`${devServer}/in/about`)
       .waitForElementVisible('.cta-section', 5000)
       .verify.elementPresent('.cta-section')
       .verify.containsText('.cta-section', 'Whitepaper')

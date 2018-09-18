@@ -24,7 +24,6 @@ import {
   UI_OPEN_SLIDING_MENU,
   UI_CLOSE_SLIDING_MENU,
   UI_SET_PROMPT_NOTIFICATION_DIALOG,
-  UI_SET_LIKECOIN_USD_NUMERIC_PRICE,
   UI_SET_SIGN_PAYLOAD_OBJECT,
 } from '../mutation-types';
 import * as getters from './getters/ui';
@@ -54,7 +53,6 @@ const state = {
   txDialogActionRoute: null,
   txDialogActionText: '',
   isShowingPromptNotificationDialog: false,
-  likeCoinUsdNumericPrice: 0,
 };
 
 const mutations = {
@@ -155,9 +153,6 @@ const mutations = {
   },
   [UI_SET_PROMPT_NOTIFICATION_DIALOG](state, payload) {
     state.isShowingPromptNotificationDialog = payload;
-  },
-  [UI_SET_LIKECOIN_USD_NUMERIC_PRICE](state, payload) {
-    state.likeCoinUsdNumericPrice = payload;
   },
 };
 
