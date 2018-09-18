@@ -51,6 +51,10 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
+const UPDATE_LIKE_STATISTICS_TIME_INTERVAL = 60000; // 1 minute
+const UPDATE_TOTAL_LIKE_TIME_INTERVAL = 5000; // 5 seconds
+const INITIAL_TOTAL_LIKE_DIFFERENCE = 50;
+
 function formatNumberWithPrefix(number) {
   const units = [
     { value: 1e6, symbol: 'M' },
@@ -68,6 +72,10 @@ function formatNumberWithPrefix(number) {
   return formattedNumber;
 }
 
+function getRandomRange(max, min) {
+  return Math.round(min + Math.ceil(Math.random() * (max - min)));
+}
+
 export default {
   name: 'reward-statistics',
   props: {
@@ -75,6 +83,13 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  data() {
+    return {
+      displayTotalLIKE: 0,
+      fetchedTotalLIKE: 0,
+      totalLikeStep: 0,
+    };
   },
   computed: {
     ...mapGetters([
@@ -99,27 +114,65 @@ export default {
         {
           title: this.$t('Home.RewardStatistics.label.rewarded'),
           content: 'LIKE',
-          value: this.totalLIKEStrValue,
+          value: this.displayTotalLIKEStrValue,
         },
       ];
     },
     totalBackerStrValue() {
       return (this.getTotalLikerStatistic || 0).toLocaleString();
     },
-    totalLIKEStrValue() {
+    displayTotalLIKEStrValue() {
       if (!this.isLargeSize) {
-        return formatNumberWithPrefix(this.getTotalLIKERewardedStatistic || 0);
+        return formatNumberWithPrefix(this.displayTotalLIKE || 0);
       }
-      return Math.round(this.getTotalLIKERewardedStatistic || 0).toLocaleString();
+      return Math.round(this.displayTotalLIKE || 0).toLocaleString();
+    },
+  },
+  watch: {
+    getTotalLIKERewardedStatistic(val) {
+      if (!this.fetchedTotalLIKE) {
+        this.displayTotalLIKE = val - INITIAL_TOTAL_LIKE_DIFFERENCE;
+      }
+      this.fetchedTotalLIKE = val;
+      this.totalLikeStep = (val - this.displayTotalLIKE)
+        / (UPDATE_LIKE_STATISTICS_TIME_INTERVAL / UPDATE_TOTAL_LIKE_TIME_INTERVAL);
+
+      this.clearTotalLikeTimer();
+      this.randomUpdateTotalLIKE();
     },
   },
   mounted() {
     this.fetchLikeStatistic();
+    this.likeStatisticTimer = setInterval(() => {
+      this.fetchLikeStatistic();
+    }, UPDATE_LIKE_STATISTICS_TIME_INTERVAL);
+  },
+  beforeDestroy() {
+    if (this.likeStatisticTimer) {
+      clearInterval(this.likeStatisticTimer);
+    }
+    this.clearTotalLikeTimer();
   },
   methods: {
     ...mapActions([
       'fetchLikeStatistic',
     ]),
+    clearTotalLikeTimer() {
+      if (this.totalLikeTimer) {
+        clearTimeout(this.totalLikeTimer);
+      }
+    },
+    randomUpdateTotalLIKE() {
+      this.totalLikeTimer = setTimeout(() => {
+        const newDisplayLike = this.displayTotalLIKE + getRandomRange(
+          this.totalLikeStep, this.totalLikeStep / 2,
+        );
+        this.displayTotalLIKE = Math.min(newDisplayLike, this.fetchedTotalLIKE);
+        if (this.displayTotalLIKE < this.fetchedTotalLIKE) {
+          this.randomUpdateTotalLIKE();
+        }
+      }, UPDATE_TOTAL_LIKE_TIME_INTERVAL);
+    },
   },
 };
 </script>

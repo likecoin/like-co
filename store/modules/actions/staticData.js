@@ -46,6 +46,7 @@ export async function fetchLikeSuggestionDetails({ commit, dispatch }, url) {
     const info = await apiWrapper(
       { commit, dispatch },
       api.apiGetLikeArticleInfo(url),
+      { slient: true },
     );
     commit(types.STATIC_DATA_SET_LIKE_SUGGEST_DETAIL, { url, info });
     return { info };
