@@ -15,6 +15,7 @@ module.exports = {
 
     browser
       .url(devServer)
+      .pause(6000)
       .waitForElementVisible('button[lc-test=homeHeader-registerButton]', 3000)
       .click('button[lc-test=homeHeader-registerButton]')
       .waitForElementVisible('#registerForm', 5000)
