@@ -52,12 +52,11 @@
 import { mapActions, mapGetters } from 'vuex';
 
 const UPDATE_LIKE_STATISTICS_TIME_INTERVAL = 60000; // 1 minute
-const UPDATE_TOTAL_LIKE_TIME_INTERVAL = 5000; // 5 seconds
+const UPDATE_TOTAL_LIKE_TIME_INTERVAL = 8000; // 8 seconds
 const INITIAL_TOTAL_LIKE_DIFFERENCE = 50;
 
 function formatNumberWithPrefix(number) {
   const units = [
-    { value: 1e6, symbol: 'M' },
     { value: 1e3, symbol: 'k' },
     { value: 1, symbol: '' },
   ];
@@ -65,14 +64,14 @@ function formatNumberWithPrefix(number) {
   let formattedNumber = '0';
   for (let i = 0; i < units.length; i += 1) {
     if (number >= units[i].value) {
-      formattedNumber = `${(number / units[i].value).toFixed().toLocaleString()}${units[i].symbol}`;
+      formattedNumber = `${Math.round(number / units[i].value).toLocaleString()}${units[i].symbol}`;
       break;
     }
   }
   return formattedNumber;
 }
 
-function getRandomRange(max, min) {
+function getRandomRange(min, max) {
   return Math.round(min + Math.ceil(Math.random() * (max - min)));
 }
 
@@ -165,7 +164,7 @@ export default {
     randomUpdateTotalLIKE() {
       this.totalLikeTimer = setTimeout(() => {
         const newDisplayLike = this.displayTotalLIKE + getRandomRange(
-          this.totalLikeStep, this.totalLikeStep / 2,
+          this.totalLikeStep / 2, this.totalLikeStep * 3 / 2,
         );
         this.displayTotalLIKE = Math.min(newDisplayLike, this.fetchedTotalLIKE);
         if (this.displayTotalLIKE < this.fetchedTotalLIKE) {
@@ -187,6 +186,8 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+
+    padding: 0 16px;
 
     @media (min-width: 600px + 1px) {
       min-height: 70px;
