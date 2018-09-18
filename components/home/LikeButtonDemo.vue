@@ -14,7 +14,7 @@
     </div>
 
     <i18n
-      class="lc-font-size-18 lc-margin-top-8 lc-color-like-gray-5 lc-line-height-1_35"
+      class="lc-margin-top-8 lc-font-weight-600"
       path="Home.LikeButtonDemo.label.lookForButton"
       tag="p"
     >
@@ -24,9 +24,6 @@
         @click="openContentCivicPopup"
       >{{ $t('Home.LikeButtonDemo.label.button') }}</span>
     </i18n>
-    <p
-      class="lc-font-weight-600 lc-margin-top-8"
-    >{{ $t('Home.LikeButtonDemo.label.creatorGetLike') }}</p>
 
     <sample-like-button
       class="lc-margin-top-24"

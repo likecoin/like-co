@@ -493,8 +493,7 @@
     "LikeButtonDemo": {
       "label": {
         "button": "LikeButton",
-        "lookForButton": "瀏覽支持 LikeButton 的網頁",
-        "creatorGetLike": "只要點讚喜歡的內容，作者即能獲賞。"
+        "lookForButton": "但凡支持 {LikeButton} 的內容，讀者點讚，作者獲賞。"
       }
     }
   },
@@ -1105,7 +1104,7 @@
   "LikeButtonIntro": {
     "wordpress": {
       "title": "安裝 LikeCoin 外掛",
-      "content": "{installWp}以為你的文章加上 LikeButton 吧。請放心，此外掛插件完全不是那種利用客戶端算力進行挖礦的惡意程序，而只跟讀者的「讚好」有關。LikeButton 也跟一般的廣告橫幅完全不同，它是用來特出創作者的品牌的。 {wpInstruction}",
+      "content": "{installWp}以為你的文章加上 LikeButton 吧。請放心，此外掛插件完全不會利用客戶端算力挖礦，而只跟讀者的「讚好」有關。LikeButton 突出創作者的品牌，也跟一般的廣告橫幅完全不同。 {wpInstruction}",
       "caption": "LikeButton will show on your post after installing the {plugin}",
       "label": {
         "installWp": "安裝 WordPress 外掛",
@@ -1123,7 +1122,7 @@
     },
     "oice": {
       "title": "連結你的 LikeCoin ID",
-      "content": "在 {oiceWebsite} 連結你的 LikeCoin ID。在 oice.com 連結你的 LikeCoin ID 以後，你創作的故事便會自動顯示出 LikeButton。 {oiceInstruction}",
+      "content": "在 {oiceWebsite} 連結你的 LikeCoin ID。在 oice.com 連結你的 LikeCoin ID 以後，你創作的故事便會自動顯示 LikeButton。 {oiceInstruction}",
       "caption": "LikeButton will show aside with your story",
       "label": {
         "instruction": "點此教學"
