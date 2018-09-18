@@ -139,6 +139,10 @@ export default {
       min-height: 70px;
     }
 
+    @media (max-width: 600px) {
+      justify-content: center;
+    }
+
     > * {
       color: $like-green;
     }
@@ -243,7 +247,7 @@ export default {
       font-variant-numeric: oldstyle-nums;
 
       @media (max-width: 600px) {
-        font-size: 20px;
+        font-size: 32px;
       }
     }
 

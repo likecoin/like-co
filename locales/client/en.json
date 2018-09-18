@@ -521,7 +521,8 @@
     "LikeButtonDemo": {
       "label": {
         "button": "LikeButton",
-        "description": "Look for this LikeButton in LikeCoin Content. Creators will receive LIKE rewards if you appreciate it."
+        "lookForButton": "Look for this {LikeButton} in LikeCoin Content.",
+        "creatorGetLike": "Creators will receive LIKE rewards if you appreciate it."
       }
     },
     "Footer": {

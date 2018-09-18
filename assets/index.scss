@@ -534,6 +534,7 @@ $font-weight-list: 300 400 600;
 $line-height-map: (
   1: 1,
   1_2: 1.2,
+  1_35: 1.35,
   1_5: 1.5,
   1_6: 1.6,
   2: 2
@@ -619,6 +620,12 @@ $line-height-map: (
   }
   &green {
     background-color: $like-green;
+  }
+}
+
+.lc-cursor- {
+  &pointer {
+    cursor: pointer;
   }
 }
 
