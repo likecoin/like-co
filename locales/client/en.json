@@ -520,9 +520,8 @@
     },
     "LikeButtonDemo": {
       "label": {
-        "button": "",
-        "lookForButton": "For all contents featuring {LikeButton},",
-        "creatorGetLike": "creators are rewarded daily in LikeCoin (LIKE) according to the number of Likes received."
+        "button": "LikeButton",
+        "lookForButton": "For all contents featuring {LikeButton}, creators are rewarded daily in LikeCoin (LIKE) according to the number of Likes received."
       }
     },
     "Footer": {
@@ -1305,7 +1304,7 @@
     },
     "label": {
       "earn": "Add the reinvented LikeButton to your creative contents to turn readers' Likes into passive income. Keep connected with your fans, promote your own brand with a nicely designed UI.",
-      "poc": "With the focus on rewarding content creators, LikeCoin (LIKE) measures the "creativity" of creative contents and let creators make passive income in LIKE with their creative contents according to the Likes they get. We call the mechanism Proof of Creativity, or PoC.",
+      "poc": "With the focus on rewarding content creators, LikeCoin (LIKE) measures the \"creativity\" of creative contents and let creators make passive income in LIKE with their creative contents according to the Likes they get. We call the mechanism Proof of Creativity, or PoC.",
       "campaign": "Act immediately to earn LIKE by your creative works. There are three platforms that support the LikeButton now: WordPress-powered sites, Medium and oice.",
       "enroll": "Add the LikeButton to your creative works; get Likes from your fans. It’s that simple! We are giving out millions of LikeCoin per month to reward creators. Let’s go ahead for the bonus."
     },

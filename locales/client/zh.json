@@ -492,9 +492,8 @@
     },
     "LikeButtonDemo": {
       "label": {
-        "button": "",
-        "lookForButton": "但凡支持 LikeButton 的內容，",
-        "creatorGetLike": "讀者點讚，作者獲賞。"
+        "button": "LikeButton",
+        "lookForButton": "但凡支持 {LikeButton} 的內容，讀者點讚，作者獲賞。"
       }
     }
   },
