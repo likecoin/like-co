@@ -27,6 +27,7 @@
                 <md-button
                   :to="startBtnToObject"
                   class="md-likecoin outline"
+                  @click="onClickStart"
                 >{{ $t('LikeButtonIntro.button.startUsing') }}</md-button>
               </div>
             </div>
@@ -169,6 +170,7 @@
                   <md-button
                     :to="startBtnToObject"
                     class="md-likecoin outline"
+                    @click="onClickStart"
                   >{{ $t('LikeButtonIntro.button.startUsing') }}</md-button>
                 </div>
               </div>
@@ -183,7 +185,7 @@
 
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 import SelectableField from '@/components/SelectableField';
 import ContentIllustration from '@/assets/home/wordpress-poc.gif';
@@ -228,7 +230,7 @@ export default {
       WORDPRESS_PLUGIN_URL,
       startBtnToObject: {
         name: 'in-settings-button',
-        params: { isShowIntro: true },
+        params: { isShowIntro: false },
       },
     };
   },
@@ -240,6 +242,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions(['updateUserReadContentStatus']),
     getIconPath(name) {
       return assetFolder(`./icons/social-media/${name}.svg`);
     },
@@ -257,6 +260,10 @@ export default {
     },
     onClickStart() {
       this.$emit('start');
+      this.updateUserReadContentStatus({
+        id: this.getUserInfo.user,
+        payload: { likebuttonIntro: true },
+      });
     },
   },
 };
