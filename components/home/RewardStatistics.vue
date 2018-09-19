@@ -30,14 +30,23 @@
           {{ stat.title }}
         </span>
         <div class="reward-statistics__stat-content">
-          <div
-            v-if="stat.value !== '0'"
-            class="reward-statistics__stat-value"
-          >{{ stat.value }}</div>
+          <template v-if="stat.value !== '0'">
+            <div
+              v-if="stat.content !== 'LIKE'"
+              class="reward-statistics__stat-value"
+            >{{ stat.value }}</div>
+            <odometer-counter
+              v-else
+              :font-size="isMobileSize ? 32 : 38"
+              :num-str="stat.value"
+              class="lc-flex lc-justify-content-center"
+            />
+          </template>
           <div
             v-else
             class="reward-statistics__stat-value-placeholder"
           />
+
           <div class="reward-statistics__stat-desc">
             {{ stat.content }}
           </div>
@@ -51,9 +60,13 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
+import OdometerCounter from './OdometerCounter';
+
 const UPDATE_LIKE_STATISTICS_TIME_INTERVAL = 60000; // 1 minute
 const UPDATE_TOTAL_LIKE_TIME_INTERVAL = 8000; // 8 seconds
 const INITIAL_TOTAL_LIKE_DIFFERENCE = 50;
+const LARGE_DESKTOP_SCREEN_WIDTH = 1240;
+const MOBILE_SCREEN_WIDTH = 600;
 
 function formatNumberWithPrefix(number) {
   const units = [
@@ -77,10 +90,13 @@ function getRandomRange(min, max) {
 
 export default {
   name: 'reward-statistics',
+  components: {
+    OdometerCounter,
+  },
   props: {
-    isLargeSize: {
-      type: Boolean,
-      default: false,
+    screenWidth: {
+      type: Number,
+      default: 0,
     },
   },
   data() {
@@ -125,6 +141,12 @@ export default {
         return formatNumberWithPrefix(this.displayTotalLIKE || 0);
       }
       return Math.round(this.displayTotalLIKE || 0).toLocaleString();
+    },
+    isLargeSize() {
+      return this.screenWidth > LARGE_DESKTOP_SCREEN_WIDTH;
+    },
+    isMobileSize() {
+      return this.screenWidth <= MOBILE_SCREEN_WIDTH;
     },
   },
   watch: {
@@ -297,6 +319,8 @@ export default {
     }
 
     &-value {
+      padding-bottom: 6px;
+
       animation: fade-in 0.35s ease-in;
 
       font-size: 38px;
@@ -321,6 +345,10 @@ export default {
 
   &__stat-value-placeholder {
     min-height: 38px;
+  }
+
+  .odometer-counter {
+    animation: fade-in 0.35s ease-in;
   }
 }
 </style>

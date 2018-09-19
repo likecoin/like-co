@@ -36,7 +36,7 @@
 
               <div class="lc-flex lc-justify-content-center lc-flex-grow-1">
                 <reward-statistics
-                  :is-large-size="breakpoint.width > 1240"
+                  :screen-width="breakpoint.width"
                 />
               </div>
             </div>
