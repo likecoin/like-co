@@ -67,8 +67,9 @@ if (config.dev) {
 // Give nuxt middleware to express
 app.use(nuxt.render);
 
-// Listen the server
-app.listen(port, host);
+// Listen the server if not under e2e test
+if (!process.env.IS_STANDALONE_TEST) app.listen(port, host);
+
 console.log(`Deploying on ${IS_TESTNET ? 'rinkeby' : 'mainnet'}`); // eslint-disable-line no-console
 console.log(`Server listening on ${host}:${port}`); // eslint-disable-line no-console
 

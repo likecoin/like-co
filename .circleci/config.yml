@@ -63,17 +63,23 @@ jobs:
           command: |
             npm run test:api
             rm -rf ./.nyc_output_merge && cp -R ./.nyc_output ./.nyc_output_merge
+          environment:
+            IS_TESTNET: TRUE
       - run:
           name: Build
           command: npm run build
           environment:
-            IS_TESTNET: true
+            IS_TESTNET: TRUE
             NODE_ENV: production
       - run:
           name: Unit Test (Nightwatch)
           command: |
-            xvfb-run --server-args="-screen 0 1600x1200x24" npm run test
+            xvfb-run --server-args="-screen 0 1600x1200x24" npm run test:e2e
             cp -a ./.nyc_output_merge/. ./.nyc_output
+          environment:
+            IS_TESTNET: TRUE
+            NODE_ENV: production
+            IS_STANDALONE_TEST: TRUE
       - run:
           name: Upload coverage
           command: npm run report-coverage
