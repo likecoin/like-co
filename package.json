@@ -29,7 +29,7 @@
     "test:api:social": "ava -v test/api/social.test.js",
     "test:api:misc": "ava -v test/api/misc.test.js",
     "test:nuxt": "ava -v test/nuxt/nuxt.test.js",
-    "test:e2e": "./node_modules/.bin/nightwatch --config test/e2e/nightwatch.conf.js",
+    "test:e2e": "nyc ./node_modules/.bin/nightwatch --config test/e2e/nightwatch.conf.js",
     "test:e2e:about": "./node_modules/.bin/nightwatch -c test/e2e/nightwatch.conf.js -g about.js",
     "test:e2e:tx": "./node_modules/.bin/nightwatch -c test/e2e/nightwatch.conf.js -g tx.js",
     "test:e2e:user": "./node_modules/.bin/nightwatch -c test/e2e/nightwatch.conf.js -g user.js",
