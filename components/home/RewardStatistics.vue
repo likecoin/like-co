@@ -6,7 +6,11 @@
           v-if="totalBackerStrValue !== '0'"
           class="reward-statistics__rewarded-amount-label"
         >
-          <h2>{{ totalBackerStrValue }}</h2>
+          <odometer-counter
+            :font-size="isMobileSize ? 36 : 64"
+            :num-str="totalBackerStrValue"
+            class="lc-flex lc-justify-content-center"
+          />
           <span class="reward-statistics__unit-label">
             {{ $t('Home.RewardStatistics.label.backers') }}
           </span>
@@ -30,18 +34,12 @@
           {{ stat.title }}
         </span>
         <div class="reward-statistics__stat-content">
-          <template v-if="stat.value !== '0'">
-            <div
-              v-if="stat.content !== 'LIKE'"
-              class="reward-statistics__stat-value"
-            >{{ stat.value }}</div>
-            <odometer-counter
-              v-else
-              :font-size="isMobileSize ? 32 : 38"
-              :num-str="stat.value"
-              class="lc-flex lc-justify-content-center"
-            />
-          </template>
+          <odometer-counter
+            v-if="stat.value !== '0'"
+            :font-size="isMobileSize ? 32 : 38"
+            :num-str="stat.value"
+            class="lc-flex lc-justify-content-center"
+          />
           <div
             v-else
             class="reward-statistics__stat-value-placeholder"
@@ -244,8 +242,6 @@ export default {
     display: flex;
     align-items: flex-end;
 
-    margin: 8px 0;
-
     animation: fade-in 0.35s ease-in;
 
     h2 {
@@ -261,14 +257,19 @@ export default {
         font-size: 36px;
       }
     }
+
+    :global(.odometer-counter__digit-container) {
+      font-variant-numeric: normal;
+    }
   }
 
   &__unit-label {
+    margin-left: 8px;
+    padding-bottom: 10px;
+
     font-size: 20px;
 
     @media (max-width: 600px) {
-      top: 38px;
-
       font-size: 16px;
     }
   }
@@ -333,7 +334,7 @@ export default {
     }
 
     &-desc {
-      margin-top: 12px;
+      margin-top: 8px;
 
       font-size: 16px;
 

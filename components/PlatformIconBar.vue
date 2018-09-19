@@ -135,6 +135,7 @@ $icon-size-large: 64px;
     }
 
     :global(.md-button-content) {
+      border-radius: 50%;
       background-color: $like-white;
     }
 
