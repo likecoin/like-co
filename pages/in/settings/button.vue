@@ -363,7 +363,13 @@ export default {
   },
   mounted() {
     if (this.getUserNeedRegister) {
-      this.$router.push({ name: 'in-register', query: { ref: 'in-settings', ...this.$route.query } });
+      this.$router.push({
+        name: 'in-register',
+        query: {
+          ref: 'in-settings-button',
+          ...this.$route.query,
+        },
+      });
     } else if (this.getUserNeedAuth) {
       this.triggerLoginSign();
     } else if (this.getUserIsReady && this.getUserIsRegistered) {
@@ -377,7 +383,6 @@ export default {
     ...mapActions([
       'loginUser',
       'updateSocialPlatformIsPublic',
-      'updateUserReadContentStatus',
     ]),
     async triggerLoginSign() {
       if (!(await this.loginUser())) this.$router.go(-1);
@@ -440,7 +445,7 @@ export default {
     },
     setIsShowLikeButtonIntro(user) {
       const { isShowIntro } = this.$route.params;
-      if (isShowIntro) {
+      if (isShowIntro !== undefined) {
         this.isShowIntro = isShowIntro;
       } else if (user.read) {
         this.isShowIntro = !user.read.likebuttonIntro;
@@ -448,10 +453,6 @@ export default {
     },
     onClickIntroStart() {
       this.isShowIntro = false;
-      this.updateUserReadContentStatus({
-        id: this.getUserInfo.user,
-        payload: { likebuttonIntro: true },
-      });
     },
   },
 };

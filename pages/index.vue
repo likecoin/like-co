@@ -1,21 +1,19 @@
 <template>
   <div class="home-page">
-    <template v-if="!isMobileSize">
-      <section class="lc-container-0 lc-header lc-mobile-hide">
-        <div class="lc-container-1">
-          <div class="home-page__header-underlay" />
-          <div class="lc-container-2">
-            <site-header />
-          </div>
+    <section class="lc-container-0 lc-header lc-mobile-hide">
+      <div class="lc-container-1">
+        <div class="home-page__header-underlay" />
+        <div class="lc-container-2">
+          <site-header />
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="lc-container-0 lc-mobile-hide">
-        <div class="lc-container-1">
-          <home-banner />
-        </div>
-      </section>
-    </template>
+    <section class="lc-container-0 lc-mobile-hide">
+      <div class="lc-container-1">
+        <home-banner />
+      </div>
+    </section>
 
     <section class="lc-container-0 home-page__like-button-details">
       <div class="lc-container-1">
