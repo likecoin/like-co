@@ -21,7 +21,7 @@
       class="article-dialog__close-btn"
       @click="closeDialog"
     >
-      <span>close</span>
+      <span>{{ $t('Menu.button.close') }}</span>
       <simple-svg
         :filepath="CrossIcon"
         width="32px"

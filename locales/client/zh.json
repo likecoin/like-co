@@ -225,7 +225,8 @@
       "whitepaper": "@:Whitepaper.Button.whitepaper",
       "support": "@:Footer.button.support",
       "press": "媒體",
-      "poc": "概念驗證"
+      "poc": "概念驗證",
+      "settings": "設定"
     }
   },
   "Sign": {
@@ -479,6 +480,16 @@
         "faqLink": "https://help.like.co/likecoin-常見問題"
       }
     },
+    "RewardStatistics": {
+      "label": {
+        "rewarded": "回饋了",
+        "to": "正支持",
+        "on": "的",
+        "backers": "backers",
+        "creators": "創作者",
+        "contents": "作品"
+      }
+    },
     "Banner": {
       "label": {
         "slogan": "化讚為賞",
@@ -490,10 +501,21 @@
         "support": "我要支持"
       }
     },
+    "PlatformCoverage": {
+      "title": {
+        "seeOn": "查找 LikeCoin 資訊：",
+        "buyOn": "購買 LikeCoin："
+      }
+    },
     "LikeButtonDemo": {
       "label": {
         "button": "LikeButton",
         "lookForButton": "但凡支持 {LikeButton} 的內容，讀者點讚，作者獲賞。"
+      }
+    },
+    "Footer": {
+      "label": {
+        "join": "請加入 LikeCoin 社群以獲取最新消息及參與討論"
       }
     }
   },
@@ -932,6 +954,12 @@
       "showMore": "展示更多"
     }
   },
+  "Settings": {
+    "title": "LikeCoin ID 設定"
+  },
+  "PoliciesPage": {
+    "title": "條款及政策"
+  },
   "Error": {
     "button": {
       "toIndex": "返回主頁"
@@ -1105,11 +1133,11 @@
     "wordpress": {
       "title": "安裝 LikeCoin 外掛",
       "content": "{installWp}以為你的文章加上 LikeButton 吧。請放心，此外掛插件完全不會利用客戶端算力挖礦，而只跟讀者的「讚好」有關。LikeButton 突出創作者的品牌，也跟一般的廣告橫幅完全不同。 {wpInstruction}",
-      "caption": "LikeButton will show on your post after installing the {plugin}",
+      "caption": "安裝 {plugin}後，LikeButton 會自動於文章中顯示",
       "label": {
         "installWp": "安裝 WordPress 外掛",
         "instruction": "安裝教學",
-        "plugin": "LikeCoin Plugin"
+        "plugin": "LikeCoin 外掛"
       },
       "url": {
         "instruction": "https://help.like.co/likecoin-%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C/%E7%94%A2%E5%93%81/%E5%A6%82%E4%BD%95%E5%9C%A8-wordpress-%E7%B6%B2%E7%AB%99%E4%B8%8A%E5%8A%A0%E5%85%A5-likebutton"
@@ -1118,12 +1146,12 @@
     "medium": {
       "title": "加上你的 LikeButton",
       "content": "在 Medium 上加上你的 LikeButton 的方法十分簡單，只需於文章中插入一條網址便可以了，格式如下：",
-      "caption": "Simply type your LikeCoin link and press ‘Enter’ in your story"
+      "caption": "只需在文章中輸入你的 LikeCoin 鏈接，拍一下「換行」"
     },
     "oice": {
       "title": "連結你的 LikeCoin ID",
       "content": "在 {oiceWebsite} 連結你的 LikeCoin ID。在 oice.com 連結你的 LikeCoin ID 以後，你創作的故事便會自動顯示 LikeButton。 {oiceInstruction}",
-      "caption": "LikeButton will show aside with your story",
+      "caption": "LikeButton 會在故事旁自動顯示出來",
       "label": {
         "instruction": "點此教學"
       },
@@ -1132,7 +1160,7 @@
       }
     },
     "title": {
-      "earn": "Earn LikeCoin by Reinvented LikeButton",
+      "earn": "以新設計的 LikeButton 賺取 LikeCoin",
       "poc": "創造力證明",
       "slogan": "立即把讀者的點讚轉化為收入吧",
       "campaign": "「化讚為賞」推廣活動已經開始",

@@ -87,7 +87,7 @@
                 <li>
                   <menu-item :to="{ name: 'in-settings' }">
                     <md-icon :md-src="SettingsIcon" />
-                    <span>Settings</span>
+                    <span>{{ $t('Menu.item.settings') }}</span>
                   </menu-item>
                 </li>
               </ul>

@@ -128,16 +128,19 @@ export default {
     },
   },
   watch: {
-    getTotalLIKERewardedStatistic(val) {
-      if (!this.fetchedTotalLIKE) {
-        this.displayTotalLIKE = val - INITIAL_TOTAL_LIKE_DIFFERENCE;
-      }
-      this.fetchedTotalLIKE = val;
-      this.totalLikeStep = (val - this.displayTotalLIKE)
-        / (UPDATE_LIKE_STATISTICS_TIME_INTERVAL / UPDATE_TOTAL_LIKE_TIME_INTERVAL);
+    getTotalLIKERewardedStatistic: {
+      handler(val) {
+        if (!this.fetchedTotalLIKE) {
+          this.displayTotalLIKE = val - INITIAL_TOTAL_LIKE_DIFFERENCE;
+        }
+        this.fetchedTotalLIKE = val;
+        this.totalLikeStep = (val - this.displayTotalLIKE)
+          / (UPDATE_LIKE_STATISTICS_TIME_INTERVAL / UPDATE_TOTAL_LIKE_TIME_INTERVAL);
 
-      this.clearTotalLikeTimer();
-      this.randomUpdateTotalLIKE();
+        this.clearTotalLikeTimer();
+        this.randomUpdateTotalLIKE();
+      },
+      deep: true,
     },
   },
   mounted() {

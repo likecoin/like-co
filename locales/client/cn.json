@@ -221,7 +221,8 @@
       "whitepaper": "@:Whitepaper.Button.whitepaper",
       "support": "@:Footer.button.support",
       "press": "媒体",
-      "poc": "概念验证"
+      "poc": "概念验证",
+      "settings": "设定"
     }
   },
   "Sign": {
@@ -472,6 +473,44 @@
       "button": {
         "faq": "常见问题",
         "faqLink": "https://help.like.co/likecoin-常见问题"
+      }
+    },
+    "RewardStatistics": {
+      "label": {
+        "rewarded": "回馈了",
+        "to": "正支持",
+        "on": "的",
+        "backers": "backers",
+        "creators": "创作者",
+        "contents": "作品"
+      }
+    },
+    "Banner": {
+      "label": {
+        "slogan": "化赞为赏",
+        "rewardPOC": "透过创造力证明回馈内容"
+      }
+    },
+    "ContentCivicsCTA": {
+      "button": {
+        "support": "我要支持"
+      }
+    },
+    "PlatformCoverage": {
+      "title": {
+        "seeOn": "查找 LikeCoin 资讯：",
+        "buyOn": "购买 LikeCoin："
+      }
+    },
+    "LikeButtonDemo": {
+      "label": {
+        "button": "LikeButton",
+        "lookForButton": "但凡支持 {LikeButton} 的内容，读者点赞，作者获赏。"
+      }
+    },
+    "Footer": {
+      "label": {
+        "join": "请加入 LikeCoin 社群以获取最新消息及参与讨论"
       }
     }
   },
@@ -901,6 +940,12 @@
       "showMore": "展示更多"
     }
   },
+  "Settings": {
+    "title": "LikeCoin ID 设定"
+  },
+  "PoliciesPage": {
+    "title": "条款及政策"
+  },
   "Error": {
     "button": {
       "toIndex": "返回主页"
@@ -1060,30 +1105,30 @@
   },
   "LikeButtonIntro": {
     "wordpress": {
-      "title": "安装 LikeCoin 外挂",
-      "content": "{installWp}以为你的文章加上 LikeButton 吧。请放心，此外挂插件完全不是那种利用客户端算力进行挖矿的恶意程序，而只跟读者的「赞好」有关。LikeButton 也跟一般的广告横幅完全不同，它是用来特出创作者的品牌的。 {wpInstruction}",
-      "caption": "LikeButton will show on your post after installing the {plugin}",
+      "title": "安装 LikeCoin 插件",
+      "content": "{installWp}以为你的文章加上 LikeButton 吧。请放心，此插件完全不是那种利用客户端算力进行挖矿的恶意程序，而只跟读者的「赞好」有关。LikeButton 也跟一般的广告横幅完全不同，它是用来特出创作者的品牌的。 {wpInstruction}",
+      "caption": "安装 {plugin}后，LikeButton 会自动于文章中显示",
       "label": {
-        "installWp": "安装 WordPress 外挂",
+        "installWp": "安装 WordPress 插件",
         "instruction": "安装教学",
-        "plugin": "LikeCoin Plugin"
+        "plugin": "LikeCoin 插件"
       }
     },
     "medium": {
       "title": "加上你的 LikeButton",
       "content": "在 Medium 上加上你的 LikeButton 的方法十分简单，只需于文章中插入一条网址便可以了，格式如下：",
-      "caption": "Simply type your LikeCoin link and press ‘Enter’ in your story"
+      "caption": "只需在文章中输入你的 LikeCoin 链接，拍一下「换行」"
     },
     "oice": {
       "title": "连结你的 LikeCoin ID",
       "content": "在 {oiceWebsite} 连结你的 LikeCoin ID。在 oice.com 连结你的 LikeCoin ID 以后，你创作的故事便会自动显示出 LikeButton。 {oiceInstruction}",
-      "caption": "LikeButton will show aside with your story",
+      "caption": "LikeButton 会在故事旁自动显示出来",
       "label": {
         "instruction": "点此教学"
       }
     },
     "title": {
-      "earn": "Earn LikeCoin by Reinvented LikeButton",
+      "earn": "以新设计的 LikeButton 赚取 LikeCoin",
       "poc": "创造力证明",
       "slogan": "立即把读者的点赞转化为收入吧",
       "campaign": "「化赞为赏」推广活动已经开始",

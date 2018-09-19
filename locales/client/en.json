@@ -229,7 +229,8 @@
       "whitepaper": "@:Whitepaper.Button.whitepaper",
       "support": "@:Footer.button.support",
       "press": "Press",
-      "poc": "Proof of Concept"
+      "poc": "Proof of Concept",
+      "settings": "Settings"
     }
   },
   "Sign": {
@@ -491,7 +492,6 @@
     "RewardStatistics": {
       "label": {
         "rewarded": "Rewarded",
-        "from": "from",
         "to": "to",
         "on": "on",
         "backers": "backers",
