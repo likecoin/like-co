@@ -36,7 +36,7 @@
 
               <div class="lc-flex lc-justify-content-center lc-flex-grow-1">
                 <reward-statistics
-                  :is-large-size="breakpoint.width > 1240"
+                  :screen-width="breakpoint.width"
                 />
               </div>
             </div>
@@ -65,6 +65,11 @@
       <div class="lc-container-1">
         <footer class="lc-page-footer lc-bg-green">
           <platform-icon-bar
+            v-scroll-reveal.reset="{
+              duration: 0,
+              beforeReveal: () => onBottomPlatformBarVisibilityChange(true),
+              beforeReset: () => onBottomPlatformBarVisibilityChange(false),
+            }"
             :size="isMobileSize ? 'medium' : 'large'"
           />
 
@@ -181,6 +186,15 @@ export default {
     ]),
     openContentCivicPopup() {
       this.isLikeButtonIntroDialogOpen = true;
+    },
+    onBottomPlatformBarVisibilityChange(isVisible) {
+      const verticalPlatformBar = document.querySelector('.icon-bar.vertical');
+      if (!verticalPlatformBar) return;
+      if (isVisible) {
+        verticalPlatformBar.classList.add('hide');
+      } else {
+        verticalPlatformBar.classList.remove('hide');
+      }
     },
   },
 };
