@@ -88,6 +88,8 @@ export default {
 
     width: auto;
 
+    font-variant-numeric: oldstyle-nums;
+
     &:not(:first-child) {
       margin-left: -2px;
     }
@@ -97,8 +99,6 @@ export default {
       flex-direction: column;
 
       transition: width, transform 2s ease-in;
-
-      font-variant-numeric: oldstyle-nums;
 
       span {
         display: flex;

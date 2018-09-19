@@ -214,11 +214,6 @@ export default {
 
   @media (max-width: 600px) {
     max-width: unset;
-
-    :global(svg) {
-      width: 36px !important;
-      height: 36px !important;
-    }
   }
 
   :global(.md-icon-button) {
@@ -247,7 +242,7 @@ export default {
     .icon-bar {
       padding: 8px 0 !important;
 
-      background-color: white;
+      background-color: $like-white;
     }
   }
 
@@ -276,7 +271,6 @@ export default {
 footer {
   position: relative;
 
-  color: $like-white;
   border: none;
 
   &.lc-page-footer {
@@ -292,6 +286,16 @@ footer {
 
     @media (max-width: 600px) {
       top: -20px;
+
+      :global(.md-ripple) {
+        padding: 0;
+      }
+
+      :global(.md-icon-button) {
+        width: 40px !important;
+        min-width: unset;
+        height: 40px !important;
+      }
     }
   }
 }
