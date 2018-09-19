@@ -60,8 +60,9 @@ function waitServerReady() {
 
 // Start testing server...
 // spawn as new group of processes
-if (!process.env.AUTO_TEST) {
-  setStub();// spawn as new group of processes
+if (!process.env.CI) setStub();
+
+if (!process.env.IS_STANDALONE_TEST) {
   server = spawn('npm', ['run', 'dev'], { detached: true, stdio: 'inherit' });
   setTimeout(waitServerReady, 5000);
 } else {
@@ -70,13 +71,23 @@ if (!process.env.AUTO_TEST) {
   testEnv.NODE_ENV = 'production';
   testEnv.IS_TESTNET = true;
   try {
-    console.log('Running E2E test');
+    execSync('npm run test:api', { env: testEnv, stdio: 'inherit' });
+  } catch (e) {
+    if (!process.env.CI) unsetStub();
+    process.exit(1);
+  }
+  try {
+    if (!process.env.CI) {
+      console.log('Building for E2E test');
+      execSync('npm run build', { env: testEnv, stdio: 'inherit' });
+    }
     execSync('npm run test:e2e', { env: testEnv, stdio: 'inherit' });
   } catch (e) {
-    console.error(e);
+    if (!process.env.CI) unsetStub();
     process.exit(1);
   }
   console.log('Done');
+  if (!process.env.CI) unsetStub();
 }
 
 process.on('SIGINT', () => {
