@@ -104,8 +104,17 @@ $icon-size-large: 64px;
   flex-wrap: wrap;
   justify-content: center;
 
+  transition: opacity 0.75s ease-in;
+
   @media (max-width: 600px) {
     max-width: 210px;
+  }
+
+  &.hide {
+    user-select: none;
+    pointer-events: none !important;
+
+    opacity: 0;
   }
 
   &.vertical {
