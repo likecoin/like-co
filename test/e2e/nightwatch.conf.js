@@ -3,9 +3,12 @@ const chromeDriver = require('chromedriver').path;
 const fs = require('fs');
 const http = require('http');
 
-const app = require('../../build/main.js'); // eslint-disable-line import/no-unresolved
-
-const httpServer = http.createServer(app);
+let httpServer;
+if (process.env.IS_STANDALONE_TEST) {
+  /* AUTO_TEST ran build already */
+  const app = require('../../build/main.js'); // eslint-disable-line import/no-unresolved, global-require
+  httpServer = http.createServer(app);
+}
 
 // https://sqa.stackexchange.com/questions/22374/error-trying-to-add-chrome-extension-in-nightwatchjs
 function encode(file) {
@@ -38,11 +41,11 @@ module.exports = {
       globals: {
         devServerURL: 'http://localhost:3000',
         before: (done) => {
-          httpServer.listen('3000');
+          if (httpServer) httpServer.listen('3000');
           done();
         },
         after: () => {
-          httpServer.close();
+          if (httpServer) httpServer.close();
         },
       },
       screenshots: {
