@@ -175,6 +175,7 @@ export default {
       value: '', // BN in string
       amount: 0,
       updateTimer: null,
+      httpReferrer: undefined,
       urlWarningMessage: '', // HACK: used to trigger popup dialog
       ETHERSCAN_HOST,
     };

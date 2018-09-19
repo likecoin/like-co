@@ -63,12 +63,12 @@ export default {
       default: '',
     },
     linkSrc: {
-      type: String,
-      default: '',
+      type: Array,
+      default: () => [],
     },
     mainLocales: {
-      type: String,
-      default: '',
+      type: Array,
+      default: () => [],
     },
   },
   computed: {
