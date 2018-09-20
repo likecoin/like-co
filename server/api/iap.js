@@ -177,6 +177,9 @@ router.post('/iap/subscription/donation', jwtOptionalAuth, async (req, res, next
     const subscription = await stripe.subscriptions.create({
       customer: customerId,
       items: [{ plan: planId }],
+      metadata: {
+        user: user || 'guest',
+      },
     });
 
     const currentTime = Date.now();
