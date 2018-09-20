@@ -1,9 +1,12 @@
-import { TEST_MODE } from '../../constant';
+import { TEST_MODE, EXTERNAL_HOSTNAME } from '../../constant';
 
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const expressjwt = require('express-jwt');
 const config = require('../config/config.js'); // eslint-disable-line import/no-extraneous-dependencies
+
+const audience = EXTERNAL_HOSTNAME;
+const issuer = EXTERNAL_HOSTNAME;
 
 let secret = config.JWT_SECRET;
 if (!secret) {
@@ -31,19 +34,27 @@ function setNoCacheHeader(res) {
 }
 
 export const jwtSign = (payload) => {
-  const opt = {};
-  if (!payload.exp) opt.expiresIn = '7d';
+  const opt = { audience, issuer };
+  if (!payload.exp) opt.expiresIn = '30d';
   return jwt.sign(payload, secret, opt);
 };
 
 export const jwtVerify = (
   token,
   { ignoreExpiration } = {},
-) => jwt.verify(token, secret, { ignoreExpiration });
+) => {
+  const opt = { audience, issuer };
+  return jwt.verify(token, secret, { ...opt, ignoreExpiration });
+};
 
 export const jwtAuth = (req, res, next) => {
   setNoCacheHeader(res);
-  expressjwt({ secret, getToken })(req, res, (e) => {
+  expressjwt({
+    secret,
+    getToken,
+    audience,
+    issuer,
+  })(req, res, (e) => {
     if (e && e.name === 'UnauthorizedError') {
       res.status(401).send('LOGIN_NEEDED');
       return;
@@ -56,8 +67,10 @@ export const jwtOptionalAuth = (req, res, next) => {
   setNoCacheHeader(res);
   expressjwt({
     credentialsRequired: false,
-    getToken,
     secret,
+    getToken,
+    audience,
+    issuer,
   })(req, res, (e) => {
     next(e);
   });
