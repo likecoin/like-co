@@ -47,7 +47,7 @@ export const jwtVerify = (
   return jwt.verify(token, secret, { ...opt, ignoreExpiration });
 };
 
-export const jwtAuth = (req, res, next) => {
+export const jwtAuth = (permission = 'read') => (req, res, next) => {
   setNoCacheHeader(res);
   expressjwt({
     secret,
@@ -59,11 +59,17 @@ export const jwtAuth = (req, res, next) => {
       res.status(401).send('LOGIN_NEEDED');
       return;
     }
+    if (!req.user
+      || !req.user.permissions
+      || (permission && !req.user.permissions.includes(permission))) {
+      res.status(401).send('MORE_AUTH_NEEDED');
+      return;
+    }
     next(e);
   });
 };
 
-export const jwtOptionalAuth = (req, res, next) => {
+export const jwtOptionalAuth = (permission = 'read') => (req, res, next) => {
   setNoCacheHeader(res);
   expressjwt({
     credentialsRequired: false,
@@ -72,6 +78,11 @@ export const jwtOptionalAuth = (req, res, next) => {
     audience,
     issuer,
   })(req, res, (e) => {
+    if (req.user
+      && req.user.permissions
+      && (permission && !req.user.permissions.includes(permission))) {
+      req.user = undefined;
+    }
     next(e);
   });
 };

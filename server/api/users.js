@@ -81,7 +81,12 @@ function setSessionCookie(req, res, payload) {
   res.cookie('__session', token, AUTH_COOKIE_OPTION);
 }
 
-function setAuthCookies(req, res, payload) {
+function setAuthCookies(req, res, { user, wallet }) {
+  const payload = {
+    user,
+    wallet,
+    permissions: ['read', 'write', 'like'],
+  };
   const token = jwtSign(payload);
   res.cookie('likecoin_auth', token, AUTH_COOKIE_OPTION);
   setSessionCookie(req, res, payload);
