@@ -97,6 +97,37 @@ export async function queryIAPProducts({ commit, dispatch }) {
   return apiWrapper({ commit, dispatch }, api.apiQueryIAPProducts());
 }
 
+export async function purchaseSubscription({ commit, dispatch }, payload) {
+  return apiWrapper(
+    { commit, dispatch },
+    api.apiPurchaseSubscription(payload),
+    { blocking: true },
+  );
+}
+
+export async function fetchUserSubscriptionInfo({ commit, dispatch }, userId) {
+  return apiWrapper(
+    { commit, dispatch },
+    api.apiGetUserSubscriptionInfo(userId),
+  );
+}
+
+export async function claimSubscription({ commit, dispatch }, { subscriptionId, user }) {
+  return apiWrapper(
+    { commit, dispatch },
+    api.apiClaimSubscription({ subscriptionId, user }),
+    { blocking: true },
+  );
+}
+
+export async function cancelSubscription({ commit, dispatch }, userId) {
+  return apiWrapper(
+    { commit, dispatch },
+    api.apiCancelSubscription(userId),
+    { blocking: true },
+  );
+}
+
 export async function queryEthPrice({ commit, dispatch }) {
   try {
     const [data] = await apiWrapper({ commit, dispatch }, api.apiQueryEthPrice());

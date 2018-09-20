@@ -26,7 +26,7 @@ const state = {
   wallet: '',
   isFetching: false,
   isAwaitingAuth: false,
-  web3Fetching: true,
+  web3Fetching: false,
   platforms: {},
   links: {},
   socialMeta: {},

@@ -8,9 +8,13 @@
       "subject": "like.co 帐号验证",
       "body": "您好 {{name}}！<p>欢迎来到 like.co ！请到下列网址验证您的电邮地址，换领您的免费 LikeCoin：<br/><a href=\"https://like.co/verify/{{uuid}}/{{coupon}}?ref={{ref}}\" style=\"word-break: break-all; color: #28646E\">https://like.co/verify/{{uuid}}/{{coupon}}?ref={{ref}}</a></p><p>您的换领券编号：{{coupon}}</p>"
     },
-    "preSaleEmail": {
-      "subject": "您已经成功参加 LikeCoin 早鸟代币发售",
-      "body": "您好 {{name}}!<p>多谢您参与 LikeCoin 的早鸟代币发售</p><p>在确认了你的 {{eth}} ETH 付款后, {{base}} + {{bonus}} 个 LikeCoin 将会在 LikeCoin 公开代币发售开始时, 送到你的钱包内.</p>交易参考地址:<br/><a href=\"https://etherscan.io/tx/{{txHash}}\" style=\"word-break: break-all; color: #28646E\">https://etherscan.io/tx/{{txHash}}</a></p><p>与此同时, 你可以参加我们的<a href=\"https://like.co/in/edit#referral\" style=\"color: #28646E\">推荐计划</a>，赚取更多 LikeCoin!</p><p>如有查询或意见，欢迎随时在官方网站联络我们.</p>"
+    "PendingSubscriptionEmail": {
+      "subject": "Please complete your LikeCoin donation subscription",
+      "body": "Hi!<p>Thank you for joining LikeCoin donation program!</p><p>Please register a like.co account below and complete the subscription process.</p><p><a href=\"http://like.co/in/donation/claim?subscriptionId={{subscriptionId}}&email={{email}}\" style=\"word-break: break-all; color: #28646E\">http://like.co/in/donation/claim?subscriptionId={{subscriptionId}}&email={{email}}</a></p><p>Feel free to contact us on our official website should you have any thoughts or question.</p>"
+    },
+    "SubscriptionThankYouEmail": {
+      "subject": "Thank you for joining the LikeCoin donation program",
+      "body": "Hi {{name}}!<p>Thank you for joining LikeCoin donation program!</p><p>For more details on the program, please check <a href=\"http://like.co/in/donation\" style=\"word-break: break-all; color: #28646E\">http://like.co/in/donation</a></p><p>Feel free to contact us on our official website should you have any thoughts or question.</p>"
     },
     "signature": "<p>LikeCoin Foundation<br/><a href=\"https://like.co\" style=\"color: #28646E\">https://like.co</a></p>"
   }

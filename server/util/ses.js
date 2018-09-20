@@ -65,3 +65,59 @@ export async function sendVerificationWithCouponEmail(res, user, coupon, ref) {
   };
   return ses.sendEmail(params).promise();
 }
+
+export async function sendPendingSubscriptionEmail(res, email, subscriptionId) {
+  const params = {
+    Source: '"LikeCoin Foundation" <noreply@like.co>',
+    Destination: {
+      ToAddresses: [email],
+    },
+    Message: {
+      Subject: {
+        Charset: 'UTF-8',
+        Data: res.__('Email.PendingSubscriptionEmail.subject'),
+      },
+      Body: {
+        Html: {
+          Charset: 'UTF-8',
+          Data: EmailTemplate.Basic({
+            title: res.__('Email.PendingSubscriptionEmail.subject'),
+            body: res.__(
+              'Email.PendingSubscriptionEmail.body',
+              { email, subscriptionId },
+            ) + res.__('Email.signature'),
+          }),
+        },
+      },
+    },
+  };
+  return ses.sendEmail(params).promise();
+}
+
+export async function sendSubscriptionThankYouEmail(res, email, user) {
+  const params = {
+    Source: '"LikeCoin Foundation" <noreply@like.co>',
+    Destination: {
+      ToAddresses: [email],
+    },
+    Message: {
+      Subject: {
+        Charset: 'UTF-8',
+        Data: res.__('Email.SubscriptionThankYouEmail.subject'),
+      },
+      Body: {
+        Html: {
+          Charset: 'UTF-8',
+          Data: EmailTemplate.Basic({
+            title: res.__('Email.SubscriptionThankYouEmail.subject'),
+            body: res.__(
+              'Email.SubscriptionThankYouEmail.body',
+              { name: user.displayName },
+            ) + res.__('Email.signature'),
+          }),
+        },
+      },
+    },
+  };
+  return ses.sendEmail(params).promise();
+}
