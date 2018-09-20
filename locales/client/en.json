@@ -1038,7 +1038,9 @@
         "all": "All platforms",
         "medium": "Medium only",
         "wp": "WordPress only"
-      }
+      },
+      "supportFavContent": "LikeBacker – Support your favourite content",
+      "backerDesc": "By adding the LikeButton to your creative content, The quick, brown fox jumps over a lazy dog."
     },
     "button": {
       "deleteAccount": "Delete Account",
@@ -1050,7 +1052,8 @@
       "learnMore": "Learn More",
       "install": "Install",
       "createStory": "Create Story",
-      "addCustomLink": "Add custom link"
+      "addCustomLink": "Add custom link",
+      "becomeBacker": "Become a LikeBacker"
     },
     "placeholder": {
       "name": "Name",
@@ -1315,6 +1318,26 @@
   "LikerList": {
     "label": {
       "aboutLikeCoin": "About LikeCoin"
+    }
+  },
+  "Donation": {
+    "label": {
+      "thanks": "Thank you for becoming a Content Civics",
+      "oneMoreStep": "One More Step to go",
+      "createToEnjoyContent": "Create or connect to your LikeCoin ID before you enjoy LikeContent and give you like to 100+ LikeWriter.",
+      "hiUser": "Hi {user},",
+      "thanksForJoining": "Thank you for joining",
+      "buildPlaceForYou": "Together, we’re building a different kind of place on the internet: one designed for you, not for advertisers.",
+      "readAndAppreciate": "Read and appreciate the excellent work from the top creators"
+    },
+    "button": {
+      "connectID": "Connect LikeCoin ID",
+      "howToCreateID": "How to create a LikeCoin ID",
+      "more": "more"
+    },
+    "url": {
+      "createIdOnMobile": "https://help.like.co/likecoin-faq/newbies/registering-likecoin-id-on-mobile",
+      "createIdOnComp": "https://help.like.co/likecoin-faq/newbies/registering-likecoin-id-on-computer"
     }
   }
 }
