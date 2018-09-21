@@ -35,6 +35,8 @@ jobs:
     docker:
       - image: selenium/standalone-chrome:3.14.0
         user: root
+    environment:
+      - TERM: dumb
     steps:
       - checkout
       - restore_cache:
