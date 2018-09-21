@@ -121,10 +121,6 @@ const MENU_ITEMS = [
         to: { name: 'in-about' },
       },
       {
-        key: 'tokenSale',
-        to: { name: 'in-tokensale' },
-      },
-      {
         key: 'backer',
         to: { name: 'in-backer' },
       },
