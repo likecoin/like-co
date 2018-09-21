@@ -320,7 +320,7 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res, n
   }
 });
 
-router.post('/users/login/check', jwtAuth, (req, res) => {
+router.post('/users/login/check', jwtAuth('read'), (req, res) => {
   const { wallet } = req.body;
   if (req.user.wallet !== wallet) {
     res.status(401).send('LOGIN_NEEDED');
@@ -362,7 +362,7 @@ router.post('/users/login', async (req, res, next) => {
   }
 });
 
-router.get('/users/referral/:id', jwtAuth, async (req, res, next) => {
+router.get('/users/referral/:id', jwtAuth('read'), async (req, res, next) => {
   try {
     const username = req.params.id;
     if (req.user.user !== username) {
@@ -382,7 +382,7 @@ router.get('/users/referral/:id', jwtAuth, async (req, res, next) => {
   }
 });
 
-router.get('/users/id/:id', jwtAuth, async (req, res, next) => {
+router.get('/users/id/:id', jwtAuth('read'), async (req, res, next) => {
   try {
     const username = req.params.id;
     if (req.user.user !== username) {
@@ -435,7 +435,7 @@ router.get('/users/merchant/:id/min', async (req, res, next) => {
   }
 });
 
-router.get('/users/addr/:addr', jwtAuth, async (req, res, next) => {
+router.get('/users/addr/:addr', jwtAuth('read'), async (req, res, next) => {
   try {
     const { addr } = req.params;
     if (!Validate.checkAddressValid(addr)) throw new ValidationError('Invalid address');
@@ -574,7 +574,7 @@ router.post('/email/verify/:uuid', async (req, res, next) => {
   }
 });
 
-router.get('/users/bonus/:id', jwtAuth, async (req, res, next) => {
+router.get('/users/bonus/:id', jwtAuth('read'), async (req, res, next) => {
   try {
     const { id } = req.params;
     if (req.user.user !== id) {
@@ -591,7 +591,7 @@ router.get('/users/bonus/:id', jwtAuth, async (req, res, next) => {
   }
 });
 
-router.post('/users/email/:id', jwtAuth, async (req, res, next) => {
+router.post('/users/email/:id', jwtAuth('write'), async (req, res, next) => {
   try {
     const { id } = req.params;
     if (req.user.user !== id) {
@@ -611,7 +611,7 @@ router.post('/users/email/:id', jwtAuth, async (req, res, next) => {
   }
 });
 
-router.put('/users/read/:id', jwtAuth, async (req, res, next) => {
+router.put('/users/read/:id', jwtAuth('write'), async (req, res, next) => {
   try {
     const { id } = req.params;
     if (req.user.user !== id) {

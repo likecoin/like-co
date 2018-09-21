@@ -10,7 +10,7 @@ const { userCollection: dbRef } = require('../../util/firebase');
 
 const router = Router();
 
-router.get('/social/link/twitter/:user', jwtAuth, async (req, res, next) => {
+router.get('/social/link/twitter/:user', jwtAuth('read'), async (req, res, next) => {
   try {
     const { user } = req.params;
     if (req.user.user !== user) {
@@ -31,7 +31,7 @@ router.get('/social/link/twitter/:user', jwtAuth, async (req, res, next) => {
   }
 });
 
-router.post('/social/link/twitter', jwtAuth, async (req, res, next) => {
+router.post('/social/link/twitter', jwtAuth('write'), async (req, res, next) => {
   try {
     const {
       oAuthVerifier,

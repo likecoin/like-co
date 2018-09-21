@@ -63,7 +63,7 @@ async function checkAlreadyDone(m, { u, doneList }) {
   return (!mission.staying && !mission.reward);
 }
 
-router.get('/mission/list/:id', jwtAuth, async (req, res, next) => {
+router.get('/mission/list/:id', jwtAuth('read'), async (req, res, next) => {
   try {
     const username = req.params.id;
     if (req.user.user !== username) {
@@ -128,7 +128,7 @@ router.get('/mission/list/:id', jwtAuth, async (req, res, next) => {
   }
 });
 
-router.post('/mission/seen/:id', jwtAuth, async (req, res, next) => {
+router.post('/mission/seen/:id', jwtAuth('write'), async (req, res, next) => {
   try {
     const missionId = req.params.id;
     const {
@@ -147,7 +147,7 @@ router.post('/mission/seen/:id', jwtAuth, async (req, res, next) => {
 });
 
 
-router.post('/mission/hide/:id', jwtAuth, async (req, res, next) => {
+router.post('/mission/hide/:id', jwtAuth('write'), async (req, res, next) => {
   try {
     const missionId = req.params.id;
     const {
@@ -177,7 +177,7 @@ router.post('/mission/hide/:id', jwtAuth, async (req, res, next) => {
   }
 });
 
-router.post('/mission/step/:id', jwtAuth, async (req, res, next) => {
+router.post('/mission/step/:id', jwtAuth('write'), async (req, res, next) => {
   try {
     const missionId = req.params.id;
     const {
@@ -231,7 +231,7 @@ router.post('/mission/step/:id', jwtAuth, async (req, res, next) => {
   }
 });
 
-router.get('/mission/list/history/:id', jwtAuth, async (req, res, next) => {
+router.get('/mission/list/history/:id', jwtAuth('read'), async (req, res, next) => {
   try {
     const username = req.params.id;
     if (req.user.user !== username) {
@@ -258,7 +258,7 @@ router.get('/mission/list/history/:id', jwtAuth, async (req, res, next) => {
   }
 });
 
-router.get('/mission/list/history/:id/bonus', jwtAuth, async (req, res, next) => {
+router.get('/mission/list/history/:id/bonus', jwtAuth('read'), async (req, res, next) => {
   try {
     const { id } = req.params;
     if (req.user.user !== id) {
@@ -283,7 +283,7 @@ router.get('/mission/list/history/:id/bonus', jwtAuth, async (req, res, next) =>
   }
 });
 
-router.get('/mission/:missionId/user/:userId', jwtAuth, async (req, res, next) => {
+router.get('/mission/:missionId/user/:userId', jwtAuth('read'), async (req, res, next) => {
   try {
     const { missionId, userId } = req.params;
     const { userMissionList = [] } = req.query;
@@ -343,7 +343,7 @@ router.get('/mission/:missionId/user/:userId', jwtAuth, async (req, res, next) =
   }
 });
 
-router.get('/referral/list/:id', jwtAuth, async (req, res, next) => {
+router.get('/referral/list/:id', jwtAuth('read'), async (req, res, next) => {
   try {
     const { id } = req.params;
     if (req.user.user !== id) {
@@ -390,7 +390,7 @@ router.get('/referral/list/:id', jwtAuth, async (req, res, next) => {
   }
 });
 
-router.get('/referral/list/bonus/:id', jwtAuth, async (req, res, next) => {
+router.get('/referral/list/bonus/:id', jwtAuth('read'), async (req, res, next) => {
   try {
     const { id } = req.params;
     if (req.user.user !== id) {
@@ -420,7 +420,7 @@ router.get('/referral/list/bonus/:id', jwtAuth, async (req, res, next) => {
   }
 });
 
-router.post('/referral/seen/:id', jwtAuth, async (req, res, next) => {
+router.post('/referral/seen/:id', jwtAuth('write'), async (req, res, next) => {
   try {
     const user = req.params.id;
     if (req.user.user !== user) {
