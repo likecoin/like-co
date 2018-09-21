@@ -122,7 +122,7 @@ import { mapActions, mapGetters } from 'vuex';
 import DeleteIcon from '~/assets/icons/cross.svg';
 import LikeCoinIcon from '~/assets/logo/icon.svg';
 
-import { IS_TESTNET, W3C_EMAIL_REGEX } from '@/constant';
+import { EMAIL_REGEX } from '@/constant';
 
 import { openURL } from '~/util/client';
 import { logTrackerEvent } from '@/util/EventLogger';
@@ -294,12 +294,14 @@ export default {
       if (!isConnected) {
         this.connect(socialMedia);
       } else {
-        const url = this.getSocialMediaUrl(socialMedia);
+        const { url } = platform;
         if (url) {
-          const isEmail = !IS_TESTNET && new RegExp(W3C_EMAIL_REGEX).test(url);
+          const isEmail = new RegExp(EMAIL_REGEX).test(url);
           let urlPath = url;
           if (isEmail) {
             urlPath = `mailto:${url}`;
+          } else {
+            urlPath = this.getSocialMediaUrl(socialMedia);
           }
           openURL(this, urlPath, '_blank');
           logTrackerEvent(this, 'LikeWidget', 'ClickSocialMedia', id, 1);
