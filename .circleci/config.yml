@@ -3,9 +3,8 @@ jobs:
   test:
     working_directory: ~/likecoin-store
     docker:
-      - image: node:8
+      - image: node:10
     steps:
-      - run: yarn global add npm@6.0.1
       - checkout
       - restore_cache:
           key: likecoin-store-{{ .Environment.CACHE_UUID }}-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}-{{ checksum ".circleci/config.yml" }}
@@ -45,9 +44,8 @@ jobs:
           command: |
             sudo apt-get update
             sudo apt-get -y install curl git make g++ net-tools
-            sudo curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+            sudo curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
             sudo apt-get -y install nodejs
-            sudo npm install npm@6.0.1 -g
             sudo npm install codecov -g
       - run:
           name: Dependencies
