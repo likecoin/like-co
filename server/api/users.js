@@ -68,6 +68,16 @@ const W3C_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0
 const router = Router();
 
 function setSessionCookie(req, res, payload) {
+  /* eslint-disable no-param-reassign */
+
+  /* make sure exp exist */
+  if (!payload.exp) payload.exp = Math.floor(Date.now() / 1000);
+  /* prevent exisiting aud/iss causing error */
+  delete payload.aud;
+  delete payload.iss;
+
+  /* eslint-enable no-param-reassign */
+
   let token = jwtSign(payload);
   if (req.cookies && req.cookies['__session']) { // eslint-disable-line dot-notation
     const sessionCookie = req.cookies['__session'];// eslint-disable-line dot-notation
@@ -335,8 +345,6 @@ router.post('/users/login/check', jwtAuth('read'), (req, res) => {
       throw new Error('session is missing user');
     }
   } catch (err) {
-    /* make sure exp exist */
-    if (!req.user.exp) req.user.exp = Math.floor(Date.now() / 1000);
     setSessionCookie(req, res, req.user);
   }
   res.sendStatus(200);

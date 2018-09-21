@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
 
 function jwtSign({
-	user,
-	wallet,
-	permissions = ['read', 'write', 'like'],
+  user,
+  wallet,
+  permissions = ['read', 'write', 'like'],
 }) {
   return jwt.sign({
     user,
