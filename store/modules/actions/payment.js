@@ -121,11 +121,12 @@ export async function claimSubscription({ commit, dispatch }, { subscriptionId, 
 }
 
 export async function cancelSubscription({ commit, dispatch }, userId) {
-  return apiWrapper(
+  await apiWrapper(
     { commit, dispatch },
     api.apiCancelSubscription(userId),
     { blocking: true },
   );
+  commit(types.USER_SET_IS_SUBSCRIBED, false);
 }
 
 export async function queryEthPrice({ commit, dispatch }) {
