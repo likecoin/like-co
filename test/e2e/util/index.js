@@ -14,7 +14,15 @@ function initBrowser(browser) {
 }
 
 function jwtSign(user, wallet) {
-  return jwt.sign({ user, wallet }, 'likecoin', { expiresIn: '7d' });
+  return jwt.sign({
+    permissions: ['read', 'write', 'like'],
+    user,
+    wallet,
+  }, 'likecoin', {
+    expiresIn: '7d',
+    audience: 'rinkeby.like.co',
+    issuer: 'rinkeby.like.co',
+  });
 }
 
 function setAuthLocalStorage(browser, url, user, wallet) {

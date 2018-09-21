@@ -7,7 +7,7 @@ import {
   txValue,
 } from './data';
 
-const jwt = require('jsonwebtoken');
+const { jwtSign } = require('./jwt');
 const axiosist = require('./axiosist');
 
 test('PAYMENT: Payment. Case: Invalid address.', async (t) => {
@@ -37,7 +37,7 @@ test('PAYMENT: Get tx by id', async (t) => {
 });
 
 test('PAYMENT: Get tx history by addr', async (t) => {
-  const token = jwt.sign({ wallet: txTo }, 'likecoin', { expiresIn: '7d' });
+  const token = jwtSign({ wallet: txTo });
   axiosist.defaults.headers.common.Authorization = `Bearer ${token}`;
   const res = await axiosist.get(`/api/tx/history/addr/${txTo}`)
     .catch(err => err.response);
