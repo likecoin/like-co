@@ -380,6 +380,7 @@ export default {
       'sendVerifyEmail',
       'setInfoMsg',
       'unlinkSocialPlatform',
+      'cancelSubscription',
     ]),
     async triggerLoginSign() {
       if (!(await this.loginUser())) this.$router.go(-1);
@@ -453,7 +454,7 @@ export default {
       }
     },
     onClickCancelSubscription() {
-      // TODO
+      this.cancelSubscription(this.getUserInfo.user);
     },
     getTestAttribute: getTestAttribute('inSettings'),
   },
