@@ -17,6 +17,7 @@ export const ValidationHelper = {
       referrer,
       isEmailVerified,
       isEmailEnabled,
+      isSubscribed = false,
       email,
       read = {},
     } = u;
@@ -30,6 +31,7 @@ export const ValidationHelper = {
       referrer: !!referrer,
       isEmailVerified,
       isEmailEnabled,
+      isSubscribed,
       read,
     };
   },

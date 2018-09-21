@@ -1040,7 +1040,8 @@
         "wp": "WordPress only"
       },
       "supportFavContent": "LikeBacker – Support your favourite content",
-      "backerDesc": "By adding the LikeButton to your creative content, The quick, brown fox jumps over a lazy dog."
+      "backerDesc": "By adding the LikeButton to your creative content, The quick, brown fox jumps over a lazy dog.",
+      "active": "Active Subscription"
     },
     "button": {
       "deleteAccount": "Delete Account",
@@ -1053,7 +1054,8 @@
       "install": "Install",
       "createStory": "Create Story",
       "addCustomLink": "Add custom link",
-      "becomeBacker": "Become a LikeBacker"
+      "becomeBacker": "Become a LikeBacker",
+      "cancelSubscription": "Cancel Subscription"
     },
     "placeholder": {
       "name": "Name",
@@ -1326,7 +1328,7 @@
       "oneMoreStep": "One More Step to go",
       "createToEnjoyContent": "Create or connect to your LikeCoin ID before you enjoy LikeContent and give you like to 100+ LikeWriter.",
       "hiUser": "Hi {user},",
-      "thanksForJoining": "Thank you for joining",
+      "thanksForJoining": "Thank you for joining.",
       "buildPlaceForYou": "Together, we’re building a different kind of place on the internet: one designed for you, not for advertisers.",
       "readAndAppreciate": "Read and appreciate the excellent work from the top creators"
     },

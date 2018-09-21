@@ -21,25 +21,50 @@
               </md-button>
             </div>
 
-            <div
-              :class="[
-                'lc-bg-like-gradient',
-                'lc-margin-top-20',
-                'lc-flex',
-                'lc-align-items-center',
-                'lc-flex-direction-column-mobile',
-              ]"
-            >
-              <!-- TODO: pending for design (illustration for content backer) -->
-              <!-- <img src=""> -->
-              <p
-                class="lc-font-weight-600 lc-color-dark-brown-2 lc-font-size-18"
-              >{{ $t('Settings.label.backerDesc') }}</p>
-              <md-button
-                :to="{ name: 'in-donation' }"
-                class="md-likecoin lc-font-size-16 lc-font-weight-600 lc-text-align-center"
-              >{{ $t('Settings.button.becomeBacker') }}</md-button>
-            </div>
+            <template v-if="getUserInfo.isSubscribed !== undefined">
+              <div
+                v-if="getUserInfo.isSubscribed"
+                class="profile-setting-page__subscription-wrapper lc-margin-top-24"
+              >
+                <h2
+                  class="lc-color-like-green lc-font-size-18"
+                >{{ $t('Settings.label.active') }}</h2>
+
+                <md-button
+                  class="md-likecoin outline gray-9b"
+                  @click="onClickCancelSubscription"
+                >{{ $t('Settings.button.cancelSubscription') }}</md-button>
+              </div>
+
+              <div
+                v-else
+                :class="[
+                  'lc-bg-like-gradient',
+                  'lc-margin-top-20',
+                  'lc-flex',
+                  'lc-align-items-center',
+                  'lc-justify-content-space-between',
+                  'lc-flex-direction-column-mobile',
+                ]"
+              >
+                <!-- TODO: pending for design (illustration for content backer) -->
+                <!-- <img src=""> -->
+                <p
+                  class="lc-font-weight-600 lc-color-dark-brown-2 lc-font-size-18"
+                >{{ $t('Settings.label.backerDesc') }}</p>
+                <md-button
+                  :to="{ name: 'in-donation' }"
+                  :class="[
+                    'md-likecoin',
+                    'lc-font-size-16',
+                    'lc-font-weight-600',
+                    'lc-bg-like-gradient-2',
+                    'lc-text-align-center',
+                    'no-border-radius',
+                  ]"
+                >{{ $t('Settings.button.becomeBacker') }}</md-button>
+              </div>
+            </template>
           </div>
         </div>
       </div>
@@ -427,6 +452,9 @@ export default {
         console.error(err);
       }
     },
+    onClickCancelSubscription() {
+      // TODO
+    },
     getTestAttribute: getTestAttribute('inSettings'),
   },
 };
@@ -440,7 +468,7 @@ export default {
 .profile-setting-page {
   &__backer-wrapper {
     .lc-bg-like-gradient {
-      padding: 16px;
+      padding: 16px 8px;
 
       img {
         width: 64px;
@@ -575,6 +603,24 @@ export default {
 
     @media (max-width: 768px) {
       text-align: center;
+    }
+  }
+
+  &__subscription-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 16px 24px;
+
+    background-color: $like-white;
+
+    h2 {
+      margin-left: 8px;
+    }
+
+    .md-button {
+      margin: 0;
     }
   }
 }
