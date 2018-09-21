@@ -14,7 +14,9 @@
     },
     "SubscriptionThankYouEmail": {
       "subject": "Thank you for joining the LikeCoin donation program",
-      "body": "Hi {{name}}!<p>Thank you for joining LikeCoin donation program!</p><p>For more details on the program, please check <a href=\"http://like.co/in/donation\" style=\"word-break: break-all; color: #28646E\">http://like.co/in/donation</a></p><p>Feel free to contact us on our official website should you have any thoughts or question.</p>"
+      "body": "Hi {{name}}!<p>Thank you for joining LikeCoin donation program!</p><p>For more details on the program, please check <a href=\"http://like.co/in/donation\" style=\"word-break: break-all; color: #28646E\">http://like.co/in/donation</a></p><p>Feel free to contact us on our official website should you have any thoughts or questions.</p><h1 style=\"color: #462405; font-size: 28px; font-weight: 600; text-align: center; line-height: 1.3; margin: 40px 0 64px;\">Read and appreciate the excellent work from the top creators</h1><span style=\"display: block; font-weight: 600; border-bottom: 2px solid #e6e6e6; width: 100%; padding-bottom: 4px;\">Feature Stories</span>",
+      "articleAuthor": "<span style=\"font-size: 12px;\">by <a href=\"{{url}}\" target=\"_blank\" style=\"color: #28646e; font-weight: 600; text-decoration: none;\">{{name}}</a> on <span style=\"color: #28646e; font-weight: 600;\">{{siteName}}</span></span>",
+      "individualSite": "Individual Sites"
     },
     "signature": "<p>LikeCoin Foundation<br/><a href=\"https://like.co\" style=\"color: #28646E\">https://like.co</a></p>"
   }
