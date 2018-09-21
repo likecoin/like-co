@@ -121,16 +121,8 @@ const MENU_ITEMS = [
         to: { name: 'in-about' },
       },
       {
-        key: 'tokenSale',
-        to: { name: 'in-tokensale' },
-      },
-      {
         key: 'backer',
         to: { name: 'in-backer' },
-      },
-      {
-        key: 'whitepaper',
-        to: { name: 'in-whitepaper' },
       },
     ],
   },
@@ -141,6 +133,10 @@ const MENU_ITEMS = [
         key: 'press',
         to: 'https://press.like.co/',
         isExternal: true,
+      },
+      {
+        key: 'whitepaper',
+        to: { name: 'in-whitepaper' },
       },
       {
         key: 'poc',
