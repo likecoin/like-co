@@ -297,11 +297,9 @@ export default {
         const { url } = platform;
         if (url) {
           const isEmail = new RegExp(EMAIL_REGEX).test(url);
-          let urlPath = url;
+          let urlPath = this.getSocialMediaUrl(socialMedia);
           if (isEmail) {
             urlPath = `mailto:${url}`;
-          } else {
-            urlPath = this.getSocialMediaUrl(socialMedia);
           }
           openURL(this, urlPath, '_blank');
           logTrackerEvent(this, 'LikeWidget', 'ClickSocialMedia', id, 1);
