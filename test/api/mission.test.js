@@ -12,7 +12,7 @@ test('MISSION: Get mission list', async (t) => {
   const token = jwtSign({ user });
   const res = await axiosist.get(`/api/mission/list/${user}`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res.status, 200);
@@ -33,7 +33,7 @@ test('MISSION: See mission', async (t) => {
     user,
   }, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res.status, 200);
@@ -47,7 +47,7 @@ test('MISSION: Hide mission. Case: not hidable', async (t) => {
     user,
   }, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res.status, 400);
@@ -64,7 +64,7 @@ test('MISSION: Finish step mission. Case: success', async (t) => {
     taskId,
   }, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res.status, 200);
@@ -80,7 +80,7 @@ test('MISSION: Finish step mission. Case: Unknown mission', async (t) => {
     taskId,
   }, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res.status, 400);
@@ -96,7 +96,7 @@ test('MISSION: Finish step mission. Case: Unknown task', async (t) => {
     taskId,
   }, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res.status, 400);
@@ -107,7 +107,7 @@ test('MISSION: Get mission history', async (t) => {
   const token = jwtSign({ user });
   const res = await axiosist.get(`/api/mission/list/history/${user}`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res.status, 200);
@@ -129,7 +129,7 @@ test('MISSION: Get mission history bonus', async (t) => {
   const token = jwtSign({ user });
   const res = await axiosist.get(`/api/mission/list/history/${user}/bonus`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res.status, 200);
@@ -150,7 +150,7 @@ test('MISSION: Get mission data by missionId', async (t) => {
 
   res = await axiosist.get(`/api/mission/gettingStart/user/${user}`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res.status, 200);
@@ -162,7 +162,7 @@ test('MISSION: Get referral list', async (t) => {
   const token = jwtSign({ user });
   const res = await axiosist.get(`/api/referral/list/${user}`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res.status, 200);
@@ -180,7 +180,7 @@ test('MISSION: Get referral list bonus', async (t) => {
   const token = jwtSign({ user });
   const res = await axiosist.get(`/api/referral/list/bonus/${user}`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res.status, 200);
@@ -200,7 +200,7 @@ test('MISSION: See referral', async (t) => {
     referralId: testingUser2,
   }, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res.status, 200);

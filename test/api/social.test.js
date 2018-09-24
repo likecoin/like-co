@@ -94,7 +94,7 @@ addSocialLinkFailCases.forEach(({ name, payload }) => {
 
     const res = await axiosist.post('/api/social/links/new', payload, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Cookie: `likecoin_auth=${token}`,
       },
     }).catch(err => err.response);
     t.is(res.status, 400);
@@ -108,14 +108,14 @@ editSocialLinkCases.forEach(({ name, payload, expectedResult }) => {
 
     const res = await axiosist.put('/api/social/links/link0', payload, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Cookie: `likecoin_auth=${token}`,
       },
     }).catch(err => err.response);
     t.is(res.status, 200);
 
     const res2 = await axiosist.get(`/api/social/list/${user}`, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Cookie: `likecoin_auth=${token}`,
       },
     }).catch(err => err.response);
     t.is(res2.status, 200);
@@ -140,7 +140,7 @@ test.serial('SOCIAL: Add social link', async (t) => {
     },
   }, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
 
@@ -163,14 +163,14 @@ test.serial('SOCIAL: Edit social link. Case: update info success', async (t) => 
     link: newLink,
   }, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res.status, 200);
 
   const res2 = await axiosist.get(`/api/social/list/${user}`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res2.status, 200);
@@ -190,14 +190,14 @@ test.serial('SOCIAL: Edit social link. Case: update order success', async (t) =>
     link: { order: newOrder },
   }, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res.status, 200);
 
   const res2 = await axiosist.get(`/api/social/list/${user}`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res2.status, 200);
@@ -211,7 +211,7 @@ test.serial('SOCIAL: Edit social link displaySocialMediaOption. Case: success', 
   // default show on all platform
   const res = await axiosist.get(`/api/social/list/${user}?type=medium`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res.status, 200);
@@ -223,7 +223,7 @@ test.serial('SOCIAL: Edit social link displaySocialMediaOption. Case: success', 
     displaySocialMediaOption: 'wp',
   }, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res2.status, 200);
@@ -231,7 +231,7 @@ test.serial('SOCIAL: Edit social link displaySocialMediaOption. Case: success', 
   // query for type medium
   const res3 = await axiosist.get(`/api/social/list/${user}?type=medium`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res3.status, 200);
@@ -249,14 +249,14 @@ test.serial('SOCIAL: Edit social link is public. Case: success', async (t) => {
     },
   }, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res.status, 200);
 
   const res2 = await axiosist.get(`/api/social/list/${user}`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res2.status, 200);
@@ -270,7 +270,7 @@ test.serial('SOCIAL: Delete user link', async (t) => {
     user,
   }, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
 
@@ -278,7 +278,7 @@ test.serial('SOCIAL: Delete user link', async (t) => {
 
   const res2 = await axiosist.get(`/api/social/list/${user}/details`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res2.status, 200);

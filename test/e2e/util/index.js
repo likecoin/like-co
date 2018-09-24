@@ -25,7 +25,7 @@ function jwtSign(user, wallet) {
   });
 }
 
-function setAuthLocalStorage(browser, url, user, wallet) {
+function setAuthCookie(browser, url, user, wallet) {
   const auth = jwtSign(user, wallet);
   browser
     .url(url)
@@ -35,4 +35,4 @@ function setAuthLocalStorage(browser, url, user, wallet) {
     });
 }
 
-module.exports = { initBrowser, setAuthLocalStorage };
+module.exports = { initBrowser, setAuthCookie };
