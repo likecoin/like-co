@@ -14,7 +14,7 @@ import axios from '../../plugins/axios';
 import { ValidationHelper as Validate, ValidationError } from '../../util/ValidationHelper';
 import { personalEcRecover, web3 } from '../util/web3';
 import { uploadFileAndGetLink } from '../util/fileupload';
-import { jwtSign, jwtAuth, jwtVerify } from '../util/jwt';
+import { jwtSign, jwtAuth } from '../util/jwt';
 import publisher from '../util/gcloudPub';
 
 
@@ -67,8 +67,7 @@ const W3C_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0
 
 const router = Router();
 
-function setSessionCookie(req, res, payload) {
-  const token = jwtSign(payload);
+function setSessionCookie(req, res, token) {
   let cookiePayload = { likecoin: token };
   if (req.cookies && req.cookies['__session']) { // eslint-disable-line dot-notation
     const sessionCookie = req.cookies['__session']; // eslint-disable-line dot-notation
@@ -79,7 +78,7 @@ function setSessionCookie(req, res, payload) {
       // do nth
     }
   }
-  res.cookie('__session', cookiePayload, AUTH_COOKIE_OPTION);
+  res.cookie('__session', JSON.stringify(cookiePayload), AUTH_COOKIE_OPTION);
 }
 
 function setAuthCookies(req, res, { user, wallet }) {
@@ -90,7 +89,7 @@ function setAuthCookies(req, res, { user, wallet }) {
   };
   const token = jwtSign(payload);
   res.cookie('likecoin_auth', token, AUTH_COOKIE_OPTION);
-  setSessionCookie(req, res, payload);
+  setSessionCookie(req, res, token);
 }
 
 const apiLimiter = new RateLimit({
@@ -327,17 +326,7 @@ router.post('/users/login/check', jwtAuth('read'), (req, res) => {
     res.status(401).send('LOGIN_NEEDED');
     return;
   }
-  try {
-    // eslint-disable-next-line no-underscore-dangle
-    const payload = jwtVerify(req.cookies.__session, { ignoreExpiration: true });
-    if (!payload.user || !payload.wallet
-      || payload.user !== req.user.user
-      || payload.wallet !== req.user.wallet) {
-      throw new Error('session is missing user');
-    }
-  } catch (err) {
-    setSessionCookie(req, res, req.user);
-  }
+  setSessionCookie(req, res, req.cookies.likecoin_auth);
   res.sendStatus(200);
 });
 
