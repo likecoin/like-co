@@ -130,7 +130,7 @@ function collectionDoc(data, id) {
       if (obj) {
         return docUpdate(obj, updateData);
       }
-      throw new Error('Doc not exists for update.');
+      return global.Promise.resolve();
     },
     delete: () => {
       if (obj) {
