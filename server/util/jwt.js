@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
 const expressjwt = require('express-jwt');
+const uuidv4 = require('uuid/v4');
 const config = require('../config/config.js'); // eslint-disable-line import/no-extraneous-dependencies
 
 const audience = EXTERNAL_HOSTNAME;
@@ -53,7 +54,9 @@ function setNoCacheHeader(res) {
 export const jwtSign = (payload) => {
   const opt = { audience, issuer, algorithm };
   if (!payload.exp) opt.expiresIn = '30d';
-  return jwt.sign(payload, signSecret, opt);
+  const jwtid = uuidv4();
+  opt.jwtid = jwtid;
+  return { token: jwt.sign(payload, signSecret, opt), jwtid };
 };
 
 export const jwtVerify = (

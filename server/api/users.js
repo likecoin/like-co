@@ -81,15 +81,21 @@ function setSessionCookie(req, res, token) {
   res.cookie('__session', JSON.stringify(cookiePayload), AUTH_COOKIE_OPTION);
 }
 
-function setAuthCookies(req, res, { user, wallet }) {
+async function setAuthCookies(req, res, { user, wallet }) {
   const payload = {
     user,
     wallet,
     permissions: ['read', 'write', 'like'],
   };
-  const token = jwtSign(payload);
+  const { token, jwtid } = jwtSign(payload);
   res.cookie('likecoin_auth', token, AUTH_COOKIE_OPTION);
   setSessionCookie(req, res, token);
+  await dbRef.doc(user).collection('session').doc(jwtid).create({
+    lastAccessedUserAgent: req.headers['user-agent'] || 'unknown',
+    lastAccessedIP: req ? (req.headers['x-real-ip'] || req.ip) : undefined,
+    lastAccessedTs: Date.now(),
+    ts: Date.now(),
+  });
 }
 
 const apiLimiter = new RateLimit({
@@ -301,7 +307,7 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res, n
     if (hasReferrer) {
       await dbRef.doc(referrer).collection('referrals').doc(user).create(timestampObj);
     }
-    setAuthCookies(req, res, { user, wallet });
+    await setAuthCookies(req, res, { user, wallet });
     res.sendStatus(200);
 
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
@@ -320,7 +326,7 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res, n
   }
 });
 
-router.post('/users/login/check', jwtAuth('read'), (req, res) => {
+router.post('/users/login/check', jwtAuth('read'), async (req, res) => {
   const { wallet } = req.body;
   if (req.user.wallet !== wallet) {
     res.status(401).send('LOGIN_NEEDED');
@@ -328,6 +334,11 @@ router.post('/users/login/check', jwtAuth('read'), (req, res) => {
   }
   setSessionCookie(req, res, req.cookies.likecoin_auth);
   res.sendStatus(200);
+  await dbRef.doc(req.user.user).collection('session').doc(req.user.jti).update({
+    lastAccessedUserAgent: req.headers['user-agent'] || 'unknown',
+    lastAccessedIP: req ? (req.headers['x-real-ip'] || req.ip) : undefined,
+    lastAccessedTs: Date.now(),
+  });
 });
 
 router.post('/users/login', async (req, res, next) => {
@@ -340,7 +351,7 @@ router.post('/users/login', async (req, res, next) => {
     const query = await dbRef.where('wallet', '==', from).get();
     if (query.docs.length > 0) {
       const user = query.docs[0].id;
-      setAuthCookies(req, res, { user, wallet: from });
+      await setAuthCookies(req, res, { user, wallet: from });
       res.sendStatus(200);
     } else {
       res.sendStatus(404);
