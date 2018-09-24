@@ -68,27 +68,18 @@ const W3C_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0
 const router = Router();
 
 function setSessionCookie(req, res, payload) {
-  /* eslint-disable no-param-reassign */
-
-  /* make sure exp exist */
-  if (!payload.exp) payload.exp = Math.floor(Date.now() / 1000);
-  /* prevent exisiting aud/iss causing error */
-  delete payload.aud;
-  delete payload.iss;
-
-  /* eslint-enable no-param-reassign */
-
-  let token = jwtSign(payload);
+  const token = jwtSign(payload);
+  let cookiePayload = { likecoin: token };
   if (req.cookies && req.cookies['__session']) { // eslint-disable-line dot-notation
-    const sessionCookie = req.cookies['__session'];// eslint-disable-line dot-notation
+    const sessionCookie = req.cookies['__session']; // eslint-disable-line dot-notation
     try {
-      const decoded = jwtVerify(sessionCookie, { ignoreExpiration: true });
-      token = jwtSign({ ...decoded, ...payload });
+      const decoded = JSON.parse(sessionCookie);
+      cookiePayload = { ...decoded, ...cookiePayload };
     } catch (err) {
       // do nth
     }
   }
-  res.cookie('__session', token, AUTH_COOKIE_OPTION);
+  res.cookie('__session', cookiePayload, AUTH_COOKIE_OPTION);
 }
 
 function setAuthCookies(req, res, { user, wallet }) {
