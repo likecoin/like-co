@@ -1,6 +1,6 @@
 import test from 'ava';
 
-const jwt = require('jsonwebtoken');
+const { jwtSign } = require('./jwt');
 const axiosist = require('./axiosist');
 
 test('IAP: Get iap product list', async (t) => {
@@ -12,7 +12,7 @@ test('IAP: Get iap product list', async (t) => {
 });
 
 test('IAP: Get iap subscriber info', async (t) => {
-  const token = jwt.sign({ user: 'testing' }, 'likecoin', { expiresIn: '7d' });
+  const token = jwtSign({ user: 'testing' });
   const res = await axiosist.get('/api/iap/subscription/donation/testing', {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -30,7 +30,7 @@ test('IAP: Get iap subscriber info', async (t) => {
 });
 
 test('IAP: Get iap non-subscriber info', async (t) => {
-  const token = jwt.sign({ user: 'testuser' }, 'likecoin', { expiresIn: '7d' });
+  const token = jwtSign({ user: 'testuser' });
   const res = await axiosist.get('/api/iap/subscription/donation/testuser', {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -44,7 +44,7 @@ test('IAP: Get iap non-subscriber info', async (t) => {
 test('IAP: Claim iap subscription with subscriber', async (t) => {
   const user = 'testing';
   const subscriptionId = 'sub_00000000000000';
-  const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
+  const token = jwtSign({ user });
   const res = await axiosist.post('/api/iap/subscription/claim', {
     subscriptionId,
     user,
@@ -61,7 +61,7 @@ test('IAP: Claim iap subscription with subscriber', async (t) => {
 test('IAP: Claim iap subscription with non-subscriber', async (t) => {
   const user = 'testuser';
   const subscriptionId = 'sub_00000000000000';
-  const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
+  const token = jwtSign({ user });
   const res = await axiosist.post('/api/iap/subscription/claim', {
     subscriptionId,
     user,

@@ -119,7 +119,7 @@ router.post('/iap/purchase/:productId', async (req, res, next) => {
   }
 });
 
-router.post('/iap/subscription/donation', jwtOptionalAuth, async (req, res, next) => {
+router.post('/iap/subscription/donation', jwtOptionalAuth('write'), async (req, res, next) => {
   try {
     const {
       token,
@@ -240,7 +240,7 @@ router.post('/iap/subscription/donation', jwtOptionalAuth, async (req, res, next
   }
 });
 
-router.get('/iap/subscription/donation/:user', jwtAuth, async (req, res, next) => {
+router.get('/iap/subscription/donation/:user', jwtAuth('read'), async (req, res, next) => {
   try {
     const { user } = req.params;
     const userRef = dbRef.doc(user);
@@ -256,7 +256,7 @@ router.get('/iap/subscription/donation/:user', jwtAuth, async (req, res, next) =
   }
 });
 
-router.delete('/iap/subscription/donation/:user', jwtAuth, async (req, res, next) => {
+router.delete('/iap/subscription/donation/:user', jwtAuth('write'), async (req, res, next) => {
   try {
     const { user } = req.params;
     if (!STRIPE_SUBSCRIPTION_PLAN_ID) throw new ValidationError('Subscription not configured');
@@ -308,7 +308,7 @@ router.delete('/iap/subscription/donation/:user', jwtAuth, async (req, res, next
   }
 });
 
-router.post('/iap/subscription/claim', jwtAuth, async (req, res, next) => {
+router.post('/iap/subscription/claim', jwtAuth('read'), async (req, res, next) => {
   try {
     const {
       subscriptionId,
