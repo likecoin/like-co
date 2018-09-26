@@ -92,7 +92,7 @@ async function setAuthCookies(req, res, { user, wallet }) {
   setSessionCookie(req, res, token);
   await dbRef.doc(user).collection('session').doc(jwtid).create({
     lastAccessedUserAgent: req.headers['user-agent'] || 'unknown',
-    lastAccessedIP: req ? (req.headers['x-real-ip'] || req.ip) : undefined,
+    lastAccessedIP: req.headers['x-real-ip'] || req.ip,
     lastAccessedTs: Date.now(),
     ts: Date.now(),
   });
@@ -336,7 +336,7 @@ router.post('/users/login/check', jwtAuth('read'), async (req, res) => {
   res.sendStatus(200);
   await dbRef.doc(req.user.user).collection('session').doc(req.user.jti).update({
     lastAccessedUserAgent: req.headers['user-agent'] || 'unknown',
-    lastAccessedIP: req ? (req.headers['x-real-ip'] || req.ip) : undefined,
+    lastAccessedIP: req.headers['x-real-ip'] || req.ip,
     lastAccessedTs: Date.now(),
   });
 });
