@@ -10,7 +10,7 @@ const { userCollection: dbRef } = require('../../util/firebase');
 
 const router = Router();
 
-router.get('/social/link/instagram/:user', jwtAuth, async (req, res, next) => {
+router.get('/social/link/instagram/:user', jwtAuth('read'), async (req, res, next) => {
   try {
     const { user } = req.params;
     if (req.user.user !== user) {
@@ -27,7 +27,7 @@ router.get('/social/link/instagram/:user', jwtAuth, async (req, res, next) => {
   }
 });
 
-router.post('/social/link/instagram', jwtAuth, async (req, res, next) => {
+router.post('/social/link/instagram', jwtAuth('write'), async (req, res, next) => {
   try {
     const {
       code,

@@ -38,4 +38,7 @@ config.NEW_USER_BONUS_COOLDOWN = 86400000;
 
 config.APP_SERVER = '';
 
+config.JWT_PUBLIC_CERT_PATH = '';
+config.JWT_PRIVATE_KEY_PATH = '';
+
 module.exports = config;
