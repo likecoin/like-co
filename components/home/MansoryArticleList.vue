@@ -63,9 +63,11 @@ export default {
   watch: {
     getSuggestedArticleInfo: {
       handler() {
+        const dedupByUser = new Set();
         this.articles = this.getSuggestedArticleList
           .filter(url => !!this.getSuggestedArticleInfo[url])
           .map(url => ({ ...this.getSuggestedArticleInfo[url], referrer: url }))
+          .filter(info => (dedupByUser.has(info.user) ? false : dedupByUser.add(info.user)))
           .slice(0, MAX_ARTICLES_DISPLAY);
       },
       deep: true,
