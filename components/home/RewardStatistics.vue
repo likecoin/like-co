@@ -19,7 +19,7 @@
       <!-- !! Uncomment when content civics is ready !! -->
       <!-- <div class="lc-flex lc-align-items-center">
         <md-button
-          class="md-likecoin outline lc-font-size-14"
+          class="md-likecoin outline gray-9b"
         >Become a Content Civics</md-button>
       </div> -->
       <!-- !! Uncomment when content civics is ready !! -->
@@ -225,16 +225,7 @@ export default {
     }
 
     .md-button {
-      min-width: 190px;
-      height: 32px;
       margin: 0;
-
-      color: #4a4a4a !important;
-      border: 1px solid currentColor !important;
-
-      :global(.md-ripple) {
-        min-height: unset !important;
-      }
     }
   }
 
