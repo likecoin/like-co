@@ -3,7 +3,7 @@ import {
   testingUser1,
 } from './data';
 
-const jwt = require('jsonwebtoken');
+const { jwtSign } = require('./jwt');
 const axiosist = require('./axiosist');
 
 const addSocialLinkFailCases = [
@@ -90,11 +90,11 @@ const editSocialLinkCases = [
 addSocialLinkFailCases.forEach(({ name, payload }) => {
   test(name, async (t) => {
     const { user } = payload;
-    const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
+    const token = jwtSign({ user });
 
     const res = await axiosist.post('/api/social/links/new', payload, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Cookie: `likecoin_auth=${token}`,
       },
     }).catch(err => err.response);
     t.is(res.status, 400);
@@ -104,18 +104,18 @@ addSocialLinkFailCases.forEach(({ name, payload }) => {
 editSocialLinkCases.forEach(({ name, payload, expectedResult }) => {
   test(name, async (t) => {
     const { user } = payload;
-    const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
+    const token = jwtSign({ user });
 
     const res = await axiosist.put('/api/social/links/link0', payload, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Cookie: `likecoin_auth=${token}`,
       },
     }).catch(err => err.response);
     t.is(res.status, 200);
 
     const res2 = await axiosist.get(`/api/social/list/${user}`, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Cookie: `likecoin_auth=${token}`,
       },
     }).catch(err => err.response);
     t.is(res2.status, 200);
@@ -130,7 +130,7 @@ editSocialLinkCases.forEach(({ name, payload, expectedResult }) => {
 let newLinkId;
 test.serial('SOCIAL: Add social link', async (t) => {
   const user = testingUser1;
-  const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
+  const token = jwtSign({ user });
   const res = await axiosist.post('/api/social/links/new', {
     user,
     link: {
@@ -140,7 +140,7 @@ test.serial('SOCIAL: Add social link', async (t) => {
     },
   }, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
 
@@ -151,7 +151,7 @@ test.serial('SOCIAL: Add social link', async (t) => {
 
 test.serial('SOCIAL: Edit social link. Case: update info success', async (t) => {
   const user = testingUser1;
-  const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
+  const token = jwtSign({ user });
 
   const newLink = {
     iconType: 'blog',
@@ -163,14 +163,14 @@ test.serial('SOCIAL: Edit social link. Case: update info success', async (t) => 
     link: newLink,
   }, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res.status, 200);
 
   const res2 = await axiosist.get(`/api/social/list/${user}`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res2.status, 200);
@@ -182,7 +182,7 @@ test.serial('SOCIAL: Edit social link. Case: update info success', async (t) => 
 
 test.serial('SOCIAL: Edit social link. Case: update order success', async (t) => {
   const user = testingUser1;
-  const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
+  const token = jwtSign({ user });
 
   const newOrder = 0;
   const res = await axiosist.put(`/api/social/links/${newLinkId}`, {
@@ -190,14 +190,14 @@ test.serial('SOCIAL: Edit social link. Case: update order success', async (t) =>
     link: { order: newOrder },
   }, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res.status, 200);
 
   const res2 = await axiosist.get(`/api/social/list/${user}`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res2.status, 200);
@@ -206,12 +206,12 @@ test.serial('SOCIAL: Edit social link. Case: update order success', async (t) =>
 
 test.serial('SOCIAL: Edit social link displaySocialMediaOption. Case: success', async (t) => {
   const user = testingUser1;
-  const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
+  const token = jwtSign({ user });
 
   // default show on all platform
   const res = await axiosist.get(`/api/social/list/${user}?type=medium`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res.status, 200);
@@ -223,7 +223,7 @@ test.serial('SOCIAL: Edit social link displaySocialMediaOption. Case: success', 
     displaySocialMediaOption: 'wp',
   }, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res2.status, 200);
@@ -231,7 +231,7 @@ test.serial('SOCIAL: Edit social link displaySocialMediaOption. Case: success', 
   // query for type medium
   const res3 = await axiosist.get(`/api/social/list/${user}?type=medium`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res3.status, 200);
@@ -240,7 +240,7 @@ test.serial('SOCIAL: Edit social link displaySocialMediaOption. Case: success', 
 
 test.serial('SOCIAL: Edit social link is public. Case: success', async (t) => {
   const user = testingUser1;
-  const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
+  const token = jwtSign({ user });
 
   const res = await axiosist.patch('/api/social/public', {
     user,
@@ -249,14 +249,14 @@ test.serial('SOCIAL: Edit social link is public. Case: success', async (t) => {
     },
   }, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res.status, 200);
 
   const res2 = await axiosist.get(`/api/social/list/${user}`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res2.status, 200);
@@ -265,12 +265,12 @@ test.serial('SOCIAL: Edit social link is public. Case: success', async (t) => {
 
 test.serial('SOCIAL: Delete user link', async (t) => {
   const user = testingUser1;
-  const token = jwt.sign({ user }, 'likecoin', { expiresIn: '7d' });
+  const token = jwtSign({ user });
   const res = await axiosist.post(`/api/social/unlink/${newLinkId}`, {
     user,
   }, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
 
@@ -278,7 +278,7 @@ test.serial('SOCIAL: Delete user link', async (t) => {
 
   const res2 = await axiosist.get(`/api/social/list/${user}/details`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res2.status, 200);

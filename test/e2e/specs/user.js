@@ -1,4 +1,4 @@
-const { initBrowser, setAuthLocalStorage } = require('../util/index.js');
+const { initBrowser, setAuthCookie } = require('../util/index.js');
 
 module.exports = {
   beforeEach: (browser) => {
@@ -55,7 +55,7 @@ module.exports = {
     }
     inputSequence.push('Test Name');
 
-    setAuthLocalStorage(browser, devServer, 'testacct', '0x7FCE12d55AcA8a55471CEd6cFd4548b49b0d1AB5');
+    setAuthCookie(browser, devServer, 'testacct', '0x7FCE12d55AcA8a55471CEd6cFd4548b49b0d1AB5');
 
     browser
       .url(`${devServer}/in`)
@@ -89,7 +89,7 @@ module.exports = {
   // Prerequisite: user registered
   'Claim coupon test and error dialog': (browser) => {
     const devServer = browser.globals.devServerURL;
-    setAuthLocalStorage(browser, devServer, 'testacct', '0x7FCE12d55AcA8a55471CEd6cFd4548b49b0d1AB5');
+    setAuthCookie(browser, devServer, 'testacct', '0x7FCE12d55AcA8a55471CEd6cFd4548b49b0d1AB5');
 
     browser
       .url(`${devServer}/in/settings`)
@@ -122,7 +122,7 @@ module.exports = {
     const devServer = browser.globals.devServerURL;
     const testUser = 'testing';
     const amount = 0.0001;
-    setAuthLocalStorage(browser, devServer, 'testacct', '0x7FCE12d55AcA8a55471CEd6cFd4548b49b0d1AB5');
+    setAuthCookie(browser, devServer, 'testacct', '0x7FCE12d55AcA8a55471CEd6cFd4548b49b0d1AB5');
 
     browser
       .url(`${devServer}/${testUser}/${amount}?referrer=https%3A%2F%2Fmedium.com%2Fmedia%2Fe6e99507986506dc7b413b8968912977%3FpostId%3Ddf585d37b43a`)
@@ -162,7 +162,7 @@ module.exports = {
     const devServer = browser.globals.devServerURL;
     const testUser = 'testing';
     const amount = 0.000001;
-    setAuthLocalStorage(browser, devServer, 'testacct', '0x7FCE12d55AcA8a55471CEd6cFd4548b49b0d1AB5');
+    setAuthCookie(browser, devServer, 'testacct', '0x7FCE12d55AcA8a55471CEd6cFd4548b49b0d1AB5');
 
     browser
       .url(`${devServer}/${testUser}/eth/${amount}`)

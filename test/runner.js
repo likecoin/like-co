@@ -62,7 +62,14 @@ function waitServerReady() {
 
 // Start testing server...
 // spawn as new group of processes
-if (!process.env.CI) setStub();
+if (!process.env.CI) {
+  setStub();
+  process.on('SIGINT', () => {
+    // catch SIGINT
+    if (server) killServer(-server.pid, 'SIGINT');
+    unsetStub();
+  });
+}
 
 if (!process.env.IS_STANDALONE_TEST) {
   server = spawn('npm', ['run', 'dev'], { detached: true, stdio: 'inherit' });
@@ -91,9 +98,3 @@ if (!process.env.IS_STANDALONE_TEST) {
   console.log('Done');
   if (!process.env.CI) unsetStub();
 }
-
-process.on('SIGINT', () => {
-  // catch SIGINT
-  killServer(-server.pid, 'SIGINT');
-  unsetStub();
-});
