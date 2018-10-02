@@ -234,7 +234,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'newUser',
+      'updateUser',
       'setInfoMsg',
       'sendVerifyEmail',
       'refreshUserInfo',
@@ -252,7 +252,7 @@ export default {
           locale: this.getCurrentLocale,
         };
         const data = await User.formatAndSignUserInfo(userInfo, this.$t('Sign.Message.editUser'));
-        await this.newUser(data);
+        await this.updateUser(data);
         this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${this.user}">${this.$t('Register.form.label.viewPage')}</a>`);
         this.refreshUserInfo(this.user);
         this.isEditing = false;

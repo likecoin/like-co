@@ -176,7 +176,6 @@ export default {
   },
   methods: {
     ...mapActions([
-      'newUser',
       'loginUser',
       'setInfoMsg',
       'checkCoupon',

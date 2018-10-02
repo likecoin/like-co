@@ -3,31 +3,29 @@ import { toDataUrl } from '@likecoin/ethereum-blockies';
 import BigNumber from 'bignumber.js';
 import { sendVerificationEmail, sendVerificationWithCouponEmail } from '../util/ses';
 import {
-  IS_TESTNET,
-  TEST_MODE,
   PUBSUB_TOPIC_MISC,
   ONE_LIKE,
 } from '../../constant';
-import { getEmailBlacklist, getEmailNoDot } from '../util/poller';
+import {
+  handleEmailBlackList,
+  checkReferrerExists,
+  checkUserInfoUniqueness,
+  checkIsOldUser,
+  checkSignPayload,
+  setSessionCookie,
+  setAuthCookies,
+} from '../util/api/users';
 
-import axios from '../../plugins/axios';
 import { ValidationHelper as Validate, ValidationError } from '../../util/ValidationHelper';
-import { personalEcRecover, web3 } from '../util/web3';
-import { uploadFileAndGetLink } from '../util/fileupload';
-import { jwtSign, jwtAuth } from '../util/jwt';
+import { personalEcRecover } from '../util/web3';
+import { handleAvatarUploadAndGetURL } from '../util/fileupload';
+import { jwtAuth } from '../util/jwt';
 import publisher from '../util/gcloudPub';
 
-
-const querystring = require('querystring');
 const Multer = require('multer');
-const sha256 = require('js-sha256');
-const sharp = require('sharp');
-const imageType = require('image-type');
 const uuidv4 = require('uuid/v4');
-const disposableDomains = require('disposable-email-domains');
 const RateLimit = require('express-rate-limit');
 const {
-  RECAPTCHA_SECRET,
   REGISTER_LIMIT_WINDOW,
   REGISTER_LIMIT_COUNT,
   NEW_USER_BONUS_COOLDOWN,
@@ -38,21 +36,7 @@ const {
   FieldValue,
 } = require('../util/firebase');
 
-const SUPPORTED_AVATER_TYPE = new Set([
-  'jpg',
-  'png',
-  'gif',
-  'webp',
-  'tif',
-  'bmp',
-]);
-
-const AUTH_COOKIE_OPTION = {
-  maxAge: 31556926000, // 365d
-  domain: TEST_MODE ? undefined : '.like.co',
-  secure: !TEST_MODE,
-  httpOnly: true,
-};
+export const THIRTY_S_IN_MS = 30000;
 
 const multer = Multer({
   storage: Multer.memoryStorage(),
@@ -61,42 +45,7 @@ const multer = Multer({
   },
 });
 
-const ONE_DATE_IN_MS = 86400000;
-const THIRTY_S_IN_MS = 30000;
-const W3C_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-
 const router = Router();
-
-function setSessionCookie(req, res, token) {
-  let cookiePayload = { likecoin: token };
-  if (req.cookies && req.cookies['__session']) { // eslint-disable-line dot-notation
-    const sessionCookie = req.cookies['__session']; // eslint-disable-line dot-notation
-    try {
-      const decoded = JSON.parse(sessionCookie);
-      cookiePayload = { ...decoded, ...cookiePayload };
-    } catch (err) {
-      // do nth
-    }
-  }
-  res.cookie('__session', JSON.stringify(cookiePayload), AUTH_COOKIE_OPTION);
-}
-
-async function setAuthCookies(req, res, { user, wallet }) {
-  const payload = {
-    user,
-    wallet,
-    permissions: ['read', 'write', 'like'],
-  };
-  const { token, jwtid } = jwtSign(payload);
-  res.cookie('likecoin_auth', token, AUTH_COOKIE_OPTION);
-  setSessionCookie(req, res, token);
-  await dbRef.doc(user).collection('session').doc(jwtid).create({
-    lastAccessedUserAgent: req.headers['user-agent'] || 'unknown',
-    lastAccessedIP: req.headers['x-real-ip'] || req.ip,
-    lastAccessedTs: Date.now(),
-    ts: Date.now(),
-  });
-}
 
 const apiLimiter = new RateLimit({
   windowMs: REGISTER_LIMIT_WINDOW,
@@ -110,200 +59,97 @@ const apiLimiter = new RateLimit({
   },
 });
 
-router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res, next) => {
+router.post('/users/new', apiLimiter, multer.single('avatar'), async (req, res, next) => {
   try {
     const {
       from,
       payload,
       sign,
-      reCaptchaResponse,
     } = req.body;
-    const recovered = personalEcRecover(payload, sign);
-    if (recovered.toLowerCase() !== from.toLowerCase()) {
-      throw new ValidationError('recovered address not match');
-    }
-
-    const message = web3.utils.hexToUtf8(payload);
-    const actualPayload = JSON.parse(message.substr(message.indexOf('{')));
+    const actualPayload = checkSignPayload(from, payload, sign);
     const {
       user,
       displayName,
       wallet,
       avatarSHA256,
       isEmailEnabled,
-      ts,
       referrer,
       locale,
     } = actualPayload;
-
     let { email } = actualPayload;
 
-    // trims away sign message header before JSON
-
-    // check address match
-    if (from !== wallet || !Validate.checkAddressValid(wallet)) {
-      throw new ValidationError('wallet address not match');
-    }
-
-    // Check ts expire
-    if (Math.abs(ts - Date.now()) > ONE_DATE_IN_MS) {
-      throw new ValidationError('payload expired');
-    }
+    if (!Validate.checkUserNameValid(user)) throw new ValidationError('Invalid user name');
 
     if (email) {
-      if ((process.env.CI || !IS_TESTNET) && !(W3C_EMAIL_REGEX.test(email))) throw new ValidationError('invalid email');
-      email = email.toLowerCase();
-      const customBlackList = getEmailBlacklist();
-      const BLACK_LIST_DOMAIN = disposableDomains.concat(customBlackList);
-      const parts = email.split('@');
-      if (BLACK_LIST_DOMAIN.includes(parts[1])) {
-        publisher.publish(PUBSUB_TOPIC_MISC, req, {
-          logType: 'eventBlockEmail',
-          user,
-          email,
-          displayName,
-          wallet,
-          referrer: referrer || undefined,
-          locale,
-        });
-        throw new ValidationError('email domain not allowed');
-      }
-      customBlackList.forEach((keyword) => {
-        if (parts[1].includes(keyword)) {
+      try {
+        email = handleEmailBlackList(email);
+      } catch (err) {
+        if (err.message === 'DOMAIN_NOT_ALLOWED' || err.message === 'DOMAIN_NEED_EXTRA_CHECK') {
           publisher.publish(PUBSUB_TOPIC_MISC, req, {
             logType: 'eventBlockEmail',
             user,
             email,
             displayName,
             wallet,
-            keyword,
             referrer: referrer || undefined,
             locale,
           });
-          throw new ValidationError('email domain needs extra verification, please contact us in intercom');
         }
-      });
-      if (getEmailNoDot().includes(parts[1])) {
-        email = `${parts[0].split('.').join('')}@${parts[1]}`;
+        throw err;
       }
     }
 
-    // Check user/wallet uniqueness
-    const userNameQuery = dbRef.doc(user).get().then((doc) => {
-      const isOldUser = doc.exists;
-      let oldUserObj;
-      if (isOldUser) {
-        const { wallet: docWallet } = doc.data();
-        oldUserObj = doc.data();
-        if (docWallet !== from) throw new ValidationError('USER_ALREADY_EXIST');
-      }
-      return { isOldUser, oldUserObj };
-    });
-    const walletQuery = dbRef.where('wallet', '==', from).get().then((snapshot) => {
-      snapshot.forEach((doc) => {
-        const docUser = doc.id;
-        if (user !== docUser) {
-          throw new ValidationError('Wallet already exist');
-        }
-      });
-      return true;
-    });
-    const emailQuery = email ? dbRef.where('email', '==', email).get().then((snapshot) => {
-      snapshot.forEach((doc) => {
-        const docUser = doc.id;
-        if (user !== docUser) {
-          throw new ValidationError('EMAIL_ALREADY_USED');
-        }
-      });
-      return true;
-    }) : Promise.resolve();
-    const [{
-      isOldUser, oldUserObj,
-    }] = await Promise.all([userNameQuery, walletQuery, emailQuery]);
+    const isNew = await checkUserInfoUniqueness({ user, from, email });
+    if (!isNew) throw new ValidationError('USER_ALREADY_EXIST');
 
-    let oldAvatar;
-    let oldEmail = '';
-    if (isOldUser && oldUserObj) {
-      oldEmail = oldUserObj.email;
-      oldAvatar = oldUserObj.avatar;
-    }
-
-    // check username length
-    if (!isOldUser) {
-      if (!/^[a-z0-9-_]+$/.test(user)) throw new ValidationError('Invalid user name char');
-      if (user.length < 7 || user.length > 20) throw new ValidationError('Invalid user name length');
-      /* istanbul ignore if */
-      if (!IS_TESTNET) {
-        if (!reCaptchaResponse) throw new ValidationError('reCAPTCHA missing');
-        const { data } = await axios.post(
-          'https://www.recaptcha.net/recaptcha/api/siteverify',
-          querystring.stringify({
-            secret: RECAPTCHA_SECRET,
-            response: reCaptchaResponse,
-            remoteip: req.headers['x-real-ip'] || req.ip,
-          }),
-        );
-        if (!data || !data.success) throw new ValidationError('reCAPTCHA Failed');
-      }
-    }
-
-    // update avatar
+    // upload avatar
     const { file } = req;
-    let url;
+    let avatarUrl;
     if (file) {
-      const type = imageType(file.buffer);
-      if (!SUPPORTED_AVATER_TYPE.has(type && type.ext)) throw new ValidationError('unsupported file format!');
-      const hash256 = sha256(file.buffer);
-      if (hash256 !== avatarSHA256) throw new ValidationError('avatar sha not match');
-      const resizedBuffer = await sharp(file.buffer).resize(400, 400).toBuffer();
-      file.buffer = resizedBuffer;
-      [url] = await uploadFileAndGetLink(file, `likecoin_store_user_${user}_${IS_TESTNET ? 'test' : 'main'}`);
+      avatarUrl = await handleAvatarUploadAndGetURL(user, file, avatarSHA256);
     }
-
     let hasReferrer = false;
-    if (!isOldUser && referrer) {
-      const referrerRef = await dbRef.doc(referrer).get();
-      if (!referrerRef.exists) throw new ValidationError('REFERRER_NOT_EXIST');
-      if (!referrerRef.data().isEmailVerified) throw new ValidationError('referrer email not verified');
-      if (referrerRef.data().isBlackListed) {
-        publisher.publish(PUBSUB_TOPIC_MISC, req, {
-          logType: 'eventBlockReferrer',
-          user,
-          email,
-          displayName,
-          wallet,
-          referrer,
-          locale,
-        });
-        throw new ValidationError('referrer limit exceeded');
+    if (referrer) {
+      try {
+        hasReferrer = await checkReferrerExists(referrer);
+      } catch (err) {
+        if (err.message === 'REFERRER_LIMIT_EXCCEDDED') {
+          publisher.publish(PUBSUB_TOPIC_MISC, req, {
+            logType: 'eventBlockReferrer',
+            user,
+            email,
+            displayName,
+            wallet,
+            referrer,
+            locale,
+          });
+        }
+        throw err;
       }
-      hasReferrer = referrerRef.exists;
     }
-
-    const updateObj = {
+    const createObj = {
       displayName,
       wallet,
+      isEmailEnabled,
+      avatar: avatarUrl,
+      locale,
     };
-    if (email && email !== oldEmail) {
-      updateObj.email = email;
-      updateObj.verificationUUID = FieldValue.delete();
-      updateObj.isEmailVerified = false;
-      updateObj.lastVerifyTs = FieldValue.delete();
-    }
-    if (typeof isEmailEnabled !== 'undefined') {
-      updateObj.isEmailEnabled = isEmailEnabled;
-    }
-    if (url) updateObj.avatar = url;
-    if (locale) updateObj.locale = locale;
 
     const timestampObj = { timestamp: Date.now() };
     if (NEW_USER_BONUS_COOLDOWN) {
       timestampObj.bonusCooldown = Date.now() + NEW_USER_BONUS_COOLDOWN;
     }
-    if (!isOldUser) Object.assign(updateObj, timestampObj);
-    if (hasReferrer) updateObj.referrer = referrer;
-    await dbRef.doc(user).set(updateObj, { merge: true });
+    Object.assign(createObj, timestampObj);
 
+    if (hasReferrer) createObj.referrer = referrer;
+
+    Object.keys(createObj).forEach((key) => {
+      if (createObj[key] === undefined) {
+        delete createObj[key];
+      }
+    });
+
+    await dbRef.doc(user).create(createObj);
     if (hasReferrer) {
       await dbRef.doc(referrer).collection('referrals').doc(user).create(timestampObj);
     }
@@ -311,15 +157,100 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res, n
     res.sendStatus(200);
 
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
-      logType: !isOldUser ? 'eventUserRegister' : 'eventUserEdit',
+      logType: 'eventUserRegister',
       user,
       email: email || undefined,
       displayName,
       wallet,
-      avatar: url || oldAvatar,
+      avatar: avatarUrl,
       referrer: referrer || undefined,
       locale,
-      registerTime: isOldUser ? oldUserObj.timestamp : updateObj.timestamp,
+      registerTime: createObj.timestamp,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post('/users/update', apiLimiter, multer.single('avatar'), async (req, res, next) => {
+  try {
+    const {
+      from,
+      payload,
+      sign,
+    } = req.body;
+    const actualPayload = checkSignPayload(from, payload, sign);
+    const {
+      user,
+      displayName,
+      wallet,
+      avatarSHA256,
+      isEmailEnabled,
+      locale,
+    } = actualPayload;
+    let { email } = actualPayload;
+    const oldUserObj = await checkIsOldUser({ user, from, email });
+    if (!oldUserObj) throw new ValidationError('USER_NOT_FOUND');
+
+    if (email) {
+      try {
+        email = handleEmailBlackList(email);
+      } catch (err) {
+        if (err.message === 'DOMAIN_NOT_ALLOWED' || err.message === 'DOMAIN_NEED_EXTRA_CHECK') {
+          publisher.publish(PUBSUB_TOPIC_MISC, req, {
+            logType: 'eventBlockEmail',
+            user,
+            email,
+            displayName,
+            wallet,
+            referrer: oldUserObj.referrer || undefined,
+            locale,
+          });
+        }
+        throw err;
+      }
+    }
+
+    // update avatar
+    const { file } = req;
+    let avatarUrl;
+    if (file) {
+      avatarUrl = await handleAvatarUploadAndGetURL(user, file, avatarSHA256);
+    }
+    const updateObj = {
+      displayName,
+      wallet,
+      isEmailEnabled,
+      avatar: avatarUrl,
+      locale,
+    };
+    const oldEmail = oldUserObj.email;
+    if (email && email !== oldEmail) {
+      updateObj.email = email;
+      updateObj.verificationUUID = FieldValue.delete();
+      updateObj.isEmailVerified = false;
+      updateObj.lastVerifyTs = FieldValue.delete();
+    }
+
+    Object.keys(updateObj).forEach((key) => {
+      if (updateObj[key] === undefined) {
+        delete updateObj[key];
+      }
+    });
+
+    await dbRef.doc(user).update(updateObj);
+    res.sendStatus(200);
+
+    publisher.publish(PUBSUB_TOPIC_MISC, req, {
+      logType: 'eventUserUpdate',
+      user,
+      email: email || oldEmail,
+      displayName,
+      wallet,
+      avatar: avatarUrl || oldUserObj.avatar,
+      referrer: oldUserObj.referrer,
+      locale,
+      registerTime: oldUserObj.timestamp,
     });
   } catch (err) {
     next(err);

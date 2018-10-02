@@ -62,7 +62,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'newUser',
+      'updateUser',
       'setInfoMsg',
       'sendVerifyEmail',
       'refreshUserInfo',
@@ -75,7 +75,7 @@ export default {
         email: newEmail,
       };
       const data = await User.formatAndSignUserInfo(userInfo, this.$t('Sign.Message.signKYC'));
-      return this.newUser(data);
+      return this.updateUser(data);
     },
     onCancel() {
       this.$emit('cancel');

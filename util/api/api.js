@@ -48,7 +48,16 @@ export const apiPostNewUser = (form) => {
   Object.keys(form).forEach((key) => {
     params.append(key, form[key]);
   });
-  return axios.put('/api/users/new', params);
+  return axios.post('/api/users/new', params);
+};
+
+export const apiPostUpdateUser = (form) => {
+  /* eslint-disable no-new */
+  const params = new FormData();
+  Object.keys(form).forEach((key) => {
+    params.append(key, form[key]);
+  });
+  return axios.post('/api/users/update', params);
 };
 
 export const apiCheckUserAuth = wallet => axios.post('/api/users/login/check', { wallet });

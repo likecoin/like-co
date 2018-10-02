@@ -135,7 +135,7 @@ export default {
   methods: {
     ...mapActions([
       'loginUser',
-      'newUser',
+      'updateUser',
       'refreshUserInfo',
       'setInfoMsg',
     ]),
@@ -157,7 +157,7 @@ export default {
           isEmailEnabled: this.isEmailEnabled,
         };
         const data = await User.formatAndSignUserInfo(userInfo, this.$t('Sign.Message.editUser'));
-        await this.newUser(data);
+        await this.updateUser(data);
         this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${this.user}">${this.$t('Register.form.label.viewPage')}</a>`);
         this.refreshUserInfo(user.user);
       } catch (err) {

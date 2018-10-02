@@ -16,6 +16,10 @@ export async function newUser(ctx, data) {
   return apiWrapper(ctx, api.apiPostNewUser(data), { blocking: true });
 }
 
+export async function updateUser(ctx, data) {
+  return apiWrapper(ctx, api.apiPostUpdateUser(data), { blocking: true });
+}
+
 export async function loginUser({ state, commit, dispatch }) {
   try {
     await api.apiCheckIsUser(state.wallet);
