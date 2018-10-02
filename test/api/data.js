@@ -4,6 +4,7 @@ const txData = require('../data/tx.json');
 //
 // test data
 //
+export const testingWallet0 = '0x4aa15ea87D6fFb649343E3daBb92f244f3327518';
 export const {
   id: testingUser1,
   displayName: testingDisplayName1,
@@ -27,6 +28,7 @@ export const {
 } = txData.tx[0];
 
 // confidential
+export const privateKey0 = '0xbad2b5497cf7f9f3938990cb17e5b4f6f2073e435f43b5c17ed48a8e267ed56c';
 export const privateKey1 = '0x3b298aeb848c19257e334160b52aae9790fbae9607bd68aea8cfcfc89572cb15';
 export const privateKey2 = '0x8163e9a0e9ec131844c520d292380bd93f39fd45d1bbce5c8ae3d2a4ef0a702b';
 export const privateKey3 = '0xd9d199217049b92cb321d3e636b1d6642d89af0cef08b56d61bf04467b4d3862';
