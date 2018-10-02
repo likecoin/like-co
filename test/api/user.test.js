@@ -1,5 +1,6 @@
 import test from 'ava';
 import {
+  testingWallet0,
   testingUser1,
   testingDisplayName1,
   testingEmail1,
@@ -10,6 +11,7 @@ import {
   testingMerchantId1,
   invalidWallet,
   testingWallet3,
+  privateKey0,
   privateKey1,
   privateKey3,
 } from './data';
@@ -30,7 +32,36 @@ function signProfile(signData, privateKey) {
 //
 // serial will run first
 //
-test.serial('USER: Register or edit user. Case: success', async (t) => {
+test.serial('USER: Register user. Case: success', async (t) => {
+  const payload = Web3.utils.utf8ToHex(JSON.stringify({
+    user: 'testing-user-0',
+    displayName: 'testingNewUser0',
+    ts: Date.now(),
+    wallet: testingWallet0,
+  }));
+  const sign = signProfile(payload, privateKey0);
+  const res = await axiosist.post('/api/users/new', {
+    from: testingWallet0,
+    payload,
+    sign,
+  });
+
+  t.is(res.status, 200);
+});
+
+test.serial('USER: Login user. Case: success', async (t) => {
+  const payload = Web3.utils.utf8ToHex('likecoin login message');
+  const sign = signProfile(payload, privateKey1);
+  const res = await axiosist.post('/api/users/login', {
+    from: testingWallet1,
+    payload,
+    sign,
+  });
+  axiosist.defaults.headers.common.Cookie = `likecoin_auth=${res.data.token}`;
+  t.is(res.status, 200);
+});
+
+test.serial('USER: Edit user. Case: success', async (t) => {
   const payload = Web3.utils.utf8ToHex(JSON.stringify({
     user: testingUser1,
     displayName: testingDisplayName1,
@@ -39,14 +70,13 @@ test.serial('USER: Register or edit user. Case: success', async (t) => {
     email: 'noreply@likecoin.store',
   }));
   const sign = signProfile(payload, privateKey1);
-  const res = await axiosist.put('/api/users/new', {
+  const res = await axiosist.post('/api/users/update', {
     from: testingWallet1,
     payload,
     sign,
   });
 
   t.is(res.status, 200);
-  axiosist.defaults.headers.common.Cookie = `likecoin_auth=${res.data.token}`;
 });
 
 test.serial('USER: Email verification (Need restart server for clean memory data)', async (t) => {
@@ -227,7 +257,7 @@ for (let i = 0; i < userCases.length; i += 1) {
   test(name, async (t) => {
     const formatedPayload = Web3.utils.utf8ToHex(JSON.stringify(payload));
     const sign = signProfile(formatedPayload, privateKey);
-    const res = await axiosist.put('/api/users/new', {
+    const res = await axiosist.post('/api/users/new', {
       from,
       payload: formatedPayload,
       sign,
