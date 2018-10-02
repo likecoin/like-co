@@ -131,3 +131,12 @@ export const DISPLAY_SOCIAL_MEDIA_OPTIONS = [
   'wp',
   'medium',
 ];
+
+export const SUPPORTED_AVATER_TYPE = new Set([
+  'jpg',
+  'png',
+  'gif',
+  'webp',
+  'tif',
+  'bmp',
+]);
