@@ -34,6 +34,7 @@ const {
 const {
   userCollection: dbRef,
   FieldValue,
+  admin,
 } = require('../util/firebase');
 
 export const THIRTY_S_IN_MS = 30000;
@@ -61,22 +62,37 @@ const apiLimiter = new RateLimit({
 
 router.post('/users/new', apiLimiter, multer.single('avatar'), async (req, res, next) => {
   try {
-    const {
-      from,
-      payload,
-      sign,
-    } = req.body;
-    const actualPayload = checkSignPayload(from, payload, sign);
+    let payload;
+    let firebaseUserId;
+    const { platform } = req.body;
+
+    if (!platform) throw new ValidationError('INVALID_PLATFORM');
+
+    if (platform === 'wallet') {
+      const {
+        from,
+        payload: stringPayload,
+        sign,
+      } = req.body;
+      if (from) payload = checkSignPayload(from, stringPayload, sign);
+    } else {
+      const { firebaseIdToken } = req.body;
+      ({ uid: firebaseUserId } = await admin.auth().verifyIdToken(firebaseIdToken));
+      payload = req.body;
+    }
+
     const {
       user,
-      displayName,
+      displayName = user,
       wallet,
       avatarSHA256,
-      isEmailEnabled,
+      isEmailEnabled = true,
       referrer,
-      locale,
-    } = actualPayload;
-    let { email } = actualPayload;
+      locale = 'en',
+      accessToken,
+      firebaseToken,
+    } = payload;
+    let { email } = payload;
 
     if (!Validate.checkUserNameValid(user)) throw new ValidationError('Invalid user name');
 
@@ -99,7 +115,12 @@ router.post('/users/new', apiLimiter, multer.single('avatar'), async (req, res, 
       }
     }
 
-    const isNew = await checkUserInfoUniqueness({ user, from, email });
+    const isNew = await checkUserInfoUniqueness({
+      user,
+      wallet,
+      email,
+      firebaseUserId,
+    });
     if (!isNew) throw new ValidationError('USER_ALREADY_EXIST');
 
     // upload avatar
@@ -131,6 +152,7 @@ router.post('/users/new', apiLimiter, multer.single('avatar'), async (req, res, 
       displayName,
       wallet,
       isEmailEnabled,
+      firebaseUserId,
       avatar: avatarUrl,
       locale,
     };
@@ -189,7 +211,7 @@ router.post('/users/update', apiLimiter, multer.single('avatar'), async (req, re
       locale,
     } = actualPayload;
     let { email } = actualPayload;
-    const oldUserObj = await checkIsOldUser({ user, from, email });
+    const oldUserObj = await checkIsOldUser({ user, wallet, email });
     if (!oldUserObj) throw new ValidationError('USER_NOT_FOUND');
 
     if (oldUserObj.wallet && oldUserObj.wallet !== wallet) {

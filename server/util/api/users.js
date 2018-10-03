@@ -61,7 +61,7 @@ export function checkSignPayload(from, payload, sign) {
 
   // check address match
   if (from !== wallet || !Validate.checkAddressValid(wallet)) {
-    throw new ValidationError('WALLET_NOT_MATCH');
+    throw new ValidationError('PAYLOAD_WALLET_NOT_MATCH');
   }
 
   // Check ts expire
@@ -69,41 +69,6 @@ export function checkSignPayload(from, payload, sign) {
     throw new ValidationError('PAYLOAD_EXPIRED');
   }
   return actualPayload;
-}
-
-async function userInfoQuery({ user, from, email }) {
-  const userNameQuery = dbRef.doc(user).get().then((doc) => {
-    const isOldUser = doc.exists;
-    let oldUserObj;
-    if (isOldUser) {
-      const { wallet: docWallet } = doc.data();
-      oldUserObj = doc.data();
-      if (docWallet !== from) throw new ValidationError('USER_ALREADY_EXIST');
-    }
-    return { isOldUser, oldUserObj };
-  });
-  const walletQuery = dbRef.where('wallet', '==', from).get().then((snapshot) => {
-    snapshot.forEach((doc) => {
-      const docUser = doc.id;
-      if (user !== docUser) {
-        throw new ValidationError('WALLET_ALREADY_EXIST');
-      }
-    });
-    return true;
-  });
-  const emailQuery = email ? dbRef.where('email', '==', email).get().then((snapshot) => {
-    snapshot.forEach((doc) => {
-      const docUser = doc.id;
-      if (user !== docUser) {
-        throw new ValidationError('EMAIL_ALREADY_USED');
-      }
-    });
-    return true;
-  }) : Promise.resolve();
-  const [{
-    isOldUser, oldUserObj,
-  }] = await Promise.all([userNameQuery, walletQuery, emailQuery]);
-  return { isOldUser, oldUserObj };
 }
 
 export function handleEmailBlackList(emailInput) {
@@ -126,17 +91,82 @@ export function handleEmailBlackList(emailInput) {
   return email;
 }
 
-export async function checkUserInfoUniqueness({ user, from, email }) {
-  try {
-    const { isOldUser } = await userInfoQuery({ user, from, email });
-    return !isOldUser;
-  } catch (err) {
-    return false;
-  }
+async function userInfoQuery({
+  user,
+  wallet,
+  email,
+  firebaseUserId,
+}) {
+  const userNameQuery = dbRef.doc(user).get().then((doc) => {
+    const isOldUser = doc.exists;
+    let oldUserObj;
+    if (isOldUser) {
+      const { wallet: docWallet } = doc.data();
+      oldUserObj = doc.data();
+      if (docWallet !== wallet) throw new ValidationError('USER_ALREADY_EXIST');
+    }
+    return { isOldUser, oldUserObj };
+  });
+  const walletQuery = wallet ? dbRef.where('wallet', '==', wallet).get().then((snapshot) => {
+    snapshot.forEach((doc) => {
+      const docUser = doc.id;
+      if (user !== docUser) {
+        throw new ValidationError('WALLET_ALREADY_EXIST');
+      }
+    });
+    return true;
+  }) : Promise.resolve();
+  const emailQuery = email ? dbRef.where('email', '==', email).get().then((snapshot) => {
+    snapshot.forEach((doc) => {
+      const docUser = doc.id;
+      if (user !== docUser) {
+        throw new ValidationError('EMAIL_ALREADY_USED');
+      }
+    });
+    return true;
+  }) : Promise.resolve();
+  const firebaseQuery = firebaseUserId ? dbRef.where('firebaseUserId', '==', firebaseUserId).get().then((snapshot) => {
+    snapshot.forEach((doc) => {
+      const docUser = doc.id;
+      if (user !== docUser) {
+        throw new ValidationError('FIREBASE_USER_DUPLICATED');
+      }
+    });
+    return true;
+  }) : Promise.resolve();
+  const [{
+    isOldUser, oldUserObj,
+  }] = await Promise.all([userNameQuery, walletQuery, emailQuery, firebaseQuery]);
+  return { isOldUser, oldUserObj };
 }
 
-export async function checkIsOldUser({ user, from, email }) {
-  const { isOldUser, oldUserObj } = await userInfoQuery({ user, from, email });
+export async function checkUserInfoUniqueness({
+  user,
+  wallet,
+  email,
+  firebaseUserId,
+}) {
+  const { isOldUser } = await userInfoQuery({
+    user,
+    wallet,
+    email,
+    firebaseUserId,
+  });
+  return !isOldUser;
+}
+
+export async function checkIsOldUser({
+  user,
+  wallet,
+  email,
+  firebaseUserId,
+}) {
+  const { isOldUser, oldUserObj } = await userInfoQuery({
+    user,
+    wallet,
+    email,
+    firebaseUserId,
+  });
   return isOldUser ? oldUserObj : null;
 }
 

@@ -8,7 +8,7 @@ export const ValidationHelper = {
     return addr.length === 42 && addr.substr(0, 2) === '0x';
   },
   checkUserNameValid(user) {
-    return (/^[a-z0-9-_]+$/.test(user) && user.length >= 7 && user.length <= 20);
+    return user && (/^[a-z0-9-_]+$/.test(user) && user.length >= 7 && user.length <= 20);
   },
   filterUserData(u) {
     const {
