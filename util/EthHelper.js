@@ -136,20 +136,26 @@ class EthHelper {
     this.pollingTimer = setInterval(() => this.getAccounts(), 3000);
   }
 
-  getAccounts() {
-    this.web3.eth.getAccounts().then((accounts) => {
-      if (accounts && accounts[0]) {
-        if (this.wallet !== accounts[0]) {
-          this.accounts = accounts;
-          [this.wallet] = accounts;
-          if (this.onWalletCb) this.onWalletCb(this.wallet);
-          if (this.clearErrCb) this.clearErrCb();
-        }
-      } else if (this.isInited && this.errCb) {
-        this.wallet = '';
-        this.errCb('locked');
+  async getAccounts() {
+    const accounts = await this.web3.eth.getAccounts();
+    if (accounts && accounts[0]) {
+      if (this.wallet !== accounts[0]) {
+        this.accounts = accounts;
+        [this.wallet] = accounts;
+        if (this.onWalletCb) this.onWalletCb(this.wallet);
+        if (this.clearErrCb) this.clearErrCb();
       }
-    });
+    } else if (this.isInited && this.errCb) {
+      this.wallet = '';
+      this.errCb('locked');
+      if (this.web3Type === 'window') {
+        try {
+          await window.ethereum.enable();
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    }
   }
 
   setLedgerOn() {
