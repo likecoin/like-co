@@ -74,7 +74,7 @@ router.post('/users/new', apiLimiter, multer.single('avatar'), async (req, res, 
         payload: stringPayload,
         sign,
       } = req.body;
-      if (from) payload = checkSignPayload(from, stringPayload, sign);
+      payload = checkSignPayload(from, stringPayload, sign);
     } else {
       const { firebaseIdToken } = req.body;
       ({ uid: firebaseUserId } = await admin.auth().verifyIdToken(firebaseIdToken));

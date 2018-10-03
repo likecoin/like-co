@@ -57,8 +57,13 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import { firebase } from '~/util/FirebaseApp';
+import { mapGetters, mapActions } from 'vuex';
+import {
+  firebasePlatformSignIn,
+  firebaseSendSignInEmail,
+  firebaseIsSignInEmailLink,
+  firebaseHandleSignInEmailLink,
+} from '~/util/FirebaseApp';
 
 export default {
   name: 'register-new',
@@ -74,7 +79,7 @@ export default {
     ]),
   },
   mounted() {
-    if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
+    if (firebaseIsSignInEmailLink()) {
       this.handleEmailSignIn();
     }
   },
@@ -82,56 +87,24 @@ export default {
     ...mapActions([
       'newUser',
     ]),
-    getFirebaseProvider(platform) {
-      switch (platform) {
-        case 'google':
-          return new firebase.auth.GoogleAuthProvider();
-        case 'facebook': {
-          const provider = new firebase.auth.FacebookAuthProvider();
-          provider.addScope('public_profile');
-          provider.addScope('pages_show_list');
-          provider.addScope('user_link');
-          return provider;
-        }
-        case 'twitter':
-          return new firebase.auth.TwitterAuthProvider();
-        case 'github':
-          return new firebase.auth.GithubAuthProvider();
-        default:
-          throw new Error('Platform not exist');
-      }
-    },
     async handleEmailSignIn() {
-      const { id: likecoinId, email } = window.localStorage.getItem('emailForSignIn');
-      if (email && likecoinId) {
-        await firebase.auth().signInWithEmailLink(email, window.location.href);
-        const firebaseIdToken = await firebase.auth().currentUser.getIdToken();
-        window.localStorage.removeItem('emailForSignIn');
-        const payload = {
-          user: likecoinId,
-          firebaseIdToken,
-          platform: 'email',
-          locale: this.getCurrentLocale,
-        };
-        this.sendRegisterToServer(payload);
+      const result = await firebaseHandleSignInEmailLink();
+      if (!result.email || !result.likecoinId || !result.firebaseIdToken) {
+        throw new Error('invalid result');
       }
+      const payload = {
+        user: result.likecoinId,
+        firebaseIdToken: result.firebaseIdToken,
+        platform: 'email',
+        locale: this.getCurrentLocale,
+      };
+      this.sendRegisterToServer(payload);
     },
     async onClickLogin(platform) {
       if (platform === 'email') {
-        const actionCodeSettings = {
-          url: window.location.href,
-          handleCodeInApp: true,
-        };
-        await firebase.auth().sendSignInLinkToEmail(this.email, actionCodeSettings);
-        window.localStorage.setItem(
-          'emailSignInPayload',
-          JSON.Stringify({ id: this.likecoinId, email: this.email }),
-        );
+        await firebaseSendSignInEmail({ likecoinId: this.likecoinId });
       } else {
-        const provider = this.getFirebaseProvider(platform);
-        const result = await firebase.auth().signInWithPopup(provider);
-        const { accessToken } = result.credential;
-        const firebaseIdToken = await firebase.auth().currentUser.getIdToken();
+        const { accessToken, firebaseIdToken } = await firebasePlatformSignIn(platform);
         const payload = {
           user: this.likecoinId,
           accessToken,
