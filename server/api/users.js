@@ -342,7 +342,10 @@ router.get('/users/self', jwtAuth('read'), async (req, res, next) => {
     const doc = await dbRef.doc(username).get();
     if (doc.exists) {
       const payload = doc.data();
-      if (!payload.avatar) payload.avatar = toDataUrl(payload.wallet);
+      payload.user = username;
+      if (payload.wallet && !payload.avatar) {
+        payload.avatar = toDataUrl(payload.wallet);
+      }
       res.json(Validate.filterUserData(payload));
     } else {
       res.sendStatus(404);
@@ -382,7 +385,10 @@ router.get('/users/id/:id', jwtAuth('read'), async (req, res, next) => {
     const doc = await dbRef.doc(username).get();
     if (doc.exists) {
       const payload = doc.data();
-      if (!payload.avatar) payload.avatar = toDataUrl(payload.wallet);
+      if (payload.wallet && !payload.avatar) {
+        payload.avatar = toDataUrl(payload.wallet);
+      }
+      payload.user = username;
       res.json(Validate.filterUserData(payload));
     } else {
       res.sendStatus(404);
@@ -398,7 +404,10 @@ router.get('/users/id/:id/min', async (req, res, next) => {
     const doc = await dbRef.doc(username).get();
     if (doc.exists) {
       const payload = doc.data();
-      if (!payload.avatar) payload.avatar = toDataUrl(payload.wallet);
+      if (payload.wallet && !payload.avatar) {
+        payload.avatar = toDataUrl(payload.wallet);
+      }
+      payload.user = username;
       res.json(Validate.filterUserDataMin(payload));
     } else {
       res.sendStatus(404);
@@ -414,7 +423,9 @@ router.get('/users/merchant/:id/min', async (req, res, next) => {
     const query = await dbRef.where('merchantId', '==', merchantId).get();
     if (query.docs.length > 0) {
       const payload = query.docs[0].data();
-      if (!payload.avatar) payload.avatar = toDataUrl(payload.wallet);
+      if (payload.wallet && !payload.avatar) {
+        payload.avatar = toDataUrl(payload.wallet);
+      }
       payload.user = query.docs[0].id;
       res.json(Validate.filterUserDataMin(payload));
     } else {
