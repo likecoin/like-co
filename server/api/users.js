@@ -17,7 +17,6 @@ import {
 } from '../util/api/users';
 
 import { ValidationHelper as Validate, ValidationError } from '../../util/ValidationHelper';
-import { personalEcRecover } from '../util/web3';
 import { handleAvatarUploadAndGetURL } from '../util/fileupload';
 import { jwtAuth } from '../util/jwt';
 import publisher from '../util/gcloudPub';
@@ -300,16 +299,51 @@ router.post('/users/login/check', jwtAuth('read'), async (req, res) => {
 
 router.post('/users/login', async (req, res, next) => {
   try {
-    const { from, payload, sign } = req.body;
-    const recovered = personalEcRecover(payload, sign);
-    if (recovered.toLowerCase() !== from.toLowerCase()) {
-      throw new ValidationError('recovered address not match');
+    let user;
+    let wallet;
+    const { platform } = req.body;
+
+    if (!platform) throw new ValidationError('INVALID_PLATFORM');
+
+    if (platform === 'wallet') {
+      const {
+        from,
+        payload: stringPayload,
+        sign,
+      } = req.body;
+      wallet = from;
+      checkSignPayload(wallet, stringPayload, sign);
+      const query = await dbRef.where('wallet', '==', wallet).get();
+      if (query.docs.length > 0) {
+        user = query.docs[0].id;
+      }
+    } else {
+      const { firebaseIdToken } = req.body;
+      const { uid: firebaseUserId } = await admin.auth().verifyIdToken(firebaseIdToken);
+      const query = await dbRef.where('firebaseUserId', '==', firebaseUserId).get();
+      if (query.docs.length > 0) {
+        user = query.docs[0].id;
+      }
     }
-    const query = await dbRef.where('wallet', '==', from).get();
-    if (query.docs.length > 0) {
-      const user = query.docs[0].id;
-      await setAuthCookies(req, res, { user, wallet: from });
+    if (user) {
+      await setAuthCookies(req, res, { user, wallet });
       res.sendStatus(200);
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get('/users/self', jwtAuth('read'), async (req, res, next) => {
+  try {
+    const username = req.user.user;
+    const doc = await dbRef.doc(username).get();
+    if (doc.exists) {
+      const payload = doc.data();
+      if (!payload.avatar) payload.avatar = toDataUrl(payload.wallet);
+      res.json(Validate.filterUserData(payload));
     } else {
       res.sendStatus(404);
     }
