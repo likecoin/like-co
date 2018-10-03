@@ -192,6 +192,10 @@ router.post('/users/update', apiLimiter, multer.single('avatar'), async (req, re
     const oldUserObj = await checkIsOldUser({ user, from, email });
     if (!oldUserObj) throw new ValidationError('USER_NOT_FOUND');
 
+    if (oldUserObj.wallet && oldUserObj.wallet !== wallet) {
+      throw new ValidationError('USER_WALLET_NOT_MATCH');
+    }
+
     if (email) {
       try {
         email = handleEmailBlackList(email);
