@@ -20,7 +20,11 @@ export async function updateUser(ctx, data) {
   return apiWrapper(ctx, api.apiPostUpdateUser(data), { blocking: true });
 }
 
-export async function loginUser({ state, commit, dispatch }) {
+export async function loginUser(ctx, data) {
+  return apiWrapper(ctx, api.apiLoginUser(data), { blocking: true });
+}
+
+export async function loginUserBySign(ctx, data) {
   try {
     await api.apiCheckIsUser(state.wallet);
   } catch (err) {
