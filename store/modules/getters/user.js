@@ -13,7 +13,7 @@ export const getUserIsReady = (state) => {
   return !web3Fetching && !isFetching && !isAwaitingAuth;
 };
 
-export const getUserIsRegistered = state => !!state.user.wallet;
+export const getUserIsRegistered = state => !!state.user.user;
 
 export const getUserNeedRegister = state => (getUserIsReady(state) && !getUserIsRegistered(state));
 
