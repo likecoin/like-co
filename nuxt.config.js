@@ -98,6 +98,7 @@ module.exports = {
           'https://*.doubleclick.net',
           'https://rinkeby.like.co',
           'https://like.co',
+          'https://likecoin-develop.firebaseapp.com',
         ],
         'img-src': [
           "'self'",
