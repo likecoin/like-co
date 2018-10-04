@@ -60,9 +60,11 @@ export const apiPostUpdateUser = (form) => {
   return axios.post('/api/users/update', params);
 };
 
-export const apiCheckUserAuth = wallet => axios.post('/api/users/login/check', { wallet });
-
 export const apiLoginUser = payload => axios.post('/api/users/login', payload);
+
+export const apiLogoutUser = () => axios.post('/api/users/logout');
+
+export const apiGetUserSelf = () => axios.get('/api/users/self');
 
 export const apiFetchUserMission = ({ missionId, user, params }) => axios.get(`/api/mission/${missionId}/user/${user}`, {
   params,
@@ -115,23 +117,6 @@ export const apiFetchReferralMissionList = id => axios.get(`/api/referral/list/$
 export const apiFetchReferralBonusList = id => axios.get(`/api/referral/list/bonus/${id}`);
 
 export const apiPostSeenReferral = (id, { referralId }) => axios.post(`/api/referral/seen/${id}`, { referralId });
-
-export const apiPostKYC = payload => axios.post('/api/kyc', payload);
-
-export const apiPostAdvancedKYC = (form) => {
-  /* eslint-disable no-new */
-  const params = new FormData();
-  Object.keys(form).forEach((key) => {
-    if (Array.isArray(form[key])) {
-      form[key].forEach(k => params.append(key, k));
-    } else {
-      params.append(key, form[key]);
-    }
-  });
-  return axios.post('/api/kyc/advanced', params);
-};
-
-export const apiGetAdvancedKYC = id => axios.get(`/api/kyc/advanced/${id}`);
 
 export const apiSendCouponCodeEmail = (id, coupon, locale) => axios.post(`/api/email/verify/user/${id}`, { coupon, locale });
 

@@ -337,7 +337,7 @@ router.post('/users/login', async (req, res, next) => {
   }
 });
 
-router.post('/users/logout', (req, res, next) => {
+router.post('/users/logout', (req, res) => {
   clearAuthCookies(req, res);
   res.sendStatus(200);
 });
