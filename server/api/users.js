@@ -14,6 +14,7 @@ import {
   checkSignPayload,
   setSessionCookie,
   setAuthCookies,
+  clearAuthCookies,
 } from '../util/api/users';
 
 import { ValidationHelper as Validate, ValidationError } from '../../util/ValidationHelper';
@@ -334,6 +335,11 @@ router.post('/users/login', async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+});
+
+router.post('/users/logout', (req, res, next) => {
+  clearAuthCookies(req, res);
+  res.sendStatus(200);
 });
 
 router.get('/users/self', jwtAuth('read'), async (req, res, next) => {
