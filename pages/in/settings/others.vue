@@ -72,7 +72,6 @@
 import { mapActions, mapGetters } from 'vuex';
 
 import { logTrackerEvent } from '@/util/EventLogger';
-import User from '@/util/User';
 
 import PoliciesLinks from '~/components/PoliciesLinks';
 
@@ -142,8 +141,7 @@ export default {
           wallet: user.wallet,
           isEmailEnabled: this.isEmailEnabled,
         };
-        const data = await User.formatAndSignUserInfo(userInfo, this.$t('Sign.Message.editUser'));
-        await this.updateUser(data);
+        await this.updateUser(userInfo);
         this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${this.user}">${this.$t('Register.form.label.viewPage')}</a>`);
         this.refreshUserInfo(user.user);
       } catch (err) {

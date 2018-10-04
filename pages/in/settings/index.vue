@@ -287,7 +287,6 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-import User from '@/util/User';
 import {
   W3C_EMAIL_REGEX,
 } from '@/constant';
@@ -381,7 +380,7 @@ export default {
       if (this.hasUserDetailsChanged) {
         try {
           const { avatarFile, displayName } = this;
-          const { user, wallet } = this.getUserInfo;
+          const { user, wallet = '' } = this.getUserInfo;
           const email = this.email.trim();
           const userInfo = {
             avatarFile,
@@ -392,8 +391,7 @@ export default {
           };
           const hasEmailChanged = this.getUserInfo.email !== email;
 
-          const data = await User.formatAndSignUserInfo(userInfo, this.$t('Sign.Message.editUser'));
-          await this.updateUser(data);
+          await this.updateUser(userInfo);
           this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${user}">${this.$t('Register.form.label.viewPage')}</a>`);
           this.refreshUserInfo(user);
 

@@ -159,7 +159,6 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-import User from '@/util/User';
 import { logTrackerEvent } from '@/util/EventLogger';
 import getTestAttribute from '@/util/test';
 
@@ -239,12 +238,11 @@ export default {
           avatarFile: this.avatarFile,
           user: this.user,
           displayName: this.displayName,
-          wallet: this.wallet,
+          wallet: this.wallet || '',
           email: this.email,
           locale: this.getCurrentLocale,
         };
-        const data = await User.formatAndSignUserInfo(userInfo, this.$t('Sign.Message.editUser'));
-        await this.updateUser(data);
+        await this.updateUser(userInfo);
         this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${this.user}">${this.$t('Register.form.label.viewPage')}</a>`);
         this.refreshUserInfo(this.user);
         this.isEditing = false;
