@@ -67,6 +67,7 @@
     </div>
 
     <transaction-history
+      v-if="wallet"
       id="transaction"
       ref="txHistory"
       :address="wallet"
@@ -136,7 +137,6 @@ export default {
       'getCurrentLocale',
       'getIsFetchingMissions',
       'getIsFetchedMissions',
-      'getUserIsReady',
       'getUserNeedAuth',
       'getUserIsRegistered',
       'getShortMissionList',
@@ -153,30 +153,18 @@ export default {
       ],
     };
   },
-  watch: {
-    getUserIsReady(a) {
-      if (a) {
-        if (this.getUserIsRegistered) {
-          this.updateInfo();
-        }
-      }
-    },
-  },
   mounted() {
     const { hash } = document.location;
     if (hash) {
       const element = document.querySelector(hash);
       if (element) element.scrollIntoView();
     }
-    if (this.getUserIsReady) {
-      if (this.getUserIsRegistered) {
-        this.updateInfo();
-      }
+    if (this.getUserIsRegistered) {
+      this.updateInfo();
     }
   },
   methods: {
     ...mapActions([
-      'loginUser',
       'setInfoMsg',
       'checkCoupon',
       'sendVerifyEmail',
@@ -192,7 +180,7 @@ export default {
     updateInfo() {
       const user = this.getUserInfo;
       this.wallet = user.wallet;
-      this.$refs.txHistory.updateTokenSaleHistory();
+      if (this.$refs.txHistory) this.$refs.txHistory.updateTokenSaleHistory();
       this.refreshMissions();
     },
   },

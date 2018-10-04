@@ -203,7 +203,6 @@ export default {
       'getCurrentLocale',
       'getUserInfo',
       'getUserSocialPlatforms',
-      'getUserIsReady',
       'getUserIsRegistered',
       'getUserLikeCoinAmountInBigNumber',
     ]),
@@ -217,15 +216,8 @@ export default {
       return `https://${EXTERNAL_HOSTNAME}/${this.getUserInfo.user}`;
     },
   },
-  watch: {
-    getUserIsReady(value) {
-      if (value && this.getUserIsRegistered) {
-        this.updateInfo();
-      }
-    },
-  },
   mounted() {
-    if (this.getUserIsReady && this.getUserIsRegistered) {
+    if (this.getUserIsRegistered) {
       if (this.$route.params.showEmail && !this.isUserEmailVerified) {
         this.$nextTick(() => this.$refs.inputDialog.show());
       }

@@ -323,15 +323,13 @@ export default {
   computed: {
     ...mapGetters([
       'getUserInfo',
-      'getUserIsReady',
       'getUserIsRegistered',
       'getUserNeedAuth',
-      'getUserNeedRegister',
       'getUserSocialPlatforms',
       'getIsInTransaction',
     ]),
     disabled() {
-      return this.isLoading || !(this.getUserIsReady && this.getUserIsRegistered);
+      return this.isLoading || !this.getUserIsRegistered;
     },
     hasUserDetailsChanged() {
       return (
@@ -342,39 +340,27 @@ export default {
     },
   },
   watch: {
-    getUserNeedRegister(value) {
-      if (value) {
-        this.$router.push({ name: 'in-register', query: { ref: 'in-settings', ...this.$route.query } });
-      }
-    },
     getUserNeedAuth(value) {
       if (value) {
         this.triggerLoginSign();
       }
     },
-    getUserIsReady(value) {
-      if (value && this.getUserIsRegistered) {
-        this.updateInfo();
-      }
-    },
     getUserInfo(value) {
-      if (value && this.getUserIsRegistered && this.getUserIsReady) {
+      if (value && this.getUserIsRegistered) {
         this.updateInfo();
       }
     },
   },
   mounted() {
-    if (this.getUserNeedRegister) {
-      this.$router.push({ name: 'in-register', query: { ref: 'in-settings', ...this.$route.query } });
-    } else if (this.getUserNeedAuth) {
+    if (this.getUserNeedAuth) {
       this.triggerLoginSign();
-    } else if (this.getUserIsReady && this.getUserIsRegistered) {
+    } else if (this.getUserIsRegistered) {
       this.updateInfo();
     }
   },
   methods: {
     ...mapActions([
-      'loginUser',
+      'doUserAuth',
       'updateUser',
       'refreshUserInfo',
       'sendVerifyEmail',
@@ -383,7 +369,7 @@ export default {
       'cancelSubscription',
     ]),
     async triggerLoginSign() {
-      if (!(await this.loginUser())) this.$router.go(-1);
+      this.doUserAuth();
     },
     async updateInfo() {
       const user = this.getUserInfo;

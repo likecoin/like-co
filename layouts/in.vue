@@ -113,7 +113,6 @@ export default {
       'getCurrentLocaleISO',
       'getReferralMissionList',
       'getUserNeedAuth',
-      'getUserNeedRegister',
     ]),
   },
   head() {
@@ -129,30 +128,19 @@ export default {
   watch: {
     getUserNeedAuth(a) {
       if (a) {
-        this.triggerLoginSign();
-      }
-    },
-    getUserNeedRegister(a) {
-      if (a) {
-        this.$router.push({ name: 'in-register', query: { ref: 'in', ...this.$route.query } });
+        this.doUserAuth();
       }
     },
   },
   mounted() {
     if (this.getUserNeedAuth) {
-      this.triggerLoginSign();
-    }
-    if (this.getUserNeedRegister) {
-      this.$router.push({ name: 'in-register', query: { ref: 'in', ...this.$route.query } });
+      this.doUserAuth();
     }
   },
   methods: {
     ...mapActions([
-      'loginUser',
+      'doUserAuth',
     ]),
-    async triggerLoginSign() {
-      if (!(await this.loginUser())) this.$router.go(-1);
-    },
   },
 };
 </script>

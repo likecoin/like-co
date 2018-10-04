@@ -268,10 +268,8 @@ export default {
   computed: {
     ...mapGetters([
       'getUserInfo',
-      'getUserIsReady',
       'getUserIsRegistered',
       'getUserNeedAuth',
-      'getUserNeedRegister',
       'getUserSocialPlatforms',
       'getUserSocialLinks',
       'getUserSocialMeta',
@@ -332,19 +330,9 @@ export default {
     },
   },
   watch: {
-    getUserNeedRegister(value) {
-      if (value) {
-        this.$router.push({ name: 'in-register', query: { ref: 'in-settings-others', ...this.$route.query } });
-      }
-    },
     getUserNeedAuth(value) {
       if (value) {
         this.triggerLoginSign();
-      }
-    },
-    getUserIsReady(value) {
-      if (value && this.getUserIsRegistered) {
-        this.updateInfo();
       }
     },
     getUserInfo(user) {
@@ -362,17 +350,9 @@ export default {
     },
   },
   mounted() {
-    if (this.getUserNeedRegister) {
-      this.$router.push({
-        name: 'in-register',
-        query: {
-          ref: 'in-settings-button',
-          ...this.$route.query,
-        },
-      });
-    } else if (this.getUserNeedAuth) {
+    if (this.getUserNeedAuth) {
       this.triggerLoginSign();
-    } else if (this.getUserIsReady && this.getUserIsRegistered) {
+    } else if (this.getUserIsRegistered) {
       this.updateInfo();
     }
 
@@ -381,11 +361,11 @@ export default {
   },
   methods: {
     ...mapActions([
-      'loginUser',
+      'doUserAuth',
       'updateSocialPlatformIsPublic',
     ]),
     async triggerLoginSign() {
-      if (!(await this.loginUser())) this.$router.go(-1);
+      this.doUserAuth();
     },
     async updateInfo() {
       const user = this.getUserInfo;

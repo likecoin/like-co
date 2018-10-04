@@ -54,7 +54,7 @@
                   'outline',
                   'lc-margin-top-32',
                   {
-                    disabled: getUserIsFetching || isClaiming,
+                    disabled: isClaiming,
                   }
                 ]"
                 @click="onClickConnect"
@@ -114,7 +114,6 @@ export default {
     ...mapGetters([
       'getUserIsRegistered',
       'getUserId',
-      'getUserIsFetching',
     ]),
     subscriptionId() {
       return this.$route.query.subscriptionId || '';

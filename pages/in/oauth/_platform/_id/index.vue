@@ -64,11 +64,6 @@ export default {
         this.connect();
       }
     },
-    getUserNeedRegister(a) {
-      if (a) {
-        this.$router.push({ name: 'in-register', query: { ref: 'in-settings', ...this.$route.query } });
-      }
-    },
     username(name) {
       if (name) {
         this.connect();
@@ -89,8 +84,6 @@ export default {
     }
     if (this.getUserNeedAuth) {
       this.triggerLoginSign();
-    } else if (this.getUserNeedRegister) {
-      this.$router.push({ name: 'in-register', query: { ref: 'in-settings', ...this.$route.query } });
     } else if (this.username) {
       this.connect();
     }
@@ -103,11 +96,11 @@ export default {
   },
   methods: {
     ...mapActions([
-      'loginUser',
+      'doUserAuth',
       'linkSocialPlatform',
     ]),
     async triggerLoginSign() {
-      if (!(await this.loginUser())) this.$router.push({ name: 'index' });
+      this.doUserAuth();
     },
     async connect() {
       if (this.isDone) return;
