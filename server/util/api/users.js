@@ -117,7 +117,7 @@ async function userInfoQuery({
     if (isOldUser) {
       const { wallet: docWallet } = doc.data();
       oldUserObj = doc.data();
-      if (docWallet !== wallet) throw new ValidationError('USER_ALREADY_EXIST');
+      if (wallet && docWallet !== wallet) throw new ValidationError('USER_ALREADY_EXIST');
     }
     return { isOldUser, oldUserObj };
   });

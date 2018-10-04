@@ -194,14 +194,8 @@ router.post('/users/new', apiLimiter, multer.single('avatar'), async (req, res, 
   }
 });
 
-router.post('/users/update', apiLimiter, multer.single('avatar'), async (req, res, next) => {
+router.post('/users/update', jwtAuth('write'), multer.single('avatar'), async (req, res, next) => {
   try {
-    const {
-      from,
-      payload,
-      sign,
-    } = req.body;
-    const actualPayload = checkSignPayload(from, payload, sign);
     const {
       user,
       displayName,
@@ -209,8 +203,8 @@ router.post('/users/update', apiLimiter, multer.single('avatar'), async (req, re
       avatarSHA256,
       isEmailEnabled,
       locale,
-    } = actualPayload;
-    let { email } = actualPayload;
+    } = req.body;
+    let { email } = req.body;
     const oldUserObj = await checkIsOldUser({ user, wallet, email });
     if (!oldUserObj) throw new ValidationError('USER_NOT_FOUND');
 
