@@ -57,10 +57,8 @@ function prettifyNumber(n) {
 
 class EthHelper {
   initApp({
-    initCb,
     errCb,
     clearErrCb,
-    retryCb,
     onWalletCb,
     onSetWeb3,
     onSign,
@@ -71,16 +69,11 @@ class EthHelper {
       wallet: '',
       errCb,
       clearErrCb,
-      retryCb,
       onWalletCb,
       onSetWeb3,
       onSign,
       onLogin,
       onSigned,
-    });
-    setTimeout(() => {
-      if (initCb) initCb();
-      this.pollForWeb3();
     });
   }
 
@@ -99,7 +92,7 @@ class EthHelper {
     this.isInited = false;
     this.clearTimers();
     try {
-      if (initType || typeof window.web3 !== 'undefined') {
+      if (initType === 'ledger' || typeof window.web3 !== 'undefined') {
         if (initType === 'ledger' && this.web3Type !== 'ledger') {
           this.web3 = await createLedgerWeb3(IS_TESTNET ? 4 : 1);
           this.setWeb3Type('ledger');
@@ -110,7 +103,6 @@ class EthHelper {
         const network = await this.web3.eth.net.getNetworkType();
         const target = (IS_TESTNET ? 'rinkeby' : 'main');
         if (network === target) {
-          if (this.retryCb) this.retryCb();
           this.startApp();
           this.isInited = true;
         } else {
@@ -124,6 +116,7 @@ class EthHelper {
           this.web3 = new Web3(provider);
           this.setWeb3Type('infura');
         }
+        if (initType === 'window') return;
         this.retryTimer = setTimeout(() => this.pollForWeb3(initType), 3000);
       }
     } catch (err) {
@@ -140,8 +133,9 @@ class EthHelper {
     this.pollingTimer = setInterval(() => this.getAccounts(), 3000);
   }
 
-  getAccounts() {
-    this.web3.eth.getAccounts().then((accounts) => {
+  async getAccounts() {
+    if (this.isInited) {
+      const accounts = await this.web3.eth.getAccounts();
       if (accounts && accounts[0]) {
         if (this.wallet !== accounts[0]) {
           this.accounts = accounts;
@@ -153,7 +147,7 @@ class EthHelper {
         this.wallet = '';
         this.errCb('locked');
       }
-    });
+    }
   }
 
   setLedgerOn() {
@@ -488,6 +482,14 @@ class EthHelper {
       if (this.onSigned) this.onSigned();
       throw err;
     }
+  }
+
+  getIsInited() {
+    return this.isInited;
+  }
+
+  disableWeb3() {
+    this.isInited = false;
   }
 }
 

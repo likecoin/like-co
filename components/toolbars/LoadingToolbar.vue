@@ -21,3 +21,12 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+@import "~assets/variables";
+
+.md-progress-bar {
+  position: fixed;
+  width: 100%;
+}
+</style>

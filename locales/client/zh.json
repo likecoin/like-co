@@ -781,7 +781,8 @@
       "notSupported": "你的錢包不支援這個功能",
       "ethInsufficient": "錢包內的 ETH 數量不足",
       "likecoinInsufficient": "錢包內的 LikeCoin 數量不足",
-      "sameUser": "不能轉賬給自己"
+      "sameUser": "不能轉賬給自己",
+      "metamaskWalletNotMatch": "你的錢包地址跟目前的 Metamask 地址不相符"
     }
   },
   "WhitePaper": {
