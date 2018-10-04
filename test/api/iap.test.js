@@ -15,7 +15,7 @@ test('IAP: Get iap subscriber info', async (t) => {
   const token = jwtSign({ user: 'testing' });
   const res = await axiosist.get('/api/iap/subscription/donation/testing', {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   })
     .catch(err => err.response);
@@ -33,7 +33,7 @@ test('IAP: Get iap non-subscriber info', async (t) => {
   const token = jwtSign({ user: 'testuser' });
   const res = await axiosist.get('/api/iap/subscription/donation/testuser', {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   })
     .catch(err => err.response);
@@ -50,7 +50,7 @@ test('IAP: Claim iap subscription with subscriber', async (t) => {
     user,
   }, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   })
     .catch(err => err.response);
@@ -67,7 +67,7 @@ test('IAP: Claim iap subscription with non-subscriber', async (t) => {
     user,
   }, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Cookie: `likecoin_auth=${token}`,
     },
   })
     .catch(err => err.response);
