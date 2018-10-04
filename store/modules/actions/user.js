@@ -12,6 +12,11 @@ import User from '@/util/User';
 
 import apiWrapper from './api-wrapper';
 
+export function doUserAuth({ commit }, { router, route }) {
+  commit(types.USER_SET_AFTER_AUTH_ROUTE, route);
+  router.push({ name: 'in-register-login', query: route.query });
+}
+
 export async function newUser({ commit, dispatch }, data) {
   await apiWrapper({ commit, dispatch }, api.apiPostNewUser(data), { blocking: true });
   commit(types.USER_AWAITING_AUTH, false);

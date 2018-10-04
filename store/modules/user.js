@@ -5,6 +5,7 @@ import {
   USER_SET_USER_INFO,
   USER_SET_LOCAL_WALLET,
   USER_AWAITING_AUTH,
+  USER_SET_AFTER_AUTH_ROUTE,
   USER_SET_SOCIAL,
   USER_SET_SOCIAL_DETAILS,
   USER_LINK_SOCIAL,
@@ -25,6 +26,7 @@ const state = {
   wallet: '',
   isFetching: false,
   isAwaitingAuth: false,
+  afterAuthRoute: {},
   web3Fetching: false,
   platforms: {},
   links: {},
@@ -41,6 +43,9 @@ const mutations = {
   },
   [USER_AWAITING_AUTH](state, isAwaitingAuth) {
     state.isAwaitingAuth = isAwaitingAuth;
+  },
+  [USER_SET_AFTER_AUTH_ROUTE](state, route) {
+    state.route = route;
   },
   [USER_SET_SOCIAL](state, platforms) {
     state.platforms = platforms;
