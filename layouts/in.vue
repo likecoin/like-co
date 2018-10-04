@@ -1,6 +1,6 @@
 <template>
   <div class="lc-layout">
-    <tool-bars :disableError="getIfDisableError" />
+    <tool-bars />
 
     <div class="lc-page-wrapper with-sliding-menu">
 
@@ -94,8 +94,6 @@ import SlidingMenu from '~/components/SlidingMenu/index';
 import ToolBars from '~/components/toolbars/ToolBars';
 import UserInfoForm from '~/components/UserInfoForm';
 
-import { getToolbarsDisableError } from '~/constant';
-
 export default {
   components: {
     MissionDialog,
@@ -107,9 +105,6 @@ export default {
     UserInfoForm,
   },
   computed: {
-    getIfDisableError() {
-      return getToolbarsDisableError(this.$route.name);
-    },
     hasNewInvitee() {
       return this.getReferralMissionList.some(referral => !referral.seen);
     },
