@@ -46,6 +46,20 @@ export async function setAuthCookies(req, res, { user, wallet }) {
   });
 }
 
+export async function clearAuthCookies(req, res) {
+  if (req.cookies && req.cookies['__session']) { // eslint-disable-line dot-notation
+    const sessionCookie = req.cookies['__session']; // eslint-disable-line dot-notation
+    try {
+      const cookiePayload = JSON.parse(sessionCookie);
+      delete cookiePayload.likecoin;
+      res.cookie('__session', JSON.stringify(cookiePayload), AUTH_COOKIE_OPTION);
+    } catch (err) {
+      // do nth
+    }
+  }
+  res.clearCookie('likecoin_auth', AUTH_COOKIE_OPTION);
+}
+
 export function checkSignPayload(from, payload, sign) {
   const recovered = personalEcRecover(payload, sign);
   if (recovered.toLowerCase() !== from.toLowerCase()) {
