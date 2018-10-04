@@ -813,7 +813,8 @@
       "notSupported": "Your wallet does not support this function",
       "ethInsufficient": "Insufficient ETH in your wallet.",
       "likecoinInsufficient": "Insufficient LikeCoin in your wallet.",
-      "sameUser": "Sender and Recipient cannot be same"
+      "sameUser": "Sender and Recipient cannot be same",
+      "metamaskWalletNotMatch": "Your wallet address is not the same as current Metamask address."
     }
   },
   "WhitePaper": {
