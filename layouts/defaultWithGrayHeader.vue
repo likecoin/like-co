@@ -1,6 +1,6 @@
 <template>
   <div class="lc-layout">
-    <tool-bars :disableError="getIfDisableError" />
+    <tool-bars />
 
     <div class="lc-page-wrapper with-sliding-menu">
 
@@ -34,12 +34,12 @@
 
 
 <script>
+import { mapGetters } from 'vuex';
+
 import MyFooter from '~/components/footer/Footer';
 import SiteHeader from '~/components/header/HeaderWithMenuButton';
 import SlidingMenu from '~/components/SlidingMenu/index';
 import ToolBars from '~/components/toolbars/ToolBars';
-
-import { getToolbarsDisableError } from '~/constant';
 
 export default {
   components: {
@@ -49,9 +49,20 @@ export default {
     ToolBars,
   },
   computed: {
-    getIfDisableError() {
-      return getToolbarsDisableError(this.$route.name);
-    },
+    ...mapGetters([
+      'getCurrentLocale',
+      'getCurrentLocaleISO',
+    ]),
+  },
+  head() {
+    return {
+      htmlAttrs: {
+        lang: this.getCurrentLocaleISO,
+      },
+      bodyAttrs: {
+        'lc-lang': this.getCurrentLocale,
+      },
+    };
   },
 };
 </script>
