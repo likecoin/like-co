@@ -92,7 +92,7 @@
           <no-ssr>
             <transition name="fade">
               <div
-                v-if="getUserIsReady || getUserNeedAuth"
+                v-if="getUserNeedAuth"
                 class="lc-container-3 lc-margin-vertical-16"
               >
                 <div class="lc-container-4">
@@ -282,7 +282,6 @@ export default {
       'getWeb3Type',
       'getIsShowingTxPopup',
       'getPendingTxInfo',
-      'getUserIsReady',
     ]),
     maskedWallet() {
       return this.wallet.replace(/(0x.{10}).*(.{10})/, '$1...$2');

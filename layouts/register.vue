@@ -101,7 +101,6 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'getUserIsReady',
       'getUserIsRegistered',
       'getUserNeedAuth',
       'getDesc',
@@ -139,15 +138,10 @@ export default {
   },
   methods: {
     ...mapActions([
-      'loginUser',
+      'doUserAuth',
     ]),
     async triggerLoginSign() {
-      if (!(await this.loginUser())) {
-        this.$router.go(-1);
-      } else {
-        // triggered by getUserIsRegistered
-        // this.redirectToUserPage();
-      }
+      this.doUserAuth();
     },
     redirectToUserPage() {
       const { query } = this.$route;

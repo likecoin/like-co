@@ -287,7 +287,6 @@ export default {
       'getIsFetchingMissions',
       'getIsFetchedMissions',
       'getUserInfo',
-      'getUserIsReady',
       'getUserIsRegistered',
       'getMissionList',
       'getReferralMissionList',
@@ -295,13 +294,6 @@ export default {
     ]),
   },
   watch: {
-    getUserIsReady(a) {
-      if (a) {
-        if (this.getUserIsRegistered) {
-          this.updateInfo();
-        }
-      }
-    },
     getMissionList(list) {
       if (list.length > 0) {
         const { selectedMission } = this.$route.query;
@@ -331,10 +323,8 @@ export default {
       if (element) element.scrollIntoView();
     }
 
-    if (this.getUserIsReady) {
-      if (this.getUserIsRegistered) {
-        this.updateInfo();
-      }
+    if (this.getUserIsRegistered) {
+      this.updateInfo();
     }
   },
   methods: {
