@@ -226,7 +226,7 @@ export default {
       return this.webThreeType === 'window' || this.webThreeType === 'infura';
     },
     shouldShowReturnButton() {
-      return this.case === 'locked';
+      return this.case === 'locked' || this.case === 'web3';
     },
     title() {
       if (!this.isMetamask) {

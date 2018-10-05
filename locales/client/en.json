@@ -698,6 +698,7 @@
       "enableEmail": "Receive email notification for LikeCoin transaction and news update",
       "privacyPolicy": "Privacy Policy",
       "agreeTerms": "I agree to {privacyPolicy}.",
+      "bindWallet": "Bind MetaMask wallet",
       "label": {
         "updatedInfo": "Your information have been updated.",
         "viewPage": "View your page"
