@@ -15,8 +15,12 @@ export { firebase };
 
 export function getFirebaseProvider(platform) {
   switch (platform) {
-    case 'google':
-      return new firebase.auth.GoogleAuthProvider();
+    case 'google': {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      provider.addScope('https://www.googleapis.com/auth/userinfo.email');
+      provider.addScope('https://www.googleapis.com/auth/userinfo.profile');
+      return provider;
+    }
     case 'facebook': {
       const provider = new firebase.auth.FacebookAuthProvider();
       provider.addScope('public_profile');
@@ -26,8 +30,11 @@ export function getFirebaseProvider(platform) {
     }
     case 'twitter':
       return new firebase.auth.TwitterAuthProvider();
-    case 'github':
-      return new firebase.auth.GithubAuthProvider();
+    case 'github': {
+      const provider = new firebase.auth.GithubAuthProvider();
+      provider.addScope('read:user');
+      return provider;
+    }
     default:
       throw new Error('Platform not exist');
   }
@@ -39,6 +46,23 @@ export async function firebasePlatformSignIn(platform) {
   const { accessToken } = result.credential;
   const firebaseIdToken = await firebase.auth().currentUser.getIdToken();
   return { accessToken, firebaseIdToken };
+}
+
+export async function firebasePlatformLinkUser(platform) {
+  const provider = getFirebaseProvider(platform);
+  const result = await firebase.auth().currentUser.linkWithPopup(provider);
+  const { accessToken } = result.credential;
+  const firebaseIdToken = await firebase.auth().currentUser.getIdToken();
+  return { accessToken, firebaseIdToken };
+}
+
+export async function firebaseEmailLinkUser(email) {
+  const credential = firebase.auth.EmailAuthProvider.credentialWithLink(
+    email,
+    window.location.href,
+  );
+  return firebase.auth()
+    .currentUser.linkAndRetrieveDataWithCredential(credential);
 }
 
 export async function firebaseSendSignInEmail(email, payload) {
