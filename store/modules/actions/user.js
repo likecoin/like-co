@@ -19,8 +19,8 @@ export function doUserAuth({ commit }, { router, route }) {
 
 export function doPostAuthRedirect({ commit, state }, { router }) {
   const route = state.preAuthRoute || { name: 'in' };
-  commit(types.USER_SET_AFTER_AUTH_ROUTE, null);
   router.push(route);
+  commit(types.USER_SET_AFTER_AUTH_ROUTE, null);
 }
 
 export async function newUser({ commit, dispatch }, data) {
@@ -45,6 +45,7 @@ export async function loginUser({ commit, dispatch }, data) {
 
 export async function logoutUser({ commit, dispatch }, data) {
   await apiWrapper({ commit, dispatch }, api.apiLogoutUser(data), { blocking: true });
+  commit(types.USER_SET_USER_INFO, {});
   commit(types.UI_INFO_MSG, '');
   commit(types.MISSION_CLEAR_ALL);
   commit(types.USER_AWAITING_AUTH, true);
