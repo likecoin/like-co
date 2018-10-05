@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 
 import MyFooter from '~/components/footer/Footer';
 import SiteHeader from '~/components/header/HeaderWithMenuButton';
@@ -122,9 +122,6 @@ export default {
     };
   },
   watch: {
-    getUserNeedAuth(a) {
-      if (a) this.triggerLoginSign();
-    },
     getUserIsRegistered(u) {
       if (u) this.redirectToUserPage();
     },
@@ -132,17 +129,9 @@ export default {
   mounted() {
     if (this.getUserIsRegistered) {
       this.redirectToUserPage();
-    } else if (this.getUserNeedAuth) {
-      this.triggerLoginSign();
     }
   },
   methods: {
-    ...mapActions([
-      'doUserAuth',
-    ]),
-    async triggerLoginSign() {
-      this.doUserAuth();
-    },
     redirectToUserPage() {
       const { query } = this.$route;
       if (query.ref) {

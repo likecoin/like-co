@@ -85,7 +85,7 @@
 
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 import MissionDialog from '@/components/dialogs/MissionDialog';
 import PromptNotificationDialog from '@/components/dialogs/PromptNotificationDialog';
 import MyFooter from '~/components/footer/Footer';
@@ -124,23 +124,6 @@ export default {
         'lc-lang': this.getCurrentLocale,
       },
     };
-  },
-  watch: {
-    getUserNeedAuth(a) {
-      if (a) {
-        this.doUserAuth();
-      }
-    },
-  },
-  mounted() {
-    if (this.getUserNeedAuth) {
-      this.doUserAuth();
-    }
-  },
-  methods: {
-    ...mapActions([
-      'doUserAuth',
-    ]),
   },
 };
 </script>

@@ -359,7 +359,6 @@ export default {
   },
   methods: {
     ...mapActions([
-      'doUserAuth',
       'updateUser',
       'refreshUserInfo',
       'sendVerifyEmail',
@@ -367,9 +366,6 @@ export default {
       'unlinkSocialPlatform',
       'cancelSubscription',
     ]),
-    async triggerLoginSign() {
-      this.doUserAuth();
-    },
     async updateInfo() {
       const user = this.getUserInfo;
       this.avatar = user.avatar;

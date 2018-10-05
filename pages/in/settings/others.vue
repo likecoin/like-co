@@ -119,14 +119,10 @@ export default {
   },
   methods: {
     ...mapActions([
-      'doUserAuth',
       'updateUser',
       'refreshUserInfo',
       'setInfoMsg',
     ]),
-    async triggerLoginSign() {
-      this.doUserAuth();
-    },
     async updateInfo() {
       const user = this.getUserInfo;
       this.isEmailEnabled = (user.isEmailEnabled !== false);
@@ -136,6 +132,7 @@ export default {
       this.isLoading = true;
       try {
         const user = this.getUserInfo;
+        console.log(typeof this.isEmailEnabled);
         const userInfo = {
           user: user.user,
           wallet: user.wallet,

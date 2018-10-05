@@ -361,12 +361,8 @@ export default {
   },
   methods: {
     ...mapActions([
-      'doUserAuth',
       'updateSocialPlatformIsPublic',
     ]),
-    async triggerLoginSign() {
-      this.doUserAuth();
-    },
     async updateInfo() {
       const user = this.getUserInfo;
       this.isEmailEnabled = (user.isEmailEnabled !== false);
