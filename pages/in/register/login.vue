@@ -75,6 +75,7 @@ export default {
   methods: {
     ...mapActions([
       'loginUser',
+      'doPostAuthRedirect',
     ]),
     async handleEmailSignIn() {
       const result = await firebaseHandleSignInEmailLink();
@@ -85,7 +86,7 @@ export default {
         platform: 'email',
         firebaseIdToken: result.firebaseIdToken,
       };
-      this.sendRegisterToServer(payload);
+      this.sendLoginToServer(payload);
     },
     async onClickLogin(platform) {
       if (platform === 'email') {
@@ -102,7 +103,9 @@ export default {
       }
     },
     async sendLoginToServer(payload) {
-      this.loginUser(payload);
+      await this.loginUser(payload);
+      const router = this.$router;
+      this.doPostAuthRedirect({ router });
     },
   },
 };

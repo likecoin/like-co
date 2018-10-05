@@ -86,6 +86,7 @@ export default {
   methods: {
     ...mapActions([
       'newUser',
+      'doPostAuthRedirect',
     ]),
     async handleEmailSignIn() {
       const result = await firebaseHandleSignInEmailLink();
@@ -116,7 +117,9 @@ export default {
       }
     },
     async sendRegisterToServer(payload) {
-      this.newUser(payload);
+      await this.newUser(payload);
+      const router = this.$router;
+      this.doPostAuthRedirect({ router });
     },
   },
 };
