@@ -18,6 +18,14 @@
                 name="email"
               >
               <br>
+              <div class="check-box-list">
+                <md-checkbox
+                  v-model="isBindWallet"
+                  class="md-likecoin"
+                >
+                  {{ $t('Register.form.bindWallet') + (isBindWallet && wallet? wallet: '') }}
+                </md-checkbox>
+              </div>
               <md-button
                 class="md-likecoin"
                 @click="onClickLogin('email')"
@@ -65,18 +73,34 @@ import {
   firebaseHandleSignInEmailLink,
 } from '~/util/FirebaseApp';
 
+import EthHelper from '@/util/EthHelper';
+
 export default {
   name: 'register-new',
   data() {
     return {
       likecoinId: '',
       email: '',
+      isBindWallet: false,
+      wallet: null,
     };
   },
   computed: {
     ...mapGetters([
       'getCurrentLocale',
+      'getMetamaskError',
     ]),
+  },
+  watch: {
+    async isBindWallet() {
+      if (this.isBindWallet) {
+        if (!EthHelper.getIsInited()) {
+          this.startLoading();
+          await EthHelper.pollForWeb3('window');
+        }
+        this.setBindWallet();
+      }
+    },
   },
   mounted() {
     if (firebaseIsSignInEmailLink()) {
@@ -87,6 +111,8 @@ export default {
     ...mapActions([
       'newUser',
       'doPostAuthRedirect',
+      'startLoading',
+      'stopLoading',
     ]),
     async handleEmailSignIn() {
       const result = await firebaseHandleSignInEmailLink();
@@ -98,6 +124,7 @@ export default {
         firebaseIdToken: result.firebaseIdToken,
         platform: 'email',
         locale: this.getCurrentLocale,
+        wallet: this.wallet,
       };
       this.sendRegisterToServer(payload);
     },
@@ -113,6 +140,7 @@ export default {
           firebaseIdToken,
           platform,
           locale: this.getCurrentLocale,
+          wallet: this.wallet,
         };
         this.sendRegisterToServer(payload);
       }
@@ -121,6 +149,18 @@ export default {
       await this.newUser(payload);
       const router = this.$router;
       this.doPostAuthRedirect({ router });
+    },
+    setBindWallet() {
+      this.wallet = EthHelper.getWallet();
+      if (this.getMetamaskError) {
+        this.isBindWallet = false;
+        EthHelper.disableWeb3();
+      }
+      if (this.isBindWallet && !this.wallet) {
+        setTimeout(() => this.setBindWallet(), 2000);
+      } else {
+        this.stopLoading();
+      }
     },
   },
 };

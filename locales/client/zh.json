@@ -678,6 +678,7 @@
       "displayName": "顯示名稱",
       "claim": "領取",
       "couponCode": "兌換碼 (可選)",
+      "bindWallet": "綁定 MetaMask 地址",
       "label": {
         "updatedInfo": "資料已經更新",
         "viewPage": "到個人頁面"
