@@ -64,6 +64,8 @@ export const apiLoginUser = payload => axios.post('/api/users/login', payload);
 
 export const apiLogoutUser = () => axios.post('/api/users/logout');
 
+export const apiLinkAuthPlatform = payload => axios.post('/api/users/login/add', payload);
+
 export const apiGetUserSelf = () => axios.get('/api/users/self');
 
 export const apiFetchUserMission = ({ missionId, user, params }) => axios.get(`/api/mission/${missionId}/user/${user}`, {

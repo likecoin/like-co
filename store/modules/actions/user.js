@@ -43,6 +43,11 @@ export async function loginUser({ commit, dispatch }, data) {
   return true;
 }
 
+export async function linkPlatformToUser(ctx, data) {
+  await apiWrapper(ctx, api.apiLinkAuthPlatform(data), { blocking: true });
+  return true;
+}
+
 export async function logoutUser({ commit, dispatch }, data) {
   await apiWrapper({ commit, dispatch }, api.apiLogoutUser(data), { blocking: true });
   commit(types.USER_SET_USER_INFO, {});

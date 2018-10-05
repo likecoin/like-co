@@ -179,6 +179,8 @@ router.post('/users/new', apiLimiter, multer.single('avatar'), async (req, res, 
     if (hasReferrer) {
       await dbRef.doc(referrer).collection('referrals').doc(user).create(timestampObj);
     }
+    /* TODO: update user social */
+
     await setAuthCookies(req, res, { user, wallet });
     res.sendStatus(200);
 
@@ -345,6 +347,50 @@ router.post('/users/logout', (req, res) => {
   res.sendStatus(200);
 });
 
+router.post('/users/login/add', jwtAuth('write'), async (req, res, next) => {
+  try {
+    const { user, platform } = req.body;
+    if (req.user.user !== user) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
+    if (!platform) throw new ValidationError('INVALID_PLATFORM');
+
+    if (platform === 'wallet') {
+      const {
+        from,
+        payload: stringPayload,
+        sign,
+      } = req.body;
+      const wallet = from;
+      const payload = checkSignPayload(wallet, stringPayload, sign);
+      if (payload !== user) throw new ValidationError('WALLET_NOT_MATCH');
+      const query = await dbRef.where('wallet', '==', wallet).get();
+      if (query.docs.length > 0) throw new ValidationError('WALLET_ALREADY_USED');
+      await dbRef.doc(user).update({ wallet });
+    } else {
+      const { firebaseIdToken } = req.body;
+      const { uid: firebaseUserId } = await admin.auth().verifyIdToken(firebaseIdToken);
+      const query = await dbRef.where('firebaseUserId', '==', firebaseUserId).get();
+      if (query.docs.length > 0) {
+        query.forEach((doc) => {
+          const docUser = doc.id;
+          if (user !== docUser) {
+            throw new ValidationError('FIREBASE_USER_DUPLICATED');
+          }
+        });
+      } else {
+        await dbRef.doc(user).update({ firebaseUserId });
+      }
+      /* TODO: update firebase auth db */
+      /* TODO: update user social */
+    }
+    res.sendStatus(200);
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.get('/users/self', jwtAuth('read'), async (req, res, next) => {
   try {
     const username = req.user.user;
@@ -360,7 +406,6 @@ router.get('/users/self', jwtAuth('read'), async (req, res, next) => {
       res.sendStatus(404);
     }
   } catch (err) {
-    console.error(err);
     next(err);
   }
 });
