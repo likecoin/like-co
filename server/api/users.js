@@ -86,13 +86,17 @@ router.post('/users/new', apiLimiter, multer.single('avatar'), async (req, res, 
       displayName = user,
       wallet,
       avatarSHA256,
-      isEmailEnabled = true,
       referrer,
       locale = 'en',
       accessToken,
       firebaseToken,
     } = payload;
-    let { email } = payload;
+    let { email, isEmailEnabled = true } = payload;
+
+    // handle isEmailEnabled is string
+    if (typeof isEmailEnabled === 'string') {
+      isEmailEnabled = isEmailEnabled !== 'false';
+    }
 
     if (!Validate.checkUserNameValid(user)) throw new ValidationError('Invalid user name');
 
@@ -201,10 +205,15 @@ router.post('/users/update', jwtAuth('write'), multer.single('avatar'), async (r
       displayName,
       wallet,
       avatarSHA256,
-      isEmailEnabled,
       locale,
     } = req.body;
-    let { email } = req.body;
+    let { email, isEmailEnabled } = req.body;
+
+    // handle isEmailEnable is string
+    if (typeof isEmailEnabled === 'string') {
+      isEmailEnabled = isEmailEnabled !== 'false';
+    }
+
     const oldUserObj = await checkIsOldUser({ user, wallet, email });
     if (!oldUserObj) throw new ValidationError('USER_NOT_FOUND');
 
@@ -351,6 +360,7 @@ router.get('/users/self', jwtAuth('read'), async (req, res, next) => {
       res.sendStatus(404);
     }
   } catch (err) {
+    console.error(err);
     next(err);
   }
 });
