@@ -57,13 +57,6 @@ export default {
     },
   },
   watch: {
-    getUserNeedAuth(a) {
-      if (a) {
-        this.triggerLoginSign();
-      } else if (this.username) {
-        this.connect();
-      }
-    },
     username(name) {
       if (name) {
         this.connect();
@@ -82,9 +75,7 @@ export default {
       this.errorMsg = this.$route.query.error || this.$route.query.denied;
       this.isDone = true;
     }
-    if (this.getUserNeedAuth) {
-      this.triggerLoginSign();
-    } else if (this.username) {
+    if (this.username) {
       this.connect();
     }
   },
@@ -96,12 +87,8 @@ export default {
   },
   methods: {
     ...mapActions([
-      'doUserAuth',
       'linkSocialPlatform',
     ]),
-    async triggerLoginSign() {
-      this.doUserAuth();
-    },
     async connect() {
       if (this.isDone) return;
       try {

@@ -112,6 +112,7 @@ import TickIcon from '@/assets/tokensale/tick.svg';
 export default {
   name: 'in',
   layout: 'in',
+  middleware: 'authenticated',
   components: {
     LikeCoinAmount,
     MaterialButton,

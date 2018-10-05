@@ -11,6 +11,7 @@
 export default {
   name: 'bonus-page',
   layout: 'in',
+  middleware: 'authenticated',
   head() {
     return {
       title: this.$t('BonusPage.title'),
