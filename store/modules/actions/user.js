@@ -13,8 +13,14 @@ import User from '@/util/User';
 import apiWrapper from './api-wrapper';
 
 export function doUserAuth({ commit }, { router, route }) {
-  commit(types.USER_SET_AFTER_AUTH_ROUTE, route);
+  if (route) commit(types.USER_SET_AFTER_AUTH_ROUTE, route);
   router.push({ name: 'in-register-login', query: route.query });
+}
+
+export function doPostAuthRedirect({ commit, state }, { router }) {
+  const route = state.preAuthRoute || { name: 'in' };
+  commit(types.USER_SET_AFTER_AUTH_ROUTE, null);
+  router.push(route);
 }
 
 export async function newUser({ commit, dispatch }, data) {

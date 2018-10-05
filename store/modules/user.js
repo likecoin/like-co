@@ -26,6 +26,7 @@ const state = {
   wallet: '',
   isFetching: false,
   isAwaitingAuth: false,
+  preAuthRoute: null,
   afterAuthRoute: {},
   web3Fetching: false,
   platforms: {},
@@ -45,7 +46,7 @@ const mutations = {
     state.isAwaitingAuth = isAwaitingAuth;
   },
   [USER_SET_AFTER_AUTH_ROUTE](state, route) {
-    state.route = route;
+    state.preAuthRoute = route;
   },
   [USER_SET_SOCIAL](state, platforms) {
     state.platforms = platforms;
