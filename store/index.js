@@ -20,6 +20,8 @@ const createStore = (() => new Vuex.Store({
             {
               headers: {
                 Cookie: `likecoin_auth=${req.cookies.likecoin_auth}`,
+                'x-real-ip': req.headers['x-real-ip'] || req.ip,
+                'user-agent': req.headers['x-ucbrowser-ua'] || req.headers['user-agent'],
               },
             },
           );
