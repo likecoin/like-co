@@ -348,6 +348,8 @@ export default {
       'getPendingTxInfo',
       'getLikeCoinUsdNumericPrice',
       'getUserInfo',
+      'getLocalWallet',
+      'getIsWeb3Polling',
     ]),
     isEth() {
       /* HACK because nuxt cannot easily pass route with params */
@@ -374,6 +376,12 @@ export default {
     getWeb3Type() {
       this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
     },
+    getLocalWallet() {
+      if (this.getIsWeb3Polling) {
+        this.submitTransfer();
+        this.stopWeb3Polling();
+      }
+    },
   },
   mounted() {
     this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
@@ -390,18 +398,17 @@ export default {
       'setErrorMsg',
       'closeTxDialog',
       'queryLikeCoinUsdPrice',
-      'startLoading',
-      'stopLoading',
+      'startWeb3Polling',
+      'stopWeb3Polling',
     ]),
     checkAddress() {
       return this.wallet.length === 42 && this.wallet.substr(0, 2) === '0x';
     },
     async onSubmitPollForWeb3() {
-      if (!EthHelper.getIsInited()) {
-        this.startLoading();
-        await EthHelper.pollForWeb3('window');
+      const isStarted = await this.startWeb3Polling();
+      if (!isStarted) {
+        this.submitTransfer();
       }
-      this.submitTransfer();
     },
     async submitTransfer() {
       if (this.getMetamaskError) {
@@ -421,13 +428,11 @@ export default {
       }
       this.isBadAmount = false;
       try {
-        if (!EthHelper.getWallet()) {
-          setTimeout(() => this.submitTransfer(), 2000);
+        let balance = 0;
+        const from = this.getLocalWallet;
+        if (!from) {
           return;
         }
-        this.stopLoading();
-        let balance = 0;
-        const from = EthHelper.getWallet();
         if (from !== wallet) {
           this.setErrorMsg(this.$t('Transaction.error.metamaskWalletNotMatch'));
           return;
