@@ -16,6 +16,7 @@ import {
   setAuthCookies,
   clearAuthCookies,
 } from '../util/api/users';
+import { tryToLinkSocialPlatform } from '../util/api/social';
 
 import { ValidationHelper as Validate, ValidationError } from '../../util/ValidationHelper';
 import { handleAvatarUploadAndGetURL } from '../util/fileupload';
@@ -89,7 +90,7 @@ router.post('/users/new', apiLimiter, multer.single('avatar'), async (req, res, 
       referrer,
       locale = 'en',
       accessToken,
-      firebaseToken,
+      secret,
     } = payload;
     let { email, isEmailEnabled = true } = payload;
 
@@ -179,7 +180,8 @@ router.post('/users/new', apiLimiter, multer.single('avatar'), async (req, res, 
     if (hasReferrer) {
       await dbRef.doc(referrer).collection('referrals').doc(user).create(timestampObj);
     }
-    /* TODO: update user social */
+
+    const socialPayload = await tryToLinkSocialPlatform(user, platform, { accessToken, secret });
 
     await setAuthCookies(req, res, { user, wallet });
     res.sendStatus(200);
@@ -195,6 +197,20 @@ router.post('/users/new', apiLimiter, multer.single('avatar'), async (req, res, 
       locale,
       registerTime: createObj.timestamp,
     });
+    if (socialPayload) {
+      publisher.publish(PUBSUB_TOPIC_MISC, req, {
+        logType: 'eventSocialLink',
+        platform,
+        user,
+        email: email || undefined,
+        displayName,
+        wallet,
+        referrer: referrer || undefined,
+        locale,
+        registerTime: createObj.timestamp,
+        ...socialPayload,
+      });
+    }
   } catch (err) {
     next(err);
   }
@@ -369,7 +385,7 @@ router.post('/users/login/add', jwtAuth('write'), async (req, res, next) => {
       if (query.docs.length > 0) throw new ValidationError('WALLET_ALREADY_USED');
       await dbRef.doc(user).update({ wallet });
     } else {
-      const { firebaseIdToken } = req.body;
+      const { accessToken, secret, firebaseIdToken } = req.body;
       const { uid: firebaseUserId } = await admin.auth().verifyIdToken(firebaseIdToken);
       const query = await dbRef.where('firebaseUserId', '==', firebaseUserId).get();
       if (query.docs.length > 0) {
@@ -382,8 +398,34 @@ router.post('/users/login/add', jwtAuth('write'), async (req, res, next) => {
       } else {
         await dbRef.doc(user).update({ firebaseUserId });
       }
-      /* TODO: update firebase auth db */
-      /* TODO: update user social */
+
+      const socialPayload = await tryToLinkSocialPlatform(user, platform, { accessToken, secret });
+
+      if (socialPayload) {
+        const userDoc = await dbRef.doc(user).get();
+        const {
+          email,
+          displayName,
+          wallet,
+          referrer,
+          locale,
+          timestamp,
+        } = userDoc.data();
+        publisher.publish(PUBSUB_TOPIC_MISC, req, {
+          logType: 'eventSocialLink',
+          platform,
+          user,
+          email,
+          displayName,
+          wallet,
+          referrer,
+          locale,
+          registerTime: timestamp,
+          ...socialPayload,
+        });
+      }
+
+      /* TODO: update firebase auth linked platform info in a subcollection? */
     }
     res.sendStatus(200);
   } catch (err) {

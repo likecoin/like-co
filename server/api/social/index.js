@@ -188,8 +188,4 @@ router.patch('/social/public', jwtAuth('write'), async (req, res, next) => {
   }
 });
 
-export async function checkPlatformAlreadyLinked(user, platform) {
-  const doc = await dbRef.doc(user).collection('social').doc(platform).get();
-  return doc.data() && doc.data().isLinked;
-}
 export default router;

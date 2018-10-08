@@ -86,10 +86,11 @@ export default {
           ...info,
         };
       } else {
-        const { accessToken, firebaseIdToken } = await firebasePlatformLinkUser(platform);
+        const { accessToken, secret, firebaseIdToken } = await firebasePlatformLinkUser(platform);
         payload = {
           user: this.getUserId,
           accessToken,
+          secret,
           platform,
           firebaseIdToken,
         };
