@@ -304,21 +304,6 @@ router.post('/users/update', jwtAuth('write'), multer.single('avatar'), async (r
   }
 });
 
-router.post('/users/login/check', jwtAuth('read'), async (req, res) => {
-  const { wallet } = req.body;
-  if (req.user.wallet !== wallet) {
-    res.status(401).send('LOGIN_NEEDED');
-    return;
-  }
-  setSessionCookie(req, res, req.cookies.likecoin_auth);
-  res.sendStatus(200);
-  await dbRef.doc(req.user.user).collection('session').doc(req.user.jti).update({
-    lastAccessedUserAgent: req.headers['user-agent'] || 'unknown',
-    lastAccessedIP: req.headers['x-real-ip'] || req.ip,
-    lastAccessedTs: Date.now(),
-  });
-});
-
 router.post('/users/login', async (req, res, next) => {
   try {
     let user;
@@ -443,7 +428,13 @@ router.get('/users/self', jwtAuth('read'), async (req, res, next) => {
       if (payload.wallet && !payload.avatar) {
         payload.avatar = toDataUrl(payload.wallet);
       }
+      setSessionCookie(req, res, req.cookies.likecoin_auth);
       res.json(Validate.filterUserData(payload));
+      await dbRef.doc(req.user.user).collection('session').doc(req.user.jti).update({
+        lastAccessedUserAgent: req.headers['user-agent'] || 'unknown',
+        lastAccessedIP: req.headers['x-real-ip'] || req.ip,
+        lastAccessedTs: Date.now(),
+      });
     } else {
       res.sendStatus(404);
     }
