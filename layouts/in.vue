@@ -104,6 +104,7 @@ export default {
     ToolBars,
     UserInfoForm,
   },
+  middleware: 'authenticated',
   computed: {
     hasNewInvitee() {
       return this.getReferralMissionList.some(referral => !referral.seen);
