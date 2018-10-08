@@ -6,6 +6,7 @@ import staticData from './modules/staticData';
 import ui from './modules/ui';
 import user from './modules/user';
 import mission from './modules/mission';
+import eth from './modules/eth';
 
 const createStore = (() => new Vuex.Store({
   actions: {
@@ -39,6 +40,7 @@ const createStore = (() => new Vuex.Store({
     ui,
     user,
     mission,
+    eth,
   },
 }));
 
