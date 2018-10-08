@@ -146,6 +146,13 @@ class EthHelper {
       } else if (this.isInited && this.errCb) {
         this.wallet = '';
         this.errCb('locked');
+        if (this.web3Type === 'window' && window.ethereum && this.isPromptEthereumPermission) {
+          try {
+            await window.ethereum.enable();
+          } catch (e) {
+            this.disablePromptEthereumPermission();
+          }
+        }
       }
     }
   }
@@ -490,6 +497,14 @@ class EthHelper {
 
   disableWeb3() {
     this.isInited = false;
+  }
+
+  promptForEthereumPermission() {
+    this.isPromptEthereumPermission = true;
+  }
+
+  disablePromptEthereumPermission() {
+    this.isPromptEthereumPermission = false;
   }
 }
 
