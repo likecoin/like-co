@@ -92,10 +92,11 @@ export default {
       if (platform === 'email') {
         await firebaseSendSignInEmail({ likecoinId: this.likecoinId });
       } else {
-        const { accessToken, firebaseIdToken } = await firebasePlatformSignIn(platform);
+        const { accessToken, secret, firebaseIdToken } = await firebasePlatformSignIn(platform);
         const payload = {
           user: this.likecoinId,
           accessToken,
+          secret,
           platform,
           firebaseIdToken,
         };

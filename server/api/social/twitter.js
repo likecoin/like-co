@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { checkPlatformAlreadyLinked } from './index';
-import { fetchTwitterOAuthInfo, fetchTwitterUser } from '../../oauth/twitter';
+import { fetchTwitterOAuthInfo } from '../../oauth/twitter';
 import { PUBSUB_TOPIC_MISC } from '../../../constant';
 import publisher from '../../util/gcloudPub';
 import { jwtAuth } from '../../util/jwt';
+import { checkPlatformAlreadyLinked, socialLinkTwitter } from '../../util/api/social';
 import { ValidationError } from '../../../util/ValidationHelper';
 
 const { userCollection: dbRef } = require('../../util/firebase');
@@ -59,19 +59,12 @@ router.post('/social/link/twitter', jwtAuth('write'), async (req, res, next) => 
     const {
       userId,
       displayName,
-      oAuthToken: newOAuthToken,
-      oAuthTokenSecret: newOAuthSecret,
-    } = await fetchTwitterUser(oAuthToken, oAuthTokenSecret, oAuthVerifier);
-    const url = `https://twitter.com/intent/user?user_id=${userId}`;
-    await dbRef.doc(user).collection('social').doc('twitter').set({
-      displayName,
-      userId,
       url,
-      oAuthToken: newOAuthToken,
-      oAuthTokenSecret: newOAuthSecret,
-      isLinked: true,
-      ts: Date.now(),
-    }, { merge: true });
+    } = await socialLinkTwitter(
+      user,
+      { token: oAuthToken, secret: oAuthTokenSecret, oAuthVerifier },
+      false,
+    );
     res.json({
       platform: 'twitter',
       displayName,

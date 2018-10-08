@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { checkPlatformAlreadyLinked } from './index';
+import { checkPlatformAlreadyLinked } from '../../util/api/social';
 import { fetchMediumOAuthInfo, fetchMediumUser } from '../../oauth/medium';
 import { PUBSUB_TOPIC_MISC } from '../../../constant';
 import publisher from '../../util/gcloudPub';
