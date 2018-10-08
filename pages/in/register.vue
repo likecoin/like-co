@@ -91,7 +91,7 @@ export default {
   mounted() {
     // EIP 1102 requires user to approve domain getting Metamask accounts
     // The dialog keeps on popping up, so we only enable pop-up when user enter register page
-    EthHelper.enablePromptDomainApproval();
+    EthHelper.promptForEthereumPermission();
   },
   methods: {
     onSubmit(user) {

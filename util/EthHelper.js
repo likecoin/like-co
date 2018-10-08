@@ -148,12 +148,11 @@ class EthHelper {
     } else if (this.isInited && this.errCb) {
       this.wallet = '';
       this.errCb('locked');
-      if (this.web3Type === 'window' && window.ethereum && this.getPromptDomainApproval()) {
+      if (this.web3Type === 'window' && window.ethereum && this.isPromptEthereumPermission) {
         try {
           await window.ethereum.enable();
         } catch (e) {
-          console.log(e);
-          this.disablePromptDomainApproval();
+          this.disablePromptEthereumPermission();
         }
       }
     }
@@ -493,16 +492,12 @@ class EthHelper {
     }
   }
 
-  enablePromptDomainApproval() {
-    this.isPromptDomainApproval = true;
+  promptForEthereumPermission() {
+    this.isPromptEthereumPermission = true;
   }
 
-  disablePromptDomainApproval() {
-    this.isPromptDomainApproval = false;
-  }
-
-  getPromptDomainApproval() {
-    return this.isPromptDomainApproval;
+  disablePromptEthereumPermission() {
+    this.isPromptEthereumPermission = false;
   }
 }
 
