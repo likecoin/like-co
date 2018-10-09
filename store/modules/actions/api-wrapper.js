@@ -13,7 +13,6 @@ async function apiWrapper({ commit, dispatch }, promise, opt = {}) {
     const { response } = error;
     if (response && response.statusCode === 401) {
       await dispatch('doUserAuth');
-      console.log('doUserAuth');
       const res = await promise;
       if (!slient) commit(blocking ? types.UI_STOP_BLOCKING_LOADING : types.UI_STOP_LOADING);
       return res.data;
