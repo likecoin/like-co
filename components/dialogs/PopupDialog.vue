@@ -41,17 +41,10 @@
           {{ cancelText }}
         </md-button>
       </div>
-
-      <div
-        v-if="subMessage"
-        class="lc-padding-top-8 lc-text-align-center"
-      >
-        <a
-          href="#"
-          @click.prevent="onSubMessageClick"
-        >{{ subMessage }}</a>
-      </div>
     </div>
+
+    <slot name="footer" />
+
   </base-dialog>
 </template>
 
@@ -74,10 +67,6 @@ export default {
       default: '',
     },
     message: {
-      type: String,
-      default: '',
-    },
-    subMessage: {
       type: String,
       default: '',
     },
@@ -113,10 +102,6 @@ export default {
     },
     onDialogCancel() {
       this.$emit('onCancel');
-      this.clearMessage();
-    },
-    onSubMessageClick() {
-      this.$emit('onSubMessageClick');
       this.clearMessage();
     },
     clearMessage() {

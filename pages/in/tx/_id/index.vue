@@ -6,9 +6,18 @@
       :header="$t('General.label.caution')"
       :message.sync="urlWarningMessage"
       :cancelText="$t('General.button.cancel')"
-      :subMessage="$t('Transaction.label.openReferrerConfirmMessage')"
-      @onSubMessageClick="onOpenReferrerConfirm"
-    />
+    >
+      <div
+        slot="footer"
+        class="lc-dialog-container-1 lc-padding-top-8 lc-text-align-center"
+      >
+        <a
+          href="#"
+          @click.prevent="onOpenReferrerConfirm"
+        >{{ $t('Transaction.label.openReferrerConfirmMessage') }}</a>
+      </div>
+    </popup-dialog>
+
     <div class="lc-container-0 lc-narrow">
       <section class="lc-container-1 lc-section-block">
         <transaction-header
