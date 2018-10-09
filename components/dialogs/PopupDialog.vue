@@ -1,14 +1,15 @@
 <template>
   <base-dialog
-    :is-show="showDialog"
+    :is-show="isShowDialog"
     :md-props="{
       mdClickOutsideToClose: allowClose,
       mdCloseOnEsc: allowClose,
       mdFullscreen: false,
-      mdClosed: clearMessage,
-      mdClickOutside: clearMessage,
+      mdClosed: onClosed,
+      mdClickOutside: onClosed,
     }"
     class="popup-dialog"
+    @update:isShow="onUpdateIsShow"
   >
     <div class="lc-dialog-container-1">
       <h1
@@ -28,7 +29,7 @@
         <md-button
           v-if="confirmText"
           class="md-likecoin"
-          @click="onDialogConfirm"
+          @click="onConfirm"
         >
           {{ confirmText }}
         </md-button>
@@ -36,7 +37,7 @@
         <md-button
           v-if="cancelText"
           class="md-likecoin lc-cancel"
-          @click="onDialogCancel"
+          @click="onCancel"
         >
           {{ cancelText }}
         </md-button>
@@ -58,6 +59,10 @@ export default {
     BaseDialog,
   },
   props: {
+    isShow: {
+      type: Boolean,
+      default: false,
+    },
     allowClose: {
       type: Boolean,
       default: false,
@@ -81,31 +86,33 @@ export default {
   },
   data() {
     return {
-      showDialog: false,
+      isShowDialog: this.isShow,
     };
   },
   watch: {
-    message(e) {
-      this.showDialog = !!e;
+    isShow(isShow) {
+      this.isShowDialog = isShow;
     },
-  },
-  mounted() {
-    this.showDialog = !!this.message;
+    isShowDialog(isShowDialog) {
+      this.$emit('update:isShow', isShowDialog);
+    },
   },
   methods: {
-    toggleSync() {
-      this.showDialog = !this.showDialog;
+    onConfirm() {
+      this.isShowDialog = false;
+      this.$emit('confirm');
+      this.onClosed();
     },
-    onDialogConfirm() {
-      this.$emit('onConfirm');
-      this.clearMessage();
+    onCancel() {
+      this.isShowDialog = false;
+      this.$emit('cancel');
+      this.onClosed();
     },
-    onDialogCancel() {
-      this.$emit('onCancel');
-      this.clearMessage();
+    onClosed() {
+      this.$emit('closed');
     },
-    clearMessage() {
-      this.$emit('update:message', '');
+    onUpdateIsShow(isShow) {
+      this.isShowDialog = isShow;
     },
   },
 };

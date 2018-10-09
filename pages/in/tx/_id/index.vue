@@ -2,9 +2,10 @@
   <div>
     <popup-dialog
       ref="urlWarningDialog"
+      :is-show.sync="isOpenUrlWarningDialog"
       :allowClose="true"
       :header="$t('General.label.caution')"
-      :message.sync="urlWarningMessage"
+      :message="$t('Transaction.label.openReferrerWarning')"
       :cancelText="$t('General.button.cancel')"
     >
       <div
@@ -169,6 +170,7 @@ export default {
     return {
       isEth: false,
       isNotFound: false,
+      isOpenUrlWarningDialog: false,
       /* failReason : 0 = none, 1 = failed, 2 = timeout */
       failReason: 0,
       status: 'pending',
@@ -185,7 +187,6 @@ export default {
       amount: 0,
       updateTimer: null,
       httpReferrer: undefined,
-      urlWarningMessage: '', // HACK: used to trigger popup dialog
       ETHERSCAN_HOST,
     };
   },
@@ -280,8 +281,7 @@ export default {
       'stopLoading',
     ]),
     onClickReferrer() {
-      // TODO: Fix PopupDialog to have a proper .open()
-      this.urlWarningMessage = this.$t('Transaction.label.openReferrerWarning');
+      this.isOpenUrlWarningDialog = true;
     },
     onOpenReferrerConfirm() {
       openURL(this, this.httpReferrer, '_blank');
