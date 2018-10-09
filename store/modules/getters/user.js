@@ -1,6 +1,8 @@
 export const getUserInfo = state => state.user;
 
-export const getUserIsFetching = state => state.isFetching;
+export const getUserId = state => (state.user || {}).user;
+
+export const getUserIsFetching = state => state.isFetching || state.web3Fetching;
 
 export const getWeb3IsFetching = state => state.web3Fetching;
 

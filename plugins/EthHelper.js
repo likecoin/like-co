@@ -2,6 +2,9 @@ import EthHelper from '@/util/EthHelper';
 
 export default ({ store }) => {
   EthHelper.initApp({
+    initCb: () => {
+      store.dispatch('setWeb3IsFetching', true);
+    },
     errCb: (err) => {
       store.dispatch('setWeb3IsFetching', false);
       store.dispatch('setMetamaskError', err);

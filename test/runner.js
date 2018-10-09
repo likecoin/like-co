@@ -10,6 +10,7 @@ function setStub() {
   console.log('Setting Stub');
   execSync('cp ./server/util/firebase.js ./server/util/firebase.js.bak');
   execSync('cp ./server/util/ses.js ./server/util/ses.js.bak');
+  execSync('cp ./server/util/stripe.js ./server/util/stripe.js.bak');
   execSync('cp ./test/stub/server/util/* ./server/util/');
   execSync('cp ./server/config/accounts.js ./server/config/accounts.js.bak');
   execSync('cp ./test/stub/server/config/accounts.js ./server/config/accounts.js');
@@ -20,6 +21,7 @@ function unsetStub() {
   console.log('Unsetting Stub');
   execSync('mv ./server/util/firebase.js.bak ./server/util/firebase.js');
   execSync('mv ./server/util/ses.js.bak ./server/util/ses.js');
+  execSync('mv ./server/util/stripe.js.bak ./server/util/stripe.js');
   execSync('mv ./constant/contract/likecoin.js.bak ./constant/contract/likecoin.js');
   execSync('mv ./server/config/accounts.js.bak ./server/config/accounts.js');
 }
@@ -60,7 +62,14 @@ function waitServerReady() {
 
 // Start testing server...
 // spawn as new group of processes
-if (!process.env.CI) setStub();
+if (!process.env.CI) {
+  setStub();
+  process.on('SIGINT', () => {
+    // catch SIGINT
+    if (server) killServer(-server.pid, 'SIGINT');
+    unsetStub();
+  });
+}
 
 if (!process.env.IS_STANDALONE_TEST) {
   server = spawn('npm', ['run', 'dev'], { detached: true, stdio: 'inherit' });
@@ -89,9 +98,3 @@ if (!process.env.IS_STANDALONE_TEST) {
   console.log('Done');
   if (!process.env.CI) unsetStub();
 }
-
-process.on('SIGINT', () => {
-  // catch SIGINT
-  killServer(-server.pid, 'SIGINT');
-  unsetStub();
-});

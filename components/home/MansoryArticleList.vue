@@ -45,6 +45,12 @@ export default {
     MansoryArticleItem,
     MansoryArticleItemPlaceholder,
   },
+  props: {
+    numArticlesDisplay: {
+      type: Number,
+      default: MAX_ARTICLES_DISPLAY,
+    },
+  },
   data() {
     return {
       articles: [],
@@ -68,7 +74,7 @@ export default {
           .filter(url => !!this.getSuggestedArticleInfo[url])
           .map(url => ({ ...this.getSuggestedArticleInfo[url], referrer: url }))
           .filter(info => (dedupByUser.has(info.user) ? false : dedupByUser.add(info.user)))
-          .slice(0, MAX_ARTICLES_DISPLAY);
+          .slice(0, this.numArticlesDisplay);
       },
       deep: true,
     },

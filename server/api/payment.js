@@ -322,7 +322,7 @@ router.get('/tx/id/:id', async (req, res, next) => {
   }
 });
 
-router.get('/tx/history/addr/:addr', jwtAuth, async (req, res, next) => {
+router.get('/tx/history/addr/:addr', jwtAuth('read'), async (req, res, next) => {
   try {
     const { addr } = req.params;
     if (req.user.wallet !== addr) {

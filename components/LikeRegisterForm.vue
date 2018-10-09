@@ -166,7 +166,8 @@
           type="submit"
           form="registerForm"
         >
-          {{ $t('General.button.confirm') }}
+          <span v-if="subscriptionId">{{ $t('General.button.confirmAndClaim') }}</span>
+          <span>{{ $t('General.button.confirm') }}</span>
         </material-button>
       </div>
     </form>
@@ -252,6 +253,9 @@ export default {
       const isEmailValid = new RegExp(W3C_EMAIL_REGEX).test(this.email);
       return this.isTermsAgreed && isEmailValid && isIdValid && !!this.reCaptchaResponse;
     },
+    subscriptionId() {
+      return this.$route.query.subscriptionId || '';
+    },
   },
   watch: {
     getLocalWallet(w) {
@@ -286,6 +290,7 @@ export default {
       'setErrorMsg',
       'refreshUser',
       'setTxDialogAction',
+      'claimSubscription',
     ]),
     async setMyLikeCoin(wallet) {
       this.wallet = wallet;
@@ -347,6 +352,18 @@ export default {
         };
         const data = await User.formatAndSignUserInfo(userInfo, this.$t('Sign.Message.registerUser'));
         await this.newUser({ reCaptchaResponse, ...data });
+        if (this.subscriptionId) {
+          const payload = {
+            user: this.user,
+            subscriptionId: this.subscriptionId,
+          };
+          try {
+            await this.claimSubscription(payload);
+            this.$route.query.ref = 'in-donation-done';
+          } catch (err) {
+            // no op
+          }
+        }
         if (this.couponCode) {
           this.setTxDialogAction({ txDialogActionRoute: { name: 'in' }, txDialogActionText: 'View Account' });
           await this.$refs.claimDialog.onSubmit();

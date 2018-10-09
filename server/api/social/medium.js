@@ -10,7 +10,7 @@ const { userCollection: dbRef } = require('../../util/firebase');
 
 const router = Router();
 
-router.get('/social/link/medium/:user', jwtAuth, async (req, res, next) => {
+router.get('/social/link/medium/:user', jwtAuth('read'), async (req, res, next) => {
   try {
     const { user } = req.params;
     if (req.user.user !== user) {
@@ -30,7 +30,7 @@ router.get('/social/link/medium/:user', jwtAuth, async (req, res, next) => {
   }
 });
 
-router.post('/social/link/medium', jwtAuth, async (req, res, next) => {
+router.post('/social/link/medium', jwtAuth('write'), async (req, res, next) => {
   try {
     const {
       state,

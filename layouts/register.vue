@@ -145,7 +145,8 @@ export default {
       if (!(await this.loginUser())) {
         this.$router.go(-1);
       } else {
-        this.redirectToUserPage();
+        // triggered by getUserIsRegistered
+        // this.redirectToUserPage();
       }
     },
     redirectToUserPage() {

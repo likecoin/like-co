@@ -10,6 +10,7 @@ import LikeRegisterForm from '~/components/LikeRegisterForm';
 import { apiGetUserById } from '@/util/api/api';
 import * as types from '@/store/mutation-types';
 import { REDIRECT_WHITE_LIST } from '@/constant';
+import EthHelper from '@/util/EthHelper';
 
 const URL = require('url-parse');
 
@@ -86,6 +87,11 @@ export default {
     title() {
       return this.referrer ? this.$t('Register.header.titleReferral', { name: this.referrer }) : this.$t('Register.header.title');
     },
+  },
+  mounted() {
+    // EIP 1102 requires user to approve domain getting Metamask accounts
+    // The dialog keeps on popping up, so we only enable pop-up when user enter register page
+    EthHelper.promptForEthereumPermission();
   },
   methods: {
     onSubmit(user) {

@@ -14,7 +14,7 @@ import axios from '../../plugins/axios';
 import { ValidationHelper as Validate, ValidationError } from '../../util/ValidationHelper';
 import { personalEcRecover, web3 } from '../util/web3';
 import { uploadFileAndGetLink } from '../util/fileupload';
-import { jwtSign, jwtAuth, jwtVerify } from '../util/jwt';
+import { jwtSign, jwtAuth } from '../util/jwt';
 import publisher from '../util/gcloudPub';
 
 
@@ -67,24 +67,35 @@ const W3C_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0
 
 const router = Router();
 
-function setSessionCookie(req, res, payload) {
-  let token = jwtSign(payload);
+function setSessionCookie(req, res, token) {
+  let cookiePayload = { likecoin: token };
   if (req.cookies && req.cookies['__session']) { // eslint-disable-line dot-notation
-    const sessionCookie = req.cookies['__session'];// eslint-disable-line dot-notation
+    const sessionCookie = req.cookies['__session']; // eslint-disable-line dot-notation
     try {
-      const decoded = jwtVerify(sessionCookie, { ignoreExpiration: true });
-      token = jwtSign({ ...decoded, ...payload });
+      const decoded = JSON.parse(sessionCookie);
+      cookiePayload = { ...decoded, ...cookiePayload };
     } catch (err) {
       // do nth
     }
   }
-  res.cookie('__session', token, AUTH_COOKIE_OPTION);
+  res.cookie('__session', JSON.stringify(cookiePayload), AUTH_COOKIE_OPTION);
 }
 
-function setAuthCookies(req, res, payload) {
-  const token = jwtSign(payload);
+async function setAuthCookies(req, res, { user, wallet }) {
+  const payload = {
+    user,
+    wallet,
+    permissions: ['read', 'write', 'like'],
+  };
+  const { token, jwtid } = jwtSign(payload);
   res.cookie('likecoin_auth', token, AUTH_COOKIE_OPTION);
-  setSessionCookie(req, res, payload);
+  setSessionCookie(req, res, token);
+  await dbRef.doc(user).collection('session').doc(jwtid).create({
+    lastAccessedUserAgent: req.headers['user-agent'] || 'unknown',
+    lastAccessedIP: req.headers['x-real-ip'] || req.ip,
+    lastAccessedTs: Date.now(),
+    ts: Date.now(),
+  });
 }
 
 const apiLimiter = new RateLimit({
@@ -296,7 +307,7 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res, n
     if (hasReferrer) {
       await dbRef.doc(referrer).collection('referrals').doc(user).create(timestampObj);
     }
-    setAuthCookies(req, res, { user, wallet });
+    await setAuthCookies(req, res, { user, wallet });
     res.sendStatus(200);
 
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
@@ -315,26 +326,19 @@ router.put('/users/new', apiLimiter, multer.single('avatar'), async (req, res, n
   }
 });
 
-router.post('/users/login/check', jwtAuth, (req, res) => {
+router.post('/users/login/check', jwtAuth('read'), async (req, res) => {
   const { wallet } = req.body;
   if (req.user.wallet !== wallet) {
     res.status(401).send('LOGIN_NEEDED');
     return;
   }
-  try {
-    // eslint-disable-next-line no-underscore-dangle
-    const payload = jwtVerify(req.cookies.__session, { ignoreExpiration: true });
-    if (!payload.user || !payload.wallet
-      || payload.user !== req.user.user
-      || payload.wallet !== req.user.wallet) {
-      throw new Error('session is missing user');
-    }
-  } catch (err) {
-    /* make sure exp exist */
-    if (!req.user.exp) req.user.exp = Math.floor(Date.now() / 1000);
-    setSessionCookie(req, res, req.user);
-  }
+  setSessionCookie(req, res, req.cookies.likecoin_auth);
   res.sendStatus(200);
+  await dbRef.doc(req.user.user).collection('session').doc(req.user.jti).update({
+    lastAccessedUserAgent: req.headers['user-agent'] || 'unknown',
+    lastAccessedIP: req.headers['x-real-ip'] || req.ip,
+    lastAccessedTs: Date.now(),
+  });
 });
 
 router.post('/users/login', async (req, res, next) => {
@@ -347,7 +351,7 @@ router.post('/users/login', async (req, res, next) => {
     const query = await dbRef.where('wallet', '==', from).get();
     if (query.docs.length > 0) {
       const user = query.docs[0].id;
-      setAuthCookies(req, res, { user, wallet: from });
+      await setAuthCookies(req, res, { user, wallet: from });
       res.sendStatus(200);
     } else {
       res.sendStatus(404);
@@ -357,7 +361,7 @@ router.post('/users/login', async (req, res, next) => {
   }
 });
 
-router.get('/users/referral/:id', jwtAuth, async (req, res, next) => {
+router.get('/users/referral/:id', jwtAuth('read'), async (req, res, next) => {
   try {
     const username = req.params.id;
     if (req.user.user !== username) {
@@ -377,7 +381,7 @@ router.get('/users/referral/:id', jwtAuth, async (req, res, next) => {
   }
 });
 
-router.get('/users/id/:id', jwtAuth, async (req, res, next) => {
+router.get('/users/id/:id', jwtAuth('read'), async (req, res, next) => {
   try {
     const username = req.params.id;
     if (req.user.user !== username) {
@@ -430,7 +434,7 @@ router.get('/users/merchant/:id/min', async (req, res, next) => {
   }
 });
 
-router.get('/users/addr/:addr', jwtAuth, async (req, res, next) => {
+router.get('/users/addr/:addr', jwtAuth('read'), async (req, res, next) => {
   try {
     const { addr } = req.params;
     if (!Validate.checkAddressValid(addr)) throw new ValidationError('Invalid address');
@@ -569,7 +573,7 @@ router.post('/email/verify/:uuid', async (req, res, next) => {
   }
 });
 
-router.get('/users/bonus/:id', jwtAuth, async (req, res, next) => {
+router.get('/users/bonus/:id', jwtAuth('read'), async (req, res, next) => {
   try {
     const { id } = req.params;
     if (req.user.user !== id) {
@@ -586,7 +590,7 @@ router.get('/users/bonus/:id', jwtAuth, async (req, res, next) => {
   }
 });
 
-router.post('/users/email/:id', jwtAuth, async (req, res, next) => {
+router.post('/users/email/:id', jwtAuth('write'), async (req, res, next) => {
   try {
     const { id } = req.params;
     if (req.user.user !== id) {
@@ -606,7 +610,7 @@ router.post('/users/email/:id', jwtAuth, async (req, res, next) => {
   }
 });
 
-router.put('/users/read/:id', jwtAuth, async (req, res, next) => {
+router.put('/users/read/:id', jwtAuth('write'), async (req, res, next) => {
   try {
     const { id } = req.params;
     if (req.user.user !== id) {

@@ -618,6 +618,9 @@ $line-height-map: (
   &like-gradient {
     background-image: $like-linear-gradient;
   }
+  &like-gradient-2 {
+    background-image: $like-linear-gradient-2;
+  }
   &green {
     background-color: $like-green;
   }
@@ -936,6 +939,24 @@ $line-height-map: (
 
     &.shadow {
       box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  &.no-border-radius {
+    border-radius: 0;
+  }
+
+  &.outline.gray-9b {
+    min-width: unset;
+
+    color: $like-gray-5;
+    border: 1px solid $gray-9b;
+
+    font-size: 14px;
+
+    .md-ripple {
+      min-height: 32px;
+      padding: 0 24px;
     }
   }
 
