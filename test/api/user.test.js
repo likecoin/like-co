@@ -42,6 +42,7 @@ test.serial('USER: Register user. Case: success', async (t) => {
   const sign = signProfile(payload, privateKey0);
   const res = await axiosist.post('/api/users/new', {
     from: testingWallet0,
+    platform: 'wallet',
     payload,
     sign,
   });
@@ -50,30 +51,34 @@ test.serial('USER: Register user. Case: success', async (t) => {
 });
 
 test.serial('USER: Login user. Case: success', async (t) => {
-  const payload = Web3.utils.utf8ToHex('likecoin login message');
+  const payload = Web3.utils.utf8ToHex(JSON.stringify({
+    ts: Date.now(),
+    wallet: testingWallet1,
+  }));
   const sign = signProfile(payload, privateKey1);
   const res = await axiosist.post('/api/users/login', {
     from: testingWallet1,
+    platform: 'wallet',
     payload,
     sign,
   });
-  axiosist.defaults.headers.common.Cookie = `likecoin_auth=${res.data.token}`;
   t.is(res.status, 200);
 });
 
 test.serial('USER: Edit user. Case: success', async (t) => {
-  const payload = Web3.utils.utf8ToHex(JSON.stringify({
-    user: testingUser1,
+  const user = testingUser1;
+  const token = jwtSign({ user });
+  const payload = {
+    user,
     displayName: testingDisplayName1,
     ts: Date.now(),
     wallet: testingWallet1,
     email: 'noreply@likecoin.store',
-  }));
-  const sign = signProfile(payload, privateKey1);
-  const res = await axiosist.post('/api/users/update', {
-    from: testingWallet1,
-    payload,
-    sign,
+  };
+  const res = await axiosist.post('/api/users/update', payload, {
+    headers: {
+      Cookie: `likecoin_auth=${token}`,
+    },
   });
 
   t.is(res.status, 200);
@@ -261,6 +266,7 @@ for (let i = 0; i < userCases.length; i += 1) {
       from,
       payload: formatedPayload,
       sign,
+      platform: 'wallet',
     }).catch(err => err.response);
 
     t.is(res.status, 400);
@@ -350,14 +356,12 @@ test('USER: check user login status', async (t) => {
   const wallet = testingWallet1;
   const user = testingUser1;
   const token = jwtSign({ user, wallet });
-  let res = await axiosist.post('/api/users/login/check', {})
+  let res = await axiosist.get('/api/users/self')
     .catch(err => err.response);
 
   t.is(res.status, 401);
 
-  res = await axiosist.post('/api/users/login/check', {
-    wallet,
-  }, {
+  res = await axiosist.get('/api/users/self', {
     headers: {
       Cookie: `likecoin_auth=${token}`,
     },
