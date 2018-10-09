@@ -38,7 +38,15 @@ app.use((req, res, next) => {
 
 app.use(cookieParser());
 app.use(compression());
-app.use(bodyParser.json());
+app.use(bodyParser.json({
+  // stripe hook event needs rawBody for signature checking
+  verify: (req, res, buf) => {
+    const url = req.originalUrl;
+    if (url.startsWith('/api/iap/subscription/hook')) {
+      req.rawBody = buf.toString();
+    }
+  },
+}));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(i18n.init);
 app.use((req, res, next) => {

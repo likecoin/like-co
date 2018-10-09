@@ -14,10 +14,18 @@ function initBrowser(browser) {
 }
 
 function jwtSign(user, wallet) {
-  return jwt.sign({ user, wallet }, 'likecoin', { expiresIn: '7d' });
+  return jwt.sign({
+    permissions: ['read', 'write', 'like'],
+    user,
+    wallet,
+  }, 'likecoin', {
+    expiresIn: '7d',
+    audience: 'rinkeby.like.co',
+    issuer: 'rinkeby.like.co',
+  });
 }
 
-function setAuthLocalStorage(browser, url, user, wallet) {
+function setAuthCookie(browser, url, user, wallet) {
   const auth = jwtSign(user, wallet);
   browser
     .url(url)
@@ -27,4 +35,4 @@ function setAuthLocalStorage(browser, url, user, wallet) {
     });
 }
 
-module.exports = { initBrowser, setAuthLocalStorage };
+module.exports = { initBrowser, setAuthCookie };

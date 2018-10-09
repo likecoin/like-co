@@ -10,7 +10,7 @@ const { userCollection: dbRef } = require('../../util/firebase');
 
 const router = Router();
 
-router.get('/social/link/facebook/:user', jwtAuth, async (req, res, next) => {
+router.get('/social/link/facebook/:user', jwtAuth('read'), async (req, res, next) => {
   try {
     const { user } = req.params;
     if (req.user.user !== user) {
@@ -26,7 +26,7 @@ router.get('/social/link/facebook/:user', jwtAuth, async (req, res, next) => {
   }
 });
 
-router.post('/social/link/facebook', jwtAuth, async (req, res, next) => {
+router.post('/social/link/facebook', jwtAuth('write'), async (req, res, next) => {
   try {
     const {
       access_token: accessToken,
@@ -97,7 +97,7 @@ router.post('/social/link/facebook', jwtAuth, async (req, res, next) => {
 });
 
 
-router.post('/social/link/facebook/:pageId', jwtAuth, async (req, res, next) => {
+router.post('/social/link/facebook/:pageId', jwtAuth('write'), async (req, res, next) => {
   try {
     const { pageId } = req.params;
     const { user } = req.body;

@@ -9,7 +9,7 @@ const { userCollection: dbRef } = require('../../util/firebase');
 
 const router = Router();
 
-router.post('/social/links/new', jwtAuth, async (req, res, next) => {
+router.post('/social/links/new', jwtAuth('write'), async (req, res, next) => {
   try {
     const {
       user,
@@ -83,7 +83,7 @@ router.post('/social/links/new', jwtAuth, async (req, res, next) => {
   }
 });
 
-router.put('/social/links/:linkId', jwtAuth, async (req, res, next) => {
+router.put('/social/links/:linkId', jwtAuth('write'), async (req, res, next) => {
   try {
     const {
       user,

@@ -57,6 +57,7 @@ function prettifyNumber(n) {
 
 class EthHelper {
   initApp({
+    initCb,
     errCb,
     clearErrCb,
     retryCb,
@@ -77,7 +78,10 @@ class EthHelper {
       onLogin,
       onSigned,
     });
-    this.pollForWeb3();
+    setTimeout(() => {
+      if (initCb) initCb();
+      this.pollForWeb3();
+    });
   }
 
   clearTimers() {
