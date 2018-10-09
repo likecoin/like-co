@@ -13,6 +13,7 @@ const userData = require('../../test/data/user.json').users;
 const txData = require('../../test/data/tx.json').tx;
 const missionData = require('../../test/data/mission.json').missions;
 const bonusData = require('../../test/data/bonus.json').bonus;
+const subscriptionData = require('../../test/data/subscription.json').subscriptions;
 
 const web3 = new Web3(new Web3.providers.HttpProvider(INFURA_HOST));
 
@@ -130,7 +131,7 @@ function collectionDoc(data, id) {
       if (obj) {
         return docUpdate(obj, updateData);
       }
-      throw new Error('Doc not exists for update.');
+      return global.Promise.resolve();
     },
     delete: () => {
       if (obj) {
@@ -169,6 +170,7 @@ const iapCollection = createCollection([]);
 const missionCollection = createCollection(missionData);
 const payoutCollection = createCollection(bonusData);
 const configCollection = createCollection([]);
+const iapSubscriptionCollection = createCollection(subscriptionData);
 
 function runTransaction(updateFunc) {
   return updateFunc({
@@ -189,6 +191,13 @@ async function initDb() {
 function createDb() {
   return {
     runTransaction: updateFunc => runTransaction(updateFunc),
+    batch: () => ({
+      get: ref => ref.get(),
+      create: (ref, data) => ref.create(data),
+      set: (ref, data, config) => ref.create(data, config),
+      update: (ref, data) => ref.update(data),
+      commit: () => {},
+    }),
   };
 }
 
@@ -203,6 +212,7 @@ module.exports = {
   missionCollection,
   payoutCollection,
   configCollection,
+  iapSubscriptionCollection,
   bucket: {},
   FieldValue,
 };

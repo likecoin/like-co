@@ -79,7 +79,7 @@ router.get('/social/list/:id', async (req, res, next) => {
   }
 });
 
-router.get('/social/list/:id/details', jwtAuth, async (req, res, next) => {
+router.get('/social/list/:id/details', jwtAuth('read'), async (req, res, next) => {
   try {
     const username = req.params.id;
     if (req.user.user !== username) {
@@ -116,7 +116,7 @@ router.get('/social/list/:id/details', jwtAuth, async (req, res, next) => {
   }
 });
 
-router.post('/social/unlink/:platform', jwtAuth, async (req, res, next) => {
+router.post('/social/unlink/:platform', jwtAuth('write'), async (req, res, next) => {
   try {
     const { platform } = req.params;
     const {
@@ -155,7 +155,7 @@ router.post('/social/unlink/:platform', jwtAuth, async (req, res, next) => {
   }
 });
 
-router.patch('/social/public', jwtAuth, async (req, res, next) => {
+router.patch('/social/public', jwtAuth('write'), async (req, res, next) => {
   try {
     const {
       user,

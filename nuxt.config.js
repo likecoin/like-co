@@ -247,7 +247,7 @@ module.exports = {
           'vue-app',
           {
             targets: isServer
-              ? { node: '8.11.1', uglify: false }
+              ? { node: '10', uglify: false }
               : { browsers: ['defaults'], uglify: false },
           },
         ],

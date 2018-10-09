@@ -61,6 +61,7 @@ function isReceiptSuccess(txReceipt) {
 
 class EthHelper {
   initApp({
+    initCb,
     errCb,
     clearErrCb,
     retryCb,
@@ -81,7 +82,10 @@ class EthHelper {
       onLogin,
       onSigned,
     });
-    this.pollForWeb3();
+    setTimeout(() => {
+      if (initCb) initCb();
+      this.pollForWeb3();
+    });
   }
 
   clearTimers() {
@@ -140,20 +144,26 @@ class EthHelper {
     this.pollingTimer = setInterval(() => this.getAccounts(), 3000);
   }
 
-  getAccounts() {
-    this.web3.eth.getAccounts().then((accounts) => {
-      if (accounts && accounts[0]) {
-        if (this.wallet !== accounts[0]) {
-          this.accounts = accounts;
-          [this.wallet] = accounts;
-          if (this.onWalletCb) this.onWalletCb(this.wallet);
-          if (this.clearErrCb) this.clearErrCb();
-        }
-      } else if (this.isInited && this.errCb) {
-        this.wallet = '';
-        this.errCb('locked');
+  async getAccounts() {
+    const accounts = await this.web3.eth.getAccounts();
+    if (accounts && accounts[0]) {
+      if (this.wallet !== accounts[0]) {
+        this.accounts = accounts;
+        [this.wallet] = accounts;
+        if (this.onWalletCb) this.onWalletCb(this.wallet);
+        if (this.clearErrCb) this.clearErrCb();
       }
-    });
+    } else if (this.isInited && this.errCb) {
+      this.wallet = '';
+      this.errCb('locked');
+      if (this.web3Type === 'window' && window.ethereum && this.isPromptEthereumPermission) {
+        try {
+          await window.ethereum.enable();
+        } catch (e) {
+          this.disablePromptEthereumPermission();
+        }
+      }
+    }
   }
 
   setLedgerOn() {
@@ -488,6 +498,14 @@ class EthHelper {
       if (this.onSigned) this.onSigned();
       throw err;
     }
+  }
+
+  promptForEthereumPermission() {
+    this.isPromptEthereumPermission = true;
+  }
+
+  disablePromptEthereumPermission() {
+    this.isPromptEthereumPermission = false;
   }
 }
 
