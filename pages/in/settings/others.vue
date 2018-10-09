@@ -132,7 +132,6 @@ export default {
       this.isLoading = true;
       try {
         const user = this.getUserInfo;
-        console.log(typeof this.isEmailEnabled);
         const userInfo = {
           user: user.user,
           wallet: user.wallet,
