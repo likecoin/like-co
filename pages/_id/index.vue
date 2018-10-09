@@ -82,6 +82,7 @@
             <div class="lc-container-4 lc-padding-top-24 lc-padding-bottom-32">
 
               <form
+                v-if="wallet"
                 id="paymentInfo"
                 @submit.prevent="onSubmitPollForWeb3"
               >
@@ -201,6 +202,9 @@
 
               </form>
 
+              <div v-else>
+                {{ 'This ID has not binded to any wallet yet. LikeCoin transfer is disallowed.' }}
+              </div>
             </div>
           </div>
         </div>
