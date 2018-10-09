@@ -67,6 +67,7 @@
     "express": "^4.16.3",
     "express-jwt": "^5.3.1",
     "express-rate-limit": "^3.1.0",
+    "firebase": "^5.5.2",
     "firebase-admin": "^6.0.0",
     "form-data": "^2.3.2",
     "i18n": "^0.8.3",

@@ -58,7 +58,6 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'getUserIsReady',
       'getUserIsRegistered',
       'getUserInfo',
       'getLikeCoinUsdNumericPrice',
@@ -76,16 +75,8 @@ export default {
       return null;
     },
   },
-  watch: {
-    getUserIsReady(isReady) {
-      if (isReady && this.getUserIsRegistered) {
-        this.queryLikeCoinUsdPrice();
-        this.queryLikeCoinWalletBalance();
-      }
-    },
-  },
   mounted() {
-    if (this.getUserIsReady && this.getUserIsRegistered) {
+    if (this.getUserIsRegistered) {
       this.queryLikeCoinUsdPrice();
       this.queryLikeCoinWalletBalance();
     }

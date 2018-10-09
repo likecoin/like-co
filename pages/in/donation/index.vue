@@ -27,8 +27,7 @@
                   v-if="getUserIsRegistered"
                   class="lc-margin-top-12 lc-font-size-38 lc-font-weight-300"
                 >
-                  <span v-if="getUserIsFetching">Loading...</span>
-                  <span v-else-if="getUserIsRegistered">You are: {{ getUserInfo.user }}</span>
+                  <span v-if="getUserIsRegistered">You are: {{ getUserInfo.user }}</span>
                   <span v-else>You are: Guest</span>
                 </h2>
               </section>

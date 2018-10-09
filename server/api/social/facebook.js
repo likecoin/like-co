@@ -1,9 +1,8 @@
 import { Router } from 'express';
-import { checkPlatformAlreadyLinked } from './index';
-import { fetchFacebookUser } from '../../oauth/facebook';
 import { PUBSUB_TOPIC_MISC } from '../../../constant';
 import publisher from '../../util/gcloudPub';
 import { jwtAuth } from '../../util/jwt';
+import { checkPlatformAlreadyLinked, socialLinkFacebook } from '../../util/api/social';
 import { ValidationError } from '../../../util/ValidationHelper';
 
 const { userCollection: dbRef } = require('../../util/firebase');
@@ -48,18 +47,7 @@ router.post('/social/link/facebook', jwtAuth('write'), async (req, res, next) =>
       userId,
       appId,
       pages,
-    } = await fetchFacebookUser(accessToken);
-    await dbRef.doc(user).collection('social').doc('facebook').create({
-      displayName,
-      userId,
-      appId,
-      accessToken,
-      url: link,
-      userLink: link,
-      pages,
-      isLinked: true,
-      ts: Date.now(),
-    });
+    } = await socialLinkFacebook(user, accessToken);
     res.json({
       platform: 'facebook',
       displayName,

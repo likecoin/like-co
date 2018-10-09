@@ -73,3 +73,31 @@ export async function fetchTwitterUser(oAuthToken, oAuthTokenSecret, oAuthVerifi
     oAuthTokenSecret: replyOAuthTokenSecret,
   };
 }
+
+export async function fetchTwitterUserByAccessToken(accessToken, secret) {
+  if (!TWITTER_API_KEY || !TWITTER_API_SECRET) throw new ValidationError('twitter app not configured');
+  const token = {
+    key: accessToken,
+    secret,
+  };
+  const req = {
+    url: 'https://api.twitter.com/1.1/account/verify_credentials.json',
+    method: 'GET',
+  };
+  const { data } = await axios({
+    url: `${req.url}?${querystring.stringify(oauth.authorize(req, token))}`,
+    method: req.method,
+  });
+  const payload = data;
+  if (!payload.id_str) throw new ValidationError('twitter oauth verify fail');
+  const {
+    id_str: userId,
+    screen_name: displayName,
+  } = payload;
+  return {
+    userId,
+    displayName,
+    oAuthToken: accessToken,
+    oAuthTokenSecret: secret,
+  };
+}

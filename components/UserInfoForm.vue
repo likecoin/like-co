@@ -159,7 +159,6 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-import User from '@/util/User';
 import { logTrackerEvent } from '@/util/EventLogger';
 import getTestAttribute from '@/util/test';
 
@@ -203,7 +202,6 @@ export default {
       'getCurrentLocale',
       'getUserInfo',
       'getUserSocialPlatforms',
-      'getUserIsReady',
       'getUserIsRegistered',
       'getUserLikeCoinAmountInBigNumber',
     ]),
@@ -217,15 +215,8 @@ export default {
       return `https://${EXTERNAL_HOSTNAME}/${this.getUserInfo.user}`;
     },
   },
-  watch: {
-    getUserIsReady(value) {
-      if (value && this.getUserIsRegistered) {
-        this.updateInfo();
-      }
-    },
-  },
   mounted() {
-    if (this.getUserIsReady && this.getUserIsRegistered) {
+    if (this.getUserIsRegistered) {
       if (this.$route.params.showEmail && !this.isUserEmailVerified) {
         this.$nextTick(() => this.$refs.inputDialog.show());
       }
@@ -234,7 +225,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'newUser',
+      'updateUser',
       'setInfoMsg',
       'sendVerifyEmail',
       'refreshUserInfo',
@@ -247,12 +238,11 @@ export default {
           avatarFile: this.avatarFile,
           user: this.user,
           displayName: this.displayName,
-          wallet: this.wallet,
+          wallet: this.wallet || '',
           email: this.email,
           locale: this.getCurrentLocale,
         };
-        const data = await User.formatAndSignUserInfo(userInfo, this.$t('Sign.Message.editUser'));
-        await this.newUser(data);
+        await this.updateUser(userInfo);
         this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${this.user}">${this.$t('Register.form.label.viewPage')}</a>`);
         this.refreshUserInfo(this.user);
         this.isEditing = false;

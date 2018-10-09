@@ -92,6 +92,15 @@
                 </li>
               </ul>
             </div>
+            <div class="menu secondary">
+              <ul>
+                <li>
+                  <menu-item @click="onClickLogoutButon">
+                    <span>{{ $t('Menu.item.Logout') }}</span>
+                  </menu-item>
+                </li>
+              </ul>
+            </div>
           </div>
 
         </div>
@@ -185,6 +194,7 @@ export default {
   methods: {
     ...mapActions([
       'showLoginWindow',
+      'logoutUser',
       'closeSlidingMenu',
     ]),
     onClickSignInButton() {
@@ -193,6 +203,10 @@ export default {
       } else {
         this.showLoginWindow();
       }
+    },
+    async onClickLogoutButon() {
+      await this.logoutUser();
+      this.$nextTick(() => this.$router.push('/'));
     },
   },
 };

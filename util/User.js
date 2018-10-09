@@ -38,6 +38,7 @@ const User = {
       payload: EthHelper.utf8ToHex(payload),
       sign,
       from: wallet,
+      platform: 'wallet',
     };
     return data;
   },
@@ -50,6 +51,7 @@ const User = {
       sign,
       payload,
       from: wallet,
+      platform: 'wallet',
     };
     return data;
   },

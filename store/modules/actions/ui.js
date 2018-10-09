@@ -18,7 +18,7 @@ export const setSignPayloadObject = ({ commit }, payload = {}) => {
 
 export const showLoginWindow = ({ commit, dispatch }) => {
   commit(types.UI_LOGIN_OVERRIDE, true);
-  dispatch('loginUser');
+  dispatch('loginUserBySign');
 };
 
 export const setErrorDisabled = ({ commit }, bool) => {

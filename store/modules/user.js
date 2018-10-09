@@ -4,9 +4,8 @@ import Vue from 'vue'; // eslint-disable-line import/no-extraneous-dependencies
 import {
   USER_SET_USER_INFO,
   USER_SET_LOCAL_WALLET,
-  USER_SET_FETCHING,
-  USER_SET_WEB3_FETCHING,
   USER_AWAITING_AUTH,
+  USER_SET_AFTER_AUTH_ROUTE,
   USER_SET_SOCIAL,
   USER_SET_SOCIAL_DETAILS,
   USER_LINK_SOCIAL,
@@ -27,6 +26,8 @@ const state = {
   wallet: '',
   isFetching: false,
   isAwaitingAuth: false,
+  preAuthRoute: null,
+  afterAuthRoute: {},
   web3Fetching: false,
   platforms: {},
   links: {},
@@ -41,14 +42,11 @@ const mutations = {
   [USER_SET_LOCAL_WALLET](state, wallet) {
     state.wallet = wallet;
   },
-  [USER_SET_FETCHING](state, isFetching) {
-    state.isFetching = isFetching;
-  },
-  [USER_SET_WEB3_FETCHING](state, web3Fetching) {
-    state.web3Fetching = web3Fetching;
-  },
   [USER_AWAITING_AUTH](state, isAwaitingAuth) {
     state.isAwaitingAuth = isAwaitingAuth;
+  },
+  [USER_SET_AFTER_AUTH_ROUTE](state, route) {
+    state.preAuthRoute = route;
   },
   [USER_SET_SOCIAL](state, platforms) {
     state.platforms = platforms;

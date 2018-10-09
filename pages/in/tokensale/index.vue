@@ -18,18 +18,7 @@
     </section>
 
     <section class="lc-container-0">
-      <!-- Loading -->
       <div
-        v-if="getUserIsFetching"
-        class="lc-container-1 lc-padding-vertical-32"
-      >
-        <div class="lc-container-2">
-          <md-progress-bar md-mode="indeterminate" />
-        </div>
-      </div>
-
-      <div
-        v-else
         class="lc-container-1 lc-section-block lc-margin-top-32 lc-padding-top-32"
       >
 
@@ -159,8 +148,6 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'getUserIsReady',
-      'getUserIsFetching',
       'getUserIsRegistered',
       'getUserNeedAuth',
     ]),

@@ -72,7 +72,6 @@
 import { mapActions, mapGetters } from 'vuex';
 
 import { logTrackerEvent } from '@/util/EventLogger';
-import User from '@/util/User';
 
 import PoliciesLinks from '~/components/PoliciesLinks';
 
@@ -91,57 +90,39 @@ export default {
   computed: {
     ...mapGetters([
       'getUserInfo',
-      'getUserIsReady',
       'getUserIsRegistered',
       'getUserNeedAuth',
-      'getUserNeedRegister',
     ]),
     disabled() {
-      return this.isLoading || !(this.getUserIsReady && this.getUserIsRegistered);
+      return this.isLoading || !this.getUserIsRegistered;
     },
     hasChanged() {
       const user = this.getUserInfo;
-      return this.getUserIsReady && this.getUserIsRegistered && (
+      return this.getUserIsRegistered && (
         this.isEmailEnabled !== user.isEmailEnabled
       );
     },
   },
   watch: {
-    getUserNeedRegister(value) {
-      if (value) {
-        this.$router.push({ name: 'in-register', query: { ref: 'in-settings-others', ...this.$route.query } });
-      }
-    },
     getUserNeedAuth(value) {
       if (value) {
         this.triggerLoginSign();
       }
     },
-    getUserIsReady(value) {
-      if (value && this.getUserIsRegistered) {
-        this.updateInfo();
-      }
-    },
   },
   mounted() {
-    if (this.getUserNeedRegister) {
-      this.$router.push({ name: 'in-register', query: { ref: 'in-settings', ...this.$route.query } });
-    } else if (this.getUserNeedAuth) {
+    if (this.getUserNeedAuth) {
       this.triggerLoginSign();
-    } else if (this.getUserIsReady && this.getUserIsRegistered) {
+    } else if (this.getUserIsRegistered) {
       this.updateInfo();
     }
   },
   methods: {
     ...mapActions([
-      'loginUser',
-      'newUser',
+      'updateUser',
       'refreshUserInfo',
       'setInfoMsg',
     ]),
-    async triggerLoginSign() {
-      if (!(await this.loginUser())) this.$router.go(-1);
-    },
     async updateInfo() {
       const user = this.getUserInfo;
       this.isEmailEnabled = (user.isEmailEnabled !== false);
@@ -156,8 +137,7 @@ export default {
           wallet: user.wallet,
           isEmailEnabled: this.isEmailEnabled,
         };
-        const data = await User.formatAndSignUserInfo(userInfo, this.$t('Sign.Message.editUser'));
-        await this.newUser(data);
+        await this.updateUser(userInfo);
         this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${this.user}">${this.$t('Register.form.label.viewPage')}</a>`);
         this.refreshUserInfo(user.user);
       } catch (err) {

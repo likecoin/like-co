@@ -6,15 +6,15 @@ async function apiWrapper({ commit, dispatch }, promise, opt = {}) {
   if (!slient) commit(blocking ? types.UI_START_BLOCKING_LOADING : types.UI_START_LOADING);
   try {
     const res = await promise;
-    commit(blocking ? types.UI_STOP_BLOCKING_LOADING : types.UI_STOP_LOADING);
+    if (!slient) commit(blocking ? types.UI_STOP_BLOCKING_LOADING : types.UI_STOP_LOADING);
     return res.data;
   } catch (error) {
-    commit(blocking ? types.UI_STOP_BLOCKING_LOADING : types.UI_STOP_LOADING);
+    if (!slient) commit(blocking ? types.UI_STOP_BLOCKING_LOADING : types.UI_STOP_LOADING);
     const { response } = error;
     if (response && response.statusCode === 401) {
-      await dispatch('loginUser');
+      await dispatch('doUserAuth');
       const res = await promise;
-      commit(blocking ? types.UI_STOP_BLOCKING_LOADING : types.UI_STOP_LOADING);
+      if (!slient) commit(blocking ? types.UI_STOP_BLOCKING_LOADING : types.UI_STOP_LOADING);
       return res.data;
     }
     /* hacky way to bypass own 404 page messing up layout */

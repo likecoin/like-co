@@ -1,6 +1,6 @@
 <template>
   <div class="lc-layout">
-    <tool-bars :disableError="getIfDisableError" />
+    <tool-bars />
 
     <div class="lc-page-wrapper lc-narrow with-sliding-menu">
 
@@ -48,8 +48,6 @@ import SiteHeader from '~/components/header/HeaderWithMenuButton';
 import SlidingMenu from '~/components/SlidingMenu/index';
 import ToolBars from '~/components/toolbars/ToolBars';
 
-import { getToolbarsDisableError } from '~/constant';
-
 
 export default {
   components: {
@@ -63,9 +61,6 @@ export default {
       'getCurrentLocale',
       'getCurrentLocaleISO',
     ]),
-    getIfDisableError() {
-      return getToolbarsDisableError(this.$route.name);
-    },
   },
   head() {
     return {

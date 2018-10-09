@@ -36,6 +36,7 @@ if (process.env.CI) {
 
   module.exports = {
     db,
+    admin,
     userCollection,
     txCollection,
     iapCollection,

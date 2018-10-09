@@ -52,29 +52,6 @@ export const TOKENSALE_SOFTCAP_ETH = new BigNumber(4200);
 
 export const BONUS_LOCK_UNTIL_DATE = moment.unix(1540267200);
 
-const ALL_ERRORS = ['web3', 'testnet', 'locked'];
-
-const toolbarsDisableError = {
-  'in-whitepaper': ALL_ERRORS,
-  'verify-uuid': ['web3', 'locked'],
-  'in-tx-id': ['web3', 'locked'],
-  id: ALL_ERRORS,
-  'in-embed-id-list': ALL_ERRORS,
-  'id-amount': ALL_ERRORS,
-  'claim-id-coupon': ['web3', 'locked'],
-  'in-backer': ALL_ERRORS,
-  'in-policies': ALL_ERRORS,
-  'in-policies-privacy': ALL_ERRORS,
-  'in-policies-terms': ALL_ERRORS,
-  'in-tokensale': ['web3', 'locked'],
-  'in-tokensale-tx-id': ['web3', 'locked'],
-  'pay-merchantId': ALL_ERRORS,
-  'pay-merchantId-amount': ALL_ERRORS,
-  'in-donation': ALL_ERRORS,
-  'in-donation-claim': ALL_ERRORS,
-};
-export const getToolbarsDisableError = route => (toolbarsDisableError[route] || false);
-
 export const GETTING_STARTED_TASKS = ['taskSocial', 'taskOnepager', 'taskVideo', 'taskPaymentPage'];
 
 /* Dont show key if value exist
@@ -131,3 +108,12 @@ export const DISPLAY_SOCIAL_MEDIA_OPTIONS = [
   'wp',
   'medium',
 ];
+
+export const SUPPORTED_AVATER_TYPE = new Set([
+  'jpg',
+  'png',
+  'gif',
+  'webp',
+  'tif',
+  'bmp',
+]);
