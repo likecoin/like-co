@@ -18,14 +18,6 @@
                 name="email"
               >
               <br>
-              <div class="check-box-list">
-                <md-checkbox
-                  v-model="isBindWallet"
-                  class="md-likecoin"
-                >
-                  {{ $t('Register.form.bindWallet') + (isBindWallet && wallet? wallet: '') }}
-                </md-checkbox>
-              </div>
               <md-button
                 class="md-likecoin"
                 @click="onClickLogin('email')"
@@ -56,6 +48,17 @@
               >
                 Github
               </md-button>
+              <md-button
+                class="md-likecoin"
+                @click="onClickLogin('wallet')"
+              >
+                {{ $t('Register.form.bindWallet') }}
+              </md-button>
+              <div
+                v-if="isBindWallet && wallet"
+              >
+                {{ 'wallet: ' + wallet }}
+              </div>
             </div>
           </div>
         </div>
@@ -74,6 +77,8 @@ import {
 } from '~/util/FirebaseApp';
 
 import EthHelper from '@/util/EthHelper';
+import User from '@/util/User';
+import { logTrackerEvent } from '@/util/EventLogger';
 
 export default {
   name: 'register-new',
@@ -83,22 +88,30 @@ export default {
       email: '',
       isBindWallet: false,
       wallet: null,
+      avatarFile: null,
+      isEmailEnabled: false,
     };
   },
   computed: {
     ...mapGetters([
       'getCurrentLocale',
       'getMetamaskError',
+      'getLocalWallet',
+      'getIsWeb3Polling',
     ]),
   },
   watch: {
-    async isBindWallet() {
-      if (this.isBindWallet) {
-        if (!EthHelper.getIsInited()) {
-          this.startLoading();
-          await EthHelper.pollForWeb3('window');
-        }
-        this.setBindWallet();
+    getLocalWallet() {
+      this.wallet = this.getLocalWallet;
+      if (this.getIsWeb3Polling) {
+        this.stopWeb3Polling();
+        this.handleWalletSignIn();
+      }
+    },
+    getMetamaskError() {
+      if (this.isBindWallet && this.getMetamaskError) {
+        this.isBindWallet = false;
+        EthHelper.disableWeb3();
       }
     },
   },
@@ -111,8 +124,10 @@ export default {
     ...mapActions([
       'newUser',
       'doPostAuthRedirect',
-      'startLoading',
-      'stopLoading',
+      'startWeb3Polling',
+      'stopWeb3Polling',
+      'refreshUser',
+      'setInfoMsg',
     ]),
     async handleEmailSignIn() {
       const result = await firebaseHandleSignInEmailLink();
@@ -124,13 +139,17 @@ export default {
         firebaseIdToken: result.firebaseIdToken,
         platform: 'email',
         locale: this.getCurrentLocale,
-        wallet: this.wallet,
       };
       this.sendRegisterToServer(payload);
     },
     async onClickLogin(platform) {
       if (platform === 'email') {
         await firebaseSendSignInEmail({ likecoinId: this.likecoinId });
+      } else if (platform === 'wallet') {
+        const isStarted = await this.startWeb3Polling();
+        if (!isStarted) {
+          this.handleWalletSignIn();
+        }
       } else {
         const { accessToken, secret, firebaseIdToken } = await firebasePlatformSignIn(platform);
         const payload = {
@@ -140,7 +159,6 @@ export default {
           firebaseIdToken,
           platform,
           locale: this.getCurrentLocale,
-          wallet: this.wallet,
         };
         this.sendRegisterToServer(payload);
       }
@@ -150,16 +168,27 @@ export default {
       const router = this.$router;
       this.doPostAuthRedirect({ router });
     },
-    setBindWallet() {
-      this.wallet = EthHelper.getWallet();
-      if (this.getMetamaskError) {
-        this.isBindWallet = false;
-        EthHelper.disableWeb3();
-      }
-      if (this.isBindWallet && !this.wallet) {
-        setTimeout(() => this.setBindWallet(), 2000);
-      } else {
-        this.stopLoading();
+    startBindWallet() {
+      this.startWeb3Polling();
+      this.isBindWallet = true;
+    },
+    async handleWalletSignIn() {
+      try {
+        const userInfo = {
+          avatarFile: this.avatarFile,
+          user: this.likecoinId.toLowerCase().trim(),
+          wallet: this.wallet,
+          email: this.email.toLowerCase().trim(),
+          isEmailEnabled: this.isEmailEnabled,
+          locale: this.getCurrentLocale,
+        };
+        const data = await User.formatAndSignUserInfo(userInfo, this.$t('Sign.Message.registerUser'));
+        await this.newUser({ ...data });
+        logTrackerEvent(this, 'RegFlow', 'CompleteRegistration', 'click confirm to create new account and the action success', 1);
+        await this.refreshUser(this.wallet);
+        this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${this.user}">${this.$t('Register.form.label.viewPage')}</a>`);
+      } catch (err) {
+        console.error(err);
       }
     },
   },
