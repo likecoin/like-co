@@ -167,7 +167,8 @@
                       ]"
                       :disabled="isP2pUnavailable
                         || getIsInTransaction
-                      || !isSupportTransferDeleteaged"
+                        || !isSupportTransferDeleteaged
+                      "
                       type="submit"
                       form="paymentInfo"
                     >
