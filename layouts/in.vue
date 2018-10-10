@@ -27,7 +27,10 @@
         </div>
 
         <!-- BEGIN - Tab bar section -->
-        <div class="lc-container-1">
+        <div
+          v-if="getUserInfo.wallet"
+          class="lc-container-1"
+        >
           <div class="underlay gray" />
           <md-tabs
             :md-active-tab="$route.name"
@@ -114,6 +117,7 @@ export default {
       'getCurrentLocaleISO',
       'getReferralMissionList',
       'getUserNeedAuth',
+      'getUserInfo',
     ]),
   },
   head() {

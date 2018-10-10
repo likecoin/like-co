@@ -1,5 +1,8 @@
 <template>
-  <div class="history-tab">
+  <div
+    v-if="getUserInfo.wallet"
+    class="history-tab"
+  >
 
     <!-- BEGIN - Completed Bonus Section -->
     <section class="lc-margin-top-48 lc-mobile">

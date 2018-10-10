@@ -100,7 +100,10 @@
                 </nuxt-link>
               </div>
 
-              <div class="address-field">
+              <div
+                v-if="wallet"
+                class="address-field"
+              >
                 <div class="address-title">
                   {{ $t('Settings.label.receiveLikeCoinLink') }}
                 </div>
@@ -209,6 +212,9 @@ export default {
       return this.getUserInfo.isEmailVerified;
     },
     likeCoinValueStr() {
+      if (!this.wallet) {
+        return 'No binded wallet';
+      }
       return (this.getUserLikeCoinAmountInBigNumber || 0).toFixed(4);
     },
     receiveLikeCoinLink() {

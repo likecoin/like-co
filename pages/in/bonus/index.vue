@@ -1,5 +1,8 @@
 <template>
-  <div class="bonus-tab">
+  <div
+    v-if="getUserInfo.wallet"
+    class="bonus-tab"
+  >
 
     <section class="lc-container-0">
       <div class="lc-container-1">
