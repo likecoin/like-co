@@ -27,6 +27,7 @@ export default {
 
 .md-progress-bar {
   position: fixed;
+
   width: 100%;
 }
 </style>
