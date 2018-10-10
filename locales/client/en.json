@@ -665,6 +665,20 @@
       "label": "No, thank you"
     }
   },
+  "AuthDialog": {
+    "SignIn": {
+      "title": "Sign in / Sign up",
+      "description": "Create an account to give like, blablabla.",
+      "label": {
+        "or": "or",
+        "with": "Sign in / Sign up with"
+      },
+      "button": {
+        "email": "Email",
+        "wallet": "Sign with Ethereum Wallet"
+      }
+    }
+  },
   "Toolbar": {
     "etherscan": {
       "button": {

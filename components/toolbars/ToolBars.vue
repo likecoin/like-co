@@ -2,6 +2,8 @@
   <no-ssr>
     <div class="toolbars">
 
+      <auth-dialog />
+
       <popup-dialog
         v-if="checkShouldShowError(getPopupError)"
         :allowClose="false"
@@ -124,6 +126,7 @@ import {
 import BlockerDialog from '~/components/dialogs/BlockerDialog';
 import ChromeDialog from '~/components/dialogs/ChromeDialog';
 import MetamaskDialog from '~/components/dialogs/MetamaskDialog';
+import AuthDialog from '~/components/dialogs/AuthDialog';
 import PopupDialog from '~/components/dialogs/PopupDialog';
 import TrustDialog from '~/components/dialogs/TrustDialog';
 import TxDialog from '~/components/dialogs/TxDialog';
@@ -138,6 +141,7 @@ export default {
     BlockerDialog,
     ChromeDialog,
     MetamaskDialog,
+    AuthDialog,
     PopupDialog,
     TrustDialog,
     TxDialog,

@@ -1,6 +1,8 @@
 <template>
   <div class="lc-layout">
 
+    <tool-bars />
+
     <div class="lc-page-wrapper with-sliding-menu">
 
       <sliding-menu />
@@ -48,12 +50,14 @@ import { mapGetters } from 'vuex';
 import MyFooter from '~/components/footer/Footer';
 import PlatformIconBar from '~/components/PlatformIconBar';
 import SlidingMenu from '~/components/SlidingMenu/index';
+import ToolBars from '~/components/toolbars/ToolBars';
 
 export default {
   components: {
     MyFooter,
     PlatformIconBar,
     SlidingMenu,
+    ToolBars,
   },
   computed: {
     ...mapGetters([
