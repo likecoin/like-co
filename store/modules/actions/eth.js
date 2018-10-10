@@ -5,7 +5,7 @@ import EthHelper from '@/util/EthHelper';
 
 export const startWeb3Polling = async ({ commit }) => {
   if (!EthHelper.getIsInited()) {
-    commit(types.ETH_START_WEB3_POLLING);
+    commit(types.ETH_SET_WEB3_POLLING, true);
     commit(types.UI_START_LOADING);
     EthHelper.pollForWeb3('window');
     return true;
@@ -14,6 +14,6 @@ export const startWeb3Polling = async ({ commit }) => {
 };
 
 export const stopWeb3Polling = ({ commit }) => {
-  commit(types.ETH_STOP_WEB3_POLLING);
+  commit(types.ETH_SET_WEB3_POLLING, false);
   commit(types.UI_STOP_LOADING);
 };
