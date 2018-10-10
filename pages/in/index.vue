@@ -2,6 +2,7 @@
   <div class="overview-page">
 
     <div
+      v-if="wallet"
       id="earn"
       class="bonus-container lc-container-0 lc-margin-top-48"
     >
@@ -89,7 +90,10 @@
       </div>
     </div>
 
-    <view-etherscan :address="wallet" />
+    <view-etherscan
+      v-if="wallet"
+      :address="wallet"
+    />
 
   </div>
 </template>
