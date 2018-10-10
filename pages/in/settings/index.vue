@@ -114,7 +114,7 @@
                     {{ $t('Register.form.walletAddress') }}:
                   </span>
                   <span class="content">
-                    {{ getUserInfo.wallet }}
+                    {{ getUserInfo.wallet || 'No Binded Wallet' }}
                   </span>
                 </div>
 
@@ -217,6 +217,7 @@
     </div>
 
     <div
+      v-if="getUserInfo.wallet"
       id="coupon"
       class="lc-container-0 lc-margin-top-48 lc-mobile"
     >

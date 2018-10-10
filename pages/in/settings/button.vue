@@ -77,7 +77,10 @@
           </div>
 
 
-          <div class="lc-container-3 lc-margin-top-24 lc-bg-gray-1">
+          <div
+            v-if="getUserInfo.wallet"
+            class="lc-container-3 lc-margin-top-24 lc-bg-gray-1"
+          >
             <div class="like-button-settings__header">
               <h1>{{ $t('Settings.label.yourLikeButton') }}</h1>
             </div>
@@ -196,6 +199,14 @@
                   </md-button>
                 </div>
               </form>
+            </div>
+          </div>
+          <div
+            v-else
+            class="lc-container-3 lc-margin-top-24 lc-bg-gray-1"
+          >
+            <div>
+              You have not binded to any wallet yet. Please bind one to activate your LikeButton.
             </div>
           </div>
         </div>
