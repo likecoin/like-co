@@ -67,26 +67,13 @@ export default {
   },
   methods: {
     ...mapActions([
-      'showLoginWindow',
+      'setAuthDialog',
     ]),
     onSignUpClick() {
       if (this.getUserIsRegistered) {
         this.$router.push({ name: 'in' });
-      } else if (this.getUserNeedAuth) {
-        if (this.$route.name === 'index') {
-          this.$router.push({ name: 'in' });
-        } else {
-          this.showLoginWindow();
-        }
       } else {
-        let ref = '';
-        if (this.$route.name === 'index') {
-          ref = 'in';
-        }
-        this.$router.push({
-          name: 'in-register',
-          query: { ...this.$route.query, ref },
-        });
+        this.setAuthDialog({ isShow: true });
       }
     },
     getTestAttribute: getTestAttribute('homeHeader'),

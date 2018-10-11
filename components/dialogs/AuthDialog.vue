@@ -1,6 +1,6 @@
 <template>
   <base-dialog
-    :is-show="true"
+    :is-show="getIsShowAuthDialog"
     :md-props="{
       mdClickOutsideToClose: true,
       mdCloseOnEsc: true,
@@ -43,6 +43,8 @@
 
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
+
 import BaseDialog from '~/components/dialogs/BaseDialog';
 import SignInForm from './AuthDialogContent/SignIn';
 import RegisterForm from './AuthDialogContent/Register';
@@ -78,13 +80,14 @@ export default {
   },
   data() {
     return {
-      isShowDialog: this.isShow,
-
       currentTabIndex: 0,
       contentStyle: {},
     };
   },
   computed: {
+    ...mapGetters([
+      'getIsShowAuthDialog',
+    ]),
     tabContainerStyle() {
       const translateXPercent = Math.max(this.currentTabIndex, 0) * -100;
       return {
@@ -93,12 +96,6 @@ export default {
     },
   },
   watch: {
-    isShow(isShow) {
-      this.isShowDialog = isShow;
-    },
-    isShowDialog(isShowDialog) {
-      this.$emit('update:isShow', isShowDialog);
-    },
     currentTabIndex(index) {
       this.setContentStyle(index);
     },
@@ -108,6 +105,9 @@ export default {
     this.setContentStyle(this.currentTabIndex);
   },
   methods: {
+    ...mapActions([
+      'setAuthDialog',
+    ]),
     setContentStyle(index) {
       const style = {};
 
@@ -140,7 +140,7 @@ export default {
       this.$emit('closed');
     },
     onUpdateIsShow(isShow) {
-      this.isShowDialog = isShow;
+      this.setAuthDialog({ isShow });
     },
   },
 };

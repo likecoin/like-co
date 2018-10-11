@@ -25,6 +25,7 @@ import {
   UI_CLOSE_SLIDING_MENU,
   UI_SET_PROMPT_NOTIFICATION_DIALOG,
   UI_SET_SIGN_PAYLOAD_OBJECT,
+  UI_SET_AUTH_DIALOG,
 } from '../mutation-types';
 import * as getters from './getters/ui';
 import * as actions from './actions/ui';
@@ -53,6 +54,7 @@ const state = {
   txDialogActionRoute: null,
   txDialogActionText: '',
   isShowingPromptNotificationDialog: false,
+  isShowAuthDialog: false,
 };
 
 const mutations = {
@@ -153,6 +155,9 @@ const mutations = {
   },
   [UI_SET_PROMPT_NOTIFICATION_DIALOG](state, payload) {
     state.isShowingPromptNotificationDialog = payload;
+  },
+  [UI_SET_AUTH_DIALOG](state, payload) {
+    state.isShowAuthDialog = !!payload.isShow;
   },
 };
 

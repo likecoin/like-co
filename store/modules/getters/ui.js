@@ -56,3 +56,5 @@ export const getIsSlidingMenuOpen = state => state.isSlidingMenuOpen;
 
 /* eslint-disable-next-line max-len */
 export const getIsShowingPromptNotificationDialog = state => state.isShowingPromptNotificationDialog;
+
+export const getIsShowAuthDialog = state => state.isShowAuthDialog;

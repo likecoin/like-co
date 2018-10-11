@@ -105,3 +105,7 @@ export async function setNotification({ commit, dispatch }, payload) {
     throw error;
   }
 }
+
+export const setAuthDialog = ({ commit }, payload) => {
+  commit(types.UI_SET_AUTH_DIALOG, payload);
+};
