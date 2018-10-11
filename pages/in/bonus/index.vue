@@ -4,7 +4,10 @@
     class="bonus-tab"
   >
 
-    <section class="lc-container-0">
+    <section
+      v-if="isShowReferralSection"
+      class="lc-container-0"
+    >
       <div class="lc-container-1">
         <div class="lc-container-2">
           <div class="lc-container-3">
@@ -177,6 +180,7 @@
 
     <!-- BEGIN - Referral Section -->
     <section
+      v-if="isShowReferralSection"
       id="referral"
       class="referral-form-section lc-margin-top-48 lc-mobile"
     >
@@ -283,6 +287,7 @@ export default {
       referralPending: 0,
       referralVerified: 0,
       user: '',
+      isShowReferralSection: false,
     };
   },
   computed: {
