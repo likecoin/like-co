@@ -115,6 +115,13 @@ export default {
   mounted() {
     // Hack to recompute contentStyle
     this.setContentStyle(this.currentTabIndex);
+
+    if (this.$route.query.show_login === 'true') {
+      this.setIsShow(true);
+      const query = { ...this.$route.query };
+      delete query.show_login;
+      this.$router.replace({ path: this.$route.path, query });
+    }
   },
   methods: {
     ...mapActions([
