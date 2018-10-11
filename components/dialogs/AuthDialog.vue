@@ -9,7 +9,7 @@
       mdClickOutside: onClosed,
     }"
     class="auth-dialog"
-    @update:isShow="onUpdateIsShow"
+    @update:isShow="setIsShow"
   >
 
     <md-button @click="prevTab">Prev</md-button>
@@ -27,12 +27,12 @@
 
         <div class="auth-dialog__tab">
           <div class="lc-dialog-container-1">
-            <sign-in-form />
+            <sign-in-form @sign="signWithPlaform" />
           </div>
         </div>
 
         <div class="auth-dialog__tab">
-          <register-form />
+          <register-form @register="register" />
         </div>
 
       </div>
@@ -44,6 +44,15 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+
+import {
+  apiLoginUser,
+  apiPostNewUser,
+} from '@/util/api/api';
+
+import {
+  firebasePlatformSignIn,
+} from '~/util/FirebaseApp';
 
 import BaseDialog from '~/components/dialogs/BaseDialog';
 import SignInForm from './AuthDialogContent/SignIn';
@@ -82,11 +91,14 @@ export default {
     return {
       currentTabIndex: 0,
       contentStyle: {},
+
+      signInPayload: {},
     };
   },
   computed: {
     ...mapGetters([
       'getIsShowAuthDialog',
+      'getCurrentLocale',
     ]),
     tabContainerStyle() {
       const translateXPercent = Math.max(this.currentTabIndex, 0) * -100;
@@ -107,6 +119,7 @@ export default {
   methods: {
     ...mapActions([
       'setAuthDialog',
+      'refreshUser',
     ]),
     setContentStyle(index) {
       const style = {};
@@ -127,20 +140,71 @@ export default {
       this.currentTabIndex = Math.max(this.currentTabIndex - 1, 0);
     },
     onConfirm() {
-      this.isShowDialog = false;
+      this.setIsShow(false);
       this.$emit('confirm');
       this.onClosed();
     },
     onCancel() {
-      this.isShowDialog = false;
+      this.setIsShow(false);
       this.$emit('cancel');
       this.onClosed();
     },
     onClosed() {
       this.$emit('closed');
     },
-    onUpdateIsShow(isShow) {
+    setIsShow(isShow) {
       this.setAuthDialog({ isShow });
+    },
+    async signWithPlaform(platform) {
+      if (platform === 'email') {
+        // TODO
+      } else if (platform === 'wallet') {
+        // TODO
+      } else {
+        const {
+          accessToken,
+          firebaseIdToken,
+          secret,
+        } = await firebasePlatformSignIn(platform);
+
+        this.signInPayload = {
+          accessToken,
+          firebaseIdToken,
+          secret,
+          platform,
+          locale: this.getCurrentLocale,
+        };
+
+        try {
+          await apiLoginUser(this.signInPayload);
+          this.redirectToUserPage();
+        } catch (err) {
+          console.error(err);
+          // TODO: Check error
+          // Assume it is 404
+          this.currentTabIndex = 1;
+        }
+      }
+    },
+    async register(payload) {
+      const combinedPayload = {
+        ...payload,
+        ...this.signInPayload,
+        locale: this.getCurrentLocale,
+      };
+
+      try {
+        await apiPostNewUser(combinedPayload);
+        this.redirectToUserPage();
+      } catch (err) {
+        console.error(err);
+        // TODO: Error handling
+      }
+    },
+    async redirectToUserPage() {
+      this.setIsShow(false);
+      await this.refreshUser();
+      this.$router.push({ name: 'in' });
     },
   },
 };

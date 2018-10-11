@@ -76,8 +76,7 @@ export default {
   },
   methods: {
     onSignInWith(platform) {
-      // TODO
-      console.log(platform);
+      this.$emit('sign', platform);
     },
   },
 };
