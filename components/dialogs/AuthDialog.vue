@@ -32,7 +32,7 @@
         </div>
 
         <div class="auth-dialog__tab">
-          Welcome
+          <register-form />
         </div>
 
       </div>
@@ -45,12 +45,14 @@
 <script>
 import BaseDialog from '~/components/dialogs/BaseDialog';
 import SignInForm from './AuthDialogContent/SignIn';
+import RegisterForm from './AuthDialogContent/Register';
 
 export default {
   name: 'auth-dialog',
   components: {
     BaseDialog,
     SignInForm,
+    RegisterForm,
   },
   props: {
     isShow: {

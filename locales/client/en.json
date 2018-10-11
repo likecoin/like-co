@@ -677,6 +677,12 @@
         "email": "Email",
         "wallet": "Sign with Ethereum Wallet"
       }
+    },
+    "Register": {
+      "title": "Welcome",
+      "button": {
+        "uploadAvatar": "Upload avatar"
+      }
     }
   },
   "Toolbar": {
