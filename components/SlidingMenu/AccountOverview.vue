@@ -14,7 +14,7 @@
     </div>
 
     <div
-      v-if="usdStrValue"
+      v-if="usdStrValue && getUserInfo.wallet"
       class="account-overview__account lc-padding-bottom-32"
     >
       <div class="account-overview__like-amount">
@@ -26,6 +26,10 @@
         (USD {{ usdStrValue }})
       </div>
     </div>
+    <div
+      v-else
+      class="account-overview__account lc-padding-bottom-48"
+    />
 
     <div class="account-overview__cta-wrapper lc-text-align-center">
       <div @click="closeSlidingMenu">
