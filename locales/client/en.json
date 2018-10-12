@@ -1039,7 +1039,7 @@
         "medium": "Medium only",
         "wp": "WordPress only"
       },
-      "supportFavContent": "LikeBacker – Support your favourite content",
+      "supportFavContent": "Civic Liker - supporting content creation",
       "backerDesc": "By adding the LikeButton to your creative content, The quick, brown fox jumps over a lazy dog.",
       "active": "Active Subscription"
     },
@@ -1054,7 +1054,7 @@
       "install": "Install",
       "createStory": "Create Story",
       "addCustomLink": "Add custom link",
-      "becomeBacker": "Become a LikeBacker",
+      "becomeBacker": "Be a Civic Liker",
       "cancelSubscription": "Cancel Subscription"
     },
     "placeholder": {
