@@ -31,8 +31,18 @@
           </div>
         </div>
 
+        <div
+          v-if="platform === 'email' && !email"
+          class="auth-dialog__tab"
+        >
+          <sign-in-with-email-form @submit="signInWithEmail" />
+        </div>
+
         <div class="auth-dialog__tab">
-          <register-form @register="register" />
+          <register-form
+            :is-show-email="!email"
+            @register="register"
+          />
         </div>
 
       </div>
@@ -52,10 +62,14 @@ import {
 
 import {
   firebasePlatformSignIn,
+  firebaseSendSignInEmail,
+  firebaseIsSignInEmailLink,
+  firebaseHandleSignInEmailLink,
 } from '~/util/FirebaseApp';
 
 import BaseDialog from '~/components/dialogs/BaseDialog';
 import SignInForm from './AuthDialogContent/SignIn';
+import SignInWithEmailForm from './AuthDialogContent/SignInWithEmail';
 import RegisterForm from './AuthDialogContent/Register';
 
 export default {
@@ -63,6 +77,7 @@ export default {
   components: {
     BaseDialog,
     SignInForm,
+    SignInWithEmailForm,
     RegisterForm,
   },
   props: {
@@ -93,6 +108,8 @@ export default {
       contentStyle: {},
 
       signInPayload: {},
+      platform: '',
+      isEmailSignIn: false,
     };
   },
   computed: {
@@ -112,7 +129,7 @@ export default {
       this.setContentStyle(index);
     },
   },
-  mounted() {
+  async mounted() {
     // Hack to recompute contentStyle
     this.setContentStyle(this.currentTabIndex);
 
@@ -121,6 +138,24 @@ export default {
       const query = { ...this.$route.query };
       delete query.show_login;
       this.$router.replace({ path: this.$route.path, query });
+    }
+
+    if (firebaseIsSignInEmailLink()) {
+      this.setIsShow(true);
+      // Show login status
+      const result = await firebaseHandleSignInEmailLink();
+
+      if (result && result.firebaseIdToken && result.email) {
+        this.platform = 'email';
+        this.email = result.email;
+        this.signInPayload = {
+          email: result.email,
+          firebaseIdToken: result.firebaseIdToken,
+          platform: 'email',
+          locale: this.getCurrentLocale,
+        };
+        this.login(this.signInPayload);
+      }
     }
   },
   methods: {
@@ -163,8 +198,9 @@ export default {
       this.setAuthDialog({ isShow });
     },
     async signWithPlaform(platform) {
+      this.platform = platform;
       if (platform === 'email') {
-        // TODO
+        this.currentTabIndex = 1;
       } else if (platform === 'wallet') {
         // TODO
       } else {
@@ -182,15 +218,23 @@ export default {
           locale: this.getCurrentLocale,
         };
 
-        try {
-          await apiLoginUser(this.signInPayload);
-          this.redirectToUserPage();
-        } catch (err) {
-          console.error(err);
-          // TODO: Check error
-          // Assume it is 404
-          this.currentTabIndex = 1;
-        }
+        this.login(this.signInPayload);
+      }
+    },
+    async signInWithEmail(email) {
+      this.email = email;
+      await firebaseSendSignInEmail(email);
+      // TODO: Notify user to check email
+    },
+    async login(payload) {
+      try {
+        await apiLoginUser(payload);
+        this.redirectToUserPage();
+      } catch (err) {
+        console.error(err);
+        // TODO: Check error
+        // Assume it is 404
+        this.currentTabIndex = 1;
       }
     },
     async register(payload) {

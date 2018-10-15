@@ -11,7 +11,10 @@
       <div class="user-fields">
         <div class="lc-dialog-container-1">
 
-          <div class="avatar-picker">
+          <div
+            v-if="isShowAvatar"
+            class="avatar-picker"
+          >
 
             <div class="avatar-picker__preview">
               <img
@@ -62,6 +65,7 @@
           </md-field>
 
           <md-field
+            v-if="isShowEmail"
             :class="[
               'lc-margin-top-12 lc-margin-bottom-24 lc-mobile',
               {
@@ -146,6 +150,16 @@ export default {
   components: {
     VueRecaptcha,
   },
+  props: {
+    isShowEmail: {
+      type: Boolean,
+      default: true,
+    },
+    isShowAvatar: {
+      type: Boolean,
+      default: true,
+    },
+  },
   data() {
     return {
       EmailIcon,
@@ -171,7 +185,10 @@ export default {
     ]),
     isFormValid() {
       const isIdValid = new RegExp(LIKECOIN_ID_REGEX).test(this.likeCoinId);
-      const isEmailValid = new RegExp(W3C_EMAIL_REGEX).test(this.email);
+      const isEmailValid = (
+        !this.isShowEmail
+        || new RegExp(W3C_EMAIL_REGEX).test(this.email)
+      );
       return this.isTermsAgreed && isEmailValid && isIdValid;
     },
   },

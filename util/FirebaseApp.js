@@ -65,15 +65,15 @@ export async function firebaseEmailLinkUser(email) {
     .currentUser.linkAndRetrieveDataWithCredential(credential);
 }
 
-export async function firebaseSendSignInEmail(email, payload) {
+export async function firebaseSendSignInEmail(email) {
   const actionCodeSettings = {
     url: window.location.href,
     handleCodeInApp: true,
   };
   await firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings);
   window.localStorage.setItem(
-    'emailSignInPayload',
-    JSON.Stringify({ ...payload, email }),
+    'emailForSignIn',
+    JSON.stringify({ email }),
   );
 }
 
@@ -82,14 +82,32 @@ export function firebaseIsSignInEmailLink() {
 }
 
 export async function firebaseHandleSignInEmailLink() {
-  const payload = window.localStorage.getItem('emailForSignIn');
-  if (payload && payload.email) {
-    await firebase.auth().signInWithEmailLink(payload.email, window.location.href);
-    const firebaseIdToken = await firebase.auth().currentUser.getIdToken();
-    window.localStorage.removeItem('emailForSignIn');
-    return { ...payload, firebaseIdToken };
+  let email;
+  try {
+    ({ email } = JSON.parse(window.localStorage.getItem('emailForSignIn')));
+  } catch (err) {
+    return null;
   }
-  return null;
+
+  if (!email) {
+    // User opened the link on a different device. To prevent session fixation
+    // attacks, ask the user to provide the associated email again.
+    // TODO
+    return null;
+  }
+
+  await firebase.auth()
+    .signInWithEmailLink(email, window.location.href)
+    .catch((err) => {
+      console.error(err);
+      // TODO: Handle error
+    });
+  const firebaseIdToken = await firebase.auth().currentUser.getIdToken();
+
+  // Clear email from storage.
+  window.localStorage.removeItem('emailForSignIn');
+
+  return { email, firebaseIdToken };
 }
 
 export default !firebase.apps.length ? firebase.initializeApp(config) : firebase.app();
