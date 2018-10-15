@@ -75,7 +75,8 @@ router.post('/users/new', apiLimiter, multer.single('avatar'), async (req, res, 
         payload: stringPayload,
         sign,
       } = req.body;
-      payload = checkSignPayload(from, stringPayload, sign);
+      const isLogin = false;
+      payload = checkSignPayload(from, stringPayload, sign, isLogin);
     } else {
       const { firebaseIdToken } = req.body;
       ({ uid: firebaseUserId } = await admin.auth().verifyIdToken(firebaseIdToken));
@@ -319,7 +320,8 @@ router.post('/users/login', async (req, res, next) => {
         sign,
       } = req.body;
       wallet = from;
-      checkSignPayload(wallet, stringPayload, sign);
+      const isLogin = true;
+      checkSignPayload(wallet, stringPayload, sign, isLogin);
       const query = await dbRef.where('wallet', '==', wallet).get();
       if (query.docs.length > 0) {
         user = query.docs[0].id;
@@ -364,7 +366,8 @@ router.post('/users/login/add', jwtAuth('write'), async (req, res, next) => {
         sign,
       } = req.body;
       const wallet = from;
-      const payload = checkSignPayload(wallet, stringPayload, sign);
+      const isLogin = false;
+      const payload = checkSignPayload(wallet, stringPayload, sign, isLogin);
       if (payload !== user) throw new ValidationError('WALLET_NOT_MATCH');
       const query = await dbRef.where('wallet', '==', wallet).get();
       if (query.docs.length > 0) throw new ValidationError('WALLET_ALREADY_USED');

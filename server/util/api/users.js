@@ -60,10 +60,13 @@ export async function clearAuthCookies(req, res) {
   res.clearCookie('likecoin_auth', AUTH_COOKIE_OPTION);
 }
 
-export function checkSignPayload(from, payload, sign) {
+export function checkSignPayload(from, payload, sign, isLogin) {
   const recovered = personalEcRecover(payload, sign);
   if (recovered.toLowerCase() !== from.toLowerCase()) {
     throw new ValidationError('RECOVEREED_ADDRESS_NOT_MATCH');
+  }
+  if (isLogin) {
+    return payload;
   }
   // trims away sign message header before JSON
   const message = web3.utils.hexToUtf8(payload);
