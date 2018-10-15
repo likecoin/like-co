@@ -70,6 +70,7 @@ import { mapActions, mapGetters } from 'vuex';
 import {
   apiLoginUser,
   apiPostNewUser,
+  apiCheckIsUser,
 } from '@/util/api/api';
 
 import {
@@ -83,6 +84,9 @@ import BaseDialog from '~/components/dialogs/BaseDialog';
 import SignInForm from './AuthDialogContent/SignIn';
 import SignInWithEmailForm from './AuthDialogContent/SignInWithEmail';
 import RegisterForm from './AuthDialogContent/Register';
+import EthMixin from '~/components/EthMixin';
+
+import User from '@/util/User';
 
 export default {
   name: 'auth-dialog',
@@ -92,6 +96,7 @@ export default {
     SignInWithEmailForm,
     RegisterForm,
   },
+  mixins: [EthMixin],
   props: {
     isShow: {
       type: Boolean,
@@ -113,6 +118,9 @@ export default {
     ...mapGetters([
       'getIsShowAuthDialog',
       'getCurrentLocale',
+      'getMetamaskError',
+      'getUserInfo',
+      'getLocalWallet',
     ]),
   },
   watch: {
@@ -121,6 +129,11 @@ export default {
         this.$nextTick(this.setContentHeight);
 
         this.currentTab = 'sign';
+      }
+    },
+    getUserInfo() {
+      if (this.getIsShowAuthDialog && this.getUserInfo.user) {
+        this.redirectToUserPage();
       }
     },
   },
@@ -157,6 +170,7 @@ export default {
     ...mapActions([
       'setAuthDialog',
       'refreshUser',
+      'showLoginWindow',
     ]),
     setContentHeight() {
       const elem = this.$refs[`${this.currentTab}Elem`];
@@ -187,7 +201,7 @@ export default {
       if (platform === 'email') {
         this.currentTab = 'email';
       } else if (platform === 'wallet') {
-        // TODO
+        this.startWeb3AndCb(this.handleWalletSignIn);
       } else {
         const {
           accessToken,
@@ -223,11 +237,15 @@ export default {
       }
     },
     async register(payload) {
-      const combinedPayload = {
+      let combinedPayload = {
         ...payload,
         ...this.signInPayload,
         locale: this.getCurrentLocale,
       };
+
+      if (combinedPayload.wallet) {
+        combinedPayload = await User.formatAndSignUserInfo(combinedPayload, this.$t('Sign.Message.registerUser'));
+      }
 
       try {
         await apiPostNewUser(combinedPayload);
@@ -241,6 +259,19 @@ export default {
       this.setIsShow(false);
       await this.refreshUser();
       this.$router.push({ name: 'in' });
+    },
+    async handleWalletSignIn() {
+      try {
+        await apiCheckIsUser(this.getLocalWallet);
+        await this.showLoginWindow();
+      } catch (err) {
+        // Assume it is 404
+        // prepare for wallet register
+        this.signInPayload = {
+          wallet: this.getLocalWallet,
+        };
+        this.currentTab = 'register';
+      }
     },
   },
 };
