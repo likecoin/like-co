@@ -12,40 +12,52 @@
     @update:isShow="setIsShow"
   >
 
-    <md-button @click="prevTab">Prev</md-button>
-    <md-button @click="nextTab">Next</md-button>
-
     <div
       :style="contentStyle"
       class="auth-dialog__content"
     >
-      <div
-        ref="tabContainer"
-        :style="tabContainerStyle"
+      <transition-group
+        tag="div"
         class="auth-dialog__tab-container"
+        name="auth-dialog__tab--"
+        mode="out-in"
+        appear
+        appear-class="auth-dialog__tab--appear"
+        @enter="setContentHeight"
       >
-
-        <div class="auth-dialog__tab">
+        <div
+          v-if="currentTab === 'sign'"
+          ref="signElem"
+          key="sign"
+          class="auth-dialog__tab"
+        >
           <div class="lc-dialog-container-1">
             <sign-in-form @sign="signWithPlaform" />
           </div>
         </div>
 
         <div
-          v-if="platform === 'email' && !email"
+          v-else-if="currentTab === 'email'"
+          ref="emailElem"
+          key="signWithEmail"
           class="auth-dialog__tab"
         >
           <sign-in-with-email-form @submit="signInWithEmail" />
         </div>
 
-        <div class="auth-dialog__tab">
+        <div
+          v-else-if="currentTab === 'register'"
+          ref="registerElem"
+          key="register"
+          class="auth-dialog__tab"
+        >
           <register-form
             :is-show-email="!email"
             @register="register"
           />
         </div>
+      </transition-group>
 
-      </div>
     </div>
 
   </base-dialog>
@@ -85,30 +97,15 @@ export default {
       type: Boolean,
       default: false,
     },
-    header: {
-      type: String,
-      default: '',
-    },
-    message: {
-      type: String,
-      default: '',
-    },
-    confirmText: {
-      type: String,
-      default: '',
-    },
-    cancelText: {
-      type: String,
-      default: '',
-    },
   },
   data() {
     return {
-      currentTabIndex: 0,
+      currentTab: 'sign',
       contentStyle: {},
 
       signInPayload: {},
       platform: '',
+      email: '',
       isEmailSignIn: false,
     };
   },
@@ -117,21 +114,19 @@ export default {
       'getIsShowAuthDialog',
       'getCurrentLocale',
     ]),
-    tabContainerStyle() {
-      const translateXPercent = Math.max(this.currentTabIndex, 0) * -100;
-      return {
-        transform: `translateX(${translateXPercent}%)`,
-      };
-    },
   },
   watch: {
-    currentTabIndex(index) {
-      this.setContentStyle(index);
+    getIsShowAuthDialog(isShow) {
+      if (isShow) {
+        this.$nextTick(this.setContentHeight);
+
+        this.currentTab = 'sign';
+      }
     },
   },
   async mounted() {
     // Hack to recompute contentStyle
-    this.setContentStyle(this.currentTabIndex);
+    this.setContentHeight();
 
     if (this.$route.query.show_login === 'true') {
       this.setIsShow(true);
@@ -163,23 +158,13 @@ export default {
       'setAuthDialog',
       'refreshUser',
     ]),
-    setContentStyle(index) {
-      const style = {};
-
-      if (this.$refs.tabContainer) {
-        // Explicitly set height for height transition
-        const childNode = this.$refs.tabContainer.childNodes[index];
-        style.height = `${childNode.offsetHeight}px`;
+    setContentHeight() {
+      const elem = this.$refs[`${this.currentTab}Elem`];
+      if (elem) {
+        this.contentStyle = {
+          height: `${elem.offsetHeight}px`,
+        };
       }
-
-      this.contentStyle = style;
-    },
-    nextTab() {
-      const max = this.$refs.tabContainer.childNodes.length - 1;
-      this.currentTabIndex = Math.min(this.currentTabIndex + 1, max);
-    },
-    prevTab() {
-      this.currentTabIndex = Math.max(this.currentTabIndex - 1, 0);
     },
     onConfirm() {
       this.setIsShow(false);
@@ -200,7 +185,7 @@ export default {
     async signWithPlaform(platform) {
       this.platform = platform;
       if (platform === 'email') {
-        this.currentTabIndex = 1;
+        this.currentTab = 'email';
       } else if (platform === 'wallet') {
         // TODO
       } else {
@@ -234,7 +219,7 @@ export default {
         console.error(err);
         // TODO: Check error
         // Assume it is 404
-        this.currentTabIndex = 1;
+        this.currentTab = 'register';
       }
     },
     async register(payload) {
@@ -275,25 +260,41 @@ export default {
   &__content {
     overflow: hidden;
 
-    transition: height 0.25s ease;
+    transition: height 1s ease;
     will-change: height;
   }
 
   &__tab-container {
     position: relative;
-
-    display: flex;
-    align-items: flex-start;
-    flex-wrap: nowrap;
-
-    transition: transform 0.25s ease;
-    will-change: transform;
   }
 
   &__tab {
-    flex: 1 0 100%;
+    position: absolute;
 
     width: 100%;
+
+    transition-timing-function: ease;
+    transition-duration: 1s;
+    transition-property: opacity, transform;
+    will-change: opacity, transform;
+
+    &-- {
+      &appear,
+      &enter,
+      &leave-to {
+        opacity: 0;
+      }
+
+      &appear {
+        transform: translateY(25%) scaleY(1.2);
+      }
+      &enter {
+        transform: translateX(50%);
+      }
+      &leave-to {
+        transform: translateX(-50%);
+      }
+    }
   }
 }
 </style>
