@@ -2,7 +2,7 @@
   <div class="overview-page">
 
     <div
-      v-if="wallet"
+      v-if="isWallet"
       id="earn"
       class="bonus-container lc-container-0 lc-margin-top-48"
     >
@@ -68,13 +68,31 @@
     </div>
 
     <transaction-history
-      v-if="wallet"
+      v-if="isWallet"
       id="transaction"
       ref="txHistory"
       :address="wallet"
       :is-fetching.sync="isFetchingTranscationHistory"
       class="lc-margin-top-48 lc-mobile"
     />
+
+    <!-- !! UI for user without wallet !! -->
+    <section class="lc-container-0">
+      <div class="lc-container-1">
+        <div class="lc-container-2">
+          <div class="lc-container-3">
+            <div class="lc-container-4">
+              <like-button-intro-min
+                v-if="!isWallet"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- !! UI for user without wallet !! -->
 
     <div class="lc-container-0 lc-margin-top-24 lc-mobile-show">
       <div class="lc-container-1">
@@ -91,7 +109,7 @@
     </div>
 
     <view-etherscan
-      v-if="wallet"
+      v-if="isWallet"
       :address="wallet"
     />
 
@@ -101,12 +119,11 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-import LikeCoinAmount from '~/components/LikeCoinAmount';
-import MaterialButton from '~/components/MaterialButton';
 import MissionList from '@/components/Mission/List';
 import TransactionHistory from '~/components/TransactionHistory';
 import RefreshButton from '~/components/RefreshButton';
 import ViewEtherscan from '~/components/ViewEtherscan';
+import LikeButtonIntroMin from '~/components/LikeButtonIntroMin';
 
 import EditIcon from '@/assets/icons/edit.svg';
 import EditWhiteIcon from '@/assets/icons/edit-white.svg';
@@ -117,12 +134,11 @@ export default {
   name: 'in',
   layout: 'in',
   components: {
-    LikeCoinAmount,
-    MaterialButton,
     MissionList,
     TransactionHistory,
     RefreshButton,
     ViewEtherscan,
+    LikeButtonIntroMin,
   },
   data() {
     return {
@@ -145,6 +161,9 @@ export default {
       'getUserIsRegistered',
       'getShortMissionList',
     ]),
+    isWallet() {
+      return !!this.wallet;
+    },
   },
   head() {
     return {
