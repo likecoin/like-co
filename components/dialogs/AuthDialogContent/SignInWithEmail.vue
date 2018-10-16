@@ -1,9 +1,12 @@
 <template>
-  <div class="sign-in-with-email-form">
+  <div class="signin-with-email-form">
     <div class="lc-dialog-container-1">
       <h1 class="lc-font-size-32 lc-margin-bottom-8">
-        {{ $t('AuthDialog.SignIn.title') }}
+        {{ $t('AuthDialog.SignInWithEmail.title') }}
       </h1>
+      <p class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-32">
+        {{ $t('AuthDialog.SignInWithEmail.description') }}
+      </p>
     </div>
 
     <form @submit.prevent="onSubmit">
@@ -12,7 +15,7 @@
         <div class="lc-dialog-container-1">
 
           <md-field class="lc-margin-top-12 lc-margin-bottom-24 lc-mobile">
-            <label>{{ $t('Register.form.email') }}</label>
+            <label>{{ $t('AuthDialog.SignInWithEmail.label.email') }}</label>
             <md-input
               v-model="email"
               :pattern="W3C_EMAIL_REGEX"
@@ -28,7 +31,7 @@
               class="md-likecoin"
               type="submit"
             >
-              {{ $t('General.button.confirm') }}
+              {{ $t('General.button.continue') }}
             </md-button>
           </div>
 
@@ -36,6 +39,15 @@
       </div>
 
     </form>
+
+    <div class="lc-dialog-container-1 lc-margin-top-24 lc-text-align-center">
+      <a
+        class="lc-color-like-gray-4 lc-font-size-12 lc-underline"
+        @click="$emit('cancel')"
+      >
+        {{ $t('AuthDialog.SignInWithEmail.button.back') }}
+      </a>
+    </div>
 
   </div>
 </template>
@@ -46,7 +58,7 @@ import {
 } from '@/constant';
 
 export default {
-  name: 'email-login-form',
+  name: 'signin-with-email-form',
   data() {
     return {
       W3C_EMAIL_REGEX,

@@ -19,35 +19,54 @@
       <transition-group
         tag="div"
         class="auth-dialog__tab-container"
-        name="auth-dialog__tab--"
-        mode="out-in"
+        name="auth-dialog__tab-"
         appear
         appear-class="auth-dialog__tab--appear"
         @enter="setContentHeight"
       >
+
         <div
-          v-if="currentTab === 'sign'"
-          ref="signElem"
-          key="sign"
+          v-if="currentTab === 'portal'"
+          ref="portal"
+          key="portal"
+          class="auth-dialog__tab auth-dialog__tab--index"
+        >
+          <signin-portal @submit="signInWithPlatform" />
+        </div>
+
+        <div
+          v-else-if="currentTab === 'loading'"
+          ref="loading"
+          key="loading"
           class="auth-dialog__tab"
         >
           <div class="lc-dialog-container-1">
-            <sign-in-form @sign="signWithPlaform" />
+            <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-text-align-center">
+              {{ $t('AuthDialog.label.loading') }}
+            </h1>
           </div>
         </div>
 
         <div
           v-else-if="currentTab === 'email'"
-          ref="emailElem"
-          key="signWithEmail"
-          class="auth-dialog__tab"
+          ref="email"
+          key="email"
+          :class="[
+            'auth-dialog__tab',
+            {
+              'auth-dialog__tab--index': currentTab === 'checkInbox',
+            },
+          ]"
         >
-          <sign-in-with-email-form @submit="signInWithEmail" />
+          <email-signin-form
+            @submit="signInWithEmail"
+            @cancel="currentTab = 'portal'"
+          />
         </div>
 
         <div
           v-else-if="currentTab === 'register'"
-          ref="registerElem"
+          ref="register"
           key="register"
           class="auth-dialog__tab"
         >
@@ -56,6 +75,64 @@
             @register="register"
           />
         </div>
+
+        <div
+          v-else-if="currentTab === 'signingIn'"
+          ref="signingIn"
+          key="signingIn"
+          class="auth-dialog__tab"
+        >
+          <div class="lc-dialog-container-1">
+            <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-text-align-center">
+              {{ $t('AuthDialog.label.signingIn') }}
+            </h1>
+          </div>
+        </div>
+
+        <div
+          v-else-if="currentTab === 'signInError'"
+          ref="signInError"
+          key="signInError"
+          class="auth-dialog__tab"
+        >
+          <div class="lc-dialog-container-1">
+            {{ $t('AuthDialog.label.signInError') }}
+          </div>
+
+          <div class="lc-dialog-container-1 lc-button-group">
+            <md-button
+              class="md-likecoin"
+              @click="setIsShow(false)"
+            >
+              {{ $t('General.button.confirm') }}
+            </md-button>
+          </div>
+        </div>
+
+        <div
+          v-else-if="currentTab === 'checkInbox'"
+          ref="checkInbox"
+          key="checkInbox"
+          class="auth-dialog__tab"
+        >
+          <div class="lc-dialog-container-1">
+            <h1 class="lc-font-size-32 lc-margin-bottom-8">
+              {{ $t('AuthDialog.label.checkInbox') }}
+            </h1>
+            <p class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-32">
+              {{ $t('AuthDialog.label.checkInboxDescription', { email }) }}
+            </p>
+          </div>
+          <div class="lc-dialog-container-1 lc-button-group">
+            <md-button
+              class="md-likecoin"
+              @click="setIsShow(false)"
+            >
+              {{ $t('General.button.ok') }}
+            </md-button>
+          </div>
+        </div>
+
       </transition-group>
 
     </div>
@@ -81,8 +158,8 @@ import {
 } from '~/util/FirebaseApp';
 
 import BaseDialog from '~/components/dialogs/BaseDialog';
-import SignInForm from './AuthDialogContent/SignIn';
-import SignInWithEmailForm from './AuthDialogContent/SignInWithEmail';
+import SigninPortal from './AuthDialogContent/SignInPortal';
+import EmailSigninForm from './AuthDialogContent/SignInWithEmail';
 import RegisterForm from './AuthDialogContent/Register';
 import EthMixin from '~/components/EthMixin';
 
@@ -92,8 +169,8 @@ export default {
   name: 'auth-dialog',
   components: {
     BaseDialog,
-    SignInForm,
-    SignInWithEmailForm,
+    SigninPortal,
+    EmailSigninForm,
     RegisterForm,
   },
   mixins: [EthMixin],
@@ -105,7 +182,7 @@ export default {
   },
   data() {
     return {
-      currentTab: 'sign',
+      currentTab: 'portal',
       contentStyle: {},
 
       signInPayload: {},
@@ -128,7 +205,7 @@ export default {
       if (isShow) {
         this.$nextTick(this.setContentHeight);
 
-        this.currentTab = 'sign';
+        this.currentTab = 'portal';
       }
     },
     getUserInfo() {
@@ -138,9 +215,9 @@ export default {
     },
   },
   async mounted() {
-    // Hack to recompute contentStyle
     this.setContentHeight();
 
+    // Remove show_login in query
     if (this.$route.query.show_login === 'true') {
       this.setIsShow(true);
       const query = { ...this.$route.query };
@@ -148,9 +225,11 @@ export default {
       this.$router.replace({ path: this.$route.path, query });
     }
 
+    // Check whether it is email sign in
     if (firebaseIsSignInEmailLink()) {
+      this.currentTab = 'signingIn';
       this.setIsShow(true);
-      // Show login status
+
       const result = await firebaseHandleSignInEmailLink();
 
       if (result && result.firebaseIdToken && result.email) {
@@ -162,7 +241,9 @@ export default {
           platform: 'email',
           locale: this.getCurrentLocale,
         };
-        this.login(this.signInPayload);
+        this.login();
+      } else {
+        this.currentTab = 'signInError';
       }
     }
   },
@@ -173,7 +254,7 @@ export default {
       'showLoginWindow',
     ]),
     setContentHeight() {
-      const elem = this.$refs[`${this.currentTab}Elem`];
+      const elem = this.$refs[this.currentTab];
       if (elem) {
         this.contentStyle = {
           height: `${elem.offsetHeight}px`,
@@ -196,38 +277,39 @@ export default {
     setIsShow(isShow) {
       this.setAuthDialog({ isShow });
     },
-    async signWithPlaform(platform) {
+    async signInWithPlatform(platform) {
       this.platform = platform;
-      if (platform === 'email') {
-        this.currentTab = 'email';
-      } else if (platform === 'wallet') {
-        this.startWeb3AndCb(this.handleWalletSignIn);
-      } else {
-        const {
-          accessToken,
-          firebaseIdToken,
-          secret,
-        } = await firebasePlatformSignIn(platform);
 
-        this.signInPayload = {
-          accessToken,
-          firebaseIdToken,
-          secret,
-          platform,
-          locale: this.getCurrentLocale,
-        };
+      switch (platform) {
+        case 'email':
+          this.currentTab = 'email';
+          break;
 
-        this.login(this.signInPayload);
+        case 'wallet':
+          this.currentTab = 'loading';
+          this.startWeb3AndCb(this.handleWalletSignIn);
+          break;
+
+        default: {
+          this.signInPayload = await firebasePlatformSignIn(platform);
+          this.login();
+        }
       }
     },
     async signInWithEmail(email) {
       this.email = email;
+      this.currentTab = 'loading';
       await firebaseSendSignInEmail(email);
-      // TODO: Notify user to check email
+      this.currentTab = 'checkInbox';
     },
-    async login(payload) {
+    async login() {
+      this.currentTab = 'signingIn';
       try {
-        await apiLoginUser(payload);
+        await apiLoginUser({
+          locale: this.getCurrentLocale,
+          platform: this.platform,
+          ...this.signInPayload,
+        });
         this.redirectToUserPage();
       } catch (err) {
         console.error(err);
@@ -236,31 +318,41 @@ export default {
         this.currentTab = 'register';
       }
     },
-    async register(payload) {
-      let combinedPayload = {
-        ...payload,
-        ...this.signInPayload,
+    async register(registerPayload) {
+      this.currentTab = 'loading';
+
+      let payload = {
         locale: this.getCurrentLocale,
+        platform: this.platform,
+        ...this.signInPayload,
+        ...registerPayload,
       };
 
-      if (combinedPayload.wallet) {
-        combinedPayload = await User.formatAndSignUserInfo(combinedPayload, this.$t('Sign.Message.registerUser'));
+      // Request user to sign when using wallet to sign in
+      if (payload.wallet) {
+        payload = await User.formatAndSignUserInfo(
+          payload,
+          this.$t('Sign.Message.registerUser'),
+        );
       }
 
+      this.currentTab = 'signingIn';
       try {
-        await apiPostNewUser(combinedPayload);
+        await apiPostNewUser(payload);
         this.redirectToUserPage();
       } catch (err) {
         console.error(err);
-        // TODO: Error handling
+        this.currentTab = 'signInError';
       }
     },
     async redirectToUserPage() {
-      this.setIsShow(false);
+      this.currentTab = 'loading';
       await this.refreshUser();
+      this.setIsShow(false);
       this.$router.push({ name: 'in' });
     },
     async handleWalletSignIn() {
+      this.currentTab = 'signingIn';
       try {
         await apiCheckIsUser(this.getLocalWallet);
         await this.showLoginWindow();
@@ -319,11 +411,17 @@ export default {
       &appear {
         transform: translateY(25%) scaleY(1.2);
       }
+
       &enter {
-        transform: translateX(50%);
+        transform: scale(1.1) translateY(50%);
       }
+
+      &enter#{&}index {
+        transform: scale(0.8);
+      }
+
       &leave-to {
-        transform: translateX(-50%);
+        transform: scale(0.8) translateY(50%);
       }
     }
   }

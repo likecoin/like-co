@@ -1,5 +1,5 @@
 <template>
-  <div class="signin-form">
+  <div class="signin-portal lc-dialog-container-1">
     <h1 class="lc-font-size-32 lc-margin-bottom-8">
       {{ $t('AuthDialog.SignIn.title') }}
     </h1>
@@ -11,7 +11,7 @@
       {{ $t('AuthDialog.SignIn.label.with') }}
     </span>
 
-    <div class="signin-form__method-list lc-margin-top-12 lc-text-align-center">
+    <div class="signin-portal__method-list lc-margin-top-12 lc-text-align-center">
       <md-button
         class="md-likecoin google with-border lc-with-icon"
         @click="onSignInWith('google')"
@@ -65,7 +65,7 @@ import GoogleIcon from '@/assets/icons/google.svg';
 import TwitterIcon from '@/assets/icons/fillable/twitter.svg';
 
 export default {
-  name: 'sign-in-or-sign-up-form',
+  name: 'signin-portal',
   data() {
     return {
       EmailIcon,
@@ -76,7 +76,7 @@ export default {
   },
   methods: {
     onSignInWith(platform) {
-      this.$emit('sign', platform);
+      this.$emit('submit', platform);
     },
   },
 };
@@ -85,7 +85,7 @@ export default {
 <style lang="scss" scoped>
 @import '~assets/variables';
 
-.signin-form {
+.signin-portal {
   &__method-list {
     display: flex;
     flex-direction: column;

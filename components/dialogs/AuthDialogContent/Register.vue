@@ -132,24 +132,15 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import VueRecaptcha from 'vue-recaptcha';
 
 import {
   W3C_EMAIL_REGEX,
 } from '@/constant';
 
-import EmailIcon from '@/assets/icons/fillable/email.svg';
-import FacebookIcon from '@/assets/icons/fillable/facebook.svg';
-import GoogleIcon from '@/assets/icons/google.svg';
-import TwitterIcon from '@/assets/icons/fillable/twitter.svg';
-
 const LIKECOIN_ID_REGEX = '[a-z0-9-_]{7,20}';
 
 export default {
-  name: 'sign-in-or-sign-up-form',
-  components: {
-    VueRecaptcha,
-  },
+  name: 'register-form',
   props: {
     isShowEmail: {
       type: Boolean,
@@ -162,11 +153,6 @@ export default {
   },
   data() {
     return {
-      EmailIcon,
-      FacebookIcon,
-      GoogleIcon,
-      TwitterIcon,
-
       W3C_EMAIL_REGEX,
       LIKECOIN_ID_REGEX,
 

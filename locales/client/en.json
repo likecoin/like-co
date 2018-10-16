@@ -19,7 +19,8 @@
       "copied": "Copied",
       "done": "Done",
       "myAccount": "My Account",
-      "next": "Next"
+      "next": "Next",
+      "continue": "Continue"
     }
   },
   "Language": {
@@ -666,9 +667,16 @@
     }
   },
   "AuthDialog": {
+    "label": {
+      "loading": "Loading",
+      "signingIn": "Signing in",
+      "signInError": "Error occures when signing in",
+      "checkInbox": "Check your inbox",
+      "checkInboxDescription": "We just emailed a confirmation link to {email}. Click the link, and you’ll be signed in."
+    },
     "SignIn": {
       "title": "Sign in / Sign up",
-      "description": "Create an account to give like, blablabla.",
+      "description": "Create an account",
       "label": {
         "or": "or",
         "with": "Sign in / Sign up with"
@@ -676,6 +684,16 @@
       "button": {
         "email": "Email",
         "wallet": "Sign with Ethereum Wallet"
+      }
+    },
+    "SignInWithEmail": {
+      "title": "Sign in / Sign up",
+      "description": "Create an account",
+      "label": {
+        "email": "Your email"
+      },
+      "button": {
+        "back": "← All sign in options"
       }
     },
     "Register": {
