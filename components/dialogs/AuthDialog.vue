@@ -251,6 +251,7 @@ export default {
   methods: {
     ...mapActions([
       'setAuthDialog',
+      'setUserNeedAuth',
       'refreshUser',
       'showLoginWindow',
     ]),
@@ -311,6 +312,7 @@ export default {
           platform: this.platform,
           ...this.signInPayload,
         });
+        this.setUserNeedAuth(false);
         this.redirectToUserPage();
       } catch (err) {
         console.error(err);
@@ -340,6 +342,7 @@ export default {
       this.currentTab = 'signingIn';
       try {
         await apiPostNewUser(payload);
+        this.setUserNeedAuth(false);
         this.redirectToUserPage();
       } catch (err) {
         console.error(err);
