@@ -65,11 +65,26 @@
       <!-- END - User info section -->
 
       <like-coin-amount
+        v-if="wallet"
         :value="likeCoinValueStr"
         :linkText="$t('Home.Sale.button.earnCoin')"
         :linkTo="{ name: 'in-settings-button' }"
         class="likecoin-amount-section"
       />
+      <div
+        v-else
+        class="links"
+      >
+        <md-button
+          :to="{ name: 'in-settings-button' }"
+          class="link md-likecoin lc-text-align-center lc-font-weight-600 shadow"
+        >{{ $t('Settings.button.becomeBacker') }}</md-button>
+        <div
+          class="desc"
+        >
+          {{ $t('Settings.label.backerDesc') }}
+        </div>
+      </div>
 
       <input-dialog
         ref="inputDialog"
@@ -125,10 +140,16 @@
                 </div>
               </div>
 
-              <div class="address-field">
+              <div
+                v-if="wallet"
+                class="address-field"
+              >
                 {{ $t('Edit.label.accountConnection') }}
               </div>
-              <div class="lc-margin-vertical-8 lc-flex lc-align-items-center">
+              <div
+                v-if="wallet"
+                class="lc-margin-vertical-8 lc-flex lc-align-items-center"
+              >
                 <social-media-connect
                   v-if="getUserInfo.user"
                   :platforms="getUserSocialPlatforms"
@@ -495,6 +516,61 @@ $profile-icon-mobile-size: 88px;
 
     .md-button {
       min-width: 36px;
+    }
+  }
+}
+
+.links {
+  z-index: 1;
+
+  margin-top: -24px;
+
+  @media (min-width: #{768px + 1px}) {
+    align-self: flex-end;
+
+    width: calc(33.33% - 40px);
+    margin-right: #{40px + 8px};
+    margin-left: 66.6%;
+    margin-top: -60px;
+  }
+
+  @media (max-width: 768px) {
+    align-self: center;
+    text-align: center;
+
+    width: 100%;
+    padding: 0 24px;
+    margin-left: 0px;
+  }
+
+  .link {
+    width: 100%;
+    margin: 0;
+
+    transition: opacity .2s ease-in-out;
+
+    background-image: $like-linear-gradient-2;
+    &:not(:first-child) {
+      margin-top: 8px;
+    }
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    > a, span {
+      text-decoration: underline;
+    }
+  }
+
+  .desc {
+    text-align: center;
+    font-size: 12px;
+    color: $like-gray-5;
+    padding: 4px 8px;
+
+    @media (max-width: 768px) {
+      width: 100%;
     }
   }
 }
