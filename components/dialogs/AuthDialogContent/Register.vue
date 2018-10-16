@@ -1,5 +1,5 @@
 <template>
-  <div class="register-form">
+  <div class="register-form lc-padding-vertical-16">
     <div class="lc-dialog-container-1">
       <h1 class="lc-font-size-32 lc-margin-bottom-8">
         {{ $t('AuthDialog.Register.title') }}

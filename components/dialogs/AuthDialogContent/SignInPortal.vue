@@ -1,5 +1,5 @@
 <template>
-  <div class="signin-portal lc-dialog-container-1">
+  <div class="signin-portal lc-dialog-container-1 lc-padding-vertical-16">
     <h1 class="lc-font-size-32 lc-margin-bottom-8">
       {{ $t('AuthDialog.SignIn.title') }}
     </h1>

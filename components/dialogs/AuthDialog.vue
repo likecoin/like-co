@@ -9,6 +9,7 @@
       mdClickOutside: onClosed,
     }"
     class="auth-dialog"
+    is-content-gapless
     @update:isShow="setIsShow"
   >
 
@@ -38,7 +39,7 @@
           v-else-if="currentTab === 'loading'"
           ref="loading"
           key="loading"
-          class="auth-dialog__tab"
+          class="auth-dialog__tab lc-padding-vertical-64"
         >
           <div class="lc-dialog-container-1">
             <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-text-align-center">
@@ -52,7 +53,7 @@
           ref="email"
           key="email"
           :class="[
-            'auth-dialog__tab',
+            'auth-dialog__tab lc-padding-vertical-16',
             {
               'auth-dialog__tab--index': currentTab === 'checkInbox',
             },
@@ -68,7 +69,7 @@
           v-else-if="currentTab === 'register'"
           ref="register"
           key="register"
-          class="auth-dialog__tab"
+          class="auth-dialog__tab lc-padding-vertical-16"
         >
           <register-form
             :is-show-email="!email"
@@ -80,7 +81,7 @@
           v-else-if="currentTab === 'signingIn'"
           ref="signingIn"
           key="signingIn"
-          class="auth-dialog__tab"
+          class="auth-dialog__tab lc-padding-vertical-64"
         >
           <div class="lc-dialog-container-1">
             <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-text-align-center">
@@ -93,7 +94,7 @@
           v-else-if="currentTab === 'signInError'"
           ref="signInError"
           key="signInError"
-          class="auth-dialog__tab"
+          class="auth-dialog__tab lc-padding-vertical-16"
         >
           <div class="lc-dialog-container-1">
             {{ $t('AuthDialog.label.signInError') }}
@@ -113,7 +114,7 @@
           v-else-if="currentTab === 'checkInbox'"
           ref="checkInbox"
           key="checkInbox"
-          class="auth-dialog__tab"
+          class="auth-dialog__tab lc-padding-vertical-16"
         >
           <div class="lc-dialog-container-1">
             <h1 class="lc-font-size-32 lc-margin-bottom-8">
