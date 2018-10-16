@@ -289,7 +289,7 @@ export default {
 
         case 'wallet':
           this.currentTab = 'loading';
-          this.startWeb3AndCb(this.handleWalletSignIn);
+          this.startWeb3AndCb(this.signInWithWallet);
           break;
 
         default: {
@@ -355,18 +355,28 @@ export default {
       this.setIsShow(false);
       this.$router.push({ name: 'in' });
     },
-    async handleWalletSignIn() {
+    async signInWithWallet() {
       this.currentTab = 'signingIn';
+
+      // Determine whether the wallet has registered
       try {
         await apiCheckIsUser(this.getLocalWallet);
-        await this.showLoginWindow();
       } catch (err) {
         // Assume it is 404
-        // prepare for wallet register
+        // Redirect user to register
         this.signInPayload = {
           wallet: this.getLocalWallet,
         };
         this.currentTab = 'register';
+        return;
+      }
+
+      try {
+        this.signInPayload = await User.signLogin(this.getLocalWallet);
+        this.login();
+      } catch (err) {
+        // Return to login portal if user denied signing
+        this.currentTab = 'portal';
       }
     },
   },
