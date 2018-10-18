@@ -87,11 +87,43 @@
               />
             </div>
           </div>
+
+          <div
+            v-if="!isWallet"
+            class="
+              lc-container-3
+              lc-bg-gray-1
+              lc-container-no-padding-mobile
+              lc-margin-top-32
+              lc-padding-bottom-8"
+          >
+            <div
+              class="lc-container-4 lc-font-size-32 lc-font-weight-300 lc-mobile lc-padding-top-24"
+            >
+              {{ $t('In.mansory.title') }}
+              <div
+                class="lc-container-header-button-wrapper lc-mobile-hide lc-padding-top-24"
+              >
+                <refresh-button
+                  :is-refreshing="isFetchingLikeSuggestion"
+                  @click="refreshLikeSuggestion"
+                />
+              </div>
+            </div>
+            <div class="lc-container-4">
+              <mansory-article-list
+                class="lc-margin-vertical-24 lc-mobile"
+              />
+            </div>
+            <div class="lc-font-size-12 lc-font-weight-300 lc-text-align-center">
+              {{ $t('In.mansory.description') }}
+              <br>
+              <a href="../earn"> {{ $t('In.mansory.descriptionCTA') }} </a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
-
-
     <!-- !! UI for user without wallet !! -->
 
     <div class="lc-container-0 lc-margin-top-24 lc-mobile-show">
@@ -124,6 +156,7 @@ import TransactionHistory from '~/components/TransactionHistory';
 import RefreshButton from '~/components/RefreshButton';
 import ViewEtherscan from '~/components/ViewEtherscan';
 import LikeButtonIntroMin from '~/components/LikeButtonIntroMin';
+import MansoryArticleList from '~/components/home/MansoryArticleList';
 
 import EditIcon from '@/assets/icons/edit.svg';
 import EditWhiteIcon from '@/assets/icons/edit-white.svg';
@@ -139,6 +172,7 @@ export default {
     RefreshButton,
     ViewEtherscan,
     LikeButtonIntroMin,
+    MansoryArticleList,
   },
   data() {
     return {
@@ -148,6 +182,7 @@ export default {
       TickIcon,
       freeCoupon: '',
       isFetchingTranscationHistory: false,
+      isFetchingLikeSuggestion: false,
     };
   },
   computed: {
@@ -196,6 +231,7 @@ export default {
       'fetchUserReferralStats',
       'refreshMissionList',
       'onMissionClick',
+      'fetchLikeSuggestionList',
     ]),
     refreshMissions() {
       this.refreshMissionList(this.getUserInfo.user);
@@ -205,6 +241,11 @@ export default {
       this.wallet = user.wallet;
       if (this.$refs.txHistory) this.$refs.txHistory.updateTokenSaleHistory();
       this.refreshMissions();
+    },
+    async refreshLikeSuggestion() {
+      this.isFetchingLikeSuggestion = true;
+      await this.fetchLikeSuggestionList();
+      this.isFetchingLikeSuggestion = false;
     },
   },
 };
