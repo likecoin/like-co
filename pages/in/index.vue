@@ -157,6 +157,13 @@
             </div>
             <like-button-adopter />
           </div>
+
+          <div
+            v-if="!isWallet"
+            class="lc-margin-top-32"
+          >
+            <civic-liker-cta />
+          </div>
         </div>
       </div>
     </section>
@@ -194,6 +201,7 @@ import ViewEtherscan from '~/components/ViewEtherscan';
 import LikeButtonIntroMin from '~/components/LikeButtonIntroMin';
 import MansoryArticleList from '~/components/home/MansoryArticleList';
 import LikeButtonAdopter from '~/components/LikeButtonAdopter';
+import CivicLikerCta from '~/components/CivicLikerCta';
 
 import EditIcon from '@/assets/icons/edit.svg';
 import EditWhiteIcon from '@/assets/icons/edit-white.svg';
@@ -211,6 +219,7 @@ export default {
     LikeButtonIntroMin,
     MansoryArticleList,
     LikeButtonAdopter,
+    CivicLikerCta,
   },
   data() {
     return {
