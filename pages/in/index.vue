@@ -121,6 +121,42 @@
               <a href="../earn"> {{ $t('In.mansory.descriptionCTA') }} </a>
             </div>
           </div>
+
+          <div
+            v-if="!isWallet"
+            class="
+              lc-container-3
+              lc-bg-gray-1
+              lc-container-no-padding-mobile
+              lc-margin-top-32
+            "
+          >
+            <div class="lc-flex">
+              <div
+                class="
+                  lc-container-4
+                  lc-font-size-32
+                  lc-font-weight-300
+                  lc-mobile
+                  lc-padding-top-24
+                  in-button-adopter__title
+                "
+              >
+                {{ $t('In.likeButtonAdopter.title') }}
+              </div>
+              <div
+                class="
+                  lc-font-size-12
+                  lc-font-weight-300
+                  lc-padding-top-24
+                  in-button-adopter__cta
+                "
+              >
+                <a href="../earn"> {{ $t('In.likeButtonAdopter.descriptionCTA') }} </a>
+              </div>
+            </div>
+            <like-button-adopter />
+          </div>
         </div>
       </div>
     </section>
@@ -157,6 +193,7 @@ import RefreshButton from '~/components/RefreshButton';
 import ViewEtherscan from '~/components/ViewEtherscan';
 import LikeButtonIntroMin from '~/components/LikeButtonIntroMin';
 import MansoryArticleList from '~/components/home/MansoryArticleList';
+import LikeButtonAdopter from '~/components/LikeButtonAdopter';
 
 import EditIcon from '@/assets/icons/edit.svg';
 import EditWhiteIcon from '@/assets/icons/edit-white.svg';
@@ -173,6 +210,7 @@ export default {
     ViewEtherscan,
     LikeButtonIntroMin,
     MansoryArticleList,
+    LikeButtonAdopter,
   },
   data() {
     return {
@@ -280,6 +318,16 @@ export default {
     @media (min-width: 960 + 1px) {
       display: none;
     }
+  }
+}
+
+.in-button-adopter {
+  &__title {
+    flex: 1;
+  }
+  &__cta {
+    flex: 1;
+    text-align: right;
   }
 }
 </style>
