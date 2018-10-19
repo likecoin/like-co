@@ -1,6 +1,6 @@
 <template>
   <base-dialog
-    :is-show="getIsShowAuthDialog"
+    :is-show="shouldShowDialog"
     :md-props="{
       mdClickOutsideToClose: true,
       mdCloseOnEsc: true,
@@ -10,7 +10,7 @@
     }"
     class="auth-dialog"
     is-content-gapless
-    @update:isShow="setIsShow"
+    @update:isShow="onUpdateIsShow"
   >
 
     <div
@@ -200,6 +200,12 @@ export default {
       'getUserInfo',
       'getLocalWallet',
     ]),
+    shouldHideDialog() {
+      return !!this.getMetamaskError;
+    },
+    shouldShowDialog() {
+      return this.getIsShowAuthDialog && !this.shouldHideDialog;
+    },
   },
   watch: {
     getIsShowAuthDialog(isShow) {
@@ -266,6 +272,11 @@ export default {
         this.contentStyle = {
           height: `${elem.offsetHeight}px`,
         };
+      }
+    },
+    onUpdateIsShow(isShow) {
+      if (!this.shouldHideDialog) {
+        this.setIsShow(isShow);
       }
     },
     onConfirm() {
