@@ -2,9 +2,9 @@
   <base-dialog
     :is-show="shouldShowDialog"
     :md-props="{
-      mdClickOutsideToClose: true,
-      mdCloseOnEsc: true,
-      mdFullscreen: false,
+      mdClickOutsideToClose: closable,
+      mdCloseOnEsc: closable,
+      mdFullscreen: true,
       mdClosed: onClosed,
       mdClickOutside: onClosed,
     }"
@@ -134,6 +134,19 @@
           </div>
         </div>
 
+        <div
+          v-else-if="currentTab === 'loginSuccessful'"
+          ref="loginSuccessful"
+          key="loginSuccessful"
+          class="auth-dialog__tab lc-padding-vertical-64"
+        >
+          <div class="lc-dialog-container-1">
+            <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-text-align-center">
+              {{ $t('AuthDialog.label.loginSuccessful') }}
+            </h1>
+          </div>
+        </div>
+
       </transition-group>
 
     </div>
@@ -200,6 +213,9 @@ export default {
       'getUserInfo',
       'getLocalWallet',
     ]),
+    closable() {
+      return this.$route.name !== 'in-register-api';
+    },
     shouldHideDialog() {
       return !!this.getMetamaskError;
     },
@@ -213,11 +229,6 @@ export default {
         this.$nextTick(this.setContentHeight);
 
         this.currentTab = 'portal';
-      }
-    },
-    getUserInfo() {
-      if (this.getIsShowAuthDialog && this.getUserInfo.user) {
-        this.redirectToUserPage();
       }
     },
   },
@@ -368,8 +379,13 @@ export default {
     async redirectToUserPage() {
       this.currentTab = 'loading';
       await this.refreshUser();
-      this.setIsShow(false);
-      this.$router.push({ name: 'in' });
+
+      if (this.$route.name === 'in-register-api') {
+        this.currentTab = 'loginSuccessful';
+      } else {
+        this.setIsShow(false);
+        this.$router.push({ name: 'in' });
+      }
     },
     async signInWithWallet() {
       this.currentTab = 'signingIn';

@@ -672,7 +672,8 @@
       "signingIn": "Signing in",
       "signInError": "Error occures when signing in",
       "checkInbox": "Check your inbox",
-      "checkInboxDescription": "We just emailed a confirmation link to {email}. Click the link, and you’ll be signed in."
+      "checkInboxDescription": "We just emailed a confirmation link to {email}. Click the link, and you’ll be signed in.",
+      "loginSuccessful": "Login successful"
     },
     "SignIn": {
       "title": "Sign in / Sign up",
