@@ -56,6 +56,7 @@ export default {
 
   &__text {
     width: 66.6%;
+
     text-align: center;
   }
 
@@ -64,8 +65,9 @@ export default {
   }
 
   &__label {
-    color: $like-gray-4;
     padding-top: 8px;
+
+    color: $like-gray-4;
   }
 }
 
@@ -78,19 +80,21 @@ export default {
     align-self: flex-end;
 
     width: calc(33.33% - 40px);
+    margin-top: -60px;
     margin-right: #{40px + 8px};
     margin-left: 66.6%;
-    margin-top: -60px;
   }
 
   @media (max-width: 768px) {
     align-self: center;
-    text-align: center;
 
     width: 100%;
-    padding: 0 24px;
-    margin-left: 0px;
+
     margin-top: 0px;
+    margin-left: 0px;
+    padding: 0 24px;
+
+    text-align: center;
   }
 
   .link {

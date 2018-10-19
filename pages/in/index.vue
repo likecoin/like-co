@@ -336,6 +336,7 @@ export default {
   }
   &__cta {
     flex: 1;
+
     text-align: right;
   }
 }

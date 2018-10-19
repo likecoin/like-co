@@ -32,6 +32,7 @@ export default {
 
 .like-button-intro-min {
   display: flex;
+
   padding-top: 38px;
 
   &__text {
@@ -43,8 +44,9 @@ export default {
   }
 
   &__label {
-    color: $like-gray-4;
     padding-top: 8px;
+
+    color: $like-gray-4;
   }
 
   &__image {

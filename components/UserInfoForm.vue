@@ -529,18 +529,20 @@ $profile-icon-mobile-size: 88px;
     align-self: flex-end;
 
     width: calc(33.33% - 40px);
+    margin-top: -60px;
     margin-right: #{40px + 8px};
     margin-left: 66.6%;
-    margin-top: -60px;
   }
 
   @media (max-width: 768px) {
     align-self: center;
-    text-align: center;
 
     width: 100%;
-    padding: 0 24px;
+
     margin-left: 0px;
+    padding: 0 24px;
+
+    text-align: center;
   }
 
   .link {
@@ -564,10 +566,13 @@ $profile-icon-mobile-size: 88px;
   }
 
   .desc {
-    text-align: center;
-    font-size: 12px;
-    color: $like-gray-5;
     padding: 4px 8px;
+
+    text-align: center;
+
+    color: $like-gray-5;
+
+    font-size: 12px;
 
     @media (max-width: 768px) {
       width: 100%;
