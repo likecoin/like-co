@@ -12,7 +12,7 @@
               class="user-avatar-wrapper"
             >
               <img
-                :src="avatarData"
+                :src="avatarData || AVATAR_DEFAULT_PATH"
                 class="avatar"
               >
               <md-button class="input-display-btn">
@@ -191,6 +191,7 @@ import getTestAttribute from '@/util/test';
 import {
   W3C_EMAIL_REGEX,
   EXTERNAL_HOSTNAME,
+  AVATAR_DEFAULT_PATH,
 } from '@/constant';
 
 import EditIcon from '@/assets/icons/edit.svg';
@@ -221,6 +222,7 @@ export default {
       user: '',
       wallet: '',
       hasCopiedReceiveLikeCoinLink: false,
+      AVATAR_DEFAULT_PATH,
     };
   },
   computed: {
