@@ -224,6 +224,7 @@
     "item": {
       "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
       "bonus": "LikeCoin Bonus",
+      "earnLikeCoin": "Earn LikeCoin",
       "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
       "tokenSale": "@:TokenSale.title",
       "backer": "@:BackerPage.title",
