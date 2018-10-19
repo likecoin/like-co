@@ -97,7 +97,12 @@
           class="auth-dialog__tab lc-padding-vertical-16"
         >
           <div class="lc-dialog-container-1">
-            {{ $t('AuthDialog.label.signInError') }}
+            <h1 class="lc-font-size-32 lc-margin-bottom-8">
+              {{ $t('General.label.error') }}
+            </h1>
+            <p class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-32">
+              {{ $t('AuthDialog.label.signInError') }}
+            </p>
           </div>
 
           <div class="lc-dialog-container-1 lc-button-group">
