@@ -2,7 +2,7 @@
   <div class="overview-page">
 
     <div
-      v-if="isWallet"
+      v-if="isWallet && isEmailVerified"
       id="earn"
       class="bonus-container lc-container-0 lc-margin-top-48"
     >
@@ -68,7 +68,7 @@
     </div>
 
     <transaction-history
-      v-if="isWallet"
+      v-if="isWallet && isEmailVerified"
       id="transaction"
       ref="txHistory"
       :address="wallet"
@@ -77,7 +77,10 @@
     />
 
     <!-- !! UI for user without wallet !! -->
-    <section class="lc-container-0">
+    <section
+      v-if="isEmailVerified"
+      class="lc-container-0"
+    >
       <div class="lc-container-1">
         <div class="lc-container-2">
           <div class="lc-container-3">
@@ -171,7 +174,10 @@
     </section>
     <!-- !! UI for user without wallet !! -->
 
-    <div class="lc-container-0 lc-margin-top-24 lc-mobile-show">
+    <div
+      v-if="isEmailVerified"
+      class="lc-container-0 lc-margin-top-24 lc-mobile-show"
+    >
       <div class="lc-container-1">
         <div class="lc-container-2">
           <div class="lc-container-3 lc-flex lc-justify-content-center">
@@ -186,9 +192,22 @@
     </div>
 
     <view-etherscan
-      v-if="isWallet"
+      v-if="isWallet && isEmailVerified"
       :address="wallet"
     />
+
+    <div
+      v-if="!isEmailVerified"
+      class="lc-container-0 lc-margin-top-24"
+    >
+      <div class="lc-container-1">
+        <div class="lc-container-2">
+          <verify-email-cta
+            :email-ref="'in'"
+          />
+        </div>
+      </div>
+    </div>
 
   </div>
 </template>
@@ -204,6 +223,7 @@ import LikeButtonIntroMin from '~/components/LikeButtonIntroMin';
 import MansoryArticleList from '~/components/home/MansoryArticleList';
 import LikeButtonAdopter from '~/components/LikeButtonAdopter';
 import CivicLikerCta from '~/components/CivicLikerCta';
+import VerifyEmailCta from '~/components/VerifyEmailCta';
 
 import EditIcon from '@/assets/icons/edit.svg';
 import EditWhiteIcon from '@/assets/icons/edit-white.svg';
@@ -222,6 +242,7 @@ export default {
     MansoryArticleList,
     LikeButtonAdopter,
     CivicLikerCta,
+    VerifyEmailCta,
   },
   data() {
     return {
@@ -247,6 +268,9 @@ export default {
     ]),
     isWallet() {
       return !!this.wallet;
+    },
+    isEmailVerified() {
+      return this.getUserInfo.isEmailVerified;
     },
   },
   head() {

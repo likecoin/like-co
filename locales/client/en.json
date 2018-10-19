@@ -772,6 +772,11 @@
       "title": "Give a hand to support creativity",
       "description": "Support your favourite creative work. Simple and effective. With bla bla, to bla.",
       "descriptionCTA": "Civic Liker"
+    },
+    "verifyEmailCta": {
+      "title": "Check your inbox",
+      "description": "We just emailed a verify link to {email}. Click the link to verify your email address.",
+      "descriptionCTA": "I did not receive any email"
     }
   },
   "Edit": {
