@@ -277,6 +277,7 @@ export default {
   },
   methods: {
     ...mapActions([
+      'doPostAuthRedirect',
       'setAuthDialog',
       'setUserNeedAuth',
       'refreshUser',
@@ -389,7 +390,8 @@ export default {
         this.currentTab = 'loginSuccessful';
       } else {
         this.setIsShow(false);
-        this.$router.push({ name: 'in' });
+        const router = this.$router;
+        this.doPostAuthRedirect({ router });
       }
     },
     async signInWithWallet() {
