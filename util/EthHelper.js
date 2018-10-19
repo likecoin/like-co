@@ -129,6 +129,10 @@ class EthHelper {
   startApp() {
     this.LikeCoin = new this.web3.eth.Contract(LIKE_COIN_ABI, LIKE_COIN_ADDRESS);
     this.LikeCoinICO = new this.web3.eth.Contract(LIKE_COIN_ICO_ABI, LIKE_COIN_ICO_ADDRESS);
+    this.pollForAccounts();
+  }
+
+  pollForAccounts() {
     this.getAccounts();
     this.pollingTimer = setInterval(() => this.getAccounts(), 3000);
   }
@@ -145,6 +149,7 @@ class EthHelper {
         }
       } else if (this.isInited && this.errCb) {
         this.wallet = '';
+        if (this.onWalletCb) this.onWalletCb('');
         this.errCb('locked');
         if (this.web3Type === 'window' && window.ethereum && this.isPromptEthereumPermission) {
           try {

@@ -31,9 +31,9 @@ export default {
       'startWeb3Polling',
       'stopWeb3Polling',
     ]),
-    async startWeb3AndCb(cb) {
+    async startWeb3AndCb(cb, isReset = false) {
       this.callbackFunc = cb;
-      const isPolling = await this.startWeb3Polling();
+      const isPolling = await this.startWeb3Polling(isReset);
       if (!isPolling) {
         this.callbackFunc();
       }

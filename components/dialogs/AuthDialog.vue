@@ -391,8 +391,13 @@ export default {
         this.signInPayload = await User.signLogin(this.getLocalWallet);
         this.login();
       } catch (err) {
-        // Return to login portal if user denied signing
-        this.currentTab = 'portal';
+        if (err.message.indexOf('Invalid "from" address') >= 0) {
+          this.currentTab = 'loading';
+          this.startWeb3AndCb(this.signInWithWallet, true);
+        } else {
+          // Return to login portal if user denied signing
+          this.currentTab = 'portal';
+        }
       }
     },
   },
