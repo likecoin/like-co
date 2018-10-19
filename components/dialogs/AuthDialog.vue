@@ -8,7 +8,12 @@
       mdClosed: onClosed,
       mdClickOutside: onClosed,
     }"
-    class="auth-dialog"
+    :class="[
+      'auth-dialog',
+      {
+        'auth-dialog--blocking': isBlocking,
+      },
+    ]"
     is-content-gapless
     @update:isShow="onUpdateIsShow"
   >
@@ -219,7 +224,13 @@ export default {
       'getLocalWallet',
     ]),
     closable() {
-      return this.$route.name !== 'in-register-api';
+      return !(
+        this.$route.name === 'in-register-api'
+        && this.isBlocking
+      );
+    },
+    isBlocking() {
+      return this.currentTab === 'loading' || this.currentTab === 'signingIn';
     },
     shouldHideDialog() {
       return !!this.getMetamaskError;
@@ -430,6 +441,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '~assets/variables';
+@import "~assets/mixin";
 
 .lc-dialog {
   :global(.lc-dialog-header::before) {
@@ -438,6 +450,14 @@ export default {
 }
 
 .auth-dialog {
+  &--blocking {
+      :global(.lc-dialog-header::before) {
+        @include background-image-sliding-animation-x(
+          linear-gradient(to right, #ed9090, #ee6f6f 20%, #ecd7d7, #ed9090)
+        );
+      }
+  }
+
   &__content {
     overflow: hidden;
 
