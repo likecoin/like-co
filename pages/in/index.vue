@@ -158,12 +158,14 @@
             <like-button-adopter />
           </div>
 
+          <!-- TODO: Temp hide before civic liker release
           <div
             v-if="!isWallet"
             class="lc-margin-top-32"
           >
             <civic-liker-cta />
           </div>
+          -->
         </div>
       </div>
     </section>

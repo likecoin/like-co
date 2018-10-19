@@ -71,6 +71,7 @@
         :linkTo="{ name: 'in-settings-button' }"
         class="likecoin-amount-section"
       />
+      <!-- TODO: Temp hide before civic liker release
       <div
         v-else
         class="links"
@@ -85,6 +86,7 @@
           {{ $t('Settings.label.backerDesc') }}
         </div>
       </div>
+      -->
 
       <input-dialog
         ref="inputDialog"
