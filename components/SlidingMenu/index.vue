@@ -72,6 +72,11 @@
                     :isExternal="i.isExternal"
                   >
                     {{ $t(`Menu.item.${i.key}`) }}
+                    <md-icon
+                      v-if="i.icon"
+                      :md-src="i.icon"
+                      class="menu-item__icon"
+                    />
                   </menu-item>
                 </li>
               </ul>
@@ -85,18 +90,8 @@
             <div class="menu secondary">
               <ul>
                 <li>
-                  <menu-item :to="{ name: 'in-settings' }">
-                    <md-icon :md-src="SettingsIcon" />
-                    <span>{{ $t('Menu.item.settings') }}</span>
-                  </menu-item>
-                </li>
-              </ul>
-            </div>
-            <div class="menu secondary">
-              <ul>
-                <li>
                   <menu-item @click="onClickLogoutButon">
-                    <span>{{ $t('Menu.item.Logout') }}</span>
+                    <span>{{ $t('Menu.item.logout') }}</span>
                   </menu-item>
                 </li>
               </ul>
@@ -126,16 +121,14 @@ const MENU_ITEMS = [
     section: 'primary',
     items: [
       {
-        key: 'aboutLikeCoin',
-        to: { name: 'in-about' },
-      },
-      {
         key: 'earnLikeCoin',
         to: { name: 'in-earn' },
       },
       {
-        key: 'backer',
-        to: { name: 'in-backer' },
+        key: 'settings',
+        to: { name: 'in-settings' },
+        icon: SettingsIcon,
+        isRegistered: true,
       },
     ],
   },
@@ -143,9 +136,8 @@ const MENU_ITEMS = [
     section: 'secondary',
     items: [
       {
-        key: 'press',
-        to: 'https://press.like.co/',
-        isExternal: true,
+        key: 'aboutLikeCoin',
+        to: { name: 'in-about' },
       },
       {
         key: 'whitepaper',
@@ -197,16 +189,12 @@ export default {
   },
   methods: {
     ...mapActions([
-      'showLoginWindow',
+      'setAuthDialog',
       'logoutUser',
       'closeSlidingMenu',
     ]),
     onClickSignInButton() {
-      if (this.$route.name === 'index') {
-        this.$router.push({ name: 'in' });
-      } else {
-        this.showLoginWindow();
-      }
+      this.setAuthDialog({ isShow: true });
     },
     async onClickLogoutButon() {
       await this.logoutUser();
@@ -307,6 +295,18 @@ export default {
 
         @media (max-width: 600px) {
           padding: 6px;
+        }
+
+        .menu-item {
+          &__icon {
+            width: 16px;
+            height: 16px;
+            margin-left: 4px;
+
+            :global(svg) {
+              fill: $like-gray-4 !important;
+            }
+          }
         }
       }
     }

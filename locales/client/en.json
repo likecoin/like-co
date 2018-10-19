@@ -232,7 +232,8 @@
       "support": "@:Footer.button.support",
       "press": "Press",
       "poc": "Proof of Concept",
-      "settings": "Settings"
+      "settings": "Settings",
+      "logout": "Logout"
     }
   },
   "Sign": {
