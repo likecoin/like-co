@@ -14,6 +14,7 @@ export const startWeb3Polling = async ({ commit }) => {
 };
 
 export const stopWeb3Polling = ({ commit }) => {
+  EthHelper.clearTimers();
   commit(types.ETH_SET_WEB3_POLLING, false);
   commit(types.UI_STOP_LOADING);
 };

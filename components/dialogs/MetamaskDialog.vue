@@ -305,6 +305,8 @@ export default {
       EthHelper.resetWeb3();
     },
     handleReturnButtonClick() {
+      this.$root.$emit('MetaMaskDialog.onClickReturnButton');
+
       const { name, query } = this.$route;
       if (query.ref !== undefined) {
         this.$router.go(-1);

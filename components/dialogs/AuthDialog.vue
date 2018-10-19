@@ -216,6 +216,11 @@ export default {
     },
   },
   async mounted() {
+    this.$root.$on('MetaMaskDialog.onClickReturnButton', () => {
+      this.stopWeb3Polling();
+      this.currentTab = 'portal';
+    });
+
     this.setContentHeight();
 
     // Remove show_login in query
