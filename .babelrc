@@ -1,13 +1,13 @@
 {
   "presets": [
     [
-      "env",
+      "@nuxtjs/babel-preset-app",
       {
         "targets": {
           "node": "10"
         }
       }
-    ],
-    "backpack"
-  ]
+    ]
+  ],
+  "plugins": ["@babel/plugin-proposal-object-rest-spread"]
 }
