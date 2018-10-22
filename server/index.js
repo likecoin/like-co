@@ -68,9 +68,11 @@ if (config.dev) {
 app.use(nuxt.render);
 
 // Listen the server if not under e2e test
-if (!process.env.IS_STANDALONE_TEST) app.listen(port, host);
+if (!process.env.IS_STANDALONE_TEST) {
+  app.listen(port, host);
 
-console.log(`Deploying on ${IS_TESTNET ? 'rinkeby' : 'mainnet'}`); // eslint-disable-line no-console
-console.log(`Server listening on ${host}:${port}`); // eslint-disable-line no-console
+  console.log(`Deploying on ${IS_TESTNET ? 'rinkeby' : 'mainnet'}`); // eslint-disable-line no-console
+  console.log(`Server listening on ${host}:${port}`); // eslint-disable-line no-console
+}
 
 export default app;
