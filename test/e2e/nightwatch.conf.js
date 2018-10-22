@@ -6,7 +6,7 @@ const http = require('http');
 let httpServer;
 if (process.env.IS_STANDALONE_TEST) {
   /* AUTO_TEST ran build already */
-  const app = require('../../build/main.js'); // eslint-disable-line import/no-unresolved, global-require
+  const app = require('../../build/main.js').default; // eslint-disable-line import/no-unresolved, global-require
   httpServer = http.createServer(app);
 }
 
