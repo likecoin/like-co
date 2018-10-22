@@ -68,7 +68,7 @@ function getBool(value = false) {
   return value;
 }
 
-router.post('/users/new', apiLimiter, multer.single('avatar'), async (req, res, next) => {
+router.post('/users/new', apiLimiter, multer.single('avatarFile'), async (req, res, next) => {
   try {
     let payload;
     let firebaseUserId;

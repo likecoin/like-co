@@ -78,6 +78,7 @@
         >
           <register-form
             :is-show-email="!email"
+            :avatar-url="signInPayload.avatarURL"
             @register="register"
           />
         </div>

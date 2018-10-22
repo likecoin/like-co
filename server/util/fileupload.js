@@ -39,8 +39,12 @@ export function uploadFileAndGetLink(file, newFilename) {
 export async function handleAvatarUploadAndGetURL(user, file, avatarSHA256) {
   const type = imageType(file.buffer);
   if (!SUPPORTED_AVATER_TYPE.has(type && type.ext)) throw new ValidationError('unsupported file format!');
-  const hash256 = sha256(file.buffer);
-  if (hash256 !== avatarSHA256) throw new ValidationError('avatar sha not match');
+
+  if (avatarSHA256) {
+    const hash256 = sha256(file.buffer);
+    if (hash256 !== avatarSHA256) throw new ValidationError('avatar sha not match');
+  }
+
   const resizedBuffer = await sharp(file.buffer).resize(400, 400).toBuffer();
   file.buffer = resizedBuffer; // eslint-disable-line no-param-reassign
   const [avatarUrl] = await uploadFileAndGetLink(file, `likecoin_store_user_${user}_${IS_TESTNET ? 'test' : 'main'}`);

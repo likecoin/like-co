@@ -18,12 +18,12 @@
 
             <div class="avatar-picker__preview">
               <img
-                v-if="avatarData"
-                :src="avatarData"
+                v-if="avatarData || avatarUrl"
+                :src="avatarData || avatarUrl"
               >
               <md-button @click="openAvatarPicker">
                 <md-icon
-                  v-if="!avatarData"
+                  v-if="!(avatarData || avatarUrl)"
                   class="md-size-2x"
                 >person</md-icon>
               </md-button>
@@ -131,6 +131,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import { mapGetters, mapActions } from 'vuex';
 
 import {
@@ -149,6 +150,10 @@ export default {
     isShowAvatar: {
       type: Boolean,
       default: true,
+    },
+    avatarUrl: {
+      type: String,
+      default: '',
     },
   },
   data() {
@@ -198,7 +203,7 @@ export default {
         reader.readAsDataURL(files[0]);
       }
     },
-    onSubmit() {
+    async onSubmit() {
       if (!this.isFormValid) return;
 
       if (!this.isTermsAgreed) {
@@ -207,13 +212,24 @@ export default {
       }
 
       const payload = {
-        avatarFile: this.avatarFile,
         user: this.likeCoinId.toLowerCase().trim(),
         isEmailEnabled: this.isEmailEnabled,
       };
 
       if (this.email) {
         payload.email = this.email.toLowerCase().trim();
+      }
+
+      if (this.avatarFile) {
+        payload.avatarFile = this.avatarFile;
+      } else if (this.avatarUrl) {
+        // Get the avatar file from URL
+        const res = await axios.get(this.avatarUrl, {
+          responseType: 'blob',
+          timeout: 30000,
+        });
+        const filename = this.avatarUrl.split('/').pop();
+        payload.avatarFile = new File([new Blob([res.data])], filename);
       }
 
       this.$emit('register', payload);

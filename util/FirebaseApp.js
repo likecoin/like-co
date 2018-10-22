@@ -47,6 +47,7 @@ export async function firebasePlatformSignIn(platform) {
     displayName,
     email,
     emailVerified: isEmailVerified = false,
+    photoURL: avatarURL = false,
   } = result.user;
   const { accessToken, secret } = result.credential;
   const firebaseIdToken = await firebase.auth().currentUser.getIdToken();
@@ -54,6 +55,7 @@ export async function firebasePlatformSignIn(platform) {
     displayName,
     email,
     isEmailVerified,
+    avatarURL,
 
     accessToken,
     secret,
