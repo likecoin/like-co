@@ -207,7 +207,6 @@ module.exports = {
     cache: shouldCache,
     extractCSS: true,
     uglify: { cache: shouldCache },
-    parallel: true,
     babel: {
       presets: ({ isServer }) => [
         [
