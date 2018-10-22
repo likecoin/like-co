@@ -61,6 +61,13 @@ const apiLimiter = new RateLimit({
   },
 });
 
+function getBool(value = false) {
+  if (typeof value === 'string') {
+    return value !== 'false';
+  }
+  return value;
+}
+
 router.post('/users/new', apiLimiter, multer.single('avatar'), async (req, res, next) => {
   try {
     let payload;
@@ -92,13 +99,11 @@ router.post('/users/new', apiLimiter, multer.single('avatar'), async (req, res, 
       locale = 'en',
       accessToken,
       secret,
+      isEmailVerified,
     } = payload;
     let { email, isEmailEnabled = true } = payload;
 
-    // handle isEmailEnabled is string
-    if (typeof isEmailEnabled === 'string') {
-      isEmailEnabled = isEmailEnabled !== 'false';
-    }
+    isEmailEnabled = getBool(isEmailEnabled);
 
     if (!Validate.checkUserNameValid(user)) throw new ValidationError('Invalid user name');
 
@@ -162,6 +167,11 @@ router.post('/users/new', apiLimiter, multer.single('avatar'), async (req, res, 
       avatar: avatarUrl,
       locale,
     };
+
+    if (email) {
+      createObj.email = email;
+      createObj.isEmailVerified = getBool(isEmailVerified);
+    }
 
     const timestampObj = { timestamp: Date.now() };
     if (NEW_USER_BONUS_COOLDOWN) {

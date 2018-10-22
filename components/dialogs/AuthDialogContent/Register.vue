@@ -199,6 +199,8 @@ export default {
       }
     },
     onSubmit() {
+      if (!this.isFormValid) return;
+
       if (!this.isTermsAgreed) {
         this.setErrorMsg(this.$t('Register.form.error.terms'));
         return;
@@ -207,9 +209,12 @@ export default {
       const payload = {
         avatarFile: this.avatarFile,
         user: this.likeCoinId.toLowerCase().trim(),
-        email: this.email.toLowerCase().trim(),
         isEmailEnabled: this.isEmailEnabled,
       };
+
+      if (this.email) {
+        payload.email = this.email.toLowerCase().trim();
+      }
 
       this.$emit('register', payload);
     },

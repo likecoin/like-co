@@ -362,6 +362,10 @@ export default {
         console.error(err);
         // TODO: Check error
         // Assume it is 404
+        const { email, isEmailVerified } = this.signInPayload;
+        if (isEmailVerified) {
+          this.email = email;
+        }
         this.currentTab = 'register';
       }
     },

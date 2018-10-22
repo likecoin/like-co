@@ -43,9 +43,23 @@ export function getFirebaseProvider(platform) {
 export async function firebasePlatformSignIn(platform) {
   const provider = getFirebaseProvider(platform);
   const result = await firebase.auth().signInWithPopup(provider);
+  const {
+    displayName,
+    email,
+    emailVerified: isEmailVerified = false,
+  } = result.user;
   const { accessToken, secret } = result.credential;
   const firebaseIdToken = await firebase.auth().currentUser.getIdToken();
-  return { accessToken, secret, firebaseIdToken };
+  return {
+    displayName,
+    email,
+    isEmailVerified,
+
+    accessToken,
+    secret,
+
+    firebaseIdToken,
+  };
 }
 
 export async function firebasePlatformLinkUser(platform) {
