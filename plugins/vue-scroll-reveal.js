@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import Vue from 'vue'; // eslint-disable-line import/no-extraneous-dependencies
 import VueScrollReveal from 'vue-scroll-reveal';
 
 Vue.use(VueScrollReveal, {

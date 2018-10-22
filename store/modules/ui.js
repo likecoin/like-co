@@ -1,6 +1,6 @@
 /* eslint no-shadow: "off" */
 /* eslint no-param-reassign: "off" */
-import Vue from 'vue';
+import Vue from 'vue'; // eslint-disable-line import/no-extraneous-dependencies
 import uuidv1 from 'uuid/v1';
 
 import {
