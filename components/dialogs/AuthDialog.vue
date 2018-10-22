@@ -4,7 +4,7 @@
     :md-props="{
       mdClickOutsideToClose: closable,
       mdCloseOnEsc: closable,
-      mdFullscreen: true,
+      mdFullscreen: false,
       mdClosed: onClosed,
       mdClickOutside: onClosed,
     }"
@@ -450,6 +450,10 @@ export default {
 }
 
 .auth-dialog {
+  @media screen and (max-width: 600px) {
+    width: 96%;
+  }
+
   &--blocking {
       :global(.lc-dialog-header::before) {
         @include background-image-sliding-animation-x(
