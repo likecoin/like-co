@@ -330,18 +330,50 @@ export default {
       switch (platform) {
         case 'email':
           this.currentTab = 'email';
-          break;
+          return;
 
         case 'wallet':
           this.currentTab = 'loading';
           this.startWeb3AndCb(this.signInWithWallet);
+          return;
+
+        case 'google':
+        case 'twitter':
+          this.signInPayload = await firebasePlatformSignIn(platform);
           break;
 
-        default: {
-          this.signInPayload = await firebasePlatformSignIn(platform);
-          this.login();
-        }
+        case 'facebook':
+          try {
+            this.currentTab = 'loading';
+            this.signInPayload = await new Promise((resolve, reject) => {
+              if (!window.FB) {
+                reject(new Error('FACEBOOK_SDK_NOT_FOUND'));
+              }
+              window.FB.login(({ authResponse }) => {
+                if (authResponse && authResponse.accessToken) {
+                  const {
+                    accessToken,
+                    userID: platformUserId,
+                  } = authResponse;
+
+                  resolve({
+                    accessToken,
+                    platformUserId,
+                  });
+                } else {
+                  reject(new Error('FACEBOOK_AUTH_REJECTED'));
+                }
+              }, { scope: 'public_profile,pages_show_list,user_link' });
+            });
+          } catch (err) {
+            this.currentTab = 'portal';
+          }
+          break;
+
+        default:
       }
+
+      this.login();
     },
     async signInWithEmail(email) {
       this.email = email;
@@ -392,10 +424,56 @@ export default {
         console.error(err);
         // TODO: Check error
         // Assume it is 404
+        const { platformUserId } = this.signInPayload;
+        let preRegisterPayload;
+        switch (this.platform) {
+          case 'facebook':
+            // Get user info
+            preRegisterPayload = await new Promise((resolve) => {
+              if (!window.FB) resolve();
+              window.FB.api(
+                '/me?fields=name,email',
+                ({ name, email }) => {
+                  // Get avatar
+                  window.FB.api(
+                    `/${platformUserId}/picture?type=large&redirect=0`,
+                    ({ data }) => {
+                      const payload = {
+                        displayName: name,
+                      };
+
+                      if (email) {
+                        payload.email = email;
+                        payload.isEmailVerified = true;
+                      }
+
+                      if (data && !data.is_silhouette) {
+                        payload.avatarURL = data.url;
+                      }
+
+                      resolve(payload);
+                    },
+                  );
+                },
+              );
+            });
+            break;
+
+          default:
+        }
+
+        if (preRegisterPayload) {
+          this.signInPayload = {
+            ...this.signInPayload,
+            ...preRegisterPayload,
+          };
+        }
+
         const { email, isEmailVerified } = this.signInPayload;
         if (isEmailVerified) {
           this.email = email;
         }
+
         this.currentTab = 'register';
       }
     },

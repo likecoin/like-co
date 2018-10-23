@@ -6,6 +6,7 @@ import {
   PUBSUB_TOPIC_MISC,
   ONE_LIKE,
 } from '../../constant';
+import { fetchFacebookUser } from '../oauth/facebook';
 import {
   handleEmailBlackList,
   checkReferrerExists,
@@ -34,6 +35,7 @@ const {
 
 const {
   userCollection: dbRef,
+  userOAuthCollection: oAuthDbRef,
   FieldValue,
   admin,
 } = require('../util/firebase');
@@ -72,22 +74,49 @@ router.post('/users/new', apiLimiter, multer.single('avatarFile'), async (req, r
   try {
     let payload;
     let firebaseUserId;
+    let platformUserId;
+    let isEmailVerified = false;
+
     const { platform } = req.body;
 
-    if (!platform) throw new ValidationError('INVALID_PLATFORM');
+    switch (platform) {
+      case 'wallet': {
+        const {
+          from,
+          payload: stringPayload,
+          sign,
+        } = req.body;
+        const isLogin = false;
+        payload = checkSignPayload(from, stringPayload, sign, isLogin);
+        break;
+      }
 
-    if (platform === 'wallet') {
-      const {
-        from,
-        payload: stringPayload,
-        sign,
-      } = req.body;
-      const isLogin = false;
-      payload = checkSignPayload(from, stringPayload, sign, isLogin);
-    } else {
-      const { firebaseIdToken } = req.body;
-      ({ uid: firebaseUserId } = await admin.auth().verifyIdToken(firebaseIdToken));
-      payload = req.body;
+      case 'email':
+      case 'google':
+      case 'twitter': {
+        const { firebaseIdToken } = req.body;
+        ({ uid: firebaseUserId } = await admin.auth().verifyIdToken(firebaseIdToken));
+        payload = req.body;
+        break;
+      }
+
+      case 'facebook': {
+        const { accessToken } = req.body;
+        const { userId, email } = await fetchFacebookUser(accessToken);
+        payload = req.body;
+        if (userId !== payload.platformUserId) {
+          throw new ValidationError('USER_ID_NOT_MTACH');
+        }
+        platformUserId = userId;
+        // Verify email
+        if (email === payload.email) {
+          isEmailVerified = true;
+        }
+        break;
+      }
+
+      default:
+        throw new ValidationError('INVALID_PLATFORM');
     }
 
     const {
@@ -99,7 +128,6 @@ router.post('/users/new', apiLimiter, multer.single('avatarFile'), async (req, r
       locale = 'en',
       accessToken,
       secret,
-      isEmailVerified,
     } = payload;
     let { email, isEmailEnabled = true } = payload;
 
@@ -131,6 +159,8 @@ router.post('/users/new', apiLimiter, multer.single('avatarFile'), async (req, r
       wallet,
       email,
       firebaseUserId,
+      platform,
+      platformUserId,
     });
     if (!isNew) throw new ValidationError('USER_ALREADY_EXIST');
 
@@ -170,7 +200,7 @@ router.post('/users/new', apiLimiter, multer.single('avatarFile'), async (req, r
 
     if (email) {
       createObj.email = email;
-      createObj.isEmailVerified = getBool(isEmailVerified);
+      createObj.isEmailVerified = isEmailVerified;
     }
 
     const timestampObj = { timestamp: Date.now() };
@@ -190,6 +220,19 @@ router.post('/users/new', apiLimiter, multer.single('avatarFile'), async (req, r
     await dbRef.doc(user).create(createObj);
     if (hasReferrer) {
       await dbRef.doc(referrer).collection('referrals').doc(user).create(timestampObj);
+    }
+
+    switch (platform) {
+      case 'facebook': {
+        const doc = {
+          [platform]: {
+            userId: platformUserId,
+          },
+        };
+        await oAuthDbRef.doc(user).create(doc);
+        break;
+      }
+      default:
     }
 
     const socialPayload = await tryToLinkSocialPlatform(user, platform, { accessToken, secret });
@@ -321,29 +364,67 @@ router.post('/users/login', async (req, res, next) => {
     let wallet;
     const { platform } = req.body;
 
-    if (!platform) throw new ValidationError('INVALID_PLATFORM');
+    switch (platform) {
+      case 'wallet': {
+        const {
+          from,
+          payload: stringPayload,
+          sign,
+        } = req.body;
+        wallet = from;
+        const isLogin = true;
+        checkSignPayload(wallet, stringPayload, sign, isLogin);
+        const query = await dbRef.where('wallet', '==', wallet).limit(1).get();
+        if (query.docs.length > 0) {
+          user = query.docs[0].id;
+        }
+        break;
+      }
 
-    if (platform === 'wallet') {
-      const {
-        from,
-        payload: stringPayload,
-        sign,
-      } = req.body;
-      wallet = from;
-      const isLogin = true;
-      checkSignPayload(wallet, stringPayload, sign, isLogin);
-      const query = await dbRef.where('wallet', '==', wallet).get();
-      if (query.docs.length > 0) {
-        user = query.docs[0].id;
+      case 'email':
+      case 'google':
+      case 'twitter': {
+        const { firebaseIdToken } = req.body;
+        const { uid: firebaseUserId } = await admin.auth().verifyIdToken(firebaseIdToken);
+        const query = (
+          await dbRef
+            .where('firebaseUserId', '==', firebaseUserId)
+            .limit(1)
+            .get()
+        );
+        if (query.docs.length > 0) {
+          user = query.docs[0].id;
+        }
+        break;
       }
-    } else {
-      const { firebaseIdToken } = req.body;
-      const { uid: firebaseUserId } = await admin.auth().verifyIdToken(firebaseIdToken);
-      const query = await dbRef.where('firebaseUserId', '==', firebaseUserId).get();
-      if (query.docs.length > 0) {
-        user = query.docs[0].id;
+
+      case 'facebook': {
+        try {
+          const { accessToken, platformUserId } = req.body;
+          const { userId } = await fetchFacebookUser(accessToken);
+          if (userId !== platformUserId) {
+            throw new ValidationError('USER_ID_NOT_MTACH');
+          }
+          const query = (
+            await oAuthDbRef
+              .where(`${platform}.userId`, '==', platformUserId)
+              .limit(1)
+              .get()
+          );
+          if (query.docs.length > 0) {
+            user = query.docs[0].id;
+          }
+        } catch (err) {
+          console.log(err);
+          // do nothing
+        }
+        break;
       }
+
+      default:
+        throw new ValidationError('INVALID_PLATFORM');
     }
+
     if (user) {
       await setAuthCookies(req, res, { user, wallet });
       res.sendStatus(200);
