@@ -349,6 +349,35 @@ export default {
       await firebaseSendSignInEmail(email);
       this.currentTab = 'checkInbox';
     },
+    async signInWithWallet() {
+      this.currentTab = 'signingIn';
+
+      // Determine whether the wallet has registered
+      try {
+        await apiCheckIsUser(this.getLocalWallet);
+      } catch (err) {
+        // Assume it is 404
+        // Redirect user to register
+        this.signInPayload = {
+          wallet: this.getLocalWallet,
+        };
+        this.currentTab = 'register';
+        return;
+      }
+
+      try {
+        this.signInPayload = await User.signLogin(this.getLocalWallet);
+        this.login();
+      } catch (err) {
+        if (err.message.indexOf('Invalid "from" address') >= 0) {
+          this.currentTab = 'loading';
+          this.startWeb3AndCb(this.signInWithWallet, true);
+        } else {
+          // Return to login portal if user denied signing
+          this.currentTab = 'portal';
+        }
+      }
+    },
     async login() {
       this.currentTab = 'signingIn';
       try {
@@ -408,35 +437,6 @@ export default {
         this.setIsShow(false);
         const router = this.$router;
         this.doPostAuthRedirect({ router });
-      }
-    },
-    async signInWithWallet() {
-      this.currentTab = 'signingIn';
-
-      // Determine whether the wallet has registered
-      try {
-        await apiCheckIsUser(this.getLocalWallet);
-      } catch (err) {
-        // Assume it is 404
-        // Redirect user to register
-        this.signInPayload = {
-          wallet: this.getLocalWallet,
-        };
-        this.currentTab = 'register';
-        return;
-      }
-
-      try {
-        this.signInPayload = await User.signLogin(this.getLocalWallet);
-        this.login();
-      } catch (err) {
-        if (err.message.indexOf('Invalid "from" address') >= 0) {
-          this.currentTab = 'loading';
-          this.startWeb3AndCb(this.signInWithWallet, true);
-        } else {
-          // Return to login portal if user denied signing
-          this.currentTab = 'portal';
-        }
       }
     },
   },
