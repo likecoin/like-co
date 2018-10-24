@@ -388,12 +388,17 @@ export default {
       try {
         await apiCheckIsUser(this.getLocalWallet);
       } catch (err) {
-        // Assume it is 404
-        // Redirect user to register
-        this.signInPayload = {
-          wallet: this.getLocalWallet,
-        };
-        this.currentTab = 'register';
+        if (err.response) {
+          if (err.response.status === 404) {
+            this.signInPayload = {
+              wallet: this.getLocalWallet,
+            };
+            this.currentTab = 'register';
+            return;
+          }
+        }
+
+        this.currentTab = 'signInError';
         return;
       }
 
@@ -402,11 +407,14 @@ export default {
         this.login();
       } catch (err) {
         if (err.message.indexOf('Invalid "from" address') >= 0) {
+          // User has logout MetaMask after EthHelper initialization
           this.currentTab = 'loading';
           this.startWeb3AndCb(this.signInWithWallet, true);
-        } else {
+        } else if (err.message.indexOf('User denied message signature') >= 0) {
           // Return to login portal if user denied signing
           this.currentTab = 'portal';
+        } else {
+          this.currentTab = 'signInError';
         }
       }
     },
@@ -421,61 +429,68 @@ export default {
         this.setUserNeedAuth(false);
         this.redirectToUserPage();
       } catch (err) {
-        console.error(err);
-        // TODO: Check error
-        // Assume it is 404
-        const { platformUserId } = this.signInPayload;
-        let preRegisterPayload;
-        switch (this.platform) {
-          case 'facebook':
-            // Get user info
-            preRegisterPayload = await new Promise((resolve) => {
-              if (!window.FB) resolve();
-              window.FB.api(
-                '/me?fields=name,email',
-                ({ name, email }) => {
-                  // Get avatar
-                  window.FB.api(
-                    `/${platformUserId}/picture?type=large&redirect=0`,
-                    ({ data }) => {
-                      const payload = {
-                        displayName: name,
-                      };
-
-                      if (email) {
-                        payload.email = email;
-                        payload.isEmailVerified = true;
-                      }
-
-                      if (data && !data.is_silhouette) {
-                        payload.avatarURL = data.url;
-                      }
-
-                      resolve(payload);
-                    },
-                  );
-                },
-              );
-            });
-            break;
-
-          default:
+        if (err.response) {
+          if (err.response.status === 404) {
+            this.preRegister();
+            return;
+          }
         }
-
-        if (preRegisterPayload) {
-          this.signInPayload = {
-            ...this.signInPayload,
-            ...preRegisterPayload,
-          };
-        }
-
-        const { email, isEmailVerified } = this.signInPayload;
-        if (isEmailVerified) {
-          this.email = email;
-        }
-
-        this.currentTab = 'register';
+        this.currentTab = 'signInError';
       }
+    },
+    async preRegister() {
+      this.currentTab = 'loading';
+      const { platformUserId } = this.signInPayload;
+      let preRegisterPayload;
+      switch (this.platform) {
+        case 'facebook':
+          // Get user info
+          preRegisterPayload = await new Promise((resolve) => {
+            if (!window.FB) resolve();
+            window.FB.api(
+              '/me?fields=name,email',
+              ({ name, email }) => {
+                // Get avatar
+                window.FB.api(
+                  `/${platformUserId}/picture?type=large&redirect=0`,
+                  ({ data }) => {
+                    const payload = {
+                      displayName: name,
+                    };
+
+                    if (email) {
+                      payload.email = email;
+                      payload.isEmailVerified = true;
+                    }
+
+                    if (data && !data.is_silhouette) {
+                      payload.avatarURL = data.url;
+                    }
+
+                    resolve(payload);
+                  },
+                );
+              },
+            );
+          });
+          break;
+
+        default:
+      }
+
+      if (preRegisterPayload) {
+        this.signInPayload = {
+          ...this.signInPayload,
+          ...preRegisterPayload,
+        };
+      }
+
+      const { email, isEmailVerified } = this.signInPayload;
+      if (isEmailVerified) {
+        this.email = email;
+      }
+
+      this.currentTab = 'register';
     },
     async register(registerPayload) {
       this.currentTab = 'loading';
