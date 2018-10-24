@@ -13,14 +13,15 @@ export async function fetchFacebookUser(accessToken) {
   ({ data } = await axios.get(`https://graph.facebook.com/debug_token?input_token=${accessToken}&access_token=${appToken}`));
   if (!data || !data.data || !data.data.is_valid) throw new ValidationError('invalid fb token');
   const { user_id: userId, app_id: appId } = data.data;
-  ({ data } = await axios.get(`https://graph.facebook.com/me?access_token=${accessToken}&fields=id,name,link`));
-  const { name: displayName, link } = data;
+  ({ data } = await axios.get(`https://graph.facebook.com/me?access_token=${accessToken}&fields=id,name,link,email`));
+  const { name: displayName, link, email } = data;
   ({ data } = await axios.get(`https://graph.facebook.com/me/accounts?access_token=${accessToken}&fields=id,name,link`));
   const pages = data.data;
   return {
     displayName,
     link,
     userId,
+    email,
     appId,
     pages,
   };

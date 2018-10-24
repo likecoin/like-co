@@ -4,11 +4,16 @@
     :md-props="{
       mdClickOutsideToClose: closable,
       mdCloseOnEsc: closable,
-      mdFullscreen: true,
+      mdFullscreen: false,
       mdClosed: onClosed,
       mdClickOutside: onClosed,
     }"
-    class="auth-dialog"
+    :class="[
+      'auth-dialog',
+      {
+        'auth-dialog--blocking': isBlocking,
+      },
+    ]"
     is-content-gapless
     @update:isShow="onUpdateIsShow"
   >
@@ -73,6 +78,7 @@
         >
           <register-form
             :is-show-email="!email"
+            :avatar-url="signInPayload.avatarURL"
             @register="register"
           />
         </div>
@@ -219,7 +225,13 @@ export default {
       'getLocalWallet',
     ]),
     closable() {
-      return this.$route.name !== 'in-register-api';
+      return !(
+        this.$route.name === 'in-register-api'
+        && this.isBlocking
+      );
+    },
+    isBlocking() {
+      return this.currentTab === 'loading' || this.currentTab === 'signingIn';
     },
     shouldHideDialog() {
       return !!this.getMetamaskError;
@@ -318,24 +330,93 @@ export default {
       switch (platform) {
         case 'email':
           this.currentTab = 'email';
-          break;
+          return;
 
         case 'wallet':
           this.currentTab = 'loading';
           this.startWeb3AndCb(this.signInWithWallet);
+          return;
+
+        case 'google':
+        case 'twitter':
+          this.signInPayload = await firebasePlatformSignIn(platform);
           break;
 
-        default: {
-          this.signInPayload = await firebasePlatformSignIn(platform);
-          this.login();
-        }
+        case 'facebook':
+          try {
+            this.currentTab = 'loading';
+            this.signInPayload = await new Promise((resolve, reject) => {
+              if (!window.FB) {
+                reject(new Error('FACEBOOK_SDK_NOT_FOUND'));
+              }
+              window.FB.login(({ authResponse }) => {
+                if (authResponse && authResponse.accessToken) {
+                  const {
+                    accessToken,
+                    userID: platformUserId,
+                  } = authResponse;
+
+                  resolve({
+                    accessToken,
+                    platformUserId,
+                  });
+                } else {
+                  reject(new Error('FACEBOOK_AUTH_REJECTED'));
+                }
+              }, { scope: 'public_profile,pages_show_list,user_link' });
+            });
+          } catch (err) {
+            this.currentTab = 'portal';
+          }
+          break;
+
+        default:
       }
+
+      this.login();
     },
     async signInWithEmail(email) {
       this.email = email;
       this.currentTab = 'loading';
       await firebaseSendSignInEmail(email);
       this.currentTab = 'checkInbox';
+    },
+    async signInWithWallet() {
+      this.currentTab = 'signingIn';
+
+      // Determine whether the wallet has registered
+      try {
+        await apiCheckIsUser(this.getLocalWallet);
+      } catch (err) {
+        if (err.response) {
+          if (err.response.status === 404) {
+            this.signInPayload = {
+              wallet: this.getLocalWallet,
+            };
+            this.currentTab = 'register';
+            return;
+          }
+        }
+
+        this.currentTab = 'signInError';
+        return;
+      }
+
+      try {
+        this.signInPayload = await User.signLogin(this.getLocalWallet);
+        this.login();
+      } catch (err) {
+        if (err.message.indexOf('Invalid "from" address') >= 0) {
+          // User has logout MetaMask after EthHelper initialization
+          this.currentTab = 'loading';
+          this.startWeb3AndCb(this.signInWithWallet, true);
+        } else if (err.message.indexOf('User denied message signature') >= 0) {
+          // Return to login portal if user denied signing
+          this.currentTab = 'portal';
+        } else {
+          this.currentTab = 'signInError';
+        }
+      }
     },
     async login() {
       this.currentTab = 'signingIn';
@@ -348,11 +429,68 @@ export default {
         this.setUserNeedAuth(false);
         this.redirectToUserPage();
       } catch (err) {
-        console.error(err);
-        // TODO: Check error
-        // Assume it is 404
-        this.currentTab = 'register';
+        if (err.response) {
+          if (err.response.status === 404) {
+            this.preRegister();
+            return;
+          }
+        }
+        this.currentTab = 'signInError';
       }
+    },
+    async preRegister() {
+      this.currentTab = 'loading';
+      const { platformUserId } = this.signInPayload;
+      let preRegisterPayload;
+      switch (this.platform) {
+        case 'facebook':
+          // Get user info
+          preRegisterPayload = await new Promise((resolve) => {
+            if (!window.FB) resolve();
+            window.FB.api(
+              '/me?fields=name,email',
+              ({ name, email }) => {
+                // Get avatar
+                window.FB.api(
+                  `/${platformUserId}/picture?type=large&redirect=0`,
+                  ({ data }) => {
+                    const payload = {
+                      displayName: name,
+                    };
+
+                    if (email) {
+                      payload.email = email;
+                      payload.isEmailVerified = true;
+                    }
+
+                    if (data && !data.is_silhouette) {
+                      payload.avatarURL = data.url;
+                    }
+
+                    resolve(payload);
+                  },
+                );
+              },
+            );
+          });
+          break;
+
+        default:
+      }
+
+      if (preRegisterPayload) {
+        this.signInPayload = {
+          ...this.signInPayload,
+          ...preRegisterPayload,
+        };
+      }
+
+      const { email, isEmailVerified } = this.signInPayload;
+      if (isEmailVerified) {
+        this.email = email;
+      }
+
+      this.currentTab = 'register';
     },
     async register(registerPayload) {
       this.currentTab = 'loading';
@@ -394,35 +532,6 @@ export default {
         this.doPostAuthRedirect({ router });
       }
     },
-    async signInWithWallet() {
-      this.currentTab = 'signingIn';
-
-      // Determine whether the wallet has registered
-      try {
-        await apiCheckIsUser(this.getLocalWallet);
-      } catch (err) {
-        // Assume it is 404
-        // Redirect user to register
-        this.signInPayload = {
-          wallet: this.getLocalWallet,
-        };
-        this.currentTab = 'register';
-        return;
-      }
-
-      try {
-        this.signInPayload = await User.signLogin(this.getLocalWallet);
-        this.login();
-      } catch (err) {
-        if (err.message.indexOf('Invalid "from" address') >= 0) {
-          this.currentTab = 'loading';
-          this.startWeb3AndCb(this.signInWithWallet, true);
-        } else {
-          // Return to login portal if user denied signing
-          this.currentTab = 'portal';
-        }
-      }
-    },
   },
 };
 </script>
@@ -430,6 +539,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '~assets/variables';
+@import "~assets/mixin";
 
 .lc-dialog {
   :global(.lc-dialog-header::before) {
@@ -438,6 +548,18 @@ export default {
 }
 
 .auth-dialog {
+  @media screen and (max-width: 600px) {
+    width: 96%;
+  }
+
+  &--blocking {
+      :global(.lc-dialog-header::before) {
+        @include background-image-sliding-animation-x(
+          linear-gradient(to right, #ed9090, #ee6f6f 20%, #ecd7d7, #ed9090)
+        );
+      }
+  }
+
   &__content {
     overflow: hidden;
 

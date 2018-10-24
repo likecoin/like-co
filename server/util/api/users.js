@@ -11,7 +11,10 @@ import { personalEcRecover, web3 } from '../web3';
 
 const disposableDomains = require('disposable-email-domains');
 
-const { userCollection: dbRef } = require('../firebase');
+const {
+  userCollection: dbRef,
+  userOAuthCollection: oAuthDbRef,
+} = require('../firebase');
 
 export const ONE_DATE_IN_MS = 86400000;
 
@@ -113,6 +116,8 @@ async function userInfoQuery({
   wallet,
   email,
   firebaseUserId,
+  platform,
+  platformUserId,
 }) {
   const userNameQuery = dbRef.doc(user).get().then((doc) => {
     const isOldUser = doc.exists;
@@ -124,6 +129,7 @@ async function userInfoQuery({
     }
     return { isOldUser, oldUserObj };
   });
+
   const walletQuery = wallet ? dbRef.where('wallet', '==', wallet).get().then((snapshot) => {
     snapshot.forEach((doc) => {
       const docUser = doc.id;
@@ -133,6 +139,7 @@ async function userInfoQuery({
     });
     return true;
   }) : Promise.resolve();
+
   const emailQuery = email ? dbRef.where('email', '==', email).get().then((snapshot) => {
     snapshot.forEach((doc) => {
       const docUser = doc.id;
@@ -142,6 +149,7 @@ async function userInfoQuery({
     });
     return true;
   }) : Promise.resolve();
+
   const firebaseQuery = firebaseUserId ? dbRef.where('firebaseUserId', '==', firebaseUserId).get().then((snapshot) => {
     snapshot.forEach((doc) => {
       const docUser = doc.id;
@@ -151,9 +159,33 @@ async function userInfoQuery({
     });
     return true;
   }) : Promise.resolve();
+
+  const oAuthQuery = platform && platformUserId ? (
+    oAuthDbRef
+      .where(`${platform}UserId`, '==', platformUserId)
+      .get()
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
+          const docUser = doc.id;
+          if (user !== docUser) {
+            throw new ValidationError('FIREBASE_USER_DUPLICATED');
+          }
+        });
+        return true;
+      })
+  ) : Promise.resolve();
+
   const [{
-    isOldUser, oldUserObj,
-  }] = await Promise.all([userNameQuery, walletQuery, emailQuery, firebaseQuery]);
+    isOldUser,
+    oldUserObj,
+  }] = await Promise.all([
+    userNameQuery,
+    walletQuery,
+    emailQuery,
+    firebaseQuery,
+    oAuthQuery,
+  ]);
+
   return { isOldUser, oldUserObj };
 }
 
@@ -162,12 +194,16 @@ export async function checkUserInfoUniqueness({
   wallet,
   email,
   firebaseUserId,
+  platform,
+  platformUserId,
 }) {
   const { isOldUser } = await userInfoQuery({
     user,
     wallet,
     email,
     firebaseUserId,
+    platform,
+    platformUserId,
   });
   return !isOldUser;
 }
