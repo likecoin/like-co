@@ -364,6 +364,7 @@ export default {
       'refreshUserInfo',
       'sendVerifyEmail',
       'setInfoMsg',
+      'fetchSocialListDetailsById',
       'unlinkSocialPlatform',
       'cancelSubscription',
     ]),
@@ -372,6 +373,7 @@ export default {
       this.avatar = user.avatar;
       this.displayName = user.displayName;
       this.email = user.email;
+      this.fetchSocialListDetailsById(user.user);
     },
     async onSubmit() {
       if (this.hasUserDetailsChanged) {
