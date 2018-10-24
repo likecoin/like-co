@@ -4,6 +4,7 @@ import publisher from '../../util/gcloudPub';
 import { jwtAuth } from '../../util/jwt';
 import { checkPlatformAlreadyLinked, socialLinkFacebook } from '../../util/api/social';
 import { ValidationError } from '../../../util/ValidationHelper';
+import { tryToLinkOAuthLogin } from '../../util/api/users';
 
 const { userCollection: dbRef } = require('../../util/firebase');
 
@@ -38,9 +39,12 @@ router.post('/social/link/facebook', jwtAuth('write'), async (req, res, next) =>
     if (!accessToken || !user) {
       throw new ValidationError('invalid payload');
     }
-    if (await checkPlatformAlreadyLinked(user, 'facebook')) {
+
+    const platform = 'facebook';
+    if (await checkPlatformAlreadyLinked(user, platform)) {
       throw new ValidationError('already linked');
     }
+
     const {
       displayName,
       link,
@@ -48,13 +52,21 @@ router.post('/social/link/facebook', jwtAuth('write'), async (req, res, next) =>
       appId,
       pages,
     } = await socialLinkFacebook(user, accessToken);
+
+    await tryToLinkOAuthLogin({
+      likeCoinId: user,
+      platform,
+      platformUserId: userId,
+    });
+
     res.json({
-      platform: 'facebook',
+      platform,
       displayName,
       id: userId,
       pages,
       url: link,
     });
+
     const userDoc = await dbRef.doc(user).get();
     const {
       email,
@@ -66,7 +78,7 @@ router.post('/social/link/facebook', jwtAuth('write'), async (req, res, next) =>
     } = userDoc.data();
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventSocialLink',
-      platform: 'facebook',
+      platform,
       user,
       email: email || undefined,
       displayName: userDisplayName,

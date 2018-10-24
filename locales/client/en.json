@@ -1151,6 +1151,7 @@
     "TWITTER_URL_INVALID": "The tweet URL is invalid",
     "USER_ALREADY_EXIST": "User already exists",
     "USER_NOT_EXIST": "User is not exist",
+    "USER_UNLINK_SOLE_OAUTH_LOGIN": "Unable to unlink. You need at least one sign in method",
     "OICE_SERVER_ERROR": "Unable to verify, please try angin. If this still happen, please contact us.",
     "OICE_LIKECOIN_ID_NOT_BIND": "The linkage of LikeCoin ID and oice account is not correct, please make sure your oice account have bind a LikeCoin ID, and that ID is same as your LikeCoin ID."
   },

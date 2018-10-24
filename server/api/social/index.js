@@ -14,6 +14,7 @@ import medium from './medium';
 import twitter from './twitter';
 import instagram from './instagram';
 import link from './link';
+import { tryToUnlinkOAuthLogin } from '../../util/api/users';
 
 const { userCollection: dbRef } = require('../../util/firebase');
 
@@ -126,9 +127,16 @@ router.post('/social/unlink/:platform', jwtAuth('write'), async (req, res, next)
       res.status(401).send('LOGIN_NEEDED');
       return;
     }
+
+    await tryToUnlinkOAuthLogin({
+      likeCoinId: user,
+      platform,
+    });
+
     const socialDoc = await dbRef.doc(user).collection('social').doc(platform).get();
     if (!socialDoc.exists) throw new ValidationError('platform unknown');
     await socialDoc.ref.delete();
+
     res.sendStatus(200);
     const userDoc = await dbRef.doc(user).get();
     const {

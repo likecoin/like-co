@@ -232,3 +232,62 @@ export async function checkReferrerExists(referrer) {
   }
   return referrerRef.exists;
 }
+
+export async function tryToLinkOAuthLogin({
+  likeCoinId,
+  platform,
+  platformUserId,
+}) {
+  // Make sure no one has linked with this platform and user ID for OAuth login
+  const query = await (
+    oAuthDbRef
+      .where(`${platform}.userId`, '==', platformUserId)
+      .limit(1)
+      .get()
+  );
+  if (query.docs.length > 0) return;
+
+  // Add or update OAuth doc
+  const oAuthDocRef = oAuthDbRef.doc(likeCoinId);
+  const doc = oAuthDocRef.get();
+  if (doc.exists) {
+    await oAuthDocRef.update({
+      [`${platform}.userId`]: platformUserId,
+    });
+  } else {
+    await oAuthDocRef.create({
+      [platform]: {
+        userId: platformUserId,
+      },
+    });
+  }
+}
+
+export async function tryToUnlinkOAuthLogin({
+  likeCoinId,
+  platform,
+}) {
+  // Check if OAuth doc exists
+  const oAuthDocRef = oAuthDbRef.doc(likeCoinId);
+  const oAuthDoc = await oAuthDocRef.get();
+  if (!oAuthDoc.exists) return;
+
+  const data = oAuthDoc.data();
+  const isSole = Object.keys(data).length < 2;
+  if (isSole) {
+    // Make sure user has other sign in methods before unlink
+    const userDoc = await dbRef.doc(likeCoinId).get();
+    const {
+      firebaseUserId,
+      wallet,
+    } = userDoc.data();
+    if (firebaseUserId || wallet) {
+      await oAuthDocRef.delete();
+    } else {
+      throw new ValidationError('USER_UNLINK_SOLE_OAUTH_LOGIN');
+    }
+  } else {
+    delete data[platform];
+    await oAuthDocRef.set(data);
+  }
+}
