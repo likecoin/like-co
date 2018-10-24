@@ -394,6 +394,26 @@ router.post('/users/login', async (req, res, next) => {
         );
         if (query.docs.length > 0) {
           user = query.docs[0].id;
+        } else if (platform === 'email') {
+          // Enable user to sign in with Firebase Email Auth Provider
+          // if there exists a user with that email
+          try {
+            const firebaseUser = await admin.auth().getUser(firebaseUserId);
+            const { email } = req.body;
+            if (firebaseUser.email === email && firebaseUser.emailVerified) {
+              const userQuery = await dbRef.where('email', '==', email).get();
+              if (userQuery.docs.length > 0) {
+                const [userDoc] = userQuery.docs;
+                await userDoc.ref.update({
+                  firebaseUserId,
+                  isEmailVerified: true,
+                });
+                user = userDoc.id;
+              }
+            }
+          } catch (err) {
+            // Do nothing
+          }
         }
         break;
       }
