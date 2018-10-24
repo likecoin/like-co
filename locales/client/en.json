@@ -758,6 +758,25 @@
       "overview": "Overview",
       "bonus": "Bonus",
       "history": "Bonus History"
+    },
+    "mansory": {
+      "title": "Start reading",
+      "description": "Support works from the best writer.",
+      "descriptionCTA": "I want to earn LikeCoin from my work"
+    },
+    "likeButtonAdopter": {
+      "title": "Media using LikeButton",
+      "descriptionCTA": "I want to earn LikeCoin from my site"
+    },
+    "civicLiker": {
+      "title": "Give a hand to support creativity",
+      "description": "Support your favourite creative work. Simple and effective. With bla bla, to bla.",
+      "descriptionCTA": "Civic Liker"
+    },
+    "verifyEmailCta": {
+      "title": "Check your inbox",
+      "description": "We just emailed a verify link to {email}. Click the link to verify your email address.",
+      "descriptionCTA": "I did not receive any email"
     }
   },
   "Edit": {
@@ -1083,7 +1102,8 @@
         "wp": "WordPress only"
       },
       "supportFavContent": "LikeBacker – Support your favourite content",
-      "backerDesc": "By adding the LikeButton to your creative content, The quick, brown fox jumps over a lazy dog.",
+      "backerDesc": "Support your favorite creative work. Simple and effective.",
+      "backerDescDetails": "With bla bla, to bla",
       "active": "Active Subscription"
     },
     "button": {
@@ -1348,13 +1368,15 @@
       "poc": "Proof of Creativity",
       "slogan": "Get Rewarded by Reader’s Likes NOW",
       "campaign": "“Reinventing the Like” Campaign is Live",
-      "enroll": "Campaign Enrollment"
+      "enroll": "Campaign Enrollment",
+      "minTitle": "Thanks for a little support"
     },
     "label": {
       "earn": "Add the reinvented LikeButton to your creative contents to turn readers' Likes into passive income. Keep connected with your fans, promote your own brand with a nicely designed UI.",
       "poc": "With the focus on rewarding content creators, LikeCoin (LIKE) measures the \"creativity\" of creative contents and let creators make passive income in LIKE with their creative contents according to the Likes they get. We call the mechanism Proof of Creativity, or PoC.",
       "campaign": "Act immediately to earn LIKE by your creative works. There are three platforms that support the LikeButton now: WordPress-powered sites, Medium and oice.",
-      "enroll": "Add the LikeButton to your creative works; get Likes from your fans. It’s that simple! We are giving out millions of LikeCoin per month to reward creators. Let’s go ahead for the bonus."
+      "enroll": "Add the LikeButton to your creative works; get Likes from your fans. It’s that simple! We are giving out millions of LikeCoin per month to reward creators. Let’s go ahead for the bonus.",
+      "minLabel": "From now on, whenever you click the LikeButton from a creativte content, the creator will earn profit."
     },
     "button": {
       "startUsing": "Start using"

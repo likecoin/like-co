@@ -117,3 +117,5 @@ export const SUPPORTED_AVATER_TYPE = new Set([
   'tif',
   'bmp',
 ]);
+
+export const AVATAR_DEFAULT_PATH = 'https://static.like.co/likecoin_de-portrait.jpg';

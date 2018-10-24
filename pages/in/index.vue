@@ -2,7 +2,7 @@
   <div class="overview-page">
 
     <div
-      v-if="wallet"
+      v-if="isWallet && isEmailVerified"
       id="earn"
       class="bonus-container lc-container-0 lc-margin-top-48"
     >
@@ -68,7 +68,7 @@
     </div>
 
     <transaction-history
-      v-if="wallet"
+      v-if="isWallet && isEmailVerified"
       id="transaction"
       ref="txHistory"
       :address="wallet"
@@ -76,7 +76,112 @@
       class="lc-margin-top-48 lc-mobile"
     />
 
-    <div class="lc-container-0 lc-margin-top-24 lc-mobile-show">
+    <!-- !! UI for user without wallet !! -->
+    <section
+      v-if="isEmailVerified"
+      class="lc-container-0"
+    >
+      <div class="lc-container-1">
+        <div class="lc-container-2">
+          <div class="lc-container-3">
+            <div class="lc-container-4">
+              <like-button-intro-min
+                v-if="!isWallet"
+              />
+            </div>
+          </div>
+
+          <div
+            v-if="!isWallet"
+            class="
+              lc-container-3
+              lc-bg-gray-1
+              lc-container-no-padding-mobile
+              lc-margin-top-32
+              lc-padding-bottom-8"
+          >
+            <div
+              class="lc-container-4 lc-font-size-32 lc-font-weight-300 lc-mobile lc-padding-top-24"
+            >
+              {{ $t('In.mansory.title') }}
+              <div
+                class="lc-container-header-button-wrapper lc-mobile-hide lc-padding-top-24"
+              >
+                <refresh-button
+                  :is-refreshing="isFetchingLikeSuggestion"
+                  @click="refreshLikeSuggestion"
+                />
+              </div>
+            </div>
+            <div class="lc-container-4">
+              <mansory-article-list
+                class="lc-margin-vertical-24 lc-mobile"
+              />
+            </div>
+            <div class="lc-font-size-12 lc-font-weight-300 lc-text-align-center">
+              {{ $t('In.mansory.description') }}
+              <br>
+              <nuxt-link :to="{ name: 'in-earn' }">
+                {{ $t('In.mansory.descriptionCTA') }}
+              </nuxt-link>
+            </div>
+          </div>
+
+          <div
+            v-if="!isWallet"
+            class="
+              lc-container-3
+              lc-bg-gray-1
+              lc-container-no-padding-mobile
+              lc-margin-top-32
+            "
+          >
+            <div class="lc-flex">
+              <div
+                class="
+                  lc-container-4
+                  lc-font-size-32
+                  lc-font-weight-300
+                  lc-mobile
+                  lc-padding-top-24
+                  in-button-adopter__title
+                "
+              >
+                {{ $t('In.likeButtonAdopter.title') }}
+              </div>
+              <div
+                class="
+                  lc-font-size-12
+                  lc-font-weight-300
+                  lc-padding-top-24
+                  in-button-adopter__cta
+                "
+              >
+                <nuxt-link :to="{ name: 'in-earn' }">
+                  {{ $t('In.likeButtonAdopter.descriptionCTA') }}
+                </nuxt-link>
+              </div>
+            </div>
+            <like-button-adopter />
+          </div>
+
+          <!-- TODO: Temp hide before civic liker release
+          <div
+            v-if="!isWallet"
+            class="lc-margin-top-32"
+          >
+            <civic-liker-cta />
+          </div>
+          -->
+        </div>
+      </div>
+    </section>
+    <!-- !! UI for user without wallet !! -->
+
+    <div
+      v-if="isEmailVerified"
+      class="lc-container-0 lc-margin-top-24 lc-mobile-show"
+    >
       <div class="lc-container-1">
         <div class="lc-container-2">
           <div class="lc-container-3 lc-flex lc-justify-content-center">
@@ -91,9 +196,22 @@
     </div>
 
     <view-etherscan
-      v-if="wallet"
+      v-if="isWallet && isEmailVerified"
       :address="wallet"
     />
+
+    <div
+      v-if="!isEmailVerified"
+      class="lc-container-0 lc-margin-top-24"
+    >
+      <div class="lc-container-1">
+        <div class="lc-container-2">
+          <verify-email-cta
+            :email-ref="'in'"
+          />
+        </div>
+      </div>
+    </div>
 
   </div>
 </template>
@@ -101,12 +219,15 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-import LikeCoinAmount from '~/components/LikeCoinAmount';
-import MaterialButton from '~/components/MaterialButton';
 import MissionList from '@/components/Mission/List';
 import TransactionHistory from '~/components/TransactionHistory';
 import RefreshButton from '~/components/RefreshButton';
 import ViewEtherscan from '~/components/ViewEtherscan';
+import LikeButtonIntroMin from '~/components/LikeButtonIntroMin';
+import MansoryArticleList from '~/components/home/MansoryArticleList';
+import LikeButtonAdopter from '~/components/LikeButtonAdopter';
+import CivicLikerCta from '~/components/CivicLikerCta';
+import VerifyEmailCta from '~/components/VerifyEmailCta';
 
 import EditIcon from '@/assets/icons/edit.svg';
 import EditWhiteIcon from '@/assets/icons/edit-white.svg';
@@ -117,12 +238,15 @@ export default {
   name: 'in',
   layout: 'in',
   components: {
-    LikeCoinAmount,
-    MaterialButton,
     MissionList,
     TransactionHistory,
     RefreshButton,
     ViewEtherscan,
+    LikeButtonIntroMin,
+    MansoryArticleList,
+    LikeButtonAdopter,
+    CivicLikerCta,
+    VerifyEmailCta,
   },
   data() {
     return {
@@ -132,6 +256,7 @@ export default {
       TickIcon,
       freeCoupon: '',
       isFetchingTranscationHistory: false,
+      isFetchingLikeSuggestion: false,
     };
   },
   computed: {
@@ -145,6 +270,12 @@ export default {
       'getUserIsRegistered',
       'getShortMissionList',
     ]),
+    isWallet() {
+      return !!this.wallet;
+    },
+    isEmailVerified() {
+      return this.getUserInfo.isEmailVerified;
+    },
   },
   head() {
     return {
@@ -177,6 +308,7 @@ export default {
       'fetchUserReferralStats',
       'refreshMissionList',
       'onMissionClick',
+      'fetchLikeSuggestionList',
     ]),
     refreshMissions() {
       this.refreshMissionList(this.getUserInfo.user);
@@ -186,6 +318,11 @@ export default {
       this.wallet = user.wallet;
       if (this.$refs.txHistory) this.$refs.txHistory.updateTokenSaleHistory();
       this.refreshMissions();
+    },
+    async refreshLikeSuggestion() {
+      this.isFetchingLikeSuggestion = true;
+      await this.fetchLikeSuggestionList();
+      this.isFetchingLikeSuggestion = false;
     },
   },
 };
@@ -220,6 +357,17 @@ export default {
     @media (min-width: 960 + 1px) {
       display: none;
     }
+  }
+}
+
+.in-button-adopter {
+  &__title {
+    flex: 1;
+  }
+  &__cta {
+    flex: 1;
+
+    text-align: right;
   }
 }
 </style>
