@@ -77,8 +77,8 @@
           class="auth-dialog__tab lc-padding-vertical-16"
         >
           <register-form
-            :is-show-email="!email"
-            :avatar-url="signInPayload.avatarURL"
+            :prefilled-data="signInPayload"
+            :is-show-email="shouldSignUpShowEmail"
             @register="register"
           />
         </div>
@@ -132,7 +132,7 @@
               {{ $t('AuthDialog.label.checkInbox') }}
             </h1>
             <p class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-32">
-              {{ $t('AuthDialog.label.checkInboxDescription', { email }) }}
+              {{ $t('AuthDialog.label.checkInboxDescription', {email: signInPayload.email }) }}
             </p>
           </div>
           <div class="lc-dialog-container-1 lc-button-group">
@@ -210,10 +210,11 @@ export default {
       currentTab: 'portal',
       contentStyle: {},
 
-      signInPayload: {},
       platform: '',
-      email: '',
-      isEmailSignIn: false,
+      signInPayload: {
+        email: '',
+        isEmailVerified: false,
+      },
     };
   },
   computed: {
@@ -238,6 +239,9 @@ export default {
     },
     shouldShowDialog() {
       return this.getIsShowAuthDialog && !this.shouldHideDialog;
+    },
+    shouldSignUpShowEmail() {
+      return !(this.signInPayload.isEmailVerified && this.platform === 'google');
     },
   },
   watch: {
@@ -274,12 +278,9 @@ export default {
 
       if (result && result.firebaseIdToken && result.email) {
         this.platform = 'email';
-        this.email = result.email;
         this.signInPayload = {
           email: result.email,
           firebaseIdToken: result.firebaseIdToken,
-          platform: 'email',
-          locale: this.getCurrentLocale,
         };
         this.login();
       } else {
@@ -376,7 +377,7 @@ export default {
       this.login();
     },
     async signInWithEmail(email) {
-      this.email = email;
+      this.signInPayload.email = email;
       this.currentTab = 'loading';
       await firebaseSendSignInEmail(email);
       this.currentTab = 'checkInbox';
@@ -460,7 +461,7 @@ export default {
 
                     if (email) {
                       payload.email = email;
-                      payload.isEmailVerified = true;
+                      payload.isEmailVerified = false;
                     }
 
                     if (data && !data.is_silhouette) {
@@ -483,11 +484,6 @@ export default {
           ...this.signInPayload,
           ...preRegisterPayload,
         };
-      }
-
-      const { email, isEmailVerified } = this.signInPayload;
-      if (isEmailVerified) {
-        this.email = email;
       }
 
       this.currentTab = 'register';

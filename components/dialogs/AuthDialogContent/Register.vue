@@ -18,12 +18,12 @@
 
             <div class="avatar-picker__preview">
               <img
-                v-if="avatarData || avatarUrl"
-                :src="avatarData || avatarUrl"
+                v-if="avatarSrc"
+                :src="avatarSrc"
               >
               <md-button @click="openAvatarPicker">
                 <md-icon
-                  v-if="!(avatarData || avatarUrl)"
+                  v-if="!avatarSrc"
                   class="md-size-2x"
                 >person</md-icon>
               </md-button>
@@ -143,6 +143,10 @@ const LIKECOIN_ID_REGEX = '[a-z0-9-_]{7,20}';
 export default {
   name: 'register-form',
   props: {
+    prefilledData: {
+      type: Object,
+      default: () => {},
+    },
     isShowEmail: {
       type: Boolean,
       default: true,
@@ -150,10 +154,6 @@ export default {
     isShowAvatar: {
       type: Boolean,
       default: true,
-    },
-    avatarUrl: {
-      type: String,
-      default: '',
     },
   },
   data() {
@@ -164,16 +164,18 @@ export default {
       avatarData: null,
       avatarFile: null,
       likeCoinId: '',
-      email: '',
+      email: this.prefilledData.email,
       isEmailEnabled: false,
       isTermsAgreed: false,
     };
   },
   computed: {
     ...mapGetters([
-      'getCurrentLocale',
       'getInfoMsg',
     ]),
+    avatarSrc() {
+      return this.avatarData || this.prefilledData.avatarURL;
+    },
     isFormValid() {
       const isIdValid = new RegExp(LIKECOIN_ID_REGEX).test(this.likeCoinId);
       const isEmailValid = (
@@ -222,13 +224,13 @@ export default {
 
       if (this.avatarFile) {
         payload.avatarFile = this.avatarFile;
-      } else if (this.avatarUrl) {
+      } else if (this.prefilledData.avatarURL) {
         // Get the avatar file from URL
-        const res = await axios.get(this.avatarUrl, {
+        const res = await axios.get(this.prefilledData.avatarURL, {
           responseType: 'blob',
           timeout: 30000,
         });
-        const filename = this.avatarUrl.split('/').pop();
+        const filename = this.prefilledData.avatarURL.split('/').pop();
         payload.avatarFile = new File([new Blob([res.data])], filename);
       }
 
