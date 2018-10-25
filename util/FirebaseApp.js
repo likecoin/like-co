@@ -97,31 +97,30 @@ export function firebaseIsSignInEmailLink() {
   return firebase.auth().isSignInWithEmailLink(window.location.href);
 }
 
-export async function firebaseHandleSignInEmailLink() {
+export async function firebaseHandleSignInEmailLink(providedEmail) {
   let email;
-  try {
-    ({ email } = JSON.parse(window.localStorage.getItem('emailForSignIn')));
-  } catch (err) {
-    return null;
+
+  if (providedEmail) {
+    email = providedEmail;
+  } else {
+    try {
+      ({ email } = JSON.parse(window.localStorage.getItem('emailForSignIn')));
+    } catch (err) {
+      // Do nothing
+    }
   }
 
   if (!email) {
-    // User opened the link on a different device. To prevent session fixation
-    // attacks, ask the user to provide the associated email again.
-    // TODO
-    return null;
+    throw new Error('FIREBASE_EMAIL_LINK_AUTH_NO_EMAIL');
   }
 
-  await firebase.auth()
-    .signInWithEmailLink(email, window.location.href)
-    .catch((err) => {
-      console.error(err);
-      // TODO: Handle error
-    });
+  await firebase.auth().signInWithEmailLink(email, window.location.href);
   const firebaseIdToken = await firebase.auth().currentUser.getIdToken();
 
-  // Clear email from storage.
-  window.localStorage.removeItem('emailForSignIn');
+  if (!providedEmail) {
+    // Clear email from storage.
+    window.localStorage.removeItem('emailForSignIn');
+  }
 
   return { email, firebaseIdToken };
 }

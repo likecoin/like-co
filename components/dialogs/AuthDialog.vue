@@ -215,6 +215,8 @@ export default {
         email: '',
         isEmailVerified: false,
       },
+
+      isSigningInWithEmail: false,
     };
   },
   computed: {
@@ -249,7 +251,9 @@ export default {
       if (isShow) {
         this.$nextTick(this.setContentHeight);
 
-        this.currentTab = 'portal';
+        if (!this.isSigningInWithEmail) {
+          this.currentTab = 'portal';
+        }
       }
     },
   },
@@ -271,20 +275,22 @@ export default {
 
     // Check whether it is email sign in
     if (firebaseIsSignInEmailLink()) {
+      this.isSigningInWithEmail = true;
       this.currentTab = 'signingIn';
+      this.platform = 'email';
       this.setIsShow(true);
-
-      const result = await firebaseHandleSignInEmailLink();
-
-      if (result && result.firebaseIdToken && result.email) {
-        this.platform = 'email';
-        this.signInPayload = {
-          email: result.email,
-          firebaseIdToken: result.firebaseIdToken,
-        };
+      try {
+        this.signInPayload = await firebaseHandleSignInEmailLink();
         this.login();
-      } else {
-        this.currentTab = 'signInError';
+      } catch (err) {
+        if (err.message === 'FIREBASE_EMAIL_LINK_AUTH_NO_EMAIL') {
+          // User opened the link on a different device. To prevent session fixation attacks, ask
+          // the user to provide the associated email again
+          this.currentTab = 'email';
+        } else {
+          this.currentTab = 'signInError';
+          this.isSigningInWithEmail = false;
+        }
       }
     }
   },
@@ -377,10 +383,21 @@ export default {
       this.login();
     },
     async signInWithEmail(email) {
-      this.signInPayload.email = email;
       this.currentTab = 'loading';
-      await firebaseSendSignInEmail(email);
-      this.currentTab = 'checkInbox';
+
+      if (this.isSigningInWithEmail) {
+        try {
+          this.signInPayload = await firebaseHandleSignInEmailLink(email);
+          this.login();
+        } catch (err) {
+          this.currentTab = 'signInError';
+        } finally {
+          this.isSigningInWithEmail = false;
+        }
+      } else {
+        await firebaseSendSignInEmail(email);
+        this.currentTab = 'checkInbox';
+      }
     },
     async signInWithWallet() {
       this.currentTab = 'signingIn';
