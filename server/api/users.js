@@ -97,6 +97,10 @@ router.post('/users/new', apiLimiter, multer.single('avatarFile'), async (req, r
         const { firebaseIdToken } = req.body;
         ({ uid: firebaseUserId } = await admin.auth().verifyIdToken(firebaseIdToken));
         payload = req.body;
+
+        // Set verified to the email if it matches Firebase verified email
+        const firebaseUser = await admin.auth().getUser(firebaseUserId);
+        isEmailVerified = firebaseUser.email === payload.email && firebaseUser.emailVerified;
         break;
       }
 
@@ -108,10 +112,9 @@ router.post('/users/new', apiLimiter, multer.single('avatarFile'), async (req, r
           throw new ValidationError('USER_ID_NOT_MTACH');
         }
         platformUserId = userId;
-        // Verify email
-        if (email === payload.email) {
-          isEmailVerified = true;
-        }
+
+        // Set verified to the email if it matches Facebook verified email
+        isEmailVerified = email === payload.email;
         break;
       }
 
