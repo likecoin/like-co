@@ -13,7 +13,7 @@ const disposableDomains = require('disposable-email-domains');
 
 const {
   userCollection: dbRef,
-  userOAuthCollection: oAuthDbRef,
+  userAuthCollection: authDbRef,
 } = require('../firebase');
 
 export const ONE_DATE_IN_MS = 86400000;
@@ -160,8 +160,8 @@ async function userInfoQuery({
     return true;
   }) : Promise.resolve();
 
-  const oAuthQuery = platform && platformUserId ? (
-    oAuthDbRef
+  const authQuery = platform && platformUserId ? (
+    authDbRef
       .where(`${platform}UserId`, '==', platformUserId)
       .get()
       .then((snapshot) => {
@@ -183,7 +183,7 @@ async function userInfoQuery({
     walletQuery,
     emailQuery,
     firebaseQuery,
-    oAuthQuery,
+    authQuery,
   ]);
 
   return { isOldUser, oldUserObj };
@@ -240,54 +240,49 @@ export async function tryToLinkOAuthLogin({
 }) {
   // Make sure no one has linked with this platform and user ID for OAuth login
   const query = await (
-    oAuthDbRef
+    authDbRef
       .where(`${platform}.userId`, '==', platformUserId)
       .limit(1)
       .get()
   );
   if (query.docs.length > 0) return;
 
-  // Add or update OAuth doc
-  const oAuthDocRef = oAuthDbRef.doc(likeCoinId);
-  const doc = oAuthDocRef.get();
-  if (doc.exists) {
-    await oAuthDocRef.update({
-      [`${platform}.userId`]: platformUserId,
-    });
-  } else {
-    await oAuthDocRef.create({
-      [platform]: {
-        userId: platformUserId,
-      },
-    });
-  }
+  // Add or update auth doc
+  const authDocRef = authDbRef.doc(likeCoinId);
+  await authDocRef.set({
+    [platform]: {
+      userId: platformUserId,
+    },
+  }, { merge: true });
 }
 
 export async function tryToUnlinkOAuthLogin({
   likeCoinId,
   platform,
 }) {
-  // Check if OAuth doc exists
-  const oAuthDocRef = oAuthDbRef.doc(likeCoinId);
-  const oAuthDoc = await oAuthDocRef.get();
-  if (!oAuthDoc.exists) return;
+  // Check if auth doc exists
+  const authDocRef = authDbRef.doc(likeCoinId);
+  const authDoc = await authDocRef.get();
+  if (!authDoc.exists) return;
 
-  const data = oAuthDoc.data();
+  const data = authDoc.data();
+  if (!data[platform]) return;
   const isSole = Object.keys(data).length < 2;
   if (isSole) {
     // Make sure user has other sign in methods before unlink
     const userDoc = await dbRef.doc(likeCoinId).get();
     const {
-      firebaseUserId,
+      email,
+      isEmailVerified,
       wallet,
     } = userDoc.data();
-    if (firebaseUserId || wallet) {
-      await oAuthDocRef.delete();
+    if ((email && isEmailVerified) || wallet) {
+      await authDocRef.delete();
     } else {
       throw new ValidationError('USER_UNLINK_SOLE_OAUTH_LOGIN');
     }
   } else {
     delete data[platform];
-    await oAuthDocRef.set(data);
+    await authDocRef.set(data);
   }
 }

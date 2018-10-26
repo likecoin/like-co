@@ -1,7 +1,7 @@
 const config = {};
 
 config.FIRESTORE_USER_ROOT = '';
-config.FIRESTORE_USER_OAUTH_ROOT = '';
+config.FIRESTORE_USER_AUTH_ROOT = '';
 config.FIRESTORE_TX_ROOT = '';
 config.FIRESTORE_IAP_ROOT = '';
 config.FIRESTORE_PAYOUT_ROOT = '';

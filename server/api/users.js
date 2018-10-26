@@ -23,6 +23,7 @@ import { ValidationHelper as Validate, ValidationError } from '../../util/Valida
 import { handleAvatarUploadAndGetURL } from '../util/fileupload';
 import { jwtAuth } from '../util/jwt';
 import publisher from '../util/gcloudPub';
+import { getFirebaseUserProviderUserInfo } from '../../util/FirebaseApp';
 
 const Multer = require('multer');
 const uuidv4 = require('uuid/v4');
@@ -35,7 +36,7 @@ const {
 
 const {
   userCollection: dbRef,
-  userOAuthCollection: oAuthDbRef,
+  userAuthCollection: authDbRef,
   FieldValue,
   admin,
 } = require('../util/firebase');
@@ -101,6 +102,19 @@ router.post('/users/new', apiLimiter, multer.single('avatarFile'), async (req, r
         // Set verified to the email if it matches Firebase verified email
         const firebaseUser = await admin.auth().getUser(firebaseUserId);
         isEmailVerified = firebaseUser.email === payload.email && firebaseUser.emailVerified;
+
+        switch (platform) {
+          case 'google':
+          case 'twitter': {
+            const userInfo = getFirebaseUserProviderUserInfo(firebaseUser, platform);
+            if (userInfo) {
+              platformUserId = userInfo.uid;
+            }
+            break;
+          }
+          default:
+        }
+
         break;
       }
 
@@ -225,17 +239,13 @@ router.post('/users/new', apiLimiter, multer.single('avatarFile'), async (req, r
       await dbRef.doc(referrer).collection('referrals').doc(user).create(timestampObj);
     }
 
-    switch (platform) {
-      case 'facebook': {
-        const doc = {
-          [platform]: {
-            userId: platformUserId,
-          },
-        };
-        await oAuthDbRef.doc(user).create(doc);
-        break;
-      }
-      default:
+    if (platformUserId) {
+      const doc = {
+        [platform]: {
+          userId: platformUserId,
+        },
+      };
+      await authDbRef.doc(user).create(doc);
     }
 
     const socialPayload = await tryToLinkSocialPlatform(user, platform, { accessToken, secret });
@@ -389,34 +399,48 @@ router.post('/users/login', async (req, res, next) => {
       case 'twitter': {
         const { firebaseIdToken } = req.body;
         const { uid: firebaseUserId } = await admin.auth().verifyIdToken(firebaseIdToken);
-        const query = (
-          await dbRef
-            .where('firebaseUserId', '==', firebaseUserId)
-            .limit(1)
-            .get()
-        );
-        if (query.docs.length > 0) {
-          user = query.docs[0].id;
-        } else if (platform === 'email') {
-          // Enable user to sign in with Firebase Email Auth Provider
-          // if there exists a user with that email
-          try {
-            const firebaseUser = await admin.auth().getUser(firebaseUserId);
-            const { email } = req.body;
-            if (firebaseUser.email === email && firebaseUser.emailVerified) {
-              const userQuery = await dbRef.where('email', '==', email).get();
+        const firebaseUser = await admin.auth().getUser(firebaseUserId);
+        switch (platform) {
+          case 'email': {
+            // Enable user to sign in with Firebase Email Auth Provider
+            // if there exists a user with that email
+            try {
+              const { email } = req.body;
+              if (email === firebaseUser.email && firebaseUser.emailVerified) {
+                const userQuery = await dbRef.where('email', '==', email).get();
+                if (userQuery.docs.length > 0) {
+                  const [userDoc] = userQuery.docs;
+                  await userDoc.ref.update({
+                    firebaseUserId,
+                    isEmailVerified: true,
+                  });
+                  user = userDoc.id;
+                }
+              }
+            } catch (err) {
+              // Do nothing
+            }
+            break;
+          }
+
+          case 'google':
+          case 'twitter': {
+            const userInfo = getFirebaseUserProviderUserInfo(firebaseUser, platform);
+            if (userInfo) {
+              const userQuery = await (
+                authDbRef
+                  .where(`${platform}.userId`, '==', userInfo.uid)
+                  .get()
+              );
               if (userQuery.docs.length > 0) {
                 const [userDoc] = userQuery.docs;
-                await userDoc.ref.update({
-                  firebaseUserId,
-                  isEmailVerified: true,
-                });
                 user = userDoc.id;
               }
             }
-          } catch (err) {
-            // Do nothing
+            break;
           }
+
+          default:
         }
         break;
       }
@@ -429,7 +453,7 @@ router.post('/users/login', async (req, res, next) => {
             throw new ValidationError('USER_ID_NOT_MTACH');
           }
           const query = (
-            await oAuthDbRef
+            await authDbRef
               .where(`${platform}.userId`, '==', platformUserId)
               .limit(1)
               .get()

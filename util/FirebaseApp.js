@@ -40,6 +40,26 @@ export function getFirebaseProvider(platform) {
   }
 }
 
+export function getFirebaseProviderId(platform) {
+  switch (platform) {
+    case 'facebook':
+      return firebase.auth.FacebookAuthProvider.PROVIDER_ID;
+    case 'github':
+      return firebase.auth.GithubAuthProvider.PROVIDER_ID;
+    case 'google':
+      return firebase.auth.GoogleAuthProvider.PROVIDER_ID;
+    case 'twitter':
+      return firebase.auth.TwitterAuthProvider.PROVIDER_ID;
+    default:
+      throw new Error('Platform not exist');
+  }
+}
+
+export function getFirebaseUserProviderUserInfo(firebaseUser, platform) {
+  const providerId = getFirebaseProviderId(platform);
+  return firebaseUser.providerData.find(p => (p.providerId === providerId));
+}
+
 export async function firebasePlatformSignIn(platform) {
   const provider = getFirebaseProvider(platform);
   const result = await firebase.auth().signInWithPopup(provider);
