@@ -78,7 +78,7 @@ import * as api from '@/util/api/api';
 import QuoteTweetForm from '~/components/forms/QuoteTweetForm';
 import Spinner from '~/components/Spinner';
 
-const TWEET_URL = 'https://twitter.com/likecoin_fdn/status/1040052890398679040';
+const TWEET_URL = 'https://twitter.com/likecoin_fdn/status/1055679649156493312';
 
 export default {
   name: 'quote-tweet-mission',
