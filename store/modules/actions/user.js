@@ -11,6 +11,11 @@ import EthHelper from '@/util/EthHelper';
 import User from '@/util/User';
 
 import apiWrapper from './api-wrapper';
+import {
+  firebase,
+  getFirebaseProviderId,
+} from '../../../util/FirebaseApp';
+
 
 export function doUserAuth({ commit }, { router, route }) {
   if (route) commit(types.USER_SET_AFTER_AUTH_ROUTE, route);
@@ -168,6 +173,33 @@ export async function linkSocialPlatform({ commit, dispatch }, { platform, paylo
     { commit, dispatch },
     api.apiLinkSocialPlatform(platform, payload),
   );
+
+  // Link platform to Firebase
+  let firebaseCredential;
+  switch (platform) {
+    case 'facebook':
+      firebaseCredential = (
+        firebase
+          .auth
+          .FacebookAuthProvider
+          .credential(payload.access_token)
+      );
+      break;
+
+    default:
+  }
+
+  if (firebaseCredential) {
+    try {
+      await firebase
+        .auth()
+        .currentUser
+        .linkAndRetrieveDataWithCredential(firebaseCredential);
+    } catch (err) {
+      // Do nothing
+    }
+  }
+
   commit(types.USER_LINK_SOCIAL, {
     platform, displayName, url, pages, id,
   });
@@ -179,6 +211,20 @@ export async function unlinkSocialPlatform({ commit, dispatch }, { platform, pay
     { commit, dispatch },
     api.apiUnlinkSocialPlatform(platform, payload),
   );
+
+  // Unlink platform from Firebase
+  switch (platform) {
+    case 'facebook':
+      try {
+        await firebase.auth().currentUser.unlink(getFirebaseProviderId(platform));
+      } catch (err) {
+        // Do nothing
+      }
+      break;
+
+    default:
+  }
+
   commit(types.USER_UNLINK_SOCIAL, platform);
 }
 

@@ -129,6 +129,10 @@ router.post('/users/new', apiLimiter, multer.single('avatarFile'), async (req, r
 
         // Set verified to the email if it matches Facebook verified email
         isEmailVerified = email === payload.email;
+
+        // Verify Firebase user ID
+        const { firebaseIdToken } = req.body;
+        ({ uid: firebaseUserId } = await admin.auth().verifyIdToken(firebaseIdToken));
         break;
       }
 

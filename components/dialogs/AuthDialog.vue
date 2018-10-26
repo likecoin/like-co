@@ -176,6 +176,7 @@ import {
 } from '@/util/api/api';
 
 import {
+  firebase,
   firebasePlatformSignIn,
   firebaseSendSignInEmail,
   firebaseIsSignInEmailLink,
@@ -372,6 +373,17 @@ export default {
                 }
               }, { scope: 'public_profile,pages_show_list,user_link' });
             });
+
+            // Link Facebook with Firebase
+            const userCredential = await firebase.auth().signInAndRetrieveDataWithCredential(
+              firebase
+                .auth
+                .FacebookAuthProvider
+                .credential(this.signInPayload.accessToken),
+            ).catch();
+            if (userCredential && userCredential.user) {
+              this.signInPayload.firebaseIdToken = await userCredential.user.getIdToken();
+            }
           } catch (err) {
             this.currentTab = 'portal';
           }
