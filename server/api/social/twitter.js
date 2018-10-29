@@ -5,6 +5,7 @@ import publisher from '../../util/gcloudPub';
 import { jwtAuth } from '../../util/jwt';
 import { checkPlatformAlreadyLinked, socialLinkTwitter } from '../../util/api/social';
 import { ValidationError } from '../../../util/ValidationHelper';
+import { tryToLinkOAuthLogin } from '../../util/api/users';
 
 const { userCollection: dbRef } = require('../../util/firebase');
 
@@ -45,7 +46,8 @@ router.post('/social/link/twitter', jwtAuth('write'), async (req, res, next) => 
     if (!oAuthVerifier || !oAuthToken || !user) {
       throw new ValidationError('invalid payload');
     }
-    const doc = await dbRef.doc(user).collection('social').doc('twitter').get();
+    const platform = 'twitter';
+    const doc = await dbRef.doc(user).collection('social').doc(platform).get();
     const {
       oAuthToken: token,
       oAuthTokenSecret,
@@ -60,15 +62,26 @@ router.post('/social/link/twitter', jwtAuth('write'), async (req, res, next) => 
       userId,
       displayName,
       url,
+      oAuthToken: newOAuthToken,
+      oAuthTokenSecret: newOAuthTokenSecret,
     } = await socialLinkTwitter(
       user,
       { token: oAuthToken, secret: oAuthTokenSecret, oAuthVerifier },
       false,
     );
+
+    await tryToLinkOAuthLogin({
+      likeCoinId: user,
+      platform,
+      platformUserId: userId,
+    });
+
     res.json({
-      platform: 'twitter',
+      platform,
       displayName,
       url,
+      oAuthToken: newOAuthToken,
+      oAuthTokenSecret: newOAuthTokenSecret,
     });
     const userDoc = await dbRef.doc(user).get();
     const {
@@ -81,7 +94,7 @@ router.post('/social/link/twitter', jwtAuth('write'), async (req, res, next) => 
     } = userDoc.data();
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventSocialLink',
-      platform: 'twitter',
+      platform,
       user,
       email: email || undefined,
       displayName: userDisplayName,

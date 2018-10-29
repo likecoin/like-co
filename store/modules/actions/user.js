@@ -169,6 +169,7 @@ export async function fetchSocialPlatformLink({ commit, dispatch }, { platform, 
 export async function linkSocialPlatform({ commit, dispatch }, { platform, payload }) {
   const {
     displayName, url, pages, id,
+    oAuthToken, oAuthTokenSecret,
   } = await apiWrapper(
     { commit, dispatch },
     api.apiLinkSocialPlatform(platform, payload),
@@ -183,6 +184,15 @@ export async function linkSocialPlatform({ commit, dispatch }, { platform, paylo
           .auth
           .FacebookAuthProvider
           .credential(payload.access_token)
+      );
+      break;
+
+    case 'twitter':
+      firebaseCredential = (
+        firebase
+          .auth
+          .TwitterAuthProvider
+          .credential(oAuthToken, oAuthTokenSecret)
       );
       break;
 
@@ -215,6 +225,7 @@ export async function unlinkSocialPlatform({ commit, dispatch }, { platform, pay
   // Unlink platform from Firebase
   switch (platform) {
     case 'facebook':
+    case 'twitter':
       try {
         await firebase.auth().currentUser.unlink(getFirebaseProviderId(platform));
       } catch (err) {

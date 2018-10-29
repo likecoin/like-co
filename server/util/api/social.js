@@ -63,6 +63,8 @@ export async function socialLinkTwitter(
     userId,
     displayName,
     url,
+    oAuthToken: newOAuthToken,
+    oAuthTokenSecret: newOAuthSecret,
   };
 }
 
