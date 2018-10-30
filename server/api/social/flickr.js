@@ -6,7 +6,10 @@ import publisher from '../../util/gcloudPub';
 import { jwtAuth } from '../../util/jwt';
 import { ValidationError } from '../../../util/ValidationHelper';
 
-const { userCollection: dbRef } = require('../../util/firebase');
+const {
+  userCollection: dbRef,
+  FieldValue,
+} = require('../../util/firebase');
 
 const router = Router();
 
@@ -60,16 +63,14 @@ router.post('/social/link/flickr', jwtAuth('write'), async (req, res, next) => {
       fullName,
       userId,
       userName,
-      oAuthToken: newOAuthToken,
-      oAuthTokenSecret: newOAuthSecret,
     } = await fetchFlickrUser(oAuthToken, oAuthTokenSecret, oAuthVerifier);
     const url = `https://www.flickr.com/people/${userId}`;
     await dbRef.doc(user).collection('social').doc('flickr').set({
       displayName: userName,
       userId,
       url,
-      oAuthToken: newOAuthToken,
-      oAuthTokenSecret: newOAuthSecret,
+      oAuthToken: FieldValue.delete(),
+      oAuthTokenSecret: FieldValue.delete(),
       isLinked: true,
       ts: Date.now(),
     }, { merge: true });

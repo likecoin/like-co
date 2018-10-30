@@ -1,7 +1,10 @@
 import { fetchFacebookUser } from '../../oauth/facebook';
 import { fetchTwitterUser, fetchTwitterUserByAccessToken } from '../../oauth/twitter';
 
-const { userCollection: dbRef } = require('../firebase');
+const {
+  userCollection: dbRef,
+  FieldValue,
+} = require('../firebase');
 
 export async function checkPlatformAlreadyLinked(user, platform) {
   const doc = await dbRef.doc(user).collection('social').doc(platform).get();
@@ -20,7 +23,6 @@ export async function socialLinkFacebook(user, accessToken) {
     displayName,
     userId,
     appId,
-    accessToken,
     url: link,
     userLink: link,
     pages,
@@ -44,8 +46,8 @@ export async function socialLinkTwitter(
   const {
     userId,
     displayName,
-    oAuthToken: newOAuthToken,
-    oAuthTokenSecret: newOAuthSecret,
+    oAuthToken,
+    oAuthTokenSecret,
   } = isAccessToken
     ? await fetchTwitterUserByAccessToken(token, secret)
     : await fetchTwitterUser(token, secret, oAuthVerifier);
@@ -54,8 +56,8 @@ export async function socialLinkTwitter(
     displayName,
     userId,
     url,
-    oAuthToken: newOAuthToken,
-    oAuthTokenSecret: newOAuthSecret,
+    oAuthToken: FieldValue.delete(),
+    oAuthTokenSecret: FieldValue.delete(),
     isLinked: true,
     ts: Date.now(),
   }, { merge: true });
@@ -63,8 +65,8 @@ export async function socialLinkTwitter(
     userId,
     displayName,
     url,
-    oAuthToken: newOAuthToken,
-    oAuthTokenSecret: newOAuthSecret,
+    oAuthToken,
+    oAuthTokenSecret,
   };
 }
 
