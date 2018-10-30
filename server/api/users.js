@@ -222,6 +222,14 @@ router.post('/users/new', apiLimiter, multer.single('avatarFile'), async (req, r
     if (email) {
       createObj.email = email;
       createObj.isEmailVerified = isEmailVerified;
+
+      if (isEmailVerified) {
+        await dbRef
+          .doc(user)
+          .collection('mission')
+          .doc('verifyEmail')
+          .set({ done: true }, { merge: true });
+      }
     }
 
     const timestampObj = { timestamp: Date.now() };
