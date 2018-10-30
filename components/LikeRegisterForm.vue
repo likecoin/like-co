@@ -238,6 +238,7 @@ export default {
       W3C_EMAIL_REGEX,
       IS_TESTNET,
       shouldShowReferrerDialog: false,
+      sourceURL: this.$route.query.referrer || '',
     };
   },
   computed: {
@@ -371,6 +372,9 @@ export default {
         logTrackerEvent(this, 'RegFlow', 'CompleteRegistration', 'click confirm to create new account and the action success', 1);
         if (this.referrer) {
           logTrackerEvent(this, 'RegFlow', 'CompleteReferrer', 'created new account with referrer', 1);
+        }
+        if (this.sourceURL) {
+          logTrackerEvent(this, 'RegFlow', 'CompleteSourceURL', this.sourceURL, 1);
         }
         await this.refreshUser(this.wallet);
         this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${this.user}">${this.$t('Register.form.label.viewPage')}</a>`);
