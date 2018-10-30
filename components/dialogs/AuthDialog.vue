@@ -191,6 +191,8 @@ import EthMixin from '~/components/EthMixin';
 
 import User from '@/util/User';
 
+import { LIKE_BUTTON_POST_MESSAGE_TARGET_ORIGIN } from '~/constant';
+
 export default {
   name: 'auth-dialog',
   components: {
@@ -551,6 +553,14 @@ export default {
 
       if (this.$route.name === 'in-register-api') {
         this.currentTab = 'loginSuccessful';
+        this.$nextTick(() => {
+          if (window.opener) {
+            window.opener.postMessage({
+              action: 'LOGGED_IN',
+            }, LIKE_BUTTON_POST_MESSAGE_TARGET_ORIGIN);
+            window.close();
+          }
+        });
       } else {
         this.setIsShow(false);
         const router = this.$router;
