@@ -103,17 +103,8 @@ export default {
       );
     },
   },
-  watch: {
-    getUserNeedAuth(value) {
-      if (value) {
-        this.triggerLoginSign();
-      }
-    },
-  },
   mounted() {
-    if (this.getUserNeedAuth) {
-      this.triggerLoginSign();
-    } else if (this.getUserIsRegistered) {
+    if (this.getUserIsRegistered) {
       this.updateInfo();
     }
   },

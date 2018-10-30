@@ -340,11 +340,6 @@ export default {
     },
   },
   watch: {
-    getUserNeedAuth(value) {
-      if (value) {
-        this.triggerLoginSign();
-      }
-    },
     getUserInfo(value) {
       if (value && this.getUserIsRegistered) {
         this.updateInfo();
@@ -352,9 +347,7 @@ export default {
     },
   },
   mounted() {
-    if (this.getUserNeedAuth) {
-      this.triggerLoginSign();
-    } else if (this.getUserIsRegistered) {
+    if (this.getUserIsRegistered) {
       this.updateInfo();
     }
   },
