@@ -223,6 +223,7 @@ router.post('/users/new', apiLimiter, multer.single('avatarFile'), async (req, r
       createObj.email = email;
       createObj.isEmailVerified = isEmailVerified;
 
+      // Hack for setting done to verifyEmail mission
       if (isEmailVerified) {
         await dbRef
           .doc(user)
@@ -251,6 +252,7 @@ router.post('/users/new', apiLimiter, multer.single('avatarFile'), async (req, r
       await dbRef.doc(referrer).collection('referrals').doc(user).create(timestampObj);
     }
 
+    // platformUserId is only set when the platform is valid
     if (platformUserId) {
       const doc = {
         [platform]: {

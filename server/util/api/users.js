@@ -14,6 +14,7 @@ const disposableDomains = require('disposable-email-domains');
 const {
   userCollection: dbRef,
   userAuthCollection: authDbRef,
+  FieldValue,
 } = require('../firebase');
 
 export const ONE_DATE_IN_MS = 86400000;
@@ -267,7 +268,7 @@ export async function tryToUnlinkOAuthLogin({
 
   const data = authDoc.data();
   if (!data[platform]) return;
-  const isSole = Object.keys(data).length < 2;
+  const isSole = Object.keys(data).length <= 1;
   if (isSole) {
     // Make sure user has other sign in methods before unlink
     const userDoc = await dbRef.doc(likeCoinId).get();
@@ -282,7 +283,8 @@ export async function tryToUnlinkOAuthLogin({
       throw new ValidationError('USER_UNLINK_SOLE_OAUTH_LOGIN');
     }
   } else {
-    delete data[platform];
-    await authDocRef.set(data);
+    await authDocRef.update({
+      [platform]: FieldValue.delete(),
+    });
   }
 }

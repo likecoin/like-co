@@ -404,6 +404,7 @@ export default {
           this.signInPayload = await firebaseHandleSignInEmailLink(email);
           this.login();
         } catch (err) {
+          console.error(err);
           this.currentTab = 'signInError';
         } finally {
           this.isSigningInWithEmail = false;
