@@ -233,7 +233,7 @@ export default {
     closable() {
       return !(
         this.$route.name === 'in-register-api'
-        && this.isBlocking
+        || this.isBlocking
       );
     },
     isBlocking() {
