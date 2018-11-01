@@ -6,7 +6,10 @@ import publisher from '../../util/gcloudPub';
 import { jwtAuth } from '../../util/jwt';
 import { ValidationError } from '../../../util/ValidationHelper';
 
-const { userCollection: dbRef } = require('../../util/firebase');
+const {
+  userCollection: dbRef,
+  FieldValue,
+} = require('../../util/firebase');
 
 const router = Router();
 
@@ -59,16 +62,14 @@ router.post('/social/link/twitter', jwtAuth('write'), async (req, res, next) => 
     const {
       userId,
       displayName,
-      oAuthToken: newOAuthToken,
-      oAuthTokenSecret: newOAuthSecret,
     } = await fetchTwitterUser(oAuthToken, oAuthTokenSecret, oAuthVerifier);
     const url = `https://twitter.com/intent/user?user_id=${userId}`;
     await dbRef.doc(user).collection('social').doc('twitter').set({
       displayName,
       userId,
       url,
-      oAuthToken: newOAuthToken,
-      oAuthTokenSecret: newOAuthSecret,
+      oAuthToken: FieldValue.delete(),
+      oAuthTokenSecret: FieldValue.delete(),
       isLinked: true,
       ts: Date.now(),
     }, { merge: true });
