@@ -349,7 +349,22 @@ export default {
 
         case 'google':
         case 'twitter':
-          this.signInPayload = await firebasePlatformSignIn(platform);
+          this.currentTab = 'loading';
+          try {
+            this.signInPayload = await firebasePlatformSignIn(platform);
+          } catch (err) {
+            switch (err.code) {
+              case 'auth/popup-closed-by-user':
+                this.currentTab = 'portal';
+                break;
+
+              default:
+                console.error(err);
+                this.currentTab = 'signInError';
+                break;
+            }
+            return;
+          }
           break;
 
         case 'facebook':
@@ -388,6 +403,7 @@ export default {
             }
           } catch (err) {
             this.currentTab = 'portal';
+            return;
           }
           break;
 
