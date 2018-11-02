@@ -79,7 +79,7 @@
     "multer": "^1.3.0",
     "nuxt": "^1.4.2",
     "oauth-1.0a": "^2.2.4",
-    "pica": "^4.1.1",
+    "pica": "^5.0.0",
     "portal-vue": "^1.3.0",
     "sharp": "^0.20.0",
     "source-map-support": "^0.5.4",
