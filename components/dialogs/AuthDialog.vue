@@ -139,7 +139,7 @@
           <div class="lc-dialog-container-1 lc-button-group">
             <md-button
               class="md-likecoin"
-              @click="setIsShow(false)"
+              @click="onClickCheckInbox"
             >
               {{ $t('General.button.ok') }}
             </md-button>
@@ -334,6 +334,18 @@ export default {
     },
     setIsShow(isShow) {
       this.setAuthDialog({ isShow });
+    },
+    onClickCheckInbox() {
+      this.setIsShow(false);
+      this.$nextTick(() => {
+        if (this.isSinglePage) {
+          if (window.opener) {
+            window.close();
+          } else {
+            this.$router.push({ name: 'index' });
+          }
+        }
+      });
     },
     async signInWithPlatform(platform) {
       this.platform = platform;
@@ -569,6 +581,7 @@ export default {
       this.currentTab = 'loading';
       await this.refreshUser();
 
+      this.setIsShow(false);
       if (this.isSinglePage) {
         this.currentTab = 'loginSuccessful';
         this.$nextTick(() => {
@@ -577,10 +590,11 @@ export default {
               action: 'LOGGED_IN',
             }, LIKE_BUTTON_POST_MESSAGE_TARGET_ORIGIN);
             window.close();
+          } else {
+            this.$router.push({ name: 'in' });
           }
         });
       } else {
-        this.setIsShow(false);
         const router = this.$router;
         this.doPostAuthRedirect({ router });
       }
