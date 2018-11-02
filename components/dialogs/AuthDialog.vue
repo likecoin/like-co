@@ -99,9 +99,9 @@
         </div>
 
         <div
-          v-else-if="currentTab === 'signInError'"
-          ref="signInError"
-          key="signInError"
+          v-else-if="currentTab === 'error'"
+          ref="error"
+          key="error"
           class="auth-dialog__tab lc-padding-vertical-16"
         >
           <div class="lc-dialog-container-1">
@@ -109,14 +109,14 @@
               {{ $t('General.label.error') }}
             </h1>
             <p class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-32">
-              {{ $t('AuthDialog.label.signInError') }}
+              {{ errorMessage }}
             </p>
           </div>
 
           <div class="lc-dialog-container-1 lc-button-group">
             <md-button
               class="md-likecoin"
-              @click="setIsShow(false)"
+              @click="onDismissError"
             >
               {{ $t('General.button.confirm') }}
             </md-button>
@@ -140,7 +140,7 @@
           <div class="lc-dialog-container-1 lc-button-group">
             <md-button
               class="md-likecoin"
-              @click="onClickCheckInbox"
+              @click="close"
             >
               {{ $t('General.button.ok') }}
             </md-button>
@@ -221,7 +221,7 @@ export default {
         isEmailVerified: false,
       },
 
-      errorMessage: '',
+      errorCode: '',
       isSigningInWithEmail: false,
     };
   },
@@ -250,6 +250,13 @@ export default {
     },
     shouldSignUpShowEmail() {
       return !(this.signInPayload.isEmailVerified && this.platform === 'google');
+    },
+    errorMessage() {
+      return this.errorCode && this.$i18n.te(`Error.${this.errorCode}`, 'en') ? (
+        this.$t(`Error.${this.errorCode}`)
+      ) : (
+        this.$t('AuthDialog.label.signInError')
+      );
     },
   },
   watch: {
@@ -294,7 +301,7 @@ export default {
           // the user to provide the associated email again
           this.currentTab = 'email';
         } else {
-          this.currentTab = 'signInError';
+          this.setError();
           this.isSigningInWithEmail = false;
         }
       }
@@ -315,6 +322,21 @@ export default {
           height: `${elem.offsetHeight}px`,
         };
       }
+    },
+    setError(code) {
+      this.currentTab = 'error';
+      this.errorCode = code;
+    },
+    onDismissError() {
+      switch (this.errorCode) {
+        case 'USER_AUTH_EMAIL_LINK_INVALID':
+          // Allow user to re-enter email if the provided email is not match
+          this.currentTab = 'email';
+          return;
+
+        default:
+      }
+      this.close();
     },
     onUpdateIsShow(isShow) {
       if (!this.shouldHideDialog) {
@@ -337,7 +359,7 @@ export default {
     setIsShow(isShow) {
       this.setAuthDialog({ isShow });
     },
-    onClickCheckInbox() {
+    close() {
       this.setIsShow(false);
       this.$nextTick(() => {
         if (this.isSinglePage) {
@@ -375,7 +397,7 @@ export default {
 
               default:
                 console.error(err);
-                this.currentTab = 'signInError';
+                this.setError();
                 break;
             }
             return;
@@ -433,12 +455,17 @@ export default {
       if (this.isSigningInWithEmail) {
         try {
           this.signInPayload = await firebaseHandleSignInEmailLink(email);
+          this.isSigningInWithEmail = false;
           this.login();
         } catch (err) {
-          console.error(err);
-          this.currentTab = 'signInError';
-        } finally {
-          this.isSigningInWithEmail = false;
+          let code;
+          if (err.code === 'auth/invalid-action-code') {
+            code = 'USER_AUTH_EMAIL_LINK_INVALID';
+          } else {
+            console.error(err);
+            this.isSigningInWithEmail = false;
+          }
+          this.setError(code);
         }
       } else {
         await firebaseSendSignInEmail(email);
@@ -462,7 +489,7 @@ export default {
           }
         }
 
-        this.currentTab = 'signInError';
+        this.setError();
         return;
       }
 
@@ -478,7 +505,7 @@ export default {
           // Return to login portal if user denied signing
           this.currentTab = 'portal';
         } else {
-          this.currentTab = 'signInError';
+          this.setError();
         }
       }
     },
@@ -499,7 +526,7 @@ export default {
             return;
           }
         }
-        this.currentTab = 'signInError';
+        this.setError();
       }
     },
     async preRegister() {
@@ -576,7 +603,7 @@ export default {
         this.redirectToUserPage();
       } catch (err) {
         console.error(err);
-        this.currentTab = 'signInError';
+        this.setError();
       }
     },
     async redirectToUserPage() {
