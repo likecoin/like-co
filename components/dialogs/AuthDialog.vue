@@ -66,6 +66,7 @@
           ]"
         >
           <email-signin-form
+            :is-show-back="!isSigningInWithEmail"
             @submit="signInWithEmail"
             @cancel="currentTab = 'portal'"
           />
@@ -220,6 +221,7 @@ export default {
         isEmailVerified: false,
       },
 
+      errorMessage: '',
       isSigningInWithEmail: false,
     };
   },

@@ -40,7 +40,10 @@
 
     </form>
 
-    <div class="lc-dialog-container-1 lc-margin-top-24 lc-text-align-center">
+    <div
+      v-if="isShowBack"
+      class="lc-dialog-container-1 lc-margin-top-24 lc-text-align-center"
+    >
       <a
         class="lc-color-like-gray-4 lc-font-size-12 lc-underline"
         @click="$emit('cancel')"
@@ -59,6 +62,12 @@ import {
 
 export default {
   name: 'signin-with-email-form',
+  props: {
+    isShowBack: {
+      type: [Boolean, String],
+      default: true,
+    },
+  },
   data() {
     return {
       W3C_EMAIL_REGEX,
