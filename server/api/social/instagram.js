@@ -6,7 +6,10 @@ import publisher from '../../util/gcloudPub';
 import { jwtAuth } from '../../util/jwt';
 import { ValidationError } from '../../../util/ValidationHelper';
 
-const { userCollection: dbRef } = require('../../util/firebase');
+const {
+  userCollection: dbRef,
+  FieldValue,
+} = require('../../util/firebase');
 
 const router = Router();
 
@@ -44,14 +47,13 @@ router.post('/social/link/instagram', jwtAuth('write'), async (req, res, next) =
 
     if (doc.data() && doc.data().isLinked) throw new ValidationError('already linked');
     const {
-      accessToken,
       userId,
       displayName,
       fullName,
       url,
     } = await fetchInstagramUser(code, user);
     await dbRef.doc(user).collection('social').doc('instagram').set({
-      accessToken,
+      accessToken: FieldValue.delete(),
       userId,
       displayName,
       fullName,

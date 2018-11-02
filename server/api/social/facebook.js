@@ -53,7 +53,6 @@ router.post('/social/link/facebook', jwtAuth('write'), async (req, res, next) =>
       displayName,
       userId,
       appId,
-      accessToken,
       url: link,
       userLink: link,
       pages,
