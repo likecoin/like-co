@@ -2,6 +2,7 @@
   <base-dialog
     :is-show="shouldShowDialog"
     :md-props="{
+      mdBackdrop: !isSinglePage,
       mdClickOutsideToClose: closable,
       mdCloseOnEsc: closable,
       mdFullscreen: false,
@@ -231,10 +232,10 @@ export default {
       'getLocalWallet',
     ]),
     closable() {
-      return !(
-        this.$route.name === 'in-register-api'
-        || this.isBlocking
-      );
+      return !(this.isBlocking || this.isSinglePage);
+    },
+    isSinglePage() {
+      return this.$route.name === 'in-register-api';
     },
     isBlocking() {
       return this.currentTab === 'loading' || this.currentTab === 'signingIn';
@@ -568,7 +569,7 @@ export default {
       this.currentTab = 'loading';
       await this.refreshUser();
 
-      if (this.$route.name === 'in-register-api') {
+      if (this.isSinglePage) {
         this.currentTab = 'loginSuccessful';
         this.$nextTick(() => {
           if (window.opener) {
