@@ -334,6 +334,12 @@ export default {
           this.currentTab = 'email';
           return;
 
+        case 'USER_REGISTER_ERROR':
+        case 'EMAIL_ALREADY_USED':
+        case 'USER_ALREADY_EXIST':
+          this.currentTab = 'register';
+          return;
+
         default:
       }
       this.close();
@@ -602,8 +608,26 @@ export default {
         this.setUserNeedAuth(false);
         this.redirectToUserPage();
       } catch (err) {
-        console.error(err);
-        this.setError();
+        let errCode;
+        if (err.response && err.response.data) {
+          switch (err.response.data) {
+            case 'USER_ALREADY_EXIST':
+            case 'EMAIL_ALREADY_USED':
+              errCode = err.response.data;
+              break;
+
+            case 'FIREBASE_USER_DUPLICATED':
+              errCode = 'USER_ALREADY_EXIST';
+              break;
+
+            default:
+              console.error(err);
+          }
+        } else {
+          console.error(err);
+          errCode = 'USER_REGISTER_ERROR';
+        }
+        this.setError(errCode);
       }
     },
     async redirectToUserPage() {

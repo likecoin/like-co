@@ -1150,6 +1150,7 @@
     "TWITTER_QUOTE_INVALID": "Please retweet the correct tweet",
     "TWITTER_URL_INVALID": "The tweet URL is invalid",
     "USER_ALREADY_EXIST": "User already exists",
+    "USER_REGISTER_ERROR": "Error occurs during registration",
     "USER_NOT_EXIST": "User is not exist",
     "USER_UNLINK_SOLE_OAUTH_LOGIN": "Unable to unlink. You need at least one sign in method",
     "USER_AUTH_EMAIL_LINK_INVALID": "The email link has expired or has already been used",
