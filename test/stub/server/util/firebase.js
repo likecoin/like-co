@@ -13,7 +13,6 @@ const userData = require('../../test/data/user.json').users;
 const txData = require('../../test/data/tx.json').tx;
 const missionData = require('../../test/data/mission.json').missions;
 const bonusData = require('../../test/data/bonus.json').bonus;
-const subscriptionData = require('../../test/data/subscription.json').subscriptions;
 
 const web3 = new Web3(new Web3.providers.HttpProvider(INFURA_HOST));
 
@@ -170,7 +169,6 @@ const iapCollection = createCollection([]);
 const missionCollection = createCollection(missionData);
 const payoutCollection = createCollection(bonusData);
 const configCollection = createCollection([]);
-const iapSubscriptionCollection = createCollection(subscriptionData);
 
 function runTransaction(updateFunc) {
   return updateFunc({
@@ -212,7 +210,6 @@ module.exports = {
   missionCollection,
   payoutCollection,
   configCollection,
-  iapSubscriptionCollection,
   bucket: {},
   FieldValue,
 };

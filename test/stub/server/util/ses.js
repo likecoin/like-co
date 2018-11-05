@@ -9,13 +9,3 @@ export async function sendVerificationEmail() {
 export async function sendVerificationWithCouponEmail() {
   return Promise.resolve();
 }
-
-/* istanbul ignore next */
-export async function sendPendingSubscriptionEmail() {
-  return Promise.resolve();
-}
-
-/* istanbul ignore next */
-export async function sendSubscriptionThankYouEmail() {
-  return Promise.resolve();
-}

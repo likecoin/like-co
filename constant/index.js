@@ -70,8 +70,6 @@ const toolbarsDisableError = {
   'in-tokensale-tx-id': ['web3', 'locked'],
   'pay-merchantId': ALL_ERRORS,
   'pay-merchantId-amount': ALL_ERRORS,
-  'in-donation': ALL_ERRORS,
-  'in-donation-claim': ALL_ERRORS,
 };
 export const getToolbarsDisableError = route => (toolbarsDisableError[route] || false);
 

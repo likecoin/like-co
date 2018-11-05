@@ -311,7 +311,6 @@ export default {
       'sendVerifyEmail',
       'setInfoMsg',
       'unlinkSocialPlatform',
-      'cancelSubscription',
     ]),
     async triggerLoginSign() {
       if (!(await this.loginUser())) this.$router.go(-1);
@@ -383,9 +382,6 @@ export default {
       } catch (err) {
         console.error(err);
       }
-    },
-    onClickCancelSubscription() {
-      this.cancelSubscription(this.getUserInfo.user);
     },
     getTestAttribute: getTestAttribute('inSettings'),
   },
@@ -535,24 +531,6 @@ export default {
 
     @media (max-width: 768px) {
       text-align: center;
-    }
-  }
-
-  &__subscription-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 16px 24px;
-
-    background-color: $like-white;
-
-    h2 {
-      margin-left: 8px;
-    }
-
-    .md-button {
-      margin: 0;
     }
   }
 }
