@@ -62,7 +62,6 @@ const toolbarsDisableError = {
   'in-embed-id-list': ALL_ERRORS,
   'id-amount': ALL_ERRORS,
   'claim-id-coupon': ['web3', 'locked'],
-  'in-backer': ALL_ERRORS,
   'in-policies': ALL_ERRORS,
   'in-policies-privacy': ALL_ERRORS,
   'in-policies-terms': ALL_ERRORS,

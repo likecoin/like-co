@@ -220,7 +220,6 @@
       "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
       "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
       "tokenSale": "@:TokenSale.title",
-      "backer": "@:BackerPage.title",
       "whitepaper": "@:Whitepaper.Button.whitepaper",
       "support": "@:Footer.button.support",
       "press": "媒体",
@@ -825,24 +824,6 @@
       "aboutLikeCoin": "关于 LikeCoin",
       "whitePaper": "@:WhitePaper.label.whitePaper",
       "noETH": "没有ETH？"
-    }
-  },
-  "BackerPage": {
-    "title": "支持回馈创作运动",
-    "label": {
-      "tagline": "购买纪念书籍",
-      "description": "LikeCoin 要推动的是一场重新分配内容创作利益的运动。我们的内容均以共享创意授权，我们的源代码为开源，均可在 <a href=\"https://github.com/likecoin\">Github</a> 下载。<br/><br/><a href=\"http://sched.co/E6zv\">LikeCoin 于 Creative Commons Summit 2018 的工作坊</a>",
-      "notRegistered": "立刻注册 LikeCoin ID，加入这场运动"
-    },
-    "button": {
-      "register": "注册 LikeCoin ID",
-      "purchaseInETH": "使用以太币购买"
-    },
-    "productList": {
-      "title": "商店",
-      "label": {
-        "youHavePurchased": "你已购买 {product} ，收据将会发送至你的电邮 {email}。参考编号："
-      }
     }
   },
   "BonusPage": {

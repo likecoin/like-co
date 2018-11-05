@@ -89,10 +89,6 @@ export async function queryTxHistoryByAddr({ commit, dispatch }, { addr, ts, cou
   return apiWrapper({ commit, dispatch }, api.apiQueryTxHistoryByAddr(addr, ts, count));
 }
 
-export async function purchaseIAP({ commit, dispatch }, { id, payload }) {
-  return apiWrapper({ commit, dispatch }, api.apiPurchaseIAP(id, payload), { blocking: true });
-}
-
 export async function queryIAPProducts({ commit, dispatch }) {
   return apiWrapper({ commit, dispatch }, api.apiQueryIAPProducts());
 }

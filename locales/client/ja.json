@@ -221,7 +221,6 @@
             "bonus": "LikeCoin ボーナス",
             "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
             "tokenSale": "@:TokenSale.title",
-            "backer": "@:BackerPage.title",
             "whitepaper": "@:Whitepaper.Button.whitepaper",
             "support": "@:Footer.button.support",
             "press": "プレス",
@@ -795,24 +794,6 @@
             "aboutLikeCoin": "LikeCoinについて",
             "whitePaper": "@:WhitePaper.label.whitePaper",
             "noETH": "ETHをお持ちでありませんか？"
-        }
-    },
-    "BackerPage": {
-        "title": "ムーブメントをサポートする",
-        "label": {
-            "tagline": "弊社の書籍をご購入ください。",
-            "description": "LikeCoinプロトコルとは、クリエイティブ・コモンズからランセンスを受けたコンテンツによって生じた収入を再配分する活動です。当社のコンテンツは自由に利用することができ、ソースコードは<a href=\"https://github.com/likecoin\">Github</a>のオープンソースです。<br/><br/><a href=\"http://sched.co/E6zv\">クリエイティブ・コモンズ・サミット2018での当社のプレゼンテーション</a>",
-            "notRegistered": "LikeCoin IDを作成してムーブメントに参加しましょう"
-        },
-        "button": {
-            "register": "IDを作成する",
-            "purchaseInETH": "ETHでLikeCoinをサポートする"
-        },
-        "productList": {
-            "title": "ショップ",
-            "label": {
-                "youHavePurchased": "あなたは{product}を購入しました。レシートが{email}に送信されます。参照番号:"
-            }
         }
     },
     "BonusPage": {

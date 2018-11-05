@@ -36,15 +36,7 @@
 
               <div class="cta-section-body-buttons">
                 <ul>
-                  <li v-if="getUserIsRegistered">
-                    <md-button
-                      class="cta-btn md-likecoin shadow"
-                      @click="onClickSupportLikeCoinButton"
-                    >
-                      {{ $t('Home.Sale.button.supportLikeCoin') }}
-                    </md-button>
-                  </li>
-                  <li v-else-if="getUserNeedAuth">
+                  <li v-if="getUserNeedAuth">
                     <md-button
                       class="cta-btn md-likecoin shadow"
                       @click="onClickSignInButton"
@@ -116,8 +108,6 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-import { logTrackerEvent } from '@/util/EventLogger';
-
 import TokenSaleProgress from '~/components/TokenSaleProgress';
 
 import {
@@ -168,10 +158,6 @@ export default {
       } else {
         this.showLoginWindow();
       }
-    },
-    onClickSupportLikeCoinButton() {
-      logTrackerEvent(this, 'RegFlow', 'ClickedSupportLikeCoinButton', 'User wants to support LikeCoin', 1);
-      this.$router.push({ name: 'in-backer' });
     },
   },
 };

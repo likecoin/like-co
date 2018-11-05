@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <div class="lc-container-1 lc-margin-top-16">
+    <div class="lc-container-1 lc-margin-top-48 lc-mobile">
       <div class="lc-container-2">
         <div class="lc-container-3 lc-padding-vertical-32 lc-bg-gray-1">
           <form
@@ -394,30 +394,6 @@ export default {
 @import "~assets/input";
 
 .profile-setting-page {
-  &__backer-wrapper {
-    .lc-bg-like-gradient {
-      padding: 16px 8px;
-
-      img {
-        width: 64px;
-        height: 64px;
-        margin: 0 12px;
-
-        border-radius: 50%;
-
-        object-fit: cover;
-      }
-
-      p {
-        padding: 8px 0;
-
-        @media (min-width: 600px + 1px) {
-          margin: 0 24px;
-        }
-      }
-    }
-  }
-
   &__account-setting {
     display: flex;
 
