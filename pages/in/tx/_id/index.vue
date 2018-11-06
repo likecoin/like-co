@@ -2,13 +2,23 @@
   <div>
     <popup-dialog
       ref="urlWarningDialog"
+      :is-show.sync="isOpenUrlWarningDialog"
       :allowClose="true"
       :header="$t('General.label.caution')"
-      :message.sync="urlWarningMessage"
+      :message="$t('Transaction.label.openReferrerWarning')"
       :cancelText="$t('General.button.cancel')"
-      :subMessage="$t('Transaction.label.openReferrerConfirmMessage')"
-      @onSubMessageClick="onOpenReferrerConfirm"
-    />
+    >
+      <div
+        slot="footer"
+        class="lc-dialog-container-1 lc-padding-top-8 lc-text-align-center"
+      >
+        <a
+          href="#"
+          @click.prevent="onOpenReferrerConfirm"
+        >{{ $t('Transaction.label.openReferrerConfirmMessage') }}</a>
+      </div>
+    </popup-dialog>
+
     <div class="lc-container-0 lc-narrow">
       <section class="lc-container-1 lc-section-block">
         <transaction-header
@@ -160,6 +170,7 @@ export default {
     return {
       isEth: false,
       isNotFound: false,
+      isOpenUrlWarningDialog: false,
       /* failReason : 0 = none, 1 = failed, 2 = timeout */
       failReason: 0,
       status: 'pending',
@@ -176,7 +187,6 @@ export default {
       amount: 0,
       updateTimer: null,
       httpReferrer: undefined,
-      urlWarningMessage: '', // HACK: used to trigger popup dialog
       ETHERSCAN_HOST,
     };
   },
@@ -271,8 +281,7 @@ export default {
       'stopLoading',
     ]),
     onClickReferrer() {
-      // TODO: Fix PopupDialog to have a proper .open()
-      this.urlWarningMessage = this.$t('Transaction.label.openReferrerWarning');
+      this.isOpenUrlWarningDialog = true;
     },
     onOpenReferrerConfirm() {
       openURL(this, this.httpReferrer, '_blank');

@@ -57,6 +57,14 @@ export const setPopupInfo = ({ commit }, msg) => {
   commit(types.UI_POPUP_INFO, msg);
 };
 
+export const openPopupDialog = ({ commit }, config) => {
+  commit(types.UI_POPUP_OPEN, config);
+};
+
+export const closePopupDialog = ({ commit }, uuid) => {
+  commit(types.UI_POPUP_CLOSE, uuid);
+};
+
 export const setPageHeader = ({ commit }, payload) => {
   commit(types.UI_HEADER_UPDATE, payload);
 };
