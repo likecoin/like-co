@@ -269,7 +269,7 @@ test('USER: Get user by merchant id min', async (t) => {
   const merchantId = testingMerchantId1;
   const res = await axiosist
     .get(`/api/users/merchant/${merchantId}/min`)
-    .catch((err) => err.response);
+    .catch(err => err.response);
 
   t.is(res.status, 200);
   t.is(res.data.wallet, testingWallet1);
