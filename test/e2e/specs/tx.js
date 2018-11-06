@@ -17,7 +17,7 @@ module.exports = {
       .url(`${devServer}/in/tx/${testTx}`)
       .waitForElementVisible('.transaction-container', 2000)
       .pause(2000)
-      .verify.containsText('.transaction-container', 'Transaction Ordered')
+      .verify.elementNotPresent('.transaction-container .failed')
       .waitForElementVisible('#view-etherscan', 2000)
       .pause(5000)
       .verify.containsText('#view-etherscan', 'View on Etherscan')
