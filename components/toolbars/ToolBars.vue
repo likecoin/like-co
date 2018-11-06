@@ -5,18 +5,15 @@
       <auth-dialog />
 
       <popup-dialog
-        v-if="checkShouldShowError(getPopupError)"
-        :allowClose="false"
-        :message="getPopupError"
-        :header="$t('General.label.Error')"
-        :confirmText="$t('General.button.confirm')"
-      />
-
-      <popup-dialog
-        :allowClose="true"
-        :message="getPopupInfo"
-        :header="$t('General.label.Info')"
-        :confirmText="$t('General.button.confirm')"
+        v-for="d in getPopupDialogs"
+        :key="d.uuid"
+        :is-show="d.isShow"
+        :allow-close="d.allowClose"
+        :header="d.header"
+        :message="d.message"
+        :cancel-text="d.cancelText"
+        :confirm-text="d.confirmText"
+        @closed="closePopupDialog(d.uuid)"
       />
 
       <div v-if="checkShouldShowError(getMetamaskError)">
@@ -167,6 +164,7 @@ export default {
       'getIsLoginOverride',
       'getPopupError',
       'getPopupInfo',
+      'getPopupDialogs',
       'getIsLoading',
       'getIsInTransaction',
       'getIsPopupBlocking',
@@ -180,11 +178,34 @@ export default {
       'getPendingTxInfo',
     ]),
   },
+  watch: {
+    getPopupError(msg) {
+      if (msg && this.checkShouldShowError(msg)) {
+        this.openPopupDialog({
+          header: this.$t('General.label.error'),
+          message: msg,
+          confirmText: this.$t('General.button.confirm'),
+        });
+      }
+    },
+    getPopupInfo(msg) {
+      if (msg) {
+        this.openPopupDialog({
+          allowClose: true,
+          header: this.$t('General.label.info'),
+          message: msg,
+          confirmText: this.$t('General.button.confirm'),
+        });
+      }
+    },
+  },
   methods: {
     ...mapActions([
       'closeTxDialog',
       'closeTxToolbar',
       'closeInfoToolbar',
+      'openPopupDialog',
+      'closePopupDialog',
     ]),
     checkIsMobileClient,
     checkShouldShowError(err) {

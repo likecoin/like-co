@@ -10,6 +10,8 @@ export const getPopupError = state => state.popupError;
 
 export const getPopupInfo = state => state.popupInfo;
 
+export const getPopupDialogs = state => state.popupDialogs;
+
 export const getPopupMission = state => state.popupMission;
 
 export const getIsInTransaction = state => state.isInTransaction;

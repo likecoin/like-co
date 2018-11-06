@@ -221,7 +221,6 @@
             "bonus": "LikeCoin 보너스",
             "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
             "tokenSale": "@:TokenSale.title",
-            "backer": "@:BackerPage.title",
             "whitepaper": "@:Whitepaper.Button.whitepaper",
             "support": "@:Footer.button.support",
             "press": "언론",
@@ -795,24 +794,6 @@
             "aboutLikeCoin": "LikeCoin 소개",
             "whitePaper": "@:WhitePaper.label.whitePaper",
             "noETH": "ETH가 없으세요?"
-        }
-    },
-    "BackerPage": {
-        "title": "운동 지원하기",
-        "label": {
-            "tagline": "저희 책을 사 보세요.",
-            "description": "LikeCoin 프로토콜은 Creative Commons에 의거하여 라이센스를 받은 콘텐츠에서 비롯된 소득을 재분배하려는 운동입니다. 저희 콘텐츠는 자유롭게 사용할 수 있으며 저희 소스 코드는 오픈 소스로 <a href=\"https://github.com/likecoin\">Github에서 보실 수 있습니다</a>. <br/><br/><a href=\"http://sched.co/E6zv\">2018년도 Creative Commons 회의에서 발표한 저희 프레젠테이션</a>",
-            "notRegistered": "LikeCoin ID를 생성하여 운동에 참가하기"
-        },
-        "button": {
-            "register": "ID 생성하기",
-            "purchaseInETH": "ETH에서 LikeCoin 지원하기"
-        },
-        "productList": {
-            "title": "상점",
-            "label": {
-                "youHavePurchased": "{product}을/를 구매하셨습니다. 영수증은 이메일을 통해 {email}(으)로 전송됩니다. 조회 번호:"
-            }
         }
     },
     "BonusPage": {

@@ -1,5 +1,8 @@
 /* eslint no-shadow: "off" */
 /* eslint no-param-reassign: "off" */
+import Vue from 'vue';
+import uuidv1 from 'uuid/v1';
+
 import {
   UI_SET_LOCALE,
   UI_SET_METAMASK_ERROR,
@@ -8,6 +11,8 @@ import {
   UI_ERROR_MSG,
   UI_POPUP_ERR,
   UI_POPUP_INFO,
+  UI_POPUP_OPEN,
+  UI_POPUP_CLOSE,
   UI_START_LOADING,
   UI_STOP_LOADING,
   UI_START_LOADING_TX,
@@ -55,6 +60,7 @@ const state = {
   txDialogActionText: '',
   isShowingPromptNotificationDialog: false,
   isShowAuthDialog: false,
+  popupDialogs: [],
 };
 
 const mutations = {
@@ -86,6 +92,21 @@ const mutations = {
   },
   [UI_POPUP_INFO](state, msg) {
     state.popupInfo = msg;
+  },
+  [UI_POPUP_OPEN](state, payload) {
+    payload.uuid = uuidv1();
+    payload.isShow = true;
+    Vue.set(state, 'popupDialogs', [...state.popupDialogs, payload]);
+  },
+  [UI_POPUP_CLOSE](state, uuid) {
+    const newPopupDialogs = [...state.popupDialogs];
+    for (let i = state.popupDialogs.length - 1; i >= 0; i -= 1) {
+      if (state.popupDialogs[i].uuid === uuid) {
+        newPopupDialogs.splice(i, 1);
+        break;
+      }
+    }
+    Vue.set(state, 'popupDialogs', newPopupDialogs);
   },
   [UI_START_LOADING](state) {
     state.isLoading = true;

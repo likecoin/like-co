@@ -55,6 +55,10 @@ function prettifyNumber(n) {
   return arr.join(' ');
 }
 
+function isReceiptSuccess(txReceipt) {
+  return txReceipt && txReceipt.status !== false && txReceipt.status !== 0 && txReceipt.status !== '0x0';
+}
+
 class EthHelper {
   initApp({
     errCb,
@@ -180,7 +184,7 @@ class EthHelper {
         this.web3.eth.getTransactionReceipt(txHash),
         this.web3.eth.getBlockNumber(),
       ]);
-      if (txReceipt && (txReceipt.status === 0 || txReceipt.status === '0x0')) throw new Error('Transaction failed');
+      if (txReceipt && !isReceiptSuccess(txReceipt)) throw new Error('Transaction failed');
       done = t && txReceipt && currentBlockNumber && t.blockNumber
         && (currentBlockNumber - t.blockNumber > CONFIRMATION_NEEDED);
     }
@@ -222,7 +226,7 @@ class EthHelper {
       ]);
       return {
         ts: (block && r) ? block.timestamp : 0,
-        isFailed: (r && (r.status === false || r.status === '0x0')),
+        isFailed: (r && !isReceiptSuccess(r)),
       };
     }
     return {
@@ -257,7 +261,7 @@ class EthHelper {
     _value = t.value;
     return {
       isEth: true,
-      isFailed: r && (r.status === false || r.status === '0x0'),
+      isFailed: r && !isReceiptSuccess(r),
       _to,
       _from,
       _value,
@@ -303,9 +307,9 @@ class EthHelper {
       this.web3.eth.getTransactionReceipt(txHash),
       this.web3.eth.getBlock(t.blockNumber),
     ]);
-    if (!r || r.status === false || r.status === '0x0') {
+    if (!r || !isReceiptSuccess(r)) {
       return {
-        isFailed: (r && (r.status === false || r.status === '0x0')),
+        isFailed: (r && !isReceiptSuccess(r)),
         _to,
         _from,
         _value,

@@ -7,7 +7,9 @@ import { checkPlatformAlreadyLinked, socialLinkTwitter } from '../../util/api/so
 import { ValidationError } from '../../../util/ValidationHelper';
 import { tryToLinkOAuthLogin } from '../../util/api/users';
 
-const { userCollection: dbRef } = require('../../util/firebase');
+const {
+  userCollection: dbRef,
+} = require('../../util/firebase');
 
 const router = Router();
 

@@ -16,7 +16,6 @@ import {
   USER_ADD_SOCIAL_LINK,
   USER_SET_SOCIAL_LINK,
   USER_UPDATE_READ_CONTENT_STATUS,
-  USER_SET_IS_SUBSCRIBED,
 } from '../mutation-types';
 import * as actions from './actions/user';
 import * as getters from './getters/user';
@@ -137,9 +136,6 @@ const mutations = {
       ...state.user.read,
       ...payload,
     });
-  },
-  [USER_SET_IS_SUBSCRIBED](state, payload) {
-    Vue.set(state.user, 'isSubscribed', payload);
   },
 };
 

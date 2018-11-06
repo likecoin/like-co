@@ -1,76 +1,7 @@
 <template>
   <div>
-    <div class="lc-container-1 lc-margin-top-40">
-      <div class="lc-container-2">
-        <div class="lc-container-3 lc-padding-vertical-24 lc-bg-gray-1">
-          <div class="profile-setting-page__backer-wrapper">
-            <div
-              :class="[
-                'lc-flex',
-                'lc-justify-content-space-between',
-                'lc-align-items-center',
-                'lc-flex-direction-column-mobile',
-              ]"
-            >
-              <h1 class="lc-font-size-32 lc-color-like-dark-brown-2 lc-mobile">
-                {{ $t('Settings.label.supportFavContent') }}
-              </h1>
-              <!-- TODO: pending for content backer intro design and words -->
-              <md-button class="lc-color-like-green lc-underline">
-                {{ $t('Settings.button.learnMore') }}
-              </md-button>
-            </div>
 
-            <template v-if="getUserInfo.isSubscribed !== undefined">
-              <div
-                v-if="getUserInfo.isSubscribed"
-                class="profile-setting-page__subscription-wrapper lc-margin-top-24"
-              >
-                <h2
-                  class="lc-color-like-green lc-font-size-18"
-                >{{ $t('Settings.label.active') }}</h2>
-
-                <md-button
-                  class="md-likecoin outline gray-9b"
-                  @click="onClickCancelSubscription"
-                >{{ $t('Settings.button.cancelSubscription') }}</md-button>
-              </div>
-
-              <div
-                v-else
-                :class="[
-                  'lc-bg-like-gradient',
-                  'lc-margin-top-20',
-                  'lc-flex',
-                  'lc-align-items-center',
-                  'lc-justify-content-space-between',
-                  'lc-flex-direction-column-mobile',
-                ]"
-              >
-                <!-- TODO: pending for design (illustration for content backer) -->
-                <!-- <img src=""> -->
-                <p
-                  class="lc-font-weight-600 lc-color-dark-brown-2 lc-font-size-18"
-                >{{ $t('Settings.label.backerDesc') }}</p>
-                <md-button
-                  :to="{ name: 'in-donation' }"
-                  :class="[
-                    'md-likecoin',
-                    'lc-font-size-16',
-                    'lc-font-weight-600',
-                    'lc-bg-like-gradient-2',
-                    'lc-text-align-center',
-                    'no-border-radius',
-                  ]"
-                >{{ $t('Settings.button.becomeBacker') }}</md-button>
-              </div>
-            </template>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="lc-container-1 lc-margin-top-16">
+    <div class="lc-container-1 lc-margin-top-48 lc-mobile">
       <div class="lc-container-2">
         <div class="lc-container-3 lc-padding-vertical-32 lc-bg-gray-1">
           <form
@@ -359,7 +290,6 @@ export default {
       'setInfoMsg',
       'fetchSocialListDetailsById',
       'unlinkSocialPlatform',
-      'cancelSubscription',
     ]),
     async updateInfo() {
       const user = this.getUserInfo;
@@ -429,9 +359,6 @@ export default {
         console.error(err);
       }
     },
-    onClickCancelSubscription() {
-      this.cancelSubscription(this.getUserInfo.user);
-    },
     getTestAttribute: getTestAttribute('inSettings'),
   },
 };
@@ -443,30 +370,6 @@ export default {
 @import "~assets/input";
 
 .profile-setting-page {
-  &__backer-wrapper {
-    .lc-bg-like-gradient {
-      padding: 16px 8px;
-
-      img {
-        width: 64px;
-        height: 64px;
-        margin: 0 12px;
-
-        border-radius: 50%;
-
-        object-fit: cover;
-      }
-
-      p {
-        padding: 8px 0;
-
-        @media (min-width: 600px + 1px) {
-          margin: 0 24px;
-        }
-      }
-    }
-  }
-
   &__account-setting {
     display: flex;
 
@@ -580,24 +483,6 @@ export default {
 
     @media (max-width: 768px) {
       text-align: center;
-    }
-  }
-
-  &__subscription-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 16px 24px;
-
-    background-color: $like-white;
-
-    h2 {
-      margin-left: 8px;
-    }
-
-    .md-button {
-      margin: 0;
     }
   }
 }

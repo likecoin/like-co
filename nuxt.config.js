@@ -14,7 +14,6 @@ module.exports = {
   env: {
     IS_TESTNET: process.env.IS_TESTNET,
     INTERCOM_APPID: process.env.INTERCOM_APPID,
-    STRIPE_TOKEN: process.env.STRIPE_TOKEN,
     SENTRY_DSN: process.env.SENTRY_DSN,
   },
   head: {
@@ -73,7 +72,6 @@ module.exports = {
           'https://ajax.googleapis.com',
           'https://js.intercomcdn.com',
           'https://widget.intercom.io',
-          'https://checkout.stripe.com',
           'https://connect.facebook.net',
           'https://player.vimeo.com',
           'https://use.typekit.net',
@@ -94,7 +92,6 @@ module.exports = {
           'https://player.vimeo.com/',
           'https://*.facebook.com',
           'https://*.facebook.net',
-          'https://checkout.stripe.com/',
           'https://*.doubleclick.net',
           'https://rinkeby.like.co',
           'https://like.co',
@@ -205,7 +202,6 @@ module.exports = {
     { src: '~/plugins/vue-intercom', ssr: false },
     { src: '~/plugins/vue-vimeo-player', ssr: false },
     { src: '~/plugins/vue-image-lightbox', ssr: false },
-    { src: '~/plugins/vue-stripe', ssr: false },
     { src: '~/plugins/vue-swiper', ssr: false },
     { src: '~/plugins/vue-clipboard2', ssr: false },
     { src: '~/plugins/vue-portal', ssr: false },
