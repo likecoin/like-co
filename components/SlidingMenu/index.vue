@@ -120,10 +120,6 @@ const MENU_ITEMS = [
         key: 'aboutLikeCoin',
         to: { name: 'in-about' },
       },
-      {
-        key: 'backer',
-        to: { name: 'in-backer' },
-      },
     ],
   },
   {

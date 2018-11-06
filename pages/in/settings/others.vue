@@ -1,7 +1,7 @@
 <template>
   <div class="settings-page">
-    <section class="lc-container-0">
-      <div class="lc-container-1 lc-margin-top-40">
+    <section class="lc-container-0 lc-margin-top-48 lc-mobile">
+      <div class="lc-container-1">
         <div class="lc-container-2">
           <div class="lc-container-3 lc-padding-vertical-16 lc-bg-gray-1">
             <div class="settings-panel">

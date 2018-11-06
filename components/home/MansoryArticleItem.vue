@@ -33,10 +33,13 @@
         class="mansory-article-item__og-wrapper"
       >
         <div
-          v-if="article.image"
+          v-if="hasImg && article.image"
           class="mansory-article-item__og-image"
         >
-          <img :src="article.image">
+          <img
+            :src="article.image"
+            @error="hasImg = false;"
+          >
         </div>
 
         <div class="mansory-article-item__content">
@@ -71,6 +74,7 @@ export default {
   data() {
     return {
       LikeTextIcon,
+      hasImg: true,
     };
   },
   computed: {

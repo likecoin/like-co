@@ -6,7 +6,10 @@ import publisher from '../../util/gcloudPub';
 import { jwtAuth } from '../../util/jwt';
 import { ValidationError } from '../../../util/ValidationHelper';
 
-const { userCollection: dbRef } = require('../../util/firebase');
+const {
+  userCollection: dbRef,
+  FieldValue,
+} = require('../../util/firebase');
 
 const router = Router();
 
@@ -55,8 +58,6 @@ router.post('/social/link/medium', jwtAuth('write'), async (req, res, next) => {
       throw new ValidationError('oauth state not match');
     }
     const {
-      accessToken,
-      refreshToken,
       userId,
       displayName,
       fullName,
@@ -64,8 +65,8 @@ router.post('/social/link/medium', jwtAuth('write'), async (req, res, next) => {
       imageUrl,
     } = await fetchMediumUser(code);
     await dbRef.doc(user).collection('social').doc('medium').set({
-      accessToken,
-      refreshToken,
+      accessToken: FieldValue.delete(),
+      refreshToken: FieldValue.delete(),
       userId,
       displayName,
       fullName,

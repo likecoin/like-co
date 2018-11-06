@@ -15,6 +15,9 @@
       "yes": "是",
       "no": "否",
       "ok": "OK",
+      "copy": "複製",
+      "copied": "已複製",
+      "done": "完成",
       "myAccount": "我的帳號",
       "next": "下一步"
     }
@@ -221,7 +224,6 @@
       "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
       "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
       "tokenSale": "@:TokenSale.title",
-      "backer": "@:BackerPage.title",
       "whitepaper": "@:Whitepaper.Button.whitepaper",
       "support": "@:Footer.button.support",
       "press": "媒體",
@@ -271,6 +273,7 @@
         "createID": "註冊 LikeCoin ID ，改革內容創作生態",
         "createNow": "馬上註冊",
         "buyCoin": "購買 LikeCoin",
+        "earnCoin": "賺取 LikeCoin",
         "imInterested": "我有興趣",
         "joinTokenSale": "參與代幣發售",
         "aboutTokenSale": "關於代幣發售",
@@ -678,6 +681,9 @@
       "displayName": "顯示名稱",
       "claim": "領取",
       "couponCode": "兌換碼 (可選)",
+      "enableEmail": "接收你的 LikeCoin 交易通知及最新消息的電郵",
+      "privacyPolicy": "私隱政策",
+      "agreeTerms": "我同意 {privacyPolicy}.",
       "label": {
         "updatedInfo": "資料已經更新",
         "viewPage": "到個人頁面"
@@ -685,8 +691,17 @@
       "error": {
         "alphanumeric": "請使用最少 7位英文字母或數字",
         "addressFormat": "錢包地址錯誤",
-        "emailFormat": "請使用沒有./+號的有效電郵"
+        "reCaptcha": "請完成 reCAPTCHA 驗證",
+        "emailFormat": "請使用沒有./+號的有效電郵",
+        "terms": "請同意我們的條款和政策"
       }
+    }
+  },
+  "In": {
+    "tab": {
+      "overview": "概覧",
+      "bonus": "獎賞",
+      "history": "獎賞紀錄"
     }
   },
   "Edit": {
@@ -702,13 +717,16 @@
       "verified": "成功驗證",
       "verifying": "驗證碼已發送，請查郵箱",
       "unverified": "仍未認證",
-      "verifyEmail": "認證郵箱"
+      "verifyEmail": "認證郵箱",
+      "accountConnection": "帳號連接"
     },
     "referral": {
       "title": "推薦計劃",
       "description": "廣邀好友加入 like.co，獲得免費 LikeCoin！你的朋友使用你的邀請連結註冊 LikeCoin 帳號，並驗證郵件箱地址後，雙方都會獲得收到額外的 LikeCoin",
       "pending": "未認證郵箱",
       "verified": "已確認",
+      "shareUrl": "邀請好友到以下連結",
+      "orByEmail": "或是使用電郵",
       "emailInvite": "發電郵邀請",
       "altInvite": "或是使用下列途徑",
       "copyUrl": "複製連結",
@@ -820,24 +838,6 @@
       "aboutLikeCoin": "關於 LikeCoin",
       "whitePaper": "@:WhitePaper.label.whitePaper",
       "noETH": "沒有ETH？"
-    }
-  },
-  "BackerPage": {
-    "title": "支持回饋創作運動",
-    "label": {
-      "tagline": "購買紀念書籍",
-      "description": "LikeCoin 要推動的是一場重新分配內容創作利益的運動。我們的內容均以共享創意授權，我們的源代碼為開源，均可在 <a href=\"https://github.com/likecoin\">Github</a> 下載。<br/><br/><a href=\"http://sched.co/E6zv\">LikeCoin 於 Creative Commons Summit 2018 的工作坊</a>",
-      "notRegistered": "立刻註冊 LikeCoin ID，加入這場運動"
-    },
-    "button": {
-      "register": "註冊 LikeCoin ID",
-      "purchaseInETH": "使用以太幣購買"
-    },
-    "productList": {
-      "title": "商店",
-      "label": {
-        "youHavePurchased": "你已購買 {product} ，收據將會發送至你的電郵 {email}。參考編號："
-      }
     }
   },
   "BonusPage": {
@@ -955,10 +955,69 @@
     }
   },
   "Settings": {
-    "title": "LikeCoin ID 設定"
+    "title": "LikeCoin ID 設定",
+    "label": {
+      "contactUs": "如需 {deleteAccount} 或 {requestReport}，請聯絡我們",
+      "deleteAccountPrePopulatedMessage": "我想申請刪除帳號",
+      "requestReportPrePopulatedMessage": "我想接收帳號報告",
+      "receiveLikeCoinLink": "你的 LikeCoin 轉帳頁面:",
+      "accountConnection": "你可以將帳號連接到不同的社交平台",
+      "earnByLikeButton": "以新設計的 LikeButton 賺取 LikeCoin",
+      "yourLikeButton": "你的 LikeButton",
+      "displaySocialMediaOn": "顯示社交媒體連結",
+      "selectSocialMediaLink": "選擇社交媒體（最多5個）",
+      "wordpress": {
+        "title": "WordPress",
+        "content": "在你的 WordPress 網站上安裝 LikeCoin 外掛"
+      },
+      "medium": {
+        "title": "Medium",
+        "content": "在你的文章內貼上 LikeButton"
+      },
+      "oice": {
+        "title": "oice",
+        "content": "在 oice 上創建你的視覺小說"
+      },
+      "otherLinks": "其他外部連結",
+      "preview": "預覧",
+      "mediumVersion": "Medium 版本",
+      "wordpressVersion": "WordPress 版本",
+      "displayOption": {
+        "all": "所有平台",
+        "medium": "只在 Medium",
+        "wp": "只在 WordPress"
+      },
+      "supportFavContent": "讚賞公民 - 化讚為賞 回饋創作",
+      "backerDesc": "By adding the LikeButton to your creative content, The quick, brown fox jumps over a lazy dog.",
+      "active": "開始訂閱"
+    },
+    "button": {
+      "deleteAccount": "刪除帳號",
+      "requestReport": "接收帳號報告",
+      "editPortrait": "更改頭像",
+      "profile": "個人資料",
+      "otherSettings": "其他",
+      "likeButton": "LikeButton",
+      "learnMore": "了解更多",
+      "install": "安裝",
+      "createStory": "創建視覺小說",
+      "addCustomLink": "新增自定義連結",
+      "becomeBacker": "成為讚賞公民",
+      "cancelSubscription": "取消訂閱"
+    },
+    "placeholder": {
+      "name": "名稱",
+      "enterUrl": "在此輸入地址"
+    }
   },
   "PoliciesPage": {
     "title": "條款及政策"
+  },
+  "TermsOfUsePage": {
+    "title": "條款"
+  },
+  "PrivacyPolicyPage": {
+    "title": "私隱政策"
   },
   "Error": {
     "button": {

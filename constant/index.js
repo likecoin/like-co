@@ -11,7 +11,7 @@ export const BONUS_ADDRESSES = IS_TESTNET
 
 export const ETHERSCAN_HOST = IS_TESTNET ? 'https://rinkeby.etherscan.io' : 'https://etherscan.io';
 
-export const INFURA_HOST = IS_TESTNET ? 'https://rinkeby.infura.io/ywCD9mvUruQeYcZcyghk' : 'https://mainnet.infura.io/ywCD9mvUruQeYcZcyghk';
+export const INFURA_HOST = IS_TESTNET ? 'https://rinkeby.infura.io/v3/9a6771595426445cb247e83d4ad85645' : 'https://mainnet.infura.io/v3/9a6771595426445cb247e83d4ad85645';
 
 export const ETH_NETWORK_NAME = IS_TESTNET ? 'rinkeby' : 'mainnet';
 
@@ -62,7 +62,6 @@ const toolbarsDisableError = {
   'in-embed-id-list': ALL_ERRORS,
   'id-amount': ALL_ERRORS,
   'claim-id-coupon': ['web3', 'locked'],
-  'in-backer': ALL_ERRORS,
   'in-policies': ALL_ERRORS,
   'in-policies-privacy': ALL_ERRORS,
   'in-policies-terms': ALL_ERRORS,
@@ -70,8 +69,6 @@ const toolbarsDisableError = {
   'in-tokensale-tx-id': ['web3', 'locked'],
   'pay-merchantId': ALL_ERRORS,
   'pay-merchantId-amount': ALL_ERRORS,
-  'in-donation': ALL_ERRORS,
-  'in-donation-claim': ALL_ERRORS,
 };
 export const getToolbarsDisableError = route => (toolbarsDisableError[route] || false);
 

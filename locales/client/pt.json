@@ -221,7 +221,6 @@
             "bonus": "Bônus de LikeCoin",
             "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
             "tokenSale": "@:TokenSale.title",
-            "backer": "@:BackerPage.title",
             "whitepaper": "@:Whitepaper.Button.whitepaper",
             "support": "@:Footer.button.support",
             "press": "Imprensa",
@@ -795,24 +794,6 @@
             "aboutLikeCoin": "Sobre o LikeCoin",
             "whitePaper": "@:WhitePaper.label.whitePaper",
             "noETH": "Sem ETH?"
-        }
-    },
-    "BackerPage": {
-        "title": "Apoie o movimento",
-        "label": {
-            "tagline": "Compre nossos livros.",
-            "description": "O protocolo LikeCoin é um movimento para redistribuir a receita gerada por conteúdo licenciado sob a Creative Commons. O nosso conteúdo pode ser usado gratuitamente e nossos códigos fonte são códigos abertos no <a href=\"https://github.com/likecoin\">Github</a>. <br/><br/><a href=\"http://sched.co/E6zv\">Nossa apresentação no Creative Commons Summit 2018</a>",
-            "notRegistered": "Crie um ID LikeCoin e participe do movimento"
-        },
-        "button": {
-            "register": "Criar ID",
-            "purchaseInETH": "Apoiar LikeCoin em ETH"
-        },
-        "productList": {
-            "title": "Loja",
-            "label": {
-                "youHavePurchased": "Você comprou {product}, o recibo será enviado para o seu e-mail {email}. Número de referência:"
-            }
         }
     },
     "BonusPage": {
