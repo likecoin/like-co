@@ -237,7 +237,7 @@ export default {
       return !(this.isBlocking || this.isSinglePage);
     },
     isSinglePage() {
-      return this.$route.name === 'in-register-api';
+      return this.$route.name === 'in-register';
     },
     isBlocking() {
       return this.currentTab === 'loading' || this.currentTab === 'signingIn';
