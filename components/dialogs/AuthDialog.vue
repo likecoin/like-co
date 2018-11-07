@@ -5,7 +5,7 @@
       mdBackdrop: !isSinglePage,
       mdClickOutsideToClose: closable,
       mdCloseOnEsc: closable,
-      mdFullscreen: false,
+      mdFullscreen: true,
       mdClosed: onClosed,
       mdClickOutside: onClosed,
     }"
@@ -18,6 +18,13 @@
     is-content-gapless
     @update:isShow="onUpdateIsShow"
   >
+
+    <div
+      slot="header-center"
+      class="auth-dialog__header-center"
+    >
+      <img :src="LikeCoinLogo">
+    </div>
 
     <div
       :style="contentStyle"
@@ -195,6 +202,8 @@ import User from '@/util/User';
 
 import { LIKE_BUTTON_POST_MESSAGE_TARGET_ORIGIN } from '~/constant';
 
+import LikeCoinLogo from '~/assets/icons/likecoin-vertical.svg';
+
 export default {
   name: 'auth-dialog',
   components: {
@@ -212,6 +221,8 @@ export default {
   },
   data() {
     return {
+      LikeCoinLogo,
+
       currentTab: 'portal',
       contentStyle: {},
 
@@ -663,21 +674,23 @@ export default {
 
 .lc-dialog {
   :global(.lc-dialog-header::before) {
-    background: linear-gradient(252deg, #d2f0f0, #f0e6b4);
+    background: linear-gradient(246deg, #d2f0f0, #f0e6b4);
   }
 }
 
 .auth-dialog {
-  @media screen and (max-width: 600px) {
-    width: 96%;
-  }
-
   &--blocking {
       :global(.lc-dialog-header::before) {
         @include background-image-sliding-animation-x(
           linear-gradient(to right, #ed9090, #ee6f6f 20%, #ecd7d7, #ed9090)
         );
       }
+  }
+
+  &__header-center {
+    position: relative;
+
+    padding-top: 16px;
   }
 
   &__content {
