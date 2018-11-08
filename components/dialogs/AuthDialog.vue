@@ -689,25 +689,51 @@ export default {
 }
 
 .auth-dialog {
+  :global(.lc-dialog-header) {
+    z-index: 1;
+  }
+
   &--blocking {
-      :global(.lc-dialog-header::before) {
-        @include background-image-sliding-animation-x(
-          linear-gradient(to right, #ed9090, #ee6f6f 20%, #ecd7d7, #ed9090)
-        );
-      }
+    :global(.lc-dialog-header::before) {
+      @include background-image-sliding-animation-x(
+        linear-gradient(to right, #ed9090, #ee6f6f 20%, #ecd7d7, #ed9090)
+      );
+    }
   }
 
   &__header-center {
-    position: relative;
-
     padding-top: 16px;
+
+    &::before {
+      position: absolute;
+      top: 48px;
+      right: 0;
+      left: 0;
+
+      height: 100px;
+
+      content: "";
+
+      background: linear-gradient(to bottom, white 88%, transparentize(white, 1));
+    }
+
+    img {
+      position: absolute;
+      top: 16px;
+
+      width: 96px;
+      height: 124px;
+
+      transform: translateX(-50%);
+    }
   }
 
   &__content {
     overflow: hidden;
 
+    margin-top: 82px;
+
     transition: height 1s ease;
-    will-change: height;
   }
 
   &__tab-container {
