@@ -11,6 +11,9 @@ export default {
   mounted() {
     this.setAuthDialog({ isShow: true });
   },
+  beforeDestroy() {
+    this.setAuthDialog({ isShow: false });
+  },
   methods: {
     ...mapActions([
       'setAuthDialog',
