@@ -651,6 +651,35 @@
       }
     }
   },
+  "WalletNoticeDialog": {
+    "allSignInOptions": "其他登入方式",
+    "page": [
+      {
+        "title": "使用電子錢包保存 LikeCoin",
+        "description": "將 LikeCoin ID 綁定你的電子錢包地址後，你可以：",
+        "bullet": [
+          "儲存 LikeCoin 到自己的電子錢包",
+          "免費使用 LikeCoin 轉賬服務",
+          "進入「化讚為賞」的生態，賺取 LikeCoin"
+        ]
+      },
+      {
+        "title": "電子錢包全權由你保管",
+        "description": [
+          "請注意，like.co 只會綁定你電子錢包的公開地址。我們不會管有你的電子錢包私鑰，也無法動用到你電包中的款項。",
+          "你必需自行保管好操作錢包所需的私鑰 (private key) 和助記詞 (seed phrase) 等資料的備份。若你遺失了以上資料，我們將無法助你恢復錢包的使用權。"
+        ]
+      },
+      {
+        "title": "保護你的電子錢包防止損失",
+        "description": [
+          "若你透過 like.co 的轉賬服務或任何第三方提供的轉賬方式發送 LikeCoin 到其他地址，轉賬指令一經發出，我們將無法取消或凍結該轉帳指令。",
+          "電子錢包地址一經創建，將永遠存在於以太坊上，我們無法將其凍結或刪除。"
+        ]
+      }
+    ],
+    "startUsing": "開始使用"
+  },
   "Toolbar": {
     "etherscan": {
       "button": {

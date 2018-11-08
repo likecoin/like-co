@@ -171,6 +171,12 @@
 
     </div>
 
+    <wallet-notice-dialog
+      :is-show.sync="isShowWalletNotice"
+      @cancel="currentTab = 'portal'"
+      @confirm="currentTab = 'register'"
+    />
+
   </base-dialog>
 </template>
 
@@ -196,6 +202,7 @@ import BaseDialog from '~/components/dialogs/BaseDialog';
 import SigninPortal from './AuthDialogContent/SignInPortal';
 import EmailSigninForm from './AuthDialogContent/SignInWithEmail';
 import RegisterForm from './AuthDialogContent/Register';
+import WalletNoticeDialog from './WalletNoticeDialog';
 import EthMixin from '~/components/EthMixin';
 
 import User from '@/util/User';
@@ -211,6 +218,7 @@ export default {
     SigninPortal,
     EmailSigninForm,
     RegisterForm,
+    WalletNoticeDialog,
   },
   mixins: [EthMixin],
   props: {
@@ -234,6 +242,8 @@ export default {
 
       errorCode: '',
       isSigningInWithEmail: false,
+
+      isShowWalletNotice: false,
     };
   },
   computed: {
@@ -501,7 +511,7 @@ export default {
             this.signInPayload = {
               wallet: this.getLocalWallet,
             };
-            this.currentTab = 'register';
+            this.isShowWalletNotice = true;
             return;
           }
         }
