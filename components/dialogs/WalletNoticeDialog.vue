@@ -131,17 +131,21 @@
     </md-dialog-content>
 
     <!-- Page Control -->
-    <div class="wallet-notice-dialog__page-control lc-margin-vertical-16">
-      <span
-        v-for="i in PAGE_COUNT"
-        :key="i"
-        :class="[
-          'wallet-notice-dialog__page-control__indicator',
-          {
-            'wallet-notice-dialog__page-control__indicator--active': pageIndex === i - 1,
-          },
-        ]"
-      />
+    <div class="wallet-notice-dialog__page-control-wrapper">
+      <div class="wallet-notice-dialog__page-control lc-padding-vertical-16">
+        <div class="wallet-notice-dialog__page-control__indicator-container">
+          <span
+            v-for="i in PAGE_COUNT"
+            :key="i"
+            :class="[
+              'wallet-notice-dialog__page-control__indicator',
+              {
+                'wallet-notice-dialog__page-control__indicator--active': pageIndex === i - 1,
+              },
+            ]"
+          />
+        </div>
+      </div>
     </div>
 
   </md-dialog>
@@ -445,17 +449,41 @@ export default {
     }
   }
 
+  &__page-control-wrapper {
+    position: relative;
+    z-index: 4;
+
+    pointer-events: none;
+  }
   &__page-control {
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+
     display: flex;
     justify-content: center;
 
-    padding: 4px;
+    padding: 2px;
 
+    background: linear-gradient(to top, white, transparentize(white, 1));
+
+    &__indicator-container {
+      display: inherit;
+
+      padding: 2px;
+
+      pointer-events: all;
+
+      border-radius: 9999px;
+      background: white;
+      box-shadow: 0 0 10px 0 white;
+    }
     &__indicator {
       width: 3px;
       height: 3px;
 
-      margin: 0 4px;
+      margin: 2px 4px;
 
       transition-duration: 0.5s;
       transition-property: background-color, transform;
@@ -473,6 +501,6 @@ export default {
 }
 
 .md-dialog-content {
-  padding: 0;
+  padding: 0 0 36px;
 }
 </style>
