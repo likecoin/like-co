@@ -118,7 +118,7 @@
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-import-resolver-webpack": "^0.10.1",
     "eslint-loader": "^2.0.0",
-    "eslint-plugin-html": "^4.0.3",
+    "eslint-plugin-html": "^5.0.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-promise": "^4.0.0",
