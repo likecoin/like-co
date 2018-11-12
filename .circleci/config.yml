@@ -115,6 +115,8 @@ jobs:
             gcloud docker -- pull us.gcr.io/${TEST_PROJECT_NAME}/like-store:latest || true
             docker build . -t like-store --cache-from us.gcr.io/${TEST_PROJECT_NAME}/like-store:latest \
             --build-arg IS_TESTNET='TRUE' \
+            --build-arg FIREBASE_API_KEY=${TEST_FIREBASE_API_KEY} \
+            --build-arg FIREBASE_PROJECT_ID=${TEST_FIREBASE_PROJECT_ID} \
             --build-arg INTERCOM_APPID=${TEST_INTERCOM_APPID} \
             --build-arg GTM_ID=${TEST_GTM_ID} \
             --build-arg SENTRY_DSN=${TEST_SENTRY_DSN} \
@@ -160,6 +162,8 @@ jobs:
             docker build . -t like-store --cache-from us.gcr.io/${PROJECT_NAME}/like-store:latest \
             --build-arg INTERCOM_APPID=${INTERCOM_APPID} \
             --build-arg GTM_ID=${GTM_ID} \
+            --build-arg FIREBASE_API_KEY=${FIREBASE_API_KEY} \
+            --build-arg FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID} \
             --build-arg SENTRY_DSN=${SENTRY_DSN} \
             --build-arg SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN} \
             --build-arg SENTRY_REPORT_URI=${SENTRY_REPORT_URI} \
