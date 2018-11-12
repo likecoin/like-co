@@ -5,7 +5,7 @@
       mdBackdrop: !isSinglePage,
       mdClickOutsideToClose: closable,
       mdCloseOnEsc: closable,
-      mdFullscreen: false,
+      mdFullscreen: true,
       mdClosed: onClosed,
       mdClickOutside: onClosed,
     }"
@@ -18,6 +18,13 @@
     is-content-gapless
     @update:isShow="onUpdateIsShow"
   >
+
+    <div
+      slot="header-center"
+      class="auth-dialog__header-center"
+    >
+      <img :src="LikeCoinLogo">
+    </div>
 
     <div
       :style="contentStyle"
@@ -164,6 +171,12 @@
 
     </div>
 
+    <wallet-notice-dialog
+      :is-show.sync="isShowWalletNotice"
+      @cancel="currentTab = 'portal'"
+      @confirm="currentTab = 'register'"
+    />
+
   </base-dialog>
 </template>
 
@@ -189,11 +202,14 @@ import BaseDialog from '~/components/dialogs/BaseDialog';
 import SigninPortal from './AuthDialogContent/SignInPortal';
 import EmailSigninForm from './AuthDialogContent/SignInWithEmail';
 import RegisterForm from './AuthDialogContent/Register';
+import WalletNoticeDialog from './WalletNoticeDialog';
 import EthMixin from '~/components/EthMixin';
 
 import User from '@/util/User';
 
 import { LIKE_BUTTON_POST_MESSAGE_TARGET_ORIGIN } from '~/constant';
+
+import LikeCoinLogo from '~/assets/icons/likecoin-vertical.svg';
 
 export default {
   name: 'auth-dialog',
@@ -202,6 +218,7 @@ export default {
     SigninPortal,
     EmailSigninForm,
     RegisterForm,
+    WalletNoticeDialog,
   },
   mixins: [EthMixin],
   props: {
@@ -212,6 +229,8 @@ export default {
   },
   data() {
     return {
+      LikeCoinLogo,
+
       currentTab: 'portal',
       contentStyle: {},
 
@@ -223,6 +242,8 @@ export default {
 
       errorCode: '',
       isSigningInWithEmail: false,
+
+      isShowWalletNotice: false,
     };
   },
   computed: {
@@ -237,7 +258,7 @@ export default {
       return !(this.isBlocking || this.isSinglePage);
     },
     isSinglePage() {
-      return this.$route.name === 'in-register-api';
+      return this.$route.name === 'in-register';
     },
     isBlocking() {
       return this.currentTab === 'loading' || this.currentTab === 'signingIn';
@@ -490,7 +511,7 @@ export default {
             this.signInPayload = {
               wallet: this.getLocalWallet,
             };
-            this.currentTab = 'register';
+            this.isShowWalletNotice = true;
             return;
           }
         }
@@ -663,28 +684,56 @@ export default {
 
 .lc-dialog {
   :global(.lc-dialog-header::before) {
-    background: linear-gradient(252deg, #d2f0f0, #f0e6b4);
+    background: linear-gradient(246deg, #d2f0f0, #f0e6b4);
   }
 }
 
 .auth-dialog {
-  @media screen and (max-width: 600px) {
-    width: 96%;
+  :global(.lc-dialog-header) {
+    z-index: 1;
   }
 
   &--blocking {
-      :global(.lc-dialog-header::before) {
-        @include background-image-sliding-animation-x(
-          linear-gradient(to right, #ed9090, #ee6f6f 20%, #ecd7d7, #ed9090)
-        );
-      }
+    :global(.lc-dialog-header::before) {
+      @include background-image-sliding-animation-x(
+        linear-gradient(to right, #ed9090, #ee6f6f 20%, #ecd7d7, #ed9090)
+      );
+    }
+  }
+
+  &__header-center {
+    padding-top: 16px;
+
+    &::before {
+      position: absolute;
+      top: 48px;
+      right: 0;
+      left: 0;
+
+      height: 100px;
+
+      content: "";
+
+      background: linear-gradient(to bottom, white 88%, transparentize(white, 1));
+    }
+
+    img {
+      position: absolute;
+      top: 16px;
+
+      width: 96px;
+      height: 124px;
+
+      transform: translateX(-50%);
+    }
   }
 
   &__content {
     overflow: hidden;
 
+    margin-top: 82px;
+
     transition: height 1s ease;
-    will-change: height;
   }
 
   &__tab-container {

@@ -15,6 +15,8 @@ module.exports = {
     IS_TESTNET: process.env.IS_TESTNET,
     INTERCOM_APPID: process.env.INTERCOM_APPID,
     SENTRY_DSN: process.env.SENTRY_DSN,
+    FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
+    FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID,
   },
   head: {
     title: 'LikeCoin - Reinventing the Like',
