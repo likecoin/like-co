@@ -32,6 +32,7 @@
             to="/in/settings"
           />
           <md-tab
+            v-if="getUserInfo.wallet"
             id="in-settings-button"
             :md-label="$t('Settings.button.likeButton')"
             to="/in/settings/button"
@@ -53,10 +54,17 @@
 
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'settings-page',
   layout: 'defaultWithGrayHeader',
   middleware: 'authenticated',
+  computed: {
+    ...mapGetters([
+      'getUserInfo',
+    ]),
+  },
 };
 </script>
 
