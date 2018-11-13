@@ -12,7 +12,6 @@ import facebook from './facebook';
 import flickr from './flickr';
 import medium from './medium';
 import twitter from './twitter';
-import instagram from './instagram';
 import link from './link';
 import { tryToUnlinkOAuthLogin } from '../../util/api/users';
 
@@ -24,7 +23,6 @@ router.use(facebook);
 router.use(flickr);
 router.use(medium);
 router.use(twitter);
-router.use(instagram);
 router.use(link);
 
 function getLinkOrderMap(socialCol) {
