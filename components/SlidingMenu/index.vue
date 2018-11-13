@@ -124,6 +124,12 @@ const MENU_ITEMS = [
         key: 'earnLikeCoin',
         to: { name: 'in-earn' },
       },
+      {
+        key: 'settings',
+        to: { name: 'in-settings' },
+        icon: SettingsIcon,
+        isRegistered: true,
+      },
     ],
   },
   {
