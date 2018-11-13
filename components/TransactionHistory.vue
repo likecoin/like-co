@@ -244,7 +244,7 @@ export default {
   },
   data() {
     return {
-      BONUS_LOCK_UNTIL_DATE,
+      BONUS_LOCK_UNTIL_DATE: moment.unix(BONUS_LOCK_UNTIL_DATE),
       ErrorIcon,
       LockIcon,
       ICOTotalCoin: 0,
