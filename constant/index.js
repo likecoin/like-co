@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js';
-import moment from 'moment';
 
 export const { IS_TESTNET } = process.env;
 
@@ -48,9 +47,8 @@ export const KYC_STATUS_ENUM = {
 export const ETH_TO_LIKECOIN_RATIO = 40000;
 export const FINAL_TOKENSALE_ETH_VALUE = 7562.26;
 export const FINAL_TOKENSALE_PERCENTAGE = 180;
-export const TOKENSALE_SOFTCAP_ETH = new BigNumber(4200);
 
-export const BONUS_LOCK_UNTIL_DATE = moment.unix(1540267200);
+export const BONUS_LOCK_UNTIL_DATE = 1540267200;
 
 export const GETTING_STARTED_TASKS = ['taskSocial', 'taskOnepager', 'taskVideo', 'taskPaymentPage'];
 
