@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import { toDataUrl } from '@likecoin/ethereum-blockies';
 import BigNumber from 'bignumber.js';
 import { sendVerificationEmail, sendVerificationWithCouponEmail } from '../util/ses';
 import {
   PUBSUB_TOPIC_MISC,
   ONE_LIKE,
+  AVATAR_DEFAULT_PATH,
 } from '../../constant';
 import { fetchFacebookUser } from '../oauth/facebook';
 import {
@@ -590,8 +590,8 @@ router.get('/users/self', jwtAuth('read'), async (req, res, next) => {
     if (doc.exists) {
       const payload = doc.data();
       payload.user = username;
-      if (payload.wallet && !payload.avatar) {
-        payload.avatar = toDataUrl(payload.wallet);
+      if (!payload.avatar) {
+        payload.avatar = AVATAR_DEFAULT_PATH;
       }
       setSessionCookie(req, res, req.cookies.likecoin_auth);
       res.json(Validate.filterUserData(payload));
@@ -638,8 +638,8 @@ router.get('/users/id/:id', jwtAuth('read'), async (req, res, next) => {
     const doc = await dbRef.doc(username).get();
     if (doc.exists) {
       const payload = doc.data();
-      if (payload.wallet && !payload.avatar) {
-        payload.avatar = toDataUrl(payload.wallet);
+      if (!payload.avatar) {
+        payload.avatar = AVATAR_DEFAULT_PATH;
       }
       payload.user = username;
       res.json(Validate.filterUserData(payload));
@@ -657,8 +657,8 @@ router.get('/users/id/:id/min', async (req, res, next) => {
     const doc = await dbRef.doc(username).get();
     if (doc.exists) {
       const payload = doc.data();
-      if (payload.wallet && !payload.avatar) {
-        payload.avatar = toDataUrl(payload.wallet);
+      if (!payload.avatar) {
+        payload.avatar = AVATAR_DEFAULT_PATH;
       }
       payload.user = username;
       res.json(Validate.filterUserDataMin(payload));
@@ -676,8 +676,8 @@ router.get('/users/merchant/:id/min', async (req, res, next) => {
     const query = await dbRef.where('merchantId', '==', merchantId).get();
     if (query.docs.length > 0) {
       const payload = query.docs[0].data();
-      if (payload.wallet && !payload.avatar) {
-        payload.avatar = toDataUrl(payload.wallet);
+      if (!payload.avatar) {
+        payload.avatar = AVATAR_DEFAULT_PATH;
       }
       payload.user = query.docs[0].id;
       res.json(Validate.filterUserDataMin(payload));
@@ -700,7 +700,7 @@ router.get('/users/addr/:addr', jwtAuth('read'), async (req, res, next) => {
     const query = await dbRef.where('wallet', '==', addr).get();
     if (query.docs.length > 0) {
       const payload = query.docs[0].data();
-      if (!payload.avatar) payload.avatar = toDataUrl(payload.wallet);
+      if (!payload.avatar) payload.avatar = AVATAR_DEFAULT_PATH;
       payload.user = query.docs[0].id;
       res.json(Validate.filterUserData(payload));
     } else {
