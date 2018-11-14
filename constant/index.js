@@ -29,7 +29,14 @@ export const LOGIN_MESSAGE = 'Login - Reinventing the Like';
 
 export const ONE_LIKE = new BigNumber(10).pow(18);
 
-const whiteList = ['oicetest.lakoo.com', 'oice.com', 'like.co', 'rinkeby.like.co'];
+const whiteList = [
+  'oice.com',
+  'oicetest.lakoo.com',
+  'like.co',
+  'rinkeby.like.co',
+  'button.like.co',
+  'button.rinkeby.like.co',
+];
 if (IS_TESTNET) whiteList.push('localhost');
 
 export const REDIRECT_WHITE_LIST = whiteList;

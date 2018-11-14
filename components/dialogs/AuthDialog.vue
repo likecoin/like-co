@@ -183,6 +183,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import parse from 'url-parse';
 
 import {
   apiLoginUser,
@@ -207,7 +208,10 @@ import EthMixin from '~/components/EthMixin';
 
 import User from '@/util/User';
 
-import { LIKE_BUTTON_POST_MESSAGE_TARGET_ORIGIN } from '~/constant';
+import {
+  LIKE_BUTTON_POST_MESSAGE_TARGET_ORIGIN,
+  REDIRECT_WHITE_LIST,
+} from '~/constant';
 
 import LikeCoinLogo from '~/assets/icons/likecoin-vertical.svg';
 
@@ -659,12 +663,18 @@ export default {
       if (this.isSinglePage) {
         this.currentTab = 'loginSuccessful';
         this.$nextTick(() => {
-          if (window.opener) {
+          const { redirect } = this.$route.query;
+          if (redirect && REDIRECT_WHITE_LIST.indexOf(parse(redirect, {}).hostname) !== -1) {
+            // Redirect to external link
+            window.location.href = redirect;
+          } else if (window.opener) {
+            // Notify LikeButton iframe to refresh
             window.opener.postMessage({
               action: 'LOGGED_IN',
             }, LIKE_BUTTON_POST_MESSAGE_TARGET_ORIGIN);
             window.close();
           } else {
+            // Normal case
             this.$router.push({ name: 'in' });
           }
         });
