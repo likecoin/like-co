@@ -23,7 +23,7 @@
 
           <account-overview
             v-if="getUserIsRegistered"
-            class="lc-margin-bottom-24-mobile"
+            class="lc-margin-bottom-40"
           />
 
           <div class="menus-wrapper main">
@@ -273,10 +273,10 @@ export default {
 }
 
 .menus-wrapper {
-  padding: 104px 24px 36px 52px;
+  padding: 52px 24px 36px 52px;
 
   @media (max-width: 600px) {
-    padding: 64px 24px 36px 32px;
+    padding: 32px 24px 36px 32px;
   }
 
   &.main {

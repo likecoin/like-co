@@ -53,9 +53,9 @@ $sliding-menu-narrow-width: 260px;
 }
 
 [lc-sliding-menu="open"] {
-  overflow-y: hidden;
+  overflow-y: hidden !important;
 
   body {
-    overflow-y: hidden;
+    overflow-y: hidden !important;
   }
 }
