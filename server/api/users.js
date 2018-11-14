@@ -307,7 +307,7 @@ router.post('/users/new', apiLimiter, multer.single('avatarFile'), async (req, r
   }
 });
 
-router.post('/users/update', jwtAuth('write'), multer.single('avatar'), async (req, res, next) => {
+router.post('/users/update', jwtAuth('write'), multer.single('avatarFile'), async (req, res, next) => {
   try {
     const {
       user,
