@@ -15,6 +15,7 @@ import {
   checkSignPayload,
   setSessionCookie,
   setAuthCookies,
+  checkEmailIsSoleLogin,
   clearAuthCookies,
 } from '../util/api/users';
 import { tryToLinkSocialPlatform } from '../util/api/social';
@@ -364,6 +365,9 @@ router.post('/users/update', jwtAuth('write'), multer.single('avatar'), async (r
     };
     const oldEmail = oldUserObj.email;
     if (email && email !== oldEmail) {
+      if (await checkEmailIsSoleLogin(user)) {
+        throw new ValidationError('USER_EMAIL_SOLE_LOGIN');
+      }
       updateObj.email = email;
       updateObj.verificationUUID = FieldValue.delete();
       updateObj.isEmailVerified = false;

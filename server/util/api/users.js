@@ -234,6 +234,20 @@ export async function checkReferrerExists(referrer) {
   return referrerRef.exists;
 }
 
+export async function checkEmailIsSoleLogin(id) {
+  const [
+    userDoc,
+    authDoc,
+  ] = await Promise.all([
+    dbRef.doc(id).get(),
+    authDbRef.doc(id).get(),
+  ]);
+  const user = userDoc.data();
+  const userHasOauth = authDoc.exists && Object.keys(authDoc.data()) > 0;
+  const { wallet } = user;
+  return (!wallet && !userHasOauth);
+}
+
 export async function tryToLinkOAuthLogin({
   likeCoinId,
   platform,
