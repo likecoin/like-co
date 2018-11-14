@@ -1,8 +1,10 @@
 import { Router } from 'express';
 import cors from 'cors';
-import { toDataUrl } from '@likecoin/ethereum-blockies';
 import xml from 'xml';
 import { ValidationError } from '../../util/ValidationHelper';
+import {
+  AVATAR_DEFAULT_PATH,
+} from '../../constant';
 
 const subdomain = ['www.', 'rinkeby.', 'button.', 'button.rinkeby.', 'widget.'];
 const queryUrlRegexp = new RegExp('^(?:https?:\\/\\/)?([a-z0-9.]+)?like\\.co\\/([-_a-z0-9]+)(?:/([0-9]+)?)?');
@@ -45,7 +47,7 @@ router.get('/oembed', cors(), async (req, res, next) => {
       return;
     }
     const payload = doc.data();
-    if (!payload.avatar) payload.avatar = toDataUrl(payload.wallet);
+    if (!payload.avatar) payload.avatar = AVATAR_DEFAULT_PATH;
 
     const urlHostname = `${match[1] || ''}like.co`;
     let replyUrl = `https://${urlHostname}/${username}`;
