@@ -87,10 +87,10 @@
               v-if="isMetamask"
               class="lc-text-align-center"
             >
-              <a
+              <!-- <a
                 href="#"
                 @click.prevent="onLedger"
-              >{{ $t('Dialog.metamask.label.ledger') }}</a>
+              >{{ $t('Dialog.metamask.label.ledger') }}</a> -->
             </div>
             <div v-else>
               <md-button
@@ -170,7 +170,6 @@ import EthHelper from '@/util/EthHelper';
 import ArrowLeftIcon from '@/assets/icons/arrow-left.svg';
 import ArrowRightIcon from '@/assets/icons/arrow-right.svg';
 import metamaskIcon from '@/assets/icons/metamask.svg';
-import ledgerIcon from '@/assets/icons/ledger.svg';
 import metamaskNetImg from '@/assets/img/meta_net.png';
 import metamaskTestNetImg from '@/assets/img/meta_testnet.png';
 import metamaskUnlockImg from '@/assets/img/meta_unlock.png';
@@ -213,7 +212,6 @@ export default {
       'getLikeCoinUsdNumericPrice',
     ]),
     icon() {
-      if (this.webThreeType === 'ledger') return ledgerIcon;
       return metamaskIcon;
     },
     isInstallMetamask() {
@@ -297,9 +295,6 @@ export default {
     },
     onInstallClick() {
       logTrackerEvent(this, 'RegFlow', 'ClickInstallMetamask', 'click install metamask', 1);
-    },
-    onLedger() {
-      EthHelper.setLedgerOn();
     },
     onCancel() {
       EthHelper.resetWeb3();

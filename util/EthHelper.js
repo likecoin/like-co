@@ -9,35 +9,6 @@ const abiDecoder = require('@likecoin/abi-decoder/dist/es5');
 
 abiDecoder.addABI(LIKE_COIN_ABI);
 
-async function createLedgerWeb3(networkId) {
-  /* for ledger */
-  let [
-    ProviderEngine,
-    FetchSubprovider,
-    TransportU2F,
-    createLedgerSubprovider,
-  ] = await Promise.all([
-    import(/* webpackChunkName: "ledger" */ 'web3-provider-engine/dist/es5'),
-    import(/* webpackChunkName: "ledger" */ 'web3-provider-engine/dist/es5/subproviders/fetch'),
-    import(/* webpackChunkName: "ledger" */ '@ledgerhq/hw-transport-u2f'),
-    import(/* webpackChunkName: "ledger" */ '@ledgerhq/web3-subprovider'),
-  ]);
-  if (ProviderEngine.default) ProviderEngine = ProviderEngine.default;
-  if (FetchSubprovider.default) FetchSubprovider = FetchSubprovider.default;
-  if (TransportU2F.default) TransportU2F = TransportU2F.default;
-  if (createLedgerSubprovider.default) createLedgerSubprovider = createLedgerSubprovider.default;
-  const engine = new ProviderEngine();
-  const getTransport = () => TransportU2F.create();
-  const ledger = createLedgerSubprovider(getTransport, {
-    networkId,
-    accountsLength: 1,
-  });
-  engine.addProvider(ledger);
-  engine.addProvider(new FetchSubprovider({ rpcUrl: INFURA_HOST }));
-  engine.start();
-  return new Web3(engine);
-}
-
 function timeout(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -69,6 +40,11 @@ class EthHelper {
     onLogin,
     onSigned,
   }) {
+    const provider = new Web3.providers.HttpProvider(INFURA_HOST);
+    const web3Instance = new Web3(provider);
+    this.queryWeb3 = web3Instance;
+    this.queryLikeCoin = new web3Instance.eth.Contract(LIKE_COIN_ABI, LIKE_COIN_ADDRESS);
+    this.queryLikeCoinICO = new web3Instance.eth.Contract(LIKE_COIN_ICO_ABI, LIKE_COIN_ICO_ADDRESS);
     Object.assign(this, {
       wallet: '',
       errCb,
@@ -92,19 +68,16 @@ class EthHelper {
     }
   }
 
-  async pollForWeb3(initType) {
+  async pollForWeb3(initType = 'window') {
     this.isInited = false;
     this.clearTimers();
     try {
-      if (initType === 'ledger' || typeof window.web3 !== 'undefined') {
-        if (initType === 'ledger' && this.web3Type !== 'ledger') {
-          this.web3 = await createLedgerWeb3(IS_TESTNET ? 4 : 1);
-          this.setWeb3Type('ledger');
-        } else if (!this.web3 || this.web3Type !== 'window') {
+      if (typeof window.web3 !== 'undefined') {
+        if (!this.actionWeb3 || this.web3Type !== 'window') {
           this.setWeb3Type('window');
-          this.web3 = new Web3(window.web3.currentProvider);
+          this.actionWeb3 = new Web3(window.web3.currentProvider);
         }
-        const network = await this.web3.eth.net.getNetworkType();
+        const network = await this.actionWeb3.eth.net.getNetworkType();
         const target = (IS_TESTNET ? 'rinkeby' : 'main');
         if (network === target) {
           this.startApp();
@@ -116,8 +89,7 @@ class EthHelper {
       } else {
         if (this.errCb) this.errCb('web3');
         if (this.web3Type !== 'infura') {
-          const provider = new Web3.providers.HttpProvider(INFURA_HOST);
-          this.web3 = new Web3(provider);
+          this.actionWeb3 = this.queryWeb3;
           this.setWeb3Type('infura');
         }
         if (initType === 'window') return;
@@ -131,8 +103,8 @@ class EthHelper {
   }
 
   startApp() {
-    this.LikeCoin = new this.web3.eth.Contract(LIKE_COIN_ABI, LIKE_COIN_ADDRESS);
-    this.LikeCoinICO = new this.web3.eth.Contract(LIKE_COIN_ICO_ABI, LIKE_COIN_ICO_ADDRESS);
+    this.LikeCoin = new this.actionWeb3.eth.Contract(LIKE_COIN_ABI, LIKE_COIN_ADDRESS);
+    this.LikeCoinICO = new this.actionWeb3.eth.Contract(LIKE_COIN_ICO_ABI, LIKE_COIN_ICO_ADDRESS);
     this.pollForAccounts();
   }
 
@@ -143,7 +115,7 @@ class EthHelper {
 
   async getAccounts() {
     if (this.isInited) {
-      const accounts = await this.web3.eth.getAccounts();
+      const accounts = await this.actionWeb3.eth.getAccounts();
       if (accounts && accounts[0]) {
         if (this.wallet !== accounts[0]) {
           this.accounts = accounts;
@@ -166,12 +138,8 @@ class EthHelper {
     }
   }
 
-  setLedgerOn() {
-    this.pollForWeb3('ledger');
-  }
-
   resetWeb3() {
-    this.pollForWeb3('window');
+    this.pollForWeb3();
   }
 
   async waitForTxToBeMined(txHash) {
@@ -180,9 +148,9 @@ class EthHelper {
       /* eslint-disable no-await-in-loop */
       await timeout(1000);
       const [t, txReceipt, currentBlockNumber] = await Promise.all([
-        this.web3.eth.getTransaction(txHash),
-        this.web3.eth.getTransactionReceipt(txHash),
-        this.web3.eth.getBlockNumber(),
+        this.queryWeb3.eth.getTransaction(txHash),
+        this.queryWeb3.eth.getTransactionReceipt(txHash),
+        this.queryWeb3.eth.getBlockNumber(),
       ]);
       if (txReceipt && !isReceiptSuccess(txReceipt)) throw new Error('Transaction failed');
       done = t && txReceipt && currentBlockNumber && t.blockNumber
@@ -191,7 +159,7 @@ class EthHelper {
   }
 
   utf8ToHex(data) {
-    return this.web3.utils.utf8ToHex(data);
+    return this.queryWeb3.utils.utf8ToHex(data);
   }
 
   setWeb3Type(type) {
@@ -208,21 +176,21 @@ class EthHelper {
     if (this.web3Type === 'window' && window.web3 && window.web3.currentProvider.isTrust) {
       return false;
     }
-    return (this.web3Type !== 'ledger' && this.web3Type !== 'infura');
+    return this.web3Type !== 'infura';
   }
 
   async getTransactionCompleted(txHash) {
     const [t, currentBlockNumber] = await Promise.all([
-      this.web3.eth.getTransaction(txHash),
-      this.web3.eth.getBlockNumber(),
+      this.queryWeb3.eth.getTransaction(txHash),
+      this.queryWeb3.eth.getBlockNumber(),
     ]);
     if (!t || !currentBlockNumber) {
       return 0;
     }
     if (t.blockNumber && (currentBlockNumber - t.blockNumber > CONFIRMATION_NEEDED)) {
       const [r, block] = await Promise.all([
-        this.web3.eth.getTransactionReceipt(txHash),
-        this.web3.eth.getBlock(t.blockNumber),
+        this.queryWeb3.eth.getTransactionReceipt(txHash),
+        this.queryWeb3.eth.getBlock(t.blockNumber),
       ]);
       return {
         ts: (block && r) ? block.timestamp : 0,
@@ -236,13 +204,14 @@ class EthHelper {
   }
 
   async getEthTransferInfo(txHash, tx, blockNo) {
+    const web3Instance = this.queryWeb3;
     let t = tx;
     let currentBlockNumber = blockNo;
-    if (!t) t = await this.web3.eth.getTransaction(txHash);
-    if (!blockNo) currentBlockNumber = await this.web3.eth.getBlockNumber();
+    if (!t) t = await this.queryWeb3.eth.getTransaction(txHash);
+    if (!blockNo) currentBlockNumber = await web3Instance.eth.getBlockNumber();
     if (!t || !currentBlockNumber) throw new Error('Cannot find transaction');
-    let _to = this.web3.utils.toChecksumAddress(t.to);
-    let _from = this.web3.utils.toChecksumAddress(t.from);
+    let _to = web3Instance.utils.toChecksumAddress(t.to);
+    let _from = web3Instance.utils.toChecksumAddress(t.from);
     let _value = t.value;
     if (!t.blockNumber || (currentBlockNumber - t.blockNumber < CONFIRMATION_NEEDED)) {
       return {
@@ -253,11 +222,11 @@ class EthHelper {
       };
     }
     const [r, block] = await Promise.all([
-      this.web3.eth.getTransactionReceipt(txHash),
-      this.web3.eth.getBlock(t.blockNumber),
+      web3Instance.eth.getTransactionReceipt(txHash),
+      web3Instance.eth.getBlock(t.blockNumber),
     ]);
-    _to = this.web3.utils.toChecksumAddress(r.to);
-    _from = this.web3.utils.toChecksumAddress(r.from);
+    _to = web3Instance.utils.toChecksumAddress(r.to);
+    _from = web3Instance.utils.toChecksumAddress(r.from);
     _value = t.value;
     return {
       isEth: true,
@@ -270,16 +239,17 @@ class EthHelper {
   }
 
   async getTransferInfo(txHash, opt) {
+    const web3Instance = this.queryWeb3;
     const { blocking } = opt;
     let [t, currentBlockNumber] = await Promise.all([
-      this.web3.eth.getTransaction(txHash),
-      this.web3.eth.getBlockNumber(),
+      web3Instance.eth.getTransaction(txHash),
+      web3Instance.eth.getBlockNumber(),
     ]);
     while ((!t || !currentBlockNumber) && blocking) {
       await timeout(1000); // eslint-disable-line no-await-in-loop
       ([t, currentBlockNumber] = await Promise.all([
-        this.web3.eth.getTransaction(txHash),
-        this.web3.eth.getBlockNumber(),
+        web3Instance.eth.getTransaction(txHash),
+        web3Instance.eth.getBlockNumber(),
       ]));
     }
     if (!t || !currentBlockNumber) throw new Error('Cannot find transaction');
@@ -292,9 +262,9 @@ class EthHelper {
       throw new Error('Not LikeCoin Store transaction');
     }
     const txTo = decoded.params.find(p => p.name === '_to').value;
-    let _to = this.web3.utils.toChecksumAddress(txTo);
+    let _to = web3Instance.utils.toChecksumAddress(txTo);
     let _from = isDelegated ? decoded.params.find(p => p.name === '_from').value : t.from;
-    _from = this.web3.utils.toChecksumAddress(_from);
+    _from = web3Instance.utils.toChecksumAddress(_from);
     let _value = decoded.params.find(p => p.name === '_value').value;
     if (!t.blockNumber || (currentBlockNumber - t.blockNumber < CONFIRMATION_NEEDED)) {
       return {
@@ -304,8 +274,8 @@ class EthHelper {
       };
     }
     const [r, block] = await Promise.all([
-      this.web3.eth.getTransactionReceipt(txHash),
-      this.web3.eth.getBlock(t.blockNumber),
+      web3Instance.eth.getTransactionReceipt(txHash),
+      web3Instance.eth.getBlock(t.blockNumber),
     ]);
     if (!r || !isReceiptSuccess(r)) {
       return {
@@ -323,14 +293,14 @@ class EthHelper {
         .find(e => e.name === 'to').value.toLowerCase()) === txTo.toLowerCase());
       if (!targetLogs || !targetLogs.length) throw new Error('Cannot parse receipt');
       const [log] = targetLogs;
-      _to = this.web3.utils.toChecksumAddress(log.events.find(p => (p.name === 'to')).value);
-      _from = isDelegated ? this.web3.utils.toChecksumAddress(log.events.find(p => (p.name === 'from')).value) : t.from;
+      _to = web3Instance.utils.toChecksumAddress(log.events.find(p => (p.name === 'to')).value);
+      _from = isDelegated ? web3Instance.utils.toChecksumAddress(log.events.find(p => (p.name === 'from')).value) : t.from;
       _value = log.events.find(p => (p.name === 'value')).value;
     } else if (isLock) {
       const targetLogs = logs.filter(l => (l.name === 'Transfer'));
       if (!targetLogs || !targetLogs.length) throw new Error('Cannot parse receipt');
       const [log] = targetLogs;
-      _to = this.web3.utils.toChecksumAddress(log.events.find(p => (p.name === 'to')).value);
+      _to = web3Instance.utils.toChecksumAddress(log.events.find(p => (p.name === 'to')).value);
       _value = log.events.find(p => (p.name === 'value')).value;
     }
     return {
@@ -344,23 +314,23 @@ class EthHelper {
   async queryLikeCoinBalance(addr) {
     const address = addr || this.wallet || '';
     if (!address) return '';
-    return this.LikeCoin.methods.balanceOf(address).call();
+    return this.queryLikeCoin.methods.balanceOf(address).call();
   }
 
   async queryEthBalance(addr) {
     const address = addr || this.wallet || '';
     if (!address) return '';
-    return this.web3.eth.getBalance(address);
+    return this.queryWeb3.eth.getBalance(address);
   }
 
   async queryKYCStatus(addr) {
     const address = addr || this.wallet || '';
     if (!address) return false;
-    return this.LikeCoinICO.methods.kycDone(address).call();
+    return this.queryLikeCoinICO.methods.kycDone(address).call();
   }
 
   async getAddressPurchaseEvents(addr) {
-    return this.LikeCoinICO.getPastEvents('Purchase', {
+    return this.queryLikeCoinICO.getPastEvents('Purchase', {
       fromBlock: 0,
       filter: {
         _addr: addr,
@@ -369,21 +339,22 @@ class EthHelper {
   }
 
   async getAddressPurchaseTotal(addr) {
+    const web3Instance = this.queryWeb3;
     const address = addr || this.wallet || '';
     return (await this.getAddressPurchaseEvents(address))
       .reduce(
         (acc, e) => ({
-          coin: acc.coin.add(new this.web3.utils.BN(e.returnValues._coins)),
-          eth: acc.eth.add(new this.web3.utils.BN(e.returnValues._ethers)),
+          coin: acc.coin.add(new web3Instance.utils.BN(e.returnValues._coins)),
+          eth: acc.eth.add(new web3Instance.utils.BN(e.returnValues._ethers)),
         }),
-        { coin: new this.web3.utils.BN(0), eth: new this.web3.utils.BN(0) },
+        { coin: new web3Instance.utils.BN(0), eth: new web3Instance.utils.BN(0) },
       );
   }
 
   async genTypedSignData(from, to, value, maxReward) {
     let nonce;
     do {
-      nonce = this.web3.utils.randomHex(32);
+      nonce = this.actionWeb3.utils.randomHex(32);
     } while (await this.LikeCoin.methods.usedNonce(from, nonce).call());
     return [
       { type: 'address', name: 'contract', value: LIKE_COIN_ADDRESS },
@@ -397,7 +368,7 @@ class EthHelper {
 
   sendAsync(obj) {
     return new Promise((resolve, reject) => {
-      this.web3.currentProvider.sendAsync(obj, (err, result) => {
+      this.actionWeb3.currentProvider.sendAsync(obj, (err, result) => {
         if (err) {
           reject(err);
         } else if (result.error) {
@@ -455,7 +426,7 @@ class EthHelper {
     if (!this.isInited) return Promise.reject(new Error('No web3'));
     if (this.onSign) this.onSign();
     const txEventEmitter = new Promise((resolve, reject) => {
-      this.web3.eth.sendTransaction({
+      this.actionWeb3.eth.sendTransaction({
         from: this.wallet,
         to,
         value,
@@ -490,7 +461,7 @@ class EthHelper {
     if (!this.isInited) return Promise.reject(new Error('No web3'));
     const from = this.getWallet();
     try {
-      const rawSignature = await this.web3.eth.personal.sign(payload, from);
+      const rawSignature = await this.actionWeb3.eth.personal.sign(payload, from);
       if (this.onSigned) this.onSigned();
       if (!rawSignature) return Promise.reject(new Error('Signing Rejected'));
       return rawSignature;
