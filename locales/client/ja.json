@@ -1,1017 +1,1055 @@
 {
-    "General": {
-        "label": {
-            "error": "エラー",
-            "success": "成功"
-        },
-        "button": {
-            "confirm": "確認",
-            "cancel": "キャンセル",
-            "send": "送信",
-            "yes": "はい",
-            "no": "いいえ",
-            "ok": "OK",
-            "copy": "コピー",
-            "copied": "コピー済み",
-            "done": "完了",
-            "myAccount": "マイアカウント",
-            "next": "次へ"
-        }
+  "General": {
+    "label": {
+      "error": "エラー",
+      "success": "成功"
     },
-    "Language": {
-        "ab": "аҧсуа бызшәа, аҧсшәа",
-        "aa": "Afaraf",
-        "af": "Afrikaans",
-        "ak": "Akan",
-        "sq": "Shqip",
-        "am": "አማርኛ",
-        "ar": "العربية",
-        "an": "aragonés",
-        "hy": "Հայերեն",
-        "as": "অসমীয়া",
-        "av": "авар мацӀ, магӀарул мацӀ",
-        "ae": "avesta",
-        "ay": "aymar aru",
-        "az": "azərbaycan dili",
-        "bm": "bamanankan",
-        "ba": "башҡорт теле",
-        "eu": "euskara, euskera",
-        "be": "беларуская мова",
-        "bn": "বাংলা",
-        "bh": "भोजपुरी",
-        "bi": "Bislama",
-        "bs": "bosanski jezik",
-        "br": "brezhoneg",
-        "bg": "български език",
-        "my": "ဗမာစာ",
-        "ca": "català, valencià",
-        "ch": "Chamoru",
-        "ce": "нохчийн мотт",
-        "ny": "chiCheŵa, chinyanja",
-        "cv": "чӑваш чӗлхи",
-        "kw": "Kernewek",
-        "co": "corsu, lingua corsa",
-        "cr": "ᓀᐦᐃᔭᐍᐏᐣ",
-        "hr": "hrvatski jezik",
-        "cs": "čeština, český jazyk",
-        "da": "dansk",
-        "dv": "ދިވެހި",
-        "nl": "Nederlands, Vlaams",
-        "dz": "རྫོང་ཁ",
-        "en": "English",
-        "eo": "Esperanto",
-        "et": "eesti, eesti keel",
-        "ee": "Eʋegbe",
-        "fo": "føroyskt",
-        "fj": "vosa Vakaviti",
-        "fi": "suomi, suomen kieli",
-        "fr": "français",
-        "ff": "Fulfulde, Pulaar, Pular",
-        "gl": "Galego",
-        "ka": "ქართული",
-        "de": "Deutsch",
-        "el": "ελληνικά",
-        "gn": "Avañe'ẽ",
-        "gu": "ગુજરાતી",
-        "ht": "Kreyòl ayisyen",
-        "ha": "(Hausa) هَوُسَ",
-        "he": "עברית",
-        "hz": "Otjiherero",
-        "hi": "हिन्दी, हिंदी",
-        "ho": "Hiri Motu",
-        "hu": "magyar",
-        "ia": "Interlingua",
-        "id": "Bahasa Indonesia",
-        "ie": "元はオクツィデンタルと呼ばれ、第二次世界大戦後はインターリングと呼ばれる",
-        "ga": "Gaeilge",
-        "ig": "Asụsụ Igbo",
-        "ik": "Iñupiaq, Iñupiatun",
-        "io": "Ido",
-        "is": "Íslenska",
-        "it": "Italiano",
-        "iu": "ᐃᓄᒃᑎᑐᑦ",
-        "ja": "日本語",
-        "jv": "ꦧꦱꦗꦮ, Basa Jawa",
-        "kl": "kalaallisut, kalaallit oqaasii",
-        "kn": "ಕನ್ನಡ",
-        "kr": "Kanuri",
-        "ks": "कश्मीरी, كشميري‎",
-        "kk": "қазақ тілі",
-        "km": "ខ្មែរ, ខេមរភាសា, ភាសាខ្មែរ",
-        "ki": "Gĩkũyũ",
-        "rw": "Ikinyarwanda",
-        "ky": "Кыргызча, Кыргыз тили",
-        "kv": "коми кыв",
-        "kg": "Kikongo",
-        "ko": "한국어",
-        "ku": "Kurdî, كوردی‎",
-        "kj": "Kuanyama",
-        "la": "latine, lingua latina",
-        "lb": "Lëtzebuergesch",
-        "lg": "Luganda",
-        "li": "Limburgs",
-        "ln": "Lingála",
-        "lo": "ພາສາລາວ",
-        "lt": "lietuvių kalba",
-        "lu": "Kiluba",
-        "lv": "Latviešu Valoda",
-        "gv": "Gaelg, Gailck",
-        "mk": "македонски јазик",
-        "mg": "fiteny malagasy",
-        "ms": "Bahasa Melayu, بهاس ملايو‎",
-        "ml": "മലയാളം",
-        "mt": "Malti",
-        "mi": "te reo Māori",
-        "mr": "मराठी",
-        "mh": "Kajin M̧ajeļ",
-        "mn": "Монгол хэл",
-        "na": "Dorerin Naoero",
-        "nv": "Diné bizaad",
-        "nd": "isiNdebele",
-        "ne": "नेपाली",
-        "ng": "Owambo",
-        "nb": "Norsk Bokmål",
-        "nn": "Norsk Nynorsk",
-        "no": "Norsk",
-        "ii": "ꆈꌠ꒿ Nuosuhxop",
-        "nr": "isiNdebele",
-        "oc": "occitan, lenga d'òc",
-        "oj": "ᐊᓂᔑᓈᐯᒧᐎᓐ",
-        "cu": "ѩзыкъ словѣньскъ",
-        "om": "Afaan Oromoo",
-        "or": "ଓଡ଼ିଆ",
-        "os": "ирон æвзаг",
-        "pa": "ਪੰਜਾਬੀ",
-        "pi": "पाऴि",
-        "fa": "فارسی",
-        "pl": "Język Polski, Polszczyzna",
-        "ps": "پښتو",
-        "pt": "Português",
-        "qu": "Runa Simi, Kichwa",
-        "rm": "Rumantsch Grischun",
-        "rn": "Ikirundi",
-        "ro": "Română",
-        "ru": "Русский",
-        "sa": "संस्कृतम्",
-        "sc": "sardu",
-        "sd": "सिन्धी, سنڌي، سندھی‎",
-        "se": "Davvisámegiella",
-        "sm": "gagana fa'a Samoa",
-        "sg": "yângâ tî sängö",
-        "sr": "српски језик",
-        "gd": "Gàidhlig",
-        "sn": "chiShona",
-        "si": "සිංහල",
-        "sk": "Slovenčina, Slovenský Jazyk",
-        "sl": "Slovenski Jezik, Slovenščina",
-        "so": "Soomaaliga, af Soomaali",
-        "st": "Sesotho",
-        "es": "Español",
-        "su": "Basa Sunda",
-        "sw": "Kiswahili",
-        "ss": "SiSwati",
-        "sv": "Svenska",
-        "ta": "தமிழ்",
-        "te": "తెలుగు",
-        "tg": "тоҷикӣ, toçikī, تاجیکی‎",
-        "th": "ไทย",
-        "ti": "ትግርኛ",
-        "bo": "བོད་ཡིག",
-        "tk": "Türkmen, Түркмен",
-        "tl": "Wikang Tagalog",
-        "tn": "Setswana",
-        "to": "Faka Tonga",
-        "tr": "Türkçe",
-        "ts": "Xitsonga",
-        "tt": "татар теле, tatar tele",
-        "tw": "Twi",
-        "ty": "Reo Tahiti",
-        "ug": "ئۇيغۇرچە‎, Uyghurche",
-        "uk": "Українська",
-        "ur": "اردو",
-        "uz": "Oʻzbek, Ўзбек, أۇزبېك‎",
-        "ve": "Tshivenḓa",
-        "vi": "Tiếng Việt",
-        "vo": "Volapük",
-        "wa": "Walon",
-        "cy": "Cymraeg",
-        "wo": "Wollof",
-        "fy": "Frysk",
-        "xh": "isiXhosa",
-        "yi": "ייִדיש",
-        "yo": "Yorùbá",
-        "za": "Saɯ cueŋƅ, Saw cuengh",
-        "zh": "正體中文",
-        "cn": "简体中文",
-        "zu": "isiZulu"
+    "button": {
+      "confirm": "確認",
+      "cancel": "キャンセル",
+      "send": "送信",
+      "yes": "はい",
+      "no": "いいえ",
+      "ok": "OK",
+      "copy": "コピー",
+      "copied": "コピー済み",
+      "done": "完了",
+      "myAccount": "マイアカウント",
+      "next": "次へ"
+    }
+  },
+  "Language": {
+    "ab": "аҧсуа бызшәа, аҧсшәа",
+    "aa": "Afaraf",
+    "af": "Afrikaans",
+    "ak": "Akan",
+    "sq": "Shqip",
+    "am": "አማርኛ",
+    "ar": "العربية",
+    "an": "aragonés",
+    "hy": "Հայերեն",
+    "as": "অসমীয়া",
+    "av": "авар мацӀ, магӀарул мацӀ",
+    "ae": "avesta",
+    "ay": "aymar aru",
+    "az": "azərbaycan dili",
+    "bm": "bamanankan",
+    "ba": "башҡорт теле",
+    "eu": "euskara, euskera",
+    "be": "беларуская мова",
+    "bn": "বাংলা",
+    "bh": "भोजपुरी",
+    "bi": "Bislama",
+    "bs": "bosanski jezik",
+    "br": "brezhoneg",
+    "bg": "български език",
+    "my": "ဗမာစာ",
+    "ca": "català, valencià",
+    "ch": "Chamoru",
+    "ce": "нохчийн мотт",
+    "ny": "chiCheŵa, chinyanja",
+    "cv": "чӑваш чӗлхи",
+    "kw": "Kernewek",
+    "co": "corsu, lingua corsa",
+    "cr": "ᓀᐦᐃᔭᐍᐏᐣ",
+    "hr": "hrvatski jezik",
+    "cs": "čeština, český jazyk",
+    "da": "dansk",
+    "dv": "ދިވެހި",
+    "nl": "Nederlands, Vlaams",
+    "dz": "རྫོང་ཁ",
+    "en": "English",
+    "eo": "Esperanto",
+    "et": "eesti, eesti keel",
+    "ee": "Eʋegbe",
+    "fo": "føroyskt",
+    "fj": "vosa Vakaviti",
+    "fi": "suomi, suomen kieli",
+    "fr": "français",
+    "ff": "Fulfulde, Pulaar, Pular",
+    "gl": "Galego",
+    "ka": "ქართული",
+    "de": "Deutsch",
+    "el": "ελληνικά",
+    "gn": "Avañe'ẽ",
+    "gu": "ગુજરાતી",
+    "ht": "Kreyòl ayisyen",
+    "ha": "(Hausa) هَوُسَ",
+    "he": "עברית",
+    "hz": "Otjiherero",
+    "hi": "हिन्दी, हिंदी",
+    "ho": "Hiri Motu",
+    "hu": "magyar",
+    "ia": "Interlingua",
+    "id": "Bahasa Indonesia",
+    "ie": "元はオクツィデンタルと呼ばれ、第二次世界大戦後はインターリングと呼ばれる",
+    "ga": "Gaeilge",
+    "ig": "Asụsụ Igbo",
+    "ik": "Iñupiaq, Iñupiatun",
+    "io": "Ido",
+    "is": "Íslenska",
+    "it": "Italiano",
+    "iu": "ᐃᓄᒃᑎᑐᑦ",
+    "ja": "日本語",
+    "jv": "ꦧꦱꦗꦮ, Basa Jawa",
+    "kl": "kalaallisut, kalaallit oqaasii",
+    "kn": "ಕನ್ನಡ",
+    "kr": "Kanuri",
+    "ks": "कश्मीरी, كشميري‎",
+    "kk": "қазақ тілі",
+    "km": "ខ្មែរ, ខេមរភាសា, ភាសាខ្មែរ",
+    "ki": "Gĩkũyũ",
+    "rw": "Ikinyarwanda",
+    "ky": "Кыргызча, Кыргыз тили",
+    "kv": "коми кыв",
+    "kg": "Kikongo",
+    "ko": "한국어",
+    "ku": "Kurdî, كوردی‎",
+    "kj": "Kuanyama",
+    "la": "latine, lingua latina",
+    "lb": "Lëtzebuergesch",
+    "lg": "Luganda",
+    "li": "Limburgs",
+    "ln": "Lingála",
+    "lo": "ພາສາລາວ",
+    "lt": "lietuvių kalba",
+    "lu": "Kiluba",
+    "lv": "Latviešu Valoda",
+    "gv": "Gaelg, Gailck",
+    "mk": "македонски јазик",
+    "mg": "fiteny malagasy",
+    "ms": "Bahasa Melayu, بهاس ملايو‎",
+    "ml": "മലയാളം",
+    "mt": "Malti",
+    "mi": "te reo Māori",
+    "mr": "मराठी",
+    "mh": "Kajin M̧ajeļ",
+    "mn": "Монгол хэл",
+    "na": "Dorerin Naoero",
+    "nv": "Diné bizaad",
+    "nd": "isiNdebele",
+    "ne": "नेपाली",
+    "ng": "Owambo",
+    "nb": "Norsk Bokmål",
+    "nn": "Norsk Nynorsk",
+    "no": "Norsk",
+    "ii": "ꆈꌠ꒿ Nuosuhxop",
+    "nr": "isiNdebele",
+    "oc": "occitan, lenga d'òc",
+    "oj": "ᐊᓂᔑᓈᐯᒧᐎᓐ",
+    "cu": "ѩзыкъ словѣньскъ",
+    "om": "Afaan Oromoo",
+    "or": "ଓଡ଼ିଆ",
+    "os": "ирон æвзаг",
+    "pa": "ਪੰਜਾਬੀ",
+    "pi": "पाऴि",
+    "fa": "فارسی",
+    "pl": "Język Polski, Polszczyzna",
+    "ps": "پښتو",
+    "pt": "Português",
+    "qu": "Runa Simi, Kichwa",
+    "rm": "Rumantsch Grischun",
+    "rn": "Ikirundi",
+    "ro": "Română",
+    "ru": "Русский",
+    "sa": "संस्कृतम्",
+    "sc": "sardu",
+    "sd": "सिन्धी, سنڌي، سندھی‎",
+    "se": "Davvisámegiella",
+    "sm": "gagana fa'a Samoa",
+    "sg": "yângâ tî sängö",
+    "sr": "српски језик",
+    "gd": "Gàidhlig",
+    "sn": "chiShona",
+    "si": "සිංහල",
+    "sk": "Slovenčina, Slovenský Jazyk",
+    "sl": "Slovenski Jezik, Slovenščina",
+    "so": "Soomaaliga, af Soomaali",
+    "st": "Sesotho",
+    "es": "Español",
+    "su": "Basa Sunda",
+    "sw": "Kiswahili",
+    "ss": "SiSwati",
+    "sv": "Svenska",
+    "ta": "தமிழ்",
+    "te": "తెలుగు",
+    "tg": "тоҷикӣ, toçikī, تاجیکی‎",
+    "th": "ไทย",
+    "ti": "ትግርኛ",
+    "bo": "བོད་ཡིག",
+    "tk": "Türkmen, Түркмен",
+    "tl": "Wikang Tagalog",
+    "tn": "Setswana",
+    "to": "Faka Tonga",
+    "tr": "Türkçe",
+    "ts": "Xitsonga",
+    "tt": "татар теле, tatar tele",
+    "tw": "Twi",
+    "ty": "Reo Tahiti",
+    "ug": "ئۇيغۇرچە‎, Uyghurche",
+    "uk": "Українська",
+    "ur": "اردو",
+    "uz": "Oʻzbek, Ўзбек, أۇزبېك‎",
+    "ve": "Tshivenḓa",
+    "vi": "Tiếng Việt",
+    "vo": "Volapük",
+    "wa": "Walon",
+    "cy": "Cymraeg",
+    "wo": "Wollof",
+    "fy": "Frysk",
+    "xh": "isiXhosa",
+    "yi": "ייִדיש",
+    "yo": "Yorùbá",
+    "za": "Saɯ cueŋƅ, Saw cuengh",
+    "zh": "正體中文",
+    "cn": "简体中文",
+    "zu": "isiZulu"
+  },
+  "Date": {
+    "day": "日 | 日",
+    "hour": "時間 | 時間",
+    "minute": "分｜分",
+    "second": "秒 | 秒"
+  },
+  "Menu": {
+    "button": {
+      "menu": "メニュー",
+      "close": "閉じる"
     },
-    "Date": {
-        "day": "日 | 日",
-        "hour": "時間 | 時間",
-        "minute": "分｜分",
-        "second": "秒 | 秒"
+    "item": {
+      "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
+      "bonus": "LikeCoin ボーナス",
+      "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
+      "tokenSale": "@:TokenSale.title",
+      "whitepaper": "@:Whitepaper.Button.whitepaper",
+      "support": "@:Footer.button.support",
+      "press": "プレス",
+      "poc": "概念実証"
+    }
+  },
+  "Sign": {
+    "Message": {
+      "registerUser": "次のユーザー情報で登録しています",
+      "editUser": "ユーザー情報を更新中",
+      "signKYC": "次の情報でユーザーの身分証明を確認する"
+    }
+  },
+  "Home": {
+    "Header": {
+      "button": {
+        "signIn": "サインイン",
+        "signUp": "サインイン"
+      }
     },
-    "Menu": {
-        "button": {
-            "menu": "メニュー",
-            "close": "閉じる"
-        },
-        "item": {
-            "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
-            "bonus": "LikeCoin ボーナス",
-            "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
-            "tokenSale": "@:TokenSale.title",
-            "whitepaper": "@:Whitepaper.Button.whitepaper",
-            "support": "@:Footer.button.support",
-            "press": "プレス",
-            "poc": "概念実証"
-        }
+    "Flag": {
+      "title": "「いいね」を改革します",
+      "content": "プルーフオブクリエイティビティによる高価値なコンテンツ"
     },
-    "Sign": {
-        "Message": {
-            "registerUser": "次のユーザー情報で登録しています",
-            "editUser": "ユーザー情報を更新中",
-            "signKYC": "次の情報でユーザーの身分証明を確認する"
-        }
+    "HeroVideo": {
+      "button": {
+        "watchVideo": "動画を視聴する"
+      }
     },
-    "Home": {
-        "Header": {
-            "button": {
-                "signIn": "サインイン",
-                "signUp": "サインイン"
-            }
-        },
-        "Flag": {
-            "title": "「いいね」を改革します",
-            "content": "プルーフオブクリエイティビティによる高価値なコンテンツ"
-        },
-        "HeroVideo": {
-            "button": {
-                "watchVideo": "動画を視聴する"
-            }
-        },
-        "Sale": {
-            "title": {
-                "publicTokenSale": "トークン一般販売",
-                "nowLive": "リリースされました",
-                "isOver": "が終了しました"
-            },
-            "label": {
-                "contactOurTeam": "吹き出しの右下をクリックして当社チームにご連絡ください",
-                "contactUsThroughButton": "右下のボタンから弊社までお問い合わせください",
-                "startOn": "開始まで:",
-                "completedPercent": "{percent}%完了"
-            },
-            "button": {
-                "whitepaper": "ホワイトペーパー",
-                "onePage": "ワンページサマリー",
-                "redeem": "レッドポケットを入手する",
-                "createID": "ムーブメントに参加するにはLikeCoin IDの作成が必要です",
-                "createNow": "今すぐ作成する",
-                "buyCoin": "LikeCoinを購入",
-                "imInterested": "関心があります",
-                "aboutTokenSale": "トークン販売について",
-                "joinTokenSale": "トークン販売に参加する",
-                "joinNow": "今すぐ参加",
-                "prepareToJoin": "参加準備をする",
-                "supportLikeCoin": "ムーブメントをサポートする"
-            }
-        },
-        "Creator": {
-            "button": {
-                "likeCoinForAppreciate": "LikeCoinレッドポケットを送信する"
-            }
-        },
-        "Stack": {
-            "title": "LikeCoinスタック",
-            "content": "-- 「LikeCoinスタック」の一節---",
-            "layer": {
-                "provider": {
-                    "title": "DApps（分散型アプリ）",
-                    "example": {
-                        "oice": "oiceビジュアルノベル",
-                        "ccImages": "puttyimages",
-                        "media": "blogchain.md"
-                    }
-                },
-                "service": {
-                    "title": "LikeCoinサービス",
-                    "example": {
-                        "button": "「いいね」ボタン",
-                        "store": "like.co",
-                        "token": "LikeCoinトークン"
-                    }
-                },
-                "eth": {
-                    "title": "イーサリアムブロックチェーン",
-                    "example": {
-                        "contract": "スマートコントラクト",
-                        "fingerprint": "指紋",
-                        "metadata": "メタデータハッシュ"
-                    }
-                },
-                "ipfs": {
-                    "title": "IPFSノード",
-                    "example": {
-                        "oice": "oiceノード",
-                        "cc": "puttyimagesノード",
-                        "stock": "ブログチェーンノード"
-                    }
-                }
-            }
-        },
-        "RoadMap": {
-            "title": "ロードマップ",
-            "timeline": [
-                {
-                    "title": "ブレーンストーミング、R&D",
-                    "time": "2017年 第1～3四半期"
-                },
-                {
-                    "title": "アーリービリーバー先行販売",
-                    "time": "2017年第4四半期"
-                },
-                {
-                    "title": "LikeCoinトークン、ID、Like.coの創設",
-                    "time": "2018年第1四半期"
-                },
-                {
-                    "title": "puttyimagesとblogchain.mdのプロトタイプ",
-                    "time": "2018年第2四半期"
-                },
-                {
-                    "title": "puttyimagesのローンチ",
-                    "time": "2018年第3四半期"
-                },
-                {
-                    "title": "「いいね」ボタンのローンチ",
-                    "time": "2018年第4四半期"
-                },
-                {
-                    "title": "blogchain.mdおよびLikeCoinエコシステム スケールアップのローンチ",
-                    "time": "2019"
-                }
-            ]
-        },
-        "TokenDistribution": {
-            "title": "トークン分配",
-            "content": "初めに8億のトークン、次の10+年間で徐々に造幣し、20億を上限とする。10億のトークンはプルーフオブクリエイティビティによりクリエイターに付与される",
-            "yearButton": {
-                "year0": "0年",
-                "year10": "10+ 年"
-            },
-            "pieChartLanguage": "en"
-        },
-        "EarlyAdopters": {
-            "title": "アーリーアダプター"
-        },
-        "PressCoverage": {
-            "title": "メディア報道"
-        },
-        "EarlySupporters": {
-            "title": "アーリーサポーター",
-            "supporter": {
-                "6-club": {
-                    "title": "シックス・クラブ・ファンド",
-                    "subtitle": ""
-                },
-                "u-domain": {
-                    "title": "UDomain",
-                    "subtitle": ""
-                },
-                "annie-zhang": {
-                    "title": "Annie Zhang",
-                    "subtitle": "Initium Media 編集長"
-                },
-                "greg-song": {
-                    "title": "Greg Sung",
-                    "subtitle": "aNobiiおよびOneSkyの創設者"
-                },
-                "harry-xiao": {
-                    "title": "Harry Xiao",
-                    "subtitle": "MeshBox 創立者"
-                },
-                "heartherm-huang": {
-                    "title": "Heartherm Huang",
-                    "subtitle": "Measurable Token 創立者"
-                }
-            }
-        },
-        "Advisors": {
-            "title": "アドバイザー",
-            "advisor": {
-                "alex-lau": {
-                    "title": "Alex Lau",
-                    "description": "<a href=\"https://cm.5miles.com/\" target=\"_blank\" rel=\"noopener\">CyberMiles</a>、<a href=\"https://www.webank.com/\" target=\"_blank\" rel=\"noopener\">Webank</a>、および<a href=\"https://www.trubuzz.com\" target=\"_blank\" rel=\"noopener\">TruBuzz</a>のブロックチェーン オープンソース アドバイザー; SUSE Linux Enterprise StorageRの&D エンジニアリング コンサルタント"
-                },
-                "haggen-so": {
-                    "title": "Haggen So博士",
-                    "description": "<a href=\"https://cota.hk/\" target=\"_blank\" rel=\"noopener\">Hong Kong Creative Open Technology Association</a>創設者および社長; <a href=\"https://creativecommons.org/\" target=\"_blank\" rel=\"noopener\">クリエイティブ・コモンズ</a>のプロジェクトマネージャー"
-                },
-                "jon-phillips": {
-                    "title": "Jon Phillips",
-                    "description": "<a href=\"https://openclipart.org/\" target=\"_blank\" rel=\"noopener\">Openclipart</a> 創立者; <a href=\"https://inkscape.org/\" target=\"_blank\" rel=\"noopener\">Inkscape</a> 開発者; Qi Hardware 創立者。"
-                },
-                "isaac-mao": {
-                    "title": "Isaac Mao",
-                    "description": "<a href=\"https://musicoin.org/\" target=\"_blank\" rel=\"noopener\">Musicoin</a>の創立者。CNBlogs.orgの創立者。iCommons China、クリエイティブ・コモンズ中国チームのプロジェクトリーダー"
-                },
-                "to-cheung": {
-                    "title": "To Cheung",
-                    "description": "<a href=\"https://www.udomain.hk/\" target=\"_blank\" rel=\"noopener\">UDomain</a> 創立者およびCEO; BTC 早期投資者"
-                }
-            }
-        },
-        "Team": {
-            "title": "チーム",
-            "member": {
-                "kin": {
-                    "name": "kin ko",
-                    "title": "プロダクトデザイン"
-                },
-                "aludirk": {
-                    "name": "Aludirk Wong",
-                    "title": "システムアーキテクト"
-                },
-                "jacky": {
-                    "name": "Jacky Ko",
-                    "title": "最高マーケティング責任者"
-                },
-                "william": {
-                    "name": "William Chong",
-                    "title": "フルスタック開発者"
-                },
-                "chung": {
-                    "name": "Chung Wu",
-                    "title": "ブロックチェーン開発者"
-                },
-                "edmond": {
-                    "name": "Edmond Yu",
-                    "title": "オペレーション"
-                },
-                "simonb": {
-                    "name": "Simon But",
-                    "title": "グロースハッカー"
-                },
-                "david": {
-                    "name": "David Ng",
-                    "title": "フルスタック開発者"
-                },
-                "miles": {
-                    "name": "Miles Wong",
-                    "title": "フルスタック開発者"
-                },
-                "joshua": {
-                    "name": "Joshua Lo",
-                    "title": "デザイナー"
-                },
-                "michael": {
-                    "name": "Michael Cheung",
-                    "title": "フルスタック開発者"
-                }
-            }
-        },
-        "Community": {
-            "title": "LikeCoin コミュニティ: ",
-            "button": {
-                "faq": "よくある質問"
-            }
-        }
-    },
-    "Footer": {
-        "label": {
-            "contract": "LikeCoin コントラクト: "
-        },
-        "button": {
-            "aboutFoundation": "LikeCoin財団について",
-            "support": "サポート"
-        }
-    },
-    "Whitepaper": {
-        "Button": {
-            "whitepaper": "ホワイトペーパー",
-            "onepager": "ワンページサマリー"
-        }
-    },
-    "Store": {
-        "Header": {
-            "label": {
-                "store": "like.co",
-                "test": "テスト"
-            }
-        },
-        "Footer": {
-            "label": {
-                "contract": "LikeCoin コントラクト ",
-                "visit": "詳細は当社ウェブサイトをご覧ください: "
-            }
-        }
-    },
-    "Dialog": {
-        "metamask": {
-            "button": {
-                "install": "MetaMaskをインストールする",
-                "doneInstalled": "完了！インストールされました！"
-            },
-            "title": {
-                "switchRinkeby": "Rinkebyネットワークに切り替えてください",
-                "switchMain": "メインネットワークに切り替えてください",
-                "web3": "プラグインが必要です",
-                "locked": "MetaMaskをアンロックしてください",
-                "sign": "Metamaskにサインオン",
-                "login": "Metamaskにサインオンしてログイン",
-                "connectledger": "Ledgerウォレットに接続",
-                "signledger": "Ledgerウォレットにサインオン",
-                "loginledger": "Ledgerウォレットにサインオンしてログイン"
-            },
-            "content": {
-                "switchRinkeby": "like.coが動作するためにはRinkebyが必要です。正しいネットワークに切り替えてください。",
-                "switchMain": "like.coが動作するためにはメイン必要です。正しいネットワークに切り替えてください。",
-                "web3": "like.coが動作するためにはMetamaskが必要です。Chromeに切り替えて、Metamaskの拡張機能をインストールしてください。<br /><span style='color:red'>シードワードは必ず安全に保管してください！<span>",
-                "locked": "like.coが動作するためにはMetaMaskが必要です。MetaMaskをアンロックしてください。",
-                "sign": "「Metamaskにサインオン」をクリックして続行してください。",
-                "login": "「Metamaskにサインオン」をクリックしてログインしてください。",
-                "connectledger": "接続してLedgerウォレットをアンロックし、次にEthereumアプリに切り替えてください。like.coを使用するには、Ethereumアプリのブラウザサポートモードは<b>YES</b>である必要があります。<br />詳細情報は、<a href=\"https://support.ledgerwallet.com/hc/en-us/articles/115005198565\" target=\"_blank\" rel=\"noopener\">Ledgerサポート</a>をご覧ください",
-                "signledger": "続行するにはLedgerウォレットで確認を押してください。",
-                "loginledger": "ログインするにはLedgerウォレットで確認を押してください。"
-            },
-            "label": {
-                "hardwareWallet": "...または、ハードウェアウォレットに接続",
-                "ledger": "Ledgerに接続"
-            }
-        },
-        "chrome": {
-            "title": "デスクトップ用Chromeが必要です",
-            "content": "like.coはETHウォレット拡張子MetaMaskをサポートするブラウザを必要とします。<br />デスクトップ用Chromeに切り替えてからMetaMaskプラグインをインストールしてください。",
-            "button": {
-                "install": "Chromeをインストールする"
-            }
-        },
-        "coupon": {
-            "title": {
-                "error": "クーポンエラー",
-                "claim": "クーポンを受け取る"
-            },
-            "label": {
-                "confirming": "クーポンのコンテンツを読み込み中...",
-                "error": "無効なクーポンコードです！",
-                "invalidCoupon": "無効なクーポン",
-                "redirecting": "アカウントページにリダイレクト中...",
-                "confirmToClaim": "本当に{value} LikeCoinを受け取りますか？"
-            }
-        },
-        "transaction": {
-            "label": {
-                "waiting": "ブロックチェーンの確認を待機中です。ネットワークの通信状況により、数分かかる場合があります。確認が完了するまでの間、like.co内を自由に閲覧することができます。",
-                "newUser": "LikeCoin IDをお持ちでないようですね。今すぐ作成しましょう。"
-            },
-            "button": {
-                "createID": "LikeCoin IDを作成",
-                "buyCoin": "LikeCoinを購入",
-                "myAccount": "マイアカウント"
-            }
-        },
-        "blocker": {
-            "title": "処理中...",
-            "content": "リクエストを処理しています。ブラウザを閉じないでください"
-        },
-        "emailInput": {
-            "title": "メールアドレスを認証してください",
-            "content": "メールアドレスの指定と確認を行ってください。",
-            "label": "メールアドレス"
-        },
-        "trust": {
-            "title": {
-                "switchTrust": "ウォレットアプリが必要です",
-                "switchRinkeby": "Rinkebyネットワークに切り替えてください",
-                "switchMain": "メインネットワークに切り替えてください"
-            },
-            "description": {
-                "switchTrust": "like.coが動作するにはETHウォレットが必要です。Trust Walletアプリをインストールしてください。",
-                "switchRinkeby": "like.coが動作するためにはRinkebyが必要です。正しいネットワークに切り替えてください。",
-                "switchMain": "like.coが動作するためにはメインが必要です。正しいネットワークに切り替えてください。",
-                "switchMainCaption": "メインネットへの切り替え:<br>「設定」>「ネットワーク」>「Ethereum (ETH)」",
-                "switchRinkebyCaption": "Rinkebyへの切り替え:<br>「設定」>「ネットワーク」>「Rinkeby (ETH)」"
-            },
-            "label": {
-                "useTrustBrowser": "<span style=\"color: #28646e; font-weight: bold;\">Trust Walletブラウザ</span>を使用して訪問してください:",
-                "clickToCopy": "クリックしてURLをコピー",
-                "copied": "コピー済み",
-                "help": "モバイルでの登録方法",
-                "registerMobileLink": "https://help.like.co/likecoin-faq/newbies/registering-likecoin-id-on-mobile"
-            },
-            "button": {
-                "openWithTrust": "Trustで開く"
-            }
-        }
-    },
-    "Toolbar": {
-        "etherscan": {
-            "button": {
-                "view": "イーサリアムで表示"
-            }
-        }
-    },
-    "Register": {
-        "header": {
-            "title": "LikeCoinを送受信するにはLikeCoin IDを作成しましょう",
-            "titleReferral": "{name}に参加してLikeCoin IDを作成しましょう",
-            "content": "素晴らしい！Metamaskが既にインストールされているようです。これでLikeCoinを送金・受取りする準備ができました。",
-            "redeem": "無料のLikeCoinと引き換える",
-            "button": {
-                "what": "LikeCoinとは何ですか？"
-            }
-        },
-        "label": {
-            "register": "アカウントを作成する",
-            "registerRedeem": "アカウントを作成して受け取る"
-        },
-        "form": {
-            "createID": "LikeCoin IDを作成する（7文字以上）",
-            "walletAddress": "ウォレットのアドレス",
-            "email": "メール",
-            "referrer": "紹介者のLikeCoin ID（任意）",
-            "amount": "LikeCoinの金額:",
-            "displayName": "表示名",
-            "claim": "受け取る",
-            "couponCode": "クーポンコード（任意）",
-            "label": {
-                "updatedInfo": "情報が更新されました。",
-                "viewPage": "ページを表示する"
-            },
-            "error": {
-                "alphanumeric": "英数字7文字以上で入力してください",
-                "addressFormat": "無効なアドレスの形式",
-                "reCaptcha": "reCAPTCHAチャレンジを完了してください",
-                "emailFormat": "ピリオド（.）や+の文字を含まない有効なメールドレスを入力してください"
-            }
-        }
-    },
-    "In": {
-        "tab": {
-            "overview": "概要",
-            "bonus": "ボーナス",
-            "history": "ボーナス履歴"
-        }
-    },
-    "Edit": {
-        "label": {
-            "id": "LikeCoin ID:",
-            "likeCoinAmount": "LikeCoinの金額",
-            "address": "ウォレットのアドレス",
-            "email": "メールアドレス",
-            "addEmail": "メールアドレスを追加する",
-            "redeemCoin": "LikeCoinと引き換える",
-            "redeemCode": "引き換えコード",
-            "validCodeRequired": "有効なクーポンコードを入力してください",
-            "verified": "確認済み",
-            "verifying": "認証メールが送信されました。受信ボックスを確認してください！",
-            "unverified": "未確認",
-            "verifyEmail": "メールアドレスを認証してください"
-        },
-        "referral": {
-            "title": "アフィリエイトプログラム",
-            "description": "あなたが招待した友達が、あなたのアフィリエイトリンクを使って登録すると、あなたも友達もLikeCoinボーナスを獲得することができます。クーポンを獲得するためには、あなたと友達のアカウントのメールアドレスの認証を完了する必要がありますのでご注意ください。",
-            "pending": "メールアドレス認証を待機中",
-            "verified": "確認済み",
-            "shareUrl": "URLで友達を招待する",
-            "orByEmail": "またはメールで招待する",
-            "emailInvite": "メールで友達を招待する",
-            "altInvite": "または次の方法で招待する:",
-            "copyUrl": "URLをコピー",
-            "facebook": "Facebook",
-            "twitter": "Twitter",
-            "send": "送金",
-            "sent": "{email}に招待メールが送信されました",
-            "verifyEmailFirst": "メールアドレスを確認してアフィリエイトプログラムに参加しましょう。",
-            "tweetContent": "私と一緒にLike.coに参加して、無料のLikeCoinを受け取りましょう！",
-            "ogTitle": "LikeCoin - 「Like（いいね）」を改革します",
-            "ogDescription": "プルーフオブクリエイティビティによるコンテンツへの報酬。{name}に参加して今すぐ登録しましょう！"
-        },
-        "button": {
-            "buyCoin": "LikeCoinを購入",
-            "getFreeCoin": "無料のLikeCoinを取得"
-        }
-    },
-    "Verify": {
-        "label": {
-            "toIndex": "インデックスに戻っています",
-            "toEdit": "アカウントページに戻っています",
-            "redirect": "ページをリダイレクトします",
-            "verifying": "認証中",
-            "referral": "アフィリエイトプログラムの参加者として、ボーナスセクションで無料のLikeCoinを受け取ることができます"
-        }
-    },
-    "Transaction": {
-        "header": {
-            "label": {
-                "ethAmount": "{amount} ETH",
-                "likecoinAmount": "{amount} LikeCoin",
-                "sending": "送信中",
-                "sent": "送信済み",
-                "to": "宛先: ",
-                "notFound": "取引が見つからないか、like.coの取引ではありません",
-                "pending": "ブロックチェーンに提出済み",
-                "failed": "取引に失敗しました",
-                "timeout": "取引の期限が切れました",
-                "completed": "取引が完了しました"
-            }
-        },
-        "label": {
-            "recipientId": "受信者のLikeCoin ID",
-            "recipientAddress": "受信者のアドレス",
-            "senderName": "送信者の表示名",
-            "senderAddress": "送信者のアドレス",
-            "sendTo": "{coin}を<span class='usertitle'>{title}</span>に送金する",
-            "remarks": "注記",
-            "viewTx": "取引を表示する",
-            "amountToSend": "送信する{coin}の金額",
-            "invalidAmount": "無効な金額",
-            "enterValidNumber": "10進数の有効な数を入力してください",
-            "userNotFound": "ユーザーが見つかりません"
-        },
-        "head": {
-            "title": "LikeCoin - 「いいね」を改革します。",
-            "description": "プルーフオブクリエイティビティによる高価値なコンテンツ。{name}さんにLikeCoinを送りましょう"
-        },
-        "error": {
-            "notSupported": "ご利用のウォレットはこの機能をサポートしていません",
-            "ethInsufficient": "ウォレットのETH残高が不足しています。",
-            "likecoinInsufficient": "ウォレットのLikeCoin残高が不足しています。",
-            "sameUser": "送信者と受信者は同じにできません"
-        }
-    },
-    "WhitePaper": {
-        "label": {
-            "whitePaper": "ホワイトペーパー",
-            "comingSoon": "準備中"
-        }
-    },
-    "ReferralPage": {
-        "title": "{name}さんがあなたをLikeCoinに招待しました",
-        "label": {
-            "invitation": "LikeCoinを送受信するにはLikeCoin IDを作成しましょう。<br/><br/>今すぐLikeCoin IDを作成すると、あなたと{name}さんは8件の「いいね」ボーナスを取得できます。"
-        },
-        "og": {
-            "title": "{name}さんがあなたをLikeCoinに招待しました",
-            "description": "今すぐLikeCoin IDを作成すると、あなたと{name}さんは8件の「いいね」ボーナスを取得できます。トークン販売に参加すると、二人ともそれぞれ2.5%のボーナスを獲得できます。"
-        }
-    },
-    "TokenSale": {
-        "title": "トークン販売",
-        "head": {
-            "description": "LikeCoinトークン販売に参加、プルーフオブクリエイティビティによりコンテンツに報酬を付与",
-            "fromDescription": "私の紹介コードを使用してLikeCoinトークン販売に参加すると、2.5％追加ボーナスを受け取ることができます"
-        },
-        "header": {
-            "thankyou": "ご支援ありがとうございます"
-        },
-        "label": {
-            "prepareToJoin": "トークン販売参加の準備をしましょう",
-            "publicSaleStartIn": "公売開始まで:",
-            "publicSaleEndIn": "トークン販売終了まで:",
-            "token": "トークン",
-            "exchangeRate": "為替レート",
-            "supply": "供給",
-            "preSaleDescription0": "あなたは{base} LikeCoin + {bonus} ボーナスを購入しようとしています。",
-            "preSaleDescription1": "公売開始時にLikeCoinがお使いのウォレットに送金されます。",
-            "whatIsETH": "ETHとは？",
-            "bonusAndLimitedOffer": "25%ボーナス、期間限定オファー",
-            "limitedOfferCondition": "10ETH以上の購入",
-            "amountLikeToPurhcase": "購入する「いいね」の数",
-            "tokensaleBadAmount": "無効な金額です。0.1ETH以上10,000ETH未満で指定してください",
-            "bonus": "ボーナス",
-            "bonusLockUp": "ボーナスのLikeCoinはウォレットにロックアップされ、6か月間は移管できません。",
-            "amountWillBeSentWhenSalesStart": "購入済みおよびボーナスのLikeCoinはトークン公売開始時（2018年4月23日予定）にお使いのウォレットに送金されます。ボーナスのLikeCoinはウォレット内にロックアップされ、6ヶ月間は移管できません。",
-            "whatIsEthLink": "https://help.like.co/likecoin-faq/what-is-eth",
-            "joinTokenSaleNow": "トークン販売に今すぐ参加する",
-            "gasPriceDeducted": "ブロックチェーン取引費用としてETHを予約する",
-            "likeAmountWillGet": "<span class=\"bold\">{amount}</span>件の「いいね」を獲得できます",
-            "raised": "調達済み",
-            "thankyou": "弊社のトークン販売は公式に終了しました。弊社は目標の>180%を達成することができました。心から感謝いたします！只今、様々な販売チャネルからの統計を集計中です。間もなく最終結果を発表いたします。"
-        },
-        "button": {
-            "aboutLikeCoin": "LikeCoinについて",
-            "whitePaper": "@:WhitePaper.label.whitePaper",
-            "noETH": "ETHをお持ちでありませんか？"
-        }
-    },
-    "BonusPage": {
-        "title": "LikeCoin ボーナス",
-        "header": {
-            "likeCoinBonus": "LikeCoin ボーナス",
-            "inviteeMission": "紹介された人のミッション"
-        },
-        "label": {
-            "description": "あなたが招待した友達が、あなたのアフィリエイトリンクを使って登録すると、あなたも友達もLikeCoinボーナスを獲得することができます。クーポンを獲得するためには、あなたと友達のアカウントのメールアドレスの認証を完了する必要がありますのでご注意ください。",
-            "inviteeMissionDescription": "あなたも友達もそれぞれミッションを完了したので、LikeCoinを受け取ることができます",
-            "earned": "獲得したボーナス:",
-            "likeBonus": "「いいね」ボーナス"
-        },
-        "placeholder": {
-            "emptyMission": "新ミッションが間もなく登場します"
-        },
-        "button": {
-            "moreBonus": "その他のボーナス"
-        },
-        "HistoryTab": {
-            "title": "ボーナス履歴",
-            "header": {
-                "completedBonus": "完了したボーナス"
-            },
-            "label": {
-                "emptyHistoryPlaceholder": "ここには完了したボーナスが表示されます。"
-            }
-        }
-    },
-    "KYC": {
-        "label": {
-            "kyc": "身分証明書の確認",
-            "kycNeeded": "LikeCoinトークン販売に参加するには身分証明が必要です",
-            "advKycNeeded": "高額購入には詳細な身分証明が必要です",
-            "advKycPending": "お客様の詳細な身分証明書の確認はまだ「保留中」の状態です。1営業日以上かかっている場合は「インターコム」からお問い合わせください",
-            "emailVerify": "メールアドレスの指定と確認を行ってください。",
-            "createID": "LikeCoinを送受信するためにLikeCoin IDを作成し、トークン販売に参加しましょう。",
-            "createIDSendReceive": "LikeCoinを送受信するにはLikeCoin IDを作成しましょう。",
-            "verifyToPurchase": "公売が開始したら、情報の認証を行ってLikeCoinを購入してください。",
-            "emailVerification": "メールアドレス認証",
-            "accountVerification": "アカウント認証",
-            "advancedVerification": "詳細認証",
-            "verifyEmailPlaceholder": "メールアドレスを認証してください",
-            "checkEmail": "メールを送信しました。確認してください",
-            "emailVerified": "メールアドレスが認証されました",
-            "proceedToAccountVerification": "アカウント認証に進む",
-            "isPrcCitizen": "中華人民共和国の国民ですか？",
-            "isUsaCitizen": "アメリカ合衆国の国民ですか？",
-            "isUsaAccredited": "米国の適格投資家ですか？",
-            "isPurchaseExceedAmount": "{amount} ETHを超える購入を行いますか？",
-            "firstName": "名（パスポート表記通り）",
-            "lastName": "姓（パスポート表記通り）",
-            "country": "お住いの国",
-            "nationality": "国籍",
-            "invalidCountry": "一覧から有効な国を選択してください。",
-            "invalidNationality": "一覧から有効な国籍を選択してください。",
-            "passportIdPage": "正面を向いた顔写真付きのパスポート身分証明ページ（サイズ上限２MB)*",
-            "recentSelfie": "正面を向いた顔の自撮り写真（サイズ上限２MB)*",
-            "canPurchaseLessThanAmount": "{amount}ETHまで購入できます",
-            "canPurchaseMoreThanAmount": "{amount} ETHを超える購入も可能です",
-            "advancedVerificationInProgress": "{amount} ETH未満でも購入できます。詳細な認証が完了すると、もっと購入できるようになります。",
-            "purchaseMore": "もっと購入したいです。",
-            "accountVeritifed": "アカウントが認証されました",
-            "canPurchaseWhenPublicSale": "公売の開催中はこちらでLikeCoinを購入できます。",
-            "verifyToPurchaseOverAmount": "身分確認を行って{amount}ETH以上購入してください",
-            "waitingConfirmation": "確認待ちです。",
-            "timeWaitForAccountVerification": "2分ほどかかります…",
-            "timeWaitForAdvancedVerification": "通常、1営業日以内に完了します",
-            "emailNotification": "完了時にメールで通知が届きます",
-            "contactUs": "さらにヘルプが必要な場合は、吹き出しの右下からお問い合わせください。",
-            "contactThroughIntercom": "こちらのインターコムからお問い合わせください。",
-            "preSaleBonusDescription": "10ETH以上の購入で25％のボーナス"
-        },
-        "button": {
-            "createID": "LikeCoin IDを作成",
-            "sendEmailAgain": "再送信",
-            "start": "開始",
-            "next": "次へ",
-            "upload": "アップロード",
-            "reupload": "再アップロード"
-        }
+    "Sale": {
+      "title": {
+        "publicTokenSale": "トークン一般販売",
+        "nowLive": "リリースされました",
+        "isOver": "が終了しました"
+      },
+      "label": {
+        "contactOurTeam": "吹き出しの右下をクリックして当社チームにご連絡ください",
+        "contactUsThroughButton": "右下のボタンから弊社までお問い合わせください",
+        "startOn": "開始まで:",
+        "completedPercent": "{percent}%完了"
+      },
+      "button": {
+        "whitepaper": "ホワイトペーパー",
+        "onePage": "ワンページサマリー",
+        "redeem": "レッドポケットを入手する",
+        "createID": "ムーブメントに参加するにはLikeCoin IDの作成が必要です",
+        "createNow": "今すぐ作成する",
+        "buyCoin": "LikeCoinを購入",
+        "imInterested": "関心があります",
+        "aboutTokenSale": "トークン販売について",
+        "joinTokenSale": "トークン販売に参加する",
+        "joinNow": "今すぐ参加",
+        "prepareToJoin": "参加準備をする",
+        "supportLikeCoin": "ムーブメントをサポートする"
+      }
     },
     "Creator": {
-        "title": {
-            "artist": "アーティスト",
-            "comicAuthor": "漫画家",
-            "multimediaDesigner": "マルチメディア デザイナー"
-        }
+      "button": {
+        "likeCoinForAppreciate": "LikeCoinレッドポケットを送信する"
+      }
     },
-    "TransactionHistory": {
-        "title": "取引履歴",
-        "header": {
-            "status": "状態",
-            "fromOrTo": "送信者/宛先",
-            "time": "時間",
-            "value": "価値"
+    "Stack": {
+      "title": "LikeCoinスタック",
+      "content": "-- 「LikeCoinスタック」の一節---",
+      "layer": {
+        "provider": {
+          "title": "DApps（分散型アプリ）",
+          "example": {
+            "oice": "oiceビジュアルノベル",
+            "ccImages": "puttyimages",
+            "media": "blogchain.md"
+          }
         },
-        "label": {
-            "in": "収入",
-            "out": "支出",
-            "fail": "失敗",
-            "tokensale": "トークン販売",
-            "earlybird": "アーリーバード",
-            "earlyBeliever": "アーリービリーバー",
-            "timePending": "保留中...",
-            "timeExpired": "期限が切れました",
-            "coupon": "クーポン",
-            "noRecord": "現在記録が見つかりません。",
-            "to": "宛先",
-            "from": "送信者",
-            "unknown": "不明",
-            "lockUntilDate": "{date}までロック"
+        "service": {
+          "title": "LikeCoinサービス",
+          "example": {
+            "button": "「いいね」ボタン",
+            "store": "like.co",
+            "token": "LikeCoinトークン"
+          }
         },
-        "button": {
-            "view": "詳細",
-            "showMore": "さらに表示"
+        "eth": {
+          "title": "イーサリアムブロックチェーン",
+          "example": {
+            "contract": "スマートコントラクト",
+            "fingerprint": "指紋",
+            "metadata": "メタデータハッシュ"
+          }
+        },
+        "ipfs": {
+          "title": "IPFSノード",
+          "example": {
+            "oice": "oiceノード",
+            "cc": "puttyimagesノード",
+            "stock": "ブログチェーンノード"
+          }
         }
+      }
     },
-    "Error": {
-        "button": {
-            "toIndex": "インデックスに戻る"
+    "RoadMap": {
+      "title": "ロードマップ",
+      "timeline": [
+        {
+          "title": "ブレーンストーミング、R&D",
+          "time": "2017年 第1～3四半期"
         },
-        "EMAIL_ALREADY_USED": "既に使用されているメールアドレスです",
-        "FILE_TOO_LARGE": "ファイルサイズの上限を超過しました",
-        "MISSION_ALREADY_DONE": "あなたは既にこのミッションを完了しています",
-        "MISSION_COMPLETE_FAILURE": "ミッション完了中にエラーが発生しました",
-        "REFERRER_NOT_EXIST": "紹介者が存在しません",
-        "TWITTER_ALREADY_EXIST": "このTwitterアカウントは既に使用されています",
-        "TWITTER_API_FAILURE": "ツイートを確認できません。後ほど再度お試しください",
-        "TWITTER_CONTENT_INVALID": "#LikeCoinを使ってツイートしてください",
-        "TWITTER_NOT_FOLLOW": "Twitterで@likecoin_fdnをフォローしてください",
-        "TWITTER_QUOTE_INVALID": "正しいツイートをリツイートしてください",
-        "TWITTER_URL_INVALID": "ツイートのURLが無効です",
-        "USER_ALREADY_EXIST": "ユーザーが既に存在します",
-        "USER_NOT_EXIST": "ユーザーが存在しません"
-    },
-    "Form": {
-        "Retweet": {
-            "label": {
-                "retweet": "次のコメントでリツイートしてください",
-                "pasteURL": "ツイートのリンクをこちらに貼り付けてください"
-            },
-            "placeholer": {
-                "tweetLink": "ツイートのリンク"
-            },
-            "button": {
-                "retweet": "リツイート"
-            }
+        {
+          "title": "アーリービリーバー先行販売",
+          "time": "2017年第4四半期"
+        },
+        {
+          "title": "LikeCoinトークン、ID、Like.coの創設",
+          "time": "2018年第1四半期"
+        },
+        {
+          "title": "puttyimagesとblogchain.mdのプロトタイプ",
+          "time": "2018年第2四半期"
+        },
+        {
+          "title": "puttyimagesのローンチ",
+          "time": "2018年第3四半期"
+        },
+        {
+          "title": "「いいね」ボタンのローンチ",
+          "time": "2018年第4四半期"
+        },
+        {
+          "title": "blogchain.mdおよびLikeCoinエコシステム スケールアップのローンチ",
+          "time": "2019"
         }
+      ]
     },
-    "Mission": {
-        "gettingStart": {
-            "title": "始めましょう",
-            "description": "ムーブメントへの参加にようこそ。LikeCoinは、クリエイティビティと報酬を再編成することにより「いいね」を改革することを目的としています。<a href=\"https://like.co\">like.co</a>では、LikeCoinを購入および送信するだけでなく、「いいね」エコロジーに参加することによりLikeCoinを獲得することもできます。<span class=\"bold\">「いいね」IDお支払いページを閲覧、イントロダクション動画を視聴、そして弊社のTelegramグループに参加することで、3 LikeCoinを獲得しましょう！</span>",
-            "taskSocial": "Twitterで@likecoin_fdnをフォローする",
-            "taskOnepager": "ワンページサマリを見る",
-            "taskVideo": "イントロダクション動画を視聴する",
-            "taskPaymentPage": "お支払いページを見る"
+    "TokenDistribution": {
+      "title": "トークン分配",
+      "content": "初めに8億のトークン、次の10+年間で徐々に造幣し、20億を上限とする。10億のトークンはプルーフオブクリエイティビティによりクリエイターに付与される",
+      "yearButton": {
+        "year0": "0年",
+        "year10": "10+ 年"
+      },
+      "pieChartLanguage": "en"
+    },
+    "EarlyAdopters": {
+      "title": "アーリーアダプター"
+    },
+    "PressCoverage": {
+      "title": "メディア報道"
+    },
+    "EarlySupporters": {
+      "title": "アーリーサポーター",
+      "supporter": {
+        "6-club": {
+          "title": "シックス・クラブ・ファンド",
+          "subtitle": ""
         },
-        "inviteFriend": {
-            "title": "友達をLikeCoinに招待する",
-            "description": "招待した友達がLikeCoinに参加すると、あなたも友達も8 LIKE（いいね）を獲得できます。"
+        "u-domain": {
+          "title": "UDomain",
+          "subtitle": ""
         },
-        "joinTokenSale": {
-            "title": "トークン販売に参加する",
-            "description": "今すぐトークン販売に参加すると、100件の「いいね」ボーナスを獲得できます",
-            "subDescription": "紹介ボーナスもお忘れなく。大きなボーナスになるかもしれません！トークン販売に参加するたびに、あなたとあなたの紹介者はそれぞれ2.5％の追加トークンボーナスを獲得することができます。上限はありません！<br/> <br/> <i>注意: MyEthShopなどのサードパーティを通してトークン販売に参加する場合、このミッションを完了できなくなります。その結果、あなたはこのミッションからボーナスを取得することはできません。<i>"
+        "annie-zhang": {
+          "title": "Annie Zhang",
+          "subtitle": "Initium Media 編集長"
         },
-        "refereeTokenSale": {
-            "title": "@:Mission.joinTokenSale.title",
-            "description": "紹介ボーナスもお忘れなく。大きなボーナスになるかもしれません！トークン販売に参加するたびに、あなたとあなたの紹介者はそれぞれ2.5％の追加トークンボーナスを獲得することができます。上限はありません！<br/> <br/> <i>注意: MyEthShopなどのサードパーティを通してトークン販売に参加する場合、このミッションを完了できなくなります。その結果、あなたはこのミッションからボーナスを取得することはできません。<i>"
+        "greg-song": {
+          "title": "Greg Sung",
+          "subtitle": "aNobiiおよびOneSkyの創設者"
         },
-        "inviteTokenSale": {
-            "title": "友達をトークン販売に招待する",
-            "description": "あなたが招待した人がトークン販売に参加するたびに、あなた紹介された人も2.5％の「いいね」ボーナスを獲得することができます。上限はありません！"
+        "harry-xiao": {
+          "title": "Harry Xiao",
+          "subtitle": "MeshBox 創立者"
         },
-        "verifyEmail": {
-            "title": "メールアドレスを認証する",
-            "description": "メールアドレスを認証すると無料のLikeCoinを獲得できます",
-            "label": {
-                "yourEmailAddress": "メールアドレス"
-            }
-        },
-        "verifyEmailReferral": {
-            "title": "@:Mission.verifyEmail.title",
-            "description": "<span class=\"bold\">{invitee}</span>がメールアドレスを認証する必要があります。<br><br>あともう1ステップであなたと<span class=\"bold\">{invitee}</span>は8件の「いいね」ボーナスを獲得できます。"
-        },
-        "joinTokenSaleReferral": {
-            "title": "@:Mission.joinTokenSale.title",
-            "description": "<span class=\"bold\">{invitee}</span>がトークン販売に参加するたびに、あなた紹介された人も2.5％の「いいね」ボーナスを獲得することができます。上限はありません！"
-        },
-        "twitter": {
-            "title": "フォローしてリツイート！",
-            "description": "弊社の投稿をフォロー、リツイートして、LikeCoinを取得しましょう",
-            "linkedDescription": "弊社の<a href=\"{postLink}\" target=\"_blank\">投稿</a>をフォロー、リツイートしてLikeCoinを取得しましょう",
-            "header": {
-                "pasteURL": "ツイートURLをこちらに貼り付け"
-            },
-            "label": {
-                "verifying": "ツイートを確認中"
-            }
-        },
-        "completedBanner": {
-            "label": {
-                "completed": "完了！",
-                "bonusTransferShortly": "LikeCoinボーナスが間もなくお客様に移管されます。"
-            }
-        },
-        "common": {
-            "label": {
-                "upcomingDate": "<span class=\"bold\">LikeCoin一般販売は{upcoming}に開始されます。</span>",
-                "desktopRequired": "このボーナスを完了するためにはデスクトップ用ブラウザが必要です",
-                "pleaseUseDesktop": "デスクトップ用Chromeからlike.coを訪問してください。"
-            },
-            "button": {
-                "desktopFAQ": "デスクトップからこのアカウントにアクセスする方法は？"
-            }
+        "heartherm-huang": {
+          "title": "Heartherm Huang",
+          "subtitle": "Measurable Token 創立者"
         }
+      }
+    },
+    "Advisors": {
+      "title": "アドバイザー",
+      "advisor": {
+        "alex-lau": {
+          "title": "Alex Lau",
+          "description": "<a href=\"https://cm.5miles.com/\" target=\"_blank\" rel=\"noopener\">CyberMiles</a>、<a href=\"https://www.webank.com/\" target=\"_blank\" rel=\"noopener\">Webank</a>、および<a href=\"https://www.trubuzz.com\" target=\"_blank\" rel=\"noopener\">TruBuzz</a>のブロックチェーン オープンソース アドバイザー; SUSE Linux Enterprise StorageRの&D エンジニアリング コンサルタント"
+        },
+        "haggen-so": {
+          "title": "Haggen So博士",
+          "description": "<a href=\"https://cota.hk/\" target=\"_blank\" rel=\"noopener\">Hong Kong Creative Open Technology Association</a>創設者および社長; <a href=\"https://creativecommons.org/\" target=\"_blank\" rel=\"noopener\">クリエイティブ・コモンズ</a>のプロジェクトマネージャー"
+        },
+        "jon-phillips": {
+          "title": "Jon Phillips",
+          "description": "<a href=\"https://openclipart.org/\" target=\"_blank\" rel=\"noopener\">Openclipart</a> 創立者; <a href=\"https://inkscape.org/\" target=\"_blank\" rel=\"noopener\">Inkscape</a> 開発者; Qi Hardware 創立者。"
+        },
+        "isaac-mao": {
+          "title": "Isaac Mao",
+          "description": "<a href=\"https://musicoin.org/\" target=\"_blank\" rel=\"noopener\">Musicoin</a>の創立者。CNBlogs.orgの創立者。iCommons China、クリエイティブ・コモンズ中国チームのプロジェクトリーダー"
+        },
+        "to-cheung": {
+          "title": "To Cheung",
+          "description": "<a href=\"https://www.udomain.hk/\" target=\"_blank\" rel=\"noopener\">UDomain</a> 創立者およびCEO; BTC 早期投資者"
+        }
+      }
+    },
+    "Team": {
+      "title": "チーム",
+      "member": {
+        "kin": {
+          "name": "kin ko",
+          "title": "プロダクトデザイン"
+        },
+        "aludirk": {
+          "name": "Aludirk Wong",
+          "title": "システムアーキテクト"
+        },
+        "jacky": {
+          "name": "Jacky Ko",
+          "title": "最高マーケティング責任者"
+        },
+        "william": {
+          "name": "William Chong",
+          "title": "フルスタック開発者"
+        },
+        "chung": {
+          "name": "Chung Wu",
+          "title": "ブロックチェーン開発者"
+        },
+        "edmond": {
+          "name": "Edmond Yu",
+          "title": "オペレーション"
+        },
+        "simonb": {
+          "name": "Simon But",
+          "title": "グロースハッカー"
+        },
+        "david": {
+          "name": "David Ng",
+          "title": "フルスタック開発者"
+        },
+        "miles": {
+          "name": "Miles Wong",
+          "title": "フルスタック開発者"
+        },
+        "joshua": {
+          "name": "Joshua Lo",
+          "title": "デザイナー"
+        },
+        "michael": {
+          "name": "Michael Cheung",
+          "title": "フルスタック開発者"
+        }
+      }
+    },
+    "Community": {
+      "title": "LikeCoin コミュニティ: ",
+      "button": {
+        "faq": "よくある質問"
+      }
     }
+  },
+  "Footer": {
+    "label": {
+      "contract": "LikeCoin コントラクト: "
+    },
+    "button": {
+      "aboutFoundation": "LikeCoin財団について",
+      "support": "サポート"
+    }
+  },
+  "Whitepaper": {
+    "Button": {
+      "whitepaper": "ホワイトペーパー",
+      "onepager": "ワンページサマリー"
+    }
+  },
+  "Store": {
+    "Header": {
+      "label": {
+        "store": "like.co",
+        "test": "テスト"
+      }
+    },
+    "Footer": {
+      "label": {
+        "contract": "LikeCoin コントラクト ",
+        "visit": "詳細は当社ウェブサイトをご覧ください: "
+      }
+    }
+  },
+  "Dialog": {
+    "metamask": {
+      "button": {
+        "install": "MetaMaskをインストールする",
+        "doneInstalled": "完了！インストールされました！"
+      },
+      "title": {
+        "switchRinkeby": "Rinkebyネットワークに切り替えてください",
+        "switchMain": "メインネットワークに切り替えてください",
+        "web3": "プラグインが必要です",
+        "locked": "MetaMaskをアンロックしてください",
+        "sign": "Metamaskにサインオン",
+        "login": "Metamaskにサインオンしてログイン",
+        "connectledger": "Ledgerウォレットに接続",
+        "signledger": "Ledgerウォレットにサインオン",
+        "loginledger": "Ledgerウォレットにサインオンしてログイン"
+      },
+      "content": {
+        "switchRinkeby": "like.coが動作するためにはRinkebyが必要です。正しいネットワークに切り替えてください。",
+        "switchMain": "like.coが動作するためにはメイン必要です。正しいネットワークに切り替えてください。",
+        "web3": "like.coが動作するためにはMetamaskが必要です。Chromeに切り替えて、Metamaskの拡張機能をインストールしてください。<br /><span style='color:red'>シードワードは必ず安全に保管してください！<span>",
+        "locked": "like.coが動作するためにはMetaMaskが必要です。MetaMaskをアンロックしてください。",
+        "sign": "「Metamaskにサインオン」をクリックして続行してください。",
+        "login": "「Metamaskにサインオン」をクリックしてログインしてください。",
+        "connectledger": "接続してLedgerウォレットをアンロックし、次にEthereumアプリに切り替えてください。like.coを使用するには、Ethereumアプリのブラウザサポートモードは<b>YES</b>である必要があります。<br />詳細情報は、<a href=\"https://support.ledgerwallet.com/hc/en-us/articles/115005198565\" target=\"_blank\" rel=\"noopener\">Ledgerサポート</a>をご覧ください",
+        "signledger": "続行するにはLedgerウォレットで確認を押してください。",
+        "loginledger": "ログインするにはLedgerウォレットで確認を押してください。"
+      },
+      "label": {
+        "hardwareWallet": "...または、ハードウェアウォレットに接続",
+        "ledger": "Ledgerに接続"
+      }
+    },
+    "chrome": {
+      "title": "デスクトップ用Chromeが必要です",
+      "content": "like.coはETHウォレット拡張子MetaMaskをサポートするブラウザを必要とします。<br />デスクトップ用Chromeに切り替えてからMetaMaskプラグインをインストールしてください。",
+      "button": {
+        "install": "Chromeをインストールする"
+      }
+    },
+    "coupon": {
+      "title": {
+        "error": "クーポンエラー",
+        "claim": "クーポンを受け取る"
+      },
+      "label": {
+        "confirming": "クーポンのコンテンツを読み込み中...",
+        "error": "無効なクーポンコードです！",
+        "invalidCoupon": "無効なクーポン",
+        "redirecting": "アカウントページにリダイレクト中...",
+        "confirmToClaim": "本当に{value} LikeCoinを受け取りますか？"
+      }
+    },
+    "transaction": {
+      "label": {
+        "waiting": "ブロックチェーンの確認を待機中です。ネットワークの通信状況により、数分かかる場合があります。確認が完了するまでの間、like.co内を自由に閲覧することができます。",
+        "newUser": "LikeCoin IDをお持ちでないようですね。今すぐ作成しましょう。"
+      },
+      "button": {
+        "createID": "LikeCoin IDを作成",
+        "buyCoin": "LikeCoinを購入",
+        "myAccount": "マイアカウント"
+      }
+    },
+    "blocker": {
+      "title": "処理中...",
+      "content": "リクエストを処理しています。ブラウザを閉じないでください"
+    },
+    "emailInput": {
+      "title": "メールアドレスを認証してください",
+      "content": "メールアドレスの指定と確認を行ってください。",
+      "label": "メールアドレス"
+    },
+    "trust": {
+      "title": {
+        "switchTrust": "ウォレットアプリが必要です",
+        "switchRinkeby": "Rinkebyネットワークに切り替えてください",
+        "switchMain": "メインネットワークに切り替えてください"
+      },
+      "description": {
+        "switchTrust": "like.coが動作するにはETHウォレットが必要です。Trust Walletアプリをインストールしてください。",
+        "switchRinkeby": "like.coが動作するためにはRinkebyが必要です。正しいネットワークに切り替えてください。",
+        "switchMain": "like.coが動作するためにはメインが必要です。正しいネットワークに切り替えてください。",
+        "switchMainCaption": "メインネットへの切り替え:<br>「設定」>「ネットワーク」>「Ethereum (ETH)」",
+        "switchRinkebyCaption": "Rinkebyへの切り替え:<br>「設定」>「ネットワーク」>「Rinkeby (ETH)」"
+      },
+      "label": {
+        "useTrustBrowser": "<span style=\"color: #28646e; font-weight: bold;\">Trust Walletブラウザ</span>を使用して訪問してください:",
+        "clickToCopy": "クリックしてURLをコピー",
+        "copied": "コピー済み",
+        "help": "モバイルでの登録方法",
+        "registerMobileLink": "https://help.like.co/likecoin-faq/newbies/registering-likecoin-id-on-mobile"
+      },
+      "button": {
+        "openWithTrust": "Trustで開く"
+      }
+    }
+  },
+  "AuthDialog": {
+    "label": {
+      "loading": "読み込み中",
+      "signingIn": "ログイン",
+      "signInError": "ログイン中にエラーが発生しました",
+      "checkInbox": "メールアドレスを確認してください",
+      "checkInboxDescription": "{email} への確認リンクを送信しました。リンクをクリックしてください。",
+      "loginSuccessful": "ログイン成功"
+    },
+    "SignIn": {
+      "title": "ログイン/登録",
+      "description": "次のいずれかの方法を使用してください",
+      "label": {
+        "or": "または",
+        "with": ""
+      },
+      "button": {
+        "email": "メール",
+        "wallet": "ウォレットでログイン/登録する"
+      }
+    },
+    "SignInWithEmail": {
+      "title": "ログイン/登録",
+      "description": "ログインするメールアドレスを入力してください",
+      "label": {
+        "email": "メールアドレス"
+      },
+      "button": {
+        "back": "← すべてのログイン方法"
+      }
+    },
+    "Register": {
+      "title": "ようこそ",
+      "button": {
+        "uploadAvatar": "アバターをアップロード"
+      }
+    }
+  },
+  "Toolbar": {
+    "etherscan": {
+      "button": {
+        "view": "イーサリアムで表示"
+      }
+    }
+  },
+  "Register": {
+    "header": {
+      "title": "LikeCoinを送受信するにはLikeCoin IDを作成しましょう",
+      "titleReferral": "{name}に参加してLikeCoin IDを作成しましょう",
+      "content": "素晴らしい！Metamaskが既にインストールされているようです。これでLikeCoinを送金・受取りする準備ができました。",
+      "redeem": "無料のLikeCoinと引き換える",
+      "button": {
+        "what": "LikeCoinとは何ですか？"
+      }
+    },
+    "label": {
+      "register": "アカウントを作成する",
+      "registerRedeem": "アカウントを作成して受け取る"
+    },
+    "form": {
+      "createID": "LikeCoin IDを作成する（7文字以上）",
+      "walletAddress": "ウォレットのアドレス",
+      "email": "メール",
+      "referrer": "紹介者のLikeCoin ID（任意）",
+      "amount": "LikeCoinの金額:",
+      "displayName": "表示名",
+      "claim": "受け取る",
+      "couponCode": "クーポンコード（任意）",
+      "label": {
+        "updatedInfo": "情報が更新されました。",
+        "viewPage": "ページを表示する"
+      },
+      "error": {
+        "alphanumeric": "英数字7文字以上で入力してください",
+        "addressFormat": "無効なアドレスの形式",
+        "reCaptcha": "reCAPTCHAチャレンジを完了してください",
+        "emailFormat": "ピリオド（.）や+の文字を含まない有効なメールドレスを入力してください"
+      }
+    }
+  },
+  "In": {
+    "tab": {
+      "overview": "概要",
+      "bonus": "ボーナス",
+      "history": "ボーナス履歴"
+    }
+  },
+  "Edit": {
+    "label": {
+      "id": "LikeCoin ID:",
+      "likeCoinAmount": "LikeCoinの金額",
+      "address": "ウォレットのアドレス",
+      "email": "メールアドレス",
+      "addEmail": "メールアドレスを追加する",
+      "redeemCoin": "LikeCoinと引き換える",
+      "redeemCode": "引き換えコード",
+      "validCodeRequired": "有効なクーポンコードを入力してください",
+      "verified": "確認済み",
+      "verifying": "認証メールが送信されました。受信ボックスを確認してください！",
+      "unverified": "未確認",
+      "verifyEmail": "メールアドレスを認証してください"
+    },
+    "referral": {
+      "title": "アフィリエイトプログラム",
+      "description": "あなたが招待した友達が、あなたのアフィリエイトリンクを使って登録すると、あなたも友達もLikeCoinボーナスを獲得することができます。クーポンを獲得するためには、あなたと友達のアカウントのメールアドレスの認証を完了する必要がありますのでご注意ください。",
+      "pending": "メールアドレス認証を待機中",
+      "verified": "確認済み",
+      "shareUrl": "URLで友達を招待する",
+      "orByEmail": "またはメールで招待する",
+      "emailInvite": "メールで友達を招待する",
+      "altInvite": "または次の方法で招待する:",
+      "copyUrl": "URLをコピー",
+      "facebook": "Facebook",
+      "twitter": "Twitter",
+      "send": "送金",
+      "sent": "{email}に招待メールが送信されました",
+      "verifyEmailFirst": "メールアドレスを確認してアフィリエイトプログラムに参加しましょう。",
+      "tweetContent": "私と一緒にLike.coに参加して、無料のLikeCoinを受け取りましょう！",
+      "ogTitle": "LikeCoin - 「Like（いいね）」を改革します",
+      "ogDescription": "プルーフオブクリエイティビティによるコンテンツへの報酬。{name}に参加して今すぐ登録しましょう！"
+    },
+    "button": {
+      "buyCoin": "LikeCoinを購入",
+      "getFreeCoin": "無料のLikeCoinを取得"
+    }
+  },
+  "Verify": {
+    "label": {
+      "toIndex": "インデックスに戻っています",
+      "toEdit": "アカウントページに戻っています",
+      "redirect": "ページをリダイレクトします",
+      "verifying": "認証中",
+      "referral": "アフィリエイトプログラムの参加者として、ボーナスセクションで無料のLikeCoinを受け取ることができます"
+    }
+  },
+  "Transaction": {
+    "header": {
+      "label": {
+        "ethAmount": "{amount} ETH",
+        "likecoinAmount": "{amount} LikeCoin",
+        "sending": "送信中",
+        "sent": "送信済み",
+        "to": "宛先: ",
+        "notFound": "取引が見つからないか、like.coの取引ではありません",
+        "pending": "ブロックチェーンに提出済み",
+        "failed": "取引に失敗しました",
+        "timeout": "取引の期限が切れました",
+        "completed": "取引が完了しました"
+      }
+    },
+    "label": {
+      "recipientId": "受信者のLikeCoin ID",
+      "recipientAddress": "受信者のアドレス",
+      "senderName": "送信者の表示名",
+      "senderAddress": "送信者のアドレス",
+      "sendTo": "{coin}を<span class='usertitle'>{title}</span>に送金する",
+      "remarks": "注記",
+      "viewTx": "取引を表示する",
+      "amountToSend": "送信する{coin}の金額",
+      "invalidAmount": "無効な金額",
+      "enterValidNumber": "10進数の有効な数を入力してください",
+      "userNotFound": "ユーザーが見つかりません"
+    },
+    "head": {
+      "title": "LikeCoin - 「いいね」を改革します。",
+      "description": "プルーフオブクリエイティビティによる高価値なコンテンツ。{name}さんにLikeCoinを送りましょう"
+    },
+    "error": {
+      "notSupported": "ご利用のウォレットはこの機能をサポートしていません",
+      "ethInsufficient": "ウォレットのETH残高が不足しています。",
+      "likecoinInsufficient": "ウォレットのLikeCoin残高が不足しています。",
+      "sameUser": "送信者と受信者は同じにできません"
+    }
+  },
+  "WhitePaper": {
+    "label": {
+      "whitePaper": "ホワイトペーパー",
+      "comingSoon": "準備中"
+    }
+  },
+  "ReferralPage": {
+    "title": "{name}さんがあなたをLikeCoinに招待しました",
+    "label": {
+      "invitation": "LikeCoinを送受信するにはLikeCoin IDを作成しましょう。<br/><br/>今すぐLikeCoin IDを作成すると、あなたと{name}さんは8件の「いいね」ボーナスを取得できます。"
+    },
+    "og": {
+      "title": "{name}さんがあなたをLikeCoinに招待しました",
+      "description": "今すぐLikeCoin IDを作成すると、あなたと{name}さんは8件の「いいね」ボーナスを取得できます。トークン販売に参加すると、二人ともそれぞれ2.5%のボーナスを獲得できます。"
+    }
+  },
+  "TokenSale": {
+    "title": "トークン販売",
+    "head": {
+      "description": "LikeCoinトークン販売に参加、プルーフオブクリエイティビティによりコンテンツに報酬を付与",
+      "fromDescription": "私の紹介コードを使用してLikeCoinトークン販売に参加すると、2.5％追加ボーナスを受け取ることができます"
+    },
+    "header": {
+      "thankyou": "ご支援ありがとうございます"
+    },
+    "label": {
+      "prepareToJoin": "トークン販売参加の準備をしましょう",
+      "publicSaleStartIn": "公売開始まで:",
+      "publicSaleEndIn": "トークン販売終了まで:",
+      "token": "トークン",
+      "exchangeRate": "為替レート",
+      "supply": "供給",
+      "preSaleDescription0": "あなたは{base} LikeCoin + {bonus} ボーナスを購入しようとしています。",
+      "preSaleDescription1": "公売開始時にLikeCoinがお使いのウォレットに送金されます。",
+      "whatIsETH": "ETHとは？",
+      "bonusAndLimitedOffer": "25%ボーナス、期間限定オファー",
+      "limitedOfferCondition": "10ETH以上の購入",
+      "amountLikeToPurhcase": "購入する「いいね」の数",
+      "tokensaleBadAmount": "無効な金額です。0.1ETH以上10,000ETH未満で指定してください",
+      "bonus": "ボーナス",
+      "bonusLockUp": "ボーナスのLikeCoinはウォレットにロックアップされ、6か月間は移管できません。",
+      "amountWillBeSentWhenSalesStart": "購入済みおよびボーナスのLikeCoinはトークン公売開始時（2018年4月23日予定）にお使いのウォレットに送金されます。ボーナスのLikeCoinはウォレット内にロックアップされ、6ヶ月間は移管できません。",
+      "whatIsEthLink": "https://help.like.co/likecoin-faq/what-is-eth",
+      "joinTokenSaleNow": "トークン販売に今すぐ参加する",
+      "gasPriceDeducted": "ブロックチェーン取引費用としてETHを予約する",
+      "likeAmountWillGet": "<span class=\"bold\">{amount}</span>件の「いいね」を獲得できます",
+      "raised": "調達済み",
+      "thankyou": "弊社のトークン販売は公式に終了しました。弊社は目標の>180%を達成することができました。心から感謝いたします！只今、様々な販売チャネルからの統計を集計中です。間もなく最終結果を発表いたします。"
+    },
+    "button": {
+      "aboutLikeCoin": "LikeCoinについて",
+      "whitePaper": "@:WhitePaper.label.whitePaper",
+      "noETH": "ETHをお持ちでありませんか？"
+    }
+  },
+  "BonusPage": {
+    "title": "LikeCoin ボーナス",
+    "header": {
+      "likeCoinBonus": "LikeCoin ボーナス",
+      "inviteeMission": "紹介された人のミッション"
+    },
+    "label": {
+      "description": "あなたが招待した友達が、あなたのアフィリエイトリンクを使って登録すると、あなたも友達もLikeCoinボーナスを獲得することができます。クーポンを獲得するためには、あなたと友達のアカウントのメールアドレスの認証を完了する必要がありますのでご注意ください。",
+      "inviteeMissionDescription": "あなたも友達もそれぞれミッションを完了したので、LikeCoinを受け取ることができます",
+      "earned": "獲得したボーナス:",
+      "likeBonus": "「いいね」ボーナス"
+    },
+    "placeholder": {
+      "emptyMission": "新ミッションが間もなく登場します"
+    },
+    "button": {
+      "moreBonus": "その他のボーナス"
+    },
+    "HistoryTab": {
+      "title": "ボーナス履歴",
+      "header": {
+        "completedBonus": "完了したボーナス"
+      },
+      "label": {
+        "emptyHistoryPlaceholder": "ここには完了したボーナスが表示されます。"
+      }
+    }
+  },
+  "KYC": {
+    "label": {
+      "kyc": "身分証明書の確認",
+      "kycNeeded": "LikeCoinトークン販売に参加するには身分証明が必要です",
+      "advKycNeeded": "高額購入には詳細な身分証明が必要です",
+      "advKycPending": "お客様の詳細な身分証明書の確認はまだ「保留中」の状態です。1営業日以上かかっている場合は「インターコム」からお問い合わせください",
+      "emailVerify": "メールアドレスの指定と確認を行ってください。",
+      "createID": "LikeCoinを送受信するためにLikeCoin IDを作成し、トークン販売に参加しましょう。",
+      "createIDSendReceive": "LikeCoinを送受信するにはLikeCoin IDを作成しましょう。",
+      "verifyToPurchase": "公売が開始したら、情報の認証を行ってLikeCoinを購入してください。",
+      "emailVerification": "メールアドレス認証",
+      "accountVerification": "アカウント認証",
+      "advancedVerification": "詳細認証",
+      "verifyEmailPlaceholder": "メールアドレスを認証してください",
+      "checkEmail": "メールを送信しました。確認してください",
+      "emailVerified": "メールアドレスが認証されました",
+      "proceedToAccountVerification": "アカウント認証に進む",
+      "isPrcCitizen": "中華人民共和国の国民ですか？",
+      "isUsaCitizen": "アメリカ合衆国の国民ですか？",
+      "isUsaAccredited": "米国の適格投資家ですか？",
+      "isPurchaseExceedAmount": "{amount} ETHを超える購入を行いますか？",
+      "firstName": "名（パスポート表記通り）",
+      "lastName": "姓（パスポート表記通り）",
+      "country": "お住いの国",
+      "nationality": "国籍",
+      "invalidCountry": "一覧から有効な国を選択してください。",
+      "invalidNationality": "一覧から有効な国籍を選択してください。",
+      "passportIdPage": "正面を向いた顔写真付きのパスポート身分証明ページ（サイズ上限２MB)*",
+      "recentSelfie": "正面を向いた顔の自撮り写真（サイズ上限２MB)*",
+      "canPurchaseLessThanAmount": "{amount}ETHまで購入できます",
+      "canPurchaseMoreThanAmount": "{amount} ETHを超える購入も可能です",
+      "advancedVerificationInProgress": "{amount} ETH未満でも購入できます。詳細な認証が完了すると、もっと購入できるようになります。",
+      "purchaseMore": "もっと購入したいです。",
+      "accountVeritifed": "アカウントが認証されました",
+      "canPurchaseWhenPublicSale": "公売の開催中はこちらでLikeCoinを購入できます。",
+      "verifyToPurchaseOverAmount": "身分確認を行って{amount}ETH以上購入してください",
+      "waitingConfirmation": "確認待ちです。",
+      "timeWaitForAccountVerification": "2分ほどかかります…",
+      "timeWaitForAdvancedVerification": "通常、1営業日以内に完了します",
+      "emailNotification": "完了時にメールで通知が届きます",
+      "contactUs": "さらにヘルプが必要な場合は、吹き出しの右下からお問い合わせください。",
+      "contactThroughIntercom": "こちらのインターコムからお問い合わせください。",
+      "preSaleBonusDescription": "10ETH以上の購入で25％のボーナス"
+    },
+    "button": {
+      "createID": "LikeCoin IDを作成",
+      "sendEmailAgain": "再送信",
+      "start": "開始",
+      "next": "次へ",
+      "upload": "アップロード",
+      "reupload": "再アップロード"
+    }
+  },
+  "Creator": {
+    "title": {
+      "artist": "アーティスト",
+      "comicAuthor": "漫画家",
+      "multimediaDesigner": "マルチメディア デザイナー"
+    }
+  },
+  "TransactionHistory": {
+    "title": "取引履歴",
+    "header": {
+      "status": "状態",
+      "fromOrTo": "送信者/宛先",
+      "time": "時間",
+      "value": "価値"
+    },
+    "label": {
+      "in": "収入",
+      "out": "支出",
+      "fail": "失敗",
+      "tokensale": "トークン販売",
+      "earlybird": "アーリーバード",
+      "earlyBeliever": "アーリービリーバー",
+      "timePending": "保留中...",
+      "timeExpired": "期限が切れました",
+      "coupon": "クーポン",
+      "noRecord": "現在記録が見つかりません。",
+      "to": "宛先",
+      "from": "送信者",
+      "unknown": "不明",
+      "lockUntilDate": "{date}までロック"
+    },
+    "button": {
+      "view": "詳細",
+      "showMore": "さらに表示"
+    }
+  },
+  "Error": {
+    "button": {
+      "toIndex": "インデックスに戻る"
+    },
+    "EMAIL_ALREADY_USED": "既に使用されているメールアドレスです",
+    "FILE_TOO_LARGE": "ファイルサイズの上限を超過しました",
+    "MISSION_ALREADY_DONE": "あなたは既にこのミッションを完了しています",
+    "MISSION_COMPLETE_FAILURE": "ミッション完了中にエラーが発生しました",
+    "REFERRER_NOT_EXIST": "紹介者が存在しません",
+    "TWITTER_ALREADY_EXIST": "このTwitterアカウントは既に使用されています",
+    "TWITTER_API_FAILURE": "ツイートを確認できません。後ほど再度お試しください",
+    "TWITTER_CONTENT_INVALID": "#LikeCoinを使ってツイートしてください",
+    "TWITTER_NOT_FOLLOW": "Twitterで@likecoin_fdnをフォローしてください",
+    "TWITTER_QUOTE_INVALID": "正しいツイートをリツイートしてください",
+    "TWITTER_URL_INVALID": "ツイートのURLが無効です",
+    "USER_ALREADY_EXIST": "ユーザーが既に存在します",
+    "USER_NOT_EXIST": "ユーザーが存在しません"
+  },
+  "Form": {
+    "Retweet": {
+      "label": {
+        "retweet": "次のコメントでリツイートしてください",
+        "pasteURL": "ツイートのリンクをこちらに貼り付けてください"
+      },
+      "placeholer": {
+        "tweetLink": "ツイートのリンク"
+      },
+      "button": {
+        "retweet": "リツイート"
+      }
+    }
+  },
+  "Mission": {
+    "gettingStart": {
+      "title": "始めましょう",
+      "description": "ムーブメントへの参加にようこそ。LikeCoinは、クリエイティビティと報酬を再編成することにより「いいね」を改革することを目的としています。<a href=\"https://like.co\">like.co</a>では、LikeCoinを購入および送信するだけでなく、「いいね」エコロジーに参加することによりLikeCoinを獲得することもできます。<span class=\"bold\">「いいね」IDお支払いページを閲覧、イントロダクション動画を視聴、そして弊社のTelegramグループに参加することで、3 LikeCoinを獲得しましょう！</span>",
+      "taskSocial": "Twitterで@likecoin_fdnをフォローする",
+      "taskOnepager": "ワンページサマリを見る",
+      "taskVideo": "イントロダクション動画を視聴する",
+      "taskPaymentPage": "お支払いページを見る"
+    },
+    "inviteFriend": {
+      "title": "友達をLikeCoinに招待する",
+      "description": "招待した友達がLikeCoinに参加すると、あなたも友達も8 LIKE（いいね）を獲得できます。"
+    },
+    "joinTokenSale": {
+      "title": "トークン販売に参加する",
+      "description": "今すぐトークン販売に参加すると、100件の「いいね」ボーナスを獲得できます",
+      "subDescription": "紹介ボーナスもお忘れなく。大きなボーナスになるかもしれません！トークン販売に参加するたびに、あなたとあなたの紹介者はそれぞれ2.5％の追加トークンボーナスを獲得することができます。上限はありません！<br/> <br/> <i>注意: MyEthShopなどのサードパーティを通してトークン販売に参加する場合、このミッションを完了できなくなります。その結果、あなたはこのミッションからボーナスを取得することはできません。<i>"
+    },
+    "refereeTokenSale": {
+      "title": "@:Mission.joinTokenSale.title",
+      "description": "紹介ボーナスもお忘れなく。大きなボーナスになるかもしれません！トークン販売に参加するたびに、あなたとあなたの紹介者はそれぞれ2.5％の追加トークンボーナスを獲得することができます。上限はありません！<br/> <br/> <i>注意: MyEthShopなどのサードパーティを通してトークン販売に参加する場合、このミッションを完了できなくなります。その結果、あなたはこのミッションからボーナスを取得することはできません。<i>"
+    },
+    "inviteTokenSale": {
+      "title": "友達をトークン販売に招待する",
+      "description": "あなたが招待した人がトークン販売に参加するたびに、あなた紹介された人も2.5％の「いいね」ボーナスを獲得することができます。上限はありません！"
+    },
+    "verifyEmail": {
+      "title": "メールアドレスを認証する",
+      "description": "メールアドレスを認証すると無料のLikeCoinを獲得できます",
+      "label": {
+        "yourEmailAddress": "メールアドレス"
+      }
+    },
+    "verifyEmailReferral": {
+      "title": "@:Mission.verifyEmail.title",
+      "description": "<span class=\"bold\">{invitee}</span>がメールアドレスを認証する必要があります。<br><br>あともう1ステップであなたと<span class=\"bold\">{invitee}</span>は8件の「いいね」ボーナスを獲得できます。"
+    },
+    "joinTokenSaleReferral": {
+      "title": "@:Mission.joinTokenSale.title",
+      "description": "<span class=\"bold\">{invitee}</span>がトークン販売に参加するたびに、あなた紹介された人も2.5％の「いいね」ボーナスを獲得することができます。上限はありません！"
+    },
+    "twitter": {
+      "title": "フォローしてリツイート！",
+      "description": "弊社の投稿をフォロー、リツイートして、LikeCoinを取得しましょう",
+      "linkedDescription": "弊社の<a href=\"{postLink}\" target=\"_blank\">投稿</a>をフォロー、リツイートしてLikeCoinを取得しましょう",
+      "header": {
+        "pasteURL": "ツイートURLをこちらに貼り付け"
+      },
+      "label": {
+        "verifying": "ツイートを確認中"
+      }
+    },
+    "completedBanner": {
+      "label": {
+        "completed": "完了！",
+        "bonusTransferShortly": "LikeCoinボーナスが間もなくお客様に移管されます。"
+      }
+    },
+    "common": {
+      "label": {
+        "upcomingDate": "<span class=\"bold\">LikeCoin一般販売は{upcoming}に開始されます。</span>",
+        "desktopRequired": "このボーナスを完了するためにはデスクトップ用ブラウザが必要です",
+        "pleaseUseDesktop": "デスクトップ用Chromeからlike.coを訪問してください。"
+      },
+      "button": {
+        "desktopFAQ": "デスクトップからこのアカウントにアクセスする方法は？"
+      }
+    }
+  }
 }
