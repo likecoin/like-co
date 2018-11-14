@@ -149,6 +149,7 @@ router.post('/users/new', apiLimiter, multer.single('avatarFile'), async (req, r
       locale = 'en',
       accessToken,
       secret,
+      sourceURL,
     } = payload;
     let { email, isEmailEnabled = true } = payload;
 
@@ -287,6 +288,8 @@ router.post('/users/new', apiLimiter, multer.single('avatarFile'), async (req, r
       referrer: referrer || undefined,
       locale,
       registerTime: createObj.timestamp,
+      registerMethod: platform,
+      sourceURL,
     });
     if (socialPayload) {
       publisher.publish(PUBSUB_TOPIC_MISC, req, {

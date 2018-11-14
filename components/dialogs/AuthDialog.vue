@@ -244,6 +244,9 @@ export default {
       isSigningInWithEmail: false,
 
       isShowWalletNotice: false,
+
+      referrer: null,
+      sourceURL: null,
     };
   },
   computed: {
@@ -327,6 +330,9 @@ export default {
         }
       }
     }
+
+    this.referrer = this.$route.query.from;
+    this.sourceURL = this.$route.query.referrer;
   },
   methods: {
     ...mapActions([
@@ -621,6 +627,11 @@ export default {
           payload,
           this.$t('Sign.Message.registerUser'),
         );
+      } else {
+        Object.assign(payload, {
+          referrer: this.referrer,
+          sourceURL: this.sourceURL,
+        });
       }
 
       this.currentTab = 'signingIn';
