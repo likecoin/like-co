@@ -38,7 +38,6 @@ module.exports = {
       { src: '/vendor/typekit.js' },
       { src: '/vendor/fb/pixel.js' },
       { src: '/vendor/fb/sdk.js' },
-      { src: 'https://www.recaptcha.net/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit' },
     ],
     link: [
       { rel: 'icon', type: 'image/png', href: '/favicon.png' },
@@ -65,8 +64,6 @@ module.exports = {
           'https://www.googletagmanager.com',
           'https://www.googleadservices.com',
           'https://*.google.com',
-          'https://recaptcha.net',
-          'https://www.recaptcha.net',
           'https://www.gstatic.com/',
           'https://www.gstatic.cn/',
           'https://googleads.g.doubleclick.net',
@@ -89,8 +86,6 @@ module.exports = {
         ],
         'frame-src': [
           'https://www.google.com/',
-          'https://recaptcha.net',
-          'https://www.recaptcha.net',
           'https://player.vimeo.com/',
           'https://*.facebook.com',
           'https://*.facebook.net',
@@ -98,6 +93,7 @@ module.exports = {
           'https://rinkeby.like.co',
           'https://like.co',
           'https://likecoin-develop.firebaseapp.com',
+          'https://llikecoin-foundation.firebaseapp.com',
         ],
         'img-src': [
           "'self'",

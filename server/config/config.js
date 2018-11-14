@@ -13,8 +13,6 @@ config.GCLOUD_PUBSUB_MAX_MESSAGES = 10;
 config.GCLOUD_PUBSUB_MAX_WAIT = 1000;
 config.GCLOUD_PUBSUB_ENABLE = false;
 
-config.RECAPTCHA_SECRET = '';
-
 config.FACEBOOK_APP_ID = '';
 config.FACEBOOK_APP_SECRET = '';
 
