@@ -15,6 +15,10 @@ export function getFirebaseProvider(platform) {
       const provider = new firebase.auth.GoogleAuthProvider();
       provider.addScope('https://www.googleapis.com/auth/userinfo.email');
       provider.addScope('https://www.googleapis.com/auth/userinfo.profile');
+      provider.setCustomParameters({
+        // Force user to select Google account
+        prompt: 'select_account',
+      });
       return provider;
     }
     case 'facebook': {

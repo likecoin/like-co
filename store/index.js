@@ -13,6 +13,7 @@ const createStore = (() => new Vuex.Store({
     async nuxtServerInit({ commit }, { req }) {
       /* TODO: actually try to verify jwt first? */
       commit('USER_SET_USER_INFO', {});
+      commit('USER_SET_AFTER_AUTH_ROUTE', null);
       commit('USER_AWAITING_AUTH', true);
       const token = req.cookies.likecoin_auth;
       if (token) {

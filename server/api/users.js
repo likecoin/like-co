@@ -219,6 +219,8 @@ router.post('/users/new', apiLimiter, multer.single('avatarFile'), async (req, r
       locale,
     };
 
+    if (hasReferrer) createObj.referrer = referrer;
+
     if (email) {
       createObj.email = email;
       createObj.isEmailVerified = isEmailVerified;
@@ -230,6 +232,16 @@ router.post('/users/new', apiLimiter, multer.single('avatarFile'), async (req, r
           .collection('mission')
           .doc('verifyEmail')
           .set({ done: true }, { merge: true });
+      } else {
+        // Send verify email
+        createObj.lastVerifyTs = Date.now();
+        createObj.verificationUUID = uuidv4();
+
+        try {
+          await sendVerificationEmail(res, user, createObj.referrer);
+        } catch (err) {
+          // Do nothing
+        }
       }
     }
 
@@ -238,8 +250,6 @@ router.post('/users/new', apiLimiter, multer.single('avatarFile'), async (req, r
       timestampObj.bonusCooldown = Date.now() + NEW_USER_BONUS_COOLDOWN;
     }
     Object.assign(createObj, timestampObj);
-
-    if (hasReferrer) createObj.referrer = referrer;
 
     Object.keys(createObj).forEach((key) => {
       if (createObj[key] === undefined) {

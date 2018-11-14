@@ -260,6 +260,11 @@ export default {
     SelectableField,
     SocialMediaIcon,
   },
+  asyncData({ store, redirect, query }) {
+    if (!(store.state.user.user && store.state.user.user.wallet)) {
+      redirect(302, { name: 'in-earn' }, query);
+    }
+  },
   data() {
     return {
       isEmailEnabled: false,
