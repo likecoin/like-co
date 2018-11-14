@@ -9,35 +9,6 @@ const abiDecoder = require('@likecoin/abi-decoder/dist/es5');
 
 abiDecoder.addABI(LIKE_COIN_ABI);
 
-async function createLedgerWeb3(networkId) {
-  /* for ledger */
-  let [
-    ProviderEngine,
-    FetchSubprovider,
-    TransportU2F,
-    createLedgerSubprovider,
-  ] = await Promise.all([
-    import(/* webpackChunkName: "ledger" */ 'web3-provider-engine/dist/es5'),
-    import(/* webpackChunkName: "ledger" */ 'web3-provider-engine/dist/es5/subproviders/fetch'),
-    import(/* webpackChunkName: "ledger" */ '@ledgerhq/hw-transport-u2f'),
-    import(/* webpackChunkName: "ledger" */ '@ledgerhq/web3-subprovider'),
-  ]);
-  if (ProviderEngine.default) ProviderEngine = ProviderEngine.default;
-  if (FetchSubprovider.default) FetchSubprovider = FetchSubprovider.default;
-  if (TransportU2F.default) TransportU2F = TransportU2F.default;
-  if (createLedgerSubprovider.default) createLedgerSubprovider = createLedgerSubprovider.default;
-  const engine = new ProviderEngine();
-  const getTransport = () => TransportU2F.create();
-  const ledger = createLedgerSubprovider(getTransport, {
-    networkId,
-    accountsLength: 1,
-  });
-  engine.addProvider(ledger);
-  engine.addProvider(new FetchSubprovider({ rpcUrl: INFURA_HOST }));
-  engine.start();
-  return new Web3(engine);
-}
-
 function timeout(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -97,15 +68,12 @@ class EthHelper {
     }
   }
 
-  async pollForWeb3(initType) {
+  async pollForWeb3(initType = 'window') {
     this.isInited = false;
     this.clearTimers();
     try {
-      if (initType === 'ledger' || typeof window.web3 !== 'undefined') {
-        if (initType === 'ledger' && this.web3Type !== 'ledger') {
-          this.actionWeb3 = await createLedgerWeb3(IS_TESTNET ? 4 : 1);
-          this.setWeb3Type('ledger');
-        } else if (!this.actionWeb3 || this.web3Type !== 'window') {
+      if (typeof window.web3 !== 'undefined') {
+        if (!this.actionWeb3 || this.web3Type !== 'window') {
           this.setWeb3Type('window');
           this.actionWeb3 = new Web3(window.web3.currentProvider);
         }
@@ -170,12 +138,8 @@ class EthHelper {
     }
   }
 
-  setLedgerOn() {
-    this.pollForWeb3('ledger');
-  }
-
   resetWeb3() {
-    this.pollForWeb3('window');
+    this.pollForWeb3();
   }
 
   async waitForTxToBeMined(txHash) {
@@ -212,7 +176,7 @@ class EthHelper {
     if (this.web3Type === 'window' && window.web3 && window.web3.currentProvider.isTrust) {
       return false;
     }
-    return (this.web3Type !== 'ledger' && this.web3Type !== 'infura');
+    return this.web3Type !== 'infura';
   }
 
   async getTransactionCompleted(txHash) {

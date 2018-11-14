@@ -7,7 +7,7 @@ export const startWeb3Polling = async ({ commit }, isReset = false) => {
   if (isReset || !EthHelper.getIsInited()) {
     commit(types.ETH_SET_WEB3_POLLING, true);
     commit(types.UI_START_LOADING);
-    EthHelper.pollForWeb3('window');
+    EthHelper.pollForWeb3();
     return true;
   }
 
