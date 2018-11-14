@@ -501,7 +501,10 @@ export default {
           this.setError(code);
         }
       } else {
-        await firebaseSendSignInEmail(email);
+        await firebaseSendSignInEmail(email, {
+          referrer: this.referrer,
+          sourceURL: this.sourceURL,
+        });
         this.currentTab = 'checkInbox';
       }
     },
