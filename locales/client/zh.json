@@ -651,6 +651,44 @@
       }
     }
   },
+  "AuthDialog": {
+    "label": {
+      "loading": "載入中",
+      "signingIn": "登入中",
+      "signInError": "登入時發生錯誤",
+      "checkInbox": "請檢查你的郵箱",
+      "checkInboxDescription": "我們剛剛發了一條確認鏈結到電郵地址 {email}。請點擊鏈結，然後登入。",
+      "loginSuccessful": "成功登入"
+    },
+    "SignIn": {
+      "title": "登入 / 註冊",
+      "description": "用以下任何一種方法",
+      "label": {
+        "or": "或",
+        "with": ""
+      },
+      "button": {
+        "email": "電郵",
+        "wallet": "以加密貨幣錢包登入/註冊"
+      }
+    },
+    "SignInWithEmail": {
+      "title": "登入 / 註冊",
+      "description": "請輸入電郵以登入",
+      "label": {
+        "email": "你的電郵地址"
+      },
+      "button": {
+        "back": "← 所有登入方式"
+      }
+    },
+    "Register": {
+      "title": "歡迎",
+      "button": {
+        "uploadAvatar": "上傳頭像"
+      }
+    }
+  },
   "WalletNoticeDialog": {
     "allSignInOptions": "其他登入方式",
     "page": [
