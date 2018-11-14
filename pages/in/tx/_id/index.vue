@@ -184,7 +184,7 @@ export default {
       remarks: '',
       timestamp: 0,
       value: '', // BN in string
-      amount: 0,
+      amount: '0',
       updateTimer: null,
       httpReferrer: undefined,
       ETHERSCAN_HOST,
