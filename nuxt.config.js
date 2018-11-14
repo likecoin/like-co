@@ -167,11 +167,6 @@ module.exports = {
         path: '/pay/:merchantId/:amount?',
         component: resolve(__dirname, 'pages/pay/_merchantId/index.vue'),
       });
-      routes.unshift({
-        name: 'in-free',
-        path: '/in/free',
-        component: resolve(__dirname, 'pages/in/redeem.vue'),
-      });
     },
   },
   /*
