@@ -98,12 +98,13 @@
               lc-bg-gray-1
               lc-container-no-padding-mobile
               lc-margin-top-32
-              lc-padding-bottom-8"
+              lc-padding-bottom-32"
           >
             <div
               class="lc-container-4 lc-font-size-32 lc-font-weight-300 lc-mobile lc-padding-top-24"
             >
               {{ $t('In.mansory.title') }}
+              <!-- TODO: Temp hide refresh button until query updates
               <div
                 class="lc-container-header-button-wrapper lc-mobile-hide lc-padding-top-24"
               >
@@ -112,6 +113,7 @@
                   @click="refreshLikeSuggestion"
                 />
               </div>
+              -->
             </div>
             <div class="lc-container-4">
               <mansory-article-list
@@ -127,6 +129,7 @@
             </div>
           </div>
 
+          <!-- TODO: Temp hide like button adopter (media using like button)
           <div
             v-if="!isWallet"
             class="
@@ -164,6 +167,7 @@
             </div>
             <like-button-adopter />
           </div>
+          -->
 
           <!-- TODO: Temp hide before civic liker release
           <div
@@ -366,6 +370,8 @@ export default {
   }
   &__cta {
     flex: 1;
+
+    margin-top: 16px;
 
     text-align: right;
   }
