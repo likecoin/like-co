@@ -157,6 +157,7 @@
                   lc-font-size-12
                   lc-font-weight-300
                   lc-padding-top-24
+                  lc-margin-top-16
                   in-button-adopter__cta
                 "
               >
@@ -370,8 +371,6 @@ export default {
   }
   &__cta {
     flex: 1;
-
-    margin-top: 16px;
 
     text-align: right;
   }

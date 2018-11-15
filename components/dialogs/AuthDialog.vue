@@ -87,7 +87,7 @@
         >
           <register-form
             :prefilled-data="signInPayload"
-            :is-edit-email="shouldSignUpEditEmail"
+            :is-edit-email="isEmailEditable"
             @register="register"
           />
         </div>
@@ -276,9 +276,11 @@ export default {
     shouldShowDialog() {
       return this.getIsShowAuthDialog && !this.shouldHideDialog;
     },
-    shouldSignUpEditEmail() {
-      return (!(this.signInPayload.isEmailVerified && this.platform === 'google')
-        && this.platform !== 'email');
+    isEmailEditable() {
+      return (
+        !(this.signInPayload.isEmailVerified && this.platform === 'google')
+        && this.platform !== 'email'
+      );
     },
     errorMessage() {
       return this.errorCode && this.$i18n.te(`Error.${this.errorCode}`, 'en') ? (
