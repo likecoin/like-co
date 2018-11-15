@@ -48,8 +48,9 @@ export async function loginUser({ commit, dispatch }, data) {
   return true;
 }
 
-export async function linkPlatformToUser(ctx, data) {
-  await apiWrapper(ctx, api.apiLinkAuthPlatform(data), { blocking: true });
+export async function linkWalletToUser({ commit, dispatch }, data) {
+  await apiWrapper({ commit, dispatch }, api.apiLinkAuthWallet(data), { blocking: true });
+  await dispatch('refreshUser');
   return true;
 }
 
