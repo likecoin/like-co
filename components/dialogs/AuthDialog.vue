@@ -74,6 +74,7 @@
         >
           <email-signin-form
             :is-show-back="!isSigningInWithEmail"
+            :is-re-enter="errorCode === 'FIREBASE_EMAIL_LINK_AUTH_NO_EMAIL'"
             @submit="signInWithEmail"
             @cancel="currentTab = 'portal'"
           />
@@ -328,6 +329,7 @@ export default {
           // User opened the link on a different device. To prevent session fixation attacks, ask
           // the user to provide the associated email again
           this.currentTab = 'email';
+          this.errorCode = 'FIREBASE_EMAIL_LINK_AUTH_NO_EMAIL';
         } else {
           this.setError();
           this.isSigningInWithEmail = false;
