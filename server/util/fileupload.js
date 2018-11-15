@@ -45,7 +45,7 @@ export async function handleAvatarUploadAndGetURL(user, file, avatarSHA256) {
     if (hash256 !== avatarSHA256) throw new ValidationError('avatar sha not match');
   }
 
-  const resizedBuffer = await sharp(file.buffer).resize(400, 400).toBuffer();
+  const resizedBuffer = await sharp(file.buffer).rotate().resize(400, 400).toBuffer();
   file.buffer = resizedBuffer; // eslint-disable-line no-param-reassign
   const [avatarUrl] = await uploadFileAndGetLink(file, `likecoin_store_user_${user}_${IS_TESTNET ? 'test' : 'main'}`);
   return avatarUrl;
