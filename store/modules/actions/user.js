@@ -290,7 +290,7 @@ export async function sendInvitationEmail({ commit, dispatch, rootState }, data)
 export async function queryLikeCoinWalletBalance({ commit, state }) {
   try {
     if (!state.user.wallet) {
-      commit(types.USER_SET_LIKECOIN_BIG_NUMBER_AMOUNT, 0);
+      commit(types.USER_SET_LIKECOIN_BIG_NUMBER_AMOUNT, new BigNumber(0));
       return;
     }
     const balance = await EthHelper.queryLikeCoinBalance(state.user.wallet);
