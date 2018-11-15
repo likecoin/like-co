@@ -432,6 +432,10 @@ export default {
                 this.currentTab = 'portal';
                 break;
 
+              case 'auth/web-storage-unsupported':
+                this.setError('USER_AUTH_THRID_PARTY_COOKIE_BLOCKED');
+                break;
+
               default:
                 console.error(err);
                 this.setError();
