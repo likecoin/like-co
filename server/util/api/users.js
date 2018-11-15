@@ -243,7 +243,7 @@ export async function checkEmailIsSoleLogin(id) {
     authDbRef.doc(id).get(),
   ]);
   const user = userDoc.data();
-  const userHasOauth = authDoc.exists && Object.keys(authDoc.data()) > 0;
+  const userHasOauth = authDoc.exists && Object.keys(authDoc.data()).length;
   const { wallet } = user;
   return (!wallet && !userHasOauth);
 }
