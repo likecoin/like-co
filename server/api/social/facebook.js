@@ -4,7 +4,6 @@ import publisher from '../../util/gcloudPub';
 import { jwtAuth } from '../../util/jwt';
 import { checkPlatformAlreadyLinked, socialLinkFacebook } from '../../util/api/social';
 import { ValidationError } from '../../../util/ValidationHelper';
-import { tryToLinkOAuthLogin } from '../../util/api/users';
 
 const { userCollection: dbRef } = require('../../util/firebase');
 
@@ -52,12 +51,6 @@ router.post('/social/link/facebook', jwtAuth('write'), async (req, res, next) =>
       appId,
       pages,
     } = await socialLinkFacebook(user, accessToken);
-
-    await tryToLinkOAuthLogin({
-      likeCoinId: user,
-      platform,
-      platformUserId: userId,
-    });
 
     res.json({
       platform,
