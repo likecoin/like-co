@@ -688,9 +688,13 @@ router.get('/users/addr/:addr/min', async (req, res, next) => {
   }
 });
 
-router.post('/email/verify/user/:id/', async (req, res, next) => {
+router.post('/email/verify/user/:id/', jwtAuth('write'), async (req, res, next) => {
   try {
     const username = req.params.id;
+    if (req.user.user !== username) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
     const { coupon, ref } = req.body;
     const userRef = dbRef.doc(username);
     const doc = await userRef.get();
@@ -746,12 +750,16 @@ router.post('/email/verify/user/:id/', async (req, res, next) => {
   }
 });
 
-router.post('/email/verify/:uuid', async (req, res, next) => {
+router.post('/email/verify/:uuid', jwtAuth('write'),async (req, res, next) => {
   try {
     const verificationUUID = req.params.uuid;
     const query = await dbRef.where('verificationUUID', '==', verificationUUID).get();
     if (query.docs.length > 0) {
       const [user] = query.docs;
+      if (req.user.user !== user.id) {
+        res.status(401).send('LOGIN_NEEDED');
+        return;
+      }
       await user.ref.update({
         lastVerifyTs: FieldValue.delete(),
         verificationUUID: FieldValue.delete(),
