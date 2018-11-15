@@ -1,6 +1,8 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
+const URL = require('url-parse');
+
 const config = {
   apiKey: process.env.FIREBASE_API_KEY,
   authDomain: `${process.env.FIREBASE_PROJECT_ID}.firebaseapp.com`,
@@ -101,9 +103,17 @@ export async function firebaseEmailLinkUser(email) {
     .currentUser.linkAndRetrieveDataWithCredential(credential);
 }
 
-export async function firebaseSendSignInEmail(email) {
+export async function firebaseSendSignInEmail(email, { referrer = null, sourceURL = null }) {
+  const url = new URL(window.location.href, true);
+  if (referrer) {
+    url.query.referrer = referrer;
+  }
+  if (sourceURL) {
+    url.query.sourceURL = sourceURL;
+  }
+  url.set('query', url.query);
   const actionCodeSettings = {
-    url: window.location.href,
+    url: url.toString(),
     handleCodeInApp: true,
   };
   await firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings);
