@@ -560,7 +560,7 @@ export default {
           ...this.signInPayload,
         });
         this.setUserNeedAuth(false);
-        this.redirectToUserPage();
+        this.redirectAfterSignIn();
       } catch (err) {
         if (err.response) {
           if (err.response.status === 404) {
@@ -647,7 +647,7 @@ export default {
       try {
         await apiPostNewUser(payload);
         this.setUserNeedAuth(false);
-        this.redirectToUserPage();
+        this.redirectAfterSignIn();
       } catch (err) {
         let errCode;
         if (err.response && err.response.data) {
@@ -671,7 +671,7 @@ export default {
         this.setError(errCode);
       }
     },
-    async redirectToUserPage() {
+    async redirectAfterSignIn() {
       this.currentTab = 'loading';
       await this.refreshUser();
 
@@ -691,13 +691,16 @@ export default {
             window.close();
           } else {
             // Normal case
-            this.$router.push({ name: 'in' });
+            this.redirectToPreAuthPage();
           }
         });
       } else {
-        const router = this.$router;
-        this.doPostAuthRedirect({ router });
+        this.redirectToPreAuthPage();
       }
+    },
+    redirectToPreAuthPage() {
+      const router = this.$router;
+      this.doPostAuthRedirect({ router });
     },
   },
 };
