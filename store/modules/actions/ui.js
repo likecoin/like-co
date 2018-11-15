@@ -117,3 +117,7 @@ export async function setNotification({ commit, dispatch }, payload) {
 export const setAuthDialog = ({ commit }, payload) => {
   commit(types.UI_SET_AUTH_DIALOG, payload);
 };
+
+export const setWalletNoticeDialog = ({ commit }, payload) => {
+  commit(types.UI_SET_WALLET_NOTICE_DIALOG, payload);
+};
