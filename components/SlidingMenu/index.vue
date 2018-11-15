@@ -5,7 +5,10 @@
       @click="closeSlidingMenu"
     />
     <div class="lc-sliding-menu-wrapper">
-      <nav class="lc-sliding-menu">
+      <nav
+        :style="slidingMenuStyle"
+        class="lc-sliding-menu"
+      >
         <div>
 
           <div class="language-switch-wrapper">
@@ -107,6 +110,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import { checkIsMobileClient } from '~/util/client';
 
 import HomeIcon from '@/assets/icons/home.svg';
 import SettingsIcon from '@/assets/icons/settings.svg';
@@ -177,6 +181,9 @@ export default {
       MENU_ITEMS,
       HomeIcon,
       SettingsIcon,
+      slidingMenuStyle: {
+        height: '100vh',
+      },
     };
   },
   computed: {
@@ -186,6 +193,14 @@ export default {
       'getUserNeedAuth',
       'getIsSlidingMenuOpen',
     ]),
+  },
+  watch: {
+    getIsSlidingMenuOpen(isOpen) {
+      if (isOpen && checkIsMobileClient()) {
+        // Fix view port unit issue in mobile device
+        this.slidingMenuStyle.height = `${window.innerHeight}px`;
+      }
+    },
   },
   methods: {
     ...mapActions([
@@ -228,8 +243,6 @@ export default {
 
 .lc-sliding-menu {
   position: relative;
-
-  height: 100vh;
 
   > div {
     position: absolute;
