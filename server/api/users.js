@@ -240,8 +240,13 @@ router.post('/users/new', apiLimiter, multer.single('avatarFile'), async (req, r
         createObj.verificationUUID = uuidv4();
 
         try {
-          await sendVerificationEmail(res, user, createObj.referrer);
+          await sendVerificationEmail(res, {
+            email,
+            displayName,
+            verificationUUID: createObj.verificationUUID,
+          }, createObj.referrer);
         } catch (err) {
+          console.error(err);
           // Do nothing
         }
       }
