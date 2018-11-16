@@ -5,7 +5,7 @@
         {{ $t('AuthDialog.SignInWithEmail.title') }}
       </h1>
       <p class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-32">
-        {{ $t('AuthDialog.SignInWithEmail.description') }}
+        {{ $t(`AuthDialog.SignInWithEmail.description${isReEnter ? 'ReEnter' : '' }`) }}
       </p>
     </div>
 
@@ -66,6 +66,10 @@ export default {
     isShowBack: {
       type: [Boolean, String],
       default: true,
+    },
+    isReEnter: {
+      type: [Boolean, String],
+      default: false,
     },
   },
   data() {

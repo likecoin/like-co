@@ -691,6 +691,7 @@
     "SignInWithEmail": {
       "title": "Sign in / Sign up",
       "description": "Enter your email to sign in",
+      "descriptionReEnter": "Re-enter your email to sign in",
       "label": {
         "email": "Your email"
       },
