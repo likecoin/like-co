@@ -60,3 +60,10 @@ export const getIsSlidingMenuOpen = state => state.isSlidingMenuOpen;
 export const getIsShowingPromptNotificationDialog = state => state.isShowingPromptNotificationDialog;
 
 export const getIsShowAuthDialog = state => state.isShowAuthDialog;
+
+export const getIsShowWalletNoticeDialog = state => state.isShowWalletNoticeDialog;
+export const getWalletNoticeDialogCancelTitle = state => state.walletNoticeDialogCancelTitle;
+export const getWalletNoticeDialogCancelCallback = state => state.walletNoticeDialogCancelCallback;
+export const getWalletNoticeDialogConfirmCallback = state => (
+  state.walletNoticeDialogConfirmCallback
+);

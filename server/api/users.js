@@ -519,71 +519,26 @@ router.post('/users/logout', (req, res) => {
   res.sendStatus(200);
 });
 
-router.post('/users/login/add', jwtAuth('write'), async (req, res, next) => {
+router.post('/users/login/wallet/add', jwtAuth('write'), async (req, res, next) => {
   try {
-    const { user, platform } = req.body;
+    const { user } = req.body;
     if (req.user.user !== user) {
       res.status(401).send('LOGIN_NEEDED');
       return;
     }
-    if (!platform) throw new ValidationError('INVALID_PLATFORM');
 
-    if (platform === 'wallet') {
-      const {
-        from,
-        payload: stringPayload,
-        sign,
-      } = req.body;
-      const wallet = from;
-      const isLogin = false;
-      const payload = checkSignPayload(wallet, stringPayload, sign, isLogin);
-      if (payload !== user) throw new ValidationError('WALLET_NOT_MATCH');
-      const query = await dbRef.where('wallet', '==', wallet).get();
-      if (query.docs.length > 0) throw new ValidationError('WALLET_ALREADY_USED');
-      await dbRef.doc(user).update({ wallet });
-    } else {
-      const { accessToken, secret, firebaseIdToken } = req.body;
-      const { uid: firebaseUserId } = await admin.auth().verifyIdToken(firebaseIdToken);
-      const query = await dbRef.where('firebaseUserId', '==', firebaseUserId).get();
-      if (query.docs.length > 0) {
-        query.forEach((doc) => {
-          const docUser = doc.id;
-          if (user !== docUser) {
-            throw new ValidationError('FIREBASE_USER_DUPLICATED');
-          }
-        });
-      } else {
-        await dbRef.doc(user).update({ firebaseUserId });
-      }
+    const {
+      from,
+      payload: stringPayload,
+      sign,
+    } = req.body;
+    const wallet = from;
+    const isLogin = false;
+    checkSignPayload(wallet, stringPayload, sign, isLogin);
+    const query = await dbRef.where('wallet', '==', wallet).get();
+    if (query.docs.length > 0) throw new ValidationError('WALLET_ALREADY_USED');
+    await dbRef.doc(user).update({ wallet });
 
-      const socialPayload = await tryToLinkSocialPlatform(user, platform, { accessToken, secret });
-
-      if (socialPayload) {
-        const userDoc = await dbRef.doc(user).get();
-        const {
-          email,
-          displayName,
-          wallet,
-          referrer,
-          locale,
-          timestamp,
-        } = userDoc.data();
-        publisher.publish(PUBSUB_TOPIC_MISC, req, {
-          logType: 'eventSocialLink',
-          platform,
-          user,
-          email,
-          displayName,
-          wallet,
-          referrer,
-          locale,
-          registerTime: timestamp,
-          ...socialPayload,
-        });
-      }
-
-      /* TODO: update firebase auth linked platform info in a subcollection? */
-    }
     res.sendStatus(200);
   } catch (err) {
     next(err);

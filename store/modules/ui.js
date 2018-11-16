@@ -31,6 +31,7 @@ import {
   UI_SET_PROMPT_NOTIFICATION_DIALOG,
   UI_SET_SIGN_PAYLOAD_OBJECT,
   UI_SET_AUTH_DIALOG,
+  UI_SET_WALLET_NOTICE_DIALOG,
 } from '../mutation-types';
 import * as getters from './getters/ui';
 import * as actions from './actions/ui';
@@ -60,6 +61,10 @@ const state = {
   txDialogActionText: '',
   isShowingPromptNotificationDialog: false,
   isShowAuthDialog: false,
+  isShowWalletNoticeDialog: false,
+  walletNoticeDialogCancelTitle: '',
+  walletNoticeDialogCancelCallback: null,
+  walletNoticeDialogConfirmCallback: null,
   popupDialogs: [],
 };
 
@@ -179,6 +184,12 @@ const mutations = {
   },
   [UI_SET_AUTH_DIALOG](state, payload) {
     state.isShowAuthDialog = !!payload.isShow;
+  },
+  [UI_SET_WALLET_NOTICE_DIALOG](state, payload) {
+    state.isShowWalletNoticeDialog = !!payload.isShow;
+    state.walletNoticeDialogCancelTitle = payload.cancelTitle || '';
+    state.walletNoticeDialogCancelCallback = payload.onCancel || (() => {});
+    state.walletNoticeDialogConfirmCallback = payload.onConfirm || (() => {});
   },
 };
 

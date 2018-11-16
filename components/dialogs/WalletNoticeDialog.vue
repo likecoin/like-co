@@ -1,7 +1,6 @@
 <template>
   <md-dialog
     :md-active="isShow"
-    :md-backdrop="false"
     class="wallet-notice-dialog"
     @update:md-active="updateIsShow"
   >
@@ -13,7 +12,7 @@
         @click="onCancel"
       >
         <md-icon>arrow_back</md-icon>
-        <span>{{ $t('WalletNoticeDialog.allSignInOptions') }}</span>
+        <span>{{ cancelTitle || $t('General.button.cancel') }}</span>
       </md-button>
     </div>
 
@@ -163,6 +162,10 @@ export default {
       type: [Boolean, String],
       default: false,
     },
+    cancelTitle: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -211,7 +214,7 @@ export default {
   methods: {
     getAsset,
     updateIsShow(isShow) {
-      this.$emit('update:isShow', isShow);
+      this.$emit('update:is-show', isShow);
     },
     setContentHeight() {
       const elem = this.$refs[`page${this.pageIndex + 1}`];
@@ -222,15 +225,15 @@ export default {
       }
     },
     onCancel() {
-      this.updateIsShow(false);
       this.$emit('cancel');
+      this.updateIsShow(false);
     },
     onProceed() {
       if (this.pageIndex < PAGE_COUNT - 1) {
         this.pageIndex += 1;
       } else {
-        this.updateIsShow(false);
         this.$emit('confirm');
+        this.updateIsShow(false);
       }
     },
   },

@@ -4,6 +4,14 @@
 
       <auth-dialog />
 
+      <wallet-notice-dialog
+        :is-show="getIsShowWalletNoticeDialog"
+        :cancel-title="getWalletNoticeDialogCancelTitle"
+        @update:is-show="setWalletNoticeDialog({ isShow: $event })"
+        @cancel="getWalletNoticeDialogCancelCallback()"
+        @confirm="getWalletNoticeDialogConfirmCallback()"
+      />
+
       <popup-dialog
         v-for="d in getPopupDialogs"
         :key="d.uuid"
@@ -124,6 +132,7 @@ import BlockerDialog from '~/components/dialogs/BlockerDialog';
 import ChromeDialog from '~/components/dialogs/ChromeDialog';
 import MetamaskDialog from '~/components/dialogs/MetamaskDialog';
 import AuthDialog from '~/components/dialogs/AuthDialog';
+import WalletNoticeDialog from '~/components/dialogs/WalletNoticeDialog';
 import PopupDialog from '~/components/dialogs/PopupDialog';
 import TrustDialog from '~/components/dialogs/TrustDialog';
 import TxDialog from '~/components/dialogs/TxDialog';
@@ -139,6 +148,7 @@ export default {
     ChromeDialog,
     MetamaskDialog,
     AuthDialog,
+    WalletNoticeDialog,
     PopupDialog,
     TrustDialog,
     TxDialog,
@@ -176,6 +186,10 @@ export default {
       'getTxDialogActionRoute',
       'getTxDialogActionText',
       'getPendingTxInfo',
+      'getIsShowWalletNoticeDialog',
+      'getWalletNoticeDialogCancelTitle',
+      'getWalletNoticeDialogCancelCallback',
+      'getWalletNoticeDialogConfirmCallback',
     ]),
   },
   watch: {
@@ -206,6 +220,7 @@ export default {
       'closeInfoToolbar',
       'openPopupDialog',
       'closePopupDialog',
+      'setWalletNoticeDialog',
     ]),
     checkIsMobileClient,
     checkShouldShowError(err) {

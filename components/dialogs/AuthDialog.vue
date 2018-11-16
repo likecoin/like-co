@@ -171,12 +171,6 @@
 
     </div>
 
-    <wallet-notice-dialog
-      :is-show.sync="isShowWalletNotice"
-      @cancel="currentTab = 'portal'"
-      @confirm="currentTab = 'register'"
-    />
-
   </base-dialog>
 </template>
 
@@ -203,7 +197,6 @@ import BaseDialog from '~/components/dialogs/BaseDialog';
 import SigninPortal from './AuthDialogContent/SignInPortal';
 import EmailSigninForm from './AuthDialogContent/SignInWithEmail';
 import RegisterForm from './AuthDialogContent/Register';
-import WalletNoticeDialog from './WalletNoticeDialog';
 import EthMixin from '~/components/EthMixin';
 
 import User from '@/util/User';
@@ -222,7 +215,6 @@ export default {
     SigninPortal,
     EmailSigninForm,
     RegisterForm,
-    WalletNoticeDialog,
   },
   mixins: [EthMixin],
   props: {
@@ -246,8 +238,6 @@ export default {
 
       errorCode: '',
       isSigningInWithEmail: false,
-
-      isShowWalletNotice: false,
 
       referrer: null,
       sourceURL: null,
@@ -342,6 +332,7 @@ export default {
     ...mapActions([
       'doPostAuthRedirect',
       'setAuthDialog',
+      'setWalletNoticeDialog',
       'setUserNeedAuth',
       'refreshUser',
       'showLoginWindow',
@@ -418,7 +409,14 @@ export default {
 
         case 'wallet':
           this.currentTab = 'loading';
-          this.startWeb3AndCb(this.signInWithWallet);
+          this.setWalletNoticeDialog({
+            isShow: true,
+            cancelTitle: this.$t('WalletNoticeDialog.allSignInOptions'),
+            onCancel: () => {
+              this.currentTab = 'portal';
+            },
+            onConfirm: () => this.startWeb3AndCb(this.signInWithWallet),
+          });
           return;
 
         case 'google':
@@ -528,7 +526,7 @@ export default {
             this.signInPayload = {
               wallet: this.getLocalWallet,
             };
-            this.isShowWalletNotice = true;
+            this.currentTab = 'register';
             return;
           }
         }
@@ -562,7 +560,7 @@ export default {
           ...this.signInPayload,
         });
         this.setUserNeedAuth(false);
-        this.redirectToUserPage();
+        this.redirectAfterSignIn();
       } catch (err) {
         if (err.response) {
           if (err.response.status === 404) {
@@ -649,7 +647,7 @@ export default {
       try {
         await apiPostNewUser(payload);
         this.setUserNeedAuth(false);
-        this.redirectToUserPage();
+        this.redirectAfterSignIn();
       } catch (err) {
         let errCode;
         if (err.response && err.response.data) {
@@ -673,7 +671,7 @@ export default {
         this.setError(errCode);
       }
     },
-    async redirectToUserPage() {
+    async redirectAfterSignIn() {
       this.currentTab = 'loading';
       await this.refreshUser();
 
@@ -693,13 +691,16 @@ export default {
             window.close();
           } else {
             // Normal case
-            this.$router.push({ name: 'in' });
+            this.redirectToPreAuthPage();
           }
         });
       } else {
-        const router = this.$router;
-        this.doPostAuthRedirect({ router });
+        this.redirectToPreAuthPage();
       }
+    },
+    redirectToPreAuthPage() {
+      const router = this.$router;
+      this.doPostAuthRedirect({ router });
     },
   },
 };
