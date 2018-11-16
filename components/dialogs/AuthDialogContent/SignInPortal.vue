@@ -34,7 +34,7 @@
         Twitter
       </md-button>
 
-      <span class="lc-margin-vertical-8 lc-font-size-12">
+      <!-- <span class="lc-margin-vertical-8 lc-font-size-12">
         {{ $t('AuthDialog.SignIn.label.or') }}
       </span>
 
@@ -44,7 +44,7 @@
       >
         <md-icon :md-src="EmailIcon" />
         {{ $t('AuthDialog.SignIn.button.email') }}
-      </md-button>
+      </md-button> -->
 
       <div class="lc-margin-top-24">
         <a

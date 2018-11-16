@@ -61,7 +61,7 @@
           </div>
         </div>
 
-        <div
+        <!--<div
           v-else-if="currentTab === 'email'"
           ref="email"
           key="email"
@@ -79,7 +79,7 @@
             @cancel="currentTab = 'portal'"
           />
         </div>
-
+ -->
         <div
           v-else-if="currentTab === 'register'"
           ref="register"
