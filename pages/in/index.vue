@@ -255,7 +255,6 @@ export default {
   },
   data() {
     return {
-      wallet: '',
       EditIcon,
       EditWhiteIcon,
       TickIcon,
@@ -275,6 +274,9 @@ export default {
       'getUserIsRegistered',
       'getShortMissionList',
     ]),
+    wallet() {
+      return this.getUserInfo.wallet;
+    },
     isWallet() {
       return !!this.wallet;
     },
@@ -319,8 +321,6 @@ export default {
       this.refreshMissionList(this.getUserInfo.user);
     },
     updateInfo() {
-      const user = this.getUserInfo;
-      this.wallet = user.wallet;
       if (this.$refs.txHistory) this.$refs.txHistory.updateTokenSaleHistory();
       this.refreshMissions();
     },
