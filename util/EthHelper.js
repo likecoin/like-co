@@ -127,11 +127,12 @@ class EthHelper {
         this.wallet = '';
         if (this.onWalletCb) this.onWalletCb('');
         this.errCb('locked');
-        if (this.web3Type === 'window' && window.ethereum && this.isPromptEthereumPermission) {
+        if (this.web3Type === 'window' && window.ethereum) {
           try {
             await window.ethereum.enable();
           } catch (e) {
-            this.disablePromptEthereumPermission();
+            // disable if users do not approve metamask access
+            this.disableWeb3();
           }
         }
       }
@@ -477,14 +478,6 @@ class EthHelper {
 
   disableWeb3() {
     this.isInited = false;
-  }
-
-  promptForEthereumPermission() {
-    this.isPromptEthereumPermission = true;
-  }
-
-  disablePromptEthereumPermission() {
-    this.isPromptEthereumPermission = false;
   }
 }
 
