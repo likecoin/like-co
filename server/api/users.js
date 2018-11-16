@@ -655,28 +655,6 @@ router.get('/users/merchant/:id/min', async (req, res, next) => {
   }
 });
 
-router.get('/users/addr/:addr', jwtAuth('read'), async (req, res, next) => {
-  try {
-    const { addr } = req.params;
-    if (!Validate.checkAddressValid(addr)) throw new ValidationError('Invalid address');
-    if (req.user.wallet !== addr) {
-      res.status(401).send('LOGIN_NEEDED');
-      return;
-    }
-    const query = await dbRef.where('wallet', '==', addr).get();
-    if (query.docs.length > 0) {
-      const payload = query.docs[0].data();
-      if (!payload.avatar) payload.avatar = AVATAR_DEFAULT_PATH;
-      payload.user = query.docs[0].id;
-      res.json(Validate.filterUserData(payload));
-    } else {
-      res.sendStatus(404);
-    }
-  } catch (err) {
-    next(err);
-  }
-});
-
 router.get('/users/addr/:addr/min', async (req, res, next) => {
   try {
     const { addr } = req.params;

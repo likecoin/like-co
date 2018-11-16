@@ -6,8 +6,6 @@ const LIKECOIN_MISC_API_BASE = `https://${EXTERNAL_HOSTNAME}`;
 
 export const apiCheckIsUser = addr => axios.get(`/api/users/addr/${addr}/min`);
 
-export const apiGetUserByAddr = addr => axios.get(`/api/users/addr/${addr}`);
-
 export const apiGetUserById = id => axios.get(`/api/users/id/${id}`);
 
 export const apiGetUserMinById = id => axios.get(`/api/users/id/${id}/min`);
