@@ -311,26 +311,6 @@ test('USER: Get user by merchant id min', async (t) => {
   t.is(res.data.wallet, testingWallet1);
 });
 
-test('USER: Get user by address', async (t) => {
-  const wallet = testingWallet1;
-  const token = jwtSign({ wallet });
-  let res = await axiosist.get(`/api/users/addr/${wallet}`)
-    .catch(err => err.response);
-
-  t.is(res.status, 401);
-
-  res = await axiosist.get(`/api/users/addr/${wallet}`, {
-    headers: {
-      Cookie: `likecoin_auth=${token}`,
-    },
-  }).catch(err => err.response);
-
-  t.is(res.status, 200);
-  t.is(res.data.user, testingUser1);
-  t.is(res.data.wallet, testingWallet1);
-  t.is(res.data.displayName, testingDisplayName1);
-});
-
 test('USER: Get user by address min', async (t) => {
   let wallet = testingWallet1;
   let res = await axiosist.get(`/api/users/addr/${wallet}/min`)

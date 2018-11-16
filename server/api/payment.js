@@ -325,10 +325,23 @@ router.get('/tx/id/:id', async (req, res, next) => {
 router.get('/tx/history/addr/:addr', jwtAuth('read'), async (req, res, next) => {
   try {
     const { addr } = req.params;
-    if (req.user.wallet !== addr) {
-      res.status(401).send('LOGIN_NEEDED');
+
+    if (!Validate.checkAddressValid(addr)) {
+      throw new ValidationError('Invalid address');
+    }
+
+    const query = await dbRef.where('wallet', '==', addr).get();
+    if (query.docs.length > 0) {
+      const [user] = query.docs;
+      if (req.user.user !== user.id) {
+        res.status(401).send('LOGIN_NEEDED');
+        return;
+      }
+    } else {
+      res.sendStatus(404);
       return;
     }
+
     let { ts, count } = req.query;
     ts = Number(ts);
     if (!ts || Number.isNaN(ts)) ts = Date.now();
