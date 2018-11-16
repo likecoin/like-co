@@ -331,8 +331,8 @@ export default {
     }
 
     const { from, referrer } = this.$route.query;
-    if (from && from !== 'undefined') this.referrer = from;
-    if (referrer && referrer !== 'undefined') this.sourceURL = referrer;
+    if (from) this.referrer = from;
+    if (referrer) this.sourceURL = referrer;
   },
   methods: {
     ...mapActions([
