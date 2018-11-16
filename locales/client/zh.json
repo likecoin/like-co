@@ -222,13 +222,16 @@
     },
     "item": {
       "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
+      "bonus": "LikeCoin 奬勵",
+      "earnLikeCoin": "賺取 LikeCoin",
       "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
       "tokenSale": "@:TokenSale.title",
       "whitepaper": "@:Whitepaper.Button.whitepaper",
       "support": "@:Footer.button.support",
       "press": "媒體",
       "poc": "概念驗證",
-      "settings": "設定"
+      "settings": "設定",
+      "logout": "登出"
     }
   },
   "Sign": {
