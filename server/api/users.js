@@ -441,6 +441,10 @@ router.post('/users/login', async (req, res, next) => {
                 const userQuery = await dbRef.where('email', '==', email).get();
                 if (userQuery.docs.length > 0) {
                   const [userDoc] = userQuery.docs;
+                  const { firebaseUserId: currentFirebaseUserId } = userDoc.data();
+                  if (currentFirebaseUserId && firebaseUserId !== currentFirebaseUserId) {
+                    throw new Error('USER_ID_ALREADY_LINKED');
+                  }
                   await userDoc.ref.update({
                     firebaseUserId,
                     isEmailVerified: true,
@@ -750,7 +754,7 @@ router.post('/email/verify/user/:id/', jwtAuth('write'), async (req, res, next) 
   }
 });
 
-router.post('/email/verify/:uuid', jwtAuth('write'),async (req, res, next) => {
+router.post('/email/verify/:uuid', jwtAuth('write'), async (req, res, next) => {
   try {
     const verificationUUID = req.params.uuid;
     const query = await dbRef.where('verificationUUID', '==', verificationUUID).get();
@@ -765,6 +769,14 @@ router.post('/email/verify/:uuid', jwtAuth('write'),async (req, res, next) => {
         verificationUUID: FieldValue.delete(),
         isEmailVerified: true,
       });
+      const userObj = user.data();
+      const { email, firebaseUserId } = userObj;
+      if (firebaseUserId) {
+        await admin.auth().updateUser(firebaseUserId, {
+          email,
+          emailVerified: true,
+        });
+      }
 
       const promises = [];
       const payload = { done: true };
@@ -777,7 +789,6 @@ router.post('/email/verify/:uuid', jwtAuth('write'),async (req, res, next) => {
       promises.push(dbRef.doc(user.id).collection('mission').doc('verifyEmail').set(payload, { merge: true }));
       await Promise.all(promises);
       res.json({ referrer: !!user.data().referrer, wallet: user.data().wallet });
-      const userObj = user.data();
       publisher.publish(PUBSUB_TOPIC_MISC, req, {
         logType: 'eventVerify',
         user: user.id,
