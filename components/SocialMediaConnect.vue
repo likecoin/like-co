@@ -68,6 +68,7 @@
                 <md-select
                   v-if="linkedFacebookAc"
                   v-model="linkedFacebookAc"
+                  class="social-select-field"
                   @md-selected="onSelectFacebookPageLink"
                 >
                   <md-option
@@ -541,6 +542,12 @@ $hover-color-map: (
           }
         }
       }
+    }
+  }
+
+  .social-select-field {
+    :global(.md-input) {
+      padding-bottom: 4px;
     }
   }
 }

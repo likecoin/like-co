@@ -65,7 +65,6 @@
           </md-field>
 
           <md-field
-            v-if="isShowEmail"
             :class="[
               'lc-margin-top-12 lc-margin-bottom-24 lc-mobile',
               {
@@ -76,6 +75,7 @@
             <label>{{ $t('Register.form.email') }}</label>
             <md-input
               v-model="email"
+              :disabled="!isEditEmail"
               :pattern="W3C_EMAIL_REGEX"
               :title="$t('Register.form.error.emailFormat')"
               required
@@ -147,7 +147,7 @@ export default {
       type: Object,
       default: () => {},
     },
-    isShowEmail: {
+    isEditEmail: {
       type: Boolean,
       default: true,
     },
@@ -179,7 +179,7 @@ export default {
     isFormValid() {
       const isIdValid = new RegExp(LIKECOIN_ID_REGEX).test(this.likeCoinId);
       const isEmailValid = (
-        !this.isShowEmail
+        !this.isEditEmail
         || new RegExp(W3C_EMAIL_REGEX).test(this.email)
       );
       return this.isTermsAgreed && isEmailValid && isIdValid;

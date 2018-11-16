@@ -51,6 +51,13 @@ export default {
 
   &__image {
     flex: 2;
+
+    img {
+      display: block;
+
+      margin-right: auto;
+      margin-left: auto;
+    }
   }
 
   @media (max-width: 600px) {
