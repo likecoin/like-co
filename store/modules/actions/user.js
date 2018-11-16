@@ -18,8 +18,21 @@ import {
 
 
 export function doUserAuth({ commit }, { router, route }) {
-  if (route) commit(types.USER_SET_AFTER_AUTH_ROUTE, route);
-  router.push({ name: 'in-register-login', query: route.query });
+  if (route) {
+    const {
+      params,
+      name,
+      query,
+      hash,
+    } = route;
+    commit(types.USER_SET_AFTER_AUTH_ROUTE, {
+      params,
+      name,
+      query,
+      hash,
+    });
+  }
+  router.push({ name: 'in-register', query: route.query });
 }
 
 export function doPostAuthRedirect({ commit, state }, { router }) {

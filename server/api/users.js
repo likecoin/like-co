@@ -441,6 +441,10 @@ router.post('/users/login', async (req, res, next) => {
                 const userQuery = await dbRef.where('email', '==', email).get();
                 if (userQuery.docs.length > 0) {
                   const [userDoc] = userQuery.docs;
+                  const { firebaseUserId: currentFirebaseUserId } = userDoc.data();
+                  if (currentFirebaseUserId && firebaseUserId !== currentFirebaseUserId) {
+                    throw new Error('USER_ID_ALREADY_LINKED');
+                  }
                   await userDoc.ref.update({
                     firebaseUserId,
                     isEmailVerified: true,
@@ -688,9 +692,13 @@ router.get('/users/addr/:addr/min', async (req, res, next) => {
   }
 });
 
-router.post('/email/verify/user/:id/', async (req, res, next) => {
+router.post('/email/verify/user/:id/', jwtAuth('write'), async (req, res, next) => {
   try {
     const username = req.params.id;
+    if (req.user.user !== username) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
     const { coupon, ref } = req.body;
     const userRef = dbRef.doc(username);
     const doc = await userRef.get();
@@ -746,17 +754,29 @@ router.post('/email/verify/user/:id/', async (req, res, next) => {
   }
 });
 
-router.post('/email/verify/:uuid', async (req, res, next) => {
+router.post('/email/verify/:uuid', jwtAuth('write'), async (req, res, next) => {
   try {
     const verificationUUID = req.params.uuid;
     const query = await dbRef.where('verificationUUID', '==', verificationUUID).get();
     if (query.docs.length > 0) {
       const [user] = query.docs;
+      if (req.user.user !== user.id) {
+        res.status(401).send('LOGIN_NEEDED');
+        return;
+      }
       await user.ref.update({
         lastVerifyTs: FieldValue.delete(),
         verificationUUID: FieldValue.delete(),
         isEmailVerified: true,
       });
+      const userObj = user.data();
+      const { email, firebaseUserId } = userObj;
+      if (firebaseUserId) {
+        await admin.auth().updateUser(firebaseUserId, {
+          email,
+          emailVerified: true,
+        });
+      }
 
       const promises = [];
       const payload = { done: true };
@@ -769,7 +789,6 @@ router.post('/email/verify/:uuid', async (req, res, next) => {
       promises.push(dbRef.doc(user.id).collection('mission').doc('verifyEmail').set(payload, { merge: true }));
       await Promise.all(promises);
       res.json({ referrer: !!user.data().referrer, wallet: user.data().wallet });
-      const userObj = user.data();
       publisher.publish(PUBSUB_TOPIC_MISC, req, {
         logType: 'eventVerify',
         user: user.id,
