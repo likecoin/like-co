@@ -287,12 +287,8 @@ export async function tryToUnlinkOAuthLogin({
   if (isSole) {
     // Make sure user has other sign in methods before unlink
     const userDoc = await dbRef.doc(likeCoinId).get();
-    const {
-      email,
-      isEmailVerified,
-      wallet,
-    } = userDoc.data();
-    if ((email && isEmailVerified) || wallet) {
+    const { wallet } = userDoc.data();
+    if (wallet) {
       await authDocRef.delete();
     } else {
       throw new ValidationError('USER_UNLINK_SOLE_OAUTH_LOGIN');
