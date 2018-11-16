@@ -5,7 +5,6 @@ import publisher from '../../util/gcloudPub';
 import { jwtAuth } from '../../util/jwt';
 import { checkPlatformAlreadyLinked, socialLinkTwitter } from '../../util/api/social';
 import { ValidationError } from '../../../util/ValidationHelper';
-import { tryToLinkOAuthLogin } from '../../util/api/users';
 
 const {
   userCollection: dbRef,
@@ -60,6 +59,7 @@ router.post('/social/link/twitter', jwtAuth('write'), async (req, res, next) => 
     if (token !== oAuthToken) {
       throw new ValidationError('oauth token not match');
     }
+
     const {
       userId,
       displayName,
@@ -71,12 +71,6 @@ router.post('/social/link/twitter', jwtAuth('write'), async (req, res, next) => 
       { token: oAuthToken, secret: oAuthTokenSecret, oAuthVerifier },
       false,
     );
-
-    await tryToLinkOAuthLogin({
-      likeCoinId: user,
-      platform,
-      platformUserId: userId,
-    });
 
     res.json({
       platform,

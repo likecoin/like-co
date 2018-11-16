@@ -243,7 +243,7 @@ export async function checkEmailIsSoleLogin(id) {
     authDbRef.doc(id).get(),
   ]);
   const user = userDoc.data();
-  const userHasOauth = authDoc.exists && Object.keys(authDoc.data()) > 0;
+  const userHasOauth = authDoc.exists && Object.keys(authDoc.data()).length;
   const { wallet } = user;
   return (!wallet && !userHasOauth);
 }
@@ -260,7 +260,7 @@ export async function tryToLinkOAuthLogin({
       .limit(1)
       .get()
   );
-  if (query.docs.length > 0) return;
+  if (query.docs.length > 0) return false;
 
   // Add or update auth doc
   const authDocRef = authDbRef.doc(likeCoinId);
@@ -269,6 +269,7 @@ export async function tryToLinkOAuthLogin({
       userId: platformUserId,
     },
   }, { merge: true });
+  return true;
 }
 
 export async function tryToUnlinkOAuthLogin({
@@ -278,10 +279,10 @@ export async function tryToUnlinkOAuthLogin({
   // Check if auth doc exists
   const authDocRef = authDbRef.doc(likeCoinId);
   const authDoc = await authDocRef.get();
-  if (!authDoc.exists) return;
+  if (!authDoc.exists) return false;
 
   const data = authDoc.data();
-  if (!data[platform]) return;
+  if (!data[platform]) return false;
   const isSole = Object.keys(data).length <= 1;
   if (isSole) {
     // Make sure user has other sign in methods before unlink
@@ -301,4 +302,5 @@ export async function tryToUnlinkOAuthLogin({
       [platform]: FieldValue.delete(),
     });
   }
+  return true;
 }
