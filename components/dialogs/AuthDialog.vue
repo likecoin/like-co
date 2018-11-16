@@ -240,8 +240,8 @@ export default {
       errorCode: '',
       isSigningInWithEmail: false,
 
-      referrer: null,
-      sourceURL: null,
+      referrer: '',
+      sourceURL: '',
     };
   },
   computed: {
@@ -330,8 +330,9 @@ export default {
       }
     }
 
-    this.referrer = this.$route.query.from;
-    this.sourceURL = this.$route.query.referrer;
+    const { from, referrer } = this.$route.query;
+    if (from && from !== 'undefined') this.referrer = from;
+    if (referrer && referrer !== 'undefined') this.sourceURL = referrer;
   },
   methods: {
     ...mapActions([
@@ -642,10 +643,8 @@ export default {
           this.$t('Sign.Message.registerUser'),
         );
       } else {
-        Object.assign(payload, {
-          referrer: this.referrer,
-          sourceURL: this.sourceURL,
-        });
+        if (this.referrer) payload.referrer = this.referrer;
+        if (this.sourceURL) payload.sourceURL = this.sourceURL;
       }
 
       this.currentTab = 'signingIn';
