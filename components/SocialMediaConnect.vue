@@ -123,7 +123,11 @@ import { mapActions, mapGetters } from 'vuex';
 import DeleteIcon from '~/assets/icons/cross.svg';
 import LikeCoinIcon from '~/assets/logo/icon.svg';
 
-import { EMAIL_REGEX } from '@/constant';
+import {
+  EMAIL_REGEX,
+  SOCIAL_MEDIA_LIST,
+  IS_LGOIN_SOCIAL,
+} from '@/constant';
 
 import { openURL } from '~/util/client';
 import { logTrackerEvent } from '@/util/EventLogger';
@@ -134,35 +138,6 @@ const TYPE = {
   MINI: 'mini',
   LARGE: 'large',
 };
-
-const SOCIAL_MEDIA_LIST = [
-  {
-    id: 'likecoin',
-    tier: 0,
-  },
-  {
-    id: 'facebook',
-    tier: 1,
-  },
-  {
-    id: 'flickr',
-    tier: 1,
-  },
-  {
-    id: 'medium',
-    tier: 1,
-  },
-  {
-    id: 'twitter',
-    tier: 1,
-  },
-  /*
-  {
-    id: 'instagram',
-    tier: 1,
-  },
-  */
-];
 
 const iconFolder = require.context('../assets/icons/social-media/');
 
@@ -280,19 +255,23 @@ export default {
         return LikeCoinIcon;
       }
     },
-    getIsConnected({ id, tier }) {
-      return !!this.platforms[id] || (
-        tier === 0 && (id === 'likecoin' && this.userLink)
+    getIsConnected({ id, tier } = {}) {
+      const platform = this.platforms[id];
+      return !this.getIsLegacyConnect(id, platform && platform.isLogin) && (
+        !!platform || (tier === 0 && (id === 'likecoin' && this.userLink))
       );
     },
     getSocialMediaUserDisplayName(id) {
       return this.platforms[id].displayName;
     },
+    getIsLegacyConnect(id, isLogin) {
+      return IS_LGOIN_SOCIAL.has(id) && !isLogin;
+    },
     onClickConnectButton(socialMedia) {
       const { id, tier } = socialMedia;
       const platform = this.platforms[id];
       const isConnected = !!platform || tier === 0;
-      if (!isConnected) {
+      if (!isConnected || this.getIsLegacyConnect(id, platform && platform.isLogin)) {
         this.connect(socialMedia);
       } else {
         const { url } = platform;
