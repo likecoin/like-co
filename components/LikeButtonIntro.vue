@@ -260,10 +260,12 @@ export default {
     },
     onClickStart() {
       this.$emit('start');
-      this.updateUserReadContentStatus({
-        id: this.getUserInfo.user,
-        payload: { likebuttonIntro: true },
-      });
+      if (this.getUserInfo.user) {
+        this.updateUserReadContentStatus({
+          id: this.getUserInfo.user,
+          payload: { likebuttonIntro: true },
+        });
+      }
     },
   },
 };

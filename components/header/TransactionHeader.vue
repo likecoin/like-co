@@ -145,8 +145,8 @@ export default {
       default: 0,
     },
     amount: {
-      type: Number,
-      default: 0,
+      type: String,
+      default: '0',
     },
     isNotFound: {
       type: Boolean,

@@ -1,20 +1,32 @@
 <template>
   <div class="account-overview">
     <div class="account-overview__user">
-      <img
-        :src="getUserInfo.avatar"
-        alt="avatar"
+      <nuxt-link
+        :to="{ 'name': 'in' }"
       >
+        <img
+          :src="getUserInfo.avatar"
+          alt="avatar"
+          @click="closeSlidingMenu"
+        >
+      </nuxt-link>
       <div class="account-overview__id lc-font-size-18 lc-font-weight-600">
         <span class="lc-color-gray-9b">ID:</span>
-        <span class="lc-color-like-green lc-line-height-1-2">
-          {{ getUserInfo.user }}
-        </span>
+        <nuxt-link
+          :to="{ 'name': 'in' }"
+        >
+          <span
+            class="lc-color-like-green lc-line-height-1-2"
+            @click="closeSlidingMenu"
+          >
+            {{ getUserInfo.user }}
+          </span>
+        </nuxt-link>
       </div>
     </div>
 
     <div
-      v-if="usdStrValue"
+      v-if="usdStrValue && getUserInfo.wallet"
       class="account-overview__account lc-padding-bottom-32"
     >
       <div class="account-overview__like-amount">
@@ -26,6 +38,10 @@
         (USD {{ usdStrValue }})
       </div>
     </div>
+    <div
+      v-else
+      class="account-overview__account lc-padding-bottom-48"
+    />
 
     <div class="account-overview__cta-wrapper lc-text-align-center">
       <div @click="closeSlidingMenu">
@@ -58,7 +74,6 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'getUserIsReady',
       'getUserIsRegistered',
       'getUserInfo',
       'getLikeCoinUsdNumericPrice',
@@ -76,16 +91,8 @@ export default {
       return null;
     },
   },
-  watch: {
-    getUserIsReady(isReady) {
-      if (isReady && this.getUserIsRegistered) {
-        this.queryLikeCoinUsdPrice();
-        this.queryLikeCoinWalletBalance();
-      }
-    },
-  },
   mounted() {
-    if (this.getUserIsReady && this.getUserIsRegistered) {
+    if (this.getUserIsRegistered) {
       this.queryLikeCoinUsdPrice();
       this.queryLikeCoinWalletBalance();
     }

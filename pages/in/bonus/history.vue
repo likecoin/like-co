@@ -1,5 +1,8 @@
 <template>
-  <div class="history-tab">
+  <div
+    v-if="getUserInfo.wallet"
+    class="history-tab"
+  >
 
     <!-- BEGIN - Completed Bonus Section -->
     <section class="lc-margin-top-48 lc-mobile">
@@ -94,27 +97,15 @@ export default {
   computed: {
     ...mapGetters([
       'getUserInfo',
-      'getUserIsReady',
       'getUserIsRegistered',
       'getMissionHistorylist',
       'getIsFetchedMissionHistory',
       'getIsFetchingMissionHistory',
     ]),
   },
-  watch: {
-    getUserIsReady(a) {
-      if (a) {
-        if (this.getUserIsRegistered) {
-          this.refreshHistory();
-        }
-      }
-    },
-  },
   mounted() {
-    if (this.getUserIsReady) {
-      if (this.getUserIsRegistered) {
-        this.refreshHistory();
-      }
+    if (this.getUserIsRegistered) {
+      this.refreshHistory();
     }
   },
   methods: {

@@ -2,19 +2,26 @@
   <no-ssr>
     <div class="toolbars">
 
-      <popup-dialog
-        v-if="checkShouldShowError(getPopupError)"
-        :allowClose="false"
-        :message="getPopupError"
-        :header="$t('General.label.Error')"
-        :confirmText="$t('General.button.confirm')"
+      <auth-dialog />
+
+      <wallet-notice-dialog
+        :is-show="getIsShowWalletNoticeDialog"
+        :cancel-title="getWalletNoticeDialogCancelTitle"
+        @update:is-show="setWalletNoticeDialog({ isShow: $event })"
+        @cancel="getWalletNoticeDialogCancelCallback()"
+        @confirm="getWalletNoticeDialogConfirmCallback()"
       />
 
       <popup-dialog
-        :allowClose="true"
-        :message="getPopupInfo"
-        :header="$t('General.label.Info')"
-        :confirmText="$t('General.button.confirm')"
+        v-for="d in getPopupDialogs"
+        :key="d.uuid"
+        :is-show="d.isShow"
+        :allow-close="d.allowClose"
+        :header="d.header"
+        :message="d.message"
+        :cancel-text="d.cancelText"
+        :confirm-text="d.confirmText"
+        @closed="closePopupDialog(d.uuid)"
       />
 
       <div v-if="checkShouldShowError(getMetamaskError)">
@@ -124,6 +131,8 @@ import {
 import BlockerDialog from '~/components/dialogs/BlockerDialog';
 import ChromeDialog from '~/components/dialogs/ChromeDialog';
 import MetamaskDialog from '~/components/dialogs/MetamaskDialog';
+import AuthDialog from '~/components/dialogs/AuthDialog';
+import WalletNoticeDialog from '~/components/dialogs/WalletNoticeDialog';
 import PopupDialog from '~/components/dialogs/PopupDialog';
 import TrustDialog from '~/components/dialogs/TrustDialog';
 import TxDialog from '~/components/dialogs/TxDialog';
@@ -138,6 +147,8 @@ export default {
     BlockerDialog,
     ChromeDialog,
     MetamaskDialog,
+    AuthDialog,
+    WalletNoticeDialog,
     PopupDialog,
     TrustDialog,
     TxDialog,
@@ -163,6 +174,7 @@ export default {
       'getIsLoginOverride',
       'getPopupError',
       'getPopupInfo',
+      'getPopupDialogs',
       'getIsLoading',
       'getIsInTransaction',
       'getIsPopupBlocking',
@@ -174,13 +186,41 @@ export default {
       'getTxDialogActionRoute',
       'getTxDialogActionText',
       'getPendingTxInfo',
+      'getIsShowWalletNoticeDialog',
+      'getWalletNoticeDialogCancelTitle',
+      'getWalletNoticeDialogCancelCallback',
+      'getWalletNoticeDialogConfirmCallback',
     ]),
+  },
+  watch: {
+    getPopupError(msg) {
+      if (msg && this.checkShouldShowError(msg)) {
+        this.openPopupDialog({
+          header: this.$t('General.label.error'),
+          message: msg,
+          confirmText: this.$t('General.button.confirm'),
+        });
+      }
+    },
+    getPopupInfo(msg) {
+      if (msg) {
+        this.openPopupDialog({
+          allowClose: true,
+          header: this.$t('General.label.info'),
+          message: msg,
+          confirmText: this.$t('General.button.confirm'),
+        });
+      }
+    },
   },
   methods: {
     ...mapActions([
       'closeTxDialog',
       'closeTxToolbar',
       'closeInfoToolbar',
+      'openPopupDialog',
+      'closePopupDialog',
+      'setWalletNoticeDialog',
     ]),
     checkIsMobileClient,
     checkShouldShowError(err) {

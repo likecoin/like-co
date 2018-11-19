@@ -82,8 +82,9 @@
             <div class="lc-container-4 lc-padding-top-24 lc-padding-bottom-32">
 
               <form
+                v-if="wallet"
                 id="paymentInfo"
-                @submit.prevent="onSubmit"
+                @submit.prevent="onSubmitPollForWeb3"
               >
                 <input
                   v-model="wallet"
@@ -168,7 +169,7 @@
                       :disabled="isP2pUnavailable
                         || getIsInTransaction
                         || !isSupportTransferDeleteaged
-                      || (!getLocalWallet)"
+                      "
                       type="submit"
                       form="paymentInfo"
                     >
@@ -201,6 +202,9 @@
 
               </form>
 
+              <div v-else>
+                {{ 'This ID has not binded to any wallet yet. LikeCoin transfer is disallowed.' }}
+              </div>
             </div>
           </div>
         </div>
@@ -341,7 +345,6 @@ export default {
   computed: {
     ...mapGetters([
       'getIsInTransaction',
-      'getLocalWallet',
       'getUserIsRegistered',
       'getUserNeedAuth',
       'getMetamaskError',
@@ -349,6 +352,9 @@ export default {
       'getIsShowingTxPopup',
       'getPendingTxInfo',
       'getLikeCoinUsdNumericPrice',
+      'getUserInfo',
+      'getLocalWallet',
+      'getIsWeb3Polling',
     ]),
     isEth() {
       /* HACK because nuxt cannot easily pass route with params */
@@ -375,6 +381,12 @@ export default {
     getWeb3Type() {
       this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
     },
+    getLocalWallet() {
+      if (this.getIsWeb3Polling) {
+        this.submitTransfer();
+        this.stopWeb3Polling();
+      }
+    },
   },
   mounted() {
     this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
@@ -391,11 +403,19 @@ export default {
       'setErrorMsg',
       'closeTxDialog',
       'queryLikeCoinUsdPrice',
+      'startWeb3Polling',
+      'stopWeb3Polling',
     ]),
     checkAddress() {
       return this.wallet.length === 42 && this.wallet.substr(0, 2) === '0x';
     },
-    async onSubmit() {
+    async onSubmitPollForWeb3() {
+      const isStarted = await this.startWeb3Polling();
+      if (!isStarted) {
+        this.submitTransfer();
+      }
+    },
+    async submitTransfer() {
       if (this.getMetamaskError) {
         this.showLoginWindow();
         return;
@@ -405,6 +425,7 @@ export default {
         this.isBadAddress = true;
         return;
       }
+      const { wallet } = this.getUserInfo;
       const amount = new BigNumber(this.amount);
       if (!amount || amount.lt('0.000000000000000001')) {
         this.isBadAmount = true;
@@ -412,9 +433,15 @@ export default {
       }
       this.isBadAmount = false;
       try {
-        if (!EthHelper.getWallet()) return;
         let balance = 0;
-        const from = EthHelper.getWallet();
+        const from = this.getLocalWallet;
+        if (!from) {
+          return;
+        }
+        if (from !== wallet) {
+          this.setErrorMsg(this.$t('Transaction.error.metamaskWalletNotMatch'));
+          return;
+        }
         const to = this.wallet;
         if (from === to) {
           this.setErrorMsg(this.$t('Transaction.error.sameUser'));

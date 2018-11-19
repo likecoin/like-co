@@ -5,7 +5,10 @@
       @click="closeSlidingMenu"
     />
     <div class="lc-sliding-menu-wrapper">
-      <nav class="lc-sliding-menu">
+      <nav
+        :style="slidingMenuStyle"
+        class="lc-sliding-menu"
+      >
         <div>
 
           <div class="language-switch-wrapper">
@@ -23,7 +26,7 @@
 
           <account-overview
             v-if="getUserIsRegistered"
-            class="lc-margin-bottom-24-mobile"
+            class="lc-margin-bottom-40"
           />
 
           <div class="menus-wrapper main">
@@ -72,6 +75,11 @@
                     :isExternal="i.isExternal"
                   >
                     {{ $t(`Menu.item.${i.key}`) }}
+                    <md-icon
+                      v-if="i.icon"
+                      :md-src="i.icon"
+                      class="menu-item__icon"
+                    />
                   </menu-item>
                 </li>
               </ul>
@@ -85,9 +93,8 @@
             <div class="menu secondary">
               <ul>
                 <li>
-                  <menu-item :to="{ name: 'in-settings' }">
-                    <md-icon :md-src="SettingsIcon" />
-                    <span>{{ $t('Menu.item.settings') }}</span>
+                  <menu-item @click="onClickLogoutButon">
+                    <span>{{ $t('Menu.item.logout') }}</span>
                   </menu-item>
                 </li>
               </ul>
@@ -103,6 +110,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import { checkIsMobileClient } from '~/util/client';
 
 import HomeIcon from '@/assets/icons/home.svg';
 import SettingsIcon from '@/assets/icons/settings.svg';
@@ -117,12 +125,14 @@ const MENU_ITEMS = [
     section: 'primary',
     items: [
       {
-        key: 'aboutLikeCoin',
-        to: { name: 'in-about' },
+        key: 'earnLikeCoin',
+        to: { name: 'in-earn' },
       },
       {
-        key: 'backer',
-        to: { name: 'in-backer' },
+        key: 'settings',
+        to: { name: 'in-settings' },
+        icon: SettingsIcon,
+        isRegistered: true,
       },
     ],
   },
@@ -130,9 +140,8 @@ const MENU_ITEMS = [
     section: 'secondary',
     items: [
       {
-        key: 'press',
-        to: 'https://press.like.co/',
-        isExternal: true,
+        key: 'aboutLikeCoin',
+        to: { name: 'in-about' },
       },
       {
         key: 'whitepaper',
@@ -172,6 +181,9 @@ export default {
       MENU_ITEMS,
       HomeIcon,
       SettingsIcon,
+      slidingMenuStyle: {
+        height: '100vh',
+      },
     };
   },
   computed: {
@@ -182,17 +194,26 @@ export default {
       'getIsSlidingMenuOpen',
     ]),
   },
+  watch: {
+    getIsSlidingMenuOpen(isOpen) {
+      if (isOpen && checkIsMobileClient()) {
+        // Fix view port unit issue in mobile device
+        this.slidingMenuStyle.height = `${window.innerHeight}px`;
+      }
+    },
+  },
   methods: {
     ...mapActions([
-      'showLoginWindow',
+      'setAuthDialog',
+      'logoutUser',
       'closeSlidingMenu',
     ]),
     onClickSignInButton() {
-      if (this.$route.name === 'index') {
-        this.$router.push({ name: 'in' });
-      } else {
-        this.showLoginWindow();
-      }
+      this.setAuthDialog({ isShow: true });
+    },
+    async onClickLogoutButon() {
+      await this.logoutUser();
+      this.$nextTick(() => this.$router.push('/'));
     },
   },
 };
@@ -222,8 +243,6 @@ export default {
 
 .lc-sliding-menu {
   position: relative;
-
-  height: 100vh;
 
   > div {
     position: absolute;
@@ -267,10 +286,10 @@ export default {
 }
 
 .menus-wrapper {
-  padding: 104px 24px 36px 52px;
+  padding: 52px 24px 36px 52px;
 
   @media (max-width: 600px) {
-    padding: 64px 24px 36px 32px;
+    padding: 32px 24px 36px 32px;
   }
 
   &.main {
@@ -289,6 +308,18 @@ export default {
 
         @media (max-width: 600px) {
           padding: 6px;
+        }
+
+        .menu-item {
+          &__icon {
+            width: 16px;
+            height: 16px;
+            margin-left: 4px;
+
+            :global(svg) {
+              fill: $like-gray-4 !important;
+            }
+          }
         }
       }
     }

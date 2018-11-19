@@ -2,6 +2,7 @@
   <div class="overview-page">
 
     <div
+      v-if="isWallet && isEmailVerified"
       id="earn"
       class="bonus-container lc-container-0 lc-margin-top-48"
     >
@@ -67,6 +68,7 @@
     </div>
 
     <transaction-history
+      v-if="isWallet && isEmailVerified"
       id="transaction"
       ref="txHistory"
       :address="wallet"
@@ -74,7 +76,117 @@
       class="lc-margin-top-48 lc-mobile"
     />
 
-    <div class="lc-container-0 lc-margin-top-24 lc-mobile-show">
+    <!-- !! UI for user without wallet !! -->
+    <section
+      v-if="isEmailVerified"
+      class="lc-container-0"
+    >
+      <div class="lc-container-1">
+        <div class="lc-container-2">
+          <div class="lc-container-3">
+            <div class="lc-container-4">
+              <like-button-intro-min
+                v-if="!isWallet"
+              />
+            </div>
+          </div>
+
+          <div
+            v-if="!isWallet"
+            class="
+              lc-container-3
+              lc-bg-gray-1
+              lc-container-no-padding-mobile
+              lc-margin-top-32
+              lc-padding-bottom-32"
+          >
+            <div
+              class="lc-container-4 lc-font-size-32 lc-font-weight-300 lc-mobile lc-padding-top-24"
+            >
+              {{ $t('In.mansory.title') }}
+              <!-- TODO: Temp hide refresh button until query updates
+              <div
+                class="lc-container-header-button-wrapper lc-mobile-hide lc-padding-top-24"
+              >
+                <refresh-button
+                  :is-refreshing="isFetchingLikeSuggestion"
+                  @click="refreshLikeSuggestion"
+                />
+              </div>
+              -->
+            </div>
+            <div class="lc-container-4">
+              <mansory-article-list
+                class="lc-margin-vertical-24 lc-mobile"
+              />
+            </div>
+            <div class="lc-font-size-12 lc-font-weight-300 lc-text-align-center">
+              {{ $t('In.mansory.description') }}
+              <br>
+              <nuxt-link :to="{ name: 'in-earn' }">
+                {{ $t('In.mansory.descriptionCTA') }}
+              </nuxt-link>
+            </div>
+          </div>
+
+          <!-- TODO: Temp hide like button adopter (media using like button)
+          <div
+            v-if="!isWallet"
+            class="
+              lc-container-3
+              lc-bg-gray-1
+              lc-container-no-padding-mobile
+              lc-margin-top-32
+            "
+          >
+            <div class="lc-flex">
+              <div
+                class="
+                  lc-container-4
+                  lc-font-size-32
+                  lc-font-weight-300
+                  lc-mobile
+                  lc-padding-top-24
+                  in-button-adopter__title
+                "
+              >
+                {{ $t('In.likeButtonAdopter.title') }}
+              </div>
+              <div
+                class="
+                  lc-font-size-12
+                  lc-font-weight-300
+                  lc-padding-top-24
+                  lc-margin-top-16
+                  in-button-adopter__cta
+                "
+              >
+                <nuxt-link :to="{ name: 'in-earn' }">
+                  {{ $t('In.likeButtonAdopter.descriptionCTA') }}
+                </nuxt-link>
+              </div>
+            </div>
+            <like-button-adopter />
+          </div>
+          -->
+
+          <!-- TODO: Temp hide before civic liker release
+          <div
+            v-if="!isWallet"
+            class="lc-margin-top-32"
+          >
+            <civic-liker-cta />
+          </div>
+          -->
+        </div>
+      </div>
+    </section>
+    <!-- !! UI for user without wallet !! -->
+
+    <div
+      v-if="isEmailVerified"
+      class="lc-container-0 lc-margin-top-24 lc-mobile-show"
+    >
       <div class="lc-container-1">
         <div class="lc-container-2">
           <div class="lc-container-3 lc-flex lc-justify-content-center">
@@ -88,7 +200,23 @@
       </div>
     </div>
 
-    <view-etherscan :address="wallet" />
+    <view-etherscan
+      v-if="isWallet && isEmailVerified"
+      :address="wallet"
+    />
+
+    <div
+      v-if="!isEmailVerified"
+      class="lc-container-0 lc-margin-top-24"
+    >
+      <div class="lc-container-1">
+        <div class="lc-container-2">
+          <verify-email-cta
+            :email-ref="'in'"
+          />
+        </div>
+      </div>
+    </div>
 
   </div>
 </template>
@@ -96,12 +224,15 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-import LikeCoinAmount from '~/components/LikeCoinAmount';
-import MaterialButton from '~/components/MaterialButton';
 import MissionList from '@/components/Mission/List';
 import TransactionHistory from '~/components/TransactionHistory';
 import RefreshButton from '~/components/RefreshButton';
 import ViewEtherscan from '~/components/ViewEtherscan';
+import LikeButtonIntroMin from '~/components/LikeButtonIntroMin';
+import MansoryArticleList from '~/components/home/MansoryArticleList';
+import LikeButtonAdopter from '~/components/LikeButtonAdopter';
+import CivicLikerCta from '~/components/CivicLikerCta';
+import VerifyEmailCta from '~/components/VerifyEmailCta';
 
 import EditIcon from '@/assets/icons/edit.svg';
 import EditWhiteIcon from '@/assets/icons/edit-white.svg';
@@ -112,21 +243,24 @@ export default {
   name: 'in',
   layout: 'in',
   components: {
-    LikeCoinAmount,
-    MaterialButton,
     MissionList,
     TransactionHistory,
     RefreshButton,
     ViewEtherscan,
+    LikeButtonIntroMin,
+    MansoryArticleList,
+    LikeButtonAdopter,
+    CivicLikerCta,
+    VerifyEmailCta,
   },
   data() {
     return {
-      wallet: '',
       EditIcon,
       EditWhiteIcon,
       TickIcon,
       freeCoupon: '',
       isFetchingTranscationHistory: false,
+      isFetchingLikeSuggestion: false,
     };
   },
   computed: {
@@ -136,11 +270,19 @@ export default {
       'getCurrentLocale',
       'getIsFetchingMissions',
       'getIsFetchedMissions',
-      'getUserIsReady',
       'getUserNeedAuth',
       'getUserIsRegistered',
       'getShortMissionList',
     ]),
+    wallet() {
+      return this.getUserInfo.wallet;
+    },
+    isWallet() {
+      return !!this.wallet;
+    },
+    isEmailVerified() {
+      return this.getUserInfo.isEmailVerified;
+    },
   },
   head() {
     return {
@@ -153,31 +295,18 @@ export default {
       ],
     };
   },
-  watch: {
-    getUserIsReady(a) {
-      if (a) {
-        if (this.getUserIsRegistered) {
-          this.updateInfo();
-        }
-      }
-    },
-  },
   mounted() {
     const { hash } = document.location;
     if (hash) {
       const element = document.querySelector(hash);
       if (element) element.scrollIntoView();
     }
-    if (this.getUserIsReady) {
-      if (this.getUserIsRegistered) {
-        this.updateInfo();
-      }
+    if (this.getUserIsRegistered) {
+      this.updateInfo();
     }
   },
   methods: {
     ...mapActions([
-      'newUser',
-      'loginUser',
       'setInfoMsg',
       'checkCoupon',
       'sendVerifyEmail',
@@ -186,15 +315,19 @@ export default {
       'fetchUserReferralStats',
       'refreshMissionList',
       'onMissionClick',
+      'fetchLikeSuggestionList',
     ]),
     refreshMissions() {
       this.refreshMissionList(this.getUserInfo.user);
     },
     updateInfo() {
-      const user = this.getUserInfo;
-      this.wallet = user.wallet;
-      this.$refs.txHistory.updateTokenSaleHistory();
+      if (this.$refs.txHistory) this.$refs.txHistory.updateTokenSaleHistory();
       this.refreshMissions();
+    },
+    async refreshLikeSuggestion() {
+      this.isFetchingLikeSuggestion = true;
+      await this.fetchLikeSuggestionList();
+      this.isFetchingLikeSuggestion = false;
     },
   },
 };
@@ -229,6 +362,17 @@ export default {
     @media (min-width: 960 + 1px) {
       display: none;
     }
+  }
+}
+
+.in-button-adopter {
+  &__title {
+    flex: 1;
+  }
+  &__cta {
+    flex: 1;
+
+    text-align: right;
   }
 }
 </style>

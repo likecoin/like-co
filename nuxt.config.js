@@ -14,8 +14,10 @@ module.exports = {
   env: {
     IS_TESTNET: process.env.IS_TESTNET,
     INTERCOM_APPID: process.env.INTERCOM_APPID,
-    STRIPE_TOKEN: process.env.STRIPE_TOKEN,
     SENTRY_DSN: process.env.SENTRY_DSN,
+    FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
+    FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_AUTH_DOMAIN,
+    FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID,
   },
   head: {
     title: 'LikeCoin - Reinventing the Like',
@@ -37,7 +39,6 @@ module.exports = {
       { src: '/vendor/typekit.js' },
       { src: '/vendor/fb/pixel.js' },
       { src: '/vendor/fb/sdk.js' },
-      { src: 'https://www.recaptcha.net/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit' },
     ],
     link: [
       { rel: 'icon', type: 'image/png', href: '/favicon.png' },
@@ -64,8 +65,6 @@ module.exports = {
           'https://www.googletagmanager.com',
           'https://www.googleadservices.com',
           'https://*.google.com',
-          'https://recaptcha.net',
-          'https://www.recaptcha.net',
           'https://www.gstatic.com/',
           'https://www.gstatic.cn/',
           'https://googleads.g.doubleclick.net',
@@ -73,7 +72,6 @@ module.exports = {
           'https://ajax.googleapis.com',
           'https://js.intercomcdn.com',
           'https://widget.intercom.io',
-          'https://checkout.stripe.com',
           'https://connect.facebook.net',
           'https://player.vimeo.com',
           'https://use.typekit.net',
@@ -89,15 +87,14 @@ module.exports = {
         ],
         'frame-src': [
           'https://www.google.com/',
-          'https://recaptcha.net',
-          'https://www.recaptcha.net',
           'https://player.vimeo.com/',
           'https://*.facebook.com',
           'https://*.facebook.net',
-          'https://checkout.stripe.com/',
           'https://*.doubleclick.net',
-          'https://rinkeby.like.co',
+          'https://*.like.co',
           'https://like.co',
+          'https://likecoin-develop.firebaseapp.com',
+          'https://llikecoin-foundation.firebaseapp.com',
         ],
         'img-src': [
           "'self'",
@@ -171,11 +168,6 @@ module.exports = {
         path: '/pay/:merchantId/:amount?',
         component: resolve(__dirname, 'pages/pay/_merchantId/index.vue'),
       });
-      routes.unshift({
-        name: 'in-free',
-        path: '/in/free',
-        component: resolve(__dirname, 'pages/in/redeem.vue'),
-      });
     },
   },
   /*
@@ -204,7 +196,6 @@ module.exports = {
     { src: '~/plugins/vue-intercom', ssr: false },
     { src: '~/plugins/vue-vimeo-player', ssr: false },
     { src: '~/plugins/vue-image-lightbox', ssr: false },
-    { src: '~/plugins/vue-stripe', ssr: false },
     { src: '~/plugins/vue-swiper', ssr: false },
     { src: '~/plugins/vue-clipboard2', ssr: false },
     { src: '~/plugins/vue-portal', ssr: false },

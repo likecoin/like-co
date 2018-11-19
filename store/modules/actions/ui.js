@@ -18,7 +18,7 @@ export const setSignPayloadObject = ({ commit }, payload = {}) => {
 
 export const showLoginWindow = ({ commit, dispatch }) => {
   commit(types.UI_LOGIN_OVERRIDE, true);
-  dispatch('loginUser');
+  dispatch('loginUserBySign');
 };
 
 export const setErrorDisabled = ({ commit }, bool) => {
@@ -55,6 +55,14 @@ export const setPopupError = ({ commit }, msg) => {
 
 export const setPopupInfo = ({ commit }, msg) => {
   commit(types.UI_POPUP_INFO, msg);
+};
+
+export const openPopupDialog = ({ commit }, config) => {
+  commit(types.UI_POPUP_OPEN, config);
+};
+
+export const closePopupDialog = ({ commit }, uuid) => {
+  commit(types.UI_POPUP_CLOSE, uuid);
 };
 
 export const setPageHeader = ({ commit }, payload) => {
@@ -105,3 +113,11 @@ export async function setNotification({ commit, dispatch }, payload) {
     throw error;
   }
 }
+
+export const setAuthDialog = ({ commit }, payload) => {
+  commit(types.UI_SET_AUTH_DIALOG, payload);
+};
+
+export const setWalletNoticeDialog = ({ commit }, payload) => {
+  commit(types.UI_SET_WALLET_NOTICE_DIALOG, payload);
+};

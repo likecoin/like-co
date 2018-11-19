@@ -77,10 +77,17 @@ export default {
     },
     ...mapGetters([
       'getUserInfo',
+      'getUserIsRegistered',
     ]),
   },
   mounted() {
-    this.verifyEmail();
+    if (!this.getUserIsRegistered) {
+      const router = this.$router;
+      const route = this.$route;
+      this.doUserAuth({ router, route });
+    } else {
+      this.verifyEmail();
+    }
   },
   beforeDestroy() {
     if (this.redirectTimer) {
@@ -93,6 +100,7 @@ export default {
       'verifyEmailByUUID',
       'refreshUserInfo',
       'showLoginWindow',
+      'doUserAuth',
     ]),
     async verifyEmail() {
       this.isVerified = false;

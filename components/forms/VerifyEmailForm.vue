@@ -18,7 +18,6 @@ import { mapActions, mapGetters } from 'vuex';
 
 import SingleInputForm from '@/components/forms/SingleInputForm';
 
-import User from '@/util/User';
 import { logTrackerEvent } from '@/util/EventLogger';
 import { W3C_EMAIL_REGEX } from '@/constant';
 
@@ -62,7 +61,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'newUser',
+      'updateUser',
       'setInfoMsg',
       'sendVerifyEmail',
       'refreshUserInfo',
@@ -71,11 +70,10 @@ export default {
       const userInfo = {
         user: this.getUserInfo.user,
         displayName: this.getUserInfo.displayName,
-        wallet: this.getUserInfo.wallet,
+        wallet: this.getUserInfo.wallet || '',
         email: newEmail,
       };
-      const data = await User.formatAndSignUserInfo(userInfo, this.$t('Sign.Message.signKYC'));
-      return this.newUser(data);
+      return this.updateUser(userInfo);
     },
     onCancel() {
       this.$emit('cancel');

@@ -1,61 +1,68 @@
 <template>
-  <md-dialog
-    :md-active.sync="showDialog"
-    :md-close-on-esc="allowClose"
-    :md-click-outside-to-close="allowClose"
-    :md-fullscreen="false"
-    @md-closed="clearMessage"
-    @md-clicked-outside="clearMessage"
+  <base-dialog
+    :is-show="isShowDialog"
+    :md-props="{
+      mdClickOutsideToClose: allowClose,
+      mdCloseOnEsc: allowClose,
+      mdFullscreen: false,
+      mdClosed: onClosed,
+      mdClickOutside: onClosed,
+    }"
+    class="popup-dialog"
+    @update:isShow="onUpdateIsShow"
   >
-    <div class="title-bar" />
-    <div class="dialog-content">
-      <md-dialog-title v-if="header">
+    <div class="lc-dialog-container-1">
+      <h1
+        v-if="header"
+        class="lc-font-size-32 lc-margin-bottom-8"
+      >
         {{ header }}
-      </md-dialog-title>
+      </h1>
 
-      <md-dialog-content v-if="message">
-        <span v-html="message" />
-      </md-dialog-content>
+      <p
+        v-if="message"
+        class="lc-font-size-16 lc-color-like-gray-4"
+        v-html="message"
+      />
 
-      <section>
-        <material-button
+      <div class="lc-button-group lc-margin-top-16">
+        <md-button
           v-if="confirmText"
-          id="btn-confirm"
-          @click="onDialogConfirm"
+          class="md-likecoin"
+          @click="onConfirm"
         >
           {{ confirmText }}
-        </material-button>
-        <material-button
+        </md-button>
+        <br>
+        <md-button
           v-if="cancelText"
-          id="btn-cancel"
-          @click="onDialogCancel"
+          class="md-likecoin lc-cancel"
+          @click="onCancel"
         >
           {{ cancelText }}
-        </material-button>
-      </section>
-      <div
-        v-if="subMessage"
-        class="lc-padding-top-8 lc-text-align-center"
-      >
-        <a
-          href="#"
-          @click.prevent="onSubMessageClick"
-        >{{ subMessage }}</a>
+        </md-button>
       </div>
     </div>
-  </md-dialog>
+
+    <slot name="footer" />
+
+  </base-dialog>
 </template>
 
 
 <script>
-import MaterialButton from '@/components/MaterialButton';
+import BaseDialog from '~/components/dialogs/BaseDialog';
 
 export default {
   name: 'popup-dialog',
   components: {
-    MaterialButton,
+    BaseDialog,
   },
   props: {
+    isShow: {
+      type: Boolean,
+      default: false,
+    },
     allowClose: {
       type: Boolean,
       default: false,
@@ -65,10 +72,6 @@ export default {
       default: '',
     },
     message: {
-      type: String,
-      default: '',
-    },
-    subMessage: {
       type: String,
       default: '',
     },
@@ -83,35 +86,33 @@ export default {
   },
   data() {
     return {
-      showDialog: false,
+      isShowDialog: this.isShow,
     };
   },
   watch: {
-    message(e) {
-      this.showDialog = !!e;
+    isShow(isShow) {
+      this.isShowDialog = isShow;
     },
-  },
-  mounted() {
-    this.showDialog = !!this.message;
+    isShowDialog(isShowDialog) {
+      this.$emit('update:isShow', isShowDialog);
+    },
   },
   methods: {
-    toggleSync() {
-      this.showDialog = !this.showDialog;
+    onConfirm() {
+      this.isShowDialog = false;
+      this.$emit('confirm');
+      this.onClosed();
     },
-    onDialogConfirm() {
-      this.$emit('onConfirm');
-      this.clearMessage();
+    onCancel() {
+      this.isShowDialog = false;
+      this.$emit('cancel');
+      this.onClosed();
     },
-    onDialogCancel() {
-      this.$emit('onCancel');
-      this.clearMessage();
+    onClosed() {
+      this.$emit('closed');
     },
-    onSubMessageClick() {
-      this.$emit('onSubMessageClick');
-      this.clearMessage();
-    },
-    clearMessage() {
-      this.$emit('update:message', '');
+    onUpdateIsShow(isShow) {
+      this.isShowDialog = isShow;
     },
   },
 };
@@ -119,24 +120,11 @@ export default {
 
 
 <style lang="scss" scoped>
-@import "~assets/dialog";
+@import '~assets/variables';
 
-.md-dialog-container {
-  .title-bar {
-    background-color: #e6e6e6;
-  }
-
-  .dialog-content {
-    > section {
-      display: flex;
-      flex-direction: column;
-
-      margin-top: 36px;
-    }
-  }
-
-  #btn-cancel {
-    background-color: $like-gradient-3;
+.lc-dialog {
+  :global(.lc-dialog-header::before) {
+    background: #e6e6e6;
   }
 }
 </style>

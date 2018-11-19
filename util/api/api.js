@@ -6,8 +6,6 @@ const LIKECOIN_MISC_API_BASE = `https://${EXTERNAL_HOSTNAME}`;
 
 export const apiCheckIsUser = addr => axios.get(`/api/users/addr/${addr}/min`);
 
-export const apiGetUserByAddr = addr => axios.get(`/api/users/addr/${addr}`);
-
 export const apiGetUserById = id => axios.get(`/api/users/id/${id}`);
 
 export const apiGetUserMinById = id => axios.get(`/api/users/id/${id}/min`);
@@ -48,12 +46,25 @@ export const apiPostNewUser = (form) => {
   Object.keys(form).forEach((key) => {
     params.append(key, form[key]);
   });
-  return axios.put('/api/users/new', params);
+  return axios.post('/api/users/new', params);
 };
 
-export const apiCheckUserAuth = wallet => axios.post('/api/users/login/check', { wallet });
+export const apiPostUpdateUser = (form) => {
+  /* eslint-disable no-new */
+  const params = new FormData();
+  Object.keys(form).forEach((key) => {
+    params.append(key, form[key]);
+  });
+  return axios.post('/api/users/update', params);
+};
 
 export const apiLoginUser = payload => axios.post('/api/users/login', payload);
+
+export const apiLogoutUser = () => axios.post('/api/users/logout');
+
+export const apiLinkAuthWallet = payload => axios.post('/api/users/login/wallet/add', payload);
+
+export const apiGetUserSelf = () => axios.get('/api/users/self');
 
 export const apiFetchUserMission = ({ missionId, user, params }) => axios.get(`/api/mission/${missionId}/user/${user}`, {
   params,
@@ -107,23 +118,6 @@ export const apiFetchReferralBonusList = id => axios.get(`/api/referral/list/bon
 
 export const apiPostSeenReferral = (id, { referralId }) => axios.post(`/api/referral/seen/${id}`, { referralId });
 
-export const apiPostKYC = payload => axios.post('/api/kyc', payload);
-
-export const apiPostAdvancedKYC = (form) => {
-  /* eslint-disable no-new */
-  const params = new FormData();
-  Object.keys(form).forEach((key) => {
-    if (Array.isArray(form[key])) {
-      form[key].forEach(k => params.append(key, k));
-    } else {
-      params.append(key, form[key]);
-    }
-  });
-  return axios.post('/api/kyc/advanced', params);
-};
-
-export const apiGetAdvancedKYC = id => axios.get(`/api/kyc/advanced/${id}`);
-
 export const apiSendCouponCodeEmail = (id, coupon, locale) => axios.post(`/api/email/verify/user/${id}`, { coupon, locale });
 
 export const apiSendInvitationEmail = (user, email, locale) => axios.post(
@@ -142,17 +136,7 @@ export const apiQueryTxHistoryByAddr = (addr, ts, count) => {
   return axios.get(url);
 };
 
-export const apiPurchaseIAP = (id, payload) => axios.post(`/api/iap/purchase/${id}`, payload);
-
 export const apiQueryIAPProducts = () => axios.get('/api/iap/list');
-
-export const apiPurchaseSubscription = payload => axios.post('/api/iap/subscription/donation', payload);
-
-export const apiGetUserSubscriptionInfo = userId => axios.get(`/api/iap/subscription/donation/${userId}`);
-
-export const apiCancelSubscription = userId => axios.delete(`/api/iap/subscription/donation/${userId}`);
-
-export const apiClaimSubscription = payload => axios.post('/api/iap/subscription/claim', payload);
 
 export const apiQueryEthPrice = () => axios.get('https://api.coinmarketcap.com/v1/ticker/ethereum/?convert=USD');
 

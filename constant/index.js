@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js';
-import moment from 'moment';
 
 export const { IS_TESTNET } = process.env;
 
@@ -29,7 +28,14 @@ export const LOGIN_MESSAGE = 'Login - Reinventing the Like';
 
 export const ONE_LIKE = new BigNumber(10).pow(18);
 
-const whiteList = ['oicetest.lakoo.com', 'oice.com', 'like.co', 'rinkeby.like.co'];
+const whiteList = [
+  'oice.com',
+  'oicetest.lakoo.com',
+  'like.co',
+  'rinkeby.like.co',
+  'button.like.co',
+  'button.rinkeby.like.co',
+];
 if (IS_TESTNET) whiteList.push('localhost');
 
 export const REDIRECT_WHITE_LIST = whiteList;
@@ -48,32 +54,8 @@ export const KYC_STATUS_ENUM = {
 export const ETH_TO_LIKECOIN_RATIO = 40000;
 export const FINAL_TOKENSALE_ETH_VALUE = 7562.26;
 export const FINAL_TOKENSALE_PERCENTAGE = 180;
-export const TOKENSALE_SOFTCAP_ETH = new BigNumber(4200);
 
-export const BONUS_LOCK_UNTIL_DATE = moment.unix(1540267200);
-
-const ALL_ERRORS = ['web3', 'testnet', 'locked'];
-
-const toolbarsDisableError = {
-  'in-whitepaper': ALL_ERRORS,
-  'verify-uuid': ['web3', 'locked'],
-  'in-tx-id': ['web3', 'locked'],
-  id: ALL_ERRORS,
-  'in-embed-id-list': ALL_ERRORS,
-  'id-amount': ALL_ERRORS,
-  'claim-id-coupon': ['web3', 'locked'],
-  'in-backer': ALL_ERRORS,
-  'in-policies': ALL_ERRORS,
-  'in-policies-privacy': ALL_ERRORS,
-  'in-policies-terms': ALL_ERRORS,
-  'in-tokensale': ['web3', 'locked'],
-  'in-tokensale-tx-id': ['web3', 'locked'],
-  'pay-merchantId': ALL_ERRORS,
-  'pay-merchantId-amount': ALL_ERRORS,
-  'in-donation': ALL_ERRORS,
-  'in-donation-claim': ALL_ERRORS,
-};
-export const getToolbarsDisableError = route => (toolbarsDisableError[route] || false);
+export const BONUS_LOCK_UNTIL_DATE = 1540267200;
 
 export const GETTING_STARTED_TASKS = ['taskSocial', 'taskOnepager', 'taskVideo', 'taskPaymentPage'];
 
@@ -116,13 +98,12 @@ export const SOCIAL_MEDIA_LIST = [
     id: 'twitter',
     tier: 1,
   },
-  /*
-  {
-    id: 'instagram',
-    tier: 1,
-  },
-  */
 ];
+
+export const IS_LGOIN_SOCIAL = new Set([
+  'facebook',
+  'twitter',
+]);
 
 export const LINK_ICON_TYPES = ['profile', 'blog', 'photo', 'mail', 'contact', 'link'];
 
@@ -131,3 +112,16 @@ export const DISPLAY_SOCIAL_MEDIA_OPTIONS = [
   'wp',
   'medium',
 ];
+
+export const SUPPORTED_AVATER_TYPE = new Set([
+  'jpg',
+  'png',
+  'gif',
+  'webp',
+  'tif',
+  'bmp',
+]);
+
+export const AVATAR_DEFAULT_PATH = 'https://static.like.co/likecoin_de-portrait.jpg';
+
+export const LIKE_BUTTON_POST_MESSAGE_TARGET_ORIGIN = IS_TESTNET ? '*' : 'https://button.like.co';

@@ -25,7 +25,14 @@
       </div>
     </header>
 
-    <md-dialog-content class="lc-dialog-content">
+    <md-dialog-content
+      :class="[
+        'lc-dialog-content',
+        {
+          'lc-dialog-content--gapless': isContentGapless,
+        },
+      ]"
+    >
 
       <slot />
 
@@ -45,6 +52,10 @@ export default {
     },
     isShowCloseButton: {
       type: Boolean,
+      default: false,
+    },
+    isContentGapless: {
+      type: [Boolean, String],
       default: false,
     },
     mdProps: {
@@ -157,6 +168,10 @@ $lc-dialog-border-radius: 8px;
     @media (max-width: 600px) {
       padding-top: 8px + $lc-dialog-icon-size-small - $lc-header-height + 8px;
     }
+  }
+
+  &--gapless {
+    padding: 0;
   }
 }
 

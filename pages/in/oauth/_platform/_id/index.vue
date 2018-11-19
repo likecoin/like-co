@@ -57,18 +57,6 @@ export default {
     },
   },
   watch: {
-    getUserNeedAuth(a) {
-      if (a) {
-        this.triggerLoginSign();
-      } else if (this.username) {
-        this.connect();
-      }
-    },
-    getUserNeedRegister(a) {
-      if (a) {
-        this.$router.push({ name: 'in-register', query: { ref: 'in-settings', ...this.$route.query } });
-      }
-    },
     username(name) {
       if (name) {
         this.connect();
@@ -87,11 +75,7 @@ export default {
       this.errorMsg = this.$route.query.error || this.$route.query.denied;
       this.isDone = true;
     }
-    if (this.getUserNeedAuth) {
-      this.triggerLoginSign();
-    } else if (this.getUserNeedRegister) {
-      this.$router.push({ name: 'in-register', query: { ref: 'in-settings', ...this.$route.query } });
-    } else if (this.username) {
+    if (this.username) {
       this.connect();
     }
   },
@@ -103,12 +87,8 @@ export default {
   },
   methods: {
     ...mapActions([
-      'loginUser',
       'linkSocialPlatform',
     ]),
-    async triggerLoginSign() {
-      if (!(await this.loginUser())) this.$router.push({ name: 'index' });
-    },
     async connect() {
       if (this.isDone) return;
       try {

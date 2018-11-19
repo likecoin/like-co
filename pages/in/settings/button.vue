@@ -77,7 +77,10 @@
           </div>
 
 
-          <div class="lc-container-3 lc-margin-top-24 lc-bg-gray-1">
+          <div
+            v-if="getUserInfo.wallet"
+            class="lc-container-3 lc-margin-top-24 lc-bg-gray-1"
+          >
             <div class="like-button-settings__header">
               <h1>{{ $t('Settings.label.yourLikeButton') }}</h1>
             </div>
@@ -198,6 +201,14 @@
               </form>
             </div>
           </div>
+          <div
+            v-else
+            class="lc-container-3 lc-margin-top-24 lc-bg-gray-1"
+          >
+            <div>
+              You have not binded to any wallet yet. Please bind one to activate your LikeButton.
+            </div>
+          </div>
         </div>
       </div>
     </transition>
@@ -249,6 +260,11 @@ export default {
     SelectableField,
     SocialMediaIcon,
   },
+  asyncData({ store, redirect, query }) {
+    if (!(store.state.user.user && store.state.user.user.wallet)) {
+      redirect(302, { name: 'in-earn' }, query);
+    }
+  },
   data() {
     return {
       isEmailEnabled: false,
@@ -268,10 +284,8 @@ export default {
   computed: {
     ...mapGetters([
       'getUserInfo',
-      'getUserIsReady',
       'getUserIsRegistered',
       'getUserNeedAuth',
-      'getUserNeedRegister',
       'getUserSocialPlatforms',
       'getUserSocialLinks',
       'getUserSocialMeta',
@@ -332,21 +346,6 @@ export default {
     },
   },
   watch: {
-    getUserNeedRegister(value) {
-      if (value) {
-        this.$router.push({ name: 'in-register', query: { ref: 'in-settings-others', ...this.$route.query } });
-      }
-    },
-    getUserNeedAuth(value) {
-      if (value) {
-        this.triggerLoginSign();
-      }
-    },
-    getUserIsReady(value) {
-      if (value && this.getUserIsRegistered) {
-        this.updateInfo();
-      }
-    },
     getUserInfo(user) {
       this.updatePreviewInfo();
       this.setIsShowLikeButtonIntro(user);
@@ -362,17 +361,7 @@ export default {
     },
   },
   mounted() {
-    if (this.getUserNeedRegister) {
-      this.$router.push({
-        name: 'in-register',
-        query: {
-          ref: 'in-settings-button',
-          ...this.$route.query,
-        },
-      });
-    } else if (this.getUserNeedAuth) {
-      this.triggerLoginSign();
-    } else if (this.getUserIsReady && this.getUserIsRegistered) {
+    if (this.getUserIsRegistered) {
       this.updateInfo();
     }
 
@@ -381,12 +370,8 @@ export default {
   },
   methods: {
     ...mapActions([
-      'loginUser',
       'updateSocialPlatformIsPublic',
     ]),
-    async triggerLoginSign() {
-      if (!(await this.loginUser())) this.$router.go(-1);
-    },
     async updateInfo() {
       const user = this.getUserInfo;
       this.isEmailEnabled = (user.isEmailEnabled !== false);

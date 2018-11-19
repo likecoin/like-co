@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <div class="lc-container-1 lc-margin-top-16">
+    <div class="lc-container-1 lc-margin-top-48 lc-mobile">
       <div class="lc-container-2">
         <div class="lc-container-3 lc-padding-vertical-32 lc-bg-gray-1">
           <form
@@ -45,7 +45,7 @@
                     {{ $t('Register.form.walletAddress') }}:
                   </span>
                   <span class="content">
-                    {{ getUserInfo.wallet }}
+                    {{ getUserInfo.wallet || 'No Binded Wallet' }}
                   </span>
                 </div>
 
@@ -148,6 +148,7 @@
     </div>
 
     <div
+      v-if="getUserInfo.wallet"
       id="coupon"
       class="lc-container-0 lc-margin-top-48 lc-mobile"
     >
@@ -218,7 +219,6 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-import User from '@/util/User';
 import {
   W3C_EMAIL_REGEX,
 } from '@/constant';
@@ -254,15 +254,13 @@ export default {
   computed: {
     ...mapGetters([
       'getUserInfo',
-      'getUserIsReady',
       'getUserIsRegistered',
       'getUserNeedAuth',
-      'getUserNeedRegister',
       'getUserSocialPlatforms',
       'getIsInTransaction',
     ]),
     disabled() {
-      return this.isLoading || !(this.getUserIsReady && this.getUserIsRegistered);
+      return this.isLoading || !this.getUserIsRegistered;
     },
     hasUserDetailsChanged() {
       return (
@@ -273,60 +271,38 @@ export default {
     },
   },
   watch: {
-    getUserNeedRegister(value) {
-      if (value) {
-        this.$router.push({ name: 'in-register', query: { ref: 'in-settings', ...this.$route.query } });
-      }
-    },
-    getUserNeedAuth(value) {
-      if (value) {
-        this.triggerLoginSign();
-      }
-    },
-    getUserIsReady(value) {
-      if (value && this.getUserIsRegistered) {
-        this.updateInfo();
-      }
-    },
     getUserInfo(value) {
-      if (value && this.getUserIsRegistered && this.getUserIsReady) {
+      if (value && this.getUserIsRegistered) {
         this.updateInfo();
       }
     },
   },
   mounted() {
-    if (this.getUserNeedRegister) {
-      this.$router.push({ name: 'in-register', query: { ref: 'in-settings', ...this.$route.query } });
-    } else if (this.getUserNeedAuth) {
-      this.triggerLoginSign();
-    } else if (this.getUserIsReady && this.getUserIsRegistered) {
+    if (this.getUserIsRegistered) {
       this.updateInfo();
     }
   },
   methods: {
     ...mapActions([
-      'loginUser',
-      'newUser',
+      'updateUser',
       'refreshUserInfo',
       'sendVerifyEmail',
       'setInfoMsg',
+      'fetchSocialListDetailsById',
       'unlinkSocialPlatform',
-      'cancelSubscription',
     ]),
-    async triggerLoginSign() {
-      if (!(await this.loginUser())) this.$router.go(-1);
-    },
     async updateInfo() {
       const user = this.getUserInfo;
       this.avatar = user.avatar;
       this.displayName = user.displayName;
       this.email = user.email;
+      this.fetchSocialListDetailsById(user.user);
     },
     async onSubmit() {
       if (this.hasUserDetailsChanged) {
         try {
           const { avatarFile, displayName } = this;
-          const { user, wallet } = this.getUserInfo;
+          const { user, wallet = '' } = this.getUserInfo;
           const email = this.email.trim();
           const userInfo = {
             avatarFile,
@@ -337,8 +313,7 @@ export default {
           };
           const hasEmailChanged = this.getUserInfo.email !== email;
 
-          const data = await User.formatAndSignUserInfo(userInfo, this.$t('Sign.Message.editUser'));
-          await this.newUser(data);
+          await this.updateUser(userInfo);
           this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${user}">${this.$t('Register.form.label.viewPage')}</a>`);
           this.refreshUserInfo(user);
 
@@ -384,9 +359,6 @@ export default {
         console.error(err);
       }
     },
-    onClickCancelSubscription() {
-      this.cancelSubscription(this.getUserInfo.user);
-    },
     getTestAttribute: getTestAttribute('inSettings'),
   },
 };
@@ -398,30 +370,6 @@ export default {
 @import "~assets/input";
 
 .profile-setting-page {
-  &__backer-wrapper {
-    .lc-bg-like-gradient {
-      padding: 16px 8px;
-
-      img {
-        width: 64px;
-        height: 64px;
-        margin: 0 12px;
-
-        border-radius: 50%;
-
-        object-fit: cover;
-      }
-
-      p {
-        padding: 8px 0;
-
-        @media (min-width: 600px + 1px) {
-          margin: 0 24px;
-        }
-      }
-    }
-  }
-
   &__account-setting {
     display: flex;
 
@@ -535,24 +483,6 @@ export default {
 
     @media (max-width: 768px) {
       text-align: center;
-    }
-  }
-
-  &__subscription-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 16px 24px;
-
-    background-color: $like-white;
-
-    h2 {
-      margin-left: 8px;
-    }
-
-    .md-button {
-      margin: 0;
     }
   }
 }

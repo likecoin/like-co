@@ -1,9 +1,8 @@
 import { Router } from 'express';
-import { checkPlatformAlreadyLinked } from './index';
-import { fetchFacebookUser } from '../../oauth/facebook';
 import { PUBSUB_TOPIC_MISC } from '../../../constant';
 import publisher from '../../util/gcloudPub';
 import { jwtAuth } from '../../util/jwt';
+import { checkPlatformAlreadyLinked, socialLinkFacebook } from '../../util/api/social';
 import { ValidationError } from '../../../util/ValidationHelper';
 
 const { userCollection: dbRef } = require('../../util/firebase');
@@ -39,33 +38,28 @@ router.post('/social/link/facebook', jwtAuth('write'), async (req, res, next) =>
     if (!accessToken || !user) {
       throw new ValidationError('invalid payload');
     }
-    if (await checkPlatformAlreadyLinked(user, 'facebook')) {
+
+    const platform = 'facebook';
+    if (await checkPlatformAlreadyLinked(user, platform)) {
       throw new ValidationError('already linked');
     }
+
     const {
       displayName,
       link,
       userId,
       appId,
       pages,
-    } = await fetchFacebookUser(accessToken);
-    await dbRef.doc(user).collection('social').doc('facebook').create({
-      displayName,
-      userId,
-      appId,
-      url: link,
-      userLink: link,
-      pages,
-      isLinked: true,
-      ts: Date.now(),
-    });
+    } = await socialLinkFacebook(user, accessToken);
+
     res.json({
-      platform: 'facebook',
+      platform,
       displayName,
       id: userId,
       pages,
       url: link,
     });
+
     const userDoc = await dbRef.doc(user).get();
     const {
       email,
@@ -77,7 +71,7 @@ router.post('/social/link/facebook', jwtAuth('write'), async (req, res, next) =>
     } = userDoc.data();
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventSocialLink',
-      platform: 'facebook',
+      platform,
       user,
       email: email || undefined,
       displayName: userDisplayName,

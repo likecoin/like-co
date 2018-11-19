@@ -1,5 +1,8 @@
 /* eslint no-shadow: "off" */
 /* eslint no-param-reassign: "off" */
+import Vue from 'vue';
+import uuidv1 from 'uuid/v1';
+
 import {
   UI_SET_LOCALE,
   UI_SET_METAMASK_ERROR,
@@ -8,6 +11,8 @@ import {
   UI_ERROR_MSG,
   UI_POPUP_ERR,
   UI_POPUP_INFO,
+  UI_POPUP_OPEN,
+  UI_POPUP_CLOSE,
   UI_START_LOADING,
   UI_STOP_LOADING,
   UI_START_LOADING_TX,
@@ -25,6 +30,8 @@ import {
   UI_CLOSE_SLIDING_MENU,
   UI_SET_PROMPT_NOTIFICATION_DIALOG,
   UI_SET_SIGN_PAYLOAD_OBJECT,
+  UI_SET_AUTH_DIALOG,
+  UI_SET_WALLET_NOTICE_DIALOG,
 } from '../mutation-types';
 import * as getters from './getters/ui';
 import * as actions from './actions/ui';
@@ -53,6 +60,12 @@ const state = {
   txDialogActionRoute: null,
   txDialogActionText: '',
   isShowingPromptNotificationDialog: false,
+  isShowAuthDialog: false,
+  isShowWalletNoticeDialog: false,
+  walletNoticeDialogCancelTitle: '',
+  walletNoticeDialogCancelCallback: null,
+  walletNoticeDialogConfirmCallback: null,
+  popupDialogs: [],
 };
 
 const mutations = {
@@ -84,6 +97,21 @@ const mutations = {
   },
   [UI_POPUP_INFO](state, msg) {
     state.popupInfo = msg;
+  },
+  [UI_POPUP_OPEN](state, payload) {
+    payload.uuid = uuidv1();
+    payload.isShow = true;
+    Vue.set(state, 'popupDialogs', [...state.popupDialogs, payload]);
+  },
+  [UI_POPUP_CLOSE](state, uuid) {
+    const newPopupDialogs = [...state.popupDialogs];
+    for (let i = state.popupDialogs.length - 1; i >= 0; i -= 1) {
+      if (state.popupDialogs[i].uuid === uuid) {
+        newPopupDialogs.splice(i, 1);
+        break;
+      }
+    }
+    Vue.set(state, 'popupDialogs', newPopupDialogs);
   },
   [UI_START_LOADING](state) {
     state.isLoading = true;
@@ -153,6 +181,15 @@ const mutations = {
   },
   [UI_SET_PROMPT_NOTIFICATION_DIALOG](state, payload) {
     state.isShowingPromptNotificationDialog = payload;
+  },
+  [UI_SET_AUTH_DIALOG](state, payload) {
+    state.isShowAuthDialog = !!payload.isShow;
+  },
+  [UI_SET_WALLET_NOTICE_DIALOG](state, payload) {
+    state.isShowWalletNoticeDialog = !!payload.isShow;
+    state.walletNoticeDialogCancelTitle = payload.cancelTitle || '';
+    state.walletNoticeDialogCancelCallback = payload.onCancel || (() => {});
+    state.walletNoticeDialogConfirmCallback = payload.onConfirm || (() => {});
   },
 };
 

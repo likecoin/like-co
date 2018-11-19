@@ -12,8 +12,8 @@ import facebook from './facebook';
 import flickr from './flickr';
 import medium from './medium';
 import twitter from './twitter';
-import instagram from './instagram';
 import link from './link';
+import { tryToUnlinkOAuthLogin } from '../../util/api/users';
 
 const { userCollection: dbRef } = require('../../util/firebase');
 
@@ -23,7 +23,6 @@ router.use(facebook);
 router.use(flickr);
 router.use(medium);
 router.use(twitter);
-router.use(instagram);
 router.use(link);
 
 function getLinkOrderMap(socialCol) {
@@ -126,9 +125,16 @@ router.post('/social/unlink/:platform', jwtAuth('write'), async (req, res, next)
       res.status(401).send('LOGIN_NEEDED');
       return;
     }
+
+    await tryToUnlinkOAuthLogin({
+      likeCoinId: user,
+      platform,
+    });
+
     const socialDoc = await dbRef.doc(user).collection('social').doc(platform).get();
     if (!socialDoc.exists) throw new ValidationError('platform unknown');
     await socialDoc.ref.delete();
+
     res.sendStatus(200);
     const userDoc = await dbRef.doc(user).get();
     const {
@@ -188,8 +194,4 @@ router.patch('/social/public', jwtAuth('write'), async (req, res, next) => {
   }
 });
 
-export async function checkPlatformAlreadyLinked(user, platform) {
-  const doc = await dbRef.doc(user).collection('social').doc(platform).get();
-  return doc.data() && doc.data().isLinked;
-}
 export default router;

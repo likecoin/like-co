@@ -89,44 +89,8 @@ export async function queryTxHistoryByAddr({ commit, dispatch }, { addr, ts, cou
   return apiWrapper({ commit, dispatch }, api.apiQueryTxHistoryByAddr(addr, ts, count));
 }
 
-export async function purchaseIAP({ commit, dispatch }, { id, payload }) {
-  return apiWrapper({ commit, dispatch }, api.apiPurchaseIAP(id, payload), { blocking: true });
-}
-
 export async function queryIAPProducts({ commit, dispatch }) {
   return apiWrapper({ commit, dispatch }, api.apiQueryIAPProducts());
-}
-
-export async function purchaseSubscription({ commit, dispatch }, payload) {
-  return apiWrapper(
-    { commit, dispatch },
-    api.apiPurchaseSubscription(payload),
-    { blocking: true },
-  );
-}
-
-export async function fetchUserSubscriptionInfo({ commit, dispatch }, userId) {
-  return apiWrapper(
-    { commit, dispatch },
-    api.apiGetUserSubscriptionInfo(userId),
-  );
-}
-
-export async function claimSubscription({ commit, dispatch }, { subscriptionId, user }) {
-  return apiWrapper(
-    { commit, dispatch },
-    api.apiClaimSubscription({ subscriptionId, user }),
-    { blocking: true },
-  );
-}
-
-export async function cancelSubscription({ commit, dispatch }, userId) {
-  await apiWrapper(
-    { commit, dispatch },
-    api.apiCancelSubscription(userId),
-    { blocking: true },
-  );
-  commit(types.USER_SET_IS_SUBSCRIBED, false);
 }
 
 export async function queryEthPrice({ commit, dispatch }) {

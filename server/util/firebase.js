@@ -13,7 +13,6 @@ if (process.env.CI) {
     missionCollection: {},
     payoutCollection: {},
     configCollection: {},
-    iapSubscriptionCollection: {},
     bucket: {},
     FieldValue,
   };
@@ -26,23 +25,24 @@ if (process.env.CI) {
   const db = admin.firestore();
   db.settings({ timestampsInSnapshots: true });
   const userCollection = db.collection(config.FIRESTORE_USER_ROOT);
+  const userAuthCollection = db.collection(config.FIRESTORE_USER_AUTH_ROOT);
   const txCollection = db.collection(config.FIRESTORE_TX_ROOT);
   const iapCollection = db.collection(config.FIRESTORE_IAP_ROOT);
   const missionCollection = db.collection(config.FIRESTORE_MISSION_ROOT);
   const payoutCollection = db.collection(config.FIRESTORE_PAYOUT_ROOT);
   const configCollection = db.collection(config.FIRESTORE_CONFIG_ROOT);
-  const iapSubscriptionCollection = db.collection(config.FIRESTORE_IAP_SUBSCRIPTION_ROOT);
   const bucket = admin.storage().bucket();
 
   module.exports = {
     db,
+    admin,
     userCollection,
+    userAuthCollection,
     txCollection,
     iapCollection,
     missionCollection,
     payoutCollection,
     configCollection,
-    iapSubscriptionCollection,
     bucket,
     FieldValue,
   };

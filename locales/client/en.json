@@ -19,7 +19,8 @@
       "copied": "Copied",
       "done": "Done",
       "myAccount": "My Account",
-      "next": "Next"
+      "next": "Next",
+      "continue": "Continue"
     }
   },
   "Language": {
@@ -223,14 +224,15 @@
     "item": {
       "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
       "bonus": "LikeCoin Bonus",
+      "earnLikeCoin": "Earn LikeCoin",
       "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
       "tokenSale": "@:TokenSale.title",
-      "backer": "@:BackerPage.title",
       "whitepaper": "@:Whitepaper.Button.whitepaper",
       "support": "@:Footer.button.support",
       "press": "Press",
       "poc": "Proof of Concept",
-      "settings": "Settings"
+      "settings": "Settings",
+      "logout": "Logout"
     }
   },
   "Sign": {
@@ -494,7 +496,7 @@
         "rewarded": "Rewarded",
         "to": "to",
         "on": "on",
-        "backers": "backers",
+        "backers": "liker",
         "creators": "Creators",
         "contents": "Contents"
       }
@@ -665,6 +667,74 @@
       "label": "No, thank you"
     }
   },
+  "AuthDialog": {
+    "label": {
+      "loading": "Loading",
+      "signingIn": "Signing in",
+      "signInError": "Error occures when signing in",
+      "checkInbox": "Check your inbox",
+      "checkInboxDescription": "We just emailed a confirmation link to {email}. Click the link, and you’ll be signed in.",
+      "loginSuccessful": "Login successful"
+    },
+    "SignIn": {
+      "title": "Sign in / Sign up",
+      "description": "Create an account",
+      "label": {
+        "or": "or",
+        "with": "Sign in / Sign up with"
+      },
+      "button": {
+        "email": "Email",
+        "wallet": "Sign with Ethereum Wallet"
+      }
+    },
+    "SignInWithEmail": {
+      "title": "Sign in / Sign up",
+      "description": "Enter your email to sign in",
+      "descriptionReEnter": "Re-enter your email to sign in",
+      "label": {
+        "email": "Your email"
+      },
+      "button": {
+        "back": "← All sign in options"
+      }
+    },
+    "Register": {
+      "title": "Welcome",
+      "button": {
+        "uploadAvatar": "Upload avatar"
+      }
+    }
+  },
+  "WalletNoticeDialog": {
+    "allSignInOptions": "all sign in options",
+    "page": [
+      {
+        "title": "Use a wallet to keep LikeCoin",
+        "description": "After binding your wallet to LikeCoin ID, you can:",
+        "bullet": [
+          "Keep LikeCoin to your wallet",
+          "Free to use LikeCoin transfer service",
+          "Earn LikeCoin by joining \"Reinventing the Like\" ecosystem"
+        ]
+      },
+      {
+        "title": "Wallet is kept by you",
+        "description": [
+          "Note that LikeCoin only bind your wallet address, we do not have the private key of your wallet, and we are not able to use your wallet.",
+          "You have to backup and responsible for your the private key and seed phrase of your wallet. If you lost those information, we would not able to recover that."
+        ]
+      },
+      {
+        "title": "Keep your wallet safe",
+        "description": [
+          "If you transfer your LikeCoin through ours or other services, once the transaction has been ordered, we are unable to void it.",
+          "Once a wallet has been created, it stays in the Ethereum, we are unable to suspend or delete it."
+        ]
+      }
+    ],
+    "startUsing": "Start using"
+  },
   "Toolbar": {
     "etherscan": {
       "button": {
@@ -698,6 +768,7 @@
       "enableEmail": "Receive email notification for LikeCoin transaction and news update",
       "privacyPolicy": "Privacy Policy",
       "agreeTerms": "I agree to {privacyPolicy}.",
+      "bindWallet": "Bind MetaMask wallet",
       "label": {
         "updatedInfo": "Your information have been updated.",
         "viewPage": "View your page"
@@ -716,6 +787,25 @@
       "overview": "Overview",
       "bonus": "Bonus",
       "history": "Bonus History"
+    },
+    "mansory": {
+      "title": "Start reading",
+      "description": "Support works from the best writer.",
+      "descriptionCTA": "I want to earn LikeCoin from my work"
+    },
+    "likeButtonAdopter": {
+      "title": "Media using LikeButton",
+      "descriptionCTA": "I want to earn LikeCoin from my site"
+    },
+    "civicLiker": {
+      "title": "Give a hand to support creativity",
+      "description": "Support your favourite creative work. Simple and effective. With bla bla, to bla.",
+      "descriptionCTA": "Civic Liker"
+    },
+    "verifyEmailCta": {
+      "title": "Check your inbox",
+      "description": "We just emailed a verify link to {email}. Click the link to verify your email address.",
+      "descriptionCTA": "I did not receive any email"
     }
   },
   "Edit": {
@@ -813,7 +903,8 @@
       "notSupported": "Your wallet does not support this function",
       "ethInsufficient": "Insufficient ETH in your wallet.",
       "likecoinInsufficient": "Insufficient LikeCoin in your wallet.",
-      "sameUser": "Sender and Recipient cannot be same"
+      "sameUser": "Sender and Recipient cannot be same",
+      "metamaskWalletNotMatch": "Your wallet address is not the same as current Metamask address."
     }
   },
   "WhitePaper": {
@@ -869,24 +960,6 @@
       "aboutLikeCoin": "About LikeCoin",
       "whitePaper": "@:WhitePaper.label.whitePaper",
       "noETH": "No ETH?"
-    }
-  },
-  "BackerPage": {
-    "title": "Support the movement",
-    "label": {
-      "tagline": "Buy our books.",
-      "description": "LikeCoin protocol is a movement to redistribute the income generated by contents licensed under Creative Commons. Our contents are free to use and our source codes are open source on <a href=\"https://github.com/likecoin\">Github</a>. <br/><br/><a href=\"http://sched.co/E6zv\">Our presentation in Creative Commons Summit 2018</a>",
-      "notRegistered": "Create LikeCoin ID and join the movement"
-    },
-    "button": {
-      "register": "Create ID",
-      "purchaseInETH": "Support LikeCoin in ETH"
-    },
-    "productList": {
-      "title": "Shop",
-      "label": {
-        "youHavePurchased": "You have purchased {product}, the receipt will be sent to your email {email}. Reference number:"
-      }
     }
   },
   "BonusPage": {
@@ -1087,7 +1160,11 @@
     "TWITTER_QUOTE_INVALID": "Please retweet the correct tweet",
     "TWITTER_URL_INVALID": "The tweet URL is invalid",
     "USER_ALREADY_EXIST": "User already exists",
+    "USER_REGISTER_ERROR": "Error occurs during registration",
     "USER_NOT_EXIST": "User is not exist",
+    "USER_UNLINK_SOLE_OAUTH_LOGIN": "Unable to unlink. You need at least one sign in method",
+    "USER_AUTH_EMAIL_LINK_INVALID": "The email link has expired or has already been used",
+    "USER_AUTH_THRID_PARTY_COOKIE_BLOCKED": "You browser has blocked third-party cookies, please disabled this setting in your browser and try again",
     "OICE_SERVER_ERROR": "Unable to verify, please try angin. If this still happen, please contact us.",
     "OICE_LIKECOIN_ID_NOT_BIND": "The linkage of LikeCoin ID and oice account is not correct, please make sure your oice account have bind a LikeCoin ID, and that ID is same as your LikeCoin ID."
   },
@@ -1305,13 +1382,15 @@
       "poc": "Proof of Creativity",
       "slogan": "Get Rewarded by Reader’s Likes NOW",
       "campaign": "“Reinventing the Like” Campaign is Live",
-      "enroll": "Campaign Enrollment"
+      "enroll": "Campaign Enrollment",
+      "minTitle": "Thanks for a little support"
     },
     "label": {
       "earn": "Add the reinvented LikeButton to your creative contents to turn readers' Likes into passive income. Keep connected with your fans, promote your own brand with a nicely designed UI.",
       "poc": "With the focus on rewarding content creators, LikeCoin (LIKE) measures the \"creativity\" of creative contents and let creators make passive income in LIKE with their creative contents according to the Likes they get. We call the mechanism Proof of Creativity, or PoC.",
       "campaign": "Act immediately to earn LIKE by your creative works. There are three platforms that support the LikeButton now: WordPress-powered sites, Medium and oice.",
-      "enroll": "Add the LikeButton to your creative works; get Likes from your fans. It’s that simple! We are giving out millions of LikeCoin per month to reward creators. Let’s go ahead for the bonus."
+      "enroll": "Add the LikeButton to your creative works; get Likes from your fans. It’s that simple! We are giving out millions of LikeCoin per month to reward creators. Let’s go ahead for the bonus.",
+      "minLabel": "From now on, whenever you click the LikeButton from a creativte content, the creator will earn profit."
     },
     "button": {
       "startUsing": "Start using"

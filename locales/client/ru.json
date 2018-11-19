@@ -221,7 +221,6 @@
             "bonus": "Бонус LikeCoin",
             "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
             "tokenSale": "@:TokenSale.title",
-            "backer": "@:BackerPage.title",
             "whitepaper": "@:Whitepaper.Button.whitepaper",
             "support": "@:Footer.button.support",
             "press": "Пресса",
@@ -795,24 +794,6 @@
             "aboutLikeCoin": "Сведения о LikeCoin",
             "whitePaper": "@:WhitePaper.label.whitePaper",
             "noETH": "Нет ETH?"
-        }
-    },
-    "BackerPage": {
-        "title": "Поддержать движение",
-        "label": {
-            "tagline": "Купите наши книги.",
-            "description": "Протокол LikeCoin — это движение в поддержку перераспределения дохода, создаваемого материалами, лицензированными Creative Commons. Наши материалы можно использовать без ограничений, а наш исходный код открыт на <a href=\"https://github.com/likecoin\">Github</a>.<br/><br/><a href=\"http://sched.co/E6zv\">Наша презентация на саммите Creative Commons в 2018 г.</a>",
-            "notRegistered": "Создайте идентификатор LikeCoin и станьте частью движения"
-        },
-        "button": {
-            "register": "Создать идентификатор",
-            "purchaseInETH": "Поддержать LikeCoin в ETH"
-        },
-        "productList": {
-            "title": "Магазин",
-            "label": {
-                "youHavePurchased": "Вы купили: {product}. Чек будет отправлен на ваш адрес эл. почты {email}. Справочный номер:"
-            }
         }
     },
     "BonusPage": {

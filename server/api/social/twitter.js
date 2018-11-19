@@ -1,14 +1,13 @@
 import { Router } from 'express';
-import { checkPlatformAlreadyLinked } from './index';
-import { fetchTwitterOAuthInfo, fetchTwitterUser } from '../../oauth/twitter';
+import { fetchTwitterOAuthInfo } from '../../oauth/twitter';
 import { PUBSUB_TOPIC_MISC } from '../../../constant';
 import publisher from '../../util/gcloudPub';
 import { jwtAuth } from '../../util/jwt';
+import { checkPlatformAlreadyLinked, socialLinkTwitter } from '../../util/api/social';
 import { ValidationError } from '../../../util/ValidationHelper';
 
 const {
   userCollection: dbRef,
-  FieldValue,
 } = require('../../util/firebase');
 
 const router = Router();
@@ -48,35 +47,40 @@ router.post('/social/link/twitter', jwtAuth('write'), async (req, res, next) => 
     if (!oAuthVerifier || !oAuthToken || !user) {
       throw new ValidationError('invalid payload');
     }
-    const doc = await dbRef.doc(user).collection('social').doc('twitter').get();
+    const platform = 'twitter';
+    const doc = await dbRef.doc(user).collection('social').doc(platform).get();
     const {
       oAuthToken: token,
       oAuthTokenSecret,
       isLinked,
+      isLogin,
     } = doc.data();
 
-    if (isLinked) throw new ValidationError('already linked');
+    if (isLogin && isLinked) {
+      throw new ValidationError('already linked');
+    }
     if (token !== oAuthToken) {
       throw new ValidationError('oauth token not match');
     }
+
     const {
       userId,
       displayName,
-    } = await fetchTwitterUser(oAuthToken, oAuthTokenSecret, oAuthVerifier);
-    const url = `https://twitter.com/intent/user?user_id=${userId}`;
-    await dbRef.doc(user).collection('social').doc('twitter').set({
-      displayName,
-      userId,
       url,
-      oAuthToken: FieldValue.delete(),
-      oAuthTokenSecret: FieldValue.delete(),
-      isLinked: true,
-      ts: Date.now(),
-    }, { merge: true });
+      oAuthToken: newOAuthToken,
+      oAuthTokenSecret: newOAuthTokenSecret,
+    } = await socialLinkTwitter(
+      user,
+      { token: oAuthToken, secret: oAuthTokenSecret, oAuthVerifier },
+      false,
+    );
+
     res.json({
-      platform: 'twitter',
+      platform,
       displayName,
       url,
+      oAuthToken: newOAuthToken,
+      oAuthTokenSecret: newOAuthTokenSecret,
     });
     const userDoc = await dbRef.doc(user).get();
     const {
@@ -89,7 +93,7 @@ router.post('/social/link/twitter', jwtAuth('write'), async (req, res, next) => 
     } = userDoc.data();
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventSocialLink',
-      platform: 'twitter',
+      platform,
       user,
       email: email || undefined,
       displayName: userDisplayName,

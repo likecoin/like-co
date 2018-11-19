@@ -1,6 +1,6 @@
 <template>
   <div class="lc-layout">
-    <tool-bars :disableError="getIfDisableError" />
+    <tool-bars />
 
     <div class="lc-page-wrapper with-sliding-menu">
 
@@ -27,7 +27,10 @@
         </div>
 
         <!-- BEGIN - Tab bar section -->
-        <div class="lc-container-1">
+        <div
+          v-if="getUserInfo.wallet"
+          class="lc-container-1"
+        >
           <div class="underlay gray" />
           <md-tabs
             :md-active-tab="$route.name"
@@ -85,7 +88,7 @@
 
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 import MissionDialog from '@/components/dialogs/MissionDialog';
 import PromptNotificationDialog from '@/components/dialogs/PromptNotificationDialog';
 import MyFooter from '~/components/footer/Footer';
@@ -93,8 +96,6 @@ import SiteHeader from '~/components/header/HeaderWithMenuButton';
 import SlidingMenu from '~/components/SlidingMenu/index';
 import ToolBars from '~/components/toolbars/ToolBars';
 import UserInfoForm from '~/components/UserInfoForm';
-
-import { getToolbarsDisableError } from '~/constant';
 
 export default {
   components: {
@@ -106,10 +107,8 @@ export default {
     ToolBars,
     UserInfoForm,
   },
+  middleware: 'authenticated',
   computed: {
-    getIfDisableError() {
-      return getToolbarsDisableError(this.$route.name);
-    },
     hasNewInvitee() {
       return this.getReferralMissionList.some(referral => !referral.seen);
     },
@@ -118,7 +117,7 @@ export default {
       'getCurrentLocaleISO',
       'getReferralMissionList',
       'getUserNeedAuth',
-      'getUserNeedRegister',
+      'getUserInfo',
     ]),
   },
   head() {
@@ -130,34 +129,6 @@ export default {
         'lc-lang': this.getCurrentLocale,
       },
     };
-  },
-  watch: {
-    getUserNeedAuth(a) {
-      if (a) {
-        this.triggerLoginSign();
-      }
-    },
-    getUserNeedRegister(a) {
-      if (a) {
-        this.$router.push({ name: 'in-register', query: { ref: 'in', ...this.$route.query } });
-      }
-    },
-  },
-  mounted() {
-    if (this.getUserNeedAuth) {
-      this.triggerLoginSign();
-    }
-    if (this.getUserNeedRegister) {
-      this.$router.push({ name: 'in-register', query: { ref: 'in', ...this.$route.query } });
-    }
-  },
-  methods: {
-    ...mapActions([
-      'loginUser',
-    ]),
-    async triggerLoginSign() {
-      if (!(await this.loginUser())) this.$router.go(-1);
-    },
   },
 };
 </script>

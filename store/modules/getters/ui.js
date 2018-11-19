@@ -10,6 +10,8 @@ export const getPopupError = state => state.popupError;
 
 export const getPopupInfo = state => state.popupInfo;
 
+export const getPopupDialogs = state => state.popupDialogs;
+
 export const getPopupMission = state => state.popupMission;
 
 export const getIsInTransaction = state => state.isInTransaction;
@@ -56,3 +58,12 @@ export const getIsSlidingMenuOpen = state => state.isSlidingMenuOpen;
 
 /* eslint-disable-next-line max-len */
 export const getIsShowingPromptNotificationDialog = state => state.isShowingPromptNotificationDialog;
+
+export const getIsShowAuthDialog = state => state.isShowAuthDialog;
+
+export const getIsShowWalletNoticeDialog = state => state.isShowWalletNoticeDialog;
+export const getWalletNoticeDialogCancelTitle = state => state.walletNoticeDialogCancelTitle;
+export const getWalletNoticeDialogCancelCallback = state => state.walletNoticeDialogCancelCallback;
+export const getWalletNoticeDialogConfirmCallback = state => (
+  state.walletNoticeDialogConfirmCallback
+);

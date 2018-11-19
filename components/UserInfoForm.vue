@@ -65,11 +65,28 @@
       <!-- END - User info section -->
 
       <like-coin-amount
+        v-if="wallet"
         :value="likeCoinValueStr"
         :linkText="$t('Home.Sale.button.earnCoin')"
         :linkTo="{ name: 'in-settings-button' }"
         class="likecoin-amount-section"
       />
+      <!-- TODO: Temp hide before civic liker release
+      <div
+        v-else
+        class="links"
+      >
+        <md-button
+          :to="{ name: 'in-settings-button' }"
+          class="link md-likecoin lc-text-align-center lc-font-weight-600 shadow"
+        >{{ $t('Settings.button.becomeBacker') }}</md-button>
+        <div
+          class="desc"
+        >
+          {{ $t('Settings.label.backerDesc') }}
+        </div>
+      </div>
+      -->
 
       <input-dialog
         ref="inputDialog"
@@ -100,7 +117,10 @@
                 </nuxt-link>
               </div>
 
-              <div class="address-field">
+              <div
+                v-if="wallet"
+                class="address-field"
+              >
                 <div class="address-title">
                   {{ $t('Settings.label.receiveLikeCoinLink') }}
                 </div>
@@ -122,10 +142,16 @@
                 </div>
               </div>
 
-              <div class="address-field">
+              <div
+                v-if="wallet"
+                class="address-field"
+              >
                 {{ $t('Edit.label.accountConnection') }}
               </div>
-              <div class="lc-margin-vertical-8 lc-flex lc-align-items-center">
+              <div
+                v-if="wallet"
+                class="lc-margin-vertical-8 lc-flex lc-align-items-center"
+              >
                 <social-media-connect
                   v-if="getUserInfo.user"
                   :platforms="getUserSocialPlatforms"
@@ -159,7 +185,6 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-import User from '@/util/User';
 import { logTrackerEvent } from '@/util/EventLogger';
 import getTestAttribute from '@/util/test';
 
@@ -203,7 +228,6 @@ export default {
       'getCurrentLocale',
       'getUserInfo',
       'getUserSocialPlatforms',
-      'getUserIsReady',
       'getUserIsRegistered',
       'getUserLikeCoinAmountInBigNumber',
     ]),
@@ -211,21 +235,17 @@ export default {
       return this.getUserInfo.isEmailVerified;
     },
     likeCoinValueStr() {
+      if (!this.wallet) {
+        return 'No binded wallet';
+      }
       return (this.getUserLikeCoinAmountInBigNumber || 0).toFixed(4);
     },
     receiveLikeCoinLink() {
       return `https://${EXTERNAL_HOSTNAME}/${this.getUserInfo.user}`;
     },
   },
-  watch: {
-    getUserIsReady(value) {
-      if (value && this.getUserIsRegistered) {
-        this.updateInfo();
-      }
-    },
-  },
   mounted() {
-    if (this.getUserIsReady && this.getUserIsRegistered) {
+    if (this.getUserIsRegistered) {
       if (this.$route.params.showEmail && !this.isUserEmailVerified) {
         this.$nextTick(() => this.$refs.inputDialog.show());
       }
@@ -234,7 +254,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'newUser',
+      'updateUser',
       'setInfoMsg',
       'sendVerifyEmail',
       'refreshUserInfo',
@@ -247,12 +267,11 @@ export default {
           avatarFile: this.avatarFile,
           user: this.user,
           displayName: this.displayName,
-          wallet: this.wallet,
+          wallet: this.wallet || '',
           email: this.email,
           locale: this.getCurrentLocale,
         };
-        const data = await User.formatAndSignUserInfo(userInfo, this.$t('Sign.Message.editUser'));
-        await this.newUser(data);
+        await this.updateUser(userInfo);
         this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${this.user}">${this.$t('Register.form.label.viewPage')}</a>`);
         this.refreshUserInfo(this.user);
         this.isEditing = false;
@@ -499,6 +518,66 @@ $profile-icon-mobile-size: 88px;
 
     .md-button {
       min-width: 36px;
+    }
+  }
+}
+
+.links {
+  z-index: 1;
+
+  margin-top: -24px;
+
+  @media (min-width: #{768px + 1px}) {
+    align-self: flex-end;
+
+    width: calc(33.33% - 40px);
+    margin-top: -60px;
+    margin-right: #{40px + 8px};
+    margin-left: 66.6%;
+  }
+
+  @media (max-width: 768px) {
+    align-self: center;
+
+    width: 100%;
+
+    margin-left: 0px;
+    padding: 0 24px;
+
+    text-align: center;
+  }
+
+  .link {
+    width: 100%;
+    margin: 0;
+
+    transition: opacity .2s ease-in-out;
+
+    background-image: $like-linear-gradient-2;
+    &:not(:first-child) {
+      margin-top: 8px;
+    }
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    > a, span {
+      text-decoration: underline;
+    }
+  }
+
+  .desc {
+    padding: 4px 8px;
+
+    text-align: center;
+
+    color: $like-gray-5;
+
+    font-size: 12px;
+
+    @media (max-width: 768px) {
+      width: 100%;
     }
   }
 }

@@ -222,14 +222,16 @@
     },
     "item": {
       "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
+      "bonus": "LikeCoin 奬勵",
+      "earnLikeCoin": "賺取 LikeCoin",
       "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
       "tokenSale": "@:TokenSale.title",
-      "backer": "@:BackerPage.title",
       "whitepaper": "@:Whitepaper.Button.whitepaper",
       "support": "@:Footer.button.support",
       "press": "媒體",
       "poc": "概念驗證",
-      "settings": "設定"
+      "settings": "設定",
+      "logout": "登出"
     }
   },
   "Sign": {
@@ -489,7 +491,7 @@
         "rewarded": "回饋了",
         "to": "正支持",
         "on": "的",
-        "backers": "backers",
+        "backers": "liker",
         "creators": "創作者",
         "contents": "作品"
       }
@@ -652,6 +654,73 @@
       }
     }
   },
+  "AuthDialog": {
+    "label": {
+      "loading": "載入中",
+      "signingIn": "登入中",
+      "signInError": "登入時發生錯誤",
+      "checkInbox": "請檢查你的郵箱",
+      "checkInboxDescription": "我們剛剛發了一條確認鏈結到電郵地址 {email}。請點擊鏈結，然後登入。",
+      "loginSuccessful": "成功登入"
+    },
+    "SignIn": {
+      "title": "登入 / 註冊",
+      "description": "用以下任何一種方法",
+      "label": {
+        "or": "或",
+        "with": ""
+      },
+      "button": {
+        "email": "電郵",
+        "wallet": "以加密貨幣錢包登入/註冊"
+      }
+    },
+    "SignInWithEmail": {
+      "title": "登入 / 註冊",
+      "description": "請輸入電郵以登入",
+      "label": {
+        "email": "你的電郵地址"
+      },
+      "button": {
+        "back": "← 所有登入方式"
+      }
+    },
+    "Register": {
+      "title": "歡迎",
+      "button": {
+        "uploadAvatar": "上傳頭像"
+      }
+    }
+  },
+  "WalletNoticeDialog": {
+    "allSignInOptions": "其他登入方式",
+    "page": [
+      {
+        "title": "使用電子錢包保存 LikeCoin",
+        "description": "將 LikeCoin ID 綁定你的電子錢包地址後，你可以：",
+        "bullet": [
+          "儲存 LikeCoin 到自己的電子錢包",
+          "免費使用 LikeCoin 轉賬服務",
+          "進入「化讚為賞」的生態，賺取 LikeCoin"
+        ]
+      },
+      {
+        "title": "電子錢包全權由你保管",
+        "description": [
+          "請注意，like.co 只會綁定你電子錢包的公開地址。我們不會管有你的電子錢包私鑰，也無法動用到你電包中的款項。",
+          "你必需自行保管好操作錢包所需的私鑰 (private key) 和助記詞 (seed phrase) 等資料的備份。若你遺失了以上資料，我們將無法助你恢復錢包的使用權。"
+        ]
+      },
+      {
+        "title": "保護你的電子錢包防止損失",
+        "description": [
+          "若你透過 like.co 的轉賬服務或任何第三方提供的轉賬方式發送 LikeCoin 到其他地址，轉賬指令一經發出，我們將無法取消或凍結該轉帳指令。",
+          "電子錢包地址一經創建，將永遠存在於以太坊上，我們無法將其凍結或刪除。"
+        ]
+      }
+    ],
+    "startUsing": "開始使用"
+  },
   "Toolbar": {
     "etherscan": {
       "button": {
@@ -682,6 +751,7 @@
       "displayName": "顯示名稱",
       "claim": "領取",
       "couponCode": "兌換碼 (可選)",
+      "bindWallet": "綁定 MetaMask 地址",
       "enableEmail": "接收你的 LikeCoin 交易通知及最新消息的電郵",
       "privacyPolicy": "私隱政策",
       "agreeTerms": "我同意 {privacyPolicy}.",
@@ -703,6 +773,25 @@
       "overview": "概覧",
       "bonus": "獎賞",
       "history": "獎賞紀錄"
+    },
+    "mansory": {
+      "title": "閱讀之旅啟航",
+      "description": "支持你心目中最棒作者的作品",
+      "descriptionCTA": "我想讓自己的作品賺取 LikeCoin"
+    },
+    "likeButtonAdopter": {
+      "title": "支援讚賞鍵的媒體",
+      "descriptionCTA": "我想讓自己的網站賺取 LikeCoin"
+    },
+    "civicLiker": {
+      "title": "Give a hand to support creativity",
+      "description": "Support your favourite creative work. Simple and effective. With bla bla, to bla.",
+      "descriptionCTA": "Civic Liker"
+    },
+    "verifyEmailCta": {
+      "title": "檢查你的信箱",
+      "description": "驗證電郵已送達 {email}，請點擊電郵內的連結以驗證電郵。",
+      "descriptionCTA": "我沒有收到電郵"
     }
   },
   "Edit": {
@@ -800,7 +889,8 @@
       "notSupported": "你的錢包不支援這個功能",
       "ethInsufficient": "錢包內的 ETH 數量不足",
       "likecoinInsufficient": "錢包內的 LikeCoin 數量不足",
-      "sameUser": "不能轉賬給自己"
+      "sameUser": "不能轉賬給自己",
+      "metamaskWalletNotMatch": "你的錢包地址跟目前的 Metamask 地址不相符"
     }
   },
   "WhitePaper": {
@@ -839,24 +929,6 @@
       "aboutLikeCoin": "關於 LikeCoin",
       "whitePaper": "@:WhitePaper.label.whitePaper",
       "noETH": "沒有ETH？"
-    }
-  },
-  "BackerPage": {
-    "title": "支持回饋創作運動",
-    "label": {
-      "tagline": "購買紀念書籍",
-      "description": "LikeCoin 要推動的是一場重新分配內容創作利益的運動。我們的內容均以共享創意授權，我們的源代碼為開源，均可在 <a href=\"https://github.com/likecoin\">Github</a> 下載。<br/><br/><a href=\"http://sched.co/E6zv\">LikeCoin 於 Creative Commons Summit 2018 的工作坊</a>",
-      "notRegistered": "立刻註冊 LikeCoin ID，加入這場運動"
-    },
-    "button": {
-      "register": "註冊 LikeCoin ID",
-      "purchaseInETH": "使用以太幣購買"
-    },
-    "productList": {
-      "title": "商店",
-      "label": {
-        "youHavePurchased": "你已購買 {product} ，收據將會發送至你的電郵 {email}。參考編號："
-      }
     }
   },
   "BonusPage": {

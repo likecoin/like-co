@@ -7,6 +7,9 @@ export const ValidationHelper = {
   checkAddressValid(addr) {
     return addr.length === 42 && addr.substr(0, 2) === '0x';
   },
+  checkUserNameValid(user) {
+    return user && (/^[a-z0-9-_]+$/.test(user) && user.length >= 7 && user.length <= 20);
+  },
   filterUserData(u) {
     const {
       user,
@@ -17,7 +20,6 @@ export const ValidationHelper = {
       referrer,
       isEmailVerified,
       isEmailEnabled,
-      isSubscribed = false,
       email,
       read = {},
     } = u;
@@ -31,7 +33,6 @@ export const ValidationHelper = {
       referrer: !!referrer,
       isEmailVerified,
       isEmailEnabled,
-      isSubscribed,
       read,
     };
   },
@@ -147,6 +148,7 @@ export const ValidationHelper = {
     displayName,
     url,
     isPublic,
+    isLogin,
   }) {
     const data = {
       displayName,
@@ -155,6 +157,7 @@ export const ValidationHelper = {
       url,
     };
     if (pages) data.pages = pages;
+    if (isLogin) data.isLogin = isLogin;
     return data;
   },
   filterSocialLinksPersonal({
@@ -194,21 +197,6 @@ export const ValidationHelper = {
   }) {
     return {
       displaySocialMediaOption,
-    };
-  },
-  filterUserSubscriptionInfo({
-    subscriptionId,
-    currentPeriodEnd,
-    currentPeriodStart,
-    isCanceled,
-    isSubscribed,
-  }) {
-    return {
-      subscriptionId,
-      currentPeriodEnd,
-      currentPeriodStart,
-      isCanceled,
-      isSubscribed,
     };
   },
 };
