@@ -44,7 +44,9 @@ export const apiPostNewUser = (form) => {
   /* eslint-disable no-new */
   const params = new FormData();
   Object.keys(form).forEach((key) => {
-    params.append(key, form[key]);
+    if (typeof form[key] !== 'undefined') {
+      params.append(key, form[key]);
+    }
   });
   return axios.post('/api/users/new', params);
 };
@@ -53,7 +55,9 @@ export const apiPostUpdateUser = (form) => {
   /* eslint-disable no-new */
   const params = new FormData();
   Object.keys(form).forEach((key) => {
-    params.append(key, form[key]);
+    if (typeof form[key] !== 'undefined') {
+      params.append(key, form[key]);
+    }
   });
   return axios.post('/api/users/update', params);
 };
