@@ -773,6 +773,25 @@
       "overview": "概覧",
       "bonus": "獎賞",
       "history": "獎賞紀錄"
+    },
+    "mansory": {
+      "title": "閱讀之旅啟航",
+      "description": "支持你心目中最棒作者的作品",
+      "descriptionCTA": "我想讓自己的作品賺取 LikeCoin"
+    },
+    "likeButtonAdopter": {
+      "title": "支援讚賞鍵的媒體",
+      "descriptionCTA": "我想讓自己的網站賺取 LikeCoin"
+    },
+    "civicLiker": {
+      "title": "Give a hand to support creativity",
+      "description": "Support your favourite creative work. Simple and effective. With bla bla, to bla.",
+      "descriptionCTA": "Civic Liker"
+    },
+    "verifyEmailCta": {
+      "title": "檢查你的信箱",
+      "description": "驗證電郵已送達 {email}，請點擊電郵內的連結以驗證電郵。",
+      "descriptionCTA": "我沒有收到電郵"
     }
   },
   "Edit": {
