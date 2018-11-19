@@ -53,9 +53,12 @@ router.post('/social/link/twitter', jwtAuth('write'), async (req, res, next) => 
       oAuthToken: token,
       oAuthTokenSecret,
       isLinked,
+      isLogin,
     } = doc.data();
 
-    if (isLinked) throw new ValidationError('already linked');
+    if (isLogin && isLinked) {
+      throw new ValidationError('already linked');
+    }
     if (token !== oAuthToken) {
       throw new ValidationError('oauth token not match');
     }

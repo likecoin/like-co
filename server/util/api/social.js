@@ -2,6 +2,7 @@ import { fetchFacebookUser } from '../../oauth/facebook';
 import { fetchTwitterUser, fetchTwitterUserByAccessToken } from '../../oauth/twitter';
 import { tryToLinkOAuthLogin } from './users';
 import { ValidationError } from '../../../util/ValidationHelper';
+import { IS_LGOIN_SOCIAL } from '../../../constant/index';
 
 const {
   userCollection: dbRef,
@@ -10,7 +11,8 @@ const {
 
 export async function checkPlatformAlreadyLinked(user, platform) {
   const doc = await dbRef.doc(user).collection('social').doc(platform).get();
-  return doc.data() && doc.data().isLinked;
+  const data = doc.data();
+  return data && data.isLinked && (!IS_LGOIN_SOCIAL.has(platform) || data.isLogin);
 }
 
 export async function socialLinkFacebook(user, accessToken, tryToOAuth = true) {
@@ -40,6 +42,7 @@ export async function socialLinkFacebook(user, accessToken, tryToOAuth = true) {
     userLink: link,
     pages,
     isLinked: true,
+    isLogin: true,
     ts: Date.now(),
   });
   return {
@@ -84,6 +87,7 @@ export async function socialLinkTwitter(
     oAuthToken: FieldValue.delete(),
     oAuthTokenSecret: FieldValue.delete(),
     isLinked: true,
+    isLogin: true,
     ts: Date.now(),
   }, { merge: true });
   return {

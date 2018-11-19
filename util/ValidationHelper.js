@@ -148,6 +148,7 @@ export const ValidationHelper = {
     displayName,
     url,
     isPublic,
+    isLogin,
   }) {
     const data = {
       displayName,
@@ -156,6 +157,7 @@ export const ValidationHelper = {
       url,
     };
     if (pages) data.pages = pages;
+    if (isLogin) data.isLogin = isLogin;
     return data;
   },
   filterSocialLinksPersonal({

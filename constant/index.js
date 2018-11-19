@@ -98,13 +98,12 @@ export const SOCIAL_MEDIA_LIST = [
     id: 'twitter',
     tier: 1,
   },
-  /*
-  {
-    id: 'instagram',
-    tier: 1,
-  },
-  */
 ];
+
+export const IS_LGOIN_SOCIAL = new Set([
+  'facebook',
+  'twitter',
+]);
 
 export const LINK_ICON_TYPES = ['profile', 'blog', 'photo', 'mail', 'contact', 'link'];
 
