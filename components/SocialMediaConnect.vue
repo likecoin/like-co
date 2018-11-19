@@ -126,8 +126,11 @@ import LikeCoinIcon from '~/assets/logo/icon.svg';
 import {
   EMAIL_REGEX,
   SOCIAL_MEDIA_LIST,
+  OAUTH_PLATFORM_LIST,
   IS_LGOIN_SOCIAL,
 } from '@/constant';
+
+import { firebasePlatformSignIn } from '~/util/FirebaseApp';
 
 import { openURL } from '~/util/client';
 import { logTrackerEvent } from '@/util/EventLogger';
@@ -215,7 +218,13 @@ export default {
         this.platforms[id1].order - this.platforms[id2].order
       ));
 
-      return [...platforms, ...links].slice(0, this.limit);
+      let list = [...platforms, ...links].slice(0, this.limit);
+
+      if (this.type === TYPE.LARGE) {
+        list = list.concat(OAUTH_PLATFORM_LIST);
+      }
+
+      return list;
     },
     facebookPages() {
       return [
@@ -247,6 +256,7 @@ export default {
     ...mapActions([
       'fetchSocialPlatformLink',
       'linkSocialPlatform',
+      'linkAuthPlatformToUser',
       'selectFacebookPageLink',
     ]),
     getIconPath(id) {
@@ -261,6 +271,7 @@ export default {
     },
     getIsConnected({ id, tier } = {}) {
       const platform = this.platforms[id];
+      if (platform && platform.isOAuthOnly) return true;
       return !this.getIsLegacyConnect(id, platform && platform.isLogin) && (
         !!platform || (tier === 0 && (id === 'likecoin' && this.userLink))
       );
@@ -271,8 +282,12 @@ export default {
     getIsLegacyConnect(id, isLogin) {
       return !this.isShowLegacy && IS_LGOIN_SOCIAL.has(id) && !isLogin;
     },
-    onClickConnectButton(socialMedia) {
-      const { id, tier } = socialMedia;
+    async onClickConnectButton(socialMedia) {
+      const { id, tier, isOAuthOnly } = socialMedia;
+      if (isOAuthOnly) {
+        await this.onClickOAuth(id);
+        return;
+      }
       const platform = this.platforms[id];
       const isConnected = !!platform || tier === 0;
       if (!isConnected || this.getIsLegacyConnect(id, platform && platform.isLogin)) {
@@ -290,7 +305,21 @@ export default {
         }
       }
     },
+    async onClickOAuth(id) {
+      const platform = this.platforms[id];
+      if (platform) return;
+      const { firebaseIdToken } = await firebasePlatformSignIn(id);
+      await this.linkAuthPlatformToUser({
+        platform: id,
+        payload: {
+          user: this.username,
+          firebaseIdToken,
+        },
+      });
+    },
     onClickDisconnectButton(socialMedia) {
+      const platform = this.platforms[socialMedia.id];
+      if (platform) return; // HACK
       this.$emit('disconnect', socialMedia.id);
     },
     async connect(socialMedia) {
