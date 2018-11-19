@@ -515,6 +515,28 @@ router.post('/users/login', async (req, res, next) => {
     if (user) {
       await setAuthCookies(req, res, { user, wallet });
       res.sendStatus(200);
+
+      const doc = await dbRef.doc(user).get();
+      if (doc.exists) {
+        const {
+          email,
+          displayName,
+          referrer,
+          locale,
+          timestamp: registerTime,
+        } = doc.data();
+        publisher.publish(PUBSUB_TOPIC_MISC, req, {
+          logType: 'eventUserLogin',
+          user,
+          email,
+          displayName,
+          wallet,
+          referrer,
+          locale,
+          registerTime,
+          platform,
+        });
+      }
     } else {
       res.sendStatus(404);
     }
@@ -523,9 +545,39 @@ router.post('/users/login', async (req, res, next) => {
   }
 });
 
-router.post('/users/logout', (req, res) => {
-  clearAuthCookies(req, res);
-  res.sendStatus(200);
+router.post('/users/logout', jwtAuth('read'), async (req, res, next) => {
+  try {
+    const { user } = req.user;
+
+    clearAuthCookies(req, res);
+    res.sendStatus(200);
+
+    if (user) {
+      const doc = await dbRef.doc(user).get();
+      if (doc.exists) {
+        const {
+          wallet,
+          email,
+          displayName,
+          referrer,
+          locale,
+          timestamp: registerTime,
+        } = doc.data();
+        publisher.publish(PUBSUB_TOPIC_MISC, req, {
+          logType: 'eventUserLogout',
+          user,
+          email,
+          displayName,
+          wallet,
+          referrer,
+          locale,
+          registerTime,
+        });
+      }
+    }
+  } catch (err) {
+    next(err);
+  }
 });
 
 router.post('/users/login/wallet/add', jwtAuth('write'), async (req, res, next) => {
