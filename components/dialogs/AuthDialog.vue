@@ -452,26 +452,38 @@ export default {
         case 'facebook':
           try {
             this.currentTab = 'loading';
-            this.signInPayload = await new Promise((resolve, reject) => {
+
+            const {
+              accessToken,
+              userID,
+            } = await new Promise((resolve, reject) => {
               if (!window.FB) {
                 reject(new Error('FACEBOOK_SDK_NOT_FOUND'));
               }
-              window.FB.login(({ authResponse }) => {
-                if (authResponse && authResponse.accessToken) {
-                  const {
-                    accessToken,
-                    userID: platformUserId,
-                  } = authResponse;
-
-                  resolve({
-                    accessToken,
-                    platformUserId,
-                  });
+              // Determine if a user has authenticated
+              const isRefreshingCache = true;
+              window.FB.getLoginStatus((response) => {
+                if (response.status === 'connected') {
+                  // The user is logged in and has authenticated
+                  resolve(response.authResponse);
                 } else {
-                  reject(new Error('FACEBOOK_AUTH_REJECTED'));
+                  // The user has signed but need to renew auth OR
+                  // The user hasn't auth OR
+                  // The user isn't logged in to Facebook
+                  window.FB.login(({ authResponse }) => {
+                    if (authResponse) {
+                      resolve(authResponse);
+                    } else {
+                      reject(new Error('FACEBOOK_AUTH_REJECTED'));
+                    }
+                  }, { scope: 'public_profile,pages_show_list,user_link' });
                 }
-              }, { scope: 'public_profile,pages_show_list,user_link' });
+              }, isRefreshingCache);
             });
+            this.signInPayload = {
+              accessToken,
+              platformUserId: userID,
+            };
 
             // Link Facebook with Firebase
             const userCredential = await firebase.auth().signInAndRetrieveDataWithCredential(
