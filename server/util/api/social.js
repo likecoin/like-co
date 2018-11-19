@@ -34,7 +34,7 @@ export async function socialLinkFacebook(user, accessToken, tryToOAuth = true) {
     if (!success) throw new ValidationError('USER_ALREADY_EXIST');
   }
 
-  await dbRef.doc(user).collection('social').doc('facebook').create({
+  await dbRef.doc(user).collection('social').doc('facebook').set({
     displayName,
     userId,
     appId,
@@ -44,7 +44,7 @@ export async function socialLinkFacebook(user, accessToken, tryToOAuth = true) {
     isLinked: true,
     isLogin: true,
     ts: Date.now(),
-  });
+  }, { merge: true });
   return {
     displayName,
     link,
