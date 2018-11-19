@@ -316,6 +316,7 @@ export default {
       'refreshMissionList',
       'onMissionClick',
       'fetchLikeSuggestionList',
+      'fetchSocialListDetailsById',
     ]),
     refreshMissions() {
       this.refreshMissionList(this.getUserInfo.user);
@@ -323,6 +324,7 @@ export default {
     updateInfo() {
       if (this.$refs.txHistory) this.$refs.txHistory.updateTokenSaleHistory();
       this.refreshMissions();
+      this.fetchSocialListDetailsById(this.getUserInfo.user);
     },
     async refreshLikeSuggestion() {
       this.isFetchingLikeSuggestion = true;
