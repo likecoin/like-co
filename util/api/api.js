@@ -66,7 +66,9 @@ export const apiLoginUser = payload => axios.post('/api/users/login', payload);
 
 export const apiLogoutUser = () => axios.post('/api/users/logout');
 
-export const apiLinkAuthWallet = payload => axios.post('/api/users/login/wallet/add', payload);
+export const apiFetchLinkedAuthPlatforms = () => axios.get('/api/users/login/platforms');
+
+export const apiLinkAuthPlatform = (platform, payload) => axios.post(`/api/users/login/${platform}/add`, payload);
 
 export const apiGetUserSelf = () => axios.get('/api/users/self');
 

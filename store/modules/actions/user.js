@@ -4,6 +4,7 @@ import * as api from '@/util/api/api';
 import * as types from '@/store/mutation-types';
 import {
   REDIRECT_NAME_WHITE_LIST,
+  OAUTH_PLATFORM_LIST,
   ONE_LIKE,
 } from '@/constant';
 
@@ -61,8 +62,18 @@ export async function loginUser({ commit, dispatch }, data) {
   return true;
 }
 
-export async function linkWalletToUser({ commit, dispatch }, data) {
-  await apiWrapper({ commit, dispatch }, api.apiLinkAuthWallet(data), { blocking: true });
+export async function linkWalletToUser({ commit, dispatch }, payload) {
+  await apiWrapper({ commit, dispatch }, api.apiLinkAuthPlatform('wallet', payload), { blocking: true });
+  await dispatch('refreshUser');
+  return true;
+}
+
+export async function linkAuthPlatformToUser({ commit, dispatch }, { platform, payload }) {
+  await apiWrapper(
+    { commit, dispatch },
+    api.apiLinkAuthPlatform(platform, payload),
+    { blocking: true },
+  );
   await dispatch('refreshUser');
   return true;
 }
@@ -172,8 +183,17 @@ export async function fetchtSocialListById({ commit, dispatch }, id) {
 }
 
 export async function fetchSocialListDetailsById({ commit, dispatch }, id) {
-  const payload = await apiWrapper({ commit, dispatch }, api.apiGetSocialListDetialsById(id));
-  commit(types.USER_SET_SOCIAL_DETAILS, payload);
+  const [payload, oauth] = await Promise.all([
+    apiWrapper({ commit, dispatch }, api.apiGetSocialListDetialsById(id)),
+    apiWrapper({ commit, dispatch }, api.apiFetchLinkedAuthPlatforms(id)),
+  ]);
+  const oAuthPlatforms = {};
+  oauth.forEach((platform) => {
+    if (OAUTH_PLATFORM_LIST.find(i => (i.id === platform))) {
+      oAuthPlatforms[platform] = { isOAuthOnly: true };
+    }
+  }); // HACK
+  commit(types.USER_SET_SOCIAL_DETAILS, { ...payload, oAuthPlatforms });
 }
 
 export async function fetchSocialPlatformLink({ commit, dispatch }, { platform, id }) {
