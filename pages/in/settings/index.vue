@@ -135,6 +135,7 @@
             <social-media-connect
               :platforms="getUserSocialPlatforms"
               :username="getUserInfo.user"
+              :is-show-legacy="false"
               type="large"
               @disconnect="onClickSocialMediaDisconnect"
             />

@@ -175,6 +175,10 @@ export default {
       type: [Boolean, String],
       default: false,
     },
+    isShowLegacy: {
+      type: [Boolean, String],
+      default: true,
+    },
   },
   data() {
     return {
@@ -265,7 +269,7 @@ export default {
       return this.platforms[id].displayName;
     },
     getIsLegacyConnect(id, isLogin) {
-      return IS_LGOIN_SOCIAL.has(id) && !isLogin;
+      return !this.isShowLegacy && IS_LGOIN_SOCIAL.has(id) && !isLogin;
     },
     onClickConnectButton(socialMedia) {
       const { id, tier } = socialMedia;
