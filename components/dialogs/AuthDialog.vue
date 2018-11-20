@@ -377,6 +377,11 @@ export default {
       if (!this.shouldHideDialog) {
         this.setIsShow(isShow);
       }
+      if (!isShow && this.errorCode === 'FIREBASE_EMAIL_LINK_AUTH_NO_EMAIL') {
+        // Do not retain the step if user closes dialog during re-enter email
+        this.currentTab = 'portal';
+        this.errorCode = '';
+      }
     },
     onConfirm() {
       this.setIsShow(false);
