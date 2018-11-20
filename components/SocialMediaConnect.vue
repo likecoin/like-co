@@ -18,7 +18,12 @@
           :key="socialMedia.id"
         >
           <div
-            class="social-media-connect__button-wrapper"
+            :class="[
+              'social-media-connect__button-wrapper',
+              {
+                'social-media-connect__button-wrapper--disabled': !getIsClickable(socialMedia),
+              },
+            ]"
           >
             <button
               :class="[
@@ -256,7 +261,8 @@ export default {
     ...mapActions([
       'fetchSocialPlatformLink',
       'linkSocialPlatform',
-      'linkAuthPlatformToUser',
+      'linkUserAuthPlatform',
+      'unlinkUserAuthPlatform',
       'selectFacebookPageLink',
     ]),
     getIconPath(id) {
@@ -276,8 +282,11 @@ export default {
         !!platform || (tier === 0 && (id === 'likecoin' && this.userLink))
       );
     },
+    getIsClickable(socialMedia) {
+      return !(this.getIsConnected(socialMedia) && !this.getSocialMediaUrl(socialMedia));
+    },
     getSocialMediaUserDisplayName(id) {
-      return this.platforms[id].displayName;
+      return this.platforms[id].displayName || this.$t('SocialMediaConnect.label.linked');
     },
     getIsLegacyConnect(id, isLogin) {
       return !this.isShowLegacy && IS_LGOIN_SOCIAL.has(id) && !isLogin;
@@ -309,7 +318,7 @@ export default {
       const platform = this.platforms[id];
       if (platform) return;
       const { firebaseIdToken } = await firebasePlatformSignIn(id);
-      await this.linkAuthPlatformToUser({
+      await this.linkUserAuthPlatform({
         platform: id,
         payload: {
           user: this.username,
@@ -317,10 +326,18 @@ export default {
         },
       });
     },
-    onClickDisconnectButton(socialMedia) {
-      const platform = this.platforms[socialMedia.id];
-      if (platform) return; // HACK
-      this.$emit('disconnect', socialMedia.id);
+    async onClickDisconnectButton(socialMedia) {
+      const { id, isOAuthOnly } = socialMedia;
+      if (isOAuthOnly) {
+        await this.onClickOAuthDisconnectButton(id);
+        return;
+      }
+      this.$emit('disconnect', id);
+    },
+    async onClickOAuthDisconnectButton(id) {
+      await this.unlinkUserAuthPlatform({
+        platform: id,
+      });
     },
     async connect(socialMedia) {
       switch (socialMedia.id) {
@@ -378,7 +395,9 @@ export default {
         case 'likecoin':
           return this.userLink;
         default:
-          if (platform) return getUrlWithPrefix(platform.url);
+          if (platform && platform.url) {
+            return getUrlWithPrefix(platform.url);
+          }
           return null;
       }
     },
@@ -445,6 +464,11 @@ $hover-color-map: (
       .social-media-connect__button {
         background-color: darken($like-gray-5, 20);
       }
+    }
+
+    &--disabled {
+      cursor: default;
+      pointer-events: none;
     }
   }
 
