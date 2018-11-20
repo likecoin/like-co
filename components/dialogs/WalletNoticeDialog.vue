@@ -275,6 +275,10 @@ export default {
 
     height: 232px;
 
+    @media screen and (max-width: 600px) {
+      height: 42vw;
+    }
+
     &-- {
       &loading,
       &enter {
