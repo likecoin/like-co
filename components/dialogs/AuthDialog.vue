@@ -20,6 +20,14 @@
   >
 
     <div
+      v-if="!isBlocking"
+      slot="header-left"
+      class="auth-dialog__header-left"
+    >
+      <a @click="onClickBackButton">{{ $t('General.back') }}</a>
+    </div>
+
+    <div
       slot="header-center"
       class="auth-dialog__header-center"
     >
@@ -252,7 +260,6 @@ export default {
       'getIsShowAuthDialog',
       'getCurrentLocale',
       'getMetamaskError',
-      'getUserInfo',
       'getLocalWallet',
     ]),
     closable() {
@@ -386,6 +393,25 @@ export default {
     onUpdateIsShow(isShow) {
       if (!this.shouldHideDialog) {
         this.setIsShow(isShow);
+      }
+    },
+    onClickBackButton() {
+      switch (this.currentTab) {
+        case 'portal':
+          if (this.isSinglePage) {
+            if (window.opener) {
+              window.close();
+            } else {
+              this.$router.go(-1);
+            }
+          } else {
+            this.onCancel();
+          }
+          break;
+
+        default:
+          this.currentTab = 'portal';
+          break;
       }
     },
     onConfirm() {
@@ -753,6 +779,22 @@ export default {
       @include background-image-sliding-animation-x(
         linear-gradient(to right, #ed9090, #ee6f6f 20%, #ecd7d7, #ed9090)
       );
+    }
+  }
+
+  &__header-left {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+
+    display: none;
+    align-items: center;
+
+    padding-left: 16px;
+
+    @media screen and (max-width: 600px) {
+      display: flex;
     }
   }
 
