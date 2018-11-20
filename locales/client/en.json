@@ -1,5 +1,6 @@
 {
   "General": {
+    "back": "Back",
     "label": {
       "error": "Error",
       "success": "Success",

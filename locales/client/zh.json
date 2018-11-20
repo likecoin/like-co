@@ -1,5 +1,6 @@
 {
   "General": {
+    "back": "返回",
     "label": {
       "error": "失敗",
       "success": "成功",
