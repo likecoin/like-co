@@ -1,6 +1,7 @@
 /* eslint import/prefer-default-export: "off" */
 import * as types from '@/store/mutation-types';
 import * as api from '@/util/api/api';
+import { WALLET_NOTICE_EXPIRY_INTERVAL } from '@/constant';
 import apiWrapper from './api-wrapper';
 
 export const setLocale = ({ commit }, locale) => {
@@ -118,6 +119,28 @@ export const setAuthDialog = ({ commit }, payload) => {
   commit(types.UI_SET_AUTH_DIALOG, payload);
 };
 
+const WALLET_NOTICE_EXPIRY_TIME_KEY = 'wallet_notice_expiry_time';
 export const setWalletNoticeDialog = ({ commit }, payload) => {
+  // Skip showing dialog if user saw it recently
+  if (payload.isShow) {
+    let expiryTime = localStorage.getItem(WALLET_NOTICE_EXPIRY_TIME_KEY);
+    // Get current time in UNIX timestamp in seconds
+    const now = Math.floor(new Date().getTime() / 1000);
+
+    if (expiryTime) {
+      if (now < parseInt(expiryTime, 10)) {
+        // Do not show dialog if not expired
+        payload.onConfirm();
+        return;
+      }
+      expiryTime = null;
+    }
+
+    if (!expiryTime) {
+      expiryTime = now + WALLET_NOTICE_EXPIRY_INTERVAL;
+      localStorage.setItem(WALLET_NOTICE_EXPIRY_TIME_KEY, `${expiryTime}`);
+    }
+  }
+
   commit(types.UI_SET_WALLET_NOTICE_DIALOG, payload);
 };
