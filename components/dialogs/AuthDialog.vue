@@ -360,6 +360,7 @@ export default {
         case 'USER_AUTH_EMAIL_LINK_INVALID':
           // Allow user to re-enter email if the provided email is not match
           this.currentTab = 'email';
+          this.errorCode = 'FIREBASE_EMAIL_LINK_AUTH_NO_EMAIL';
           return;
 
         case 'USER_REGISTER_ERROR':
