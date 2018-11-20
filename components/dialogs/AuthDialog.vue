@@ -209,6 +209,8 @@ import {
 
 import LikeCoinLogo from '~/assets/icons/likecoin-vertical.svg';
 
+import { logTrackerEvent } from '@/util/EventLogger';
+
 export default {
   name: 'auth-dialog',
   components: {
@@ -242,6 +244,7 @@ export default {
 
       referrer: '',
       sourceURL: '',
+      loggedEvents: {},
     };
   },
   computed: {
@@ -291,6 +294,12 @@ export default {
         }
       }
     },
+    currentTab(tab) {
+      if (tab === 'register' && !this.loggedEvents.register) {
+        this.loggedEvents.register = 1;
+        logTrackerEvent(this, 'RegFlow', 'ShowRegisterForm', 'ShowRegisterForm', 1);
+      }
+    },
   },
   async mounted() {
     this.$root.$on('MetaMaskDialog.onClickReturnButton', () => {
@@ -333,6 +342,8 @@ export default {
     const { from, referrer } = this.$route.query;
     if (from) this.referrer = from;
     if (referrer) this.sourceURL = referrer;
+
+    this.loggedEvents = {};
   },
   methods: {
     ...mapActions([
