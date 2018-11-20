@@ -461,7 +461,6 @@ export default {
                 reject(new Error('FACEBOOK_SDK_NOT_FOUND'));
               }
               // Determine if a user has authenticated
-              const isRefreshingCache = true;
               window.FB.getLoginStatus((response) => {
                 if (response.status === 'connected') {
                   // The user is logged in and has authenticated
@@ -478,7 +477,7 @@ export default {
                     }
                   }, { scope: 'public_profile,pages_show_list,user_link' });
                 }
-              }, isRefreshingCache);
+              });
             });
             this.signInPayload = {
               accessToken,
