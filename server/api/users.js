@@ -632,6 +632,7 @@ router.get('/users/id/:id/min', async (req, res, next) => {
         payload.avatar = AVATAR_DEFAULT_PATH;
       }
       payload.user = username;
+      res.set('Cache-Control', 'public, max-age=10');
       res.json(Validate.filterUserDataMin(payload));
     } else {
       res.sendStatus(404);
