@@ -68,7 +68,7 @@ export async function linkWalletToUser({ commit, dispatch }, payload) {
   return true;
 }
 
-export async function linkAuthPlatformToUser({ commit, dispatch }, { platform, payload }) {
+export async function linkUserAuthPlatform({ commit, dispatch }, { platform, payload }) {
   await apiWrapper(
     { commit, dispatch },
     api.apiLinkAuthPlatform(platform, payload),
@@ -77,6 +77,17 @@ export async function linkAuthPlatformToUser({ commit, dispatch }, { platform, p
   await dispatch('refreshUser');
   return true;
 }
+
+export async function unlinkUserAuthPlatform({ commit, dispatch }, { platform }) {
+  await apiWrapper(
+    { commit, dispatch },
+    api.apiUnlinkAuthPlatform(platform),
+    { blocking: true },
+  );
+  await dispatch('refreshUser');
+  return true;
+}
+
 
 export async function logoutUser({ commit, dispatch }, data) {
   await apiWrapper({ commit, dispatch }, api.apiLogoutUser(data), { blocking: true });

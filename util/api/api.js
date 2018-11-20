@@ -70,6 +70,8 @@ export const apiFetchLinkedAuthPlatforms = () => axios.get('/api/users/login/pla
 
 export const apiLinkAuthPlatform = (platform, payload) => axios.post(`/api/users/login/${platform}/add`, payload);
 
+export const apiUnlinkAuthPlatform = platform => axios.delete(`/api/users/login/${platform}`);
+
 export const apiGetUserSelf = () => axios.get('/api/users/self');
 
 export const apiFetchUserMission = ({ missionId, user, params }) => axios.get(`/api/mission/${missionId}/user/${user}`, {
