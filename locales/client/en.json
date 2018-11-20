@@ -679,7 +679,7 @@
     },
     "SignIn": {
       "title": "Sign in / Sign up",
-      "description": "Create an account",
+      "description": "With the following methods",
       "label": {
         "or": "or",
         "with": "Sign in / Sign up with"
