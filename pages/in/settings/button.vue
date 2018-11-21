@@ -597,6 +597,10 @@ export default {
       > * {
         display: flex;
         align-items: center;
+
+        span {
+          flex-shrink: 0;
+        }
       }
 
       &--left {
