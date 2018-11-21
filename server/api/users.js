@@ -312,6 +312,10 @@ router.post('/users/new', apiLimiter, multer.single('avatarFile'), async (req, r
       });
     }
   } catch (err) {
+    publisher.publish(PUBSUB_TOPIC_MISC, req, {
+      logType: 'eventRegisterError',
+      error: err.message || JSON.stringify(err),
+    });
     next(err);
   }
 });
