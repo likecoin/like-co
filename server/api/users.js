@@ -314,6 +314,10 @@ router.post('/users/new', apiLimiter, multer.single('avatarFile'), async (req, r
       });
     }
   } catch (err) {
+    publisher.publish(PUBSUB_TOPIC_MISC, req, {
+      logType: 'eventRegisterError',
+      error: err.message || JSON.stringify(err),
+    });
     next(err);
   }
 });
@@ -750,6 +754,7 @@ router.get('/users/id/:id/min', async (req, res, next) => {
         payload.avatar = AVATAR_DEFAULT_PATH;
       }
       payload.user = username;
+      res.set('Cache-Control', 'public, max-age=10');
       res.json(Validate.filterUserDataMin(payload));
     } else {
       res.sendStatus(404);
