@@ -378,6 +378,7 @@ export default {
         case 'USER_AUTH_EMAIL_LINK_INVALID':
           // Allow user to re-enter email if the provided email is not match
           this.currentTab = 'email';
+          this.errorCode = 'FIREBASE_EMAIL_LINK_AUTH_NO_EMAIL';
           return;
 
         case 'USER_REGISTER_ERROR':
@@ -393,6 +394,11 @@ export default {
     onUpdateIsShow(isShow) {
       if (!this.shouldHideDialog) {
         this.setIsShow(isShow);
+      }
+      if (!isShow && this.errorCode === 'FIREBASE_EMAIL_LINK_AUTH_NO_EMAIL') {
+        // Do not retain the step if user closes dialog during re-enter email
+        this.currentTab = 'portal';
+        this.errorCode = '';
       }
     },
     onClickBackButton() {
@@ -552,7 +558,7 @@ export default {
           this.login();
         } catch (err) {
           let code;
-          if (err.code === 'auth/invalid-action-code') {
+          if (err.code === 'auth/invalid-action-code' || err.code === 'auth/invalid-email') {
             code = 'USER_AUTH_EMAIL_LINK_INVALID';
           } else {
             console.error(err);
