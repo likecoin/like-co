@@ -1342,7 +1342,8 @@
   "SocialMediaConnect": {
     "label": {
       "fbWall": "Personal Profile",
-      "linkTo": "link to: "
+      "linkTo": "link to: ",
+      "linked": "linked"
     },
     "button": {
       "connectToPlatform": "Connect to your {platform}"

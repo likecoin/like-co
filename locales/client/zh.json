@@ -1274,7 +1274,8 @@
   "SocialMediaConnect": {
     "label": {
       "fbWall": "個人頁面",
-      "linkTo": "連結至: "
+      "linkTo": "連結至: ",
+      "linked": "已連結"
     },
     "button": {
       "connectToPlatform": "綁定你的 {platform} 帳號"

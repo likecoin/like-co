@@ -17,6 +17,8 @@ import {
   setAuthCookies,
   checkEmailIsSoleLogin,
   clearAuthCookies,
+  tryToLinkOAuthLogin,
+  tryToUnlinkOAuthLogin,
 } from '../util/api/users';
 import { tryToLinkSocialPlatform } from '../util/api/social';
 
@@ -580,27 +582,91 @@ router.post('/users/logout', jwtAuth('read'), async (req, res, next) => {
   }
 });
 
-router.post('/users/login/wallet/add', jwtAuth('write'), async (req, res, next) => {
+router.get('/users/login/platforms', jwtAuth('read'), async (req, res, next) => {
+  try {
+    if (!req.user.user) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
+    const authDoc = await authDbRef.doc(req.user.user).get();
+    const list = authDoc.exists ? Object.keys(authDoc.data()) : [];
+    res.json(list);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post('/users/login/:platform/add', jwtAuth('write'), async (req, res, next) => {
   try {
     const { user } = req.body;
+    const { platform } = req.params;
     if (req.user.user !== user) {
       res.status(401).send('LOGIN_NEEDED');
       return;
     }
 
-    const {
-      from,
-      payload: stringPayload,
-      sign,
-    } = req.body;
-    const wallet = from;
-    const isLogin = false;
-    checkSignPayload(wallet, stringPayload, sign, isLogin);
-    const query = await dbRef.where('wallet', '==', wallet).get();
-    if (query.docs.length > 0) throw new ValidationError('WALLET_ALREADY_USED');
-    await dbRef.doc(user).update({ wallet });
+    switch (platform) {
+      case 'wallet': {
+        const {
+          from,
+          payload: stringPayload,
+          sign,
+        } = req.body;
+        const wallet = from;
+        const isLogin = false;
+        checkSignPayload(wallet, stringPayload, sign, isLogin);
+        const query = await dbRef.where('wallet', '==', wallet).get();
+        if (query.docs.length > 0) throw new ValidationError('WALLET_ALREADY_USED');
+        await dbRef.doc(user).update({ wallet });
+        break;
+      }
+      case 'google': {
+        const { firebaseIdToken } = req.body;
+        const { uid: firebaseUserId } = await admin.auth().verifyIdToken(firebaseIdToken);
+        const firebaseUser = await admin.auth().getUser(firebaseUserId);
+        const query = await dbRef.where('firebaseUserId', '==', firebaseUserId).get();
+        if (query.docs.length > 0) {
+          query.forEach((doc) => {
+            const docUser = doc.id;
+            if (user !== docUser) {
+              throw new ValidationError('FIREBASE_USER_DUPLICATED');
+            }
+          });
+        } else {
+          await dbRef.doc(user).update({ firebaseUserId });
+        }
+        const userInfo = getFirebaseUserProviderUserInfo(firebaseUser, platform);
+        if (!userInfo || !userInfo.uid) throw new ValidationError('CANNOT_FETCH_USER_INFO');
+        const platformUserId = userInfo.uid;
+        await tryToLinkOAuthLogin({ likeCoinId: user, platform, platformUserId });
+        break;
+      }
+      default:
+        throw new ValidationError('INVALID_PLATFORM');
+    }
 
     res.sendStatus(200);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.delete('/users/login/:platform', jwtAuth('write'), async (req, res, next) => {
+  try {
+    const { platform } = req.params;
+    if (!req.user.user) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
+
+    if (await tryToUnlinkOAuthLogin({
+      likeCoinId: req.user.user,
+      platform,
+    })) {
+      res.sendStatus(200);
+    } else {
+      res.sendStatus(404);
+    }
   } catch (err) {
     next(err);
   }

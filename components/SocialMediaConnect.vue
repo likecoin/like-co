@@ -18,7 +18,12 @@
           :key="socialMedia.id"
         >
           <div
-            class="social-media-connect__button-wrapper"
+            :class="[
+              'social-media-connect__button-wrapper',
+              {
+                'social-media-connect__button-wrapper--disabled': !getIsClickable(socialMedia),
+              },
+            ]"
           >
             <button
               :class="[
@@ -126,8 +131,11 @@ import LikeCoinIcon from '~/assets/logo/icon.svg';
 import {
   EMAIL_REGEX,
   SOCIAL_MEDIA_LIST,
+  OAUTH_PLATFORM_LIST,
   IS_LGOIN_SOCIAL,
 } from '@/constant';
+
+import { firebasePlatformSignIn } from '~/util/FirebaseApp';
 
 import { openURL } from '~/util/client';
 import { logTrackerEvent } from '@/util/EventLogger';
@@ -215,7 +223,13 @@ export default {
         this.platforms[id1].order - this.platforms[id2].order
       ));
 
-      return [...platforms, ...links].slice(0, this.limit);
+      let list = [...platforms, ...links].slice(0, this.limit);
+
+      if (this.type === TYPE.LARGE) {
+        list = list.concat(OAUTH_PLATFORM_LIST);
+      }
+
+      return list;
     },
     facebookPages() {
       return [
@@ -247,6 +261,8 @@ export default {
     ...mapActions([
       'fetchSocialPlatformLink',
       'linkSocialPlatform',
+      'linkUserAuthPlatform',
+      'unlinkUserAuthPlatform',
       'selectFacebookPageLink',
     ]),
     getIconPath(id) {
@@ -261,18 +277,26 @@ export default {
     },
     getIsConnected({ id, tier } = {}) {
       const platform = this.platforms[id];
+      if (platform && platform.isOAuthOnly) return true;
       return !this.getIsLegacyConnect(id, platform && platform.isLogin) && (
         !!platform || (tier === 0 && (id === 'likecoin' && this.userLink))
       );
     },
+    getIsClickable(socialMedia) {
+      return !(this.getIsConnected(socialMedia) && !this.getSocialMediaUrl(socialMedia));
+    },
     getSocialMediaUserDisplayName(id) {
-      return this.platforms[id].displayName;
+      return this.platforms[id].displayName || this.$t('SocialMediaConnect.label.linked');
     },
     getIsLegacyConnect(id, isLogin) {
       return !this.isShowLegacy && IS_LGOIN_SOCIAL.has(id) && !isLogin;
     },
-    onClickConnectButton(socialMedia) {
-      const { id, tier } = socialMedia;
+    async onClickConnectButton(socialMedia) {
+      const { id, tier, isOAuthOnly } = socialMedia;
+      if (isOAuthOnly) {
+        await this.onClickOAuth(id);
+        return;
+      }
       const platform = this.platforms[id];
       const isConnected = !!platform || tier === 0;
       if (!isConnected || this.getIsLegacyConnect(id, platform && platform.isLogin)) {
@@ -290,8 +314,30 @@ export default {
         }
       }
     },
-    onClickDisconnectButton(socialMedia) {
-      this.$emit('disconnect', socialMedia.id);
+    async onClickOAuth(id) {
+      const platform = this.platforms[id];
+      if (platform) return;
+      const { firebaseIdToken } = await firebasePlatformSignIn(id);
+      await this.linkUserAuthPlatform({
+        platform: id,
+        payload: {
+          user: this.username,
+          firebaseIdToken,
+        },
+      });
+    },
+    async onClickDisconnectButton(socialMedia) {
+      const { id, isOAuthOnly } = socialMedia;
+      if (isOAuthOnly) {
+        await this.onClickOAuthDisconnectButton(id);
+        return;
+      }
+      this.$emit('disconnect', id);
+    },
+    async onClickOAuthDisconnectButton(id) {
+      await this.unlinkUserAuthPlatform({
+        platform: id,
+      });
     },
     async connect(socialMedia) {
       switch (socialMedia.id) {
@@ -349,7 +395,9 @@ export default {
         case 'likecoin':
           return this.userLink;
         default:
-          if (platform) return getUrlWithPrefix(platform.url);
+          if (platform && platform.url) {
+            return getUrlWithPrefix(platform.url);
+          }
           return null;
       }
     },
@@ -416,6 +464,11 @@ $hover-color-map: (
       .social-media-connect__button {
         background-color: darken($like-gray-5, 20);
       }
+    }
+
+    &--disabled {
+      cursor: default;
+      pointer-events: none;
     }
   }
 
