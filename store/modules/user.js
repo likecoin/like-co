@@ -50,8 +50,13 @@ const mutations = {
   [USER_SET_SOCIAL](state, platforms) {
     state.platforms = platforms;
   },
-  [USER_SET_SOCIAL_DETAILS](state, { links, meta, platforms }) {
-    state.platforms = platforms;
+  [USER_SET_SOCIAL_DETAILS](state, {
+    links,
+    meta,
+    platforms,
+    oAuthPlatforms,
+  }) {
+    state.platforms = { ...platforms, ...oAuthPlatforms };
     state.links = links;
     state.socialMeta = meta;
   },

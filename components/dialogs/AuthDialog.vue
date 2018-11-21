@@ -20,6 +20,14 @@
   >
 
     <div
+      v-if="!isBlocking"
+      slot="header-left"
+      class="auth-dialog__header-left"
+    >
+      <a @click="onClickBackButton">{{ $t('General.back') }}</a>
+    </div>
+
+    <div
       slot="header-center"
       class="auth-dialog__header-center"
     >
@@ -209,6 +217,8 @@ import {
 
 import LikeCoinLogo from '~/assets/icons/likecoin-vertical.svg';
 
+import { logTrackerEvent } from '@/util/EventLogger';
+
 export default {
   name: 'auth-dialog',
   components: {
@@ -242,6 +252,7 @@ export default {
 
       referrer: '',
       sourceURL: '',
+      loggedEvents: {},
     };
   },
   computed: {
@@ -249,7 +260,6 @@ export default {
       'getIsShowAuthDialog',
       'getCurrentLocale',
       'getMetamaskError',
-      'getUserInfo',
       'getLocalWallet',
     ]),
     closable() {
@@ -284,28 +294,46 @@ export default {
   watch: {
     getIsShowAuthDialog(isShow) {
       if (isShow) {
-        this.$nextTick(this.setContentHeight);
-
+        // Reset current tab to portal then update the content height
         if (!this.isSigningInWithEmail) {
           this.currentTab = 'portal';
         }
+        this.$nextTick(this.setContentHeight);
+      }
+
+      // Sync dialog display with query string if not in single page
+      if (!this.isSinglePage) {
+        const query = { ...this.$route.query };
+        if (isShow) {
+          // Add show_login=1 in query string
+          query.show_login = '1';
+        } else {
+          // Remove show_login in query string
+          delete query.show_login;
+        }
+        this.$router.replace({ path: this.$route.path, query });
+      }
+    },
+    currentTab(tab) {
+      if (tab === 'register' && !this.loggedEvents.register) {
+        this.loggedEvents.register = 1;
+        logTrackerEvent(this, 'RegFlow', 'ShowRegisterForm', 'ShowRegisterForm', 1);
       }
     },
   },
   async mounted() {
+    // Listen to onClickReturnButton event of MetaMaskDialog
     this.$root.$on('MetaMaskDialog.onClickReturnButton', () => {
       this.stopWeb3Polling();
       this.currentTab = 'portal';
     });
 
+    // Initialize content height
     this.setContentHeight();
 
-    // Remove show_login in query
-    if (this.$route.query.show_login === 'true') {
+    // Show dialog when show_login set to true in query string
+    if (this.$route.query.show_login === '1') {
       this.setIsShow(true);
-      const query = { ...this.$route.query };
-      delete query.show_login;
-      this.$router.replace({ path: this.$route.path, query });
     }
 
     // Check whether it is email sign in
@@ -333,6 +361,8 @@ export default {
     const { from, referrer } = this.$route.query;
     if (from) this.referrer = from;
     if (referrer) this.sourceURL = referrer;
+
+    this.loggedEvents = {};
   },
   methods: {
     ...mapActions([
@@ -360,6 +390,7 @@ export default {
         case 'USER_AUTH_EMAIL_LINK_INVALID':
           // Allow user to re-enter email if the provided email is not match
           this.currentTab = 'email';
+          this.errorCode = 'FIREBASE_EMAIL_LINK_AUTH_NO_EMAIL';
           return;
 
         case 'USER_REGISTER_ERROR':
@@ -375,6 +406,30 @@ export default {
     onUpdateIsShow(isShow) {
       if (!this.shouldHideDialog) {
         this.setIsShow(isShow);
+      }
+      if (!isShow && this.errorCode === 'FIREBASE_EMAIL_LINK_AUTH_NO_EMAIL') {
+        // Do not retain the step if user closes dialog during re-enter email
+        this.currentTab = 'portal';
+        this.errorCode = '';
+      }
+    },
+    onClickBackButton() {
+      switch (this.currentTab) {
+        case 'portal':
+          if (this.isSinglePage) {
+            if (window.opener) {
+              window.close();
+            } else {
+              this.$router.go(-1);
+            }
+          } else {
+            this.onCancel();
+          }
+          break;
+
+        default:
+          this.currentTab = 'portal';
+          break;
       }
     },
     onConfirm() {
@@ -461,7 +516,6 @@ export default {
                 reject(new Error('FACEBOOK_SDK_NOT_FOUND'));
               }
               // Determine if a user has authenticated
-              const isRefreshingCache = true;
               window.FB.getLoginStatus((response) => {
                 if (response.status === 'connected') {
                   // The user is logged in and has authenticated
@@ -478,7 +532,7 @@ export default {
                     }
                   }, { scope: 'public_profile,pages_show_list,user_link' });
                 }
-              }, isRefreshingCache);
+              });
             });
             this.signInPayload = {
               accessToken,
@@ -516,7 +570,7 @@ export default {
           this.login();
         } catch (err) {
           let code;
-          if (err.code === 'auth/invalid-action-code') {
+          if (err.code === 'auth/invalid-action-code' || err.code === 'auth/invalid-email') {
             code = 'USER_AUTH_EMAIL_LINK_INVALID';
           } else {
             console.error(err);
@@ -743,6 +797,22 @@ export default {
       @include background-image-sliding-animation-x(
         linear-gradient(to right, #ed9090, #ee6f6f 20%, #ecd7d7, #ed9090)
       );
+    }
+  }
+
+  &__header-left {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+
+    display: none;
+    align-items: center;
+
+    padding-left: 16px;
+
+    @media screen and (max-width: 600px) {
+      display: flex;
     }
   }
 

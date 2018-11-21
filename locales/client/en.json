@@ -1,5 +1,6 @@
 {
   "General": {
+    "back": "Back",
     "label": {
       "error": "Error",
       "success": "Success",
@@ -678,7 +679,7 @@
     },
     "SignIn": {
       "title": "Sign in / Sign up",
-      "description": "Create an account",
+      "description": "With the following methods",
       "label": {
         "or": "or",
         "with": "Sign in / Sign up with"
@@ -1341,7 +1342,8 @@
   "SocialMediaConnect": {
     "label": {
       "fbWall": "Personal Profile",
-      "linkTo": "link to: "
+      "linkTo": "link to: ",
+      "linked": "linked"
     },
     "button": {
       "connectToPlatform": "Connect to your {platform}"
