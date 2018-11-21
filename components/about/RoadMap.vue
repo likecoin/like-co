@@ -209,13 +209,13 @@ $timeline-width: 16px;
     .progress {
       position: absolute;
 
-      height: $timeline-width !important;
-
       border-radius: $timeline-radius;
       background-image: linear-gradient(to left, $like-light-blue, $like-gradient-1);
 
       @media (min-width: #{860px + 1px}) {
         left: 0;
+
+        height: $timeline-width !important;
       }
     }
   }
