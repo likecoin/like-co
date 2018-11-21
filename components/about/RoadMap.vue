@@ -93,7 +93,7 @@
 <script>
 import { LIQUID_LIKEETH_URL } from '@/constant';
 
-const milestones = [true, true, true, true, true, false, false];
+const milestones = [true, true, true, true, true, true, false];
 
 export default {
   name: 'road-map',

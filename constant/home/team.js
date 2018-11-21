@@ -150,24 +150,6 @@ const teamMembers = [
     ],
   },
   {
-    key: 'miles',
-    platforms: [
-      {
-        key: 'like',
-        to: getLikePlatformToObject('mileswong'),
-        isInternal: true,
-      },
-      {
-        key: 'github',
-        to: 'https://github.com/mileswong',
-      },
-      {
-        key: 'linkedin',
-        to: 'https://www.linkedin.com/in/miles-wong-5b3456150/',
-      },
-    ],
-  },
-  {
     key: 'michael',
     platforms: [
       {
