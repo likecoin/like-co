@@ -522,7 +522,7 @@ export default {
           this.login();
         } catch (err) {
           let code;
-          if (err.code === 'auth/invalid-action-code') {
+          if (err.code === 'auth/invalid-action-code' || err.code === 'auth/invalid-email') {
             code = 'USER_AUTH_EMAIL_LINK_INVALID';
           } else {
             console.error(err);
