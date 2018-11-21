@@ -410,7 +410,7 @@ export default {
     }
 
     :global(.md-table-content) {
-      @include padding-x(40 + 8)
+      @include padding-x(40 + 8);
 
       background-color: transparent;
 

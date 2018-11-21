@@ -67,15 +67,6 @@
       </section>
     </div>
 
-    <transaction-history
-      v-if="isWallet && isEmailVerified"
-      id="transaction"
-      ref="txHistory"
-      :address="wallet"
-      :is-fetching.sync="isFetchingTranscationHistory"
-      class="lc-margin-top-48 lc-mobile"
-    />
-
     <!-- !! UI for user without wallet !! -->
     <section
       v-if="isEmailVerified"
@@ -191,7 +182,7 @@
         <div class="lc-container-2">
           <div class="lc-container-3 lc-flex lc-justify-content-center">
             <refresh-button
-              :is-refreshing="getIsFetchingMissions || isFetchingTranscationHistory"
+              :is-refreshing="getIsFetchingMissions"
               :is-outline="true"
               @click="updateInfo"
             />
@@ -199,11 +190,6 @@
         </div>
       </div>
     </div>
-
-    <view-etherscan
-      v-if="isWallet && isEmailVerified"
-      :address="wallet"
-    />
 
     <div
       v-if="!isEmailVerified"
@@ -225,9 +211,7 @@
 import { mapActions, mapGetters } from 'vuex';
 
 import MissionList from '@/components/Mission/List';
-import TransactionHistory from '~/components/TransactionHistory';
 import RefreshButton from '~/components/RefreshButton';
-import ViewEtherscan from '~/components/ViewEtherscan';
 import LikeButtonIntroMin from '~/components/LikeButtonIntroMin';
 import MansoryArticleList from '~/components/home/MansoryArticleList';
 import LikeButtonAdopter from '~/components/LikeButtonAdopter';
@@ -244,9 +228,7 @@ export default {
   layout: 'in',
   components: {
     MissionList,
-    TransactionHistory,
     RefreshButton,
-    ViewEtherscan,
     LikeButtonIntroMin,
     MansoryArticleList,
     LikeButtonAdopter,
@@ -259,7 +241,6 @@ export default {
       EditWhiteIcon,
       TickIcon,
       freeCoupon: '',
-      isFetchingTranscationHistory: false,
       isFetchingLikeSuggestion: false,
     };
   },
@@ -322,7 +303,6 @@ export default {
       this.refreshMissionList(this.getUserInfo.user);
     },
     updateInfo() {
-      if (this.$refs.txHistory) this.$refs.txHistory.updateTokenSaleHistory();
       this.refreshMissions();
       this.fetchSocialListDetailsById(this.getUserInfo.user);
     },

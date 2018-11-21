@@ -58,9 +58,9 @@
               to="/in/bonus"
             />
             <md-tab
-              id="in-bonus-history"
-              :md-label="$t('In.tab.history')"
-              to="/in/bonus/history"
+              id="in-tx-history"
+              :md-label="$t('In.tab.txHistory')"
+              to="/in/tx/history"
             />
 
           </md-tabs>
