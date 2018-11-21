@@ -294,11 +294,24 @@ export default {
   watch: {
     getIsShowAuthDialog(isShow) {
       if (isShow) {
-        this.$nextTick(this.setContentHeight);
-
+        // Reset current tab to portal then update the content height
         if (!this.isSigningInWithEmail) {
           this.currentTab = 'portal';
         }
+        this.$nextTick(this.setContentHeight);
+      }
+
+      // Sync dialog display with query string if not in single page
+      if (!this.isSinglePage) {
+        const query = { ...this.$route.query };
+        if (isShow) {
+          // Add show_login=1 in query string
+          query.show_login = '1';
+        } else {
+          // Remove show_login in query string
+          delete query.show_login;
+        }
+        this.$router.replace({ path: this.$route.path, query });
       }
     },
     currentTab(tab) {
@@ -309,19 +322,18 @@ export default {
     },
   },
   async mounted() {
+    // Listen to onClickReturnButton event of MetaMaskDialog
     this.$root.$on('MetaMaskDialog.onClickReturnButton', () => {
       this.stopWeb3Polling();
       this.currentTab = 'portal';
     });
 
+    // Initialize content height
     this.setContentHeight();
 
-    // Remove show_login in query
-    if (this.$route.query.show_login === 'true') {
+    // Show dialog when show_login set to true in query string
+    if (this.$route.query.show_login === '1') {
       this.setIsShow(true);
-      const query = { ...this.$route.query };
-      delete query.show_login;
-      this.$router.replace({ path: this.$route.path, query });
     }
 
     // Check whether it is email sign in
