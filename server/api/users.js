@@ -589,7 +589,7 @@ router.get('/users/login/platforms', jwtAuth('read'), async (req, res, next) => 
       return;
     }
     const authDoc = await authDbRef.doc(req.user.user).get();
-    const list = Object.keys(authDoc.data());
+    const list = authDoc.exists ? Object.keys(authDoc.data()) : [];
     res.json(list);
   } catch (err) {
     next(err);
