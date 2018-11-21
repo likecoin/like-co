@@ -52,6 +52,7 @@
 
                     <div
                       v-if="index === 0"
+                      :style="progressStyle"
                       class="progress"
                     />
 
@@ -98,9 +99,11 @@ const milestones = [true, true, true, true, true, true, false];
 export default {
   name: 'road-map',
   data() {
+    const progressPercent = milestones.filter(v => v).length / milestones.length * 100 - 10;
     return {
       milestones,
       LIQUID_LIKEETH_URL,
+      progressStyle: `height: ${progressPercent}%;width: ${progressPercent}%`,
     };
   },
 };
@@ -112,7 +115,6 @@ export default {
 
 $timeline-radius: 12px;
 $timeline-width: 16px;
-$progress-bar-percentage: 58%;
 
 .lc-road-map {
   .road-map-container {
@@ -207,8 +209,7 @@ $progress-bar-percentage: 58%;
     .progress {
       position: absolute;
 
-      width: $progress-bar-percentage;
-      height: $timeline-width;
+      height: $timeline-width !important;
 
       border-radius: $timeline-radius;
       background-image: linear-gradient(to left, $like-light-blue, $like-gradient-1);
@@ -292,8 +293,7 @@ $progress-bar-percentage: 58%;
         .progress {
           top: 0;
 
-          width: $timeline-width;
-          height: $progress-bar-percentage;
+          width: $timeline-width !important;
 
           background-image: linear-gradient(to top, #d2f0f0, #f0e6b4);
         }
