@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="likecoin-settings__personal-tab">
 
     <div class="lc-container-1 lc-margin-top-48 lc-mobile">
       <div class="lc-container-2">
@@ -113,47 +113,50 @@
               </md-button>
             </div>
           </form>
-
-          <div
-            v-if="getUserInfo.user"
-            class="profile-setting-page__account-connection"
-          >
-            <div class="profile-setting-page__field profile-setting-page__field--multi-line">
-              <span class="lc-margin-top-8">
-                {{ $t('Edit.label.accountConnection') }}
-              </span>
-              <span
-                :class="[
-                  'lc-margin-top-8',
-                  'lc-color-gray-9b'
-                ]"
-              >
-                {{ $t('Settings.label.accountConnection') }}
-              </span>
-            </div>
-
-            <social-media-connect
-              :platforms="getUserSocialPlatforms"
-              :username="getUserInfo.user"
-              :is-show-legacy="false"
-              type="large"
-              @disconnect="onClickSocialMediaDisconnect"
-            />
-
-            <external-links-panel
-              class="lc-margin-top-40"
-            />
-          </div>
         </div>
       </div>
     </div>
 
-    <div
+    <section class="lc-container-0 lc-margin-top-32">
+      <div class="lc-container-1">
+        <div class="lc-container-2">
+
+          <div class="lc-container-3 lc-bg-gray-1 lc-padding-top-24 lc-padding-bottom-48">
+            <div class="lc-container-4">
+              <h1 class="lc-font-size-32">
+                {{ $t('Edit.label.accountConnection') }}
+              </h1>
+              <p class="lc-margin-top-8 lc-color-gray-9b">
+                {{ $t('Settings.label.accountConnection') }}
+              </p>
+
+              <social-media-connect
+                :platforms="getUserSocialPlatforms"
+                :username="getUserInfo.user"
+                :is-show-legacy="false"
+                class="lc-margin-top-24"
+                type="large"
+                @disconnect="onClickSocialMediaDisconnect"
+              />
+            </div>
+          </div>
+
+          <div class="lc-container-3 lc-bg-gray-1 lc-margin-top-8 lc-padding-vertical-24">
+            <div class="lc-container-4">
+              <external-links-panel />
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section
       v-if="getUserInfo.wallet"
       id="coupon"
       class="lc-container-0 lc-margin-top-48 lc-mobile"
     >
-      <section class="lc-container-1">
+      <div class="lc-container-1">
 
         <div class="lc-container-header">
           <div class="lc-container-2 lc-container-header-overlay">
@@ -206,13 +209,14 @@
             </div>
           </div>
         </div>
-      </section>
+      </div>
       <claim-dialog
         ref="claimDialog"
         :couponCode="couponCode"
         :wallet="getUserInfo.wallet"
       />
-    </div>
+    </section>
+
   </div>
 </template>
 
@@ -464,12 +468,6 @@ export default {
 
     .simple-svg-wrapper {
       margin-right: 4px;
-    }
-  }
-
-  &__account-connection {
-    @media (min-width: 768px + 1px) {
-      margin-left: 176px;
     }
   }
 
