@@ -151,7 +151,7 @@
                   :invitees="getReferralMissionList"
                   swiper-id="invitee-mission"
                   @click="onReferralMissionClick"
-                  @slideChange="onReferralSeen"
+                  @seen="onReferralSeen"
                 />
               </div>
             </div>
