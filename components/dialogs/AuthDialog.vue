@@ -360,7 +360,7 @@ export default {
 
     const { from, referrer } = this.$route.query;
     if (from) this.referrer = from;
-    if (referrer) this.sourceURL = referrer;
+    this.sourceURL = referrer || document.referrer;
 
     this.loggedEvents = {};
   },
