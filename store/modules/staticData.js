@@ -29,8 +29,10 @@ const mutations = {
   [STATIC_DATA_SET_LIKE_STAT](state, payload) {
     state.LIKEStat = payload;
   },
-  [STATIC_DATA_SET_LIKE_SUGGEST_LIST](state, { editorial = [], personal = [], mostLike = [] }) {
-    let list = editorial.concat(personal).concat(mostLike);
+  [STATIC_DATA_SET_LIKE_SUGGEST_LIST](state, {
+    editorial = [], personal = [], mostLike = [], pick = [],
+  }) {
+    let list = editorial.concat(personal).concat(pick).concat(mostLike);
     const dedup = new Set();
     list = list.filter(i => (dedup.has(i) ? false : dedup.add(i)));
     state.suggestedArticleList = list;

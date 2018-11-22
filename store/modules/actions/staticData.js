@@ -34,8 +34,11 @@ export async function fetchLikeSuggestionList({ commit, dispatch }) {
     const {
       editorial = [],
       mostLike = [],
+      pick = [],
     } = suggestionObj;
-    commit(types.STATIC_DATA_SET_LIKE_SUGGEST_LIST, { editorial, personal, mostLike });
+    commit(types.STATIC_DATA_SET_LIKE_SUGGEST_LIST, {
+      editorial, personal, mostLike, pick,
+    });
   } catch (err) {
     console.error(err); // eslint-disable-line no-console
   }
