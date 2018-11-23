@@ -21,7 +21,7 @@
 
         <div class="lc-container-1">
           <div class="underlay gray lc-mobile-hide" />
-          <div class="lc-container-2 lc-padding-bottom-8">
+          <div class="lc-container-2 lc-margin-bottom-40">
             <user-info-form />
           </div>
         </div>
