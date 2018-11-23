@@ -665,11 +665,11 @@
       "loginSuccessful": "成功登入"
     },
     "SignIn": {
-      "title": "登入 / 註冊",
-      "description": "用以下任何一種方法",
+      "title": "支持創作",
+      "description": "註冊/登入，化讚為賞",
       "label": {
         "or": "或",
-        "with": ""
+        "with": "以下方法登入"
       },
       "button": {
         "email": "電郵",

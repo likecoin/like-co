@@ -678,11 +678,11 @@
       "loginSuccessful": "Login successful"
     },
     "SignIn": {
-      "title": "Sign in / Sign up",
-      "description": "With the following methods",
+      "title": "Support Creative Works",
+      "description": "By sign up/sign in and liking",
       "label": {
         "or": "or",
-        "with": "Sign in / Sign up with"
+        "with": "with the following method"
       },
       "button": {
         "email": "Email",
