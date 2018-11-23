@@ -120,6 +120,8 @@ import PlatformIconBar from '~/components/PlatformIconBar';
 import AccountOverview from './AccountOverview';
 import MenuItem from './MenuItem';
 
+import { logTrackerEvent } from '@/util/EventLogger';
+
 const MENU_ITEMS = [
   {
     section: 'primary',
@@ -209,6 +211,7 @@ export default {
       'closeSlidingMenu',
     ]),
     onClickSignInButton() {
+      logTrackerEvent(this, 'RegFlow', 'ClickSlidingMenuSignUp', 'ClickSlidingMenuSignUp', 1);
       this.setAuthDialog({ isShow: true });
     },
     async onClickLogoutButon() {

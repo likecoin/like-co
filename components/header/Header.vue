@@ -31,6 +31,8 @@ import MaterialButton from '~/components/MaterialButton';
 import PlatformIconBar from '~/components/PlatformIconBar';
 import SiteTitle from '~/components/SiteTitle';
 
+import { logTrackerEvent } from '@/util/EventLogger';
+
 export default {
   name: 'site-header',
   components: {
@@ -64,6 +66,7 @@ export default {
       if (this.getUserIsRegistered) {
         this.$router.push({ name: 'in' });
       } else {
+        logTrackerEvent(this, 'RegFlow', 'ClickHeaderSignUp', 'ClickHeaderSignUp', 1);
         this.setAuthDialog({ isShow: true });
       }
     },
