@@ -39,6 +39,8 @@ import likeCoinColorIcon from '@/assets/logo/color-icon-label-horizontal.svg';
 
 import getTestAttribute from '@/util/test';
 
+import { logTrackerEvent } from '@/util/EventLogger';
+
 export default {
   name: 'site-header',
   components: {
@@ -73,6 +75,7 @@ export default {
       if (this.getUserIsRegistered) {
         this.$router.push({ name: 'in' });
       } else {
+        logTrackerEvent(this, 'RegFlow', 'ClickHeaderSignUp', 'ClickHeaderSignUp', 1);
         this.setAuthDialog({ isShow: true });
       }
     },

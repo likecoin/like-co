@@ -313,6 +313,8 @@ export default {
         }
         this.$router.replace({ path: this.$route.path, query });
       }
+
+      this.logShowAuthDialog(isShow);
     },
     currentTab(tab) {
       if (tab === 'register' && !this.loggedEvents.register) {
@@ -363,6 +365,8 @@ export default {
     this.sourceURL = referrer || document.referrer;
 
     this.loggedEvents = {};
+
+    this.logShowAuthDialog(this.getIsShowAuthDialog);
   },
   methods: {
     ...mapActions([
@@ -626,6 +630,7 @@ export default {
     async login() {
       this.currentTab = 'signingIn';
       try {
+        logTrackerEvent(this, 'RegFlow', 'LoginTry', 'LoginTry', 1);
         await apiLoginUser({
           locale: this.getCurrentLocale,
           platform: this.platform,
@@ -634,6 +639,7 @@ export default {
         this.setUserNeedAuth(false);
         this.redirectAfterSignIn();
       } catch (err) {
+        logTrackerEvent(this, 'RegFlow', 'LoginFail', 'LoginFail', 1);
         if (err.response) {
           if (err.response.status === 404) {
             this.preRegister();
@@ -644,6 +650,7 @@ export default {
       }
     },
     async preRegister() {
+      logTrackerEvent(this, 'RegFlow', 'PreRegister', 'PreRegister', 1);
       this.currentTab = 'loading';
       const { platformUserId } = this.signInPayload;
       let preRegisterPayload;
@@ -771,6 +778,12 @@ export default {
     redirectToPreAuthPage() {
       const router = this.$router;
       this.doPostAuthRedirect({ router });
+    },
+    logShowAuthDialog(isShow) {
+      if (isShow && !this.loggedEvents.showAuthDialog) {
+        this.loggedEvents.showAuthDialog = 1;
+        logTrackerEvent(this, 'RegFlow', 'ShowAuthDialog', 'ShowAuthDialog', 1);
+      }
     },
   },
 };
