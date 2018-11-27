@@ -553,12 +553,17 @@ router.post('/users/login', async (req, res, next) => {
 
 router.post('/users/logout', jwtAuth('read'), async (req, res, next) => {
   try {
-    const { user } = req.user;
+    const { user, jti } = req.user;
 
     clearAuthCookies(req, res);
     res.sendStatus(200);
 
     if (user) {
+      try {
+        await dbRef.doc(user).collection('session').doc(jti).delete();
+      } catch (err) {
+        console.error(err);
+      }
       const doc = await dbRef.doc(user).get();
       if (doc.exists) {
         const {
