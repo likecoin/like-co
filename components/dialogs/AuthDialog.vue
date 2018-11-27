@@ -772,7 +772,7 @@ export default {
           }
         });
       } else {
-        this.redirectToPreAuthPage();
+        this.$nextTick(() => { this.redirectToPreAuthPage(); });
       }
     },
     redirectToPreAuthPage() {
