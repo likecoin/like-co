@@ -731,7 +731,7 @@
             "userNotFound": "Utilisateur introuvable"
         },
         "head": {
-            "title": "LikeCoin - Réinvention du J’aime.",
+            "title": "{name}@LikeCoin - Réinvention du J’aime.",
             "description": "Récompenser les contenus par preuve de créativité. Envoyez des LikeCoin à {name}"
         },
         "error": {

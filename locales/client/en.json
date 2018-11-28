@@ -897,7 +897,7 @@
       "unavailable": "Temporary Suspension of Transfer service"
     },
     "head": {
-      "title": "LikeCoin - Reinventing the Like.",
+      "title": "{name}@LikeCoin - Reinventing the Like.",
       "description": "Rewarding contents by Proof of Creativity. Send LikeCoin to {name}"
     },
     "error": {

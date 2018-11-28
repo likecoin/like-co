@@ -883,7 +883,7 @@
       "unavailable": "暫停轉賬服務"
     },
     "head": {
-      "title": "LikeCoin - 化Like為Coin",
+      "title": "{name}@LikeCoin - 化Like為Coin",
       "description": "回饋創作 - 發 LikeCoin 給 {name}"
     },
     "error": {

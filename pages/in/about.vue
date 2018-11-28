@@ -146,12 +146,12 @@ export default {
   },
   head() {
     return {
-      title: this.$t('Home.Flag.title'),
+      title: this.$t('TokenSale.button.aboutLikeCoin'),
       meta: [
         {
           hid: 'og_title',
           property: 'og:title',
-          content: this.$t('Home.Flag.title'),
+          content: this.$t('TokenSale.button.aboutLikeCoin'),
         },
         {
           hid: 'description',

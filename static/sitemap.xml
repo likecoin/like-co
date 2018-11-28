@@ -9,77 +9,27 @@
 
 <url>
   <loc>https://like.co/</loc>
-  <lastmod>2018-03-20T06:46:22+00:00</lastmod>
+  <lastmod>2018-11-28T07:27:56+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
-  <loc>https://like.co/kitdastudio</loc>
-  <lastmod>2018-03-20T06:46:22+00:00</lastmod>
+  <loc>https://like.co/in/earn</loc>
+  <lastmod>2018-11-28T07:27:56+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://like.co/yansquare</loc>
-  <lastmod>2018-03-20T06:46:22+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://like.co/uncleman</loc>
-  <lastmod>2018-03-20T06:46:22+00:00</lastmod>
+  <loc>https://like.co/in/about</loc>
+  <lastmod>2018-11-28T07:27:56+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://like.co/in/whitepaper</loc>
-  <lastmod>2018-03-20T06:46:22+00:00</lastmod>
+  <lastmod>2018-11-28T07:27:56+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://press.like.co</loc>
-  <lastmod>2018-03-20T06:46:22+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://deck.like.co/</loc>
-  <lastmod>2018-03-20T06:46:22+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://like.co/in/likecoin-onepager-zh.pdf</loc>
-  <lastmod>2018-03-20T06:46:22+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://like.co/in/likecoin-onepager-en.pdf</loc>
-  <lastmod>2018-03-20T06:46:22+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://like.co/in/likecoin-onepager-cn.pdf</loc>
-  <lastmod>2018-03-20T06:46:22+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://like.co/in/likecoin-whitepaper-zh.pdf</loc>
-  <lastmod>2018-03-20T06:46:22+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://like.co/in/likecoin-whitepaper-en.pdf</loc>
-  <lastmod>2018-03-20T06:46:22+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://like.co/in/likecoin-whitepaper-cn.pdf</loc>
-  <lastmod>2018-03-20T06:46:22+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://like.co/in/register</loc>
-  <lastmod>2018-03-20T06:46:22+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://like.co/in/edit</loc>
-  <lastmod>2018-03-20T06:46:22+00:00</lastmod>
+  <loc>https://like.co/in/policies</loc>
+  <lastmod>2018-11-28T07:27:56+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
@@ -88,8 +38,35 @@
   <priority>0.80</priority>
 </url>
 <url>
+  <loc>https://like.co/in/register</loc>
+  <lastmod>2018-11-28T07:27:56+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
   <loc>https://help.like.co/</loc>
   <lastmod>2018-03-20T06:46:22+00:00</lastmod>
   <priority>0.80</priority>
 </url>
+<url>
+  <loc>https://meme.like.co</loc>
+  <lastmod>2018-11-28T07:27:56+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://deck.like.co/</loc>
+  <lastmod>2018-03-20T06:46:22+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://like.co/ckxpress/8</loc>
+  <lastmod>2018-11-28T07:27:56+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://like.co/in/policies/privacy</loc>
+  <lastmod>2018-11-28T07:27:56+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+
+
 </urlset>

@@ -143,7 +143,15 @@ export default {
     }
 
     return {
-      meta,
+      title: this.$t('TokenSale.header.thankyou'),
+      meta: [
+        {
+          hid: 'og_title',
+          property: 'og:title',
+          content: this.$t('TokenSale.header.thankyou'),
+        },
+        ...meta,
+      ],
     };
   },
   computed: {

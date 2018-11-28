@@ -731,7 +731,7 @@
             "userNotFound": "Utente non trovato"
         },
         "head": {
-            "title": "LikeCoin - Un nuovo modo di concepire i Like",
+            "title": "{name}@LikeCoin - Un nuovo modo di concepire i Like",
             "description": "Riconoscimento di contenuti come prova di creatività. Invia LikeCoin a {name}"
         },
         "error": {
