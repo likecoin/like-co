@@ -142,7 +142,13 @@ export default {
   },
   head() {
     return {
+      title: this.$t('WhitePaper.label.whitePaper'),
       meta: [
+        {
+          hid: 'og_title',
+          property: 'og:title',
+          content: this.$t('WhitePaper.label.whitePaper'),
+        },
         {
           hid: 'og_image',
           property: 'og:image',

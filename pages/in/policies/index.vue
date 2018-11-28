@@ -34,5 +34,17 @@ export default {
   components: {
     PoliciesLinks,
   },
+  head() {
+    return {
+      title: this.$t('PoliciesPage.title'),
+      meta: [
+        {
+          hid: 'og_title',
+          property: 'og:title',
+          content: this.$t('PoliciesPage.title'),
+        },
+      ],
+    };
+  },
 };
 </script>

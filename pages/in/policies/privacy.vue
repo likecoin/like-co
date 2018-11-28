@@ -154,3 +154,21 @@
     </section>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'policies-privacy-page',
+  head() {
+    return {
+      title: this.$t('PrivacyPolicyPage.title'),
+      meta: [
+        {
+          hid: 'og_title',
+          property: 'og:title',
+          content: this.$t('PrivacyPolicyPage.title'),
+        },
+      ],
+    };
+  },
+};
+</script>

@@ -126,7 +126,14 @@ export default {
   },
   head() {
     return {
-      title: 'View Transaction State - Like.co',
+      title: this.$t('Transaction.label.viewTx'),
+      meta: [
+        {
+          hid: 'og_title',
+          property: 'og:title',
+          content: this.$t('Transaction.label.viewTx'),
+        },
+      ],
     };
   },
   computed: {

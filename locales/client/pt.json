@@ -731,7 +731,7 @@
             "userNotFound": "Usuário não encontrado"
         },
         "head": {
-            "title": "LikeCoin - Reinventando a Curtida.",
+            "title": "{name}@LikeCoin - Reinventando a Curtida.",
             "description": "Recompensando conteúdo através de comprovação de autoria. Envie LikeCoin para {name}"
         },
         "error": {

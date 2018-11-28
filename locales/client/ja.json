@@ -790,7 +790,7 @@
       "userNotFound": "ユーザーが見つかりません"
     },
     "head": {
-      "title": "LikeCoin - 「いいね」を改革します。",
+      "title": "{name}@LikeCoin - 「いいね」を改革します。",
       "description": "プルーフオブクリエイティビティによる高価値なコンテンツ。{name}さんにLikeCoinを送りましょう"
     },
     "error": {

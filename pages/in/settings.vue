@@ -65,6 +65,18 @@ export default {
       'getUserInfo',
     ]),
   },
+  head() {
+    return {
+      title: this.$t('Settings.title'),
+      meta: [
+        {
+          hid: 'og_title',
+          property: 'og:title',
+          content: this.$t('Settings.title'),
+        },
+      ],
+    };
+  },
 };
 </script>
 

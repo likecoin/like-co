@@ -34,6 +34,28 @@ export default {
       'getUserInfo',
     ]),
   },
+  head() {
+    return {
+      title: this.$t('LikeButtonIntro.title.earn'),
+      meta: [
+        {
+          hid: 'og_title',
+          property: 'og:title',
+          content: this.$t('LikeButtonIntro.title.earn'),
+        },
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.$t('LikeButtonIntro.label.earn'),
+        },
+        {
+          hid: 'og_description',
+          property: 'og:description',
+          content: this.$t('LikeButtonIntro.label.earn'),
+        },
+      ],
+    };
+  },
   watch: {
     getUserInfo(user, prevUser) {
       if (!prevUser.wallet && user.wallet) {

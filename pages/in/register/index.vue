@@ -10,6 +10,28 @@ import { logTrackerEvent } from '@/util/EventLogger';
 export default {
   name: 'auth-api-view',
   layout: 'blank',
+  head() {
+    return {
+      title: this.$t('Register.label.register'),
+      meta: [
+        {
+          hid: 'og_title',
+          property: 'og:title',
+          content: this.$t('Register.label.register'),
+        },
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.$t('Register.header.title'),
+        },
+        {
+          hid: 'og_description',
+          property: 'og:description',
+          content: this.$t('Register.header.title'),
+        },
+      ],
+    };
+  },
   mounted() {
     logTrackerEvent(this, 'RegFlow', 'RedirectSignUp', 'RedirectSignUp', 1);
     this.setAuthDialog({ isShow: true });

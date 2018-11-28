@@ -809,7 +809,7 @@
       "unavailable": "暂停转账服务"
     },
     "head": {
-      "title": "LikeCoin - 化Like为Coin",
+      "title": "{name}@LikeCoin - 化Like为Coin",
       "description": "回馈创作 - 发 LikeCoin 给 {name}"
     },
     "error": {

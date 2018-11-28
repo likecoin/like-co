@@ -731,7 +731,7 @@
             "userNotFound": "Benutzer nicht gefunden"
         },
         "head": {
-            "title": "LikeCoin - „Gefällt mir“ neu definiert.",
+            "title": "{name}@LikeCoin - „Gefällt mir“ neu definiert.",
             "description": "Belohnen von Inhalten durch Kreativitätsnachweis. LikeCoin an {name} senden"
         },
         "error": {
