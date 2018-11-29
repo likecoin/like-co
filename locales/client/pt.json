@@ -651,7 +651,7 @@
         "tab": {
             "overview": "Visão Geral",
             "bonus": "Bônus",
-            "history": "Histórico de Bônus"
+            "txHistory": "Histórico de Transações"
         }
     },
     "Edit": {

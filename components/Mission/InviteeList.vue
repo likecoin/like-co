@@ -12,8 +12,9 @@
             class="username-label"
           >{{ invitee.displayName }}</nuxt-link>
           <span
-            v-if="isNew"
+            v-if="!isSeen"
             class="new-label"
+            @click="onSeen"
           />
         </div>
       </header>
@@ -63,9 +64,18 @@ export default {
       default: () => [],
     },
   },
+  data() {
+    return {
+      isSeen: !this.isNew,
+    };
+  },
   methods: {
     onClick(mission) {
-      this.$emit('click', { mission, referralId: this.username });
+      this.$emit('click', { mission, referralId: this.invitee.id });
+    },
+    onSeen() {
+      this.isSeen = true;
+      this.$emit('seen', { referralId: this.invitee.id });
     },
   },
 };
@@ -112,6 +122,8 @@ export default {
 
   margin-right: 8px;
   margin-bottom: 4px;
+
+  cursor: pointer;
 
   transform: translateY(-50%);
 

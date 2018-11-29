@@ -651,7 +651,7 @@
         "tab": {
             "overview": "개요",
             "bonus": "보너스",
-            "history": "보너스 히스토리"
+            "txHistory": "트랜잭션 히스토리"
         }
     },
     "Edit": {

@@ -33,8 +33,6 @@ export default {
 .like-button-intro-min {
   display: flex;
 
-  padding-top: 38px;
-
   &__text {
     flex: 1;
   }

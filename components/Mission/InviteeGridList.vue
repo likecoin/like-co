@@ -13,6 +13,7 @@
           :isNew="!i.seen"
           :bonusCoolDown="i.bonusCooldown"
           @click="onClick"
+          @seen="onSeen"
         />
       </li>
     </ul>
@@ -76,13 +77,19 @@ export default {
     onClick({ mission, referralId }) {
       this.$emit('click', { mission, referralId });
     },
+    onSeen(payload) {
+      this.$emit('seen', payload);
+    },
     onSlideChange({ activeIndex }) {
       const activeInvitee = this.invitees[activeIndex];
 
-      if (activeInvitee && !activeInvitee.seen) {
-        this.$emit('slideChange', {
-          referralId: activeInvitee.id,
-        });
+      if (activeInvitee) {
+        const payload = { referralId: activeInvitee.id };
+        this.$emit('slideChange', payload);
+
+        if (!activeInvitee.seen) {
+          this.onSeen(payload);
+        }
       }
     },
   },

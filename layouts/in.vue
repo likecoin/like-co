@@ -21,7 +21,7 @@
 
         <div class="lc-container-1">
           <div class="underlay gray lc-mobile-hide" />
-          <div class="lc-container-2 lc-padding-bottom-8">
+          <div class="lc-container-2 lc-margin-bottom-40">
             <user-info-form />
           </div>
         </div>
@@ -58,9 +58,9 @@
               to="/in/bonus"
             />
             <md-tab
-              id="in-bonus-history"
-              :md-label="$t('In.tab.history')"
-              to="/in/bonus/history"
+              id="in-tx-history"
+              :md-label="$t('In.tab.txHistory')"
+              to="/in/tx/history"
             />
 
           </md-tabs>

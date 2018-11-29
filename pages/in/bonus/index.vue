@@ -151,7 +151,7 @@
                   :invitees="getReferralMissionList"
                   swiper-id="invitee-mission"
                   @click="onReferralMissionClick"
-                  @slideChange="onReferralSeen"
+                  @seen="onReferralSeen"
                 />
               </div>
             </div>
@@ -257,6 +257,69 @@
     </section>
     <!-- END - Referral Section -->
 
+    <!-- BEGIN - Completed Bonus Section -->
+    <section class="lc-margin-top-48 lc-mobile">
+      <div class="lc-container-0">
+        <div class="lc-container-1">
+          <div class="lc-container-header">
+            <div class="lc-container-2 lc-container-header-overlay">
+              <div class="lc-container-3 lc-bg-gray-1" />
+            </div>
+            <div class="lc-container-2">
+              <div class="lc-container-3">
+                <div class="lc-container-4">
+                  <div class="lc-container-header-title">
+                    <h1 class="lc-font-size-32 lc-mobile">
+                      {{ $t('BonusPage.HistoryTab.header.completedBonus') }}
+                    </h1>
+                    <div
+                      v-if="getIsFetchedMissionHistory"
+                      class="lc-container-header-button-wrapper lc-mobile-hide"
+                    >
+                      <refresh-button
+                        :is-refreshing="getIsFetchingMissionHistory"
+                        @click="refreshHistory"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lc-container-2">
+            <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-32 section-content">
+              <div class="lc-container-4">
+                <mission-list
+                  :missions="getMissionHistorylist"
+                  :is-grid="true"
+                  :is-swippable="false"
+                  :is-loading="getIsFetchingMissionHistory || !getIsFetchedMissionHistory"
+                  :empty-placeholder="$t('BonusPage.HistoryTab.label.emptyHistoryPlaceholder')"
+                />
+              </div>
+            </div>
+
+            <div
+              class="lc-container-3
+              lc-margin-top-24
+              lc-flex
+              lc-justify-content-center
+              lc-mobile-show"
+            >
+              <refresh-button
+                :is-refreshing="getIsFetchingMissionHistory"
+                :is-outline="true"
+                @click="refreshHistory"
+              />
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    <!-- END - Completed Bonus Section -->
+
   </div>
 </template>
 
@@ -292,13 +355,18 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'getIsFetchingMissions',
-      'getIsFetchedMissions',
       'getUserInfo',
       'getUserIsRegistered',
+
       'getMissionList',
+      'getIsFetchedMissions',
+      'getIsFetchingMissions',
       'getReferralMissionList',
       'getSelectedMission',
+
+      'getMissionHistorylist',
+      'getIsFetchedMissionHistory',
+      'getIsFetchingMissionHistory',
     ]),
   },
   watch: {
@@ -337,14 +405,15 @@ export default {
   },
   methods: {
     ...mapActions([
+      'fetchSelectedMission',
       'fetchUserReferralStats',
       'fetchUserTotalBonus',
       'refreshMissionList',
+      'refreshMissionHistoryList',
       'onMissionClick',
+      'onMissionClickFromUrl',
       'onReferralMissionClick',
       'onReferralSeen',
-      'fetchSelectedMission',
-      'onMissionClickFromUrl',
     ]),
     async updateInfo() {
       const user = this.getUserInfo;
@@ -352,6 +421,7 @@ export default {
       this.updateReferralStat();
       this.updateLikeBonus();
       this.refreshMissionList(user.user);
+      this.refreshHistory();
     },
     async updateLikeBonus() {
       try {
@@ -368,6 +438,9 @@ export default {
       } catch (err) {
         console.log(err);
       }
+    },
+    refreshHistory() {
+      this.refreshMissionHistoryList(this.getUserInfo.user);
     },
     onInvite(type) {
       switch (type) {
