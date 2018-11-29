@@ -99,6 +99,9 @@ export default {
     height: 28px;
     padding-left: 16px;
   }
+  &--disabled &__icon svg * {
+    fill: currentColor !important;
+  }
 
   &__icon + &__title {
     padding-right: 32px;

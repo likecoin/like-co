@@ -4,7 +4,6 @@ import * as api from '@/util/api/api';
 import * as types from '@/store/mutation-types';
 import {
   REDIRECT_NAME_WHITE_LIST,
-  OAUTH_PLATFORM_LIST,
   ONE_LIKE,
 } from '@/constant';
 
@@ -194,18 +193,16 @@ export async function fetchtSocialListById({ commit, dispatch }, id) {
 }
 
 export async function fetchSocialListDetailsById({ commit, dispatch }, id) {
-  const [payload, oauth] = await Promise.all([
-    apiWrapper({ commit, dispatch }, api.apiGetSocialListDetialsById(id)),
-    apiWrapper({ commit, dispatch }, api.apiFetchLinkedAuthPlatforms(id)),
-  ]);
-  const oAuthPlatforms = {};
-  oauth.forEach((platform) => {
-    if (OAUTH_PLATFORM_LIST.find(i => (i.id === platform))) {
-      oAuthPlatforms[platform] = { isOAuthOnly: true };
-    }
-  }); // HACK
-  commit(types.USER_SET_SOCIAL_DETAILS, { ...payload, oAuthPlatforms });
+  const payload = await apiWrapper({ commit, dispatch }, api.apiGetSocialListDetialsById(id));
+  commit(types.USER_SET_SOCIAL_DETAILS, payload);
 }
+
+export async function fetchAuthPlatformsById({ commit, dispatch }, id) {
+  commit(types.USER_SET_AUTH_PLATFORMS, { isFetching: true });
+  const platforms = await apiWrapper({ commit, dispatch }, api.apiFetchLinkedAuthPlatforms(id));
+  commit(types.USER_SET_AUTH_PLATFORMS, { platforms });
+}
+
 
 export async function fetchSocialPlatformLink({ commit, dispatch }, { platform, id }) {
   return apiWrapper({ commit, dispatch }, api.apiGetSocialPlatformLink(platform, id));
@@ -258,6 +255,9 @@ export async function linkSocialPlatform({ commit, dispatch }, { platform, paylo
   commit(types.USER_LINK_SOCIAL, {
     platform, displayName, url, pages, id,
   });
+
+  await dispatch('refreshUser');
+
   return true;
 }
 
@@ -282,6 +282,8 @@ export async function unlinkSocialPlatform({ commit, dispatch }, { platform, pay
   }
 
   commit(types.USER_UNLINK_SOCIAL, platform);
+
+  await dispatch('refreshUser');
 }
 
 export async function selectFacebookPageLink({ commit, dispatch }, { pageId, payload }) {

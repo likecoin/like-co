@@ -1,6 +1,7 @@
 <template>
   <div class="likecoin-settings__personal-tab">
 
+    <!-- User Info Form Section -->
     <div class="lc-container-1 lc-margin-top-48 lc-mobile">
       <div class="lc-container-2">
         <div class="lc-container-3 lc-padding-vertical-32 lc-bg-gray-1">
@@ -117,31 +118,49 @@
       </div>
     </div>
 
+    <!-- Connections Section -->
     <section class="lc-container-0 lc-margin-top-32">
       <div class="lc-container-1">
         <div class="lc-container-2">
 
-          <div class="lc-container-3 lc-bg-gray-1 lc-padding-top-24 lc-padding-bottom-48">
+          <!-- Auth Connections -->
+          <div class="lc-container-3 lc-bg-gray-1 lc-padding-top-32 lc-padding-bottom-48">
             <div class="lc-container-4">
               <h1 class="lc-font-size-32">
-                {{ $t('Edit.label.accountConnection') }}
+                {{ $t('AuthConnectList.title') }}
               </h1>
-              <p class="lc-margin-top-8 lc-color-gray-9b">
-                {{ $t('Settings.label.accountConnection') }}
-              </p>
-
-              <social-media-connect
-                :platforms="getUserSocialPlatforms"
-                :username="getUserInfo.user"
-                :is-show-legacy="false"
-                class="lc-margin-top-24"
-                type="large"
-                @disconnect="onClickSocialMediaDisconnect"
+              <auth-connect-list
+                :platforms="authPlatforms"
+                :is-loading="getUserIsLoadingAuthPlaforms"
+                class="lc-margin-top-32"
+                @connect="onConnectAuth"
+                @disconnect="onDisconnectAuth"
+                @select-option="onSelectConnectOption"
               />
             </div>
           </div>
 
-          <div class="lc-container-3 lc-bg-gray-1 lc-margin-top-8 lc-padding-vertical-24">
+          <!-- Other Connections -->
+          <div class="lc-container-3 lc-bg-gray-1 lc-margin-top-8 lc-padding-vertical-32">
+            <div class="lc-container-4">
+              <h2 class="lc-font-size-14 lc-font-weight-400">
+                {{ $t('OtherConnectList.title') }}
+              </h2>
+              <p class="lc-margin-top-8 lc-color-gray-9b">
+                {{ $t('OtherConnectList.description') }}
+              </p>
+              <other-connect-list
+                :platforms="otherPlatforms"
+                class="lc-margin-top-24"
+                @connect="onConnectOtherPlatforms"
+                @disconnect="onDisconnectOtherPlatforms"
+                @select-option="onSelectConnectOption"
+              />
+            </div>
+          </div>
+
+          <!-- External Link -->
+          <div class="lc-container-3 lc-bg-gray-1 lc-margin-top-8 lc-padding-vertical-32">
             <div class="lc-container-4">
               <external-links-panel />
             </div>
@@ -151,6 +170,7 @@
       </div>
     </section>
 
+    <!-- Redeem Code Section  -->
     <section
       v-if="getUserInfo.wallet"
       id="coupon"
@@ -226,10 +246,17 @@ import { mapActions, mapGetters } from 'vuex';
 
 import {
   W3C_EMAIL_REGEX,
+  LOGIN_CONNECTION_LIST,
+  OTHER_CONNECTION_LIST,
 } from '@/constant';
+
+import { firebasePlatformSignIn } from '~/util/FirebaseApp';
+
 import getTestAttribute from '@/util/test';
 
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
+import AuthConnectList from '~/components/settings/AuthConnectList';
+import OtherConnectList from '~/components/settings/OtherConnectList';
 import ExternalLinksPanel from '~/components/settings/ExternalLinksPanel';
 import SocialMediaConnect from '~/components/SocialMediaConnect';
 
@@ -239,6 +266,8 @@ export default {
   name: 'settings-index',
   components: {
     ClaimDialog,
+    AuthConnectList,
+    OtherConnectList,
     ExternalLinksPanel,
     SocialMediaConnect,
   },
@@ -261,6 +290,8 @@ export default {
       'getUserInfo',
       'getUserIsRegistered',
       'getUserNeedAuth',
+      'getUserIsLoadingAuthPlaforms',
+      'getUserAuthPlatforms',
       'getUserSocialPlatforms',
       'getIsInTransaction',
     ]),
@@ -273,6 +304,20 @@ export default {
         || this.getUserInfo.email !== this.email
         || this.getUserInfo.displayName !== this.displayName
       );
+    },
+    authPlatforms() {
+      return LOGIN_CONNECTION_LIST.map(pid => this.injectPlatformData({
+        ...this.getUserSocialPlatforms[pid],
+        pid,
+        isConnected: !!this.getUserAuthPlatforms[pid],
+      }));
+    },
+    otherPlatforms() {
+      return OTHER_CONNECTION_LIST.map(pid => this.injectPlatformData({
+        ...this.getUserSocialPlatforms[pid],
+        pid,
+        isConnected: !!this.getUserSocialPlatforms[pid],
+      }));
     },
   },
   watch: {
@@ -293,14 +338,73 @@ export default {
       'refreshUserInfo',
       'sendVerifyEmail',
       'setInfoMsg',
+      'fetchAuthPlatformsById',
+      'linkUserAuthPlatform',
+      'unlinkUserAuthPlatform',
       'fetchSocialListDetailsById',
+      'fetchSocialPlatformLink',
+      'linkSocialPlatform',
       'unlinkSocialPlatform',
+      'selectFacebookPageLink',
     ]),
+    getTestAttribute: getTestAttribute('inSettings'),
+    injectPlatformData(platform) {
+      if (!platform.isConnected) return platform;
+
+      const { pid, id, pages = [] } = platform;
+      let options = [];
+      let selectedOption;
+
+      if (pid === 'facebook') {
+        // Inject Facebook pages as options
+        options = options.concat([
+          {
+            value: id,
+            text: this.$t('Facebook.personalProfile'),
+          },
+          ...pages.map(({ id: value, name }) => ({
+            value,
+            text: name,
+          })),
+        ]);
+
+        // Show which Facebook page/account is currently shown in public
+        selectedOption = id;
+        pages.some((page) => {
+          if (page.link === platform.url) {
+            selectedOption = page.id;
+            return true;
+          }
+          return false;
+        });
+      } else {
+        // TODO: Inject non-Facebook options
+        // options.push({
+        //   value: 'show',
+        //   text: this.$t('AuthConnectList.show'),
+        // });
+
+        selectedOption = platform.isPublic ? 'hide' : 'show';
+      }
+
+      // TODO: Inject common options
+      // options.push({
+      //   value: 'hide',
+      //   text: this.$t('AuthConnectList.hide'),
+      // });
+
+      return {
+        ...platform,
+        options,
+        selectedOption,
+      };
+    },
     async updateInfo() {
       const user = this.getUserInfo;
       this.avatar = user.avatar;
       this.displayName = user.displayName;
       this.email = user.email;
+      this.fetchAuthPlatformsById(user.user);
       this.fetchSocialListDetailsById(user.user);
     },
     async onSubmit() {
@@ -349,9 +453,93 @@ export default {
         reader.readAsDataURL(files[0]);
       }
     },
-    onClickSocialMediaDisconnect(platform) {
+    async onConnectAuth(pid) {
+      const platform = this.getUserAuthPlatforms[pid];
+      if (platform) return;
+
+      switch (pid) {
+        case 'facebook': {
+          if (!window.FB) return;
+          window.FB.login((response) => {
+            if (response.authResponse.accessToken) {
+              this.linkSocialPlatform({
+                platform: 'facebook',
+                payload: {
+                  user: this.getUserInfo.user,
+                  access_token: response.authResponse.accessToken,
+                },
+              });
+            } else {
+              // error case
+            }
+          }, { scope: 'public_profile,pages_show_list,user_link' });
+          break;
+        }
+        case 'google':
+        case 'twitter': {
+          const {
+            firebaseIdToken,
+            accessToken,
+            secret,
+          } = await firebasePlatformSignIn(pid);
+          this.linkUserAuthPlatform({
+            platform: pid,
+            payload: {
+              user: this.getUserInfo.user,
+              firebaseIdToken,
+              accessToken,
+              secret,
+            },
+          });
+          break;
+        }
+        default:
+          break;
+      }
+    },
+    onDisconnectAuth(pid) {
+      switch (pid) {
+        case 'google':
+        case 'twitter':
+          this.unlinkUserAuthPlatform({ platform: pid });
+          break;
+
+        case 'facebook':
+          this.onDisconnectOtherPlatforms(pid);
+          break;
+
+        default:
+      }
+    },
+    async onConnectOtherPlatforms(pid) {
+      switch (pid) {
+        default: {
+          const { url } = await this.fetchSocialPlatformLink({
+            platform: pid,
+            id: this.getUserInfo.user,
+          });
+          document.location = url;
+          break;
+        }
+      }
+    },
+    onSelectConnectOption(pid, value) {
+      switch (pid) {
+        case 'facebook':
+          this.selectFacebookPageLink({
+            pageId: value,
+            payload: {
+              user: this.getUserInfo.user,
+            },
+          });
+          break;
+
+        default:
+      }
+    },
+    onDisconnectOtherPlatforms(pid) {
       this.unlinkSocialPlatform({
-        platform,
+        platform: pid,
         payload: {
           user: this.getUserInfo.user,
         },
@@ -364,7 +552,6 @@ export default {
         console.error(err);
       }
     },
-    getTestAttribute: getTestAttribute('inSettings'),
   },
 };
 </script>

@@ -598,8 +598,12 @@ router.get('/users/login/platforms', jwtAuth('read'), async (req, res, next) => 
       return;
     }
     const authDoc = await authDbRef.doc(req.user.user).get();
-    const list = authDoc.exists ? Object.keys(authDoc.data()) : [];
-    res.json(list);
+    const platforms = {};
+    if (authDoc.exists) {
+      Object.keys(authDoc.data())
+        .forEach((pid) => { platforms[pid] = true; });
+    }
+    res.json(platforms);
   } catch (err) {
     next(err);
   }
@@ -630,8 +634,14 @@ router.post('/users/login/:platform/add', jwtAuth('write'), async (req, res, nex
         await dbRef.doc(user).update({ wallet });
         break;
       }
-      case 'google': {
-        const { firebaseIdToken } = req.body;
+
+      case 'google':
+      case 'twitter': {
+        const {
+          firebaseIdToken,
+          accessToken,
+          secret,
+        } = req.body;
         const { uid: firebaseUserId } = await admin.auth().verifyIdToken(firebaseIdToken);
         const firebaseUser = await admin.auth().getUser(firebaseUserId);
         const query = await dbRef.where('firebaseUserId', '==', firebaseUserId).get();
@@ -649,8 +659,14 @@ router.post('/users/login/:platform/add', jwtAuth('write'), async (req, res, nex
         if (!userInfo || !userInfo.uid) throw new ValidationError('CANNOT_FETCH_USER_INFO');
         platformUserId = userInfo.uid;
         await tryToLinkOAuthLogin({ likeCoinId: user, platform, platformUserId });
+
+        if (platform === 'twitter') {
+          await tryToLinkSocialPlatform(user, platform, { accessToken, secret });
+        }
+
         break;
       }
+
       default:
         throw new ValidationError('INVALID_PLATFORM');
     }

@@ -1,6 +1,8 @@
 {
   "General": {
     "back": "Back",
+    "connect": "Connect",
+    "disconnect": "Disconnect",
     "label": {
       "error": "Error",
       "success": "Success",
@@ -822,8 +824,7 @@
       "verified": "Verified",
       "verifying": "Verification link sent. Please check your inbox!",
       "unverified": "Unverified",
-      "verifyEmail": "Verify your email",
-      "accountConnection": "Account connection"
+      "verifyEmail": "Verify your email"
     },
     "referral": {
       "title": "Affiliate Program",
@@ -1087,7 +1088,6 @@
       "deleteAccountPrePopulatedMessage": "I want to delete my account",
       "requestReportPrePopulatedMessage": "I want to request an account data report ",
       "receiveLikeCoinLink": "Your LikeCoin payment link:",
-      "accountConnection": "You can connect to your accounts on various social platforms.",
       "earnByLikeButton": "Earn LikeCoin by Reinvented LikeButton",
       "yourLikeButton": "Your LikeButton",
       "displaySocialMediaOn": "Display socal mediea links on",
@@ -1341,16 +1341,6 @@
       "registrationTutorial": "Registration Tutorial"
     }
   },
-  "SocialMediaConnect": {
-    "label": {
-      "fbWall": "Personal Profile",
-      "linkTo": "link to: ",
-      "linked": "linked"
-    },
-    "button": {
-      "connectToPlatform": "Connect to your {platform}"
-    }
-  },
   "LikeButtonIntro": {
     "wordpress": {
       "title": "Install LikeCoin plugin",
@@ -1424,5 +1414,39 @@
       "createIdOnMobile": "https://help.like.co/likecoin-faq/newbies/registering-likecoin-id-on-mobile",
       "createIdOnComp": "https://help.like.co/likecoin-faq/newbies/registering-likecoin-id-on-computer"
     }
+  },
+  "AuthConnectList": {
+    "title": "Connections",
+    "show": "Show on your profile",
+    "hide": "Hide",
+    "facebook": {
+      "title": "Connect to Facebook",
+      "connectedTitle": "You are connected to Facebook",
+      "connected": "You can now sign in with your Facebook account.",
+      "disclaimer": "We will never post to Facebook or message your friends without your permission"
+    },
+    "google": {
+      "title": "Connect to Google",
+      "connectedTitle": "You are connected to Google",
+      "connected": "You can now sign in with your Google account."
+    },
+    "twitter": {
+      "title": "Connect to Twitter",
+      "connectedTitle": "You are connected to Twitter",
+      "connected": "You can now sign in with your Twitter account.",
+      "disclaimer": "We will never post to Twitter or message your followers without your permission."
+    }
+  },
+  "OtherConnectList": {
+    "title": "Other Connection",
+    "description": "You can connect to your accounts on various social platforms"
+  },
+  "PlatformConnectItem": {
+    "connectToPlatform": "Connect to your {platform}",
+    "linked": "linked",
+    "options": "Option"
+  },
+  "Facebook": {
+    "personalProfile": "Personal Profile"
   }
 }
