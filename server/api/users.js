@@ -614,6 +614,7 @@ router.post('/users/login/:platform/add', jwtAuth('write'), async (req, res, nex
       return;
     }
 
+    let platformUserId;
     switch (platform) {
       case 'wallet': {
         const {
@@ -646,7 +647,7 @@ router.post('/users/login/:platform/add', jwtAuth('write'), async (req, res, nex
         }
         const userInfo = getFirebaseUserProviderUserInfo(firebaseUser, platform);
         if (!userInfo || !userInfo.uid) throw new ValidationError('CANNOT_FETCH_USER_INFO');
-        const platformUserId = userInfo.uid;
+        platformUserId = userInfo.uid;
         await tryToLinkOAuthLogin({ likeCoinId: user, platform, platformUserId });
         break;
       }
@@ -655,6 +656,29 @@ router.post('/users/login/:platform/add', jwtAuth('write'), async (req, res, nex
     }
 
     res.sendStatus(200);
+    const doc = await dbRef.doc(user).get();
+    if (doc.exists) {
+      const {
+        wallet,
+        email,
+        displayName,
+        referrer,
+        locale,
+        timestamp: registerTime,
+      } = doc.data();
+      publisher.publish(PUBSUB_TOPIC_MISC, req, {
+        logType: 'eventSocialLink',
+        platform,
+        user,
+        email,
+        displayName,
+        wallet,
+        referrer,
+        locale,
+        registerTime,
+        platformUserId,
+      });
+    }
   } catch (err) {
     next(err);
   }
