@@ -1,5 +1,6 @@
 import test from 'ava';
 import {
+  testingUser2,
   invalidWallet,
   txHash,
   txFrom,
@@ -37,10 +38,12 @@ test('PAYMENT: Get tx by id', async (t) => {
 });
 
 test('PAYMENT: Get tx history by addr', async (t) => {
-  const token = jwtSign({ wallet: txTo });
-  axiosist.defaults.headers.common.Cookie = `likecoin_auth=${token}`;
-  const res = await axiosist.get(`/api/tx/history/addr/${txTo}`)
-    .catch(err => err.response);
+  const token = jwtSign({ user: testingUser2, wallet: txTo });
+  const res = await axiosist.get(`/api/tx/history/addr/${txTo}`, {
+    headers: {
+      Cookie: `likecoin_auth=${token}`,
+    },
+  }).catch(err => err.response);
 
   t.is(res.status, 200);
   // check test record exists
