@@ -7,6 +7,7 @@
         mdCloseOnEsc: false,
         mdFullscreen: false,
       }"
+      v-bind="$testID('MetaMaskDialog')"
     >
       <div slot="header-left">
         <md-button

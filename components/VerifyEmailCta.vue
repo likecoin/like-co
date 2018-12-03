@@ -1,5 +1,8 @@
 <template>
-  <div class="lc-flex verify-email-cta">
+  <div
+    v-bind="$testID('VerifyEmailCTA')"
+    class="lc-flex verify-email-cta"
+  >
     <div class="verify-email-cta__image">
       <simple-svg
         :filepath="EmailIcon"
