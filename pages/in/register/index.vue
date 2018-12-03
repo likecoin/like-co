@@ -35,9 +35,11 @@ export default {
   mounted() {
     logTrackerEvent(this, 'RegFlow', 'RedirectSignUp', 'RedirectSignUp', 1);
     this.setAuthDialog({ isShow: true });
+    window.addEventListener('beforeunload', this.logPageUnload, false);
   },
   beforeDestroy() {
     this.setAuthDialog({ isShow: false });
+    window.removeEventListener('beforeunload', this.logPageUnload, false);
   },
   methods: {
     ...mapActions([
@@ -46,6 +48,9 @@ export default {
       'refreshUser',
       'showLoginWindow',
     ]),
+    logPageUnload() {
+      logTrackerEvent(this, 'RegFlow', 'CloseRegisterPage', 'CloseRegisterPage', 1);
+    },
   },
 };
 </script>
