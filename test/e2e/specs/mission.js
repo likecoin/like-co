@@ -10,23 +10,8 @@ module.exports = {
     const devServer = browser.globals.devServerURL;
 
     browser.page.metamask().acceptTerms('testacctreferee');
+    browser.page.common().goToAndSignInWithWallet(`${devServer}/in/bonus`);
     browser
-      .url(`${devServer}/in/bonus`)
-      .pause(2000)
-      .windowHandles(function func(res) {
-        const metamaskPopup = res.value[1];
-        this.switchWindow(metamaskPopup);
-      })
-      .pause(2000)
-      .verify.title('MetaMask Notification')
-      .waitForElementVisible('#app-content button:nth-child(2)', 3000)
-      .click('#app-content button:nth-child(2)')
-      .pause(2000)
-      .windowHandles(function func(res) {
-        const originalWindow = res.value[0];
-        this.switchWindow(originalWindow);
-      })
-      .pause(3000)
       // check `new` verify email mission exists for just registered user
       .waitForElementVisible('#my-mission .mission-item.verifyEmail', 5000)
       .verify.elementPresent('#my-mission .mission-item.verifyEmail .item-label.new')
@@ -87,22 +72,8 @@ module.exports = {
     const devServer = browser.globals.devServerURL;
 
     browser.page.metamask().acceptTerms('testacctreferrer');
+    browser.page.common().goToAndSignInWithWallet(`${devServer}/in/bonus`);
     browser
-      .url(`${devServer}/in/bonus`)
-      .pause(2000)
-      .windowHandles(function func(res) {
-        const metamaskPopup = res.value[1];
-        this.switchWindow(metamaskPopup);
-      })
-      .pause(2000)
-      .verify.title('MetaMask Notification')
-      .waitForElementVisible('#app-content button:nth-child(2)', 3000)
-      .click('#app-content button:nth-child(2)')
-      .pause(2000)
-      .windowHandles(function func(res) {
-        const originalWindow = res.value[0];
-        this.switchWindow(originalWindow);
-      })
       .pause(3000)
       .verify.elementNotPresent('#my-mission .mission-item.verifyEmail')
       .waitForElementVisible('#invitee-mission .invitee-mission-grid-list', 5000)
