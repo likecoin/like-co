@@ -665,8 +665,8 @@
       "loginSuccessful": "成功登入"
     },
     "SignIn": {
-      "title": "支持創作",
-      "description": "註冊/登入，化讚為賞",
+      "title": "感謝以行動支持創作",
+      "description": "只需簡單註冊/登入，即能化讚為賞，助作者獲得收入。",
       "label": {
         "or": "或",
         "with": "以下方法登入"
@@ -1115,9 +1115,9 @@
     "button": {
       "toIndex": "返回主頁"
     },
-    "EMAIL_ALREADY_USED": "此電郵地址已被註冊",
+    "EMAIL_ALREADY_USED": "此電郵地址已被註冊。若你曾經以電子錢包註冊帳號，請先以電腦登入，再於設定頁 (https://like.co/in/settings/) 綁定你的社交媒體帳號。",
     "REFERRER_NOT_EXIST": "推薦人的 LikeCoin ID 不存在",
-    "USER_ALREADY_EXIST": "帳戶已經存在",
+    "USER_ALREADY_EXIST": "帳戶已經存在。若你曾經以電子錢包註冊帳號，請先以電腦登入，再於設定頁 (https://like.co/in/settings/) 綁定你的社交媒體帳號。",
     "USER_NOT_EXIST": "帳戶不存在",
     "OICE_SERVER_ERROR": "伺服器錯誤，請重載網頁並重試。如重複出現該錯誤，請聯絡客服。",
     "OICE_LIKECOIN_ID_NOT_BIND": "oice 跟 LikeCoin ID 的連結有誤，請確認你正在登入的 oice 帳號，有綁定 LikeCoin ID ，而且 綁定 ID 跟 目前 ID 一致。"
