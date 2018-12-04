@@ -258,7 +258,11 @@
     <!-- END - Referral Section -->
 
     <!-- BEGIN - Completed Bonus Section -->
-    <section class="lc-margin-top-48 lc-mobile">
+    <section
+      id="history"
+      v-bind="$testID('BonusHistory')"
+      class="lc-margin-top-48 lc-mobile"
+    >
       <div class="lc-container-0">
         <div class="lc-container-1">
           <div class="lc-container-header">

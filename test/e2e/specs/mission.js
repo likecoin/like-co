@@ -87,10 +87,7 @@ module.exports = {
       .click('#invitee-mission .mission-item.active .mission-card')
       .waitForElementVisible('.mission-dialog-content .md-button', 2000)
       .click('.mission-dialog-content .md-button')
-      .pause(2000)
-      .waitForElementVisible('.md-tabs-navigation a[href*="history"]', 3000)
-      .click('.md-tabs-navigation a[href*="history"]')
-      .waitForElementPresent('.history-tab .mission-item.verifyEmail.claimed', 5000)
+      .waitForElementPresent('[lc-test=BonusHistory] .mission-item.verifyEmail.claimed', 5000)
       .end();
   },
 };

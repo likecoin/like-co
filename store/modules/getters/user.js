@@ -10,6 +10,11 @@ export const getUserIsInBonusCoolDown = state => state.user.bonusCooldown;
 
 export const getLocalWallet = state => state.wallet;
 
+export const getUserIsLoadingAuthPlaforms = state => (
+  !state.isFetchedAuthPlatforms || state.isFetchingAuthPlatforms
+);
+export const getUserAuthPlatforms = state => state.authPlatforms;
+
 export const getUserSocialPlatforms = state => state.platforms;
 
 export const getUserSocialLinks = state => state.links;

@@ -49,3 +49,13 @@ $border-style-2: 1px solid $gray-e6;
     opacity: 1;
   }
 }
+
+$platform-color-map: (
+  likecoin: $like-green,
+  facebook: #3b5998,
+  flickr: #0063dc,
+  google: white,
+  instagram: #c7548a,
+  medium: #231f20,
+  twitter: #1ea1f2,
+);

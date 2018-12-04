@@ -1,8 +1,14 @@
 <template>
   <div class="external-links-panel">
-    {{ $t('Settings.label.otherLinks') }}
 
-    <div class="external-links-panel__draggable-wrapper lc-margin-vertical-16">
+    <h2 class="lc-font-size-14 lc-font-weight-400">
+      {{ $t('Settings.label.otherLinks') }}
+    </h2>
+    <p class="lc-font-size-14 lc-color-gray-9b lc-margin-top-8">
+      {{ $t('Settings.label.otherLinksDescription') }}
+    </p>
+
+    <div class="external-links-panel__draggable-wrapper lc-margin-top-32">
       <md-progress-bar
         v-if="isShowProgressBar"
         md-mode="indeterminate"
@@ -37,7 +43,7 @@
     </div>
 
     <md-button
-      type="button"
+      class="lc-margin-top-16"
       @click="onClickAddLink"
     >
       <simple-svg
@@ -50,6 +56,7 @@
         {{ $t('Settings.button.addCustomLink') }}
       </span>
     </md-button>
+
   </div>
 </template>
 
@@ -156,7 +163,7 @@ export default {
       }
     },
     async onRemoveLink({ id, order }) {
-      if (order === undefined) {
+      if (!order) {
         this.hasNewLink = false;
       } else {
         const index = this.links.findIndex(l => l.id === id);

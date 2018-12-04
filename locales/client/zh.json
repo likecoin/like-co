@@ -1,6 +1,8 @@
 {
   "General": {
     "back": "返回",
+    "connect": "連接",
+    "disconnect": "取消連接",
     "label": {
       "error": "失敗",
       "success": "成功",
@@ -808,8 +810,7 @@
       "verified": "成功驗證",
       "verifying": "驗證碼已發送，請查郵箱",
       "unverified": "仍未認證",
-      "verifyEmail": "認證郵箱",
-      "accountConnection": "帳號連接"
+      "verifyEmail": "認證郵箱"
     },
     "referral": {
       "title": "推薦計劃",
@@ -1053,7 +1054,6 @@
       "deleteAccountPrePopulatedMessage": "我想申請刪除帳號",
       "requestReportPrePopulatedMessage": "我想接收帳號報告",
       "receiveLikeCoinLink": "你的 LikeCoin 轉帳頁面:",
-      "accountConnection": "你可以將帳號連接到不同的社交平台",
       "earnByLikeButton": "以新設計的 LikeButton 賺取 LikeCoin",
       "yourLikeButton": "你的 LikeButton",
       "displaySocialMediaOn": "顯示社交媒體連結",
@@ -1273,16 +1273,6 @@
       "registrationTutorial": "申請 LikeCoin ID 教學"
     }
   },
-  "SocialMediaConnect": {
-    "label": {
-      "fbWall": "個人頁面",
-      "linkTo": "連結至: ",
-      "linked": "已連結"
-    },
-    "button": {
-      "connectToPlatform": "綁定你的 {platform} 帳號"
-    }
-  },
   "LikeButtonIntro": {
     "wordpress": {
       "title": "安裝 LikeCoin 外掛",
@@ -1329,5 +1319,20 @@
     "button": {
       "startUsing": "開始使用"
     }
+  },
+  "AuthConnectList": {
+    "title": "帳號連接"
+  },
+  "OtherConnectList": {
+    "title": "其他帳號連接",
+    "description": "你可以將帳號連接到不同的社交平台"
+  },
+  "PlatformConnectItem": {
+    "connectToPlatform": "綁定你的 {platform} 帳號",
+    "linked": "已連結",
+    "options": "選項"
+  },
+  "Facebook": {
+    "personalProfile": "個人頁面"
   }
 }

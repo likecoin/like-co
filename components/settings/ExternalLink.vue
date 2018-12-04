@@ -138,6 +138,7 @@
         <hr>
 
         <md-button
+          :disabled="isNew"
           class="md-icon-button"
           @click="onClickDelete"
         >
