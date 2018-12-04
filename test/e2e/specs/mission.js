@@ -88,9 +88,7 @@ module.exports = {
       .waitForElementVisible('.mission-dialog-content .md-button', 2000)
       .click('.mission-dialog-content .md-button')
       .pause(2000)
-      .waitForElementVisible('.md-tabs-navigation a[href*="history"]', 3000)
-      .click('.md-tabs-navigation a[href*="history"]')
-      .waitForElementPresent('.history-tab .mission-item.verifyEmail.claimed', 5000)
+      .waitForElementPresent('.mission-item.verifyEmail.claimed', 5000)
       .end();
   },
 };
