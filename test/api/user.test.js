@@ -85,9 +85,11 @@ test.serial('USER: Edit user. Case: success', async (t) => {
 });
 
 test.serial('USER: Email verification (Need restart server for clean memory data)', async (t) => {
+  const token = jwtSign({ user: testingUser1 });
   const res = await axiosist.post(`/api/email/verify/user/${testingUser1}`, {}, {
     headers: {
       Accept: 'application/json',
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res.status, 200);
@@ -95,20 +97,24 @@ test.serial('USER: Email verification (Need restart server for clean memory data
 });
 
 test.serial('USER: Verify uuid. Case: wrong uuid', async (t) => {
+  const token = jwtSign({ user: testingUser2 });
   const uuid = '99999999-0000-0000-0000-000000000000';
-  const res = await axiosist.post(`/api/email/verify/${uuid}`, {
+  const res = await axiosist.post(`/api/email/verify/${uuid}`, {}, {
     headers: {
       Accept: 'application/json',
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res.status, 404);
 });
 
 test.serial('USER: Verify uuid. Case: success (Need restart server for clean memory data)', async (t) => {
+  const token = jwtSign({ user: testingUser2 });
   const uuid = '00000000-0000-0000-0000-000000000000';
-  const res = await axiosist.post(`/api/email/verify/${uuid}`, {
+  const res = await axiosist.post(`/api/email/verify/${uuid}`, {}, {
     headers: {
       Accept: 'application/json',
+      Cookie: `likecoin_auth=${token}`,
     },
   }).catch(err => err.response);
   t.is(res.status, 200);

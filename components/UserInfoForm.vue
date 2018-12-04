@@ -27,7 +27,7 @@
                 </span>
                 <nuxt-link
                   v-if="user"
-                  v-bind="getTestAttribute('userId')"
+                  v-bind="$testID('UserInfoForm-LikeCoinId')"
                   :to="{ name: 'id', params: { id: user } }"
                 >
                   {{ user }}
@@ -43,7 +43,7 @@
               >
                 <nuxt-link
                   :to="{ name: 'in-settings' }"
-                  v-bind="getTestAttribute('userDisplayName')"
+                  v-bind="$testID('UserInfoForm-DisplayName')"
                   class="lc-color-like-dark-brown-1 lc-text-align-center"
                 >
                   {{ displayName }}

@@ -15,6 +15,7 @@
         'auth-dialog--blocking': isBlocking,
       },
     ]"
+    v-bind="$testID('AuthDialog')"
     is-content-gapless
     @update:isShow="onUpdateIsShow"
   >

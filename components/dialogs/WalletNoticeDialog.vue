@@ -1,6 +1,7 @@
 <template>
   <md-dialog
     :md-active="isShow"
+    v-bind="$testID('WalletNoticeDialog')"
     class="wallet-notice-dialog"
     @update:md-active="updateIsShow"
   >
@@ -120,6 +121,7 @@
       <!-- Proceed Button -->
       <div class="lc-dialog-container-1 lc-button-group">
         <md-button
+          v-bind="$testID('ProceedWalletNoticeButton')"
           class="md-likecoin"
           @click="onProceed"
         >

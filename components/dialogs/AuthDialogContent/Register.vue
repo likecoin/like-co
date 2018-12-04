@@ -6,7 +6,10 @@
       </h1>
     </div>
 
-    <form @submit.prevent="onSubmit">
+    <form
+      v-bind="$testID('RegisterForm')"
+      @submit.prevent="onSubmit"
+    >
 
       <div class="user-fields">
         <div class="lc-dialog-container-1">
@@ -58,6 +61,7 @@
               v-model="likeCoinId"
               :pattern="LIKECOIN_ID_REGEX"
               :title="$t('Register.form.error.alphanumeric')"
+              v-bind="$testID('RegisterForm-LikeCoinIdField')"
               required
               @change="likeCoinId=likeCoinId.toLowerCase().trim()"
             />
@@ -78,6 +82,7 @@
               :disabled="!isEditEmail"
               :pattern="W3C_EMAIL_REGEX"
               :title="$t('Register.form.error.emailFormat')"
+              v-bind="$testID('RegisterForm-EmailField')"
               required
               @change="email=email.toLowerCase().trim()"
             />
@@ -97,6 +102,7 @@
         <div class="term-agreement">
           <md-checkbox
             v-model="isTermsAgreed"
+            v-bind="$testID('RegisterForm-AgreePolicyCheckBox')"
             class="md-likecoin"
           />
           <i18n

@@ -1,11 +1,9 @@
 import { IS_TESTNET } from '@/constant';
 
-const getTestAttribute = prefix => testId => (
-  IS_TESTNET ? ({
-    'lc-test': `${prefix}-${testId}`,
-  }) : (
-    null
-  )
-);
+export function getSingleTestAttribute(identitier) {
+  return IS_TESTNET ? { 'lc-test': identitier } : null;
+}
+
+const getTestAttribute = prefix => testId => getSingleTestAttribute(`${prefix}-${testId}`);
 
 export default getTestAttribute;
