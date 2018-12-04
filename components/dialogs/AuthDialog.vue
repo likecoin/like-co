@@ -15,6 +15,7 @@
         'auth-dialog--blocking': isBlocking,
       },
     ]"
+    v-bind="$testID('AuthDialog')"
     is-content-gapless
     @update:isShow="onUpdateIsShow"
   >
@@ -723,6 +724,7 @@ export default {
       this.currentTab = 'signingIn';
       try {
         await apiPostNewUser(payload);
+        logTrackerEvent(this, 'RegFlow', 'RegistrationComplete', 'RegistrationComplete', 1);
         this.setUserNeedAuth(false);
         this.redirectAfterSignIn();
       } catch (err) {
@@ -746,6 +748,7 @@ export default {
           errCode = 'USER_REGISTER_ERROR';
         }
         this.setError(errCode);
+        logTrackerEvent(this, 'RegFlow', 'RegistrationFail', 'RegistrationFail', 1);
       }
     },
     async redirectAfterSignIn() {

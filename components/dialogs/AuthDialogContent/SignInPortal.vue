@@ -48,6 +48,7 @@
 
       <div class="lc-margin-top-24">
         <a
+          v-bind="$testID('SignInWithWalletButton')"
           class="lc-color-like-gray-4 lc-font-size-12 lc-underline"
           @click="onSignInWith('wallet')"
         >

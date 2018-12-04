@@ -15,34 +15,39 @@ module.exports = {
 
     browser
       .url(devServer)
-      .pause(6000)
-      .waitForElementVisible('button[lc-test=homeHeader-registerButton]', 3000)
-      .click('button[lc-test=homeHeader-registerButton]')
-      .waitForElementVisible('#registerForm', 5000)
-      .setValue('input[lc-test=registerForm-userId]', newId)
-      .setValue('input[lc-test=registerForm-email]', newIdEmail)
-      .submitForm('#registerForm')
-      .waitForElementVisible('.md-toolbar', 2000) // alert user for not ticking accept terms & policies checkbox
-      .click('label[lc-test=registerForm-agreeTerms]')
-      .submitForm('#registerForm')
-      .pause(2000)
+      // Click sign in or sign up button
+      .waitForElementVisible('[lc-test=homeHeader-registerButton]', 5000)
+      .click('[lc-test=homeHeader-registerButton]')
+      // Wait for AuthDialog to appear
+      .waitForElementVisible('[lc-test=AuthDialog]', 1000)
+      // Click 'Sign in with wallet' button
+      .click('[lc-test=SignInWithWalletButton]')
+      // Wait for wallet notice to appear
+      .waitForElementVisible('[lc-test=WalletNoticeDialog]', 1000)
+      .click('[lc-test=ProceedWalletNoticeButton]')
+      .click('[lc-test=ProceedWalletNoticeButton]')
+      .click('[lc-test=ProceedWalletNoticeButton]')
+      // Fill registration form
+      .waitForElementVisible('[lc-test=RegisterForm]', 5000)
+      .setValue('[lc-test=RegisterForm-LikeCoinIdField]', newId)
+      .setValue('[lc-test=RegisterForm-EmailField]', newIdEmail)
+      .click('[lc-test=RegisterForm-AgreePolicyCheckBox]')
+      .submitForm('[lc-test=RegisterForm]')
+      // Sign signature request in MetaMask
+      .waitForElementVisible('[lc-test=MetaMaskDialog]', 2000)
       .windowHandles(function func(res) {
         const metamaskPopup = res.value[1];
         this.switchWindow(metamaskPopup);
       })
-      .pause(1000)
-      .verify.title('MetaMask Notification')
       .waitForElementVisible('#app-content button:nth-child(2)', 3000)
       .click('#app-content button:nth-child(2)')
-      .pause(1000)
+      /* Redirect to account page */
       .windowHandles(function func(res) {
         const originalWindow = res.value[0];
         this.switchWindow(originalWindow);
       })
-      /* verify email dialog */
-      .waitForElementVisible('div.md-dialog.lc-dialog.input-dialog.md-dialog-fullscreen.md-theme-default', 5000)
-      .click('#single-input-form > div.lc-button-group > button.md-button.md-likecoin.lc-cancel.md-theme-default')
-      .verify.containsText('a[lc-test=userInfoForm-userId]', newId)
+      .waitForElementVisible('[lc-test=VerifyEmailCTA]', 5000)
+      .verify.containsText('[lc-test=UserInfoForm-LikeCoinId]', newId)
       .end();
   },
 
@@ -60,25 +65,11 @@ module.exports = {
     browser
       .url(`${devServer}/in`)
       .waitForElementVisible('#user-info-form', 2000)
-      .waitForElementVisible('a[lc-test=userInfoForm-userDisplayName]', 2000)
-      .click('a[lc-test=userInfoForm-userDisplayName]')
+      .waitForElementVisible('[lc-test=UserInfoForm-DisplayName]', 2000)
+      .click('[lc-test=UserInfoForm-DisplayName]')
       .waitForElementVisible('form[lc-test=inSettings-accountSettingForm]', 2000)
       .setValue('input[lc-test=inSettings-userDisplayName]', inputSequence)
       .click('button[lc-test=inSettings-submitButton]')
-      .pause(2000)
-      .windowHandles(function func(res) {
-        const metamaskPopup = res.value[1];
-        this.switchWindow(metamaskPopup);
-      })
-      .pause(1000)
-      .verify.title('MetaMask Notification')
-      .waitForElementVisible('#app-content button:nth-child(2)', 3000)
-      .click('#app-content button:nth-child(2)')
-      .pause(2000)
-      .windowHandles(function func(res) {
-        const originalWindow = res.value[0];
-        this.switchWindow(originalWindow);
-      })
       .waitForElementVisible('form[lc-test=inSettings-accountSettingForm]', 5000)
       .waitForElementVisible('.toolbars', 3000)
       .pause(1000)
@@ -129,23 +120,22 @@ module.exports = {
       .waitForElementVisible('.address-container', 5000)
       .verify.containsText('.address-container', testUser)
       .submitForm('#paymentInfo')
+      .waitForElementVisible('[lc-test=MetaMaskDialog]', 5000)
       .pause(2000)
       .windowHandles(function func(res) {
         const metamaskPopup = res.value[1];
         this.switchWindow(metamaskPopup);
       })
-      .pause(2000)
       .waitForElementVisible('div.font-small', 5000)
-      .waitForElementVisible('div.flex-row.flex-space-around > button:nth-child(2)', 3000)
       .verify.containsText('div.font-small', '0x4b25758E41f9240C8EB8831cEc7F1a02686387fa')
       .verify.containsText('div.font-small', '100 000 000 000 000')
+      .waitForElementVisible('div.flex-row.flex-space-around > button:nth-child(2)', 3000)
       .click('div.flex-row.flex-space-around > button:nth-child(2)')
-      .pause(2000)
       .windowHandles(function func(res) {
         const originalWindow = res.value[0];
         this.switchWindow(originalWindow);
       })
-      .waitForElementVisible('.tx-dialog', 5000)
+      .waitForElementVisible('.tx-dialog', 10000)
       .waitForElementVisible('button.md-button.md-likecoin.lc-secondary', 5000)
       .click('button.md-button.md-likecoin.lc-secondary')
       .pause(3000)
@@ -169,15 +159,14 @@ module.exports = {
       .waitForElementVisible('.address-container', 5000)
       .verify.containsText('.address-container', testUser)
       .submitForm('#paymentInfo')
+      .waitForElementVisible('[lc-test=MetaMaskDialog]', 5000)
       .pause(2000)
       .windowHandles(function func(res) {
         const metamaskPopup = res.value[1];
         this.switchWindow(metamaskPopup);
       })
-      .pause(2000)
       .waitForElementVisible('#pending-tx-form', 5000)
       .submitForm('#pending-tx-form')
-      .pause(2000)
       .windowHandles(function func(res) {
         const originalWindow = res.value[0];
         this.switchWindow(originalWindow);
