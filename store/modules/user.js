@@ -6,6 +6,7 @@ import {
   USER_SET_LOCAL_WALLET,
   USER_AWAITING_AUTH,
   USER_SET_AFTER_AUTH_ROUTE,
+  USER_SET_AUTH_PLATFORMS,
   USER_SET_SOCIAL,
   USER_SET_SOCIAL_DETAILS,
   USER_LINK_SOCIAL,
@@ -28,6 +29,9 @@ const state = {
   preAuthRoute: null,
   afterAuthRoute: {},
   web3Fetching: false,
+  isFetchedAuthPlatforms: false,
+  isFetchingAuthPlatforms: false,
+  authPlatforms: {},
   platforms: {},
   links: {},
   socialMeta: {},
@@ -47,6 +51,15 @@ const mutations = {
   [USER_SET_AFTER_AUTH_ROUTE](state, route) {
     state.preAuthRoute = route;
   },
+  [USER_SET_AUTH_PLATFORMS](state, { isFetching, platforms }) {
+    state.isFetchingAuthPlatforms = !!isFetching;
+    if (!isFetching) {
+      state.isFetchedAuthPlatforms = true;
+    }
+    if (platforms) {
+      state.authPlatforms = platforms;
+    }
+  },
   [USER_SET_SOCIAL](state, platforms) {
     state.platforms = platforms;
   },
@@ -54,9 +67,8 @@ const mutations = {
     links,
     meta,
     platforms,
-    oAuthPlatforms,
   }) {
-    state.platforms = { ...platforms, ...oAuthPlatforms };
+    state.platforms = platforms;
     state.links = links;
     state.socialMeta = meta;
   },

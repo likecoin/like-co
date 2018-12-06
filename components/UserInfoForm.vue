@@ -142,38 +142,7 @@
                 </div>
               </div>
 
-              <div
-                v-if="wallet"
-                class="address-field"
-              >
-                {{ $t('Edit.label.accountConnection') }}
-              </div>
-              <div
-                v-if="wallet"
-                class="lc-margin-vertical-8 lc-flex lc-align-items-center"
-              >
-                <social-media-connect
-                  v-if="getUserInfo.user"
-                  :platforms="getUserSocialPlatforms"
-                  :username="getUserInfo.user"
-                  type="mini"
-                />
-                <md-button
-                  :to="{ name: 'in-settings' }"
-                  class="social-media-connect__setting-icon md-icon-button"
-                  type="button"
-                >
-                  <simple-svg
-                    :filepath="SettingsIcon"
-                    fill="#c0c0c0"
-                    height="20px"
-                    width="20px"
-                  />
-                </md-button>
-              </div>
-
             </div>
-
           </div>
         </div>
       </div>
@@ -195,7 +164,6 @@ import {
 
 import EditIcon from '@/assets/icons/edit.svg';
 import EditWhiteIcon from '@/assets/icons/edit-white.svg';
-import SettingsIcon from '@/assets/icons/settings.svg';
 
 import LikeCoinAmount from '~/components/LikeCoinAmount';
 import InputDialog from '~/components/dialogs/InputDialog';
@@ -212,7 +180,6 @@ export default {
     return {
       EditIcon,
       EditWhiteIcon,
-      SettingsIcon,
       W3C_EMAIL_REGEX,
       avatarData: null,
       displayName: '',
@@ -227,7 +194,6 @@ export default {
     ...mapGetters([
       'getCurrentLocale',
       'getUserInfo',
-      'getUserSocialPlatforms',
       'getUserIsRegistered',
       'getUserLikeCoinAmountInBigNumber',
     ]),

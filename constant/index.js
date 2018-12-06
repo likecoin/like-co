@@ -100,17 +100,18 @@ export const SOCIAL_MEDIA_LIST = [
   },
 ];
 
-export const IS_LGOIN_SOCIAL = new Set([
+export const LOGIN_CONNECTION_LIST = [
+  'google',
   'facebook',
   'twitter',
-]);
-
-export const OAUTH_PLATFORM_LIST = [
-  {
-    id: 'google',
-    isOAuthOnly: true,
-  },
 ];
+
+export const OTHER_CONNECTION_LIST = [
+  'medium',
+  'flickr',
+];
+
+export const IS_LOGIN_SOCIAL = new Set(LOGIN_CONNECTION_LIST);
 
 export const LINK_ICON_TYPES = ['profile', 'blog', 'photo', 'mail', 'contact', 'link'];
 

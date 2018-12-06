@@ -9,7 +9,7 @@ const {
   MEDIUM_APP_SECRET,
 } = require('../config/config.js'); // eslint-disable-line import/no-extraneous-dependencies
 
-const CALLBACK_URI = `https://${EXTERNAL_HOSTNAME}/in/oauth/medium`;
+const CALLBACK_URI = `https://${EXTERNAL_HOSTNAME}/in/social/oauth/medium`;
 const SCOPE = 'basicProfile';
 
 export function fetchMediumOAuthInfo(user) {

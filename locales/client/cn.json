@@ -1,6 +1,8 @@
 {
   "General": {
     "back": "返回",
+    "connect": "连接",
+    "disconnect": "取消连接",
     "label": {
       "error": "失败",
       "success": "成功"
@@ -722,7 +724,7 @@
     "tab": {
       "overview": "概览",
       "bonus": "奖赏",
-      "history": "奖赏纪录"
+      "txHistory": "交易记录"
     }
   },
   "Edit": {
@@ -738,8 +740,7 @@
       "verified": "成功验证",
       "verifying": "验证码已发送，请查邮箱",
       "unverified": "仍未认证",
-      "verifyEmail": "认证邮箱",
-      "accountConnection": "帐号连接"
+      "verifyEmail": "认证邮箱"
     },
     "referral": {
       "title": "推荐计划",
@@ -977,7 +978,6 @@
       "deleteAccountPrePopulatedMessage": "我想申请删除帐号",
       "requestReportPrePopulatedMessage": "我想接收帐号报告",
       "receiveLikeCoinLink": "你的 LikeCoin 转帐页面:",
-      "accountConnection": "你可以将帐号连接到不同的社交平台",
       "earnByLikeButton": "以新设计的 LikeButton 赚取 LikeCoin",
       "yourLikeButton": "你的 LikeButton",
       "displaySocialMediaOn": "显示社交媒体链接",
@@ -1183,15 +1183,6 @@
       "sendLike": "赏"
     }
   },
-  "SocialMediaConnect": {
-    "label": {
-      "fbWall": "个人页面",
-      "linkTo": "连结至: "
-    },
-    "button": {
-      "connectToPlatform": "绑定你的 {platform} 帐号"
-    }
-  },
   "LikeButtonIntro": {
     "wordpress": {
       "title": "安装 LikeCoin 插件",
@@ -1232,5 +1223,20 @@
     "button": {
       "startUsing": "开始使用"
     }
+  },
+  "AuthConnectList": {
+    "title": "帐号连接"
+  },
+  "OtherConnectList": {
+    "title": "其他帐号连接",
+    "description": "你可以将帐号连接到不同的社交平台"
+  },
+  "PlatformConnectItem": {
+    "connectToPlatform": "绑定你的 {platform} 帐号",
+    "linked": "已连结",
+    "options": "选项"
+  },
+  "Facebook": {
+    "personalProfile": "个人页面"
   }
 }

@@ -691,7 +691,7 @@
     "tab": {
       "overview": "概要",
       "bonus": "ボーナス",
-      "history": "ボーナス履歴"
+      "txHistory": "取引履歴"
     },
     "mansory": {
       "title": "読書ツアー",
@@ -1103,15 +1103,6 @@
     },
     "button": {
       "registrationTutorial": "Registration Tutorial"
-    }
-  },
-  "SocialMediaConnect": {
-    "label": {
-      "fbWall": "Personal Profile",
-      "linkTo": "link to: "
-    },
-    "button": {
-      "connectToPlatform": "Connect to your {platform}"
     }
   },
   "LikeButtonIntro": {
