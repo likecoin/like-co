@@ -119,7 +119,6 @@
     "nightwatch": "^0.9.20",
     "node-sass": "^4.8.3",
     "nyc": "^13.1.0",
-    "optimize-css-assets-webpack-plugin": "^4.0.3",
     "sass-loader": "^7.0.1",
     "selenium-server": "^3.141.59",
     "stylelint": "^9.3.0",

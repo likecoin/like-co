@@ -1,5 +1,4 @@
 /* eslint import/no-extraneous-dependencies: "off" */
-const webpack = require('webpack');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const SentryPlugin = require('@sentry/webpack-plugin');
 
@@ -220,10 +219,6 @@ module.exports = {
         ],
       ],
     },
-    plugins: [
-      // Ignore all locale files of moment.js
-      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    ],
 
     extend(config, { isClient }) {
       config.devtool = '#source-map'; // eslint-disable-line no-param-reassign
