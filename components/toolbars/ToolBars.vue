@@ -1,124 +1,126 @@
 <template>
-  <no-ssr>
-    <div class="toolbars">
+  <div>
+    <no-ssr>
+      <div class="toolbars">
 
-      <auth-dialog />
+        <auth-dialog />
 
-      <wallet-notice-dialog
-        :is-show="getIsShowWalletNoticeDialog"
-        :cancel-title="getWalletNoticeDialogCancelTitle"
-        @update:is-show="setWalletNoticeDialog({ isShow: $event })"
-        @cancel="getWalletNoticeDialogCancelCallback()"
-        @confirm="getWalletNoticeDialogConfirmCallback()"
-      />
+        <wallet-notice-dialog
+          :is-show="getIsShowWalletNoticeDialog"
+          :cancel-title="getWalletNoticeDialogCancelTitle"
+          @update:is-show="setWalletNoticeDialog({ isShow: $event })"
+          @cancel="getWalletNoticeDialogCancelCallback()"
+          @confirm="getWalletNoticeDialogConfirmCallback()"
+        />
 
-      <popup-dialog
-        v-for="d in getPopupDialogs"
-        :key="d.uuid"
-        :is-show="d.isShow"
-        :allow-close="d.allowClose"
-        :header="d.header"
-        :message="d.message"
-        :cancel-text="d.cancelText"
-        :confirm-text="d.confirmText"
-        @closed="closePopupDialog(d.uuid)"
-      />
+        <popup-dialog
+          v-for="d in getPopupDialogs"
+          :key="d.uuid"
+          :is-show="d.isShow"
+          :allow-close="d.allowClose"
+          :header="d.header"
+          :message="d.message"
+          :cancel-text="d.cancelText"
+          :confirm-text="d.confirmText"
+          @closed="closePopupDialog(d.uuid)"
+        />
 
-      <div v-if="checkShouldShowError(getMetamaskError)">
-        <div v-if="checkIsMobileClient()">
-          <trust-dialog
-            v-if="!!getMetamaskError"
-            :case="getMetamaskError"
-            :webThreeType="getWeb3Type"
-          />
+        <div v-if="checkShouldShowError(getMetamaskError)">
+          <div v-if="checkIsMobileClient()">
+            <trust-dialog
+              v-if="!!getMetamaskError"
+              :case="getMetamaskError"
+              :webThreeType="getWeb3Type"
+            />
+          </div>
+          <div v-else>
+            <chrome-dialog
+              v-if="shouldShowChromeDialog"
+              :show="shouldShowChromeDialog"
+            />
+            <metamask-dialog
+              v-else-if="!!getMetamaskError"
+              :case="getMetamaskError"
+              :webThreeType="getWeb3Type"
+            />
+          </div>
         </div>
-        <div v-else>
-          <chrome-dialog
-            v-if="shouldShowChromeDialog"
-            :show="shouldShowChromeDialog"
+
+        <blocker-dialog :show="getIsPopupBlocking" />
+
+        <tx-dialog
+          :show="getIsShowingTxPopup"
+          :txId="getPendingTx"
+          :txInfo="getPendingTxInfo"
+          :isNewUser="!getUserIsRegistered"
+          :txDialogActionRoute="getTxDialogActionRoute"
+          :txDialogActionText="getTxDialogActionText"
+          @onClose="closeTxDialog"
+        />
+
+        <loading-toolbar
+          :isLoading="getIsLoading"
+          :isInTransaction="getIsInTransaction"
+        />
+
+        <tx-toolbar
+          v-if="getPendingTx"
+          :txHash="getPendingTx"
+          :txInfo="getPendingTxInfo"
+          :isInTx="getIsInTransaction"
+          @onClose="closeTxToolbar"
+        />
+
+        <info-toolbar
+          v-if="getInfoMsg"
+          :isError="getInfoIsError"
+          @onClose="closeInfoToolbar"
+        >
+          <span v-if="getInfoIsError">
+            {{ $i18n.te(`Error.${getInfoMsg}`) ? $t(`Error.${getInfoMsg}`) : getInfoMsg }}
+          </span>
+          <span
+            v-else
+            v-html="getInfoMsg"
           />
-          <metamask-dialog
-            v-else-if="!!getMetamaskError"
-            :case="getMetamaskError"
-            :webThreeType="getWeb3Type"
+          <nuxt-link
+            v-if="getInfoMsg === $t('Transaction.error.likecoinInsufficient')"
+            :to="{ name: 'in-redeem' }"
+          >
+            {{ $t('Edit.label.redeemCoin') }}
+          </nuxt-link>
+        </info-toolbar>
+
+        <md-snackbar
+          v-if="getInfoMsg"
+          :md-active="!!getInfoMsg"
+          md-position="center"
+          md-persistent
+        >
+          <span v-if="getInfoIsError">
+            {{ $i18n.te(`Error.${getInfoMsg}`) ? $t(`Error.${getInfoMsg}`) : getInfoMsg }}
+          </span>
+          <span
+            v-else
+            v-html="getInfoMsg"
           />
-        </div>
+          <nuxt-link
+            v-if="getInfoMsg === $t('Transaction.error.likecoinInsufficient')"
+            :to="{ name: 'in-redeem' }"
+          >
+            {{ $t('Edit.label.redeemCoin') }}
+          </nuxt-link>
+          <md-button
+            class="md-icon-button"
+            @click="closeInfoToolbar"
+          >
+            <md-icon>close</md-icon>
+          </md-button>
+        </md-snackbar>
+
       </div>
-
-      <blocker-dialog :show="getIsPopupBlocking" />
-
-      <tx-dialog
-        :show="getIsShowingTxPopup"
-        :txId="getPendingTx"
-        :txInfo="getPendingTxInfo"
-        :isNewUser="!getUserIsRegistered"
-        :txDialogActionRoute="getTxDialogActionRoute"
-        :txDialogActionText="getTxDialogActionText"
-        @onClose="closeTxDialog"
-      />
-
-      <loading-toolbar
-        :isLoading="getIsLoading"
-        :isInTransaction="getIsInTransaction"
-      />
-
-      <tx-toolbar
-        v-if="getPendingTx"
-        :txHash="getPendingTx"
-        :txInfo="getPendingTxInfo"
-        :isInTx="getIsInTransaction"
-        @onClose="closeTxToolbar"
-      />
-
-      <info-toolbar
-        v-if="getInfoMsg"
-        :isError="getInfoIsError"
-        @onClose="closeInfoToolbar"
-      >
-        <span v-if="getInfoIsError">
-          {{ $i18n.te(`Error.${getInfoMsg}`) ? $t(`Error.${getInfoMsg}`) : getInfoMsg }}
-        </span>
-        <span
-          v-else
-          v-html="getInfoMsg"
-        />
-        <nuxt-link
-          v-if="getInfoMsg === $t('Transaction.error.likecoinInsufficient')"
-          :to="{ name: 'in-redeem' }"
-        >
-          {{ $t('Edit.label.redeemCoin') }}
-        </nuxt-link>
-      </info-toolbar>
-
-      <md-snackbar
-        v-if="getInfoMsg"
-        :md-active="!!getInfoMsg"
-        md-position="center"
-        md-persistent
-      >
-        <span v-if="getInfoIsError">
-          {{ $i18n.te(`Error.${getInfoMsg}`) ? $t(`Error.${getInfoMsg}`) : getInfoMsg }}
-        </span>
-        <span
-          v-else
-          v-html="getInfoMsg"
-        />
-        <nuxt-link
-          v-if="getInfoMsg === $t('Transaction.error.likecoinInsufficient')"
-          :to="{ name: 'in-redeem' }"
-        >
-          {{ $t('Edit.label.redeemCoin') }}
-        </nuxt-link>
-        <md-button
-          class="md-icon-button"
-          @click="closeInfoToolbar"
-        >
-          <md-icon>close</md-icon>
-        </md-button>
-      </md-snackbar>
-
-    </div>
-  </no-ssr>
+    </no-ssr>
+  </div>
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex';

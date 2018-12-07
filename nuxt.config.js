@@ -1,7 +1,6 @@
 /* eslint import/no-extraneous-dependencies: "off" */
 const webpack = require('webpack');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const SentryPlugin = require('@sentry/webpack-plugin');
 
 const shouldCache = !!process.env.CI;
@@ -209,38 +208,14 @@ module.exports = {
     cache: shouldCache,
     extractCSS: true,
     uglify: { cache: shouldCache },
-    postcss: {
-      plugins: {
-        'postcss-import': {},
-        'postcss-url': {},
-        'postcss-cssnext': {
-          browsers: ['defaults'],
-        },
-      },
-    },
-    parallel: true,
-    vendor: [
-      'core-js/fn/object/assign',
-      'core-js/fn/object/values',
-      'core-js/fn/string/includes',
-      'core-js/fn/array/includes',
-      'axios',
-      'bignumber.js',
-      'classlist-polyfill',
-      'moment',
-      'vue-clipboard2',
-      'vue-i18n',
-      'vue-material',
-      'vue-vimeo-player',
-    ],
     babel: {
       presets: ({ isServer }) => [
         [
-          'vue-app',
+          '@nuxt/babel-preset-app',
           {
             targets: isServer
-              ? { node: '10', uglify: false }
-              : { browsers: ['defaults'], uglify: false },
+              ? { node: '10' }
+              : { browsers: ['defaults'] },
           },
         ],
       ],
@@ -248,10 +223,6 @@ module.exports = {
     plugins: [
       // Ignore all locale files of moment.js
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-      new OptimizeCssAssetsPlugin({
-        cssProcessorOptions: { safe: true, discardComments: { removeAll: true } },
-        canPrint: true,
-      }),
     ],
 
     extend(config, { isClient }) {

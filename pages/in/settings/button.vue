@@ -217,7 +217,7 @@
 
 
 <script>
-import Vue from 'vue';
+import Vue from 'vue'; // eslint-disable-line import/no-extraneous-dependencies
 import { mapActions, mapGetters } from 'vuex';
 
 import LikeButtonIntro from '@/components/LikeButtonIntro';
