@@ -48,7 +48,7 @@ export default {
   height: 358px;
   padding: 40px 112px;
 
-  background-image: url('~/assets/home/banner.png');
+  background-image: url('~assets/home/banner.png');
   background-position: center;
   background-size: cover;
 
