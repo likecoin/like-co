@@ -1,5 +1,6 @@
 /* eslint import/no-extraneous-dependencies: "off" */
 const webpack = require('webpack');
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const SentryPlugin = require('@sentry/webpack-plugin');
 
 const shouldCache = !!process.env.CI;
@@ -226,6 +227,9 @@ module.exports = {
 
     extend(config, { isClient }) {
       config.devtool = '#source-map'; // eslint-disable-line no-param-reassign
+      if (shouldCache) {
+        config.plugins.push(new HardSourceWebpackPlugin());
+      }
       if (process.env.RELEASE && process.env.SENTRY_AUTH_TOKEN) {
         config.plugins.push(new SentryPlugin({
           release: process.env.RELEASE,
