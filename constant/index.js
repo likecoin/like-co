@@ -55,7 +55,7 @@ export const ETH_TO_LIKECOIN_RATIO = 40000;
 export const FINAL_TOKENSALE_ETH_VALUE = 7562.26;
 export const FINAL_TOKENSALE_PERCENTAGE = 180;
 
-export const BONUS_LOCK_UNTIL_DATE = 1540267200;
+export const BONUS_LOCK_UNTIL_DATE = 1540267200000;
 
 export const GETTING_STARTED_TASKS = ['taskSocial', 'taskOnepager', 'taskVideo', 'taskPaymentPage'];
 
