@@ -46,7 +46,7 @@
     <div class="account-overview__cta-wrapper lc-text-align-center">
       <div @click="closeSlidingMenu">
         <md-button
-          :to="{ 'name': 'in-settings-button' }"
+          :to="{ 'name': 'in-earn' }"
           class="md-likecoin lc-secondary lc-font-size-18 lc-font-weight-600"
         >{{ $t('Home.Sale.button.earnCoin') }}</md-button>
       </div>
