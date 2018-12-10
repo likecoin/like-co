@@ -172,6 +172,7 @@ module.exports = {
       pageTracking: true,
     }],
     '@nuxtjs/sentry',
+    'nuxt-google-optimize',
   ],
   plugins: [
     { src: '~/plugins/EthHelper', ssr: false },
