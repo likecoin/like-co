@@ -46,6 +46,7 @@ export default {
       'getLocalWallet',
       'getInfoMsg',
       'getInfoIsError',
+      'getUserSocialPlatforms',
     ]),
     getAddress() {
       return `${ETHERSCAN_HOST}/address/${this.contractAddress}`;
@@ -89,6 +90,17 @@ export default {
       if (this.getInfoIsError && this.$intercom) {
         this.$intercom.update({ lastError: message });
         this.$intercom.trackEvent('likecoin-store_error', { message });
+      }
+    },
+    getUserSocialPlatforms(platforms) {
+      if (this.$intercom) {
+        const platformList = Object.keys(platforms);
+        const opt = platformList.reduce((accumOpt, platform) => {
+          // eslint-disable-next-line no-param-reassign
+          accumOpt[`binded_${platform}`] = true; // platform key exists only when binded
+          return accumOpt;
+        }, {});
+        this.$intercom.update(opt);
       }
     },
   },
