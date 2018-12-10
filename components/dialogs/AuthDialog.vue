@@ -32,7 +32,16 @@
       slot="header-center"
       class="auth-dialog__header-center"
     >
-      <img :src="LikeCoinLogo">
+      <img
+        v-if="avatar"
+        :src="avatar"
+        class="auth-dialog__avatar auth-dialog__avatar--user"
+      >
+      <img
+        v-else
+        :src="LikeCoinLogo"
+        class="auth-dialog__avatar auth-dialog__avatar--likecoin"
+      >
     </div>
 
     <div
@@ -238,6 +247,7 @@ export default {
   data() {
     return {
       LikeCoinLogo,
+      avatar: null,
 
       currentTab: 'portal',
       contentStyle: {},
@@ -262,6 +272,7 @@ export default {
       'getCurrentLocale',
       'getMetamaskError',
       'getLocalWallet',
+      'getUserMinInfoById',
     ]),
     closable() {
       return !(this.isBlocking || this.isSinglePage);
@@ -290,6 +301,12 @@ export default {
       ) : (
         this.$t('AuthDialog.label.signInError')
       );
+    },
+    shouldShowFromUserIcon() {
+      if (!this.$exp) return false;
+      const { name, $activeVariants } = this.$exp;
+      return name === 'register-icon'
+        && !!$activeVariants.find(variant => variant.name === 'from-user-avatar');
     },
   },
   watch: {
@@ -325,6 +342,18 @@ export default {
     },
   },
   async mounted() {
+    if (this.shouldShowFromUserIcon) {
+      const { from } = this.$route.query;
+      try {
+        if (!this.getUserMinInfoById(from)) {
+          await this.fetchUserMinInfo(from);
+        }
+        this.avatar = this.getUserMinInfoById(from).avatar;
+      } catch (err) {
+        // noop
+      }
+    }
+
     // Listen to onClickReturnButton event of MetaMaskDialog
     this.$root.$on('MetaMaskDialog.onClickReturnButton', () => {
       this.stopWeb3Polling();
@@ -377,6 +406,7 @@ export default {
       'setUserNeedAuth',
       'refreshUser',
       'showLoginWindow',
+      'fetchUserMinInfo',
     ]),
     setContentHeight() {
       const elem = this.$refs[this.currentTab];
@@ -847,15 +877,24 @@ export default {
 
       background: linear-gradient(to bottom, white 88%, transparentize(white, 1));
     }
+  }
 
-    img {
-      position: absolute;
-      top: 16px;
+  &__avatar {
+    position: absolute;
+    top: 16px;
 
+    transform: translateX(-50%);
+
+    &--user {
+      width: auto;
+      height: 128px;
+
+      border-radius: 50%;
+    }
+
+    &--likecoin {
       width: 96px;
-      height: 124px;
-
-      transform: translateX(-50%);
+      height: 128px;
     }
   }
 
