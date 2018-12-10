@@ -1,13 +1,19 @@
 {
   "presets": [
     [
-      "env",
+      "@nuxt/babel-preset-app",
       {
         "targets": {
           "node": "10"
         }
       }
-    ],
-    "backpack"
+    ]
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-object-rest-spread",
+    [
+      "@babel/plugin-transform-modules-commonjs",
+      { "loose": true }
+    ]
   ]
 }

@@ -74,9 +74,9 @@ if (!process.env.IS_STANDALONE_TEST) {
   setTimeout(waitServerReady, 5000);
 } else {
   const testEnv = Object.create(process.env);
-  testEnv.CI = true; // unit test env
+  testEnv.CI = 'TRUE'; // unit test env
   testEnv.NODE_ENV = 'production';
-  testEnv.IS_TESTNET = true;
+  testEnv.IS_TESTNET = 'TRUE';
   try {
     execSync('npm run test:api', { env: testEnv, stdio: 'inherit' });
   } catch (e) {
@@ -85,8 +85,10 @@ if (!process.env.IS_STANDALONE_TEST) {
   }
   try {
     if (!process.env.CI) {
+      const buildEnv = Object.create(process.env);
+      buildEnv.IS_TESTNET = 'TRUE';
       console.log('Building for E2E test');
-      execSync('npm run build', { env: testEnv, stdio: 'inherit' });
+      execSync('npm run build', { env: buildEnv, stdio: 'inherit' });
     }
     execSync('npm run test:e2e', { env: testEnv, stdio: 'inherit' });
   } catch (e) {

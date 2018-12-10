@@ -173,7 +173,7 @@
 <script>
 import { mapActions } from 'vuex';
 import BigNumber from 'bignumber.js';
-import moment from 'moment';
+import format from 'date-fns/format';
 
 import ErrorIcon from '@/assets/txHistory/invalid.svg';
 import LockIcon from '@/assets/txHistory/lock.svg';
@@ -220,7 +220,7 @@ function formatAmount(value, currency) {
 }
 
 function formatUTCTimeToLocal(date) {
-  return moment.utc(date).local().format('D-M-YYYY HH:mm:ss UTCZZ');
+  return format(date, 'D-M-YYYY HH:mm:ss UTCZZ');
 }
 
 export default {
@@ -244,7 +244,7 @@ export default {
   },
   data() {
     return {
-      BONUS_LOCK_UNTIL_DATE: moment.unix(BONUS_LOCK_UNTIL_DATE),
+      BONUS_LOCK_UNTIL_DATE: new Date(BONUS_LOCK_UNTIL_DATE),
       ErrorIcon,
       LockIcon,
       ICOTotalCoin: 0,
