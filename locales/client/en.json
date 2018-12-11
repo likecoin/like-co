@@ -3,6 +3,7 @@
     "back": "Back",
     "connect": "Connect",
     "disconnect": "Disconnect",
+    "learnMore": "Learn More",
     "label": {
       "error": "Error",
       "success": "Success",
@@ -508,13 +509,6 @@
       "label": {
         "slogan": "Reinventing the Like",
         "rewardPOC": "Rewarding Contents by Proof of Creativity"
-      }
-    },
-    "ContentCivicsCTA": {
-      "title": "Content Civics",
-      "content": "This is content under Content Civics. The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog",
-      "button": {
-        "support": "Become a Content Civics"
       }
     },
     "PlatformCoverage": {
@@ -1448,5 +1442,10 @@
   },
   "Facebook": {
     "personalProfile": "Personal Profile"
+  },
+  "CivicLikerCTA": {
+    "title": "Civic Liker",
+    "content": "One of the most important plan for LikeCoin ecosystem and movement are here. You are invited to join and try for the campaign – {title}",
+    "buttonTitle": "Pre-register Now"
   }
 }
