@@ -19,20 +19,6 @@ const {
 
 export const ONE_DATE_IN_MS = 86400000;
 
-export function setSessionCookie(req, res, token) {
-  let cookiePayload = { likecoin: token };
-  if (req.cookies && req.cookies['__session']) { // eslint-disable-line dot-notation
-    const sessionCookie = req.cookies['__session']; // eslint-disable-line dot-notation
-    try {
-      const decoded = JSON.parse(sessionCookie);
-      cookiePayload = { ...decoded, ...cookiePayload };
-    } catch (err) {
-      // do nth
-    }
-  }
-  res.cookie('__session', JSON.stringify(cookiePayload), AUTH_COOKIE_OPTION);
-}
-
 export async function setAuthCookies(req, res, { user, wallet }) {
   const payload = {
     user,
@@ -41,7 +27,6 @@ export async function setAuthCookies(req, res, { user, wallet }) {
   };
   const { token, jwtid } = jwtSign(payload);
   res.cookie('likecoin_auth', token, AUTH_COOKIE_OPTION);
-  setSessionCookie(req, res, token);
   await dbRef.doc(user).collection('session').doc(jwtid).create({
     lastAccessedUserAgent: req.headers['user-agent'] || 'unknown',
     lastAccessedIP: req.headers['x-real-ip'] || req.ip,
