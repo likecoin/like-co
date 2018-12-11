@@ -7,6 +7,7 @@ import iap from './iap';
 import mission from './mission';
 import oembed from './oembed';
 import social from './social';
+import experiments from './experiments';
 import { startPoller } from '../util/poller';
 import { ValidationError } from '../../util/ValidationHelper';
 import { IS_TESTNET, TEST_MODE } from '../../constant';
@@ -24,6 +25,7 @@ router.use(iap);
 router.use(mission);
 router.use(oembed);
 router.use(social);
+router.use(experiments);
 
 router.get('/healthz', (req, res) => {
   res.sendStatus(200);
