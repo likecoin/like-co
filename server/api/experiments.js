@@ -15,6 +15,7 @@ router.get('/experiments/list', async (req, res, next) => {
     }
     const data = doc.data();
     const list = Object.keys(data).map(exp => ({ name: exp, ...data[exp] }));
+    res.set('Cache-Control', 'public, max-age=600');
     res.json(list);
   } catch (err) {
     console.error(err);
