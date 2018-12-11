@@ -13,7 +13,6 @@ import {
   checkUserInfoUniqueness,
   checkIsOldUser,
   checkSignPayload,
-  setSessionCookie,
   setAuthCookies,
   checkEmailIsSoleLogin,
   clearAuthCookies,
@@ -731,7 +730,7 @@ router.get('/users/self', jwtAuth('read'), async (req, res, next) => {
       if (!payload.avatar) {
         payload.avatar = AVATAR_DEFAULT_PATH;
       }
-      setSessionCookie(req, res, req.cookies.likecoin_auth);
+
       res.json(Validate.filterUserData(payload));
       await dbRef.doc(req.user.user).collection('session').doc(req.user.jti).update({
         lastAccessedUserAgent: req.headers['user-agent'] || 'unknown',
