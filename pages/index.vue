@@ -143,6 +143,11 @@ export default {
       isLikeButtonIntroDialogOpen: false,
     };
   },
+  asyncData({ query, redirect }) {
+    if (query.press) {
+      redirect(302, { name: 'in-about' }, query);
+    }
+  },
   computed: {
     ...mapGetters([
       'getUserInfo',
