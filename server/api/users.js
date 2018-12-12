@@ -331,6 +331,11 @@ router.post('/users/update', jwtAuth('write'), multer.single('avatarFile'), asyn
     } = req.body;
     let { email, isEmailEnabled } = req.body;
 
+    if (req.user.user !== user) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
+
     // handle isEmailEnable is string
     if (typeof isEmailEnabled === 'string') {
       isEmailEnabled = isEmailEnabled !== 'false';
