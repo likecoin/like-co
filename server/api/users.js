@@ -6,6 +6,7 @@ import {
   PUBSUB_TOPIC_MISC,
   ONE_LIKE,
   AVATAR_DEFAULT_PATH,
+  CIVIC_LIKER_START_DATE,
 } from '../../constant';
 import { fetchFacebookUser } from '../oauth/facebook';
 import {
@@ -1034,6 +1035,50 @@ router.put('/users/read/:id', jwtAuth('write'), async (req, res, next) => {
 
     await dbRef.doc(id).update(updateObj);
     res.sendStatus(200);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put('/users/:id/civic/trial', jwtAuth('write'), async (req, res, next) => {
+  try {
+    if (Date.now() > CIVIC_LIKER_START_DATE) {
+      throw new Error('Pre-registration ended');
+    }
+
+    const { id } = req.params;
+    if (req.user.user !== id) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
+
+    const doc = await dbRef.doc(id).get();
+    if (!doc.exists) throw new Error('user not exists');
+
+    const updateObj = {
+      isPreRegCivicLiker: true,
+    };
+
+    await dbRef.doc(id).update(updateObj);
+    res.sendStatus(200);
+    const {
+      email,
+      displayName,
+      wallet,
+      referrer,
+      locale,
+      timestamp: registerTime,
+    } = doc.data();
+    publisher.publish(PUBSUB_TOPIC_MISC, req, {
+      logType: 'eventCivicLikerTrial',
+      user: id,
+      email,
+      displayName,
+      wallet,
+      referrer,
+      locale,
+      registerTime,
+    });
   } catch (err) {
     next(err);
   }
