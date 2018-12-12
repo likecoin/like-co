@@ -795,7 +795,7 @@
       "recipientAddress": "收款者钱包地址",
       "senderName": "转帐者姓名",
       "senderAddress": "转帐者钱包地址",
-      "sendTo": "转帐 {coin} 给 <span class='usertitle'>{title}</span>",
+      "sendTo": "转帐 {coin} 给 {title}",
       "remarks": "备注",
       "viewTx": "查看交易",
       "amountToSend": "转帐 {coin} 金额",

@@ -722,7 +722,7 @@
             "recipientAddress": "Адрес получателя",
             "senderName": "Отображаемое имя отправителя",
             "senderAddress": "Адрес отправителя",
-            "sendTo": "Отправить {coin}: <span class='usertitle'>{title}</span>",
+            "sendTo": "Отправить {coin}: {title}",
             "remarks": "Примечания",
             "viewTx": "Смотреть транзакцию",
             "amountToSend": "Сколько {coin} отправить",

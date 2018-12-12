@@ -879,7 +879,7 @@
       "recipientAddress": "Recipient Address",
       "senderName": "Sender Display Name",
       "senderAddress": "Sender Address",
-      "sendTo": "Send {coin} to <span class='usertitle'>{title}</span>",
+      "sendTo": "Send {coin} to {title}",
       "remarks": "Remarks",
       "httpReferrer": "Source URL",
       "viewTx": "View Transaction",

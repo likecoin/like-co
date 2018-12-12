@@ -18,14 +18,18 @@
           <div class="lc-container-3-extend-bg" />
           <div class="lc-container-3">
             <div class="lc-padding-top-32 lc-padding-bottom-16">
-
               <section class="lc-text-align-center">
-                <h1
+                <i18n
+                  path="Transaction.label.sendTo"
+                  tag="h1"
                   class="lc-font-size-42 lc-font-weight-300 lc-mobile"
-                  v-html="$t('Transaction.label.sendTo',
-                             { title: displayName, coin: isEth ? 'ETH' : 'LikeCoin' }
-                  )"
-                />
+                >
+                  <span place="coin">{{ isEth ? 'ETH' : 'LikeCoin' }}</span>
+                  <span
+                    place="title"
+                    class="usertitle"
+                  >{{ displayName }}</span>
+                </i18n>
               </section>
 
             </div>

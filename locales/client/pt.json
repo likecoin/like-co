@@ -722,7 +722,7 @@
             "recipientAddress": "Endereço do Destinatário",
             "senderName": "Nome de Exibição do Remetente",
             "senderAddress": "Endereço do Remetente",
-            "sendTo": "Enviar {coin} para <span class='usertitle'>{title}</span>",
+            "sendTo": "Enviar {coin} para {title}",
             "remarks": "Observações",
             "viewTx": "Exibir Transação",
             "amountToSend": "Quantidade de {coin} para enviar",
