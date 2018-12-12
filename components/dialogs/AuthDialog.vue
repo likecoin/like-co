@@ -32,7 +32,7 @@
       slot="header-center"
       class="auth-dialog__header-center"
     >
-      <img :src="LikeCoinLogo">
+      <img v-bind="logoProps">
     </div>
 
     <div
@@ -208,6 +208,7 @@ import SigninPortal from './AuthDialogContent/SignInPortal';
 import EmailSigninForm from './AuthDialogContent/SignInWithEmail';
 import RegisterForm from './AuthDialogContent/Register';
 import EthMixin from '~/components/EthMixin';
+import experimentsMixin from '~/util/mixins/experiments';
 
 import User from '@/util/User';
 
@@ -228,7 +229,15 @@ export default {
     EmailSigninForm,
     RegisterForm,
   },
-  mixins: [EthMixin],
+  mixins: [
+    EthMixin,
+    experimentsMixin(
+      'shouldShowFromUserIcon',
+      'register-icon',
+      'from-user-avatar',
+      instance => !!instance.$route.query.from,
+    ),
+  ],
   props: {
     isShow: {
       type: Boolean,
@@ -237,7 +246,7 @@ export default {
   },
   data() {
     return {
-      LikeCoinLogo,
+      avatar: LikeCoinLogo,
 
       currentTab: 'portal',
       contentStyle: {},
@@ -262,6 +271,7 @@ export default {
       'getCurrentLocale',
       'getMetamaskError',
       'getLocalWallet',
+      'getUserMinInfoById',
     ]),
     closable() {
       return !(this.isBlocking || this.isSinglePage);
@@ -290,6 +300,12 @@ export default {
       ) : (
         this.$t('AuthDialog.label.signInError')
       );
+    },
+    logoProps() {
+      return {
+        src: this.avatar,
+        class: `auth-dialog__logo auth-dialog__logo--${this.shouldShowFromUserIcon ? 'avatar' : 'likecoin'}`,
+      };
     },
   },
   watch: {
@@ -325,6 +341,18 @@ export default {
     },
   },
   async mounted() {
+    if (this.shouldShowFromUserIcon) {
+      const { from } = this.$route.query;
+      try {
+        if (!this.getUserMinInfoById(from)) {
+          await this.fetchUserMinInfo(from);
+        }
+        this.avatar = this.getUserMinInfoById(from).avatar;
+      } catch (err) {
+        // noop
+      }
+    }
+
     // Listen to onClickReturnButton event of MetaMaskDialog
     this.$root.$on('MetaMaskDialog.onClickReturnButton', () => {
       this.stopWeb3Polling();
@@ -377,6 +405,7 @@ export default {
       'setUserNeedAuth',
       'refreshUser',
       'showLoginWindow',
+      'fetchUserMinInfo',
     ]),
     setContentHeight() {
       const elem = this.$refs[this.currentTab];
@@ -847,15 +876,24 @@ export default {
 
       background: linear-gradient(to bottom, white 88%, transparentize(white, 1));
     }
+  }
 
-    img {
-      position: absolute;
-      top: 16px;
+  &__logo {
+    position: absolute;
+    top: 16px;
 
+    transform: translateX(-50%);
+
+    &--avatar {
+      width: auto;
+      height: 128px;
+
+      border-radius: 50%;
+    }
+
+    &--likecoin {
       width: 96px;
-      height: 124px;
-
-      transform: translateX(-50%);
+      height: 128px;
     }
   }
 

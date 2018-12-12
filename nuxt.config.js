@@ -172,7 +172,11 @@ module.exports = {
       pageTracking: true,
     }],
     '@nuxtjs/sentry',
+    '@likecoin/nuxt-google-optimize',
   ],
+  googleOptimize: {
+    externalExperimentsSrc: '/api/experiments/list',
+  },
   plugins: [
     { src: '~/plugins/EthHelper', ssr: false },
     { src: '~/plugins/vue-cookie', ssr: false },
