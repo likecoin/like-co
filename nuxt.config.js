@@ -2,7 +2,7 @@
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const SentryPlugin = require('@sentry/webpack-plugin');
 
-const shouldCache = !!process.env.CI;
+const shouldCache = !!process.env.CI || (process.NODE_ENV !== 'production');
 
 /* istanbul ignore next */
 module.exports = {
@@ -193,7 +193,7 @@ module.exports = {
   */
   build: {
     cache: shouldCache,
-    parallel: true,
+    parallel: !process.env.CI,
     uglify: { cache: shouldCache },
     babel: {
       presets: ({ isServer }) => [
