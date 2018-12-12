@@ -89,8 +89,7 @@ router.post('/users/new', apiLimiter, multer.single('avatarFile'), async (req, r
           payload: stringPayload,
           sign,
         } = req.body;
-        const isLogin = false;
-        payload = checkSignPayload(from, stringPayload, sign, isLogin);
+        payload = checkSignPayload(from, stringPayload, sign);
         break;
       }
 
@@ -426,8 +425,7 @@ router.post('/users/login', async (req, res, next) => {
           sign,
         } = req.body;
         wallet = from;
-        const isLogin = true;
-        checkSignPayload(wallet, stringPayload, sign, isLogin);
+        checkSignPayload(wallet, stringPayload, sign);
         const query = await dbRef.where('wallet', '==', wallet).limit(1).get();
         if (query.docs.length > 0) {
           user = query.docs[0].id;
@@ -626,8 +624,7 @@ router.post('/users/login/:platform/add', jwtAuth('write'), async (req, res, nex
           sign,
         } = req.body;
         const wallet = from;
-        const isLogin = false;
-        checkSignPayload(wallet, stringPayload, sign, isLogin);
+        checkSignPayload(wallet, stringPayload, sign);
         const query = await dbRef.where('wallet', '==', wallet).get();
         if (query.docs.length > 0) throw new ValidationError('WALLET_ALREADY_USED');
         await dbRef.doc(user).update({ wallet });

@@ -45,11 +45,16 @@ const User = {
 
   async signLogin(wallet, loginMessage = LOGIN_MESSAGE) {
     if (!wallet) return null;
-    const payload = loginMessage;
+    const ts = Date.now();
+    let payload = JSON.stringify({
+      ts,
+      wallet,
+    }, null, 2);
+    payload = [`${loginMessage}:`, payload].join('\n');
     const sign = await EthHelper.signLogin(payload);
     const data = {
       sign,
-      payload,
+      payload: EthHelper.utf8ToHex(payload),
       from: wallet,
       platform: 'wallet',
     };
