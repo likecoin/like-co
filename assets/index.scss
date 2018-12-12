@@ -6,15 +6,6 @@
 /* sliding menu style for global */
 @import "sliding-menu";
 
-// google font does not support OpenType features
-@font-face {
-    font-family: 'Open Sans';
-    font-weight: normal;
-
-    src: url('/font/OpenSans-Regular.ttf');
-}
-
-
 * {
   margin: 0;
   padding: 0;
@@ -28,28 +19,32 @@ body {
   position: static;
   z-index: -2;
 
-  font-family: 'Open Sans', $base-font-list !important;
+  font-family: 'Open Sans', 'open-sans', $base-font-list !important;
 
   &[lc-lang="ja"] {
     font-family: 'Open Sans',
+                 'open-sans',
                  'source-han-sans-japanese',
                  $base-font-list;
   }
 
   &[lc-lang="ko"] {
     font-family: 'Open Sans',
+                 'open-sans',
                  'source-han-sans-korean',
                  $base-font-list;
   }
 
   &[lc-lang="zh"] {
     font-family: 'Open Sans',
+                 'open-sans',
                  'source-han-sans-traditional',
                  $base-font-list;
   }
 
   &[lc-lang="cn"] {
     font-family: 'Open Sans',
+                 'open-sans',
                  'source-han-sans-simplified-c',
                  $base-font-list;
   }
