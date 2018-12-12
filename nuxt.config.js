@@ -2,7 +2,7 @@
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const SentryPlugin = require('@sentry/webpack-plugin');
 
-const shouldCache = !!process.env.CI;
+const shouldCache = !!process.env.CI || (process.NODE_ENV !== 'production');
 
 /* istanbul ignore next */
 module.exports = {
@@ -33,14 +33,24 @@ module.exports = {
       { hid: 'theme-color', name: 'theme-color', content: '#D2F0F0' },
     ],
     script: [
-      { src: 'https://use.typekit.net/ube6iww.js' },
       { src: '/vendor/typekit.js' },
       { src: '/vendor/fb/pixel.js' },
       { src: '/vendor/fb/sdk.js' },
     ],
     link: [
+      { rel: 'preload', href: 'https://fonts.googleapis.com/css?family=Material+Icons', as: 'style' },
+      { rel: 'preload', href: '/vendor/typekit.js', as: 'script' },
+      { rel: 'preload', href: '/vendor/fb/pixel.js', as: 'script' },
+      { rel: 'preload', href: '/vendor/fb/sdk.js', as: 'script' },
+      {
+        rel: 'preload',
+        href: 'https://use.typekit.net/ube6iww.js',
+        as: 'script',
+        crossorigin: undefined,
+      },
+      { rel: 'preconnect', href: 'https://connect.facebook.net', crossorigin: undefined },
       { rel: 'icon', type: 'image/png', href: '/favicon.png' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Open+Sans:300,600|Material+Icons' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Material+Icons' },
     ],
   },
   /*
@@ -183,7 +193,7 @@ module.exports = {
   */
   build: {
     cache: shouldCache,
-    extractCSS: true,
+    parallel: !process.env.CI,
     uglify: { cache: shouldCache },
     babel: {
       presets: ({ isServer }) => [
