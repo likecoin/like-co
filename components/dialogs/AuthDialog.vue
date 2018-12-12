@@ -32,16 +32,7 @@
       slot="header-center"
       class="auth-dialog__header-center"
     >
-      <img
-        v-if="avatar"
-        :src="avatar"
-        class="auth-dialog__avatar auth-dialog__avatar--user"
-      >
-      <img
-        v-else
-        :src="LikeCoinLogo"
-        class="auth-dialog__avatar auth-dialog__avatar--likecoin"
-      >
+      <img v-bind="logoProps">
     </div>
 
     <div
@@ -217,6 +208,7 @@ import SigninPortal from './AuthDialogContent/SignInPortal';
 import EmailSigninForm from './AuthDialogContent/SignInWithEmail';
 import RegisterForm from './AuthDialogContent/Register';
 import EthMixin from '~/components/EthMixin';
+import experimentsMixin from '~/util/mixins/experiments';
 
 import User from '@/util/User';
 
@@ -237,7 +229,15 @@ export default {
     EmailSigninForm,
     RegisterForm,
   },
-  mixins: [EthMixin],
+  mixins: [
+    EthMixin,
+    experimentsMixin(
+      'shouldShowFromUserIcon',
+      'register-icon',
+      'from-user-avatar',
+      instance => !!instance.$route.query.from,
+    ),
+  ],
   props: {
     isShow: {
       type: Boolean,
@@ -246,8 +246,7 @@ export default {
   },
   data() {
     return {
-      LikeCoinLogo,
-      avatar: null,
+      avatar: LikeCoinLogo,
 
       currentTab: 'portal',
       contentStyle: {},
@@ -302,11 +301,11 @@ export default {
         this.$t('AuthDialog.label.signInError')
       );
     },
-    shouldShowFromUserIcon() {
-      if (!this.$exp) return false;
-      const { name, $activeVariants } = this.$exp;
-      return name === 'register-icon'
-        && !!$activeVariants.find(variant => variant.name === 'from-user-avatar');
+    logoProps() {
+      return {
+        src: this.avatar,
+        class: `auth-dialog__logo auth-dialog__logo--${this.shouldShowFromUserIcon ? 'avatar' : 'likecoin'}`,
+      };
     },
   },
   watch: {
@@ -879,13 +878,13 @@ export default {
     }
   }
 
-  &__avatar {
+  &__logo {
     position: absolute;
     top: 16px;
 
     transform: translateX(-50%);
 
-    &--user {
+    &--avatar {
       width: auto;
       height: 128px;
 
