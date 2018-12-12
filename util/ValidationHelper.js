@@ -22,6 +22,7 @@ export const ValidationHelper = {
       isEmailEnabled,
       email,
       read = {},
+      isPreRegCivicLiker,
     } = u;
     return {
       user,
@@ -34,6 +35,7 @@ export const ValidationHelper = {
       isEmailVerified,
       isEmailEnabled,
       read,
+      isPreRegCivicLiker,
     };
   },
   filterUserDataMin({
