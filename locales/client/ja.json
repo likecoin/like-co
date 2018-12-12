@@ -781,7 +781,7 @@
       "recipientAddress": "受信者のアドレス",
       "senderName": "送信者の表示名",
       "senderAddress": "送信者のアドレス",
-      "sendTo": "{coin}を<span class='usertitle'>{title}</span>に送金する",
+      "sendTo": "{coin}を{title}に送金する",
       "remarks": "注記",
       "viewTx": "取引を表示する",
       "amountToSend": "送信する{coin}の金額",

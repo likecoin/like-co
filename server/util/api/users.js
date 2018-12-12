@@ -17,7 +17,7 @@ const {
   FieldValue,
 } = require('../firebase');
 
-export const ONE_DATE_IN_MS = 86400000;
+export const FIVE_MIN_IN_MS = 300000;
 
 export async function setAuthCookies(req, res, { user, wallet }) {
   const payload = {
@@ -49,14 +49,12 @@ export async function clearAuthCookies(req, res) {
   res.clearCookie('likecoin_auth', AUTH_COOKIE_OPTION);
 }
 
-export function checkSignPayload(from, payload, sign, isLogin) {
+export function checkSignPayload(from, payload, sign) {
   const recovered = personalEcRecover(payload, sign);
   if (recovered.toLowerCase() !== from.toLowerCase()) {
     throw new ValidationError('RECOVEREED_ADDRESS_NOT_MATCH');
   }
-  if (isLogin) {
-    return payload;
-  }
+
   // trims away sign message header before JSON
   const message = web3.utils.hexToUtf8(payload);
   const actualPayload = JSON.parse(message.substr(message.indexOf('{')));
@@ -71,7 +69,7 @@ export function checkSignPayload(from, payload, sign, isLogin) {
   }
 
   // Check ts expire
-  if (Math.abs(ts - Date.now()) > ONE_DATE_IN_MS) {
+  if (Math.abs(ts - Date.now()) > FIVE_MIN_IN_MS) {
     throw new ValidationError('PAYLOAD_EXPIRED');
   }
   return actualPayload;

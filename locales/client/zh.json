@@ -865,7 +865,7 @@
       "recipientAddress": "收款者錢包地址",
       "senderName": "轉帳者姓名",
       "senderAddress": "轉帳者錢包地址",
-      "sendTo": "轉帳 {coin} 給 <span class='usertitle'>{title}</span>",
+      "sendTo": "轉帳 {coin} 給 {title}",
       "remarks": "備註",
       "httpReferrer": "來源 URL",
       "viewTx": "查看交易",

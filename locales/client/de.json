@@ -722,7 +722,7 @@
             "recipientAddress": "Empfängeradresse",
             "senderName": "Anzeigename (Absender)",
             "senderAddress": "Absenderadresse",
-            "sendTo": "{coin} an <span class='usertitle'>{title}</span> senden",
+            "sendTo": "{coin} an {title} senden",
             "remarks": "Anmerkungen",
             "viewTx": "Transaktion anzeigen",
             "amountToSend": "Betrag von {coin} zu senden",
