@@ -93,7 +93,6 @@
     "vuedraggable": "^2.16.0",
     "vuex": "^3.0.1",
     "web3": "^1.0.0-beta.34",
-    "web3-provider-engine": "^14.0.4",
     "xml": "^1.0.1"
   },
   "devDependencies": {
@@ -102,8 +101,7 @@
     "ava": "^0.25.0",
     "axiosist": "^0.1.0",
     "babel-eslint": "^9.0.0",
-    "babel-preset-backpack": "^0.8.0-0",
-    "backpack-core": "^0.8.0-0",
+    "backpack-core": "^0.8.3",
     "chromedriver": "^2.44.1",
     "eslint": "^5.4.0",
     "eslint-config-airbnb-base": "^13.1.0",
