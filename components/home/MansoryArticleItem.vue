@@ -7,7 +7,7 @@
             v-if="author"
             :to="{ name: 'id', params: { id: article.user } }"
           >
-            <img :src="author.avatar">
+            <img v-lazy="author.avatar">
             {{ author.displayName }}
           </nuxt-link>
         </div>
@@ -37,7 +37,7 @@
           class="mansory-article-item__og-image"
         >
           <img
-            :src="article.image"
+            v-lazy="article.image"
             @error="hasImg = false;"
           >
         </div>
