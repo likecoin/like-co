@@ -3,7 +3,7 @@
 
     <div>
 
-      <span>
+      <span v-if="!isHiddenLink">
         <nuxt-link :to="{ name: 'in-whitepaper' }">
           {{ $t('TokenSale.button.whitePaper') }}
         </nuxt-link>
@@ -13,7 +13,7 @@
         <img :src="icon">
       </span>
 
-      <span>
+      <span v-if="!isHiddenLink">
         <nuxt-link to="/">
           {{ $t('TokenSale.button.aboutLikeCoin') }}
         </nuxt-link>
@@ -34,6 +34,10 @@ export default {
     icon: {
       type: String,
       default: likeCoinIcon,
+    },
+    isHiddenLink: {
+      type: [Boolean, String],
+      default: false,
     },
   },
   data() {

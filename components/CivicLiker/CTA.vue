@@ -62,7 +62,7 @@ export default {
   },
   methods: {
     onClick() {
-      // TODO
+      this.$router.push({ name: 'in-civic' });
     },
   },
 };
