@@ -29,6 +29,7 @@ router.post('/social/links/new', jwtAuth('write'), async (req, res, next) => {
       !LINK_ICON_TYPES.includes(iconType)
       || !isValidSocialLink(url)
       || !siteDisplayName
+      || typeof siteDisplayName !== 'string'
     ) {
       throw new ValidationError('incorrect link info');
     }
