@@ -38,10 +38,12 @@ function errorHandler(err, req, res, next) {
     return next(err);
   }
   if (err instanceof ValidationError) {
+    res.set('Content-Type', 'text/plain');
     return res.status(400).send(msg);
   }
   // Handle multer error
   if (err.code && err.code === 'LIMIT_FILE_SIZE') {
+    res.set('Content-Type', 'text/plain');
     return res.status(400).send('FILE_TOO_LARGE');
   }
   return res.sendStatus(500);
