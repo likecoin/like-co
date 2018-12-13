@@ -19,6 +19,7 @@ const router = Router();
 
 // HACK: allow users to be called from other services before api refactor
 router.use('/users', cors({ origin: corsWhiteList, credentials: true }));
+router.use('/experiments', cors({ origin: corsWhiteList }));
 router.use(users);
 router.use(payment);
 router.use(iap);

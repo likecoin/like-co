@@ -176,6 +176,9 @@ module.exports = {
   ],
   googleOptimize: {
     externalExperimentsSrc: '/api/experiments/list',
+    cookieDomain: process.NODE_ENV === 'production'
+      ? `${process.env.IS_TESTNET ? '.rinkeby' : ''}.like.co`
+      : '',
   },
   plugins: [
     { src: '~/plugins/EthHelper', ssr: false },
