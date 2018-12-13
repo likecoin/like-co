@@ -5,7 +5,7 @@ import {
   PUBSUB_TOPIC_MISC,
   ONE_LIKE,
   AVATAR_DEFAULT_PATH,
-  CIVIC_LIKER_START_DATE,
+  PRE_REG_CIVIC_LIKER_END_DATE,
 } from '../../constant';
 import { fetchFacebookUser } from '../oauth/facebook';
 import {
@@ -1027,7 +1027,7 @@ router.put('/users/read/:id', jwtAuth('write'), async (req, res, next) => {
 
 router.put('/users/:id/civic/trial', jwtAuth('write'), async (req, res, next) => {
   try {
-    if (Date.now() > CIVIC_LIKER_START_DATE) {
+    if (Date.now() > PRE_REG_CIVIC_LIKER_END_DATE) {
       throw new Error('Pre-registration ended');
     }
 
