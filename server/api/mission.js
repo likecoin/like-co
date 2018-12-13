@@ -287,6 +287,10 @@ router.get('/mission/:missionId/user/:userId', jwtAuth('read'), async (req, res,
   try {
     const { missionId, userId } = req.params;
     const { userMissionList = [] } = req.query;
+    if (req.user.user !== userId) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
 
     // retrieve whole mission doc to trace back required mission chain
     const [missionCol, userMission] = await Promise.all([
