@@ -1,7 +1,7 @@
 /* eslint no-param-reassign: "off" */
 import Vue from 'vue'; // eslint-disable-line import/no-extraneous-dependencies
 import VueI18n from 'vue-i18n';
-import axios from 'axios';
+import axios from './axios';
 
 import { defaultLocale, defaultMessage, supportedLocales } from '../locales';
 
