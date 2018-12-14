@@ -65,6 +65,7 @@ import BigNumber from 'bignumber.js';
 
 import EthHelper from '@/util/EthHelper';
 import { ETHERSCAN_HOST } from '@/constant';
+import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 
 import TokensaleHeader from '~/components/header/TokensaleHeader';
 import ViewEtherscan from '~/components/ViewEtherscan';
@@ -102,9 +103,15 @@ export default {
       ETHERSCAN_HOST,
     };
   },
-  asyncData({ params }) {
+  asyncData({ params, redirect }) {
     if (params.tx && params.tx !== {}) {
       const { to, from, value } = params.tx;
+      if (to !== LIKE_COIN_ICO_ADDRESS) {
+        return redirect({
+          name: 'in-tx-id',
+          params,
+        });
+      }
       return { to, from, value };
     }
     return apiGetTxById(params.id)
@@ -115,6 +122,12 @@ export default {
           value,
           status,
         } = res.data;
+        if (to !== LIKE_COIN_ICO_ADDRESS) {
+          return redirect({
+            name: 'in-tx-id',
+            params,
+          });
+        }
         return {
           to,
           from,
@@ -157,6 +170,12 @@ export default {
       if (!this.failReason) this.failReason = tx.isFailed ? 1 : 0;
       /* eslint-disable no-underscore-dangle */
       if (tx._value !== undefined) this.amount = new BigNumber(tx._value).div(ONE_LIKE).toFixed();
+      if (tx._to !== LIKE_COIN_ICO_ADDRESS) {
+        this.$nextTick(() => {
+          this.$router.replace({ name: 'in-tx-id', params: this.$route.params });
+        });
+        return;
+      }
       this.updateUI(tx._from, tx._to);
       this.timestamp = tx.timestamp;
       if (!this.timestamp) {
