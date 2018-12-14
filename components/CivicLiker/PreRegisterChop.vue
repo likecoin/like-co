@@ -5,6 +5,7 @@
         <lc-chop-trial
           :date="civicLikerUnlockDate"
           :size="164"
+          :is-trialling="isRegistered"
           rotate-z="13"
         />
       </div>
@@ -34,6 +35,10 @@ import { CIVIC_LIKER_START_DATE } from '~/constant';
 export default {
   name: 'pre-register-chop',
   props: {
+    isRegistered: {
+      type: [Boolean, String],
+      default: false,
+    },
     isShowCountdown: {
       type: [Boolean, String],
       default: false,

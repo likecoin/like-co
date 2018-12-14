@@ -4,6 +4,7 @@
 
       <div class="civic-liker-cta__image">
         <pre-register-chop
+          :is-registered="isPreRegistered"
           :is-show-countdown="layout !== 'wide'"
         />
       </div>
@@ -35,6 +36,7 @@
 
 
 <script>
+import { mapGetters } from 'vuex';
 import PreRegisterChop from './PreRegisterChop';
 
 export default {
@@ -43,16 +45,18 @@ export default {
     PreRegisterChop,
   },
   props: {
-    isPreRegistered: {
-      type: [Boolean, String],
-      default: false,
-    },
     layout: {
       type: String,
       default: 'default',
     },
   },
   computed: {
+    ...mapGetters([
+      'getUserInfo',
+    ]),
+    isPreRegistered() {
+      return this.getUserInfo.isPreRegCivicLiker;
+    },
     buttonTitle() {
       if (this.isPreRegistered) {
         return this.$t('General.learnMore');
