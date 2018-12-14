@@ -3,7 +3,7 @@
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const SentryPlugin = require('@sentry/webpack-plugin');
 
-const shouldCache = !!process.env.CI || (process.NODE_ENV !== 'production');
+const shouldCache = !!process.env.CI || (process.env.NODE_ENV !== 'production');
 
 const nuxtConfig = {
   /*
@@ -177,7 +177,7 @@ const nuxtConfig = {
   ],
   googleOptimize: {
     externalExperimentsSrc: '/api/experiments/list',
-    cookieDomain: process.NODE_ENV === 'production'
+    cookieDomain: process.env.NODE_ENV === 'production'
       ? `${process.env.IS_TESTNET ? '.rinkeby' : ''}.like.co`
       : '',
     useFetch: true,
@@ -247,7 +247,7 @@ const nuxtConfig = {
 
 if (process.env.INTERCOM_APPID) {
   nuxtConfig.head.link.push(
-    { rel: 'preaload', href: `https://widget.intercom.io/widget/${process.env.INTERCOM_APPID}` },
+    { rel: 'preload', href: `https://widget.intercom.io/widget/${process.env.INTERCOM_APPID}` },
   );
 }
 
