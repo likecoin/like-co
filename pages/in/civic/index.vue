@@ -261,6 +261,9 @@
               <ul>
                 <li>{{ $t('CivicPage.footnote[0]') }}</li>
               </ul>
+              <p class="lc-margin-top-16">
+                {{ $t('CivicPage.credit.photo') }}
+              </p>
             </div>
           </div>
         </div>
@@ -487,6 +490,10 @@ export default {
   }
 
   &__footnote {
+    color: $gray-9b;
+
+    font-size: 12px;
+
     ul {
       margin: 0;
       padding: 0;
@@ -494,10 +501,6 @@ export default {
       list-style: none;
 
       li {
-        color: $gray-9b;
-
-        font-size: 12px;
-
         &::before {
           display: inline;
 
