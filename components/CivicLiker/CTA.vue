@@ -2,7 +2,10 @@
   <div :class="['civic-liker-cta', `civic-liker-cta--${layout}`]">
     <div>
 
-      <div class="civic-liker-cta__image">
+      <div
+        v-if="isShowChop"
+        class="civic-liker-cta__image"
+      >
         <pre-register-chop
           :is-registered="isPreRegistered"
           :is-show-countdown="layout !== 'wide'"
@@ -48,6 +51,10 @@ export default {
     layout: {
       type: String,
       default: 'default',
+    },
+    isShowChop: {
+      type: [Boolean, String],
+      default: true,
     },
   },
   computed: {

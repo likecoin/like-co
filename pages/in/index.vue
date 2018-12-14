@@ -2,7 +2,7 @@
   <div class="overview-page">
 
     <!-- Civic Liker CTA Section -->
-    <section class="lc-container-0 lc-margin-top-16">
+    <section class="lc-container-0 lc-margin-top-16 lc-mobile-hide">
       <div class="lc-container-1">
         <div class="lc-container-2">
           <civic-liker-cta
