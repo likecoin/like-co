@@ -56,6 +56,7 @@ export default {
     async getUserInfo(e) {
       const {
         user,
+        intercomToken,
         displayName,
         email,
         wallet,
@@ -63,8 +64,9 @@ export default {
       if (this.$intercom) {
         const opt = { LikeCoin: true };
         if (user) opt.user_id = user;
+        if (intercomToken) opt.user_hash = intercomToken;
         if (displayName) opt.name = displayName;
-        if (email && email !== 'verified') opt.email = email;
+        if (email) opt.email = email;
         if (wallet) {
           opt.wallet = wallet;
           const amount = await EthHelper.queryEthBalance(wallet);
@@ -77,7 +79,6 @@ export default {
           id: user,
           username: displayName,
         };
-        if (email && email !== 'verified') opt.email = email;
         this.$raven.setUserContext(opt);
       }
     },
@@ -107,6 +108,7 @@ export default {
   mounted() {
     const {
       user,
+      intercomToken,
       displayName,
       email,
     } = this.getUserInfo;
@@ -115,8 +117,9 @@ export default {
       const language = this.getCurrentLocale;
       const opt = { LikeCoin: true };
       if (user) opt.user_id = user;
+      if (intercomToken) opt.user_hash = intercomToken;
       if (displayName) opt.name = displayName;
-      if (email && email !== 'verified') opt.email = email;
+      if (email) opt.email = email;
       if (language) opt.language = language;
       if (wallet) {
         opt.wallet = wallet;
@@ -133,7 +136,6 @@ export default {
         id: user,
         username: displayName,
       };
-      if (email && email !== 'verified') opt.email = email;
       this.$raven.setUserContext(opt);
     }
   },
