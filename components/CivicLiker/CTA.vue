@@ -21,9 +21,7 @@
             :to="{ name: 'in-civic' }"
             class="lc-color-like-green lc-font-weight-500"
             place="title"
-          >
-            {{ $t('CivicLikerCTA.title') }}
-          </nuxt-link>
+          >{{ $t('CivicLikerCTA.title') }}</nuxt-link>
         </i18n>
         <div class="lc-button-group">
           <md-button

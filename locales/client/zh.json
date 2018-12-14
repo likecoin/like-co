@@ -3,6 +3,7 @@
     "back": "返回",
     "connect": "連接",
     "disconnect": "取消連接",
+    "learnMore": "了解更多",
     "label": {
       "error": "失敗",
       "success": "成功",
@@ -1332,9 +1333,9 @@
     "personalProfile": "個人頁面"
   },
   "CivicLikerCTA": {
-    "title": "讚賞公民",
-    "content": "One of the most important plan for LikeCoin ecosystem and movement are here. You are invited to join and try for the campaign – {title}",
-    "buttonTitle": "立即登記"
+    "title": "讚賞公民體驗計劃",
+    "content": "立即免費登記，行動回饋創作，提供寶貴意見。你的參與將改變創作生態發展 — {title}",
+    "buttonTitle": "預先登記"
   },
   "CivicPage": {
     "title": "讚賞公民",
