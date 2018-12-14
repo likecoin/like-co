@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import BigNumber from 'bignumber.js';
+import bodyParser from 'body-parser';
 import { sendVerificationEmail, sendVerificationWithCouponEmail } from '../util/ses';
 import {
   PUBSUB_TOPIC_MISC,
@@ -73,348 +74,360 @@ function getBool(value = false) {
   return value;
 }
 
-router.post('/users/new', apiLimiter, multer.single('avatarFile'), async (req, res, next) => {
-  try {
-    let payload;
-    let firebaseUserId;
-    let platformUserId;
-    let isEmailVerified = false;
+router.post(
+  '/users/new',
+  bodyParser.urlencoded({ extended: false }),
+  apiLimiter,
+  multer.single('avatarFile'),
+  async (req, res, next) => {
+    try {
+      let payload;
+      let firebaseUserId;
+      let platformUserId;
+      let isEmailVerified = false;
 
-    const { platform } = req.body;
+      const { platform } = req.body;
 
-    switch (platform) {
-      case 'wallet': {
-        const {
-          from,
-          payload: stringPayload,
-          sign,
-        } = req.body;
-        payload = checkSignPayload(from, stringPayload, sign);
-        break;
-      }
+      switch (platform) {
+        case 'wallet': {
+          const {
+            from,
+            payload: stringPayload,
+            sign,
+          } = req.body;
+          payload = checkSignPayload(from, stringPayload, sign);
+          break;
+        }
 
-      case 'email':
-      case 'google':
-      case 'twitter': {
-        const { firebaseIdToken } = req.body;
-        ({ uid: firebaseUserId } = await admin.auth().verifyIdToken(firebaseIdToken));
-        payload = req.body;
+        case 'email':
+        case 'google':
+        case 'twitter': {
+          const { firebaseIdToken } = req.body;
+          ({ uid: firebaseUserId } = await admin.auth().verifyIdToken(firebaseIdToken));
+          payload = req.body;
 
-        // Set verified to the email if it matches Firebase verified email
-        const firebaseUser = await admin.auth().getUser(firebaseUserId);
-        isEmailVerified = firebaseUser.email === payload.email && firebaseUser.emailVerified;
+          // Set verified to the email if it matches Firebase verified email
+          const firebaseUser = await admin.auth().getUser(firebaseUserId);
+          isEmailVerified = firebaseUser.email === payload.email && firebaseUser.emailVerified;
 
-        switch (platform) {
-          case 'google':
-          case 'twitter': {
-            const userInfo = getFirebaseUserProviderUserInfo(firebaseUser, platform);
-            if (userInfo) {
-              platformUserId = userInfo.uid;
+          switch (platform) {
+            case 'google':
+            case 'twitter': {
+              const userInfo = getFirebaseUserProviderUserInfo(firebaseUser, platform);
+              if (userInfo) {
+                platformUserId = userInfo.uid;
+              }
+              break;
             }
-            break;
+            default:
           }
-          default:
+
+          break;
         }
 
-        break;
-      }
+        case 'facebook': {
+          const { accessToken } = req.body;
+          const { userId, email } = await fetchFacebookUser(accessToken);
+          payload = req.body;
+          if (userId !== payload.platformUserId) {
+            throw new ValidationError('USER_ID_NOT_MTACH');
+          }
+          platformUserId = userId;
 
-      case 'facebook': {
-        const { accessToken } = req.body;
-        const { userId, email } = await fetchFacebookUser(accessToken);
-        payload = req.body;
-        if (userId !== payload.platformUserId) {
-          throw new ValidationError('USER_ID_NOT_MTACH');
+          // Set verified to the email if it matches Facebook verified email
+          isEmailVerified = email === payload.email;
+
+          // Verify Firebase user ID
+          const { firebaseIdToken } = req.body;
+          ({ uid: firebaseUserId } = await admin.auth().verifyIdToken(firebaseIdToken));
+          break;
         }
-        platformUserId = userId;
 
-        // Set verified to the email if it matches Facebook verified email
-        isEmailVerified = email === payload.email;
-
-        // Verify Firebase user ID
-        const { firebaseIdToken } = req.body;
-        ({ uid: firebaseUserId } = await admin.auth().verifyIdToken(firebaseIdToken));
-        break;
+        default:
+          throw new ValidationError('INVALID_PLATFORM');
       }
 
-      default:
-        throw new ValidationError('INVALID_PLATFORM');
-    }
+      const {
+        user,
+        displayName = user,
+        wallet,
+        avatarSHA256,
+        referrer,
+        locale = 'en',
+        accessToken,
+        secret,
+        sourceURL,
+      } = payload;
+      let { email, isEmailEnabled = true } = payload;
 
-    const {
-      user,
-      displayName = user,
-      wallet,
-      avatarSHA256,
-      referrer,
-      locale = 'en',
-      accessToken,
-      secret,
-      sourceURL,
-    } = payload;
-    let { email, isEmailEnabled = true } = payload;
+      isEmailEnabled = getBool(isEmailEnabled);
 
-    isEmailEnabled = getBool(isEmailEnabled);
+      if (!Validate.checkUserNameValid(user)) throw new ValidationError('Invalid user name');
 
-    if (!Validate.checkUserNameValid(user)) throw new ValidationError('Invalid user name');
-
-    if (email) {
-      try {
-        email = handleEmailBlackList(email);
-      } catch (err) {
-        if (err.message === 'DOMAIN_NOT_ALLOWED' || err.message === 'DOMAIN_NEED_EXTRA_CHECK') {
-          publisher.publish(PUBSUB_TOPIC_MISC, req, {
-            logType: 'eventBlockEmail',
-            user,
-            email,
-            displayName,
-            wallet,
-            referrer: referrer || undefined,
-            locale,
-          });
-        }
-        throw err;
-      }
-    }
-
-    const isNew = await checkUserInfoUniqueness({
-      user,
-      wallet,
-      email,
-      firebaseUserId,
-      platform,
-      platformUserId,
-    });
-    if (!isNew) throw new ValidationError('USER_ALREADY_EXIST');
-
-    // upload avatar
-    const { file } = req;
-    let avatarUrl;
-    if (file) {
-      avatarUrl = await handleAvatarUploadAndGetURL(user, file, avatarSHA256);
-    }
-    let hasReferrer = false;
-    if (referrer) {
-      try {
-        hasReferrer = await checkReferrerExists(referrer);
-      } catch (err) {
-        if (err.message === 'REFERRER_LIMIT_EXCCEDDED') {
-          publisher.publish(PUBSUB_TOPIC_MISC, req, {
-            logType: 'eventBlockReferrer',
-            user,
-            email,
-            displayName,
-            wallet,
-            referrer,
-            locale,
-          });
-        }
-        throw err;
-      }
-    }
-    const createObj = {
-      displayName,
-      wallet,
-      isEmailEnabled,
-      firebaseUserId,
-      avatar: avatarUrl,
-      locale,
-    };
-
-    if (hasReferrer) createObj.referrer = referrer;
-
-    if (email) {
-      createObj.email = email;
-      createObj.isEmailVerified = isEmailVerified;
-
-      // Hack for setting done to verifyEmail mission
-      if (isEmailVerified) {
-        await dbRef
-          .doc(user)
-          .collection('mission')
-          .doc('verifyEmail')
-          .set({ done: true }, { merge: true });
-      } else {
-        // Send verify email
-        createObj.lastVerifyTs = Date.now();
-        createObj.verificationUUID = uuidv4();
-
+      if (email) {
         try {
-          await sendVerificationEmail(res, {
-            email,
-            displayName,
-            verificationUUID: createObj.verificationUUID,
-          }, createObj.referrer);
+          email = handleEmailBlackList(email);
         } catch (err) {
-          console.error(err);
-          // Do nothing
+          if (err.message === 'DOMAIN_NOT_ALLOWED' || err.message === 'DOMAIN_NEED_EXTRA_CHECK') {
+            publisher.publish(PUBSUB_TOPIC_MISC, req, {
+              logType: 'eventBlockEmail',
+              user,
+              email,
+              displayName,
+              wallet,
+              referrer: referrer || undefined,
+              locale,
+            });
+          }
+          throw err;
         }
       }
-    }
 
-    const timestampObj = { timestamp: Date.now() };
-    if (NEW_USER_BONUS_COOLDOWN) {
-      timestampObj.bonusCooldown = Date.now() + NEW_USER_BONUS_COOLDOWN;
-    }
-    Object.assign(createObj, timestampObj);
-
-    Object.keys(createObj).forEach((key) => {
-      if (createObj[key] === undefined) {
-        delete createObj[key];
-      }
-    });
-
-    await dbRef.doc(user).create(createObj);
-    if (hasReferrer) {
-      await dbRef.doc(referrer).collection('referrals').doc(user).create(timestampObj);
-    }
-
-    // platformUserId is only set when the platform is valid
-    if (platformUserId) {
-      const doc = {
-        [platform]: {
-          userId: platformUserId,
-        },
-      };
-      await authDbRef.doc(user).create(doc);
-    }
-
-    const socialPayload = await tryToLinkSocialPlatform(user, platform, { accessToken, secret });
-
-    await setAuthCookies(req, res, { user, wallet });
-    res.sendStatus(200);
-
-    publisher.publish(PUBSUB_TOPIC_MISC, req, {
-      logType: 'eventUserRegister',
-      user,
-      email: email || undefined,
-      displayName,
-      wallet,
-      avatar: avatarUrl,
-      referrer: referrer || undefined,
-      locale,
-      registerTime: createObj.timestamp,
-      registerMethod: platform,
-      sourceURL,
-    });
-    if (socialPayload) {
-      publisher.publish(PUBSUB_TOPIC_MISC, req, {
-        logType: 'eventSocialLink',
+      const isNew = await checkUserInfoUniqueness({
+        user,
+        wallet,
+        email,
+        firebaseUserId,
         platform,
+        platformUserId,
+      });
+      if (!isNew) throw new ValidationError('USER_ALREADY_EXIST');
+
+      // upload avatar
+      const { file } = req;
+      let avatarUrl;
+      if (file) {
+        avatarUrl = await handleAvatarUploadAndGetURL(user, file, avatarSHA256);
+      }
+      let hasReferrer = false;
+      if (referrer) {
+        try {
+          hasReferrer = await checkReferrerExists(referrer);
+        } catch (err) {
+          if (err.message === 'REFERRER_LIMIT_EXCCEDDED') {
+            publisher.publish(PUBSUB_TOPIC_MISC, req, {
+              logType: 'eventBlockReferrer',
+              user,
+              email,
+              displayName,
+              wallet,
+              referrer,
+              locale,
+            });
+          }
+          throw err;
+        }
+      }
+      const createObj = {
+        displayName,
+        wallet,
+        isEmailEnabled,
+        firebaseUserId,
+        avatar: avatarUrl,
+        locale,
+      };
+
+      if (hasReferrer) createObj.referrer = referrer;
+
+      if (email) {
+        createObj.email = email;
+        createObj.isEmailVerified = isEmailVerified;
+
+        // Hack for setting done to verifyEmail mission
+        if (isEmailVerified) {
+          await dbRef
+            .doc(user)
+            .collection('mission')
+            .doc('verifyEmail')
+            .set({ done: true }, { merge: true });
+        } else {
+          // Send verify email
+          createObj.lastVerifyTs = Date.now();
+          createObj.verificationUUID = uuidv4();
+
+          try {
+            await sendVerificationEmail(res, {
+              email,
+              displayName,
+              verificationUUID: createObj.verificationUUID,
+            }, createObj.referrer);
+          } catch (err) {
+            console.error(err);
+            // Do nothing
+          }
+        }
+      }
+
+      const timestampObj = { timestamp: Date.now() };
+      if (NEW_USER_BONUS_COOLDOWN) {
+        timestampObj.bonusCooldown = Date.now() + NEW_USER_BONUS_COOLDOWN;
+      }
+      Object.assign(createObj, timestampObj);
+
+      Object.keys(createObj).forEach((key) => {
+        if (createObj[key] === undefined) {
+          delete createObj[key];
+        }
+      });
+
+      await dbRef.doc(user).create(createObj);
+      if (hasReferrer) {
+        await dbRef.doc(referrer).collection('referrals').doc(user).create(timestampObj);
+      }
+
+      // platformUserId is only set when the platform is valid
+      if (platformUserId) {
+        const doc = {
+          [platform]: {
+            userId: platformUserId,
+          },
+        };
+        await authDbRef.doc(user).create(doc);
+      }
+
+      const socialPayload = await tryToLinkSocialPlatform(user, platform, { accessToken, secret });
+
+      await setAuthCookies(req, res, { user, wallet });
+      res.sendStatus(200);
+
+      publisher.publish(PUBSUB_TOPIC_MISC, req, {
+        logType: 'eventUserRegister',
         user,
         email: email || undefined,
         displayName,
         wallet,
+        avatar: avatarUrl,
         referrer: referrer || undefined,
         locale,
         registerTime: createObj.timestamp,
-        ...socialPayload,
+        registerMethod: platform,
+        sourceURL,
       });
+      if (socialPayload) {
+        publisher.publish(PUBSUB_TOPIC_MISC, req, {
+          logType: 'eventSocialLink',
+          platform,
+          user,
+          email: email || undefined,
+          displayName,
+          wallet,
+          referrer: referrer || undefined,
+          locale,
+          registerTime: createObj.timestamp,
+          ...socialPayload,
+        });
+      }
+    } catch (err) {
+      publisher.publish(PUBSUB_TOPIC_MISC, req, {
+        logType: 'eventRegisterError',
+        error: err.message || JSON.stringify(err),
+      });
+      next(err);
     }
-  } catch (err) {
-    publisher.publish(PUBSUB_TOPIC_MISC, req, {
-      logType: 'eventRegisterError',
-      error: err.message || JSON.stringify(err),
-    });
-    next(err);
-  }
-});
+  },
+);
 
-router.post('/users/update', jwtAuth('write'), multer.single('avatarFile'), async (req, res, next) => {
-  try {
-    const {
-      user,
-      displayName,
-      wallet,
-      avatarSHA256,
-      locale,
-    } = req.body;
-    let { email, isEmailEnabled } = req.body;
+router.post(
+  '/users/update',
+  bodyParser.urlencoded({ extended: false }),
+  jwtAuth('write'),
+  multer.single('avatarFile'),
+  async (req, res, next) => {
+    try {
+      const {
+        user,
+        displayName,
+        wallet,
+        avatarSHA256,
+        locale,
+      } = req.body;
+      let { email, isEmailEnabled } = req.body;
 
-    if (req.user.user !== user) {
-      res.status(401).send('LOGIN_NEEDED');
-      return;
-    }
+      if (req.user.user !== user) {
+        res.status(401).send('LOGIN_NEEDED');
+        return;
+      }
 
-    // handle isEmailEnable is string
-    if (typeof isEmailEnabled === 'string') {
-      isEmailEnabled = isEmailEnabled !== 'false';
-    }
+      // handle isEmailEnable is string
+      if (typeof isEmailEnabled === 'string') {
+        isEmailEnabled = isEmailEnabled !== 'false';
+      }
 
-    const oldUserObj = await checkIsOldUser({ user, wallet, email });
-    if (!oldUserObj) throw new ValidationError('USER_NOT_FOUND');
+      const oldUserObj = await checkIsOldUser({ user, wallet, email });
+      if (!oldUserObj) throw new ValidationError('USER_NOT_FOUND');
 
-    if (oldUserObj.wallet && oldUserObj.wallet !== wallet) {
-      throw new ValidationError('USER_WALLET_NOT_MATCH');
-    }
+      if (oldUserObj.wallet && oldUserObj.wallet !== wallet) {
+        throw new ValidationError('USER_WALLET_NOT_MATCH');
+      }
 
-    if (email) {
-      try {
-        email = handleEmailBlackList(email);
-      } catch (err) {
-        if (err.message === 'DOMAIN_NOT_ALLOWED' || err.message === 'DOMAIN_NEED_EXTRA_CHECK') {
-          publisher.publish(PUBSUB_TOPIC_MISC, req, {
-            logType: 'eventBlockEmail',
-            user,
-            email,
-            displayName,
-            wallet,
-            referrer: oldUserObj.referrer || undefined,
-            locale,
-          });
+      if (email) {
+        try {
+          email = handleEmailBlackList(email);
+        } catch (err) {
+          if (err.message === 'DOMAIN_NOT_ALLOWED' || err.message === 'DOMAIN_NEED_EXTRA_CHECK') {
+            publisher.publish(PUBSUB_TOPIC_MISC, req, {
+              logType: 'eventBlockEmail',
+              user,
+              email,
+              displayName,
+              wallet,
+              referrer: oldUserObj.referrer || undefined,
+              locale,
+            });
+          }
+          throw err;
         }
-        throw err;
       }
-    }
 
-    // update avatar
-    const { file } = req;
-    let avatarUrl;
-    if (file) {
-      avatarUrl = await handleAvatarUploadAndGetURL(user, file, avatarSHA256);
-    }
-    const updateObj = {
-      displayName,
-      wallet,
-      isEmailEnabled,
-      avatar: avatarUrl,
-      locale,
-    };
-    const oldEmail = oldUserObj.email;
-    if (email && email !== oldEmail) {
-      if (await checkEmailIsSoleLogin(user)) {
-        throw new ValidationError('USER_EMAIL_SOLE_LOGIN');
+      // update avatar
+      const { file } = req;
+      let avatarUrl;
+      if (file) {
+        avatarUrl = await handleAvatarUploadAndGetURL(user, file, avatarSHA256);
       }
-      updateObj.email = email;
-      updateObj.verificationUUID = FieldValue.delete();
-      updateObj.isEmailVerified = false;
-      updateObj.lastVerifyTs = FieldValue.delete();
-    }
-
-    Object.keys(updateObj).forEach((key) => {
-      if (updateObj[key] === undefined) {
-        delete updateObj[key];
+      const updateObj = {
+        displayName,
+        wallet,
+        isEmailEnabled,
+        avatar: avatarUrl,
+        locale,
+      };
+      const oldEmail = oldUserObj.email;
+      if (email && email !== oldEmail) {
+        if (await checkEmailIsSoleLogin(user)) {
+          throw new ValidationError('USER_EMAIL_SOLE_LOGIN');
+        }
+        updateObj.email = email;
+        updateObj.verificationUUID = FieldValue.delete();
+        updateObj.isEmailVerified = false;
+        updateObj.lastVerifyTs = FieldValue.delete();
       }
-    });
 
-    await dbRef.doc(user).update(updateObj);
-    res.sendStatus(200);
+      Object.keys(updateObj).forEach((key) => {
+        if (updateObj[key] === undefined) {
+          delete updateObj[key];
+        }
+      });
 
-    publisher.publish(PUBSUB_TOPIC_MISC, req, {
-      logType: 'eventUserUpdate',
-      user,
-      email: email || oldEmail,
-      displayName,
-      wallet,
-      avatar: avatarUrl || oldUserObj.avatar,
-      referrer: oldUserObj.referrer,
-      locale,
-      registerTime: oldUserObj.timestamp,
-    });
-  } catch (err) {
-    next(err);
-  }
-});
+      await dbRef.doc(user).update(updateObj);
+      res.sendStatus(200);
+
+      publisher.publish(PUBSUB_TOPIC_MISC, req, {
+        logType: 'eventUserUpdate',
+        user,
+        email: email || oldEmail,
+        displayName,
+        wallet,
+        avatar: avatarUrl || oldUserObj.avatar,
+        referrer: oldUserObj.referrer,
+        locale,
+        registerTime: oldUserObj.timestamp,
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
+);
 
 router.post('/users/login', async (req, res, next) => {
   try {

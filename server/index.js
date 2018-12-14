@@ -39,7 +39,6 @@ app.use((req, res, next) => {
 app.use(cookieParser());
 app.use(compression());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(i18n.init);
 app.use((req, res, next) => {
   if (req.body.locale) i18n.setLocale(res, req.body.locale);
