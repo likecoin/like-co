@@ -44,7 +44,7 @@
     "@google-cloud/pubsub": "^0.19.0",
     "@likecoin/abi-decoder": "^2.0.0",
     "@likecoin/likecoin-email-templates": "^1.0.2",
-    "@likecoin/nuxt-google-optimize": "^0.5.3-like.3",
+    "@likecoin/nuxt-google-optimize": "^0.5.3-like.5",
     "@likecoin/ui-vue": "^0.3.4",
     "@likecoin/vue-image-lightbox": "^5.5.4",
     "@likecoin/vue-simple-svg": "^1.4.1",
