@@ -14,6 +14,7 @@
               <lc-avatar
                 :src="avatarData"
                 :halo="getUserInfo.isPreRegCivicLiker ? 'civic-liker-trial' : ''"
+                size="large"
               />
             </nuxt-link>
 
