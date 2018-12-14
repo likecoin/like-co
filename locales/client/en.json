@@ -228,6 +228,7 @@
     "item": {
       "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
       "bonus": "LikeCoin Bonus",
+      "civicLiker": "@:CivicPage.title",
       "earnLikeCoin": "Earn LikeCoin",
       "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
       "tokenSale": "@:TokenSale.title",

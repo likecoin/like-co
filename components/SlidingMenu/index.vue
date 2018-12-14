@@ -127,6 +127,10 @@ const MENU_ITEMS = [
     section: 'primary',
     items: [
       {
+        key: 'civicLiker',
+        to: { name: 'in-civic' },
+      },
+      {
         key: 'earnLikeCoin',
         to: { name: 'in-earn' },
       },

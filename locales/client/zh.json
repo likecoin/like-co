@@ -226,6 +226,7 @@
     "item": {
       "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
       "bonus": "LikeCoin 奬勵",
+      "civicLiker": "@:CivicPage.title",
       "earnLikeCoin": "賺取 LikeCoin",
       "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
       "tokenSale": "@:TokenSale.title",
