@@ -894,6 +894,7 @@ $line-height-map: (
     }
 
     &:not(.outline) {
+      color: white;
       background-color: $color;
 
       @if ($image) {
