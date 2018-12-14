@@ -1,11 +1,11 @@
+/* istanbul ignore file */
 /* eslint import/no-extraneous-dependencies: "off" */
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const SentryPlugin = require('@sentry/webpack-plugin');
 
-const shouldCache = !!process.env.CI || (process.NODE_ENV !== 'production');
+const shouldCache = !!process.env.CI || (process.env.NODE_ENV !== 'production');
 
-/* istanbul ignore next */
-module.exports = {
+const nuxtConfig = {
   /*
   ** Headers of the page
   */
@@ -42,13 +42,14 @@ module.exports = {
       { rel: 'preload', href: '/vendor/typekit.js', as: 'script' },
       { rel: 'preload', href: '/vendor/fb/pixel.js', as: 'script' },
       { rel: 'preload', href: '/vendor/fb/sdk.js', as: 'script' },
+      { rel: 'preload', href: 'https://use.typekit.net/ube6iww.js', as: 'script' },
       {
         rel: 'preload',
-        href: 'https://use.typekit.net/ube6iww.js',
-        as: 'script',
-        crossorigin: undefined,
+        href: '/api/experiments/list',
+        as: 'fetch',
+        crossorigin: 'anonymous',
       },
-      { rel: 'preconnect', href: 'https://connect.facebook.net', crossorigin: undefined },
+      { rel: 'preconnect', href: 'https://connect.facebook.net' },
       { rel: 'icon', type: 'image/png', href: '/favicon.png' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Material+Icons' },
     ],
@@ -176,9 +177,10 @@ module.exports = {
   ],
   googleOptimize: {
     externalExperimentsSrc: '/api/experiments/list',
-    cookieDomain: process.NODE_ENV === 'production'
+    cookieDomain: process.env.NODE_ENV === 'production'
       ? `${process.env.IS_TESTNET ? '.rinkeby' : ''}.like.co`
       : '',
+    useFetch: true,
   },
   plugins: [
     { src: '~/plugins/EthHelper', ssr: false },
@@ -242,3 +244,11 @@ module.exports = {
     },
   },
 };
+
+if (process.env.INTERCOM_APPID) {
+  nuxtConfig.head.link.push(
+    { rel: 'preload', href: `https://widget.intercom.io/widget/${process.env.INTERCOM_APPID}` },
+  );
+}
+
+module.exports = nuxtConfig;
