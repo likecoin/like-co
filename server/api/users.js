@@ -9,6 +9,7 @@ import {
 } from '../../constant';
 import { fetchFacebookUser } from '../oauth/facebook';
 import {
+  getIntercomUserHash,
   handleEmailBlackList,
   checkReferrerExists,
   checkUserInfoUniqueness,
@@ -745,6 +746,7 @@ router.get('/users/self', jwtAuth('read'), async (req, res, next) => {
       if (!payload.avatar) {
         payload.avatar = AVATAR_DEFAULT_PATH;
       }
+      payload.intercomToken = getIntercomUserHash(username);
 
       res.json(Validate.filterUserData(payload));
       await dbRef.doc(req.user.user).collection('session').doc(req.user.jti).update({
