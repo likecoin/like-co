@@ -112,7 +112,7 @@ export default {
   },
   methods: {
     onClickOk() {
-      this.$router.push({ name: 'in-civic' });
+      this.$router.push({ name: 'in' });
     },
   },
 };
