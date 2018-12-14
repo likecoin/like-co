@@ -109,7 +109,7 @@
             <h2 class="lc-font-size-28 lc-font-weight-300">
               {{ $t(`CivicPage.intro2[${i - 1}].title`) }}
             </h2>
-            <p class="lc-font-size-16 lc-font-weight-300 lc-margin-top-32 lc-color-like-gray-5">
+            <p class="lc-font-size-16 lc-margin-top-32 lc-color-like-gray-5">
               {{ $t(`CivicPage.intro2[${i - 1}].p`) }}
             </p>
           </div>
