@@ -3,8 +3,11 @@
 
     <div>
 
-      <span v-if="!isHiddenLink">
-        <nuxt-link :to="{ name: 'in-whitepaper' }">
+      <span>
+        <nuxt-link
+          v-if="!isHiddenLink"
+          :to="{ name: 'in-whitepaper' }"
+        >
           {{ $t('TokenSale.button.whitePaper') }}
         </nuxt-link>
       </span>
@@ -13,8 +16,11 @@
         <img :src="icon">
       </span>
 
-      <span v-if="!isHiddenLink">
-        <nuxt-link to="/">
+      <span>
+        <nuxt-link
+          v-if="!isHiddenLink"
+          to="/"
+        >
           {{ $t('TokenSale.button.aboutLikeCoin') }}
         </nuxt-link>
       </span>
