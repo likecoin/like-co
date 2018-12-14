@@ -8,7 +8,10 @@
           <div class="lc-container-3 lc-bg-gray-1">
             <div class="lc-container-4 ">
 
-              <narrow-page-header :icon="avatar" />
+              <narrow-page-header
+                :icon="avatar"
+                :avatar-halo="avatarHalo"
+              />
 
             </div>
           </div>
@@ -290,7 +293,12 @@ export default {
     }
     const data = await apiGetUserMinById(params.id)
       .then((res) => {
-        const { wallet, avatar, displayName } = res.data;
+        const {
+          wallet,
+          avatar,
+          displayName,
+          isPreRegCivicLiker,
+        } = res.data;
         const amount = formatAmount(params.amount || 1);
         if (wallet === LIKE_COIN_ICO_ADDRESS) {
           redirect({
@@ -303,6 +311,7 @@ export default {
           id: params.id,
           displayName: displayName || params.id,
           amount,
+          avatarHalo: isPreRegCivicLiker ? 'civic-liker-trial' : '',
         };
       })
       .catch((e) => { // eslint-disable-line no-unused-vars

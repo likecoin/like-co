@@ -355,3 +355,13 @@ export async function updateUserReadContentStatus({ commit, dispatch }, { id, pa
     console.error(err);
   }
 }
+
+export async function startCivicLikerTrial({ commit, dispatch }, id) {
+  await apiWrapper(
+    { commit, dispatch },
+    api.apiPutUserCivicTrial(id),
+    { blocking: true },
+  );
+  await dispatch('refreshUser');
+  return true;
+}

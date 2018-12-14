@@ -4,11 +4,12 @@
       <nuxt-link
         :to="{ 'name': 'in' }"
       >
-        <img
-          :src="getUserInfo.avatar"
-          alt="avatar"
-          @click="closeSlidingMenu"
-        >
+        <div @click="closeSlidingMenu">
+          <lc-avatar
+            :src="getUserInfo.avatar"
+            :halo="getUserInfo.isPreRegCivicLiker ? 'civic-liker-trial' : ''"
+          />
+        </div>
       </nuxt-link>
       <div class="account-overview__id lc-font-size-18 lc-font-weight-600">
         <span class="lc-color-gray-9b">ID:</span>
@@ -46,9 +47,9 @@
     <div class="account-overview__cta-wrapper lc-text-align-center">
       <div @click="closeSlidingMenu">
         <md-button
-          :to="{ 'name': 'in-earn' }"
+          :to="{ 'name': 'in-civic' }"
           class="md-likecoin lc-secondary lc-font-size-18 lc-font-weight-600"
-        >{{ $t('Home.Sale.button.earnCoin') }}</md-button>
+        >{{ $t('CivicPage.title') }}</md-button>
       </div>
       <a
         :href="LIQUID_LIKEETH_URL"

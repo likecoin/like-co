@@ -1,18 +1,5 @@
 <template>
   <div class="like-button-demo">
-    <div
-      :class="[
-        'lc-flex',
-        'lc-justify-content-space-between',
-        'lc-align-items-center',
-        'lc-margin-bottom-16',
-        'lc-mobile-show'
-      ]"
-    >
-      <site-title :logoSrc="likeCoinIcon" />
-      <menu-button :is-show-label="false" />
-    </div>
-
     <i18n
       class="lc-margin-top-8 lc-font-weight-600"
       path="Home.LikeButtonDemo.label.lookForButton"
@@ -36,8 +23,6 @@
 
 <script>
 import SampleLikeButton from '~/components/home/SampleLikeButton';
-import MenuButton from '~/components/SlidingMenu/MenuButton';
-import SiteTitle from '~/components/SiteTitle';
 
 import likeCoinIcon from '@/assets/logo/icon-label-horizontal.svg';
 
@@ -45,8 +30,6 @@ export default {
   name: 'like-button-demo',
   components: {
     SampleLikeButton,
-    MenuButton,
-    SiteTitle,
   },
   data() {
     return {
@@ -65,21 +48,23 @@ export default {
 @import "~assets/variables";
 
 .like-button-demo {
-  background-image: linear-gradient(194deg, $like-light-blue, $like-gradient-1);
+  display: flex;
+  flex-direction: column;
 
   @media (min-width: 600px + 1px) {
     width: 272px;
     margin-top: -32px;
     margin-right: 32px;
     padding: 24px;
+
+    background-image: linear-gradient(194deg, $like-light-blue, $like-gradient-1);
   }
 
   @media (max-width: 600px) {
-    padding: 8px 24px 24px;
-  }
+    flex-direction: column-reverse;
+    order: 999;
 
-  .site-title :global(img) {
-    width: 162px;
+    padding: 8px 24px 24px;
   }
 }
 </style>

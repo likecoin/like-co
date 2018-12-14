@@ -3,6 +3,7 @@
     "back": "返回",
     "connect": "連接",
     "disconnect": "取消連接",
+    "learnMore": "了解更多",
     "label": {
       "error": "失敗",
       "success": "成功",
@@ -226,6 +227,7 @@
     "item": {
       "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
       "bonus": "LikeCoin 奬勵",
+      "civicLiker": "@:CivicPage.title",
       "earnLikeCoin": "賺取 LikeCoin",
       "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
       "tokenSale": "@:TokenSale.title",
@@ -503,11 +505,6 @@
       "label": {
         "slogan": "化讚為賞",
         "rewardPOC": "透過創造力證明回饋內容"
-      }
-    },
-    "ContentCivicsCTA": {
-      "button": {
-        "support": "我要支持"
       }
     },
     "PlatformCoverage": {
@@ -1334,5 +1331,75 @@
   },
   "Facebook": {
     "personalProfile": "個人頁面"
+  },
+  "CivicLikerCTA": {
+    "title": "讚賞公民體驗計劃",
+    "content": "立即免費登記，行動回饋創作，提供寶貴意見。你的參與將改變創作生態發展 — {title}",
+    "buttonTitle": "預先登記"
+  },
+  "CivicPage": {
+    "title": "讚賞公民",
+    "CTA": {
+      "title": "少喝一杯咖啡 成就一個生態",
+      "subtitle": "【免費體驗】將於2019年1月2至31日進行"
+    },
+    "joinNow": "立即參加",
+    "registered": "已登記",
+    "intro1": [
+      "有沒有試過，在網上看到精彩的故事、深入的報導、出色的照片，不介意小額付費支持，卻因沒可行方法作罷？",
+      "有沒有想過，因為網上作品沒有任何收入，創作者和獨立記者只能靠廣告、外包和熱情維持？",
+      "讚賞公民是一場回饋優秀內容的運動。讀者每月付出一杯咖啡的價錢，就能成為讚賞公民，從此每個點讚，都會化成對創作者的實質支持。"
+    ],
+    "features": [
+      "額外收錄內容",
+      "會員福利",
+      "永久榮譽徽章"
+    ],
+    "intro2": [
+      {
+        "title": "一分一毫 依你品味",
+        "p": "讚賞公民每月付出的 HK$38，金額將不扣除任何行政成本，全數分配予創作者，支持創作*。基金會只負責分配，支持哪位創作者，回饋哪筆作品，百分百由你的點讚決定。你亦可隨時查閱資助分配，細至一分一毫，盡在掌握。"
+      },
+      {
+        "title": "豐富福利 利人利己",
+        "p": "除了支持喜歡的創作者，讚賞公民還享有參予社群決策、獲取特別收錄內容、收取偶像個人通訊、參與線下活動等一連串福利，利人利己。" 
+      }
+    ],
+    "countdown": {
+      "title": "體驗回報創作者即將開始"
+    },
+    "pricing": {
+      "type": {
+        "generalLiker": "一般讀者",
+        "civicLiker": "讚賞公民"
+      },
+      "paymentCycle": {
+        "perMonth": "/月"
+      },
+      "features": {
+        "ICRpool": "群眾掌聲投票支持作品",
+        "ownRewardPool": "100% 個人品味支持作品",
+        "communityVoting": "參與社群決策",
+        "bonusContent": "獲取特別收錄",
+        "idolNewsletter": "收取偶像個人通訊",
+        "offlineEvent": "參與線下活動",
+        "report": "詳細贊助報告",
+        "badges": "永久榮譽徽章"
+      }
+    },
+    "footnote": [
+      "每月 HK$38 到帳部分（部分支付方式如信用卡會收取手續費）會全數兌換成讚賞幣，再由各地創作者自行兌換成當地貨幣。"
+    ],
+    "trial": {
+      "register": "立即參與測試",
+      "registered": "參與測試中",
+      "freeNow": "免費測試中",
+      "freeToTry": "免費體驗",
+      "willBeHeld": "將會在2019年1月2至31日進行"
+    }
+  },
+  "CivicJoinedPage": {
+    "thankYou": "謝謝你的參與",
+    "joiningTitle": "讚賞公民 Trial"
   }
 }

@@ -11,13 +11,11 @@
               :to="{ name: 'in-settings' }"
               class="user-avatar-wrapper"
             >
-              <img
+              <lc-avatar
                 :src="avatarData"
-                class="avatar"
-              >
-              <md-button class="input-display-btn">
-                <img :src="EditWhiteIcon">
-              </md-button>
+                :halo="getUserInfo.isPreRegCivicLiker ? 'civic-liker-trial' : ''"
+                size="large"
+              />
             </nuxt-link>
 
             <div class="user-identity">
@@ -57,6 +55,34 @@
                   </md-button>
                 </nuxt-link>
               </div>
+            </div>
+
+            <!-- Civic Liker Info & CTA -->
+            <div class="civic-liker-info">
+              <div class="civic-liker-info__chop">
+                <lc-chop-countdown
+                  :date="civicLikerStartDate"
+                  rotate-z="-16"
+                />
+                <lc-chop-approved
+                  v-if="getUserInfo.isPreRegCivicLiker"
+                  is-trial
+                  rotate-z="13"
+                  size="190"
+                />
+                <nuxt-link
+                  v-else
+                  :to="{ name: 'in-civic' }"
+                  class="lc-font-weight-400 lc-underline"
+                >
+                  {{ $t('CivicPage.joinNow') }}
+                </nuxt-link>
+              </div>
+              <civic-liker-cta
+                :is-show-chop="false"
+                class="lc-margin-top-40 lc-mobile-show"
+                layout="column"
+              />
             </div>
 
           </section>
@@ -160,11 +186,13 @@ import getTestAttribute from '@/util/test';
 import {
   W3C_EMAIL_REGEX,
   EXTERNAL_HOSTNAME,
+  CIVIC_LIKER_START_DATE,
 } from '@/constant';
 
 import EditIcon from '@/assets/icons/edit.svg';
 import EditWhiteIcon from '@/assets/icons/edit-white.svg';
 
+import CivicLikerCta from '~/components/CivicLiker/CTA';
 import LikeCoinAmount from '~/components/LikeCoinAmount';
 import InputDialog from '~/components/dialogs/InputDialog';
 import SocialMediaConnect from '~/components/SocialMediaConnect';
@@ -172,6 +200,7 @@ import SocialMediaConnect from '~/components/SocialMediaConnect';
 export default {
   name: 'user-info-form',
   components: {
+    CivicLikerCta,
     InputDialog,
     LikeCoinAmount,
     SocialMediaConnect,
@@ -188,6 +217,8 @@ export default {
       user: '',
       wallet: '',
       hasCopiedReceiveLikeCoinLink: false,
+
+      civicLikerStartDate: new Date(CIVIC_LIKER_START_DATE),
     };
   },
   computed: {
@@ -311,6 +342,7 @@ $profile-icon-mobile-size: 88px;
   .user-identity {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
 
     @media (min-width: 768 + 1px) {
       padding-right: 64px;
@@ -322,6 +354,45 @@ $profile-icon-mobile-size: 88px;
 
     .user-id-label {
       color: $like-gray-5;
+    }
+  }
+
+  .civic-liker-info {
+    width: 272px;
+
+    @media screen and (max-width: 768px) {
+      margin-top: 32px;
+    }
+
+    &__chop {
+      position: relative;
+      z-index: 10;
+
+      height: 100px;
+
+      border: 2px solid $like-gray-3;
+      border-top: none;
+      border-bottom: none;
+
+      > * {
+        position: absolute;
+      }
+
+      .lc-chop-countdown {
+        top: -24px;
+        left: -4px;
+      }
+
+      .lc-chop-approved {
+        right: -32px;
+        bottom: -4px;
+      }
+    }
+
+    a {
+      position: absolute;
+      top: calc(50% - 10px);
+      right: 24px;
     }
   }
 
@@ -373,39 +444,23 @@ $profile-icon-mobile-size: 88px;
     position: relative;
     z-index: 2;
 
-    overflow: hidden;
     flex-shrink: 0;
 
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 50%;
-
     @media (min-width: #{768px + 1px}) {
-      width: $profile-icon-size;
-      height: $profile-icon-size;
       margin-right: $profile-margin;
     }
 
-    @media (max-width: 768px) {
-      width: $profile-icon-mobile-size;
-      height: $profile-icon-mobile-size;
-    }
+    .lc-avatar {
+      :global(.lc-avatar__content) {
+        @media (min-width: #{768px + 1px}) {
+          width: $profile-icon-size !important;
+          height: $profile-icon-size !important;
+        }
 
-    .avatar {
-      width: auto;
-      height: 100%;
-    }
-
-    .md-button {
-      position: absolute;
-      top: 0;
-      left: 0;
-
-      width: 100%;
-      height: 100%;
-      margin: auto;
-
-      &:hover {
-        color: $like-white;
+        @media (max-width: 768px) {
+          width: $profile-icon-mobile-size !important;
+          height: $profile-icon-mobile-size !important;
+        }
       }
     }
   }

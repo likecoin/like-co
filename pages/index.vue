@@ -15,6 +15,12 @@
       </div>
     </section>
 
+    <section class="lc-container-0 lc-mobile-show">
+      <div class="lc-container-1">
+        <home-mobile-header />
+      </div>
+    </section>
+
     <section class="lc-container-0 home-page__like-button-details">
       <div class="lc-container-1">
         <div class="lc-container-2">
@@ -24,21 +30,16 @@
                 @popup="openContentCivicPopup"
               />
 
-              <platform-icon-bar
-                class="lc-mobile-show"
-                size="medium"
-              />
-              <!-- !! Uncomment when content civics is ready !! -->
-              <!-- <content-civics-cta
-                class="lc-margin-top-16 lc-container-3 lc-mobile-show"
-              /> -->
-              <!-- !! Uncomment when content civics is ready !! -->
-
               <div class="lc-flex lc-justify-content-center lc-flex-grow-1">
                 <reward-statistics
                   :screen-width="breakpoint.width"
                 />
               </div>
+
+              <platform-icon-bar
+                class="lc-mobile-show lc-margin-bottom-"
+                size="medium"
+              />
             </div>
 
             <div class="lc-container-4">
@@ -48,13 +49,6 @@
             </div>
           </div>
 
-          <!-- !! Uncomment when content civics is ready !! -->
-          <!-- <div class="lc-container-3 lc-bg-gray-1">
-            <div class="lc-padding-vertical-40 lc-mobile">
-              <content-civics-cta />
-            </div>
-          </div> -->
-          <!-- !! Uncomment when content civics is ready !! -->
         </div>
       </div>
     </section>
@@ -108,9 +102,9 @@
 import { mapGetters, mapActions } from 'vuex';
 
 import ArticleDialog from '@/components/dialogs/ArticleDialog';
-// import ContentCivicsCta from '@/components/home/ContentCivicsCTA';
 import HeaderFlag from '@/components/about/Flag';
 import HomeBanner from '@/components/home/Banner';
+import HomeMobileHeader from '@/components/home/MobileHeader';
 import LikeButtonDemo from '@/components/home/LikeButtonDemo';
 import LikeButtonIntro from '@/components/LikeButtonIntro';
 import MansoryArticleList from '@/components/home/MansoryArticleList';
@@ -126,9 +120,9 @@ export default {
   layout: 'index',
   components: {
     ArticleDialog,
-    // ContentCivicsCta,
     HeaderFlag,
     HomeBanner,
+    HomeMobileHeader,
     LikeButtonDemo,
     LikeButtonIntro,
     MansoryArticleList,

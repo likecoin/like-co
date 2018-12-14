@@ -135,3 +135,6 @@ export const AVATAR_DEFAULT_PATH = 'https://static.like.co/likecoin_de-portrait.
 export const LIKE_BUTTON_POST_MESSAGE_TARGET_ORIGIN = IS_TESTNET ? '*' : 'https://button.like.co';
 
 export const WALLET_NOTICE_EXPIRY_INTERVAL = IS_TESTNET ? 300 : 604800; // In second
+
+export const CIVIC_LIKER_START_DATE = 1546387200000; // 2019-01-02T08:00:00+0800
+export const PRE_REG_CIVIC_LIKER_END_DATE = 1546272000000; // 2019-01-01T00:00:00+0800

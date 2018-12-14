@@ -1,8 +1,17 @@
 <template>
   <div class="likecoin-settings__personal-tab">
 
-    <!-- User Info Form Section -->
+    <!-- Civic Liker CTA Section -->
     <div class="lc-container-1 lc-margin-top-48 lc-mobile">
+      <div class="lc-container-2">
+        <civic-liker-cta
+          class="lc-bg-gray-1 lc-padding-top-24-mobile lc-padding-bottom-24-mobile"
+        />
+      </div>
+    </div>
+
+    <!-- User Info Form Section -->
+    <div class="lc-container-1 lc-margin-top-16">
       <div class="lc-container-2">
         <div class="lc-container-3 lc-padding-vertical-32 lc-bg-gray-1">
           <form
@@ -12,12 +21,14 @@
           >
             <div class="profile-setting-page__account-setting">
               <div class="profile-setting-page__portrait">
-                <img
+                <lc-avatar
                   v-if="avatar"
                   :src="avatar"
-                >
+                  :halo="getUserInfo.isPreRegCivicLiker ? 'civic-liker-trial' : ''"
+                  size="120"
+                />
                 <md-button
-                  class="lc-color-like-green lc-underline lc-font-weight-600"
+                  class="lc-color-like-green lc-margin-top-16 lc-underline lc-font-weight-600"
                   @click="onClickEditAvatar"
                 >
                   {{ $t('Settings.button.editPortrait') }}
@@ -254,6 +265,7 @@ import { firebasePlatformSignIn } from '~/util/FirebaseApp';
 
 import getTestAttribute from '@/util/test';
 
+import CivicLikerCta from '~/components/CivicLiker/CTA';
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import AuthConnectList from '~/components/settings/AuthConnectList';
 import OtherConnectList from '~/components/settings/OtherConnectList';
@@ -265,6 +277,7 @@ import TickIcon from '@/assets/tokensale/tick.svg';
 export default {
   name: 'settings-index',
   components: {
+    CivicLikerCta,
     ClaimDialog,
     AuthConnectList,
     OtherConnectList,

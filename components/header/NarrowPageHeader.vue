@@ -4,17 +4,27 @@
     <div>
 
       <span>
-        <nuxt-link :to="{ name: 'in-whitepaper' }">
+        <nuxt-link
+          v-if="!isHiddenLink"
+          :to="{ name: 'in-whitepaper' }"
+        >
           {{ $t('TokenSale.button.whitePaper') }}
         </nuxt-link>
       </span>
 
       <span class="signature-icon">
-        <img :src="icon">
+        <lc-avatar
+          :src="icon"
+          :halo="avatarHalo"
+          size="144"
+        />
       </span>
 
       <span>
-        <nuxt-link to="/">
+        <nuxt-link
+          v-if="!isHiddenLink"
+          to="/"
+        >
           {{ $t('TokenSale.button.aboutLikeCoin') }}
         </nuxt-link>
       </span>
@@ -35,6 +45,14 @@ export default {
       type: String,
       default: likeCoinIcon,
     },
+    avatarHalo: {
+      type: String,
+      default: undefined,
+    },
+    isHiddenLink: {
+      type: [Boolean, String],
+      default: false,
+    },
   },
   data() {
     return {
@@ -51,7 +69,7 @@ export default {
 $horizontal-interspace: 32px;
 $vertical-interspace: 8px;
 $signature-icon-size: 144px;
-$signature-icon-overlap: 16px;
+$signature-icon-overlap: 24px;
 
 .page-header.narrow {
   position: relative;

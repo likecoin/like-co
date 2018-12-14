@@ -1,6 +1,18 @@
 <template>
   <div class="overview-page">
 
+    <!-- Civic Liker CTA Section -->
+    <section class="lc-container-0 lc-margin-top-16 lc-mobile-hide">
+      <div class="lc-container-1">
+        <div class="lc-container-2">
+          <civic-liker-cta
+            class="lc-padding-top-24-mobile"
+            layout="wide"
+          />
+        </div>
+      </div>
+    </section>
+
     <template v-if="!isEmailVerified">
       <section class="lc-container-0 lc-margin-top-48">
         <div class="lc-container-1">
@@ -191,16 +203,6 @@
 
       </section>
 
-      <!-- TODO: Civic Liker CTA
-      <section class="lc-container-0 lc-margin-top-48">
-        <div class="lc-container-1">
-          <div class="lc-container-2">
-            <civic-liker-cta />
-          </div>
-        </div>
-      </section>
-      -->
-
     </template>
   </div>
 </template>
@@ -213,7 +215,7 @@ import RefreshButton from '~/components/RefreshButton';
 import LikeButtonIntroMin from '~/components/LikeButtonIntroMin';
 import MansoryArticleList from '~/components/home/MansoryArticleList';
 import LikeButtonAdopter from '~/components/LikeButtonAdopter';
-import CivicLikerCta from '~/components/CivicLikerCta';
+import CivicLikerCta from '~/components/CivicLiker/CTA';
 import VerifyEmailCta from '~/components/VerifyEmailCta';
 
 import EditIcon from '@/assets/icons/edit.svg';

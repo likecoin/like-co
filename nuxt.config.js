@@ -162,6 +162,7 @@ const nuxtConfig = {
   */
   css: [
     { src: 'vue-material/dist/vue-material.min.css', lang: 'css' },
+    { src: '@likecoin/ui-vue/dist/ui-vue.css', lang: 'css' },
     { src: '~/assets/theme.scss', lang: 'scss' }, // include vue-material theme engine
     { src: '~/assets/index.scss', lang: 'scss' },
     'swiper/dist/css/swiper.min.css',
@@ -187,6 +188,7 @@ const nuxtConfig = {
     { src: '~/plugins/vue-cookie', ssr: false },
     { src: '~/plugins/vue-i18n' },
     { src: '~/plugins/vue-material' },
+    { src: '~/plugins/likecoin-ui-vue' },
     { src: '~/plugins/vue-simple-svg' },
     { src: '~/plugins/vue-intercom', ssr: false },
     { src: '~/plugins/vue-vimeo-player', ssr: false },
