@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import { IS_TESTNET } from '../../../constant';
 import {
   AUTH_COOKIE_OPTION,
@@ -12,12 +13,23 @@ import { personalEcRecover, web3 } from '../web3';
 const disposableDomains = require('disposable-email-domains');
 
 const {
+  INTERCOM_USER_HASH_SECRET,
+} = require('../../config/config.js'); // eslint-disable-line import/no-extraneous-dependencies
+
+const {
   userCollection: dbRef,
   userAuthCollection: authDbRef,
   FieldValue,
 } = require('../firebase');
 
 export const FIVE_MIN_IN_MS = 300000;
+
+export function getIntercomUserHash(user) {
+  if (!INTERCOM_USER_HASH_SECRET) return undefined;
+  return crypto.createHmac('sha256', INTERCOM_USER_HASH_SECRET)
+    .update(user)
+    .digest('hex');
+}
 
 export async function setAuthCookies(req, res, { user, wallet }) {
   const payload = {

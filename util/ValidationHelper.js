@@ -15,12 +15,13 @@ export const ValidationHelper = {
       user,
       bonusCooldown,
       displayName,
+      email,
       avatar,
       wallet,
       referrer,
       isEmailVerified,
       isEmailEnabled,
-      email,
+      intercomToken,
       read = {},
     } = u;
     return {
@@ -33,6 +34,7 @@ export const ValidationHelper = {
       referrer: !!referrer,
       isEmailVerified,
       isEmailEnabled,
+      intercomToken,
       read,
     };
   },
