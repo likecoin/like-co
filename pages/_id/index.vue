@@ -165,8 +165,6 @@
                     <md-button
                       id="payment-confirm"
                       :class="['md-raised',
-                               'md-primary',
-                               'likecoin',
                                'md-likecoin',
                                { 'lc-alert': isP2pUnavailable },
                       ]"
