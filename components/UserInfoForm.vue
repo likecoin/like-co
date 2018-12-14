@@ -11,13 +11,10 @@
               :to="{ name: 'in-settings' }"
               class="user-avatar-wrapper"
             >
-              <img
+              <lc-avatar
                 :src="avatarData"
-                class="avatar"
-              >
-              <md-button class="input-display-btn">
-                <img :src="EditWhiteIcon">
-              </md-button>
+                :halo="getUserInfo.isPreRegCivicLiker ? 'civic-liker-trial' : ''"
+              />
             </nuxt-link>
 
             <div class="user-identity">
@@ -373,39 +370,23 @@ $profile-icon-mobile-size: 88px;
     position: relative;
     z-index: 2;
 
-    overflow: hidden;
     flex-shrink: 0;
 
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 50%;
-
     @media (min-width: #{768px + 1px}) {
-      width: $profile-icon-size;
-      height: $profile-icon-size;
       margin-right: $profile-margin;
     }
 
-    @media (max-width: 768px) {
-      width: $profile-icon-mobile-size;
-      height: $profile-icon-mobile-size;
-    }
+    .lc-avatar {
+      :global(.lc-avatar__content) {
+        @media (min-width: #{768px + 1px}) {
+          width: $profile-icon-size !important;
+          height: $profile-icon-size !important;
+        }
 
-    .avatar {
-      width: auto;
-      height: 100%;
-    }
-
-    .md-button {
-      position: absolute;
-      top: 0;
-      left: 0;
-
-      width: 100%;
-      height: 100%;
-      margin: auto;
-
-      &:hover {
-        color: $like-white;
+        @media (max-width: 768px) {
+          width: $profile-icon-mobile-size !important;
+          height: $profile-icon-mobile-size !important;
+        }
       }
     }
   }

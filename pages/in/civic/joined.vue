@@ -10,6 +10,7 @@
 
               <narrow-page-header
                 :icon="getUserInfo.avatar"
+                :avatar-halo="getUserInfo.isPreRegCivicLiker ? 'civic-liker-trial' : ''"
                 is-hidden-link
               />
 

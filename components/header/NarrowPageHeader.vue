@@ -13,7 +13,11 @@
       </span>
 
       <span class="signature-icon">
-        <img :src="icon">
+        <lc-avatar
+          :src="icon"
+          :halo="avatarHalo"
+          size="144"
+        />
       </span>
 
       <span>
@@ -41,6 +45,10 @@ export default {
       type: String,
       default: likeCoinIcon,
     },
+    avatarHalo: {
+      type: String,
+      default: undefined,
+    },
     isHiddenLink: {
       type: [Boolean, String],
       default: false,
@@ -61,7 +69,7 @@ export default {
 $horizontal-interspace: 32px;
 $vertical-interspace: 8px;
 $signature-icon-size: 144px;
-$signature-icon-overlap: 16px;
+$signature-icon-overlap: 24px;
 
 .page-header.narrow {
   position: relative;

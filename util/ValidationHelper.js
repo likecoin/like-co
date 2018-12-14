@@ -43,12 +43,14 @@ export const ValidationHelper = {
     displayName,
     avatar,
     wallet,
+    isPreRegCivicLiker,
   }) {
     return {
       user,
       displayName,
       avatar,
       wallet,
+      isPreRegCivicLiker,
     };
   },
   filterTxData({

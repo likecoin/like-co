@@ -21,12 +21,14 @@
           >
             <div class="profile-setting-page__account-setting">
               <div class="profile-setting-page__portrait">
-                <img
+                <lc-avatar
                   v-if="avatar"
                   :src="avatar"
-                >
+                  :halo="getUserInfo.isPreRegCivicLiker ? 'civic-liker-trial' : ''"
+                  size="120"
+                />
                 <md-button
-                  class="lc-color-like-green lc-underline lc-font-weight-600"
+                  class="lc-color-like-green lc-margin-top-16 lc-underline lc-font-weight-600"
                   @click="onClickEditAvatar"
                 >
                   {{ $t('Settings.button.editPortrait') }}
