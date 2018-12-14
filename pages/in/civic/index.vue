@@ -71,6 +71,7 @@
       </div>
     </section>
 
+    <!-- Wait for design
     <section class="civic-page__feature-list lc-padding-vertical-48 lc-bg-gray-1">
       <div class="lc-container-1">
         <div class="lc-container-2">
@@ -94,6 +95,7 @@
         </div>
       </div>
     </section>
+    -->
 
     <section class="civic-page__intro-2 lc-container-1">
       <div class="lc-container-2">
