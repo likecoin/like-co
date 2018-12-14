@@ -1055,7 +1055,7 @@ router.put('/users/:id/civic/trial', jwtAuth('write'), async (req, res, next) =>
     }
 
     const doc = await dbRef.doc(id).get();
-    if (!doc.exists) throw new Error('user not exists');
+    if (!doc.exists) throw new Error('USER_NOT_EXIST');
 
     const updateObj = {
       isPreRegCivicLiker: true,
