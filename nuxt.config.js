@@ -249,7 +249,7 @@ const nuxtConfig = {
 
 if (process.env.INTERCOM_APPID) {
   nuxtConfig.head.link.push(
-    { rel: 'preload', href: `https://widget.intercom.io/widget/${process.env.INTERCOM_APPID}` },
+    { rel: 'preload', href: `https://widget.intercom.io/widget/${process.env.INTERCOM_APPID}`, as: 'script' },
   );
 }
 
