@@ -1513,8 +1513,8 @@
       "willBeHeld": "Jan 2-31 2019"
     }
   },
-  "CivicJoinedPage": {
-    "thankYou": "Thank you for joining",
-    "joiningTitle": "Civic Liker Trial"
+  "CivicTrialPage": {
+    "title": "Civic Liker Trial",
+    "thankYou": "Thank you for joining"
   }
 }

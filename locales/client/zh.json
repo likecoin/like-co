@@ -1398,8 +1398,8 @@
       "willBeHeld": "將會在2019年1月2至31日進行"
     }
   },
-  "CivicJoinedPage": {
-    "thankYou": "謝謝你的參與",
-    "joiningTitle": "讚賞公民 Trial"
+  "CivicTrialPage": {
+    "title": "讚賞公民體驗計劃",
+    "thankYou": "謝謝你的參與"
   }
 }

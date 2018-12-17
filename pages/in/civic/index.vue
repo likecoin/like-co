@@ -274,7 +274,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 
 import { CIVIC_LIKER_START_DATE } from '~/constant';
 
@@ -329,7 +329,6 @@ export default {
       ],
     };
   },
-  middleware: 'authenticated',
   computed: {
     ...mapGetters([
       'getUserInfo',
@@ -366,23 +365,9 @@ export default {
       ],
     };
   },
-  watch: {
-    isPreRegistered(value, prevValue) {
-      if (!prevValue && value) {
-        this.onClickButton();
-      }
-    },
-  },
   methods: {
-    ...mapActions([
-      'startCivicLikerTrial',
-    ]),
     onClickButton() {
-      if (this.isPreRegistered) {
-        this.$router.push({ name: 'in-civic-joined' });
-      } else {
-        this.startCivicLikerTrial(this.getUserInfo.user);
-      }
+      this.$router.push({ name: 'in-civic-trial' });
     },
   },
 };
