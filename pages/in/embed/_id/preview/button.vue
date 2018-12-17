@@ -214,7 +214,7 @@ export default {
     SocialMediaConnect,
     LikeButton,
   },
-  async asyncData() {
+  async asyncData({ params }) {
     const amountInUSD = 0.25;
     let USD_TO_LIKE = 0.0082625;
     try {
@@ -226,6 +226,7 @@ export default {
     const amount = (amountInUSD / USD_TO_LIKE).toFixed(2);
 
     return {
+      id: params.id,
       amount,
       amountInUSD,
     };
