@@ -132,7 +132,7 @@ export default {
   async mounted() {
     if (!this.getUserInfo.isPreRegCivicLiker) {
       await this.startCivicLikerTrial(this.getUserInfo.user);
-      this.$intercom.update({ isPreRegCivicLiker: true });
+      if (this.$intercom) this.$intercom.update({ isPreRegCivicLiker: true });
     }
   },
   methods: {
