@@ -1,5 +1,8 @@
 <template>
-  <div class="payment-page">
+  <div
+    v-if="getUserInfo.isPreRegCivicLiker"
+    class="civic-liker-trial-page"
+  >
     <div class="lc-container-0 lc-narrow">
 
       <section class="lc-container-1 lc-section-block">
@@ -23,10 +26,10 @@
           <div class="lc-container-3 lc-padding-top-32 lc-padding-bottom-32 lc-text-align-center">
 
             <h1 class="lc-font-size-32 lc-font-weight-600 lc-mobile">
-              {{ $t('CivicJoinedPage.thankYou') }}
+              {{ $t('CivicTrialPage.thankYou') }}
               <br>
               <span class="lc-font-size-46 lc-font-weight-300 lc-mobile">
-                {{ $t('CivicJoinedPage.joiningTitle') }}
+                {{ $t('CivicTrialPage.title') }}
               </span>
             </h1>
 
@@ -80,7 +83,7 @@
 
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 import { CIVIC_LIKER_START_DATE } from '~/constant';
 
@@ -93,12 +96,6 @@ export default {
     NarrowPageHeader,
     CountdownTimer,
   },
-  asyncData({ store, redirect }) {
-    const user = store.getters.getUserInfo;
-    if (!user.isPreRegCivicLiker) {
-      redirect('/in/civic');
-    }
-  },
   data() {
     return {
       civicLikerStartDate: new Date(CIVIC_LIKER_START_DATE),
@@ -110,7 +107,37 @@ export default {
       'getUserInfo',
     ]),
   },
+  head() {
+    return {
+      title: this.$t('CivicTrialPage.title'),
+      meta: [
+        {
+          hid: 'og_title',
+          property: 'og:title',
+          content: this.$t('CivicTrialPage.title'),
+        },
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.$t('CivicPage.CTA.title'),
+        },
+        {
+          hid: 'og_description',
+          property: 'og:description',
+          content: this.$t('CivicPage.CTA.title'),
+        },
+      ],
+    };
+  },
+  mounted() {
+    if (!this.getUserInfo.isPreRegCivicLiker) {
+      this.startCivicLikerTrial(this.getUserInfo.user);
+    }
+  },
   methods: {
+    ...mapActions([
+      'startCivicLikerTrial',
+    ]),
     onClickOk() {
       this.$router.push({ name: 'in' });
     },
