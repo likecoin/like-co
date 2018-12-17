@@ -129,9 +129,10 @@ export default {
       ],
     };
   },
-  mounted() {
+  async mounted() {
     if (!this.getUserInfo.isPreRegCivicLiker) {
-      this.startCivicLikerTrial(this.getUserInfo.user);
+      await this.startCivicLikerTrial(this.getUserInfo.user);
+      this.$intercom.update({ isPreRegCivicLiker: true });
     }
   },
   methods: {
