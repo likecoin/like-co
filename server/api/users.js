@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import BigNumber from 'bignumber.js';
 import bodyParser from 'body-parser';
+import csrf from 'csurf';
 import { sendVerificationEmail, sendVerificationWithCouponEmail } from '../util/ses';
 import {
   PUBSUB_TOPIC_MISC,
@@ -8,6 +9,7 @@ import {
   AVATAR_DEFAULT_PATH,
   PRE_REG_CIVIC_LIKER_END_DATE,
 } from '../../constant';
+import { CSRF_COOKIE_OPTION } from '../constant/server';
 import { fetchFacebookUser } from '../oauth/facebook';
 import {
   getIntercomUserHash,
@@ -78,6 +80,7 @@ function getBool(value = false) {
 
 router.post(
   '/users/new',
+  csrf({ cookie: CSRF_COOKIE_OPTION }),
   bodyParser.urlencoded({ extended: false }),
   apiLimiter,
   multer.single('avatarFile'),
@@ -331,6 +334,7 @@ router.post(
 
 router.post(
   '/users/update',
+  csrf({ cookie: CSRF_COOKIE_OPTION }),
   bodyParser.urlencoded({ extended: false }),
   jwtAuth('write'),
   multer.single('avatarFile'),

@@ -1,10 +1,12 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
+import csrf from 'csurf';
 import i18n from 'i18n';
 import compression from 'compression';
 import bodyParser from 'body-parser';
 import { Nuxt, Builder } from 'nuxt';
 import { IS_TESTNET } from '../constant';
+import { CSRF_COOKIE_OPTION } from './constant/server';
 import { supportedLocales } from '../locales';
 
 import api from './api';
@@ -64,6 +66,7 @@ if (config.dev) {
 }
 
 // Give nuxt middleware to express
+app.use(csrf({ cookie: CSRF_COOKIE_OPTION }));
 app.use(nuxt.render);
 
 // Listen the server if not under e2e test

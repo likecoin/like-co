@@ -191,7 +191,6 @@ import parse from 'url-parse';
 
 import {
   apiLoginUser,
-  apiPostNewUser,
   apiCheckIsUser,
 } from '@/util/api/api';
 
@@ -399,6 +398,7 @@ export default {
   },
   methods: {
     ...mapActions([
+      'newUser',
       'doPostAuthRedirect',
       'setAuthDialog',
       'setWalletNoticeDialog',
@@ -752,7 +752,7 @@ export default {
 
       this.currentTab = 'signingIn';
       try {
-        await apiPostNewUser(payload);
+        await this.newUser(payload);
         logTrackerEvent(this, 'RegFlow', 'RegistrationComplete', 'RegistrationComplete', 1);
         this.setUserNeedAuth(false);
         this.redirectAfterSignIn();
