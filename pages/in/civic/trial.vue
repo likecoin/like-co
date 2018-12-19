@@ -1,20 +1,18 @@
 <template>
-  <div
-    v-if="getUserInfo.isPreRegCivicLiker"
-    class="civic-liker-trial-page"
-  >
+  <div class="civic-liker-trial-page">
     <div class="lc-container-0 lc-narrow">
 
       <section class="lc-container-1 lc-section-block">
 
         <div class="lc-container-2">
           <div class="lc-container-3 lc-bg-gray-1">
-            <div class="lc-container-4 ">
+            <div class="lc-container-4 lc-text-align-center">
 
-              <narrow-page-header
-                :icon="getUserInfo.avatar"
-                :avatar-halo="getUserInfo.isPreRegCivicLiker ? 'civic-liker-trial' : ''"
-                is-hidden-link
+              <lc-chop-civic-liker
+                class="civic-liker-trial-logo"
+                size="180"
+                rotate-z="-12"
+                is-trial
               />
 
             </div>
@@ -23,14 +21,16 @@
 
         <div class="lc-container-2-extend">
           <div class="lc-container-3-extend-bg" />
-          <div class="lc-container-3 lc-padding-top-32 lc-padding-bottom-32 lc-text-align-center">
+          <div class="lc-container-3 lc-padding-top-48 lc-padding-bottom-32 lc-text-align-center">
 
             <h1 class="lc-font-size-32 lc-font-weight-600 lc-mobile">
-              {{ $t('CivicTrialPage.thankYou') }}
-              <br>
-              <span class="lc-font-size-46 lc-font-weight-300 lc-mobile">
-                {{ $t('CivicTrialPage.title') }}
-              </span>
+              {{ title }}
+              <template v-if="isRegistered || isOnWaitingList">
+                <br>
+                <span class="lc-font-size-46 lc-font-weight-300 lc-mobile">
+                  {{ $t('CivicLikerTrial.title') }}
+                </span>
+              </template>
             </h1>
 
           </div>
@@ -40,37 +40,79 @@
           <div class="lc-container-3 lc-bg-gray-1">
             <div class="lc-container-4 lc-padding-vertical-32">
 
-              <div class="chop-art">
-                <lc-chop-civic-liker
-                  rotate-z="16"
-                  is-trial
+              <template v-if="isRegistered">
+                <div class="chop-art">
+                  <lc-chop-civic-liker
+                    rotate-z="16"
+                    is-trial
+                  />
+                  <lc-chop-approved
+                    size="210"
+                    rotate-z="-6"
+                    is-trial
+                  />
+                </div>
+
+                <countdown-timer
+                  :date="civicLikerStartDate"
+                  class="lc-margin-bottom-16"
                 />
-                <lc-chop-approved
-                  size="210"
-                  rotate-z="-6"
-                  is-trial
-                />
-              </div>
 
-              <countdown-timer
-                :date="civicLikerStartDate"
-                class="lc-margin-bottom-16"
-              />
-
-              <div
-                class="lc-color-like-green lc-font-size-16 lc-font-weight-600 lc-text-align-center"
-              >
-                {{ $t('CivicPage.trial.willBeHeld') }}
-              </div>
-
-              <div class="lc-button-group lc-margin-top-16">
-                <md-button
-                  class="md-likecoin lc-font-size-16 lc-font-weight-600"
-                  @click="onClickOk"
+                <div
+                  :class="[
+                    'lc-color-like-green lc-font-size-16 lc-font-weight-600 lc-text-align-center',
+                  ]"
                 >
-                  {{ $t('General.button.ok') }}
-                </md-button>
-              </div>
+                  {{ $t('CivicLikerTrial.willBeHeld') }}
+                </div>
+
+                <div class="lc-button-group lc-margin-top-16">
+                  <md-button
+                    class="md-likecoin lc-font-size-16 lc-font-weight-600"
+                    @click="onClickOk"
+                  >
+                    {{ $t('General.button.ok') }}
+                  </md-button>
+                </div>
+              </template>
+
+              <template v-else-if="isOnWaitingList">
+                <div
+                  :class="[
+                    'lc-margin-bottom-16',
+                    'lc-color-like-yellow lc-font-size-32 lc-font-weight-600 lc-text-align-center',
+                  ]"
+                >
+                  {{ $t('CivicPage.waitingList.title') }}
+                </div>
+                <p class="lc-text-align-center lc-margin-bottom-32">
+                  {{ $t('CivicLikerTrial.waitingList.sorry') }}
+                  <template v-if="!getUserInfo.email">
+                    {{ $t('CivicPage.waitingList.ensureEmail') }}
+                  </template>
+                  {{ $t('CivicPage.waitingList.notifyByEmail') }}
+                </p>
+                <div class="lc-button-group lc-margin-top-16">
+                  <md-button
+                    class="md-likecoin lc-font-size-16 lc-font-weight-600"
+                    @click="$router.push({ name: 'in' })"
+                  >
+                    {{ $t('General.button.ok') }}
+                  </md-button>
+                </div>
+              </template>
+
+              <template v-else>
+                <div class="lc-button-group lc-margin-top-16">
+                  <md-button
+                    class="md-likecoin lc-font-size-16 lc-font-weight-600"
+                    @click="$router.push({ name: 'in-civic' })"
+                  >
+                    {{ $t('General.back') }}
+                  </md-button>
+                </div>
+              </template>
+
             </div>
           </div>
         </div>
@@ -99,22 +141,49 @@ export default {
   data() {
     return {
       civicLikerStartDate: new Date(CIVIC_LIKER_START_DATE),
+
+      errorMessage: '',
     };
   },
   middleware: 'authenticated',
   computed: {
     ...mapGetters([
       'getUserInfo',
+      'getInfoMsg',
     ]),
+    isRegistered() {
+      return this.getUserInfo.isPreRegCivicLiker;
+    },
+    isOnWaitingList() {
+      return this.getUserInfo.preRegCivicLikerStatus === 'waiting';
+    },
+    title() {
+      if (this.isRegistered) {
+        return this.$t('CivicLikerTrial.thankYou');
+      }
+      if (this.isOnWaitingList) {
+        return this.$t('CivicLikerTrial.thankYouForYourInterest');
+      }
+      if (this.errorMessage) {
+        switch (this.errorMessage) {
+          case 'PRE_REG_CIVIC_LIKER_ENDED':
+            return this.$t('Error.PRE_REG_CIVIC_LIKER_ENDED');
+
+          default:
+            return this.$t('General.label.error');
+        }
+      }
+      return this.$t('General.loading');
+    },
   },
   head() {
     return {
-      title: this.$t('CivicTrialPage.title'),
+      title: this.$t('CivicLikerTrial.title'),
       meta: [
         {
           hid: 'og_title',
           property: 'og:title',
-          content: this.$t('CivicTrialPage.title'),
+          content: this.$t('CivicLikerTrial.title'),
         },
         {
           hid: 'description',
@@ -129,10 +198,25 @@ export default {
       ],
     };
   },
+  watch: {
+    getInfoMsg(value) {
+      if (value === 'PRE_REG_CIVIC_LIKER_ENDED') {
+        this.errorMessage = value;
+      }
+    },
+  },
   async mounted() {
-    if (!this.getUserInfo.isPreRegCivicLiker) {
-      await this.startCivicLikerTrial(this.getUserInfo.user);
-      if (this.$intercom) this.$intercom.update({ isPreRegCivicLiker: true });
+    if (!this.isRegistered && !this.isOnWaitingList) {
+      const {
+        isPreRegCivicLiker,
+        preRegCivicLikerStatus,
+      } = await this.startCivicLikerTrial(this.getUserInfo.user);
+      if (this.$intercom) {
+        this.$intercom.update({
+          isPreRegCivicLiker,
+          isOnPreRegCivicLikerWaitingList: preRegCivicLikerStatus === 'waiting',
+        });
+      }
     }
   },
   methods: {
@@ -148,6 +232,13 @@ export default {
 
 <style lang="scss" scoped>
 @import "~assets/variables";
+
+.civic-liker-trial-logo {
+  position: relative;
+  z-index: 2;
+
+  margin-bottom: -32px;
+}
 
 .chop-art {
   margin: -60px 0 16px;
