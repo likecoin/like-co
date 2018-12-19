@@ -308,8 +308,8 @@ export default {
       this.to = to;
       this.startLoading();
       const [fromData, toData] = await Promise.all([
-        apiGetUserMinById(this.fromId).catch(() => {}),
-        apiGetUserMinById(this.toId).catch(() => {}),
+        apiGetUserMinById(this.fromId).catch(() => ({})),
+        apiGetUserMinById(this.toId).catch(() => ({})),
       ]);
       this.stopLoading();
       if (fromData && fromData.data) {

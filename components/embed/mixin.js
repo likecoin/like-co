@@ -37,7 +37,7 @@ export default {
 
     return Promise.all([
       apiGetUserMinById(id),
-      apiGetSocialListById(id, type).catch(() => {}),
+      apiGetSocialListById(id, type).catch(() => ({})),
       !amount && apiQueryLikeCoinFiatPrice()
         .then(res => res.data.market_data.current_price.usd)
         .catch(() => 0.0082625),

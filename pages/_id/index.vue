@@ -279,6 +279,7 @@ export default {
       isBadAmount: false,
       isSupportTransferDeleteaged: true,
       isP2pUnavailable: false,
+      platforms: {},
     };
   },
   async asyncData({
@@ -291,40 +292,34 @@ export default {
     if (params.id !== params.id.toLowerCase()) {
       redirect({ name: route.name, params: { ...params, id: params.id.toLowerCase() }, query });
     }
-    const data = await apiGetUserMinById(params.id)
-      .then((res) => {
-        const {
-          wallet,
-          avatar,
-          displayName,
-          isPreRegCivicLiker,
-        } = res.data;
-        const amount = formatAmount(params.amount || 1);
-        if (wallet === LIKE_COIN_ICO_ADDRESS) {
-          redirect({
-            name: 'in-tokensale',
-          });
-        }
-        return {
-          wallet,
-          avatar,
-          id: params.id,
-          displayName: displayName || params.id,
-          amount,
-          avatarHalo: isPreRegCivicLiker ? 'civic-liker-trial' : '',
-        };
-      })
-      .catch((e) => { // eslint-disable-line no-unused-vars
-        error({ statusCode: 404, message: '' });
-      });
-
-    if (data) {
-      data.platforms = await apiGetSocialListById(params.id)
-        .then(res => res.data)
-        .catch(() => {});
-    }
-
-    return data;
+    return Promise.all([
+      apiGetUserMinById(params.id),
+      apiGetSocialListById(params.id).catch(() => ({})),
+    ]).then((res) => {
+      const {
+        wallet,
+        avatar,
+        displayName,
+        isPreRegCivicLiker,
+      } = res[0].data;
+      const amount = formatAmount(params.amount || 1);
+      if (wallet === LIKE_COIN_ICO_ADDRESS) {
+        redirect({
+          name: 'in-tokensale',
+        });
+      }
+      return {
+        wallet,
+        avatar,
+        id: params.id,
+        displayName: displayName || params.id,
+        amount,
+        avatarHalo: isPreRegCivicLiker ? 'civic-liker-trial' : '',
+        platforms: res[1].data,
+      };
+    }).catch((e) => { // eslint-disable-line no-unused-vars
+      error({ statusCode: 404, message: '' });
+    });
   },
   head() {
     return {
