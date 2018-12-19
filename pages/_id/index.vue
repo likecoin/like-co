@@ -294,7 +294,7 @@ export default {
     }
     return Promise.all([
       apiGetUserMinById(params.id),
-      apiGetSocialListById(params.id).catch(() => {}),
+      apiGetSocialListById(params.id).catch(() => ({})),
     ]).then((res) => {
       const {
         wallet,

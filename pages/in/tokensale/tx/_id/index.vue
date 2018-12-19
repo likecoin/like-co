@@ -208,8 +208,8 @@ export default {
       this.to = to;
       this.startLoading();
       const [fromData, toData] = await Promise.all([
-        apiCheckIsUser(from).catch(() => {}),
-        apiCheckIsUser(to).catch(() => {}),
+        apiCheckIsUser(from).catch(() => ({})),
+        apiCheckIsUser(to).catch(() => ({})),
       ]);
       this.stopLoading();
       if (fromData && fromData.data) {
