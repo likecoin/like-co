@@ -357,11 +357,11 @@ export async function updateUserReadContentStatus({ commit, dispatch }, { id, pa
 }
 
 export async function startCivicLikerTrial({ commit, dispatch }, id) {
-  await apiWrapper(
+  const data = await apiWrapper(
     { commit, dispatch },
     api.apiPutUserCivicTrial(id),
     { blocking: true },
   );
   await dispatch('refreshUser');
-  return true;
+  return data;
 }
