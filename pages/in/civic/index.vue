@@ -421,6 +421,11 @@ export default {
           property: 'og:description',
           content: this.$t('CivicPage.slogan'),
         },
+        {
+          hid: 'og_image',
+          property: 'og:image',
+          content: 'https://like.co/images/og/civic.png',
+        },
       ],
     };
   },
