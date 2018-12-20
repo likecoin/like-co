@@ -59,6 +59,10 @@ html[likecoin-embed] {
 
     user-select: none;
 
+    &--with-halo {
+      margin-top: normalized(20);
+    }
+
     &__badge {
       border-radius: $badge-border-radius;
       background-image: linear-gradient(77deg, $like-light-blue, $like-gradient-1);

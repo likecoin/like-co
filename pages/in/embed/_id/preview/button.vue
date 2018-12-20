@@ -6,6 +6,7 @@
       'likecoin-embed--logged-in',
       {
         'likecoin-embed--flipped': shouldShowBackside,
+        'likecoin-embed--with-halo': avatarHalo !== 'none',
       },
     ]"
   >
@@ -74,7 +75,10 @@
       >
         <div class="likecoin-embed__badge__content">
 
-          <embed-user-info :avatar="avatar" />
+          <embed-user-info
+            :avatar="avatar"
+            :avatar-halo="avatarHalo"
+          />
 
           <div class="text-content">
             <div class="text-content__subtitle">
@@ -194,6 +198,7 @@ import CloseButtonIcon from '~/assets/like-button/close-btn.svg';
 import QuestionButtonIcon from '~/assets/like-button/question-btn.svg';
 
 import LikeButton from '~/components/LikeButton';
+import User from '@/util/User';
 
 const debounce = require('lodash.debounce');
 
@@ -247,6 +252,7 @@ export default {
       id: '',
       displayName: '',
       avatar: '',
+      avatarHalo: 'none',
       platforms: {},
       /* through parent post message */
     };
@@ -283,6 +289,7 @@ export default {
           this.id = user.user;
           this.displayName = user.displayName;
           this.avatar = user.avatar;
+          this.avatarHalo = User.getAvatarHaloType(user);
         }
         if (platforms) {
           this.platforms = platforms;
