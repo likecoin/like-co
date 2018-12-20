@@ -45,6 +45,11 @@ test.serial('USER: Register user. Case: success', async (t) => {
     platform: 'wallet',
     payload,
     sign,
+  }, {
+    headers: {
+      Cookie: '_csrf=unit_test',
+      'x-csrf-token': '73fb9061-W0SmQvlNKd0uKS4d2nKoZd0u7SA',
+    },
   });
 
   t.is(res.status, 200);
@@ -77,11 +82,32 @@ test.serial('USER: Edit user. Case: success', async (t) => {
   };
   const res = await axiosist.post('/api/users/update', payload, {
     headers: {
-      Cookie: `likecoin_auth=${token}`,
+      Cookie: `likecoin_auth=${token}; _csrf=unit_test`,
+      'x-csrf-token': '73fb9061-W0SmQvlNKd0uKS4d2nKoZd0u7SA',
     },
   });
 
   t.is(res.status, 200);
+});
+
+test.serial('USER: Edit user. Case: invalid csrf token', async (t) => {
+  const user = testingUser1;
+  const token = jwtSign({ user });
+  const payload = {
+    user,
+    displayName: testingDisplayName1,
+    ts: Date.now(),
+    wallet: testingWallet1,
+    email: 'noreply@likecoin.store',
+  };
+  const res = await axiosist.post('/api/users/update', payload, {
+    headers: {
+      Cookie: `likecoin_auth=${token};`,
+    },
+  }).catch(err => err.response);
+
+  t.is(res.status, 400);
+  t.is(res.data, 'BAD_CSRF_TOKEN');
 });
 
 test.serial('USER: Email verification (Need restart server for clean memory data)', async (t) => {
@@ -273,6 +299,11 @@ for (let i = 0; i < userCases.length; i += 1) {
       payload: formatedPayload,
       sign,
       platform: 'wallet',
+    }, {
+      headers: {
+        Cookie: '_csrf=unit_test',
+        'x-csrf-token': '73fb9061-W0SmQvlNKd0uKS4d2nKoZd0u7SA',
+      },
     }).catch(err => err.response);
 
     t.is(res.status, 400);

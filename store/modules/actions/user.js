@@ -41,15 +41,23 @@ export function doPostAuthRedirect({ commit, state }, { router }) {
   commit(types.USER_SET_AFTER_AUTH_ROUTE, null);
 }
 
-export async function newUser({ commit, dispatch }, data) {
-  await apiWrapper({ commit, dispatch }, api.apiPostNewUser(data), { blocking: true });
+export async function newUser({ commit, dispatch, rootState }, data) {
+  await apiWrapper(
+    { commit, dispatch },
+    api.apiPostNewUser(data, { headers: { 'x-csrf-token': rootState.staticData.csrfToken } }),
+    { slient: true, error: 'raw' },
+  );
   commit(types.USER_AWAITING_AUTH, false);
   await dispatch('refreshUser');
   return true;
 }
 
-export async function updateUser({ commit, dispatch }, data) {
-  await apiWrapper({ commit, dispatch }, api.apiPostUpdateUser(data), { blocking: true });
+export async function updateUser({ commit, dispatch, rootState }, data) {
+  await apiWrapper(
+    { commit, dispatch },
+    api.apiPostUpdateUser(data, { headers: { 'x-csrf-token': rootState.staticData.csrfToken } }),
+    { blocking: true },
+  );
   await dispatch('refreshUser');
   return true;
 }
