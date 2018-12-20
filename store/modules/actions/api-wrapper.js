@@ -2,7 +2,7 @@ import * as types from '@/store/mutation-types';
 
 // Use this wrapper for non-batch actions
 async function apiWrapper({ commit, dispatch }, promise, opt = {}) {
-  const { blocking, slient } = opt;
+  const { blocking, slient, error: errorMode = '' } = opt;
   if (!slient) commit(blocking ? types.UI_START_BLOCKING_LOADING : types.UI_START_LOADING);
   try {
     const res = await promise;
@@ -29,7 +29,7 @@ async function apiWrapper({ commit, dispatch }, promise, opt = {}) {
       || error;
     if (!slient) commit(types.UI_ERROR_MSG, errorMsg);
     console.error(error);
-    throw new Error(errorMsg);
+    throw errorMode && errorMode === 'raw' ? error : new Error(errorMsg);
   }
 }
 

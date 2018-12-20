@@ -43,9 +43,15 @@ function errorHandler(err, req, res, next) {
     return res.status(400).send(msg);
   }
   // Handle multer error
-  if (err.code && err.code === 'LIMIT_FILE_SIZE') {
-    res.set('Content-Type', 'text/plain');
-    return res.status(400).send('FILE_TOO_LARGE');
+  if (err.code) {
+    if (err.code === 'LIMIT_FILE_SIZE') {
+      res.set('Content-Type', 'text/plain');
+      return res.status(400).send('FILE_TOO_LARGE');
+    }
+    if (err.code === 'EBADCSRFTOKEN') {
+      res.set('Content-Type', 'text/plain');
+      return res.status(400).send('BAD_CSRF_TOKEN');
+    }
   }
   return res.sendStatus(500);
 }

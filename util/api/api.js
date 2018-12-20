@@ -40,7 +40,7 @@ export const apiPostPayment = payload => axios.post('/api/payment', payload);
 
 export const apiPostEthPayment = payload => axios.post('/api/payment/eth', payload);
 
-export const apiPostNewUser = (form) => {
+export const apiPostNewUser = (form, opt) => {
   /* eslint-disable no-new */
   const params = new FormData();
   Object.keys(form).forEach((key) => {
@@ -48,10 +48,10 @@ export const apiPostNewUser = (form) => {
       params.append(key, form[key]);
     }
   });
-  return axios.post('/api/users/new', params);
+  return axios.post('/api/users/new', params, opt);
 };
 
-export const apiPostUpdateUser = (form) => {
+export const apiPostUpdateUser = (form, opt) => {
   /* eslint-disable no-new */
   const params = new FormData();
   Object.keys(form).forEach((key) => {
@@ -59,7 +59,7 @@ export const apiPostUpdateUser = (form) => {
       params.append(key, form[key]);
     }
   });
-  return axios.post('/api/users/update', params);
+  return axios.post('/api/users/update', params, opt);
 };
 
 export const apiLoginUser = payload => axios.post('/api/users/login', payload);
