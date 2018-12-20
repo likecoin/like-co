@@ -9,6 +9,8 @@ import {
 } from '~/util/api/api';
 import { MEDIUM_REGEX } from '~/constant';
 
+import User from '@/util/User';
+
 export default {
   components: {
     EmbedCreateWidgetButton,
@@ -45,6 +47,7 @@ export default {
       const {
         displayName,
         avatar,
+        isPreRegCivicLiker,
       } = res[0].data;
 
       let amountInUSD;
@@ -58,6 +61,7 @@ export default {
         id,
         displayName,
         avatar,
+        avatarHalo: User.getAvatarHaloType({ isPreRegCivicLiker }),
         amount,
         amountInUSD,
         platforms: res[1].data,
@@ -67,6 +71,14 @@ export default {
     });
   },
   computed: {
+    rootClass() {
+      return [
+        'likecoin-embed',
+        {
+          'likecoin-embed--with-halo': this.avatarHalo !== 'none',
+        },
+      ];
+    },
     getUserPath() {
       const amount = this.amount ? `/${this.amount}` : '';
       const referrer = this.urlReferrer ? `/?referrer=${this.urlReferrer}` : '';

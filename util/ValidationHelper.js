@@ -24,6 +24,7 @@ export const ValidationHelper = {
       intercomToken,
       read = {},
       isPreRegCivicLiker,
+      preRegCivicLikerStatus,
     } = u;
     return {
       user,
@@ -38,6 +39,7 @@ export const ValidationHelper = {
       intercomToken,
       read,
       isPreRegCivicLiker,
+      preRegCivicLikerStatus,
     };
   },
   filterUserDataMin({
@@ -46,6 +48,7 @@ export const ValidationHelper = {
     avatar,
     wallet,
     isPreRegCivicLiker,
+    preRegCivicLikerStatus,
   }) {
     return {
       user,
@@ -53,6 +56,7 @@ export const ValidationHelper = {
       avatar,
       wallet,
       isPreRegCivicLiker,
+      preRegCivicLikerStatus,
     };
   },
   filterTxData({

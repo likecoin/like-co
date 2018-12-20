@@ -1,11 +1,12 @@
 <template>
-  <div class="likecoin-embed">
+  <div :class="rootClass">
 
     <div class="likecoin-embed__badge">
       <div class="likecoin-embed__badge__content">
 
         <embed-user-info
           :avatar="avatar"
+          :avatar-halo="avatarHalo"
           :link="getUserPath"
         />
 

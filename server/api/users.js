@@ -42,8 +42,10 @@ const {
 } = require('../config/config.js'); // eslint-disable-line import/no-extraneous-dependencies
 
 const {
+  db,
   userCollection: dbRef,
   userAuthCollection: authDbRef,
+  configCollection: configRef,
   FieldValue,
   admin,
 } = require('../util/firebase');
@@ -1049,7 +1051,8 @@ router.put('/users/read/:id', jwtAuth('write'), async (req, res, next) => {
 router.put('/users/:id/civic/trial', jwtAuth('write'), async (req, res, next) => {
   try {
     if (Date.now() > PRE_REG_CIVIC_LIKER_END_DATE) {
-      throw new Error('Pre-registration ended');
+      res.status(401).send('PRE_REG_CIVIC_LIKER_ENDED');
+      return;
     }
 
     const { id } = req.params;
@@ -1057,16 +1060,31 @@ router.put('/users/:id/civic/trial', jwtAuth('write'), async (req, res, next) =>
       res.status(401).send('LOGIN_NEEDED');
       return;
     }
+    const userDoc = await dbRef.doc(id).get();
+    if (!userDoc.exists) throw new Error('USER_NOT_EXIST');
 
-    const doc = await dbRef.doc(id).get();
-    if (!doc.exists) throw new Error('USER_NOT_EXIST');
+    const updateObj = await db.runTransaction(async (t) => {
+      const configDoc = await t.get(configRef.doc('civicLiker'));
+      const {
+        preRegQuota = 0,
+        preRegTotal = 0,
+      } = (configDoc.exists && configDoc.data()) || {};
 
-    const updateObj = {
-      isPreRegCivicLiker: true,
-    };
+      const payload = {};
+      if (preRegTotal < preRegQuota) {
+        payload.isPreRegCivicLiker = true;
+        await t.update(configRef.doc('civicLiker'), { preRegTotal: preRegTotal + 1 });
+      } else {
+        payload.preRegCivicLikerStatus = 'waiting';
+      }
 
-    await dbRef.doc(id).update(updateObj);
-    res.sendStatus(200);
+      await t.update(dbRef.doc(id), payload);
+
+      return payload;
+    });
+
+    res.json(updateObj);
+
     const {
       email,
       displayName,
@@ -1074,7 +1092,7 @@ router.put('/users/:id/civic/trial', jwtAuth('write'), async (req, res, next) =>
       referrer,
       locale,
       timestamp: registerTime,
-    } = doc.data();
+    } = userDoc.data();
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventCivicLikerTrial',
       user: id,

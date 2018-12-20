@@ -4,6 +4,7 @@
     "connect": "連接",
     "disconnect": "取消連接",
     "learnMore": "了解更多",
+    "loading": "載入中",
     "label": {
       "error": "失敗",
       "success": "成功",
@@ -1119,7 +1120,8 @@
     "USER_UNLINK_SOLE_OAUTH_LOGIN": "無法移除，請先連接其他登入方法",
     "FIREBASE_USER_DUPLICATED": "登入帳戶已被使用",
     "OICE_SERVER_ERROR": "伺服器錯誤，請重載網頁並重試。如重複出現該錯誤，請聯絡客服。",
-    "OICE_LIKECOIN_ID_NOT_BIND": "oice 跟 LikeCoin ID 的連結有誤，請確認你正在登入的 oice 帳號，有綁定 LikeCoin ID ，而且 綁定 ID 跟 目前 ID 一致。"
+    "OICE_LIKECOIN_ID_NOT_BIND": "oice 跟 LikeCoin ID 的連結有誤，請確認你正在登入的 oice 帳號，有綁定 LikeCoin ID ，而且 綁定 ID 跟 目前 ID 一致。",
+    "PRE_REG_CIVIC_LIKER_ENDED": "讚賞公民體驗計劃預先登記已完結"
   },
   "Form": {
     "Retweet": {
@@ -1339,12 +1341,19 @@
   },
   "CivicPage": {
     "title": "讚賞公民",
-    "CTA": {
-      "title": "少喝一杯咖啡 成就一個生態",
-      "subtitle": "【免費體驗】將於2019年1月2至31日進行"
-    },
+    "slogan": "少喝一杯咖啡 成就一個生態",
     "joinNow": "立即參加",
+    "register": "參與測試",
     "registered": "已登記",
+    "pricingRegister": "立即申請參與測試",
+    "onGoing": "限量測試中",
+    "limitedQuota": "測試名額有限",
+    "waitingList": {
+      "title": "你正在候補名單中",
+      "sorry": "很抱歉，活動名額暫時已滿。",
+      "ensureEmail": "請閣下到設定頁補回電郵。",
+      "notifyByEmail": "我們將以電郵通知閣下最新情況。"
+    },
     "intro1": [
       "有沒有試過，在網上看到精彩的故事、深入的報導、出色的照片，不介意小額付費支持，卻因沒可行方法作罷？",
       "有沒有想過，因為網上作品沒有任何收入，創作者和獨立記者只能靠廣告、外包和熱情維持？",
@@ -1389,17 +1398,19 @@
     },
     "footnote": [
       "每月 HK$38 到帳部分（部分支付方式如信用卡會收取手續費）會全數兌換成讚賞幣，再由各地創作者自行兌換成當地貨幣。"
-    ],
-    "trial": {
-      "register": "立即參與測試",
-      "registered": "參與測試中",
-      "freeNow": "免費測試中",
-      "freeToTry": "免費體驗",
-      "willBeHeld": "將會在2019年1月2至31日進行"
-    }
+    ]
   },
-  "CivicTrialPage": {
+  "CivicLikerTrial": {
     "title": "讚賞公民體驗計劃",
-    "thankYou": "謝謝你的參與"
+    "subtitle": "【免費體驗】將於2019年1月2至31日進行",
+    "register": "免費體驗",
+    "registered": "己登記",
+    "onGoing": "免費測試中",
+    "willBeHeld": "將會在2019年1月2至31日進行",
+    "thankYou": "感謝參與",
+    "thankYouForYourInterest": "感謝參與",
+    "waitingList": {
+      "sorry": "很抱歉，活動名額暫時已滿。"
+    }
   }
 }

@@ -204,8 +204,6 @@ const nuxtConfig = {
   */
   build: {
     cache: shouldCache,
-    parallel: !process.env.CI,
-    uglify: { cache: shouldCache },
     babel: {
       presets: ({ isServer }) => [
         [
@@ -220,7 +218,6 @@ const nuxtConfig = {
     },
 
     extend(config, { isClient }) {
-      config.devtool = '#source-map'; // eslint-disable-line no-param-reassign
       if (shouldCache) {
         config.plugins.push(new HardSourceWebpackPlugin());
       }
@@ -233,6 +230,9 @@ const nuxtConfig = {
         }));
       }
       if (isClient) {
+        if (process.env.NODE_ENV === 'production') {
+          config.devtool = 'source-map'; // eslint-disable-line no-param-reassign
+        }
         /*
         ** Run ESLINT on save
         */

@@ -1186,10 +1186,7 @@
   },
   "CivicPage": {
     "title": "いいね！国民",
-    "CTA": {
-      "title": "コーヒーの価格で、エコシステムを支える",
-      "subtitle": "【無料体験】2019年1月2日から31日まで"
-    },
+    "slogan": "コーヒーの価格で、エコシステムを支える",
     "joinNow": "体験を開始する",
     "registered": "すでに登録済み",
     "intro1": [
@@ -1236,17 +1233,15 @@
     },
     "footnote": [
       "月額5ドルの料金（支払い方法によっては手数料がかかります）は完全にLikeCoinに変換されます。各地のクリエイターによって現地通貨に変換されます。"
-    ],
-    "trial": {
-      "register": "体験を開始する",
-      "registered": "無料体験中",
-      "freeNow": "無料体験中",
-      "freeToTry": "無料体験",
-      "willBeHeld": "2019年1月2日から31日まで"
-    }
+    ]
   },
-  "CivicTrialPage": {
+  "CivicLikerTrial": {
     "title": "いいね！国民無料体験",
+    "subtitle": "【無料体験】2019年1月2日から31日まで",
+    "register": "無料体験",
+    "registered": "無料体験中",
+    "onGoing": "無料体験中",
+    "willBeHeld": "2019年1月2日から31日まで",
     "thankYou": "参加いただきありがとう"
   }
 }

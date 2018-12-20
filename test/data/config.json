@@ -1,0 +1,9 @@
+{
+  "config": [
+      {
+          "id": "civicLiker",
+          "preRegQuota": 999,
+          "preRegTotal": 0
+      }
+  ]
+}

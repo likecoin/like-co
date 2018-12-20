@@ -24,25 +24,33 @@
         >
           <div class="lc-container-3">
             <div class="lc-container-4">
+
               <h2 class="lc-font-size-32 lc-font-weight-300">
-                {{ $t('CivicPage.CTA.title') }}
+                {{ $t('CivicPage.slogan') }}
               </h2>
+
               <h3
+                v-if="isPreReg"
                 :class="[
                   'lc-margin-top-24 lc-font-size-16 lc-font-weight-500 lc-color-light-burgundy',
                 ]"
               >
-                {{ $t('CivicPage.CTA.subtitle') }}
+                {{ $t('CivicLikerTrial.subtitle') }}
               </h3>
 
-              <div class="lc-button-group lc-margin-top-32">
+              <div
+                v-if="isPreReg || isStarted"
+                class="lc-button-group lc-margin-top-32"
+              >
                 <md-button
                   class="md-likecoin lc-gradient-2 lc-font-size-20 lc-font-weight-600 shadow"
                   @click="onClickButton"
                 >{{ buttonTitle }}</md-button>
               </div>
+
             </div>
             <lc-chop-countdown
+              v-if="!isStarted"
               :date="civicLikerStartDate"
               class="lc-mobile-hide"
               size="136"
@@ -114,7 +122,10 @@
             </p>
           </div>
 
-          <div class="lc-container-4 lc-button-group lc-margin-top-64">
+          <div
+            v-if="isPreReg || isStarted"
+            class="lc-container-4 lc-button-group lc-margin-top-64"
+          >
             <span class="button-wrapper">
               <lc-chop-civic-liker
                 rotate-z="18"
@@ -129,9 +140,10 @@
             </span>
             <br>
             <span
+              v-if="buttonFootnote"
               class="lc-margin-top-12 lc-color-light-burgundy lc-font-size-12 lc-font-weight-500"
             >
-              {{ $t('CivicPage.trial.willBeHeld') }}
+              {{ buttonFootnote }}
             </span>
           </div>
 
@@ -141,8 +153,11 @@
 
     <div class="lc-padding-top-16 lc-bg-gray-1" />
 
-    <section class="civic-page__countdown lc-padding-top-24 lc-padding-bottom-32">
-      <div class="lc-container-1">
+    <section
+      v-if="!isStarted"
+      class="civic-page__countdown lc-padding-top-24 lc-padding-bottom-32"
+    >
+      <div class="lc-container-1 ">
         <div class="lc-container-2">
           <div class="lc-container-3">
             <div class="lc-container-4">
@@ -162,7 +177,10 @@
       </div>
     </section>
 
-    <section class="civic-page__pricing lc-bg-like-gradient">
+    <section
+      id="pricing"
+      class="civic-page__pricing lc-bg-like-gradient"
+    >
       <div class="lc-container-1">
         <div class="lc-container-2">
           <div class="lc-container-3">
@@ -189,11 +207,11 @@
                           class="pricing-table__col__header__payment-cycle"
                         >{{ $t(`CivicPage.pricing.paymentCycle.${p.paymentCycle}`) }}</span>
                       </div>
-                      <template v-if="p.type === 'civicLiker'">
+                      <template v-if="p.type === 'civicLiker' && (isPreReg || isStarted)">
                         <div
                           class="lc-font-size-14"
                           style="color: #d0021b"
-                        >{{ $t('CivicPage.trial.freeNow') }}</div>
+                        >{{ pricingHighlightTitle }}</div>
                         <lc-chop-civic-liker
                           rotate-z="12"
                           is-trial
@@ -227,20 +245,19 @@
                     </ul>
 
                     <footer
-                      v-if="p.type === 'civicLiker'"
+                      v-if="p.type === 'civicLiker' && (isPreReg || isStarted)"
                       class="pricing-table__col__footer"
                     >
                       <div class="lc-button-group">
                         <md-button
-                          :disabled="isPreRegistered"
                           class="md-likecoin lc-font-size-16 lc-font-weight-600"
                           @click="onClickButton"
                         >
-                          {{ paymentButtonTitle }}
+                          {{ pricingButtonTitle }}
                         </md-button>
                         <div
                           class="lc-font-size-12 lc-color-light-burgundy"
-                        >{{ $t('CivicPage.trial.willBeHeld') }}</div>
+                        >{{ buttonFootnote }}</div>
                       </div>
                     </footer>
                   </div>
@@ -276,7 +293,10 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import { CIVIC_LIKER_START_DATE } from '~/constant';
+import {
+  PRE_REG_CIVIC_LIKER_END_DATE,
+  CIVIC_LIKER_START_DATE,
+} from '~/constant';
 
 import CountdownTimer from '~/components/CountdownTimer';
 import HeroImage from '~/assets/civic/hero.png';
@@ -294,6 +314,9 @@ export default {
       FEATURE_COUNT: 3,
 
       civicLikerStartDate: new Date(CIVIC_LIKER_START_DATE),
+
+      isPreReg: Date.now() < PRE_REG_CIVIC_LIKER_END_DATE,
+      isStarted: Date.now() >= CIVIC_LIKER_START_DATE,
 
       pricing: [
         {
@@ -334,13 +357,49 @@ export default {
       'getUserInfo',
     ]),
     isPreRegistered() {
-      return this.getUserInfo.isPreRegCivicLiker;
+      return (
+        this.getUserInfo.isPreRegCivicLiker
+        || this.getUserInfo.preRegCivicLikerStatus === 'waiting'
+      );
     },
     buttonTitle() {
-      return this.$t(`CivicPage.${this.isPreRegistered ? 'registered' : 'trial.freeToTry'}`);
+      if (this.isPreRegistered) {
+        return this.$t('CivicLikerTrial.registered');
+      }
+      if (this.isStarted) {
+        return this.$t('CivicPage.register');
+      }
+      return this.$t('CivicLikerTrial.register');
     },
-    paymentButtonTitle() {
-      return this.$t(`CivicPage.trial.register${this.isPreRegistered ? 'ed' : ''}`);
+    buttonFootnote() {
+      if (this.isPreReg) {
+        return this.$t('CivicLikerTrial.willBeHeld');
+      }
+      if (this.isStarted) {
+        return this.$t('CivicLiker.limitedQuota');
+      }
+      return '';
+    },
+    pricingHighlightTitle() {
+      if (this.isPreReg) {
+        return this.$t('CivicLikerTrial.onGoing');
+      }
+      if (this.isStarted) {
+        return this.$t('CivicLiker.onGoing');
+      }
+      return '';
+    },
+    pricingButtonTitle() {
+      if (this.isPreRegistered) {
+        return this.$t('CivicLikerTrial.registered');
+      }
+      return this.$t('CivicPage.pricingRegister');
+    },
+    pricingButtonFoonote() {
+      if (this.isStarted) {
+        return this.$t('CivicPage.limitedQuota');
+      }
+      return this.$t('CivicLikerTrial.registered');
     },
   },
   head() {
@@ -355,15 +414,36 @@ export default {
         {
           hid: 'description',
           name: 'description',
-          content: this.$t('CivicPage.CTA.title'),
+          content: this.$t('CivicPage.slogan'),
         },
         {
           hid: 'og_description',
           property: 'og:description',
-          content: this.$t('CivicPage.CTA.title'),
+          content: this.$t('CivicPage.slogan'),
+        },
+        {
+          hid: 'og_image',
+          property: 'og:image',
+          content: 'https://like.co/images/og/civic.png',
         },
       ],
     };
+  },
+  mounted() {
+    if (this.isPreReg) {
+      this.preRegTimer = setTimeout(() => {
+        this.isPreReg = false;
+      }, PRE_REG_CIVIC_LIKER_END_DATE - Date.now());
+    }
+    if (!this.isStarted) {
+      this.countdownTimer = setTimeout(() => {
+        this.isStarted = true;
+      }, CIVIC_LIKER_START_DATE - Date.now());
+    }
+  },
+  beforeDestroy() {
+    if (this.preRegTimer) clearTimeout(this.preRegTimer);
+    if (this.countdownTimer) clearTimeout(this.countdownTimer);
   },
   methods: {
     onClickButton() {

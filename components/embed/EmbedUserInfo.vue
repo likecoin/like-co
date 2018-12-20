@@ -1,9 +1,11 @@
 <template>
-  <div class="embed-user-info">
+  <div :class="rootClass">
     <div class="embed-user-info__avatar">
-      <div>
-        <img :src="avatar">
-      </div>
+      <lc-avatar
+        :src="avatar"
+        :halo="avatarHalo"
+        is-full-width
+      />
     </div>
 
     <div
@@ -30,6 +32,10 @@ export default {
       type: String,
       default: null,
     },
+    avatarHalo: {
+      type: String,
+      default: 'none',
+    },
     displayName: {
       type: String,
       default: '',
@@ -39,11 +45,23 @@ export default {
       default: null,
     },
   },
+  computed: {
+    rootClass() {
+      return [
+        'embed-user-info',
+        {
+          'embed-user-info--with-halo': this.avatarHalo !== 'none',
+        },
+      ];
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 @import "~assets/embed";
+
+$normal-x-margin: 8;
 
 .embed-user-info {
   position: relative;
@@ -52,7 +70,12 @@ export default {
 
   width: normalized($avatar-size);
   height: normalized($avatar-size);
-  margin: normalized(-$avatar-vertical-offset) normalized(8);
+  margin: normalized(-$avatar-vertical-offset) normalized($normal-x-margin);
+
+  &--with-halo {
+    margin-right: normalized($normal-x-margin + 10);
+    margin-left: normalized($normal-x-margin + 6);
+  }
 
   &__avatar {
     position: relative;
@@ -60,27 +83,10 @@ export default {
     width: normalized($avatar-size);
     height: normalized($avatar-size);
 
-    border-radius: 50%;
-    background: linear-gradient(70deg, $like-light-blue, $like-gradient-1);
-
-    > div {
+    :global(.lc-avatar__content__halo) {
       position: absolute;
-      top: normalized($avatar-border-width);
-      right: normalized($avatar-border-width);
-      bottom: normalized($avatar-border-width);
-      left: normalized($avatar-border-width);
 
-      overflow: hidden;
-
-      border-radius: inherit;
-      background-color: white;
-    }
-
-    img {
-      display: block;
-
-      width: 100%;
-      height: 100%;
+      font-size: 0;
     }
   }
 

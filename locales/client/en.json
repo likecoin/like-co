@@ -4,6 +4,7 @@
     "connect": "Connect",
     "disconnect": "Disconnect",
     "learnMore": "Learn More",
+    "loading": "Loading",
     "label": {
       "error": "Error",
       "success": "Success",
@@ -1164,7 +1165,8 @@
     "USER_AUTH_THRID_PARTY_COOKIE_BLOCKED": "You browser has blocked third-party cookies, please disabled this setting in your browser and try again",
     "FIREBASE_USER_DUPLICATED": "This account has already been used for login",
     "OICE_SERVER_ERROR": "Unable to verify, please try angin. If this still happen, please contact us.",
-    "OICE_LIKECOIN_ID_NOT_BIND": "The linkage of LikeCoin ID and oice account is not correct, please make sure your oice account have bind a LikeCoin ID, and that ID is same as your LikeCoin ID."
+    "OICE_LIKECOIN_ID_NOT_BIND": "The linkage of LikeCoin ID and oice account is not correct, please make sure your oice account have bind a LikeCoin ID, and that ID is same as your LikeCoin ID.",
+    "PRE_REG_CIVIC_LIKER_ENDED": "Civic Liker Trial Pre-registration has ended"
   },
   "Form": {
     "Retweet": {
@@ -1451,12 +1453,19 @@
   },
   "CivicPage": {
     "title": "Civic Liker",
-    "CTA": {
-      "title": "A coffee for an ecosystem",
-      "subtitle": "Free trial Jan 2-31 2019"
-    },
+    "slogan": "A coffee for an ecosystem",
     "joinNow": "Join Now",
+    "register": "Register",
     "registered": "Registered",
+    "pricingRegister": "Register Now",
+    "onGoing": "Limited Beta Testing Now",
+    "limitedQuota": "Limited Quota",
+    "waitingList": {
+      "title": "You are on the waiting list",
+      "sorry": "Sorry the Beta is full in the moment.",
+      "ensureEmail": "Please make sure you have filled your email in account settings.",
+      "notifyByEmail": "We will notify you with your email as soon as available."
+    },
     "intro1": [
       "Have you ever read a great story, detailed news coverage or beautiful picture on the web, wanted to micro reward it but couldn't?",
       "Have you realized creativity on the web brings no direct income, creators and civil reporters can only rely on ads, outsource projects and most importantly, enthusiasm?",
@@ -1504,17 +1513,19 @@
     ],
     "credit": {
       "photo": "Photos by Anthony Tran, Joe Gardner, KE ATLAS, Quentin Keller and Warren Wong"
-    },
-    "trial": {
-      "register": "Start Trial",
-      "registered": "Trial Registered",
-      "freeNow": "On Trial",
-      "freeToTry": "Pre-register Now",
-      "willBeHeld": "Jan 2-31 2019"
     }
   },
-  "CivicTrialPage": {
+  "CivicLikerTrial": {
     "title": "Civic Liker Trial",
-    "thankYou": "Thank you for joining"
+    "subtitle": "Free trial in Jan 2-31 2019",
+    "register": "Start Trial",
+    "registered": "Trial Registered",
+    "onGoing": "On Trial",
+    "willBeHeld": "Will be held on Jan 2-31 2019",
+    "thankYou": "Thank you for joining",
+    "thankYouForYourInterest": "Thank you for your interest in",
+    "waitingList": {
+      "sorry": "Sorry the trial is full in the moment."
+    }
   }
 }
