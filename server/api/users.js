@@ -83,9 +83,19 @@ function getBool(value = false) {
   return value;
 }
 
-async function getCivicLikerProperties(id, payload = {}) {
-  const injected = {};
-  const subscriptionDoc = await subscriptionDbRef.doc(id).get();
+async function getUserWithCivicLikerProperties(id) {
+  const [userDoc, subscriptionDoc] = await Promise.all([
+    dbRef.doc(id).get(),
+    subscriptionDbRef.doc(id).get(),
+  ]);
+  if (!userDoc.exists) return null;
+
+  const payload = userDoc.data();
+  payload.user = id;
+  if (!payload.avatar) {
+    payload.avatar = AVATAR_DEFAULT_PATH;
+  }
+
   if (subscriptionDoc.exists) {
     const {
       currentPeriodStart,
@@ -94,14 +104,12 @@ async function getCivicLikerProperties(id, payload = {}) {
     } = subscriptionDoc.data();
     const now = Date.now();
     if (now >= currentPeriodStart && now <= currentPeriodEnd + SUBSCRIPTION_GRACE_PERIOD) {
-      injected.isSubscribedCivicLiker = true;
-      injected.civicLikerSince = since;
+      payload.isSubscribedCivicLiker = true;
+      payload.civicLikerSince = since;
     }
   }
-  return {
-    ...injected,
-    ...payload,
-  };
+
+  return payload;
 }
 
 router.post(
@@ -770,13 +778,8 @@ router.delete('/users/login/:platform', jwtAuth('write'), async (req, res, next)
 router.get('/users/self', jwtAuth('read'), async (req, res, next) => {
   try {
     const username = req.user.user;
-    const doc = await dbRef.doc(username).get();
-    if (doc.exists) {
-      const payload = await getCivicLikerProperties(username, doc.data());
-      payload.user = username;
-      if (!payload.avatar) {
-        payload.avatar = AVATAR_DEFAULT_PATH;
-      }
+    const payload = await getUserWithCivicLikerProperties(username);
+    if (payload) {
       payload.intercomToken = getIntercomUserHash(username);
 
       res.json(Validate.filterUserData(payload));
@@ -820,13 +823,8 @@ router.get('/users/id/:id', jwtAuth('read'), async (req, res, next) => {
       res.status(401).send('LOGIN_NEEDED');
       return;
     }
-    const doc = await dbRef.doc(username).get();
-    if (doc.exists) {
-      const payload = await getCivicLikerProperties(username, doc.data());
-      if (!payload.avatar) {
-        payload.avatar = AVATAR_DEFAULT_PATH;
-      }
-      payload.user = username;
+    const payload = await getUserWithCivicLikerProperties(username);
+    if (payload) {
       res.json(Validate.filterUserData(payload));
     } else {
       res.sendStatus(404);
@@ -839,14 +837,8 @@ router.get('/users/id/:id', jwtAuth('read'), async (req, res, next) => {
 router.get('/users/id/:id/min', async (req, res, next) => {
   try {
     const username = req.params.id;
-    const doc = await dbRef.doc(username).get();
-    if (doc.exists) {
-      const payload = await getCivicLikerProperties(username, doc.data());
-      if (!payload.avatar) {
-        payload.avatar = AVATAR_DEFAULT_PATH;
-      }
-      payload.user = username;
-
+    const payload = await getUserWithCivicLikerProperties(username);
+    if (payload) {
       res.set('Cache-Control', 'public, max-age=10');
       res.json(Validate.filterUserDataMin(payload));
     } else {
@@ -1146,13 +1138,20 @@ router.put('/users/:id/civic/queue', jwtAuth('write'), async (req, res, next) =>
       res.status(401).send('LOGIN_NEEDED');
       return;
     }
-    const userDoc = await dbRef.doc(id).get();
-    if (!userDoc.exists) throw new Error('USER_NOT_EXIST');
+
+    const payload = await getUserWithCivicLikerProperties(id);
+    if (!payload) throw new Error('USER_NOT_EXIST');
 
     const {
+      email,
+      displayName,
+      wallet,
+      referrer,
+      locale,
+      timestamp: registerTime,
       currentPeriodEnd,
       currentPeriodStart,
-    } = await getCivicLikerProperties(id);
+    } = payload;
 
     const now = Date.now();
     if (now >= currentPeriodStart && currentPeriodEnd <= now) {
@@ -1163,14 +1162,6 @@ router.put('/users/:id/civic/queue', jwtAuth('write'), async (req, res, next) =>
 
     res.send(200);
 
-    const {
-      email,
-      displayName,
-      wallet,
-      referrer,
-      locale,
-      timestamp: registerTime,
-    } = userDoc.data();
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventCivicLiker',
       user: id,
