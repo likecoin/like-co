@@ -8,6 +8,7 @@ import {
   ONE_LIKE,
   AVATAR_DEFAULT_PATH,
   PRE_REG_CIVIC_LIKER_END_DATE,
+  SUBSCRIPTION_GRACE_PERIOD,
 } from '../../constant';
 import { CSRF_COOKIE_OPTION } from '../constant/server';
 import { fetchFacebookUser } from '../oauth/facebook';
@@ -45,6 +46,7 @@ const {
   db,
   userCollection: dbRef,
   userAuthCollection: authDbRef,
+  subscriptionUserCollection: subscriptionDbRef,
   configCollection: configRef,
   FieldValue,
   admin,
@@ -78,6 +80,27 @@ function getBool(value = false) {
     return value !== 'false';
   }
   return value;
+}
+
+async function getCivicLikerProperties(id, payload = {}) {
+  const injected = {};
+  const subscriptionDoc = await subscriptionDbRef.doc(id).get();
+  if (subscriptionDoc.exists) {
+    const {
+      currentPeriodStart,
+      currentPeriodEnd,
+      since,
+    } = subscriptionDoc.data();
+    const now = Date.now();
+    if (now >= currentPeriodStart && now <= currentPeriodEnd + SUBSCRIPTION_GRACE_PERIOD) {
+      injected.isSubscribedCivicLiker = true;
+      injected.civicLikerSince = since;
+    }
+  }
+  return {
+    ...injected,
+    ...payload,
+  };
 }
 
 router.post(
@@ -748,7 +771,7 @@ router.get('/users/self', jwtAuth('read'), async (req, res, next) => {
     const username = req.user.user;
     const doc = await dbRef.doc(username).get();
     if (doc.exists) {
-      const payload = doc.data();
+      const payload = await getCivicLikerProperties(username, doc.data());
       payload.user = username;
       if (!payload.avatar) {
         payload.avatar = AVATAR_DEFAULT_PATH;
@@ -798,7 +821,7 @@ router.get('/users/id/:id', jwtAuth('read'), async (req, res, next) => {
     }
     const doc = await dbRef.doc(username).get();
     if (doc.exists) {
-      const payload = doc.data();
+      const payload = await getCivicLikerProperties(username, doc.data());
       if (!payload.avatar) {
         payload.avatar = AVATAR_DEFAULT_PATH;
       }
@@ -817,11 +840,12 @@ router.get('/users/id/:id/min', async (req, res, next) => {
     const username = req.params.id;
     const doc = await dbRef.doc(username).get();
     if (doc.exists) {
-      const payload = doc.data();
+      const payload = await getCivicLikerProperties(username, doc.data());
       if (!payload.avatar) {
         payload.avatar = AVATAR_DEFAULT_PATH;
       }
       payload.user = username;
+
       res.set('Cache-Control', 'public, max-age=10');
       res.json(Validate.filterUserDataMin(payload));
     } else {
