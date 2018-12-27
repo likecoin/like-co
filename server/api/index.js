@@ -8,6 +8,7 @@ import mission from './mission';
 import oembed from './oembed';
 import social from './social';
 import experiments from './experiments';
+import civic from './civic';
 import { startPoller } from '../util/poller';
 import { ValidationError } from '../../util/ValidationHelper';
 import { IS_TESTNET, TEST_MODE } from '../../constant';
@@ -27,6 +28,7 @@ router.use(mission);
 router.use(oembed);
 router.use(social);
 router.use(experiments);
+router.use(civic);
 
 router.get('/healthz', (req, res) => {
   res.sendStatus(200);

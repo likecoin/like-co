@@ -193,3 +193,5 @@ export const apiGetLikeURLPersonalSuggestion = () => axios.get(`${LIKECOIN_MISC_
 export const apiPostUserReadContent = (id, payload) => axios.put(`/api/users/read/${id}`, payload);
 
 export const apiPutUserCivicTrial = id => axios.put(`/api/users/${id}/civic/trial`);
+
+export const apiGetCivicCSOnline = () => axios.get('/api/civic/csonline');
