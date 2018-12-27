@@ -80,7 +80,7 @@
                 <div
                   :class="[
                     'lc-margin-bottom-16',
-                    'lc-color-like-yellow lc-font-size-32 lc-font-weight-600 lc-text-align-center',
+                    'lc-color-civic-yellow lc-font-size-32 lc-font-weight-600 lc-text-align-center',
                   ]"
                 >
                   {{ $t('CivicPage.waitingList.title') }}
@@ -137,6 +137,11 @@ export default {
   components: {
     NarrowPageHeader,
     CountdownTimer,
+  },
+  asyncData({ redirect, store }) {
+    if (store.getters.getUserInfo.isSubscribedCivicLiker) {
+      redirect({ name: 'in-civic' });
+    }
   },
   data() {
     return {

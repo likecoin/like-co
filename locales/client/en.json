@@ -1527,5 +1527,17 @@
     "waitingList": {
       "sorry": "Sorry the trial is full in the moment."
     }
+  },
+  "CivicLikerBeta": {
+    "title": "Civic Liker Beta",
+    "applying": "Applying. Stay put",
+    "apply": "I want to join Civic Liker Beta",
+    "description": "Please do not cloase this page and continue your application in the chatting box in the bottom-right.",
+    "joinNow": "Limited Quota for the Civic Liker",
+    "upgrade": "Upgrade",
+    "upgradeLong": "Upgrade to Civic Liker Beta",
+    "waitingList": {
+      "sorry": "Sorry the Beta is full in the moment."
+    }
   }
 }

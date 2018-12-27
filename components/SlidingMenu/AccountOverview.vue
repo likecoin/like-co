@@ -7,7 +7,7 @@
         <div @click="closeSlidingMenu">
           <lc-avatar
             :src="getUserInfo.avatar"
-            :halo="getUserInfo.isPreRegCivicLiker ? 'civic-liker-trial' : ''"
+            :halo="avatarHalo"
           />
         </div>
       </nuxt-link>
@@ -66,6 +66,8 @@ import { mapActions, mapGetters } from 'vuex';
 
 import { LIQUID_LIKEETH_URL } from '@/constant';
 
+import User from '@/util/User';
+
 export default {
   name: 'account-overview',
   data() {
@@ -80,6 +82,9 @@ export default {
       'getLikeCoinUsdNumericPrice',
       'getUserLikeCoinAmountInBigNumber',
     ]),
+    avatarHalo() {
+      return User.getAvatarHaloType(this.getUserInfo);
+    },
     likeCoinStrValue() {
       return this.getUserLikeCoinAmountInBigNumber ? this.getUserLikeCoinAmountInBigNumber.toFixed(2) : '';
     },
