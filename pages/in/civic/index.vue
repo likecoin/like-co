@@ -51,7 +51,7 @@
               >
                 <md-button
                   class="md-likecoin lc-gradient-2 lc-font-size-20 lc-font-weight-600 shadow"
-                  @click="onClickButton"
+                  @click="scrollToPricing"
                 >{{ buttonTitle }}</md-button>
               </div>
               <span
@@ -148,7 +148,7 @@
               />
               <md-button
                 class="md-likecoin lc-gradient-2 lc-font-size-20 lc-font-weight-600 shadow"
-                @click="onClickButton"
+                @click="scrollToPricing"
               >
                 {{ buttonTitle }}
               </md-button>
@@ -194,6 +194,7 @@
 
     <section
       id="pricing"
+      ref="pricing"
       class="civic-page__pricing lc-bg-like-gradient"
     >
       <div class="lc-container-1">
@@ -483,6 +484,11 @@ export default {
     if (this.countdownTimer) clearTimeout(this.countdownTimer);
   },
   methods: {
+    scrollToPricing() {
+      if (this.$refs.pricing) {
+        this.$refs.pricing.scrollIntoView({ behavior: 'smooth' });
+      }
+    },
     onClickButton() {
       if (this.isCivicLiker) return;
 
