@@ -189,6 +189,7 @@ export default {
     if (this.$intercom && this.isCSOnline) {
       this.$intercom.trackEvent('likecoin-store_civicLikerRegister');
       this.$intercom.update({ isOnCivicLikerWaitingList: false });
+      this.$intercom.show();
     } else {
       await this.queueCivicLiker(this.getUserInfo.user);
       if (this.$intercom) {
