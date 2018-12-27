@@ -53,6 +53,10 @@
                   <span>{{ $t('CivicLikerBeta.description') }}</span>
                 </div>
 
+                <div class="lc-text-align-center lc-margin-vertical-16">
+                  <lc-loading-indicator class="lc-color-civic-green lc-font-size-18" />
+                </div>
+
                 <div class="pricing-item lc-margin-top-24">
                   <div class="pricing-item__type">
                     {{ $t(`CivicPage.pricing.type.civicLiker`) }}

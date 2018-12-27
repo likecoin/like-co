@@ -45,7 +45,7 @@
     "@likecoin/abi-decoder": "^3.0.0",
     "@likecoin/likecoin-email-templates": "^1.0.2",
     "@likecoin/nuxt-google-optimize": "^0.5.3-like.5",
-    "@likecoin/ui-vue": "^0.4.1",
+    "@likecoin/ui-vue": "^0.5.0",
     "@likecoin/vue-image-lightbox": "^5.5.4",
     "@likecoin/vue-simple-svg": "^1.4.1",
     "@nuxtjs/google-tag-manager": "^2.0.0",
