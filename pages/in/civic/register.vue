@@ -113,7 +113,7 @@
 
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 import { CIVIC_LIKER_START_DATE } from '~/constant';
 import ChatIcon from '~/assets/icons/chat.svg';
@@ -181,12 +181,21 @@ export default {
       ],
     };
   },
-  mounted() {
+  async mounted() {
     if (this.$intercom && this.isCSOnline) {
-      this.$intercom.showNewMessage(this.$t('CivicLikerBeta.apply'));
+      this.$intercom.trackEvent('likecoin-store_civicLikerRegister');
+      this.$intercom.update({ isOnCivicLikerWaitingList: false });
+    } else {
+      await this.queueCivicLiker(this.getUserInfo.user);
+      if (this.$intercom) {
+        this.$intercom.update({ isOnCivicLikerWaitingList: true });
+      }
     }
   },
   methods: {
+    ...mapActions([
+      'queueCivicLiker',
+    ]),
     onClickOk() {
       this.$router.push({ name: 'in' });
     },

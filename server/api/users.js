@@ -7,6 +7,7 @@ import {
   PUBSUB_TOPIC_MISC,
   ONE_LIKE,
   AVATAR_DEFAULT_PATH,
+  CIVIC_LIKER_START_DATE,
   PRE_REG_CIVIC_LIKER_END_DATE,
   SUBSCRIPTION_GRACE_PERIOD,
 } from '../../constant';
@@ -1119,6 +1120,59 @@ router.put('/users/:id/civic/trial', jwtAuth('write'), async (req, res, next) =>
     } = userDoc.data();
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventCivicLikerTrial',
+      user: id,
+      email,
+      displayName,
+      wallet,
+      referrer,
+      locale,
+      registerTime,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+
+router.put('/users/:id/civic/queue', jwtAuth('write'), async (req, res, next) => {
+  try {
+    if (!process.env.CI && Date.now() < CIVIC_LIKER_START_DATE) {
+      res.status(401).send('CIVIC_LIKER_NOT_AVAILALE');
+      return;
+    }
+
+    const { id } = req.params;
+    if (req.user.user !== id) {
+      res.status(401).send('LOGIN_NEEDED');
+      return;
+    }
+    const userDoc = await dbRef.doc(id).get();
+    if (!userDoc.exists) throw new Error('USER_NOT_EXIST');
+
+    const {
+      currentPeriodEnd,
+      currentPeriodStart,
+    } = await getCivicLikerProperties(id);
+
+    const now = Date.now();
+    if (now >= currentPeriodStart && currentPeriodEnd <= now) {
+      res.status(401).send('ALREADY_CIVIC_LIKER');
+    }
+
+    await dbRef.doc(id).update({ civicLikerStatus: 'waiting' });
+
+    res.send(200);
+
+    const {
+      email,
+      displayName,
+      wallet,
+      referrer,
+      locale,
+      timestamp: registerTime,
+    } = userDoc.data();
+    publisher.publish(PUBSUB_TOPIC_MISC, req, {
+      logType: 'eventCivicLiker',
       user: id,
       email,
       displayName,

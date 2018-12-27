@@ -195,3 +195,4 @@ export const apiPostUserReadContent = (id, payload) => axios.put(`/api/users/rea
 export const apiPutUserCivicTrial = id => axios.put(`/api/users/${id}/civic/trial`);
 
 export const apiGetCivicCSOnline = () => axios.get('/api/civic/csonline');
+export const apiPutUserCivicQueue = id => axios.put(`/api/users/${id}/civic/queue`);

@@ -28,6 +28,9 @@
             class="md-likecoin lc-gradient-2 lc-font-size-20 lc-font-weight-600 shadow"
             @click="onClick"
           >{{ buttonTitle }}</md-button>
+          <div class="lc-color-light-burgundy lc-font-size-12 lc-margin-top-12">
+            {{ $t('CivicPage.waitingList.notifyByEmail') }}
+          </div>
         </div>
       </div>
 
@@ -93,6 +96,12 @@ export default {
       return this.$t('CivicLikerTrial.title');
     },
     buttonTitle() {
+      if (
+        !this.isCivicLiker
+        && this.getUserInfo.civicLikerStatus === 'waiting'
+      ) {
+        return this.$t('CivicLikerBeta.waitingList.button');
+      }
       if (this.isCivicLiker || this.isPreRegCivicLiker) {
         return this.$t('General.learnMore');
       }

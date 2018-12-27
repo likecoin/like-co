@@ -1537,6 +1537,7 @@
     "upgrade": "Upgrade",
     "upgradeLong": "Upgrade to Civic Liker Beta",
     "waitingList": {
+      "button": "on waiting list",
       "sorry": "Sorry the Beta is full in the moment."
     }
   }

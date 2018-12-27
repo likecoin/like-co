@@ -27,6 +27,7 @@ export const ValidationHelper = {
       preRegCivicLikerStatus,
       isSubscribedCivicLiker,
       civicLikerSince,
+      civicLikerStatus,
     } = u;
     return {
       user,
@@ -44,6 +45,7 @@ export const ValidationHelper = {
       preRegCivicLikerStatus,
       isSubscribedCivicLiker,
       civicLikerSince,
+      civicLikerStatus,
     };
   },
   filterUserDataMin({
