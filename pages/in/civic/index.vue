@@ -136,7 +136,7 @@
             </p>
           </div>
 
-          <div
+          <!-- <div
             v-if="isPreRegPeriod || isStarted"
             class="lc-container-4 lc-button-group lc-margin-top-64"
           >
@@ -160,7 +160,7 @@
             >
               {{ buttonFootnote }}
             </span>
-          </div>
+          </div> -->
 
         </div>
       </div>
