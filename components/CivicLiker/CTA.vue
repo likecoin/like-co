@@ -6,8 +6,8 @@
         v-if="isShowChop"
         class="civic-liker-cta__image"
       >
-        <pre-register-chop
-          :is-registered="isPreRegistered"
+        <chop-art
+          :is-registered="isCivicLiker || isPreRegCivicLiker"
           :is-show-countdown="layout !== 'wide'"
         />
       </div>
@@ -21,13 +21,16 @@
             :to="{ name: 'in-civic' }"
             class="lc-color-like-green lc-font-weight-500"
             place="title"
-          >{{ $t('CivicLikerCTA.title') }}</nuxt-link>
+          >{{ name }}</nuxt-link>
         </i18n>
         <div class="lc-button-group">
           <md-button
             class="md-likecoin lc-gradient-2 lc-font-size-20 lc-font-weight-600 shadow"
             @click="onClick"
           >{{ buttonTitle }}</md-button>
+          <div class="lc-color-light-burgundy lc-font-size-12 lc-margin-top-12">
+            {{ $t('CivicPage.waitingList.notifyByEmail') }}
+          </div>
         </div>
       </div>
 
@@ -38,12 +41,17 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import PreRegisterChop from './PreRegisterChop';
+import ChopArt from './ChopArt';
+
+import {
+  CIVIC_LIKER_START_DATE,
+  CIVIC_LIKER_TRIAL_END_DATE,
+} from '~/constant';
 
 export default {
   name: 'civic-liker-cta',
   components: {
-    PreRegisterChop,
+    ChopArt,
   },
   props: {
     layout: {
@@ -55,16 +63,53 @@ export default {
       default: true,
     },
   },
+  data() {
+    return {
+      isStarted: Date.now() >= CIVIC_LIKER_START_DATE,
+    };
+  },
   computed: {
     ...mapGetters([
       'getUserInfo',
     ]),
-    isPreRegistered() {
-      return this.getUserInfo.isPreRegCivicLiker;
+    isCivicLiker() {
+      return this.getUserInfo.isSubscribedCivicLiker;
+    },
+    isPreRegCivicLiker() {
+      return !this.isStarted && this.getUserInfo.isPreRegCivicLiker;
+    },
+    isCivicLikerTrial() {
+      return (
+        !this.isCivicLiker
+        && this.isStarted
+        && this.isPreRegCivicLiker
+        && Date.now() <= CIVIC_LIKER_TRIAL_END_DATE
+      );
+    },
+    name() {
+      if (this.isCivicLikerTrial) {
+        return this.$t('CivicLikerBeta.upgradeLong');
+      }
+      if (this.isStarted) {
+        return this.$t('CivicLikerBeta.title');
+      }
+      return this.$t('CivicLikerTrial.title');
     },
     buttonTitle() {
-      if (this.isPreRegistered) {
+      if (
+        !this.isCivicLiker
+        && this.getUserInfo.civicLikerStatus === 'waiting'
+      ) {
+        return this.$t('CivicLikerBeta.waitingList.button');
+      }
+      if (this.isCivicLiker || this.isPreRegCivicLiker) {
         return this.$t('General.learnMore');
+      }
+      if (this.isCivicLikerTrial) {
+        return this.$t('CivicLikerBeta.upgrade');
+      }
+      if (this.isStarted) {
+        return this.$t('CivicPage.register');
       }
       return this.$t('CivicLikerCTA.buttonTitle');
     },
@@ -93,6 +138,12 @@ export default {
 
     @media screen and (max-width: 600px) {
       flex-direction: column;
+    }
+  }
+
+  &--column {
+    > div {
+      min-height: 0;
     }
   }
 
@@ -132,7 +183,7 @@ export default {
       justify-content: center;
     }
 
-    .pre-register-chop {
+    .chop-art {
       transform: scale(1.36);
       transform-origin: right center;
 
