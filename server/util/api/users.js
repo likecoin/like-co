@@ -54,9 +54,10 @@ export async function getUserWithCivicLikerProperties(id) {
       currentPeriodStart,
       currentPeriodEnd,
       since,
+      currentType,
     } = subscriptionDoc.data();
     const now = Date.now();
-    if (now >= currentPeriodStart && now <= currentPeriodEnd + SUBSCRIPTION_GRACE_PERIOD) {
+    if (currentType !== 'trial' && now >= currentPeriodStart && now <= currentPeriodEnd + SUBSCRIPTION_GRACE_PERIOD) {
       payload.isSubscribedCivicLiker = true;
       payload.civicLikerSince = since;
     }
