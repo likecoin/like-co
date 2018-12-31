@@ -6,7 +6,7 @@ import {
 const { jwtSign } = require('./jwt');
 const axiosist = require('./axiosist');
 
-test('USER: Pre register civic liker campaign', async (t) => {
+test.serial('USER: Pre register civic liker campaign', async (t) => {
   const user = testingUser1;
   const token = jwtSign({ user });
   let res = await axiosist.put(`/api/users/${user}/civic/trial`, { }, {
@@ -25,7 +25,7 @@ test('USER: Pre register civic liker campaign', async (t) => {
   t.is(res.data.isPreRegCivicLiker, true);
 });
 
-test('USER: Queue for Civic Liker', async (t) => {
+test.serial('USER: Queue for Civic Liker', async (t) => {
   const user = testingUser1;
   const token = jwtSign({ user });
   let res = await axiosist.put(`/api/civic/queue/user/${user}`, { }, {
@@ -44,10 +44,10 @@ test('USER: Queue for Civic Liker', async (t) => {
   t.is(res.data.civicLikerStatus, 'waiting');
 });
 
-test('USER: Dequeue for Civic Liker', async (t) => {
+test.serial('USER: Dequeue for Civic Liker', async (t) => {
   const user = testingUser1;
   const token = jwtSign({ user });
-  let res = await axiosist.delete(`/api/civic/queue/user/${user}`, { }, {
+  let res = await axiosist.delete(`/api/civic/queue/user/${user}`, {
     headers: {
       Cookie: `likecoin_auth=${token}`,
     },

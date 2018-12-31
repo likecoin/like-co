@@ -53,7 +53,7 @@ router.put('/civic/queue/user/:id', jwtAuth('write'), async (req, res, next) => 
 
     await dbRef.doc(id).update({ civicLikerStatus: 'waiting' });
 
-    res.send(200);
+    res.sendStatus(200);
 
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventCivicLikerQueue',
@@ -107,7 +107,7 @@ router.delete('/civic/queue/user/:id', jwtAuth('write'), async (req, res, next) 
 
     await dbRef.doc(id).update({ civicLikerStatus: 'intercom' });
 
-    res.send(200);
+    res.sendStatus(200);
 
     publisher.publish(PUBSUB_TOPIC_MISC, req, {
       logType: 'eventCivicLikerQueue',
