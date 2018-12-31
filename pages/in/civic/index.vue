@@ -492,7 +492,7 @@ export default {
     onClickButton() {
       if (this.isCivicLiker) return;
 
-      this.$router.push({ name: `in-civic-${this.isStarted ? 'register' : 'trial'}` });
+      this.$router.push({ name: `in-civic-${this.isStarted ? 'register' : 'trial'}`, query: this.$route.query });
     },
   },
 };

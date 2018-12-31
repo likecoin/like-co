@@ -186,12 +186,16 @@ export default {
     };
   },
   async mounted() {
+    const queryString = Object.keys(this.$route.query)
+      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(this.$route.query[key])}`)
+      .join('&');
     if (this.$intercom && this.isCSOnline) {
+      await this.dequeueCivicLiker({ id: this.getUserInfo.user, queryString });
       this.$intercom.trackEvent('likecoin-store_civicLikerRegister');
       this.$intercom.update({ isOnCivicLikerWaitingList: false });
       this.$intercom.show();
     } else {
-      await this.queueCivicLiker(this.getUserInfo.user);
+      await this.queueCivicLiker({ id: this.getUserInfo.user, queryString });
       if (this.$intercom) {
         this.$intercom.update({ isOnCivicLikerWaitingList: true });
       }

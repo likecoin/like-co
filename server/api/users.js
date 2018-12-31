@@ -7,14 +7,13 @@ import {
   PUBSUB_TOPIC_MISC,
   ONE_LIKE,
   AVATAR_DEFAULT_PATH,
-  CIVIC_LIKER_START_DATE,
   PRE_REG_CIVIC_LIKER_END_DATE,
-  SUBSCRIPTION_GRACE_PERIOD,
 } from '../../constant';
 import { CSRF_COOKIE_OPTION } from '../constant/server';
 import { fetchFacebookUser } from '../oauth/facebook';
 import {
   getIntercomUserHash,
+  getUserWithCivicLikerProperties,
   handleEmailBlackList,
   checkReferrerExists,
   checkUserInfoUniqueness,
@@ -47,7 +46,6 @@ const {
   db,
   userCollection: dbRef,
   userAuthCollection: authDbRef,
-  subscriptionUserCollection: subscriptionDbRef,
   configCollection: configRef,
   FieldValue,
   admin,
@@ -83,34 +81,6 @@ function getBool(value = false) {
   return value;
 }
 
-async function getUserWithCivicLikerProperties(id) {
-  const [userDoc, subscriptionDoc] = await Promise.all([
-    dbRef.doc(id).get(),
-    subscriptionDbRef.doc(id).get(),
-  ]);
-  if (!userDoc.exists) return null;
-
-  const payload = userDoc.data();
-  payload.user = id;
-  if (!payload.avatar) {
-    payload.avatar = AVATAR_DEFAULT_PATH;
-  }
-
-  if (subscriptionDoc.exists) {
-    const {
-      currentPeriodStart,
-      currentPeriodEnd,
-      since,
-    } = subscriptionDoc.data();
-    const now = Date.now();
-    if (now >= currentPeriodStart && now <= currentPeriodEnd + SUBSCRIPTION_GRACE_PERIOD) {
-      payload.isSubscribedCivicLiker = true;
-      payload.civicLikerSince = since;
-    }
-  }
-
-  return payload;
-}
 
 router.post(
   '/users/new',
@@ -1125,56 +1095,5 @@ router.put('/users/:id/civic/trial', jwtAuth('write'), async (req, res, next) =>
   }
 });
 
-
-router.put('/users/:id/civic/queue', jwtAuth('write'), async (req, res, next) => {
-  try {
-    if (!process.env.CI && Date.now() < CIVIC_LIKER_START_DATE) {
-      res.status(401).send('CIVIC_LIKER_NOT_AVAILALE');
-      return;
-    }
-
-    const { id } = req.params;
-    if (req.user.user !== id) {
-      res.status(401).send('LOGIN_NEEDED');
-      return;
-    }
-
-    const payload = await getUserWithCivicLikerProperties(id);
-    if (!payload) throw new Error('USER_NOT_EXIST');
-
-    const {
-      email,
-      displayName,
-      wallet,
-      referrer,
-      locale,
-      timestamp: registerTime,
-      currentPeriodEnd,
-      currentPeriodStart,
-    } = payload;
-
-    const now = Date.now();
-    if (now >= currentPeriodStart && currentPeriodEnd <= now) {
-      res.status(401).send('ALREADY_CIVIC_LIKER');
-    }
-
-    await dbRef.doc(id).update({ civicLikerStatus: 'waiting' });
-
-    res.send(200);
-
-    publisher.publish(PUBSUB_TOPIC_MISC, req, {
-      logType: 'eventCivicLiker',
-      user: id,
-      email,
-      displayName,
-      wallet,
-      referrer,
-      locale,
-      registerTime,
-    });
-  } catch (err) {
-    next(err);
-  }
-});
 
 export default router;
