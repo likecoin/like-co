@@ -1461,10 +1461,10 @@
     "onGoing": "",
     "limitedQuota": "100 Limited Quota",
     "waitingList": {
-      "title": "You are on the waiting list",
+      "title": "Please keep an eye on your email inbox",
       "sorry": "Sorry Civic Liker is full at the moment.",
       "ensureEmail": "Please make sure you have filled your email in account settings.",
-      "notifyByEmail": "We will notify you with your email as soon as available."
+      "notifyByEmail": "We will notify you in email as soon as available."
     },
     "intro1": [
       "Have you ever read a great story, detailed news coverage or beautiful picture on the web, wanted to micro reward it but couldn't?",
