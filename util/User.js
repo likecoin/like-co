@@ -1,6 +1,9 @@
 import EthHelper from '@/util/EthHelper';
 import FileHelper from '@/util/FileHelper';
-import { LOGIN_MESSAGE } from '@/constant';
+import {
+  LOGIN_MESSAGE,
+  CIVIC_LIKER_TRIAL_END_DATE,
+} from '@/constant';
 
 const User = {
   async formatAndSignUserInfo(userInfo, signMessage) {
@@ -114,7 +117,10 @@ const User = {
     return data;
   },
   getAvatarHaloType(user = {}) {
-    if (user.isPreRegCivicLiker) {
+    if (user.isSubscribedCivicLiker) {
+      return 'civic-liker';
+    }
+    if (user.isPreRegCivicLiker && Date.now() <= CIVIC_LIKER_TRIAL_END_DATE) {
       return 'civic-liker-trial';
     }
     return 'none';

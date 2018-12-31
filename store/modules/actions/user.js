@@ -373,3 +373,21 @@ export async function startCivicLikerTrial({ commit, dispatch }, id) {
   await dispatch('refreshUser');
   return data;
 }
+
+export async function queueCivicLiker({ commit, dispatch }, { id, queryString }) {
+  const data = await apiWrapper(
+    { commit, dispatch },
+    api.apiPutUserCivicQueue(id, queryString),
+  );
+  await dispatch('refreshUser');
+  return data;
+}
+
+export async function dequeueCivicLiker({ commit, dispatch }, { id, queryString }) {
+  const data = await apiWrapper(
+    { commit, dispatch },
+    api.apiDeleteUserCivicQueue(id, queryString),
+  );
+  await dispatch('refreshUser');
+  return data;
+}

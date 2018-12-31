@@ -1,5 +1,9 @@
 import crypto from 'crypto';
-import { IS_TESTNET } from '../../../constant';
+import {
+  IS_TESTNET,
+  AVATAR_DEFAULT_PATH,
+  SUBSCRIPTION_GRACE_PERIOD,
+} from '../../../constant';
 import {
   AUTH_COOKIE_OPTION,
   W3C_EMAIL_REGEX,
@@ -19,6 +23,7 @@ const {
 const {
   userCollection: dbRef,
   userAuthCollection: authDbRef,
+  subscriptionUserCollection: subscriptionDbRef,
   FieldValue,
 } = require('../firebase');
 
@@ -29,6 +34,35 @@ export function getIntercomUserHash(user) {
   return crypto.createHmac('sha256', INTERCOM_USER_HASH_SECRET)
     .update(user)
     .digest('hex');
+}
+
+export async function getUserWithCivicLikerProperties(id) {
+  const [userDoc, subscriptionDoc] = await Promise.all([
+    dbRef.doc(id).get(),
+    subscriptionDbRef.doc(id).get(),
+  ]);
+  if (!userDoc.exists) return null;
+
+  const payload = userDoc.data();
+  payload.user = id;
+  if (!payload.avatar) {
+    payload.avatar = AVATAR_DEFAULT_PATH;
+  }
+
+  if (subscriptionDoc.exists) {
+    const {
+      currentPeriodStart,
+      currentPeriodEnd,
+      since,
+    } = subscriptionDoc.data();
+    const now = Date.now();
+    if (now >= currentPeriodStart && now <= currentPeriodEnd + SUBSCRIPTION_GRACE_PERIOD) {
+      payload.isSubscribedCivicLiker = true;
+      payload.civicLikerSince = since;
+    }
+  }
+
+  return payload;
 }
 
 export async function setAuthCookies(req, res, { user, wallet }) {

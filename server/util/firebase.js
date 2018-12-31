@@ -26,6 +26,7 @@ if (process.env.CI) {
   db.settings({ timestampsInSnapshots: true });
   const userCollection = db.collection(config.FIRESTORE_USER_ROOT);
   const userAuthCollection = db.collection(config.FIRESTORE_USER_AUTH_ROOT);
+  const subscriptionUserCollection = db.collection(config.FIRESTORE_SUBSCRIPTION_USER_ROOT);
   const txCollection = db.collection(config.FIRESTORE_TX_ROOT);
   const iapCollection = db.collection(config.FIRESTORE_IAP_ROOT);
   const missionCollection = db.collection(config.FIRESTORE_MISSION_ROOT);
@@ -38,6 +39,7 @@ if (process.env.CI) {
     admin,
     userCollection,
     userAuthCollection,
+    subscriptionUserCollection,
     txCollection,
     iapCollection,
     missionCollection,

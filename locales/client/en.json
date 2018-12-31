@@ -1447,9 +1447,9 @@
     "personalProfile": "Personal Profile"
   },
   "CivicLikerCTA": {
-    "title": "Civic Liker Trial",
-    "content": "Pre-register for free now to get the first-hand Civic Liker experience, participate to bring changes, make things happen in the creativity ecology – {title}",
-    "buttonTitle": "Pre-register Now"
+    "title": "Civic Liker",
+    "content": "Register for free now to get the first-hand Civic Liker experience, participate to bring changes, make things happen in the creativity ecology – {title}",
+    "buttonTitle": "Register Now"
   },
   "CivicPage": {
     "title": "Civic Liker",
@@ -1458,13 +1458,13 @@
     "register": "Register",
     "registered": "Registered",
     "pricingRegister": "Register Now",
-    "onGoing": "Limited Beta Testing Now",
-    "limitedQuota": "Limited Quota",
+    "onGoing": "",
+    "limitedQuota": "100 Limited Quota",
     "waitingList": {
-      "title": "You are on the waiting list",
-      "sorry": "Sorry the Beta is full in the moment.",
+      "title": "Please keep an eye on your email inbox",
+      "sorry": "Sorry Civic Liker is full at the moment.",
       "ensureEmail": "Please make sure you have filled your email in account settings.",
-      "notifyByEmail": "We will notify you with your email as soon as available."
+      "notifyByEmail": "We will notify you in email as soon as available."
     },
     "intro1": [
       "Have you ever read a great story, detailed news coverage or beautiful picture on the web, wanted to micro reward it but couldn't?",
@@ -1479,7 +1479,7 @@
     "intro2": [
       {
         "title": "Your interest, your taste",
-        "p": "The $38 paid monthly by a Civic Liker will be distributed to creators in full amount.* Which creators to support purely depends on the online contents you Like during the month, while the Foundation distributes the reward based on your taste. You may check the distribution of rewards any time down to a cent on our panel."
+        "p": "The US$5 paid monthly by a Civic Liker will be distributed to creators in full amount.* Which creators to support purely depends on the online contents you Like during the month, while the Foundation distributes the reward based on your taste. You may check the distribution of rewards any time down to a cent on our panel."
       },
       {
         "title": "Benefiting from Giving",
@@ -1517,15 +1517,28 @@
   },
   "CivicLikerTrial": {
     "title": "Civic Liker Trial",
-    "subtitle": "Free trial in Jan 2-31 2019",
+    "subtitle": "Free trial in Jan 1-31 2019",
     "register": "Start Trial",
     "registered": "Trial Registered",
     "onGoing": "On Trial",
-    "willBeHeld": "Will be held on Jan 2-31 2019",
+    "willBeHeld": "Will be held on Jan 1-31 2019",
     "thankYou": "Thank you for joining",
     "thankYouForYourInterest": "Thank you for your interest in",
     "waitingList": {
       "sorry": "Sorry the trial is full in the moment."
+    }
+  },
+  "CivicLikerBeta": {
+    "title": "Civic Liker",
+    "applying": "The team is handling your application real-time",
+    "apply": "I want to join Civic Liker",
+    "description": "Please keep this page and talk to our team at lower right corner to continue. It normally takes less than 3 minutes. Thank you for your patience.",
+    "joinNow": "",
+    "upgrade": "Register",
+    "upgradeLong": "Register",
+    "waitingList": {
+      "button": "Processing",
+      "sorry": ""
     }
   }
 }

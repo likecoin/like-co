@@ -24,7 +24,7 @@
                 <lc-avatar
                   v-if="avatar"
                   :src="avatar"
-                  :halo="getUserInfo.isPreRegCivicLiker ? 'civic-liker-trial' : ''"
+                  :halo="avatarHalo"
                   size="120"
                 />
                 <md-button
@@ -264,6 +264,7 @@ import {
 import { firebasePlatformSignIn } from '~/util/FirebaseApp';
 
 import getTestAttribute from '@/util/test';
+import User from '@/util/User';
 
 import CivicLikerCta from '~/components/CivicLiker/CTA';
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
@@ -331,6 +332,9 @@ export default {
         pid,
         isConnected: !!this.getUserSocialPlatforms[pid],
       }));
+    },
+    avatarHalo() {
+      return User.getAvatarHaloType(this.getUserInfo);
     },
   },
   watch: {

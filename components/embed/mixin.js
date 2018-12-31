@@ -47,7 +47,6 @@ export default {
       const {
         displayName,
         avatar,
-        isPreRegCivicLiker,
       } = res[0].data;
 
       let amountInUSD;
@@ -61,7 +60,7 @@ export default {
         id,
         displayName,
         avatar,
-        avatarHalo: User.getAvatarHaloType({ isPreRegCivicLiker }),
+        avatarHalo: User.getAvatarHaloType(res[0].data),
         amount,
         amountInUSD,
         platforms: res[1].data,

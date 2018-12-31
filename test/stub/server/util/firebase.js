@@ -166,6 +166,7 @@ function createCollection(data) {
 
 const userCollection = createCollection(userData);
 const userAuthCollection = createCollection([]);
+const subscriptionUserCollection = createCollection([]);
 const txCollection = createCollection(txData);
 const iapCollection = createCollection([]);
 const missionCollection = createCollection(missionData);
@@ -208,6 +209,7 @@ module.exports = {
   db,
   userCollection,
   userAuthCollection,
+  subscriptionUserCollection,
   txCollection,
   iapCollection,
   missionCollection,

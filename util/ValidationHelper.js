@@ -25,6 +25,9 @@ export const ValidationHelper = {
       read = {},
       isPreRegCivicLiker,
       preRegCivicLikerStatus,
+      isSubscribedCivicLiker,
+      civicLikerSince,
+      civicLikerStatus,
     } = u;
     return {
       user,
@@ -40,6 +43,9 @@ export const ValidationHelper = {
       read,
       isPreRegCivicLiker,
       preRegCivicLikerStatus,
+      isSubscribedCivicLiker,
+      civicLikerSince,
+      civicLikerStatus,
     };
   },
   filterUserDataMin({
@@ -49,6 +55,8 @@ export const ValidationHelper = {
     wallet,
     isPreRegCivicLiker,
     preRegCivicLikerStatus,
+    isSubscribedCivicLiker,
+    civicLikerSince,
   }) {
     return {
       user,
@@ -57,6 +65,8 @@ export const ValidationHelper = {
       wallet,
       isPreRegCivicLiker,
       preRegCivicLikerStatus,
+      isSubscribedCivicLiker,
+      civicLikerSince,
     };
   },
   filterTxData({

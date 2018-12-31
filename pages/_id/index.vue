@@ -233,6 +233,7 @@ import NarrowPageHeader from '~/components/header/NarrowPageHeader';
 import SocialMediaConnect from '~/components/SocialMediaConnect';
 
 import EthHelper from '@/util/EthHelper';
+import User from '@/util/User';
 import {
   apiGetUserMinById,
   apiGetSocialListById,
@@ -300,7 +301,6 @@ export default {
         wallet,
         avatar,
         displayName,
-        isPreRegCivicLiker,
       } = res[0].data;
       const amount = formatAmount(params.amount || 1);
       if (wallet === LIKE_COIN_ICO_ADDRESS) {
@@ -314,7 +314,7 @@ export default {
         id: params.id,
         displayName: displayName || params.id,
         amount,
-        avatarHalo: isPreRegCivicLiker ? 'civic-liker-trial' : '',
+        avatarHalo: User.getAvatarHaloType(res[0].data),
         platforms: res[1].data,
       };
     }).catch((e) => { // eslint-disable-line no-unused-vars

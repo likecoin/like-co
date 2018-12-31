@@ -13,6 +13,7 @@ import { CSRF_COOKIE_OPTION } from '../constant/server';
 import { fetchFacebookUser } from '../oauth/facebook';
 import {
   getIntercomUserHash,
+  getUserWithCivicLikerProperties,
   handleEmailBlackList,
   checkReferrerExists,
   checkUserInfoUniqueness,
@@ -79,6 +80,7 @@ function getBool(value = false) {
   }
   return value;
 }
+
 
 router.post(
   '/users/new',
@@ -746,13 +748,8 @@ router.delete('/users/login/:platform', jwtAuth('write'), async (req, res, next)
 router.get('/users/self', jwtAuth('read'), async (req, res, next) => {
   try {
     const username = req.user.user;
-    const doc = await dbRef.doc(username).get();
-    if (doc.exists) {
-      const payload = doc.data();
-      payload.user = username;
-      if (!payload.avatar) {
-        payload.avatar = AVATAR_DEFAULT_PATH;
-      }
+    const payload = await getUserWithCivicLikerProperties(username);
+    if (payload) {
       payload.intercomToken = getIntercomUserHash(username);
 
       res.json(Validate.filterUserData(payload));
@@ -796,13 +793,8 @@ router.get('/users/id/:id', jwtAuth('read'), async (req, res, next) => {
       res.status(401).send('LOGIN_NEEDED');
       return;
     }
-    const doc = await dbRef.doc(username).get();
-    if (doc.exists) {
-      const payload = doc.data();
-      if (!payload.avatar) {
-        payload.avatar = AVATAR_DEFAULT_PATH;
-      }
-      payload.user = username;
+    const payload = await getUserWithCivicLikerProperties(username);
+    if (payload) {
       res.json(Validate.filterUserData(payload));
     } else {
       res.sendStatus(404);
@@ -815,13 +807,8 @@ router.get('/users/id/:id', jwtAuth('read'), async (req, res, next) => {
 router.get('/users/id/:id/min', async (req, res, next) => {
   try {
     const username = req.params.id;
-    const doc = await dbRef.doc(username).get();
-    if (doc.exists) {
-      const payload = doc.data();
-      if (!payload.avatar) {
-        payload.avatar = AVATAR_DEFAULT_PATH;
-      }
-      payload.user = username;
+    const payload = await getUserWithCivicLikerProperties(username);
+    if (payload) {
       res.set('Cache-Control', 'public, max-age=10');
       res.json(Validate.filterUserDataMin(payload));
     } else {
@@ -1107,5 +1094,6 @@ router.put('/users/:id/civic/trial', jwtAuth('write'), async (req, res, next) =>
     next(err);
   }
 });
+
 
 export default router;
