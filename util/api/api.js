@@ -195,4 +195,5 @@ export const apiPostUserReadContent = (id, payload) => axios.put(`/api/users/rea
 export const apiPutUserCivicTrial = id => axios.put(`/api/users/${id}/civic/trial`);
 
 export const apiGetCivicCSOnline = () => axios.get('/api/civic/csonline');
-export const apiPutUserCivicQueue = id => axios.put(`/api/users/${id}/civic/queue`);
+export const apiPutUserCivicQueue = (id, queryString) => axios.put(`/api/civic/queue/user/${id}/?${queryString}`);
+export const apiDeleteUserCivicQueue = (id, queryString) => axios.delete(`/api/civic/queue/user/${id}?${queryString}`);
