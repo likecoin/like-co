@@ -47,7 +47,7 @@ router.put('/civic/queue/user/:id', jwtAuth('write'), async (req, res, next) => 
     } = payload;
 
     const now = Date.now();
-    if (now >= currentPeriodStart && currentPeriodEnd <= now) {
+    if (now >= currentPeriodStart && now <= currentPeriodEnd) {
       res.status(401).send('ALREADY_CIVIC_LIKER');
     }
 
@@ -101,7 +101,7 @@ router.delete('/civic/queue/user/:id', jwtAuth('write'), async (req, res, next) 
     } = payload;
 
     const now = Date.now();
-    if (now >= currentPeriodStart && currentPeriodEnd <= now) {
+    if (now >= currentPeriodStart && now <= currentPeriodEnd) {
       res.status(401).send('ALREADY_CIVIC_LIKER');
     }
 
