@@ -36,39 +36,19 @@
                 {{ $t('CivicPage.slogan') }}
               </h2>
 
-              <h3
-                v-if="isPreRegPeriod"
-                :class="[
-                  'lc-margin-top-24 lc-font-size-16 lc-font-weight-500 lc-color-light-burgundy',
-                ]"
-              >
-                {{ $t('CivicLikerTrial.subtitle') }}
-              </h3>
-
-              <div
-                v-if="isPreRegPeriod || isStarted"
-                class="lc-button-group lc-margin-top-32"
-              >
+              <div class="lc-button-group lc-margin-top-32">
                 <md-button
                   class="md-likecoin lc-gradient-2 lc-font-size-20 lc-font-weight-600 shadow"
                   @click="scrollToPricing"
                 >{{ buttonTitle }}</md-button>
               </div>
               <span
-                v-if="isStarted && buttonFootnote"
                 class="lc-margin-top-12 lc-color-light-burgundy lc-font-size-12 lc-font-weight-500"
               >
                 {{ buttonFootnote }}
               </span>
 
             </div>
-            <lc-chop-countdown
-              v-if="!isStarted"
-              :date="civicLikerStartDate"
-              class="lc-mobile-hide"
-              size="136"
-              rotate-z="14"
-            />
           </div>
         </div>
       </div>
@@ -107,7 +87,7 @@
                     :date="civicLikerStartDate"
                     size="156"
                     rotate-z="12"
-                    is-trial
+                    is-beta
                   />
                   <p>{{ $t(`CivicPage.features[${i - 1}]`) }}</p>
                 </li>
@@ -137,14 +117,12 @@
           </div>
 
           <!-- <div
-            v-if="isPreRegPeriod || isStarted"
             class="lc-container-4 lc-button-group lc-margin-top-64"
           >
             <span class="button-wrapper">
               <lc-chop-civic-liker
-                :is-beta="isStarted"
                 rotate-z="18"
-                is-trial
+                is-beta
               />
               <md-button
                 class="md-likecoin lc-gradient-2 lc-font-size-20 lc-font-weight-600 shadow"
@@ -167,30 +145,6 @@
     </section>
 
     <div class="lc-padding-top-16 lc-bg-gray-1" />
-
-    <section
-      v-if="!isStarted"
-      class="civic-page__countdown lc-padding-top-24 lc-padding-bottom-32"
-    >
-      <div class="lc-container-1 ">
-        <div class="lc-container-2">
-          <div class="lc-container-3">
-            <div class="lc-container-4">
-              <h2
-                class="lc-font-size-32 lc-color-like-green lc-font-weight-500 lc-text-align-center"
-              >
-                {{ $t('CivicPage.countdown.title') }}
-              </h2>
-
-              <countdown-timer
-                :date="civicLikerStartDate"
-                class="lc-margin-top-16"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <section
       id="pricing"
@@ -223,15 +177,14 @@
                           class="pricing-table__col__header__payment-cycle"
                         >{{ $t(`CivicPage.pricing.paymentCycle.${p.paymentCycle}`) }}</span>
                       </div>
-                      <template v-if="p.type === 'civicLiker' && (isPreRegPeriod || isStarted)">
+                      <template v-if="p.type === 'civicLiker'">
                         <div
                           class="lc-font-size-14"
                           style="color: #d0021b"
                         >{{ pricingHighlightTitle }}</div>
                         <lc-chop-civic-liker
-                          :is-beta="isStarted"
                           rotate-z="12"
-                          is-trial
+                          is-beta
                         />
                       </template>
                     </header>
@@ -262,7 +215,7 @@
                     </ul>
 
                     <footer
-                      v-if="p.type === 'civicLiker' && (isPreRegPeriod || isStarted)"
+                      v-if="p.type === 'civicLiker'"
                       class="pricing-table__col__footer"
                     >
                       <div class="lc-button-group">
@@ -311,7 +264,6 @@
 import { mapGetters } from 'vuex';
 
 import {
-  PRE_REG_CIVIC_LIKER_END_DATE,
   CIVIC_LIKER_START_DATE,
   CIVIC_LIKER_TRIAL_END_DATE,
 } from '~/constant';
@@ -332,9 +284,6 @@ export default {
       FEATURE_COUNT: 3,
 
       civicLikerStartDate: new Date(CIVIC_LIKER_START_DATE),
-
-      isPreRegPeriod: Date.now() < PRE_REG_CIVIC_LIKER_END_DATE,
-      isStarted: Date.now() >= CIVIC_LIKER_START_DATE,
 
       pricing: [
         {
@@ -374,19 +323,12 @@ export default {
     ...mapGetters([
       'getUserInfo',
     ]),
-    hasPreRegCivicLiker() {
-      return (
-        this.getUserInfo.hasPreRegCivicLiker
-        || this.getUserInfo.preRegCivicLikerStatus === 'waiting'
-      );
-    },
     isCivicLiker() {
       return this.getUserInfo.isSubscribedCivicLiker;
     },
     isCivicLikerTrial() {
       return (
         !this.isCivicLiker
-        && this.isStarted
         && this.getUserInfo.isPreRegCivicLiker
         && Date.now() <= CIVIC_LIKER_TRIAL_END_DATE
       );
@@ -398,28 +340,13 @@ export default {
       if (this.isCivicLikerTrial) {
         return this.$t('CivicLikerBeta.upgrade');
       }
-      if (this.hasPreRegCivicLiker) {
-        return this.$t('CivicLikerTrial.registered');
-      }
       return this.$t('CivicPage.register');
     },
     buttonFootnote() {
-      if (this.isPreRegPeriod) {
-        return this.$t('CivicLikerTrial.willBeHeld');
-      }
-      if (this.isStarted) {
-        return this.$t('CivicPage.limitedQuota');
-      }
-      return '';
+      return this.$t('CivicPage.limitedQuota');
     },
     pricingHighlightTitle() {
-      if (this.isPreRegPeriod) {
-        return this.$t('CivicLikerTrial.onGoing');
-      }
-      if (this.isStarted) {
-        return this.$t('CivicPage.onGoing');
-      }
-      return '';
+      return this.$t('CivicPage.onGoing');
     },
     pricingButtonTitle() {
       if (this.isCivicLiker) {
@@ -428,16 +355,10 @@ export default {
       if (this.isCivicLikerTrial) {
         return this.$t('CivicLikerBeta.upgrade');
       }
-      if (this.hasPreRegCivicLiker) {
-        return this.$t('CivicLikerTrial.registered');
-      }
       return this.$t('CivicPage.pricingRegister');
     },
     pricingButtonFoonote() {
-      if (this.isStarted) {
-        return this.$t('CivicPage.limitedQuota');
-      }
-      return this.$t('CivicLikerTrial.registered');
+      return this.$t('CivicPage.limitedQuota');
     },
   },
   head() {
@@ -467,22 +388,6 @@ export default {
       ],
     };
   },
-  mounted() {
-    if (this.isPreRegPeriod) {
-      this.preRegTimer = setTimeout(() => {
-        this.isPreRegPeriod = false;
-      }, PRE_REG_CIVIC_LIKER_END_DATE - Date.now());
-    }
-    if (!this.isStarted) {
-      this.countdownTimer = setTimeout(() => {
-        this.isStarted = true;
-      }, CIVIC_LIKER_START_DATE - Date.now());
-    }
-  },
-  beforeDestroy() {
-    if (this.preRegTimer) clearTimeout(this.preRegTimer);
-    if (this.countdownTimer) clearTimeout(this.countdownTimer);
-  },
   methods: {
     scrollToPricing() {
       if (this.$refs.pricing) {
@@ -492,7 +397,10 @@ export default {
     onClickButton() {
       if (this.isCivicLiker) return;
 
-      this.$router.push({ name: `in-civic-${this.isStarted ? 'register' : 'trial'}`, query: this.$route.query });
+      this.$router.push({
+        name: 'in-civic-register',
+        query: this.$route.query,
+      });
     },
   },
 };
