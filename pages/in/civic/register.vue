@@ -203,6 +203,7 @@ export default {
   },
   methods: {
     ...mapActions([
+      'dequeueCivicLiker',
       'queueCivicLiker',
     ]),
     onClickOk() {
