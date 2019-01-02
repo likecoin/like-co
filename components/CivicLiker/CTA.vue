@@ -28,7 +28,10 @@
             class="md-likecoin lc-gradient-2 lc-font-size-20 lc-font-weight-600 shadow"
             @click="onClick"
           >{{ buttonTitle }}</md-button>
-          <div class="lc-color-light-burgundy lc-font-size-12 lc-margin-top-12">
+          <div
+            v-if="isOnWaitingList"
+            class="lc-color-light-burgundy lc-font-size-12 lc-margin-top-12"
+          >
             {{ $t('CivicPage.waitingList.notifyByEmail') }}
           </div>
         </div>
@@ -44,7 +47,6 @@ import { mapGetters } from 'vuex';
 import ChopArt from './ChopArt';
 
 import {
-  CIVIC_LIKER_START_DATE,
   CIVIC_LIKER_TRIAL_END_DATE,
 } from '~/constant';
 
@@ -63,11 +65,6 @@ export default {
       default: true,
     },
   },
-  data() {
-    return {
-      isStarted: Date.now() >= CIVIC_LIKER_START_DATE,
-    };
-  },
   computed: {
     ...mapGetters([
       'getUserInfo',
@@ -76,42 +73,38 @@ export default {
       return this.getUserInfo.isSubscribedCivicLiker;
     },
     isPreRegCivicLiker() {
-      return !this.isStarted && this.getUserInfo.isPreRegCivicLiker;
+      return this.getUserInfo.isPreRegCivicLiker;
     },
     isCivicLikerTrial() {
       return (
         !this.isCivicLiker
-        && this.isStarted
         && this.isPreRegCivicLiker
         && Date.now() <= CIVIC_LIKER_TRIAL_END_DATE
+      );
+    },
+    isOnWaitingList() {
+      return (
+        !this.isCivicLiker
+        && this.getUserInfo.civicLikerStatus === 'waiting'
       );
     },
     name() {
       if (this.isCivicLikerTrial) {
         return this.$t('CivicLikerBeta.upgradeLong');
       }
-      if (this.isStarted) {
-        return this.$t('CivicLikerBeta.title');
-      }
-      return this.$t('CivicLikerTrial.title');
+      return this.$t('CivicLikerBeta.title');
     },
     buttonTitle() {
-      if (
-        !this.isCivicLiker
-        && this.getUserInfo.civicLikerStatus === 'waiting'
-      ) {
-        return this.$t('CivicLikerBeta.waitingList.button');
-      }
-      if (this.isCivicLiker || this.isPreRegCivicLiker) {
+      if (this.isCivicLiker) {
         return this.$t('General.learnMore');
+      }
+      if (this.isOnWaitingList) {
+        return this.$t('CivicLikerBeta.waitingList.button');
       }
       if (this.isCivicLikerTrial) {
         return this.$t('CivicLikerBeta.upgrade');
       }
-      if (this.isStarted) {
-        return this.$t('CivicPage.register');
-      }
-      return this.$t('CivicLikerCTA.buttonTitle');
+      return this.$t('CivicPage.register');
     },
   },
   methods: {
