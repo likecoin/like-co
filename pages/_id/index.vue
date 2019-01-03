@@ -346,6 +346,9 @@ export default {
           content: 'https://like.co/images/og/tokensale.jpg',
         },
       ],
+      link: [
+        { rel: 'canonical', href: `/${this.id}` },
+      ],
     };
   },
   computed: {
