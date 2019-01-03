@@ -4,6 +4,7 @@
       <lc-avatar
         :src="avatar"
         :halo="avatarHalo"
+        size="large"
         is-full-width
       />
     </div>
