@@ -17,8 +17,8 @@
               <div class="lc-container-2">
                 <div class="lc-container-3">
                   <creator-button
-                    :src="imgUrl(`${slide.id}-icon.jpg`)"
                     :id="slide.id"
+                    :src="imgUrl(`${slide.id}-icon.jpg`)"
                     :title="$t(`Creator.title.${slide.titleKey}`)"
                   />
                 </div>

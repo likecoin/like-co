@@ -214,7 +214,7 @@ import MissionList from '@/components/Mission/List';
 import RefreshButton from '~/components/RefreshButton';
 import LikeButtonIntroMin from '~/components/LikeButtonIntroMin';
 import MansoryArticleList from '~/components/home/MansoryArticleList';
-import LikeButtonAdopter from '~/components/LikeButtonAdopter';
+// import LikeButtonAdopter from '~/components/LikeButtonAdopter';
 import CivicLikerCta from '~/components/CivicLiker/CTA';
 import VerifyEmailCta from '~/components/VerifyEmailCta';
 
@@ -231,7 +231,7 @@ export default {
     RefreshButton,
     LikeButtonIntroMin,
     MansoryArticleList,
-    LikeButtonAdopter,
+    // LikeButtonAdopter,
     CivicLikerCta,
     VerifyEmailCta,
   },

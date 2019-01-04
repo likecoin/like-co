@@ -98,13 +98,12 @@
 /* global fbq */
 import { mapGetters } from 'vuex';
 
-import MaterialButton from '~/components/MaterialButton';
 import SiteHeader from '~/components/header/HeaderWithMenuButton';
 import PlatformIconBar from '~/components/PlatformIconBar';
 
 import Advisors from '~/components/about/Advisors';
 import CTASection from '~/components/about/CTASection';
-import Carousel from '~/components/about/Carousel';
+// import Carousel from '~/components/about/Carousel';
 import HeroVideo from '~/components/about/HeroVideo';
 import HeaderFlag from '~/components/about/Flag';
 import EarlyAdopters from '~/components/about/EarlyAdopters';
@@ -123,13 +122,12 @@ export default {
   layout: 'index',
   components: {
     Advisors,
-    Carousel,
+    // Carousel,
     'cta-section': CTASection,
     EarlyAdopters,
     EarlySupporters,
     HeaderFlag,
     HeroVideo,
-    MaterialButton,
     PlatformIconBar,
     PressCoverage,
     LikecoinStack,

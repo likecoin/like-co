@@ -52,8 +52,8 @@
         <!-- TODO: Deprecate vuematerial component -->
         <md-field>
           <md-select
-            v-if="selectedOption"
             v-model="selectedOption"
+            v-if="selectedOption"
             :disabled="isDisabled"
             md-dense
             @md-selected="onSelectOption"

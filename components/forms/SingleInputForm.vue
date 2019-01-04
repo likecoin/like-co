@@ -9,10 +9,10 @@
     <md-field :class="['md-likecoin', { 'md-invalid': !!errorText }]">
       <label>{{ label }}</label>
       <md-input
+        v-model="inputText"
         :type="type"
         :pattern="pattern"
         :autocomplete="autocomplete"
-        v-model="inputText"
         required
       />
     </md-field>

@@ -64,6 +64,8 @@
                     {{ $t('Home.Header.button.signUp') }}
                   </menu-item>
                 </li>
+                <!-- tricky to turn into computed, disable lint for now -->
+                <!-- eslint-disable vue/no-use-v-if-with-v-for -->
                 <li
                   v-for="i in m.items"
                   v-if="getUserIsRegistered || !i.isRegistered"

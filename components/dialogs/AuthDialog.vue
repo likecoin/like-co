@@ -204,7 +204,7 @@ import {
 
 import BaseDialog from '~/components/dialogs/BaseDialog';
 import SigninPortal from './AuthDialogContent/SignInPortal';
-import EmailSigninForm from './AuthDialogContent/SignInWithEmail';
+// import EmailSigninForm from './AuthDialogContent/SignInWithEmail';
 import RegisterForm from './AuthDialogContent/Register';
 import EthMixin from '~/components/EthMixin';
 import experimentsMixin from '~/util/mixins/experiments';
@@ -225,7 +225,7 @@ export default {
   components: {
     BaseDialog,
     SigninPortal,
-    EmailSigninForm,
+    // EmailSigninForm,
     RegisterForm,
   },
   mixins: [

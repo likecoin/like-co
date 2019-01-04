@@ -8,8 +8,8 @@
       <md-field class="md-likecoin username-text-field">
         <span class="md-prefix">@</span>
         <md-input
-          ref="inputText"
           v-model="username"
+          ref="inputText"
           :disabled="currentStep === 0"
         />
       </md-field>
@@ -50,13 +50,13 @@ import { openURL } from '@/util/client';
 
 import TwitterIcon from '@/assets/icons/fillable/twitter.svg';
 
-import CopyTextField from '@/components/CopyTextField';
+// import CopyTextField from '@/components/CopyTextField';
 
 export default {
   name: 'retweet-form',
-  components: {
-    CopyTextField,
-  },
+  // components: {
+  //   CopyTextField,
+  // },
   props: {
     step: {
       type: Number,

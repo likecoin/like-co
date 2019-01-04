@@ -97,7 +97,6 @@ import TrustMainImage from '@/assets/icons/trust/trust_main.png';
 import TrustRinkebyImage from '@/assets/icons/trust/trust_rinkeby.jpg';
 
 import LanguageSwitch from '@/components/LanguageSwitch';
-import MaterialButton from '@/components/MaterialButton';
 import { IS_TESTNET, TRUST_URL } from '@/constant';
 import BaseDialog from './BaseDialog';
 
@@ -108,7 +107,6 @@ export default {
   components: {
     BaseDialog,
     LanguageSwitch,
-    MaterialButton,
   },
   props: {
     case: {

@@ -271,7 +271,6 @@ import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import AuthConnectList from '~/components/settings/AuthConnectList';
 import OtherConnectList from '~/components/settings/OtherConnectList';
 import ExternalLinksPanel from '~/components/settings/ExternalLinksPanel';
-import SocialMediaConnect from '~/components/SocialMediaConnect';
 
 import TickIcon from '@/assets/tokensale/tick.svg';
 
@@ -283,7 +282,6 @@ export default {
     AuthConnectList,
     OtherConnectList,
     ExternalLinksPanel,
-    SocialMediaConnect,
   },
   data() {
     return {

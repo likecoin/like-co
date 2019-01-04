@@ -119,7 +119,7 @@
             v-if="!getIsFetchingMissions
               && getIsFetchedMissions
               && getReferralMissionList
-            && getReferralMissionList.length > 0"
+              && getReferralMissionList.length > 0"
             id="invitee-mission"
             class="lc-container-2 lc-margin-top-4"
           >

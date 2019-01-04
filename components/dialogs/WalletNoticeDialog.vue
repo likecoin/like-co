@@ -28,11 +28,11 @@
         @enter="setContentHeight"
       >
         <img
+          :key="pageIndex"
           :class="[
             `wallet-notice-dialog__banner--${pageIndex + 1}`,
             isLoadingBanner && 'wallet-notice-dialog__banner--loading',
           ]"
-          :key="pageIndex"
           :src="banner"
           @load="isLoadingBanner = false"
         >

@@ -268,14 +268,10 @@ import {
   CIVIC_LIKER_TRIAL_END_DATE,
 } from '~/constant';
 
-import CountdownTimer from '~/components/CountdownTimer';
 import HeroImage from '~/assets/civic/hero.png';
 import TickIcon from '~/assets/icons/fillable/tick.svg';
 
 export default {
-  components: {
-    CountdownTimer,
-  },
   data() {
     return {
       HeroImage,
