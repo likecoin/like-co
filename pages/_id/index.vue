@@ -370,7 +370,7 @@ export default {
       return this.$route.name === 'id-eth' || this.$route.name === 'id-eth-amount';
     },
     maskedWallet() {
-      return this.wallet.replace(/(0x.{10}).*(.{10})/, '$1...$2');
+      return this.wallet.replace(/(0x.{4}).*(.{10})/, '$1...$2');
     },
     httpReferrer() {
       return this.$route.query.referrer || document.referrer || undefined;
