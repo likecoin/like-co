@@ -3,7 +3,7 @@ import {
   PUBSUB_TOPIC_MISC,
 } from '../../constant';
 
-const PubSub = require('@google-cloud/pubsub');
+const { PubSub } = require('@google-cloud/pubsub');
 const uuidv4 = require('uuid/v4');
 
 const config = require('../config/config.js'); // eslint-disable-line import/no-extraneous-dependencies
