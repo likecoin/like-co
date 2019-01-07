@@ -70,7 +70,7 @@ export default {
       }
     },
   },
-  mounted() {
+  created() {
     if (this.$route.query.error) {
       this.errorMsg = this.$route.query.error || this.$route.query.denied;
       this.isDone = true;

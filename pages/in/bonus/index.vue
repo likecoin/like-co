@@ -396,15 +396,16 @@ export default {
       }
     },
   },
+  created() {
+    if (this.getUserIsRegistered) {
+      this.updateInfo();
+    }
+  },
   mounted() {
     const { hash } = document.location;
     if (hash) {
       const element = document.querySelector(hash);
       if (element) element.scrollIntoView();
-    }
-
-    if (this.getUserIsRegistered) {
-      this.updateInfo();
     }
   },
   methods: {

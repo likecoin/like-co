@@ -360,11 +360,10 @@ export default {
       this.updatePreviewInfo();
     },
   },
-  mounted() {
+  created() {
     if (this.getUserIsRegistered) {
       this.updateInfo();
     }
-
     this.setIsShowLikeButtonIntro(this.getUserInfo);
     this.displaySocialMediaOption = this.getUserSocialMeta.displaySocialMediaOption;
   },

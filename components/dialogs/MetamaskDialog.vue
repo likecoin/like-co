@@ -277,12 +277,14 @@ export default {
       return null;
     },
   },
+  created() {
+    if (!this.getLikeCoinUsdNumericPrice) {
+      this.queryLikeCoinUsdPrice();
+    }
+  },
   mounted() {
     if (this.isInstallMetamask) {
       logTrackerEvent(this, 'RegFlow', 'AppearMetamaskCTA', 'metamask install cta appear', 1);
-    }
-    if (!this.getLikeCoinUsdNumericPrice) {
-      this.queryLikeCoinUsdPrice();
     }
   },
   methods: {

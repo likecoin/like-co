@@ -97,7 +97,7 @@ export default {
       return null;
     },
   },
-  mounted() {
+  created() {
     if (this.getUserIsRegistered) {
       this.queryLikeCoinUsdPrice();
       this.queryLikeCoinWalletBalance();

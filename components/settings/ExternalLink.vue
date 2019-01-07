@@ -230,7 +230,7 @@ export default {
       return !!this.siteDisplayNameInputValue && this.isValidUrl;
     },
   },
-  mounted() {
+  created() {
     if (!this.siteDisplayName && !this.url) {
       // newly added link
       this.isEdit = true;

@@ -98,7 +98,7 @@ export default {
       this.updateUserSocialLinkList(links);
     },
   },
-  mounted() {
+  created() {
     this.updateUserSocialLinkList(this.getUserSocialLinks);
   },
   methods: {

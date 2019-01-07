@@ -119,7 +119,7 @@ export default {
       return this.$route.query.referrer;
     },
   },
-  mounted() {
+  created() {
     this.fetchList();
   },
   methods: {

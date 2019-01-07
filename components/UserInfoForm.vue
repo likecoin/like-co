@@ -278,12 +278,14 @@ export default {
       return `https://${EXTERNAL_HOSTNAME}/${this.getUserInfo.user}`;
     },
   },
+  created() {
+    this.updateInfo();
+  },
   mounted() {
     if (this.getUserIsRegistered) {
       if (this.$route.params.showEmail && !this.isUserEmailVerified) {
         this.$nextTick(() => this.$refs.inputDialog.show());
       }
-      this.updateInfo();
     }
   },
   methods: {

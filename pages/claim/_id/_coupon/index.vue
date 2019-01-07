@@ -59,7 +59,7 @@ export default {
       return this.$route.params.coupon;
     },
   },
-  mounted() {
+  created() {
     this.claimCoupon();
   },
   methods: {

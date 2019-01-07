@@ -76,7 +76,7 @@ export default {
       'getUserIsRegistered',
     ]),
   },
-  mounted() {
+  created() {
     if (this.getUserIsRegistered) {
       this.updateInfo();
     }

@@ -177,10 +177,11 @@ export default {
       ],
     };
   },
+  created() {
+    this.queryLikeCoinUsdPrice();
+  },
   mounted() {
     if (window.fbq) window.fbq('track', 'ViewContent');
-
-    this.queryLikeCoinUsdPrice();
   },
   methods: {
     ...mapActions([

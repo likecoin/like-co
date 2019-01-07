@@ -398,7 +398,7 @@ export default {
       }
     },
   },
-  mounted() {
+  created() {
     this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
 
     if (!this.getLikeCoinUsdNumericPrice) {

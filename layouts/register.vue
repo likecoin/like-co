@@ -126,7 +126,7 @@ export default {
       if (u) this.redirectToUserPage();
     },
   },
-  mounted() {
+  created() {
     if (this.getUserIsRegistered) {
       this.redirectToUserPage();
     }

@@ -234,7 +234,7 @@ export default {
       return (this.likeCount >= 5);
     },
   },
-  mounted() {
+  created() {
     this.updateUser();
   },
   methods: {

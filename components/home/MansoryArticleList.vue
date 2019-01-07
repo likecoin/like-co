@@ -79,7 +79,7 @@ export default {
       deep: true,
     },
   },
-  mounted() {
+  created() {
     this.initList();
   },
   methods: {

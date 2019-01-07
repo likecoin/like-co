@@ -339,7 +339,7 @@ export default {
       }
     },
   },
-  async mounted() {
+  async created() {
     if (this.shouldShowFromUserIcon) {
       const { from } = this.$route.query;
       try {
@@ -351,7 +351,8 @@ export default {
         // noop
       }
     }
-
+  },
+  async mounted() {
     // Listen to onClickReturnButton event of MetaMaskDialog
     this.$root.$on('MetaMaskDialog.onClickReturnButton', () => {
       this.stopWeb3Polling();

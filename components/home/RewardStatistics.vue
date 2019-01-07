@@ -163,8 +163,10 @@ export default {
       deep: true,
     },
   },
-  mounted() {
+  created() {
     this.fetchLikeStatistic();
+  },
+  mounted() {
     this.likeStatisticTimer = setInterval(() => {
       this.fetchLikeStatistic();
     }, UPDATE_LIKE_STATISTICS_TIME_INTERVAL);

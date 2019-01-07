@@ -109,7 +109,7 @@ export default {
       this.isShowAll = list.length <= NUM_DEFAULT_LIKERS_TO_SHOW;
     },
   },
-  mounted() {
+  created() {
     const { id, referrer, hasFetchedListDetails } = this;
     if (!hasFetchedListDetails) {
       this.fetchLikeButtonStatistics({ id, referrer });

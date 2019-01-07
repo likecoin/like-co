@@ -342,7 +342,7 @@ export default {
       }
     },
   },
-  mounted() {
+  created() {
     if (this.getUserIsRegistered) {
       this.updateInfo();
     }
