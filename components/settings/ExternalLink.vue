@@ -62,8 +62,8 @@
       </div>
 
       <input
-        v-if="isEdit"
         v-model="siteDisplayNameInputValue"
+        v-if="isEdit"
         :class="{
           invalid: !siteDisplayNameInputValue,
           'no-content': !siteDisplayNameInputValue,
@@ -78,8 +78,8 @@
 
     <div class="external-link__right-wrapper">
       <input
-        v-if="isEdit"
         v-model="urlInputValue"
+        v-if="isEdit"
         :class="{
           invalid: !isValidUrl,
           'no-content': !urlInputValue,

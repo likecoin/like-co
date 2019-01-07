@@ -38,8 +38,8 @@
           >
 
             <template
-              slot="md-tab"
               slot-scope="{ tab }"
+              slot="md-tab"
             >
               <span :class="['lc-tab-item-label', { new: tab.data.isNew }]">
                 {{ tab.label }}

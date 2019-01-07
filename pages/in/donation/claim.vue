@@ -90,8 +90,6 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-import NarrowPageHeader from '~/components/header/NarrowPageHeader';
-
 import ClapIcon from '~/assets/like-button/like-clap.svg';
 import ClapEffectIcon from '~/assets/like-button/clap-effect.svg';
 
@@ -100,9 +98,6 @@ import { checkIsMobileClient } from '~/util/client';
 export default {
   name: 'donation-claim-page',
   layout: 'narrowWithHeader',
-  components: {
-    NarrowPageHeader,
-  },
   data() {
     return {
       isClaiming: false,

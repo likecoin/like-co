@@ -273,8 +273,8 @@
               v-else-if="isReferral && missionId === 'verifyEmail' && bonusCooldown"
             >
               <mission-bonus-countdown
-                :bonus-cooldown="bonusCooldown"
                 :id="invitee.id"
+                :bonus-cooldown="bonusCooldown"
                 :display-name="invitee.displayName"
                 @finish="onCompleteMission"
               />
@@ -295,8 +295,8 @@
               v-else-if="mission.id === 'inviteFriend' && bonusCooldown"
             >
               <mission-bonus-countdown
-                :bonus-cooldown="bonusCooldown"
                 :id="getProxyMissionRefereeId(mission.id)"
+                :bonus-cooldown="bonusCooldown"
                 :display-name="getRefereeDisplayName(getProxyMissionRefereeId(mission.id))"
                 @finish="onCompleteMission"
               />
@@ -324,7 +324,7 @@
                   @click="$router.push({ name: 'in-tokensale' })"
                 >
                   {{ $t(`Home.Sale.button.${isUpcomingMission
-                  ? 'prepareToJoin' : 'joinNow'}`) }}
+                    ? 'prepareToJoin' : 'joinNow'}`) }}
                 </md-button>
                 <br>
                 <md-button

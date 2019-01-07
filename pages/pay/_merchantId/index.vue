@@ -135,8 +135,8 @@
                       id="payment-confirm"
                       :disabled="(
                         getIsInTransaction
-                        || !isSupportTransferDeleteaged
-                        || (!getLocalWallet)
+                          || !isSupportTransferDeleteaged
+                          || (!getLocalWallet)
                       )"
                       class="md-likecoin"
                       @click="onSubmit"

@@ -10,6 +10,7 @@ module.exports = {
   extends: [
     'airbnb-base',
     'plugin:vue/recommended',
+    'plugin:nuxt/recommended',
   ],
   // add your custom rules here
   rules: {
@@ -38,8 +39,11 @@ module.exports = {
     ],
     'vue/name-property-casing': ['error', 'kebab-case'],
     'vue/attribute-hyphenation': 'off',
+    'vue/html-indent': ['error'],
     'vue/html-closing-bracket-newline': ['error', { multiline: 'always' }],
     'vue/html-closing-bracket-spacing': ['error'],
+    'vue/multiline-html-element-content-newline': 'off',
+    'vue/singleline-html-element-content-newline': 'off',
   },
   globals: {},
   settings: {

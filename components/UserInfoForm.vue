@@ -216,7 +216,6 @@ import EditWhiteIcon from '@/assets/icons/edit-white.svg';
 import CivicLikerCta from '~/components/CivicLiker/CTA';
 import LikeCoinAmount from '~/components/LikeCoinAmount';
 import InputDialog from '~/components/dialogs/InputDialog';
-import SocialMediaConnect from '~/components/SocialMediaConnect';
 
 export default {
   name: 'user-info-form',
@@ -224,7 +223,6 @@ export default {
     CivicLikerCta,
     InputDialog,
     LikeCoinAmount,
-    SocialMediaConnect,
   },
   data() {
     return {

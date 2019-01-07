@@ -18,8 +18,8 @@
         >
 
           <template
-            slot="md-tab"
             slot-scope="{ tab }"
+            slot="md-tab"
           >
             <span class="settings-page__tab-label">
               {{ tab.label }}

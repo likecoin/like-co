@@ -102,7 +102,6 @@
 import { mapGetters, mapActions } from 'vuex';
 
 import ArticleDialog from '@/components/dialogs/ArticleDialog';
-import HeaderFlag from '@/components/about/Flag';
 import HomeBanner from '@/components/home/Banner';
 import HomeMobileHeader from '@/components/home/MobileHeader';
 import LikeButtonDemo from '@/components/home/LikeButtonDemo';
@@ -120,7 +119,6 @@ export default {
   layout: 'index',
   components: {
     ArticleDialog,
-    HeaderFlag,
     HomeBanner,
     HomeMobileHeader,
     LikeButtonDemo,

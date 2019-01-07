@@ -163,7 +163,8 @@
                   <no-ssr>
                     <p v-if="!isSupportTransferDeleteaged">
                       {{ $t('Transaction.error.notSupported') }}
-                  </p></no-ssr>
+                    </p>
+                  </no-ssr>
                   <no-ssr>
                     <md-button
                       id="payment-confirm"

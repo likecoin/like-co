@@ -40,8 +40,8 @@
               <div class="likecoin-stack">
                 <div
                   v-for="(layer, i) in layers"
-                  :class="`layer layer-${i + 1}`"
                   :key="i"
+                  :class="`layer layer-${i + 1}`"
                 >
 
                   <div
@@ -75,8 +75,8 @@
           <div class="likecoin-stack-mobile">
             <div
               v-for="(layer, i) in layers"
-              :class="`layer layer-${i + 1}`"
               :key="i"
+              :class="`layer layer-${i + 1}`"
             >
 
               <div class="title">
