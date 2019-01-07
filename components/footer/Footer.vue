@@ -43,7 +43,6 @@ export default {
     ...mapGetters([
       'getUserInfo',
       'getCurrentLocale',
-      'getLocalWallet',
       'getInfoMsg',
       'getInfoIsError',
       'getUserSocialPlatforms',
@@ -111,8 +110,8 @@ export default {
       intercomToken,
       displayName,
       email,
+      wallet,
     } = this.getUserInfo;
-    const wallet = this.getLocalWallet;
     if (this.$intercom) {
       const language = this.getCurrentLocale;
       const opt = { LikeCoin: true };
@@ -127,7 +126,8 @@ export default {
           .then((amount) => {
             const ETH = new BigNumber(amount).dividedBy(ONE_LIKE).toFixed(4);
             this.$intercom.update({ ETH: Number(ETH) });
-          });
+          })
+          .catch(err => console.error(err));
       }
       this.$intercom.boot(opt);
     }
