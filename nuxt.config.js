@@ -198,6 +198,7 @@ const nuxtConfig = {
     { src: '~/plugins/vue-clipboard2', ssr: false },
     { src: '~/plugins/vue-portal', ssr: false },
     { src: '~/plugins/vue-scroll-reveal', ssr: false },
+    { src: '~/plugins/vue-scroll', ssr: false },
     { src: '~/plugins/testing' },
   ],
   /*
