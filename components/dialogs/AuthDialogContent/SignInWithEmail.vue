@@ -1,7 +1,7 @@
 <template>
   <div class="signin-with-email-form lc-padding-vertical-16">
     <div class="lc-dialog-container-1">
-      <h1 class="lc-font-size-32 lc-margin-bottom-8">
+      <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-mobile">
         {{ $t('AuthDialog.SignInWithEmail.title') }}
       </h1>
       <p class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-32">

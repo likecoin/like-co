@@ -18,6 +18,7 @@
     v-bind="$testID('AuthDialog')"
     is-content-gapless
     @update:isShow="onUpdateIsShow"
+    @scroll="onScrollContent"
   >
 
     <div
@@ -32,12 +33,37 @@
       slot="header-center"
       class="auth-dialog__header-center"
     >
-      <img v-bind="logoProps">
+      <div
+        :class="[
+          'auth-dialog__logo',
+          {
+            'auth-dialog__logo--small': logoSize <= 60,
+          }
+        ]"
+        :style="`width: ${logoSize}px`"
+      >
+        <lc-avatar
+          v-if="avatar"
+          :src="avatar"
+          :halo="avatarHalo"
+          :size="logoSize >= 72 ? 'large' : 'small'"
+          is-full-width
+        />
+        <template v-else>
+          <img :src="LikeCoinLogo">
+          <img :src="LikeCoinTextLogo">
+        </template>
+      </div>
     </div>
 
     <div
       :style="contentStyle"
-      class="auth-dialog__content"
+      :class="[
+        'auth-dialog__content',
+        {
+          'auth-dialog__content--with-avatar': !!avatar,
+        }
+      ]"
     >
       <transition-group
         tag="div"
@@ -64,7 +90,7 @@
           class="auth-dialog__tab lc-padding-vertical-64"
         >
           <div class="lc-dialog-container-1">
-            <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-text-align-center">
+            <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-text-align-center lc-mobile">
               {{ $t('AuthDialog.label.loading') }}
             </h1>
           </div>
@@ -109,7 +135,7 @@
           class="auth-dialog__tab lc-padding-vertical-64"
         >
           <div class="lc-dialog-container-1">
-            <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-text-align-center">
+            <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-text-align-center lc-mobile">
               {{ $t('AuthDialog.label.signingIn') }}
             </h1>
           </div>
@@ -122,7 +148,7 @@
           class="auth-dialog__tab lc-padding-vertical-16"
         >
           <div class="lc-dialog-container-1">
-            <h1 class="lc-font-size-32 lc-margin-bottom-8">
+            <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-mobile">
               {{ $t('General.label.error') }}
             </h1>
             <p class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-32">
@@ -147,7 +173,7 @@
           class="auth-dialog__tab lc-padding-vertical-16"
         >
           <div class="lc-dialog-container-1">
-            <h1 class="lc-font-size-32 lc-margin-bottom-8">
+            <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-mobile">
               {{ $t('AuthDialog.label.checkInbox') }}
             </h1>
             <p class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-32">
@@ -171,7 +197,7 @@
           class="auth-dialog__tab lc-padding-vertical-64"
         >
           <div class="lc-dialog-container-1">
-            <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-text-align-center">
+            <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-text-align-center lc-mobile">
               {{ $t('AuthDialog.label.loginSuccessful') }}
             </h1>
           </div>
@@ -215,7 +241,8 @@ import {
   REDIRECT_WHITE_LIST,
 } from '~/constant';
 
-import LikeCoinLogo from '~/assets/icons/likecoin-vertical.svg';
+import LikeCoinLogo from '~/assets/icons/likecoin-logo.svg';
+import LikeCoinTextLogo from '~/assets/icons/likecoin-text-logo.svg';
 
 import { logTrackerEvent } from '@/util/EventLogger';
 
@@ -238,10 +265,15 @@ export default {
   },
   data() {
     return {
+      LikeCoinLogo,
+      LikeCoinTextLogo,
+
       avatar: undefined,
+      avatarHalo: 'none',
 
       currentTab: 'portal',
       contentStyle: {},
+      contentScrollTop: 0,
 
       platform: '',
       signInPayload: {
@@ -293,11 +325,8 @@ export default {
         this.$t('AuthDialog.label.signInError')
       );
     },
-    logoProps() {
-      return {
-        src: this.avatar || LikeCoinLogo,
-        class: `auth-dialog__logo auth-dialog__logo--${this.avatar ? 'avatar' : 'likecoin'}`,
-      };
+    logoSize() {
+      return Math.max(96 - this.contentScrollTop, 60);
     },
   },
   watch: {
@@ -326,6 +355,7 @@ export default {
       this.logShowAuthDialog(isShow);
     },
     currentTab(tab) {
+      this.contentScrollTop = 0;
       if (tab === 'register' && !this.loggedEvents.register) {
         this.loggedEvents.register = 1;
         logTrackerEvent(this, 'RegFlow', 'ShowRegisterForm', 'ShowRegisterForm', 1);
@@ -339,7 +369,9 @@ export default {
         if (!this.getUserMinInfoById(from)) {
           await this.fetchUserMinInfo(from);
         }
-        this.avatar = this.getUserMinInfoById(from).avatar;
+        const userInfo = this.getUserMinInfoById(from);
+        this.avatar = userInfo.avatar;
+        this.avatarHalo = User.getAvatarHaloType(userInfo);
       } catch (err) {
         // noop
       }
@@ -439,6 +471,9 @@ export default {
         this.currentTab = 'portal';
         this.errorCode = '';
       }
+    },
+    onScrollContent(e, pos) {
+      this.contentScrollTop = pos.scrollTop;
     },
     onClickBackButton() {
       switch (this.currentTab) {
@@ -856,37 +891,24 @@ export default {
 
   &__header-center {
     padding-top: 16px;
-
-    &::before {
-      position: absolute;
-      top: 48px;
-      right: 0;
-      left: 0;
-
-      height: 100px;
-
-      content: "";
-
-      background: linear-gradient(to bottom, white 88%, transparentize(white, 1));
-    }
   }
 
   &__logo {
     position: absolute;
     top: 16px;
 
+    width: 96px;
+
     transform: translateX(-50%);
 
-    &--avatar {
-      width: auto;
-      height: 128px;
-
-      border-radius: 50%;
+    > img:nth-child(2) {
+      transition: opacity 0.25s ease;
     }
 
-    &--likecoin {
-      width: 96px;
-      height: 128px;
+    &--small {
+      > img:nth-child(2) {
+        opacity: 0;
+      }
     }
   }
 
@@ -896,6 +918,10 @@ export default {
     margin-top: 82px;
 
     transition: height 1s ease;
+
+    &--with-avatar {
+      margin-top: 64px;
+    }
   }
 
   &__tab-container {

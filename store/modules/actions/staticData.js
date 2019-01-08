@@ -64,11 +64,15 @@ export async function fetchUserMinInfo({ commit, dispatch }, id) {
     const {
       avatar,
       displayName,
+      isPreRegCivicLiker,
+      isSubscribedCivicLiker,
     } = await apiWrapper({ commit, dispatch }, api.apiGetUserMinById(id), { slient: true });
     commit(types.STATIC_DATA_SET_USER_MIN_INFO, {
       id,
       avatar,
       displayName,
+      isPreRegCivicLiker,
+      isSubscribedCivicLiker,
     });
   } catch (err) {
     console.error(err); // eslint-disable-line no-console

@@ -44,8 +44,19 @@ const mutations = {
       Vue.set(state.suggestedArticleInfo, url, { url, ...info });
     }
   },
-  [STATIC_DATA_SET_USER_MIN_INFO](state, { id, displayName, avatar }) {
-    Vue.set(state.userInfos, id, { displayName, avatar });
+  [STATIC_DATA_SET_USER_MIN_INFO](state, {
+    id,
+    displayName,
+    avatar,
+    isPreRegCivicLiker,
+    isSubscribedCivicLiker,
+  }) {
+    Vue.set(state.userInfos, id, {
+      displayName,
+      avatar,
+      isPreRegCivicLiker,
+      isSubscribedCivicLiker,
+    });
   },
   [STATIC_DATA_SET_LIKER_LIST_DETAIL](state, { id, ...payload }) {
     Vue.set(state.likerListDetails, id, { ...payload });

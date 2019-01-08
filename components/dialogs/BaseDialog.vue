@@ -26,6 +26,7 @@
     </header>
 
     <md-dialog-content
+      v-scroll="onScrollContent"
       :class="[
         'lc-dialog-content',
         {
@@ -96,6 +97,9 @@ export default {
     },
     onDismiss() {
       this.hide();
+    },
+    onScrollContent(e, pos) {
+      this.$emit('scroll', e, pos);
     },
   },
 };
