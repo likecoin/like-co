@@ -207,7 +207,6 @@ import SigninPortal from './AuthDialogContent/SignInPortal';
 // import EmailSigninForm from './AuthDialogContent/SignInWithEmail';
 import RegisterForm from './AuthDialogContent/Register';
 import EthMixin from '~/components/EthMixin';
-import experimentsMixin from '~/util/mixins/experiments';
 
 import User from '@/util/User';
 
@@ -230,12 +229,6 @@ export default {
   },
   mixins: [
     EthMixin,
-    experimentsMixin(
-      'shouldShowFromUserIcon',
-      'register-icon',
-      'from-user-avatar',
-      instance => !!instance.$route.query.from,
-    ),
   ],
   props: {
     isShow: {
@@ -245,7 +238,7 @@ export default {
   },
   data() {
     return {
-      avatar: LikeCoinLogo,
+      avatar: undefined,
 
       currentTab: 'portal',
       contentStyle: {},
@@ -302,8 +295,8 @@ export default {
     },
     logoProps() {
       return {
-        src: this.avatar,
-        class: `auth-dialog__logo auth-dialog__logo--${this.shouldShowFromUserIcon ? 'avatar' : 'likecoin'}`,
+        src: this.avatar || LikeCoinLogo,
+        class: `auth-dialog__logo auth-dialog__logo--${this.avatar ? 'avatar' : 'likecoin'}`,
       };
     },
   },
@@ -340,8 +333,8 @@ export default {
     },
   },
   async mounted() {
-    if (this.shouldShowFromUserIcon) {
-      const { from } = this.$route.query;
+    const { from } = this.$route.query;
+    if (from) {
       try {
         if (!this.getUserMinInfoById(from)) {
           await this.fetchUserMinInfo(from);
@@ -388,7 +381,7 @@ export default {
       }
     }
 
-    const { from, referrer } = this.$route.query;
+    const { referrer } = this.$route.query;
     if (from) this.referrer = from;
     this.sourceURL = referrer || document.referrer;
 
