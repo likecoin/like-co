@@ -174,7 +174,7 @@ const nuxtConfig = {
       pageTracking: true,
     }],
     '@nuxtjs/sentry',
-    '@likecoin/nuxt-google-optimize',
+    // '@likecoin/nuxt-google-optimize',
   ],
   googleOptimize: {
     externalExperimentsSrc: '/api/experiments/list',
