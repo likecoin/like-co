@@ -1,9 +1,22 @@
 <template>
-  <div :class="['icon-bar', size, { vertical: isVertical }]">
+  <div
+    :class="['icon-bar', size, { vertical: isVertical }]"
+    itemscope
+    itemtype="https://schema.org/Organization"
+  >
+    <a
+      :href="`https://${EXTERNAL_HOSTNAME}`"
+      style="display:none"
+      itemprop="url"
+    >
+      <span itemprop="name">LikeCoin Foundation</span>
+      <img :src="`https://${EXTERNAL_HOSTNAME}/logo.png`" itemprop="logo" />
+    </a>
     <md-button
       v-for="(platform, index) in platforms"
       :key="index"
       :href="platform.url"
+      itemprop="sameAs"
       class="md-icon-button"
       target="_blank"
       rel="noopener noreferrer"
@@ -20,6 +33,8 @@
 </template>
 
 <script>
+import { EXTERNAL_HOSTNAME } from '@/constant';
+
 const images = require.context('../assets/icons/');
 
 const platforms = [
@@ -66,6 +81,7 @@ export default {
   },
   data() {
     return {
+      EXTERNAL_HOSTNAME,
       platforms,
     };
   },
