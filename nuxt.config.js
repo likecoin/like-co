@@ -43,12 +43,12 @@ const nuxtConfig = {
       { rel: 'preload', href: '/vendor/fb/pixel.js', as: 'script' },
       { rel: 'preload', href: '/vendor/fb/sdk.js', as: 'script' },
       { rel: 'preload', href: 'https://use.typekit.net/ube6iww.js', as: 'script' },
-      {
-        rel: 'preload',
-        href: '/api/experiments/list',
-        as: 'fetch',
-        crossorigin: 'anonymous',
-      },
+      // {
+      //   rel: 'preload',
+      //   href: '/api/experiments/list',
+      //   as: 'fetch',
+      //   crossorigin: 'anonymous',
+      // },
       { rel: 'preconnect', href: 'https://connect.facebook.net' },
       { rel: 'icon', type: 'image/png', href: '/favicon.png' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Material+Icons' },
