@@ -38,26 +38,17 @@
           <div class="lc-container-3 lc-bg-gray-1">
             <div class="lc-container-4 lc-padding-vertical-32">
 
-              <template v-if="isCSOnline">
-                <div
-                  :class="[
-                    'lc-margin-bottom-16',
-                    'lc-color-civic-green lc-font-size-32 lc-font-weight-600 lc-text-align-center',
-                  ]"
-                >
-                  {{ $t('CivicLikerBeta.applying') }}
-                </div>
+              <div
+                :class="[
+                  'lc-margin-bottom-16',
+                  'lc-color-like-green lc-font-size-24 lc-font-weight-600',
+                ]"
+              >
+                {{ $t('CivicLikerBeta.joinOice') }}
+              </div>
 
-                <div class="applying-notice">
-                  <img :src="ChatIcon">
-                  <span>{{ $t('CivicLikerBeta.description') }}</span>
-                </div>
-
-                <div class="lc-text-align-center lc-margin-vertical-16">
-                  <lc-loading-indicator class="lc-color-civic-green lc-font-size-18" />
-                </div>
-
-                <div class="pricing-item lc-margin-top-24">
+              <div class="pricing-item lc-margin-top-24">
+                <div class="pricing-item-content">
                   <div class="pricing-item__type">
                     {{ $t(`CivicPage.pricing.type.civicLiker`) }}
                   </div>
@@ -72,38 +63,21 @@
                     style="color: #d0021b"
                   >{{ $t('CivicPage.onGoing') }}</div>
                 </div>
-              </template>
-
-              <template v-else>
-                <div class="countdown-clock">
-                  <clock />
+                <div class="pricing-item__image">
+                  <img :src="OiceBackerPage">
                 </div>
+              </div>
 
-                <div
-                  :class="[
-                    'lc-margin-bottom-16',
-                    'lc-color-civic-yellow lc-font-size-32 lc-font-weight-600 lc-text-align-center',
-                  ]"
+              <div class="lc-button-group lc-margin-top-24">
+                <md-button
+                  :href="applyURL"
+                  class="md-likecoin"
+                  rel="noopener noreferrer"
+                  target="_blank"
                 >
-                  {{ $t('CivicPage.waitingList.title') }}
-                </div>
-
-                <p class="lc-text-align-center lc-margin-bottom-32">
-                  {{ $t('CivicLikerBeta.waitingList.sorry') }}
-                  <template v-if="!getUserInfo.email">
-                    {{ $t('CivicPage.waitingList.ensureEmail') }}
-                  </template>
-                  {{ $t('CivicPage.waitingList.notifyByEmail') }}
-                </p>
-                <div class="lc-button-group lc-margin-top-16">
-                  <md-button
-                    class="md-likecoin lc-font-size-16 lc-font-weight-600"
-                    @click="$router.push({ name: 'in' })"
-                  >
-                    {{ $t('General.button.ok') }}
-                  </md-button>
-                </div>
-              </template>
+                  {{ $t('CivicLikerBeta.applyNow') }}
+                </md-button>
+              </div>
 
             </div>
           </div>
@@ -117,39 +91,22 @@
 
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 
-import { CIVIC_LIKER_START_DATE } from '~/constant';
-import ChatIcon from '~/assets/icons/chat.svg';
-
-import { apiGetCivicCSOnline } from '~/util/api/api';
-
-import Clock from '~/components/Mission/Clock';
+import OiceBackerPage from '~/assets/civic/oice-backer-reg.png';
+import { IS_TESTNET } from '~/constant';
 
 export default {
   layout: 'narrowWithHeader',
-  components: {
-    Clock,
-  },
   async asyncData({ redirect, store }) {
-    if (
-      Date.now() < CIVIC_LIKER_START_DATE
-      || store.getters.getUserInfo.isSubscribedCivicLiker
-    ) {
+    const { isSubscribedCivicLiker, currentType } = store.getters.getUserInfo;
+    if (isSubscribedCivicLiker && currentType !== 'trial') {
       redirect({ name: 'in-civic' });
     }
-
-    const res = await apiGetCivicCSOnline();
-    const { isCSOnline } = res.data;
-    return {
-      isCSOnline,
-    };
   },
   data() {
     return {
-      ChatIcon,
-
-      civicLikerStartDate: new Date(CIVIC_LIKER_START_DATE),
+      OiceBackerPage,
     };
   },
   middleware: 'authenticated',
@@ -157,6 +114,9 @@ export default {
     ...mapGetters([
       'getUserInfo',
     ]),
+    applyURL() {
+      return `https://${IS_TESTNET ? 'oicetest.lakoo.com' : 'oice.com'}/backer?action=subscribe&referrer=${this.getUserInfo.user}`;
+    },
   },
   head() {
     return {
@@ -185,31 +145,6 @@ export default {
       ],
     };
   },
-  async mounted() {
-    const queryString = Object.keys(this.$route.query)
-      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(this.$route.query[key])}`)
-      .join('&');
-    if (this.$intercom && this.isCSOnline) {
-      await this.dequeueCivicLiker({ id: this.getUserInfo.user, queryString });
-      this.$intercom.trackEvent('likecoin-store_civicLikerRegister');
-      this.$intercom.update({ isOnCivicLikerWaitingList: false });
-      this.$intercom.show();
-    } else {
-      await this.queueCivicLiker({ id: this.getUserInfo.user, queryString });
-      if (this.$intercom) {
-        this.$intercom.update({ isOnCivicLikerWaitingList: true });
-      }
-    }
-  },
-  methods: {
-    ...mapActions([
-      'dequeueCivicLiker',
-      'queueCivicLiker',
-    ]),
-    onClickOk() {
-      this.$router.push({ name: 'in' });
-    },
-  },
 };
 </script>
 
@@ -223,48 +158,26 @@ export default {
   margin-bottom: -32px;
 }
 
-.countdown-clock {
-  display: block;
-
-  width: 52px;
-  height: 52px;
-  margin: 0 auto 24px;
-  padding: 7px;
-
-  border: 2px solid $like-green;
-
-  border-radius: 50%;
-}
-
-.applying-notice {
-  display: flex;
-
-  > img {
-    flex-grow: 0;
-
-    width: 42px;
-    height: 36px;
-    margin-right: 16px;
-  }
-}
-
 .pricing-item {
+  overflow: hidden;
+
   min-height: 96px;
-  padding: 24px;
 
   border-radius: 8px;
-  background: white;
+
+  &-content {
+    padding: 16px 24px;
+
+    background: white;
+  }
 
   &__type {
     margin-bottom: 8px;
 
-    color: $like-gray-5;
+    color: $like-green;
 
     font-size: 14px;
-
-    .pricing-table__col--civicLiker & {
-      color: $like-green;
-    }
+    font-weight: 600;
   }
 
   &__price {
@@ -278,6 +191,21 @@ export default {
     color: $gray-9b;
 
     font-size: 12px;
+  }
+
+  &__image {
+    max-height: 212px;
+
+    padding: 0 12px;
+
+    text-align: center;
+
+    border-top: solid 1px $like-gray-3;
+    background: $gray-e6;
+
+    > img {
+      max-height: inherit;
+    }
   }
 
   .lc-chop-civic-liker {
