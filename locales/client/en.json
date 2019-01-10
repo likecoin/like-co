@@ -5,6 +5,7 @@
     "disconnect": "Disconnect",
     "learnMore": "Learn More",
     "loading": "Loading",
+    "retry": "Retry",
     "label": {
       "error": "Error",
       "success": "Success",
@@ -702,6 +703,19 @@
       "title": "Welcome",
       "button": {
         "uploadAvatar": "Upload avatar"
+      },
+      "error": "Account Registration Failed",
+      "suggestWalletSignIn": {
+        "id": "If you successfully registered {id} before, please try to {signIn} on PC",
+        "email": "If you successfully registered a LikeCoin ID with {email} before, please try to {signIn} on PC"
+      },
+      "signWithWallet": "sign in with wallet"
+    },
+    "Failure": {
+      "BindSocialAccounts": {
+        "header": "Login with your social accounts",
+        "message": "Connect to your social accounts now to enjoy a much easier login experience, mobile supported.",
+        "confirm": "Link Now"
       }
     }
   },
@@ -1146,7 +1160,7 @@
     "button": {
       "toIndex": "Return to Index"
     },
-    "EMAIL_ALREADY_USED": "Email is already used",
+    "EMAIL_ALREADY_USED": "Email is already used, please try again.",
     "FILE_TOO_LARGE": "Filesize limit exceeded",
     "MISSION_ALREADY_DONE": "You have already done this mission",
     "MISSION_COMPLETE_FAILURE": "Error occurs when completing the mission",
@@ -1157,7 +1171,7 @@
     "TWITTER_NOT_FOLLOW": "Please follow @likecoin_fdn on Twitter",
     "TWITTER_QUOTE_INVALID": "Please retweet the correct tweet",
     "TWITTER_URL_INVALID": "The tweet URL is invalid",
-    "USER_ALREADY_EXIST": "User already exists",
+    "USER_ALREADY_EXIST": "LikeCoin ID already exists, please try again.",
     "USER_REGISTER_ERROR": "Error occurs during registration",
     "USER_NOT_EXIST": "User is not exist",
     "USER_UNLINK_SOLE_OAUTH_LOGIN": "Unable to unlink. You need at least one sign in method",

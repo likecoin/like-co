@@ -130,7 +130,10 @@
     </div>
 
     <!-- Connections Section -->
-    <section class="lc-container-0 lc-margin-top-32">
+    <section
+      id="connect"
+      class="lc-container-0 lc-margin-top-32"
+    >
       <div class="lc-container-1">
         <div class="lc-container-2">
 
