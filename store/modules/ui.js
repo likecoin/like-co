@@ -101,6 +101,8 @@ const mutations = {
   [UI_POPUP_OPEN](state, payload) {
     payload.uuid = uuidv1();
     payload.isShow = true;
+    if (!payload.onCancel) payload.onCancel = () => {};
+    if (!payload.onConfirm) payload.onConfirm = () => {};
     Vue.set(state, 'popupDialogs', [...state.popupDialogs, payload]);
   },
   [UI_POPUP_CLOSE](state, uuid) {
