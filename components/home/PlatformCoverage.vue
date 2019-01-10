@@ -7,9 +7,9 @@
             <div class="lc-container-3">
               <div class="lc-container-4">
                 <div class="lc-container-header-title">
-                  <h1 class="lc-font-size-32 lc-mobile">
+                  <h2 class="lc-font-size-32 lc-mobile">
                     {{ $t('Home.PlatformCoverage.title.seeOn') }}
-                  </h1>
+                  </h2>
                 </div>
               </div>
             </div>
@@ -48,9 +48,9 @@
             <div class="lc-container-3">
               <div class="lc-container-4">
                 <div class="lc-container-header-title">
-                  <h1 class="lc-font-size-32 lc-mobile">
+                  <h2 class="lc-font-size-32 lc-mobile">
                     {{ $t('Home.PlatformCoverage.title.buyOn') }}
-                  </h1>
+                  </h2>
                 </div>
               </div>
             </div>

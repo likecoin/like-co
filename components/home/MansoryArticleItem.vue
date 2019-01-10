@@ -45,7 +45,7 @@
         <div class="mansory-article-item__content">
           <span>{{ articleUrlHost }}</span>
 
-          <h1>{{ article.title }}</h1>
+          <h2>{{ article.title }}</h2>
 
           <p v-if="description">
             {{ description }}
@@ -248,7 +248,7 @@ $author-avatar-size: 36px;
       color: $like-gray-5;
     }
 
-    h1 {
+    h2 {
       padding: 4px 0 8px;
 
       color: $like-black;

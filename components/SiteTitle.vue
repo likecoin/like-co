@@ -1,21 +1,22 @@
 <template>
-  <nuxt-link
-    :class="['site-title', { test: isTest }]"
-    :to="{ name: getToPage }"
-  >
-
-    <img
-      :src="logoSrc"
-      alt="like.co/in"
+  <h1>
+    <nuxt-link
+      :class="['site-title', { test: isTest }]"
+      :to="{ name: getToPage }"
     >
-    <span
-      v-if="isTest"
-      class="sup"
-    >
-      {{ $t('Store.Header.label.test') }}
-    </span>
+      <img
+        :src="logoSrc"
+        alt="LikeCoin"
+      >
+      <span
+        v-if="isTest"
+        class="sup"
+      >
+        {{ $t('Store.Header.label.test') }}
+      </span>
 
-  </nuxt-link>
+    </nuxt-link>
+  </h1>
 </template>
 
 <script>
