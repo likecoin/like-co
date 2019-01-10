@@ -74,6 +74,7 @@
                   class="md-likecoin"
                   rel="noopener noreferrer"
                   target="_blank"
+                  @click="onClickApplyButton"
                 >
                   {{ $t('CivicLikerBeta.applyNow') }}
                 </md-button>
@@ -93,6 +94,8 @@
 <script>
 import { mapGetters } from 'vuex';
 
+import { apiGetCivicCSOnline } from '~/util/api/api';
+
 import OiceBackerPage from '~/assets/civic/oice-backer-reg.png';
 import { IS_TESTNET } from '~/constant';
 
@@ -102,7 +105,14 @@ export default {
     const { isSubscribedCivicLiker, currentType } = store.getters.getUserInfo;
     if (isSubscribedCivicLiker && currentType !== 'trial') {
       redirect({ name: 'in-civic' });
+      return {};
     }
+
+    const res = await apiGetCivicCSOnline();
+    const { isCSOnline } = res.data;
+    return {
+      isCSOnline,
+    };
   },
   data() {
     return {
@@ -144,6 +154,19 @@ export default {
         },
       ],
     };
+  },
+  mounted() {
+    if (this.$intercom && this.isCSOnline) {
+      this.$intercom.trackEvent('likecoin-store_civicLikerRegister');
+      this.$intercom.show();
+    }
+  },
+  methods: {
+    onClickApplyButton() {
+      if (this.$intercom) {
+        this.$intercom.update({ isOnCivicLikerWaitingList: true });
+      }
+    },
   },
 };
 </script>
