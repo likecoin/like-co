@@ -125,7 +125,7 @@ export default {
       'getUserInfo',
     ]),
     applyURL() {
-      return `https://${IS_TESTNET ? 'oicetest.lakoo.com' : 'oice.com'}/backer?action=subscribe&referrer=${this.getUserInfo.user}`;
+      return `https://${IS_TESTNET ? 'oicetest.lakoo.com' : 'oice.com'}/profile?action=subscribe&referrer=${this.getUserInfo.user}`;
     },
   },
   head() {
