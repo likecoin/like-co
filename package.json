@@ -9,7 +9,9 @@
   "author": "William Chong <williamchong007@msn.com>",
   "private": true,
   "scripts": {
-    "dev": "IS_TESTNET=TRUE backpack dev",
+    "dev": "npm run dev:docker:api && npm run dev:frontend",
+    "dev:docker:api": "docker-compose -f docker-compose-dev.yml up -d",
+    "dev:frontend": "IS_TESTNET=TRUE backpack dev",
     "dev:stub": "node ./test/runner",
     "build": "nuxt build && backpack build",
     "build:testnet": "IS_TESTNET=TRUE nuxt build && npm run build:testnet:server",

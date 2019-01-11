@@ -47,7 +47,10 @@ app.use((req, res, next) => {
 });
 
 // Import API Routes
-app.use('/api', proxy({ target: process.env.LIKE_API_HOST }));
+app.use('/api', proxy('/api', {
+  target: `http://${process.env.LIKE_API_HOST || 'localhost:3001' }`,
+  pathRewrite: { '^/api': '' },
+}));
 
 // Import and Set Nuxt.js options
 const config = require('../nuxt.config.js');
