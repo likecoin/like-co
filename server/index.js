@@ -1,4 +1,5 @@
 import express from 'express';
+import proxy from 'http-proxy-middleware';
 import cookieParser from 'cookie-parser';
 import csrf from 'csurf';
 import i18n from 'i18n';
@@ -8,8 +9,6 @@ import { Nuxt, Builder } from 'nuxt';
 import { IS_TESTNET } from '../constant';
 import { CSRF_COOKIE_OPTION } from './constant/server';
 import { supportedLocales } from '../locales';
-
-import api from './api';
 
 const path = require('path');
 
@@ -48,7 +47,7 @@ app.use((req, res, next) => {
 });
 
 // Import API Routes
-app.use('/api', api);
+app.use('/api', proxy({ target: process.env.LIKE_API_HOST }));
 
 // Import and Set Nuxt.js options
 const config = require('../nuxt.config.js');

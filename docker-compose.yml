@@ -1,9 +1,18 @@
 version: '3'
 services:
-  like-server:
+  like-frontend:
     build: .
+    volumes:
+     - ./src:/app/src
     ports:
      - "3000:3000"
+    environment:
+     - LIKE_API_HOST=like-api
+  like-api:
+    build: ./server/api
     volumes:
-     - ./server/config:/app/server/config
+     - ./server/api/config:/app/config
+     - ./server/api/src:/app/src
+    ports:
+     - "3001:3001"
 
