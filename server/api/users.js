@@ -103,8 +103,12 @@ router.post(
             from,
             payload: stringPayload,
             sign,
+            referrer,
+            sourceURL,
           } = req.body;
           payload = checkSignPayload(from, stringPayload, sign);
+          payload.referrer = referrer;
+          payload.sourceURL = sourceURL;
           break;
         }
 

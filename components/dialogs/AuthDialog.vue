@@ -773,10 +773,9 @@ export default {
           payload,
           this.$t('Sign.Message.registerUser'),
         );
-      } else {
-        if (this.referrer) payload.referrer = this.referrer;
-        if (this.sourceURL) payload.sourceURL = this.sourceURL;
       }
+      if (this.referrer) payload.referrer = this.referrer;
+      if (this.sourceURL) payload.sourceURL = this.sourceURL;
 
       this.currentTab = 'signingIn';
       try {
