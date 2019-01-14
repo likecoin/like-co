@@ -16,3 +16,5 @@ build
 webpack-cache
 
 static
+
+server/api

@@ -48,7 +48,7 @@ app.use((req, res, next) => {
 
 // Import API Routes
 app.use('/api', proxy('/api', {
-  target: `http://${process.env.LIKE_API_HOST || 'localhost:3001' }`,
+  target: `http://${process.env.LIKE_API_HOST || 'localhost:3001'}`,
   pathRewrite: { '^/api': '' },
 }));
 
