@@ -1320,7 +1320,24 @@
     }
   },
   "AuthConnectList": {
-    "title": "帳號連接"
+    "title": "帳號連接",
+    "facebook": {
+      "title": "連接 Facebook",
+      "connectedTitle": "你已綁定 Facebook",
+      "connected": "現在你可以你的 Facebook 帳號登入 LikeCoin ID",
+      "disclaimer": "我們不會在未經你同意下，以你的名義於 Facebook 發佈任何動態消息或訊息"
+    },
+    "google": {
+      "title": "連接 Google",
+      "connectedTitle": "你已綁定 Google",
+      "connected": "現在你可以你的 Google 帳號登入 LikeCoin ID。"
+    },
+    "twitter": {
+      "title": "連接 Twitter",
+      "connectedTitle": "你已綁定 Twitter",
+      "connected": "現在你可以你的 Twitter 帳號登入 LikeCoin ID。",
+      "disclaimer": "我們不會在未經你同意下，以你的名義於 twitter 發佈任何動態消息"
+    }
   },
   "OtherConnectList": {
     "title": "其他帳號連接",
