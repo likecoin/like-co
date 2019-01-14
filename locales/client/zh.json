@@ -1321,8 +1321,6 @@
   },
   "AuthConnectList": {
     "title": "帳號連接",
-    "show": "Show on your profile",
-    "hide": "Hide",
     "facebook": {
       "title": "連接 Facebook",
       "connectedTitle": "你已綁定 Facebook",
