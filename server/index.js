@@ -2,21 +2,9 @@ import express from 'express';
 import proxy from 'http-proxy-middleware';
 import cookieParser from 'cookie-parser';
 import csrf from 'csurf';
-import i18n from 'i18n';
-import compression from 'compression';
-import bodyParser from 'body-parser';
 import { Nuxt, Builder } from 'nuxt';
 import { IS_TESTNET } from '../constant';
 import { CSRF_COOKIE_OPTION } from './constant/server';
-import { supportedLocales } from '../locales';
-
-const path = require('path');
-
-i18n.configure({
-  locales: supportedLocales,
-  directory: path.resolve(__dirname, '../locales/server'),
-  objectNotation: true,
-});
 
 const app = express();
 const host = process.env.HOST || '127.0.0.1';
@@ -26,28 +14,8 @@ app.set('port', port);
 
 if (process.env.NODE_ENV === 'production') app.disable('x-powered-by');
 
-app.use((req, res, next) => {
-  if (!/^\/in\/embed\/[-a-z0-9_]+/.test(req.path)) {
-    res.setHeader('X-Frame-Options', 'DENY');
-  } else {
-    res.setHeader('Cache-Control', 'public, max-age=600, s-maxage=600, stale-if-error=604800, stale-while-revalidate=604800');
-  }
-  res.setHeader('X-XSS-Protection', '1; mode=block');
-  res.setHeader('Referrer-Policy', 'strict-origin');
-  next();
-});
-
-app.use(cookieParser());
-app.use(compression());
-app.use(bodyParser.json());
-app.use(i18n.init);
-app.use((req, res, next) => {
-  if (req.body.locale) i18n.setLocale(res, req.body.locale);
-  next();
-});
-
-// Import API Routes
-app.use('/api', proxy('/api', {
+// proxy API Routes
+app.use('/api', proxy({
   target: `http://${process.env.LIKE_API_HOST || 'localhost:3001'}`,
   pathRewrite: { '^/api': '' },
 }));
@@ -67,8 +35,21 @@ if (config.dev) {
   builder.build();
 }
 
-// Give nuxt middleware to express
+app.use((req, res, next) => {
+  if (!/^\/in\/embed\/[-a-z0-9_]+/.test(req.path)) {
+    res.setHeader('X-Frame-Options', 'DENY');
+  } else {
+    res.setHeader('Cache-Control', 'public, max-age=600, s-maxage=600, stale-if-error=604800, stale-while-revalidate=604800');
+  }
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  res.setHeader('Referrer-Policy', 'strict-origin');
+  next();
+});
+
+// needed for csrf parsing in vuex
+app.use(cookieParser());
 app.use(csrf({ cookie: CSRF_COOKIE_OPTION }));
+// Give nuxt middleware to express
 app.use(nuxt.render);
 
 // Listen the server if not under e2e test
