@@ -408,7 +408,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'popUpAuthDialogInPlace',
+      'popupAuthDialogInPlace',
       'doUserAuth',
       'sendPayment',
       'sendEthPayment',
@@ -504,7 +504,7 @@ export default {
       this.amount = value;
     },
     onClickSignInButton() {
-      this.popUpAuthDialogInPlace({ route: this.$route });
+      this.popupAuthDialogInPlace({ route: this.$route });
     },
     onClickSignUpButton() {
       this.doUserAuth({ router: this.$router, route: this.$route });

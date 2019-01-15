@@ -119,7 +119,7 @@ export const setAuthDialog = ({ commit }, payload) => {
   commit(types.UI_SET_AUTH_DIALOG, payload);
 };
 
-export const popUpAuthDialogInPlace = ({ commit }, { route }) => {
+export const popupAuthDialogInPlace = ({ commit }, { route }) => {
   commit(types.UI_SET_AUTH_DIALOG, { isShow: true });
   const {
     params,

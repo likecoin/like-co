@@ -213,7 +213,7 @@ export default {
   methods: {
     ...mapActions([
       'setAuthDialog',
-      'popUpAuthDialogInPlace',
+      'popupAuthDialogInPlace',
       'logoutUser',
       'closeSlidingMenu',
     ]),
@@ -222,7 +222,7 @@ export default {
       if (this.$route.name === 'index') {
         this.setAuthDialog({ isShow: true });
       } else {
-        this.popUpAuthDialogInPlace({ route: this.$route });
+        this.popupAuthDialogInPlace({ route: this.$route });
       }
     },
     async onClickLogoutButon() {

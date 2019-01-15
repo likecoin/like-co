@@ -7,7 +7,7 @@ export default function ({ store, route, redirect }) {
     let redirectPath = '/in/register';
     if (!process.server) {
       store.commit(USER_SET_AFTER_AUTH_ROUTE, route);
-    } else if (/^in-.*/.test(route.name) && (!route.params || !Object.keys(route.params).length)) {
+    } else if (/^in-/.test(route.name) && (!route.params || !Object.keys(route.params).length)) {
       redirectPath = `${redirectPath}?ref=${route.name}`;
     }
     redirect(redirectPath);
