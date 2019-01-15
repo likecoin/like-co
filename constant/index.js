@@ -40,7 +40,7 @@ if (IS_TESTNET) whiteList.push('localhost');
 
 export const REDIRECT_WHITE_LIST = whiteList;
 
-export const REDIRECT_NAME_WHITE_LIST = ['in-tokensale', 'in-bundle', 'in-settings'];
+export const REDIRECT_NAME_WHITE_LIST = ['in-bonus', 'in-tokensale', 'in-bundle', 'in-settings'];
 
 export const TRANSACTION_QUERY_LIMIT = 10;
 
