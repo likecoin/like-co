@@ -119,6 +119,22 @@ export const setAuthDialog = ({ commit }, payload) => {
   commit(types.UI_SET_AUTH_DIALOG, payload);
 };
 
+export const popUpAuthDialogInPlace = ({ commit }, { route }) => {
+  commit(types.UI_SET_AUTH_DIALOG, { isShow: true });
+  const {
+    params,
+    name,
+    query,
+    hash,
+  } = route;
+  commit(types.USER_SET_AFTER_AUTH_ROUTE, {
+    params,
+    name,
+    query,
+    hash,
+  });
+};
+
 const WALLET_NOTICE_EXPIRY_TIME_KEY = 'wallet_notice_expiry_time';
 export const setWalletNoticeDialog = ({ commit }, payload) => {
   // Skip showing dialog if user saw it recently
