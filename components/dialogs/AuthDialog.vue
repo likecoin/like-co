@@ -171,7 +171,7 @@
                 place="email"
               >{{ signInPayload.email }}</span>
               <a
-                class="lc-color-civic-yellow lc-underline"
+                class="lc-color-light-burgundy lc-underline"
                 place="signIn"
                 @click="onClickSignWithWalletInError"
               >{{ $t('AuthDialog.Register.signWithWallet') }}</a>
