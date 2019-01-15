@@ -213,12 +213,17 @@ export default {
   methods: {
     ...mapActions([
       'setAuthDialog',
+      'popUpAuthDialogInPlace',
       'logoutUser',
       'closeSlidingMenu',
     ]),
     onClickSignInButton() {
       logTrackerEvent(this, 'RegFlow', 'ClickSlidingMenuSignUp', 'ClickSlidingMenuSignUp', 1);
-      this.setAuthDialog({ isShow: true });
+      if (this.$route.name === 'index') {
+        this.setAuthDialog({ isShow: true });
+      } else {
+        this.popUpAuthDialogInPlace({ route: this.$route });
+      }
     },
     async onClickLogoutButon() {
       await this.logoutUser();
