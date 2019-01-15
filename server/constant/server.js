@@ -9,7 +9,7 @@ export const AUTH_COOKIE_OPTION = {
 
 export const CSRF_COOKIE_OPTION = {
   httpOnly: true,
-  secure: process.env.NODE_ENV === 'production',
+  secure: !TEST_MODE,
 };
 
 // TODO: duplicate with ../../constant.js
