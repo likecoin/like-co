@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 import { logTrackerEvent } from '@/util/EventLogger';
 
@@ -32,10 +32,21 @@ export default {
       ],
     };
   },
+  computed: {
+    ...mapGetters([
+      'getUserIsRegistered',
+    ]),
+  },
   mounted() {
-    logTrackerEvent(this, 'RegFlow', 'RedirectSignUp', 'RedirectSignUp', 1);
-    this.setAuthDialog({ isShow: true });
-    window.addEventListener('beforeunload', this.logPageUnload, false);
+    if (this.getUserIsRegistered) {
+      const router = this.$router;
+      const route = this.$route;
+      this.doPostAuthRedirect({ router, route });
+    } else {
+      logTrackerEvent(this, 'RegFlow', 'RedirectSignUp', 'RedirectSignUp', 1);
+      this.setAuthDialog({ isShow: true });
+      window.addEventListener('beforeunload', this.logPageUnload, false);
+    }
   },
   beforeDestroy() {
     this.setAuthDialog({ isShow: false });
@@ -44,9 +55,7 @@ export default {
   methods: {
     ...mapActions([
       'setAuthDialog',
-      'setUserNeedAuth',
-      'refreshUser',
-      'showLoginWindow',
+      'doPostAuthRedirect',
     ]),
     logPageUnload() {
       logTrackerEvent(this, 'RegFlow', 'CloseRegisterPage', 'CloseRegisterPage', 1);
