@@ -1,49 +1,52 @@
 <template>
-  <md-dialog
-    :md-active.sync="show"
-    :md-close-on-esc="false"
-    :md-click-outside-to-close="false"
-    :md-fullscreen="false"
+  <base-dialog
+    :is-show="show"
+    :md-props="{
+      mdClickOutsideToClose: false,
+      mdCloseOnEsc: false,
+      mdFullscreen: false,
+    }"
+    class="chrome-dialog"
   >
-
-    <img
-      :src="icon"
-      class="foxy"
+    <div
+      slot="header-center"
+      class="lc-section-header-icon lc-dialog-icon"
     >
-    <div class="title-bar" />
-
-    <div class="dialog-content">
-      <md-dialog-title>
-        {{ $t('Dialog.chrome.title') }}
-      </md-dialog-title>
-
-      <md-dialog-content>
-        <div v-html="$t('Dialog.chrome.content')" />
-      </md-dialog-content>
-
-      <a
-        href="https://www.google.com/chrome/browser/desktop/index.html"
-        target="_blank"
-        rel="noopener"
-      >
-        <material-button class="md-primary md-raised">
-          {{ $t('Dialog.chrome.button.install') }}
-        </material-button>
-      </a>
+      <img :src="icon">
     </div>
 
-  </md-dialog>
+    <div class="lc-dialog-container-1 lc-margin-top-24">
+      <h1 class="lc-font-size-32 lc-margin-bottom-8">
+        {{ $t('Dialog.chrome.title') }}
+      </h1>
+      <p
+        class="lc-font-size-16 lc-color-like-gray-4"
+        v-html="$t('Dialog.chrome.content')"
+      />
+
+      <div class="lc-button-group lc-margin-top-24">
+        <md-button
+          class="md-likecoin"
+          href="https://www.google.com/chrome/browser/desktop/index.html"
+          target="_blank"
+          rel="noopener"
+        >
+          {{ $t('Dialog.chrome.button.install') }}
+        </md-button>
+      </div>
+    </div>
+  </base-dialog>
 </template>
 
 <script>
-import MaterialButton from '@/components/MaterialButton';
+import BaseDialog from '~/components/dialogs/BaseDialog';
 
 import chromeIcon from '@/assets/icons/chrome.png';
 
 export default {
   name: 'chrome-dialog',
   components: {
-    MaterialButton,
+    BaseDialog,
   },
   props: {
     show: {
@@ -58,11 +61,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-@import "~assets/dialog";
-
-.title-bar {
-  background-image: linear-gradient(252deg, #d2f0f0, #f0e6b4);
-}
-</style>
