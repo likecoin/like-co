@@ -101,8 +101,6 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'getUserIsRegistered',
-      'getUserNeedAuth',
       'getDesc',
       'getHeaderSubtitle',
       'getHeaderIcon',
@@ -120,31 +118,6 @@ export default {
         'lc-lang': this.getCurrentLocale,
       },
     };
-  },
-  watch: {
-    getUserIsRegistered(u) {
-      if (u) this.redirectToUserPage();
-    },
-  },
-  mounted() {
-    if (this.getUserIsRegistered) {
-      this.redirectToUserPage();
-    }
-  },
-  methods: {
-    redirectToUserPage() {
-      const { query } = this.$route;
-      if (query.ref) {
-        const newQuery = Object.assign({}, query);
-        delete newQuery.ref;
-        if (newQuery.from) delete newQuery.from;
-        this.$router.push({ name: query.ref, query: newQuery, params: { showEmail: true } });
-      } else if (query.ref !== undefined) {
-        this.$router.go(-1);
-      } else {
-        this.$router.push({ name: 'in', params: { showEmail: true } });
-      }
-    },
   },
 };
 </script>
