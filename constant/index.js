@@ -142,3 +142,30 @@ export const PRE_REG_CIVIC_LIKER_END_DATE = 1546272000000; // 2019-01-01T00:00:0
 
 export const ONE_DAY_IN_MS = 86400000;
 export const SUBSCRIPTION_GRACE_PERIOD = 7 * ONE_DAY_IN_MS;
+
+export const LIKE_CO_PLATFORMS = [
+  {
+    name: 'telegram',
+    url: 'https://t.me/likecoin',
+  },
+  {
+    name: 'medium',
+    url: 'https://medium.com/likecoin',
+  },
+  {
+    name: 'github',
+    url: 'https://github.com/likecoin/',
+  },
+  {
+    name: 'twitter',
+    url: 'https://twitter.com/likecoin_fdn',
+  },
+  {
+    name: 'youtube',
+    url: 'https://www.youtube.com/c/LikeCoin',
+  },
+  {
+    name: 'facebook',
+    url: 'https://www.facebook.com/likecoin.foundation',
+  },
+];

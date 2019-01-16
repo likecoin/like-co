@@ -1,5 +1,8 @@
 /* istanbul ignore file */
 /* eslint import/no-extraneous-dependencies: "off" */
+
+import { LIKE_CO_PLATFORMS } from './constant';
+
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const SentryPlugin = require('@sentry/webpack-plugin');
 
@@ -33,6 +36,17 @@ const nuxtConfig = {
       { hid: 'theme-color', name: 'theme-color', content: '#D2F0F0' },
     ],
     script: [
+      {
+        hid: 'schema',
+        innerHTML: JSON.stringify({
+          '@context': 'http://www.schema.org',
+          '@type': 'Organization',
+          url: 'https://like.co',
+          logo: 'https://like.co/logo.png',
+          sameAs: LIKE_CO_PLATFORMS.map(s => s.url),
+        }),
+        type: 'application/ld+json',
+      },
       { src: '/vendor/typekit.js' },
       { src: '/vendor/fb/pixel.js' },
       { src: '/vendor/fb/sdk.js' },
@@ -53,6 +67,7 @@ const nuxtConfig = {
       { rel: 'icon', type: 'image/png', href: '/favicon.png' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Material+Icons' },
     ],
+    __dangerouslyDisableSanitizersByTagID: { schema: ['innerHTML'] },
   },
   /*
    ** Custom loading component
