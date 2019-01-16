@@ -836,7 +836,8 @@ export default {
     },
     redirectToPreAuthPage() {
       const router = this.$router;
-      this.doPostAuthRedirect({ router });
+      const route = this.$route;
+      this.doPostAuthRedirect({ router, route });
     },
     logShowAuthDialog(isShow) {
       if (isShow && !this.loggedEvents.showAuthDialog) {

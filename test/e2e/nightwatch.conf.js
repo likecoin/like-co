@@ -1,4 +1,3 @@
-const serverPath = require('selenium-server').path;
 const chromeDriver = require('chromedriver').path;
 const fs = require('fs');
 const http = require('http');
@@ -22,11 +21,10 @@ module.exports = {
   output_folder: 'test/e2e/reports',
   page_objects_path: 'test/e2e/page-objects',
 
-  selenium: {
+  webdriver: {
     start_process: true,
-    server_path: serverPath,
-    host: '127.0.0.1',
-    port: 4444,
+    server_path: chromeDriver,
+    port: 9515,
     cli_args: {
       'webdriver.chrome.driver': chromeDriver,
     },
@@ -34,9 +32,6 @@ module.exports = {
 
   test_settings: {
     default: {
-      launch_url: 'http://localhost',
-      selenium_port: 4444,
-      selenium_host: 'localhost',
       silent: true,
       globals: {
         devServerURL: 'http://localhost:3000',

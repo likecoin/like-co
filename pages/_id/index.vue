@@ -140,7 +140,7 @@
                 >
                   <md-button
                     class="md-likecoin"
-                    @click="showLoginWindow"
+                    @click="onClickSignInButton"
                   >
                     {{ $t('Home.Header.button.signIn') }}
                   </md-button>
@@ -281,6 +281,7 @@ export default {
       isBadAmount: false,
       isSupportTransferDeleteaged: true,
       isP2pUnavailable: false,
+      isWaitingWeb3: false,
       platforms: {},
     };
   },
@@ -392,7 +393,7 @@ export default {
       this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
     },
     getLocalWallet() {
-      if (this.getIsWeb3Polling) {
+      if (this.getIsWeb3Polling && this.isWaitingWeb3) {
         this.submitTransfer();
         this.stopWeb3Polling();
       }
@@ -407,7 +408,8 @@ export default {
   },
   methods: {
     ...mapActions([
-      'showLoginWindow',
+      'popupAuthDialogInPlace',
+      'doUserAuth',
       'sendPayment',
       'sendEthPayment',
       'setErrorMsg',
@@ -420,8 +422,10 @@ export default {
       return this.wallet.length === 42 && this.wallet.substr(0, 2) === '0x';
     },
     async onSubmitPollForWeb3() {
+      this.isWaitingWeb3 = true;
       const isStarted = await this.startWeb3Polling();
       if (!isStarted) {
+        this.isWaitingWeb3 = false;
         this.submitTransfer();
       }
     },
@@ -499,11 +503,11 @@ export default {
     handleAmountChange(value) {
       this.amount = value;
     },
+    onClickSignInButton() {
+      this.popupAuthDialogInPlace({ route: this.$route });
+    },
     onClickSignUpButton() {
-      this.$router.push({
-        name: 'in-register',
-        query: { ...this.$route.query, ref: '' },
-      });
+      this.doUserAuth({ router: this.$router, route: this.$route });
     },
   },
 };
