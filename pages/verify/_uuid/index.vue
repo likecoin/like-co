@@ -99,7 +99,6 @@ export default {
     ...mapActions([
       'verifyEmailByUUID',
       'refreshUserInfo',
-      'showLoginWindow',
       'doUserAuth',
     ]),
     async verifyEmail() {
@@ -120,7 +119,6 @@ export default {
             logTrackerEvent(this, 'RegFlow', 'GetRedPocketSuccessful', 'redeem the red pocket', 1);
           } catch (err) {
             this.redirectTimer = setTimeout(() => {
-              this.showLoginWindow(); // force showing login window for redirect
               if (this.redirect) {
                 this.$router.push({ name: this.redirect });
               } else {
@@ -130,7 +128,6 @@ export default {
           }
         } else if (!this.referrer) {
           this.redirectTimer = setTimeout(() => {
-            this.showLoginWindow(); // force showing login window for redirect
             if (this.redirect) {
               this.$router.push({ name: this.redirect });
             } else {

@@ -484,7 +484,6 @@ export default {
       'setWalletNoticeDialog',
       'setUserNeedAuth',
       'refreshUser',
-      'showLoginWindow',
       'fetchUserMinInfo',
       'openPopupDialog',
     ]),
