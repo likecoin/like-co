@@ -16,7 +16,6 @@ import {
   getFirebaseProviderId,
 } from '../../../util/FirebaseApp';
 
-
 export function doUserAuth({ commit }, { router, route }) {
   if (route) {
     const {
@@ -35,9 +34,25 @@ export function doUserAuth({ commit }, { router, route }) {
   router.push({ name: 'in-register', query: route.query });
 }
 
-export function doPostAuthRedirect({ commit, state }, { router }) {
-  const route = state.preAuthRoute || { name: 'in' };
-  router.push(route);
+export function doPostAuthRedirect({ commit, state }, { route, router }) {
+  let targetRoute = state.preAuthRoute || { name: 'in' };
+  if (route) {
+    const {
+      query,
+      hash,
+    } = route;
+    if (query.ref) {
+      const newQuery = Object.assign({}, query);
+      delete newQuery.ref;
+      if (newQuery.from) delete newQuery.from;
+      targetRoute = {
+        name: query.ref,
+        query: newQuery,
+        hash,
+      };
+    }
+  }
+  router.push(targetRoute);
   commit(types.USER_SET_AFTER_AUTH_ROUTE, null);
 }
 

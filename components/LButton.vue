@@ -57,6 +57,8 @@ export default {
   border-radius: 8px;
   background-color: $like-green;
 
+  font-family: inherit;
+
   &::before {
     position: absolute;
     top: 0;

@@ -33,10 +33,11 @@ jobs:
   unit_test:
     working_directory: ~/likecoin-store
     docker:
-      - image: selenium/standalone-chrome:3.14.0
+      - image: selenium/standalone-chrome:3.141
         user: root
     environment:
       - TERM: dumb
+      - DBUS_SESSION_BUS_ADDRESS: /dev/null
     steps:
       - checkout
       - restore_cache:

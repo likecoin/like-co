@@ -897,7 +897,8 @@ export default {
     },
     redirectToPreAuthPage() {
       const router = this.$router;
-      this.doPostAuthRedirect({ router });
+      const route = this.$route;
+      this.doPostAuthRedirect({ router, route });
 
       // Remind a suspect legacy user to bind OAuth login
       if (this.hasClickSignWithWalletInError) {
