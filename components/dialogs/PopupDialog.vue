@@ -26,21 +26,22 @@
       />
 
       <div class="lc-button-group lc-margin-top-16">
-        <md-button
-          v-if="confirmText"
-          class="md-likecoin"
-          @click="onConfirm"
-        >
-          {{ confirmText }}
-        </md-button>
-        <br>
-        <md-button
-          v-if="cancelText"
-          class="md-likecoin lc-cancel"
-          @click="onCancel"
-        >
-          {{ cancelText }}
-        </md-button>
+        <div>
+          <md-button
+            v-if="confirmText"
+            class="md-likecoin"
+            @click="onConfirm"
+          >
+            {{ confirmText }}
+          </md-button>
+          <md-button
+            v-if="cancelText"
+            class="md-likecoin lc-cancel"
+            @click="onCancel"
+          >
+            {{ cancelText }}
+          </md-button>
+        </div>
       </div>
     </div>
 
@@ -124,7 +125,24 @@ export default {
 
 .lc-dialog {
   :global(.lc-dialog-header::before) {
-    background: #e6e6e6;
+    background: linear-gradient(246deg, #d2f0f0, #f0e6b4);
+  }
+}
+
+.lc-button-group {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  > div {
+    display: inherit;
+    align-items: inherit;
+    flex-direction: inherit;
+
+    > .md-button {
+      width: 100%;
+      margin: 6px;
+    }
   }
 }
 </style>

@@ -23,6 +23,8 @@
           :cancel-text="d.cancelText"
           :confirm-text="d.confirmText"
           @closed="closePopupDialog(d.uuid)"
+          @cancel="d.onCancel"
+          @confirm="d.onConfirm"
         />
 
         <div v-if="checkShouldShowError(getMetamaskError)">

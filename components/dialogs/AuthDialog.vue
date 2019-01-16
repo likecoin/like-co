@@ -148,12 +148,35 @@
           class="auth-dialog__tab lc-padding-vertical-16"
         >
           <div class="lc-dialog-container-1">
-            <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-mobile">
-              {{ $t('General.label.error') }}
+            <h1 class="lc-font-size-32 lc-margin-bottom-16 lc-mobile">
+              {{ errorTitle }}
             </h1>
             <p class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-32">
               {{ errorMessage }}
             </p>
+
+            <!-- Suggest legacy user to login with wallet -->
+            <i18n
+              v-if="errorMessageForLegacyUser"
+              :path="errorMessageForLegacyUser"
+              class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-32"
+              tag="p"
+            >
+              <span
+                class="lc-color-like-green"
+                place="id"
+              >{{ signInPayload.user }}</span>
+              <span
+                class="lc-color-like-green"
+                place="email"
+              >{{ signInPayload.email }}</span>
+              <a
+                class="lc-color-light-burgundy lc-underline"
+                place="signIn"
+                @click="onClickSignWithWalletInError"
+              >{{ $t('AuthDialog.Register.signWithWallet') }}</a>
+            </i18n>
+
           </div>
 
           <div class="lc-dialog-container-1 lc-button-group">
@@ -161,7 +184,7 @@
               class="md-likecoin"
               @click="onDismissError"
             >
-              {{ $t('General.button.confirm') }}
+              {{ errorConfirmTitle }}
             </md-button>
           </div>
         </div>
@@ -277,6 +300,7 @@ export default {
 
       platform: '',
       signInPayload: {
+        user: '',
         email: '',
         isEmailVerified: false,
       },
@@ -287,6 +311,8 @@ export default {
       referrer: '',
       sourceURL: '',
       loggedEvents: {},
+
+      hasClickSignWithWalletInError: false,
     };
   },
   computed: {
@@ -318,12 +344,41 @@ export default {
         && this.platform !== 'email'
       );
     },
+    errorTitle() {
+      switch (this.errorCode) {
+        case 'USER_ALREADY_EXIST':
+        case 'EMAIL_ALREADY_USED':
+          return this.$t('AuthDialog.Register.error');
+        default:
+          return this.$t('General.label.error');
+      }
+    },
     errorMessage() {
       return this.errorCode && this.$i18n.te(`Error.${this.errorCode}`, 'en') ? (
         this.$t(`Error.${this.errorCode}`)
       ) : (
         this.$t('AuthDialog.label.signInError')
       );
+    },
+    errorMessageForLegacyUser() {
+      switch (this.errorCode) {
+        case 'USER_ALREADY_EXIST':
+        case 'EMAIL_ALREADY_USED':
+          return `AuthDialog.Register.suggestWalletSignIn.${
+            this.errorCode === 'USER_ALREADY_EXIST' ? 'id' : 'email'
+          }`;
+        default:
+          return '';
+      }
+    },
+    errorConfirmTitle() {
+      switch (this.errorCode) {
+        case 'USER_ALREADY_EXIST':
+        case 'EMAIL_ALREADY_USED':
+          return this.$t('General.retry');
+        default:
+          return this.$t('General.button.confirm');
+      }
     },
     logoSize() {
       return Math.max(96 - this.contentScrollTop, 60);
@@ -431,6 +486,7 @@ export default {
       'refreshUser',
       'showLoginWindow',
       'fetchUserMinInfo',
+      'openPopupDialog',
     ]),
     setContentHeight() {
       const elem = this.$refs[this.currentTab];
@@ -443,6 +499,10 @@ export default {
     setError(code) {
       this.currentTab = 'error';
       this.errorCode = code;
+    },
+    onClickSignWithWalletInError() {
+      this.hasClickSignWithWalletInError = true;
+      this.signInWithPlatform('wallet');
     },
     onDismissError() {
       switch (this.errorCode) {
@@ -766,6 +826,7 @@ export default {
         ...this.signInPayload,
         ...registerPayload,
       };
+      this.signInPayload = payload;
 
       // Request user to sign when using wallet to sign in
       if (payload.wallet) {
@@ -838,6 +899,25 @@ export default {
       const router = this.$router;
       const route = this.$route;
       this.doPostAuthRedirect({ router, route });
+
+      // Remind a suspect legacy user to bind OAuth login
+      if (this.hasClickSignWithWalletInError) {
+        this.openPopupDialog({
+          allowClose: true,
+          header: this.$t('AuthDialog.Failure.BindSocialAccounts.header'),
+          message: this.$t('AuthDialog.Failure.BindSocialAccounts.message'),
+          cancelText: this.$t('General.button.cancel'),
+          confirmText: this.$t('AuthDialog.Failure.BindSocialAccounts.confirm'),
+          onConfirm: () => {
+            this.$router.push({
+              name: 'in-settings',
+              hash: '#connect',
+            });
+          },
+        });
+      }
+      // Reset register failure count
+      this.hasClickSignWithWalletInError = false;
     },
     logShowAuthDialog(isShow) {
       if (isShow && !this.loggedEvents.showAuthDialog) {
