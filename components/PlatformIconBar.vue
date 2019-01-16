@@ -1,22 +1,11 @@
 <template>
   <div
     :class="['icon-bar', size, { vertical: isVertical }]"
-    itemscope
-    itemtype="https://schema.org/Organization"
   >
-    <a
-      :href="`https://${EXTERNAL_HOSTNAME}`"
-      style="display:none"
-      itemprop="url"
-    >
-      <span itemprop="name">LikeCoin Foundation</span>
-      <img :src="`https://${EXTERNAL_HOSTNAME}/logo.png`" itemprop="logo" />
-    </a>
     <md-button
       v-for="(platform, index) in platforms"
       :key="index"
       :href="platform.url"
-      itemprop="sameAs"
       class="md-icon-button"
       target="_blank"
       rel="noopener noreferrer"
@@ -33,36 +22,9 @@
 </template>
 
 <script>
-import { EXTERNAL_HOSTNAME } from '@/constant';
+import { EXTERNAL_HOSTNAME, LIKE_CO_PLATFORMS } from '@/constant';
 
 const images = require.context('../assets/icons/');
-
-const platforms = [
-  {
-    name: 'telegram',
-    url: 'https://t.me/likecoin',
-  },
-  {
-    name: 'medium',
-    url: 'https://medium.com/likecoin',
-  },
-  {
-    name: 'github',
-    url: 'https://github.com/likecoin/',
-  },
-  {
-    name: 'twitter',
-    url: 'https://twitter.com/likecoin_fdn',
-  },
-  {
-    name: 'youtube',
-    url: 'https://www.youtube.com/c/LikeCoin',
-  },
-  {
-    name: 'facebook',
-    url: 'https://www.facebook.com/likecoin.foundation',
-  },
-];
 
 export default {
   name: 'platform-icon-bar',
@@ -82,7 +44,7 @@ export default {
   data() {
     return {
       EXTERNAL_HOSTNAME,
-      platforms,
+      platforms: LIKE_CO_PLATFORMS,
     };
   },
   computed: {
