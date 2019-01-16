@@ -40,56 +40,58 @@ jobs:
       - DBUS_SESSION_BUS_ADDRESS: /dev/null
     steps:
       - checkout
+      - run:
+          name: Git Environment
+          command: |
+            sudo apt-get update
+            sudo apt-get -y install git
+      - run:
+          name: "Pull Submodules"
+          command: |
+            git submodule init
+            git submodule update
       - restore_cache:
           key: likecoin-store-unit-test-{{ .Environment.CACHE_UUID }}-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}-{{ checksum ".circleci/config.yml" }}
+          key: likecoin-api-unit-test-{{ checksum "server/api/package.json" }}-{{ checksum "server/api/package-lock.json" }}-{{ checksum ".circleci/config.yml" }}
       - run:
           name: Node Environment
           command: |
-            sudo apt-get update
-            sudo apt-get -y install curl git make g++ net-tools
+            sudo apt-get -y install curl make g++ net-tools
             sudo curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
             sudo apt-get -y install nodejs
-            sudo npm install codecov -g
       - run:
           name: Dependencies
-          command: sudo npm config set unsafe-perm true && sudo npm install
+          command: sudo npm config set unsafe-perm true && sudo npm install && sudo npm --prefix ./server/api install
       - run:
-          name: Set Stub
-          command: |
-            cp ./test/stub/server/util/* ./server/util/
-            cp ./test/stub/server/config/accounts.js ./server/config/accounts.js
-            sed -i.bak "s/0xB97Df12b24C119A052EE0D4Ba97bAc59Da86AB4B/0x2fDF85d31b023c471a7F54cF2E67bA5767ADaECa/" ./constant/contract/likecoin.js
-      - run:
-          name: Unit Test (api)
-          command: |
-            npm run test:api
-            rm -rf ./.nyc_output_merge && cp -R ./.nyc_output ./.nyc_output_merge
+          name: Start dev api server
+          command: npm --prefix ./server/api run dev:stub
+          background: true
           environment:
-            IS_TESTNET: TRUE
+            PORT: "3001"
+            IS_TESTNET: "TRUE"
       - run:
           name: Build
-          command: npm run build
+          command: npm run build:testnet
           environment:
-            IS_TESTNET: TRUE
-            NODE_ENV: production
+            CI: "TRUE"
       - run:
           name: Unit Test (Nightwatch)
           command: |
             xvfb-run --server-args="-screen 0 1600x1200x24" npm run test:e2e
-            cp -a ./.nyc_output_merge/. ./.nyc_output
           environment:
-            IS_TESTNET: TRUE
-            NODE_ENV: production
-            IS_STANDALONE_TEST: TRUE
-      - run:
-          name: Upload coverage
-          command: npm run report-coverage
+            IS_TESTNET: "TRUE"
+            CI: "TRUE"
+            IS_STANDALONE_TEST: "TRUE"
       - store_artifacts:
           path: ./screenshots
       - save_cache:
           key: likecoin-store-unit-test-{{ .Environment.CACHE_UUID }}-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}-{{ checksum ".circleci/config.yml" }}
           paths:
             - ./node_modules
+      - save_cache:
+          key: likecoin-api-unit-test-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}-{{ checksum ".circleci/config.yml" }}
+          paths:
+            - ./server/api/node_modules
   deploy_rinkeby:
     working_directory: ~/likecoin-store
     docker:

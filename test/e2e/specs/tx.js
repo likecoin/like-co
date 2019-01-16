@@ -11,7 +11,7 @@ module.exports = {
   /* eslint quote-props: "off" */
   'Tx status': (browser) => {
     const devServer = browser.globals.devServerURL;
-    const testTx = '0xd6938bfb1ab8313a23f5fa37a51cc7d91d17eecba46190c2c7f13662b12566e5';
+    const testTx = '0x2078e69500882193834e3d54243878a29ed45ba9e144f493bc6486f20f00aff8';
 
     browser
       .url(`${devServer}/in/tx/${testTx}`)
@@ -21,7 +21,7 @@ module.exports = {
       .waitForElementVisible('#view-etherscan', 2000)
       .pause(5000)
       .verify.containsText('#view-etherscan', 'View on Etherscan')
-      .verify.attributeContains('#view-etherscan .view-url', 'href', `etherscan.io/tx/${testTx}`)
+      .verify.attributeContains('#view-etherscan .view-url', 'href', `rinkeby.etherscan.io/tx/${testTx}`)
       .end();
   },
 
