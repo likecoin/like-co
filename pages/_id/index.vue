@@ -408,6 +408,7 @@ export default {
   },
   methods: {
     ...mapActions([
+      'showMetaMaskLoginWindow',
       'popupAuthDialogInPlace',
       'doUserAuth',
       'sendPayment',
@@ -431,7 +432,7 @@ export default {
     },
     async submitTransfer() {
       if (this.getMetamaskError) {
-        this.showLoginWindow();
+        this.showMetaMaskLoginWindow();
         return;
       }
       this.isBadAddress = false;

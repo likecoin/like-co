@@ -17,7 +17,7 @@ export const setSignPayloadObject = ({ commit }, payload = {}) => {
   commit(types.UI_SET_SIGN_PAYLOAD_OBJECT, payload);
 };
 
-export const showLoginWindow = ({ commit, dispatch }) => {
+export const showMetaMaskLoginWindow = ({ commit, dispatch }) => {
   commit(types.UI_LOGIN_OVERRIDE, true);
   dispatch('loginUserBySign');
 };

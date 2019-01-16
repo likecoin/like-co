@@ -309,7 +309,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'showLoginWindow',
+      'showMetaMaskLoginWindow',
       'popupAuthDialogInPlace',
       'doUserAuth',
       'sendPayment',
@@ -328,7 +328,7 @@ export default {
     },
     async submitTransfer() {
       if (this.getMetamaskError) {
-        this.showLoginWindow();
+        this.showMetaMaskLoginWindow();
         return;
       }
       try {
