@@ -14,6 +14,10 @@ app.set('port', port);
 
 if (process.env.NODE_ENV === 'production') app.disable('x-powered-by');
 
+app.get('/api/healthz', (req, res) => {
+  res.sendStatus(200);
+});
+
 // proxy API Routes
 app.use('/api', proxy({
   target: `http://${process.env.LIKE_API_HOST || 'localhost:3001'}`,
