@@ -1,17 +1,18 @@
 import test from 'ava';
 import {
   testingUser2,
+  testingWallet2,
   invalidWallet,
   txHash,
   txFrom,
   txTo,
   txValue,
 } from './data';
+import axiosist from './axiosist';
 
 const { jwtSign } = require('./jwt');
-const axiosist = require('./axiosist');
 
-test('PAYMENT: Payment. Case: Invalid address.', async (t) => {
+test('PAYMENT: Payment. Case: Login needed.', async (t) => {
   const res = await axiosist.post('/api/payment', {
     from: txFrom,
     to: invalidWallet,
@@ -21,6 +22,24 @@ test('PAYMENT: Payment. Case: Invalid address.', async (t) => {
     signature: '',
   }, {
     headers: {
+      Accept: 'application/json',
+    },
+  }).catch(err => err.response);
+  t.is(res.status, 401);
+});
+
+test('PAYMENT: Payment. Case: Invalid address.', async (t) => {
+  const token = jwtSign({ user: testingUser2, wallet: txTo });
+  const res = await axiosist.post('/api/payment', {
+    from: testingWallet2,
+    to: invalidWallet,
+    value: 1,
+    maxReward: 0,
+    nonce: 1,
+    signature: '',
+  }, {
+    headers: {
+      Cookie: `likecoin_auth=${token}`,
       Accept: 'application/json',
     },
   }).catch(err => err.response);
