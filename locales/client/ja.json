@@ -1,5 +1,6 @@
 {
   "General": {
+    "retry": "再試行する",
     "label": {
       "error": "エラー",
       "success": "成功"
@@ -642,6 +643,12 @@
       "title": "ようこそ",
       "button": {
         "uploadAvatar": "アバターをアップロード"
+      }
+    },
+    "Failure": {
+      "BindSocialAccounts": {
+        "header": "SNSアカウントでサインイン",
+        "message": "「リンク」SNSアカウントをリンクして、携帯で簡単にLikeCoin IDにログインする。"
       }
     }
   },

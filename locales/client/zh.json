@@ -5,6 +5,7 @@
     "disconnect": "取消連接",
     "learnMore": "了解更多",
     "loading": "載入中",
+    "retry": "重試",
     "label": {
       "error": "失敗",
       "success": "成功",
@@ -690,6 +691,19 @@
       "title": "歡迎",
       "button": {
         "uploadAvatar": "上傳頭像"
+      },
+      "error": "帳戶註冊失敗",
+      "suggestWalletSignIn": {
+        "id": "此 LikeCoin ID 已被別人使用，請重新再試。若你早前已曾成功註冊了 {id} ，請先在電腦{signIn}",
+        "email": "此電郵地址已被別人使用，請重新再試。若你早前已曾成功以 {email} 註冊了 LikeCoin ID ，請先在電腦{signIn}"
+      },
+      "signWithWallet": "以電子錢包登入"
+    },
+    "Failure": {
+      "BindSocialAccounts": {
+        "header": "以社交帳號登入",
+        "message": "連結你的社交帳號，可於手機上以更便捷的方式登入 LikeCoin ID。",
+        "confirm": "立即連結"
       }
     }
   },
@@ -1113,9 +1127,9 @@
     "button": {
       "toIndex": "返回主頁"
     },
-    "EMAIL_ALREADY_USED": "此電郵地址已被註冊。若你曾經以電子錢包註冊帳號，請先以電腦登入，再於設定頁 (https://like.co/in/settings/) 綁定你的社交媒體帳號。",
+    "EMAIL_ALREADY_USED": "此電郵地址已被註冊。請再試一次。",
     "REFERRER_NOT_EXIST": "推薦人的 LikeCoin ID 不存在",
-    "USER_ALREADY_EXIST": "帳戶已經存在。若你曾經以電子錢包註冊帳號，請先以電腦登入，再於設定頁 (https://like.co/in/settings/) 綁定你的社交媒體帳號。",
+    "USER_ALREADY_EXIST": "LikeCoin ID 已存在，請再試一次。",
     "USER_NOT_EXIST": "帳戶不存在",
     "USER_UNLINK_SOLE_OAUTH_LOGIN": "無法移除，請先連接其他登入方法",
     "FIREBASE_USER_DUPLICATED": "登入帳戶已被使用",
