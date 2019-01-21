@@ -1370,14 +1370,22 @@
     "content": "支持創作，每月騰出一杯咖啡消費，全數給予當月點讚內容 — {title}",
     "buttonTitle": "預先登記"
   },
+  "CivicLikerCTAForRenewal": {
+    "content": "感謝您參與讚賞公民計劃。若你在以下時限前續訂，可保有{stamp}。別再猶豫，請立即續訂，繼續支持創作！",
+    "contentForTrial": "感謝您參與讚賞公民體驗計劃，免費測試已經結束。若你在以下時限前正式成為讚賞公民，可保有{stamp}。別再猶豫，請立即申請，繼續支持創作！",
+    "stamp": " {date} 的印章",
+    "stampForHonor": " {date} 的計劃啟動日榮譽印章",
+    "till": "把握機會，保有榮譽印章："
+  },
   "CivicPage": {
     "title": "讚賞公民",
     "slogan": "少喝一杯咖啡 成就一個生態",
+    "about": "關於讚賞公民",
     "joinNow": "立即參加",
     "register": "我要申請",
     "registered": "已登記",
     "pricingRegister": "我要申請",
-    "onGoing": "",
+    "renew": "申請",
     "limitedQuota": "首階段名額 100",
     "waitingList": {
       "title": "我們將盡快聯繫跟進，請留意你的郵箱。",
@@ -1436,7 +1444,6 @@
     "subtitle": "【免費體驗】將於2019年1月2至31日進行",
     "register": "免費體驗",
     "registered": "己登記",
-    "onGoing": "免費測試中",
     "willBeHeld": "將會在2019年1月2至31日進行",
     "thankYou": "感謝申請",
     "thankYouForYourInterest": "感謝申請",

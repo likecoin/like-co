@@ -58,10 +58,6 @@
                       class="pricing-item__payment-cycle"
                     >{{ $t(`CivicPage.pricing.paymentCycle.perMonth`) }}</span>
                   </div>
-                  <div
-                    class="lc-font-size-14"
-                    style="color: #d0021b"
-                  >{{ $t('CivicPage.onGoing') }}</div>
                 </div>
                 <div class="pricing-item__image">
                   <img :src="OiceBackerPage">

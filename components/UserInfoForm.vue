@@ -60,42 +60,30 @@
             <!-- Civic Liker Info & CTA -->
             <div class="civic-liker-info">
               <div class="civic-liker-info__chop">
-                <template v-if="isStarted">
+                <template v-if="isCivicLiker || isCivicLikerTrial">
                   <lc-chop-civic-liker
-                    v-if="isCivicLiker || isCivicLikerTrial"
                     :date="civicLikerSince"
                     :is-trial="isCivicLikerTrial"
                     :is-trialling="isCivicLikerTrial"
+                    :is-flashing="getUserInfo.isCivicLikerRenewalPeriod"
                     size="140"
                     rotate-z="13"
                   />
-                  <nuxt-link
-                    v-else
-                    :to="{ name: 'in-civic' }"
-                    class="lc-font-weight-400 lc-underline"
-                  >
-                    {{ $t('CivicLikerBeta.joinNow') }}
-                  </nuxt-link>
-                </template>
-                <template v-else>
-                  <lc-chop-countdown
-                    :date="civicLikerStartDate"
-                    rotate-z="-16"
+                  <lc-chop-simple
+                    v-if="getUserInfo.isCivicLikerRenewalPeriod"
+                    class="expired-chop"
+                    text="EXPIRED"
+                    size="140"
+                    rotate-z="-6"
                   />
-                  <lc-chop-approved
-                    v-if="getUserInfo.isPreRegCivicLiker"
-                    is-trial
-                    rotate-z="13"
-                    size="190"
-                  />
-                  <nuxt-link
-                    v-else
-                    :to="{ name: 'in-civic' }"
-                    class="lc-font-weight-400 lc-underline"
-                  >
-                    {{ $t('CivicPage.joinNow') }}
-                  </nuxt-link>
                 </template>
+                <nuxt-link
+                  v-else
+                  :to="{ name: 'in-civic' }"
+                  class="lc-font-weight-400 lc-underline"
+                >
+                  {{ $t('CivicLikerBeta.joinNow') }}
+                </nuxt-link>
               </div>
               <civic-liker-cta
                 :is-show-chop="false"
@@ -206,8 +194,6 @@ import User from '@/util/User';
 import {
   W3C_EMAIL_REGEX,
   EXTERNAL_HOSTNAME,
-  CIVIC_LIKER_START_DATE,
-  CIVIC_LIKER_TRIAL_END_DATE,
 } from '@/constant';
 
 import EditIcon from '@/assets/icons/edit.svg';
@@ -236,9 +222,6 @@ export default {
       user: '',
       wallet: '',
       hasCopiedReceiveLikeCoinLink: false,
-
-      isStarted: Date.now() >= CIVIC_LIKER_START_DATE,
-      civicLikerStartDate: new Date(CIVIC_LIKER_START_DATE),
     };
   },
   computed: {
@@ -252,12 +235,7 @@ export default {
       return this.getUserInfo.isSubscribedCivicLiker;
     },
     isCivicLikerTrial() {
-      return (
-        !this.isCivicLiker
-        && this.isStarted
-        && this.getUserInfo.isPreRegCivicLiker
-        && Date.now() <= CIVIC_LIKER_TRIAL_END_DATE
-      );
+      return this.getUserInfo.isCivicLikerTrial;
     },
     avatarHalo() {
       return User.getAvatarHaloType(this.getUserInfo);
@@ -395,8 +373,6 @@ $profile-icon-mobile-size: 88px;
   }
 
   .civic-liker-info {
-    width: 272px;
-
     @media screen and (max-width: 768px) {
       margin-top: 32px;
     }
@@ -405,7 +381,9 @@ $profile-icon-mobile-size: 88px;
       position: relative;
       z-index: 10;
 
+      width: 272px;
       height: 100px;
+      margin: 0 auto;
 
       border: 2px solid $like-gray-3;
       border-top: none;
@@ -428,6 +406,11 @@ $profile-icon-mobile-size: 88px;
       .lc-chop-approved {
         right: -32px;
         bottom: -4px;
+      }
+
+      .expired-chop {
+        bottom: -24px;
+        left: -24px;
       }
     }
 

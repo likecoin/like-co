@@ -579,6 +579,10 @@ export default {
 @import "~assets/variables";
 @import "~assets/input";
 
+.civic-liker-cta--renewal {
+  padding: 24px;
+}
+
 .profile-setting-page {
   &__account-setting {
     display: flex;

@@ -70,9 +70,19 @@ export default {
 <style lang="scss" scoped>
 @import "~assets/variables";
 
-$separator-size: 8px;
+$separator-size: 0.2em;
 
 .lc-countdown-timer {
+  font-size: 56px;
+  line-height: 1.35em;
+
+  @media (max-width: 600px) {
+    font-size: 48px;
+  }
+  @media (max-width: 375px) {
+    font-size: 32px;
+  }
+
   > ul {
     display: flex;
 
@@ -93,26 +103,11 @@ $separator-size: 8px;
 
         width: $separator-size;
         height: $separator-size;
-        margin-top: #{$separator-size / 2 * -1};
-        margin-left: #{$separator-size / 2 * -1};
 
-        content: " ";
+        content: "";
 
         border-radius: 50%;
         background-color: $like-green;
-
-        @media (max-width: 600px) {
-          width: #{floor($separator-size * 2 / 3)};
-          height: #{floor($separator-size * 2 / 3)};
-          margin-top: #{$separator-size / 3 * -1};
-          margin-left: #{$separator-size / 3 * -1};
-        }
-        @media (max-width: 375px) {
-          width: #{$separator-size / 2};
-          height: #{$separator-size / 2};
-          margin-top: #{$separator-size / 4 * -1};
-          margin-left: #{$separator-size / 4 * -1};
-        }
       }
 
       > span {
@@ -123,18 +118,8 @@ $separator-size: 8px;
         &.date-value {
           color: $like-gray-5;
 
-          font-size: 56px;
+          font-size: 1em;
           font-weight: 300;
-          line-height: 76px;
-
-          @media (max-width: 600px) {
-            font-size: 48px;
-            line-height: 56px;
-          }
-          @media (max-width: 375px) {
-            font-size: 32px;
-            line-height: 42px;
-          }
         }
 
         &.date-unit {

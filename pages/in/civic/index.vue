@@ -83,12 +83,6 @@
                   v-for="i in FEATURE_COUNT"
                   :key="i"
                 >
-                  <lc-chop-civic-liker-rect
-                    :date="civicLikerStartDate"
-                    size="156"
-                    rotate-z="12"
-                    is-beta
-                  />
                   <p>{{ $t(`CivicPage.features[${i - 1}]`) }}</p>
                 </li>
               </ul>
@@ -115,30 +109,6 @@
               {{ $t(`CivicPage.intro2[${i - 1}].p`) }}
             </p>
           </div>
-
-          <!-- <div
-            class="lc-container-4 lc-button-group lc-margin-top-64"
-          >
-            <span class="button-wrapper">
-              <lc-chop-civic-liker
-                rotate-z="18"
-                is-beta
-              />
-              <md-button
-                class="md-likecoin lc-gradient-2 lc-font-size-20 lc-font-weight-600 shadow"
-                @click="scrollToPricing"
-              >
-                {{ buttonTitle }}
-              </md-button>
-            </span>
-            <br>
-            <span
-              v-if="buttonFootnote"
-              class="lc-margin-top-12 lc-color-light-burgundy lc-font-size-12 lc-font-weight-500"
-            >
-              {{ buttonFootnote }}
-            </span>
-          </div> -->
 
         </div>
       </div>
@@ -178,10 +148,6 @@
                         >{{ $t(`CivicPage.pricing.paymentCycle.${p.paymentCycle}`) }}</span>
                       </div>
                       <template v-if="p.type === 'civicLiker'">
-                        <div
-                          class="lc-font-size-14"
-                          style="color: #d0021b"
-                        >{{ pricingHighlightTitle }}</div>
                         <lc-chop-civic-liker
                           rotate-z="12"
                           is-beta
@@ -263,11 +229,6 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import {
-  CIVIC_LIKER_START_DATE,
-  CIVIC_LIKER_TRIAL_END_DATE,
-} from '~/constant';
-
 import HeroImage from '~/assets/civic/hero.png';
 import TickIcon from '~/assets/icons/fillable/tick.svg';
 
@@ -278,8 +239,6 @@ export default {
       TickIcon,
 
       FEATURE_COUNT: 3,
-
-      civicLikerStartDate: new Date(CIVIC_LIKER_START_DATE),
 
       pricing: [
         {
@@ -323,37 +282,41 @@ export default {
       return this.getUserInfo.isSubscribedCivicLiker;
     },
     isCivicLikerTrial() {
-      return (
-        !this.isCivicLiker
-        && this.getUserInfo.isPreRegCivicLiker
-        && Date.now() <= CIVIC_LIKER_TRIAL_END_DATE
-      );
+      return this.getUserInfo.isCivicLikerTrial;
+    },
+    canRenew() {
+      return this.getUserInfo.isCivicLikerRenewalPeriod;
     },
     buttonTitle() {
-      if (this.isCivicLiker) {
-        return this.$t('CivicPage.registered');
+      if (this.canRenew) {
+        return this.$t('CivicPage.renew');
       }
       if (this.isCivicLikerTrial) {
         return this.$t('CivicLikerBeta.upgrade');
+      }
+      if (this.isCivicLiker) {
+        return this.$t('CivicPage.registered');
       }
       return this.$t('CivicPage.register');
     },
     buttonFootnote() {
+      if (this.canRenew) return '';
       return this.$t('CivicPage.limitedQuota');
     },
-    pricingHighlightTitle() {
-      return this.$t('CivicPage.onGoing');
-    },
     pricingButtonTitle() {
-      if (this.isCivicLiker) {
-        return this.$t('CivicPage.registered');
+      if (this.canRenew) {
+        return this.$t('CivicPage.renew');
       }
       if (this.isCivicLikerTrial) {
         return this.$t('CivicLikerBeta.upgrade');
       }
+      if (this.isCivicLiker) {
+        return this.$t('CivicPage.registered');
+      }
       return this.$t('CivicPage.pricingRegister');
     },
     pricingButtonFoonote() {
+      if (this.canRenew) return '';
       return this.$t('CivicPage.limitedQuota');
     },
   },
