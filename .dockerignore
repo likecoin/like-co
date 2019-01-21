@@ -4,5 +4,6 @@
 .nuxt
 node_modules/
 server/config
+server/api
 build
 webpack-cache

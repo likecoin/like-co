@@ -1,9 +1,26 @@
 version: '3'
 services:
-  like-server:
-    build: .
+  like-frontend:
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: npm run dev
+    volumes:
+     - .:/app
+     - /app/node_modules/
     ports:
      - "3000:3000"
+    environment:
+     - LIKE_API_HOST=like-api:3000
+    links:
+     - like-api
+  like-api:
+    restart: always
+    build:
+      context: ./server/api
+      dockerfile: Dockerfile.dev
+    command: npm run dev
     volumes:
-     - ./server/config:/app/server/config
-
+     - ./server/api:/app
+     - /app/node_modules/

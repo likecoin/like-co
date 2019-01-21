@@ -25,7 +25,7 @@ const createStore = (() => new Vuex.Store({
       if (token) {
         try {
           const { data } = await axios.get(
-            '/api/users/self',
+            '/users/self',
             {
               headers: {
                 Cookie: `likecoin_auth=${req.cookies.likecoin_auth}`,

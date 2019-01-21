@@ -21,7 +21,7 @@ module.exports = {
       .waitForElementVisible('#view-etherscan', 2000)
       .pause(5000)
       .verify.containsText('#view-etherscan', 'View on Etherscan')
-      .verify.attributeContains('#view-etherscan .view-url', 'href', `etherscan.io/tx/${testTx}`)
+      .verify.attributeContains('#view-etherscan .view-url', 'href', `rinkeby.etherscan.io/tx/${testTx}`)
       .end();
   },
 

@@ -1,0 +1,15 @@
+version: '3'
+services:
+  like-api:
+    restart: always
+    build:
+      context: ./server/api
+      dockerfile: Dockerfile.dev
+    command: npm run dev
+    volumes:
+     - ./server/api:/app
+     - /app/node_modules/
+    environment:
+     - PORT=3001
+    ports:
+     - "3001:3001"

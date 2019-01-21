@@ -1,6 +1,4 @@
 /* eslint-disable */
-import { IS_TESTNET } from '../index';
-
 export const LIKE_COIN_ABI = [
   {
     "constant": true,
@@ -1050,4 +1048,6 @@ export const LIKE_COIN_ABI = [
   }
 ];
 
-export const LIKE_COIN_ADDRESS = IS_TESTNET ? '0xB97Df12b24C119A052EE0D4Ba97bAc59Da86AB4B' : '0x02F61Fd266DA6E8B102D4121f5CE7b992640CF98';
+export const LIKE_COIN_ADDRESS = process.env.IS_TESTNET
+  ? (process.env.CI ? '0x2fDF85d31b023c471a7F54cF2E67bA5767ADaECa' : '0xB97Df12b24C119A052EE0D4Ba97bAc59Da86AB4B')
+  : '0x02F61Fd266DA6E8B102D4121f5CE7b992640CF98';
