@@ -324,6 +324,6 @@ workflows:
       - deploy_mainnet_api:
           requires:
             - hold_deploy_mainnet_api
-      - deploy_deploy_mainnet_frontend:
+      - deploy_mainnet_frontend:
           requires:
             - hold_deploy_mainnet_frontend
