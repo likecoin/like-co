@@ -60,8 +60,6 @@
 <script>
 import Vue from 'vue'; // eslint-disable-line import/no-extraneous-dependencies
 
-import axios from '~/plugins/axios';
-
 import LikeForm from '~/components/LikeForm';
 import UserAvatar from '~/components/UserAvatar';
 
@@ -70,8 +68,6 @@ import {
   apiGetLikeButtonLikerList,
   apiGetLikeButtonTotalCount,
 } from '@/util/api/api';
-
-import { MEDIUM_REGEX } from '@/constant';
 
 export default {
   name: 'embed-id-list',
@@ -85,25 +81,11 @@ export default {
       apiGetLikeButtonLikerList(params.id, query.referrer),
       apiGetLikeButtonTotalCount(params.id, query.referrer),
     ];
-    if (query.referrer) {
-      let url = encodeURI(query.referrer);
-      const match = query.referrer.match(MEDIUM_REGEX);
-      if (match && match[1]) url = `https://medium.com/p/${match[1]}`;
-      /* Try to get html to fetch title below */
-      promises.push(axios.get(url, { responseType: 'text', headers: { Accept: 'text/html' } }).catch(() => ''));
-    }
     const [
       { data: likees },
       { data: totalData },
-      { data: html } = {},
     ] = await Promise.all(promises);
-    let title = '';
-    if (html) {
-      const match = html.match('<title>(.*?)</title>');
-      if (match && match[1]) [, title] = match;
-    }
     return {
-      title,
       isShowAll: likees.length <= 8,
       numOfLikes: totalData.total,
       likees: likees.map(id => ({ id })),
@@ -112,6 +94,7 @@ export default {
   data() {
     return {
       isShowAll: false,
+      title: '', // do not fetch title in like.co
     };
   },
   computed: {
