@@ -92,7 +92,6 @@
           <no-ssr>
             <transition name="fade">
               <div
-                v-if="getUserNeedAuth"
                 class="lc-container-3 lc-margin-vertical-16"
               >
                 <div class="lc-container-4">
@@ -103,7 +102,7 @@
                   >
                     <md-button
                       class="md-likecoin"
-                      @click="showLoginWindow"
+                      @click="onClickSignInButton"
                     >
                       {{ $t('Home.Header.button.signIn') }}
                     </md-button>
@@ -136,10 +135,9 @@
                       :disabled="(
                         getIsInTransaction
                           || !isSupportTransferDeleteaged
-                          || (!getLocalWallet)
                       )"
                       class="md-likecoin"
-                      @click="onSubmit"
+                      @click="onSubmitPollForWeb3"
                     >
                       {{ $t('General.button.confirm') }}
                     </md-button>
@@ -194,6 +192,7 @@ export default {
   data() {
     return {
       isSupportTransferDeleteaged: true,
+      isWaitingWeb3: false,
     };
   },
   asyncData({
@@ -304,29 +303,32 @@ export default {
     getWeb3Type() {
       this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
     },
-    getUserNeedAuth(value) {
-      if (value) {
-        this.showLoginWindow();
-      }
-    },
   },
   mounted() {
     this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
-    if (this.getUserNeedAuth) {
-      this.showLoginWindow();
-    }
   },
   methods: {
     ...mapActions([
-      'showLoginWindow',
+      'showMetaMaskLoginWindow',
+      'popupAuthDialogInPlace',
+      'doUserAuth',
       'sendPayment',
       'sendEthPayment',
+      'startWeb3Polling',
       'setErrorMsg',
       'closeTxDialog',
     ]),
-    async onSubmit() {
+    async onSubmitPollForWeb3() {
+      this.isWaitingWeb3 = true;
+      const isStarted = await this.startWeb3Polling();
+      if (!isStarted) {
+        this.isWaitingWeb3 = false;
+        this.submitTransfer();
+      }
+    },
+    async submitTransfer() {
       if (this.getMetamaskError) {
-        this.showLoginWindow();
+        this.showMetaMaskLoginWindow();
         return;
       }
       try {
@@ -386,6 +388,9 @@ export default {
       } catch (error) {
         console.error(error); // eslint-disable-line no-console
       }
+    },
+    onClickSignInButton() {
+      this.popupAuthDialogInPlace({ route: this.$route });
     },
   },
 };

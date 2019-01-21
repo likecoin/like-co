@@ -144,7 +144,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'showLoginWindow',
+      'popupAuthDialogInPlace',
     ]),
     onClickRegisterButton() {
       this.$router.push({ name: 'in-register', query: { ref: '' } });
@@ -156,7 +156,7 @@ export default {
       if (this.$route.name === 'index') {
         this.$router.push({ name: 'in' });
       } else {
-        this.showLoginWindow();
+        this.popupAuthDialogInPlace({ route: this.$route });
       }
     },
   },

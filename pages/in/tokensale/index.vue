@@ -66,7 +66,7 @@
               <md-button
                 v-if="getUserNeedAuth"
                 class="md-likecoin"
-                @click="showLoginWindow"
+                @click="popupAuthDialogInPlace"
               >
                 {{ $t('Home.Header.button.signIn') }}
               </md-button>
@@ -162,7 +162,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'showLoginWindow',
+      'popupAuthDialogInPlace',
     ]),
     redirectToRegister() {
       const { query } = this.$route;
