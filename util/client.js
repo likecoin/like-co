@@ -1,3 +1,9 @@
+import parse from 'url-parse';
+import {
+  LIKE_BUTTON_POST_MESSAGE_TARGET_ORIGIN,
+  REDIRECT_WHITE_LIST,
+} from '~/constant';
+
 export function checkIsMobileClient() {
   if (!global.window) return false;
   const ua = global.window.navigator.userAgent;
@@ -36,4 +42,22 @@ export function openURL(vue, url, name, specs, replace) {
     const w = window.open(url, name || '_blank', specs, replace);
     if (w) w.opener = null;
   }
+}
+
+export function tryPostLoginRedirect({ route }) {
+  const { redirect } = route.query;
+  if (redirect && REDIRECT_WHITE_LIST.indexOf(parse(redirect, {}).hostname) !== -1) {
+    // Redirect to external link
+    window.location.href = redirect;
+    return true;
+  }
+  if (window.opener) {
+    // Notify LikeButton iframe to refresh
+    window.opener.postMessage({
+      action: 'LOGGED_IN',
+    }, LIKE_BUTTON_POST_MESSAGE_TARGET_ORIGIN);
+    window.close();
+    return true;
+  }
+  return false;
 }
