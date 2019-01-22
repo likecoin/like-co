@@ -42,6 +42,7 @@ const nuxtConfig = {
         innerHTML: JSON.stringify({
           '@context': 'http://www.schema.org',
           '@type': 'Organization',
+          name: 'LikeCoin Foundation',
           url: 'https://like.co',
           logo: 'https://like.co/logo.png',
           sameAs: LIKE_CO_PLATFORMS.map(s => s.url),
