@@ -43,19 +43,44 @@ export default {
 <style lang="scss" scoped>
 @import "~assets/variables";
 
-$inset: 220px;
-
 .home-mobile-header {
+  position: relative;
+
+  background-image: linear-gradient(194deg, $like-light-blue, $like-gradient-1);
+
   &__hero {
     position: relative;
 
-    margin-bottom: -#{$inset};
-    padding: 8px 24px $inset;
-
-    background-image: linear-gradient(194deg, $like-light-blue, $like-gradient-1);
+    padding: 8px 24px;
 
     .site-title :global(img) {
       width: 162px;
+    }
+
+  }
+
+  .civic-liker-cta {
+
+    :global(.chop-art) {
+      transform: scale(0.9);
+      transform-origin: center top;
+    }
+
+    :global(> div > div:nth-child(2)) {
+      :global(.lc-button-group) {
+        margin-top: -24px;
+        padding-top: 0;
+      }
+
+      width: 100%;
+
+      background: white;
+    }
+
+    &--renewal {
+      :global(> div > div:first-child) {
+        padding: 0 24px 32px;
+      }
     }
   }
 }

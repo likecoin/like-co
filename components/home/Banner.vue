@@ -1,7 +1,7 @@
 <template>
   <div class="home-banner lc-container-2">
 
-    <div class="home-banner__wrapper lc-container-3">
+    <div class="home-banner__wrapper">
       <div class="home-banner__content">
         <div class="civic-liker-cta-wrapper">
           <civic-liker-cta />
@@ -44,15 +44,17 @@ export default {
 
 .home-banner {
   width: 100%;
-  height: 358px;
-  padding-top: 40px;
-  padding-bottom: 60px;
+  padding-top: 36px;
+  padding-bottom: 84px;
 
   background-image: url('~assets/home/banner.png');
   background-position: center;
   background-size: cover;
 
   &__wrapper {
+    position: relative;
+    z-index: 1;
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -96,5 +98,13 @@ export default {
 
 .civic-liker-cta-wrapper {
   background: white;
+
+  .civic-liker-cta--renewal {
+    padding: 24px;
+
+    :global(.civic-liker-cta__content) {
+      padding: 8px 0 0;
+    }
+  }
 }
 </style>

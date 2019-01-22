@@ -1466,14 +1466,22 @@
     "content": "Register for free now to get the first-hand Civic Liker experience, participate to bring changes, make things happen in the creativity ecology – {title}",
     "buttonTitle": "Register Now"
   },
+  "CivicLikerCTAForRenewal": {
+    "content": "感謝您參與讚賞公民計劃。若你在以下時限前續訂，可保有{stamp}。別再猶豫，請立即續訂，繼續支持創作！",
+    "contentForTrial": "感謝您參與讚賞公民體驗計劃，免費測試已經結束。若你在以下時限前正式成為讚賞公民，可保有{stamp}。別再猶豫，請立即申請，繼續支持創作！",
+    "stamp": " {date} 的印章",
+    "stampForHonor": " {date} 的計劃啟動日榮譽印章",
+    "till": "把握機會，保有榮譽印章："
+  },
   "CivicPage": {
     "title": "Civic Liker",
     "slogan": "A coffee for an ecosystem",
+    "about": "About Civic Liker",
     "joinNow": "Join Now",
     "register": "Register",
     "registered": "Registered",
     "pricingRegister": "Register Now",
-    "onGoing": "",
+    "renew": "Renew",
     "limitedQuota": "100 Limited Quota",
     "waitingList": {
       "title": "Please keep an eye on your email inbox",
@@ -1535,7 +1543,6 @@
     "subtitle": "Free trial in Jan 1-31 2019",
     "register": "Start Trial",
     "registered": "Trial Registered",
-    "onGoing": "On Trial",
     "willBeHeld": "Will be held on Jan 1-31 2019",
     "thankYou": "Thank you for joining",
     "thankYouForYourInterest": "Thank you for your interest in",
