@@ -1061,6 +1061,7 @@
   },
   "Settings": {
     "title": "LikeCoin ID 設定",
+    "noBoundWallet": "未綁定錢包",
     "label": {
       "contactUs": "如需 {deleteAccount} 或 {requestReport}，請聯絡我們",
       "deleteAccountPrePopulatedMessage": "我想申請刪除帳號",
