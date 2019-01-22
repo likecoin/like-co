@@ -63,6 +63,13 @@ export default {
       }
     },
   },
+  mounted() {
+    const { action, ...query } = this.$route.query;
+    if (this.$route.query.action === 'start') {
+      this.onClickStart();
+      this.$router.push({ ...this.$route, query });
+    }
+  },
   methods: {
     ...mapActions([
       'setWalletNoticeDialog',

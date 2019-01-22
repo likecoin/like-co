@@ -968,6 +968,7 @@
   },
   "Settings": {
     "title": "LikeCoin ID 设定",
+    "noBoundWallet": "未绑定钱包",
     "label": {
       "contactUs": "如需 {deleteAccount} 或 {requestReport}，请联络我们",
       "deleteAccountPrePopulatedMessage": "我想申请删除帐号",
