@@ -348,6 +348,20 @@ export default {
           content: 'https://like.co/images/og/tokensale.jpg',
         },
       ],
+      script: [
+        {
+          hid: 'schema',
+          innerHTML: JSON.stringify({
+            '@context': 'http://www.schema.org',
+            '@type': 'Person',
+            name: this.displayName,
+            alternateName: this.id,
+            image: this.avatar,
+            sameAs: Object.keys(this.platforms || {}).map(s => this.platforms[s].url),
+          }),
+          type: 'application/ld+json',
+        },
+      ],
       link: [
         { rel: 'canonical', href: `/${this.id}` },
       ],
