@@ -47,19 +47,24 @@ export default {
     this.timer = setInterval(this.countdown, 1000);
   },
   beforeDestroy() {
-    if (this.timer) {
-      clearInterval(this.timer);
-      this.timer = undefined;
-    }
+    this.clearTimer();
   },
   methods: {
+    clearTimer() {
+      if (this.timer) {
+        clearInterval(this.timer);
+        this.timer = undefined;
+      }
+    },
     countdown() {
       if (this.date) {
-        const difference = new Date(Math.abs(this.date - Date.now()));
-        this.day = Math.floor(difference.getTime() / 86400000);
-        this.hour = difference.getUTCHours();
-        this.minute = difference.getUTCMinutes();
-        this.second = difference.getUTCSeconds();
+        const difference = Math.max(this.date - Date.now(), 0);
+        if (difference === 0) this.clearTimer();
+        const d = new Date(difference);
+        this.day = Math.floor(d.getTime() / 86400000);
+        this.hour = d.getUTCHours();
+        this.minute = d.getUTCMinutes();
+        this.second = d.getUTCSeconds();
       }
     },
   },

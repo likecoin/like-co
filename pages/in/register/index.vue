@@ -4,6 +4,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import { tryPostLoginRedirect } from '~/util/client';
 
 import { logTrackerEvent } from '@/util/EventLogger';
 
@@ -41,7 +42,9 @@ export default {
     if (this.getUserIsRegistered) {
       const router = this.$router;
       const route = this.$route;
-      this.doPostAuthRedirect({ router, route });
+      if (!tryPostLoginRedirect({ route })) {
+        this.doPostAuthRedirect({ router, route });
+      }
     } else {
       logTrackerEvent(this, 'RegFlow', 'RedirectSignUp', 'RedirectSignUp', 1);
       this.setAuthDialog({ isShow: true });

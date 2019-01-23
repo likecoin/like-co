@@ -236,7 +236,6 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import parse from 'url-parse';
 
 import {
   apiLoginUser,
@@ -259,15 +258,11 @@ import EthMixin from '~/components/EthMixin';
 
 import User from '@/util/User';
 
-import {
-  LIKE_BUTTON_POST_MESSAGE_TARGET_ORIGIN,
-  REDIRECT_WHITE_LIST,
-} from '~/constant';
-
 import LikeCoinLogo from '~/assets/icons/likecoin-logo.svg';
 import LikeCoinTextLogo from '~/assets/icons/likecoin-text-logo.svg';
 
 import { logTrackerEvent } from '@/util/EventLogger';
+import { tryPostLoginRedirect } from '~/util/client';
 
 export default {
   name: 'auth-dialog',
@@ -875,17 +870,7 @@ export default {
       if (this.isSinglePage) {
         this.currentTab = 'loginSuccessful';
         this.$nextTick(() => {
-          const { redirect } = this.$route.query;
-          if (redirect && REDIRECT_WHITE_LIST.indexOf(parse(redirect, {}).hostname) !== -1) {
-            // Redirect to external link
-            window.location.href = redirect;
-          } else if (window.opener) {
-            // Notify LikeButton iframe to refresh
-            window.opener.postMessage({
-              action: 'LOGGED_IN',
-            }, LIKE_BUTTON_POST_MESSAGE_TARGET_ORIGIN);
-            window.close();
-          } else {
+          if (!tryPostLoginRedirect({ route: this.$route })) {
             // Normal case
             this.redirectToPreAuthPage();
           }
