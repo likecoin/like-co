@@ -184,7 +184,7 @@ export const apiPostUpdateUserSocialLink = (linkId, payload) => axios.put(`/soci
 
 export const apiGetLikeStatistic = () => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/like/stat`);
 
-export const apiGetLikeArticleInfo = url => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/like/suggest/info/`, { params: { url } });
+export const apiGetLikeArticleInfo = url => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/like/suggest/info/?url=${encodeURIComponent(url)}`);
 
 export const apiGetLikeURLSuggestion = () => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/like/suggest/all`);
 
