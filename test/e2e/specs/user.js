@@ -174,4 +174,16 @@ module.exports = {
       .waitForElementVisible('.tx-dialog', 5000)
       .end();
   },
+
+  // Prerequisite: user registered
+  'Join Civic Liker trial': (browser) => {
+    const devServer = browser.globals.devServerURL;
+    setAuthCookie(browser, devServer, 'testacct', '0x7FCE12d55AcA8a55471CEd6cFd4548b49b0d1AB5');
+
+    browser
+      .url(`${devServer}/in/civic/trial/active`)
+      .waitForElementVisible('.civic-liker-trial-page', 3000)
+      .waitForElementVisible('[lc-test=JoinCivicLikerTrial-successText]', 3000)
+      .end();
+  },
 };

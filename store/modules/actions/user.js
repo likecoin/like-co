@@ -379,13 +379,17 @@ export async function updateUserReadContentStatus({ commit, dispatch }, { id, pa
   }
 }
 
-export async function startCivicLikerTrial({ commit, dispatch }, id) {
+export async function joinCivicLikerTrialEvent({ commit, dispatch }, eventId) {
   const data = await apiWrapper(
     { commit, dispatch },
-    api.apiPutUserCivicTrial(id),
-    { blocking: true },
+    api.apiJoinCivicLikerTrialEventById(eventId),
+    {
+      blocking: true,
+      slientError: true,
+      error: 'raw',
+    },
   );
-  await dispatch('refreshUser');
+  dispatch('refreshUser');
   return data;
 }
 
