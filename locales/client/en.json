@@ -6,6 +6,7 @@
     "learnMore": "Learn More",
     "loading": "Loading",
     "retry": "Retry",
+    "contactUs": "Contact Us",
     "label": {
       "error": "Error",
       "success": "Success",
@@ -1466,14 +1467,22 @@
     "content": "Register for free now to get the first-hand Civic Liker experience, participate to bring changes, make things happen in the creativity ecology – {title}",
     "buttonTitle": "Register Now"
   },
+  "CivicLikerCTAForRenewal": {
+    "content": "感謝您參與讚賞公民計劃。若你在以下時限前續訂，可保有{stamp}。別再猶豫，請立即續訂，繼續支持創作！",
+    "contentForTrial": "感謝您參與讚賞公民體驗計劃，免費測試已經結束。若你在以下時限前正式成為讚賞公民，可保有{stamp}。別再猶豫，請立即申請，繼續支持創作！",
+    "stamp": " {date} 的印章",
+    "stampForHonor": " {date} 的計劃啟動日榮譽印章",
+    "till": "把握機會，保有榮譽印章："
+  },
   "CivicPage": {
     "title": "Civic Liker",
     "slogan": "A coffee for an ecosystem",
+    "about": "About Civic Liker",
     "joinNow": "Join Now",
     "register": "Register",
     "registered": "Registered",
     "pricingRegister": "Register Now",
-    "onGoing": "",
+    "renew": "Renew",
     "limitedQuota": "100 Limited Quota",
     "waitingList": {
       "title": "Please keep an eye on your email inbox",
@@ -1532,15 +1541,40 @@
   },
   "CivicLikerTrial": {
     "title": "Civic Liker Trial",
-    "subtitle": "Free trial in Jan 1-31 2019",
     "register": "Start Trial",
     "registered": "Trial Registered",
-    "onGoing": "On Trial",
-    "willBeHeld": "Will be held on Jan 1-31 2019",
+    "subscriptionPeriod": "Your subscription is valid from {start} to {end}",
     "thankYou": "Thank you for joining",
     "thankYouForYourInterest": "Thank you for your interest in",
     "waitingList": {
       "sorry": "Sorry the trial is full in the moment."
+    },
+    "errorPopup": {
+      "joined": {
+        "header": "You joined the free Civic Liker Trial program before",
+        "message": "The free plan is once in a lifetime.  Apply to become a real Civic Liker now, just a coffee for an ecosystem.",
+        "confirm": "Apply Now"
+      },
+      "paid": {
+        "header": "You are already a Civic Liker",
+        "message": "Thanks for your support, but you registered as a Civic Liker successfully.",
+        "confirm": "Check your account"
+      },
+      "expired": {
+        "header": "The promotion is expired",
+        "message": "Thanks for your support, but the promotion is over. Please contact us for help.",
+        "confirm": "@:General.learnMore"
+      },
+      "nonexistent": {
+        "header": "The promotion does not exist",
+        "message": "Thanks for your support, but the promotion does not exist. Please contact us for help.",
+        "confirm": "@:General.learnMore"
+      },
+      "unknown": {
+        "header": "Oops! There is something wrong",
+        "message": "Thanks for your support. Please contact us for help.",
+        "confirm": "@:General.button.confirm"
+      }
     }
   },
   "CivicLikerBeta": {

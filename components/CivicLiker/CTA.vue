@@ -1,16 +1,54 @@
 <template>
-  <div :class="['civic-liker-cta', `civic-liker-cta--${layout}`]">
+  <!-- CTA for Civic Liker Renewal -->
+  <div
+    v-if="canRenew"
+    :class="rootClass"
+  >
     <div>
+      <div class="lc-text-align-center-mobile">
+        <p class="lc-color-like-gray-4 lc-font-size-16">
+          {{ renewalContent }}
+        </p>
+        <p class="lc-color-like-green lc-margin-top-12 lc-font-weight-600">
+          {{ $t('CivicLikerCTAForRenewal.till') }}
+        </p>
+        <CountdownTimer :date="new Date(getUserInfo.civicLikerRenewalPeriodLast)" />
+      </div>
+      <div class="civic-liker-cta__content">
+        <div class="lc-button-group">
+          <md-button
+            class="md-likecoin lc-gradient-2 lc-font-size-20 lc-font-weight-600 shadow"
+            @click="onClick"
+          >{{ buttonTitle }}</md-button>
+          <div class="lc-margin-top-12">
+            <nuxt-link
+              class="lc-underline lc-font-size-12"
+              :to="{ name: 'in-civic' }"
+            >
+              {{ $t('CivicPage.about') }}
+            </nuxt-link>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <!-- Normal CTA -->
+  <div
+    v-else
+    :class="rootClass"
+  >
+    <div>
       <div
         v-if="isShowChop"
         class="civic-liker-cta__image"
       >
         <chop-art
-          :is-registered="isCivicLiker || isPreRegCivicLiker"
+          :is-registered="isCivicLiker || isCivicLikerTrial"
           :is-show-countdown="layout !== 'wide'"
         />
       </div>
+
       <div class="civic-liker-cta__content">
         <i18n
           class="lc-color-like-gray-4 lc-font-size-16"
@@ -44,15 +82,15 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import ChopArt from './ChopArt';
+import { format } from 'date-fns';
 
-import {
-  CIVIC_LIKER_TRIAL_END_DATE,
-} from '~/constant';
+import CountdownTimer from '@/components/CountdownTimer';
+import ChopArt from './ChopArt';
 
 export default {
   name: 'civic-liker-cta',
   components: {
+    CountdownTimer,
     ChopArt,
   },
   props: {
@@ -69,24 +107,42 @@ export default {
     ...mapGetters([
       'getUserInfo',
     ]),
+    rootClass() {
+      const { name } = this.$options;
+      return [
+        name,
+        `${name}--${this.layout}`,
+        {
+          [`${name}--renewal`]: this.canRenew,
+        },
+      ];
+    },
     isCivicLiker() {
       return this.getUserInfo.isSubscribedCivicLiker;
     },
-    isPreRegCivicLiker() {
-      return this.getUserInfo.isPreRegCivicLiker;
-    },
     isCivicLikerTrial() {
-      return (
-        !this.isCivicLiker
-        && this.isPreRegCivicLiker
-        && Date.now() <= CIVIC_LIKER_TRIAL_END_DATE
-      );
+      return this.getUserInfo.isCivicLikerTrial;
     },
     isOnWaitingList() {
       return (
         !this.isCivicLiker
         && this.getUserInfo.civicLikerStatus === 'waiting'
       );
+    },
+    canRenew() {
+      return this.getUserInfo.isCivicLikerRenewalPeriod;
+    },
+    renewalContent() {
+      if (!this.canRenew) return '';
+      const {
+        isHonorCivicLiker: isHonor,
+        civicLikerSince: since,
+      } = this.getUserInfo;
+      return this.$t(`CivicLikerCTAForRenewal.content${this.isCivicLikerTrial ? 'ForTrial' : ''}`, {
+        stamp: this.$t(`CivicLikerCTAForRenewal.stamp${isHonor ? 'ForHonor' : ''}`, {
+          date: format(new Date(since), 'YYYY.MM.DD'),
+        }),
+      });
     },
     name() {
       if (this.isCivicLikerTrial) {
@@ -95,14 +151,17 @@ export default {
       return this.$t('CivicLikerBeta.title');
     },
     buttonTitle() {
-      if (this.isCivicLiker) {
-        return this.$t('General.learnMore');
+      if (this.canRenew) {
+        return this.$t('CivicPage.renew');
       }
       if (this.isOnWaitingList) {
         return this.$t('CivicLikerBeta.waitingList.button');
       }
       if (this.isCivicLikerTrial) {
         return this.$t('CivicLikerBeta.upgrade');
+      }
+      if (this.isCivicLiker) {
+        return this.$t('General.learnMore');
       }
       return this.$t('CivicPage.register');
     },
@@ -126,17 +185,14 @@ export default {
     align-items: center;
 
     max-width: 816px;
-    min-height: 200px;
     margin: 0 auto;
+
+    @media screen and (min-width: 600px + 1px) {
+      min-height: 200px;
+    }
 
     @media screen and (max-width: 600px) {
       flex-direction: column;
-    }
-  }
-
-  &--column {
-    > div {
-      min-height: 0;
     }
   }
 
@@ -156,6 +212,8 @@ export default {
     flex: 1;
     justify-content: flex-end;
 
+    margin-bottom: -24px;
+
     text-align: right;
 
     @media screen and (min-width: 600px + 1px) and (max-width: 768px) {
@@ -165,10 +223,11 @@ export default {
     }
 
     @media screen and (min-width: 600px + 1px) {
+      margin-right: 12px;
+
       .civic-liker-cta--wide & {
         max-width: 224px;
         height: 0;
-        margin-right: 12px;
       }
     }
 
@@ -179,11 +238,6 @@ export default {
     .chop-art {
       transform: scale(1.36);
       transform-origin: right center;
-
-      @media screen and (max-width: 600px) {
-        transform: scale(1.18);
-        transform-origin: center top;
-      }
     }
   }
 
@@ -203,10 +257,8 @@ export default {
     }
 
     @media screen and (min-width: 600px + 1px) {
-      margin: -12px;
-
-      .civic-liker-cta:not(.civic-liker-cta--wide) & {
-        padding: 24px;
+      .civic-liker-cta:not(.civic-liker-cta--renewal) & {
+        margin: -12px;
       }
     }
 
@@ -228,12 +280,34 @@ export default {
 
       border-radius: 0;
 
-      @media screen and (max-width: 600px) {
-        margin-top: -12px;
-      }
-
       :global(.md-ripple) {
         min-height: 48px;
+      }
+    }
+  }
+
+  &--renewal {
+    .lc-countdown-timer {
+      font-size: 32px;
+
+      @media screen and (min-width: 1024px) {
+        max-width: 338px;
+      }
+    }
+
+    .civic-liker-cta__content {
+      margin: 0;
+    }
+
+    > div {
+      > div:first-child {
+        @media screen and (min-width: 600px + 1px) {
+          padding-right: 24px;
+        }
+      }
+
+      @media screen and (max-width: 768px) {
+        flex-direction: column;
       }
     }
   }

@@ -5,7 +5,19 @@
     <section class="lc-container-0 lc-margin-top-16 lc-mobile-hide">
       <div class="lc-container-1">
         <div class="lc-container-2">
+          <div
+            v-if="getUserInfo.isCivicLikerRenewalPeriod"
+            class="lc-container-3"
+          >
+            <div class="lc-container-4">
+              <civic-liker-cta
+                class="lc-padding-top-24-mobile"
+                layout="wide"
+              />
+            </div>
+          </div>
           <civic-liker-cta
+            v-else
             class="lc-padding-top-24-mobile"
             layout="wide"
           />
