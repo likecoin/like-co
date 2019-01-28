@@ -117,93 +117,86 @@
     <div class="lc-padding-top-16 lc-bg-gray-1" />
 
     <section
+      v-swiper:pricingSwiper="swiperOptions"
       id="pricing"
       ref="pricing"
       class="civic-page__pricing lc-bg-like-gradient"
     >
-      <div class="lc-container-1">
-        <div class="lc-container-2">
-          <div class="lc-container-3">
-            <div class="lc-container-4">
+      <ul class="pricing-table swiper-wrapper">
+        <li
+          v-for="p in pricing"
+          :key="p.type"
+          class="swiper-slide"
+        >
+          <div
+            :class="[
+              'pricing-table__col',
+              `pricing-table__col--${p.type}`,
+            ]"
+          >
+            <header class="pricing-table__col__header">
+              <div class="pricing-table__col__header__type">
+                {{ $t(`CivicPage.pricing.type.${p.type}`) }}
+              </div>
+              <div>
+                <span class="pricing-table__col__header__price">{{ p.price }}</span>
+                <span
+                  class="pricing-table__col__header__payment-cycle"
+                >{{ $t(`CivicPage.pricing.paymentCycle.${p.paymentCycle}`) }}</span>
+              </div>
+              <template v-if="p.type === 'civicLiker'">
+                <lc-chop-civic-liker
+                  rotate-z="12"
+                  is-beta
+                />
+              </template>
+            </header>
 
-              <ul class="pricing-table">
-                <li
-                  v-for="p in pricing"
-                  :key="p.type"
+            <ul class="pricing-table__col__feature-list">
+              <li
+                v-for="f in p.features"
+                :key="f[0]"
+                :class="[
+                  'pricing-table__col__feature-list__item',
+                  {
+                    'pricing-table__col__feature-list__item--disabled': !f[1],
+                  }
+                ]"
+              >
+                <simple-svg
+                  :filepath="TickIcon"
+                  class="pricing-table__col__feature-list__item__bullet"
+                  width="20px"
+                  height="20px"
+                  fill="currentColor"
+                  stroke="transparent"
+                />
+                <div>
+                  {{ $t(`CivicPage.pricing.features.${f[0]}`) }}
+                </div>
+              </li>
+            </ul>
+
+            <footer
+              v-if="p.type === 'civicLiker'"
+              class="pricing-table__col__footer"
+            >
+              <div class="lc-button-group">
+                <md-button
+                  class="md-likecoin lc-font-size-16 lc-font-weight-600"
+                  @click="onClickButton"
                 >
-                  <div
-                    :class="[
-                      'pricing-table__col',
-                      `pricing-table__col--${p.type}`,
-                    ]"
-                  >
-                    <header class="pricing-table__col__header">
-                      <div class="pricing-table__col__header__type">
-                        {{ $t(`CivicPage.pricing.type.${p.type}`) }}
-                      </div>
-                      <div>
-                        <span class="pricing-table__col__header__price">{{ p.price }}</span>
-                        <span
-                          class="pricing-table__col__header__payment-cycle"
-                        >{{ $t(`CivicPage.pricing.paymentCycle.${p.paymentCycle}`) }}</span>
-                      </div>
-                      <template v-if="p.type === 'civicLiker'">
-                        <lc-chop-civic-liker
-                          rotate-z="12"
-                          is-beta
-                        />
-                      </template>
-                    </header>
-
-                    <ul class="pricing-table__col__feature-list">
-                      <li
-                        v-for="f in p.features"
-                        :key="f[0]"
-                        :class="[
-                          'pricing-table__col__feature-list__item',
-                          {
-                            'pricing-table__col__feature-list__item--disabled': !f[1],
-                          }
-                        ]"
-                      >
-                        <simple-svg
-                          :filepath="TickIcon"
-                          class="pricing-table__col__feature-list__item__bullet"
-                          width="20px"
-                          height="20px"
-                          fill="currentColor"
-                          stroke="transparent"
-                        />
-                        <div>
-                          {{ $t(`CivicPage.pricing.features.${f[0]}`) }}
-                        </div>
-                      </li>
-                    </ul>
-
-                    <footer
-                      v-if="p.type === 'civicLiker'"
-                      class="pricing-table__col__footer"
-                    >
-                      <div class="lc-button-group">
-                        <md-button
-                          class="md-likecoin lc-font-size-16 lc-font-weight-600"
-                          @click="onClickButton"
-                        >
-                          {{ pricingButtonTitle }}
-                        </md-button>
-                        <div
-                          class="lc-font-size-12 lc-color-light-burgundy"
-                        >{{ buttonFootnote }}</div>
-                      </div>
-                    </footer>
-                  </div>
-                </li>
-              </ul>
-
-            </div>
+                  {{ pricingButtonTitle }}
+                </md-button>
+                <div
+                  class="lc-font-size-12 lc-color-light-burgundy"
+                >{{ buttonFootnote }}</div>
+              </div>
+            </footer>
           </div>
-        </div>
-      </div>
+        </li>
+      </ul>
+      <div class="pricing-pagination" />
     </section>
 
     <section class="civic-page__footnote lc-padding-top-24">
@@ -232,6 +225,38 @@ import { mapGetters } from 'vuex';
 import HeroImage from '~/assets/civic/hero.png';
 import TickIcon from '~/assets/icons/fillable/tick.svg';
 
+const pricing = [
+  {
+    type: 'generalLiker',
+    price: 'USD0.00',
+    paymentCycle: 'perMonth',
+    features: [
+      ['ICRpool', true],
+      ['ownRewardPool', false],
+      ['communityVoting', false],
+      ['bonusContent', false],
+      ['idolNewsletter', false],
+      ['offlineEvent', false],
+      ['report', false],
+      ['badges', false],
+    ],
+  },
+  {
+    type: 'civicLiker',
+    price: 'USD5.00',
+    paymentCycle: 'perMonth',
+    features: [
+      ['ICRpool', true],
+      ['ownRewardPool', true],
+      ['communityVoting', true],
+      ['bonusContent', true],
+      ['idolNewsletter', true],
+      ['offlineEvent', true],
+      ['report', true],
+      ['badges', true],
+    ],
+  },
+];
 export default {
   data() {
     return {
@@ -240,38 +265,17 @@ export default {
 
       FEATURE_COUNT: 3,
 
-      pricing: [
-        {
-          type: 'generalLiker',
-          price: 'USD0.00',
-          paymentCycle: 'perMonth',
-          features: [
-            ['ICRpool', true],
-            ['ownRewardPool', false],
-            ['communityVoting', false],
-            ['bonusContent', false],
-            ['idolNewsletter', false],
-            ['offlineEvent', false],
-            ['report', false],
-            ['badges', false],
-          ],
+      pricing,
+      swiperOptions: {
+        initialSlide: pricing.length - 1,
+        spaceBetween: 0,
+        slidesPerView: 'auto',
+        centeredSlides: true,
+        pagination: {
+          el: '.pricing-pagination',
+          clickable: true,
         },
-        {
-          type: 'civicLiker',
-          price: 'USD5.00',
-          paymentCycle: 'perMonth',
-          features: [
-            ['ICRpool', true],
-            ['ownRewardPool', true],
-            ['communityVoting', true],
-            ['bonusContent', true],
-            ['idolNewsletter', true],
-            ['offlineEvent', true],
-            ['report', true],
-            ['badges', true],
-          ],
-        },
-      ],
+      },
     };
   },
   computed: {
@@ -351,6 +355,9 @@ export default {
     scrollToPricing() {
       if (this.$refs.pricing) {
         this.$refs.pricing.scrollIntoView({ behavior: 'smooth' });
+      }
+      if (this.pricingSwiper) {
+        this.pricingSwiper.slideTo(pricing.length - 1);
       }
     },
     onClickButton() {
@@ -508,17 +515,29 @@ export default {
 }
 
 .pricing-table {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-
   margin: 0;
-  padding: 8px;
+  padding-top: 16px;
 
   list-style: none;
 
-  > li {
+  @media screen and (min-width: 768px + 1px) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    padding-bottom: 16px;
+
+    transform: none !important;
+  }
+
+  .swiper-slide {
+    box-sizing: border-box;
+    max-width: 360px;
     padding: 8px;
+
+    @media screen and (max-width: 480px) {
+      max-width: 85vw;
+    }
   }
 
   &__col {
@@ -527,6 +546,10 @@ export default {
 
     border-radius: 8px;
     background: white;
+
+    @media screen and (max-width: 480px) {
+      min-width: 0;
+    }
 
     &__header {
       position: relative;
@@ -606,6 +629,20 @@ export default {
 
       border: none;
     }
+  }
+}
+
+.pricing-pagination {
+  padding-bottom: 12px;
+
+  text-align: center;
+
+  @media screen and (min-width: 768px + 1px) {
+    display: none;
+  }
+
+  :global(.swiper-pagination-bullet-active) {
+    background: $like-green;
   }
 }
 </style>
