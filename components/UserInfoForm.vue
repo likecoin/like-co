@@ -59,26 +59,36 @@
 
             <!-- Civic Liker Info & CTA -->
             <div class="civic-liker-info">
-              <div class="civic-liker-info__chop">
-                <template v-if="isCivicLiker || isCivicLikerTrial">
-                  <lc-chop-civic-liker
-                    :date="civicLikerSince"
-                    :is-trial="isCivicLikerTrial"
-                    :is-trialling="isCivicLikerTrial"
-                    :is-flashing="getUserInfo.isCivicLikerRenewalPeriod"
-                    size="140"
-                    rotate-z="13"
-                  />
-                  <lc-chop-simple
-                    v-if="getUserInfo.isCivicLikerRenewalPeriod"
-                    class="expired-chop"
-                    text="EXPIRED"
-                    size="140"
-                    rotate-z="-6"
-                  />
-                </template>
+              <div
+                v-if="isCivicLiker || isCivicLikerTrial"
+                :class="[
+                  'civic-liker-info__chop',
+                  {
+                    'civic-liker-info__chop--clickable': isCivicLikerTrial || canRenewCivicLiker,
+                  }
+                ]"
+                @click="onClickCivicLikerStamp"
+              >
+                <lc-chop-civic-liker
+                  :date="civicLikerSince"
+                  :is-flashing="canRenewCivicLiker"
+                  size="140"
+                  rotate-z="13"
+                />
+                <lc-chop-simple
+                  v-if="isCivicLikerTrial || canRenewCivicLiker"
+                  :text="canRenewCivicLiker ? 'EXPIRED' : 'TRIAL'"
+                  :is-trial="isCivicLikerTrial"
+                  class="civic-liker-status-stamp"
+                  size="140"
+                  rotate-z="-8"
+                />
+              </div>
+              <div
+                v-else
+                class="civic-liker-info__chop"
+              >
                 <nuxt-link
-                  v-else
                   :to="{ name: 'in-civic' }"
                   class="lc-font-weight-400 lc-underline"
                 >
@@ -237,6 +247,9 @@ export default {
     isCivicLikerTrial() {
       return this.getUserInfo.isCivicLikerTrial;
     },
+    canRenewCivicLiker() {
+      return this.getUserInfo.isCivicLikerRenewalPeriod;
+    },
     avatarHalo() {
       return User.getAvatarHaloType(this.getUserInfo);
     },
@@ -273,6 +286,11 @@ export default {
       'onMissionClick',
       'queryLikeCoinWalletBalance',
     ]),
+    onClickCivicLikerStamp() {
+      if (this.isCivicLikerTrial || this.canRenewCivicLiker) {
+        this.$router.push({ name: 'in-civic-register' });
+      }
+    },
     async onSubmitEdit() {
       try {
         const userInfo = {
@@ -393,6 +411,12 @@ $profile-icon-mobile-size: 88px;
         position: absolute;
       }
 
+      &--clickable {
+        > * {
+          cursor: pointer;
+        }
+      }
+
       .lc-chop-civic-liker {
         top: -24px;
         left: calc((100% - 156px) / 2);
@@ -408,7 +432,7 @@ $profile-icon-mobile-size: 88px;
         bottom: -4px;
       }
 
-      .expired-chop {
+      .civic-liker-status-stamp {
         bottom: -24px;
         left: -24px;
       }
