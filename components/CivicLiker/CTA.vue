@@ -18,7 +18,7 @@
         <div class="lc-button-group">
           <md-button
             class="md-likecoin lc-gradient-2 lc-font-size-20 lc-font-weight-600 shadow"
-            @click="onClick"
+            @click="onClickRenewButton"
           >{{ buttonTitle }}</md-button>
           <div class="lc-margin-top-12">
             <nuxt-link
@@ -169,6 +169,9 @@ export default {
   methods: {
     onClick() {
       this.$router.push({ name: 'in-civic' });
+    },
+    onClickRenewButton() {
+      this.$router.push({ name: 'in-civic-register' });
     },
   },
 };
