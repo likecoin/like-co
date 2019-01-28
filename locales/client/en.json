@@ -1094,7 +1094,7 @@
   },
   "Settings": {
     "title": "LikeCoin ID Settings",
-    "noBoundWallet": "No bound wallet",
+    "noBoundWallet": "Bind wallet",
     "label": {
       "contactUs": "Contact us for {deleteAccount} or {requestReport}",
       "deleteAccountPrePopulatedMessage": "I want to delete my account",

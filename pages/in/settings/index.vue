@@ -57,7 +57,7 @@
                     {{ $t('Register.form.walletAddress') }}:
                   </span>
                   <span
-                    v-if="getUserInfo.wallet"
+                    v-if="!getUserInfo.wallet"
                     class="content"
                   >
                     {{ getUserInfo.wallet }}
@@ -65,7 +65,7 @@
                   <nuxt-link
                     v-else
                     :to="{ name: 'in-earn', query: { action: 'start' } }"
-                    class="content"
+                    class="content lc-underline"
                   >
                     {{ $t('Settings.noBoundWallet') }}
                   </nuxt-link>
