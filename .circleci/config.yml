@@ -116,7 +116,7 @@ jobs:
           name: Build image
           command: |
             gcloud docker -- pull us.gcr.io/${TEST_PROJECT_NAME}/like-store-frontend:latest || true
-            docker build . -t like-store --cache-from us.gcr.io/${TEST_PROJECT_NAME}/like-store:latest \
+            docker build . -t like-store --cache-from us.gcr.io/${TEST_PROJECT_NAME}/like-store-frontend:latest \
             --build-arg IS_TESTNET='TRUE' \
             --build-arg FIREBASE_API_KEY=${TEST_FIREBASE_API_KEY} \
             --build-arg FIREBASE_AUTH_DOMAIN=${TEST_FIREBASE_AUTH_DOMAIN} \
@@ -208,7 +208,7 @@ jobs:
           name: Build image
           command: |
             gcloud docker -- pull us.gcr.io/${PROJECT_NAME}/like-store-frontend:latest || true
-            docker build . -t like-store --cache-from us.gcr.io/${PROJECT_NAME}/like-store:latest \
+            docker build . -t like-store --cache-from us.gcr.io/${PROJECT_NAME}/like-store-frontend:latest \
             --build-arg INTERCOM_APPID=${INTERCOM_APPID} \
             --build-arg GTM_ID=${GTM_ID} \
             --build-arg FIREBASE_API_KEY=${FIREBASE_API_KEY} \
