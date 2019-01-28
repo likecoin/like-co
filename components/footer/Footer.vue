@@ -30,7 +30,10 @@ import BigNumber from 'bignumber.js';
 import EthHelper from '@/util/EthHelper';
 
 import { mapGetters } from 'vuex';
-import { ETHERSCAN_HOST, ONE_LIKE } from '@/constant';
+import {
+  ETHERSCAN_HOST,
+  ONE_LIKE,
+} from '@/constant';
 import { LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin';
 
 export default {
@@ -46,6 +49,7 @@ export default {
       'getInfoMsg',
       'getInfoIsError',
       'getUserSocialPlatforms',
+      'getUserAuthPlatforms',
     ]),
     getAddress() {
       return `${ETHERSCAN_HOST}/address/${this.contractAddress}`;
@@ -93,6 +97,17 @@ export default {
       }
     },
     getUserSocialPlatforms(platforms) {
+      if (this.$intercom) {
+        const platformList = Object.keys(platforms);
+        const opt = platformList.reduce((accumOpt, platform) => {
+          // eslint-disable-next-line no-param-reassign
+          accumOpt[`binded_${platform}`] = true; // platform key exists only when binded
+          return accumOpt;
+        }, {});
+        this.$intercom.update(opt);
+      }
+    },
+    getUserAuthPlatforms(platforms) {
       if (this.$intercom) {
         const platformList = Object.keys(platforms);
         const opt = platformList.reduce((accumOpt, platform) => {
