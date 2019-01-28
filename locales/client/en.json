@@ -1390,14 +1390,14 @@
       "slogan": "Get Rewarded by Reader’s Likes NOW",
       "campaign": "“Reinventing the Like” Campaign is Live",
       "enroll": "Campaign Enrollment",
-      "minTitle": "Thanks for a little support"
+      "minTitle": "It's a snap to support creators"
     },
     "label": {
       "earn": "Add the reinvented LikeButton to your creative contents to turn readers' Likes into passive income. Keep connected with your fans, promote your own brand with a nicely designed UI.",
       "poc": "With the focus on rewarding content creators, LikeCoin (LIKE) measures the \"creativity\" of creative contents and let creators make passive income in LIKE with their creative contents according to the Likes they get. We call the mechanism Proof of Creativity, or PoC.",
       "campaign": "Act immediately to earn LIKE by your creative works. There are three platforms that support the LikeButton now: WordPress-powered sites, Medium and oice.",
       "enroll": "Add the LikeButton to your creative works; get Likes from your fans. It’s that simple! We are giving out millions of LikeCoin per month to reward creators. Let’s go ahead for the bonus.",
-      "minLabel": "From now on, whenever you click the LikeButton from a creativte content, the creator will earn profit."
+      "minLabel": "Click on the LikeButton embedded in the creative works to reward the creators. A baby could do, but means a lot."
     },
     "button": {
       "startUsing": "Start using"
@@ -1464,15 +1464,15 @@
   },
   "CivicLikerCTA": {
     "title": "Civic Liker",
-    "content": "Register for free now to get the first-hand Civic Liker experience, participate to bring changes, make things happen in the creativity ecology – {title}",
+    "content": "Register now to get the first-hand Civic Liker experience, participate to bring changes, make things happen in the creativity ecosystem – {title}",
     "buttonTitle": "Register Now"
   },
   "CivicLikerCTAForRenewal": {
-    "content": "感謝您參與讚賞公民計劃。若你在以下時限前續訂，可保有{stamp}。別再猶豫，請立即續訂，繼續支持創作！",
-    "contentForTrial": "感謝您參與讚賞公民體驗計劃，免費測試已經結束。若你在以下時限前正式成為讚賞公民，可保有{stamp}。別再猶豫，請立即申請，繼續支持創作！",
-    "stamp": " {date} 的印章",
-    "stampForHonor": " {date} 的計劃啟動日榮譽印章",
-    "till": "把握機會，保有榮譽印章："
+    "content": "Civic Liker Trial is over. Thank you for your participation. Don’t miss out the chance to join the Civic Liker plan and keep your {stamp}.",
+    "contentForTrial": "Your Civic Liker subscription is over. Thank you for your participation. Don’t miss out the chance to renew the Civic Liker plan and keep your honourable stamp dated at {stamp}.",
+    "stamp": "stamp dated at {date}",
+    "stampForHonor": "honourable stamp dated at {date}",
+    "till": "Act now before the countdown:"
   },
   "CivicPage": {
     "title": "Civic Liker",

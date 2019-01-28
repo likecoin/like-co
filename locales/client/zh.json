@@ -1323,13 +1323,15 @@
       "poc": "創造力證明",
       "slogan": "立即把讀者的點讚轉化為收入吧",
       "campaign": "「化讚為賞」推廣活動已經開始",
-      "enroll": "參加活動"
+      "enroll": "參加活動",
+      "minTitle": "讓支持創作成為習慣"
     },
     "label": {
       "earn": "為你的創作加上重新設計的讚賞鍵 (LikeButton)，把讀者的「點讚」化為收入；美觀的讚賞鍵還可以成為你的個人品牌名片，讓你跟讀者保持緊密聯繫。",
       "poc": "LikeCoin 以「創造力」為標準量度創意內容的重要性，並參考作品所獲得的讚好，讓內容創作者可以獲得 LikeCoin 作為回報。我們稱這做法為「創造力證明」。",
       "campaign": "立即以你的作品賺取 LIKE 吧！新的 LikeButton 目前已經支援三個平台： WordPress，Medium 及 oice。",
-      "enroll": "在你的創作中加上 LikeButton，讓你的讀者為你點讚，就是這麼簡單！我們正持續派出百萬計的 LikeCoin 回饋創作，請把握機會立即加入吧！"
+      "enroll": "在你的創作中加上 LikeButton，讓你的讀者為你點讚，就是這麼簡單！我們正持續派出百萬計的 LikeCoin 回饋創作，請把握機會立即加入吧！",
+      "minLabel": "你只需點擊嵌在作品中的「讚賞鍵」，作者便能獲得奬賞。舉手之勞，卻意義重大。"
     },
     "button": {
       "startUsing": "開始使用"
@@ -1370,7 +1372,7 @@
   "CivicLikerCTA": {
     "title": "讚賞公民體驗計劃",
     "content": "支持創作，每月騰出一杯咖啡消費，全數給予當月點讚內容 — {title}",
-    "buttonTitle": "預先登記"
+    "buttonTitle": "登記"
   },
   "CivicLikerCTAForRenewal": {
     "content": "感謝您參與讚賞公民計劃。若你在以下時限前續訂，可保有{stamp}。別再猶豫，請立即續訂，繼續支持創作！",
