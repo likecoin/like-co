@@ -67,11 +67,11 @@
                 <div class="lc-button-group lc-margin-top-32">
                   <md-button
                     class="md-likecoin"
-                    @click="onClickOk"
+                    @click="checkMyStatus"
                   >{{ $t('General.button.ok') }}
                   </md-button><br><md-button
                     class="md-likecoin"
-                    @click="onClickLearnMore"
+                    @click="learnMore"
                   >{{ $t('General.learnMore') }}</md-button>
                 </div>
               </template>
@@ -234,31 +234,40 @@ export default {
         header: this.$t(`CivicLikerTrial.errorPopup.${error}.header`),
         message: this.$t(`CivicLikerTrial.errorPopup.${error}.message`),
         confirmText: this.$t(`CivicLikerTrial.errorPopup.${error}.confirm`),
-        onConfirm: () => {
-          if (error === 'joined') {
-            this.$router.push({ name: 'in-civic-register' });
-          } else {
-            this.onClickLearnMore();
-          }
-        },
+        cancelText: this.$t('CivicPage.about'),
+        onCancel: this.learnMore,
       };
-      if (error !== 'joined') {
-        options.cancelText = this.$t('General.contactUs');
-        options.onCancel = () => {
-          if (this.isCSOnline && this.$intercom) {
-            this.$intercom.show();
-          } else {
-            window.open('https://help.like.co/', '_blank');
-          }
-        };
+
+      switch (error) {
+        case 'joined':
+          options.onConfirm = () => {
+            this.$router.push({ name: 'in-civic-register' });
+          };
+          break;
+
+        case 'paid':
+          options.onConfirm = this.checkMyStatus;
+          break;
+
+        default:
+          options.confirmText = this.$t('General.contactUs');
+          options.onConfirm = this.contactUs;
       }
+
       this.openPopupDialog(options);
     },
-    onClickOk() {
+    checkMyStatus() {
       this.$router.push({ name: 'in' });
     },
-    onClickLearnMore() {
+    learnMore() {
       this.$router.push({ name: 'in-civic' });
+    },
+    contactUs() {
+      if (this.isCSOnline && this.$intercom) {
+        this.$intercom.show();
+      } else {
+        window.open('https://help.like.co/', '_blank');
+      }
     },
   },
 };

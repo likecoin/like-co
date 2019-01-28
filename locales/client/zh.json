@@ -1466,18 +1466,15 @@
       },
       "expired": {
         "header": "活動已過期",
-        "message": "感謝你的支持，但活動已過期了。請聯絡客服。",
-        "confirm": "@:General.learnMore"
+        "message": "感謝你的支持，但活動已過期了。請聯絡客服。"
       },
       "nonexistent": {
         "header": "活動不存在",
-        "message": "感謝你的支持，但活動並不存在。請聯絡客服。",
-        "confirm": "@:General.learnMore"
+        "message": "感謝你的支持，但活動並不存在。請聯絡客服。"
       },
       "unknown": {
         "header": "噢！發生未知的問題",
-        "message": "感謝你的支持。請聯絡客服。",
-        "confirm": "@:General.button.confirm"
+        "message": "感謝你的支持。請聯絡客服。"
       }
     }
   },

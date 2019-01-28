@@ -1562,18 +1562,15 @@
       },
       "expired": {
         "header": "The promotion is expired",
-        "message": "Thanks for your support, but the promotion is over. Please contact us for help.",
-        "confirm": "@:General.learnMore"
+        "message": "Thanks for your support, but the promotion is over. Please contact us for help."
       },
       "nonexistent": {
         "header": "The promotion does not exist",
-        "message": "Thanks for your support, but the promotion does not exist. Please contact us for help.",
-        "confirm": "@:General.learnMore"
+        "message": "Thanks for your support, but the promotion does not exist. Please contact us for help."
       },
       "unknown": {
         "header": "Oops! There is something wrong",
-        "message": "Thanks for your support. Please contact us for help.",
-        "confirm": "@:General.button.confirm"
+        "message": "Thanks for your support. Please contact us for help."
       }
     }
   },
