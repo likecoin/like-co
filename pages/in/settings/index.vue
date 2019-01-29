@@ -57,7 +57,7 @@
                     {{ $t('Register.form.walletAddress') }}:
                   </span>
                   <span
-                    v-if="!getUserInfo.wallet"
+                    v-if="getUserInfo.wallet"
                     class="content"
                   >
                     {{ getUserInfo.wallet }}
