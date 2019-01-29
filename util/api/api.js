@@ -22,14 +22,14 @@ export const apiGetReferralById = id => axios.get(`/users/referral/${id}`);
 
 export const apiGetTotalBonusById = id => axios.get(`/users/bonus/${id}`);
 
-export const apiCheckCoupon = code => axios.get(`${LIKECOIN_MISC_API_BASE}/api/coupon/coupon/${code}`);
+export const apiCheckCoupon = code => axios.get(`/coupon/coupon/${code}`);
 
 export const apiClaimCoupon = (coupon, to) => {
   const payload = {
     coupon,
     to,
   };
-  return axios.post(`${LIKECOIN_MISC_API_BASE}/api/coupon/claim/`, payload);
+  return axios.post('/coupon/claim/', payload);
 };
 
 export const apiSendVerifyEmail = (id, ref, locale) => axios.post(`/email/verify/user/${id}`, { ref, locale });
