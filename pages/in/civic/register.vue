@@ -91,6 +91,7 @@
               <!-- Convert user to oice website for payment -->
               <template v-else-if="!error">
                 <div
+                  v-bind="$testID('RegisterCivicLiker-joinOice')"
                   :class="[
                     'lc-margin-bottom-16',
                     'lc-color-like-green lc-font-size-24 lc-font-weight-600',

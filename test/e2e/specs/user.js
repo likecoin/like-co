@@ -176,6 +176,18 @@ module.exports = {
   },
 
   // Prerequisite: user registered
+  'Register Civic Liker': (browser) => {
+    const devServer = browser.globals.devServerURL;
+    setAuthCookie(browser, devServer, 'testacct', '0x7FCE12d55AcA8a55471CEd6cFd4548b49b0d1AB5');
+
+    browser
+      .url(`${devServer}/in/civic/register`)
+      .waitForElementVisible('.civic-liker-register-page', 3000)
+      .waitForElementVisible('[lc-test=RegisterCivicLiker-joinOice]', 3000)
+      .end();
+  },
+
+  // Prerequisite: user registered
   'Join Civic Liker trial': (browser) => {
     const devServer = browser.globals.devServerURL;
     setAuthCookie(browser, devServer, 'testacct', '0x7FCE12d55AcA8a55471CEd6cFd4548b49b0d1AB5');
