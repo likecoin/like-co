@@ -658,6 +658,7 @@
     }
   },
   "AuthDialog": {
+    "supportCreator": "支持 {name}",
     "label": {
       "loading": "載入中",
       "signingIn": "登入中",

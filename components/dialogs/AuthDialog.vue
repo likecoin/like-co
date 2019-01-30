@@ -54,6 +54,17 @@
           <img :src="LikeCoinTextLogo">
         </template>
       </div>
+      <i18n
+        v-if="avatar && fromDisplayName"
+        class="auth-dialog__support-creator"
+        path="AuthDialog.supportCreator"
+        tag="div"
+      >
+        <span
+          class="lc-color-like-green"
+          place="name"
+        >{{ fromDisplayName }}</span>
+      </i18n>
     </div>
 
     <div
@@ -288,6 +299,7 @@ export default {
 
       avatar: undefined,
       avatarHalo: 'none',
+      fromDisplayName: '',
 
       currentTab: 'portal',
       contentStyle: {},
@@ -421,6 +433,7 @@ export default {
         }
         const userInfo = this.getUserMinInfoById(from);
         this.avatar = userInfo.avatar;
+        this.fromDisplayName = userInfo.displayName;
         this.avatarHalo = User.getAvatarHaloType(userInfo);
       } catch (err) {
         // noop
@@ -976,6 +989,22 @@ export default {
     }
   }
 
+  &__support-creator {
+    position: absolute;
+    top: 120px;
+    right: 0;
+    left: 0;
+
+    padding: 0 24px;
+
+    text-align: center;
+
+    color: $gray-9b;
+
+    font-size: 16px;
+    font-weight: 600;
+  }
+
   &__content {
     overflow: hidden;
 
@@ -984,7 +1013,7 @@ export default {
     transition: height 1s ease;
 
     &--with-avatar {
-      margin-top: 64px;
+      margin-top: 96px;
     }
   }
 

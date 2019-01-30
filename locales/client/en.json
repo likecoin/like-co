@@ -669,6 +669,7 @@
     }
   },
   "AuthDialog": {
+    "supportCreator": "Support {name}",
     "label": {
       "loading": "Loading",
       "signingIn": "Signing in",
