@@ -1392,9 +1392,6 @@
     "renew": "申請",
     "limitedQuota": "首階段名額 100",
     "waitingList": {
-      "title": "我們將盡快聯繫跟進，請留意你的郵箱。",
-      "sorry": "很抱歉，活動名額暫時已滿。",
-      "ensureEmail": "請閣下到設定頁補回電郵。",
       "notifyByEmail": "我們將以電郵通知閣下最新情況。"
     },
     "intro1": [
@@ -1449,7 +1446,6 @@
     "registered": "己登記",
     "subscriptionPeriod": "你的讚賞公民體驗有效期為 {start} 至 {end}",
     "thankYou": "感謝申請",
-    "thankYouForYourInterest": "感謝申請",
     "waitingList": {
       "sorry": "很抱歉，活動名額暫時已滿。"
     },
@@ -1482,8 +1478,6 @@
     "title": "讚賞公民",
     "applying": "團隊正在即時處理你的申請",
     "apply": "我要申請成為讚賞公民",
-    "applyNow": "立即申請",
-    "joinOice": "升級贊助會員，正式成為讚賞公民",
     "description": "請保留此頁面開放，於右下角跟負責同事繼續申請，過程一般不超過三分鐘，謝謝。",
     "joinNow": "",
     "upgrade": "我要申請",
@@ -1492,5 +1486,11 @@
       "button": "處理中",
       "sorry": ""
     }
+  },
+  "CivicLikerRegister": {
+    "title": "@:CivicLikerBeta.title",
+    "applyNow": "立即申請",
+    "joinOice": "升級贊助會員，正式成為讚賞公民",
+    "thankYouForYourInterest": "感謝申請"
   }
 }

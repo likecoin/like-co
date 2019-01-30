@@ -1,5 +1,8 @@
 <template>
-  <div class="civic-liker-register-page">
+  <div
+    v-if="!shouldHandleError"
+    class="civic-liker-register-page"
+  >
     <div class="lc-container-0 lc-narrow">
 
       <section class="lc-container-1 lc-section-block">
@@ -24,10 +27,10 @@
           <div class="lc-container-3 lc-padding-top-48 lc-padding-bottom-32 lc-text-align-center">
 
             <h1 class="lc-font-size-32 lc-font-weight-600 lc-mobile">
-              {{ $t('CivicLikerTrial.thankYouForYourInterest') }}
+              {{ $t('CivicLikerRegister.thankYouForYourInterest') }}
               <br>
               <span class="lc-font-size-46 lc-font-weight-300 lc-mobile">
-                {{ $t('CivicLikerBeta.title') }}
+                {{ $t('CivicLikerRegister.title') }}
               </span>
             </h1>
 
@@ -38,43 +41,93 @@
           <div class="lc-container-3 lc-bg-gray-1">
             <div class="lc-container-4 lc-padding-vertical-32">
 
-              <div
-                :class="[
-                  'lc-margin-bottom-16',
-                  'lc-color-like-green lc-font-size-24 lc-font-weight-600',
-                ]"
-              >
-                {{ $t('CivicLikerBeta.joinOice') }}
-              </div>
-
-              <div class="pricing-item lc-margin-top-24">
-                <div class="pricing-item-content">
-                  <div class="pricing-item__type">
-                    {{ $t(`CivicPage.pricing.type.civicLiker`) }}
-                  </div>
-                  <div>
-                    <span class="pricing-item__price">USD5.00</span>
-                    <span
-                      class="pricing-item__payment-cycle"
-                    >{{ $t(`CivicPage.pricing.paymentCycle.perMonth`) }}</span>
-                  </div>
-                </div>
-                <div class="pricing-item__image">
-                  <img :src="OiceBackerPage">
-                </div>
-              </div>
-
-              <div class="lc-button-group lc-margin-top-24">
-                <md-button
-                  :href="applyURL"
-                  class="md-likecoin"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  @click="onClickApplyButton"
+              <!-- Waiting List -->
+              <template v-if="isWaitingList">
+                <div
+                  class="lc-text-align-center"
+                  style="margin-top: -48px"
                 >
-                  {{ $t('CivicLikerBeta.applyNow') }}
-                </md-button>
-              </div>
+                  <lc-chop-simple
+                    size="180"
+                    text="FULL"
+                    rotate-z="6"
+                  />
+                </div>
+
+                <div
+                  class="lc-font-size-32 lc-font-weight-600 lc-text-align-center"
+                  style="color: #50e3c2"
+                >
+                  {{ $t('CivicLikerRegister.waitingList.title') }}
+                </div>
+
+                <i18n
+                  :path="
+                    `CivicLikerRegister.waitingList.descriptionWith${hasEmail ? '' : 'out'}Email`
+                  "
+                  class="lc-font-size-14 lc-color-like-gray-4 lc-margin-top-16"
+                  tag="p"
+                >
+                  <span
+                    class="lc-color-like-green lc-font-weight-600"
+                    place="email"
+                  >{{ getUserInfo.email }}</span>
+                  <nuxt-link
+                    :to="{ name: 'in-settings' }"
+                    place="settingsPage"
+                  >{{ $t('Settings.title') }}</nuxt-link>
+                </i18n>
+
+                <div class="lc-button-group lc-margin-top-32">
+                  <md-button
+                    class="md-likecoin"
+                    @click="learnMore"
+                  >
+                    {{ $t('General.button.ok') }}
+                  </md-button>
+                </div>
+              </template>
+
+              <!-- Convert user to oice website for payment -->
+              <template v-else-if="!error">
+                <div
+                  :class="[
+                    'lc-margin-bottom-16',
+                    'lc-color-like-green lc-font-size-24 lc-font-weight-600',
+                  ]"
+                >
+                  {{ $t('CivicLikerRegister.joinOice') }}
+                </div>
+
+                <div class="pricing-item lc-margin-top-24">
+                  <div class="pricing-item-content">
+                    <div class="pricing-item__type">
+                      {{ $t(`CivicPage.pricing.type.civicLiker`) }}
+                    </div>
+                    <div>
+                      <span class="pricing-item__price">USD5.00</span>
+                      <span
+                        class="pricing-item__payment-cycle"
+                      >{{ $t(`CivicPage.pricing.paymentCycle.perMonth`) }}</span>
+                    </div>
+                  </div>
+                  <div class="pricing-item__image">
+                    <img :src="OiceBackerPage">
+                  </div>
+                </div>
+
+                <div class="lc-button-group lc-margin-top-24">
+                  <md-button
+                    :href="applyURL"
+                    class="md-likecoin"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    @click="onClickApplyButton"
+                  >
+                    {{ $t('CivicLikerRegister.applyNow') }}
+                  </md-button>
+                </div>
+              </template>
 
             </div>
           </div>
@@ -88,27 +141,49 @@
 
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
-import { apiGetCivicCSOnline } from '~/util/api/api';
+import {
+  apiGetCivicLikerRegister,
+  apiGetCivicCSOnline,
+} from '~/util/api/api';
 
 import OiceBackerPage from '~/assets/civic/oice-backer-reg.png';
 import { IS_TESTNET } from '~/constant';
 
 export default {
   layout: 'narrowWithHeader',
-  async asyncData({ redirect, store }) {
-    const { isSubscribedCivicLiker, currentType } = store.getters.getUserInfo;
-    if (isSubscribedCivicLiker && currentType !== 'trial') {
-      redirect({ name: 'in-civic' });
-      return {};
+  async asyncData({ store }) {
+    const {
+      isSubscribedCivicLiker,
+      isCivicLikerTrial,
+      civicLikerStatus,
+    } = store.getters.getUserInfo;
+
+    let error = '';
+    let isCSOnline = false;
+    if (isSubscribedCivicLiker) {
+      error = 'paid';
+    } else if (!isCivicLikerTrial && civicLikerStatus === 'waiting') {
+      error = 'alreadyQueued';
+    } else {
+      try {
+        const res = await Promise.all([
+          apiGetCivicCSOnline(),
+          isCivicLikerTrial || apiGetCivicLikerRegister(),
+        ]);
+        ({ isCSOnline } = res[0].data);
+        if (isCivicLikerTrial) {
+          // Allow trial user to become paid Civic Liker
+        } else if (res[1].status === 404) {
+          error = 'full';
+        }
+      } catch (err) {
+        error = 'unknown';
+      }
     }
 
-    const res = await apiGetCivicCSOnline();
-    const { isCSOnline } = res.data;
-    return {
-      isCSOnline,
-    };
+    return { error, isCSOnline };
   },
   data() {
     return {
@@ -120,44 +195,97 @@ export default {
     ...mapGetters([
       'getUserInfo',
     ]),
+    isWaitingList() {
+      return this.error === 'queued';
+    },
+    hasEmail() {
+      return !!this.getUserInfo.email;
+    },
+    shouldHandleError() {
+      return !!this.error && !this.isWaitingList && this.error !== 'full';
+    },
     applyURL() {
       return `https://${IS_TESTNET ? 'oicetest.lakoo.com' : 'oice.com'}/profile?action=subscribe&referrer=${this.getUserInfo.user}`;
     },
   },
   head() {
     return {
-      title: this.$t('CivicLikerBeta.title'),
-      meta: [
-        {
-          hid: 'og_title',
-          property: 'og:title',
-          content: this.$t('CivicLikerBeta.title'),
-        },
-        {
-          hid: 'description',
-          name: 'description',
-          content: this.$t('CivicPage.CTA.title'),
-        },
-        {
-          hid: 'og_description',
-          property: 'og:description',
-          content: this.$t('CivicPage.CTA.title'),
-        },
-        {
-          hid: 'og_image',
-          property: 'og:image',
-          content: 'https://like.co/images/og/civic.png',
-        },
-      ],
+      title: this.$t('CivicLikerRegister.title'),
     };
   },
-  mounted() {
-    if (this.$intercom && this.isCSOnline) {
+  created() {
+    // Handle error given from asyncData
+    if (process.client && this.shouldHandleError) this.handleError();
+  },
+  async mounted() {
+    if (this.shouldHandleError) return;
+
+    if (this.error === 'full') {
+      try {
+        await this.queueCivicLiker({ queryString: this.$route.query });
+        this.error = 'queued';
+      } catch (err) {
+        this.error = 'errorInQueue';
+        this.handleError();
+      }
+    } else if (this.$intercom && this.isCSOnline && !this.isWaitingList) {
       this.$intercom.trackEvent('likecoin-store_civicLikerRegister');
       this.$intercom.show();
     }
   },
   methods: {
+    ...mapActions([
+      'queueCivicLiker',
+      'openPopupDialog',
+    ]),
+    handleError() {
+      const { error } = this;
+      const options = {
+        allowClose: true,
+        header: this.$t(`CivicLikerRegister.errorPopup.${error}.header`),
+        message: this.$t(`CivicLikerRegister.errorPopup.${error}.message`),
+        confirmText: this.$t(`CivicLikerRegister.errorPopup.${error}.confirm`),
+        cancelText: this.$t('CivicPage.about'),
+        onCancel: this.learnMore,
+      };
+
+      switch (error) {
+        case 'paid':
+          options.onConfirm = () => {
+            this.$router.push({ name: 'in' });
+          };
+          break;
+
+        case 'alreadyQueued':
+          if (this.hasEmail) {
+            options.message = this.$t('CivicLikerRegister.errorPopup.alreadyQueued.messageWithEmail', {
+              email: this.getUserInfo.email,
+            });
+            delete options.confirmText;
+          } else {
+            options.onConfirm = () => {
+              this.$router.push({ name: 'in-settings' });
+            };
+          }
+          break;
+
+        default:
+          options.confirmText = this.$t('General.contactUs');
+          options.onConfirm = this.contactUs;
+      }
+      this.learnMore();
+      this.openPopupDialog(options);
+    },
+    learnMore() {
+      this.$router.push({ name: 'in-civic' });
+    },
+    contactUs() {
+      if (this.isCSOnline && this.$intercom) {
+        this.$intercom.show();
+      } else {
+        window.open('https://help.like.co/', '_blank');
+      }
+    },
     onClickApplyButton() {
       if (this.$intercom) {
         this.$intercom.update({ isOnCivicLikerWaitingList: true });

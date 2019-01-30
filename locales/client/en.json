@@ -1485,9 +1485,6 @@
     "renew": "Renew",
     "limitedQuota": "100 Limited Quota",
     "waitingList": {
-      "title": "Please keep an eye on your email inbox",
-      "sorry": "Sorry Civic Liker is full at the moment.",
-      "ensureEmail": "Please make sure you have filled your email in account settings.",
       "notifyByEmail": "We will notify you in email as soon as available."
     },
     "intro1": [
@@ -1545,7 +1542,6 @@
     "registered": "Trial Registered",
     "subscriptionPeriod": "Your subscription is valid from {start} to {end}",
     "thankYou": "Thank you for joining",
-    "thankYouForYourInterest": "Thank you for your interest in",
     "waitingList": {
       "sorry": "Sorry the trial is full in the moment."
     },
@@ -1578,8 +1574,6 @@
     "title": "Civic Liker",
     "applying": "The team is handling your application real-time",
     "apply": "I want to join Civic Liker",
-    "applyNow": "Apply Now",
-    "joinOice": "Join and subscribe backer to become a Civic Liker",
     "description": "Please keep this page and talk to our team at lower right corner to continue. It normally takes less than 3 minutes. Thank you for your patience.",
     "joinNow": "",
     "upgrade": "Register",
@@ -1587,6 +1581,39 @@
     "waitingList": {
       "button": "Processing",
       "sorry": ""
+    }
+  },
+  "CivicLikerRegister": {
+    "title": "@:CivicLikerBeta.title",
+    "applyNow": "Apply Now",
+    "joinOice": "Join and subscribe backer to become a Civic Liker",
+    "thankYouForYourInterest": "Thank you for your interest in",
+    "waitingList": {
+      "title": "You are in the waiting list",
+      "description": "Sorry, the Civic Liker subscription is not available at this moment.",
+      "descriptionWithEmail": "@:CivicLikerRegister.waitingList.description We will notify you with {email} once available.",
+      "descriptionWithoutEmail": "@:CivicLikerRegister.waitingList.description Please visit {settingsPage} to provide email for us to notify you once available."
+    },
+    "errorPopup": {
+      "paid": {
+        "header": "You are already a Civic Liker",
+        "message": "Thanks for your support, but you registered as a Civic Liker successfully.",
+        "confirm": "Check your account"
+      },
+      "alreadyQueued": {
+        "header": "You are already on the waiting list",
+        "message": "Thanks for your support. Please visit settings page to provide email for us to notify you once available.",
+        "messageWithEmail": "Thanks for your support. We will notify you with {email} once available.",
+        "confirm": "Provide email"
+      },
+      "errorInQueue": {
+        "header": "Unable to get on the waiting list",
+        "message": "Thanks for your interest, the Civic Liker subscription is not available at this moment and we are unable to put you in the waiting list. Please contact us for help."
+      },
+      "unknown": {
+        "header": "Oops! There is something wrong",
+        "message": "Thanks for your interest. Please contact us for help."
+      }
     }
   }
 }
