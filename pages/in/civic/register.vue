@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="!shouldHandleError"
+    v-if="!error"
     class="civic-liker-register-page"
   >
     <div class="lc-container-0 lc-narrow">
@@ -42,7 +42,7 @@
             <div class="lc-container-4 lc-padding-vertical-32">
 
               <!-- Waiting List -->
-              <template v-if="isWaitingList">
+              <template v-if="page === 'queued'">
                 <div
                   class="lc-text-align-center"
                   style="margin-top: -48px"
@@ -56,7 +56,7 @@
 
                 <div
                   class="lc-font-size-32 lc-font-weight-600 lc-text-align-center"
-                  style="color: #50e3c2"
+                  style="color: #40bfa5"
                 >
                   {{ $t('CivicLikerRegister.waitingList.title') }}
                 </div>
@@ -89,7 +89,7 @@
               </template>
 
               <!-- Convert user to oice website for payment -->
-              <template v-else-if="!error">
+              <template v-else-if="page === 'payment'">
                 <div
                   v-bind="$testID('RegisterCivicLiker-joinOice')"
                   :class="[
@@ -176,7 +176,7 @@ export default {
         ({ isCSOnline } = res[0].data);
         if (isCivicLikerTrial) {
           // Allow trial user to become paid Civic Liker
-        } else if (res[1].status === 204) {
+        } else if (res[1].status !== 200) {
           error = 'full';
         }
       } catch (err) {
@@ -189,6 +189,8 @@ export default {
   data() {
     return {
       OiceBackerPage,
+
+      page: 'payment',
     };
   },
   middleware: 'authenticated',
@@ -196,14 +198,8 @@ export default {
     ...mapGetters([
       'getUserInfo',
     ]),
-    isWaitingList() {
-      return this.error === 'queued';
-    },
     hasEmail() {
       return !!this.getUserInfo.email;
-    },
-    shouldHandleError() {
-      return !!this.error && !this.isWaitingList && this.error !== 'full';
     },
     applyURL() {
       return `https://${IS_TESTNET ? 'oicetest.lakoo.com' : 'oice.com'}/profile?action=subscribe&referrer=${this.getUserInfo.user}`;
@@ -214,22 +210,19 @@ export default {
       title: this.$t('CivicLikerRegister.title'),
     };
   },
-  created() {
-    // Handle error given from asyncData
-    if (process.client && this.shouldHandleError) this.handleError();
-  },
   async mounted() {
-    if (this.shouldHandleError) return;
-
     if (this.error === 'full') {
       try {
         await this.queueCivicLiker({ queryString: this.$route.query });
-        this.error = 'queued';
+        this.error = '';
+        this.page = 'queued';
       } catch (err) {
         this.error = 'errorInQueue';
         this.handleError();
       }
-    } else if (this.$intercom && this.isCSOnline && !this.isWaitingList) {
+    } else if (this.error) {
+      this.handleError();
+    } else if (this.$intercom && this.isCSOnline) {
       this.$intercom.trackEvent('likecoin-store_civicLikerRegister');
       this.$intercom.show();
     }
