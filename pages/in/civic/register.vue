@@ -27,7 +27,7 @@
           <div class="lc-container-3 lc-padding-top-48 lc-padding-bottom-32 lc-text-align-center">
 
             <h1 class="lc-font-size-32 lc-font-weight-600 lc-mobile">
-              {{ $t('CivicLikerRegister.thankYouForYourInterest') }}
+              {{ title }}
               <br>
               <span class="lc-font-size-46 lc-font-weight-300 lc-mobile">
                 {{ $t('CivicLikerRegister.title') }}
@@ -39,7 +39,7 @@
 
         <div class="lc-container-2">
           <div class="lc-container-3 lc-bg-gray-1">
-            <div class="lc-container-4 lc-padding-vertical-32">
+            <div class="lc-container-3 lc-padding-vertical-32">
 
               <!-- Waiting List -->
               <template v-if="page === 'queued'">
@@ -58,7 +58,7 @@
                   class="lc-font-size-32 lc-font-weight-600 lc-text-align-center"
                   style="color: #40bfa5"
                 >
-                  {{ $t('CivicLikerRegister.waitingList.title') }}
+                  {{ $t('CivicLikerRegister.waitingList.header') }}
                 </div>
 
                 <i18n
@@ -79,6 +79,14 @@
                 </i18n>
 
                 <div class="lc-button-group lc-margin-top-32">
+                  <template v-if="!hasEmail">
+                    <md-button
+                      class="md-likecoin"
+                      @click="setOrVerifyEmail"
+                    >
+                      {{ $t('CivicLikerRegister.errorPopup.alreadyQueued.confirm') }}
+                    </md-button><br>
+                  </template>
                   <md-button
                     class="md-likecoin"
                     @click="learnMore"
@@ -200,8 +208,20 @@ export default {
     ...mapGetters([
       'getUserInfo',
     ]),
+    title() {
+      switch (this.page) {
+        case 'queued':
+          return this.$t('CivicLikerRegister.waitingList.title');
+
+        case 'payment':
+          return this.$t('CivicLikerRegister.thankYouForYourInterest');
+
+        default:
+          return '';
+      }
+    },
     hasEmail() {
-      return !!this.getUserInfo.email;
+      return this.getUserInfo.email && this.getUserInfo.isEmailVerified;
     },
     applyURL() {
       return `https://${IS_TESTNET ? 'oicetest.lakoo.com' : 'oice.com'}/profile?action=subscribe&referrer=${this.getUserInfo.user}`;
@@ -257,15 +277,20 @@ export default {
             options.message = this.$t('CivicLikerRegister.errorPopup.alreadyQueued.messageWithEmail', {
               email: this.getUserInfo.email,
             });
+            // Remove confirm button
             delete options.confirmText;
           } else {
-            options.onConfirm = () => {
-              this.$router.push({ name: 'in-settings' });
-            };
+            options.message = this.$t('CivicLikerRegister.errorPopup.alreadyQueued.messageWithoutEmail');
+            options.onConfirm = this.setOrVerifyEmail;
           }
           break;
 
+        case 'errorInQueue':
         case 'unknown':
+          options.message = this.$t('CivicLikerRegister.errorPopup.unknown.message', {
+            error: error.toUpperCase(),
+          });
+          // Remove cancel button
           delete options.cancelText;
           delete options.onCancel;
         // eslint-disable-next-line no-fallthrough
@@ -284,6 +309,13 @@ export default {
         this.$intercom.show();
       } else {
         window.open('https://help.like.co/', '_blank');
+      }
+    },
+    setOrVerifyEmail() {
+      if (this.getUserInfo.email && !this.getUserInfo.isEmailVerified) {
+        this.$router.push({ name: 'in' });
+      } else {
+        this.$router.push({ name: 'in-settings' });
       }
     },
     onClickApplyButton() {

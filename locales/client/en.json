@@ -1589,30 +1589,28 @@
     "joinOice": "Join and subscribe backer to become a Civic Liker",
     "thankYouForYourInterest": "Thank you for your interest in",
     "waitingList": {
-      "title": "You are in the waiting list",
-      "description": "Sorry, the Civic Liker subscription is not available at this moment.",
-      "descriptionWithEmail": "@:CivicLikerRegister.waitingList.description We will notify you with {email} once available.",
-      "descriptionWithoutEmail": "@:CivicLikerRegister.waitingList.description Please visit {settingsPage} to provide email for us to notify you once available."
+      "title": "You are on the waiting list of",
+      "header": "Stay tuned to our next round invitation",
+      "description": "Thank you for your application. We are afraid that the Civic Liker quota is currently full.",
+      "descriptionWithEmail": "@:CivicLikerRegister.waitingList.description We will notify you by sending a mail to {email} once new seats are available.",
+      "descriptionWithoutEmail": "@:CivicLikerRegister.waitingList.description Please set and verify your email address so that we can notify you once new seats are available."
     },
     "errorPopup": {
       "paid": {
-        "header": "You are already a Civic Liker",
-        "message": "Thanks for your support, but you registered as a Civic Liker successfully.",
-        "confirm": "Check your account"
+        "header": "You are a Civic Liker already",
+        "message": "Your Civic Liker application has been approved already. Thanks for your support.",
+        "confirm": "Configure your account"
       },
       "alreadyQueued": {
-        "header": "You are already on the waiting list",
-        "message": "Thanks for your support. Please visit settings page to provide email for us to notify you once available.",
-        "messageWithEmail": "Thanks for your support. We will notify you with {email} once available.",
-        "confirm": "Provide email"
-      },
-      "errorInQueue": {
-        "header": "Unable to get on the waiting list",
-        "message": "Thanks for your interest, the Civic Liker subscription is not available at this moment and we are unable to put you in the waiting list. Please contact us for help."
+        "header": "You are on the waiting list already",
+        "message": "We got your application before. Thanks for supporting Civic Liker.",
+        "messageWithEmail": "@:CivicLikerRegister.errorPopup.alreadyQueued.message We will notify you by sending a mail to {email} once new seats are available.",
+        "messageWithoutEmail": "@:CivicLikerRegister.errorPopup.alreadyQueued.message Please set and verify your email address so that we can notify you once new seats are available.",
+        "confirm": "Set and verify email"
       },
       "unknown": {
-        "header": "Oops! There is something wrong",
-        "message": "Thanks for your interest. Please contact us for help."
+        "header": "Oops! Something is wrong",
+        "message": "Thanks for your support. There is an unknown error [{error}]. Please contact us for help."
       }
     }
   }
