@@ -158,24 +158,26 @@ export default {
     const {
       isSubscribedCivicLiker,
       isCivicLikerTrial,
+      isExpiredCivicLiker,
       civicLikerStatus,
     } = store.getters.getUserInfo;
+    const isBypassQuota = isCivicLikerTrial || isExpiredCivicLiker;
 
     let error = '';
     let isCSOnline = false;
     if (isSubscribedCivicLiker) {
       error = 'paid';
-    } else if (!isCivicLikerTrial && civicLikerStatus === 'waiting') {
+    } else if (!isBypassQuota && civicLikerStatus === 'waiting') {
       error = 'alreadyQueued';
     } else {
       try {
         const res = await Promise.all([
           apiGetCivicCSOnline(),
-          isCivicLikerTrial || apiGetCivicLikerRegister(),
+          isBypassQuota || apiGetCivicLikerRegister(),
         ]);
         ({ isCSOnline } = res[0].data);
-        if (isCivicLikerTrial) {
-          // Allow trial user to become paid Civic Liker
+        if (isBypassQuota) {
+          // Allow trial/past Civic Liker to pay
         } else if (res[1].status !== 200) {
           error = 'full';
         }
