@@ -176,7 +176,7 @@ export default {
         ({ isCSOnline } = res[0].data);
         if (isCivicLikerTrial) {
           // Allow trial user to become paid Civic Liker
-        } else if (res[1].status === 404) {
+        } else if (res[1].status === 204) {
           error = 'full';
         }
       } catch (err) {

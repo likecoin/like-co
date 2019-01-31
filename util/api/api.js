@@ -193,11 +193,7 @@ export const apiGetLikeURLPersonalSuggestion = () => axios.get(`${LIKECOIN_MISC_
 export const apiPostUserReadContent = (id, payload) => axios.put(`/users/read/${id}`, payload);
 
 export const apiGetCivicCSOnline = () => axios.get('/civic/csonline');
-export const apiGetCivicLikerRegister = () => axios.get('/civic/quota', {
-  validateStatus(status) {
-    return (status >= 200 && status < 300) || status === 404;
-  },
-});
+export const apiGetCivicLikerRegister = () => axios.get('/civic/quota');
 export const apiQueueCivicLikerWaitingList = qs => axios.put(`/civic/queue?${qs}`);
 export const apiDequeueCivicLikerWaitingList = qs => axios.delete(`/civic/queue?${qs}`);
 export const apiGetCivicLikerTrialEventById = id => axios.get(`/civic/trial/events/${id}`);
