@@ -265,6 +265,10 @@ export default {
           }
           break;
 
+        case 'unknown':
+          delete options.cancelText;
+          delete options.onCancel;
+        // eslint-disable-next-line no-fallthrough
         default:
           options.confirmText = this.$t('General.contactUs');
           options.onConfirm = this.contactUs;
