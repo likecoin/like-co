@@ -14,7 +14,6 @@
     "dev:docker:api:test": "npm --prefix ./server/api run dev:docker:test",
     "dev:docker:api:test:stop": "npm --prefix ./server/api run dev:docker:test:stop",
     "dev:frontend": "IS_TESTNET=TRUE backpack dev",
-    "dev:stub": "node ./test/runner",
     "build": "nuxt build && backpack build",
     "build:testnet": "IS_TESTNET=TRUE nuxt build && npm run build:testnet:server",
     "build:testnet:server": "IS_TESTNET=TRUE backpack build",

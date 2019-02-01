@@ -393,19 +393,23 @@ export async function joinCivicLikerTrialEvent({ commit, dispatch }, eventId) {
   return data;
 }
 
-export async function queueCivicLiker({ commit, dispatch }, { id, queryString }) {
+export async function queueCivicLiker({ commit, dispatch }, { queryString }) {
   const data = await apiWrapper(
     { commit, dispatch },
-    api.apiPutUserCivicQueue(id, queryString),
+    api.apiQueueCivicLikerWaitingList(queryString),
+    {
+      blocking: true,
+      slientError: true,
+    },
   );
-  await dispatch('refreshUser');
+  dispatch('refreshUser');
   return data;
 }
 
-export async function dequeueCivicLiker({ commit, dispatch }, { id, queryString }) {
+export async function dequeueCivicLiker({ commit, dispatch }, { queryString }) {
   const data = await apiWrapper(
     { commit, dispatch },
-    api.apiDeleteUserCivicQueue(id, queryString),
+    api.apiDequeueCivicLikerWaitingList(queryString),
   );
   await dispatch('refreshUser');
   return data;
