@@ -107,7 +107,7 @@ export const LOGIN_CONNECTION_LIST = [
 ];
 
 export const OTHER_CONNECTION_LIST = [
-  // 'medium', // commented due to medium oauth api disappeared
+  'medium',
   'flickr',
 ];
 
