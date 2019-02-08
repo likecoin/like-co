@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 import proxy from 'http-proxy-middleware';
 import cookieParser from 'cookie-parser';
 import csrf from 'csurf';
@@ -39,6 +40,9 @@ if (config.dev) {
   builder.build();
 }
 
+// explicit staic serve to avoid middleware effects
+app.use(express.static(path.resolve(__dirname, '../static')));
+
 app.use((req, res, next) => {
   if (!/^\/in\/embed\/[-a-z0-9_]+/.test(req.path)) {
     res.setHeader('X-Frame-Options', 'DENY');
@@ -52,7 +56,14 @@ app.use((req, res, next) => {
 
 // needed for csrf parsing in vuex
 app.use(cookieParser());
-app.use(csrf({ cookie: CSRF_COOKIE_OPTION }));
+// HACK: do not use cors in /in/embed and /_nuxt endpoints,
+// workaround for 3rd party tracking blocking
+// side effect: register and update user wont work,
+// if user SPA through embed page to register/update UI, which should never happen
+app.use(
+  /^(?!(\/in\/embed|\/_nuxt|\/__webpack_hmr))/,
+  csrf({ cookie: CSRF_COOKIE_OPTION }),
+);
 // Give nuxt middleware to express
 app.use(nuxt.render);
 

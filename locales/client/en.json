@@ -1477,7 +1477,7 @@
   },
   "CivicPage": {
     "title": "Civic Liker",
-    "slogan": "A coffee for an ecosystem",
+    "slogan": "Trade a coffee for a better world",
     "about": "About Civic Liker",
     "joinNow": "Join Now",
     "register": "Register",
@@ -1549,7 +1549,7 @@
     "errorPopup": {
       "joined": {
         "header": "You joined the free Civic Liker Trial program before",
-        "message": "The free plan is once in a lifetime.  Apply to become a real Civic Liker now, just a coffee for an ecosystem.",
+        "message": "The free plan is once in a lifetime.  Apply to become a real Civic Liker now, trade a coffee for a better world.",
         "confirm": "Apply Now"
       },
       "paid": {
