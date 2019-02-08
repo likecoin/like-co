@@ -52,7 +52,10 @@ app.use((req, res, next) => {
 
 // needed for csrf parsing in vuex
 app.use(cookieParser());
-app.use(csrf({ cookie: CSRF_COOKIE_OPTION }));
+// HACK: do not use cors in /in/embed endpoints, workaround for 3rd party tracking blocking
+// side effect: register and update user wont work,
+// if user SPA through embed page to register/update UI, which should never happen
+app.use(/^(?!\/in\/embed)/, csrf({ cookie: CSRF_COOKIE_OPTION }));
 // Give nuxt middleware to express
 app.use(nuxt.render);
 
