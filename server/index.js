@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 import proxy from 'http-proxy-middleware';
 import cookieParser from 'cookie-parser';
 import csrf from 'csurf';
@@ -38,6 +39,9 @@ if (config.dev) {
   const builder = new Builder(nuxt);
   builder.build();
 }
+
+// explicit staic serve to avoid middleware effects
+app.use(express.static(path.resolve(__dirname, '../static')));
 
 app.use((req, res, next) => {
   if (!/^\/in\/embed\/[-a-z0-9_]+/.test(req.path)) {
