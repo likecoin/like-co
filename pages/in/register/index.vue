@@ -46,9 +46,9 @@ export default {
         this.doPostAuthRedirect({ router, route });
       }
     } else {
-      logTrackerEvent(this, 'RegFlow', 'RedirectSignUp', 'RedirectSignUp', 1);
       this.setAuthDialog({ isShow: true });
       window.addEventListener('beforeunload', this.logPageUnload, false);
+      logTrackerEvent(this, 'RegFlow', 'RedirectSignUp', 'RedirectSignUp', 1);
     }
   },
   beforeDestroy() {
