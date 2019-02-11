@@ -1486,9 +1486,6 @@
     "renew": "Renew",
     "limitedQuota": "100 Limited Quota",
     "waitingList": {
-      "title": "Please keep an eye on your email inbox",
-      "sorry": "Sorry Civic Liker is full at the moment.",
-      "ensureEmail": "Please make sure you have filled your email in account settings.",
       "notifyByEmail": "We will notify you in email as soon as available."
     },
     "intro1": [
@@ -1546,7 +1543,6 @@
     "registered": "Trial Registered",
     "subscriptionPeriod": "Your subscription is valid from {start} to {end}",
     "thankYou": "Thank you for joining",
-    "thankYouForYourInterest": "Thank you for your interest in",
     "waitingList": {
       "sorry": "Sorry the trial is full in the moment."
     },
@@ -1579,8 +1575,6 @@
     "title": "Civic Liker",
     "applying": "The team is handling your application real-time",
     "apply": "I want to join Civic Liker",
-    "applyNow": "Apply Now",
-    "joinOice": "Join and subscribe backer to become a Civic Liker",
     "description": "Please keep this page and talk to our team at lower right corner to continue. It normally takes less than 3 minutes. Thank you for your patience.",
     "joinNow": "",
     "upgrade": "Register",
@@ -1588,6 +1582,37 @@
     "waitingList": {
       "button": "Processing",
       "sorry": ""
+    }
+  },
+  "CivicLikerRegister": {
+    "title": "@:CivicLikerBeta.title",
+    "applyNow": "Apply Now",
+    "joinOice": "Join and subscribe backer to become a Civic Liker",
+    "thankYouForYourInterest": "Thank you for your interest in",
+    "waitingList": {
+      "title": "You are on the waiting list of",
+      "header": "Stay tuned to our next round invitation",
+      "description": "Thank you for your application. We are afraid that the Civic Liker quota is currently full.",
+      "descriptionWithEmail": "@:CivicLikerRegister.waitingList.description We will notify you by sending a mail to {email} once new seats are available.",
+      "descriptionWithoutEmail": "@:CivicLikerRegister.waitingList.description Please set and verify your email address so that we can notify you once new seats are available."
+    },
+    "errorPopup": {
+      "paid": {
+        "header": "You are a Civic Liker already",
+        "message": "Your Civic Liker application has been approved already. Thanks for your support.",
+        "confirm": "Configure your account"
+      },
+      "alreadyQueued": {
+        "header": "You are on the waiting list already",
+        "message": "We got your application before. Thanks for supporting Civic Liker.",
+        "messageWithEmail": "@:CivicLikerRegister.errorPopup.alreadyQueued.message We will notify you by sending a mail to {email} once new seats are available.",
+        "messageWithoutEmail": "@:CivicLikerRegister.errorPopup.alreadyQueued.message Please set and verify your email address so that we can notify you once new seats are available.",
+        "confirm": "Set and verify email"
+      },
+      "unknown": {
+        "header": "Oops! Something is wrong",
+        "message": "Thanks for your support. There is an unknown error [{error}]. Please contact us for help."
+      }
     }
   }
 }

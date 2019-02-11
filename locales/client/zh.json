@@ -1385,7 +1385,7 @@
   "CivicPage": {
     "title": "讚賞公民",
     "slogan": "少喝一杯咖啡 共創一個生態",
-    "about": "關於讚賞公民",
+    "about": "有關讚賞公民",
     "joinNow": "立即參加",
     "register": "我要申請",
     "registered": "已登記",
@@ -1393,9 +1393,6 @@
     "renew": "申請",
     "limitedQuota": "首階段名額 100",
     "waitingList": {
-      "title": "我們將盡快聯繫跟進，請留意你的郵箱。",
-      "sorry": "很抱歉，活動名額暫時已滿。",
-      "ensureEmail": "請閣下到設定頁補回電郵。",
       "notifyByEmail": "我們將以電郵通知閣下最新情況。"
     },
     "intro1": [
@@ -1450,7 +1447,6 @@
     "registered": "己登記",
     "subscriptionPeriod": "你的讚賞公民體驗有效期為 {start} 至 {end}",
     "thankYou": "感謝申請",
-    "thankYouForYourInterest": "感謝申請",
     "waitingList": {
       "sorry": "很抱歉，活動名額暫時已滿。"
     },
@@ -1483,8 +1479,6 @@
     "title": "讚賞公民",
     "applying": "團隊正在即時處理你的申請",
     "apply": "我要申請成為讚賞公民",
-    "applyNow": "立即申請",
-    "joinOice": "升級贊助會員，正式成為讚賞公民",
     "description": "請保留此頁面開放，於右下角跟負責同事繼續申請，過程一般不超過三分鐘，謝謝。",
     "joinNow": "",
     "upgrade": "我要申請",
@@ -1492,6 +1486,37 @@
     "waitingList": {
       "button": "處理中",
       "sorry": ""
+    }
+  },
+  "CivicLikerRegister": {
+    "title": "@:CivicLikerBeta.title",
+    "applyNow": "立即申請",
+    "joinOice": "升級贊助會員，正式成為讚賞公民",
+    "thankYouForYourInterest": "感謝申請",
+    "waitingList": {
+      "title": "你已進入等候申請隊列",
+      "header": "請留意下一輪開放申請的邀請電郵",
+      "description": "感謝你申請成為讚賞公民。很抱歉，目前的名額已滿。",
+      "descriptionWithEmail": "@:CivicLikerRegister.waitingList.description 當開放新一批讚賞公民名額時，我們會發電郵至 {email} 通知你。",
+      "descriptionWithoutEmail": "@:CivicLikerRegister.waitingList.description 請到 {settingsPage} 設定並驗證你的電郵地址。當開放新一批讚賞公民名額時，我們會發電郵通知你。"
+    },
+    "errorPopup": {
+      "paid": {
+        "header": "你已是讚賞公民",
+        "message": "你早前已成功申請成為讚賞公民了。感謝支持。",
+        "confirm": "設定帳戶"
+      },
+      "alreadyQueued": {
+        "header": "你已在等候申請隊列中",
+        "message": "我們早前已收到你的申請。感謝支持讚賞公民。",
+        "messageWithEmail": "@:CivicLikerRegister.errorPopup.alreadyQueued.message 當開放新一批名額時，我們會發電郵至 {email} 通知你。",
+        "messageWithoutEmail": "@:CivicLikerRegister.errorPopup.alreadyQueued.message 請到 {settingsPage} 設定並驗證你的電郵地址。當開放新一批讚賞公民名額時，我們會發電郵通知你。",
+        "confirm": "設定並驗證電郵"
+      },
+      "unknown": {
+        "header": "噢！發生未知錯誤",
+        "message": "感謝你的支持。發生未知的錯誤 [{error}]。請聯絡我們求助。"
+      }
     }
   }
 }

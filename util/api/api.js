@@ -193,7 +193,8 @@ export const apiGetLikeURLPersonalSuggestion = () => axios.get(`${LIKECOIN_MISC_
 export const apiPostUserReadContent = (id, payload) => axios.put(`/users/read/${id}`, payload);
 
 export const apiGetCivicCSOnline = () => axios.get('/civic/csonline');
-export const apiPutUserCivicQueue = (id, queryString) => axios.put(`/civic/queue/user/${id}/?${queryString}`);
-export const apiDeleteUserCivicQueue = (id, queryString) => axios.delete(`/civic/queue/user/${id}?${queryString}`);
+export const apiGetCivicLikerRegister = () => axios.get('/civic/quota');
+export const apiQueueCivicLikerWaitingList = qs => axios.put(`/civic/queue?${qs}`);
+export const apiDequeueCivicLikerWaitingList = qs => axios.delete(`/civic/queue?${qs}`);
 export const apiGetCivicLikerTrialEventById = id => axios.get(`/civic/trial/events/${id}`);
 export const apiJoinCivicLikerTrialEventById = id => axios.post(`/civic/trial/events/${id}/join`);
