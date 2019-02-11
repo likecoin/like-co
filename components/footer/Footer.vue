@@ -77,12 +77,14 @@ export default {
         }
         this.$intercom.update(opt);
       }
-      if (this.$raven) {
+      if (this.$sentry) {
         const opt = {
           id: user,
           username: displayName,
         };
-        this.$raven.setUserContext(opt);
+        this.$sentry.configureScope((scope) => {
+          scope.setUser(opt);
+        });
       }
     },
     getCurrentLocale(language) {
@@ -146,12 +148,14 @@ export default {
       }
       this.$intercom.boot(opt);
     }
-    if (this.$raven) {
+    if (this.$sentry) {
       const opt = {
         id: user,
         username: displayName,
       };
-      this.$raven.setUserContext(opt);
+      this.$sentry.configureScope((scope) => {
+        scope.setUser(opt);
+      });
     }
   },
 };
