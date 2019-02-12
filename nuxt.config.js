@@ -189,6 +189,7 @@ const nuxtConfig = {
     ['@nuxtjs/google-tag-manager', {
       id: process.env.GTM_ID || 'GTM-XXXXXXX',
       pageTracking: true,
+      respectDoNotTrack: true,
     }],
     '@nuxtjs/sentry',
     // '@likecoin/nuxt-google-optimize',
