@@ -6,6 +6,9 @@ export function logTrackerEvent(
   value,
 ) {
   try {
+    if (vue.$intercom) vue.$intercom.trackEvent(`likecoin-store_${action}`, { label });
+    // do not track
+    if (window.doNotTrack || navigator.doNotTrack) return;
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
       event: 'customEvent',
@@ -14,7 +17,6 @@ export function logTrackerEvent(
       label,
       value,
     });
-    if (vue.$intercom) vue.$intercom.trackEvent(`likecoin-store_${action}`, { label });
     if (window.FB && window.FB.AppEvents) window.FB.AppEvents.logEvent(action, value, { label });
     if (window.fbq) window.fbq('track', action);
   } catch (err) {
