@@ -2,7 +2,8 @@ window.fbAsyncInit = function() {
   FB.init({
     appId      : '105087446989974',
     status     : true,
-    version    : 'v2.12'
+    version    : 'v2.12',
+    autoLogAppEvents: !(window.doNotTrack||navigator.doNotTrack)
   });
   if(!(window.doNotTrack||navigator.doNotTrack)){
     FB.AppEvents.logPageView();
