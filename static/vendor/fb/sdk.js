@@ -4,7 +4,9 @@ window.fbAsyncInit = function() {
     status     : true,
     version    : 'v2.12'
   });
-  FB.AppEvents.logPageView();
+  if(!(window.doNotTrack||navigator.doNotTrack)){
+    FB.AppEvents.logPageView();
+  }
 };
 (function(d, s, id){
    var js, fjs = d.getElementsByTagName(s)[0];
