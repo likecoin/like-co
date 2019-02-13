@@ -231,7 +231,7 @@ const nuxtConfig = {
           {
             targets: isServer
               ? { node: '10' }
-              : { browsers: ['defaults'] },
+              : 'ie 11, > 0.5%, Firefox ESR',
           },
         ],
       ],
