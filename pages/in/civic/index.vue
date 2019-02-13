@@ -3,7 +3,7 @@
     :class="[
       'civic-page',
       {
-        'civic-page--registered': isCivicLiker,
+        'civic-page--registered': isCivicLiker && !canRenew,
       }
     ]"
   >
@@ -288,18 +288,27 @@ export default {
     isCivicLikerTrial() {
       return this.getUserInfo.isCivicLikerTrial;
     },
+    isOnWaitingList() {
+      return (
+        !(this.isCivicLiker || this.isCivicLikerTrial)
+        && this.getUserInfo.civicLikerStatus === 'waiting'
+      );
+    },
     canRenew() {
       return this.getUserInfo.isCivicLikerRenewalPeriod;
     },
     buttonTitle() {
       if (this.canRenew) {
-        return this.$t('CivicPage.renew');
+        return this.$t('CivicLikerCTAForRenewal.buttonTitle');
       }
       if (this.isCivicLikerTrial) {
-        return this.$t('CivicLikerBeta.upgrade');
+        return this.$t('CivicLikerCTAForTrial.buttonTitle');
       }
       if (this.isCivicLiker) {
         return this.$t('CivicPage.registered');
+      }
+      if (this.isOnWaitingList) {
+        return this.$t('CivicLikerCTAForWaitingList.buttonTitle');
       }
       return this.$t('CivicPage.register');
     },
@@ -309,13 +318,16 @@ export default {
     },
     pricingButtonTitle() {
       if (this.canRenew) {
-        return this.$t('CivicPage.renew');
+        return this.$t('CivicLikerCTAForRenewal.buttonTitle');
       }
       if (this.isCivicLikerTrial) {
-        return this.$t('CivicLikerBeta.upgrade');
+        return this.$t('CivicLikerCTAForTrial.buttonTitle');
       }
       if (this.isCivicLiker) {
         return this.$t('CivicPage.registered');
+      }
+      if (this.isOnWaitingList) {
+        return this.$t('CivicLikerCTAForWaitingList.buttonTitle');
       }
       return this.$t('CivicPage.pricingRegister');
     },
@@ -361,7 +373,7 @@ export default {
       }
     },
     onClickButton() {
-      if (this.isCivicLiker) return;
+      if (this.isCivicLiker && !this.canRenew) return;
 
       this.$router.push({
         name: 'in-civic-register',

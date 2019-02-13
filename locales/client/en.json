@@ -1465,15 +1465,26 @@
   },
   "CivicLikerCTA": {
     "title": "Civic Liker",
-    "content": "Register now to get the first-hand Civic Liker experience, participate to bring changes, make things happen in the creativity ecosystem – {title}",
+    "content": "Trade a coffee for a better world! Become a Civic Liker now, experience for 1-month-free to support creators by giving Likes, contruct a sustainable and healthy online content ecosystem.",
     "buttonTitle": "Register Now"
   },
+  "CivicLikerCTAForWaitingList": {
+    "content": "We got your application before. Thanks for supporting Civic Liker. You are on the waiting list already Please {here} so that we can notify you once new seats are available.",
+    "here": "verify your email address",
+    "buttonTitle": "On waiting list"
+  },
+  "CivicLikerCTAForTrial": {
+    "content": "@:CivicLikerCTA.content",
+    "buttonTitle": "Upgrade Now"
+  },
+  "CivicLikerCTAForPaid": {
+    "content": "You are a Civic Liker already, thank you for your contribution to help building a better world!",
+    "buttonTitle": "@:General.learnMore"
+  },
   "CivicLikerCTAForRenewal": {
-    "content": "Civic Liker Trial is over. Thank you for your participation. Don’t miss out the chance to join the Civic Liker plan and keep your {stamp}.",
-    "contentForTrial": "Your Civic Liker subscription is over. Thank you for your participation. Don’t miss out the chance to renew the Civic Liker plan and keep your honourable stamp dated at {stamp}.",
-    "stamp": "stamp dated at {date}",
-    "stampForHonor": "honourable stamp dated at {date}",
-    "till": "Act now before the countdown:"
+    "content": "Your Civic Liker identity has been expired. Please continue your subscription now to retain your honorable status. The online content ecology need your continuous contribution to become stronger.",
+    "till": "Act now before the countdown:",
+    "buttonTitle": "Renew Now"
   },
   "CivicPage": {
     "title": "Civic Liker",
@@ -1483,7 +1494,6 @@
     "register": "Register",
     "registered": "Registered",
     "pricingRegister": "Register Now",
-    "renew": "Renew",
     "limitedQuota": "100 Limited Quota",
     "waitingList": {
       "notifyByEmail": "We will notify you in email as soon as available."
@@ -1576,13 +1586,7 @@
     "applying": "The team is handling your application real-time",
     "apply": "I want to join Civic Liker",
     "description": "Please keep this page and talk to our team at lower right corner to continue. It normally takes less than 3 minutes. Thank you for your patience.",
-    "joinNow": "",
-    "upgrade": "Register",
-    "upgradeLong": "Register",
-    "waitingList": {
-      "button": "Processing",
-      "sorry": ""
-    }
+    "joinNow": ""
   },
   "CivicLikerRegister": {
     "title": "@:CivicLikerBeta.title",
