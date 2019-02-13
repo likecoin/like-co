@@ -90,6 +90,11 @@ export default {
 
   pointer-events: none;
 
+  .lc-container-0,
+  .lc-container-1 {
+    height: 100%;
+  }
+
   .platform-icon-bar-wrapper {
     position: relative;
 

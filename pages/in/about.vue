@@ -95,7 +95,6 @@
 
 
 <script>
-/* global fbq */
 import { mapGetters } from 'vuex';
 
 import SiteHeader from '~/components/header/HeaderWithMenuButton';
@@ -170,7 +169,7 @@ export default {
     };
   },
   mounted() {
-    fbq('track', 'ViewContent');
+    if (window.fbq) window.fbq('track', 'ViewContent');
 
     const { hash } = document.location;
     if (hash) {

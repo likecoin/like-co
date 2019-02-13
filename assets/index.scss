@@ -180,16 +180,15 @@ a,
   position: relative;
 
   box-sizing: border-box;
-  height: 100%;
 
   .underlay {
     position: absolute;
     z-index: 0;
     top: 0;
+    bottom: 0;
     left: 0;
 
     width: 66.66%;
-    height: 100%;
 
     pointer-events: none;
 
