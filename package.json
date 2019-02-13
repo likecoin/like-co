@@ -47,7 +47,7 @@
     "@likecoin/vue-image-lightbox": "^5.5.4",
     "@likecoin/vue-simple-svg": "^1.4.1",
     "@nuxtjs/google-tag-manager": "^2.1.4",
-    "@nuxtjs/sentry": "^2.1.0",
+    "@nuxtjs/sentry": "^2.2.1",
     "axios": "^0.18.0",
     "bignumber.js": "^7.2.1",
     "classlist-polyfill": "^1.2.0",
