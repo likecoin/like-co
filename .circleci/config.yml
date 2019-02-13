@@ -10,7 +10,7 @@ jobs:
           key: likecoin-store-{{ .Environment.CACHE_UUID }}-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}-{{ checksum ".circleci/config.yml" }}
       - run:
           name: Dependencies
-          command: npm config set unsafe-perm true && npm install
+          command: npm install
       - run:
           name: Lint Test
           command: npm run lint
@@ -60,7 +60,7 @@ jobs:
             sudo apt-get -y install nodejs
       - run:
           name: Dependencies
-          command: npm config set unsafe-perm true && npm install && npm --prefix ./server/api install
+          command: npm install && npm --prefix ./server/api install
       - run:
           name: Start dev api server
           command: npm --prefix ./server/api run dev:stub
