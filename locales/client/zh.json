@@ -1372,25 +1372,35 @@
   },
   "CivicLikerCTA": {
     "title": "讚賞公民體驗計劃",
-    "content": "支持創作，每月騰出一杯咖啡消費，全數給予當月點讚內容 — {title}",
+    "content": "少喝一杯咖啡，共創一個生態。立即成為讚賞公民，一個月免費體驗以實際行動回饋作者，建立更健康的網上內容生態。",
     "buttonTitle": "登記"
   },
+  "CivicLikerCTAForWaitingList": {
+    "content": "我們早前已收到你的申請，感謝支持讚賞公民。你已在等候申請隊列中。請到{here}設定並驗證你的電郵地址。當開放新一批讚賞公民名額時，我們會發電郵通知你。",
+    "here": "這裡",
+    "buttonTitle": "已在佇列中"
+  },
+  "CivicLikerCTAForTrial": {
+    "content": "@:CivicLikerCTA.content",
+    "buttonTitle": "立即升級"
+  },
+  "CivicLikerCTAForPaid": {
+    "content": "你已經是讚賞公民了，感謝你以實際行動支持網上內容創作！",
+    "buttonTitle": "@:General.learnMore"
+  },
   "CivicLikerCTAForRenewal": {
-    "content": "感謝您參與讚賞公民計劃。若你在以下時限前續訂，可保有{stamp}。別再猶豫，請立即續訂，繼續支持創作！",
-    "contentForTrial": "感謝您參與讚賞公民體驗計劃，免費測試已經結束。若你在以下時限前正式成為讚賞公民，可保有{stamp}。別再猶豫，請立即申請，繼續支持創作！",
-    "stamp": " {date} 的印章",
-    "stampForHonor": " {date} 的計劃啟動日榮譽印章",
-    "till": "把握機會，保有榮譽印章："
+    "content": "你的「讚賞公民」身份已經過期。請立即續訂保持你的尊貴身份，網上內容需要你的繼續灌溉才能開花結果。感謝你的支持。",
+    "till": "把握機會，保有榮譽印章：",
+    "buttonTitle": "立即續訂"
   },
   "CivicPage": {
     "title": "讚賞公民",
     "slogan": "少喝一杯咖啡 共創一個生態",
     "about": "有關讚賞公民",
     "joinNow": "立即參加",
-    "register": "我要申請",
+    "register": "立即申請",
     "registered": "已登記",
-    "pricingRegister": "我要申請",
-    "renew": "申請",
+    "pricingRegister": "立即申請",
     "limitedQuota": "首階段名額 100",
     "waitingList": {
       "notifyByEmail": "我們將以電郵通知閣下最新情況。"
@@ -1480,13 +1490,7 @@
     "applying": "團隊正在即時處理你的申請",
     "apply": "我要申請成為讚賞公民",
     "description": "請保留此頁面開放，於右下角跟負責同事繼續申請，過程一般不超過三分鐘，謝謝。",
-    "joinNow": "",
-    "upgrade": "我要申請",
-    "upgradeLong": "我要申請",
-    "waitingList": {
-      "button": "處理中",
-      "sorry": ""
-    }
+    "joinNow": ""
   },
   "CivicLikerRegister": {
     "title": "@:CivicLikerBeta.title",

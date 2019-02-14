@@ -166,6 +166,7 @@ export default {
     const {
       isSubscribedCivicLiker,
       isCivicLikerTrial,
+      isCivicLikerRenewalPeriod,
       isExpiredCivicLiker,
       civicLikerStatus,
     } = store.getters.getUserInfo;
@@ -174,7 +175,11 @@ export default {
     let error = '';
     let isCSOnline = false;
     if (isSubscribedCivicLiker) {
-      error = 'paid';
+      if (isCivicLikerRenewalPeriod) {
+        // Allow paid Civic Liker to renew
+      } else {
+        error = 'paid';
+      }
     } else if (!isBypassQuota && civicLikerStatus === 'waiting') {
       error = 'alreadyQueued';
     } else {

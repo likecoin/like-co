@@ -7,7 +7,7 @@
     <div>
       <div class="lc-text-align-center-mobile">
         <p class="lc-color-like-gray-4 lc-font-size-16">
-          {{ renewalContent }}
+          {{ $t('CivicLikerCTAForRenewal.content') }}
         </p>
         <p class="lc-color-like-green lc-margin-top-12 lc-font-weight-600">
           {{ $t('CivicLikerCTAForRenewal.till') }}
@@ -51,15 +51,15 @@
 
       <div class="civic-liker-cta__content">
         <i18n
+          :path="contentPath"
           class="lc-color-like-gray-4 lc-font-size-16"
-          path="CivicLikerCTA.content"
           tag="p"
         >
           <nuxt-link
-            :to="{ name: 'in-civic' }"
+            :to="{ name: 'in-settings' }"
             class="lc-color-like-green lc-font-weight-500"
-            place="title"
-          >{{ name }}</nuxt-link>
+            place="here"
+          >{{ $t('CivicLikerCTAForWaitingList.here') }}</nuxt-link>
         </i18n>
         <div class="lc-button-group">
           <md-button
@@ -82,7 +82,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { format } from 'date-fns';
 
 import CountdownTimer from '@/components/CountdownTimer';
 import ChopArt from './ChopArt';
@@ -125,43 +124,34 @@ export default {
     },
     isOnWaitingList() {
       return (
-        !this.isCivicLiker
+        !(this.isCivicLiker || this.isCivicLikerTrial)
         && this.getUserInfo.civicLikerStatus === 'waiting'
       );
     },
     canRenew() {
       return this.getUserInfo.isCivicLikerRenewalPeriod;
     },
-    renewalContent() {
-      if (!this.canRenew) return '';
-      const {
-        isHonorCivicLiker: isHonor,
-        civicLikerSince: since,
-      } = this.getUserInfo;
-      return this.$t(`CivicLikerCTAForRenewal.content${this.isCivicLikerTrial ? 'ForTrial' : ''}`, {
-        stamp: this.$t(`CivicLikerCTAForRenewal.stamp${isHonor ? 'ForHonor' : ''}`, {
-          date: format(new Date(since), 'YYYY.MM.DD'),
-        }),
-      });
-    },
-    name() {
-      if (this.isCivicLikerTrial) {
-        return this.$t('CivicLikerBeta.upgradeLong');
+    contentPath() {
+      if (this.isCivicLiker) {
+        return 'CivicLikerCTAForPaid.content';
       }
-      return this.$t('CivicLikerBeta.title');
+      if (this.isOnWaitingList) {
+        return 'CivicLikerCTAForWaitingList.content';
+      }
+      return 'CivicLikerCTA.content';
     },
     buttonTitle() {
       if (this.canRenew) {
-        return this.$t('CivicPage.renew');
-      }
-      if (this.isOnWaitingList) {
-        return this.$t('CivicLikerBeta.waitingList.button');
+        return this.$t('CivicLikerCTAForRenewal.buttonTitle');
       }
       if (this.isCivicLikerTrial) {
-        return this.$t('CivicLikerBeta.upgrade');
+        return this.$t('CivicLikerCTAForTrial.buttonTitle');
       }
       if (this.isCivicLiker) {
         return this.$t('General.learnMore');
+      }
+      if (this.isOnWaitingList) {
+        return this.$t('CivicLikerCTAForWaitingList.buttonTitle');
       }
       return this.$t('CivicPage.register');
     },
@@ -259,21 +249,19 @@ export default {
       }
     }
 
-    @media screen and (min-width: 600px + 1px) {
-      .civic-liker-cta:not(.civic-liker-cta--renewal) & {
-        margin: -12px;
-      }
-    }
-
     @media screen and (max-width: 600px) {
       flex-direction: column-reverse;
     }
 
     > * {
-      padding: 12px;
+      padding: 24px;
 
       @media screen and (max-width: 600px) {
         padding: 12px 24px;
+      }
+
+      &:not(:first-child) {
+        padding-top: 0;
       }
     }
 
