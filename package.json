@@ -45,6 +45,7 @@
     "@likecoin/nuxt-google-optimize": "^0.5.3-like.7",
     "@likecoin/ui-vue": "^0.7.0",
     "@likecoin/vue-image-lightbox": "^5.5.4",
+    "@likecoin/vue-intercom": "^1.0.12-like.1",
     "@likecoin/vue-simple-svg": "^1.4.1",
     "@nuxtjs/google-tag-manager": "^2.1.4",
     "@nuxtjs/sentry": "^2.2.1",
