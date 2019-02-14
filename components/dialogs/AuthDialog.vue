@@ -256,9 +256,12 @@ import {
 import {
   firebase,
   firebasePlatformSignIn,
+  firebaseGetRedirectCredential,
   firebaseSendSignInEmail,
   firebaseIsSignInEmailLink,
   firebaseHandleSignInEmailLink,
+  getSignInPayloadFromSignInResult,
+  getPlatformFromProviderId,
 } from '~/util/FirebaseApp';
 
 import BaseDialog from '~/components/dialogs/BaseDialog';
@@ -476,6 +479,29 @@ export default {
       }
     }
 
+    // Handle redirect sign in
+    const { redirect_sign_in: isRedirectSignIn, ...query } = this.$route.query;
+    if (isRedirectSignIn) {
+      this.$router.replace({
+        name: this.$router.name,
+        query,
+      });
+
+      this.currentTab = 'signingIn';
+
+      try {
+        const result = await firebaseGetRedirectCredential();
+        if (result.credential) {
+          this.platform = getPlatformFromProviderId(result.credential.providerId);
+          this.signInPayload = await getSignInPayloadFromSignInResult(result);
+          this.login();
+        }
+      } catch (err) {
+        console.error(err);
+        this.setError();
+      }
+    }
+
     const { referrer } = this.$route.query;
     if (from) this.referrer = from;
     this.sourceURL = referrer || document.referrer;
@@ -613,7 +639,20 @@ export default {
         case 'twitter':
           this.currentTab = 'loading';
           try {
-            this.signInPayload = await firebasePlatformSignIn(platform);
+            // Determine Firebase sign in method
+            const isRedirect = !!window.opener;
+            if (isRedirect) {
+              this.$router.push({
+                name: this.$route.name,
+                query: {
+                  ...this.$route.query,
+                  redirect_sign_in: 1,
+                },
+              });
+            }
+            this.signInPayload = await firebasePlatformSignIn(platform, {
+              isRedirect,
+            });
           } catch (err) {
             switch (err.code) {
               case 'auth/popup-closed-by-user':
