@@ -50,6 +50,7 @@ export default {
       'getInfoIsError',
       'getUserSocialPlatforms',
       'getUserAuthPlatforms',
+      'getUserLikeCoinAmountInBigNumber',
     ]),
     getAddress() {
       return `${ETHERSCAN_HOST}/address/${this.contractAddress}`;
@@ -117,6 +118,12 @@ export default {
           accumOpt[`binded_${platform}`] = true; // platform key exists only when binded
           return accumOpt;
         }, {});
+        this.$intercom.update(opt);
+      }
+    },
+    getUserLikeCoinAmountInBigNumber(amount) {
+      if (this.$intercom && amount) {
+        const opt = { LIKE: amount.toFixed(4) };
         this.$intercom.update(opt);
       }
     },
