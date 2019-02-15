@@ -36,7 +36,7 @@ const User = {
     if (signMessage) payload = [`${signMessage}:`, payload].join('\n');
     const sign = await EthHelper.signUserPayload(payload);
     const data = {
-      avatar: avatarFile,
+      avatarFile,
       payload: EthHelper.utf8ToHex(payload),
       sign,
       from: wallet,
