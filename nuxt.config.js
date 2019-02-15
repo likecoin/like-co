@@ -246,7 +246,9 @@ const nuxtConfig = {
       // https://github.com/getsentry/sentry-javascript/issues/1552#issuecomment-453958574
       config.resolve.alias['@sentry/browser'] = '@sentry/browser/esm';
       // https://github.com/ethereum/web3.js/issues/1178
-      config.resolve.alias['bn.js'] = path.join(__dirname, './node_modules/bn.js');
+      if (process.env.NODE_ENV === 'production') {
+        config.resolve.alias['bn.js'] = path.join(__dirname, './node_modules/bn.js');
+      }
 
       if (shouldCache) {
         config.plugins.push(new HardSourceWebpackPlugin());
