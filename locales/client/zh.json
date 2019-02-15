@@ -669,10 +669,13 @@
     },
     "SignIn": {
       "title": "感謝以行動支持創作",
+      "title-alternative": "先登入，再點讚，作者即可獲賞！",
       "description": "只需簡單註冊/登入，即能化讚為賞，助作者獲得收入。",
+      "description-alternative": "一秒登入讚賞者帳號，完全免費。作者需要你的支持！",
       "label": {
         "or": "或",
-        "with": "以下方法登入"
+        "with": "以下方法登入",
+        "with-alternative": "選以下任一方式登入"
       },
       "button": {
         "email": "電郵",
