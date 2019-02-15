@@ -57,14 +57,27 @@ export function getFirebaseProviderId(platform) {
   }
 }
 
+export function getPlatformFromProviderId(providerId) {
+  switch (providerId) {
+    case firebase.auth.FacebookAuthProvider.PROVIDER_ID:
+      return 'facebook';
+    case firebase.auth.GithubAuthProvider.PROVIDER_ID:
+      return 'github';
+    case firebase.auth.GoogleAuthProvider.PROVIDER_ID:
+      return 'google';
+    case firebase.auth.TwitterAuthProvider.PROVIDER_ID:
+      return 'twitter';
+    default:
+      throw new Error('Provider ID not support');
+  }
+}
+
 export function getFirebaseUserProviderUserInfo(firebaseUser, platform) {
   const providerId = getFirebaseProviderId(platform);
   return firebaseUser.providerData.find(p => (p.providerId === providerId));
 }
 
-export async function firebasePlatformSignIn(platform) {
-  const provider = getFirebaseProvider(platform);
-  const result = await firebase.auth().signInWithPopup(provider);
+export async function getSignInPayloadFromSignInResult(result) {
   const {
     displayName,
     email,
@@ -84,6 +97,17 @@ export async function firebasePlatformSignIn(platform) {
 
     firebaseIdToken,
   };
+}
+
+export async function firebasePlatformSignIn(platform, options = {}) {
+  const provider = getFirebaseProvider(platform);
+  const result = await firebase.auth()[`signInWith${options.isRedirect ? 'Redirect' : 'Popup'}`](provider);
+  return getSignInPayloadFromSignInResult(result);
+}
+
+export async function firebaseGetRedirectCredential() {
+  const result = await firebase.auth().getRedirectResult();
+  return result;
 }
 
 export async function firebasePlatformLinkUser(platform) {
