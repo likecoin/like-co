@@ -59,7 +59,9 @@ export default async ({
     );
     if (!supportedLocales.includes(locale)) locale = defaultLocale;
     /* 77760000000 = 30d */
-    res.cookie('language', locale, { maxAge: 77760000000, secure: true });
+    if (req.cookies && req.cookies.language !== locale) {
+      res.cookie('language', locale, { maxAge: 77760000000, secure: true });
+    }
   }
   app.i18n = new VueI18n({
     locale,
