@@ -38,15 +38,18 @@ export default {
       'getUserIsRegistered',
     ]),
   },
+  fetch({ store }) {
+    store.dispatch('setAuthDialog', { isShow: true });
+  },
   mounted() {
     if (this.getUserIsRegistered) {
+      this.setAuthDialog({ isShow: false });
       const router = this.$router;
       const route = this.$route;
       if (!tryPostLoginRedirect({ route })) {
         this.doPostAuthRedirect({ router, route });
       }
     } else {
-      this.setAuthDialog({ isShow: true });
       window.addEventListener('beforeunload', this.logPageUnload, false);
       logTrackerEvent(this, 'RegFlow', 'RedirectSignUp', 'RedirectSignUp', 1);
     }
