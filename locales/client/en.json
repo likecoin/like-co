@@ -680,9 +680,7 @@
     },
     "SignIn": {
       "title": "Support Creative Works",
-      "title-alternative": "Register as a Liker to reward the creator!",
       "description": "By sign up/sign in and liking",
-      "description-alternative": "Login as a Liker by just one-click for free.  The creators need your support!",
       "label": {
         "or": "or",
         "with": "with the following method"
