@@ -36,7 +36,7 @@ import {
 import * as getters from './getters/ui';
 import * as actions from './actions/ui';
 
-const state = {
+const state = () => ({
   locale: 'en',
   metamaskError: '',
   signPayloadObject: {},
@@ -66,7 +66,7 @@ const state = {
   walletNoticeDialogCancelCallback: null,
   walletNoticeDialogConfirmCallback: null,
   popupDialogs: [],
-};
+});
 
 const mutations = {
   [UI_SET_LOCALE](state, locale) {

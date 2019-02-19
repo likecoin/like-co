@@ -6,9 +6,9 @@ import {
 import * as actions from './actions/eth';
 import * as getters from './getters/eth';
 
-const state = {
+const state = () => ({
   isWeb3Polling: false,
-};
+});
 
 const mutations = {
   [ETH_SET_WEB3_POLLING](state, payload) {

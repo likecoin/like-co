@@ -27,7 +27,7 @@ import {
 import * as actions from './actions/mission';
 import * as getters from './getters/mission';
 
-const state = {
+const state = () => ({
   missions: [],
   hiddenMissions: [],
   referrals: [],
@@ -40,7 +40,7 @@ const state = {
   isFetching: false,
   isFetchedMissionHistory: false,
   isFetchingMissionHistory: false,
-};
+});
 
 const mutations = {
   [MISSION_SET_MISSION_LIST](state, missions) {

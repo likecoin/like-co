@@ -7,10 +7,10 @@ import {
 import * as getters from './getters/payment';
 import * as actions from './actions/payment';
 
-const state = {
+const state = () => ({
   pendingTx: '',
   pendingTxInfo: {},
-};
+});
 
 const mutations = {
   [PAYMENT_SET_PENDING_HASH](state, txHash) {

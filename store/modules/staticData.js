@@ -14,7 +14,7 @@ import {
 import * as getters from './getters/staticData';
 import * as actions from './actions/staticData';
 
-const state = {
+const state = () => ({
   likeCoinUsdNumericPrice: 0,
   LIKEStat: {},
   suggestedArticleInfo: {},
@@ -22,7 +22,7 @@ const state = {
   userInfos: {},
   likerListDetails: {},
   csrfToken: '',
-};
+});
 
 const mutations = {
   [STATIC_DATA_SET_LIKECOIN_USD_NUMERIC_PRICE](state, payload) {

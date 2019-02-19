@@ -21,7 +21,7 @@ import {
 import * as actions from './actions/user';
 import * as getters from './getters/user';
 
-const state = {
+const state = () => ({
   user: {},
   wallet: '',
   isFetching: false,
@@ -36,7 +36,7 @@ const state = {
   links: {},
   socialMeta: {},
   likeCoinAmountInBigNumber: null,
-};
+});
 
 const mutations = {
   [USER_SET_USER_INFO](state, user) {
