@@ -239,14 +239,8 @@ const nuxtConfig = {
         ],
       ],
     },
-
     extend(config, { isClient }) {
       /* eslint-disable no-param-reassign */
-
-      // https://github.com/surmon-china/vue-awesome-swiper/issues/395
-      config.resolve.alias['swiper/dist/js/swiper.js'] = 'swiper/dist/js/swiper.esm.bundle.js';
-      // https://github.com/getsentry/sentry-javascript/issues/1552#issuecomment-453958574
-      config.resolve.alias['@sentry/browser'] = '@sentry/browser/esm';
       // https://github.com/ethereum/web3.js/issues/1178
       if (process.env.NODE_ENV === 'production') {
         config.resolve.alias['bn.js'] = path.join(__dirname, './node_modules/bn.js');
