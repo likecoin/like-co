@@ -679,8 +679,8 @@
       "loginSuccessful": "Login successful"
     },
     "SignIn": {
-      "title": "Support Creative Works",
-      "description": "By sign up/sign in and liking",
+      "title": "Register as a Liker to reward the creator!",
+      "description": "Login as a Liker by just one-click for free.  The creators need your support!",
       "label": {
         "or": "or",
         "with": "with the following method"
