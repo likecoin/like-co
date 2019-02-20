@@ -178,7 +178,6 @@ import format from 'date-fns/format';
 import ErrorIcon from '@/assets/txHistory/invalid.svg';
 import LockIcon from '@/assets/txHistory/lock.svg';
 
-import EthHelper from '@/util/EthHelper';
 import {
   ETH_TO_LIKECOIN_RATIO,
   ONE_LIKE,
@@ -354,9 +353,6 @@ export default {
       this.setIsFetching();
 
       try {
-        const { coin, eth } = await EthHelper.getAddressPurchaseTotal(this.address);
-        this.ICOTotalCoin = new BigNumber(coin).dividedBy(ONE_LIKE).toFixed(4);
-        this.ICOTotalETH = new BigNumber(eth).dividedBy(ONE_LIKE).toFixed(4);
         this.txHistory = await this.queryTxHistoryByAddr({ addr: this.address });
         this.isFetchedTx = true;
         this.$emit('update:isFetched', this.isFetchedTx);
