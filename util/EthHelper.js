@@ -6,7 +6,6 @@ import { IS_TESTNET, INFURA_HOST, CONFIRMATION_NEEDED } from '@/constant';
 
 const abiDecoder = require('@likecoin/abi-decoder/dist/es5');
 
-abiDecoder.addABI(LIKE_COIN_ABI);
 
 function timeout(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -43,6 +42,7 @@ class EthHelper {
     const web3Instance = new Web3(provider);
     this.queryWeb3 = web3Instance;
     this.queryLikeCoin = new web3Instance.eth.Contract(LIKE_COIN_ABI, LIKE_COIN_ADDRESS);
+    this.abiDecoderInited = false;
     Object.assign(this, {
       wallet: '',
       errCb,
@@ -53,6 +53,12 @@ class EthHelper {
       onLogin,
       onSigned,
     });
+  }
+
+  initAbiDecoder() {
+    if (this.abiDecoderInited) return;
+    abiDecoder.addABI(LIKE_COIN_ABI);
+    this.abiDecoderInited = true;
   }
 
   clearTimers() {
@@ -253,6 +259,7 @@ class EthHelper {
     if (!t || !currentBlockNumber) throw new Error('Cannot find transaction');
     if (t.value > 0) return this.getEthTransferInfo(txHash, t, currentBlockNumber);
     if (t.to.toLowerCase() !== LIKE_COIN_ADDRESS.toLowerCase()) throw new Error('Not LikeCoin transaction');
+    this.initAbiDecoder();
     const decoded = abiDecoder.decodeMethod(t.input);
     const isDelegated = decoded.name === 'transferDelegated';
     const isLock = decoded.name === 'transferAndLock';
@@ -285,6 +292,7 @@ class EthHelper {
       };
     }
     if (!r.logs || !r.logs.length) throw new Error('Cannot fetch transaction Data');
+    this.initAbiDecoder();
     const logs = abiDecoder.decodeLogs(r.logs);
     if (isDelegated) {
       const targetLogs = logs.filter(l => (l.events
