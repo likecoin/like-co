@@ -2,12 +2,10 @@
 import Web3 from 'web3';
 
 import { LIKE_COIN_ABI, LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin';
-import { LIKE_COIN_ICO_ABI, LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 import { IS_TESTNET, INFURA_HOST, CONFIRMATION_NEEDED } from '@/constant';
 
 const abiDecoder = require('@likecoin/abi-decoder/dist/es5');
 
-abiDecoder.addABI(LIKE_COIN_ABI);
 
 function timeout(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -44,7 +42,7 @@ class EthHelper {
     const web3Instance = new Web3(provider);
     this.queryWeb3 = web3Instance;
     this.queryLikeCoin = new web3Instance.eth.Contract(LIKE_COIN_ABI, LIKE_COIN_ADDRESS);
-    this.queryLikeCoinICO = new web3Instance.eth.Contract(LIKE_COIN_ICO_ABI, LIKE_COIN_ICO_ADDRESS);
+    this.abiDecoderInited = false;
     Object.assign(this, {
       wallet: '',
       errCb,
@@ -55,6 +53,12 @@ class EthHelper {
       onLogin,
       onSigned,
     });
+  }
+
+  initAbiDecoder() {
+    if (this.abiDecoderInited) return;
+    abiDecoder.addABI(LIKE_COIN_ABI);
+    this.abiDecoderInited = true;
   }
 
   clearTimers() {
@@ -104,7 +108,6 @@ class EthHelper {
 
   startApp() {
     this.LikeCoin = new this.actionWeb3.eth.Contract(LIKE_COIN_ABI, LIKE_COIN_ADDRESS);
-    this.LikeCoinICO = new this.actionWeb3.eth.Contract(LIKE_COIN_ICO_ABI, LIKE_COIN_ICO_ADDRESS);
     this.pollForAccounts();
   }
 
@@ -256,6 +259,7 @@ class EthHelper {
     if (!t || !currentBlockNumber) throw new Error('Cannot find transaction');
     if (t.value > 0) return this.getEthTransferInfo(txHash, t, currentBlockNumber);
     if (t.to.toLowerCase() !== LIKE_COIN_ADDRESS.toLowerCase()) throw new Error('Not LikeCoin transaction');
+    this.initAbiDecoder();
     const decoded = abiDecoder.decodeMethod(t.input);
     const isDelegated = decoded.name === 'transferDelegated';
     const isLock = decoded.name === 'transferAndLock';
@@ -288,6 +292,7 @@ class EthHelper {
       };
     }
     if (!r.logs || !r.logs.length) throw new Error('Cannot fetch transaction Data');
+    this.initAbiDecoder();
     const logs = abiDecoder.decodeLogs(r.logs);
     if (isDelegated) {
       const targetLogs = logs.filter(l => (l.events
@@ -322,34 +327,6 @@ class EthHelper {
     const address = addr || this.wallet || '';
     if (!address) return '';
     return this.queryWeb3.eth.getBalance(address);
-  }
-
-  async queryKYCStatus(addr) {
-    const address = addr || this.wallet || '';
-    if (!address) return false;
-    return this.queryLikeCoinICO.methods.kycDone(address).call();
-  }
-
-  async getAddressPurchaseEvents(addr) {
-    return this.queryLikeCoinICO.getPastEvents('Purchase', {
-      fromBlock: 0,
-      filter: {
-        _addr: addr,
-      },
-    });
-  }
-
-  async getAddressPurchaseTotal(addr) {
-    const web3Instance = this.queryWeb3;
-    const address = addr || this.wallet || '';
-    return (await this.getAddressPurchaseEvents(address))
-      .reduce(
-        (acc, e) => ({
-          coin: acc.coin.add(new web3Instance.utils.BN(e.returnValues._coins)),
-          eth: acc.eth.add(new web3Instance.utils.BN(e.returnValues._ethers)),
-        }),
-        { coin: new web3Instance.utils.BN(0), eth: new web3Instance.utils.BN(0) },
-      );
   }
 
   async genTypedSignData(from, to, value, maxReward) {
