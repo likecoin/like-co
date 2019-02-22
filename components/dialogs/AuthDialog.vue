@@ -276,7 +276,10 @@ import LikeCoinLogo from '~/assets/icons/likecoin-logo.svg';
 import LikeCoinTextLogo from '~/assets/icons/likecoin-text-logo.svg';
 
 import { logTrackerEvent } from '@/util/EventLogger';
-import { tryPostLoginRedirect } from '~/util/client';
+import {
+  checkIsMobileClient,
+  tryPostLoginRedirect,
+} from '~/util/client';
 
 export default {
   name: 'auth-dialog',
@@ -640,7 +643,11 @@ export default {
           this.currentTab = 'loading';
           try {
             // Determine Firebase sign in method
-            const isRedirect = !!window.opener;
+            const isRedirect = (
+              this.$route.query.is_popup === '1'
+              || checkIsMobileClient()
+              || !!window.opener
+            );
             if (isRedirect) {
               this.$router.push({
                 name: this.$route.name,
