@@ -2,16 +2,16 @@
   <div class="signin-portal lc-padding-top-16">
     <div class="lc-dialog-container-1">
       <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-mobile">
-        {{ $t('AuthDialog.SignIn.title') }}
+        {{ getExperimentLocale('AuthDialog.SignIn.title') }}
       </h1>
       <p class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-24 lc-mobile">
-        {{ $t('AuthDialog.SignIn.description') }}
+        {{ getExperimentLocale('AuthDialog.SignIn.description') }}
       </p>
     </div>
 
     <div class="signin-portal__method-list-wrapper lc-dialog-container-1">
       <span class="lc-font-size-12">
-        {{ $t('AuthDialog.SignIn.label.with') }}
+        {{ getExperimentLocale('AuthDialog.SignIn.label.with') }}
       </span>
 
       <div class="signin-portal__method-list lc-margin-top-12 lc-text-align-center">
@@ -71,8 +71,17 @@ import FacebookIcon from '@/assets/icons/fillable/facebook.svg';
 import GoogleIcon from '@/assets/icons/google.svg';
 import TwitterIcon from '@/assets/icons/fillable/twitter.svg';
 
+import experimentsMixin from '~/util/mixins/experiments';
+
 export default {
   name: 'signin-portal',
+  mixins: [
+    experimentsMixin(
+      'shouldUseAltLocales',
+      'register-callout',
+      'alternative',
+    ),
+  ],
   data() {
     return {
       EmailIcon,
@@ -82,6 +91,12 @@ export default {
     };
   },
   methods: {
+    getExperimentLocale(key) {
+      if (this.shouldUseAltLocales && this.$te(`${key}-alternative`)) {
+        return this.$t(`${key}-alternative`);
+      }
+      return this.$t(key);
+    },
     onSignInWith(platform) {
       this.$emit('submit', platform);
     },
