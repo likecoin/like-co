@@ -11,8 +11,11 @@
 </template>
 
 <script>
-import axios from '~/plugins/axios';
 import OauthPermissionDialog from '~/components/dialogs/OAuthPermissionDialog';
+import {
+  apiGetOAuthAuthorize,
+  apiPostOAuthAuthorize,
+} from '@/util/api/api';
 
 const URL = require('url-parse');
 
@@ -36,9 +39,7 @@ export default {
     } = query;
     try {
       // TODO: Check scope
-      const res = await axios.get(
-        `/api/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}`,
-      );
+      const res = await apiGetOAuthAuthorize(clientId, redirectUri);
       const { provider } = res.data;
       return {
         clientId,
@@ -65,10 +66,7 @@ export default {
         redirectUri: this.redirectUri,
         state: this.state,
       };
-      const result = await axios.post(
-        '/api/oauth/authorize',
-        payload,
-      );
+      const result = await apiPostOAuthAuthorize(payload);
       const {
         redirectUri,
         state,
