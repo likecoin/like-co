@@ -680,7 +680,9 @@
     },
     "SignIn": {
       "title": "Register as a Liker to reward the creator!",
+      "title-alternative": "Sign up as a Liker for FREE now!",
       "description": "Login as a Liker by just one-click for free.  The creators need your support!",
+      "description-alternative": "As a Liker, your Likes carry the power to reward the creators.  Act to support content creation NOW!",
       "label": {
         "or": "or",
         "with": "with the following method"
