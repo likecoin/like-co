@@ -244,6 +244,7 @@ import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 
 
 const ONE_LIKE = new BigNumber(10).pow(18);
+const DEFAULT_P2P_AMOUNT_IN_USD = 0.25;
 
 function formatAmount(amount) {
   let result = amount.toString().replace(/[^0-9.]/, '');
@@ -413,11 +414,14 @@ export default {
       }
     },
   },
-  mounted() {
+  async mounted() {
     this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
 
     if (!this.getLikeCoinUsdNumericPrice) {
-      this.queryLikeCoinUsdPrice();
+      await this.queryLikeCoinUsdPrice();
+    }
+    if (!this.$route.params.amount && this.getLikeCoinUsdNumericPrice) {
+      this.amount = (DEFAULT_P2P_AMOUNT_IN_USD / this.getLikeCoinUsdNumericPrice).toFixed(2);
     }
   },
   methods: {
