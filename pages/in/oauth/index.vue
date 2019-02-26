@@ -37,6 +37,9 @@ export default {
       redirect_uri: redirectUri,
       state,
     } = query;
+    let { scope = 'profile' } = query;
+    if (scope) scope = scope.split(' ');
+    if (!scope.includes('profile')) scope.push('profile');
     try {
       // TODO: Check scope
       const res = await apiGetOAuthAuthorize(clientId, redirectUri);
@@ -46,7 +49,7 @@ export default {
         redirectUri,
         state,
         provider,
-        scope: ['publicInformation', 'email'],
+        scope,
       };
     } catch (err) {
       return error((err.response || {}).data || err.message);
@@ -65,6 +68,7 @@ export default {
         clientId: this.clientId,
         redirectUri: this.redirectUri,
         state: this.state,
+        scope: this.scope,
       };
       const result = await apiPostOAuthAuthorize(payload);
       const {

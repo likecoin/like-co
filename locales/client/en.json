@@ -1458,7 +1458,7 @@
   "OAuthPermissionDialog": {
     "willReceive": "will receive the following info:",
     "scope": {
-      "publicInformation": "Public Information",
+      "profile": "Public Information",
       "email": "Email"
     }
   },

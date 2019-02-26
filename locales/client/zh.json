@@ -1365,7 +1365,7 @@
   "OAuthPermissionDialog": {
     "willReceive": "將會獲取以下資訊：",
     "scope": {
-      "publicInformation": "公開資料",
+      "profile": "公開資料",
       "email": "電郵"
     }
   },
