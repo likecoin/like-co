@@ -5,6 +5,7 @@ export default {
     ...mapGetters([
       'getCurrentLocale',
       'getCurrentLocaleISO',
+      'getCurrentOgLocale',
     ]),
   },
   head() {
@@ -15,6 +16,13 @@ export default {
       bodyAttrs: {
         'lc-lang': this.getCurrentLocale,
       },
+      meta: [
+        {
+          hid: 'og_locale',
+          name: 'og:locale',
+          content: this.getCurrentOgLocale,
+        },
+      ],
     };
   },
 };
