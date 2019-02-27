@@ -160,7 +160,7 @@ export default {
       }
     },
     async onRemoveLink({ id, order }) {
-      if (!order) {
+      if (order === undefined) {
         this.hasNewLink = false;
       } else {
         const index = this.links.findIndex(l => l.id === id);
