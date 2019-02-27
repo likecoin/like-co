@@ -687,7 +687,7 @@
       },
       "button": {
         "email": "Email",
-        "wallet": "Sign with Ethereum Wallet"
+        "wallet": "Sign-in with Ethereum Wallet"
       }
     },
     "SignInWithEmail": {
