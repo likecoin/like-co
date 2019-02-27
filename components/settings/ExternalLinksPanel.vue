@@ -29,17 +29,14 @@
             @remove="onRemoveLink"
           />
         </transition-group>
-
-        <div slot="footer">
-          <external-link
-            v-if="hasNewLink"
-            :is-loading="isAddingLink"
-            class="external-links-panel__new-item"
-            @change="onChangeLink"
-            @remove="onRemoveLink"
-          />
-        </div>
       </draggable>
+      <external-link
+        v-if="hasNewLink"
+        :is-loading="isAddingLink"
+        class="external-links-panel__new-item"
+        @change="onChangeLink"
+        @remove="onRemoveLink"
+      />
     </div>
 
     <md-button
@@ -163,7 +160,7 @@ export default {
       }
     },
     async onRemoveLink({ id, order }) {
-      if (!order) {
+      if (order === undefined) {
         this.hasNewLink = false;
       } else {
         const index = this.links.findIndex(l => l.id === id);
