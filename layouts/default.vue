@@ -33,7 +33,7 @@
 
 
 <script>
-import { mapGetters } from 'vuex';
+import localeMixin from '~/mixins/locale';
 
 import MyFooter from '~/components/footer/Footer';
 import SiteHeader from '~/components/header/HeaderWithMenuButton';
@@ -47,21 +47,6 @@ export default {
     SlidingMenu,
     ToolBars,
   },
-  computed: {
-    ...mapGetters([
-      'getCurrentLocale',
-      'getCurrentLocaleISO',
-    ]),
-  },
-  head() {
-    return {
-      htmlAttrs: {
-        lang: this.getCurrentLocaleISO,
-      },
-      bodyAttrs: {
-        'lc-lang': this.getCurrentLocale,
-      },
-    };
-  },
+  mixins: [localeMixin],
 };
 </script>

@@ -3,26 +3,10 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import localeMixin from '~/mixins/locale';
 
 export default {
-  computed: {
-    ...mapGetters([
-      'getCurrentLocale',
-      'getCurrentLocaleISO',
-    ]),
-  },
-  head() {
-    return {
-      htmlAttrs: {
-        'likecoin-embed': undefined,
-        lang: this.getCurrentLocaleISO,
-      },
-      bodyAttrs: {
-        'lc-lang': this.getCurrentLocale,
-      },
-    };
-  },
+  mixins: [localeMixin],
 };
 </script>
 

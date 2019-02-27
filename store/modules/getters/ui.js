@@ -54,6 +54,22 @@ export const getCurrentLocaleISO = (state) => {
   }
 };
 
+export const getCurrentOgLocale = (state) => {
+  const { locale } = state;
+  switch (locale) {
+    case 'en':
+      return 'en_US';
+    case 'zh':
+      return 'zh_HK';
+    case 'cn':
+      return 'zh_CN';
+    case 'ja':
+      return 'ja_JP';
+    default:
+      return locale;
+  }
+};
+
 export const getIsSlidingMenuOpen = state => state.isSlidingMenuOpen;
 
 /* eslint-disable-next-line max-len */

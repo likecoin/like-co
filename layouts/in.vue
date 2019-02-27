@@ -89,6 +89,9 @@
 
 <script>
 import { mapGetters } from 'vuex';
+
+import localeMixin from '~/mixins/locale';
+
 import MissionDialog from '@/components/dialogs/MissionDialog';
 import PromptNotificationDialog from '@/components/dialogs/PromptNotificationDialog';
 import MyFooter from '~/components/footer/Footer';
@@ -108,27 +111,16 @@ export default {
     UserInfoForm,
   },
   middleware: 'authenticated',
+  mixins: [localeMixin],
   computed: {
     hasNewInvitee() {
       return this.getReferralMissionList.some(referral => !referral.seen);
     },
     ...mapGetters([
-      'getCurrentLocale',
-      'getCurrentLocaleISO',
       'getReferralMissionList',
       'getUserNeedAuth',
       'getUserInfo',
     ]),
-  },
-  head() {
-    return {
-      htmlAttrs: {
-        lang: this.getCurrentLocaleISO,
-      },
-      bodyAttrs: {
-        'lc-lang': this.getCurrentLocale,
-      },
-    };
   },
 };
 </script>
