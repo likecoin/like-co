@@ -78,6 +78,8 @@
 <script>
 import { mapGetters } from 'vuex';
 
+import localeMixin from '~/mixins/locale';
+
 import MyFooter from '~/components/footer/Footer';
 import SiteHeader from '~/components/header/HeaderWithMenuButton';
 import SlidingMenu from '~/components/SlidingMenu/index';
@@ -94,6 +96,7 @@ export default {
     SlidingMenu,
     Description,
   },
+  mixins: [localeMixin],
   data() {
     return {
       title: 'Register.label.registerRedeem',
@@ -105,19 +108,7 @@ export default {
       'getHeaderSubtitle',
       'getHeaderIcon',
       'getHeaderTitle',
-      'getCurrentLocale',
-      'getCurrentLocaleISO',
     ]),
-  },
-  head() {
-    return {
-      htmlAttrs: {
-        lang: this.getCurrentLocaleISO,
-      },
-      bodyAttrs: {
-        'lc-lang': this.getCurrentLocale,
-      },
-    };
   },
 };
 </script>

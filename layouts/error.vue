@@ -28,37 +28,22 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import localeMixin from '~/mixins/locale';
 
 import likeCoinIcon from '@/assets/logo/icon.svg';
 
 export default {
+  layout: 'narrowWithHeader',
+  mixins: [localeMixin],
   props: {
     error: {
       type: Object,
       required: true,
     },
   },
-  layout: 'narrowWithHeader',
   data() {
     return {
       likeCoinIcon,
-    };
-  },
-  computed: {
-    ...mapGetters([
-      'getCurrentLocale',
-      'getCurrentLocaleISO',
-    ]),
-  },
-  head() {
-    return {
-      htmlAttrs: {
-        lang: this.getCurrentLocaleISO,
-      },
-      bodyAttrs: {
-        'lc-lang': this.getCurrentLocale,
-      },
     };
   },
 };
