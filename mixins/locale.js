@@ -19,7 +19,7 @@ export default {
       meta: [
         {
           hid: 'og_locale',
-          name: 'og:locale',
+          property: 'og:locale',
           content: this.getCurrentOgLocale,
         },
       ],
