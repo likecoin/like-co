@@ -338,22 +338,22 @@ export default {
   },
   head() {
     return {
-      title: this.$t('CivicPage.title'),
+      title: this.$t('CivicPage.slogan'),
       meta: [
         {
           hid: 'og_title',
           property: 'og:title',
-          content: this.$t('CivicPage.title'),
+          content: this.$t('CivicPage.slogan'),
         },
         {
           hid: 'description',
           name: 'description',
-          content: this.$t('CivicPage.slogan'),
+          content: this.$t('CivicPage.intro1.2'),
         },
         {
           hid: 'og_description',
           property: 'og:description',
-          content: this.$t('CivicPage.slogan'),
+          content: this.$t('CivicPage.intro1.2'),
         },
         {
           hid: 'og_image',
