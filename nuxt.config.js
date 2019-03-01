@@ -202,7 +202,7 @@ const nuxtConfig = {
       ? `${process.env.IS_TESTNET ? '.rinkeby' : ''}.like.co`
       : '',
     useFetch: true,
-    maxAge: 60 * 60 * 24,
+    maxAge: 60 * 60,
   },
   plugins: [
     { src: '~/plugins/polyfill', ssr: false },
