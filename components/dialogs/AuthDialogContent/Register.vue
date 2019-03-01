@@ -142,7 +142,10 @@ import { mapGetters, mapActions } from 'vuex';
 
 import {
   W3C_EMAIL_REGEX,
+  SUPPORTED_AVATER_TYPE,
 } from '@/constant';
+
+const imageType = require('image-type');
 
 const LIKECOIN_ID_REGEX = '[a-z0-9-_]{7,20}';
 
@@ -233,11 +236,14 @@ export default {
       } else if (this.prefilledData.avatarURL) {
         // Get the avatar file from URL
         const res = await axios.get(this.prefilledData.avatarURL, {
-          responseType: 'blob',
+          responseType: 'arraybuffer',
           timeout: 30000,
         });
-        const filename = this.prefilledData.avatarURL.split('/').pop();
-        payload.avatarFile = new File([new Blob([res.data])], filename);
+        const type = imageType(new Uint8Array(res.data));
+        if (SUPPORTED_AVATER_TYPE.has(type && type.ext)) {
+          const filename = this.prefilledData.avatarURL.split('/').pop();
+          payload.avatarFile = new File([new Blob([res.data])], filename);
+        }
       }
 
       this.$emit('register', payload);
