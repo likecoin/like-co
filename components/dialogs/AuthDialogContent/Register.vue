@@ -234,15 +234,19 @@ export default {
       if (this.avatarFile) {
         payload.avatarFile = this.avatarFile;
       } else if (this.prefilledData.avatarURL) {
-        // Get the avatar file from URL
-        const res = await axios.get(this.prefilledData.avatarURL, {
-          responseType: 'arraybuffer',
-          timeout: 30000,
-        });
-        const type = imageType(new Uint8Array(res.data));
-        if (SUPPORTED_AVATER_TYPE.has(type && type.ext)) {
-          const filename = this.prefilledData.avatarURL.split('/').pop();
-          payload.avatarFile = new File([new Blob([res.data])], filename);
+        try {
+          // Get the avatar file from URL
+          const res = await axios.get(this.prefilledData.avatarURL, {
+            responseType: 'arraybuffer',
+            timeout: 30000,
+          });
+          const type = imageType(new Uint8Array(res.data));
+          if (SUPPORTED_AVATER_TYPE.has(type && type.ext)) {
+            const filename = this.prefilledData.avatarURL.split('/').pop();
+            payload.avatarFile = new File([new Blob([res.data])], filename);
+          }
+        } catch (err) {
+          console.error(err);
         }
       }
 
