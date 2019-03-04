@@ -33,7 +33,8 @@ export default {
       shouldPromptPermissionDialog: true,
     };
   },
-  async asyncData({ error, query }) {
+  async asyncData({ error, query, req }) {
+    let opt;
     const {
       client_id: clientId,
       redirect_uri: redirectUri,
@@ -42,8 +43,17 @@ export default {
     let { scope = 'profile' } = query;
     if (scope) scope = scope.split(' ');
     if (!scope.includes('profile')) scope.push('profile');
+    if (req.cookies && req.cookies.likecoin_auth) {
+      opt = {
+        headers: {
+          Cookie: `likecoin_auth=${req.cookies.likecoin_auth}`,
+          'x-real-ip': req.headers['x-real-ip'] || req.ip,
+          'user-agent': req.headers['x-ucbrowser-ua'] || req.headers['user-agent'],
+        },
+      };
+    }
     try {
-      const res = await apiGetOAuthAuthorize(clientId, redirectUri, scope);
+      const res = await apiGetOAuthAuthorize(clientId, redirectUri, scope, opt);
       const { provider, isAuthed = false } = res.data;
       return {
         clientId,
