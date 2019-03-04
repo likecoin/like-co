@@ -33,10 +33,7 @@
             v-for="s in scope"
             :key="s"
           >
-            <span v-if="$te(`OAuthPermissionDialog.scope.${s}`)">
-              {{ $t(`OAuthPermissionDialog.scope.${s}`) }}
-            </span>
-            <span v-else>{{ s }}</span>
+            {{ getScopeLocalization(s) }}
           </li>
         </ul>
       </div>
@@ -102,6 +99,26 @@ export default {
   methods: {
     setIsShow(isShow) {
       this.$emit('update:isShow', isShow);
+    },
+    getScopeLocalization(scopeString) {
+      const parts = scopeString.split(':');
+      let scope;
+      let permission;
+      if (parts.length > 1) {
+        [permission, scope] = parts;
+      } else {
+        [scope] = parts;
+      }
+      let output = '';
+      if (this.$te(`OAuthPermissionDialog.permission.${permission}`)) {
+        output += this.$t(`OAuthPermissionDialog.permission.${permission}`);
+      }
+      if (this.$te(`OAuthPermissionDialog.scope.${scope}`)) {
+        output += this.$t(`OAuthPermissionDialog.scope.${scope}`);
+      } else {
+        output += scopeString;
+      }
+      return output;
     },
     onAccept() {
       this.setIsShow(false);
