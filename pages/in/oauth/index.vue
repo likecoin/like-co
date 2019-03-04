@@ -1,6 +1,7 @@
 <template>
   <div>
     <oauth-permission-dialog
+      v-if="!isAuthed"
       :provider="provider"
       :scope="scope"
       :is-show.sync="shouldPromptPermissionDialog"
@@ -28,6 +29,7 @@ export default {
   },
   data() {
     return {
+      isAuthed: false,
       shouldPromptPermissionDialog: true,
     };
   },
@@ -41,19 +43,22 @@ export default {
     if (scope) scope = scope.split(' ');
     if (!scope.includes('profile')) scope.push('profile');
     try {
-      // TODO: Check scope
       const res = await apiGetOAuthAuthorize(clientId, redirectUri);
-      const { provider } = res.data;
+      const { provider, isAuthed = false } = res.data;
       return {
         clientId,
         redirectUri,
         state,
         provider,
         scope,
+        isAuthed,
       };
     } catch (err) {
       return error((err.response || {}).data || err.message);
     }
+  },
+  mounted() {
+    if (this.isAuthed) this.authorize();
   },
   methods: {
     onDecline() {
