@@ -199,5 +199,8 @@ export const apiDequeueCivicLikerWaitingList = qs => axios.delete(`/civic/queue?
 export const apiGetCivicLikerTrialEventById = id => axios.get(`/civic/trial/events/${id}`);
 export const apiJoinCivicLikerTrialEventById = id => axios.post(`/civic/trial/events/${id}/join`);
 
-export const apiGetOAuthAuthorize = (clientId, redirectUri) => axios.get(`${LIKECOIN_MISC_API_BASE}/api/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}`);
+export const apiGetOAuthAuthorize = (clientId, redirectUri, scope) => {
+  const scopeString = encodeURIComponent(scope.join(' '));
+  return axios.get(`${LIKECOIN_MISC_API_BASE}/api/oauth/authorize?client_id=${clientId}&scope=${scopeString}&redirect_uri=${encodeURIComponent(redirectUri)}`);
+};
 export const apiPostOAuthAuthorize = payload => axios.post(`${LIKECOIN_MISC_API_BASE}/api/oauth/authorize`, payload);

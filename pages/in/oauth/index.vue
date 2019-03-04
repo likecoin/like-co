@@ -43,7 +43,7 @@ export default {
     if (scope) scope = scope.split(' ');
     if (!scope.includes('profile')) scope.push('profile');
     try {
-      const res = await apiGetOAuthAuthorize(clientId, redirectUri);
+      const res = await apiGetOAuthAuthorize(clientId, redirectUri, scope);
       const { provider, isAuthed = false } = res.data;
       return {
         clientId,
