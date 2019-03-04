@@ -33,7 +33,10 @@
             v-for="s in scope"
             :key="s"
           >
-            {{ $t(`OAuthPermissionDialog.scope.${s}`) }}
+            <span v-if="$te(`OAuthPermissionDialog.scope.${s}`)">
+              {{ $t(`OAuthPermissionDialog.scope.${s}`) }}
+            </span>
+            <span v-else>{{ s }}</span>
           </li>
         </ul>
       </div>
