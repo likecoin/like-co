@@ -284,7 +284,7 @@
         "whitepaper": "Whitepaper",
         "onePage": "One-pager",
         "redeem": "Get Red Pocket",
-        "createID": "Create LikeCoin ID to participate in the movement",
+        "createID": "Create Liker ID to participate in the movement",
         "createNow": "Create Now",
         "buyCoin": "Buy LikeCoin",
         "earnCoin": "Earn LikeCoin",
@@ -621,10 +621,10 @@
     "transaction": {
       "label": {
         "waiting": "Your request to transfer LIKE is well received and will be executed. Depending on the traffic on blockchain, please expect the LIKE will arrive recipient wallet in 12 hours or in extreme cases a few days, although in practice it normally takes a lot shorter.",
-        "newUser": "Seems you don’t have a LikeCoin ID. Create now."
+        "newUser": "Seems you don’t have a Liker ID. Create now."
       },
       "button": {
-        "createID": "Create LikeCoin ID",
+        "createID": "Create Liker ID",
         "buyCoin": "Buy LikeCoin",
         "myAccount": "My Account",
         "trade": "Trade LikeCoin"
@@ -713,7 +713,7 @@
       "error": "Account Registration Failed",
       "suggestWalletSignIn": {
         "id": "If you successfully registered {id} before, please try to {signIn} on PC",
-        "email": "If you successfully registered a LikeCoin ID with {email} before, please try to {signIn} on PC"
+        "email": "If you successfully registered a Liker ID with {email} before, please try to {signIn} on PC"
       },
       "signWithWallet": "sign in with wallet"
     },
@@ -730,7 +730,7 @@
     "page": [
       {
         "title": "Use a wallet to keep LikeCoin",
-        "description": "After binding your wallet to LikeCoin ID, you can:",
+        "description": "After binding your wallet to Liker ID, you may:",
         "bullet": [
           "Keep LikeCoin to your wallet",
           "Free to use LikeCoin transfer service",
@@ -763,8 +763,8 @@
   },
   "Register": {
     "header": {
-      "title": "Create a LikeCoin ID to send and receive LikeCoin",
-      "titleReferral": "Join {name} and Create a LikeCoin ID",
+      "title": "Create a Liker ID to send and receive LikeCoin",
+      "titleReferral": "Join {name} and Create a Liker ID",
       "content": "Great! Seems you already have Metamask installed. Now you are ready to receive or send LikeCoin.",
       "redeem": "Redeem your free LikeCoin",
       "button": {
@@ -776,10 +776,10 @@
       "registerRedeem": "Create Account and Redeem"
     },
     "form": {
-      "createID": "Create a LikeCoin ID (minimum 7 characters)",
+      "createID": "Create a Liker ID (minimum 7 characters)",
       "walletAddress": "Wallet address",
       "email": "Email",
-      "referrer": "Referrer LikeCoin ID (optional)",
+      "referrer": "Referrer Liker ID (optional)",
       "amount": "Amount of LikeCoin:",
       "displayName": "Display Name",
       "claim": "Claim",
@@ -818,7 +818,7 @@
     },
     "civicLiker": {
       "title": "Give a hand to support creativity",
-      "description": "Support your favourite creative work. Simple and effective. With bla bla, to bla.",
+      "description": "Trade a coffee for a better world.",
       "descriptionCTA": "Civic Liker"
     },
     "verifyEmailCta": {
@@ -829,7 +829,7 @@
   },
   "Edit": {
     "label": {
-      "id": "LikeCoin ID:",
+      "id": "Liker ID:",
       "likeCoinAmount": "Amount of LikeCoin",
       "address": "Your Address",
       "email": "Your E-mail",
@@ -891,7 +891,7 @@
       }
     },
     "label": {
-      "recipientId": "Recipient LikeCoin ID",
+      "recipientId": "Recipient Liker ID",
       "recipientAddress": "Recipient Address",
       "senderName": "Sender Display Name",
       "senderAddress": "Sender Address",
@@ -934,11 +934,11 @@
   "ReferralPage": {
     "title": "{name} has invited you to join LikeCoin",
     "label": {
-      "invitation": "Create a LikeCoin ID to send and receive LikeCoin.<br/><br/>Create a LikeCoin ID now you and {name} will get 8 Like bonus."
+      "invitation": "Create a Liker ID to send and receive LikeCoin.<br/><br/>Create a Liker ID now you and {name} will get 8 Like bonus."
     },
     "og": {
       "title": "{name} has invited you to join LikeCoin",
-      "description": "Create a LikeCoin ID now you and {name} will get 8 Like bonus. Participate in token sale, you will both get 2.5% bonus."
+      "description": "Create a Liker ID now you and {name} will get 8 Like bonus. Participate in token sale, you will both get 2.5% bonus."
     }
   },
   "TokenSale": {
@@ -1015,8 +1015,8 @@
       "advKycNeeded": "Advanced ID Verification is needed for large amount of purchase",
       "advKycPending": "Your Advanced ID Verification is still in PENDING state, Please contact us in intercom if it took longer than 1 working day",
       "emailVerify": "Please provide and verify your email.",
-      "createID": "Create LikeCoin ID to send and receive LikeCoin, and participate in the tokensale.",
-      "createIDSendReceive": "Create LikeCoin ID to send and receive LikeCoin.",
+      "createID": "Create Liker ID to send and receive LikeCoin, and participate in the tokensale.",
+      "createIDSendReceive": "Create Liker ID to send and receive LikeCoin.",
       "verifyToPurchase": "Verify your information to purchase LikeCoin once public sale is live.",
       "emailVerification": "Email Verification",
       "accountVerification": "Account Verification",
@@ -1053,7 +1053,7 @@
       "preSaleBonusDescription": "25% bonus for 10 ETH purchase and above"
     },
     "button": {
-      "createID": "Create LikeCoin ID",
+      "createID": "Create Liker ID",
       "sendEmailAgain": "Send again",
       "start": "Start",
       "next": "Next",
@@ -1098,7 +1098,7 @@
     }
   },
   "Settings": {
-    "title": "LikeCoin ID Settings",
+    "title": "Liker ID Settings",
     "noBoundWallet": "Bind wallet",
     "label": {
       "contactUs": "Contact us for {deleteAccount} or {requestReport}",
@@ -1178,7 +1178,7 @@
     "TWITTER_NOT_FOLLOW": "Please follow @likecoin_fdn on Twitter",
     "TWITTER_QUOTE_INVALID": "Please retweet the correct tweet",
     "TWITTER_URL_INVALID": "The tweet URL is invalid",
-    "USER_ALREADY_EXIST": "LikeCoin ID already exists, please try again.",
+    "USER_ALREADY_EXIST": "Liker ID already exists, please try another ID.",
     "USER_REGISTER_ERROR": "Error occurs during registration",
     "USER_NOT_EXIST": "User is not exist",
     "USER_UNLINK_SOLE_OAUTH_LOGIN": "Unable to unlink. You need at least one sign in method",
@@ -1186,7 +1186,7 @@
     "USER_AUTH_THRID_PARTY_COOKIE_BLOCKED": "You browser has blocked third-party cookies, please disabled this setting in your browser and try again",
     "FIREBASE_USER_DUPLICATED": "This account has already been used for login",
     "OICE_SERVER_ERROR": "Unable to verify, please try angin. If this still happen, please contact us.",
-    "OICE_LIKECOIN_ID_NOT_BIND": "The linkage of LikeCoin ID and oice account is not correct, please make sure your oice account have bind a LikeCoin ID, and that ID is same as your LikeCoin ID.",
+    "OICE_LIKECOIN_ID_NOT_BIND": "The linkage of Liker ID and oice account is not correct, please make sure your oice account have bind a Liker ID, and that ID is same as your Liker ID.",
     "PRE_REG_CIVIC_LIKER_ENDED": "Civic Liker Trial Pre-registration has ended"
   },
   "Form": {
@@ -1272,7 +1272,7 @@
     },
     "registerOice": {
       "title": "Connect oice",
-      "description": "Binding oice account with LikeCoin ID",
+      "description": "Binding oice account with Liker ID",
       "step": {
         "0": {
           "title": "1) Login to oice",
@@ -1280,8 +1280,8 @@
           "button": "Login to oice"
         },
         "1": {
-          "title": "2) Link oice and LikeCoin ID",
-          "description": "Step 2 of 3: Input your LikeCoin ID in oice.com.",
+          "title": "2) Link oice and Liker ID",
+          "description": "Step 2 of 3: Input your Liker ID in oice.com.",
           "button": "Click to Link"
         },
         "2": {
@@ -1343,7 +1343,7 @@
       "followMeOn": "Follow me on"
     },
     "button": {
-      "login": "Login to LikeCoin ID",
+      "login": "Login to Liker ID",
       "sendLike": "Reward",
       "showMore": "show more"
     }
@@ -1351,7 +1351,7 @@
   "Pay": {
     "label": {
       "needToPay": "Need to pay",
-      "dontWorryWithoutLikeCoin": "No LikeCoin? Don't worry! You can earn 13 or more LikeCoin after you have registered LikeCoin ID",
+      "dontWorryWithoutLikeCoin": "No LikeCoin? Don't worry! You can earn 13 or more LikeCoin after you have registered Liker ID",
       "merchantNotFound": "Merchant not found",
       "invalidTransaction": "Invalid transaction"
     },
@@ -1379,8 +1379,8 @@
       "caption": "Simply type your LikeCoin link and press ‘Enter’ in your story"
     },
     "oice": {
-      "title": "Connect with LikeCoin ID",
-      "content": "Bind your LikeCoin ID in {oiceWebsite}. The LikeButton will appear automatically on your oice visual novel after you have bind your LikeCoin ID with your oice account. {oiceInstruction}",
+      "title": "Connect with Liker ID",
+      "content": "Bind your Liker ID in {oiceWebsite}. The LikeButton will appear automatically on your oice visual novel after you have bind your Liker ID with your oice account. {oiceInstruction}",
       "caption": "LikeButton will show aside with your story",
       "label": {
         "instruction": "View the instruction here"
@@ -1417,15 +1417,15 @@
     "label": {
       "thanks": "Thank you for becoming a Content Civics",
       "oneMoreStep": "One More Step to go",
-      "createToEnjoyContent": "Create or connect to your LikeCoin ID before you enjoy LikeContent and give you like to 100+ LikeWriter.",
+      "createToEnjoyContent": "Create or connect to your Liker ID before you enjoy LikeContent and give you like to 100+ LikeWriter.",
       "hiUser": "Hi {user},",
       "thanksForJoining": "Thank you for joining.",
       "buildPlaceForYou": "Together, we’re building a different kind of place on the internet: one designed for you, not for advertisers.",
       "readAndAppreciate": "Read and appreciate the excellent work from the top creators"
     },
     "button": {
-      "connectID": "Connect LikeCoin ID",
-      "howToCreateID": "How to create a LikeCoin ID",
+      "connectID": "Connect Liker ID",
+      "howToCreateID": "How to create a Liker ID",
       "more": "more"
     },
     "url": {
