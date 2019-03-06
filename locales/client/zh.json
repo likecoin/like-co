@@ -1,6 +1,8 @@
 {
   "General": {
     "back": "返回",
+    "accept": "接受",
+    "decline": "拒絕",
     "connect": "連接",
     "disconnect": "取消連接",
     "learnMore": "了解更多",
@@ -1358,6 +1360,13 @@
       "connectedTitle": "你已綁定 Twitter",
       "connected": "現在你可以你的 Twitter 帳號登入 LikeCoin ID。",
       "disclaimer": "我們不會在未經你同意下，以你的名義於 twitter 發佈任何動態消息"
+    }
+  },
+  "OAuthPermissionDialog": {
+    "willReceive": "將會獲取以下資訊：",
+    "scope": {
+      "profile": "公開資料",
+      "email": "電郵"
     }
   },
   "OtherConnectList": {

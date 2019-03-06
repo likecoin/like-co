@@ -1,6 +1,8 @@
 {
   "General": {
     "back": "Back",
+    "accept": "Accept",
+    "decline": "Decline",
     "connect": "Connect",
     "disconnect": "Disconnect",
     "learnMore": "Learn More",
@@ -1451,6 +1453,13 @@
       "connectedTitle": "You are connected to Twitter",
       "connected": "You can now sign in with your Twitter account.",
       "disclaimer": "We will never post to Twitter or message your followers without your permission."
+    }
+  },
+  "OAuthPermissionDialog": {
+    "willReceive": "will receive the following info:",
+    "scope": {
+      "profile": "Public Information",
+      "email": "Email"
     }
   },
   "OtherConnectList": {
