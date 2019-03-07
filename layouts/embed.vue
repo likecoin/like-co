@@ -7,6 +7,13 @@ import localeMixin from '~/mixins/locale';
 
 export default {
   mixins: [localeMixin],
+  head() {
+    return {
+      htmlAttrs: {
+        'likecoin-embed': undefined,
+      },
+    };
+  },
 };
 </script>
 
