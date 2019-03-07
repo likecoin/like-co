@@ -116,10 +116,7 @@ const User = {
     return data;
   },
   getAvatarHaloType(user = {}) {
-    if (user.isCivicLikerTrial) {
-      return 'civic-liker-trial';
-    }
-    if (user.isSubscribedCivicLiker) {
+    if (user.isCivicLikerTrial || user.isSubscribedCivicLiker) {
       return 'civic-liker';
     }
     return 'none';
