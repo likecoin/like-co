@@ -227,6 +227,7 @@ import SocialMediaIcon from '@/components/settings/SocialMediaIcon';
 import {
   DISPLAY_SOCIAL_MEDIA_OPTIONS,
   EXTERNAL_HOSTNAME,
+  LIKE_BUTTON_POST_MESSAGE_TARGET_ORIGIN,
   OICE_URL,
   SOCIAL_MEDIA_LIST,
   WORDPRESS_PLUGIN_URL,
@@ -333,7 +334,7 @@ export default {
       return `https://button.like.co/${this.getUserInfo.user}`;
     },
     previewLikeButtonUrl() {
-      return `https://${EXTERNAL_HOSTNAME}/in/embed/${this.getUserInfo.user}/preview/button`;
+      return `https://button.${EXTERNAL_HOSTNAME}/in/embed/${this.getUserInfo.user}/button/preview`;
     },
     shouldPreviewShowSocialMedia() {
       if (
@@ -411,15 +412,18 @@ export default {
       this.isSubmittingForm = false;
       this.socialMediasIsPublicState = {};
     },
-    updatePreviewInfo(message = {
+    updatePreviewInfo(content = {
       user: this.getUserInfo,
       platforms: this.shouldPreviewShowSocialMedia ? this.publicSocialMedia : {},
     }) {
-      if (this.$refs.previewLikeButton) {
-        this.$refs.previewLikeButton.contentWindow.postMessage({
-          message,
-          type: 'updatePreviewInfo',
-        }, '*');
+      const { previewLikeButton: el } = this.$refs;
+      if (el) {
+        // Strip away any Vue.js reactive listener
+        const message = JSON.parse(JSON.stringify({
+          action: 'PREVIEW',
+          content,
+        }));
+        el.contentWindow.postMessage(message, LIKE_BUTTON_POST_MESSAGE_TARGET_ORIGIN);
       }
     },
     getSocialMediaIsPublic(id) {
