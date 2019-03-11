@@ -162,7 +162,7 @@ import { IS_TESTNET } from '~/constant';
 
 export default {
   layout: 'narrowWithHeader',
-  async asyncData({ store }) {
+  async asyncData({ store, query }) {
     const {
       isSubscribedCivicLiker,
       isCivicLikerTrial,
@@ -170,7 +170,7 @@ export default {
       isExpiredCivicLiker,
       civicLikerStatus,
     } = store.getters.getUserInfo;
-    const isBypassQuota = isCivicLikerTrial || isExpiredCivicLiker;
+    const isBypassQuota = isCivicLikerTrial || isExpiredCivicLiker || query.vip;
 
     let error = '';
     let isCSOnline = false;
