@@ -212,8 +212,10 @@ export default {
     },
     isLoading() {
       this.$nextTick(() => {
-        this.$refs.list.scrollLeft = 0;
-        this.updateScrollIndicator();
+        if (this.$refs.list) {
+          this.$refs.list.scrollLeft = 0;
+          this.updateScrollIndicator();
+        }
       });
     },
   },
