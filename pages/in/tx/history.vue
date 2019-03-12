@@ -56,7 +56,7 @@ export default {
   },
   asyncData({ store, redirect }) {
     const user = store.getters.getUserInfo;
-    if (!user.wallet || !user.isEmailVerified) {
+    if (!user.wallet) {
       redirect('/in');
     }
   },
