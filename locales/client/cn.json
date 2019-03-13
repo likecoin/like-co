@@ -1040,7 +1040,10 @@
     "USER_ALREADY_EXIST": "帐户已经存在",
     "USER_NOT_EXIST": "帐户不存在",
     "OICE_SERVER_ERROR": "伺服器错误，请重载网页并重试。如重复出现该错误，请联络客服。",
-    "OICE_LIKECOIN_ID_NOT_BIND": "oice 跟 LikeCoin ID 的连结有误，请确认你正在登入的 oice 帐号，有绑定 LikeCoin ID ，而且 绑定 ID 跟 目前 ID 一致。"
+    "OICE_LIKECOIN_ID_NOT_BIND": "oice 跟 LikeCoin ID 的连结有误，请确认你正在登入的 oice 帐号，有绑定 LikeCoin ID ，而且 绑定 ID 跟 目前 ID 一致。",
+    "USER_WALLET_INVALID": "电子钱包错误",
+    "TWITTER_LINK_ERROR": "无法连接 Twitter 帐户",
+    "FACEBOOK_LINK_ERROR": "无法连接 Facebook 帐户"
   },
   "Form": {
     "Retweet": {
