@@ -68,9 +68,6 @@ export default {
     ]),
     async updateEmail(newEmail) {
       const userInfo = {
-        user: this.getUserInfo.user,
-        displayName: this.getUserInfo.displayName,
-        wallet: this.getUserInfo.wallet || '',
         email: newEmail,
       };
       return this.updateUser(userInfo);

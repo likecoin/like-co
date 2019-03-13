@@ -124,8 +124,6 @@ export default {
       try {
         const user = this.getUserInfo;
         const userInfo = {
-          user: user.user,
-          wallet: user.wallet,
           isEmailEnabled: this.isEmailEnabled,
         };
         await this.updateUser(userInfo);

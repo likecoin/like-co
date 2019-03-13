@@ -36,6 +36,9 @@ export default async ({
   /* eslint-disable no-param-reassign */
   let locale = defaultLocale;
   if (!process.server) {
+    if (store.state.user.user) {
+      ({ locale } = store.state.user.user);
+    }
     let navLang = (
       navigator.language
       || (navigator.languages && navigator.languages[0])
@@ -48,7 +51,12 @@ export default async ({
         navLang = key;
       }
     });
-    locale = query.language || (window.localStorage && window.localStorage.language) || navLang;
+    locale = (
+      locale
+      || query.language
+      || (window.localStorage && window.localStorage.language)
+      || navLang
+    );
     if (!supportedLocales.includes(locale)) locale = defaultLocale;
   } else if (req) {
     locale = (

@@ -260,7 +260,6 @@ export default {
     ...mapGetters([
       'getUserInfo',
       'getIsPopupBlocking',
-      'getCurrentLocale',
       'getIsFetchingMissions',
       'getIsFetchedMissions',
       'getUserNeedAuth',

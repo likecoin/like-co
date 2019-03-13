@@ -40,7 +40,7 @@
 
 
 <script>
-import { mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import { supportedLocales } from '@/locales';
 import I18nIcon from '@/assets/icons/i18n.svg';
 
@@ -63,13 +63,22 @@ export default {
       locales: supportedLocales,
     };
   },
+  computed: {
+    ...mapGetters([
+      'getCurrentLocale',
+    ]),
+  },
+  watch: {
+    getCurrentLocale(locale) {
+      this.$i18n.loadLanguageAsync(locale);
+      this.$cookie.set('language', locale, { expires: '1M', secure: true });
+    },
+  },
   methods: {
     ...mapActions([
       'setLocale',
     ]),
     onChangeLanguage(locale) {
-      this.$i18n.loadLanguageAsync(locale);
-      this.$cookie.set('language', locale, { expires: '1M', secure: true });
       this.setLocale(locale);
     },
   },

@@ -295,9 +295,7 @@ export default {
       try {
         const userInfo = {
           avatarFile: this.avatarFile,
-          user: this.user,
           displayName: this.displayName,
-          wallet: this.wallet || '',
           email: this.email,
           locale: this.getCurrentLocale,
         };
