@@ -283,7 +283,7 @@
         "whitepaper": "白皮書",
         "onePage": "計畫介紹",
         "redeem": "領取紅包",
-        "createID": "註冊 LikeCoin ID ，改革內容創作生態",
+        "createID": "註冊 Liker ID ，改革內容創作生態",
         "createNow": "馬上註冊",
         "buyCoin": "購買 LikeCoin",
         "earnCoin": "賺取 LikeCoin",
@@ -616,10 +616,10 @@
     "transaction": {
       "label": {
         "waiting": "區塊鏈正處理交易，根據網絡繁忙程度，將於數分鐘到帳。請隨意瀏覽 LikeCoin。",
-        "newUser": "你還沒有 LikeCoin ID，請先註冊帳號。"
+        "newUser": "你還沒有 Liker ID，請先註冊帳號。"
       },
       "button": {
-        "createID": "註冊 LikeCoin ID",
+        "createID": "註冊 Liker ID",
         "buyCoin": "購買 LikeCoin",
         "myAccount": "我的帳號",
         "trade": "買賣 LikeCoin"
@@ -700,15 +700,15 @@
       },
       "error": "帳戶註冊失敗",
       "suggestWalletSignIn": {
-        "id": "此 LikeCoin ID 已被別人使用，請重新再試。若你早前已曾成功註冊了 {id} ，請先在電腦{signIn}",
-        "email": "此電郵地址已被別人使用，請重新再試。若你早前已曾成功以 {email} 註冊了 LikeCoin ID ，請先在電腦{signIn}"
+        "id": "此 Liker ID 已被別人使用，請重新再試。若你早前已曾成功註冊了 {id} ，請先在電腦{signIn}",
+        "email": "此電郵地址已被別人使用，請重新再試。若你早前已曾成功以 {email} 註冊了 Liker ID ，請先在電腦{signIn}"
       },
       "signWithWallet": "以電子錢包登入"
     },
     "Failure": {
       "BindSocialAccounts": {
         "header": "以社交帳號登入",
-        "message": "連結你的社交帳號，可於手機上以更便捷的方式登入 LikeCoin ID。",
+        "message": "連結你的社交帳號，可於手機上以更便捷的方式登入 Liker ID。",
         "confirm": "立即連結"
       }
     }
@@ -718,7 +718,7 @@
     "page": [
       {
         "title": "使用電子錢包保存 LikeCoin",
-        "description": "將 LikeCoin ID 綁定你的電子錢包地址後，你可以：",
+        "description": "將 Liker ID 綁定你的電子錢包地址後，你可以：",
         "bullet": [
           "儲存 LikeCoin 到自己的電子錢包",
           "免費使用 LikeCoin 轉賬服務",
@@ -751,9 +751,9 @@
   },
   "Register": {
     "header": {
-      "title": "註冊 LikeCoin ID・改革內容創作生態",
-      "titleReferral": "{name} 邀請你註冊 LikeCoin ID",
-      "content": "很好，你已經有 MetaMask，可以申請 LikeCoin ID 了。",
+      "title": "註冊 Liker ID・改革內容創作生態",
+      "titleReferral": "{name} 邀請你註冊 Liker ID",
+      "content": "很好，你已經有 MetaMask，可以申請 Liker ID 了。",
       "redeem": "兌換你的 LikeCoin 紅包",
       "button": {
         "what": "LikeCoin：化Like為Coin"
@@ -764,10 +764,10 @@
       "registerRedeem": "註冊並兌換"
     },
     "form": {
-      "createID": "註冊 LikeCoin ID* (最少7個英文字母/數目字)",
+      "createID": "註冊 Liker ID* (最少7個英文字母/數目字)",
       "walletAddress": "以太坊錢包地址",
       "email": "電郵地址",
-      "referrer": "邀請人 LikeCoin ID (可選)",
+      "referrer": "邀請人 Liker ID (可選)",
       "amount": "LikeCoin 數量",
       "displayName": "顯示名稱",
       "claim": "領取",
@@ -817,7 +817,7 @@
   },
   "Edit": {
     "label": {
-      "id": "LikeCoin ID:",
+      "id": "Liker ID:",
       "likeCoinAmount": "LikeCoin 數量",
       "address": "錢包地址",
       "email": "郵件地址",
@@ -847,7 +847,7 @@
       "verifyEmailFirst": "請先認證你的電郵地址",
       "tweetContent": "加入 like.co，獲得免費 LikeCoin!",
       "ogTitle": "化Like為Coin 回饋創作",
-      "ogDescription": "{name} 邀請你註冊 LikeCoin ID ，改革內容創作生態"
+      "ogDescription": "{name} 邀請你註冊 Liker ID ，改革內容創作生態"
     },
     "button": {
       "buyCoin": "購買 LikeCoin",
@@ -879,7 +879,7 @@
       }
     },
     "label": {
-      "recipientId": "收款者 LikeCoin ID",
+      "recipientId": "收款者 Liker ID",
       "recipientAddress": "收款者錢包地址",
       "senderName": "轉帳者姓名",
       "senderAddress": "轉帳者錢包地址",
@@ -983,8 +983,8 @@
       "advKycNeeded": "大額購買需要進行進階身份認證",
       "advKycPending": "您的進階身份認證正在處理中，如已超過 1 個工作天請在 Intercom 與我們聯絡",
       "emailVerify": "請先認證您的電郵地址",
-      "createID": "註冊 LikeCoin ID 收發 LikeCoin 及參與代幣發售",
-      "createIDSendReceive": "註冊 LikeCoin ID 收發 LikeCoin",
+      "createID": "註冊 Liker ID 收發 LikeCoin 及參與代幣發售",
+      "createIDSendReceive": "註冊 Liker ID 收發 LikeCoin",
       "verifyToPurchase": "驗證您的個人資料，在代幣發售時即可購買 LikeCoin",
       "emailVerification": "電郵認證",
       "accountVerification": "帳戶認證",
@@ -1021,7 +1021,7 @@
       "preSaleBonusDescription": "10 ETH 或以上的交易將會獲得 25% 獎勵"
     },
     "button": {
-      "createID": "註冊 LikeCoin ID",
+      "createID": "註冊 Liker ID",
       "sendEmailAgain": "再次發送",
       "start": "開始",
       "next": "下一步",
@@ -1066,7 +1066,7 @@
     }
   },
   "Settings": {
-    "title": "LikeCoin ID 設定",
+    "title": "Liker ID 設定",
     "noBoundWallet": "綁定錢包",
     "label": {
       "contactUs": "如需 {deleteAccount} 或 {requestReport}，請聯絡我們",
@@ -1135,13 +1135,13 @@
       "toIndex": "返回主頁"
     },
     "EMAIL_ALREADY_USED": "此電郵地址已被註冊。請再試一次。",
-    "REFERRER_NOT_EXIST": "推薦人的 LikeCoin ID 不存在",
-    "USER_ALREADY_EXIST": "LikeCoin ID 已存在，請再試一次。",
+    "REFERRER_NOT_EXIST": "推薦人的 Liker ID 不存在",
+    "USER_ALREADY_EXIST": "Liker ID 已存在，請再試一次。",
     "USER_NOT_EXIST": "帳戶不存在",
     "USER_UNLINK_SOLE_OAUTH_LOGIN": "無法移除，請先連接其他登入方法",
     "FIREBASE_USER_DUPLICATED": "登入帳戶已被使用",
     "OICE_SERVER_ERROR": "伺服器錯誤，請重載網頁並重試。如重複出現該錯誤，請聯絡客服。",
-    "OICE_LIKECOIN_ID_NOT_BIND": "oice 跟 LikeCoin ID 的連結有誤，請確認你正在登入的 oice 帳號，有綁定 LikeCoin ID ，而且 綁定 ID 跟 目前 ID 一致。",
+    "OICE_LIKECOIN_ID_NOT_BIND": "oice 跟 Liker ID 的連結有誤，請確認你正在登入的 oice 帳號，有綁定 Liker ID ，而且 綁定 ID 跟 目前 ID 一致。",
     "PRE_REG_CIVIC_LIKER_ENDED": "讚賞公民體驗計劃預先登記已完結",
     "USER_WALLET_INVALID": "電子錢包錯誤",
     "TWITTER_LINK_ERROR": "無法連接 Twitter 帳戶",
@@ -1171,8 +1171,8 @@
       "taskPaymentPage": "檢視你的轉帳頁面"
     },
     "inviteFriend": {
-      "title": "邀請朋友註冊 LikeCoin ID",
-      "description": "邀請朋友註冊LikeCoin ID，你跟你的朋友皆可獲取 8 枚 LikeCoin 獎賞。"
+      "title": "邀請朋友註冊 Liker ID",
+      "description": "邀請朋友註冊Liker ID，你跟你的朋友皆可獲取 8 枚 LikeCoin 獎賞。"
     },
     "joinTokenSale": {
       "title": "參與代幣發售",
@@ -1223,7 +1223,7 @@
     },
     "registerOice": {
       "title": "綁定 oice",
-      "description": "綁定 oice 帳號及 LikeCoin ID",
+      "description": "綁定 oice 帳號及 Liker ID",
       "step": {
         "0": {
           "title": "登入 oice",
@@ -1232,12 +1232,12 @@
         },
         "1": {
           "title": "連結 oice",
-          "description": "連起你的 oice 帳號跟 LikeCoin ID",
+          "description": "連起你的 oice 帳號跟 Liker ID",
           "button": "連結吧"
         },
         "2": {
           "title": "連結 oice",
-          "description": "驗證你己成功連結 oice 帳號到 LikeCoin ID",
+          "description": "驗證你己成功連結 oice 帳號到 Liker ID",
           "button": "驗證"
         }
       },
@@ -1288,12 +1288,12 @@
   "Pay": {
     "label": {
       "needToPay": "需支付",
-      "dontWorryWithoutLikeCoin": "沒有 LikeCoin? 不用擔心，立即申請 LikeCoin ID 可擭得 13 LikeCoin 或以上",
+      "dontWorryWithoutLikeCoin": "沒有 LikeCoin? 不用擔心，立即申請 Liker ID 可擭得 13 LikeCoin 或以上",
       "merchantNotFound": "找不到商戶",
       "invalidTransaction": "無效交易"
     },
     "button": {
-      "registrationTutorial": "申請 LikeCoin ID 教學"
+      "registrationTutorial": "申請 Liker ID 教學"
     }
   },
   "LikeButtonIntro": {
@@ -1316,8 +1316,8 @@
       "caption": "只需在文章中輸入你的 LikeCoin 鏈接，拍一下「換行」"
     },
     "oice": {
-      "title": "連結你的 LikeCoin ID",
-      "content": "在 {oiceWebsite} 連結你的 LikeCoin ID。在 oice.com 連結你的 LikeCoin ID 以後，你創作的故事便會自動顯示 LikeButton。 {oiceInstruction}",
+      "title": "連結你的 Liker ID",
+      "content": "在 {oiceWebsite} 連結你的 Liker ID。在 oice.com 連結你的 Liker ID 以後，你創作的故事便會自動顯示 LikeButton。 {oiceInstruction}",
       "caption": "LikeButton 會在故事旁自動顯示出來",
       "label": {
         "instruction": "點此教學"
@@ -1350,18 +1350,18 @@
     "facebook": {
       "title": "連接 Facebook",
       "connectedTitle": "你已綁定 Facebook",
-      "connected": "現在你可以你的 Facebook 帳號登入 LikeCoin ID",
+      "connected": "現在你可以你的 Facebook 帳號登入 Liker ID",
       "disclaimer": "我們不會在未經你同意下，以你的名義於 Facebook 發佈任何動態消息或訊息"
     },
     "google": {
       "title": "連接 Google",
       "connectedTitle": "你已綁定 Google",
-      "connected": "現在你可以你的 Google 帳號登入 LikeCoin ID。"
+      "connected": "現在你可以你的 Google 帳號登入 Liker ID。"
     },
     "twitter": {
       "title": "連接 Twitter",
       "connectedTitle": "你已綁定 Twitter",
-      "connected": "現在你可以你的 Twitter 帳號登入 LikeCoin ID。",
+      "connected": "現在你可以你的 Twitter 帳號登入 Liker ID。",
       "disclaimer": "我們不會在未經你同意下，以你的名義於 twitter 發佈任何動態消息"
     }
   },
