@@ -361,6 +361,7 @@ export default {
       switch (this.errorCode) {
         case 'USER_ALREADY_EXIST':
         case 'EMAIL_ALREADY_USED':
+        case 'USER_WALLET_INVALID':
           return this.$t('AuthDialog.Register.error');
         default:
           return this.$t('General.label.error');
@@ -377,8 +378,9 @@ export default {
       switch (this.errorCode) {
         case 'USER_ALREADY_EXIST':
         case 'EMAIL_ALREADY_USED':
+        case 'USER_WALLET_INVALID':
           return `AuthDialog.Register.suggestWalletSignIn.${
-            this.errorCode === 'USER_ALREADY_EXIST' ? 'id' : 'email'
+            this.errorCode === 'EMAIL_ALREADY_USED' ? 'email' : 'id'
           }`;
         default:
           return '';
@@ -388,6 +390,7 @@ export default {
       switch (this.errorCode) {
         case 'USER_ALREADY_EXIST':
         case 'EMAIL_ALREADY_USED':
+        case 'USER_WALLET_INVALID':
           return this.$t('General.retry');
         default:
           return this.$t('General.button.confirm');
@@ -551,6 +554,7 @@ export default {
         case 'USER_REGISTER_ERROR':
         case 'EMAIL_ALREADY_USED':
         case 'USER_ALREADY_EXIST':
+        case 'USER_WALLET_INVALID':
           this.currentTab = 'register';
           return;
 
@@ -903,6 +907,7 @@ export default {
           switch (err.response.data) {
             case 'USER_ALREADY_EXIST':
             case 'EMAIL_ALREADY_USED':
+            case 'USER_WALLET_INVALID':
               errCode = err.response.data;
               break;
 

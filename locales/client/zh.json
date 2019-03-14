@@ -1142,7 +1142,10 @@
     "FIREBASE_USER_DUPLICATED": "登入帳戶已被使用",
     "OICE_SERVER_ERROR": "伺服器錯誤，請重載網頁並重試。如重複出現該錯誤，請聯絡客服。",
     "OICE_LIKECOIN_ID_NOT_BIND": "oice 跟 LikeCoin ID 的連結有誤，請確認你正在登入的 oice 帳號，有綁定 LikeCoin ID ，而且 綁定 ID 跟 目前 ID 一致。",
-    "PRE_REG_CIVIC_LIKER_ENDED": "讚賞公民體驗計劃預先登記已完結"
+    "PRE_REG_CIVIC_LIKER_ENDED": "讚賞公民體驗計劃預先登記已完結",
+    "USER_WALLET_INVALID": "電子錢包錯誤",
+    "TWITTER_LINK_ERROR": "無法連接 Twitter 帳戶",
+    "FACEBOOK_LINK_ERROR": "無法連接 Facebook 帳戶"
   },
   "Form": {
     "Retweet": {

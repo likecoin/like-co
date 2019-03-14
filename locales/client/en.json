@@ -1187,7 +1187,10 @@
     "FIREBASE_USER_DUPLICATED": "This account has already been used for login",
     "OICE_SERVER_ERROR": "Unable to verify, please try angin. If this still happen, please contact us.",
     "OICE_LIKECOIN_ID_NOT_BIND": "The linkage of Liker ID and oice account is not correct, please make sure your oice account have bind a Liker ID, and that ID is same as your Liker ID.",
-    "PRE_REG_CIVIC_LIKER_ENDED": "Civic Liker Trial Pre-registration has ended"
+    "PRE_REG_CIVIC_LIKER_ENDED": "Civic Liker Trial Pre-registration has ended",
+    "USER_WALLET_INVALID": "Invalid wallet used.",
+    "TWITTER_LINK_ERROR": "Unable to link Twitter account.",
+    "FACEBOOK_LINK_ERROR": "Unable to link Facebook account."
   },
   "Form": {
     "Retweet": {
