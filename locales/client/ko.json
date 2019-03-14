@@ -266,7 +266,7 @@
                 "whitepaper": "백지",
                 "onePage": "한 페이지",
                 "redeem": "레드 포켓 받기",
-                "createID": "LikeCoin ID를 생성하여 참가하기",
+                "createID": "Liker ID를 생성하여 참가하기",
                 "createNow": "지금 생성하기",
                 "buyCoin": "LikeCoin 구매",
                 "imInterested": "관심이 있습니다",
@@ -563,10 +563,10 @@
         "transaction": {
             "label": {
                 "waiting": "블록체인 확인 대기 중입니다. 네트워크 트래픽으로 몇 분 정도 걸릴 수 있습니다. 작업이 완료될 때까지 like.co를 브라우징하실 수 있습니다",
-                "newUser": "LikeCoin ID가 없으신 것 같습니다. 지금 생성하기."
+                "newUser": "Liker ID가 없으신 것 같습니다. 지금 생성하기."
             },
             "button": {
-                "createID": "LikeCoin ID 생성하기",
+                "createID": "Liker ID 생성하기",
                 "buyCoin": "LikeCoin 구매",
                 "myAccount": "내 계정"
             }
@@ -614,8 +614,8 @@
     },
     "Register": {
         "header": {
-            "title": "LikeCoin ID를 생성해서 LikeCoin을 전송 및 수령",
-            "titleReferral": "{name}에 가입해서 LikeCoin ID를 생성",
+            "title": "Liker ID를 생성해서 LikeCoin을 전송 및 수령",
+            "titleReferral": "{name}에 가입해서 Liker ID를 생성",
             "content": "잘하셨어요! Metamask는 이미 설치돼 있는 것 같습니다. 이제 LikeCoin을 수령 또는 전송하실 준비가 완료됐습니다.",
             "redeem": "무료 LikeCoin 수령하기",
             "button": {
@@ -627,10 +627,10 @@
             "registerRedeem": "계정 생성하고 받기"
         },
         "form": {
-            "createID": "LikeCoin ID 생성하기 (최소 7 글자)",
+            "createID": "Liker ID 생성하기 (최소 7 글자)",
             "walletAddress": "지갑 주소",
             "email": "이메일",
-            "referrer": "LikeCoin ID 추천인 (선택 사항)",
+            "referrer": "Liker ID 추천인 (선택 사항)",
             "amount": "LikeCoin 수량:",
             "displayName": "표시명",
             "claim": "획득",
@@ -656,7 +656,7 @@
     },
     "Edit": {
         "label": {
-            "id": "LikeCoin ID:",
+            "id": "Liker ID:",
             "likeCoinAmount": "LikeCoin 수량",
             "address": "내 주소",
             "email": "내 이메일",
@@ -718,7 +718,7 @@
             }
         },
         "label": {
-            "recipientId": "LikeCoin ID 수신인",
+            "recipientId": "Liker ID 수신인",
             "recipientAddress": "수신인 주소",
             "senderName": "전송인 표시명",
             "senderAddress": "전송인 주소",
@@ -750,11 +750,11 @@
     "ReferralPage": {
         "title": "{name}님께서 LikeCoin 가입에 귀하를 초대했습니다",
         "label": {
-            "invitation": "LikeCoin ID를 생성해서 LikeCoin을 전송하고 받으세요.<br/><br/>지금 LikeCoin ID를 생성하시면 본인과 {name}님 모두에게 보너스로 8 Like를 드립니다."
+            "invitation": "Liker ID를 생성해서 LikeCoin을 전송하고 받으세요.<br/><br/>지금 Liker ID를 생성하시면 본인과 {name}님 모두에게 보너스로 8 Like를 드립니다."
         },
         "og": {
             "title": "{name}님께서 LikeCoin 가입에 귀하를 초대했습니다",
-            "description": "지금 LikeCoin ID를 생성하시면 본인과 {name}님 모두에게 보너스로 8 Like를 드립니다. 토큰 판매에 참여하시면, 두 분 모두에게 2.5% 추가 보너스를 드립니다."
+            "description": "지금 Liker ID를 생성하시면 본인과 {name}님 모두에게 보너스로 8 Like를 드립니다. 토큰 판매에 참여하시면, 두 분 모두에게 2.5% 추가 보너스를 드립니다."
         }
     },
     "TokenSale": {
@@ -831,8 +831,8 @@
             "advKycNeeded": "많은 금액을 구매하시려면 고급 ID 인증이 필요합니다",
             "advKycPending": "고객님의 고급 ID 인증이 아직 대기 중 상태입니다. 5 영업일을 넘게 소요된 경우, 인터콤을 통해 문의해 주시기 바랍니다",
             "emailVerify": "이메일을 제공 및 인증하세요.",
-            "createID": "LikeCoin 전송 및 수령을 하시려면 LikeCoin ID를 생성하고, 토큰 판매에 참가하세요.",
-            "createIDSendReceive": "LikeCoin ID를 생성해서 LikeCoin을 전송하고 받아 보세요.",
+            "createID": "LikeCoin 전송 및 수령을 하시려면 Liker ID를 생성하고, 토큰 판매에 참가하세요.",
+            "createIDSendReceive": "Liker ID를 생성해서 LikeCoin을 전송하고 받아 보세요.",
             "verifyToPurchase": "공개 판매가 진행되면 본인의 정보를 인증해서 LikeCoin을 구매하세요.",
             "emailVerification": "이메일 인증",
             "accountVerification": "계정 인증",
@@ -869,7 +869,7 @@
             "preSaleBonusDescription": "10 ETH 이상 구매시 25% 보너스 보상"
         },
         "button": {
-            "createID": "LikeCoin ID 생성하기",
+            "createID": "Liker ID 생성하기",
             "sendEmailAgain": "다시 전송",
             "start": "시작하기",
             "next": "다음",

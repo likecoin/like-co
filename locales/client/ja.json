@@ -269,7 +269,7 @@
         "whitepaper": "ホワイトペーパー",
         "onePage": "ワンページサマリー",
         "redeem": "レッドポケットを入手する",
-        "createID": "ムーブメントに参加するにはLikeCoin IDの作成が必要です",
+        "createID": "ムーブメントに参加するにはLiker IDの作成が必要です",
         "createNow": "今すぐ作成する",
         "buyCoin": "LikeCoinを購入",
         "imInterested": "関心があります",
@@ -566,10 +566,10 @@
     "transaction": {
       "label": {
         "waiting": "ブロックチェーンの確認を待機中です。ネットワークの通信状況により、数分かかる場合があります。確認が完了するまでの間、like.co内を自由に閲覧することができます。",
-        "newUser": "LikeCoin IDをお持ちでないようですね。今すぐ作成しましょう。"
+        "newUser": "Liker IDをお持ちでないようですね。今すぐ作成しましょう。"
       },
       "button": {
-        "createID": "LikeCoin IDを作成",
+        "createID": "Liker IDを作成",
         "buyCoin": "LikeCoinを購入",
         "myAccount": "マイアカウント"
       }
@@ -648,7 +648,7 @@
     "Failure": {
       "BindSocialAccounts": {
         "header": "SNSアカウントでサインイン",
-        "message": "「リンク」SNSアカウントをリンクして、携帯で簡単にLikeCoin IDにログインする。"
+        "message": "「リンク」SNSアカウントをリンクして、携帯で簡単にLiker IDにログインする。"
       }
     }
   },
@@ -661,8 +661,8 @@
   },
   "Register": {
     "header": {
-      "title": "LikeCoinを送受信するにはLikeCoin IDを作成しましょう",
-      "titleReferral": "{name}に参加してLikeCoin IDを作成しましょう",
+      "title": "LikeCoinを送受信するにはLiker IDを作成しましょう",
+      "titleReferral": "{name}に参加してLiker IDを作成しましょう",
       "content": "素晴らしい！Metamaskが既にインストールされているようです。これでLikeCoinを送金・受取りする準備ができました。",
       "redeem": "無料のLikeCoinと引き換える",
       "button": {
@@ -674,10 +674,10 @@
       "registerRedeem": "アカウントを作成して受け取る"
     },
     "form": {
-      "createID": "LikeCoin IDを作成する（7文字以上）",
+      "createID": "Liker IDを作成する（7文字以上）",
       "walletAddress": "ウォレットのアドレス",
       "email": "メール",
-      "referrer": "紹介者のLikeCoin ID（任意）",
+      "referrer": "紹介者のLiker ID（任意）",
       "amount": "LikeCoinの金額:",
       "displayName": "表示名",
       "claim": "受け取る",
@@ -722,7 +722,7 @@
   },
   "Edit": {
     "label": {
-      "id": "LikeCoin ID:",
+      "id": "Liker ID:",
       "likeCoinAmount": "LikeCoinの金額",
       "address": "ウォレットのアドレス",
       "email": "メールアドレス",
@@ -784,7 +784,7 @@
       }
     },
     "label": {
-      "recipientId": "受信者のLikeCoin ID",
+      "recipientId": "受信者のLiker ID",
       "recipientAddress": "受信者のアドレス",
       "senderName": "送信者の表示名",
       "senderAddress": "送信者のアドレス",
@@ -816,11 +816,11 @@
   "ReferralPage": {
     "title": "{name}さんがあなたをLikeCoinに招待しました",
     "label": {
-      "invitation": "LikeCoinを送受信するにはLikeCoin IDを作成しましょう。<br/><br/>今すぐLikeCoin IDを作成すると、あなたと{name}さんは8件の「いいね」ボーナスを取得できます。"
+      "invitation": "LikeCoinを送受信するにはLiker IDを作成しましょう。<br/><br/>今すぐLiker IDを作成すると、あなたと{name}さんは8件の「いいね」ボーナスを取得できます。"
     },
     "og": {
       "title": "{name}さんがあなたをLikeCoinに招待しました",
-      "description": "今すぐLikeCoin IDを作成すると、あなたと{name}さんは8件の「いいね」ボーナスを取得できます。トークン販売に参加すると、二人ともそれぞれ2.5%のボーナスを獲得できます。"
+      "description": "今すぐLiker IDを作成すると、あなたと{name}さんは8件の「いいね」ボーナスを取得できます。トークン販売に参加すると、二人ともそれぞれ2.5%のボーナスを獲得できます。"
     }
   },
   "TokenSale": {
@@ -897,8 +897,8 @@
       "advKycNeeded": "高額購入には詳細な身分証明が必要です",
       "advKycPending": "お客様の詳細な身分証明書の確認はまだ「保留中」の状態です。1営業日以上かかっている場合は「インターコム」からお問い合わせください",
       "emailVerify": "メールアドレスの指定と確認を行ってください。",
-      "createID": "LikeCoinを送受信するためにLikeCoin IDを作成し、トークン販売に参加しましょう。",
-      "createIDSendReceive": "LikeCoinを送受信するにはLikeCoin IDを作成しましょう。",
+      "createID": "LikeCoinを送受信するためにLiker IDを作成し、トークン販売に参加しましょう。",
+      "createIDSendReceive": "LikeCoinを送受信するにはLiker IDを作成しましょう。",
       "verifyToPurchase": "公売が開始したら、情報の認証を行ってLikeCoinを購入してください。",
       "emailVerification": "メールアドレス認証",
       "accountVerification": "アカウント認証",
@@ -935,7 +935,7 @@
       "preSaleBonusDescription": "10ETH以上の購入で25％のボーナス"
     },
     "button": {
-      "createID": "LikeCoin IDを作成",
+      "createID": "Liker IDを作成",
       "sendEmailAgain": "再送信",
       "start": "開始",
       "next": "次へ",
@@ -1096,7 +1096,7 @@
       "followMeOn": "Follow me on"
     },
     "button": {
-      "login": "LikeCoin IDにログイン",
+      "login": "Liker IDにログイン",
       "sendLike": "報いる",
       "showMore": "もっと見る"
     }
@@ -1104,7 +1104,7 @@
   "Pay": {
     "label": {
       "needToPay": "Need to pay",
-      "dontWorryWithoutLikeCoin": "No LikeCoin? Don't worry! You can earn 13 or more LikeCoin after you have registered LikeCoin ID",
+      "dontWorryWithoutLikeCoin": "No LikeCoin? Don't worry! You can earn 13 or more LikeCoin after you have registered Liker ID",
       "merchantNotFound": "Merchant not found",
       "invalidTransaction": "Invalid transaction"
     },
@@ -1132,8 +1132,8 @@
       "caption": "次に、「Enter」を押すと、Likeボタンが自動的に表示されます。"
     },
     "oice": {
-      "title": "LikeCoin IDと接続する",
-      "content": "{oiceWebsite} をクリックし、指示に従って、LikeCoin IDを接続してください。 {oiceInstruction}",
+      "title": "Liker IDと接続する",
+      "content": "{oiceWebsite} をクリックし、指示に従って、Liker IDを接続してください。 {oiceInstruction}",
       "caption": "接続後、Likeボタンがすべてのページの下部に自動的に追加されます。",
       "label": {
         "instruction": "指示を見る"
@@ -1170,15 +1170,15 @@
     "label": {
       "thanks": "Thank you for becoming a Content Civics",
       "oneMoreStep": "One More Step to go",
-      "createToEnjoyContent": "Create or connect to your LikeCoin ID before you enjoy LikeContent and give you like to 100+ LikeWriter.",
+      "createToEnjoyContent": "Create or connect to your Liker ID before you enjoy LikeContent and give you like to 100+ LikeWriter.",
       "hiUser": "Hi {user},",
       "thanksForJoining": "Thank you for joining.",
       "buildPlaceForYou": "Together, we’re building a different kind of place on the internet: one designed for you, not for advertisers.",
       "readAndAppreciate": "Read and appreciate the excellent work from the top creators"
     },
     "button": {
-      "connectID": "LikeCoin IDを接続する",
-      "howToCreateID": "LikeCoin IDを作成する方法",
+      "connectID": "Liker IDを接続する",
+      "howToCreateID": "Liker IDを作成する方法",
       "more": "more"
     },
     "url": {
