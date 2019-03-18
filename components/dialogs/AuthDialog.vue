@@ -290,6 +290,10 @@ import {
   tryPostLoginRedirect,
 } from '~/util/client';
 
+function getRandomPaddedDigits(length) {
+  return String(Math.floor(Math.random() * (10 ** length))).padStart(length, '0');
+}
+
 export default {
   name: 'auth-dialog',
   components: {
@@ -891,7 +895,7 @@ export default {
         let tries = 0;
         let tryName = suggestedName;
         if (suggestedName.length < MIN_USER_ID_LENGTH) {
-          tryName = `${suggestedName}${String(Math.ceil(Math.random() * 10000)).padStart(RANDOM_DIGIT_LENGTH, '0')}`;
+          tryName = `${suggestedName}${getRandomPaddedDigits(RANDOM_DIGIT_LENGTH)}`;
         }
         while (!isIDAvailable && tries < MAX_SUGGEST_TRY) {
           try {
@@ -900,10 +904,11 @@ export default {
             if (err.response) {
               if (err.response.status === 404) {
                 isIDAvailable = true;
+                break;
               }
             }
           }
-          tryName = `${suggestedName}${String(Math.ceil(Math.random() * 10000)).padStart(RANDOM_DIGIT_LENGTH, '0')}`;
+          tryName = `${suggestedName}${getRandomPaddedDigits(RANDOM_DIGIT_LENGTH)}`;
           tries += 1;
         }
         if (isIDAvailable && tryName && ValidationHelper.checkUserNameValid(tryName)) {
