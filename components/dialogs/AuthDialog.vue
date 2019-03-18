@@ -246,11 +246,18 @@
 
 
 <script>
+import Vue from 'vue'; // eslint-disable-line import/no-extraneous-dependencies
 import { mapActions, mapGetters } from 'vuex';
+
+import {
+  MIN_USER_ID_LENGTH,
+  MAX_USER_ID_LENGTH,
+} from '@/constant';
 
 import {
   apiLoginUser,
   apiCheckIsUser,
+  apiGetUserMinById,
 } from '@/util/api/api';
 
 import {
@@ -263,6 +270,8 @@ import {
   getSignInPayloadFromSignInResult,
   getPlatformFromProviderId,
 } from '~/util/FirebaseApp';
+
+import { ValidationHelper } from '@/util/ValidationHelper';
 
 import BaseDialog from '~/components/dialogs/BaseDialog';
 import SigninPortal from './AuthDialogContent/SignInPortal';
@@ -870,6 +879,36 @@ export default {
           ...this.signInPayload,
           ...preRegisterPayload,
         };
+      }
+
+      if (this.signInPayload.email) {
+        const RANDOM_DIGIT_LENGTH = 5;
+        const MAX_SUGGEST_TRY = 5;
+        let [suggestedName] = this.signInPayload.email.split('@');
+        suggestedName = suggestedName.trim().toLowerCase().replace(/[^a-z0-9-_]/g, '-');
+        suggestedName = suggestedName.substring(0, MAX_USER_ID_LENGTH - RANDOM_DIGIT_LENGTH);
+        let isIDAvailable = false;
+        let tries = 0;
+        let tryName = suggestedName;
+        if (suggestedName.length < MIN_USER_ID_LENGTH) {
+          tryName = `${suggestedName}${String(Math.ceil(Math.random() * 10000)).padStart(RANDOM_DIGIT_LENGTH, '0')}`;
+        }
+        while (!isIDAvailable && tries < MAX_SUGGEST_TRY) {
+          try {
+            await apiGetUserMinById(tryName); // eslint-disable-line no-await-in-loop
+          } catch (err) {
+            if (err.response) {
+              if (err.response.status === 404) {
+                isIDAvailable = true;
+              }
+            }
+          }
+          tryName = `${suggestedName}${String(Math.ceil(Math.random() * 10000)).padStart(RANDOM_DIGIT_LENGTH, '0')}`;
+          tries += 1;
+        }
+        if (isIDAvailable && tryName && ValidationHelper.checkUserNameValid(tryName)) {
+          Vue.set(this.signInPayload, 'defaultLikeCoinId', tryName);
+        }
       }
 
       this.currentTab = 'register';

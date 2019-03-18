@@ -1,4 +1,6 @@
 import {
+  MIN_USER_ID_LENGTH,
+  MAX_USER_ID_LENGTH,
   GETTING_STARTED_TASKS,
   DISPLAY_SOCIAL_MEDIA_OPTIONS,
 } from '../constant';
@@ -8,7 +10,7 @@ export const ValidationHelper = {
     return addr.length === 42 && addr.substr(0, 2) === '0x';
   },
   checkUserNameValid(user) {
-    return user && (/^[a-z0-9-_]+$/.test(user) && user.length >= 7 && user.length <= 20);
+    return user && (/^[a-z0-9-_]+$/.test(user) && user.length >= MIN_USER_ID_LENGTH && user.length <= MAX_USER_ID_LENGTH);
   },
   filterUserData(u) {
     const {
