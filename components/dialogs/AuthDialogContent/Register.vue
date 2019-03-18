@@ -172,7 +172,7 @@ export default {
 
       avatarData: null,
       avatarFile: null,
-      likeCoinId: '',
+      likeCoinId: this.prefilledData.defaultLikeCoinId || '',
       email: this.prefilledData.email,
       isEmailEnabled: false,
       isTermsAgreed: false,
