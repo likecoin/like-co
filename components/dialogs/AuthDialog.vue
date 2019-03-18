@@ -353,7 +353,7 @@ export default {
     },
     isEmailEditable() {
       return (
-        !(this.signInPayload.isEmailVerified && this.platform === 'google')
+        !(this.signInPayload.isEmailVerified && this.signInPayload.email)
         && this.platform !== 'email'
       );
     },
@@ -709,7 +709,7 @@ export default {
                     } else {
                       reject(new Error('FACEBOOK_AUTH_REJECTED'));
                     }
-                  }, { scope: 'public_profile,pages_show_list,user_link' });
+                  }, { scope: 'public_profile,email,pages_show_list,user_link' });
                 }
               });
             });
@@ -835,7 +835,7 @@ export default {
           preRegisterPayload = await new Promise((resolve) => {
             if (!window.FB) resolve();
             window.FB.api(
-              '/me?fields=name,email',
+              '/me?fields=id,name,email',
               ({ name, email }) => {
                 // Get avatar
                 window.FB.api(
