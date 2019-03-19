@@ -492,6 +492,7 @@ export default {
           this.currentTab = 'email';
           this.errorCode = 'FIREBASE_EMAIL_LINK_AUTH_NO_EMAIL';
         } else {
+          console.error(err);
           this.setError();
           this.isSigningInWithEmail = false;
         }
@@ -737,11 +738,12 @@ export default {
                 .auth
                 .FacebookAuthProvider
                 .credential(this.signInPayload.accessToken),
-            ).catch();
+            ).catch((err) => { console.error(err); });
             if (userCredential && userCredential.user) {
               this.signInPayload.firebaseIdToken = await userCredential.user.getIdToken();
             }
           } catch (err) {
+            console.error(err);
             this.currentTab = 'portal';
             return;
           }
@@ -795,6 +797,7 @@ export default {
           }
         }
 
+        console.error(err);
         this.setError();
         return;
       }
@@ -811,6 +814,7 @@ export default {
           // Return to login portal if user denied signing
           this.currentTab = 'portal';
         } else {
+          console.error(err);
           this.setError();
         }
       }
@@ -834,6 +838,7 @@ export default {
             return;
           }
         }
+        console.error(err);
         this.setError();
       }
     },
