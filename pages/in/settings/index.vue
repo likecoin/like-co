@@ -439,14 +439,12 @@ export default {
       if (this.hasUserDetailsChanged) {
         try {
           const { avatarFile, displayName } = this;
-          const { user, wallet = '' } = this.getUserInfo;
+          const { user } = this.getUserInfo;
           const email = this.email.trim();
           const userInfo = {
             avatarFile,
             displayName,
             email,
-            user,
-            wallet,
           };
           const hasEmailChanged = this.getUserInfo.email !== email;
 

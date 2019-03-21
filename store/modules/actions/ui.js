@@ -4,9 +4,13 @@ import * as api from '@/util/api/api';
 import { WALLET_NOTICE_EXPIRY_INTERVAL } from '@/constant';
 import apiWrapper from './api-wrapper';
 
-export const setLocale = ({ commit }, locale) => {
+export const setLocale = ({ commit, dispatch, rootState }, locale) => {
   commit(types.UI_SET_LOCALE, locale);
   commit(types.UI_CLOSE_SLIDING_MENU);
+  const userState = rootState.user;
+  if (userState.user.user && locale !== userState.user.locale) {
+    dispatch('updateUser', { locale });
+  }
 };
 
 export const setMetamaskError = ({ commit }, msg) => {

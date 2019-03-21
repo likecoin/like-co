@@ -159,6 +159,9 @@ export async function refreshUser({ commit, state, dispatch }) {
       commit(types.UI_INFO_MSG, '');
       commit(types.MISSION_CLEAR_ALL);
     }
+    if (user && user.locale) {
+      dispatch('setLocale', user.locale);
+    }
   } catch (error) {
     console.error(error);
     commit(types.USER_SET_USER_INFO, {});
@@ -170,6 +173,9 @@ export async function refreshUserInfo({ commit, dispatch }) {
   const user = await apiWrapper({ commit, dispatch }, api.apiGetUserSelf(), { slient: true });
   if (user) {
     commit(types.USER_SET_USER_INFO, user);
+  }
+  if (user && user.locale) {
+    dispatch('setLocale', user.locale);
   }
 }
 
