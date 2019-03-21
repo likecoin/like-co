@@ -42,12 +42,11 @@ export default {
       'getUserIsRegistered',
     ]),
   },
-  fetch({ store }) {
-    store.dispatch('setAuthDialog', { isShow: true });
+  created() {
+    this.setAuthDialog({ isShow: !this.getUserIsRegistered });
   },
   mounted() {
     if (this.getUserIsRegistered) {
-      this.setAuthDialog({ isShow: false });
       const router = this.$router;
       const route = this.$route;
       if (!tryPostLoginRedirect({ route })) {
