@@ -503,7 +503,7 @@ export default {
     const { redirect_sign_in: isRedirectSignIn, ...query } = this.$route.query;
     if (isRedirectSignIn) {
       this.$router.replace({
-        name: this.$router.name,
+        name: this.$route.name,
         query,
       });
 
