@@ -29,6 +29,7 @@
           :toId="toId"
           :toName="toName"
           :toAddress="to"
+          :toAvatarHalo="toAvatarHalo"
           :timestamp="timestamp"
           :amount="amount"
         />
@@ -154,6 +155,7 @@ import PopupDialog from '~/components/dialogs/PopupDialog';
 
 import { apiGetTxById, apiGetUserMinById } from '@/util/api/api';
 import { openURL } from '~/util/client';
+import UserUtil from '~/util/User';
 
 const ONE_LIKE = new BigNumber(10).pow(18);
 const PENDING_UPDATE_INTERVAL = 1000; // 1s
@@ -181,6 +183,7 @@ export default {
       fromName: '',
       toName: '',
       toAvatar: '',
+      toAvatarHalo: 'none',
       remarks: '',
       timestamp: 0,
       value: '', // BN in string
@@ -318,6 +321,7 @@ export default {
       if (toData && toData.data) {
         this.toName = toData.data.displayName || toData.data.user;
         this.toAvatar = toData.data.avatar;
+        this.toAvatarHalo = UserUtil.getAvatarHaloType(toData.data);
       }
     },
   },

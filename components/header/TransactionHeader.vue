@@ -2,24 +2,24 @@
   <section class="lc-transaction-header">
     <div class="lc-container-2">
       <div class="lc-container-3 lc-bg-gray-1 icon-wrapper">
-        <div class="icon">
-          <nuxt-link
-            v-if="toId"
-            :to="{ name: 'id', params: { id: toId } }"
-          >
-            <img
-              :src="icon"
-              alt="avatar"
-              class="main-icon"
-            >
-          </nuxt-link>
-          <img
-            v-else
-            :src="likeCoinIcon"
-            alt="likecoin"
-            class="main-icon"
-          >
-        </div>
+        <nuxt-link
+          v-if="toId"
+          :to="{ name: 'id', params: { id: toId } }"
+          class="recipient-avatar"
+        >
+          <LcAvatar
+            :src="icon"
+            :halo="toAvatarHalo"
+            :alt="toId"
+            size="128"
+          />
+        </nuxt-link>
+        <img
+          v-else
+          :src="likeCoinIcon"
+          alt="likecoin"
+          class="default-icon"
+        >
       </div>
     </div>
 
@@ -140,6 +140,10 @@ export default {
       type: String,
       default: '',
     },
+    toAvatarHalo: {
+      type: String,
+      default: 'none',
+    },
     timestamp: {
       type: Number,
       default: 0,
@@ -192,21 +196,10 @@ $status-icon-size: 32px;
   position: relative;
 
   .icon-wrapper {
+    z-index: 1;
+
     display: flex;
     justify-content: center;
-
-    .icon {
-
-      position: relative;
-      z-index: 1;
-
-      overflow: hidden;
-
-      width: 128px;
-      height: 128px;
-
-      border-radius: 50%;
-    }
   }
 
   .heading {
@@ -214,8 +207,6 @@ $status-icon-size: 32px;
 
     display: flex;
     flex-direction: row;
-
-    margin-top: -24px;
 
     text-align: center;
 
@@ -264,13 +255,14 @@ $status-icon-size: 32px;
   }
 }
 
+.default-icon {
+  width: 128px;
+  height: 128px;
+  margin-bottom: -24px;
+}
 
-.main-icon {
-  display: inline;
-
-  width: auto;
-  height: 100%;
-  margin: 0 auto;
+.recipient-avatar {
+  margin-bottom: -16px;
 }
 
 .transaction-container {
