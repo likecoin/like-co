@@ -70,7 +70,7 @@
 
               <div class="links-wrapper lc-margin-top-12">
                 <a
-                  :href="LIQUID_LIKEETH_URL"
+                  :href="PURCHASE_LIKE_URL"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -92,7 +92,7 @@
 
 
 <script>
-import { LIQUID_LIKEETH_URL } from '@/constant';
+import { PURCHASE_LIKE_URL } from '@/constant';
 
 const milestones = [true, true, true, true, true, true, false];
 
@@ -102,7 +102,7 @@ export default {
     const progressPercent = milestones.filter(v => v).length / milestones.length * 100 - 10;
     return {
       milestones,
-      LIQUID_LIKEETH_URL,
+      PURCHASE_LIKE_URL,
       progressStyle: `height: ${progressPercent}%;width: ${progressPercent}%`,
     };
   },

@@ -17,7 +17,7 @@
       </div>
 
       <a
-        :href="LIQUID_LIKEETH_URL"
+        :href="PURCHASE_LIKE_URL"
         class="lc-underline"
         rel="noopener noreferrer"
         target="_blank"
@@ -57,7 +57,7 @@
 
 
 <script>
-import { LIQUID_LIKEETH_URL } from '@/constant';
+import { PURCHASE_LIKE_URL } from '@/constant';
 
 export default {
   name: 'like-coin-amount',
@@ -89,7 +89,7 @@ export default {
   },
   data() {
     return {
-      LIQUID_LIKEETH_URL,
+      PURCHASE_LIKE_URL,
     };
   },
   methods: {

@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import { LIQUID_LIKEETH_URL } from '@/constant';
+import { PURCHASE_LIKE_URL } from '@/constant';
 
 const INFO_PLATFORMS = [
   {
@@ -110,9 +110,14 @@ const INFO_PLATFORMS = [
 
 const TRADE_PLATFORMS = [
   {
+    id: 'bit-asset',
+    image: 'bit-asset.svg',
+    url: PURCHASE_LIKE_URL,
+  },
+  {
     id: 'liquid',
     image: 'liquid.png',
-    url: LIQUID_LIKEETH_URL,
+    url: 'https://app.liquid.com/exchange/LIKEETH',
   },
   // { ----------- pending for support
   //   id: 'myethshop',
@@ -212,6 +217,8 @@ export default {
     margin: 6px;
 
     img {
+      width: 100%;
+
       transition: transform .2s ease-in;
 
       border: 1px solid $gray-e6;

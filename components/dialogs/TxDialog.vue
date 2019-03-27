@@ -51,7 +51,7 @@
     >
       <div class="lc-button-group">
         <md-button
-          :href="LIQUID_LIKEETH_URL"
+          :href="PURCHASE_LIKE_URL"
           class="md-likecoin"
           target="_blank"
           rel="noopener noreferrer"
@@ -77,7 +77,7 @@
 import BaseDialog from '~/components/dialogs/BaseDialog';
 import CheckIcon from '~/components/Mission/StateIcon';
 
-import { LIQUID_LIKEETH_URL } from '@/constant';
+import { PURCHASE_LIKE_URL } from '@/constant';
 
 export default {
   name: 'tx-dialog',
@@ -113,7 +113,7 @@ export default {
   },
   data() {
     return {
-      LIQUID_LIKEETH_URL,
+      PURCHASE_LIKE_URL,
     };
   },
   computed: {

@@ -54,7 +54,7 @@
                   </li>
                   <li>
                     <md-button
-                      :href="LIQUID_LIKEETH_URL"
+                      :href="PURCHASE_LIKE_URL"
                       class="cta-btn support md-likecoin shadow lc-text-align-center"
                       rel="noopener noreferrer"
                       target="_blank"
@@ -112,7 +112,7 @@ import TokenSaleProgress from '~/components/TokenSaleProgress';
 
 import {
   FINAL_TOKENSALE_ETH_VALUE,
-  LIQUID_LIKEETH_URL,
+  PURCHASE_LIKE_URL,
 } from '@/constant';
 
 export default {
@@ -133,7 +133,7 @@ export default {
   data() {
     return {
       tokenSaleAmount: FINAL_TOKENSALE_ETH_VALUE,
-      LIQUID_LIKEETH_URL,
+      PURCHASE_LIKE_URL,
     };
   },
   computed: {
