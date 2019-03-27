@@ -29,6 +29,9 @@
 ## Build Setup
 
 ``` bash
+# init and pull submodules
+$ git submodule init && git submodule update
+
 # install dependencies
 $ npm install # Or yarn install
 
