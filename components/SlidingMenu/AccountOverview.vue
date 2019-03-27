@@ -52,7 +52,7 @@
         >{{ $t('CivicPage.title') }}</md-button>
       </div>
       <a
-        :href="LIQUID_LIKEETH_URL"
+        :href="PURCHASE_LIKE_URL"
         class="lc-underline lc-margin-top-12"
         rel="noopener noreferrer"
         target="_blank"
@@ -64,7 +64,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-import { LIQUID_LIKEETH_URL } from '@/constant';
+import { PURCHASE_LIKE_URL } from '@/constant';
 
 import User from '@/util/User';
 
@@ -72,7 +72,7 @@ export default {
   name: 'account-overview',
   data() {
     return {
-      LIQUID_LIKEETH_URL,
+      PURCHASE_LIKE_URL,
     };
   },
   computed: {
