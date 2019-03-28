@@ -4,6 +4,9 @@ import Web3 from 'web3';
 import { LIKE_COIN_ABI, LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin';
 import { IS_TESTNET, INFURA_HOST, CONFIRMATION_NEEDED } from '@/constant';
 
+import * as TxInfo from './txInfo/txInfo';
+import { isReceiptSuccess } from './txInfo/receipt';
+
 const abiDecoder = require('@likecoin/abi-decoder/dist/es5');
 
 
@@ -22,10 +25,6 @@ function prettifyNumber(n) {
     until += 3;
   }
   return arr.join(' ');
-}
-
-function isReceiptSuccess(txReceipt) {
-  return txReceipt && txReceipt.status !== false && txReceipt.status !== 0 && txReceipt.status !== '0x0';
 }
 
 class EthHelper {
@@ -207,41 +206,6 @@ class EthHelper {
     };
   }
 
-  async getEthTransferInfo(txHash, tx, blockNo) {
-    const web3Instance = this.queryWeb3;
-    let t = tx;
-    let currentBlockNumber = blockNo;
-    if (!t) t = await this.queryWeb3.eth.getTransaction(txHash);
-    if (!blockNo) currentBlockNumber = await web3Instance.eth.getBlockNumber();
-    if (!t || !currentBlockNumber) throw new Error('Cannot find transaction');
-    let _to = web3Instance.utils.toChecksumAddress(t.to);
-    let _from = web3Instance.utils.toChecksumAddress(t.from);
-    let _value = t.value;
-    if (!t.blockNumber || (currentBlockNumber - t.blockNumber < CONFIRMATION_NEEDED)) {
-      return {
-        isEth: true,
-        _from,
-        _to,
-        _value,
-      };
-    }
-    const [r, block] = await Promise.all([
-      web3Instance.eth.getTransactionReceipt(txHash),
-      web3Instance.eth.getBlock(t.blockNumber),
-    ]);
-    _to = web3Instance.utils.toChecksumAddress(r.to);
-    _from = web3Instance.utils.toChecksumAddress(r.from);
-    _value = t.value;
-    return {
-      isEth: true,
-      isFailed: r && !isReceiptSuccess(r),
-      _to,
-      _from,
-      _value,
-      timestamp: block ? block.timestamp : 0,
-    };
-  }
-
   async getTransferInfo(txHash, opt) {
     const web3Instance = this.queryWeb3;
     const { blocking } = opt;
@@ -257,20 +221,12 @@ class EthHelper {
       ]));
     }
     if (!t || !currentBlockNumber) throw new Error('Cannot find transaction');
-    if (t.value > 0) return this.getEthTransferInfo(txHash, t, currentBlockNumber);
-    if (t.to.toLowerCase() !== LIKE_COIN_ADDRESS.toLowerCase()) throw new Error('Not LikeCoin transaction');
     this.initAbiDecoder();
-    const decoded = abiDecoder.decodeMethod(t.input);
-    const isDelegated = decoded.name === 'transferDelegated';
-    const isLock = decoded.name === 'transferAndLock';
-    if (decoded.name !== 'transfer' && !isDelegated && !isLock) {
-      throw new Error('Not LikeCoin Store transaction');
-    }
-    const txTo = decoded.params.find(p => p.name === '_to').value;
-    let _to = web3Instance.utils.toChecksumAddress(txTo);
-    let _from = isDelegated ? decoded.params.find(p => p.name === '_from').value : t.from;
-    _from = web3Instance.utils.toChecksumAddress(_from);
-    let _value = decoded.params.find(p => p.name === '_value').value;
+    TxInfo.init(abiDecoder, web3Instance);
+    const type = TxInfo.getTxType(t);
+    const _to = TxInfo.getTxTo(type, t);
+    const _from = TxInfo.getTxFrom(type, t);
+    const _value = TxInfo.getTxValue(type, t);
     if (!t.blockNumber || (currentBlockNumber - t.blockNumber < CONFIRMATION_NEEDED)) {
       return {
         _from,
@@ -291,30 +247,7 @@ class EthHelper {
         timestamp: block ? block.timestamp : 0,
       };
     }
-    if (!r.logs || !r.logs.length) throw new Error('Cannot fetch transaction Data');
-    this.initAbiDecoder();
-    const logs = abiDecoder.decodeLogs(r.logs);
-    if (isDelegated) {
-      const targetLogs = logs.filter(l => (l.events
-        .find(e => e.name === 'to').value.toLowerCase()) === txTo.toLowerCase());
-      if (!targetLogs || !targetLogs.length) throw new Error('Cannot parse receipt');
-      const [log] = targetLogs;
-      _to = web3Instance.utils.toChecksumAddress(log.events.find(p => (p.name === 'to')).value);
-      _from = isDelegated ? web3Instance.utils.toChecksumAddress(log.events.find(p => (p.name === 'from')).value) : t.from;
-      _value = log.events.find(p => (p.name === 'value')).value;
-    } else if (isLock) {
-      const targetLogs = logs.filter(l => (l.name === 'Transfer'));
-      if (!targetLogs || !targetLogs.length) throw new Error('Cannot parse receipt');
-      const [log] = targetLogs;
-      _to = web3Instance.utils.toChecksumAddress(log.events.find(p => (p.name === 'to')).value);
-      _value = log.events.find(p => (p.name === 'value')).value;
-    }
-    return {
-      _to,
-      _from,
-      _value,
-      timestamp: block ? block.timestamp : 0,
-    };
+    return TxInfo.getTxReceipt(type, t, r, block, _to, _from, _value);
   }
 
   async queryLikeCoinBalance(addr) {
