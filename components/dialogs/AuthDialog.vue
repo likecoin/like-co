@@ -294,6 +294,8 @@ function getRandomPaddedDigits(length) {
   return String(Math.floor(Math.random() * (10 ** length))).padStart(length, '0');
 }
 
+// TODO: remove this.$sentry.captureException
+
 export default {
   name: 'auth-dialog',
   components: {
@@ -493,7 +495,8 @@ export default {
           this.errorCode = 'FIREBASE_EMAIL_LINK_AUTH_NO_EMAIL';
         } else {
           console.error(err);
-          this.setError();
+          if (this.$sentry) this.$sentry.captureException(err);
+          this.setError(err.code);
           this.isSigningInWithEmail = false;
         }
       }
@@ -502,11 +505,6 @@ export default {
     // Handle redirect sign in
     const { redirect_sign_in: isRedirectSignIn, ...query } = this.$route.query;
     if (isRedirectSignIn) {
-      this.$router.replace({
-        name: this.$route.name,
-        query,
-      });
-
       this.currentTab = 'signingIn';
 
       try {
@@ -515,11 +513,21 @@ export default {
           this.platform = getPlatformFromProviderId(result.credential.providerId);
           this.signInPayload = await getSignInPayloadFromSignInResult(result);
           this.login();
+        } else {
+          console.error('No credential after redirect');
+          if (this.$sentry) {
+            this.$sentry.captureException(new Error('No credential after redirect'));
+          }
         }
       } catch (err) {
         console.error(err);
-        this.setError();
+        this.setError(err.code);
+        if (this.$sentry) this.$sentry.captureException(err);
       }
+      this.$router.replace({
+        name: this.$route.name,
+        query,
+      });
     }
 
     const { referrer } = this.$route.query;
@@ -667,7 +675,7 @@ export default {
               || !!window.opener
             );
             if (isRedirect) {
-              this.$router.push({
+              this.$router.replace({
                 name: this.$route.name,
                 query: {
                   ...this.$route.query,
@@ -678,6 +686,8 @@ export default {
             this.signInPayload = await firebasePlatformSignIn(platform, {
               isRedirect,
             });
+            if (!isRedirect) this.login();
+            return;
           } catch (err) {
             switch (err.code) {
               case 'auth/popup-closed-by-user':
@@ -690,10 +700,10 @@ export default {
 
               default:
                 console.error(err);
-                this.setError();
+                if (this.$sentry) this.$sentry.captureException(err);
+                this.setError(err.code);
                 break;
             }
-            return;
           }
           break;
 
@@ -725,7 +735,7 @@ export default {
                     }
                   }, { scope: 'public_profile,email,pages_show_list,user_link' });
                 }
-              });
+              }, true);
             });
             this.signInPayload = {
               accessToken,
@@ -737,22 +747,34 @@ export default {
               firebase
                 .auth
                 .FacebookAuthProvider
-                .credential(this.signInPayload.accessToken),
-            ).catch((err) => { console.error(err); });
+                .credential(accessToken),
+            ).catch((err) => {
+              console.error(err);
+              if (this.$sentry) this.$sentry.captureException(err);
+            });
             if (userCredential && userCredential.user) {
               this.signInPayload.firebaseIdToken = await userCredential.user.getIdToken();
+              this.login();
+              return;
+            }
+            this.currentTab = 'portal';
+            console.error('no facebook cred after login');
+            if (this.$sentry) {
+              this.$sentry.captureException(new Error('no facebook cred after login'));
             }
           } catch (err) {
             console.error(err);
-            this.currentTab = 'portal';
-            return;
+            if (this.$sentry) this.$sentry.captureException(err);
+            this.currentTab = 'error';
           }
           break;
-
         default:
+          console.error('platform default not exist');
+          if (this.$sentry) {
+            this.$sentry.captureException(new Error('platform default not exist'));
+          }
+          this.currentTab = 'error';
       }
-
-      this.login();
     },
     async signInWithEmail(email) {
       this.currentTab = 'loading';
@@ -768,6 +790,7 @@ export default {
             code = 'USER_AUTH_EMAIL_LINK_INVALID';
           } else {
             console.error(err);
+            if (this.$sentry) this.$sentry.captureException(err);
             this.isSigningInWithEmail = false;
           }
           this.setError(code);
@@ -798,7 +821,8 @@ export default {
         }
 
         console.error(err);
-        this.setError();
+        if (this.$sentry) this.$sentry.captureException(err);
+        this.setError((err.response || {}).data);
         return;
       }
 
@@ -815,7 +839,8 @@ export default {
           this.currentTab = 'portal';
         } else {
           console.error(err);
-          this.setError();
+          if (this.$sentry) this.$sentry.captureException(err);
+          this.setError(err.message);
         }
       }
     },
@@ -839,7 +864,8 @@ export default {
           }
         }
         console.error(err);
-        this.setError();
+        if (this.$sentry) this.$sentry.captureException(err);
+        this.setError((err.response || {}).data);
       }
     },
     async preRegister() {
@@ -966,9 +992,11 @@ export default {
 
             default:
               console.error(err);
+              if (this.$sentry) this.$sentry.captureException(err);
           }
         } else {
           console.error(err);
+          if (this.$sentry) this.$sentry.captureException(err);
           errCode = 'USER_REGISTER_ERROR';
         }
         this.setError(errCode);
