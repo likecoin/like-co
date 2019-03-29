@@ -102,7 +102,11 @@ export async function getSignInPayloadFromSignInResult(result) {
 
 export async function firebasePlatformSignIn(platform, options = {}) {
   const provider = getFirebaseProvider(platform);
-  const result = await firebase.auth()[`signInWith${options.isRedirect ? 'Redirect' : 'Popup'}`](provider);
+  if (options.isRedirect) {
+    await firebase.auth().signInWithRedirect(provider);
+    return null;
+  }
+  const result = await firebase.auth().signInWithPopup(provider);
   return getSignInPayloadFromSignInResult(result);
 }
 
