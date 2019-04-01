@@ -983,11 +983,8 @@ export default {
             case 'USER_ALREADY_EXIST':
             case 'EMAIL_ALREADY_USED':
             case 'USER_WALLET_INVALID':
-              errCode = err.response.data;
-              break;
-
             case 'FIREBASE_USER_DUPLICATED':
-              errCode = 'USER_ALREADY_EXIST';
+              errCode = err.response.data;
               break;
 
             default:
