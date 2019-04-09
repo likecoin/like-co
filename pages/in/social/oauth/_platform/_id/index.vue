@@ -93,8 +93,7 @@ export default {
       if (this.isDone) return;
       try {
         switch (this.platform) {
-          case 'flickr':
-          case 'twitter': {
+          case 'flickr': {
             await this.linkSocialPlatform({
               platform: this.platform,
               payload: {
