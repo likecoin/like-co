@@ -23,7 +23,7 @@ const URL = require('url-parse');
 export default {
   name: 'oauth-view',
   middleware: 'authenticated',
-  layout: 'blank',
+  layout: 'register',
   components: {
     OauthPermissionDialog,
   },
