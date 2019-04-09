@@ -51,7 +51,6 @@
         />
         <template v-else>
           <img :src="LikeCoinLogo">
-          <img :src="LikeCoinTextLogo">
         </template>
       </div>
       <i18n
@@ -281,8 +280,7 @@ import EthMixin from '~/components/EthMixin';
 
 import User from '@/util/User';
 
-import LikeCoinLogo from '~/assets/icons/likecoin-logo.svg';
-import LikeCoinTextLogo from '~/assets/icons/likecoin-text-logo.svg';
+import LikeCoinLogo from '~/assets/logo/icon-plain.svg';
 
 import { logTrackerEvent } from '@/util/EventLogger';
 import {
@@ -316,7 +314,6 @@ export default {
   data() {
     return {
       LikeCoinLogo,
-      LikeCoinTextLogo,
 
       avatar: undefined,
       avatarHalo: 'none',
@@ -1133,7 +1130,7 @@ export default {
   &__content {
     overflow: hidden;
 
-    margin-top: 82px;
+    margin-top: 64px;
 
     transition: height 1s ease;
 
