@@ -22,7 +22,7 @@
   >
 
     <div
-      v-if="!isBlocking"
+      v-if="!isBlocking || isSinglePage"
       slot="header-left"
       class="auth-dialog__header-left"
     >
@@ -1078,14 +1078,10 @@ export default {
     bottom: 0;
     left: 0;
 
-    display: none;
+    display: flex;
     align-items: center;
 
     padding-left: 16px;
-
-    @media screen and (max-width: 600px) {
-      display: flex;
-    }
   }
 
   &__header-center {
