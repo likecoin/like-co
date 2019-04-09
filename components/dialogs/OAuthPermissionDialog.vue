@@ -14,7 +14,7 @@
       slot="header-left"
       class="oauth-permission-dialog__header-left"
     >
-      <img :src="LikeCoinLogo">
+      <!-- <img :src="LikeCoinLogo"> -->
     </div>
 
     <div class="oauth-permission-dialog__content">
