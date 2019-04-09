@@ -114,7 +114,7 @@ $lc-dialog-icon-size-small: 72px;
 $lc-dialog-border-radius: 8px;
 
 .md-dialog.lc-dialog {
-  overflow: visible;
+  overflow: hidden;
 
   :global(.md-dialog-container) {
     overflow: hidden;

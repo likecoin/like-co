@@ -11,7 +11,7 @@ import { logTrackerEvent } from '@/util/EventLogger';
 
 export default {
   name: 'auth-api-view',
-  layout: 'blank',
+  layout: 'register',
   head() {
     return {
       title: this.$t('Register.label.register'),
