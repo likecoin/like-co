@@ -794,7 +794,8 @@
         "alphanumeric": "Please enter at least 7 alphanumeric characters",
         "addressFormat": "Invalid address format",
         "reCaptcha": "Please complete the reCAPTCHA challenge",
-        "emailFormat": "Please enter a valid email address without . or + character",
+        "emailFormat": "Please enter a valid email address",
+        "emailWithInvalidCharacter": "Please enter a valid email address without . or + character",
         "terms": "Please agree our terms and policies to proceed."
       }
     }
@@ -1527,7 +1528,7 @@
       },
       {
         "title": "Benefiting from Giving",
-        "p": "Other than supporting creators, Civic Likers enjoy various benefits such as taking part in community voting, accessing bonus contents, receiving newsletters from idols and joining offline events." 
+        "p": "Other than supporting creators, Civic Likers enjoy various benefits such as taking part in community voting, accessing bonus contents, receiving newsletters from idols and joining offline events."
       }
     ],
     "countdown": {

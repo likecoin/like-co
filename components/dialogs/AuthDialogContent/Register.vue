@@ -52,27 +52,29 @@
             :class="[
               'lc-margin-top-12 lc-margin-bottom-24 lc-mobile',
               {
-                'md-invalid': getInfoMsg === 'USER_ALREADY_EXIST',
+                'md-invalid': !!idErrorMessage,
               },
             ]"
           >
             <label>{{ $t('Register.form.createID') }}</label>
             <md-input
               v-model="likeCoinId"
-              :pattern="LIKECOIN_ID_REGEX"
+              :pattern="LIKECOIN_ID_REGEX_STRING"
               :title="$t('Register.form.error.alphanumeric')"
               v-bind="$testID('RegisterForm-LikeCoinIdField')"
               required
+              @focus="isFocusedIdField = true"
+              @blur="isFocusedIdField = false"
               @change="likeCoinId=likeCoinId.toLowerCase().trim()"
             />
-            <span class="md-error">{{ $t(`Error.${getInfoMsg}`) }}</span>
+            <span class="md-error">{{ idErrorMessage }}</span>
           </md-field>
 
           <md-field
             :class="[
               'lc-margin-top-12 lc-margin-bottom-24 lc-mobile',
               {
-                'md-invalid': getInfoMsg === 'EMAIL_ALREADY_USED',
+                'md-invalid': !!emailErrorMessage,
               },
             ]"
           >
@@ -80,13 +82,15 @@
             <md-input
               v-model="email"
               :disabled="!isEditEmail"
-              :pattern="W3C_EMAIL_REGEX"
+              :pattern="REGISTER_EMAIL_REGEX_STRING"
               :title="$t('Register.form.error.emailFormat')"
               v-bind="$testID('RegisterForm-EmailField')"
               required
+              @focus="isFocusedEmailField = true"
+              @blur="isFocusedEmailField = false"
               @change="email=email.toLowerCase().trim()"
             />
-            <span class="md-error">{{ $t(`Error.${getInfoMsg}`) }}</span>
+            <span class="md-error">{{ emailErrorMessage }}</span>
           </md-field>
         </div>
       </div>
@@ -141,13 +145,16 @@ import axios from 'axios';
 import { mapGetters, mapActions } from 'vuex';
 
 import {
-  W3C_EMAIL_REGEX,
+  IS_TESTNET,
   SUPPORTED_AVATER_TYPE,
 } from '@/constant';
 
 const imageType = require('image-type');
 
-const LIKECOIN_ID_REGEX = '[a-z0-9-_]{7,20}';
+const LIKECOIN_ID_REGEX_STRING = '[a-z0-9-_]{7,20}';
+const LIKECOIN_ID_REGEX = new RegExp(LIKECOIN_ID_REGEX_STRING);
+const REGISTER_EMAIL_REGEX_STRING = IS_TESTNET ? '.*' : '^(([^<>()\\[\\]\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$';
+const REGISTER_EMAIL_REGEX = new RegExp(REGISTER_EMAIL_REGEX_STRING);
 
 export default {
   name: 'register-form',
@@ -167,8 +174,8 @@ export default {
   },
   data() {
     return {
-      W3C_EMAIL_REGEX,
-      LIKECOIN_ID_REGEX,
+      LIKECOIN_ID_REGEX_STRING,
+      REGISTER_EMAIL_REGEX_STRING,
 
       avatarData: null,
       avatarFile: null,
@@ -176,6 +183,9 @@ export default {
       email: this.prefilledData.email,
       isEmailEnabled: false,
       isTermsAgreed: false,
+
+      isFocusedIdField: false,
+      isFocusedEmailField: false,
     };
   },
   computed: {
@@ -185,13 +195,50 @@ export default {
     avatarSrc() {
       return this.avatarData || this.prefilledData.avatarURL;
     },
-    isFormValid() {
-      const isIdValid = new RegExp(LIKECOIN_ID_REGEX).test(this.likeCoinId);
-      const isEmailValid = (
+    isIdValid() {
+      return LIKECOIN_ID_REGEX.test(this.likeCoinId);
+    },
+    isEmailFormatValid() {
+      return REGISTER_EMAIL_REGEX.test(this.email);
+    },
+    isEmailContainsInvalidCharacter() {
+      return /(\+|\.)/.test(this.email.split('@')[0]);
+    },
+    isEmailValid() {
+      return (
         !this.isEditEmail
-        || new RegExp(W3C_EMAIL_REGEX).test(this.email)
+        || (this.isEmailFormatValid && !this.isEmailContainsInvalidCharacter)
       );
-      return this.isTermsAgreed && isEmailValid && isIdValid;
+    },
+    isFormValid() {
+      return this.isTermsAgreed && this.isEmailValid && this.isIdValid;
+    },
+    idErrorMessage() {
+      if (this.likeCoinId && !this.isFocusedIdField && !this.isIdValid) {
+        return this.$t('Register.form.error.alphanumeric');
+      }
+
+      if (this.getInfoMsg === 'USER_ALREADY_EXIST') {
+        return this.$t(`Error.${this.getInfoMsg}`);
+      }
+
+      return '';
+    },
+    emailErrorMessage() {
+      if (this.email && !this.isFocusedEmailField && !this.isEmailValid) {
+        if (!this.isEmailFormatValid) {
+          return this.$t('Register.form.error.emailFormat');
+        }
+        if (this.isEmailContainsInvalidCharacter) {
+          return this.$t('Register.form.error.emailWithInvalidCharacter');
+        }
+      }
+
+      if (this.getInfoMsg === 'EMAIL_ALREADY_USED') {
+        return this.$t(`Error.${this.getInfoMsg}`);
+      }
+
+      return '';
     },
   },
   methods: {
