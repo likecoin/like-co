@@ -484,25 +484,9 @@ export default {
       if (platform) return;
 
       switch (pid) {
-        case 'facebook': {
-          if (!window.FB) return;
-          window.FB.login((response) => {
-            if (response.authResponse.accessToken) {
-              this.linkSocialPlatform({
-                platform: 'facebook',
-                payload: {
-                  user: this.getUserInfo.user,
-                  access_token: response.authResponse.accessToken,
-                },
-              });
-            } else {
-              // error case
-            }
-          }, { scope: 'public_profile,pages_show_list,user_link' });
-          break;
-        }
         case 'google':
-        case 'twitter': {
+        case 'twitter':
+        case 'facebook': {
           const {
             firebaseIdToken,
             accessToken,
@@ -527,13 +511,9 @@ export default {
       switch (pid) {
         case 'google':
         case 'twitter':
+        case 'facebook':
           this.unlinkUserAuthPlatform({ platform: pid });
           break;
-
-        case 'facebook':
-          this.onDisconnectOtherPlatforms(pid);
-          break;
-
         default:
       }
     },

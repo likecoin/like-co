@@ -260,7 +260,6 @@ import {
 } from '@/util/api/api';
 
 import {
-  firebase,
   firebasePlatformSignIn,
   firebaseGetRedirectCredential,
   firebaseSendSignInEmail,
@@ -663,6 +662,7 @@ export default {
 
         case 'google':
         case 'twitter':
+        case 'facebook':
           this.currentTab = 'loading';
           try {
             // Determine Firebase sign in method
@@ -701,68 +701,6 @@ export default {
                 this.setError(err.code);
                 break;
             }
-          }
-          break;
-
-        case 'facebook':
-          try {
-            this.currentTab = 'loading';
-
-            const {
-              accessToken,
-              userID,
-            } = await new Promise((resolve, reject) => {
-              if (!window.FB) {
-                reject(new Error('FACEBOOK_SDK_NOT_FOUND'));
-              }
-              // Determine if a user has authenticated
-              window.FB.getLoginStatus((response) => {
-                if (response.status === 'connected') {
-                  // The user is logged in and has authenticated
-                  resolve(response.authResponse);
-                } else {
-                  // The user has signed but need to renew auth OR
-                  // The user hasn't auth OR
-                  // The user isn't logged in to Facebook
-                  window.FB.login(({ authResponse }) => {
-                    if (authResponse) {
-                      resolve(authResponse);
-                    } else {
-                      reject(new Error('FACEBOOK_AUTH_REJECTED'));
-                    }
-                  }, { scope: 'public_profile,email,pages_show_list,user_link' });
-                }
-              }, true);
-            });
-            this.signInPayload = {
-              accessToken,
-              platformUserId: userID,
-            };
-
-            // Link Facebook with Firebase
-            const userCredential = await firebase.auth().signInAndRetrieveDataWithCredential(
-              firebase
-                .auth
-                .FacebookAuthProvider
-                .credential(accessToken),
-            ).catch((err) => {
-              console.error(err);
-              if (this.$sentry) this.$sentry.captureException(err);
-            });
-            if (userCredential && userCredential.user) {
-              this.signInPayload.firebaseIdToken = await userCredential.user.getIdToken();
-              this.login();
-              return;
-            }
-            this.currentTab = 'portal';
-            console.error('no facebook cred after login');
-            if (this.$sentry) {
-              this.$sentry.captureException(new Error('no facebook cred after login'));
-            }
-          } catch (err) {
-            console.error(err);
-            if (this.$sentry) this.$sentry.captureException(err);
-            this.currentTab = 'error';
           }
           break;
         default:
@@ -868,51 +806,6 @@ export default {
     async preRegister() {
       logTrackerEvent(this, 'RegFlow', 'PreRegister', 'PreRegister', 1);
       this.currentTab = 'loading';
-      const { platformUserId } = this.signInPayload;
-      let preRegisterPayload;
-      switch (this.platform) {
-        case 'facebook':
-          // Get user info
-          preRegisterPayload = await new Promise((resolve) => {
-            if (!window.FB) resolve();
-            window.FB.api(
-              '/me?fields=id,name,email',
-              ({ name, email }) => {
-                // Get avatar
-                window.FB.api(
-                  `/${platformUserId}/picture?type=large&redirect=0`,
-                  ({ data }) => {
-                    const payload = {
-                      displayName: name,
-                    };
-
-                    if (email) {
-                      payload.email = email;
-                      payload.isEmailVerified = false;
-                    }
-
-                    if (data && !data.is_silhouette) {
-                      payload.avatarURL = data.url;
-                    }
-
-                    resolve(payload);
-                  },
-                );
-              },
-            );
-          });
-          break;
-
-        default:
-      }
-
-      if (preRegisterPayload) {
-        this.signInPayload = {
-          ...this.signInPayload,
-          ...preRegisterPayload,
-        };
-      }
-
       if (this.signInPayload.email) {
         const RANDOM_DIGIT_LENGTH = 5;
         const MAX_SUGGEST_TRY = 5;
