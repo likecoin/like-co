@@ -782,7 +782,8 @@
         "alphanumeric": "請使用最少 7位英文字母或數字",
         "addressFormat": "錢包地址錯誤",
         "reCaptcha": "請完成 reCAPTCHA 驗證",
-        "emailFormat": "請使用沒有./+號的有效電郵",
+        "emailFormat": "請使用有效的電郵",
+        "emailWithInvalidCharacter": "請使用沒有./+號的有效電郵",
         "terms": "請同意我們的條款和政策"
       }
     }
@@ -892,7 +893,7 @@
       "unavailable": "由於 MetaMask 的新版本出現問題，導致 LikeCoin 轉賬服務暫時停止。感謝體諒。",
       "updateMetamask": "轉賬服務只適用於已安裝 MetaMask 版本 {version} 或以上的瀏覽器。",
       "manualProcedure": "手動安裝指南",
-      "manualProcedureUrl": "https://help.like.co/likecoin-%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C/%E6%96%B0%E6%89%8B%E4%B8%8A%E8%B7%AF/%E5%A6%82%E4%BD%95%E6%9B%B4%E6%96%B0-metamask-%E7%89%88%E6%9C%AC",      
+      "manualProcedureUrl": "https://help.like.co/likecoin-%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C/%E6%96%B0%E6%89%8B%E4%B8%8A%E8%B7%AF/%E5%A6%82%E4%BD%95%E6%9B%B4%E6%96%B0-metamask-%E7%89%88%E6%9C%AC",
       "openReferrerWarning": "你正在開啟的外部鏈結未經審核，存在風險",
       "openReferrerConfirmMessage": "我確認要開啟此連結"
     },
