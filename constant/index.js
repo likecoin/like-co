@@ -19,6 +19,10 @@ export const CONFIRMATION_NEEDED = 6;
 export const MIN_USER_ID_LENGTH = 7;
 export const MAX_USER_ID_LENGTH = 20;
 
+export const LIKECOIN_ID_REGEX_STRING = '[a-z0-9-_]{7,20}';
+export const LIKECOIN_ID_REGEX = new RegExp(LIKECOIN_ID_REGEX_STRING);
+export const REGISTER_EMAIL_REGEX_STRING = IS_TESTNET ? '.*' : '^(([^<>()\\[\\]\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$';
+export const REGISTER_EMAIL_REGEX = new RegExp(REGISTER_EMAIL_REGEX_STRING);
 export const EMAIL_REGEX = '^[a-zA-Z0-9.!#$%&\'*/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$';
 export const W3C_EMAIL_REGEX = IS_TESTNET ? '.*' : EMAIL_REGEX;
 

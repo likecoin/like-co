@@ -145,16 +145,14 @@ import axios from 'axios';
 import { mapGetters, mapActions } from 'vuex';
 
 import {
-  IS_TESTNET,
+  LIKECOIN_ID_REGEX_STRING,
+  LIKECOIN_ID_REGEX,
+  REGISTER_EMAIL_REGEX_STRING,
+  REGISTER_EMAIL_REGEX,
   SUPPORTED_AVATER_TYPE,
 } from '@/constant';
 
 const imageType = require('image-type');
-
-const LIKECOIN_ID_REGEX_STRING = '[a-z0-9-_]{7,20}';
-const LIKECOIN_ID_REGEX = new RegExp(LIKECOIN_ID_REGEX_STRING);
-const REGISTER_EMAIL_REGEX_STRING = IS_TESTNET ? '.*' : '^(([^<>()\\[\\]\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$';
-const REGISTER_EMAIL_REGEX = new RegExp(REGISTER_EMAIL_REGEX_STRING);
 
 export default {
   name: 'register-form',
