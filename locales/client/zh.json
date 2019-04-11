@@ -1414,7 +1414,7 @@
     "register": "立即申請",
     "registered": "已登記",
     "pricingRegister": "立即申請",
-    "limitedQuota": "首階段名額 100",
+    "limitedQuota": "",
     "waitingList": {
       "notifyByEmail": "我們將以電郵通知閣下最新情況。"
     },
