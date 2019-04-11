@@ -1507,7 +1507,7 @@
     "register": "Register",
     "registered": "Registered",
     "pricingRegister": "Register Now",
-    "limitedQuota": "100 Limited Quota",
+    "limitedQuota": "",
     "waitingList": {
       "notifyByEmail": "We will notify you in email as soon as available."
     },
