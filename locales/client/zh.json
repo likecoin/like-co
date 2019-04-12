@@ -670,8 +670,8 @@
       "loginSuccessful": "成功登入"
     },
     "SignIn": {
-      "title-alternative": "免費註冊成為讚賞者，化讚為賞",
-      "title-": "免費註冊，化讚為賞",
+      "title": "免費註冊成為 Liker，化讚為賞",
+      "title-alternative": "免費註冊，化讚為賞",
       "description": "成為 Liker 後，你的點讚能為作者帶來收入。作者需要你的支持，現在立即行動吧！",
       "label": {
         "or": "或",
