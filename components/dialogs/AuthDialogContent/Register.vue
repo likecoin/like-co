@@ -200,7 +200,7 @@ export default {
       return REGISTER_EMAIL_REGEX.test(this.email);
     },
     isEmailContainsInvalidCharacter() {
-      return /(\+|\.)/.test(this.email.split('@')[0]);
+      return /\+/.test(this.email.split('@')[0]);
     },
     isEmailValid() {
       return (

@@ -711,7 +711,7 @@
         "addressFormat": "钱包地址错误",
         "reCaptcha": "请完成 reCAPTCHA 验证",
         "emailFormat": "请使用有效的电邮",
-        "emailWithInvalidCharacter": "请使用没有./+号的有效电邮",
+        "emailWithInvalidCharacter": "请使用没有+号的有效电邮",
         "terms": "请同意我们的条款和政策"
       }
     }
