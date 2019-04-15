@@ -784,7 +784,7 @@
         "addressFormat": "錢包地址錯誤",
         "reCaptcha": "請完成 reCAPTCHA 驗證",
         "emailFormat": "請使用有效的電郵",
-        "emailWithInvalidCharacter": "請使用沒有./+號的有效電郵",
+        "emailWithInvalidCharacter": "請使用沒有+號的有效電郵",
         "terms": "請同意我們的條款和政策"
       }
     }

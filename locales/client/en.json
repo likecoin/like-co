@@ -795,7 +795,7 @@
         "addressFormat": "Invalid address format",
         "reCaptcha": "Please complete the reCAPTCHA challenge",
         "emailFormat": "Please enter a valid email address",
-        "emailWithInvalidCharacter": "Please enter a valid email address without . or + character",
+        "emailWithInvalidCharacter": "Please enter a valid email address without + character",
         "terms": "Please agree our terms and policies to proceed."
       }
     }
