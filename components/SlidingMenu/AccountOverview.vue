@@ -56,7 +56,7 @@
         class="lc-underline lc-margin-top-12"
         rel="noopener noreferrer"
         target="_blank"
-      >{{ $t('Home.Sale.button.tradeAtLiquid') }}</a>
+      >{{ $t('Home.Sale.button.tradeAtExchange') }}</a>
     </div>
   </div>
 </template>
