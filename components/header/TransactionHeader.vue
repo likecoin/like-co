@@ -3,7 +3,7 @@
     <div class="lc-container-2">
       <div class="lc-container-3 lc-bg-gray-1 icon-wrapper">
         <nuxt-link
-          v-if="!Array.isArray(effectiveToId)"
+          v-if="effectiveToId && !Array.isArray(effectiveToId)"
           :to="{ name: 'id', params: { id: effectiveToId } }"
           class="recipient-avatar"
         >
