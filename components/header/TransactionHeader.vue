@@ -3,14 +3,14 @@
     <div class="lc-container-2">
       <div class="lc-container-3 lc-bg-gray-1 icon-wrapper">
         <nuxt-link
-          v-if="toId"
-          :to="{ name: 'id', params: { id: toId } }"
+          v-if="!Array.isArray(effectiveToId)"
+          :to="{ name: 'id', params: { id: effectiveToId } }"
           class="recipient-avatar"
         >
           <LcAvatar
             :src="icon"
             :halo="toAvatarHalo"
-            :alt="toId"
+            :alt="effectiveToId"
             size="128"
           />
         </nuxt-link>
@@ -129,7 +129,7 @@ export default {
       default: '',
     },
     toId: {
-      type: String,
+      type: [String, Array],
       default: '',
     },
     toName: {
@@ -137,7 +137,7 @@ export default {
       default: '',
     },
     toAddress: {
-      type: String,
+      type: [String, Array],
       default: '',
     },
     toAvatarHalo: {
@@ -181,6 +181,12 @@ export default {
     },
     dateCompleted() {
       return new Date(this.timestamp * 1000).toString();
+    },
+    effectiveToId() {
+      if (Array.isArray(this.toId) && (this.toId.length === 1)) {
+        return this.toId[0];
+      }
+      return this.toId;
     },
   },
 };

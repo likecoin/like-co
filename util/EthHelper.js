@@ -27,6 +27,26 @@ function prettifyNumber(n) {
   return arr.join(' ');
 }
 
+function filterMultipleTransferTo(address, data) {
+  if (!address
+    || data._from === address
+    || !Array.isArray(data._to)
+    || !Array.isArray(data._value)) return data;
+  const to = [];
+  const value = [];
+  data._to.forEach((addr, index) => {
+    if (addr === address) {
+      to.push(addr);
+      value.push(data._value[index]);
+    }
+  });
+  return {
+    ...data,
+    _to: to,
+    _value: value,
+  };
+}
+
 class EthHelper {
   initApp({
     errCb,
@@ -208,7 +228,7 @@ class EthHelper {
 
   async getTransferInfo(txHash, opt) {
     const web3Instance = this.queryWeb3;
-    const { blocking } = opt;
+    const { blocking, filterAddress } = opt;
     let [t, currentBlockNumber] = await Promise.all([
       web3Instance.eth.getTransaction(txHash),
       web3Instance.eth.getBlockNumber(),
@@ -228,26 +248,27 @@ class EthHelper {
     const _from = TxInfo.getTxFrom(type, t);
     const _value = TxInfo.getTxValue(type, t);
     if (!t.blockNumber || (currentBlockNumber - t.blockNumber < CONFIRMATION_NEEDED)) {
-      return {
+      return filterMultipleTransferTo(filterAddress, {
         _from,
         _to,
         _value,
-      };
+      });
     }
     const [r, block] = await Promise.all([
       web3Instance.eth.getTransactionReceipt(txHash),
       web3Instance.eth.getBlock(t.blockNumber),
     ]);
     if (!r || !isReceiptSuccess(r)) {
-      return {
+      return filterMultipleTransferTo(filterAddress, {
         isFailed: (r && !isReceiptSuccess(r)),
         _to,
         _from,
         _value,
         timestamp: block ? block.timestamp : 0,
-      };
+      });
     }
-    return TxInfo.getTxReceipt(type, t, r, block, _to, _from, _value);
+    return filterMultipleTransferTo(filterAddress,
+      TxInfo.getTxReceipt(type, t, r, block, _to, _from, _value));
   }
 
   async queryLikeCoinBalance(addr) {

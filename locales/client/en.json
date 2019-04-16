@@ -907,7 +907,8 @@
       "manualProcedure": "Manual update procedure",
       "manualProcedureUrl": "https://help.like.co/likecoin-faq/newbies/how-to-update-metamask-version",
       "openReferrerWarning": "You are opening an external site, which is potentially dangerous.",
-      "openReferrerConfirmMessage": "Continue and open the link for me"
+      "openReferrerConfirmMessage": "Continue and open the link for me",
+      "multipleId": "Multiple Recipients"
     },
     "button": {
       "unavailable": "Temporary Suspension of Transfer service"
@@ -1077,7 +1078,9 @@
     },
     "label": {
       "in": "IN",
+      "multipleIn": "IN (multiple)",
       "out": "OUT",
+      "multipleOut": "Multiple Recipients",
       "fail": "FAIL",
       "tokensale": "TokenSale",
       "earlybird": "Earlybird",
