@@ -59,7 +59,7 @@
                       rel="noopener noreferrer"
                       target="_blank"
                     >
-                      {{ $t('Home.Sale.button.tradeAtLiquid') }}
+                      {{ $t('Home.Sale.button.tradeAtExchange') }}
                     </md-button>
                   </li>
                 </ul>
