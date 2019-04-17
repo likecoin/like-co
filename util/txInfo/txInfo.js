@@ -16,7 +16,7 @@ const state = {
       Value.getEthTxValue,
       Receipt.getEthTxReceipt,
     ],
-    Transer: [
+    Transfer: [
       To.getLikeCoinTxTo,
       From.getTxFrom,
       Value.getLikeCoinTxValue,
