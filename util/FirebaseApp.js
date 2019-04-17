@@ -27,8 +27,8 @@ export function getFirebaseProvider(platform) {
       const provider = new firebase.auth.FacebookAuthProvider();
       provider.addScope('email');
       provider.addScope('public_profile');
-      provider.addScope('pages_show_list');
-      provider.addScope('user_link');
+      // provider.addScope('pages_show_list');
+      // provider.addScope('user_link');
       return provider;
     }
     case 'twitter':
