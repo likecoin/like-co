@@ -161,7 +161,7 @@ export default {
       this.$router.push({ name: 'in-civic' });
     },
     onClickRenewButton() {
-      this.$router.push({ name: 'in-civic-register' });
+      this.$router.push({ name: 'in-civic' });
     },
   },
 };
