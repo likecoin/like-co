@@ -15,6 +15,7 @@ module.exports = {
 
     browser
       .url(`${devServer}/in/tx/${testTx}`)
+      .waitForElementNotPresent('.pending-progress', 5000)
       .waitForElementVisible('.transaction-container', 2000)
       .pause(2000)
       .verify.elementNotPresent('.transaction-container .failed')
