@@ -504,6 +504,7 @@ export default {
             margin-right: 2px;
 
             font-size: 10px;
+
             &.multiple-recipients {
               font-size: 14px;
             }
