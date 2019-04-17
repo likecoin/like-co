@@ -42,7 +42,7 @@
               class="tx-container lc-padding-bottom-8"
             >
               <section
-                v-if="isMultipleTx()"
+                v-if="isMultipleTx"
                 class="section-container"
               >
                 <div class="key">
@@ -64,7 +64,7 @@
                 </nuxt-link>
               </section>
               <section
-                v-if="!isMultipleTx()"
+                v-if="!isMultipleTx"
                 class="section-container"
               >
                 <div class="key">
@@ -283,6 +283,9 @@ export default {
       }
       return this.toId;
     },
+    isMultipleTx() {
+      return Array.isArray(this.toId) && (this.toId.length > 1);
+    },
   },
   async mounted() {
     this.timestamp = 0;
@@ -358,9 +361,6 @@ export default {
         this.toAvatar = toData.data.avatar;
         this.toAvatarHalo = UserUtil.getAvatarHaloType(toData.data);
       }
-    },
-    isMultipleTx() {
-      return Array.isArray(this.toId) && (this.toId.length > 1);
     },
     getAmount(value) {
       if (!Array.isArray(value)) {
