@@ -36,34 +36,38 @@
               :class="['menu', m.section]"
             >
               <ul>
-                <li v-if="m.section === 'primary'">
-                  <menu-item :to="{ name: 'index' }">
-                    <md-icon :md-src="HomeIcon" />
-                  </menu-item>
-                </li>
-                <li v-if="m.section === 'primary'">
-                  <menu-item
-                    v-if="getUserIsRegistered"
-                    :isHighlighted="true"
-                    :to="{ name: 'in' }"
-                  >
-                    {{ getUserInfo.user }}
-                  </menu-item>
-                  <menu-item
-                    v-else-if="getUserNeedAuth"
-                    :isHighlighted="true"
-                    @click="onClickSignInButton"
-                  >
-                    {{ $t('Home.Header.button.signIn') }}
-                  </menu-item>
-                  <menu-item
-                    v-else
-                    :isHighlighted="true"
-                    :to="{ name: 'in-register', query: { ref: '' } }"
-                  >
-                    {{ $t('Home.Header.button.signUp') }}
-                  </menu-item>
-                </li>
+                <template v-if="m.section === 'primary'">
+                  <li>
+                    <menu-item :to="{ name: 'index' }">
+                      <md-icon :md-src="HomeIcon" />
+                    </menu-item>
+                  </li>
+                  <li v-if="getUserIsRegistered">
+                    <menu-item
+                      :isHighlighted="true"
+                      :to="{ name: 'in' }"
+                    >
+                      {{ getUserInfo.user }}
+                    </menu-item>
+                  </li>
+                  <template v-else>
+                    <li>
+                      <menu-item
+                        :isHighlighted="true"
+                        @click="onClickSignUpButton()"
+                      >
+                        {{ $t('Home.Header.button.signUp') }}
+                      </menu-item>
+                    </li>
+                    <li>
+                      <menu-item
+                        @click="onClickSignInButton"
+                      >
+                        {{ $t('Home.Header.button.signIn') }}
+                      </menu-item>
+                    </li>
+                  </template>
+                </template>
                 <!-- tricky to turn into computed, disable lint for now -->
                 <!-- eslint-disable vue/no-use-v-if-with-v-for -->
                 <li
@@ -198,7 +202,6 @@ export default {
     ...mapGetters([
       'getUserInfo',
       'getUserIsRegistered',
-      'getUserNeedAuth',
       'getIsSlidingMenuOpen',
     ]),
   },
@@ -218,6 +221,14 @@ export default {
       'closeSlidingMenu',
     ]),
     onClickSignInButton() {
+      logTrackerEvent(this, 'RegFlow', 'ClickSlidingMenuSignIn', 'ClickSlidingMenuSignIn', 1);
+      if (this.$route.name === 'index') {
+        this.setAuthDialog({ isShow: true, isSignIn: true });
+      } else {
+        this.popupAuthDialogInPlace({ route: this.$route, isSignIn: true });
+      }
+    },
+    onClickSignUpButton() {
       logTrackerEvent(this, 'RegFlow', 'ClickSlidingMenuSignUp', 'ClickSlidingMenuSignUp', 1);
       if (this.$route.name === 'index') {
         this.setAuthDialog({ isShow: true });
