@@ -140,10 +140,6 @@ export async function onWalletChanged({ commit }, wallet) {
   commit(types.USER_SET_LOCAL_WALLET, wallet);
 }
 
-export function setUserNeedAuth({ commit }, needAuth) {
-  commit(types.USER_AWAITING_AUTH, needAuth);
-}
-
 export async function refreshUser({ commit, state, dispatch }) {
   try {
     const { data: user } = await api.apiGetUserSelf();

@@ -314,7 +314,6 @@ export default {
     ...mapGetters([
       'getUserInfo',
       'getUserIsRegistered',
-      'getUserNeedAuth',
       'getUserIsLoadingAuthPlaforms',
       'getUserAuthPlatforms',
       'getUserSocialPlatforms',

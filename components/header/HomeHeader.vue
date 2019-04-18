@@ -21,7 +21,7 @@
         <md-button
           v-bind="getTestAttribute('registerButton')"
           class="md-likecoin shadow"
-          @click="onSignUpClick"
+          @click="onSignInClick"
         >{{ getButtonText }}</md-button>
       </div>
     </div>
@@ -56,7 +56,6 @@ export default {
     ...mapGetters([
       'getUserInfo',
       'getUserIsRegistered',
-      'getUserNeedAuth',
       'getLikeCoinUsdNumericPrice',
     ]),
     usdPriceStr() {
@@ -64,19 +63,19 @@ export default {
     },
     getButtonText() {
       if (this.getUserIsRegistered) return this.getUserInfo.user;
-      return this.$t(this.getUserNeedAuth ? 'Home.Header.button.signIn' : 'Home.Header.button.signUp');
+      return this.$t('Home.Header.button.signIn');
     },
   },
   methods: {
     ...mapActions([
       'setAuthDialog',
     ]),
-    onSignUpClick() {
+    onSignInClick() {
       if (this.getUserIsRegistered) {
         this.$router.push({ name: 'in' });
       } else {
-        logTrackerEvent(this, 'RegFlow', 'ClickHeaderSignUp', 'ClickHeaderSignUp', 1);
-        this.setAuthDialog({ isShow: true });
+        logTrackerEvent(this, 'RegFlow', 'ClickHeaderSignIn', 'ClickHeaderSignIn', 1);
+        this.setAuthDialog({ isShow: true, isSignIn: true });
       }
     },
     getTestAttribute: getTestAttribute('homeHeader'),

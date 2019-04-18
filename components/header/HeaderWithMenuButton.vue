@@ -56,7 +56,7 @@ export default {
   computed: {
     getButtonText() {
       if (this.getUserIsRegistered) return this.getUserInfo.user;
-      return this.$t(this.getUserNeedAuth ? 'Home.Header.button.signIn' : 'Home.Header.button.signUp');
+      return this.$t('Home.Header.button.signIn');
     },
     shouldHideRegister() {
       return (
@@ -67,7 +67,6 @@ export default {
     ...mapGetters([
       'getUserInfo',
       'getUserIsRegistered',
-      'getUserNeedAuth',
     ]),
   },
   methods: {
@@ -78,8 +77,8 @@ export default {
       if (this.getUserIsRegistered) {
         this.$router.push({ name: 'in' });
       } else {
-        logTrackerEvent(this, 'RegFlow', 'ClickHeaderSignUp', 'ClickHeaderSignUp', 1);
-        this.setAuthDialog({ isShow: true });
+        logTrackerEvent(this, 'RegFlow', 'ClickHeaderSignIn', 'ClickHeaderSignIn', 1);
+        this.setAuthDialog({ isShow: true, isSignIn: true });
       }
     },
   },
