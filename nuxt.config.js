@@ -194,16 +194,15 @@ const nuxtConfig = {
       respectDoNotTrack: true,
     }],
     '@nuxtjs/sentry',
-    '@likecoin/nuxt-google-optimize',
+    // '@likecoin/nuxt-google-optimize',
   ],
-  googleOptimize: {
-    // externalExperimentsSrc: '/api/experiments/list',
-    cookieDomain: process.env.NODE_ENV === 'production'
-      ? `${process.env.IS_TESTNET ? '.rinkeby' : ''}.like.co`
-      : '',
-    useFetch: true,
-    maxAge: 60 * 60,
-  },
+  // googleOptimize: {
+  //   externalExperimentsSrc: '/api/experiments/list',
+  //   cookieDomain: process.env.NODE_ENV === 'production'
+  //     ? `${process.env.IS_TESTNET ? '.rinkeby' : ''}.like.co`
+  //     : '',
+  //   useFetch: true,
+  // },
   plugins: [
     { src: '~/plugins/polyfill', ssr: false },
     { src: '~/plugins/EthHelper', ssr: false },
