@@ -640,6 +640,62 @@
       }
     }
   },
+  "AuthDialog": {
+    "supportCreator": "支持 {name}",
+    "label": {
+      "loading": "载入中",
+      "signingIn": "登入中",
+      "signInError": "登入时发生错误",
+      "checkInbox": "请检查你的邮箱",
+      "checkInboxDescription": "我们刚刚发了一条确认链结到电邮地址 {email}。请点击链结，然后登入。",
+      "loginSuccessful": "成功登入"
+    },
+    "SignUp": {
+      "title": "免费注册，化赞为赏",
+      "description": "成为Liker后，你的点赞能为作者带来收入。作者需要你的支持，现在立即行动吧！",
+      "label": {
+        "or": "或",
+        "with": "选以下任一方式注册"
+      },
+      "button": {
+        "toggle": "@:Home.Header.button.signUp",
+        "email": "电邮",
+        "wallet": "以加密货币钱包注册"
+      }
+    },
+    "SignIn": {
+      "title": "登入化赞为赏",
+      "description": "登入Liker后，你的点赞能为作者带来收入。作者需要你的支持，现在立即行动吧！",
+      "label": {
+        "or": "或",
+        "with": "选以下任一方式登入"
+      },
+      "button": {
+        "toggle": "@:Home.Header.button.signIn",
+        "email": "电邮",
+        "wallet": "以加密货币钱包登入"
+      }
+    },
+    "Register": {
+      "title": "欢迎",
+      "button": {
+        "uploadAvatar": "上传头像"
+      },
+      "error": "帐户注册失败",
+      "suggestWalletSignIn": {
+        "id": "此 Liker ID 已被别人使用，请重新再试。若你早前已曾成功注册了 {id}，请先在电脑{signIn}",
+        "email": "此电邮地址已被别人使用，请重新再试。若你早前已曾成功以 {email} 注册了Liker ID，请先在电脑{signIn}"
+      },
+      "signWithWallet": "以电子钱包登入"
+    },
+    "Failure": {
+      "BindSocialAccounts": {
+        "header": "以社交帐号登入",
+        "message": "连结你的社交帐号，可于手机上以更便捷的方式登入Liker ID。",
+        "confirm": "立即连结"
+      }
+    }
+  },
   "WalletNoticeDialog": {
     "allSignInOptions": "其他登入方式",
     "page": [

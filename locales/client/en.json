@@ -680,7 +680,7 @@
       "checkInboxDescription": "We just emailed a confirmation link to {email}. Click the link, and you’ll be signed in.",
       "loginSuccessful": "Login successful"
     },
-    "SignIn": {
+    "SignUp": {
       "title": "Sign up as a Liker for FREE now!",
       "description": "As a Liker, your Likes carry the power to reward the creators.  Act to support content creation NOW!",
       "label": {
@@ -688,6 +688,20 @@
         "with": "with the following method"
       },
       "button": {
+        "toggle": "@:Home.Header.button.signUp",
+        "email": "Email",
+        "wallet": "Sign-up with Ethereum Wallet"
+      }
+    },
+    "SignIn": {
+      "title": "Sign in to support creator",
+      "description": "As a Liker, your Likes carry the power to reward the creators.  Act to support content creation NOW!",
+      "label": {
+        "or": "or",
+        "with": "with the following method"
+      },
+      "button": {
+        "toggle": "@:Home.Header.button.signIn",
         "email": "Email",
         "wallet": "Sign-in with Ethereum Wallet"
       }

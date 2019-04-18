@@ -669,16 +669,30 @@
       "checkInboxDescription": "我們剛剛發了一條確認鏈結到電郵地址 {email}。請點擊鏈結，然後登入。",
       "loginSuccessful": "成功登入"
     },
-    "SignIn": {
+    "SignUp": {
       "title": "免費註冊，化讚為賞",
       "description": "成為 Liker 後，你的點讚能為作者帶來收入。作者需要你的支持，現在立即行動吧！",
+      "label": {
+        "or": "或",
+        "with": "選以下任一方式註冊"
+      },
+      "button": {
+        "toggle": "@:Home.Header.button.signUp",
+        "email": "電郵",
+        "wallet": "以加密貨幣錢包註冊"
+      }
+    },
+    "SignIn": {
+      "title": "登入化讚為賞",
+      "description": "登入 Liker 後，你的點讚能為作者帶來收入。作者需要你的支持，現在立即行動吧！",
       "label": {
         "or": "或",
         "with": "選以下任一方式登入"
       },
       "button": {
+        "toggle": "@:Home.Header.button.signIn",
         "email": "電郵",
-        "wallet": "以加密貨幣錢包登入/註冊"
+        "wallet": "以加密貨幣錢包登入"
       }
     },
     "SignInWithEmail": {
