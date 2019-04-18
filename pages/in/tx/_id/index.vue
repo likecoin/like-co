@@ -343,15 +343,10 @@ export default {
       this.to = to;
       const isMultipleId = Array.isArray(this.displayToId);
       this.startLoading();
-      const [fromData, toData] = isMultipleId
-        ? [
-          await apiGetUserMinById(this.fromId).catch(() => ({})),
-          null,
-        ]
-        : await Promise.all([
-          apiGetUserMinById(this.fromId).catch(() => ({})),
-          apiGetUserMinById(this.displayToId).catch(() => ({})),
-        ]);
+      const [fromData, toData] = await Promise.all([
+        apiGetUserMinById(this.fromId).catch(() => ({})),
+        isMultipleId ? null : apiGetUserMinById(this.displayToId).catch(() => ({})),
+      ]);
       this.stopLoading();
       if (fromData && fromData.data) {
         this.fromName = fromData.data.displayName || fromData.data.user;
