@@ -123,8 +123,19 @@ export const setAuthDialog = ({ commit }, payload) => {
   commit(types.UI_SET_AUTH_DIALOG, payload);
 };
 
-export const popupAuthDialogInPlace = ({ commit }, { route }) => {
-  commit(types.UI_SET_AUTH_DIALOG, { isShow: true });
+export const setAuthDialogShow = ({ commit, state }, isShow) => {
+  let { isSignIn } = state.authDialogStatus;
+  if (!isShow) isSignIn = false;
+  commit(types.UI_SET_AUTH_DIALOG, { isShow, isSignIn });
+};
+
+export const toggleAuthDialogIsSignIn = ({ commit, state }) => {
+  const { isShow, isSignIn } = state.authDialogStatus;
+  commit(types.UI_SET_AUTH_DIALOG, { isShow, isSignIn: !isSignIn });
+};
+
+export const popupAuthDialogInPlace = ({ commit }, { route, isSignIn }) => {
+  commit(types.UI_SET_AUTH_DIALOG, { isShow: true, isSignIn });
   const {
     params,
     name,
