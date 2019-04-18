@@ -2,9 +2,10 @@
 import { IS_TESTNET } from '@/constant';
 
 export default {
-  fetch({ redirect, query }) {
+  mounted() {
+    const { query } = this.$route;
     const queryString = Object.keys(query).map(key => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`).join('&');
-    redirect(302, `https://${IS_TESTNET ? 'rinkeby.' : ''}liker.land/civic?${queryString}`);
+    window.location.replace(`https://${IS_TESTNET ? 'rinkeby.' : ''}liker.land/civic?${queryString}`);
   },
 };
 </script>
