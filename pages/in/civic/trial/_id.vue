@@ -241,7 +241,7 @@ export default {
       switch (error) {
         case 'joined':
           options.onConfirm = () => {
-            this.$router.push({ name: 'in-civic-register' });
+            this.$router.push({ name: 'in-civic' });
           };
           break;
 

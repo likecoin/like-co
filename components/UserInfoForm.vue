@@ -288,7 +288,7 @@ export default {
     ]),
     onClickCivicLikerStamp() {
       if (this.isCivicLikerTrial || this.canRenewCivicLiker) {
-        this.$router.push({ name: 'in-civic-register' });
+        this.$router.push({ name: 'in-civic' });
       }
     },
     async onSubmitEdit() {
