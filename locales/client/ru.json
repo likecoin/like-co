@@ -238,7 +238,7 @@
         "Header": {
             "button": {
                 "signIn": "Вход",
-                "signUp": "Вход"
+                "signUp": "Регистрация"
             }
         },
         "Flag": {
