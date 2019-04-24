@@ -1,3 +1,6 @@
+<template>
+  <div>{{$t('General.loading')}}</div>
+</template>
 <script>
 import { IS_TESTNET } from '@/constant';
 
