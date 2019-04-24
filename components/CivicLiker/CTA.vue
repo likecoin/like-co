@@ -164,7 +164,7 @@ export default {
     onClick() {
       // Use Civic CTA as register callout for new user
       if (!this.getUserIsRegistered) {
-        this.popupAuthDialogInPlace({ route: this.$route });
+        this.popupAuthDialogInPlace({ route: { name: 'in-civic' } });
         return;
       }
       this.$router.push({ name: 'in-civic' });

@@ -104,21 +104,24 @@
       >
 
         <div
-          v-if="currentTab === 'portal'"
+          v-if="currentTab === 'portal' && !isSignIn"
           ref="portal"
           key="portal"
           class="auth-dialog__tab auth-dialog__tab--index"
         >
-          <Transition
-            name="fade"
-            mode="out-in"
-          >
-            <signin-portal
-              :key="isSignIn.toString()"
-              :is-sign-in="isSignIn"
-              @submit="signInWithPlatform"
-            />
-          </Transition>
+          <signin-portal @submit="signInWithPlatform" />
+        </div>
+
+        <div
+          v-else-if="currentTab === 'portal'"
+          ref="portal"
+          key="portal-signin"
+          class="auth-dialog__tab auth-dialog__tab--index"
+        >
+          <signin-portal
+            :is-sign-in="true"
+            @submit="signInWithPlatform"
+          />
         </div>
 
         <div
@@ -353,7 +356,7 @@ export default {
 
       errorCode: '',
       isSigningInWithEmail: false,
-      isSignIn: this.$route.query.login === '1' || false,
+      isSignIn: this.$route.query.login === '1',
 
       referrer: '',
       sourceURL: '',
