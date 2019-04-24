@@ -20,7 +20,6 @@ const createStore = (() => new Vuex.Store({
       if (route.name !== 'in-register') {
         commit('USER_SET_AFTER_AUTH_ROUTE', null);
       }
-      commit('USER_AWAITING_AUTH', true);
       const token = (req.cookies || {}).likecoin_auth;
       if (token) {
         try {
@@ -35,7 +34,6 @@ const createStore = (() => new Vuex.Store({
             },
           );
           commit('USER_SET_USER_INFO', data);
-          commit('USER_AWAITING_AUTH', false);
         } catch (err) {
           // no op
         }
