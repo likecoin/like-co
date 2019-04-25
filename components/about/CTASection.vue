@@ -36,18 +36,10 @@
 
               <div class="cta-section-body-buttons">
                 <ul>
-                  <li v-if="getUserNeedAuth">
+                  <li v-if="!getUserIsRegistered">
                     <md-button
                       class="cta-btn md-likecoin shadow"
-                      @click="onClickSignInButton"
-                    >
-                      {{ $t('Home.Header.button.signIn') }}
-                    </md-button>
-                  </li>
-                  <li v-else>
-                    <md-button
-                      class="cta-btn md-likecoin shadow"
-                      @click="onClickRegisterButton"
+                      @click="onClickSignUpButton"
                     >
                       {{ $t('Home.Header.button.signUp') }}
                     </md-button>
@@ -139,7 +131,6 @@ export default {
   computed: {
     ...mapGetters([
       'getUserIsRegistered',
-      'getUserNeedAuth',
     ]),
   },
   methods: {
@@ -152,7 +143,7 @@ export default {
     onClickTokenSaleButton() {
       this.$router.push({ name: 'in-tokensale' });
     },
-    onClickSignInButton() {
+    onClickSignUpButton() {
       if (this.$route.name === 'index') {
         this.$router.push({ name: 'in' });
       } else {

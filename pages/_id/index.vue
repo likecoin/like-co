@@ -135,7 +135,7 @@
                 </material-button>
 
                 <div
-                  v-else-if="getUserNeedAuth"
+                  v-else-if="!getUserIsRegistered"
                   class="create-account-wrapper"
                 >
                   <md-button
@@ -143,19 +143,6 @@
                     @click="onClickSignInButton"
                   >
                     {{ $t('Home.Header.button.signIn') }}
-                  </md-button>
-                </div>
-
-                <div
-                  v-else-if="!getUserIsRegistered"
-                  class="create-account-wrapper"
-                >
-                  <p>{{ $t('KYC.label.createID') }}</p>
-                  <md-button
-                    class="md-likecoin"
-                    @click="onClickSignUpButton"
-                  >
-                    {{ $t('KYC.button.createID') }}
                   </md-button>
                 </div>
 
@@ -372,7 +359,6 @@ export default {
     ...mapGetters([
       'getIsInTransaction',
       'getUserIsRegistered',
-      'getUserNeedAuth',
       'getMetamaskError',
       'getWeb3Type',
       'getIsShowingTxPopup',

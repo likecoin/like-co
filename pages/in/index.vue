@@ -262,7 +262,6 @@ export default {
       'getIsPopupBlocking',
       'getIsFetchingMissions',
       'getIsFetchedMissions',
-      'getUserNeedAuth',
       'getUserIsRegistered',
       'getShortMissionList',
     ]),

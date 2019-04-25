@@ -2,16 +2,16 @@
   <div class="signin-portal lc-padding-top-16">
     <div class="lc-dialog-container-1">
       <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-mobile">
-        {{ $t('AuthDialog.SignIn.title') }}
+        {{ $t(`${localeBasePath}.title`) }}
       </h1>
       <p class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-24 lc-mobile">
-        {{ $t('AuthDialog.SignIn.description') }}
+        {{ $t(`${localeBasePath}.description`) }}
       </p>
     </div>
 
     <div class="signin-portal__method-list-wrapper lc-dialog-container-1">
       <span class="lc-font-size-12">
-        {{ $t('AuthDialog.SignIn.label.with') }}
+        {{ $t(`${localeBasePath}.label.with`) }}
       </span>
 
       <div class="signin-portal__method-list lc-margin-top-12 lc-text-align-center">
@@ -38,7 +38,7 @@
         </md-button>
 
         <!-- <span class="lc-margin-vertical-8 lc-font-size-12">
-          {{ $t('AuthDialog.SignIn.label.or') }}
+          {{ $t(`${localeBasePath}.label.or`) }}
         </span>
 
         <md-button
@@ -46,7 +46,7 @@
           @click="onSignInWith('email')"
         >
           <md-icon :md-src="EmailIcon" />
-          {{ $t('AuthDialog.SignIn.button.email') }}
+          {{ $t(`${localeBasePath}.button.email`) }}
         </md-button> -->
 
       </div>
@@ -58,7 +58,7 @@
         class="lc-color-like-gray-4 lc-font-size-12 lc-underline"
         @click="onSignInWith('wallet')"
       >
-        {{ $t('AuthDialog.SignIn.button.wallet') }}
+        {{ $t(`${localeBasePath}.button.wallet`) }}
       </a>
     </div>
 
@@ -73,6 +73,12 @@ import TwitterIcon from '@/assets/icons/fillable/twitter.svg';
 
 export default {
   name: 'signin-portal',
+  props: {
+    isSignIn: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       EmailIcon,
@@ -80,6 +86,11 @@ export default {
       GoogleIcon,
       TwitterIcon,
     };
+  },
+  computed: {
+    localeBasePath() {
+      return `AuthDialog.${this.isSignIn ? 'SignIn' : 'SignUp'}`;
+    },
   },
   methods: {
     onSignInWith(platform) {
