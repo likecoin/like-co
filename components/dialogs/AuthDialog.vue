@@ -836,6 +836,7 @@ export default {
           platform: this.platform,
           ...this.signInPayload,
         });
+        this.logRegisterEvent(this, 'RegFlow', 'LoginSuccessWhenRegister', 'LoginSuccessWhenRegister', 1);
         this.redirectAfterSignIn();
       } catch (err) {
         if (err.response) {
