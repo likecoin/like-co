@@ -480,7 +480,6 @@ export default {
       this.contentScrollTop = 0;
       if (tab === 'register' && !this.loggedEvents.register) {
         this.loggedEvents.register = 1;
-        this.logRegisterEvent(this, 'RegFlow', 'LoginConvertRegister', 'LoginConvertRegister', 1);
         logTrackerEvent(this, 'RegFlow', 'ShowRegisterForm', 'ShowRegisterForm', 1);
       }
     },
@@ -836,10 +835,12 @@ export default {
           platform: this.platform,
           ...this.signInPayload,
         });
+        this.logRegisterEvent(this, 'RegFlow', 'LoginSuccessWhenRegister', 'LoginSuccessWhenRegister', 1);
         this.redirectAfterSignIn();
       } catch (err) {
         if (err.response) {
           if (err.response.status === 404) {
+            if (this.isSignIn) logTrackerEvent(this, 'RegFlow', 'LoginRedirectToRegister', 'LoginRedirectToRegister', 1);
             this.preRegister();
             return;
           }
@@ -851,7 +852,7 @@ export default {
       }
     },
     async preRegister() {
-      this.logRegisterEvent(this, 'RegFlow', 'PreRegister', 'PreRegister', 1);
+      logTrackerEvent(this, 'RegFlow', 'PreRegister', 'PreRegister', 1);
       this.currentTab = 'loading';
       if (this.signInPayload.email) {
         const RANDOM_DIGIT_LENGTH = 5;
