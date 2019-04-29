@@ -448,6 +448,10 @@ export default {
           }
           this.$nextTick(this.setContentHeight);
         }
+        if (isSignIn !== this.isSignIn && !isSignIn && !this.loggedEvents.swapRegisterTab) {
+          this.loggedEvents.swapRegisterTab = 1;
+          logTrackerEvent(this, 'RegFlow', 'SwapToRegisterTab', 'SwapToRegisterTab', 1);
+        }
         this.isSignIn = isSignIn;
 
         // Sync dialog display with query string if not in single page
@@ -476,6 +480,7 @@ export default {
       this.contentScrollTop = 0;
       if (tab === 'register' && !this.loggedEvents.register) {
         this.loggedEvents.register = 1;
+        this.logRegisterEvent(this, 'RegFlow', 'LoginConvertRegister', 'LoginConvertRegister', 1);
         logTrackerEvent(this, 'RegFlow', 'ShowRegisterForm', 'ShowRegisterForm', 1);
       }
     },
@@ -684,6 +689,7 @@ export default {
     },
     async signInWithPlatform(platform) {
       this.platform = platform;
+      this.logRegisterEvent(this, 'RegFlow', 'LoginTry', `LoginTry(${platform})`, 1);
 
       switch (platform) {
         case 'email':
@@ -824,7 +830,7 @@ export default {
     async login() {
       this.currentTab = 'signingIn';
       try {
-        logTrackerEvent(this, 'RegFlow', 'LoginTry', 'LoginTry', 1);
+        this.logRegisterEvent(this, 'RegFlow', 'OAuthSuccess', 'OAuthSuccess', 1);
         await apiLoginUser({
           locale: this.getCurrentLocale,
           platform: this.platform,
@@ -832,20 +838,20 @@ export default {
         });
         this.redirectAfterSignIn();
       } catch (err) {
-        logTrackerEvent(this, 'RegFlow', 'LoginFail', 'LoginFail', 1);
         if (err.response) {
           if (err.response.status === 404) {
             this.preRegister();
             return;
           }
         }
+        this.logRegisterEvent(this, 'RegFlow', 'LoginFail', 'LoginFail', 1);
         console.error(err);
         if (this.$sentry) this.$sentry.captureException(err);
         this.setError((err.response || {}).data);
       }
     },
     async preRegister() {
-      logTrackerEvent(this, 'RegFlow', 'PreRegister', 'PreRegister', 1);
+      this.logRegisterEvent(this, 'RegFlow', 'PreRegister', 'PreRegister', 1);
       this.currentTab = 'loading';
       if (this.signInPayload.email) {
         const RANDOM_DIGIT_LENGTH = 5;
@@ -971,10 +977,13 @@ export default {
       // Reset register failure count
       this.hasClickSignWithWalletInError = false;
     },
+    logRegisterEvent(...args) {
+      if (!this.isSignIn) logTrackerEvent(...args);
+    },
     logShowAuthDialog(isShow) {
       if (isShow && !this.loggedEvents.showAuthDialog) {
         this.loggedEvents.showAuthDialog = 1;
-        logTrackerEvent(this, 'RegFlow', 'ShowAuthDialog', 'ShowAuthDialog', 1);
+        this.logRegisterEvent(this, 'RegFlow', 'ShowAuthDialog', 'ShowAuthDialog', 1);
       }
     },
   },
