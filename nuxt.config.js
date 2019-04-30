@@ -1,11 +1,10 @@
 /* istanbul ignore file */
 /* eslint import/no-extraneous-dependencies: "off" */
 
-import path from 'path';
-import { LIKE_CO_PLATFORMS } from './constant';
-
+const path = require('path');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const SentryPlugin = require('@sentry/webpack-plugin');
+const { LIKE_CO_PLATFORMS } = require('./constant');
 
 const shouldCache = !!process.env.CI || (process.env.NODE_ENV !== 'production');
 
@@ -226,6 +225,7 @@ const nuxtConfig = {
   */
   build: {
     cache: shouldCache,
+    extractCSS: true,
     babel: {
       presets: ({ isServer }) => [
         [
