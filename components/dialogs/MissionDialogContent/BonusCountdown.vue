@@ -98,7 +98,7 @@ export default {
     font-weight: 300;
     line-height: 1;
 
-    :global(li:after) {
+    /deep/ li:after {
       margin-left: -10px;
       padding-right: 6px;
     }

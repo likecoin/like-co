@@ -375,7 +375,7 @@ export default {
 }
 
 .token-sale-progress-wrapper {
-  :global(.lc-tokensale-progress-bar) {
+  /deep/ .lc-tokensale-progress-bar {
     @media (max-width: 600px) {
       box-shadow: 0px 0px 3px 5px rgba(0, 0, 0, 0.1);
     }

@@ -384,28 +384,28 @@ export default {
 
     background-color: transparent;
 
-    :global(.md-scrollbar::-webkit-scrollbar) {
+    /deep/ .md-scrollbar::-webkit-scrollbar {
       width: 0;
       height: 0;
     }
 
-    :global(.md-table-head-label) {
+    /deep/ .md-table-head-label {
       height: 14px;
     }
 
-    :global(.md-table-head-label),
-    :global(.md-table-cell-container) {
+    /deep/ .md-table-head-label,
+    /deep/ .md-table-cell-container {
       padding-left: 0;
 
       line-height: 14px;
     }
 
-    :global(.md-table-head-container) {
+    /deep/ .md-table-head-container {
       height: initial;
       padding: 6px 0;
     }
 
-    :global(.md-table-content) {
+    /deep/ .md-table-content {
       @include padding-x(40 + 8);
 
       background-color: transparent;
@@ -492,7 +492,7 @@ export default {
 
           text-align: right;
 
-          :global(.md-table-cell-container) {
+          /deep/ .md-table-cell-container {
             padding: 0 8px;
           }
         }
@@ -517,12 +517,12 @@ export default {
           .value {
             font-size: 0;
 
-            :global(.currency) {
+            /deep/ .currency {
               margin-left: 4px;
 
               font-size: 10px;
             }
-            :global(.to) {
+            /deep/ .to {
               margin: 4px;
 
               font-size: 14px;

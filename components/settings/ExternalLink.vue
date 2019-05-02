@@ -438,14 +438,14 @@ $shake-x: 4px;
     border-left: $border-style-2;
   }
 
-  :global(.lc-tooltip__content) {
+  /deep/ .lc-tooltip__content {
     background-color: $gray-e6;
   }
-  :global(.lc-tooltip__content:after) {
+  /deep/ .lc-tooltip__content:after {
     border-bottom-color: $gray-e6;
   }
-  :global(.lc-tooltip__content:before),
-  :global(.lc-tooltip__content:after) {
+  /deep/ .lc-tooltip__content:before,
+  /deep/ .lc-tooltip__content:after {
     left: 7px;
   }
 }

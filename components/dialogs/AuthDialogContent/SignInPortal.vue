@@ -118,7 +118,7 @@ export default {
 
     padding: 0 16px;
 
-    .md-button {
+    .md-button.md-likecoin {
       display: block;
 
       height: 48px;
@@ -128,7 +128,7 @@ export default {
 
       font-size: 24px;
 
-      & + .md-button {
+      & + .md-button.md-likecoin {
         margin-top: 8px;
       }
 

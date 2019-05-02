@@ -6,16 +6,16 @@
       mdCloseOnEsc: false,
       mdFullscreen: false,
     }"
-    class="chrome-dialog"
+    class="chrome-dialog with-icon"
   >
     <div
       slot="header-center"
-      class="lc-section-header-icon lc-dialog-icon"
+      class="lc-dialog-icon"
     >
       <img :src="icon">
     </div>
 
-    <div class="lc-dialog-container-1 lc-margin-top-24">
+    <div class="lc-dialog-container-1">
       <h1 class="lc-font-size-32 lc-margin-bottom-8">
         {{ $t('Dialog.chrome.title') }}
       </h1>

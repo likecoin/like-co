@@ -94,8 +94,8 @@ export default {
       font-size: 12px;
     }
 
-    :global(.md-icon),
-    :global(svg) {
+    /deep/ .md-icon,
+    /deep/ svg {
       width: 16px;
       min-width: 16px;
       height: 16px;
@@ -126,15 +126,15 @@ export default {
       background-color: $like-green;
     }
 
-    :global(.md-svg-loader) {
+    /deep/ .md-svg-loader {
       display: inline-flex;
     }
 
-    :global(.md-icon:not(:last-child)) {
+    /deep/ .md-icon:not(:last-child) {
       margin-right: 4px;
     }
 
-    :global(svg) {
+    /deep/ svg {
       fill: $like-green !important;
     }
   }

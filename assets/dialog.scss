@@ -5,8 +5,6 @@ $title-bar-height: 48px;
 .md-dialog {
   position: absolute;
 
-  overflow: visible;
-
   width: 450px;
   min-height: 188px;
 
@@ -18,8 +16,6 @@ $title-bar-height: 48px;
 
   > .md-dialog-container {
     overflow: hidden;
-
-    border-radius: 6px;
 
     .dialog-content {
       display: flex;

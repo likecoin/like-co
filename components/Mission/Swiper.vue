@@ -168,14 +168,14 @@ export default {
 
     background-image: none;
 
-    .simple-svg-wrapper :global(svg) {
+    .simple-svg-wrapper /deep/ svg {
       fill: $like-green !important;
     }
 
     &.swiper-button-disabled {
       opacity: 1;
 
-      .simple-svg-wrapper :global(svg) {
+      .simple-svg-wrapper /deep/ svg {
         fill: #e6e6e6 !important;
       }
     }
@@ -200,7 +200,7 @@ export default {
 
   width: 100%;
 
-  :global(.swiper-pagination-bullet) {
+  /deep/ .swiper-pagination-bullet {
     width: 3px;
     height: 3px;
     margin: 0 4px;
@@ -211,7 +211,7 @@ export default {
     border-radius: 50%;
     background-color: #9b9b9b;
 
-    &:global(:active) {
+    &:active {
       width: 5px;
       height: 5px;
 

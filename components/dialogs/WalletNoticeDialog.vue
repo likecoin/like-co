@@ -260,7 +260,7 @@ export default {
   }
 
   &__back-button {
-    :global(.md-button-content) {
+    /deep/ .md-button-content {
       display: flex;
       align-items: center;
     }

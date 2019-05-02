@@ -477,7 +477,7 @@ export default {
   .md-field {
     margin: -12px 0 0;
 
-    :global(input) {
+    /deep/ input {
       font-size: 14px;
     }
   }

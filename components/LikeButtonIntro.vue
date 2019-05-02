@@ -334,7 +334,7 @@ export default {
       cursor: pointer;
     }
 
-    :global(svg) {
+    /deep/ svg {
       @media (max-width: 600px) {
         width: 48px !important;
         height: 48px !important;

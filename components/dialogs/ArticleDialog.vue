@@ -113,7 +113,7 @@ $dialog-top-margin: 40px;
     }
   }
 
-  :global(.lc-section-header) {
+  /deep/ .lc-section-header {
     border-bottom: 2px solid $gray-e6;
 
     @media (min-width: 600px + 1px) {
@@ -126,11 +126,11 @@ $dialog-top-margin: 40px;
     }
   }
 
-  :global(.lc-section-header:before) {
+  /deep/ .lc-section-header:before {
     content: none;
   }
 
-  :global(.left) {
+  /deep/ .left {
     max-width: 70%;
 
     font-size: 18px;

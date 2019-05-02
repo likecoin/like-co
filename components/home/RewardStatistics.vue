@@ -249,7 +249,7 @@ export default {
       }
     }
 
-    :global(.odometer-counter__digit-container) {
+    /deep/ .odometer-counter__digit-container {
       font-variant-numeric: normal;
     }
   }

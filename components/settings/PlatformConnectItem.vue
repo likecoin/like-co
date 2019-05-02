@@ -284,13 +284,13 @@ export default {
 
         line-height: 16px;
 
-        :global(.md-input) {
+        /deep/ .md-input {
           height: 1em;
 
           font-size: 12px;
           line-height: 16px;
         }
-        :global(.md-icon) {
+        /deep/ .md-icon {
           width: 1em;
           min-width: 0;
           height: 1em;
@@ -299,7 +299,7 @@ export default {
 
           font-size: 16px !important;
 
-          > :global(svg) {
+          > svg {
             width: inherit;
             height: inherit;
           }

@@ -998,18 +998,18 @@ export default {
 @import "~assets/mixin";
 
 .lc-dialog {
-  :global(.lc-dialog-header::before) {
+  /deep/ .lc-dialog-header::before {
     background: linear-gradient(246deg, #d2f0f0, #f0e6b4);
   }
 }
 
 .auth-dialog {
-  :global(.lc-dialog-header) {
+  /deep/ .lc-dialog-header {
     z-index: 1;
   }
 
   &--blocking {
-    :global(.lc-dialog-header::before) {
+    /deep/ .lc-dialog-header::before {
       @include background-image-sliding-animation-x(
         linear-gradient(to right, #ed9090, #ee6f6f 20%, #ecd7d7, #ed9090)
       );
