@@ -60,7 +60,7 @@ const state = () => ({
   txDialogActionRoute: null,
   txDialogActionText: '',
   isShowingPromptNotificationDialog: false,
-  isShowAuthDialog: false,
+  authDialogStatus: { isShow: false },
   isShowWalletNoticeDialog: false,
   walletNoticeDialogCancelTitle: '',
   walletNoticeDialogCancelCallback: null,
@@ -184,8 +184,8 @@ const mutations = {
   [UI_SET_PROMPT_NOTIFICATION_DIALOG](state, payload) {
     state.isShowingPromptNotificationDialog = payload;
   },
-  [UI_SET_AUTH_DIALOG](state, payload) {
-    state.isShowAuthDialog = !!payload.isShow;
+  [UI_SET_AUTH_DIALOG](state, { isShow, isSignIn = false }) {
+    state.authDialogStatus = { isShow, isSignIn };
   },
   [UI_SET_WALLET_NOTICE_DIALOG](state, payload) {
     state.isShowWalletNoticeDialog = !!payload.isShow;

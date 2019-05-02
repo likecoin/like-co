@@ -67,6 +67,25 @@
     </div>
 
     <div
+      slot="header-right"
+      class="auth-dialog__header-right"
+    >
+      <a
+        v-if="!isBlocking"
+        class="auth-dialog__login-button"
+        @click="onToggleSignIn"
+      >
+        <template v-if="isSignIn">
+          {{ $t('AuthDialog.SignUp.button.toggle') }}
+        </template>
+        <template v-else>
+          {{ $t('AuthDialog.SignIn.button.toggle') }}
+        </template>
+      </a>
+    </div>
+
+
+    <div
       :style="contentStyle"
       :class="[
         'auth-dialog__content',
@@ -85,12 +104,24 @@
       >
 
         <div
-          v-if="currentTab === 'portal'"
+          v-if="currentTab === 'portal' && !isSignIn"
           ref="portal"
           key="portal"
           class="auth-dialog__tab auth-dialog__tab--index"
         >
           <signin-portal @submit="signInWithPlatform" />
+        </div>
+
+        <div
+          v-else-if="currentTab === 'portal'"
+          ref="portal"
+          key="portal-signin"
+          class="auth-dialog__tab auth-dialog__tab--index"
+        >
+          <signin-portal
+            :is-sign-in="true"
+            @submit="signInWithPlatform"
+          />
         </div>
 
         <div
@@ -304,12 +335,6 @@ export default {
   mixins: [
     EthMixin,
   ],
-  props: {
-    isShow: {
-      type: Boolean,
-      default: false,
-    },
-  },
   data() {
     return {
       LikeCoinLogo,
@@ -331,6 +356,7 @@ export default {
 
       errorCode: '',
       isSigningInWithEmail: false,
+      isSignIn: this.$route.query.login === '1',
 
       referrer: '',
       sourceURL: '',
@@ -341,6 +367,7 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'getAuthDialogStatus',
       'getIsShowAuthDialog',
       'getCurrentLocale',
       'getMetamaskError',
@@ -412,29 +439,42 @@ export default {
     },
   },
   watch: {
-    getIsShowAuthDialog(isShow) {
-      if (isShow) {
-        // Reset current tab to portal then update the content height
-        if (!this.isSigningInWithEmail) {
-          this.currentTab = 'portal';
-        }
-        this.$nextTick(this.setContentHeight);
-      }
-
-      // Sync dialog display with query string if not in single page
-      if (!this.isSinglePage) {
-        const query = { ...this.$route.query };
+    getAuthDialogStatus: {
+      handler({ isShow, isSignIn }) {
         if (isShow) {
-          // Add show_login=1 in query string
-          query.show_login = '1';
-        } else {
-          // Remove show_login in query string
-          delete query.show_login;
+          // Reset current tab to portal then update the content height
+          if (!this.isSigningInWithEmail) {
+            this.currentTab = 'portal';
+          }
+          this.$nextTick(this.setContentHeight);
         }
-        this.$router.replace({ path: this.$route.path, query });
-      }
+        if (isSignIn !== this.isSignIn && !isSignIn && !this.loggedEvents.swapRegisterTab) {
+          this.loggedEvents.swapRegisterTab = 1;
+          logTrackerEvent(this, 'RegFlow', 'SwapToRegisterTab', 'SwapToRegisterTab', 1);
+        }
+        this.isSignIn = isSignIn;
 
-      this.logShowAuthDialog(isShow);
+        // Sync dialog display with query string if not in single page
+        if (!this.isSinglePage) {
+          const query = { ...this.$route.query };
+          if (isShow) {
+            // Add show_login=1 in query string
+            query.show_login = '1';
+            if (isSignIn) {
+              query.login = '1';
+            } else {
+              delete query.login;
+            }
+          } else {
+            // Remove show_login and login in query string
+            delete query.show_login;
+            delete query.login;
+          }
+          this.$router.replace({ path: this.$route.path, query });
+        }
+        this.logShowAuthDialog(isShow);
+      },
+      deep: true,
     },
     currentTab(tab) {
       this.contentScrollTop = 0;
@@ -471,9 +511,11 @@ export default {
 
     // Show dialog when show_login set to true in query string
     if (this.$route.query.show_login === '1') {
-      this.setIsShow(true);
+      this.setAuthDialog({
+        isShow: true,
+        isSignIn: this.$route.query.login === '1',
+      });
     }
-
     // Check whether it is email sign in
     if (firebaseIsSignInEmailLink()) {
       this.isSigningInWithEmail = true;
@@ -514,6 +556,7 @@ export default {
           if (this.$sentry) {
             this.$sentry.captureException(new Error('No credential after redirect'));
           }
+          this.currentTab = 'portal';
         }
       } catch (err) {
         console.error(err);
@@ -537,12 +580,13 @@ export default {
   methods: {
     ...mapActions([
       'newUser',
-      'doPostAuthRedirect',
-      'setAuthDialog',
-      'setWalletNoticeDialog',
-      'setUserNeedAuth',
       'refreshUser',
       'fetchUserMinInfo',
+      'doPostAuthRedirect',
+      'setAuthDialog',
+      'setAuthDialogShow',
+      'toggleAuthDialogIsSignIn',
+      'setWalletNoticeDialog',
       'openPopupDialog',
     ]),
     setContentHeight() {
@@ -581,7 +625,7 @@ export default {
       this.close();
     },
     onUpdateIsShow(isShow) {
-      if (!this.shouldHideDialog) {
+      if (!this.shouldHideDialog && isShow !== this.getIsShowAuthDialog) {
         this.setIsShow(isShow);
       }
       if (!isShow && this.errorCode === 'FIREBASE_EMAIL_LINK_AUTH_NO_EMAIL') {
@@ -612,6 +656,9 @@ export default {
           break;
       }
     },
+    onToggleSignIn() {
+      this.toggleAuthDialogIsSignIn();
+    },
     onConfirm() {
       this.setIsShow(false);
       this.$emit('confirm');
@@ -626,7 +673,7 @@ export default {
       this.$emit('closed');
     },
     setIsShow(isShow) {
-      this.setAuthDialog({ isShow });
+      this.setAuthDialogShow(isShow);
     },
     close() {
       this.setIsShow(false);
@@ -642,6 +689,7 @@ export default {
     },
     async signInWithPlatform(platform) {
       this.platform = platform;
+      this.logRegisterEvent(this, 'RegFlow', 'LoginTry', `LoginTry(${platform})`, 1);
 
       switch (platform) {
         case 'email':
@@ -782,22 +830,23 @@ export default {
     async login() {
       this.currentTab = 'signingIn';
       try {
-        logTrackerEvent(this, 'RegFlow', 'LoginTry', 'LoginTry', 1);
+        this.logRegisterEvent(this, 'RegFlow', 'OAuthSuccess', 'OAuthSuccess', 1);
         await apiLoginUser({
           locale: this.getCurrentLocale,
           platform: this.platform,
           ...this.signInPayload,
         });
-        this.setUserNeedAuth(false);
+        this.logRegisterEvent(this, 'RegFlow', 'LoginSuccessWhenRegister', 'LoginSuccessWhenRegister', 1);
         this.redirectAfterSignIn();
       } catch (err) {
-        logTrackerEvent(this, 'RegFlow', 'LoginFail', 'LoginFail', 1);
         if (err.response) {
           if (err.response.status === 404) {
+            if (this.isSignIn) logTrackerEvent(this, 'RegFlow', 'LoginRedirectToRegister', 'LoginRedirectToRegister', 1);
             this.preRegister();
             return;
           }
         }
+        this.logRegisterEvent(this, 'RegFlow', 'LoginFail', 'LoginFail', 1);
         console.error(err);
         if (this.$sentry) this.$sentry.captureException(err);
         this.setError((err.response || {}).data);
@@ -864,7 +913,6 @@ export default {
       try {
         await this.newUser(payload);
         logTrackerEvent(this, 'RegFlow', 'RegistrationComplete', 'RegistrationComplete', 1);
-        this.setUserNeedAuth(false);
         this.redirectAfterSignIn();
       } catch (err) {
         let errCode;
@@ -931,10 +979,13 @@ export default {
       // Reset register failure count
       this.hasClickSignWithWalletInError = false;
     },
+    logRegisterEvent(...args) {
+      if (!this.isSignIn) logTrackerEvent(...args);
+    },
     logShowAuthDialog(isShow) {
       if (isShow && !this.loggedEvents.showAuthDialog) {
         this.loggedEvents.showAuthDialog = 1;
-        logTrackerEvent(this, 'RegFlow', 'ShowAuthDialog', 'ShowAuthDialog', 1);
+        this.logRegisterEvent(this, 'RegFlow', 'ShowAuthDialog', 'ShowAuthDialog', 1);
       }
     },
   },
@@ -979,6 +1030,25 @@ export default {
 
   &__header-center {
     padding-top: 16px;
+  }
+
+  &__header-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+
+    display: flex;
+    align-items: center;
+
+    padding-right: 16px;
+  }
+
+  &__login-button {
+    padding: 3px 26px;
+
+    border: solid 2px $like-green;
+    border-radius: 18px;
   }
 
   &__logo {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <oauth-permission-dialog
-      v-if="!isAuthed"
+      v-if="needAuth"
       :provider="provider"
       :scope="scope"
       :is-show.sync="shouldPromptPermissionDialog"
@@ -54,7 +54,7 @@ export default {
     }
     try {
       const res = await apiGetOAuthAuthorize(clientId, redirectUri, scope, opt);
-      const { provider, isAuthed = false } = res.data;
+      const { provider, isAuthed = false, isTrusted = false } = res.data;
       return {
         clientId,
         redirectUri,
@@ -62,13 +62,19 @@ export default {
         provider,
         scope,
         isAuthed,
+        isTrusted,
       };
     } catch (err) {
       return error((err.response || {}).data || err.message);
     }
   },
+  computed: {
+    needAuth() {
+      return !(this.isAuthed || this.isTrusted);
+    },
+  },
   mounted() {
-    if (this.isAuthed) this.authorize();
+    if (!this.needAuth) this.authorize();
   },
   methods: {
     onDecline() {

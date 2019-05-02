@@ -97,7 +97,7 @@
                 <div class="lc-container-4">
 
                   <div
-                    v-if="getUserNeedAuth"
+                    v-if="!getUserIsRegistered"
                     class="action-section"
                   >
                     <md-button
@@ -105,21 +105,6 @@
                       @click="onClickSignInButton"
                     >
                       {{ $t('Home.Header.button.signIn') }}
-                    </md-button>
-                  </div>
-
-                  <div
-                    v-else-if="!getUserIsRegistered"
-                    class="action-section"
-                  >
-                    <p class="lc-text-align-center lc-color-gray-9b">
-                      {{ $t('Pay.label.dontWorryWithoutLikeCoin') }}
-                    </p>
-                    <md-button
-                      :href="registrationTutorialLink"
-                      class="md-likecoin"
-                    >
-                      {{ $t('Pay.button.registrationTutorial') }}
                     </md-button>
                   </div>
 
@@ -276,7 +261,6 @@ export default {
       'getIsInTransaction',
       'getLocalWallet',
       'getUserIsRegistered',
-      'getUserNeedAuth',
       'getMetamaskError',
       'getWeb3Type',
       'getIsShowingTxPopup',

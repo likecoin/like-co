@@ -64,25 +64,18 @@
               class="lc-container-4 lc-text-align-center lc-margin-top-32"
             >
               <md-button
-                v-if="getUserNeedAuth"
+                v-if="!getUserIsRegistered"
                 class="md-likecoin"
                 @click="popupAuthDialogInPlace"
               >
                 {{ $t('Home.Header.button.signIn') }}
-              </md-button>
-              <md-button
-                v-else
-                class="md-likecoin"
-                @click="redirectToRegister"
-              >
-                {{ $t('KYC.button.createID') }}
               </md-button>
             </div>
 
           </div>
 
           <div
-            v-if="!getUserIsRegistered && !getUserNeedAuth"
+            v-if="!getUserIsRegistered"
             class="lc-container-3 lc-margin-top-16 lc-text-align-center"
           >
             <div class="lc-container-4">
@@ -157,7 +150,6 @@ export default {
   computed: {
     ...mapGetters([
       'getUserIsRegistered',
-      'getUserNeedAuth',
     ]),
   },
   methods: {

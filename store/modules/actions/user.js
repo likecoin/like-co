@@ -62,7 +62,6 @@ export async function newUser({ commit, dispatch, rootState }, data) {
     api.apiPostNewUser(data, { headers: { 'x-csrf-token': rootState.staticData.csrfToken } }),
     { slient: true, error: 'raw' },
   );
-  commit(types.USER_AWAITING_AUTH, false);
   await dispatch('refreshUser');
   return true;
 }
@@ -79,7 +78,6 @@ export async function updateUser({ commit, dispatch, rootState }, data) {
 
 export async function loginUser({ commit, dispatch }, data) {
   await apiWrapper({ commit, dispatch }, api.apiLoginUser(data), { blocking: true });
-  commit(types.USER_AWAITING_AUTH, false);
   await dispatch('refreshUser');
   return true;
 }
@@ -116,11 +114,10 @@ export async function logoutUser({ commit, dispatch }, data) {
   commit(types.USER_SET_USER_INFO, {});
   commit(types.UI_INFO_MSG, '');
   commit(types.MISSION_CLEAR_ALL);
-  commit(types.USER_AWAITING_AUTH, true);
   return true;
 }
 
-export async function loginUserBySign({ state, commit, dispatch }) {
+export async function loginUserBySign({ state, dispatch }) {
   let payload;
   try {
     payload = await User.signLogin(state.wallet);
@@ -132,16 +129,11 @@ export async function loginUserBySign({ state, commit, dispatch }) {
 
   await api.apiLoginUser(payload);
   await dispatch('refreshUser');
-  commit(types.USER_AWAITING_AUTH, false);
   return true;
 }
 
 export async function onWalletChanged({ commit }, wallet) {
   commit(types.USER_SET_LOCAL_WALLET, wallet);
-}
-
-export function setUserNeedAuth({ commit }, needAuth) {
-  commit(types.USER_AWAITING_AUTH, needAuth);
 }
 
 export async function refreshUser({ commit, state, dispatch }) {

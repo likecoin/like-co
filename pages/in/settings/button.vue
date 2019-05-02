@@ -286,7 +286,6 @@ export default {
     ...mapGetters([
       'getUserInfo',
       'getUserIsRegistered',
-      'getUserNeedAuth',
       'getUserSocialPlatforms',
       'getUserSocialLinks',
       'getUserSocialMeta',

@@ -91,7 +91,6 @@ export default {
     ...mapGetters([
       'getUserInfo',
       'getUserIsRegistered',
-      'getUserNeedAuth',
     ]),
     disabled() {
       return this.isLoading || !this.getUserIsRegistered;

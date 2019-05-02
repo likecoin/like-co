@@ -59,6 +59,7 @@
 
 <script>
 import BaseDialog from '~/components/dialogs/BaseDialog';
+import { logTrackerEvent } from '@/util/EventLogger';
 
 import LikeCoinLogo from '~/assets/icons/likecoin-text-logo.svg';
 import DefaultProviderLogo from '~/assets/icons/default-sp.svg';
@@ -88,6 +89,7 @@ export default {
   data() {
     return {
       LikeCoinLogo,
+      loggedEvents: {},
     };
   },
   computed: {
@@ -96,9 +98,13 @@ export default {
       return DefaultProviderLogo;
     },
   },
+  mounted() {
+    this.logShowOAuthDialog(this.isShow);
+  },
   methods: {
     setIsShow(isShow) {
       this.$emit('update:isShow', isShow);
+      this.logShowOAuthDialog(isShow);
     },
     getScopeLocalization(scopeString) {
       const parts = scopeString.split(':');
@@ -120,13 +126,21 @@ export default {
       }
       return output;
     },
+    logShowOAuthDialog(isShow) {
+      if (isShow && !this.loggedEvents.showOAuthDialog) {
+        this.loggedEvents.showOAuthDialog = 1;
+        logTrackerEvent(this, 'OAuth', 'ShowOAuthPermissionDialog', 'ShowOAuthPermissionDialog', 1);
+      }
+    },
     onAccept() {
       this.setIsShow(false);
       this.$emit('accept');
+      logTrackerEvent(this, 'OAuth', 'OAuthAccept', 'OAuthAccept', 1);
     },
     onDecline() {
       this.setIsShow(false);
       this.$emit('decline');
+      logTrackerEvent(this, 'OAuth', 'OAuthDecline', 'OAuthDecline', 1);
     },
   },
 };

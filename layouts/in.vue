@@ -118,7 +118,6 @@ export default {
     },
     ...mapGetters([
       'getReferralMissionList',
-      'getUserNeedAuth',
       'getUserInfo',
     ]),
   },

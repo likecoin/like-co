@@ -81,7 +81,7 @@
 
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 import CountdownTimer from '@/components/CountdownTimer';
 import ChopArt from './ChopArt';
@@ -105,6 +105,7 @@ export default {
   computed: {
     ...mapGetters([
       'getUserInfo',
+      'getUserIsRegistered',
     ]),
     rootClass() {
       const { name } = this.$options;
@@ -157,7 +158,15 @@ export default {
     },
   },
   methods: {
+    ...mapActions([
+      'popupAuthDialogInPlace',
+    ]),
     onClick() {
+      // Use Civic CTA as register callout for new user
+      if (!this.getUserIsRegistered) {
+        this.popupAuthDialogInPlace({ route: { name: 'in-civic' } });
+        return;
+      }
       this.$router.push({ name: 'in-civic' });
     },
     onClickRenewButton() {
