@@ -556,6 +556,7 @@ export default {
           if (this.$sentry) {
             this.$sentry.captureException(new Error('No credential after redirect'));
           }
+          this.currentTab = 'portal';
         }
       } catch (err) {
         console.error(err);
