@@ -3,7 +3,7 @@
     <div class="lc-container-2">
       <div class="lc-container-3 lc-bg-gray-1 icon-wrapper">
         <nuxt-link
-          v-if="effectiveToId && !Array.isArray(effectiveToId)"
+          v-if="effectiveToId"
           :to="{ name: 'id', params: { id: effectiveToId } }"
           class="recipient-avatar"
         >
@@ -183,8 +183,8 @@ export default {
       return new Date(this.timestamp * 1000).toString();
     },
     effectiveToId() {
-      if (Array.isArray(this.toId) && (this.toId.length === 1)) {
-        return this.toId[0];
+      if (Array.isArray(this.toId)) {
+        return (this.toId.length === 1) ? this.toId[0] : '';
       }
       return this.toId;
     },
