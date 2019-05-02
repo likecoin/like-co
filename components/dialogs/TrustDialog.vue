@@ -12,7 +12,7 @@
     <!-- START - Header Section -->
     <div
       slot="header-center"
-      class="lc-section-header-icon lc-dialog-icon"
+      class="lc-dialog-icon"
     >
       <img :src="TrustIcon">
     </div>

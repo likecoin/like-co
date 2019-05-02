@@ -14,7 +14,7 @@
       <div
         v-if="!isUnfinishedAndExpired"
         slot="header-center"
-        class="lc-section-header-icon lc-dialog-icon lc-raised-icon"
+        class="lc-dialog-icon lc-raised-icon"
       >
         <mission-icon :mission-id="missionId" />
       </div>
@@ -775,6 +775,8 @@ export default {
 }
 
 .mission-dialog-content {
+  padding-top: 16px;
+
   /deep/ .instruction-image {
     display: block;
 

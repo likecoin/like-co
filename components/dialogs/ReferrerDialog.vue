@@ -9,7 +9,7 @@
 
       <div
         slot="header-center"
-        class="lc-section-header-icon lc-dialog-icon lc-raised-icon"
+        class="lc-dialog-icon lc-raised-icon"
       >
         <img :src="avatar">
       </div>

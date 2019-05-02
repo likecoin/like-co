@@ -1,162 +1,161 @@
 <template>
-  <div class="metamask-dialog">
-    <base-dialog
-      :is-show="!!this.case"
-      :md-props="{
-        mdClickOutsideToClose: false,
-        mdCloseOnEsc: false,
-        mdFullscreen: false,
-      }"
-      v-bind="$testID('MetaMaskDialog')"
-    >
-      <div slot="header-left">
-        <md-button
-          v-if="shouldShowReturnButton"
-          class="md-icon-button md-dense"
-          @click="handleReturnButtonClick"
-        >
-          <simple-svg
-            :filepath="ArrowLeftIcon"
-            width="18px"
-            height="18px"
-            fill="white"
-            stroke="transparent"
-          />
-        </md-button>
-      </div>
-
-      <div
-        slot="header-center"
-        class="lc-section-header-icon lc-dialog-icon"
+  <base-dialog
+    class="metamask-dialog with-icon"
+    :is-show="!!this.case"
+    :md-props="{
+      mdClickOutsideToClose: false,
+      mdCloseOnEsc: false,
+      mdFullscreen: false,
+    }"
+    v-bind="$testID('MetaMaskDialog')"
+  >
+    <div slot="header-left">
+      <md-button
+        v-if="shouldShowReturnButton"
+        class="md-icon-button md-dense"
+        @click="handleReturnButtonClick"
       >
-        <img :src="icon">
-      </div>
+        <simple-svg
+          :filepath="ArrowLeftIcon"
+          width="18px"
+          height="18px"
+          fill="white"
+          stroke="transparent"
+        />
+      </md-button>
+    </div>
 
-      <div slot="header-right">
-        <language-switch color="white" />
-      </div>
+    <div
+      slot="header-center"
+      class="lc-dialog-icon"
+    >
+      <img :src="icon">
+    </div>
 
-      <div class="metamask-dialog__content">
-        <div class="lc-dialog-container-1">
-          <h1
-            class="lc-font-size-32 lc-color-like-dark-brown-2 lc-margin-top-16 lc-margin-bottom-8"
-            v-html="title"
-          />
+    <div slot="header-right">
+      <language-switch color="white" />
+    </div>
 
-          <p class="lc-margin-bottom-8 lc-color-like-gray-4 lc-font-size-16 lc-font-weight-300">
-            <span v-html="content" />
-          </p>
+    <div class="metamask-dialog__content">
+      <div class="lc-dialog-container-1">
+        <h1
+          class="lc-font-size-32 lc-color-like-dark-brown-2 lc-margin-top-16 lc-margin-bottom-8"
+          v-html="title"
+        />
 
-          <img
-            v-if="image"
-            :src="image"
+        <p class="lc-margin-bottom-8 lc-color-like-gray-4 lc-font-size-16 lc-font-weight-300">
+          <span v-html="content" />
+        </p>
+
+        <img
+          v-if="image"
+          :src="image"
+        >
+
+        <section v-if="isInstallMetamask">
+          <a
+            href="https://metamask.io/"
+            target="_blank"
+            rel="noopener"
           >
-
-          <section v-if="isInstallMetamask">
-            <a
-              href="https://metamask.io/"
-              target="_blank"
-              rel="noopener"
-            >
-              <md-button
-                class="primary md-likecoin"
-                @click="onInstallClick"
-              >
-                {{ $t('Dialog.metamask.button.install') }}
-              </md-button>
-            </a>
             <md-button
-              class="md-likecoin"
-              @click="refreshPage"
+              class="primary md-likecoin"
+              @click="onInstallClick"
             >
-              {{ $t('Dialog.metamask.button.doneInstalled') }}
+              {{ $t('Dialog.metamask.button.install') }}
             </md-button>
-          </section>
-
-          <section
-            v-if="isNotSign"
-            class="lc-font-size-12 lc-margin-top-8"
+          </a>
+          <md-button
+            class="md-likecoin"
+            @click="refreshPage"
           >
-            <!-- Only support ledger for now -->
-            <!--    <div v-if="isHardware">
-            </div>
-            <a href="#" v-else @click.prevent="isHardware=true">
-              {{ $t('Dialog.metamask.label.hardwareWallet') }}
-            </a>
-          -->
-            <div
-              v-if="isMetamask"
-              class="lc-text-align-center"
-            >
-              <!-- <a
-                href="#"
-                @click.prevent="onLedger"
-              >{{ $t('Dialog.metamask.label.ledger') }}</a> -->
-            </div>
-            <div v-else>
-              <md-button
-                class="md-likecoin"
-                @click="onCancel"
-              >
-                {{ $t('General.button.cancel') }}
-              </md-button>
-            </div>
-          </section>
-        </div>
+            {{ $t('Dialog.metamask.button.doneInstalled') }}
+          </md-button>
+        </section>
 
         <section
-          v-if="getSignPayloadObject.action === 'sendLIKE'"
+          v-if="isNotSign"
+          class="lc-font-size-12 lc-margin-top-8"
         >
-          <div class="lc-bg-gray-1 lc-margin-top-16 lc-padding-vertical-16">
-            <div class="lc-dialog-container-1">
-              <div class="metamask-dialog__send-message">
-                <span class="lc-font-size-12 lc-color-like-gray-5">
-                  {{ $t('Dialog.metamask.label.sending') }}
-                </span>
-                <simple-svg
-                  :filepath="ArrowRightIcon"
-                  width="20px"
-                  height="16px"
-                  fill="#9b9b9b"
-                  stroke="transparent"
-                />
-                <span class="lc-color-like-green lc-font-weight-600 lc-font-size-16">
-                  {{ this.$route.params.id }}
-                </span>
-                <span class="lc-color-gray-9b lc-font-size-16">
-                  &#160;({{ maskWallet(getSignPayloadObject.payload.to) }})
-                </span>
-              </div>
-            </div>
+          <!-- Only support ledger for now -->
+          <!--    <div v-if="isHardware">
+          </div>
+          <a href="#" v-else @click.prevent="isHardware=true">
+            {{ $t('Dialog.metamask.label.hardwareWallet') }}
+          </a>
+        -->
+          <div
+            v-if="isMetamask"
+            class="lc-text-align-center"
+          >
+            <!-- <a
+              href="#"
+              @click.prevent="onLedger"
+            >{{ $t('Dialog.metamask.label.ledger') }}</a> -->
+          </div>
+          <div v-else>
+            <md-button
+              class="md-likecoin"
+              @click="onCancel"
+            >
+              {{ $t('General.button.cancel') }}
+            </md-button>
+          </div>
+        </section>
+      </div>
 
-            <hr class="lc-margin-vertical-12">
-
-            <div class="lc-dialog-container-1">
-              <div
-                class="lc-dialog-container-2 lc-font-weight-300 lc-text-align-center"
-                v-html="getFormattedLikeValue(likeTransferValue)"
+      <section
+        v-if="getSignPayloadObject.action === 'sendLIKE'"
+      >
+        <div class="lc-bg-gray-1 lc-margin-top-16 lc-padding-vertical-16">
+          <div class="lc-dialog-container-1">
+            <div class="metamask-dialog__send-message">
+              <span class="lc-font-size-12 lc-color-like-gray-5">
+                {{ $t('Dialog.metamask.label.sending') }}
+              </span>
+              <simple-svg
+                :filepath="ArrowRightIcon"
+                width="20px"
+                height="16px"
+                fill="#9b9b9b"
+                stroke="transparent"
               />
-              <div
-                :class="[
-                  'metamask-dialog__send-currency',
-                  'lc-font-weight-600',
-                  'lc-color-like-green',
-                  'lc-font-size-14',
-                ]"
-              >
-                LIKE
-              </div>
+              <span class="lc-color-like-green lc-font-weight-600 lc-font-size-16">
+                {{ this.$route.params.id }}
+              </span>
+              <span class="lc-color-gray-9b lc-font-size-16">
+                &#160;({{ maskWallet(getSignPayloadObject.payload.to) }})
+              </span>
             </div>
           </div>
 
-          <p class="lc-margin-top-12 lc-text-align-center lc-color-gray-9b">
-            (${{ usdTransferStrValue }} USD)
-          </p>
-        </section>
+          <hr class="lc-margin-vertical-12">
 
-      </div>
-    </base-dialog>
-  </div>
+          <div class="lc-dialog-container-1">
+            <div
+              class="lc-dialog-container-2 lc-font-weight-300 lc-text-align-center"
+              v-html="getFormattedLikeValue(likeTransferValue)"
+            />
+            <div
+              :class="[
+                'metamask-dialog__send-currency',
+                'lc-font-weight-600',
+                'lc-color-like-green',
+                'lc-font-size-14',
+              ]"
+            >
+              LIKE
+            </div>
+          </div>
+        </div>
+
+        <p class="lc-margin-top-12 lc-text-align-center lc-color-gray-9b">
+          (${{ usdTransferStrValue }} USD)
+        </p>
+      </section>
+
+    </div>
+  </base-dialog>
 </template>
 
 <script>
