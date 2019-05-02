@@ -498,7 +498,7 @@ $profile-icon-mobile-size: 88px;
     }
 
     .lc-avatar {
-      :global(.lc-avatar__content) {
+      /deep/ .lc-avatar__content {
         @media (min-width: #{768px + 1px}) {
           width: $profile-icon-size !important;
           height: $profile-icon-size !important;

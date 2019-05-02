@@ -53,33 +53,36 @@ export default {
 
     padding: 8px 24px;
 
-    .site-title :global(img) {
+    .site-title /deep/ img {
       width: 162px;
     }
 
   }
 
   .civic-liker-cta {
-
-    :global(.chop-art) {
-      transform: scale(0.9);
-      transform-origin: center top;
-    }
-
-    :global(> div > div:nth-child(2)) {
-      :global(.lc-button-group) {
-        margin-top: -24px;
-        padding-top: 0;
+    /deep/ {
+      .chop-art {
+        transform: scale(0.9);
+        transform-origin: center top;
       }
 
-      width: 100%;
+      > div > div:nth-child(2) {
+        .lc-button-group {
+          margin-top: -24px;
+          padding-top: 0;
+        }
 
-      background: white;
+        width: 100%;
+
+        background: white;
+      }
     }
 
     &--renewal {
-      :global(> div > div:first-child) {
-        padding: 0 24px 32px;
+      /deep/ {
+        > div > div:first-child {
+          padding: 0 24px 32px;
+        }
       }
     }
   }

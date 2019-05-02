@@ -122,7 +122,7 @@ $carousel-height: 488px;
     .swiper-pagination {
       bottom: -5px;
 
-      :global(.swiper-pagination-bullet) {
+      /deep/ .swiper-pagination-bullet {
 
         width: 72px;
         height: 4px;
@@ -132,7 +132,7 @@ $carousel-height: 488px;
 
         background: $like-white;
       }
-      :global(.swiper-pagination-bullet-active) {
+      /deep/ .swiper-pagination-bullet-active {
         background: $like-green;
       }
     }

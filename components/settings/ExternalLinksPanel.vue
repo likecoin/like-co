@@ -187,7 +187,7 @@ export default {
   .md-button {
     margin: 0;
 
-    :global(.md-button-content) {
+    /deep/ .md-button-content {
       display: flex;
       align-items: center;
 

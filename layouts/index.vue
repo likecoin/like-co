@@ -101,11 +101,11 @@ export default {
         @media (max-width: 768px) {
           margin-left: 4px;
         }
-
-        :global(> div) {
-          pointer-events: auto;
-        }
       }
+    }
+
+    .icon-bar {
+      pointer-events: auto;
     }
   }
 }

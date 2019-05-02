@@ -123,7 +123,7 @@ export default {
 
       font-size: 18px;
 
-      :global(.md-ripple) {
+      /deep/ .md-ripple {
         min-height: 36px;
       }
     }

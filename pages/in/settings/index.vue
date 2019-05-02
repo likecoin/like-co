@@ -668,7 +668,7 @@ export default {
   }
 
   &__social {
-    :global(ul) {
+    /deep/ ul {
       flex: 1;
     }
   }

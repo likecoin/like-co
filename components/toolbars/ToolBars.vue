@@ -273,7 +273,7 @@ export default {
 .md-snackbar {
   background-color: $like-green;
 
-  :global(.md-icon) {
+  /deep/ .md-icon {
     color: $like-white;
   }
 }

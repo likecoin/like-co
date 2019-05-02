@@ -208,7 +208,7 @@ export default {
 
 .icon-bar {
   &.vertical {
-    :global(svg) {
+    /deep/ svg {
       width: 36px !important;
       height: 36px !important;
     }
@@ -218,7 +218,7 @@ export default {
     max-width: unset;
   }
 
-  :global(.md-icon-button) {
+  /deep/ .md-icon-button {
     @media (max-width: 600px) {
       margin: 0 6px !important;
     }
@@ -289,11 +289,11 @@ footer {
     @media (max-width: 600px) {
       top: -20px;
 
-      :global(.md-ripple) {
+      /deep/ .md-ripple {
         padding: 0;
       }
 
-      :global(.md-icon-button) {
+      /deep/ .md-icon-button {
         width: 40px !important;
         min-width: unset;
         height: 40px !important;

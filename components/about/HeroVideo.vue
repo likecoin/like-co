@@ -179,11 +179,11 @@ $video-height: 488px;
 
         width: 100%;
 
-        :global(> div) {
+        > div {
           width: 100%;
           height: 100%;
 
-          :global(> iframe) {
+          /deep/ iframe {
             width: 100%;
             height: 100%;
 

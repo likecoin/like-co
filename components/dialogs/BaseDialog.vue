@@ -116,7 +116,7 @@ $lc-dialog-border-radius: 8px;
 .md-dialog.lc-dialog {
   overflow: hidden;
 
-  :global(.md-dialog-container) {
+  .md-dialog-container {
     overflow: hidden;
 
     flex: auto;

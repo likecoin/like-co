@@ -87,7 +87,7 @@ export default {
 .md-tabs {
   padding-right: 0;
 
-  :global(a) {
+  /deep/ a {
     @media (min-width: 600px + 1px) {
       flex: 1;
     }
@@ -97,7 +97,7 @@ export default {
     }
   }
 
-  :global(.md-tabs-indicator) {
+  /deep/ .md-tabs-indicator {
     height: 3px;
 
     background-color: transparent;

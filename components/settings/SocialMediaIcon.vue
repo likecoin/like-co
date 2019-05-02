@@ -153,7 +153,7 @@ export default {
     opacity: 0;
   }
 
-  :global(.lc-tooltip__content) {
+  /deep/ .lc-tooltip__content {
     top: 40px;
 
     padding: 4px 16px;

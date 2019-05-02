@@ -328,7 +328,7 @@ export default {
 <style lang="scss" scoped>
 @import '~assets/variables';
 
-.md-dialog :global(.lc-section-header:before) {
+.md-dialog /deep/ .lc-section-header:before {
   background-image: linear-gradient(252deg, #ed8526, #eebe78);
 }
 

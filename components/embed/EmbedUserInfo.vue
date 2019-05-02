@@ -84,7 +84,7 @@ $normal-x-margin: 8;
     width: normalized($avatar-size);
     height: normalized($avatar-size);
 
-    :global(.lc-avatar__content__halo) {
+    /deep/ .lc-avatar__content__halo {
       position: absolute;
 
       font-size: 0;

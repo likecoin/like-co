@@ -769,19 +769,19 @@ export default {
 }
 
 .md-dialog.upcoming {
-  :global(.lc-dialog-header::before) {
+  /deep/ .lc-dialog-header::before {
     background-image: linear-gradient(266deg, #ececec, #c0c0c0);
   }
 }
 
 .mission-dialog-content {
-  :global(.instruction-image) {
+  /deep/ .instruction-image {
     display: block;
 
     min-width: 418px;
     padding: 16px 16px 24px;
 
-    > :global(img) {
+    img {
       border: solid 2px #E6E6E6;
       border-radius: 8px;
       background-color: $like-gray-1;

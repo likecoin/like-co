@@ -102,7 +102,7 @@ export default {
   .civic-liker-cta--renewal {
     padding: 24px;
 
-    :global(.civic-liker-cta__content) {
+    /deep/ .civic-liker-cta__content {
       padding: 8px 0 0;
     }
   }

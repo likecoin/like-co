@@ -109,10 +109,10 @@ export default {
 .md-menu-content {
   z-index: 30;
 
-  :global(.md-list) {
+  /deep/ .md-list {
     padding: 0;
   }
-  :global(.md-button) {
+  /deep/ .md-button {
     margin: 0;
   }
 }

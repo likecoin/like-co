@@ -133,13 +133,13 @@ export default {
 
   color: $like-gray-4;
 
-  :global(.md-button) {
+  /deep/ .md-button {
     flex-grow: 1;
 
     max-width: none;
   }
 
-  :global(.md-tabs-indicator) {
+  /deep/ .md-tabs-indicator {
     height: 3px;
 
     background-color: transparent;

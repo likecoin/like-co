@@ -159,7 +159,7 @@ export default {
     }
   }
 
-  :global(.lc-dialog-content) {
+  /deep/ .lc-dialog-content {
     display: flex;
     flex-direction: column;
   }

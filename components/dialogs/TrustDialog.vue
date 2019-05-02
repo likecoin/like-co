@@ -246,7 +246,7 @@ export default {
 @import '~assets/variables';
 
 .lc-dialog {
-  :global(.lc-dialog-header::before) {
+  /deep/ .lc-dialog-header::before {
     background-image: linear-gradient(263deg, #468cd5, #78bfee);
   }
 }
