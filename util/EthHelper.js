@@ -4,7 +4,7 @@ import Web3 from 'web3';
 import { LIKE_COIN_ABI, LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin';
 import { IS_TESTNET, INFURA_HOST, CONFIRMATION_NEEDED } from '@/constant';
 
-import * as TxInfo from './txInfo/txInfo';
+import { getTxInfo, getTxReceipt } from './txInfo/txInfo';
 import { isReceiptSuccess } from './txInfo/receipt';
 
 const abiDecoder = require('@likecoin/abi-decoder/dist/es5');
@@ -242,11 +242,12 @@ class EthHelper {
     }
     if (!t || !currentBlockNumber) throw new Error('Cannot find transaction');
     this.initAbiDecoder();
-    TxInfo.init(abiDecoder, web3Instance);
-    const type = TxInfo.getTxType(t);
-    const _to = TxInfo.getTxTo(type, t);
-    const _from = TxInfo.getTxFrom(type, t);
-    const _value = TxInfo.getTxValue(type, t);
+    const {
+      type,
+      _to,
+      _from,
+      _value,
+    } = getTxInfo(abiDecoder, web3Instance, t);
     if (!t.blockNumber || (currentBlockNumber - t.blockNumber < CONFIRMATION_NEEDED)) {
       return filterMultipleTransferTo(filterAddress, {
         _from,
@@ -254,21 +255,17 @@ class EthHelper {
         _value,
       });
     }
-    const [r, block] = await Promise.all([
-      web3Instance.eth.getTransactionReceipt(txHash),
-      web3Instance.eth.getBlock(t.blockNumber),
-    ]);
-    if (!r || !isReceiptSuccess(r)) {
+    const receipt = getTxReceipt(type, abiDecoder, web3Instance, txHash, t, _to, _from, _value);
+    if (receipt.isFailed) {
       return filterMultipleTransferTo(filterAddress, {
-        isFailed: (r && !isReceiptSuccess(r)),
-        _to,
-        _from,
-        _value,
-        timestamp: block ? block.timestamp : 0,
+        isFailed: receipt.isFailed,
+        _to: receipt._to,
+        _from: receipt._from,
+        _value: receipt._value,
+        timestamp: receipt.timestamp,
       });
     }
-    return filterMultipleTransferTo(filterAddress,
-      TxInfo.getTxReceipt(type, t, r, block, _to, _from, _value));
+    return filterMultipleTransferTo(filterAddress, receipt);
   }
 
   async queryLikeCoinBalance(addr) {

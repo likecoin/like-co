@@ -6,62 +6,44 @@ import * as Value from './value';
 import * as Receipt from './receipt';
 
 
-const state = {
-  abiDecoder: null,
-  web3: null,
-  handlers: {
-    ETH: [
-      To.getEthTxTo,
-      From.getTxFrom,
-      Value.getEthTxValue,
-      Receipt.getEthTxReceipt,
-    ],
-    Transfer: [
-      To.getLikeCoinTxTo,
-      From.getTxFrom,
-      Value.getLikeCoinTxValue,
-      Receipt.getTxReceipt,
-    ],
-    Delegated: [
-      To.getLikeCoinTxTo,
-      From.getDelegatedTxFrom,
-      Value.getLikeCoinTxValue,
-      Receipt.getDelegatedTxReceipt,
-    ],
-    Lock: [
-      To.getLikeCoinTxTo,
-      From.getTxFrom,
-      Value.getLikeCoinTxValue,
-      Receipt.getLockTxReceipt,
-    ],
-    Multiple: [
-      To.getMultipleTxTo,
-      From.getTxFrom,
-      Value.getMultipleTxValue,
-      Receipt.getMultipleTxReceipt,
-    ],
+const handlers = {
+  ETH: {
+    to: To.getEthTxTo,
+    from: From.getTxFrom,
+    value: Value.getEthTxValue,
+    receipt: Receipt.getEthTxReceipt,
+  },
+  Transfer: {
+    to: To.getLikeCoinTxTo,
+    from: From.getTxFrom,
+    value: Value.getLikeCoinTxValue,
+    receipt: Receipt.getTxReceipt,
+  },
+  Delegated: {
+    to: To.getLikeCoinTxTo,
+    from: From.getDelegatedTxFrom,
+    value: Value.getLikeCoinTxValue,
+    receipt: Receipt.getDelegatedTxReceipt,
+  },
+  Lock: {
+    to: To.getLikeCoinTxTo,
+    from: From.getTxFrom,
+    value: Value.getLikeCoinTxValue,
+    receipt: Receipt.getLockTxReceipt,
+  },
+  Multiple: {
+    to: To.getMultipleTxTo,
+    from: From.getTxFrom,
+    value: Value.getMultipleTxValue,
+    receipt: Receipt.getMultipleTxReceipt,
   },
 };
 
 
 /**
- * Initialize the transaction info handler.
- *
- * @param {abi-decoder} abiDecoder The ABI decoder for Etherem transactions.
- * @param {web3} web3 The Web3 instance.
- */
-export function init(abiDecoder, web3) {
-  if (state.abiDecoder === null) {
-    state.abiDecoder = abiDecoder;
-  }
-  if (state.web3 === null) {
-    state.web3 = web3;
-  }
-}
-
-/**
  * Retrieve the transaction type.
  *
+ * @param {abi-decoder} abiDecoder The ABI decoder for Etherem transactions.
  * @param {object} t The transaction object.
  * @return {string} 'ETH'|'Transfer'|'Delegated'|'Lock'|'Multiple'
  *
@@ -69,13 +51,13 @@ export function init(abiDecoder, web3) {
  * @throws Will throw an error if the contract address is not matched.
  * @throws Will throw an error if the transaction is invalid.
  */
-export function getTxType(t) {
+export function getTxType(abiDecoder, t) {
   if (t.value > 0) return 'ETH';
   if (t.to.toLowerCase() !== LIKE_COIN_ADDRESS.toLowerCase()) {
     throw new Error('Not LikeCoin transaction');
   }
-  if (state.abiDecoder === null) throw new Error('abi-decoder should be initialized before using');
-  const decoded = state.abiDecoder.decodeMethod(t.input);
+  if (abiDecoder === null) throw new Error('abi-decoder should be initialized before using');
+  const decoded = abiDecoder.decodeMethod(t.input);
   if (decoded.name === 'transfer') return 'Transfer';
   if (decoded.name === 'transferDelegated') return 'Delegated';
   if (decoded.name === 'transferAndLock') return 'Lock';
@@ -87,42 +69,75 @@ export function getTxType(t) {
  * Extract the `to` information from the transaction.
  *
  * @param {string} type The type of the transaction.
+ * @param {abi-decoder} abiDecoder The ABI decoder for Etherem transactions.
+ * @param {web3} web3 The Web3 instance.
  * @param {object} t The transaction object.
  * @returns {string|array} The (array of) `to` information.
  */
-export function getTxTo(type, t) {
-  return state.handlers[type][0](state.abiDecoder, state.web3, t);
+export function getTxTo(type, abiDecoder, web3, t) {
+  return handlers[type].to(abiDecoder, web3, t);
 }
 
 /**
  * Extract the `from` information from the transaction.
  *
  * @param {string} type The type of the transaction.
+ * @param {abi-decoder} abiDecoder The ABI decoder for Etherem transactions.
+ * @param {web3} web3 The Web3 instance.
  * @param {object} t The transaction object.
  * @returns {string} The `from` information.
  */
-export function getTxFrom(type, t) {
-  return state.handlers[type][1](state.abiDecoder, state.web3, t);
+export function getTxFrom(type, abiDecoder, web3, t) {
+  return handlers[type].from(abiDecoder, web3, t);
 }
 
 /**
  * Extract the `value` information from the transaction.
  *
  * @param {string} type The type of the transaction.
+ * @param {abi-decoder} abiDecoder The ABI decoder for Etherem transactions.
  * @param {object} t The transaction object.
  * @returns {string|array} The (array of) `value` information.
  */
-export function getTxValue(type, t) {
-  return state.handlers[type][2](state.abiDecoder, t);
+export function getTxValue(type, abiDecoder, t) {
+  return handlers[type].value(abiDecoder, t);
+}
+
+/**
+ * Extract the basic information from the transaction.
+ *
+ * @param {abi-decoder} abiDecoder The ABI decoder for Etherem transactions.
+ * @param {web3} web3 The Web3 instance.
+ * @param {object} t The transaction object.
+ * @returns {object} { type, _to, _from, _value }
+ *
+ * @throws Will throw an error if abi-decoder is not initialized.
+ * @throws Will throw an error if the contract address is not matched.
+ * @throws Will throw an error if the transaction is invalid.
+ *
+ * @see {@link getTxType}
+ * @see {@link getTxTo}
+ * @see {@link getTxFrom}
+ * @see {@link getTxValue}
+ */
+export function getTxInfo(abiDecoder, web3, t) {
+  const type = getTxType(abiDecoder, t);
+  return {
+    type,
+    _to: getTxTo(type, abiDecoder, web3, t),
+    _from: getTxFrom(type, abiDecoder, web3, t),
+    _value: getTxValue(type, abiDecoder, t),
+  };
 }
 
 /**
  * Extract the receipt from the transaction.
  *
  * @param {string} type The type of the transaction.
+ * @param {abi-decoder} abiDecoder The ABI decoder for Etherem transactions.
+ * @param {web3} web3 The Web3 instance.
+ * @param {string} txHash The transaction hash.
  * @param {object} t The transaction object.
- * @param {object} r The transaction receipt object.
- * @param {object} block The block object.
  * @param {string|array} to The (array of) `to` information.
  * @param {string} from The `from` information.
  * @param {string|array} value The (array of) `value` information.
@@ -133,10 +148,17 @@ export function getTxValue(type, t) {
  *
  * @see {@link Receipt/formatReceipt}
  */
-export function getTxReceipt(type, t, r, block, to, from, value) {
-  return state.handlers[type][3](
-    state.abiDecoder,
-    state.web3,
+export async function getTxReceipt(type, abiDecoder, web3, txHash, t, to, from, value) {
+  const [r, block] = await Promise.all([
+    web3.eth.getTransactionReceipt(txHash),
+    web3.eth.getBlock(t.blockNumber),
+  ]);
+  if (!r || !Receipt.isReceiptSuccess(r)) {
+    return Receipt.formatReceipt(false, r, to, from, value, null);
+  }
+  return handlers[type].receipt(
+    abiDecoder,
+    web3,
     t,
     r,
     block,
