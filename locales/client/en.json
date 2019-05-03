@@ -535,6 +535,9 @@
       }
     }
   },
+  "LikeButtonIntegratedPlatform": {
+    "headline": "More articles on:"
+  },
   "Footer": {
     "label": {
       "contract": "LikeCoin Contract: "
