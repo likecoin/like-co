@@ -341,7 +341,7 @@ export default {
             height: 16px;
             margin-left: 4px;
 
-            :global(svg) {
+            /deep/ svg {
               fill: $like-gray-4 !important;
             }
           }

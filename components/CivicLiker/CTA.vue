@@ -280,7 +280,7 @@ export default {
 
       border-radius: 0;
 
-      :global(.md-ripple) {
+      /deep/ .md-ripple {
         min-height: 48px;
       }
     }

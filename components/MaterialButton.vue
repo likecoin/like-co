@@ -82,10 +82,10 @@ export default {
     background-image: none !important;
   }
 
-  :global(.md-ripple) {
+  /deep/ .md-ripple {
     padding: 4px 12px;
 
-    :global(.md-button-content) {
+    .md-button-content {
       position: initial;
 
       > a {

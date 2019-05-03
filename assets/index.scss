@@ -1011,7 +1011,7 @@ $line-height-map: (
 .md-checkbox.md-likecoin {
   padding: 6px 8px;
 
-  :global(.md-checkbox-container) {
+  .md-checkbox-container {
     width: 12px;
     min-width: 12px;
     height: 12px;
@@ -1026,19 +1026,19 @@ $line-height-map: (
       left: 3px;
     }
 
-    :global(.md-ripple) {
+    .md-ripple {
       width: 36px !important;
       height: 36px !important;
     }
   }
 
   &.md-checked {
-    :global(.md-checkbox-container) {
+    .md-checkbox-container {
       background-color: $like-green;
     }
   }
 
-  :global(.md-checkbox-label) {
+  .md-checkbox-label {
     height: unset;
   }
 }

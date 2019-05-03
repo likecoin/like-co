@@ -114,10 +114,7 @@ $lc-dialog-icon-size-small: 72px;
 $lc-dialog-border-radius: 8px;
 
 .md-dialog.lc-dialog {
-  overflow: hidden;
-
-  :global(.md-dialog-container) {
-    overflow: hidden;
+  .md-dialog-container {
 
     flex: auto;
   }
@@ -151,9 +148,18 @@ $lc-dialog-border-radius: 8px;
   }
 
   .lc-dialog-icon {
+    position: absolute;
+    z-index: 5;
+    top: 16px;
+    left: 50%;
+
+    width: $lc-section-header-icon-size;
+    height: $lc-section-header-icon-size;
+
+    transform: translateX(-50%);
+
     @media (max-width: 600px) {
       top: 8px;
-      left: calc(50% - #{$lc-dialog-icon-size-small} / 2);
 
       width: $lc-dialog-icon-size-small;
       height: $lc-dialog-icon-size-small;
@@ -162,14 +168,12 @@ $lc-dialog-border-radius: 8px;
 }
 
 .lc-dialog-content {
-  overflow-y: scroll;
-
   padding-top: 16px;
   padding-right: 0;
   padding-left: 0;
 
   .lc-dialog.with-icon & {
-    padding-top: ($lc-section-header-icon-size - $lc-header-height) / 2 + 16px;
+    padding-top: 16px + $lc-section-header-icon-size - $lc-header-height + 16px;
 
     @media (max-width: 600px) {
       padding-top: 8px + $lc-dialog-icon-size-small - $lc-header-height + 8px;

@@ -150,7 +150,7 @@ export default {
       font-size: 14px;
       font-weight: 300;
 
-      :global(a) {
+      /deep/ a {
         &,
         &:active {
           text-decoration: underline;
@@ -181,7 +181,7 @@ export default {
           opacity: .7;
         }
 
-        :global(.md-ripple) {
+        /deep/ .md-ripple {
           padding: 0 6px;
         }
       }

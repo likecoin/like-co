@@ -354,7 +354,7 @@ export default {
     font-size: 20px;
     line-height: 28px;
 
-    :global(.small) {
+    /deep/ .small {
       font-size: 12px;
     }
   }

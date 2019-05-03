@@ -107,21 +107,21 @@ $icon-size-large: 64px;
       margin-right: 0;
     }
     &:hover {
-      :global(svg) {
+      /deep/ svg {
         opacity: .7;
       }
     }
 
-    :global(.md-button-content) {
+    /deep/ .md-button-content {
       border-radius: 50%;
       background-color: $like-white;
     }
 
-    :global(.md-ripple) {
+    /deep/ .md-ripple {
       padding: 0 6px;
     }
 
-    :global(svg) {
+    /deep/ svg {
       transition: opacity .25s ease-in;
     }
   }
@@ -134,7 +134,7 @@ $icon-size-large: 64px;
     color: $like-green;
   }
 
-  :global(svg) {
+  /deep/ svg {
     fill: unset !important;
     stroke: unset !important;
   }

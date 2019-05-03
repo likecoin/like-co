@@ -129,30 +129,30 @@ html[likecoin-embed] {
   .social-media-connect {
     margin-top: normalized(8);
 
-    > :global(div) {
+    > div {
       justify-content: flex-end;
 
       min-height: $social-media-button-size;
       margin-left: normalized(216);
 
-      :global(ul) {
+      ul {
         justify-content: flex-end;
 
         margin: normalized(-4) normalized(-6);
 
-        :global(li) {
+        li {
           padding: normalized(4) normalized(6);
         }
       }
     }
 
-    :global(.social-media-connect__button) {
+    .social-media-connect__button {
       display: block;
 
       margin: 0;
 
-      :global(svg),
-      :global(.simple-svg-wrapper) {
+       svg,
+       .simple-svg-wrapper {
         width: $social-media-button-size !important;
         height: $social-media-button-size !important;
       }

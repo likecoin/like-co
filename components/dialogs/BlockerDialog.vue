@@ -42,7 +42,7 @@ export default {
 @import "~assets/mixin";
 
 .blocker-dialog {
-  :global(.lc-dialog-header::before) {
+  /deep/ .lc-dialog-header::before {
     @include background-image-sliding-animation-x(
       linear-gradient(to right, #ed9090, #ee6f6f 20%, #ecd7d7, #ed9090)
     );
