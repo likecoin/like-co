@@ -12,7 +12,11 @@ export const apiGetUserMinById = id => axios.get(`/users/id/${id}/min`);
 
 export const apiGetUserMinByMerchantId = id => axios.get(`/users/merchant/${id}/min`);
 
-export const apiGetTxById = id => axios.get(`/tx/id/${id}`);
+export const apiGetTxById = (id, filterId) => {
+  let url = `/tx/id/${id}?`;
+  if (filterId) url += `address=${filterId}`;
+  return axios.get(url);
+};
 
 export const apiGetTxToByAddr = addr => axios.get(`/tx/addr/to/${addr}`);
 
