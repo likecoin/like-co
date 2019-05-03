@@ -78,8 +78,14 @@
                 <span>
                   {{ $t(`TransactionHistory.label.${getFromTo(tx)}`) }}:
                 </span>
+                <span
+                  v-if="isOutMultiple(tx)"
+                  class="multiple-recipients"
+                >
+                  {{ $t('TransactionHistory.label.multipleOut') }}
+                </span>
                 <nuxt-link
-                  v-if="getFromToId(tx)"
+                  v-else-if="getFromToId(tx)"
                   :to="{ name: 'id', params: { id: getFromToId(tx) } }"
                 >
                   {{ getFromToId(tx) }}
@@ -125,6 +131,7 @@
                   :to="{
                     name: isTokensale(tx) ? 'in-tokensale-tx-id' : 'in-tx-id',
                     params: { id: tx.id },
+                    query: isInMultiple(tx) ? { address: address } : {},
                   }"
                 >
                   {{ $t('TransactionHistory.button.view') }}
@@ -275,12 +282,26 @@ export default {
       if (this.isPresale(tx)) return 'earlybird';
       if (this.isTxFailed(tx)) return 'fail';
       if (tx.type === 'claimCoupon') return 'coupon';
+      if (this.isInMultiple(tx)) return 'multipleIn';
       if (tx.to === this.address) return 'in';
       if (tx.from === this.address) return 'out';
       return 'unknown';
     },
     getValue(tx) {
       if (!tx.value) return '0.00';
+
+      if (this.isInMultiple(tx)) {
+        return formatAmount(getLikeCoinByValue(tx.value[tx.to.indexOf(this.address)]) || 0, 'LIKE');
+      }
+
+      if (this.isOutMultiple(tx)) {
+        let total = new BigNumber(0);
+        tx.value.forEach((value) => {
+          total = total.plus(getLikeCoinByValue(value) || 0);
+        });
+        return formatAmount(total, 'LIKE');
+      }
+
       const value = getLikeCoinByValue(tx.value) || 0;
       // handle decimal places
       if (this.isPresale(tx)) {
@@ -302,12 +323,13 @@ export default {
       if (this.isPresale(tx)) return 'earlybird';
       if (this.isTokensale(tx)) return 'tokensale';
       if (tx.type === 'claimCoupon') return 'coupon';
+      if (this.isInMultiple(tx)) return tx.fromId;
       const isFrom = (tx.to === this.address);
       return isFrom ? tx.fromId : tx.toId;
     },
     getFromTo(tx) {
       if (this.isTokensale(tx)) return 'from';
-      const isFrom = (tx.to === this.address);
+      const isFrom = (tx.to === this.address) || this.isInMultiple(tx);
       return isFrom ? 'from' : 'to';
     },
     getTime(tx) {
@@ -333,6 +355,14 @@ export default {
     },
     isTokensale(tx) {
       return tx.to === LIKE_COIN_ICO_ADDRESS;
+    },
+    isInMultiple(tx) {
+      return (Array.isArray(tx.to)
+        && Array.isArray(tx.value)
+        && tx.to.includes(this.address));
+    },
+    isOutMultiple(tx) {
+      return (tx.from === this.address) && Array.isArray(tx.to) && Array.isArray(tx.value);
     },
     isTxFailed(tx) {
       return tx.status === 'fail' || tx.status === 'timeout';
@@ -452,6 +482,7 @@ export default {
           font-weight: 600;
 
           &.in,
+          &.multipleIn,
           &.tokensale,
           &.earlybird,
           &.pending,
@@ -473,6 +504,10 @@ export default {
             margin-right: 2px;
 
             font-size: 10px;
+
+            &.multiple-recipients {
+              font-size: 14px;
+            }
           }
         }
 

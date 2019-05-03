@@ -27,11 +27,12 @@
           :isEth="isEth"
           :icon="toAvatar"
           :toId="toId"
-          :toName="toName"
+          :toName="toName ? toName : displayToId"
           :toAddress="to"
           :toAvatarHalo="toAvatarHalo"
           :timestamp="timestamp"
           :amount="amount"
+          :filterAddress="filterAddress"
         />
 
         <div class="lc-container-2">
@@ -41,19 +42,31 @@
               class="tx-container lc-padding-bottom-8"
             >
               <section
-                v-if="toId"
+                v-if="isMultipleTx"
                 class="section-container"
               >
                 <div class="key">
                   {{ $t('Transaction.label.recipientId') }}
                 </div>
-                <nuxt-link :to="{ name: 'id', params: { id: toId } }">
+                <span class="lc-font-size-20">{{ $t('Transaction.label.multipleId') }}</span>
+              </section>
+              <section
+                v-else-if="toId"
+                class="section-container"
+              >
+                <div class="key">
+                  {{ $t('Transaction.label.recipientId') }}
+                </div>
+                <nuxt-link :to="{ name: 'id', params: { id: displayToId } }">
                   <div class="value lc-font-size-20">
-                    {{ toId }}
+                    {{ displayToId }}
                   </div>
                 </nuxt-link>
               </section>
-              <section class="section-container">
+              <section
+                v-if="!isMultipleTx"
+                class="section-container"
+              >
                 <div class="key">
                   {{ $t('Transaction.label.recipientAddress') }}
                 </div>
@@ -63,7 +76,7 @@
                   rel="noopener"
                 >
                   <div class="address value lc-font-size-20">
-                    {{ to }}
+                    {{ Array.isArray(to) ? to[0] : to }}
                   </div>
                 </a>
               </section>
@@ -193,7 +206,7 @@ export default {
       ETHERSCAN_HOST,
     };
   },
-  asyncData({ params, redirect }) {
+  asyncData({ params, redirect, query }) {
     if (params.tx && params.tx !== {}) {
       const { to, from, value } = params.tx;
       if (to === LIKE_COIN_ICO_ADDRESS) {
@@ -204,7 +217,7 @@ export default {
       }
       return { to, from, value };
     }
-    return apiGetTxById(params.id)
+    return apiGetTxById(params.id, query.address)
       .then((res) => {
         const {
           to,
@@ -259,20 +272,39 @@ export default {
     txId() {
       return this.$route.params.id;
     },
+    filterAddress() {
+      return this.$route.query.address;
+    },
+    displayToId() {
+      if (Array.isArray(this.toId)) {
+        return this.toId.length === 1
+          ? this.toId[0]
+          : this.$t('Transaction.label.multipleId');
+      }
+      return this.toId;
+    },
+    isMultipleTx() {
+      return Array.isArray(this.toId) && (this.toId.length > 1);
+    },
   },
   async mounted() {
     this.timestamp = 0;
     if (this.to) this.updateUI(this.from, this.to);
     if (this.value) {
-      this.amount = new BigNumber(this.value).div(ONE_LIKE).toFixed();
+      this.amount = this.getAmount(this.value);
     }
     if (this.status === 'timeout') this.failReason = 2;
     try {
-      const tx = await EthHelper.getTransferInfo(this.txId, { blocking: true });
+      const tx = await EthHelper.getTransferInfo(this.txId, {
+        blocking: true,
+        filterAddress: this.filterAddress,
+      });
       this.isEth = tx.isEth;
       if (!this.failReason) this.failReason = tx.isFailed ? 1 : 0;
       /* eslint-disable no-underscore-dangle */
-      if (tx._value !== undefined) this.amount = new BigNumber(tx._value).div(ONE_LIKE).toFixed();
+      if (tx._value !== undefined) {
+        this.amount = this.getAmount(tx._value);
+      }
       this.updateUI(tx._from, tx._to);
       this.timestamp = tx.timestamp;
       if (!this.timestamp) {
@@ -309,10 +341,11 @@ export default {
     async updateUI(from, to) {
       this.from = from;
       this.to = to;
+      const isMultipleId = Array.isArray(this.displayToId);
       this.startLoading();
       const [fromData, toData] = await Promise.all([
         apiGetUserMinById(this.fromId).catch(() => ({})),
-        apiGetUserMinById(this.toId).catch(() => ({})),
+        isMultipleId ? null : apiGetUserMinById(this.displayToId).catch(() => ({})),
       ]);
       this.stopLoading();
       if (fromData && fromData.data) {
@@ -323,6 +356,16 @@ export default {
         this.toAvatar = toData.data.avatar;
         this.toAvatarHalo = UserUtil.getAvatarHaloType(toData.data);
       }
+    },
+    getAmount(value) {
+      if (!Array.isArray(value)) {
+        return new BigNumber(value).div(ONE_LIKE).toFixed();
+      }
+      let amount = new BigNumber(0);
+      value.forEach((v) => {
+        amount = amount.plus(new BigNumber(v).div(ONE_LIKE));
+      });
+      return amount.toFixed();
     },
   },
 };
