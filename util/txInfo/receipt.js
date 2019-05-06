@@ -27,7 +27,7 @@ export function isReceiptSuccess(txReceipt) {
  *     timestamp: The timestamp
  *   }
  */
-function formatReceipt(isEth, r, to, from, value, block) {
+export function formatReceipt(isEth, r, to, from, value, block) {
   return {
     isEth,
     isFailed: r && !isReceiptSuccess(r),
