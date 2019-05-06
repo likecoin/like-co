@@ -230,8 +230,7 @@
     "Sign": {
         "Message": {
             "registerUser": "Inscription avec les informations utilisateur suivantes",
-            "editUser": "Mise à jour des informations utilisateur",
-            "signKYC": "Vérifier l’identité de l’utilisateur avec les informations suivantes"
+            "editUser": "Mise à jour des informations utilisateur"
         }
     },
     "Home": {
@@ -767,26 +766,9 @@
             "thankyou": "Merci de votre soutien"
         },
         "label": {
-            "prepareToJoin": "Préparez-vous à participer à la vente de jetons",
-            "publicSaleStartIn": "La vente publique commence dans :",
-            "publicSaleEndIn": "Fin de la vente de jetons dans :",
             "token": "Jeton",
             "exchangeRate": "Taux de change",
             "supply": "Jetons en circulation",
-            "preSaleDescription0": "Vous allez acheter {base} LikeCoin + {bonus} de bonus.",
-            "preSaleDescription1": "Les LikeCoin seront envoyés à votre portefeuille lors du lancement de la vente publique.",
-            "whatIsETH": "ETH, c’est quoi ?",
-            "bonusAndLimitedOffer": "Bonus de 25 %, offre limitée dans le temps",
-            "limitedOfferCondition": "pour un achat de 10 ETH et plus",
-            "amountLikeToPurhcase": "Montant de LIKE à acheter",
-            "tokensaleBadAmount": "Montant invalide, minimum de 0,1 ETH et maximum de 1 000 ETH",
-            "bonus": "Bonus",
-            "bonusLockUp": "Les LikeCoin bonus seront verrouillés dans votre portefeuille et ne pourront pas être transférés pendant 6 mois.",
-            "amountWillBeSentWhenSalesStart": "Les LikeCoin achetés et bonus seront envoyés à votre portefeuille lors du lancement de la vente publique, prévue le 23 avril 2018. Les LikeCoin bonus seront verrouillés dans votre portefeuille et ne pourront pas être transférés pendant 6 mois.",
-            "whatIsEthLink": "https://help.like.co/likecoin-faq/what-is-eth",
-            "joinTokenSaleNow": "Participer à la vente de jetons maintenant",
-            "gasPriceDeducted": "Réservation d'ETH pour les frais de transaction de la blockchain",
-            "likeAmountWillGet": "Vous obtiendrez <span class=\"bold\">{amount}</span> LIKE",
             "raised": "AUGMENTÉ",
             "thankyou": "Notre vente de jetons est officiellement terminée. Nous avons atteint >180 % de notre cible, merci beaucoup ! Nous collectons les chiffres à partir de différents canaux de vente et nous annoncerons bientôt le résultat final."
         },
@@ -822,59 +804,6 @@
             "label": {
                 "emptyHistoryPlaceholder": "Les bonus terminés seront affichés ici."
             }
-        }
-    },
-    "KYC": {
-        "label": {
-            "kyc": "Vérification d’identité",
-            "kycNeeded": "Une vérification d’identité est nécessaire pour participer à la vente de jetons LikeCoin",
-            "advKycNeeded": "Une vérification d’identité avancée est nécessaire pour les montants d’achat importants",
-            "advKycPending": "Votre vérification d'ID avancée est toujours dans l'état EN ATTENTE. Veuillez nous contacter sur Intercom si cela prend plus longtemps que 5 jours ouvrables.",
-            "emailVerify": "Veuillez fournir un e-mail et le vérifier.",
-            "createID": "Créez un identifiant LikeCoin pour envoyer et recevoir des LikeCoin et participer à la vente de jetons.",
-            "createIDSendReceive": "Créez un identifiant LikeCoin pour envoyer et recevoir des LikeCoin",
-            "verifyToPurchase": "Vérifiez vos informations pour acheter des LikeCoin une fois la vente publique lancée.",
-            "emailVerification": "Vérification de l'email",
-            "accountVerification": "Vérification du compte",
-            "advancedVerification": "Vérification avancée",
-            "verifyEmailPlaceholder": "Vérifiez votre e-mail",
-            "checkEmail": "E-mail envoyé. Veuillez le consulter",
-            "emailVerified": "E-mail vérifié",
-            "proceedToAccountVerification": "Passer à la vérification du compte",
-            "isPrcCitizen": "Êtes-vous citoyen de la RPC ?",
-            "isUsaCitizen": "Êtes-vous citoyen des États-Unis ?",
-            "isUsaAccredited": "Êtes-vous un investisseur accrédité aux États-Unis ?",
-            "isPurchaseExceedAmount": "Allez-vous acheter plus de {amount} ETH ?",
-            "firstName": "Prénom (tel qu'il apparaît sur votre passeport)",
-            "lastName": "Nom (tel qu'il apparaît sur votre passeport)",
-            "country": "Pays de résidence",
-            "nationality": "Nationalité",
-            "invalidCountry": "Veuillez sélectionner un pays valide dans la liste.",
-            "invalidNationality": "Veuillez sélectionner une nationalité valide dans la liste.",
-            "passportIdPage": "Page d'identification du passeport avec le visage à la verticale (limite de taille 2 Mo)*",
-            "recentSelfie": "Selfie avec visage à la verticale (limite de taille 2 Mo)*",
-            "canPurchaseLessThanAmount": "Vous pouvez acheter moins de {amount} d'ETH",
-            "canPurchaseMoreThanAmount": "Vous pouvez acheter plus de {amount} ETH",
-            "advancedVerificationInProgress": "Vous pouvez acheter un maximum de {amount} ETH Vous pourrez en acheter plus une fois la vérification avancée effectuée.",
-            "purchaseMore": "Je souhaite en acheter davantage.",
-            "accountVeritifed": "Compte vérifié",
-            "canPurchaseWhenPublicSale": "Vous pourrez acheter des LikeCoin ici une fois la vente publique est lancée.",
-            "verifyToPurchaseOverAmount": "Vérifiez votre identité pour acheter plus de {amount} d'ETH",
-            "waitingConfirmation": "En attente de confirmation.",
-            "timeWaitForAccountVerification": "Cela prendra environ 2 minutes…",
-            "timeWaitForAdvancedVerification": "Cela prend généralement moins de 1 jour ouvrable",
-            "emailNotification": "Vous recevez une notification par e-mail une fois que cela sera effectué",
-            "contactUs": "Veuillez nous contacter à travers la bulle de discussion en bas à droite pour toute aide supplémentaire.",
-            "contactThroughIntercom": "Veuillez nous contacter ici dans Intercom.",
-            "preSaleBonusDescription": "25 % de bonus pour les achats de 10 ETH et plus"
-        },
-        "button": {
-            "createID": "Créer un identifiant LikeCoin",
-            "sendEmailAgain": "Renvoyer",
-            "start": "Commencer",
-            "next": "Suivant",
-            "upload": "transférer",
-            "reupload": "retransférer"
         }
     },
     "Creator": {

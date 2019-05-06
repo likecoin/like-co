@@ -230,8 +230,7 @@
     "Sign": {
         "Message": {
             "registerUser": "Registrierung mit den folgenden Nutzerinformationen",
-            "editUser": "Aktualisierung Nutzerinformationen",
-            "signKYC": "ID-Verifikation des Nutzers mit folgenden Informationen"
+            "editUser": "Aktualisierung Nutzerinformationen"
         }
     },
     "Home": {
@@ -767,26 +766,9 @@
             "thankyou": "Vielen Dank für Ihre Unterstützung"
         },
         "label": {
-            "prepareToJoin": "Auf Teilnahme am Tokenverkauf vorbereiten",
-            "publicSaleStartIn": "Öffentlicher Verkauf startet in:",
-            "publicSaleEndIn": "Tokenverkauf endet in:",
             "token": "Token",
             "exchangeRate": "Wechselkurs",
             "supply": "Vorrat",
-            "preSaleDescription0": "Sie kaufen {base} LikeCoin + {bonus} Bonus.",
-            "preSaleDescription1": "Die LikeCoins werden an Ihr Wallet gesandt, wenn der öffentliche Verkauf startet.",
-            "whatIsETH": "Was ist ETH?",
-            "bonusAndLimitedOffer": "25 % Bonus, zeitlich begrenztes Angebot",
-            "limitedOfferCondition": "ab Kauf von 10 ETH",
-            "amountLikeToPurhcase": "Zu erwerbende Anzahl LIKE",
-            "tokensaleBadAmount": "Ungültiger Betrag, mind. 0,1 ETH, und weniger als 1.000 ETH",
-            "bonus": "Bonus",
-            "bonusLockUp": "Der Bonus-LikeCoin in Ihrem Wallet ist gesperrt und kann für 6 Monate nicht übertragen werden.",
-            "amountWillBeSentWhenSalesStart": "Die gekauften und Bonus-LikeCoins werden an Ihr Wallet gesandt, wenn der öffentliche Verkauf startet (voraussichtlich am 23. April 2018). Die Bonus-LikeCoins werden in Ihrem Wallet gesperrt und können 6 Monate lang nicht überwiesen werden.",
-            "whatIsEthLink": "https://help.like.co/likecoin-faq/what-is-eth",
-            "joinTokenSaleNow": "Jetzt zum Tokenverkauf",
-            "gasPriceDeducted": "Reservierung von ETH für Blockchain-Transaktionskosten",
-            "likeAmountWillGet": "Freuen Sie sich auf <span class=\"bold\">{amount}</span> LIKE",
             "raised": "Erhöht",
             "thankyou": "Unser Tokenverkauf ist offiziell beendet. Wir haben >180% unseres Ziels erreicht, vielen Dank! Wir sammeln die Zahlen aus verschiedenen Vertriebskanälen und werden das Endergebnis in Kürze bekannt geben."
         },
@@ -822,59 +804,6 @@
             "label": {
                 "emptyHistoryPlaceholder": "Abgeschlossener Bonus wird hier angezeigt."
             }
-        }
-    },
-    "KYC": {
-        "label": {
-            "kyc": "ID-Überprüfung",
-            "kycNeeded": "Zur Teilnahme am Verkauf von LikeCoin Token ist eine ID-Überprüfung erforderlich.",
-            "advKycNeeded": "Für größere Transaktionen ist eine erweiterte ID-Überprüfung erforderlich.",
-            "advKycPending": "Ihre Bestätigung für die erweiterte ID ist immer noch im Zustand AUSSTEHEND. Bitte wenden Sie sich im Interkom an uns, wenn es länger als 1 Arbeitstag dauert.",
-            "emailVerify": "Bitte Ihre E-Mail-Adresse angeben und bestätigen.",
-            "createID": "LikeCoin-ID anlegen und LikeCoin senden sowie erhalten",
-            "createIDSendReceive": "LikeCoin-ID anlegen und LikeCoin senden sowie erhalten",
-            "verifyToPurchase": "Bestätigen Sie Ihre Daten, um LikeCoin erwerben zu können, sobald der öffentliche Verkauf läuft.",
-            "emailVerification": "E-Mail-Bestätigung",
-            "accountVerification": "Kontoverifizierung",
-            "advancedVerification": "Erweiterte Überprüfung",
-            "verifyEmailPlaceholder": "Bestätigen Sie Ihre E-Mail-Adresse",
-            "checkEmail": "E-Mail gesendet. Bitte prüfen",
-            "emailVerified": "E-Mail verifiziert",
-            "proceedToAccountVerification": "Fortfahren mit Kontoüberprüfung",
-            "isPrcCitizen": "Sind Sie Bürger der VR China?",
-            "isUsaCitizen": "Sind Sie Bürger der USA?",
-            "isUsaAccredited": "Sind Sie ein akkreditierter Investor in den USA?",
-            "isPurchaseExceedAmount": "Werden Sie mehr als {amount} ETH kaufen?",
-            "firstName": "Vorname (wie im Reisepass)",
-            "lastName": "Nachname (wie im Reisepass)",
-            "country": "Wohnsitzland",
-            "nationality": "Nationalität",
-            "invalidCountry": "Bitte wählen Sie ein gültiges Land aus der Liste.",
-            "invalidNationality": "Bitte wählen Sie eine gültige Nationalität aus der Liste.",
-            "passportIdPage": "Reisepass-ID-Seite mit dem Gesicht aufrecht (max. Größe 2 MB)*",
-            "recentSelfie": "Selfie mit dem Gesicht aufrecht (max. Größe 2 MB)*",
-            "canPurchaseLessThanAmount": "Sie können weniger als {amount} ETH kaufen",
-            "canPurchaseMoreThanAmount": "Sie können mehr als {amount} ETH kaufen",
-            "advancedVerificationInProgress": "Sie können weniger als {amount} ETH kaufen. Sobald die erweiterte Überprüfung erfolgreich abgeschlossen wurde, können Sie mehr erwerben.",
-            "purchaseMore": "Ich möchte mehr als das kaufen.",
-            "accountVeritifed": "Konto bestätigt",
-            "canPurchaseWhenPublicSale": "Wenn der öffentliche Verkauf gestartet wurde, können Sie hier LikeCoins erwerben.",
-            "verifyToPurchaseOverAmount": "Bestätigen Sie Ihre Identität und kaufen Sie mehr als {amount} ETH",
-            "waitingConfirmation": "Warten auf Bestätigung.",
-            "timeWaitForAccountVerification": "Das wird ungefähr 2 Minuten dauern …",
-            "timeWaitForAdvancedVerification": "Es dauert normalerweise weniger als 1 Arbeitstag",
-            "emailNotification": "Sie erhalten eine E-Mail-Benachrichtigung, wenn das erledigt ist.",
-            "contactUs": "Wenden Sie sich für weitere Unterstützung mithilfe der Sprechblase unten rechts an uns.",
-            "contactThroughIntercom": "Bitte kontaktieren Sie uns hier bei Intercom.",
-            "preSaleBonusDescription": "25 % Bonus für den Kauf ab 10 ETH"
-        },
-        "button": {
-            "createID": "LikeCoin-ID erstellen",
-            "sendEmailAgain": "Erneut senden",
-            "start": "Start",
-            "next": "Weiter",
-            "upload": "hochladen",
-            "reupload": "Erneut hochladen"
         }
     },
     "Creator": {

@@ -248,8 +248,7 @@
   "Sign": {
     "Message": {
       "registerUser": "Registering with the following user info",
-      "editUser": "Updating user info",
-      "signKYC": "ID Verify user with the following Info"
+      "editUser": "Updating user info"
     }
   },
   "Home": {
@@ -968,26 +967,9 @@
       "thankyou": "Thank you for your support"
     },
     "label": {
-      "prepareToJoin": "Prepare to Join Token Sale",
-      "publicSaleStartIn": "Public Sale Start in:",
-      "publicSaleEndIn": "Token Sale End in:",
       "token": "Token",
       "exchangeRate": "Exchange Rate",
       "supply": "Supply",
-      "preSaleDescription0": "You are buying {base} LikeCoin + {bonus} bonus.",
-      "preSaleDescription1": "LikeCoin will be sent to your wallet when public sale start.",
-      "whatIsETH": "What is ETH?",
-      "bonusAndLimitedOffer": "25% bonus, Limited Time Offer",
-      "limitedOfferCondition": "for 10 ETH purchase and above",
-      "amountLikeToPurhcase": "Amount of LIKE to Purchase",
-      "tokensaleBadAmount": "Invalid amount, minimum 0.1 ETH, and less than 1,000 ETH",
-      "bonus": "Bonus",
-      "bonusLockUp": "The bonus LikeCoin will be lock up in your wallet and cannot be transferred for 6 months.",
-      "amountWillBeSentWhenSalesStart": "The purchased and bonus LikeCoin will be sent to your wallet when public token sales starts, expected to be April 23 2018. The bonus LikeCoin will be lock up in your wallet and cannot be transferred for 6 months.",
-      "whatIsEthLink": "https://help.like.co/likecoin-faq/what-is-eth",
-      "joinTokenSaleNow": "Join Token Sale Now",
-      "gasPriceDeducted": "Reserving ETH for blockchain transaction cost",
-      "likeAmountWillGet": "You will get <span class=\"bold\">{amount}</span> LIKE",
       "raised": "Raised",
       "thankyou": "Our token sale is officially ended. We have sold 7562.26ETH of LIKE and reached >180% of our target, thanks so much! We will be listed on QRYPTOS on June 4 and have a series of products to launch. Please stay tuned."
     },
@@ -1023,59 +1005,6 @@
       "label": {
         "emptyHistoryPlaceholder": "Completed bonus will be shown here."
       }
-    }
-  },
-  "KYC": {
-    "label": {
-      "kyc": "ID Verification",
-      "kycNeeded": "ID Verification is needed to participate in LikeCoin token sale",
-      "advKycNeeded": "Advanced ID Verification is needed for large amount of purchase",
-      "advKycPending": "Your Advanced ID Verification is still in PENDING state, Please contact us in intercom if it took longer than 1 working day",
-      "emailVerify": "Please provide and verify your email.",
-      "createID": "Create Liker ID to send and receive LikeCoin, and participate in the tokensale.",
-      "createIDSendReceive": "Create Liker ID to send and receive LikeCoin.",
-      "verifyToPurchase": "Verify your information to purchase LikeCoin once public sale is live.",
-      "emailVerification": "Email Verification",
-      "accountVerification": "Account Verification",
-      "advancedVerification": "Advanced Verification",
-      "verifyEmailPlaceholder": "Verify your email",
-      "checkEmail": "Email sent. Please Check",
-      "emailVerified": "Email Verified",
-      "proceedToAccountVerification": "Proceed to account verification",
-      "isPrcCitizen": "Are you a citizen of PRC?",
-      "isUsaCitizen": "Are you a citizen of USA?",
-      "isUsaAccredited": "Are you a Accredited Investor in USA?",
-      "isPurchaseExceedAmount": "Are you going to purchase more than {amount} ETH?",
-      "firstName": "First Name (same as your passport)",
-      "lastName": "Last Name (same as your passport)",
-      "country": "Country of residence",
-      "nationality": "Nationality",
-      "invalidCountry": "Please select valid country in the list.",
-      "invalidNationality": "Please select valid nationality in the list.",
-      "passportIdPage": "Passport ID Page with face upright (size limit 2MB)*",
-      "recentSelfie": "Selfie with face upright (size limit 2MB)*",
-      "canPurchaseLessThanAmount": "You can purchase less then {amount} ETH",
-      "canPurchaseMoreThanAmount": "You can purchase more then {amount} ETH",
-      "advancedVerificationInProgress": "You can purchase less than {amount} ETH. Once the advanced verification succeeds, you can buy more.",
-      "purchaseMore": "I want to purchase more than that.",
-      "accountVeritifed": "Account Verified",
-      "canPurchaseWhenPublicSale": "When Public Sale is live You can purchase LikeCoin here.",
-      "verifyToPurchaseOverAmount": "Verifiy your identity and to purchase more than {amount} ETH",
-      "waitingConfirmation": "Waiting for confirmation.",
-      "timeWaitForAccountVerification": "It will take about 2 minutes…",
-      "timeWaitForAdvancedVerification": "It usually takes less than 1 working day",
-      "emailNotification": "You will receive email notification when it is done",
-      "contactUs": "Please contact us at the bottom-right dialogue bubble for further assistance.",
-      "contactThroughIntercom": "Please contact us here in Intercom.",
-      "preSaleBonusDescription": "25% bonus for 10 ETH purchase and above"
-    },
-    "button": {
-      "createID": "Create Liker ID",
-      "sendEmailAgain": "Send again",
-      "start": "Start",
-      "next": "Next",
-      "upload": "upload",
-      "reupload": "re-upload"
     }
   },
   "Creator": {
@@ -1433,26 +1362,6 @@
   "LikerList": {
     "label": {
       "aboutLikeCoin": "About LikeCoin"
-    }
-  },
-  "Donation": {
-    "label": {
-      "thanks": "Thank you for becoming a Content Civics",
-      "oneMoreStep": "One More Step to go",
-      "createToEnjoyContent": "Create or connect to your Liker ID before you enjoy LikeContent and give you like to 100+ LikeWriter.",
-      "hiUser": "Hi {user},",
-      "thanksForJoining": "Thank you for joining.",
-      "buildPlaceForYou": "Together, we’re building a different kind of place on the internet: one designed for you, not for advertisers.",
-      "readAndAppreciate": "Read and appreciate the excellent work from the top creators"
-    },
-    "button": {
-      "connectID": "Connect Liker ID",
-      "howToCreateID": "How to create a Liker ID",
-      "more": "more"
-    },
-    "url": {
-      "createIdOnMobile": "https://help.like.co/likecoin-faq/newbies/registering-likecoin-id-on-mobile",
-      "createIdOnComp": "https://help.like.co/likecoin-faq/newbies/registering-likecoin-id-on-computer"
     }
   },
   "AuthConnectList": {
