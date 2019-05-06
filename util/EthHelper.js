@@ -138,7 +138,7 @@ class EthHelper {
         const network = await this.actionWeb3.eth.net.getNetworkType();
         const target = (IS_TESTNET ? 'rinkeby' : 'main');
         if (network === target) {
-          this.startApp();
+          await this.startApp();
           this.isInited = true;
         } else {
           if (this.errCb) this.errCb('testnet');
@@ -167,7 +167,7 @@ class EthHelper {
       import(/* webpackChunkName: "web3" */ '@/constant/contract/likecoin-abi'),
     ]);
     this.LikeCoin = new this.actionWeb3.eth.Contract(LIKE_COIN_ABI, LIKE_COIN_ADDRESS);
-    this.pollForAccounts();
+    setTimeout(() => this.pollForAccounts());
   }
 
   pollForAccounts() {
