@@ -43,9 +43,20 @@
             </div>
 
             <div class="lc-container-4">
-              <mansory-article-list
-                class="lc-margin-vertical-24 lc-mobile"
-              />
+              <mansory-article-list />
+            </div>
+          </div>
+
+          <!-- More Articles from platforms with LikeButton integration -->
+          <div class="lc-container-3 lc-bg-gray-1 lc-padding-bottom-32">
+            <div class="like-button-integrated-platform">
+              <div
+                :class="[
+                  'like-button-integrated-platform__headline',
+                  'lc-container-4 lc-container-no-padding-mobile',
+                ]"
+              >{{ $t('LikeButtonIntegratedPlatform.headline') }}</div>
+              <LikeButtonPlatformGrid class="lc-container-4" />
             </div>
           </div>
 
@@ -106,6 +117,7 @@ import HomeBanner from '@/components/home/Banner';
 import HomeMobileHeader from '@/components/home/MobileHeader';
 import LikeButtonDemo from '@/components/home/LikeButtonDemo';
 import LikeButtonIntro from '@/components/LikeButtonIntro';
+import LikeButtonPlatformGrid from '@/components/LikeButtonPlatformGrid';
 import MansoryArticleList from '@/components/home/MansoryArticleList';
 import PlatformCoverage from '@/components/home/PlatformCoverage';
 import PlatformIconBar from '@/components/PlatformIconBar';
@@ -123,6 +135,7 @@ export default {
     HomeMobileHeader,
     LikeButtonDemo,
     LikeButtonIntro,
+    LikeButtonPlatformGrid,
     MansoryArticleList,
     PlatformCoverage,
     PlatformIconBar,
@@ -266,6 +279,32 @@ export default {
   .mansory-article-list {
     @media (min-width: 600px + 1px) {
       padding: 0 12px;
+    }
+  }
+}
+
+.like-button-integrated-platform {
+  &__headline {
+    display: flex;
+    align-items: center;
+
+    padding-top: 24px;
+    padding-bottom: 16px;
+
+    color: $like-green;
+
+    font-size: 20px;
+    font-weight: 300;
+
+    &::after {
+      flex-grow: 1;
+
+      height: 1px;
+      margin-left: 8px;
+
+      content: '';
+
+      background: $like-gray-3;
     }
   }
 }
