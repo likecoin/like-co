@@ -255,7 +255,16 @@ class EthHelper {
         _value,
       });
     }
-    const receipt = getTxReceipt(type, abiDecoder, web3Instance, txHash, t, _to, _from, _value);
+    const receipt = await getTxReceipt(
+      type,
+      abiDecoder,
+      web3Instance,
+      txHash,
+      t,
+      _to,
+      _from,
+      _value,
+    );
     if (receipt.isFailed) {
       return filterMultipleTransferTo(filterAddress, {
         isFailed: receipt.isFailed,
