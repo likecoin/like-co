@@ -3,7 +3,7 @@ import { IS_TESTNET, INFURA_HOST, CONFIRMATION_NEEDED } from '@/constant';
 
 import { getTxInfo, getTxReceipt } from './txInfo/txInfo';
 import { isReceiptSuccess } from './txInfo/receipt';
-import { LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin';
+import { LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin-address';
 
 function timeout(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -73,7 +73,7 @@ class EthHelper {
       { LIKE_COIN_ABI },
       abiDecoderLib,
     ] = await Promise.all([
-      import(/* webpackChunkName: "web3" */ '@/constant/contract/likecoin'),
+      import(/* webpackChunkName: "web3" */ '@/constant/contract/likecoin-abi'),
       import(/* webpackChunkName: "web3" */ '@likecoin/abi-decoder/dist/es5'),
     ]);
     const abiDecoder = abiDecoderLib.default || abiDecoderLib;
@@ -94,17 +94,24 @@ class EthHelper {
   async handleQueryWeb3Init() {
     const [
       Web3Lib,
-      { LIKE_COIN_ABI },
     ] = await Promise.all([
       import(/* webpackChunkName: "web3" */ 'web3'),
-      import(/* webpackChunkName: "web3" */ '@/constant/contract/likecoin'),
     ]);
     const Web3 = Web3Lib.default || Web3Lib;
     this.Web3 = Web3;
     const provider = new Web3.providers.HttpProvider(INFURA_HOST);
     const web3Instance = new Web3(provider);
-    this.queryLikeCoin = new web3Instance.eth.Contract(LIKE_COIN_ABI, LIKE_COIN_ADDRESS);
     this.queryWeb3 = web3Instance;
+  }
+
+  async initQueryLikeCoin() {
+    if (this.queryLikeCoin) return;
+    const [
+      { LIKE_COIN_ABI },
+    ] = await Promise.all([
+      import(/* webpackChunkName: "web3" */ '@/constant/contract/likecoin-abi'),
+    ]);
+    this.queryLikeCoin = new this.queryWeb3.eth.Contract(LIKE_COIN_ABI, LIKE_COIN_ADDRESS);
   }
 
   clearTimers() {
@@ -157,7 +164,7 @@ class EthHelper {
     const [
       { LIKE_COIN_ABI },
     ] = await Promise.all([
-      import(/* webpackChunkName: "web3" */ '@/constant/contract/likecoin'),
+      import(/* webpackChunkName: "web3" */ '@/constant/contract/likecoin-abi'),
     ]);
     this.LikeCoin = new this.actionWeb3.eth.Contract(LIKE_COIN_ABI, LIKE_COIN_ADDRESS);
     this.pollForAccounts();
@@ -318,6 +325,7 @@ class EthHelper {
     const address = addr || this.wallet || '';
     if (!address) return '';
     if (!this.queryWeb3) await this.initQueryWeb3();
+    if (!this.queryLikeCoin) await this.initQueryLikeCoin();
     return this.queryLikeCoin.methods.balanceOf(address).call();
   }
 
