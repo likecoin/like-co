@@ -37,7 +37,7 @@ const User = {
     const sign = await EthHelper.signUserPayload(payload);
     const data = {
       avatarFile,
-      payload: EthHelper.utf8ToHex(payload),
+      payload: await EthHelper.utf8ToHex(payload),
       sign,
       from: wallet,
       platform: 'wallet',
@@ -56,7 +56,7 @@ const User = {
     const sign = await EthHelper.signLogin(payload);
     const data = {
       sign,
-      payload: EthHelper.utf8ToHex(payload),
+      payload: await EthHelper.utf8ToHex(payload),
       from: wallet,
       platform: 'wallet',
     };
@@ -106,7 +106,7 @@ const User = {
     if (signMessage) payload = [`${signMessage}:`, payload].join('\n');
     const sign = await EthHelper.signUserPayload(payload);
     const data = {
-      payload: EthHelper.utf8ToHex(payload),
+      payload: await EthHelper.utf8ToHex(payload),
       sign,
       from: wallet,
     };
