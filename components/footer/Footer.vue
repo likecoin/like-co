@@ -34,7 +34,7 @@ import {
   ETHERSCAN_HOST,
   ONE_LIKE,
 } from '@/constant';
-import { LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin';
+import { LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin-address';
 
 export default {
   data() {

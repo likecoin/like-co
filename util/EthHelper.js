@@ -1,14 +1,9 @@
 /* eslint-disable no-underscore-dangle */
-import Web3 from 'web3';
-
-import { LIKE_COIN_ABI, LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin';
 import { IS_TESTNET, INFURA_HOST, CONFIRMATION_NEEDED } from '@/constant';
 
 import { getTxInfo, getTxReceipt } from './txInfo/txInfo';
 import { isReceiptSuccess } from './txInfo/receipt';
-
-const abiDecoder = require('@likecoin/abi-decoder/dist/es5');
-
+import { LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin-address';
 
 function timeout(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -57,11 +52,9 @@ class EthHelper {
     onLogin,
     onSigned,
   }) {
-    const provider = new Web3.providers.HttpProvider(INFURA_HOST);
-    const web3Instance = new Web3(provider);
-    this.queryWeb3 = web3Instance;
-    this.queryLikeCoin = new web3Instance.eth.Contract(LIKE_COIN_ABI, LIKE_COIN_ADDRESS);
-    this.abiDecoderInited = false;
+    this.abiDecoder = null;
+    this.queryWeb3 = null;
+    this.Web3 = null;
     Object.assign(this, {
       wallet: '',
       errCb,
@@ -74,10 +67,51 @@ class EthHelper {
     });
   }
 
-  initAbiDecoder() {
-    if (this.abiDecoderInited) return;
-    abiDecoder.addABI(LIKE_COIN_ABI);
-    this.abiDecoderInited = true;
+  async initAbiDecoder() {
+    if (this.abiDecoder) return;
+    const [
+      { LIKE_COIN_ABI },
+      abiDecoderLib,
+    ] = await Promise.all([
+      import(/* webpackChunkName: "web3" */ '@/constant/contract/likecoin-abi'),
+      import(/* webpackChunkName: "web3" */ '@likecoin/abi-decoder/dist/es5'),
+    ]);
+    const abiDecoder = abiDecoderLib.default || abiDecoderLib;
+    this.abiDecoder = abiDecoder;
+    this.abiDecoder.addABI(LIKE_COIN_ABI);
+  }
+
+  async initQueryWeb3() {
+    if (this.queryWeb3) return;
+    if (this.initWeb3Promise) {
+      await this.initWeb3Promise;
+      return;
+    }
+    this.initWeb3Promise = this.handleQueryWeb3Init();
+    await this.initWeb3Promise;
+  }
+
+  async handleQueryWeb3Init() {
+    const [
+      Web3Lib,
+    ] = await Promise.all([
+      import(/* webpackChunkName: "web3" */ 'web3'),
+    ]);
+    const Web3 = Web3Lib.default || Web3Lib;
+    this.Web3 = Web3;
+    const provider = new Web3.providers.HttpProvider(INFURA_HOST);
+    const web3Instance = new Web3(provider);
+    this.queryWeb3 = web3Instance;
+  }
+
+  async initQueryLikeCoin() {
+    if (this.queryLikeCoin) return;
+    const [
+      { LIKE_COIN_ABI },
+    ] = await Promise.all([
+      import(/* webpackChunkName: "web3" */ '@/constant/contract/likecoin-abi'),
+    ]);
+    this.queryLikeCoin = new this.queryWeb3.eth.Contract(LIKE_COIN_ABI, LIKE_COIN_ADDRESS);
   }
 
   clearTimers() {
@@ -95,15 +129,16 @@ class EthHelper {
     this.isInited = false;
     this.clearTimers();
     try {
+      if (!this.queryWeb3) await this.initQueryWeb3();
       if (typeof window.web3 !== 'undefined') {
         if (!this.actionWeb3 || this.web3Type !== 'window') {
           this.setWeb3Type('window');
-          this.actionWeb3 = new Web3(window.web3.currentProvider);
+          this.actionWeb3 = new this.Web3(window.web3.currentProvider);
         }
         const network = await this.actionWeb3.eth.net.getNetworkType();
         const target = (IS_TESTNET ? 'rinkeby' : 'main');
         if (network === target) {
-          this.startApp();
+          await this.startApp();
           this.isInited = true;
         } else {
           if (this.errCb) this.errCb('testnet');
@@ -125,9 +160,14 @@ class EthHelper {
     }
   }
 
-  startApp() {
+  async startApp() {
+    const [
+      { LIKE_COIN_ABI },
+    ] = await Promise.all([
+      import(/* webpackChunkName: "web3" */ '@/constant/contract/likecoin-abi'),
+    ]);
     this.LikeCoin = new this.actionWeb3.eth.Contract(LIKE_COIN_ABI, LIKE_COIN_ADDRESS);
-    this.pollForAccounts();
+    setTimeout(() => this.pollForAccounts());
   }
 
   pollForAccounts() {
@@ -167,6 +207,7 @@ class EthHelper {
 
   async waitForTxToBeMined(txHash) {
     let done = false;
+    if (!this.queryWeb3) await this.initQueryWeb3();
     while (!done) {
       /* eslint-disable no-await-in-loop */
       await timeout(1000);
@@ -181,7 +222,8 @@ class EthHelper {
     }
   }
 
-  utf8ToHex(data) {
+  async utf8ToHex(data) {
+    if (!this.queryWeb3) await this.initQueryWeb3();
     return this.queryWeb3.utils.utf8ToHex(data);
   }
 
@@ -203,6 +245,7 @@ class EthHelper {
   }
 
   async getTransactionCompleted(txHash) {
+    if (!this.queryWeb3) await this.initQueryWeb3();
     const [t, currentBlockNumber] = await Promise.all([
       this.queryWeb3.eth.getTransaction(txHash),
       this.queryWeb3.eth.getBlockNumber(),
@@ -227,7 +270,9 @@ class EthHelper {
   }
 
   async getTransferInfo(txHash, opt) {
-    const web3Instance = this.queryWeb3;
+    if (!this.queryWeb3) await this.initQueryWeb3();
+    if (!this.abiDecoder) await this.initAbiDecoder();
+    const { queryWeb3: web3Instance, abiDecoder } = this;
     const { blocking, filterAddress } = opt;
     let [t, currentBlockNumber] = await Promise.all([
       web3Instance.eth.getTransaction(txHash),
@@ -241,7 +286,6 @@ class EthHelper {
       ]));
     }
     if (!t || !currentBlockNumber) throw new Error('Cannot find transaction');
-    this.initAbiDecoder();
     const {
       type,
       _to,
@@ -280,12 +324,15 @@ class EthHelper {
   async queryLikeCoinBalance(addr) {
     const address = addr || this.wallet || '';
     if (!address) return '';
+    if (!this.queryWeb3) await this.initQueryWeb3();
+    if (!this.queryLikeCoin) await this.initQueryLikeCoin();
     return this.queryLikeCoin.methods.balanceOf(address).call();
   }
 
   async queryEthBalance(addr) {
     const address = addr || this.wallet || '';
     if (!address) return '';
+    if (!this.queryWeb3) await this.initQueryWeb3();
     return this.queryWeb3.eth.getBalance(address);
   }
 

@@ -1,4 +1,4 @@
-import { LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin';
+import { LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin-address';
 
 import * as To from './to';
 import * as From from './from';
