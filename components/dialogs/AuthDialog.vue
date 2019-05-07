@@ -1,6 +1,7 @@
 <template>
   <base-dialog
     :is-show="shouldShowDialog"
+    :is-show-header="shouldShowHeader"
     :md-props="{
       mdBackdrop: !isSinglePage,
       mdClickOutsideToClose: closable,
@@ -395,6 +396,9 @@ export default {
         && this.platform !== 'email'
       );
     },
+    shouldShowHeader() {
+      return this.currentTab !== 'portal';
+    },
     errorTitle() {
       switch (this.errorCode) {
         case 'USER_ALREADY_EXIST':
@@ -592,9 +596,13 @@ export default {
     setContentHeight() {
       const elem = this.$refs[this.currentTab];
       if (elem) {
-        this.contentStyle = {
+        const style = {
           height: `${elem.offsetHeight}px`,
         };
+        if (!this.shouldShowHeader) {
+          style.marginTop = 0;
+        }
+        this.contentStyle = style;
       }
     },
     setError(code) {
@@ -1091,7 +1099,9 @@ export default {
 
     margin-top: 64px;
 
-    transition: height 1s ease;
+    transition-timing-function: ease;
+    transition-duration: 1s;
+    transition-property: margin-top, height;
 
     &--with-avatar {
       margin-top: 96px;
