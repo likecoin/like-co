@@ -193,8 +193,12 @@ const nuxtConfig = {
       respectDoNotTrack: true,
     }],
     '@nuxtjs/sentry',
+    'nuxt-purgecss',
     // '@likecoin/nuxt-google-optimize',
   ],
+  purgeCSS: {
+    whitelistPatternsChildren: [/^md-/, /^lc-/],
+  },
   // googleOptimize: {
   //   externalExperimentsSrc: '/api/experiments/list',
   //   cookieDomain: process.env.NODE_ENV === 'production'
@@ -279,6 +283,10 @@ if (process.env.INTERCOM_APPID) {
   nuxtConfig.head.link.push(
     { rel: 'preload', href: `https://widget.intercom.io/widget/${process.env.INTERCOM_APPID}`, as: 'script' },
   );
+}
+
+if (process.env.NODE_ENV !== 'production') {
+  nuxtConfig.purgeCSS.enabled = true; // force purge in dev
 }
 
 module.exports = nuxtConfig;
