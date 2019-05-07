@@ -7,7 +7,7 @@
             v-if="author"
             :to="{ name: 'id', params: { id: article.user } }"
           >
-            <img v-lazy="author.avatar">
+            <img v-lazy="resizedAuthorAvatarSrc">
             {{ author.displayName }}
           </nuxt-link>
         </div>
@@ -33,11 +33,11 @@
         class="mansory-article-item__og-wrapper"
       >
         <div
-          v-if="hasImg && article.image"
+          v-if="hasImg && resizedImage"
           class="mansory-article-item__og-image"
         >
           <img
-            v-lazy="article.image"
+            v-lazy="resizedImage"
             @error="hasImg = false;"
           >
         </div>
@@ -59,6 +59,7 @@
 <script>
 import { mapGetters } from 'vuex';
 
+import { getImageResizeAPI } from '@/util/api/api';
 import LikeTextIcon from '@/assets/like-button/like-text.svg';
 
 const MAX_DESCRIPTION_LENGTH = 120;
@@ -84,6 +85,14 @@ export default {
         return `${this.article.description.slice(0, MAX_DESCRIPTION_LENGTH)}...`;
       }
       return this.article.description;
+    },
+    resizedImage() {
+      if (!(this.article && this.article.image)) return undefined;
+      return getImageResizeAPI(this.article.image, { width: 600 });
+    },
+    resizedAuthorAvatarSrc() {
+      if (!(this.author && this.author.avatar)) return undefined;
+      return getImageResizeAPI(this.author.avatar, { width: 36 });
     },
     author() {
       return this.getUserMinInfoById(this.article.user);

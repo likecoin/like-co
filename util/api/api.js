@@ -3,6 +3,8 @@ import { IS_TESTNET, EXTERNAL_HOSTNAME } from '@/constant';
 
 const LIKECOIN_API_BASE = IS_TESTNET ? 'https://api.rinkeby.like.co' : 'https://api.like.co';
 const LIKECOIN_MISC_API_BASE = `https://${EXTERNAL_HOSTNAME}`;
+const LIKE_CO_CLOUD_FN_BASE = `https://us-central1-likecoin-${IS_TESTNET ? 'develop' : 'foundation'}.cloudfunctions.net`;
+
 
 export const apiCheckIsUser = addr => axios.get(`/users/addr/${addr}/min`);
 
@@ -190,7 +192,7 @@ export const apiGetLikeStatistic = () => axios.get(`${LIKECOIN_MISC_API_BASE}/ap
 
 export const apiGetLikeArticleInfo = url => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/like/suggest/info/?url=${encodeURIComponent(url)}`);
 
-export const apiGetLikeURLSuggestion = () => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/like/suggest/all`);
+export const apiGetLikeURLSuggestion = () => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/like/suggest/all`, { withCredentials: false });
 
 export const apiGetLikeURLPersonalSuggestion = () => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/like/suggest/personal`);
 
@@ -208,3 +210,7 @@ export const apiGetOAuthAuthorize = (clientId, redirectUri, scope, opt) => {
   return axios.get(`${LIKECOIN_MISC_API_BASE}/api/oauth/authorize?client_id=${clientId}&scope=${scopeString}&redirect_uri=${encodeURIComponent(redirectUri)}`, opt);
 };
 export const apiPostOAuthAuthorize = payload => axios.post(`${LIKECOIN_MISC_API_BASE}/api/oauth/authorize`, payload);
+
+export const getImageResizeAPI = (url, { width } = {}) => `${LIKE_CO_CLOUD_FN_BASE}/thumbnail/?url=${encodeURIComponent(url)}${
+  width ? `&width=${width}` : ''
+}`;
