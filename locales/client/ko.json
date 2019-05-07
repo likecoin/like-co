@@ -230,8 +230,7 @@
     "Sign": {
         "Message": {
             "registerUser": "다음 사용자 정보로 등록",
-            "editUser": "사용자 정보 업데이트 중",
-            "signKYC": "다음 정보로 사용자 ID 확인"
+            "editUser": "사용자 정보 업데이트 중"
         }
     },
     "Home": {
@@ -767,26 +766,9 @@
             "thankyou": "지원해 주셔서 감사합니다"
         },
         "label": {
-            "prepareToJoin": "토큰 판매 참가 준비하기",
-            "publicSaleStartIn": "공개 판매가 다음 시간 후에 시작합니다:",
-            "publicSaleEndIn": "토큰 판매가 다음 시간 후에 종료됩니다:",
             "token": "토큰",
             "exchangeRate": "환율",
             "supply": "공급",
-            "preSaleDescription0": "{base} LikeCoin + {bonus} 보너스를 구매하려고 합니다.",
-            "preSaleDescription1": "공개 판매가 시작되면 귀하의 지갑에 LikeCoin이 전송됩니다.",
-            "whatIsETH": "ETH란?",
-            "bonusAndLimitedOffer": "25% 보너스, 한시적 할인",
-            "limitedOfferCondition": "10 ETH 이상 구매 전용",
-            "amountLikeToPurhcase": "구매할 LIKE 수량",
-            "tokensaleBadAmount": "유효하지 않은 금액입니다. 최소 0.1 ETH, 1,000 ETH 미만이어야 합니다",
-            "bonus": "보너스",
-            "bonusLockUp": "보너스 LikeCoin은 귀하의 지갑 안에 잠금 상태로 되어 6개월 동안 양도할 수 없습니다.",
-            "amountWillBeSentWhenSalesStart": "공개 토큰 판매가 시작되면 구매하신 LikeCoin 및 보너스 LikeCoin이 귀하의 지갑으로 전송됩니다. 예정일은 2018년 4월 23일입니다. 보너스 LikeCoin은 귀하의 지갑 안에 잠금 상태로 되어 6개월 동안 양도할 수 없습니다.",
-            "whatIsEthLink": "https://help.like.co/likecoin-faq/what-is-eth",
-            "joinTokenSaleNow": "지금 토큰 판매 참가하기",
-            "gasPriceDeducted": "ETH를 블록체인 트랜잭션 비용으로 예약하기",
-            "likeAmountWillGet": "<span class=\"bold\">{amount}</span> LIKE를 받으시게 됩니다",
             "raised": "증가됨",
             "thankyou": "저희 토큰 판매는 공식적으로 종료됐습니다. 저희는 목표치의 180% 이상을 달성했습니다. 정말 감사합니다! 다양한 판매 채널로부터 수치를 집계 중이며 최종 결과를 곧 공개할 예정입니다."
         },
@@ -822,59 +804,6 @@
             "label": {
                 "emptyHistoryPlaceholder": "완료된 보너스가 여기 표시됩니다."
             }
-        }
-    },
-    "KYC": {
-        "label": {
-            "kyc": "ID 인증",
-            "kycNeeded": "LikeCoin 토큰 판매에 참가하려면 ID 인증이 필요합니다",
-            "advKycNeeded": "많은 금액을 구매하시려면 고급 ID 인증이 필요합니다",
-            "advKycPending": "고객님의 고급 ID 인증이 아직 대기 중 상태입니다. 5 영업일을 넘게 소요된 경우, 인터콤을 통해 문의해 주시기 바랍니다",
-            "emailVerify": "이메일을 제공 및 인증하세요.",
-            "createID": "LikeCoin 전송 및 수령을 하시려면 Liker ID를 생성하고, 토큰 판매에 참가하세요.",
-            "createIDSendReceive": "Liker ID를 생성해서 LikeCoin을 전송하고 받아 보세요.",
-            "verifyToPurchase": "공개 판매가 진행되면 본인의 정보를 인증해서 LikeCoin을 구매하세요.",
-            "emailVerification": "이메일 인증",
-            "accountVerification": "계정 인증",
-            "advancedVerification": "고급 인증",
-            "verifyEmailPlaceholder": "이메일을 인증하세요",
-            "checkEmail": "이메일 전송함. 확인 부탁드립니다",
-            "emailVerified": "이메일 인증됨",
-            "proceedToAccountVerification": "계정 인증 과정으로 진행",
-            "isPrcCitizen": "PRC (중화 인민 공화국) 시민이십니까?",
-            "isUsaCitizen": "USA (아메리카 합중국) 시민이십니까?",
-            "isUsaAccredited": "미국 내의 공인 투자자이십니까?",
-            "isPurchaseExceedAmount": "ETH {amount}을/를 넘는 금액 만큼 구매하실 예정이십니까?",
-            "firstName": "이름 (여권의 성명과 동일해야 함)",
-            "lastName": "성 (여권의 성명과 동일해야 함)",
-            "country": "거주 국가",
-            "nationality": "국적",
-            "invalidCountry": "리스트에서 유효한 국가를 선택하세요.",
-            "invalidNationality": "리스트에서 유효한 국적을 선택하세요.",
-            "passportIdPage": "정방향 얼굴 사진이 표시된 여권의 ID 페이지 (용량 제한 2MB)*",
-            "recentSelfie": "정방향 본인 얼굴 셀카 (용량 제한 2MB)*",
-            "canPurchaseLessThanAmount": "ETH {amount} 미만의 금액 만큼 구매하실 수 있습니다",
-            "canPurchaseMoreThanAmount": "ETH {amount}을/를 넘는 금액 만큼 구매하실 수 있습니다",
-            "advancedVerificationInProgress": "ETH {amount} 미만의 금액 만큼 구매하실 수 있습니다. 고급 인증이 완료되면, 더 많이 구매하실 수 있습니다.",
-            "purchaseMore": "더 많이 구매하고 싶습니다.",
-            "accountVeritifed": "계정 인증됨",
-            "canPurchaseWhenPublicSale": "공개 판매가 진행되면 여기서 LikeCoin을 구매하실 수 있습니다.",
-            "verifyToPurchaseOverAmount": "ETH {amount}을/를 넘는 금액 만큼 구매하려면 ID를 인증해 주십시오",
-            "waitingConfirmation": "확인 대기 중입니다.",
-            "timeWaitForAccountVerification": "2분 정도 소요될 예정입니다...",
-            "timeWaitForAdvancedVerification": "보통 1 영업일 내로 완료됩니다",
-            "emailNotification": "완료되면 이메일 알림을 보내 드립니다",
-            "contactUs": "추가 지원을 받으시려면 하단 우측의 대화창을 통해 문의해 주시기 바랍니다.",
-            "contactThroughIntercom": "이곳의 Intercom을 통해서 문의해 주시기 바랍니다.",
-            "preSaleBonusDescription": "10 ETH 이상 구매시 25% 보너스 보상"
-        },
-        "button": {
-            "createID": "Liker ID 생성하기",
-            "sendEmailAgain": "다시 전송",
-            "start": "시작하기",
-            "next": "다음",
-            "upload": "업로드",
-            "reupload": "재업로드"
         }
     },
     "Creator": {

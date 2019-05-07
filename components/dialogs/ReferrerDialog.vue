@@ -27,7 +27,7 @@
             class="md-likecoin"
             @click="$emit('update:isShow', false)"
           >
-            {{ $t('KYC.button.createID') }}
+            {{ $t('Home.Header.button.signUp') }}
           </md-button>
         </div>
       </div>

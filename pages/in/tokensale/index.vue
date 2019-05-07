@@ -80,7 +80,7 @@
           >
             <div class="lc-container-4">
               <p class="lc-color-like-gray-4">
-                {{ $t('KYC.label.createIDSendReceive') }}
+                {{ $t('Home.Header.button.signUp') }}
               </p>
             </div>
           </div>

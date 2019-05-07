@@ -233,8 +233,7 @@
   "Sign": {
     "Message": {
       "registerUser": "次のユーザー情報で登録しています",
-      "editUser": "ユーザー情報を更新中",
-      "signKYC": "次の情報でユーザーの身分証明を確認する"
+      "editUser": "ユーザー情報を更新中"
     }
   },
   "Home": {
@@ -833,26 +832,9 @@
       "thankyou": "ご支援ありがとうございます"
     },
     "label": {
-      "prepareToJoin": "トークン販売参加の準備をしましょう",
-      "publicSaleStartIn": "公売開始まで:",
-      "publicSaleEndIn": "トークン販売終了まで:",
       "token": "トークン",
       "exchangeRate": "為替レート",
       "supply": "供給",
-      "preSaleDescription0": "あなたは{base} LikeCoin + {bonus} ボーナスを購入しようとしています。",
-      "preSaleDescription1": "公売開始時にLikeCoinがお使いのウォレットに送金されます。",
-      "whatIsETH": "ETHとは？",
-      "bonusAndLimitedOffer": "25%ボーナス、期間限定オファー",
-      "limitedOfferCondition": "10ETH以上の購入",
-      "amountLikeToPurhcase": "購入する「いいね」の数",
-      "tokensaleBadAmount": "無効な金額です。0.1ETH以上10,000ETH未満で指定してください",
-      "bonus": "ボーナス",
-      "bonusLockUp": "ボーナスのLikeCoinはウォレットにロックアップされ、6か月間は移管できません。",
-      "amountWillBeSentWhenSalesStart": "購入済みおよびボーナスのLikeCoinはトークン公売開始時（2018年4月23日予定）にお使いのウォレットに送金されます。ボーナスのLikeCoinはウォレット内にロックアップされ、6ヶ月間は移管できません。",
-      "whatIsEthLink": "https://help.like.co/likecoin-faq/what-is-eth",
-      "joinTokenSaleNow": "トークン販売に今すぐ参加する",
-      "gasPriceDeducted": "ブロックチェーン取引費用としてETHを予約する",
-      "likeAmountWillGet": "<span class=\"bold\">{amount}</span>件の「いいね」を獲得できます",
       "raised": "調達済み",
       "thankyou": "弊社のトークン販売は公式に終了しました。弊社は目標の>180%を達成することができました。心から感謝いたします！只今、様々な販売チャネルからの統計を集計中です。間もなく最終結果を発表いたします。"
     },
@@ -888,59 +870,6 @@
       "label": {
         "emptyHistoryPlaceholder": "ここには完了したボーナスが表示されます。"
       }
-    }
-  },
-  "KYC": {
-    "label": {
-      "kyc": "身分証明書の確認",
-      "kycNeeded": "LikeCoinトークン販売に参加するには身分証明が必要です",
-      "advKycNeeded": "高額購入には詳細な身分証明が必要です",
-      "advKycPending": "お客様の詳細な身分証明書の確認はまだ「保留中」の状態です。1営業日以上かかっている場合は「インターコム」からお問い合わせください",
-      "emailVerify": "メールアドレスの指定と確認を行ってください。",
-      "createID": "LikeCoinを送受信するためにLiker IDを作成し、トークン販売に参加しましょう。",
-      "createIDSendReceive": "LikeCoinを送受信するにはLiker IDを作成しましょう。",
-      "verifyToPurchase": "公売が開始したら、情報の認証を行ってLikeCoinを購入してください。",
-      "emailVerification": "メールアドレス認証",
-      "accountVerification": "アカウント認証",
-      "advancedVerification": "詳細認証",
-      "verifyEmailPlaceholder": "メールアドレスを認証してください",
-      "checkEmail": "メールを送信しました。確認してください",
-      "emailVerified": "メールアドレスが認証されました",
-      "proceedToAccountVerification": "アカウント認証に進む",
-      "isPrcCitizen": "中華人民共和国の国民ですか？",
-      "isUsaCitizen": "アメリカ合衆国の国民ですか？",
-      "isUsaAccredited": "米国の適格投資家ですか？",
-      "isPurchaseExceedAmount": "{amount} ETHを超える購入を行いますか？",
-      "firstName": "名（パスポート表記通り）",
-      "lastName": "姓（パスポート表記通り）",
-      "country": "お住いの国",
-      "nationality": "国籍",
-      "invalidCountry": "一覧から有効な国を選択してください。",
-      "invalidNationality": "一覧から有効な国籍を選択してください。",
-      "passportIdPage": "正面を向いた顔写真付きのパスポート身分証明ページ（サイズ上限２MB)*",
-      "recentSelfie": "正面を向いた顔の自撮り写真（サイズ上限２MB)*",
-      "canPurchaseLessThanAmount": "{amount}ETHまで購入できます",
-      "canPurchaseMoreThanAmount": "{amount} ETHを超える購入も可能です",
-      "advancedVerificationInProgress": "{amount} ETH未満でも購入できます。詳細な認証が完了すると、もっと購入できるようになります。",
-      "purchaseMore": "もっと購入したいです。",
-      "accountVeritifed": "アカウントが認証されました",
-      "canPurchaseWhenPublicSale": "公売の開催中はこちらでLikeCoinを購入できます。",
-      "verifyToPurchaseOverAmount": "身分確認を行って{amount}ETH以上購入してください",
-      "waitingConfirmation": "確認待ちです。",
-      "timeWaitForAccountVerification": "2分ほどかかります…",
-      "timeWaitForAdvancedVerification": "通常、1営業日以内に完了します",
-      "emailNotification": "完了時にメールで通知が届きます",
-      "contactUs": "さらにヘルプが必要な場合は、吹き出しの右下からお問い合わせください。",
-      "contactThroughIntercom": "こちらのインターコムからお問い合わせください。",
-      "preSaleBonusDescription": "10ETH以上の購入で25％のボーナス"
-    },
-    "button": {
-      "createID": "Liker IDを作成",
-      "sendEmailAgain": "再送信",
-      "start": "開始",
-      "next": "次へ",
-      "upload": "アップロード",
-      "reupload": "再アップロード"
     }
   },
   "Creator": {

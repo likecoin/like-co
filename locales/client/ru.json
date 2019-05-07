@@ -230,8 +230,7 @@
     "Sign": {
         "Message": {
             "registerUser": "Регистрация со следующими данными о пользователе",
-            "editUser": "Обновление данных о пользователе",
-            "signKYC": "Подтверждение личности пользователя со следующими данными"
+            "editUser": "Обновление данных о пользователе"
         }
     },
     "Home": {
@@ -767,26 +766,9 @@
             "thankyou": "Спасибо за поддержку"
         },
         "label": {
-            "prepareToJoin": "Приготовьтесь к участию в продаже токенов",
-            "publicSaleStartIn": "Публичная продажа начнется через:",
-            "publicSaleEndIn": "Продажа токенов завершится через:",
             "token": "Токен",
             "exchangeRate": "Курс обмена",
             "supply": "Объем эмиссии",
-            "preSaleDescription0": "Вы покупаете {base} LikeCoin + бонус {bonus}.",
-            "preSaleDescription1": "LikeCoin будут отправлены на ваш кошелек после начала публичной продажи.",
-            "whatIsETH": "Что такое ETH?",
-            "bonusAndLimitedOffer": "Бонус 25%, временная акция",
-            "limitedOfferCondition": "при покупке 10 или больше ETH",
-            "amountLikeToPurhcase": "Количество LIKE к покупке",
-            "tokensaleBadAmount": "Недопустимая сумма; минимум 0,1 ETH, максимум 1000 ETH",
-            "bonus": "Бонус",
-            "bonusLockUp": "Бонусные LikeCoin будут заблокированы в вашем кошельке, их нельзя будет перевести в течение 6 месяцев.",
-            "amountWillBeSentWhenSalesStart": "Купленные и бонусные LikeCoin будут отправлены в ваш кошелек с началом публичной продажи, запланированной на 23 апреля 2018 г. Бонусные LikeCoin будут заблокированы в вашем кошельке, их нельзя будет перевести в течение 6 месяцев.",
-            "whatIsEthLink": "https://help.like.co/likecoin-faq/what-is-eth",
-            "joinTokenSaleNow": "Участвуйте в продаже токенов",
-            "gasPriceDeducted": "Резервируем ETH для оплаты блокчейн-транзакции",
-            "likeAmountWillGet": "Вы получите <span class=\"bold\">{amount}</span> LIKE",
             "raised": "Собрано",
             "thankyou": "Наша продажа токенов официально завершилась. Мы собрали > 180% от цели, огромное вам спасибо! Мы собираем данные из разных каналов продаж и скоро объявим окончательный результат."
         },
@@ -822,59 +804,6 @@
             "label": {
                 "emptyHistoryPlaceholder": "Здесь будут отображаться начисленные бонусы."
             }
-        }
-    },
-    "KYC": {
-        "label": {
-            "kyc": "Подтверждение личности",
-            "kycNeeded": "Для участия в продаже токенов LikeCoin нужно подтвердить свою личность",
-            "advKycNeeded": "Для покупки больших сумм требуется расширенная проверка личности",
-            "advKycPending": "Расширенная проверка личности на стадии ОЖИДАНИЯ. Свяжитесь с нами в Intercom, если она займет более 1 рабочего дня.",
-            "emailVerify": "Укажите и подтвердите свой адрес эл. почты.",
-            "createID": "Создайте идентификатор LikeCoin, чтобы отправлять и получать LikeCoin и участвовать в продаже токенов.",
-            "createIDSendReceive": "Создайте идентификатор LikeCoin, чтобы отправлять и получать LikeCoin.",
-            "verifyToPurchase": "Подтвердите сведения о себе, чтобы купить LikeCoin после начала публичной продажи.",
-            "emailVerification": "Подтверждение адреса эл. почты",
-            "accountVerification": "Подтверждение счета",
-            "advancedVerification": "Расширенная проверка",
-            "verifyEmailPlaceholder": "Подтвердите свой адрес эл. почты",
-            "checkEmail": "Эл. письмо отправлено. Проверьте почту.",
-            "emailVerified": "Адрес эл. почты подтвержден",
-            "proceedToAccountVerification": "Перейти к подтверждению счета",
-            "isPrcCitizen": "У вас гражданство КНР?",
-            "isUsaCitizen": "У вас гражданство США?",
-            "isUsaAccredited": "Вы аккредитованный инвестор в США?",
-            "isPurchaseExceedAmount": "Вы хотите купить более {amount} ETH?",
-            "firstName": "Имя (как в паспорте)",
-            "lastName": "Фамилия (как в паспорте)",
-            "country": "Страна проживания",
-            "nationality": "Гражданство",
-            "invalidCountry": "Выберите страну из списка.",
-            "invalidNationality": "Выберите гражданство из списка.",
-            "passportIdPage": "Страница паспорта с фотографией анфас (размер не более 2 Мб)*",
-            "recentSelfie": "Селфи анфас (размер не более 2 Мб)*",
-            "canPurchaseLessThanAmount": "Вы можете купить менее {amount} ETH",
-            "canPurchaseMoreThanAmount": "Вы можете купить более {amount} ETH",
-            "advancedVerificationInProgress": "Вы можете купить менее {amount} ETH. Пройдя расширенную проверку, вы сможете купить больше.",
-            "purchaseMore": "Я хочу купить больше.",
-            "accountVeritifed": "Счет подтвержден",
-            "canPurchaseWhenPublicSale": "В ходе публичной продажи вы сможете купить LikeCoin здесь.",
-            "verifyToPurchaseOverAmount": "Подтвердите свою личность, чтобы купить более {amount} ETH",
-            "waitingConfirmation": "Ожидание подтверждения",
-            "timeWaitForAccountVerification": "Процесс займет около 2 минут...",
-            "timeWaitForAdvancedVerification": "Обычно это занимает менее 1 рабочего дня",
-            "emailNotification": "По готовности вы получите уведомление по эл. почте",
-            "contactUs": "Если вам нужна помощь, нажмите на облачко диалога справа внизу.",
-            "contactThroughIntercom": "Свяжитесь с нами в Intercom.",
-            "preSaleBonusDescription": "Бонус 25% при покупке 10 или больше ETH"
-        },
-        "button": {
-            "createID": "Создать идентификатор LikeCoin",
-            "sendEmailAgain": "Отправить снова",
-            "start": "Начать",
-            "next": "Далее",
-            "upload": "Загрузить",
-            "reupload": "Загрузить снова"
         }
     },
     "Creator": {
