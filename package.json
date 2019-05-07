@@ -61,7 +61,7 @@
     "date-fns": "^1.29.0",
     "disposable-email-domains": "^1.0.39",
     "express": "^4.16.3",
-    "firebase": "^5.8.2",
+    "firebase": "^6.0.0",
     "form-data": "^2.3.2",
     "http-proxy-middleware": "^0.19.1",
     "image-type": "^3.0.0",
