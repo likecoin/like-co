@@ -69,7 +69,7 @@ export default {
     ]),
     onChangeLanguage(locale) {
       this.$i18n.loadLanguageAsync(locale);
-      this.$cookie.set('language', locale, { expires: '1M', secure: true });
+      this.$cookie.set('language', locale, { expires: '1M', secure: true, samesite: 'none' });
       this.setLocale(locale);
     },
   },
