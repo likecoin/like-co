@@ -180,7 +180,6 @@ const nuxtConfig = {
     { src: '@likecoin/ui-vue/dist/ui-vue.css', lang: 'css' },
     { src: '~/assets/theme.scss', lang: 'scss' }, // include vue-material theme engine
     { src: '~/assets/index.scss', lang: 'scss' },
-    'swiper/dist/css/swiper.min.css',
     '~/assets/css/main.css',
   ],
   modules: [
@@ -209,7 +208,6 @@ const nuxtConfig = {
     { src: '~/plugins/vue-simple-svg' },
     { src: '~/plugins/vue-intercom', ssr: false },
     { src: '~/plugins/vue-image-lightbox', ssr: false },
-    { src: '~/plugins/vue-swiper', ssr: false },
     { src: '~/plugins/vue-clipboard2', ssr: false },
     { src: '~/plugins/vue-portal', ssr: false },
     { src: '~/plugins/vue-scroll-reveal', ssr: false },
