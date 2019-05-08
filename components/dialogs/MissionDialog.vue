@@ -40,7 +40,7 @@
             v-else-if="missionId === 'twitterBitmart'"
             :user-id="getUserInfo.user"
             :mission-id="missionId"
-            tweet-url="https://twitter.com/BitMartExchange/status/1010271556742807552"
+            tweet-url="https://twitter.com/BitMartExchange/status/1126073134958833664"
             @cancel="onDismiss"
             @complete="onCompleteMission"
           />
