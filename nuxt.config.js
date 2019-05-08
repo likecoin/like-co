@@ -2,11 +2,8 @@
 /* eslint import/no-extraneous-dependencies: "off" */
 
 const path = require('path');
-const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const SentryPlugin = require('@sentry/webpack-plugin');
 const { LIKE_CO_PLATFORMS } = require('./constant');
-
-const shouldCache = !!process.env.CI || (process.env.NODE_ENV !== 'production');
 
 const nuxtConfig = {
   /*
@@ -223,7 +220,8 @@ const nuxtConfig = {
   ** Add axios globally
   */
   build: {
-    cache: shouldCache,
+    cache: process.env.NODE_ENV === 'production',
+    hardSource: !!process.env.CI || (process.env.NODE_ENV !== 'production'),
     extractCSS: true,
     babel: {
       presets: ({ isServer }) => [
@@ -244,9 +242,6 @@ const nuxtConfig = {
         config.resolve.alias['bn.js'] = path.join(__dirname, './node_modules/bn.js');
       }
 
-      if (shouldCache) {
-        config.plugins.push(new HardSourceWebpackPlugin());
-      }
       if (process.env.RELEASE && process.env.SENTRY_AUTH_TOKEN) {
         config.plugins.push(new SentryPlugin({
           release: process.env.RELEASE,
