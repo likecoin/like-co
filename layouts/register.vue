@@ -37,14 +37,14 @@ export default {
 @import '~assets/variables';
 
 html[layout=register-layout] {
-  background-color: $like-green !important;
+  background-color: $like-gray-1 !important;
 
   body {
     background: transparent !important;
   }
 
   .lc-dialog {
-    box-shadow: none;
+    box-shadow: 0 2px 4px 0 rgba(black, 0.2);
   }
 }
 </style>

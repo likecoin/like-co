@@ -1,75 +1,61 @@
 <template>
-  <div class="signin-portal lc-padding-top-16">
-    <div class="lc-dialog-container-1">
-      <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-mobile">
+  <div class="signin-portal">
+    <header class="signin-portal__header">
+      <simple-svg
+        class="signin-portal__header-like-icon"
+        :filepath="LikeClapIcon"
+        fill="currentColor"
+        stroke="transparent"
+      />
+      <div class="signin-portal__header-headline">
         {{ $t(`${localeBasePath}.title`) }}
-      </h1>
-      <p class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-24 lc-mobile">
-        {{ $t(`${localeBasePath}.description`) }}
-      </p>
-    </div>
-
-    <div class="signin-portal__method-list-wrapper lc-dialog-container-1">
-      <span class="lc-font-size-12">
-        {{ $t(`${localeBasePath}.label.with`) }}
-      </span>
-
-      <div class="signin-portal__method-list lc-margin-top-12 lc-text-align-center">
-        <md-button
-          class="md-likecoin google with-border lc-with-icon"
-          @click="onSignInWith('google')"
-        >
-          <md-icon :md-src="GoogleIcon" />
-          Google
-        </md-button>
-        <md-button
-          class="md-likecoin lc-facebook lc-with-icon"
-          @click="onSignInWith('facebook')"
-        >
-          <md-icon :md-src="FacebookIcon" />
-          Facebook
-        </md-button>
-        <md-button
-          class="md-likecoin lc-twitter lc-with-icon"
-          @click="onSignInWith('twitter')"
-        >
-          <md-icon :md-src="TwitterIcon" />
-          Twitter
-        </md-button>
-
-        <!-- <span class="lc-margin-vertical-8 lc-font-size-12">
-          {{ $t(`${localeBasePath}.label.or`) }}
-        </span>
-
-        <md-button
-          class="md-likecoin email with-border lc-with-icon"
-          @click="onSignInWith('email')"
-        >
-          <md-icon :md-src="EmailIcon" />
-          {{ $t(`${localeBasePath}.button.email`) }}
-        </md-button> -->
-
       </div>
-    </div>
+    </header>
 
-    <div class="lc-dialog-container-1 lc-padding-top-16 lc-padding-bottom-12 lc-text-align-center">
-      <a
-        v-bind="$testID('SignInWithWalletButton')"
-        class="lc-color-like-gray-4 lc-font-size-12 lc-underline"
-        @click="onSignInWith('wallet')"
+    <div class="signin-portal__body">
+      <div class="signin-portal__body-text">
+        {{ $t(`${localeBasePath}.description`) }}
+      </div>
+
+      <div class="signin-portal__platform-button-list">
+        <button
+          v-for="platform in platforms"
+          :key="platform.id"
+          class="signin-portal__platform-button"
+          @click="onSignInWith(platform.id)"
+        >
+          <img
+            class="signin-portal__platform-button-icon"
+            :src="platform.icon"
+          >
+          <div class="signin-portal__platform-button-title">
+            {{ $t(`${localeBasePath}.auth.${platform.id}`) }}
+          </div>
+        </button>
+      </div>
+
+      <i18n
+        tag="div"
+        :path="`${localeBasePath}.toggle`"
+        class="signin-portal__body-text"
       >
-        {{ $t(`${localeBasePath}.button.wallet`) }}
-      </a>
-    </div>
+        <a
+          class="signin-portal__toggle-button"
+          place="action"
+          @click="$emit('toggle-sign-in')"
+        >
+          {{ $t(`${localeBasePath}.toggleButton`) }}
+        </a>
+      </i18n>
 
+    </div>
   </div>
 </template>
 
 <script>
-import EmailIcon from '@/assets/icons/fillable/email.svg';
-import FacebookIcon from '@/assets/icons/fillable/facebook.svg';
-import GoogleIcon from '@/assets/icons/google.svg';
-import TwitterIcon from '@/assets/icons/fillable/twitter.svg';
+import LikeClapIcon from '~/assets/icons/fillable/like-clap.svg';
+
+const getAuthPlatformIcon = require.context('~/assets/icons/auth-platform/');
 
 export default {
   name: 'signin-portal',
@@ -81,15 +67,24 @@ export default {
   },
   data() {
     return {
-      EmailIcon,
-      FacebookIcon,
-      GoogleIcon,
-      TwitterIcon,
+      LikeClapIcon,
     };
   },
   computed: {
     localeBasePath() {
       return `AuthDialog.${this.isSignIn ? 'SignIn' : 'SignUp'}`;
+    },
+    platforms() {
+      return [
+        'google',
+        'facebook',
+        'twitter',
+        // 'email', // XXX: Disable for now
+        'wallet',
+      ].map(id => ({
+        id,
+        icon: getAuthPlatformIcon(`./${id}.svg`),
+      }));
     },
   },
   methods: {
@@ -104,51 +99,105 @@ export default {
 @import '~assets/variables';
 
 .signin-portal {
-  &__method-list-wrapper {
-    padding-top: 16px;
-    padding-bottom: 32px;
+  &__header {
+    position: relative;
 
-    background: $like-gray-1;
-  }
+    padding: 28px 40px 20px;
 
-  &__method-list {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    color: $like-cyan;
+    background-color: $like-green;
 
-    padding: 0 16px;
+    // For extending header
+    &::before {
+      position: absolute;
+      right: 0;
+      bottom: 100%;
+      left: 0;
 
-    .md-button.md-likecoin {
-      display: block;
+      height: 300px;
 
-      height: 48px;
-      margin: 0;
+      content: '';
 
-      border-radius: 8px;
+      background-color: inherit;
+    }
+
+    &-like-icon {
+      width: 44px;
+      height: 44px;
+
+      margin: 0 auto 20px;
+
+      color: inherit;
+    }
+
+    &-headline {
+      text-align: center;
 
       font-size: 24px;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+  }
 
-      & + .md-button.md-likecoin {
-        margin-top: 8px;
+  &__body {
+    padding: 0 40px;
+
+    background-color: $like-gray-1;
+
+    &-text {
+      padding: 24px 0;
+
+      text-align: center;
+
+      color: #4a4a4a;
+
+      font-size: 16px;
+
+      a {
+        text-decoration: underline;
       }
+    }
+  }
 
-      &.google {
-        color: #4385f4;
-        background-color: white;
-      }
+  &__platform-button {
+    display: flex;
+    align-items: center;
 
-      &.email {
-        color: $like-green;
-        background-color: transparent;
 
-        .md-icon {
-          color: $like-gray-4;
-        }
-      }
+    width: 100%;
+    min-height: 40px;
+    padding: 6px 12px;
 
-      &.with-border {
-        border: solid 2px #e6e6e6;
-      }
+    cursor: pointer;
+    transition: all 0.25s ease;
+
+    color: $like-green;
+    border: solid 1px $gray-e6;
+    border-radius: 8px;
+    background-color: white;
+
+    box-shadow: 0 2px 2px 0 rgba(black, 0.1);
+
+    font-size: 16px;
+
+    &:hover {
+      border-color: #50e3c2;
+    }
+
+    &:active {
+      background-color: $like-gray-1;
+      box-shadow: 0 0 2px 0 rgba(black, 0.1);
+    }
+
+    &-icon {
+      width: 28px;
+      height: 28px;
+
+      margin-right: 16px;
+    }
+
+    & + & {
+      margin-top: 24px;
     }
   }
 }

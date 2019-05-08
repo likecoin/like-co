@@ -68,25 +68,6 @@
     </div>
 
     <div
-      slot="header-right"
-      class="auth-dialog__header-right"
-    >
-      <a
-        v-if="!isBlocking"
-        class="auth-dialog__login-button"
-        @click="onToggleSignIn"
-      >
-        <template v-if="isSignIn">
-          {{ $t('AuthDialog.SignUp.button.toggle') }}
-        </template>
-        <template v-else>
-          {{ $t('AuthDialog.SignIn.button.toggle') }}
-        </template>
-      </a>
-    </div>
-
-
-    <div
       :style="contentStyle"
       :class="[
         'auth-dialog__content',
@@ -105,22 +86,14 @@
       >
 
         <div
-          v-if="currentTab === 'portal' && !isSignIn"
+          v-if="currentTab === 'portal'"
           ref="portal"
-          key="portal"
-          class="auth-dialog__tab auth-dialog__tab--index"
-        >
-          <signin-portal @submit="signInWithPlatform" />
-        </div>
-
-        <div
-          v-else-if="currentTab === 'portal'"
-          ref="portal"
-          key="portal-signin"
+          :key="`portal${isSignIn ? '-signin' : ''}`"
           class="auth-dialog__tab auth-dialog__tab--index"
         >
           <signin-portal
-            :is-sign-in="true"
+            :is-sign-in="isSignIn"
+            @toggle-sign-in="onToggleSignIn"
             @submit="signInWithPlatform"
           />
         </div>
@@ -1138,11 +1111,11 @@ export default {
       }
 
       &enter#{&}index {
-        transform: scale(0.8);
+        transform: scale(1.1);
       }
 
       &leave-to {
-        transform: scale(0.8) translateY(50%);
+        transform: scale(1.1) translateY(50%);
       }
     }
   }

@@ -3,6 +3,7 @@
     "back": "返回",
     "accept": "接受",
     "decline": "拒絕",
+    "email": "電郵",
     "connect": "連接",
     "disconnect": "取消連接",
     "learnMore": "了解更多",
@@ -672,30 +673,30 @@
       "loginSuccessful": "成功登入"
     },
     "SignUp": {
-      "title": "免費註冊，化讚為賞",
-      "description": "成為 Liker 後，你的點讚能為作者帶來收入。作者需要你的支持，現在立即行動吧！",
-      "label": {
-        "or": "或",
-        "with": "選以下任一方式註冊"
+      "title": "Liker 登入按讚，作者獲得收入",
+      "description": "免費註冊成為 Liker",
+      "auth": {
+        "google": "以 Google 註冊",
+        "facebook": "以 Facebook 註冊",
+        "twitter": "以 Twitter 註冊",
+        "email": "以電郵註冊",
+        "wallet": "以 MetaMask 註冊"
       },
-      "button": {
-        "toggle": "@:Home.Header.button.signUp",
-        "email": "電郵",
-        "wallet": "以加密貨幣錢包註冊"
-      }
+      "toggle": "已有 Liker ID? {action}",
+      "toggleButton": "登入"
     },
     "SignIn": {
-      "title": "登入化讚為賞",
-      "description": "登入 Liker 後，你的點讚能為作者帶來收入。作者需要你的支持，現在立即行動吧！",
-      "label": {
-        "or": "或",
-        "with": "選以下任一方式登入"
+      "title": "Liker 登入按讚，作者獲得收入",
+      "description": "選以下任一方式登入",
+      "auth": {
+        "google": "以 Google 登入",
+        "facebook": "以 Facebook 登入",
+        "twitter": "以 Twitter 登入",
+        "email": "以電郵登入",
+        "wallet": "以 MetaMask 登入"
       },
-      "button": {
-        "toggle": "@:Home.Header.button.signIn",
-        "email": "電郵",
-        "wallet": "以加密貨幣錢包登入"
-      }
+      "toggle": "未有 Liker ID? {action}",
+      "toggleButton": "註冊"
     },
     "SignInWithEmail": {
       "title": "登入 / 註冊",
