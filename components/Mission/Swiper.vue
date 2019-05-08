@@ -49,6 +49,7 @@
 
 
 <script>
+import swiperDirective from '@/util/SwiperDirectives';
 import ArrowLeftIcon from '@/assets/icons/arrow-left.svg';
 import ArrowRightIcon from '@/assets/icons/arrow-right.svg';
 
@@ -90,6 +91,9 @@ export default {
         },
       };
     },
+  },
+  directives: {
+    swiper: swiperDirective,
   },
   methods: {
     getSelector(selector) {
