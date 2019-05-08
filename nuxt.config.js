@@ -211,7 +211,6 @@ const nuxtConfig = {
     { src: '~/plugins/likecoin-ui-vue' },
     { src: '~/plugins/vue-simple-svg' },
     { src: '~/plugins/vue-intercom', ssr: false },
-    { src: '~/plugins/vue-vimeo-player', ssr: false },
     { src: '~/plugins/vue-image-lightbox', ssr: false },
     { src: '~/plugins/vue-swiper', ssr: false },
     { src: '~/plugins/vue-clipboard2', ssr: false },

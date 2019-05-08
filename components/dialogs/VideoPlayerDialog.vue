@@ -9,7 +9,7 @@
       <div class="video-container">
         <div>
           <no-ssr>
-            <vimeo-player
+            <vue-vimeo-player
               :video-id="videoId"
               :autoplay="true"
               :options="{
@@ -28,10 +28,12 @@
 
 
 <script>
+import { vueVimeoPlayer } from 'vue-vimeo-player';
 import PlayButton from '~/assets/img/play-button.png';
 
 export default {
   name: 'video-player-dialog',
+  components: { vueVimeoPlayer },
   props: {
     videoId: {
       type: String,

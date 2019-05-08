@@ -8,7 +8,7 @@
             <div>
               <div>
                 <no-ssr>
-                  <vimeo-player
+                  <vue-vimeo-player
                     ref="player"
                     :video-id="getHeroVideoId"
                     :autoplay="true"
@@ -59,6 +59,7 @@
 </template>
 
 <script>
+import { vueVimeoPlayer } from 'vue-vimeo-player';
 import VideoPlayerDialog from '@/components/dialogs/VideoPlayerDialog';
 import PlayVideoButton from '@/components/about/PlayVideoButton';
 
@@ -67,6 +68,7 @@ import PlayTriangleIcon from '@/assets/icons/play-triangle.svg';
 export default {
   name: 'hero-video',
   components: {
+    vueVimeoPlayer,
     VideoPlayerDialog,
     PlayVideoButton,
   },
