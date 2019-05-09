@@ -214,7 +214,6 @@ export default {
     display: flex;
     align-items: center;
 
-
     width: 100%;
     min-height: 40px;
     padding: 6px 12px;
@@ -229,6 +228,7 @@ export default {
 
     box-shadow: 0 2px 2px 0 rgba(black, 0.1);
 
+    font-family: inherit;
     font-size: 16px;
 
     &:hover {
