@@ -683,30 +683,30 @@
       "loginSuccessful": "Login successful"
     },
     "SignUp": {
-      "title": "Sign up as a Liker for FREE now!",
-      "description": "As a Liker, your Likes carry the power to reward the creators.  Act to support content creation NOW!",
-      "label": {
-        "or": "or",
-        "with": "with the following method"
+      "title": "As a Liker, every Like is a reward to creators",
+      "description": "Sign up as a Liker for FREE now!",
+      "auth": {
+        "google": "Sign up with Google",
+        "facebook": "Sign up Facebook",
+        "twitter": "Sign up Twitter",
+        "email": "Sign up email",
+        "wallet": "Sign up with MetaMask"
       },
-      "button": {
-        "toggle": "@:Home.Header.button.signUp",
-        "email": "Email",
-        "wallet": "Sign-up with Ethereum Wallet"
-      }
+      "toggle": "Already have Liker ID? {action}",
+      "toggleButton": "Sign In"
     },
     "SignIn": {
-      "title": "Sign in to support creator",
-      "description": "As a Liker, your Likes carry the power to reward the creators.  Act to support content creation NOW!",
-      "label": {
-        "or": "or",
-        "with": "with the following method"
+      "title": "As a Liker, every Like is a reward to creators",
+      "description": "Sign in with one of the following methods",
+      "auth": {
+        "google": "Sign in with Google",
+        "facebook": "Sign in Facebook",
+        "twitter": "Sign in Twitter",
+        "email": "Sign in email",
+        "wallet": "Sign in with MetaMask"
       },
-      "button": {
-        "toggle": "@:Home.Header.button.signIn",
-        "email": "Email",
-        "wallet": "Sign-in with Ethereum Wallet"
-      }
+      "toggle": "No Liker ID? {action}",
+      "toggleButton": "Sign Up"
     },
     "SignInWithEmail": {
       "title": "Sign in / Sign up",

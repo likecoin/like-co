@@ -1,11 +1,12 @@
 <template>
   <base-dialog
     :is-show="shouldShowDialog"
+    :is-show-header="shouldShowHeader"
     :md-props="{
       mdBackdrop: !isSinglePage,
       mdClickOutsideToClose: closable,
       mdCloseOnEsc: closable,
-      mdFullscreen: true,
+      mdFullscreen: isSinglePage,
       mdClosed: onClosed,
       mdClickOutside: onClosed,
     }"
@@ -67,25 +68,6 @@
     </div>
 
     <div
-      slot="header-right"
-      class="auth-dialog__header-right"
-    >
-      <a
-        v-if="!isBlocking"
-        class="auth-dialog__login-button"
-        @click="onToggleSignIn"
-      >
-        <template v-if="isSignIn">
-          {{ $t('AuthDialog.SignUp.button.toggle') }}
-        </template>
-        <template v-else>
-          {{ $t('AuthDialog.SignIn.button.toggle') }}
-        </template>
-      </a>
-    </div>
-
-
-    <div
       :style="contentStyle"
       :class="[
         'auth-dialog__content',
@@ -99,27 +81,20 @@
         class="auth-dialog__tab-container"
         name="auth-dialog__tab-"
         appear
-        appear-class="auth-dialog__tab--appear"
         @enter="setContentHeight"
       >
 
         <div
-          v-if="currentTab === 'portal' && !isSignIn"
+          v-if="currentTab === 'portal'"
           ref="portal"
-          key="portal"
-          class="auth-dialog__tab auth-dialog__tab--index"
-        >
-          <signin-portal @submit="signInWithPlatform" />
-        </div>
-
-        <div
-          v-else-if="currentTab === 'portal'"
-          ref="portal"
-          key="portal-signin"
+          :key="`portal${isSignIn ? '-signin' : ''}`"
           class="auth-dialog__tab auth-dialog__tab--index"
         >
           <signin-portal
-            :is-sign-in="true"
+            :is-sign-in="isSignIn"
+            :is-show-close-button="closable"
+            @toggle-sign-in="onToggleSignIn"
+            @close="setIsShow(false)"
             @submit="signInWithPlatform"
           />
         </div>
@@ -395,6 +370,9 @@ export default {
         && this.platform !== 'email'
       );
     },
+    shouldShowHeader() {
+      return this.currentTab !== 'portal';
+    },
     errorTitle() {
       switch (this.errorCode) {
         case 'USER_ALREADY_EXIST':
@@ -592,9 +570,13 @@ export default {
     setContentHeight() {
       const elem = this.$refs[this.currentTab];
       if (elem) {
-        this.contentStyle = {
+        const style = {
           height: `${elem.offsetHeight}px`,
         };
+        if (!this.shouldShowHeader) {
+          style.marginTop = 0;
+        }
+        this.contentStyle = style;
       }
     },
     setError(code) {
@@ -1091,7 +1073,9 @@ export default {
 
     margin-top: 64px;
 
-    transition: height 1s ease;
+    transition-timing-function: ease;
+    transition-duration: 1s;
+    transition-property: margin-top, height;
 
     &--with-avatar {
       margin-top: 96px;
@@ -1113,26 +1097,15 @@ export default {
     will-change: opacity, transform;
 
     &-- {
-      &appear,
       &enter,
       &leave-to {
+        transform: scale(1.1) translateY(-10%);
+
         opacity: 0;
       }
 
-      &appear {
-        transform: translateY(25%) scaleY(1.2);
-      }
-
-      &enter {
-        transform: scale(1.1) translateY(50%);
-      }
-
       &enter#{&}index {
-        transform: scale(0.8);
-      }
-
-      &leave-to {
-        transform: scale(0.8) translateY(50%);
+        transform: scale(1.1);
       }
     }
   }

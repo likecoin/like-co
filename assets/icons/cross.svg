@@ -1,11 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g id="Post_ico" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="like_linksocal_setting" transform="translate(-520.000000, -781.000000)" fill="currentColor">
-            <g id="cross-icon" transform="translate(520.000000, 781.000000)">
-                <rect id="Rectangle-6" transform="translate(12.181981, 12.338835) rotate(45.000000) translate(-12.181981, -12.338835) " x="11.1819805" y="5.2452426" width="2" height="14.1871843" rx="1"></rect>
-                <rect id="Rectangle-6" transform="translate(12.181981, 12.338835) scale(-1, 1) rotate(45.000000) translate(-12.181981, -12.338835) " x="11.1819805" y="5.2452426" width="2" height="14.1871843" rx="1"></rect>
-            </g>
-        </g>
-    </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.2,7.32h0a1,1,0,0,1,0,1.42L8.58,17.35a1,1,0,0,1-1.41,0h0a1,1,0,0,1,0-1.41l8.61-8.62A1,1,0,0,1,17.2,7.32Z"/><path d="M8.58,7.32l8.62,8.62a1,1,0,0,1,0,1.41h0a1,1,0,0,1-1.42,0L7.17,8.74a1,1,0,0,1,0-1.42h0A1,1,0,0,1,8.58,7.32Z"/></svg>

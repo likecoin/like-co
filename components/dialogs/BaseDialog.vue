@@ -1,11 +1,17 @@
 <template>
   <md-dialog
     v-bind="getMdProps"
+    :class="{
+      'lc-dialog': true,
+      'lc-dialog--with-header': isShowHeader,
+    }"
     :md-active.sync="isShowDialog"
-    class="lc-dialog"
   >
 
-    <header class="lc-dialog-header lc-section-header">
+    <header
+      v-if="isShowHeader"
+      class="lc-dialog-header lc-section-header"
+    >
       <div class="left">
         <slot name="header-left" />
       </div>
@@ -50,6 +56,10 @@ export default {
     isShow: {
       type: Boolean,
       default: false,
+    },
+    isShowHeader: {
+      type: Boolean,
+      default: true,
     },
     isShowCloseButton: {
       type: Boolean,
@@ -168,9 +178,15 @@ $lc-dialog-border-radius: 8px;
 }
 
 .lc-dialog-content {
-  padding-top: 16px;
   padding-right: 0;
   padding-left: 0;
+
+  .lc-dialog.lc-dialog--with-header & {
+    padding-top: 16px;
+  }
+  .lc-dialog:not(.lc-dialog--with-header) & {
+    padding-top: 0;
+  }
 
   .lc-dialog.with-icon & {
     padding-top: 16px + $lc-section-header-icon-size - $lc-header-height + 16px;

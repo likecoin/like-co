@@ -653,30 +653,30 @@
       "loginSuccessful": "成功登入"
     },
     "SignUp": {
-      "title": "免费注册，化赞为赏",
-      "description": "成为Liker后，你的点赞能为作者带来收入。作者需要你的支持，现在立即行动吧！",
-      "label": {
-        "or": "或",
-        "with": "选以下任一方式注册"
+      "title": "Liker 登入按赞，作者获得收入",
+      "description": "免费注册成为 Liker",
+      "auth": {
+        "google": "以 Google 注册",
+        "facebook": "以 Facebook 注册",
+        "twitter": "以 Twitter 注册",
+        "email": "以电邮注册",
+        "wallet": "以 MetaMask 注册"
       },
-      "button": {
-        "toggle": "@:Home.Header.button.signUp",
-        "email": "电邮",
-        "wallet": "以加密货币钱包注册"
-      }
+      "toggle": "已有 Liker ID? {action}",
+      "toggleButton": "登入"
     },
     "SignIn": {
-      "title": "登入化赞为赏",
-      "description": "登入Liker后，你的点赞能为作者带来收入。作者需要你的支持，现在立即行动吧！",
-      "label": {
-        "or": "或",
-        "with": "选以下任一方式登入"
+      "title": "Liker 登入按赞，作者获得收入",
+      "description": "选以下任一方式登入",
+      "auth": {
+        "google": "以 Google 登入",
+        "facebook": "以 Facebook 登入",
+        "twitter": "以 Twitter 登入",
+        "email": "以电邮登入",
+        "wallet": "以 MetaMask 登入"
       },
-      "button": {
-        "toggle": "@:Home.Header.button.signIn",
-        "email": "电邮",
-        "wallet": "以加密货币钱包登入"
-      }
+      "toggle": "未有 Liker ID? {action}",
+      "toggleButton": "注册"
     },
     "Register": {
       "title": "欢迎",
