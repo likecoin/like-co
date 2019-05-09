@@ -93,7 +93,9 @@
         >
           <signin-portal
             :is-sign-in="isSignIn"
+            :is-show-close-button="closable"
             @toggle-sign-in="onToggleSignIn"
+            @close="setIsShow(false)"
             @submit="signInWithPlatform"
           />
         </div>

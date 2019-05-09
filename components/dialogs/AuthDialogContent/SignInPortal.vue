@@ -10,6 +10,18 @@
       <div class="signin-portal__header-headline">
         {{ $t(`${localeBasePath}.title`) }}
       </div>
+
+      <button
+        v-if="isShowCloseButton"
+        class="signin-portal__close-button"
+        @click="$emit('close')"
+      >
+        <simple-svg
+          :filepath="CloseIcon"
+          fill="white"
+          stroke="transparent"
+        />
+      </button>
     </header>
 
     <div class="signin-portal__body">
@@ -53,6 +65,7 @@
 </template>
 
 <script>
+import CloseIcon from '~/assets/icons/cross.svg';
 import LikeClapIcon from '~/assets/icons/fillable/like-clap.svg';
 
 const getAuthPlatformIcon = require.context('~/assets/icons/auth-platform/');
@@ -64,9 +77,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    isShowCloseButton: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
+      CloseIcon,
       LikeClapIcon,
     };
   },
@@ -136,6 +154,31 @@ export default {
       font-size: 24px;
       font-weight: 500;
       line-height: 1.2;
+    }
+  }
+
+  &__close-button {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 32px;
+    height: 32px;
+    margin-top: 16px;
+    margin-left: 16px;
+
+    cursor: pointer;
+    transition: opacity 0.25 ease;
+
+    border: none;
+    background: transparent;
+
+    &:hover {
+      opacity: 0.75;
+    }
+
+    &:active {
+      opacity: 0.50;
     }
   }
 
