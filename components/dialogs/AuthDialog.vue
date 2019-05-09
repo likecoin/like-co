@@ -6,7 +6,7 @@
       mdBackdrop: !isSinglePage,
       mdClickOutsideToClose: closable,
       mdCloseOnEsc: closable,
-      mdFullscreen: true,
+      mdFullscreen: isSinglePage,
       mdClosed: onClosed,
       mdClickOutside: onClosed,
     }"
