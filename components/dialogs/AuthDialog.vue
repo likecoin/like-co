@@ -81,7 +81,6 @@
         class="auth-dialog__tab-container"
         name="auth-dialog__tab-"
         appear
-        appear-class="auth-dialog__tab--appear"
         @enter="setContentHeight"
       >
 
@@ -1098,26 +1097,15 @@ export default {
     will-change: opacity, transform;
 
     &-- {
-      &appear,
       &enter,
       &leave-to {
+        transform: scale(1.1) translateY(-10%);
+
         opacity: 0;
-      }
-
-      &appear {
-        transform: translateY(25%) scaleY(1.2);
-      }
-
-      &enter {
-        transform: scale(1.1) translateY(50%);
       }
 
       &enter#{&}index {
         transform: scale(1.1);
-      }
-
-      &leave-to {
-        transform: scale(1.1) translateY(50%);
       }
     }
   }
