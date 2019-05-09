@@ -683,7 +683,7 @@
       "loginSuccessful": "Login successful"
     },
     "SignUp": {
-      "title": "Sign up to support creator",
+      "title": "As a Liker, every Like is a reward to creators",
       "description": "Sign up as a Liker for FREE now!",
       "auth": {
         "google": "Sign up with Google",
@@ -696,8 +696,8 @@
       "toggleButton": "Sign In"
     },
     "SignIn": {
-      "title": "Sign in to support creator",
-      "description": "Sign in with one of the following method",
+      "title": "As a Liker, every Like is a reward to creators",
+      "description": "Sign in with one of the following methods",
       "auth": {
         "google": "Sign in with Google",
         "facebook": "Sign in Facebook",
