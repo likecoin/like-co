@@ -69,6 +69,8 @@
 import CloseIcon from '~/assets/icons/cross.svg';
 import LikeClapIcon from '~/assets/icons/fillable/like-clap.svg';
 
+import { checkIsMobileClient } from '~/util/client';
+
 const getAuthPlatformIcon = require.context('~/assets/icons/auth-platform/');
 
 export default {
@@ -94,13 +96,18 @@ export default {
       return `AuthDialog.${this.isSignIn ? 'SignIn' : 'SignUp'}`;
     },
     platforms() {
-      return [
+      const ids = [
         'google',
         'facebook',
         'twitter',
         // 'email', // XXX: Disable for now
-        'wallet',
-      ].map(id => ({
+      ];
+
+      if (!checkIsMobileClient()) {
+        ids.push('wallet');
+      }
+
+      return ids.map(id => ({
         id,
         icon: getAuthPlatformIcon(`./${id}.svg`),
       }));
