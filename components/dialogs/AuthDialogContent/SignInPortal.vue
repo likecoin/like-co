@@ -34,6 +34,7 @@
           v-for="platform in platforms"
           :key="platform.id"
           class="signin-portal__platform-button"
+          v-bind="platform.id === 'wallet' ? $testID('SignInWithWalletButton') : undefined"
           @click="onSignInWith(platform.id)"
         >
           <img
