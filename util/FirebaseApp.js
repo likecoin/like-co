@@ -184,4 +184,13 @@ export async function firebaseHandleSignInEmailLink(providedEmail) {
   return { email, firebaseIdToken };
 }
 
-export default !firebase.apps.length ? firebase.initializeApp(config) : firebase.app();
+function getInstance() {
+  try {
+    return !firebase.apps.length ? firebase.initializeApp(config) : firebase.app();
+  } catch (err) {
+    console.error(err);
+    return {};
+  }
+}
+
+export default getInstance();
