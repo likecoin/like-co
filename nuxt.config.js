@@ -46,9 +46,9 @@ const nuxtConfig = {
         }),
         type: 'application/ld+json',
       },
-      { src: '/vendor/typekit.js' },
-      { src: '/vendor/fb/pixel.js' },
-      { src: '/vendor/fb/sdk.js' },
+      { src: '/vendor/typekit.js', async: true },
+      { src: '/vendor/fb/pixel.js', async: true },
+      { src: '/vendor/fb/sdk.js', async: true, defer: true },
     ],
     link: [
       { rel: 'preload', href: 'https://fonts.googleapis.com/css?family=Material+Icons', as: 'style' },
