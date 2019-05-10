@@ -463,6 +463,8 @@ export default {
     },
   },
   async mounted() {
+    this.loggedEvents = {};
+
     const { from } = this.$route.query;
     if (from) {
       try {
@@ -521,6 +523,7 @@ export default {
     // Handle redirect sign in
     const { redirect_sign_in: isRedirectSignIn, ...query } = this.$route.query;
     if (isRedirectSignIn) {
+      this.logRegisterEvent(this, 'RegFlow', 'LoginRedirectDone', 'LoginRedirectDone', 1);
       this.currentTab = 'signingIn';
 
       try {
@@ -545,15 +548,13 @@ export default {
         name: this.$route.name,
         query,
       });
+    } else {
+      this.logShowAuthDialog(this.getIsShowAuthDialog);
     }
 
     const { referrer } = this.$route.query;
     if (from) this.referrer = from;
     this.sourceURL = referrer || document.referrer;
-
-    this.loggedEvents = {};
-
-    this.logShowAuthDialog(this.getIsShowAuthDialog);
   },
   methods: {
     ...mapActions([
@@ -702,6 +703,7 @@ export default {
               || !!window.opener
             );
             if (isRedirect) {
+              this.logRegisterEvent(this, 'RegFlow', 'LoginRedirect', `LoginRedirect(${platform})`, 1);
               this.$router.replace({
                 name: this.$route.name,
                 query: {
