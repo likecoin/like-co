@@ -8,6 +8,7 @@ import {
 
 export default function ({
   req,
+  res,
   store,
   route,
   query,
@@ -25,5 +26,8 @@ export default function ({
       if (login === '1') redirectPath = `${redirectPath}&login=1`;
     }
     redirect(redirectPath);
+  } else if (process.server) {
+    res.set('Cache-Control', 'private');
+    res.set('Vary', 'Cookie');
   }
 }
