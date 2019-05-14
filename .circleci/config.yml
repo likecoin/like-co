@@ -6,6 +6,9 @@ jobs:
       - image: node:10
     steps:
       - checkout
+      - run:
+          name: Pin npm version
+          command: npm install -g npm@6.9.0
       - restore_cache:
           key: likecoin-store-{{ .Environment.CACHE_UUID }}-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}-{{ checksum ".circleci/config.yml" }}
       - run:
@@ -58,6 +61,9 @@ jobs:
             sudo apt-get -y install curl make g++ net-tools
             sudo curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
             sudo apt-get -y install nodejs
+      - run:
+          name: Pin npm version
+          command: sudo npm install -g npm@6.9.0
       - run:
           name: Dependencies
           command: npm config set unsafe-perm true && npm install && npm --prefix ./server/api install
