@@ -3,6 +3,7 @@ import path from 'path';
 import proxy from 'http-proxy-middleware';
 import cookieParser from 'cookie-parser';
 import csrf from 'csurf';
+import helmet from 'helmet';
 import { Nuxt, Builder } from 'nuxt';
 import { IS_TESTNET } from '../constant';
 import { CSRF_COOKIE_OPTION } from './constant/server';
@@ -12,9 +13,10 @@ const host = process.env.HOST || '127.0.0.1';
 const port = process.env.PORT || 3000;
 
 app.set('port', port);
-
-if (process.env.NODE_ENV === 'production') app.disable('x-powered-by');
-
+app.use(helmet({
+  frameguard: false,
+  referrerPolicy: { policy: 'strict-origin' },
+}));
 app.get('/api/healthz', (req, res) => {
   res.sendStatus(200);
 });
@@ -49,8 +51,6 @@ app.use((req, res, next) => {
   } else {
     res.setHeader('Cache-Control', 'public, max-age=600, s-maxage=600, stale-if-error=604800, stale-while-revalidate=604800');
   }
-  res.setHeader('X-XSS-Protection', '1; mode=block');
-  res.setHeader('Referrer-Policy', 'strict-origin');
   next();
 });
 
