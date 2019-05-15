@@ -687,6 +687,7 @@
     },
     "SignIn": {
       "title": "Liker 登入按讚，作者獲得收入",
+      "title-alternative": "免費註冊，化讚為賞",
       "description": "選以下任一方式登入",
       "auth": {
         "google": "以 Google 登入",

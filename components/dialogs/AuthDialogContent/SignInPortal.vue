@@ -8,7 +8,7 @@
         stroke="transparent"
       />
       <div class="signin-portal__header-headline">
-        {{ $t(`${localeBasePath}.title`) }}
+        {{ getExperimentLocale(`${localeBasePath}.title`) }}
       </div>
 
       <button
@@ -26,7 +26,7 @@
 
     <div class="signin-portal__body">
       <div class="signin-portal__body-text">
-        {{ $t(`${localeBasePath}.description`) }}
+        {{ getExperimentLocale(`${localeBasePath}.description`) }}
       </div>
 
       <div class="signin-portal__platform-button-list">
@@ -70,6 +70,7 @@ import CloseIcon from '~/assets/icons/cross.svg';
 import LikeClapIcon from '~/assets/icons/fillable/like-clap.svg';
 
 import { checkIsMobileClient } from '~/util/client';
+import experimentsMixin from '~/util/mixins/experiments';
 
 const getAuthPlatformIcon = require.context('~/assets/icons/auth-platform/');
 
@@ -85,6 +86,13 @@ export default {
       default: false,
     },
   },
+  mixins: [
+    experimentsMixin(
+      'shouldUseAltLocales',
+      'register-callout',
+      'alternative',
+    ),
+  ],
   data() {
     return {
       CloseIcon,
@@ -114,6 +122,12 @@ export default {
     },
   },
   methods: {
+    getExperimentLocale(key) {
+      if (this.shouldUseAltLocales && this.$te(`${key}-alternative`)) {
+        return this.$t(`${key}-alternative`);
+      }
+      return this.$t(key);
+    },
     onSignInWith(platform) {
       this.$emit('submit', platform);
     },
