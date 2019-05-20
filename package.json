@@ -114,6 +114,6 @@
     "stylelint-config-recommended-scss": "^3.2.0",
     "stylelint-order": "^2.0.0",
     "stylelint-scss": "^3.4.4",
-    "webpack": "^4.20.2"
+    "webpack": "^4.32.0"
   }
 }
