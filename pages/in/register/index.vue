@@ -47,6 +47,7 @@ export default {
   },
   mounted() {
     if (this.getUserIsRegistered) {
+      logTrackerEvent(this, 'RegFlow', 'AlreadyRegistered', 'AlreadyRegistered', 1);
       const router = this.$router;
       const route = this.$route;
       if (!tryPostLoginRedirect({ route })) {
