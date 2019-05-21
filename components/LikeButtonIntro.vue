@@ -41,37 +41,6 @@
         <div class="lc-dialog-container-2 lc-padding-top-8 lc-padding-bottom-16">
           <div class="like-button-intro__content-wrapper">
             <div>
-              <h2>{{ $t('LikeButtonIntro.title.poc') }}</h2>
-              <p>{{ $t('LikeButtonIntro.label.poc') }}</p>
-            </div>
-
-            <div>
-              <h2 class="lc-font-weight-600 lc-text-align-center lc-margin-vertical-64">
-                {{ $t('LikeButtonIntro.title.slogan') }}
-              </h2>
-
-              <ul class="like-button-intro__examples">
-                <li
-                  v-for="item in exampleItems"
-                  :key="item.id"
-                  class="like-button-intro__example"
-                >
-                  <div @click="onClickExample(item.id)">
-                    <simple-svg
-                      :filepath="getIconPath(item.icon)"
-                      :width="item.size"
-                      :height="item.size"
-                      fill="#28646e"
-                    />
-                  </div>
-                </li>
-              </ul>
-
-              <div class="lc-margin-top-48">
-                <h2>{{ $t('LikeButtonIntro.title.campaign') }}</h2>
-                <p>{{ $t('LikeButtonIntro.label.campaign') }}</p>
-              </div>
-
               <section>
                 <div
                   v-for="item in exampleItems"
@@ -112,21 +81,6 @@
                       target="_blank"
                     >{{ $t('LikeButtonIntro.wordpress.label.instruction') }}</a>
                     <!-- WordPress -->
-
-                    <!-- oice -->
-                    <a
-                      :href="OICE_URL"
-                      place="oiceWebsite"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >oice.com</a>
-                    <a
-                      :href="$t('LikeButtonIntro.oice.url.instruction')"
-                      place="oiceInstruction"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >{{ $t('LikeButtonIntro.oice.label.instruction') }}</a>
-                    <!-- oice -->
                   </i18n>
 
                   <!-- Medium -->
@@ -159,9 +113,6 @@
             </div>
 
             <div class="lc-margin-top-64">
-              <h2>{{ $t('LikeButtonIntro.title.enroll') }}</h2>
-              <p>{{ $t('LikeButtonIntro.label.enroll') }}</p>
-
               <div class="lc-flex lc-justify-content-center lc-margin-top-20">
                 <div
                   class="lc-text-align-center"
@@ -208,12 +159,6 @@ const exampleItems = [
     icon: 'medium-with-bg',
     size: '66px',
     image: 'medium_preview.gif',
-  },
-  {
-    id: 'oice',
-    icon: 'oice',
-    size: '66px',
-    image: 'oice_preview.gif',
   },
 ];
 
