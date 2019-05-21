@@ -48,7 +48,7 @@ export default {
 </script>
 
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "~assets/variables";
 
 .copy-text-field.md-field.md-has-value {

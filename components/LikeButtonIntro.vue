@@ -15,10 +15,6 @@
       <div class="lc-dialog-container-1">
         <div class="lc-dialog-container-2 lc-padding-top-32 lc-padding-bottom-16">
           <div class="like-button-intro__content-wrapper">
-            <p class="lc-font-size-20 lc-font-weight-600">
-              {{ $t('LikeButtonIntro.label.earn') }}
-            </p>
-
             <div class="lc-flex lc-justify-content-center lc-margin-top-20">
               <div
                 class="lc-text-align-center"
@@ -28,7 +24,7 @@
                   :to="startBtnToObject"
                   class="md-likecoin outline"
                   @click="onClickStart"
-                >{{ $t('LikeButtonIntro.button.startUsing') }}</md-button>
+                >{{ $t('LikeButtonIntro.setupWallet') }}</md-button>
               </div>
             </div>
           </div>
@@ -48,20 +44,31 @@
                   :key="item.id"
                   class="like-button-intro__example-detail-wrapper"
                 >
-                  <div class="lc-flex">
-                    <simple-svg
-                      :filepath="getIconPath(item.icon)"
-                      :width="item.size"
-                      :height="item.size"
-                      fill="#4a4a4a"
-                    />
+                  <div
+                    v-if="item.logos && item.logos.length"
+                    class="like-button-intro__example-logo-list"
+                  >
+                    <ul>
+                      <li
+                        v-for="logoPath in item.logos"
+                        :key="logoPath"
+                      >
+                        <img :src="logoPath">
+                      </li>
+                    </ul>
                   </div>
-                  <h2 class="lc-margin-top-24 lc-margin-bottom-32">
-                    <span class="lc-font-weight-600">
-                      {{ $t(`Settings.label.${item.id}.title`) }}
+                  <i18n
+                    :path="`LikeButtonIntro.${item.id}.title`"
+                    class="lc-margin-top-24 lc-margin-bottom-32"
+                    tag="h2"
+                  >
+                    <span
+                      class="lc-font-weight-600"
+                      place="name"
+                    >
+                      {{ $t(`LikeButtonIntro.${item.id}.name`) }}
                     </span>
-                    – {{ $t(`LikeButtonIntro.${item.id}.title`) }}
-                  </h2>
+                  </i18n>
                   <i18n
                     :path="`LikeButtonIntro.${item.id}.content`"
                     class="like-button-intro__example-content"
@@ -81,18 +88,45 @@
                       target="_blank"
                     >{{ $t('LikeButtonIntro.wordpress.label.instruction') }}</a>
                     <!-- WordPress -->
+                    <a
+                      href="https://www.inmediahk.net/"
+                      place="inmedia"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >{{ $t('LikeButtonIntro.inmedia') }}</a>
+                    <a
+                      href="https://thestandnews.com/"
+                      place="standnews"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >{{ $t('LikeButtonIntro.standnews') }}</a>
+                    <a
+                      href="https://www.hkcnews.com/"
+                      place="citizenNews"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >{{ $t('LikeButtonIntro.citizenNews') }}</a>
+                    <span
+                      class="lc-font-weight-600"
+                      place="likeButtonUrl"
+                    >{{ likeButtonUrl }}</span>
+                    <NuxtLink
+                      :to="startBtnToObject"
+                      place="setupWallet"
+                    >{{ $t('LikeButtonIntro.setupWallet') }}</NuxtLink>
                   </i18n>
 
                   <!-- Medium -->
-                  <template v-if="item.id === 'medium' && likeButtonUrl">
-                    <selectable-field class="lc-margin-top-24">
-                      {{ likeButtonUrl }}
-                    </selectable-field>
+                  <template v-if="item.id === 'embedly' && getUserInfo.user">
+                    <CopyTextField
+                      class="lc-margin-top-24"
+                      :text="likeButtonUrl"
+                    />
                   </template>
                   <!-- Medium -->
 
-                  <figure>
-                    <img v-lazy="getFigureImageSrc(item.image)">
+                  <figure v-if="item.image">
+                    <img v-lazy="item.image">
                     <i18n
                       :path="`LikeButtonIntro.${item.id}.caption`"
                       class="lc-text-align-center lc-margin-top-16"
@@ -122,7 +156,7 @@
                     :to="startBtnToObject"
                     class="md-likecoin outline"
                     @click="onClickStart"
-                  >{{ $t('LikeButtonIntro.button.startUsing') }}</md-button>
+                  >{{ $t('LikeButtonIntro.setupWallet') }}</md-button>
                 </div>
               </div>
             </div>
@@ -138,7 +172,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-import SelectableField from '@/components/SelectableField';
+import CopyTextField from '@/components/CopyTextField';
 import ContentIllustration from '@/assets/home/wordpress-poc.gif';
 
 import {
@@ -146,26 +180,28 @@ import {
   WORDPRESS_PLUGIN_URL,
 } from '@/constant';
 
-const assetFolder = require.context('@/assets/');
+const getAssetPath = require.context('~/assets/like-button-intro');
 const exampleItems = [
   {
-    id: 'wordpress',
-    icon: 'wordpress-with-bg',
-    size: '80px',
-    image: 'wp_preview.png',
+    id: 'integratedPlatform',
+    logos: ['inmedia', 'standnews', 'hkcnews'].map(name => getAssetPath(`./${name}.svg`)),
   },
   {
-    id: 'medium',
-    icon: 'medium-with-bg',
-    size: '66px',
-    image: 'medium_preview.gif',
+    id: 'embedly',
+    logos: ['matters', 'medium', 'vocus'].map(name => getAssetPath(`./${name}.svg`)),
+    image: getAssetPath('./medium_preview.gif'),
+  },
+  {
+    id: 'wordpress',
+    logos: [getAssetPath('./wordpress.svg')],
+    image: getAssetPath('./wordpress_preview.png'),
   },
 ];
 
 export default {
   name: 'like-button-intro',
   components: {
-    SelectableField,
+    CopyTextField,
   },
   data() {
     return {
@@ -183,17 +219,11 @@ export default {
     ...mapGetters(['getUserInfo']),
     likeButtonUrl() {
       const id = this.getUserInfo.user;
-      return id ? `https://button.like.co/${id}` : null;
+      return id ? `https://button.like.co/${id}` : 'https://button.like.co/[Liker ID]';
     },
   },
   methods: {
     ...mapActions(['updateUserReadContentStatus']),
-    getIconPath(name) {
-      return assetFolder(`./icons/social-media/${name}.svg`);
-    },
-    getFigureImageSrc(name) {
-      return assetFolder(`./img/${name}`);
-    },
     onClickExample(id) {
       const ele = this.$refs[id];
       if (ele && ele[0]) {
@@ -343,11 +373,80 @@ export default {
     }
   }
 
+  &__example-logo-list {
+    ul {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+
+      margin: -28px;
+      padding: 0;
+
+      list-style: none;
+
+      @media (max-width: 600px) {
+        justify-content: center;
+
+        margin: -14px;
+      }
+    }
+
+    li {
+      padding: 28px;
+
+      @media (max-width: 600px) {
+        padding: 14px;
+      }
+    }
+
+    img {
+      display: block;
+    }
+  }
+
   &__example-content {
     margin-bottom: 8px;
 
     a {
       font-weight: 600;
+    }
+  }
+
+  .copy-text-field {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    min-height: 44px;
+    padding: 12px 80px;
+
+    user-select: all;
+    word-break: break-all;
+
+    border: none;
+    background-color: $gray-e6;
+
+    font-size: 16px;
+
+    &::after {
+      content: none;
+    }
+
+    /deep/ .md-input {
+      text-align: center;
+
+      color: $like-dark-brown-2;
+      -webkit-text-fill-color: currentColor;
+
+      font-family: menlo, 'Courier New', Courier, monospace;
+    }
+
+    /deep/ .md-button {
+      position: absolute;
+      right: 12px;
+
+      font-size: 16px;
     }
   }
 }

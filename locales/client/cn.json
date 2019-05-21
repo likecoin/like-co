@@ -1176,31 +1176,42 @@
     }
   },
   "LikeButtonIntro": {
+    "setupWallet": "设定钱包",
+    "inmedia": "独立媒体",
+    "standnews": "、立场新闻",
+    "citizenNews": "众新闻",
+    "integratedPlatform": {
+      "name": "@:LikeButtonIntro.inmedia / @:LikeButtonIntro.standnews / @:LikeButtonIntro.citizenNews",
+      "title": "{name} – 把 Liker ID 提供予合作平台",
+      "content": "媒体特约作者，把 Liker ID 提供予{inmedia}、{standnews}和{citizenNews}等合作平台，然后自行{setupWallet}，即能自动每日收到款项"
+    },
     "wordpress": {
-      "title": "安装 LikeCoin 插件",
+      "name": "WordPress",
+      "title": "{name} – 安装 LikeCoin 外挂",
       "content": "{installWp}以为你的文章加上 LikeButton 吧。请放心，此插件完全不是那种利用客户端算力进行挖矿的恶意程序，而只跟读者的「赞好」有关。LikeButton 也跟一般的广告横幅完全不同，它是用来特出创作者的品牌的。 {wpInstruction}",
-      "caption": "安装 {plugin}后，LikeButton 会自动于文章中显示",
+      "caption": "安装{plugin}后，LikeButton 会自动于文章中显示",
       "label": {
         "installWp": "安装 WordPress 插件",
         "instruction": "安装教学",
         "plugin": "LikeCoin 插件"
       }
     },
-    "medium": {
-      "title": "加上你的 LikeButton",
-      "content": "在 Medium 上加上你的 LikeButton 的方法十分简单，只需于文章中插入一条网址便可以了，格式如下：",
+    "embedly": {
+      "name": "Matters / Medium / 方格子",
+      "title": "{name} – 自行加上赞赏键",
+      "content": "在 Matters、Medium 和方格子发表的作者，自行在文章后加上「{likeButtonUrl}」以嵌入 Like Rewards Button，即可。如果有登入，然后自行{setupWallet}，即能自动每日收到款项",
       "caption": "只需在文章中输入你的 LikeCoin 链接，拍一下「换行」"
     },
     "oice": {
-      "title": "连结你的 Liker ID",
-      "content": "在 {oiceWebsite} 连结你的 Liker ID。在 oice.com 连结你的 Liker ID 以后，你创作的故事便会自动显示出 LikeButton。 {oiceInstruction}",
+      "name": "oice",
+      "title": "{name} - 连结你的 Liker ID",
       "caption": "LikeButton 会在故事旁自动显示出来",
       "label": {
         "instruction": "点此教学"
       }
     },
     "title": {
-      "earn": "以新设计的 LikeButton 赚取 LikeCoin",
+      "earn": "化赞为赏 - 立即把读者的 Like 转化为收入吧",
       "poc": "创造力证明",
       "slogan": "立即把读者的点赞转化为收入吧",
       "campaign": "「化赞为赏」推广活动已经开始",

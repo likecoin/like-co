@@ -1311,26 +1311,38 @@
     }
   },
   "LikeButtonIntro": {
+    "setupWallet": "Create your wallet",
+    "inmedia": "Inmedia",
+    "standnews": "Standnews",
+    "citizenNews": "CitizenNews",
+    "integratedPlatform": {
+      "name": "@:LikeButtonIntro.inmedia / @:LikeButtonIntro.standnews / @:LikeButtonIntro.citizenNews",
+      "title": "{name} – Provide Liker ID to publishers",
+      "content": "For creators publishing on Internet media such as {inmedia}, {standnews} and {citizenNews}, just provide your Liker ID to editor in charge and Like Rewards button will be attached to your posts. {setupWallet} and you shall receive income daily automatically."
+    },
     "wordpress": {
-      "title": "Install LikeCoin plugin",
+      "name": "WordPress",
+      "title": "{name} – Install Like Rewards plugin",
       "content": "{installWp} to enable new LikeButtons in your posts by just one click.  The plugin is nothing to do with client browser’s computational power, all you need are reader’s Likes. No annoying ads on the button, it is your own brand. {wpInstruction}",
       "caption": "LikeButton will show on your post after installed the {plugin}",
       "label": {
         "installWp": "Install WordPress plugin",
         "instruction": "Installation Instruction",
-        "plugin": "LikeCoin Plugin"
+        "plugin": "Like Rewards Plugin"
       },
       "url": {
         "instruction": "https://help.like.co/likecoin-faq/product/how-to-enable-likebutton-on-wordpress-website"
       }
     },
-    "medium": {
-      "title": "Adding your LikeButton",
-      "content": "It’s easy to insert the LikeButton into your Medium articles.  Just insert your LikeButton URL into your articles with the format below:",
-      "caption": "Simply type your LikeCoin link and press ‘Enter’ in your story"
+    "embedly": {
+      "name": "Matters / Medium / Vocus",
+      "title": "{name} – Attach Like Rewards button yourself",
+      "content": "For creators publishing on Matters, Medium and Vocus, you may embed Like Rewards button to your post using the link \"{likeButtonUrl}\". {setupWallet} and you shall receive income daily automatically.",
+      "caption": "Simply type the link and press ‘Enter’ in the editor"
     },
     "oice": {
-      "title": "Connect with Liker ID",
+      "name": "oice",
+      "title": "{name} - Connect with Liker ID",
       "content": "Bind your Liker ID in {oiceWebsite}. The LikeButton will appear automatically on your oice visual novel after you have bind your Liker ID with your oice account. {oiceInstruction}",
       "caption": "LikeButton will show aside with your story",
       "label": {
@@ -1341,7 +1353,7 @@
       }
     },
     "title": {
-      "earn": "Earn LikeCoin by Reinvented LikeButton",
+      "earn": "Every Like is a reward. Turn your Likes into actual income now.",
       "poc": "Proof of Creativity",
       "slogan": "Get Rewarded by Reader’s Likes NOW",
       "campaign": "“Reinventing the Like” Campaign is Live",

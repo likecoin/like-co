@@ -1247,10 +1247,20 @@
     }
   },
   "LikeButtonIntro": {
+    "setupWallet": "設定錢包",
+    "inmedia": "獨立媒體",
+    "standnews": "、立場新聞",
+    "citizenNews": "眾新聞",
+    "integratedPlatform": {
+      "name": "@:LikeButtonIntro.inmedia / @:LikeButtonIntro.standnews / @:LikeButtonIntro.citizenNews",
+      "title": "{name} – 把 Liker ID 提供予合作平台",
+      "content": "媒體特約作者，把 Liker ID 提供予{inmedia}、{standnews}和{citizenNews}等合作平台，然後自行{setupWallet}，即能自動每日收到款項"
+    },
     "wordpress": {
-      "title": "安裝 LikeCoin 外掛",
+      "name": "WordPress",
+      "title": "{name} – 安裝 LikeCoin 外掛",
       "content": "{installWp}以為你的文章加上 LikeButton 吧。請放心，此外掛插件完全不會利用客戶端算力挖礦，而只跟讀者的「讚好」有關。LikeButton 突出創作者的品牌，也跟一般的廣告橫幅完全不同。 {wpInstruction}",
-      "caption": "安裝 {plugin}後，LikeButton 會自動於文章中顯示",
+      "caption": "安裝{plugin}後，LikeButton 會自動於文章中顯示",
       "label": {
         "installWp": "安裝 WordPress 外掛",
         "instruction": "安裝教學",
@@ -1260,13 +1270,15 @@
         "instruction": "https://help.like.co/likecoin-%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C/%E7%94%A2%E5%93%81/%E5%A6%82%E4%BD%95%E5%9C%A8-wordpress-%E7%B6%B2%E7%AB%99%E4%B8%8A%E5%8A%A0%E5%85%A5-likebutton"
       }
     },
-    "medium": {
-      "title": "加上你的 LikeButton",
-      "content": "在 Medium 上加上你的 LikeButton 的方法十分簡單，只需於文章中插入一條網址便可以了，格式如下：",
+    "embedly": {
+      "name": "Matters / Medium / 方格子",
+      "title": "{name} – 自行加上讚賞鍵",
+      "content": "在 Matters、Medium 和方格子發表的作者，自行在文章後加上「{likeButtonUrl}」以嵌入 Like Rewards Button，即可。如果有登入，然後自行{setupWallet}，即能自動每日收到款項",
       "caption": "只需在文章中輸入你的 LikeCoin 鏈接，拍一下「換行」"
     },
     "oice": {
-      "title": "連結你的 Liker ID",
+      "name": "oice",
+      "title": "{name} - 連結你的 Liker ID",
       "content": "在 {oiceWebsite} 連結你的 Liker ID。在 oice.com 連結你的 Liker ID 以後，你創作的故事便會自動顯示 LikeButton。 {oiceInstruction}",
       "caption": "LikeButton 會在故事旁自動顯示出來",
       "label": {
@@ -1277,7 +1289,7 @@
       }
     },
     "title": {
-      "earn": "以新設計的 LikeButton 賺取 LikeCoin",
+      "earn": "化讚為賞 - 立即把讀者的 Like 轉化為收入吧",
       "poc": "創造力證明",
       "slogan": "立即把讀者的點讚轉化為收入吧",
       "campaign": "「化讚為賞」推廣活動已經開始",
