@@ -89,7 +89,7 @@
     "web3": "^1.0.0-beta.34"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.3.4",
+    "@babel/preset-env": "^7.4.5",
     "@babel/register": "^7.0.0",
     "@sentry/webpack-plugin": "^1.5.2",
     "ava": "^1.0.1",
