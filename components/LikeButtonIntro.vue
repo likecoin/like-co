@@ -350,10 +350,10 @@ export default {
   }
 
   &__example-detail-wrapper {
-    padding-top: 72px;
+    margin-top: 140px;
 
     @media (max-width: 600px) {
-      padding-top: 48px;
+      margin-top: 100px;
     }
 
     a {
