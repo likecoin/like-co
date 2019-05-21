@@ -161,7 +161,7 @@
               <div class="lc-font-size-12 lc-font-weight-300 lc-text-align-center">
                 {{ $t('In.mansory.description') }}
                 <br>
-                <nuxt-link :to="{ name: 'in-earn' }">
+                <nuxt-link :to="{ name: 'in-creator' }">
                   {{ $t('In.mansory.descriptionCTA') }}
                 </nuxt-link>
               </div>
@@ -201,7 +201,7 @@
                     in-button-adopter__cta
                   "
                 >
-                  <nuxt-link :to="{ name: 'in-earn' }">
+                  <nuxt-link :to="{ name: 'in-creator' }">
                     {{ $t('In.likeButtonAdopter.descriptionCTA') }}
                   </nuxt-link>
                 </div>

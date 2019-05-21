@@ -138,7 +138,7 @@ const MENU_ITEMS = [
       },
       {
         key: 'earnLikeCoin',
-        to: { name: 'in-earn' },
+        to: { name: 'in-creator' },
       },
       {
         key: 'settings',
