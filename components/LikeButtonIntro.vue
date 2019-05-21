@@ -189,7 +189,7 @@ const exampleItems = [
   {
     id: 'embedly',
     logos: ['matters', 'medium', 'vocus'].map(name => getAssetPath(`./${name}.svg`)),
-    image: getAssetPath('./medium_preview.gif'),
+    image: getAssetPath('./embedly_preview.gif'),
   },
   {
     id: 'wordpress',
