@@ -1323,12 +1323,12 @@
     "wordpress": {
       "name": "WordPress",
       "title": "{name} – Install Like Rewards plugin",
-      "content": "{installWp} to enable new LikeButtons in your posts by just one click.  The plugin is nothing to do with client browser’s computational power, all you need are reader’s Likes. No annoying ads on the button, it is your own brand. {wpInstruction}",
-      "caption": "LikeButton will show on your post after installed the {plugin}",
+      "content": "{installWp} to enable new Like Rewards button in your posts by just one click. The plugin is nothing to do with client browser’s computational power, all you need are reader’s Likes. No annoying ads on the button, it is your own brand. {wpInstruction}",
+      "caption": "Like Rewards button will show on your post after installed the {plugin}",
       "label": {
-        "installWp": "Install WordPress plugin",
+        "installWp": "Install Like Rewards plugin",
         "instruction": "Installation Instruction",
-        "plugin": "Like Rewards Plugin"
+        "plugin": "Like Rewards plugin"
       },
       "url": {
         "instruction": "https://help.like.co/likecoin-faq/product/how-to-enable-likebutton-on-wordpress-website"
