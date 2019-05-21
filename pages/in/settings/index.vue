@@ -64,7 +64,7 @@
                   </span>
                   <nuxt-link
                     v-else
-                    :to="{ name: 'in-earn', query: { action: 'start' } }"
+                    :to="{ name: 'in-creator', query: { action: 'start' } }"
                     class="content lc-underline"
                   >
                     {{ $t('Settings.noBoundWallet') }}

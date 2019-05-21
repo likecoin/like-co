@@ -263,7 +263,7 @@ export default {
   },
   asyncData({ store, redirect, query }) {
     if (!(store.state.user.user && store.state.user.user.wallet)) {
-      redirect(302, { name: 'in-earn' }, query);
+      redirect(302, { name: 'in-creator' }, query);
     }
   },
   data() {

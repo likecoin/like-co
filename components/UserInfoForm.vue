@@ -111,7 +111,7 @@
         v-if="wallet"
         :value="likeCoinValueStr"
         :linkText="$t('Home.Sale.button.earnCoin')"
-        :linkTo="{ name: 'in-earn' }"
+        :linkTo="{ name: 'in-creator' }"
         class="likecoin-amount-section"
       />
       <!-- TODO: Temp hide before civic liker release
