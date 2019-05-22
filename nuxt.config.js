@@ -193,9 +193,9 @@ const nuxtConfig = {
   ],
   googleOptimize: {
     // externalExperimentsSrc: '/api/experiments/list',
-    cookieDomain: process.env.NODE_ENV === 'production'
-      ? `${process.env.IS_TESTNET ? '.rinkeby' : ''}.like.co`
-      : '',
+    // cookieDomain: process.env.NODE_ENV === 'production'
+    //   ? `${process.env.IS_TESTNET ? '.rinkeby' : ''}.like.co`
+    //   : '',
     useFetch: true,
     maxAge: 60 * 60,
   },
