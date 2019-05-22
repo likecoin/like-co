@@ -1,7 +1,7 @@
 /* eslint no-param-reassign: "off" */
 import Vue from 'vue'; // eslint-disable-line import/no-extraneous-dependencies
 import VueI18n from 'vue-i18n';
-import cookie from 'tiny-cookie';
+import * as cookie from 'tiny-cookie';
 import axios from './axios';
 
 import { defaultLocale, defaultMessage, supportedLocales } from '../locales';
