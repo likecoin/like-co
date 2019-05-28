@@ -1,6 +1,6 @@
 <template>
   <div class="signin-portal">
-    <header class="signin-portal__header">
+    <header class="signin-portal__header base-dialog-v2__corner-block--top">
       <simple-svg
         class="signin-portal__header-like-icon"
         :filepath="LikeClapIcon"
@@ -24,7 +24,7 @@
       </button>
     </header>
 
-    <div class="signin-portal__body">
+    <div class="signin-portal__body base-dialog-v2__corner-block--bottom">
       <div class="signin-portal__body-text">
         {{ getExperimentLocale(`${localeBasePath}.description`) }}
       </div>

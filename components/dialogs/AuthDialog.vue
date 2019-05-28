@@ -1,25 +1,16 @@
 <template>
-  <base-dialog
-    :is-show="shouldShowDialog"
-    :is-show-header="shouldShowHeader"
-    :md-props="{
-      mdBackdrop: !isSinglePage,
-      mdClickOutsideToClose: closable,
-      mdCloseOnEsc: closable,
-      mdFullscreen: isSinglePage,
-      mdClosed: onClosed,
-      mdClickOutside: onClosed,
-    }"
-    :class="[
-      'auth-dialog',
-      {
-        'auth-dialog--blocking': isBlocking,
-      },
-    ]"
+  <BaseDialogV2
     v-bind="$testID('AuthDialog')"
-    is-content-gapless
+    :class="{
+      'auth-dialog': true,
+      'auth-dialog--blocking': isBlocking,
+    }"
+    :is-show="shouldShowDialog"
+    :is-show-backdrop="!isSinglePage"
+    :is-show-header="shouldShowHeader"
+    :is-closable="!isSinglePage"
     @update:isShow="onUpdateIsShow"
-    @scroll="onScrollContent"
+    @click-outside="onClosed"
   >
 
     <div
@@ -34,20 +25,12 @@
       slot="header-center"
       class="auth-dialog__header-center"
     >
-      <div
-        :class="[
-          'auth-dialog__logo',
-          {
-            'auth-dialog__logo--small': logoSize <= 60,
-          }
-        ]"
-        :style="`width: ${logoSize}px`"
-      >
+      <div class="auth-dialog__logo">
         <lc-avatar
           v-if="avatar"
           :src="avatar"
           :halo="avatarHalo"
-          :size="logoSize >= 72 ? 'large' : 'small'"
+          size="large"
           is-full-width
         />
         <template v-else>
@@ -91,6 +74,7 @@
           class="auth-dialog__tab auth-dialog__tab--index"
         >
           <signin-portal
+            class="base-dialog-v2__corner-block"
             :is-sign-in="isSignIn"
             :is-show-close-button="closable"
             @toggle-sign-in="onToggleSignIn"
@@ -246,7 +230,7 @@
 
     </div>
 
-  </base-dialog>
+  </BaseDialogV2>
 </template>
 
 
@@ -277,7 +261,7 @@ import {
 
 import { ValidationHelper } from '@/util/ValidationHelper';
 
-import BaseDialog from '~/components/dialogs/BaseDialog';
+import BaseDialogV2 from '~/components/dialogs/BaseDialogV2';
 import SigninPortal from './AuthDialogContent/SignInPortal';
 // import EmailSigninForm from './AuthDialogContent/SignInWithEmail';
 import RegisterForm from './AuthDialogContent/Register';
@@ -302,7 +286,7 @@ function getRandomPaddedDigits(length) {
 export default {
   name: 'auth-dialog',
   components: {
-    BaseDialog,
+    BaseDialogV2,
     SigninPortal,
     // EmailSigninForm,
     RegisterForm,
@@ -320,7 +304,6 @@ export default {
 
       currentTab: 'portal',
       contentStyle: {},
-      contentScrollTop: 0,
 
       platform: '',
       signInPayload: {
@@ -411,9 +394,6 @@ export default {
         default:
           return this.$t('General.button.confirm');
       }
-    },
-    logoSize() {
-      return Math.max(96 - this.contentScrollTop, 60);
     },
   },
   watch: {
@@ -616,9 +596,6 @@ export default {
         this.currentTab = 'portal';
         this.errorCode = '';
       }
-    },
-    onScrollContent(e, pos) {
-      this.contentScrollTop = pos.scrollTop;
     },
     onClickBackButton() {
       switch (this.currentTab) {
@@ -1045,12 +1022,6 @@ export default {
 
     > img:nth-child(2) {
       transition: opacity 0.25s ease;
-    }
-
-    &--small {
-      > img:nth-child(2) {
-        opacity: 0;
-      }
     }
   }
 
