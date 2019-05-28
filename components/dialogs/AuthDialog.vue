@@ -64,7 +64,7 @@
         class="auth-dialog__tab-container"
         name="auth-dialog__tab-"
         appear
-        @enter="setContentHeight"
+        @enter="updateContentHeightForCurrentTab"
       >
 
         <div
@@ -237,6 +237,7 @@
 <script>
 import Vue from 'vue'; // eslint-disable-line import/no-extraneous-dependencies
 import { mapActions, mapGetters } from 'vuex';
+import { ResizeObserver } from 'resize-observer';
 
 import {
   MIN_USER_ID_LENGTH,
@@ -404,7 +405,7 @@ export default {
           if (!this.isSigningInWithEmail) {
             this.currentTab = 'portal';
           }
-          this.$nextTick(this.setContentHeight);
+          this.$nextTick(this.updateContentHeightForCurrentTab);
         }
         if (isSignIn !== this.isSignIn && !isSignIn && !this.loggedEvents.swapRegisterTab) {
           this.loggedEvents.swapRegisterTab = 1;
@@ -440,6 +441,13 @@ export default {
         this.loggedEvents.register = 1;
         logTrackerEvent(this, 'RegFlow', 'ShowRegisterForm', 'ShowRegisterForm', 1);
       }
+
+      this.$nextTick(this.updateResizeObserverForCurrentTab);
+    },
+    shouldShowDialog(value) {
+      if (value) {
+        this.$nextTick(this.updateResizeObserverForCurrentTab);
+      }
     },
   },
   async mounted() {
@@ -467,7 +475,7 @@ export default {
     });
 
     // Initialize content height
-    this.setContentHeight();
+    this.updateContentHeightForCurrentTab();
 
     // Show dialog when show_login set to true in query string
     if (this.$route.query.show_login === '1') {
@@ -535,6 +543,14 @@ export default {
     const { referrer } = this.$route.query;
     if (from) this.referrer = from;
     this.sourceURL = referrer || document.referrer;
+
+    this.contentResizeObserver = new ResizeObserver(this.onObservingContentResize);
+    this.updateResizeObserverForCurrentTab();
+  },
+  beforeDestroy() {
+    if (this.contentResizeObserver) {
+      this.contentResizeObserver.disconnect();
+    }
   },
   methods: {
     ...mapActions([
@@ -548,17 +564,24 @@ export default {
       'setWalletNoticeDialog',
       'openPopupDialog',
     ]),
-    setContentHeight() {
-      const elem = this.$refs[this.currentTab];
-      if (elem) {
-        const style = {
-          height: `${elem.offsetHeight}px`,
-        };
-        if (!this.shouldShowHeader) {
-          style.marginTop = 0;
-        }
-        this.contentStyle = style;
+    setContentStyle({ height }) {
+      const style = {
+        height: `${height}px`,
+      };
+      if (!this.shouldShowHeader) {
+        style.marginTop = 0;
       }
+      this.contentStyle = style;
+    },
+    updateContentHeightForCurrentTab() {
+      const elem = this.$refs[this.currentTab];
+      if (elem) this.setContentStyle({ height: elem.offsetHeight });
+    },
+    updateResizeObserverForCurrentTab() {
+      if (!this.contentResizeObserver) return;
+      this.contentResizeObserver.disconnect();
+      const elem = this.$refs[this.currentTab];
+      if (elem) this.contentResizeObserver.observe(elem, { box: 'border-box' });
     },
     setError(code) {
       this.currentTab = 'error';
@@ -596,6 +619,12 @@ export default {
         this.currentTab = 'portal';
         this.errorCode = '';
       }
+    },
+    onObservingContentResize(entries) {
+      entries.forEach((entry) => {
+        const { height } = entry.contentRect;
+        this.setContentStyle({ height });
+      });
     },
     onClickBackButton() {
       switch (this.currentTab) {
