@@ -124,7 +124,20 @@
                 <div class="key">
                   {{ $t('Transaction.label.remarks') }}
                 </div>
-                <div class="remark lc-font-size-16">
+                <i18n
+                  v-if="typeof remarks === 'object' && remarks.type === 'civic-referral'"
+                  path="CivicLikerReferral.success"
+                  tag="div"
+                  class="remark lc-font-size-16"
+                >
+                  <span place="referee">
+                    {{ remarks.referee }}
+                  </span>
+                </i18n>
+                <div
+                  v-else
+                  class="remark lc-font-size-16"
+                >
                   {{ remarks }}
                 </div>
               </section>
