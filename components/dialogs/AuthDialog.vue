@@ -405,6 +405,12 @@ export default {
           if (!this.isSigningInWithEmail) {
             this.currentTab = 'portal';
           }
+
+          const { redirect_sign_in: isRedirectSignIn } = this.$route.query;
+          if (isRedirectSignIn) {
+            this.currentTab = 'signingIn';
+          }
+
           this.$nextTick(this.updateContentHeightForCurrentTab);
         }
         if (isSignIn !== this.isSignIn && !isSignIn && !this.loggedEvents.swapRegisterTab) {
