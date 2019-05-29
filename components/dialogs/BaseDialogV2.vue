@@ -43,6 +43,8 @@
 </template>
 
 <script>
+import { ResizeObserver } from 'resize-observer';
+
 export default {
   props: {
     isShow: {
@@ -75,7 +77,39 @@ export default {
       };
     },
   },
+  watch: {
+    isShow(isShow) {
+      if (isShow) {
+        this.$nextTick(this.observeResizing);
+      } else {
+        this.resizeObserver.unobserve(document.documentElement);
+        this.resizeObserver.unobserve(this.$refs.contentContainer);
+      }
+    },
+  },
+  mounted() {
+    this.resizeObserver = new ResizeObserver(this.onResize);
+    this.$nextTick(this.observeResizing);
+  },
+  beforeDestroy() {
+    this.resizeObserver.disconnect();
+  },
   methods: {
+    observeResizing() {
+      if (this.resizeObserver && this.$refs.contentContainer) {
+        this.resizeObserver.observe(document.documentElement, { box: 'border-box' });
+        this.resizeObserver.observe(this.$refs.contentContainer, { box: 'border-box' });
+      }
+    },
+    onResize() {
+      const windowHeight = window.outerHeight;
+      const contentContainerHeight = this.$refs.contentContainer.offsetHeight;
+
+      // Align the dialog to the vertical center of window
+      this.$refs.contentContainer.style.marginTop = contentContainerHeight < windowHeight ? (
+        `${Math.min((windowHeight - contentContainerHeight) / 2, 128)}px`
+      ) : 0;
+    },
     onClickDialog(e) {
       if (e.target.contains(this.$refs.contentContainer)) {
         this.onClickOutside(e);
