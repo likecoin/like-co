@@ -63,7 +63,9 @@ jobs:
             sudo apt-get -y install nodejs
       - run:
           name: Pin npm version
-          command: sudo npm install -g npm@6.9.0
+          command: |
+            sudo npm install -g npm@6.9.0
+            sudo chown -R $(whoami) ~/.npm
       - run:
           name: Dependencies
           command: npm config set unsafe-perm true && npm install && npm --prefix ./server/api install
