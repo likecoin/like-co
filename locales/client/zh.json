@@ -673,8 +673,8 @@
       "loginSuccessful": "成功登入"
     },
     "SignUp": {
-      "title": "Liker 登入按讚，作者獲得收入",
-      "title-alternative": "免費註冊，化讚為賞",
+      "title": "免費註冊，化讚為賞",
+      "title-alternative": "Liker 免費註冊，作者獲得收入",
       "description": "免費註冊成為 Liker",
       "auth": {
         "google": "以 Google 註冊",
