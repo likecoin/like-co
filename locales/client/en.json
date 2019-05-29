@@ -1572,5 +1572,8 @@
         "message": "Thanks for your support. There is an unknown error [{error}]. Please contact us for help."
       }
     }
+  },
+  "CivicLikerReferral": {
+    "success": "Civic Liker Referral: {referee}"
   }
 }

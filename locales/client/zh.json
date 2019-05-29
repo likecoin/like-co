@@ -1498,5 +1498,8 @@
         "message": "感謝你的支持。發生未知的錯誤 [{error}]。請聯絡我們求助。"
       }
     }
+  },
+  "CivicLikerReferral": {
+    "success": "成功推薦 {referee} 成為讚賞公民"
   }
 }
