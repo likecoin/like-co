@@ -1128,13 +1128,9 @@ export default {
     &-- {
       &enter,
       &leave-to {
-        transform: scale(1.1) translateY(-10%);
+        transform: scale(1.1);
 
         opacity: 0;
-      }
-
-      &enter#{&}index {
-        transform: scale(1.1);
       }
     }
   }
