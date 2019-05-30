@@ -452,7 +452,6 @@ export default {
       deep: true,
     },
     currentTab(tab) {
-      this.contentScrollTop = 0;
       if (tab === 'register' && !this.loggedEvents.register) {
         this.loggedEvents.register = 1;
         logTrackerEvent(this, 'RegFlow', 'ShowRegisterForm', 'ShowRegisterForm', 1);
