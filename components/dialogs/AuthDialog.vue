@@ -69,8 +69,7 @@
 
         <div
           v-if="currentTab === 'portal'"
-          ref="portal"
-          :key="`portal${isSignIn ? '-signin' : ''}`"
+          v-bind="tabProps"
           class="auth-dialog__tab auth-dialog__tab--index"
         >
           <signin-portal
@@ -85,8 +84,7 @@
 
         <div
           v-else-if="currentTab === 'loading'"
-          ref="loading"
-          key="loading"
+          v-bind="tabProps"
           class="auth-dialog__tab lc-padding-vertical-64"
         >
           <div class="lc-dialog-container-1">
@@ -117,8 +115,7 @@
  -->
         <div
           v-else-if="currentTab === 'register'"
-          ref="register"
-          key="register"
+          v-bind="tabProps"
           class="auth-dialog__tab lc-padding-vertical-16"
         >
           <register-form
@@ -130,8 +127,7 @@
 
         <div
           v-else-if="currentTab === 'signingIn'"
-          ref="signingIn"
-          key="signingIn"
+          v-bind="tabProps"
           class="auth-dialog__tab lc-padding-vertical-64"
         >
           <div class="lc-dialog-container-1">
@@ -143,8 +139,7 @@
 
         <div
           v-else-if="currentTab === 'error'"
-          ref="error"
-          key="error"
+          v-bind="tabProps"
           class="auth-dialog__tab lc-padding-vertical-16"
         >
           <div class="lc-dialog-container-1">
@@ -191,8 +186,7 @@
 
         <div
           v-else-if="currentTab === 'checkInbox'"
-          ref="checkInbox"
-          key="checkInbox"
+          v-bind="tabProps"
           class="auth-dialog__tab lc-padding-vertical-16"
         >
           <div class="lc-dialog-container-1">
@@ -215,8 +209,7 @@
 
         <div
           v-else-if="currentTab === 'loginSuccessful'"
-          ref="loginSuccessful"
-          key="loginSuccessful"
+          v-bind="tabProps"
           class="auth-dialog__tab lc-padding-vertical-64"
         >
           <div class="lc-dialog-container-1">
@@ -357,6 +350,18 @@ export default {
     },
     shouldShowHeader() {
       return this.currentTab !== 'portal';
+    },
+    tabKey() {
+      if (this.currentTab === 'portal') {
+        return `${this.currentTab}${this.isSignIn ? '-signin' : ''}`;
+      }
+      return this.currentTab;
+    },
+    tabProps() {
+      return {
+        ref: 'tab',
+        key: this.tabKey,
+      };
     },
     errorTitle() {
       switch (this.errorCode) {
@@ -588,13 +593,13 @@ export default {
       this.contentStyle = style;
     },
     updateContentHeightForCurrentTab() {
-      const elem = this.$refs[this.currentTab];
+      const elem = this.$refs.tab;
       if (elem) this.setContentStyle({ height: elem.offsetHeight });
     },
     updateResizeObserverForCurrentTab() {
       if (!this.contentResizeObserver) return;
       this.contentResizeObserver.disconnect();
-      const elem = this.$refs[this.currentTab];
+      const elem = this.$refs.tab;
       if (elem) this.contentResizeObserver.observe(elem, { box: 'border-box' });
     },
     setError(code, error) {
