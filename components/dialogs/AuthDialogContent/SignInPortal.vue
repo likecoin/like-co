@@ -53,6 +53,7 @@
         class="signin-portal__body-text"
       >
         <a
+          v-bind="$testID('ToggleSignInButton')"
           class="signin-portal__toggle-button"
           place="action"
           @click="$emit('toggle-sign-in')"
@@ -111,7 +112,7 @@ export default {
         // 'email', // XXX: Disable for now
       ];
 
-      if (!checkIsMobileClient()) {
+      if (!checkIsMobileClient() && this.isSignIn) {
         ids.push('wallet');
       }
 
