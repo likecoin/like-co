@@ -1,9 +1,11 @@
 <template>
-  <md-dialog
-    :md-active="isShow"
+  <BaseDialogV2
     v-bind="$testID('WalletNoticeDialog')"
     class="wallet-notice-dialog"
-    @update:md-active="updateIsShow"
+    :is-show="isShow"
+    :is-show-header="false"
+    @update:isShow="updateIsShow"
+    @click-outside="onCancel"
   >
 
     <!-- Header Navigation -->
@@ -17,119 +19,115 @@
       </md-button>
     </div>
 
-    <md-dialog-content>
-
-      <!-- Banner Section -->
-      <transition-group
-        tag="div"
-        class="wallet-notice-dialog__banner"
-        name="wallet-notice-dialog__banner-"
-        mode="out-in"
-        @enter="setContentHeight"
+    <!-- Banner Section -->
+    <transition-group
+      tag="div"
+      class="wallet-notice-dialog__banner"
+      name="wallet-notice-dialog__banner-"
+      mode="out-in"
+      @enter="setContentHeight"
+    >
+      <img
+        :key="pageIndex"
+        :class="[
+          `wallet-notice-dialog__banner--${pageIndex + 1}`,
+          isLoadingBanner && 'wallet-notice-dialog__banner--loading',
+        ]"
+        :src="banner"
+        @load="isLoadingBanner = false"
       >
-        <img
-          :key="pageIndex"
-          :class="[
-            `wallet-notice-dialog__banner--${pageIndex + 1}`,
-            isLoadingBanner && 'wallet-notice-dialog__banner--loading',
-          ]"
-          :src="banner"
-          @load="isLoadingBanner = false"
-        >
-      </transition-group>
+    </transition-group>
 
-      <!-- Title Section -->
-      <transition-group
-        tag="div"
-        class="wallet-notice-dialog__title"
-        name="wallet-notice-dialog__title-"
+    <!-- Title Section -->
+    <transition-group
+      tag="div"
+      class="wallet-notice-dialog__title"
+      name="wallet-notice-dialog__title-"
+    >
+      <h1 :key="pageIndex"><span>{{ title }}</span></h1>
+    </transition-group>
+
+    <!-- Content Section  -->
+    <transition-group
+      :style="contentStyle"
+      tag="div"
+      class="wallet-notice-dialog__content-wrapper"
+      name="wallet-notice-dialog__content-"
+    >
+      <!-- Page 1 -->
+      <div
+        v-if="pageIndex === 0"
+        ref="page1"
+        :key="1"
+        class="wallet-notice-dialog__content"
       >
-        <h1 :key="pageIndex"><span>{{ title }}</span></h1>
-      </transition-group>
-
-      <!-- Content Section  -->
-      <transition-group
-        :style="contentStyle"
-        tag="div"
-        class="wallet-notice-dialog__content-wrapper"
-        name="wallet-notice-dialog__content-"
-      >
-        <!-- Page 1 -->
-        <div
-          v-if="pageIndex === 0"
-          ref="page1"
-          :key="1"
-          class="wallet-notice-dialog__content"
-        >
-          <p class="wallet-notice-dialog__content__description">
-            {{ $t('WalletNoticeDialog.page[0].description') }}
-          </p>
-          <ul class="wallet-notice-dialog__content__list">
-            <!-- 3 list items -->
-            <li
-              v-for="i in 3"
-              :key="i"
-            >
-              <span>{{ $t(`WalletNoticeDialog.page[0].bullet[${i - 1}]`) }}</span>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Page 2 -->
-        <div
-          v-else-if="pageIndex === 1"
-          ref="page2"
-          :key="2"
-          class="wallet-notice-dialog__content"
-        >
-          <p class="wallet-notice-dialog__content__description">
-            {{ $t('WalletNoticeDialog.page[1].description[0]') }}
-          </p>
-          <p class="wallet-notice-dialog__content__description md-layout">
-            <img
-              :src="getAsset('./protect.svg')"
-              :style="{
-                width: '54px',
-                margin: '8px',
-              }"
-            >
-            <span
-              :style="{ color: '#6E2828' }"
-              class="md-layout-item"
-            >
-              {{ $t('WalletNoticeDialog.page[1].description[1]') }}
-            </span>
-          </p>
-        </div>
-
-        <!-- Page 3 -->
-        <div
-          v-else-if="pageIndex === 2"
-          ref="page3"
-          :key="3"
-          class="wallet-notice-dialog__content"
-        >
-          <p class="wallet-notice-dialog__content__description">
-            {{ $t('WalletNoticeDialog.page[2].description[0]') }}
-          </p>
-          <p class="wallet-notice-dialog__content__description">
-            {{ $t('WalletNoticeDialog.page[2].description[1]') }}
-          </p>
-        </div>
-      </transition-group>
-
-      <!-- Proceed Button -->
-      <div class="lc-dialog-container-1 lc-button-group">
-        <md-button
-          v-bind="$testID('ProceedWalletNoticeButton')"
-          class="md-likecoin"
-          @click="onProceed"
-        >
-          {{ proceedButtonText }}
-        </md-button>
+        <p class="wallet-notice-dialog__content__description">
+          {{ $t('WalletNoticeDialog.page[0].description') }}
+        </p>
+        <ul class="wallet-notice-dialog__content__list">
+          <!-- 3 list items -->
+          <li
+            v-for="i in 3"
+            :key="i"
+          >
+            <span>{{ $t(`WalletNoticeDialog.page[0].bullet[${i - 1}]`) }}</span>
+          </li>
+        </ul>
       </div>
 
-    </md-dialog-content>
+      <!-- Page 2 -->
+      <div
+        v-else-if="pageIndex === 1"
+        ref="page2"
+        :key="2"
+        class="wallet-notice-dialog__content"
+      >
+        <p class="wallet-notice-dialog__content__description">
+          {{ $t('WalletNoticeDialog.page[1].description[0]') }}
+        </p>
+        <p class="wallet-notice-dialog__content__description md-layout">
+          <img
+            :src="getAsset('./protect.svg')"
+            :style="{
+              width: '54px',
+              margin: '8px',
+            }"
+          >
+          <span
+            :style="{ color: '#6E2828' }"
+            class="md-layout-item"
+          >
+            {{ $t('WalletNoticeDialog.page[1].description[1]') }}
+          </span>
+        </p>
+      </div>
+
+      <!-- Page 3 -->
+      <div
+        v-else-if="pageIndex === 2"
+        ref="page3"
+        :key="3"
+        class="wallet-notice-dialog__content"
+      >
+        <p class="wallet-notice-dialog__content__description">
+          {{ $t('WalletNoticeDialog.page[2].description[0]') }}
+        </p>
+        <p class="wallet-notice-dialog__content__description">
+          {{ $t('WalletNoticeDialog.page[2].description[1]') }}
+        </p>
+      </div>
+    </transition-group>
+
+    <!-- Proceed Button -->
+    <div class="lc-dialog-container-1 lc-button-group">
+      <md-button
+        v-bind="$testID('ProceedWalletNoticeButton')"
+        class="md-likecoin"
+        @click="onProceed"
+      >
+        {{ proceedButtonText }}
+      </md-button>
+    </div>
 
     <!-- Page Control -->
     <div class="wallet-notice-dialog__page-control-wrapper">
@@ -149,16 +147,21 @@
       </div>
     </div>
 
-  </md-dialog>
+  </BaseDialogV2>
 </template>
 
 <script>
+import BaseDialogV2 from '~/components/dialogs/BaseDialogV2';
+
 const getAsset = require.context('../../assets/wallet-notice/');
 
 const PAGE_COUNT = 3;
 
 export default {
   name: 'wallet-notice-dialog',
+  components: {
+    BaseDialogV2,
+  },
   props: {
     isShow: {
       type: [Boolean, String],
@@ -246,15 +249,6 @@ export default {
 @import '~assets/variables';
 
 .wallet-notice-dialog {
-  z-index: 11;
-
-  @media screen and (min-width: 600px + 1px) {
-    min-width: 544px;
-
-    border-radius: 8px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
-  }
-
   &__header-navigation {
     border-bottom: 2px solid $gray-e6;
   }
@@ -465,17 +459,10 @@ export default {
     pointer-events: none;
   }
   &__page-control {
-    position: absolute;
-    right: 0;
-    bottom: -1px;
-    left: 0;
-
     display: flex;
     justify-content: center;
 
     padding: 2px;
-
-    background: linear-gradient(to top, white, transparentize(white, 1));
 
     &__indicator-container {
       display: inherit;
