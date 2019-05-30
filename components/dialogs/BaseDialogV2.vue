@@ -102,7 +102,7 @@ export default {
       }
     },
     onResize() {
-      const windowHeight = window.outerHeight;
+      const windowHeight = window.innerHeight;
       const contentContainerHeight = this.$refs.contentContainer.offsetHeight;
 
       // Align the dialog to the vertical center of window
