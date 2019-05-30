@@ -17,6 +17,10 @@
 import { mapActions, mapGetters } from 'vuex';
 
 import UserUtil from '@/util/User';
+import {
+  checkIsMobileClient,
+  checkIsTrustClient,
+} from '~/util/client';
 
 import LikeButtonIntro from '~/components/LikeButtonIntro';
 import EthMixin from '~/components/EthMixin';
@@ -75,11 +79,19 @@ export default {
       'setWalletNoticeDialog',
       'linkWalletToUser',
       'setPopupError',
+      'openPopupDialog',
     ]),
     onClickStart() {
       if (this.getUserIsRegistered) {
         if (this.getUserInfo.wallet) {
           this.$router.push({ name: 'in-settings-button' });
+        } else if (checkIsMobileClient() && !checkIsTrustClient()) {
+          this.openPopupDialog({
+            allowClose: true,
+            header: this.$t('LikeButtonIntro.setupWallet'),
+            message: this.$t('Error.REQUIRED_DESKTOP_CHROME'),
+            confirmText: this.$t('General.button.confirm'),
+          });
         } else {
           this.setWalletNoticeDialog({
             isShow: true,
