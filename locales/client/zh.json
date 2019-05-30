@@ -668,6 +668,7 @@
       "loading": "載入中",
       "signingIn": "登入中",
       "signInError": "登入時發生錯誤",
+      "signInErrorWithDetails": "登入時發生錯誤，詳細資訊：{details}",
       "checkInbox": "請檢查你的郵箱",
       "checkInboxDescription": "我們剛剛發了一條確認鏈結到電郵地址 {email}。請點擊鏈結，然後登入。",
       "loginSuccessful": "成功登入"
@@ -1089,6 +1090,7 @@
     "USER_ALREADY_EXIST": "Liker ID 已存在，請再試一次。",
     "USER_NOT_EXIST": "帳戶不存在",
     "USER_UNLINK_SOLE_OAUTH_LOGIN": "無法移除，請先連接其他登入方法",
+    "REQUIRED_DESKTOP_CHROME": "此操作需使用電腦版 Chrome 瀏覽器",
     "FIREBASE_USER_DUPLICATED": "登入帳戶已被使用",
     "OICE_SERVER_ERROR": "伺服器錯誤，請重載網頁並重試。如重複出現該錯誤，請聯絡客服。",
     "OICE_LIKECOIN_ID_NOT_BIND": "oice 跟 Liker ID 的連結有誤，請確認你正在登入的 oice 帳號，有綁定 Liker ID ，而且 綁定 ID 跟 目前 ID 一致。",

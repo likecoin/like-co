@@ -7,6 +7,8 @@ module.exports = {
         return this.api.url(path)
           // Redirect to sign in page
           .waitForElementVisible('[lc-test=AuthDialog]', 3000)
+          .waitForElementVisible('[lc-test=ToggleSignInButton]', 2000)
+          .click('[lc-test=ToggleSignInButton]')
           // Click 'Sign in with wallet' button
           .waitForElementVisible('[lc-test=SignInWithWalletButton]', 2000)
           .click('[lc-test=SignInWithWalletButton]')

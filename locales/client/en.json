@@ -678,6 +678,7 @@
       "loading": "Loading",
       "signingIn": "Signing in",
       "signInError": "Error occures when signing in",
+      "signInErrorWithDetails": "Error occures when signing in, details information: {details}",
       "checkInbox": "Check your inbox",
       "checkInboxDescription": "We just emailed a confirmation link to {email}. Click the link, and you’ll be signed in.",
       "loginSuccessful": "Login successful"
@@ -1132,6 +1133,7 @@
     "USER_UNLINK_SOLE_OAUTH_LOGIN": "Unable to unlink. You need at least one sign in method",
     "USER_AUTH_EMAIL_LINK_INVALID": "The email link has expired or has already been used",
     "USER_AUTH_THRID_PARTY_COOKIE_BLOCKED": "You browser has blocked third-party cookies, please disabled this setting in your browser and try again",
+    "REQUIRED_DESKTOP_CHROME": "This action requires desktop Chrome to proceed",
     "FIREBASE_USER_DUPLICATED": "This account has already been used for login",
     "OICE_SERVER_ERROR": "Unable to verify, please try angin. If this still happen, please contact us.",
     "OICE_LIKECOIN_ID_NOT_BIND": "The linkage of Liker ID and oice account is not correct, please make sure your oice account have bind a Liker ID, and that ID is same as your Liker ID.",
