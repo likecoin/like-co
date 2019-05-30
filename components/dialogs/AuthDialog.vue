@@ -314,6 +314,7 @@ export default {
       },
 
       errorCode: '',
+      error: undefined,
       isSigningInWithEmail: false,
       isSignIn: this.$route.query.login === '1',
 
@@ -368,11 +369,15 @@ export default {
       }
     },
     errorMessage() {
-      return this.errorCode && this.$i18n.te(`Error.${this.errorCode}`, 'en') ? (
-        this.$t(`Error.${this.errorCode}`)
-      ) : (
-        this.$t('AuthDialog.label.signInError')
-      );
+      if (this.errorCode && this.$i18n.te(`Error.${this.errorCode}`, 'en')) {
+        return this.$t(`Error.${this.errorCode}`);
+      }
+      if (this.error && typeof this.error.toString === 'function') {
+        this.$t('AuthDialog.label.signInErrorWithDetails', {
+          details: this.error.toString(),
+        });
+      }
+      return this.$t('AuthDialog.label.signInError');
     },
     errorMessageForLegacyUser() {
       switch (this.errorCode) {
@@ -506,9 +511,10 @@ export default {
           this.currentTab = 'email';
           this.errorCode = 'FIREBASE_EMAIL_LINK_AUTH_NO_EMAIL';
         } else {
+          // eslint-disable-next-line no-console
           console.error(err);
           if (this.$sentry) this.$sentry.captureException(err);
-          this.setError(err.code);
+          this.setError(err.code, err);
           this.isSigningInWithEmail = false;
         }
       }
@@ -527,6 +533,7 @@ export default {
           this.signInPayload = await getSignInPayloadFromSignInResult(result);
           this.login();
         } else {
+          // eslint-disable-next-line no-console
           console.error('No credential after redirect');
           if (this.$sentry) {
             this.$sentry.captureException(new Error('No credential after redirect'));
@@ -534,8 +541,9 @@ export default {
           this.currentTab = 'portal';
         }
       } catch (err) {
+        // eslint-disable-next-line no-console
         console.error(err);
-        this.setError(err.code);
+        this.setError(err.code, err);
         if (this.$sentry) this.$sentry.captureException(err);
       }
       this.$router.replace({
@@ -589,9 +597,10 @@ export default {
       const elem = this.$refs[this.currentTab];
       if (elem) this.contentResizeObserver.observe(elem, { box: 'border-box' });
     },
-    setError(code) {
+    setError(code, error) {
       this.currentTab = 'error';
       this.errorCode = code;
+      this.error = error;
     },
     onClickSignWithWalletInError() {
       this.hasClickSignWithWalletInError = true;
@@ -740,14 +749,16 @@ export default {
                 break;
 
               default:
+                // eslint-disable-next-line no-console
                 console.error(err);
                 if (this.$sentry) this.$sentry.captureException(err);
-                this.setError(err.code);
+                this.setError(err.code, err);
                 break;
             }
           }
           break;
         default:
+          // eslint-disable-next-line no-console
           console.error('platform default not exist');
           if (this.$sentry) {
             this.$sentry.captureException(new Error('platform default not exist'));
@@ -768,11 +779,12 @@ export default {
           if (err.code === 'auth/invalid-action-code' || err.code === 'auth/invalid-email') {
             code = 'USER_AUTH_EMAIL_LINK_INVALID';
           } else {
+            // eslint-disable-next-line no-console
             console.error(err);
             if (this.$sentry) this.$sentry.captureException(err);
             this.isSigningInWithEmail = false;
           }
-          this.setError(code);
+          this.setError(code, err);
         }
       } else {
         await firebaseSendSignInEmail(email, {
@@ -799,9 +811,10 @@ export default {
           }
         }
 
+        // eslint-disable-next-line no-console
         console.error(err);
         if (this.$sentry) this.$sentry.captureException(err);
-        this.setError((err.response || {}).data);
+        this.setError((err.response || {}).data, err);
         return;
       }
 
@@ -817,9 +830,10 @@ export default {
           // Return to login portal if user denied signing
           this.currentTab = 'portal';
         } else {
+          // eslint-disable-next-line no-console
           console.error(err);
           if (this.$sentry) this.$sentry.captureException(err);
-          this.setError(err.message);
+          this.setError(err.message, err);
         }
       }
     },
@@ -843,9 +857,10 @@ export default {
           }
         }
         this.logRegisterEvent(this, 'RegFlow', 'LoginFail', 'LoginFail', 1);
+        // eslint-disable-next-line no-console
         console.error(err);
         if (this.$sentry) this.$sentry.captureException(err);
-        this.setError((err.response || {}).data);
+        this.setError((err.response || {}).data, err);
       }
     },
     async preRegister() {
@@ -922,15 +937,17 @@ export default {
               break;
 
             default:
+              // eslint-disable-next-line no-console
               console.error(err);
               if (this.$sentry) this.$sentry.captureException(err);
           }
         } else {
+          // eslint-disable-next-line no-console
           console.error(err);
           if (this.$sentry) this.$sentry.captureException(err);
           errCode = 'USER_REGISTER_ERROR';
         }
-        this.setError(errCode);
+        this.setError(errCode, err);
         logTrackerEvent(this, 'RegFlow', 'RegistrationFail', 'RegistrationFail', 1);
       }
     },

@@ -612,6 +612,7 @@
       "loading": "読み込み中",
       "signingIn": "ログイン",
       "signInError": "ログイン中にエラーが発生しました",
+      "signInErrorWithDetails": "ログイン中にエラーが発生しました，詳細情報：{details}",
       "checkInbox": "メールアドレスを確認してください",
       "checkInboxDescription": "{email} への確認リンクを送信しました。リンクをクリックしてください。",
       "loginSuccessful": "ログイン成功"

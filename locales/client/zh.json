@@ -668,6 +668,7 @@
       "loading": "載入中",
       "signingIn": "登入中",
       "signInError": "登入時發生錯誤",
+      "signInErrorWithDetails": "登入時發生錯誤，詳細資訊：{details}",
       "checkInbox": "請檢查你的郵箱",
       "checkInboxDescription": "我們剛剛發了一條確認鏈結到電郵地址 {email}。請點擊鏈結，然後登入。",
       "loginSuccessful": "成功登入"

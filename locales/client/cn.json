@@ -648,6 +648,7 @@
       "loading": "载入中",
       "signingIn": "登入中",
       "signInError": "登入时发生错误",
+      "signInErrorWithDetails": "登入时发生错误，详细资讯：{details}",
       "checkInbox": "请检查你的邮箱",
       "checkInboxDescription": "我们刚刚发了一条确认链结到电邮地址 {email}。请点击链结，然后登入。",
       "loginSuccessful": "成功登入"
