@@ -59,168 +59,168 @@
         }
       ]"
     >
-      <transition-group
-        tag="div"
-        class="auth-dialog__tab-container"
-        name="auth-dialog__tab-"
-        appear
-        @enter="updateContentHeightForCurrentTab"
-      >
-
-        <div
-          v-if="currentTab === 'portal'"
-          v-bind="tabProps"
-          class="auth-dialog__tab auth-dialog__tab--index"
+      <div class="auth-dialog__tab-container">
+        <Transition
+          name="auth-dialog__tab-"
+          appear
+          @enter="updateContentHeightForCurrentTab"
         >
-          <signin-portal
-            class="base-dialog-v2__corner-block"
-            :is-sign-in="isSignIn"
-            :is-show-close-button="closable"
-            @toggle-sign-in="onToggleSignIn"
-            @close="setIsShow(false)"
-            @submit="signInWithPlatform"
-          />
-        </div>
 
-        <div
-          v-else-if="currentTab === 'loading'"
-          v-bind="tabProps"
-          class="auth-dialog__tab lc-padding-vertical-64"
-        >
-          <div class="lc-dialog-container-1">
-            <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-text-align-center lc-mobile">
-              {{ $t('AuthDialog.label.loading') }}
-            </h1>
-          </div>
-        </div>
-
-        <!--<div
-          v-else-if="currentTab === 'email'"
-          ref="email"
-          key="email"
-          :class="[
-            'auth-dialog__tab lc-padding-vertical-16',
-            {
-              'auth-dialog__tab--index': currentTab === 'checkInbox',
-            },
-          ]"
-        >
-          <email-signin-form
-            :is-show-back="!isSigningInWithEmail"
-            :is-re-enter="errorCode === 'FIREBASE_EMAIL_LINK_AUTH_NO_EMAIL'"
-            @submit="signInWithEmail"
-            @cancel="currentTab = 'portal'"
-          />
-        </div>
- -->
-        <div
-          v-else-if="currentTab === 'register'"
-          v-bind="tabProps"
-          class="auth-dialog__tab lc-padding-vertical-16"
-        >
-          <register-form
-            :prefilled-data="signInPayload"
-            :is-edit-email="isEmailEditable"
-            @register="register"
-          />
-        </div>
-
-        <div
-          v-else-if="currentTab === 'signingIn'"
-          v-bind="tabProps"
-          class="auth-dialog__tab lc-padding-vertical-64"
-        >
-          <div class="lc-dialog-container-1">
-            <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-text-align-center lc-mobile">
-              {{ $t('AuthDialog.label.signingIn') }}
-            </h1>
-          </div>
-        </div>
-
-        <div
-          v-else-if="currentTab === 'error'"
-          v-bind="tabProps"
-          class="auth-dialog__tab lc-padding-vertical-16"
-        >
-          <div class="lc-dialog-container-1">
-            <h1 class="lc-font-size-32 lc-margin-bottom-16 lc-mobile">
-              {{ errorTitle }}
-            </h1>
-            <p class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-32">
-              {{ errorMessage }}
-            </p>
-
-            <!-- Suggest legacy user to login with wallet -->
-            <i18n
-              v-if="errorMessageForLegacyUser"
-              :path="errorMessageForLegacyUser"
-              class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-32"
-              tag="p"
-            >
-              <span
-                class="lc-color-like-green"
-                place="id"
-              >{{ signInPayload.user }}</span>
-              <span
-                class="lc-color-like-green"
-                place="email"
-              >{{ signInPayload.email }}</span>
-              <a
-                class="lc-color-light-burgundy lc-underline"
-                place="signIn"
-                @click="onClickSignWithWalletInError"
-              >{{ $t('AuthDialog.Register.signWithWallet') }}</a>
-            </i18n>
-
+          <div
+            v-if="currentTab === 'portal'"
+            v-bind="tabProps"
+            class="auth-dialog__tab auth-dialog__tab--index"
+          >
+            <signin-portal
+              class="base-dialog-v2__corner-block"
+              :is-sign-in="isSignIn"
+              :is-show-close-button="closable"
+              @toggle-sign-in="onToggleSignIn"
+              @close="setIsShow(false)"
+              @submit="signInWithPlatform"
+            />
           </div>
 
-          <div class="lc-dialog-container-1 lc-button-group">
-            <md-button
-              class="md-likecoin"
-              @click="onDismissError"
-            >
-              {{ errorConfirmTitle }}
-            </md-button>
+          <div
+            v-else-if="currentTab === 'loading'"
+            v-bind="tabProps"
+            class="auth-dialog__tab lc-padding-vertical-64"
+          >
+            <div class="lc-dialog-container-1">
+              <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-text-align-center lc-mobile">
+                {{ $t('AuthDialog.label.loading') }}
+              </h1>
+            </div>
           </div>
-        </div>
 
-        <div
-          v-else-if="currentTab === 'checkInbox'"
-          v-bind="tabProps"
-          class="auth-dialog__tab lc-padding-vertical-16"
-        >
-          <div class="lc-dialog-container-1">
-            <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-mobile">
-              {{ $t('AuthDialog.label.checkInbox') }}
-            </h1>
-            <p class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-32">
-              {{ $t('AuthDialog.label.checkInboxDescription', {email: signInPayload.email }) }}
-            </p>
+          <!--<div
+            v-else-if="currentTab === 'email'"
+            ref="email"
+            key="email"
+            :class="[
+              'auth-dialog__tab lc-padding-vertical-16',
+              {
+                'auth-dialog__tab--index': currentTab === 'checkInbox',
+              },
+            ]"
+          >
+            <email-signin-form
+              :is-show-back="!isSigningInWithEmail"
+              :is-re-enter="errorCode === 'FIREBASE_EMAIL_LINK_AUTH_NO_EMAIL'"
+              @submit="signInWithEmail"
+              @cancel="currentTab = 'portal'"
+            />
           </div>
-          <div class="lc-dialog-container-1 lc-button-group">
-            <md-button
-              class="md-likecoin"
-              @click="close"
-            >
-              {{ $t('General.button.ok') }}
-            </md-button>
+          -->
+
+          <div
+            v-else-if="currentTab === 'register'"
+            v-bind="tabProps"
+            class="auth-dialog__tab lc-padding-vertical-16"
+          >
+            <register-form
+              :prefilled-data="signInPayload"
+              :is-edit-email="isEmailEditable"
+              @register="register"
+            />
           </div>
-        </div>
 
-        <div
-          v-else-if="currentTab === 'loginSuccessful'"
-          v-bind="tabProps"
-          class="auth-dialog__tab lc-padding-vertical-64"
-        >
-          <div class="lc-dialog-container-1">
-            <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-text-align-center lc-mobile">
-              {{ $t('AuthDialog.label.loginSuccessful') }}
-            </h1>
+          <div
+            v-else-if="currentTab === 'signingIn'"
+            v-bind="tabProps"
+            class="auth-dialog__tab lc-padding-vertical-64"
+          >
+            <div class="lc-dialog-container-1">
+              <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-text-align-center lc-mobile">
+                {{ $t('AuthDialog.label.signingIn') }}
+              </h1>
+            </div>
           </div>
-        </div>
 
-      </transition-group>
+          <div
+            v-else-if="currentTab === 'error'"
+            v-bind="tabProps"
+            class="auth-dialog__tab lc-padding-vertical-16"
+          >
+            <div class="lc-dialog-container-1">
+              <h1 class="lc-font-size-32 lc-margin-bottom-16 lc-mobile">
+                {{ errorTitle }}
+              </h1>
+              <p class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-32">
+                {{ errorMessage }}
+              </p>
 
+              <!-- Suggest legacy user to login with wallet -->
+              <i18n
+                v-if="errorMessageForLegacyUser"
+                :path="errorMessageForLegacyUser"
+                class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-32"
+                tag="p"
+              >
+                <span
+                  class="lc-color-like-green"
+                  place="id"
+                >{{ signInPayload.user }}</span>
+                <span
+                  class="lc-color-like-green"
+                  place="email"
+                >{{ signInPayload.email }}</span>
+                <a
+                  class="lc-color-light-burgundy lc-underline"
+                  place="signIn"
+                  @click="onClickSignWithWalletInError"
+                >{{ $t('AuthDialog.Register.signWithWallet') }}</a>
+              </i18n>
+
+            </div>
+
+            <div class="lc-dialog-container-1 lc-button-group">
+              <md-button
+                class="md-likecoin"
+                @click="onDismissError"
+              >
+                {{ errorConfirmTitle }}
+              </md-button>
+            </div>
+          </div>
+
+          <div
+            v-else-if="currentTab === 'checkInbox'"
+            v-bind="tabProps"
+            class="auth-dialog__tab lc-padding-vertical-16"
+          >
+            <div class="lc-dialog-container-1">
+              <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-mobile">
+                {{ $t('AuthDialog.label.checkInbox') }}
+              </h1>
+              <p class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-32">
+                {{ $t('AuthDialog.label.checkInboxDescription', {email: signInPayload.email }) }}
+              </p>
+            </div>
+            <div class="lc-dialog-container-1 lc-button-group">
+              <md-button
+                class="md-likecoin"
+                @click="close"
+              >
+                {{ $t('General.button.ok') }}
+              </md-button>
+            </div>
+          </div>
+
+          <div
+            v-else-if="currentTab === 'loginSuccessful'"
+            v-bind="tabProps"
+            class="auth-dialog__tab lc-padding-vertical-64"
+          >
+            <div class="lc-dialog-container-1">
+              <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-text-align-center lc-mobile">
+                {{ $t('AuthDialog.label.loginSuccessful') }}
+              </h1>
+            </div>
+          </div>
+
+        </Transition>
+      </div>
     </div>
 
   </BaseDialogV2>
