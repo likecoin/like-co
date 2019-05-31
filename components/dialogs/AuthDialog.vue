@@ -61,9 +61,10 @@
     >
       <div class="auth-dialog__tab-container">
         <Transition
-          name="auth-dialog__tab-"
+          :css="false"
           appear
-          @enter="updateContentHeightForCurrentTab"
+          @leave="onTabLeave"
+          @enter="onTabEnter"
         >
 
           <div
@@ -606,6 +607,26 @@ export default {
       this.errorCode = code;
       this.error = error;
     },
+    onTabLeave(el, onComplete) {
+      this.$gsap.TweenLite.to(el, 1, {
+        opacity: 0,
+        onComplete,
+      });
+    },
+    onTabBeforeEnter(el) {
+      // eslint-disable-next-line no-param-reassign
+      el.style.visibility = 'hidden';
+    },
+    onTabEnter(el, onComplete) {
+      this.$gsap.TweenLite.fromTo(el, 1, {
+        opacity: 0,
+        visibility: 'visible',
+      }, {
+        opacity: 1,
+        onComplete,
+      });
+      this.updateContentHeightForCurrentTab();
+    },
     onClickSignWithWalletInError() {
       this.hasClickSignWithWalletInError = true;
       this.signInWithPlatform('wallet');
@@ -1119,20 +1140,6 @@ export default {
     position: absolute;
 
     width: 100%;
-
-    transition-timing-function: ease;
-    transition-duration: 1s;
-    transition-property: opacity, transform;
-    will-change: opacity, transform;
-
-    &-- {
-      &enter,
-      &leave-to {
-        transform: scale(1.1);
-
-        opacity: 0;
-      }
-    }
   }
 }
 </style>
