@@ -1,5 +1,6 @@
 <template>
   <BaseDialogV2
+    ref="dialog"
     v-bind="$testID('AuthDialog')"
     :class="{
       'auth-dialog': true,
@@ -62,6 +63,7 @@
       <div class="auth-dialog__tab-container">
         <Transition
           :css="false"
+          :mode="tabTransitionMode"
           appear
           @leave="onTabLeave"
           @enter="onTabEnter"
@@ -299,6 +301,7 @@ export default {
 
       currentTab: 'portal',
       contentStyle: {},
+      tabTransition: 'fade',
 
       platform: '',
       signInPayload: {
@@ -363,6 +366,16 @@ export default {
         ref: 'tab',
         key: this.tabKey,
       };
+    },
+    tabTransitionMode() {
+      switch (this.tabTransition) {
+        case 'flip':
+          return 'out-in';
+
+        case 'fade':
+        default:
+          return undefined;
+      }
     },
     errorTitle() {
       switch (this.errorCode) {
@@ -459,6 +472,16 @@ export default {
       }
 
       this.$nextTick(this.updateResizeObserverForCurrentTab);
+    },
+    tabKey(key, prevKey) {
+      let transition = 'fade';
+      if (
+        (key === 'portal' && prevKey === 'portal-signin')
+        || (prevKey === 'portal' && key === 'portal-signin')
+      ) {
+        transition = 'flip';
+      }
+      this.tabTransition = transition;
     },
     shouldShowDialog(value) {
       if (value) {
@@ -607,26 +630,72 @@ export default {
       this.errorCode = code;
       this.error = error;
     },
+
+    getDialogContentContainerElem() {
+      return this.$refs.dialog.$el.querySelector('.base-dialog-v2__content-container');
+    },
+    /* eslint-disable no-param-reassign */
     onTabLeave(el, onComplete) {
-      this.$gsap.TweenLite.to(el, 1, {
-        opacity: 0,
-        onComplete,
-      });
+      switch (this.tabTransition) {
+        case 'flip': {
+          // eslint-disable-next-line no-param-reassign
+          el = this.getDialogContentContainerElem();
+          this.$gsap.TweenLite.to(el, 0.5, {
+            rotationY: 90,
+            ease: 'easeInPower2',
+            onComplete,
+          });
+
+          break;
+        }
+
+        case 'fade':
+        default:
+          this.$gsap.TweenLite.to(el, 1, {
+            opacity: 0,
+            onComplete,
+          });
+          break;
+      }
     },
     onTabBeforeEnter(el) {
-      // eslint-disable-next-line no-param-reassign
-      el.style.visibility = 'hidden';
+      switch (this.tabTransition) {
+        case 'flip':
+          el = this.getDialogContentContainerElem();
+        // eslint-disable-next-line no-fallthrough
+        case 'fade':
+        default:
+          this.$gsap.TweenLite(el, { visibility: 'hidden' });
+          break;
+      }
     },
     onTabEnter(el, onComplete) {
-      this.$gsap.TweenLite.fromTo(el, 1, {
-        opacity: 0,
-        visibility: 'visible',
-      }, {
-        opacity: 1,
-        onComplete,
-      });
+      switch (this.tabTransition) {
+        case 'flip': {
+          el = this.getDialogContentContainerElem();
+          this.$gsap.TweenLite.fromTo(el, 1, { rotationY: -90 }, {
+            rotationY: 0,
+            visibility: 'visible',
+            ease: 'easeOutPower2',
+            onComplete,
+          });
+          break;
+        }
+
+        case 'fade':
+        default:
+          this.$gsap.TweenLite.from(el, 1, {
+            opacity: 0,
+            visibility: 'visible',
+          }, {
+            onComplete,
+          });
+          break;
+      }
       this.updateContentHeightForCurrentTab();
     },
+    /* eslint-enable no-param-reassign */
+
     onClickSignWithWalletInError() {
       this.hasClickSignWithWalletInError = true;
       this.signInWithPlatform('wallet');
@@ -1042,6 +1111,9 @@ export default {
 }
 
 .auth-dialog {
+  perspective: 4000px;
+  perspective-origin: 50% 50%;
+
   /deep/ .lc-dialog-header {
     z-index: 1;
   }
