@@ -2,6 +2,7 @@
   <Transition name="base-dialog-v2-">
     <div
       v-if="isShow"
+      ref="root"
       :class="rootClass"
       @click="onClickDialog"
     >
@@ -90,6 +91,7 @@ export default {
   mounted() {
     this.resizeObserver = new ResizeObserver(this.onResize);
     this.$nextTick(this.observeResizing);
+    this.$nextTick(this.updateRootHeight);
   },
   beforeDestroy() {
     this.resizeObserver.disconnect();
@@ -101,6 +103,11 @@ export default {
         this.resizeObserver.observe(this.$refs.contentContainer, { box: 'border-box' });
       }
     },
+    updateRootHeight() {
+      if (this.$refs.root && this.$refs.contentContainer) {
+        this.$refs.root.style.height = `${window.innerHeight + this.$refs.contentContainer.offsetHeight}px`;
+      }
+    },
     onResize() {
       const windowHeight = window.innerHeight;
       const contentContainerHeight = this.$refs.contentContainer.offsetHeight;
@@ -109,6 +116,8 @@ export default {
       this.$refs.contentContainer.style.marginTop = contentContainerHeight < windowHeight ? (
         `${Math.min((windowHeight - contentContainerHeight) / 2, 128)}px`
       ) : 0;
+
+      this.updateRootHeight();
     },
     onClickDialog(e) {
       if (e.target.contains(this.$refs.contentContainer)) {
@@ -165,12 +174,12 @@ $max-width: 536px;
       position: fixed;
       top: -50vh;
       right: -50vw;
-      bottom: -50vh;
+      bottom: 0;
       left: -50vw;
 
       content: '';
 
-      background: rgba(black, 0.2);
+      background: linear-gradient(to bottom, rgba(black, 0.2) 80%, rgba(black, 0) 100%);
     }
   }
 
