@@ -4,6 +4,7 @@ $title-bar-height: 48px;
 
 .md-dialog {
   position: absolute;
+  z-index: 1001;
 
   width: 450px;
   min-height: 188px;

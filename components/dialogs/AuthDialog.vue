@@ -226,6 +226,35 @@
           </div>
         </div>
 
+        <div
+          v-else-if="currentTab.split('-')[0] === 'loginFailure'"
+          :ref="currentTab"
+          key="currentTab"
+          class="auth-dialog__tab lc-padding-top-16 lc-padding-bottom-24"
+        >
+          <div class="lc-dialog-container-1">
+            <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-mobile">
+              {{ $t('AuthDialog.Failure.SignIn.header') }}
+            </h1>
+            <p class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-32">
+              {{ $t('AuthDialog.Failure.SignIn.message') }}
+            </p>
+          </div>
+          <div class="lc-dialog-container-1 lc-button-group">
+            <md-button
+              class="md-likecoin"
+              @click="signInWithPlatform(currentTab.split('-')[1], { isAllowRedirect: false })"
+            >
+              {{ $t('AuthDialog.Failure.SignIn.confirm') }}
+            </md-button><br><a
+              class="lc-color-light-burgundy lc-underline"
+              @click="currentTab = 'portal'"
+            >
+              {{ $t('AuthDialog.Failure.SignIn.cancel') }}
+            </a>
+          </div>
+        </div>
+
       </transition-group>
 
     </div>
@@ -521,7 +550,11 @@ export default {
     }
 
     // Handle redirect sign in
-    const { redirect_sign_in: isRedirectSignIn, ...query } = this.$route.query;
+    const {
+      redirect_sign_in: isRedirectSignIn,
+      sign_in_platform: signInPlatform,
+      ...query
+    } = this.$route.query;
     if (isRedirectSignIn) {
       this.logRegisterEvent(this, 'RegFlow', 'LoginRedirectDone', 'LoginRedirectDone', 1);
       this.currentTab = 'signingIn';
@@ -538,7 +571,13 @@ export default {
           if (this.$sentry) {
             this.$sentry.captureException(new Error('No credential after redirect'));
           }
-          this.currentTab = 'portal';
+
+          // If redirect sign in is not working, suggest user to try again with popup
+          if (signInPlatform) {
+            this.currentTab = `loginFailure-${signInPlatform}`;
+          } else {
+            this.currentTab = 'portal';
+          }
         }
       } catch (err) {
         // eslint-disable-next-line no-console
@@ -691,7 +730,7 @@ export default {
         }
       });
     },
-    async signInWithPlatform(platform) {
+    async signInWithPlatform(platform, options = { isAllowRedirect: true }) {
       this.platform = platform;
       this.logRegisterEvent(this, 'RegFlow', 'LoginTry', `LoginTry(${platform})`, 1);
 
@@ -718,7 +757,7 @@ export default {
           this.currentTab = 'loading';
           try {
             // Determine Firebase sign in method
-            const isRedirect = (
+            const isRedirect = options.isAllowRedirect && (
               this.$route.query.is_popup === '1'
               || checkIsMobileClient()
               || !!window.opener
@@ -730,6 +769,7 @@ export default {
                 query: {
                   ...this.$route.query,
                   redirect_sign_in: 1,
+                  sign_in_platform: platform,
                 },
               });
             }

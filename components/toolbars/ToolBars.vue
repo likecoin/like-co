@@ -277,4 +277,8 @@ export default {
     color: $like-white;
   }
 }
+
+.md-dialog {
+  z-index: 1001;
+}
 </style>
