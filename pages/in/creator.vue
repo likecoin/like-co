@@ -63,7 +63,7 @@ export default {
   watch: {
     getUserInfo(user, prevUser) {
       if (!prevUser.wallet && user.wallet) {
-        this.$router.push({ name: 'in-settings-button' });
+        this.$router.push({ name: 'in-creator' });
       }
     },
   },
