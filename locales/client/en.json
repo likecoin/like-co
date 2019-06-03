@@ -741,7 +741,8 @@
       "SignIn": {
         "header": "Sign in / Sign up",
         "message": "Sign in / sign up was not success, do you want to try again?",
-        "confirm": "Retry"
+        "confirm": "Retry",
+        "cancel": "Sign in / sign up with other options"
       }
     }
   },

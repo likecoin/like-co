@@ -230,7 +230,7 @@
           v-else-if="currentTab.split('-')[0] === 'loginFailure'"
           :ref="currentTab"
           key="currentTab"
-          class="auth-dialog__tab lc-padding-vertical-16"
+          class="auth-dialog__tab lc-padding-top-16 lc-padding-bottom-24"
         >
           <div class="lc-dialog-container-1">
             <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-mobile">
@@ -246,12 +246,12 @@
               @click="signInWithPlatform(currentTab.split('-')[1], { isAllowRedirect: false })"
             >
               {{ $t('AuthDialog.Failure.SignIn.confirm') }}
-            </md-button><br><md-button
-              class="md-likecoin lc-cancel"
+            </md-button><br><a
+              class="lc-color-light-burgundy lc-underline"
               @click="currentTab = 'portal'"
             >
-              {{ $t('General.button.cancel') }}
-            </md-button>
+              {{ $t('AuthDialog.Failure.SignIn.cancel') }}
+            </a>
           </div>
         </div>
 

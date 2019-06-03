@@ -731,7 +731,8 @@
       "SignIn": {
         "header": "登入 / 註冊",
         "message": "登入 / 註冊不成功, 再試一次嗎？",
-        "confirm": "重試"
+        "confirm": "重試",
+        "cancel": "選擇其他登入方式"
       }
     }
   },
