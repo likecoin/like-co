@@ -1320,6 +1320,7 @@
   },
   "LikeButtonIntro": {
     "setupWallet": "Create your wallet",
+    "setupLikeButton": "Setup Like Rewards button",
     "inmedia": "Inmedia",
     "standnews": "Standnews",
     "citizenNews": "CitizenNews",
