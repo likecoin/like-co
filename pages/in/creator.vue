@@ -69,7 +69,7 @@ export default {
   },
   mounted() {
     const { action, ...query } = this.$route.query;
-    if (this.$route.query.action === 'start') {
+    if (this.$route.query.action === 'start' || this.$route.query.action === 'sign') {
       this.onClickStart();
       this.$router.push({ ...this.$route, query });
     }
@@ -93,6 +93,7 @@ export default {
             confirmText: this.$t('General.button.confirm'),
           });
         } else {
+          this.$router.push({ query: { ...this.$route.query, action: 'sign' } });
           this.setWalletNoticeDialog({
             isShow: true,
             onConfirm: () => this.startWeb3AndCb(this.bindWallet),
@@ -101,6 +102,8 @@ export default {
       }
     },
     async bindWallet() {
+      const { action, ...query } = this.$route.query;
+      this.$router.push({ query });
       let payload;
       try {
         payload = await UserUtil.formatAndSignUserInfo(
