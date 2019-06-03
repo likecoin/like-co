@@ -66,6 +66,7 @@
           :mode="tabTransitionMode"
           appear
           @leave="onTabLeave"
+          @before-enter="onTabBeforeEnter"
           @enter="onTabEnter"
         >
 
@@ -638,14 +639,13 @@ export default {
     onTabLeave(el, onComplete) {
       switch (this.tabTransition) {
         case 'flip': {
-          // eslint-disable-next-line no-param-reassign
           el = this.getDialogContentContainerElem();
           this.$gsap.TweenLite.to(el, 0.5, {
             rotationY: 90,
+            z: 500,
             ease: 'easeInPower2',
             onComplete,
           });
-
           break;
         }
 
@@ -662,10 +662,18 @@ export default {
       switch (this.tabTransition) {
         case 'flip':
           el = this.getDialogContentContainerElem();
-        // eslint-disable-next-line no-fallthrough
+          this.$gsap.TweenLite.set(el, {
+            visibility: 'hidden',
+            z: 500,
+            rotationY: -90,
+          });
+          break;
         case 'fade':
         default:
-          this.$gsap.TweenLite(el, { visibility: 'hidden' });
+          this.$gsap.TweenLite.set(el, {
+            visibility: 'hidden',
+            opacity: 0,
+          });
           break;
       }
     },
@@ -673,8 +681,9 @@ export default {
       switch (this.tabTransition) {
         case 'flip': {
           el = this.getDialogContentContainerElem();
-          this.$gsap.TweenLite.fromTo(el, 1, { rotationY: -90 }, {
+          this.$gsap.TweenLite.to(el, 1, {
             rotationY: 0,
+            z: 0,
             visibility: 'visible',
             ease: 'easeOutPower2',
             onComplete,
@@ -684,8 +693,8 @@ export default {
 
         case 'fade':
         default:
-          this.$gsap.TweenLite.from(el, 1, {
-            opacity: 0,
+          this.$gsap.TweenLite.to(el, 1, {
+            opacity: 1,
             visibility: 'visible',
           }, {
             onComplete,
@@ -1112,7 +1121,7 @@ export default {
 
 .auth-dialog {
   perspective: 4000px;
-  perspective-origin: 50% 50%;
+  perspective-origin: 50% 25%;
 
   /deep/ .lc-dialog-header {
     z-index: 1;
