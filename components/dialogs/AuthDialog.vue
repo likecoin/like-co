@@ -73,7 +73,7 @@
           <div
             v-if="currentTab === 'portal'"
             v-bind="tabProps"
-            class="auth-dialog__tab auth-dialog__tab--index"
+            class="auth-dialog__tab auth-dialog__tab--index auth-dialog__tab--portal"
           >
             <signin-portal
               class="base-dialog-v2__corner-block"
@@ -1221,6 +1221,10 @@ export default {
     position: absolute;
 
     width: 100%;
+
+    &--portal {
+      background: $like-gray-1;
+    }
   }
 }
 </style>
