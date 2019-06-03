@@ -1256,6 +1256,7 @@
   },
   "LikeButtonIntro": {
     "setupWallet": "設定錢包",
+    "setupLikeButton": "設定 LikeButton",
     "inmedia": "獨立媒體",
     "standnews": "立場新聞",
     "citizenNews": "眾新聞",

@@ -1185,6 +1185,7 @@
   },
   "LikeButtonIntro": {
     "setupWallet": "设定钱包",
+    "setupLikeButton": "设定 LikeButton",
     "inmedia": "独立媒体",
     "standnews": "立场新闻",
     "citizenNews": "众新闻",
