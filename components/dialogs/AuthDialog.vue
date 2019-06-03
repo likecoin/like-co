@@ -521,7 +521,11 @@ export default {
     }
 
     // Handle redirect sign in
-    const { redirect_sign_in: isRedirectSignIn, ...query } = this.$route.query;
+    const {
+      redirect_sign_in: isRedirectSignIn,
+      sign_in_platform: signInPlatform,
+      ...query
+    } = this.$route.query;
     if (isRedirectSignIn) {
       this.logRegisterEvent(this, 'RegFlow', 'LoginRedirectDone', 'LoginRedirectDone', 1);
       this.currentTab = 'signingIn';
@@ -537,6 +541,20 @@ export default {
           console.error('No credential after redirect');
           if (this.$sentry) {
             this.$sentry.captureException(new Error('No credential after redirect'));
+          }
+
+          // If redirect sign in is not working, suggest user to try again with popup
+          if (signInPlatform) {
+            this.openPopupDialog({
+              allowClose: true,
+              header: this.$t('AuthDialog.Failure.SignIn.header'),
+              message: this.$t('AuthDialog.Failure.SignIn.message'),
+              cancelText: this.$t('General.button.cancel'),
+              confirmText: this.$t('AuthDialog.Failure.SignIn.confirm'),
+              onConfirm: () => {
+                this.signInWithPlatform(signInPlatform, { isAllowRedirect: false });
+              },
+            });
           }
           this.currentTab = 'portal';
         }
@@ -691,7 +709,7 @@ export default {
         }
       });
     },
-    async signInWithPlatform(platform) {
+    async signInWithPlatform(platform, options = { isAllowRedirect: true }) {
       this.platform = platform;
       this.logRegisterEvent(this, 'RegFlow', 'LoginTry', `LoginTry(${platform})`, 1);
 
@@ -718,7 +736,7 @@ export default {
           this.currentTab = 'loading';
           try {
             // Determine Firebase sign in method
-            const isRedirect = (
+            const isRedirect = options.isAllowRedirect && (
               this.$route.query.is_popup === '1'
               || checkIsMobileClient()
               || !!window.opener
@@ -730,6 +748,7 @@ export default {
                 query: {
                   ...this.$route.query,
                   redirect_sign_in: 1,
+                  sign_in_platform: platform,
                 },
               });
             }
