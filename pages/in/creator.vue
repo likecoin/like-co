@@ -85,7 +85,7 @@ export default {
       if (this.getUserIsRegistered) {
         if (this.getUserInfo.wallet) {
           this.$router.push({ name: 'in-settings-button' });
-        } else if (checkIsMobileClient() && !checkIsTrustClient()) {
+        } else if (checkIsMobileClient() && !checkIsTrustClient(this)) {
           this.openPopupDialog({
             allowClose: true,
             header: this.$t('LikeButtonIntro.setupWallet'),
