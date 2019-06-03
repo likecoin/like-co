@@ -226,6 +226,35 @@
           </div>
         </div>
 
+        <div
+          v-else-if="currentTab.split('-')[0] === 'loginFailure'"
+          :ref="currentTab"
+          key="currentTab"
+          class="auth-dialog__tab lc-padding-vertical-16"
+        >
+          <div class="lc-dialog-container-1">
+            <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-mobile">
+              {{ $t('AuthDialog.Failure.SignIn.header') }}
+            </h1>
+            <p class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-32">
+              {{ $t('AuthDialog.Failure.SignIn.message') }}
+            </p>
+          </div>
+          <div class="lc-dialog-container-1 lc-button-group">
+            <md-button
+              class="md-likecoin"
+              @click="signInWithPlatform(currentTab.split('-')[1], { isAllowRedirect: false })"
+            >
+              {{ $t('AuthDialog.Failure.SignIn.confirm') }}
+            </md-button><br><md-button
+              class="md-likecoin lc-cancel"
+              @click="currentTab = 'portal'"
+            >
+              {{ $t('General.button.cancel') }}
+            </md-button>
+          </div>
+        </div>
+
       </transition-group>
 
     </div>
@@ -545,18 +574,10 @@ export default {
 
           // If redirect sign in is not working, suggest user to try again with popup
           if (signInPlatform) {
-            this.openPopupDialog({
-              allowClose: true,
-              header: this.$t('AuthDialog.Failure.SignIn.header'),
-              message: this.$t('AuthDialog.Failure.SignIn.message'),
-              cancelText: this.$t('General.button.cancel'),
-              confirmText: this.$t('AuthDialog.Failure.SignIn.confirm'),
-              onConfirm: () => {
-                this.signInWithPlatform(signInPlatform, { isAllowRedirect: false });
-              },
-            });
+            this.currentTab = `loginFailure-${signInPlatform}`;
+          } else {
+            this.currentTab = 'portal';
           }
-          this.currentTab = 'portal';
         }
       } catch (err) {
         // eslint-disable-next-line no-console
