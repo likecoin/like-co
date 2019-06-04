@@ -80,6 +80,7 @@ export default {
       'linkWalletToUser',
       'setPopupError',
       'openPopupDialog',
+      'doUserAuth',
     ]),
     onClickStart() {
       if (this.getUserIsRegistered) {
@@ -100,10 +101,10 @@ export default {
           });
         }
       } else {
-        this.$router.push({ name: this.$route.name, query: { action: 'start' } });
-        this.$router.push({
-          name: 'in-register',
-          query: { redirect: window.location.href },
+        const { query, ...route } = this.$route;
+        this.doUserAuth({
+          router: this.$router,
+          route: { ...route, query: { ...query, action: 'start' } },
         });
       }
     },
