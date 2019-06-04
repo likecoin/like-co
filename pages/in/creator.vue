@@ -70,7 +70,7 @@ export default {
   mounted() {
     const { action, ...query } = this.$route.query;
     if (this.$route.query.action === 'start' || this.$route.query.action === 'sign') {
-      this.onClickStart();
+      this.$nextTick(this.onClickStart);
       this.$router.push({ ...this.$route, query });
     }
   },
@@ -99,6 +99,12 @@ export default {
             onConfirm: () => this.startWeb3AndCb(this.bindWallet),
           });
         }
+      } else {
+        this.$router.push({ name: this.$route.name, query: { action: 'start' } });
+        this.$router.push({
+          name: 'in-register',
+          query: { redirect: window.location.href },
+        });
       }
     },
     async bindWallet() {
