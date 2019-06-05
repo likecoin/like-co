@@ -674,9 +674,9 @@
       "loginSuccessful": "成功登入"
     },
     "SignUp": {
-      "title": "免費註冊，化讚為賞",
-      "title-alternative": "Liker 免費註冊，作者獲得收入",
+      "title": "Liker 免費註冊，作者獲得收入",
       "description": "免費註冊成為 Liker",
+      "description-alternative": "別讓作者餓肚子！踏出一小步註冊，讓作者獲得支持，完全免費。",
       "auth": {
         "google": "以 Google 註冊",
         "facebook": "以 Facebook 註冊",
