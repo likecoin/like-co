@@ -7,7 +7,7 @@ import { mapActions, mapGetters } from 'vuex';
 import { tryPostLoginRedirect } from '~/util/client';
 import { EXTERNAL_HOSTNAME } from '~/constant';
 
-import { logTrackerEvent } from '@/util/EventLogger';
+import { logTrackerEvent, logTimingEvent } from '@/util/EventLogger';
 
 export default {
   name: 'auth-api-view',
@@ -68,7 +68,12 @@ export default {
       'doPostAuthRedirect',
     ]),
     logPageUnload() {
-      logTrackerEvent(this, 'RegFlow', 'CloseRegisterPage', 'CloseRegisterPage', 1);
+      let value = 1;
+      if (window.performance) {
+        value = Math.round(performance.now());
+      }
+      logTimingEvent(this, 'RegFlow', 'CloseRegisterPageTiming', 'CloseRegisterPageTiming', value);
+      logTrackerEvent(this, 'RegFlow', 'CloseRegisterPage', 'CloseRegisterPage', value);
     },
   },
 };
