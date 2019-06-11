@@ -55,7 +55,7 @@ export default {
       }
     } else {
       window.addEventListener('beforeunload', this.logPageUnload, false);
-      logTrackerEvent(this, 'RegFlow', 'RedirectSignUp', 'RedirectSignUp', 1);
+      this.logPageload();
     }
   },
   beforeDestroy() {
@@ -74,6 +74,14 @@ export default {
       }
       logTimingEvent(this, 'RegFlow', 'CloseRegisterPageTiming', 'CloseRegisterPageTiming', value);
       logTrackerEvent(this, 'RegFlow', 'CloseRegisterPage', 'CloseRegisterPage', value);
+    },
+    logPageload() {
+      let value = 1;
+      if (window.performance) {
+        value = Math.round(performance.now());
+      }
+      logTimingEvent(this, 'RegFlow', 'RedirectSignUpTiming', 'RedirectSignUpTiming', value);
+      logTrackerEvent(this, 'RegFlow', 'RedirectSignUp', 'RedirectSignUp', value);
     },
   },
 };
