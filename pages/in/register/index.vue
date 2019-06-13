@@ -4,7 +4,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import { tryPostLoginRedirect } from '~/util/client';
+import { tryPostLoginRedirect, isIOS } from '~/util/client';
 import { EXTERNAL_HOSTNAME } from '~/constant';
 
 import { logTrackerEvent, logTimingEvent } from '@/util/EventLogger';
@@ -41,6 +41,9 @@ export default {
     ...mapGetters([
       'getUserIsRegistered',
     ]),
+    unloadEventName() {
+      return isIOS() ? 'pagehide' : 'beforeunload';
+    },
   },
   created() {
     this.setAuthDialog({ isShow: !this.getUserIsRegistered });
@@ -54,13 +57,13 @@ export default {
         this.doPostAuthRedirect({ router, route });
       }
     } else {
-      window.addEventListener('beforeunload', this.logPageUnload, false);
+      window.addEventListener(this.unloadEventName, this.logPageUnload, false);
       this.logPageload();
     }
   },
   beforeDestroy() {
     this.setAuthDialog({ isShow: false });
-    window.removeEventListener('beforeunload', this.logPageUnload, false);
+    window.removeEventListener(this.unloadEventName, this.logPageUnload, false);
   },
   methods: {
     ...mapActions([
