@@ -300,7 +300,7 @@ export default {
       avatarHalo: 'none',
       fromDisplayName: '',
 
-      currentTab: 'portal',
+      currentTab: 'loading',
       contentStyle: {},
       tabTransition: 'fade',
 
@@ -491,6 +491,8 @@ export default {
     },
   },
   async mounted() {
+    this.currentTab = 'portal';
+
     this.loggedEvents = {};
 
     const { from } = this.$route.query;
