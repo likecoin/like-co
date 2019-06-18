@@ -1,5 +1,6 @@
 <template>
   <BaseDialogV2
+    ref="dialog"
     v-bind="$testID('AuthDialog')"
     :class="{
       'auth-dialog': true,
@@ -59,204 +60,199 @@
         }
       ]"
     >
-      <transition-group
-        tag="div"
-        class="auth-dialog__tab-container"
-        name="auth-dialog__tab-"
-        appear
-        @enter="updateContentHeightForCurrentTab"
-      >
-
-        <div
-          v-if="currentTab === 'portal'"
-          ref="portal"
-          :key="`portal${isSignIn ? '-signin' : ''}`"
-          class="auth-dialog__tab auth-dialog__tab--index"
+      <div class="auth-dialog__tab-container">
+        <Transition
+          :css="false"
+          :mode="tabTransitionMode"
+          appear
+          @leave="onTabLeave"
+          @before-enter="onTabBeforeEnter"
+          @enter="onTabEnter"
         >
-          <signin-portal
-            class="base-dialog-v2__corner-block"
-            :is-sign-in="isSignIn"
-            :is-show-close-button="closable"
-            @toggle-sign-in="onToggleSignIn"
-            @close="setIsShow(false)"
-            @submit="signInWithPlatform"
-          />
-        </div>
 
-        <div
-          v-else-if="currentTab === 'loading'"
-          ref="loading"
-          key="loading"
-          class="auth-dialog__tab lc-padding-vertical-64"
-        >
-          <div class="lc-dialog-container-1">
-            <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-text-align-center lc-mobile">
-              {{ $t('AuthDialog.label.loading') }}
-            </h1>
+          <div
+            v-if="currentTab === 'portal'"
+            v-bind="tabProps"
+            class="auth-dialog__tab auth-dialog__tab--index auth-dialog__tab--portal"
+          >
+            <signin-portal
+              class="base-dialog-v2__corner-block"
+              :is-sign-in="isSignIn"
+              :is-show-close-button="closable"
+              @toggle-sign-in="onToggleSignIn"
+              @close="setIsShow(false)"
+              @submit="signInWithPlatform"
+            />
           </div>
-        </div>
 
-        <!--<div
-          v-else-if="currentTab === 'email'"
-          ref="email"
-          key="email"
-          :class="[
-            'auth-dialog__tab lc-padding-vertical-16',
-            {
-              'auth-dialog__tab--index': currentTab === 'checkInbox',
-            },
-          ]"
-        >
-          <email-signin-form
-            :is-show-back="!isSigningInWithEmail"
-            :is-re-enter="errorCode === 'FIREBASE_EMAIL_LINK_AUTH_NO_EMAIL'"
-            @submit="signInWithEmail"
-            @cancel="currentTab = 'portal'"
-          />
-        </div>
- -->
-        <div
-          v-else-if="currentTab === 'register'"
-          ref="register"
-          key="register"
-          class="auth-dialog__tab lc-padding-vertical-16"
-        >
-          <register-form
-            :prefilled-data="signInPayload"
-            :is-edit-email="isEmailEditable"
-            @register="register"
-          />
-        </div>
-
-        <div
-          v-else-if="currentTab === 'signingIn'"
-          ref="signingIn"
-          key="signingIn"
-          class="auth-dialog__tab lc-padding-vertical-64"
-        >
-          <div class="lc-dialog-container-1">
-            <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-text-align-center lc-mobile">
-              {{ $t('AuthDialog.label.signingIn') }}
-            </h1>
+          <div
+            v-else-if="currentTab === 'loading'"
+            v-bind="tabProps"
+            class="auth-dialog__tab lc-padding-vertical-64"
+          >
+            <div class="lc-dialog-container-1">
+              <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-text-align-center lc-mobile">
+                {{ $t('AuthDialog.label.loading') }}
+              </h1>
+            </div>
           </div>
-        </div>
 
-        <div
-          v-else-if="currentTab === 'error'"
-          ref="error"
-          key="error"
-          class="auth-dialog__tab lc-padding-vertical-16"
-        >
-          <div class="lc-dialog-container-1">
-            <h1 class="lc-font-size-32 lc-margin-bottom-16 lc-mobile">
-              {{ errorTitle }}
-            </h1>
-            <p class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-32">
-              {{ errorMessage }}
-            </p>
+          <!--<div
+            v-else-if="currentTab === 'email'"
+            ref="email"
+            key="email"
+            :class="[
+              'auth-dialog__tab lc-padding-vertical-16',
+              {
+                'auth-dialog__tab--index': currentTab === 'checkInbox',
+              },
+            ]"
+          >
+            <email-signin-form
+              :is-show-back="!isSigningInWithEmail"
+              :is-re-enter="errorCode === 'FIREBASE_EMAIL_LINK_AUTH_NO_EMAIL'"
+              @submit="signInWithEmail"
+              @cancel="currentTab = 'portal'"
+            />
+          </div>
+          -->
 
-            <!-- Suggest legacy user to login with wallet -->
-            <i18n
-              v-if="errorMessageForLegacyUser"
-              :path="errorMessageForLegacyUser"
-              class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-32"
-              tag="p"
-            >
-              <span
-                class="lc-color-like-green"
-                place="id"
-              >{{ signInPayload.user }}</span>
-              <span
-                class="lc-color-like-green"
-                place="email"
-              >{{ signInPayload.email }}</span>
-              <a
+          <div
+            v-else-if="currentTab === 'register'"
+            v-bind="tabProps"
+            class="auth-dialog__tab lc-padding-vertical-16"
+          >
+            <register-form
+              :prefilled-data="signInPayload"
+              :is-edit-email="isEmailEditable"
+              @register="register"
+            />
+          </div>
+
+          <div
+            v-else-if="currentTab === 'signingIn'"
+            v-bind="tabProps"
+            class="auth-dialog__tab lc-padding-vertical-64"
+          >
+            <div class="lc-dialog-container-1">
+              <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-text-align-center lc-mobile">
+                {{ $t('AuthDialog.label.signingIn') }}
+              </h1>
+            </div>
+          </div>
+
+          <div
+            v-else-if="currentTab === 'error'"
+            v-bind="tabProps"
+            class="auth-dialog__tab lc-padding-vertical-16"
+          >
+            <div class="lc-dialog-container-1">
+              <h1 class="lc-font-size-32 lc-margin-bottom-16 lc-mobile">
+                {{ errorTitle }}
+              </h1>
+              <p class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-32">
+                {{ errorMessage }}
+              </p>
+
+              <!-- Suggest legacy user to login with wallet -->
+              <i18n
+                v-if="errorMessageForLegacyUser"
+                :path="errorMessageForLegacyUser"
+                class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-32"
+                tag="p"
+              >
+                <span
+                  class="lc-color-like-green"
+                  place="id"
+                >{{ signInPayload.user }}</span>
+                <span
+                  class="lc-color-like-green"
+                  place="email"
+                >{{ signInPayload.email }}</span>
+                <a
+                  class="lc-color-light-burgundy lc-underline"
+                  place="signIn"
+                  @click="onClickSignWithWalletInError"
+                >{{ $t('AuthDialog.Register.signWithWallet') }}</a>
+              </i18n>
+
+            </div>
+
+            <div class="lc-dialog-container-1 lc-button-group">
+              <md-button
+                class="md-likecoin"
+                @click="onDismissError"
+              >
+                {{ errorConfirmTitle }}
+              </md-button>
+            </div>
+          </div>
+
+          <div
+            v-else-if="currentTab === 'checkInbox'"
+            v-bind="tabProps"
+            class="auth-dialog__tab lc-padding-vertical-16"
+          >
+            <div class="lc-dialog-container-1">
+              <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-mobile">
+                {{ $t('AuthDialog.label.checkInbox') }}
+              </h1>
+              <p class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-32">
+                {{ $t('AuthDialog.label.checkInboxDescription', {email: signInPayload.email }) }}
+              </p>
+            </div>
+            <div class="lc-dialog-container-1 lc-button-group">
+              <md-button
+                class="md-likecoin"
+                @click="close"
+              >
+                {{ $t('General.button.ok') }}
+              </md-button>
+            </div>
+          </div>
+
+          <div
+            v-else-if="currentTab === 'loginSuccessful'"
+            v-bind="tabProps"
+            class="auth-dialog__tab lc-padding-vertical-64"
+          >
+            <div class="lc-dialog-container-1">
+              <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-text-align-center lc-mobile">
+                {{ $t('AuthDialog.label.loginSuccessful') }}
+              </h1>
+            </div>
+          </div>
+
+          <div
+            v-else-if="currentTab.split('-')[0] === 'loginFailure'"
+            v-bind="tabProps"
+            class="auth-dialog__tab lc-padding-top-16 lc-padding-bottom-24"
+          >
+            <div class="lc-dialog-container-1">
+              <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-mobile">
+                {{ $t('AuthDialog.Failure.SignIn.header') }}
+              </h1>
+              <p class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-32">
+                {{ $t('AuthDialog.Failure.SignIn.message') }}
+              </p>
+            </div>
+            <div class="lc-dialog-container-1 lc-button-group">
+              <md-button
+                class="md-likecoin"
+                @click="signInWithPlatform(currentTab.split('-')[1], { isAllowRedirect: false })"
+              >
+                {{ $t('AuthDialog.Failure.SignIn.confirm') }}
+              </md-button><br><a
                 class="lc-color-light-burgundy lc-underline"
-                place="signIn"
-                @click="onClickSignWithWalletInError"
-              >{{ $t('AuthDialog.Register.signWithWallet') }}</a>
-            </i18n>
-
+                @click="currentTab = 'portal'"
+              >
+                {{ $t('AuthDialog.Failure.SignIn.cancel') }}
+              </a>
+            </div>
           </div>
 
-          <div class="lc-dialog-container-1 lc-button-group">
-            <md-button
-              class="md-likecoin"
-              @click="onDismissError"
-            >
-              {{ errorConfirmTitle }}
-            </md-button>
-          </div>
-        </div>
-
-        <div
-          v-else-if="currentTab === 'checkInbox'"
-          ref="checkInbox"
-          key="checkInbox"
-          class="auth-dialog__tab lc-padding-vertical-16"
-        >
-          <div class="lc-dialog-container-1">
-            <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-mobile">
-              {{ $t('AuthDialog.label.checkInbox') }}
-            </h1>
-            <p class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-32">
-              {{ $t('AuthDialog.label.checkInboxDescription', {email: signInPayload.email }) }}
-            </p>
-          </div>
-          <div class="lc-dialog-container-1 lc-button-group">
-            <md-button
-              class="md-likecoin"
-              @click="close"
-            >
-              {{ $t('General.button.ok') }}
-            </md-button>
-          </div>
-        </div>
-
-        <div
-          v-else-if="currentTab === 'loginSuccessful'"
-          ref="loginSuccessful"
-          key="loginSuccessful"
-          class="auth-dialog__tab lc-padding-vertical-64"
-        >
-          <div class="lc-dialog-container-1">
-            <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-text-align-center lc-mobile">
-              {{ $t('AuthDialog.label.loginSuccessful') }}
-            </h1>
-          </div>
-        </div>
-
-        <div
-          v-else-if="currentTab.split('-')[0] === 'loginFailure'"
-          :ref="currentTab"
-          key="currentTab"
-          class="auth-dialog__tab lc-padding-top-16 lc-padding-bottom-24"
-        >
-          <div class="lc-dialog-container-1">
-            <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-mobile">
-              {{ $t('AuthDialog.Failure.SignIn.header') }}
-            </h1>
-            <p class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-32">
-              {{ $t('AuthDialog.Failure.SignIn.message') }}
-            </p>
-          </div>
-          <div class="lc-dialog-container-1 lc-button-group">
-            <md-button
-              class="md-likecoin"
-              @click="signInWithPlatform(currentTab.split('-')[1], { isAllowRedirect: false })"
-            >
-              {{ $t('AuthDialog.Failure.SignIn.confirm') }}
-            </md-button><br><a
-              class="lc-color-light-burgundy lc-underline"
-              @click="currentTab = 'portal'"
-            >
-              {{ $t('AuthDialog.Failure.SignIn.cancel') }}
-            </a>
-          </div>
-        </div>
-
-      </transition-group>
-
+        </Transition>
+      </div>
     </div>
 
   </BaseDialogV2>
@@ -332,8 +328,9 @@ export default {
       avatarHalo: 'none',
       fromDisplayName: '',
 
-      currentTab: 'portal',
+      currentTab: 'loading',
       contentStyle: {},
+      tabTransition: 'fade',
 
       platform: '',
       signInPayload: {
@@ -386,6 +383,28 @@ export default {
     },
     shouldShowHeader() {
       return this.currentTab !== 'portal';
+    },
+    tabKey() {
+      if (this.currentTab === 'portal') {
+        return `${this.currentTab}${this.isSignIn ? '-signin' : ''}`;
+      }
+      return this.currentTab;
+    },
+    tabProps() {
+      return {
+        ref: 'tab',
+        key: this.tabKey,
+      };
+    },
+    tabTransitionMode() {
+      switch (this.tabTransition) {
+        case 'flip':
+          return 'out-in';
+
+        case 'fade':
+        default:
+          return undefined;
+      }
     },
     errorTitle() {
       switch (this.errorCode) {
@@ -476,13 +495,22 @@ export default {
       deep: true,
     },
     currentTab(tab) {
-      this.contentScrollTop = 0;
       if (tab === 'register' && !this.loggedEvents.register) {
         this.loggedEvents.register = 1;
         logTrackerEvent(this, 'RegFlow', 'ShowRegisterForm', 'ShowRegisterForm', 1);
       }
 
       this.$nextTick(this.updateResizeObserverForCurrentTab);
+    },
+    tabKey(key, prevKey) {
+      let transition = 'fade';
+      if (
+        (key === 'portal' && prevKey === 'portal-signin')
+        || (prevKey === 'portal' && key === 'portal-signin')
+      ) {
+        transition = 'flip';
+      }
+      this.tabTransition = transition;
     },
     shouldShowDialog(value) {
       if (value) {
@@ -491,6 +519,8 @@ export default {
     },
   },
   async mounted() {
+    this.currentTab = 'portal';
+
     this.loggedEvents = {};
 
     const { from } = this.$route.query;
@@ -627,13 +657,13 @@ export default {
       this.contentStyle = style;
     },
     updateContentHeightForCurrentTab() {
-      const elem = this.$refs[this.currentTab];
+      const elem = this.$refs.tab;
       if (elem) this.setContentStyle({ height: elem.offsetHeight });
     },
     updateResizeObserverForCurrentTab() {
       if (!this.contentResizeObserver) return;
       this.contentResizeObserver.disconnect();
-      const elem = this.$refs[this.currentTab];
+      const elem = this.$refs.tab;
       if (elem) this.contentResizeObserver.observe(elem, { box: 'border-box' });
     },
     setError(code, error) {
@@ -641,6 +671,80 @@ export default {
       this.errorCode = code;
       this.error = error;
     },
+
+    getDialogContentContainerElem() {
+      return this.$refs.dialog.$el.querySelector('.base-dialog-v2__content-container');
+    },
+    /* eslint-disable no-param-reassign */
+    onTabLeave(el, onComplete) {
+      switch (this.tabTransition) {
+        case 'flip': {
+          el = this.getDialogContentContainerElem();
+          this.$gsap.TweenLite.to(el, 0.5, {
+            rotationY: 90,
+            z: 500,
+            ease: 'easeInPower2',
+            onComplete,
+          });
+          break;
+        }
+
+        case 'fade':
+        default:
+          this.$gsap.TweenLite.to(el, 1, {
+            opacity: 0,
+            onComplete,
+          });
+          break;
+      }
+    },
+    onTabBeforeEnter(el) {
+      switch (this.tabTransition) {
+        case 'flip':
+          el = this.getDialogContentContainerElem();
+          this.$gsap.TweenLite.set(el, {
+            visibility: 'hidden',
+            z: 500,
+            rotationY: -90,
+          });
+          break;
+        case 'fade':
+        default:
+          this.$gsap.TweenLite.set(el, {
+            visibility: 'hidden',
+            opacity: 0,
+          });
+          break;
+      }
+    },
+    onTabEnter(el, onComplete) {
+      switch (this.tabTransition) {
+        case 'flip': {
+          el = this.getDialogContentContainerElem();
+          this.$gsap.TweenLite.to(el, 1, {
+            rotationY: 0,
+            z: 0,
+            visibility: 'visible',
+            ease: 'easeOutPower2',
+            onComplete,
+          });
+          break;
+        }
+
+        case 'fade':
+        default:
+          this.$gsap.TweenLite.to(el, 1, {
+            opacity: 1,
+            visibility: 'visible',
+          }, {
+            onComplete,
+          });
+          break;
+      }
+      this.updateContentHeightForCurrentTab();
+    },
+    /* eslint-enable no-param-reassign */
+
     onClickSignWithWalletInError() {
       this.hasClickSignWithWalletInError = true;
       this.signInWithPlatform('wallet');
@@ -1057,6 +1161,9 @@ export default {
 }
 
 .auth-dialog {
+  perspective: 4000px;
+  perspective-origin: 50% 25%;
+
   /deep/ .lc-dialog-header {
     z-index: 1;
   }
@@ -1156,22 +1263,8 @@ export default {
 
     width: 100%;
 
-    transition-timing-function: ease;
-    transition-duration: 1s;
-    transition-property: opacity, transform;
-    will-change: opacity, transform;
-
-    &-- {
-      &enter,
-      &leave-to {
-        transform: scale(1.1) translateY(-10%);
-
-        opacity: 0;
-      }
-
-      &enter#{&}index {
-        transform: scale(1.1);
-      }
+    &--portal {
+      background: $like-gray-1;
     }
   }
 }

@@ -213,6 +213,7 @@ const nuxtConfig = {
     { src: '~/plugins/vue-portal', ssr: false },
     { src: '~/plugins/vue-scroll-reveal', ssr: false },
     { src: '~/plugins/vue-scroll', ssr: false },
+    { src: '~/plugins/gsap.client.js', ssr: false },
     { src: '~/plugins/testing' },
   ],
   /*

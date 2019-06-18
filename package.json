@@ -63,6 +63,7 @@
     "express": "^4.17.0",
     "firebase": "^5.8.2",
     "form-data": "^2.3.2",
+    "gsap": "^2.1.3",
     "helmet": "^3.18.0",
     "http-proxy-middleware": "^0.19.1",
     "image-type": "^3.0.0",
