@@ -16,15 +16,11 @@
         <div class="lc-dialog-container-2 lc-padding-top-32 lc-padding-bottom-16">
           <div class="like-button-intro__content-wrapper">
             <div class="lc-flex lc-justify-content-center lc-margin-top-20">
-              <div
-                class="lc-text-align-center"
-                @click="onClickStart"
-              >
+              <div class="lc-text-align-center">
                 <md-button
-                  :to="startBtnToObject"
                   class="md-likecoin outline"
                   @click="onClickStart"
-                >{{ $t('LikeButtonIntro.setupWallet') }}</md-button>
+                >{{ actionButtonTitle }}</md-button>
               </div>
             </div>
           </div>
@@ -110,10 +106,15 @@
                       class="lc-font-weight-600"
                       place="likeButtonUrl"
                     >{{ likeButtonUrl }}</span>
-                    <NuxtLink
-                      :to="startBtnToObject"
+                    <span
+                      v-if="getUserInfo.wallet"
                       place="setupWallet"
-                    >{{ $t('LikeButtonIntro.setupWallet') }}</NuxtLink>
+                    >{{ $t('LikeButtonIntro.setupWallet') }}</span>
+                    <a
+                      v-else
+                      place="setupWallet"
+                      @click="onClickStart"
+                    >{{ $t('LikeButtonIntro.setupWallet') }}</a>
                   </i18n>
 
                   <!-- Medium -->
@@ -148,15 +149,11 @@
 
             <div class="lc-margin-top-64">
               <div class="lc-flex lc-justify-content-center lc-margin-top-20">
-                <div
-                  class="lc-text-align-center"
-                  @click="onClickStart"
-                >
+                <div class="lc-text-align-center">
                   <md-button
-                    :to="startBtnToObject"
                     class="md-likecoin outline"
                     @click="onClickStart"
-                  >{{ $t('LikeButtonIntro.setupWallet') }}</md-button>
+                  >{{ actionButtonTitle }}</md-button>
                 </div>
               </div>
             </div>
@@ -209,10 +206,6 @@ export default {
       exampleItems,
       OICE_URL,
       WORDPRESS_PLUGIN_URL,
-      startBtnToObject: {
-        name: 'in-settings-button',
-        params: { isShowIntro: false },
-      },
     };
   },
   computed: {
@@ -220,6 +213,12 @@ export default {
     likeButtonUrl() {
       const id = this.getUserInfo.user;
       return id ? `https://button.like.co/${id}` : 'https://button.like.co/[Liker ID]';
+    },
+    actionButtonTitle() {
+      if (this.getUserInfo.wallet) {
+        return this.$t('LikeButtonIntro.setupLikeButton');
+      }
+      return this.$t('LikeButtonIntro.setupWallet');
     },
   },
   methods: {

@@ -737,6 +737,12 @@
         "header": "Login with your social accounts",
         "message": "Connect to your social accounts now to enjoy a much easier login experience, mobile supported.",
         "confirm": "Link Now"
+      },
+      "SignIn": {
+        "header": "Sign in / Sign up",
+        "message": "Sign in / sign up was not success, do you want to try again?",
+        "confirm": "Retry",
+        "cancel": "Sign in / sign up with other options"
       }
     }
   },
@@ -1314,6 +1320,7 @@
   },
   "LikeButtonIntro": {
     "setupWallet": "Create your wallet",
+    "setupLikeButton": "Setup Like Rewards button",
     "inmedia": "Inmedia",
     "standnews": "Standnews",
     "citizenNews": "CitizenNews",

@@ -674,9 +674,9 @@
       "loginSuccessful": "成功登入"
     },
     "SignUp": {
-      "title": "免費註冊，化讚為賞",
-      "title-alternative": "Liker 免費註冊，作者獲得收入",
-      "description": "免費註冊成為 Liker",
+      "title": "Liker 免費註冊，作者獲得收入",
+      "description": "別讓作者餓肚子！踏出一小步註冊，讓作者獲得支持，完全免費。",
+      "description-alternative": "作者也要開飯！踏出一小步註冊，支持作者，完全免費。",
       "auth": {
         "google": "以 Google 註冊",
         "facebook": "以 Facebook 註冊",
@@ -727,6 +727,12 @@
         "header": "以社交帳號登入",
         "message": "連結你的社交帳號，可於手機上以更便捷的方式登入 Liker ID。",
         "confirm": "立即連結"
+      },
+      "SignIn": {
+        "header": "登入 / 註冊",
+        "message": "登入 / 註冊不成功, 再試一次嗎？",
+        "confirm": "重試",
+        "cancel": "選擇其他登入方式"
       }
     }
   },
@@ -1250,6 +1256,7 @@
   },
   "LikeButtonIntro": {
     "setupWallet": "設定錢包",
+    "setupLikeButton": "設定 LikeButton",
     "inmedia": "獨立媒體",
     "standnews": "立場新聞",
     "citizenNews": "眾新聞",

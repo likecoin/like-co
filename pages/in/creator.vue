@@ -63,14 +63,14 @@ export default {
   watch: {
     getUserInfo(user, prevUser) {
       if (!prevUser.wallet && user.wallet) {
-        this.$router.push({ name: 'in-settings-button' });
+        this.$router.push({ name: 'in-creator' });
       }
     },
   },
   mounted() {
     const { action, ...query } = this.$route.query;
-    if (this.$route.query.action === 'start') {
-      this.onClickStart();
+    if (this.$route.query.action === 'start' || this.$route.query.action === 'sign') {
+      this.$nextTick(this.onClickStart);
       this.$router.push({ ...this.$route, query });
     }
   },
@@ -80,12 +80,13 @@ export default {
       'linkWalletToUser',
       'setPopupError',
       'openPopupDialog',
+      'doUserAuth',
     ]),
     onClickStart() {
       if (this.getUserIsRegistered) {
         if (this.getUserInfo.wallet) {
           this.$router.push({ name: 'in-settings-button' });
-        } else if (checkIsMobileClient() && !checkIsTrustClient()) {
+        } else if (checkIsMobileClient() && !checkIsTrustClient(this)) {
           this.openPopupDialog({
             allowClose: true,
             header: this.$t('LikeButtonIntro.setupWallet'),
@@ -93,14 +94,23 @@ export default {
             confirmText: this.$t('General.button.confirm'),
           });
         } else {
+          this.$router.push({ query: { ...this.$route.query, action: 'sign' } });
           this.setWalletNoticeDialog({
             isShow: true,
             onConfirm: () => this.startWeb3AndCb(this.bindWallet),
           });
         }
+      } else {
+        const { query, ...route } = this.$route;
+        this.doUserAuth({
+          router: this.$router,
+          route: { ...route, query: { ...query, action: 'start' } },
+        });
       }
     },
     async bindWallet() {
+      const { action, ...query } = this.$route.query;
+      this.$router.push({ query });
       let payload;
       try {
         payload = await UserUtil.formatAndSignUserInfo(

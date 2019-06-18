@@ -4,10 +4,10 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import { tryPostLoginRedirect } from '~/util/client';
+import { tryPostLoginRedirect, isIOS } from '~/util/client';
 import { EXTERNAL_HOSTNAME } from '~/constant';
 
-import { logTrackerEvent } from '@/util/EventLogger';
+import { logTrackerEvent, logTimingEvent } from '@/util/EventLogger';
 
 export default {
   name: 'auth-api-view',
@@ -41,6 +41,9 @@ export default {
     ...mapGetters([
       'getUserIsRegistered',
     ]),
+    unloadEventName() {
+      return isIOS() ? 'pagehide' : 'beforeunload';
+    },
   },
   created() {
     this.setAuthDialog({ isShow: !this.getUserIsRegistered });
@@ -54,13 +57,13 @@ export default {
         this.doPostAuthRedirect({ router, route });
       }
     } else {
-      window.addEventListener('beforeunload', this.logPageUnload, false);
-      logTrackerEvent(this, 'RegFlow', 'RedirectSignUp', 'RedirectSignUp', 1);
+      window.addEventListener(this.unloadEventName, this.logPageUnload, false);
+      this.logPageload();
     }
   },
   beforeDestroy() {
     this.setAuthDialog({ isShow: false });
-    window.removeEventListener('beforeunload', this.logPageUnload, false);
+    window.removeEventListener(this.unloadEventName, this.logPageUnload, false);
   },
   methods: {
     ...mapActions([
@@ -68,7 +71,20 @@ export default {
       'doPostAuthRedirect',
     ]),
     logPageUnload() {
-      logTrackerEvent(this, 'RegFlow', 'CloseRegisterPage', 'CloseRegisterPage', 1);
+      let value = 1;
+      if (window.performance) {
+        value = Math.round(performance.now());
+      }
+      logTimingEvent(this, 'RegFlow', 'CloseRegisterPageTiming', 'CloseRegisterPageTiming', value);
+      logTrackerEvent(this, 'RegFlow', 'CloseRegisterPage', 'CloseRegisterPage', value);
+    },
+    logPageload() {
+      let value = 1;
+      if (window.performance) {
+        value = Math.round(performance.now());
+      }
+      logTimingEvent(this, 'RegFlow', 'RedirectSignUpTiming', 'RedirectSignUpTiming', value);
+      logTrackerEvent(this, 'RegFlow', 'RedirectSignUp', 'RedirectSignUp', value);
     },
   },
 };
