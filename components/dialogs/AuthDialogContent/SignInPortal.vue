@@ -1,11 +1,16 @@
 <template>
   <div class="signin-portal">
     <header class="signin-portal__header base-dialog-v2__corner-block--top">
-      <simple-svg
+      <!-- <simple-svg
         class="signin-portal__header-like-icon"
         :filepath="LikeClapIcon"
         fill="currentColor"
         stroke="transparent"
+      /> -->
+      <LikeToCoinGraph
+        color="#50e3c2"
+        bg-color="#29626B"
+        style="display:block;margin:0 auto"
       />
       <div class="signin-portal__header-headline">
         {{ getExperimentLocale(`${localeBasePath}.title`) }}
@@ -70,6 +75,8 @@
 import CloseIcon from '~/assets/icons/cross.svg';
 import LikeClapIcon from '~/assets/icons/fillable/like-clap.svg';
 
+import LikeToCoinGraph from '~/components/graph/LikeToCoin';
+
 import { checkIsMobileClient } from '~/util/client';
 import experimentsMixin from '~/util/mixins/experiments';
 
@@ -77,6 +84,9 @@ const getAuthPlatformIcon = require.context('~/assets/icons/auth-platform/');
 
 export default {
   name: 'signin-portal',
+  components: {
+    LikeToCoinGraph,
+  },
   props: {
     isSignIn: {
       type: Boolean,
