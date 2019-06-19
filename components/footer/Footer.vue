@@ -28,6 +28,7 @@
 <script>
 import BigNumber from 'bignumber.js';
 import EthHelper from '@/util/EthHelper';
+import { setTrackerUserId } from '@/util/EventLogger';
 
 import { mapGetters } from 'vuex';
 import {
@@ -87,6 +88,9 @@ export default {
           scope.setUser(opt);
         });
       }
+      if (user) {
+        await setTrackerUserId(user);
+      }
     },
     getCurrentLocale(language) {
       if (this.$intercom) {
@@ -128,7 +132,7 @@ export default {
       }
     },
   },
-  mounted() {
+  async mounted() {
     const {
       user,
       intercomToken,
@@ -163,6 +167,9 @@ export default {
       this.$sentry.configureScope((scope) => {
         scope.setUser(opt);
       });
+    }
+    if (user) {
+      await setTrackerUserId(user);
     }
   },
 };
