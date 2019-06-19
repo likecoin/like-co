@@ -2,7 +2,7 @@
   <div class="signin-portal">
     <header class="signin-portal__header base-dialog-v2__corner-block--top">
       <LikeToCoinGraph
-        v-if="shouldUseAltGraphic"
+        v-if="shouldUseAltAsset"
         color="#50e3c2"
         bg-color="#29626B"
         style="display:block;margin:0 auto"
@@ -91,7 +91,7 @@ export default {
   },
   mixins: [
     experimentsMixin(
-      'shouldUseAltGraphic',
+      'shouldUseAltAsset',
       'register-callout',
       'alternative',
     ),
@@ -136,7 +136,7 @@ export default {
   },
   methods: {
     getExperimentLocale(key) {
-      if (this.$te(`${key}-alternative`)) {
+      if (this.shouldUseAltAsset && this.$te(`${key}-alternative`)) {
         return this.$t(`${key}-alternative`);
       }
       return this.$t(key);
