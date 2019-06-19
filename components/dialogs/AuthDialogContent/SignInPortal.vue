@@ -1,16 +1,18 @@
 <template>
   <div class="signin-portal">
     <header class="signin-portal__header base-dialog-v2__corner-block--top">
-      <!-- <simple-svg
+      <LikeToCoinGraph
+        v-if="shouldUseAltGraphic"
+        color="#50e3c2"
+        bg-color="#29626B"
+        style="display:block;margin:0 auto"
+      />
+      <simple-svg
+        v-else
         class="signin-portal__header-like-icon"
         :filepath="LikeClapIcon"
         fill="currentColor"
         stroke="transparent"
-      /> -->
-      <LikeToCoinGraph
-        color="#50e3c2"
-        bg-color="#29626B"
-        style="display:block;margin:0 auto"
       />
       <div class="signin-portal__header-headline">
         {{ getExperimentLocale(`${localeBasePath}.title`) }}
@@ -87,6 +89,13 @@ export default {
   components: {
     LikeToCoinGraph,
   },
+  mixins: [
+    experimentsMixin(
+      'shouldUseAltGraphic',
+      'register-callout',
+      'alternative',
+    ),
+  ],
   props: {
     isSignIn: {
       type: Boolean,
@@ -97,13 +106,6 @@ export default {
       default: false,
     },
   },
-  mixins: [
-    experimentsMixin(
-      'shouldUseAltLocales',
-      'register-callout',
-      'alternative',
-    ),
-  ],
   data() {
     return {
       CloseIcon,
@@ -134,7 +136,7 @@ export default {
   },
   methods: {
     getExperimentLocale(key) {
-      if (this.shouldUseAltLocales && this.$te(`${key}-alternative`)) {
+      if (this.$te(`${key}-alternative`)) {
         return this.$t(`${key}-alternative`);
       }
       return this.$t(key);
