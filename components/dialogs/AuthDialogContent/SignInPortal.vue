@@ -208,6 +208,8 @@ export default {
   &__body {
     padding: 0 40px;
 
+    background: $like-gray-1;
+
     &-text {
       padding: 24px 0;
 
