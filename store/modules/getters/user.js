@@ -19,4 +19,6 @@ export const getUserSocialLinks = state => state.links;
 
 export const getUserSocialMeta = state => state.socialMeta;
 
+export const getUserWallets = state => state.wallets;
+
 export const getUserLikeCoinAmountInBigNumber = state => state.likeCoinAmountInBigNumber;

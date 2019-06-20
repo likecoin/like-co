@@ -176,6 +176,11 @@ export const apiLinkSocialPlatform = (platform, payload) => axios.post(`/social/
 export const apiUnlinkSocialPlatform = (platform, payload) => axios.post(`/social/unlink/${platform}`, payload);
 
 export const apiGetLikeButtonMyStatus = (id, referrer) => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/likebutton/${id}/self`, { params: { referrer } });
+export const apiGetWalletList = () => axios.get('/wallets/list');
+export const apiPostWalletSelection = ({ wallet }) => axios.post('/wallets/select', { wallet });
+export const apiAddNewWalletToList = ({ wallet }) => axios.post('/wallets/new', { wallet });
+export const apiPostBitassetSms = ({ areaCode, mobile }) => axios.post('/wallets/bitasset/sms', { areaCode, mobile });
+export const apiPostBitassetLogin = ({ areaCode, mobile, code }) => axios.post('/wallets/bitasset/login', { areaCode, mobile, code });
 
 export const apiGetLikeButtonTotalCount = (id, referrer) => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/likebutton/${id}/total`, { params: { referrer } });
 

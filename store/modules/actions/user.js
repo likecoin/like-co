@@ -355,6 +355,30 @@ export async function sendInvitationEmail({ commit, dispatch, rootState }, data)
   );
 }
 
+export async function fetchUserWalletList({ commit, dispatch }) {
+  const data = await apiWrapper({ commit, dispatch }, api.apiGetWalletList());
+  commit(types.USER_SET_WALLET_LIST, data.wallets);
+  return data.wallets;
+}
+
+export async function updateUserWalletSelection({ commit, dispatch }, { wallet }) {
+  await apiWrapper({ commit, dispatch }, api.apiPostWalletSelection({ wallet }));
+  commit(types.USER_SET_CURRENT_WALLET, wallet);
+}
+
+export async function initBitAssetSMS({ commit, dispatch }, { areaCode, mobile }) {
+  return apiWrapper({ commit, dispatch }, api.apiPostBitassetSms({ areaCode, mobile }));
+}
+
+export async function loginAndLinkBitAsset({ commit, dispatch }, { areaCode, mobile, code }) {
+  const data = await apiWrapper(
+    { commit, dispatch },
+    api.apiPostBitassetLogin({ areaCode, mobile, code }),
+  );
+  commit(types.USER_ADD_WALLET_LIST, data);
+  return data.wallet;
+}
+
 export async function queryLikeCoinWalletBalance({ commit, state }) {
   try {
     if (!state.user.wallet) {

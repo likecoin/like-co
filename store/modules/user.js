@@ -15,6 +15,9 @@ import {
   USER_SET_SOCIAL_PLATFORMS_IS_PUBLIC,
   USER_ADD_SOCIAL_LINK,
   USER_SET_SOCIAL_LINK,
+  USER_SET_WALLET_LIST,
+  USER_ADD_WALLET_LIST,
+  USER_SET_CURRENT_WALLET,
   USER_UPDATE_READ_CONTENT_STATUS,
 } from '../mutation-types';
 import * as actions from './actions/user';
@@ -33,6 +36,7 @@ const state = () => ({
   platforms: {},
   links: {},
   socialMeta: {},
+  wallets: [],
   likeCoinAmountInBigNumber: null,
 });
 
@@ -139,6 +143,15 @@ const mutations = {
         ...data,
       });
     }
+  },
+  [USER_SET_WALLET_LIST](state, list) {
+    state.wallets = list;
+  },
+  [USER_ADD_WALLET_LIST](state, wallet) {
+    state.wallets.push(wallet);
+  },
+  [USER_SET_CURRENT_WALLET](state, wallet) {
+    Vue.set(state.user, 'currentWallet', wallet);
   },
   [USER_SET_LIKECOIN_BIG_NUMBER_AMOUNT](state, payload) {
     state.likeCoinAmountInBigNumber = payload;
