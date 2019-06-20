@@ -1262,10 +1262,6 @@ export default {
     position: absolute;
 
     width: 100%;
-
-    &--portal {
-      background: $like-gray-1;
-    }
   }
 }
 </style>

@@ -1,7 +1,14 @@
 <template>
   <div class="signin-portal">
     <header class="signin-portal__header base-dialog-v2__corner-block--top">
+      <LikeToCoinGraph
+        v-if="shouldUseAltAsset"
+        color="#50e3c2"
+        bg-color="#29626B"
+        style="display:block;margin:0 auto"
+      />
       <simple-svg
+        v-else
         class="signin-portal__header-like-icon"
         :filepath="LikeClapIcon"
         fill="currentColor"
@@ -70,6 +77,8 @@
 import CloseIcon from '~/assets/icons/cross.svg';
 import LikeClapIcon from '~/assets/icons/fillable/like-clap.svg';
 
+import LikeToCoinGraph from '~/components/graph/LikeToCoin';
+
 import { checkIsMobileClient } from '~/util/client';
 import experimentsMixin from '~/util/mixins/experiments';
 
@@ -77,6 +86,16 @@ const getAuthPlatformIcon = require.context('~/assets/icons/auth-platform/');
 
 export default {
   name: 'signin-portal',
+  components: {
+    LikeToCoinGraph,
+  },
+  mixins: [
+    experimentsMixin(
+      'shouldUseAltAsset',
+      'register-callout',
+      'alternative',
+    ),
+  ],
   props: {
     isSignIn: {
       type: Boolean,
@@ -87,13 +106,6 @@ export default {
       default: false,
     },
   },
-  mixins: [
-    experimentsMixin(
-      'shouldUseAltLocales',
-      'register-callout',
-      'alternative',
-    ),
-  ],
   data() {
     return {
       CloseIcon,
@@ -124,7 +136,7 @@ export default {
   },
   methods: {
     getExperimentLocale(key) {
-      if (this.shouldUseAltLocales && this.$te(`${key}-alternative`)) {
+      if (this.shouldUseAltAsset && this.$te(`${key}-alternative`)) {
         return this.$t(`${key}-alternative`);
       }
       return this.$t(key);
@@ -207,6 +219,8 @@ export default {
 
   &__body {
     padding: 0 40px;
+
+    background: $like-gray-1;
 
     &-text {
       padding: 24px 0;
