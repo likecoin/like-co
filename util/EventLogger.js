@@ -47,7 +47,6 @@ export function logTrackerEvent(
       label,
       value,
     });
-    if (window.FB && window.FB.AppEvents) window.FB.AppEvents.logEvent(action, value, { label });
     if (window.fbq) window.fbq('trackCustom', action, { value, label });
   } catch (err) {
     console.error('logging error:');
