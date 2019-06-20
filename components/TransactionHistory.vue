@@ -239,6 +239,10 @@ export default {
       type: String,
       default: '',
     },
+    user: {
+      type: String,
+      default: '',
+    },
     isFetched: {
       type: Boolean,
       default: false,
@@ -274,7 +278,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'queryTxHistoryByAddr',
+      'queryTxHistoryByUserId',
     ]),
     getStatus(tx) {
       if (this.isFromPreSaleBonus(tx) || this.isFromPresale(tx)) return 'earlybird';
@@ -369,8 +373,8 @@ export default {
     },
     async onShowMore() {
       this.setIsFetching();
-      const data = await this.queryTxHistoryByAddr({
-        addr: this.address,
+      const data = await this.queryTxHistoryByUserId({
+        id: this.user,
         ts: (this.txHistory[this.txHistory.length - 1].ts - 1),
       });
       if (!data || !data.length || data.length < TRANSACTION_QUERY_LIMIT) this.hasMore = false;
@@ -383,7 +387,7 @@ export default {
       this.setIsFetching();
 
       try {
-        this.txHistory = await this.queryTxHistoryByAddr({ addr: this.address });
+        this.txHistory = await this.queryTxHistoryByUserId({ id: this.user });
         this.isFetchedTx = true;
         this.$emit('update:isFetched', this.isFetchedTx);
         if (

@@ -7,6 +7,7 @@
 
           <transaction-history
             ref="txHistory"
+            :user="getUserInfo.user"
             :address="getUserInfo.wallet"
             :is-fetching.sync="isFetchingTranscationHistory"
             class="lc-margin-top-48 lc-mobile"

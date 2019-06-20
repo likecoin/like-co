@@ -169,8 +169,6 @@ export default {
     };
   },
   mounted() {
-    if (window.fbq) window.fbq('track', 'ViewContent');
-
     const { hash } = document.location;
     if (hash) {
       const element = document.querySelector(hash);
