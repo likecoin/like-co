@@ -89,6 +89,10 @@ export async function queryTxHistoryByAddr({ commit, dispatch }, { addr, ts, cou
   return apiWrapper({ commit, dispatch }, api.apiQueryTxHistoryByAddr(addr, ts, count));
 }
 
+export async function queryTxHistoryByUserId({ commit, dispatch }, { id, ts, count }) {
+  return apiWrapper({ commit, dispatch }, api.apiQueryTxHistoryByUserId(id, ts, count));
+}
+
 export async function queryIAPProducts({ commit, dispatch }) {
   return apiWrapper({ commit, dispatch }, api.apiQueryIAPProducts());
 }
