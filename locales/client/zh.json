@@ -675,8 +675,7 @@
     },
     "SignUp": {
       "title": "Liker 免費註冊，作者獲得收入",
-      "description": "別讓作者餓肚子！踏出一小步註冊，讓作者獲得支持，完全免費。",
-      "description-alternative": "支持公民媒體！踏出一小步註冊，按讚支持作者，完全免費。",
+      "description": "支持公民媒體！踏出一小步註冊，按讚支持作者，完全免費。",
       "auth": {
         "google": "以 Google 註冊",
         "facebook": "以 Facebook 註冊",
