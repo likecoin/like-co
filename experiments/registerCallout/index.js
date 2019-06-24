@@ -1,6 +1,6 @@
 export default {
   name: 'register-callout',
-  experimentID: 'yJ6DYDagSYaZ36fBJLwu4w',
+  experimentID: 'tEAYzZ9rQGKDk83xnvDXCw',
   isEligible: ({ route }) => route.path.includes('register'),
   variants: [
     { name: 'original', weight: 9 },
