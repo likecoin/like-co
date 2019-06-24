@@ -673,14 +673,33 @@ export default {
     },
 
     getDialogContentContainerElem() {
-      return this.$refs.dialog.$el.querySelector('.base-dialog-v2__content-container');
+      if (
+        this.$refs.dialog
+        && this.$refs.dialog.$el
+        && typeof this.$refs.dialog.$el.querySelector === 'function'
+      ) {
+        return this.$refs.dialog.$el.querySelector('.base-dialog-v2__content-container');
+      }
+      return undefined;
     },
-    /* eslint-disable no-param-reassign */
+    getTabTransitionEffectAndTarget(el) {
+      let target = el;
+      let effect = this.tabTransition;
+      if (effect === 'flip') {
+        const containerEl = this.getDialogContentContainerElem();
+        if (containerEl) {
+          target = containerEl;
+        } else {
+          effect = 'fade';
+        }
+      }
+      return { effect, target };
+    },
     onTabLeave(el, onComplete) {
-      switch (this.tabTransition) {
+      const { effect, target } = this.getTabTransitionEffectAndTarget(el);
+      switch (effect) {
         case 'flip': {
-          el = this.getDialogContentContainerElem();
-          this.$gsap.TweenLite.to(el, 0.5, {
+          this.$gsap.TweenLite.to(target, 0.5, {
             rotationY: 90,
             z: 500,
             ease: 'easeInPower2',
@@ -691,7 +710,7 @@ export default {
 
         case 'fade':
         default:
-          this.$gsap.TweenLite.to(el, 1, {
+          this.$gsap.TweenLite.to(target, 1, {
             opacity: 0,
             onComplete,
           });
@@ -699,10 +718,10 @@ export default {
       }
     },
     onTabBeforeEnter(el) {
-      switch (this.tabTransition) {
+      const { effect, target } = this.getTabTransitionEffectAndTarget(el);
+      switch (effect) {
         case 'flip':
-          el = this.getDialogContentContainerElem();
-          this.$gsap.TweenLite.set(el, {
+          this.$gsap.TweenLite.set(target, {
             visibility: 'hidden',
             z: 500,
             rotationY: -90,
@@ -710,7 +729,7 @@ export default {
           break;
         case 'fade':
         default:
-          this.$gsap.TweenLite.set(el, {
+          this.$gsap.TweenLite.set(target, {
             visibility: 'hidden',
             opacity: 0,
           });
@@ -718,10 +737,10 @@ export default {
       }
     },
     onTabEnter(el, onComplete) {
-      switch (this.tabTransition) {
+      const { effect, target } = this.getTabTransitionEffectAndTarget(el);
+      switch (effect) {
         case 'flip': {
-          el = this.getDialogContentContainerElem();
-          this.$gsap.TweenLite.to(el, 1, {
+          this.$gsap.TweenLite.to(target, 1, {
             rotationY: 0,
             z: 0,
             visibility: 'visible',
@@ -733,7 +752,7 @@ export default {
 
         case 'fade':
         default:
-          this.$gsap.TweenLite.to(el, 1, {
+          this.$gsap.TweenLite.to(target, 1, {
             opacity: 1,
             visibility: 'visible',
           }, {
@@ -743,8 +762,6 @@ export default {
       }
       this.updateContentHeightForCurrentTab();
     },
-    /* eslint-enable no-param-reassign */
-
     onClickSignWithWalletInError() {
       this.hasClickSignWithWalletInError = true;
       this.signInWithPlatform('wallet');
