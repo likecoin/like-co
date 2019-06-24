@@ -181,6 +181,9 @@ const nuxtConfig = {
     { src: '~/assets/index.scss', lang: 'scss' },
     '~/assets/css/main.css',
   ],
+  serverMiddleware: [
+    '~/server_middleware/header-listener',
+  ],
   modules: [
     ['@nuxtjs/google-tag-manager', {
       id: process.env.GTM_ID || 'GTM-XXXXXXX',
