@@ -79,16 +79,16 @@ export default {
         }
         this.$intercom.update(opt);
       }
-      if (this.$sentry) {
-        const opt = {
-          id: user,
-          username: displayName,
-        };
-        this.$sentry.configureScope((scope) => {
-          scope.setUser(opt);
-        });
-      }
       if (user) {
+        if (this.$sentry) {
+          const opt = {
+            id: user,
+            username: displayName,
+          };
+          this.$sentry.configureScope((scope) => {
+            scope.setUser(opt);
+          });
+        }
         await setTrackerUserId(user);
       }
     },
@@ -159,16 +159,16 @@ export default {
       }
       this.$intercom.boot(opt);
     }
-    if (this.$sentry) {
-      const opt = {
-        id: user,
-        username: displayName,
-      };
-      this.$sentry.configureScope((scope) => {
-        scope.setUser(opt);
-      });
-    }
     if (user) {
+      if (this.$sentry) {
+        const opt = {
+          id: user,
+          username: displayName,
+        };
+        this.$sentry.configureScope((scope) => {
+          scope.setUser(opt);
+        });
+      }
       await setTrackerUserId(user);
     }
   },

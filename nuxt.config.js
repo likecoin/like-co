@@ -2,7 +2,6 @@
 /* eslint import/no-extraneous-dependencies: "off" */
 
 const path = require('path');
-const SentryPlugin = require('@sentry/webpack-plugin');
 const { LIKE_CO_PLATFORMS } = require('./constant');
 
 const nuxtConfig = {
@@ -216,6 +215,18 @@ const nuxtConfig = {
     { src: '~/plugins/gsap.client.js', ssr: false },
     { src: '~/plugins/testing' },
   ],
+  sentry: {
+    clientIntegrations: {
+      /* default integrations will still be added due to deep-merge */
+      ReportingObserver: false, // reporting is very noisy on CSP violation.
+    },
+    config: {
+      release: process.env.RELEASE,
+      include: ['.nuxt/dist'],
+      ignore: ['node_modules', '.nuxt/dist/server-bundle.json', '.nuxt/dist/img', '.nuxt/dist'],
+      configFile: '.sentryclirc',
+    },
+  },
   /*
   ** Add axios globally
   */
@@ -242,14 +253,6 @@ const nuxtConfig = {
         config.resolve.alias['bn.js'] = path.join(__dirname, './node_modules/bn.js');
       }
 
-      if (process.env.RELEASE && process.env.SENTRY_AUTH_TOKEN) {
-        config.plugins.push(new SentryPlugin({
-          release: process.env.RELEASE,
-          include: ['.nuxt/dist'],
-          ignore: ['node_modules', '.nuxt/dist/server-bundle.json', '.nuxt/dist/img', '.nuxt/dist'],
-          configFile: '.sentryclirc',
-        }));
-      }
       if (isClient) {
         if (process.env.NODE_ENV === 'production') {
           config.devtool = 'source-map';
