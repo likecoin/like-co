@@ -109,6 +109,7 @@ export default {
       }
     },
     onResize() {
+      if (!this.$refs.contentContainer) return;
       const windowHeight = window.innerHeight;
       const contentContainerHeight = this.$refs.contentContainer.offsetHeight;
 
