@@ -102,6 +102,7 @@
     >
       <like-button-intro
         class="lc-margin-top-32 lc-mobile"
+        @start="$router.push({ name: 'in-creator', query: { action: 'start' } })"
       />
     </article-dialog>
 
