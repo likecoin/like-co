@@ -90,7 +90,7 @@
 <script>
 import _debounce from 'lodash.debounce';
 
-import { checkIsMobileClient } from '~/util/client';
+// import { checkIsMobileClient } from '~/util/client';
 
 import ClapEffectIcon from '~/assets/like-button/clap-effect.svg';
 import LikeClapIcon from '~/assets/like-button/like-clap.svg';
@@ -149,7 +149,8 @@ export default {
       return this.knobProgress === 1;
     },
     isKnobMovable() {
-      return !checkIsMobileClient();
+      // return !checkIsMobileClient();
+      return false;
     },
   },
   watch: {
