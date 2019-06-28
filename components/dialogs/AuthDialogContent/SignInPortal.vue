@@ -2,17 +2,9 @@
   <div class="signin-portal">
     <header class="signin-portal__header base-dialog-v2__corner-block--top">
       <LikeToCoinGraph
-        v-if="shouldUseAltAsset"
         color="#50e3c2"
         bg-color="#29626B"
         style="display:block;margin:0 auto"
-      />
-      <simple-svg
-        v-else
-        class="signin-portal__header-like-icon"
-        :filepath="LikeClapIcon"
-        fill="currentColor"
-        stroke="transparent"
       />
       <div class="signin-portal__header-headline">
         {{ getExperimentLocale(`${localeBasePath}.title`) }}
@@ -75,7 +67,6 @@
 
 <script>
 import CloseIcon from '~/assets/icons/cross.svg';
-import LikeClapIcon from '~/assets/icons/fillable/like-clap.svg';
 
 import LikeToCoinGraph from '~/components/graph/LikeToCoin';
 
@@ -109,7 +100,6 @@ export default {
   data() {
     return {
       CloseIcon,
-      LikeClapIcon,
     };
   },
   computed: {
