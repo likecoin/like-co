@@ -259,7 +259,7 @@
       }
     },
     "Flag": {
-      "title": "化Like為Coin 回饋創作",
+      "title": "化讚為賞 回饋創作",
       "content": "透過創造力證明回饋內容"
     },
     "HeroVideo": {
@@ -778,7 +778,7 @@
       "content": "很好，你已經有 MetaMask，可以申請 Liker ID 了。",
       "redeem": "兌換你的 LikeCoin 紅包",
       "button": {
-        "what": "LikeCoin：化Like為Coin"
+        "what": "LikeCoin：化讚為賞"
       }
     },
     "label": {
@@ -869,7 +869,7 @@
       "sent": "邀請郵件已發送至 {email}",
       "verifyEmailFirst": "請先認證你的電郵地址",
       "tweetContent": "加入 like.co，獲得免費 LikeCoin!",
-      "ogTitle": "化Like為Coin 回饋創作",
+      "ogTitle": "化讚為賞 回饋創作",
       "ogDescription": "{name} 邀請你註冊 Liker ID ，改革內容創作生態"
     },
     "button": {
@@ -925,7 +925,7 @@
       "unavailable": "暫停轉賬服務"
     },
     "head": {
-      "title": "{name}@LikeCoin - 化Like為Coin",
+      "title": "{name}@LikeCoin - 化讚為賞",
       "description": "回饋創作 - 發 LikeCoin 給 {name}"
     },
     "error": {
