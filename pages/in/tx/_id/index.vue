@@ -263,11 +263,21 @@ export default {
   },
   head() {
     return {
-      title: this.$t('Transaction.label.viewTx'),
+      title: this.$t('TransactionHistory.title'),
       meta: [
         {
           hid: 'og_title',
           property: 'og:title',
+          content: this.$t('TransactionHistory.title'),
+        },
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.$t('Transaction.label.viewTx'),
+        },
+        {
+          hid: 'og_description',
+          property: 'og:description',
           content: this.$t('Transaction.label.viewTx'),
         },
         {
