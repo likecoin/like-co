@@ -125,6 +125,7 @@
             <register-form
               :prefilled-data="signInPayload"
               :is-edit-email="isEmailEditable"
+              :platform="platform"
               @register="register"
             />
           </div>
@@ -1001,7 +1002,7 @@ export default {
     async login() {
       this.currentTab = 'signingIn';
       try {
-        this.logRegisterEvent(this, 'RegFlow', 'OAuthSuccess', 'OAuthSuccess', 1);
+        this.logRegisterEvent(this, 'RegFlow', 'OAuthSuccess', `OAuthSuccess(${this.platform})`, 1);
         await apiLoginUser({
           locale: this.getCurrentLocale,
           platform: this.platform,
@@ -1025,7 +1026,7 @@ export default {
       }
     },
     async preRegister() {
-      logTrackerEvent(this, 'RegFlow', 'PreRegister', 'PreRegister', 1);
+      logTrackerEvent(this, 'RegFlow', 'PreRegister', `PreRegister(${this.platform})`, 1);
       this.currentTab = 'loading';
       if (this.signInPayload.email) {
         const RANDOM_DIGIT_LENGTH = 5;
@@ -1084,7 +1085,13 @@ export default {
       this.currentTab = 'signingIn';
       try {
         await this.newUser(payload);
-        logTrackerEvent(this, 'RegFlow', 'RegistrationComplete', 'RegistrationComplete', 1);
+        logTrackerEvent(
+          this,
+          'RegFlow',
+          'RegistrationComplete',
+          `RegistrationComplete(${this.platform})`,
+          1,
+        );
         this.redirectAfterSignIn();
       } catch (err) {
         let errCode;
@@ -1109,7 +1116,13 @@ export default {
           errCode = 'USER_REGISTER_ERROR';
         }
         this.setError(errCode, err);
-        logTrackerEvent(this, 'RegFlow', 'RegistrationFail', 'RegistrationFail', 1);
+        logTrackerEvent(
+          this,
+          'RegFlow',
+          'RegistrationFail',
+          `RegistrationFail(${this.platform})`,
+          1,
+        );
       }
     },
     async redirectAfterSignIn() {
