@@ -15,7 +15,7 @@
         <div class="lc-dialog-container-1">
 
           <div
-            v-if="isShowAvatar"
+            v-if="isShowAvatar && !isHideGoogleFilledInfo"
             class="avatar-picker"
           >
 
@@ -71,6 +71,7 @@
           </md-field>
 
           <md-field
+            v-if="!isHideGoogleFilledInfo"
             :class="[
               'lc-margin-top-12 lc-margin-bottom-24 lc-mobile',
               {
@@ -151,11 +152,19 @@ import {
   REGISTER_EMAIL_REGEX,
   SUPPORTED_AVATER_TYPE,
 } from '@/constant';
+import experimentsMixin from '~/util/mixins/experiments';
 
 const imageType = require('image-type');
 
 export default {
   name: 'register-form',
+  mixins: [
+    experimentsMixin(
+      'shouldHideFilledInfo',
+      'register-form',
+      'alternative',
+    ),
+  ],
   props: {
     prefilledData: {
       type: Object,
@@ -168,6 +177,10 @@ export default {
     isShowAvatar: {
       type: Boolean,
       default: true,
+    },
+    platform: {
+      type: String,
+      required: true,
     },
   },
   data() {
@@ -190,6 +203,9 @@ export default {
     ...mapGetters([
       'getInfoMsg',
     ]),
+    isHideGoogleFilledInfo() {
+      return this.shouldHideFilledInfo && this.platform === 'google';
+    },
     avatarSrc() {
       return this.avatarData || this.prefilledData.avatarURL;
     },
