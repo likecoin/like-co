@@ -627,6 +627,20 @@ export default {
     const { referrer } = this.$route.query;
     if (from) this.referrer = from;
     this.sourceURL = referrer || document.referrer;
+    try {
+      if (window.sessionStorage) {
+        // store data when first view page
+        // restore data when it is lost. eg redirect sign in
+        if (this.sourceURL) {
+          window.sessionStorage.setItem('registerDialogSourceURL', this.sourceURL);
+        } else {
+          this.sourceURL = window.sessionStorage.getItem('registerDialogSourceURL');
+        }
+      }
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err);
+    }
 
     this.contentResizeObserver = new ResizeObserver(this.onObservingContentResize);
     this.updateResizeObserverForCurrentTab();
