@@ -833,6 +833,7 @@
       "toEdit": "到个人页面",
       "redirect": "跳转页面",
       "verifying": "认证中",
+      "expiredOrNotFound": "找不到认证码或认证码已过期",
       "referral": "作为被邀请者，你将会收到email，获得免费 LikeCoin"
     }
   },

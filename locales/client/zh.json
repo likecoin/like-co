@@ -883,6 +883,7 @@
       "toEdit": "到個人頁面",
       "redirect": "跳轉頁面",
       "verifying": "認證中",
+      "expiredOrNotFound": "找不到認證碼或認證碼已過期",
       "referral": "作為被邀請者，你將會收到email，獲得免費 LikeCoin"
     }
   },

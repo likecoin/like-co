@@ -190,7 +190,7 @@ export async function verifyEmailByUUID({ commit, dispatch, rootState }, uuid) {
   return apiWrapper(
     { commit, dispatch },
     api.apiVerifyEmailByUUID(uuid, rootState.ui.locale),
-    { blocking: true },
+    { blocking: true, error: 'raw' },
   );
 }
 
