@@ -85,6 +85,8 @@ export default {
       const router = this.$router;
       const route = this.$route;
       this.doUserAuth({ router, route });
+    } else if (this.getUserInfo.isEmailVerified) {
+      this.postVerifyAction();
     } else {
       this.verifyEmail();
     }
@@ -98,14 +100,12 @@ export default {
   methods: {
     ...mapActions([
       'verifyEmailByUUID',
-      'refreshUserInfo',
       'doUserAuth',
     ]),
     async verifyEmail() {
       this.isVerified = false;
       try {
         const { referrer, wallet } = await this.verifyEmailByUUID(this.uuid);
-        if (this.getUserInfo.user) await this.refreshUserInfo(this.getUserInfo.user);
         this.wallet = wallet;
         this.hasReferrer = referrer;
         logTrackerEvent(this, 'RegFlow', 'EmailVerifySuccessful', 'email verified successfully', 1);
@@ -128,16 +128,23 @@ export default {
           }
         } else if (!this.referrer) {
           this.redirectTimer = setTimeout(() => {
-            if (this.redirect) {
-              this.$router.push({ name: this.redirect });
-            } else {
-              this.$router.push({ name: 'in', hash: '#earn' });
-            }
+            this.postVerifyAction();
           }, 3000);
         }
       } catch (err) {
-        this.errorMsg = err.message || err;
+        if (err.response && err.response.status === 404) {
+          this.errorMsg = this.$t('Verify.label.expiredOrNotFound');
+        } else {
+          this.errorMsg = err.message || err;
+        }
         this.redirectTimer = setTimeout(() => this.$router.push({ name: 'index' }), 3000);
+      }
+    },
+    postVerifyAction() {
+      if (this.redirect) {
+        this.$router.push({ name: this.redirect });
+      } else {
+        this.$router.push({ name: 'in', hash: '#earn' });
       }
     },
   },
