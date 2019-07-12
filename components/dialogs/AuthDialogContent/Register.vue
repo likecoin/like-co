@@ -15,7 +15,7 @@
         <div class="lc-dialog-container-1">
 
           <div
-            v-if="isShowAvatar && !isHideGoogleFilledInfo"
+            v-if="isShowAvatar && !isHideFilledAvatar"
             class="avatar-picker"
           >
 
@@ -71,7 +71,7 @@
           </md-field>
 
           <md-field
-            v-if="!isHideGoogleFilledInfo"
+            v-if="!isHideFilledInfo"
             :class="[
               'lc-margin-top-12 lc-margin-bottom-24 lc-mobile',
               {
@@ -160,7 +160,7 @@ export default {
   name: 'register-form',
   mixins: [
     experimentsMixin(
-      'shouldHideFilledInfo',
+      'shouldShowFilledAvatar',
       'register-form',
       'alternative',
     ),
@@ -203,8 +203,11 @@ export default {
     ...mapGetters([
       'getInfoMsg',
     ]),
-    isHideGoogleFilledInfo() {
-      return this.shouldHideFilledInfo && this.platform === 'google';
+    isHideFilledInfo() {
+      return this.platform === 'google';
+    },
+    isHideFilledAvatar() {
+      return this.isHideFilledInfo && !this.shouldShowFilledAvatar;
     },
     avatarSrc() {
       return this.avatarData || this.prefilledData.avatarURL;
