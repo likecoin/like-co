@@ -24,9 +24,9 @@ export default function ({
     } else {
       const qsPayload = {
         redirect: `${TEST_MODE ? 'http' : 'https'}://${req.headers.host}${route.fullPath}`,
-        from,
-        referrer,
       };
+      if (from) qsPayload.from = from;
+      if (referrer) qsPayload.referrer = referrer;
       if (login === '1') qsPayload.login = '1';
       redirectPath = `${redirectPath}?${querystring.stringify(qsPayload)}`;
     }
