@@ -1,3 +1,4 @@
+import querystring from 'querystring';
 import {
   USER_SET_AFTER_AUTH_ROUTE,
 } from '@/store/mutation-types';
@@ -16,14 +17,18 @@ export default function ({
 }) {
   if (!store.getters.getUserIsRegistered) {
     let redirectPath = '/in/register';
-    const { login } = query;
+    const { login, from, referrer } = query;
     if (!process.server) {
       store.commit(USER_SET_AFTER_AUTH_ROUTE, route);
       if (login === '1') redirectPath = `${redirectPath}?login=1`;
     } else {
-      const targeturl = encodeURIComponent(`${TEST_MODE ? 'http' : 'https'}://${req.headers.host}${route.fullPath}`);
-      redirectPath = `${redirectPath}?redirect=${targeturl}`;
-      if (login === '1') redirectPath = `${redirectPath}&login=1`;
+      const qsPayload = {
+        redirect: `${TEST_MODE ? 'http' : 'https'}://${req.headers.host}${route.fullPath}`,
+      };
+      if (from) qsPayload.from = from;
+      if (referrer) qsPayload.referrer = referrer;
+      if (login === '1') qsPayload.login = '1';
+      redirectPath = `${redirectPath}?${querystring.stringify(qsPayload)}`;
     }
     redirect(redirectPath);
   } else if (process.server) {
