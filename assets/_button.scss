@@ -1,0 +1,183 @@
+@import '_variables';
+
+.btn {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 8px;
+  padding: 6px 12px;
+
+  cursor: pointer;
+  transition-duration: 0.2s;
+  transition-property: background-color, opacity;
+
+  text-align: center;
+
+  border-radius: 9999px;
+
+  font-size: 16px;
+
+  // Size management
+  &--block {
+    display: flex;
+  }
+  &:not(#{&}--block):not(#{&}--auto-size):not(#{&}--mini) {
+    min-width: 12rem;
+  }
+
+  // Plain style
+  &--plain,
+  &--mini {
+    color: $like-green;
+
+    &:hover {
+      opacity: 0.75;
+    }
+
+    &:active {
+      opacity: 0.5;
+    }
+
+    &.btn--dark {
+      color: white;
+    }
+  }
+
+  &--plain {
+    text-decoration: underline;
+  }
+
+  &--mini {
+    margin: 0;
+    padding: 0;
+  }
+
+  // Outlined style
+  &--outlined {
+    color: $like-green;
+
+    border: 2px solid $like-cyan;
+
+    background-color: white;
+
+    &:hover {
+      background-color: lighten($like-cyan, 30);
+    }
+    &:active {
+      transform: translateY(1px);
+
+      background-color: lighten($like-cyan, 20);
+      box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
+
+    &.btn--dark {
+      color: white;
+    }
+    &.btn--destructive {
+      $color: #e35050;
+
+      color: $light-burgundy;
+      border-color: $color;
+
+      &:hover {
+        background-color: opacify($color, 0.9);
+      }
+      &:active {
+        background-color: opacify(darken($color, 20%), 0.8);
+      }
+    }
+
+    &.btn--grayscale {
+      color: $like-gray-5;
+
+      border-color: $gray-9b;
+
+      &:hover {
+        background-color: $like-gray-1;
+      }
+      &:active {
+        background-color: $gray-e6;
+      }
+    }
+  }
+
+  // Default style
+  &:not(#{&}--outlined):not(#{&}--plain):not(#{&}--mini) {
+    color: white;
+
+    background-color: $like-green;
+
+    &:hover {
+      background-color: opacify($like-green, 0.9);
+    }
+    &:active {
+      background-color: opacify(darken($like-green, 20%), 0.8);
+    }
+
+    &.btn--dark {
+      color: $like-green;
+
+      background-color: $like-cyan;
+
+      &:hover {
+        background-color: opacify($like-cyan, 0.9);
+      }
+      &:active {
+        background-color: opacify(darken($like-cyan, 20%), 0.8);
+      }
+    }
+  }
+
+  // Disabled style
+  &--disabled {
+    pointer-events: none !important;
+
+    color: $gray-c0 !important;
+
+    border-color: $gray-c0 !important;
+  }
+
+  // Button icon
+  &__icon {
+    fill: currentColor;
+
+    width: 16px;
+    height: 16px;
+  }
+  &--icon-only {
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+  &--icon-only &__icon {
+    display: inline;
+
+    margin: 1px;
+  }
+  &:not(#{&}--icon-only) &__icon {
+    position: absolute;
+  }
+  &--plain &__icon {
+    fill: $like-cyan;
+  }
+  &--icon-top:not(#{&}--icon-only) &__icon {
+    top: 0;
+
+    margin-top: 8px;
+  }
+  &:not(#{&}--icon-only):not(#{&}--icon-top) &__icon {
+    left: 0;
+
+    margin-left: 8px;
+  }
+  &--with-icon:not(#{&}--icon-top) {
+    padding-left: 24px;
+  }
+  &--with-icon#{&}--icon-top {
+    padding-top: 24px;
+  }
+}
