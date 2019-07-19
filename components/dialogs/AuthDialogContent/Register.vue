@@ -15,7 +15,7 @@
         <div class="lc-dialog-container-1">
 
           <div
-            v-if="isShowAvatar && !isHideFilledAvatar"
+            v-if="isShowAvatar"
             class="avatar-picker"
           >
 
@@ -152,19 +152,11 @@ import {
   REGISTER_EMAIL_REGEX,
   SUPPORTED_AVATER_TYPE,
 } from '@/constant';
-import experimentsMixin from '~/util/mixins/experiments';
 
 const imageType = require('image-type');
 
 export default {
   name: 'register-form',
-  mixins: [
-    experimentsMixin(
-      'shouldShowFilledAvatar',
-      'register-form',
-      'alternative',
-    ),
-  ],
   props: {
     prefilledData: {
       type: Object,
@@ -205,9 +197,6 @@ export default {
     ]),
     isHideFilledInfo() {
       return this.platform === 'google';
-    },
-    isHideFilledAvatar() {
-      return this.isHideFilledInfo && !this.shouldShowFilledAvatar;
     },
     avatarSrc() {
       return this.avatarData || this.prefilledData.avatarURL;
