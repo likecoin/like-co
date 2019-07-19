@@ -7,7 +7,7 @@
         style="display:block;margin:0 auto"
       />
       <div class="signin-portal__header-headline">
-        {{ getExperimentLocale(`${localeBasePath}.title`) }}
+        {{ getExperimentLocaleString(`${localeBasePath}.title`) }}
       </div>
 
       <button
@@ -25,7 +25,7 @@
 
     <div class="signin-portal__body base-dialog-v2__corner-block--bottom">
       <div class="signin-portal__body-text">
-        {{ getExperimentLocale(`${localeBasePath}.description`) }}
+        {{ getExperimentLocaleString(`${localeBasePath}.description`) }}
       </div>
 
       <div class="signin-portal__platform-button-list">
@@ -46,20 +46,34 @@
         </button>
       </div>
 
-      <i18n
-        tag="div"
-        :path="`${localeBasePath}.toggle`"
-        class="signin-portal__body-text"
-      >
-        <a
+      <div class="signin-portal__body-text">
+        <div
+          v-if="shouldUseAltAsset && isSignIn"
+          class="signin-portal__hr"
+        />
+        <i18n
+          tag="div"
+          :path="getExperimentLocalePath(`${localeBasePath}.toggle`)"
+        >
+          <a
+            v-bind="$testID('ToggleSignInButton')"
+            class="signin-portal__toggle-button"
+            place="action"
+            @click="$emit('toggle-sign-in')"
+          >
+            {{ $t(`${localeBasePath}.toggleButton`) }}
+          </a>
+        </i18n>
+
+        <button
+          v-if="shouldUseAltAsset && isSignIn"
           v-bind="$testID('ToggleSignInButton')"
-          class="signin-portal__toggle-button"
-          place="action"
+          class="btn btn--outlined"
           @click="$emit('toggle-sign-in')"
         >
-          {{ $t(`${localeBasePath}.toggleButton`) }}
-        </a>
-      </i18n>
+          {{ $t(`${localeBasePath}.toggleButton-alternative`) }}
+        </button>
+      </div>
 
     </div>
   </div>
@@ -83,7 +97,7 @@ export default {
   mixins: [
     experimentsMixin(
       'shouldUseAltAsset',
-      'register-callout',
+      'signin-portal',
       'alternative',
     ),
   ],
@@ -125,11 +139,14 @@ export default {
     },
   },
   methods: {
-    getExperimentLocale(key) {
-      if (this.shouldUseAltAsset && this.$te(`${key}-alternative`)) {
-        return this.$t(`${key}-alternative`);
+    getExperimentLocalePath(path) {
+      if (this.shouldUseAltAsset && this.$te(`${path}-alternative`)) {
+        return `${path}-alternative`;
       }
-      return this.$t(key);
+      return path;
+    },
+    getExperimentLocaleString(path) {
+      return this.$t(this.getExperimentLocalePath(path));
     },
     onSignInWith(platform) {
       this.$emit('submit', platform);
@@ -267,6 +284,15 @@ export default {
     & + & {
       margin-top: 24px;
     }
+  }
+
+
+  &__hr {
+    width: 224px;
+    height: 2px;
+    margin: 8px auto 24px;
+
+    background-color: $like-gray-3;
   }
 }
 </style>
