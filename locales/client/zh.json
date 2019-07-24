@@ -683,7 +683,7 @@
         "email": "以電郵註冊",
         "wallet": "以 MetaMask 註冊"
       },
-      "toggle": "已有 Liker ID? {action}",
+      "toggle": "已有 Liker ID？ {action}",
       "toggleButton": "登入"
     },
     "SignIn": {
@@ -696,8 +696,10 @@
         "email": "以電郵登入",
         "wallet": "以 MetaMask 登入"
       },
-      "toggle": "未有 Liker ID? {action}",
-      "toggleButton": "註冊"
+      "toggle": "未有 Liker ID？ {action}",
+      "toggle-alternative": "未有 Liker ID？立即註冊",
+      "toggleButton": "註冊",
+      "toggleButton-alternative": "註冊 Liker ID"
     },
     "SignInWithEmail": {
       "title": "登入 / 註冊",
