@@ -98,7 +98,7 @@ export default {
         authCode,
       } = result.data;
       const url = new URL(redirectUri, true);
-      url.query.auth_code = authCode;
+      url.query.code = authCode;
       if (state) url.query.state = state;
       url.set('query', url.query);
       window.location.href = url.toString();
