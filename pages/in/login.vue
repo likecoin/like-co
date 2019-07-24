@@ -10,26 +10,16 @@ import { EXTERNAL_HOSTNAME } from '~/constant';
 import { logTrackerEvent, logTimingEvent } from '@/util/EventLogger';
 
 export default {
-  name: 'auth-api-view',
+  name: 'login-page',
   layout: 'register',
   head() {
     return {
-      title: this.$t('Register.label.register'),
+      title: this.$t('Login.title'),
       meta: [
         {
           hid: 'og_title',
           property: 'og:title',
-          content: this.$t('Register.label.register'),
-        },
-        {
-          hid: 'description',
-          name: 'description',
-          content: this.$t('Register.header.title'),
-        },
-        {
-          hid: 'og_description',
-          property: 'og:description',
-          content: this.$t('Register.header.title'),
+          content: this.$t('Login.title'),
         },
       ],
       link: [
@@ -48,13 +38,13 @@ export default {
   mounted() {
     const router = this.$router;
     const route = this.$route;
-    const { login: loginQs, ...query } = route.query;
-    if (route.name === 'in-register' && loginQs === '1') {
-      router.replace({ name: 'in-login', query });
+    const { register: registerQs, ...query } = route.query;
+    if (route.name === 'in-login' && registerQs === '1') {
+      router.replace({ name: 'in-register', query });
     } else {
-      this.setAuthDialog({ isShow: !this.getUserIsRegistered });
+      this.setAuthDialog({ isShow: !this.getUserIsRegistered, isSignIn: true });
       if (this.getUserIsRegistered) {
-        logTrackerEvent(this, 'RegFlow', 'AlreadyRegistered', 'AlreadyRegistered', 1);
+        logTrackerEvent(this, 'RegFlow', 'AlreadyLoggedIn', 'AlreadyLoggedIn', 1);
         if (!tryPostLoginRedirect({ route })) {
           this.doPostAuthRedirect({ router, route });
         }
@@ -78,16 +68,16 @@ export default {
       if (window.performance) {
         value = Math.round(performance.now());
       }
-      logTimingEvent(this, 'RegFlow', 'CloseRegisterPageTiming', 'CloseRegisterPageTiming', value);
-      logTrackerEvent(this, 'RegFlow', 'CloseRegisterPage', 'CloseRegisterPage', value);
+      logTimingEvent(this, 'RegFlow', 'CloseLoginPageTiming', 'CloseLoginPageTiming', value);
+      logTrackerEvent(this, 'RegFlow', 'CloseLoginPage', 'CloseLoginPage', value);
     },
     logPageload() {
       let value = 1;
       if (window.performance) {
         value = Math.round(performance.now());
       }
-      logTimingEvent(this, 'RegFlow', 'RedirectSignUpTiming', 'RedirectSignUpTiming', value);
-      logTrackerEvent(this, 'RegFlow', 'RedirectSignUp', 'RedirectSignUp', value);
+      logTimingEvent(this, 'RegFlow', 'RedirectSignInTiming', 'RedirectSignInTiming', value);
+      logTrackerEvent(this, 'RegFlow', 'RedirectSignIn', 'RedirectSignIn', value);
     },
   },
 };

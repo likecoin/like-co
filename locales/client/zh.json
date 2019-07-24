@@ -773,6 +773,9 @@
       }
     }
   },
+  "Login": {
+    "title": "登入"
+  },
   "Register": {
     "header": {
       "title": "註冊 Liker ID・改革內容創作生態",

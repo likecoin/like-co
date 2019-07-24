@@ -343,7 +343,7 @@ export default {
       errorCode: '',
       error: undefined,
       isSigningInWithEmail: false,
-      isSignIn: this.$route.query.login === '1',
+      isSignIn: this.$route.name !== 'in-register' || this.$route.query.register !== '1',
 
       referrer: '',
       sourceURL: '',
@@ -365,7 +365,7 @@ export default {
       return !(this.isBlocking || this.isSinglePage);
     },
     isSinglePage() {
-      return this.$route.name === 'in-register';
+      return /in-(register|login)/.test(this.$route.name);
     },
     isBlocking() {
       return this.currentTab === 'loading' || this.currentTab === 'signingIn';
@@ -473,24 +473,36 @@ export default {
         }
         this.isSignIn = isSignIn;
 
-        // Sync dialog display with query string if not in single page
-        if (!this.isSinglePage) {
-          const query = { ...this.$route.query };
-          if (isShow) {
-            // Add show_login=1 in query string
-            query.show_login = '1';
+        // Sync with query string if not in single page
+        const query = { ...this.$route.query };
+        if (this.isSinglePage) {
+          if (this.$route.name === 'in-register') {
             if (isSignIn) {
               query.login = '1';
             } else {
               delete query.login;
             }
-          } else {
-            // Remove show_login and login in query string
-            delete query.show_login;
-            delete query.login;
+          } else if (this.$route.name === 'in-login') {
+            if (isSignIn) {
+              delete query.register;
+            } else {
+              query.register = '1';
+            }
           }
-          this.$router.replace({ path: this.$route.path, query });
+        } else if (isShow) {
+          // Add show_login=1 in query string
+          query.show_login = '1';
+          if (isSignIn) {
+            delete query.register;
+          } else {
+            query.register = '1';
+          }
+        } else {
+          // Remove show_login and login in query string
+          delete query.show_login;
+          delete query.register;
         }
+        this.$router.replace({ name: this.$route.name, query });
         this.logShowAuthDialog(isShow);
       },
       deep: true,
@@ -552,7 +564,7 @@ export default {
     if (this.$route.query.show_login === '1') {
       this.setAuthDialog({
         isShow: true,
-        isSignIn: this.$route.query.login === '1',
+        isSignIn: this.$route.query.register !== '1',
       });
     }
     // Check whether it is email sign in

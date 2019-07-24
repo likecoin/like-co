@@ -782,6 +782,9 @@
       }
     }
   },
+  "Login": {
+    "title": "Login"
+  },
   "Register": {
     "header": {
       "title": "Create a Liker ID to send and receive LikeCoin",
