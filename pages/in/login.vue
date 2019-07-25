@@ -54,8 +54,13 @@ export default {
       }
     }
   },
+  beforeRouteLeave(to, from, next) {
+    if (this.$route.name !== 'in-register') {
+      this.setAuthDialog({ isShow: false });
+    }
+    next();
+  },
   beforeDestroy() {
-    this.setAuthDialog({ isShow: false });
     window.removeEventListener(this.unloadEventName, this.logPageUnload, false);
   },
   methods: {

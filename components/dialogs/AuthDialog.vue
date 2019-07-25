@@ -343,7 +343,10 @@ export default {
       errorCode: '',
       error: undefined,
       isSigningInWithEmail: false,
-      isSignIn: this.$route.name !== 'in-register' || this.$route.query.register !== '1',
+      isSignIn: !(
+        (this.$route.name === 'in-register' && this.$route.query.login !== '1')
+        || (this.$route.name === 'login' && this.$route.query.register === '1')
+      ),
 
       referrer: '',
       sourceURL: '',

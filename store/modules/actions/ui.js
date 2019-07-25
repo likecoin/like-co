@@ -119,13 +119,13 @@ export async function setNotification({ commit, dispatch }, payload) {
   }
 }
 
-export const setAuthDialog = ({ commit }, payload) => {
-  commit(types.UI_SET_AUTH_DIALOG, payload);
+export const setAuthDialog = ({ commit }, { isShow = true, isSignIn = true }) => {
+  commit(types.UI_SET_AUTH_DIALOG, { isShow, isSignIn });
 };
 
 export const setAuthDialogShow = ({ commit, state }, isShow) => {
   let { isSignIn } = state.authDialogStatus;
-  if (!isShow) isSignIn = false;
+  if (!isShow) isSignIn = true;
   commit(types.UI_SET_AUTH_DIALOG, { isShow, isSignIn });
 };
 

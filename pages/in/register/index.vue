@@ -52,7 +52,7 @@ export default {
     if (route.name === 'in-register' && loginQs === '1') {
       router.replace({ name: 'in-login', query });
     } else {
-      this.setAuthDialog({ isShow: !this.getUserIsRegistered });
+      this.setAuthDialog({ isShow: !this.getUserIsRegistered, isSignIn: false });
       if (this.getUserIsRegistered) {
         logTrackerEvent(this, 'RegFlow', 'AlreadyRegistered', 'AlreadyRegistered', 1);
         if (!tryPostLoginRedirect({ route })) {
@@ -64,8 +64,13 @@ export default {
       }
     }
   },
+  beforeRouteLeave(to, from, next) {
+    if (this.$route.name !== 'in-login') {
+      this.setAuthDialog({ isShow: false });
+    }
+    next();
+  },
   beforeDestroy() {
-    this.setAuthDialog({ isShow: false });
     window.removeEventListener(this.unloadEventName, this.logPageUnload, false);
   },
   methods: {
