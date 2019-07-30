@@ -4,6 +4,7 @@
       <LikeToCoinGraph
         color="#50e3c2"
         bg-color="#29626B"
+        :avatar="avatar"
         style="display:block;margin:0 auto"
       />
       <div class="signin-portal__header-headline">
@@ -86,6 +87,7 @@ export default {
       'shouldUseAltAsset',
       'signin-portal',
       'alternative',
+      that => !!that.avatar,
     ),
   ],
   props: {
@@ -96,6 +98,10 @@ export default {
     isShowCloseButton: {
       type: Boolean,
       default: false,
+    },
+    avatar: {
+      type: String,
+      default: undefined,
     },
   },
   data() {
