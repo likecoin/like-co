@@ -428,16 +428,16 @@
       "title": "团队",
       "member": {
         "kin": {
-          "name": "kin ko",
+          "name": "Kin Ko",
           "title": "产品设计"
         },
         "aludirk": {
           "name": "Aludirk Wong",
           "title": "系统设计"
         },
-        "jacky": {
-          "name": "Jacky Ko",
-          "title": "市场推广主管"
+        "tomlam": {
+          "name": "Tom Lam",
+          "title": "首席经济师"
         },
         "william": {
           "name": "William Chong",
@@ -451,16 +451,8 @@
           "name": "Edmond Yu",
           "title": "营运"
         },
-        "simonb": {
-          "name": "Simon But",
-          "title": "成长骇客"
-        },
         "david": {
           "name": "David Ng",
-          "title": "全端开发者"
-        },
-        "miles": {
-          "name": "Miles Wong",
           "title": "全端开发者"
         },
         "joshua": {

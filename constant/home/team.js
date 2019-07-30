@@ -50,20 +50,11 @@ const teamMembers = [
     ],
   },
   {
-    key: 'jacky',
+    key: 'tomlam',
     platforms: [
       {
-        key: 'like',
-        to: getLikePlatformToObject('jackyko'),
-        isInternal: true,
-      },
-      {
-        key: 'telegram',
-        to: 'https://t.me/JackyLikeCoin',
-      },
-      {
         key: 'linkedin',
-        to: 'https://www.linkedin.com/in/jacky-ko-777848b0/',
+        to: 'https://www.linkedin.com/in/chungsang-tom-lam-586014158/',
       },
     ],
   },
@@ -78,20 +69,6 @@ const teamMembers = [
       {
         key: 'linkedin',
         to: 'https://www.linkedin.com/in/edmond-kcyu',
-      },
-    ],
-  },
-  {
-    key: 'simonb',
-    platforms: [
-      {
-        key: 'like',
-        to: getLikePlatformToObject('simonbut'),
-        isInternal: true,
-      },
-      {
-        key: 'linkedin',
-        to: 'https://www.linkedin.com/in/ka-ho-but-0b7825161/',
       },
     ],
   },
@@ -174,6 +151,10 @@ const teamMembers = [
         key: 'like',
         to: getLikePlatformToObject('joshkiu'),
         isInternal: true,
+      },
+      {
+        key: 'linkedin',
+        to: 'https://www.linkedin.com/in/joshua-lo-1662a3190/',
       },
     ],
   },

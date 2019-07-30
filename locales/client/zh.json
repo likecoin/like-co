@@ -444,16 +444,16 @@
       "title": "團隊",
       "member": {
         "kin": {
-          "name": "kin ko",
+          "name": "Kin Ko",
           "title": "產品設計"
         },
         "aludirk": {
           "name": "Aludirk Wong",
           "title": "系統設計"
         },
-        "jacky": {
-          "name": "Jacky Ko",
-          "title": "市場推廣主管"
+        "tomlam": {
+          "name": "Tom Lam",
+          "title": "首席經濟師"
         },
         "william": {
           "name": "William Chong",
@@ -466,10 +466,6 @@
         "edmond": {
           "name": "Edmond Yu",
           "title": "營運"
-        },
-        "simonb": {
-          "name": "Simon But",
-          "title": "成長駭客"
         },
         "david": {
           "name": "David Ng",

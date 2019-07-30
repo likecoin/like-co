@@ -425,16 +425,12 @@
             "title": "팀",
             "member": {
                 "kin": {
-                    "name": "kin ko",
+                    "name": "Kin Ko",
                     "title": "제품 디자인"
                 },
                 "aludirk": {
                     "name": "알루덕 웡",
                     "title": "시스템 설계자"
-                },
-                "jacky": {
-                    "name": "재키 코",
-                    "title": "CMO"
                 },
                 "william": {
                     "name": "윌리엄 총",
@@ -448,16 +444,8 @@
                     "name": "에드먼드 유",
                     "title": "운용"
                 },
-                "simonb": {
-                    "name": "사이먼 벗",
-                    "title": "그로스 해커"
-                },
                 "david": {
                     "name": "데이빗 응",
-                    "title": "풀 스택 개발자"
-                },
-                "miles": {
-                    "name": "마일즈 웡",
                     "title": "풀 스택 개발자"
                 },
                 "joshua": {
