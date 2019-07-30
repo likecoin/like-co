@@ -425,16 +425,12 @@
             "title": "Equipo",
             "member": {
                 "kin": {
-                    "name": "kin ko",
+                    "name": "Kin Ko",
                     "title": "Diseño de producto"
                 },
                 "aludirk": {
                     "name": "Aludirk Wong",
                     "title": "Arquitecto de sistemas"
-                },
-                "jacky": {
-                    "name": "Jacky Ko",
-                    "title": "CMO"
                 },
                 "william": {
                     "name": "William Chong",
@@ -448,16 +444,8 @@
                     "name": "Edmond Yu",
                     "title": "Operación"
                 },
-                "simonb": {
-                    "name": "Simon But",
-                    "title": "Hacker de crecimiento"
-                },
                 "david": {
                     "name": "David Ng",
-                    "title": "Desarrollador Full Stack"
-                },
-                "miles": {
-                    "name": "Miles Wong",
                     "title": "Desarrollador Full Stack"
                 },
                 "joshua": {

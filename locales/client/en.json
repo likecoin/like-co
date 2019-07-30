@@ -448,16 +448,16 @@
       "title": "Team",
       "member": {
         "kin": {
-          "name": "kin ko",
+          "name": "Kin Ko",
           "title": "Product Design"
         },
         "aludirk": {
           "name": "Aludirk Wong",
           "title": "System Architect"
         },
-        "jacky": {
-          "name": "Jacky Ko",
-          "title": "CMO"
+        "tomlam": {
+          "name": "Tom Lam",
+          "title": "Chief Economist"
         },
         "william": {
           "name": "William Chong",
@@ -471,16 +471,8 @@
           "name": "Edmond Yu",
           "title": "Operation"
         },
-        "simonb": {
-          "name": "Simon But",
-          "title": "Growth Hacker"
-        },
         "david": {
           "name": "David Ng",
-          "title": "Full Stack Developer"
-        },
-        "miles": {
-          "name": "Miles Wong",
           "title": "Full Stack Developer"
         },
         "joshua": {
