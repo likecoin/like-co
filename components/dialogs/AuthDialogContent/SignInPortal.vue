@@ -4,7 +4,7 @@
       <LikeToCoinGraph
         color="#50e3c2"
         bg-color="#29626B"
-        :avatar="avatar"
+        :avatar="graphAvatar"
         style="display:block;margin:0 auto"
       />
       <div class="signin-portal__header-headline">
@@ -129,6 +129,9 @@ export default {
         id,
         icon: getAuthPlatformIcon(`./${id}.svg`),
       }));
+    },
+    graphAvatar() {
+      return this.shouldUseAltAsset ? this.avatar : undefined;
     },
   },
   methods: {
