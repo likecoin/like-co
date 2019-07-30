@@ -79,6 +79,7 @@
               class="base-dialog-v2__corner-block"
               :is-sign-in="isSignIn"
               :is-show-close-button="closable"
+              :avatar="avatar"
               @toggle-sign-in="onToggleSignIn"
               @close="setIsShow(false)"
               @submit="signInWithPlatform"

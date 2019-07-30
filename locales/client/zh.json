@@ -693,9 +693,7 @@
         "wallet": "以 MetaMask 登入"
       },
       "toggle": "未有 Liker ID？ {action}",
-      "toggle-alternative": "未有 Liker ID？立即註冊",
-      "toggleButton": "註冊",
-      "toggleButton-alternative": "註冊 Liker ID"
+      "toggleButton": "註冊"
     },
     "SignInWithEmail": {
       "title": "登入 / 註冊",
