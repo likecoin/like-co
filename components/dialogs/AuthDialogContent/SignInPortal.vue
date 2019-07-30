@@ -47,10 +47,6 @@
       </div>
 
       <div class="signin-portal__body-text">
-        <div
-          v-if="shouldUseAltAsset && isSignIn"
-          class="signin-portal__hr"
-        />
         <i18n
           tag="div"
           :path="getExperimentLocalePath(`${localeBasePath}.toggle`)"
@@ -64,15 +60,6 @@
             {{ $t(`${localeBasePath}.toggleButton`) }}
           </a>
         </i18n>
-
-        <button
-          v-if="shouldUseAltAsset && isSignIn"
-          v-bind="$testID('ToggleSignInButton')"
-          class="btn btn--outlined"
-          @click="$emit('toggle-sign-in')"
-        >
-          {{ $t(`${localeBasePath}.toggleButton-alternative`) }}
-        </button>
       </div>
 
     </div>
@@ -284,15 +271,6 @@ export default {
     & + & {
       margin-top: 24px;
     }
-  }
-
-
-  &__hr {
-    width: 224px;
-    height: 2px;
-    margin: 8px auto 24px;
-
-    background-color: $like-gray-3;
   }
 }
 </style>
