@@ -121,6 +121,7 @@
               && getReferralMissionList
               && getReferralMissionList.length > 0"
             id="invitee-mission"
+            v-bind="$testID('BonusInviteeMission')"
             class="lc-container-2 lc-margin-top-4"
           >
 

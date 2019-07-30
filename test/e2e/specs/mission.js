@@ -87,7 +87,7 @@ module.exports = {
       .click('#invitee-mission .mission-item.active .mission-card')
       .waitForElementVisible('.mission-dialog-content .md-button', 2000)
       .click('.mission-dialog-content .md-button')
-      .waitForElementPresent('[lc-test=BonusHistory] .mission-item.verifyEmail.claimed', 5000)
+      .waitForElementPresent('[lc-test=BonusInviteeMission] .mission-item.verifyEmail.claimed', 5000)
       .end();
   },
 };
