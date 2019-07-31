@@ -81,11 +81,7 @@ export default {
     ]),
   },
   mounted() {
-    if (!this.getUserIsRegistered) {
-      const router = this.$router;
-      const route = this.$route;
-      this.doUserAuth({ router, route });
-    } else if (this.getUserInfo.isEmailVerified) {
+    if (this.getUserIsRegistered && this.getUserInfo.isEmailVerified) {
       this.postVerifyAction();
     } else {
       this.verifyEmail();
@@ -100,7 +96,6 @@ export default {
   methods: {
     ...mapActions([
       'verifyEmailByUUID',
-      'doUserAuth',
     ]),
     async verifyEmail() {
       this.isVerified = false;
@@ -137,7 +132,7 @@ export default {
         } else {
           this.errorMsg = err.message || err;
         }
-        this.redirectTimer = setTimeout(() => this.$router.push({ name: 'index' }), 3000);
+        this.redirectTimer = setTimeout(() => this.$router.push({ name: 'index' }), 10000);
       }
     },
     postVerifyAction() {
