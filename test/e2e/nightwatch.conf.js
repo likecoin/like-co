@@ -43,6 +43,7 @@ module.exports = {
           if (httpServer) httpServer.close();
         },
       },
+      launch_url: 'chrome-extension://',
       screenshots: {
         enabled: true,
         path: './screenshots',
@@ -56,6 +57,7 @@ module.exports = {
         chromeOptions: {
           extensions: [encode('test/extension/MetaMask_v4.2.0.crx')],
           args: ['--no-sandbox'],
+          w3c: false,
         },
       },
     },
