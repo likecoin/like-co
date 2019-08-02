@@ -119,10 +119,23 @@
                       }}
                     </md-tooltip>
                   </div>
+                  <!-- eslint-disable vue/valid-v-for -->
                   <div
+                    v-for="value in [getValue(tx)]"
+                    :key="tx.id"
                     class="value"
-                    v-html="getValue(tx)"
-                  />
+                  >
+                    <!-- eslint-enable vue/valid-v-for -->
+                    <span class="lc-font-size-14">{{ value.integerPart }}.</span>
+                    <span class="lc-font-size-12">{{ value.decimalPart }}</span>
+                    <span class="currency">{{ value.currency }}</span>
+                    <template v-if="value.tokenSale">
+                      <span class="to">→</span>
+                      <span class="lc-font-size-14">{{ value.tokenSale.integerPart }}</span>
+                      <span class="lc-font-size-12">{{ value.tokenSale.decimalPart }}</span>
+                      <span class="currency">{{ value.tokenSale.currency }}</span>
+                    </template>
+                  </div>
                 </div>
               </md-table-cell>
 
@@ -218,11 +231,11 @@ function formatAmount(value, currency) {
 
   const integerPart = valueParts[0];
   const decimalPart = valueParts[1] ? valueParts[1].padEnd(2, '00') : '00';
-  return `
-    <span class="lc-font-size-14">${integerPart}.</span>
-    <span class="lc-font-size-12">${decimalPart}</span>
-    <span class="currency">${currency}</span>
-  `;
+  return {
+    integerPart,
+    decimalPart,
+    currency,
+  };
 }
 
 function formatUTCTimeToLocal(date) {
@@ -312,11 +325,10 @@ export default {
         return formatAmount(value, 'ETH');
       }
       if (this.isTokensale(tx)) {
-        return `
-          ${formatAmount(value, 'ETH')}
-          <span class="to">→</span>
-          ${formatAmount(getLikeCoinByETH(tx.value || 0), 'LIKE')}
-        `;
+        return {
+          ...formatAmount(value, 'ETH'),
+          tokenSale: formatAmount(getLikeCoinByETH(tx.value || 0), 'LIKE'),
+        };
       }
       return formatAmount(value, 'LIKE');
     },
