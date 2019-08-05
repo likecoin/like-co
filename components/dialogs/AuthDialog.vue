@@ -269,7 +269,13 @@ import { ResizeObserver } from 'resize-observer';
 import {
   MIN_USER_ID_LENGTH,
   MAX_USER_ID_LENGTH,
+  LOGIN_CONNECTION_LIST,
 } from '@/constant';
+
+import {
+  getAuthPlatformSignInURL,
+  getAuthPlatformSignInPayload,
+} from '@/util/auth';
 
 import {
   apiLoginUser,
@@ -278,6 +284,7 @@ import {
 } from '@/util/api/api';
 
 import {
+  isFirebasePlatform,
   firebasePlatformSignIn,
   firebaseGetRedirectCredential,
   firebaseSendSignInEmail,
@@ -592,24 +599,31 @@ export default {
       this.currentTab = 'signingIn';
 
       try {
-        const result = await firebaseGetRedirectCredential();
-        if (result.credential) {
-          this.platform = getPlatformFromProviderId(result.credential.providerId);
-          this.signInPayload = await getSignInPayloadFromSignInResult(result);
-          this.login();
-        } else {
-          // eslint-disable-next-line no-console
-          console.error('No credential after redirect');
-          if (this.$sentry) {
-            this.$sentry.captureException(new Error('No credential after redirect'));
-          }
-
-          // If redirect sign in is not working, suggest user to try again with popup
-          if (signInPlatform) {
-            this.currentTab = `loginFailure-${signInPlatform}`;
+        if (!signInPlatform || isFirebasePlatform(signInPlatform)) {
+          const result = await firebaseGetRedirectCredential();
+          if (result.credential) {
+            this.platform = getPlatformFromProviderId(result.credential.providerId);
+            this.signInPayload = await getSignInPayloadFromSignInResult(result);
+            this.login();
           } else {
-            this.currentTab = 'portal';
+            // eslint-disable-next-line no-console
+            console.error('No credential after redirect');
+            if (this.$sentry) {
+              this.$sentry.captureException(new Error('No credential after redirect'));
+            }
+
+            // If redirect sign in is not working, suggest user to try again with popup
+            if (signInPlatform) {
+              this.currentTab = `loginFailure-${signInPlatform}`;
+            } else {
+              this.currentTab = 'portal';
+            }
           }
+        } else if (signInPlatform) {
+          const { code, state } = this.$route.query;
+          this.signInPayload = await getAuthPlatformSignInPayload(signInPlatform, { code, state });
+          this.platform = signInPlatform;
+          if (this.signInPayload) this.login();
         }
       } catch (err) {
         // eslint-disable-next-line no-console
@@ -934,13 +948,19 @@ export default {
             }
           }
           break;
-        default:
+        default: {
+          if (LOGIN_CONNECTION_LIST.includes(platform)) {
+            const { url } = await getAuthPlatformSignInURL(platform);
+            if (url) window.location.href = url;
+            break;
+          }
           // eslint-disable-next-line no-console
           console.error('platform default not exist');
           if (this.$sentry) {
             this.$sentry.captureException(new Error('platform default not exist'));
           }
           this.currentTab = 'error';
+        }
       }
     },
     async signInWithEmail(email) {

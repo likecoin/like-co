@@ -682,6 +682,7 @@
         "google": "Sign up with Google",
         "facebook": "Sign up Facebook",
         "twitter": "Sign up Twitter",
+        "matters": "Sign up Matters.news",
         "email": "Sign up email",
         "wallet": "Sign up with MetaMask"
       },
@@ -695,6 +696,7 @@
         "google": "Sign in with Google",
         "facebook": "Sign in Facebook",
         "twitter": "Sign in Twitter",
+        "matters": "Sign in Matters.news",
         "email": "Sign in email",
         "wallet": "Sign in with MetaMask"
       },

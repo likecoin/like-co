@@ -59,7 +59,20 @@ export default {
   watch: {
     username(name) {
       if (name) {
-        this.connect();
+        if (name === 'login') {
+          const { code, state } = this.$route;
+          this.$router.replace({
+            name: 'in-register',
+            query: {
+              redirect_sign_in: '1',
+              sign_in_platform: this.platform,
+              code,
+              state,
+            },
+          });
+        } else {
+          this.connect();
+        }
       }
     },
     errorMsg(m) {
@@ -76,7 +89,20 @@ export default {
       this.isDone = true;
     }
     if (this.username) {
-      this.connect();
+      if (this.username === 'login') {
+        const { code, state } = this.$route.query;
+        this.$router.replace({
+          name: 'in-register',
+          query: {
+            redirect_sign_in: '1',
+            sign_in_platform: this.platform,
+            code,
+            state,
+          },
+        });
+      } else {
+        this.connect();
+      }
     }
   },
   beforeDestroy() {

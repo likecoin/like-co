@@ -652,6 +652,7 @@
         "google": "以 Google 注册",
         "facebook": "以 Facebook 注册",
         "twitter": "以 Twitter 注册",
+        "matters": "以 Matters 注册",
         "email": "以电邮注册",
         "wallet": "以 MetaMask 注册"
       },
@@ -665,6 +666,7 @@
         "google": "以 Google 登入",
         "facebook": "以 Facebook 登入",
         "twitter": "以 Twitter 登入",
+        "matters": "以 Matters 登入",
         "email": "以电邮登入",
         "wallet": "以 MetaMask 登入"
       },

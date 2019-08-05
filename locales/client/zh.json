@@ -676,6 +676,7 @@
         "google": "以 Google 註冊",
         "facebook": "以 Facebook 註冊",
         "twitter": "以 Twitter 註冊",
+        "matters": "以 Matters 註冊",
         "email": "以電郵註冊",
         "wallet": "以 MetaMask 註冊"
       },
@@ -689,6 +690,7 @@
         "google": "以 Google 登入",
         "facebook": "以 Facebook 登入",
         "twitter": "以 Twitter 登入",
+        "matters": "以 Matters 登入",
         "email": "以電郵登入",
         "wallet": "以 MetaMask 登入"
       },
