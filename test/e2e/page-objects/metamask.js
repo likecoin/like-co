@@ -2,7 +2,7 @@ module.exports = {
   elements: {},
   commands: [{
     goToMetamask() {
-      const url = 'chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/popup.html';
+      const url = 'nkbihfbeogaeaoehlefnkodbefgpgknn/popup.html';
       this.navigate(url).waitForElementPresent('body', 20000);
     },
     acceptTerms(accountId = 'testacct') {
