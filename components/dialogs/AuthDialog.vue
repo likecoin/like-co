@@ -1063,10 +1063,13 @@ export default {
     async preRegister() {
       logTrackerEvent(this, 'RegFlow', 'PreRegister', `PreRegister(${this.platform})`, 1);
       this.currentTab = 'loading';
-      if (this.signInPayload.email) {
+      if (this.signInPayload.suggestedName || this.signInPayload.email) {
         const RANDOM_DIGIT_LENGTH = 5;
         const MAX_SUGGEST_TRY = 5;
-        let [suggestedName] = this.signInPayload.email.split('@');
+        let { suggestedName } = this.signInPayload;
+        if (!suggestedName) {
+          [suggestedName] = this.signInPayload.email.split('@');
+        }
         suggestedName = suggestedName.trim().toLowerCase().replace(/[^a-z0-9-_]/g, '-');
         suggestedName = suggestedName.substring(0, MAX_USER_ID_LENGTH - RANDOM_DIGIT_LENGTH);
         let isIDAvailable = false;
