@@ -1262,7 +1262,30 @@
     }
   },
   "AuthConnectList": {
-    "title": "帐号连接"
+    "title": "帐号连接",
+    "facebook": {
+      "title": "连接 Facebook",
+      "connectedTitle": "你已绑定 Facebook",
+      "connected": "现在你可以你的 Facebook 帐号登入 Liker ID",
+      "disclaimer": "我们不会在未经你同意下，以你的名义于 Facebook 发布任何动态消息或讯息"
+    },
+    "google": {
+      "title": "连接 Google",
+      "connectedTitle": "你已绑定 Google",
+      "connected": "现在你可以你的 Google 帐号登入 Liker ID。"
+    },
+    "twitter": {
+      "title": "连接 Twitter",
+      "connectedTitle": "你已绑定 Twitter",
+      "connected": "现在你可以你的 Twitter 帐号登入 Liker ID。",
+      "disclaimer": "我们不会在未经你同意下，以你的名义于 twitter 发布任何动态消息"
+    },
+    "matters": {
+      "title": "连接 Matters",
+      "connectedTitle": "你已绑定 Matters",
+      "connected": "现在你可以你的 Matters 帐号登入 Liker ID。",
+      "disclaimer": "我们不会在未经你同意下，以你的名义于 Matters 发布任何讯息"
+    }
   },
   "OtherConnectList": {
     "title": "其他帐号连接",

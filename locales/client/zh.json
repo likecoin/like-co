@@ -1367,6 +1367,12 @@
       "connectedTitle": "你已綁定 Twitter",
       "connected": "現在你可以你的 Twitter 帳號登入 Liker ID。",
       "disclaimer": "我們不會在未經你同意下，以你的名義於 twitter 發佈任何動態消息"
+    },
+    "matters": {
+      "title": "連接 Matters",
+      "connectedTitle": "你已綁定 Matters",
+      "connected": "現在你可以你的 Matters 帳號登入 Liker ID。",
+      "disclaimer": "我們不會在未經你同意下，以你的名義於 Matters 發佈任何訊息"
     }
   },
   "OAuthPermissionDialog": {

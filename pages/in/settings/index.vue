@@ -271,6 +271,7 @@ import { firebasePlatformSignIn } from '~/util/FirebaseApp';
 
 import getTestAttribute from '@/util/test';
 import User from '@/util/User';
+import { getAuthPlatformSignInURL } from '@/util/auth';
 
 import CivicLikerCta from '~/components/CivicLiker/CTA';
 import ClaimDialog from '~/components/dialogs/ClaimDialog';
@@ -493,6 +494,11 @@ export default {
               secret,
             },
           });
+          break;
+        }
+        case 'matters': {
+          const { url } = await getAuthPlatformSignInURL(pid, 'link');
+          if (url) window.location.href = url;
           break;
         }
         default:
