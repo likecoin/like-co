@@ -72,7 +72,7 @@ export const apiLoginUser = payload => axios.post('/users/login', payload);
 
 export const apiLogoutUser = () => axios.post('/users/logout');
 
-export const apiFetchAuthPlatformURL = platform => axios.get(`/users/login/${platform}`);
+export const apiFetchAuthPlatformURL = (platform, type) => axios.get(`/users/login/${platform}?type=${type}`);
 export const apiPostAuthPlatformToken = (platform, { code, state }) => axios.post(`/users/login/${platform}`, { code, state });
 export const apiFetchLinkedAuthPlatforms = () => axios.get('/users/login/platforms');
 

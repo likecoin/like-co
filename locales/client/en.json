@@ -1435,6 +1435,12 @@
       "connectedTitle": "You are connected to Twitter",
       "connected": "You can now sign in with your Twitter account.",
       "disclaimer": "We will never post to Twitter or message your followers without your permission."
+    },
+    "matters": {
+      "title": "Connect to Matters.news",
+      "connectedTitle": "You are connected to Matters.news",
+      "connected": "You can now sign in with your Matters.news account.",
+      "disclaimer": "We will never post to Matters.news without your permission."
     }
   },
   "OAuthPermissionDialog": {
