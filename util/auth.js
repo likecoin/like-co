@@ -3,8 +3,8 @@ import {
   apiPostAuthPlatformToken,
 } from '@/util/api/api';
 
-export async function getAuthPlatformSignInURL(platform) {
-  const { data } = await apiFetchAuthPlatformURL(platform);
+export async function getAuthPlatformSignInURL(platform, type = 'login') {
+  const { data } = await apiFetchAuthPlatformURL(platform, type);
   return data;
 }
 

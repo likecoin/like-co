@@ -40,41 +40,27 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'getUserIsRegistered',
       'getUserInfo',
     ]),
     platform() {
       return this.$route.params.platform;
     },
+    statePayload() {
+      const { state } = this.$route.query;
+      if (!state || state.split(':').length <= 0) return '';
+      return state.split(':')[0];
+    },
     username() {
       const param = this.$route.params.id;
       if (param) return param;
-      const { state, user } = this.$route.query;
+      if (this.statePayload) return this.statePayload;
+      const { user } = this.$route.query;
       if (user) return user;
-      if (state && state.split(':').length > 0) {
-        return state.split(':')[0];
-      }
       return this.getUserInfo.user;
     },
   },
   watch: {
-    username(name) {
-      if (name) {
-        if (name === 'login') {
-          const { code, state } = this.$route;
-          this.$router.replace({
-            name: 'in-register',
-            query: {
-              redirect_sign_in: '1',
-              sign_in_platform: this.platform,
-              code,
-              state,
-            },
-          });
-        } else {
-          this.connect();
-        }
-      }
-    },
     errorMsg(m) {
       if (m) {
         this.redirectTimer = setTimeout(() => {
@@ -88,21 +74,21 @@ export default {
       this.errorMsg = this.$route.query.error || this.$route.query.denied;
       this.isDone = true;
     }
-    if (this.username) {
-      if (this.username === 'login') {
-        const { code, state } = this.$route.query;
-        this.$router.replace({
-          name: 'in-register',
-          query: {
-            redirect_sign_in: '1',
-            sign_in_platform: this.platform,
-            code,
-            state,
-          },
-        });
-      } else {
-        this.connect();
-      }
+    if (this.statePayload === 'login') {
+      const { code, state } = this.$route.query;
+      this.$router.replace({
+        name: 'in-register',
+        query: {
+          redirect_sign_in: '1',
+          sign_in_platform: this.platform,
+          code,
+          state,
+        },
+      });
+    } else if (this.statePayload === 'authlink') {
+      this.authConnect();
+    } else {
+      this.socialConnect();
     }
   },
   beforeDestroy() {
@@ -113,9 +99,42 @@ export default {
   },
   methods: {
     ...mapActions([
+      'linkUserAuthPlatform',
       'linkSocialPlatform',
+      'doUserAuth',
     ]),
-    async connect() {
+    async authConnect() {
+      if (this.isDone) return;
+      if (!this.getUserIsRegistered) {
+        const router = this.$router;
+        const route = this.$route;
+        this.doUserAuth({ router, route });
+        return;
+      }
+      try {
+        switch (this.platform) {
+          case 'matters': {
+            const { code, state } = this.$route.query;
+            await this.linkUserAuthPlatform({
+              platform: this.platform,
+              payload: {
+                code,
+                state,
+              },
+            });
+            break;
+          }
+          default:
+            break;
+        }
+      } catch (err) {
+        this.errorMsg = (err.response && err.response.data) || err.message || err;
+        return;
+      }
+      this.isDone = true;
+      this.$router.push({ name: 'in-settings' });
+    },
+    async socialConnect() {
       if (this.isDone) return;
       try {
         switch (this.platform) {
