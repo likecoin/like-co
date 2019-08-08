@@ -131,7 +131,7 @@
                     <span class="currency">{{ value.currency }}</span>
                     <template v-if="value.tokenSale">
                       <span class="to">→</span>
-                      <span class="lc-font-size-14">{{ value.tokenSale.integerPart }}</span>
+                      <span class="lc-font-size-14">{{ value.tokenSale.integerPart }}.</span>
                       <span class="lc-font-size-12">{{ value.tokenSale.decimalPart }}</span>
                       <span class="currency">{{ value.tokenSale.currency }}</span>
                     </template>
