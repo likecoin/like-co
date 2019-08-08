@@ -19,6 +19,6 @@ export async function getAuthPlatformSignInPayload(platform, { code, state }) {
     }
     default: break;
   }
-  if (data.imageUrl) data.avatarURL = data.imageUrl;
+  if (data.avatar) data.avatarURL = data.avatar;
   return data;
 }
