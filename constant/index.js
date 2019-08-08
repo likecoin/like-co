@@ -14,6 +14,10 @@ export const INFURA_HOST = IS_TESTNET ? 'https://rinkeby.infura.io/v3/9a67715954
 
 export const ETH_NETWORK_NAME = IS_TESTNET ? 'rinkeby' : 'mainnet';
 
+export const COSMOS_CHAIN_ID = IS_TESTNET ? 'likechain-cosmos-testnet-2' : 'likechain-kaitak';
+
+export const COSMOS_DENOM = 'nanolike';
+
 export const CONFIRMATION_NEEDED = 6;
 
 export const MIN_USER_ID_LENGTH = 7;
