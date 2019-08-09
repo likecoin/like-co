@@ -34,7 +34,6 @@ module.exports = {
       .waitForElementVisible('[lc-test=RegisterForm]', 5000)
       .setValue('[lc-test=RegisterForm-LikeCoinIdField]', newId)
       .setValue('[lc-test=RegisterForm-EmailField]', newIdEmail)
-      .click('[lc-test=RegisterForm-AgreePolicyCheckBox]')
       .submitForm('[lc-test=RegisterForm]')
       // Sign signature request in MetaMask
       .waitForElementVisible('[lc-test=MetaMaskDialog]', 2000)

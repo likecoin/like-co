@@ -103,27 +103,6 @@
         >
           {{ $t('Register.form.enableEmail') }}
         </md-checkbox>
-
-        <div class="term-agreement">
-          <md-checkbox
-            v-model="isTermsAgreed"
-            v-bind="$testID('RegisterForm-AgreePolicyCheckBox')"
-            class="md-likecoin"
-          />
-          <i18n
-            path="Register.form.agreeTerms"
-            tag="label"
-            @click="isTermsAgreed = !isTermsAgreed"
-          >
-            <a
-              href="/in/policies/privacy"
-              place="privacyPolicy"
-              rel="noopener noreferrer"
-              target="_blank"
-            >{{ $t('Register.form.privacyPolicy') }}</a>
-          </i18n>
-        </div>
-
       </div>
 
       <div class="lc-dialog-container-1 lc-button-group">
@@ -134,6 +113,20 @@
         >
           {{ $t('General.button.confirm') }}
         </md-button>
+      </div>
+
+      <div class="term-agreement">
+        <i18n
+          path="Register.form.agreeTerms"
+          tag="span"
+        >
+          <a
+            href="/in/policies/privacy"
+            place="privacyPolicy"
+            rel="noopener noreferrer"
+            target="_blank"
+          >{{ $t('Register.form.privacyPolicy') }}</a>
+        </i18n>
       </div>
 
     </form>
@@ -184,8 +177,8 @@ export default {
       avatarFile: null,
       likeCoinId: this.prefilledData.defaultLikeCoinId || '',
       email: this.prefilledData.email,
-      isEmailEnabled: false,
-      isTermsAgreed: false,
+      isEmailEnabled: true,
+      isTermsAgreed: true,
 
       isFocusedIdField: false,
       isFocusedEmailField: false,
@@ -380,6 +373,10 @@ form {
         margin-left: 8px;
       }
     }
+  }
+
+  .term-agreement {
+    text-align: center;
   }
 }
 </style>
