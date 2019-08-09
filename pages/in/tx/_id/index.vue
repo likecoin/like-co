@@ -172,6 +172,11 @@ import { mapActions } from 'vuex';
 import BigNumber from 'bignumber.js';
 
 import EthHelper from '@/util/EthHelper';
+import {
+  getCosmosTransactionCompleted,
+  getCosmosTransferInfo,
+  amountToLIKE,
+} from '@/util/CosmosHelper';
 import { ETHERSCAN_HOST } from '@/constant';
 import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 
@@ -309,24 +314,34 @@ export default {
     isMultipleTx() {
       return Array.isArray(this.toId) && (this.toId.length > 1);
     },
+    isEthLikeTx() {
+      this.txId.startsWith('0x');
+    },
   },
   async mounted() {
     this.timestamp = 0;
     if (this.to) this.updateUI(this.from, this.to);
     if (this.value) {
-      this.amount = this.getAmount(this.value);
+      this.amount = this.getAmount({ value: this.value });
     }
     if (this.status === 'timeout') this.failReason = 2;
     try {
-      const tx = await EthHelper.getTransferInfo(this.txId, {
-        blocking: true,
-        filterAddress: this.filterAddress,
-      });
-      this.isEth = tx.isEth;
+      let tx;
+      if (this.isEthLikeTx) {
+        tx = await EthHelper.getTransferInfo(this.txId, {
+          blocking: true,
+          filterAddress: this.filterAddress,
+        });
+        this.isEth = tx.isEth;
+      } else {
+        tx = await getCosmosTransferInfo(this.txId, {
+          blocking: true,
+        });
+      }
       if (!this.failReason) this.failReason = tx.isFailed ? 1 : 0;
       /* eslint-disable no-underscore-dangle */
       if (tx._value !== undefined) {
-        this.amount = this.getAmount(tx._value);
+        this.amount = this.getAmount({ value: tx._value });
       }
       this.updateUI(tx._from, tx._to);
       this.timestamp = tx.timestamp;
@@ -352,7 +367,8 @@ export default {
     setupTimer() {
       if (this.updateTimer) clearTimeout(this.updateTimer);
       this.updateTimer = setTimeout(async () => {
-        const { ts, isFailed } = await EthHelper.getTransactionCompleted(this.txId);
+        const { ts, isFailed } = await this.isEthLikeTx ?
+          EthHelper.getTransactionCompleted(this.txId) : getCosmosTransactionCompleted(this.txId);
         if (!ts) {
           this.setupTimer();
         } else {
@@ -380,16 +396,20 @@ export default {
         this.toAvatarHalo = UserUtil.getAvatarHaloType(toData.data);
       }
     },
-    getAmount(value) {
-      if (!Array.isArray(value)) {
-        return new BigNumber(value).div(ONE_LIKE).toFixed();
+    getAmount({ amount, value }) {
+      if (this.isEthLikeTx) {
+        if (!Array.isArray(value)) {
+          return new BigNumber(value).div(ONE_LIKE).toFixed();
+        }
+        let outputAmount = new BigNumber(0);
+        value.forEach((v) => {
+          outputAmount = outputAmount.plus(new BigNumber(v).div(ONE_LIKE));
+        });
+        return outputAmount.toFixed();
+      } else (amount) {
+        return amountToLIKE(amount);
       }
-      let amount = new BigNumber(0);
-      value.forEach((v) => {
-        amount = amount.plus(new BigNumber(v).div(ONE_LIKE));
-      });
-      return amount.toFixed();
-    },
+    }
   },
 };
 </script>
