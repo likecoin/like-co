@@ -211,6 +211,7 @@ import {
   LIKE_COIN_PRESALE_FROM_ADDRESS,
   LIKE_COIN_PRESALE_BONUS_FROM_ADDRESS,
 } from '@/constant/contract/likecoin-ico';
+import { amountToLIKE } from '@/util/CosmosHelper';
 
 import RefreshButton from '~/components/RefreshButton';
 
@@ -300,15 +301,15 @@ export default {
       if (this.isTxFailed(tx)) return 'fail';
       if (tx.type === 'claimCoupon') return 'coupon';
       if (this.isInMultiple(tx)) return 'multipleIn';
-      if (tx.to === this.address) return 'in';
-      if (tx.from === this.address) return 'out';
+      if (tx.toId === this.user) return 'in';
+      if (tx.fromId === this.user) return 'out';
       return 'unknown';
     },
     getValue(tx) {
-      if (!tx.value) return '0.00';
+      if (!(tx.value || tx.amount)) return '0.00';
 
       if (this.isInMultiple(tx)) {
-        return formatAmount(getLikeCoinByValue(tx.value[tx.to.indexOf(this.address)]) || 0, 'LIKE');
+        return formatAmount(getLikeCoinByValue(tx.value[tx.toIds.indexOf(this.user)]) || 0, 'LIKE');
       }
 
       if (this.isOutMultiple(tx)) {
@@ -319,7 +320,8 @@ export default {
         return formatAmount(total, 'LIKE');
       }
 
-      const value = getLikeCoinByValue(tx.value) || 0;
+      const value = (this.isCosmos(tx)
+        ? amountToLIKE(tx.amount) : getLikeCoinByValue(tx.value)) || 0;
       // handle decimal places
       if (this.isPresale(tx)) {
         return formatAmount(value, 'ETH');
@@ -340,12 +342,12 @@ export default {
       if (this.isTokensale(tx)) return 'tokensale';
       if (tx.type === 'claimCoupon') return 'coupon';
       if (this.isInMultiple(tx)) return tx.fromId;
-      const isFrom = (tx.to === this.address);
+      const isFrom = (tx.toId === this.user);
       return isFrom ? tx.fromId : tx.toId;
     },
     getFromTo(tx) {
       if (this.isTokensale(tx)) return 'from';
-      const isFrom = (tx.to === this.address) || this.isInMultiple(tx);
+      const isFrom = (tx.toId === this.user) || this.isInMultiple(tx);
       return isFrom ? 'from' : 'to';
     },
     getTime(tx) {
@@ -373,15 +375,18 @@ export default {
       return tx.to === LIKE_COIN_ICO_ADDRESS;
     },
     isInMultiple(tx) {
-      return (Array.isArray(tx.to)
+      return (Array.isArray(tx.toIds)
         && Array.isArray(tx.value)
-        && tx.to.includes(this.address));
+        && tx.toIds.includes(this.user));
     },
     isOutMultiple(tx) {
-      return (tx.from === this.address) && Array.isArray(tx.to) && Array.isArray(tx.value);
+      return (tx.fromId === this.user) && Array.isArray(tx.to) && Array.isArray(tx.value);
     },
     isTxFailed(tx) {
       return tx.status === 'fail' || tx.status === 'timeout';
+    },
+    isCosmos(tx) {
+      return tx.type === 'cosmosTransfer';
     },
     async onShowMore() {
       this.setIsFetching();
