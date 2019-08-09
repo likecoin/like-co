@@ -299,7 +299,7 @@ import User from '@/util/User';
 
 import LikeCoinLogo from '~/assets/logo/icon-plain.svg';
 
-import { logTrackerEvent } from '@/util/EventLogger';
+import { logTrackerEvent, logTimingEvent } from '@/util/EventLogger';
 import {
   checkIsMobileClient,
   tryPostLoginRedirect,
@@ -1186,6 +1186,11 @@ export default {
     },
     logShowAuthDialog(isShow) {
       if (isShow && !this.loggedEvents.showAuthDialog) {
+        let value = 1;
+        if (window.performance) {
+          value = Math.round(performance.now());
+        }
+        logTimingEvent(this, 'RegFlow', 'AuthDialogMountedTiming', 'AuthDialogMountedTiming', value);
         this.loggedEvents.showAuthDialog = 1;
         this.logRegisterEvent(this, 'RegFlow', 'ShowAuthDialog', 'ShowAuthDialog', 1);
       }
