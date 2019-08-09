@@ -80,7 +80,7 @@
     "uuid": "^3.2.1",
     "vue-clipboard2": "^0.2.1",
     "vue-cookie": "^1.1.4",
-    "vue-i18n": "^8.0.0",
+    "vue-i18n": "^8.13.0",
     "vue-intercom": "^1.0.12",
     "vue-lazyload": "^1.2.3",
     "vue-material": "^1.0.0-beta-7",
