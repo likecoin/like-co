@@ -1,8 +1,17 @@
-import Cosmos from '@lunie/cosmos-api';
 import { COSMOS_CHAIN_ID, COSMOS_DENOM } from '@/constant';
 import { timeout } from '@/util/misc';
 
-const api = new Cosmos('/api/cosmos/lcd', COSMOS_CHAIN_ID);
+let Cosmos;
+let api;
+
+async function initCosmos() {
+  if (api) return;
+  ([Cosmos] = await Promise.all([
+    import(/* webpackChunkName: "web3" */ '@lunie/cosmos-api'),
+  ]));
+  if (Cosmos.default) Cosmos = Cosmos.default;
+  api = new Cosmos('/api/cosmos/lcd', COSMOS_CHAIN_ID);
+}
 
 export function amountToLIKE(likecoin) {
   if (likecoin.denom === 'nanolike') {
@@ -13,6 +22,7 @@ export function amountToLIKE(likecoin) {
 }
 
 export async function getTransactionCompleted(txHash) {
+  if (!api) await initCosmos();
   const txData = await api.get.tx(txHash);
   if (!txData || !txData.height) {
     return 0;
@@ -29,6 +39,7 @@ export async function getTransactionCompleted(txHash) {
 }
 
 export async function getTransferInfo(txHash, opt) {
+  if (!api) await initCosmos();
   const { blocking } = opt;
   // TODO: handle tranferMultiple?
   let txData = await api.get.tx(txHash);
@@ -45,13 +56,15 @@ export async function getTransferInfo(txHash, opt) {
     code,
     logs: [{ success = false } = {}] = [],
     tx: {
-      msg: [{
-        value: {
-          amount: [amount],
-          from_address: from,
-          to_address: to,
-        },
-      }],
+      value: {
+        msg: [{
+          value: {
+            amount: [amount],
+            from_address: from,
+            to_address: to,
+          },
+        }],
+      },
     },
   } = txData;
   if (!txData.height) {
@@ -67,11 +80,12 @@ export async function getTransferInfo(txHash, opt) {
     _from: from,
     _to: to,
     _amount: amount,
-    timestamp,
+    timestamp: (new Date(timestamp)).getTime() / 1000,
   };
 }
 
 export async function queryLikeCoinBalance(addr) {
+  if (!api) await initCosmos();
   const { account } = await api.get.account(addr);
   if (!account) return 0;
   const [{ amount }] = account.coins.filter(coin => coin.denom === COSMOS_DENOM);
