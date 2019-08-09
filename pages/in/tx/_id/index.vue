@@ -71,7 +71,7 @@
                   {{ $t('Transaction.label.recipientAddress') }}
                 </div>
                 <a
-                  :href="`${ETHERSCAN_HOST}/address/${to}#tokentxns`"
+                  :href="getAccountViewerUrl(to)"
                   target="_blank"
                   rel="noopener"
                 >
@@ -108,7 +108,7 @@
                   {{ $t('Transaction.label.senderAddress') }}
                 </div>
                 <a
-                  :href="`${ETHERSCAN_HOST}/address/${from}#tokentxns`"
+                  :href="getAccountViewerUrl(from)"
                   target="_blank"
                   rel="noopener"
                 >
@@ -163,7 +163,8 @@
 
       </section>
     </div>
-    <view-etherscan :transaction="txId" />
+    <view-etherscan v-if="isEthLikeTx"  :transaction="txId" />
+    <view-bigdipper v-else :transaction="txId" />
   </div>
 </template>
 
@@ -173,15 +174,16 @@ import BigNumber from 'bignumber.js';
 
 import EthHelper from '@/util/EthHelper';
 import {
-  getCosmosTransactionCompleted,
-  getCosmosTransferInfo,
+  getTransactionCompleted as getCosmosTransactionCompleted,
+  getTransferInfo as getCosmosTransferInfo,
   amountToLIKE,
 } from '@/util/CosmosHelper';
-import { ETHERSCAN_HOST } from '@/constant';
+import { ETHERSCAN_HOST, BIGDIPPER_HOST } from '@/constant';
 import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 
 import TransactionHeader from '~/components/header/TransactionHeader';
 import ViewEtherscan from '~/components/ViewEtherscan';
+import ViewBigdipper from '~/components/ViewBigdipper';
 import PopupDialog from '~/components/dialogs/PopupDialog';
 
 import { apiGetTxById, apiGetUserMinById } from '@/util/api/api';
@@ -197,6 +199,7 @@ export default {
   components: {
     TransactionHeader,
     ViewEtherscan,
+    ViewBigdipper,
     PopupDialog,
   },
   data() {
@@ -315,14 +318,14 @@ export default {
       return Array.isArray(this.toId) && (this.toId.length > 1);
     },
     isEthLikeTx() {
-      this.txId.startsWith('0x');
+      return this.txId.startsWith('0x');
     },
   },
   async mounted() {
     this.timestamp = 0;
     if (this.to) this.updateUI(this.from, this.to);
     if (this.value) {
-      this.amount = this.getAmount({ value: this.value });
+      this.amount = this.getAmount({ _value: this.value });
     }
     if (this.status === 'timeout') this.failReason = 2;
     try {
@@ -340,9 +343,7 @@ export default {
       }
       if (!this.failReason) this.failReason = tx.isFailed ? 1 : 0;
       /* eslint-disable no-underscore-dangle */
-      if (tx._value !== undefined) {
-        this.amount = this.getAmount({ value: tx._value });
-      }
+      this.amount = this.getAmount(tx);
       this.updateUI(tx._from, tx._to);
       this.timestamp = tx.timestamp;
       if (!this.timestamp) {
@@ -367,8 +368,8 @@ export default {
     setupTimer() {
       if (this.updateTimer) clearTimeout(this.updateTimer);
       this.updateTimer = setTimeout(async () => {
-        const { ts, isFailed } = await this.isEthLikeTx ?
-          EthHelper.getTransactionCompleted(this.txId) : getCosmosTransactionCompleted(this.txId);
+        const { ts, isFailed } = await this.isEthLikeTx
+          ? EthHelper.getTransactionCompleted(this.txId) : getCosmosTransactionCompleted(this.txId);
         if (!ts) {
           this.setupTimer();
         } else {
@@ -396,20 +397,28 @@ export default {
         this.toAvatarHalo = UserUtil.getAvatarHaloType(toData.data);
       }
     },
-    getAmount({ amount, value }) {
-      if (this.isEthLikeTx) {
-        if (!Array.isArray(value)) {
-          return new BigNumber(value).div(ONE_LIKE).toFixed();
+    getAmount({ _amount, _value }) {
+      if (this.isEthLikeTx && _value !== undefined) {
+        if (!Array.isArray(_value)) {
+          return new BigNumber(_value).div(ONE_LIKE).toFixed();
         }
-        let outputAmount = new BigNumber(0);
-        value.forEach((v) => {
-          outputAmount = outputAmount.plus(new BigNumber(v).div(ONE_LIKE));
+        let amount = new BigNumber(0);
+        _value.forEach((v) => {
+          amount = amount.plus(new BigNumber(v).div(ONE_LIKE));
         });
-        return outputAmount.toFixed();
-      } else (amount) {
-        return amountToLIKE(amount);
+        return amount.toFixed();
       }
-    }
+      if (_amount !== undefined) {
+        return amountToLIKE(_amount);
+      }
+      return 0;
+    },
+    getAccountViewerUrl(address) {
+      if (this.isEthLikeTx) {
+        return `${ETHERSCAN_HOST}/address/${address}#tokentxns`;
+      }
+      return `${BIGDIPPER_HOST}/account/${address}`;
+    },
   },
 };
 </script>
