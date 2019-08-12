@@ -55,7 +55,7 @@
     "classlist-polyfill": "^1.2.0",
     "compression": "^1.7.3",
     "cookie-parser": "^1.4.3",
-    "core-js": "^2.5.5",
+    "core-js": "^3.2.1",
     "cross-env": "^5.1.4",
     "csurf": "^1.9.0",
     "date-fns": "^1.29.0",
