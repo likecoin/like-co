@@ -4,7 +4,7 @@
       <LikeToCoinGraph
         color="#50e3c2"
         bg-color="#29626B"
-        :avatar="graphAvatar"
+        :avatar="avatar"
         style="display:block;margin:0 auto"
       />
       <div class="signin-portal__header-headline">
@@ -73,7 +73,7 @@ import CloseIcon from '~/assets/icons/cross.svg';
 import LikeToCoinGraph from '~/components/graph/LikeToCoin';
 
 import { checkIsMobileClient } from '~/util/client';
-import experimentsMixin from '~/util/mixins/experiments';
+// import experimentsMixin from '~/util/mixins/experiments';
 
 const getAuthPlatformIcon = require.context('~/assets/icons/auth-platform/');
 
@@ -83,12 +83,11 @@ export default {
     LikeToCoinGraph,
   },
   mixins: [
-    experimentsMixin(
-      'shouldUseAltAsset',
-      'signin-portal',
-      'alternative',
-      that => !!that.avatar,
-    ),
+    // experimentsMixin(
+    //   'shouldUseAltAsset',
+    //   'signin-portal',
+    //   'alternative',
+    // ),
   ],
   props: {
     isSignIn: {
@@ -129,9 +128,6 @@ export default {
         id,
         icon: getAuthPlatformIcon(`./${id}.svg`),
       }));
-    },
-    graphAvatar() {
-      return this.shouldUseAltAsset ? this.avatar : undefined;
     },
   },
   methods: {
