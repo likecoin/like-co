@@ -91,7 +91,7 @@
               <form
                 v-if="wallet"
                 id="paymentInfo"
-                @submit.prevent="onSubmitPollForWeb3"
+                @submit.prevent="submitTransfer"
               >
                 <input
                   v-model="wallet"
@@ -221,6 +221,9 @@ import NarrowPageHeader from '~/components/header/NarrowPageHeader';
 import SocialMediaConnect from '~/components/SocialMediaConnect';
 
 import EthHelper from '@/util/EthHelper';
+import {
+  queryLikeCoinBalance as queryCosmosLikeCoinBalance,
+} from '@/util/CosmosHelper';
 import User from '@/util/User';
 import {
   apiGetUserMinById,
@@ -289,6 +292,7 @@ export default {
     ]).then((res) => {
       const {
         wallet,
+        cosmosWallet,
         avatar,
         displayName,
       } = res[0].data;
@@ -299,7 +303,7 @@ export default {
         });
       }
       return {
-        wallet,
+        wallet: cosmosWallet || wallet,
         avatar,
         id: params.id,
         displayName: displayName || params.id,
@@ -368,12 +372,18 @@ export default {
       'getLocalWallet',
       'getIsWeb3Polling',
     ]),
+    isCosmos() {
+      return this.wallet.startsWith('cosmos');
+    },
     isEth() {
       /* HACK because nuxt cannot easily pass route with params */
       return this.$route.name === 'id-eth' || this.$route.name === 'id-eth-amount';
     },
     maskedWallet() {
-      return this.wallet.replace(/(0x.{4}).*(.{10})/, '$1...$2');
+      if (this.wallet.startsWith('0x')) {
+        return this.wallet.replace(/(0x.{4}).*(.{10})/, '$1...$2');
+      }
+      return this.wallet.replace(/(cosmos.{4}).*(.{10})/, '$1...$2');
     },
     httpReferrer() {
       return this.$route.query.referrer || document.referrer || undefined;
@@ -416,6 +426,7 @@ export default {
       'popupAuthDialogInPlace',
       'doUserAuth',
       'sendPayment',
+      'sendCosmosPayment',
       'sendEthPayment',
       'setErrorMsg',
       'closeTxDialog',
@@ -423,28 +434,23 @@ export default {
       'startWeb3Polling',
       'stopWeb3Polling',
     ]),
-    checkAddress() {
-      return this.wallet.length === 42 && this.wallet.substr(0, 2) === '0x';
-    },
-    async onSubmitPollForWeb3() {
+    async startPollingForWeb3() {
       this.isWaitingWeb3 = true;
-      const isStarted = await this.startWeb3Polling();
-      if (!isStarted) {
+      const isPolling = await this.startWeb3Polling();
+      if (!isPolling) {
         this.isWaitingWeb3 = false;
-        this.submitTransfer();
       }
+      return isPolling;
     },
     async submitTransfer() {
-      if (this.getMetamaskError) {
-        this.showMetaMaskLoginWindow();
-        return;
+      if (!this.isCosmos) {
+        if (await this.startPollingForWeb3()) return;
+        if (this.getMetamaskError) {
+          this.showMetaMaskLoginWindow();
+          return;
+        }
       }
-      this.isBadAddress = false;
-      if (!this.checkAddress()) {
-        this.isBadAddress = true;
-        return;
-      }
-      const { wallet } = this.getUserInfo;
+      const { wallet, cosmosWallet } = this.getUserInfo;
       const amount = new BigNumber(this.amount);
       if (!amount || amount.lt('0.000000000000000001')) {
         this.isBadAmount = true;
@@ -453,11 +459,13 @@ export default {
       this.isBadAmount = false;
       try {
         let balance = 0;
-        const from = this.getLocalWallet;
+        const from = this.isCosmos
+          ? await this.fetchAuthCoreCosmosWallet() : this.getLocalWeb3Wallet;
         if (!from) {
           return;
         }
-        if (from !== wallet) {
+        const userWallet = this.isCosmos ? cosmosWallet : wallet;
+        if (from !== userWallet) {
           this.setErrorMsg(this.$t('Transaction.error.metamaskWalletNotMatch'));
           return;
         }
@@ -466,16 +474,31 @@ export default {
           this.setErrorMsg(this.$t('Transaction.error.sameUser'));
           return;
         }
-        if (this.isEth) {
-          balance = await EthHelper.queryEthBalance(from);
+        let valueToSend;
+        if (!this.isCosmos) {
+          if (this.isEth) {
+            balance = await EthHelper.queryEthBalance(from);
+          } else {
+            balance = await EthHelper.queryLikeCoinBalance(from);
+          }
+          valueToSend = ONE_LIKE.multipliedBy(amount);
+          if ((new BigNumber(balance)).lt(valueToSend)) {
+            this.setErrorMsg(
+              this.$t(`Transaction.error.${this.isEth ? 'eth' : 'likecoin'}Insufficient`),
+            );
+            return;
+          }
         } else {
-          balance = await EthHelper.queryLikeCoinBalance(from);
+          balance = await queryCosmosLikeCoinBalance(from);
+          valueToSend = amount.toFixed();
+          if (balance < valueToSend) {
+            this.setErrorMsg(
+              this.$t(`Transaction.error.${this.isEth ? 'eth' : 'likecoin'}Insufficient`),
+            );
+            return;
+          }
         }
-        const valueToSend = ONE_LIKE.multipliedBy(new BigNumber(this.amount));
-        if ((new BigNumber(balance)).lt(valueToSend)) {
-          this.setErrorMsg(this.$t(`Transaction.error.${this.isEth ? 'eth' : 'likecoin'}Insufficient`));
-          return;
-        }
+
         let txHash;
         if (this.isEth) {
           txHash = await EthHelper.sendTransaction(to, valueToSend);
@@ -486,6 +509,14 @@ export default {
             txHash,
             value,
           });
+        } else if (this.isCosmos) {
+          const signer = {}; // TODO add cosmos signer
+          ({ txHash } = await this.sendCosmosPayment({
+            signer,
+            from,
+            to,
+            value: valueToSend,
+          }));
         } else {
           if (!EthHelper.getIsSupportTransferDelegated()) {
             this.setErrorMsg(this.$t('Transaction.error.notSupported'));
@@ -496,7 +527,10 @@ export default {
         }
         if (this.getIsShowingTxPopup) {
           this.closeTxDialog();
-          this.$router.push({ name: 'in-tx-id', params: { id: txHash, tx: this.getPendingTxInfo } });
+          this.$router.push({
+            name: 'in-tx-id',
+            params: { id: txHash, tx: this.getPendingTxInfo },
+          });
         }
       } catch (error) {
         console.error(error);
