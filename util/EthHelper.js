@@ -4,10 +4,7 @@ import { IS_TESTNET, INFURA_HOST, CONFIRMATION_NEEDED } from '@/constant';
 import { getTxInfo, getTxReceipt } from './txInfo/txInfo';
 import { isReceiptSuccess } from './txInfo/receipt';
 import { LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin-address';
-
-function timeout(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+import { timeout } from '@/util/misc';
 
 function prettifyNumber(n) {
   const s = n.toString(10);
