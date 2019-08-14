@@ -13,6 +13,14 @@ async function initCosmos() {
   api = new Cosmos('/api/cosmos/lcd', COSMOS_CHAIN_ID);
 }
 
+function LIKEToNanolike(value) {
+  return `${Number.parseInt(value, 10).toString()}000000000`;
+}
+
+export function LIKEToAmount(value) {
+  return { denom: COSMOS_DENOM, amount: LIKEToNanolike(value) };
+}
+
 export function amountToLIKE(likecoin) {
   if (likecoin.denom === 'nanolike') {
     return (Number.parseFloat(likecoin.amount) / 1e9);
@@ -90,4 +98,17 @@ export async function queryLikeCoinBalance(addr) {
   if (!account) return 0;
   const [{ amount }] = account.coins.filter(coin => coin.denom === COSMOS_DENOM);
   return amountToLIKE(amount);
+}
+
+export async function sendTx(msgCallPromise, signer) {
+  const { simulate, send } = await msgCallPromise;
+  const gas = (await simulate({})).toString();
+  const { hash, included } = await send({ gas }, signer);
+  return { txHash: hash, included };
+}
+
+export function transfer({ from, to, value }, signer) {
+  const amount = LIKEToAmount(value);
+  const msgPromise = api.MsgSend(from, { toAddress: to, amounts: [amount] });
+  return sendTx(msgPromise, signer);
 }
