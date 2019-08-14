@@ -176,11 +176,8 @@ export const apiLinkSocialPlatform = (platform, payload) => axios.post(`/social/
 export const apiUnlinkSocialPlatform = (platform, payload) => axios.post(`/social/unlink/${platform}`, payload);
 
 export const apiGetLikeButtonMyStatus = (id, referrer) => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/likebutton/${id}/self`, { params: { referrer } });
-
 export const apiGetLikeButtonTotalCount = (id, referrer) => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/likebutton/${id}/total`, { params: { referrer } });
-
 export const apiGetLikeButtonLikerList = (id, referrer) => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/likebutton/${id}/list`, { params: { referrer } });
-
 export const apiPostLikeButton = (id, referrer, count = 1) => axios.post(
   `${LIKECOIN_MISC_API_BASE}/api/like/likebutton/${id}/${count}`,
   {},
@@ -188,20 +185,16 @@ export const apiPostLikeButton = (id, referrer, count = 1) => axios.post(
 );
 
 export const apiSelectFacebookPageLink = (pageId, payload) => axios.post(`/social/link/facebook/${pageId}`, payload);
-
 export const apiPostSocialPlatformsIsPublic = payload => axios.patch('/social/public', payload);
-
 export const apiPostAddUserSocialLink = payload => axios.post('/social/links/new', payload);
-
 export const apiPostUpdateUserSocialLink = (linkId, payload) => axios.put(`/social/links/${linkId}`, payload);
 
 export const apiGetLikeStatistic = () => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/like/stat`);
 
 export const apiGetLikeArticleInfo = url => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/like/suggest/info/?url=${encodeURIComponent(url)}`);
-
 export const apiGetLikeURLSuggestion = () => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/like/suggest/all`, { withCredentials: false });
-
 export const apiGetLikeURLPersonalSuggestion = () => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/like/suggest/personal`);
+export const apiGetUserLikeAmount = () => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/info/like/amount`);
 
 export const apiPostUserReadContent = (id, payload) => axios.put(`/users/read/${id}`, payload);
 
