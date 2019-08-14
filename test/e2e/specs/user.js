@@ -23,13 +23,13 @@ module.exports = {
       // Click 'Sign in with wallet' button
       .click('[lc-test=SignInWithWalletButton]')
       // Wait for wallet notice to appear
-      .waitForElementVisible('[lc-test=WalletNoticeDialog]', 1000)
+      .waitForElementVisible('[lc-test=WalletNoticeDialog]', 3000)
       .click('[lc-test=ProceedWalletNoticeButton]')
-      .pause(500)
+      .pause(1000)
       .click('[lc-test=ProceedWalletNoticeButton]')
-      .pause(500)
+      .pause(1000)
       .click('[lc-test=ProceedWalletNoticeButton]')
-      .pause(500)
+      .pause(1000)
       // Fill registration form
       .waitForElementVisible('[lc-test=RegisterForm]', 5000)
       .setValue('[lc-test=RegisterForm-LikeCoinIdField]', newId)
