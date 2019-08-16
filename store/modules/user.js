@@ -17,6 +17,7 @@ import {
   USER_ADD_SOCIAL_LINK,
   USER_SET_SOCIAL_LINK,
   USER_UPDATE_READ_CONTENT_STATUS,
+  USER_SET_AUTH_CORE_ACCESS_TOKEN,
 } from '../mutation-types';
 import * as actions from './actions/user';
 import * as getters from './getters/user';
@@ -36,6 +37,7 @@ const state = () => ({
   socialMeta: {},
   likecoinAmountObject: {},
   likeCoinAmountInBigNumber: null,
+  authCoreAccessToken: '',
 });
 
 const mutations = {
@@ -152,6 +154,9 @@ const mutations = {
       ...state.user.read,
       ...payload,
     });
+  },
+  [USER_SET_AUTH_CORE_ACCESS_TOKEN](state, accessToken) {
+    state.authCoreAccessToken = accessToken;
   },
 };
 

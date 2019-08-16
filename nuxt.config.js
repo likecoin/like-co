@@ -112,6 +112,7 @@ const nuxtConfig = {
           '*.doubleclick.net',
           '*.like.co',
           'like.co',
+          'likecoin-integration-test.authcore.io',
         ],
         'connect-src': [
           "'self'",

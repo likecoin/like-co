@@ -75,7 +75,13 @@
             v-bind="tabProps"
             class="auth-dialog__tab auth-dialog__tab--index auth-dialog__tab--portal"
           >
+            <auth-core-register
+              v-if="isUsingAuthCore"
+              :is-sign-in="isSignIn"
+              @success="signInWithAuthCore"
+            />
             <signin-portal
+              v-else
               class="base-dialog-v2__corner-block"
               :is-sign-in="isSignIn"
               :is-show-close-button="closable"
@@ -296,6 +302,7 @@ import {
 
 import { checkUserNameValid } from '@/util/ValidationHelper';
 
+import AuthCoreRegister from '~/components/AuthCore/Register';
 import BaseDialogV2 from '~/components/dialogs/BaseDialogV2';
 import SigninPortal from './AuthDialogContent/SignInPortal';
 // import EmailSigninForm from './AuthDialogContent/SignInWithEmail';
@@ -322,6 +329,7 @@ export default {
   name: 'auth-dialog',
   components: {
     BaseDialogV2,
+    AuthCoreRegister,
     SigninPortal,
     // EmailSigninForm,
     RegisterForm,
@@ -358,6 +366,7 @@ export default {
       loggedEvents: {},
 
       hasClickSignWithWalletInError: false,
+      isUsingAuthCore: true,
     };
   },
   computed: {
@@ -676,6 +685,7 @@ export default {
       'toggleAuthDialogIsSignIn',
       'setWalletNoticeDialog',
       'openPopupDialog',
+      'setAuthCoreToken',
     ]),
     setContentStyle({ height }) {
       const style = {
@@ -880,6 +890,23 @@ export default {
           }
         }
       });
+    },
+    signInWithAuthCore({ accessToken, currentUser, idToken }) {
+      this.setAuthCoreToken(accessToken);
+      this.currentTab = 'loading';
+      this.platform = 'authcore';
+      const {
+        primaryEmail: email,
+        displayName,
+        suggestedName: username,
+      } = currentUser;
+      this.signInPayload = {
+        email,
+        displayName,
+        username,
+        idToken,
+      };
+      this.login();
     },
     async signInWithPlatform(platform, options = { isAllowRedirect: true }) {
       this.platform = platform;

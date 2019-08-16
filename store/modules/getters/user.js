@@ -30,3 +30,5 @@ export const getUserLikeCoinAmountIsZero = state => (
   !state.likeCoinAmountInBigNumber
   || state.likeCoinAmountInBigNumber.isZero()
 );
+
+export const getUserAuthCoreAccessToken = state => state.authCoreAccessToken;

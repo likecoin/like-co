@@ -50,6 +50,10 @@ export function doPostAuthRedirect({ commit, state }, { route, router }) {
   commit(types.USER_SET_AFTER_AUTH_ROUTE, null);
 }
 
+export async function setAuthCoreToken({ commit }, accessToken) {
+  commit(types.USER_SET_AUTH_CORE_ACCESS_TOKEN, accessToken);
+}
+
 export async function newUser({ commit, dispatch, rootState }, data) {
   await apiWrapper(
     { commit, dispatch },
