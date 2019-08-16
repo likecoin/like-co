@@ -7,6 +7,7 @@ import {
   AuthCoreWidgets,
 } from 'authcore-js';
 import config from './config';
+import { AUTHCORE_API_HOST } from '@/constant';
 
 export default {
   name: 'auth-core-register',
@@ -30,7 +31,7 @@ export default {
     this.widgetInstance = new this.SignInWidget({
       ...config,
       container: 'authcore-register-container',
-      root: 'https://likecoin-integration-test.authcore.io/widgets',
+      root: `${AUTHCORE_API_HOST}/widgets`,
       callbacks: {
         onSuccess: async (data) => {
           const { access_token: accessToken, current_user: currentUser, id_token: idToken } = data;
