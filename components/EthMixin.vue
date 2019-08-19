@@ -13,13 +13,13 @@ export default {
   computed: {
     ...mapGetters([
       'getMetamaskError',
-      'getLocalWallet',
+      'getLocalWeb3Wallet',
       'getIsWeb3Polling',
     ]),
   },
   watch: {
-    getLocalWallet() {
-      this.wallet = this.getLocalWallet;
+    getLocalWeb3Wallet() {
+      this.wallet = this.getLocalWeb3Wallet;
       if (this.getIsWeb3Polling) {
         this.stopWeb3Polling();
         this.callbackFunc();

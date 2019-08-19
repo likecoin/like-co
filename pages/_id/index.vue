@@ -369,7 +369,7 @@ export default {
       'getPendingTxInfo',
       'getLikeCoinUsdNumericPrice',
       'getUserInfo',
-      'getLocalWallet',
+      'getLocalWeb3Wallet',
       'getIsWeb3Polling',
     ]),
     isCosmos() {
@@ -403,7 +403,7 @@ export default {
     getWeb3Type() {
       this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
     },
-    getLocalWallet() {
+    getLocalWeb3Wallet() {
       if (this.getIsWeb3Polling && this.isWaitingWeb3) {
         this.submitTransfer();
         this.stopWeb3Polling();
