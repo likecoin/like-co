@@ -78,7 +78,7 @@
 
 
           <div
-            v-if="getUserInfo.wallet"
+            v-if="getUserHasWallet"
             class="lc-container-3 lc-margin-top-24 lc-bg-gray-1"
           >
             <div class="like-button-settings__header">
@@ -286,6 +286,7 @@ export default {
     ...mapGetters([
       'getUserInfo',
       'getUserIsRegistered',
+      'getUserHasWallet',
       'getUserSocialPlatforms',
       'getUserSocialLinks',
       'getUserSocialMeta',

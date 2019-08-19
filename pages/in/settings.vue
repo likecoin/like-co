@@ -32,7 +32,7 @@
             to="/in/settings"
           />
           <md-tab
-            v-if="getUserInfo.wallet"
+            v-if="getUserHasWallet"
             id="in-settings-button"
             :md-label="$t('Settings.button.likeButton')"
             to="/in/settings/button"
@@ -62,7 +62,7 @@ export default {
   middleware: 'authenticated',
   computed: {
     ...mapGetters([
-      'getUserInfo',
+      'getUserHasWallet',
     ]),
   },
   head() {

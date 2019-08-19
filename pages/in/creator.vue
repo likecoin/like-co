@@ -36,6 +36,7 @@ export default {
       'getUserIsRegistered',
       'getLocalWeb3Wallet',
       'getUserInfo',
+      'getUserHasWallet',
     ]),
   },
   head() {
@@ -61,8 +62,8 @@ export default {
     };
   },
   watch: {
-    getUserInfo(user, prevUser) {
-      if (!prevUser.wallet && user.wallet) {
+    getUserHasWallet(hasWallet, prevHasWallet) {
+      if (!prevHasWallet && hasWallet) {
         this.$router.push({ name: 'in-creator' });
       }
     },
@@ -84,7 +85,7 @@ export default {
     ]),
     onClickStart() {
       if (this.getUserIsRegistered) {
-        if (this.getUserInfo.wallet) {
+        if (this.getUserHasWallet) {
           this.$router.push({ name: 'in-settings-button' });
         } else if (checkIsMobileClient() && !checkIsTrustClient(this)) {
           this.openPopupDialog({

@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="getUserInfo.wallet"
+    v-if="getUserHasWallet"
     class="bonus-tab"
   >
 
@@ -362,6 +362,7 @@ export default {
     ...mapGetters([
       'getUserInfo',
       'getUserIsRegistered',
+      'getUserHasWallet',
 
       'getMissionList',
       'getIsFetchedMissions',

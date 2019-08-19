@@ -52,7 +52,7 @@
       <section class="lc-container-0 lc-margin-top-48">
         <!-- LikeCoin Bonus Overview -->
         <div
-          v-if="isWallet"
+          v-if="getUserHasWallet"
           id="earn"
           class="lc-container-1 bonus-container"
         >
@@ -259,18 +259,13 @@ export default {
   computed: {
     ...mapGetters([
       'getUserInfo',
+      'getUserHasWallet',
       'getIsPopupBlocking',
       'getIsFetchingMissions',
       'getIsFetchedMissions',
       'getUserIsRegistered',
       'getShortMissionList',
     ]),
-    wallet() {
-      return this.getUserInfo.wallet;
-    },
-    isWallet() {
-      return !!this.wallet;
-    },
     isEmailVerified() {
       return this.getUserInfo.isEmailVerified;
     },

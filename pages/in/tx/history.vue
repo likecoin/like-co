@@ -8,7 +8,7 @@
           <transaction-history
             ref="txHistory"
             :user="getUserInfo.user"
-            :address="getUserInfo.wallet"
+            :address="getUserHasWallet"
             :is-fetching.sync="isFetchingTranscationHistory"
             class="lc-margin-top-48 lc-mobile"
           />
@@ -22,7 +22,8 @@
               />
             </div>
             <div class="lc-container-3">
-              <view-etherscan :address="getUserInfo.wallet" />
+              <view-etherscan v-if="getUserInfo.cosmosWallet" :address="getUserInfo.cosmosWallet" />
+              <view-etherscan v-else :address="getUserInfo.wallet" />
             </div>
           </div>
 
@@ -57,7 +58,7 @@ export default {
   },
   asyncData({ store, redirect }) {
     const user = store.getters.getUserInfo;
-    if (!user.wallet) {
+    if (!(user.wallet || user.cosmosWallet)) {
       redirect('/in');
     }
   },
@@ -75,6 +76,7 @@ export default {
     ...mapGetters([
       'getUserInfo',
       'getUserIsRegistered',
+      'getUserHasWallet',
     ]),
   },
   mounted() {

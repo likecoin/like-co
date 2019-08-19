@@ -108,7 +108,7 @@
       <!-- END - User info section -->
 
       <like-coin-amount
-        v-if="wallet"
+        v-if="getUserHasWallet"
         :value="likeCoinValueStr"
         :linkText="$t('Home.Sale.button.earnCoin')"
         :linkTo="{ name: 'in-creator' }"
@@ -161,7 +161,7 @@
               </div>
 
               <div
-                v-if="wallet"
+                v-if="getUserHasWallet"
                 class="address-field"
               >
                 <div class="address-title">
@@ -230,7 +230,6 @@ export default {
       email: '',
       isVerifying: false,
       user: '',
-      wallet: '',
       hasCopiedReceiveLikeCoinLink: false,
     };
   },
@@ -240,6 +239,7 @@ export default {
       'getUserInfo',
       'getUserIsRegistered',
       'getUserLikeCoinAmountInBigNumber',
+      'getUserHasWallet',
     ]),
     isCivicLiker() {
       return this.getUserInfo.isSubscribedCivicLiker;
@@ -260,9 +260,6 @@ export default {
       return this.getUserInfo.isEmailVerified;
     },
     likeCoinValueStr() {
-      if (!this.wallet) {
-        return 'No binded wallet';
-      }
       return (this.getUserLikeCoinAmountInBigNumber || 0).toFixed(4);
     },
     receiveLikeCoinLink() {
@@ -330,7 +327,6 @@ export default {
       this.user = user.user;
       this.displayName = user.displayName;
       this.avatarData = user.avatar;
-      this.wallet = user.wallet;
       this.email = user.email;
       this.isEmailEnabled = (user.isEmailEnabled !== false);
       this.queryLikeCoinWalletBalance();
