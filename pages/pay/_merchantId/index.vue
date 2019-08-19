@@ -259,7 +259,6 @@ export default {
     ...mapGetters([
       'getCurrentLocale',
       'getIsInTransaction',
-      'getLocalWallet',
       'getUserIsRegistered',
       'getMetamaskError',
       'getWeb3Type',
