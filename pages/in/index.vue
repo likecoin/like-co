@@ -181,18 +181,13 @@ export default {
   computed: {
     ...mapGetters([
       'getUserInfo',
+      'getUserHasWallet',
       'getIsPopupBlocking',
       'getIsFetchingMissions',
       'getIsFetchedMissions',
       'getUserIsRegistered',
       'getShortMissionList',
     ]),
-    wallet() {
-      return this.getUserInfo.wallet;
-    },
-    isWallet() {
-      return !!this.wallet;
-    },
     isEmailVerified() {
       return this.getUserInfo.isEmailVerified;
     },
