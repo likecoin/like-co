@@ -1,4 +1,7 @@
-import { COSMOS_CHAIN_ID, COSMOS_DENOM } from '@/constant';
+import {
+  COSMOS_CHAIN_ID,
+  COSMOS_DENOM,
+} from '@/constant';
 import { timeout } from '@/util/misc';
 
 let Cosmos;
@@ -94,9 +97,8 @@ export async function getTransferInfo(txHash, opt) {
 
 export async function queryLikeCoinBalance(addr) {
   if (!api) await initCosmos();
-  const { account } = await api.get.account(addr);
-  if (!account) return 0;
-  const [{ amount }] = account.coins.filter(coin => coin.denom === COSMOS_DENOM);
+  const account = await api.get.account(addr);
+  const [amount] = account.coins.filter(coin => coin.denom === COSMOS_DENOM);
   return amountToLIKE(amount);
 }
 
