@@ -5,6 +5,7 @@ const LIKECOIN_API_BASE = IS_TESTNET ? 'https://api.rinkeby.like.co' : 'https://
 const LIKECOIN_MISC_API_BASE = `https://${EXTERNAL_HOSTNAME}`;
 const LIKE_CO_CLOUD_FN_BASE = `https://us-central1-likecoin-${IS_TESTNET ? 'develop' : 'foundation'}.cloudfunctions.net`;
 
+export const COSMOS_API_BASE = '/api/cosmos/lcd';
 
 export const apiCheckIsUser = addr => axios.get(`/users/addr/${addr}/min`);
 
