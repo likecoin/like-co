@@ -8,6 +8,7 @@ import {
 
 export async function setAuthCoreToken({ dispatch, commit }, accessToken) {
   commit(types.AUTHCORE_SET_ACCESS_TOKEN, accessToken);
+  if (window.localStorage) window.localStorage.setItem('authcore.accessToken', accessToken);
   await dispatch('initAuthCoreWallerService');
 }
 
