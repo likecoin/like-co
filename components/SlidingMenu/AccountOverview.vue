@@ -27,7 +27,7 @@
     </div>
 
     <div
-      v-if="usdStrValue && getUserInfo.wallet"
+      v-if="usdStrValue && getUserHasWallet"
       class="account-overview__account lc-padding-bottom-32"
     >
       <div class="account-overview__like-amount">
@@ -79,6 +79,7 @@ export default {
     ...mapGetters([
       'getUserIsRegistered',
       'getUserInfo',
+      'getUserHasWallet',
       'getLikeCoinUsdNumericPrice',
       'getUserLikeCoinAmountInBigNumber',
     ]),
@@ -86,7 +87,8 @@ export default {
       return User.getAvatarHaloType(this.getUserInfo);
     },
     likeCoinStrValue() {
-      return this.getUserLikeCoinAmountInBigNumber ? this.getUserLikeCoinAmountInBigNumber.toFixed(2) : '';
+      return this.getUserLikeCoinAmountInBigNumber
+        ? this.getUserLikeCoinAmountInBigNumber.toFixed(2) : '';
     },
     usdStrValue() {
       if (this.getLikeCoinUsdNumericPrice && this.getUserLikeCoinAmountInBigNumber) {

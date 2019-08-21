@@ -28,7 +28,7 @@
 
         <!-- BEGIN - Tab bar section -->
         <div
-          v-if="getUserInfo.wallet"
+          v-if="getUserHasWallet"
           class="lc-container-1"
         >
           <div class="underlay gray" />
@@ -118,7 +118,7 @@ export default {
     },
     ...mapGetters([
       'getReferralMissionList',
-      'getUserInfo',
+      'getUserHasWallet',
     ]),
   },
 };

@@ -359,7 +359,7 @@ export default {
       'getIsShowAuthDialog',
       'getCurrentLocale',
       'getMetamaskError',
-      'getLocalWallet',
+      'getLocalWeb3Wallet',
       'getUserMinInfoById',
     ]),
     closable() {
@@ -976,12 +976,12 @@ export default {
 
       // Determine whether the wallet has registered
       try {
-        await apiCheckIsUser(this.getLocalWallet);
+        await apiCheckIsUser(this.getLocalWeb3Wallet);
       } catch (err) {
         if (err.response) {
           if (err.response.status === 404) {
             this.signInPayload = {
-              wallet: this.getLocalWallet,
+              wallet: this.getLocalWeb3Wallet,
             };
             this.currentTab = 'register';
             return;
@@ -996,7 +996,7 @@ export default {
       }
 
       try {
-        this.signInPayload = await User.signLogin(this.getLocalWallet);
+        this.signInPayload = await User.signLogin(this.getLocalWeb3Wallet);
         this.login();
       } catch (err) {
         if (err.message.indexOf('Invalid "from" address') >= 0) {
