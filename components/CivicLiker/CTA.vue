@@ -154,7 +154,7 @@ export default {
       if (this.isOnWaitingList) {
         return this.$t('CivicLikerCTAForWaitingList.buttonTitle');
       }
-      return this.$t('CivicPage.register');
+      return this.$t('Edit.label.becomeCivicLiker');
     },
   },
   methods: {

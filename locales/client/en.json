@@ -844,6 +844,7 @@
   "Edit": {
     "label": {
       "id": "Liker ID:",
+      "becomeCivicLiker": "Become Civic Liker",
       "likeCoinAmount": "Amount of LikeCoin",
       "manageYourLikeCoin": "Manage your LikeCoin",
       "address": "Your Address",
