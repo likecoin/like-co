@@ -935,6 +935,9 @@
       "metamaskWalletNotMatch": "你的錢包地址跟目前的 Metamask 地址不相符"
     }
   },
+  "RewardRecords": {
+    "title": "奬賞紀錄"
+  },
   "WhitePaper": {
     "label": {
       "whitePaper": "白皮書",

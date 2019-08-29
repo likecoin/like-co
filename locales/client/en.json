@@ -824,7 +824,7 @@
   "In": {
     "tab": {
       "overview": "Overview",
-      "bonus": "Bonus",
+      "rewardRecords": "Reward Records",
       "txHistory": "Transaction History"
     },
     "mansory": {
@@ -948,6 +948,9 @@
       "sameUser": "Sender and Recipient cannot be same",
       "metamaskWalletNotMatch": "Your wallet address is not the same as current Metamask address."
     }
+  },
+  "RewardRecords": {
+    "title": "Reward Records"
   },
   "WhitePaper": {
     "label": {

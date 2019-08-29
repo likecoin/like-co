@@ -27,12 +27,10 @@
         </div>
 
         <!-- BEGIN - Tab bar section -->
-        <div
-          v-if="getUserHasWallet"
-          class="lc-container-1"
-        >
+        <div class="lc-container-1">
           <div class="underlay gray" />
           <md-tabs
+            :key="String(getUserLikeCoinAmountIsZero)"
             :md-active-tab="$route.name"
             class="lc-tabs lc-container-2 lc-width-2-3 md-transparent"
           >
@@ -51,11 +49,20 @@
               :md-label="$t('In.tab.overview')"
               to="/in"
             />
-            <md-tab
-              id="in-tx-history"
-              :md-label="$t('In.tab.txHistory')"
-              to="/in/tx/history"
-            />
+            <template v-if="!getUserLikeCoinAmountIsZero">
+              <md-tab
+                v-if="getUserHasWallet"
+                id="in-tx-history"
+                :md-label="$t('In.tab.txHistory')"
+                to="/in/tx/history"
+              />
+              <md-tab
+                v-else
+                id="in-reward-records"
+                :md-label="$t('In.tab.rewardRecords')"
+                to="/in/reward/records"
+              />
+            </template>
 
           </md-tabs>
         </div>
@@ -113,6 +120,7 @@ export default {
     ...mapGetters([
       'getReferralMissionList',
       'getUserHasWallet',
+      'getUserLikeCoinAmountIsZero',
     ]),
   },
 };

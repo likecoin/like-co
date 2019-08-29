@@ -876,6 +876,9 @@
       "sameUser": "不能转账给自己"
     }
   },
+  "RewardRecords": {
+    "title": "奖赏纪录"
+  },
   "WhitePaper": {
     "label": {
       "whitePaper": "白皮书",

@@ -195,6 +195,7 @@ export const apiGetLikeArticleInfo = url => axios.get(`${LIKECOIN_MISC_API_BASE}
 export const apiGetLikeURLSuggestion = () => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/like/suggest/all`, { withCredentials: false });
 export const apiGetLikeURLPersonalSuggestion = () => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/like/suggest/personal`);
 export const apiGetUserLikeAmount = () => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/info/like/amount`);
+export const apiGetUserPendingLikeHistory = () => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/info/like/pending`);
 
 export const apiPostUserReadContent = (id, payload) => axios.put(`/users/read/${id}`, payload);
 
