@@ -52,12 +52,6 @@
               to="/in"
             />
             <md-tab
-              id="in-bonus"
-              :md-label="$t('In.tab.bonus')"
-              :md-template-data="{ isNew: hasNewInvitee }"
-              to="/in/bonus"
-            />
-            <md-tab
               id="in-tx-history"
               :md-label="$t('In.tab.txHistory')"
               to="/in/tx/history"
