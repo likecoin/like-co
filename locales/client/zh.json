@@ -837,6 +837,7 @@
   "Edit": {
     "label": {
       "id": "Liker ID:",
+      "becomeCivicLiker": "成為讚賞公民",
       "likeCoinAmount": "LikeCoin 數量",
       "manageYourLikeCoin": "管理你的 LikeCoin",
       "address": "錢包地址",
