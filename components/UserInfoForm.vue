@@ -134,7 +134,7 @@
       <like-coin-amount
         class="likecoin-amount-section"
         :value="getUserLikeCoinAmountInBigNumber"
-        :has-wallet="!!getUserInfo.wallet"
+        :has-wallet="getUserHasWallet"
       />
       <!-- TODO: Temp hide before civic liker release
       <div
