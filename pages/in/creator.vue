@@ -69,8 +69,12 @@ export default {
   },
   mounted() {
     const { action, ...query } = this.$route.query;
-    if (this.$route.query.action === 'start' || this.$route.query.action === 'sign') {
+    if (action === 'start' || action === 'sign') {
       this.$nextTick(this.onClickStart);
+    } else if (action === 'unlock') {
+      this.startWeb3AndCb(this.bindWallet);
+    }
+    if (action) {
       this.$router.push({ ...this.$route, query });
     }
   },
