@@ -879,6 +879,30 @@
   "RewardRecords": {
     "title": "奖赏纪录"
   },
+  "UnlockLikeCoinPage": {
+    "title": "解锁你的 LikeCoin",
+    "description": "你的 LikeCoin 暂时由基金会保管，你可以随时提取自行保管或买卖。",
+    "card": {
+      "likecoin": {
+        "title": "以更方便简单的方法管理你的 LikeCoin",
+        "slogan": "即将于年底推出",
+        "points": [
+          "无须使用任何插件",
+          "无须拥有以太币都可转帐",
+          "保管方法与生态深度结合",
+          "设定快速且简单"
+        ],
+        "action": {
+          "button": "快将推出"
+        }
+      },
+      "metamask": {
+        "action": {
+          "button": "开始使用"
+        }
+      }
+    }
+  },
   "WhitePaper": {
     "label": {
       "whitePaper": "白皮书",

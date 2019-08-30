@@ -952,6 +952,30 @@
   "RewardRecords": {
     "title": "Reward Records"
   },
+  "UnlockLikeCoinPage": {
+    "title": "Unlock your LikeCoin",
+    "description": "Your LikeCoin is temporarily kept by the Foundation, and you can withdraw it yourself or buy it at any time.",
+    "card": {
+      "likecoin": {
+        "title": "Manage your LikeCoin in a more convenient and simple way",
+        "slogan": "Available in Q4",
+        "points": [
+          "No need to use any plugins",
+          "No need to pay Ethereum to transfer",
+          "Deeply integrated with LikeCoin ecosystem",
+          "Quick and easy to setup"
+        ],
+        "action": {
+          "button": "Coming soon"
+        }
+      },
+      "metamask": {
+        "action": {
+          "button": "Get started"
+        }
+      }
+    }
+  },
   "WhitePaper": {
     "label": {
       "whitePaper": "WhitePaper",
