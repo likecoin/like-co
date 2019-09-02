@@ -793,7 +793,7 @@
       "bindWallet": "綁定 MetaMask 地址",
       "enableEmail": "接收你的 LikeCoin 交易通知及最新消息的電郵",
       "privacyPolicy": "私隱政策",
-      "agreeTerms": "我同意 {privacyPolicy}.",
+      "agreeTerms": "按下確認代表你同意 {privacyPolicy}.",
       "label": {
         "updatedInfo": "資料已經更新",
         "viewPage": "到個人頁面"

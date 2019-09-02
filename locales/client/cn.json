@@ -758,7 +758,7 @@
       "couponCode": "兑换码 (可选)",
       "enableEmail": "接收你的 LikeCoin 交易通知及最新消息的电邮",
       "privacyPolicy": "私隐政策",
-      "agreeTerms": "我同意 {privacyPolicy}.",
+      "agreeTerms": "按下确认代表你同意 {privacyPolicy}.",
       "label": {
         "updatedInfo": "资料已经更新",
         "viewPage": "到个人页面"

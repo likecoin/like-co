@@ -805,7 +805,7 @@
       "couponCode": "Coupon Code (optional)",
       "enableEmail": "Receive email notification for LikeCoin transaction and news update",
       "privacyPolicy": "Privacy Policy",
-      "agreeTerms": "I agree to {privacyPolicy}.",
+      "agreeTerms": "By clicking confirm you agree to {privacyPolicy}.",
       "bindWallet": "Bind MetaMask wallet",
       "label": {
         "updatedInfo": "Your information have been updated.",
