@@ -776,7 +776,7 @@
   "In": {
     "tab": {
       "overview": "概览",
-      "bonus": "奖赏",
+      "rewardRecords": "奖赏记录",
       "txHistory": "交易记录"
     }
   },
