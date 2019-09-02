@@ -51,7 +51,7 @@ export default {
       const { state, user } = this.$route.query;
       if (user) return user;
       if (state && state.split(':').length > 0) {
-        return state.split('-').slice(0, -1).join('-');
+        return state.split(':')[0];
       }
       return this.getUserInfo.user;
     },
