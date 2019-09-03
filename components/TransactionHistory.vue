@@ -317,22 +317,40 @@ export default {
     },
     getValue(tx) {
       if (!(tx.value || tx.amount)) return '0.00';
+      let value;
 
-      if (this.isInMultiple(tx)) {
-        return formatAmount(getLikeCoinByValue(tx.value[tx.toIds.indexOf(this.user)]) || 0, 'LIKE');
+      if (this.isCosmos) {
+        if (this.isInMultiple(tx)) {
+          return formatAmount(
+            amountToLIKE(tx.amount[tx.toIds.indexOf(this.user)]) || 0, 'LIKE',
+          );
+        }
+
+        if (this.isOutMultiple(tx)) {
+          let total = 0;
+          tx.amount.forEach((a) => {
+            total += amountToLIKE(a);
+          });
+          return formatAmount(total, 'LIKE');
+        }
+        value = amountToLIKE(tx.amount) || 0;
+      } else {
+        if (this.isInMultiple(tx)) {
+          return formatAmount(
+            getLikeCoinByValue(tx.value[tx.toIds.indexOf(this.user)]) || 0, 'LIKE',
+          );
+        }
+
+        if (this.isOutMultiple(tx)) {
+          let total = new BigNumber(0);
+          tx.value.forEach((v) => {
+            total = total.plus(getLikeCoinByValue(v) || 0);
+          });
+          return formatAmount(total, 'LIKE');
+        }
+        value = getLikeCoinByValue(tx.value) || 0;
       }
 
-      if (this.isOutMultiple(tx)) {
-        let total = new BigNumber(0);
-        tx.value.forEach((value) => {
-          total = total.plus(getLikeCoinByValue(value) || 0);
-        });
-        return formatAmount(total, 'LIKE');
-      }
-
-      const value = (this.isCosmos(tx)
-        ? amountToLIKE(tx.amount) : getLikeCoinByValue(tx.value)) || 0;
-      // handle decimal places
       if (this.isPresale(tx)) {
         return formatAmount(value, 'ETH');
       }
@@ -386,11 +404,13 @@ export default {
     },
     isInMultiple(tx) {
       return (Array.isArray(tx.toIds)
-        && Array.isArray(tx.value)
+        && (Array.isArray(tx.value) || Array.isArray(tx.amount))
         && tx.toIds.includes(this.user));
     },
     isOutMultiple(tx) {
-      return (tx.fromId === this.user) && Array.isArray(tx.to) && Array.isArray(tx.value);
+      return (tx.fromId === this.user)
+      && Array.isArray(tx.to)
+      && (Array.isArray(tx.value) || Array.isArray(tx.amount));
     },
     isTxFailed(tx) {
       return tx.status === 'fail' || tx.status === 'timeout';
