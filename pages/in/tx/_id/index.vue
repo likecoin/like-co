@@ -409,7 +409,14 @@ export default {
         return amount.toFixed();
       }
       if (_amount !== undefined) {
-        return amountToLIKE(_amount);
+        if (!Array.isArray(_amount)) {
+          return amountToLIKE(_amount);
+        }
+        let amount = 0;
+        _amount.forEach((a) => {
+          amount += amountToLIKE(a);
+        });
+        return amount;
       }
       return 0;
     },
