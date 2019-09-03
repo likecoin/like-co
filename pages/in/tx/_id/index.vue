@@ -412,11 +412,11 @@ export default {
         if (!Array.isArray(_amount)) {
           return amountToLIKE(_amount);
         }
-        let amount = 0;
+        let amount = new BigNumber(0);
         _amount.forEach((a) => {
-          amount += amountToLIKE(a);
+          amount = amount.plus(new BigNumber(amountToLIKE(a)));
         });
-        return amount;
+        return amount.toFixed();
       }
       return 0;
     },
