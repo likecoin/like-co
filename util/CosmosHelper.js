@@ -68,16 +68,36 @@ export async function getTransferInfo(txHash, opt) {
     logs: [{ success = false } = {}] = [],
     tx: {
       value: {
-        msg: [{
-          value: {
-            amount: [amount],
-            from_address: from,
-            to_address: to,
-          },
-        }],
+        msg,
       },
     },
   } = txData;
+  let amount = [];
+  let from = [];
+  let to = [];
+  if (msg.length > 1) {
+    msg.forEach((m) => {
+      const {
+        value: {
+          amount: [a],
+          from_address: f,
+          to_address: t,
+        },
+      } = m;
+      amount.push(a);
+      from.push(f);
+      to.push(t);
+    });
+  } else {
+    ([{
+      value: {
+        amount: [amount],
+        from_address: from,
+        to_address: to,
+      },
+    }] = msg);
+  }
+  if (Array.isArray(from)) [from] = from; // TODO: support multiple from addr?
   if (!txData.height) {
     return {
       _from: from,
