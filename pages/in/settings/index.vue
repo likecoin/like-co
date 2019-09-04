@@ -57,7 +57,13 @@
                     {{ $t('Register.form.walletAddress') }}:
                   </span>
                   <span
-                    v-if="getUserInfo.wallet"
+                    v-if="getUserInfo.cosmosWallet"
+                    class="content"
+                  >
+                    {{ getUserInfo.cosmosWallet }}
+                  </span>
+                  <span
+                    v-else-if="getUserInfo.wallet"
                     class="content"
                   >
                     {{ getUserInfo.wallet }}
