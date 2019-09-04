@@ -161,10 +161,6 @@ export default {
       type: Boolean,
       default: true,
     },
-    isShowAvatar: {
-      type: Boolean,
-      default: true,
-    },
     platform: {
       type: String,
       required: true,
@@ -191,7 +187,10 @@ export default {
       'getInfoMsg',
     ]),
     isHideFilledInfo() {
-      return this.platform === 'google';
+      return this.platform === 'google' || this.platform === 'authcore';
+    },
+    isShowAvatar() {
+      return this.platform !== 'authcore';
     },
     avatarSrc() {
       return this.avatarData || this.prefilledData.avatarURL;
