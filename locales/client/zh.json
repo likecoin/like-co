@@ -811,7 +811,7 @@
   "In": {
     "tab": {
       "overview": "概覧",
-      "bonus": "獎賞",
+      "rewardRecords": "獎賞紀錄",
       "txHistory": "交易記錄"
     },
     "mansory": {
@@ -837,7 +837,9 @@
   "Edit": {
     "label": {
       "id": "Liker ID:",
+      "becomeCivicLiker": "成為讚賞公民",
       "likeCoinAmount": "LikeCoin 數量",
+      "manageYourLikeCoin": "管理你的 LikeCoin",
       "address": "錢包地址",
       "email": "郵件地址",
       "addEmail": "增加郵件地址",
@@ -931,6 +933,33 @@
       "likecoinInsufficient": "錢包內的 LikeCoin 數量不足",
       "sameUser": "不能轉賬給自己",
       "metamaskWalletNotMatch": "你的錢包地址跟目前的 Metamask 地址不相符"
+    }
+  },
+  "RewardRecords": {
+    "title": "奬賞紀錄"
+  },
+  "UnlockLikeCoinPage": {
+    "title": "解鎖你的 LikeCoin",
+    "description": "你的 LikeCoin 暫時由基金會保管，你可以隨時提取自行保管或買賣。",
+    "card": {
+      "likecoin": {
+        "title": "以更方便簡單的方法管理你的 LikeCoin",
+        "slogan": "即將於年底推出",
+        "points": [
+          "無須使用任何插件",
+          "無須擁有以太幣都可轉帳",
+          "保管方法與生態深度結合",
+          "設定快速且簡單"
+        ],
+        "action": {
+          "button": "快將推出"
+        }
+      },
+      "metamask": {
+        "action": {
+          "button": "開始使用"
+        }
+      }
     }
   },
   "WhitePaper": {
