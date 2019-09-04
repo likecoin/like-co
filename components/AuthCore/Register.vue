@@ -32,19 +32,17 @@ export default {
       ...config,
       container: 'authcore-register-container',
       root: `${AUTHCORE_API_HOST}/widgets`,
-      callbacks: {
-        onSuccess: async (data) => {
-          const { access_token: accessToken, current_user: currentUser, id_token: idToken } = data;
-          this.$emit('success', {
-            accessToken,
-            currentUser,
-            idToken,
-          });
-        },
-        onLoaded: () => this.$emit('loaded'),
-        unauthenticated: (err) => {
-          this.$emit('unauthenticated', err);
-        },
+      onSuccess: async (data) => {
+        const { access_token: accessToken, current_user: currentUser, id_token: idToken } = data;
+        this.$emit('success', {
+          accessToken,
+          currentUser,
+          idToken,
+        });
+      },
+      onLoaded: () => this.$emit('loaded'),
+      unauthenticated: (err) => {
+        this.$emit('unauthenticated', err);
       },
     });
   },
