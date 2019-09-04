@@ -31,7 +31,7 @@
           :toAddress="to"
           :toAvatarHalo="toAvatarHalo"
           :timestamp="timestamp"
-          :amount="amount"
+          :amount="displayAmount"
           :filterAddress="filterAddress"
         />
 
@@ -220,8 +220,8 @@ export default {
       toAvatarHalo: 'none',
       remarks: '',
       timestamp: 0,
-      value: '', // BN in string
-      amount: '0',
+      value: '',
+      displayAmount: '0',
       updateTimer: null,
       httpReferrer: undefined,
       ETHERSCAN_HOST,
@@ -246,6 +246,7 @@ export default {
           from,
           fromId,
           value,
+          amount,
           status,
           remarks,
           httpReferrer,
@@ -262,6 +263,7 @@ export default {
           from,
           fromId,
           value,
+          amount,
           status,
           remarks,
           httpReferrer,
@@ -315,7 +317,7 @@ export default {
       return this.toId;
     },
     isMultipleTx() {
-      return Array.isArray(this.toId) && (this.toId.length > 1);
+      return Array.isArray(this.to) && (this.to.length > 1);
     },
     isEthLikeTx() {
       return this.txId.startsWith('0x');
@@ -324,8 +326,11 @@ export default {
   async mounted() {
     this.timestamp = 0;
     if (this.to) this.updateUI(this.from, this.to);
-    if (this.value) {
-      this.amount = this.getAmount({ _value: this.value });
+    if (this.value || this.amount) {
+      this.displayAmount = this.getAmount({
+        _value: this.value,
+        _amount: this.amount,
+      });
     }
     if (this.status === 'timeout') this.failReason = 2;
     try {
@@ -343,7 +348,7 @@ export default {
       }
       if (!this.failReason) this.failReason = tx.isFailed ? 1 : 0;
       /* eslint-disable no-underscore-dangle */
-      this.amount = this.getAmount(tx);
+      this.displayAmount = this.getAmount(tx);
       this.updateUI(tx._from, tx._to);
       this.timestamp = tx.timestamp;
       if (!this.timestamp) {
