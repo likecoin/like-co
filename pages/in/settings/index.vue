@@ -148,9 +148,47 @@
     >
       <div class="lc-container-1">
         <div class="lc-container-2">
-
+          <div
+            v-if="getAuthCoreNeedReAuth || getAuthCoreAccessToken"
+            class="lc-container-3 lc-padding-vertical-32 lc-bg-gray-1"
+          >
+            <div class="lc-container-4">
+              <h2 class="lc-font-size-14 lc-font-weight-400">
+                {{ $t('AuthCore.Settings.title') }}
+              </h2>
+              <div v-if="getAuthCoreNeedReAuth">
+                <md-button
+                  class="md-likecoin"
+                  @click="onClickAuthCoreReAuth"
+                >
+                  {{ $t('AuthCore.button.reAuthNeeded') }}
+                </md-button>
+              </div>
+              <div
+                v-else-if="getAuthCoreAccessToken"
+              >
+                <md-tabs
+                  :md-active-tab="`authcore-${isShowAuthCoreProfile ? 'profile' : 'settings'}`"
+                  @md-changed="onAuthCoreSettingTabsChanged"
+                >
+                  <md-tab
+                    id="authcore-profile"
+                    :md-label="$t('AuthCore.button.profile')"
+                  />
+                  <md-tab
+                    id="authcore-settings"
+                    :md-label="$t('AuthCore.button.settings')"
+                  />
+                </md-tabs>
+                <auth-core-settings
+                  :access-token="getAuthCoreAccessToken"
+                  :is-profile="isShowAuthCoreProfile"
+                />
+              </div>
+            </div>
+          </div>
           <!-- Auth Connections -->
-          <div class="lc-container-3 lc-bg-gray-1 lc-padding-top-32 lc-padding-bottom-48">
+          <div v-else class="lc-container-3 lc-bg-gray-1 lc-padding-top-32 lc-padding-bottom-48">
             <div class="lc-container-4">
               <h1 class="lc-font-size-32">
                 {{ $t('AuthConnectList.title') }}
@@ -269,6 +307,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import AuthCoreSettings from '~/components/AuthCore/Settings';
 
 import {
   W3C_EMAIL_REGEX,
@@ -299,6 +338,7 @@ export default {
   name: 'settings-index',
   components: {
     CivicLikerCta,
+    AuthCoreSettings,
     ClaimDialog,
     AuthConnectList,
     OtherConnectList,
@@ -313,6 +353,7 @@ export default {
       email: '',
       isEmailEnabled: false,
       isEmailPreviouslyEnabled: false,
+      isShowAuthCoreProfile: true,
       isVerifying: false,
       TickIcon,
       W3C_EMAIL_REGEX,
@@ -325,6 +366,8 @@ export default {
       'getUserIsLoadingAuthPlaforms',
       'getUserAuthPlatforms',
       'getUserSocialPlatforms',
+      'getAuthCoreNeedReAuth',
+      'getAuthCoreAccessToken',
       'getIsInTransaction',
     ]),
     disabled() {
@@ -373,6 +416,7 @@ export default {
       'refreshUserInfo',
       'sendVerifyEmail',
       'setInfoMsg',
+      'setReAuthDialogShow',
       'fetchAuthPlatformsById',
       'linkUserAuthPlatform',
       'unlinkUserAuthPlatform',
@@ -485,6 +529,12 @@ export default {
         };
         reader.readAsDataURL(files[0]);
       }
+    },
+    onAuthCoreSettingTabsChanged(id) {
+      this.isShowAuthCoreProfile = id === 'authcore-profile';
+    },
+    onClickAuthCoreReAuth() {
+      this.setReAuthDialogShow(true);
     },
     async onConnectAuth(pid) {
       const platform = this.getUserAuthPlatforms[pid];
