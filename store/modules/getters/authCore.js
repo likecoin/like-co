@@ -1,11 +1,11 @@
 export const getAuthCoreAccessToken = state => state.accessToken;
 
 export const getAuthCoreNeedReAuth = (state, getters, rootState) => {
-  let cosmosWallet;
+  let isAuthCore;
   if (rootState.user.user) {
-    ({ cosmosWallet } = rootState.user.user);
+    ({ isAuthCore } = rootState.user.user);
   }
-  return cosmosWallet && !state.accessToken;
+  return isAuthCore && !state.accessToken;
 };
 
 export const getAuthCoreKVClient = state => state.kvClient;
