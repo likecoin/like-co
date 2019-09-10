@@ -145,6 +145,17 @@
                     {{ $t('Home.Header.button.signIn') }}
                   </md-button>
                 </div>
+                <div
+                  v-else-if="getAuthCoreNeedReAuth"
+                  class="create-account-wrapper"
+                >
+                  <md-button
+                    class="md-likecoin"
+                    @click="onClickAuthCoreReAuth"
+                  >
+                    {{ $t('AuthCore.button.reAuthNeeded') }}
+                  </md-button>
+                </div>
 
                 <div v-else>
                   <no-ssr>
@@ -370,6 +381,7 @@ export default {
       'getPendingTxInfo',
       'getLikeCoinUsdNumericPrice',
       'getUserInfo',
+      'getAuthCoreNeedReAuth',
       'getLocalWeb3Wallet',
       'getIsWeb3Polling',
     ]),
@@ -422,6 +434,7 @@ export default {
     ...mapActions([
       'showMetaMaskLoginWindow',
       'popupAuthDialogInPlace',
+      'setReAuthDialogShow',
       'doUserAuth',
       'sendPayment',
       'sendCosmosPayment',
@@ -547,6 +560,9 @@ export default {
     },
     onClickSignUpButton() {
       this.doUserAuth({ router: this.$router, route: this.$route });
+    },
+    onClickAuthCoreReAuth() {
+      this.setReAuthDialogShow(true);
     },
   },
 };
