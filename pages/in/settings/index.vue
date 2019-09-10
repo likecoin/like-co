@@ -72,60 +72,64 @@
                     {{ getUserInfo.wallet }}
                   </span>
                 </div>
-
-                <div class="profile-setting-page__field profile-setting-page__field--multi-line">
-                  <span class="title">
-                    {{ $t('Register.form.displayName') }}
-                  </span>
-                  <span class="content">
-                    <md-field>
-                      <md-input
-                        v-model="displayName"
-                        v-bind="getTestAttribute('userDisplayName')"
-                        required
-                      />
-                    </md-field>
-                  </span>
-                </div>
-
-                <div class="profile-setting-page__field profile-setting-page__field--multi-line">
-                  <span class="title">
-                    {{ $t('Register.form.email') }}
-                    <span class="profile-setting-page__email-verify-status">
-                      <span
-                        v-if="getUserInfo.isEmailVerified"
-                        class="verified"
-                      >
-                        <simple-svg
-                          :filepath="TickIcon"
-                          width="16px"
-                          height="16px"
+                <template v-if="!getUserIsAuthCore">
+                  <div class="profile-setting-page__field profile-setting-page__field--multi-line">
+                    <span class="title">
+                      {{ $t('Register.form.displayName') }}
+                    </span>
+                    <span class="content">
+                      <md-field>
+                        <md-input
+                          v-model="displayName"
+                          v-bind="getTestAttribute('userDisplayName')"
+                          required
                         />
-                        {{ $t('Edit.label.verified') }}
-                      </span>
-                      <span v-else-if="isVerifying">
-                        ({{ $t('Edit.label.verifying') }})
-                      </span>
-                      <span v-else-if="email">
-                        ({{ $t('Edit.label.unverified') }})
+                      </md-field>
+                    </span>
+                  </div>
+
+                  <div class="profile-setting-page__field profile-setting-page__field--multi-line">
+                    <span class="title">
+                      {{ $t('Register.form.email') }}
+                      <span class="profile-setting-page__email-verify-status">
+                        <span
+                          v-if="getUserInfo.isEmailVerified"
+                          class="verified"
+                        >
+                          <simple-svg
+                            :filepath="TickIcon"
+                            width="16px"
+                            height="16px"
+                          />
+                          {{ $t('Edit.label.verified') }}
+                        </span>
+                        <span v-else-if="isVerifying">
+                          ({{ $t('Edit.label.verifying') }})
+                        </span>
+                        <span v-else-if="email">
+                          ({{ $t('Edit.label.unverified') }})
+                        </span>
                       </span>
                     </span>
-                  </span>
-                  <span class="content">
-                    <md-field>
-                      <md-input
-                        v-model="email"
-                        :title="$t('Edit.label.validCodeRequired')"
-                        :pattern="W3C_EMAIL_REGEX"
-                        autocomplete="email"
-                        required
-                      />
-                    </md-field>
-                  </span>
-                </div>
+                    <span class="content">
+                      <md-field>
+                        <md-input
+                          v-model="email"
+                          :title="$t('Edit.label.validCodeRequired')"
+                          :pattern="W3C_EMAIL_REGEX"
+                          autocomplete="email"
+                          required
+                        />
+                      </md-field>
+                    </span>
+                  </div>
+                </template>
               </div>
             </div>
-            <div class="profile-setting-page__confirm-btn lc-margin-top-8">
+            <div
+              v-if="!getUserIsAuthCore"
+              class="profile-setting-page__confirm-btn lc-margin-top-8"
+            >
               <md-button
                 :disabled="!hasUserDetailsChanged || disabled"
                 v-bind="getTestAttribute('submitButton')"
@@ -183,6 +187,7 @@
                 <auth-core-settings
                   :access-token="getAuthCoreAccessToken"
                   :is-profile="isShowAuthCoreProfile"
+                  :options="{ internal: true }"
                 />
               </div>
             </div>
@@ -366,6 +371,7 @@ export default {
       'getUserIsLoadingAuthPlaforms',
       'getUserAuthPlatforms',
       'getUserSocialPlatforms',
+      'getUserIsAuthCore',
       'getAuthCoreNeedReAuth',
       'getAuthCoreAccessToken',
       'getIsInTransaction',
@@ -408,6 +414,9 @@ export default {
   mounted() {
     if (this.getUserIsRegistered) {
       this.updateInfo();
+    }
+    if (this.getAuthCoreNeedReAuth) {
+      this.setReAuthDialogShow(true);
     }
   },
   methods: {
@@ -490,14 +499,17 @@ export default {
       if (this.hasUserDetailsChanged) {
         try {
           const { avatarFile, displayName } = this;
-          const { user } = this.getUserInfo;
           const email = this.email.trim();
-          const userInfo = {
-            avatarFile,
-            displayName,
-            email,
-          };
+          const {
+            user,
+            displayName: currentDisplayName,
+            email: currentEmail,
+          } = this.getUserInfo;
           const hasEmailChanged = this.getUserInfo.email !== email;
+          const userInfo = {};
+          if (avatarFile) userInfo.avatarFile = avatarFile;
+          if (displayName !== currentDisplayName) userInfo.displayName = displayName;
+          if (email !== currentEmail) userInfo.email = email;
 
           await this.updateUser(userInfo);
           this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${user}">${this.$t('Register.form.label.viewPage')}</a>`);
@@ -526,6 +538,9 @@ export default {
         const reader = new FileReader();
         reader.onload = (e) => {
           this.avatar = e.target.result;
+          if (this.getUserIsAuthCore) {
+            this.$nextTick(() => this.onSubmit());
+          }
         };
         reader.readAsDataURL(files[0]);
       }
