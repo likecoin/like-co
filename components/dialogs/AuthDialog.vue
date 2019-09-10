@@ -287,7 +287,7 @@ import {
   getPlatformFromProviderId,
 } from '~/util/FirebaseApp';
 
-import { ValidationHelper } from '@/util/ValidationHelper';
+import { checkUserNameValid } from '@/util/ValidationHelper';
 
 import BaseDialogV2 from '~/components/dialogs/BaseDialogV2';
 import SigninPortal from './AuthDialogContent/SignInPortal';
@@ -1069,7 +1069,7 @@ export default {
           tryName = `${suggestedName}${getRandomPaddedDigits(RANDOM_DIGIT_LENGTH)}`;
           tries += 1;
         }
-        if (isIDAvailable && tryName && ValidationHelper.checkUserNameValid(tryName)) {
+        if (isIDAvailable && tryName && checkUserNameValid(tryName)) {
           Vue.set(this.signInPayload, 'defaultLikeCoinId', tryName);
         }
       }
