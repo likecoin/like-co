@@ -24,7 +24,8 @@ export default {
   },
   computed: {
     SignInWidget() {
-      return this.isSignIn ? AuthCoreWidgets.Login : AuthCoreWidgets.Register;
+      // return this.isSignIn ? AuthCoreWidgets.Login : AuthCoreWidgets.Register;
+      return AuthCoreWidgets.Login; // always use Login since have oauths
     },
   },
   async mounted() {

@@ -108,6 +108,7 @@ export async function logoutUser({ commit, dispatch }, data) {
   commit(types.USER_SET_USER_INFO, {});
   commit(types.UI_INFO_MSG, '');
   commit(types.MISSION_CLEAR_ALL);
+  await dispatch('authCoreLogoutUser');
   return true;
 }
 

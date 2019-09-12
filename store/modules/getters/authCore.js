@@ -8,6 +8,8 @@ export const getAuthCoreNeedReAuth = (state, getters, rootState) => {
   return isAuthCore && !state.accessToken;
 };
 
+export const getAuthCoreAuthClient = state => state.authClient;
+
 export const getAuthCoreKVClient = state => state.kvClient;
 
 export const getAuthCoreCosmosAddress = state => state.cosmosProvider;

@@ -1,4 +1,8 @@
-import { AuthCoreKeyVaultClient, AuthCoreCosmosProvider } from 'authcore-js';
+import {
+  AuthCoreAuthClient,
+  AuthCoreKeyVaultClient,
+  AuthCoreCosmosProvider,
+} from 'authcore-js';
 import * as types from '@/store/mutation-types';
 import {
   AUTHCORE_API_HOST,
@@ -6,13 +10,52 @@ import {
   COSMOS_WALLET_PREFIX,
 } from '@/constant';
 
-export async function setAuthCoreToken({ dispatch, commit }, accessToken) {
+export async function setAuthCoreToken({ commit, state, dispatch }, accessToken) {
   commit(types.AUTHCORE_SET_ACCESS_TOKEN, accessToken);
-  if (window.localStorage) window.localStorage.setItem('authcore.accessToken', accessToken);
-  await dispatch('initAuthCoreWallerService');
+  if (accessToken) {
+    if (window.localStorage) window.localStorage.setItem('authcore.accessToken', accessToken);
+    if (state.authClient) {
+      state.authClient.setAccessToken(accessToken);
+    } else {
+      await dispatch('initAuthCoreClient');
+    }
+    if (state.kvClient) {
+      state.kvClient.setAccessToken(accessToken);
+    } else {
+      await dispatch('initAuthCoreWalletService');
+    }
+  } else {
+    if (window.localStorage) window.localStorage.removeItem('authcore.accessToken');
+    await dispatch('clearAuthCoreAllClients');
+  }
 }
 
-export async function initAuthCoreWallerService({ commit, state }) {
+export async function authCoreLogoutUser({ state, dispatch }) {
+  if (state.authClient) {
+    try {
+      await state.authClient.signOut();
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  await dispatch('setAuthCoreToken', '');
+}
+
+export async function initAuthCoreClient({ commit, state, dispatch }) {
+  const { accessToken } = state;
+  const authClient = await new AuthCoreAuthClient({
+    apiBaseURL: AUTHCORE_API_HOST,
+    callbacks: {
+      unauthenticated: () => {
+        dispatch('setAuthCoreToken', '');
+      },
+    },
+    accessToken,
+  });
+  commit(types.AUTHCORE_SET_AUTH_CLIENT, authClient);
+}
+
+export async function initAuthCoreWalletService({ commit, state }) {
   const keyVaultClient = await new AuthCoreKeyVaultClient({
     apiBaseURL: AUTHCORE_API_HOST,
     accessToken: state.accessToken,
@@ -33,6 +76,12 @@ export async function initAuthCoreCosmosWallet({ state }) {
   if (!length) {
     await kvClient.createSecret('HD_KEY', 16);
   }
+}
+
+export async function clearAuthCoreAllClients({ commit }) {
+  commit(types.AUTHCORE_SET_AUTH_CLIENT, null);
+  commit(types.AUTHCORE_SET_KV_CLIENT, null);
+  commit(types.AUTHCORE_SET_COSMOS_PROVIDER, null);
 }
 
 export async function fetchAuthCoreCosmosWallet({ state }) {
