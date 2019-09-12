@@ -27,10 +27,7 @@
         </div>
 
         <!-- BEGIN - Tab bar section -->
-        <div
-          v-if="getUserInfo.wallet"
-          class="lc-container-1"
-        >
+        <div class="lc-container-1">
           <div class="underlay gray" />
           <md-tabs
             :md-active-tab="$route.name"
@@ -52,9 +49,16 @@
               to="/in"
             />
             <md-tab
+              v-if="getUserInfo.wallet"
               id="in-tx-history"
               :md-label="$t('In.tab.txHistory')"
               to="/in/tx/history"
+            />
+            <md-tab
+              v-else
+              id="in-reward-records"
+              :md-label="$t('In.tab.rewardRecords')"
+              to="/in/reward/records"
             />
 
           </md-tabs>

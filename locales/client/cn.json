@@ -776,7 +776,7 @@
   "In": {
     "tab": {
       "overview": "概览",
-      "bonus": "奖赏",
+      "rewardRecords": "奖赏记录",
       "txHistory": "交易记录"
     }
   },
@@ -875,6 +875,9 @@
       "likecoinInsufficient": "钱包内的 LikeCoin 数量不足",
       "sameUser": "不能转账给自己"
     }
+  },
+  "RewardRecords": {
+    "title": "奖赏纪录"
   },
   "WhitePaper": {
     "label": {

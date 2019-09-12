@@ -811,7 +811,7 @@
   "In": {
     "tab": {
       "overview": "概覧",
-      "bonus": "獎賞",
+      "rewardRecords": "獎賞紀錄",
       "txHistory": "交易記錄"
     },
     "mansory": {
@@ -934,6 +934,9 @@
       "sameUser": "不能轉賬給自己",
       "metamaskWalletNotMatch": "你的錢包地址跟目前的 Metamask 地址不相符"
     }
+  },
+  "RewardRecords": {
+    "title": "奬賞紀錄"
   },
   "WhitePaper": {
     "label": {
