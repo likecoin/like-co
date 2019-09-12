@@ -19,7 +19,8 @@
       slot="header-left"
       class="auth-dialog__header-left"
     >
-      <a @click="onClickBackButton">{{ $t('General.back') }}</a>
+      <a v-if="isUsingAuthCore" @click="onClickUseLegacyButton">{{ $t('LEGACY_LOGIN') }}</a>
+      <a v-else @click="onClickBackButton">{{ $t('General.back') }}</a>
     </div>
 
     <div
@@ -400,7 +401,7 @@ export default {
       );
     },
     shouldShowHeader() {
-      return this.currentTab !== 'portal';
+      return this.currentTab !== 'portal' || this.isUsingAuthCore;
     },
     tabKey() {
       if (this.currentTab === 'portal') {
@@ -843,7 +844,14 @@ export default {
         this.setContentStyle({ height });
       });
     },
+    onClickUseLegacyButton() {
+      this.isUsingAuthCore = false;
+    },
     onClickBackButton() {
+      if (!this.isUsingAuthCore) {
+        this.isUsingAuthCore = true;
+        return;
+      }
       switch (this.currentTab) {
         case 'portal':
           if (this.isSinglePage) {
@@ -876,6 +884,7 @@ export default {
       this.onClosed();
     },
     onClosed() {
+      this.isUsingAuthCore = true; // HACK: reset authcore flag
       this.$emit('closed');
     },
     setIsShow(isShow) {
