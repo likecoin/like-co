@@ -7,7 +7,7 @@ export default async ({ store }) => {
     const accessToken = window.localStorage.getItem('authcore.accessToken');
     if (accessToken) {
       store.dispatch('setAuthCoreToken', accessToken);
-      await new AuthCoreAuthClient({
+      const authClient = await new AuthCoreAuthClient({
         apiBaseURL: AUTHCORE_API_HOST,
         callbacks: {
           unauthenticated: () => {
@@ -16,6 +16,12 @@ export default async ({ store }) => {
         },
         accessToken,
       });
+      try {
+        const user = await authClient.getCurrentUser();
+        if (!user) throw new Error('NO_USER');
+      } catch (err) {
+        store.dispatch('setAuthCoreToken', '');
+      }
     }
   }
 };
