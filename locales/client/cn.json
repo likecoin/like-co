@@ -784,6 +784,7 @@
     "label": {
       "id": "Liker ID:",
       "likeCoinAmount": "LikeCoin 数量",
+      "manageYourLikeCoin": "管理你的 LikeCoin",
       "address": "钱包地址",
       "email": "邮件地址",
       "addEmail": "增加邮件地址",

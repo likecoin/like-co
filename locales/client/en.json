@@ -845,6 +845,7 @@
     "label": {
       "id": "Liker ID:",
       "likeCoinAmount": "Amount of LikeCoin",
+      "manageYourLikeCoin": "Manage your LikeCoin",
       "address": "Your Address",
       "email": "Your E-mail",
       "addEmail": "Add email address",

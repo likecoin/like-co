@@ -108,11 +108,9 @@
       <!-- END - User info section -->
 
       <like-coin-amount
-        v-if="wallet"
-        :value="likeCoinValueStr"
-        :linkText="$t('Home.Sale.button.earnCoin')"
-        :linkTo="{ name: 'in-creator' }"
         class="likecoin-amount-section"
+        :value="getUserLikeCoinAmountInBigNumber"
+        :has-wallet="getUserInfo.wallet"
       />
       <!-- TODO: Temp hide before civic liker release
       <div
@@ -258,12 +256,6 @@ export default {
     },
     isUserEmailVerified() {
       return this.getUserInfo.isEmailVerified;
-    },
-    likeCoinValueStr() {
-      if (!this.wallet) {
-        return 'No binded wallet';
-      }
-      return (this.getUserLikeCoinAmountInBigNumber || 0).toFixed(4);
     },
     receiveLikeCoinLink() {
       return `https://${EXTERNAL_HOSTNAME}/${this.getUserInfo.user}`;
