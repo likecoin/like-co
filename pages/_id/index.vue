@@ -524,12 +524,12 @@ export default {
           });
         } else if (this.isCosmos) {
           const signer = await this.prepareCosmosTxSigner();
-          ({ txHash } = await this.sendCosmosPayment({
+          txHash = await this.sendCosmosPayment({
             signer,
             from,
             to,
             value: valueToSend,
-          }));
+          });
         } else {
           if (!EthHelper.getIsSupportTransferDelegated()) {
             this.setErrorMsg(this.$t('Transaction.error.notSupported'));

@@ -7,7 +7,6 @@ import * as types from '@/store/mutation-types';
 import {
   AUTHCORE_API_HOST,
   COSMOS_CHAIN_ID,
-  COSMOS_WALLET_PREFIX,
 } from '@/constant';
 
 export async function setAuthCoreToken({ commit, state, dispatch }, accessToken) {
@@ -92,13 +91,14 @@ export async function fetchAuthCoreCosmosWallet({ state }) {
 
 export async function prepareCosmosTxSigner({ state }) {
   if (!state.cosmosProvider) throw new Error('COSMOS_WALLET_NOT_INITED');
-  const [[{ id }], [publicKey]] = await Promise.all([
-    state.kvClient.listHDChildPublicKeys(COSMOS_WALLET_PREFIX),
-    state.cosmosProvider.getPublicKeys(),
-  ]); // HACK: only get first wallet
-  const signer = async (data) => {
-    const signatureHex = await state.kvClient.cosmosSign(id, `${COSMOS_WALLET_PREFIX}/0`, data);
-    return { signature: Buffer.from(signatureHex, 'hex'), publicKey: Buffer.from(publicKey, 'hex') };
+  const [address] = await state.cosmosProvider.getAddresses(); // HACK: only get first wallet
+  return async function signer(signMessage) {
+    const data = JSON.parse(signMessage);
+    const dataWithSign = await state.cosmosProvider.approve(data, address);
+    const signObject = dataWithSign.signatures[dataWithSign.signatures.length - 1];
+    return {
+      signature: Buffer.from(signObject.signature, 'base64'),
+      publicKey: Buffer.from(signObject.pub_key.value, 'base64'),
+    };
   };
-  return signer;
 }
