@@ -153,10 +153,10 @@ export default {
     async updateInfo() {
       this.isFetchingRecords = true;
       try {
-        const records = await apiGetUserPendingLikeHistory();
+        const { data: records } = await apiGetUserPendingLikeHistory();
         this.records = records.map(record => ({
           ts: dateFormat(new Date(record.ts), 'D-M-YYYY'),
-          value: record.LIKE.split('.'),
+          value: record.LIKE.toString().split('.'),
         }));
       } catch (err) {
         // eslint-disable-next-line no-console
