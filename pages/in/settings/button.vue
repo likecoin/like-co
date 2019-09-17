@@ -263,7 +263,7 @@ export default {
       displaySocialMediaOption: null,
       previewOption: DISPLAY_SOCIAL_MEDIA_OPTIONS[1],
       DISPLAY_SOCIAL_MEDIA_OPTIONS,
-      isShowIntro: undefined,
+      isShowIntro: false,
     };
   },
   computed: {
@@ -330,9 +330,9 @@ export default {
     },
   },
   watch: {
-    getUserInfo(user) {
+    getUserInfo() {
       this.updatePreviewInfo();
-      this.setIsShowLikeButtonIntro(user);
+      this.setIsShowLikeButtonIntro();
     },
     getUserSocialPlatforms() {
       this.updatePreviewInfo();
@@ -349,7 +349,7 @@ export default {
       this.updateInfo();
     }
 
-    this.setIsShowLikeButtonIntro(this.getUserInfo);
+    this.setIsShowLikeButtonIntro();
     this.displaySocialMediaOption = this.getUserSocialMeta.displaySocialMediaOption;
   },
   methods: {
@@ -415,12 +415,10 @@ export default {
       }
       return (this.getUserSocialPlatforms[id] || this.getUserSocialLinks[id]).isPublic;
     },
-    setIsShowLikeButtonIntro(user) {
+    setIsShowLikeButtonIntro() {
       const { isShowIntro } = this.$route.params;
       if (isShowIntro !== undefined) {
         this.isShowIntro = isShowIntro;
-      } else if (user.read) {
-        this.isShowIntro = !user.read.likebuttonIntro;
       }
     },
     onClickIntroStart() {
