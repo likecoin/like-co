@@ -2,12 +2,8 @@ import BigNumber from 'bignumber.js';
 
 import * as api from '@/util/api/api';
 import * as types from '@/store/mutation-types';
-import {
-  REDIRECT_NAME_WHITE_LIST,
-  ONE_LIKE,
-} from '@/constant';
+import { REDIRECT_NAME_WHITE_LIST } from '@/constant';
 
-import EthHelper from '@/util/EthHelper';
 import User from '@/util/User';
 
 import apiWrapper from './api-wrapper';
@@ -142,6 +138,7 @@ export async function refreshUser({ commit, state, dispatch }) {
     const oldUser = state.user.user;
     const currentUser = (user || {}).user;
     if (user && user.user) {
+      dispatch('queryLikeCoinWalletBalance');
       await dispatch('fetchSocialListDetailsById', user.user);
       commit(types.USER_SET_USER_INFO, user);
     } else {
@@ -355,14 +352,11 @@ export async function sendInvitationEmail({ commit, dispatch, rootState }, data)
   );
 }
 
-export async function queryLikeCoinWalletBalance({ commit, state }) {
+export async function queryLikeCoinWalletBalance({ commit }) {
   try {
-    if (!state.user.wallet) {
-      commit(types.USER_SET_LIKECOIN_BIG_NUMBER_AMOUNT, new BigNumber(0));
-      return;
-    }
-    const balance = await EthHelper.queryLikeCoinBalance(state.user.wallet);
-    commit(types.USER_SET_LIKECOIN_BIG_NUMBER_AMOUNT, new BigNumber(balance).dividedBy(ONE_LIKE));
+    const { data } = await api.apiGetUserLikeAmount();
+    const balance = Object.keys(data).reduce((acc, key) => acc + data[key], 0);
+    commit(types.USER_SET_LIKECOIN_BIG_NUMBER_AMOUNT, new BigNumber(balance));
   } catch (err) {
     console.error(err);
   }
