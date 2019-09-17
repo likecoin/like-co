@@ -103,7 +103,7 @@
           <div class="unlock-page__card-actions">
             <md-button
               class="md-raised"
-              :to="{ name: 'in-creator', query: { action: 'unlock' } }"
+              @click="onClickUnlock"
             >{{ $t('UnlockLikeCoinPage.card.metamask.action.button') }}</md-button>
           </div>
         </div>
@@ -116,8 +116,19 @@
 
 
 <script>
+import { mapActions } from 'vuex';
+import UserUtil from '@/util/User';
+
+import {
+  checkIsMobileClient,
+  checkIsTrustClient,
+} from '~/util/client';
+
+import EthMixin from '~/components/EthMixin';
+
 export default {
   layout: 'defaultWithGrayHeader',
+  mixins: [EthMixin],
   asyncData({ store, redirect }) {
     const user = store.getters.getUserInfo;
     if (user.wallet || user.cosmosWallet || store.getters.getUserLikeCoinAmountIsZero) {
@@ -135,6 +146,59 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    ...mapActions([
+      'setWalletNoticeDialog',
+      'linkWalletToUser',
+      'setPopupError',
+      'openPopupDialog',
+      'doUserAuth',
+    ]),
+    async bindWallet() {
+      const { action, ...query } = this.$route.query;
+      this.$router.push({ query });
+      let payload;
+      try {
+        payload = await UserUtil.formatAndSignUserInfo(
+          {
+            wallet: this.getLocalWallet,
+            user: this.getUserInfo.user,
+          },
+          this.$t('Sign.Message.registerUser'),
+        );
+      } catch (err) {
+        if (err.message.indexOf('Invalid "from" address') >= 0) {
+          // User has logout MetaMask after EthHelper initialization
+          this.startWeb3AndCb(this.bindWallet, true);
+        } else if (err.message.indexOf('User denied message signature') >= 0) {
+          // User denied signing
+        } else {
+          this.setPopupError('Unable to bind wallet');
+        }
+      }
+
+      if (payload) {
+        payload.user = this.getUserInfo.user;
+        this.linkWalletToUser(payload);
+      }
+    },
+    onClickUnlock() {
+      if (checkIsMobileClient() && !checkIsTrustClient(this)) {
+        this.openPopupDialog({
+          allowClose: true,
+          header: this.$t('LikeButtonIntro.setupWallet'),
+          message: this.$t('Error.REQUIRED_DESKTOP_CHROME'),
+          confirmText: this.$t('General.button.confirm'),
+        });
+      } else {
+        // this.$router.push({ query: { ...this.$route.query, action: 'sign' } });
+        this.setWalletNoticeDialog({
+          isShow: true,
+          onConfirm: () => this.startWeb3AndCb(this.bindWallet),
+        });
+      }
+    },
   },
 };
 </script>

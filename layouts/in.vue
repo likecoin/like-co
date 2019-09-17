@@ -55,7 +55,7 @@
               to="/in/tx/history"
             />
             <md-tab
-              v-else
+              v-else-if="!getUserLikeCoinAmountIsZero"
               id="in-reward-records"
               :md-label="$t('In.tab.rewardRecords')"
               to="/in/reward/records"
@@ -117,6 +117,7 @@ export default {
     ...mapGetters([
       'getReferralMissionList',
       'getUserInfo',
+      'getUserLikeCoinAmountIsZero',
     ]),
   },
 };

@@ -77,10 +77,7 @@
           </div>
 
 
-          <div
-            v-if="getUserInfo.wallet"
-            class="lc-container-3 lc-margin-top-24 lc-bg-gray-1"
-          >
+          <div class="lc-container-3 lc-margin-top-24 lc-bg-gray-1">
             <div class="like-button-settings__header">
               <h1>{{ $t('Settings.label.yourLikeButton') }}</h1>
             </div>
@@ -201,14 +198,6 @@
               </form>
             </div>
           </div>
-          <div
-            v-else
-            class="lc-container-3 lc-margin-top-24 lc-bg-gray-1"
-          >
-            <div>
-              You have not binded to any wallet yet. Please bind one to activate your LikeButton.
-            </div>
-          </div>
         </div>
       </div>
     </transition>
@@ -260,11 +249,6 @@ export default {
     LikeButtonIntro,
     SelectableField,
     SocialMediaIcon,
-  },
-  asyncData({ store, redirect, query }) {
-    if (!(store.state.user.user && store.state.user.user.wallet)) {
-      redirect(302, { name: 'in-creator' }, query);
-    }
   },
   data() {
     return {

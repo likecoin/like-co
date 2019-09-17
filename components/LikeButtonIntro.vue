@@ -215,10 +215,7 @@ export default {
       return id ? `https://button.like.co/${id}` : 'https://button.like.co/[Liker ID]';
     },
     actionButtonTitle() {
-      if (this.getUserInfo.wallet) {
-        return this.$t('LikeButtonIntro.setupLikeButton');
-      }
-      return this.$t('LikeButtonIntro.setupWallet');
+      return this.$t('LikeButtonIntro.setupLikeButton');
     },
   },
   methods: {
