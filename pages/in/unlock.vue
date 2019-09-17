@@ -116,7 +116,7 @@
 
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import UserUtil from '@/util/User';
 
 import {
@@ -147,6 +147,11 @@ export default {
       ],
     };
   },
+  computed: {
+    ...mapGetters([
+      'getUserInfo',
+    ]),
+  },
   methods: {
     ...mapActions([
       'setWalletNoticeDialog',
@@ -174,6 +179,7 @@ export default {
         } else if (err.message.indexOf('User denied message signature') >= 0) {
           // User denied signing
         } else {
+          console.error(err);
           this.setPopupError('Unable to bind wallet');
         }
       }
