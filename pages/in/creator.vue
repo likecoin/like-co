@@ -14,29 +14,12 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
-
-import UserUtil from '@/util/User';
-import {
-  checkIsMobileClient,
-  checkIsTrustClient,
-} from '~/util/client';
-
 import LikeButtonIntro from '~/components/LikeButtonIntro';
-import EthMixin from '~/components/EthMixin';
 
 export default {
   name: 'earn-page',
   components: {
     LikeButtonIntro,
-  },
-  mixins: [EthMixin],
-  computed: {
-    ...mapGetters([
-      'getUserIsRegistered',
-      'getLocalWallet',
-      'getUserInfo',
-    ]),
   },
   head() {
     return {
@@ -60,82 +43,19 @@ export default {
       ],
     };
   },
-  watch: {
-    getUserInfo(user, prevUser) {
-      if (!prevUser.wallet && user.wallet) {
-        this.$router.push({ name: 'in-creator' });
-      }
+  methods: {
+    onClickStart() {
+      this.$router.push({ name: 'in-settings-button' });
     },
   },
   mounted() {
     const { action, ...query } = this.$route.query;
-    if (this.$route.query.action === 'start' || this.$route.query.action === 'sign') {
+    if (action === 'start' || action === 'sign') {
       this.$nextTick(this.onClickStart);
+    }
+    if (action) {
       this.$router.push({ ...this.$route, query });
     }
-  },
-  methods: {
-    ...mapActions([
-      'setWalletNoticeDialog',
-      'linkWalletToUser',
-      'setPopupError',
-      'openPopupDialog',
-      'doUserAuth',
-    ]),
-    onClickStart() {
-      if (this.getUserIsRegistered) {
-        if (this.getUserInfo.wallet) {
-          this.$router.push({ name: 'in-settings-button' });
-        } else if (checkIsMobileClient() && !checkIsTrustClient(this)) {
-          this.openPopupDialog({
-            allowClose: true,
-            header: this.$t('LikeButtonIntro.setupWallet'),
-            message: this.$t('Error.REQUIRED_DESKTOP_CHROME'),
-            confirmText: this.$t('General.button.confirm'),
-          });
-        } else {
-          this.$router.push({ query: { ...this.$route.query, action: 'sign' } });
-          this.setWalletNoticeDialog({
-            isShow: true,
-            onConfirm: () => this.startWeb3AndCb(this.bindWallet),
-          });
-        }
-      } else {
-        const { query, ...route } = this.$route;
-        this.doUserAuth({
-          router: this.$router,
-          route: { ...route, query: { ...query, action: 'start' } },
-        });
-      }
-    },
-    async bindWallet() {
-      const { action, ...query } = this.$route.query;
-      this.$router.push({ query });
-      let payload;
-      try {
-        payload = await UserUtil.formatAndSignUserInfo(
-          {
-            wallet: this.getLocalWallet,
-            user: this.getUserInfo.user,
-          },
-          this.$t('Sign.Message.registerUser'),
-        );
-      } catch (err) {
-        if (err.message.indexOf('Invalid "from" address') >= 0) {
-          // User has logout MetaMask after EthHelper initialization
-          this.startWeb3AndCb(this.bindWallet, true);
-        } else if (err.message.indexOf('User denied message signature') >= 0) {
-          // User denied signing
-        } else {
-          this.setPopupError('Unable to bind wallet');
-        }
-      }
-
-      if (payload) {
-        payload.user = this.getUserInfo.user;
-        this.linkWalletToUser(payload);
-      }
-    },
   },
 };
 </script>

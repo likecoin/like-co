@@ -86,18 +86,42 @@
               </div>
               <div
                 v-else
-                class="civic-liker-info__chop"
+                class="lc-button-group lc-mobile-hide"
+                style="display: flex;align-items: center"
               >
-                <nuxt-link
+                <md-button
                   :to="{ name: 'in-civic' }"
-                  class="lc-font-weight-400 lc-underline"
+                  :class="[
+                    'md-likecoin',
+                    'lc-gradient-2 lc-font-size-20 lc-font-weight-600 lc-text-center shadow',
+                  ]"
                 >
-                  {{ $t('CivicLikerBeta.joinNow') }}
-                </nuxt-link>
+                  {{ $t('Edit.label.becomeCivicLiker') }}
+                </md-button>
+                <md-button
+                  class="md-icon-button"
+                  :to="{ name: 'in-civic' }"
+                >
+                  <md-icon>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="16"
+                      viewBox="0 0 20 16"
+                    >
+                      <!-- eslint-disable max-len -->
+                      <path
+                        d="M14,9.85H1.6A1.74,1.74,0,0,1,0,8,1.74,1.74,0,0,1,1.6,6.15H14L10.49,2.77a1.59,1.59,0,0,1,0-2.29,1.73,1.73,0,0,1,2.39,0l6,5.75A1.84,1.84,0,0,1,20,8a1.84,1.84,0,0,1-1.14,1.77l-6,5.75a1.73,1.73,0,0,1-2.39,0,1.59,1.59,0,0,1,0-2.29Z"
+                        style="fill: #50e3c2"
+                      />
+                      <!-- eslint-enable max-len -->
+                    </svg>
+                  </md-icon>
+                </md-button>
               </div>
               <civic-liker-cta
                 :is-show-chop="false"
-                class="lc-margin-top-40 lc-mobile-show"
+                class="lc-mobile-show"
                 layout="column"
               />
             </div>
@@ -108,11 +132,9 @@
       <!-- END - User info section -->
 
       <like-coin-amount
-        v-if="wallet"
-        :value="likeCoinValueStr"
-        :linkText="$t('Home.Sale.button.earnCoin')"
-        :linkTo="{ name: 'in-creator' }"
         class="likecoin-amount-section"
+        :value="getUserLikeCoinAmountInBigNumber"
+        :has-wallet="!!getUserInfo.wallet"
       />
       <!-- TODO: Temp hide before civic liker release
       <div
@@ -259,12 +281,6 @@ export default {
     isUserEmailVerified() {
       return this.getUserInfo.isEmailVerified;
     },
-    likeCoinValueStr() {
-      if (!this.wallet) {
-        return 'No binded wallet';
-      }
-      return (this.getUserLikeCoinAmountInBigNumber || 0).toFixed(4);
-    },
     receiveLikeCoinLink() {
       return `https://${EXTERNAL_HOSTNAME}/${this.getUserInfo.user}`;
     },
@@ -401,10 +417,6 @@ $profile-icon-mobile-size: 88px;
       height: 100px;
       margin: 0 auto;
 
-      border: 2px solid $like-gray-3;
-      border-top: none;
-      border-bottom: none;
-
       > * {
         position: absolute;
       }
@@ -434,12 +446,6 @@ $profile-icon-mobile-size: 88px;
         bottom: -24px;
         left: -24px;
       }
-    }
-
-    a {
-      position: absolute;
-      top: calc(50% - 10px);
-      right: 24px;
     }
   }
 

@@ -1,5 +1,3 @@
-import BigNumber from 'bignumber.js';
-
 import * as api from '@/util/api/api';
 import * as types from '@/store/mutation-types';
 import { REDIRECT_NAME_WHITE_LIST } from '@/constant';
@@ -355,8 +353,7 @@ export async function sendInvitationEmail({ commit, dispatch, rootState }, data)
 export async function queryLikeCoinWalletBalance({ commit }) {
   try {
     const { data } = await api.apiGetUserLikeAmount();
-    const balance = Object.keys(data).reduce((acc, key) => acc + data[key], 0);
-    commit(types.USER_SET_LIKECOIN_BIG_NUMBER_AMOUNT, new BigNumber(balance));
+    commit(types.USER_SET_LIKECOIN_AMOUNT_OBJECT, data);
   } catch (err) {
     console.error(err);
   }

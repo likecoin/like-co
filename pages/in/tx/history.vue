@@ -10,6 +10,7 @@
             :user="getUserInfo.user"
             :address="getUserInfo.wallet"
             :is-fetching.sync="isFetchingTranscationHistory"
+            :has-pending-like="getUserHasPendingLike"
             class="lc-margin-top-48 lc-mobile"
           />
 
@@ -75,6 +76,7 @@ export default {
     ...mapGetters([
       'getUserInfo',
       'getUserIsRegistered',
+      'getUserHasPendingLike',
     ]),
   },
   mounted() {

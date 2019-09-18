@@ -19,4 +19,12 @@ export const getUserSocialLinks = state => state.links;
 
 export const getUserSocialMeta = state => state.socialMeta;
 
+export const getUserHasPendingLike = state => state.likecoinAmountObject
+  && state.likecoinAmountObject.pendingLIKE;
+
 export const getUserLikeCoinAmountInBigNumber = state => state.likeCoinAmountInBigNumber;
+
+export const getUserLikeCoinAmountIsZero = state => (
+  !state.likeCoinAmountInBigNumber
+  || state.likeCoinAmountInBigNumber.isZero()
+);

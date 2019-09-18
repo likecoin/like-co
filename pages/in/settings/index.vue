@@ -52,23 +52,16 @@
                   </span>
                 </div>
 
-                <div class="profile-setting-page__field profile-setting-page__field--one-line">
+                <div
+                  v-if="getUserInfo.wallet"
+                  class="profile-setting-page__field profile-setting-page__field--one-line"
+                >
                   <span class="title">
                     {{ $t('Register.form.walletAddress') }}:
                   </span>
-                  <span
-                    v-if="getUserInfo.wallet"
-                    class="content"
-                  >
+                  <span class="content">
                     {{ getUserInfo.wallet }}
                   </span>
-                  <nuxt-link
-                    v-else
-                    :to="{ name: 'in-creator', query: { action: 'start' } }"
-                    class="content lc-underline"
-                  >
-                    {{ $t('Settings.noBoundWallet') }}
-                  </nuxt-link>
                 </div>
 
                 <div class="profile-setting-page__field profile-setting-page__field--multi-line">

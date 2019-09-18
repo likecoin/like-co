@@ -1,6 +1,7 @@
 /* eslint no-shadow: "off" */
 /* eslint no-param-reassign: "off" */
 import Vue from 'vue'; // eslint-disable-line import/no-extraneous-dependencies
+import BigNumber from 'bignumber.js';
 import {
   USER_SET_USER_INFO,
   USER_SET_LOCAL_WALLET,
@@ -10,7 +11,7 @@ import {
   USER_SET_SOCIAL_DETAILS,
   USER_LINK_SOCIAL,
   USER_UNLINK_SOCIAL,
-  USER_SET_LIKECOIN_BIG_NUMBER_AMOUNT,
+  USER_SET_LIKECOIN_AMOUNT_OBJECT,
   USER_SELECT_FACEBOOK_PAGE_LINK,
   USER_SET_SOCIAL_PLATFORMS_IS_PUBLIC,
   USER_ADD_SOCIAL_LINK,
@@ -33,6 +34,7 @@ const state = () => ({
   platforms: {},
   links: {},
   socialMeta: {},
+  likecoinAmountObject: {},
   likeCoinAmountInBigNumber: null,
 });
 
@@ -140,8 +142,10 @@ const mutations = {
       });
     }
   },
-  [USER_SET_LIKECOIN_BIG_NUMBER_AMOUNT](state, payload) {
-    state.likeCoinAmountInBigNumber = payload;
+  [USER_SET_LIKECOIN_AMOUNT_OBJECT](state, data) {
+    const balance = Object.keys(data).reduce((acc, key) => acc + data[key], 0);
+    state.likecoinAmountObject = data;
+    state.likeCoinAmountInBigNumber = new BigNumber(balance);
   },
   [USER_UPDATE_READ_CONTENT_STATUS](state, payload) {
     Vue.set(state.user, 'read', {

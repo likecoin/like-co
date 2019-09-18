@@ -747,7 +747,7 @@
         "title": "電子錢包全權由你保管",
         "description": [
           "請注意，like.co 只會綁定你電子錢包的公開地址。我們不會管有你的電子錢包私鑰，也無法動用到你電包中的款項。",
-          "你必需自行保管好操作錢包所需的私鑰 (private key) 和助記詞 (seed phrase) 等資料的備份。若你遺失了以上資料，我們將無法助你恢復錢包的使用權。"
+          "你必須自行保管好操作錢包所需的私鑰 (private key) 和助記詞 (seed phrase) 等資料的備份。若你遺失了以上資料，我們將無法助你恢復錢包的使用權。"
         ]
       },
       {
@@ -811,7 +811,7 @@
   "In": {
     "tab": {
       "overview": "概覧",
-      "bonus": "獎賞",
+      "rewardRecords": "獎賞紀錄",
       "txHistory": "交易記錄"
     },
     "mansory": {
@@ -837,7 +837,9 @@
   "Edit": {
     "label": {
       "id": "Liker ID:",
+      "becomeCivicLiker": "成為讚賞公民",
       "likeCoinAmount": "LikeCoin 數量",
+      "manageYourLikeCoin": "管理你的 LikeCoin",
       "address": "錢包地址",
       "email": "郵件地址",
       "addEmail": "增加郵件地址",
@@ -933,6 +935,38 @@
       "metamaskWalletNotMatch": "你的錢包地址跟目前的 Metamask 地址不相符"
     }
   },
+  "RewardRecords": {
+    "title": "奬賞紀錄"
+  },
+  "UnlockLikeCoinPage": {
+    "title": "解鎖你的 LikeCoin",
+    "description": "你的 LikeCoin 暫時由基金會保管，你可以隨時提取自行保管或買賣。",
+    "card": {
+      "likecoin": {
+        "title": "以更方便簡單的方法管理你的 LikeCoin",
+        "slogan": "即將於年底推出",
+        "points": [
+          "無須安裝插件",
+          "轉帳無須以太幣",
+          "託管予驗證人以賺取 LikeCoin"
+        ],
+        "action": {
+          "button": "快將推出"
+        }
+      },
+      "metamask": {
+        "action": {
+          "button": "開始使用"
+        }
+      },
+      "unlock": {
+        "body": "你已成功設定收款錢包，為你的作品加上 Like Rewards button，你每日所得的 Like Rewards 將會自動發送至你的 MetaMask 錢包。 ",
+        "action": {
+          "button": "加上 Like Rewards button"
+        }
+      }
+    }
+  },
   "WhitePaper": {
     "label": {
       "whitePaper": "白皮書",
@@ -1008,6 +1042,7 @@
       "timeExpired": "逾期",
       "coupon": "紅包",
       "noRecord": "暫時沒有您的記錄。",
+      "stillPending": "暫存 Likecoin 將會在 24 小時內傳到你的錢包",
       "to": "到",
       "from": "由",
       "unknown": "未知",

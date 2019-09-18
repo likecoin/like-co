@@ -753,8 +753,8 @@
       {
         "title": "Wallet is kept by you",
         "description": [
-          "Note that LikeCoin only bind your wallet address, we do not have the private key of your wallet, and we are not able to use your wallet.",
-          "You have to backup and responsible for your the private key and seed phrase of your wallet. If you lost those information, we would not able to recover that."
+          "Note that we are only binding your wallet address. We do have have access to your private key and are not able to access your wallet.",
+          "You have to backup your seed phrase and be responsible for your wallet. If you lose the seed phrase, we will not be able to help recover since you are the only one who has access."
         ]
       },
       {
@@ -818,7 +818,7 @@
   "In": {
     "tab": {
       "overview": "Overview",
-      "bonus": "Bonus",
+      "rewardRecords": "Reward Records",
       "txHistory": "Transaction History"
     },
     "mansory": {
@@ -844,7 +844,9 @@
   "Edit": {
     "label": {
       "id": "Liker ID:",
+      "becomeCivicLiker": "Become Civic Liker",
       "likeCoinAmount": "Amount of LikeCoin",
+      "manageYourLikeCoin": "Manage your LikeCoin",
       "address": "Your Address",
       "email": "Your E-mail",
       "addEmail": "Add email address",
@@ -941,6 +943,38 @@
       "metamaskWalletNotMatch": "Your wallet address is not the same as current Metamask address."
     }
   },
+  "RewardRecords": {
+    "title": "Reward Records"
+  },
+  "UnlockLikeCoinPage": {
+    "title": "Unlock your LikeCoin",
+    "description": "Your LikeCoin is temporarily kept by the Foundation, and you can withdraw it yourself or buy it at any time.",
+    "card": {
+      "likecoin": {
+        "title": "Manage your LikeCoin in a more convenient and simple way",
+        "slogan": "Available in Q4",
+        "points": [
+          "No plug in required",
+          "No Ethereum required for transfers",
+          "Earn LikeCoin by delegating to validators"
+        ],
+        "action": {
+          "button": "Coming soon"
+        }
+      },
+      "metamask": {
+        "action": {
+          "button": "Get started"
+        }
+      },
+      "unlock": {
+        "body": "You have successfully set up your wallet. You may add a Like Rewards button to your work. Your daily Like Rewards will be automatically sent to this wallet.",
+        "action": {
+          "button": "Install Like Rewards button"
+        }
+      }
+    }
+  },
   "WhitePaper": {
     "label": {
       "whitePaper": "WhitePaper",
@@ -1035,6 +1069,7 @@
       "timeExpired": "Expired",
       "coupon": "Coupon",
       "noRecord": "Currently no record found.",
+      "stillPending": "Pending LikeCoin will be sent to your wallet in 24 hours",
       "to": "To",
       "from": "From",
       "unknown": "Unknown",

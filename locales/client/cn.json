@@ -776,14 +776,16 @@
   "In": {
     "tab": {
       "overview": "概览",
-      "bonus": "奖赏",
+      "rewardRecords": "奖赏记录",
       "txHistory": "交易记录"
     }
   },
   "Edit": {
     "label": {
       "id": "Liker ID:",
+      "becomeCivicLiker": "成为赞赏公民",
       "likeCoinAmount": "LikeCoin 数量",
+      "manageYourLikeCoin": "管理你的 LikeCoin",
       "address": "钱包地址",
       "email": "邮件地址",
       "addEmail": "增加邮件地址",
@@ -874,6 +876,33 @@
       "sameUser": "不能转账给自己"
     }
   },
+  "RewardRecords": {
+    "title": "奖赏纪录"
+  },
+  "UnlockLikeCoinPage": {
+    "title": "解锁你的 LikeCoin",
+    "description": "你的 LikeCoin 暂时由基金会保管，你可以随时提取自行保管或买卖。",
+    "card": {
+      "likecoin": {
+        "title": "以更方便简单的方法管理你的 LikeCoin",
+        "slogan": "即将于年底推出",
+        "points": [
+          "无须使用任何插件",
+          "无须拥有以太币都可转帐",
+          "保管方法与生态深度结合",
+          "设定快速且简单"
+        ],
+        "action": {
+          "button": "快将推出"
+        }
+      },
+      "metamask": {
+        "action": {
+          "button": "开始使用"
+        }
+      }
+    }
+  },
   "WhitePaper": {
     "label": {
       "whitePaper": "白皮书",
@@ -949,6 +978,7 @@
       "timeExpired": "逾期",
       "coupon": "红包",
       "noRecord": "暂时没有您的记录。",
+      "stillPending": "暂存 Likecoin 将会在 24 小时内传到你的钱包",
       "to": "到",
       "from": "由",
       "unknown": "未知",
