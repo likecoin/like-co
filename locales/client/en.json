@@ -1069,7 +1069,7 @@
       "timeExpired": "Expired",
       "coupon": "Coupon",
       "noRecord": "Currently no record found.",
-      "stillPending": "Pending LikeCoin will be sent to your wallet in 24 hours",
+      "stillPending": "Offchain LikeCoin will be sent to your wallet in 24 hours",
       "to": "To",
       "from": "From",
       "unknown": "Unknown",

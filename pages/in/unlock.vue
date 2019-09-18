@@ -148,6 +148,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import UserUtil from '@/util/User';
+import { logTrackerEvent } from '@/util/EventLogger';
 
 import {
   checkIsMobileClient,
@@ -197,6 +198,7 @@ export default {
       const { action, ...query } = this.$route.query;
       this.$router.push({ query });
       let payload;
+      logTrackerEvent(this, 'Wallet', 'WalletTryBind', 'WalletTryBind', 1);
       try {
         payload = await UserUtil.formatAndSignUserInfo(
           {
@@ -209,10 +211,13 @@ export default {
         if (err.message.indexOf('Invalid "from" address') >= 0) {
           // User has logout MetaMask after EthHelper initialization
           this.startWeb3AndCb(this.bindWallet, true);
+          logTrackerEvent(this, 'Wallet', 'WalletBindError', 'WalletBindError(Invalid from)', 1);
         } else if (err.message.indexOf('User denied message signature') >= 0) {
+          logTrackerEvent(this, 'Wallet', 'WalletBindError', 'WalletBindError(denied)', 1);
           // User denied signing
         } else {
           console.error(err);
+          logTrackerEvent(this, 'Wallet', 'WalletBindError', 'WalletBindError(other)', 1);
           this.setPopupError('Unable to bind wallet');
         }
       }
@@ -220,9 +225,11 @@ export default {
       if (payload) {
         payload.user = this.getUserInfo.user;
         this.linkWalletToUser(payload);
+        logTrackerEvent(this, 'Wallet', 'WalletBindSuccess', 'WalletBindSuccess', 1);
       }
     },
     onClickUnlock() {
+      logTrackerEvent(this, 'Wallet', 'WalletClickUnlockLike', 'WalletClickUnlockLike', 1);
       if (checkIsMobileClient() && !checkIsTrustClient(this)) {
         this.openPopupDialog({
           allowClose: true,
