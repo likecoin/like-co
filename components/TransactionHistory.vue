@@ -40,6 +40,12 @@
             <div class="lc-text-align-center">
               {{ $t('TransactionHistory.label.noRecord') }}
             </div>
+            <div
+              v-if="hasPendingLike"
+              class="lc-text-align-center"
+            >
+              {{ $t('TransactionHistory.label.stillPending') }}
+            </div>
           </div>
         </div>
 
@@ -261,6 +267,10 @@ export default {
       default: false,
     },
     isFetching: {
+      type: Boolean,
+      default: false,
+    },
+    hasPendingLike: {
       type: Boolean,
       default: false,
     },

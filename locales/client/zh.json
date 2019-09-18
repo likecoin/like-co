@@ -1042,6 +1042,7 @@
       "timeExpired": "逾期",
       "coupon": "紅包",
       "noRecord": "暫時沒有您的記錄。",
+      "stillPending": "暫存 Likecoin 將會在 24 小時內傳到你的錢包",
       "to": "到",
       "from": "由",
       "unknown": "未知",
