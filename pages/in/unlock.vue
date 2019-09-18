@@ -31,8 +31,39 @@
     </div>
 
     <div class="lc-container-2">
-      <div class="unlock-page__cards">
-
+      <div
+        v-if="isUnlocked"
+        class="unlock-page__cards"
+      >
+        <div class="unlock-page__card unlock-page__card--unlock">
+          <div class="unlock-page__card-header">
+            <!-- eslint-disable vue/max-attributes-per-line -->
+            <svg width="52px" height="52px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+              <circle cx="26" cy="26" r="26" style="fill:#16a122" />
+              <g style="stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:3px">
+                <path d="M24,34l-6.08-6.08" />
+                <path d="M24,34,35,19" />
+              </g>
+            </svg>
+            <!-- eslint-enable vue/max-attributes-per-line -->
+          </div>
+          <div class="unlock-page__card-body">
+            <p class="lc-margin-bottom-24">
+              {{ $t('UnlockLikeCoinPage.card.unlock.body') }}
+            </p>
+            <div class="unlock-page__card-actions">
+              <md-button
+                class="md-raised"
+                :to="{ name: 'in-settings-button' }"
+              >{{ $t('UnlockLikeCoinPage.card.unlock.action.button') }}</md-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        v-else
+        class="unlock-page__cards"
+      >
         <div class="unlock-page__card unlock-page__card--likecoin">
           <div class="unlock-page__card-header">
             <div class="unlock-page__card-header-icon">
@@ -150,6 +181,9 @@ export default {
     ...mapGetters([
       'getUserInfo',
     ]),
+    isUnlocked() {
+      return this.getUserInfo.wallet || this.getUserInfo.cosmosWallet;
+    },
   },
   methods: {
     ...mapActions([
@@ -345,6 +379,8 @@ export default {
         overflow: hidden;
 
         min-width: 200px;
+        padding-right: 12px;
+        padding-left: 12px;
 
         border-radius: 99px;
 
@@ -368,11 +404,24 @@ export default {
       }
     }
 
+    &--unlock,
     &--likecoin {
       .unlock-page__card {
         &-header {
           color: $like-green;
           background-image: $like-linear-gradient;
+        }
+      }
+    }
+
+    &--unlock {
+      width: 100%;
+      max-width: 538px;
+
+      .unlock-page__card {
+        &-header {
+          padding-top: 20px;
+          padding-bottom: 20px;
         }
       }
     }

@@ -966,6 +966,12 @@
         "action": {
           "button": "Get started"
         }
+      },
+      "unlock": {
+        "body": "You have successfully set up your wallet. You may add a Like Rewards button to your work. Your daily Like Rewards will be automatically sent to this wallet.",
+        "action": {
+          "button": "Install Like Rewards button"
+        }
       }
     }
   },

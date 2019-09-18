@@ -958,6 +958,12 @@
         "action": {
           "button": "開始使用"
         }
+      },
+      "unlock": {
+        "body": "你已成功設定收款錢包，為你的作品加上 Like Rewards button，你每日所得的 Like Rewards 將會自動發送至你的 MetaMask 錢包。 ",
+        "action": {
+          "button": "加上 Like Rewards button"
+        }
       }
     }
   },
