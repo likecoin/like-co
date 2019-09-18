@@ -753,8 +753,8 @@
       {
         "title": "Wallet is kept by you",
         "description": [
-          "Note that LikeCoin only bind your wallet address, we do not have the private key of your wallet, and we are not able to use your wallet.",
-          "You have to backup and responsible for your the private key and seed phrase of your wallet. If you lost those information, we would not able to recover that."
+          "Note that we are only binding your wallet address. We do have have access to your private key and are not able to access your wallet.",
+          "You have to backup your seed phrase and be responsible for your wallet. If you lose the seed phrase, we will not be able to help recover since you are the only one who has access."
         ]
       },
       {
@@ -954,10 +954,9 @@
         "title": "Manage your LikeCoin in a more convenient and simple way",
         "slogan": "Available in Q4",
         "points": [
-          "No need to use any plugins",
-          "No need to pay Ethereum to transfer",
-          "Deeply integrated with LikeCoin ecosystem",
-          "Quick and easy to setup"
+          "No plug in required",
+          "No Ethereum required for transfers",
+          "Earn LikeCoin by delegating to validators"
         ],
         "action": {
           "button": "Coming soon"

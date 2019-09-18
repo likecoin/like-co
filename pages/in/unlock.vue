@@ -58,7 +58,6 @@
               <li>{{ $t('UnlockLikeCoinPage.card.likecoin.points[0]') }}</li>
               <li>{{ $t('UnlockLikeCoinPage.card.likecoin.points[1]') }}</li>
               <li>{{ $t('UnlockLikeCoinPage.card.likecoin.points[2]') }}</li>
-              <li>{{ $t('UnlockLikeCoinPage.card.likecoin.points[3]') }}</li>
             </ul>
           </div>
 
