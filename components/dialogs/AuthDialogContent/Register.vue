@@ -96,14 +96,15 @@
         </div>
       </div>
 
-      <div class="checkbox-list lc-dialog-container-1">
+      <!-- HACK: Hide email notification option -->
+      <!-- <div class="checkbox-list lc-dialog-container-1">
         <md-checkbox
           v-model="isEmailEnabled"
           class="md-likecoin"
         >
           {{ $t('Register.form.enableEmail') }}
         </md-checkbox>
-      </div>
+      </div> -->
 
       <div class="lc-dialog-container-1 lc-button-group">
         <md-button
