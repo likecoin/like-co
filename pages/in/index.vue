@@ -50,81 +50,7 @@
       </section>
 
       <section class="lc-container-0 lc-margin-top-48">
-        <!-- LikeCoin Bonus Overview -->
-        <div
-          v-if="isWallet"
-          id="earn"
-          class="lc-container-1 bonus-container"
-        >
-          <div class="lc-container-header">
-            <div class="lc-container-2 lc-container-header-overlay">
-              <div class="lc-container-3 lc-bg-gray-1" />
-            </div>
-            <div class="lc-container-2">
-              <div class="lc-container-3">
-                <div class="lc-container-4">
-                  <div class="lc-container-header-title">
-                    <h1 class="lc-font-size-32 lc-mobile">
-                      {{ $t('BonusPage.title') }}
-                    </h1>
-                    <div
-                      v-if="getIsFetchedMissions"
-                      class="lc-container-header-button-wrapper lc-mobile-hide"
-                    >
-                      <refresh-button
-                        :is-refreshing="getIsFetchingMissions"
-                        @click="refreshMissions"
-                      />
-                    </div>
-                  </div>
-                  <md-button
-                    class="md-likecoin lc-container-header-button lc-font-size-20"
-                    @click="$router.push({ name: 'in-bonus' })"
-                  >
-                    {{ $t('BonusPage.button.moreBonus') }}
-                  </md-button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="lc-container-2">
-
-            <div class="lc-padding-top-32 lc-bg-gray-1">
-              <mission-list
-                :missions="getShortMissionList"
-                :is-grid="false"
-                :is-loading="getIsFetchingMissions || !getIsFetchedMissions"
-                @click="onMissionClick"
-              />
-            </div>
-
-            <div class="lc-container-3 lc-padding-top-24 lc-bg-gray-1">
-              <div class="lc-container-4">
-                <div class="section-btn-container bonus-button-container lc-padding-bottom-32">
-                  <md-button
-                    class="section-button md-likecoin"
-                    @click="$router.push({ name: 'in-bonus' })"
-                  >
-                    {{ $t('BonusPage.button.moreBonus') }}
-                  </md-button>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          <div class="lc-container-2 lc-mobile-show lc-margin-top-16 lc-margin-bottom-32">
-            <div class="lc-container-3 lc-flex lc-justify-content-center">
-              <refresh-button
-                :is-refreshing="getIsFetchingMissions"
-                :is-outline="true"
-                @click="updateInfo"
-              />
-            </div>
-          </div>
-        </div>
-
-        <div class="lc-container-1 lc-margin-top-16">
+        <div class="lc-container-1">
           <div class="lc-container-2">
             <div
               class="
@@ -222,8 +148,6 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-import MissionList from '@/components/Mission/List';
-import RefreshButton from '~/components/RefreshButton';
 import LikeButtonIntroMin from '~/components/LikeButtonIntroMin';
 import MansoryArticleList from '~/components/home/MansoryArticleList';
 // import LikeButtonAdopter from '~/components/LikeButtonAdopter';
@@ -239,8 +163,6 @@ export default {
   name: 'in',
   layout: 'in',
   components: {
-    MissionList,
-    RefreshButton,
     LikeButtonIntroMin,
     MansoryArticleList,
     // LikeButtonAdopter,
