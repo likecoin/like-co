@@ -1287,6 +1287,23 @@
       "disclaimer": "我们不会在未经你同意下，以你的名义于 Matters 发布任何讯息"
     }
   },
+  "OAuthPermissionDialog": {
+    "willReceive": "将会获取以下资讯：",
+    "permission": {
+      "read": "读取",
+      "write": "更改"
+    },
+    "scope": {
+      "profile": "公开资讯",
+      "email": "电邮",
+      "like": "赞赏行为",
+      "read-like": "读取赞赏资讯和记录",
+      "write-like": "替你赞赏内容"
+    },
+    "showPermissions": "更多资讯",
+    "hidenPermissions": "隐藏",
+    "changeUser": "不是 {name} ？重新登入"
+  },
   "OtherConnectList": {
     "title": "其他帐号连接",
     "description": "你可以将帐号连接到不同的社交平台"

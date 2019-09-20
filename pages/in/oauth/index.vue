@@ -3,15 +3,18 @@
     <oauth-permission-dialog
       v-if="needAuth"
       :provider="provider"
+      :user="getUserInfo"
       :scope="scope"
       :is-show.sync="shouldPromptPermissionDialog"
       @decline="onDecline"
       @accept="authorize"
+      @changeUser="onChangeUser"
     />
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
 import OauthPermissionDialog from '~/components/dialogs/OAuthPermissionDialog';
 import {
   apiGetOAuthAuthorize,
@@ -44,7 +47,7 @@ export default {
     const { scope: inputScope } = query;
     if (inputScope) scope = inputScope.split(' ');
     if (!scope.includes('profile')) scope.push('profile');
-    if (req.cookies && req.cookies.likecoin_auth) {
+    if (req && req.cookies && req.cookies.likecoin_auth) {
       opt = {
         headers: {
           Cookie: `likecoin_auth=${req.cookies.likecoin_auth}`,
@@ -71,6 +74,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([
+      'getUserInfo',
+    ]),
     needAuth() {
       return !(this.isAuthed || this.isTrusted);
     },
@@ -79,12 +85,20 @@ export default {
     if (!this.needAuth) this.authorize();
   },
   methods: {
+    ...mapActions([
+      'logoutUser',
+      'doUserAuth',
+    ]),
     onDecline() {
       const url = new URL(this.redirectUri, true);
       url.query.error = 'denied';
       if (this.state) url.query.state = this.state;
       url.set('query', url.query);
       window.location.href = url.toString();
+    },
+    async onChangeUser() {
+      await this.logoutUser();
+      await this.doUserAuth({ router: this.$router, route: this.$route });
     },
     async authorize() {
       const payload = {
