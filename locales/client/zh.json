@@ -1377,9 +1377,16 @@
   },
   "OAuthPermissionDialog": {
     "willReceive": "將會獲取以下資訊：",
+    "permission": {
+      "read": "讀取",
+      "write": "更改"
+    },
     "scope": {
       "profile": "公開資料",
-      "email": "電郵"
+      "email": "電郵",
+      "like": "讚賞行為",
+      "read-like": "讀取讚賞資訊和記錄",
+      "write-like": "替你讚賞內容"
     }
   },
   "OtherConnectList": {

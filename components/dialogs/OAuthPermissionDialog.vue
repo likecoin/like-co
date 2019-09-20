@@ -22,8 +22,8 @@
         <div class="provider-info__logo">
           <img :src="providerLogo">
         </div>
-        <div class="provider-info__name">{{ provider.displayName }}</div>
-        <div class="provider-info__description">{{ provider.description }}</div>
+        <div class="provider-info__name">{{ displayNameText }}</div>
+        <div class="provider-info__description">{{ descriptionText }}</div>
       </div>
 
       <div class="scope-info lc-dialog-container-1">
@@ -94,19 +94,40 @@ export default {
   },
   computed: {
     providerLogo() {
-      // TODO: Use provder logo when available
-      return DefaultProviderLogo;
+      return (this.provider.avatar || DefaultProviderLogo);
+    },
+    displayNameText() {
+      const { displayName } = this.provider;
+      return this.extractProviderLocale(displayName);
+    },
+    descriptionText() {
+      const { description } = this.provider;
+      return this.extractProviderLocale(description);
     },
   },
   mounted() {
     this.logShowOAuthDialog(this.isShow);
   },
   methods: {
+    extractProviderLocale(input) {
+      if (input && typeof input === 'object') {
+        const {
+          locale,
+          fallbackLocale,
+        } = this.$i18n;
+        if (input[locale]) return input[locale];
+        if (input[fallbackLocale]) return input[fallbackLocale];
+      }
+      return input;
+    },
     setIsShow(isShow) {
       this.$emit('update:isShow', isShow);
       this.logShowOAuthDialog(isShow);
     },
     getScopeLocalization(scopeString) {
+      if (this.$te(`OAuthPermissionDialog.scope.${scopeString.replace(':', '-')}`)) {
+        return this.$t(`OAuthPermissionDialog.scope.${scopeString.replace(':', '-')}`);
+      }
       const parts = scopeString.split(':');
       let scope;
       let permission;
