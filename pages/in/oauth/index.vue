@@ -40,8 +40,9 @@ export default {
       redirect_uri: redirectUri,
       state,
     } = query;
-    let { scope = 'profile' } = query;
-    if (scope) scope = scope.split(' ');
+    let scope = ['profile'];
+    const { scope: inputScope } = query;
+    if (inputScope) scope = inputScope.split(' ');
     if (!scope.includes('profile')) scope.push('profile');
     if (req.cookies && req.cookies.likecoin_auth) {
       opt = {
@@ -55,6 +56,7 @@ export default {
     try {
       const res = await apiGetOAuthAuthorize(clientId, redirectUri, scope, opt);
       const { provider, isAuthed = false, isTrusted = false } = res.data;
+      if (!inputScope && provider.defaultScopes) scope = provider.defaultScopes;
       return {
         clientId,
         redirectUri,
