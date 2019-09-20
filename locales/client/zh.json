@@ -676,6 +676,7 @@
         "google": "以 Google 註冊",
         "facebook": "以 Facebook 註冊",
         "twitter": "以 Twitter 註冊",
+        "matters": "以 Matters 註冊",
         "email": "以電郵註冊",
         "wallet": "以 MetaMask 註冊"
       },
@@ -689,6 +690,7 @@
         "google": "以 Google 登入",
         "facebook": "以 Facebook 登入",
         "twitter": "以 Twitter 登入",
+        "matters": "以 Matters 登入",
         "email": "以電郵登入",
         "wallet": "以 MetaMask 登入"
       },
@@ -1365,14 +1367,30 @@
       "connectedTitle": "你已綁定 Twitter",
       "connected": "現在你可以你的 Twitter 帳號登入 Liker ID。",
       "disclaimer": "我們不會在未經你同意下，以你的名義於 twitter 發佈任何動態消息"
+    },
+    "matters": {
+      "title": "連接 Matters",
+      "connectedTitle": "你已綁定 Matters",
+      "connected": "現在你可以你的 Matters 帳號登入 Liker ID。",
+      "disclaimer": "我們不會在未經你同意下，以你的名義於 Matters 發佈任何訊息"
     }
   },
   "OAuthPermissionDialog": {
     "willReceive": "將會獲取以下資訊：",
+    "permission": {
+      "read": "讀取",
+      "write": "更改"
+    },
     "scope": {
-      "profile": "公開資料",
-      "email": "電郵"
-    }
+      "profile": "公開資訊",
+      "email": "電郵",
+      "like": "讚賞行為",
+      "read-like": "讀取讚賞資訊和記錄",
+      "write-like": "替你讚賞內容"
+    },
+    "showPermissions": "更多資訊",
+    "hidenPermissions": "隱藏",
+    "changeUser": "不是 {name} ？重新登入"
   },
   "OtherConnectList": {
     "title": "其他帳號連接",
