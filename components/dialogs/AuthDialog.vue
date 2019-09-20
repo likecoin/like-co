@@ -621,8 +621,8 @@ export default {
           }
         } else if (signInPlatform) {
           const { code, state } = this.$route.query;
-          this.signInPayload = await getAuthPlatformSignInPayload(signInPlatform, { code, state });
           this.platform = signInPlatform;
+          this.signInPayload = await getAuthPlatformSignInPayload(signInPlatform, { code, state });
           if (this.signInPayload) this.login();
         }
       } catch (err) {
