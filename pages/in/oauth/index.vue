@@ -3,10 +3,12 @@
     <oauth-permission-dialog
       v-if="needAuth"
       :provider="provider"
+      :user="getUserInfo"
       :scope="scope"
       :is-show.sync="shouldPromptPermissionDialog"
       @decline="onDecline"
       @accept="authorize"
+      @changeUser="onChangeUser"
     />
     <div v-else class="lc-padding-vertical-64">
       <spinner :size="56" />
@@ -51,7 +53,7 @@ export default {
     const { scope: inputScope } = query;
     if (inputScope) scope = inputScope.split(' ');
     if (!scope.includes('profile')) scope.push('profile');
-    if (req.cookies && req.cookies.likecoin_auth) {
+    if (req && req.cookies && req.cookies.likecoin_auth) {
       opt = {
         headers: {
           Cookie: `likecoin_auth=${req.cookies.likecoin_auth}`,
@@ -128,6 +130,10 @@ export default {
       if (this.state) url.query.state = this.state;
       url.set('query', url.query);
       window.location.href = url.toString();
+    },
+    async onChangeUser() {
+      await this.logoutUser();
+      await this.doUserAuth({ router: this.$router, route: this.$route });
     },
     async authorize() {
       const payload = {

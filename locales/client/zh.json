@@ -1382,12 +1382,15 @@
       "write": "更改"
     },
     "scope": {
-      "profile": "公開資料",
+      "profile": "公開資訊",
       "email": "電郵",
       "like": "讚賞行為",
       "read-like": "讀取讚賞資訊和記錄",
       "write-like": "替你讚賞內容"
-    }
+    },
+    "showPermissions": "更多資訊",
+    "hidenPermissions": "隱藏",
+    "changeUser": "不是 {name} ？重新登入"
   },
   "OtherConnectList": {
     "title": "其他帳號連接",
