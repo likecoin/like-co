@@ -1445,9 +1445,16 @@
   },
   "OAuthPermissionDialog": {
     "willReceive": "will receive the following info:",
+    "permission": {
+      "read": "Access",
+      "write": "Change"
+    },
     "scope": {
       "profile": "Public Information",
-      "email": "Email"
+      "email": "Email",
+      "like": "your like history and action",
+      "read-like": "Read your like information and history",
+      "write-like": "Like content on your behave"
     }
   },
   "OtherConnectList": {
