@@ -1455,7 +1455,10 @@
       "like": "your like history and action",
       "read-like": "Read your like information and history",
       "write-like": "Like content on your behave"
-    }
+    },
+    "showPermissions": "More informations",
+    "hidenPermissions": "Hide",
+    "changeUser": "Not {name} ? Change your account"
   },
   "OtherConnectList": {
     "title": "Other Connection",

@@ -14,28 +14,44 @@
       slot="header-left"
       class="oauth-permission-dialog__header-left"
     >
-      <!-- <img :src="LikeCoinLogo"> -->
+      <a @click="onDecline">{{ $t('General.button.cancel') }}</a>
     </div>
 
     <div class="oauth-permission-dialog__content">
       <div class="provider-info lc-dialog-container-1">
-        <div class="provider-info__logo">
-          <img :src="providerLogo">
+        <div style="display: flex;  justify-content:center">
+          <div class="provider-info__logo">
+            <img :src="user.avatar">
+          </div>
+          <div class="provider-info__logo">
+            <img :src="providerLogo">
+          </div>
         </div>
         <div class="provider-info__name">{{ displayNameText }}</div>
         <div class="provider-info__description">{{ descriptionText }}</div>
       </div>
-
       <div class="scope-info lc-dialog-container-1">
-        <div>{{ $t('OAuthPermissionDialog.willReceive') }}</div>
-        <ul>
-          <li
-            v-for="s in scope"
-            :key="s"
-          >
-            {{ getScopeLocalization(s) }}
-          </li>
-        </ul>
+        <a
+          @click="onClickShowPermissions"
+        >
+          <template v-if="!isShowPermissions">
+            {{ $t('OAuthPermissionDialog.showPermissions') }} <md-icon>expand_more</md-icon>
+          </template>
+          <template v-else>
+            {{ $t('OAuthPermissionDialog.hidenPermissions') }} <md-icon>expand_less</md-icon>
+          </template>
+        </a>
+        <template v-if="isShowPermissions">
+          <div>{{ $t('OAuthPermissionDialog.willReceive') }}</div>
+          <ul>
+            <li
+              v-for="s in scope"
+              :key="s"
+            >
+              {{ getScopeLocalization(s) }}
+            </li>
+          </ul>
+        </template>
       </div>
 
       <div class="lc-dialog-container-1 lc-button-group">
@@ -45,13 +61,12 @@
         >
           {{ $t('General.accept') }}
         </md-button><br>
-        <md-button
-          class="md-likecoin lc-cancel"
-          @click="onDecline"
-        >
-          {{ $t('General.decline') }}
-        </md-button>
       </div>
+    </div>
+    <div class="lc-dialog-container-1 oauth-permission-dialog__bottom">
+      <a @click="$emit('changeUser')">
+        {{ $t('OAuthPermissionDialog.changeUser', { name: user.user }) }}
+      </a>
     </div>
 
   </base-dialog>
@@ -81,6 +96,13 @@ export default {
         description: '',
       }),
     },
+    user: {
+      type: Object,
+      default: () => ({
+        avatar: '',
+        user: '',
+      }),
+    },
     scope: {
       type: Array,
       default: () => [],
@@ -90,6 +112,7 @@ export default {
     return {
       LikeCoinLogo,
       loggedEvents: {},
+      isShowPermissions: false,
     };
   },
   computed: {
@@ -163,6 +186,14 @@ export default {
       this.$emit('decline');
       logTrackerEvent(this, 'OAuth', 'OAuthDecline', 'OAuthDecline', 1);
     },
+    onChangeAccount() {
+      this.setIsShow(false);
+      this.$emit('changeUser');
+      logTrackerEvent(this, 'OAuth', 'OAuthChangeUser', 'OAuthChangeUser', 1);
+    },
+    onClickShowPermissions() {
+      this.isShowPermissions = !this.isShowPermissions;
+    },
   },
 };
 </script>
@@ -172,12 +203,15 @@ export default {
 
 .oauth-permission-dialog {
   &__header-left {
-    img {
-      position: relative;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
 
-      width: 96px;
-      margin-left: 12px;
-    }
+    display: flex;
+    align-items: center;
+
+    padding-left: 16px;
   }
 
   /deep/ .lc-dialog-content {
@@ -190,17 +224,20 @@ export default {
     flex-direction: inherit;
     flex-grow: 1;
   }
+
+  &__bottom {
+    text-align: center;
+  }
 }
 
 .provider-info {
   text-align: center;
 
   &__logo {
-    overflow: hidden;
 
     width: 96px;
     height: 96px;
-    margin: 16px auto;
+    margin: 16px 16px;
 
     border-radius: 12px;
 
