@@ -48,7 +48,7 @@ export default {
     },
     statePayload() {
       const { state } = this.$route.query;
-      if (!state || state.split(':').length <= 0) return '';
+      if (!state) return '';
       return state.split(':')[0];
     },
     username() {
