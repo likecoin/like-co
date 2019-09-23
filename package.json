@@ -92,7 +92,7 @@
     "web3": "^1.0.0-beta.34"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.3.4",
+    "@babel/preset-env": "^7.6.2",
     "@babel/register": "^7.0.0",
     "ava": "^1.0.1",
     "axiosist": "^0.1.0",
