@@ -19,10 +19,12 @@
 
     <div class="oauth-permission-dialog__content">
       <div class="provider-info lc-dialog-container-1">
-        <div style="display: flex;  justify-content:center">
-          <div class="provider-info__logo">
-            <img :src="user.avatar">
-          </div>
+        <div class="provider-info__identity">
+          <lc-avatar
+            :src="user.avatar"
+            size="96"
+            :halo="avatarHalo"
+          />
           <div class="provider-info__logo">
             <img :src="providerLogo">
           </div>
@@ -30,8 +32,9 @@
         <div class="provider-info__name">{{ displayNameText }}</div>
         <div class="provider-info__description">{{ descriptionText }}</div>
       </div>
-      <div class="scope-info lc-dialog-container-1">
+      <section class="oauth-permission-dialog__scope-info">
         <a
+          class="oauth-permission-dialog__scope-info-toggle-button"
           @click="onClickShowPermissions"
         >
           <template v-if="!isShowPermissions">
@@ -41,8 +44,13 @@
             {{ $t('OAuthPermissionDialog.hidenPermissions') }} <md-icon>expand_less</md-icon>
           </template>
         </a>
-        <template v-if="isShowPermissions">
-          <div>{{ $t('OAuthPermissionDialog.willReceive') }}</div>
+        <div
+          v-if="isShowPermissions"
+          class="oauth-permission-dialog__scope-info-collapsable"
+        >
+          <div
+            class="oauth-permission-dialog__scope-info-collapsable-header"
+          >{{ $t('OAuthPermissionDialog.willReceive') }}</div>
           <ul>
             <li
               v-for="s in scope"
@@ -51,12 +59,12 @@
               {{ getScopeLocalization(s) }}
             </li>
           </ul>
-        </template>
-      </div>
+        </div>
+      </section>
 
       <div class="lc-dialog-container-1 lc-button-group">
         <md-button
-          class="md-likecoin"
+          class="md-likecoin lc-margin-top-40"
           @click="onAccept"
         >
           {{ $t('General.accept') }}
@@ -75,6 +83,7 @@
 <script>
 import BaseDialog from '~/components/dialogs/BaseDialog';
 import { logTrackerEvent } from '@/util/EventLogger';
+import User from '~/util/User';
 
 import LikeCoinLogo from '~/assets/icons/likecoin-text-logo.svg';
 import DefaultProviderLogo from '~/assets/icons/default-sp.svg';
@@ -118,6 +127,9 @@ export default {
   computed: {
     providerLogo() {
       return (this.provider.avatar || DefaultProviderLogo);
+    },
+    avatarHalo() {
+      return User.getAvatarHaloType(this.user);
     },
     displayNameText() {
       const { displayName } = this.provider;
@@ -227,11 +239,69 @@ export default {
 
   &__bottom {
     text-align: center;
+
+    font-size: 12px;
+
+    a {
+      text-decoration: underline;
+
+      color: $like-gray-5 !important;
+    }
+  }
+
+  &__scope-info {
+    margin-top: 16px;
+
+    text-align: center;
+    letter-spacing: 0 !important;
+
+    &-toggle-button {
+      margin: auto;
+
+      text-decoration: none !important;
+
+      color:$gray-9b !important;
+
+      font-weight: 600 !important;
+    }
+
+    &-collapsable {
+      padding: 16px;
+
+      text-align: left;
+
+      color: $like-gray-4;
+      background-color: $like-gray-1;
+
+      > * {
+        max-width: 290px;
+        margin: auto;
+      }
+
+      &-header {
+        font-weight: 600;
+      }
+
+      ul {
+        list-style: none;
+
+        li {
+          font-weight: 400;
+          line-height: 1.8;
+        }
+      }
+    }
   }
 }
 
 .provider-info {
   text-align: center;
+
+  &__identity {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   &__logo {
 
@@ -239,9 +309,8 @@ export default {
     height: 96px;
     margin: 16px 16px;
 
+    border: 1px solid $gray-e6;
     border-radius: 12px;
-
-    background: $like-gray-2;
 
     > img {
       width: 100%;
@@ -266,26 +335,6 @@ export default {
     color: $like-gray-4;
 
     font-size: 14px;
-  }
-}
-
-.scope-info {
-  flex-grow: 1;
-
-  margin: 24px 0 32px;
-
-  text-align: center;
-
-  color: $like-gray-4;
-
-  ul {
-    list-style: none;
-
-    li {
-      color: $like-gray-5;
-
-      font-weight: 600;
-    }
   }
 }
 </style>
