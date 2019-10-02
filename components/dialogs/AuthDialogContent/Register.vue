@@ -140,6 +140,7 @@ import axios from 'axios';
 import { mapGetters, mapActions } from 'vuex';
 
 import {
+  IS_TESTNET,
   LIKECOIN_ID_REGEX_STRING,
   LIKECOIN_ID_REGEX,
   REGISTER_EMAIL_REGEX_STRING,
@@ -202,6 +203,7 @@ export default {
       return REGISTER_EMAIL_REGEX.test(this.email);
     },
     isEmailContainsInvalidCharacter() {
+      if (IS_TESTNET) return false;
       return /\+/.test(this.email.split('@')[0]);
     },
     isEmailValid() {
