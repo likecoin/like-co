@@ -267,7 +267,12 @@ import {
   OTHER_CONNECTION_LIST,
 } from '@/constant';
 
-import { firebasePlatformSignIn } from '~/util/FirebaseApp';
+import {
+  firebasePlatformSignIn,
+  firebasePlatformLinkUser,
+  firebasePlatformUnLinkUser,
+  getFirebaseCurrentUser,
+} from '~/util/FirebaseApp';
 
 import getTestAttribute from '@/util/test';
 import User from '@/util/User';
@@ -483,7 +488,8 @@ export default {
             firebaseIdToken,
             accessToken,
             secret,
-          } = await firebasePlatformSignIn(pid);
+          } = await (getFirebaseCurrentUser()
+            ? firebasePlatformSignIn(pid) : firebasePlatformLinkUser(pid));
           this.linkUserAuthPlatform({
             platform: pid,
             payload: {
@@ -499,12 +505,17 @@ export default {
           break;
       }
     },
-    onDisconnectAuth(pid) {
+    async onDisconnectAuth(pid) {
       switch (pid) {
         case 'google':
         case 'twitter':
         case 'facebook':
-          this.unlinkUserAuthPlatform({ platform: pid });
+          try {
+            await firebasePlatformUnLinkUser(pid);
+          } catch (err) {
+            console.error(err);
+          }
+          await this.unlinkUserAuthPlatform({ platform: pid });
           break;
         default:
       }
