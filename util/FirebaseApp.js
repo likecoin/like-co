@@ -73,6 +73,10 @@ export function getPlatformFromProviderId(providerId) {
   }
 }
 
+export function getFirebaseCurrentUser() {
+  return firebase.auth().currentUser;
+}
+
 export function getFirebaseUserProviderUserInfo(firebaseUser, platform) {
   const providerId = getFirebaseProviderId(platform);
   return firebaseUser.providerData.find(p => (p.providerId === providerId));
@@ -121,6 +125,11 @@ export async function firebasePlatformLinkUser(platform) {
   const { accessToken, secret } = result.credential;
   const firebaseIdToken = await firebase.auth().currentUser.getIdToken();
   return { accessToken, secret, firebaseIdToken };
+}
+
+export async function firebasePlatformUnLinkUser(platform) {
+  const provider = getFirebaseProviderId(platform);
+  await firebase.auth().currentUser.unlink(provider);
 }
 
 export async function firebaseEmailLinkUser(email) {
