@@ -117,7 +117,7 @@ export default {
         'google',
         'facebook',
         'twitter',
-        'matters',
+        // 'matters',
         // 'email', // XXX: Disable for now
       ];
 

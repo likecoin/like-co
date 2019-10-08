@@ -111,7 +111,7 @@ export const LOGIN_CONNECTION_LIST = [
   'google',
   'facebook',
   'twitter',
-  'matters',
+  // 'matters',
 ];
 
 export const OTHER_CONNECTION_LIST = [
