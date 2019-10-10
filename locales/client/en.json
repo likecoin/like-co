@@ -682,6 +682,7 @@
         "google": "Sign up with Google",
         "facebook": "Sign up Facebook",
         "twitter": "Sign up Twitter",
+        "matters": "Sign up Matters.news",
         "email": "Sign up email",
         "wallet": "Sign up with MetaMask"
       },
@@ -695,6 +696,7 @@
         "google": "Sign in with Google",
         "facebook": "Sign in Facebook",
         "twitter": "Sign in Twitter",
+        "matters": "Sign in Matters.news",
         "email": "Sign in email",
         "wallet": "Sign in with MetaMask"
       },
@@ -1433,14 +1435,30 @@
       "connectedTitle": "You are connected to Twitter",
       "connected": "You can now sign in with your Twitter account.",
       "disclaimer": "We will never post to Twitter or message your followers without your permission."
+    },
+    "matters": {
+      "title": "Connect to Matters.news",
+      "connectedTitle": "You are connected to Matters.news",
+      "connected": "You can now sign in with your Matters.news account.",
+      "disclaimer": "We will never post to Matters.news without your permission."
     }
   },
   "OAuthPermissionDialog": {
     "willReceive": "will receive the following info:",
+    "permission": {
+      "read": "Access",
+      "write": "Change"
+    },
     "scope": {
       "profile": "Public Information",
-      "email": "Email"
-    }
+      "email": "Email",
+      "like": "your like history and action",
+      "read-like": "Read your like information and history",
+      "write-like": "Like content on your behave"
+    },
+    "showPermissions": "More informations",
+    "hidenPermissions": "Hide",
+    "changeUser": "Not {name} ? Change your account"
   },
   "OtherConnectList": {
     "title": "Other Connection",

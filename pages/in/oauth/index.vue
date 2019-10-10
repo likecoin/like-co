@@ -3,10 +3,12 @@
     <oauth-permission-dialog
       v-if="needAuth"
       :provider="provider"
+      :user="getUserInfo"
       :scope="scope"
       :is-show.sync="shouldPromptPermissionDialog"
       @decline="onDecline"
       @accept="authorize"
+      @changeUser="onChangeUser"
     />
     <div v-else class="lc-padding-vertical-64">
       <spinner :size="56" />
@@ -47,10 +49,13 @@ export default {
       redirect_uri: redirectUri,
       state,
     } = query;
-    let { scope = 'profile' } = query;
-    if (scope) scope = scope.split(' ');
-    if (!scope.includes('profile')) scope.push('profile');
-    if (req.cookies && req.cookies.likecoin_auth) {
+    let checkScope = ['profile'];
+    const { scope: inputScope } = query;
+    if (inputScope) {
+      checkScope = inputScope.split(' ');
+      if (!checkScope.includes('profile')) checkScope.push('profile');
+    }
+    if (req && req.cookies && req.cookies.likecoin_auth) {
       opt = {
         headers: {
           Cookie: `likecoin_auth=${req.cookies.likecoin_auth}`,
@@ -60,8 +65,14 @@ export default {
       };
     }
     try {
-      const res = await apiGetOAuthAuthorize(clientId, redirectUri, scope, opt);
+      const res = await apiGetOAuthAuthorize(clientId, redirectUri, checkScope, opt);
       const { provider, isAuthed = false, isTrusted = false } = res.data;
+      let scope;
+      if (!inputScope && provider.defaultScopes) {
+        scope = provider.defaultScopes;
+      } else {
+        scope = checkScope;
+      }
       return {
         clientId,
         redirectUri,
@@ -126,6 +137,10 @@ export default {
       if (this.state) url.query.state = this.state;
       url.set('query', url.query);
       window.location.href = url.toString();
+    },
+    async onChangeUser() {
+      await this.logoutUser();
+      await this.doUserAuth({ router: this.$router, route: this.$route });
     },
     async authorize() {
       const payload = {

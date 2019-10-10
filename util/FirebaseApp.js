@@ -11,6 +11,15 @@ const config = {
 
 export { firebase };
 
+export function isFirebasePlatform(platform) {
+  return [
+    'google',
+    'facebook',
+    'twitter',
+    'github',
+  ].includes(platform);
+}
+
 export function getFirebaseProvider(platform) {
   switch (platform) {
     case 'google': {

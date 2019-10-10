@@ -56,6 +56,7 @@ import LButton from '~/components/LButton';
 import FacebookIcon from '~/assets/icons/fillable/facebook.svg';
 import GoogleIcon from '~/assets/icons/google.svg';
 import TwitterIcon from '~/assets/icons/fillable/twitter.svg';
+import MattersIcon from '~/assets/icons/fillable/matters.svg';
 
 import { logTrackerEvent } from '~/util/EventLogger';
 
@@ -81,6 +82,7 @@ export default {
         facebook: FacebookIcon,
         google: GoogleIcon,
         twitter: TwitterIcon,
+        matters: MattersIcon,
       },
     };
   },
@@ -169,7 +171,7 @@ export default {
 }
 
 .l-button {
-  @each $platform in google facebook twitter {
+  @each $platform in google facebook twitter matters {
     &--#{$platform} {
       background-color: map-get($platform-color-map, $platform);
     }
