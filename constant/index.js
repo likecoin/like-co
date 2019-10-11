@@ -14,7 +14,7 @@ export const INFURA_HOST = IS_TESTNET ? 'https://rinkeby.infura.io/v3/9a67715954
 
 export const ETH_NETWORK_NAME = IS_TESTNET ? 'rinkeby' : 'mainnet';
 
-export const BIGDIPPER_HOST = IS_TESTNET ? 'http://35.226.174.222' : '';
+export const BIGDIPPER_HOST = IS_TESTNET ? 'https://taipei.likecoin.bigdipper.live' : 'https://likecoin.bigdipper.live';
 
 export const COSMOS_CHAIN_ID = IS_TESTNET ? 'likechain-cosmos-testnet-2' : 'likechain-kaitak';
 
