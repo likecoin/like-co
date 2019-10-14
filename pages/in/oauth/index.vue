@@ -149,14 +149,22 @@ export default {
         state: this.state,
         scope: this.scope,
       };
-      const result = await apiPostOAuthAuthorize(payload);
-      const {
-        redirectUri,
-        state,
-        authCode,
-      } = result.data;
-      const url = new URL(redirectUri, true);
-      url.query.code = authCode;
+      let error;
+      let authCode;
+      let state;
+      try {
+        const result = await apiPostOAuthAuthorize(payload);
+        ({
+          state,
+          authCode,
+        } = result.data);
+      } catch (err) {
+        console.error(err);
+        error = (err.response || {}).data || err.message;
+      }
+      const url = new URL(this.redirectUri, true);
+      if (authCode) url.query.code = authCode;
+      if (error) url.query.error = error;
       if (state) url.query.state = state;
       url.set('query', url.query);
       window.location.href = url.toString();
