@@ -117,11 +117,11 @@ export default {
         'google',
         'facebook',
         'twitter',
-        // 'matters',
         // 'email', // XXX: Disable for now
       ];
 
       if (!checkIsMobileClient() && this.isSignIn) {
+        ids.push('matters');
         ids.push('wallet');
       }
 
