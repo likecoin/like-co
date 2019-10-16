@@ -490,7 +490,7 @@ export default {
             accessToken,
             secret,
           } = await (getFirebaseCurrentUser()
-            ? firebasePlatformSignIn(pid) : firebasePlatformLinkUser(pid));
+            ? firebasePlatformLinkUser(pid) : firebasePlatformSignIn(pid));
           this.linkUserAuthPlatform({
             platform: pid,
             payload: {
