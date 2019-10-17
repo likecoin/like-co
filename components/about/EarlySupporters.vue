@@ -51,10 +51,6 @@ const SUPPORTERS = [
     avatar: '/images/supporters/u-domain.jpg',
   },
   {
-    key: 'annie-zhang',
-    avatar: '/images/supporters/annie-zhang.png',
-  },
-  {
     key: 'greg-song',
     avatar: '/images/supporters/greg-song.png',
     platforms: [
