@@ -70,6 +70,15 @@ export async function updateUser({ commit, dispatch, rootState }, data) {
   return true;
 }
 
+export async function syncAuthCoreUser({ commit, dispatch, rootState }) {
+  await apiWrapper(
+    { commit, dispatch },
+    api.apiSyncAuthCoreUser({ authCoreAccessToken: rootState.authCore.accessToken }),
+    { blocking: true },
+  );
+  await dispatch('refreshUser');
+}
+
 export async function loginUser({ commit, dispatch }, data) {
   await apiWrapper({ commit, dispatch }, api.apiLoginUser(data), { blocking: true });
   await dispatch('refreshUser');

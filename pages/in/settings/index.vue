@@ -52,6 +52,21 @@
                   </span>
                 </div>
 
+                <div class="profile-setting-page__field profile-setting-page__field--multi-line">
+                  <span class="title">
+                    {{ $t('Register.form.displayName') }}
+                  </span>
+                  <span class="content">
+                    <md-field>
+                      <md-input
+                        v-model="displayName"
+                        v-bind="getTestAttribute('userDisplayName')"
+                        :required="!getUserIsAuthCore"
+                        :disabled="getUserIsAuthCore"
+                      />
+                    </md-field>
+                  </span>
+                </div>
                 <div
                   v-if="getUserInfo.wallet"
                   class="profile-setting-page__field profile-setting-page__field--one-line"
@@ -73,21 +88,6 @@
                   </span>
                 </div>
                 <template v-if="!getUserIsAuthCore">
-                  <div class="profile-setting-page__field profile-setting-page__field--multi-line">
-                    <span class="title">
-                      {{ $t('Register.form.displayName') }}
-                    </span>
-                    <span class="content">
-                      <md-field>
-                        <md-input
-                          v-model="displayName"
-                          v-bind="getTestAttribute('userDisplayName')"
-                          required
-                        />
-                      </md-field>
-                    </span>
-                  </div>
-
                   <div class="profile-setting-page__field profile-setting-page__field--multi-line">
                     <span class="title">
                       {{ $t('Register.form.email') }}
@@ -188,6 +188,8 @@
                   :access-token="getAuthCoreAccessToken"
                   :is-profile="isShowAuthCoreProfile"
                   :options="{ internal: true }"
+                  @profile-updated="onAuthCoreProfileUpdated"
+                  @primary-contact-updated="onAuthCoreProfileUpdated"
                 />
               </div>
             </div>
@@ -422,6 +424,7 @@ export default {
   methods: {
     ...mapActions([
       'updateUser',
+      'syncAuthCoreUser',
       'refreshUserInfo',
       'sendVerifyEmail',
       'setInfoMsg',
@@ -513,9 +516,9 @@ export default {
 
           await this.updateUser(userInfo);
           this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${user}">${this.$t('Register.form.label.viewPage')}</a>`);
-          this.refreshUserInfo(user);
+          await this.refreshUserInfo(user);
 
-          if (hasEmailChanged) {
+          if (hasEmailChanged && !this.getUserInfo.isEmailVerified) {
             await this.sendVerifyEmail({
               id: this.getUserInfo.user,
               ref: 'in-settings',
@@ -550,6 +553,9 @@ export default {
     },
     onClickAuthCoreReAuth() {
       this.setReAuthDialogShow(true);
+    },
+    onAuthCoreProfileUpdated() {
+      this.syncAuthCoreUser();
     },
     async onConnectAuth(pid) {
       const platform = this.getUserAuthPlatforms[pid];

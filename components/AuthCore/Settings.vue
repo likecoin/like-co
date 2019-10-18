@@ -44,7 +44,28 @@ export default {
         accessToken: this.accessToken,
         root: `${AUTHCORE_API_HOST}/widgets`,
         onSuccess: (data) => {
-          console.log(data);
+          console.log(data); // TODO: remove this line
+          const { action, ...payload } = data;
+          let output;
+          switch (action) {
+            case 'profile_updated': {
+              const {
+                username: suggestedUserId,
+                display_name: displayName,
+                primary_email: email,
+                primary_email_verified: isEmailVerified,
+              } = payload.current_user;
+              output = {
+                suggestedUserId,
+                displayName,
+                email,
+                isEmailVerified,
+              };
+              break;
+            }
+            default:
+          }
+          this.$emit(action.replace(/_/g, '-'), output);
         },
         onLoaded: () => {
           this.$emit('loaded');
