@@ -10,7 +10,7 @@
   >
     <auth-core-register
       :is-sign-in="true"
-      @success="signInWithAuthCore"
+      @success="linkWithAuthCore"
     />
   </BaseDialogV2>
 </template>
@@ -64,7 +64,6 @@ export default {
       this.$emit('closed');
     },
     setIsShow(isShow) {
-      console.log(isShow);
       this.setReAuthDialogShow(isShow);
     },
     close() {
@@ -72,7 +71,6 @@ export default {
     },
     signInWithAuthCore({ accessToken }) {
       this.setAuthCoreToken(accessToken);
-      console.log('a');
       this.setIsShow(false);
     },
   },

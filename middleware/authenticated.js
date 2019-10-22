@@ -34,5 +34,16 @@ export default function ({
   } else if (process.server) {
     res.set('Cache-Control', 'private');
     res.set('Vary', 'Cookie');
+  } else if (!store.getters.getUserIsAuthCore && route.name !== 'in-migration-authcore') {
+    let redirectPath = '/in/migration/authcore';
+    if (!process.server) {
+      store.commit(USER_SET_AFTER_AUTH_ROUTE, route);
+    } else {
+      const qsPayload = {
+        redirect: `${TEST_MODE ? 'http' : 'https'}://${req.headers.host}${route.fullPath}`,
+      };
+      redirectPath = `${redirectPath}?${querystring.stringify(qsPayload)}`;
+    }
+    redirect(redirectPath);
   }
 }

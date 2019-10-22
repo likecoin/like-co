@@ -21,6 +21,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    email: {
+      type: String,
+      default: undefined,
+    },
   },
   computed: {
     SignInWidget() {
@@ -33,6 +37,8 @@ export default {
       ...config,
       container: 'authcore-register-container',
       root: `${AUTHCORE_API_HOST}/widgets`,
+      initialScreen: this.isSignIn ? 'signin' : 'register',
+      contact: this.email,
       onSuccess: async (data) => {
         const { access_token: accessToken, current_user: currentUser, id_token: idToken } = data;
         this.$emit('success', {
