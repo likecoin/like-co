@@ -23,7 +23,7 @@
               />
             </div>
             <div class="lc-container-3">
-              <view-etherscan v-if="getUserInfo.cosmosWallet" :address="getUserInfo.cosmosWallet" />
+              <view-bigdipper v-if="getUserInfo.cosmosWallet" :address="getUserInfo.cosmosWallet" />
               <view-etherscan v-else :address="getUserInfo.wallet" />
             </div>
           </div>
@@ -41,6 +41,7 @@ import { mapGetters } from 'vuex';
 import RefreshButton from '@/components/RefreshButton';
 import TransactionHistory from '@/components/TransactionHistory';
 import ViewEtherscan from '~/components/ViewEtherscan';
+import ViewBigdipper from '~/components/ViewBigdipper';
 
 export default {
   name: 'tx-history-tab',
@@ -67,6 +68,7 @@ export default {
     RefreshButton,
     TransactionHistory,
     ViewEtherscan,
+    ViewBigdipper,
   },
   data() {
     return {
