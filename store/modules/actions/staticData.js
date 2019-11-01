@@ -7,7 +7,7 @@ import apiWrapper from './api-wrapper';
 export async function queryLikeCoinUsdPrice({ commit, dispatch }) {
   try {
     const data = await apiWrapper({ commit, dispatch }, api.apiQueryLikeCoinFiatPrice());
-    commit(types.STATIC_DATA_SET_LIKECOIN_USD_NUMERIC_PRICE, data.market_data.current_price.usd);
+    commit(types.STATIC_DATA_SET_LIKECOIN_USD_NUMERIC_PRICE, data.price);
   } catch (err) {
     console.error(err); // eslint-disable-line no-console
   }
