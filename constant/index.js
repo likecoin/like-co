@@ -61,26 +61,11 @@ export const REDIRECT_NAME_WHITE_LIST = ['in-bonus', 'in-tokensale', 'in-bundle'
 
 export const TRANSACTION_QUERY_LIMIT = 10;
 
-export const KYC_STATUS_ENUM = {
-  NONE: 0,
-  PENDING: 1,
-  STANDARD: 2,
-  ADVANCED: 3,
-};
-
 export const ETH_TO_LIKECOIN_RATIO = 40000;
 export const FINAL_TOKENSALE_ETH_VALUE = 7562.26;
 export const FINAL_TOKENSALE_PERCENTAGE = 180;
 
 export const BONUS_LOCK_UNTIL_DATE = 1540267200000;
-
-export const GETTING_STARTED_TASKS = ['taskSocial', 'taskOnepager', 'taskVideo', 'taskPaymentPage'];
-
-/* Dont show key if value exist
-e.g. joinTokenSale also claims refereeTokenSale, so hideh refereeTokenSale */
-export const MERGED_MISSIONS = {
-  refereeTokenSale: 'joinTokenSale',
-};
 
 export const TRUST_URL = 'https://links.trustwalletapp.com/a/key_live_lfvIpVeI9TFWxPCqwU8rZnogFqhnzs4D?&event=openURL&url=';
 
