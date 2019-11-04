@@ -265,47 +265,7 @@
             </div>
           </div>
         </div>
-
-        <div class="lc-container-2">
-          <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-32">
-            <div class="lc-container-4">
-              <form
-                id="redeemForm"
-                @submit.prevent="onSubmitCoupon"
-              >
-                <div class="redeem-form__input-container">
-                  <md-field>
-                    <label class="lc-font-size-20">
-                      {{ $t('Edit.label.redeemCode') }}
-                    </label>
-                    <md-input
-                      v-model="couponCode"
-                      v-bind="getTestAttribute('redeemFormInput')"
-                      :title="$t('Edit.label.validCodeRequired')"
-                      pattern="[2-9A-HJ-NP-Za-km-z]{8}"
-                      required
-                    />
-                  </md-field>
-                  <md-button
-                    v-bind="getTestAttribute('redeemFormConfirmBtn')"
-                    :disabled="getIsInTransaction"
-                    class="md-likecoin"
-                    type="submit"
-                    form="redeemForm"
-                  >
-                    {{ $t('General.button.confirm') }}
-                  </md-button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
       </div>
-      <claim-dialog
-        ref="claimDialog"
-        :couponCode="couponCode"
-        :wallet="getUserInfo.wallet"
-      />
     </section>
 
   </div>
@@ -334,7 +294,6 @@ import User from '@/util/User';
 import { getAuthPlatformSignInURL } from '@/util/auth';
 
 import CivicLikerCta from '~/components/CivicLiker/CTA';
-import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import AuthConnectList from '~/components/settings/AuthConnectList';
 import OtherConnectList from '~/components/settings/OtherConnectList';
 import ExternalLinksPanel from '~/components/settings/ExternalLinksPanel';
@@ -346,7 +305,6 @@ export default {
   components: {
     CivicLikerCta,
     AuthCoreSettings,
-    ClaimDialog,
     AuthConnectList,
     OtherConnectList,
     ExternalLinksPanel,
@@ -639,13 +597,6 @@ export default {
           user: this.getUserInfo.user,
         },
       });
-    },
-    async onSubmitCoupon() {
-      try {
-        await this.$refs.claimDialog.onSubmit();
-      } catch (err) {
-        console.error(err);
-      }
     },
   },
 };
