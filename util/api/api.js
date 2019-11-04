@@ -29,10 +29,6 @@ export const apiSendVerifyEmail = (id, ref, locale) => axios.post(`/email/verify
 
 export const apiVerifyEmailByUUID = (uuid, locale) => axios.post(`/email/verify/${uuid}`, { locale });
 
-export const apiPostPayment = payload => axios.post('/payment', payload);
-
-export const apiPostEthPayment = payload => axios.post('/payment/eth', payload);
-
 export const apiPostNewUser = (form, opt) => {
   /* eslint-disable no-new */
   const params = new FormData();
@@ -94,10 +90,6 @@ export const apiQueryTxHistoryByUserId = (id, ts, count) => {
   return axios.get(url);
 };
 
-export const apiQueryIAPProducts = () => axios.get('/iap/list');
-
-export const apiQueryEthPrice = () => axios.get('https://api.coinmarketcap.com/v1/ticker/ethereum/?convert=USD');
-
 export const apiQueryLikeCoinFiatPrice = () => axios.get('https://api.coingecko.com/api/v3/coins/likecoin?localization=false', { withCredentials: false });
 
 export const apiSetNotification = (id, isEmailEnabled) => axios.post(`/users/email/${id}`, { isEmailEnabled });
@@ -137,7 +129,6 @@ export const apiGetUserPendingLikeHistory = () => axios.get(`${LIKECOIN_MISC_API
 export const apiPostUserReadContent = (id, payload) => axios.put(`/users/read/${id}`, payload);
 
 export const apiGetCivicCSOnline = () => axios.get('/civic/csonline');
-export const apiGetCivicLikerRegister = () => axios.get('/civic/quota');
 export const apiQueueCivicLikerWaitingList = qs => axios.put(`/civic/queue?${qs}`);
 export const apiDequeueCivicLikerWaitingList = qs => axios.delete(`/civic/queue?${qs}`);
 export const apiGetCivicLikerTrialEventById = id => axios.get(`/civic/trial/events/${id}`);
