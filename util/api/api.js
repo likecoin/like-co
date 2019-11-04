@@ -25,10 +25,6 @@ export const apiGetTxToByAddr = addr => axios.get(`/tx/addr/to/${addr}`);
 
 export const apiGetTxFromByAddr = addr => axios.get(`/tx/addr/from/${addr}`);
 
-export const apiGetReferralById = id => axios.get(`/users/referral/${id}`);
-
-export const apiGetTotalBonusById = id => axios.get(`/users/bonus/${id}`);
-
 export const apiSendVerifyEmail = (id, ref, locale) => axios.post(`/email/verify/user/${id}`, { ref, locale });
 
 export const apiVerifyEmailByUUID = (uuid, locale) => axios.post(`/email/verify/${uuid}`, { locale });
@@ -74,60 +70,6 @@ export const apiLinkAuthPlatform = (platform, payload) => axios.post(`/users/log
 export const apiUnlinkAuthPlatform = platform => axios.delete(`/users/login/${platform}`);
 
 export const apiGetUserSelf = () => axios.get('/users/self');
-
-export const apiFetchUserMission = ({ missionId, user, params }) => axios.get(`/mission/${missionId}/user/${user}`, {
-  params,
-});
-
-export const apiFetchMissionList = id => axios.get(`/mission/list/${id}`);
-
-export const apiFetchMissionHistoryList = id => axios.get(`/mission/list/history/${id}`);
-
-export const apiFetchMissionHistoryBonus = id => axios.get(`/mission/list/history/${id}/bonus`);
-
-export const apiPostSeenMission = (id, payload) => axios.post(`/mission/seen/${id}`, payload);
-
-export const apiPostStepMission = (id, payload) => axios.post(`/mission/step/${id}`, payload);
-
-export const apiClaimMission = (user, missionId) => axios.post(
-  `${LIKECOIN_API_BASE}/mission/claim`,
-  { user, missionId },
-);
-
-export const apiClaimReferralBonus = (user, type) => axios.post(
-  `${LIKECOIN_API_BASE}/mission/referral/claim`,
-  { user, type },
-);
-
-export const apiPostTwitterMission = (user, url) => axios.post(
-  `${LIKECOIN_API_BASE}/mission/twitter`,
-  { user, url },
-);
-
-export const apiPostRetweetMission = (
-  user,
-  missionId,
-  inputTwitterId,
-) => axios.post(`${LIKECOIN_API_BASE}/mission/twitterRetweet`, {
-  user,
-  missionId,
-  inputTwitterId,
-});
-
-export const apiPostRegisterOiceMission = user => axios.post(
-  `${LIKECOIN_API_BASE}/mission/registerOice`,
-  { user },
-);
-
-export const apiPostHideMission = (id, payload) => axios.post(`/mission/hide/${id}`, payload);
-
-export const apiFetchReferralMissionList = id => axios.get(`/referral/list/${id}`);
-
-export const apiFetchReferralBonusList = id => axios.get(`/referral/list/bonus/${id}`);
-
-export const apiPostSeenReferral = (id, { referralId }) => axios.post(`/referral/seen/${id}`, { referralId });
-
-export const apiSendCouponCodeEmail = (id, coupon, locale) => axios.post(`/email/verify/user/${id}`, { coupon, locale });
 
 export const apiSendInvitationEmail = (user, email, locale) => axios.post(
   `${LIKECOIN_API_BASE}/misc/store-invite`,

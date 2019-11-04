@@ -90,7 +90,6 @@ import { mapGetters } from 'vuex';
 
 import localeMixin from '~/mixins/locale';
 
-import MissionDialog from '@/components/dialogs/MissionDialog';
 import PromptNotificationDialog from '@/components/dialogs/PromptNotificationDialog';
 import MyFooter from '~/components/footer/Footer';
 import SiteHeader from '~/components/header/HeaderWithMenuButton';
@@ -100,7 +99,6 @@ import UserInfoForm from '~/components/UserInfoForm';
 
 export default {
   components: {
-    MissionDialog,
     PromptNotificationDialog,
     MyFooter,
     SiteHeader,
