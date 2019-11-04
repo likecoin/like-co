@@ -104,27 +104,6 @@
               </h1>
             </div>
           </div>
-
-          <!--<div
-            v-else-if="currentTab === 'email'"
-            ref="email"
-            key="email"
-            :class="[
-              'auth-dialog__tab lc-padding-vertical-16',
-              {
-                'auth-dialog__tab--index': currentTab === 'checkInbox',
-              },
-            ]"
-          >
-            <email-signin-form
-              :is-show-back="!isSigningInWithEmail"
-              :is-re-enter="errorCode === 'FIREBASE_EMAIL_LINK_AUTH_NO_EMAIL'"
-              @submit="signInWithEmail"
-              @cancel="currentTab = 'portal'"
-            />
-          </div>
-          -->
-
           <div
             v-else-if="currentTab === 'register'"
             v-bind="tabProps"
@@ -193,29 +172,6 @@
                 @click="onDismissError"
               >
                 {{ errorConfirmTitle }}
-              </md-button>
-            </div>
-          </div>
-
-          <div
-            v-else-if="currentTab === 'checkInbox'"
-            v-bind="tabProps"
-            class="auth-dialog__tab lc-padding-vertical-16"
-          >
-            <div class="lc-dialog-container-1">
-              <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-mobile">
-                {{ $t('AuthDialog.label.checkInbox') }}
-              </h1>
-              <p class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-32">
-                {{ $t('AuthDialog.label.checkInboxDescription', {email: signInPayload.email }) }}
-              </p>
-            </div>
-            <div class="lc-dialog-container-1 lc-button-group">
-              <md-button
-                class="md-likecoin"
-                @click="close"
-              >
-                {{ $t('General.button.ok') }}
               </md-button>
             </div>
           </div>
@@ -290,17 +246,6 @@ import {
   apiGetUserMinById,
 } from '@/util/api/api';
 
-import {
-  isFirebasePlatform,
-  firebasePlatformSignIn,
-  firebaseGetRedirectCredential,
-  firebaseSendSignInEmail,
-  firebaseIsSignInEmailLink,
-  firebaseHandleSignInEmailLink,
-  getSignInPayloadFromSignInResult,
-  getPlatformFromProviderId,
-} from '~/util/FirebaseApp';
-
 import { checkUserNameValid } from '@/util/ValidationHelper';
 
 import AuthCoreRegister from '~/components/AuthCore/Register';
@@ -316,7 +261,6 @@ import LikeCoinLogo from '~/assets/logo/icon-plain.svg';
 
 import { logTrackerEvent, logTimingEvent } from '@/util/EventLogger';
 import {
-  checkIsMobileClient,
   tryPostLoginRedirect,
 } from '~/util/client';
 
@@ -332,7 +276,6 @@ export default {
     BaseDialogV2,
     AuthCoreRegister,
     SigninPortal,
-    // EmailSigninForm,
     RegisterForm,
   },
   mixins: [
@@ -573,30 +516,6 @@ export default {
         isSignIn: this.$route.query.login === '1',
       });
     }
-    // Check whether it is email sign in
-    if (firebaseIsSignInEmailLink()) {
-      this.isSigningInWithEmail = true;
-      this.currentTab = 'signingIn';
-      this.platform = 'email';
-      this.setIsShow(true);
-      try {
-        this.signInPayload = await firebaseHandleSignInEmailLink();
-        this.login();
-      } catch (err) {
-        if (err.message === 'FIREBASE_EMAIL_LINK_AUTH_NO_EMAIL') {
-          // User opened the link on a different device. To prevent session fixation attacks, ask
-          // the user to provide the associated email again
-          this.currentTab = 'email';
-          this.errorCode = 'FIREBASE_EMAIL_LINK_AUTH_NO_EMAIL';
-        } else {
-          // eslint-disable-next-line no-console
-          console.error(err);
-          if (this.$sentry) this.$sentry.captureException(err);
-          this.setError(err.code, err);
-          this.isSigningInWithEmail = false;
-        }
-      }
-    }
 
     // Handle redirect sign in
     const {
@@ -609,27 +528,7 @@ export default {
       this.currentTab = 'signingIn';
 
       try {
-        if (!signInPlatform || isFirebasePlatform(signInPlatform)) {
-          const result = await firebaseGetRedirectCredential();
-          if (result.credential) {
-            this.platform = getPlatformFromProviderId(result.credential.providerId);
-            this.signInPayload = await getSignInPayloadFromSignInResult(result);
-            this.login();
-          } else {
-            // eslint-disable-next-line no-console
-            console.error('No credential after redirect');
-            if (this.$sentry) {
-              this.$sentry.captureException(new Error('No credential after redirect'));
-            }
-
-            // If redirect sign in is not working, suggest user to try again with popup
-            if (signInPlatform) {
-              this.currentTab = `loginFailure-${signInPlatform}`;
-            } else {
-              this.currentTab = 'portal';
-            }
-          }
-        } else if (signInPlatform) {
+        if (signInPlatform) {
           const { code, state } = this.$route.query;
           this.platform = signInPlatform;
           this.signInPayload = await getAuthPlatformSignInPayload(signInPlatform, { code, state });
@@ -811,12 +710,6 @@ export default {
     },
     onDismissError() {
       switch (this.errorCode) {
-        case 'USER_AUTH_EMAIL_LINK_INVALID':
-          // Allow user to re-enter email if the provided email is not match
-          this.currentTab = 'email';
-          this.errorCode = 'FIREBASE_EMAIL_LINK_AUTH_NO_EMAIL';
-          return;
-
         case 'USER_REGISTER_ERROR':
         case 'EMAIL_ALREADY_USED':
         case 'USER_ALREADY_EXIST':
@@ -831,11 +724,6 @@ export default {
     onUpdateIsShow(isShow) {
       if (!this.shouldHideDialog && isShow !== this.getIsShowAuthDialog) {
         this.setIsShow(isShow);
-      }
-      if (!isShow && this.errorCode === 'FIREBASE_EMAIL_LINK_AUTH_NO_EMAIL') {
-        // Do not retain the step if user closes dialog during re-enter email
-        this.currentTab = 'portal';
-        this.errorCode = '';
       }
     },
     onObservingContentResize(entries) {
@@ -919,15 +807,11 @@ export default {
       };
       this.login();
     },
-    async signInWithPlatform(platform, options = { isAllowRedirect: true }) {
+    async signInWithPlatform(platform) {
       this.platform = platform;
       this.logRegisterEvent(this, 'RegFlow', 'LoginTry', `LoginTry(${platform})`, 1);
 
       switch (platform) {
-        case 'email':
-          this.currentTab = 'email';
-          return;
-
         case 'wallet':
           this.currentTab = 'loading';
           this.setWalletNoticeDialog({
@@ -939,53 +823,6 @@ export default {
             onConfirm: () => this.startWeb3AndCb(this.signInWithWallet),
           });
           return;
-
-        case 'google':
-        case 'twitter':
-        case 'facebook':
-          this.currentTab = 'loading';
-          try {
-            // Determine Firebase sign in method
-            const isRedirect = options.isAllowRedirect && (
-              this.$route.query.is_popup === '1'
-              || checkIsMobileClient()
-              || !!window.opener
-            );
-            if (isRedirect) {
-              this.logRegisterEvent(this, 'RegFlow', 'LoginRedirect', `LoginRedirect(${platform})`, 1);
-              this.$router.replace({
-                name: this.$route.name,
-                query: {
-                  ...this.$route.query,
-                  redirect_sign_in: 1,
-                  sign_in_platform: platform,
-                },
-              });
-            }
-            this.signInPayload = await firebasePlatformSignIn(platform, {
-              isRedirect,
-            });
-            if (!isRedirect) this.login();
-            return;
-          } catch (err) {
-            switch (err.code) {
-              case 'auth/popup-closed-by-user':
-                this.currentTab = 'portal';
-                break;
-
-              case 'auth/web-storage-unsupported':
-                this.setError('USER_AUTH_THRID_PARTY_COOKIE_BLOCKED');
-                break;
-
-              default:
-                // eslint-disable-next-line no-console
-                console.error(err);
-                if (this.$sentry) this.$sentry.captureException(err);
-                this.setError(err.code, err);
-                break;
-            }
-          }
-          break;
         default: {
           if (LOGIN_CONNECTION_LIST.includes(platform)) {
             const { url } = await getAuthPlatformSignInURL(platform);
@@ -1001,34 +838,6 @@ export default {
         }
       }
     },
-    async signInWithEmail(email) {
-      this.currentTab = 'loading';
-
-      if (this.isSigningInWithEmail) {
-        try {
-          this.signInPayload = await firebaseHandleSignInEmailLink(email);
-          this.isSigningInWithEmail = false;
-          this.login();
-        } catch (err) {
-          let code;
-          if (err.code === 'auth/invalid-action-code' || err.code === 'auth/invalid-email') {
-            code = 'USER_AUTH_EMAIL_LINK_INVALID';
-          } else {
-            // eslint-disable-next-line no-console
-            console.error(err);
-            if (this.$sentry) this.$sentry.captureException(err);
-            this.isSigningInWithEmail = false;
-          }
-          this.setError(code, err);
-        }
-      } else {
-        await firebaseSendSignInEmail(email, {
-          referrer: this.referrer,
-          sourceURL: this.sourceURL,
-        });
-        this.currentTab = 'checkInbox';
-      }
-    },
     async signInWithWallet() {
       this.currentTab = 'signingIn';
 
@@ -1038,10 +847,7 @@ export default {
       } catch (err) {
         if (err.response) {
           if (err.response.status === 404) {
-            this.signInPayload = {
-              wallet: this.getLocalWeb3Wallet,
-            };
-            this.currentTab = 'register';
+            this.setError(err.message, err);
             return;
           }
         }
@@ -1145,21 +951,13 @@ export default {
     async register(registerPayload) {
       this.currentTab = 'loading';
 
-      let payload = {
+      const payload = {
         locale: this.getCurrentLocale,
         platform: this.platform,
         ...this.signInPayload,
         ...registerPayload,
       };
       this.signInPayload = payload;
-
-      // Request user to sign when using wallet to sign in
-      if (payload.wallet) {
-        payload = await User.formatAndSignUserInfo(
-          payload,
-          this.$t('Sign.Message.registerUser'),
-        );
-      }
       if (this.referrer) payload.referrer = this.referrer;
       if (this.sourceURL) payload.sourceURL = this.sourceURL;
 

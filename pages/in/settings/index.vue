@@ -282,13 +282,6 @@ import {
   OTHER_CONNECTION_LIST,
 } from '@/constant';
 
-import {
-  firebasePlatformSignIn,
-  firebasePlatformLinkUser,
-  firebasePlatformUnLinkUser,
-  getFirebaseCurrentUser,
-} from '~/util/FirebaseApp';
-
 import getTestAttribute from '@/util/test';
 import User from '@/util/User';
 import { getAuthPlatformSignInURL } from '@/util/auth';
@@ -520,26 +513,6 @@ export default {
       if (platform) return;
 
       switch (pid) {
-        case 'google':
-        case 'twitter':
-        case 'facebook': {
-          const {
-            firebaseIdToken,
-            accessToken,
-            secret,
-          } = await (getFirebaseCurrentUser()
-            ? firebasePlatformLinkUser(pid) : firebasePlatformSignIn(pid));
-          this.linkUserAuthPlatform({
-            platform: pid,
-            payload: {
-              user: this.getUserInfo.user,
-              firebaseIdToken,
-              accessToken,
-              secret,
-            },
-          });
-          break;
-        }
         case 'matters': {
           const { url } = await getAuthPlatformSignInURL(pid, 'link');
           if (url) window.location.href = url;
@@ -549,20 +522,8 @@ export default {
           break;
       }
     },
-    async onDisconnectAuth(pid) {
-      switch (pid) {
-        case 'google':
-        case 'twitter':
-        case 'facebook':
-          try {
-            await firebasePlatformUnLinkUser(pid);
-          } catch (err) {
-            console.error(err);
-          }
-          await this.unlinkUserAuthPlatform({ platform: pid });
-          break;
-        default:
-      }
+    async onDisconnectAuth() {
+      // TODO: sync with authcore
     },
     async onConnectOtherPlatforms(pid) {
       switch (pid) {

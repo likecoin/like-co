@@ -5,10 +5,6 @@ import { REDIRECT_NAME_WHITE_LIST } from '@/constant';
 import User from '@/util/User';
 
 import apiWrapper from './api-wrapper';
-import {
-  firebase,
-  getFirebaseProviderId,
-} from '../../../util/FirebaseApp';
 
 export function doUserAuth({ commit }, { router, route }) {
   if (route) {
@@ -235,53 +231,10 @@ export async function fetchSocialPlatformLink({ commit, dispatch }, { platform, 
 }
 
 export async function linkSocialPlatform({ commit, dispatch }, { platform, payload }) {
-  const {
-    displayName, url, pages, id,
-    oAuthToken, oAuthTokenSecret,
-  } = await apiWrapper(
+  await apiWrapper(
     { commit, dispatch },
     api.apiLinkSocialPlatform(platform, payload),
   );
-
-  // Link platform to Firebase
-  let firebaseCredential;
-  switch (platform) {
-    case 'facebook':
-      firebaseCredential = (
-        firebase
-          .auth
-          .FacebookAuthProvider
-          .credential(payload.access_token)
-      );
-      break;
-
-    case 'twitter':
-      firebaseCredential = (
-        firebase
-          .auth
-          .TwitterAuthProvider
-          .credential(oAuthToken, oAuthTokenSecret)
-      );
-      break;
-
-    default:
-  }
-
-  if (firebaseCredential) {
-    try {
-      await firebase
-        .auth()
-        .currentUser
-        .linkAndRetrieveDataWithCredential(firebaseCredential);
-    } catch (err) {
-      // Do nothing
-    }
-  }
-
-  commit(types.USER_LINK_SOCIAL, {
-    platform, displayName, url, pages, id,
-  });
-
   await dispatch('refreshUser');
 
   return true;
@@ -292,21 +245,6 @@ export async function unlinkSocialPlatform({ commit, dispatch }, { platform, pay
     { commit, dispatch },
     api.apiUnlinkSocialPlatform(platform, payload),
   );
-
-  // Unlink platform from Firebase
-  switch (platform) {
-    case 'facebook':
-    case 'twitter':
-      try {
-        await firebase.auth().currentUser.unlink(getFirebaseProviderId(platform));
-      } catch (err) {
-        // Do nothing
-      }
-      break;
-
-    default:
-  }
-
   commit(types.USER_UNLINK_SOCIAL, platform);
 
   await dispatch('refreshUser');

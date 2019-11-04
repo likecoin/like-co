@@ -118,9 +118,6 @@ export const SOCIAL_MEDIA_LIST = [
 ];
 
 export const LOGIN_CONNECTION_LIST = [
-  'google',
-  'facebook',
-  'twitter',
   'matters',
 ];
 
