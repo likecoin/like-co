@@ -183,10 +183,7 @@ export default {
       'getUserInfo',
       'getUserHasWallet',
       'getIsPopupBlocking',
-      'getIsFetchingMissions',
-      'getIsFetchedMissions',
       'getUserIsRegistered',
-      'getShortMissionList',
     ]),
     isEmailVerified() {
       return this.getUserInfo.isEmailVerified;
@@ -221,16 +218,10 @@ export default {
       'sendCouponCodeEmail',
       'refreshUserInfo',
       'fetchUserReferralStats',
-      'refreshMissionList',
-      'onMissionClick',
       'fetchLikeSuggestionList',
       'fetchSocialListDetailsById',
     ]),
-    refreshMissions() {
-      this.refreshMissionList(this.getUserInfo.user);
-    },
     updateInfo() {
-      this.refreshMissions();
       this.fetchSocialListDetailsById(this.getUserInfo.user);
     },
     async refreshLikeSuggestion() {

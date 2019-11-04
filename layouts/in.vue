@@ -109,11 +109,7 @@ export default {
   middleware: 'authenticated',
   mixins: [localeMixin],
   computed: {
-    hasNewInvitee() {
-      return this.getReferralMissionList.some(referral => !referral.seen);
-    },
     ...mapGetters([
-      'getReferralMissionList',
       'getUserInfo',
       'getUserLikeCoinAmountIsZero',
     ]),
