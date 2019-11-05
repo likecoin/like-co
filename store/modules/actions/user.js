@@ -112,7 +112,6 @@ export async function logoutUser({ commit, dispatch }, data) {
   await apiWrapper({ commit, dispatch }, api.apiLogoutUser(data), { blocking: true });
   commit(types.USER_SET_USER_INFO, {});
   commit(types.UI_INFO_MSG, '');
-  commit(types.MISSION_CLEAR_ALL);
   await dispatch('authCoreLogoutUser');
   return true;
 }
@@ -150,7 +149,6 @@ export async function refreshUser({ commit, state, dispatch }) {
     }
     if (currentUser !== oldUser) {
       commit(types.UI_INFO_MSG, '');
-      commit(types.MISSION_CLEAR_ALL);
     }
     if (user && user.locale) {
       dispatch('setLocale', user.locale);
@@ -195,17 +193,8 @@ export async function verifyEmailByUUID({ commit, dispatch, rootState }, uuid) {
   );
 }
 
-export async function fetchUserReferralStats({ commit, dispatch }, id) {
-  return apiWrapper({ commit, dispatch }, api.apiGetReferralById(id));
-}
-
 export async function getMiniUserById({ commit, dispatch }, id) {
   return apiWrapper({ commit, dispatch }, api.apiGetUserMinById(id), { slient: true });
-}
-
-export async function fetchUserTotalBonus({ commit, dispatch }, id) {
-  const { bonus } = await apiWrapper({ commit, dispatch }, api.apiGetTotalBonusById(id));
-  return bonus;
 }
 
 export async function fetchtSocialListById({ commit, dispatch }, id) {
@@ -280,14 +269,6 @@ export async function updateUserSocialLink({ commit, dispatch }, { linkId, paylo
     api.apiPostUpdateUserSocialLink(linkId, payload),
   );
   commit(types.USER_SET_SOCIAL_LINK, payload.link);
-}
-
-export async function sendCouponCodeEmail({ commit, dispatch, rootState }, data) {
-  return apiWrapper(
-    { commit, dispatch },
-    api.apiSendCouponCodeEmail(data.user, data.coupon, rootState.ui.locale),
-    { blocking: true },
-  );
 }
 
 export async function sendInvitationEmail({ commit, dispatch, rootState }, data) {
