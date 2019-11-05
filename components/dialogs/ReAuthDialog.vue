@@ -10,7 +10,7 @@
   >
     <auth-core-register
       :is-sign-in="true"
-      @success="linkWithAuthCore"
+      :is-fix-contact="true"
     />
   </BaseDialogV2>
 </template>

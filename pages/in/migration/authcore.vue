@@ -9,6 +9,7 @@
     >
       <auth-core-register
         :is-sign-in="false"
+        :is-fix-contact="true"
         :email="getUserInfo.email"
         @success="linkWithAuthCore"
       />
