@@ -20,7 +20,7 @@ export default async ({ store }) => {
         const user = await authClient.getCurrentUser();
         if (!user) throw new Error('NO_USER');
         store.commit(types.AUTHCORE_SET_AUTH_CLIENT, authClient);
-        store.dispatch('setAuthCoreToken', accessToken);
+        await store.dispatch('setAuthCoreToken', accessToken);
       } catch (err) {
         console.error(err);
       }

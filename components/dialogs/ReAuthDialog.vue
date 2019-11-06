@@ -69,8 +69,8 @@ export default {
     close() {
       this.setIsShow(false);
     },
-    signInWithAuthCore({ accessToken }) {
-      this.setAuthCoreToken(accessToken);
+    async signInWithAuthCore({ accessToken }) {
+      await this.setAuthCoreToken(accessToken);
       this.setIsShow(false);
     },
   },

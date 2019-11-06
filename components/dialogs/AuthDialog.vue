@@ -790,8 +790,8 @@ export default {
         }
       });
     },
-    signInWithAuthCore({ accessToken, currentUser, idToken }) {
-      this.setAuthCoreToken(accessToken);
+    async signInWithAuthCore({ accessToken, currentUser, idToken }) {
+      await this.setAuthCoreToken(accessToken);
       this.currentTab = 'loading';
       this.platform = 'authcore';
       const {
