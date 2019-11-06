@@ -11,6 +11,8 @@
     <auth-core-register
       :is-sign-in="true"
       :is-fix-contact="true"
+      :email="getUserInfo.email"
+      @success="signInWithAuthCore"
     />
   </BaseDialogV2>
 </template>
@@ -34,6 +36,7 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'getUserInfo',
       'getIsShowReAuthDialog',
     ]),
   },

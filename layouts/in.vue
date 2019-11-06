@@ -78,7 +78,6 @@
 
     </div>
 
-    <mission-dialog />
     <prompt-notification-dialog />
 
   </div>
