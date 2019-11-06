@@ -41,7 +41,7 @@ export default {
       apiGetUserMinById(id),
       apiGetSocialListById(id, type).catch(() => ({})),
       !amount && apiQueryLikeCoinFiatPrice()
-        .then(res => res.data.market_data.current_price.usd)
+        .then(res => res.data.price)
         .catch(() => 0.0082625),
     ]).then((res) => {
       const {
