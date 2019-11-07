@@ -12,6 +12,4 @@ export const getAuthCoreAuthClient = state => state.authClient;
 
 export const getAuthCoreKVClient = state => state.kvClient;
 
-export const getAuthCoreCosmosAddress = state => state.cosmosProvider;
-
 export const getAuthCoreCosmosProvider = state => state.cosmosProvider;
