@@ -146,6 +146,52 @@ jobs:
           name: Deploy
           command: |
             kubectl patch deployment like-store-frontend-staging -p '{"spec":{"template":{"spec":{"containers":[{"name":"like-store-frontend","image":"us.gcr.io/'"$TEST_PROJECT_NAME"'/like-store-frontend:test-'"$CIRCLE_SHA1"'"}]}}}}'
+deploy_staging_api:
+    working_directory: ~/likecoin-store
+    docker:
+      - image: lakoo/node-gcloud-docker
+    environment:
+      - DEBIAN_FRONTEND: noninteractive
+      - TERM: dumb
+      - GOOGLE_APPLICATION_CREDENTIALS: /tmp/account-auth.json
+    steps:
+      - checkout
+      - run:
+          name: Git Environment
+          command: |
+            apk add --no-cache git openssl
+      - run:
+          name: "Pull Submodules"
+          command: |
+            git submodule init
+            git submodule update
+      - run:
+          name: Setup gcloud
+          command: |
+            echo ${TEST_GCLOUD_SERVICE_KEY} | base64 -d > /test-account-auth.json
+            gcloud auth activate-service-account --key-file /test-account-auth.json
+            gcloud config set project ${TEST_PROJECT_NAME}
+            gcloud --quiet config set container/cluster ${POC_CLUSTER_NAME}
+            gcloud config set compute/zone ${CLOUDSDK_COMPUTE_ZONE}
+            gcloud --quiet container clusters get-credentials ${POC_CLUSTER_NAME}
+      - setup_docker_engine
+      - run:
+          name: Build image
+          command: |
+            gcloud docker -- pull us.gcr.io/${TEST_PROJECT_NAME}/like-api-public:latest || true
+            docker build ./server/api -t like-store --cache-from us.gcr.io/${TEST_PROJECT_NAME}/like-api-public:latest
+            docker tag like-store:latest us.gcr.io/${TEST_PROJECT_NAME}/like-api-public:latest
+            docker tag like-store:latest us.gcr.io/${TEST_PROJECT_NAME}/like-api-public:${CIRCLE_SHA1}
+      - run:
+          name: Push images
+          command: |
+            gcloud docker -- push us.gcr.io/${TEST_PROJECT_NAME}/like-api-public:latest
+            gcloud docker -- push us.gcr.io/${TEST_PROJECT_NAME}/like-api-public:${CIRCLE_SHA1}
+      - deploy:
+          name: Deploy
+          command: |
+            kubectl patch deployment like-api-web-staging -p '{"spec":{"template":{"spec":{"containers":[{"name":"like-api-web","image":"us.gcr.io/'"$TEST_PROJECT_NAME"'/like-api-public:'"$CIRCLE_SHA1"'"}]}}}}'
+
   deploy_rinkeby_frontend:
     working_directory: ~/likecoin-store
     docker:
@@ -335,6 +381,16 @@ workflows:
     jobs:
       - test
       - unit_test
+      - hold_deploy_staging_api:
+          type: approval
+          filters:
+            branches:
+              only:
+                - master
+                - develop
+                - /feature.*/
+          requires:
+           - test
       - hold_deploy_staging_frontend:
           type: approval
           filters:
@@ -379,6 +435,9 @@ workflows:
               only: master
           requires:
            - test
+      - deploy_staging_api:
+          requires:
+            - hold_deploy_staging_api
       - deploy_staging_frontend:
           requires:
             - hold_deploy_staging_frontend
