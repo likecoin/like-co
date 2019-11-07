@@ -20,7 +20,7 @@
           <simple-svg
             slot="icon"
             :filepath="iconMap[p.pid]"
-            :preserve-color="p.pid === 'google'"
+            :preserve-color="p.pid === 'google' || p.pid === 'matters'"
             fill="currentColor"
             stroke="transparent"
             width="inherit"
@@ -56,7 +56,7 @@ import LButton from '~/components/LButton';
 import FacebookIcon from '~/assets/icons/fillable/facebook.svg';
 import GoogleIcon from '~/assets/icons/google.svg';
 import TwitterIcon from '~/assets/icons/fillable/twitter.svg';
-import MattersIcon from '~/assets/icons/fillable/matters.svg';
+import MattersIcon from '~/assets/icons/auth-platform/matters.svg';
 
 import { logTrackerEvent } from '~/util/EventLogger';
 
@@ -179,6 +179,10 @@ export default {
 
   &--google {
     color: #4385f4;
+  }
+
+  &--matters {
+    color: #505050;
   }
 }
 </style>

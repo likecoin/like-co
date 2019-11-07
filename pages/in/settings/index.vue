@@ -429,6 +429,7 @@ export default {
       'sendVerifyEmail',
       'setInfoMsg',
       'setReAuthDialogShow',
+      'setErrorMsg',
       'fetchAuthPlatformsById',
       'linkUserAuthPlatform',
       'unlinkUserAuthPlatform',
@@ -565,21 +566,26 @@ export default {
         case 'google':
         case 'twitter':
         case 'facebook': {
-          const {
-            firebaseIdToken,
-            accessToken,
-            secret,
-          } = await (getFirebaseCurrentUser()
-            ? firebasePlatformLinkUser(pid) : firebasePlatformSignIn(pid));
-          this.linkUserAuthPlatform({
-            platform: pid,
-            payload: {
-              user: this.getUserInfo.user,
+          try {
+            const {
               firebaseIdToken,
               accessToken,
               secret,
-            },
-          });
+            } = await (getFirebaseCurrentUser()
+              ? firebasePlatformLinkUser(pid) : firebasePlatformSignIn(pid));
+            this.linkUserAuthPlatform({
+              platform: pid,
+              payload: {
+                user: this.getUserInfo.user,
+                firebaseIdToken,
+                accessToken,
+                secret,
+              },
+            });
+          } catch (err) {
+            console.error(err);
+            this.setErrorMsg(err);
+          }
           break;
         }
         case 'matters': {
@@ -600,6 +606,7 @@ export default {
             await firebasePlatformUnLinkUser(pid);
           } catch (err) {
             console.error(err);
+            this.setErrorMsg(err);
           }
           await this.unlinkUserAuthPlatform({ platform: pid });
           break;

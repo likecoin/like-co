@@ -120,9 +120,9 @@ export default {
         // 'email', // XXX: Disable for now
       ];
 
-      if (!checkIsMobileClient() && this.isSignIn) {
+      if (this.isSignIn) {
         ids.push('matters');
-        ids.push('wallet');
+        if (!checkIsMobileClient()) ids.push('wallet');
       }
 
       return ids.map(id => ({

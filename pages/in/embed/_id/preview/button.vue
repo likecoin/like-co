@@ -224,7 +224,7 @@ export default {
     let USD_TO_LIKE = 0.0082625;
     try {
       const res = await apiQueryLikeCoinFiatPrice();
-      USD_TO_LIKE = res.data.market_data.current_price.usd;
+      USD_TO_LIKE = res.data.price;
     } catch (err) {
       console.error(err);
     }
