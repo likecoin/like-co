@@ -36,9 +36,7 @@ export async function sendCosmosPayment(
 ) {
   try {
     const { from, to, value } = payload;
-    commit(types.UI_START_BLOCKING_LOADING);
     const { txHash, included } = await transferCosmos({ from, to, value }, signer);
-    commit(types.UI_STOP_BLOCKING_LOADING);
     commit(types.UI_START_LOADING_TX);
     commit(types.PAYMENT_SET_PENDING_HASH, txHash);
     commit(types.PAYMENT_SET_PENDING_TX_INFO, { from, to, value });

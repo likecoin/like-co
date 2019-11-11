@@ -52,6 +52,21 @@
                   </span>
                 </div>
 
+                <div class="profile-setting-page__field profile-setting-page__field--multi-line">
+                  <span class="title">
+                    {{ $t('Register.form.displayName') }}
+                  </span>
+                  <span class="content">
+                    <md-field>
+                      <md-input
+                        v-model="displayName"
+                        v-bind="getTestAttribute('userDisplayName')"
+                        :required="!getUserIsAuthCore"
+                        :disabled="getUserIsAuthCore"
+                      />
+                    </md-field>
+                  </span>
+                </div>
                 <div
                   v-if="getUserInfo.wallet"
                   class="profile-setting-page__field profile-setting-page__field--one-line"
@@ -72,60 +87,49 @@
                     {{ getUserInfo.wallet }}
                   </span>
                 </div>
-
-                <div class="profile-setting-page__field profile-setting-page__field--multi-line">
-                  <span class="title">
-                    {{ $t('Register.form.displayName') }}
-                  </span>
-                  <span class="content">
-                    <md-field>
-                      <md-input
-                        v-model="displayName"
-                        v-bind="getTestAttribute('userDisplayName')"
-                        required
-                      />
-                    </md-field>
-                  </span>
-                </div>
-
-                <div class="profile-setting-page__field profile-setting-page__field--multi-line">
-                  <span class="title">
-                    {{ $t('Register.form.email') }}
-                    <span class="profile-setting-page__email-verify-status">
-                      <span
-                        v-if="getUserInfo.isEmailVerified"
-                        class="verified"
-                      >
-                        <simple-svg
-                          :filepath="TickIcon"
-                          width="16px"
-                          height="16px"
-                        />
-                        {{ $t('Edit.label.verified') }}
-                      </span>
-                      <span v-else-if="isVerifying">
-                        ({{ $t('Edit.label.verifying') }})
-                      </span>
-                      <span v-else-if="email">
-                        ({{ $t('Edit.label.unverified') }})
+                <template v-if="!getUserIsAuthCore">
+                  <div class="profile-setting-page__field profile-setting-page__field--multi-line">
+                    <span class="title">
+                      {{ $t('Register.form.email') }}
+                      <span class="profile-setting-page__email-verify-status">
+                        <span
+                          v-if="getUserInfo.isEmailVerified"
+                          class="verified"
+                        >
+                          <simple-svg
+                            :filepath="TickIcon"
+                            width="16px"
+                            height="16px"
+                          />
+                          {{ $t('Edit.label.verified') }}
+                        </span>
+                        <span v-else-if="isVerifying">
+                          ({{ $t('Edit.label.verifying') }})
+                        </span>
+                        <span v-else-if="email">
+                          ({{ $t('Edit.label.unverified') }})
+                        </span>
                       </span>
                     </span>
-                  </span>
-                  <span class="content">
-                    <md-field>
-                      <md-input
-                        v-model="email"
-                        :title="$t('Edit.label.validCodeRequired')"
-                        :pattern="W3C_EMAIL_REGEX"
-                        autocomplete="email"
-                        required
-                      />
-                    </md-field>
-                  </span>
-                </div>
+                    <span class="content">
+                      <md-field>
+                        <md-input
+                          v-model="email"
+                          :title="$t('Edit.label.validCodeRequired')"
+                          :pattern="W3C_EMAIL_REGEX"
+                          autocomplete="email"
+                          required
+                        />
+                      </md-field>
+                    </span>
+                  </div>
+                </template>
               </div>
             </div>
-            <div class="profile-setting-page__confirm-btn lc-margin-top-8">
+            <div
+              v-if="!getUserIsAuthCore"
+              class="profile-setting-page__confirm-btn lc-margin-top-8"
+            >
               <md-button
                 :disabled="!hasUserDetailsChanged || disabled"
                 v-bind="getTestAttribute('submitButton')"
@@ -148,9 +152,50 @@
     >
       <div class="lc-container-1">
         <div class="lc-container-2">
-
+          <div
+            v-if="getAuthCoreNeedReAuth || getAuthCoreAccessToken"
+            class="lc-container-3 lc-padding-vertical-32 lc-bg-gray-1"
+          >
+            <div class="lc-container-4">
+              <h2 class="lc-font-size-14 lc-font-weight-400">
+                {{ $t('AuthCore.Settings.title') }}
+              </h2>
+              <div v-if="getAuthCoreNeedReAuth">
+                <md-button
+                  class="md-likecoin"
+                  @click="onClickAuthCoreReAuth"
+                >
+                  {{ $t('AuthCore.button.reAuthNeeded') }}
+                </md-button>
+              </div>
+              <div
+                v-else-if="getAuthCoreAccessToken"
+              >
+                <md-tabs
+                  :md-active-tab="`authcore-${isShowAuthCoreProfile ? 'profile' : 'settings'}`"
+                  @md-changed="onAuthCoreSettingTabsChanged"
+                >
+                  <md-tab
+                    id="authcore-profile"
+                    :md-label="$t('AuthCore.button.profile')"
+                  />
+                  <md-tab
+                    id="authcore-settings"
+                    :md-label="$t('AuthCore.button.settings')"
+                  />
+                </md-tabs>
+                <auth-core-settings
+                  :access-token="getAuthCoreAccessToken"
+                  :is-profile="isShowAuthCoreProfile"
+                  :options="{ internal: true }"
+                  @profile-updated="onAuthCoreProfileUpdated"
+                  @primary-contact-updated="onAuthCoreProfileUpdated"
+                />
+              </div>
+            </div>
+          </div>
           <!-- Auth Connections -->
-          <div class="lc-container-3 lc-bg-gray-1 lc-padding-top-32 lc-padding-bottom-48">
+          <div v-else class="lc-container-3 lc-bg-gray-1 lc-padding-top-32 lc-padding-bottom-48">
             <div class="lc-container-4">
               <h1 class="lc-font-size-32">
                 {{ $t('AuthConnectList.title') }}
@@ -269,6 +314,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import AuthCoreSettings from '~/components/AuthCore/Settings';
 
 import {
   W3C_EMAIL_REGEX,
@@ -299,6 +345,7 @@ export default {
   name: 'settings-index',
   components: {
     CivicLikerCta,
+    AuthCoreSettings,
     ClaimDialog,
     AuthConnectList,
     OtherConnectList,
@@ -313,6 +360,7 @@ export default {
       email: '',
       isEmailEnabled: false,
       isEmailPreviouslyEnabled: false,
+      isShowAuthCoreProfile: true,
       isVerifying: false,
       TickIcon,
       W3C_EMAIL_REGEX,
@@ -325,6 +373,9 @@ export default {
       'getUserIsLoadingAuthPlaforms',
       'getUserAuthPlatforms',
       'getUserSocialPlatforms',
+      'getUserIsAuthCore',
+      'getAuthCoreNeedReAuth',
+      'getAuthCoreAccessToken',
       'getIsInTransaction',
     ]),
     disabled() {
@@ -366,13 +417,18 @@ export default {
     if (this.getUserIsRegistered) {
       this.updateInfo();
     }
+    if (this.getAuthCoreNeedReAuth) {
+      this.setReAuthDialogShow(true);
+    }
   },
   methods: {
     ...mapActions([
       'updateUser',
+      'syncAuthCoreUser',
       'refreshUserInfo',
       'sendVerifyEmail',
       'setInfoMsg',
+      'setReAuthDialogShow',
       'setErrorMsg',
       'fetchAuthPlatformsById',
       'linkUserAuthPlatform',
@@ -447,20 +503,23 @@ export default {
       if (this.hasUserDetailsChanged) {
         try {
           const { avatarFile, displayName } = this;
-          const { user } = this.getUserInfo;
           const email = this.email.trim();
-          const userInfo = {
-            avatarFile,
-            displayName,
-            email,
-          };
+          const {
+            user,
+            displayName: currentDisplayName,
+            email: currentEmail,
+          } = this.getUserInfo;
           const hasEmailChanged = this.getUserInfo.email !== email;
+          const userInfo = {};
+          if (avatarFile) userInfo.avatarFile = avatarFile;
+          if (displayName !== currentDisplayName) userInfo.displayName = displayName;
+          if (email !== currentEmail) userInfo.email = email;
 
           await this.updateUser(userInfo);
           this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${user}">${this.$t('Register.form.label.viewPage')}</a>`);
-          this.refreshUserInfo(user);
+          await this.refreshUserInfo(user);
 
-          if (hasEmailChanged) {
+          if (hasEmailChanged && !this.getUserInfo.isEmailVerified) {
             await this.sendVerifyEmail({
               id: this.getUserInfo.user,
               ref: 'in-settings',
@@ -483,9 +542,21 @@ export default {
         const reader = new FileReader();
         reader.onload = (e) => {
           this.avatar = e.target.result;
+          if (this.getUserIsAuthCore) {
+            this.$nextTick(() => this.onSubmit());
+          }
         };
         reader.readAsDataURL(files[0]);
       }
+    },
+    onAuthCoreSettingTabsChanged(id) {
+      this.isShowAuthCoreProfile = id === 'authcore-profile';
+    },
+    onClickAuthCoreReAuth() {
+      this.setReAuthDialogShow(true);
+    },
+    onAuthCoreProfileUpdated() {
+      this.syncAuthCoreUser();
     },
     async onConnectAuth(pid) {
       const platform = this.getUserAuthPlatforms[pid];

@@ -77,6 +77,7 @@ export const getIsShowingPromptNotificationDialog = state => state.isShowingProm
 
 export const getAuthDialogStatus = state => state.authDialogStatus;
 export const getIsShowAuthDialog = state => state.authDialogStatus.isShow;
+export const getIsShowReAuthDialog = state => state.reAuthDialogStatus.isShow;
 
 export const getIsShowWalletNoticeDialog = state => state.isShowWalletNoticeDialog;
 export const getWalletNoticeDialogCancelTitle = state => state.walletNoticeDialogCancelTitle;

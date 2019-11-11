@@ -145,6 +145,17 @@
                     {{ $t('Home.Header.button.signIn') }}
                   </md-button>
                 </div>
+                <div
+                  v-else-if="getAuthCoreNeedReAuth"
+                  class="create-account-wrapper"
+                >
+                  <md-button
+                    class="md-likecoin"
+                    @click="onClickAuthCoreReAuth"
+                  >
+                    {{ $t('AuthCore.button.reAuthNeeded') }}
+                  </md-button>
+                </div>
 
                 <div v-else>
                   <no-ssr>
@@ -172,6 +183,7 @@
                           : $t('General.button.confirm')
                       }}
                     </md-button>
+                    <div id="authcore-cosmos-container" />
                   </no-ssr>
                   <p
                     v-if="isP2pUnavailable"
@@ -369,6 +381,7 @@ export default {
       'getPendingTxInfo',
       'getLikeCoinUsdNumericPrice',
       'getUserInfo',
+      'getAuthCoreNeedReAuth',
       'getLocalWeb3Wallet',
       'getIsWeb3Polling',
     ]),
@@ -421,6 +434,7 @@ export default {
     ...mapActions([
       'showMetaMaskLoginWindow',
       'popupAuthDialogInPlace',
+      'setReAuthDialogShow',
       'doUserAuth',
       'sendPayment',
       'sendCosmosPayment',
@@ -430,6 +444,8 @@ export default {
       'queryLikeCoinUsdPrice',
       'startWeb3Polling',
       'stopWeb3Polling',
+      'fetchAuthCoreCosmosWallet',
+      'prepareCosmosTxSigner',
     ]),
     async startPollingForWeb3() {
       this.isWaitingWeb3 = true;
@@ -507,13 +523,13 @@ export default {
             value,
           });
         } else if (this.isCosmos) {
-          const signer = {}; // TODO add cosmos signer
-          ({ txHash } = await this.sendCosmosPayment({
+          const signer = await this.prepareCosmosTxSigner();
+          txHash = await this.sendCosmosPayment({
             signer,
             from,
             to,
             value: valueToSend,
-          }));
+          });
         } else {
           if (!EthHelper.getIsSupportTransferDelegated()) {
             this.setErrorMsg(this.$t('Transaction.error.notSupported'));
@@ -544,6 +560,9 @@ export default {
     },
     onClickSignUpButton() {
       this.doUserAuth({ router: this.$router, route: this.$route });
+    },
+    onClickAuthCoreReAuth() {
+      this.setReAuthDialogShow(true);
     },
   },
 };

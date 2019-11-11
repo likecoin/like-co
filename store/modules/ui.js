@@ -31,6 +31,7 @@ import {
   UI_SET_PROMPT_NOTIFICATION_DIALOG,
   UI_SET_SIGN_PAYLOAD_OBJECT,
   UI_SET_AUTH_DIALOG,
+  UI_SET_RE_AUTH_DIALOG,
   UI_SET_WALLET_NOTICE_DIALOG,
 } from '../mutation-types';
 import * as getters from './getters/ui';
@@ -61,6 +62,7 @@ const state = () => ({
   txDialogActionText: '',
   isShowingPromptNotificationDialog: false,
   authDialogStatus: { isShow: false },
+  reAuthDialogStatus: { isShow: false },
   isShowWalletNoticeDialog: false,
   walletNoticeDialogCancelTitle: '',
   walletNoticeDialogCancelCallback: null,
@@ -186,6 +188,9 @@ const mutations = {
   },
   [UI_SET_AUTH_DIALOG](state, { isShow, isSignIn = false }) {
     state.authDialogStatus = { isShow, isSignIn };
+  },
+  [UI_SET_RE_AUTH_DIALOG](state, { isShow }) {
+    state.reAuthDialogStatus = { isShow };
   },
   [UI_SET_WALLET_NOTICE_DIALOG](state, payload) {
     state.isShowWalletNoticeDialog = !!payload.isShow;

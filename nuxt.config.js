@@ -112,6 +112,7 @@ const nuxtConfig = {
           '*.doubleclick.net',
           '*.like.co',
           'like.co',
+          'likecoin-integration-test.authcore.io',
         ],
         'connect-src': [
           "'self'",
@@ -216,6 +217,7 @@ const nuxtConfig = {
     { src: '~/plugins/vue-scroll-reveal', ssr: false },
     { src: '~/plugins/vue-scroll', ssr: false },
     { src: '~/plugins/gsap.client.js', ssr: false },
+    { src: '~/plugins/AuthCore.client.js', ssr: false },
     { src: '~/plugins/testing' },
   ],
   sentry: {

@@ -129,6 +129,10 @@ export const setAuthDialogShow = ({ commit, state }, isShow) => {
   commit(types.UI_SET_AUTH_DIALOG, { isShow, isSignIn });
 };
 
+export const setReAuthDialogShow = ({ commit }, isShow) => {
+  commit(types.UI_SET_RE_AUTH_DIALOG, { isShow });
+};
+
 export const toggleAuthDialogIsSignIn = ({ commit, state }) => {
   const { isShow, isSignIn } = state.authDialogStatus;
   commit(types.UI_SET_AUTH_DIALOG, { isShow, isSignIn: !isSignIn });

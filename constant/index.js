@@ -12,9 +12,13 @@ export const ETHERSCAN_HOST = IS_TESTNET ? 'https://rinkeby.etherscan.io' : 'htt
 
 export const INFURA_HOST = IS_TESTNET ? 'https://rinkeby.infura.io/v3/9a6771595426445cb247e83d4ad85645' : 'https://mainnet.infura.io/v3/9a6771595426445cb247e83d4ad85645';
 
+export const AUTHCORE_API_HOST = IS_TESTNET ? 'https://likecoin-integration-test.authcore.io' : 'https://likecoin-integration-test.authcore.io';
+
 export const ETH_NETWORK_NAME = IS_TESTNET ? 'rinkeby' : 'mainnet';
 
 export const BIGDIPPER_HOST = IS_TESTNET ? 'https://taipei.likecoin.bigdipper.live' : 'https://likecoin.bigdipper.live';
+
+export const COSMOS_WALLET_PREFIX = "m/44'/118'/0'/0";
 
 export const COSMOS_CHAIN_ID = IS_TESTNET ? 'likechain-cosmos-testnet-2' : 'likechain-kaitak';
 

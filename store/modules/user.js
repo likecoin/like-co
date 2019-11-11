@@ -36,6 +36,7 @@ const state = () => ({
   socialMeta: {},
   likecoinAmountObject: {},
   likeCoinAmountInBigNumber: null,
+  authCoreAccessToken: '',
 });
 
 const mutations = {

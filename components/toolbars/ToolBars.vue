@@ -4,6 +4,7 @@
       <div class="toolbars">
 
         <auth-dialog />
+        <re-auth-dialog v-if="getIsShowReAuthDialog" />
 
         <wallet-notice-dialog
           :is-show="getIsShowWalletNoticeDialog"
@@ -136,6 +137,7 @@ import BlockerDialog from '~/components/dialogs/BlockerDialog';
 import ChromeDialog from '~/components/dialogs/ChromeDialog';
 import MetamaskDialog from '~/components/dialogs/MetamaskDialog';
 import AuthDialog from '~/components/dialogs/AuthDialog';
+import ReAuthDialog from '~/components/dialogs/ReAuthDialog';
 import WalletNoticeDialog from '~/components/dialogs/WalletNoticeDialog';
 import PopupDialog from '~/components/dialogs/PopupDialog';
 import TrustDialog from '~/components/dialogs/TrustDialog';
@@ -152,6 +154,7 @@ export default {
     ChromeDialog,
     MetamaskDialog,
     AuthDialog,
+    ReAuthDialog,
     WalletNoticeDialog,
     PopupDialog,
     TrustDialog,
@@ -183,6 +186,7 @@ export default {
       'getIsInTransaction',
       'getIsPopupBlocking',
       'getIsShowingTxPopup',
+      'getIsShowReAuthDialog',
       'getUserIsRegistered',
       'getPendingTx',
       'getMetamaskError',

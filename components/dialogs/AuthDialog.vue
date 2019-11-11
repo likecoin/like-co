@@ -19,7 +19,8 @@
       slot="header-left"
       class="auth-dialog__header-left"
     >
-      <a @click="onClickBackButton">{{ $t('General.back') }}</a>
+      <a v-if="isUsingAuthCore" @click="onClickUseLegacyButton">{{ $t('LEGACY_LOGIN') }}</a>
+      <a v-else @click="onClickBackButton">{{ $t('General.back') }}</a>
     </div>
 
     <div
@@ -75,7 +76,13 @@
             v-bind="tabProps"
             class="auth-dialog__tab auth-dialog__tab--index auth-dialog__tab--portal"
           >
+            <auth-core-register
+              v-if="isUsingAuthCore"
+              :is-sign-in="isSignIn"
+              @success="signInWithAuthCore"
+            />
             <signin-portal
+              v-else
               class="base-dialog-v2__corner-block"
               :is-sign-in="isSignIn"
               :is-show-close-button="closable"
@@ -296,6 +303,7 @@ import {
 
 import { checkUserNameValid } from '@/util/ValidationHelper';
 
+import AuthCoreRegister from '~/components/AuthCore/Register';
 import BaseDialogV2 from '~/components/dialogs/BaseDialogV2';
 import SigninPortal from './AuthDialogContent/SignInPortal';
 // import EmailSigninForm from './AuthDialogContent/SignInWithEmail';
@@ -322,6 +330,7 @@ export default {
   name: 'auth-dialog',
   components: {
     BaseDialogV2,
+    AuthCoreRegister,
     SigninPortal,
     // EmailSigninForm,
     RegisterForm,
@@ -358,6 +367,7 @@ export default {
       loggedEvents: {},
 
       hasClickSignWithWalletInError: false,
+      isUsingAuthCore: true,
     };
   },
   computed: {
@@ -391,7 +401,7 @@ export default {
       );
     },
     shouldShowHeader() {
-      return this.currentTab !== 'portal';
+      return this.currentTab !== 'portal' || this.isUsingAuthCore;
     },
     tabKey() {
       if (this.currentTab === 'portal') {
@@ -676,6 +686,9 @@ export default {
       'toggleAuthDialogIsSignIn',
       'setWalletNoticeDialog',
       'openPopupDialog',
+      'setAuthCoreToken',
+      'initAuthCoreCosmosWallet',
+      'fetchAuthCoreCosmosWallet',
     ]),
     setContentStyle({ height }) {
       const style = {
@@ -831,7 +844,14 @@ export default {
         this.setContentStyle({ height });
       });
     },
+    onClickUseLegacyButton() {
+      this.isUsingAuthCore = false;
+    },
     onClickBackButton() {
+      if (!this.isUsingAuthCore) {
+        this.isUsingAuthCore = true;
+        return;
+      }
       switch (this.currentTab) {
         case 'portal':
           if (this.isSinglePage) {
@@ -864,6 +884,7 @@ export default {
       this.onClosed();
     },
     onClosed() {
+      this.isUsingAuthCore = true; // HACK: reset authcore flag
       this.$emit('closed');
     },
     setIsShow(isShow) {
@@ -880,6 +901,23 @@ export default {
           }
         }
       });
+    },
+    signInWithAuthCore({ accessToken, currentUser, idToken }) {
+      this.setAuthCoreToken(accessToken);
+      this.currentTab = 'loading';
+      this.platform = 'authcore';
+      const {
+        primaryEmail: email,
+        displayName,
+        suggestedName: username,
+      } = currentUser;
+      this.signInPayload = {
+        email,
+        displayName,
+        username,
+        idToken,
+      };
+      this.login();
     },
     async signInWithPlatform(platform, options = { isAllowRedirect: true }) {
       this.platform = platform;
@@ -1095,6 +1133,11 @@ export default {
         if (isIDAvailable && tryName && checkUserNameValid(tryName)) {
           Vue.set(this.signInPayload, 'defaultLikeCoinId', tryName);
         }
+      }
+      if (this.platform === 'authcore') {
+        await this.initAuthCoreCosmosWallet();
+        const cosmosWallet = await this.fetchAuthCoreCosmosWallet();
+        Vue.set(this.signInPayload, 'cosmosWallet', cosmosWallet);
       }
 
       this.currentTab = 'register';
