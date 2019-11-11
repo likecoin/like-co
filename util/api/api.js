@@ -90,7 +90,7 @@ export const apiQueryTxHistoryByUserId = (id, ts, count) => {
   return axios.get(url);
 };
 
-export const apiQueryLikeCoinFiatPrice = () => axios.get('https://api.coingecko.com/api/v3/coins/likecoin?localization=false', { withCredentials: false });
+export const apiQueryLikeCoinFiatPrice = () => axios.get('/misc/price?currency=usd', { withCredentials: false });
 
 export const apiSetNotification = (id, isEmailEnabled) => axios.post(`/users/email/${id}`, { isEmailEnabled });
 
