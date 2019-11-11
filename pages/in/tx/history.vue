@@ -8,7 +8,7 @@
           <transaction-history
             ref="txHistory"
             :user="getUserInfo.user"
-            :address="getUserInfo.wallet"
+            :address="getUserHasWallet"
             :is-fetching.sync="isFetchingTranscationHistory"
             :has-pending-like="getUserHasPendingLike"
             class="lc-margin-top-48 lc-mobile"
@@ -23,7 +23,8 @@
               />
             </div>
             <div class="lc-container-3">
-              <view-etherscan :address="getUserInfo.wallet" />
+              <view-bigdipper v-if="getUserInfo.cosmosWallet" :address="getUserInfo.cosmosWallet" />
+              <view-etherscan v-else :address="getUserInfo.wallet" />
             </div>
           </div>
 
@@ -40,6 +41,7 @@ import { mapGetters } from 'vuex';
 import RefreshButton from '@/components/RefreshButton';
 import TransactionHistory from '@/components/TransactionHistory';
 import ViewEtherscan from '~/components/ViewEtherscan';
+import ViewBigdipper from '~/components/ViewBigdipper';
 
 export default {
   name: 'tx-history-tab',
@@ -58,7 +60,7 @@ export default {
   },
   asyncData({ store, redirect }) {
     const user = store.getters.getUserInfo;
-    if (!user.wallet) {
+    if (!(user.wallet || user.cosmosWallet)) {
       redirect('/in');
     }
   },
@@ -66,6 +68,7 @@ export default {
     RefreshButton,
     TransactionHistory,
     ViewEtherscan,
+    ViewBigdipper,
   },
   data() {
     return {
@@ -77,6 +80,7 @@ export default {
       'getUserInfo',
       'getUserIsRegistered',
       'getUserHasPendingLike',
+      'getUserHasWallet',
     ]),
   },
   mounted() {

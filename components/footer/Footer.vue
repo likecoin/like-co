@@ -4,6 +4,16 @@
       <div class="lc-container-2">
         <div class="lc-content-wrapper">
 
+          <span class="chain-address lc-mobile-hide">
+            <a
+              :href="BIGDIPPER_HOST"
+              target="_blank"
+              rel="noopener"
+            >
+              {{ $t('Footer.label.chain') }}
+            </a>
+          </span>
+
           <span class="contract-address lc-mobile-hide">
             {{ $t('Footer.label.contract') }}
             <a
@@ -32,6 +42,7 @@ import { setTrackerUserId } from '@/util/EventLogger';
 
 import { mapGetters } from 'vuex';
 import {
+  BIGDIPPER_HOST,
   ETHERSCAN_HOST,
   ONE_LIKE,
 } from '@/constant';
@@ -40,6 +51,7 @@ import { LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin-address';
 export default {
   data() {
     return {
+      BIGDIPPER_HOST,
       contractAddress: LIKE_COIN_ADDRESS,
     };
   },

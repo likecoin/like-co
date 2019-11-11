@@ -202,7 +202,7 @@ export default {
       try {
         payload = await UserUtil.formatAndSignUserInfo(
           {
-            wallet: this.getLocalWallet,
+            wallet: this.getLocalWeb3Wallet,
             user: this.getUserInfo.user,
           },
           this.$t('Sign.Message.registerUser'),

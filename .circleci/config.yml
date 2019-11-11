@@ -284,6 +284,98 @@ jobs:
           name: Deploy
           command: |
             kubectl patch deployment like-api-web-rinkeby -p '{"spec":{"template":{"spec":{"containers":[{"name":"like-api-web","image":"us.gcr.io/'"$TEST_PROJECT_NAME"'/like-api-public:'"$CIRCLE_SHA1"'"}]}}}}'
+  deploy_taipei_frontend:
+    working_directory: ~/likecoin-store
+    docker:
+      - image: lakoo/node-gcloud-docker
+    environment:
+      - DEBIAN_FRONTEND: noninteractive
+      - TERM: dumb
+      - GOOGLE_APPLICATION_CREDENTIALS: /tmp/account-auth.json
+    steps:
+      - checkout
+      - run:
+          name: Setup gcloud
+          command: |
+            echo ${TEST_GCLOUD_SERVICE_KEY} | base64 -d > /test-account-auth.json
+            gcloud auth activate-service-account --key-file /test-account-auth.json
+            gcloud config set project ${TEST_PROJECT_NAME}
+            gcloud --quiet config set container/cluster ${POC_CLUSTER_NAME}
+            gcloud config set compute/zone ${CLOUDSDK_COMPUTE_ZONE}
+            gcloud --quiet container clusters get-credentials ${POC_CLUSTER_NAME}
+      - setup_docker_engine
+      - run:
+          name: Build image
+          command: |
+            gcloud docker -- pull us.gcr.io/${TEST_PROJECT_NAME}/like-store-frontend:latest || true
+            docker build . -t like-store --cache-from us.gcr.io/${TEST_PROJECT_NAME}/like-store-frontend:latest \
+            --build-arg IS_TESTNET='TRUE' \
+            --build-arg FIREBASE_API_KEY=${TEST_FIREBASE_API_KEY} \
+            --build-arg FIREBASE_AUTH_DOMAIN=${TEST_FIREBASE_AUTH_DOMAIN} \
+            --build-arg FIREBASE_PROJECT_ID=${TEST_FIREBASE_PROJECT_ID} \
+            --build-arg INTERCOM_APPID=${TEST_INTERCOM_APPID} \
+            --build-arg GTM_ID=${TEST_GTM_ID} \
+            --build-arg SENTRY_DSN=${TEST_SENTRY_DSN} \
+            --build-arg SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN} \
+            --build-arg SENTRY_REPORT_URI=${TEST_SENTRY_REPORT_URI} \
+            --build-arg SENTRY_PROJECT=${TEST_SENTRY_PROJECT} \
+            --build-arg RELEASE=${CIRCLE_SHA1}
+            docker tag like-store:latest us.gcr.io/${TEST_PROJECT_NAME}/like-store-frontend:latest
+            docker tag like-store:latest us.gcr.io/${TEST_PROJECT_NAME}/like-store-frontend:test-${CIRCLE_SHA1}
+      - run:
+          name: Push images
+          command: |
+            gcloud docker -- push us.gcr.io/${TEST_PROJECT_NAME}/like-store-frontend:latest
+            gcloud docker -- push us.gcr.io/${TEST_PROJECT_NAME}/like-store-frontend:test-${CIRCLE_SHA1}
+      - deploy:
+          name: Deploy
+          command: |
+            kubectl patch deployment like-store-frontend-taipei -p '{"spec":{"template":{"spec":{"containers":[{"name":"like-store-frontend","image":"us.gcr.io/'"$TEST_PROJECT_NAME"'/like-store-frontend:test-'"$CIRCLE_SHA1"'"}]}}}}'
+  deploy_taipei_api:
+    working_directory: ~/likecoin-store
+    docker:
+      - image: lakoo/node-gcloud-docker
+    environment:
+      - DEBIAN_FRONTEND: noninteractive
+      - TERM: dumb
+      - GOOGLE_APPLICATION_CREDENTIALS: /tmp/account-auth.json
+    steps:
+      - checkout
+      - run:
+          name: Git Environment
+          command: |
+            apk add --no-cache git openssl
+      - run:
+          name: "Pull Submodules"
+          command: |
+            git submodule init
+            git submodule update
+      - run:
+          name: Setup gcloud
+          command: |
+            echo ${TEST_GCLOUD_SERVICE_KEY} | base64 -d > /test-account-auth.json
+            gcloud auth activate-service-account --key-file /test-account-auth.json
+            gcloud config set project ${TEST_PROJECT_NAME}
+            gcloud --quiet config set container/cluster ${POC_CLUSTER_NAME}
+            gcloud config set compute/zone ${CLOUDSDK_COMPUTE_ZONE}
+            gcloud --quiet container clusters get-credentials ${POC_CLUSTER_NAME}
+      - setup_docker_engine
+      - run:
+          name: Build image
+          command: |
+            gcloud docker -- pull us.gcr.io/${TEST_PROJECT_NAME}/like-api-public:latest || true
+            docker build ./server/api -t like-store --cache-from us.gcr.io/${TEST_PROJECT_NAME}/like-api-public:latest
+            docker tag like-store:latest us.gcr.io/${TEST_PROJECT_NAME}/like-api-public:latest
+            docker tag like-store:latest us.gcr.io/${TEST_PROJECT_NAME}/like-api-public:${CIRCLE_SHA1}
+      - run:
+          name: Push images
+          command: |
+            gcloud docker -- push us.gcr.io/${TEST_PROJECT_NAME}/like-api-public:latest
+            gcloud docker -- push us.gcr.io/${TEST_PROJECT_NAME}/like-api-public:${CIRCLE_SHA1}
+      - deploy:
+          name: Deploy
+          command: |
+            kubectl patch deployment like-api-web-taipei -p '{"spec":{"template":{"spec":{"containers":[{"name":"like-api-web","image":"us.gcr.io/'"$TEST_PROJECT_NAME"'/like-api-public:'"$CIRCLE_SHA1"'"}]}}}}'
   deploy_mainnet_frontend:
     working_directory: ~/likecoin-store
     docker:
@@ -421,6 +513,22 @@ workflows:
                 - /feature.*/
           requires:
            - test
+      - hold_deploy_taipei_api:
+          type: approval
+          filters:
+            branches:
+              only:
+                - feature/cosmos
+          requires:
+           - test
+      - hold_deploy_taipei_frontend:
+          type: approval
+          filters:
+            branches:
+              only:
+                - feature/cosmos
+          requires:
+           - test
       - hold_deploy_mainnet_api:
           type: approval
           filters:
@@ -447,6 +555,12 @@ workflows:
       - deploy_rinkeby_frontend:
           requires:
             - hold_deploy_rinkeby_frontend
+      - deploy_taipei_api:
+          requires:
+            - hold_deploy_taipei_api
+      - deploy_taipei_frontend:
+          requires:
+            - hold_deploy_taipei_frontend
       - deploy_mainnet_api:
           requires:
             - hold_deploy_mainnet_api

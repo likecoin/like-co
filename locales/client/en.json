@@ -527,7 +527,8 @@
   },
   "Footer": {
     "label": {
-      "contract": "LikeCoin Contract: "
+      "contract": "LikeCoin Contract: ",
+      "chain": "LikeChain Explorer"
     },
     "button": {
       "aboutFoundation": "About LikeCoin Foundation",
@@ -769,6 +770,11 @@
     "etherscan": {
       "button": {
         "view": "View on Etherscan"
+      }
+    },
+    "bigdipper": {
+      "button": {
+        "view": "View on Big Dipper"
       }
     }
   },

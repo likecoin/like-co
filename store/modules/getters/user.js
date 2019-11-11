@@ -6,7 +6,9 @@ export const getUserIsRegistered = state => !!state.user.user;
 
 export const getUserIsInBonusCoolDown = state => state.user.bonusCooldown;
 
-export const getLocalWallet = state => state.wallet;
+export const getUserHasWallet = state => !!(state.user.wallet || state.user.cosmosWallet);
+
+export const getLocalWeb3Wallet = state => state.wallet;
 
 export const getUserIsLoadingAuthPlaforms = state => (
   !state.isFetchedAuthPlatforms || state.isFetchingAuthPlatforms

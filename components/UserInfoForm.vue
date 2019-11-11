@@ -134,7 +134,7 @@
       <like-coin-amount
         class="likecoin-amount-section"
         :value="getUserLikeCoinAmountInBigNumber"
-        :has-wallet="!!getUserInfo.wallet"
+        :has-wallet="getUserHasWallet"
       />
       <!-- TODO: Temp hide before civic liker release
       <div
@@ -183,7 +183,7 @@
               </div>
 
               <div
-                v-if="wallet"
+                v-if="getUserHasWallet"
                 class="address-field"
               >
                 <div class="address-title">
@@ -252,7 +252,6 @@ export default {
       email: '',
       isVerifying: false,
       user: '',
-      wallet: '',
       hasCopiedReceiveLikeCoinLink: false,
     };
   },
@@ -262,6 +261,7 @@ export default {
       'getUserInfo',
       'getUserIsRegistered',
       'getUserLikeCoinAmountInBigNumber',
+      'getUserHasWallet',
     ]),
     isCivicLiker() {
       return this.getUserInfo.isSubscribedCivicLiker;
@@ -346,7 +346,6 @@ export default {
       this.user = user.user;
       this.displayName = user.displayName;
       this.avatarData = user.avatar;
-      this.wallet = user.wallet;
       this.email = user.email;
       this.isEmailEnabled = (user.isEmailEnabled !== false);
       this.queryLikeCoinWalletBalance();
