@@ -115,7 +115,6 @@ export default {
     platforms() {
       const ids = [];
       if (this.isSignIn) {
-        ids.push('matters');
         if (!checkIsMobileClient()) ids.push('wallet');
       }
       return ids.map(id => ({

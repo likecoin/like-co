@@ -103,7 +103,6 @@ export const SOCIAL_MEDIA_LIST = [
 ];
 
 export const LOGIN_CONNECTION_LIST = [
-  'matters',
 ];
 
 export const OTHER_CONNECTION_LIST = [
