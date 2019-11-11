@@ -380,6 +380,7 @@ export default {
       'sendVerifyEmail',
       'setInfoMsg',
       'setReAuthDialogShow',
+      'setErrorMsg',
       'fetchAuthPlatformsById',
       'linkUserAuthPlatform',
       'unlinkUserAuthPlatform',
