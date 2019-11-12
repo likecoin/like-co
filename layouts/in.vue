@@ -79,6 +79,12 @@
     </div>
 
     <prompt-notification-dialog />
+    <migrate-token-dialog
+      v-if="isShowMigrationDialog"
+      :value="getUserERC20LikeCoinAmounInBigNumber"
+      :username="getUserInfo.user"
+      @cancel="() => { isShowMigrationDialog = false }"
+    />
 
   </div>
 </template>
@@ -90,6 +96,7 @@ import { mapGetters } from 'vuex';
 import localeMixin from '~/mixins/locale';
 
 import PromptNotificationDialog from '@/components/dialogs/PromptNotificationDialog';
+import MigrateTokenDialog from '@/components/dialogs/MigrateTokenDialog';
 import MyFooter from '~/components/footer/Footer';
 import SiteHeader from '~/components/header/HeaderWithMenuButton';
 import SlidingMenu from '~/components/SlidingMenu/index';
@@ -99,6 +106,7 @@ import UserInfoForm from '~/components/UserInfoForm';
 export default {
   components: {
     PromptNotificationDialog,
+    MigrateTokenDialog,
     MyFooter,
     SiteHeader,
     SlidingMenu,
@@ -107,11 +115,23 @@ export default {
   },
   middleware: 'authenticated',
   mixins: [localeMixin],
+  data() {
+    return {
+      isShowMigrationDialog: false,
+    };
+  },
   computed: {
     ...mapGetters([
       'getUserInfo',
       'getUserLikeCoinAmountIsZero',
+      'getUserHasERC20LikeCoin',
+      'getUserERC20LikeCoinAmounInBigNumber',
     ]),
+  },
+  mounted() {
+    if (this.getUserHasERC20LikeCoin) {
+      this.isShowMigrationDialog = true;
+    }
   },
 };
 </script>
