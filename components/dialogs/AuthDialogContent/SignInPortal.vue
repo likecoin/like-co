@@ -113,18 +113,10 @@ export default {
       return `AuthDialog.${this.isSignIn ? 'SignIn' : 'SignUp'}`;
     },
     platforms() {
-      const ids = [
-        'google',
-        'facebook',
-        'twitter',
-        // 'email', // XXX: Disable for now
-      ];
-
+      const ids = [];
       if (this.isSignIn) {
-        ids.push('matters');
         if (!checkIsMobileClient()) ids.push('wallet');
       }
-
       return ids.map(id => ({
         id,
         icon: getAuthPlatformIcon(`./${id}.svg`),

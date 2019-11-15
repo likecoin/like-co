@@ -25,6 +25,10 @@ export default {
       type: String,
       default: undefined,
     },
+    isFixContact: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     SignInWidget() {
@@ -47,6 +51,7 @@ export default {
           idToken,
         });
       },
+      fixedContact: this.isFixContact,
       onLoaded: () => this.$emit('loaded'),
       unauthenticated: (err) => {
         this.$emit('unauthenticated', err);

@@ -5,7 +5,6 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import { tryPostLoginRedirect, isIOS } from '~/util/client';
-import { EXTERNAL_HOSTNAME } from '~/constant';
 
 import { logTrackerEvent, logTimingEvent } from '@/util/EventLogger';
 
@@ -31,9 +30,6 @@ export default {
           property: 'og:description',
           content: this.$t('Register.header.title'),
         },
-      ],
-      link: [
-        { rel: 'prefetch', href: `https://firebase.${EXTERNAL_HOSTNAME}/__/auth/handler.js` },
       ],
     };
   },

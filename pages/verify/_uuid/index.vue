@@ -14,10 +14,7 @@
               </span>
 
               <span v-else-if="isVerified">
-                {{ $t('General.label.success') }},
-                <span v-if="hasReferrer">
-                  {{ $t('Verify.label.referral') }},
-                </span>
+                {{ $t('General.label.success') }}
                 <nuxt-link
                   v-if="redirect"
                   :to="{ name: redirect }"
@@ -48,20 +45,15 @@
 
 <script>
 import { logTrackerEvent } from '@/util/EventLogger';
-import ClaimDialog from '~/components/dialogs/ClaimDialog';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'verify-email',
-  components: {
-    ClaimDialog,
-  },
   data() {
     return {
       errorMsg: '',
       isVerified: false,
       wallet: '',
-      hasReferrer: false,
       redirectTimer: null,
     };
   },
@@ -100,32 +92,13 @@ export default {
     async verifyEmail() {
       this.isVerified = false;
       try {
-        const { referrer, wallet } = await this.verifyEmailByUUID(this.uuid);
+        const { wallet } = await this.verifyEmailByUUID(this.uuid);
         this.wallet = wallet;
-        this.hasReferrer = referrer;
         logTrackerEvent(this, 'RegFlow', 'EmailVerifySuccessful', 'email verified successfully', 1);
         this.isVerified = true;
-        if (this.couponCode) {
-          try {
-            await this.$refs.claimDialog.onDirectClaimCoupon({
-              wallet,
-              coupon: this.couponCode,
-            });
-            logTrackerEvent(this, 'RegFlow', 'GetRedPocketSuccessful', 'redeem the red pocket', 1);
-          } catch (err) {
-            this.redirectTimer = setTimeout(() => {
-              if (this.redirect) {
-                this.$router.push({ name: this.redirect });
-              } else {
-                this.$router.push({ name: 'in', hash: '#earn' });
-              }
-            }, 3000);
-          }
-        } else if (!this.referrer) {
-          this.redirectTimer = setTimeout(() => {
-            this.postVerifyAction();
-          }, 3000);
-        }
+        this.redirectTimer = setTimeout(() => {
+          this.postVerifyAction();
+        }, 3000);
       } catch (err) {
         if (err.response && err.response.status === 404) {
           this.errorMsg = this.$t('Verify.label.expiredOrNotFound');

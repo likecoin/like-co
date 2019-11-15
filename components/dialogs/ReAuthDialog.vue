@@ -10,7 +10,9 @@
   >
     <auth-core-register
       :is-sign-in="true"
-      @success="linkWithAuthCore"
+      :is-fix-contact="true"
+      :email="getUserInfo.email"
+      @success="signInWithAuthCore"
     />
   </BaseDialogV2>
 </template>
@@ -34,6 +36,7 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'getUserInfo',
       'getIsShowReAuthDialog',
     ]),
   },
@@ -69,8 +72,8 @@ export default {
     close() {
       this.setIsShow(false);
     },
-    signInWithAuthCore({ accessToken }) {
-      this.setAuthCoreToken(accessToken);
+    async signInWithAuthCore({ accessToken }) {
+      await this.setAuthCoreToken(accessToken);
       this.setIsShow(false);
     },
   },

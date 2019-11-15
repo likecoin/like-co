@@ -9,6 +9,7 @@
     >
       <auth-core-register
         :is-sign-in="false"
+        :is-fix-contact="true"
         :email="getUserInfo.email"
         @success="linkWithAuthCore"
       />
@@ -50,7 +51,7 @@ export default {
     ]),
     async linkWithAuthCore({ idToken, accessToken }) {
       if (idToken && accessToken) {
-        this.setAuthCoreToken(accessToken);
+        await this.setAuthCoreToken(accessToken);
         await this.initAuthCoreCosmosWallet();
         const cosmosWallet = await this.fetchAuthCoreCosmosWallet();
         this.linkUserAuthPlatform({ platform: 'authcore', payload: { idToken, cosmosWallet } });

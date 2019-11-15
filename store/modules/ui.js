@@ -25,7 +25,6 @@ import {
   UI_DISABLE_ERROR,
   UI_HEADER_UPDATE,
   UI_SET_TX_DIALOG_ACTION,
-  UI_SET_MISSION_DIALOG,
   UI_OPEN_SLIDING_MENU,
   UI_CLOSE_SLIDING_MENU,
   UI_SET_PROMPT_NOTIFICATION_DIALOG,
@@ -46,7 +45,6 @@ const state = () => ({
   infoMsg: '',
   popupError: '',
   popupInfo: '',
-  popupMission: '',
   headerIcon: '',
   headerTitle: '',
   headerSubtitle: '',
@@ -147,9 +145,6 @@ const mutations = {
   },
   [UI_CLOSE_TX_DIALOG](state) {
     state.isShowingTxPopup = false;
-  },
-  [UI_SET_MISSION_DIALOG](state, payload) {
-    state.popupMission = payload;
   },
   [UI_LOGIN_OVERRIDE](state, bool) {
     state.isLoginOverride = bool;

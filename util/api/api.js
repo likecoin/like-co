@@ -25,27 +25,9 @@ export const apiGetTxToByAddr = addr => axios.get(`/tx/addr/to/${addr}`);
 
 export const apiGetTxFromByAddr = addr => axios.get(`/tx/addr/from/${addr}`);
 
-export const apiGetReferralById = id => axios.get(`/users/referral/${id}`);
-
-export const apiGetTotalBonusById = id => axios.get(`/users/bonus/${id}`);
-
-export const apiCheckCoupon = code => axios.get(`/coupon/coupon/${code}`);
-
-export const apiClaimCoupon = (coupon, to) => {
-  const payload = {
-    coupon,
-    to,
-  };
-  return axios.post('/coupon/claim/', payload);
-};
-
 export const apiSendVerifyEmail = (id, ref, locale) => axios.post(`/email/verify/user/${id}`, { ref, locale });
 
 export const apiVerifyEmailByUUID = (uuid, locale) => axios.post(`/email/verify/${uuid}`, { locale });
-
-export const apiPostPayment = payload => axios.post('/payment', payload);
-
-export const apiPostEthPayment = payload => axios.post('/payment/eth', payload);
 
 export const apiPostNewUser = (form, opt) => {
   /* eslint-disable no-new */
@@ -85,60 +67,6 @@ export const apiUnlinkAuthPlatform = platform => axios.delete(`/users/login/${pl
 
 export const apiGetUserSelf = () => axios.get('/users/self');
 
-export const apiFetchUserMission = ({ missionId, user, params }) => axios.get(`/mission/${missionId}/user/${user}`, {
-  params,
-});
-
-export const apiFetchMissionList = id => axios.get(`/mission/list/${id}`);
-
-export const apiFetchMissionHistoryList = id => axios.get(`/mission/list/history/${id}`);
-
-export const apiFetchMissionHistoryBonus = id => axios.get(`/mission/list/history/${id}/bonus`);
-
-export const apiPostSeenMission = (id, payload) => axios.post(`/mission/seen/${id}`, payload);
-
-export const apiPostStepMission = (id, payload) => axios.post(`/mission/step/${id}`, payload);
-
-export const apiClaimMission = (user, missionId) => axios.post(
-  `${LIKECOIN_API_BASE}/mission/claim`,
-  { user, missionId },
-);
-
-export const apiClaimReferralBonus = (user, type) => axios.post(
-  `${LIKECOIN_API_BASE}/mission/referral/claim`,
-  { user, type },
-);
-
-export const apiPostTwitterMission = (user, url) => axios.post(
-  `${LIKECOIN_API_BASE}/mission/twitter`,
-  { user, url },
-);
-
-export const apiPostRetweetMission = (
-  user,
-  missionId,
-  inputTwitterId,
-) => axios.post(`${LIKECOIN_API_BASE}/mission/twitterRetweet`, {
-  user,
-  missionId,
-  inputTwitterId,
-});
-
-export const apiPostRegisterOiceMission = user => axios.post(
-  `${LIKECOIN_API_BASE}/mission/registerOice`,
-  { user },
-);
-
-export const apiPostHideMission = (id, payload) => axios.post(`/mission/hide/${id}`, payload);
-
-export const apiFetchReferralMissionList = id => axios.get(`/referral/list/${id}`);
-
-export const apiFetchReferralBonusList = id => axios.get(`/referral/list/bonus/${id}`);
-
-export const apiPostSeenReferral = (id, { referralId }) => axios.post(`/referral/seen/${id}`, { referralId });
-
-export const apiSendCouponCodeEmail = (id, coupon, locale) => axios.post(`/email/verify/user/${id}`, { coupon, locale });
-
 export const apiSendInvitationEmail = (user, email, locale) => axios.post(
   `${LIKECOIN_API_BASE}/misc/store-invite`,
   {
@@ -161,10 +89,6 @@ export const apiQueryTxHistoryByUserId = (id, ts, count) => {
   if (count) url += `count=${count}&`;
   return axios.get(url);
 };
-
-export const apiQueryIAPProducts = () => axios.get('/iap/list');
-
-export const apiQueryEthPrice = () => axios.get('https://api.coinmarketcap.com/v1/ticker/ethereum/?convert=USD');
 
 export const apiQueryLikeCoinFiatPrice = () => axios.get('/misc/price?currency=usd', { withCredentials: false });
 
@@ -205,7 +129,6 @@ export const apiGetUserPendingLikeHistory = () => axios.get(`${LIKECOIN_MISC_API
 export const apiPostUserReadContent = (id, payload) => axios.put(`/users/read/${id}`, payload);
 
 export const apiGetCivicCSOnline = () => axios.get('/civic/csonline');
-export const apiGetCivicLikerRegister = () => axios.get('/civic/quota');
 export const apiQueueCivicLikerWaitingList = qs => axios.put(`/civic/queue?${qs}`);
 export const apiDequeueCivicLikerWaitingList = qs => axios.delete(`/civic/queue?${qs}`);
 export const apiGetCivicLikerTrialEventById = id => axios.get(`/civic/trial/events/${id}`);

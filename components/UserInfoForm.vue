@@ -299,7 +299,6 @@ export default {
       'setInfoMsg',
       'sendVerifyEmail',
       'refreshUserInfo',
-      'onMissionClick',
       'queryLikeCoinWalletBalance',
     ]),
     onClickCivicLikerStamp() {

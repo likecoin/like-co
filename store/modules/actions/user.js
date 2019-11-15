@@ -5,10 +5,6 @@ import { REDIRECT_NAME_WHITE_LIST } from '@/constant';
 import User from '@/util/User';
 
 import apiWrapper from './api-wrapper';
-import {
-  firebase,
-  getFirebaseProviderId,
-} from '../../../util/FirebaseApp';
 
 export function doUserAuth({ commit }, { router, route }) {
   if (route) {
@@ -116,7 +112,6 @@ export async function logoutUser({ commit, dispatch }, data) {
   await apiWrapper({ commit, dispatch }, api.apiLogoutUser(data), { blocking: true });
   commit(types.USER_SET_USER_INFO, {});
   commit(types.UI_INFO_MSG, '');
-  commit(types.MISSION_CLEAR_ALL);
   await dispatch('authCoreLogoutUser');
   return true;
 }
@@ -154,7 +149,6 @@ export async function refreshUser({ commit, state, dispatch }) {
     }
     if (currentUser !== oldUser) {
       commit(types.UI_INFO_MSG, '');
-      commit(types.MISSION_CLEAR_ALL);
     }
     if (user && user.locale) {
       dispatch('setLocale', user.locale);
@@ -199,17 +193,8 @@ export async function verifyEmailByUUID({ commit, dispatch, rootState }, uuid) {
   );
 }
 
-export async function fetchUserReferralStats({ commit, dispatch }, id) {
-  return apiWrapper({ commit, dispatch }, api.apiGetReferralById(id));
-}
-
 export async function getMiniUserById({ commit, dispatch }, id) {
   return apiWrapper({ commit, dispatch }, api.apiGetUserMinById(id), { slient: true });
-}
-
-export async function fetchUserTotalBonus({ commit, dispatch }, id) {
-  const { bonus } = await apiWrapper({ commit, dispatch }, api.apiGetTotalBonusById(id));
-  return bonus;
 }
 
 export async function fetchtSocialListById({ commit, dispatch }, id) {
@@ -235,53 +220,10 @@ export async function fetchSocialPlatformLink({ commit, dispatch }, { platform, 
 }
 
 export async function linkSocialPlatform({ commit, dispatch }, { platform, payload }) {
-  const {
-    displayName, url, pages, id,
-    oAuthToken, oAuthTokenSecret,
-  } = await apiWrapper(
+  await apiWrapper(
     { commit, dispatch },
     api.apiLinkSocialPlatform(platform, payload),
   );
-
-  // Link platform to Firebase
-  let firebaseCredential;
-  switch (platform) {
-    case 'facebook':
-      firebaseCredential = (
-        firebase
-          .auth
-          .FacebookAuthProvider
-          .credential(payload.access_token)
-      );
-      break;
-
-    case 'twitter':
-      firebaseCredential = (
-        firebase
-          .auth
-          .TwitterAuthProvider
-          .credential(oAuthToken, oAuthTokenSecret)
-      );
-      break;
-
-    default:
-  }
-
-  if (firebaseCredential) {
-    try {
-      await firebase
-        .auth()
-        .currentUser
-        .linkAndRetrieveDataWithCredential(firebaseCredential);
-    } catch (err) {
-      // Do nothing
-    }
-  }
-
-  commit(types.USER_LINK_SOCIAL, {
-    platform, displayName, url, pages, id,
-  });
-
   await dispatch('refreshUser');
 
   return true;
@@ -292,21 +234,6 @@ export async function unlinkSocialPlatform({ commit, dispatch }, { platform, pay
     { commit, dispatch },
     api.apiUnlinkSocialPlatform(platform, payload),
   );
-
-  // Unlink platform from Firebase
-  switch (platform) {
-    case 'facebook':
-    case 'twitter':
-      try {
-        await firebase.auth().currentUser.unlink(getFirebaseProviderId(platform));
-      } catch (err) {
-        // Do nothing
-      }
-      break;
-
-    default:
-  }
-
   commit(types.USER_UNLINK_SOCIAL, platform);
 
   await dispatch('refreshUser');
@@ -342,14 +269,6 @@ export async function updateUserSocialLink({ commit, dispatch }, { linkId, paylo
     api.apiPostUpdateUserSocialLink(linkId, payload),
   );
   commit(types.USER_SET_SOCIAL_LINK, payload.link);
-}
-
-export async function sendCouponCodeEmail({ commit, dispatch, rootState }, data) {
-  return apiWrapper(
-    { commit, dispatch },
-    api.apiSendCouponCodeEmail(data.user, data.coupon, rootState.ui.locale),
-    { blocking: true },
-  );
 }
 
 export async function sendInvitationEmail({ commit, dispatch, rootState }, data) {

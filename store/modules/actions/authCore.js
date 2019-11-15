@@ -69,8 +69,9 @@ export async function initAuthCoreWalletService({ commit, state }) {
   commit(types.AUTHCORE_SET_COSMOS_PROVIDER, walletSubprovider);
 }
 
-export async function initAuthCoreCosmosWallet({ state }) {
+export async function initAuthCoreCosmosWallet({ state, dispatch }) {
   const { kvClient, cosmosProvider } = state;
+  if (!kvClient || !cosmosProvider) await dispatch('initAuthCoreWalletService');
   const { length } = await cosmosProvider.getAddresses();
   if (!length) {
     await kvClient.createSecret('HD_KEY', 16);
