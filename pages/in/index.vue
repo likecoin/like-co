@@ -1,30 +1,5 @@
 <template>
   <div class="overview-page">
-
-    <!-- Civic Liker CTA Section -->
-    <section class="lc-container-0 lc-margin-top-16 lc-mobile-hide">
-      <div class="lc-container-1">
-        <div class="lc-container-2">
-          <div
-            v-if="getUserInfo.isCivicLikerRenewalPeriod"
-            class="lc-container-3"
-          >
-            <div class="lc-container-4">
-              <civic-liker-cta
-                class="lc-padding-top-24-mobile"
-                layout="wide"
-              />
-            </div>
-          </div>
-          <civic-liker-cta
-            v-else
-            class="lc-padding-top-24-mobile"
-            layout="wide"
-          />
-        </div>
-      </div>
-    </section>
-
     <template v-if="!isEmailVerified">
       <section class="lc-container-0 lc-margin-top-48">
         <div class="lc-container-1">
@@ -34,124 +9,12 @@
         </div>
       </section>
     </template>
-
-    <!-- Show below if email is verified-->
-    <template v-else>
-      <section class="lc-container-0 lc-margin-top-48">
-        <div class="lc-container-1">
-          <div class="lc-container-2">
-            <div class="lc-container-3">
-              <div class="lc-container-4">
-                <like-button-intro-min />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="lc-container-0 lc-margin-top-48">
-        <div class="lc-container-1">
-          <div class="lc-container-2">
-            <div
-              class="
-                lc-container-3
-                lc-bg-gray-1
-                lc-container-no-padding-mobile
-                lc-padding-bottom-32"
-            >
-              <div
-                class="
-                  lc-container-4
-                  lc-font-size-32
-                  lc-font-weight-300
-                  lc-mobile
-                  lc-padding-top-24"
-              >
-                {{ $t('In.mansory.title') }}
-                <!-- TODO: Temp hide refresh button until query updates
-                <div
-                  class="lc-container-header-button-wrapper lc-mobile-hide lc-padding-top-24"
-                >
-                  <refresh-button
-                    :is-refreshing="isFetchingLikeSuggestion"
-                    @click="refreshLikeSuggestion"
-                  />
-                </div>
-                -->
-              </div>
-              <div class="lc-container-4">
-                <mansory-article-list
-                  class="lc-margin-vertical-24 lc-mobile"
-                />
-              </div>
-              <div class="lc-font-size-12 lc-font-weight-300 lc-text-align-center">
-                {{ $t('In.mansory.description') }}
-                <br>
-                <nuxt-link :to="{ name: 'in-creator' }">
-                  {{ $t('In.mansory.descriptionCTA') }}
-                </nuxt-link>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- TODO: LikeButton Adopter
-        <div class="lc-container-1 lc-margin-top-16">
-          <div class="lc-container-2">
-            <div
-              class="
-                lc-container-3
-                lc-bg-gray-1
-                lc-container-no-padding-mobile
-              "
-            >
-              <div class="lc-flex">
-                <div
-                  class="
-                    lc-container-4
-                    lc-font-size-32
-                    lc-font-weight-300
-                    lc-mobile
-                    lc-padding-top-24
-                    in-button-adopter__title
-                  "
-                >
-                  {{ $t('In.likeButtonAdopter.title') }}
-                </div>
-                <div
-                  class="
-                    lc-font-size-12
-                    lc-font-weight-300
-                    lc-padding-top-24
-                    lc-margin-top-16
-                    in-button-adopter__cta
-                  "
-                >
-                  <nuxt-link :to="{ name: 'in-creator' }">
-                    {{ $t('In.likeButtonAdopter.descriptionCTA') }}
-                  </nuxt-link>
-                </div>
-              </div>
-              <like-button-adopter />
-            </div>
-
-          </div>
-        </div>
-        -->
-
-      </section>
-
-    </template>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-import LikeButtonIntroMin from '~/components/LikeButtonIntroMin';
-import MansoryArticleList from '~/components/home/MansoryArticleList';
-// import LikeButtonAdopter from '~/components/LikeButtonAdopter';
-import CivicLikerCta from '~/components/CivicLiker/CTA';
 import VerifyEmailCta from '~/components/VerifyEmailCta';
 
 import EditIcon from '@/assets/icons/edit.svg';
@@ -163,10 +26,6 @@ export default {
   name: 'in',
   layout: 'in',
   components: {
-    LikeButtonIntroMin,
-    MansoryArticleList,
-    // LikeButtonAdopter,
-    CivicLikerCta,
     VerifyEmailCta,
   },
   data() {

@@ -33,4 +33,9 @@ export const getUserLikeCoinAmountIsZero = state => (
   || state.likeCoinAmountInBigNumber.isZero()
 );
 
+export const getUserHasERC20LikeCoin = state => true
+  || (state.likecoinAmountObject && state.likecoinAmountObject.walletLIKE);
+
+export const getUserERC20LikeCoinAmounInBigNumber = state => state.likecoinAmountObject.walletLIKE;
+
 export const getUserAuthCoreAccessToken = state => state.authCoreAccessToken;
