@@ -7,6 +7,7 @@
       :is-show-header="true"
       :is-closable="true"
     >
+      <div>--- Insert Text Here ---</div>
       <auth-core-register
         :is-sign-in="false"
         :is-fix-contact="true"
