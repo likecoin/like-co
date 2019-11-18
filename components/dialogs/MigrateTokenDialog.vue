@@ -18,6 +18,9 @@
     >
       {{ value }}
     </div>
+    <div>
+      {{ $t('MigrateTokenDialog.description') }}
+    </div>
     <md-button
       :href="migrationURL"
       :class="[
