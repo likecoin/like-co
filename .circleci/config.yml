@@ -146,7 +146,7 @@ jobs:
           name: Deploy
           command: |
             kubectl patch deployment like-store-frontend-staging -p '{"spec":{"template":{"spec":{"containers":[{"name":"like-store-frontend","image":"us.gcr.io/'"$TEST_PROJECT_NAME"'/like-store-frontend:test-'"$CIRCLE_SHA1"'"}]}}}}'
-deploy_staging_api:
+  deploy_staging_api:
     working_directory: ~/likecoin-store
     docker:
       - image: lakoo/node-gcloud-docker
