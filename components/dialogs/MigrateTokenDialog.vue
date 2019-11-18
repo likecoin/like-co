@@ -11,9 +11,7 @@
     <div
       :class="[
         'likecoin-wallet-banner__value',
-        {
-          'likecoin-wallet-banner__value--greyed': !!hasErc20Coins,
-        },
+        'likecoin-wallet-banner__value--greyed',
       ]"
     >
       {{ value }}
