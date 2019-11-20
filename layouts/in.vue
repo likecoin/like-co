@@ -94,6 +94,7 @@
 import { mapGetters } from 'vuex';
 
 import localeMixin from '~/mixins/locale';
+import { checkIsMobileClient } from '~/util/client';
 
 import PromptNotificationDialog from '@/components/dialogs/PromptNotificationDialog';
 import MigrateTokenDialog from '@/components/dialogs/MigrateTokenDialog';
@@ -129,6 +130,9 @@ export default {
     ]),
   },
   mounted() {
+    if (checkIsMobileClient()) {
+      this.$router.push({ name: 'in-getapp' });
+    }
     if (this.getUserHasERC20LikeCoin) {
       this.isShowMigrationDialog = true;
     }

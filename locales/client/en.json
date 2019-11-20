@@ -1633,6 +1633,13 @@
       }
     }
   },
+  "GetApp": {
+    "title": "Reinventing the Like, in your pocket",
+    "button": {
+      "downloadNow": "Download now",
+      "continueToWeb": "Visit without app"
+    }
+  },
   "CivicLikerReferral": {
     "success": "Civic Liker Referral: {referee}"
   }
