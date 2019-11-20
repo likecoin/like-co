@@ -1462,6 +1462,9 @@
     "hidenPermissions": "Hide",
     "changeUser": "Not {name} ? Change your account"
   },
+  "MigrateTokenDialog": {
+    "description": "LikeCoin chain is live! We highly recommended you upgrade now to unlock all the new features! With the new LikeCoin chain, you will be given a free token wallet, earn LikeCoin with the validators, vote for proposals etc."
+  },
   "OtherConnectList": {
     "title": "Other Connection",
     "description": "You can connect to your accounts on various social platforms"
@@ -1628,6 +1631,13 @@
         "header": "Oops! Something is wrong",
         "message": "Thanks for your support. There is an unknown error [{error}]. Please contact us for help."
       }
+    }
+  },
+  "GetApp": {
+    "title": "Reinventing the Like, in your pocket",
+    "button": {
+      "downloadNow": "Download now",
+      "continueToWeb": "Visis without app"
     }
   },
   "CivicLikerReferral": {

@@ -11,12 +11,13 @@
     <div
       :class="[
         'likecoin-wallet-banner__value',
-        {
-          'likecoin-wallet-banner__value--greyed': !!hasErc20Coins,
-        },
+        'likecoin-wallet-banner__value--greyed',
       ]"
     >
       {{ value }}
+    </div>
+    <div>
+      {{ $t('MigrateTokenDialog.description') }}
     </div>
     <md-button
       :href="migrationURL"
