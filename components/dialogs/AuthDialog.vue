@@ -321,6 +321,8 @@ export default {
       'getMetamaskError',
       'getLocalWeb3Wallet',
       'getUserMinInfoById',
+      'getAuthCoreAccessToken',
+      'getUserIsAuthCore',
     ]),
     closable() {
       return !(this.isBlocking || this.isSinglePage);
@@ -588,6 +590,7 @@ export default {
       'setAuthCoreToken',
       'initAuthCoreCosmosWallet',
       'fetchAuthCoreCosmosWallet',
+      'authCoreLogoutUser',
     ]),
     setContentStyle({ height }) {
       const style = {
@@ -719,6 +722,7 @@ export default {
 
         default:
       }
+      this.resetAuthCoreStatus();
       this.close();
     },
     onUpdateIsShow(isShow) {
@@ -772,7 +776,7 @@ export default {
       this.onClosed();
     },
     onClosed() {
-      this.isUsingAuthCore = true; // HACK: reset authcore flag
+      this.resetAuthCoreStatus();
       this.$emit('closed');
     },
     setIsShow(isShow) {
@@ -789,6 +793,12 @@ export default {
           }
         }
       });
+    },
+    resetAuthCoreStatus() {
+      this.isUsingAuthCore = true; // HACK: reset authcore flag
+      if (this.getAuthCoreAccessToken && !this.getUserIsAuthCore) {
+        this.authCoreLogoutUser();
+      }
     },
     async signInWithAuthCore({ accessToken, currentUser, idToken }) {
       await this.setAuthCoreToken(accessToken);
