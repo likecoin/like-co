@@ -1,21 +1,23 @@
 <template>
-  <div>
-    <BaseDialogV2
-      ref="dialog"
-      :is-show="true"
-      :is-show-backdrop="true"
-      :is-show-header="true"
-      :is-closable="true"
-    >
-      <div>--- Insert Text Here ---</div>
-      <auth-core-register
-        :is-sign-in="false"
-        :is-fix-contact="true"
-        :email="getUserInfo.email"
-        @success="linkWithAuthCore"
-      />
-    </BaseDialogV2>
-  </div>
+  <BaseDialogV2
+    ref="dialog"
+    :is-show="true"
+    :is-show-backdrop="true"
+    :is-show-header="true"
+    :is-closable="true"
+    class="migration-authcore-dialog"
+  >
+    <div class="migration-authcore-dialog__content">
+      <h1>{{ $t('MigrationAuthCorePage.header') }}</h1>
+      <div>{{ $t('MigrationAuthCorePage.description') }}</div>
+    </div>
+    <auth-core-register
+      :is-sign-in="false"
+      :is-fix-contact="!!getUserInfo.email"
+      :email="getUserInfo.email"
+      @success="linkWithAuthCore"
+    />
+  </BaseDialogV2>
 </template>
 
 <script>
@@ -71,3 +73,14 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.migration-authcore-dialog {
+  &__content {
+    padding: 16px;
+  }
+  .lc-dialog-header{
+    z-index: 1;
+  }
+}
+</style>
