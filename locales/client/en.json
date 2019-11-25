@@ -1642,5 +1642,9 @@
   },
   "CivicLikerReferral": {
     "success": "Civic Liker Referral: {referee}"
+  },
+  "MigrationAuthCorePage": {
+    "header": "Enter a new password",
+    "description": "You are one step away from setting up your Liker ID account. Set up your new password and this will update your password for all future log-in attempts."
   }
 }
