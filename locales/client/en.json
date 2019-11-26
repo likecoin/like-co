@@ -516,6 +516,12 @@
         "lookForButton": "For all contents featuring {LikeButton}, creators are rewarded daily in LikeCoin (LIKE) according to the number of Likes received."
       }
     },
+    "App": {
+      "button": "Manage your LikeCoin on Liker.land app"
+    },
+    "Migrate": {
+      "button": "Migrate Now"
+    },
     "Footer": {
       "label": {
         "join": "Join LikeCoin community for latest news and discussion"
@@ -851,6 +857,7 @@
       "becomeCivicLiker": "Become Civic Liker",
       "likeCoinAmount": "Amount of LikeCoin",
       "manageYourLikeCoin": "Manage your LikeCoin",
+      "migrateLikeCoin": "LikeCoin Chain was already launched, receive your new LikeCoin now.",
       "address": "Your Address",
       "email": "Your E-mail",
       "addEmail": "Add email address",
@@ -1638,6 +1645,11 @@
     "button": {
       "downloadNow": "Download now",
       "continueToWeb": "Visit without app"
+    }
+  },
+  "AuthCore": {
+    "button": {
+      "reAuthNeeded:": "Please Reautheticate in AuthCore"
     }
   },
   "CivicLikerReferral": {
