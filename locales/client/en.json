@@ -531,6 +531,18 @@
   "LikeButtonIntegratedPlatform": {
     "headline": "More articles on:"
   },
+  "AppBanner": {
+    "title": "Reinventing the Like, open with app",
+    "downloadButtonText": "Downlown now",
+    "features": [
+      "Help distribute Creators Fund with your Like",
+      "Distribute your own monthly fee in full amount with your Like",
+      "Detailed report on reward distribution. Know where you spend",
+      "Participate in community decision making process and referenda",
+      "Receive bonus contents, ebook and coupons",
+      "Prioritized participation of offline events"
+    ]
+  },
   "Footer": {
     "label": {
       "contract": "LikeCoin Contract: ",

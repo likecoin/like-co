@@ -525,6 +525,18 @@
   "LikeButtonIntegratedPlatform": {
     "headline": "更多文章："
   },
+  "AppBanner": {
+    "title": "Reinventing the Like, open with app",
+    "downloadButtonText": "立即下載",
+    "features": [
+      "Like 數影響基金分配，回饋作者",
+      "以 Like 分配個人月費，全數回饋作者",
+      "查閱回饋去向，掌握一分一毫",
+      "參與社群決策和公投",
+      "獲得額外內容、書籍、優惠券等專屬禮品",
+      "優先參與不定期線下活動"
+    ]
+  },
   "Footer": {
     "label": {
       "contract": "LikeCoin Contract: "
