@@ -40,7 +40,7 @@ export default {
   },
   mounted() {
     if (!checkIsMobileClient()) {
-      this.$router.push({ name: 'index' });
+      this.$router.push({ name: 'in' });
     }
   },
   methods: {
