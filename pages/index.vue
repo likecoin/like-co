@@ -197,7 +197,7 @@ export default {
     if (window.fbq) window.fbq('track', 'ViewContent');
     this.queryLikeCoinUsdPrice();
     if (checkIsMobileClient()) {
-      this.$router.push({ name: 'index' });
+      this.$router.push({ name: 'in-getapp' });
     }
   },
   methods: {
