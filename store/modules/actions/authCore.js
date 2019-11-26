@@ -1,13 +1,8 @@
-import {
-  AuthCoreAuthClient,
-  AuthCoreKeyVaultClient,
-  AuthCoreCosmosProvider,
-} from 'authcore-js';
+import { AuthCoreAuthClient } from 'authcore-js';
 import * as types from '@/store/mutation-types';
-import {
-  AUTHCORE_API_HOST,
-  COSMOS_CHAIN_ID,
-} from '@/constant';
+import { AUTHCORE_API_HOST } from '@/constant';
+
+const { AuthcoreVaultClient, AuthcoreCosmosProvider } = require('secretd-js');
 
 export async function setAuthCoreToken({ commit, state, dispatch }, accessToken) {
   commit(types.AUTHCORE_SET_ACCESS_TOKEN, accessToken);
@@ -55,15 +50,12 @@ export async function initAuthCoreClient({ commit, state, dispatch }) {
 }
 
 export async function initAuthCoreWalletService({ commit, state }) {
-  const keyVaultClient = await new AuthCoreKeyVaultClient({
+  const keyVaultClient = await new AuthcoreVaultClient({
     apiBaseURL: AUTHCORE_API_HOST,
     accessToken: state.accessToken,
   });
-  const walletSubprovider = await new AuthCoreCosmosProvider({
-    authcoreClient: keyVaultClient,
-    authcoreWidgetsUrl: `${AUTHCORE_API_HOST}/widgets`,
-    container: 'authcore-cosmos-container',
-    chainId: COSMOS_CHAIN_ID,
+  const walletSubprovider = await new AuthcoreCosmosProvider({
+    client: keyVaultClient,
   });
   commit(types.AUTHCORE_SET_KV_CLIENT, keyVaultClient);
   commit(types.AUTHCORE_SET_COSMOS_PROVIDER, walletSubprovider);
