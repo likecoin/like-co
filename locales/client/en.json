@@ -528,7 +528,7 @@
   "Footer": {
     "label": {
       "contract": "LikeCoin Contract: ",
-      "chain": "LikeChain Explorer"
+      "chain": "LikeCoin chain Explorer"
     },
     "button": {
       "aboutFoundation": "About LikeCoin Foundation",

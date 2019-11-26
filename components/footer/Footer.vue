@@ -14,17 +14,6 @@
             </a>
           </span>
 
-          <span class="contract-address lc-mobile-hide">
-            {{ $t('Footer.label.contract') }}
-            <a
-              :href="getAddress"
-              target="_blank"
-              rel="noopener"
-            >
-              {{ contractAddress }}
-            </a>
-          </span>
-
           <div class="right footer-links">
             <nuxt-link :to="{ name: 'in-policies' }">{{ $t('PoliciesPage.title') }}</nuxt-link>
             <a href="https://help.like.co/">{{ $t('Footer.button.support') }}</a>
@@ -46,13 +35,11 @@ import {
   ETHERSCAN_HOST,
   ONE_LIKE,
 } from '@/constant';
-import { LIKE_COIN_ADDRESS } from '@/constant/contract/likecoin-address';
 
 export default {
   data() {
     return {
       BIGDIPPER_HOST,
-      contractAddress: LIKE_COIN_ADDRESS,
     };
   },
   computed: {
