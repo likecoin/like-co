@@ -22,8 +22,19 @@
           />
           <!-- eslint-enable max-len -->
         </svg>
-
-        <div class="likecoin-wallet-banner__value">
+        <div
+          v-if="hasErc20Coins"
+        >
+          <md-icon>error_outline</md-icon>
+        </div>
+        <div
+          :class="[
+            'likecoin-wallet-banner__value',
+            {
+              'likecoin-wallet-banner__value--greyed': !!hasErc20Coins,
+            },
+          ]"
+        >
           {{ formattedValue }}
         </div>
 
@@ -50,35 +61,14 @@
       </div>
 
       <div class="likecoin-wallet-banner__accessory-view">
-        <NuxtLink
-          v-if="hasPendingLIKE"
-          :to="{ name: 'in-unlock' }"
-        >
-          <!-- eslint-disable max-len -->
-          <span
-            class="lc-underline lc-font-weight-600"
-            style="margin-right: 8px"
-          >{{ $t('Edit.label.manageYourLikeCoin') }}</span><svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24px"
-            height="12px"
-            viewBox="0 0 24 12"
-          >
-            <title>Lock</title>
-            <path
-              d="M7.24,7A2.37,2.37,0,0,1,4.9,9.4,2.37,2.37,0,0,1,2.56,7V5A2.37,2.37,0,0,1,4.9,2.6,2.37,2.37,0,0,1,7.24,5ZM22.72,4.7H9.79A4.94,4.94,0,0,0,4.9,0,5,5,0,0,0,0,5V7a5,5,0,0,0,4.9,5A4.94,4.94,0,0,0,9.79,7.3h8v2a1.28,1.28,0,1,0,2.56,0v-2h1.1v2a1.28,1.28,0,1,0,2.56,0V6a1.29,1.29,0,0,0-1.28-1.3Z"
-              style="fill-rule: evenodd;fill: currentColor"
-            />
-          </svg>
-          <!-- eslint-enable max-len -->
-        </NuxtLink>
         <a
-          v-else-if="!isZero"
-          :href="PURCHASE_LIKE_URL"
-          class="lc-underline lc-font-weight-600"
-          rel="noopener noreferrer"
-          target="_blank"
-        >{{ $t('Home.Sale.button.tradeAtExchange') }}</a>
+          v-if="hasErc20Coins"
+          :href="migrationURL"
+        >{{ $t('Home.Migrate.button') }}</a>
+        <a
+          v-else
+          :href="getLikerLandAppURL"
+        >{{ $t('Home.App.button') }}</a>
       </div>
 
     </div>
@@ -88,6 +78,7 @@
 
 <script>
 import { PURCHASE_LIKE_URL } from '@/constant';
+import { getMigrationSiteURL, getLikerLandAppURL } from '@/util/api/api';
 
 export default {
   name: 'like-coin-amount',
@@ -100,6 +91,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    hasErc20Coins: {
+      type: Boolean,
+      default: false,
+    },
+    username: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -107,6 +106,10 @@ export default {
     };
   },
   computed: {
+    getLikerLandAppURL,
+    migrationURL() {
+      return getMigrationSiteURL(this.username);
+    },
     formattedValue() {
       return this.value || '0';
     },
@@ -189,6 +192,10 @@ export default {
     font-size: 56px;
     font-weight: 300;
     line-height: 1;
+
+    &--greyed{
+      color: $like-gray-5;
+    }
 
     @media (max-width: 1024px) {
       font-size: 42px;

@@ -1557,7 +1557,7 @@
     "success": "成功推薦 {referee} 成為讚賞公民"
   },
   "MigrationAuthCorePage": {
-    "header": "輸入新密碼",
-    "description": "最後步驟：為你的Liker ID 設定密碼以便登入"
+    "header": "重新設定密碼",
+    "description": "最後步驟：由於LikeCoin chain 現已上線，請為你的Liker ID 重新設定密碼以配合最新的軟體升級。當你完成帳戶設定後，我們會進一步提供LikeCoin轉換流程。"
   }
 }

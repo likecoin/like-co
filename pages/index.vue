@@ -113,6 +113,8 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 
+import { checkIsMobileClient } from '~/util/client';
+
 import ArticleDialog from '@/components/dialogs/ArticleDialog';
 import HomeBanner from '@/components/home/Banner';
 import HomeMobileHeader from '@/components/home/MobileHeader';
@@ -193,8 +195,10 @@ export default {
   },
   mounted() {
     if (window.fbq) window.fbq('track', 'ViewContent');
-
     this.queryLikeCoinUsdPrice();
+    if (checkIsMobileClient()) {
+      this.$router.push({ name: 'in-getapp' });
+    }
   },
   methods: {
     ...mapActions([

@@ -516,6 +516,12 @@
         "lookForButton": "For all contents featuring {LikeButton}, creators are rewarded daily in LikeCoin (LIKE) according to the number of Likes received."
       }
     },
+    "App": {
+      "button": "Manage your LikeCoin on Liker.land app"
+    },
+    "Migrate": {
+      "button": "Migrate Now"
+    },
     "Footer": {
       "label": {
         "join": "Join LikeCoin community for latest news and discussion"
@@ -851,6 +857,7 @@
       "becomeCivicLiker": "Become Civic Liker",
       "likeCoinAmount": "Amount of LikeCoin",
       "manageYourLikeCoin": "Manage your LikeCoin",
+      "migrateLikeCoin": "LikeCoin Chain was already launched, receive your new LikeCoin now.",
       "address": "Your Address",
       "email": "Your E-mail",
       "addEmail": "Add email address",
@@ -1462,6 +1469,9 @@
     "hidenPermissions": "Hide",
     "changeUser": "Not {name} ? Change your account"
   },
+  "MigrateTokenDialog": {
+    "description": "LikeCoin chain is live! We highly recommended you upgrade now to unlock all the new features! With the new LikeCoin chain, you will be given a free token wallet, earn LikeCoin with the validators, vote for proposals etc."
+  },
   "OtherConnectList": {
     "title": "Other Connection",
     "description": "You can connect to your accounts on various social platforms"
@@ -1630,11 +1640,23 @@
       }
     }
   },
+  "GetApp": {
+    "title": "Reinventing the Like, in your pocket",
+    "button": {
+      "downloadNow": "Download now",
+      "continueToWeb": "Visit without app"
+    }
+  },
+  "AuthCore": {
+    "button": {
+      "reAuthNeeded:": "Please Reautheticate in AuthCore"
+    }
+  },
   "CivicLikerReferral": {
     "success": "Civic Liker Referral: {referee}"
   },
   "MigrationAuthCorePage": {
     "header": "Enter a new password",
-    "description": "You are one step away from setting up your Liker ID account. Set up your new password and this will update your password for all future log-in attempts."
+    "description": "You are one step away from setting up your Liker ID account. LikeCoin chain is now live. Set up your new password and this will update your password for all future log-in attempts with our latest upgrade. We will provide more infomation in the next step on how to migrate your token.You are one step away from setting up your Liker ID account. LikeCoin chain is now live. Set up your new password and this will update your password for all future log-in attempts with our latest upgrade. We will provide more infomation in the next step on how to migrate your token."
   }
 }
