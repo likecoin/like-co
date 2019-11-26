@@ -303,7 +303,7 @@ export default {
       errorCode: '',
       error: undefined,
       isSigningInWithEmail: false,
-      isSignIn: this.$route.query.login === '1',
+      isSignIn: this.$route.query.register !== '1',
 
       referrer: '',
       sourceURL: '',

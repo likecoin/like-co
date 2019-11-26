@@ -17,17 +17,17 @@ export default function ({
 }) {
   if (!store.getters.getUserIsRegistered) {
     let redirectPath = '/in/register';
-    const { login, from, referrer } = query;
+    const { register, from, referrer } = query;
     if (!process.server) {
       store.commit(USER_SET_AFTER_AUTH_ROUTE, route);
-      if (login === '1') redirectPath = `${redirectPath}?login=1`;
+      if (register === '1') redirectPath = `${redirectPath}?register=1`;
     } else {
       const qsPayload = {
         redirect: `${TEST_MODE ? 'http' : 'https'}://${req.headers.host}${route.fullPath}`,
       };
       if (from) qsPayload.from = from;
       if (referrer) qsPayload.referrer = referrer;
-      if (login === '1') qsPayload.login = '1';
+      if (register === '1') qsPayload.register = '1';
       redirectPath = `${redirectPath}?${querystring.stringify(qsPayload)}`;
     }
     redirect(redirectPath);
