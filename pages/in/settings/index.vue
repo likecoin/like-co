@@ -64,6 +64,12 @@
                         :required="!getUserIsAuthCore"
                         :disabled="getUserIsAuthCore"
                       />
+                      <md-button @click="focusAuthCore">
+                        <span v-if="isShowEditInAuthCore">
+                          {{ $t('Edit.label.editInAuthCore') }}
+                        </span>
+                        <md-icon>edit</md-icon>
+                      </md-button>
                     </md-field>
                   </span>
                 </div>
@@ -151,7 +157,7 @@
       class="lc-container-0 lc-margin-top-32"
     >
       <div class="lc-container-1">
-        <div class="lc-container-2">
+        <div ref="authcore" class="lc-container-2">
           <div
             v-if="getAuthCoreNeedReAuth || getAuthCoreAccessToken"
             class="lc-container-3 lc-padding-vertical-32 lc-bg-gray-1"
@@ -311,6 +317,7 @@ export default {
       email: '',
       isEmailEnabled: false,
       isEmailPreviouslyEnabled: false,
+      isShowEditInAuthCore: false,
       isShowAuthCoreProfile: true,
       isVerifying: false,
       TickIcon,
@@ -441,6 +448,15 @@ export default {
         options,
         selectedOption,
       };
+    },
+    focusAuthCore() {
+      this.isShowEditInAuthCore = true;
+      const widget = this.$refs.authcore;
+      if (widget) {
+        this.$nextTick(() => {
+          widget.scrollIntoView();
+        });
+      }
     },
     async updateInfo() {
       const user = this.getUserInfo;

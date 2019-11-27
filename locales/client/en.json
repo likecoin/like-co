@@ -854,6 +854,7 @@
       "address": "Your Address",
       "email": "Your E-mail",
       "addEmail": "Add email address",
+      "editInAuthCore": "Please edit in AuthCore Settings",
       "redeemCoin": "Redeem LikeCoin",
       "redeemCode": "Redeem Code",
       "validCodeRequired": "Please enter a valid coupon code",
@@ -1632,6 +1633,15 @@
   },
   "CivicLikerReferral": {
     "success": "Civic Liker Referral: {referee}"
+  },
+  "Authcore": {
+    "button": {
+      "profile": "Profile",
+      "settings": "Settings"
+    },
+    "Settings": {
+      "title": "AuthCore Settings"
+    }
   },
   "MigrationAuthCorePage": {
     "header": "Enter a new password",
