@@ -13,11 +13,7 @@ export async function setAuthCoreToken({ commit, state, dispatch }, accessToken)
     } else {
       await dispatch('initAuthCoreClient');
     }
-    if (state.kvClient) {
-      state.kvClient.setAccessToken(accessToken);
-    } else {
-      await dispatch('initAuthCoreWalletService');
-    }
+    await dispatch('initAuthCoreWalletService');
   } else {
     if (window.localStorage) window.localStorage.removeItem('authcore.accessToken');
     await dispatch('clearAuthCoreAllClients');
@@ -62,12 +58,16 @@ export async function initAuthCoreWalletService({ commit, state }) {
 }
 
 export async function initAuthCoreCosmosWallet({ state, dispatch }) {
-  const { kvClient, cosmosProvider } = state;
-  if (!kvClient || !cosmosProvider) await dispatch('initAuthCoreWalletService');
-  const { length } = await cosmosProvider.getAddresses();
-  if (!length) {
-    await kvClient.createSecret('HD_KEY', 16);
+  let { kvClient, cosmosProvider } = state;
+  try {
+    if (!kvClient || !cosmosProvider) await dispatch('initAuthCoreWalletService');
+    ({ kvClient, cosmosProvider } = state);
+    const [cosmosAddress] = await cosmosProvider.getAddresses();
+    return cosmosAddress;
+  } catch (err) {
+    console.error(err);
   }
+  return '';
 }
 
 export async function clearAuthCoreAllClients({ commit }) {
