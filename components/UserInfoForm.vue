@@ -60,47 +60,22 @@
             <!-- Civic Liker Info & CTA -->
             <div class="civic-liker-info">
               <div
-                v-if="isCivicLiker || isCivicLikerTrial"
-                :class="[
-                  'civic-liker-info__chop',
-                  {
-                    'civic-liker-info__chop--clickable': isCivicLikerTrial || canRenewCivicLiker,
-                  }
-                ]"
-                @click="onClickCivicLikerStamp"
-              >
-                <lc-chop-civic-liker
-                  :date="civicLikerSince"
-                  :is-flashing="canRenewCivicLiker"
-                  size="140"
-                  rotate-z="13"
-                />
-                <lc-chop-simple
-                  v-if="isCivicLikerTrial || canRenewCivicLiker"
-                  :text="canRenewCivicLiker ? 'EXPIRED' : 'TRIAL'"
-                  :is-trial="isCivicLikerTrial"
-                  class="civic-liker-status-stamp"
-                  size="140"
-                  rotate-z="-8"
-                />
-              </div>
-              <div
-                v-else
+                v-if="getUserHasERC20LikeCoin"
                 class="lc-button-group lc-mobile-hide"
                 style="display: flex;align-items: center"
               >
                 <md-button
-                  :to="{ name: 'in-civic' }"
+                  :href="migrationURL"
                   :class="[
                     'md-likecoin',
                     'lc-gradient-2 lc-font-size-20 lc-font-weight-600 lc-text-center shadow',
                   ]"
                 >
-                  {{ $t('Edit.label.becomeCivicLiker') }}
+                  {{ $t('Edit.label.migrateLikeCoin') }}
                 </md-button>
                 <md-button
                   class="md-icon-button"
-                  :to="{ name: 'in-civic' }"
+                  :href="migrationURL"
                 >
                   <md-icon>
                     <svg
@@ -119,6 +94,7 @@
                   </md-icon>
                 </md-button>
               </div>
+              <!-- TODO: change to install app CTA? -->
               <civic-liker-cta
                 :is-show-chop="false"
                 class="lc-mobile-show"
@@ -135,6 +111,8 @@
         class="likecoin-amount-section"
         :value="getUserLikeCoinAmountInBigNumber"
         :has-wallet="getUserHasWallet"
+        :has-erc20-coins="getUserHasERC20LikeCoin"
+        :username="getUserInfo.user"
       />
       <!-- TODO: Temp hide before civic liker release
       <div
@@ -222,6 +200,7 @@ import { mapActions, mapGetters } from 'vuex';
 import { logTrackerEvent } from '@/util/EventLogger';
 import getTestAttribute from '@/util/test';
 import User from '@/util/User';
+import { getMigrationSiteURL } from '@/util/api/api';
 
 import {
   W3C_EMAIL_REGEX,
@@ -262,6 +241,7 @@ export default {
       'getUserIsRegistered',
       'getUserLikeCoinAmountInBigNumber',
       'getUserHasWallet',
+      'getUserHasERC20LikeCoin',
     ]),
     isCivicLiker() {
       return this.getUserInfo.isSubscribedCivicLiker;
@@ -280,6 +260,9 @@ export default {
     },
     isUserEmailVerified() {
       return this.getUserInfo.isEmailVerified;
+    },
+    migrationURL() {
+      return getMigrationSiteURL(this.getUserInfo.user);
     },
     receiveLikeCoinLink() {
       return `https://${EXTERNAL_HOSTNAME}/${this.getUserInfo.user}`;

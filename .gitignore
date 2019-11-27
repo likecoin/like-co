@@ -17,6 +17,7 @@ build
 webpack-cache
 
 screenshots
+!assets/app/screenshots
 
 .nyc_output
 .nyc_output_merge
