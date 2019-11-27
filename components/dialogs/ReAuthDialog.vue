@@ -11,6 +11,7 @@
     <auth-core-register
       :is-sign-in="true"
       :is-fix-contact="true"
+      :language="getCurrentLocale"
       :email="getUserInfo.email"
       @success="signInWithAuthCore"
     />
@@ -38,6 +39,7 @@ export default {
     ...mapGetters([
       'getUserInfo',
       'getIsShowReAuthDialog',
+      'getCurrentLocale',
     ]),
   },
   methods: {

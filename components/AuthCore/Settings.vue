@@ -23,6 +23,10 @@ export default {
       type: String,
       required: true,
     },
+    language: {
+      type: String,
+      default: 'en',
+    },
     options: {
       type: Object,
       default: () => ({}),
@@ -31,6 +35,14 @@ export default {
   computed: {
     SettingsWidget() {
       return this.isProfile ? AuthCoreWidgets.Profile : AuthCoreWidgets.Settings;
+    },
+    authCoreLanguage() {
+      const lowerCase = this.language.toLowerCase();
+      /* authcore only have zh-hk for now, cast chinese into zh-HK */
+      if (lowerCase.includes('zh') || lowerCase.includes('cn')) {
+        return 'zh-hk';
+      }
+      return 'en';
     },
   },
   async mounted() {
@@ -42,9 +54,9 @@ export default {
         ...config,
         container: 'authcore-settings-container',
         accessToken: this.accessToken,
+        language: this.authCoreLanguage,
         root: `${AUTHCORE_API_HOST}/widgets`,
         onSuccess: (data) => {
-          console.log(data); // TODO: remove this line
           const { action, ...payload } = data;
           let output;
           switch (action) {
@@ -71,7 +83,7 @@ export default {
           this.$emit('loaded');
         },
         unauthenticated: (err) => {
-          console.log(err);
+          console.error(err);
           this.$emit('unauthenticated', err);
         },
         ...this.options,

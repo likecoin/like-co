@@ -194,6 +194,7 @@
                   :access-token="getAuthCoreAccessToken"
                   :is-profile="isShowAuthCoreProfile"
                   :options="{ internal: true }"
+                  :language="getCurrentLocale"
                   @profile-updated="onAuthCoreProfileUpdated"
                   @primary-contact-updated="onAuthCoreProfileUpdated"
                 />
@@ -328,6 +329,7 @@ export default {
     ...mapGetters([
       'getUserInfo',
       'getUserIsRegistered',
+      'getCurrentLocale',
       'getUserIsLoadingAuthPlaforms',
       'getUserAuthPlatforms',
       'getUserSocialPlatforms',

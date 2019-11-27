@@ -81,6 +81,7 @@
             <auth-core-register
               v-if="isUsingAuthCore"
               :is-sign-in="isSignIn"
+              :language="getCurrentLocale"
               @success="signInWithAuthCore"
             />
             <signin-portal

@@ -15,6 +15,7 @@
       :is-sign-in="false"
       :is-fix-contact="!!getUserInfo.email"
       :email="getUserInfo.email"
+      :language="getCurrentLocale"
       @success="linkWithAuthCore"
     />
   </BaseDialogV2>
@@ -37,6 +38,7 @@ export default {
     ...mapGetters([
       'getUserInfo',
       'getUserIsAuthCore',
+      'getCurrentLocale',
     ]),
   },
   mounted() {

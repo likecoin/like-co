@@ -25,6 +25,10 @@ export default {
       type: String,
       default: undefined,
     },
+    language: {
+      type: String,
+      default: 'en',
+    },
     isFixContact: {
       type: Boolean,
       default: false,
@@ -35,6 +39,14 @@ export default {
       // return this.isSignIn ? AuthCoreWidgets.Login : AuthCoreWidgets.Register;
       return AuthCoreWidgets.Login; // always use Login since have oauths
     },
+    authCoreLanguage() {
+      const lowerCase = this.language.toLowerCase();
+      /* authcore only have zh-hk for now, cast chinese into zh-HK */
+      if (lowerCase.includes('zh') || lowerCase.includes('cn')) {
+        return 'zh-hk';
+      }
+      return 'en';
+    },
   },
   async mounted() {
     this.widgetInstance = new this.SignInWidget({
@@ -43,6 +55,7 @@ export default {
       root: `${AUTHCORE_API_HOST}/widgets`,
       initialScreen: this.isSignIn ? 'signin' : 'register',
       contact: this.email,
+      language: this.authCoreLanguage,
       onSuccess: async (data) => {
         const { access_token: accessToken, current_user: currentUser, id_token: idToken } = data;
         this.$emit('success', {
@@ -51,7 +64,7 @@ export default {
           idToken,
         });
       },
-      fixedContact: this.isFixContact,
+      fixedContact: this.email && this.isFixContact,
       onLoaded: () => this.$emit('loaded'),
       unauthenticated: (err) => {
         this.$emit('unauthenticated', err);
