@@ -516,6 +516,12 @@
         "lookForButton": "但凡支持 {LikeButton} 的內容，讀者點讚，作者獲賞。"
       }
     },
+    "App": {
+      "button": "Manage your LikeCoin on Liker.land app"
+    },
+    "Migrate": {
+      "button": "Migrate Now"
+    },
     "Footer": {
       "label": {
         "join": "請加入 LikeCoin 社群以獲取最新消息及參與討論"
@@ -527,7 +533,8 @@
   },
   "Footer": {
     "label": {
-      "contract": "LikeCoin Contract: "
+      "contract": "LikeCoin Contract: ",
+      "chain": "LikeCoin Chain Explorer"
     },
     "button": {
       "about": "有關 LikeCoin Foundation",
@@ -763,6 +770,11 @@
       "button": {
         "view": "於 Etherscan.io 查看 "
       }
+    },
+    "bigdipper": {
+      "button": {
+        "view": "View on Big Dipper"
+      }
     }
   },
   "Register": {
@@ -838,6 +850,7 @@
       "becomeCivicLiker": "成為讚賞公民",
       "likeCoinAmount": "LikeCoin 數量",
       "manageYourLikeCoin": "管理你的 LikeCoin",
+      "migrateLikeCoin": "LikeCoin Chain was already launched, receive your new LikeCoin now.",
       "address": "錢包地址",
       "email": "郵件地址",
       "addEmail": "增加郵件地址",
@@ -1388,6 +1401,9 @@
     "hidenPermissions": "隱藏",
     "changeUser": "不是 {name} ？重新登入"
   },
+  "MigrateTokenDialog": {
+    "description": "LikeCoin chain is live! We highly recommended you upgrade now to unlock all the new features! With the new LikeCoin chain, you will be given a free token wallet, earn LikeCoin with the validators, vote for proposals etc."
+  },
   "OtherConnectList": {
     "title": "其他帳號連接",
     "description": "你可以將帳號連接到不同的社交平台"
@@ -1551,6 +1567,18 @@
         "header": "噢！發生未知錯誤",
         "message": "感謝你的支持。發生未知的錯誤 [{error}]。請聯絡我們求助。"
       }
+    }
+  },
+  "GetApp": {
+    "title": "Reinventing the Like, in your pocket",
+    "button": {
+      "downloadNow": "Download now",
+      "continueToWeb": "Visit without app"
+    }
+  },
+  "AuthCore": {
+    "button": {
+      "reAuthNeeded:": "Please Reautheticate in AuthCore"
     }
   },
   "CivicLikerReferral": {
