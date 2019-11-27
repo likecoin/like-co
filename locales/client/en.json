@@ -729,6 +729,9 @@
         "back": "← All sign in options"
       }
     },
+    "SignInWithLegacy": {
+      "title": "Login by MetaMask"
+    },
     "Register": {
       "title": "Welcome",
       "button": {
@@ -1662,20 +1665,16 @@
   },
   "AuthCore": {
     "button": {
-      "reAuthNeeded:": "Please Reautheticate in AuthCore"
-    }
-  },
-  "CivicLikerReferral": {
-    "success": "Civic Liker Referral: {referee}"
-  },
-  "Authcore": {
-    "button": {
       "profile": "Profile",
-      "settings": "Settings"
+      "settings": "Settings",
+      "reAuthNeeded:": "Please Reautheticate in AuthCore"
     },
     "Settings": {
       "title": "AuthCore Settings"
     }
+  },
+  "CivicLikerReferral": {
+    "success": "Civic Liker Referral: {referee}"
   },
   "MigrationAuthCorePage": {
     "header": "Enter a new password",

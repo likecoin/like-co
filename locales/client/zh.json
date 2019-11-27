@@ -512,9 +512,15 @@
     },
     "LikeButtonDemo": {
       "label": {
-        "button": "LikeButton",
+        "button": "LikeCoin button",
         "lookForButton": "但凡支持 {LikeButton} 的內容，讀者點讚，作者獲賞。"
       }
+    },
+    "App": {
+      "button": "在 Liker Land app 管理 LikeCoin"
+    },
+    "Migrate": {
+      "button": "現在轉移"
     },
     "Footer": {
       "label": {
@@ -539,10 +545,11 @@
   },
   "Footer": {
     "label": {
-      "contract": "LikeCoin Contract: "
+      "contract": "LikeCoin 智能合約: ",
+      "chain": "LikeCoin chain 瀏覽器"
     },
     "button": {
-      "about": "有關 LikeCoin Foundation",
+      "about": "有關讚賞公民共和國",
       "support": "客戶服務"
     }
   },
@@ -562,7 +569,7 @@
     "Footer": {
       "label": {
         "contract": "LikeCoin 合約地址: ",
-        "visit": "Visit our website for more information: "
+        "visit": "訪問我們的網址獲取更多資訊："
       }
     }
   },
@@ -715,6 +722,9 @@
         "back": "← 所有登入方式"
       }
     },
+    "SignInWithLegacy": {
+      "title": "以 MetaMask 登入"
+    },
     "Register": {
       "title": "歡迎",
       "button": {
@@ -775,6 +785,11 @@
       "button": {
         "view": "於 Etherscan.io 查看 "
       }
+    },
+    "bigdipper": {
+      "button": {
+        "view": "在 Big Dipper 查看"
+      }
     }
   },
   "Register": {
@@ -834,9 +849,9 @@
       "descriptionCTA": "我想讓自己的網站賺取 LikeCoin"
     },
     "civicLiker": {
-      "title": "Give a hand to support creativity",
-      "description": "Support your favourite creative work. Simple and effective. With bla bla, to bla.",
-      "descriptionCTA": "Civic Liker"
+      "title": "舉手之勞，回饋創作。",
+      "description": "為你喜愛的作品按讚，讓作者獲賞。",
+      "descriptionCTA": "讚賞公民"
     },
     "verifyEmailCta": {
       "title": "檢查你的信箱",
@@ -850,6 +865,7 @@
       "becomeCivicLiker": "成為讚賞公民",
       "likeCoinAmount": "LikeCoin 數量",
       "manageYourLikeCoin": "管理你的 LikeCoin",
+      "migrateLikeCoin": "LikeCoin chain 已經上線，現在領取新的 LikeCoin 吧。",
       "address": "錢包地址",
       "email": "郵件地址",
       "addEmail": "增加郵件地址",
@@ -970,9 +986,9 @@
         }
       },
       "unlock": {
-        "body": "你已成功設定收款錢包，為你的作品加上 Like Rewards button，你每日所得的 Like Rewards 將會自動發送至你的 MetaMask 錢包。 ",
+        "body": "你已成功設定收款錢包，為你的作品加上 LikeCoin button，你每日所得的 LikeCoin 將會自動發送至你的 MetaMask 錢包。 ",
         "action": {
-          "button": "加上 Like Rewards button"
+          "button": "加上 LikeCoin button"
         }
       }
     }
@@ -1097,7 +1113,7 @@
         "wp": "只在 WordPress"
       },
       "supportFavContent": "讚賞公民 - 化讚為賞 回饋創作",
-      "backerDesc": "By adding the LikeButton to your creative content, The quick, brown fox jumps over a lazy dog.",
+      "backerDesc": "安裝讚賞鍵，讓創作獲得回饋。",
       "active": "開始訂閱"
     },
     "button": {
@@ -1277,7 +1293,7 @@
       "subtitle": "喜歡這篇文章",
       "title": "化讚為賞 回饋創作",
       "createMyWidget": "Create my LikeWidget",
-      "createMyButton": "Create my LikeButton",
+      "createMyButton": "生成我的讚賞鍵",
       "followMeOn": "關注我的消息"
     },
     "button": {
@@ -1297,7 +1313,7 @@
   },
   "LikeButtonIntro": {
     "setupWallet": "設定錢包",
-    "setupLikeButton": "設定 LikeButton",
+    "setupLikeButton": "設定讚賞鍵",
     "inmedia": "獨立媒體",
     "standnews": "立場新聞",
     "citizenNews": "眾新聞",
@@ -1399,6 +1415,9 @@
     "showPermissions": "更多資訊",
     "hidenPermissions": "隱藏",
     "changeUser": "不是 {name} ？重新登入"
+  },
+  "MigrateTokenDialog": {
+    "description": "LikeCoin chain 已上線！強烈建議你立即升級以解鎖各項新功能，包括免費的代幣錢包，委托驗證人賺取回報，就社群議案投票等。"
   },
   "OtherConnectList": {
     "title": "其他帳號連接",
@@ -1563,6 +1582,23 @@
         "header": "噢！發生未知錯誤",
         "message": "感謝你的支持。發生未知的錯誤 [{error}]。請聯絡我們求助。"
       }
+    }
+  },
+  "GetApp": {
+    "title": "化讚為賞，盡在指掌",
+    "button": {
+      "downloadNow": "立即下載",
+      "continueToWeb": "不以 app 訪問"
+    }
+  },
+  "AuthCore": {
+    "button": {
+      "profile": "個人檔案",
+      "settings": "安全設定",
+      "reAuthNeeded:": "請重新於 AuthCore 登入"
+    },
+    "Settings": {
+      "title": "AuthCore 設定"
     }
   },
   "CivicLikerReferral": {

@@ -19,7 +19,9 @@
       slot="header-left"
       class="auth-dialog__header-left"
     >
-      <a v-if="isUsingAuthCore" @click="onClickUseLegacyButton">{{ $t('LEGACY_LOGIN') }}</a>
+      <a v-if="isUsingAuthCore" @click="onClickUseLegacyButton">
+        {{ $t('AuthDialog.SignInWithLegacy.title') }}
+      </a>
       <a v-else @click="onClickBackButton">{{ $t('General.back') }}</a>
     </div>
 
