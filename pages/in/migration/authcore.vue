@@ -57,7 +57,14 @@ export default {
         await this.setAuthCoreToken(accessToken);
         await this.initAuthCoreCosmosWallet();
         const cosmosWallet = await this.fetchAuthCoreCosmosWallet();
-        this.linkUserAuthPlatform({ platform: 'authcore', payload: { idToken, cosmosWallet } });
+        this.linkUserAuthPlatform({
+          platform: 'authcore',
+          payload: {
+            accessToken,
+            idToken,
+            cosmosWallet,
+          },
+        });
         this.redirectAfterSignIn();
       }
     },

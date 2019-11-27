@@ -813,6 +813,7 @@ export default {
         email,
         displayName,
         username,
+        accessToken,
         idToken,
       };
       this.login();
