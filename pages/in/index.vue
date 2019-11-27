@@ -9,12 +9,20 @@
         </div>
       </section>
     </template>
+    <section class="lc-container-0 lc-margin-top-48">
+      <div class="lc-container-1">
+        <div class="lc-container-2">
+          <AppBanner />
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
+import AppBanner from '~/components/AppBanner';
 import VerifyEmailCta from '~/components/VerifyEmailCta';
 
 import EditIcon from '@/assets/icons/edit.svg';
@@ -26,6 +34,7 @@ export default {
   name: 'in',
   layout: 'in',
   components: {
+    AppBanner,
     VerifyEmailCta,
   },
   data() {
