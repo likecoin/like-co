@@ -152,65 +152,51 @@
     >
       <div class="lc-container-1">
         <div ref="authcore" class="lc-container-2">
-          <div
-            v-if="getAuthCoreNeedReAuth || getAuthCoreAccessToken"
-            class="lc-container-3 lc-padding-vertical-32 lc-bg-gray-1"
-          >
-            <div class="lc-container-4">
-              <h2 class="lc-font-size-14 lc-font-weight-400">
-                {{ $t('AuthCore.Settings.title') }}
-              </h2>
-              <div v-if="getAuthCoreNeedReAuth">
-                <md-button
-                  class="md-likecoin"
-                  @click="onClickAuthCoreReAuth"
+          <no-ssr>
+            <div
+              v-if="getAuthCoreNeedReAuth || getAuthCoreAccessToken"
+              class="lc-container-3 lc-padding-vertical-32 lc-bg-gray-1"
+            >
+              <div class="lc-container-4">
+                <h2 class="lc-font-size-14 lc-font-weight-400">
+                  {{ $t('AuthCore.Settings.title') }}
+                </h2>
+                <div v-if="getAuthCoreNeedReAuth">
+                  <md-button
+                    class="md-likecoin"
+                    @click="onClickAuthCoreReAuth"
+                  >
+                    {{ $t('AuthCore.button.reAuthNeeded') }}
+                  </md-button>
+                </div>
+                <div
+                  v-else-if="getAuthCoreAccessToken"
                 >
-                  {{ $t('AuthCore.button.reAuthNeeded') }}
-                </md-button>
-              </div>
-              <div
-                v-else-if="getAuthCoreAccessToken"
-              >
-                <md-tabs
-                  :md-active-tab="`authcore-${isShowAuthCoreProfile ? 'profile' : 'settings'}`"
-                  @md-changed="onAuthCoreSettingTabsChanged"
-                >
-                  <md-tab
-                    id="authcore-profile"
-                    :md-label="$t('AuthCore.button.profile')"
+                  <md-tabs
+                    :md-active-tab="`authcore-${isShowAuthCoreProfile ? 'profile' : 'settings'}`"
+                    @md-changed="onAuthCoreSettingTabsChanged"
+                  >
+                    <md-tab
+                      id="authcore-profile"
+                      :md-label="$t('AuthCore.button.profile')"
+                    />
+                    <md-tab
+                      id="authcore-settings"
+                      :md-label="$t('AuthCore.button.settings')"
+                    />
+                  </md-tabs>
+                  <auth-core-settings
+                    :access-token="getAuthCoreAccessToken"
+                    :is-profile="isShowAuthCoreProfile"
+                    :options="{ internal: true }"
+                    :language="getCurrentLocale"
+                    @profile-updated="onAuthCoreProfileUpdated"
+                    @primary-contact-updated="onAuthCoreProfileUpdated"
                   />
-                  <md-tab
-                    id="authcore-settings"
-                    :md-label="$t('AuthCore.button.settings')"
-                  />
-                </md-tabs>
-                <auth-core-settings
-                  :access-token="getAuthCoreAccessToken"
-                  :is-profile="isShowAuthCoreProfile"
-                  :options="{ internal: true }"
-                  :language="getCurrentLocale"
-                  @profile-updated="onAuthCoreProfileUpdated"
-                  @primary-contact-updated="onAuthCoreProfileUpdated"
-                />
+                </div>
               </div>
             </div>
-          </div>
-          <!-- Auth Connections -->
-          <div v-else class="lc-container-3 lc-bg-gray-1 lc-padding-top-32 lc-padding-bottom-48">
-            <div class="lc-container-4">
-              <h1 class="lc-font-size-32">
-                {{ $t('AuthConnectList.title') }}
-              </h1>
-              <auth-connect-list
-                :platforms="authPlatforms"
-                :is-loading="getUserIsLoadingAuthPlaforms"
-                class="lc-margin-top-32"
-                @connect="onConnectAuth"
-                @disconnect="onDisconnectAuth"
-                @select-option="onSelectConnectOption"
-              />
-            </div>
-          </div>
+          </no-ssr>
 
           <!-- Other Connections -->
           <div class="lc-container-3 lc-bg-gray-1 lc-margin-top-8 lc-padding-vertical-32">
@@ -251,16 +237,13 @@ import AuthCoreSettings from '~/components/AuthCore/Settings';
 
 import {
   W3C_EMAIL_REGEX,
-  LOGIN_CONNECTION_LIST,
   OTHER_CONNECTION_LIST,
 } from '@/constant';
 
 import getTestAttribute from '@/util/test';
 import User from '@/util/User';
-import { getAuthPlatformSignInURL } from '@/util/auth';
 
 import CivicLikerCta from '~/components/CivicLiker/CTA';
-import AuthConnectList from '~/components/settings/AuthConnectList';
 import OtherConnectList from '~/components/settings/OtherConnectList';
 import ExternalLinksPanel from '~/components/settings/ExternalLinksPanel';
 
@@ -271,7 +254,6 @@ export default {
   components: {
     CivicLikerCta,
     AuthCoreSettings,
-    AuthConnectList,
     OtherConnectList,
     ExternalLinksPanel,
   },
@@ -297,7 +279,6 @@ export default {
       'getUserInfo',
       'getUserIsRegistered',
       'getCurrentLocale',
-      'getUserIsLoadingAuthPlaforms',
       'getUserAuthPlatforms',
       'getUserSocialPlatforms',
       'getUserIsAuthCore',
@@ -314,13 +295,6 @@ export default {
         || this.getUserInfo.email !== this.email
         || this.getUserInfo.displayName !== this.displayName
       );
-    },
-    authPlatforms() {
-      return LOGIN_CONNECTION_LIST.map(pid => this.injectPlatformData({
-        ...this.getUserSocialPlatforms[pid],
-        pid,
-        isConnected: !!this.getUserAuthPlatforms[pid],
-      }));
     },
     otherPlatforms() {
       return OTHER_CONNECTION_LIST.map(pid => this.injectPlatformData({
@@ -493,23 +467,6 @@ export default {
     },
     onAuthCoreProfileUpdated() {
       this.syncAuthCoreUser();
-    },
-    async onConnectAuth(pid) {
-      const platform = this.getUserAuthPlatforms[pid];
-      if (platform) return;
-
-      switch (pid) {
-        case 'matters': {
-          const { url } = await getAuthPlatformSignInURL(pid, 'link');
-          if (url) window.location.href = url;
-          break;
-        }
-        default:
-          break;
-      }
-    },
-    async onDisconnectAuth() {
-      // TODO: sync with authcore
     },
     async onConnectOtherPlatforms(pid) {
       switch (pid) {
