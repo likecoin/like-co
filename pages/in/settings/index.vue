@@ -74,7 +74,7 @@
                   </span>
                 </div>
                 <div
-                  v-if="getUserInfo.wallet"
+                  v-if="getUserHasWallet"
                   class="profile-setting-page__field profile-setting-page__field--one-line"
                 >
                   <span class="title">
@@ -85,12 +85,6 @@
                     class="content"
                   >
                     {{ getUserInfo.cosmosWallet }}
-                  </span>
-                  <span
-                    v-else-if="getUserInfo.wallet"
-                    class="content"
-                  >
-                    {{ getUserInfo.wallet }}
                   </span>
                 </div>
                 <template v-if="!getUserIsAuthCore">
@@ -247,34 +241,6 @@
         </div>
       </div>
     </section>
-
-    <!-- Redeem Code Section  -->
-    <section
-      v-if="getUserInfo.wallet"
-      id="coupon"
-      class="lc-container-0 lc-margin-top-48 lc-mobile"
-    >
-      <div class="lc-container-1">
-
-        <div class="lc-container-header">
-          <div class="lc-container-2 lc-container-header-overlay">
-            <div class="lc-container-3 lc-bg-gray-1" />
-          </div>
-          <div class="lc-container-2">
-            <div class="lc-container-3">
-              <div class="lc-container-4">
-                <div class="lc-container-header-title">
-                  <h1 class="lc-font-size-32 lc-mobile">
-                    {{ $t('Edit.label.redeemCoin') }}
-                  </h1>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
   </div>
 </template>
 
@@ -327,6 +293,7 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'getUserHasWallet',
       'getUserInfo',
       'getUserIsRegistered',
       'getCurrentLocale',

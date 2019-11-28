@@ -107,7 +107,7 @@
                       place="likeButtonUrl"
                     >{{ likeButtonUrl }}</span>
                     <span
-                      v-if="getUserInfo.wallet"
+                      v-if="getUserHasWallet"
                       place="setupWallet"
                     >{{ $t('LikeButtonIntro.setupWallet') }}</span>
                     <a
@@ -209,7 +209,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['getUserInfo']),
+    ...mapGetters([
+      'getUserInfo',
+      'getUserHasWallet',
+    ]),
     likeButtonUrl() {
       const id = this.getUserInfo.user;
       return id ? `https://button.like.co/${id}` : 'https://button.like.co/[Liker ID]';

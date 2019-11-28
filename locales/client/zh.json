@@ -808,7 +808,7 @@
     },
     "form": {
       "createID": "註冊 Liker ID* (最少7個英文字母/數目字)",
-      "walletAddress": "以太坊錢包地址",
+      "walletAddress": "LikeCoin 錢包地址",
       "email": "電郵地址",
       "referrer": "邀請人 Liker ID (可選)",
       "amount": "LikeCoin 數量",

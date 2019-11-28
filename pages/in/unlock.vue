@@ -181,9 +181,10 @@ export default {
   computed: {
     ...mapGetters([
       'getUserInfo',
+      'getUserHasWallet',
     ]),
     isUnlocked() {
-      return this.getUserInfo.wallet || this.getUserInfo.cosmosWallet;
+      return this.getUserHasWallet;
     },
   },
   methods: {

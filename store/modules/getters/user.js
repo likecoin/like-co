@@ -33,8 +33,8 @@ export const getUserLikeCoinAmountIsZero = state => (
   || state.likeCoinAmountInBigNumber.isZero()
 );
 
-export const getUserHasERC20LikeCoin = state => state.likecoinAmountObject
-  && state.likecoinAmountObject.walletLIKE;
+export const getUserHasERC20LikeCoin = state => !!(state.likecoinAmountObject
+  && state.likecoinAmountObject.walletLIKE && state.likecoinAmountObject.walletLIKE !== '0');
 
 export const getUserERC20LikeCoinAmounInBigNumber = state => state.likecoinAmountObject.walletLIKE;
 
