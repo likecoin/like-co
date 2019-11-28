@@ -490,7 +490,7 @@
             "button": "在 Liker Land app 管理 LikeCoin"
         },
         "Migrate": {
-            "button": ""
+            "button": "LikeCoin chain 已经上线，现在领取新的 LikeCoin 吧。"
         },
         "Footer": {
             "label": {
@@ -805,7 +805,7 @@
             "becomeCivicLiker": "成为赞赏公民",
             "likeCoinAmount": "LikeCoin 数量",
             "manageYourLikeCoin": "管理你的 LikeCoin",
-            "migrateLikeCoin": "LikeCoin chain 已经上线，现在领取新的 LikeCoin 吧。",
+            "migrateLikeCoin": "现在转移",
             "address": "钱包地址",
             "email": "邮件地址",
             "addEmail": "增加邮件地址",

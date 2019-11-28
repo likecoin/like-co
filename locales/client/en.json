@@ -520,7 +520,7 @@
       "button": "Manage your LikeCoin on Liker.land app"
     },
     "Migrate": {
-      "button": "Migrate Now"
+      "button": "LikeCoin Chain was already launched, receive your new LikeCoin now."
     },
     "Footer": {
       "label": {
@@ -872,7 +872,7 @@
       "becomeCivicLiker": "Become Civic Liker",
       "likeCoinAmount": "Amount of LikeCoin",
       "manageYourLikeCoin": "Manage your LikeCoin",
-      "migrateLikeCoin": "LikeCoin Chain was already launched, receive your new LikeCoin now.",
+      "migrateLikeCoin": "Migrate Now",
       "address": "Your Address",
       "email": "Your E-mail",
       "addEmail": "Add email address",
