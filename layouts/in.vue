@@ -49,7 +49,7 @@
               to="/in"
             />
             <md-tab
-              v-if="getUserInfo.wallet"
+              v-if="getUserHasWallet"
               id="in-tx-history"
               :md-label="$t('In.tab.txHistory')"
               to="/in/tx/history"
@@ -124,6 +124,7 @@ export default {
   computed: {
     ...mapGetters([
       'getUserInfo',
+      'getUserHasWallet',
       'getUserLikeCoinAmountIsZero',
       'getUserHasERC20LikeCoin',
       'getUserERC20LikeCoinAmounInBigNumber',

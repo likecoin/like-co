@@ -23,8 +23,14 @@
               />
             </div>
             <div class="lc-container-3">
-              <view-bigdipper v-if="getUserInfo.cosmosWallet" :address="getUserInfo.cosmosWallet" />
-              <view-etherscan v-else :address="getUserInfo.wallet" />
+              <view-bigdipper
+                v-if="getUserInfo.cosmosWallet"
+                :address="getUserInfo.cosmosWallet"
+              />
+              <view-etherscan
+                v-else
+                :address="getUserInfo.wallet"
+              />
             </div>
           </div>
 
