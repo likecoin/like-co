@@ -29,10 +29,16 @@
           >{{ $t('AppBanner.downloadButtonText') }}</a>
         </div>
         <div class="app-banner__cta-platform-badges">
-          <a :href="getLikerLandAppURL">
+          <a
+            href="https://apps.apple.com/app/likerland/id1248232355"
+            target="_blank"
+          >
             <img src="~/assets/app/app-store.svg">
           </a>
-          <a :href="getLikerLandAppURL">
+          <a
+            href="https://play.google.com/store/apps/details?id=com.oice"
+            target="_blank"
+          >
             <img src="~/assets/app/google-play.svg">
           </a>
         </div>

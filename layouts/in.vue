@@ -49,13 +49,7 @@
               to="/in"
             />
             <md-tab
-              v-if="getUserHasWallet"
-              id="in-tx-history"
-              :md-label="$t('In.tab.txHistory')"
-              to="/in/tx/history"
-            />
-            <md-tab
-              v-else-if="!getUserLikeCoinAmountIsZero"
+              v-if="!getUserLikeCoinAmountIsZero"
               id="in-reward-records"
               :md-label="$t('In.tab.rewardRecords')"
               to="/in/reward/records"
