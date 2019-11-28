@@ -233,7 +233,7 @@
         "item": {
             "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
             "bonus": "LikeCoin 奬励",
-            "civicLiker": "",
+            "civicLiker": "@:CivicPage.title",
             "earnLikeCoin": "赚取 LikeCoin",
             "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
             "tokenSale": "@:TokenSale.title",
@@ -438,7 +438,7 @@
                     "title": "全端开发者"
                 },
                 "miles": {
-                    "name": "",
+                    "name": "Miles Wong",
                     "title": "全端开发者"
                 },
                 "joshua": {
@@ -502,19 +502,24 @@
         "headline": "更多文章："
     },
     "AppBanner": {
-        "title": "",
-        "downloadButtonText": "",
+        "title": "化赞为赏，尽在指掌",
+        "downloadButtonText": "立即下载",
         "features": [
-            ""
+            "Like 数影响基金分配，回馈作者",
+            "以 Like 分配个人月费，全数回馈作者",
+            "查阅回馈去向，掌握一分一毫",
+            "参与社群决策和公投",
+            "获得额外内容丶书籍丶优惠券等专属礼品",
+            "优先参与不定期线下活动"
         ]
     },
     "Footer": {
         "label": {
-            "contract": "LikeCoin Contract: ",
-            "chain": ""
+            "contract": "LikeCoin 智能合约: ",
+            "chain": "LikeCoin chain 浏览器"
         },
         "button": {
-            "about": "有关 LikeCoin Foundation",
+            "about": "有关赞赏公民共和国",
             "support": "客户服务"
         }
     },
@@ -550,10 +555,10 @@
                 "web3": "需要插件",
                 "locked": "请登入 MetaMask",
                 "sign": "在 MetaMask 按 <span class=\"lc-font-weight-600 lc-color-like-dark-brown-2\">Sign</span>",
-                "login": "",
+                "login": "在 MetaMask 按 Sign 登入",
                 "connectledger": "连接 Ledger 钱包",
                 "signledger": "在 Ledger 钱包按 Sign",
-                "loginledger": ""
+                "loginledger": "在 Ledger 钱包按 Sign 登入"
             },
             "content": {
                 "switchRinkeby": "like.co 需要使用 Rinkeby 测试网，请切换至 Rinkeby.",
@@ -561,10 +566,10 @@
                 "web3": "like.co 需要 MetaMask 用作登入。请使用 Chrome 浏览器以安装 MetaMask 插件.<br /> <span style='color:red'>请记录好 MetaMask 的 seed words。<span>",
                 "locked": "like.co 需要读取 MetaMask ，请登入 MetaMask",
                 "sign": "请在 Metamask 按 [Sign]",
-                "login": "",
+                "login": "请在 Metamask 按 [Sign] 登入",
                 "connectledger": "请连接和解锁 Ledger 钱包，并开启 Ethereum app。请留意必须要开启 Ethereum app 的浏览器支援 (Browser support) 功能才能使用 like.co。<br /> 详情可参考 <a href=\"https://support.ledgerwallet.com/hc/en-us/articles/115005198565\" target=\"_blank\" rel=\"noopener\">Ledger 官网</a>",
                 "signledger": "请在 Ledger 钱包按[确认]按钮",
-                "loginledger": ""
+                "loginledger": "请在 Ledger 钱包按[确认]按钮登入"
             },
             "label": {
                 "hardwareWallet": "... 或连接你的硬体钱包",
@@ -678,17 +683,17 @@
             "toggleButton": "注册"
         },
         "SignInWithEmail": {
-            "title": "",
-            "description": "",
+            "title": "登入 / 注册",
+            "description": "请输入电邮以登入",
             "label": {
-                "email": ""
+                "email": "你的电邮地址"
             },
             "button": {
-                "back": ""
+                "back": "← 所有登入方式"
             }
         },
         "SignInWithLegacy": {
-            "title": ""
+            "title": "以 MetaMask 登入"
         },
         "Register": {
             "title": "欢迎",
@@ -728,7 +733,7 @@
         },
         "bigdipper": {
             "button": {
-                "view": ""
+                "view": "在 Big Dipper 查看"
             }
         }
     },
@@ -755,7 +760,7 @@
             "displayName": "显示名称",
             "claim": "领取",
             "couponCode": "兑换码 (可选)",
-            "bindWallet": "",
+            "bindWallet": "绑定 MetaMask 地址",
             "enableEmail": "接收你的 LikeCoin 交易通知及最新消息的电邮",
             "privacyPolicy": "私隐政策",
             "agreeTerms": "按下确认代表你同意 {privacyPolicy}.",
@@ -780,16 +785,16 @@
             "txHistory": "交易记录"
         },
         "mansory": {
-            "title": "",
+            "title": "阅读之旅启航",
             "description": "支持你心目中最棒作者的作品",
             "descriptionCTA": "我想让自己的作品赚取 LikeCoin"
         },
         "likeButtonAdopter": {
             "title": "支援赞赏键的媒体",
-            "descriptionCTA": ""
+            "descriptionCTA": "我想让自己的网站赚取 LikeCoin"
         },
         "civicLiker": {
-            "title": "",
+            "title": "举手之劳，回馈创作。",
             "description": "为你喜爱的作品按赞，让作者获赏。",
             "descriptionCTA": "赞赏公民"
         },
@@ -882,7 +887,7 @@
             "unavailable": "由于 MetaMask 的新版本出现问题，导致 LikeCoin 转账服务暂时停止。感谢体谅。",
             "updateMetamask": "转账服务只适用于已安装 MetaMask 版本 {version} 或以上的浏览器。",
             "manualProcedure": "手动安装指南",
-            "manualProcedureUrl": "",
+            "manualProcedureUrl": "https://help.like.co/likecoin-%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C/%E6%96%B0%E6%89%8B%E4%B8%8A%E8%B7%AF/%E5%A6%82%E4%BD%95%E6%9B%B4%E6%96%B0-metamask-%E7%89%88%E6%9C%AC",
             "openReferrerWarning": "你正在开启的外部链结未经审核，存在风险",
             "openReferrerConfirmMessage": "我确认要开启此连结"
         },
@@ -1098,7 +1103,7 @@
         "FIREBASE_USER_DUPLICATED": "登入帐户已被使用",
         "OICE_SERVER_ERROR": "伺服器错误，请重载网页并重试。如重复出现该错误，请联络客服。",
         "OICE_LIKECOIN_ID_NOT_BIND": "oice 跟 Liker ID 的连结有误，请确认你正在登入的 oice 帐号，有绑定 Liker ID ，而且 绑定 ID 跟 目前 ID 一致。",
-        "PRE_REG_CIVIC_LIKER_ENDED": "",
+        "PRE_REG_CIVIC_LIKER_ENDED": "赞赏公民体验计划预先登记已完结",
         "USER_WALLET_INVALID": "电子钱包错误",
         "TWITTER_LINK_ERROR": "无法连接 Twitter 帐户",
         "FACEBOOK_LINK_ERROR": "无法连接 Facebook 帐户"
@@ -1234,7 +1239,7 @@
             "subtitle": "喜欢这篇文章",
             "title": "化赞为赏 回馈创作",
             "createMyWidget": "Create my LikeCoin widget",
-            "createMyButton": "",
+            "createMyButton": "生成我的赞赏键",
             "followMeOn": "关注我的消息"
         },
         "button": {
@@ -1243,13 +1248,13 @@
     },
     "Pay": {
         "label": {
-            "needToPay": "",
-            "dontWorryWithoutLikeCoin": "",
-            "merchantNotFound": "",
-            "invalidTransaction": ""
+            "needToPay": "需支付",
+            "dontWorryWithoutLikeCoin": "没有 LikeCoin? 不用担心，立即申请 Liker ID 可擭得 13 LikeCoin 或以上",
+            "merchantNotFound": "找不到商户",
+            "invalidTransaction": "无效交易"
         },
         "button": {
-            "registrationTutorial": ""
+            "registrationTutorial": "申请 Liker ID 教学"
         }
     },
     "LikeButtonIntro": {
@@ -1274,7 +1279,7 @@
                 "plugin": "LikeCoin 插件"
             },
             "url": {
-                "instruction": ""
+                "instruction": "https://help.like.co/likecoin-%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C/%E7%94%A2%E5%93%81/%E5%A6%82%E4%BD%95%E5%9C%A8-wordpress-%E7%B6%B2%E7%AB%99%E4%B8%8A%E5%8A%A0%E5%85%A5-likebutton"
             }
         },
         "embedly": {
@@ -1286,13 +1291,13 @@
         "oice": {
             "name": "oice",
             "title": "{name} - 连结你的 Liker ID",
-            "content": "",
+            "content": "在 {oiceWebsite} 连结你的 Liker ID。在 oice.com 连结你的 Liker ID 以後，你创作的故事便会自动显示 LikeButton。 {oiceInstruction}",
             "caption": "LikeButton 会在故事旁自动显示出来",
             "label": {
                 "instruction": "点此教学"
             },
             "url": {
-                "instruction": ""
+                "instruction": "https://help.like.co/likecoin-%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C/%E7%94%A2%E5%93%81/%E5%A6%82%E4%BD%95%E5%9C%A8-oice-%E5%85%A7%E5%AE%B9%E4%B8%8A%E5%8A%A0%E5%85%A5-likebutton"
             }
         },
         "title": {
@@ -1301,14 +1306,14 @@
             "slogan": "立即把读者的点赞转化为收入吧",
             "campaign": "「化赞为赏」推广活动已经开始",
             "enroll": "参加活动",
-            "minTitle": ""
+            "minTitle": "让支持创作成为习惯"
         },
         "label": {
             "earn": "为你的创作加上重新设计的赞赏键 (LikeButton)，把读者的「点赞」化为收入；美观的赞赏键还可以成为你的个人品牌名片，让你跟读者保持紧密联繫。",
             "poc": "LikeCoin 以「创造力」为标准量度创意内容的重要性，并参考作品所获得的赞好，让内容创作者可以获得 LikeCoin 作为回报。我们称这做法为「创造力证明」。",
             "campaign": "立即以你的作品赚取 LIKE 吧！新的 LikeButton 目前已经支援三个平台： WordPress，Medium 及 oice。",
             "enroll": "在你的创作中加上 LikeButton，让你的读者为你点赞，就是这麽简单！我们正持续派出百万计的 LikeCoin 回馈创作，请把握机会立即加入吧！",
-            "minLabel": ""
+            "minLabel": "你只需点击嵌在作品中的「赞赏键」，作者便能获得奬赏。举手之劳，却意义重大。"
         },
         "button": {
             "startUsing": "开始使用"
@@ -1358,7 +1363,7 @@
         "changeUser": "不是 {name} ？重新登入"
     },
     "MigrateTokenDialog": {
-        "description": ""
+        "description": "LikeCoin chain 已上线！强烈建议你立即升级以解锁各项新功能，包括免费的代币钱包，委托验证人赚取回报，就社群议案投票等。"
     },
     "OtherConnectList": {
         "title": "其他帐号连接",
@@ -1373,22 +1378,22 @@
         "personalProfile": "个人页面"
     },
     "CivicLikerCTA": {
-        "title": "",
-        "content": "",
-        "buttonTitle": ""
+        "title": "赞赏公民体验计划",
+        "content": "少喝一杯咖啡，共创一个生态。立即成为赞赏公民，以实际行动回馈作者，建立更健康的网上内容生态。",
+        "buttonTitle": "登记"
     },
     "CivicLikerCTAForWaitingList": {
-        "content": "",
+        "content": "我们早前已收到你的申请，感谢支持赞赏公民。你已在等候申请队列中。请到{here}设定并验证你的电邮地址。当开放新一批赞赏公民名额时，我们会发电邮通知你。",
         "here": "这里",
         "buttonTitle": "已在伫列中"
     },
     "CivicLikerCTAForTrial": {
-        "content": "",
+        "content": "@:CivicLikerCTA.content",
         "buttonTitle": "立即升级"
     },
     "CivicLikerCTAForPaid": {
         "content": "你已经是赞赏公民了，感谢你以实际行动支持网上内容创作！",
-        "buttonTitle": ""
+        "buttonTitle": "@:General.learnMore"
     },
     "CivicLikerCTAForRenewal": {
         "content": "你的「赞赏公民」身份已经过期。请立即续订保持你的尊贵身份，网上内容需要你的继续灌溉才能开花结果。感谢你的支持。",
@@ -1418,36 +1423,36 @@
             "永久荣誉徽章"
         ],
         "countdown": {
-            "title": ""
+            "title": "体验回报创作者即将开始"
         },
         "pricing": {
             "type": {
-                "generalLiker": "",
-                "civicLiker": ""
+                "generalLiker": "一般读者",
+                "civicLiker": "赞赏公民"
             },
             "paymentCycle": {
-                "perMonth": ""
+                "perMonth": "/月"
             },
             "features": {
-                "ICRpool": "",
-                "ownRewardPool": "",
-                "communityVoting": "",
-                "bonusContent": "",
-                "idolNewsletter": "",
-                "offlineEvent": "",
-                "report": "",
-                "badges": ""
+                "ICRpool": "群众掌声投票支持作品",
+                "ownRewardPool": "100% 个人品味支持作品",
+                "communityVoting": "参与社群决策",
+                "bonusContent": "获取特别收录",
+                "idolNewsletter": "收取偶像个人通讯",
+                "offlineEvent": "参与线下活动",
+                "report": "详细赞助报告",
+                "badges": "永久荣誉徽章"
             }
         },
         "footnote": [
-            ""
+            "每月 US$5 到帐部分（部分支付方式如信用卡会收取手续费）会全数兑换成赞赏币，再由各地创作者自行兑换成当地货币。"
         ]
     },
     "CivicLikerTrial": {
-        "title": "",
-        "register": "",
-        "registered": "",
-        "subscriptionPeriod": "",
+        "title": "赞赏公民体验计划",
+        "register": "免费体验",
+        "registered": "已登记",
+        "subscriptionPeriod": "你的赞赏公民体验有效期为 {start} 至 {end}",
         "thankYou": "感谢申请",
         "waitingList": {
             "sorry": "很抱歉，活动名额暂时已满。"
@@ -1479,35 +1484,35 @@
     },
     "CivicLikerBeta": {
         "title": "赞赏公民",
-        "applying": "",
-        "apply": "",
-        "description": "",
+        "applying": "团队正在即时处理你的申请",
+        "apply": "我要申请成为赞赏公民",
+        "description": "请保留此页面开放，於右下角跟负责同事继续申请，过程一般不超过三分钟，谢谢。",
         "joinNow": "立即参与"
     },
     "CivicLikerRegister": {
         "title": "",
-        "applyNow": "",
-        "joinOice": "",
-        "thankYouForYourInterest": "",
+        "applyNow": "立即申请",
+        "joinOice": "升级赞助会员，正式成为赞赏公民",
+        "thankYouForYourInterest": "感谢申请",
         "waitingList": {
-            "title": "",
-            "header": "",
-            "description": "",
-            "descriptionWithEmail": "",
-            "descriptionWithoutEmail": ""
+            "title": "你已进入等候申请队列",
+            "header": "请留意下一轮开放申请的邀请电邮",
+            "description": "感谢你申请成为赞赏公民。很抱歉，目前的名额已满。",
+            "descriptionWithEmail": "@:CivicLikerRegister.waitingList.description 当开放新一批赞赏公民名额时，我们会发电邮至 {email} 通知你。",
+            "descriptionWithoutEmail": "@:CivicLikerRegister.waitingList.description 请到 {settingsPage} 设定并验证你的电邮地址。当开放新一批赞赏公民名额时，我们会发电邮通知你。"
         },
         "errorPopup": {
             "paid": {
-                "header": "",
-                "message": "",
-                "confirm": ""
+                "header": "你已是赞赏公民",
+                "message": "你早前已成功申请成为赞赏公民了。感谢支持。",
+                "confirm": "设定帐户"
             },
             "alreadyQueued": {
-                "header": "",
-                "message": "",
-                "messageWithEmail": "",
-                "messageWithoutEmail": "",
-                "confirm": ""
+                "header": "你已在等候申请队列中",
+                "message": "我们早前已收到你的申请。感谢支持赞赏公民。",
+                "messageWithEmail": "@:CivicLikerRegister.errorPopup.alreadyQueued.message 当开放新一批名额时，我们会发电邮至 {email} 通知你。",
+                "messageWithoutEmail": "@:CivicLikerRegister.errorPopup.alreadyQueued.message 请到 {settingsPage} 设定并验证你的电邮地址。当开放新一批赞赏公民名额时，我们会发电邮通知你。",
+                "confirm": "设定并验证电邮"
             },
             "unknown": {
                 "header": "噢！发生未知错误",
