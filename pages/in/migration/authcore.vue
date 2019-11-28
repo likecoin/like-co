@@ -8,8 +8,8 @@
     class="migration-authcore-dialog"
   >
     <div class="migration-authcore-dialog__content">
-      <h1>{{ $t('MigrationAuthCorePage.header') }}</h1>
-      <div>{{ $t('MigrationAuthCorePage.description') }}</div>
+      <h1 class="lc-text-align-center lc-font-size-32">{{ $t('MigrationAuthCorePage.header') }}</h1>
+      <div class="lc-margin-top-20">{{ $t('MigrationAuthCorePage.description') }}</div>
     </div>
     <auth-core-register
       :is-sign-in="false"
