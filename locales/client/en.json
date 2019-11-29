@@ -1492,7 +1492,7 @@
     "changeUser": "Not {name} ? Change your account"
   },
   "MigrateTokenDialog": {
-    "description": "LikeCoin chain is live! We highly recommended you upgrade now to unlock all the new features! With the new LikeCoin chain, you will be given a free token wallet, earn LikeCoin with the validators, vote for proposals etc."
+    "description": "New features available with LikeCoin chain. LikeCoin chain is designed to give you a brand new experience in the Republic of Liker Land. We recommend you to migrate your LikeCoin ERC-20 now to enjoy all-new features. The new LikeCoin token will be used to reward creators, validators, and payments. It will also represent the contribution and voting power of a Liker. After the migration, you may download our new app and start using your new LikeCoin."
   },
   "OtherConnectList": {
     "title": "Other Connection",

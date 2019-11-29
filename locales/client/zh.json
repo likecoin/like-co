@@ -1423,7 +1423,7 @@
     "changeUser": "不是 {name} ？重新登入"
   },
   "MigrateTokenDialog": {
-    "description": "LikeCoin chain 已上線！強烈建議你立即升級以解鎖各項新功能，包括免費的代幣錢包，委托驗證人賺取回報，就社群議案投票等。"
+    "description": "LikeCoin主鏈現已上線。這次為讚賞公民共和國的一個重要基建升級。如果你手持舊的 LikeCoin ERC-20 又或是在 MetaMask 上存有 LikeCoin，我們強烈建議你進行升級！新的 LikeCoin 容許你在 LikeCoin chain 上繼續打賞作者，投票，轉帳，甚至可以把閒置著的 LikeCoin 存放在 LikeCoin chain 生態中的驗證人處，並獲得一定百份比的回饋。升級後，你更可立即下載最新的 LikerLand 手機應用程式體驗指掌上的共和國。"
   },
   "OtherConnectList": {
     "title": "其他帳號連接",
