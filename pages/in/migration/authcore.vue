@@ -50,6 +50,7 @@ export default {
     ...mapActions([
       'setAuthCoreToken',
       'linkUserAuthPlatform',
+      'refreshUserInfo',
       'doPostAuthRedirect',
       'initAuthCoreCosmosWallet',
       'fetchAuthCoreCosmosWallet',
@@ -67,6 +68,7 @@ export default {
             cosmosWallet,
           },
         });
+        await this.refreshUserInfo();
         this.redirectAfterSignIn();
       }
     },
