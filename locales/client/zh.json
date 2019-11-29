@@ -543,6 +543,11 @@
       "優先參與不定期線下活動"
     ]
   },
+  "LikeCoinButtonBanner": {
+    "title": "讚賞，直接了當",
+    "description": "點一下嵌入在創作內容上的讚賞鍵，作者便獲得收益。一個小動作，卻有大影響。",
+    "ctaButtonText": "安裝讚賞鍵"
+  },
   "Footer": {
     "label": {
       "contract": "LikeCoin 智能合約: ",

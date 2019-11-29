@@ -513,6 +513,11 @@
             "优先参与不定期线下活动"
         ]
     },
+    "LikeCoinButtonBanner": {
+        "title": "赞赏，直接了当",
+        "description": "点一下嵌入在创作内容上的赞赏键，作者便获得收益。一个小动作，却有大影响。",
+        "ctaButtonText": "安装赞赏键"
+    },
     "Footer": {
         "label": {
             "contract": "LikeCoin 智能合约: ",

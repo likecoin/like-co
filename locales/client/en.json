@@ -543,6 +543,11 @@
       "Prioritized participation of offline events"
     ]
   },
+  "LikeCoinButtonBanner": {
+    "title": "A like from reader, earn rewards straightway",
+    "description": "Click on the LikeCoin button embedded in the creative works to reward the creators. A baby could do, but means a lot.",
+    "ctaButtonText": "Install LikeCoin Button"
+  },
   "Footer": {
     "label": {
       "contract": "LikeCoin Contract: ",
