@@ -16,6 +16,13 @@
         </div>
       </div>
     </section>
+    <section class="lc-container-0 lc-margin-top-48">
+      <div class="lc-container-1">
+        <div class="lc-container-2">
+          <LikeCoinButtonBanner />
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -23,6 +30,7 @@
 import { mapActions, mapGetters } from 'vuex';
 
 import AppBanner from '~/components/AppBanner';
+import LikeCoinButtonBanner from '~/components/LikeCoinButtonBanner';
 import VerifyEmailCta from '~/components/VerifyEmailCta';
 
 import EditIcon from '@/assets/icons/edit.svg';
@@ -35,6 +43,7 @@ export default {
   layout: 'in',
   components: {
     AppBanner,
+    LikeCoinButtonBanner,
     VerifyEmailCta,
   },
   data() {

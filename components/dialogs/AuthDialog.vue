@@ -141,7 +141,7 @@
               <h1 class="lc-font-size-32 lc-margin-bottom-16 lc-mobile">
                 {{ errorTitle }}
               </h1>
-              <p class="lc-font-size-16 lc-color-like-gray-4 lc-margin-bottom-32">
+              <p class="lc-font-size-16 lc-color-like-gray-4 lc-padding-bottom-32">
                 {{ errorMessage }}
               </p>
 
@@ -721,6 +721,11 @@ export default {
         case 'USER_ALREADY_EXIST':
         case 'USER_WALLET_INVALID':
           this.currentTab = 'register';
+          return;
+
+        case 'USE_AUTHCORE_LOGIN':
+          this.isUsingAuthCore = true;
+          this.currentTab = 'portal';
           return;
 
         default:

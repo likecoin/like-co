@@ -543,6 +543,11 @@
       "優先參與不定期線下活動"
     ]
   },
+  "LikeCoinButtonBanner": {
+    "title": "讚賞，直接了當",
+    "description": "點一下嵌入在創作內容上的讚賞鍵，作者便獲得收益。一個小動作，卻有大影響。",
+    "ctaButtonText": "安裝讚賞鍵"
+  },
   "Footer": {
     "label": {
       "contract": "LikeCoin 智能合約: ",
@@ -1153,6 +1158,7 @@
     "USER_ALREADY_EXIST": "Liker ID 已存在，請再試一次。",
     "USER_NOT_EXIST": "帳戶不存在",
     "USER_UNLINK_SOLE_OAUTH_LOGIN": "無法移除，請先連接其他登入方法",
+    "USE_AUTHCORE_LOGIN": "請使用其他登入方法",
     "REQUIRED_DESKTOP_CHROME": "此操作需使用電腦版 Chrome 瀏覽器",
     "FIREBASE_USER_DUPLICATED": "登入帳戶已被使用",
     "OICE_SERVER_ERROR": "伺服器錯誤，請重載網頁並重試。如重複出現該錯誤，請聯絡客服。",
