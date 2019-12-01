@@ -150,7 +150,7 @@ export const LIKE_CO_PLATFORMS = [
   },
   {
     name: 'twitter',
-    url: 'https://twitter.com/likecoin_fdn',
+    url: 'https://twitter.com/likecoin',
   },
   {
     name: 'youtube',
