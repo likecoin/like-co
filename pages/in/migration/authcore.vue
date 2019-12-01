@@ -25,7 +25,7 @@
 import { mapActions, mapGetters } from 'vuex';
 import AuthCoreRegister from '~/components/AuthCore/Register';
 import BaseDialogV2 from '~/components/dialogs/BaseDialogV2';
-import { tryPostLoginRedirect } from '~/util/client';
+// import { tryPostLoginRedirect } from '~/util/client';
 
 export default {
   name: 'in-migration-authcore',
@@ -74,11 +74,14 @@ export default {
     },
     async redirectAfterSignIn() {
       this.$nextTick(() => {
-        if (!tryPostLoginRedirect({ route: this.$route })) {
-          const router = this.$router;
-          const route = this.$route;
-          this.doPostAuthRedirect({ router, route });
-        }
+        /* TODO: fix this post login redirect
+          going to /in will not refresh page  */
+        // if (!tryPostLoginRedirect({ route: this.$route })) {
+        //   const router = this.$router;
+        //   const route = this.$route;
+        //   this.doPostAuthRedirect({ router, route });
+        // }
+        this.$router.push({ name: 'index' });
       });
     },
   },

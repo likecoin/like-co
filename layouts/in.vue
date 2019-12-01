@@ -48,12 +48,6 @@
               :md-label="$t('In.tab.overview')"
               to="/in"
             />
-            <md-tab
-              v-if="!getUserLikeCoinAmountIsZero"
-              id="in-reward-records"
-              :md-label="$t('In.tab.rewardRecords')"
-              to="/in/reward/records"
-            />
 
           </md-tabs>
         </div>
@@ -119,7 +113,6 @@ export default {
     ...mapGetters([
       'getUserInfo',
       'getUserHasWallet',
-      'getUserLikeCoinAmountIsZero',
       'getUserHasERC20LikeCoin',
       'getUserERC20LikeCoinAmounInBigNumber',
     ]),
@@ -131,6 +124,13 @@ export default {
     if (this.getUserHasERC20LikeCoin) {
       this.isShowMigrationDialog = true;
     }
+  },
+  watch: {
+    getUserHasERC20LikeCoin(has) {
+      if (has) {
+        this.isShowMigrationDialog = true;
+      }
+    },
   },
 };
 </script>
