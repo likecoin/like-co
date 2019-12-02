@@ -33,7 +33,11 @@ export default {
         },
       ],
       link: [
-        { rel: 'preload', href: `${AUTHCORE_API_HOST}/api/authapi/authcore.swagger.json` },
+        {
+          rel: 'preload',
+          href: `${AUTHCORE_API_HOST}/api/authapi/authcore.swagger.json`,
+          as: 'script',
+        },
       ],
     };
   },
