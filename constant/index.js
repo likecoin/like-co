@@ -12,7 +12,7 @@ export const ETHERSCAN_HOST = IS_TESTNET ? 'https://rinkeby.etherscan.io' : 'htt
 
 export const INFURA_HOST = IS_TESTNET ? 'https://rinkeby.infura.io/v3/9a6771595426445cb247e83d4ad85645' : 'https://mainnet.infura.io/v3/9a6771595426445cb247e83d4ad85645';
 
-export const AUTHCORE_API_HOST = IS_TESTNET ? 'https://likecoin-integration-test.authcore.io' : 'https://likecoin-integration-test.authcore.io';
+export const AUTHCORE_API_HOST = IS_TESTNET ? 'https://likecoin-integration-test.authcore.io' : 'https://authcore.like.co';
 
 export const ETH_NETWORK_NAME = IS_TESTNET ? 'rinkeby' : 'mainnet';
 
