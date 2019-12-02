@@ -5,6 +5,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import { tryPostLoginRedirect, isIOS } from '~/util/client';
+import { AUTHCORE_API_HOST } from '~/constant';
 
 import { logTrackerEvent, logTimingEvent } from '@/util/EventLogger';
 
@@ -30,6 +31,9 @@ export default {
           property: 'og:description',
           content: this.$t('Register.header.title'),
         },
+      ],
+      link: [
+        { rel: 'preload', href: `${AUTHCORE_API_HOST}/api/authapi/authcore.swagger.json` },
       ],
     };
   },
