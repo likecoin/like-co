@@ -750,6 +750,7 @@ export default {
     },
     onClickUseLegacyButton() {
       this.isUsingAuthCore = false;
+      this.signInWithPlatform('wallet');
     },
     onClickBackButton() {
       if (!this.isUsingAuthCore) {
