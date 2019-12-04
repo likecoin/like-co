@@ -19,7 +19,11 @@
       slot="header-left"
       class="auth-dialog__header-left"
     >
-      <a v-if="isUsingAuthCore" @click="onClickUseLegacyButton">
+      <a
+        v-if="isUsingAuthCore"
+        class="auth-dialog__legacy-login-button"
+        @click="onClickUseLegacyButton"
+      >
         {{ $t('AuthDialog.SignInWithLegacy.title') }}
       </a>
       <a v-else @click="onClickBackButton">{{ $t('General.back') }}</a>
@@ -1135,6 +1139,30 @@ export default {
     align-items: center;
 
     padding-right: 16px;
+  }
+
+  &__legacy-login-button {
+    $login-button-color: #F79220;
+
+    display: inline-block;
+
+    padding: 4px 8px;
+
+    text-decoration: none !important;
+
+    color: white !important;
+    border: 1px solid darken($login-button-color, 2);
+    border-bottom-width: 2px;
+    border-bottom-color: darken($login-button-color, 10);
+    border-radius: 8px;
+
+    background-color: $login-button-color;
+
+    font-weight: bold;
+
+    &:hover {
+      background-color: darken($login-button-color, 5);
+    }
   }
 
   &__login-button {
