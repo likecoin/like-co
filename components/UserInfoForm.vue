@@ -160,6 +160,7 @@
                 </nuxt-link>
               </div>
 
+              <!-- Temporary hide P2P
               <div
                 v-if="getUserHasWallet"
                 class="address-field"
@@ -184,6 +185,7 @@
                   </md-button>
                 </div>
               </div>
+              -->
 
             </div>
           </div>
