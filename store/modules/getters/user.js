@@ -1,5 +1,8 @@
 import BigNumber from 'bignumber.js';
-import { ETH_MIGRATION_MIN_LIKECOIN_AMOUNT } from '~/constant';
+import {
+  ONE_LIKE,
+  ETH_MIGRATION_MIN_LIKECOIN_AMOUNT,
+} from '~/constant';
 
 export const getUserInfo = state => state.user;
 
@@ -36,9 +39,13 @@ export const getUserLikeCoinAmountIsZero = state => (
   || state.likeCoinAmountInBigNumber.isZero()
 );
 
-export const getUserHasERC20LikeCoin = state => !!(state.likecoinAmountObject
-  && state.likecoinAmountObject.walletLIKE
-  && new BigNumber(state.likecoinAmountObject.walletLIKE).gte(ETH_MIGRATION_MIN_LIKECOIN_AMOUNT));
+export const getUserHasERC20LikeCoin = (state) => {
+  const { likecoinAmountObject } = state;
+  if (!likecoinAmountObject) return false;
+  const { walletLIKE } = likecoinAmountObject;
+  if (!walletLIKE) return false;
+  return new BigNumber(walletLIKE).multipliedBy(ONE_LIKE).gte(ETH_MIGRATION_MIN_LIKECOIN_AMOUNT);
+};
 
 export const getUserERC20LikeCoinAmounInBigNumber = state => state.likecoinAmountObject.walletLIKE;
 
