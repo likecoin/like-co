@@ -73,3 +73,13 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+#authcore-register-container {
+  > iframe {
+    @media screen and (max-width: 536px) {
+      width: 100vw !important;
+    }
+  }
+}
+</style>
