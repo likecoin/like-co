@@ -76,6 +76,8 @@ export default {
 
 <style lang="scss">
 #authcore-register-container {
+  padding: 24px 0 32px;
+
   > iframe {
     @media screen and (max-width: 536px) {
       width: 100vw !important;
