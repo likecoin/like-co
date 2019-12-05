@@ -1673,7 +1673,7 @@
     "button": {
       "profile": "Profile",
       "settings": "Settings",
-      "reAuthNeeded:": "Please Reautheticate in AuthCore"
+      "reAuthNeeded": "Please Reautheticate in AuthCore"
     },
     "Settings": {
       "title": "AuthCore Settings"

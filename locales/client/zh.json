@@ -1601,7 +1601,7 @@
     "button": {
       "profile": "個人檔案",
       "settings": "安全設定",
-      "reAuthNeeded:": "請重新於 AuthCore 登入"
+      "reAuthNeeded": "請重新於 AuthCore 登入"
     },
     "Settings": {
       "title": "AuthCore 設定"
