@@ -349,7 +349,7 @@ export default {
     isEmailEditable() {
       return (
         !(this.signInPayload.isEmailVerified && this.signInPayload.email)
-        && this.platform !== 'email'
+        && this.platform !== 'authcore'
       );
     },
     shouldShowHeader() {

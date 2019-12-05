@@ -207,7 +207,8 @@ export default {
     },
     isEmailValid() {
       return (
-        !this.isEditEmail
+        this.isHideFilledInfo
+        || !this.isEditEmail
         || (this.isEmailFormatValid && !this.isEmailContainsInvalidCharacter)
       );
     },
