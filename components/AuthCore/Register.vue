@@ -54,6 +54,7 @@ export default {
       container: 'authcore-register-container',
       root: `${AUTHCORE_API_HOST}/widgets`,
       initialScreen: this.isSignIn ? 'signin' : 'register',
+      internal: true,
       contact: this.email,
       language: this.authCoreLanguage,
       onSuccess: async (data) => {
