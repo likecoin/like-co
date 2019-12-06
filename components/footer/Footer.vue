@@ -25,15 +25,12 @@
   </footer>
 </template>
 <script>
-import BigNumber from 'bignumber.js';
-import EthHelper from '@/util/EthHelper';
 import { setTrackerUserId } from '@/util/EventLogger';
 
 import { mapGetters } from 'vuex';
 import {
   BIGDIPPER_HOST,
   ETHERSCAN_HOST,
-  ONE_LIKE,
 } from '@/constant';
 
 export default {
@@ -64,6 +61,7 @@ export default {
         displayName,
         email,
         wallet,
+        cosmosWallet,
       } = e;
       if (this.$intercom) {
         const opt = { LikeCoin: true };
@@ -73,8 +71,9 @@ export default {
         if (email) opt.email = email;
         if (wallet) {
           opt.wallet = wallet;
-          const amount = await EthHelper.queryEthBalance(wallet);
-          opt.ETH = Number(new BigNumber(amount).dividedBy(ONE_LIKE).toFixed(4));
+        }
+        if (cosmosWallet) {
+          opt.cosmos_wallet = cosmosWallet;
         }
         this.$intercom.update(opt);
       }
@@ -138,6 +137,7 @@ export default {
       displayName,
       email,
       wallet,
+      cosmosWallet,
     } = this.getUserInfo;
     if (this.$intercom) {
       const language = this.getCurrentLocale;
@@ -149,12 +149,9 @@ export default {
       if (language) opt.language = language;
       if (wallet) {
         opt.wallet = wallet;
-        EthHelper.queryEthBalance(wallet)
-          .then((amount) => {
-            const ETH = new BigNumber(amount).dividedBy(ONE_LIKE).toFixed(4);
-            this.$intercom.update({ ETH: Number(ETH) });
-          })
-          .catch(err => console.error(err));
+      }
+      if (cosmosWallet) {
+        opt.cosmos_wallet = cosmosWallet;
       }
       this.$intercom.boot(opt);
     }
