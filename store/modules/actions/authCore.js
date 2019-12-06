@@ -14,6 +14,7 @@ export async function setAuthCoreToken({ commit, state, dispatch }, accessToken)
       await dispatch('initAuthCoreClient');
     }
     await dispatch('initAuthCoreWalletService');
+    await dispatch('fetchAuthCoreOAuthFactors');
   } else {
     if (window.localStorage) window.localStorage.removeItem('authcore.accessToken');
     await dispatch('clearAuthCoreAllClients');
@@ -74,6 +75,12 @@ export async function clearAuthCoreAllClients({ commit }) {
   commit(types.AUTHCORE_SET_AUTH_CLIENT, null);
   commit(types.AUTHCORE_SET_KV_CLIENT, null);
   commit(types.AUTHCORE_SET_COSMOS_PROVIDER, null);
+  commit(types.AUTHCORE_SET_OAUTH_FACTORS, null);
+}
+
+export async function fetchAuthCoreOAuthFactors({ state, commit }) {
+  const platforms = await state.authClient.listOAuthFactors();
+  commit(types.AUTHCORE_SET_OAUTH_FACTORS, platforms);
 }
 
 export async function fetchAuthCoreCosmosWallet({ state }) {

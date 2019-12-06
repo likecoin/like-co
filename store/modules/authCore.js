@@ -5,6 +5,7 @@ import {
   AUTHCORE_SET_AUTH_CLIENT,
   AUTHCORE_SET_KV_CLIENT,
   AUTHCORE_SET_COSMOS_PROVIDER,
+  AUTHCORE_SET_OAUTH_FACTORS,
 } from '../mutation-types';
 import * as actions from './actions/authCore';
 import * as getters from './getters/authCore';
@@ -14,6 +15,7 @@ const state = () => ({
   authClient: null,
   kvClient: null,
   cosmosProvider: null,
+  oAuthFactors: [],
 });
 
 const mutations = {
@@ -28,6 +30,9 @@ const mutations = {
   },
   [AUTHCORE_SET_COSMOS_PROVIDER](state, cosmosProvider) {
     state.cosmosProvider = cosmosProvider;
+  },
+  [AUTHCORE_SET_OAUTH_FACTORS](state, oAuthFactors) {
+    state.oAuthFactors = oAuthFactors;
   },
 };
 

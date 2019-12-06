@@ -45,8 +45,7 @@ export default {
       'getCurrentLocale',
       'getInfoMsg',
       'getInfoIsError',
-      'getUserSocialPlatforms',
-      'getUserAuthPlatforms',
+      'getAuthCoreOAuthFactors',
       'getUserLikeCoinAmountInBigNumber',
     ]),
     getAddress() {
@@ -62,6 +61,7 @@ export default {
         email,
         wallet,
         cosmosWallet,
+        isAuthCore,
       } = e;
       if (this.$intercom) {
         const opt = { LikeCoin: true };
@@ -74,6 +74,9 @@ export default {
         }
         if (cosmosWallet) {
           opt.cosmos_wallet = cosmosWallet;
+        }
+        if (isAuthCore) {
+          opt.binded_authcore = true;
         }
         this.$intercom.update(opt);
       }
@@ -101,23 +104,12 @@ export default {
         this.$intercom.trackEvent('likecoin-store_error', { message });
       }
     },
-    getUserSocialPlatforms(platforms) {
+    getAuthCoreOAuthFactors(factors) {
       if (this.$intercom) {
-        const platformList = Object.keys(platforms);
-        const opt = platformList.reduce((accumOpt, platform) => {
+        const services = factors.map(f => f.service);
+        const opt = services.reduce((accumOpt, service) => {
           // eslint-disable-next-line no-param-reassign
-          accumOpt[`binded_${platform}`] = true; // platform key exists only when binded
-          return accumOpt;
-        }, {});
-        this.$intercom.update(opt);
-      }
-    },
-    getUserAuthPlatforms(platforms) {
-      if (this.$intercom) {
-        const platformList = Object.keys(platforms);
-        const opt = platformList.reduce((accumOpt, platform) => {
-          // eslint-disable-next-line no-param-reassign
-          accumOpt[`binded_${platform}`] = true; // platform key exists only when binded
+          if (service) accumOpt[`binded_${service.toLowerCase()}`] = true;
           return accumOpt;
         }, {});
         this.$intercom.update(opt);
@@ -138,6 +130,7 @@ export default {
       email,
       wallet,
       cosmosWallet,
+      isAuthCore,
     } = this.getUserInfo;
     if (this.$intercom) {
       const language = this.getCurrentLocale;
@@ -153,7 +146,17 @@ export default {
       if (cosmosWallet) {
         opt.cosmos_wallet = cosmosWallet;
       }
-      this.$intercom.boot(opt);
+      if (isAuthCore) {
+        opt.binded_authcore = true;
+      }
+      const factors = this.getAuthCoreOAuthFactors;
+      const services = factors.map(f => f.service);
+      const socialOpt = services.reduce((accumOpt, service) => {
+        // eslint-disable-next-line no-param-reassign
+        if (service) accumOpt[`binded_${service.toLowerCase()}`] = true;
+        return accumOpt;
+      }, {});
+      this.$intercom.boot({ ...opt, ...socialOpt });
     }
     if (user) {
       if (this.$sentry) {
