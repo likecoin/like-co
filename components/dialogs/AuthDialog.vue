@@ -86,6 +86,7 @@
               v-if="isUsingAuthCore"
               :is-sign-in="isSignIn"
               :language="getCurrentLocale"
+              @loaded="onAuthCoreLoaded"
               @success="signInWithAuthCore"
             />
             <signin-portal
@@ -814,7 +815,11 @@ export default {
         this.authCoreLogoutUser();
       }
     },
+    onAuthCoreLoaded() {
+      this.logRegisterEvent(this, 'RegFlow', 'AuthCoreDialogLoaded', 'AuthCoreDialogLoaded', 1);
+    },
     async signInWithAuthCore({ accessToken, currentUser, idToken }) {
+      this.logRegisterEvent(this, 'RegFlow', 'AuthCoreSignInSuccess', 'AuthCoreSignInSuccess', 1);
       await this.setAuthCoreToken(accessToken);
       this.currentTab = 'loading';
       this.platform = 'authcore';
