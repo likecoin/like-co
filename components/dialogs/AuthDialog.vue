@@ -451,14 +451,14 @@ export default {
             // Add show_login=1 in query string
             query.show_login = '1';
             if (isSignIn) {
-              query.login = '1';
+              delete query.register;
             } else {
-              delete query.login;
+              query.register = '1';
             }
           } else {
-            // Remove show_login and login in query string
+            // Remove show_login and register in query string
             delete query.show_login;
-            delete query.login;
+            delete query.register;
           }
           this.$router.replace({ path: this.$route.path, query });
         }
@@ -523,7 +523,7 @@ export default {
     if (this.$route.query.show_login === '1') {
       this.setAuthDialog({
         isShow: true,
-        isSignIn: this.$route.query.login === '1',
+        isSignIn: this.$route.query.register !== '1',
       });
     }
 
