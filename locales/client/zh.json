@@ -1159,6 +1159,7 @@
     "USER_NOT_EXIST": "帳戶不存在",
     "USER_UNLINK_SOLE_OAUTH_LOGIN": "無法移除，請先連接其他登入方法",
     "USE_AUTHCORE_LOGIN": "你的帳號已經成功轉換到 LikeCoin chain ，請使用你新設定的登入方法登入",
+    "WALLET_REGISTER_DEPRECATED": "你的 MetaMask 錢包並未註冊任何 Liker ID，如需註冊新帳號，請返回使用 Authcore",
     "REQUIRED_DESKTOP_CHROME": "此操作需使用電腦版 Chrome 瀏覽器",
     "FIREBASE_USER_DUPLICATED": "登入帳戶已被使用",
     "OICE_SERVER_ERROR": "伺服器錯誤，請重載網頁並重試。如重複出現該錯誤，請聯絡客服。",

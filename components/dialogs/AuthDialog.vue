@@ -728,6 +728,7 @@ export default {
           return;
 
         case 'USE_AUTHCORE_LOGIN':
+        case 'WALLET_REGISTER_DEPRECATED':
           this.isUsingAuthCore = true;
           this.currentTab = 'portal';
           return;
@@ -871,7 +872,7 @@ export default {
       } catch (err) {
         if (err.response) {
           if (err.response.status === 404) {
-            this.setError(err.message, err);
+            this.setError('WALLET_REGISTER_DEPRECATED', err);
             return;
           }
         }
