@@ -1550,5 +1550,10 @@
     "MigrationAuthCorePage": {
         "header": "重新设定密码",
         "description": "最後步骤：由於LikeCoin chain 现已上线，请为你的Liker ID 重新设定密码以配合最新的软体升级。当你完成帐户设定後，我们会进一步提供LikeCoin转换流程。"
+    },
+    "CosmosMigrationBanner": {
+        "title": "LikeCoin chain 正式启用！",
+        "subtitle": "现在便可到网站上转换 LikeCoin。LikeCoin chain 将不会支援旧版 LikeCoin ERC-20 的操作，基金会和赞赏公民的所有运作亦会在 LikeCoin chain上开始执行。",
+        "actionButtonText": "立即转换"
     }
 }
