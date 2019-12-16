@@ -508,6 +508,9 @@
       "title": {
         "seeOn": "See LikeCoin on:",
         "buyOn": "Buy LikeCoin on:"
+      },
+      "liquid": {
+        "footnote": "Support LikeCoin ERC-20 Only"
       }
     },
     "LikeButtonDemo": {

@@ -508,6 +508,9 @@
       "title": {
         "seeOn": "查找 LikeCoin 資訊：",
         "buyOn": "購買 LikeCoin："
+      },
+      "liquid": {
+        "footnote": "只支持 LikeCoin ERC-20"
       }
     },
     "LikeButtonDemo": {

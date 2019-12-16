@@ -478,6 +478,9 @@
             "title": {
                 "seeOn": "查找 LikeCoin 资讯：",
                 "buyOn": "购买 LikeCoin："
+            },
+            "liquid": {
+                "footnote": "只支持 LikeCoin ERC-20"
             }
         },
         "LikeButtonDemo": {
