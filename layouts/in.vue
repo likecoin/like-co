@@ -26,33 +26,6 @@
           </div>
         </div>
 
-        <!-- BEGIN - Tab bar section -->
-        <div class="lc-container-1">
-          <div class="underlay gray" />
-          <md-tabs
-            :md-active-tab="$route.name"
-            class="lc-tabs lc-container-2 lc-width-2-3 md-transparent"
-          >
-
-            <template
-              slot-scope="{ tab }"
-              slot="md-tab"
-            >
-              <span :class="['lc-tab-item-label', { new: tab.data.isNew }]">
-                {{ tab.label }}
-              </span>
-            </template>
-
-            <md-tab
-              id="in"
-              :md-label="$t('In.tab.overview')"
-              to="/in"
-            />
-
-          </md-tabs>
-        </div>
-        <!-- END - Tab bar section -->
-
         <div class="tab-wrapper">
           <nuxt />
         </div>
