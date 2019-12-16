@@ -160,6 +160,6 @@ export const LIKE_CO_PLATFORMS = [
   },
   {
     name: 'facebook',
-    url: 'https://www.facebook.com/likecoin.foundation',
+    url: 'https://www.facebook.com/Liker.Land',
   },
 ];
