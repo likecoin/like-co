@@ -25,7 +25,6 @@
 <script>
 import AppScreenshotPreview from '~/components/AppScreenshotPreview';
 import { getLikerLandAppURL, getLikerLandURL } from '@/util/api/api';
-import { checkIsMobileClient } from '~/util/client';
 import { logTrackerEvent } from '@/util/EventLogger';
 
 export default {
@@ -37,11 +36,6 @@ export default {
   computed: {
     getLikerLandAppURL,
     getLikerLandURL,
-  },
-  mounted() {
-    if (!checkIsMobileClient()) {
-      this.$router.push({ name: 'in' });
-    }
   },
   methods: {
     onClickDownloadApp() {
