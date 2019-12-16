@@ -1076,7 +1076,8 @@ export default {
       this.hasClickSignWithWalletInError = false;
     },
     logRegisterEvent(...args) {
-      if (!this.isSignIn) logTrackerEvent(...args);
+      /* TODO: implement conditional log on !this.isSignIn */
+      return logTrackerEvent(...args);
     },
     logShowAuthDialog(isShow) {
       if (isShow && !this.loggedEvents.showAuthDialog) {
