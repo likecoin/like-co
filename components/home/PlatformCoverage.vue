@@ -71,6 +71,10 @@
                     target="_blank"
                   >
                     <img v-lazy="getImageSrc(p.image)">
+                    <div
+                      v-if="$i18n.te(`Home.PlatformCoverage.${p.id}.footnote`)"
+                      class="platform-coverage__footnote"
+                    >{{ $t(`Home.PlatformCoverage.${p.id}.footnote`) }}</div>
                   </a>
                 </div>
               </div>
@@ -115,19 +119,14 @@ const TRADE_PLATFORMS = [
     url: PURCHASE_LIKE_URL,
   },
   {
+    id: 'myethshop',
+    image: 'myethshop.png',
+    url: 'https://www.myethshop.com/',
+  },
+  {
     id: 'liquid',
     image: 'liquid.png',
     url: 'https://app.liquid.com/exchange/LIKEETH',
-  },
-  // { ----------- pending for support
-  //   id: 'myethshop',
-  //   image: 'myethshop.png',
-  //   url: '',
-  // } ----------- pending for support
-  {
-    id: 'idex',
-    image: 'idex.png',
-    url: 'https://idex.market/eth/like',
   },
 ];
 const platformImages = require.context('@/assets/platforms');
@@ -212,9 +211,12 @@ export default {
   }
 
   &__platform {
+    position: relative;
+
     display: block;
 
     margin: 6px;
+    margin-bottom: 20px;
 
     img {
       width: 100%;
@@ -230,6 +232,18 @@ export default {
         transform: translateY(-4px);
       }
     }
+  }
+
+  &__footnote {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+
+    text-align: center;
+
+    font-size: 10px;
+    font-style: italic;
   }
 }
 

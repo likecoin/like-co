@@ -508,6 +508,9 @@
       "title": {
         "seeOn": "查找 LikeCoin 資訊：",
         "buyOn": "購買 LikeCoin："
+      },
+      "liquid": {
+        "footnote": "只支持 LikeCoin ERC-20"
       }
     },
     "LikeButtonDemo": {
@@ -1614,5 +1617,10 @@
   "MigrationAuthCorePage": {
     "header": "重新設定密碼",
     "description": "最後步驟：由於LikeCoin chain 現已上線，請為你的Liker ID 重新設定密碼以配合最新的軟體升級。當你完成帳戶設定後，我們會進一步提供LikeCoin轉換流程。"
+  },
+  "CosmosMigrationBanner": {
+    "title": "LikeCoin chain 正式啟用！",
+    "subtitle": "現在便可到網站上轉換 LikeCoin。LikeCoin chain 將不會支援舊版 LikeCoin ERC-20 的操作，基金會和讚賞公民的所有運作亦會在 LikeCoin chain上開始執行。",
+    "actionButtonText": "立即轉換"
   }
 }

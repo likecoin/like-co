@@ -508,6 +508,9 @@
       "title": {
         "seeOn": "See LikeCoin on:",
         "buyOn": "Buy LikeCoin on:"
+      },
+      "liquid": {
+        "footnote": "Support LikeCoin ERC-20 Only"
       }
     },
     "LikeButtonDemo": {
@@ -533,7 +536,7 @@
   },
   "AppBanner": {
     "title": "Reinventing the Like, open with app",
-    "downloadButtonText": "Downlown now",
+    "downloadButtonText": "Download now",
     "features": [
       "Help distribute Creators Fund with your Like",
       "Distribute your own monthly fee in full amount with your Like",
@@ -1686,5 +1689,10 @@
   "MigrationAuthCorePage": {
     "header": "Enter a new password",
     "description": "You are one step away from setting up your Liker ID account. LikeCoin chain is now live. Set up your new password and this will update your password for all future log-in attempts with our latest upgrade. We will provide more infomation in the next step on how to migrate your token.You are one step away from setting up your Liker ID account. LikeCoin chain is now live. Set up your new password and this will update your password for all future log-in attempts with our latest upgrade. We will provide more infomation in the next step on how to migrate your token."
+  },
+  "CosmosMigrationBanner": {
+    "title": "It's time to migrate",
+    "subtitle": "Migrate to the new LikeCoin and enjoy the new LikeCoin chain.",
+    "actionButtonText": "Migrate now"
   }
 }

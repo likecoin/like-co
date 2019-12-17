@@ -11,7 +11,7 @@
 
     <section class="lc-container-0 lc-mobile-hide">
       <div class="lc-container-1">
-        <home-banner />
+        <home-banner :username="username" />
       </div>
     </section>
 
@@ -164,6 +164,9 @@ export default {
     ]),
     isMobileSize() {
       return this.breakpoint.name === 'xs';
+    },
+    username() {
+      return this.getUserInfo ? this.getUserInfo.user : '';
     },
   },
   head() {
