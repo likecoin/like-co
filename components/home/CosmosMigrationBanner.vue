@@ -19,17 +19,19 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import { getMigrationSiteURL } from '@/util/api/api';
 
 export default {
   name: 'cosmos-migration-banner',
+  props: {
+    username: {
+      type: String,
+      default: '',
+    },
+  },
   computed: {
-    ...mapGetters([
-      'getUserInfo',
-    ]),
     migrationURL() {
-      return getMigrationSiteURL(this.getUserInfo ? this.getUserInfo.user : '');
+      return getMigrationSiteURL(this.username ? this.username : '');
     },
   },
 };

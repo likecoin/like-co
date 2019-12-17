@@ -2,7 +2,7 @@
   <div class="home-banner lc-container-2">
 
     <div class="home-banner__wrapper">
-      <Banner />
+      <Banner :username="username" />
     </div>
 
     <div class="home-banner__bottom-underlay" />
@@ -11,12 +11,21 @@
 
 
 <script>
+import { mapGetters } from 'vuex';
 import Banner from './CosmosMigrationBanner';
 
 export default {
   name: 'home-banner',
   components: {
     Banner,
+  },
+  computed: {
+    ...mapGetters([
+      'getUserInfo',
+    ]),
+    username() {
+      return this.getUserInfo ? this.getUserInfo.user : '';
+    },
   },
 };
 </script>
