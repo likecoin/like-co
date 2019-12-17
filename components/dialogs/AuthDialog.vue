@@ -86,6 +86,7 @@
               v-if="isUsingAuthCore"
               :is-sign-in="isSignIn"
               :language="getCurrentLocale"
+              :redirect-url="getAuthCoreRedirectUrl"
               @loaded="onAuthCoreLoaded"
               @success="signInWithAuthCore"
             />
@@ -241,6 +242,7 @@ import {
   MIN_USER_ID_LENGTH,
   MAX_USER_ID_LENGTH,
   LOGIN_CONNECTION_LIST,
+  EXTERNAL_HOSTNAME,
 } from '@/constant';
 
 import {
@@ -255,6 +257,7 @@ import {
 } from '@/util/api/api';
 
 import { checkUserNameValid } from '@/util/ValidationHelper';
+
 
 import AuthCoreRegister from '~/components/AuthCore/Register';
 import BaseDialogV2 from '~/components/dialogs/BaseDialogV2';
@@ -423,6 +426,22 @@ export default {
           return this.$t('General.button.confirm');
       }
     },
+    shouldRedirect() {
+      return (this.$route.query.is_popup === '1'
+        || this.isMobileClient
+        || !!window.opener
+      );
+    },
+    getAuthCoreRedirectUrl() {
+      if (!this.shouldRedirect) return '';
+      let url = `https://${EXTERNAL_HOSTNAME}/in/register?`;
+      url += 'redirect_sign_in=1&sign_in_platform=authcore';
+      const { redirect } = this.$route.query;
+      if (redirect) {
+        url += `&redirect=${redirect}`;
+      }
+      return url;
+    },
   },
   watch: {
     getAuthDialogStatus: {
@@ -542,10 +561,19 @@ export default {
 
       try {
         if (signInPlatform) {
-          const { code, state } = this.$route.query;
-          this.platform = signInPlatform;
-          this.signInPayload = await getAuthPlatformSignInPayload(signInPlatform, { code, state });
-          if (this.signInPayload) this.login();
+          if (signInPlatform === 'authcore') {
+            const { code } = this.$route.query;
+            const payload = await this.fetchAuthCoreAccessTokenAndUser(code);
+            await this.signInWithAuthCore(payload);
+          } else {
+            const { code, state } = this.$route.query;
+            this.platform = signInPlatform;
+            this.signInPayload = await getAuthPlatformSignInPayload(
+              signInPlatform,
+              { code, state },
+            );
+            if (this.signInPayload) this.login();
+          }
         }
       } catch (err) {
         // eslint-disable-next-line no-console
@@ -598,6 +626,7 @@ export default {
       'toggleAuthDialogIsSignIn',
       'setWalletNoticeDialog',
       'openPopupDialog',
+      'fetchAuthCoreAccessTokenAndUser',
       'setAuthCoreToken',
       'initAuthCoreCosmosWallet',
       'fetchAuthCoreCosmosWallet',

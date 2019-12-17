@@ -4,6 +4,17 @@ import { AUTHCORE_API_HOST } from '@/constant';
 
 const { AuthcoreVaultClient, AuthcoreCosmosProvider } = require('secretd-js');
 
+export async function fetchAuthCoreAccessTokenAndUser(context, code) {
+  const authClient = await new AuthCoreAuthClient({
+    apiBaseURL: AUTHCORE_API_HOST,
+  });
+  const token = await authClient.createAccessToken(code);
+  await authClient.setAccessToken(token.access_token);
+  const currentUser = await authClient.getCurrentUser;
+  const { access_token: accessToken, id_token: idToken } = token;
+  return { accessToken, currentUser, idToken };
+}
+
 export async function setAuthCoreToken({ commit, state, dispatch }, accessToken) {
   commit(types.AUTHCORE_SET_ACCESS_TOKEN, accessToken);
   if (accessToken) {
