@@ -73,6 +73,20 @@ const teamMembers = [
     ],
   },
   {
+    key: 'phoebe',
+    platforms: [
+      {
+        key: 'like',
+        to: getLikePlatformToObject('phoebe_fb'),
+        isInternal: true,
+      },
+      {
+        key: 'linkedin',
+        to: 'https://www.linkedin.com/in/poonphoebe',
+      },
+    ],
+  },
+  {
     key: 'chung',
     platforms: [
       {
