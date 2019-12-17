@@ -11,7 +11,6 @@
 
 
 <script>
-import { mapGetters } from 'vuex';
 import Banner from './CosmosMigrationBanner';
 
 export default {
@@ -19,12 +18,10 @@ export default {
   components: {
     Banner,
   },
-  computed: {
-    ...mapGetters([
-      'getUserInfo',
-    ]),
-    username() {
-      return this.getUserInfo ? this.getUserInfo.user : '';
+  props: {
+    username: {
+      type: String,
+      default: '',
     },
   },
 };
