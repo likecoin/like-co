@@ -45,7 +45,7 @@
     "@likecoin/vue-image-lightbox": "^5.5.4",
     "@likecoin/vue-intercom": "^1.0.12-like.1",
     "@likecoin/vue-simple-svg": "^1.4.1",
-    "@lunie/cosmos-api": "^0.2.2",
+    "@lunie/cosmos-api": "^0.2.3",
     "@nuxtjs/google-tag-manager": "^2.1.4",
     "@nuxtjs/sentry": "^3.0.1",
     "authcore-js": "git+https://gitlab.com/blocksq/authcore-js.git",
