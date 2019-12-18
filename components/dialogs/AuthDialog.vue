@@ -20,7 +20,7 @@
       class="auth-dialog__header-left"
     >
       <a
-        v-if="isUsingAuthCore"
+        v-if="isUsingAuthCore && !isMobileClient"
         class="auth-dialog__legacy-login-button"
         @click="onClickUseLegacyButton"
       >
@@ -270,6 +270,7 @@ import LikeCoinLogo from '~/assets/logo/icon-plain.svg';
 import { logTrackerEvent, logTimingEvent } from '@/util/EventLogger';
 import {
   tryPostLoginRedirect,
+  checkIsMobileClient,
 } from '~/util/client';
 
 function getRandomPaddedDigits(length) {
@@ -319,6 +320,7 @@ export default {
 
       hasClickSignWithWalletInError: false,
       isUsingAuthCore: true,
+      isMobileClient: false,
     };
   },
   computed: {
@@ -491,6 +493,7 @@ export default {
     },
   },
   async mounted() {
+    this.isMobileClient = checkIsMobileClient();
     this.currentTab = 'portal';
 
     this.loggedEvents = {};
