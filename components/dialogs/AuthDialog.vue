@@ -828,12 +828,10 @@ export default {
       this.platform = 'authcore';
       const {
         primaryEmail: email,
-        displayName,
         suggestedName: username,
       } = currentUser;
       this.signInPayload = {
         email,
-        displayName,
         username,
         accessToken,
         idToken,
