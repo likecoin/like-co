@@ -58,7 +58,7 @@ export default {
       return {
         title: this.$t(`Home.Team.member.${key}.name`),
         subtitle: this.$t(`Home.Team.member.${key}.title`),
-        avatar: `/images/team/${key}.png`,
+        avatar: `/images/team/${key}.svg`,
         platforms,
       };
     },
