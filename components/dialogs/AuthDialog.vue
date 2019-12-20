@@ -438,7 +438,7 @@ export default {
       url += 'redirect_sign_in=1&sign_in_platform=authcore';
       const { redirect } = this.$route.query;
       if (redirect) {
-        url += `&redirect=${redirect}`;
+        url += `&redirect=${encodeURIComponent(redirect)}`;
       }
       return url;
     },
