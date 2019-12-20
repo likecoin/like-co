@@ -29,6 +29,10 @@ export default {
       type: String,
       default: 'en',
     },
+    redirectUrl: {
+      type: String,
+      default: undefined,
+    },
     isFixContact: {
       type: Boolean,
       default: false,
@@ -49,28 +53,40 @@ export default {
     },
   },
   async mounted() {
-    this.widgetInstance = new this.SignInWidget({
-      ...config,
-      container: 'authcore-register-container',
-      root: `${AUTHCORE_API_HOST}/widgets`,
-      initialScreen: this.isSignIn ? 'signin' : 'register',
-      internal: true,
-      contact: this.email,
-      language: this.authCoreLanguage,
-      onSuccess: async (data) => {
-        const { access_token: accessToken, current_user: currentUser, id_token: idToken } = data;
-        this.$emit('success', {
-          accessToken,
-          currentUser,
-          idToken,
-        });
-      },
-      fixedContact: this.email && this.isFixContact,
-      onLoaded: () => this.$emit('loaded'),
-      unauthenticated: (err) => {
-        this.$emit('unauthenticated', err);
-      },
-    });
+    this.initWidget();
+  },
+  methods: {
+    initWidget() {
+      this.widgetInstance = new this.SignInWidget({
+        ...config,
+        container: 'authcore-register-container',
+        root: `${AUTHCORE_API_HOST}/widgets`,
+        initialScreen: this.isSignIn ? 'signin' : 'register',
+        internal: true,
+        contact: this.email,
+        language: this.authCoreLanguage,
+        onSuccess: async (data) => {
+          const { access_token: accessToken, current_user: currentUser, id_token: idToken } = data;
+          this.$emit('success', {
+            accessToken,
+            currentUser,
+            idToken,
+          });
+        },
+        fixedContact: this.email && this.isFixContact,
+        successRedirectUrl: this.redirectUrl,
+        onLoaded: () => this.$emit('loaded'),
+        unauthenticated: (err) => {
+          this.$emit('unauthenticated', err);
+        },
+      });
+    },
+  },
+  watch: {
+    redirectUrl() {
+      this.widgetInstance.destroy();
+      this.initWidget();
+    },
   },
 };
 </script>
