@@ -627,7 +627,6 @@ export default {
       'setWalletNoticeDialog',
       'openPopupDialog',
       'fetchAuthCoreAccessTokenAndUser',
-      'fetchAuthCoreUser',
       'setAuthCoreToken',
       'initAuthCoreCosmosWallet',
       'fetchAuthCoreCosmosWallet',
@@ -856,14 +855,6 @@ export default {
       await this.setAuthCoreToken(accessToken);
       this.currentTab = 'loading';
       this.platform = 'authcore';
-      let user = currentUser;
-      if (!user || !user.profileName) {
-        try {
-          user = await this.fetchAuthCoreUser();
-        } catch (err) {
-          console.error(err);
-        }
-      }
       const {
         primaryEmail: email,
         suggestedName: username,
