@@ -4,15 +4,35 @@ import { AUTHCORE_API_HOST } from '@/constant';
 
 const { AuthcoreVaultClient, AuthcoreCosmosProvider } = require('secretd-js');
 
-export async function fetchAuthCoreAccessTokenAndUser(context, code) {
+export async function fetchAuthCoreAccessTokenAndUser({ dispatch }, code) {
   const authClient = await new AuthCoreAuthClient({
     apiBaseURL: AUTHCORE_API_HOST,
   });
   const token = await authClient.createAccessToken(code);
-  await authClient.setAccessToken(token.access_token);
-  const currentUser = await authClient.getCurrentUser;
   const { access_token: accessToken, id_token: idToken } = token;
+  await authClient.setAccessToken(accessToken);
+  const currentUser = await dispatch('fetchAuthCoreUser', { authClient });
   return { accessToken, currentUser, idToken };
+}
+
+export async function fetchAuthCoreUser({ state }, { authClient } = {}) {
+  const client = authClient || state.authClient;
+  if (!client) return {};
+  const currentUser = await client.getCurrentUser();
+  // TODO: remove camel case casting after authcore unify key style
+  const {
+    profile_name: profileName,
+    primary_email: primaryEmail,
+    suggested_name: suggestedName,
+    display_name: displayName,
+  } = currentUser;
+  return {
+    ...currentUser,
+    displayName,
+    profileName,
+    primaryEmail,
+    suggestedName,
+  };
 }
 
 export async function setAuthCoreToken({ commit, state, dispatch }, accessToken) {
