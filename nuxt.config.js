@@ -75,6 +75,7 @@ const nuxtConfig = {
   render: {
     csp: {
       enabled: true,
+      unsafeInlineCompatibility: true,
       hashAlgorithm: 'sha256',
       policies: {
         'default-src': [
@@ -182,9 +183,6 @@ const nuxtConfig = {
     { src: '~/assets/index.scss', lang: 'scss' },
     '~/assets/css/main.css',
   ],
-  serverMiddleware: [
-    '~/server_middleware/header-listener',
-  ],
   modules: [
     ['@nuxtjs/google-tag-manager', {
       id: process.env.GTM_ID || 'GTM-XXXXXXX',
@@ -246,7 +244,7 @@ const nuxtConfig = {
           {
             targets: isServer
               ? { node: '10' }
-              : 'ie 11, > 0.5%, Firefox ESR',
+              : { browsers: 'ie 11, > 0.5%, Firefox ESR' },
           },
         ],
       ],
