@@ -75,6 +75,7 @@ const nuxtConfig = {
   render: {
     csp: {
       enabled: true,
+      unsafeInlineCompatibility: true,
       hashAlgorithm: 'sha256',
       policies: {
         'default-src': [
@@ -181,9 +182,6 @@ const nuxtConfig = {
     { src: '~/assets/theme.scss', lang: 'scss' }, // include vue-material theme engine
     { src: '~/assets/index.scss', lang: 'scss' },
     '~/assets/css/main.css',
-  ],
-  serverMiddleware: [
-    '~/server_middleware/header-listener',
   ],
   modules: [
     ['@nuxtjs/google-tag-manager', {
