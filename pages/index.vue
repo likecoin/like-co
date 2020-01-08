@@ -21,10 +21,12 @@
       </div>
     </section>
 
-    <section class="lc-container-0 home-page__like-button-details lc-margin-bottom-48">
+    <OfficialChannelList class="lc-margin-top-48" />
+
+    <section class="lc-container-0 home-page__like-button-details">
       <div class="lc-container-1">
         <div class="lc-container-2">
-          <div class="lc-container-3 lc-bg-gray-1 lc-padding-bottom-48">
+          <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-48">
             <div class="lc-flex lc-flex-direction-column-mobile">
               <like-button-demo
                 @popup="openContentCivicPopup"
@@ -45,7 +47,7 @@
       </div>
     </section>
 
-    <platform-coverage class="lc-padding-bottom-48" />
+    <ExchangeList class="lc-margin-vertical-48" />
 
     <article-dialog
       :is-show.sync="isLikeButtonIntroDialogOpen"
@@ -67,12 +69,13 @@ import { mapGetters, mapActions } from 'vuex';
 import { checkIsMobileClient } from '~/util/client';
 
 import ArticleDialog from '@/components/dialogs/ArticleDialog';
+import ExchangeList from '@/components/home/ExchangeList';
 import HomeBanner from '@/components/home/Banner';
 import HomeMobileHeader from '@/components/home/MobileHeader';
 import LikeButtonDemo from '@/components/home/LikeButtonDemo';
 import LikeButtonIntro from '@/components/LikeButtonIntro';
 import MansoryArticleList from '@/components/home/MansoryArticleList';
-import PlatformCoverage from '@/components/home/PlatformCoverage';
+import OfficialChannelList from '@/components/home/OfficialChannelList';
 import SiteHeader from '@/components/header/HomeHeader';
 import RewardStatistics from '@/components/home/RewardStatistics';
 
@@ -83,12 +86,13 @@ export default {
   layout: 'index',
   components: {
     ArticleDialog,
+    ExchangeList,
     HomeBanner,
     HomeMobileHeader,
     LikeButtonDemo,
     LikeButtonIntro,
     MansoryArticleList,
-    PlatformCoverage,
+    OfficialChannelList,
     RewardStatistics,
     SiteHeader,
   },

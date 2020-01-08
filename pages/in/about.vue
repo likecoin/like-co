@@ -19,11 +19,13 @@
 
     <hero-video />
 
-    <platform-coverage class="lc-margin-top-48" />
+    <OfficialChannelList class="lc-margin-vertical-48" />
+
+    <ExchangeList class="lc-margin-vertical-48" />
 
     <early-adopters class="lc-margin-top-48" />
 
-    <team class="lc-margin-top-48" />
+    <team class="lc-margin-vertical-48" />
 
   </div>
 </template>
@@ -36,7 +38,8 @@ import SiteHeader from '~/components/header/HeaderWithMenuButton';
 import HeroVideo from '~/components/about/HeroVideo';
 import HeaderFlag from '~/components/about/Flag';
 import EarlyAdopters from '~/components/about/EarlyAdopters';
-import PlatformCoverage from '~/components/home/PlatformCoverage';
+import ExchangeList from '@/components/home/ExchangeList';
+import OfficialChannelList from '@/components/home/OfficialChannelList';
 import Team from '~/components/about/Team';
 
 const images = require.context('../../assets/home');
@@ -47,9 +50,10 @@ export default {
   layout: 'index',
   components: {
     EarlyAdopters,
+    ExchangeList,
     HeaderFlag,
     HeroVideo,
-    PlatformCoverage,
+    OfficialChannelList,
     SiteHeader,
     Team,
   },
