@@ -71,6 +71,11 @@ export const BONUS_LOCK_UNTIL_DATE = 1540267200000;
 
 export const TRUST_URL = 'https://links.trustwalletapp.com/a/key_live_lfvIpVeI9TFWxPCqwU8rZnogFqhnzs4D?&event=openURL&url=';
 
+export const LIKER_LAND_APP_LINK = {
+  ios: 'https://apps.apple.com/app/likerland/id1248232355',
+  android: 'https://play.google.com/store/apps/details?id=com.oice',
+};
+
 export const EXTRA_EMAIL_BLACLIST = [
   'tutye.com',
 ];

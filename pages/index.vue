@@ -21,12 +21,12 @@
       </div>
     </section>
 
-    <OfficialChannelList class="lc-margin-top-48" />
+    <OfficialChannelList class="lc-margin-top-48 lc-padding-bottom-48" />
 
-    <section class="lc-container-0 home-page__like-button-details">
+    <section class="lc-container-0 home-page__like-button-details lc-margin-top-16">
       <div class="lc-container-1">
         <div class="lc-container-2">
-          <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-48">
+          <div class="lc-container-3 lc-bg-gray-1 lc-padding-bottom-48">
             <div class="lc-flex lc-flex-direction-column-mobile">
               <like-button-demo
                 @popup="openContentCivicPopup"
