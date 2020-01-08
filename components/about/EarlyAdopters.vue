@@ -41,29 +41,44 @@
 <script>
 import ImageGrid from '../ImageGrid';
 
+const getPlatformImage = require.context('~/assets/new-platforms');
 
 const adopters = [
   {
-    src: '/images/adopter-logo/lifehack.png',
-    link: 'https://www.lifehack.org/',
+    id: 'matters',
+    link: 'https://matters.news/',
   },
   {
-    src: '/images/adopter-logo/initium.jpg',
-    link: 'https://theinitium.com/',
+    id: 'inmediahk',
+    link: 'https://www.inmediahk.net/',
   },
   {
-    src: '/images/adopter-logo/standnews.png',
-    link: 'https://www.thestandnews.com/',
+    id: 'standnews',
+    link: 'https://thestandnews.com/',
   },
   {
-    src: '/images/adopter-logo/oice.svg',
-    link: 'https://oice.com/',
+    id: 'hkcnews',
+    link: 'https://www.hkcnews.com/',
+    isHideBorder: true,
   },
   {
-    src: '/images/adopter-logo/lakoo.png',
-    link: 'https://lakoo.com/',
+    id: 'wordpress',
+    link: 'https://wordpress.org/plugins/likecoin/',
+    isHideBorder: true,
   },
-];
+  {
+    id: 'medium',
+    link: 'https://medium.com/',
+  },
+  {
+    id: 'vocus',
+    link: 'https://vocus.cc/',
+    isHideBorder: true,
+  },
+].map(({ id, ...rest }) => ({
+  src: getPlatformImage(`./${id}.svg`),
+  ...rest,
+}));
 
 export default {
   name: 'early-adopter',

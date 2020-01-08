@@ -1,83 +1,62 @@
 <template>
   <div class="platform-coverage">
-    <section class="platform-coverage__info lc-container-0">
+    <section class="lc-container-0">
       <div class="lc-container-1">
+
         <div class="lc-container-header">
+          <div class="lc-container-2 lc-container-header-overlay">
+            <div class="lc-container-3 lc-bg-gray-1 lc-mobile-hide" />
+          </div>
           <div class="lc-container-2">
             <div class="lc-container-3">
               <div class="lc-container-4">
                 <div class="lc-container-header-title">
-                  <h2 class="lc-font-size-32 lc-mobile">
+                  <h1 class="lc-font-size-32 lc-mobile">
                     {{ $t('Home.PlatformCoverage.title.seeOn') }}
-                  </h2>
+                  </h1>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="lc-container-2">
-          <div class="lc-container-3">
-            <div class="lc-container-4">
-              <div class="platform-coverage__content platform-coverage__content--discover">
-                <div
-                  v-for="p in INFO_PLATFORMS"
-                  :key="p.id"
-                >
-                  <a
-                    :href="p.url"
-                    class="platform-coverage__platform"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    <img v-lazy="getImageSrc(p.image)">
-                  </a>
-                </div>
-              </div>
 
-              <hr class="lc-mobile-hide">
+        <div class="lc-container-2">
+          <div class="lc-container-3 lc-bg-gray-1">
+            <div class="lc-container-4 lc-padding-top-24 lc-padding-bottom-32">
+              <ImageGrid :items="INFO_PLATFORMS" />
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="platform-coverage__trade lc-container-0">
+    <section class="lc-container-0 lc-margin-top-48">
       <div class="lc-container-1">
+
         <div class="lc-container-header">
+          <div class="lc-container-2 lc-container-header-overlay">
+            <div class="lc-container-3 lc-bg-gray-1 lc-mobile-hide" />
+          </div>
           <div class="lc-container-2">
             <div class="lc-container-3">
               <div class="lc-container-4">
                 <div class="lc-container-header-title">
-                  <h2 class="lc-font-size-32 lc-mobile">
+                  <h1 class="lc-font-size-32 lc-mobile">
                     {{ $t('Home.PlatformCoverage.title.buyOn') }}
-                  </h2>
+                  </h1>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
         <div class="lc-container-2">
-          <div class="lc-container-3">
-            <div class="lc-container-4">
-              <div class="platform-coverage__content platform-coverage__content--trade">
-                <div
-                  v-for="p in TRADE_PLATFORMS"
-                  :key="p.id"
-                >
-                  <a
-                    :href="p.url"
-                    class="platform-coverage__platform"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    <img v-lazy="getImageSrc(p.image)">
-                    <div
-                      v-if="$i18n.te(`Home.PlatformCoverage.${p.id}.footnote`)"
-                      class="platform-coverage__footnote"
-                    >{{ $t(`Home.PlatformCoverage.${p.id}.footnote`) }}</div>
-                  </a>
-                </div>
-              </div>
+          <div class="lc-container-3 lc-bg-gray-1">
+            <div class="lc-container-4 lc-padding-top-24 lc-padding-bottom-32">
+              <ImageGrid
+                :items="TRADE_PLATFORMS"
+                :is-narrow="true"
+              />
             </div>
           </div>
         </div>
@@ -88,167 +67,65 @@
 
 <script>
 import { PURCHASE_LIKE_URL } from '@/constant';
+import ImageGrid from '../ImageGrid';
+
+const getExchangeImage = require.context('~/assets/exchanges');
+const getPlatformImage = require.context('~/assets/new-platforms');
 
 const INFO_PLATFORMS = [
   {
-    id: 'etherscan',
-    image: 'etherscan.png',
-    url: 'https://etherscan.io/token/0x02F61Fd266DA6E8B102D4121f5CE7b992640CF98',
+    id: 'bigdipper',
+    link: 'https://likecoin.bigdipper.live/',
+    isHideBorder: true,
   },
   {
-    id: 'coinmarketcap',
-    image: 'coinmarketcap.png',
-    url: 'https://coinmarketcap.com/currencies/likecoin/',
+    id: 'medium',
+    link: 'https://medium.com/likecoin/',
   },
   {
-    id: 'coingecko',
-    image: 'coingecko.png',
-    url: 'https://www.coingecko.com/en/coins/likecoin',
+    id: 'matters',
+    link: 'https://matters.news/@likecoin/',
   },
   {
-    id: 'feixiaohao',
-    image: 'feixiaohao.png',
-    url: 'https://www.feixiaohao.com/currencies/likecoin/',
+    id: 'github',
+    link: 'https://github.com/likecoin/',
+    isHideBorder: true,
   },
-];
+].map(({ id, ...rest }) => ({
+  ...rest,
+  src: getPlatformImage(`./${id}.svg`),
+}));
 
 const TRADE_PLATFORMS = [
   {
-    id: 'bit-asset',
-    image: 'bit-asset.svg',
-    url: PURCHASE_LIKE_URL,
+    id: 'bitasset',
+    link: PURCHASE_LIKE_URL,
   },
   {
     id: 'myethshop',
-    image: 'myethshop.png',
-    url: 'https://www.myethshop.com/',
+    link: 'https://www.myethshop.com/',
+    isHideBorder: true,
   },
   {
     id: 'liquid',
-    image: 'liquid.png',
-    url: 'https://app.liquid.com/exchange/LIKEETH',
+    link: 'https://app.liquid.com/exchange/LIKEETH',
+    isHideBorder: true,
   },
-];
-const platformImages = require.context('@/assets/platforms');
+].map(({ id, ...rest }) => ({
+  src: getExchangeImage(`./${id}.svg`),
+  ...rest,
+}));
 
 export default {
   name: 'platform-coverage',
+  components: {
+    ImageGrid,
+  },
   data() {
     return {
       INFO_PLATFORMS,
       TRADE_PLATFORMS,
     };
   },
-  methods: {
-    getImageSrc(filename) {
-      return platformImages(`./${filename}`);
-    },
-  },
 };
 </script>
-
-<style lang="scss" scoped>
-@import "~assets/variables";
-
-.lc-container-header-title {
-  @media (min-width: 768px + 1px) {
-    width: calc(50% - 8px);
-  }
-
-  @media (max-width: 768px) and (min-width: 600px + 1px) {
-    width: 66%;
-  }
-}
-
-.platform-coverage {
-  @media (min-width: 600px + 1px) {
-    margin-top: 48px;
-  }
-
-  &__content {
-    display: flex;
-    flex-wrap: wrap;
-
-    margin-top: 24px;
-    margin-left: -6px;
-
-    @media (max-width: 600px) {
-      margin-top: 16px;
-
-      > * {
-        width: 50% !important;
-      }
-    }
-
-    &--discover {
-      padding-bottom: 24px;
-
-      > * {
-        width: 25%;
-      }
-    }
-
-    &--trade {
-      > * {
-        width: 33.33%;
-      }
-    }
-  }
-
-  &__trade {
-    @media (min-width: 600px + 1px) {
-      margin-top: 24px;
-    }
-
-    .lc-container-header-title {
-      @media (min-width: 600px + 1px) {
-        width: unset;
-        margin-right: 0 !important;
-
-        background-color: transparent;
-      }
-    }
-  }
-
-  &__platform {
-    position: relative;
-
-    display: block;
-
-    margin: 6px;
-    margin-bottom: 20px;
-
-    img {
-      width: 100%;
-
-      transition: transform .2s ease-in;
-
-      border: 1px solid $gray-e6;
-      border-radius: 16px;
-
-      object-fit: cover;
-
-      &:hover {
-        transform: translateY(-4px);
-      }
-    }
-  }
-
-  &__footnote {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    left: 0;
-
-    text-align: center;
-
-    font-size: 10px;
-    font-style: italic;
-  }
-}
-
-hr {
-  border: 0;
-  border-top: $border-style-1;
-}
-</style>
