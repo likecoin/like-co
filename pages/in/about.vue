@@ -19,7 +19,34 @@
 
     <hero-video />
 
-    <OfficialChannelList class="lc-margin-vertical-48" />
+    <section class="lc-container-0">
+      <div class="lc-container-1">
+        <div class="lc-container-2">
+          <div class="lc-container-3 lc-padding-vertical-48">
+            <div class="lc-container-4 lc-flex lc-justify-content-center lc-align-items-center">
+              <img
+                src="~/assets/about/wip.svg"
+                style="margin-right:16px"
+              >
+              <i18n
+                class="lc-color-like-gray-4 lc-font-size-16"
+                path="AboutPage.WIPNotice"
+                tag="span"
+              >
+                <a
+                  class="lc-color-like-green lc-font-weight-500"
+                  href="https://medium.com/likecoin/genesis-republic-of-liker-land-3903bd4d3bc6"
+                  place="moreAbout"
+                  target="_blank"
+                >{{ $t('AboutPage.moreAboutButtonText') }}</a>
+              </i18n>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <OfficialChannelList class="lc-margin-bottom-48" />
 
     <ExchangeList class="lc-margin-vertical-48" />
 

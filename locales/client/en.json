@@ -535,6 +535,10 @@
       }
     }
   },
+  "AboutPage": {
+    "WIPNotice": "Website upgrade in progress, {moreAbout}.",
+    "moreAboutButtonText": "more about LikeCoin chain"
+  },
   "LikeButtonIntegratedPlatform": {
     "headline": "More articles on:"
   },

@@ -531,6 +531,10 @@
       }
     }
   },
+  "AboutPage": {
+    "WIPNotice": "網站正在更新，{moreAbout}。",
+    "moreAboutButtonText": "了解更多關於讚賞鏈"
+  },
   "LikeButtonIntegratedPlatform": {
     "headline": "更多文章："
   },
