@@ -19,23 +19,6 @@
 
     </div>
 
-    <div class="social-links-container lc-mobile-hide">
-      <div class="lc-container-0">
-        <div class="lc-container-1">
-          <div class="platform-icon-bar-wrapper">
-            <div>
-              <div>
-                <platform-icon-bar
-                  :isVertical="true"
-                  size="medium"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <no-ssr>
       <portal-target name="light-box" />
     </no-ssr>
@@ -48,14 +31,12 @@
 import localeMixin from '~/mixins/locale';
 
 import MyFooter from '~/components/footer/Footer';
-import PlatformIconBar from '~/components/PlatformIconBar';
 import SlidingMenu from '~/components/SlidingMenu/index';
 import ToolBars from '~/components/toolbars/ToolBars';
 
 export default {
   components: {
     MyFooter,
-    PlatformIconBar,
     SlidingMenu,
     ToolBars,
   },

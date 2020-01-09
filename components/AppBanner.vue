@@ -30,13 +30,13 @@
         </div>
         <div class="app-banner__cta-platform-badges">
           <a
-            href="https://apps.apple.com/app/likerland/id1248232355"
+            :href="likerLandAppPlatformURL.ios"
             target="_blank"
           >
             <img src="~/assets/app/app-store.svg">
           </a>
           <a
-            href="https://play.google.com/store/apps/details?id=com.oice"
+            :href="likerLandAppPlatformURL.android"
             target="_blank"
           >
             <img src="~/assets/app/google-play.svg">
@@ -52,6 +52,7 @@ import AppScreenshotPreview from '~/components/AppScreenshotPreview';
 import QRCode from '~/assets/app/qrcode.svg';
 
 import { getLikerLandAppURL } from '@/util/api/api';
+import { LIKER_LAND_APP_LINK } from '~/constant';
 
 export default {
   name: 'app-banner',
@@ -60,6 +61,9 @@ export default {
   },
   computed: {
     getLikerLandAppURL,
+    likerLandAppPlatformURL() {
+      return LIKER_LAND_APP_LINK;
+    },
     qrcodePath() {
       return QRCode;
     },

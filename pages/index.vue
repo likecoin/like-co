@@ -21,10 +21,12 @@
       </div>
     </section>
 
-    <section class="lc-container-0 home-page__like-button-details">
+    <OfficialChannelList class="lc-margin-top-48 lc-padding-bottom-48" />
+
+    <section class="lc-container-0 home-page__like-button-details lc-margin-top-16">
       <div class="lc-container-1">
         <div class="lc-container-2">
-          <div class="lc-container-3 lc-bg-gray-1 lc-container-no-padding-mobile">
+          <div class="lc-container-3 lc-bg-gray-1 lc-padding-bottom-48">
             <div class="lc-flex lc-flex-direction-column-mobile">
               <like-button-demo
                 @popup="openContentCivicPopup"
@@ -35,66 +37,17 @@
                   :screen-width="breakpoint.width"
                 />
               </div>
-
-              <platform-icon-bar
-                class="lc-mobile-show lc-margin-bottom-"
-                size="medium"
-              />
             </div>
 
-            <div class="lc-container-4">
-              <mansory-article-list />
+            <div class="lc-container-4 lc-margin-top-32">
+              <mansory-article-list :num-articles-display="3" />
             </div>
           </div>
-
-          <!-- More Articles from platforms with LikeButton integration -->
-          <div class="lc-container-3 lc-bg-gray-1 lc-padding-bottom-32">
-            <div class="like-button-integrated-platform">
-              <div
-                :class="[
-                  'like-button-integrated-platform__headline',
-                  'lc-container-4 lc-container-no-padding-mobile',
-                ]"
-              >{{ $t('LikeButtonIntegratedPlatform.headline') }}</div>
-              <LikeButtonPlatformGrid class="lc-container-4" />
-            </div>
-          </div>
-
         </div>
       </div>
     </section>
 
-    <platform-coverage />
-
-    <section class="lc-container-0">
-      <div class="lc-container-1">
-        <footer class="lc-page-footer lc-bg-green">
-          <platform-icon-bar
-            v-scroll-reveal.reset="{
-              duration: 0,
-              beforeReveal: () => onBottomPlatformBarVisibilityChange(true),
-              beforeReset: () => onBottomPlatformBarVisibilityChange(false),
-            }"
-            :size="isMobileSize ? 'medium' : 'large'"
-          />
-
-          <div class="lc-container-2">
-            <div
-              :class="[
-                'lc-container-3',
-                'lc-padding-bottom-24',
-                'lc-padding-top-64',
-                'lc-mobile',
-              ]"
-            >
-              <span class="home-page__join-label">
-                {{ $t('Home.Footer.label.join') }}
-              </span>
-            </div>
-          </div>
-        </footer>
-      </div>
-    </section>
+    <ExchangeList class="lc-margin-vertical-48" />
 
     <article-dialog
       :is-show.sync="isLikeButtonIntroDialogOpen"
@@ -116,14 +69,13 @@ import { mapGetters, mapActions } from 'vuex';
 import { checkIsMobileClient } from '~/util/client';
 
 import ArticleDialog from '@/components/dialogs/ArticleDialog';
+import ExchangeList from '@/components/home/ExchangeList';
 import HomeBanner from '@/components/home/Banner';
 import HomeMobileHeader from '@/components/home/MobileHeader';
 import LikeButtonDemo from '@/components/home/LikeButtonDemo';
 import LikeButtonIntro from '@/components/LikeButtonIntro';
-import LikeButtonPlatformGrid from '@/components/LikeButtonPlatformGrid';
 import MansoryArticleList from '@/components/home/MansoryArticleList';
-import PlatformCoverage from '@/components/home/PlatformCoverage';
-import PlatformIconBar from '@/components/PlatformIconBar';
+import OfficialChannelList from '@/components/home/OfficialChannelList';
 import SiteHeader from '@/components/header/HomeHeader';
 import RewardStatistics from '@/components/home/RewardStatistics';
 
@@ -134,14 +86,13 @@ export default {
   layout: 'index',
   components: {
     ArticleDialog,
+    ExchangeList,
     HomeBanner,
     HomeMobileHeader,
     LikeButtonDemo,
     LikeButtonIntro,
-    LikeButtonPlatformGrid,
     MansoryArticleList,
-    PlatformCoverage,
-    PlatformIconBar,
+    OfficialChannelList,
     RewardStatistics,
     SiteHeader,
   },
@@ -209,15 +160,6 @@ export default {
     ]),
     openContentCivicPopup() {
       this.isLikeButtonIntroDialogOpen = true;
-    },
-    onBottomPlatformBarVisibilityChange(isVisible) {
-      const verticalPlatformBar = document.querySelector('.icon-bar.vertical');
-      if (!verticalPlatformBar) return;
-      if (isVisible) {
-        verticalPlatformBar.classList.add('hide');
-      } else {
-        verticalPlatformBar.classList.remove('hide');
-      }
     },
   },
 };

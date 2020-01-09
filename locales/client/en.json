@@ -382,7 +382,7 @@
       "pieChartLanguage": "en"
     },
     "EarlyAdopters": {
-      "title": "Early Adopters"
+      "title": "Supported Platforms"
     },
     "PressCoverage": {
       "title": "Press Coverage",
@@ -534,6 +534,10 @@
         "join": "Join LikeCoin community for latest news and discussion"
       }
     }
+  },
+  "AboutPage": {
+    "WIPNotice": "Website upgrade in progress, {moreAbout}.",
+    "moreAboutButtonText": "more about LikeCoin chain"
   },
   "LikeButtonIntegratedPlatform": {
     "headline": "More articles on:"

@@ -1,5 +1,10 @@
 <template>
-  <div class="lc-image-grid">
+  <div
+    :class="{
+      'lc-image-grid': true,
+      'lc-image-grid--narrow': isNarrow,
+    }"
+  >
     <div>
 
       <ul>
@@ -14,7 +19,10 @@
             rel="noopener"
             @click="item.isLightBox && openLightBox(item.id)"
           >
-            <img v-lazy="item.src">
+            <img
+              v-lazy="item.src"
+              :class="{ 'no-border': !!item.isHideBorder }"
+            >
           </a>
 
         </li>
@@ -49,6 +57,10 @@ export default {
     items: {
       type: Array,
       default: () => [],
+    },
+    isNarrow: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -105,10 +117,6 @@ export default {
 
     list-style: none;
 
-    border-radius: 6px;
-
-    background-color: white;
-
     li {
       position: relative;
 
@@ -135,11 +143,9 @@ export default {
 
         box-sizing: border-box;
         width: 100%;
-        max-width: 256px;
-        max-height: 118px;
 
         margin: 0 auto;
-        padding-top: #{118px / 256px * 100%};
+        padding-top: #{90px / 190px * 100%};
 
         cursor: pointer;
       }
@@ -154,12 +160,28 @@ export default {
 
         transition: transform .2s ease-out;
 
-        object-fit: contain;
+        object-fit: cover;
         object-position: center;
+
+        border-radius: 16px;
+
+        &:not(.no-border) {
+          border: 2px solid $gray-e6;
+        }
 
         &:hover {
           transform: translateY(-2%);
         }
+      }
+    }
+  }
+
+  &.lc-image-grid--narrow {
+    ul > li {
+      width: calc(100% * 1 / 3);
+
+      > a {
+        padding-top: #{90px / 256px * 100%};
       }
     }
   }

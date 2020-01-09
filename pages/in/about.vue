@@ -22,73 +22,37 @@
     <section class="lc-container-0">
       <div class="lc-container-1">
         <div class="lc-container-2">
-          <div class="lc-container-3">
-            <div class="social-links-container-mobile lc-tablet-pc-hide lc-padding-vertical-8">
-              <platform-icon-bar />
+          <div class="lc-container-3 lc-padding-vertical-48">
+            <div class="lc-container-4 lc-flex lc-justify-content-center lc-align-items-center">
+              <img
+                src="~/assets/about/wip.svg"
+                style="margin-right:16px"
+              >
+              <i18n
+                class="lc-color-like-gray-4 lc-font-size-16"
+                path="AboutPage.WIPNotice"
+                tag="span"
+              >
+                <a
+                  class="lc-color-like-green lc-font-weight-500"
+                  href="https://medium.com/likecoin/genesis-republic-of-liker-land-3903bd4d3bc6"
+                  place="moreAbout"
+                  target="_blank"
+                >{{ $t('AboutPage.moreAboutButtonText') }}</a>
+              </i18n>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <cta-section />
+    <OfficialChannelList class="lc-margin-bottom-48" />
 
-    <likecoin-stack class="lc-margin-top-32" />
-
-    <road-map class="lc-margin-top-48" />
-
-    <token-distribution class="lc-margin-top-48" />
+    <ExchangeList class="lc-margin-vertical-48" />
 
     <early-adopters class="lc-margin-top-48" />
 
-    <press-coverage class="lc-margin-top-48" />
-
-    <advisors class="lc-margin-top-48" />
-
-    <early-supporters class="lc-margin-top-48" />
-
-    <team class="lc-margin-top-48" />
-
-    <section class="lc-container-0">
-      <div class="lc-container-1">
-        <div class="lc-container-2">
-          <div class="lc-container-3">
-            <div class="social-links-container-mobile lc-tablet-pc-hide lc-padding-vertical-12">
-              <platform-icon-bar />
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <cta-section class="bottom" />
-
-    <section class="lc-container-0 lc-community lc-mobile-hide">
-      <div class="lc-container-1">
-        <div class="lc-container-2">
-          <div class="lc-container-3">
-
-            <div class="lc-community-content lc-padding-top-24 lc-margin-bottom-64">
-              <div class="platforms">
-                <span>{{ $t('Home.Community.title') }}</span>
-                <platform-icon-bar />
-              </div>
-              <div class="faq">
-                <a
-                  ref="noopener"
-                  :href="$t('Home.Community.button.faqLink')"
-                  class="lc-color-like-green lc-underline lc-font-size-20"
-                  target="_blank"
-                >
-                  {{ $t('Home.Community.button.faq') }}
-                </a>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </section>
+    <team class="lc-margin-vertical-48" />
 
   </div>
 </template>
@@ -98,20 +62,12 @@
 import { mapGetters } from 'vuex';
 
 import SiteHeader from '~/components/header/HeaderWithMenuButton';
-import PlatformIconBar from '~/components/PlatformIconBar';
-
-import Advisors from '~/components/about/Advisors';
-import CTASection from '~/components/about/CTASection';
-// import Carousel from '~/components/about/Carousel';
 import HeroVideo from '~/components/about/HeroVideo';
 import HeaderFlag from '~/components/about/Flag';
 import EarlyAdopters from '~/components/about/EarlyAdopters';
-import EarlySupporters from '~/components/about/EarlySupporters';
-import PressCoverage from '~/components/about/PressCoverage';
-import LikecoinStack from '~/components/about/Stack';
-import RoadMap from '~/components/about/RoadMap';
+import ExchangeList from '@/components/home/ExchangeList';
+import OfficialChannelList from '@/components/home/OfficialChannelList';
 import Team from '~/components/about/Team';
-import TokenDistribution from '~/components/about/TokenDistribution';
 
 const images = require.context('../../assets/home');
 const imgUrl = path => images(`./${path}`);
@@ -120,20 +76,13 @@ export default {
   name: 'home',
   layout: 'index',
   components: {
-    Advisors,
-    // Carousel,
-    'cta-section': CTASection,
     EarlyAdopters,
-    EarlySupporters,
+    ExchangeList,
     HeaderFlag,
     HeroVideo,
-    PlatformIconBar,
-    PressCoverage,
-    LikecoinStack,
-    RoadMap,
+    OfficialChannelList,
     SiteHeader,
     Team,
-    TokenDistribution,
   },
   computed: {
     ...mapGetters([

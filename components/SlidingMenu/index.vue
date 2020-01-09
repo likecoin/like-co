@@ -160,11 +160,6 @@ const MENU_ITEMS = [
         to: { name: 'in-whitepaper' },
       },
       {
-        key: 'poc',
-        to: 'https://meme.like.co/',
-        isExternal: true,
-      },
-      {
         key: 'support',
         to: 'https://help.like.co/',
         isExternal: true,
