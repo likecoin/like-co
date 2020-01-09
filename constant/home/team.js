@@ -18,6 +18,10 @@ const teamMembers = [
         isInternal: true,
       },
       {
+        key: 'matters',
+        to: 'https://matters.news/@ckxpress',
+      },
+      {
         key: 'telegram',
         to: 'https://t.me/ckxpress',
       },
