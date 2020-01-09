@@ -148,12 +148,16 @@ export const LIKE_CO_PLATFORMS = [
     url: 'https://t.me/likecoin',
   },
   {
+    name: 'matters',
+    url: 'https://matters.news/@likecoin',
+  },
+  {
     name: 'medium',
     url: 'https://medium.com/likecoin',
   },
   {
     name: 'github',
-    url: 'https://github.com/likecoin/',
+    url: 'https://github.com/likecoin',
   },
   {
     name: 'twitter',

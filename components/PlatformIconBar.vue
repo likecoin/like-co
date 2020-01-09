@@ -14,7 +14,7 @@
         :filepath="imgUrl(`${platform.name}.svg`)"
         :width="iconSize"
         :height="iconSize"
-        fill="white"
+        :preserveColor="true"
         stroke="transparent"
       />
     </md-button>
