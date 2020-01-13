@@ -90,7 +90,7 @@
   },
   "devDependencies": {
     "@babel/preset-env": "^7.8.2",
-    "@babel/register": "^7.0.0",
+    "@babel/register": "^7.8.0",
     "ava": "^1.0.1",
     "axiosist": "^0.1.0",
     "babel-eslint": "^10.0.1",
