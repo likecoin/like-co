@@ -77,7 +77,7 @@ export default {
             }
             default:
           }
-          this.$emit(action.replace(/_/g, '-'), output);
+          if (action) this.$emit(action.replace(/_/g, '-'), output);
         },
         onLoaded: () => {
           this.$emit('loaded');

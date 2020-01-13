@@ -105,7 +105,7 @@ export default {
       }
     },
     getAuthCoreOAuthFactors(factors) {
-      if (this.$intercom) {
+      if (this.$intercom && factors) {
         const services = factors.map(f => f.service);
         const opt = services.reduce((accumOpt, service) => {
           // eslint-disable-next-line no-param-reassign
@@ -149,7 +149,7 @@ export default {
       if (isAuthCore) {
         opt.binded_authcore = true;
       }
-      const factors = this.getAuthCoreOAuthFactors;
+      const factors = this.getAuthCoreOAuthFactors || [];
       const services = factors.map(f => f.service);
       const socialOpt = services.reduce((accumOpt, service) => {
         // eslint-disable-next-line no-param-reassign
