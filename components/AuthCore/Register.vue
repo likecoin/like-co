@@ -76,6 +76,10 @@ export default {
         fixedContact: this.email && this.isFixContact,
         successRedirectUrl: this.redirectUrl,
         onLoaded: () => this.$emit('loaded'),
+        analyticsHook: (type, data) => {
+          const payload = data && (data.method || data.service);
+          this.$emit(type.replace('Authcore_', ''), payload);
+        },
         unauthenticated: (err) => {
           this.$emit('unauthenticated', err);
         },
