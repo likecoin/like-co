@@ -88,6 +88,10 @@
               :language="getCurrentLocale"
               :redirect-url="getAuthCoreRedirectUrl"
               @loaded="onAuthCoreLoaded"
+              @loginWidgetLoaded="onAuthCoreLoginWidgetLoaded"
+              @registerStarted="onAuthCoreRegisterStarted"
+              @oauthStarted="onAuthCoreOAuthStarted"
+              @loginStarted="onAuthCoreLoginStarted"
               @success="signInWithAuthCore"
             />
             <signin-portal
@@ -850,6 +854,18 @@ export default {
     },
     onAuthCoreLoaded() {
       this.logRegisterEvent(this, 'RegFlow', 'AuthCoreDialogLoaded', 'AuthCoreDialogLoaded', 1);
+    },
+    onAuthCoreLoginWidgetLoaded() {
+      this.logRegisterEvent(this, 'RegFlow', 'AuthCoreLoginWidgetLoaded', 'AuthCoreLoginWidgetLoaded', 1);
+    },
+    onAuthCoreRegisterStarted(method) {
+      this.logRegisterEvent(this, 'RegFlow', 'AuthCoreRegisterTry', `AuthCoreRegisterTry(${method})`, 1);
+    },
+    onAuthCoreOAuthStarted(method) {
+      this.logRegisterEvent(this, 'RegFlow', 'AuthCoreRegisterTry', `AuthCoreRegisterTry(${method})`, 1);
+    },
+    onAuthCoreLoginStarted(method) {
+      this.logRegisterEvent(this, 'RegFlow', 'AuthCoreLoginTry', `AuthCoreLoginTry(${method})`, 1);
     },
     async signInWithAuthCore({ accessToken, currentUser, idToken }) {
       this.logRegisterEvent(this, 'RegFlow', 'AuthCoreSignInSuccess', 'AuthCoreSignInSuccess', 1);
