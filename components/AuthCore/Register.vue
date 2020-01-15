@@ -62,6 +62,7 @@ export default {
         container: 'authcore-register-container',
         root: `${AUTHCORE_API_HOST}/widgets`,
         initialScreen: this.isSignIn ? 'signin' : 'register',
+        socialLoginPaneStyle: 'top', // TODO: implement A/B testing on this flag
         internal: true,
         contact: this.email,
         language: this.authCoreLanguage,
