@@ -15,6 +15,10 @@ export default function ({
   query,
   redirect,
 }) {
+  if (process.server) {
+    res.set('Cache-Control', 'private');
+    res.set('Vary', 'Cookie');
+  }
   if (!store.getters.getUserIsRegistered) {
     let redirectPath = '/in/register';
     const { register, from, referrer } = query;
@@ -31,9 +35,6 @@ export default function ({
       redirectPath = `${redirectPath}?${querystring.stringify(qsPayload)}`;
     }
     redirect(redirectPath);
-  } else if (process.server) {
-    res.set('Cache-Control', 'private');
-    res.set('Vary', 'Cookie');
   } else if (!store.getters.getUserIsAuthCore && route.name !== 'in-migration-authcore') {
     let redirectPath = '/in/migration/authcore';
     if (!process.server) {
