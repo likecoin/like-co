@@ -285,7 +285,7 @@ function getRandomPaddedDigits(length) {
   return String(Math.floor(Math.random() * (10 ** length))).padStart(length, '0');
 }
 
-function shouldWriteSession(sourceURL) {
+function shouldWriteURLIntoSession(sourceURL) {
   if (!sourceURL) {
     return false;
   }
@@ -613,7 +613,7 @@ export default {
       if (window.sessionStorage) {
         // store data when first view page
         // restore data when it is lost. eg redirect sign in
-        if (this.sourceURL && shouldWriteSession(this.sourceURL)) {
+        if (this.sourceURL && shouldWriteURLIntoSession(this.sourceURL)) {
           window.sessionStorage.setItem('registerDialogSourceURL', this.sourceURL);
         } else {
           this.sourceURL = window.sessionStorage.getItem('registerDialogSourceURL');
