@@ -241,6 +241,7 @@
 import Vue from 'vue'; // eslint-disable-line import/no-extraneous-dependencies
 import { mapActions, mapGetters } from 'vuex';
 import { ResizeObserver } from 'resize-observer';
+import URL from 'url-parse';
 
 import {
   MIN_USER_ID_LENGTH,
@@ -282,6 +283,18 @@ import {
 
 function getRandomPaddedDigits(length) {
   return String(Math.floor(Math.random() * (10 ** length))).padStart(length, '0');
+}
+
+function shouldWriteURLIntoSession(sourceURL) {
+  if (!sourceURL) {
+    return false;
+  }
+  try {
+    const url = new URL(sourceURL);
+    return url.host.split('.').slice(-2).join('.') !== 'like.co';
+  } catch (err) {
+    return true;
+  }
 }
 
 // TODO: remove this.$sentry.captureException
@@ -600,7 +613,7 @@ export default {
       if (window.sessionStorage) {
         // store data when first view page
         // restore data when it is lost. eg redirect sign in
-        if (this.sourceURL) {
+        if (this.sourceURL && shouldWriteURLIntoSession(this.sourceURL)) {
           window.sessionStorage.setItem('registerDialogSourceURL', this.sourceURL);
         } else {
           this.sourceURL = window.sessionStorage.getItem('registerDialogSourceURL');
@@ -1093,6 +1106,11 @@ export default {
       this.currentTab = 'loading';
       await this.refreshUser();
 
+      try {
+        window.sessionStorage.removeItem('registerDialogSourceURL');
+      } catch (err) {
+        // no op
+      }
       this.setIsShow(false);
       if (this.isSinglePage) {
         this.currentTab = 'loginSuccessful';
