@@ -600,7 +600,7 @@ export default {
       if (window.sessionStorage) {
         // store data when first view page
         // restore data when it is lost. eg redirect sign in
-        if (this.sourceURL) {
+        if (this.sourceURL && !this.sourceURL.includes('like.co')) {
           window.sessionStorage.setItem('registerDialogSourceURL', this.sourceURL);
         } else {
           this.sourceURL = window.sessionStorage.getItem('registerDialogSourceURL');
@@ -1093,6 +1093,11 @@ export default {
       this.currentTab = 'loading';
       await this.refreshUser();
 
+      try {
+        window.sessionStorage.removeItem('registerDialogSourceURL');
+      } catch (err) {
+        // no op
+      }
       this.setIsShow(false);
       if (this.isSinglePage) {
         this.currentTab = 'loginSuccessful';
