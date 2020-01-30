@@ -1223,7 +1223,7 @@ export default {
   }
 
   &__legacy-login-button {
-    $login-button-color: #F79220;
+    $login-button-color: $like-green;
 
     display: inline-block;
 
@@ -1231,18 +1231,15 @@ export default {
 
     text-decoration: none !important;
 
-    color: white !important;
+    color: $login-button-color !important;
     border: 1px solid darken($login-button-color, 2);
     border-bottom-width: 2px;
-    border-bottom-color: darken($login-button-color, 10);
     border-radius: 8px;
-
-    background-color: $login-button-color;
 
     font-weight: bold;
 
     &:hover {
-      background-color: darken($login-button-color, 5);
+      background-color: transparentize($login-button-color, 0.9);
     }
   }
 
