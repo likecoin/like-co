@@ -238,6 +238,7 @@
       "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
       "tokenSale": "@:TokenSale.title",
       "whitepaper": "@:Whitepaper.Button.whitepaper",
+      "newsletter": "Newsletter",
       "support": "@:Footer.button.support",
       "press": "Press",
       "poc": "Proof of Concept",

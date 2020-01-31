@@ -238,6 +238,7 @@
       "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
       "tokenSale": "@:TokenSale.title",
       "whitepaper": "@:Whitepaper.Button.whitepaper",
+      "newsletter": "LikeCoin 通信",
       "support": "@:Footer.button.support",
       "press": "媒體",
       "poc": "概念驗證",
