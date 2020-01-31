@@ -114,6 +114,7 @@ const nuxtConfig = {
           '*.like.co',
           'like.co',
           'likecoin-integration-test.authcore.io',
+          'likecoin.substack.com',
         ],
         'connect-src': [
           "'self'",

@@ -43,6 +43,14 @@
                 </div>
               </div>
             </div>
+
+            <div class="official-network-list__newsletter lc-margin-top-56">
+              <iframe
+                src="https://likecoin.substack.com/embed"
+                frameborder="0"
+                scrolling="no"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -155,6 +163,22 @@ export default {
 
           text-align: center;
         }
+      }
+    }
+  }
+
+  &__newsletter {
+    position: relative;
+
+    overflow: hidden;
+
+    iframe {
+      width: 100%;
+      padding: 0 16px;
+
+      @media screen and (max-width: 600px) {
+        min-height: 360px;
+        padding: 0;
       }
     }
   }
