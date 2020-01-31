@@ -180,6 +180,14 @@ export default {
     ul > li {
       width: calc(100% * 1 / 3);
 
+      @media (max-width: 768px) {
+        width: calc(100% * 1 / 2);
+      }
+
+      @media (max-width: 480px) {
+        width: 100%;
+      }
+
       > a {
         padding-top: #{90px / 256px * 100%};
       }
