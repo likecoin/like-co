@@ -1602,6 +1602,7 @@
   "GetApp": {
     "title": "化讚為賞，盡在指掌",
     "button": {
+      "aboutLikeCoin": "關於 LikeCoin",
       "downloadNow": "立即下載",
       "continueToWeb": "不以 app 訪問"
     }

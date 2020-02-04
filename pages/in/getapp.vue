@@ -18,6 +18,12 @@
     <div class="get-app-page__preview">
       <AppScreenshotPreview />
     </div>
+    <nuxt-link
+      class="get-app-page__about-likecoin-link"
+      :to="{ name: 'in-about' }"
+    >
+      {{ $t('GetApp.button.aboutLikeCoin') }}
+    </nuxt-link>
   </div>
 </template>
 
@@ -81,6 +87,7 @@ export default {
     font-weight: 600;
   }
 
+  &__about-likecoin-link,
   &__continue-button {
     text-decoration: underline !important;
 
