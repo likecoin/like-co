@@ -1678,6 +1678,7 @@
   "GetApp": {
     "title": "Reinventing the Like, in your pocket",
     "button": {
+      "aboutLikeCoin": "About LikeCoin",
       "downloadNow": "Download now",
       "continueToWeb": "Visit without app"
     }

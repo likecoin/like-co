@@ -1538,6 +1538,7 @@
     "GetApp": {
         "title": "化赞为赏，尽在指掌",
         "button": {
+            "aboutLikeCoin": "关於 LikeCoin",
             "downloadNow": "立即下载",
             "continueToWeb": "不以 app 访问"
         }
