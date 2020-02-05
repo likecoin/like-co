@@ -103,7 +103,40 @@ export default {
   },
   data() {
     return {
-      newsletters: [],
+      newsletters: [
+        {
+          title: 'LikeCoin Annual Report 2019',
+          pubDate: '2020-01-01',
+          link: 'https://medium.com/likecoin/likecoin-annual-report-2019-f831cb873801',
+          guid: 'https://medium.com/p/f831cb873801',
+          author: '高重建 | kin ko',
+          thumbnail: 'https://cdn-images-1.medium.com/max/800/1*DaBijM-pBtWT9lR1w2L_Fg.png',
+        },
+        {
+          title: 'Genesis — Republic of Liker Land',
+          pubDate: '2019-11-07',
+          link: 'https://medium.com/likecoin/genesis-republic-of-liker-land-3903bd4d3bc6',
+          guid: 'https://medium.com/p/3903bd4d3bc6',
+          author: '高重建 | kin ko',
+          thumbnail: 'https://cdn-images-1.medium.com/max/800/1*-FfbO5nrur-DkqZ6OnFztQ.png',
+        },
+        {
+          title: 'It’s time to migrate! Migration to the new LikeCoin (and phasing out LikeCoin ERC-20)',
+          pubDate: '2019-12-02',
+          link: 'https://medium.com/likecoin/its-time-to-migrate-migration-to-the-new-likecoin-and-phasing-out-likecoin-erc-20-111b087a9cad',
+          guid: 'https://medium.com/p/111b087a9cad',
+          author: 'Phoebe Poon',
+          thumbnail: 'https://cdn-images-1.medium.com/max/800/1*nIHzc_LUixJg_cV236_9HQ.png',
+        },
+        {
+          title: 'Why Build A New Blockchain — LikeCoin Chain',
+          pubDate: '2019-11-21',
+          link: 'https://medium.com/likecoin/why-build-a-new-blockchain-likecoin-chain-a5956ab4dc07',
+          guid: 'https://medium.com/p/a5956ab4dc07',
+          author: 'Phoebe Poon',
+          thumbnail: 'https://cdn-images-1.medium.com/max/800/1*ndbs6sq6tAQo3WfC_fuVqg.png',
+        },
+      ],
     };
   },
   computed: {
@@ -134,27 +167,6 @@ export default {
         ...rest,
         src: getChannelImage(`./${id}.svg`),
       }));
-    },
-  },
-  mounted() {
-    this.fetchNewsletter();
-  },
-  methods: {
-    async fetchNewsletter() {
-      try {
-        const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent('https://medium.com/feed/likecoin')}`);
-        const results = await res.json();
-        this.newsletters = results.items
-          .slice(0, 3)
-          .map(({ pubDate, ...rest }) => ({
-            pubDate: new Date(pubDate).toDateString(),
-            ...rest,
-          }));
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error(error);
-        this.newsletters = [];
-      }
     },
   },
 };
