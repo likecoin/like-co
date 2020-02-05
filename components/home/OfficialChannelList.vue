@@ -44,12 +44,43 @@
               </div>
             </div>
 
-            <div class="official-network-list__newsletter lc-margin-top-56">
+            <div class="official-network-list__newsletter-subscription lc-margin-top-56">
               <iframe
                 src="https://likecoin.substack.com/embed"
                 frameborder="0"
                 scrolling="no"
               />
+            </div>
+
+            <div class="official-network-list__newsletter-grid">
+              <ul>
+                <li
+                  v-for="newsletter in newsletters"
+                  :key="newsletter.guid"
+                >
+                  <a
+                    class="official-network-list__newsletter-grid-item"
+                    :href="newsletter.link"
+                    target="_blank"
+                  >
+                    <div
+                      class="official-network-list__newsletter-author"
+                    >{{ newsletter.author }}</div>
+                    <img
+                      class="official-network-list__newsletter-thumbnail"
+                      :src="newsletter.thumbnail"
+                    >
+                    <div class="official-network-list__newsletter-grid-item-body">
+                      <div
+                        class="official-network-list__newsletter-pub-date"
+                      >{{ newsletter.pubDate }}</div>
+                      <div
+                        class="official-network-list__newsletter-title"
+                      >{{ newsletter.title }}</div>
+                    </div>
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -69,6 +100,11 @@ export default {
   name: 'official-channel-list',
   components: {
     ImageGrid,
+  },
+  data() {
+    return {
+      newsletters: [],
+    };
   },
   computed: {
     likerLandAppPlatformURL() {
@@ -100,10 +136,33 @@ export default {
       }));
     },
   },
+  mounted() {
+    this.fetchNewsletter();
+  },
+  methods: {
+    async fetchNewsletter() {
+      try {
+        const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent('https://medium.com/feed/likecoin')}`);
+        const results = await res.json();
+        this.newsletters = results.items
+          .slice(0, 3)
+          .map(({ pubDate, ...rest }) => ({
+            pubDate: new Date(pubDate).toDateString(),
+            ...rest,
+          }));
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(error);
+        this.newsletters = [];
+      }
+    },
+  },
 };
 </script>
 
 <style lang="scss">
+@import "~assets/variables";
+
 .official-network-list {
   &__app-banner {
     padding: 0 16px;
@@ -167,7 +226,7 @@ export default {
     }
   }
 
-  &__newsletter {
+  &__newsletter-subscription {
     position: relative;
 
     overflow: hidden;
@@ -181,6 +240,90 @@ export default {
         padding: 0;
       }
     }
+  }
+
+  &__newsletter-grid {
+    ul {
+      margin: 0;
+      padding: 12px 16px 0;
+
+      list-style: none;
+
+      column-count: 2;
+      column-gap: 28px;
+
+      @media (min-width: 1240px + 1px) {
+        column-count: 3;
+      }
+
+      @media (max-width: 600px) {
+        padding: 0;
+        column-count: 1;
+      }
+
+      li {
+        padding: 14px 0;
+      }
+    }
+  }
+
+  &__newsletter-grid-item {
+    display: block;
+
+    transition: 0.1s ease background-color;
+
+    border: 1px solid $gray-e6;
+    border-radius: 8px;
+
+    background-color: white;
+
+    break-inside: avoid-column;
+
+    &:hover {
+      text-decoration: none !important;
+
+      background-color: rgba(230, 230, 230, 0.8);
+
+      img {
+        opacity: 0.5;
+      }
+    }
+  }
+
+  &__newsletter-grid-item-body {
+    padding: 8px 16px 24px;
+  }
+
+  &__newsletter-author {
+    padding: 16px;
+
+    color: $like-black;
+
+    font-size: 16px;
+  }
+
+  &__newsletter-thumbnail {
+    display: block;
+
+    width: 100%;
+
+    transition: 0.1s ease opacity;
+
+    border: 1px solid $gray-e6;
+    border-right-width: 0;
+    border-left-width: 0;
+  }
+
+  &__newsletter-pub-date {
+    font-size: 12px;
+  }
+
+  &__newsletter-title {
+    color: $like-black;
+
+    font-size: 20px;
+    font-weight: 600;
+    line-height: normal;
   }
 }
 </style>
