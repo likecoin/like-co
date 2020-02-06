@@ -144,9 +144,9 @@ const mutations = {
     }
   },
   [USER_SET_LIKECOIN_AMOUNT_OBJECT](state, data) {
-    const balance = Object.keys(data).reduce((acc, key) => acc + data[key], 0);
+    const balance = Object.keys(data).reduce((acc, key) => acc.plus(data[key]), new BigNumber(0));
     state.likecoinAmountObject = data;
-    state.likeCoinAmountInBigNumber = new BigNumber(balance);
+    state.likeCoinAmountInBigNumber = balance;
   },
   [USER_UPDATE_READ_CONTENT_STATUS](state, payload) {
     Vue.set(state.user, 'read', {
