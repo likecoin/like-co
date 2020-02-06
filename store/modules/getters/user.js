@@ -30,7 +30,8 @@ export const getUserSocialLinks = state => state.links;
 export const getUserSocialMeta = state => state.socialMeta;
 
 export const getUserHasPendingLike = state => state.likecoinAmountObject
-  && state.likecoinAmountObject.pendingLIKE;
+  && state.likecoinAmountObject.pendingLIKE
+  && state.likecoinAmountObject.pendingLIKE > 0;
 
 export const getUserLikeCoinAmountInBigNumber = state => state.likeCoinAmountInBigNumber;
 
@@ -43,7 +44,7 @@ export const getUserHasERC20LikeCoin = (state) => {
   const { likecoinAmountObject } = state;
   if (!likecoinAmountObject) return false;
   const { walletLIKE } = likecoinAmountObject;
-  if (!walletLIKE) return false;
+  if (!walletLIKE || !(walletLIKE > 0)) return false;
   return new BigNumber(walletLIKE).multipliedBy(ONE_LIKE).gte(ETH_MIGRATION_MIN_LIKECOIN_AMOUNT);
 };
 
