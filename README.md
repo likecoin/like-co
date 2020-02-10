@@ -1,10 +1,10 @@
-# likecoin-store
+# likeco
 
 [![CircleCI](https://circleci.com/gh/likecoin/likecoin-store.svg?style=svg)](https://circleci.com/gh/likecoin/likecoin-store)
 [![codecov](https://codecov.io/gh/likecoin/likecoin-store/branch/master/graph/badge.svg)](https://codecov.io/gh/likecoin/likecoin-store)
 [![Greenkeeper badge](https://badges.greenkeeper.io/likecoin/likecoin-store.svg)](https://greenkeeper.io/)
 
-> Like.co, official site of LikeCoin Foundation
+> [like.co](https://like.co), official site of LikeCoin Foundation
 
 ## Essential Folder structure
 ```bash
