@@ -42,6 +42,11 @@ if (config.dev) {
   builder.build();
 }
 
+// explicit cache control on sdk resources
+app.use('/sdk', (req, res, next) => {
+  res.setHeader('Cache-Control', 'public, max-age=1200, stale-if-error=3600, stale-while-revalidate=3600');
+  next();
+});
 // explicit staic serve to avoid middleware effects
 app.use(express.static(path.resolve(__dirname, '../static')));
 
