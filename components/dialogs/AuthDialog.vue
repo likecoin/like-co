@@ -20,7 +20,7 @@
       class="auth-dialog__header-left"
     >
       <a
-        v-if="isUsingAuthCore && !isMobileClient"
+        v-if="isUsingAuthCore && !isMobileClient && currentTab === 'portal'"
         class="auth-dialog__legacy-login-button"
         @click="onClickUseLegacyButton"
       >
@@ -443,14 +443,7 @@ export default {
           return this.$t('General.button.confirm');
       }
     },
-    shouldRedirect() {
-      return (this.$route.query.is_popup === '1'
-        || this.isMobileClient
-        || !!window.opener
-      );
-    },
     getAuthCoreRedirectUrl() {
-      if (!this.shouldRedirect) return '';
       let url = `https://${EXTERNAL_HOSTNAME}/in/register?`;
       url += 'redirect_sign_in=1&sign_in_platform=authcore';
       const { redirect } = this.$route.query;
