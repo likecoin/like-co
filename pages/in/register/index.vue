@@ -34,6 +34,7 @@ export default {
       ],
       link: [
         { rel: 'preconnect', href: AUTHCORE_API_HOST, crossorigin: 'true' },
+        { rel: 'prefetch', href: `${AUTHCORE_API_HOST}/api/auth/widgets/settings` },
       ],
     };
   },
