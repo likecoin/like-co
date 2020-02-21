@@ -15,6 +15,7 @@
           </span>
 
           <div class="right footer-links">
+            <a href="https://docs.like.co/">{{ $t('Footer.button.developer') }}</a>
             <nuxt-link :to="{ name: 'in-policies' }">{{ $t('PoliciesPage.title') }}</nuxt-link>
             <a href="https://help.like.co/">{{ $t('Footer.button.support') }}</a>
           </div>
