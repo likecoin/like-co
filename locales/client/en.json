@@ -566,6 +566,7 @@
       "chain": "LikeCoin chain Explorer"
     },
     "button": {
+      "developer": "Developer",
       "aboutFoundation": "About LikeCoin Foundation",
       "support": "Support"
     }
