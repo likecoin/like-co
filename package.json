@@ -93,7 +93,7 @@
     "@babel/register": "^7.0.0",
     "ava": "^1.0.1",
     "axiosist": "^0.1.0",
-    "babel-eslint": "^10.0.1",
+    "babel-eslint": "^10.1.0",
     "backpack-core": "^0.8.3",
     "chromedriver": "^77.0.0",
     "eslint": "^5.11.1",
