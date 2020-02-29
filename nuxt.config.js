@@ -97,7 +97,6 @@ const nuxtConfig = {
           'www.gstatic.com',
           'www.gstatic.cn',
           'googleads.g.doubleclick.net',
-          'cdn.mouseflow.com',
           'ajax.googleapis.com',
           'js.intercomcdn.com',
           'connect.facebook.net',
