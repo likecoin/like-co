@@ -75,7 +75,7 @@ export default {
   }
 
   &__download-button {
-    margin: 20px;
+    margin: 20px 20px 10px 20px;
     padding: 12px 14px;
 
     text-decoration: none !important;
@@ -89,6 +89,8 @@ export default {
 
   &__about-likecoin-link,
   &__continue-button {
+    margin:10px;
+
     text-decoration: underline !important;
 
     color: $like-green;
