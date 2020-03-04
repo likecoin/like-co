@@ -13,7 +13,7 @@
     "dev:docker:api:dev": "npm --prefix ./server/api run dev:docker:api",
     "dev:docker:api:test": "npm --prefix ./server/api run dev:docker:test",
     "dev:docker:api:test:stop": "npm --prefix ./server/api run dev:docker:test:stop",
-    "dev:frontend": "IS_TESTNET=TRUE backpack dev",
+    "dev:frontend": "cross-env IS_TESTNET=TRUE cross-env EXTERNAL_HOSTNAME='localhost:3000' backpack dev",
     "build": "nuxt build && backpack build",
     "build:testnet": "IS_TESTNET=TRUE nuxt build && npm run build:testnet:server",
     "build:testnet:server": "IS_TESTNET=TRUE backpack build",

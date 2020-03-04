@@ -240,7 +240,7 @@ import {
   MIN_USER_ID_LENGTH,
   MAX_USER_ID_LENGTH,
   LOGIN_CONNECTION_LIST,
-  EXTERNAL_HOSTNAME,
+  EXTERNAL_URL,
 } from '@/constant';
 
 import {
@@ -436,7 +436,7 @@ export default {
       }
     },
     getAuthCoreRedirectUrl() {
-      let url = `https://${EXTERNAL_HOSTNAME}/in/register?`;
+      let url = `${EXTERNAL_URL}/in/register?`;
       url += 'redirect_sign_in=1&sign_in_platform=authcore';
       const { redirect } = this.$route.query;
       if (redirect) {
