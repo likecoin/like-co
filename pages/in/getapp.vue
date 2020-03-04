@@ -89,7 +89,7 @@ export default {
 
   &__about-likecoin-link,
   &__continue-button {
-    margin:10px;
+    padding:10px;
 
     text-decoration: underline !important;
 
