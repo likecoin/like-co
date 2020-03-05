@@ -20,13 +20,18 @@
       class="auth-dialog__header-left"
     >
       <a
-        v-if="isUsingAuthCore && !isMobileClient && currentTab === 'portal'"
+        v-if="isSignIn && isUsingAuthCore && !isMobileClient && currentTab === 'portal'"
         class="auth-dialog__legacy-login-button"
         @click="onClickUseLegacyButton"
       >
         {{ $t('AuthDialog.SignInWithLegacy.title') }}
       </a>
-      <a v-else @click="onClickBackButton">{{ $t('General.back') }}</a>
+      <a
+        v-else-if="currentTab === 'portal' || currentTab === 'error'"
+        @click="onClickBackButton"
+      >
+        {{ $t('General.back') }}
+      </a>
     </div>
 
     <div
@@ -128,18 +133,6 @@
               :platform="platform"
               @register="register"
             />
-          </div>
-
-          <div
-            v-else-if="currentTab === 'signingIn'"
-            v-bind="tabProps"
-            class="auth-dialog__tab lc-padding-vertical-64"
-          >
-            <div class="lc-dialog-container-1">
-              <h1 class="lc-font-size-32 lc-margin-bottom-8 lc-text-align-center lc-mobile">
-                {{ $t('AuthDialog.label.signingIn') }}
-              </h1>
-            </div>
           </div>
 
           <div
@@ -247,7 +240,7 @@ import {
   MIN_USER_ID_LENGTH,
   MAX_USER_ID_LENGTH,
   LOGIN_CONNECTION_LIST,
-  EXTERNAL_HOSTNAME,
+  EXTERNAL_URL,
 } from '@/constant';
 
 import {
@@ -331,7 +324,6 @@ export default {
 
       errorCode: '',
       error: undefined,
-      isSigningInWithEmail: false,
       isSignIn: this.$route.query.register !== '1',
 
       referrer: '',
@@ -361,7 +353,7 @@ export default {
       return this.$route.name === 'in-register';
     },
     isBlocking() {
-      return this.currentTab === 'loading' || this.currentTab === 'signingIn';
+      return this.currentTab === 'loading';
     },
     shouldHideDialog() {
       return !!this.getMetamaskError;
@@ -444,7 +436,7 @@ export default {
       }
     },
     getAuthCoreRedirectUrl() {
-      let url = `https://${EXTERNAL_HOSTNAME}/in/register?`;
+      let url = `${EXTERNAL_URL}/in/register?`;
       url += 'redirect_sign_in=1&sign_in_platform=authcore';
       const { redirect } = this.$route.query;
       if (redirect) {
@@ -457,14 +449,11 @@ export default {
     getAuthDialogStatus: {
       handler({ isShow, isSignIn }) {
         if (isShow) {
-          // Reset current tab to portal then update the content height
-          if (!this.isSigningInWithEmail) {
-            this.currentTab = 'portal';
-          }
+          this.currentTab = 'portal';
 
           const { redirect_sign_in: isRedirectSignIn } = this.$route.query;
           if (isRedirectSignIn) {
-            this.currentTab = 'signingIn';
+            this.currentTab = 'loading';
           }
 
           this.$nextTick(this.updateContentHeightForCurrentTab);
@@ -567,7 +556,7 @@ export default {
     } = this.$route.query;
     if (isRedirectSignIn) {
       this.logRegisterEvent(this, 'RegFlow', 'LoginRedirectDone', 'LoginRedirectDone', 1);
-      this.currentTab = 'signingIn';
+      this.currentTab = 'loading';
 
       try {
         if (signInPlatform) {
@@ -930,7 +919,7 @@ export default {
       }
     },
     async signInWithWallet() {
-      this.currentTab = 'signingIn';
+      this.currentTab = 'loading';
 
       // Determine whether the wallet has registered
       try {
@@ -970,7 +959,7 @@ export default {
       }
     },
     async login() {
-      this.currentTab = 'signingIn';
+      this.currentTab = 'loading';
       try {
         this.logRegisterEvent(this, 'RegFlow', 'OAuthSuccess', `OAuthSuccess(${this.platform})`, 1);
         await apiLoginUser({
@@ -1052,7 +1041,6 @@ export default {
       if (this.referrer) payload.referrer = this.referrer;
       if (this.sourceURL) payload.sourceURL = this.sourceURL;
 
-      this.currentTab = 'signingIn';
       try {
         await this.newUser(payload);
         logTrackerEvent(
@@ -1182,7 +1170,7 @@ export default {
   &--blocking {
     /deep/ .lc-dialog-header::before {
       @include background-image-sliding-animation-x(
-        linear-gradient(to right, #ed9090, #ee6f6f 20%, #ecd7d7, #ed9090)
+        linear-gradient(to right, #d2f0f0, #f0e6b4 50%, #d2f0f0)
       );
     }
   }

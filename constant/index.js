@@ -1,5 +1,7 @@
 import BigNumber from 'bignumber.js';
 
+const { EXTERNAL_HOSTNAME: ENV_HOSTNAME } = process.env;
+
 export const { IS_TESTNET } = process.env;
 
 export const TEST_MODE = process.env.NODE_ENV !== 'production' || process.env.CI;
@@ -84,7 +86,9 @@ export const PURCHASE_LIKE_URL = 'https://www.bitasset.com/ktrade/LIKE-BTC';
 export const WORDPRESS_PLUGIN_URL = 'https://wordpress.org/plugins/likecoin/';
 export const OICE_URL = 'https://oice.com';
 
-export const EXTERNAL_HOSTNAME = IS_TESTNET ? 'rinkeby.like.co' : 'like.co';
+export const EXTERNAL_HOSTNAME = ENV_HOSTNAME || (IS_TESTNET ? 'rinkeby.like.co' : 'like.co');
+
+export const EXTERNAL_URL = `${TEST_MODE ? 'http://' : 'https://'}${EXTERNAL_HOSTNAME}`;
 
 export const SOCIAL_MEDIA_LIST = [
   {
