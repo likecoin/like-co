@@ -27,7 +27,7 @@
                   tag="h1"
                   class="lc-font-size-42 lc-font-weight-300 lc-mobile"
                 >
-                  <span place="coin">{{ isEth ? 'ETH' : 'LikeCoin' }}</span>
+                  <span place="coin">{{ 'LikeCoin' }}</span>
                   <span
                     place="title"
                     class="usertitle"
@@ -101,11 +101,11 @@
                 >
                 <div class="number-input lc-padding-bottom-32">
                   <number-input
-                    :currencyTitle="isEth ? 'ETH' : ''"
+                    :currencyTitle="''"
                     :amount="amount"
                     :isBadAmount="isBadAmount"
                     :label="$t('Transaction.label.amountToSend',
-                               { coin: isEth ? 'ETH' : 'LikeCoin' })"
+                               { coin: 'LikeCoin' })"
                     @onChange="handleAmountChange"
                   />
 
@@ -119,23 +119,8 @@
                 <!-- <md-field> -->
                 <!--   <md-input placeholder="Remark (optional)" /> -->
                 <!-- </md-field> -->
-
-                <material-button
-                  v-if="isEth"
-                  id="payment-confirm"
-                  :disabled="getIsInTransaction"
-                  class="md-raised md-primary eth"
-                  type="submit"
-                  form="paymentInfo"
-                >
-                  <div class="button-content-wrapper">
-                    <img :src="EthIcon">
-                    {{ $t('General.button.send') }}
-                  </div>
-                </material-button>
-
                 <div
-                  v-else-if="!getUserIsRegistered"
+                  v-if="!getUserIsRegistered"
                   class="create-account-wrapper"
                 >
                   <md-button
@@ -159,50 +144,21 @@
 
                 <div v-else>
                   <no-ssr>
-                    <p v-if="!isSupportTransferDeleteaged">
-                      {{ $t('Transaction.error.notSupported') }}
-                    </p>
-                  </no-ssr>
-                  <no-ssr>
                     <md-button
                       id="payment-confirm"
                       :class="['md-raised',
                                'md-likecoin',
-                               { 'lc-alert': isP2pUnavailable },
                       ]"
-                      :disabled="isP2pUnavailable
-                        || getIsInTransaction
-                        || !isSupportTransferDeleteaged
-                      "
+                      :disabled="getIsInTransaction"
                       type="submit"
                       form="paymentInfo"
                     >
                       {{
-                        isP2pUnavailable
-                          ? $t('Transaction.button.unavailable')
-                          : $t('General.button.confirm')
+                        $t('General.button.confirm')
                       }}
                     </md-button>
                     <div id="authcore-cosmos-container" />
                   </no-ssr>
-                  <p
-                    v-if="isP2pUnavailable"
-                    class="lc-margin-top-8"
-                  >{{ $t('Transaction.label.unavailable') }}</p>
-                  <div class="lc-text-align-center lc-margin-top-12">
-                    <i18n
-                      path="Transaction.label.updateMetamask"
-                      tag="p"
-                    >
-                      <span place="version">4.9.2</span>
-                    </i18n>
-                    <a
-                      :href="$t('Transaction.label.manualProcedureUrl')"
-                      class="lc-underline"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >{{ $t('Transaction.label.manualProcedure') }}</a>
-                  </div>
                 </div>
 
               </form>
@@ -227,12 +183,9 @@ import { mapActions, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
 
 import NumberInput from '~/components/NumberInput';
-import EthIcon from '@/assets/tokensale/eth.svg';
-import MaterialButton from '~/components/MaterialButton';
 import NarrowPageHeader from '~/components/header/NarrowPageHeader';
 import SocialMediaConnect from '~/components/SocialMediaConnect';
 
-import EthHelper from '@/util/EthHelper';
 import {
   queryLikeCoinBalance as queryCosmosLikeCoinBalance,
 } from '@/util/CosmosHelper';
@@ -242,10 +195,6 @@ import {
   apiGetSocialListById,
 } from '@/util/api/api';
 
-import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
-
-
-const ONE_LIKE = new BigNumber(10).pow(18);
 const DEFAULT_P2P_AMOUNT_IN_USD = 0.25;
 
 function formatAmount(amount) {
@@ -273,18 +222,15 @@ export default {
   layout: 'narrowWithHeader',
   components: {
     NumberInput,
-    MaterialButton,
     NarrowPageHeader,
     SocialMediaConnect,
   },
   data() {
     return {
-      EthIcon,
       isBadAddress: false,
       isBadAmount: false,
       isSupportTransferDeleteaged: true,
       isP2pUnavailable: false,
-      isWaitingWeb3: false,
       platforms: {},
     };
   },
@@ -303,19 +249,13 @@ export default {
       apiGetSocialListById(params.id).catch(() => ({})),
     ]).then((res) => {
       const {
-        wallet,
         cosmosWallet,
         avatar,
         displayName,
       } = res[0].data;
       const amount = formatAmount(params.amount || 1);
-      if (wallet === LIKE_COIN_ICO_ADDRESS) {
-        redirect({
-          name: 'in-tokensale',
-        });
-      }
       return {
-        wallet: cosmosWallet || wallet,
+        wallet: cosmosWallet,
         avatar,
         id: params.id,
         displayName: displayName || params.id,
@@ -385,13 +325,6 @@ export default {
       'getLocalWeb3Wallet',
       'getIsWeb3Polling',
     ]),
-    isCosmos() {
-      return this.wallet.startsWith('cosmos');
-    },
-    isEth() {
-      /* HACK because nuxt cannot easily pass route with params */
-      return this.$route.name === 'id-eth' || this.$route.name === 'id-eth-amount';
-    },
     maskedWallet() {
       return this.wallet.replace(/((?:cosmos1|0x).{4}).*(.{10})/, '$1...$2');
     },
@@ -409,20 +342,7 @@ export default {
       return null;
     },
   },
-  watch: {
-    getWeb3Type() {
-      this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
-    },
-    getLocalWeb3Wallet() {
-      if (this.getIsWeb3Polling && this.isWaitingWeb3) {
-        this.submitTransfer();
-        this.stopWeb3Polling();
-      }
-    },
-  },
   async mounted() {
-    this.isSupportTransferDeleteaged = EthHelper.getIsSupportTransferDelegated();
-
     if (!this.getLikeCoinUsdNumericPrice) {
       await this.queryLikeCoinUsdPrice();
     }
@@ -432,38 +352,19 @@ export default {
   },
   methods: {
     ...mapActions([
-      'showMetaMaskLoginWindow',
       'popupAuthDialogInPlace',
       'setReAuthDialogShow',
       'doUserAuth',
       'sendPayment',
       'sendCosmosPayment',
-      'sendEthPayment',
       'setErrorMsg',
       'closeTxDialog',
       'queryLikeCoinUsdPrice',
-      'startWeb3Polling',
-      'stopWeb3Polling',
       'fetchAuthCoreCosmosWallet',
       'prepareCosmosTxSigner',
     ]),
-    async startPollingForWeb3() {
-      this.isWaitingWeb3 = true;
-      const isPolling = await this.startWeb3Polling();
-      if (!isPolling) {
-        this.isWaitingWeb3 = false;
-      }
-      return isPolling;
-    },
     async submitTransfer() {
-      if (!this.isCosmos) {
-        if (await this.startPollingForWeb3()) return;
-        if (this.getMetamaskError) {
-          this.showMetaMaskLoginWindow();
-          return;
-        }
-      }
-      const { wallet, cosmosWallet } = this.getUserInfo;
+      const { cosmosWallet } = this.getUserInfo;
       const amount = new BigNumber(this.amount);
       if (!amount || amount.lt('0.000000000000000001')) {
         this.isBadAmount = true;
@@ -471,13 +372,11 @@ export default {
       }
       this.isBadAmount = false;
       try {
-        let balance = 0;
-        const from = this.isCosmos
-          ? await this.fetchAuthCoreCosmosWallet() : this.getLocalWeb3Wallet;
+        const from = await this.fetchAuthCoreCosmosWallet();
         if (!from) {
           return;
         }
-        const userWallet = this.isCosmos ? cosmosWallet : wallet;
+        const userWallet = cosmosWallet;
         if (from !== userWallet) {
           this.setErrorMsg(this.$t('Transaction.error.metamaskWalletNotMatch'));
           return;
@@ -487,57 +386,22 @@ export default {
           this.setErrorMsg(this.$t('Transaction.error.sameUser'));
           return;
         }
-        let valueToSend;
-        if (!this.isCosmos) {
-          if (this.isEth) {
-            balance = await EthHelper.queryEthBalance(from);
-          } else {
-            balance = await EthHelper.queryLikeCoinBalance(from);
-          }
-          valueToSend = ONE_LIKE.multipliedBy(amount);
-          if ((new BigNumber(balance)).lt(valueToSend)) {
-            this.setErrorMsg(
-              this.$t(`Transaction.error.${this.isEth ? 'eth' : 'likecoin'}Insufficient`),
-            );
-            return;
-          }
-        } else {
-          balance = await queryCosmosLikeCoinBalance(from);
-          valueToSend = amount.toFixed();
-          if (balance < valueToSend) {
-            this.setErrorMsg(
-              this.$t(`Transaction.error.${this.isEth ? 'eth' : 'likecoin'}Insufficient`),
-            );
-            return;
-          }
+        const balance = await queryCosmosLikeCoinBalance(from);
+        const valueToSend = amount.toFixed();
+        if (balance < valueToSend) {
+          this.setErrorMsg(
+            this.$t(`Transaction.error.${this.isEth ? 'eth' : 'likecoin'}Insufficient`),
+          );
+          return;
         }
 
-        let txHash;
-        if (this.isEth) {
-          txHash = await EthHelper.sendTransaction(to, valueToSend);
-          const value = valueToSend;
-          await this.sendEthPayment({
-            from,
-            to,
-            txHash,
-            value,
-          });
-        } else if (this.isCosmos) {
-          const signer = await this.prepareCosmosTxSigner();
-          txHash = await this.sendCosmosPayment({
-            signer,
-            from,
-            to,
-            value: valueToSend,
-          });
-        } else {
-          if (!EthHelper.getIsSupportTransferDelegated()) {
-            this.setErrorMsg(this.$t('Transaction.error.notSupported'));
-          }
-          const payload = await EthHelper.signTransferDelegated(to, valueToSend, 0);
-          payload.httpReferrer = this.httpReferrer;
-          txHash = await this.sendPayment(payload);
-        }
+        const signer = await this.prepareCosmosTxSigner();
+        const txHash = await this.sendCosmosPayment({
+          signer,
+          from,
+          to,
+          value: valueToSend,
+        });
         if (this.getIsShowingTxPopup) {
           this.closeTxDialog();
           this.$router.push({
