@@ -122,10 +122,9 @@ export async function fetchAuthCoreCosmosWallet({ state }) {
 
 export async function prepareCosmosTxSigner({ state }) {
   if (!state.cosmosProvider) throw new Error('COSMOS_WALLET_NOT_INITED');
-  const [address] = await state.cosmosProvider.getAddresses(); // HACK: only get first wallet
   return async function signer(signMessage) {
     const data = JSON.parse(signMessage);
-    const dataWithSign = await state.cosmosProvider.approve(data, address);
+    const dataWithSign = await state.cosmosProvider.sign(data);
     const signObject = dataWithSign.signatures[dataWithSign.signatures.length - 1];
     return {
       signature: Buffer.from(signObject.signature, 'base64'),
