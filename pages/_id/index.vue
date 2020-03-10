@@ -17,7 +17,7 @@
           </div>
         </div>
 
-        <div :class="['lc-container-2-extend', { ether: isEth }]">
+        <div :class="['lc-container-2-extend']">
           <div class="lc-container-3-extend-bg" />
           <div class="lc-container-3">
             <div class="lc-padding-top-32 lc-padding-bottom-16">
@@ -119,31 +119,32 @@
                 <!-- <md-field> -->
                 <!--   <md-input placeholder="Remark (optional)" /> -->
                 <!-- </md-field> -->
-                <div
-                  v-if="!getUserIsRegistered"
-                  class="create-account-wrapper"
-                >
-                  <md-button
-                    class="md-likecoin"
-                    @click="onClickSignInButton"
+                <div v-if="isLoading">Loading...</div>
+                <no-ssr v-else>
+                  <div
+                    v-if="!getUserIsRegistered"
+                    class="create-account-wrapper"
                   >
-                    {{ $t('Home.Header.button.signIn') }}
-                  </md-button>
-                </div>
-                <div
-                  v-else-if="getAuthCoreNeedReAuth"
-                  class="create-account-wrapper"
-                >
-                  <md-button
-                    class="md-likecoin"
-                    @click="onClickAuthCoreReAuth"
+                    <md-button
+                      class="md-likecoin"
+                      @click="onClickSignInButton"
+                    >
+                      {{ $t('Home.Header.button.signIn') }}
+                    </md-button>
+                  </div>
+                  <div
+                    v-else-if="getAuthCoreNeedReAuth"
+                    class="create-account-wrapper"
                   >
-                    {{ $t('AuthCore.button.reAuthNeeded') }}
-                  </md-button>
-                </div>
+                    <md-button
+                      class="md-likecoin"
+                      @click="onClickAuthCoreReAuth"
+                    >
+                      {{ $t('AuthCore.button.reAuthNeeded') }}
+                    </md-button>
+                  </div>
 
-                <div v-else>
-                  <no-ssr>
+                  <div v-else>
                     <md-button
                       id="payment-confirm"
                       :class="['md-raised',
@@ -158,9 +159,8 @@
                       }}
                     </md-button>
                     <div id="authcore-cosmos-container" />
-                  </no-ssr>
-                </div>
-
+                  </div>
+                </no-ssr>
               </form>
 
               <div v-else>
@@ -231,6 +231,7 @@ export default {
       isBadAmount: false,
       isSupportTransferDeleteaged: true,
       isP2pUnavailable: false,
+      isLoading: true,
       platforms: {},
     };
   },
@@ -349,6 +350,7 @@ export default {
     if (!this.$route.params.amount && this.getLikeCoinUsdNumericPrice) {
       this.amount = (DEFAULT_P2P_AMOUNT_IN_USD / this.getLikeCoinUsdNumericPrice).toFixed(2);
     }
+    this.isLoading = false;
   },
   methods: {
     ...mapActions([
@@ -364,35 +366,36 @@ export default {
       'prepareCosmosTxSigner',
     ]),
     async submitTransfer() {
-      const { cosmosWallet } = this.getUserInfo;
-      const amount = new BigNumber(this.amount);
-      if (!amount || amount.lt('0.000000000000000001')) {
-        this.isBadAmount = true;
-        return;
-      }
-      this.isBadAmount = false;
+      this.isLoading = true;
       try {
+        this.isBadAmount = false;
+        const { cosmosWallet } = this.getUserInfo;
+        const amount = new BigNumber(this.amount);
+        if (!amount || amount.lt('0.000000000000000001')) {
+          this.isBadAmount = true;
+          throw new Error('VALIDATION_FAIL');
+        }
         const from = await this.fetchAuthCoreCosmosWallet();
         if (!from) {
-          return;
+          throw new Error('VALIDATION_FAIL');
         }
         const userWallet = cosmosWallet;
         if (from !== userWallet) {
           this.setErrorMsg(this.$t('Transaction.error.metamaskWalletNotMatch'));
-          return;
+          throw new Error('VALIDATION_FAIL');
         }
         const to = this.wallet;
         if (from === to) {
           this.setErrorMsg(this.$t('Transaction.error.sameUser'));
-          return;
+          throw new Error('VALIDATION_FAIL');
         }
         const balance = await queryCosmosLikeCoinBalance(from);
         const valueToSend = amount.toFixed();
         if (balance < valueToSend) {
           this.setErrorMsg(
-            this.$t(`Transaction.error.${this.isEth ? 'eth' : 'likecoin'}Insufficient`),
+            this.$t('Transaction.error.likecoinInsufficient'),
           );
-          return;
+          throw new Error('VALIDATION_FAIL');
         }
 
         const signer = await this.prepareCosmosTxSigner();
@@ -410,7 +413,9 @@ export default {
           });
         }
       } catch (error) {
-        console.error(error);
+        if (error.message !== 'VALIDATION_FAIL') console.error(error);
+      } finally {
+        this.isLoading = false;
       }
     },
     onAmountInput(value) {
