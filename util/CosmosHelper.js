@@ -120,6 +120,7 @@ export async function queryLikeCoinBalance(addr) {
   if (!api) await initCosmos();
   const account = await api.get.account(addr);
   const [amount] = account.coins.filter(coin => coin.denom === COSMOS_DENOM);
+  if (!amount) return 0;
   return amountToLIKE(amount);
 }
 
