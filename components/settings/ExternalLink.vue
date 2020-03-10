@@ -110,7 +110,7 @@
       <md-button
         v-else
         class="md-icon-button"
-        @click="onClickEdit"
+        @click.prevent="onClickEdit"
       >
         <span>
           <simple-svg
