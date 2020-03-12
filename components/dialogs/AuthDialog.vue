@@ -372,9 +372,6 @@ export default {
       return this.currentTab !== 'portal' || this.isUsingAuthCore;
     },
     tabKey() {
-      if (this.currentTab === 'portal') {
-        return `${this.currentTab}${this.isSignIn ? '-signin' : ''}`;
-      }
       return this.currentTab;
     },
     tabProps() {
@@ -494,16 +491,6 @@ export default {
       }
 
       this.$nextTick(this.updateResizeObserverForCurrentTab);
-    },
-    tabKey(key, prevKey) {
-      let transition = 'fade';
-      if (
-        (key === 'portal' && prevKey === 'portal-signin')
-        || (prevKey === 'portal' && key === 'portal-signin')
-      ) {
-        transition = 'flip';
-      }
-      this.tabTransition = transition;
     },
     shouldShowDialog(value) {
       if (value) {
@@ -865,6 +852,10 @@ export default {
     },
     onAuthCoreNavigation(page) {
       this.logRegisterEvent(this, 'RegFlow', `AuthCoreSwitchTo${page}`, `AuthCoreSwitchTo${page}`, 1);
+      this.setAuthDialog({
+        isShow: true,
+        isSignIn: page === 'SignIn',
+      });
     },
     async signInWithAuthCore({ accessToken, currentUser, idToken }) {
       this.logRegisterEvent(this, 'RegFlow', 'AuthCoreSignInSuccess', 'AuthCoreSignInSuccess', 1);
