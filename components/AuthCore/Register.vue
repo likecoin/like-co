@@ -37,6 +37,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    socialLoginPaneStyle: {
+      type: String,
+      default: 'top',
+    },
   },
   computed: {
     SignInWidget() {
@@ -62,7 +66,7 @@ export default {
         container: 'authcore-register-container',
         root: `${AUTHCORE_API_HOST}/widgets`,
         initialScreen: this.isSignIn ? 'signin' : 'register',
-        socialLoginPaneStyle: 'top', // TODO: implement A/B testing on this flag
+        socialLoginPaneStyle: this.socialLoginPaneStyle,
         internal: true,
         contact: this.email,
         language: this.authCoreLanguage,

@@ -92,6 +92,7 @@
               :is-sign-in="isSignIn"
               :language="getCurrentLocale"
               :redirect-url="getAuthCoreRedirectUrl"
+              :social-login-pane-style="socialLoginPanePosition"
               @loaded="onAuthCoreLoaded"
               @loginWidgetLoaded="onAuthCoreLoginWidgetLoaded"
               @registerStarted="onAuthCoreRegisterStarted"
@@ -264,6 +265,7 @@ import SigninPortal from './AuthDialogContent/SignInPortal';
 // import EmailSigninForm from './AuthDialogContent/SignInWithEmail';
 import RegisterForm from './AuthDialogContent/Register';
 import EthMixin from '~/components/EthMixin';
+import experimentsMixin from '~/util/mixins/experiments';
 
 import User from '@/util/User';
 
@@ -303,6 +305,11 @@ export default {
   },
   mixins: [
     EthMixin,
+    experimentsMixin(
+      'shouldTestSocialPosition',
+      'signin-portal',
+      'bottom',
+    ),
   ],
   data() {
     return {
@@ -441,6 +448,10 @@ export default {
         url += `&redirect=${encodeURIComponent(redirect)}`;
       }
       return url;
+    },
+    socialLoginPanePosition() {
+      if (this.shouldTestSocialPosition) return 'bottom';
+      return 'top';
     },
   },
   watch: {
