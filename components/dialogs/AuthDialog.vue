@@ -97,6 +97,7 @@
               @registerStarted="onAuthCoreRegisterStarted"
               @oauthStarted="onAuthCoreOAuthStarted"
               @loginStarted="onAuthCoreLoginStarted"
+              @navigation="onAuthCoreNavigation"
               @success="signInWithAuthCore"
             />
             <signin-portal
@@ -861,6 +862,9 @@ export default {
     },
     onAuthCoreLoginStarted(method) {
       this.logRegisterEvent(this, 'RegFlow', 'AuthCoreLoginTry', `AuthCoreLoginTry(${method})`, 1);
+    },
+    onAuthCoreNavigation(page) {
+      this.logRegisterEvent(this, 'RegFlow', `AuthCoreSwitchTo${page}`, `AuthCoreSwitchTo${page}`, 1);
     },
     async signInWithAuthCore({ accessToken, currentUser, idToken }) {
       this.logRegisterEvent(this, 'RegFlow', 'AuthCoreSignInSuccess', 'AuthCoreSignInSuccess', 1);

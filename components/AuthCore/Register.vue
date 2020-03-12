@@ -78,8 +78,16 @@ export default {
         successRedirectUrl: this.redirectUrl,
         onLoaded: () => this.$emit('loaded'),
         analyticsHook: (type, data) => {
-          const payload = data && (data.method || data.service);
-          this.$emit(type.replace('Authcore_', ''), payload);
+          let payload;
+          const actualType = type.replace('Authcore_', '');
+          switch (actualType) {
+            case 'registerStarted': payload = data.method; break;
+            case 'loginStarted': payload = data.method; break;
+            case 'oauthStarted': payload = data.service; break;
+            case 'navigation': payload = data.to; break;
+            default: break;
+          }
+          this.$emit(actualType, payload);
         },
         unauthenticated: (err) => {
           this.$emit('unauthenticated', err);
@@ -98,8 +106,6 @@ export default {
 
 <style lang="scss">
 #authcore-register-container {
-  padding: 24px 0 32px;
-
   > iframe {
     @media screen and (max-width: 536px) {
       width: 100vw !important;
