@@ -1,6 +1,6 @@
 export default {
   name: 'signin-portal',
-  experimentID: 'ex_s8iMBRQulAAWRftMAXQ',
+  experimentID: 'gaPNkOqMSnK0MTR02B8XjA',
   isEligible: ({ route }) => route.path.includes('register'),
   variants: [
     { name: 'original', weight: 1 },
