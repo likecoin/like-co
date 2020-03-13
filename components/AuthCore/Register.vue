@@ -37,6 +37,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    socialLoginPaneStyle: {
+      type: String,
+      default: 'top',
+    },
   },
   computed: {
     SignInWidget() {
@@ -62,7 +66,7 @@ export default {
         container: 'authcore-register-container',
         root: `${AUTHCORE_API_HOST}/widgets`,
         initialScreen: this.isSignIn ? 'signin' : 'register',
-        socialLoginPaneStyle: 'top', // TODO: implement A/B testing on this flag
+        socialLoginPaneStyle: this.socialLoginPaneStyle,
         internal: true,
         contact: this.email,
         language: this.authCoreLanguage,
@@ -78,8 +82,16 @@ export default {
         successRedirectUrl: this.redirectUrl,
         onLoaded: () => this.$emit('loaded'),
         analyticsHook: (type, data) => {
-          const payload = data && (data.method || data.service);
-          this.$emit(type.replace('Authcore_', ''), payload);
+          let payload;
+          const actualType = type.replace('Authcore_', '');
+          switch (actualType) {
+            case 'registerStarted': payload = data.method; break;
+            case 'loginStarted': payload = data.method; break;
+            case 'oauthStarted': payload = data.service; break;
+            case 'navigation': payload = data.to; break;
+            default: break;
+          }
+          this.$emit(actualType, payload);
         },
         unauthenticated: (err) => {
           this.$emit('unauthenticated', err);
@@ -98,8 +110,6 @@ export default {
 
 <style lang="scss">
 #authcore-register-container {
-  padding: 24px 0 32px;
-
   > iframe {
     @media screen and (max-width: 536px) {
       width: 100vw !important;

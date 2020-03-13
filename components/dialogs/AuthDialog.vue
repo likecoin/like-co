@@ -92,11 +92,13 @@
               :is-sign-in="isSignIn"
               :language="getCurrentLocale"
               :redirect-url="getAuthCoreRedirectUrl"
+              :social-login-pane-style="socialLoginPanePosition"
               @loaded="onAuthCoreLoaded"
               @loginWidgetLoaded="onAuthCoreLoginWidgetLoaded"
               @registerStarted="onAuthCoreRegisterStarted"
               @oauthStarted="onAuthCoreOAuthStarted"
               @loginStarted="onAuthCoreLoginStarted"
+              @navigation="onAuthCoreNavigation"
               @success="signInWithAuthCore"
             />
             <signin-portal
@@ -263,6 +265,7 @@ import SigninPortal from './AuthDialogContent/SignInPortal';
 // import EmailSigninForm from './AuthDialogContent/SignInWithEmail';
 import RegisterForm from './AuthDialogContent/Register';
 import EthMixin from '~/components/EthMixin';
+import experimentsMixin from '~/util/mixins/experiments';
 
 import User from '@/util/User';
 
@@ -302,6 +305,11 @@ export default {
   },
   mixins: [
     EthMixin,
+    experimentsMixin(
+      'shouldTestSocialPosition',
+      'signin-portal',
+      'bottom',
+    ),
   ],
   data() {
     return {
@@ -371,9 +379,6 @@ export default {
       return this.currentTab !== 'portal' || this.isUsingAuthCore;
     },
     tabKey() {
-      if (this.currentTab === 'portal') {
-        return `${this.currentTab}${this.isSignIn ? '-signin' : ''}`;
-      }
       return this.currentTab;
     },
     tabProps() {
@@ -444,6 +449,10 @@ export default {
       }
       return url;
     },
+    socialLoginPanePosition() {
+      if (this.shouldTestSocialPosition) return 'bottom';
+      return 'top';
+    },
   },
   watch: {
     getAuthDialogStatus: {
@@ -493,16 +502,6 @@ export default {
       }
 
       this.$nextTick(this.updateResizeObserverForCurrentTab);
-    },
-    tabKey(key, prevKey) {
-      let transition = 'fade';
-      if (
-        (key === 'portal' && prevKey === 'portal-signin')
-        || (prevKey === 'portal' && key === 'portal-signin')
-      ) {
-        transition = 'flip';
-      }
-      this.tabTransition = transition;
     },
     shouldShowDialog(value) {
       if (value) {
@@ -861,6 +860,13 @@ export default {
     },
     onAuthCoreLoginStarted(method) {
       this.logRegisterEvent(this, 'RegFlow', 'AuthCoreLoginTry', `AuthCoreLoginTry(${method})`, 1);
+    },
+    onAuthCoreNavigation(page) {
+      this.logRegisterEvent(this, 'RegFlow', `AuthCoreSwitchTo${page}`, `AuthCoreSwitchTo${page}`, 1);
+      this.setAuthDialog({
+        isShow: true,
+        isSignIn: page === 'SignIn',
+      });
     },
     async signInWithAuthCore({ accessToken, currentUser, idToken }) {
       this.logRegisterEvent(this, 'RegFlow', 'AuthCoreSignInSuccess', 'AuthCoreSignInSuccess', 1);
