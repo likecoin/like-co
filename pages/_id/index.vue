@@ -227,12 +227,20 @@ export default {
   },
   data() {
     return {
+      id: '',
+      wallet: '',
+      avatar: '',
+      displayName: '',
+      amount: '',
+      avatarHalo: 'none',
       isBadAddress: false,
       isBadAmount: false,
       isSupportTransferDeleteaged: true,
       isP2pUnavailable: false,
       isLoading: true,
       platforms: {},
+      isTransferMode: false,
+      transferTarget: null,
     };
   },
   async asyncData({
@@ -245,9 +253,33 @@ export default {
     if (params.id !== params.id.toLowerCase()) {
       redirect({ name: route.name, params: { ...params, id: params.id.toLowerCase() }, query });
     }
+    let transferAmount;
+    let transferTo;
+    let redirectUrl;
+    let fee;
+    if (query) {
+      ({
+        fee,
+        transfer_amount: transferAmount,
+        transfer_to: transferTo,
+        redirect_url: redirectUrl,
+      } = query);
+    }
+    if (redirectUrl) {
+      // TODO check redirect whitelist
+    }
+    if (transferTo) {
+      let errorMessage = '';
+      if (transferAmount && !params.amount) errorMessage = 'Amount not set';
+      if (!fee && !transferAmount) errorMessage = 'Fee or amount not set';
+      if (fee && transferAmount) errorMessage = 'Invalid transfer data';
+      if (errorMessage) return error({ statusCode: 400, message: errorMessage });
+      // TODO redirect with error
+    }
     return Promise.all([
       apiGetUserMinById(params.id),
       apiGetSocialListById(params.id).catch(() => ({})),
+      transferTo ? apiGetUserMinById(transferTo) : undefined,
     ]).then((res) => {
       const {
         cosmosWallet,
@@ -255,6 +287,19 @@ export default {
         displayName,
       } = res[0].data;
       const amount = formatAmount(params.amount || 1);
+      let transferTarget;
+      if (res[2] && res[2].data) {
+        const {
+          cosmosWallet: targetCosmosWallet,
+          avatar: targetAvatar,
+          displayName: targetDisplayName,
+        } = res[2].data;
+        transferTarget = {
+          cosmosWallet: targetCosmosWallet,
+          avatar: targetAvatar,
+          displayName: targetDisplayName,
+        };
+      }
       return {
         wallet: cosmosWallet,
         avatar,
@@ -263,6 +308,11 @@ export default {
         amount,
         avatarHalo: User.getAvatarHaloType(res[0].data),
         platforms: res[1].data,
+        isTransferMode: !!transferTo,
+        transferTo,
+        transferTarget,
+        transferFee: fee,
+        transferAmount,
       };
     }).catch((e) => { // eslint-disable-line no-unused-vars
       error({ statusCode: 404, message: '' });
@@ -326,8 +376,24 @@ export default {
       'getLocalWeb3Wallet',
       'getIsWeb3Polling',
     ]),
+    amountInBigNumer() {
+      return new BigNumber(this.amount);
+    },
+    computedHostAmount() {
+      if (this.transferFee) return new BigNumber(this.transferFee).toFixed();
+      if (this.transferAmount) return this.amountInBigNumer.minus(this.transferAmount).toFixed();
+      return new BigNumber(this.amount).toFixed;
+    },
+    computedTransferAmount() {
+      if (this.transferFee) return this.amountInBigNumer.minus(this.transferFee).toFixed();
+      return new BigNumber(this.transferAmount).toFixed();
+    },
     maskedWallet() {
       return this.wallet.replace(/((?:cosmos1|0x).{4}).*(.{10})/, '$1...$2');
+    },
+    maskedTransferToWallet() {
+      if (!this.transferTarget) return '';
+      return this.transferTarget.cosmosWallet.replace(/((?:cosmos1|0x).{4}).*(.{10})/, '$1...$2');
     },
     httpReferrer() {
       return this.$route.query.referrer || document.referrer || undefined;
@@ -399,12 +465,22 @@ export default {
         }
 
         const signer = await this.prepareCosmosTxSigner();
-        const txHash = await this.sendCosmosPayment({
-          signer,
-          from,
-          to,
-          value: valueToSend,
-        });
+        let txHash;
+        if (this.isTransferMode) {
+          await this.sendCosmosPayment({
+            signer,
+            from,
+            tos: [to, this.transferTarget.cosmosWallet],
+            values: [this.computedHostAmount, this.computedTransferAmount],
+          });
+        } else {
+          await this.sendCosmosPayment({
+            signer,
+            from,
+            to,
+            value: valueToSend,
+          });
+        }
         if (this.getIsShowingTxPopup) {
           this.closeTxDialog();
           this.$router.push({

@@ -2,7 +2,10 @@
 
 import * as api from '@/util/api/api';
 import * as types from '@/store/mutation-types';
-import { transfer as transferCosmos } from '@/util/CosmosHelper';
+import {
+  transfer as transferCosmos,
+  transferMultiple as transferCosmosMultiple,
+} from '@/util/CosmosHelper';
 import apiWrapper from './api-wrapper';
 
 export async function sendCosmosPayment(
@@ -10,8 +13,20 @@ export async function sendCosmosPayment(
   { signer, isWait = true, ...payload },
 ) {
   try {
-    const { from, to, value } = payload;
-    const { txHash, included } = await transferCosmos({ from, to, value }, signer);
+    const {
+      from,
+      to,
+      tos,
+      value,
+      values,
+    } = payload;
+    let txHash;
+    let included;
+    if (tos && values) {
+      ({ txHash, included } = await transferCosmosMultiple({ from, tos, values }, signer));
+    } else {
+      ({ txHash, included } = await transferCosmos({ from, to, value }, signer));
+    }
     commit(types.UI_START_LOADING_TX);
     commit(types.PAYMENT_SET_PENDING_HASH, txHash);
     commit(types.PAYMENT_SET_PENDING_TX_INFO, { from, to, value });
