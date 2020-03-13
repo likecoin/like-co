@@ -74,7 +74,54 @@
                   {{ maskedWallet }}
                 </div>
               </section>
-
+              <section
+                v-if="isTransferMode"
+                class="address-container"
+              >
+                <div class="address-title">
+                  Amount
+                </div>
+                <div class="address-content">
+                  {{ computedHostAmount }}
+                </div>
+              </section>
+              <template v-if="isTransferMode">
+                <section
+                  class="address-container"
+                >
+                  <div class="address-title">
+                    {{ $t('Transaction.label.recipientId') }}
+                  </div>
+                  <div class="address-content">
+                    <lc-avatar
+                      v-if="transferTarget.avatar"
+                      :src="transferTarget.avatar"
+                      size="64"
+                    />
+                    {{ transferTo }}
+                  </div>
+                </section>
+                <section
+                  class="address-container"
+                >
+                  <div class="address-title">
+                    {{ $t('Transaction.label.recipientAddress') }}
+                  </div>
+                  <div class="address-content">
+                    {{ maskedTransferToWallet }}
+                  </div>
+                </section>
+                <section
+                  class="address-container"
+                >
+                  <div class="address-title">
+                    Amount
+                  </div>
+                  <div class="address-content">
+                    {{ computedTransferAmount }}
+                  </div>
+                </section>
+              </template>
             </div>
           </div>
         </div>
