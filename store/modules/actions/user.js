@@ -20,12 +20,43 @@ export function doUserAuth({ commit }, { router, route }) {
       query,
       hash,
     });
+    if (window.sessionStorage) {
+      window.sessionStorage.setItem(
+        'USER_POST_AUTH_ROUTE',
+        JSON.stringify({
+          name,
+          params,
+          query,
+          hash,
+        }),
+      );
+    }
+  } else if (window.sessionStorage) {
+    window.sessionStorage.removeItem(
+      'USER_POST_AUTH_ROUTE',
+    );
   }
   router.push({ name: 'in-register', query: route.query });
 }
 
 export function doPostAuthRedirect({ commit, state }, { route, router }) {
-  let targetRoute = state.preAuthRoute || { name: 'in' };
+  let targetRoute = state.preAuthRoute;
+  if (window.sessionStorage) {
+    if (!targetRoute) {
+      const routeString = window.sessionStorage.getItem(
+        'USER_POST_AUTH_ROUTE',
+      );
+      try {
+        if (routeString) {
+          targetRoute = JSON.parse(routeString);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    window.sessionStorage.removeItem('USER_POST_AUTH_ROUTE');
+  }
+  if (!targetRoute) targetRoute = { name: 'in', query: { postlogin: 1 } };
   if (route) {
     const {
       query,

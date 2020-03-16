@@ -152,6 +152,17 @@ export const popupAuthDialogInPlace = ({ commit }, { route, isSignIn }) => {
     query,
     hash,
   });
+  if (window.sessionStorage) {
+    window.sessionStorage.setItem(
+      'USER_POST_AUTH_ROUTE',
+      JSON.stringify({
+        name,
+        params,
+        query,
+        hash,
+      }),
+    );
+  }
 };
 
 const WALLET_NOTICE_EXPIRY_TIME_KEY = 'wallet_notice_expiry_time';
