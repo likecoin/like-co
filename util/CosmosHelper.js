@@ -125,10 +125,9 @@ export async function queryLikeCoinBalance(addr) {
 }
 
 export async function sendTx(msgCallPromise, signer) {
-  const { send } = await msgCallPromise;
-  // const gas = (await simulate({})).toString();
-  // TODO: fix simulate
-  const { hash, included } = await send({ gas: '90000' }, signer);
+  const { simulate, send } = await msgCallPromise;
+  const gas = (await simulate({})).toString();
+  const { hash, included } = await send({ gas }, signer);
   return { txHash: hash, included };
 }
 
@@ -172,7 +171,13 @@ async function MsgSendMultiple(
   };
   return {
     message,
-    simulate: ({ memo = undefined }) => api.simulate(senderAddress, { message, memo }),
+    simulate: ({ memo = undefined }) => {
+      let base = 30000;
+      const numberOfReceivers = message.value.outputs.length;
+      if (numberOfReceivers) base += numberOfReceivers * 8000;
+      if (memo && memo.length) base += memo.length * 100;
+      return Math.floor(base * 1.2);
+    },
     send: (
       { gas, gasPrices, memo = undefined },
       signer,
