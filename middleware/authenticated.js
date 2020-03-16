@@ -7,6 +7,30 @@ import {
   TEST_MODE,
 } from '@/constant';
 
+function setRouteToSessionStorage(route) {
+  if (window.sessionStorage) {
+    if (route) {
+      const {
+        name,
+        params,
+        query,
+        hash,
+      } = route;
+      window.sessionStorage.setItem(
+        'USER_POST_AUTH_ROUTE',
+        JSON.stringify({
+          name,
+          params,
+          query,
+          hash,
+        }),
+      );
+    } else {
+      window.sessionStorage.removeItem('USER_POST_AUTH_ROUTE');
+    }
+  }
+}
+
 export default function ({
   req,
   res,
@@ -24,6 +48,7 @@ export default function ({
     const { register, from, referrer } = query;
     if (!process.server) {
       store.commit(USER_SET_AFTER_AUTH_ROUTE, route);
+      setRouteToSessionStorage(route);
       if (register === '1') redirectPath = `${redirectPath}?register=1`;
     } else {
       const qsPayload = {
@@ -39,6 +64,7 @@ export default function ({
     let redirectPath = '/in/migration/authcore';
     if (!process.server) {
       store.commit(USER_SET_AFTER_AUTH_ROUTE, route);
+      setRouteToSessionStorage(route);
     } else {
       const qsPayload = {
         redirect: `${TEST_MODE ? 'http' : 'https'}://${req.headers.host}${route.fullPath}`,
