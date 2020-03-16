@@ -85,7 +85,7 @@ export default {
           let payload;
           const actualType = type.replace('Authcore_', '');
           switch (actualType) {
-            case 'registerStarted': payload = data.method; break;
+            case 'registerStarted': payload = data.contactType; break;
             case 'loginStarted': payload = data.method; break;
             case 'oauthStarted': payload = data.service; break;
             case 'navigation': payload = data.to; break;
