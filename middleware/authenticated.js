@@ -7,7 +7,7 @@ import {
   TEST_MODE,
 } from '@/constant';
 
-function setRouteToLocalStorage(route) {
+function setRouteToSessionStorage(route) {
   if (window.sessionStorage) {
     if (route) {
       const {
@@ -48,7 +48,7 @@ export default function ({
     const { register, from, referrer } = query;
     if (!process.server) {
       store.commit(USER_SET_AFTER_AUTH_ROUTE, route);
-      setRouteToLocalStorage(route);
+      setRouteToSessionStorage(route);
       if (register === '1') redirectPath = `${redirectPath}?register=1`;
     } else {
       const qsPayload = {
@@ -64,7 +64,7 @@ export default function ({
     let redirectPath = '/in/migration/authcore';
     if (!process.server) {
       store.commit(USER_SET_AFTER_AUTH_ROUTE, route);
-      setRouteToLocalStorage(route);
+      setRouteToSessionStorage(route);
     } else {
       const qsPayload = {
         redirect: `${TEST_MODE ? 'http' : 'https'}://${req.headers.host}${route.fullPath}`,
