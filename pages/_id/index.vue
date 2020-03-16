@@ -119,7 +119,12 @@
                 <!-- <md-field> -->
                 <!--   <md-input placeholder="Remark (optional)" /> -->
                 <!-- </md-field> -->
-                <div v-if="isLoading">Loading...</div>
+                <div
+                  v-if="isLoading"
+                  class="lc-margin-top-8 lc-text-align-center"
+                >
+                  {{ $t('General.loading') }}
+                </div>
                 <no-ssr v-else>
                   <div
                     v-if="!getUserIsRegistered"
