@@ -4,7 +4,7 @@
     <div class="widget-body">
       <h2>Send</h2>
       <hr />
-      <h1>{{ totalAmount }} LIKE</h1>
+      <h1>{{ actualSendAmount }} LIKE</h1>
       <section>
         <section>
           <p> to: </p>
@@ -20,7 +20,7 @@
             {{ u.displayName }}
           </div>
         </section>
-        <section v-if="agentUser">
+        <section v-if="agentId">
           <p> Via </p>
           <lc-avatar
             v-if="agentUser.avatar"
@@ -34,9 +34,11 @@
         <h3>Details</h3>
         <section v-if="showDetails">
           <div>
-            <div>Receipeient Receive: {{ totalToAmount }} LIKE</div>
-            <div>Sharer Receive: {{ agentFee }} LIKE</div>
             <div v-if="remarks">Remarks: {{ remarks }}</div>
+            <div>Receipeient Receive: {{ actualSendAmount }} LIKE</div>
+            <div v-if="agentFee">Sharer Receive: {{ agentFee }} LIKE</div>
+            <div v-if="gasFee">Gas Fee: {{ gasFee }} LIKE</div>
+            <div>Total: {{ totalAmount }} LIKE</div>
           </div>
         </section>
         <a
@@ -95,6 +97,8 @@ import { mapActions, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
 import {
   queryLikeCoinBalance as queryCosmosLikeCoinBalance,
+  transfer as cosmosTransfer,
+  transferMultiple as cosmosTransferMultiple,
 } from '@/util/CosmosHelper';
 import User from '@/util/User';
 import {
@@ -117,6 +121,8 @@ export default {
       redirectUri: '',
       isLoading: true,
       showDetails: false,
+      blocking: false,
+      gasFee: '',
     };
   },
   async asyncData({
@@ -217,7 +223,7 @@ export default {
     httpReferrer() {
       return this.$route.query.referrer || document.referrer || undefined;
     },
-    totalToAmount() {
+    sumOfToAmount() {
       if (!this.amounts) return '0';
       const amount = this.amounts.reduce(
         (acc, a) => acc.plus(a),
@@ -225,11 +231,16 @@ export default {
       );
       return amount.toFixed();
     },
-    totalAmount() {
-      let amount = new BigNumber(this.totalToAmount);
+    actualSendAmount() {
+      let amount = new BigNumber(this.sumOfToAmount);
       if (this.agentUser && this.agentFee) {
         amount = amount.plus(this.agentFee);
       }
+      return amount.toFixed();
+    },
+    totalAmount() {
+      let amount = new BigNumber(this.actualSendAmount);
+      if (this.gasFee) amount = amount.plus(this.gasFee);
       return amount.toFixed();
     },
     isMultiSend() {
@@ -247,6 +258,7 @@ export default {
     },
   },
   async mounted() {
+    this.calculateGasFee();
     if (!this.getLikeCoinUsdNumericPrice) {
       await this.queryLikeCoinUsdPrice();
     }
@@ -266,6 +278,35 @@ export default {
     ]),
     maskedWallet(wallet) {
       return wallet.replace(/((?:cosmos1|0x).{4}).*(.{10})/, '$1...$2');
+    },
+    async calculateGasFee() {
+      let gas;
+      const from = await this.fetchAuthCoreCosmosWallet();
+      if (this.isMultiSend) {
+        const tos = this.toUsers.map(u => u.cosmosWallet);
+        const values = [...this.amounts];
+        if (this.agentUser) {
+          tos.push(this.agentUser.cosmosWallet);
+          values.push(this.agentFee);
+        }
+        ({ gas } = await cosmosTransferMultiple(
+          { from, tos, values },
+          null,
+          { memo: this.remarks, simulate: true },
+        ));
+      } else {
+        ({ gas } = await cosmosTransfer(
+          {
+            from,
+            to: this.toIds[0],
+            value: this.actualSendAmount,
+          },
+          null,
+          { memo: this.remarks, simulate: true },
+        ));
+      }
+      this.gasFee = new BigNumber(gas).dividedBy(1e9).toFixed();
+      return this.gasFee;
     },
     async submitTransfer() {
       this.isLoading = true;
@@ -318,7 +359,7 @@ export default {
             signer,
             from,
             to: this.toIds[0],
-            value: this.totalAmount,
+            value: this.actualSendAmount,
             memo: this.remarks,
             showDialogAction,
             isWait,

@@ -124,17 +124,24 @@ export async function queryLikeCoinBalance(addr) {
   return amountToLIKE(amount);
 }
 
-export async function sendTx(msgCallPromise, signer) {
+export async function sendTx(msgCallPromise, signer, { memo, simulate: isSimulate } = {}) {
   const { simulate, send } = await msgCallPromise;
   const gas = (await simulate({})).toString();
-  const { hash, included } = await send({ gas }, signer);
+  if (isSimulate) return { gas };
+  const { hash, included } = await send({ gas, memo }, signer);
   return { txHash: hash, included };
 }
 
-export function transfer({ from, to, value }, signer) {
+export async function transfer({
+  from,
+  to,
+  value,
+  memo,
+}, signer, { simulate = false }) {
+  if (!api) await initCosmos();
   const amount = LIKEToAmount(value);
   const msgPromise = api.MsgSend(from, { toAddress: to, amounts: [amount] });
-  return sendTx(msgPromise, signer);
+  return sendTx(msgPromise, signer, { memo, simulate });
 }
 
 async function MsgSendMultiple(
@@ -185,8 +192,13 @@ async function MsgSendMultiple(
   };
 }
 
-export function transferMultiple({ from, tos, values }, signer) {
+export function transferMultiple({
+  from,
+  tos,
+  values,
+  memo,
+}, signer, { simulate = false }) {
   const amounts = values.map(v => LIKEToAmount(v));
   const msgPromise = MsgSendMultiple(from, { toAddresses: tos, amounts });
-  return sendTx(msgPromise, signer);
+  return sendTx(msgPromise, signer, { memo, simulate });
 }
