@@ -136,6 +136,22 @@ export default {
           author: 'Phoebe Poon',
           thumbnail: 'https://cdn-images-1.medium.com/max/800/1*ndbs6sq6tAQo3WfC_fuVqg.png',
         },
+        {
+          title: 'LikeCoin Weekly Progress Update 2020.03.09',
+          pubDate: '2020-03-10',
+          link: 'https://medium.com/likecoin/likecoin-weekly-progress-update-2020-03-09-a6a08d252b7b',
+          guid: 'https://medium.com/p/a6a08d252b7b',
+          author: 'Phoebe Poon',
+          thumbnail: 'https://miro.medium.com/max/800/1*AmX69VnAACE9MtMHXi1TxQ.jpeg',
+        },
+        {
+          title: 'LikeCoin Weekly Progress Update 2020.03.02',
+          pubDate: '2020-03-04',
+          link: 'https://medium.com/likecoin/likecoin-weekly-progress-update-2020-03-02-60a92e4b43f1',
+          guid: 'https://medium.com/p/60a92e4b43f1',
+          author: 'Phoebe Poon',
+          thumbnail: 'https://miro.medium.com/max/800/1*9zSXU4DqVHnH5yhmWycSaQ.jpeg',
+        },
       ],
     };
   },
