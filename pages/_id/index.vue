@@ -395,14 +395,13 @@ export default {
           throw new Error('VALIDATION_FAIL');
         }
         const balance = await queryCosmosLikeCoinBalance(from);
-        const valueToSend = amount.toFixed();
-        if (balance < valueToSend) {
+        if (amount.gt(balance)) {
           this.setErrorMsg(
             this.$t('Transaction.error.likecoinInsufficient'),
           );
           throw new Error('VALIDATION_FAIL');
         }
-
+        const valueToSend = amount.toFixed();
         const signer = await this.prepareCosmosTxSigner();
         const txHash = await this.sendCosmosPayment({
           signer,
