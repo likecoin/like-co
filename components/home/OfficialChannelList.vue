@@ -163,6 +163,10 @@ export default {
           link: 'https://github.com/likecoin/',
           isHideBorder: true,
         },
+        {
+          id: 'gitbook',
+          link: 'https://docs.like.co/',
+        },
       ].map(({ id, ...rest }) => ({
         ...rest,
         src: getChannelImage(`./${id}.svg`),
