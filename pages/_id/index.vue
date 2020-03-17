@@ -17,7 +17,7 @@
           </div>
         </div>
 
-        <div :class="['lc-container-2-extend', { ether: isEth }]">
+        <div :class="['lc-container-2-extend']">
           <div class="lc-container-3-extend-bg" />
           <div class="lc-container-3">
             <div class="lc-padding-top-32 lc-padding-bottom-16">
@@ -27,7 +27,7 @@
                   tag="h1"
                   class="lc-font-size-42 lc-font-weight-300 lc-mobile"
                 >
-                  <span place="coin">{{ isEth ? 'ETH' : 'LikeCoin' }}</span>
+                  <span place="coin">{{ 'LikeCoin' }}</span>
                   <span
                     place="title"
                     class="usertitle"
@@ -87,9 +87,90 @@
         <div class="lc-container-2">
           <div class="lc-container-3 lc-bg-gray-1">
             <div class="lc-container-4 lc-padding-top-24 lc-padding-bottom-32">
-              <a
-                :href="getLikerLandAppURL"
-              >{{ $t('Home.App.button') }}</a>
+
+              <form
+                v-if="wallet"
+                id="paymentInfo"
+                @submit.prevent="submitTransfer"
+              >
+                <input
+                  v-model="wallet"
+                  hidden
+                  required
+                  disabled
+                >
+                <div class="number-input lc-padding-bottom-32">
+                  <number-input
+                    :currencyTitle="''"
+                    :amount="amount"
+                    :isBadAmount="isBadAmount"
+                    :label="$t('Transaction.label.amountToSend',
+                               { coin: 'LikeCoin' })"
+                    @onChange="handleAmountChange"
+                  />
+
+                  <p
+                    v-if="usdTransferStrValue"
+                    class="lc-margin-top-8 lc-text-align-center lc-color-gray-9b"
+                  >
+                    (${{ usdTransferStrValue }} USD)
+                  </p>
+                </div>
+                <!-- <md-field> -->
+                <!--   <md-input placeholder="Remark (optional)" /> -->
+                <!-- </md-field> -->
+                <div
+                  v-if="isLoading"
+                  class="lc-margin-top-8 lc-text-align-center"
+                >
+                  {{ $t('General.loading') }}
+                </div>
+                <no-ssr v-else>
+                  <div
+                    v-if="!getUserIsRegistered"
+                    class="create-account-wrapper"
+                  >
+                    <md-button
+                      class="md-likecoin"
+                      @click="onClickSignInButton"
+                    >
+                      {{ $t('Home.Header.button.signIn') }}
+                    </md-button>
+                  </div>
+                  <div
+                    v-else-if="getAuthCoreNeedReAuth"
+                    class="create-account-wrapper"
+                  >
+                    <md-button
+                      class="md-likecoin"
+                      @click="onClickAuthCoreReAuth"
+                    >
+                      {{ $t('AuthCore.button.reAuthNeeded') }}
+                    </md-button>
+                  </div>
+
+                  <div v-else>
+                    <md-button
+                      id="payment-confirm"
+                      :class="['md-raised',
+                               'md-likecoin',
+                      ]"
+                      :disabled="getIsInTransaction"
+                      type="submit"
+                      form="paymentInfo"
+                    >
+                      {{
+                        $t('General.button.confirm')
+                      }}
+                    </md-button>
+                    <div id="authcore-cosmos-container" />
+                  </div>
+                </no-ssr>
+              </form>
+
+              <div v-else>
+                {{ 'This ID has not binded to any wallet yet. LikeCoin transfer is disallowed.' }}
+              </div>
             </div>
           </div>
         </div>
@@ -103,18 +184,23 @@
 
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
+import BigNumber from 'bignumber.js';
+
+import NumberInput from '~/components/NumberInput';
 import NarrowPageHeader from '~/components/header/NarrowPageHeader';
 import SocialMediaConnect from '~/components/SocialMediaConnect';
 
+import {
+  queryLikeCoinBalance as queryCosmosLikeCoinBalance,
+} from '@/util/CosmosHelper';
 import User from '@/util/User';
 import {
   apiGetUserMinById,
   apiGetSocialListById,
-  getLikerLandAppURL,
 } from '@/util/api/api';
 
-import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
-
+const DEFAULT_P2P_AMOUNT_IN_USD = 0.25;
 
 function formatAmount(amount) {
   let result = amount.toString().replace(/[^0-9.]/, '');
@@ -140,11 +226,17 @@ export default {
   name: 'payment',
   layout: 'narrowWithHeader',
   components: {
+    NumberInput,
     NarrowPageHeader,
     SocialMediaConnect,
   },
   data() {
     return {
+      isBadAddress: false,
+      isBadAmount: false,
+      isSupportTransferDeleteaged: true,
+      isP2pUnavailable: false,
+      isLoading: true,
       platforms: {},
     };
   },
@@ -163,19 +255,13 @@ export default {
       apiGetSocialListById(params.id).catch(() => ({})),
     ]).then((res) => {
       const {
-        wallet,
         cosmosWallet,
         avatar,
         displayName,
       } = res[0].data;
       const amount = formatAmount(params.amount || 1);
-      if (wallet === LIKE_COIN_ICO_ADDRESS) {
-        redirect({
-          name: 'in-tokensale',
-        });
-      }
       return {
-        wallet: cosmosWallet || wallet,
+        wallet: cosmosWallet,
         avatar,
         id: params.id,
         displayName: displayName || params.id,
@@ -232,12 +318,124 @@ export default {
     };
   },
   computed: {
-    getLikerLandAppURL,
+    ...mapGetters([
+      'getIsInTransaction',
+      'getUserIsRegistered',
+      'getMetamaskError',
+      'getWeb3Type',
+      'getIsShowingTxPopup',
+      'getPendingTxInfo',
+      'getLikeCoinUsdNumericPrice',
+      'getUserInfo',
+      'getAuthCoreNeedReAuth',
+      'getLocalWeb3Wallet',
+      'getIsWeb3Polling',
+    ]),
     maskedWallet() {
       return this.wallet.replace(/((?:cosmos1|0x).{4}).*(.{10})/, '$1...$2');
     },
     httpReferrer() {
       return this.$route.query.referrer || document.referrer || undefined;
+    },
+    usdTransferStrValue() {
+      if (this.getLikeCoinUsdNumericPrice && this.amount) {
+        const value = new BigNumber(this.amount);
+        const usdValue = value.times(this.getLikeCoinUsdNumericPrice);
+        let decimalPlace = 2;
+        if (usdValue.lt(0.01)) decimalPlace = 4;
+        return value.times(this.getLikeCoinUsdNumericPrice).toFixed(decimalPlace);
+      }
+      return null;
+    },
+  },
+  async mounted() {
+    if (!this.getLikeCoinUsdNumericPrice) {
+      await this.queryLikeCoinUsdPrice();
+    }
+    if (!this.$route.params.amount && this.getLikeCoinUsdNumericPrice) {
+      this.amount = (DEFAULT_P2P_AMOUNT_IN_USD / this.getLikeCoinUsdNumericPrice).toFixed(2);
+    }
+    this.isLoading = false;
+  },
+  methods: {
+    ...mapActions([
+      'popupAuthDialogInPlace',
+      'setReAuthDialogShow',
+      'doUserAuth',
+      'sendPayment',
+      'sendCosmosPayment',
+      'setErrorMsg',
+      'closeTxDialog',
+      'queryLikeCoinUsdPrice',
+      'fetchAuthCoreCosmosWallet',
+      'prepareCosmosTxSigner',
+    ]),
+    async submitTransfer() {
+      this.isLoading = true;
+      try {
+        this.isBadAmount = false;
+        const { cosmosWallet } = this.getUserInfo;
+        const amount = new BigNumber(this.amount);
+        if (!amount || amount.lt('0.000000000000000001')) {
+          this.isBadAmount = true;
+          throw new Error('VALIDATION_FAIL');
+        }
+        const from = await this.fetchAuthCoreCosmosWallet();
+        if (!from) {
+          throw new Error('VALIDATION_FAIL');
+        }
+        const userWallet = cosmosWallet;
+        if (from !== userWallet) {
+          this.setErrorMsg(this.$t('Transaction.error.metamaskWalletNotMatch'));
+          throw new Error('VALIDATION_FAIL');
+        }
+        const to = this.wallet;
+        if (from === to) {
+          this.setErrorMsg(this.$t('Transaction.error.sameUser'));
+          throw new Error('VALIDATION_FAIL');
+        }
+        const balance = await queryCosmosLikeCoinBalance(from);
+        if (amount.gt(balance)) {
+          this.setErrorMsg(
+            this.$t('Transaction.error.likecoinInsufficient'),
+          );
+          throw new Error('VALIDATION_FAIL');
+        }
+        const valueToSend = amount.toFixed();
+        const signer = await this.prepareCosmosTxSigner();
+        const txHash = await this.sendCosmosPayment({
+          signer,
+          from,
+          to,
+          value: valueToSend,
+        });
+        if (this.getIsShowingTxPopup) {
+          this.closeTxDialog();
+          this.$router.push({
+            name: 'in-tx-id',
+            params: { id: txHash, tx: this.getPendingTxInfo },
+          });
+        }
+      } catch (error) {
+        if (error.message !== 'VALIDATION_FAIL') console.error(error);
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    onAmountInput(value) {
+      this.amount = value;
+    },
+    handleAmountChange(value) {
+      this.amount = value;
+    },
+    onClickSignInButton() {
+      this.popupAuthDialogInPlace({ route: this.$route });
+    },
+    onClickSignUpButton() {
+      this.doUserAuth({ router: this.$router, route: this.$route });
+    },
+    onClickAuthCoreReAuth() {
+      this.setReAuthDialogShow(true);
     },
   },
 };
