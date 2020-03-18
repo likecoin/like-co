@@ -23,6 +23,23 @@
           <div>{{ agentUser.displayName }}</div>
         </section>
       </section>
+      <section class="detail">
+        <h3>Details</h3>
+        <section v-if="showDetails">
+          <div>
+            <div>Receipeient Receive: {{ totalToAmount }} LIKE</div>
+            <div>Sharer Receive: {{ agentFee }} LIKE</div>
+            <div v-if="remarks">Remarks: {{ remarks }}</div>
+          </div>
+        </section>
+        <a
+          v-else
+          href="#"
+          @click.prevent="showDetails = !showDetails"
+        >
+          Show
+        </a>
+      </section>
       <section>
         <div
           v-if="isLoading"
@@ -79,6 +96,7 @@ export default {
       agentFee: '',
       redirectUri: '',
       isLoading: true,
+      showDetails: false,
     };
   },
   async asyncData({
@@ -177,12 +195,16 @@ export default {
     httpReferrer() {
       return this.$route.query.referrer || document.referrer || undefined;
     },
-    totalAmount() {
+    totalToAmount() {
       if (!this.amounts) return '0';
-      let amount = this.amounts.reduce(
+      const amount = this.amounts.reduce(
         (acc, a) => acc.plus(a),
         new BigNumber(0),
       );
+      return amount.toFixed();
+    },
+    totalAmount() {
+      let amount = new BigNumber(this.totalToAmount);
       if (this.agentUser && this.agentFee) {
         amount = amount.plus(this.agentFee);
       }
