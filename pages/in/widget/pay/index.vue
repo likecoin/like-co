@@ -39,7 +39,7 @@
         <section v-if="showDetails">
           <div>
             <div v-if="remarks">Remarks: {{ remarks }}</div>
-            <div>Receipeient Receive: {{ actualSendAmount }} LIKE</div>
+            <div>Receipeient Receive: {{ sumOfToAmount }} LIKE</div>
             <div v-if="agentFee">Sharer Receive: {{ agentFee }} LIKE</div>
             <div v-if="gasFee">Gas Fee: {{ gasFee }} LIKE</div>
             <div>Total: {{ totalAmount }} LIKE</div>
