@@ -101,6 +101,8 @@ import {
   apiGetUserMinById,
 } from '@/util/api/api';
 
+const URL = require('url-parse');
+
 export default {
   name: 'payment',
   layout: 'register',
@@ -127,6 +129,7 @@ export default {
       via: agentId,
       fee: agentFee,
       redirect_uri: redirectUri,
+      blocking,
     } = query;
     let {
       remarks,
@@ -190,6 +193,7 @@ export default {
         agentFee,
         redirectUri,
         remarks,
+        blocking,
       };
     }).catch((e) => { // eslint-disable-line no-unused-vars
       console.error(e);
@@ -291,6 +295,8 @@ export default {
         }
         const signer = await this.prepareCosmosTxSigner();
         let txHash;
+        const showDialogAction = !this.redirectUri;
+        const isWait = !!this.blocking;
         if (this.isMultiSend) {
           const tos = this.toUsers.map(u => u.cosmosWallet);
           const values = [...this.amounts];
@@ -304,8 +310,8 @@ export default {
             tos,
             values,
             memo: this.remarks,
-            showDialog: false,
-            isWait: false,
+            showDialogAction,
+            isWait,
           });
         } else {
           txHash = await this.sendCosmosPayment({
@@ -314,8 +320,8 @@ export default {
             to: this.toIds[0],
             value: this.totalAmount,
             memo: this.remarks,
-            showDialog: false,
-            isWait: false,
+            showDialogAction,
+            isWait,
           });
         }
         this.postTransaction({ txHash });
