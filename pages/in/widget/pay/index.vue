@@ -17,7 +17,9 @@
               :src="u.avatar"
               size="64"
             />
-            {{ u.displayName }}
+            <nuxt-link :to="{ name: 'id', params: { id: u.user } }">
+              {{ u.displayName }}
+            </nuxt-link>
           </div>
         </section>
         <section v-if="agentId">
@@ -27,7 +29,9 @@
             :src="agentUser.avatar"
             size="16"
           />
-          {{ agentUser.displayName }}
+          <nuxt-link :to="{ name: 'id', params: { id: agentUser.user } }">
+            {{ agentUser.displayName }}
+          </nuxt-link>
         </section>
       </section>
       <section class="detail">
@@ -181,11 +185,13 @@ export default {
       }
       const toUsers = toRes.map((u) => {
         const {
+          user,
           cosmosWallet,
           avatar,
           displayName,
         } = u.data;
         return {
+          user,
           cosmosWallet,
           avatar,
           displayName,
