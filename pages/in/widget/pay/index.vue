@@ -1,9 +1,9 @@
 <template>
   <div class="pay-widget-page">
-    <div></div>
+    <div />
     <div class="widget-body">
       <h2>Send</h2>
-      <hr />
+      <hr>
       <h1>{{ actualSendAmount }} LIKE</h1>
       <section>
         <section>
@@ -87,7 +87,7 @@
         </div>
       </section>
     </div>
-    <div></div>
+    <div />
   </div>
 </template>
 
@@ -412,16 +412,18 @@ $lc-dialog-border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
+
   min-height: 100vh;
 
   background-color: #28646E;
 
   .widget-body {
-    border-radius: $lc-dialog-border-radius;
-    padding: 20px;
-    background-color: #FFFF;
     min-width: 312px;
+    padding: 20px;
 
+    border-radius: $lc-dialog-border-radius;
+
+    background-color: #FFFF;
   }
   .detail {
     background-color: #d2f0f0;
