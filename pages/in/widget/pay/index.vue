@@ -122,6 +122,7 @@ export default {
       isLoading: true,
       showDetails: false,
       blocking: false,
+      state: '',
       gasFee: '',
     };
   },
@@ -136,6 +137,7 @@ export default {
       fee: agentFee,
       redirect_uri: redirectUri,
       blocking,
+      state,
     } = query;
     let {
       remarks,
@@ -200,6 +202,7 @@ export default {
         redirectUri,
         remarks,
         blocking,
+        state,
       };
     }).catch((e) => { // eslint-disable-line no-unused-vars
       console.error(e);
@@ -372,11 +375,13 @@ export default {
         this.isLoading = false;
       }
     },
-    postTransaction({ txHash, remarks, error } = {}) {
+    postTransaction({ txHash, error } = {}) {
       if (this.redirectUri) {
+        const { state, remarks } = this;
         const url = new URL(this.redirectUri, true);
         if (txHash) url.query.tx_hash = txHash;
         if (error) url.query.error = error;
+        if (state) url.query.state = state;
         if (remarks) url.query.remarks = remarks;
         url.set('query', url.query);
         window.location.href = url.toString();
