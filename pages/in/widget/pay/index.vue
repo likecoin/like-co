@@ -1,7 +1,9 @@
 <template>
-  <div>
-    <div>
+  <div class="pay-widget-page">
+    <div></div>
+    <div class="widget-body">
       <h2>Send</h2>
+      <hr />
       <h1>{{ totalAmount }} LIKE</h1>
       <section>
         <section>
@@ -20,7 +22,12 @@
         </section>
         <section v-if="agentUser">
           <p> Via </p>
-          <div>{{ agentUser.displayName }}</div>
+          <lc-avatar
+            v-if="agentUser.avatar"
+            :src="agentUser.avatar"
+            size="16"
+          />
+          {{ agentUser.displayName }}
         </section>
       </section>
       <section class="detail">
@@ -66,8 +73,19 @@
             {{ $t('AuthCore.button.reAuthNeeded') }}
           </md-button>
         </div>
+        <div v-else>
+          <md-button
+            class="md-likecoin"
+            @click="submitTransfer"
+          >
+            {{
+              $t('General.button.confirm')
+            }}
+          </md-button>
+        </div>
       </section>
     </div>
+    <div></div>
   </div>
 </template>
 
@@ -85,7 +103,7 @@ import {
 
 export default {
   name: 'payment',
-  layout: 'narrowWithHeader',
+  layout: 'register',
   data() {
     return {
       toIds: [],
@@ -332,3 +350,29 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+@import "~assets/variables";
+
+$lc-dialog-border-radius: 8px;
+
+.pay-widget-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+
+  background-color: #28646E;
+
+  .widget-body {
+    border-radius: $lc-dialog-border-radius;
+    padding: 20px;
+    background-color: #FFFF;
+    min-width: 312px;
+
+  }
+  .detail {
+    background-color: #d2f0f0;
+  }
+}
+</style>
