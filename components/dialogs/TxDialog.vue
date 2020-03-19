@@ -46,18 +46,18 @@
     </div>
 
     <div
-      v-else
+      v-else-if="!txDialogHideAction"
       class="lc-dialog-container-1"
     >
       <div class="lc-button-group">
-        <md-button
+        <!-- <md-button
           :href="PURCHASE_LIKE_URL"
           class="md-likecoin"
           target="_blank"
           rel="noopener noreferrer"
         >
           {{ $t('Dialog.transaction.button.trade') }}
-        </md-button>
+        </md-button> -->
         <nuxt-link :to="actionRoute">
           <md-button
             class="md-likecoin lc-secondary"
@@ -99,6 +99,10 @@ export default {
       default: () => ({}),
     },
     isNewUser: {
+      type: Boolean,
+      default: false,
+    },
+    txDialogHideAction: {
       type: Boolean,
       default: false,
     },
