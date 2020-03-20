@@ -247,6 +247,9 @@ const nuxtConfig = {
         ],
       ],
     },
+    transpile: [
+      'authcore-js',
+    ],
     extend(config, { isClient }) {
       /* eslint-disable no-param-reassign */
       // https://github.com/ethereum/web3.js/issues/1178
