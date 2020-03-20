@@ -41,6 +41,10 @@ export default {
       type: String,
       default: 'top',
     },
+    socialLoginPaneOption: {
+      type: String,
+      default: 'grid',
+    },
   },
   computed: {
     SignInWidget() {
@@ -67,6 +71,7 @@ export default {
         root: `${AUTHCORE_API_HOST}/widgets`,
         initialScreen: this.isSignIn ? 'signin' : 'register',
         socialLoginPaneStyle: this.socialLoginPaneStyle,
+        socialLoginPaneOption: this.socialLoginPaneOption,
         internal: true,
         contact: this.email,
         language: this.authCoreLanguage,
