@@ -429,7 +429,7 @@ export default {
       this.amount = value;
     },
     onClickSignInButton() {
-      this.popupAuthDialogInPlace({ route: this.$route });
+      this.popupAuthDialogInPlace({ route: this.$route, isSignIn: true });
     },
     onClickSignUpButton() {
       this.doUserAuth({ router: this.$router, route: this.$route });
