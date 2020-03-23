@@ -249,6 +249,8 @@ const nuxtConfig = {
     },
     transpile: [
       'authcore-js',
+      'secretd-js',
+      'lodash-es',
     ],
     extend(config, { isClient }) {
       /* eslint-disable no-param-reassign */
