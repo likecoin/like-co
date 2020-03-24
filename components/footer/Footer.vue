@@ -43,6 +43,7 @@ export default {
   computed: {
     ...mapGetters([
       'getUserInfo',
+      'getAuthCoreCurrentUser',
       'getCurrentLocale',
       'getInfoMsg',
       'getInfoIsError',
@@ -94,6 +95,14 @@ export default {
         await setTrackerUserId(user);
       }
     },
+    async getAuthCoreCurrentUser(u) {
+      const {
+        primaryPhone,
+      } = u;
+      if (this.$intercom && primaryPhone) {
+        this.$intercom.update({ phone: primaryPhone });
+      }
+    },
     getCurrentLocale(language) {
       if (this.$intercom) {
         this.$intercom.update({ language });
@@ -133,6 +142,9 @@ export default {
       cosmosWallet,
       isAuthCore,
     } = this.getUserInfo;
+    const {
+      primaryPhone,
+    } = this.getAuthCoreCurrentUser;
     if (this.$intercom) {
       const language = this.getCurrentLocale;
       const opt = { LikeCoin: true };
@@ -149,6 +161,9 @@ export default {
       }
       if (isAuthCore) {
         opt.binded_authcore = true;
+      }
+      if (primaryPhone) {
+        opt.phone = primaryPhone;
       }
       const factors = this.getAuthCoreOAuthFactors || [];
       const services = factors.map(f => f.service);

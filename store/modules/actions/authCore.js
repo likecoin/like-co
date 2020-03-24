@@ -15,7 +15,7 @@ export async function fetchAuthCoreAccessTokenAndUser({ dispatch }, code) {
   return { accessToken, currentUser, idToken };
 }
 
-export async function fetchAuthCoreUser({ state }, { authClient } = {}) {
+export async function fetchAuthCoreUser({ commit, state }, { authClient } = {}) {
   const client = authClient || state.authClient;
   if (!client) return {};
   const currentUser = await client.getCurrentUser();
@@ -23,16 +23,20 @@ export async function fetchAuthCoreUser({ state }, { authClient } = {}) {
   const {
     profile_name: profileName,
     primary_email: primaryEmail,
+    primary_phone: primaryPhone,
     suggested_name: suggestedName,
     display_name: displayName,
   } = currentUser;
-  return {
+  const user = {
     ...currentUser,
-    displayName,
     profileName,
     primaryEmail,
+    primaryPhone,
     suggestedName,
+    displayName,
   };
+  commit(types.AUTHCORE_SET_CURRENT_USER, user);
+  return user;
 }
 
 export async function setAuthCoreToken({ commit, state, dispatch }, accessToken) {
@@ -52,7 +56,7 @@ export async function setAuthCoreToken({ commit, state, dispatch }, accessToken)
   }
 }
 
-export async function authCoreLogoutUser({ state, dispatch }) {
+export async function authCoreLogoutUser({ commit, state, dispatch }) {
   if (state.authClient) {
     try {
       await state.authClient.signOut();
@@ -61,6 +65,7 @@ export async function authCoreLogoutUser({ state, dispatch }) {
     }
   }
   await dispatch('setAuthCoreToken', '');
+  commit(types.AUTHCORE_SET_CURRENT_USER, {});
 }
 
 export async function initAuthCoreClient({ commit, state, dispatch }) {
@@ -70,6 +75,7 @@ export async function initAuthCoreClient({ commit, state, dispatch }) {
     callbacks: {
       unauthenticated: () => {
         dispatch('setAuthCoreToken', '');
+        commit(types.AUTHCORE_SET_CURRENT_USER, {});
       },
     },
     accessToken,

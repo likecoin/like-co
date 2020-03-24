@@ -6,6 +6,7 @@ import {
   AUTHCORE_SET_KV_CLIENT,
   AUTHCORE_SET_COSMOS_PROVIDER,
   AUTHCORE_SET_OAUTH_FACTORS,
+  AUTHCORE_SET_CURRENT_USER,
 } from '../mutation-types';
 import * as actions from './actions/authCore';
 import * as getters from './getters/authCore';
@@ -16,6 +17,7 @@ const state = () => ({
   kvClient: null,
   cosmosProvider: null,
   oAuthFactors: [],
+  currentUser: {},
 });
 
 const mutations = {
@@ -33,6 +35,9 @@ const mutations = {
   },
   [AUTHCORE_SET_OAUTH_FACTORS](state, oAuthFactors) {
     state.oAuthFactors = oAuthFactors;
+  },
+  [AUTHCORE_SET_CURRENT_USER](state, currentUser) {
+    state.currentUser = currentUser;
   },
 };
 
