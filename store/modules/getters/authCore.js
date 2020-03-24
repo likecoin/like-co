@@ -15,3 +15,5 @@ export const getAuthCoreKVClient = state => state.kvClient;
 export const getAuthCoreCosmosProvider = state => state.cosmosProvider;
 
 export const getAuthCoreOAuthFactors = state => state.oAuthFactors;
+
+export const getAuthCoreCurrentUser = state => state.currentUser;
