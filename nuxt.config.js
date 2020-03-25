@@ -249,12 +249,15 @@ const nuxtConfig = {
     },
     transpile: [
       'authcore-js',
+      'secretd-js',
+      'lodash-es',
     ],
     extend(config, { isClient }) {
       /* eslint-disable no-param-reassign */
       // https://github.com/ethereum/web3.js/issues/1178
       if (process.env.NODE_ENV === 'production') {
         config.resolve.alias['bn.js'] = path.join(__dirname, './node_modules/bn.js');
+        config.resolve.alias['bignumber.js'] = path.join(__dirname, './node_modules/bignumber.js');
       }
 
       if (isClient) {
