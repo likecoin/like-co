@@ -14,6 +14,7 @@ const nuxtConfig = {
     INTERCOM_APPID: process.env.INTERCOM_APPID,
     SENTRY_DSN: process.env.SENTRY_DSN,
     EXTERNAL_HOSTNAME: process.env.EXTERNAL_HOSTNAME,
+    FACEBOOK_PIXEL_ID: process.env.FACEBOOK_PIXEL_ID,
   },
   head: {
     title: 'LikeCoin - Reinventing the Like',
@@ -44,13 +45,11 @@ const nuxtConfig = {
         type: 'application/ld+json',
       },
       { src: '/vendor/typekit.js', async: true },
-      { src: '/vendor/fb/pixel.js', async: true },
       { src: '/vendor/fb/sdk.js', async: true, defer: true },
     ],
     link: [
       { rel: 'preload', href: 'https://fonts.googleapis.com/css?family=Material+Icons', as: 'style' },
       { rel: 'preload', href: '/vendor/typekit.js', as: 'script' },
-      { rel: 'preload', href: '/vendor/fb/pixel.js', as: 'script' },
       { rel: 'preload', href: '/vendor/fb/sdk.js', as: 'script' },
       { rel: 'preload', href: 'https://use.typekit.net/ube6iww.js', as: 'script' },
       // {
@@ -214,6 +213,7 @@ const nuxtConfig = {
     { src: '~/plugins/vue-scroll', ssr: false },
     { src: '~/plugins/gsap.client.js', ssr: false },
     { src: '~/plugins/AuthCore.client.js', ssr: false },
+    { src: '~/plugins/fbpixel.client.js', ssr: false },
     { src: '~/plugins/testing' },
   ],
   sentry: {
