@@ -2,7 +2,7 @@ import { AuthCoreAuthClient } from 'authcore-js';
 import * as types from '@/store/mutation-types';
 import { AUTHCORE_API_HOST } from '@/constant';
 
-const { AuthcoreVaultClient, AuthcoreCosmosProvider } = require('secretd-js');
+import { AuthcoreVaultClient, AuthcoreCosmosProvider } from 'secretd-js';
 
 export async function fetchAuthCoreAccessTokenAndUser({ dispatch }, code) {
   const authClient = await new AuthCoreAuthClient({
