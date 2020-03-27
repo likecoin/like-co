@@ -59,7 +59,7 @@ export async function setUserSupportData(vue, u, { boot = false } = {}) {
     if (LIKE) opt.push(['LIKE', LIKE]);
     if (language) opt.push(['language', language]);
     if (isAuthCore) opt.push(['binded_authcore', true]);
-    window.$crisp.push(['set', 'session:data', [opt]]);
+    $crisp.push(['set', 'session:data', [opt]]);
   }
 }
 
@@ -91,6 +91,7 @@ export function setUserSupportOAuthFactors(vue, factors) {
 
 export async function setTrackerUserId(userId) {
   if (window.doNotTrack || navigator.doNotTrack) return;
+  if (!userId) return;
   window.dataLayer = window.dataLayer || [];
   try {
     let hashedId = await digestMessage(userId);
