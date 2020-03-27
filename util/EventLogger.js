@@ -18,6 +18,7 @@ export async function setUserSupportData(vue, u, { boot = false } = {}) {
   const {
     user,
     intercomToken,
+    crispToken,
     displayName,
     email,
     wallet,
@@ -45,7 +46,11 @@ export async function setUserSupportData(vue, u, { boot = false } = {}) {
   if (window.$crisp) {
     const { $crisp } = window;
     if (displayName) $crisp.push(['set', 'user:nickname', [displayName]]);
-    if (email) $crisp.push(['set', 'user:email', [email]]);
+    if (email) {
+      const emailPayload = [email];
+      if (crispToken) emailPayload.push(crispToken);
+      $crisp.push(['set', 'user:email', emailPayload]);
+    }
     if (primaryPhone) $crisp.push(['set', 'user:phone', [primaryPhone]]);
     const opt = [];
     if (boot) opt.push(['LikeCoin', true]);
