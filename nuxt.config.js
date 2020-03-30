@@ -15,6 +15,7 @@ const nuxtConfig = {
     SENTRY_DSN: process.env.SENTRY_DSN,
     EXTERNAL_HOSTNAME: process.env.EXTERNAL_HOSTNAME,
     FACEBOOK_PIXEL_ID: process.env.FACEBOOK_PIXEL_ID,
+    CRISP_WEBSITE_ID: process.env.CRISP_WEBSITE_ID,
   },
   head: {
     title: 'LikeCoin - Reinventing the Like',
@@ -96,6 +97,7 @@ const nuxtConfig = {
           'googleads.g.doubleclick.net',
           'ajax.googleapis.com',
           'js.intercomcdn.com',
+          '*.crisp.chat',
           'connect.facebook.net',
           'player.vimeo.com',
           'use.typekit.net',
@@ -117,11 +119,13 @@ const nuxtConfig = {
           'data:',
           '*',
           'wss://*.intercom.io',
+          'wss://client.relay.crisp.chat',
         ],
         'style-src': [
           "'self'",
           "'unsafe-inline'",
           'fonts.googleapis.com',
+          'client.crisp.chat',
         ],
         'report-uri': [
           process.env.SENTRY_REPORT_URI,
@@ -214,6 +218,7 @@ const nuxtConfig = {
     { src: '~/plugins/gsap.client.js', ssr: false },
     { src: '~/plugins/AuthCore.client.js', ssr: false },
     { src: '~/plugins/fbpixel.client.js', ssr: false },
+    { src: '~/plugins/crisp.client.js', ssr: false },
     { src: '~/plugins/testing' },
   ],
   sentry: {

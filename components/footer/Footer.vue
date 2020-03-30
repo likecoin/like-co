@@ -26,7 +26,12 @@
   </footer>
 </template>
 <script>
-import { setTrackerUserId } from '@/util/EventLogger';
+import {
+  setTrackerUserId,
+  setUserSupportData,
+  setUserSupportErrorEvent,
+  setUserSupportOAuthFactors,
+} from '@/util/EventLogger';
 
 import { mapGetters } from 'vuex';
 import {
@@ -58,30 +63,9 @@ export default {
     async getUserInfo(e) {
       const {
         user,
-        intercomToken,
         displayName,
-        email,
-        wallet,
-        cosmosWallet,
-        isAuthCore,
       } = e;
-      if (this.$intercom) {
-        const opt = { LikeCoin: true };
-        if (user) opt.user_id = user;
-        if (intercomToken) opt.user_hash = intercomToken;
-        if (displayName) opt.name = displayName;
-        if (email) opt.email = email;
-        if (wallet) {
-          opt.wallet = wallet;
-        }
-        if (cosmosWallet) {
-          opt.cosmos_wallet = cosmosWallet;
-        }
-        if (isAuthCore) {
-          opt.binded_authcore = true;
-        }
-        this.$intercom.update(opt);
-      }
+      setUserSupportData(this, e);
       if (user) {
         if (this.$sentry) {
           const opt = {
@@ -99,43 +83,29 @@ export default {
       const {
         primaryPhone,
       } = u;
-      if (this.$intercom && primaryPhone) {
-        this.$intercom.update({ phone: primaryPhone });
-      }
+      setUserSupportData(this, { primaryPhone });
     },
     getCurrentLocale(language) {
-      if (this.$intercom) {
-        this.$intercom.update({ language });
-      }
+      setUserSupportData(this, { language });
     },
     getInfoMsg(message) {
-      if (this.getInfoIsError && this.$intercom) {
-        this.$intercom.update({ lastError: message });
-        this.$intercom.trackEvent('likecoin-store_error', { message });
+      if (this.getInfoIsError) {
+        setUserSupportErrorEvent(this, message);
       }
     },
     getAuthCoreOAuthFactors(factors) {
-      if (this.$intercom && factors) {
-        const services = factors.map(f => f.service);
-        const opt = services.reduce((accumOpt, service) => {
-          // eslint-disable-next-line no-param-reassign
-          if (service) accumOpt[`binded_${service.toLowerCase()}`] = true;
-          return accumOpt;
-        }, {});
-        this.$intercom.update(opt);
-      }
+      setUserSupportOAuthFactors(this, factors);
     },
     getUserLikeCoinAmountInBigNumber(amount) {
-      if (this.$intercom && amount) {
-        const opt = { LIKE: amount.toFixed(4) };
-        this.$intercom.update(opt);
+      if (amount) {
+        const LIKE = amount.toFixed(4);
+        setUserSupportData(this, { LIKE });
       }
     },
   },
   async mounted() {
     const {
       user,
-      intercomToken,
       displayName,
       email,
       wallet,
@@ -145,35 +115,17 @@ export default {
     const {
       primaryPhone,
     } = this.getAuthCoreCurrentUser;
-    if (this.$intercom) {
-      const language = this.getCurrentLocale;
-      const opt = { LikeCoin: true };
-      if (user) opt.user_id = user;
-      if (intercomToken) opt.user_hash = intercomToken;
-      if (displayName) opt.name = displayName;
-      if (email) opt.email = email;
-      if (language) opt.language = language;
-      if (wallet) {
-        opt.wallet = wallet;
-      }
-      if (cosmosWallet) {
-        opt.cosmos_wallet = cosmosWallet;
-      }
-      if (isAuthCore) {
-        opt.binded_authcore = true;
-      }
-      if (primaryPhone) {
-        opt.phone = primaryPhone;
-      }
-      const factors = this.getAuthCoreOAuthFactors || [];
-      const services = factors.map(f => f.service);
-      const socialOpt = services.reduce((accumOpt, service) => {
-        // eslint-disable-next-line no-param-reassign
-        if (service) accumOpt[`binded_${service.toLowerCase()}`] = true;
-        return accumOpt;
-      }, {});
-      this.$intercom.boot({ ...opt, ...socialOpt });
-    }
+    setUserSupportData(this, {
+      user,
+      displayName,
+      email,
+      wallet,
+      cosmosWallet,
+      isAuthCore,
+      primaryPhone,
+    });
+    const factors = this.getAuthCoreOAuthFactors || [];
+    setUserSupportOAuthFactors(this, factors);
     if (user) {
       if (this.$sentry) {
         const opt = {
