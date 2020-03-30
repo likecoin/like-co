@@ -3,6 +3,9 @@ import * as types from '@/store/mutation-types';
 import { REDIRECT_NAME_WHITE_LIST } from '@/constant';
 
 import User from '@/util/User';
+import {
+  setTrackerUser,
+} from '@/util/EventLogger';
 
 import apiWrapper from './api-wrapper';
 
@@ -175,6 +178,7 @@ export async function refreshUser({ commit, state, dispatch }) {
       dispatch('queryLikeCoinWalletBalance');
       await dispatch('fetchSocialListDetailsById', user.user);
       commit(types.USER_SET_USER_INFO, user);
+      await setTrackerUser(user);
     } else {
       commit(types.USER_SET_USER_INFO, {});
     }

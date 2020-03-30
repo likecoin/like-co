@@ -89,18 +89,24 @@ export function setUserSupportOAuthFactors(vue, factors) {
   }
 }
 
-export async function setTrackerUserId(userId) {
+export async function setTrackerUser({ user, email }) {
   if (window.doNotTrack || navigator.doNotTrack) return;
-  if (!userId) return;
+  if (!user) return;
   window.dataLayer = window.dataLayer || [];
   try {
-    let hashedId = await digestMessage(userId);
+    let hashedId = await digestMessage(user);
     hashedId = hexString(hashedId);
     window.dataLayer.push({
       userId: hashedId,
     });
   } catch (err) {
     console.error(err);
+  }
+  if (window.fbq) {
+    const userPayload = {};
+    if (email) userPayload.em = email;
+    if (user) userPayload.external_id = user;
+    window.fbq('init', process.env.FACEBOOK_PIXEL_ID, userPayload);
   }
 }
 
