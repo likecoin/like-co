@@ -27,7 +27,6 @@
 </template>
 <script>
 import {
-  setTrackerUserId,
   setUserSupportData,
   setUserSupportErrorEvent,
   setUserSupportOAuthFactors,
@@ -76,7 +75,6 @@ export default {
             scope.setUser(opt);
           });
         }
-        await setTrackerUserId(user);
       }
     },
     async getAuthCoreCurrentUser(u) {
@@ -136,7 +134,6 @@ export default {
           scope.setUser(opt);
         });
       }
-      await setTrackerUserId(user);
     }
   },
 };
