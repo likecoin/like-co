@@ -92,7 +92,7 @@
               :is-sign-in="isSignIn"
               :language="getCurrentLocale"
               :redirect-url="getAuthCoreRedirectUrl"
-              :button-size="buttonSize"
+              :social-login-pane-option="socialLoginPaneOption"
               @loaded="onAuthCoreLoaded"
               @loginWidgetLoaded="onAuthCoreLoginWidgetLoaded"
               @registerStarted="onAuthCoreRegisterStarted"
@@ -306,9 +306,9 @@ export default {
   mixins: [
     EthMixin,
     experimentsMixin(
-      'shouldTestButtonStyle',
+      'shouldTestSocialStyle',
       'signin-portal',
-      'small',
+      'list',
     ),
   ],
   data() {
@@ -449,9 +449,9 @@ export default {
       }
       return url;
     },
-    buttonSize() {
-      if (this.shouldTestButtonStyle) return 'normal';
-      return 'large';
+    socialLoginPaneOption() {
+      if (this.shouldTestSocialStyle) return 'list';
+      return 'grid';
     },
   },
   watch: {

@@ -45,10 +45,6 @@ export default {
       type: String,
       default: 'grid',
     },
-    buttonSize: {
-      type: String,
-      default: 'large',
-    },
   },
   computed: {
     SignInWidget() {
@@ -76,7 +72,6 @@ export default {
         initialScreen: this.isSignIn ? 'signin' : 'register',
         socialLoginPaneStyle: this.socialLoginPaneStyle,
         socialLoginPaneOption: this.socialLoginPaneOption,
-        buttonSize: this.buttonSize,
         internal: true,
         contact: this.email,
         language: this.authCoreLanguage,
