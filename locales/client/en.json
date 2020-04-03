@@ -1399,6 +1399,11 @@
     "inmedia": "Inmedia",
     "standnews": "Standnews",
     "citizenNews": "CitizenNews",
+    "partners": {
+      "name": "Matters / Vocus",
+      "title": "{name} – Set Liker ID by yourself",
+      "content": "Fill in your Liker ID in the the setting page of Matters/Vocus. The LikeCoin button will appear in your articles automatically."
+    },
     "integratedPlatform": {
       "name": "@:LikeButtonIntro.inmedia / @:LikeButtonIntro.standnews / @:LikeButtonIntro.citizenNews",
       "title": "{name} – Provide Liker ID to publishers",

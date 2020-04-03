@@ -1279,6 +1279,11 @@
         "inmedia": "独立媒体",
         "standnews": "立场新闻",
         "citizenNews": "众新闻",
+        "partners": {
+            "name": "Matters / 方格子",
+            "title": "{name} – 站内设定 Liker ID",
+            "content": "可于平台设定中填上 Liker ID，所有文章自动加入赞赏键。"
+        },
         "integratedPlatform": {
             "name": "@:LikeButtonIntro.inmedia / @:LikeButtonIntro.standnews / @:LikeButtonIntro.citizenNews",
             "title": "{name} – 把 Liker ID 提供予合作平台",

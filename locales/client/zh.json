@@ -1333,6 +1333,11 @@
     "inmedia": "獨立媒體",
     "standnews": "立場新聞",
     "citizenNews": "眾新聞",
+    "partners": {
+      "name": "Matters / 方格子",
+      "title": "{name} – 站內設定 Liker ID",
+      "content": "可於平台設定中填上 Liker ID，所有文章自動加入讚賞鍵。"
+    },
     "integratedPlatform": {
       "name": "@:LikeButtonIntro.inmedia / @:LikeButtonIntro.standnews / @:LikeButtonIntro.citizenNews",
       "title": "{name} – 把 Liker ID 提供予合作平台",
@@ -1353,7 +1358,7 @@
       }
     },
     "embedly": {
-      "name": "Matters / Medium / 方格子",
+      "name": "Medium",
       "title": "{name} – 自行加上讚賞鍵",
       "content": "在 Matters、Medium 和方格子發表的作者，自行在文章後加上「{likeButtonUrl}」以嵌入 Like Rewards Button，即可。如果有登入，然後自行{setupWallet}，即能自動每日收到款項",
       "caption": "只需在文章中輸入你的 LikeCoin 鏈接，拍一下「換行」"
