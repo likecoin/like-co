@@ -38,7 +38,10 @@
                   v-for="item in exampleItems"
                   :ref="item.id"
                   :key="item.id"
-                  class="like-button-intro__example-detail-wrapper"
+                  :class="[
+                    'like-button-intro__example-detail-wrapper',
+                    `like-button-intro__example-detail-wrapper--${item.id}`
+                  ]"
                 >
                   <div
                     v-if="item.logos && item.logos.length"
@@ -180,12 +183,16 @@ import {
 const getAssetPath = require.context('~/assets/like-button-intro');
 const exampleItems = [
   {
+    id: 'partners',
+    logos: ['matters', 'vocus'].map(name => getAssetPath(`./${name}.svg`)),
+  },
+  {
     id: 'integratedPlatform',
     logos: ['inmedia', 'standnews', 'hkcnews'].map(name => getAssetPath(`./${name}.svg`)),
   },
   {
     id: 'embedly',
-    logos: ['matters', 'medium', 'vocus'].map(name => getAssetPath(`./${name}.svg`)),
+    logos: ['medium'].map(name => getAssetPath(`./${name}.svg`)),
     image: getAssetPath('./embedly_preview.gif'),
   },
   {
@@ -370,6 +377,14 @@ export default {
     figcaption {
       color: $like-gray-4;
     }
+
+    &--partners {
+      margin-top: 55px;
+
+      @media (max-width: 600px) {
+        margin-top: 30px;
+      }
+    }
   }
 
   &__example-logo-list {
@@ -400,6 +415,36 @@ export default {
 
     img {
       display: block;
+    }
+
+    .like-button-intro__example-detail-wrapper--partners & {
+      margin-right: -87px;
+      margin-left: -87px;
+
+      ul {
+        align-items: stretch;
+
+        margin-bottom: 60px;
+      }
+
+      li {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 50%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 20px;
+
+        border: 1px solid $like-gray-3;
+        border-top-width: 0;
+        border-bottom-width: 0;
+
+        &:nth-child(even) {
+          border-left-width: 0;
+        }
+      }
     }
   }
 
