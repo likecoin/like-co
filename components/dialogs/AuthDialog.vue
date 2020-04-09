@@ -265,7 +265,6 @@ import SigninPortal from './AuthDialogContent/SignInPortal';
 // import EmailSigninForm from './AuthDialogContent/SignInWithEmail';
 import RegisterForm from './AuthDialogContent/Register';
 import EthMixin from '~/components/EthMixin';
-import experimentsMixin from '~/util/mixins/experiments';
 
 import User from '@/util/User';
 
@@ -305,11 +304,6 @@ export default {
   },
   mixins: [
     EthMixin,
-    experimentsMixin(
-      'shouldTestSocialStyle',
-      'signin-portal',
-      'list',
-    ),
   ],
   data() {
     return {
@@ -450,7 +444,6 @@ export default {
       return url;
     },
     socialLoginPaneOption() {
-      if (this.shouldTestSocialStyle) return 'list';
       return 'grid';
     },
   },
