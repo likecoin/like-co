@@ -140,6 +140,7 @@ export default {
   async asyncData({
     query,
     error,
+    redirect,
   }) {
     const {
       to: toString,
@@ -153,6 +154,9 @@ export default {
     let {
       remarks,
     } = query;
+    if (!Object.keys(query).length) {
+      return redirect('https://docs.like.co/developer/like-pay/web-widget/reference');
+    }
     if (!toString) {
       return error({ statusCode: 400, message: 'INVALID_RECIPIENT' });
     }
