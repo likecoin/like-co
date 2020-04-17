@@ -105,6 +105,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
+import { IS_TESTNET } from '@/constant';
 import {
   queryLikeCoinBalance as queryCosmosLikeCoinBalance,
   transfer as cosmosTransfer,
@@ -163,22 +164,17 @@ export default {
     if (toIds.length !== amounts.length) {
       return error({ statusCode: 400, message: 'RECIPIENT_AND_AMOUNT_SIZE_MISMATCH' });
     }
-    if (!agentId && (agentFee || redirectUri)) {
+    if (!agentId && (agentFee)) {
       return error({ statusCode: 400, message: 'MISSING_VIA' });
     }
-
-    // invalid redirect_uri
-    // if (redirectUri) {
-    //   error({ statusCode: 400, message: 'INVALID_REDIRECT_URI' });
-    // }
 
     if (remarks) {
       remarks = remarks.substring(0, 255);
     }
 
     let promises = [];
-    promises.push(agentId ? apiGetUserMinById(agentId) : () => null);
-    promises = promises.concat(toIds.map(id => apiGetUserMinById(id)));
+    promises.push(agentId ? apiGetUserMinById(agentId, { type: 'payment' }) : () => null);
+    promises = promises.concat(toIds.map(id => apiGetUserMinById(id, { type: 'payment' })));
 
     return Promise.all(promises).then((res) => {
       const [agentRes, ...toRes] = res;
@@ -195,6 +191,7 @@ export default {
           cosmosWallet,
           avatar,
           displayName,
+          paymentRedirectWhiteList,
         } = u.data;
         return {
           user,
@@ -202,8 +199,37 @@ export default {
           avatar,
           displayName,
           avatarHalo: User.getAvatarHaloType(u.data),
+          paymentRedirectWhiteList,
         };
       });
+
+      if (redirectUri) {
+        if (agentId) {
+          const {
+            paymentRedirectWhiteList: agentWhiteList = [],
+          } = agentUser;
+          if (!IS_TESTNET && (!agentWhiteList || !agentWhiteList.length)) {
+            error({ statusCode: 400, message: 'AGENT_NOT_SETUP_PAYMENT_REDIRECT' });
+          }
+          if (agentWhiteList.length && !agentWhiteList.includes(redirectUri)) {
+            error({ statusCode: 400, message: 'REDIRECT_URI_NOT_WHITELIST' });
+          }
+        } else {
+          if (toUsers.length > 1) {
+            error({ statusCode: 400, message: 'CANNOT_REDIRECT_MULTIPLE_RECEIPIENTS' });
+          }
+          const {
+            paymentRedirectWhiteList: userWhiteList = [],
+          } = toUsers[0];
+          if (!IS_TESTNET && (!userWhiteList || !userWhiteList.length)) {
+            error({ statusCode: 400, message: 'USER_NOT_SETUP_PAYMENT_REDIRECT' });
+          }
+          if (userWhiteList.length && !userWhiteList.includes(redirectUri)) {
+            error({ statusCode: 400, message: 'REDIRECT_URI_NOT_WHITELIST' });
+          }
+        }
+      }
+
       return {
         toIds,
         amounts,
