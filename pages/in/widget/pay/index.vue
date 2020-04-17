@@ -2,15 +2,15 @@
   <div class="pay-widget-page">
     <div />
     <div class="widget-body">
-      <h2>Send</h2>
+      <h2>{{ $t('PaymentWidget.title') }}</h2>
       <hr>
       <h1>{{ actualSendAmount }} LIKE</h1>
       <section>
         <section>
-          <p> to: </p>
+          <p>{{ $t('PaymentWidget.label.to') }}</p>
           <div
             v-for="u in toUsers"
-            :key="u.id"
+            :key="u.user"
           >
             <lc-avatar
               v-if="u.avatar"
@@ -23,7 +23,7 @@
           </div>
         </section>
         <section v-if="agentId">
-          <p> Via </p>
+          <p>{{ $t('PaymentWidget.label.via') }}</p>
           <lc-avatar
             v-if="agentUser.avatar"
             :src="agentUser.avatar"
@@ -35,14 +35,20 @@
         </section>
       </section>
       <section class="detail">
-        <h3>Details</h3>
+        <h3>{{ $t('PaymentWidget.label.details') }}</h3>
         <section v-if="showDetails">
           <div>
-            <div v-if="remarks">Remarks: {{ remarks }}</div>
-            <div>Receipeient Receive: {{ sumOfToAmount }} LIKE</div>
-            <div v-if="agentFee">Sharer Receive: {{ agentFee }} LIKE</div>
-            <div v-if="gasFee">Gas Fee: {{ gasFee }} LIKE</div>
-            <div>Total: {{ totalAmount }} LIKE</div>
+            <div v-if="remarks">{{ $t('PaymentWidget.label.remarks', { remarks }) }}</div>
+            <div>{{ $t('PaymentWidget.label.receiveSum', {
+              users: toUsers.map(u => u.user).join(', '),
+              amount: sumOfToAmount,
+            }) }}</div>
+            <div>{{ $t('PaymentWidget.label.agentFee', {
+              user: agentUser.user,
+              amount: agentFee,
+            }) }}</div>
+            <div v-if="gasFee">{{ $t('PaymentWidget.label.gasFee', { amount: gasFee }) }}</div>
+            <div>{{ $t('PaymentWidget.label.total', { amount: totalAmount }) }}</div>
           </div>
         </section>
         <a
