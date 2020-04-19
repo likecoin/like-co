@@ -71,7 +71,7 @@
     "portal-vue": "^1.3.0",
     "resize-observer": "^1.0.0",
     "secretd-js": "git+https://gitlab.com/blocksq/secretd-js.git#f0824a576273cb252a43ff3ae6cb270bb9369be6",
-    "source-map-support": "^0.5.4",
+    "source-map-support": "^0.5.17",
     "swiper": "^4.5.0",
     "tiny-cookie": "^2.3.1",
     "url-parse": "^1.4.3",
