@@ -988,6 +988,19 @@
       "metamaskWalletNotMatch": "Your wallet address is not the same as current Metamask address."
     }
   },
+  "PaymentWidget": {
+    "title": "Send",
+    "label": {
+      "to": "to: ",
+      "via": "via",
+      "details": "Details",
+      "remarks": "Remarks: {remark}",
+      "receiveSum": "{users} receive: {amount} LIKE",
+      "agentFee": "{user} receive: {amount} LIKE",
+      "gasFee": "Gas Fee: {amount} LIKE",
+      "total": "Total: {amount} LIKE"
+    }
+  },
   "RewardRecords": {
     "title": "Reward Records"
   },

@@ -17,7 +17,14 @@ export const apiCheckIsUser = addr => axios.get(`/users/addr/${addr}/min`);
 
 export const apiGetUserById = id => axios.get(`/users/id/${id}`);
 
-export const apiGetUserMinById = id => axios.get(`/users/id/${id}/min`);
+export const apiGetUserMinById = (id, { types = [], type } = {}) => {
+  let path = `/users/id/${id}/min`;
+  if (type) types.push(type);
+  if (types.length) {
+    path += `?type=${encodeURIComponent(types.join(','))}`;
+  }
+  return axios.get(path);
+};
 
 export const apiGetUserMinByMerchantId = id => axios.get(`/users/merchant/${id}/min`);
 

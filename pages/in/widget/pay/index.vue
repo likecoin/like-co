@@ -2,15 +2,15 @@
   <div class="pay-widget-page">
     <div />
     <div class="widget-body">
-      <h2>Send</h2>
+      <h2>{{ $t('PaymentWidget.title') }}</h2>
       <hr>
       <h1>{{ actualSendAmount }} LIKE</h1>
       <section>
         <section>
-          <p> to: </p>
+          <p>{{ $t('PaymentWidget.label.to') }}</p>
           <div
             v-for="u in toUsers"
-            :key="u.id"
+            :key="u.user"
           >
             <lc-avatar
               v-if="u.avatar"
@@ -23,7 +23,7 @@
           </div>
         </section>
         <section v-if="agentId">
-          <p> Via </p>
+          <p>{{ $t('PaymentWidget.label.via') }}</p>
           <lc-avatar
             v-if="agentUser.avatar"
             :src="agentUser.avatar"
@@ -35,14 +35,20 @@
         </section>
       </section>
       <section class="detail">
-        <h3>Details</h3>
+        <h3>{{ $t('PaymentWidget.label.details') }}</h3>
         <section v-if="showDetails">
           <div>
-            <div v-if="remarks">Remarks: {{ remarks }}</div>
-            <div>Receipeient Receive: {{ sumOfToAmount }} LIKE</div>
-            <div v-if="agentFee">Sharer Receive: {{ agentFee }} LIKE</div>
-            <div v-if="gasFee">Gas Fee: {{ gasFee }} LIKE</div>
-            <div>Total: {{ totalAmount }} LIKE</div>
+            <div v-if="remarks">{{ $t('PaymentWidget.label.remarks', { remarks }) }}</div>
+            <div>{{ $t('PaymentWidget.label.receiveSum', {
+              users: toUsers.map(u => u.user).join(', '),
+              amount: sumOfToAmount,
+            }) }}</div>
+            <div>{{ $t('PaymentWidget.label.agentFee', {
+              user: agentUser.user,
+              amount: agentFee,
+            }) }}</div>
+            <div v-if="gasFee">{{ $t('PaymentWidget.label.gasFee', { amount: gasFee }) }}</div>
+            <div>{{ $t('PaymentWidget.label.total', { amount: totalAmount }) }}</div>
           </div>
         </section>
         <a
@@ -99,6 +105,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
+import { IS_TESTNET } from '@/constant';
 import {
   queryLikeCoinBalance as queryCosmosLikeCoinBalance,
   transfer as cosmosTransfer,
@@ -133,6 +140,7 @@ export default {
   async asyncData({
     query,
     error,
+    redirect,
   }) {
     const {
       to: toString,
@@ -146,6 +154,9 @@ export default {
     let {
       remarks,
     } = query;
+    if (!Object.keys(query).length) {
+      return redirect('https://docs.like.co/developer/like-pay/web-widget/reference');
+    }
     if (!toString) {
       return error({ statusCode: 400, message: 'INVALID_RECIPIENT' });
     }
@@ -157,22 +168,17 @@ export default {
     if (toIds.length !== amounts.length) {
       return error({ statusCode: 400, message: 'RECIPIENT_AND_AMOUNT_SIZE_MISMATCH' });
     }
-    if (!agentId && (agentFee || redirectUri)) {
+    if (!agentId && (agentFee)) {
       return error({ statusCode: 400, message: 'MISSING_VIA' });
     }
-
-    // invalid redirect_uri
-    // if (redirectUri) {
-    //   error({ statusCode: 400, message: 'INVALID_REDIRECT_URI' });
-    // }
 
     if (remarks) {
       remarks = remarks.substring(0, 255);
     }
 
     let promises = [];
-    promises.push(agentId ? apiGetUserMinById(agentId) : () => null);
-    promises = promises.concat(toIds.map(id => apiGetUserMinById(id)));
+    promises.push(agentId ? apiGetUserMinById(agentId, { type: 'payment' }) : () => null);
+    promises = promises.concat(toIds.map(id => apiGetUserMinById(id, { type: 'payment' })));
 
     return Promise.all(promises).then((res) => {
       const [agentRes, ...toRes] = res;
@@ -189,6 +195,7 @@ export default {
           cosmosWallet,
           avatar,
           displayName,
+          paymentRedirectWhiteList,
         } = u.data;
         return {
           user,
@@ -196,8 +203,37 @@ export default {
           avatar,
           displayName,
           avatarHalo: User.getAvatarHaloType(u.data),
+          paymentRedirectWhiteList,
         };
       });
+
+      if (redirectUri) {
+        if (agentId) {
+          const {
+            paymentRedirectWhiteList: agentWhiteList = [],
+          } = agentUser;
+          if (!IS_TESTNET && (!agentWhiteList || !agentWhiteList.length)) {
+            error({ statusCode: 400, message: 'AGENT_NOT_SETUP_PAYMENT_REDIRECT' });
+          }
+          if (agentWhiteList.length && !agentWhiteList.includes(redirectUri)) {
+            error({ statusCode: 400, message: 'REDIRECT_URI_NOT_WHITELIST' });
+          }
+        } else {
+          if (toUsers.length > 1) {
+            error({ statusCode: 400, message: 'CANNOT_REDIRECT_MULTIPLE_RECEIPIENTS' });
+          }
+          const {
+            paymentRedirectWhiteList: userWhiteList = [],
+          } = toUsers[0];
+          if (!IS_TESTNET && (!userWhiteList || !userWhiteList.length)) {
+            error({ statusCode: 400, message: 'USER_NOT_SETUP_PAYMENT_REDIRECT' });
+          }
+          if (userWhiteList.length && !userWhiteList.includes(redirectUri)) {
+            error({ statusCode: 400, message: 'REDIRECT_URI_NOT_WHITELIST' });
+          }
+        }
+      }
+
       return {
         toIds,
         amounts,
