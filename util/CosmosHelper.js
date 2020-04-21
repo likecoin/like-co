@@ -124,15 +124,81 @@ export async function queryLikeCoinBalance(addr) {
   return amountToLIKE(amount);
 }
 
-export async function sendTx(msgCallPromise, signer) {
+export async function sendTx(msgCallPromise, signer, { memo, simulate: isSimulate } = {}) {
   const { simulate, send } = await msgCallPromise;
-  const gas = (await simulate({})).toString();
-  const { hash, included } = await send({ gas }, signer);
+  const gas = (await simulate({ memo })).toString();
+  if (isSimulate) return { gas };
+  const { hash, included } = await send({ gas, memo }, signer);
   return { txHash: hash, included };
 }
 
-export function transfer({ from, to, value }, signer) {
+export async function transfer({
+  from,
+  to,
+  value,
+  memo,
+}, signer, { simulate = false } = {}) {
+  if (!api) await initCosmos();
   const amount = LIKEToAmount(value);
   const msgPromise = api.MsgSend(from, { toAddress: to, amounts: [amount] });
-  return sendTx(msgPromise, signer);
+  return sendTx(msgPromise, signer, { memo, simulate });
+}
+
+async function MsgSendMultiple(
+  senderAddress,
+  {
+    toAddresses,
+    amounts,
+  },
+) {
+  const totalValue = amounts.reduce((acc, amount) => acc.plus(amount.amount), new BigNumber(0));
+  const outputs = [];
+  toAddresses.forEach((target, index) => {
+    outputs.push({
+      address: target,
+      coins: [amounts[index]],
+    });
+  });
+  const message = {
+    type: 'cosmos-sdk/MsgMultiSend',
+    value: {
+      inputs: [
+        {
+          address: senderAddress,
+          coins: [
+            {
+              denom: COSMOS_DENOM,
+              amount: totalValue.toFixed(),
+            },
+          ],
+        },
+      ],
+      outputs,
+    },
+  };
+  return {
+    message,
+    simulate: ({ memo = undefined }) => {
+      let base = 30000;
+      const numberOfReceivers = message.value.outputs.length;
+      if (numberOfReceivers) base += numberOfReceivers * 8000;
+      if (memo && memo.length) base += memo.length * 100;
+      return Math.floor(base * 1.2);
+    },
+    send: (
+      { gas, gasPrices, memo = undefined },
+      signer,
+    ) => api.send(senderAddress, { gas, gasPrices, memo }, message, signer),
+  };
+}
+
+export function transferMultiple({
+  from,
+  tos,
+  values,
+  memo,
+}, signer, { simulate = false } = {}) {
+  const amounts = values.map(v => LIKEToAmount(v));
+  const msgPromise = MsgSendMultiple(from, { toAddresses: tos, amounts });
+  return sendTx(msgPromise, signer, { memo, simulate });
 }

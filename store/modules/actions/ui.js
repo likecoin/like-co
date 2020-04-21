@@ -83,6 +83,10 @@ export const closeInfoToolbar = ({ commit }) => {
   commit(types.UI_INFO_MSG, '');
 };
 
+export const setHideTxDialogAction = ({ commit }, payload) => {
+  commit(types.UI_SET_HIDE_TX_DIALOG_ACTION, payload);
+};
+
 export const setTxDialogAction = ({ commit }, payload) => {
   commit(types.UI_SET_TX_DIALOG_ACTION, payload);
 };

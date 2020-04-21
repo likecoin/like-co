@@ -24,6 +24,7 @@ import {
   UI_LOGIN_OVERRIDE,
   UI_DISABLE_ERROR,
   UI_HEADER_UPDATE,
+  UI_SET_HIDE_TX_DIALOG_ACTION,
   UI_SET_TX_DIALOG_ACTION,
   UI_OPEN_SLIDING_MENU,
   UI_CLOSE_SLIDING_MENU,
@@ -56,6 +57,7 @@ const state = () => ({
   isSlidingMenuOpen: false,
   isLoginOverride: false,
   isErrorDisabled: false,
+  txDialogHideAction: false,
   txDialogActionRoute: null,
   txDialogActionText: '',
   isShowingPromptNotificationDialog: false,
@@ -163,6 +165,9 @@ const mutations = {
     if (title !== undefined) state.headerTitle = title;
     if (subtitle !== undefined) state.headerSubtitle = subtitle;
     if (description !== undefined) state.description = description;
+  },
+  [UI_SET_HIDE_TX_DIALOG_ACTION](state, payload) {
+    state.txDialogHideAction = payload;
   },
   [UI_SET_TX_DIALOG_ACTION](state, payload) {
     const {

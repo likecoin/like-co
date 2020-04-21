@@ -2,19 +2,54 @@
 
 import * as api from '@/util/api/api';
 import * as types from '@/store/mutation-types';
-import { transfer as transferCosmos } from '@/util/CosmosHelper';
+import {
+  transfer as transferCosmos,
+  transferMultiple as transferCosmosMultiple,
+} from '@/util/CosmosHelper';
 import apiWrapper from './api-wrapper';
 
 export async function sendCosmosPayment(
   { commit },
-  { signer, isWait = true, ...payload },
+  {
+    signer,
+    isWait = true,
+    showTxToolBar = false,
+    showDialogAction = true,
+    ...payload
+  },
 ) {
   try {
-    const { from, to, value } = payload;
-    const { txHash, included } = await transferCosmos({ from, to, value }, signer);
+    const {
+      from,
+      to,
+      tos,
+      value,
+      values,
+      memo,
+    } = payload;
+    let txHash;
+    let included;
+    if (tos && values) {
+      ({ txHash, included } = await transferCosmosMultiple({
+        from,
+        tos,
+        values,
+        memo,
+      }, signer));
+    } else {
+      ({ txHash, included } = await transferCosmos({
+        from,
+        to,
+        value,
+        memo,
+      }, signer));
+    }
     commit(types.UI_START_LOADING_TX);
-    commit(types.PAYMENT_SET_PENDING_HASH, txHash);
-    commit(types.PAYMENT_SET_PENDING_TX_INFO, { from, to, value });
+    commit(types.UI_SET_HIDE_TX_DIALOG_ACTION, !showDialogAction);
+    if (showTxToolBar) {
+      commit(types.PAYMENT_SET_PENDING_HASH, txHash);
+      commit(types.PAYMENT_SET_PENDING_TX_INFO, { from, to, value });
+    }
     if (isWait) await included();
     commit(types.UI_STOP_LOADING_TX);
     return txHash;

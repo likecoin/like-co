@@ -56,6 +56,7 @@
           :txId="getPendingTx"
           :txInfo="getPendingTxInfo"
           :isNewUser="!getUserIsRegistered"
+          :txDialogHideAction="getTxDialogHideAction"
           :txDialogActionRoute="getTxDialogActionRoute"
           :txDialogActionText="getTxDialogActionText"
           @onClose="closeTxDialog"
@@ -193,6 +194,7 @@ export default {
       'getWeb3Type',
       'getTxDialogActionRoute',
       'getTxDialogActionText',
+      'getTxDialogHideAction',
       'getPendingTxInfo',
       'getIsShowWalletNoticeDialog',
       'getWalletNoticeDialogCancelTitle',
