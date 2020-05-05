@@ -330,6 +330,7 @@ export default {
     async calculateGasFee() {
       let gas;
       const from = await this.fetchAuthCoreCosmosWallet();
+      const to = this.toUsers[0].cosmosWallet;
       if (this.isMultiSend) {
         const tos = this.toUsers.map(u => u.cosmosWallet);
         const values = [...this.amounts];
@@ -346,7 +347,7 @@ export default {
         ({ gas } = await cosmosTransfer(
           {
             from,
-            to: this.toIds[0],
+            to,
             value: this.actualSendAmount,
           },
           null,
@@ -370,7 +371,7 @@ export default {
           this.setErrorMsg(this.$t('Transaction.error.metamaskWalletNotMatch'));
           throw new Error('VALIDATION_FAIL');
         }
-        const to = this.wallet;
+        const to = this.toUsers[0].cosmosWallet;
         if (from === to) {
           this.setErrorMsg(this.$t('Transaction.error.sameUser'));
           throw new Error('VALIDATION_FAIL');
@@ -406,7 +407,7 @@ export default {
           txHash = await this.sendCosmosPayment({
             signer,
             from,
-            to: this.toIds[0],
+            to,
             value: this.actualSendAmount,
             memo: this.remarks,
             showDialogAction,
