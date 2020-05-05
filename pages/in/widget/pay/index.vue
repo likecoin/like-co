@@ -43,7 +43,7 @@
               users: toUsers.map(u => u.user).join(', '),
               amount: sumOfToAmount,
             }) }}</div>
-            <div>{{ $t('PaymentWidget.label.agentFee', {
+            <div v-if="agentId">{{ $t('PaymentWidget.label.agentFee', {
               user: agentUser.user,
               amount: agentFee,
             }) }}</div>
@@ -289,7 +289,10 @@ export default {
       return amount.toFixed();
     },
     isMultiSend() {
-      return this.toIds.length > 1 || this.agentId;
+      return this.toIds.length > 1 || this.hasAgentFee;
+    },
+    hasAgentFee() {
+      return this.agentUser && this.agentFee && this.agentFee !== '0';
     },
     usdTransferStrValue() {
       if (this.getLikeCoinUsdNumericPrice && this.totalAmount) {
@@ -327,10 +330,11 @@ export default {
     async calculateGasFee() {
       let gas;
       const from = await this.fetchAuthCoreCosmosWallet();
+      const to = this.toUsers[0].cosmosWallet;
       if (this.isMultiSend) {
         const tos = this.toUsers.map(u => u.cosmosWallet);
         const values = [...this.amounts];
-        if (this.agentUser) {
+        if (this.hasAgentFee) {
           tos.push(this.agentUser.cosmosWallet);
           values.push(this.agentFee);
         }
@@ -343,7 +347,7 @@ export default {
         ({ gas } = await cosmosTransfer(
           {
             from,
-            to: this.toIds[0],
+            to,
             value: this.actualSendAmount,
           },
           null,
@@ -367,7 +371,7 @@ export default {
           this.setErrorMsg(this.$t('Transaction.error.metamaskWalletNotMatch'));
           throw new Error('VALIDATION_FAIL');
         }
-        const to = this.wallet;
+        const to = this.toUsers[0].cosmosWallet;
         if (from === to) {
           this.setErrorMsg(this.$t('Transaction.error.sameUser'));
           throw new Error('VALIDATION_FAIL');
@@ -386,7 +390,7 @@ export default {
         if (this.isMultiSend) {
           const tos = this.toUsers.map(u => u.cosmosWallet);
           const values = [...this.amounts];
-          if (this.agentUser) {
+          if (this.hasAgentFee) {
             tos.push(this.agentUser.cosmosWallet);
             values.push(this.agentFee);
           }
@@ -403,7 +407,7 @@ export default {
           txHash = await this.sendCosmosPayment({
             signer,
             from,
-            to: this.toIds[0],
+            to,
             value: this.actualSendAmount,
             memo: this.remarks,
             showDialogAction,
