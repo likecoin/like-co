@@ -28,6 +28,8 @@ export async function setUserSupportData(vue, u, { boot = false } = {}) {
   } = u;
   if (window.$crisp) {
     const { $crisp } = window;
+    // restore if hidden
+    $crisp.push(['do', 'chat:show']);
     if (displayName) $crisp.push(['set', 'user:nickname', [displayName]]);
     if (email) {
       const emailPayload = [email];

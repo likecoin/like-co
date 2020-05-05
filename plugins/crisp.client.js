@@ -16,5 +16,8 @@ if (process.env.CRISP_WEBSITE_ID) {
   s.async = 1;
   d.getElementsByTagName('head')[0].appendChild(s);
 
+  /* TODO: hide chat for now */
+  window.$crisp.push(['do', 'chat:hide']);
+
   Vue.prototype.$crisp = crisp;
 }
