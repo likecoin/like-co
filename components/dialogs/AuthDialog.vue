@@ -410,7 +410,9 @@ export default {
           details: this.error.toString(),
         });
       }
-      return this.$t('AuthDialog.label.signInError');
+      let msg = this.$t('AuthDialog.label.signInError');
+      if (this.errorCode) msg += ` - ${this.errorCode}`;
+      return msg;
     },
     errorMessageForLegacyUser() {
       switch (this.errorCode) {
