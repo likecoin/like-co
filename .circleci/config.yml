@@ -54,6 +54,7 @@ jobs:
             git submodule update
       - restore_cache:
           key: likecoin-store-unit-test-{{ .Environment.CACHE_UUID }}-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}-{{ checksum ".circleci/config.yml" }}
+      - restore_cache:
           key: likecoin-api-unit-test-{{ checksum "server/api/package.json" }}-{{ checksum "server/api/package-lock.json" }}-{{ checksum ".circleci/config.yml" }}
       - run:
           name: Node Environment
