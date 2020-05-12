@@ -20,7 +20,6 @@
 import { mapGetters, mapActions } from 'vuex';
 import OauthPermissionDialog from '~/components/dialogs/OAuthPermissionDialog';
 import Spinner from '@/components/Spinner';
-import { timeout } from '@/util/misc';
 import {
   apiGetOAuthAuthorize,
   apiPostOAuthAuthorize,
@@ -91,39 +90,11 @@ export default {
       'getCurrentLocale',
       'getUserInfo',
     ]),
-    shouldStartIntercom() {
-      const { intercom } = this.$route.query;
-      return intercom && intercom !== '0';
-    },
     needAuth() {
       return !(this.isAuthed || this.isTrusted);
     },
   },
   async mounted() {
-    if (this.shouldStartIntercom) {
-      if (this.$intercom) {
-        /* TODO: refactor this into util function */
-        const {
-          user,
-          intercomToken,
-          displayName,
-          email,
-        } = this.getUserInfo;
-        const opt = { LikeCoin: true };
-        const language = this.getCurrentLocale;
-        if (user) opt.user_id = user;
-        if (intercomToken) opt.user_hash = intercomToken;
-        if (displayName) opt.name = displayName;
-        if (email) opt.email = email;
-        if (language) opt.language = language;
-        this.$intercom.boot(opt);
-        let count = 0;
-        while (!this.$intercom.ready && count <= 10) {
-          count += 1;
-          await timeout(200); // eslint-disable-line no-await-in-loop
-        }
-      }
-    }
     if (!this.needAuth) this.authorize();
   },
   methods: {

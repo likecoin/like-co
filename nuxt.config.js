@@ -101,7 +101,6 @@ const nuxtConfig = {
           'connect.facebook.net',
           'player.vimeo.com',
           'use.typekit.net',
-          '*.intercom.io',
         ],
         'frame-src': [
           'www.google.com',
@@ -118,7 +117,6 @@ const nuxtConfig = {
           "'self'",
           'data:',
           '*',
-          'wss://*.intercom.io',
           'wss://client.relay.crisp.chat',
         ],
         'style-src': [
@@ -209,7 +207,6 @@ const nuxtConfig = {
     { src: '~/plugins/vue-material' },
     { src: '~/plugins/likecoin-ui-vue' },
     { src: '~/plugins/vue-simple-svg' },
-    { src: '~/plugins/vue-intercom', ssr: false },
     { src: '~/plugins/vue-image-lightbox', ssr: false },
     { src: '~/plugins/vue-clipboard2', ssr: false },
     { src: '~/plugins/vue-portal', ssr: false },
@@ -278,11 +275,5 @@ const nuxtConfig = {
     },
   },
 };
-
-if (process.env.INTERCOM_APPID) {
-  nuxtConfig.head.link.push(
-    { rel: 'preload', href: `https://widget.intercom.io/widget/${process.env.INTERCOM_APPID}`, as: 'script' },
-  );
-}
 
 module.exports = nuxtConfig;
