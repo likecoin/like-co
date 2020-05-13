@@ -27,18 +27,22 @@
             <a
               href="https://docs.like.co/user-guide/faq"
               class="site-main-menu__item"
+              target="_blank"
             >FAQ</a>
             <!-- <a
               href="#"
               class="site-main-menu__item"
+              target="_blank"
             >Events</a> -->
             <a
               href="https://github.com/likecoin/likecoin"
               class="site-main-menu__item"
+              target="_blank"
             >Develop</a>
             <a
               href="https://docs.like.co/"
               class="site-main-menu__item"
+              target="_blank"
             >Learn</a>
             <ul
               role="list"
@@ -224,7 +228,7 @@
     <div class="section section--dark section--use-case">
       <div class="container container--fixed">
         <h2 class="section__title section__title--dark">Use Case</h2>
-        <p class="section__description">LikeCoin has been adopted to various use-cases, ranging from <strong class="text--bold">website plugins</strong>, <strong class="text--bold">mobile app</strong> to <strong class="text--bold">media platforms</strong>. As of April, 2020, the ecosystem of LikeCoin accumulated to <strong class="text--bold">60,300+ Likers</strong>, <strong class="text--bold">208,800+ contents</strong> by <strong class="text--bold">7,600+ creators</strong> on <strong class="text--bold">1000+ media</strong>. </p>
+        <p class="section__description">LikeCoin has been adopted to various use-cases, ranging from <strong class="text--bold">website plugins</strong>, <strong class="text--bold">mobile app</strong> to <strong class="text--bold">media platforms</strong>. As of April, 2020, the ecosystem of LikeCoin accumulated to <strong class="text--bold">60,300+ Likers</strong>, <strong class="text--bold">208,800+ contents</strong> by <strong class="text--bold">7,600+ creators</strong> on <strong class="text--bold">1000+ media</strong>.</p>
         <div class="w-layout-grid grid">
           <div class="grid-item">
             <div class="grid-item__image-wrapper"><img
@@ -246,7 +250,7 @@
               class="grid-item__image"
             ></div>
             <h3 class="grid-item__title grid-item__title--center">Plugin - LikeCoin button</h3>
-            <p class="grid-item__content">The trademarked LikeCoin button allows creators to install and attach to websites and blogs. The button is connected to the LikeCoin reward mechanism and turn each Like to an actual reward. It supports Wordpress, Medium and other blog platforms. </p>
+            <p class="grid-item__content">The trademarked LikeCoin button allows creators to install and attach to websites and blogs. The button is connected to the LikeCoin reward mechanism and turn each Like to an actual reward. It supports WordPress, Medium and other blog platforms.</p>
           </div>
           <div class="grid-item">
             <div class="grid-item__image-wrapper"><img
@@ -255,7 +259,7 @@
               class="grid-item__image"
             ></div>
             <h3 class="grid-item__title grid-item__title--center">Media - Matters</h3>
-            <p class="grid-item__content">Matters Lab is a decentralized content platform that provides a shared infrastructure to creators. Matters and LikeCoin developed it’s partnership since 2018, LikeCoin helps provide an open-source solution to build a decentralised independent journalist network. The partnership is a winning Innovation project of the <a href="https://newsinitiative.withgoogle.com/innovation-challenges/funding/">Google News Initiative 2020</a>. </p>
+            <p class="grid-item__content">Matters Lab is a decentralized content platform that provides a shared infrastructure to creators. Matters and LikeCoin developed it’s partnership since 2018, LikeCoin helps provide an open-source solution to build a decentralised independent journalist network. The partnership is a winning Innovation project of the <a href="https://newsinitiative.withgoogle.com/innovation-challenges/funding/">Google News Initiative 2020</a>.</p>
           </div>
           <div class="grid-item">
             <div class="grid-item__image-wrapper"><img
@@ -264,7 +268,7 @@
               class="grid-item__image"
             ></div>
             <h3 class="grid-item__title grid-item__title--center">Media - Stand News</h3>
-            <p class="grid-item__content">Stand News is a free not-for-profit online news website based in Hong Kong. It primarily focuses on social and political issues in Hong Kong. It has a monthly 5.4M viewership. </p>
+            <p class="grid-item__content">Stand News is a free not-for-profit online news website based in Hong Kong. It primarily focuses on social and political issues in Hong Kong. It has a monthly 5.4M viewership.</p>
           </div>
           <div class="grid-item">
             <div class="grid-item__image-wrapper"><img
@@ -273,7 +277,7 @@
               class="grid-item__image"
             ></div>
             <h3 class="grid-item__title grid-item__title--center">Media - Hong Kong In-media</h3>
-            <p class="grid-item__content">Hong Kong In-media is an independent online media platform in Hong Kong. It aims to provide an open public platform for the public and journalists, free from political intervention and commercial influence. It primary focus on local news and opinions. </p>
+            <p class="grid-item__content">Hong Kong In-media is an independent online media platform in Hong Kong. It aims to provide an open public platform for the public and journalists, free from political intervention and commercial influence. It primary focus on local news and opinions.</p>
           </div>
           <div class="grid-item">
             <div class="grid-item__image-wrapper"><img
@@ -282,7 +286,7 @@
               class="grid-item__image"
             ></div>
             <h3 class="grid-item__title grid-item__title--center">Media - Hong Kong Citizen News</h3>
-            <p class="grid-item__content">Hong Kong Citizen News is a not-for-profit online news website. It primary focus on investigative and data-driven journalism to promote fair and neutral new content to the public. </p>
+            <p class="grid-item__content">Hong Kong Citizen News is a not-for-profit online news website. It primary focus on investigative and data-driven journalism to promote fair and neutral new content to the public.</p>
           </div>
           <div class="grid-item">
             <div class="grid-item__image-wrapper"><img
@@ -291,7 +295,7 @@
               class="grid-item__image"
             ></div>
             <h3 class="grid-item__title grid-item__title--center">Media - Vocus</h3>
-            <p class="grid-item__content">Vocus us a new-style of content creation platform. It aims to provide a clean and simple reading space with no ads. It also supports multiple content payment mechanisms to readers. It attracts users from Chinese community such as Taiwan and Hong Kong. </p>
+            <p class="grid-item__content">Vocus us a new-style of content creation platform. It aims to provide a clean and simple reading space with no ads. It also supports multiple content payment mechanisms to readers. It attracts users from Chinese community such as Taiwan and Hong Kong.</p>
           </div>
           <div class="grid-item">
             <div class="grid-item__image-wrapper"><img
@@ -300,7 +304,7 @@
               class="grid-item__image"
             ></div>
             <h3 class="grid-item__title grid-item__title--center">Plugin - WordPress</h3>
-            <p class="grid-item__content">LikeCoin button was first released on Wordpress as a plugin in 2018. It allows creators to install and attach to websites and blogs. The button is connected to the LikeCoin reward mechanism and turn each Like to an actual reward. As of May 2020, it receive more than 1000+ installation.</p>
+            <p class="grid-item__content">LikeCoin button was first released on WordPress as a plugin in 2018. It allows creators to install and attach to websites and blogs. The button is connected to the LikeCoin reward mechanism and turn each Like to an actual reward. As of May 2020, it receive more than 1000+ installation.</p>
           </div>
           <div class="grid-item">
             <div class="grid-item__image-wrapper"><img
@@ -309,7 +313,7 @@
               class="grid-item__image"
             ></div>
             <h3 class="grid-item__title grid-item__title--center">Plugin - Medium</h3>
-            <p class="grid-item__content">LikeCoin button supports Medium and various blog platforms. Content creators are able to embed LikeCoin button to their content once registered a Liker ID. </p>
+            <p class="grid-item__content">LikeCoin button supports Medium and various blog platforms. Content creators are able to embed LikeCoin button to their content once registered a Liker ID.</p>
           </div>
         </div>
         <div class="use-case__footer"><a
