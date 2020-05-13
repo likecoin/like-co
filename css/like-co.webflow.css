@@ -70,6 +70,7 @@ a {
   -ms-flex: 0 auto;
   flex: 0 auto;
   background-color: transparent;
+  color: #fff;
 }
 
 .site-main-menu__item {
@@ -89,6 +90,7 @@ a {
 
 .site-main-menu__item:hover {
   color: #50e3c2;
+  text-decoration: none;
 }
 
 .site-hero {
@@ -175,6 +177,7 @@ a {
   font-size: 18px;
   font-weight: 600;
   text-align: center;
+  text-decoration: none;
   text-transform: uppercase;
 }
 
@@ -190,6 +193,7 @@ a {
 .button.button--dark:hover {
   background-color: #21535c;
   color: #eaf4f6;
+  text-decoration: none;
 }
 
 .site-hero-content {
@@ -266,6 +270,7 @@ a {
 }
 
 .tagline {
+  color: #fff;
   font-size: 36px;
   line-height: 1.5em;
   font-weight: 300;
@@ -273,6 +278,7 @@ a {
 }
 
 .collage__title {
+  color: #28646e;
   font-size: 48px;
   font-weight: 600;
 }
@@ -436,7 +442,13 @@ a {
   flex: 0 auto;
 }
 
+.social-media-icons.social-media-icons--footer {
+  margin-top: 10px;
+  margin-left: -10px;
+}
+
 .icon-button {
+  overflow: hidden;
   width: 24px;
   height: 24px;
   margin-right: 10px;
@@ -458,6 +470,14 @@ a {
 
 .icon-button-link:hover {
   color: #eaf4f6;
+}
+
+.icon-button-link.icon-button-link--dark {
+  color: #28646e;
+}
+
+.footer-logo {
+  height: 72px;
 }
 
 @media screen and (max-width: 991px) {
