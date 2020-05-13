@@ -28,10 +28,10 @@
               href="https://docs.like.co/user-guide/faq"
               class="site-main-menu__item"
             >FAQ</a>
-            <a
+            <!-- <a
               href="#"
               class="site-main-menu__item"
-            >Events</a>
+            >Events</a> -->
             <a
               href="https://github.com/likecoin/likecoin"
               class="site-main-menu__item"
