@@ -114,7 +114,7 @@ a {
   align-items: stretch;
   background-color: #316469;
   background-image: url('../images/hero-bg.jpg');
-  background-position: 50% 50%;
+  background-position: 50% -100%;
 }
 
 .container {
@@ -202,10 +202,10 @@ a {
   display: -ms-flexbox;
   display: flex;
   padding: 20px 20px 40px;
-  -webkit-box-align: end;
-  -webkit-align-items: flex-end;
-  -ms-flex-align: end;
-  align-items: flex-end;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   -webkit-box-flex: 1;
   -webkit-flex: 1;
   -ms-flex: 1;
@@ -236,8 +236,8 @@ a {
 
 .section.slogan {
   position: relative;
-  margin-top: -60px;
-  margin-bottom: -60px;
+  margin-top: -80px;
+  margin-bottom: -80px;
 }
 
 .grid {
@@ -374,9 +374,9 @@ a {
   right: 0%;
   bottom: 0%;
   background-color: #fff;
-  -webkit-transform: skew(0deg, -2deg);
-  -ms-transform: skew(0deg, -2deg);
-  transform: skew(0deg, -2deg);
+  -webkit-transform: skew(0deg, -3deg);
+  -ms-transform: skew(0deg, -3deg);
+  transform: skew(0deg, -3deg);
 }
 
 .paragraph {
