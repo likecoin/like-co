@@ -183,6 +183,7 @@ a {
 
 .button:hover {
   background-color: #eaf4f6;
+  text-decoration: none;
 }
 
 .button.button--dark {
@@ -193,7 +194,6 @@ a {
 .button.button--dark:hover {
   background-color: #21535c;
   color: #eaf4f6;
-  text-decoration: none;
 }
 
 .site-hero-content {
@@ -255,6 +255,14 @@ a {
   font-weight: 600;
 }
 
+.section__title.section__title--light {
+  color: #333;
+}
+
+.section__title.section__title--dark {
+  color: #fff;
+}
+
 .link--light {
   color: #28646e;
 }
@@ -281,6 +289,10 @@ a {
   color: #28646e;
   font-size: 48px;
   font-weight: 600;
+}
+
+.collage__title.collage__title--light {
+  color: #28646e;
 }
 
 .grid-item__title {
@@ -453,13 +465,6 @@ a {
   height: 24px;
   margin-right: 10px;
   margin-left: 10px;
-  -webkit-transition: color 200ms ease;
-  transition: color 200ms ease;
-  cursor: pointer;
-}
-
-.icon-button:hover {
-  color: #50e3c2;
 }
 
 .icon-button-link {
@@ -469,11 +474,15 @@ a {
 }
 
 .icon-button-link:hover {
-  color: #eaf4f6;
+  color: #50e3c2;
+}
+
+.icon-button-link.icon-button-link--light {
+  color: #28646e;
 }
 
 .icon-button-link.icon-button-link--dark {
-  color: #28646e;
+  color: #fff;
 }
 
 .footer-logo {
