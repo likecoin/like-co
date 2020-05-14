@@ -327,6 +327,7 @@ export default {
       errorCode: '',
       error: undefined,
       isSignIn: this.$route.query.register !== '1',
+      isPopup: this.$route.query.is_popup === '1',
 
       referrer: '',
       sourceURL: '',
@@ -788,7 +789,7 @@ export default {
       switch (this.currentTab) {
         case 'portal':
           if (this.isSinglePage) {
-            if (window.opener) {
+            if (this.isPopup) {
               window.close();
             } else {
               this.$router.go(-1);
@@ -827,7 +828,7 @@ export default {
       this.setIsShow(false);
       this.$nextTick(() => {
         if (this.isSinglePage) {
-          if (window.opener) {
+          if (this.isPopup) {
             window.close();
           } else {
             this.$router.push({ name: 'index' });
