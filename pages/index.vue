@@ -1,7 +1,7 @@
 <!-- eslint-disable max-len -->
 <template>
   <div class="home-page v2">
-    <section class="site-hero">
+    <header class="site-hero">
       <div
         data-collapse="medium"
         data-animation="default"
@@ -10,18 +10,21 @@
         data-no-scroll="1"
         role="banner"
         class="site-header w-nav"
-      ><nuxt-link
-         class="brand w-nav-brand"
-         :to="{ name: 'index' }"
-       ><img
-         src="~/assets/webflow/images/LikeCoin_PressKit_Logo_Fullcolor_Light.svg"
-         alt="LikeCoin"
-         class="image"
-       ></nuxt-link>
-        <div class="div-block">
+      >
+        <nuxt-link
+          class="brand w-nav-brand"
+          :to="{ name: 'index' }"
+        >
+          <img
+            src="~/assets/webflow/images/LikeCoin_PressKit_Logo_Fullcolor_Light.svg"
+            alt="LikeCoin"
+            class="image"
+          >
+        </nuxt-link>
+        <div class="site-menu-wrap">
           <nav
             role="navigation"
-            class="nav-menu w-nav-menu"
+            class="site-menu w-nav-menu"
             :style="navMenuStyle"
           >
             <a
@@ -146,11 +149,12 @@
                 </a>
               </li>
             </ul>
-          </nav><a
+          </nav>
+          <a
+            class="button button--dark w-button"
             href="https://github.com/sponsors/likecoin"
-            class="button w-button"
             target="_blank"
-          >Donate</a>
+          >Sponsor</a>
           <div
             class="menu-button w-nav-button"
             @click="onClickNavButton"
@@ -164,52 +168,63 @@
           <h1 class="tagline">A public blockchain for content <strong class="text--bold">monetization</strong>, <strong class="text--bold">attribution</strong> and <strong class="text--bold">distribution</strong>.<br></h1>
         </div>
       </div>
-    </section>
-    <div class="section">
+    </header>
+    <section class="section">
       <div
         data-w-id="0f837ac9-4bf1-1302-9d48-8f9eaf91ba97"
         style="opacity:0"
         class="container container--fixed"
       >
-        <div class="collage"><img
-                               src="~/assets/webflow/images/likecoin-chain.png"
-                               width="649"
-                               srcset="~/assets/webflow/images/likecoin-chain-p-500.png 500w, ~/assets/webflow/images/likecoin-chain-p-800.png 800w, ~/assets/webflow/images/likecoin-chain-p-1080.png 1080w, ~/assets/webflow/images/likecoin-chain-p-1600.png 1600w, ~/assets/webflow/images/likecoin-chain-p-2000.png 2000w, ~/assets/webflow/images/likecoin-chain.png 2501w"
-                               sizes="(max-width: 479px) 92vw, (max-width: 767px) 85vw, (max-width: 991px) 649px, 65vw"
-                               alt=""
-                               class="collage__image collage__image--left"
-                             >
+        <div class="collage">
+          <img
+            src="~/assets/webflow/images/likecoin-chain.png"
+            width="649"
+            srcset="~/assets/webflow/images/likecoin-chain-p-500.png 500w, ~/assets/webflow/images/likecoin-chain-p-800.png 800w, ~/assets/webflow/images/likecoin-chain-p-1080.png 1080w, ~/assets/webflow/images/likecoin-chain-p-1600.png 1600w, ~/assets/webflow/images/likecoin-chain-p-2000.png 2000w, ~/assets/webflow/images/likecoin-chain.png 2501w"
+            sizes="(max-width: 479px) 92vw, (max-width: 767px) 90vw, (max-width: 991px) 92vw, 42vw"
+            alt=""
+            class="collage__image collage__image--left"
+          >
           <div class="collage__content">
-            <div class="collage__content-inner">
-              <h2 class="collage__title collage__title--light">LikeCoin chain</h2>
-              <p class="paragraph">Launched in Nov 2019, LikeCoin chain operates under a permissionless, Bonded Proof-of-Stake (BPoS) mechanism. It is the infrastructure of the LikeCoin ecosystem. Explore LikeCoin chain in Big Dipper block explorer and read the documentations <a
+            <h2 class="collage__title collage__title--light">
+              <a
+                class="link link--light link--no-underline"
                 href="https://docs.like.co/developer/likecoin-chain-node"
-                class="link--dark"
-              >here</a>.</p><a
-                href="https://likecoin.bigdipper.live"
                 target="_blank"
-                class="button button--dark w-button"
-              >Chain Explorer - Big Dipper</a></div>
+              >LikeCoin chain</a>
+            </h2>
+            <p class="paragraph">
+              Launched in Nov 2019, LikeCoin chain operates under a permissionless, Bonded Proof-of-Stake (BPoS) mechanism. It is the infrastructure of the LikeCoin ecosystem. Explore LikeCoin chain in Big Dipper block explorer and read the documentations
+              <a
+                href="https://docs.like.co/developer/likecoin-chain-node"
+                class="link link--light"
+              >here</a>.
+            </p>
+            <a
+              class="button button--light w-button"
+              href="https://likecoin.bigdipper.live"
+              target="_blank"
+            >Chain Explorer - Big Dipper</a>
           </div>
         </div>
       </div>
-    </div>
-    <div class="section section--light section--what-we-do">
+    </section>
+    <section class="section section--light section--what-we-do">
       <div class="container container--fixed">
-        <h2 class="section__title section__title section__title--light">What we do</h2>
+        <h2 class="section__title section__title section__title--light">What We Do</h2>
         <div class="w-layout-grid grid">
           <div class="grid-item">
             <h3 class="grid-item__title">Monetization</h3>
             <p class="grid-item__content">By simply attaching a LikeCoin button beneath your content, every Like by readers is turned into measurable reward without a paywall. The <a
               href="https://liker.land/civic"
-              class="link--light"
+              target="_blank"
+              class="link link--light"
             >Civic Liker</a> movement encourages readers to contribute USD5/mo to reward creativity and journalism, while the Matching Fund doubles the rewarding pool. In LikeCoin ecosystem, every Like counts.</p>
           </div>
           <div class="grid-item">
             <h3 class="grid-item__title">Attribution</h3>
             <p class="grid-item__content">In collaboration with the industry, we are drafting the <a
               href="https://github.com/likecoin/iscn-specs/issues"
-              class="link--light"
+              class="link link--light"
             >international standard content number</a>, ISCN, which is a specification to use blockchain to immutably store metadata such as author, publisher, license terms and creation footprint. ISCN serves as a content registry in the Internet paradigm, much like ISBN served as a book database in the printing era. </p>
           </div>
           <div class="grid-item">
@@ -218,84 +233,70 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="section slogan">
+    </section>
+    <section class="section section--slogan">
       <div class="slogan-bg" />
       <div class="container container--fluid">
-        <h2 class="slogan">Thrive to support content creators and publishers through the formation of a Decentralised Autonomous Organization (DAO).</h2>
+        <h2 class="slogan">Thrive to support content creators and publishers through the formation of a Decentralized Autonomous Organization (DAO).</h2>
       </div>
-    </div>
-    <div class="section section--dark section--use-case">
+    </section>
+    <section class="section section--dark section--use-case">
       <div class="container container--fixed">
-        <h2 class="section__title section__title--dark">Use Case</h2>
-        <p class="section__description">LikeCoin has been adopted to various use-cases, ranging from <strong class="text--bold">website plugins</strong>, <strong class="text--bold">mobile app</strong> to <strong class="text--bold">media platforms</strong>. As of April, 2020, the ecosystem of LikeCoin accumulated to <strong class="text--bold">60,300+ Likers</strong>, <strong class="text--bold">208,800+ contents</strong> by <strong class="text--bold">7,600+ creators</strong> on <strong class="text--bold">1000+ media</strong>.</p>
         <div class="w-layout-grid grid">
+          <div
+            id="w-node-994d7f87d61d-cba99d90"
+            class="grid-item grid-item--intro"
+          >
+            <h2 class="section__title section__title--dark">Use Cases</h2>
+            <p class="section__description">LikeCoin has been adopted to various use cases, ranging from <strong class="text--bold">website plugins</strong>, <strong class="text--bold">mobile app</strong> to <strong class="text--bold">media platforms</strong>. As of April, 2020, the ecosystem of LikeCoin accumulated to <strong class="text--bold">60,625+ Likers</strong>, <strong class="text--bold">223,200+ contents</strong> by <strong class="text--bold">8,400+ creators</strong> on <strong class="text--bold">1000+ media</strong>. </p>
+          </div>
+          <div class="grid-item grid-item--hidden-tablet" />
           <div class="grid-item">
             <div class="grid-item__image-wrapper"><img
               src="~/assets/webflow/images/app.png"
               srcset="~/assets/webflow/images/app-p-500.png 500w, ~/assets/webflow/images/app-p-1080.png 1080w, ~/assets/webflow/images/app.png 1200w"
-              sizes="(max-width: 479px) 92vw, (max-width: 767px) 90vw, (max-width: 991px) 92vw, 93vw"
-              alt=""
+              sizes="(max-width: 479px) 92vw, (max-width: 767px) 90vw, (max-width: 991px) 92vw, 83vw"
+              alt="Liker Land"
               class="grid-item__image"
             ></div>
-            <h3 class="grid-item__title grid-item__title--center">Mobile App - Liker Land</h3>
-            <p class="grid-item__content">Liker Land is a reader, passport, and wallet in one mobile app. It provides a friendly user interface for readers to discover, follow, and bookmark content. There are more than 223k+ content in LikerLand. It in-built with LikeCoin reward system, likers can reward content and manage their asset inside the app.</p>
+            <h3 class="grid-item__title grid-item__title--center"><a
+              href="https://like.co/in/getapp"
+              target="_blank"
+              class="link link--dark link--no-underline"
+            >Liker Land</a></h3>
+            <div class="grid-item__meta">
+              <div class="tag">Mobile App</div>
+            </div>
+            <p class="grid-item__content">Liker Land is a reader, passport, and wallet in one mobile app. It provides a friendly user interface to discover, read, and save content. With the unique Super Like feature, Liker Land traces distribution footprint and rewards not only Creators but also Content Jockeys who curate high-quality content.</p>
           </div>
           <div class="grid-item">
             <div class="grid-item__image-wrapper"><img
-              src="~/assets/webflow/images/likecoin-button.jpg"
-              srcset="~/assets/webflow/images/likecoin-button-p-800.jpeg 800w, ~/assets/webflow/images/likecoin-button-p-1080.jpeg 1080w, ~/assets/webflow/images/likecoin-button.jpg 1200w"
-              sizes="(max-width: 479px) 92vw, (max-width: 767px) 90vw, (max-width: 991px) 92vw, 93vw"
-              alt=""
+              src="~/assets/webflow/images/browser-extension.jpg"
+              srcset="~/assets/webflow/images/browser-extension-p-500.jpeg 500w, ~/assets/webflow/images/browser-extension-p-800.jpeg 800w, ~/assets/webflow/images/browser-extension-p-1080.jpeg 1080w, ~/assets/webflow/images/browser-extension.jpg 1200w"
+              sizes="(max-width: 479px) 92vw, (max-width: 767px) 90vw, (max-width: 991px) 92vw, 83vw"
+              alt="LikeCoin Browser Extension"
               class="grid-item__image"
             ></div>
-            <h3 class="grid-item__title grid-item__title--center">Plugin - LikeCoin button</h3>
-            <p class="grid-item__content">The trademarked LikeCoin button allows creators to install and attach to websites and blogs. The button is connected to the LikeCoin reward mechanism and turn each Like to an actual reward. It supports WordPress, Medium and other blog platforms.</p>
-          </div>
-          <div class="grid-item">
-            <div class="grid-item__image-wrapper"><img
-              src="~/assets/webflow/images/media-matters.svg"
-              alt="Matters"
-              class="grid-item__image"
-            ></div>
-            <h3 class="grid-item__title grid-item__title--center">Media - Matters</h3>
-            <p class="grid-item__content">Matters Lab is a decentralized content platform that provides a shared infrastructure to creators. Matters and LikeCoin developed it’s partnership since 2018, LikeCoin helps provide an open-source solution to build a decentralised independent journalist network. The partnership is a winning Innovation project of the <a href="https://newsinitiative.withgoogle.com/innovation-challenges/funding/">Google News Initiative 2020</a>.</p>
-          </div>
-          <div class="grid-item">
-            <div class="grid-item__image-wrapper"><img
-              src="~/assets/webflow/images/media-standnews.svg"
-              alt="Stand News"
-              class="grid-item__image"
-            ></div>
-            <h3 class="grid-item__title grid-item__title--center">Media - Stand News</h3>
-            <p class="grid-item__content">Stand News is a free not-for-profit online news website based in Hong Kong. It primarily focuses on social and political issues in Hong Kong. It has a monthly 5.4M viewership.</p>
-          </div>
-          <div class="grid-item">
-            <div class="grid-item__image-wrapper"><img
-              src="~/assets/webflow/images/media-inmediahk.svg"
-              alt="Hong Kong In-Media"
-              class="grid-item__image"
-            ></div>
-            <h3 class="grid-item__title grid-item__title--center">Media - Hong Kong In-media</h3>
-            <p class="grid-item__content">Hong Kong In-media is an independent online media platform in Hong Kong. It aims to provide an open public platform for the public and journalists, free from political intervention and commercial influence. It primary focus on local news and opinions.</p>
-          </div>
-          <div class="grid-item">
-            <div class="grid-item__image-wrapper"><img
-              src="~/assets/webflow/images/media-hkcnews.svg"
-              alt="Hong Kong Citizen News"
-              class="grid-item__image"
-            ></div>
-            <h3 class="grid-item__title grid-item__title--center">Media - Hong Kong Citizen News</h3>
-            <p class="grid-item__content">Hong Kong Citizen News is a not-for-profit online news website. It primary focus on investigative and data-driven journalism to promote fair and neutral new content to the public.</p>
-          </div>
-          <div class="grid-item">
-            <div class="grid-item__image-wrapper"><img
-              src="~/assets/webflow/images/media-vocus.svg"
-              alt="Vocus"
-              class="grid-item__image"
-            ></div>
-            <h3 class="grid-item__title grid-item__title--center">Media - Vocus</h3>
-            <p class="grid-item__content">Vocus us a new-style of content creation platform. It aims to provide a clean and simple reading space with no ads. It also supports multiple content payment mechanisms to readers. It attracts users from Chinese community such as Taiwan and Hong Kong.</p>
+            <h3 class="grid-item__title grid-item__title--center"><a
+              href="https://chrome.google.com/webstore/detail/liker-land/cjjcemdmkddjbofomfgjedpiifpgkjhe?hl=en"
+              target="_blank"
+              class="link link--dark link--no-underline"
+            >Chrome</a>, <a
+              href="https://addons.mozilla.org/en-US/firefox/addon/liker-land/?src=search"
+              target="_blank"
+              class="link link--dark link--no-underline"
+            >Firefox</a>, <a
+              href="https://chrome.google.com/webstore/detail/liker-land/cjjcemdmkddjbofomfgjedpiifpgkjhe"
+              target="_blank"
+              class="link link--dark link--no-underline"
+            >Brave</a></h3>
+            <div class="grid-item__meta">
+              <div class="tag">Browser Extension</div>
+            </div>
+            <p class="grid-item__content">Liker Land also features an extension for major browsers on computers. Users may save any web page to reading list and access from Liker Land app or <a
+              href="https://liker.land/"
+              class="link link--dark"
+            >website</a> for future reference.<br></p>
           </div>
           <div class="grid-item">
             <div class="grid-item__image-wrapper"><img
@@ -303,8 +304,98 @@
               alt="WordPress"
               class="grid-item__image"
             ></div>
-            <h3 class="grid-item__title grid-item__title--center">Plugin - WordPress</h3>
-            <p class="grid-item__content">LikeCoin button was first released on WordPress as a plugin in 2018. It allows creators to install and attach to websites and blogs. The button is connected to the LikeCoin reward mechanism and turn each Like to an actual reward. As of May 2020, it receive more than 1000+ installation.</p>
+            <h3 class="grid-item__title grid-item__title--center"><a
+              href="https://wordpress.org/plugins/likecoin/"
+              target="_blank"
+              class="link link--dark link--no-underline"
+            >WordPress</a></h3>
+            <div class="grid-item__meta">
+              <div class="tag">Plugin</div>
+            </div>
+            <p class="grid-item__content">LikeCoin button was first released on WordPress as a plugin in 2018. It allows creators to install and attach to websites and blogs. The button is connected to the LikeCoin reward mechanism and turn each Like into an actual reward. As of May 2020, it has more than 1000 active installations.</p>
+          </div>
+          <div class="grid-item">
+            <div class="grid-item__image-wrapper"><img
+              src="~/assets/webflow/images/media-matters.svg"
+              alt="Matters"
+              class="grid-item__image"
+            ></div>
+            <h3 class="grid-item__title grid-item__title--center"><a
+              href="https://matters.news/"
+              target="_blank"
+              class="link link--dark link--no-underline"
+            >Matters</a></h3>
+            <div class="grid-item__meta">
+              <div class="tag"><strong>Public Discussion</strong></div>
+            </div>
+            <p class="grid-item__content">Matters Lab is a decentralized content platform that provides a shared infrastructure to creators. Matters and LikeCoin developed their partnership since 2018, LikeCoin helps provide an open-source solution to build a decentralized independent journalist network. The partnership is a winning Innovation project of the <a
+              href="https://newsinitiative.withgoogle.com/innovation-challenges/funding/"
+              class="link link--dark"
+            >Google News Initiative 2020</a>.<br></p>
+          </div>
+          <div class="grid-item">
+            <div class="grid-item__image-wrapper"><img
+              src="~/assets/webflow/images/media-standnews.svg"
+              alt="Stand News"
+              class="grid-item__image"
+            ></div>
+            <h3 class="grid-item__title grid-item__title--center"><a
+              href="https://www.thestandnews.com/"
+              target="_blank"
+              class="link link--dark link--no-underline"
+            >Stand News</a></h3>
+            <div class="grid-item__meta">
+              <div class="tag">Media</div>
+            </div>
+            <p class="grid-item__content">Stand News is a free not-for-profit online news website based in Hong Kong. It primarily focuses on social and political issues in Hong Kong. It has a monthly 5.4M viewership.</p>
+          </div>
+          <div class="grid-item">
+            <div class="grid-item__image-wrapper"><img
+              src="~/assets/webflow/images/media-inmediahk.svg"
+              alt="Hong Kong In-media"
+              class="grid-item__image"
+            ></div>
+            <h3 class="grid-item__title grid-item__title--center"><a
+              href="https://www.inmediahk.net/"
+              target="_blank"
+              class="link link--dark link--no-underline"
+            >Hong Kong In-media</a></h3>
+            <div class="grid-item__meta">
+              <div class="tag">Media</div>
+            </div>
+            <p class="grid-item__content">Hong Kong In-Media is an independent online media platform in Hong Kong. It aims to provide an open public platform for the public and journalists, free from political intervention and commercial influence. It primarily focuses on local news content and opinions. </p>
+          </div>
+          <div class="grid-item">
+            <div class="grid-item__image-wrapper"><img
+              src="~/assets/webflow/images/media-hkcnews.svg"
+              alt="Hong Kong Citizen News"
+              class="grid-item__image"
+            ></div>
+            <h3 class="grid-item__title grid-item__title--center"><a
+              href="https://www.hkcnews.com/"
+              target="_blank"
+              class="link link--dark link--no-underline"
+            >Hong Kong Citizen News</a></h3>
+            <div class="grid-item__meta">
+              <div class="tag">Media</div>
+            </div>
+            <p class="grid-item__content">Hong Kong Citizen News is a not-for-profit online news website. It primary focuses on investigative and data-driven journalism to promote fair and neutral new content to the public. <br></p>
+          </div>
+          <div class="grid-item">
+            <div class="grid-item__image-wrapper"><img
+              src="~/assets/webflow/images/media-vocus.svg"
+              alt="Vocus"
+              class="grid-item__image"
+            ></div>
+            <h3 class="grid-item__title grid-item__title--center"><a
+              href="https://vocus.cc/"
+              target="_blank"
+              class="link link--dark link--no-underline"
+            >Vocus</a></h3>
+            <div class="grid-item__meta">
+              <div class="tag">Blogging Platform</div>
+            </div>
+            <p class="grid-item__content">Vocus is a new-style content creation platform. It aims to provide a clean and simple reading space with no ads. It also supports multiple content payment mechanisms to readers. It attracts users from Chinese community such as Taiwan and Hong Kong.<br></p>
           </div>
           <div class="grid-item">
             <div class="grid-item__image-wrapper"><img
@@ -312,25 +403,36 @@
               alt="Medium"
               class="grid-item__image"
             ></div>
-            <h3 class="grid-item__title grid-item__title--center">Plugin - Medium</h3>
-            <p class="grid-item__content">LikeCoin button supports Medium and various blog platforms. Content creators are able to embed LikeCoin button to their content once registered a Liker ID.</p>
+            <h3 class="grid-item__title grid-item__title--center"><a
+              href="https://medium.com/"
+              target="_blank"
+              class="link link--dark link--no-underline"
+            >Medium</a></h3>
+            <div class="grid-item__meta">
+              <div class="tag">Plugin</div>
+            </div>
+            <p class="grid-item__content">LikeCoin plugin also works on Medium and various blogging platforms supporting <a
+              href="https://embed.ly/"
+              class="link link--dark link--no-underline"
+            >embedly</a>. Content creators are able to embed LikeCoin button to their content once registered a Liker ID. No coding required.<br></p>
           </div>
         </div>
-        <div class="use-case__footer"><a
-          href="https://join.g0v.tw/"
-          class="button w-button"
-          target="_blank"
-        >How to join?</a></div>
+        <div class="use-case__footer">
+          <a
+            href="https://join.g0v.tw/"
+            target="_blank"
+            class="button button--dark w-button"
+          >How to join?</a>
+        </div>
       </div>
-    </div>
-    <div class="section section--light">
+    </section>
+    <footer class="section section--light">
       <div class="container container--fixed">
         <div class="footer__content">
           <div>
             <img
               src="~/assets/webflow/images/LikeCoin_PressKit_Logo_Mono_Dark.svg"
               alt="LikeCoin"
-              height="72"
               class="footer-logo"
             >
             <ul
@@ -450,7 +552,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </footer>
   </div>
 </template>
 
