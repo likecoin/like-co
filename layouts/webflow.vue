@@ -10,7 +10,7 @@ export default {
     return {
       script: [
         { hid: 'jquery', src: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js' },
-        { hid: 'webflow', src: '/webflow/js/main.js' },
+        { hid: 'webflow', src: '/vendor/webflow/js/main.js' },
       ],
     };
   },

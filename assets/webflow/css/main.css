@@ -382,7 +382,7 @@ a {
 
 .use-case__footer {
   display: block;
-  padding-top: 40px;
+  padding-top: 100px;
   padding-bottom: 40px;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
@@ -419,7 +419,7 @@ a {
   transform: skew(0deg, -3deg);
 }
 
-.paragraph {
+.collage__description {
   color: #4a4a4a;
 }
 
@@ -635,7 +635,7 @@ a {
     padding-bottom: 40px;
   }
   .grid {
-    grid-row-gap: 24px;
+    grid-row-gap: 64px;
     -ms-grid-columns: 1fr 1fr;
     grid-template-columns: 1fr 1fr;
     -ms-grid-rows: auto auto;

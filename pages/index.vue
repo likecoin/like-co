@@ -192,7 +192,7 @@
                 target="_blank"
               >LikeCoin chain</a>
             </h2>
-            <p class="paragraph">
+            <p class="collage__description">
               Launched in Nov 2019, LikeCoin chain operates under a permissionless, Bonded Proof-of-Stake (BPoS) mechanism. It is the infrastructure of the LikeCoin ecosystem. Explore LikeCoin chain in Big Dipper block explorer and read the documentations
               <a
                 href="https://docs.like.co/developer/likecoin-chain-node"
