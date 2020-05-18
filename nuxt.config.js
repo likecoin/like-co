@@ -88,6 +88,7 @@ const nuxtConfig = {
           "'sha256-X3ZM8SMe34uV9LglkNh69UN/Vkuo+blzT0E7mN1rUnQ='",
           "'sha256-2xBjy9xHKMthpdhRq5DplVZ7EkoWxMla4wyUmB1jyFY='",
           "'unsafe-inline'", // ignored by browser with sha support
+          "'unsafe-eval'",
           'www.google-analytics.com',
           'www.googletagmanager.com',
           'www.googleadservices.com',
@@ -101,6 +102,7 @@ const nuxtConfig = {
           'connect.facebook.net',
           'player.vimeo.com',
           'use.typekit.net',
+          'cdnjs.cloudflare.com',
         ],
         'frame-src': [
           'www.google.com',
