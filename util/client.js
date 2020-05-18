@@ -45,7 +45,7 @@ export function openURL(vue, url, name, specs, replace) {
 }
 
 export function tryPostLoginRedirect({ route }) {
-  const { redirect } = route.query;
+  const { redirect, is_popup: isPopup } = route.query;
   if (redirect && REDIRECT_WHITE_LIST.indexOf(parse(redirect, {}).hostname) !== -1) {
     // Redirect to external link
     window.location.href = redirect;
@@ -56,6 +56,8 @@ export function tryPostLoginRedirect({ route }) {
     window.opener.postMessage({
       action: 'LOGGED_IN',
     }, LIKE_BUTTON_POST_MESSAGE_TARGET_ORIGIN);
+  }
+  if (isPopup) {
     window.close();
     return true;
   }
