@@ -440,9 +440,12 @@ export default {
     getAuthCoreRedirectUrl() {
       let url = `${EXTERNAL_URL}/in/register?`;
       url += 'redirect_sign_in=1&sign_in_platform=authcore';
-      const { redirect } = this.$route.query;
+      const { redirect, is_popup: isPopup } = this.$route.query;
       if (redirect) {
         url += `&redirect=${encodeURIComponent(redirect)}`;
+      }
+      if (isPopup !== undefined) {
+        url += `&is_popup=${encodeURIComponent(isPopup)}`;
       }
       return url;
     },
