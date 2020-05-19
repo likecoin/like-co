@@ -18,14 +18,14 @@ const nuxtConfig = {
     CRISP_WEBSITE_ID: process.env.CRISP_WEBSITE_ID,
   },
   head: {
-    title: 'LikeCoin - Reinventing the Like',
+    title: 'LikeCoin - the content protocol',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { name: 'mobile-web-app-capable', content: 'yes' },
-      { hid: 'description', name: 'description', content: "With LikeCoin's unique LikeRank algorithm and decentralized Like button, we trace content footprint and reward all creators involved. This is called Proof of Creativity." },
-      { hid: 'og_title', property: 'og:title', content: 'LikeCoin - Reinventing the Like' },
-      { hid: 'og_description', property: 'og:description', content: "With LikeCoin's unique LikeRank algorithm and decentralized Like button, we trace content footprint and reward all creators involved. This is called Proof of Creativity." },
+      { hid: 'description', name: 'description', content: 'LikeCoin is a public blockchain for content monetization, attribution and distribution.' },
+      { hid: 'og_title', property: 'og:title', content: 'LikeCoin - the content protocol' },
+      { hid: 'og_description', property: 'og:description', content: 'LikeCoin is a public blockchain for content monetization, attribution and distribution.' },
       { hid: 'og_image', property: 'og:image', content: 'https://like.co/images/og/default.png' },
       { hid: 'og_image_alt', property: 'og:image:alt', content: 'LikeCoin' },
       { hid: 'og_image_width', property: 'og:image:width', content: '1200' },

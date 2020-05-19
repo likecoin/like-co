@@ -502,6 +502,16 @@
             }
         }
     },
+    "HomeV2": {
+      "Meta": {
+        "Description": "LikeCoin is a public blockchain for content monetization, attribution and distribution.",
+        "Og": {
+          "Description": "@:HomeV2.Meta.Description",
+          "Title": "@:HomeV2.Meta.Title"
+        },
+        "Title": "LikeCoin - the content protocol"
+      }
+    },
     "AboutPage": {
         "WIPNotice": "网站正在更新，{moreAbout}。",
         "moreAboutButtonText": "了解更多关于赞赏链"
