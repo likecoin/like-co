@@ -583,27 +583,27 @@ export default {
   },
   head() {
     return {
-      title: `LikeCoin - ${this.$t('Home.Flag.title')}`,
+      title: this.$t('HomeV2.Meta.Title'),
       meta: [
         {
           hid: 'og_title',
           property: 'og:title',
-          content: `LikeCoin - ${this.$t('Home.Flag.title')}`,
+          content: this.$t('HomeV2.Meta.Og.Title'),
         },
         {
           hid: 'description',
           name: 'description',
-          content: this.$t('Home.Flag.content'),
+          content: this.$t('HomeV2.Meta.Description'),
         },
         {
           hid: 'og_description',
           property: 'og:description',
-          content: this.$t('Home.Flag.content'),
+          content: this.$t('HomeV2.Meta.Og.Description'),
         },
         {
           hid: 'og_image',
           property: 'og:image',
-          content: 'https://like.co/images/og/sale.png',
+          content: 'https://like.co/images/og/default.png',
         },
       ],
     };
