@@ -1001,14 +1001,14 @@
   "PaymentWidget": {
     "title": "Send",
     "label": {
-      "to": "to: ",
-      "via": "via",
+      "to": "To",
+      "via": "Via",
       "details": "Details",
-      "remarks": "Remarks: {remark}",
-      "receiveSum": "{users} receive: {amount} LIKE",
-      "agentFee": "{user} receive: {amount} LIKE",
-      "gasFee": "Gas Fee: {amount} LIKE",
-      "total": "Total: {amount} LIKE"
+      "remarks": "Remarks",
+      "receiveSum": "Recipeients receive",
+      "agentFee": "{user} receive",
+      "gasFee": "Gas Fee",
+      "total": "Total"
     }
   },
   "RewardRecords": {
