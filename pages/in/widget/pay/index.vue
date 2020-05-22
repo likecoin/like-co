@@ -403,6 +403,14 @@ export default {
         };
       });
 
+      if (agentUser && !agentUser.cosmosWallet) {
+        error({ statusCode: 400, message: 'VIA_USER_HAS_NO_WALLET' });
+      }
+
+      if (toUsers.some(u => !u.cosmosWallet)) {
+        error({ statusCode: 400, message: 'RECEIPIENT_HAS_NO_WALLET' });
+      }
+
       if (redirectUri) {
         if (agentId) {
           const {
