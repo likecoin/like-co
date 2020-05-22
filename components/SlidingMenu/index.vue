@@ -38,7 +38,7 @@
               <ul>
                 <template v-if="m.section === 'primary'">
                   <li>
-                    <menu-item :to="{ name: 'index' }">
+                    <menu-item :to="{ name: 'in' }">
                       <md-icon :md-src="HomeIcon" />
                     </menu-item>
                   </li>
