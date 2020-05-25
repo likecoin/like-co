@@ -1,5 +1,7 @@
 /* stylelint-disable */
 
+@mixin webflow {
+
 .w-layout-grid {
   display: -ms-grid;
   display: grid;
@@ -115,7 +117,6 @@ a {
   -ms-flex-align: stretch;
   align-items: stretch;
   background-color: #316469;
-  background-image: url('../images/hero-bg.jpg');
   background-position: 50% -100%;
 }
 
@@ -794,4 +795,6 @@ a {
     -ms-grid-column-span: 1;
     grid-column-end: span 1;
   }
+}
+
 }
