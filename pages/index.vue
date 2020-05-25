@@ -47,6 +47,11 @@
               class="site-main-menu__item"
               target="_blank"
             >Learn</a>
+            <a
+              href="https://likecoin.substack.com"
+              class="site-main-menu__item"
+              target="_blank"
+            >Newsletter</a>
             <ul
               role="list"
               class="social-media-icons w-list-unstyled"
