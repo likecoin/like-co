@@ -268,6 +268,7 @@ html[layout=likepay-layout] {
   .likepay-block-button {
     min-width: 256px;
     min-height: 40px;
+    padding: 12px;
 
     transition: background-color 0.2s ease, color 0.2s ease;
 
