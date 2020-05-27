@@ -162,7 +162,7 @@ html[layout=likepay-layout] {
 
       text-decoration: none !important;
 
-      border: 1px solid #979797;
+      border: 1px solid #e6e6e6;
       border-radius: 12px;
 
       background-color: rgba(white, 0);

@@ -373,7 +373,7 @@ export default {
     }
 
     let promises = [];
-    promises.push(agentId ? apiGetUserMinById(agentId, { type: 'payment' }) : () => null);
+    promises.push(agentId ? apiGetUserMinById(agentId, { type: 'payment' }) : Promise.resolve(null));
     promises = promises.concat(toIds.map(id => apiGetUserMinById(id, { type: 'payment' })));
 
     return Promise.all(promises).then((res) => {
@@ -402,7 +402,6 @@ export default {
           paymentRedirectWhiteList,
         };
       });
-
       if (agentUser && !agentUser.cosmosWallet) {
         error({ statusCode: 400, message: 'VIA_USER_HAS_NO_WALLET' });
       }
