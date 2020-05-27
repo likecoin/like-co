@@ -20,4 +20,9 @@ export default {
 <style lang="scss">
 @import "~/assets/webflow/css/normalize.css";
 @import "~/assets/webflow/css/webflow.css";
+@import "~/assets/webflow/css/main.scss";
+
+.webflow {
+  @include webflow;
+}
 </style>
