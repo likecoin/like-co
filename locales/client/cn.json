@@ -1563,7 +1563,7 @@
         "button": {
             "profile": "个人档案",
             "settings": "安全设定",
-            "reAuthNeeded:": "请重新於 AuthCore 登入"
+            "reAuthNeeded:": "按此认证身份"
         },
         "Settings": {
             "title": "AuthCore 设定"

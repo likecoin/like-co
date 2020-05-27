@@ -172,7 +172,7 @@
           </nuxt-link>
         </div>
         <div
-          v-if="agentId"
+          v-if="agentId && hasAgentFee"
           class="likepay-panel__section-meta"
         >
           <div class="likepay-panel__section-meta-label">{{ $t('PaymentWidget.label.via') }}</div>
@@ -225,6 +225,27 @@
         >
           <div>
             <div class="likepay-panel__section-meta-grid">
+              <div
+                v-if="agentId && !hasAgentFee"
+                class="likepay-panel__section-meta-grid-item"
+              >
+                <div class="likepay-panel__section-meta-grid-item-label">
+                  {{ $t('PaymentWidget.label.via') }}
+                </div>
+                <nuxt-link
+                  class="likepay-panel__section-meta-grid-item-value likepay-panel__user"
+                  :to="{ name: 'id', params: { id: agentUser.user } }"
+                >
+                  <lc-avatar
+                    v-if="agentUser.avatar"
+                    :src="agentUser.avatar"
+                    size="32"
+                  />
+                  <div class="likepay-panel__user-display-name">
+                    {{ agentUser.displayName }}
+                  </div>
+                </nuxt-link>
+              </div>
               <div
                 v-if="agentId"
                 class="likepay-panel__section-meta-grid-item"
@@ -373,7 +394,7 @@ export default {
     }
 
     let promises = [];
-    promises.push(agentId ? apiGetUserMinById(agentId, { type: 'payment' }) : () => null);
+    promises.push(agentId ? apiGetUserMinById(agentId, { type: 'payment' }) : Promise.resolve(null));
     promises = promises.concat(toIds.map(id => apiGetUserMinById(id, { type: 'payment' })));
 
     return Promise.all(promises).then((res) => {
@@ -402,7 +423,6 @@ export default {
           paymentRedirectWhiteList,
         };
       });
-
       if (agentUser && !agentUser.cosmosWallet) {
         error({ statusCode: 400, message: 'VIA_USER_HAS_NO_WALLET' });
       }
