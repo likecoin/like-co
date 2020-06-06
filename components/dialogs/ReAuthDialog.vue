@@ -13,6 +13,12 @@
       :is-fix-contact="true"
       :language="getCurrentLocale"
       :email="getUserInfo.email"
+      :redirect-url="getAuthCoreRedirectUrl"
+      @loginWidgetLoaded="onAuthCoreLoginWidgetLoaded"
+      @registerStarted="onAuthCoreRegisterStarted"
+      @oauthStarted="onAuthCoreOAuthStarted"
+      @loginStarted="onAuthCoreLoginStarted"
+      @navigation="onAuthCoreNavigation"
       @success="signInWithAuthCore"
     />
   </BaseDialogV2>
@@ -22,8 +28,13 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
+import { logTrackerEvent } from '@/util/EventLogger';
 import AuthCoreRegister from '~/components/AuthCore/Register';
 import BaseDialogV2 from '~/components/dialogs/BaseDialogV2';
+
+import {
+  EXTERNAL_URL,
+} from '@/constant';
 
 export default {
   name: 're-auth-dialog',
@@ -41,9 +52,25 @@ export default {
       'getIsShowReAuthDialog',
       'getCurrentLocale',
     ]),
+    getAuthCoreRedirectUrl() {
+      let url = `${EXTERNAL_URL}/in/register?`;
+      url += 'redirect_sign_in=1&sign_in_platform=authcore';
+      const { redirect, is_popup: isPopup } = this.$route.query;
+      if (redirect) {
+        url += `&redirect=${encodeURIComponent(redirect)}`;
+      }
+      if (isPopup !== undefined) {
+        url += `&is_popup=${encodeURIComponent(isPopup)}`;
+      }
+      return url;
+    },
+  },
+  mounted() {
+    this.savePostAuthRoute({ route: this.$route });
   },
   methods: {
     ...mapActions([
+      'savePostAuthRoute',
       'setReAuthDialogShow',
       'setAuthCoreToken',
     ]),
@@ -73,6 +100,24 @@ export default {
     },
     close() {
       this.setIsShow(false);
+    },
+    onAuthCoreLoaded() {
+      logTrackerEvent(this, 'ReAuthFlow', 'AuthCoreReAuthDialogLoaded', 'AuthCoreReAuthDialogLoaded', 1);
+    },
+    onAuthCoreLoginWidgetLoaded() {
+      logTrackerEvent(this, 'ReAuthFlow', 'AuthCoreReAuthLoginWidgetLoaded', 'AuthCoreReAuthLoginWidgetLoaded', 1);
+    },
+    onAuthCoreRegisterStarted(method) {
+      logTrackerEvent(this, 'ReAuthFlow', 'AuthCoreReAuthRegisterTry', `AuthCoreReAuthRegisterTry(${method})`, 1);
+    },
+    onAuthCoreOAuthStarted(method) {
+      logTrackerEvent(this, 'ReAuthFlow', 'AuthCoreReAuthOAuthTry', `AuthCoreReAuthRegisterTry(${method})`, 1);
+    },
+    onAuthCoreLoginStarted(method) {
+      logTrackerEvent(this, 'ReAuthFlow', 'AuthCoreReAuthLoginTry', `AuthCoreReAuthLoginTry(${method})`, 1);
+    },
+    onAuthCoreNavigation(page) {
+      this.logRegisterEvent(this, 'ReAuthFlow', `AuthCoreReAuthSwitchTo${page}`, `AuthCoreReAuthSwitchTo${page}`, 1);
     },
     async signInWithAuthCore({ accessToken }) {
       await this.setAuthCoreToken(accessToken);

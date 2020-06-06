@@ -9,7 +9,12 @@ import {
 
 import apiWrapper from './api-wrapper';
 
-export function doUserAuth({ commit }, { router, route }) {
+export function doUserAuth({ dispatch }, { router, route }) {
+  dispatch('savePostAuthRoute', { route });
+  router.push({ name: 'in-register', query: route.query });
+}
+
+export function savePostAuthRoute({ commit }, { route }) {
   if (route) {
     const {
       params,
@@ -39,7 +44,6 @@ export function doUserAuth({ commit }, { router, route }) {
       'USER_POST_AUTH_ROUTE',
     );
   }
-  router.push({ name: 'in-register', query: route.query });
 }
 
 export function doPostAuthRedirect({ commit, state }, { route, router }) {
