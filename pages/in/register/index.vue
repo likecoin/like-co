@@ -51,11 +51,12 @@ export default {
     this.setAuthDialog({ isShow: !this.getUserIsRegistered });
   },
   mounted() {
+    const { redirect_sign_in: isRedirectSignIn } = this.$route.query;
     if (this.getUserIsRegistered) {
       logTrackerEvent(this, 'RegFlow', 'AlreadyRegistered', 'AlreadyRegistered', 1);
       const router = this.$router;
       const route = this.$route;
-      if (!tryPostLoginRedirect({ route })) {
+      if (!isRedirectSignIn && !tryPostLoginRedirect({ route })) {
         this.doPostAuthRedirect({ router, route });
       }
     } else {
