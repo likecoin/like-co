@@ -455,6 +455,7 @@ export default {
   data() {
     return {
       isShowNavMenu: false,
+      isWebflowInited: false,
     };
   },
   computed: {
@@ -497,124 +498,136 @@ export default {
   },
   mounted() {
     if (window.fbq) window.fbq('track', 'ViewContent');
-    /**
-     * ----------------------------------------------------------------------
-     * Webflow: Interactions 2.0: Init
-     */
-    // eslint-disable-next-line no-undef
-    Webflow.require('ix2').init(
-      {
-        events: {
-          'e-9': {
-            id: 'e-9',
-            eventTypeId: 'SCROLL_INTO_VIEW',
-            action: {
-              id: '', actionTypeId: 'SLIDE_EFFECT', config: { actionListId: 'slideInBottom', autoStopEventId: 'e-10' }, instant: false,
-            },
-            mediaQueries: ['main', 'medium', 'small', 'tiny'],
-            target: { selector: '.grid-item', originalId: '5eb272b2dc812d6acba99d90|15458f6f-954b-d88e-5064-16caab82cf09', appliesTo: 'CLASS' },
-            config: {
-              loop: false, playInReverse: false, scrollOffsetValue: 10, scrollOffsetUnit: '%', delay: 0, direction: 'BOTTOM', effectIn: true,
-            },
-            createdOn: 1589251892706,
-          },
-          'e-23': {
-            id: 'e-23',
-            eventTypeId: 'SCROLL_INTO_VIEW',
-            action: {
-              id: '', actionTypeId: 'SLIDE_EFFECT', config: { actionListId: 'slideInBottom', autoStopEventId: 'e-24' }, instant: false,
-            },
-            mediaQueries: ['main', 'medium', 'small', 'tiny'],
-            target: { appliesTo: 'ELEMENT', styleBlockIds: [], id: '5eb272b2dc812d6acba99d90|0f837ac9-4bf1-1302-9d48-8f9eaf91ba97' },
-            config: {
-              loop: false, playInReverse: false, scrollOffsetValue: 10, scrollOffsetUnit: '%', delay: 0, direction: 'BOTTOM', effectIn: true,
-            },
-            createdOn: 1589260299658,
-          },
-          'e-27': {
-            id: 'e-27',
-            eventTypeId: 'SCROLL_INTO_VIEW',
-            action: {
-              id: '', actionTypeId: 'FADE_EFFECT', config: { actionListId: 'fadeIn', autoStopEventId: 'e-28' }, instant: false,
-            },
-            mediaQueries: ['main', 'medium', 'small', 'tiny'],
-            target: { selector: '.tagline', originalId: '5eb272b2dc812d6acba99d90|df42c89d-2155-6127-efb7-b0ec5ff8eeb9', appliesTo: 'CLASS' },
-            config: {
-              loop: false, playInReverse: false, scrollOffsetValue: 10, scrollOffsetUnit: '%', delay: 0, direction: null, effectIn: true,
-            },
-            createdOn: 1589262452762,
-          },
-          'e-29': {
-            id: 'e-29',
-            eventTypeId: 'SCROLL_INTO_VIEW',
-            action: {
-              id: '', actionTypeId: 'FADE_EFFECT', config: { actionListId: 'fadeIn', autoStopEventId: 'e-30' }, instant: false,
-            },
-            mediaQueries: ['main', 'medium', 'small', 'tiny'],
-            target: { selector: '.container', originalId: '5eb272b2dc812d6acba99d90|0f837ac9-4bf1-1302-9d48-8f9eaf91ba97', appliesTo: 'CLASS' },
-            config: {
-              loop: false, playInReverse: false, scrollOffsetValue: 10, scrollOffsetUnit: '%', delay: 0, direction: null, effectIn: true,
-            },
-            createdOn: 1589262546286,
-          },
-        },
-        actionLists: {
-          slideInBottom: {
-            id: 'slideInBottom',
-            useFirstGroupAsInitialState: true,
-            actionItemGroups: [{
-              actionItems: [{
-                actionTypeId: 'STYLE_OPACITY',
-                config: {
-                  delay: 0, duration: 0, target: { id: 'N/A', appliesTo: 'TRIGGER_ELEMENT', useEventTarget: true }, value: 0,
-                },
-              }],
-            }, {
-              actionItems: [{
-                actionTypeId: 'TRANSFORM_MOVE',
-                config: {
-                  delay: 0, duration: 0, target: { id: 'N/A', appliesTo: 'TRIGGER_ELEMENT', useEventTarget: true }, xValue: 0, yValue: 100, xUnit: 'PX', yUnit: 'PX', zUnit: 'PX',
-                },
-              }],
-            }, {
-              actionItems: [{
-                actionTypeId: 'TRANSFORM_MOVE',
-                config: {
-                  delay: 0, easing: 'outQuart', duration: 1000, target: { id: 'N/A', appliesTo: 'TRIGGER_ELEMENT', useEventTarget: true }, xValue: 0, yValue: 0, xUnit: 'PX', yUnit: 'PX', zUnit: 'PX',
-                },
-              }, {
-                actionTypeId: 'STYLE_OPACITY',
-                config: {
-                  delay: 0, easing: 'outQuart', duration: 1000, target: { id: 'N/A', appliesTo: 'TRIGGER_ELEMENT', useEventTarget: true }, value: 1,
-                },
-              }],
-            }],
-          },
-          fadeIn: {
-            id: 'fadeIn',
-            useFirstGroupAsInitialState: true,
-            actionItemGroups: [{
-              actionItems: [{
-                actionTypeId: 'STYLE_OPACITY',
-                config: {
-                  delay: 0, duration: 0, target: { id: 'N/A', appliesTo: 'TRIGGER_ELEMENT', useEventTarget: true }, value: 0,
-                },
-              }],
-            }, {
-              actionItems: [{
-                actionTypeId: 'STYLE_OPACITY',
-                config: {
-                  delay: 0, easing: 'outQuart', duration: 1000, target: { id: 'N/A', appliesTo: 'TRIGGER_ELEMENT', useEventTarget: true }, value: 1,
-                },
-              }],
-            }],
-          },
-        },
-        site: { mediaQueries: [{ key: 'main', min: 992, max: 10000 }, { key: 'medium', min: 768, max: 991 }, { key: 'small', min: 480, max: 767 }, { key: 'tiny', min: 0, max: 479 }] },
-      },
-    );
+    if (window.jQuery && window.Webflow) {
+      this.initWebflow();
+    } else {
+      window.Webflow = [];
+      window.Webflow.push(() => {
+        this.initWebflow();
+        window.scrollBy(0, 1);
+      });
+    }
   },
   methods: {
+    initWebflow() {
+      if (!window.Webflow) return;
+      this.isWebflowInited = true;
+      /**
+       * ----------------------------------------------------------------------
+       * Webflow: Interactions 2.0: Init
+       */
+      window.Webflow.require('ix2').init(
+        {
+          events: {
+            'e-9': {
+              id: 'e-9',
+              eventTypeId: 'SCROLL_INTO_VIEW',
+              action: {
+                id: '', actionTypeId: 'SLIDE_EFFECT', config: { actionListId: 'slideInBottom', autoStopEventId: 'e-10' }, instant: false,
+              },
+              mediaQueries: ['main', 'medium', 'small', 'tiny'],
+              target: { selector: '.grid-item', originalId: '5eb272b2dc812d6acba99d90|15458f6f-954b-d88e-5064-16caab82cf09', appliesTo: 'CLASS' },
+              config: {
+                loop: false, playInReverse: false, scrollOffsetValue: 10, scrollOffsetUnit: '%', delay: 0, direction: 'BOTTOM', effectIn: true,
+              },
+              createdOn: 1589251892706,
+            },
+            'e-23': {
+              id: 'e-23',
+              eventTypeId: 'SCROLL_INTO_VIEW',
+              action: {
+                id: '', actionTypeId: 'SLIDE_EFFECT', config: { actionListId: 'slideInBottom', autoStopEventId: 'e-24' }, instant: false,
+              },
+              mediaQueries: ['main', 'medium', 'small', 'tiny'],
+              target: { appliesTo: 'ELEMENT', styleBlockIds: [], id: '5eb272b2dc812d6acba99d90|0f837ac9-4bf1-1302-9d48-8f9eaf91ba97' },
+              config: {
+                loop: false, playInReverse: false, scrollOffsetValue: 10, scrollOffsetUnit: '%', delay: 0, direction: 'BOTTOM', effectIn: true,
+              },
+              createdOn: 1589260299658,
+            },
+            'e-27': {
+              id: 'e-27',
+              eventTypeId: 'SCROLL_INTO_VIEW',
+              action: {
+                id: '', actionTypeId: 'FADE_EFFECT', config: { actionListId: 'fadeIn', autoStopEventId: 'e-28' }, instant: false,
+              },
+              mediaQueries: ['main', 'medium', 'small', 'tiny'],
+              target: { selector: '.tagline', originalId: '5eb272b2dc812d6acba99d90|df42c89d-2155-6127-efb7-b0ec5ff8eeb9', appliesTo: 'CLASS' },
+              config: {
+                loop: false, playInReverse: false, scrollOffsetValue: 10, scrollOffsetUnit: '%', delay: 0, direction: null, effectIn: true,
+              },
+              createdOn: 1589262452762,
+            },
+            'e-29': {
+              id: 'e-29',
+              eventTypeId: 'SCROLL_INTO_VIEW',
+              action: {
+                id: '', actionTypeId: 'FADE_EFFECT', config: { actionListId: 'fadeIn', autoStopEventId: 'e-30' }, instant: false,
+              },
+              mediaQueries: ['main', 'medium', 'small', 'tiny'],
+              target: { selector: '.container', originalId: '5eb272b2dc812d6acba99d90|0f837ac9-4bf1-1302-9d48-8f9eaf91ba97', appliesTo: 'CLASS' },
+              config: {
+                loop: false, playInReverse: false, scrollOffsetValue: 10, scrollOffsetUnit: '%', delay: 0, direction: null, effectIn: true,
+              },
+              createdOn: 1589262546286,
+            },
+          },
+          actionLists: {
+            slideInBottom: {
+              id: 'slideInBottom',
+              useFirstGroupAsInitialState: true,
+              actionItemGroups: [{
+                actionItems: [{
+                  actionTypeId: 'STYLE_OPACITY',
+                  config: {
+                    delay: 0, duration: 0, target: { id: 'N/A', appliesTo: 'TRIGGER_ELEMENT', useEventTarget: true }, value: 0,
+                  },
+                }],
+              }, {
+                actionItems: [{
+                  actionTypeId: 'TRANSFORM_MOVE',
+                  config: {
+                    delay: 0, duration: 0, target: { id: 'N/A', appliesTo: 'TRIGGER_ELEMENT', useEventTarget: true }, xValue: 0, yValue: 100, xUnit: 'PX', yUnit: 'PX', zUnit: 'PX',
+                  },
+                }],
+              }, {
+                actionItems: [{
+                  actionTypeId: 'TRANSFORM_MOVE',
+                  config: {
+                    delay: 0, easing: 'outQuart', duration: 1000, target: { id: 'N/A', appliesTo: 'TRIGGER_ELEMENT', useEventTarget: true }, xValue: 0, yValue: 0, xUnit: 'PX', yUnit: 'PX', zUnit: 'PX',
+                  },
+                }, {
+                  actionTypeId: 'STYLE_OPACITY',
+                  config: {
+                    delay: 0, easing: 'outQuart', duration: 1000, target: { id: 'N/A', appliesTo: 'TRIGGER_ELEMENT', useEventTarget: true }, value: 1,
+                  },
+                }],
+              }],
+            },
+            fadeIn: {
+              id: 'fadeIn',
+              useFirstGroupAsInitialState: true,
+              actionItemGroups: [{
+                actionItems: [{
+                  actionTypeId: 'STYLE_OPACITY',
+                  config: {
+                    delay: 0, duration: 0, target: { id: 'N/A', appliesTo: 'TRIGGER_ELEMENT', useEventTarget: true }, value: 0,
+                  },
+                }],
+              }, {
+                actionItems: [{
+                  actionTypeId: 'STYLE_OPACITY',
+                  config: {
+                    delay: 0, easing: 'outQuart', duration: 1000, target: { id: 'N/A', appliesTo: 'TRIGGER_ELEMENT', useEventTarget: true }, value: 1,
+                  },
+                }],
+              }],
+            },
+          },
+          site: { mediaQueries: [{ key: 'main', min: 992, max: 10000 }, { key: 'medium', min: 768, max: 991 }, { key: 'small', min: 480, max: 767 }, { key: 'tiny', min: 0, max: 479 }] },
+        },
+      );
+    },
     onClickNavButton() {
       this.isShowNavMenu = !this.isShowNavMenu;
     },
