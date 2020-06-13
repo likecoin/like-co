@@ -48,11 +48,21 @@ export default {
       redirect_uri: redirectUri,
       state,
     } = query;
-    let checkScope = ['profile'];
+    const checkScope = [];
     const { scope: inputScope } = query;
     if (inputScope) {
-      checkScope = inputScope.split(' ');
+      const scopes = inputScope.split(' ');
+      scopes.forEach((s) => {
+        if (!s.includes(':') && !['profile', 'email'].includes(s)) {
+          checkScope.push(`read:${s}`);
+          checkScope.push(`write:${s}`);
+        } else {
+          checkScope.push(s);
+        }
+      });
       if (!checkScope.includes('profile')) checkScope.push('profile');
+    } else {
+      checkScope.push('profile');
     }
     if (req && req.cookies && req.cookies.likecoin_auth) {
       opt = {
