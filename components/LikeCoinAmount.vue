@@ -38,10 +38,10 @@
           {{ formattedValue }}
         </div>
 
-        <NuxtLink
+        <a
           v-if="isZero"
           class="link md-likecoin lc-font-weight-600"
-          :to="{ name: 'in-creator' }"
+          :href="getLikerLandCreatorsURL"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -57,7 +57,7 @@
             <!-- eslint-enable max-len -->
           </svg>
           {{ $t('Home.Sale.button.earnCoin') }}
-        </NuxtLink>
+        </a>
       </div>
 
       <div class="likecoin-wallet-banner__accessory-view">
@@ -78,7 +78,11 @@
 
 <script>
 import { PURCHASE_LIKE_URL } from '@/constant';
-import { getMigrationSiteURL, getLikerLandAppURL } from '@/util/api/api';
+import {
+  getMigrationSiteURL,
+  getLikerLandAppURL,
+  getLikerLandCreatorsURL,
+} from '@/util/api/api';
 
 export default {
   name: 'like-coin-amount',
@@ -107,6 +111,7 @@ export default {
   },
   computed: {
     getLikerLandAppURL,
+    getLikerLandCreatorsURL,
     migrationURL() {
       return getMigrationSiteURL(this.username);
     },

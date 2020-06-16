@@ -126,6 +126,7 @@ import PlatformIconBar from '~/components/PlatformIconBar';
 import AccountOverview from './AccountOverview';
 import MenuItem from './MenuItem';
 
+import { getLikerLandCreatorsURL } from '@/util/api/api';
 import { logTrackerEvent } from '@/util/EventLogger';
 
 const MENU_ITEMS = [
@@ -138,7 +139,8 @@ const MENU_ITEMS = [
       },
       {
         key: 'earnLikeCoin',
-        to: { name: 'in-creator' },
+        to: getLikerLandCreatorsURL(),
+        isExternal: true,
       },
       {
         key: 'settings',
