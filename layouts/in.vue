@@ -65,6 +65,12 @@ import SlidingMenu from '~/components/SlidingMenu/index';
 import ToolBars from '~/components/toolbars/ToolBars';
 import UserInfoForm from '~/components/UserInfoForm';
 
+const ROUTES_ALLOW_LIST_FOR_MOBILE = [
+  'in',
+  'in-settings',
+  'verify',
+];
+
 export default {
   components: {
     PromptNotificationDialog,
@@ -91,7 +97,10 @@ export default {
     ]),
   },
   mounted() {
-    if (checkIsMobileClient()) {
+    if (
+      checkIsMobileClient()
+      && !ROUTES_ALLOW_LIST_FOR_MOBILE.includes(this.$route.name)
+    ) {
       this.$router.push({ name: 'in-getapp' });
     }
     if (this.getUserHasERC20LikeCoin) {
