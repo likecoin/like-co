@@ -11,7 +11,7 @@
         </p>
         <md-button
           class="md-likecoin outline lc-margin-top-24"
-          :to="{ name: 'in-creator' }"
+          :href="getLikerLandCreatorsURL"
         >{{ $t('LikeCoinButtonBanner.ctaButtonText') }}</md-button>
       </div>
     </div>
@@ -20,11 +20,15 @@
 
 <script>
 import LikeToCoinGraph from '~/components/graph/LikeToCoin';
+import { getLikerLandCreatorsURL } from '@/util/api/api';
 
 export default {
   name: 'likecoin-button-banner',
   components: {
     LikeToCoinGraph,
+  },
+  computed: {
+    getLikerLandCreatorsURL,
   },
 };
 </script>

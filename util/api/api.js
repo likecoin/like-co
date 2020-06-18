@@ -12,6 +12,7 @@ export const COSMOS_API_BASE = '/api/cosmos/lcd';
 export const getMigrationSiteURL = likerId => (likerId ? `${LIKECOIN_MIGRATION}?likerid=${likerId}` : LIKECOIN_MIGRATION);
 export const getLikerLandAppURL = () => 'https://likecoin.page.link/likeco';
 export const getLikerLandURL = () => LIKER_LAND_URL;
+export const getLikerLandCreatorsURL = () => `${LIKER_LAND_URL}/creators`;
 
 export const apiCheckIsUser = addr => axios.get(`/users/addr/${addr}/min`);
 
