@@ -174,6 +174,10 @@
       <div class="site-hero-content">
         <div class="container container--fixed">
           <h1 class="tagline">A public blockchain for content <strong class="text--bold">monetization</strong>, <strong class="text--bold">attribution</strong> and <strong class="text--bold">distribution</strong>.<br></h1>
+          <QuickExchangeWidget
+            :api-key="LIQUID_QEX_PUPLIC_API_KEY"
+            :wallet-address="walletAddress"
+          />
         </div>
       </div>
     </header>
@@ -439,13 +443,19 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 import Footer from '../components/footer/Footer';
+import QuickExchangeWidget from '../components/LiquidQuickExchangeWidget/LiquidQuickExchangeWidget';
+
+import { LIQUID_QEX_PUPLIC_API_KEY } from '../constant';
 
 export default {
   name: 'home',
   layout: 'webflow',
   components: {
     Footer,
+    QuickExchangeWidget,
   },
   asyncData({ query, redirect }) {
     if (query.press) {
@@ -467,6 +477,15 @@ export default {
         left: 0,
         right: 0,
       } : {};
+    },
+    ...mapGetters([
+      'getUserInfo',
+    ]),
+    LIQUID_QEX_PUPLIC_API_KEY() {
+      return LIQUID_QEX_PUPLIC_API_KEY;
+    },
+    walletAddress() {
+      return this.getUserInfo ? this.getUserInfo.cosmosWallet : null;
     },
   },
   head() {
@@ -634,3 +653,36 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.site-hero-content {
+  @media screen and (min-width: 800px) {
+    .container {
+      display: flex;
+      align-items: center;
+
+      h1 {
+        flex-grow: 1;
+
+        margin-right: 100px;
+
+        text-align: left;
+      }
+    }
+  }
+
+  @media screen and (max-width: 799px) {
+    padding-right: 10px !important;
+    padding-left: 10px !important;
+
+    .container {
+      padding-right: 0 !important;
+      padding-left: 0 !important;
+    }
+
+    .liquid-quick-exchange-widget {
+      margin: 12px auto 0;
+    }
+  }
+}
+</style>
