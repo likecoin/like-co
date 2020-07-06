@@ -53,7 +53,7 @@ export default {
           },
           'cs-special': {
             background: '#f7f7f7',
-            color: '#28646e',
+            color: '#4a4a4a',
             'border-color': '#e8e8e8',
           },
           'cs-error': {
@@ -95,8 +95,9 @@ export default {
 
 <style lang="scss">
 .liquid-quick-exchange-widget {
-  width: 300px;
+  width: 100%;
   min-width: 300px;
+  max-width: 320px;
   min-height: 512px;
   padding: 16px;
 
