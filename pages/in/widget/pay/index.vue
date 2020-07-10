@@ -616,7 +616,7 @@ export default {
         }
         const userWallet = cosmosWallet;
         if (from !== userWallet) {
-          this.setErrorMsg(this.$t('Transaction.error.metamaskWalletNotMatch'));
+          this.setErrorMsg(this.$t('Transaction.error.authcoreWalletNotMatch'));
           throw new Error('VALIDATION_FAIL');
         }
         const to = this.toUsers[0].cosmosWallet;

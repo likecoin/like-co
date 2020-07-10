@@ -927,6 +927,7 @@
             "ethInsufficient": "钱包内的 ETH 数量不足",
             "likecoinInsufficient": "钱包内的 LikeCoin 数量不足",
             "sameUser": "不能转账给自己",
+            "authcoreWalletNotMatch": "你的 Authcore 钱包与目前帐号不相符，请重新登入",
             "metamaskWalletNotMatch": "你的钱包地址跟目前的 Metamask 地址不相符"
         }
     },
