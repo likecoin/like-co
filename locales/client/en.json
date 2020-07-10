@@ -995,6 +995,7 @@
       "ethInsufficient": "Insufficient ETH in your wallet.",
       "likecoinInsufficient": "Insufficient LikeCoin in your wallet.",
       "sameUser": "Sender and Recipient cannot be same",
+      "authcoreWalletNotMatch": "Your Authcore wallet address does not match your current user, please re-login.",
       "metamaskWalletNotMatch": "Your wallet address is not the same as current Metamask address."
     }
   },
