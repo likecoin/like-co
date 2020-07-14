@@ -655,34 +655,39 @@ export default {
       this.isShowNavMenu = !this.isShowNavMenu;
     },
     onQExSuccess(transaction) {
-      const {
-        transaction_id: txId,
-        status,
-        funding_settlement: {
-          transaction_id: fundingTxId,
-          currency: fundingCurrency,
-          method: fundingMethod,
-          quantity: fundingQuantity,
-        },
-        payout_settlement: {
-          transaction_id: payoutTxId,
-          currency: payoutCurrency,
-          method: payoutMethod,
-          quantity: payoutQuantity,
-        },
-      } = transaction;
-      apiPostLog('eventQuickExchange', {
-        txId,
-        status,
-        fundingTxId,
-        fundingCurrency,
-        fundingMethod,
-        fundingQuantity,
-        payoutTxId,
-        payoutCurrency,
-        payoutMethod,
-        payoutQuantity,
-      });
+      try {
+        const {
+          transaction_id: txId,
+          status,
+          funding_settlement: {
+            transaction_id: fundingTxId,
+            currency: fundingCurrency,
+            method: fundingMethod,
+            quantity: fundingQuantity,
+          },
+          payout_settlement: {
+            transaction_id: payoutTxId,
+            currency: payoutCurrency,
+            method: payoutMethod,
+            quantity: payoutQuantity,
+          },
+        } = transaction;
+        apiPostLog('eventQuickExchange', {
+          txId,
+          status,
+          fundingTxId,
+          fundingCurrency,
+          fundingMethod,
+          fundingQuantity,
+          payoutTxId,
+          payoutCurrency,
+          payoutMethod,
+          payoutQuantity,
+        });
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error('Quick Exchange Widget Logging Error:', error);
+      }
     },
     onQExError(errors) {
       // eslint-disable-next-line no-console
