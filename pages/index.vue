@@ -177,6 +177,8 @@
           <QuickExchangeWidget
             :api-key="LIQUID_QEX_PUPLIC_API_KEY"
             :wallet-address="walletAddress"
+            @success="onQExSuccess"
+            @error="onQExError"
           />
         </div>
       </div>
@@ -450,6 +452,8 @@ import QuickExchangeWidget from '../components/LiquidQuickExchangeWidget/LiquidQ
 
 import { LIQUID_QEX_PUPLIC_API_KEY } from '../constant';
 
+import { apiPostLog } from '../util/api/api';
+
 export default {
   name: 'home',
   layout: 'webflow',
@@ -649,6 +653,40 @@ export default {
     },
     onClickNavButton() {
       this.isShowNavMenu = !this.isShowNavMenu;
+    },
+    onQExSuccess(transaction) {
+      const {
+        transaction_id: txId,
+        status,
+        funding_settlement: {
+          transaction_id: fundingTxId,
+          currency: fundingCurrency,
+          method: fundingMethod,
+          quantity: fundingQuantity,
+        },
+        payout_settlement: {
+          transaction_id: payoutTxId,
+          currency: payoutCurrency,
+          method: payoutMethod,
+          quantity: payoutQuantity,
+        },
+      } = transaction;
+      apiPostLog('eventQuickExchange', {
+        txId,
+        status,
+        fundingTxId,
+        fundingCurrency,
+        fundingMethod,
+        fundingQuantity,
+        payoutTxId,
+        payoutCurrency,
+        payoutMethod,
+        payoutQuantity,
+      });
+    },
+    onQExError(errors) {
+      // eslint-disable-next-line no-console
+      console.error('Quick Exchange Widget Errors:', errors);
     },
   },
 };
