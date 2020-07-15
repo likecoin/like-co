@@ -67,14 +67,6 @@
           :isInTransaction="getIsInTransaction"
         />
 
-        <tx-toolbar
-          v-if="getPendingTx"
-          :txHash="getPendingTx"
-          :txInfo="getPendingTxInfo"
-          :isInTx="getIsInTransaction"
-          @onClose="closeTxToolbar"
-        />
-
         <info-toolbar
           v-if="getInfoMsg"
           :isError="getInfoIsError"
@@ -146,7 +138,6 @@ import TxDialog from '~/components/dialogs/TxDialog';
 
 import InfoToolbar from '~/components/toolbars/InfoToolbar';
 import LoadingToolbar from '~/components/toolbars/LoadingToolbar';
-import TxToolbar from '~/components/toolbars/TxToolbar';
 
 export default {
   name: 'tool-bars',
@@ -163,7 +154,6 @@ export default {
 
     InfoToolbar,
     LoadingToolbar,
-    TxToolbar,
   },
   props: {
     disableError: {
@@ -226,7 +216,6 @@ export default {
   methods: {
     ...mapActions([
       'closeTxDialog',
-      'closeTxToolbar',
       'closeInfoToolbar',
       'openPopupDialog',
       'closePopupDialog',
