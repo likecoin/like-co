@@ -103,6 +103,7 @@ const nuxtConfig = {
           'player.vimeo.com',
           'use.typekit.net',
           'cdnjs.cloudflare.com',
+          'partners.liquid.com',
         ],
         'frame-src': [
           'www.google.com',
@@ -114,6 +115,7 @@ const nuxtConfig = {
           'like.co',
           'likecoin-integration-test.authcore.io',
           'likecoin.substack.com',
+          'plugin.partners.liquid.com',
         ],
         'connect-src': [
           "'self'",

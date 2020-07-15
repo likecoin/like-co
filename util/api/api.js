@@ -157,3 +157,8 @@ export const apiPostOAuthAuthorize = payload => axios.post(`${LIKECOIN_MISC_API_
 export const getImageResizeAPI = (url, { width } = {}) => `${LIKE_CO_CLOUD_FN_BASE}/thumbnail/?url=${encodeURIComponent(url)}${
   width ? `&width=${width}` : ''
 }`;
+
+export const apiPostLog = (
+  logType,
+  logFields = {},
+) => axios.post(`${LIKECOIN_MISC_API_BASE}/api/logging`, { logType, ...logFields });
