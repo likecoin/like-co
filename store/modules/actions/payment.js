@@ -13,7 +13,6 @@ export async function sendCosmosPayment(
   {
     signer,
     isWait = true,
-    showTxToolBar = false,
     showDialogAction = true,
     ...payload
   },
@@ -46,10 +45,8 @@ export async function sendCosmosPayment(
     }
     commit(types.UI_START_LOADING_TX);
     commit(types.UI_SET_HIDE_TX_DIALOG_ACTION, !showDialogAction);
-    if (showTxToolBar) {
-      commit(types.PAYMENT_SET_PENDING_HASH, txHash);
-      commit(types.PAYMENT_SET_PENDING_TX_INFO, { from, to, value });
-    }
+    commit(types.PAYMENT_SET_PENDING_HASH, txHash);
+    commit(types.PAYMENT_SET_PENDING_TX_INFO, { from, to, value });
     if (isWait) await included();
     commit(types.UI_STOP_LOADING_TX);
     return txHash;
