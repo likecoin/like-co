@@ -520,7 +520,7 @@
     },
     "LikeButtonDemo": {
       "label": {
-        "button": "LikeButton",
+        "button": "LikeCoin button",
         "lookForButton": "For all contents featuring {LikeButton}, creators are rewarded daily in LikeCoin (LIKE) according to the number of Likes received."
       }
     },
@@ -880,7 +880,7 @@
       "descriptionCTA": "I want to earn LikeCoin from my work"
     },
     "likeButtonAdopter": {
-      "title": "Media using LikeButton",
+      "title": "Media using LikeCoin button",
       "descriptionCTA": "I want to earn LikeCoin from my site"
     },
     "civicLiker": {
@@ -1157,8 +1157,8 @@
       "deleteAccountPrePopulatedMessage": "I want to delete my account",
       "requestReportPrePopulatedMessage": "I want to request an account data report ",
       "receiveLikeCoinLink": "Your LikeCoin payment link:",
-      "earnByLikeButton": "Earn LikeCoin by Reinvented LikeButton",
-      "yourLikeButton": "Your LikeButton",
+      "earnByLikeButton": "Earn LikeCoin by Reinvented LikeCoin button",
+      "yourLikeButton": "Your LikeCoin button",
       "displaySocialMediaOn": "Display socal mediea links on",
       "selectSocialMediaLink": "Select social media links (maximum 5)",
       "wordpress": {
@@ -1167,7 +1167,7 @@
       },
       "medium": {
         "title": "Medium",
-        "content": "Apply your LikeButton in your story"
+        "content": "Apply your LikeCoin button in your story"
       },
       "oice": {
         "title": "oice",
@@ -1184,7 +1184,7 @@
         "wp": "WordPress only"
       },
       "supportFavContent": "Civic Liker - supporting content creation",
-      "backerDesc": "By adding the LikeButton to your creative content, The quick, brown fox jumps over a lazy dog.",
+      "backerDesc": "By adding the LikeCoin button to your creative content, The quick, brown fox jumps over a lazy dog.",
       "active": "Active Subscription"
     },
     "button": {
@@ -1193,7 +1193,7 @@
       "editPortrait": "Edit Portrait",
       "profile": "Profile",
       "otherSettings": "Others",
-      "likeButton": "LikeButton",
+      "likeButton": "LikeCoin button",
       "learnMore": "Learn More",
       "install": "Install",
       "createStory": "Create Story",
@@ -1388,12 +1388,12 @@
   "Embed": {
     "label": {
       "support": "Support",
-      "providedBy": "by LikeCoin reinvented LikeButton",
+      "providedBy": "by LikeCoin reinvented LikeCoin button",
       "subtitle": "Like this article?",
       "title": "Reward the writer with LIKE token",
       "createMyWidget": "Create my LikeWidget",
-      "createMyButton": "Create my LikeButton",
-      "clickLikeButton": "Click the reinvented LikeButton to",
+      "createMyButton": "Create my LikeCoin button",
+      "clickLikeButton": "Click the reinvented LikeCoin button to",
       "rewardUserWithLikeToken": "Reward {user} with LIKE token",
       "supportUser": "Support {user}",
       "loginAdvice": "{login} the writer you like will generate more LikeCoin",
@@ -1419,7 +1419,7 @@
   },
   "LikeButtonIntro": {
     "setupWallet": "Create your wallet",
-    "setupLikeButton": "Setup Like Rewards button",
+    "setupLikeButton": "Setup LikeCoin button",
     "inmedia": "Inmedia",
     "standnews": "Standnews",
     "citizenNews": "CitizenNews",
@@ -1457,7 +1457,7 @@
       "name": "oice",
       "title": "{name} - Connect with Liker ID",
       "content": "Bind your Liker ID in {oiceWebsite}. The LikeButton will appear automatically on your oice visual novel after you have bind your Liker ID with your oice account. {oiceInstruction}",
-      "caption": "LikeButton will show aside with your story",
+      "caption": "LikeCoin button will show aside with your story",
       "label": {
         "instruction": "View the instruction here"
       },
@@ -1474,11 +1474,11 @@
       "minTitle": "It's a snap to support creators"
     },
     "label": {
-      "earn": "Add the reinvented LikeButton to your creative contents to turn readers' Likes into passive income. Keep connected with your fans, promote your own brand with a nicely designed UI.",
+      "earn": "Add the reinvented LikeCoin button to your creative contents to turn readers' Likes into passive income. Keep connected with your fans, promote your own brand with a nicely designed UI.",
       "poc": "With the focus on rewarding content creators, LikeCoin (LIKE) measures the \"creativity\" of creative contents and let creators make passive income in LIKE with their creative contents according to the Likes they get. We call the mechanism Proof of Creativity, or PoC.",
-      "campaign": "Act immediately to earn LIKE by your creative works. There are three platforms that support the LikeButton now: WordPress-powered sites, Medium and oice.",
-      "enroll": "Add the LikeButton to your creative works; get Likes from your fans. It’s that simple! We are giving out millions of LikeCoin per month to reward creators. Let’s go ahead for the bonus.",
-      "minLabel": "Click on the LikeButton embedded in the creative works to reward the creators. A baby could do, but means a lot."
+      "campaign": "Act immediately to earn LIKE by your creative works. There are three platforms that support the LikeCoin button now: WordPress-powered sites, Medium and oice.",
+      "enroll": "Add the LikeCoi button to your creative works; get Likes from your fans. It’s that simple! We are giving out millions of LikeCoin per month to reward creators. Let’s go ahead for the bonus.",
+      "minLabel": "Click on the LikeCoin button embedded in the creative works to reward the creators. A baby could do, but means a lot."
     },
     "button": {
       "startUsing": "Start using"

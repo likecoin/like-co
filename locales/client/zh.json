@@ -1112,8 +1112,8 @@
       "deleteAccountPrePopulatedMessage": "我想申請刪除帳號",
       "requestReportPrePopulatedMessage": "我想接收帳號報告",
       "receiveLikeCoinLink": "你的 LikeCoin 轉帳頁面:",
-      "earnByLikeButton": "以新設計的 LikeButton 賺取 LikeCoin",
-      "yourLikeButton": "你的 LikeButton",
+      "earnByLikeButton": "安裝 LikeCoin button 賺取 LikeCoin",
+      "yourLikeButton": "你的 LikeCoin button",
       "displaySocialMediaOn": "顯示社交媒體連結",
       "selectSocialMediaLink": "選擇社交媒體（最多5個）",
       "wordpress": {
@@ -1122,7 +1122,7 @@
       },
       "medium": {
         "title": "Medium",
-        "content": "在你的文章內貼上 LikeButton"
+        "content": "在你的文章內貼上 LikeCoin button"
       },
       "oice": {
         "title": "oice",
@@ -1147,7 +1147,7 @@
       "editPortrait": "更改頭像",
       "profile": "個人資料",
       "otherSettings": "其他",
-      "likeButton": "LikeButton",
+      "likeButton": "LikeCoin button",
       "learnMore": "了解更多",
       "install": "安裝",
       "createStory": "創建視覺小說",
