@@ -1,4 +1,4 @@
-import parse from 'url-parse';
+import URL from 'url-parse';
 import {
   LIKE_BUTTON_POST_MESSAGE_TARGET_ORIGIN,
   REDIRECT_WHITE_LIST,
@@ -45,10 +45,21 @@ export function openURL(vue, url, name, specs, replace) {
 }
 
 export function tryPostLoginRedirect({ route }) {
-  const { redirect, is_popup: isPopup } = route.query;
-  if (redirect && REDIRECT_WHITE_LIST.indexOf(parse(redirect, {}).hostname) !== -1) {
+  const {
+    redirect,
+    is_popup: isPopup,
+    state,
+    scope,
+    redirect_uri: redirectURI,
+  } = route.query;
+  if (redirect && REDIRECT_WHITE_LIST.indexOf(URL(redirect, {}).hostname) !== -1) {
     // Redirect to external link
-    window.location.href = redirect;
+    const url = new URL(redirect, true);
+    if (redirectURI) url.query.redirect_uri = redirectURI;
+    if (scope) url.query.scope = scope;
+    if (state) url.query.state = Array.isArray(state) ? state.find(s => !!s) : state;
+    url.set('query', url.query);
+    window.location.href = url.toString();
     return true;
   }
   if (window.opener) {
