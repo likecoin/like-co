@@ -36,24 +36,6 @@ const teamMembers = [
     ],
   },
   {
-    key: 'aludirk',
-    platforms: [
-      {
-        key: 'like',
-        to: getLikePlatformToObject('aludirk'),
-        isInternal: true,
-      },
-      {
-        key: 'github',
-        to: 'https://github.com/Aludirk',
-      },
-      {
-        key: 'linkedin',
-        to: 'https://www.linkedin.com/in/aludirk/',
-      },
-    ],
-  },
-  {
     key: 'tomlam',
     platforms: [
       {
@@ -113,12 +95,12 @@ const teamMembers = [
     platforms: [
       {
         key: 'like',
-        to: getLikePlatformToObject('williamchong007'),
+        to: getLikePlatformToObject('williamchong'),
         isInternal: true,
       },
       {
         key: 'github',
-        to: 'https://github.com/williamchong007',
+        to: 'https://github.com/williamchong',
       },
       {
         key: 'linkedin',
@@ -141,24 +123,6 @@ const teamMembers = [
       {
         key: 'linkedin',
         to: 'https://www.linkedin.com/in/ngwingtat',
-      },
-    ],
-  },
-  {
-    key: 'michael',
-    platforms: [
-      {
-        key: 'like',
-        to: getLikePlatformToObject('michaelcheung'),
-        isInternal: true,
-      },
-      {
-        key: 'github',
-        to: 'https://github.com/mckingho',
-      },
-      {
-        key: 'linkedin',
-        to: 'https://www.linkedin.com/in/king-ho-cheung-a94907a1/',
       },
     ],
   },
