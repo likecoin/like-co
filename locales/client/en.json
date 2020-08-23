@@ -538,12 +538,12 @@
   },
   "HomeV2": {
     "Meta": {
-      "Description": "LikeCoin is a public blockchain for content monetization, attribution and distribution.",
+      "Description": "LikeCoin is an infrastructure for Decentralized Publishing. With LikeCoin chain at the core, it provides tools for decentralized archive, rewards, curation and governance.",
       "Og": {
         "Description": "@:HomeV2.Meta.Description",
         "Title": "@:HomeV2.Meta.Title"
       },
-      "Title": "LikeCoin - the content protocol"
+      "Title": "LikeCoin - Decentralized Publishing Infrastructure"
     }
   },
   "AboutPage": {
@@ -554,15 +554,13 @@
     "headline": "More articles on:"
   },
   "AppBanner": {
-    "title": "Reinventing the Like, open with app",
+    "title": "Less browsing, more reading. Open Liker Land",
     "downloadButtonText": "Download now",
     "features": [
-      "Help distribute Creators Fund with your Like",
-      "Distribute your own monthly fee in full amount with your Like",
-      "Detailed report on reward distribution. Know where you spend",
-      "Participate in community decision making process and referenda",
-      "Receive bonus contents, ebook and coupons",
-      "Prioritized participation of offline events"
+      "Less browsing, more reading. Daily list of stories 100% curated by Content Jockeys you trust.",
+      "Less sharing, more inspiration. Super Like up to 2 stories a day to inspire your followers.",
+      "Save to Liker Land. Save any web pages to Liker Land for reading in the right mood.",
+      "Detailed report on reward distribution. Know exactly who reward you and whom you reward.",
     ]
   },
   "LikeCoinButtonBanner": {
@@ -573,7 +571,7 @@
   "Footer": {
     "label": {
       "contract": "LikeCoin Contract: ",
-      "chain": "LikeCoin chain Explorer"
+      "chain": "Big Dipper: LikeCoin chain explorer"
     },
     "button": {
       "developer": "Developer",
