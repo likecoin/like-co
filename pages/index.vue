@@ -173,7 +173,7 @@
       </div>
       <div class="site-hero-content">
         <div class="container container--fixed">
-          <h1 class="tagline">A public blockchain for content <strong class="text--bold">monetization</strong>, <strong class="text--bold">attribution</strong> and <strong class="text--bold">distribution</strong>.<br></h1>
+          <h1 class="tagline">Decentralized Publishing Infrastructure.<br></h1>
           <QuickExchangeWidget
             :api-key="LIQUID_QEX_PUPLIC_API_KEY"
             :wallet-address="walletAddress"
@@ -207,43 +207,62 @@
               >LikeCoin chain</a>
             </h2>
             <p class="collage__description">
-              Launched in Nov 2019, LikeCoin chain operates under a permissionless, Bonded Proof-of-Stake (BPoS) mechanism. It is the infrastructure of the LikeCoin ecosystem. Explore LikeCoin chain in Big Dipper block explorer and read the documentations
+              Launched in Nov 2019, LikeCoin chain is a public blockchain tailor-made for content publishing. Built on top of Cosmos SDK, it operates under a permissionless, Bonded Proof-of-Stake (BPoS) mechanism.
+              <br>
+              Explore the transactions of LikeCoin chain in 
+              <a
+                href="https://likecoin.bigdipper.live"
+                class="link link--light"
+              >Big Dipper</a> explorer. 
               <a
                 href="https://docs.like.co/developer/likecoin-chain-node"
                 class="link link--light"
-              >here</a>.
+              >Join</a> as a validator to help decentralize publishing and earn LikeCoin.
             </p>
             <a
               class="button button--light w-button"
-              href="https://likecoin.bigdipper.live"
+              href="https://docs.like.co/developer/likecoin-chain-node"
               target="_blank"
-            >Chain Explorer - Big Dipper</a>
+            >Join as validator</a>
           </div>
         </div>
       </div>
     </section>
     <section class="section section--light section--what-we-do">
       <div class="container container--fixed">
-        <h2 class="section__title section__title section__title--light">What We Do</h2>
+        <h2 class="section__title section__title section__title--light">What LikeCoin Offers</h2>
         <div class="w-layout-grid grid">
           <div class="grid-item">
-            <h3 class="grid-item__title">Monetization</h3>
-            <p class="grid-item__content">By simply attaching a LikeCoin button beneath your content, every Like by readers is turned into measurable reward without a paywall. The <a
-              href="https://liker.land/civic"
+            <h3 class="grid-item__title">Decentralized Archive</h3>
+            <p class="grid-item__content">The heart of Decentralized Publishing is decentralized archive powered by <a
+              href="https://iscn.io"
               target="_blank"
-              class="link link--light"
-            >Civic Liker</a> movement encourages readers to contribute USD5/mo to reward creativity and journalism, while the Matching Fund doubles the rewarding pool. In LikeCoin ecosystem, every Like counts.</p>
+              class="link link--light">ISCN</a>, a specification we drafted in collaboration with the industry.
+              <br>
+              Borrowed from the concept of ISBN for books, ISCN is a unique number assigned to content such as articles and images, and comes with metadata such as author, publisher, content address, license terms and creation footprint. Stored on LikeCoin chain, ISCN is immutable and censorship resilient. The content, on the other hand, is stored on IPFS for modification resistance and peer-to-peer distribution.
+            </p>
           </div>
           <div class="grid-item">
-            <h3 class="grid-item__title">Attribution</h3>
-            <p class="grid-item__content">In collaboration with the industry, we are drafting the <a
+            <h3 class="grid-item__title">Decentralized Rewards</h3>
+            <p class="grid-item__content">By simply attaching a LikeCoin button beneath your content and without setting up a paywall, every Like by readers is turned into measurable rewards in LikeCoin tokens.
+              <br>
+              The <a
+                href="https://liker.land/civic"
+                class="link link--light"
+              >Civic Liker</a> movement encourages readers to contribute USD5/mo to reward creativity and journalism, while the matching fund, distributed according to the Likes of all users, doubles the rewarding pool. With decentralized rewards, every Like counts.
+
+            
+            In collaboration with the industry, we are drafting the <a
               href="https://github.com/likecoin/iscn-specs/issues"
               class="link link--light"
             >international standard content number</a>, ISCN, which is a specification to use blockchain to immutably store metadata such as author, publisher, license terms and creation footprint. ISCN serves as a content registry in the Internet paradigm, much like ISBN served as a book database in the printing era. </p>
           </div>
           <div class="grid-item">
-            <h3 class="grid-item__title">Distribution</h3>
-            <p class="grid-item__content">With IPFS, LikeCoin protocol helps creators to reach wider audience in heavily censored environment. Apart from rewarding creators as a Liker, readers are encouraged to become Content Jockeys to help distribute creative stories and insightful analysis. Our unique distribution footprint mechanism rewards both creators and Content Jockeys, creating a win-win.</p>
+            <h3 class="grid-item__title">Decentralized Curation</h3>
+            <p class="grid-item__content">Apart from rewarding creators as a Liker, readers may go further to become a Content Jockey.
+              <br>
+              Content Jockeys help distribute creative stories and insightful commentaries with Super Likes, which are purposely designed to be scarce to cut out noise from signals. When a story gets popular, LikeCoin's unique distribution footprint rewards both creator and Content Jockey, creating an all win situation for the content ecosystem.
+            </p>
           </div>
         </div>
       </div>
@@ -251,7 +270,8 @@
     <section class="section section--slogan">
       <div class="slogan-bg" />
       <div class="container container--fluid">
-        <h2 class="slogan">Thrive to support content creators and publishers through the formation of a Decentralized Autonomous Organization (DAO).</h2>
+        <h2 class="slogan">Decentralized Governance is achieved by the LikeCoin Decentralized Autonomous Organization (DAO), namely, Republic of Liker Land.
+        </h2>
       </div>
     </section>
     <section class="section section--dark section--use-case">
