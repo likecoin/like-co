@@ -209,12 +209,10 @@
             <p class="collage__description">
               Launched in Nov 2019, LikeCoin chain is a public blockchain tailor-made for content publishing. Built on top of Cosmos SDK, it operates under a permissionless, Bonded Proof-of-Stake (BPoS) mechanism.
               <br>
-              Explore the transactions of LikeCoin chain in 
-              <a
+              Explore the transactions of LikeCoin chain in <a
                 href="https://likecoin.bigdipper.live"
                 class="link link--light"
-              >Big Dipper</a> explorer. 
-              <a
+              >Big Dipper</a> explorer. <a
                 href="https://docs.like.co/developer/likecoin-chain-node"
                 class="link link--light"
               >Join</a> as a validator to help decentralize publishing and earn LikeCoin.
@@ -237,9 +235,8 @@
             <p class="grid-item__content">The heart of Decentralized Publishing is decentralized archive powered by <a
               href="https://iscn.io"
               target="_blank"
-              class="link link--light">ISCN</a>, a specification we drafted in collaboration with the industry.
-              <br>
-              Borrowed from the concept of ISBN for books, ISCN is a unique number assigned to content such as articles and images, and comes with metadata such as author, publisher, content address, license terms and creation footprint. Stored on LikeCoin chain, ISCN is immutable and censorship resilient. The content, on the other hand, is stored on IPFS for modification resistance and peer-to-peer distribution.
+              class="link link--light"
+            >ISCN</a>, a specification we drafted in collaboration with the industry.<br>Borrowed from the concept of ISBN for books, ISCN is a unique number assigned to content such as articles and images, and comes with metadata such as author, publisher, content address, license terms and creation footprint. Stored on LikeCoin chain, ISCN is immutable and censorship resilient. The content, on the other hand, is stored on IPFS for modification resistance and peer-to-peer distribution.
             </p>
           </div>
           <div class="grid-item">
@@ -249,13 +246,10 @@
               The <a
                 href="https://liker.land/civic"
                 class="link link--light"
-              >Civic Liker</a> movement encourages readers to contribute USD5/mo to reward creativity and journalism, while the matching fund, distributed according to the Likes of all users, doubles the rewarding pool. With decentralized rewards, every Like counts.
-
-            
-            In collaboration with the industry, we are drafting the <a
-              href="https://github.com/likecoin/iscn-specs/issues"
-              class="link link--light"
-            >international standard content number</a>, ISCN, which is a specification to use blockchain to immutably store metadata such as author, publisher, license terms and creation footprint. ISCN serves as a content registry in the Internet paradigm, much like ISBN served as a book database in the printing era. </p>
+              >Civic Liker</a> movement encourages readers to contribute USD5/mo to reward creativity and journalism, while the matching fund, distributed according to the Likes of all users, doubles the rewarding pool. With decentralized rewards, every Like counts. In collaboration with the industry, we are drafting the <a
+                href="https://github.com/likecoin/iscn-specs/issues"
+                class="link link--light"
+              >international standard content number</a>, ISCN, which is a specification to use blockchain to immutably store metadata such as author, publisher, license terms and creation footprint. ISCN serves as a content registry in the Internet paradigm, much like ISBN served as a book database in the printing era. </p>
           </div>
           <div class="grid-item">
             <h3 class="grid-item__title">Decentralized Curation</h3>
