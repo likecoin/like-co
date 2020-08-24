@@ -258,14 +258,17 @@
               Content Jockeys help distribute creative stories and insightful commentaries with Super Likes, which are purposely designed to be scarce to cut out noise from signals. When a story gets popular, LikeCoin's unique distribution footprint rewards both creator and Content Jockey, creating an all win situation for the content ecosystem.
             </p>
           </div>
+          <div class="grid-item">
+            <h3 class="grid-item__title">Decentralized Governance</h3>
+            <p class="grid-item__content">Decentralized Governance is achieved by the LikeCoin Decentralized Autonomous Organization (DAO), namely, Republic of Liker Land.</p>
+          </div>
         </div>
       </div>
     </section>
     <section class="section section--slogan">
       <div class="slogan-bg" />
       <div class="container container--fluid">
-        <h2 class="slogan">Decentralized Governance is achieved by the LikeCoin Decentralized Autonomous Organization (DAO), namely, Republic of Liker Land.
-        </h2>
+        <h2 class="slogan">Decentralized Governance is achieved by the LikeCoin Decentralized Autonomous Organization (DAO), namely, Republic of Liker Land.</h2>
       </div>
     </section>
     <section class="section section--dark section--use-case">
@@ -740,6 +743,12 @@ export default {
     .liquid-quick-exchange-widget {
       margin: 12px auto 0;
     }
+  }
+}
+
+@media screen and (min-width: 991px) {
+  .section--what-we-do .grid {
+    grid-template-columns: 1fr 1fr;
   }
 }
 </style>
