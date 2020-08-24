@@ -272,7 +272,7 @@
             class="grid-item grid-item--intro"
           >
             <h2 class="section__title section__title--dark">Use Cases</h2>
-            <p class="section__description">LikeCoin is used by various platforms to decentralize publishing and has cultivated an active community. As of August 2020, Republic of Liker Land has <strong class="text--bold">79,413+ Likers</strong>, <strong class="text--bold">286,277+ content</strong> by <strong class="text--bold">10,924+ creators</strong> on <strong class="text--bold">1200+ media</strong>. </p>
+            <p class="section__description">LikeCoin is used by various platforms to decentralize publishing and has cultivated a vibrant community. As of August 2020, Republic of Liker Land has <strong class="text--bold">79,413+ Likers</strong>, <strong class="text--bold">286,277+ content</strong> by <strong class="text--bold">10,924+ creators</strong> on <strong class="text--bold">1200+ media</strong>. </p>
           </div>
           <div class="grid-item grid-item--hidden-tablet" />
           <div class="grid-item">
