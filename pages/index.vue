@@ -236,12 +236,16 @@
               href="https://iscn.io"
               target="_blank"
               class="link link--light"
-            >ISCN</a>, a specification we drafted in collaboration with the industry.<br>Borrowed from the concept of ISBN for books, ISCN is a unique number assigned to content such as articles and images, and comes with metadata such as author, publisher, content address, license terms and creation footprint. Stored on LikeCoin chain, ISCN is immutable and censorship resilient. The content, on the other hand, is stored on IPFS for modification resistance and peer-to-peer distribution.
+              >ISCN</a>, a specification we drafted in collaboration with the industry.
+              <br>
+              <br>
+              Borrowed from the concept of ISBN for books, ISCN is a unique number assigned to content such as articles and images, and comes with metadata such as author, publisher, content address, license terms and creation footprint. Stored on LikeCoin chain, ISCN is immutable and censorship resilient. The content, on the other hand, is stored on IPFS for modification resistance and peer-to-peer distribution.
             </p>
           </div>
           <div class="grid-item">
             <h3 class="grid-item__title">Decentralized Rewards</h3>
             <p class="grid-item__content">By simply attaching a LikeCoin button beneath your content and without setting up a paywall, every Like by readers is turned into measurable rewards in LikeCoin tokens.
+              <br>
               <br>
               The <a
                 href="https://liker.land/civic"
@@ -255,12 +259,17 @@
             <h3 class="grid-item__title">Decentralized Curation</h3>
             <p class="grid-item__content">Apart from rewarding creators as a Liker, readers may go further to become a Content Jockey.
               <br>
+              <br>
               Content Jockeys help distribute creative stories and insightful commentaries with Super Likes, which are purposely designed to be scarce to cut out noise from signals. When a story gets popular, LikeCoin's unique distribution footprint rewards both creator and Content Jockey, creating an all win situation for the content ecosystem.
             </p>
           </div>
           <div class="grid-item">
             <h3 class="grid-item__title">Decentralized Governance</h3>
-            <p class="grid-item__content">Decentralized Governance is achieved by the LikeCoin Decentralized Autonomous Organization (DAO), namely, Republic of Liker Land.</p>
+            <p class="grid-item__content">Not only is LikeCoin token a reward to creators and Content Jockeys, it also serves doubly as the governing token for the decentralized autonomous organization (DAO), namely the Republic of Liker Land.
+              <br>
+              <br>
+              Likers participate in liquid democracy by delegating their LikeCoin tokens to validators they trust, and freely switch among them without a fixed term of office. Issues such as default Content Jockeys, inflation rate and protocol updates require passing a corresponding proposal by the Republic.
+            </p>
           </div>
         </div>
       </div>
@@ -280,6 +289,7 @@
           >
             <h2 class="section__title section__title--dark">Use Cases</h2>
             <p class="section__description">LikeCoin has been adopted to various use cases, ranging from <strong class="text--bold">website plugins</strong>, <strong class="text--bold">mobile app</strong> to <strong class="text--bold">media platforms</strong>. As of April, 2020, the ecosystem of LikeCoin accumulated to <strong class="text--bold">60,625+ Likers</strong>, <strong class="text--bold">223,200+ contents</strong> by <strong class="text--bold">8,400+ creators</strong> on <strong class="text--bold">1000+ media</strong>. </p>
+            <p class="section__description">LikeCoin is used by various platforms to decentralize publishing and has cultivated an active community of Likers. As of August 2020, the ecosystem has <strong class="text--bold">79,413+ Likers</strong>, <strong class="text--bold">286,277+ content</strong> by <strong class="text--bold">10,924+ creators</strong> on <strong class="text--bold">1200+ media</strong>. </p>
           </div>
           <div class="grid-item grid-item--hidden-tablet" />
           <div class="grid-item">
@@ -298,7 +308,7 @@
             <div class="grid-item__meta">
               <div class="tag">Mobile App</div>
             </div>
-            <p class="grid-item__content">Liker Land is a reader, passport, and wallet in one mobile app. It provides a friendly user interface to discover, read, and save content. With the unique Super Like feature, Liker Land traces distribution footprint and rewards not only Creators but also Content Jockeys who curate high-quality content.</p>
+            <p class="grid-item__content">Liker Land is a reader, passport, and wallet in one mobile app. Its unique daily content feed is 100% humanly curated by Content Jockyes you trust. With the innovative Super Like feature, Liker Land traces distribution footprint and rewards both Creators and Content Jockeys to cultivate a healthy content ecosytem.</p>
           </div>
           <div class="grid-item">
             <div class="grid-item__image-wrapper"><img
