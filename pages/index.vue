@@ -28,7 +28,6 @@
           <nav
             role="navigation"
             class="site-menu w-nav-menu"
-            :style="navMenuStyle"
           >
             <a
               href="https://docs.like.co/user-guide/faq"
@@ -163,10 +162,7 @@
             href="https://github.com/sponsors/likecoin"
             target="_blank"
           >Sponsor</a>
-          <div
-            class="menu-button w-nav-button"
-            @click="onClickNavButton"
-          >
+          <div class="menu-button w-nav-button">
             <div class="icon w-icon-nav-menu" />
           </div>
         </div>
@@ -468,20 +464,10 @@ export default {
   },
   data() {
     return {
-      isShowNavMenu: false,
       isWebflowInited: false,
     };
   },
   computed: {
-    navMenuStyle() {
-      return this.isShowNavMenu ? {
-        display: 'block',
-        top: '100%',
-        position: 'absolute',
-        left: 0,
-        right: 0,
-      } : {};
-    },
     ...mapGetters([
       'getUserInfo',
     ]),
@@ -650,9 +636,6 @@ export default {
           site: { mediaQueries: [{ key: 'main', min: 992, max: 10000 }, { key: 'medium', min: 768, max: 991 }, { key: 'small', min: 480, max: 767 }, { key: 'tiny', min: 0, max: 479 }] },
         },
       );
-    },
-    onClickNavButton() {
-      this.isShowNavMenu = !this.isShowNavMenu;
     },
     onQExSuccess(transaction) {
       try {
