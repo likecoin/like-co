@@ -308,7 +308,7 @@
             <div class="grid-item__meta">
               <div class="tag">Mobile App</div>
             </div>
-            <p class="grid-item__content">Liker Land is a reader, passport, and wallet in one mobile app. Its unique daily content feed is 100% humanly curated by Content Jockyes you trust. With the innovative Super Like feature, Liker Land traces distribution footprint and rewards both Creators and Content Jockeys to cultivate a healthy content ecosytem.</p>
+            <p class="grid-item__content">Liker Land is a reader, passport, and wallet in one mobile app. Its unique daily content feed is 100% humanly curated by Content Jockyes you trust. With the innovative Super Like feature, Liker Land traces distribution footprint and rewards both Creators and Content Jockeys to cultivate a healthy content ecosystem.</p>
           </div>
           <div class="grid-item">
             <div class="grid-item__image-wrapper"><img
