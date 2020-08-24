@@ -273,12 +273,6 @@
         </div>
       </div>
     </section>
-    <section class="section section--slogan">
-      <div class="slogan-bg" />
-      <div class="container container--fluid">
-        <h2 class="slogan">Decentralized Governance is achieved by the LikeCoin Decentralized Autonomous Organization (DAO), namely, Republic of Liker Land.</h2>
-      </div>
-    </section>
     <section class="section section--dark section--use-case">
       <div class="container container--fixed">
         <div class="w-layout-grid grid">
