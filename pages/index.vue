@@ -30,30 +30,30 @@
             class="site-menu w-nav-menu"
           >
             <a
-              href="https://docs.like.co/user-guide/faq"
+              href="https://like.co/in/getapp"
               class="site-main-menu__item"
               target="_blank"
-            >FAQ</a>
+            >Download</a>
             <!-- <a
               href="#"
               class="site-main-menu__item"
               target="_blank"
             >Events</a> -->
             <a
-              href="https://github.com/likecoin/likecoin"
+              href="https://docs.like.co/user-guide/"
               class="site-main-menu__item"
               target="_blank"
-            >Develop</a>
+            >User Guide</a>
             <a
-              href="https://docs.like.co/"
+              href="https://docs.like.co/developer/"
               class="site-main-menu__item"
               target="_blank"
-            >Learn</a>
+            >Docs</a>
             <a
-              href="https://likecoin.substack.com"
+              href="https://medium.com/likecoin/"
               class="site-main-menu__item"
               target="_blank"
-            >Newsletter</a>
+            >Blog</a>
             <ul
               role="list"
               class="social-media-icons w-list-unstyled"
