@@ -30,30 +30,30 @@
             class="site-menu w-nav-menu"
           >
             <a
-              href="https://docs.like.co/user-guide/faq"
+              href="https://like.co/in/getapp"
               class="site-main-menu__item"
               target="_blank"
-            >FAQ</a>
+            >Download</a>
             <!-- <a
               href="#"
               class="site-main-menu__item"
               target="_blank"
             >Events</a> -->
             <a
-              href="https://github.com/likecoin/likecoin"
+              href="https://docs.like.co/user-guide/"
               class="site-main-menu__item"
               target="_blank"
-            >Develop</a>
+            >User Guide</a>
             <a
-              href="https://docs.like.co/"
+              href="https://docs.like.co/developer/"
               class="site-main-menu__item"
               target="_blank"
-            >Learn</a>
+            >Docs</a>
             <a
-              href="https://likecoin.substack.com"
+              href="https://medium.com/likecoin/"
               class="site-main-menu__item"
               target="_blank"
-            >Newsletter</a>
+            >Blog</a>
             <ul
               role="list"
               class="social-media-icons w-list-unstyled"
@@ -169,7 +169,7 @@
       </div>
       <div class="site-hero-content">
         <div class="container container--fixed">
-          <h1 class="tagline">Decentralized Publishing Infrastructure.<br></h1>
+          <h1 class="tagline"><strong class="text--bold">Decentralized Publishing Infrastructure.</strong></h1>
           <QuickExchangeWidget
             :api-key="LIQUID_QEX_PUPLIC_API_KEY"
             :wallet-address="walletAddress"
@@ -203,15 +203,13 @@
               >LikeCoin chain</a>
             </h2>
             <p class="collage__description">
-              Launched in Nov 2019, LikeCoin chain is a public blockchain tailor-made for content publishing. Built on top of Cosmos SDK, it operates under a permissionless, Bonded Proof-of-Stake (BPoS) mechanism.
-              <br>
-              Explore the transactions of LikeCoin chain in <a
+              Launched in Nov 2019, LikeCoin chain is a public blockchain tailor-made for content publishing. Built on top of Cosmos SDK, it operates under a permissionless, Bonded Proof-of-Stake (BPoS) mechanism. Transactions and data can be browsed on <a
                 href="https://likecoin.bigdipper.live"
                 class="link link--light"
-              >Big Dipper</a> explorer. <a
-                href="https://docs.like.co/developer/likecoin-chain-node"
-                class="link link--light"
-              >Join</a> as a validator to help decentralize publishing and earn LikeCoin.
+              >Big Dipper</a> explorer.
+              <br>
+              <br>
+              Join as a validator to help decentralize publishing and earn LikeCoin.
             </p>
             <a
               class="button button--light w-button"
@@ -245,10 +243,7 @@
               The <a
                 href="https://liker.land/civic"
                 class="link link--light"
-              >Civic Liker</a> movement encourages readers to contribute USD5/mo to reward creativity and journalism, while the matching fund, distributed according to the Likes of all users, doubles the rewarding pool. With decentralized rewards, every Like counts. In collaboration with the industry, we are drafting the <a
-                href="https://github.com/likecoin/iscn-specs/issues"
-                class="link link--light"
-              >international standard content number</a>, ISCN, which is a specification to use blockchain to immutably store metadata such as author, publisher, license terms and creation footprint. ISCN serves as a content registry in the Internet paradigm, much like ISBN served as a book database in the printing era. </p>
+              >Civic Liker</a> movement encourages readers to contribute USD5/mo to reward creativity and journalism, while the matching fund, distributed according to the Likes of all users, doubles the rewarding pool. With decentralized rewards, every Like counts.</p>
           </div>
           <div class="grid-item">
             <h3 class="grid-item__title">Decentralized Curation</h3>
@@ -277,8 +272,7 @@
             class="grid-item grid-item--intro"
           >
             <h2 class="section__title section__title--dark">Use Cases</h2>
-            <p class="section__description">LikeCoin has been adopted to various use cases, ranging from <strong class="text--bold">website plugins</strong>, <strong class="text--bold">mobile app</strong> to <strong class="text--bold">media platforms</strong>. As of April, 2020, the ecosystem of LikeCoin accumulated to <strong class="text--bold">60,625+ Likers</strong>, <strong class="text--bold">223,200+ contents</strong> by <strong class="text--bold">8,400+ creators</strong> on <strong class="text--bold">1000+ media</strong>. </p>
-            <p class="section__description">LikeCoin is used by various platforms to decentralize publishing and has cultivated an active community of Likers. As of August 2020, the ecosystem has <strong class="text--bold">79,413+ Likers</strong>, <strong class="text--bold">286,277+ content</strong> by <strong class="text--bold">10,924+ creators</strong> on <strong class="text--bold">1200+ media</strong>. </p>
+            <p class="section__description">LikeCoin is used by various platforms to decentralize publishing and has cultivated a vibrant community. As of August 2020, Republic of Liker Land has <strong class="text--bold">79,413+ Likers</strong>, <strong class="text--bold">286,277+ content</strong> by <strong class="text--bold">10,924+ creators</strong> on <strong class="text--bold">1200+ media</strong>.</p>
           </div>
           <div class="grid-item grid-item--hidden-tablet" />
           <div class="grid-item">
