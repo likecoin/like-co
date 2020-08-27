@@ -79,21 +79,6 @@
               </li>
               <li>
                 <a
-                  href="https://medium.com/likecoin/"
-                  target="_blank"
-                  class="icon-button-link icon-button-link--dark w-inline-block"
-                >
-                  <div class="icon-button w-embed"><svg
-                    viewbox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                  >
-                    <path d="m22.085 4.733 1.915-1.832v-.401h-6.634l-4.728 11.768-5.379-11.768h-6.956v.401l2.237 2.693c.218.199.332.49.303.783v10.583c.069.381-.055.773-.323 1.05l-2.52 3.054v.396h7.145v-.401l-2.52-3.049c-.273-.278-.402-.663-.347-1.05v-9.154l6.272 13.659h.729l5.393-13.659v10.881c0 .287 0 .346-.188.534l-1.94 1.877v.402h9.412v-.401l-1.87-1.831c-.164-.124-.249-.332-.214-.534v-13.467c-.035-.203.049-.411.213-.534z" />
-                  </svg></div>
-                </a>
-              </li>
-              <li>
-                <a
                   href="http://github.com/likecoin"
                   target="_blank"
                   class="icon-button-link icon-button-link--dark w-inline-block"
@@ -119,21 +104,6 @@
                     fill="currentColor"
                   >
                     <path d="m9.417 15.181-.397 5.584c.568 0 .814-.244 1.109-.537l2.663-2.545 5.518 4.041c1.012.564 1.725.267 1.998-.931l3.622-16.972.001-.001c.321-1.496-.541-2.081-1.527-1.714l-21.29 8.151c-1.453.564-1.431 1.374-.247 1.741l5.443 1.693 12.643-7.911c.595-.394 1.136-.176.691.218z" />
-                  </svg></div>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.facebook.com/Liker.Land/"
-                  target="_blank"
-                  class="icon-button-link icon-button-link--dark w-inline-block"
-                >
-                  <div class="icon-button w-embed"><svg
-                    viewbox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                  >
-                    <path d="m15.997 3.985h2.191v-3.816c-.378-.052-1.678-.169-3.192-.169-3.159 0-5.323 1.987-5.323 5.639v3.361h-3.486v4.266h3.486v10.734h4.274v-10.733h3.345l.531-4.266h-3.877v-2.939c.001-1.233.333-2.077 2.051-2.077z" />
                   </svg></div>
                 </a>
               </li>
