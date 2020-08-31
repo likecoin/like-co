@@ -192,14 +192,14 @@
         <h2 class="section__title section__title section__title--light">What LikeCoin Offers</h2>
         <div class="w-layout-grid grid">
           <div class="grid-item">
-            <h3 class="grid-item__title">Decentralized Archive</h3>
+            <h3 class="grid-item__title">Decentralized Registry</h3>
             <p class="grid-item__content">
-              The heart of Decentralized Publishing is decentralized archive powered by <a
+              The heart of Decentralized Publishing is decentralized registry powered by <a
                 href="https://iscn.io"
                 target="_blank"
                 class="link link--light"
               >ISCN</a>, a specification we drafted in collaboration with the industry.<br><br>
-              Borrowed from the concept of ISBN for books, ISCN is a unique number assigned to content such as articles and images, and comes with metadata such as author, publisher, content address, license terms and creation footprint. Stored on LikeCoin chain, ISCN is immutable and censorship resilient. The content, on the other hand, is stored on IPFS for modification resistance and peer-to-peer distribution.
+              Borrowed from the concept of ISBN for books, ISCN is a unique identifier assigned to content such as articles and images, and comes with metadata such as author, publisher, content address, license terms and creation footprint. Stored on LikeCoin chain, ISCN is immutable and censorship resilient. The content, on the other hand, is stored on IPFS for tamper resistance and peer-to-peer distribution.
             </p>
           </div>
           <div class="grid-item">
@@ -213,7 +213,7 @@
               >Civic Liker</a> movement encourages readers to contribute USD5/mo to reward creativity and journalism, while the matching fund, distributed according to the Likes of all users, doubles the rewarding pool. With decentralized rewards, every Like counts.</p>
           </div>
           <div class="grid-item">
-            <h3 class="grid-item__title">Decentralized Curation</h3>
+            <h3 class="grid-item__title">Decentralized Editorial</h3>
             <p class="grid-item__content">Apart from rewarding creators as a Liker, readers may go further to become a Content Jockey.
               <br>
               <br>
@@ -239,7 +239,7 @@
             class="grid-item grid-item--intro"
           >
             <h2 class="section__title section__title--dark">Use Cases</h2>
-            <p class="section__description">LikeCoin is used by various platforms to decentralize publishing and has cultivated a vibrant community. As of August 2020, Republic of Liker Land has <strong class="text--bold">79,413+ Likers</strong>, <strong class="text--bold">286,277+ content</strong> by <strong class="text--bold">10,924+ creators</strong> on <strong class="text--bold">1200+ media</strong>.</p>
+            <p class="section__description">LikeCoin is used by various platforms to decentralize publishing and has cultivated a vibrant community. As of August 2020, Republic of Liker Land has <strong class="text--bold">80,076+ Likers</strong>, <strong class="text--bold">289,923+ content</strong> by <strong class="text--bold">11,040+ creators</strong> on <strong class="text--bold">1200+ media</strong>.</p>
           </div>
           <div class="grid-item grid-item--hidden-tablet" />
           <div class="grid-item">
