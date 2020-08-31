@@ -60,39 +60,21 @@
             >
               <li>
                 <a
-                  href="https://join.g0v.tw/"
+                  href="https://discord.gg/B23rueS"
                   target="_blank"
                   class="icon-button-link icon-button-link--dark w-inline-block"
                 >
-                  <div class="icon-button w-embed"><svg
-                    viewbox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                  >
-                    <path d="m8.843 12.651c-1.392 0-2.521 1.129-2.521 2.521v6.306c0 1.392 1.129 2.521 2.521 2.521s2.521-1.129 2.521-2.521v-6.306c-.001-1.392-1.13-2.521-2.521-2.521z" />
-                    <path d="m.019 15.172c0 1.393 1.13 2.523 2.523 2.523s2.523-1.13 2.523-2.523v-2.523h-2.521c-.001 0-.001 0-.002 0-1.393 0-2.523 1.13-2.523 2.523z" />
-                    <path d="m8.846-.001c-.001 0-.002 0-.003 0-1.393 0-2.523 1.13-2.523 2.523s1.13 2.523 2.523 2.523h2.521c0-1.431 0-1.083 0-2.528-.001-1.391-1.128-2.518-2.518-2.518z" />
-                    <path d="m2.525 11.37h6.318c1.393 0 2.523-1.13 2.523-2.523s-1.13-2.523-2.523-2.523h-6.318c-1.393 0-2.523 1.13-2.523 2.523s1.13 2.523 2.523 2.523z" />
-                    <path d="m21.457 6.323c-1.391 0-2.518 1.127-2.518 2.518v.005 2.523h2.521c1.393 0 2.523-1.13 2.523-2.523s-1.13-2.523-2.523-2.523c-.001 0-.002 0-.003 0z" />
-                    <path d="m12.641 2.522v6.325c0 1.392 1.129 2.521 2.521 2.521s2.521-1.129 2.521-2.521v-6.325c0-1.392-1.129-2.521-2.521-2.521-1.392 0-2.521 1.129-2.521 2.521z" />
-                    <path d="m17.682 21.476c0-1.392-1.129-2.521-2.521-2.521h-2.521v2.523c.001 1.391 1.129 2.519 2.521 2.519s2.521-1.129 2.521-2.521z" />
-                    <path d="m21.479 12.649h-6.318c-1.393 0-2.523 1.13-2.523 2.523s1.13 2.523 2.523 2.523h6.318c1.393 0 2.523-1.13 2.523-2.523s-1.13-2.523-2.523-2.523z" />
-                  </svg></div>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://medium.com/likecoin/"
-                  target="_blank"
-                  class="icon-button-link icon-button-link--dark w-inline-block"
-                >
-                  <div class="icon-button w-embed"><svg
-                    viewbox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                  >
-                    <path d="m22.085 4.733 1.915-1.832v-.401h-6.634l-4.728 11.768-5.379-11.768h-6.956v.401l2.237 2.693c.218.199.332.49.303.783v10.583c.069.381-.055.773-.323 1.05l-2.52 3.054v.396h7.145v-.401l-2.52-3.049c-.273-.278-.402-.663-.347-1.05v-9.154l6.272 13.659h.729l5.393-13.659v10.881c0 .287 0 .346-.188.534l-1.94 1.877v.402h9.412v-.401l-1.87-1.831c-.164-.124-.249-.332-.214-.534v-13.467c-.035-.203.049-.411.213-.534z" />
-                  </svg></div>
+                  <div class="icon-button w-embed">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 204 200"
+                      fill="currentColor"
+                      width="24px"
+                    >
+                      <path d="M84,83.9c-5.7,0-10.2,5-10.2,11.1s4.6,11.1,10.2,11.1c5.7,0,10.2-5,10.2-11.1C94.3,88.9,89.7,83.9,84,83.9zM120.5,83.9c-5.7,0-10.2,5-10.2,11.1s4.6,11.1,10.2,11.1c5.7,0,10.2-5,10.2-11.1S126.2,83.9,120.5,83.9z" />
+                      <path d="M169.1,0h-134C23.8,0,14.6,9.2,14.6,20.6v135.2c0,11.4,9.2,20.6,20.5,20.6h113.4l-5.3-18.5l12.8,11.9l12.1,11.2l21.5,19V20.6C189.6,9.2,180.4,0,169.1,0z M130.5,130.6c0,0-3.6-4.3-6.6-8.1c13.1-3.7,18.1-11.9,18.1-11.9c-4.1,2.7-8,4.6-11.5,5.9c-5,2.1-9.8,3.5-14.5,4.3c-9.6,1.8-18.4,1.3-25.9-0.1c-5.7-1.1-10.6-2.7-14.7-4.3c-2.3-0.9-4.8-2-7.3-3.4c-0.3-0.2-0.6-0.3-0.9-0.5c-0.2-0.1-0.3-0.2-0.4-0.3c-1.8-1-2.8-1.7-2.8-1.7s4.8,8,17.5,11.8c-3,3.8-6.7,8.3-6.7,8.3c-22.1-0.7-30.5-15.2-30.5-15.2c0-32.2,14.4-58.3,14.4-58.3c14.4-10.8,28.1-10.5,28.1-10.5l1,1.2c-18,5.2-26.3,13.1-26.3,13.1s2.2-1.2,5.9-2.9c10.7-4.7,19.2-6,22.7-6.3c0.6-0.1,1.1-0.2,1.7-0.2c6.1-0.8,13-1,20.2-0.2c9.5,1.1,19.7,3.9,30.1,9.6c0,0-7.9-7.5-24.9-12.7l1.4-1.6c0,0,13.7-0.3,28.1,10.5c0,0,14.4,26.1,14.4,58.3C161.1,115.4,152.6,129.9,130.5,130.6z" />
+                    </svg>
+                  </div>
                 </a>
               </li>
               <li>
@@ -122,21 +104,6 @@
                     fill="currentColor"
                   >
                     <path d="m9.417 15.181-.397 5.584c.568 0 .814-.244 1.109-.537l2.663-2.545 5.518 4.041c1.012.564 1.725.267 1.998-.931l3.622-16.972.001-.001c.321-1.496-.541-2.081-1.527-1.714l-21.29 8.151c-1.453.564-1.431 1.374-.247 1.741l5.443 1.693 12.643-7.911c.595-.394 1.136-.176.691.218z" />
-                  </svg></div>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.facebook.com/Liker.Land/"
-                  target="_blank"
-                  class="icon-button-link icon-button-link--dark w-inline-block"
-                >
-                  <div class="icon-button w-embed"><svg
-                    viewbox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                  >
-                    <path d="m15.997 3.985h2.191v-3.816c-.378-.052-1.678-.169-3.192-.169-3.159 0-5.323 1.987-5.323 5.639v3.361h-3.486v4.266h3.486v10.734h4.274v-10.733h3.345l.531-4.266h-3.877v-2.939c.001-1.233.333-2.077 2.051-2.077z" />
                   </svg></div>
                 </a>
               </li>
@@ -225,14 +192,14 @@
         <h2 class="section__title section__title section__title--light">What LikeCoin Offers</h2>
         <div class="w-layout-grid grid">
           <div class="grid-item">
-            <h3 class="grid-item__title">Decentralized Archive</h3>
+            <h3 class="grid-item__title">Decentralized Registry</h3>
             <p class="grid-item__content">
-              The heart of Decentralized Publishing is decentralized archive powered by <a
+              The heart of Decentralized Publishing is decentralized registry powered by <a
                 href="https://iscn.io"
                 target="_blank"
                 class="link link--light"
               >ISCN</a>, a specification we drafted in collaboration with the industry.<br><br>
-              Borrowed from the concept of ISBN for books, ISCN is a unique number assigned to content such as articles and images, and comes with metadata such as author, publisher, content address, license terms and creation footprint. Stored on LikeCoin chain, ISCN is immutable and censorship resilient. The content, on the other hand, is stored on IPFS for modification resistance and peer-to-peer distribution.
+              Borrowed from the concept of ISBN for books, ISCN is a unique identifier assigned to content such as articles and images, and comes with metadata such as author, publisher, content address, license terms and creation footprint. Stored on LikeCoin chain, ISCN is immutable and censorship resilient. The content, on the other hand, is stored on IPFS for tamper resistance and peer-to-peer distribution.
             </p>
           </div>
           <div class="grid-item">
@@ -246,7 +213,7 @@
               >Civic Liker</a> movement encourages readers to contribute USD5/mo to reward creativity and journalism, while the matching fund, distributed according to the Likes of all users, doubles the rewarding pool. With decentralized rewards, every Like counts.</p>
           </div>
           <div class="grid-item">
-            <h3 class="grid-item__title">Decentralized Curation</h3>
+            <h3 class="grid-item__title">Decentralized Editorial</h3>
             <p class="grid-item__content">Apart from rewarding creators as a Liker, readers may go further to become a Content Jockey.
               <br>
               <br>
@@ -272,7 +239,7 @@
             class="grid-item grid-item--intro"
           >
             <h2 class="section__title section__title--dark">Use Cases</h2>
-            <p class="section__description">LikeCoin is used by various platforms to decentralize publishing and has cultivated a vibrant community. As of August 2020, Republic of Liker Land has <strong class="text--bold">79,413+ Likers</strong>, <strong class="text--bold">286,277+ content</strong> by <strong class="text--bold">10,924+ creators</strong> on <strong class="text--bold">1200+ media</strong>.</p>
+            <p class="section__description">LikeCoin is used by various platforms to decentralize publishing and has cultivated a vibrant community. As of August 2020, Republic of Liker Land has <strong class="text--bold">80,076+ Likers</strong>, <strong class="text--bold">289,923+ content</strong> by <strong class="text--bold">11,040+ creators</strong> on <strong class="text--bold">1200+ media</strong>.</p>
           </div>
           <div class="grid-item grid-item--hidden-tablet" />
           <div class="grid-item">
@@ -443,10 +410,10 @@
         </div>
         <div class="use-case__footer">
           <a
-            href="https://join.g0v.tw/"
+            href="https://medium.com/likecoin"
             target="_blank"
             class="button button--dark w-button"
-          >How to join?</a>
+          >Follow us on Medium</a>
         </div>
       </div>
     </section>
