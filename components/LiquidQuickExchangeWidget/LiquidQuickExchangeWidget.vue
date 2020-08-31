@@ -39,6 +39,9 @@ export default {
       const qexPlugin = new window.LiquidQex.QexWidgetApi(this.$refs.root);
       const options = {
         public_api_key: this.apiKey,
+        funding_settlement: {
+          currency: 'USD',
+        },
         payout_settlement: {
           method: 'BLOCKCHAIN_TRANSFER',
           currency: 'LIKE',
