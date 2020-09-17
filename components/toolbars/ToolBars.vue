@@ -79,12 +79,6 @@
             v-else
             v-html="getInfoMsg"
           />
-          <nuxt-link
-            v-if="getInfoMsg === $t('Transaction.error.likecoinInsufficient')"
-            :to="{ name: 'in-redeem' }"
-          >
-            {{ $t('Edit.label.redeemCoin') }}
-          </nuxt-link>
         </info-toolbar>
 
         <md-snackbar
@@ -100,12 +94,6 @@
             v-else
             v-html="getInfoMsg"
           />
-          <nuxt-link
-            v-if="getInfoMsg === $t('Transaction.error.likecoinInsufficient')"
-            :to="{ name: 'in-redeem' }"
-          >
-            {{ $t('Edit.label.redeemCoin') }}
-          </nuxt-link>
           <md-button
             class="md-icon-button"
             @click="closeInfoToolbar"

@@ -838,7 +838,6 @@
             "address": "钱包地址",
             "email": "邮件地址",
             "addEmail": "增加邮件地址",
-            "redeemCoin": "兑换 LikeCoin",
             "redeemCode": "兑换码",
             "validCodeRequired": "请输入有效兑换码",
             "verified": "成功验证",
