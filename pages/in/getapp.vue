@@ -1,106 +1,36 @@
 <template>
-  <div class="get-app-page">
-    <h1 class="get-app-page__title">{{ $t('GetApp.title') }}</h1>
-    <a
-      class="get-app-page__download-button"
-      :href="getLikerLandAppURL"
-      @click="onClickDownloadApp"
-    >
-      {{ $t('GetApp.button.downloadNow') }}
-    </a>
-    <a
-      class="get-app-page__continue-button"
-      :href="getLikerLandURL"
-      @click="onClickContinue"
-    >
-      {{ $t('GetApp.button.continueToWeb') }}
-    </a>
-    <div class="get-app-page__preview">
-      <AppScreenshotPreview />
-    </div>
-    <nuxt-link
-      class="get-app-page__about-likecoin-link"
-      :to="{ name: 'in-about' }"
-    >
-      {{ $t('GetApp.button.aboutLikeCoin') }}
-    </nuxt-link>
+  <div class="getapp-redirect-page">
+    <Spinner :size="56" />
   </div>
 </template>
-
-
 <script>
-import AppScreenshotPreview from '~/components/AppScreenshotPreview';
-import { getLikerLandAppURL, getLikerLandURL } from '@/util/api/api';
-import { logTrackerEvent } from '@/util/EventLogger';
+import Spinner from '~/components/Spinner';
+
+import { IS_TESTNET } from '@/constant';
 
 export default {
-  name: 'home',
-  layout: 'app',
+  layout: 'blank',
   components: {
-    AppScreenshotPreview,
+    Spinner,
   },
-  computed: {
-    getLikerLandAppURL,
-    getLikerLandURL,
-  },
-  methods: {
-    onClickDownloadApp() {
-      logTrackerEvent(this, 'GetApp', 'ClickDownloadApp', 'ClickDownloadApp', 1);
-    },
-    onClickContinue() {
-      logTrackerEvent(this, 'GetApp', 'ClickContinueToWeb', 'ClickContinueToWeb', 1);
-    },
+  mounted() {
+    const { query } = this.$route;
+    const queryString = Object.keys(query).map(key => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`).join('&');
+    window.location.replace(`https://${IS_TESTNET ? 'rinkeby.' : ''}liker.land/getapp?${queryString}`);
   },
 };
 </script>
 
-<style lang="scss">
-@import "~assets/variables";
+<style lang="scss" scoped>
+.getapp-redirect-page {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 
-.get-app-page {
   display: flex;
   align-items: center;
-  flex-direction: column;
-
-  text-align: center;
-
-  &__title {
-    padding: 20px 20px 0;
-
-    color: $like-gray-5;
-
-    font-size: 28px;
-    font-weight: 400;
-    line-height: 1.25;
-  }
-
-  &__download-button {
-    margin: 20px 20px 10px 20px;
-    padding: 12px 14px;
-
-    text-decoration: none !important;
-
-    color: $like-green;
-    border: 1px solid currentColor;
-    border-radius: 12px;
-
-    font-weight: 600;
-  }
-
-  &__about-likecoin-link,
-  &__continue-button {
-    padding:10px;
-
-    text-decoration: underline !important;
-
-    color: $like-green;
-
-    font-size: 12px;
-  }
-
-  &__preview {
-    width: 236px;
-    margin: 20px;
-  }
+  justify-content: center;
 }
 </style>
