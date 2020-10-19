@@ -568,7 +568,7 @@
   },
   "Footer": {
     "label": {
-      "contract": "LikeCoin 智能合約: ",
+      "contract": "LikeCoin 智慧合約: ",
       "chain": "LikeCoin chain 瀏覽器"
     },
     "button": {
@@ -604,8 +604,8 @@
         "doneInstalled": "成功安裝"
       },
       "title": {
-        "switchRinkeby": "請切換至 Rinkeby 測試網絡",
-        "switchMain": "請切換至 Mainnet 正式網絡",
+        "switchRinkeby": "請切換至 Rinkeby 測試網路",
+        "switchMain": "請切換至 Mainnet 正式網路",
         "web3": "需要插件",
         "locked": "請登入 MetaMask",
         "sign": "在 MetaMask 按 <span class=\"lc-font-weight-600 lc-color-like-dark-brown-2\">Sign</span>",
@@ -615,8 +615,8 @@
         "loginledger": "在 Ledger 錢包按 Sign 登入"
       },
       "content": {
-        "switchRinkeby": "like.co 需要使用 Rinkeby 測試網，請切換至 Rinkeby.",
-        "switchMain": "like.co 需要使用正式網絡，請切換至 Mainnet。",
+        "switchRinkeby": "like.co 需要使用 Rinkeby 測試網路，請切換至 Rinkeby.",
+        "switchMain": "like.co 需要使用正式網路，請切換至 Mainnet。",
         "web3": "like.co 需要 MetaMask 用作登入。請使用 Chrome 瀏覽器以安裝 MetaMask 插件.<br /> <span style='color:red'>請記錄好 MetaMask 的 seed words。<span>",
         "locked": "like.co 需要讀取 MetaMask ，請登入 MetaMask",
         "sign": "請在 Metamask 按 [Sign]",
@@ -653,7 +653,7 @@
     },
     "transaction": {
       "label": {
-        "waiting": "區塊鏈正處理交易，根據網絡繁忙程度，將於數分鐘到帳。請隨意瀏覽 LikeCoin。",
+        "waiting": "區塊鏈正處理交易，根據網路繁忙程度，將於數分鐘到帳。請隨意瀏覽 LikeCoin。",
         "newUser": "你還沒有 Liker ID，請先註冊帳號。"
       },
       "button": {
@@ -675,13 +675,13 @@
     "trust": {
       "title": {
         "switchTrust": "需要安裝電子錢包",
-        "switchRinkeby": "請切換至 Rinkeby 測試網絡",
-        "switchMain": "請切換至 Mainnet 正式網絡"
+        "switchRinkeby": "請切換至 Rinkeby 測試網路",
+        "switchMain": "請切換至 Mainnet 正式網路"
       },
       "description": {
         "switchTrust": "like.co 需要 ETH 電子錢包用作登入。請安裝 Trust 電子錢包.",
-        "switchRinkeby": "like.co 需要使用 Rinkeby 測試網，請切換至 Rinkeby.",
-        "switchMain": "like.co 需要使用正式網絡，請切換至 Mainnet。",
+        "switchRinkeby": "like.co 需要使用 Rinkeby 測試網路，請切換至 Rinkeby.",
+        "switchMain": "like.co 需要使用正式網路，請切換至 Mainnet。",
         "switchMainCaption": "切換至 Mainnet:<br>Settings > Network > Ethereum (ETH)",
         "switchRinkebyCaption": "切換至 Rinkeby:<br>Settings > Network > Rinkeby (ETH)"
       },
@@ -1464,7 +1464,7 @@
   },
   "CivicLikerCTA": {
     "title": "讚賞公民體驗計劃",
-    "content": "少喝一杯咖啡，共創一個生態。立即成為讚賞公民，以實際行動回饋作者，建立更健康的網上內容生態。",
+    "content": "少喝一杯咖啡，共創一個生態。立即成為讚賞公民，以實際行動回饋作者，建立更健康的網路內容生態。",
     "buttonTitle": "登記"
   },
   "CivicLikerCTAForWaitingList": {
@@ -1477,11 +1477,11 @@
     "buttonTitle": "立即升級"
   },
   "CivicLikerCTAForPaid": {
-    "content": "你已經是讚賞公民了，感謝你以實際行動支持網上內容創作！",
+    "content": "你已經是讚賞公民了，感謝你以實際行動支持網路內容創作！",
     "buttonTitle": "@:General.learnMore"
   },
   "CivicLikerCTAForRenewal": {
-    "content": "你的「讚賞公民」身份已經過期。請立即續訂保持你的尊貴身份，網上內容需要你的繼續灌溉才能開花結果。感謝你的支持。",
+    "content": "你的「讚賞公民」身份已經過期。請立即續訂保持你的尊貴身份，網路內容需要你的繼續灌溉才能開花結果。感謝你的支持。",
     "till": "把握機會，保有榮譽印章：",
     "buttonTitle": "立即續訂"
   },
@@ -1498,8 +1498,8 @@
       "notifyByEmail": "我們將以電郵通知閣下最新情況。"
     },
     "intro1": [
-      "有沒有試過，在網上看到精彩的故事、深入的報導、出色的照片，不介意小額付費支持，卻因沒可行方法作罷？",
-      "有沒有想過，因為網上作品沒有任何收入，創作者和獨立記者只能靠廣告、外包和熱情維持？",
+      "有沒有試過，在網路上看到精彩的故事、深入的報導、出色的照片，不介意小額付費支持，卻因沒可行方法作罷？",
+      "有沒有想過，因為網路上作品沒有任何收入，創作者和獨立記者只能靠廣告、外包和熱情維持？",
       "讚賞公民是一場回饋優秀內容的運動。讀者每月付出一杯咖啡的價錢，就能成為讚賞公民，從此每個點讚，都會化成對創作者的實質支持。"
     ],
     "features": [
