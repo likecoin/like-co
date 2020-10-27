@@ -19,6 +19,7 @@
           :to="{ name: 'index' }"
         >
           <img
+            loading="lazy"
             src="~/assets/webflow/images/LikeCoin_PressKit_Logo_Fullcolor_Light.svg"
             alt="LikeCoin"
             class="image"
@@ -154,6 +155,7 @@
       >
         <div class="collage">
           <img
+            loading="lazy"
             src="~/assets/webflow/images/likecoin-chain.png"
             width="649"
             srcset="~/assets/webflow/images/likecoin-chain-p-500.png 500w, ~/assets/webflow/images/likecoin-chain-p-800.png 800w, ~/assets/webflow/images/likecoin-chain-p-1080.png 1080w, ~/assets/webflow/images/likecoin-chain-p-1600.png 1600w, ~/assets/webflow/images/likecoin-chain-p-2000.png 2000w, ~/assets/webflow/images/likecoin-chain.png 2501w"
@@ -244,6 +246,7 @@
           <div class="grid-item grid-item--hidden-tablet" />
           <div class="grid-item">
             <div class="grid-item__image-wrapper"><img
+              loading="lazy"
               src="~/assets/webflow/images/app.png"
               srcset="~/assets/webflow/images/app-p-500.png 500w, ~/assets/webflow/images/app-p-1080.png 1080w, ~/assets/webflow/images/app.png 1200w"
               sizes="(max-width: 479px) 92vw, (max-width: 767px) 90vw, (max-width: 991px) 92vw, 83vw"
@@ -262,6 +265,7 @@
           </div>
           <div class="grid-item">
             <div class="grid-item__image-wrapper"><img
+              loading="lazy"
               src="~/assets/webflow/images/browser-extension.jpg"
               srcset="~/assets/webflow/images/browser-extension-p-500.jpeg 500w, ~/assets/webflow/images/browser-extension-p-800.jpeg 800w, ~/assets/webflow/images/browser-extension-p-1080.jpeg 1080w, ~/assets/webflow/images/browser-extension.jpg 1200w"
               sizes="(max-width: 479px) 92vw, (max-width: 767px) 90vw, (max-width: 991px) 92vw, 83vw"
@@ -291,6 +295,7 @@
           </div>
           <div class="grid-item">
             <div class="grid-item__image-wrapper"><img
+              loading="lazy"
               src="~/assets/webflow/images/media-wordpress.svg"
               alt="WordPress"
               class="grid-item__image"
@@ -307,6 +312,7 @@
           </div>
           <div class="grid-item">
             <div class="grid-item__image-wrapper"><img
+              loading="lazy"
               src="~/assets/webflow/images/media-matters.svg"
               alt="Matters"
               class="grid-item__image"
@@ -326,6 +332,7 @@
           </div>
           <div class="grid-item">
             <div class="grid-item__image-wrapper"><img
+              loading="lazy"
               src="~/assets/webflow/images/media-standnews.svg"
               alt="Stand News"
               class="grid-item__image"
@@ -342,6 +349,7 @@
           </div>
           <div class="grid-item">
             <div class="grid-item__image-wrapper"><img
+              loading="lazy"
               src="~/assets/webflow/images/media-inmediahk.svg"
               alt="Hong Kong In-media"
               class="grid-item__image"
@@ -358,6 +366,7 @@
           </div>
           <div class="grid-item">
             <div class="grid-item__image-wrapper"><img
+              loading="lazy"
               src="~/assets/webflow/images/media-hkcnews.svg"
               alt="Hong Kong Citizen News"
               class="grid-item__image"
@@ -374,6 +383,7 @@
           </div>
           <div class="grid-item">
             <div class="grid-item__image-wrapper"><img
+              loading="lazy"
               src="~/assets/webflow/images/media-vocus.svg"
               alt="Vocus"
               class="grid-item__image"
@@ -390,6 +400,7 @@
           </div>
           <div class="grid-item">
             <div class="grid-item__image-wrapper"><img
+              loading="lazy"
               src="~/assets/webflow/images/media-medium.svg"
               alt="Medium"
               class="grid-item__image"
@@ -483,6 +494,9 @@ export default {
           property: 'og:image',
           content: 'https://like.co/images/og/default.png',
         },
+      ],
+      link: [
+        { rel: 'preload', href: 'https://partners.liquid.com/static/liquid-qex-widget/index.umd.js', as: 'script' },
       ],
     };
   },
