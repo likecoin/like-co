@@ -18,14 +18,14 @@ const nuxtConfig = {
     CRISP_WEBSITE_ID: process.env.CRISP_WEBSITE_ID,
   },
   head: {
-    title: 'LikeCoin - the content protocol',
+    title: 'LikeCoin - Decentralized Publishing Infrastructure',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { name: 'mobile-web-app-capable', content: 'yes' },
-      { hid: 'description', name: 'description', content: 'LikeCoin is a public blockchain for content monetization, attribution and distribution.' },
-      { hid: 'og_title', property: 'og:title', content: 'LikeCoin - the content protocol' },
-      { hid: 'og_description', property: 'og:description', content: 'LikeCoin is a public blockchain for content monetization, attribution and distribution.' },
+      { hid: 'description', name: 'description', content: 'LikeCoin reinvents the publishing industry with decentralized registry, rewards, editorial, and governance' },
+      { hid: 'og_title', property: 'og:title', content: 'LikeCoin - Decentralized Publishing Infrastructure' },
+      { hid: 'og_description', property: 'og:description', content: 'LikeCoin reinvents the publishing industry with decentralized registry, rewards, editorial, and governance' },
       { hid: 'og_image', property: 'og:image', content: 'https://like.co/images/og/default.png' },
       { hid: 'og_image_alt', property: 'og:image:alt', content: 'LikeCoin' },
       { hid: 'og_image_width', property: 'og:image:width', content: '1200' },
