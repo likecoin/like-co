@@ -5,6 +5,8 @@ import {
 } from '@/constant';
 import { timeout } from '@/util/misc';
 
+const DEFAULT_GAS_PRICE = [{ amount: 1000, denom: 'nanolike' }];
+
 let Cosmos;
 let api;
 
@@ -124,12 +126,21 @@ export async function queryLikeCoinBalance(addr) {
   return amountToLIKE(amount);
 }
 
-export async function sendTx(msgCallPromise, signer, { memo, simulate: isSimulate } = {}) {
+export async function sendTx(msgCallPromise, signer, {
+  gasPrices = DEFAULT_GAS_PRICE,
+  memo,
+  simulate: isSimulate,
+} = {}) {
   const { simulate, send } = await msgCallPromise;
   const gas = (await simulate({ memo })).toString();
-  if (isSimulate) return { gas };
-  const { hash, included } = await send({ gas, memo }, signer);
-  return { txHash: hash, included };
+  if (isSimulate) return { gas, gasPrices };
+  const { hash, included } = await send({ gas, gasPrices, memo }, signer);
+  return {
+    txHash: hash,
+    included,
+    gas,
+    gasPrices,
+  };
 }
 
 export async function transfer({
@@ -186,7 +197,7 @@ async function MsgSendMultiple(
       return Math.floor(base * 1.2);
     },
     send: (
-      { gas, gasPrices, memo = undefined },
+      { gas, gasPrices = DEFAULT_GAS_PRICE, memo = undefined },
       signer,
     ) => api.send(senderAddress, { gas, gasPrices, memo }, message, signer),
   };
