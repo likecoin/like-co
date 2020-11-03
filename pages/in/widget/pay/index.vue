@@ -570,6 +570,7 @@ export default {
     },
     async calculateGasFee() {
       let gas;
+      let gasPrices;
       const from = await this.fetchAuthCoreCosmosWallet();
       if (!from) return '';
       const to = this.toUsers[0].cosmosWallet;
@@ -580,7 +581,7 @@ export default {
           tos.push(this.agentUser.cosmosWallet);
           values.push(this.agentFee);
         }
-        ({ gas } = await cosmosTransferMultiple(
+        ({ gas, gasPrices } = await cosmosTransferMultiple(
           {
             from,
             tos,
@@ -591,7 +592,7 @@ export default {
           { simulate: true },
         ));
       } else {
-        ({ gas } = await cosmosTransfer(
+        ({ gas, gasPrices } = await cosmosTransfer(
           {
             from,
             to,
@@ -602,7 +603,7 @@ export default {
           { simulate: true },
         ));
       }
-      this.gasFee = new BigNumber(gas).dividedBy(1e9).toFixed();
+      this.gasFee = new BigNumber(gas).multipliedBy(gasPrices[0].amount).dividedBy(1e9).toFixed();
       return this.gasFee;
     },
     async submitTransfer() {
