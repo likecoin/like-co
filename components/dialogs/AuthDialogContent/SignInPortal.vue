@@ -70,8 +70,6 @@
 <script>
 import CloseIcon from '~/assets/icons/cross.svg';
 
-import LikeToCoinGraph from '~/components/graph/LikeToCoin';
-
 import { checkIsMobileClient } from '~/util/client';
 // import experimentsMixin from '~/util/mixins/experiments';
 
@@ -80,7 +78,7 @@ const getAuthPlatformIcon = require.context('~/assets/icons/auth-platform/');
 export default {
   name: 'signin-portal',
   components: {
-    LikeToCoinGraph,
+    LikeToCoinGraph: () => import('~/components/graph/LikeToCoin'),
   },
   mixins: [
     // experimentsMixin(

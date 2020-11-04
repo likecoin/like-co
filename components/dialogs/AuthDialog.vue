@@ -261,7 +261,6 @@ import { checkUserNameValid } from '@/util/ValidationHelper';
 
 import AuthCoreRegister from '~/components/AuthCore/Register';
 import BaseDialogV2 from '~/components/dialogs/BaseDialogV2';
-import SigninPortal from './AuthDialogContent/SignInPortal';
 // import EmailSigninForm from './AuthDialogContent/SignInWithEmail';
 import RegisterForm from './AuthDialogContent/Register';
 import EthMixin from '~/components/EthMixin';
@@ -299,7 +298,7 @@ export default {
   components: {
     BaseDialogV2,
     AuthCoreRegister,
-    SigninPortal,
+    SigninPortal: () => import('./AuthDialogContent/SignInPortal'),
     RegisterForm,
   },
   mixins: [

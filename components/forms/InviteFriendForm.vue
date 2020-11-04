@@ -73,10 +73,6 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-import LinkIcon from '@/assets/icons/fillable/link.svg';
-import FacebookIcon from '@/assets/icons/fillable/facebook.svg';
-import TwitterIcon from '@/assets/icons/fillable/twitter.svg';
-
 import CopyTextField from '@/components/CopyTextField';
 
 export default {
@@ -96,9 +92,9 @@ export default {
   },
   data() {
     return {
-      FacebookIcon,
-      LinkIcon,
-      TwitterIcon,
+      FacebookIcon: () => import(/* webpackChunkName: "svg-fillable" */ '@/assets/icons/fillable/link.svg'),
+      LinkIcon: () => import(/* webpackChunkName: "svg-fillable" */ '@/assets/icons/fillable/facebook.svg'),
+      TwitterIcon: () => import(/* webpackChunkName: "svg-fillable" */ '@/assets/icons/fillable/twitter.svg'),
       hasCopiedURL: false,
       email: '',
     };

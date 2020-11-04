@@ -53,11 +53,6 @@
 import PlatformConnectItem from './PlatformConnectItem';
 import LButton from '~/components/LButton';
 
-import FacebookIcon from '~/assets/icons/fillable/facebook.svg';
-import GoogleIcon from '~/assets/icons/google.svg';
-import TwitterIcon from '~/assets/icons/fillable/twitter.svg';
-import MattersIcon from '~/assets/icons/auth-platform/matters.svg';
-
 import { logTrackerEvent } from '~/util/EventLogger';
 
 export default {
@@ -79,10 +74,10 @@ export default {
   data() {
     return {
       iconMap: {
-        facebook: FacebookIcon,
-        google: GoogleIcon,
-        twitter: TwitterIcon,
-        matters: MattersIcon,
+        facebook: () => import(/* webpackChunkName: "svg-fillable" */ '~/assets/icons/fillable/facebook.svg'),
+        google: () => import(/* webpackChunkName: "svg-fillable" */ '~/assets/icons/google.svg'),
+        twitter: () => import(/* webpackChunkName: "svg-fillable" */ '~/assets/icons/fillable/twitter.svg'),
+        matters: () => import(/* webpackChunkName: "svg-fillable" */ '~/assets/icons/auth-platform/matters.svg'),
       },
     };
   },

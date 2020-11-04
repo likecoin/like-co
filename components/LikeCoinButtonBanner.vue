@@ -19,13 +19,12 @@
 </template>
 
 <script>
-import LikeToCoinGraph from '~/components/graph/LikeToCoin';
 import { getLikerLandCreatorsURL } from '@/util/api/api';
 
 export default {
   name: 'likecoin-button-banner',
   components: {
-    LikeToCoinGraph,
+    LikeToCoinGraph: () => import('~/components/graph/LikeToCoin'),
   },
   computed: {
     getLikerLandCreatorsURL,
