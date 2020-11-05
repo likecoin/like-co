@@ -22,12 +22,10 @@
 
 
 <script>
-import AvatarGridCard from './AvatarGridCard';
-
 export default {
   name: 'avatar-grid',
   components: {
-    AvatarGridCard,
+    AvatarGridCard: () => import('./AvatarGridCard'),
   },
   props: {
     items: {

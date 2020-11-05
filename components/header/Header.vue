@@ -28,7 +28,6 @@ import { mapActions, mapGetters } from 'vuex';
 
 import LanguageSwitch from '~/components/LanguageSwitch';
 import MaterialButton from '~/components/MaterialButton';
-import PlatformIconBar from '~/components/PlatformIconBar';
 import SiteTitle from '~/components/SiteTitle';
 
 import { logTrackerEvent } from '@/util/EventLogger';
@@ -38,7 +37,7 @@ export default {
   components: {
     LanguageSwitch,
     MaterialButton,
-    PlatformIconBar,
+    PlatformIconBar: () => import('~/components/PlatformIconBar'),
     SiteTitle,
   },
   computed: {

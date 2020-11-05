@@ -122,7 +122,6 @@ import HomeIcon from '@/assets/icons/home.svg';
 import SettingsIcon from '@/assets/icons/settings.svg';
 
 import LanguageSwitch from '~/components/LanguageSwitch';
-import PlatformIconBar from '~/components/PlatformIconBar';
 import AccountOverview from './AccountOverview';
 import MenuItem from './MenuItem';
 
@@ -181,7 +180,7 @@ export default {
     AccountOverview,
     MenuItem,
     LanguageSwitch,
-    PlatformIconBar,
+    PlatformIconBar: () => import('~/components/PlatformIconBar'),
   },
   head() {
     return {

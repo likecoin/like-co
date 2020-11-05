@@ -26,19 +26,28 @@
 
             <div class="official-network-list__app-banner lc-margin-top-56">
               <div>
-                <img src="~/assets/app/logo.svg">
+                <img
+                  loading="lazy"
+                  src="~/assets/app/logo.svg"
+                >
                 <div>
                   <a
                     :href="likerLandAppPlatformURL.ios"
                     target="_blank"
                   >
-                    <img src="~/assets/app/app-store.svg">
+                    <img
+                      loading="lazy"
+                      src="~/assets/app/app-store.svg"
+                    >
                   </a>
                   <a
                     :href="likerLandAppPlatformURL.android"
                     target="_blank"
                   >
-                    <img src="~/assets/app/google-play.svg">
+                    <img
+                      loading="lazy"
+                      src="~/assets/app/google-play.svg"
+                    >
                   </a>
                 </div>
               </div>
@@ -46,6 +55,7 @@
 
             <div class="official-network-list__newsletter-subscription lc-margin-top-56">
               <iframe
+                loading="lazy"
                 src="https://likecoin.substack.com/embed"
                 frameborder="0"
                 scrolling="no"
@@ -68,6 +78,7 @@
                     >{{ newsletter.author }}</div>
                     <img
                       class="official-network-list__newsletter-thumbnail"
+                      loading="lazy"
                       :src="newsletter.thumbnail"
                     >
                     <div class="official-network-list__newsletter-grid-item-body">

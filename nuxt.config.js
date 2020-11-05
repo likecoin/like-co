@@ -50,6 +50,7 @@ const nuxtConfig = {
     ],
     link: [
       { rel: 'preload', href: 'https://fonts.googleapis.com/css?family=Material+Icons', as: 'style' },
+      { rel: 'preconnect', href: 'https://p.typekit.net' },
       { rel: 'preload', href: '/vendor/typekit.js', as: 'script' },
       { rel: 'preload', href: '/vendor/fb/sdk.js', as: 'script' },
       { rel: 'preload', href: 'https://use.typekit.net/ube6iww.js', as: 'script' },
