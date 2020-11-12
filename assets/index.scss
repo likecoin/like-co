@@ -1055,6 +1055,14 @@ $line-height-map: (
   background-color: white;
 }
 
+.md-switch.md-likecoin {
+  &.md-checked {
+    .md-switch-thumb {
+      background-color: $like-green;
+    }
+  }
+}
+
 span.bold {
   @extend .lc-color-like-green;
   @extend .lc-font-weight-600;
