@@ -110,7 +110,7 @@
           <div class="right footer-links">
             <a href="https://docs.like.co/">{{ $t('Footer.button.developer') }}</a>
             <nuxt-link :to="{ name: 'in-policies' }">{{ $t('PoliciesPage.title') }}</nuxt-link>
-            <a href="https://help.like.co/">{{ $t('Footer.button.support') }}</a>
+            <a @click="showCSChat">{{ $t('Footer.button.support') }}</a>
           </div>
 
         </div>
@@ -234,6 +234,13 @@ export default {
         });
       }
     }
+  },
+  methods: {
+    showCSChat() {
+      if (window.$crisp) {
+        window.$crisp.push(['do', 'chat:open']);
+      }
+    },
   },
 };
 </script>
