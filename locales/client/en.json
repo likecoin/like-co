@@ -1150,9 +1150,8 @@
     "title": "Liker ID Settings",
     "noBoundWallet": "Bind wallet",
     "label": {
-      "contactUs": "Contact us for {deleteAccount} or {requestReport}",
-      "deleteAccountPrePopulatedMessage": "I want to delete my account",
-      "requestReportPrePopulatedMessage": "I want to request an account data report ",
+      "contactUs": "Contact us for {deleteAccount}",
+      "deleteAccountPrePopulatedMessage": "I want to delete my Liker ID",
       "receiveLikeCoinLink": "Your LikeCoin payment link:",
       "earnByLikeButton": "Earn LikeCoin by Reinvented LikeCoin button",
       "yourLikeButton": "Your LikeCoin button",
@@ -1186,7 +1185,6 @@
     },
     "button": {
       "deleteAccount": "Delete Account",
-      "requestReport": "Request for report",
       "editPortrait": "Edit Portrait",
       "profile": "Profile",
       "otherSettings": "Others",

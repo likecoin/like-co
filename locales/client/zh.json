@@ -1107,9 +1107,8 @@
     "title": "Liker ID 設定",
     "noBoundWallet": "綁定錢包",
     "label": {
-      "contactUs": "如需 {deleteAccount} 或 {requestReport}，請聯絡我們",
-      "deleteAccountPrePopulatedMessage": "我想申請刪除帳號",
-      "requestReportPrePopulatedMessage": "我想接收帳號報告",
+      "contactUs": "如需 {deleteAccount}，請聯絡我們",
+      "deleteAccountPrePopulatedMessage": "我想申請刪除 Liker ID",
       "receiveLikeCoinLink": "你的 LikeCoin 轉帳頁面:",
       "earnByLikeButton": "安裝 LikeCoin button 賺取 LikeCoin",
       "yourLikeButton": "你的 LikeCoin button",
@@ -1141,8 +1140,7 @@
       "active": "開始訂閱"
     },
     "button": {
-      "deleteAccount": "刪除帳號",
-      "requestReport": "接收帳號報告",
+      "deleteAccount": "刪除 Liker ID",
       "editPortrait": "更改頭像",
       "profile": "個人資料",
       "otherSettings": "其他",

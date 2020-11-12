@@ -52,11 +52,6 @@
                 @click="deleteAccount"
               >
                 {{ $t('Settings.button.deleteAccount') }}</a>
-              <a
-                place="requestReport"
-                @click="requestReport"
-              >
-                {{ $t('Settings.button.requestReport') }}</a>
             </i18n>
           </div>
 
@@ -139,13 +134,6 @@ export default {
       if (window.$crisp) {
         window.$crisp.push(['do', 'chat:open']);
         window.$crisp.push(['do', 'message:send', ['text', this.$t('Settings.label.deleteAccountPrePopulatedMessage')]]);
-      }
-    },
-    requestReport() {
-      logTrackerEvent(this, 'Settings', 'requestReport', 'User wants to fire a report request', 1);
-      if (window.$crisp) {
-        window.$crisp.push(['do', 'chat:open']);
-        window.$crisp.push(['do', 'message:send', ['text', this.$t('Settings.label.requestReportPrePopulatedMessage')]]);
       }
     },
   },
