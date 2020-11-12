@@ -9,7 +9,7 @@
         "learnMore": "了解更多",
         "loading": "载入中",
         "retry": "重试",
-        "contactUs": "如需 {deleteAccount} 或 {requestReport}，请联络我们",
+        "contactUs": "如需 {deleteAccount}，请联络我们",
         "label": {
             "error": "失败",
             "success": "成功",
@@ -1053,9 +1053,8 @@
         "title": "Liker ID 设定",
         "noBoundWallet": "绑定钱包",
         "label": {
-            "contactUs": "如需 {deleteAccount} 或 {requestReport}，请联络我们",
-            "deleteAccountPrePopulatedMessage": "我想申请删除帐号",
-            "requestReportPrePopulatedMessage": "我想接收帐号报告",
+            "contactUs": "如需 {deleteAccount}，请联络我们",
+            "deleteAccountPrePopulatedMessage": "我想申请删除 Liker ID",
             "receiveLikeCoinLink": "你的 LikeCoin 转帐页面:",
             "earnByLikeButton": "以新设计的 LikeButton 赚取 LikeCoin",
             "yourLikeButton": "你的 LikeButton",
