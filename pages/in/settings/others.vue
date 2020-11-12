@@ -11,7 +11,7 @@
                   <md-switch
                     v-model="isEmailEnabled"
                     :disabled="disabled"
-                    class="md-primary"
+                    class="md-likecoin"
                   />
                   <div class="description">
                     {{ $t('Register.form.enableEmail') }}
