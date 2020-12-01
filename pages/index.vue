@@ -61,7 +61,7 @@
             >
               <li>
                 <a
-                  href="https://discord.gg/B23rueS"
+                  :href="discordURL"
                   target="_blank"
                   class="icon-button-link icon-button-link--dark w-inline-block"
                 >
@@ -438,7 +438,10 @@ import { mapGetters } from 'vuex';
 import Footer from '../components/footer/Footer';
 import QuickExchangeWidget from '../components/LiquidQuickExchangeWidget/LiquidQuickExchangeWidget';
 
-import { LIQUID_QEX_PUPLIC_API_KEY } from '../constant';
+import {
+  DISCORD_INVITE_URL,
+  LIQUID_QEX_PUPLIC_API_KEY,
+} from '../constant';
 
 import { apiPostLog } from '../util/api/api';
 
@@ -468,6 +471,9 @@ export default {
     },
     walletAddress() {
       return this.getUserInfo ? this.getUserInfo.cosmosWallet : null;
+    },
+    discordURL() {
+      return DISCORD_INVITE_URL;
     },
   },
   head() {

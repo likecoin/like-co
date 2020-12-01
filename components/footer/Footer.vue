@@ -19,7 +19,7 @@
           >
             <li>
               <a
-                href="https://discord.gg/B23rueS"
+                :href="discordURL"
                 target="_blank"
                 class="icon-button-link icon-button-link--light w-inline-block"
               >
@@ -128,6 +128,7 @@ import {
 import { mapGetters } from 'vuex';
 import {
   BIGDIPPER_HOST,
+  DISCORD_INVITE_URL,
   ETHERSCAN_HOST,
 } from '@/constant';
 
@@ -155,6 +156,9 @@ export default {
     ]),
     getAddress() {
       return `${ETHERSCAN_HOST}/address/${this.contractAddress}`;
+    },
+    discordURL() {
+      return DISCORD_INVITE_URL;
     },
   },
   watch: {
