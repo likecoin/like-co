@@ -98,12 +98,11 @@ const nuxtConfig = {
           'www.gstatic.cn',
           'googleads.g.doubleclick.net',
           'ajax.googleapis.com',
-          'js.intercomcdn.com',
           '*.crisp.chat',
           'connect.facebook.net',
           'player.vimeo.com',
           'use.typekit.net',
-          'cdnjs.cloudflare.com',
+          'cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js',
           'partners.liquid.com',
         ],
         'frame-src': [
