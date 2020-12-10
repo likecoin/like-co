@@ -177,7 +177,7 @@ export const LIKE_CO_PLATFORMS = [
   },
 ];
 
-export const DISCORD_INVITE_URL = 'https://discord.com/invite/UTpcuBk';
+export const DISCORD_INVITE_URL = 'https://discord.gg/W4DQ6peZZZ';
 
 export const LIQUID_QEX_PUPLIC_API_KEY = IS_TESTNET
   ? '06c5b428-e5b3-4365-840a-4f0d10f2bbba'
