@@ -369,7 +369,7 @@ export default {
       state,
     } = query;
     let {
-      remarks,
+      remarks = 'via LIKE pay',
     } = query;
     if (!Object.keys(query).length) {
       return redirect('https://docs.like.co/developer/like-pay/web-widget/reference');
