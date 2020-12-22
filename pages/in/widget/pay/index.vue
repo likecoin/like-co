@@ -327,6 +327,7 @@ import {
   queryLikeCoinBalance as queryCosmosLikeCoinBalance,
   transfer as cosmosTransfer,
   transferMultiple as cosmosTransferMultiple,
+  getTransferInfo as getCosmosTransferInfo,
 } from '@/util/CosmosHelper';
 import User from '@/util/User';
 import {
@@ -670,14 +671,20 @@ export default {
         this.isLoading = false;
       }
     },
-    postTransaction({ txHash, error } = {}) {
+    async postTransaction({ txHash, error } = {}) {
       if (this.redirectUri) {
+        let success;
+        if (this.blocking) {
+          const { isFailed } = await getCosmosTransferInfo(txHash, { blocking: true });
+          success = !isFailed;
+        }
         const { state, remarks } = this;
         const url = new URL(this.redirectUri, true);
         if (txHash) url.query.tx_hash = txHash;
         if (error) url.query.error = error;
         if (state) url.query.state = state;
         if (remarks) url.query.remarks = remarks;
+        if (success !== undefined) url.query.success = success;
         url.set('query', url.query);
         window.location.href = url.toString();
       } else if (this.getIsShowingTxPopup) {

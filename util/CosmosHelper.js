@@ -57,8 +57,8 @@ export async function getTransferInfo(txHash, opt) {
   const { blocking } = opt;
   // TODO: handle tranferMultiple?
   let txData = await api.get.tx(txHash);
-  if (!txData || !txData.height) {
-    return 0;
+  if ((!txData || !txData.height) && !blocking) {
+    return {};
   }
   while ((!txData || !txData.height) && blocking) {
     await timeout(1000); // eslint-disable-line no-await-in-loop
