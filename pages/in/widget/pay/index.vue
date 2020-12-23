@@ -377,7 +377,7 @@ export default {
       state,
     } = query;
     let {
-      remarks = 'via LIKE pay',
+      remarks = `LIKE pay${agentId ? ` via ${agentId}` : ''}`,
     } = query;
     if (!Object.keys(query).length) {
       return redirect('https://docs.like.co/developer/like-pay/web-widget/reference');
