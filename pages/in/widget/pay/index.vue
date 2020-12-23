@@ -155,10 +155,12 @@
         </div>
         <div class="likepay-panel__section-meta">
           <div class="likepay-panel__section-meta-label">{{ $t('PaymentWidget.label.to') }}</div>
-          <nuxt-link
+          <a
             v-for="u in toUsers"
             :key="u.user"
-            :to="{ name: 'id', params: { id: u.user } }"
+            :href="`${LIKER_LAND_URL}/${u.user}`"
+            target="_blank"
+            rel="noopener"
             class="likepay-panel__user"
           >
             <lc-avatar
@@ -169,16 +171,18 @@
             <div class="likepay-panel__user-display-name">
               {{ u.displayName }}
             </div>
-          </nuxt-link>
+          </a>
         </div>
         <div
           v-if="agentId && hasAgentFee"
           class="likepay-panel__section-meta"
         >
           <div class="likepay-panel__section-meta-label">{{ $t('PaymentWidget.label.via') }}</div>
-          <nuxt-link
+          <a
             class="likepay-panel__user"
-            :to="{ name: 'id', params: { id: agentUser.user } }"
+            :href="`${LIKER_LAND_URL}/${agentUser.user}`"
+            target="_blank"
+            rel="noopener"
           >
             <lc-avatar
               v-if="agentUser.avatar"
@@ -188,7 +192,7 @@
             <div class="likepay-panel__user-display-name">
               {{ agentUser.displayName }}
             </div>
-          </nuxt-link>
+          </a>
         </div>
       </section>
       <section
@@ -232,9 +236,11 @@
                 <div class="likepay-panel__section-meta-grid-item-label">
                   {{ $t('PaymentWidget.label.via') }}
                 </div>
-                <nuxt-link
+                <a
                   class="likepay-panel__section-meta-grid-item-value likepay-panel__user"
-                  :to="{ name: 'id', params: { id: agentUser.user } }"
+                  :href="`${LIKER_LAND_URL}/${agentUser.user}`"
+                  target="_blank"
+                  rel="noopener"
                 >
                   <lc-avatar
                     v-if="agentUser.avatar"
@@ -244,7 +250,7 @@
                   <div class="likepay-panel__user-display-name">
                     {{ agentUser.displayName }}
                   </div>
-                </nuxt-link>
+                </a>
               </div>
               <div
                 v-if="agentId"
@@ -322,7 +328,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
-import { IS_TESTNET } from '@/constant';
+import { IS_TESTNET, LIKER_LAND_URL } from '@/constant';
 import {
   queryLikeCoinBalance as queryCosmosLikeCoinBalance,
   transfer as cosmosTransfer,
@@ -341,6 +347,7 @@ export default {
   layout: 'likepay',
   data() {
     return {
+      LIKER_LAND_URL,
       toIds: [],
       toUsers: [],
       amounts: [],
@@ -471,7 +478,7 @@ export default {
         blocking,
         state,
       };
-    }).catch((e) => { // eslint-disable-line no-unused-vars
+    }).catch((e) => {
       console.error(e);
       error({ statusCode: 404, message: 'RECEIPIENT_NOT_FOUND' });
     });
