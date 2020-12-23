@@ -90,6 +90,8 @@ export const EXTERNAL_HOSTNAME = ENV_HOSTNAME || (IS_TESTNET ? 'rinkeby.like.co'
 
 export const EXTERNAL_URL = `${TEST_MODE ? 'http://' : 'https://'}${EXTERNAL_HOSTNAME}`;
 
+export const LIKER_LAND_URL = `https://${(IS_TESTNET ? 'rinkeby.' : '')}liker.land`;
+
 export const SOCIAL_MEDIA_LIST = [
   {
     id: 'likecoin',
