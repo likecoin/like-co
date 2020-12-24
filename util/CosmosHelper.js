@@ -4,8 +4,9 @@ import {
   COSMOS_DENOM,
 } from '@/constant';
 import { timeout } from '@/util/misc';
+import { MsgCreateISCN } from './cosmos/iscn';
 
-const DEFAULT_GAS_PRICE = [{ amount: 1000, denom: 'nanolike' }];
+export const DEFAULT_GAS_PRICE = [{ amount: 1000, denom: 'nanolike' }];
 
 let Cosmos;
 let api;
@@ -211,5 +212,36 @@ export function transferMultiple({
 }, signer, { simulate = false } = {}) {
   const amounts = values.map(v => LIKEToAmount(v));
   const msgPromise = MsgSendMultiple(from, { toAddresses: tos, amounts });
+  return sendTx(msgPromise, signer, { memo, simulate });
+}
+
+export function signISCNPayload({
+  userId,
+  displayName,
+  cosmosWallet,
+  fingerprint,
+  title,
+  tags = [],
+  type = 'article',
+  license,
+  publisher,
+  memo,
+}, signer, { simulate = false } = {}) {
+  const msgPromise = MsgCreateISCN(api,
+    {
+      id: userId,
+      displayName,
+      cosmosWallet,
+    },
+    {
+      fingerprint,
+      title,
+      tags,
+      type,
+    },
+    {
+      license,
+      publisher,
+    });
   return sendTx(msgPromise, signer, { memo, simulate });
 }
