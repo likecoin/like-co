@@ -1,13 +1,14 @@
 import { DEFAULT_GAS_PRICE } from '../CosmosHelper';
+import { ISCN_PUBLISHERS, ISCN_LICENSES } from './iscnConstant';
 
 function getPublisherISCNPayload(user, ts, { publisher, license }) {
   const {
-    id,
+    id: userId,
     displayName,
     cosmosWallet,
   } = user;
   const userEntity = {
-    description: `LikerID: ${id}`,
+    description: `LikerID: ${userId}`,
     id: cosmosWallet,
     name: displayName,
   };
@@ -16,23 +17,28 @@ function getPublisherISCNPayload(user, ts, { publisher, license }) {
   const stakeholders = [];
   switch (publisher) {
     case 'matters': {
+      const {
+        description,
+        id,
+        name,
+        license: mattersLicense,
+      } = ISCN_PUBLISHERS.matters;
       stakeholders.push({
         sharing: 0,
         stakeholder: {
-          description: 'Matters is a decentralized, cryptocurrency driven content creation and discussion platform.',
-          id: 'https://matters.news/',
-          name: 'Matters',
+          description,
+          id,
+          name,
         },
         type: 'Publisher',
       });
-      // TODO: replace placeholder
-      terms = 'QmUuecLXegUEzLjvceUpVfqL143XbPG2J3HVnJowuMCh2Y';
+      terms = ISCN_LICENSES[mattersLicense];
       break;
     }
     default: {
       switch (license) {
         default:
-          if (!terms) terms = 'QmZhRNkZaSnhDr6gBC22zwhTjsGyUx39tm8gjFYnTr2SjN';
+          if (!terms) terms = ISCN_LICENSES.default;
       }
       stakeholders.unshift({
         sharing: 100,
@@ -88,7 +94,7 @@ export function MsgCreateISCN(
       from: cosmosWallet,
       iscnKernel: {
         content: {
-          fingerprint,
+          fingerprint: `ipfs://${fingerprint}`,
           tags,
           title,
           type,

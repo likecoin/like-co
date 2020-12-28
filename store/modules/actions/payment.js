@@ -57,6 +57,53 @@ export async function sendCosmosPayment(
   }
 }
 
+export async function sendISCNSignature(
+  { commit },
+  {
+    signer,
+    isWait = true,
+    showDialogAction = true,
+    ...payload
+  },
+) {
+  try {
+    const {
+      userId,
+      displayName,
+      cosmosWallet,
+      fingerprint,
+      title,
+      tags,
+      type,
+      license,
+      publisher,
+      memo,
+    } = payload;
+    const { txHash, included } = await transferCosmos({
+      userId,
+      displayName,
+      cosmosWallet,
+      fingerprint,
+      title,
+      tags,
+      type,
+      license,
+      publisher,
+      memo,
+    }, signer);
+    commit(types.UI_START_LOADING_TX);
+    commit(types.UI_SET_HIDE_TX_DIALOG_ACTION, !showDialogAction);
+    commit(types.PAYMENT_SET_PENDING_HASH, txHash);
+    if (isWait) await included();
+    commit(types.UI_STOP_LOADING_TX);
+    return txHash;
+  } catch (error) {
+    commit(types.UI_STOP_ALL_LOADING);
+    commit(types.UI_ERROR_MSG, error.message || error);
+    throw error;
+  }
+}
+
 export const closeTxToolbar = ({ commit }) => {
   commit(types.PAYMENT_SET_PENDING_HASH, '');
 };
