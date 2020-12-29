@@ -1,4 +1,4 @@
-import { DEFAULT_GAS_PRICE } from '../CosmosHelper';
+import { DEFAULT_ISCN_GAS_PRICE } from '../CosmosHelper';
 import { ISCN_PUBLISHERS, ISCN_LICENSES } from './iscnConstant';
 
 function getPublisherISCNPayload(user, ts, { publisher, license }) {
@@ -115,7 +115,7 @@ export function MsgCreateISCN(
       return Math.floor(base * 1.2);
     },
     send: (
-      { gas, gasPrices = DEFAULT_GAS_PRICE, memo = undefined },
+      { gas, gasPrices = DEFAULT_ISCN_GAS_PRICE, memo = undefined },
       signer,
     ) => api.send(cosmosWallet, { gas, gasPrices, memo }, message, signer),
   };

@@ -5,6 +5,7 @@ import * as types from '@/store/mutation-types';
 import {
   transfer as transferCosmos,
   transferMultiple as transferCosmosMultiple,
+  signISCNPayload,
 } from '@/util/CosmosHelper';
 import apiWrapper from './api-wrapper';
 
@@ -79,7 +80,7 @@ export async function sendISCNSignature(
       publisher,
       memo,
     } = payload;
-    const { txHash, included } = await transferCosmos({
+    const { txHash, included } = await signISCNPayload({
       userId,
       displayName,
       cosmosWallet,

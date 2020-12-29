@@ -1,15 +1,18 @@
 import BigNumber from 'bignumber.js';
 import {
   COSMOS_CHAIN_ID,
+  ISCN_TESTNET_CHAIN_ID,
   COSMOS_DENOM,
 } from '@/constant';
 import { timeout } from '@/util/misc';
 import { MsgCreateISCN } from './cosmos/iscn';
 
 export const DEFAULT_GAS_PRICE = [{ amount: 1000, denom: 'nanolike' }];
+export const DEFAULT_ISCN_GAS_PRICE = [{ amount: 0, denom: 'nanolike' }];
 
 let Cosmos;
 let api;
+let iscnApi;
 
 async function initCosmos() {
   if (api) return;
@@ -18,6 +21,15 @@ async function initCosmos() {
   ]));
   if (Cosmos.default) Cosmos = Cosmos.default;
   api = new Cosmos('/api/cosmos/lcd', COSMOS_CHAIN_ID);
+}
+
+async function initISCNCosmos() {
+  if (iscnApi) return;
+  ([Cosmos] = await Promise.all([
+    import(/* webpackChunkName: "web3" */ '@lunie/cosmos-api'),
+  ]));
+  if (Cosmos.default) Cosmos = Cosmos.default;
+  iscnApi = new Cosmos('/api/cosmos/iscn-dev/lcd', ISCN_TESTNET_CHAIN_ID);
 }
 
 function LIKEToNanolike(value) {
@@ -215,7 +227,7 @@ export function transferMultiple({
   return sendTx(msgPromise, signer, { memo, simulate });
 }
 
-export function signISCNPayload({
+export async function signISCNPayload({
   userId,
   displayName,
   cosmosWallet,
@@ -227,7 +239,8 @@ export function signISCNPayload({
   publisher,
   memo,
 }, signer, { simulate = false } = {}) {
-  const msgPromise = MsgCreateISCN(api,
+  if (!iscnApi) await initISCNCosmos();
+  const msgPromise = MsgCreateISCN(iscnApi,
     {
       id: userId,
       displayName,
@@ -243,5 +256,5 @@ export function signISCNPayload({
       license,
       publisher,
     });
-  return sendTx(msgPromise, signer, { memo, simulate });
+  return sendTx(msgPromise, signer, { memo, simulate, gasPrices: DEFAULT_ISCN_GAS_PRICE });
 }
