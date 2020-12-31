@@ -98,21 +98,14 @@ export default {
 
 <style lang="scss">
 .liquid-quick-exchange-widget {
+  overflow: hidden;
+
   width: 100%;
   min-width: 300px;
   max-width: 320px;
-  min-height: 512px;
-  padding: 16px;
 
   border-radius: 16px;
 
   background: rgb(20, 52, 58);
-
-  > iframe {
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-
-    height: 100% !important;
-  }
 }
 </style>
