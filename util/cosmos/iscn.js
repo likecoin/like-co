@@ -3,6 +3,7 @@ import { ISCN_PUBLISHERS, ISCN_LICENSES } from './iscnConstant';
 import {
   ISCN_TESTNET_CHAIN_ID,
 } from '@/constant';
+import { timeout } from '@/util/misc';
 import { apiPostISCNMessageForSign } from '../api/api';
 
 let iscnApi;
@@ -134,6 +135,34 @@ export function MsgCreateISCN(
       { gas, gasPrices = DEFAULT_ISCN_GAS_PRICE, memo = undefined },
       signer,
     ) => api.send(cosmosWallet, { gas, gasPrices, memo }, message, signer),
+  };
+}
+
+export async function getISCNTransferInfo(txHash, opt) {
+  if (!iscnApi) await initISCNCosmos();
+  const { blocking } = opt;
+  let txData = await iscnApi.get.tx(txHash);
+  if ((!txData || !txData.height) && !blocking) {
+    return {};
+  }
+  while ((!txData || !txData.height) && blocking) {
+    await timeout(1000); // eslint-disable-line no-await-in-loop
+    txData = await iscnApi.get.tx(txHash); // eslint-disable-line no-await-in-loop
+  }
+  if (!txData) throw new Error('Cannot find transaction');
+  const {
+    timestamp,
+    code,
+    logs: [{ success = false } = {}] = [],
+  } = txData;
+  // TODO: parse ISCN info
+  if (!txData.height) {
+    return {};
+  }
+  const isFailed = (code && code !== '0') || !success;
+  return {
+    isFailed,
+    timestamp: (new Date(timestamp)).getTime() / 1000,
   };
 }
 

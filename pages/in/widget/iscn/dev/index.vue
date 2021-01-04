@@ -69,17 +69,6 @@
           {{ $t('Home.Header.button.signIn') }}
         </button>
       </div>
-      <div
-        v-else-if="getAuthCoreNeedReAuth"
-        class="create-account-wrapper"
-      >
-        <button
-          class="likepay-block-button"
-          @click="onClickAuthCoreReAuth"
-        >
-          {{ $t('AuthCore.button.reAuthNeeded') }}
-        </button>
-      </div>
       <div v-else>
         <button
           class="likepay-block-button"
@@ -96,12 +85,8 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import { ISCN_LICENSES, ISCN_PUBLISHERS } from '@/util/cosmos/iscnConstant';
-import { signISCNPayload } from '@/util/cosmos/iscn';
+import { signISCNPayload, getISCNTransferInfo } from '@/util/cosmos/iscn';
 import BigNumber from 'bignumber.js';
-import {
-  queryLikeCoinBalance as queryCosmosLikeCoinBalance,
-  getTransferInfo as getCosmosTransferInfo,
-} from '@/util/CosmosHelper';
 
 const URL = require('url-parse');
 
@@ -223,8 +208,7 @@ export default {
       'prepareCosmosTxSigner',
     ]),
     async calculateGasFee() {
-      const cosmosWallet = await this.fetchAuthCoreCosmosWallet();
-      if (!cosmosWallet) return '';
+      const { cosmosWallet } = this.getUserInfo;
       const {
         fingerprint,
         title,
@@ -257,23 +241,6 @@ export default {
       this.isLoading = true;
       try {
         const { cosmosWallet } = this.getUserInfo;
-        const from = await this.fetchAuthCoreCosmosWallet();
-        if (!from) {
-          throw new Error('VALIDATION_FAIL');
-        }
-        const userWallet = cosmosWallet;
-        if (from !== userWallet) {
-          this.setErrorMsg(this.$t('Transaction.error.authcoreWalletNotMatch'));
-          throw new Error('VALIDATION_FAIL');
-        }
-        const balance = await queryCosmosLikeCoinBalance(from);
-        if (new BigNumber(this.gasFee).gt(balance)) {
-          this.setErrorMsg(
-            this.$t('Transaction.error.likecoinInsufficient'),
-          );
-          throw new Error('VALIDATION_FAIL');
-        }
-        const signer = await this.prepareCosmosTxSigner();
         const showDialogAction = !this.redirectUri;
         const isWait = !!this.blocking;
 
@@ -284,7 +251,6 @@ export default {
           type,
           license,
           publisher,
-          memo,
         } = this;
         const txHash = await this.sendISCNSignature({
           userId: this.getUserId,
@@ -296,8 +262,6 @@ export default {
           type,
           license,
           publisher,
-          memo,
-          signer,
           showDialogAction,
           isWait,
         });
@@ -312,7 +276,7 @@ export default {
       if (this.redirectUri) {
         let success;
         if (this.blocking) {
-          const { isFailed } = await getCosmosTransferInfo(txHash, { blocking: true });
+          const { isFailed } = await getISCNTransferInfo(txHash, { blocking: true });
           success = !isFailed;
         }
         const { state } = this;
@@ -325,6 +289,7 @@ export default {
         window.location.href = url.toString();
       } else if (this.getIsShowingTxPopup) {
         this.closeTxDialog();
+        // TODO: swap to iscn page
         this.$router.push({
           name: 'in-tx-id',
           params: { id: txHash, tx: this.getPendingTxInfo },
@@ -333,9 +298,6 @@ export default {
     },
     onClickSignInButton() {
       this.popupAuthDialogInPlace({ route: this.$route, isSignIn: true });
-    },
-    onClickAuthCoreReAuth() {
-      this.setReAuthDialogShow(true);
     },
   },
 };
