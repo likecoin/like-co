@@ -4,9 +4,11 @@ import {
   COSMOS_DENOM,
 } from '@/constant';
 import { timeout } from '@/util/misc';
+import { assertOk, queryTxInclusion } from './cosmos/misc';
 
 export const DEFAULT_GAS_PRICE = [{ amount: 1000, denom: 'nanolike' }];
 export const DEFAULT_ISCN_GAS_PRICE = [{ amount: 0, denom: 'nanolike' }];
+const COSMOS_RESTFUL_API = '/api/cosmos/lcd';
 
 let Cosmos;
 let api;
@@ -17,7 +19,7 @@ async function initCosmos() {
     import(/* webpackChunkName: "web3" */ '@lunie/cosmos-api'),
   ]));
   if (Cosmos.default) Cosmos = Cosmos.default;
-  api = new Cosmos('/api/cosmos/lcd', COSMOS_CHAIN_ID);
+  api = new Cosmos(COSMOS_RESTFUL_API, COSMOS_CHAIN_ID);
 }
 
 function LIKEToNanolike(value) {
@@ -125,6 +127,26 @@ export async function queryLikeCoinBalance(addr) {
   const [amount] = account.coins.filter(coin => coin.denom === COSMOS_DENOM);
   if (!amount) return 0;
   return amountToLIKE(amount);
+}
+
+export async function sendSignedTx(signedTx) {
+  const body = JSON.stringify({
+    tx: signedTx,
+    mode: 'sync',
+  });
+  const res = await fetch(`${COSMOS_RESTFUL_API}/txs`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body,
+  })
+    .then(r => r.json())
+    .then(assertOk);
+  return {
+    hash: res.txhash,
+    included: () => queryTxInclusion(res.txhash, COSMOS_RESTFUL_API),
+  };
 }
 
 export async function sendTx(msgCallPromise, signer, {

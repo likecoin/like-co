@@ -6,7 +6,7 @@ import {
   transfer as transferCosmos,
   transferMultiple as transferCosmosMultiple,
 } from '@/util/CosmosHelper';
-import { signISCNPayload } from '@/util/cosmos/iscn';
+import { remoteSignISCNPayload } from '@/util/cosmos/iscn';
 import apiWrapper from './api-wrapper';
 
 export async function sendCosmosPayment(
@@ -61,7 +61,6 @@ export async function sendCosmosPayment(
 export async function sendISCNSignature(
   { commit },
   {
-    signer,
     isWait = true,
     showDialogAction = true,
     ...payload
@@ -80,7 +79,7 @@ export async function sendISCNSignature(
       publisher,
       memo,
     } = payload;
-    const { txHash, included } = await signISCNPayload({
+    const { txHash, included } = await remoteSignISCNPayload({
       userId,
       displayName,
       cosmosWallet,
@@ -91,7 +90,7 @@ export async function sendISCNSignature(
       license,
       publisher,
       memo,
-    }, signer);
+    });
     commit(types.UI_START_LOADING_TX);
     commit(types.UI_SET_HIDE_TX_DIALOG_ACTION, !showDialogAction);
     commit(types.PAYMENT_SET_PENDING_HASH, txHash);

@@ -1,8 +1,9 @@
-import { DEFAULT_ISCN_GAS_PRICE, sendTx } from '../CosmosHelper';
+import { DEFAULT_ISCN_GAS_PRICE, sendTx, sendSignedTx } from '../CosmosHelper';
 import { ISCN_PUBLISHERS, ISCN_LICENSES } from './iscnConstant';
 import {
   ISCN_TESTNET_CHAIN_ID,
 } from '@/constant';
+import { apiPostISCNMessageForSign } from '../api/api';
 
 let iscnApi;
 let Cosmos;
@@ -134,6 +135,37 @@ export function MsgCreateISCN(
       signer,
     ) => api.send(cosmosWallet, { gas, gasPrices, memo }, message, signer),
   };
+}
+
+export async function remoteSignISCNPayload({
+  userId,
+  displayName,
+  cosmosWallet,
+  fingerprint,
+  title,
+  tags = [],
+  type = 'article',
+  license,
+  publisher,
+}) {
+  const { message } = MsgCreateISCN(iscnApi,
+    {
+      id: userId,
+      displayName,
+      cosmosWallet,
+    },
+    {
+      fingerprint,
+      title,
+      tags,
+      type,
+    },
+    {
+      license,
+      publisher,
+    });
+  const { signedTx } = await apiPostISCNMessageForSign(message);
+  return sendSignedTx(signedTx);
 }
 
 export async function signISCNPayload({
