@@ -96,9 +96,9 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import { ISCN_LICENSES, ISCN_PUBLISHERS } from '@/util/cosmos/iscnConstant';
+import { signISCNPayload } from '@/util/cosmos/iscn';
 import BigNumber from 'bignumber.js';
 import {
-  signISCNPayload,
   queryLikeCoinBalance as queryCosmosLikeCoinBalance,
   getTransferInfo as getCosmosTransferInfo,
 } from '@/util/CosmosHelper';

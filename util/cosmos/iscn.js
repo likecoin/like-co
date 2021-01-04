@@ -1,5 +1,20 @@
-import { DEFAULT_ISCN_GAS_PRICE } from '../CosmosHelper';
+import { DEFAULT_ISCN_GAS_PRICE, sendTx } from '../CosmosHelper';
 import { ISCN_PUBLISHERS, ISCN_LICENSES } from './iscnConstant';
+import {
+  ISCN_TESTNET_CHAIN_ID,
+} from '@/constant';
+
+let iscnApi;
+let Cosmos;
+
+async function initISCNCosmos() {
+  if (iscnApi) return;
+  ([Cosmos] = await Promise.all([
+    import(/* webpackChunkName: "web3" */ '@lunie/cosmos-api'),
+  ]));
+  if (Cosmos.default) Cosmos = Cosmos.default;
+  iscnApi = new Cosmos('/api/cosmos/iscn-dev/lcd', ISCN_TESTNET_CHAIN_ID);
+}
 
 function getPublisherISCNPayload(user, ts, { publisher, license }) {
   const {
@@ -121,4 +136,34 @@ export function MsgCreateISCN(
   };
 }
 
-export default MsgCreateISCN;
+export async function signISCNPayload({
+  userId,
+  displayName,
+  cosmosWallet,
+  fingerprint,
+  title,
+  tags = [],
+  type = 'article',
+  license,
+  publisher,
+  memo,
+}, signer, { simulate = false } = {}) {
+  if (!iscnApi) await initISCNCosmos();
+  const msgPromise = MsgCreateISCN(iscnApi,
+    {
+      id: userId,
+      displayName,
+      cosmosWallet,
+    },
+    {
+      fingerprint,
+      title,
+      tags,
+      type,
+    },
+    {
+      license,
+      publisher,
+    });
+  return sendTx(msgPromise, signer, { memo, simulate, gasPrices: DEFAULT_ISCN_GAS_PRICE });
+}

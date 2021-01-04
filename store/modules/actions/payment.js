@@ -5,8 +5,8 @@ import * as types from '@/store/mutation-types';
 import {
   transfer as transferCosmos,
   transferMultiple as transferCosmosMultiple,
-  signISCNPayload,
 } from '@/util/CosmosHelper';
+import { signISCNPayload } from '@/util/cosmos/iscn';
 import apiWrapper from './api-wrapper';
 
 export async function sendCosmosPayment(
