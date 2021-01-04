@@ -1,10 +1,13 @@
-import { DEFAULT_ISCN_GAS_PRICE, sendTx, sendSignedTx } from '../CosmosHelper';
+import { DEFAULT_ISCN_GAS_PRICE, sendTx } from '../CosmosHelper';
 import { ISCN_PUBLISHERS, ISCN_LICENSES } from './iscnConstant';
 import {
   ISCN_TESTNET_CHAIN_ID,
 } from '@/constant';
 import { timeout } from '@/util/misc';
 import { apiPostISCNMessageForSign } from '../api/api';
+import { assertOk, queryTxInclusion } from './misc';
+
+const ISCN_DEV_RESTFUL_API = '/api/cosmos/iscn-dev/lcd';
 
 let iscnApi;
 let Cosmos;
@@ -15,7 +18,27 @@ async function initISCNCosmos() {
     import(/* webpackChunkName: "web3" */ '@lunie/cosmos-api'),
   ]));
   if (Cosmos.default) Cosmos = Cosmos.default;
-  iscnApi = new Cosmos('/api/cosmos/iscn-dev/lcd', ISCN_TESTNET_CHAIN_ID);
+  iscnApi = new Cosmos(ISCN_DEV_RESTFUL_API, ISCN_TESTNET_CHAIN_ID);
+}
+
+export async function sendSignedISCNTx(signedTx) {
+  const body = JSON.stringify({
+    tx: signedTx,
+    mode: 'sync',
+  });
+  const res = await fetch(`${ISCN_DEV_RESTFUL_API}/txs`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body,
+  })
+    .then(r => r.json())
+    .then(assertOk);
+  return {
+    hash: res.txhash,
+    included: () => queryTxInclusion(res.txhash, ISCN_DEV_RESTFUL_API),
+  };
 }
 
 function getPublisherISCNPayload(user, ts, { publisher, license }) {
@@ -50,8 +73,8 @@ function getPublisherISCNPayload(user, ts, { publisher, license }) {
         type: 'Publisher',
       });
       terms = ISCN_LICENSES[mattersLicense];
-      break;
     }
+    // eslint-disable-next-line no-fallthrough
     default: {
       switch (license) {
         default:
@@ -117,8 +140,8 @@ export function MsgCreateISCN(
           type,
           version: 1,
         },
-        rights: { rights },
-        stakeholders: { stakeholders },
+        rights,
+        stakeholders,
         timestamp: new Date(ts).toISOString(),
         version: 1,
       },
@@ -193,8 +216,9 @@ export async function remoteSignISCNPayload({
       license,
       publisher,
     });
-  const { signedTx } = await apiPostISCNMessageForSign(message);
-  return sendSignedTx(signedTx);
+  const { data: { signedTx } = {} } = await apiPostISCNMessageForSign(message);
+  if (!signedTx) throw new Error('SIGNING_FAILED');
+  return sendSignedISCNTx(signedTx);
 }
 
 export async function signISCNPayload({

@@ -9,7 +9,7 @@ const LIKECOIN_MIGRATION = IS_TESTNET ? 'https://migration.taipei.like.co' : 'ht
 
 export const COSMOS_API_BASE = '/api/cosmos/lcd';
 
-export const apiPostISCNMessageForSign = message => axios.post('/cosmos/iscn-dev/sign', message);
+export const apiPostISCNMessageForSign = message => axios.post('/cosmos/iscn-dev/signer/sign', { message });
 
 export const getMigrationSiteURL = likerId => (likerId ? `${LIKECOIN_MIGRATION}?likerid=${likerId}` : LIKECOIN_MIGRATION);
 export const getLikerLandAppURL = () => 'https://likecoin.page.link/likeco';
