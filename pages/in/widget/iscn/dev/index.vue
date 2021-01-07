@@ -116,7 +116,8 @@ export default {
       type = 'article',
       tags: tagsString = '',
       publisher,
-      openner,
+      redirect_uri: redirectUri,
+      opener,
       state,
     } = query;
     let {
@@ -154,7 +155,8 @@ export default {
       tags,
       license,
       publisher,
-      openner: openner && openner !== '0',
+      redirectUri,
+      opener: opener && opener !== '0',
       state,
     };
   },
@@ -175,9 +177,13 @@ export default {
     httpReferrer() {
       return this.$route.query.referrer || document.referrer || undefined;
     },
-    windowOpenner() {
+    redirectOrigin() {
+      const url = new URL(this.redirectUri, true);
+      return url.origin;
+    },
+    windowOpener() {
       if (!window) return null;
-      return window.openner;
+      return window.opener;
     },
     ipfsURL() {
       return `https://ipfs.io/ipfs/${this.fingerprint}`;
@@ -191,8 +197,8 @@ export default {
     },
   },
   async mounted() {
-    if (this.openner && !window.openner) {
-      this.$nuxt.error({ statusCode: 400, message: 'Cannot access window openner' });
+    if (this.opener && !window.opener) {
+      this.$nuxt.error({ statusCode: 400, message: 'Cannot access window opener' });
     }
     this.isLoading = false;
   },
@@ -243,20 +249,31 @@ export default {
       }
     },
     async postTransaction({ txHash, error } = {}) {
-      if (this.redirectUri) {
+      if (this.opener || this.redirectUri) {
         let success;
         if (this.blocking) {
           const { isFailed } = await getISCNTransferInfo(txHash, { blocking: true });
           success = !isFailed;
         }
         const { state } = this;
-        const url = new URL(this.redirectUri, true);
-        if (txHash) url.query.tx_hash = txHash;
-        if (error) url.query.error = error;
-        if (state) url.query.state = state;
-        if (success !== undefined) url.query.success = success;
-        url.set('query', url.query);
-        window.location.href = url.toString();
+        const payload = {};
+        if (txHash) payload.tx_hash = txHash;
+        if (error) payload.error = error;
+        if (state) payload.state = state;
+        if (success !== undefined) payload.success = success;
+        if (this.opener) {
+          const message = JSON.stringify({
+            action: 'ISCN_SUBMITTED',
+            data: payload,
+          });
+          this.windowOpener.postMessage(message, this.redirectOrigin);
+          window.close();
+        }
+        // if (this.redirectUri) {
+        //   const url = new URL(this.redirectUri, true);
+        //   url.set('query', { ...url.query, ...payload });
+        //   window.location.href = url.toString();
+        // }
       } else if (this.getIsShowingTxPopup) {
         this.closeTxDialog();
         // TODO: swap to iscn page
