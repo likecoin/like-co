@@ -85,8 +85,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import { ISCN_LICENSES, ISCN_PUBLISHERS } from '@/util/cosmos/iscnConstant';
-import { signISCNPayload, getISCNTransferInfo } from '@/util/cosmos/iscn';
-import BigNumber from 'bignumber.js';
+import { getISCNTransferInfo } from '@/util/cosmos/iscn';
 
 const URL = require('url-parse');
 
@@ -104,7 +103,6 @@ export default {
       publisher: '',
       redirectUri: '',
       state: '',
-      gasFee: '0',
       memo: '',
     };
   },
@@ -118,7 +116,7 @@ export default {
       type = 'article',
       tags: tagsString = '',
       publisher,
-      redirect_uri: redirectUri,
+      openner,
       state,
     } = query;
     let {
@@ -156,7 +154,7 @@ export default {
       tags,
       license,
       publisher,
-      redirectUri,
+      openner: openner && openner !== '0',
       state,
     };
   },
@@ -177,7 +175,7 @@ export default {
     httpReferrer() {
       return this.$route.query.referrer || document.referrer || undefined;
     },
-    openner() {
+    windowOpenner() {
       if (!window) return null;
       return window.openner;
     },
@@ -193,7 +191,9 @@ export default {
     },
   },
   async mounted() {
-    this.calculateGasFee();
+    if (this.openner && !window.openner) {
+      this.$nuxt.error({ statusCode: 400, message: 'Cannot access window openner' });
+    }
     this.isLoading = false;
   },
   methods: {
@@ -207,36 +207,6 @@ export default {
       'fetchAuthCoreCosmosWallet',
       'prepareCosmosTxSigner',
     ]),
-    async calculateGasFee() {
-      const { cosmosWallet } = this.getUserInfo;
-      const {
-        fingerprint,
-        title,
-        tags,
-        type,
-        license,
-        publisher,
-        memo,
-      } = this;
-      const { gas, gasPrices } = await signISCNPayload(
-        {
-          userId: this.getUserId,
-          displayName: this.getUserInfo.displayName,
-          cosmosWallet,
-          fingerprint,
-          title,
-          tags,
-          type,
-          license,
-          publisher,
-          memo,
-        },
-        null,
-        { simulate: true },
-      );
-      this.gasFee = new BigNumber(gas).multipliedBy(gasPrices[0].amount).dividedBy(1e9).toFixed();
-      return this.gasFee;
-    },
     async submitTransfer() {
       this.isLoading = true;
       try {
