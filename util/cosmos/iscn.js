@@ -32,8 +32,7 @@ export async function sendSignedISCNTx(signedTx) {
       'Content-Type': 'application/json',
     },
     body,
-  })
-    .then(r => r.json())
+  }).then(r => r.json())
     .then(assertOk);
   return {
     hash: res.txhash,
@@ -218,7 +217,11 @@ export async function remoteSignISCNPayload({
     });
   const { data: { signedTx } = {} } = await apiPostISCNMessageForSign(message);
   if (!signedTx) throw new Error('SIGNING_FAILED');
-  return sendSignedISCNTx(signedTx);
+  const { hash, included } = await sendSignedISCNTx(signedTx);
+  return {
+    txHash: hash,
+    included,
+  };
 }
 
 export async function signISCNPayload({
