@@ -43,22 +43,24 @@ export default function ({
     res.set('Cache-Control', 'private');
     res.set('Vary', 'Cookie');
   }
+  const {
+    register, from, referrer, language,
+  } = query;
+  const qsPayload = {};
+  if (language) qsPayload.language = language;
   if (!store.getters.getUserIsRegistered) {
     let redirectPath = '/in/register';
-    const { register, from, referrer } = query;
     if (!process.server) {
       store.commit(USER_SET_AFTER_AUTH_ROUTE, route);
       setRouteToSessionStorage(route);
-      if (register === '1') redirectPath = `${redirectPath}?register=1`;
+      if (register === '1') qsPayload.register = '1';
     } else {
-      const qsPayload = {
-        redirect: `${TEST_MODE ? 'http' : 'https'}://${req.headers.host}${route.fullPath}`,
-      };
+      qsPayload.redirect = `${TEST_MODE ? 'http' : 'https'}://${req.headers.host}${route.fullPath}`;
       if (from) qsPayload.from = from;
       if (referrer) qsPayload.referrer = referrer;
       if (register === '1') qsPayload.register = '1';
-      redirectPath = `${redirectPath}?${querystring.stringify(qsPayload)}`;
     }
+    redirectPath = `${redirectPath}?${querystring.stringify(qsPayload)}`;
     redirect(redirectPath);
   } else if (!store.getters.getUserIsAuthCore && route.name !== 'in-migration-authcore') {
     let redirectPath = '/in/migration/authcore';
@@ -66,9 +68,7 @@ export default function ({
       store.commit(USER_SET_AFTER_AUTH_ROUTE, route);
       setRouteToSessionStorage(route);
     } else {
-      const qsPayload = {
-        redirect: `${TEST_MODE ? 'http' : 'https'}://${req.headers.host}${route.fullPath}`,
-      };
+      qsPayload.redirect = `${TEST_MODE ? 'http' : 'https'}://${req.headers.host}${route.fullPath}`;
       redirectPath = `${redirectPath}?${querystring.stringify(qsPayload)}`;
     }
     redirect(redirectPath);
