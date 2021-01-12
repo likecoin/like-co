@@ -43,7 +43,7 @@ export async function sendCosmosPayment(
         memo,
       }, signer));
     }
-    commit(types.UI_START_LOADING_TX);
+    commit(types.UI_START_LOADING_TX, { isWait });
     commit(types.UI_SET_HIDE_TX_DIALOG_ACTION, !showDialogAction);
     commit(types.PAYMENT_SET_PENDING_HASH, txHash);
     commit(types.PAYMENT_SET_PENDING_TX_INFO, { from, to, value });

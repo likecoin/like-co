@@ -57,6 +57,7 @@ const state = () => ({
   isSlidingMenuOpen: false,
   isLoginOverride: false,
   isErrorDisabled: false,
+  txDialogType: 'default',
   txDialogHideAction: false,
   txDialogActionRoute: null,
   txDialogActionText: '',
@@ -123,9 +124,10 @@ const mutations = {
   [UI_STOP_LOADING](state) {
     state.isLoading = false;
   },
-  [UI_START_LOADING_TX](state) {
+  [UI_START_LOADING_TX](state, { isWait = true } = {}) {
     state.isInTransaction = true;
     state.isShowingTxPopup = true;
+    state.txDialogType = isWait ? 'wait' : 'default';
     state.isLoading = true;
   },
   [UI_STOP_LOADING_TX](state) {

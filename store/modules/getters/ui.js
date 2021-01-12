@@ -34,6 +34,8 @@ export const getSignPayloadObject = state => state.signPayloadObject;
 
 export const getWeb3Type = state => state.web3Type;
 
+export const getTxDialogType = state => state.txDialogType;
+
 export const getTxDialogHideAction = state => state.txDialogHideAction;
 
 export const getTxDialogActionRoute = state => state.txDialogActionRoute;

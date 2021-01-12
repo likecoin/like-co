@@ -10,19 +10,30 @@
   >
 
     <template slot="header-center">
+      <div
+        v-if="isWait"
+        class="header-icon activity-indicator-wrapper lc-color-gray-9b"
+      >
+        <div>
+          <ActivityIndicator />
+        </div>
+      </div>
       <check-icon
-        class="check-icon"
+        v-else
+        class="header-icon"
         state="completed"
         layout="large"
       />
     </template>
 
     <div class="lc-dialog-container-1 lc-margin-bottom-16">
-      <h1 class="lc-font-size-32 lc-margin-bottom-8">
-        {{ $t('Transaction.header.label.pending') }}
+      <h1
+        class="lc-font-size-32 lc-margin-top-0 lc-color-like-gray-5 lc-font-weight-300"
+      >
+        {{ title }}
       </h1>
       <p class="lc-font-size-16 lc-color-like-gray-4">
-        {{ $t('Dialog.transaction.label.waiting') }}
+        {{ message }}
       </p>
     </div>
 
@@ -46,7 +57,7 @@
     </div>
 
     <div
-      v-else-if="!txDialogHideAction"
+      v-else-if="!txDialogHideAction && !isWait"
       class="lc-dialog-container-1"
     >
       <div class="lc-button-group">
@@ -74,6 +85,7 @@
 
 
 <script>
+import ActivityIndicator from '~/components/ActivityIndicator';
 import BaseDialog from '~/components/dialogs/BaseDialog';
 import CheckIcon from '~/components/Mission/StateIcon';
 
@@ -82,6 +94,7 @@ import { PURCHASE_LIKE_URL } from '@/constant';
 export default {
   name: 'tx-dialog',
   components: {
+    ActivityIndicator,
     BaseDialog,
     CheckIcon,
   },
@@ -89,6 +102,10 @@ export default {
     show: {
       type: Boolean,
       default: false,
+    },
+    type: {
+      type: String,
+      default: 'default',
     },
     txId: {
       type: String,
@@ -130,15 +147,47 @@ export default {
     actionText() {
       return this.txDialogActionText || this.$t('Transaction.label.viewTx');
     },
+    isWait() {
+      return this.type === 'wait';
+    },
+    title() {
+      return this.$t(`Transaction.header.label.${this.isWait ? 'waiting' : 'pending'}`);
+    },
+    message() {
+      return this.$t(`Dialog.transaction.label.${this.isWait ? 'waiting' : 'pending'}`);
+    },
   },
 };
 </script>
 
 
 <style lang="scss" scoped>
+@import "~assets/variables";
+
 .tx-dialog {
-  .check-icon {
+  .header-icon {
     margin-top: 24px;
+  }
+
+  .activity-indicator-wrapper {
+    z-index: 1;
+
+    padding: 2px;
+
+    border-radius: 50%;
+
+    background-image: linear-gradient(to left, $like-light-blue, $like-gradient-1);
+
+    > div {
+      padding: 4px;
+
+      border-radius: inherit;
+      background-color: white;
+    }
+
+    svg {
+      display: block;
+    }
   }
 }
 </style>
