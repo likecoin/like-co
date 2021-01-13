@@ -21,6 +21,99 @@ async function initISCNCosmos() {
   iscnApi = new Cosmos(ISCN_DEV_RESTFUL_API, ISCN_TESTNET_CHAIN_ID);
 }
 
+export async function getISCNTransferInfo(txHash, opt) {
+  if (!iscnApi) await initISCNCosmos();
+  const { blocking } = opt;
+  let txData = await iscnApi.get.tx(txHash);
+  if ((!txData || !txData.height) && !blocking) {
+    return {};
+  }
+  while ((!txData || !txData.height) && blocking) {
+    await timeout(1000); // eslint-disable-line no-await-in-loop
+    txData = await iscnApi.get.tx(txHash); // eslint-disable-line no-await-in-loop
+  }
+  if (!txData) throw new Error('Cannot find transaction');
+  const {
+    timestamp,
+    code,
+    logs: [{ success = false } = {}] = [],
+    tx: {
+      value: {
+        msg,
+      },
+    },
+  } = txData;
+  if (!txData.height) {
+    return {};
+  }
+  const [{
+    type,
+    value: {
+      from,
+      iscnKernel: {
+        content,
+        rights: { rights = [] },
+        stakeholders: { stakeholders = [] },
+        timestamp: contentTimestamp,
+        // parent,
+        // version,
+      },
+    },
+  }] = msg;
+  const {
+    fingerprint,
+    tags,
+    title,
+    type: contentType,
+  } = content;
+  const parsedRights = rights.map((r) => {
+    if (r.holder.description.includes('LikerID: ')) {
+      // eslint-disable-next-line no-param-reassign
+      [, r.holder.likerID] = r.holder.description.split('LikerID: ');
+    }
+    return r;
+  });
+  const parsedStakeholders = stakeholders.map((s) => {
+    if (s.stakeholder.description.includes('LikerID: ')) {
+      // eslint-disable-next-line no-param-reassign
+      [, s.stakeholder.likerID] = s.stakeholder.description.split('LikerID: ');
+    }
+    return s;
+  });
+  const parsedFingerprint = fingerprint.split('://');
+  const isFailed = (code && code !== '0') || !success;
+  return {
+    from,
+    fingerprint: parsedFingerprint[parsedFingerprint.length - 1],
+    tags,
+    title,
+    type,
+    contentType,
+    isFailed,
+    rights: parsedRights,
+    stakeholders: parsedStakeholders,
+    contentTimestamp,
+    timestamp: (new Date(timestamp)).getTime() / 1000,
+  };
+}
+
+export async function getISCNTransactionCompleted(txHash) {
+  if (!iscnApi) await initISCNCosmos();
+  const txData = await iscnApi.get.tx(txHash);
+  if (!txData || !txData.height) {
+    return 0;
+  }
+  const {
+    timestamp,
+    code,
+    logs: [{ success = false } = {}] = [],
+  } = txData;
+  return {
+    ts: (new Date(timestamp)).getTime(),
+    isFailed: (code && code !== '0') || !success,
+  };
+}
+
 export async function sendSignedISCNTx(signedTx) {
   const body = JSON.stringify({
     tx: signedTx,
@@ -102,7 +195,6 @@ function getPublisherISCNPayload(user, ts, { publisher, license }) {
 }
 
 export function MsgCreateISCN(
-  api,
   {
     id,
     displayName,
@@ -157,38 +249,9 @@ export function MsgCreateISCN(
     send: (
       { gas, gasPrices = DEFAULT_ISCN_GAS_PRICE, memo = undefined },
       signer,
-    ) => api.send(cosmosWallet, { gas, gasPrices, memo }, message, signer),
+    ) => iscnApi.send(cosmosWallet, { gas, gasPrices, memo }, message, signer),
   };
 }
-
-export async function getISCNTransferInfo(txHash, opt) {
-  if (!iscnApi) await initISCNCosmos();
-  const { blocking } = opt;
-  let txData = await iscnApi.get.tx(txHash);
-  if ((!txData || !txData.height) && !blocking) {
-    return {};
-  }
-  while ((!txData || !txData.height) && blocking) {
-    await timeout(1000); // eslint-disable-line no-await-in-loop
-    txData = await iscnApi.get.tx(txHash); // eslint-disable-line no-await-in-loop
-  }
-  if (!txData) throw new Error('Cannot find transaction');
-  const {
-    timestamp,
-    code,
-    logs: [{ success = false } = {}] = [],
-  } = txData;
-  // TODO: parse ISCN info
-  if (!txData.height) {
-    return {};
-  }
-  const isFailed = (code && code !== '0') || !success;
-  return {
-    isFailed,
-    timestamp: (new Date(timestamp)).getTime() / 1000,
-  };
-}
-
 export async function remoteSignISCNPayload({
   userId,
   displayName,
