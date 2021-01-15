@@ -263,22 +263,21 @@ export async function remoteSignISCNPayload({
   license,
   publisher,
 }) {
-  const { message } = MsgCreateISCN(iscnApi,
-    {
-      id: userId,
-      displayName,
-      cosmosWallet,
-    },
-    {
-      fingerprint,
-      title,
-      tags,
-      type,
-    },
-    {
-      license,
-      publisher,
-    });
+  const { message } = MsgCreateISCN({
+    id: userId,
+    displayName,
+    cosmosWallet,
+  },
+  {
+    fingerprint,
+    title,
+    tags,
+    type,
+  },
+  {
+    license,
+    publisher,
+  });
   const { data: { signedTx } = {} } = await apiPostISCNMessageForSign(message);
   if (!signedTx) throw new Error('SIGNING_FAILED');
   const { hash, included } = await sendSignedISCNTx(signedTx);
@@ -301,21 +300,20 @@ export async function signISCNPayload({
   memo,
 }, signer, { simulate = false } = {}) {
   if (!iscnApi) await initISCNCosmos();
-  const msgPromise = MsgCreateISCN(iscnApi,
-    {
-      id: userId,
-      displayName,
-      cosmosWallet,
-    },
-    {
-      fingerprint,
-      title,
-      tags,
-      type,
-    },
-    {
-      license,
-      publisher,
-    });
+  const msgPromise = MsgCreateISCN({
+    id: userId,
+    displayName,
+    cosmosWallet,
+  },
+  {
+    fingerprint,
+    title,
+    tags,
+    type,
+  },
+  {
+    license,
+    publisher,
+  });
   return sendTx(msgPromise, signer, { memo, simulate, gasPrices: DEFAULT_ISCN_GAS_PRICE });
 }
