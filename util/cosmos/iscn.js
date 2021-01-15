@@ -180,7 +180,7 @@ function getPublisherISCNPayload(user, ts, { publisher, license }) {
       rights.unshift({
         holder: userEntity,
         period: {
-          from: new Date(ts).toISOString(),
+          from: `${new Date(ts).toISOString().substring(0, 19)}Z`,
         },
         terms,
         type: 'License',
@@ -234,7 +234,7 @@ export function MsgCreateISCN(
         parent: null,
         rights: { rights },
         stakeholders: { stakeholders },
-        timestamp: new Date(ts).toISOString(),
+        timestamp: `${new Date(ts).toISOString().substring(0, 19)}Z`,
         version: 1,
       },
     },
