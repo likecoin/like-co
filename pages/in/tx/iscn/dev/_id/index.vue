@@ -77,16 +77,16 @@
                 </div>
                 <div
                   v-for="r in rights"
-                  :key="r.terms.hash"
+                  :key="r.terms['/']"
                   class="address value lc-font-size-20"
                 >
                   <a
-                    :href="`${IPFS_HOST}${r.terms.hash}`"
+                    :href="`${IPFS_HOST}${r.terms['/']}`"
                     target="_blank"
                     rel="noopener"
                   >
                     <div class="address value lc-font-size-20">
-                      {{ r.type }}: {{ r.terms.hash }}
+                      {{ r.type }}: {{ r.terms['/'] }}
                     </div>
                   </a>
                   <div class="value lc-font-size-20">

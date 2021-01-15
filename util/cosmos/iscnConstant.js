@@ -9,9 +9,9 @@ export const ISCN_PUBLISHERS = {
 
 export const ISCN_LICENSES = {
   matters: {
-    hash: 'QmRvpQiiLA8ttSLAXEd5RArmXeG4qWEsKPmrB7KeiLSuE4',
+    '/': 'QmRvpQiiLA8ttSLAXEd5RArmXeG4qWEsKPmrB7KeiLSuE4',
   },
   default: {
-    hash: 'QmZhRNkZaSnhDr6gBC22zwhTjsGyUx39tm8gjFYnTr2SjN',
+    '/': 'QmZhRNkZaSnhDr6gBC22zwhTjsGyUx39tm8gjFYnTr2SjN',
   },
 };

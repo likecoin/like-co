@@ -192,7 +192,7 @@ export default {
       const { license } = this;
       return {
         displayName: this.$t(`${this.license}`),
-        url: `https://ipfs.io/ipfs/${ISCN_LICENSES[license].hash}`,
+        url: `https://ipfs.io/ipfs/${ISCN_LICENSES[license]['/']}`,
       };
     },
   },
