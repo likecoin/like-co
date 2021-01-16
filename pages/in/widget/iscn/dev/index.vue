@@ -22,6 +22,16 @@
             {{ $t('ISCNWidget.label.title') }}
           </div>
           <div class="likepay-panel__section-meta-grid-item-value">{{ title }}</div>
+          <div v-if="getUserInfo" class="likepay-panel__section-meta">
+            <div class="likepay-panel__section-meta-label">{{ $t('ISCNWidget.label.Creator') }}</div>
+            <lc-avatar
+              :src="getUserInfo.avatar"
+              :halo="avatarHalo"
+            />
+            <div class="likepay-panel__user-display-name">
+              {{ getUserInfo.displayName }}
+            </div>
+          </div>
           <div class="likepay-panel__section-meta-grid-item-label">
             {{ $t('ISCNWidget.label.fingerprint') }}
           </div>
@@ -86,6 +96,7 @@
 import { mapActions, mapGetters } from 'vuex';
 import { ISCN_LICENSES, ISCN_PUBLISHERS } from '@/util/cosmos/iscnConstant';
 import { getISCNTransferInfo } from '@/util/cosmos/iscn';
+import User from '@/util/User';
 
 const URL = require('url-parse');
 
@@ -174,6 +185,9 @@ export default {
       'getIsShowingTxPopup',
       'getPendingTxInfo',
     ]),
+    avatarHalo() {
+      return User.getAvatarHaloType(this.getUserInfo);
+    },
     httpReferrer() {
       return this.$route.query.referrer || document.referrer || undefined;
     },
