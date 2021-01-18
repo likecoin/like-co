@@ -159,19 +159,19 @@
               </section>
             </div>
           </div>
+          <a
+            :href="`https://node.iscn-dev.like.co/txs/${txId}`"
+            target="_blank"
+            rel="noopener"
+          >
+            <div class="address value lc-font-size-20">
+              View raw transaction
+            </div>
+          </a>
         </div>
 
       </section>
     </div>
-    <a
-      :href="`https://node.iscn-dev.like.co/txs/${txId}`"
-      target="_blank"
-      rel="noopener"
-    >
-      <div class="address value lc-font-size-20">
-        View raw transaction
-      </div>
-    </a>
   </div>
 </template>
 
