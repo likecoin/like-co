@@ -53,6 +53,7 @@
 
         <tx-dialog
           :show="getIsShowingTxPopup"
+          :type="getTxDialogType"
           :txId="getPendingTx"
           :txInfo="getPendingTxInfo"
           :isNewUser="!getUserIsRegistered"
@@ -170,6 +171,7 @@ export default {
       'getPendingTx',
       'getMetamaskError',
       'getWeb3Type',
+      'getTxDialogType',
       'getTxDialogActionRoute',
       'getTxDialogActionText',
       'getTxDialogHideAction',

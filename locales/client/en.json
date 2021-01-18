@@ -655,7 +655,8 @@
     },
     "transaction": {
       "label": {
-        "waiting": "Your request to transfer LIKE is well received and will be executed. Please expect the LIKE will arrive recipient wallet in a few minutes.",
+        "pending": "Your request to transfer LIKE is well received and will be executed. Please expect the LIKE will arrive recipient wallet in a few minutes.",
+        "waiting": "Your request to transfer LIKE is well received and will be executed. Please expect the LIKE will arrive recipient wallet in a few minutes and keep this window opens until transaction completed.",
         "newUser": "Seems you don’t have a Liker ID. Create now."
       },
       "button": {
@@ -954,6 +955,7 @@
         "to": "to ",
         "notFound": "Transaction Not Found or not a like.co transaction",
         "pending": "Transaction Ordered",
+        "waiting": "Transaction Ordered",
         "failed": "Transaction Failed",
         "timeout": "Transaction Expired",
         "completed": "Transaction Completed"
