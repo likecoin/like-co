@@ -5,7 +5,9 @@ import {
 } from '@/constant';
 import { timeout } from '@/util/misc';
 
-const DEFAULT_GAS_PRICE = [{ amount: 1000, denom: 'nanolike' }];
+export const DEFAULT_GAS_PRICE = [{ amount: 1000, denom: 'nanolike' }];
+export const DEFAULT_ISCN_GAS_PRICE = [{ amount: 0, denom: 'nanolike' }];
+const COSMOS_RESTFUL_API = '/api/cosmos/lcd';
 
 let Cosmos;
 let api;
@@ -16,7 +18,7 @@ async function initCosmos() {
     import(/* webpackChunkName: "web3" */ '@lunie/cosmos-api'),
   ]));
   if (Cosmos.default) Cosmos = Cosmos.default;
-  api = new Cosmos('/api/cosmos/lcd', COSMOS_CHAIN_ID);
+  api = new Cosmos(COSMOS_RESTFUL_API, COSMOS_CHAIN_ID);
 }
 
 function LIKEToNanolike(value) {

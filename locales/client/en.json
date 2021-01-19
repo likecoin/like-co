@@ -1011,6 +1011,16 @@
       "total": "Total"
     }
   },
+  "ISCNWidget": {
+    "title": "Submit to ISCN",
+    "label": {
+      "fingerprint": "Fingerprint",
+      "title": "Title",
+      "type": "Content Type",
+      "license": "License",
+      "tags": "Tags"
+    }
+  },
   "RewardRecords": {
     "title": "Reward Records"
   },
