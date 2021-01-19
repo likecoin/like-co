@@ -3,72 +3,130 @@
   <div
     v-if="isLoading"
     key="loading"
-    class="likepay-body likepay-body--center"
+    class="likepay-body likepay-body--center iscn-body"
   >
     <span class="likepay-text-panel">{{ $t('General.loading') }}</span>
   </div>
   <div
     v-else
     key="panel"
-    class="likepay-body"
+    class="likepay-body iscn-body"
   >
+    <header class="iscn-body__header">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 30 30"
+        width="30"
+      >
+        <path
+          :d="`
+            M20.16,9.55,15.58,5
+            C11.22.61,2.42-1.06.68.68
+            S.61,11.22,5,15.58
+            l4.58,4.58
+            a12.29,12.29,0,0,0,2.69,9.44,1.09,1.09,0,0,0,1.6.09
+            l2.62-2.62,1.83-1.83,1.55.91,6.3-6.3-.91-1.55,1.83-1.83,2.62-2.62
+            a1.08,1.08,0,0,0-.1-1.6,12.3,12.3,0,0,0-9.43-2.7
+          `"
+          fill="currentColor"
+          fill-rule="evenodd"
+        />
+      </svg>
+      <h1>{{ $t('ISCNWidget.title') }}</h1>
+    </header>
+
     <div class="likepay-panel">
       <section class="likepay-panel__section-container">
-        <header class="likepay-panel__section-header">
-          <div class="likepay-panel__header-title">{{ $t('ISCNWidget.title') }}</div>
-        </header>
+
         <div class="likepay-panel__section-meta">
-          <div class="likepay-panel__section-meta-grid-item-label">
+          <div class="likepay-panel__section-meta-label">
             {{ $t('ISCNWidget.label.title') }}
           </div>
-          <div class="likepay-panel__section-meta-grid-item-value">{{ title }}</div>
-          <div v-if="getUserInfo" class="likepay-panel__section-meta">
-            <div class="likepay-panel__section-meta-label">{{ $t('ISCNWidget.label.Creator') }}</div>
+          <div class="likepay-panel__section-meta-value">{{ title }}</div>
+        </div>
+
+        <div
+          v-if="getUserInfo"
+          class="likepay-panel__section-meta"
+        >
+          <div class="likepay-panel__section-meta-label">
+            {{ $t('ISCNWidget.label.creator') }}
+          </div>
+          <a
+            :href="`${LIKER_LAND_URL}/${getUserInfo.user}`"
+            target="_blank"
+            rel="noopener"
+            class="likepay-panel__user"
+          >
             <lc-avatar
+              v-if="getUserInfo.avatar"
               :src="getUserInfo.avatar"
               :halo="avatarHalo"
+              size="32"
             />
             <div class="likepay-panel__user-display-name">
               {{ getUserInfo.displayName }}
             </div>
-          </div>
-          <div class="likepay-panel__section-meta-grid-item-label">
-            {{ $t('ISCNWidget.label.fingerprint') }}
-          </div>
-          <div class="likepay-panel__section-meta-grid-item-value">
-            <a
-              :href="ipfsURL"
-              target="_blank"
-              rel="noopener"
-            >{{ fingerprint }}</a>
-          </div>
-          <div class="likepay-panel__section-meta-grid-item-label">
+          </a>
+        </div>
+
+        <div class="likepay-panel__section-meta">
+          <div class="likepay-panel__section-meta-label">
             {{ $t('ISCNWidget.label.type') }}
           </div>
-          <div class="likepay-panel__section-meta-grid-item-value">{{ type }}</div>
-          <div class="likepay-panel__section-meta-grid-item-label">
+          <div class="likepay-panel__section-meta-value">{{ type }}</div>
+        </div>
+
+        <div
+          v-if="licenseObj"
+          class="likepay-panel__section-meta"
+        >
+          <div class="likepay-panel__section-meta-label">
             {{ $t('ISCNWidget.label.license') }}
           </div>
-          <div class="likepay-panel__section-meta-grid-item-value">
+          <div class="likepay-panel__section-meta-value">
             <a
               :href="licenseObj.url"
               target="_blank"
               rel="noopener"
             >{{ licenseObj.displayName }}</a>
           </div>
-          <div class="likepay-panel__section-meta-grid-item-label">
+        </div>
+
+        <div
+          v-if="tags && tags.length"
+          class="likepay-panel__section-meta"
+        >
+          <div class="likepay-panel__section-meta-label">
             {{ $t('ISCNWidget.label.tags') }}
           </div>
-          <div class="likepay-panel__section-meta-grid-item-value">
-            <span
-              v-for="t in tags"
-              :key="t"
-            >
-              {{ t }}
-            </span>
+          <div class="likepay-panel__section-meta-value">
+            {{ tags.join(', ') }}
           </div>
         </div>
       </section>
+
+      <section class="likepay-panel__section-dropdown-container">
+        <div class="likepay-panel__dropdown-body">
+          <div>
+            <div class="likepay-panel__section-meta-grid">
+              <div class="likepay-panel__section-meta-grid-item">
+                <div class="likepay-panel__section-meta-grid-item-label">
+                  {{ $t('ISCNWidget.label.fingerprint') }}
+                </div>
+                <div class="likepay-panel__section-meta-grid-item-value likepay-panel__section-meta-grid-item-value--fingerprint">
+                  <a
+                    :href="ipfsURL"
+                    target="_blank"
+                    rel="noopener"
+                  >{{ fingerprint }}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
     </div>
     <footer class="likepay-panel__footer">
       <div v-if="!getUserIsRegistered">
@@ -96,6 +154,8 @@
 import { mapActions, mapGetters } from 'vuex';
 import { ISCN_LICENSES, ISCN_PUBLISHERS } from '@/util/cosmos/iscnConstant';
 import { getISCNTransferInfo } from '@/util/cosmos/iscn';
+import { LIKER_LAND_URL } from '@/constant';
+
 import User from '@/util/User';
 
 const URL = require('url-parse');
@@ -135,7 +195,7 @@ export default {
       license,
       title,
     } = query;
-    const tags = tagsString.split(',');
+    const tags = tagsString ? tagsString.split(',') : [];
     if (!Object.keys(query).length) {
       return redirect('https://docs.like.co/developer/iscn/web-widget/reference');
     }
@@ -185,6 +245,9 @@ export default {
       'getIsShowingTxPopup',
       'getPendingTxInfo',
     ]),
+    LIKER_LAND_URL() {
+      return LIKER_LAND_URL;
+    },
     avatarHalo() {
       return User.getAvatarHaloType(this.getUserInfo);
     },
@@ -303,3 +366,34 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+@import '~assets/variables';
+
+.iscn-body {
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 12px 8px;
+
+    &,
+    & h1 {
+      text-align: center;
+
+      color: $civic-green;
+
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    & h1 {
+      margin: 0;
+      margin-left: 8px;
+
+      line-height: 1.5;
+    }
+  }
+}
+</style>

@@ -143,7 +143,7 @@ html[layout=likepay-layout] {
       line-height: 1.5em;
     }
 
-    &__section-meta {
+    &__section-meta:not(:first-child) {
       margin-top: 18px;
     }
     &__section-meta-label {
@@ -184,8 +184,11 @@ html[layout=likepay-layout] {
     }
 
     &__section-meta-value {
+      margin-top: 2px;
+
       font-size: 20px;
       font-weight: 600;
+      line-height: 1.5;
     }
 
     &__dropdown-header {
@@ -223,6 +226,10 @@ html[layout=likepay-layout] {
       box-sizing: border-box;
       padding: 0 $section-padding;
 
+      &:first-child {
+        padding-top: 8px;
+      }
+
       > div {
         padding: 8px 0 $section-padding;
       }
@@ -250,7 +257,15 @@ html[layout=likepay-layout] {
       line-height: 1.2em;
     }
     &__section-meta-grid-item-value {
+      margin-top: 8px;
+
       font-weight: 600;
+
+      &--fingerprint {
+        word-break: break-all;
+
+        font-family: 'Courier New', Courier, monospace;
+      }
     }
 
     &__footer {
