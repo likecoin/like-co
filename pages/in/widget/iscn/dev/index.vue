@@ -292,7 +292,7 @@ export default {
         this.closeTxDialog();
         // TODO: swap to iscn page
         this.$router.push({
-          name: 'in-tx-id',
+          name: 'in-tx-iscn-dev-id',
           params: { id: txHash, tx: this.getPendingTxInfo },
         });
       }
