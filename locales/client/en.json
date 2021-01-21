@@ -1014,6 +1014,7 @@
   "ISCNWidget": {
     "title": "Submit to ISCN",
     "label": {
+      "creator": "Creator",
       "fingerprint": "Fingerprint",
       "title": "Title",
       "type": "Content Type",
