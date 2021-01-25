@@ -536,6 +536,30 @@ export default {
       }
       return null;
     },
+    likePayMetadata() {
+      const {
+        toIds,
+        amounts,
+        agentId,
+        agentFee,
+        redirectUri,
+        remarks,
+        blocking,
+        state,
+      } = this;
+      return {
+        likePay: {
+          toIds,
+          amounts,
+          agentId,
+          agentFee,
+          redirectUri,
+          remarks,
+          blocking,
+          state,
+        },
+      };
+    },
   },
   async mounted() {
     this.calculateGasFee();
@@ -644,6 +668,7 @@ export default {
         let txHash;
         const showDialogAction = !this.redirectUri;
         const isWait = !!this.blocking;
+        const metadata = this.likePayMetadata;
         if (this.isMultiSend) {
           const tos = this.toUsers.map(u => u.cosmosWallet);
           const values = [...this.amounts];
@@ -659,6 +684,7 @@ export default {
             memo: this.remarks,
             showDialogAction,
             isWait,
+            metadata,
           });
         } else {
           txHash = await this.sendCosmosPayment({
@@ -669,6 +695,7 @@ export default {
             memo: this.remarks,
             showDialogAction,
             isWait,
+            metadata,
           });
         }
         this.postTransaction({ txHash });

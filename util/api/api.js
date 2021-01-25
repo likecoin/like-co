@@ -34,9 +34,11 @@ export const apiGetTxById = (id, filterId) => {
   if (filterId) url += `address=${filterId}`;
   return axios.get(url);
 };
-
+export const apiPostTxMetadata = (id, metadata) => {
+  const url = `/tx/id/${id}/metadata`;
+  return axios.post(url, { metadata });
+};
 export const apiGetTxToByAddr = addr => axios.get(`/tx/addr/to/${addr}`);
-
 export const apiGetTxFromByAddr = addr => axios.get(`/tx/addr/from/${addr}`);
 
 export const apiSendVerifyEmail = (id, ref, locale) => axios.post(`/email/verify/user/${id}`, { ref, locale });
