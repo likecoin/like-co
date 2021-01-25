@@ -27,8 +27,6 @@ export const apiGetUserMinById = (id, { types = [], type } = {}) => {
   return axios.get(path);
 };
 
-export const apiGetUserMinByMerchantId = id => axios.get(`/users/merchant/${id}/min`);
-
 export const apiGetTxById = (id, filterId) => {
   let url = `/tx/id/${id}?`;
   if (filterId) url += `address=${filterId}`;
