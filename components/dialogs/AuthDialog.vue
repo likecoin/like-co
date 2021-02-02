@@ -451,6 +451,9 @@ export default {
     socialLoginPaneOption() {
       return 'grid';
     },
+    utmSource() {
+      return this.$route.query.utm_source;
+    },
   },
   watch: {
     getAuthDialogStatus: {
@@ -1044,6 +1047,7 @@ export default {
       this.signInPayload = payload;
       if (this.referrer) payload.referrer = this.referrer;
       if (this.sourceURL) payload.sourceURL = this.sourceURL;
+      if (this.utmSource) payload.utmSource = this.utmSource;
 
       try {
         await this.newUser(payload);
