@@ -25,6 +25,7 @@ export async function sendCosmosPayment(
       value,
       values,
       memo,
+      metadata,
     } = payload;
     let txHash;
     let included;
@@ -43,6 +44,7 @@ export async function sendCosmosPayment(
         memo,
       }, signer));
     }
+    if (metadata) await api.apiPostTxMetadata(txHash, metadata);
     commit(types.UI_START_LOADING_TX, { isWait });
     commit(types.UI_SET_HIDE_TX_DIALOG_ACTION, !showDialogAction);
     commit(types.PAYMENT_SET_PENDING_HASH, txHash);

@@ -27,16 +27,16 @@ export const apiGetUserMinById = (id, { types = [], type } = {}) => {
   return axios.get(path);
 };
 
-export const apiGetUserMinByMerchantId = id => axios.get(`/users/merchant/${id}/min`);
-
 export const apiGetTxById = (id, filterId) => {
   let url = `/tx/id/${id}?`;
   if (filterId) url += `address=${filterId}`;
   return axios.get(url);
 };
-
+export const apiPostTxMetadata = (id, metadata) => {
+  const url = `/tx/id/${id}/metadata`;
+  return axios.post(url, { metadata });
+};
 export const apiGetTxToByAddr = addr => axios.get(`/tx/addr/to/${addr}`);
-
 export const apiGetTxFromByAddr = addr => axios.get(`/tx/addr/from/${addr}`);
 
 export const apiSendVerifyEmail = (id, ref, locale) => axios.post(`/email/verify/user/${id}`, { ref, locale });
