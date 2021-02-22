@@ -2,7 +2,7 @@
   <div class="lc-layout">
     <tool-bars />
 
-    <div class="likepay-container">
+    <div class="iscn-container">
       <nuxt />
     </div>
 
@@ -22,7 +22,7 @@ export default {
   head() {
     return {
       htmlAttrs: {
-        layout: 'likepay-layout',
+        layout: 'iscn-layout',
       },
     };
   },
@@ -35,14 +35,14 @@ export default {
 $section-padding: 32px;
 $body-width: 340px;
 
-html[layout=likepay-layout] {
+html[layout=iscn-layout] {
   background-color: $like-green !important;
 
   body {
     background: transparent !important;
   }
 
-  .likepay-container {
+  .iscn-container {
     user-select: none;
 
     color: white;
@@ -52,7 +52,7 @@ html[layout=likepay-layout] {
     font-weight: 400;
   }
 
-  .likepay-body {
+  .iscn-body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -63,7 +63,7 @@ html[layout=likepay-layout] {
     @media screen and (min-width: $body-width) {
       justify-content: center;
 
-      max-width: 340px;
+      max-width: 600px;
       margin: 0 auto;
       padding: 8px;
     }
@@ -74,7 +74,7 @@ html[layout=likepay-layout] {
     }
   }
 
-  .likepay-text-panel {
+  .iscn-text-panel {
     padding: $section-padding;
 
     text-align: center;
@@ -84,11 +84,15 @@ html[layout=likepay-layout] {
     line-height: 1.2;
   }
 
-  .likepay-panel {
+  .iscn-panel {
     overflow: hidden;
 
     color: #4a4a4a;
     background-color: #fff;
+
+    & + .iscn-panel {
+      margin-top: 24px;
+    }
 
     @media screen and (min-width: $body-width) {
       border-radius: 14px;
@@ -97,8 +101,43 @@ html[layout=likepay-layout] {
     }
 
     &__section-container {
+      display: flex;
+      flex-wrap: wrap;
+
       padding: $section-padding;
+
+      &--pending {
+        background-color: $like-gradient-1;
+      }
+
+      &--failed {
+        background-color: #f1b8b8;
+      }
+
+      &--success {
+        background-color: $like-light-blue;
+
+        > h1 {
+          color: $like-green-2;
+        }
+      }
+
+      > h1 {
+        width: 100%;
+        margin: 0;
+
+        text-align: center;
+
+        > img {
+          width: 1em;
+        }
+      }
     }
+
+    &__section-separator {
+      border-top: 1px solid $like-gray-3;
+    }
+
     &__section-dropdown-container {
       background-color: #e5faf7;
     }
@@ -146,10 +185,29 @@ html[layout=likepay-layout] {
     &__section-meta:not(:first-child) {
       margin-top: 18px;
     }
+
+    &__section-meta {
+      &--full {
+        width: 100%;
+      }
+
+      &--half {
+        width: 50%;
+
+        @media screen and (max-width: 480px) {
+          width: 100%;
+        }
+      }
+    }
+
     &__section-meta-label {
       color: #9b9b9b;
 
       font-size: 14px;
+
+      & + .iscn-panel__section-meta-grid {
+        margin-top: 8px;
+      }
     }
 
     &__user {
@@ -248,6 +306,10 @@ html[layout=likepay-layout] {
 
       &--half {
         width: 50%;
+
+        @media screen and (max-width: 480px) {
+          width: 100%;
+        }
       }
     }
     &__section-meta-grid-item-label {
@@ -280,7 +342,7 @@ html[layout=likepay-layout] {
     }
   }
 
-  .likepay-block-button {
+  .iscn-block-button {
     min-width: 256px;
     min-height: 40px;
     padding: 12px;
@@ -294,6 +356,8 @@ html[layout=likepay-layout] {
     font-size: 20px;
 
     &:hover {
+      text-decoration: none;
+
       color: darken(#28646E, 10);
       background-color: darken(#AAF1E7, 10);
     }

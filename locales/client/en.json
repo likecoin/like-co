@@ -1011,6 +1011,27 @@
       "total": "Total"
     }
   },
+  "ISCNWidget": {
+    "title": "Submit to ISCN",
+    "label": {
+      "creator": "Creator",
+      "contentTimestamp": "Content Timestamp",
+      "contentType": "Content Type",
+      "fingerprint": "Fingerprint",
+      "holder": "Holder",
+      "rights": "Rights",
+      "rightsFrom": "From",
+      "stakeholders": "Stakeholders",
+      "timestamp": "Transaction Timestamp",
+      "title": "Title",
+      "type": "Content Type",
+      "license": "License",
+      "tags": "Tags"
+    },
+    "button": {
+      "rawTx": "View raw transaction"
+    }
+  },
   "RewardRecords": {
     "title": "Reward Records"
   },

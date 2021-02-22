@@ -6,6 +6,7 @@ import {
   transfer as transferCosmos,
   transferMultiple as transferCosmosMultiple,
 } from '@/util/CosmosHelper';
+import { remoteSignISCNPayload } from '@/util/cosmos/iscn';
 import apiWrapper from './api-wrapper';
 
 export async function sendCosmosPayment(
@@ -49,6 +50,52 @@ export async function sendCosmosPayment(
     commit(types.UI_SET_HIDE_TX_DIALOG_ACTION, !showDialogAction);
     commit(types.PAYMENT_SET_PENDING_HASH, txHash);
     commit(types.PAYMENT_SET_PENDING_TX_INFO, { from, to, value });
+    if (isWait) await included();
+    commit(types.UI_STOP_LOADING_TX);
+    return txHash;
+  } catch (error) {
+    commit(types.UI_STOP_ALL_LOADING);
+    commit(types.UI_ERROR_MSG, error.message || error);
+    throw error;
+  }
+}
+
+export async function sendISCNSignature(
+  { commit },
+  {
+    isWait = true,
+    showDialogAction = true,
+    ...payload
+  },
+) {
+  try {
+    const {
+      userId,
+      displayName,
+      cosmosWallet,
+      fingerprint,
+      title,
+      tags,
+      type,
+      license,
+      publisher,
+      memo,
+    } = payload;
+    const { txHash, included } = await remoteSignISCNPayload({
+      userId,
+      displayName,
+      cosmosWallet,
+      fingerprint,
+      title,
+      tags,
+      type,
+      license,
+      publisher,
+      memo,
+    });
+    commit(types.UI_START_LOADING_TX);
+    commit(types.UI_SET_HIDE_TX_DIALOG_ACTION, !showDialogAction);
+    commit(types.PAYMENT_SET_PENDING_HASH, txHash);
     if (isWait) await included();
     commit(types.UI_STOP_LOADING_TX);
     return txHash;
