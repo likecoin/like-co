@@ -46,7 +46,7 @@
         </div>
 
         <div
-          v-if="getUserInfo"
+          v-if="getUserInfo && getUserInfo.user"
           class="likepay-panel__section-meta"
         >
           <div class="likepay-panel__section-meta-label">
