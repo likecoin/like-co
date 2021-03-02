@@ -37,6 +37,7 @@ export async function getISCNTransferInfo(txHash, opt) {
     timestamp,
     code,
     logs: [{ success = false } = {}] = [],
+    events = [],
     tx: {
       value: {
         msg,
@@ -46,6 +47,9 @@ export async function getISCNTransferInfo(txHash, opt) {
   if (!txData.height) {
     return {};
   }
+  const createEvent = events.find(e => e.type === 'create_iscn') || {};
+  const iscnId = ((createEvent.attributes || []).find(a => a.key === 'iscn_id') || {}).value;
+  if (!iscnId) throw new Error('Cannot find ISCN ID');
   const [{
     type,
     value: {
@@ -83,6 +87,7 @@ export async function getISCNTransferInfo(txHash, opt) {
   const parsedFingerprint = fingerprint.split('://');
   const isFailed = (code && code !== '0') || !success;
   return {
+    iscnId,
     from,
     fingerprint: parsedFingerprint[parsedFingerprint.length - 1],
     tags,
