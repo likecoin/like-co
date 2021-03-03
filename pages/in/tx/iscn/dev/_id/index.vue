@@ -153,6 +153,20 @@
 
               <div class="iscn-panel__section-meta-grid-item">
                 <div class="iscn-panel__section-meta-grid-item-label">
+                  {{ $t('ISCNWidget.label.iscnId') }}
+                </div>
+                <div
+                  :class="[
+                    'iscn-panel__section-meta-grid-item-value',
+                    'iscn-panel__section-meta-grid-item-value--fingerprint',
+                  ]"
+                >
+                  {{ iscnId }}
+                </div>
+              </div>
+
+              <div class="iscn-panel__section-meta-grid-item">
+                <div class="iscn-panel__section-meta-grid-item-label">
                   {{ $t('ISCNWidget.label.fingerprint') }}
                 </div>
                 <div
@@ -348,6 +362,7 @@ export default {
       creatorAvatar: '',
       creatorAvatarHalo: 'none',
       fingerprint: '',
+      iscnId: '',
       tags: [],
       title: '',
       contentType: '',
@@ -444,6 +459,7 @@ export default {
     async updateUI(tx) {
       this.startLoading();
       const {
+        iscnId,
         from,
         fingerprint,
         tags,
@@ -456,6 +472,7 @@ export default {
         contentTimestamp,
         timestamp,
       } = tx;
+      this.iscnId = iscnId;
       this.from = from;
       this.fingerprint = fingerprint;
       this.tags = tags;
