@@ -43,8 +43,6 @@ html[layout=iscn-layout] {
   }
 
   .iscn-container {
-    user-select: none;
-
     color: white;
 
     font-family: 'Open Sans', sans-serif;
