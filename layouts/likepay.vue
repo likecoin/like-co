@@ -43,8 +43,6 @@ html[layout=likepay-layout] {
   }
 
   .likepay-container {
-    user-select: none;
-
     color: white;
 
     font-family: 'Open Sans', sans-serif;
