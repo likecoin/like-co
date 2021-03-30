@@ -56,15 +56,17 @@ export const apiPostNewUser = (form, opt) => {
   return axios.post('/users/new', params, opt);
 };
 
-export const apiPostUpdateUser = (form, opt) => {
+export const apiPostUpdateUser = payload => axios.post('/users/update', payload);
+
+export const apiPostUpdateUserAvatar = (payload) => {
   /* eslint-disable no-new */
-  const params = new FormData();
-  Object.keys(form).forEach((key) => {
-    if (typeof form[key] !== 'undefined') {
-      params.append(key, form[key]);
+  const form = new FormData();
+  Object.keys(payload).forEach((key) => {
+    if (typeof payload[key] !== 'undefined') {
+      form.append(key, payload[key]);
     }
   });
-  return axios.post('/users/update', params, opt);
+  return axios.post('/users/update/avatar', form);
 };
 
 export const apiLoginUser = payload => axios.post('/users/login', payload);

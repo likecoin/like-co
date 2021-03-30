@@ -94,10 +94,20 @@ export async function newUser({ commit, dispatch, rootState }, data) {
   return true;
 }
 
-export async function updateUser({ commit, dispatch, rootState }, data) {
+export async function updateUser({ commit, dispatch }, data) {
   await apiWrapper(
     { commit, dispatch },
-    api.apiPostUpdateUser(data, { headers: { 'x-csrf-token': rootState.staticData.csrfToken } }),
+    api.apiPostUpdateUser(data),
+    { blocking: true },
+  );
+  await dispatch('refreshUser');
+  return true;
+}
+
+export async function updateUserAvatar({ commit, dispatch }, data) {
+  await apiWrapper(
+    { commit, dispatch },
+    api.apiPostUpdateUserAvatar(data),
     { blocking: true },
   );
   await dispatch('refreshUser');
