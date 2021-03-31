@@ -216,6 +216,7 @@ const nuxtConfig = {
     { src: '~/plugins/fbpixel.client.js', ssr: false },
     { src: '~/plugins/crisp.client.js', ssr: false },
     { src: '~/plugins/testing' },
+    { src: '~/plugins/easter-egg.client.js', ssr: false },
   ],
   sentry: {
     clientIntegrations: {
