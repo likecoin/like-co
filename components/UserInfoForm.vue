@@ -297,7 +297,7 @@ export default {
         const userInfo = {
           email: this.email,
         };
-        await this.updateUser(userInfo); 
+        await this.updateUser(userInfo);
         this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${this.user}">${this.$t('Register.form.label.viewPage')}</a>`);
         this.refreshUserInfo(this.user);
         this.isEditing = false;
