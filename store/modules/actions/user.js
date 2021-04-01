@@ -84,10 +84,10 @@ export function doPostAuthRedirect({ commit, state }, { route, router }) {
   commit(types.USER_SET_AFTER_AUTH_ROUTE, null);
 }
 
-export async function newUser({ commit, dispatch, rootState }, data) {
+export async function newUser({ commit, dispatch }, data) {
   await apiWrapper(
     { commit, dispatch },
-    api.apiPostNewUser(data, { headers: { 'x-csrf-token': rootState.staticData.csrfToken } }),
+    api.apiPostNewUser(data),
     { slient: true, error: 'raw' },
   );
   await dispatch('refreshUser');

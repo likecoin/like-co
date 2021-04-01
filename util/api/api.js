@@ -45,16 +45,7 @@ export const apiSendVerifyEmail = (id, ref, locale) => axios.post(`/email/verify
 
 export const apiVerifyEmailByUUID = (uuid, locale) => axios.post(`/email/verify/${uuid}`, { locale });
 
-export const apiPostNewUser = (form, opt) => {
-  /* eslint-disable no-new */
-  const params = new FormData();
-  Object.keys(form).forEach((key) => {
-    if (typeof form[key] !== 'undefined') {
-      params.append(key, form[key]);
-    }
-  });
-  return axios.post('/users/new', params, opt);
-};
+export const apiPostNewUser = payload => axios.post('/users/new', payload);
 
 export const apiPostUpdateUser = payload => axios.post('/users/update', payload);
 
