@@ -136,7 +136,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import { mapGetters, mapActions } from 'vuex';
 
 import {
@@ -145,10 +144,7 @@ import {
   LIKECOIN_ID_REGEX,
   REGISTER_EMAIL_REGEX_STRING,
   REGISTER_EMAIL_REGEX,
-  SUPPORTED_AVATER_TYPE,
 } from '@/constant';
-
-const imageType = require('image-type');
 
 export default {
   name: 'register-form',
@@ -278,25 +274,6 @@ export default {
 
       if (this.email) {
         payload.email = this.email.toLowerCase().trim();
-      }
-
-      if (this.avatarFile) {
-        payload.avatarFile = this.avatarFile;
-      } else if (this.prefilledData.avatarURL) {
-        try {
-          // Get the avatar file from URL
-          const res = await axios.get(this.prefilledData.avatarURL, {
-            responseType: 'arraybuffer',
-            timeout: 30000,
-          });
-          const type = imageType(new Uint8Array(res.data));
-          if (SUPPORTED_AVATER_TYPE.has(type && type.ext)) {
-            const filename = this.prefilledData.avatarURL.split('/').pop();
-            payload.avatarFile = new File([new Blob([res.data])], filename);
-          }
-        } catch (err) {
-          console.error(err);
-        }
       }
 
       this.$emit('register', payload);

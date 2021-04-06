@@ -9,7 +9,6 @@ import {
   STATIC_DATA_SET_LIKE_SUGGEST_DETAIL,
   STATIC_DATA_SET_USER_MIN_INFO,
   STATIC_DATA_SET_LIKER_LIST_DETAIL,
-  STATIC_DATA_SET_CSRF_TOKEN,
 } from '../mutation-types';
 import * as getters from './getters/staticData';
 import * as actions from './actions/staticData';
@@ -21,7 +20,6 @@ const state = () => ({
   suggestedArticleList: [],
   userInfos: {},
   likerListDetails: {},
-  csrfToken: '',
 });
 
 const mutations = {
@@ -60,9 +58,6 @@ const mutations = {
   },
   [STATIC_DATA_SET_LIKER_LIST_DETAIL](state, { id, ...payload }) {
     Vue.set(state.likerListDetails, id, { ...payload });
-  },
-  [STATIC_DATA_SET_CSRF_TOKEN](state, csrfToken) {
-    state.csrfToken = csrfToken;
   },
 };
 
