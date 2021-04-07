@@ -11,10 +11,6 @@ import authCore from './modules/authCore';
 const createStore = (() => new Vuex.Store({
   actions: {
     async nuxtServerInit({ commit }, { req, route }) {
-      commit('STATIC_DATA_SET_CSRF_TOKEN', '');
-      if (req.cookies && req.csrfToken) {
-        commit('STATIC_DATA_SET_CSRF_TOKEN', req.csrfToken());
-      }
       /* TODO: actually try to verify jwt first? */
       commit('USER_SET_USER_INFO', {});
       if (route.name !== 'in-register') {

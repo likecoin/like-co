@@ -281,6 +281,7 @@ export default {
   methods: {
     ...mapActions([
       'updateUser',
+      'updateUserAvatar',
       'setInfoMsg',
       'sendVerifyEmail',
       'refreshUserInfo',
@@ -294,12 +295,23 @@ export default {
     async onSubmitEdit() {
       try {
         const userInfo = {
-          avatarFile: this.avatarFile,
-          displayName: this.displayName,
           email: this.email,
-          locale: this.getCurrentLocale,
         };
         await this.updateUser(userInfo);
+        this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${this.user}">${this.$t('Register.form.label.viewPage')}</a>`);
+        this.refreshUserInfo(this.user);
+        this.isEditing = false;
+      } catch (err) {
+        this.updateInfo();
+        console.error(err);
+      }
+    },
+    async onSubmitAvatar() {
+      try {
+        const userInfo = {
+          avatarFile: this.avatarFile,
+        };
+        await this.updateUserAvatar(userInfo);
         this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${this.user}">${this.$t('Register.form.label.viewPage')}</a>`);
         this.refreshUserInfo(this.user);
         this.isEditing = false;

@@ -325,6 +325,7 @@ export default {
   methods: {
     ...mapActions([
       'updateUser',
+      'updateUserAvatar',
       'syncAuthCoreUser',
       'refreshUserInfo',
       'sendVerifyEmail',
@@ -412,7 +413,7 @@ export default {
     async onSubmit() {
       if (this.hasUserDetailsChanged) {
         try {
-          const { avatarFile, displayName } = this;
+          const { displayName } = this;
           const email = this.email.trim();
           const {
             user,
@@ -421,7 +422,6 @@ export default {
           } = this.getUserInfo;
           const hasEmailChanged = this.getUserInfo.email !== email;
           const userInfo = {};
-          if (avatarFile) userInfo.avatarFile = avatarFile;
           if (displayName !== currentDisplayName) userInfo.displayName = displayName;
           if (email !== currentEmail) userInfo.email = email;
 
@@ -442,6 +442,20 @@ export default {
         }
       }
     },
+    async updateAvatar() {
+      if (this.hasUserDetailsChanged) {
+        try {
+          const { avatarFile } = this;
+          const userInfo = {};
+          if (avatarFile) userInfo.avatarFile = avatarFile;
+
+          await this.updateUserAvatar(userInfo);
+        } catch (err) {
+          this.updateInfo();
+          console.error(err);
+        }
+      }
+    },
     onClickEditAvatar() {
       this.$refs.avatarFile.click();
     },
@@ -453,7 +467,7 @@ export default {
         reader.onload = (e) => {
           this.avatar = e.target.result;
           if (this.getUserIsAuthCore) {
-            this.$nextTick(() => this.onSubmit());
+            this.$nextTick(() => this.updateAvatar());
           }
         };
         reader.readAsDataURL(files[0]);
