@@ -976,10 +976,14 @@ export default {
       this.currentTab = 'loading';
       try {
         this.logRegisterEvent(this, 'RegFlow', 'OAuthSuccess', `OAuthSuccess(${this.platform})`, 1);
+        const payload = {};
+        if (this.sourceURL) payload.sourceURL = this.sourceURL;
+        if (this.utmSource) payload.utmSource = this.utmSource;
         await apiLoginUser({
           locale: this.getCurrentLocale,
           platform: this.platform,
           ...this.signInPayload,
+          ...payload,
         });
         this.logRegisterEvent(this, 'RegFlow', 'LoginSuccessWhenRegister', 'LoginSuccessWhenRegister', 1);
         this.redirectAfterSignIn();
