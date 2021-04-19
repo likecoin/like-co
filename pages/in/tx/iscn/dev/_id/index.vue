@@ -202,7 +202,7 @@
                   v-for="tag in tags"
                   :key="tag"
                   class="iscn-panel__tag-list-item"
-                >tag</li>
+                >{{ tag }}</li>
               </ul>
             </div>
           </div>
