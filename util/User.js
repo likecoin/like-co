@@ -9,11 +9,12 @@ import {
 import {
   apiGetUserMinById,
 } from '@/util/api/api';
+import Keplr from '@/util/Keplr';
+import stringify from 'fast-json-stable-stringify';
 
 function getRandomPaddedDigits(length) {
   return String(Math.floor(Math.random() * (10 ** length))).padStart(length, '0');
 }
-
 const User = {
   async formatAndSignUserInfo(userInfo, signMessage) {
     const {
@@ -69,6 +70,28 @@ const User = {
       payload: await EthHelper.utf8ToHex(payload),
       from: wallet,
       platform: 'wallet',
+    };
+    return data;
+  },
+
+  async signCosmosLogin(cosmosWallet, loginMessage = LOGIN_MESSAGE) {
+    if (!cosmosWallet) return null;
+    const ts = Date.now();
+    let payload = JSON.stringify({
+      ts,
+      cosmosWallet,
+    });
+    payload = [`${loginMessage}:`, payload].join(' ');
+    const {
+      signed: message,
+      signature: { signature, pub_key: publicKey },
+    } = await Keplr.signLogin(payload);
+    const data = {
+      signature,
+      publicKey: publicKey.value,
+      message: stringify(message),
+      from: cosmosWallet,
+      platform: 'cosmosWallet',
     };
     return data;
   },

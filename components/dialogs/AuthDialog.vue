@@ -242,6 +242,7 @@ import {
   apiLoginUser,
   apiCheckIsUser,
 } from '@/util/api/api';
+import Kelpr from '@/util/Keplr';
 
 import AuthCoreRegister from '~/components/AuthCore/Register';
 import BaseDialogV2 from '~/components/dialogs/BaseDialogV2';
@@ -729,7 +730,7 @@ export default {
     },
     onClickUseLegacyButton() {
       this.isUsingAuthCore = false;
-      this.signInWithPlatform('wallet');
+      this.signInWithPlatform('cosmosWallet');
     },
     onClickBackButton() {
       if (!this.isUsingAuthCore) {
@@ -901,6 +902,10 @@ export default {
             onConfirm: () => this.startWeb3AndCb(this.signInWithWallet),
           });
           return;
+        case 'cosmosWallet':
+          this.currentTab = 'loading';
+          this.signInWithCosmosWallet();
+          return;
         default: {
           if (LOGIN_CONNECTION_LIST.includes(platform)) {
             const { url } = await getAuthPlatformSignInURL(platform);
@@ -954,6 +959,18 @@ export default {
           if (this.$sentry) this.$sentry.captureException(err);
           this.setError(err.message, err);
         }
+      }
+    },
+    async signInWithCosmosWallet() {
+      this.currentTab = 'loading';
+      try {
+        await Kelpr.initKeplr();
+        this.signInPayload = await User.signCosmosLogin(Kelpr.getWalletAddress());
+        this.login();
+      } catch (err) {
+        console.error(err);
+        if (this.$sentry) this.$sentry.captureException(err);
+        this.setError(err.message, err);
       }
     },
     async login() {
