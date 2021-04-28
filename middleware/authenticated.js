@@ -63,7 +63,7 @@ export default function ({
     }
     redirectPath = `${redirectPath}?${querystring.stringify(qsPayload)}`;
     redirect(redirectPath);
-  } else if (!store.getters.getUserIsAuthCore && route.name !== 'in-migration-authcore') {
+  } else if (store.getters.getUserIsLegacy && route.name !== 'in-migration-authcore') {
     let redirectPath = '/in/migration/authcore';
     if (!process.server) {
       store.commit(USER_SET_AFTER_AUTH_ROUTE, route);

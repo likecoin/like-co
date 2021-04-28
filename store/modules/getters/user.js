@@ -16,6 +16,15 @@ export const getUserHasWallet = state => !!(state.user.wallet || state.user.cosm
 
 export const getUserIsAuthCore = state => state.user.isAuthCore;
 
+export const getUserIsLegacy = (state) => {
+  const {
+    wallet,
+    isAuthCore,
+    cosmosWallet,
+  } = state.user;
+  return wallet && !(isAuthCore || cosmosWallet);
+};
+
 export const getLocalWeb3Wallet = state => state.wallet;
 
 export const getUserIsLoadingAuthPlaforms = state => (
