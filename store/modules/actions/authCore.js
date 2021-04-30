@@ -126,7 +126,7 @@ export async function fetchAuthCoreCosmosWallet({ state }) {
   return cosmosAddress;
 }
 
-export async function prepareCosmosTxSigner({ state }) {
+export async function prepareAuthCoreCosmosTxSigner({ state }) {
   if (!state.cosmosProvider) throw new Error('COSMOS_WALLET_NOT_INITED');
   return async function signer(signMessage) {
     const data = JSON.parse(signMessage);

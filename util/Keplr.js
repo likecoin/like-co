@@ -22,6 +22,13 @@ class Keplr {
     this.inited = false;
   }
 
+  async checkIfInited() {
+    if (!this.inited) {
+      const res = await this.initKeplr();
+      if (!res) throw new Error('CANNOT_INIT_KEPLR');
+    }
+  }
+
   async initKeplr() {
     if (this.inited) return true;
     if (!window.keplr) {
@@ -87,23 +94,22 @@ class Keplr {
   }
 
   async getKeplrSigner() {
-    if (!this.inited) {
-      const res = await this.initKeplr();
-      if (!res) throw new Error('CANNOT_INIT_KEPLR');
-    }
+    await this.checkIfInited();
     return this.signer;
   }
 
-  getWalletAddress() {
+  getIsInited() {
+    return this.inited;
+  }
+
+  async getWalletAddress() {
+    await this.checkIfInited();
     const [wallet = {}] = this.accounts;
     return wallet.address;
   }
 
   async signLogin(signPayload) {
-    if (!this.inited) {
-      const res = await this.initKeplr();
-      if (!res) throw new Error('CANNOT_INIT_KEPLR');
-    }
+    await this.checkIfInited();
     const message = {
       chain_id: network.id,
       memo: signPayload,
@@ -118,10 +124,7 @@ class Keplr {
   }
 
   async prepareCosmosTxSigner() {
-    if (!this.inited) {
-      const res = await this.initKeplr();
-      if (!res) throw new Error('CANNOT_INIT_KEPLR');
-    }
+    await this.checkIfInited();
     const signerInstance = this.signer;
     return async function signer(signMessage) {
       const data = JSON.parse(signMessage);

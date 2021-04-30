@@ -389,11 +389,11 @@ export default {
       'setErrorMsg',
       'closeTxDialog',
       'queryLikeCoinUsdPrice',
-      'fetchAuthCoreCosmosWallet',
+      'fetchCurrentCosmosWallet',
       'prepareCosmosTxSigner',
     ]),
     async calculateGasFee() {
-      const from = await this.fetchAuthCoreCosmosWallet();
+      const from = await this.fetchCurrentCosmosWallet();
       if (!from) return '';
       const to = this.wallet;
       const { gas, gasPrices } = await cosmosTransfer(
@@ -420,7 +420,7 @@ export default {
           this.isBadAmount = true;
           throw new Error('VALIDATION_FAIL');
         }
-        const from = await this.fetchAuthCoreCosmosWallet();
+        const from = await this.fetchCurrentCosmosWallet();
         if (!from) {
           throw new Error('VALIDATION_FAIL');
         }

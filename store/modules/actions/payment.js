@@ -8,6 +8,7 @@ import {
 } from '@/util/CosmosHelper';
 import { remoteSignISCNPayload } from '@/util/cosmos/iscn';
 import apiWrapper from './api-wrapper';
+import Keplr from '../../../util/Keplr';
 
 export async function sendCosmosPayment(
   { commit },
@@ -116,4 +117,20 @@ export async function queryTxHistoryByAddr({ commit, dispatch }, { addr, ts, cou
 
 export async function queryTxHistoryByUserId({ commit, dispatch }, { id, ts, count }) {
   return apiWrapper({ commit, dispatch }, api.apiQueryTxHistoryByUserId(id, ts, count));
+}
+
+export async function fetchCurrentCosmosWallet({ dispatch, getters }) {
+  const isAuthCore = getters.getUserIsAuthCore;
+  if (isAuthCore) {
+    return dispatch('fetchAuthCoreCosmosWallet');
+  }
+  return Keplr.getWalletAddress();
+}
+
+export async function prepareCosmosTxSigner({ dispatch, getters }) {
+  const isAuthCore = getters.getUserIsAuthCore;
+  if (isAuthCore) {
+    return dispatch('prepareAuthCoreCosmosTxSigner');
+  }
+  return Keplr.prepareCosmosTxSigner();
 }
