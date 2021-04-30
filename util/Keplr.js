@@ -47,9 +47,7 @@ class Keplr {
           rpc: network.rpcURL,
           rest: network.apiURL,
           stakeCurrency: configToKeplrCoin(network.stakingDenom),
-          // (Optional) If you have a wallet webpage used to stake the coin then provide the url to the website in `walletUrlForStaking`.
-          // The 'stake' button in Keplr extension will link to the webpage.
-          // walletUrlForStaking: "",
+          walletUrlForStaking: network.stakingWalletURL,
           bip44: {
             coinType: 118,
           },
