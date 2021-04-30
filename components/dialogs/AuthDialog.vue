@@ -64,6 +64,20 @@
     </div>
 
     <div
+      v-if="!isBlocking || isSinglePage"
+      slot="header-right"
+      class="auth-dialog__header-right"
+    >
+      <a
+        v-if="isSignIn && isUsingAuthCore && !isMobileClient && currentTab === 'portal'"
+        class="auth-dialog__keplr-login-button"
+        @click="onClickUseKeplrButton"
+      >
+        {{ $t('AuthDialog.SignInWithKeplr.title') }}
+      </a>
+    </div>
+
+    <div
       :style="contentStyle"
       :class="[
         'auth-dialog__content',
@@ -730,6 +744,10 @@ export default {
     },
     onClickUseLegacyButton() {
       this.isUsingAuthCore = false;
+      this.signInWithPlatform('wallet');
+    },
+    onClickUseKeplrButton() {
+      this.isUsingAuthCore = false;
       this.signInWithPlatform('cosmosWallet');
     },
     onClickBackButton() {
@@ -1194,7 +1212,7 @@ export default {
     padding-right: 16px;
   }
 
-  &__legacy-login-button {
+  &__keplr-login-button, &__legacy-login-button {
     $login-button-color: $like-green;
 
     display: inline-block;
