@@ -1,3 +1,4 @@
+import stringify from 'fast-json-stable-stringify';
 import EthHelper from '@/util/EthHelper';
 import FileHelper from '@/util/FileHelper';
 import { checkUserNameValid } from '@/util/ValidationHelper';
@@ -10,7 +11,6 @@ import {
   apiGetUserMinById,
 } from '@/util/api/api';
 import Keplr from '@/util/Keplr';
-import stringify from 'fast-json-stable-stringify';
 
 function getRandomPaddedDigits(length) {
   return String(Math.floor(Math.random() * (10 ** length))).padStart(length, '0');

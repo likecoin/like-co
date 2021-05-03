@@ -983,7 +983,7 @@ export default {
       this.currentTab = 'loading';
       try {
         await Kelpr.initKeplr();
-        this.signInPayload = await User.signCosmosLogin(Kelpr.getWalletAddress());
+        this.signInPayload = await User.signCosmosLogin(await Kelpr.getWalletAddress());
         this.login();
       } catch (err) {
         console.error(err);

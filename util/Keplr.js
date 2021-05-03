@@ -100,10 +100,14 @@ class Keplr {
     return this.inited;
   }
 
-  async getWalletAddress() {
-    await this.checkIfInited();
+  internalGetWalletAddress() {
     const [wallet = {}] = this.accounts;
     return wallet.address;
+  }
+
+  async getWalletAddress() {
+    await this.checkIfInited();
+    return this.internalGetWalletAddress();
   }
 
   async signLogin(signPayload) {
@@ -115,7 +119,7 @@ class Keplr {
       fee: { gas: '1', amount: { denom: 'nanolike', amount: '0' } },
     };
     const payload = await this.signer.sign(
-      this.accounts[0].address,
+      this.internalGetWalletAddress(),
       message,
     );
     return { message, ...payload };
@@ -126,7 +130,7 @@ class Keplr {
     const signerInstance = this.signer;
     return async function signer(signMessage) {
       const data = JSON.parse(signMessage);
-      const dataWithSign = await signerInstance.sign(this.accounts[0].address, data);
+      const dataWithSign = await signerInstance.sign(this.internalGetWalletAddress(), data);
       const signObject = dataWithSign.signature;
       return {
         signature: Buffer.from(signObject.signature, 'base64'),
