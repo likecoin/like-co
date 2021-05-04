@@ -163,6 +163,11 @@
                         $t('General.button.confirm')
                       }}
                     </md-button>
+                    <p
+                      v-if="gasFee"
+                    >
+                      {{ $t('Transaction.label.gasFee', { gasFee }) }}
+                    </p>
                     <div id="authcore-cosmos-container" />
                   </div>
                 </no-ssr>
@@ -193,6 +198,7 @@ import SocialMediaConnect from '~/components/SocialMediaConnect';
 
 import {
   queryLikeCoinBalance as queryCosmosLikeCoinBalance,
+  transfer as cosmosTransfer,
 } from '@/util/CosmosHelper';
 import User from '@/util/User';
 import {
@@ -238,6 +244,7 @@ export default {
       isP2pUnavailable: false,
       isLoading: true,
       platforms: {},
+      gasFee: '',
     };
   },
   async asyncData({
@@ -347,14 +354,22 @@ export default {
       }
       return null;
     },
+    totalAmount() {
+      let amount = new BigNumber(this.amount);
+      if (this.gasFee) amount = amount.plus(this.gasFee);
+      return amount.toFixed();
+    },
   },
   async mounted() {
+    const promises = [];
     if (!this.getLikeCoinUsdNumericPrice) {
-      await this.queryLikeCoinUsdPrice();
+      promises.push(this.queryLikeCoinUsdPrice());
     }
+    promises.push(this.calculateGasFee());
     if (!this.$route.params.amount && this.getLikeCoinUsdNumericPrice) {
       this.amount = (DEFAULT_P2P_AMOUNT_IN_USD / this.getLikeCoinUsdNumericPrice).toFixed(2);
     }
+    await Promise.all(promises);
     this.isLoading = false;
   },
   methods: {
@@ -370,6 +385,23 @@ export default {
       'fetchAuthCoreCosmosWallet',
       'prepareCosmosTxSigner',
     ]),
+    async calculateGasFee() {
+      const from = await this.fetchAuthCoreCosmosWallet();
+      if (!from) return '';
+      const to = this.wallet;
+      const { gas, gasPrices } = await cosmosTransfer(
+        {
+          from,
+          to,
+          value: this.amount,
+          memo: this.remarks,
+        },
+        null,
+        { simulate: true },
+      );
+      this.gasFee = new BigNumber(gas).multipliedBy(gasPrices[0].amount).dividedBy(1e9).toFixed();
+      return this.gasFee;
+    },
     async submitTransfer() {
       this.isLoading = true;
       try {
@@ -395,7 +427,8 @@ export default {
           throw new Error('VALIDATION_FAIL');
         }
         const balance = await queryCosmosLikeCoinBalance(from);
-        if (amount.gt(balance)) {
+        const totalAmount = new BigNumber(this.totalAmount);
+        if (totalAmount.gt(balance)) {
           this.setErrorMsg(
             this.$t('Transaction.error.likecoinInsufficient'),
           );

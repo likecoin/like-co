@@ -959,6 +959,7 @@
       "sendTo": "轉帳 {coin} 給 {title}",
       "remarks": "備註",
       "httpReferrer": "來源 URL",
+      "gasFee": "目前交易費用： {gasFee} LIKE",
       "viewTx": "查看交易",
       "amountToSend": "轉帳 {coin} 金額",
       "invalidAmount": "金額無效",
