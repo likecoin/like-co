@@ -969,6 +969,7 @@
       "sendTo": "Send {coin} to {title}",
       "remarks": "Remarks",
       "httpReferrer": "Source URL",
+      "gasFee": "Current Gas Fee: {gasFee} LIKE",
       "viewTx": "View Transaction",
       "amountToSend": "Amount of {coin} to send",
       "invalidAmount": "Invalid amount",

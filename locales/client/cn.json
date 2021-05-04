@@ -904,6 +904,7 @@
             "sendTo": "转帐 {coin} 给 {title}",
             "remarks": "备注",
             "httpReferrer": "来源 URL",
+            "gasFee": "目前交易费用： {gasFee} LIKE",
             "viewTx": "查看交易",
             "amountToSend": "转帐 {coin} 金额",
             "invalidAmount": "金额无效",
