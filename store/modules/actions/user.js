@@ -3,6 +3,7 @@ import * as types from '@/store/mutation-types';
 import { REDIRECT_NAME_WHITE_LIST } from '@/constant';
 
 import User from '@/util/User';
+import Kelpr from '@/util/Keplr';
 import {
   setTrackerUser,
 } from '@/util/EventLogger';
@@ -90,6 +91,9 @@ export async function newUser({ commit, dispatch }, data) {
     api.apiPostNewUser(data),
     { slient: true, error: 'raw' },
   );
+  if (data.cosmosWalletSource) {
+    dispatch('setDefaultCosmosWalletSource', data.cosmosWalletSource);
+  }
   await dispatch('refreshUser');
   return true;
 }
@@ -126,6 +130,9 @@ export async function syncAuthCoreUser({ commit, dispatch, rootState }) {
 export async function loginUser({ commit, dispatch }, data) {
   await apiWrapper({ commit, dispatch }, api.apiLoginUser(data), { blocking: true });
   await dispatch('refreshUser');
+  if (data.cosmosWalletSource) {
+    dispatch('setDefaultCosmosWalletSource', data.cosmosWalletSource);
+  }
   return true;
 }
 
@@ -156,11 +163,13 @@ export async function unlinkUserAuthPlatform({ commit, dispatch }, { platform })
 }
 
 
-export async function logoutUser({ commit, dispatch }, data) {
+export async function logoutUser({ commit, dispatch, state }, data) {
+  const { isAuthCore } = state.user;
   await apiWrapper({ commit, dispatch }, api.apiLogoutUser(data), { blocking: true });
   commit(types.USER_SET_USER_INFO, {});
   commit(types.UI_INFO_MSG, '');
-  await dispatch('authCoreLogoutUser');
+  if (isAuthCore) await dispatch('authCoreLogoutUser');
+  dispatch('clearDefaultCosmosWalletSource');
   return true;
 }
 
@@ -177,6 +186,19 @@ export async function loginUserBySign({ state, dispatch }) {
   await api.apiLoginUser(payload);
   await dispatch('refreshUser');
   return true;
+}
+
+export async function loginByCosmosWallet(_, source) {
+  let payload;
+  switch (source) {
+    case 'keplr': {
+      await Kelpr.initKeplr();
+      payload = await User.signCosmosLogin(await Kelpr.getWalletAddress());
+      break;
+    }
+    default: throw new Error('UNKNOWN_COSMOS_WALLET_SOURCE');
+  }
+  return { cosmosWalletSource: source, ...payload };
 }
 
 export async function onWalletChanged({ commit }, wallet) {

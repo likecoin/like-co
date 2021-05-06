@@ -256,7 +256,6 @@ import {
   apiLoginUser,
   apiCheckIsUser,
 } from '@/util/api/api';
-import Kelpr from '@/util/Keplr';
 
 import AuthCoreRegister from '~/components/AuthCore/Register';
 import BaseDialogV2 from '~/components/dialogs/BaseDialogV2';
@@ -591,6 +590,7 @@ export default {
       'initAuthCoreCosmosWallet',
       'fetchAuthCoreCosmosWallet',
       'authCoreLogoutUser',
+      'loginByCosmosWallet',
     ]),
     setContentStyle({ height }) {
       const style = {
@@ -982,8 +982,7 @@ export default {
     async signInWithCosmosWallet() {
       this.currentTab = 'loading';
       try {
-        await Kelpr.initKeplr();
-        this.signInPayload = await User.signCosmosLogin(await Kelpr.getWalletAddress());
+        this.signInPayload = await this.loginByCosmosWallet('keplr');
         this.login();
       } catch (err) {
         console.error(err);

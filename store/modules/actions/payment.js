@@ -119,18 +119,44 @@ export async function queryTxHistoryByUserId({ commit, dispatch }, { id, ts, cou
   return apiWrapper({ commit, dispatch }, api.apiQueryTxHistoryByUserId(id, ts, count));
 }
 
-export async function fetchCurrentCosmosWallet({ dispatch, getters }) {
+export function setDefaultCosmosWalletSource({ commit }, defaultCosmosWalletSource) {
+  commit(types.PAYMENT_SET_COSMOS_WALLET_SOURCE, defaultCosmosWalletSource);
+  if (window.localStorage) {
+    if (defaultCosmosWalletSource) {
+      window.localStorage.setItem('defaultCosmosWalletSource', defaultCosmosWalletSource);
+    } else {
+      window.localStorage.removeItem('defaultCosmosWalletSource');
+    }
+  }
+}
+
+export function clearDefaultCosmosWalletSource({ commit }) {
+  commit(types.PAYMENT_SET_COSMOS_WALLET_SOURCE, 'keplr');
+  if (window.localStorage) window.localStorage.removeItem('defaultCosmosWalletSource');
+}
+
+export async function fetchCurrentCosmosWallet({ dispatch, state, getters }) {
   const isAuthCore = getters.getUserIsAuthCore;
   if (isAuthCore) {
     return dispatch('fetchAuthCoreCosmosWallet');
   }
-  return Keplr.getWalletAddress();
+  const { cosmosWalletSource } = state;
+  switch (cosmosWalletSource) {
+    case 'keplr':
+    default:
+      return Keplr.getWalletAddress();
+  }
 }
 
-export async function prepareCosmosTxSigner({ dispatch, getters }) {
+export async function prepareCosmosTxSigner({ dispatch, state, getters }) {
   const isAuthCore = getters.getUserIsAuthCore;
   if (isAuthCore) {
     return dispatch('prepareAuthCoreCosmosTxSigner');
   }
-  return Keplr.prepareCosmosTxSigner();
+  const { cosmosWalletSource } = state;
+  switch (cosmosWalletSource) {
+    case 'keplr':
+    default:
+      return Keplr.prepareCosmosTxSigner();
+  }
 }
