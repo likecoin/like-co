@@ -101,16 +101,6 @@
               @navigation="onAuthCoreNavigation"
               @success="signInWithAuthCore"
             />
-            <signin-portal
-              v-else
-              class="base-dialog-v2__corner-block"
-              :is-sign-in="isSignIn"
-              :is-show-close-button="closable"
-              :avatar="avatar"
-              @toggle-sign-in="onToggleSignIn"
-              @close="setIsShow(false)"
-              @submit="signInWithPlatform"
-            />
           </div>
 
           <div
@@ -298,7 +288,6 @@ export default {
   components: {
     BaseDialogV2,
     AuthCoreRegister,
-    SigninPortal: () => import('./AuthDialogContent/SignInPortal'),
     RegisterForm,
   },
   mixins: [
@@ -815,9 +804,6 @@ export default {
           this.currentTab = 'portal';
           break;
       }
-    },
-    onToggleSignIn() {
-      this.toggleAuthDialogIsSignIn();
     },
     onConfirm() {
       this.setIsShow(false);
