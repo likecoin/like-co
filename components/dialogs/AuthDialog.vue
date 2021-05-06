@@ -229,8 +229,6 @@ import { ResizeObserver } from 'resize-observer';
 import URL from 'url-parse';
 
 import {
-  MIN_USER_ID_LENGTH,
-  MAX_USER_ID_LENGTH,
   LOGIN_CONNECTION_LIST,
   EXTERNAL_URL,
 } from '@/constant';
@@ -243,11 +241,7 @@ import {
 import {
   apiLoginUser,
   apiCheckIsUser,
-  apiGetUserMinById,
 } from '@/util/api/api';
-
-import { checkUserNameValid } from '@/util/ValidationHelper';
-
 
 import AuthCoreRegister from '~/components/AuthCore/Register';
 import BaseDialogV2 from '~/components/dialogs/BaseDialogV2';
@@ -264,10 +258,6 @@ import {
   tryPostLoginRedirect,
   checkIsMobileClient,
 } from '~/util/client';
-
-function getRandomPaddedDigits(length) {
-  return String(Math.floor(Math.random() * (10 ** length))).padStart(length, '0');
-}
 
 function shouldWriteURLIntoSession(sourceURL) {
   if (!sourceURL) {
@@ -514,19 +504,8 @@ export default {
 
     const { from } = this.$route.query;
     if (from) {
-      try {
-        if (!this.getUserMinInfoById(from)) {
-          await this.fetchUserMinInfo(from);
-        }
-        const userInfo = this.getUserMinInfoById(from);
-        this.avatar = userInfo.avatar;
-        this.fromDisplayName = userInfo.displayName;
-        this.avatarHalo = User.getAvatarHaloType(userInfo);
-      } catch (err) {
-        // noop
-      }
+      await this.fetchAvatar(from);
     }
-
     // Listen to onClickReturnButton event of MetaMaskDialog
     this.$root.$on('MetaMaskDialog.onClickReturnButton', () => {
       this.stopWeb3Polling();
@@ -547,39 +526,9 @@ export default {
     // Handle redirect sign in
     const {
       redirect_sign_in: isRedirectSignIn,
-      sign_in_platform: signInPlatform,
-      ...query
     } = this.$route.query;
     if (isRedirectSignIn) {
-      this.logRegisterEvent(this, 'RegFlow', 'LoginRedirectDone', 'LoginRedirectDone', 1);
-      this.currentTab = 'loading';
-
-      try {
-        if (signInPlatform) {
-          if (signInPlatform === 'authcore') {
-            const { code } = this.$route.query;
-            const payload = await this.fetchAuthCoreAccessTokenAndUser(code);
-            await this.signInWithAuthCore(payload);
-          } else {
-            const { code, state } = this.$route.query;
-            this.platform = signInPlatform;
-            this.signInPayload = await getAuthPlatformSignInPayload(
-              signInPlatform,
-              { code, state },
-            );
-            if (this.signInPayload) this.login();
-          }
-        }
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.error(err);
-        this.setError(err.code, err);
-        if (this.$sentry) this.$sentry.captureException(err);
-      }
-      this.$router.replace({
-        name: this.$route.name,
-        query,
-      });
+      await this.handleRedirectSignIn();
     } else {
       this.logShowAuthDialog(this.getIsShowAuthDialog);
     }
@@ -862,6 +811,55 @@ export default {
         isSignIn: page === 'SignIn',
       });
     },
+    async fetchAvatar(from) {
+      try {
+        if (!this.getUserMinInfoById(from)) {
+          await this.fetchUserMinInfo(from);
+        }
+        const userInfo = this.getUserMinInfoById(from);
+        this.avatar = userInfo.avatar;
+        this.fromDisplayName = userInfo.displayName;
+        this.avatarHalo = User.getAvatarHaloType(userInfo);
+      } catch (err) {
+        // noop
+      }
+    },
+    async handleRedirectSignIn() {
+      const {
+        redirect_sign_in: isRedirectSignIn,
+        sign_in_platform: signInPlatform,
+        ...query
+      } = this.$route.query;
+      this.logRegisterEvent(this, 'RegFlow', 'LoginRedirectDone', 'LoginRedirectDone', 1);
+      this.currentTab = 'loading';
+
+      try {
+        if (signInPlatform) {
+          if (signInPlatform === 'authcore') {
+            const { code } = this.$route.query;
+            const payload = await this.fetchAuthCoreAccessTokenAndUser(code);
+            await this.signInWithAuthCore(payload);
+          } else {
+            const { code, state } = this.$route.query;
+            this.platform = signInPlatform;
+            this.signInPayload = await getAuthPlatformSignInPayload(
+              signInPlatform,
+              { code, state },
+            );
+            if (this.signInPayload) this.login();
+          }
+        }
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error(err);
+        this.setError(err.code, err);
+        if (this.$sentry) this.$sentry.captureException(err);
+      }
+      this.$router.replace({
+        name: this.$route.name,
+        query,
+      });
+    },
     async signInWithAuthCore({ accessToken, currentUser, idToken }) {
       this.logRegisterEvent(this, 'RegFlow', 'AuthCoreSignInSuccess', 'AuthCoreSignInSuccess', 1);
       await this.setAuthCoreToken(accessToken);
@@ -992,37 +990,8 @@ export default {
       logTrackerEvent(this, 'RegFlow', 'PreRegister', `PreRegister(${this.platform})`, 1);
       this.currentTab = 'loading';
       if (this.signInPayload.suggestedName || this.signInPayload.email) {
-        const RANDOM_DIGIT_LENGTH = 5;
-        const MAX_SUGGEST_TRY = 5;
-        let { suggestedName } = this.signInPayload;
-        if (!suggestedName) {
-          [suggestedName] = this.signInPayload.email.split('@');
-        }
-        suggestedName = suggestedName.trim().toLowerCase().replace(/[^a-z0-9-_]/g, '-');
-        suggestedName = suggestedName.substring(0, MAX_USER_ID_LENGTH - RANDOM_DIGIT_LENGTH);
-        let isIDAvailable = false;
-        let tries = 0;
-        let tryName = suggestedName;
-        if (suggestedName.length < MIN_USER_ID_LENGTH) {
-          tryName = `${suggestedName}${getRandomPaddedDigits(RANDOM_DIGIT_LENGTH)}`;
-        }
-        while (!isIDAvailable && tries < MAX_SUGGEST_TRY) {
-          try {
-            await apiGetUserMinById(tryName); // eslint-disable-line no-await-in-loop
-          } catch (err) {
-            if (err.response) {
-              if (err.response.status === 404) {
-                isIDAvailable = true;
-                break;
-              }
-            }
-          }
-          tryName = `${suggestedName}${getRandomPaddedDigits(RANDOM_DIGIT_LENGTH)}`;
-          tries += 1;
-        }
-        if (isIDAvailable && tryName && checkUserNameValid(tryName)) {
-          Vue.set(this.signInPayload, 'defaultLikeCoinId', tryName);
-        }
+        const defaultLikerID = await User.prepareSuggestedUserName(this.signInPayload);
+        if (defaultLikerID) Vue.set(this.signInPayload, 'defaultLikeCoinId', defaultLikerID);
       }
       if (this.platform === 'authcore') {
         await this.initAuthCoreCosmosWallet();

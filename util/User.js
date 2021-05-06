@@ -1,8 +1,18 @@
 import EthHelper from '@/util/EthHelper';
 import FileHelper from '@/util/FileHelper';
+import { checkUserNameValid } from '@/util/ValidationHelper';
 import {
+  MIN_USER_ID_LENGTH,
+  MAX_USER_ID_LENGTH,
   LOGIN_MESSAGE,
 } from '@/constant';
+import {
+  apiGetUserMinById,
+} from '@/util/api/api';
+
+function getRandomPaddedDigits(length) {
+  return String(Math.floor(Math.random() * (10 ** length))).padStart(length, '0');
+}
 
 const User = {
   async formatAndSignUserInfo(userInfo, signMessage) {
@@ -68,6 +78,41 @@ const User = {
       return 'civic-liker';
     }
     return 'none';
+  },
+
+  async prepareSuggestedUserName(signInPayload) {
+    const RANDOM_DIGIT_LENGTH = 5;
+    const MAX_SUGGEST_TRY = 5;
+    let { suggestedName } = signInPayload;
+    if (!suggestedName) {
+      [suggestedName] = signInPayload.email.split('@');
+    }
+    suggestedName = suggestedName.trim().toLowerCase().replace(/[^a-z0-9-_]/g, '-');
+    suggestedName = suggestedName.substring(0, MAX_USER_ID_LENGTH - RANDOM_DIGIT_LENGTH);
+    let isIDAvailable = false;
+    let tries = 0;
+    let tryName = suggestedName;
+    if (suggestedName.length < MIN_USER_ID_LENGTH) {
+      tryName = `${suggestedName}${getRandomPaddedDigits(RANDOM_DIGIT_LENGTH)}`;
+    }
+    while (!isIDAvailable && tries < MAX_SUGGEST_TRY) {
+      try {
+        await apiGetUserMinById(tryName); // eslint-disable-line no-await-in-loop
+      } catch (err) {
+        if (err.response) {
+          if (err.response.status === 404) {
+            isIDAvailable = true;
+            break;
+          }
+        }
+      }
+      tryName = `${suggestedName}${getRandomPaddedDigits(RANDOM_DIGIT_LENGTH)}`;
+      tries += 1;
+    }
+    if (isIDAvailable && tryName && checkUserNameValid(tryName)) {
+      return tryName;
+    }
+    return '';
   },
 };
 
