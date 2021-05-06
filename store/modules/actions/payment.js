@@ -9,6 +9,7 @@ import {
 import { remoteSignISCNPayload } from '@/util/cosmos/iscn';
 import apiWrapper from './api-wrapper';
 import Keplr from '../../../util/Keplr';
+import Ledger from '../../../util/Ledger';
 
 export async function sendCosmosPayment(
   { commit },
@@ -142,6 +143,9 @@ export async function fetchCurrentCosmosWallet({ dispatch, state, getters }) {
   }
   const { cosmosWalletSource } = state;
   switch (cosmosWalletSource) {
+    case 'ledger': {
+      return Ledger.getWalletAddress();
+    }
     case 'keplr':
     default:
       return Keplr.getWalletAddress();
@@ -155,6 +159,9 @@ export async function prepareCosmosTxSigner({ dispatch, state, getters }) {
   }
   const { cosmosWalletSource } = state;
   switch (cosmosWalletSource) {
+    case 'ledger': {
+      return Ledger.prepareCosmosTxSigner();
+    }
     case 'keplr':
     default:
       return Keplr.prepareCosmosTxSigner();

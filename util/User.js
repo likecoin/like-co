@@ -74,7 +74,7 @@ const User = {
     return data;
   },
 
-  async signCosmosLogin(cosmosWallet, loginMessage = LOGIN_MESSAGE) {
+  async signCosmosLogin(cosmosWallet, signer, loginMessage = LOGIN_MESSAGE) {
     if (!cosmosWallet) return null;
     const ts = Date.now();
     let payload = JSON.stringify({
@@ -85,7 +85,7 @@ const User = {
     const {
       signed: message,
       signature: { signature, pub_key: publicKey },
-    } = await Keplr.signLogin(payload);
+    } = await signer(payload);
     const data = {
       signature,
       publicKey: publicKey.value,

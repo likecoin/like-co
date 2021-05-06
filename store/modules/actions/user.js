@@ -3,7 +3,8 @@ import * as types from '@/store/mutation-types';
 import { REDIRECT_NAME_WHITE_LIST } from '@/constant';
 
 import User from '@/util/User';
-import Kelpr from '@/util/Keplr';
+import Keplr from '@/util/Keplr';
+import Ledger from '@/util/Ledger';
 import {
   setTrackerUser,
 } from '@/util/EventLogger';
@@ -192,8 +193,19 @@ export async function loginByCosmosWallet(_, source) {
   let payload;
   switch (source) {
     case 'keplr': {
-      await Kelpr.initKeplr();
-      payload = await User.signCosmosLogin(await Kelpr.getWalletAddress());
+      await Keplr.initKeplr();
+      payload = await User.signCosmosLogin(
+        await Keplr.getWalletAddress(),
+        s => Keplr.signLogin(s),
+      );
+      break;
+    }
+    case 'ledger': {
+      await Ledger.init();
+      payload = await User.signCosmosLogin(
+        await Ledger.getWalletAddress(),
+        s => Ledger.signLogin(s),
+      );
       break;
     }
     default: throw new Error('UNKNOWN_COSMOS_WALLET_SOURCE');

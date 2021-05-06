@@ -39,6 +39,10 @@
     ]
   },
   "dependencies": {
+    "@cosmjs/crypto": "^0.25.0",
+    "@cosmjs/launchpad-ledger": "^0.23.2",
+    "@ledgerhq/hw-transport-webhid": "^5.50.0",
+    "@ledgerhq/hw-transport-webusb": "^5.50.0",
     "@likecoin/abi-decoder": "^3.0.0",
     "@likecoin/nuxt-google-optimize": "^0.5.3-like.10",
     "@likecoin/ui-vue": "^0.7.1",
