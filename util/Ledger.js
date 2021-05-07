@@ -76,7 +76,8 @@ class Ledger {
 
   async getWalletAddress() {
     if (!this.accounts[0]) await this.init();
-    return this.internalGetWalletAddress();
+    const address = this.internalGetWalletAddress();
+    return address;
   }
 
 
@@ -99,9 +100,10 @@ class Ledger {
 
   async prepareCosmosTxSigner() {
     const { ledger: signerInstance } = await this.init();
+    const address = this.internalGetWalletAddress();
     return async function signer(signMessage) {
       const data = JSON.parse(signMessage);
-      const dataWithSign = await signerInstance.sign(this.internalGetWalletAddress(), data);
+      const dataWithSign = await signerInstance.sign(address, data);
       const signObject = dataWithSign.signature;
       return {
         signature: Buffer.from(signObject.signature, 'base64'),

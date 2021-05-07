@@ -107,7 +107,8 @@ class Keplr {
 
   async getWalletAddress() {
     await this.checkIfInited();
-    return this.internalGetWalletAddress();
+    const address = this.internalGetWalletAddress();
+    return address;
   }
 
   async signLogin(signPayload) {
@@ -128,9 +129,10 @@ class Keplr {
   async prepareCosmosTxSigner() {
     await this.checkIfInited();
     const signerInstance = this.signer;
+    const address = this.internalGetWalletAddress();
     return async function signer(signMessage) {
       const data = JSON.parse(signMessage);
-      const dataWithSign = await signerInstance.sign(this.internalGetWalletAddress(), data);
+      const dataWithSign = await signerInstance.sign(address, data);
       const signObject = dataWithSign.signature;
       return {
         signature: Buffer.from(signObject.signature, 'base64'),

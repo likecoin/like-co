@@ -68,13 +68,22 @@
       slot="header-right"
       class="auth-dialog__header-right"
     >
-      <a
+      <template
         v-if="isSignIn && isUsingAuthCore && !isMobileClient && currentTab === 'portal'"
-        class="auth-dialog__keplr-login-button"
-        @click="onClickUseKeplrButton"
       >
-        {{ $t('AuthDialog.SignInWithKeplr.title') }}
-      </a>
+        <a
+          class="auth-dialog__ledger-login-button"
+          @click="onClickUseLedgerButton"
+        >
+          {{ $t('Ledger') }}
+        </a>
+        <a
+          class="auth-dialog__keplr-login-button"
+          @click="onClickUseKeplrButton"
+        >
+          {{ $t('Keplr') }}
+        </a>
+      </template>
     </div>
 
     <div
@@ -748,7 +757,11 @@ export default {
     },
     onClickUseKeplrButton() {
       this.isUsingAuthCore = false;
-      this.signInWithPlatform('cosmosWallet');
+      this.signInWithPlatform('cosmosWallet', { source: 'keplr' });
+    },
+    onClickUseLedgerButton() {
+      this.isUsingAuthCore = false;
+      this.signInWithPlatform('cosmosWallet', { source: 'ledger' });
     },
     onClickBackButton() {
       if (!this.isUsingAuthCore) {
@@ -904,12 +917,12 @@ export default {
       };
       this.login();
     },
-    async signInWithPlatform(platform) {
+    async signInWithPlatform(platform, opt = {}) {
       this.platform = platform;
       this.logRegisterEvent(this, 'RegFlow', 'LoginTry', `LoginTry(${platform})`, 1);
 
       switch (platform) {
-        case 'wallet':
+        case 'wallet': {
           this.currentTab = 'loading';
           this.setWalletNoticeDialog({
             isShow: true,
@@ -920,10 +933,13 @@ export default {
             onConfirm: () => this.startWeb3AndCb(this.signInWithWallet),
           });
           return;
-        case 'cosmosWallet':
+        }
+        case 'cosmosWallet': {
           this.currentTab = 'loading';
-          this.signInWithCosmosWallet();
+          const { source } = opt;
+          this.signInWithCosmosWallet(source);
           return;
+        }
         default: {
           if (LOGIN_CONNECTION_LIST.includes(platform)) {
             const { url } = await getAuthPlatformSignInURL(platform);
@@ -979,10 +995,10 @@ export default {
         }
       }
     },
-    async signInWithCosmosWallet() {
+    async signInWithCosmosWallet(source = 'keplr') {
       this.currentTab = 'loading';
       try {
-        this.signInPayload = await this.loginByCosmosWallet('keplr');
+        this.signInPayload = await this.loginByCosmosWallet(source);
         this.login();
       } catch (err) {
         console.error(err);
@@ -1211,7 +1227,7 @@ export default {
     padding-right: 16px;
   }
 
-  &__keplr-login-button, &__legacy-login-button {
+  &__ledger-login-button, &__keplr-login-button, &__legacy-login-button {
     $login-button-color: $like-green;
 
     display: inline-block;
