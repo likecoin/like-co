@@ -120,7 +120,13 @@
                 <!--   <md-input placeholder="Remark (optional)" /> -->
                 <!-- </md-field> -->
                 <div
-                  v-if="isLoading"
+                  v-if="isSigning"
+                  class="lc-margin-top-8 lc-text-align-center"
+                >
+                  {{ $t('General.signing') }}
+                </div>
+                <div
+                  v-else-if="isLoading"
                   class="lc-margin-top-8 lc-text-align-center"
                 >
                   {{ $t('General.loading') }}
@@ -243,6 +249,7 @@ export default {
       isSupportTransferDeleteaged: true,
       isP2pUnavailable: false,
       isLoading: true,
+      isSigning: false,
       platforms: {},
       gasFee: '',
     };
@@ -403,6 +410,7 @@ export default {
       return this.gasFee;
     },
     async submitTransfer() {
+      this.isSigning = true;
       this.isLoading = true;
       try {
         this.isBadAmount = false;
@@ -442,6 +450,7 @@ export default {
           to,
           value: valueToSend,
         });
+        this.isSigning = false;
         if (this.getIsShowingTxPopup) {
           this.closeTxDialog();
           this.$router.push({
@@ -453,6 +462,7 @@ export default {
         if (error.message !== 'VALIDATION_FAIL') console.error(error);
       } finally {
         this.isLoading = false;
+        this.isSigning = false;
       }
     },
     onAmountInput(value) {

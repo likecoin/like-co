@@ -8,6 +8,7 @@
         "disconnect": "取消连接",
         "learnMore": "了解更多",
         "loading": "载入中",
+        "signing": "等待签署",
         "retry": "重试",
         "contactUs": "如需 {deleteAccount}，请联络我们",
         "label": {
