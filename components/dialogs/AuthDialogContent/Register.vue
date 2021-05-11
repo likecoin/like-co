@@ -275,6 +275,7 @@ export default {
       if (this.email) {
         payload.email = this.email.toLowerCase().trim();
       }
+      if (this.avatarFile) payload.avatarFile = this.avatarFile;
 
       this.$emit('register', payload);
     },

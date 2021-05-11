@@ -309,7 +309,7 @@ export default {
     async onSubmitAvatar() {
       try {
         const userInfo = {
-          avatarFile: this.avatarFile,
+          avatarFile: this.avatarData,
         };
         await this.updateUserAvatar(userInfo);
         this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${this.user}">${this.$t('Register.form.label.viewPage')}</a>`);

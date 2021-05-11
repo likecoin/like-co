@@ -1067,6 +1067,11 @@ export default {
 
       try {
         await this.newUser(payload);
+        if (payload.avatarFile) {
+          await this.updateUserAvatar({
+            avatarFile: payload.avatarFile,
+          });
+        }
         logTrackerEvent(
           this,
           'RegFlow',
