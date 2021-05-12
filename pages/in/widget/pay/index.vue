@@ -1,11 +1,16 @@
 <!-- eslint-disable max-len -->
 <template>
   <div
-    v-if="isLoading"
+    v-if="isLoading || isSigning"
     key="loading"
     class="likepay-body likepay-body--center"
   >
-    <span class="likepay-text-panel">{{ $t('General.loading') }}</span>
+    <span v-if="isSigning" class="likepay-text-panel">
+      {{ $t('General.signing') }}
+    </span>
+    <span v-else class="likepay-text-panel">
+      {{ $t('General.loading') }}
+    </span>
   </div>
   <div
     v-else
@@ -356,6 +361,7 @@ export default {
       agentFee: '',
       redirectUri: '',
       isLoading: true,
+      isSigning: false,
       showDetails: false,
       blocking: false,
       state: '',
@@ -640,6 +646,7 @@ export default {
     },
     async submitTransfer() {
       this.isLoading = true;
+      this.isSigning = true;
       try {
         const { cosmosWallet } = this.getUserInfo;
         const amount = new BigNumber(this.totalAmount);
@@ -698,11 +705,13 @@ export default {
             metadata,
           });
         }
+        this.isSigning = false;
         this.postTransaction({ txHash });
       } catch (error) {
         if (error.message !== 'VALIDATION_FAIL') console.error(error);
       } finally {
         this.isLoading = false;
+        this.isSigning = false;
       }
     },
     async postTransaction({ txHash, error } = {}) {
