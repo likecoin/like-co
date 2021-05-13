@@ -10,7 +10,6 @@ import {
 import {
   apiGetUserMinById,
 } from '@/util/api/api';
-import Keplr from '@/util/Keplr';
 
 function getRandomPaddedDigits(length) {
   return String(Math.floor(Math.random() * (10 ** length))).padStart(length, '0');
