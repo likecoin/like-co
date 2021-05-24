@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable prefer-template */
 import network from './cosmos/network';
+import { DEFAULT_GAS_PRICE_NUMBER } from './CosmosHelper';
 import { timeout } from '@/util/misc';
 
 function configToKeplrCoin(denom) {
@@ -72,11 +73,11 @@ class Keplr {
           // If this field is not provided, Keplr extension will set the default gas price as (low: 0.01, average: 0.025, high: 0.04).
           // Currently, Keplr doesn't support dynamic calculation of the gas prices based on on-chain data.
           // Make sure that the gas prices are higher than the minimum gas prices accepted by chain validators and RPC/REST endpoint.
-          // gasPriceStep: {
-          //     low: 0.01,
-          //     average: 0.025,
-          //     high: 0.04
-          // }
+          gasPriceStep: {
+            low: DEFAULT_GAS_PRICE_NUMBER,
+            average: DEFAULT_GAS_PRICE_NUMBER,
+            high: DEFAULT_GAS_PRICE_NUMBER,
+          },
         });
         await window.keplr.enable(network.id);
 

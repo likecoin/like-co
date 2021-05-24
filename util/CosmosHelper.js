@@ -6,6 +6,7 @@ import {
 import { timeout } from '@/util/misc';
 
 export const DEFAULT_GAS_PRICE = [{ amount: 1000, denom: 'nanolike' }];
+export const DEFAULT_GAS_PRICE_NUMBER = DEFAULT_GAS_PRICE[0].amount;
 export const DEFAULT_ISCN_GAS_PRICE = [{ amount: 0, denom: 'nanolike' }];
 const COSMOS_RESTFUL_API = '/api/cosmos/lcd';
 
