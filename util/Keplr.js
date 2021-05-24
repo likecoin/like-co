@@ -119,6 +119,8 @@ class Keplr {
       memo: signPayload,
       msgs: [],
       fee: { gas: '1', amount: { denom: 'nanolike', amount: '0' } },
+      sequence: '0',
+      account_number: '0',
     };
     const payload = await this.signer.sign(
       this.internalGetWalletAddress(),
