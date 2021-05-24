@@ -64,12 +64,12 @@
     </div>
 
     <div
-      v-if="!isBlocking || isSinglePage"
+      v-if="!isBlocking"
       slot="header-right"
       class="auth-dialog__header-right"
     >
       <template
-        v-if="isSignIn && isUsingAuthCore && !isMobileClient && currentTab === 'portal'"
+        v-if="isUsingAuthCore && !isMobileClient && currentTab === 'portal'"
       >
         <a
           class="auth-dialog__ledger-login-button"
@@ -810,7 +810,7 @@ export default {
           if (this.isPopup) {
             window.close();
           } else {
-            this.$router.push({ name: 'index' });
+            this.onClickBackButton();
           }
         }
       });
