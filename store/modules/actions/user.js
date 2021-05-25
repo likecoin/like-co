@@ -4,7 +4,6 @@ import { REDIRECT_NAME_WHITE_LIST } from '@/constant';
 
 import User from '@/util/User';
 import Keplr from '@/util/Keplr';
-import Ledger from '@/util/Ledger';
 import {
   setTrackerUser,
 } from '@/util/EventLogger';
@@ -197,14 +196,6 @@ export async function loginByCosmosWallet(_, source) {
       payload = await User.signCosmosLogin(
         await Keplr.getWalletAddress(),
         s => Keplr.signLogin(s),
-      );
-      break;
-    }
-    case 'ledger': {
-      await Ledger.init();
-      payload = await User.signCosmosLogin(
-        await Ledger.getWalletAddress(),
-        s => Ledger.signLogin(s),
       );
       break;
     }

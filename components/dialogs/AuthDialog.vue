@@ -72,12 +72,6 @@
         v-if="isUsingAuthCore && !isMobileClient && currentTab === 'portal'"
       >
         <a
-          class="auth-dialog__ledger-login-button"
-          @click="onClickUseLedgerButton"
-        >
-          {{ $t('Ledger') }}
-        </a>
-        <a
           class="auth-dialog__keplr-login-button"
           @click="onClickUseKeplrButton"
         >
@@ -759,10 +753,6 @@ export default {
       this.isUsingAuthCore = false;
       this.signInWithPlatform('cosmosWallet', { source: 'keplr' });
     },
-    onClickUseLedgerButton() {
-      this.isUsingAuthCore = false;
-      this.signInWithPlatform('cosmosWallet', { source: 'ledger' });
-    },
     onClickBackButton() {
       if (!this.isUsingAuthCore) {
         this.isUsingAuthCore = true;
@@ -1232,7 +1222,7 @@ export default {
     padding-right: 16px;
   }
 
-  &__ledger-login-button, &__keplr-login-button, &__legacy-login-button {
+  &__keplr-login-button, &__legacy-login-button {
     $login-button-color: $like-green;
 
     display: inline-block;
