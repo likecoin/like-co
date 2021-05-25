@@ -103,11 +103,11 @@ class Ledger {
     const address = this.internalGetWalletAddress();
     return async function signer(signMessage) {
       const data = JSON.parse(signMessage);
-      const dataWithSign = await signerInstance.sign(address, data);
-      const signObject = dataWithSign.signature;
+      const { signed, signature } = await signerInstance.sign(address, data);
       return {
-        signature: Buffer.from(signObject.signature, 'base64'),
-        publicKey: Buffer.from(signObject.pub_key.value, 'base64'),
+        signed,
+        signature: Buffer.from(signature.signature, 'base64'),
+        publicKey: Buffer.from(signature.pub_key.value, 'base64'),
       };
     };
   }

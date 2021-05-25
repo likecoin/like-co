@@ -16,7 +16,7 @@ let api;
 async function initCosmos() {
   if (api) return;
   ([Cosmos] = await Promise.all([
-    import(/* webpackChunkName: "web3" */ '@lunie/cosmos-api'),
+    import(/* webpackChunkName: "web3" */ '@likecoin/cosmos-api'),
   ]));
   if (Cosmos.default) Cosmos = Cosmos.default;
   api = new Cosmos(COSMOS_RESTFUL_API, COSMOS_CHAIN_ID);

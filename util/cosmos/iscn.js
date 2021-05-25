@@ -15,7 +15,7 @@ let Cosmos;
 async function initISCNCosmos() {
   if (iscnApi) return;
   ([Cosmos] = await Promise.all([
-    import(/* webpackChunkName: "web3" */ '@lunie/cosmos-api'),
+    import(/* webpackChunkName: "web3" */ '@likecoin/cosmos-api'),
   ]));
   if (Cosmos.default) Cosmos = Cosmos.default;
   iscnApi = new Cosmos(ISCN_DEV_RESTFUL_API, ISCN_TESTNET_CHAIN_ID);
