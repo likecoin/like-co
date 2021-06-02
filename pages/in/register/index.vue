@@ -34,8 +34,7 @@ export default {
       ],
       link: [
         { rel: 'preconnect', href: AUTHCORE_API_HOST, crossorigin: 'true' },
-        { rel: 'prefetch', href: `${AUTHCORE_API_HOST}/api/authapi/authcore.swagger.json?v=0.2` },
-        { rel: 'prefetch', href: `${AUTHCORE_API_HOST}/api/auth/widgets/settings` },
+        { rel: 'preload', href: 'https://use.fontawesome.com/releases/v5.6.3/css/all.css', as: 'style' },
       ],
     };
   },
