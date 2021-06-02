@@ -1106,6 +1106,18 @@
         "placeholder": {
             "name": "名称",
             "enterUrl": "在此输入地址"
+        },
+        "others": {
+            "email": {
+              "title": "电邮提醒",
+              "enableEmail": "@:Register.form.enableEmail"
+            },
+            "likepay": {
+              "title": "LikePay 重新导向网址白名单",
+              "addCustomUrl": "新增自定义网址",
+              "errInvalidUrl": "无效的网址",
+              "errDuplicatedUrl": "重复的网址"
+            }
         }
     },
     "PoliciesPage": {

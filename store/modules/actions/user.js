@@ -381,3 +381,18 @@ export async function dequeueCivicLiker({ commit, dispatch }, { queryString }) {
   await dispatch('refreshUser');
   return data;
 }
+
+export async function fetchPreferences({ commit, dispatch }) {
+  const data = await apiWrapper(
+    { commit, dispatch },
+    api.apiFetchPreferences(),
+  );
+  return data;
+}
+
+export async function updatePreferences({ commit, dispatch }, payload) {
+  await apiWrapper(
+    { commit, dispatch },
+    api.apiUpdatePreferences(payload),
+  );
+}
