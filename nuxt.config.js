@@ -128,6 +128,7 @@ const nuxtConfig = {
           "'unsafe-inline'",
           'fonts.googleapis.com',
           'client.crisp.chat',
+          'use.fontawesome.com',
         ],
         'report-uri': [
           process.env.SENTRY_REPORT_URI,
