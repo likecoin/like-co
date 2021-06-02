@@ -20,14 +20,7 @@
       class="auth-dialog__header-left"
     >
       <a
-        v-if="isSignIn && isUsingAuthCore && !isMobileClient && currentTab === 'portal'"
-        class="auth-dialog__legacy-login-button"
-        @click="onClickUseLegacyButton"
-      >
-        {{ $t('AuthDialog.SignInWithLegacy.title') }}
-      </a>
-      <a
-        v-else-if="currentTab === 'portal' || currentTab === 'error'"
+        v-if="currentTab === 'portal' || currentTab === 'error'"
         @click="onClickBackButton"
       >
         {{ $t('General.back') }}
@@ -72,10 +65,10 @@
         v-if="isUsingAuthCore && !isMobileClient && currentTab === 'portal'"
       >
         <a
-          class="auth-dialog__keplr-login-button"
-          @click="onClickUseKeplrButton"
+          class="auth-dialog__wallet-login-button"
+          @click="onClickUseWalletButton"
         >
-          {{ $t('Keplr') }}
+          {{ $t('AuthDialog.SignIn.auth.wallet') }}
         </a>
       </template>
     </div>
@@ -118,6 +111,50 @@
               @navigation="onAuthCoreNavigation"
               @success="signInWithAuthCore"
             />
+          </div>
+
+          <div
+            v-if="currentTab === 'wallet-notice'"
+            v-bind="tabProps"
+            class="auth-dialog__tab auth-dialog__tab--index auth-dialog__tab--portal"
+          >
+            <div class="lc-dialog-container-1">
+              <h2>{{ $t(`AuthDialog.${isSignIn ? 'SignIn' : 'SignUp'}.auth.wallet`) }}</h2>
+              <p>{{ $t('WalletNoticeDialog.page[1].description[0]') }}</p>
+            </div>
+            <div class="lc-dialog-container-1 lc-button-group">
+              <md-button
+                class="md-likecoin"
+                @click="onAcceptWalletNotice"
+              >
+                {{ $t('General.accept') }}
+              </md-button>
+            </div>
+          </div>
+
+          <div
+            v-if="currentTab === 'wallet'"
+            v-bind="tabProps"
+            class="auth-dialog__tab auth-dialog__tab--index auth-dialog__tab--portal"
+          >
+            <h2>{{ $t(`AuthDialog.SignInWithWallet.title`) }}</h2>
+            <div class="lc-dialog-container-1 lc-button-group">
+              <md-button
+                class="md-likecoin"
+                @click="onClickUseKeplrButton"
+              >
+                {{ $t(`AuthDialog.${isSignIn ? 'SignIn' : 'SignUp'}.auth.keplr`) }}
+              </md-button>
+            </div>
+            <div class="lc-dialog-container-1 lc-button-group">
+              <p>{{ $t('AuthDialog.SignInWithWallet.legacy') }}</p>
+              <md-button
+                class="md-likecoin"
+                @click="onClickUseMetaMaskButton"
+              >
+                {{ $t('AuthDialog.SignIn.auth.metamask') }}
+              </md-button>
+            </div>
           </div>
 
           <div
@@ -585,7 +622,6 @@ export default {
       'setAuthDialog',
       'setAuthDialogShow',
       'toggleAuthDialogIsSignIn',
-      'setWalletNoticeDialog',
       'openPopupDialog',
       'fetchAuthCoreAccessTokenAndUser',
       'fetchAuthCoreUser',
@@ -745,13 +781,18 @@ export default {
         this.setContentStyle({ height });
       });
     },
-    onClickUseLegacyButton() {
+    onAcceptWalletNotice() {
+      this.currentTab = 'wallet';
+    },
+    onClickUseWalletButton() {
       this.isUsingAuthCore = false;
-      this.signInWithPlatform('wallet');
+      this.currentTab = 'wallet-notice';
     },
     onClickUseKeplrButton() {
-      this.isUsingAuthCore = false;
       this.signInWithPlatform('cosmosWallet', { source: 'keplr' });
+    },
+    onClickUseMetaMaskButton() {
+      this.signInWithPlatform('wallet');
     },
     onClickBackButton() {
       if (!this.isUsingAuthCore) {
@@ -914,14 +955,7 @@ export default {
       switch (platform) {
         case 'wallet': {
           this.currentTab = 'loading';
-          this.setWalletNoticeDialog({
-            isShow: true,
-            cancelTitle: this.$t('WalletNoticeDialog.allSignInOptions'),
-            onCancel: () => {
-              this.currentTab = 'portal';
-            },
-            onConfirm: () => this.startWeb3AndCb(this.signInWithWallet),
-          });
+          this.startWeb3AndCb(this.signInWithWallet);
           return;
         }
         case 'cosmosWallet': {
@@ -1222,7 +1256,7 @@ export default {
     padding-right: 16px;
   }
 
-  &__keplr-login-button, &__legacy-login-button {
+  &__wallet-login-button {
     $login-button-color: $like-green;
 
     display: inline-block;

@@ -719,7 +719,9 @@
         "twitter": "以 Twitter 註冊",
         "matters": "以 Matters 註冊",
         "email": "以電郵註冊",
-        "wallet": "以 MetaMask 註冊"
+        "wallet": "以錢包註冊",
+        "keplr": "以 Keplr 註冊",
+        "metamask": "以 MetaMask 註冊"
       },
       "toggle": "已有 Liker ID？ {action}",
       "toggleButton": "登入"
@@ -733,7 +735,9 @@
         "twitter": "以 Twitter 登入",
         "matters": "以 Matters 登入",
         "email": "以電郵登入",
-        "wallet": "以 MetaMask 登入"
+        "wallet": "以錢包登入",
+        "keplr": "以 Keplr 登入",
+        "metamask": "以 MetaMask 登入"
       },
       "toggle": "未有 Liker ID？ {action}",
       "toggleButton": "註冊"
@@ -748,8 +752,9 @@
         "back": "← 所有登入方式"
       }
     },
-    "SignInWithLegacy": {
-      "title": "以 MetaMask 登入"
+    "SignInWithWallet": {
+      "title": "請選擇你的錢包",
+      "legacy": "只供舊用户登入用"
     },
     "Register": {
       "title": "歡迎",
