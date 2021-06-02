@@ -727,12 +727,12 @@ export default {
         case 'WALLET_REGISTER_DEPRECATED':
           this.isUsingAuthCore = true;
           this.currentTab = 'portal';
-          return;
-
+          break;
         default:
       }
       this.resetAuthCoreStatus();
-      this.close();
+      this.isUsingAuthCore = true;
+      this.currentTab = 'portal';
     },
     onUpdateIsShow(isShow) {
       if (!this.shouldHideDialog && isShow !== this.getIsShowAuthDialog) {
