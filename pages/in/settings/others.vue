@@ -203,6 +203,7 @@ export default {
         });
         this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${this.user}">${this.$t('Register.form.label.viewPage')}</a>`);
         this.refreshUserInfo(user.user);
+        this.viewModelPaymentRedirectWhitelist = this.actualPaymentRedirectWhitelist.map(x => ({ url: x, err: '' }));
       } catch (err) {
         console.error(err);
         this.isEmailEnabled = this.isEmailPreviouslyEnabled;
