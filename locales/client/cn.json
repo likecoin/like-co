@@ -1113,7 +1113,7 @@
               "enableEmail": "@:Register.form.enableEmail"
             },
             "likepay": {
-              "title": "LikePay 重新导向网址白名单",
+              "title": "LIKE Pay 重新导向网址白名单",
               "addCustomUrl": "新增自定义网址",
               "errInvalidUrl": "无效的网址",
               "errDuplicatedUrl": "重复的网址"

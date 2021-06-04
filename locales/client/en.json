@@ -1040,7 +1040,7 @@
         "enableEmail": "@:Register.form.enableEmail"
       },
       "likepay": {
-        "title": "LikePay Redirect URL Whitelist",
+        "title": "LIKE Pay Redirect URL Whitelist",
         "addCustomUrl": "Add a custom redirect URL",
         "errInvalidUrl": "Invalid URL",
         "errDuplicatedUrl": "Duplicated URL"

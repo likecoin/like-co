@@ -1166,7 +1166,7 @@
         "enableEmail": "@:Register.form.enableEmail"
       },
       "likepay": {
-        "title": "LikePay 重新導向網址白名單",
+        "title": "LIKE Pay 重新導向網址白名單",
         "addCustomUrl": "新增自定義網址",
         "errInvalidUrl": "無效的網址",
         "errDuplicatedUrl": "重複的網址"
