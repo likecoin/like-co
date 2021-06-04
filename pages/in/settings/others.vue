@@ -26,9 +26,19 @@
           </div>
 
           <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-32">
-            <h2 class="lc-font-size-14 lc-font-weight-400">
-              {{ $t('Settings.others.likepay.title') }}
-            </h2>
+            <div class="flex">
+              <h2 class="lc-font-size-14 lc-font-weight-400">
+                {{ $t('Settings.others.likepay.title') }}
+              </h2>
+              <md-icon class="no-margin">
+                <a
+                  href="https://docs.like.co/developer/like-pay/web-widget/reference"
+                  target="_blank"
+                >
+                  help
+                </a>
+              </md-icon>
+            </div>
 
             <div class="settings-panel">
               <ul>
@@ -54,7 +64,12 @@
                       class="md-icon-button"
                       @click="deleteUrl(i)"
                     >
-                      X
+                      <simple-svg
+                        :filepath="CrossIcon"
+                        fill="#4a4a4a"
+                        height="24px"
+                        width="24px"
+                      />
                     </md-button>
                   </md-field>
                 </li>
@@ -109,6 +124,7 @@
 import { mapActions, mapGetters } from 'vuex';
 
 import { logTrackerEvent } from '@/util/EventLogger';
+import CrossIcon from '@/assets/icons/cross.svg';
 
 import PoliciesLinks from '~/components/PoliciesLinks';
 
@@ -119,6 +135,7 @@ export default {
   },
   data() {
     return {
+      CrossIcon,
       isEmailEnabled: false,
       isEmailPreviouslyEnabled: false,
       isLoading: false,
@@ -296,5 +313,13 @@ export default {
       margin-top: 16px;
     }
   }
+}
+
+.flex {
+  display: flex;
+}
+
+.no-margin {
+  margin: 0;
 }
 </style>
