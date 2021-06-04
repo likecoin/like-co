@@ -160,10 +160,9 @@ export default {
           }
         });
         const urlNum = newValue.length;
-        const lastValue = newValue[urlNum - 1].url;
-        if (lastValue !== '' && urlNum < this.MAX_REDIRECT_URL_NUM) {
+        if (urlNum === 0 || (newValue[urlNum - 1].url !== '' && urlNum < this.MAX_REDIRECT_URL_NUM)) {
           newValue.push({ url: '', err: '' });
-        } else if (lastValue === '' && newValue[urlNum - 2].url === '') {
+        } else if (urlNum > 1 && newValue[urlNum - 1].url === '' && newValue[urlNum - 2].url === '') {
           newValue.pop();
         }
       },
