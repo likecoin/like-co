@@ -27,17 +27,16 @@
 
           <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-32">
             <div class="flex">
-              <h2 class="lc-font-size-14 lc-font-weight-400">
+              <h2 class="lc-font-size-14 lc-font-weight-400 no-margin">
                 {{ $t('Settings.others.likepay.title') }}
               </h2>
-              <md-icon class="no-margin">
-                <a
-                  href="https://docs.like.co/developer/like-pay/web-widget/reference"
-                  target="_blank"
-                >
-                  help
-                </a>
-              </md-icon>
+              <md-button
+                class="md-icon-button"
+                href="https://docs.like.co/developer/like-pay/web-widget/reference"
+                target="_blank"
+              >
+                <md-icon>help</md-icon>
+              </md-button>
             </div>
 
             <div class="settings-panel">
@@ -125,8 +124,11 @@ import { mapActions, mapGetters } from 'vuex';
 
 import { logTrackerEvent } from '@/util/EventLogger';
 import CrossIcon from '@/assets/icons/cross.svg';
+import { isValidHttpUrl } from '@/util/ValidationHelper';
 
 import PoliciesLinks from '~/components/PoliciesLinks';
+
+const MAX_REDIRECT_URL_NUM = 5;
 
 export default {
   name: 'settings-others',
@@ -140,7 +142,6 @@ export default {
       isEmailPreviouslyEnabled: false,
       isLoading: false,
       viewModelPaymentRedirectWhitelist: [{ url: '', err: '' }],
-      MAX_REDIRECT_URL_NUM: 5,
     };
   },
   computed: {
@@ -165,7 +166,7 @@ export default {
         const urlArr = newValue.map(obj => obj.url);
         newValue.forEach((obj, i) => {
           if (obj.url) {
-            if (!this.isValidHttpUrl(obj.url)) {
+            if (!isValidHttpUrl(obj.url)) {
               obj.err = 'errInvalidUrl';
             } else if (urlArr.indexOf(obj.url) !== i) {
               obj.err = 'errDuplicatedUrl';
@@ -177,7 +178,7 @@ export default {
           }
         });
         const urlNum = newValue.length;
-        if (urlNum === 0 || (newValue[urlNum - 1].url !== '' && urlNum < this.MAX_REDIRECT_URL_NUM)) {
+        if (urlNum === 0 || (newValue[urlNum - 1].url !== '' && urlNum < MAX_REDIRECT_URL_NUM)) {
           newValue.push({ url: '', err: '' });
         } else if (urlNum > 1 && newValue[urlNum - 1].url === '' && newValue[urlNum - 2].url === '') {
           newValue.pop();
@@ -235,18 +236,6 @@ export default {
     },
     deleteUrl(i) {
       this.viewModelPaymentRedirectWhitelist.splice(i, 1);
-    },
-    // https://stackoverflow.com/a/43467144/7978205
-    isValidHttpUrl(string) {
-      let url;
-
-      try {
-        url = new URL(string);
-      } catch (_) {
-        return false;
-      }
-
-      return url.protocol === 'http:' || url.protocol === 'https:';
     },
     urlClass(obj) {
       return {
@@ -317,6 +306,7 @@ export default {
 
 .flex {
   display: flex;
+  align-items: center;
 }
 
 .no-margin {
