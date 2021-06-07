@@ -42,7 +42,7 @@
             <div class="settings-panel">
               <ul>
                 <li
-                  v-for="(obj, i) in viewModelPaymentRedirectWhitelist"
+                  v-for="(obj, i) in paymentRedirectUrlWhitelist"
                   :key="i"
                 >
                   <md-field :class="urlClass(obj)">
@@ -141,7 +141,7 @@ export default {
       isEmailEnabled: false,
       isEmailPreviouslyEnabled: false,
       isLoading: false,
-      viewModelPaymentRedirectWhitelist: [{ url: '', err: '' }],
+      paymentRedirectUrlWhitelist: [{ url: '', err: '' }],
     };
   },
   computed: {
@@ -152,16 +152,16 @@ export default {
     disabled() {
       return this.isLoading || !this.getUserIsRegistered;
     },
-    actualPaymentRedirectWhitelist() {
-      return Array.from(new Set(this.viewModelPaymentRedirectWhitelist.map(obj => obj.url)
+    actualPaymentRedirectUrlWhitelist() {
+      return Array.from(new Set(this.paymentRedirectUrlWhitelist.map(obj => obj.url)
         .filter(url => !!url)));
     },
     allUrlsValid() {
-      return this.viewModelPaymentRedirectWhitelist.every(obj => !obj.err);
+      return this.paymentRedirectUrlWhitelist.every(obj => !obj.err);
     },
   },
   watch: {
-    viewModelPaymentRedirectWhitelist: {
+    paymentRedirectUrlWhitelist: {
       handler(newValue) {
         const urlArr = newValue.map(obj => obj.url);
         newValue.forEach((obj, i) => {
@@ -205,7 +205,7 @@ export default {
       this.isEmailEnabled = (user.isEmailEnabled !== false);
       this.isEmailPreviouslyEnabled = this.isEmailEnabled;
       const { paymentRedirectWhiteList } = await this.fetchPreferences();
-      this.viewModelPaymentRedirectWhitelist = paymentRedirectWhiteList.map(x => ({ url: x, err: '' }));
+      this.paymentRedirectUrlWhitelist = paymentRedirectWhiteList.map(x => ({ url: x, err: '' }));
     },
     async confirmChanges() {
       this.isLoading = true;
@@ -216,11 +216,11 @@ export default {
         };
         await this.updateUser(userInfo);
         await this.updatePreferences({
-          paymentRedirectWhiteList: this.actualPaymentRedirectWhitelist,
+          paymentRedirectWhiteList: this.actualPaymentRedirectUrlWhitelist,
         });
         this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${this.user}">${this.$t('Register.form.label.viewPage')}</a>`);
         this.refreshUserInfo(user.user);
-        this.viewModelPaymentRedirectWhitelist = this.actualPaymentRedirectWhitelist.map(x => ({ url: x, err: '' }));
+        this.paymentRedirectUrlWhitelist = this.actualPaymentRedirectUrlWhitelist.map(x => ({ url: x, err: '' }));
       } catch (err) {
         console.error(err);
         this.isEmailEnabled = this.isEmailPreviouslyEnabled;
@@ -235,7 +235,7 @@ export default {
       }
     },
     deleteUrl(i) {
-      this.viewModelPaymentRedirectWhitelist.splice(i, 1);
+      this.paymentRedirectUrlWhitelist.splice(i, 1);
     },
     urlClass(obj) {
       return {
