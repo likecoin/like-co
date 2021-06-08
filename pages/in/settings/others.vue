@@ -63,12 +63,7 @@
                       class="md-icon-button"
                       @click="deleteUrl(i)"
                     >
-                      <simple-svg
-                        :filepath="CrossIcon"
-                        fill="#4a4a4a"
-                        height="24px"
-                        width="24px"
-                      />
+                      <md-icon>close</md-icon>
                     </md-button>
                   </md-field>
                 </li>
@@ -123,7 +118,6 @@
 import { mapActions, mapGetters } from 'vuex';
 
 import { logTrackerEvent } from '@/util/EventLogger';
-import CrossIcon from '@/assets/icons/cross.svg';
 import { isValidHttpUrl } from '@/util/ValidationHelper';
 
 import PoliciesLinks from '~/components/PoliciesLinks';
@@ -137,7 +131,6 @@ export default {
   },
   data() {
     return {
-      CrossIcon,
       isEmailEnabled: false,
       isEmailPreviouslyEnabled: false,
       isLoading: false,
