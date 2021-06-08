@@ -170,10 +170,11 @@ export default {
             obj.err = '';
           }
         });
-        const urlNum = newValue.length;
-        if (urlNum === 0 || (newValue[urlNum - 1].url !== '' && urlNum < MAX_REDIRECT_URL_NUM)) {
+        const urlLength = newValue.length;
+        if (!urlLength
+          || (newValue[urlLength - 1].url && urlLength < MAX_REDIRECT_URL_NUM)) {
           newValue.push({ url: '', err: '' });
-        } else if (urlNum > 1 && newValue[urlNum - 1].url === '' && newValue[urlNum - 2].url === '') {
+        } else if (urlLength > 1 && !newValue[urlLength - 1].url && !newValue[urlLength - 2].url) {
           newValue.pop();
         }
       },
