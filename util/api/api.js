@@ -75,6 +75,8 @@ export const apiLinkAuthPlatform = (platform, payload) => axios.post(`/users/log
 export const apiUnlinkAuthPlatform = platform => axios.delete(`/users/login/${platform}`);
 
 export const apiGetUserSelf = () => axios.get('/users/self');
+export const apiFetchPreferences = () => axios.get('/users/preferences');
+export const apiUpdatePreferences = payload => axios.post('/users/preferences', payload);
 
 export const apiSendInvitationEmail = (user, email, locale) => axios.post(
   `${LIKECOIN_API_BASE}/misc/store-invite`,

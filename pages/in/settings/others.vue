@@ -4,6 +4,10 @@
       <div class="lc-container-1">
         <div class="lc-container-2">
           <div class="lc-container-3 lc-padding-vertical-16 lc-bg-gray-1">
+            <h2 class="lc-font-size-14 lc-font-weight-400">
+              {{ $t('Settings.others.email.title') }}
+            </h2>
+
             <div class="settings-panel">
               <!-- List of Settings -->
               <ul>
@@ -14,14 +18,60 @@
                     class="md-likecoin"
                   />
                   <div class="description">
-                    {{ $t('Register.form.enableEmail') }}
+                    {{ $t('Settings.others.email.enableEmail') }}
                   </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="lc-container-3 lc-bg-gray-1 lc-padding-vertical-32">
+            <div class="flex">
+              <h2 class="lc-font-size-14 lc-font-weight-400 no-margin">
+                {{ $t('Settings.others.likepay.title') }}
+              </h2>
+              <md-button
+                class="md-icon-button"
+                href="https://docs.like.co/developer/like-pay/web-widget/reference"
+                target="_blank"
+              >
+                <md-icon>help</md-icon>
+              </md-button>
+            </div>
+
+            <div class="settings-panel">
+              <ul>
+                <li
+                  v-for="(obj, i) in paymentRedirectUrlWhitelist"
+                  :key="i"
+                >
+                  <md-field :class="urlClass(obj)">
+                    <md-input
+                      v-model="obj.url"
+                      :disabled="disabled"
+                      class="md-likecoin"
+                      :placeholder="$t('Settings.others.likepay.addCustomUrl')"
+                    />
+                    <span
+                      v-if="obj.err"
+                      class="md-error"
+                    >
+                      {{ $t(`Settings.others.likepay.${obj.err}`) }}
+                    </span>
+                    <md-button
+                      v-if="obj.url !== ''"
+                      class="md-icon-button"
+                      @click="deleteUrl(i)"
+                    >
+                      <md-icon>close</md-icon>
+                    </md-button>
+                  </md-field>
                 </li>
               </ul>
 
               <div class="confirm-button-wrapper">
                 <md-button
-                  :disabled="!hasChanged || disabled"
+                  :disabled="disabled || !allUrlsValid"
                   class="md-likecoin"
                   @click="confirmChanges"
                 >
@@ -64,11 +114,15 @@
 
 
 <script>
+/* eslint-disable no-param-reassign */
 import { mapActions, mapGetters } from 'vuex';
 
 import { logTrackerEvent } from '@/util/EventLogger';
+import { isValidHttpUrl } from '@/util/ValidationHelper';
 
 import PoliciesLinks from '~/components/PoliciesLinks';
+
+const MAX_REDIRECT_URL_NUM = 5;
 
 export default {
   name: 'settings-others',
@@ -80,6 +134,7 @@ export default {
       isEmailEnabled: false,
       isEmailPreviouslyEnabled: false,
       isLoading: false,
+      paymentRedirectUrlWhitelist: [{ url: '', err: '' }],
     };
   },
   computed: {
@@ -90,11 +145,40 @@ export default {
     disabled() {
       return this.isLoading || !this.getUserIsRegistered;
     },
-    hasChanged() {
-      const user = this.getUserInfo;
-      return this.getUserIsRegistered && (
-        this.isEmailEnabled !== user.isEmailEnabled
-      );
+    actualPaymentRedirectUrlWhitelist() {
+      return Array.from(new Set(this.paymentRedirectUrlWhitelist.map(obj => obj.url)
+        .filter(url => !!url)));
+    },
+    allUrlsValid() {
+      return this.paymentRedirectUrlWhitelist.every(obj => !obj.err);
+    },
+  },
+  watch: {
+    paymentRedirectUrlWhitelist: {
+      handler(newValue) {
+        const urlArr = newValue.map(obj => obj.url);
+        newValue.forEach((obj, i) => {
+          if (obj.url) {
+            if (!isValidHttpUrl(obj.url)) {
+              obj.err = 'errInvalidUrl';
+            } else if (urlArr.indexOf(obj.url) !== i) {
+              obj.err = 'errDuplicatedUrl';
+            } else {
+              obj.err = '';
+            }
+          } else {
+            obj.err = '';
+          }
+        });
+        const urlLength = newValue.length;
+        if (!urlLength
+          || (newValue[urlLength - 1].url && urlLength < MAX_REDIRECT_URL_NUM)) {
+          newValue.push({ url: '', err: '' });
+        } else if (urlLength > 1 && !newValue[urlLength - 1].url && !newValue[urlLength - 2].url) {
+          newValue.pop();
+        }
+      },
+      deep: true,
     },
   },
   mounted() {
@@ -107,11 +191,15 @@ export default {
       'updateUser',
       'refreshUserInfo',
       'setInfoMsg',
+      'fetchPreferences',
+      'updatePreferences',
     ]),
     async updateInfo() {
       const user = this.getUserInfo;
       this.isEmailEnabled = (user.isEmailEnabled !== false);
       this.isEmailPreviouslyEnabled = this.isEmailEnabled;
+      const { paymentRedirectWhiteList } = await this.fetchPreferences();
+      this.paymentRedirectUrlWhitelist = paymentRedirectWhiteList.map(x => ({ url: x, err: '' }));
     },
     async confirmChanges() {
       this.isLoading = true;
@@ -121,8 +209,12 @@ export default {
           isEmailEnabled: this.isEmailEnabled,
         };
         await this.updateUser(userInfo);
+        await this.updatePreferences({
+          paymentRedirectWhiteList: this.actualPaymentRedirectUrlWhitelist,
+        });
         this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${this.user}">${this.$t('Register.form.label.viewPage')}</a>`);
         this.refreshUserInfo(user.user);
+        this.paymentRedirectUrlWhitelist = this.actualPaymentRedirectUrlWhitelist.map(x => ({ url: x, err: '' }));
       } catch (err) {
         console.error(err);
         this.isEmailEnabled = this.isEmailPreviouslyEnabled;
@@ -135,6 +227,14 @@ export default {
         window.$crisp.push(['do', 'chat:open']);
         window.$crisp.push(['do', 'message:send', ['text', this.$t('Settings.label.deleteAccountPrePopulatedMessage')]]);
       }
+    },
+    deleteUrl(i) {
+      this.paymentRedirectUrlWhitelist.splice(i, 1);
+    },
+    urlClass(obj) {
+      return {
+        'md-invalid': !!obj.err,
+      };
     },
   },
 };
@@ -196,5 +296,14 @@ export default {
       margin-top: 16px;
     }
   }
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+.no-margin {
+  margin: 0;
 }
 </style>

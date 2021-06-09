@@ -1033,6 +1033,18 @@
     },
     "button": {
       "rawTx": "View raw transaction"
+    },
+    "others": {
+      "email": {
+        "title": "Email Notification",
+        "enableEmail": "@:Register.form.enableEmail"
+      },
+      "likepay": {
+        "title": "LIKE Pay Redirect URL Whitelist",
+        "addCustomUrl": "Add a custom redirect URL",
+        "errInvalidUrl": "Invalid URL",
+        "errDuplicatedUrl": "Duplicated URL"
+      }
     }
   },
   "RewardRecords": {
