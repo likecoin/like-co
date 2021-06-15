@@ -313,6 +313,23 @@
           <div class="grid-item">
             <div class="grid-item__image-wrapper"><img
               loading="lazy"
+              src="~/assets/webflow/images/media-likersocial.svg"
+              alt="Liker.Social"
+              class="grid-item__image"
+            ></div>
+            <h3 class="grid-item__title grid-item__title--center"><a
+              href="https://liker.social/"
+              target="_blank"
+              class="link link--dark link--no-underline"
+            >Liker.Social</a></h3>
+            <div class="grid-item__meta">
+              <div class="tag"><strong>Social Media</strong></div>
+            </div>
+            <p class="grid-item__content">Decentralized microblogs based on LikeCoin & Mastodon open source facilities, supporting likes for rewards, helping creators connect with their own communities and earn revenue from likes and subscriptions.<br></p>
+          </div>
+          <div class="grid-item">
+            <div class="grid-item__image-wrapper"><img
+              loading="lazy"
               src="~/assets/webflow/images/media-matters.svg"
               alt="Matters"
               class="grid-item__image"
