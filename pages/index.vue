@@ -323,7 +323,7 @@
               class="link link--dark link--no-underline"
             >Liker.Social</a></h3>
             <div class="grid-item__meta">
-              <div class="tag"><strong>SocialMedia</strong></div>
+              <div class="tag"><strong>Social Media</strong></div>
             </div>
             <p class="grid-item__content">Decentralized microblogs based on LikeCoin & Mastodon open source facilities, supporting likes for rewards, helping creators connect with their own communities and earn revenue from likes and subscriptions.<br></p>
           </div>
