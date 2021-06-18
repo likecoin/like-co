@@ -167,7 +167,7 @@
             <h2 class="collage__title collage__title--light">
               <a
                 class="link link--light link--no-underline"
-                href="https://docs.like.co/developer/likecoin-chain-node"
+                href="https://docs.like.co/validator/likecoin-chain-node"
                 target="_blank"
               >LikeCoin chain</a>
             </h2>
@@ -182,7 +182,7 @@
             </p>
             <a
               class="button button--light w-button"
-              href="https://docs.like.co/developer/likecoin-chain-node"
+              href="https://docs.like.co/validator/become-a-validator"
               target="_blank"
             >Join as validator</a>
           </div>
