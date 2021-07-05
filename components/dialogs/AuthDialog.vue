@@ -20,7 +20,7 @@
       class="auth-dialog__header-left"
     >
       <a
-        v-if="currentTab === 'portal' || currentTab === 'error'"
+        v-if="isShowBackButton"
         @click="onClickBackButton"
       >
         {{ $t('General.back') }}
@@ -119,16 +119,50 @@
             class="auth-dialog__tab auth-dialog__tab--index auth-dialog__tab--portal"
           >
             <div class="lc-dialog-container-1">
-              <h2>{{ $t(`AuthDialog.${isSignIn ? 'SignIn' : 'SignUp'}.auth.wallet`) }}</h2>
-              <p>{{ $t('WalletNoticeDialog.page[1].description[0]') }}</p>
+              <h2 class="lc-text-align-center lc-color-like-green">
+                {{
+                  $t(isSignIn
+                    ? 'AuthDialog.SignIn.auth.wallet'
+                    : 'AuthDialog.SignUp.auth.wallet'
+                  )
+                }}
+              </h2>
+              <div
+                class="auth-dialog__wallet-panel"
+                style="display: flex"
+              >
+                <svg
+                  class="lc-color-like-green"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 30"
+                  style="flex-shrink: 0;width: 24px;margin-right: 24px"
+                >
+                  <circle
+                    cx="12"
+                    cy="20.43"
+                    r="1.5"
+                    fill="currentColor"
+                  />
+                  <path
+                    d="M12,8v8m-.3,13h0A14.6,14.6,0,0,1,1,14.93V2.9
+                      L11.7,1,22.39,2.9v12A14.59,14.59,0,0,1,11.7,29Z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  />
+                </svg>
+                <div>{{ $t('WalletNoticeDialog.page[1].description[0]') }}</div>
+              </div>
             </div>
-            <div class="lc-dialog-container-1 lc-button-group">
-              <md-button
-                class="md-likecoin"
+            <div class="lc-dialog-container-1 lc-button-group lc-margin-vertical-32">
+              <button
+                class="ll-button large"
                 @click="onAcceptWalletNotice"
               >
                 {{ $t('General.accept') }}
-              </md-button>
+              </button>
             </div>
           </div>
 
@@ -137,23 +171,59 @@
             v-bind="tabProps"
             class="auth-dialog__tab auth-dialog__tab--index auth-dialog__tab--portal"
           >
-            <h2>{{ $t(`AuthDialog.SignInWithWallet.title`) }}</h2>
-            <div class="lc-dialog-container-1 lc-button-group">
-              <md-button
-                class="md-likecoin"
-                @click="onClickUseKeplrButton"
+            <div class="lc-dialog-container-1 lc-margin-bottom-32">
+              <h2 class="lc-text-align-center lc-color-like-green">
+                {{ $t(`AuthDialog.SignInWithWallet.title`) }}
+              </h2>
+              <div
+                :class="[
+                  'auth-dialog__wallet-panel',
+                  'auth-dialog__wallet-panel--portal',
+                  'lc-margin-top-24',
+                ]"
               >
-                {{ $t(`AuthDialog.${isSignIn ? 'SignIn' : 'SignUp'}.auth.keplr`) }}
-              </md-button>
-            </div>
-            <div class="lc-dialog-container-1 lc-button-group">
-              <p>{{ $t('AuthDialog.SignInWithWallet.legacy') }}</p>
-              <md-button
-                class="md-likecoin"
-                @click="onClickUseMetaMaskButton"
+                <img
+                  src="~/assets/auth-panel/keplr.png"
+                  style="width:124px"
+                >
+                <button
+                  class="ll-button large lc-margin-top-24"
+                  @click="onClickUseKeplrButton"
+                >
+                  {{ $t(`AuthDialog.${isSignIn ? 'SignIn' : 'SignUp'}.auth.keplr`) }}
+                </button>
+              </div>
+              <div
+                :class="[
+                  'auth-dialog__wallet-panel',
+                  'auth-dialog__wallet-panel--portal',
+                  'auth-dialog__wallet-panel--dashed',
+                  'lc-margin-top-24',
+                ]"
               >
-                {{ $t('AuthDialog.SignIn.auth.metamask') }}
-              </md-button>
+                <p
+                  :class="[
+                    'lc-font-size-12',
+                    'lc-text-align-center',
+                    'lc-color-gray-9b',
+                    'lc-margin-bottom-24',
+                  ]"
+                  style="margin-top:-8px"
+                >
+                  {{ $t('AuthDialog.SignInWithWallet.legacy') }}
+                </p>
+                <simple-svg
+                  :filepath="MetaMaskLogo"
+                  width="148px"
+                  height="28px"
+                />
+                <button
+                  class="ll-button large lc-margin-top-24"
+                  @click="onClickUseMetaMaskButton"
+                >
+                  {{ $t('AuthDialog.SignIn.auth.metamask') }}
+                </button>
+              </div>
             </div>
           </div>
 
@@ -306,6 +376,7 @@ import EthMixin from '~/components/EthMixin';
 import User from '@/util/User';
 
 import LikeCoinLogo from '~/assets/logo/icon-plain.svg';
+import MetaMaskLogo from '~/assets/auth-panel/metamask.svg';
 
 import { logTrackerEvent, logTimingEvent } from '@/util/EventLogger';
 import {
@@ -340,6 +411,7 @@ export default {
   data() {
     return {
       LikeCoinLogo,
+      MetaMaskLogo,
 
       avatar: undefined,
       avatarHalo: 'none',
@@ -383,6 +455,18 @@ export default {
     ]),
     closable() {
       return !(this.isBlocking || this.isSinglePage);
+    },
+    isShowBackButton() {
+      switch (this.currentTab) {
+        case 'portal':
+        case 'error':
+        case 'wallet':
+        case 'wallet-notice':
+          return true;
+
+        default:
+          return false;
+      }
     },
     isSinglePage() {
       return this.$route.name === 'in-register';
@@ -795,10 +879,6 @@ export default {
       this.signInWithPlatform('wallet');
     },
     onClickBackButton() {
-      if (!this.isUsingAuthCore) {
-        this.isUsingAuthCore = true;
-        return;
-      }
       switch (this.currentTab) {
         case 'portal':
           if (this.isSinglePage) {
@@ -813,6 +893,9 @@ export default {
           break;
 
         default:
+          if (!this.isUsingAuthCore) {
+            this.isUsingAuthCore = true;
+          }
           this.currentTab = 'portal';
           break;
       }
@@ -1257,23 +1340,30 @@ export default {
   }
 
   &__wallet-login-button {
-    $login-button-color: $like-green;
-
     display: inline-block;
 
-    padding: 4px 8px;
+    text-decoration: underline;
 
-    text-decoration: none !important;
+    color: $like-green !important;
+  }
 
-    color: $login-button-color !important;
-    border: 1px solid darken($login-button-color, 2);
-    border-bottom-width: 2px;
-    border-radius: 8px;
+  &__wallet-panel {
+    padding: 16px;
 
-    font-weight: bold;
+    color: $like-gray-5;
+    border: 2px solid $gray-e6;
+    border-radius: 16px;
 
-    &:hover {
-      background-color: transparentize($login-button-color, 0.9);
+    font-size: 14px;
+
+    &--portal {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    &--dashed {
+      border-style: dashed;
     }
   }
 
