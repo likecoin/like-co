@@ -77,7 +77,6 @@
 
 
 <script>
-import { PURCHASE_LIKE_URL } from '@/constant';
 import {
   getMigrationSiteURL,
   getLikerLandAppURL,
@@ -103,11 +102,6 @@ export default {
       type: String,
       default: '',
     },
-  },
-  data() {
-    return {
-      PURCHASE_LIKE_URL,
-    };
   },
   computed: {
     getLikerLandAppURL,
