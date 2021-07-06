@@ -49,17 +49,13 @@ export default {
     exchanges() {
       return [
         {
-          id: 'bitasset',
-          link: PURCHASE_LIKE_URL,
-        },
-        {
           id: 'myethshop',
           link: 'https://www.myethshop.com/',
           isHideBorder: true,
         },
         {
           id: 'liquid',
-          link: 'https://app.liquid.com/exchange/LIKEETH',
+          link: PURCHASE_LIKE_URL,
           isHideBorder: true,
         },
       ].map(({ id, ...rest }) => ({

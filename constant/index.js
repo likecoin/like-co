@@ -84,7 +84,7 @@ export const EXTRA_EMAIL_BLACLIST = [
   'tutye.com',
 ];
 
-export const PURCHASE_LIKE_URL = 'https://www.bitasset.com/ktrade/LIKE-BTC';
+export const PURCHASE_LIKE_URL = 'https://app.liquid.com/exchange/LIKEUSDT';
 export const WORDPRESS_PLUGIN_URL = 'https://wordpress.org/plugins/likecoin/';
 export const OICE_URL = 'https://oice.com';
 

@@ -61,14 +61,6 @@
       class="lc-dialog-container-1"
     >
       <div class="lc-button-group">
-        <!-- <md-button
-          :href="PURCHASE_LIKE_URL"
-          class="md-likecoin"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {{ $t('Dialog.transaction.button.trade') }}
-        </md-button> -->
         <nuxt-link :to="actionRoute">
           <md-button
             class="md-likecoin lc-secondary"
@@ -88,8 +80,6 @@
 import ActivityIndicator from '~/components/ActivityIndicator';
 import BaseDialog from '~/components/dialogs/BaseDialog';
 import CheckIcon from '~/components/Mission/StateIcon';
-
-import { PURCHASE_LIKE_URL } from '@/constant';
 
 export default {
   name: 'tx-dialog',
@@ -131,11 +121,6 @@ export default {
       type: String,
       default: '',
     },
-  },
-  data() {
-    return {
-      PURCHASE_LIKE_URL,
-    };
   },
   computed: {
     defaultActionRoute() {
