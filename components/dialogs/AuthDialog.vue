@@ -155,7 +155,9 @@
                 </svg>
                 <div>
                   <p>{{ $t('WalletNoticeDialog.page[1].description[0]') }}</p>
-                  <p>{{ $t('WalletNoticeDialog.page[1].description[1]') }}</p>
+                  <p class="lc-margin-bottom-0">
+                    {{ $t('WalletNoticeDialog.page[1].description[1]') }}
+                  </p>
                 </div>
               </div>
             </div>
