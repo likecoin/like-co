@@ -153,7 +153,10 @@
                     stroke-width="2"
                   />
                 </svg>
-                <div>{{ $t('WalletNoticeDialog.page[1].description[0]') }}</div>
+                <div>
+                  <p>{{ $t('WalletNoticeDialog.page[1].description[0]') }}</p>
+                  <p>{{ $t('WalletNoticeDialog.page[1].description[1]') }}</p>
+                </div>
               </div>
             </div>
             <div class="lc-dialog-container-1 lc-button-group lc-margin-vertical-32">
