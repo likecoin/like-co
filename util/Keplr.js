@@ -74,8 +74,8 @@ class Keplr {
           // Currently, Keplr doesn't support dynamic calculation of the gas prices based on on-chain data.
           // Make sure that the gas prices are higher than the minimum gas prices accepted by chain validators and RPC/REST endpoint.
           gasPriceStep: {
-            low: DEFAULT_GAS_PRICE_NUMBER,
-            average: DEFAULT_GAS_PRICE_NUMBER,
+            low: 0.01,
+            average: 1,
             high: DEFAULT_GAS_PRICE_NUMBER,
           },
         });
