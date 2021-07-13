@@ -206,28 +206,23 @@
                   'lc-margin-top-24',
                 ]"
               >
-                <p
-                  :class="[
-                    'lc-font-size-12',
-                    'lc-text-align-center',
-                    'lc-color-gray-9b',
-                    'lc-margin-bottom-24',
-                  ]"
-                  style="margin-top:-8px"
-                >
-                  {{ $t('AuthDialog.SignInWithWallet.legacy') }}
-                </p>
                 <simple-svg
                   :filepath="MetaMaskLogo"
                   width="148px"
                   height="28px"
                 />
-                <button
-                  class="ll-button large lc-margin-top-24"
+                <a
+                  :class="[
+                    'lc-margin-top-12',
+                    'lc-font-size-12',
+                    'lc-text-align-center',
+                    'lc-color-gray-9b',
+                    'lc-underline',
+                  ]"
                   @click="onClickUseMetaMaskButton"
                 >
-                  {{ $t('AuthDialog.SignIn.auth.metamask') }}
-                </button>
+                  {{ $t('AuthDialog.SignInWithWallet.legacy') }}
+                </a>
               </div>
             </div>
           </div>
