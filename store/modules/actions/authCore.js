@@ -1,7 +1,8 @@
 import { AuthCoreAuthClient } from 'authcore-js';
 import * as types from '@/store/mutation-types';
-import { AUTHCORE_API_HOST } from '@/constant';
+import { AUTHCORE_API_HOST, IS_TESTNET } from '@/constant';
 
+const authcoreURL = IS_TESTNET ? 'https://likecoin-integration-test.authcore.io' : 'https://authcore.like.co';
 const { AuthcoreVaultClient, AuthcoreCosmosProvider } = require('secretd-js');
 
 export async function fetchAuthCoreAccessTokenAndUser({ dispatch }, code) {
@@ -126,15 +127,41 @@ export async function fetchAuthCoreCosmosWallet({ state }) {
   return cosmosAddress;
 }
 
-export async function prepareAuthCoreCosmosTxSigner({ state }) {
-  if (!state.cosmosProvider) throw new Error('COSMOS_WALLET_NOT_INITED');
-  return async function signer(signMessage) {
-    const data = JSON.parse(signMessage);
-    const dataWithSign = await state.cosmosProvider.sign(data);
-    const signObject = dataWithSign.signatures[dataWithSign.signatures.length - 1];
+export async function prepareCosmosTxSigner({ state, dispatch }) {
+  let cosmosProvider;
+  if (state.cosmosProvider) {
+    cosmosProvider = state.cosmosProvider; // eslint-disable-line prefer-destructuring
+  }
+  if (state.accessToken) {
+    cosmosProvider = await dispatch('setupCosmosProvider', state.accessToken);
+  }
+  if (cosmosProvider) {
     return {
-      signature: Buffer.from(signObject.signature, 'base64'),
-      publicKey: Buffer.from(signObject.pub_key.value, 'base64'),
+      signAmino: async (_, data) => {
+        const { signatures, ...signed } = await cosmosProvider.sign(data);
+        return { signed, signature: signatures[0] };
+      },
     };
-  };
+  }
+  return null;
+}
+
+export async function restoreAccessToken({ commit }) {
+  if (window.localStorage) {
+    const accessToken = window.localStorage.getItem('authcore.access_token');
+    if (accessToken) commit('AUTHCORE_SET_ACCESS_TOKEN', accessToken);
+  }
+}
+
+export async function setupCosmosProvider({ commit }, accessToken) {
+  const kvClient = await new AuthcoreVaultClient({
+    apiBaseURL: authcoreURL,
+    accessToken,
+  });
+  commit('AUTHCORE_SET_KV_CLIENT', kvClient);
+  const cosmosProvider = await new AuthcoreCosmosProvider({
+    client: kvClient,
+  });
+  commit('AUTHCORE_SET_COSMOS_PROVIDER', cosmosProvider);
+  return cosmosProvider;
 }

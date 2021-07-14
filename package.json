@@ -39,6 +39,7 @@
     ]
   },
   "dependencies": {
+    "@cosmjs/launchpad": "^0.25.5",
     "@likecoin/abi-decoder": "^3.0.0",
     "@likecoin/cosmos-api": "0.2.5-likecoin.1",
     "@likecoin/nuxt-google-optimize": "^0.5.3-like.10",

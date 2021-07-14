@@ -1,36 +1,29 @@
-import { DEFAULT_ISCN_GAS_PRICE, sendTx } from '../CosmosHelper';
+import { LcdClient } from '@cosmjs/launchpad';
+import { DEFAULT_ISCN_GAS_PRICE } from '../CosmosHelper';
 import { ISCN_PUBLISHERS, ISCN_LICENSES } from './iscnConstant';
-import {
-  ISCN_TESTNET_CHAIN_ID,
-} from '@/constant';
 import { timeout } from '@/util/misc';
 import { apiPostISCNMessageForSign } from '../api/api';
 import { assertOk, queryTxInclusion } from './misc';
 
 const ISCN_DEV_RESTFUL_API = '/api/cosmos/iscn-dev/lcd';
+const EXTERNAL_URL = 'https://node.iscn-dev.like.co/';
 
 let iscnApi;
-let Cosmos;
-
 async function initISCNCosmos() {
   if (iscnApi) return;
-  ([Cosmos] = await Promise.all([
-    import(/* webpackChunkName: "web3" */ '@likecoin/cosmos-api'),
-  ]));
-  if (Cosmos.default) Cosmos = Cosmos.default;
-  iscnApi = new Cosmos(ISCN_DEV_RESTFUL_API, ISCN_TESTNET_CHAIN_ID);
+  iscnApi = LcdClient.withExtensions({ EXTERNAL_URL });
 }
 
 export async function getISCNTransferInfo(txHash, opt) {
   if (!iscnApi) await initISCNCosmos();
   const { blocking } = opt;
-  let txData = await iscnApi.get.tx(txHash);
+  let txData = await iscnApi.txById(txHash);
   if ((!txData || !txData.height) && !blocking) {
     return {};
   }
   while ((!txData || !txData.height) && blocking) {
     await timeout(1000); // eslint-disable-line no-await-in-loop
-    txData = await iscnApi.get.tx(txHash); // eslint-disable-line no-await-in-loop
+    txData = await iscnApi.txById(txHash); // eslint-disable-line no-await-in-loop
   }
   if (!txData) throw new Error('Cannot find transaction');
   const {
@@ -104,7 +97,7 @@ export async function getISCNTransferInfo(txHash, opt) {
 
 export async function getISCNTransactionCompleted(txHash) {
   if (!iscnApi) await initISCNCosmos();
-  const txData = await iscnApi.get.tx(txHash);
+  const txData = await iscnApi.txById(txHash);
   if (!txData || !txData.height) {
     return 0;
   }
@@ -289,6 +282,23 @@ export async function remoteSignISCNPayload({
   return {
     txHash: hash,
     included,
+  };
+}
+
+export async function sendTx(msgCallPromise, signer, {
+  gasPrices = DEFAULT_ISCN_GAS_PRICE,
+  memo,
+  simulate: isSimulate,
+} = {}) {
+  const { simulate, send } = await msgCallPromise;
+  const gas = (await simulate({ memo })).toString();
+  if (isSimulate) return { gas, gasPrices };
+  const { hash, included } = await send({ gas, gasPrices, memo }, signer);
+  return {
+    txHash: hash,
+    included,
+    gas,
+    gasPrices,
   };
 }
 

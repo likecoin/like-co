@@ -204,7 +204,6 @@ import SocialMediaConnect from '~/components/SocialMediaConnect';
 
 import {
   queryLikeCoinBalance as queryCosmosLikeCoinBalance,
-  transfer as cosmosTransfer,
 } from '@/util/CosmosHelper';
 import User from '@/util/User';
 import {
@@ -213,7 +212,7 @@ import {
 } from '@/util/api/api';
 
 const DEFAULT_P2P_AMOUNT_IN_USD = 0.25;
-
+const COSMOS_DENOM = 'nanolike';
 function formatAmount(amount) {
   let result = amount.toString().replace(/[^0-9.]/, '');
   if (!result) {
@@ -389,23 +388,21 @@ export default {
       'setErrorMsg',
       'closeTxDialog',
       'queryLikeCoinUsdPrice',
-      'fetchCurrentCosmosWallet',
+      'fetchAuthCoreCosmosWallet',
       'prepareCosmosTxSigner',
     ]),
     async calculateGasFee() {
-      const from = await this.fetchCurrentCosmosWallet();
+      const from = await this.fetchAuthCoreCosmosWallet();
       if (!from) return '';
-      const to = this.wallet;
-      const { gas, gasPrices } = await cosmosTransfer(
-        {
-          from,
-          to,
-          value: this.amount,
-          memo: this.remarks,
-        },
-        null,
-        { simulate: true },
-      );
+      const fee = {
+        amount: [{
+          denom: COSMOS_DENOM,
+          amount: 1000,
+        }],
+        gas: 44000,
+      };
+      const { gas } = fee;
+      const gasPrices = fee.amount;
       this.gasFee = new BigNumber(gas).multipliedBy(gasPrices[0].amount).dividedBy(1e9).toFixed();
       return this.gasFee;
     },
@@ -420,7 +417,7 @@ export default {
           this.isBadAmount = true;
           throw new Error('VALIDATION_FAIL');
         }
-        const from = await this.fetchCurrentCosmosWallet();
+        const from = await this.fetchAuthCoreCosmosWallet();
         if (!from) {
           throw new Error('VALIDATION_FAIL');
         }
