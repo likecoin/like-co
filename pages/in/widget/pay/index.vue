@@ -583,7 +583,7 @@ export default {
       'setErrorMsg',
       'closeTxDialog',
       'queryLikeCoinUsdPrice',
-      'fetchAuthCoreCosmosWallet',
+      'fetchCurrentCosmosWallet',
       'prepareCosmosTxSigner',
     ]),
     toggleDetails() {
@@ -609,7 +609,7 @@ export default {
     async calculateGasFee() {
       let gas;
       let gasPrices;
-      const from = await this.fetchAuthCoreCosmosWallet();
+      const from = await this.fetchCurrentCosmosWallet();
       if (!from) return '';
       const to = this.toUsers[0].cosmosWallet;
       if (this.isMultiSend) {
@@ -650,7 +650,7 @@ export default {
       try {
         const { cosmosWallet } = this.getUserInfo;
         const amount = new BigNumber(this.totalAmount);
-        const from = await this.fetchAuthCoreCosmosWallet();
+        const from = await this.fetchCurrentCosmosWallet();
         if (!from) {
           throw new Error('VALIDATION_FAIL');
         }

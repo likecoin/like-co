@@ -202,6 +202,7 @@ const nuxtConfig = {
   plugins: [
     { src: '~/plugins/polyfill', ssr: false },
     { src: '~/plugins/EthHelper', ssr: false },
+    { src: '~/plugins/cosmosWallet.client.js', ssr: false },
     { src: '~/plugins/vue-cookie', ssr: false },
     { src: '~/plugins/vue-i18n' },
     { src: '~/plugins/vue-material' },

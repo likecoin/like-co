@@ -287,7 +287,6 @@ export default {
       'sendISCNSignature',
       'setErrorMsg',
       'closeTxDialog',
-      'fetchAuthCoreCosmosWallet',
       'prepareCosmosTxSigner',
     ]),
     async submitTransfer() {

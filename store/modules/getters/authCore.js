@@ -1,10 +1,7 @@
 export const getAuthCoreAccessToken = state => state.accessToken;
 
-export const getAuthCoreNeedReAuth = (state, getters, rootState) => {
-  let isAuthCore;
-  if (rootState.user.user) {
-    ({ isAuthCore } = rootState.user.user);
-  }
+export const getAuthCoreNeedReAuth = (state, getters) => {
+  const isAuthCore = getters.getUserIsAuthCore;
   return isAuthCore && !state.accessToken;
 };
 

@@ -727,7 +727,9 @@
         "twitter": "Sign up Twitter",
         "matters": "Sign up Matters.news",
         "email": "Sign up email",
-        "wallet": "Sign up with MetaMask"
+        "wallet": "Sign up with your wallet",
+        "keplr": "Sign up with Keplr",
+        "metamask": "Sign up with MetaMask"
       },
       "toggle": "Already have Liker ID? {action}",
       "toggleButton": "Sign In"
@@ -741,7 +743,9 @@
         "twitter": "Sign in Twitter",
         "matters": "Sign in Matters.news",
         "email": "Sign in email",
-        "wallet": "Sign in with MetaMask"
+        "wallet": "Sign in with your wallet",
+        "keplr": "Sign in with Keplr",
+        "metamask": "Sign in with MetaMask"
       },
       "toggle": "No Liker ID? {action}",
       "toggleButton": "Sign Up"
@@ -757,8 +761,9 @@
         "back": "← All sign in options"
       }
     },
-    "SignInWithLegacy": {
-      "title": "Login by MetaMask"
+    "SignInWithWallet": {
+      "title": "Select your wallet type",
+      "legacy": "Legacy, for sign in only"
     },
     "Register": {
       "title": "Welcome",

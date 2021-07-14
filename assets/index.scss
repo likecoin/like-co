@@ -1190,3 +1190,21 @@ span.bold {
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
+
+/* ll for liker.land */
+.ll-button {
+  padding: 12px 24px;
+
+  text-align: center;
+
+  color: $like-green;
+  border-radius: 16px;
+  background-color: #aaf1e7;
+
+  font-size: 18px;
+  font-weight: 600;
+
+  &.large {
+    min-width: 200px;
+  }
+}

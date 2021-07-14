@@ -446,10 +446,11 @@ export default {
       if (this.hasUserDetailsChanged) {
         try {
           const { avatarFile } = this;
-          const userInfo = {};
-          if (avatarFile) userInfo.avatarFile = avatarFile;
-
-          await this.updateUserAvatar(userInfo);
+          if (avatarFile) {
+            await this.updateUserAvatar({
+              avatarFile,
+            });
+          }
         } catch (err) {
           this.updateInfo();
           console.error(err);

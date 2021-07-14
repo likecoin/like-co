@@ -5,15 +5,6 @@
 
         <auth-dialog />
         <re-auth-dialog v-if="getIsShowReAuthDialog" />
-
-        <wallet-notice-dialog
-          :is-show="getIsShowWalletNoticeDialog"
-          :cancel-title="getWalletNoticeDialogCancelTitle"
-          @update:is-show="setWalletNoticeDialog({ isShow: $event })"
-          @cancel="getWalletNoticeDialogCancelCallback()"
-          @confirm="getWalletNoticeDialogConfirmCallback()"
-        />
-
         <popup-dialog
           v-for="d in getPopupDialogs"
           :key="d.uuid"
@@ -120,7 +111,6 @@ import ChromeDialog from '~/components/dialogs/ChromeDialog';
 import MetamaskDialog from '~/components/dialogs/MetamaskDialog';
 import AuthDialog from '~/components/dialogs/AuthDialog';
 import ReAuthDialog from '~/components/dialogs/ReAuthDialog';
-import WalletNoticeDialog from '~/components/dialogs/WalletNoticeDialog';
 import PopupDialog from '~/components/dialogs/PopupDialog';
 import TrustDialog from '~/components/dialogs/TrustDialog';
 import TxDialog from '~/components/dialogs/TxDialog';
@@ -136,7 +126,6 @@ export default {
     MetamaskDialog,
     AuthDialog,
     ReAuthDialog,
-    WalletNoticeDialog,
     PopupDialog,
     TrustDialog,
     TxDialog,
@@ -176,10 +165,6 @@ export default {
       'getTxDialogActionText',
       'getTxDialogHideAction',
       'getPendingTxInfo',
-      'getIsShowWalletNoticeDialog',
-      'getWalletNoticeDialogCancelTitle',
-      'getWalletNoticeDialogCancelCallback',
-      'getWalletNoticeDialogConfirmCallback',
     ]),
   },
   watch: {
@@ -209,7 +194,6 @@ export default {
       'closeInfoToolbar',
       'openPopupDialog',
       'closePopupDialog',
-      'setWalletNoticeDialog',
     ]),
     checkIsMobileClient,
     checkShouldShowError(err) {
