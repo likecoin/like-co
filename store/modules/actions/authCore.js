@@ -127,7 +127,7 @@ export async function fetchAuthCoreCosmosWallet({ state }) {
   return cosmosAddress;
 }
 
-export async function prepareCosmosTxSigner({ state, dispatch }) {
+export async function prepareAuthCoreCosmosTxSigner({ state, dispatch }) {
   let cosmosProvider;
   if (state.cosmosProvider) {
     cosmosProvider = state.cosmosProvider; // eslint-disable-line prefer-destructuring
