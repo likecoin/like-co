@@ -5,16 +5,15 @@ import {
 import { timeout } from '@/util/misc';
 import { queryTxInclusion } from '@/util/cosmos/misc';
 import {
-  CosmosClient, LcdClient, SigningCosmosClient,
+  CosmosClient, SigningCosmosClient,
   GasPrice,
 } from '@cosmjs/launchpad';
 
 export const DEFAULT_GAS_PRICE = [{ amount: '1000', denom: 'nanolike' }];
 export const DEFAULT_GAS_PRICE_NUMBER = parseInt(DEFAULT_GAS_PRICE[0].amount, 10);
 export const DEFAULT_ISCN_GAS_PRICE = [{ amount: 0, denom: 'nanolike' }];
-const COSMOS_RESTFUL_API = '/api/cosmos/lcd'; // temp for develop: https://node.taipei2.like.co/
+const COSMOS_RESTFUL_API = '/api/cosmos/lcd'; // temp for develop: 'https://node.taipei2.like.co/'
 
-let getApi;
 let cosmosClient;
 let signingCosmosClient;
 
@@ -28,11 +27,6 @@ async function initSigningCosmosClient(url, signerAddress,
   if (signingCosmosClient) return;
   signingCosmosClient = new SigningCosmosClient(url, signerAddress,
     signer, gasPrice, gasLimits, broadcastMode);
-}
-
-async function initGetCosmos() {
-  if (getApi) return;
-  getApi = LcdClient.withExtensions({ COSMOS_RESTFUL_API });
 }
 
 function LIKEToNanolike(value) {
@@ -52,39 +46,40 @@ export function amountToLIKE(likecoin) {
 }
 
 export async function getTransactionCompleted(txHash) {
-  if (!getApi) await initGetCosmos();
-  const txData = await getApi.txById(txHash);
+  if (!cosmosClient) await initCosmosClient();
+  const txData = await cosmosClient.getTx(txHash);
   if (!txData || !txData.height) {
     return 0;
   }
   const {
     timestamp,
     code,
-    logs: [{ success = false } = {}] = [],
+    rawLog,
   } = txData;
+  const fullLogs = JSON.parse(rawLog.slice(1, rawLog.length - 1));
   return {
     ts: (new Date(timestamp)).getTime(),
-    isFailed: (code && code !== '0') || !success,
+    isFailed: (code && code !== '0') || !fullLogs.success,
   };
 }
 
 export async function getTransferInfo(txHash, opt) {
-  if (!getApi) await initGetCosmos();
+  if (!cosmosClient) await initCosmosClient();
   const { blocking } = opt;
   // TODO: handle tranferMultiple?
-  let txData = await getApi.txById(txHash);
+  let txData = await cosmosClient.getTx(txHash);
   if ((!txData || !txData.height) && !blocking) {
     return {};
   }
   while ((!txData || !txData.height) && blocking) {
     await timeout(1000); // eslint-disable-line no-await-in-loop
-    txData = await getApi.txById(txHash); // eslint-disable-line no-await-in-loop
+    txData = await cosmosClient.getTx(txHash); // eslint-disable-line no-await-in-loop
   }
   if (!txData) throw new Error('Cannot find transaction');
   const {
+    rawLog,
     timestamp,
     code,
-    logs: [{ success = false } = {}] = [],
     tx: {
       value: {
         msg,
@@ -124,7 +119,8 @@ export async function getTransferInfo(txHash, opt) {
       _amount: amount,
     };
   }
-  const isFailed = (code && code !== '0') || !success;
+  const fullLogs = JSON.parse(rawLog.slice(1, rawLog.length - 1));
+  const isFailed = (code && code !== '0') || !fullLogs.success;
   return {
     isFailed,
     _from: from,
