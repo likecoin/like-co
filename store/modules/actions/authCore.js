@@ -1,8 +1,7 @@
 import { AuthCoreAuthClient } from 'authcore-js';
 import * as types from '@/store/mutation-types';
-import { AUTHCORE_API_HOST, IS_TESTNET } from '@/constant';
+import { AUTHCORE_API_HOST } from '@/constant';
 
-const authcoreURL = IS_TESTNET ? 'https://likecoin-integration-test.authcore.io' : 'https://authcore.like.co';
 const { AuthcoreVaultClient, AuthcoreCosmosProvider } = require('secretd-js');
 
 export async function fetchAuthCoreAccessTokenAndUser({ dispatch }, code) {
@@ -127,14 +126,12 @@ export async function fetchAuthCoreCosmosWallet({ state }) {
   return cosmosAddress;
 }
 
-export async function prepareAuthCoreCosmosTxSigner({ state, dispatch }) {
+export async function prepareAuthCoreCosmosTxSigner({ state }) {
   let cosmosProvider;
   if (state.cosmosProvider) {
     cosmosProvider = state.cosmosProvider; // eslint-disable-line prefer-destructuring
   }
-  if (state.accessToken) {
-    cosmosProvider = await dispatch('setupCosmosProvider', state.accessToken);
-  }
+
   if (cosmosProvider) {
     return {
       signAmino: async (_, data) => {
@@ -144,24 +141,4 @@ export async function prepareAuthCoreCosmosTxSigner({ state, dispatch }) {
     };
   }
   return null;
-}
-
-export async function restoreAccessToken({ commit }) {
-  if (window.localStorage) {
-    const accessToken = window.localStorage.getItem('authcore.access_token');
-    if (accessToken) commit('AUTHCORE_SET_ACCESS_TOKEN', accessToken);
-  }
-}
-
-export async function setupCosmosProvider({ commit }, accessToken) {
-  const kvClient = await new AuthcoreVaultClient({
-    apiBaseURL: authcoreURL,
-    accessToken,
-  });
-  commit('AUTHCORE_SET_KV_CLIENT', kvClient);
-  const cosmosProvider = await new AuthcoreCosmosProvider({
-    client: kvClient,
-  });
-  commit('AUTHCORE_SET_COSMOS_PROVIDER', cosmosProvider);
-  return cosmosProvider;
 }

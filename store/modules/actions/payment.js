@@ -30,15 +30,16 @@ export async function sendCosmosPayment(
       metadata,
     } = payload;
     let txHash;
+    let included;
     if (tos && values) {
-      ({ txHash } = await transferCosmosMultiple({
+      ({ txHash, included } = await transferCosmosMultiple({
         from,
         tos,
         values,
         memo,
       }, signer));
     } else {
-      ({ txHash } = await transferCosmos({
+      ({ txHash, included } = await transferCosmos({
         from,
         to,
         value,
@@ -50,6 +51,7 @@ export async function sendCosmosPayment(
     commit(types.UI_SET_HIDE_TX_DIALOG_ACTION, !showDialogAction);
     commit(types.PAYMENT_SET_PENDING_HASH, txHash);
     commit(types.PAYMENT_SET_PENDING_TX_INFO, { from, to, value });
+    if (isWait) await included();
     commit(types.UI_STOP_LOADING_TX);
     return txHash;
   } catch (error) {

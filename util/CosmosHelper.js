@@ -3,15 +3,16 @@ import {
   COSMOS_DENOM,
 } from '@/constant';
 import { timeout } from '@/util/misc';
+import { queryTxInclusion } from '@/util/cosmos/misc';
 import {
   CosmosClient, LcdClient, SigningCosmosClient,
   GasPrice,
 } from '@cosmjs/launchpad';
 
-export const DEFAULT_GAS_PRICE = [{ amount: 1000, denom: 'nanolike' }];
-export const DEFAULT_GAS_PRICE_NUMBER = DEFAULT_GAS_PRICE[0].amount;
+export const DEFAULT_GAS_PRICE = [{ amount: '1000', denom: 'nanolike' }];
+export const DEFAULT_GAS_PRICE_NUMBER = parseInt(DEFAULT_GAS_PRICE[0].amount, 10);
 export const DEFAULT_ISCN_GAS_PRICE = [{ amount: 0, denom: 'nanolike' }];
-const COSMOS_RESTFUL_API = '/api/cosmos/lcd';
+const COSMOS_RESTFUL_API = '/api/cosmos/lcd'; // temp for develop: https://node.taipei2.like.co/
 
 let getApi;
 let cosmosClient;
@@ -149,15 +150,12 @@ export async function transfer({
 }, signer) {
   const amount = LIKEToAmount(value);
   const fee = {
-    amount: [{
-      denom: 'nanolike',
-      amount: '1000',
-    }],
+    amount: DEFAULT_GAS_PRICE,
     gas: '44000',
   };
-  const defaultGasPrice = GasPrice.fromString('1000nanolike');
+  const gasPrice = GasPrice.fromString(fee.amount[0].amount.concat(fee.amount.demon));
   if (!signingCosmosClient) {
-    await initSigningCosmosClient(COSMOS_RESTFUL_API, from, signer, defaultGasPrice, {}, 'block');
+    await initSigningCosmosClient(COSMOS_RESTFUL_API, from, signer, gasPrice, {}, 'block');
   }
   const sendMsg = {
     type: 'cosmos-sdk/MsgSend',
@@ -172,6 +170,7 @@ export async function transfer({
     txHash: broadcastedTx.transactionHash,
     gas: fee.gas,
     gasPrices: fee.amount,
+    included: () => queryTxInclusion(broadcastedTx.transactionHash, COSMOS_RESTFUL_API),
   };
 }
 
@@ -191,17 +190,14 @@ export async function transferMultiple({
     });
   });
   const fee = {
-    amount: [{
-      denom: 'nanolike',
-      amount: '1000',
-    }],
-    gas: '44000',
+    amount: DEFAULT_GAS_PRICE,
+    gas: '88000', // need to be higher than 44000 or error: out of gas in location: WriteFlat will happen
   };
-  const defaultGasPrice = GasPrice.fromString('1000nanolike');
+  const gasPrice = GasPrice.fromString(fee.amount[0].amount.concat(fee.amount.demon));
   if (!signingCosmosClient) {
     await initSigningCosmosClient(COSMOS_RESTFUL_API, // eslint-disable-line no-await-in-loop
       from,
-      signer, defaultGasPrice, {}, 'block');
+      signer, gasPrice, {}, 'block');
   }
   const sendMsg = {
     type: 'cosmos-sdk/MsgMultiSend',
@@ -225,5 +221,6 @@ export async function transferMultiple({
     txHash: broadcastedTx.transactionHash,
     gas: fee.gas,
     gasPrices: fee.amount,
+    included: () => queryTxInclusion(broadcastedTx.transactionHash, COSMOS_RESTFUL_API),
   };
 }

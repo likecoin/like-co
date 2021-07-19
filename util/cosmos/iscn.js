@@ -6,12 +6,11 @@ import { apiPostISCNMessageForSign } from '../api/api';
 import { assertOk, queryTxInclusion } from './misc';
 
 const ISCN_DEV_RESTFUL_API = '/api/cosmos/iscn-dev/lcd';
-const EXTERNAL_URL = 'https://node.iscn-dev.like.co/';
 
 let iscnApi;
 async function initISCNCosmos() {
   if (iscnApi) return;
-  iscnApi = LcdClient.withExtensions({ EXTERNAL_URL });
+  iscnApi = LcdClient.withExtensions({ ISCN_DEV_RESTFUL_API });
 }
 
 export async function getISCNTransferInfo(txHash, opt) {
