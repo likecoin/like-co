@@ -279,11 +279,6 @@
                   class="lc-color-like-green"
                   place="email"
                 >{{ signInPayload.email }}</span>
-                <a
-                  class="lc-color-light-burgundy lc-underline"
-                  place="signIn"
-                  @click="onClickSignWithWalletInError"
-                >{{ $t('AuthDialog.Register.signWithWallet') }}</a>
               </i18n>
 
             </div>
@@ -829,10 +824,6 @@ export default {
           break;
       }
       this.updateContentHeightForCurrentTab();
-    },
-    onClickSignWithWalletInError() {
-      this.hasClickSignWithWalletInError = true;
-      this.signInWithPlatform('wallet');
     },
     onDismissError() {
       switch (this.errorCode) {
