@@ -211,8 +211,10 @@ import {
   apiGetSocialListById,
 } from '@/util/api/api';
 
+import { BASIC_GAS, COSMOS_DENOM } from '@/constant';
+
 const DEFAULT_P2P_AMOUNT_IN_USD = 0.25;
-const COSMOS_DENOM = 'nanolike';
+
 function formatAmount(amount) {
   let result = amount.toString().replace(/[^0-9.]/, '');
   if (!result) {
@@ -399,7 +401,7 @@ export default {
           denom: COSMOS_DENOM,
           amount: 1000,
         }],
-        gas: 44000,
+        gas: parseInt(BASIC_GAS, 10),
       };
       const { gas } = fee;
       const gasPrices = fee.amount;

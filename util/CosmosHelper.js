@@ -1,7 +1,9 @@
 import BigNumber from 'bignumber.js';
 import {
   COSMOS_DENOM,
-  // EXTERNAL_URL,
+  BASIC_GAS,
+  HEAVY_GAS,
+  EXTERNAL_URL,
 } from '@/constant';
 import { timeout } from '@/util/misc';
 import { queryTxInclusion } from '@/util/cosmos/misc';
@@ -13,7 +15,7 @@ import {
 export const DEFAULT_GAS_PRICE = [{ amount: '1000', denom: 'nanolike' }];
 export const DEFAULT_GAS_PRICE_NUMBER = parseInt(DEFAULT_GAS_PRICE[0].amount, 10);
 export const DEFAULT_ISCN_GAS_PRICE = [{ amount: 0, denom: 'nanolike' }];
-const COSMOS_RESTFUL_API = 'http://localhost:3000/api/cosmos/lcd'; // for deployment, change to `${EXTERNAL_URL}/api/cosmos/lcd`
+const COSMOS_RESTFUL_API = `${EXTERNAL_URL}/api/cosmos/lcd`;
 
 let cosmosClient;
 let signingCosmosClient;
@@ -148,7 +150,7 @@ export async function transfer({
   const amount = LIKEToAmount(value);
   const fee = {
     amount: DEFAULT_GAS_PRICE,
-    gas: '44000',
+    gas: BASIC_GAS,
   };
   const gasPrice = GasPrice.fromString(fee.amount[0].amount.concat(fee.amount.demon));
   if (!signingCosmosClient) {
@@ -189,7 +191,7 @@ export async function transferMultiple({
   });
   const fee = {
     amount: DEFAULT_GAS_PRICE,
-    gas: '88000', // need to be higher than 44000 or error: out of gas in location: WriteFlat will happen
+    gas: HEAVY_GAS,
   };
   const gasPrice = GasPrice.fromString(fee.amount[0].amount.concat(fee.amount.demon));
   if (!signingCosmosClient) {

@@ -333,7 +333,9 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
-import { IS_TESTNET, LIKER_LAND_URL } from '@/constant';
+import {
+  IS_TESTNET, LIKER_LAND_URL, BASIC_GAS, COSMOS_DENOM,
+} from '@/constant';
 import {
   queryLikeCoinBalance as queryCosmosLikeCoinBalance,
   getTransferInfo as getCosmosTransferInfo,
@@ -344,8 +346,6 @@ import {
 } from '@/util/api/api';
 
 const URL = require('url-parse');
-
-const COSMOS_DENOM = 'nanolike';
 
 export default {
   name: 'payment',
@@ -621,7 +621,7 @@ export default {
             denom: COSMOS_DENOM,
             amount: 1000,
           }],
-          gas: 44000,
+          gas: parseInt(BASIC_GAS, 10),
         };
         ({ gas } = fee);
         gasPrices = fee.amount;
@@ -631,7 +631,7 @@ export default {
             denom: COSMOS_DENOM,
             amount: 1000,
           }],
-          gas: 44000,
+          gas: parseInt(BASIC_GAS, 10),
         };
         ({ gas } = fee);
         gasPrices = fee.amount;

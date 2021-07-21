@@ -39,12 +39,13 @@ const mainConfig = {
   icon: 'https://like.co/logo.png',
 };
 
+// need to change
 const testnetConfig = {
-  id: 'likechain-testnet-taipei-1', // DEPRECATE, only used for Lunie extension, NOT CHAIN ID
+  id: 'likecoin-testnet-taipei-2', // Change test net to taipei-2
   name: 'LikeCoin Taipei test chain',
-  apiURL: 'https://node.taipei.like.co',
-  rpcURL: 'ws://node.taipei.like.co:26657',
-  stakingWalletURL: 'http://likecoin-chain-taipei.netlify.app/',
+  apiURL: 'https://node.taipei2.like.co',
+  rpcURL: 'ws://node.taipei2.like.co:26657',
+  stakingWalletURL: 'http://likecoin-chain-taipei2.netlify.app/',
 };
 
 const combinedConfig = {
