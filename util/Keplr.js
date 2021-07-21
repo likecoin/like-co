@@ -137,7 +137,15 @@ class Keplr {
     return {
       signAmino: async (_, data) => {
         const { signatures, ...signed } = await signerInstance.sign(address, data);
-        return { signed: signed.signed, signature: signed.signature };
+        return {
+          signed: signed.signed,
+          signature: {
+            signature: signed.signature.signature,
+            sequence: signed.signed.sequence,
+            account_number: signed.signed.account_number,
+            pub_key: signed.signature.pub_key,
+          },
+        };
       },
     };
   }
