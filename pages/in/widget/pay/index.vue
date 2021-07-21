@@ -336,8 +336,6 @@ import BigNumber from 'bignumber.js';
 import { IS_TESTNET, LIKER_LAND_URL } from '@/constant';
 import {
   queryLikeCoinBalance as queryCosmosLikeCoinBalance,
-  transfer as cosmosTransfer,
-  transferMultiple as cosmosTransferMultiple,
   getTransferInfo as getCosmosTransferInfo,
 } from '@/util/CosmosHelper';
 import User from '@/util/User';
@@ -346,6 +344,8 @@ import {
 } from '@/util/api/api';
 
 const URL = require('url-parse');
+
+const COSMOS_DENOM = 'nanolike';
 
 export default {
   name: 'payment',
@@ -609,9 +609,6 @@ export default {
     async calculateGasFee() {
       let gas;
       let gasPrices;
-      const from = await this.fetchCurrentCosmosWallet();
-      if (!from) return '';
-      const to = this.toUsers[0].cosmosWallet;
       if (this.isMultiSend) {
         const tos = this.toUsers.map(u => u.cosmosWallet);
         const values = [...this.amounts];
@@ -619,29 +616,25 @@ export default {
           tos.push(this.agentUser.cosmosWallet);
           values.push(this.agentFee);
         }
-        const signer = await this.prepareCosmosTxSigner();
-        ({ gas, gasPrices } = await cosmosTransferMultiple(
-          {
-            from,
-            tos,
-            values,
-            memo: this.remarks,
-          },
-          signer,
-          { simulate: true },
-        ));
+        const fee = {
+          amount: [{
+            denom: COSMOS_DENOM,
+            amount: 1000,
+          }],
+          gas: 44000,
+        };
+        ({ gas } = fee);
+        gasPrices = fee.amount;
       } else {
-        const signer = await this.prepareCosmosTxSigner();
-        ({ gas, gasPrices } = await cosmosTransfer(
-          {
-            from,
-            to,
-            value: this.actualSendAmount,
-            memo: this.remarks,
-          },
-          signer,
-          { simulate: true },
-        ));
+        const fee = {
+          amount: [{
+            denom: COSMOS_DENOM,
+            amount: 1000,
+          }],
+          gas: 44000,
+        };
+        ({ gas } = fee);
+        gasPrices = fee.amount;
       }
       this.gasFee = new BigNumber(gas).multipliedBy(gasPrices[0].amount).dividedBy(1e9).toFixed();
       return this.gasFee;

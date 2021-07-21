@@ -150,7 +150,10 @@ export async function transfer({
     amount: DEFAULT_GAS_PRICE,
     gas: '44000',
   };
-  // const gasPrice = GasPrice.fromString(fee.amount[0].amount.concat(fee.amount.demon));
+  const gasPrice = GasPrice.fromString(fee.amount[0].amount.concat(fee.amount.demon));
+  if (!signingCosmosClient) {
+    await initSigningCosmosClient(COSMOS_RESTFUL_API, from, signer, gasPrice, {}, 'block');
+  }
   const sendMsg = {
     type: 'cosmos-sdk/MsgSend',
     value: {
@@ -159,23 +162,6 @@ export async function transfer({
       amount: [amount],
     },
   };
-  let isSimulate = false;
-  function simulate({ memoContent }) { // eslint-disable-line
-    let base = 44000;
-    const numberOfReceivers = 1;
-    if (numberOfReceivers) base += numberOfReceivers * 8000;
-    if (memoContent && memoContent.length) base += memoContent.length * 100;
-    return Math.floor(base * 1.2);
-  }
-  const gas = (await simulate({ memo })).toString();
-  const gasPrice = GasPrice.fromString(fee.amount[0].amount.concat(fee.amount.demon));
-
-  isSimulate = simulate;
-  if (isSimulate) fee.gas = gas;
-
-  if (!signingCosmosClient) {
-    await initSigningCosmosClient(COSMOS_RESTFUL_API, from, signer, gasPrice, {}, 'block');
-  }
 
   const broadcastedTx = await signingCosmosClient.signAndBroadcast([sendMsg], fee, memo);
   return {
@@ -205,7 +191,12 @@ export async function transferMultiple({
     amount: DEFAULT_GAS_PRICE,
     gas: '88000', // need to be higher than 44000 or error: out of gas in location: WriteFlat will happen
   };
-  // const gasPrice = GasPrice.fromString(fee.amount[0].amount.concat(fee.amount.demon));
+  const gasPrice = GasPrice.fromString(fee.amount[0].amount.concat(fee.amount.demon));
+  if (!signingCosmosClient) {
+    await initSigningCosmosClient(COSMOS_RESTFUL_API, // eslint-disable-line no-await-in-loop
+      from,
+      signer, gasPrice, {}, 'block');
+  }
   const sendMsg = {
     type: 'cosmos-sdk/MsgMultiSend',
     value: {
@@ -223,26 +214,6 @@ export async function transferMultiple({
       outputs,
     },
   };
-  let isSimulate = false;
-  function simulate({ memoContent }) { // eslint-disable-line
-    let base = 30000;
-    const numberOfReceivers = sendMsg.value.outputs.length;
-    if (numberOfReceivers) base += numberOfReceivers * 8000;
-    if (memoContent && memoContent.length) base += memoContent.length * 100;
-    return Math.floor(base * 1.2);
-  }
-
-  const gas = (await simulate({ memo })).toString();
-  const gasPrice = GasPrice.fromString(fee.amount[0].amount.concat(fee.amount.demon));
-  fee.gas = gas;
-  isSimulate = simulate;
-  if (isSimulate) fee.gas = gas;
-
-  if (!signingCosmosClient) {
-    await initSigningCosmosClient(COSMOS_RESTFUL_API, // eslint-disable-line no-await-in-loop
-      from,
-      signer, gasPrice, {}, 'block');
-  }
   const broadcastedTx = await signingCosmosClient.signAndBroadcast([sendMsg], fee, memo);
   return {
     txHash: broadcastedTx.transactionHash,
