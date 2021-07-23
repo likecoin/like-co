@@ -86,7 +86,7 @@
               :pattern="REGISTER_EMAIL_REGEX_STRING"
               :title="$t('Register.form.error.emailFormat')"
               v-bind="$testID('RegisterForm-EmailField')"
-              required
+              :required="!!isEmailRequired"
               @focus="isFocusedEmailField = true"
               @blur="isFocusedEmailField = false"
               @change="email=email.toLowerCase().trim()"
@@ -193,6 +193,9 @@ export default {
     },
     isIdValid() {
       return LIKECOIN_ID_REGEX.test(this.likeCoinId);
+    },
+    isEmailRequired() {
+      return this.platform !== 'cosmosWallet';
     },
     isEmailFormatValid() {
       return REGISTER_EMAIL_REGEX.test(this.email);
