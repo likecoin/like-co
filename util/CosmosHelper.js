@@ -1,8 +1,7 @@
 import BigNumber from 'bignumber.js';
 import {
   COSMOS_DENOM,
-  BASIC_GAS,
-  HEAVY_GAS,
+  BASIC_TRANSFER_GAS,
   EXTERNAL_URL,
 } from '@/constant';
 import { timeout } from '@/util/misc';
@@ -59,10 +58,10 @@ export async function getTransactionCompleted(txHash) {
     code,
     rawLog,
   } = txData;
-  const fullLogs = JSON.parse(rawLog.slice(1, rawLog.length - 1));
+  const fullLogs = JSON.parse(rawLog);
   return {
     ts: (new Date(timestamp)).getTime(),
-    isFailed: (code && code !== '0') || !fullLogs.success,
+    isFailed: (code && code !== '0') || !fullLogs[0].success,
   };
 }
 
@@ -141,6 +140,16 @@ export async function queryLikeCoinBalance(addr) {
   return amountToLIKE(amount);
 }
 
+export async function calculateGas(to) {
+  const fee = {
+    amount: DEFAULT_GAS_PRICE,
+    gas: (to.length * parseInt(BASIC_TRANSFER_GAS, 10)).toString(),
+  };
+  const { gas } = fee;
+  const gasPrices = fee.amount;
+  return { gas, gasPrices };
+}
+
 export async function transfer({
   from,
   to,
@@ -148,11 +157,12 @@ export async function transfer({
   memo,
 }, signer) {
   const amount = LIKEToAmount(value);
+  const { gas, gasPrices } = await calculateGas([to]);
   const fee = {
     amount: DEFAULT_GAS_PRICE,
-    gas: BASIC_GAS,
+    gas,
   };
-  const gasPrice = GasPrice.fromString(fee.amount[0].amount.concat(fee.amount.demon));
+  const gasPrice = GasPrice.fromString(DEFAULT_GAS_PRICE[0].amount.concat(COSMOS_DENOM));
   if (!signingCosmosClient) {
     await initSigningCosmosClient(COSMOS_RESTFUL_API, from, signer, gasPrice, {}, 'block');
   }
@@ -168,8 +178,8 @@ export async function transfer({
   const broadcastedTx = await signingCosmosClient.signAndBroadcast([sendMsg], fee, memo);
   return {
     txHash: broadcastedTx.transactionHash,
-    gas: fee.gas,
-    gasPrices: fee.amount,
+    gas,
+    gasPrices,
     included: () => queryTxInclusion(broadcastedTx.transactionHash, COSMOS_RESTFUL_API),
   };
 }
@@ -189,11 +199,12 @@ export async function transferMultiple({
       coins: [amounts[index]],
     });
   });
+  const { gas, gasPrices } = await calculateGas(tos);
   const fee = {
     amount: DEFAULT_GAS_PRICE,
-    gas: HEAVY_GAS,
+    gas,
   };
-  const gasPrice = GasPrice.fromString(fee.amount[0].amount.concat(fee.amount.demon));
+  const gasPrice = GasPrice.fromString(DEFAULT_GAS_PRICE[0].amount.concat(COSMOS_DENOM));
   if (!signingCosmosClient) {
     await initSigningCosmosClient(COSMOS_RESTFUL_API, // eslint-disable-line no-await-in-loop
       from,
@@ -219,8 +230,8 @@ export async function transferMultiple({
   const broadcastedTx = await signingCosmosClient.signAndBroadcast([sendMsg], fee, memo);
   return {
     txHash: broadcastedTx.transactionHash,
-    gas: fee.gas,
-    gasPrices: fee.amount,
+    gas,
+    gasPrices,
     included: () => queryTxInclusion(broadcastedTx.transactionHash, COSMOS_RESTFUL_API),
   };
 }

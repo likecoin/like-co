@@ -26,7 +26,7 @@ export const COSMOS_WALLET_PREFIX = "m/44'/118'/0'/0";
 
 export const COSMOS_CHAIN_ID = IS_TESTNET ? 'likecoin-testnet-taipei-2' : 'likecoin-chain-sheungwan';
 
-export const BASIC_GAS = '44000';
+export const BASIC_TRANSFER_GAS = '44000';
 export const HEAVY_GAS = '88000';
 
 export const ISCN_TESTNET_CHAIN_ID = 'iscn-dev-chain';

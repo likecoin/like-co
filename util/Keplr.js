@@ -132,11 +132,10 @@ class Keplr {
 
   async prepareCosmosTxSigner() {
     await this.checkIfInited();
-    const signerInstance = this.signer;
     const address = this.internalGetWalletAddress();
     return {
       signAmino: async (_, data) => {
-        const { signatures, ...signed } = await signerInstance.sign(address, data);
+        const { signatures, ...signed } = await this.signer.sign(address, data);
         return {
           signed: signed.signed,
           signature: {

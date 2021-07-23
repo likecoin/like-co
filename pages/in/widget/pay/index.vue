@@ -334,11 +334,12 @@
 import { mapActions, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
 import {
-  IS_TESTNET, LIKER_LAND_URL, BASIC_GAS, COSMOS_DENOM,
+  IS_TESTNET, LIKER_LAND_URL,
 } from '@/constant';
 import {
   queryLikeCoinBalance as queryCosmosLikeCoinBalance,
   getTransferInfo as getCosmosTransferInfo,
+  calculateGas as calculateCosmosGas,
 } from '@/util/CosmosHelper';
 import User from '@/util/User';
 import {
@@ -616,25 +617,9 @@ export default {
           tos.push(this.agentUser.cosmosWallet);
           values.push(this.agentFee);
         }
-        const fee = {
-          amount: [{
-            denom: COSMOS_DENOM,
-            amount: 1000,
-          }],
-          gas: parseInt(BASIC_GAS, 10),
-        };
-        ({ gas } = fee);
-        gasPrices = fee.amount;
+        ({ gas, gasPrices } = await calculateCosmosGas(tos));
       } else {
-        const fee = {
-          amount: [{
-            denom: COSMOS_DENOM,
-            amount: 1000,
-          }],
-          gas: parseInt(BASIC_GAS, 10),
-        };
-        ({ gas } = fee);
-        gasPrices = fee.amount;
+        ({ gas, gasPrices } = await calculateCosmosGas(this.toUsers));
       }
       this.gasFee = new BigNumber(gas).multipliedBy(gasPrices[0].amount).dividedBy(1e9).toFixed();
       return this.gasFee;

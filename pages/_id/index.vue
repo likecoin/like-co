@@ -204,14 +204,14 @@ import SocialMediaConnect from '~/components/SocialMediaConnect';
 
 import {
   queryLikeCoinBalance as queryCosmosLikeCoinBalance,
+  calculateGas as calculateCosmosGas,
+  DEFAULT_GAS_PRICE,
 } from '@/util/CosmosHelper';
 import User from '@/util/User';
 import {
   apiGetUserMinById,
   apiGetSocialListById,
 } from '@/util/api/api';
-
-import { BASIC_GAS, COSMOS_DENOM } from '@/constant';
 
 const DEFAULT_P2P_AMOUNT_IN_USD = 0.25;
 
@@ -396,16 +396,9 @@ export default {
     async calculateGasFee() {
       const from = await this.fetchCurrentCosmosWallet();
       if (!from) return '';
-      const fee = {
-        amount: [{
-          denom: COSMOS_DENOM,
-          amount: 1000,
-        }],
-        gas: parseInt(BASIC_GAS, 10),
-      };
-      const { gas } = fee;
-      const gasPrices = fee.amount;
-      this.gasFee = new BigNumber(gas).multipliedBy(gasPrices[0].amount).dividedBy(1e9).toFixed();
+      const { gas } = await calculateCosmosGas([this.wallet]);
+      this.gasFee = new BigNumber(gas)
+        .multipliedBy(parseInt(DEFAULT_GAS_PRICE[0].amount, 10)).dividedBy(1e9).toFixed();
       return this.gasFee;
     },
     async submitTransfer() {
