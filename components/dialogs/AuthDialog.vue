@@ -279,6 +279,11 @@
                   class="lc-color-like-green"
                   place="email"
                 >{{ signInPayload.email }}</span>
+                <a
+                  class="lc-color-light-burgundy lc-underline"
+                  place="support"
+                  @click="showCSChat"
+                >{{ $t('AuthDialog.Register.contactSupport') }}</a>
               </i18n>
 
             </div>
@@ -1269,6 +1274,12 @@ export default {
         logTimingEvent(this, 'RegFlow', 'AuthDialogMountedTiming', 'AuthDialogMountedTiming', value);
         this.loggedEvents.showAuthDialog = 1;
         this.logRegisterEvent(this, 'RegFlow', 'ShowAuthDialog', 'ShowAuthDialog', 1);
+      }
+    },
+    showCSChat() {
+      if (window.$crisp) {
+        window.$crisp.push(['do', 'chat:show']);
+        window.$crisp.push(['do', 'chat:open']);
       }
     },
   },
