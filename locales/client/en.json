@@ -806,7 +806,7 @@
       {
         "title": "Wallet is kept by you",
         "description": [
-          "Note that we are only binding your wallet address. We do have have access to your private key and are not able to access your wallet.",
+          "Note that we are only binding your wallet address. We do not have have access to your private key and are not able to access your wallet.",
           "You have to backup your seed phrase and be responsible for your wallet. If you lose the seed phrase, we will not be able to help recover since you are the only one who has access."
         ]
       },
