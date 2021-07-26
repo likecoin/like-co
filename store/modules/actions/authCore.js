@@ -127,10 +127,8 @@ export async function fetchAuthCoreCosmosWallet({ state }) {
 }
 
 export async function prepareAuthCoreCosmosTxSigner({ state }) {
-  let cosmosProvider;
   if (!state.cosmosProvider) throw new Error('COSMOS_WALLET_NOT_INITED');
-  ({ cosmosProvider } = state); // eslint-disable-line prefer-const
-
+  const { cosmosProvider } = state;
   if (cosmosProvider) {
     return {
       signAmino: async (_, data) => {

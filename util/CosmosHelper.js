@@ -11,20 +11,20 @@ import {
   GasPrice,
 } from '@cosmjs/launchpad';
 
-export const DEFAULT_GAS_PRICE = [{ amount: '1000', denom: 'nanolike' }];
+export const DEFAULT_GAS_PRICE = [{ amount: '1000', denom: COSMOS_DENOM }];
 export const DEFAULT_GAS_PRICE_NUMBER = parseInt(DEFAULT_GAS_PRICE[0].amount, 10);
-export const DEFAULT_ISCN_GAS_PRICE = [{ amount: 0, denom: 'nanolike' }];
+export const DEFAULT_ISCN_GAS_PRICE = [{ amount: 0, denom: COSMOS_DENOM }];
 const COSMOS_RESTFUL_API = `${EXTERNAL_URL}/api/cosmos/lcd`;
 
 let cosmosClient;
 let signingCosmosClient;
 
-async function initCosmosClient() {
+function initCosmosClient() {
   if (cosmosClient) return;
   cosmosClient = new CosmosClient(COSMOS_RESTFUL_API);
 }
 
-async function initSigningCosmosClient(url, signerAddress,
+function initSigningCosmosClient(url, signerAddress,
   signer, gasPrice, gasLimits, broadcastMode) {
   if (signingCosmosClient) return;
   signingCosmosClient = new SigningCosmosClient(url, signerAddress,
@@ -40,7 +40,7 @@ export function LIKEToAmount(value) {
 }
 
 export function amountToLIKE(likecoin) {
-  if (likecoin.denom === 'nanolike') {
+  if (likecoin.denom === COSMOS_DENOM) {
     return (new BigNumber(likecoin.amount)).dividedBy(1e9).toFixed();
   }
   console.error(`${likecoin.denom} is not supported denom`);
@@ -218,7 +218,7 @@ export async function transferMultiple({
           address: from,
           coins: [
             {
-              denom: 'nanolike',
+              denom: COSMOS_DENOM,
               amount: totalValue.toFixed(),
             },
           ],
