@@ -129,13 +129,10 @@ export async function fetchAuthCoreCosmosWallet({ state }) {
 export async function prepareAuthCoreCosmosTxSigner({ state }) {
   if (!state.cosmosProvider) throw new Error('COSMOS_WALLET_NOT_INITED');
   const { cosmosProvider } = state;
-  if (cosmosProvider) {
-    return {
-      signAmino: async (_, data) => {
-        const { signatures, ...signed } = await cosmosProvider.sign(data);
-        return { signed, signature: signatures[0] };
-      },
-    };
-  }
-  return null;
+  return {
+    signAmino: async (_, data) => {
+      const { signatures, ...signed } = await cosmosProvider.sign(data);
+      return { signed, signature: signatures[0] };
+    },
+  };
 }
