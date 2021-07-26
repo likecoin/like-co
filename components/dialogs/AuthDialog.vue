@@ -281,9 +281,9 @@
                 >{{ signInPayload.email }}</span>
                 <a
                   class="lc-color-light-burgundy lc-underline"
-                  place="signIn"
-                  @click="onClickSignWithWalletInError"
-                >{{ $t('AuthDialog.Register.signWithWallet') }}</a>
+                  place="support"
+                  @click="showCSChat"
+                >{{ $t('AuthDialog.Register.contactSupport') }}</a>
               </i18n>
 
             </div>
@@ -830,10 +830,6 @@ export default {
       }
       this.updateContentHeightForCurrentTab();
     },
-    onClickSignWithWalletInError() {
-      this.hasClickSignWithWalletInError = true;
-      this.signInWithPlatform('wallet');
-    },
     onDismissError() {
       switch (this.errorCode) {
         case 'USER_REGISTER_ERROR':
@@ -1278,6 +1274,12 @@ export default {
         logTimingEvent(this, 'RegFlow', 'AuthDialogMountedTiming', 'AuthDialogMountedTiming', value);
         this.loggedEvents.showAuthDialog = 1;
         this.logRegisterEvent(this, 'RegFlow', 'ShowAuthDialog', 'ShowAuthDialog', 1);
+      }
+    },
+    showCSChat() {
+      if (window.$crisp) {
+        window.$crisp.push(['do', 'chat:show']);
+        window.$crisp.push(['do', 'chat:open']);
       }
     },
   },

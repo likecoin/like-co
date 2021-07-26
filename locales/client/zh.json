@@ -763,10 +763,11 @@
       },
       "error": "帳戶註冊失敗",
       "suggestWalletSignIn": {
-        "id": "此 Liker ID 已被別人使用，請重新再試。若你早前已曾成功註冊了 {id} ，請先在電腦{signIn}",
-        "email": "此電郵地址已被別人使用，請重新再試。若你早前已曾成功以 {email} 註冊了 Liker ID ，請先在電腦{signIn}"
+        "id": "此 Liker ID 已被別人使用，請重新再試。若你早前已曾成功註冊了 {id} ，請確認登入方法後重新嘗試。{support}",
+        "email": "此電郵地址已被別人使用，請重新再試。若你早前已曾成功以 {email} 註冊了 Liker ID ，請確認登入方法後重新嘗試。{support}"
       },
-      "signWithWallet": "以電子錢包登入"
+      "signWithWallet": "以電子錢包登入",
+      "contactSupport": "如有疑問請聯絡我們"
     },
     "Failure": {
       "BindSocialAccounts": {

@@ -772,10 +772,11 @@
       },
       "error": "Account Registration Failed",
       "suggestWalletSignIn": {
-        "id": "If you successfully registered {id} before, please try to {signIn} on PC",
-        "email": "If you successfully registered a Liker ID with {email} before, please try to {signIn} on PC"
+        "id": "If you successfully registered {id} before, please confirm your login method and retry. {support}",
+        "email": "If you successfully registered a Liker ID with {email} before, please confirm your login method and retry. {support}"
       },
-      "signWithWallet": "sign in with wallet"
+      "signWithWallet": "sign in with wallet",
+      "contactSupport": "Please contact us if you have any issue."
     },
     "Failure": {
       "BindSocialAccounts": {
