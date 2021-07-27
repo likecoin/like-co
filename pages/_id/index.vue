@@ -204,7 +204,8 @@ import SocialMediaConnect from '~/components/SocialMediaConnect';
 
 import {
   queryLikeCoinBalance as queryCosmosLikeCoinBalance,
-  transfer as cosmosTransfer,
+  calculateGas as calculateCosmosGas,
+  DEFAULT_GAS_PRICE,
 } from '@/util/CosmosHelper';
 import User from '@/util/User';
 import {
@@ -395,18 +396,9 @@ export default {
     async calculateGasFee() {
       const from = await this.fetchCurrentCosmosWallet();
       if (!from) return '';
-      const to = this.wallet;
-      const { gas, gasPrices } = await cosmosTransfer(
-        {
-          from,
-          to,
-          value: this.amount,
-          memo: this.remarks,
-        },
-        null,
-        { simulate: true },
-      );
-      this.gasFee = new BigNumber(gas).multipliedBy(gasPrices[0].amount).dividedBy(1e9).toFixed();
+      const { gas } = await calculateCosmosGas([this.wallet]);
+      this.gasFee = new BigNumber(gas)
+        .multipliedBy(parseInt(DEFAULT_GAS_PRICE[0].amount, 10)).dividedBy(1e9).toFixed();
       return this.gasFee;
     },
     async submitTransfer() {

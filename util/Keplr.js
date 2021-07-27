@@ -132,17 +132,7 @@ class Keplr {
 
   async prepareCosmosTxSigner() {
     await this.checkIfInited();
-    const signerInstance = this.signer;
-    const address = this.internalGetWalletAddress();
-    return async function signer(signMessage) {
-      const data = JSON.parse(signMessage);
-      const { signed, signature } = await signerInstance.sign(address, data);
-      return {
-        signed,
-        signature: Buffer.from(signature.signature, 'base64'),
-        publicKey: Buffer.from(signature.pub_key.value, 'base64'),
-      };
-    };
+    return this.signer;
   }
 }
 

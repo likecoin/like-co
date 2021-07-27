@@ -1,25 +1,34 @@
 import BigNumber from 'bignumber.js';
 import {
-  COSMOS_CHAIN_ID,
   COSMOS_DENOM,
+  BASIC_TRANSFER_GAS,
+  EXTERNAL_URL,
 } from '@/constant';
 import { timeout } from '@/util/misc';
+import { queryTxInclusion } from '@/util/cosmos/misc';
+import {
+  CosmosClient, SigningCosmosClient,
+  GasPrice,
+} from '@cosmjs/launchpad';
 
-export const DEFAULT_GAS_PRICE = [{ amount: 1000, denom: 'nanolike' }];
-export const DEFAULT_GAS_PRICE_NUMBER = DEFAULT_GAS_PRICE[0].amount;
-export const DEFAULT_ISCN_GAS_PRICE = [{ amount: 0, denom: 'nanolike' }];
-const COSMOS_RESTFUL_API = '/api/cosmos/lcd';
+export const DEFAULT_GAS_PRICE = [{ amount: '1000', denom: COSMOS_DENOM }];
+export const DEFAULT_GAS_PRICE_NUMBER = parseInt(DEFAULT_GAS_PRICE[0].amount, 10);
+export const DEFAULT_ISCN_GAS_PRICE = [{ amount: 0, denom: COSMOS_DENOM }];
+const COSMOS_RESTFUL_API = `${EXTERNAL_URL}/api/cosmos/lcd`;
 
-let Cosmos;
-let api;
+let cosmosClient;
+let signingCosmosClient;
 
-async function initCosmos() {
-  if (api) return;
-  ([Cosmos] = await Promise.all([
-    import(/* webpackChunkName: "web3" */ '@likecoin/cosmos-api'),
-  ]));
-  if (Cosmos.default) Cosmos = Cosmos.default;
-  api = new Cosmos(COSMOS_RESTFUL_API, COSMOS_CHAIN_ID);
+function initCosmosClient() {
+  if (cosmosClient) return;
+  cosmosClient = new CosmosClient(COSMOS_RESTFUL_API);
+}
+
+function initSigningCosmosClient(url, signerAddress,
+  signer, gasPrice, gasLimits, broadcastMode) {
+  if (signingCosmosClient) return;
+  signingCosmosClient = new SigningCosmosClient(url, signerAddress,
+    signer, gasPrice, gasLimits, broadcastMode);
 }
 
 function LIKEToNanolike(value) {
@@ -31,7 +40,7 @@ export function LIKEToAmount(value) {
 }
 
 export function amountToLIKE(likecoin) {
-  if (likecoin.denom === 'nanolike') {
+  if (likecoin.denom === COSMOS_DENOM) {
     return (new BigNumber(likecoin.amount)).dividedBy(1e9).toFixed();
   }
   console.error(`${likecoin.denom} is not supported denom`);
@@ -39,39 +48,40 @@ export function amountToLIKE(likecoin) {
 }
 
 export async function getTransactionCompleted(txHash) {
-  if (!api) await initCosmos();
-  const txData = await api.get.tx(txHash);
+  if (!cosmosClient) await initCosmosClient();
+  const txData = await cosmosClient.getTx(txHash);
   if (!txData || !txData.height) {
     return 0;
   }
   const {
     timestamp,
     code,
-    logs: [{ success = false } = {}] = [],
+    rawLog,
   } = txData;
+  const fullLogs = JSON.parse(rawLog);
   return {
     ts: (new Date(timestamp)).getTime(),
-    isFailed: (code && code !== '0') || !success,
+    isFailed: (code && code !== '0') || !fullLogs[0].success,
   };
 }
 
 export async function getTransferInfo(txHash, opt) {
-  if (!api) await initCosmos();
+  if (!cosmosClient) await initCosmosClient();
   const { blocking } = opt;
   // TODO: handle tranferMultiple?
-  let txData = await api.get.tx(txHash);
+  let txData = await cosmosClient.getTx(txHash);
   if ((!txData || !txData.height) && !blocking) {
     return {};
   }
   while ((!txData || !txData.height) && blocking) {
     await timeout(1000); // eslint-disable-line no-await-in-loop
-    txData = await api.get.tx(txHash); // eslint-disable-line no-await-in-loop
+    txData = await cosmosClient.getTx(txHash); // eslint-disable-line no-await-in-loop
   }
   if (!txData) throw new Error('Cannot find transaction');
   const {
+    rawLog,
     timestamp,
     code,
-    logs: [{ success = false } = {}] = [],
     tx: {
       value: {
         msg,
@@ -111,7 +121,8 @@ export async function getTransferInfo(txHash, opt) {
       _amount: amount,
     };
   }
-  const isFailed = (code && code !== '0') || !success;
+  const fullLogs = JSON.parse(rawLog.slice(1, rawLog.length - 1));
+  const isFailed = (code && code !== '0') || !fullLogs.success;
   return {
     isFailed,
     _from: from,
@@ -122,28 +133,21 @@ export async function getTransferInfo(txHash, opt) {
 }
 
 export async function queryLikeCoinBalance(addr) {
-  if (!api) await initCosmos();
-  const account = await api.get.account(addr);
-  const [amount] = account.coins.filter(coin => coin.denom === COSMOS_DENOM);
+  if (!cosmosClient) await initCosmosClient();
+  const account = await cosmosClient.getAccount(addr);
+  const [amount] = account.balance.filter(balance => balance.denom === COSMOS_DENOM);
   if (!amount) return 0;
   return amountToLIKE(amount);
 }
 
-export async function sendTx(msgCallPromise, signer, {
-  gasPrices = DEFAULT_GAS_PRICE,
-  memo,
-  simulate: isSimulate,
-} = {}) {
-  const { simulate, send } = await msgCallPromise;
-  const gas = (await simulate({ memo })).toString();
-  if (isSimulate) return { gas, gasPrices };
-  const { hash, included } = await send({ gas, gasPrices, memo }, signer);
-  return {
-    txHash: hash,
-    included,
-    gas,
-    gasPrices,
+export async function calculateGas(to) {
+  const fee = {
+    amount: DEFAULT_GAS_PRICE,
+    gas: (to.length * parseInt(BASIC_TRANSFER_GAS, 10)).toString(),
   };
+  const { gas } = fee;
+  const gasPrices = fee.amount;
+  return { gas, gasPrices };
 }
 
 export async function transfer({
@@ -151,34 +155,67 @@ export async function transfer({
   to,
   value,
   memo,
-}, signer, { simulate = false } = {}) {
-  if (!api) await initCosmos();
+}, signer) {
   const amount = LIKEToAmount(value);
-  const msgPromise = api.MsgSend(from, { toAddress: to, amounts: [amount] });
-  return sendTx(msgPromise, signer, { memo, simulate });
+  const { gas, gasPrices } = await calculateGas([to]);
+  const fee = {
+    amount: DEFAULT_GAS_PRICE,
+    gas,
+  };
+  const gasPrice = GasPrice.fromString(DEFAULT_GAS_PRICE[0].amount.concat(COSMOS_DENOM));
+  if (!signingCosmosClient) {
+    await initSigningCosmosClient(COSMOS_RESTFUL_API, from, signer, gasPrice, {}, 'block');
+  }
+  const sendMsg = {
+    type: 'cosmos-sdk/MsgSend',
+    value: {
+      from_address: from,
+      to_address: to,
+      amount: [amount],
+    },
+  };
+
+  const broadcastedTx = await signingCosmosClient.signAndBroadcast([sendMsg], fee, memo);
+  return {
+    txHash: broadcastedTx.transactionHash,
+    gas,
+    gasPrices,
+    included: () => queryTxInclusion(broadcastedTx.transactionHash, COSMOS_RESTFUL_API),
+  };
 }
 
-async function MsgSendMultiple(
-  senderAddress,
-  {
-    toAddresses,
-    amounts,
-  },
-) {
+export async function transferMultiple({
+  from,
+  tos,
+  values,
+  memo,
+}, signer) {
+  const amounts = values.map(v => LIKEToAmount(v));
   const totalValue = amounts.reduce((acc, amount) => acc.plus(amount.amount), new BigNumber(0));
   const outputs = [];
-  toAddresses.forEach((target, index) => {
+  tos.forEach((target, index) => {
     outputs.push({
       address: target,
       coins: [amounts[index]],
     });
   });
-  const message = {
+  const { gas, gasPrices } = await calculateGas(tos);
+  const fee = {
+    amount: DEFAULT_GAS_PRICE,
+    gas,
+  };
+  const gasPrice = GasPrice.fromString(DEFAULT_GAS_PRICE[0].amount.concat(COSMOS_DENOM));
+  if (!signingCosmosClient) {
+    await initSigningCosmosClient(COSMOS_RESTFUL_API, // eslint-disable-line no-await-in-loop
+      from,
+      signer, gasPrice, {}, 'block');
+  }
+  const sendMsg = {
     type: 'cosmos-sdk/MsgMultiSend',
     value: {
       inputs: [
         {
-          address: senderAddress,
+          address: from,
           coins: [
             {
               denom: COSMOS_DENOM,
@@ -190,29 +227,11 @@ async function MsgSendMultiple(
       outputs,
     },
   };
+  const broadcastedTx = await signingCosmosClient.signAndBroadcast([sendMsg], fee, memo);
   return {
-    message,
-    simulate: ({ memo = undefined }) => {
-      let base = 30000;
-      const numberOfReceivers = message.value.outputs.length;
-      if (numberOfReceivers) base += numberOfReceivers * 8000;
-      if (memo && memo.length) base += memo.length * 100;
-      return Math.floor(base * 1.2);
-    },
-    send: (
-      { gas, gasPrices = DEFAULT_GAS_PRICE, memo = undefined },
-      signer,
-    ) => api.send(senderAddress, { gas, gasPrices, memo }, message, signer),
+    txHash: broadcastedTx.transactionHash,
+    gas,
+    gasPrices,
+    included: () => queryTxInclusion(broadcastedTx.transactionHash, COSMOS_RESTFUL_API),
   };
-}
-
-export function transferMultiple({
-  from,
-  tos,
-  values,
-  memo,
-}, signer, { simulate = false } = {}) {
-  const amounts = values.map(v => LIKEToAmount(v));
-  const msgPromise = MsgSendMultiple(from, { toAddresses: tos, amounts });
-  return sendTx(msgPromise, signer, { memo, simulate });
 }

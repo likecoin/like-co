@@ -333,12 +333,13 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
-import { IS_TESTNET, LIKER_LAND_URL } from '@/constant';
+import {
+  IS_TESTNET, LIKER_LAND_URL,
+} from '@/constant';
 import {
   queryLikeCoinBalance as queryCosmosLikeCoinBalance,
-  transfer as cosmosTransfer,
-  transferMultiple as cosmosTransferMultiple,
   getTransferInfo as getCosmosTransferInfo,
+  calculateGas as calculateCosmosGas,
 } from '@/util/CosmosHelper';
 import User from '@/util/User';
 import {
@@ -609,9 +610,6 @@ export default {
     async calculateGasFee() {
       let gas;
       let gasPrices;
-      const from = await this.fetchCurrentCosmosWallet();
-      if (!from) return '';
-      const to = this.toUsers[0].cosmosWallet;
       if (this.isMultiSend) {
         const tos = this.toUsers.map(u => u.cosmosWallet);
         const values = [...this.amounts];
@@ -619,27 +617,9 @@ export default {
           tos.push(this.agentUser.cosmosWallet);
           values.push(this.agentFee);
         }
-        ({ gas, gasPrices } = await cosmosTransferMultiple(
-          {
-            from,
-            tos,
-            values,
-            memo: this.remarks,
-          },
-          null,
-          { simulate: true },
-        ));
+        ({ gas, gasPrices } = await calculateCosmosGas(tos));
       } else {
-        ({ gas, gasPrices } = await cosmosTransfer(
-          {
-            from,
-            to,
-            value: this.actualSendAmount,
-            memo: this.remarks,
-          },
-          null,
-          { simulate: true },
-        ));
+        ({ gas, gasPrices } = await calculateCosmosGas(this.toUsers));
       }
       this.gasFee = new BigNumber(gas).multipliedBy(gasPrices[0].amount).dividedBy(1e9).toFixed();
       return this.gasFee;
