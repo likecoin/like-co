@@ -15,3 +15,5 @@ export const ISCN_LICENSES = {
     '/': 'QmZhRNkZaSnhDr6gBC22zwhTjsGyUx39tm8gjFYnTr2SjN',
   },
 };
+
+export const ISCN_RPC_URL = '/api/cosmos/rpc';
