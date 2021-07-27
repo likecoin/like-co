@@ -1,4 +1,17 @@
-import { LcdClient } from '@cosmjs/launchpad';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
+import { QueryClient } from "@cosmjs/stargate";
+import BigNumber from 'bignumber.js';
+
+import { setupISCNExtension } from "./iscnQueryExtension";
+import config from '~/constant/network';
+import { COSMOS_DENOM } from '~/constant';
+
+import {
+  defaultRegistryTypes,
+  assertIsBroadcastTxSuccess,
+  SigningStargateClient,
+} from "@cosmjs/stargate";
 import { DEFAULT_ISCN_GAS_PRICE } from '../CosmosHelper';
 import { ISCN_PUBLISHERS, ISCN_LICENSES } from './iscnConstant';
 import { timeout } from '@/util/misc';
@@ -6,110 +19,6 @@ import { apiPostISCNMessageForSign } from '../api/api';
 import { assertOk, queryTxInclusion } from './misc';
 
 const ISCN_DEV_RESTFUL_API = '/api/cosmos/iscn-dev/lcd';
-
-let iscnApi;
-async function initISCNCosmos() {
-  if (iscnApi) return;
-  iscnApi = LcdClient.withExtensions({ ISCN_DEV_RESTFUL_API });
-}
-
-export async function getISCNTransferInfo(txHash, opt) {
-  if (!iscnApi) await initISCNCosmos();
-  const { blocking } = opt;
-  let txData = await iscnApi.txById(txHash);
-  if ((!txData || !txData.height) && !blocking) {
-    return {};
-  }
-  while ((!txData || !txData.height) && blocking) {
-    await timeout(1000); // eslint-disable-line no-await-in-loop
-    txData = await iscnApi.txById(txHash); // eslint-disable-line no-await-in-loop
-  }
-  if (!txData) throw new Error('Cannot find transaction');
-  const {
-    timestamp,
-    code,
-    logs: [{ success = false } = {}] = [],
-    events = [],
-    tx: {
-      value: {
-        msg,
-      },
-    },
-  } = txData;
-  if (!txData.height) {
-    return {};
-  }
-  const createEvent = events.find(e => e.type === 'create_iscn') || {};
-  const iscnId = ((createEvent.attributes || []).find(a => a.key === 'iscn_id') || {}).value;
-  if (!iscnId) throw new Error('Cannot find ISCN ID');
-  const [{
-    type,
-    value: {
-      from,
-      iscnKernel: {
-        content,
-        rights: { rights = [] },
-        stakeholders: { stakeholders = [] },
-        timestamp: contentTimestamp,
-        // parent,
-        // version,
-      },
-    },
-  }] = msg;
-  const {
-    fingerprint,
-    tags,
-    title,
-    type: contentType,
-  } = content;
-  const parsedRights = rights.map((r) => {
-    if (r.holder.description.includes('LikerID: ')) {
-      // eslint-disable-next-line no-param-reassign
-      [, r.holder.likerID] = r.holder.description.split('LikerID: ');
-    }
-    return r;
-  });
-  const parsedStakeholders = stakeholders.map((s) => {
-    if (s.stakeholder.description.includes('LikerID: ')) {
-      // eslint-disable-next-line no-param-reassign
-      [, s.stakeholder.likerID] = s.stakeholder.description.split('LikerID: ');
-    }
-    return s;
-  });
-  const parsedFingerprint = fingerprint.split('://');
-  const isFailed = (code && code !== '0') || !success;
-  return {
-    iscnId,
-    from,
-    fingerprint: parsedFingerprint[parsedFingerprint.length - 1],
-    tags,
-    title,
-    type,
-    contentType,
-    isFailed,
-    rights: parsedRights,
-    stakeholders: parsedStakeholders,
-    contentTimestamp,
-    timestamp: (new Date(timestamp)).getTime() / 1000,
-  };
-}
-
-export async function getISCNTransactionCompleted(txHash) {
-  if (!iscnApi) await initISCNCosmos();
-  const txData = await iscnApi.txById(txHash);
-  if (!txData || !txData.height) {
-    return 0;
-  }
-  const {
-    timestamp,
-    code,
-    logs: [{ success = false } = {}] = [],
-  } = txData;
-  return {
-    ts: (new Date(timestamp)).getTime(),
-    isFailed: (code && code !== '0') || !success,
-  };
-}
 
 export async function sendSignedISCNTx(signedTx) {
   const body = JSON.stringify({
@@ -249,41 +158,6 @@ export function MsgCreateISCN(
     ) => iscnApi.send(cosmosWallet, { gas, gasPrices, memo }, message, signer),
   };
 }
-export async function remoteSignISCNPayload({
-  userId,
-  displayName,
-  cosmosWallet,
-  fingerprint,
-  title,
-  tags = [],
-  type = 'article',
-  license,
-  publisher,
-}) {
-  const { message } = MsgCreateISCN({
-    id: userId,
-    displayName,
-    cosmosWallet,
-  },
-  {
-    fingerprint,
-    title,
-    tags,
-    type,
-  },
-  {
-    license,
-    publisher,
-  });
-  const { data: { signedTx } = {} } = await apiPostISCNMessageForSign(message);
-  if (!signedTx) throw new Error('SIGNING_FAILED');
-  const { hash, included } = await sendSignedISCNTx(signedTx);
-  return {
-    txHash: hash,
-    included,
-  };
-}
-
 export async function sendTx(msgCallPromise, signer, {
   gasPrices = DEFAULT_ISCN_GAS_PRICE,
   memo,

@@ -152,8 +152,8 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import { ISCN_LICENSES, ISCN_PUBLISHERS } from '@/util/cosmos/iscnConstant';
-import { getISCNTransferInfo } from '@/util/cosmos/iscn';
+import { ISCN_LICENSES, ISCN_PUBLISHERS } from '@/util/cosmos/iscn/constant';
+import { getISCNTransferInfo } from '@/util/cosmos/iscn/query';
 import { LIKER_LAND_URL } from '@/constant';
 
 import User from '@/util/User';

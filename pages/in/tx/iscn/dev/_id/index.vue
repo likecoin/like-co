@@ -331,11 +331,11 @@
 import { mapActions } from 'vuex';
 import dateFormat from 'date-fns/format';
 
-// import { ISCN_LICENSES, ISCN_PUBLISHERS } from '@/util/cosmos/iscnConstant';
+// import { ISCN_LICENSES, ISCN_PUBLISHERS } from '@/util/cosmos/iscn/constant';
 import {
   getISCNTransferInfo,
   getISCNTransactionCompleted,
-} from '@/util/cosmos/iscn';
+} from '@/util/cosmos/iscn/query';
 import { BIGDIPPER_HOST, LIKER_LAND_URL } from '@/constant';
 
 import { apiGetUserMinById } from '@/util/api/api';
