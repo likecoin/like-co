@@ -190,6 +190,7 @@ export default {
       redirect_uri: redirectUri,
       opener,
       state,
+      url,
     } = query;
     let {
       license,
@@ -229,6 +230,7 @@ export default {
       redirectUri,
       opener: opener && opener !== '0',
       state,
+      url,
     };
   },
   head() {
@@ -303,6 +305,7 @@ export default {
           type,
           license,
           publisher,
+          url,
         } = this;
         const txHash = await this.sendISCNSignature({
           userId: this.getUserId,
@@ -314,6 +317,7 @@ export default {
           type,
           license,
           publisher,
+          url,
           showDialogAction,
           isWait,
         });
