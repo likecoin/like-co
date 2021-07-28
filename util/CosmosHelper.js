@@ -2,33 +2,33 @@ import BigNumber from 'bignumber.js';
 import {
   COSMOS_DENOM,
   BASIC_TRANSFER_GAS,
-  EXTERNAL_URL,
+  // EXTERNAL_URL,
 } from '@/constant';
 import { timeout } from '@/util/misc';
 import { queryTxInclusion } from '@/util/cosmos/misc';
 import {
-  CosmosClient, SigningCosmosClient,
-  GasPrice,
-} from '@cosmjs/launchpad';
+  SigningStargateClient,
+  StargateClient,
+} from '@cosmjs/stargate';
+import { MsgSend, MsgMultiSend } from '@cosmjs/stargate/build/codec/cosmos/bank/v1beta1/tx';
 
 export const DEFAULT_GAS_PRICE = [{ amount: '1000', denom: COSMOS_DENOM }];
 export const DEFAULT_GAS_PRICE_NUMBER = parseInt(DEFAULT_GAS_PRICE[0].amount, 10);
 export const DEFAULT_ISCN_GAS_PRICE = [{ amount: 0, denom: COSMOS_DENOM }];
-const COSMOS_RESTFUL_API = `${EXTERNAL_URL}/api/cosmos/lcd`;
+// const COSMOS_RESTFUL_API = `${EXTERNAL_URL}/api/cosmos/lcd`; // https://node.taipei2.like.co/api/cosmos/lcd
+const COSMOS_RPC_API = 'https://node.iscn-dev-2.like.co/rpc/'; // note: need to have '/' in the end
+const COSMOS_RESTFUL_API = 'https://node.iscn-dev-2.like.co/';
+let stargateClient;
+let signingStargateClient;
 
-let cosmosClient;
-let signingCosmosClient;
-
-function initCosmosClient() {
-  if (cosmosClient) return;
-  cosmosClient = new CosmosClient(COSMOS_RESTFUL_API);
+async function initStargateClient() {
+  if (stargateClient) return;
+  stargateClient = await StargateClient.connect(COSMOS_RPC_API);
 }
 
-function initSigningCosmosClient(url, signerAddress,
-  signer, gasPrice, gasLimits, broadcastMode) {
-  if (signingCosmosClient) return;
-  signingCosmosClient = new SigningCosmosClient(url, signerAddress,
-    signer, gasPrice, gasLimits, broadcastMode);
+async function initSigningStargateClient(url, senderWallet) {
+  if (signingStargateClient) return;
+  signingStargateClient = await SigningStargateClient.connectWithSigner(url, senderWallet);
 }
 
 function LIKEToNanolike(value) {
@@ -48,8 +48,8 @@ export function amountToLIKE(likecoin) {
 }
 
 export async function getTransactionCompleted(txHash) {
-  if (!cosmosClient) await initCosmosClient();
-  const txData = await cosmosClient.getTx(txHash);
+  if (!stargateClient) await initStargateClient();
+  const txData = await stargateClient.getTx(txHash);
   if (!txData || !txData.height) {
     return 0;
   }
@@ -66,16 +66,16 @@ export async function getTransactionCompleted(txHash) {
 }
 
 export async function getTransferInfo(txHash, opt) {
-  if (!cosmosClient) await initCosmosClient();
+  if (!stargateClient) await initStargateClient();
   const { blocking } = opt;
   // TODO: handle tranferMultiple?
-  let txData = await cosmosClient.getTx(txHash);
+  let txData = await stargateClient.getTx(txHash);
   if ((!txData || !txData.height) && !blocking) {
     return {};
   }
   while ((!txData || !txData.height) && blocking) {
     await timeout(1000); // eslint-disable-line no-await-in-loop
-    txData = await cosmosClient.getTx(txHash); // eslint-disable-line no-await-in-loop
+    txData = await stargateClient.getTx(txHash); // eslint-disable-line no-await-in-loop
   }
   if (!txData) throw new Error('Cannot find transaction');
   const {
@@ -133,9 +133,8 @@ export async function getTransferInfo(txHash, opt) {
 }
 
 export async function queryLikeCoinBalance(addr) {
-  if (!cosmosClient) await initCosmosClient();
-  const account = await cosmosClient.getAccount(addr);
-  const [amount] = account.balance.filter(balance => balance.denom === COSMOS_DENOM);
+  if (!stargateClient) await initStargateClient();
+  const amount = await stargateClient.getBalance(addr, COSMOS_DENOM); // also see: getAccount(addr)
   if (!amount) return 0;
   return amountToLIKE(amount);
 }
@@ -162,20 +161,20 @@ export async function transfer({
     amount: DEFAULT_GAS_PRICE,
     gas,
   };
-  const gasPrice = GasPrice.fromString(DEFAULT_GAS_PRICE[0].amount.concat(COSMOS_DENOM));
-  if (!signingCosmosClient) {
-    await initSigningCosmosClient(COSMOS_RESTFUL_API, from, signer, gasPrice, {}, 'block');
+  if (!signingStargateClient) {
+    await initSigningStargateClient(COSMOS_RPC_API, signer);
   }
-  const sendMsg = {
-    type: 'cosmos-sdk/MsgSend',
-    value: {
-      from_address: from,
-      to_address: to,
-      amount: [amount],
-    },
-  };
+  const sendMsg = MsgSend.fromPartial({
+    fromAddress: from,
+    toAddress: to,
+    amount: [amount],
+  });
 
-  const broadcastedTx = await signingCosmosClient.signAndBroadcast([sendMsg], fee, memo);
+  const msgs = {
+    typeUrl: '/cosmos.bank.v1beta1.MsgSend',
+    value: sendMsg,
+  };
+  const broadcastedTx = await signingStargateClient.signAndBroadcast(from, [msgs], fee, memo);
   return {
     txHash: broadcastedTx.transactionHash,
     gas,
@@ -204,30 +203,31 @@ export async function transferMultiple({
     amount: DEFAULT_GAS_PRICE,
     gas,
   };
-  const gasPrice = GasPrice.fromString(DEFAULT_GAS_PRICE[0].amount.concat(COSMOS_DENOM));
-  if (!signingCosmosClient) {
-    await initSigningCosmosClient(COSMOS_RESTFUL_API, // eslint-disable-line no-await-in-loop
-      from,
-      signer, gasPrice, {}, 'block');
+  if (!signingStargateClient) {
+    await initSigningStargateClient(COSMOS_RPC_API, // eslint-disable-line no-await-in-loop);
+      signer);
   }
-  const sendMsg = {
-    type: 'cosmos-sdk/MsgMultiSend',
-    value: {
-      inputs: [
-        {
-          address: from,
-          coins: [
-            {
-              denom: COSMOS_DENOM,
-              amount: totalValue.toFixed(),
-            },
-          ],
-        },
-      ],
-      outputs,
-    },
+  const sendMsg = MsgMultiSend.fromPartial({
+    inputs: [
+      {
+        address: from,
+        coins: [
+          {
+            denom: COSMOS_DENOM,
+            amount: totalValue.toFixed().toString(),
+          },
+        ],
+      },
+    ],
+    outputs,
+  });
+
+  const msgs = {
+    typeUrl: '/cosmos.bank.v1beta1.MsgMultiSend',
+    value: sendMsg,
   };
-  const broadcastedTx = await signingCosmosClient.signAndBroadcast([sendMsg], fee, memo);
+
+  const broadcastedTx = await signingStargateClient.signAndBroadcast(from, [msgs], fee, memo);
   return {
     txHash: broadcastedTx.transactionHash,
     gas,

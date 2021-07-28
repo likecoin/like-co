@@ -39,13 +39,12 @@ const mainConfig = {
   icon: 'https://like.co/logo.png',
 };
 
-// need to change
 const testnetConfig = {
-  id: 'likecoin-testnet-taipei-2', // Change test net to taipei-2
-  name: 'LikeCoin Taipei test chain',
-  apiURL: 'https://node.taipei2.like.co',
-  rpcURL: 'ws://node.taipei2.like.co:26657',
-  stakingWalletURL: 'http://likecoin-chain-taipei2.netlify.app/',
+  id: 'iscn-dev-chain-2',
+  name: 'LikeCoin ISCN Dev Chain', // TO-DO
+  apiURL: 'https://node.iscn-dev-2.like.co',
+  rpcURL: 'https://node.iscn-dev-2.like.co/rpc',
+  stakingWalletURL: 'http://likecoin-chain-taipei2.netlify.app/', // TO-DO
 };
 
 const combinedConfig = {
