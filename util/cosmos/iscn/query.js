@@ -1,10 +1,12 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Tendermint34Client } from '@cosmjs/tendermint-rpc';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { decodeTxRaw } from '@cosmjs/proto-signing';
 import { QueryClient, StargateClient } from '@cosmjs/stargate';
+import { MsgCreateIscnRecord } from '@likecoin/iscn-message-types/dist/iscn/tx';
 
 import setupISCNExtension from './iscnQueryExtension';
 import { timeout } from '@/util/misc';
-import { assertOk, queryTxInclusion } from '../misc';
 
 const ISCN_RPC_URL = '/api/cosmos/rpc';
 
@@ -30,6 +32,70 @@ export async function getApiClient() {
   return stargateClient;
 }
 
+function parseISCNRecordFields(record) {
+  const {
+    stakeholders,
+    contentMetadata,
+  } = record;
+  return {
+    ...record,
+    stakeholders: stakeholders.map((s) => {
+      if (s) {
+        const sString = Buffer.from(s).toString('utf-8');
+        if (sString) return JSON.parse(sString);
+      }
+      return s;
+    }),
+    contentMetadata: JSON.parse(Buffer.from(contentMetadata).toString('utf-8')),
+  };
+}
+
+export function parseISCNTxInfoFromTxSuccess(tx) {
+  const { transactionHash } = tx;
+  let iscnId;
+  if (tx.rawLog) {
+    const [log] = JSON.parse(tx.rawLog);
+    if (log) {
+      const ev = log.events.find(e => e.type === 'iscn_record');
+      if (ev) iscnId = ev.attributes[0].value;
+    }
+  }
+  return {
+    txHash: transactionHash,
+    iscnId,
+  };
+}
+
+export function parseISCNTxInfoFromIndexedTx(tx) {
+  const { tx: txBytes, rawLog } = tx;
+  const decodedTx = decodeTxRaw(txBytes);
+  const messages = decodedTx.body.messages.map((m) => {
+    if (m.typeUrl === '/likechain.iscn.MsgCreateIscnRecord') {
+      const msg = MsgCreateIscnRecord.decode(m.value);
+      if (msg.record) {
+        msg.record = parseISCNRecordFields(msg.record);
+      }
+      return {
+        ...m,
+        value: msg,
+      };
+    }
+    return null;
+  });
+
+  return {
+    ...tx,
+    logs: JSON.parse(rawLog),
+    tx: {
+      ...decodedTx,
+      body: {
+        ...decodedTx.body,
+        messages: messages.filter(m => m),
+      },
+    },
+  };
+}
+
 export async function getISCNTransferInfo(txHash, opt) {
   const apiClient = await getApiClient();
   const { blocking } = opt;
@@ -42,78 +108,83 @@ export async function getISCNTransferInfo(txHash, opt) {
     txData = await apiClient.getTx(txHash); // eslint-disable-line no-await-in-loop
   }
   if (!txData) throw new Error('Cannot find transaction');
+  const parsed = parseISCNTxInfoFromIndexedTx(txData);
   const {
-    timestamp,
+    height,
     code,
-    logs: [{ success = false } = {}] = [],
-    events = [],
-    tx: {
-      value: {
-        msg,
-      },
-    },
   } = txData;
-  if (!txData.height) {
+  if (!height) {
     return {};
   }
-  const createEvent = events.find(e => e.type === 'create_iscn') || {};
-  const iscnId = ((createEvent.attributes || []).find(a => a.key === 'iscn_id') || {}).value;
-  if (!iscnId) throw new Error('Cannot find ISCN ID');
-  const [{
-    type,
-    value: {
-      from,
-      iscnKernel: {
-        content,
-        rights: { rights = [] },
-        stakeholders: { stakeholders = [] },
-        timestamp: contentTimestamp,
-        // parent,
-        // version,
-      },
-    },
-  }] = msg;
+
+  const block = await apiClient.getBlock(height);
+  const { header: { time: timestamp } } = block;
+
+  const messages = [];
+  parsed.tx.body.messages.forEach((m, index) => {
+    if (!m || !m.typeUrl.includes('/likechain.iscn')) return;
+    const data = m.value.record;
+    if (!data) return;
+    const log = parsed.logs[index];
+    const event = log.events.find(e => e.type === 'iscn_record');
+    if (!event) return;
+    const { attributes } = event;
+    const ipldAttr = attributes.find(a => a.key === 'ipld');
+    const ipld = ipldAttr && ipldAttr.value;
+    const iscnIdAttr = attributes.find(a => a.key === 'iscn_id');
+    const iscnId = iscnIdAttr && iscnIdAttr.value;
+    const ownerAttr = attributes.find(a => a.key === 'owner');
+    const owner = ownerAttr && ownerAttr.value;
+    if (!ipld || !iscnId) return;
+    messages.push({
+      ipld,
+      id: iscnId,
+      data,
+      owner,
+    });
+  });
+  const [message] = messages;
   const {
-    fingerprint,
-    tags,
-    title,
-    type: contentType,
-  } = content;
-  const parsedRights = rights.map((r) => {
-    if (r.holder.description.includes('LikerID: ')) {
-      // eslint-disable-next-line no-param-reassign
-      [, r.holder.likerID] = r.holder.description.split('LikerID: ');
-    }
-    return r;
-  });
-  const parsedStakeholders = stakeholders.map((s) => {
-    if (s.stakeholder.description.includes('LikerID: ')) {
-      // eslint-disable-next-line no-param-reassign
-      [, s.stakeholder.likerID] = s.stakeholder.description.split('LikerID: ');
-    }
-    return s;
-  });
-  const parsedFingerprint = fingerprint.split('://');
-  const isFailed = (code && code !== '0') || !success;
+    ipld,
+    id: iscnId,
+    owner,
+    data: {
+      stakeholders,
+      contentMetadata: {
+        '@type': type,
+        title,
+        url,
+        keywords,
+        usageInfo,
+      },
+      recordNotes,
+      contentFingerprints,
+    },
+  } = message;
+  let parsedFingerprint = contentFingerprints.find(f => f.includes('ipfs://'));
+  if (parsedFingerprint) [, parsedFingerprint] = parsedFingerprint.split('ipfs://');
+  const isFailed = (code && code !== '0');
   return {
+    ipld,
     iscnId,
-    from,
-    fingerprint: parsedFingerprint[parsedFingerprint.length - 1],
-    tags,
+    from: owner,
+    fingerprint: parsedFingerprint,
+    tags: keywords,
+    url,
     title,
     type,
-    contentType,
     isFailed,
-    rights: parsedRights,
-    stakeholders: parsedStakeholders,
-    contentTimestamp,
+    rights: [usageInfo],
+    stakeholders,
+    contentTimestamp: (new Date(timestamp)).getTime(),
     timestamp: (new Date(timestamp)).getTime() / 1000,
+    recordNotes,
   };
 }
 
 export async function getISCNTransactionCompleted(txHash) {
-  if (!iscnApi) await initISCNCosmos();
-  const txData = await iscnApi.txById(txHash);
+  const apiClient = await getApiClient();
+  const txData = await apiClient.getTx(txHash);
   if (!txData || !txData.height) {
     return 0;
   }
