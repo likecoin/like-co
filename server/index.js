@@ -1,6 +1,6 @@
 import express from 'express';
 import path from 'path';
-import proxy from 'http-proxy-middleware';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import { Nuxt, Builder } from 'nuxt';
@@ -20,7 +20,7 @@ app.get('/api/healthz', (req, res) => {
 });
 
 // proxy API Routes
-app.use('/api', proxy({
+app.use('/api', createProxyMiddleware({
   target: `http://${process.env.LIKE_API_HOST || 'localhost:3001'}`,
   pathRewrite: { '^/api': '' },
 }));
