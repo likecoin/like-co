@@ -24,7 +24,21 @@
     </header>
 
     <div
-      v-if="failReason > 0"
+      v-if="isNotFound"
+      class="iscn-panel"
+    >
+      <section
+        class="iscn-panel__section-container iscn-panel__section-container--failed"
+      >
+        <h1>
+          <md-icon class="status-icon error-icon">error</md-icon>
+          {{ $t('Transaction.header.label.notFound') }}
+        </h1>
+      </section>
+    </div>
+
+    <div
+      v-else-if="failReason > 0"
       class="iscn-panel"
     >
       <section
@@ -100,7 +114,10 @@
 
       <div class="iscn-panel">
         <section class="iscn-panel__section-container">
-          <div class="iscn-panel__section-meta">
+          <div
+            v-if="creatorId"
+            class="iscn-panel__section-meta"
+          >
             <div class="iscn-panel__section-meta-label">
               {{ $t('ISCNWidget.label.creator') }}
             </div>
@@ -188,9 +205,11 @@
 
         <hr class="iscn-panel__section-separator">
 
-        <section class="iscn-panel__section-container">
+        <section
+          v-if="tags && tags.length"
+          class="iscn-panel__section-container"
+        >
           <div
-            v-if="tags && tags.length"
             class="iscn-panel__section-meta"
           >
             <div class="iscn-panel__section-meta-label">
@@ -210,8 +229,13 @@
 
         <hr class="iscn-panel__section-separator">
 
-        <section class="iscn-panel__section-container">
-          <div class="iscn-panel__section-meta">
+        <section
+          v-if="rights && rights.length"
+          class="iscn-panel__section-container"
+        >
+          <div
+            class="iscn-panel__section-meta"
+          >
             <div class="iscn-panel__section-meta-label">
               {{ $t('ISCNWidget.label.rights') }}
             </div>
@@ -236,7 +260,10 @@
 
         <hr class="iscn-panel__section-separator">
 
-        <section class="iscn-panel__section-container">
+        <section
+          v-if="stakeholders && stakeholders.length"
+          class="iscn-panel__section-container"
+        >
           <div class="iscn-panel__section-meta iscn-panel__section-meta--full">
             <div class="iscn-panel__section-meta-label">
               {{ $t('ISCNWidget.label.stakeholders') }}

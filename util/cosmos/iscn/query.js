@@ -144,6 +144,9 @@ export async function getISCNTransferInfo(txHash, opt) {
     });
   });
   const [message] = messages;
+  if (!message) {
+    throw new Error('Not an ISCN transaction');
+  }
   const {
     ipld,
     id: iscnId,
