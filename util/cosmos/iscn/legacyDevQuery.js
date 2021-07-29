@@ -9,7 +9,7 @@ async function initISCNCosmos() {
   iscnApi = LcdClient.withExtensions({ ISCN_DEV_RESTFUL_API });
 }
 
-export default async function getISCNTransferInfo(txHash, opt) {
+export async function getISCNTransferInfo(txHash, opt) {
   if (!iscnApi) await initISCNCosmos();
   const { blocking } = opt;
   let txData = await iscnApi.txById(txHash);
@@ -87,5 +87,22 @@ export default async function getISCNTransferInfo(txHash, opt) {
     stakeholders: parsedStakeholders,
     contentTimestamp,
     timestamp: (new Date(timestamp)).getTime() / 1000,
+  };
+}
+
+export async function getISCNTransactionCompleted(txHash) {
+  if (!iscnApi) await initISCNCosmos();
+  const txData = await iscnApi.txById(txHash);
+  if (!txData || !txData.height) {
+    return 0;
+  }
+  const {
+    timestamp,
+    code,
+    logs: [{ success = false } = {}] = [],
+  } = txData;
+  return {
+    ts: (new Date(timestamp)).getTime(),
+    isFailed: (code && code !== '0') || !success,
   };
 }
