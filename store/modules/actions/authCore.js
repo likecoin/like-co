@@ -130,9 +130,22 @@ export async function prepareAuthCoreCosmosTxSigner({ state }) {
   if (!state.cosmosProvider) throw new Error('COSMOS_WALLET_NOT_INITED');
   const { cosmosProvider } = state;
   return {
-    signAmino: async (_, data) => {
+    signDirect: async (_, data) => {
       const { signatures, ...signed } = await cosmosProvider.sign(data);
       return { signed, signature: signatures[0] };
+    },
+    getAccounts: async () => {
+      const pubkey = {
+        type: 'tendermint/PubKeySecp256k1',
+        value: cosmosProvider.wallets[0].publicKey,
+      };
+      const pubkeyBytes = Buffer.from(pubkey.value, 'base64');
+
+      return [{
+        algo: 'secp256k1',
+        address: cosmosProvider.wallets[0].address,
+        pubkey: pubkeyBytes,
+      }];
     },
   };
 }
