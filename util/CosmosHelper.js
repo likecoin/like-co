@@ -11,6 +11,7 @@ import {
   StargateClient,
 } from '@cosmjs/stargate';
 import { MsgSend, MsgMultiSend } from '@cosmjs/stargate/build/codec/cosmos/bank/v1beta1/tx';
+import { decodeTxRaw } from '@cosmjs/proto-signing';
 
 export const DEFAULT_GAS_PRICE = [{ amount: '1000', denom: COSMOS_DENOM }];
 export const DEFAULT_GAS_PRICE_NUMBER = parseInt(DEFAULT_GAS_PRICE[0].amount, 10);
@@ -70,6 +71,7 @@ export async function getTransferInfo(txHash, opt) {
   const { blocking } = opt;
   // TODO: handle tranferMultiple?
   let txData = await stargateClient.getTx(txHash);
+  console.log('!txData: ', txData);
   if ((!txData || !txData.height) && !blocking) {
     return {};
   }
@@ -78,15 +80,33 @@ export async function getTransferInfo(txHash, opt) {
     txData = await stargateClient.getTx(txHash); // eslint-disable-line no-await-in-loop
   }
   if (!txData) throw new Error('Cannot find transaction');
+  const decodedTx = decodeTxRaw(txData.tx);
+  const decoder = new TextDecoder();
+  const decodedMsg = decoder.decode(decodedTx.body.messages[0].value);
+  // eslint-disable-next-line no-control-regex
+  const cleanComponents = decodedMsg.replace(/[\x00-\x08\x0E-\x1F\x7F-\uFFFF-\n]/g, '');
+  const separateCleanComponent = cleanComponents.split(' ');
+  const clusterComponents = separateCleanComponent[0].split('nanolike');
+  const fromAndTo = clusterComponents[0].split('cosmos1');
+  const nanolikeAmount = clusterComponents[1];
+  const fromAddress = fromAndTo[1];
+  const toAddress = fromAndTo[2];
+  const completeFromAddress = `cosmos1${fromAddress}`;
+  const completeToAddress = `cosmos1${toAddress}`;
+  const msgContent = {
+    value: {
+      amount: [{ amount: nanolikeAmount, denom: 'nanolike' }],
+      from_address: completeFromAddress,
+      to_address: completeToAddress,
+    },
+  };
+  const msg = [];
+  msg.push(msgContent);
+
   const {
     rawLog,
     timestamp,
     code,
-    tx: {
-      value: {
-        msg,
-      },
-    },
   } = txData;
   let amount = [];
   let from = [];
