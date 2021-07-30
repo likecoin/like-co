@@ -1,6 +1,8 @@
 import { AuthCoreAuthClient } from 'authcore-js';
 import * as types from '@/store/mutation-types';
 import { AUTHCORE_API_HOST } from '@/constant';
+import { makeSignBytes } from '@cosmjs/proto-signing';
+import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
 const { AuthcoreVaultClient, AuthcoreCosmosProvider } = require('secretd-js');
 
@@ -131,8 +133,12 @@ export async function prepareAuthCoreCosmosTxSigner({ state }) {
   const { cosmosProvider } = state;
   return {
     signDirect: async (_, data) => {
-      const { signatures, ...signed } = await cosmosProvider.sign(data);
-      return { signed, signature: signatures[0] };
+      const dataToSign = makeSignBytes(data);
+      const response = await cosmosProvider.sign(dataToSign);
+      const signature = response.signatures[0];
+      delete response.signatures; // to have pure SignDoc Unit8Array
+      const decodedSigned = SignDoc.decode(response);
+      return { signed: decodedSigned, signature };
     },
     getAccounts: async () => {
       const pubkey = {
