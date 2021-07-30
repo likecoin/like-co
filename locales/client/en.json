@@ -1773,5 +1773,7 @@
     "title": "It's time to migrate",
     "subtitle": "Migrate to the new LikeCoin and enjoy the new LikeCoin chain.",
     "actionButtonText": "Migrate now"
-  }
+  },
+  "ChainUpgradingAlertTitle": "LikeCoin chain is upgrading",
+  "ChainUpgradingAlertMessage": "Related services are suspended"
 }

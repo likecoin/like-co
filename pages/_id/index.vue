@@ -161,7 +161,7 @@
                       :class="['md-raised',
                                'md-likecoin',
                       ]"
-                      :disabled="getIsInTransaction"
+                      :disabled="isChainUpgrading || getIsInTransaction"
                       type="submit"
                       form="paymentInfo"
                     >
@@ -197,6 +197,8 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
+
+import { IS_CHAIN_UPGRADING } from '~/constant';
 
 import NumberInput from '~/components/NumberInput';
 import NarrowPageHeader from '~/components/header/NarrowPageHeader';
@@ -346,6 +348,9 @@ export default {
       'getLocalWeb3Wallet',
       'getIsWeb3Polling',
     ]),
+    isChainUpgrading() {
+      return IS_CHAIN_UPGRADING;
+    },
     maskedWallet() {
       return this.wallet.replace(/((?:cosmos1|0x).{4}).*(.{10})/, '$1...$2');
     },
@@ -373,7 +378,9 @@ export default {
     if (!this.getLikeCoinUsdNumericPrice) {
       promises.push(this.queryLikeCoinUsdPrice());
     }
-    promises.push(this.calculateGasFee());
+    if (!this.isChainUpgrading) {
+      promises.push(this.calculateGasFee());
+    }
     if (!this.$route.params.amount && this.getLikeCoinUsdNumericPrice) {
       this.amount = (DEFAULT_P2P_AMOUNT_IN_USD / this.getLikeCoinUsdNumericPrice).toFixed(2);
     }
@@ -402,6 +409,7 @@ export default {
       return this.gasFee;
     },
     async submitTransfer() {
+      if (this.isChainUpgrading) return;
       this.isSigning = true;
       this.isLoading = true;
       try {
