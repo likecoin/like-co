@@ -134,7 +134,7 @@ export async function prepareAuthCoreCosmosTxSigner({ state }) {
   return {
     signDirect: async (_, data) => {
       const dataToSign = makeSignBytes(data);
-      const response = await cosmosProvider.sign(dataToSign);
+      const response = await cosmosProvider.directSign(dataToSign);
       const signature = response.signatures[0];
       delete response.signatures; // to have pure SignDoc Unit8Array
       const decodedSigned = SignDoc.decode(response);
