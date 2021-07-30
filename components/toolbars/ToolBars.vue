@@ -94,6 +94,13 @@
           </md-button>
         </md-snackbar>
 
+        <popup-dialog
+          :is-show="isChainUpgrading"
+          :allow-close="true"
+          :header="$t('ChainUpgradingAlertTitle')"
+          :message="$t('ChainUpgradingAlertMessage')"
+        />
+
       </div>
     </no-ssr>
   </div>
@@ -105,6 +112,8 @@ import {
   checkIsMobileClient,
   checkIsDesktopChrome,
 } from '@/util/client';
+
+import { IS_CHAIN_UPGRADING } from '~/constant';
 
 import BlockerDialog from '~/components/dialogs/BlockerDialog';
 import ChromeDialog from '~/components/dialogs/ChromeDialog';
@@ -140,6 +149,9 @@ export default {
     },
   },
   computed: {
+    isChainUpgrading() {
+      return IS_CHAIN_UPGRADING;
+    },
     shouldShowChromeDialog() {
       return this.getMetamaskError === 'web3' && !checkIsDesktopChrome();
     },
