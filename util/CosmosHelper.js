@@ -82,59 +82,54 @@ export async function getTransferInfo(txHash, opt) {
     txData = await stargateClient.getTx(txHash); // eslint-disable-line no-await-in-loop
   }
   if (!txData) throw new Error('Cannot find transaction');
+  const {
+    // timestamp,
+    code,
+  } = txData;
   const txRaw = TxRaw.decode(Buffer.from(txData.tx, 'base64'));
   const txBody = TxBody.decode(txRaw.bodyBytes);
   const { messages } = txBody;
-
-  const { value } = messages[0];
-  const payloadValue = MsgSend.decode(value);
-  const msg = [];
-  msg.push(payloadValue);
-
-  const {
-    rawLog,
-    timestamp,
-    code,
-  } = txData;
-  let amount = [];
-  let from = [];
-  let to = [];
-  if (msg.length > 1) {
-    msg.forEach((m) => {
+  let amounts;
+  let amount;
+  let from;
+  let to;
+  const { typeUrl, value } = messages[0];
+  if (typeUrl === '/cosmos.bank.v1beta1.MsgSend' || typeUrl === '/cosmos.bank.v1beta1.MsgMultiSend') {
+    if (typeUrl === '/cosmos.bank.v1beta1.MsgSend') {
+      const payloadValue = MsgSend.decode(value);
+      ({
+        amount: [amount],
+        fromAddress: from,
+        toAddress: to,
+      } = payloadValue);
+      amounts = amount;
+    } else if (typeUrl === '/cosmos.bank.v1beta1.MsgMultiSend') {
+      const payloadValue = MsgMultiSend.decode(value);
       const {
-        value: {
-          amount: [a],
-          from_address: f,
-          to_address: t,
-        },
-      } = m;
-      amount.push(a);
-      from.push(f);
-      to.push(t);
-    });
-  } else {
-    ([{
-      amount: [amount],
-      fromAddress: from,
-      toAddress: to,
-    }] = msg);
+        inputs,
+        outputs,
+      } = payloadValue;
+      from = inputs.length > 1 ? inputs.map(i => i.address) : inputs[0].address;
+      to = outputs.length > 1 ? outputs.map(o => o.address) : outputs[0].address;
+      amounts = outputs.length > 1 ? outputs.map(o => o.coins[0]) : [outputs[0].coins[0]];
+    }
   }
+
   if (Array.isArray(from)) [from] = from; // TODO: support multiple from addr?
   if (!txData.height) {
     return {
       _from: from,
       _to: to,
-      _amount: amount,
+      _amount: amounts,
     };
   }
-  const fullLogs = JSON.parse(rawLog.slice(1, rawLog.length - 1));
-  const isFailed = (code && code !== '0') || !fullLogs.success;
+  const isFailed = (code && code !== '0');
   return {
     isFailed,
     _from: from,
     _to: to,
-    _amount: amount,
-    timestamp: (new Date(timestamp)).getTime() / 1000,
+    _amount: amounts,
+    // timestamp: (new Date(timestamp)).getTime() / 1000,
   };
 }
 
