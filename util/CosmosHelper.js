@@ -58,21 +58,21 @@ export async function getTransactionCompleted(txHash) {
     return 0;
   }
   const {
-    timestamp,
+    height,
     code,
-    rawLog,
   } = txData;
-  const fullLogs = JSON.parse(rawLog);
+  const block = await stargateClient.getBlock(height);
+  const { header: { time: timestamp } } = block;
+
   return {
     ts: (new Date(timestamp)).getTime(),
-    isFailed: (code && code !== '0') || !fullLogs[0].success,
+    isFailed: (code && code !== '0'),
   };
 }
 
 export async function getTransferInfo(txHash, opt) {
   if (!stargateClient) await initStargateClient();
   const { blocking } = opt;
-  // TODO: handle tranferMultiple?
   let txData = await stargateClient.getTx(txHash);
   if ((!txData || !txData.height) && !blocking) {
     return {};
@@ -83,9 +83,11 @@ export async function getTransferInfo(txHash, opt) {
   }
   if (!txData) throw new Error('Cannot find transaction');
   const {
-    // timestamp,
+    height,
     code,
   } = txData;
+  const block = await stargateClient.getBlock(height);
+  const { header: { time: timestamp } } = block;
   const txRaw = TxRaw.decode(Buffer.from(txData.tx, 'base64'));
   const txBody = TxBody.decode(txRaw.bodyBytes);
   const { messages } = txBody;
@@ -129,7 +131,7 @@ export async function getTransferInfo(txHash, opt) {
     _from: from,
     _to: to,
     _amount: amounts,
-    // timestamp: (new Date(timestamp)).getTime() / 1000,
+    timestamp: (new Date(timestamp)).getTime() / 1000,
   };
 }
 
