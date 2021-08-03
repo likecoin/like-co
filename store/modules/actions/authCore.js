@@ -1,6 +1,8 @@
 import { AuthCoreAuthClient } from 'authcore-js';
 import * as types from '@/store/mutation-types';
 import { AUTHCORE_API_HOST } from '@/constant';
+import { makeSignBytes } from '@cosmjs/proto-signing';
+import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
 const { AuthcoreVaultClient, AuthcoreCosmosProvider } = require('secretd-js');
 
@@ -130,9 +132,24 @@ export async function prepareAuthCoreCosmosTxSigner({ state }) {
   if (!state.cosmosProvider) throw new Error('COSMOS_WALLET_NOT_INITED');
   const { cosmosProvider } = state;
   return {
-    signAmino: async (_, data) => {
-      const { signatures, ...signed } = await cosmosProvider.sign(data);
-      return { signed, signature: signatures[0] };
+    signDirect: async (_, data) => {
+      const dataToSign = makeSignBytes(data);
+      const { signed, signatures } = await cosmosProvider.directSign(dataToSign);
+      const decodedSigned = SignDoc.decode(signed);
+      return { signed: decodedSigned, signature: signatures[0] };
+    },
+    getAccounts: async () => {
+      const pubkey = {
+        type: 'tendermint/PubKeySecp256k1',
+        value: cosmosProvider.wallets[0].publicKey,
+      };
+      const pubkeyBytes = Buffer.from(pubkey.value, 'base64');
+
+      return [{
+        algo: 'secp256k1',
+        address: cosmosProvider.wallets[0].address,
+        pubkey: pubkeyBytes,
+      }];
     },
   };
 }

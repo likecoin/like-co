@@ -7,28 +7,31 @@ import {
 import { timeout } from '@/util/misc';
 import { queryTxInclusion } from '@/util/cosmos/misc';
 import {
-  CosmosClient, SigningCosmosClient,
-  GasPrice,
-} from '@cosmjs/launchpad';
+  SigningStargateClient,
+  StargateClient,
+} from '@cosmjs/stargate';
+import { MsgSend, MsgMultiSend } from '@cosmjs/stargate/build/codec/cosmos/bank/v1beta1/tx';
+import {
+  TxRaw,
+  TxBody,
+} from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
 export const DEFAULT_GAS_PRICE = [{ amount: '1000', denom: COSMOS_DENOM }];
 export const DEFAULT_GAS_PRICE_NUMBER = parseInt(DEFAULT_GAS_PRICE[0].amount, 10);
 export const DEFAULT_ISCN_GAS_PRICE = [{ amount: 0, denom: COSMOS_DENOM }];
-const COSMOS_RESTFUL_API = `${EXTERNAL_URL}/api/cosmos/lcd`;
+const COSMOS_RPC_API = `${EXTERNAL_URL}/api/cosmos/rpc`;
+const COSMOS_RESTFUL_API = 'https://node.iscn-dev-2.like.co/';
+let stargateClient;
+let signingStargateClient;
 
-let cosmosClient;
-let signingCosmosClient;
-
-function initCosmosClient() {
-  if (cosmosClient) return;
-  cosmosClient = new CosmosClient(COSMOS_RESTFUL_API);
+async function initStargateClient() {
+  if (stargateClient) return;
+  stargateClient = await StargateClient.connect(COSMOS_RPC_API);
 }
 
-function initSigningCosmosClient(url, signerAddress,
-  signer, gasPrice, gasLimits, broadcastMode) {
-  if (signingCosmosClient) return;
-  signingCosmosClient = new SigningCosmosClient(url, signerAddress,
-    signer, gasPrice, gasLimits, broadcastMode);
+async function initSigningStargateClient(url, senderWallet) {
+  if (signingStargateClient) return;
+  signingStargateClient = await SigningStargateClient.connectWithSigner(url, senderWallet);
 }
 
 function LIKEToNanolike(value) {
@@ -48,94 +51,92 @@ export function amountToLIKE(likecoin) {
 }
 
 export async function getTransactionCompleted(txHash) {
-  if (!cosmosClient) await initCosmosClient();
-  const txData = await cosmosClient.getTx(txHash);
+  if (!stargateClient) await initStargateClient();
+  const txData = await stargateClient.getTx(txHash);
   if (!txData || !txData.height) {
     return 0;
   }
   const {
-    timestamp,
+    height,
     code,
-    rawLog,
   } = txData;
-  const fullLogs = JSON.parse(rawLog);
+  const block = await stargateClient.getBlock(height);
+  const { header: { time: timestamp } } = block;
+
   return {
     ts: (new Date(timestamp)).getTime(),
-    isFailed: (code && code !== '0') || !fullLogs[0].success,
+    isFailed: (code && code !== '0'),
   };
 }
 
 export async function getTransferInfo(txHash, opt) {
-  if (!cosmosClient) await initCosmosClient();
+  if (!stargateClient) await initStargateClient();
   const { blocking } = opt;
-  // TODO: handle tranferMultiple?
-  let txData = await cosmosClient.getTx(txHash);
+  let txData = await stargateClient.getTx(txHash);
   if ((!txData || !txData.height) && !blocking) {
     return {};
   }
   while ((!txData || !txData.height) && blocking) {
     await timeout(1000); // eslint-disable-line no-await-in-loop
-    txData = await cosmosClient.getTx(txHash); // eslint-disable-line no-await-in-loop
+    txData = await stargateClient.getTx(txHash); // eslint-disable-line no-await-in-loop
   }
   if (!txData) throw new Error('Cannot find transaction');
   const {
-    rawLog,
-    timestamp,
+    height,
     code,
-    tx: {
-      value: {
-        msg,
-      },
-    },
   } = txData;
-  let amount = [];
-  let from = [];
-  let to = [];
-  if (msg.length > 1) {
-    msg.forEach((m) => {
-      const {
-        value: {
-          amount: [a],
-          from_address: f,
-          to_address: t,
-        },
-      } = m;
-      amount.push(a);
-      from.push(f);
-      to.push(t);
-    });
-  } else {
-    ([{
-      value: {
+  const block = await stargateClient.getBlock(height);
+  const { header: { time: timestamp } } = block;
+  const txRaw = TxRaw.decode(Buffer.from(txData.tx, 'base64'));
+  const txBody = TxBody.decode(txRaw.bodyBytes);
+  const { messages } = txBody;
+  let amounts;
+  let amount;
+  let from;
+  let to;
+  const { typeUrl, value } = messages[0];
+  if (typeUrl === '/cosmos.bank.v1beta1.MsgSend' || typeUrl === '/cosmos.bank.v1beta1.MsgMultiSend') {
+    if (typeUrl === '/cosmos.bank.v1beta1.MsgSend') {
+      const payloadValue = MsgSend.decode(value);
+      ({
         amount: [amount],
-        from_address: from,
-        to_address: to,
-      },
-    }] = msg);
+        fromAddress: from,
+        toAddress: to,
+      } = payloadValue);
+      amounts = amount;
+    } else if (typeUrl === '/cosmos.bank.v1beta1.MsgMultiSend') {
+      const payloadValue = MsgMultiSend.decode(value);
+      const {
+        inputs,
+        outputs,
+      } = payloadValue;
+      from = inputs.length > 1 ? inputs.map(i => i.address) : inputs[0].address;
+      to = outputs.length > 1 ? outputs.map(o => o.address) : outputs[0].address;
+      amounts = outputs.length > 1 ? outputs.map(o => o.coins[0]) : [outputs[0].coins[0]];
+    }
   }
+
   if (Array.isArray(from)) [from] = from; // TODO: support multiple from addr?
   if (!txData.height) {
     return {
       _from: from,
       _to: to,
-      _amount: amount,
+      _amount: amounts,
     };
   }
-  const fullLogs = JSON.parse(rawLog.slice(1, rawLog.length - 1));
-  const isFailed = (code && code !== '0') || !fullLogs.success;
+  const isFailed = (code && code !== '0');
   return {
     isFailed,
     _from: from,
     _to: to,
-    _amount: amount,
+    _amount: amounts,
     timestamp: (new Date(timestamp)).getTime() / 1000,
   };
 }
 
 export async function queryLikeCoinBalance(addr) {
-  if (!cosmosClient) await initCosmosClient();
-  const account = await cosmosClient.getAccount(addr);
-  const [amount] = account.balance.filter(balance => balance.denom === COSMOS_DENOM);
+  if (!stargateClient) await initStargateClient();
+  const amount = await stargateClient.getBalance(addr, COSMOS_DENOM);
   if (!amount) return 0;
   return amountToLIKE(amount);
 }
@@ -162,20 +163,20 @@ export async function transfer({
     amount: DEFAULT_GAS_PRICE,
     gas,
   };
-  const gasPrice = GasPrice.fromString(DEFAULT_GAS_PRICE[0].amount.concat(COSMOS_DENOM));
-  if (!signingCosmosClient) {
-    await initSigningCosmosClient(COSMOS_RESTFUL_API, from, signer, gasPrice, {}, 'block');
+  if (!signingStargateClient) {
+    await initSigningStargateClient(COSMOS_RPC_API, signer);
   }
-  const sendMsg = {
-    type: 'cosmos-sdk/MsgSend',
-    value: {
-      from_address: from,
-      to_address: to,
-      amount: [amount],
-    },
-  };
+  const sendMsg = MsgSend.fromPartial({
+    fromAddress: from,
+    toAddress: to,
+    amount: [amount],
+  });
 
-  const broadcastedTx = await signingCosmosClient.signAndBroadcast([sendMsg], fee, memo);
+  const msgs = {
+    typeUrl: '/cosmos.bank.v1beta1.MsgSend',
+    value: sendMsg,
+  };
+  const broadcastedTx = await signingStargateClient.signAndBroadcast(from, [msgs], fee, memo);
   return {
     txHash: broadcastedTx.transactionHash,
     gas,
@@ -204,30 +205,31 @@ export async function transferMultiple({
     amount: DEFAULT_GAS_PRICE,
     gas,
   };
-  const gasPrice = GasPrice.fromString(DEFAULT_GAS_PRICE[0].amount.concat(COSMOS_DENOM));
-  if (!signingCosmosClient) {
-    await initSigningCosmosClient(COSMOS_RESTFUL_API, // eslint-disable-line no-await-in-loop
-      from,
-      signer, gasPrice, {}, 'block');
+  if (!signingStargateClient) {
+    await initSigningStargateClient(COSMOS_RPC_API, // eslint-disable-line no-await-in-loop);
+      signer);
   }
-  const sendMsg = {
-    type: 'cosmos-sdk/MsgMultiSend',
-    value: {
-      inputs: [
-        {
-          address: from,
-          coins: [
-            {
-              denom: COSMOS_DENOM,
-              amount: totalValue.toFixed(),
-            },
-          ],
-        },
-      ],
-      outputs,
-    },
+  const sendMsg = MsgMultiSend.fromPartial({
+    inputs: [
+      {
+        address: from,
+        coins: [
+          {
+            denom: COSMOS_DENOM,
+            amount: totalValue.toFixed().toString(),
+          },
+        ],
+      },
+    ],
+    outputs,
+  });
+
+  const msgs = {
+    typeUrl: '/cosmos.bank.v1beta1.MsgMultiSend',
+    value: sendMsg,
   };
-  const broadcastedTx = await signingCosmosClient.signAndBroadcast([sendMsg], fee, memo);
+
+  const broadcastedTx = await signingStargateClient.signAndBroadcast(from, [msgs], fee, memo);
   return {
     txHash: broadcastedTx.transactionHash,
     gas,
