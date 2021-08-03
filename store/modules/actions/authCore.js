@@ -134,9 +134,9 @@ export async function prepareAuthCoreCosmosTxSigner({ state }) {
   return {
     signDirect: async (_, data) => {
       const dataToSign = makeSignBytes(data);
-      const { dataWithSig, signature } = await cosmosProvider.directSign(dataToSign);
-      const decodedDataWithSig = SignDoc.decode(dataWithSig);
-      return { signed: decodedDataWithSig, signature };
+      const { signed, signatures } = await cosmosProvider.directSign(dataToSign);
+      const decodedSigned = SignDoc.decode(signed);
+      return { signed: decodedSigned, signature: signatures[0] };
     },
     getAccounts: async () => {
       const pubkey = {
