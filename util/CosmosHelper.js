@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 import {
   COSMOS_DENOM,
   BASIC_TRANSFER_GAS,
-  // EXTERNAL_URL,
+  EXTERNAL_URL,
 } from '@/constant';
 import { timeout } from '@/util/misc';
 import { queryTxInclusion } from '@/util/cosmos/misc';
@@ -19,8 +19,7 @@ import {
 export const DEFAULT_GAS_PRICE = [{ amount: '1000', denom: COSMOS_DENOM }];
 export const DEFAULT_GAS_PRICE_NUMBER = parseInt(DEFAULT_GAS_PRICE[0].amount, 10);
 export const DEFAULT_ISCN_GAS_PRICE = [{ amount: 0, denom: COSMOS_DENOM }];
-// const COSMOS_RESTFUL_API = `${EXTERNAL_URL}/api/cosmos/lcd`; // https://node.taipei2.like.co/api/cosmos/lcd
-const COSMOS_RPC_API = 'https://node.iscn-dev-2.like.co/rpc/'; // note: need to have '/' in the end
+const COSMOS_RPC_API = `${EXTERNAL_URL}/api/cosmos/rpc`;
 const COSMOS_RESTFUL_API = 'https://node.iscn-dev-2.like.co/';
 let stargateClient;
 let signingStargateClient;
