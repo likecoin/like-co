@@ -118,9 +118,21 @@ export async function getTransferInfo(txHash, opt) {
           const f = inputs.length > 1 ? inputs.map(i => i.address) : inputs[0].address;
           const t = outputs.length > 1 ? outputs.map(o => o.address) : outputs[0].address;
           const a = outputs.length > 1 ? outputs.map(o => o.coins[0]) : [outputs[0].coins[0]];
-          from.push(f);
-          to.push(t);
-          amounts.push(a);
+          if (Array.isArray(f)) {
+            from = from.concat(f);
+          } else {
+            from.push(f);
+          }
+          if (Array.isArray(t)) {
+            to = to.concat(t);
+          } else {
+            to.push(t);
+          }
+          if (Array.isArray(a)) {
+            amounts = amounts.concat(a);
+          } else {
+            amounts.push(a);
+          }
         }
       }
     });
