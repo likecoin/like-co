@@ -132,6 +132,10 @@ export async function prepareAuthCoreCosmosTxSigner({ state }) {
   if (!state.cosmosProvider) throw new Error('COSMOS_WALLET_NOT_INITED');
   const { cosmosProvider } = state;
   return {
+    signAmino: async (_, data) => {
+      const { signatures, ...signed } = await cosmosProvider.sign(data);
+      return { signed, signature: signatures[0] };
+    },
     signDirect: async (_, data) => {
       const dataToSign = makeSignBytes(data);
       const { signed, signatures } = await cosmosProvider.directSign(dataToSign);

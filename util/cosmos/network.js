@@ -43,7 +43,7 @@ const testnetConfig = {
   id: 'iscn-dev-chain-2',
   name: 'LikeCoin ISCN Dev Chain', // TO-DO
   apiURL: 'https://node.iscn-dev-2.like.co',
-  rpcURL: 'https://node.iscn-dev-2.like.co/rpc',
+  rpcURL: 'https://node.iscn-dev-2.like.co/rpc/',
   stakingWalletURL: 'http://likecoin-chain-taipei2.netlify.app/', // TO-DO
 };
 

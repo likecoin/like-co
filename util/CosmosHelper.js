@@ -19,8 +19,8 @@ import {
 export const DEFAULT_GAS_PRICE = [{ amount: '1000', denom: COSMOS_DENOM }];
 export const DEFAULT_GAS_PRICE_NUMBER = parseInt(DEFAULT_GAS_PRICE[0].amount, 10);
 export const DEFAULT_ISCN_GAS_PRICE = [{ amount: 0, denom: COSMOS_DENOM }];
+const COSMOS_RESTFUL_API = `${EXTERNAL_URL}/api/cosmos/lcd`;
 const COSMOS_RPC_API = `${EXTERNAL_URL}/api/cosmos/rpc`;
-const COSMOS_RESTFUL_API = 'https://node.iscn-dev-2.like.co/';
 let stargateClient;
 let signingStargateClient;
 
@@ -65,7 +65,7 @@ export async function getTransactionCompleted(txHash) {
 
   return {
     ts: (new Date(timestamp)).getTime(),
-    isFailed: (code && code !== '0'),
+    isFailed: (code && code !== 0),
   };
 }
 
@@ -90,29 +90,61 @@ export async function getTransferInfo(txHash, opt) {
   const txRaw = TxRaw.decode(Buffer.from(txData.tx, 'base64'));
   const txBody = TxBody.decode(txRaw.bodyBytes);
   const { messages } = txBody;
-  let amounts;
-  let amount;
-  let from;
-  let to;
-  const { typeUrl, value } = messages[0];
-  if (typeUrl === '/cosmos.bank.v1beta1.MsgSend' || typeUrl === '/cosmos.bank.v1beta1.MsgMultiSend') {
-    if (typeUrl === '/cosmos.bank.v1beta1.MsgSend') {
-      const payloadValue = MsgSend.decode(value);
-      ({
-        amount: [amount],
-        fromAddress: from,
-        toAddress: to,
-      } = payloadValue);
-      amounts = amount;
-    } else if (typeUrl === '/cosmos.bank.v1beta1.MsgMultiSend') {
-      const payloadValue = MsgMultiSend.decode(value);
-      const {
-        inputs,
-        outputs,
-      } = payloadValue;
-      from = inputs.length > 1 ? inputs.map(i => i.address) : inputs[0].address;
-      to = outputs.length > 1 ? outputs.map(o => o.address) : outputs[0].address;
-      amounts = outputs.length > 1 ? outputs.map(o => o.coins[0]) : [outputs[0].coins[0]];
+  let amounts = [];
+  let amount = [];
+  let from = [];
+  let to = [];
+
+  if (messages.length > 1) {
+    messages.forEach((m) => {
+      const { typeUrl, value } = m;
+      if (typeUrl === '/cosmos.bank.v1beta1.MsgSend' || typeUrl === '/cosmos.bank.v1beta1.MsgMultiSend') {
+        if (typeUrl === '/cosmos.bank.v1beta1.MsgSend') {
+          const payloadValue = MsgSend.decode(value);
+          const {
+            amount: [a],
+            fromAddress: f,
+            toAddress: t,
+          } = payloadValue;
+          amounts.push(a);
+          from.push(f);
+          to.push(t);
+        } else if (typeUrl === '/cosmos.bank.v1beta1.MsgMultiSend') {
+          const payloadValue = MsgMultiSend.decode(value);
+          const {
+            inputs,
+            outputs,
+          } = payloadValue;
+          const f = inputs.length > 1 ? inputs.map(i => i.address) : inputs[0].address;
+          const t = outputs.length > 1 ? outputs.map(o => o.address) : outputs[0].address;
+          const a = outputs.length > 1 ? outputs.map(o => o.coins[0]) : [outputs[0].coins[0]];
+          from.push(f);
+          to.push(t);
+          amounts.push(a);
+        }
+      }
+    });
+  } else {
+    const { typeUrl, value } = messages[0];
+    if (typeUrl === '/cosmos.bank.v1beta1.MsgSend' || typeUrl === '/cosmos.bank.v1beta1.MsgMultiSend') {
+      if (typeUrl === '/cosmos.bank.v1beta1.MsgSend') {
+        const payloadValue = MsgSend.decode(value);
+        ({
+          amount: [amount],
+          fromAddress: from,
+          toAddress: to,
+        } = payloadValue);
+        amounts = amount;
+      } else if (typeUrl === '/cosmos.bank.v1beta1.MsgMultiSend') {
+        const payloadValue = MsgMultiSend.decode(value);
+        const {
+          inputs,
+          outputs,
+        } = payloadValue;
+        from = inputs.length > 1 ? inputs.map(i => i.address) : inputs[0].address;
+        to = outputs.length > 1 ? outputs.map(o => o.address) : outputs[0].address;
+        amounts = outputs.length > 1 ? outputs.map(o => o.coins[0]) : [outputs[0].coins[0]];
+      }
     }
   }
 
@@ -124,7 +156,7 @@ export async function getTransferInfo(txHash, opt) {
       _amount: amounts,
     };
   }
-  const isFailed = (code && code !== '0');
+  const isFailed = (code && code !== 0);
   return {
     isFailed,
     _from: from,
