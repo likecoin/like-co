@@ -166,12 +166,13 @@ export async function getISCNTransferInfo(txHash, opt) {
   let parsedFingerprint = contentFingerprints.find(f => f.includes('ipfs://'));
   if (parsedFingerprint) [, parsedFingerprint] = parsedFingerprint.split('ipfs://');
   const isFailed = (code && code !== '0');
+  const tags = (keywords || '').split(',');
   return {
     ipld,
     iscnId,
     from: owner,
     fingerprint: parsedFingerprint,
-    tags: keywords,
+    tags,
     url,
     title,
     type,
