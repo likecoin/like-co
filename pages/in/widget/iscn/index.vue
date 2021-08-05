@@ -137,6 +137,17 @@
           {{ $t('Home.Header.button.signIn') }}
         </button>
       </div>
+      <div
+        v-else-if="getAuthCoreNeedReAuth"
+        class="create-account-wrapper"
+      >
+        <button
+          class="likepay-block-button"
+          @click="onClickAuthCoreReAuth"
+        >
+          {{ $t('AuthCore.button.reAuthNeeded') }}
+        </button>
+      </div>
       <div v-else>
         <button
           class="likepay-block-button"
@@ -289,6 +300,7 @@ export default {
       'sendISCNSignature',
       'setErrorMsg',
       'closeTxDialog',
+      'fetchCurrentCosmosWallet',
       'prepareCosmosTxSigner',
     ]),
     async submitTransfer() {
@@ -298,6 +310,16 @@ export default {
         const showDialogAction = !this.redirectUri;
         const isWait = !!this.blocking;
 
+        const from = await this.fetchCurrentCosmosWallet();
+        if (!from) {
+          throw new Error('VALIDATION_FAIL');
+        }
+        const userWallet = cosmosWallet;
+        if (from !== userWallet) {
+          this.setErrorMsg(this.$t('Transaction.error.authcoreWalletNotMatch'));
+          throw new Error('VALIDATION_FAIL');
+        }
+        const signer = await this.prepareCosmosTxSigner();
         const {
           fingerprint,
           title,
@@ -310,7 +332,7 @@ export default {
         const txHash = await this.sendISCNSignature({
           userId: this.getUserId,
           displayName: this.getUserInfo.displayName,
-          cosmosWallet,
+          from,
           fingerprint,
           title,
           tags,
@@ -320,6 +342,7 @@ export default {
           url,
           showDialogAction,
           isWait,
+          signer,
         });
         this.postTransaction({ txHash });
       } catch (error) {
@@ -356,15 +379,17 @@ export default {
         // }
       } else if (this.getIsShowingTxPopup) {
         this.closeTxDialog();
-        // TODO: swap to iscn page
         this.$router.push({
-          name: 'in-tx-iscn-dev-id',
+          name: 'in-tx-iscn-id',
           params: { id: txHash, tx: this.getPendingTxInfo },
         });
       }
     },
     onClickSignInButton() {
       this.popupAuthDialogInPlace({ route: this.$route, isSignIn: true });
+    },
+    onClickAuthCoreReAuth() {
+      this.setReAuthDialogShow(true);
     },
   },
 };

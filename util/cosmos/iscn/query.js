@@ -7,8 +7,7 @@ import { MsgCreateIscnRecord } from '@likecoin/iscn-message-types/dist/iscn/tx';
 
 import setupISCNExtension from './iscnQueryExtension';
 import { timeout } from '@/util/misc';
-
-const ISCN_RPC_URL = '/api/cosmos/rpc';
+import { ISCN_RPC_URL } from './constant';
 
 let queryClient;
 let stargateClient;

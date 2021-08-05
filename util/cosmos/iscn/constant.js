@@ -1,3 +1,5 @@
+import { EXTERNAL_URL } from '@/constant';
+
 export const ISCN_PUBLISHERS = {
   matters: {
     license: 'matters',
@@ -16,4 +18,4 @@ export const ISCN_LICENSES = {
   },
 };
 
-export const ISCN_RPC_URL = '/api/cosmos/rpc';
+export const ISCN_RPC_URL = `${EXTERNAL_URL}/api/cosmos/rpc`;
