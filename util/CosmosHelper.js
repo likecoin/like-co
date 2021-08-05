@@ -115,23 +115,17 @@ export async function getTransferInfo(txHash, opt) {
             inputs,
             outputs,
           } = payloadValue;
-          const f = inputs.length > 1 ? inputs.map(i => i.address) : inputs[0].address;
-          const t = outputs.length > 1 ? outputs.map(o => o.address) : outputs[0].address;
-          const a = outputs.length > 1 ? outputs.map(o => o.coins[0]) : [outputs[0].coins[0]];
-          if (Array.isArray(f)) {
-            from = from.concat(f);
+          if (inputs.length > 1) {
+            from = from.concat(inputs.map(i => i.address));
           } else {
-            from.push(f);
+            from.push(inputs[0].address);
           }
-          if (Array.isArray(t)) {
-            to = to.concat(t);
+          if (outputs.length > 1) {
+            to = to.concat(outputs.map(o => o.address));
+            amounts = amounts.concat(outputs.map(o => o.coins[0]));
           } else {
-            to.push(t);
-          }
-          if (Array.isArray(a)) {
-            amounts = amounts.concat(a);
-          } else {
-            amounts.push(a);
+            to.push(outputs[0].address);
+            amounts.push([outputs[0].coins[0]]);
           }
         }
       }
