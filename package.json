@@ -39,7 +39,7 @@
     ]
   },
   "dependencies": {
-    "@cosmjs/launchpad": "^0.25.5",
+    "@cosmjs/launchpad": "^0.25.6",
     "@cosmjs/proto-signing": "^0.25.6",
     "@cosmjs/stargate": "^0.25.6",
     "@likecoin/abi-decoder": "^3.0.0",
