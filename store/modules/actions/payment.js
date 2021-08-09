@@ -6,7 +6,7 @@ import {
   transfer as transferCosmos,
   transferMultiple as transferCosmosMultiple,
 } from '@/util/CosmosHelper';
-import { remoteSignISCNPayload } from '@/util/cosmos/iscn';
+import { signISCNTx } from '@/util/cosmos/iscn/sign';
 import apiWrapper from './api-wrapper';
 import Keplr from '../../../util/Keplr';
 
@@ -64,8 +64,9 @@ export async function sendCosmosPayment(
 export async function sendISCNSignature(
   { commit },
   {
-    isWait = true,
+    // isWait = true,
     showDialogAction = true,
+    signer,
     ...payload
   },
 ) {
@@ -73,7 +74,7 @@ export async function sendISCNSignature(
     const {
       userId,
       displayName,
-      cosmosWallet,
+      from,
       fingerprint,
       title,
       tags,
@@ -82,24 +83,23 @@ export async function sendISCNSignature(
       publisher,
       memo,
     } = payload;
-    const { txHash, included } = await remoteSignISCNPayload({
+    const { transactionHash } = await signISCNTx({
       userId,
       displayName,
-      cosmosWallet,
+      from,
       fingerprint,
       title,
       tags,
       type,
       license,
       publisher,
-      memo,
-    });
+    }, signer, from, memo);
     commit(types.UI_START_LOADING_TX);
     commit(types.UI_SET_HIDE_TX_DIALOG_ACTION, !showDialogAction);
-    commit(types.PAYMENT_SET_PENDING_HASH, txHash);
-    if (isWait) await included();
+    commit(types.PAYMENT_SET_PENDING_HASH, transactionHash);
+    // if (isWait) await included();
     commit(types.UI_STOP_LOADING_TX);
-    return txHash;
+    return transactionHash;
   } catch (error) {
     commit(types.UI_STOP_ALL_LOADING);
     commit(types.UI_ERROR_MSG, error.message || error);
