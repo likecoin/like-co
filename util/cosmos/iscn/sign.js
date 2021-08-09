@@ -13,6 +13,7 @@ import { DEFAULT_GAS_PRICE_NUMBER } from '../../CosmosHelper';
 import {
   ISCN_RPC_URL, ISCN_PUBLISHERS, ISCN_LICENSES,
   ISCN_REGISTRY_NAME,
+  ISCN_GAS,
 } from './constant';
 import { EXTERNAL_URL } from '../../../constant';
 import { queryFeePerByte } from './query';
@@ -179,18 +180,17 @@ export async function estimateISCNTxFee(tx, {
 }
 
 export async function estimateISCNTxGas(tx, version) {
-  const DEFAULT_GAS = 1000000; // TODO: estimate according to size
   const ISCN_FEE = await estimateISCNTxFee(tx, { version });
   return {
     gasFee: {
-      amount: [{ amount: (DEFAULT_GAS_PRICE_NUMBER * DEFAULT_GAS).toFixed(), denom: 'nanolike' }],
-      gas: DEFAULT_GAS.toFixed(),
+      amount: [{ amount: (DEFAULT_GAS_PRICE_NUMBER * ISCN_GAS).toFixed(), denom: 'nanolike' }],
+      gas: ISCN_GAS.toFixed(),
     },
     iscnFee: ISCN_FEE,
   };
 }
 
-export async function calISCNTotalFee(tx) {
+export async function calculateISCNTotalFee(tx) {
   const { gasFee, iscnFee } = await estimateISCNTxGas(tx);
   const totalFee = new BigNumber(iscnFee).plus(gasFee.amount[0].amount).shiftedBy(-9);
   const ISCNTotalFee = totalFee.toFixed(2);

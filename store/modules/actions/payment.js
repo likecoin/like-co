@@ -8,7 +8,7 @@ import {
 } from '@/util/CosmosHelper';
 import {
   signISCNTx,
-  calISCNTotalFee,
+  calculateISCNTotalFee,
 } from '@/util/cosmos/iscn/sign';
 import apiWrapper from './api-wrapper';
 import Keplr from '../../../util/Keplr';
@@ -64,7 +64,7 @@ export async function sendCosmosPayment(
   }
 }
 
-export async function calISCNTxTotalFee({ commit },
+export async function calculateISCNTxTotalFee({ commit },
   { ...payload }) {
   const {
     userId,
@@ -79,7 +79,7 @@ export async function calISCNTxTotalFee({ commit },
     description,
     url,
   } = payload;
-  const { ISCNTotalFee } = await calISCNTotalFee({
+  const { ISCNTotalFee } = await calculateISCNTotalFee({
     userId,
     displayName,
     cosmosWallet,

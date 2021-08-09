@@ -309,7 +309,7 @@ export default {
     if (!from) {
       throw new Error('VALIDATION_FAIL');
     }
-    this.ISCNTotalFee = await this.calISCNTxTotalFee({
+    this.ISCNTotalFee = await this.calculateISCNTxTotalFee({
       userId: this.getUserId,
       displayName: this.getUserInfo.displayName,
       from,
@@ -337,7 +337,7 @@ export default {
       'closeTxDialog',
       'fetchCurrentCosmosWallet',
       'prepareCosmosTxSigner',
-      'calISCNTxTotalFee',
+      'calculateISCNTxTotalFee',
     ]),
     async submitTransfer() {
       this.isLoading = true;
