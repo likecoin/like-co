@@ -156,6 +156,13 @@
           {{ $t('General.button.confirm') }}
         </button>
       </div>
+      <div
+        class="likepay-panel__section-meta-grid-item"
+      >
+        <div class="likepay-panel__section-iscn-grid-item-label">
+          {{ $t('ISCNWidget.label.ISCNTotalFee', { ISCNTotalFee }) }}
+        </div>
+      </div>
     </footer>
   </div>
 </template>
@@ -186,6 +193,7 @@ export default {
       redirectUri: '',
       state: '',
       memo: '',
+      ISCNTotalFee: 0.00,
     };
   },
   async asyncData({
@@ -287,6 +295,33 @@ export default {
     },
   },
   async mounted() {
+    const showDialogAction = !this.redirectUri;
+    const {
+      fingerprint,
+      title,
+      tags,
+      type,
+      license,
+      publisher,
+      url,
+    } = this;
+    const from = await this.fetchCurrentCosmosWallet();
+    if (!from) {
+      throw new Error('VALIDATION_FAIL');
+    }
+    this.ISCNTotalFee = await this.calISCNTxTotalFee({
+      userId: this.getUserId,
+      displayName: this.getUserInfo.displayName,
+      from,
+      fingerprint,
+      title,
+      tags,
+      type,
+      license,
+      publisher,
+      url,
+      showDialogAction,
+    });
     if (this.opener && !window.opener) {
       this.$nuxt.error({ statusCode: 400, message: 'Cannot access window opener' });
     }
@@ -302,6 +337,7 @@ export default {
       'closeTxDialog',
       'fetchCurrentCosmosWallet',
       'prepareCosmosTxSigner',
+      'calISCNTxTotalFee',
     ]),
     async submitTransfer() {
       this.isLoading = true;

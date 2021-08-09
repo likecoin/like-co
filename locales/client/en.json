@@ -1035,7 +1035,8 @@
       "title": "Title",
       "type": "Content Type",
       "license": "License",
-      "tags": "Tags"
+      "tags": "Tags",
+      "ISCNTotalFee": "Total ISCN Gas Fee: {ISCNTotalFee} LIKE"
     },
     "button": {
       "rawTx": "View raw transaction"

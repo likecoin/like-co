@@ -6,7 +6,10 @@ import {
   transfer as transferCosmos,
   transferMultiple as transferCosmosMultiple,
 } from '@/util/CosmosHelper';
-import { signISCNTx } from '@/util/cosmos/iscn/sign';
+import {
+  signISCNTx,
+  calISCNTotalFee,
+} from '@/util/cosmos/iscn/sign';
 import apiWrapper from './api-wrapper';
 import Keplr from '../../../util/Keplr';
 
@@ -59,6 +62,38 @@ export async function sendCosmosPayment(
     commit(types.UI_ERROR_MSG, error.message || error);
     throw error;
   }
+}
+
+export async function calISCNTxTotalFee({ commit },
+  { ...payload }) {
+  const {
+    userId,
+    displayName,
+    cosmosWallet,
+    fingerprint,
+    title,
+    tags,
+    type,
+    license,
+    publisher,
+    description,
+    url,
+  } = payload;
+  const { ISCNTotalFee } = await calISCNTotalFee({
+    userId,
+    displayName,
+    cosmosWallet,
+    fingerprint,
+    title,
+    tags,
+    type,
+    license,
+    publisher,
+    description,
+    url,
+  });
+  commit(types.ISCN_SET_TOTAL_FEE, ISCNTotalFee);
+  return ISCNTotalFee;
 }
 
 export async function sendISCNSignature(

@@ -1,5 +1,6 @@
 import { EXTERNAL_URL } from '@/constant';
 
+export const ISCN_REGISTRY_NAME = 'likecoin-chain';
 export const ISCN_PUBLISHERS = {
   matters: {
     license: 'matters',
