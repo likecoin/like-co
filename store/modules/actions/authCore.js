@@ -4,7 +4,7 @@ import { AUTHCORE_API_HOST } from '@/constant';
 import { makeSignBytes } from '@cosmjs/proto-signing';
 import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
-const { AuthcoreVaultClient, AuthcoreCosmosProvider } = require('secretd-js');
+const { AuthcoreVaultClient, AuthcoreCosmosProvider } = require('@likecoin/secretd-js');
 
 export async function fetchAuthCoreAccessTokenAndUser({ dispatch }, code) {
   const authClient = await new AuthCoreAuthClient({
