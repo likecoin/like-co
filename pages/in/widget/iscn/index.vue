@@ -295,7 +295,6 @@ export default {
     },
   },
   async mounted() {
-    const showDialogAction = !this.redirectUri;
     const {
       fingerprint,
       title,
@@ -320,7 +319,6 @@ export default {
       license,
       publisher,
       url,
-      showDialogAction,
     });
     if (this.opener && !window.opener) {
       this.$nuxt.error({ statusCode: 400, message: 'Cannot access window opener' });
