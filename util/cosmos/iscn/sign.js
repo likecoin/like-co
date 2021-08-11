@@ -174,24 +174,23 @@ export async function estimateISCNTxFee(tx, {
   const byteSize = Buffer.from(jsonStringify(obj), 'utf-8').length
     + stakeholders.reduce((acc, s) => acc + s.length, 0)
     + contentMetadata.length;
-  const feeAmount = byteSize * feePerByteAmount;
+  const iscnFee = byteSize * feePerByteAmount;
 
-  return feeAmount;
+  return { iscnFee };
 }
 
-export async function estimateISCNTxGas(tx, version) {
-  const ISCN_FEE = await estimateISCNTxFee(tx, { version });
+export async function estimateISCNTxGas() {
   return {
     gasFee: {
       amount: [{ amount: (DEFAULT_GAS_PRICE_NUMBER * ISCN_GAS).toFixed(), denom: 'nanolike' }],
       gas: ISCN_GAS.toFixed(),
     },
-    iscnFee: ISCN_FEE,
   };
 }
 
-export async function calculateISCNTotalFee(tx) {
-  const { gasFee, iscnFee } = await estimateISCNTxGas(tx);
+export async function calculateISCNTotalFee(tx, version = 1) {
+  const { gasFee } = await estimateISCNTxGas();
+  const { iscnFee } = await estimateISCNTxFee(tx, { version });
   const totalFee = new BigNumber(iscnFee).plus(gasFee.amount[0].amount).shiftedBy(-9);
   const ISCNTotalFee = totalFee.toFixed(2);
   return { ISCNTotalFee };
@@ -212,7 +211,7 @@ export async function signISCNTx(tx, signer, address, memo) {
       record,
     },
   };
-  const { gasFee } = await estimateISCNTxGas(tx);
+  const { gasFee } = await estimateISCNTxGas();
   const response = await client.signAndBroadcast(address, [message], gasFee, memo);
   assertIsBroadcastTxSuccess(response);
   return response;
