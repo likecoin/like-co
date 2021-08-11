@@ -181,7 +181,11 @@ export async function queryLikeCoinBalance(addr) {
 
 export async function calculateGas(to) {
   const fee = {
-    amount: DEFAULT_GAS_PRICE,
+    amount: [{
+      amount: ((to.length * parseInt(BASIC_TRANSFER_GAS, 10))
+      * DEFAULT_GAS_PRICE_NUMBER).toString(),
+      denom: COSMOS_DENOM,
+    }],
     gas: (to.length * parseInt(BASIC_TRANSFER_GAS, 10)).toString(),
   };
   const { gas } = fee;
@@ -198,7 +202,7 @@ export async function transfer({
   const amount = LIKEToAmount(value);
   const { gas, gasPrices } = await calculateGas([to]);
   const fee = {
-    amount: DEFAULT_GAS_PRICE,
+    amount: gasPrices,
     gas,
   };
   if (!signingStargateClient) {
@@ -240,7 +244,7 @@ export async function transferMultiple({
   });
   const { gas, gasPrices } = await calculateGas(tos);
   const fee = {
-    amount: DEFAULT_GAS_PRICE,
+    amount: gasPrices,
     gas,
   };
   if (!signingStargateClient) {

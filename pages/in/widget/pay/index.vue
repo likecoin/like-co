@@ -609,7 +609,6 @@ export default {
     },
     async calculateGasFee() {
       let gas;
-      let gasPrices;
       if (this.isMultiSend) {
         const tos = this.toUsers.map(u => u.cosmosWallet);
         const values = [...this.amounts];
@@ -617,11 +616,11 @@ export default {
           tos.push(this.agentUser.cosmosWallet);
           values.push(this.agentFee);
         }
-        ({ gas, gasPrices } = await calculateCosmosGas(tos));
+        ({ gas } = await calculateCosmosGas(tos));
       } else {
-        ({ gas, gasPrices } = await calculateCosmosGas(this.toUsers));
+        ({ gas } = await calculateCosmosGas(this.toUsers));
       }
-      this.gasFee = new BigNumber(gas).multipliedBy(gasPrices[0].amount).dividedBy(1e9).toFixed();
+      this.gasFee = new BigNumber(gas).dividedBy(1e9).toFixed();
       return this.gasFee;
     },
     async submitTransfer() {
