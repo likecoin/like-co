@@ -302,7 +302,7 @@
     <footer class="iscn-panel__footer">
       <a
         class="iscn-block-button"
-        :href="`https://node.iscn-dev.like.co/txs/${txId}`"
+        :href="`https://node.iscn-dev-2.like.co/txs/${txId}`"
         target="_blank"
         rel="noopener"
       >{{ $t('ISCNWidget.button.rawTx') }}</a>

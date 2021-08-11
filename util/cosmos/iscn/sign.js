@@ -1,4 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
+import BigNumber from 'bignumber.js';
 import { Registry } from '@cosmjs/proto-signing';
 import { MsgCreateIscnRecord } from '@likecoin/iscn-message-types/dist/iscn/tx';
 import {
@@ -6,22 +7,21 @@ import {
   assertIsBroadcastTxSuccess,
   SigningStargateClient,
 } from '@cosmjs/stargate';
+import jsonStringify from 'fast-json-stable-stringify';
+
 import { DEFAULT_GAS_PRICE_NUMBER } from '../../CosmosHelper';
-import { ISCN_RPC_URL, ISCN_PUBLISHERS, ISCN_LICENSES } from './constant';
+import {
+  ISCN_RPC_URL, ISCN_PUBLISHERS, ISCN_LICENSES,
+  ISCN_REGISTRY_NAME,
+  ISCN_GAS,
+} from './constant';
 import { EXTERNAL_URL } from '../../../constant';
+import { queryFeePerByte } from './query';
 
 const registry = new Registry([
   ...defaultRegistryTypes,
   ['/likechain.iscn.MsgCreateIscnRecord', MsgCreateIscnRecord], // Replace with your own type URL and Msg class
 ]);
-
-export function estimateISCNTxGas() {
-  const DEFAULT_GAS = 1000000; // TODO: estimate according to size
-  return {
-    amount: [{ amount: (DEFAULT_GAS_PRICE_NUMBER * DEFAULT_GAS).toFixed(), denom: 'nanolike' }],
-    gas: DEFAULT_GAS.toFixed(),
-  };
-}
 
 function getPublisherISCNPayload(user, { publisher, license }) {
   const {
@@ -125,6 +125,77 @@ function formatISCNPayload(payload, version = 1) {
   };
 }
 
+export async function estimateISCNTxFee(tx, {
+  version = 1,
+} = {}) {
+  const record = formatISCNPayload(tx);
+  const feePerByte = await queryFeePerByte();
+  const feePerByteAmount = feePerByte ? parseInt(feePerByte.amount, 10) : 1;
+  const {
+    recordNotes,
+    contentFingerprints,
+    stakeholders,
+    contentMetadata,
+  } = record;
+  const now = new Date();
+  const obj = {
+    '@context': {
+      '@vocab': 'http://iscn.io/',
+      recordParentIPLD: {
+        '@container': '@index',
+      },
+      stakeholders: {
+        '@context': {
+          '@vocab': 'http://schema.org/',
+          entity: 'http://iscn.io/entity',
+          rewardProportion: 'http://iscn.io/rewardProportion',
+          contributionType: 'http://iscn.io/contributionType',
+          footprint: 'http://iscn.io/footprint',
+        },
+      },
+      contentMetadata: {
+        '@context': null,
+      },
+    },
+    '@type': 'Record',
+    '@id': `iscn://${ISCN_REGISTRY_NAME}/btC7CJvMm4WLj9Tau9LAPTfGK7sfymTJW7ORcFdruCU/1`,
+    recordTimestamp: now.toISOString(),
+    recordVersion: version,
+    recordNotes,
+    contentFingerprints,
+    recordParentIPLD: {},
+  };
+  if (version > 1) {
+    obj.recordParentIPLD = {
+      '/': 'bahuaierav3bfvm4ytx7gvn4yqeu4piiocuvtvdpyyb5f6moxniwemae4tjyq',
+    };
+  }
+
+  const byteSize = Buffer.from(jsonStringify(obj), 'utf-8').length
+    + stakeholders.reduce((acc, s) => acc + s.length, 0)
+    + contentMetadata.length;
+  const iscnFee = byteSize * feePerByteAmount;
+
+  return { iscnFee };
+}
+
+export async function estimateISCNTxGas() {
+  return {
+    gasFee: {
+      amount: [{ amount: (DEFAULT_GAS_PRICE_NUMBER * ISCN_GAS).toFixed(), denom: 'nanolike' }],
+      gas: ISCN_GAS.toFixed(),
+    },
+  };
+}
+
+export async function calculateISCNTotalFee(tx, version = 1) {
+  const { gasFee } = await estimateISCNTxGas();
+  const { iscnFee } = await estimateISCNTxFee(tx, { version });
+  const totalFee = new BigNumber(iscnFee).plus(gasFee.amount[0].amount).shiftedBy(-9);
+  const ISCNTotalFee = totalFee.toFixed(2);
+  return { ISCNTotalFee };
+}
+
 export async function signISCNTx(tx, signer, address, memo) {
   const record = formatISCNPayload(tx);
   const client = await SigningStargateClient.connectWithSigner(
@@ -140,8 +211,8 @@ export async function signISCNTx(tx, signer, address, memo) {
       record,
     },
   };
-  const fee = await estimateISCNTxGas();
-  const response = await client.signAndBroadcast(address, [message], fee, memo);
+  const { gasFee } = await estimateISCNTxGas();
+  const response = await client.signAndBroadcast(address, [message], gasFee, memo);
   assertIsBroadcastTxSuccess(response);
   return response;
 }

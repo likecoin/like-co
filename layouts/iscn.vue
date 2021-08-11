@@ -316,6 +316,12 @@ html[layout=iscn-layout] {
       font-size: 12px;
       line-height: 1.2em;
     }
+    &__section-iscn-grid-item-label {
+      color: white;
+
+      font-size: 8px;
+      line-height: 1em;
+    }
     &__section-meta-grid-item-value {
       margin-top: 8px;
 

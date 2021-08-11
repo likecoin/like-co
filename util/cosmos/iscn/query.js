@@ -4,10 +4,13 @@ import { Tendermint34Client } from '@cosmjs/tendermint-rpc';
 import { decodeTxRaw } from '@cosmjs/proto-signing';
 import { QueryClient, StargateClient } from '@cosmjs/stargate';
 import { MsgCreateIscnRecord } from '@likecoin/iscn-message-types/dist/iscn/tx';
+import BigNumber from 'bignumber.js';
 
 import setupISCNExtension from './iscnQueryExtension';
 import { timeout } from '@/util/misc';
-import { ISCN_RPC_URL } from './constant';
+import { EXTERNAL_URL } from '@/constant';
+
+const ISCN_RPC_URL = `${EXTERNAL_URL}/api/cosmos/rpc`;
 
 let queryClient;
 let stargateClient;
@@ -200,4 +203,20 @@ export async function getISCNTransactionCompleted(txHash) {
     ts: (new Date(timestamp)).getTime(),
     isFailed: (code && code !== '0') || !success,
   };
+}
+
+export async function queryFeePerByte() {
+  queryClient = await getQueryClient();
+  const res = await queryClient.iscn.params();
+  if (res && res.params && res.params.feePerByte) {
+    const {
+      denom,
+      amount,
+    } = res.params.feePerByte;
+    return {
+      denom,
+      amount: new BigNumber(amount).shiftedBy(-18).toFixed(),
+    };
+  }
+  return 0;
 }
