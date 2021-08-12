@@ -181,12 +181,16 @@ export async function queryLikeCoinBalance(addr) {
 
 export async function calculateGas(to) {
   const fee = {
-    amount: DEFAULT_GAS_PRICE,
+    amount: [{
+      amount: ((to.length * parseInt(BASIC_TRANSFER_GAS, 10))
+      * DEFAULT_GAS_PRICE_NUMBER).toString(),
+      denom: COSMOS_DENOM,
+    }],
     gas: (to.length * parseInt(BASIC_TRANSFER_GAS, 10)).toString(),
   };
   const { gas } = fee;
-  const gasPrices = fee.amount;
-  return { gas, gasPrices };
+  const feeAmount = fee.amount;
+  return { gas, feeAmount };
 }
 
 export async function transfer({
@@ -196,9 +200,9 @@ export async function transfer({
   memo,
 }, signer) {
   const amount = LIKEToAmount(value);
-  const { gas, gasPrices } = await calculateGas([to]);
+  const { gas, feeAmount } = await calculateGas([to]);
   const fee = {
-    amount: DEFAULT_GAS_PRICE,
+    amount: feeAmount,
     gas,
   };
   if (!signingStargateClient) {
@@ -218,7 +222,7 @@ export async function transfer({
   return {
     txHash: broadcastedTx.transactionHash,
     gas,
-    gasPrices,
+    feeAmount,
     included: () => queryTxInclusion(broadcastedTx.transactionHash, COSMOS_RESTFUL_API),
   };
 }
@@ -238,9 +242,9 @@ export async function transferMultiple({
       coins: [amounts[index]],
     });
   });
-  const { gas, gasPrices } = await calculateGas(tos);
+  const { gas, feeAmount } = await calculateGas(tos);
   const fee = {
-    amount: DEFAULT_GAS_PRICE,
+    amount: feeAmount,
     gas,
   };
   if (!signingStargateClient) {
@@ -271,7 +275,7 @@ export async function transferMultiple({
   return {
     txHash: broadcastedTx.transactionHash,
     gas,
-    gasPrices,
+    feeAmount,
     included: () => queryTxInclusion(broadcastedTx.transactionHash, COSMOS_RESTFUL_API),
   };
 }
