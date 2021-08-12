@@ -340,6 +340,7 @@ import {
   queryLikeCoinBalance as queryCosmosLikeCoinBalance,
   getTransferInfo as getCosmosTransferInfo,
   calculateGas as calculateCosmosGas,
+  DEFAULT_GAS_PRICE,
 } from '@/util/CosmosHelper';
 import User from '@/util/User';
 import {
@@ -620,7 +621,8 @@ export default {
       } else {
         ({ gas } = await calculateCosmosGas(this.toUsers));
       }
-      this.gasFee = new BigNumber(gas).dividedBy(1e9).toFixed();
+      this.gasFee = new BigNumber(gas)
+        .multipliedBy(parseInt(DEFAULT_GAS_PRICE[0].amount, 10)).dividedBy(1e9).toFixed();
       return this.gasFee;
     },
     async submitTransfer() {
