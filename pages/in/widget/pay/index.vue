@@ -340,7 +340,6 @@ import {
   queryLikeCoinBalance as queryCosmosLikeCoinBalance,
   getTransferInfo as getCosmosTransferInfo,
   calculateGas as calculateCosmosGas,
-  DEFAULT_GAS_PRICE,
 } from '@/util/CosmosHelper';
 import User from '@/util/User';
 import {
@@ -609,7 +608,7 @@ export default {
       return wallet.replace(/((?:cosmos1|0x).{4}).*(.{10})/, '$1...$2');
     },
     async calculateGasFee() {
-      let gas;
+      let feeAmount;
       if (this.isMultiSend) {
         const tos = this.toUsers.map(u => u.cosmosWallet);
         const values = [...this.amounts];
@@ -617,12 +616,11 @@ export default {
           tos.push(this.agentUser.cosmosWallet);
           values.push(this.agentFee);
         }
-        ({ gas } = await calculateCosmosGas(tos));
+        ({ feeAmount } = await calculateCosmosGas(tos));
       } else {
-        ({ gas } = await calculateCosmosGas(this.toUsers));
+        ({ feeAmount } = await calculateCosmosGas(this.toUsers));
       }
-      this.gasFee = new BigNumber(gas)
-        .multipliedBy(parseInt(DEFAULT_GAS_PRICE[0].amount, 10)).dividedBy(1e9).toFixed();
+      this.gasFee = BigNumber(feeAmount[0].amount).dividedBy(1e9).toFixed();
       return this.gasFee;
     },
     async submitTransfer() {
