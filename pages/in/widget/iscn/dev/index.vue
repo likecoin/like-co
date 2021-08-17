@@ -140,6 +140,7 @@
       <div v-else>
         <button
           class="likepay-block-button"
+          :disabled="isChainUpgrading"
           @click="submitTransfer"
         >
           {{ $t('General.button.confirm') }}
@@ -154,7 +155,7 @@
 import { mapActions, mapGetters } from 'vuex';
 import { ISCN_LICENSES, ISCN_PUBLISHERS } from '@/util/cosmos/iscnConstant';
 import { getISCNTransferInfo } from '@/util/cosmos/iscn';
-import { LIKER_LAND_URL } from '@/constant';
+import { IS_CHAIN_UPGRADING, LIKER_LAND_URL } from '@/constant';
 
 import User from '@/util/User';
 
@@ -248,6 +249,9 @@ export default {
     LIKER_LAND_URL() {
       return LIKER_LAND_URL;
     },
+    isChainUpgrading() {
+      return IS_CHAIN_UPGRADING;
+    },
     avatarHalo() {
       return User.getAvatarHaloType(this.getUserInfo);
     },
@@ -290,6 +294,7 @@ export default {
       'prepareCosmosTxSigner',
     ]),
     async submitTransfer() {
+      if (this.isChainUpgrading) return;
       this.isLoading = true;
       try {
         const { cosmosWallet } = this.getUserInfo;
