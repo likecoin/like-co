@@ -320,6 +320,7 @@
       <div v-else>
         <button
           class="likepay-block-button"
+          :disabled="isChainUpgrading"
           @click="submitTransfer"
         >
           {{ $t('General.button.confirm') }}
@@ -334,7 +335,7 @@
 import { mapActions, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
 import {
-  IS_TESTNET, LIKER_LAND_URL,
+  IS_TESTNET, LIKER_LAND_URL, IS_CHAIN_UPGRADING,
 } from '@/constant';
 import {
   queryLikeCoinBalance as queryCosmosLikeCoinBalance,
@@ -504,6 +505,9 @@ export default {
       'getIsShowingTxPopup',
       'getPendingTxInfo',
     ]),
+    isChainUpgrading() {
+      return IS_CHAIN_UPGRADING;
+    },
     httpReferrer() {
       return this.$route.query.referrer || document.referrer || undefined;
     },
@@ -569,7 +573,9 @@ export default {
     },
   },
   async mounted() {
-    this.calculateGasFee();
+    if (!this.isChainUpgrading) {
+      this.calculateGasFee();
+    }
     if (!this.getLikeCoinUsdNumericPrice) {
       await this.queryLikeCoinUsdPrice();
     }
@@ -625,6 +631,7 @@ export default {
       return this.gasFee;
     },
     async submitTransfer() {
+      if (this.isChainUpgrading) return;
       this.isLoading = true;
       this.isSigning = true;
       try {
