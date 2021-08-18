@@ -12,7 +12,7 @@ import * as actions from './actions/payment';
 const state = () => ({
   pendingTx: '',
   pendingTxInfo: {},
-  cosmosWalletSource: 'keplr',
+  cosmosWalletSource: '',
 });
 
 const mutations = {
