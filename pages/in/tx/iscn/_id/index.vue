@@ -24,7 +24,21 @@
     </header>
 
     <div
-      v-if="failReason > 0"
+      v-if="isNotFound"
+      class="iscn-panel"
+    >
+      <section
+        class="iscn-panel__section-container iscn-panel__section-container--failed"
+      >
+        <h1>
+          <md-icon class="status-icon error-icon">error</md-icon>
+          {{ $t('Transaction.header.label.notFound') }}
+        </h1>
+      </section>
+    </div>
+
+    <div
+      v-else-if="failReason > 0"
       class="iscn-panel"
     >
       <section
@@ -100,7 +114,10 @@
 
       <div class="iscn-panel">
         <section class="iscn-panel__section-container">
-          <div class="iscn-panel__section-meta">
+          <div
+            v-if="creatorId"
+            class="iscn-panel__section-meta"
+          >
             <div class="iscn-panel__section-meta-label">
               {{ $t('ISCNWidget.label.creator') }}
             </div>
@@ -137,7 +154,7 @@
                   {{ $t('ISCNWidget.label.contentType') }}
                 </div>
                 <div class="iscn-panel__section-meta-grid-item-value">
-                  {{ contentType }}
+                  {{ type }}
                 </div>
               </div>
               <div
@@ -188,9 +205,11 @@
 
         <hr class="iscn-panel__section-separator">
 
-        <section class="iscn-panel__section-container">
+        <section
+          v-if="tags && tags.length"
+          class="iscn-panel__section-container"
+        >
           <div
-            v-if="tags && tags.length"
             class="iscn-panel__section-meta"
           >
             <div class="iscn-panel__section-meta-label">
@@ -210,68 +229,29 @@
 
         <hr class="iscn-panel__section-separator">
 
-        <section class="iscn-panel__section-container">
-          <div class="iscn-panel__section-meta">
+        <section
+          v-if="rights && rights.length"
+          class="iscn-panel__section-container"
+        >
+          <div
+            class="iscn-panel__section-meta"
+          >
             <div class="iscn-panel__section-meta-label">
               {{ $t('ISCNWidget.label.rights') }}
             </div>
             <div
               v-for="r in rights"
-              :key="r.terms['/']"
+              :key="r"
               class="iscn-panel__section-meta-grid"
             >
               <div class="iscn-panel__section-meta-grid-item">
-                <div class="iscn-panel__section-meta-grid-item-label">
-                  {{ r.type }}
-                </div>
                 <div
                   :class="[
                     'iscn-panel__section-meta-grid-item-value',
                     'iscn-panel__section-meta-grid-item-value--fingerprint',
                   ]"
                 >
-                  <a
-                    :href="`${IPFS_HOST}${r.terms['/']}`"
-                    target="_blank"
-                    rel="noopener"
-                  >{{ r.terms['/'] }}</a>
-                </div>
-              </div>
-              <div
-                class="iscn-panel__section-meta-grid-item iscn-panel__section-meta-grid-item--half"
-              >
-                <div class="iscn-panel__section-meta-grid-item-label">
-                  {{ $t('ISCNWidget.label.holder') }}
-                </div>
-                <div class="iscn-panel__section-meta-grid-item-value">
-                  <a
-                    v-if="r.holder.likerID"
-                    :href="getCreatorPortfolioURL(r.holder.likerID)"
-                    target="_blank"
-                    rel="noopener"
-                    class="iscn-panel__user"
-                  >
-                    <lc-avatar
-                      v-if="creatorAvatar"
-                      :src="creatorAvatar"
-                      :halo="creatorAvatarHalo"
-                      size="32"
-                    />
-                    <div class="iscn-panel__user-display-name">
-                      {{ creatorName }}
-                    </div>
-                  </a>
-                  <template v-else>@{{ r.holder.name }}</template>
-                </div>
-              </div>
-              <div
-                class="iscn-panel__section-meta-grid-item iscn-panel__section-meta-grid-item--half"
-              >
-                <div class="iscn-panel__section-meta-grid-item-label">
-                  {{ $t('ISCNWidget.label.rightsFrom') }}
-                </div>
-                <div class="iscn-panel__section-meta-grid-item-value">
-                  {{ formatDate(r.period.from) }}
+                  {{ r }}
                 </div>
               </div>
             </div>
@@ -280,7 +260,10 @@
 
         <hr class="iscn-panel__section-separator">
 
-        <section class="iscn-panel__section-container">
+        <section
+          v-if="stakeholders && stakeholders.length"
+          class="iscn-panel__section-container"
+        >
           <div class="iscn-panel__section-meta iscn-panel__section-meta--full">
             <div class="iscn-panel__section-meta-label">
               {{ $t('ISCNWidget.label.stakeholders') }}
@@ -288,24 +271,24 @@
             <ul class="iscn-panel__stakeholders-list">
               <li
                 v-for="s in stakeholders"
-                :key="s.stakeholder.id"
+                :key="s.entity.id"
                 class="iscn-panel__stakeholders-list-item"
               >
                 <div
                   class="iscn-panel__stakeholders-list-item-bg"
-                  :style="`width:${100 * s.sharing / totalStakeholdersShares}%`"
+                  :style="`width:${100 * s.rewardProportion / totalStakeholdersShares}%`"
                 />
                 <div class="iscn-panel__stakeholders-list-item-content">
-                  <span class="type">{{ s.type }}</span>
+                  <span class="type">{{ s.contributionType }}</span>
 
                   <div class="iscn-panel__stakeholders-list-item-content-right">
                     <a
-                      v-if="s.stakeholder.likerID"
-                      :to="getCreatorPortfolioURL(s.stakeholder.likerID)"
-                    >{{ s.stakeholder.name }}</a>
-                    <span v-else>{{ s.stakeholder.name }}</span>
+                      v-if="s.entity.id"
+                      :to="getCreatorPortfolioURL(s.entity.id)"
+                    >{{ s.entity.name }}</a>
+                    <span v-else>{{ s.entity.name }}</span>
                     <span class="sharing">
-                      {{ s.sharing }}
+                      {{ s.rewardProportion }}
                     </span>
                   </div>
                 </div>
@@ -319,7 +302,7 @@
     <footer class="iscn-panel__footer">
       <a
         class="iscn-block-button"
-        :href="`https://node.iscn-dev.like.co/txs/${txId}`"
+        :href="`https://node.iscn-dev-2.like.co/txs/${txId}`"
         target="_blank"
         rel="noopener"
       >{{ $t('ISCNWidget.button.rawTx') }}</a>
@@ -331,10 +314,11 @@
 import { mapActions } from 'vuex';
 import dateFormat from 'date-fns/format';
 
+// import { ISCN_LICENSES, ISCN_PUBLISHERS } from '@/util/cosmos/iscn/constant';
 import {
   getISCNTransferInfo,
   getISCNTransactionCompleted,
-} from '@/util/cosmos/iscn/legacyDevQuery';
+} from '@/util/cosmos/iscn/query';
 import { BIGDIPPER_HOST, LIKER_LAND_URL } from '@/constant';
 
 import { apiGetUserMinById } from '@/util/api/api';
@@ -410,7 +394,7 @@ export default {
       return `https://ipfs.io/ipfs/${this.fingerprint}`;
     },
     totalStakeholdersShares() {
-      return this.stakeholders.reduce((t, s) => t + s.sharing, 0);
+      return this.stakeholders.reduce((t, s) => t + s.rewardProportion, 0);
     },
   },
   async mounted() {
@@ -483,10 +467,10 @@ export default {
       this.stakeholders = stakeholders;
       this.contentTimestamp = contentTimestamp;
       this.timestamp = timestamp;
-      const creatorUser = this.stakeholders.find(s => s.type === 'Creator');
+      const creatorUser = this.stakeholders.find(s => s.contributionType.includes('author'));
       if (creatorUser) {
-        this.creatorAddress = creatorUser.stakeholder.id;
-        this.creatorId = creatorUser.stakeholder.likerID;
+        this.creatorId = creatorUser.entity.id;
+        this.creatorName = creatorUser.entity.name;
         const [creatorData] = await Promise.all([
           apiGetUserMinById(this.creatorId).catch(() => ({})),
         ]);

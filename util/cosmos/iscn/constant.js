@@ -1,3 +1,7 @@
+import { EXTERNAL_URL } from '@/constant';
+
+export const ISCN_GAS = 200000;
+export const ISCN_REGISTRY_NAME = 'likecoin-chain';
 export const ISCN_PUBLISHERS = {
   matters: {
     license: 'matters',
@@ -15,3 +19,5 @@ export const ISCN_LICENSES = {
     '/': 'QmZhRNkZaSnhDr6gBC22zwhTjsGyUx39tm8gjFYnTr2SjN',
   },
 };
+
+export const ISCN_RPC_URL = `${EXTERNAL_URL}/api/cosmos/rpc`;
