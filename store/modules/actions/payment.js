@@ -166,7 +166,7 @@ export function setDefaultCosmosWalletSource({ commit }, defaultCosmosWalletSour
 }
 
 export function clearDefaultCosmosWalletSource({ commit }) {
-  commit(types.PAYMENT_SET_COSMOS_WALLET_SOURCE, 'keplr');
+  commit(types.PAYMENT_SET_COSMOS_WALLET_SOURCE, '');
   if (window.localStorage) window.localStorage.removeItem('defaultCosmosWalletSource');
 }
 
@@ -178,9 +178,10 @@ export async function fetchCurrentCosmosWallet({ dispatch, state, getters }) {
   const { cosmosWalletSource } = state;
   switch (cosmosWalletSource) {
     case 'keplr':
-    default:
       return Keplr.getWalletAddress();
+    default:
   }
+  return '';
 }
 
 export async function prepareCosmosTxSigner({ dispatch, state, getters }) {
