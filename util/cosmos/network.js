@@ -1,14 +1,14 @@
 import { IS_TESTNET } from '../../constant';
 
 const mainConfig = {
-  id: 'likecoin-chain-sheungwan',
+  id: 'likecoin-mainnet-2',
   name: 'LikeCoin chain',
   description:
       'LikeCoin is a Decentralized Publishing Infrastructure for Decentralized Archive, Decentralized Rewards, Decentralized Curation and Decentralized Governance.',
   logo: 'logo.svg',
   website: 'https://like.co',
   apiURL: 'https://mainnet-node.like.co',
-  rpcURL: 'ws://mainnet-node.like.co:26657',
+  rpcURL: 'https://mainnet-node.like.co/rpc/',
   stakingWalletURL: 'https://stake.like.co',
   stakingDenom: 'LIKE',
   coinLookup: [

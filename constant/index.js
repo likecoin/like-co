@@ -24,7 +24,7 @@ export const BIGDIPPER_HOST = IS_TESTNET ? 'https://taipei.likecoin.bigdipper.li
 
 export const COSMOS_WALLET_PREFIX = "m/44'/118'/0'/0";
 
-export const COSMOS_CHAIN_ID = IS_TESTNET ? 'likecoin-testnet-taipei-2' : 'likecoin-chain-sheungwan';
+export const COSMOS_CHAIN_ID = IS_TESTNET ? 'likecoin-testnet-taipei-2' : 'likecoin-mainnet-2';
 
 export const BASIC_TRANSFER_GAS = '80000';
 
