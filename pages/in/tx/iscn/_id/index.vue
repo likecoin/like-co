@@ -398,7 +398,7 @@ export default {
     },
     creatorLikerId() {
       if (this.creatorId.startsWith(EXTERNAL_URL)) {
-        this.creatorId.replace(EXTERNAL_URL, '');
+        return this.creatorId.replace(EXTERNAL_URL, '');
       }
       return '';
     },
