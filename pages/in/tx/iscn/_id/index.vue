@@ -397,8 +397,8 @@ export default {
       return this.stakeholders.reduce((t, s) => t + s.rewardProportion, 0);
     },
     creatorLikerId() {
-      if (this.creatorId.startsWith(EXTERNAL_URL)) {
-        return this.creatorId.replace(EXTERNAL_URL, '');
+      if (this.creatorId.startsWith(`${EXTERNAL_URL}/`)) {
+        return this.creatorId.replace(`${EXTERNAL_URL}/`, '');
       }
       return '';
     },
