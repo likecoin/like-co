@@ -491,9 +491,7 @@ export default {
         this.creatorId = creatorUser.entity.id;
         this.creatorName = creatorUser.entity.name;
         if (this.creatorLikerId) {
-          const [creatorData] = await Promise.all([
-            apiGetUserMinById(this.creatorLikerId).catch(() => ({})),
-          ]);
+          const creatorData = await apiGetUserMinById(this.creatorLikerId).catch(() => ({}));
           if (creatorData && creatorData.data) {
             this.creatorName = creatorData.data.displayName || creatorData.data.user;
             this.creatorAvatar = creatorData.data.avatar;
