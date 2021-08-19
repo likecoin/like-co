@@ -497,7 +497,7 @@ export default {
       this.stopLoading();
     },
     getAccountViewerUrl(address) {
-      return `${BIGDIPPER_HOST}/account/${address}`;
+      return `${BIGDIPPER_HOST}/accounts/${address}`;
     },
   },
 };

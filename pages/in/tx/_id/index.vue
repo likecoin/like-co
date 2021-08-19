@@ -429,7 +429,7 @@ export default {
       if (this.isEthLikeTx) {
         return `${ETHERSCAN_HOST}/address/${address}#tokentxns`;
       }
-      return `${BIGDIPPER_HOST}/account/${address}`;
+      return `${BIGDIPPER_HOST}/accounts/${address}`;
     },
   },
 };

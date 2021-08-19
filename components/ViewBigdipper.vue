@@ -35,7 +35,7 @@ export default {
   },
   computed: {
     getUrl() {
-      if (this.address) return `${BIGDIPPER_HOST}/account/${this.address}`;
+      if (this.address) return `${BIGDIPPER_HOST}/accounts/${this.address}`;
       if (this.transaction) return `${BIGDIPPER_HOST}/transactions/${this.transaction}`;
       return BIGDIPPER_HOST;
     },
