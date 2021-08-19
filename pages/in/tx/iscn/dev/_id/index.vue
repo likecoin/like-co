@@ -487,9 +487,7 @@ export default {
       if (creatorUser) {
         this.creatorAddress = creatorUser.stakeholder.id;
         this.creatorId = creatorUser.stakeholder.likerID;
-        const [creatorData] = await Promise.all([
-          apiGetUserMinById(this.creatorId).catch(() => ({})),
-        ]);
+        const creatorData = await apiGetUserMinById(this.creatorId).catch(() => ({}));
         if (creatorData && creatorData.data) {
           this.creatorName = creatorData.data.displayName || creatorData.data.user;
           this.creatorAvatar = creatorData.data.avatar;
