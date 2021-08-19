@@ -44,7 +44,7 @@ function getPublisherISCNPayload(user, { publisher, license }) {
           name,
           description,
         },
-        rewardProportion: 1,
+        rewardProportion: 0,
         contributionType: 'http://schema.org/publisher',
       }), 'utf8'));
       usageInfo = `ipfs://${ISCN_LICENSES[mattersLicense]['/']}`;
