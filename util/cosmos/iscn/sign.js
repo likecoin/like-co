@@ -78,7 +78,7 @@ function formatISCNPayload(payload, version = 1) {
     displayName,
     cosmosWallet,
     fingerprint,
-    title,
+    name,
     tags,
     type,
     license,
@@ -110,7 +110,7 @@ function formatISCNPayload(payload, version = 1) {
   const contentMetadata = {
     '@context': 'http://schema.org/',
     '@type': actualType,
-    title,
+    name,
     description,
     version,
     url,
