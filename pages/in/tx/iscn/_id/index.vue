@@ -446,7 +446,7 @@ export default {
         from,
         fingerprint,
         tags,
-        title,
+        name,
         type,
         contentType,
         isFailed,
@@ -459,7 +459,7 @@ export default {
       this.from = from;
       this.fingerprint = fingerprint;
       this.tags = tags;
-      this.title = title;
+      this.title = name;
       this.type = type;
       this.contentType = contentType;
       this.isFailed = isFailed;

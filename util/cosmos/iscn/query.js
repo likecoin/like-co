@@ -157,7 +157,7 @@ export async function getISCNTransferInfo(txHash, opt) {
       stakeholders,
       contentMetadata: {
         '@type': type,
-        title,
+        name,
         url,
         keywords,
         usageInfo,
@@ -177,7 +177,7 @@ export async function getISCNTransferInfo(txHash, opt) {
     fingerprint: parsedFingerprint,
     tags,
     url,
-    title,
+    name,
     type,
     isFailed,
     rights: [usageInfo],
