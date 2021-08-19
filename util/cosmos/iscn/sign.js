@@ -25,7 +25,7 @@ const registry = new Registry([
 
 function getPublisherISCNPayload(user, { publisher, license }) {
   const {
-    id: userId,
+    userId,
     displayName,
   } = user;
   let usageInfo;
