@@ -122,8 +122,8 @@
               {{ $t('ISCNWidget.label.creator') }}
             </div>
             <a
-              :href="getCreatorPortfolioURL(creatorId)"
-              target="_blank"
+              :href="creatorLink"
+              :target="creatorLink === '#' ? '' : '_blank'"
               rel="noopener"
               class="iscn-panel__user"
             >
@@ -319,7 +319,7 @@ import {
   getISCNTransferInfo,
   getISCNTransactionCompleted,
 } from '@/util/cosmos/iscn/query';
-import { BIGDIPPER_HOST, LIKER_LAND_URL } from '@/constant';
+import { BIGDIPPER_HOST, LIKER_LAND_URL, EXTERNAL_URL } from '@/constant';
 
 import { apiGetUserMinById } from '@/util/api/api';
 import UserUtil from '~/util/User';
@@ -396,6 +396,25 @@ export default {
     totalStakeholdersShares() {
       return this.stakeholders.reduce((t, s) => t + s.rewardProportion, 0);
     },
+    creatorLikerId() {
+      if (this.creatorId.startsWith(EXTERNAL_URL)) {
+        this.creatorId.replace(EXTERNAL_URL, '');
+      }
+      return '';
+    },
+    isCreatorIdURL() {
+      try {
+        const res = new URL(this.creatorId);
+        return !!res;
+      } catch (err) {
+        return false;
+      }
+    },
+    creatorLink() {
+      if (this.creatorLikerId) return this.getCreatorPortfolioURL(this.creatorLikerId);
+      if (this.isCreatorIdURL) return this.creatorId;
+      return '#';
+    },
   },
   async mounted() {
     this.timestamp = 0;
@@ -471,13 +490,15 @@ export default {
       if (creatorUser) {
         this.creatorId = creatorUser.entity.id;
         this.creatorName = creatorUser.entity.name;
-        const [creatorData] = await Promise.all([
-          apiGetUserMinById(this.creatorId).catch(() => ({})),
-        ]);
-        if (creatorData && creatorData.data) {
-          this.creatorName = creatorData.data.displayName || creatorData.data.user;
-          this.creatorAvatar = creatorData.data.avatar;
-          this.creatorAvatarHalo = UserUtil.getAvatarHaloType(creatorData.data);
+        if (this.creatorLikerId) {
+          const [creatorData] = await Promise.all([
+            apiGetUserMinById(this.creatorLikerId).catch(() => ({})),
+          ]);
+          if (creatorData && creatorData.data) {
+            this.creatorName = creatorData.data.displayName || creatorData.data.user;
+            this.creatorAvatar = creatorData.data.avatar;
+            this.creatorAvatarHalo = UserUtil.getAvatarHaloType(creatorData.data);
+          }
         }
       }
       this.stopLoading();
