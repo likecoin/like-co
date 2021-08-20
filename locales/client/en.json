@@ -1036,6 +1036,7 @@
       "type": "Content Type",
       "license": "License",
       "tags": "Tags",
+      "url": "URL",
       "ISCNTotalFee": "Estimated ISCN Fee: {ISCNTotalFee} LIKE"
     },
     "button": {

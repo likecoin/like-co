@@ -104,6 +104,19 @@
             {{ tags.join(', ') }}
           </div>
         </div>
+
+        <div
+          v-if="url"
+          class="likepay-panel__section-meta"
+        >
+          <div class="likepay-panel__section-meta-label">
+            {{ $t('ISCNWidget.label.url') }}
+          </div>
+          <div class="likepay-panel__section-meta-value">
+            {{ url }}
+          </div>
+        </div>
+
       </section>
 
       <section class="likepay-panel__section-dropdown-container">
@@ -193,6 +206,7 @@ export default {
       redirectUri: '',
       state: '',
       memo: '',
+      url: '',
       ISCNTotalFee: 0.00,
     };
   },
