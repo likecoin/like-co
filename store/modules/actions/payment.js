@@ -67,6 +67,7 @@ export async function sendCosmosPayment(
 export async function calculateISCNTxTotalFee({ commit },
   { ...payload }) {
   const {
+    from,
     userId,
     displayName,
     cosmosWallet,
@@ -80,6 +81,7 @@ export async function calculateISCNTxTotalFee({ commit },
     url,
   } = payload;
   const { ISCNTotalFee } = await calculateISCNTotalFee({
+    from,
     userId,
     displayName,
     cosmosWallet,

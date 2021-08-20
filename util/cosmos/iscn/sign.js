@@ -9,11 +9,10 @@ import {
 } from '@cosmjs/stargate';
 import jsonStringify from 'fast-json-stable-stringify';
 
-import { DEFAULT_GAS_PRICE_NUMBER } from '../../CosmosHelper';
+import { getGasLimitParams } from '@/util/cosmos/iscn/gasEstimator';
 import {
   ISCN_RPC_URL, ISCN_PUBLISHERS, ISCN_LICENSES,
   ISCN_REGISTRY_NAME,
-  ISCN_GAS,
 } from './constant';
 import { EXTERNAL_URL } from '../../../constant';
 import { queryFeePerByte } from './query';
@@ -179,17 +178,48 @@ export async function estimateISCNTxFee(tx, {
   return { iscnFee };
 }
 
-export async function estimateISCNTxGas() {
+export async function estimateISCNTxGas(tx) {
+  const record = await formatISCNPayload(tx);
+  const msg = {
+    type: Buffer.from('likecoin-chain/MsgCreateIscnRecord', 'utf-8'),
+    value: {
+      from: Buffer.from(tx.from, 'utf-8'),
+      record,
+    },
+  };
+  const value = {
+    msg: [msg],
+    fee: {
+      amount: [
+        {
+          denom: 'nanolike',
+          amount: '200000', // need a proxy here for estimation
+        },
+      ],
+      gas: '200000', // need a proxy here for estimation
+    },
+  };
+  const obj = {
+    type: 'cosmos-sdk/StdTx',
+    value: Buffer.from(jsonStringify(value), 'utf-8'),
+  };
+  const GAS_BUFFER = 50000;
+  const gasBuffer = BigNumber(GAS_BUFFER);
+  const { slop, intercept } = await getGasLimitParams();
+  const interceptWithBuffer = BigNumber(intercept).plus(gasBuffer);
+  const txBytes = Buffer.from(jsonStringify(obj), 'utf-8');
+  const byteSize = BigNumber(txBytes.length);
+  const gasUsedEstimation = byteSize.multipliedBy(slop).plus(interceptWithBuffer);
   return {
     gasFee: {
-      amount: [{ amount: (DEFAULT_GAS_PRICE_NUMBER * ISCN_GAS).toFixed(), denom: 'nanolike' }],
-      gas: ISCN_GAS.toFixed(),
+      amount: [{ amount: parseInt(gasUsedEstimation.toFixed(0), 10), denom: 'nanolike' }],
+      gas: gasUsedEstimation.toFixed(0),
     },
   };
 }
 
 export async function calculateISCNTotalFee(tx, version = 1) {
-  const { gasFee } = await estimateISCNTxGas();
+  const { gasFee } = await estimateISCNTxGas(tx);
   const { iscnFee } = await estimateISCNTxFee(tx, { version });
   const totalFee = new BigNumber(iscnFee).plus(gasFee.amount[0].amount).shiftedBy(-9);
   const ISCNTotalFee = totalFee.toFixed(2);
@@ -211,7 +241,7 @@ export async function signISCNTx(tx, signer, address, memo) {
       record,
     },
   };
-  const { gasFee } = await estimateISCNTxGas();
+  const { gasFee } = await estimateISCNTxGas(tx);
   const response = await client.signAndBroadcast(address, [message], gasFee, memo);
   assertIsBroadcastTxSuccess(response);
   return response;
