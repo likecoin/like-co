@@ -363,7 +363,6 @@ import {
 } from '@/util/auth';
 
 import {
-  apiLoginUser,
   apiCheckIsUser,
 } from '@/util/api/api';
 
@@ -701,6 +700,7 @@ export default {
     ...mapActions([
       'newUser',
       'refreshUser',
+      'loginUser',
       'fetchUserMinInfo',
       'doPostAuthRedirect',
       'setAuthDialog',
@@ -1116,7 +1116,7 @@ export default {
         const payload = {};
         if (this.sourceURL) payload.sourceURL = this.sourceURL;
         if (this.utmSource) payload.utmSource = this.utmSource;
-        await apiLoginUser({
+        await this.loginUser({
           locale: this.getCurrentLocale,
           platform: this.platform,
           ...this.signInPayload,
@@ -1217,8 +1217,6 @@ export default {
     },
     async redirectAfterSignIn() {
       this.currentTab = 'loading';
-      await this.refreshUser();
-
       try {
         window.sessionStorage.removeItem('registerDialogSourceURL');
       } catch (err) {
