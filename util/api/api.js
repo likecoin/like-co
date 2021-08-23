@@ -2,10 +2,11 @@ import axios from '~/plugins/axios';
 import { IS_TESTNET, EXTERNAL_HOSTNAME } from '@/constant';
 
 const LIKECOIN_API_BASE = IS_TESTNET ? 'https://api.rinkeby.like.co' : 'https://api.like.co';
+const LIKECOIN_MIGRATION = IS_TESTNET ? 'https://migration.taipei.like.co' : 'https://migration.like.co';
 const LIKECOIN_MISC_API_BASE = `https://${EXTERNAL_HOSTNAME}`;
 const LIKER_LAND_URL = `https://${IS_TESTNET ? 'rinkeby.' : ''}liker.land`;
+const LIKE_CO_ABOUT_URL = 'https://about.like.co';
 const LIKE_CO_CLOUD_FN_BASE = `https://us-central1-likecoin-${IS_TESTNET ? 'develop' : 'foundation'}.cloudfunctions.net`;
-const LIKECOIN_MIGRATION = IS_TESTNET ? 'https://migration.taipei.like.co' : 'https://migration.like.co';
 
 export const COSMOS_API_BASE = '/api/cosmos/lcd';
 
@@ -14,6 +15,7 @@ export const apiPostISCNMessageForSign = message => axios.post('/cosmos/iscn-dev
 export const getMigrationSiteURL = likerId => (likerId ? `${LIKECOIN_MIGRATION}?likerid=${likerId}` : LIKECOIN_MIGRATION);
 export const getLikerLandAppURL = () => 'https://likecoin.page.link/likeco';
 export const getLikerLandURL = () => LIKER_LAND_URL;
+export const getLikeCoAboutURL = () => LIKE_CO_ABOUT_URL;
 export const getLikerLandCreatorsURL = () => `${LIKER_LAND_URL}/creators`;
 
 export const apiCheckIsUser = addr => axios.get(`/users/addr/${addr}/min`);
