@@ -638,7 +638,7 @@ export default {
         const amount = new BigNumber(this.totalAmount);
         const from = await this.fetchCurrentCosmosWallet();
         if (!from) {
-          throw new Error('VALIDATION_FAIL');
+          throw new Error('PLEASE_RELOGIN');
         }
         const userWallet = cosmosWallet;
         if (from !== userWallet) {
