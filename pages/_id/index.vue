@@ -400,8 +400,6 @@ export default {
       'prepareCosmosTxSigner',
     ]),
     async calculateGasFee() {
-      const from = await this.fetchCurrentCosmosWallet();
-      if (!from) return '';
       const { feeAmount } = await calculateCosmosGas([this.wallet]);
       this.gasFee = BigNumber(feeAmount[0].amount).dividedBy(1e9).toFixed();
       return this.gasFee;
