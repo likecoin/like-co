@@ -67,6 +67,7 @@ export async function sendCosmosPayment(
 export async function calculateISCNTxTotalFee({ commit },
   { ...payload }) {
   const {
+    from,
     userId,
     displayName,
     cosmosWallet,
@@ -80,6 +81,7 @@ export async function calculateISCNTxTotalFee({ commit },
     url,
   } = payload;
   const { ISCNTotalFee } = await calculateISCNTotalFee({
+    from,
     userId,
     displayName,
     cosmosWallet,
@@ -117,6 +119,7 @@ export async function sendISCNSignature(
       license,
       publisher,
       memo,
+      description,
     } = payload;
     const { transactionHash } = await signISCNTx({
       userId,
@@ -128,6 +131,7 @@ export async function sendISCNSignature(
       type,
       license,
       publisher,
+      description,
     }, signer, from, memo);
     commit(types.UI_START_LOADING_TX);
     commit(types.UI_SET_HIDE_TX_DIALOG_ACTION, !showDialogAction);
