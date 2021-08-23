@@ -319,13 +319,10 @@ export default {
       url,
     } = this;
     const from = await this.fetchCurrentCosmosWallet();
-    if (!from) {
-      throw new Error('VALIDATION_FAIL');
-    }
     this.ISCNTotalFee = await this.calculateISCNTxTotalFee({
       userId: this.getUserId,
       displayName: this.getUserInfo.displayName,
-      from,
+      cosmosWallet: from || '', // TODO: stub random address for estimation
       fingerprint,
       name: title,
       tags,
