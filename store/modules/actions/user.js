@@ -188,7 +188,7 @@ export async function loginUserBySign({ state, dispatch }) {
   return true;
 }
 
-export async function loginByCosmosWallet(_, source) {
+export async function loginByCosmosWallet({ dispatch }, source) {
   let payload;
   switch (source) {
     case 'keplr': {
@@ -197,6 +197,7 @@ export async function loginByCosmosWallet(_, source) {
         await Keplr.getWalletAddress(),
         s => Keplr.signLogin(s),
       );
+      dispatch('setDefaultCosmosWalletSource', 'keplr');
       break;
     }
     default: throw new Error('UNKNOWN_COSMOS_WALLET_SOURCE');
