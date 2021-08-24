@@ -75,6 +75,10 @@ export const FINAL_TOKENSALE_PERCENTAGE = 180;
 
 export const BONUS_LOCK_UNTIL_DATE = 1540267200000;
 
+export const GAS_ESTIMATOR_BUFFER = 50000;
+export const GAS_ESTIMATOR_SLOP = 3.58;
+export const GAS_ESTIMATOR_INTERCEPT = 99443.87;
+
 export const TRUST_URL = 'https://links.trustwalletapp.com/a/key_live_lfvIpVeI9TFWxPCqwU8rZnogFqhnzs4D?&event=openURL&url=';
 
 export const LIKER_LAND_APP_LINK = {

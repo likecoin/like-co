@@ -109,7 +109,6 @@ export async function sendISCNSignature(
     const {
       userId,
       displayName,
-      from,
       fingerprint,
       name,
       tags,
@@ -117,18 +116,21 @@ export async function sendISCNSignature(
       license,
       publisher,
       memo,
+      description,
+      cosmosWallet,
     } = payload;
     const { transactionHash } = await signISCNTx({
       userId,
       displayName,
-      from,
       fingerprint,
       name,
       tags,
       type,
       license,
       publisher,
-    }, signer, from, memo);
+      description,
+      cosmosWallet,
+    }, signer, cosmosWallet, memo);
     commit(types.UI_START_LOADING_TX);
     commit(types.UI_SET_HIDE_TX_DIALOG_ACTION, !showDialogAction);
     commit(types.PAYMENT_SET_PENDING_HASH, transactionHash);

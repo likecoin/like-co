@@ -374,9 +374,9 @@ export default {
           url,
         } = this;
         const txHash = await this.sendISCNSignature({
+          cosmosWallet,
           userId: this.getUserId,
           displayName: this.getUserInfo.displayName,
-          from,
           fingerprint,
           name: title,
           tags,
