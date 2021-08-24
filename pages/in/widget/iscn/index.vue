@@ -377,7 +377,6 @@ export default {
           cosmosWallet,
           userId: this.getUserId,
           displayName: this.getUserInfo.displayName,
-          from,
           fingerprint,
           name: title,
           tags,
