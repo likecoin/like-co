@@ -127,8 +127,8 @@ export async function syncAuthCoreUser({ commit, dispatch, rootState }) {
   await dispatch('refreshUser');
 }
 
-export async function loginUser({ commit, dispatch }, data) {
-  await apiWrapper({ commit, dispatch }, api.apiLoginUser(data), { blocking: true });
+export async function loginUser({ dispatch }, data) {
+  await api.apiLoginUser(data);
   await dispatch('refreshUser');
   if (data.cosmosWalletSource) {
     dispatch('setDefaultCosmosWalletSource', data.cosmosWalletSource);
