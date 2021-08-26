@@ -345,6 +345,9 @@ export default {
         tx = await getCosmosTransferInfo(this.txId, {
           blocking: true,
         });
+        if (tx.redirectToISCNTransactionPage) {
+          this.$router.push(`iscn/${this.txId}`);
+        }
       }
       if (!this.failReason) this.failReason = tx.isFailed ? 1 : 0;
       /* eslint-disable no-underscore-dangle */

@@ -94,7 +94,7 @@ export async function getTransferInfo(txHash, opt) {
   let amount = [];
   let from = [];
   let to = [];
-
+  let redirectToISCNTransactionPage = false;
   if (messages.length > 1) {
     messages.forEach((m) => {
       const { typeUrl, value } = m;
@@ -151,6 +151,11 @@ export async function getTransferInfo(txHash, opt) {
         to = outputs.length > 1 ? outputs.map(o => o.address) : outputs[0].address;
         amounts = outputs.length > 1 ? outputs.map(o => o.coins[0]) : [outputs[0].coins[0]];
       }
+    } else if (typeUrl === '/likechain.iscn.MsgCreateIscnRecord'
+              || typeUrl === '/likechain.iscn.MsgUpdateIscnRecord'
+              || typeUrl === '/likechain.iscn.MsgChangeIscnRecordOwnership'
+    ) {
+      redirectToISCNTransactionPage = true;
     }
   }
 
@@ -164,6 +169,7 @@ export async function getTransferInfo(txHash, opt) {
   }
   const isFailed = (code && code !== 0);
   return {
+    redirectToISCNTransactionPage,
     isFailed,
     _from: from,
     _to: to,
