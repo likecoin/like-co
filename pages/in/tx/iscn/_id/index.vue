@@ -423,6 +423,9 @@ export default {
       const tx = await getISCNTransferInfo(this.txId, {
         blocking: true,
       });
+      if (tx.redirectToLIKETransactionPage) {
+        this.$router.replace(`/in/tx/${this.txId}`);
+      }
       this.updateUI(tx);
       if (!this.failReason) this.failReason = tx.isFailed ? 1 : 0;
       /* eslint-disable no-underscore-dangle */

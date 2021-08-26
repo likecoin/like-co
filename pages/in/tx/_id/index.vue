@@ -346,7 +346,7 @@ export default {
           blocking: true,
         });
         if (tx.redirectToISCNTransactionPage) {
-          this.$router.push(`iscn/${this.txId}`);
+          this.$router.replace(`/in/tx/iscn/${this.txId}`);
         }
       }
       if (!this.failReason) this.failReason = tx.isFailed ? 1 : 0;
