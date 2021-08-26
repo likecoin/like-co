@@ -5,6 +5,10 @@ import { decodeTxRaw } from '@cosmjs/proto-signing';
 import { QueryClient, StargateClient } from '@cosmjs/stargate';
 import { MsgCreateIscnRecord } from '@likecoin/iscn-message-types/dist/iscn/tx';
 import BigNumber from 'bignumber.js';
+import {
+  TxRaw,
+  TxBody,
+} from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
 import setupISCNExtension from './iscnQueryExtension';
 import { timeout } from '@/util/misc';
@@ -121,10 +125,15 @@ export async function getISCNTransferInfo(txHash, opt) {
 
   const block = await apiClient.getBlock(height);
   const { header: { time: timestamp } } = block;
-
+  let redirectToLIKETransactionPage = false;
   const messages = [];
   parsed.tx.body.messages.forEach((m, index) => {
-    if (!m || !m.typeUrl.includes('/likechain.iscn')) return;
+    if (!m || !m.typeUrl.includes('/likechain.iscn')) {
+      if (!m.typeUrl.includes('/cosmos.bank.v1beta1.MsgSend') && !m.typeUrl.includes('/cosmos.bank.v1beta1.MsgMultiSend')) {
+        return;
+      }
+      redirectToLIKETransactionPage = true;
+    }
     const data = m.value.record;
     if (!data) return;
     const log = parsed.logs[index];
@@ -145,9 +154,33 @@ export async function getISCNTransferInfo(txHash, opt) {
       owner,
     });
   });
+  if (redirectToLIKETransactionPage) {
+    return { redirectToLIKETransactionPage };
+  }
   const [message] = messages;
   if (!message) {
-    throw new Error('Not an ISCN transaction');
+    const txRaw = TxRaw.decode(Buffer.from(txData.tx, 'base64'));
+    const txBody = TxBody.decode(txRaw.bodyBytes);
+    const bodyMessages = txBody.messages;
+    if (bodyMessages.length > 1) {
+      bodyMessages.forEach((m) => {
+        const { typeUrl } = m;
+        if (typeUrl === '/cosmos.bank.v1beta1.MsgSend' || typeUrl === '/cosmos.bank.v1beta1.MsgMultiSend') {
+          redirectToLIKETransactionPage = true;
+          return { redirectToLIKETransactionPage };
+        }
+        return new Error('Not an known transaction type');
+      });
+    } else if (bodyMessages.length === 1) {
+      const { typeUrl } = bodyMessages[0];
+      if (typeUrl === '/cosmos.bank.v1beta1.MsgSend' || typeUrl === '/cosmos.bank.v1beta1.MsgMultiSend') {
+        redirectToLIKETransactionPage = true;
+        return { redirectToLIKETransactionPage };
+      }
+      return new Error('Not an known transaction type');
+    } else {
+      return new Error('Not an known transaction type');
+    }
   }
   const {
     ipld,
@@ -185,6 +218,7 @@ export async function getISCNTransferInfo(txHash, opt) {
     contentTimestamp: (new Date(timestamp)).getTime(),
     timestamp: (new Date(timestamp)).getTime() / 1000,
     recordNotes,
+    redirectToLIKETransactionPage,
   };
 }
 
