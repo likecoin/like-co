@@ -345,7 +345,7 @@ export default {
         tx = await getCosmosTransferInfo(this.txId, {
           blocking: true,
         });
-        if (tx.redirectToISCNTransactionPage) {
+        if (tx.isISCNTx) {
           this.$router.replace(`/in/tx/iscn/${this.txId}`);
         }
       }

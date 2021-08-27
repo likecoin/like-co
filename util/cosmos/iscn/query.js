@@ -125,14 +125,14 @@ export async function getISCNTransferInfo(txHash, opt) {
 
   const block = await apiClient.getBlock(height);
   const { header: { time: timestamp } } = block;
-  let redirectToLIKETransactionPage = false;
+  let isLIKETx = false;
   const messages = [];
   parsed.tx.body.messages.forEach((m, index) => {
     if (!m || !m.typeUrl.includes('/likechain.iscn')) {
       if (!m.typeUrl.includes('/cosmos.bank.v1beta1.MsgSend') && !m.typeUrl.includes('/cosmos.bank.v1beta1.MsgMultiSend')) {
         return;
       }
-      redirectToLIKETransactionPage = true;
+      isLIKETx = true;
     }
     const data = m.value.record;
     if (!data) return;
@@ -154,8 +154,8 @@ export async function getISCNTransferInfo(txHash, opt) {
       owner,
     });
   });
-  if (redirectToLIKETransactionPage) {
-    return { redirectToLIKETransactionPage };
+  if (isLIKETx) {
+    return { isLIKETx };
   }
   const [message] = messages;
   if (!message) {
@@ -166,16 +166,16 @@ export async function getISCNTransferInfo(txHash, opt) {
       bodyMessages.forEach((m) => {
         const { typeUrl } = m;
         if (typeUrl === '/cosmos.bank.v1beta1.MsgSend' || typeUrl === '/cosmos.bank.v1beta1.MsgMultiSend') {
-          redirectToLIKETransactionPage = true;
-          return { redirectToLIKETransactionPage };
+          isLIKETx = true;
+          return { isLIKETx };
         }
         return new Error('Not an known transaction type');
       });
     } else if (bodyMessages.length === 1) {
       const { typeUrl } = bodyMessages[0];
       if (typeUrl === '/cosmos.bank.v1beta1.MsgSend' || typeUrl === '/cosmos.bank.v1beta1.MsgMultiSend') {
-        redirectToLIKETransactionPage = true;
-        return { redirectToLIKETransactionPage };
+        isLIKETx = true;
+        return { isLIKETx };
       }
       return new Error('Not an known transaction type');
     } else {
@@ -218,7 +218,7 @@ export async function getISCNTransferInfo(txHash, opt) {
     contentTimestamp: (new Date(timestamp)).getTime(),
     timestamp: (new Date(timestamp)).getTime() / 1000,
     recordNotes,
-    redirectToLIKETransactionPage,
+    isLIKETx,
   };
 }
 
