@@ -121,11 +121,11 @@ export async function getISCNTransferInfo(txHash, opt) {
 
   const block = await apiClient.getBlock(height);
   const { header: { time: timestamp } } = block;
-  let isLIKETransferTx = false;
+  let isISCNTx = true;
   const messages = [];
   if (parsed.tx.body.messages.length === 0) {
-    isLIKETransferTx = true;
-    return { isLIKETransferTx };
+    isISCNTx = false;
+    return { isISCNTx };
   }
   // Not LIKE transfer, continue parse ISCN transaction payload
   parsed.tx.body.messages.forEach((m, index) => {
@@ -186,7 +186,7 @@ export async function getISCNTransferInfo(txHash, opt) {
     contentTimestamp: (new Date(timestamp)).getTime(),
     timestamp: (new Date(timestamp)).getTime() / 1000,
     recordNotes,
-    isLIKETransferTx,
+    isISCNTx,
   };
 }
 
