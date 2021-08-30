@@ -347,6 +347,7 @@ export default {
         });
         if (tx.isISCNTx) {
           this.$router.replace(`/in/tx/iscn/${this.txId}`);
+          return;
         }
       }
       if (!this.failReason) this.failReason = tx.isFailed ? 1 : 0;

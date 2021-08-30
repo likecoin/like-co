@@ -151,10 +151,7 @@ export async function getTransferInfo(txHash, opt) {
         to = outputs.length > 1 ? outputs.map(o => o.address) : outputs[0].address;
         amounts = outputs.length > 1 ? outputs.map(o => o.coins[0]) : [outputs[0].coins[0]];
       }
-    } else if (typeUrl === '/likechain.iscn.MsgCreateIscnRecord'
-              || typeUrl === '/likechain.iscn.MsgUpdateIscnRecord'
-              || typeUrl === '/likechain.iscn.MsgChangeIscnRecordOwnership'
-    ) {
+    } else if (typeUrl.includes('likechain.iscn')) {
       isISCNTx = true;
     }
   }
