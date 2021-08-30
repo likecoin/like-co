@@ -423,7 +423,7 @@ export default {
       const tx = await getISCNTransferInfo(this.txId, {
         blocking: true,
       });
-      if (tx.isLIKETransferTx) {
+      if (!tx.isISCNTx) {
         this.$router.replace(`/in/tx/${this.txId}`);
         return;
       }
