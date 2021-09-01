@@ -185,7 +185,7 @@
 import { mapActions, mapGetters } from 'vuex';
 import { ISCN_LICENSES, ISCN_PUBLISHERS } from '@/util/cosmos/iscn/constant';
 import { getISCNTransferInfo } from '@/util/cosmos/iscn/query';
-import { LIKER_LAND_URL, STUB_WALLET } from '@/constant';
+import { LIKER_LAND_URL } from '@/constant';
 
 import User from '@/util/User';
 
@@ -318,10 +318,11 @@ export default {
       publisher,
       url,
     } = this;
+    const { cosmosWallet } = this.getUserInfo;
     this.ISCNTotalFee = await this.calculateISCNTxTotalFee({
       userId: this.getUserId,
       displayName: this.getUserInfo.displayName,
-      cosmosWallet: STUB_WALLET,
+      cosmosWallet,
       fingerprint,
       name: title,
       tags,
