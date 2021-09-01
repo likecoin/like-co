@@ -18,6 +18,7 @@ import {
   GAS_ESTIMATOR_BUFFER,
   GAS_ESTIMATOR_SLOP,
   GAS_ESTIMATOR_INTERCEPT,
+  COSMOS_DENOM,
 } from '../../../constant';
 import { queryFeePerByte } from './query';
 import { DEFAULT_GAS_PRICE_NUMBER } from '../../CosmosHelper';
@@ -214,7 +215,10 @@ export async function estimateISCNTxGas(tx) {
   const gasUsedEstimation = byteSize.multipliedBy(GAS_ESTIMATOR_SLOP).plus(interceptWithBuffer);
   return {
     gasFee: {
-      amount: [{ amount: gasUsedEstimation.multipliedBy(DEFAULT_GAS_PRICE_NUMBER).toFixed(0, 0), denom: 'nanolike' }],
+      amount: [{
+        amount: gasUsedEstimation.multipliedBy(DEFAULT_GAS_PRICE_NUMBER).toFixed(0, 0),
+        denom: COSMOS_DENOM,
+      }],
       gas: gasUsedEstimation.toFixed(0, 0),
     },
   };
