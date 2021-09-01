@@ -12,7 +12,6 @@ import jsonStringify from 'fast-json-stable-stringify';
 import {
   ISCN_RPC_URL, ISCN_PUBLISHERS, ISCN_LICENSES,
   ISCN_REGISTRY_NAME,
-  DEFAULT_ISCN_GAS_PRICE_NUMBER,
 } from './constant';
 import {
   EXTERNAL_URL,
@@ -21,6 +20,7 @@ import {
   GAS_ESTIMATOR_INTERCEPT,
 } from '../../../constant';
 import { queryFeePerByte } from './query';
+import { DEFAULT_GAS_PRICE_NUMBER } from '../../CosmosHelper';
 
 const registry = new Registry([
   ...defaultRegistryTypes,
@@ -214,7 +214,7 @@ export async function estimateISCNTxGas(tx) {
   const gasUsedEstimation = byteSize.multipliedBy(GAS_ESTIMATOR_SLOP).plus(interceptWithBuffer);
   return {
     gasFee: {
-      amount: [{ amount: gasUsedEstimation.multipliedBy(DEFAULT_ISCN_GAS_PRICE_NUMBER).toFixed(0, 0), denom: 'nanolike' }],
+      amount: [{ amount: gasUsedEstimation.multipliedBy(DEFAULT_GAS_PRICE_NUMBER).toFixed(0, 0), denom: 'nanolike' }],
       gas: gasUsedEstimation.toFixed(0, 0),
     },
   };
