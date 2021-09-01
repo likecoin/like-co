@@ -12,6 +12,7 @@ import jsonStringify from 'fast-json-stable-stringify';
 import {
   ISCN_RPC_URL, ISCN_PUBLISHERS, ISCN_LICENSES,
   ISCN_REGISTRY_NAME,
+  DEFAULT_ISCN_GAS_PRICE_NUMBER,
 } from './constant';
 import {
   EXTERNAL_URL,
@@ -191,8 +192,6 @@ export async function estimateISCNTxGas(tx) {
       record,
     },
   };
-  // real gasUsed will be slightly diff from gasUsedEstimation
-  // because the value passed into the obj is different from estimation
   const value = {
     msg: [msg],
     fee: {
@@ -215,7 +214,7 @@ export async function estimateISCNTxGas(tx) {
   const gasUsedEstimation = byteSize.multipliedBy(GAS_ESTIMATOR_SLOP).plus(interceptWithBuffer);
   return {
     gasFee: {
-      amount: [{ amount: gasUsedEstimation.toFixed(0, 0), denom: 'nanolike' }],
+      amount: [{ amount: gasUsedEstimation.multipliedBy(DEFAULT_ISCN_GAS_PRICE_NUMBER).toFixed(0, 0), denom: 'nanolike' }],
       gas: gasUsedEstimation.toFixed(0, 0),
     },
   };
