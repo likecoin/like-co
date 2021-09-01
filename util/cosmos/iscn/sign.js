@@ -215,8 +215,8 @@ export async function estimateISCNTxGas(tx) {
   const gasUsedEstimation = byteSize.multipliedBy(GAS_ESTIMATOR_SLOP).plus(interceptWithBuffer);
   return {
     gasFee: {
-      amount: [{ amount: gasUsedEstimation.toFixed(), denom: 'nanolike' }],
-      gas: gasUsedEstimation.toFixed(),
+      amount: [{ amount: gasUsedEstimation.toFixed(0, 0), denom: 'nanolike' }],
+      gas: gasUsedEstimation.toFixed(0, 0),
     },
   };
 }
