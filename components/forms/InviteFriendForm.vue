@@ -132,13 +132,7 @@ export default {
       this.onInvite('url');
     },
     onShareFacebook() {
-      if (window.FB && window.FB.ui) {
-        window.FB.ui({
-          method: 'share',
-          href: this.shareURL,
-        });
-        this.onInvite('facebook');
-      }
+      this.onCopyURL();
     },
     onShareTwitter() {
       window.open(this.twitterURL, 'twitter', 'height=285,width=550,resizable=1,noopener');
