@@ -138,7 +138,6 @@ jobs:
             --build-arg IS_TESTNET='TRUE' \
             --build-arg INTERCOM_APPID=${TEST_INTERCOM_APPID} \
             --build-arg GTM_ID=${TEST_GTM_ID} \
-            --build-arg FACEBOOK_PIXEL_ID=${TEST_FACEBOOK_PIXEL_ID} \
             --build-arg CRISP_WEBSITE_ID=${TEST_CRISP_WEBSITE_ID} \
             --build-arg SENTRY_DSN=${TEST_SENTRY_DSN} \
             --build-arg SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN} \
@@ -230,7 +229,6 @@ jobs:
             --build-arg IS_TESTNET='TRUE' \
             --build-arg INTERCOM_APPID=${TEST_INTERCOM_APPID} \
             --build-arg GTM_ID=${TEST_GTM_ID} \
-            --build-arg FACEBOOK_PIXEL_ID=${TEST_FACEBOOK_PIXEL_ID} \
             --build-arg CRISP_WEBSITE_ID=${TEST_CRISP_WEBSITE_ID} \
             --build-arg SENTRY_DSN=${TEST_SENTRY_DSN} \
             --build-arg SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN} \
@@ -324,7 +322,6 @@ jobs:
             --build-arg FIREBASE_PROJECT_ID=${TEST_FIREBASE_PROJECT_ID} \
             --build-arg INTERCOM_APPID=${TEST_INTERCOM_APPID} \
             --build-arg GTM_ID=${TEST_GTM_ID} \
-            --build-arg FACEBOOK_PIXEL_ID=${TEST_FACEBOOK_PIXEL_ID} \
             --build-arg CRISP_WEBSITE_ID=${TEST_CRISP_WEBSITE_ID} \
             --build-arg SENTRY_DSN=${TEST_SENTRY_DSN} \
             --build-arg SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN} \
@@ -414,7 +411,6 @@ jobs:
             docker build . -t like-store --cache-from us.gcr.io/${PROJECT_NAME}/like-store-frontend:latest \
             --build-arg INTERCOM_APPID=${INTERCOM_APPID} \
             --build-arg GTM_ID=${GTM_ID} \
-            --build-arg FACEBOOK_PIXEL_ID=${FACEBOOK_PIXEL_ID} \
             --build-arg CRISP_WEBSITE_ID=${CRISP_WEBSITE_ID} \
             --build-arg FIREBASE_API_KEY=${FIREBASE_API_KEY} \
             --build-arg FIREBASE_AUTH_DOMAIN=${FIREBASE_AUTH_DOMAIN} \
