@@ -131,7 +131,7 @@
               class="profile-setting-page__confirm-btn lc-margin-top-8"
             >
               <md-button
-                :disabled="!hasUserDetailsChanged || disabled"
+                :disabled="!(hasUserDetailsChanged || hasUserAvatarChanged) || disabled"
                 v-bind="getTestAttribute('submitButton')"
                 class="md-likecoin"
                 form="account-setting-form"
@@ -289,10 +289,12 @@ export default {
     disabled() {
       return this.isLoading || !this.getUserIsRegistered;
     },
+    hasUserAvatarChanged() {
+      return !!this.avatarFile;
+    },
     hasUserDetailsChanged() {
       return (
-        !!this.avatarFile
-        || this.getUserInfo.email !== this.email
+        this.getUserInfo.email !== this.email
         || this.getUserInfo.displayName !== this.displayName
       );
     },
@@ -411,6 +413,9 @@ export default {
       this.fetchSocialListDetailsById(user.user);
     },
     async onSubmit() {
+      if (this.hasUserAvatarChanged) {
+        await this.updateAvatar();
+      }
       if (this.hasUserDetailsChanged) {
         try {
           const { displayName } = this;
@@ -443,7 +448,7 @@ export default {
       }
     },
     async updateAvatar() {
-      if (this.hasUserDetailsChanged) {
+      if (this.hasUserAvatarChanged) {
         try {
           const { avatarFile } = this;
           if (avatarFile) {
