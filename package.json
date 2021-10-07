@@ -43,6 +43,7 @@
     "@cosmjs/proto-signing": "^0.25.6",
     "@cosmjs/stargate": "^0.25.6",
     "@likecoin/abi-decoder": "^3.0.0",
+    "@likecoin/iscn-js": "0.0.7",
     "@likecoin/iscn-message-types": "0.0.1",
     "@likecoin/nuxt-google-optimize": "^0.5.3-like.10",
     "@likecoin/secretd-js": "^0.2.0",
