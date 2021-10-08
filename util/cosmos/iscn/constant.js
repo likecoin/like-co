@@ -1,6 +1,5 @@
 import { EXTERNAL_URL } from '@/constant';
 
-export const ISCN_GAS = 200000;
 export const ISCN_PUBLISHERS = {
   matters: {
     license: 'matters',

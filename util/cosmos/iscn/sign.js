@@ -2,12 +2,8 @@
 import BigNumber from 'bignumber.js';
 import { ISCNSigningClient } from '@likecoin/iscn-js';
 
-import {
-  ISCN_RPC_URL, ISCN_PUBLISHERS, ISCN_LICENSES,
-} from './constant';
-import {
-  EXTERNAL_URL,
-} from '../../../constant';
+import { ISCN_RPC_URL, ISCN_PUBLISHERS, ISCN_LICENSES } from './constant';
+import { EXTERNAL_URL } from '../../../constant';
 
 let unconnectedISCNSigningClient;
 let connectedISCNSigningClient;
