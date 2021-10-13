@@ -5,25 +5,23 @@ import { ISCNSigningClient } from '@likecoin/iscn-js';
 import { ISCN_RPC_URL, ISCN_PUBLISHERS, ISCN_LICENSES } from './constant';
 import { EXTERNAL_URL } from '../../../constant';
 
-let unconnectedISCNSigningClient;
-let connectedISCNSigningClient;
+let isConnected;
+let iscnClient;
 
-function getUnconnectedISCNSigningClient() {
-  if (!unconnectedISCNSigningClient) {
-    unconnectedISCNSigningClient = new ISCNSigningClient(ISCN_RPC_URL);
+function getISCNEstimationClient() {
+  if (!iscnClient) {
+    iscnClient = new ISCNSigningClient(ISCN_RPC_URL);
   }
-  return unconnectedISCNSigningClient;
+  return iscnClient;
 }
 
-async function getConnectedISCNSigningClient(signer) {
-  if (!connectedISCNSigningClient) {
-    if (!unconnectedISCNSigningClient) {
-      unconnectedISCNSigningClient = getUnconnectedISCNSigningClient();
-    }
-    await unconnectedISCNSigningClient.connectWithSigner(ISCN_RPC_URL, signer);
-    connectedISCNSigningClient = unconnectedISCNSigningClient;
+async function getISCNSigningClient(signer) {
+  if (!isConnected) {
+    const client = getISCNEstimationClient();
+    await client.connectWithSigner(ISCN_RPC_URL, signer);
+    isConnected = true;
   }
-  return connectedISCNSigningClient;
+  return iscnClient;
 }
 
 function getPublisherISCNPayload(user, { publisher, license }) {
@@ -119,7 +117,7 @@ function preformatISCNPayload(payload) {
 
 export async function calculateISCNTotalFee(tx) {
   const payload = preformatISCNPayload(tx);
-  const client = await getUnconnectedISCNSigningClient();
+  const client = await getISCNEstimationClient();
   const { gas, iscnFee } = await client.esimateISCNTxGasAndFee(payload);
   const ISCNFeeAmount = iscnFee.amount;
   const gasFeeAmount = gas.fee.amount[0].amount;
@@ -129,7 +127,7 @@ export async function calculateISCNTotalFee(tx) {
 
 export async function signISCNTx(tx, signer, address, memo) {
   const payload = preformatISCNPayload(tx);
-  const client = await getConnectedISCNSigningClient(signer);
+  const client = await getISCNSigningClient(signer);
   const res = await client.createISCNRecord(address, payload, { memo });
   return res;
 }
