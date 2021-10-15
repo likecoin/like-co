@@ -1,101 +1,16 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { Tendermint34Client } from '@cosmjs/tendermint-rpc';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { decodeTxRaw } from '@cosmjs/proto-signing';
-import { QueryClient, StargateClient } from '@cosmjs/stargate';
-import { MsgCreateIscnRecord } from '@likecoin/iscn-message-types/dist/iscn/tx';
-import BigNumber from 'bignumber.js';
+import { StargateClient } from '@cosmjs/stargate';
+import { parseISCNTxInfoFromIndexedTx } from '@likecoin/iscn-js';
 
-import setupISCNExtension from './iscnQueryExtension';
 import { timeout } from '@/util/misc';
 import { EXTERNAL_URL } from '@/constant';
 
 const ISCN_RPC_URL = `${EXTERNAL_URL}/api/cosmos/rpc`;
 
-let queryClient;
 let stargateClient;
-
-async function initQueryClient() {
-  const tendermintClient = await Tendermint34Client.connect(ISCN_RPC_URL);
-  const client = QueryClient.withExtensions(
-    tendermintClient,
-    setupISCNExtension,
-  );
-  return client;
-}
-
-export async function getQueryClient() {
-  if (!queryClient) queryClient = await initQueryClient();
-  return queryClient;
-}
 
 export async function getApiClient() {
   if (!stargateClient) stargateClient = await StargateClient.connect(ISCN_RPC_URL);
   return stargateClient;
-}
-
-function parseISCNRecordFields(record) {
-  const {
-    stakeholders,
-    contentMetadata,
-  } = record;
-  return {
-    ...record,
-    stakeholders: stakeholders.map((s) => {
-      if (s) {
-        const sString = Buffer.from(s).toString('utf-8');
-        if (sString) return JSON.parse(sString);
-      }
-      return s;
-    }),
-    contentMetadata: JSON.parse(Buffer.from(contentMetadata).toString('utf-8')),
-  };
-}
-
-export function parseISCNTxInfoFromTxSuccess(tx) {
-  const { transactionHash } = tx;
-  let iscnId;
-  if (tx.rawLog) {
-    const [log] = JSON.parse(tx.rawLog);
-    if (log) {
-      const ev = log.events.find(e => e.type === 'iscn_record');
-      if (ev) iscnId = ev.attributes[0].value;
-    }
-  }
-  return {
-    txHash: transactionHash,
-    iscnId,
-  };
-}
-
-export function parseISCNTxInfoFromIndexedTx(tx) {
-  const { tx: txBytes, rawLog } = tx;
-  const decodedTx = decodeTxRaw(txBytes);
-  const messages = decodedTx.body.messages.map((m) => {
-    if (m.typeUrl === '/likechain.iscn.MsgCreateIscnRecord') {
-      const msg = MsgCreateIscnRecord.decode(m.value);
-      if (msg.record) {
-        msg.record = parseISCNRecordFields(msg.record);
-      }
-      return {
-        ...m,
-        value: msg,
-      };
-    }
-    return null;
-  });
-
-  return {
-    ...tx,
-    logs: JSON.parse(rawLog),
-    tx: {
-      ...decodedTx,
-      body: {
-        ...decodedTx.body,
-        messages: messages.filter(m => m),
-      },
-    },
-  };
 }
 
 export async function getISCNTransferInfo(txHash, opt) {
@@ -205,20 +120,4 @@ export async function getISCNTransactionCompleted(txHash) {
     ts: (new Date(timestamp)).getTime(),
     isFailed: (code && code !== '0') || !success,
   };
-}
-
-export async function queryFeePerByte() {
-  queryClient = await getQueryClient();
-  const res = await queryClient.iscn.params();
-  if (res && res.params && res.params.feePerByte) {
-    const {
-      denom,
-      amount,
-    } = res.params.feePerByte;
-    return {
-      denom,
-      amount: new BigNumber(amount).shiftedBy(-18).toFixed(),
-    };
-  }
-  return 0;
 }
