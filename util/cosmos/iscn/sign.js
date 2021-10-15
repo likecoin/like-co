@@ -79,9 +79,13 @@ function preformatISCNPayload(payload) {
     displayName,
     cosmosWallet,
     fingerprint,
+    name,
+    tags,
     type,
     license,
     publisher,
+    description,
+    url,
   } = payload;
 
   let actualType = 'CreativeWork';
@@ -106,12 +110,16 @@ function preformatISCNPayload(payload) {
   if (fingerprint) contentFingerprints.push(`ipfs://${fingerprint}`);
 
   const preformatedPayload = {
-    ...payload,
+    name,
+    description,
+    url,
+    keywords: [...tags],
+    type: actualType,
     usageInfo,
-    stakeholders,
+    recordNotes: '',
     contentFingerprints,
+    stakeholders,
   };
-  preformatedPayload.type = actualType;
   return preformatedPayload;
 }
 
