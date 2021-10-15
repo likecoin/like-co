@@ -113,7 +113,7 @@ function preformatISCNPayload(payload) {
     name,
     description,
     url,
-    keywords: [...tags],
+    keywords: tags,
     type: actualType,
     usageInfo,
     recordNotes: '',
