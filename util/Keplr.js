@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable prefer-template */
 import network from './cosmos/network';
-import { DEFAULT_GAS_PRICE_NUMBER } from './CosmosHelper';
 import { timeout } from '@/util/misc';
 
 function configToKeplrCoin(denom) {
@@ -63,21 +62,16 @@ class Keplr {
           },
           currencies: network.coinLookup.map(({ viewDenom }) => configToKeplrCoin(viewDenom)),
           feeCurrencies: network.coinLookup.map(({ viewDenom }) => configToKeplrCoin(viewDenom)),
-          // (Optional) The number of the coin type.
-          // This field is only used to fetch the address from ENS.
-          // Ideally, it is recommended to be the same with BIP44 path's coin type.
-          // However, some early chains may choose to use the Cosmos Hub BIP44 path of '118'.
-          // So, this is separated to support such chains.
           coinType: 118,
-          // (Optional) This is used to set the fee of the transaction.
-          // If this field is not provided, Keplr extension will set the default gas price as (low: 0.01, average: 0.025, high: 0.04).
-          // Currently, Keplr doesn't support dynamic calculation of the gas prices based on on-chain data.
-          // Make sure that the gas prices are higher than the minimum gas prices accepted by chain validators and RPC/REST endpoint.
           gasPriceStep: {
             low: 0.01,
-            average: 1,
-            high: DEFAULT_GAS_PRICE_NUMBER,
+            average: 10,
+            high: 1000,
           },
+          features: [
+            'stargate',
+            'ibc-transfer',
+          ],
         });
         await window.keplr.enable(network.id);
 

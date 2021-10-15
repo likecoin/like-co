@@ -3,9 +3,6 @@ import { IS_TESTNET } from '../../constant';
 const mainConfig = {
   id: 'likecoin-mainnet-2',
   name: 'LikeCoin chain',
-  description:
-      'LikeCoin is a Decentralized Publishing Infrastructure for Decentralized Archive, Decentralized Rewards, Decentralized Curation and Decentralized Governance.',
-  logo: 'logo.svg',
   website: 'https://like.co',
   apiURL: 'https://mainnet-node.like.co',
   rpcURL: 'https://mainnet-node.like.co/rpc/',
@@ -21,22 +18,6 @@ const mainConfig = {
     },
   ],
   addressPrefix: 'cosmos',
-  validatorAddressPrefix: 'cosmosvaloper',
-  validatorConsensusaddressPrefix: 'cosmosvalcons',
-  HDPath: "m/44'/118'/0'/0/0",
-  lockUpPeriod: '21 days',
-  fees: {
-    default: {
-      gasEstimate: 350000,
-      feeOptions: [
-        {
-          denom: 'LIKE',
-          amount: '0.00000001',
-        },
-      ],
-    },
-  },
-  icon: 'https://like.co/logo.png',
 };
 
 const testnetConfig = {
