@@ -383,6 +383,7 @@ export default {
       redirect_uri: redirectUri,
       blocking,
       state,
+      opener,
     } = query;
     let {
       remarks = `LIKE pay${agentId ? ` via ${agentId}` : ''}`,
@@ -485,6 +486,7 @@ export default {
         remarks,
         blocking,
         state,
+        opener: opener && opener !== '0',
       };
     }).catch((e) => {
       console.error(e);
@@ -505,6 +507,14 @@ export default {
       'getIsShowingTxPopup',
       'getPendingTxInfo',
     ]),
+    redirectOrigin() {
+      const url = new URL(this.redirectUri, true);
+      return url.origin;
+    },
+    windowOpener() {
+      if (!window) return null;
+      return window.opener;
+    },
     isChainUpgrading() {
       return IS_CHAIN_UPGRADING;
     },
@@ -578,6 +588,9 @@ export default {
     }
     if (!this.getLikeCoinUsdNumericPrice) {
       await this.queryLikeCoinUsdPrice();
+    }
+    if (this.opener && !window.opener) {
+      this.$nuxt.error({ statusCode: 400, message: 'Cannot access window opener' });
     }
     this.isLoading = false;
   },
@@ -701,7 +714,7 @@ export default {
       }
     },
     async postTransaction({ txHash, error } = {}) {
-      if (this.redirectUri) {
+      if (this.opener || this.redirectUri) {
         let success;
         if (this.blocking) {
           const { isFailed } = await getCosmosTransferInfo(txHash, { blocking: true });
@@ -714,8 +727,17 @@ export default {
         if (state) url.query.state = state;
         if (remarks) url.query.remarks = remarks;
         if (success !== undefined) url.query.success = success;
-        url.set('query', url.query);
-        window.location.href = url.toString();
+        if (this.opener) {
+          const message = JSON.stringify({
+            action: 'ARWEAVE_ESTIMATE_SUBMITTED',
+            data: url.query,
+          });
+          this.windowOpener.postMessage(message, this.redirectOrigin);
+          window.close();
+        } else {
+          url.set('query', url.query);
+          window.location.href = url.toString();
+        }
       } else if (this.getIsShowingTxPopup) {
         this.closeTxDialog();
         this.$router.push({
