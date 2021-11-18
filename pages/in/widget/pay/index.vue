@@ -448,7 +448,7 @@ export default {
         error({ statusCode: 400, message: 'RECEIPIENT_HAS_NO_WALLET' });
       }
 
-      if (redirectUri) {
+      if (redirectUri && !opener) {
         if (agentId) {
           const {
             paymentRedirectWhiteList: agentWhiteList = [],
@@ -729,7 +729,7 @@ export default {
         if (success !== undefined) url.query.success = success;
         if (this.opener) {
           const message = JSON.stringify({
-            action: 'ARWEAVE_ESTIMATE_SUBMITTED',
+            action: 'TX_FEE_SUBMITTED',
             data: url.query,
           });
           this.windowOpener.postMessage(message, this.redirectOrigin);
