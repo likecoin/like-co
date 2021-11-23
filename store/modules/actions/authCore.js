@@ -157,3 +157,14 @@ export async function prepareAuthCoreCosmosTxSigner({ state }) {
     },
   };
 }
+
+export async function signAuthCoreAddressProof({ state }) {
+  if (!state.cosmosProvider) throw new Error('COSMOS_WALLET_NOT_INITED');
+  const { cosmosProvider } = state;
+  const [cosmosAddress] = await cosmosProvider.getAddresses();
+  const { signatures, signed } = await cosmosProvider.directSign(cosmosAddress);
+  return {
+    plain_text: signed,
+    ...signatures[0],
+  };
+}

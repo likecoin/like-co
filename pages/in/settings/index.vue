@@ -151,7 +151,10 @@
       class="lc-container-0 lc-margin-top-32"
     >
       <div class="lc-container-1">
-        <div ref="authcore" class="lc-container-2">
+        <div
+          ref="authcore"
+          class="lc-container-2"
+        >
           <no-ssr>
             <div
               v-if="getAuthCoreNeedReAuth || getAuthCoreAccessToken"
@@ -173,7 +176,7 @@
                   v-else-if="getAuthCoreAccessToken"
                 >
                   <md-tabs
-                    :md-active-tab="`authcore-${isShowAuthCoreProfile ? 'profile' : 'settings'}`"
+                    :md-active-tab="authCoreActiveTabId"
                     @md-changed="onAuthCoreSettingTabsChanged"
                   >
                     <md-tab
@@ -184,15 +187,35 @@
                       id="authcore-settings"
                       :md-label="$t('AuthCore.button.settings')"
                     />
+                    <md-tab
+                      id="authcore-proof"
+                      :md-label="$t('AuthCore.button.proof')"
+                    />
                   </md-tabs>
-                  <auth-core-settings
-                    :access-token="getAuthCoreAccessToken"
-                    :is-profile="isShowAuthCoreProfile"
-                    :options="{ internal: true }"
-                    :language="getCurrentLocale"
-                    @profile-updated="onAuthCoreProfileUpdated"
-                    @primary-contact-updated="onAuthCoreProfileUpdated"
-                  />
+                  <template v-if="isShowAuthCoreWidget">
+                    <auth-core-settings
+                      :access-token="getAuthCoreAccessToken"
+                      :is-profile="isShowAuthCoreProfile"
+                      :options="{ internal: true }"
+                      :language="getCurrentLocale"
+                      @profile-updated="onAuthCoreProfileUpdated"
+                      @primary-contact-updated="onAuthCoreProfileUpdated"
+                    />
+                  </template>
+                  <template v-else>
+                    <div>
+                      <textarea
+                        v-model="authCoreProofText"
+                        readonly
+                      />
+                    </div>
+                    <md-button
+                      class="md-likecoin"
+                      @click="onClickAuthCoreGenerateProof"
+                    >
+                      {{ $t('AuthCore.button.generateProof') }}
+                    </md-button>
+                  </template>
                 </div>
               </div>
             </div>
@@ -264,9 +287,11 @@ export default {
       couponCode: '',
       displayName: '',
       email: '',
+      authCoreProofText: '',
       isEmailEnabled: false,
       isEmailPreviouslyEnabled: false,
       isShowEditInAuthCore: false,
+      isShowAuthCoreWidget: true,
       isShowAuthCoreProfile: true,
       isVerifying: false,
       TickIcon,
@@ -308,6 +333,12 @@ export default {
     avatarHalo() {
       return User.getAvatarHaloType(this.getUserInfo);
     },
+    authCoreActiveTabId() {
+      if (this.isShowAuthCoreWidget) {
+        return `authcore-${this.isShowAuthCoreProfile ? 'profile' : 'settings'}`;
+      }
+      return 'authcore-proof';
+    },
   },
   watch: {
     getUserInfo(value) {
@@ -342,6 +373,7 @@ export default {
       'linkSocialPlatform',
       'unlinkSocialPlatform',
       'selectFacebookPageLink',
+      'signAuthCoreAddressProof',
     ]),
     getTestAttribute: getTestAttribute('inSettings'),
     injectPlatformData(platform) {
@@ -480,10 +512,15 @@ export default {
       }
     },
     onAuthCoreSettingTabsChanged(id) {
+      this.isShowAuthCoreWidget = (id === 'authcore-profile' || id === 'authcore-settings');
       this.isShowAuthCoreProfile = id === 'authcore-profile';
     },
     onClickAuthCoreReAuth() {
       this.setReAuthDialogShow(true);
+    },
+    async onClickAuthCoreGenerateProof() {
+      const proof = await this.signAuthCoreAddressProof();
+      this.authCoreProofText = JSON.stringify(proof, null, 2);
     },
     onAuthCoreProfileUpdated() {
       this.syncAuthCoreUser();
