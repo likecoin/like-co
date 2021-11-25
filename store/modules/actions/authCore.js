@@ -3,6 +3,7 @@ import * as types from '@/store/mutation-types';
 import { AUTHCORE_API_HOST } from '@/constant';
 import { makeSignBytes } from '@cosmjs/proto-signing';
 import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import { formatDesmosChainLinkProof } from '../../../util/cosmos/desmos';
 
 const { AuthcoreVaultClient, AuthcoreCosmosProvider } = require('@likecoin/secretd-js');
 
@@ -162,9 +163,11 @@ export async function signAuthCoreAddressProof({ state }) {
   if (!state.cosmosProvider) throw new Error('COSMOS_WALLET_NOT_INITED');
   const { cosmosProvider } = state;
   const [cosmosAddress] = await cosmosProvider.getAddresses();
-  const { signatures, signed } = await cosmosProvider.directSign(cosmosAddress);
-  return {
+  const plaintext = Buffer.from(cosmosAddress).toString('hex');
+  const { signatures, signed } = await cosmosProvider.directSign(plaintext);
+  const proof = {
     plain_text: signed,
     ...signatures[0],
   };
+  return formatDesmosChainLinkProof(cosmosAddress, proof);
 }
