@@ -107,7 +107,15 @@ function preformatISCNPayload(payload) {
   }
 
   const contentFingerprints = [];
-  if (fingerprint) contentFingerprints.push(`ipfs://${fingerprint}`);
+  if (fingerprint) {
+    if (Array.isArray(fingerprint)) {
+      for (let i = 0; i < fingerprint.length; i += 1) {
+        contentFingerprints.push(`ipfs://${fingerprint[i]}`);
+      }
+    } else {
+      contentFingerprints.push(`ipfs://${fingerprint}`);
+    }
+  }
 
   const preformatedPayload = {
     name,

@@ -128,11 +128,18 @@
                   {{ $t('ISCNWidget.label.fingerprint') }}
                 </div>
                 <div class="likepay-panel__section-meta-grid-item-value likepay-panel__section-meta-grid-item-value--fingerprint">
-                  <a
-                    :href="ipfsURL"
-                    target="_blank"
-                    rel="noopener"
-                  >{{ fingerprint }}</a>
+                  <ul id="ipfs=list">
+                    <li
+                      v-for="(item, index) in fingerprint"
+                      :key="index"
+                    >
+                      <a
+                        :href="ipfsURLs[index]"
+                        target="_blank"
+                        rel="noopener"
+                      > {{ item }} <br></a>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
@@ -197,7 +204,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      fingerprint: '',
+      fingerprint: [],
       title: '',
       type: 'article',
       tags: [],
@@ -216,7 +223,6 @@ export default {
     redirect,
   }) {
     const {
-      fingerprint,
       type = 'article',
       tags: tagsString = '',
       publisher,
@@ -225,6 +231,7 @@ export default {
       state,
       url,
     } = query;
+    let { fingerprint } = query;
     let {
       license,
       title,
@@ -233,6 +240,7 @@ export default {
     if (!Object.keys(query).length) {
       return redirect('https://docs.like.co/developer/international-standard-content-number-iscn/web-widget');
     }
+    fingerprint = fingerprint.split(',');
     if (!fingerprint) {
       return error({ statusCode: 400, message: 'INVALID_FINGERPRINT' });
     }
@@ -297,8 +305,12 @@ export default {
       if (!window) return null;
       return window.opener;
     },
-    ipfsURL() {
-      return `https://ipfs.io/ipfs/${this.fingerprint}`;
+    ipfsURLs() {
+      const ipfsList = [];
+      for (let i = 0; i < this.fingerprint.length; i += 1) {
+        ipfsList.push(`https://ipfs.io/ipfs/${this.fingerprint[i]}`);
+      }
+      return ipfsList;
     },
     licenseObj() {
       const { license } = this;
