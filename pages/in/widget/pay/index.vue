@@ -440,39 +440,49 @@ export default {
           paymentRedirectWhiteList,
         };
       });
+      let err = null;
+      let isRedirectURLWhiteListed = false;
       if (agentUser && !agentUser.cosmosWallet) {
-        error({ statusCode: 400, message: 'VIA_USER_HAS_NO_WALLET' });
+        err = err || { statusCode: 400, message: 'VIA_USER_HAS_NO_WALLET' };
       }
-
       if (toUsers.some(u => !u.cosmosWallet)) {
-        error({ statusCode: 400, message: 'RECEIPIENT_HAS_NO_WALLET' });
+        err = err || { statusCode: 400, message: 'RECEIPIENT_HAS_NO_WALLET' };
       }
-
-      if (redirectUri && !opener) {
+      if (redirectUri) {
         if (agentId) {
           const {
             paymentRedirectWhiteList: agentWhiteList = [],
           } = agentUser;
           if (!IS_TESTNET && (!agentWhiteList || !agentWhiteList.length)) {
-            error({ statusCode: 400, message: 'AGENT_NOT_SETUP_PAYMENT_REDIRECT' });
+            err = err || { statusCode: 400, message: 'AGENT_NOT_SETUP_PAYMENT_REDIRECT' };
           }
           if (agentWhiteList.length && !agentWhiteList.includes(redirectUri)) {
-            error({ statusCode: 400, message: 'REDIRECT_URI_NOT_WHITELIST' });
+            err = err || { statusCode: 400, message: 'REDIRECT_URI_NOT_WHITELIST' };
+          }
+          if (agentWhiteList.length && agentWhiteList.includes(redirectUri)) {
+            isRedirectURLWhiteListed = true;
           }
         } else {
           if (toUsers.length > 1) {
-            error({ statusCode: 400, message: 'CANNOT_REDIRECT_MULTIPLE_RECEIPIENTS' });
+            err = err || { statusCode: 400, message: 'CANNOT_REDIRECT_MULTIPLE_RECEIPIENTS' };
           }
           const {
             paymentRedirectWhiteList: userWhiteList = [],
           } = toUsers[0];
           if (!IS_TESTNET && (!userWhiteList || !userWhiteList.length)) {
-            error({ statusCode: 400, message: 'USER_NOT_SETUP_PAYMENT_REDIRECT' });
+            err = err || { statusCode: 400, message: 'USER_NOT_SETUP_PAYMENT_REDIRECT' };
           }
           if (userWhiteList.length && !userWhiteList.includes(redirectUri)) {
-            error({ statusCode: 400, message: 'REDIRECT_URI_NOT_WHITELIST' });
+            err = err || { statusCode: 400, message: 'REDIRECT_URI_NOT_WHITELIST' };
+          }
+          if (userWhiteList.length && userWhiteList.includes(redirectUri)) {
+            isRedirectURLWhiteListed = true;
           }
         }
+      }
+      const shouldThrowRedirectWhitelistError = redirectUri && opener !== '1' && opener !== 1;
+      if (err && shouldThrowRedirectWhitelistError) {
+        error(err);
       }
 
       return {
@@ -487,10 +497,11 @@ export default {
         blocking,
         state,
         opener: opener && opener !== '0',
+        isRedirectURLWhiteListed,
       };
     }).catch((e) => {
       console.error(e);
-      error({ statusCode: 404, message: 'RECEIPIENT_NOT_FOUND' });
+      error({ statusCode: 404, message: e.message });
     });
   },
   head() {
@@ -714,27 +725,33 @@ export default {
       }
     },
     async postTransaction({ txHash, error } = {}) {
-      if (this.opener || this.redirectUri) {
+      if (this.redirectUri) {
         let success;
         if (this.blocking) {
           const { isFailed } = await getCosmosTransferInfo(txHash, { blocking: true });
           success = !isFailed;
         }
         const { state, remarks } = this;
-        const url = new URL(this.redirectUri, true);
-        if (txHash) url.query.tx_hash = txHash;
-        if (error) url.query.error = error;
-        if (state) url.query.state = state;
-        if (remarks) url.query.remarks = remarks;
-        if (success !== undefined) url.query.success = success;
         if (this.opener) {
+          const payload = {};
+          if (txHash) payload.tx_hash = txHash;
+          if (error) payload.error = error;
+          if (state) payload.state = state;
+          if (remarks) payload.remarks = remarks;
+          if (success !== undefined) payload.success = success;
           const message = JSON.stringify({
-            action: 'TX_FEE_SUBMITTED',
-            data: url.query,
+            action: 'TX_SUBMITTED',
+            data: payload,
           });
           this.windowOpener.postMessage(message, this.redirectOrigin);
           window.close();
-        } else {
+        } else if (this.isRedirectURLWhiteListed) {
+          const url = new URL(this.redirectUri, true);
+          if (txHash) url.query.tx_hash = txHash;
+          if (error) url.query.error = error;
+          if (state) url.query.state = state;
+          if (remarks) url.query.remarks = remarks;
+          if (success !== undefined) url.query.success = success;
           url.set('query', url.query);
           window.location.href = url.toString();
         }
