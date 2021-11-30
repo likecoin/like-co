@@ -137,7 +137,7 @@
                         :href="ipfsURLs[index]"
                         target="_blank"
                         rel="noopener"
-                      > {{ item }} <br></a>
+                      >{{ item }}</a>
                     </li>
                   </ul>
                 </div>
