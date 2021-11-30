@@ -440,13 +440,13 @@ export default {
           paymentRedirectWhiteList,
         };
       });
-      let err = null;
+      let redirectWhitelistError = null;
       let isRedirectURLWhiteListed = false;
       if (agentUser && !agentUser.cosmosWallet) {
-        err = err || { statusCode: 400, message: 'VIA_USER_HAS_NO_WALLET' };
+        redirectWhitelistError = redirectWhitelistError || { statusCode: 400, message: 'VIA_USER_HAS_NO_WALLET' };
       }
       if (toUsers.some(u => !u.cosmosWallet)) {
-        err = err || { statusCode: 400, message: 'RECEIPIENT_HAS_NO_WALLET' };
+        redirectWhitelistError = redirectWhitelistError || { statusCode: 400, message: 'RECEIPIENT_HAS_NO_WALLET' };
       }
       if (redirectUri) {
         if (agentId) {
@@ -454,26 +454,26 @@ export default {
             paymentRedirectWhiteList: agentWhiteList = [],
           } = agentUser;
           if (!IS_TESTNET && (!agentWhiteList || !agentWhiteList.length)) {
-            err = err || { statusCode: 400, message: 'AGENT_NOT_SETUP_PAYMENT_REDIRECT' };
+            redirectWhitelistError = redirectWhitelistError || { statusCode: 400, message: 'AGENT_NOT_SETUP_PAYMENT_REDIRECT' };
           }
           if (agentWhiteList.length && !agentWhiteList.includes(redirectUri)) {
-            err = err || { statusCode: 400, message: 'REDIRECT_URI_NOT_WHITELIST' };
+            redirectWhitelistError = redirectWhitelistError || { statusCode: 400, message: 'REDIRECT_URI_NOT_WHITELIST' };
           }
           if (agentWhiteList.length && agentWhiteList.includes(redirectUri)) {
             isRedirectURLWhiteListed = true;
           }
         } else {
           if (toUsers.length > 1) {
-            err = err || { statusCode: 400, message: 'CANNOT_REDIRECT_MULTIPLE_RECEIPIENTS' };
+            redirectWhitelistError = redirectWhitelistError || { statusCode: 400, message: 'CANNOT_REDIRECT_MULTIPLE_RECEIPIENTS' };
           }
           const {
             paymentRedirectWhiteList: userWhiteList = [],
           } = toUsers[0];
           if (!IS_TESTNET && (!userWhiteList || !userWhiteList.length)) {
-            err = err || { statusCode: 400, message: 'USER_NOT_SETUP_PAYMENT_REDIRECT' };
+            redirectWhitelistError = redirectWhitelistError || { statusCode: 400, message: 'USER_NOT_SETUP_PAYMENT_REDIRECT' };
           }
           if (userWhiteList.length && !userWhiteList.includes(redirectUri)) {
-            err = err || { statusCode: 400, message: 'REDIRECT_URI_NOT_WHITELIST' };
+            redirectWhitelistError = redirectWhitelistError || { statusCode: 400, message: 'REDIRECT_URI_NOT_WHITELIST' };
           }
           if (userWhiteList.length && userWhiteList.includes(redirectUri)) {
             isRedirectURLWhiteListed = true;
@@ -481,8 +481,8 @@ export default {
         }
       }
       const shouldThrowRedirectWhitelistError = redirectUri && opener !== '1' && opener !== 1;
-      if (err && shouldThrowRedirectWhitelistError) {
-        error(err);
+      if (redirectWhitelistError && shouldThrowRedirectWhitelistError) {
+        error(redirectWhitelistError);
       }
 
       return {
