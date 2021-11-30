@@ -192,25 +192,26 @@
                       :md-label="$t('AuthCore.button.proof')"
                     />
                   </md-tabs>
-                  <template v-if="isShowAuthCoreWidget">
-                    <auth-core-settings
-                      :access-token="getAuthCoreAccessToken"
-                      :is-profile="isShowAuthCoreProfile"
-                      :options="{ internal: true }"
-                      :language="getCurrentLocale"
-                      @profile-updated="onAuthCoreProfileUpdated"
-                      @primary-contact-updated="onAuthCoreProfileUpdated"
-                    />
-                  </template>
+                  <auth-core-settings
+                    v-if="isShowAuthCoreWidget"
+                    :access-token="getAuthCoreAccessToken"
+                    :is-profile="isShowAuthCoreProfile"
+                    :options="{ internal: true }"
+                    :language="getCurrentLocale"
+                    @profile-updated="onAuthCoreProfileUpdated"
+                    @primary-contact-updated="onAuthCoreProfileUpdated"
+                  />
                   <template v-else>
                     <div>
                       <textarea
                         v-model="authCoreProofText"
+                        class="lc-margin-top-8"
+                        :rows="6"
                         readonly
                       />
                     </div>
                     <md-button
-                      class="md-likecoin"
+                      class="md-likecoin lc-margin-top-8 lc-font-size-18"
                       @click="onClickAuthCoreGenerateProof"
                     >
                       {{ $t('AuthCore.button.generateProof') }}
