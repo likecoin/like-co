@@ -440,14 +440,14 @@ export default {
           paymentRedirectWhiteList,
         };
       });
-      let redirectWhitelistError = null;
-      let isRedirectURLWhiteListed = false;
       if (agentUser && !agentUser.cosmosWallet) {
-        redirectWhitelistError = redirectWhitelistError || { statusCode: 400, message: 'VIA_USER_HAS_NO_WALLET' };
+        error({ statusCode: 400, message: 'VIA_USER_HAS_NO_WALLET' });
       }
       if (toUsers.some(u => !u.cosmosWallet)) {
-        redirectWhitelistError = redirectWhitelistError || { statusCode: 400, message: 'RECEIPIENT_HAS_NO_WALLET' };
+        error({ statusCode: 400, message: 'RECEIPIENT_HAS_NO_WALLET' });
       }
+      let redirectWhitelistError = null;
+      let isRedirectURLWhiteListed = false;
       if (redirectUri) {
         if (agentId) {
           const {
@@ -458,9 +458,6 @@ export default {
           }
           if (agentWhiteList.length && !agentWhiteList.includes(redirectUri)) {
             redirectWhitelistError = redirectWhitelistError || { statusCode: 400, message: 'REDIRECT_URI_NOT_WHITELIST' };
-          }
-          if (agentWhiteList.length && agentWhiteList.includes(redirectUri)) {
-            isRedirectURLWhiteListed = true;
           }
         } else {
           if (toUsers.length > 1) {
@@ -475,12 +472,11 @@ export default {
           if (userWhiteList.length && !userWhiteList.includes(redirectUri)) {
             redirectWhitelistError = redirectWhitelistError || { statusCode: 400, message: 'REDIRECT_URI_NOT_WHITELIST' };
           }
-          if (userWhiteList.length && userWhiteList.includes(redirectUri)) {
-            isRedirectURLWhiteListed = true;
-          }
         }
+        isRedirectURLWhiteListed = !redirectWhitelistError;
       }
-      const shouldThrowRedirectWhitelistError = redirectUri && opener !== '1' && opener !== 1;
+      const noopener = opener !== '1' && opener !== 1;
+      const shouldThrowRedirectWhitelistError = redirectUri && noopener;
       if (redirectWhitelistError && shouldThrowRedirectWhitelistError) {
         error(redirectWhitelistError);
       }
@@ -496,7 +492,7 @@ export default {
         remarks,
         blocking,
         state,
-        opener: opener && opener !== '0',
+        opener: !noopener,
         isRedirectURLWhiteListed,
       };
     }).catch((e) => {
