@@ -134,7 +134,7 @@
                       :key="index"
                     >
                       <a
-                        :href="ipfsURLs[index]"
+                        :href="fingerprintURLs[index]"
                         target="_blank"
                         rel="noopener"
                       >{{ item }}</a>
@@ -305,12 +305,27 @@ export default {
       if (!window) return null;
       return window.opener;
     },
-    ipfsURLs() {
-      const ipfsList = [];
+    fingerprintURLs() {
+      const fingerprintList = [];
       for (let i = 0; i < this.fingerprint.length; i += 1) {
-        ipfsList.push(`https://ipfs.io/ipfs/${this.fingerprint[i]}`);
+        const fingerprintParts = this.fingerprint[i].split('://');
+        let url = '';
+        switch (fingerprintParts[0]) {
+          case 'ipfs':
+            url = `https://ipfs.io/ipfs/${fingerprintParts[1]}`;
+            break;
+          case 'ar':
+            url = `https://arweave.net/${fingerprintParts[1]}`;
+            break;
+          case 'hash':
+            url = `https://mainnet-node.like.co/txs/${fingerprintParts[1]}`;
+            break;
+          default:
+            url = '';
+        }
+        fingerprintList.push(url);
       }
-      return ipfsList;
+      return fingerprintList;
     },
     licenseObj() {
       const { license } = this;

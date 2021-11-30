@@ -110,10 +110,10 @@ function preformatISCNPayload(payload) {
   if (fingerprint) {
     if (Array.isArray(fingerprint)) {
       for (let i = 0; i < fingerprint.length; i += 1) {
-        contentFingerprints.push(`ipfs://${fingerprint[i]}`);
+        contentFingerprints.push(fingerprint[i]);
       }
     } else {
-      contentFingerprints.push(`ipfs://${fingerprint}`);
+      contentFingerprints.push(fingerprint);
     }
   }
 
