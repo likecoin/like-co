@@ -383,6 +383,7 @@ export default {
       redirect_uri: redirectUri,
       blocking,
       state,
+      opener,
     } = query;
     let {
       remarks = `LIKE pay${agentId ? ` via ${agentId}` : ''}`,
@@ -447,31 +448,39 @@ export default {
         error({ statusCode: 400, message: 'RECEIPIENT_HAS_NO_WALLET' });
       }
 
+      let redirectWhitelistError = null;
+      let isRedirectURLWhiteListed = false;
       if (redirectUri) {
         if (agentId) {
           const {
             paymentRedirectWhiteList: agentWhiteList = [],
           } = agentUser;
           if (!IS_TESTNET && (!agentWhiteList || !agentWhiteList.length)) {
-            error({ statusCode: 400, message: 'AGENT_NOT_SETUP_PAYMENT_REDIRECT' });
+            redirectWhitelistError = redirectWhitelistError || { statusCode: 400, message: 'AGENT_NOT_SETUP_PAYMENT_REDIRECT' };
           }
           if (agentWhiteList.length && !agentWhiteList.includes(redirectUri)) {
-            error({ statusCode: 400, message: 'REDIRECT_URI_NOT_WHITELIST' });
+            redirectWhitelistError = redirectWhitelistError || { statusCode: 400, message: 'REDIRECT_URI_NOT_WHITELIST' };
           }
         } else {
           if (toUsers.length > 1) {
-            error({ statusCode: 400, message: 'CANNOT_REDIRECT_MULTIPLE_RECEIPIENTS' });
+            redirectWhitelistError = redirectWhitelistError || { statusCode: 400, message: 'CANNOT_REDIRECT_MULTIPLE_RECEIPIENTS' };
           }
           const {
             paymentRedirectWhiteList: userWhiteList = [],
           } = toUsers[0];
           if (!IS_TESTNET && (!userWhiteList || !userWhiteList.length)) {
-            error({ statusCode: 400, message: 'USER_NOT_SETUP_PAYMENT_REDIRECT' });
+            redirectWhitelistError = redirectWhitelistError || { statusCode: 400, message: 'USER_NOT_SETUP_PAYMENT_REDIRECT' };
           }
           if (userWhiteList.length && !userWhiteList.includes(redirectUri)) {
-            error({ statusCode: 400, message: 'REDIRECT_URI_NOT_WHITELIST' });
+            redirectWhitelistError = redirectWhitelistError || { statusCode: 400, message: 'REDIRECT_URI_NOT_WHITELIST' };
           }
         }
+        isRedirectURLWhiteListed = !redirectWhitelistError;
+      }
+      const hasOpener = opener && opener !== '0';
+      const shouldThrowRedirectWhitelistError = redirectUri && !hasOpener;
+      if (redirectWhitelistError && shouldThrowRedirectWhitelistError) {
+        error(redirectWhitelistError);
       }
 
       return {
@@ -485,10 +494,12 @@ export default {
         remarks,
         blocking,
         state,
+        opener: hasOpener,
+        isRedirectURLWhiteListed,
       };
     }).catch((e) => {
       console.error(e);
-      error({ statusCode: 404, message: 'RECEIPIENT_NOT_FOUND' });
+      error({ statusCode: 404, message: e.message });
     });
   },
   head() {
@@ -505,6 +516,14 @@ export default {
       'getIsShowingTxPopup',
       'getPendingTxInfo',
     ]),
+    redirectOrigin() {
+      const url = new URL(this.redirectUri, true);
+      return url.origin;
+    },
+    windowOpener() {
+      if (!window) return null;
+      return window.opener;
+    },
     isChainUpgrading() {
       return IS_CHAIN_UPGRADING;
     },
@@ -578,6 +597,9 @@ export default {
     }
     if (!this.getLikeCoinUsdNumericPrice) {
       await this.queryLikeCoinUsdPrice();
+    }
+    if (this.opener && !window.opener) {
+      this.$nuxt.error({ statusCode: 400, message: 'Cannot access window opener' });
     }
     this.isLoading = false;
   },
@@ -708,14 +730,29 @@ export default {
           success = !isFailed;
         }
         const { state, remarks } = this;
-        const url = new URL(this.redirectUri, true);
-        if (txHash) url.query.tx_hash = txHash;
-        if (error) url.query.error = error;
-        if (state) url.query.state = state;
-        if (remarks) url.query.remarks = remarks;
-        if (success !== undefined) url.query.success = success;
-        url.set('query', url.query);
-        window.location.href = url.toString();
+        if (this.opener) {
+          const payload = {};
+          if (txHash) payload.tx_hash = txHash;
+          if (error) payload.error = error;
+          if (state) payload.state = state;
+          if (remarks) payload.remarks = remarks;
+          if (success !== undefined) payload.success = success;
+          const message = JSON.stringify({
+            action: 'TX_SUBMITTED',
+            data: payload,
+          });
+          this.windowOpener.postMessage(message, this.redirectOrigin);
+          window.close();
+        } else if (this.isRedirectURLWhiteListed) {
+          const url = new URL(this.redirectUri, true);
+          if (txHash) url.query.tx_hash = txHash;
+          if (error) url.query.error = error;
+          if (state) url.query.state = state;
+          if (remarks) url.query.remarks = remarks;
+          if (success !== undefined) url.query.success = success;
+          url.set('query', url.query);
+          window.location.href = url.toString();
+        }
       } else if (this.getIsShowingTxPopup) {
         this.closeTxDialog();
         this.$router.push({
