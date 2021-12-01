@@ -128,9 +128,9 @@
                   {{ $t('ISCNWidget.label.fingerprint') }}
                 </div>
                 <div class="likepay-panel__section-meta-grid-item-value likepay-panel__section-meta-grid-item-value--fingerprint">
-                  <ul id="ipfs=list">
+                  <ul>
                     <li
-                      v-for="(item, index) in fingerprint"
+                      v-for="(item, index) in fingerprints"
                       :key="index"
                     >
                       <a
@@ -204,7 +204,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      fingerprint: [],
+      fingerprints: [],
       title: '',
       type: 'article',
       tags: [],
@@ -231,7 +231,7 @@ export default {
       state,
       url,
     } = query;
-    let { fingerprint } = query;
+    const { fingerprint } = query;
     let {
       license,
       title,
@@ -240,10 +240,10 @@ export default {
     if (!Object.keys(query).length) {
       return redirect('https://docs.like.co/developer/international-standard-content-number-iscn/web-widget');
     }
-    fingerprint = fingerprint.split(',');
     if (!fingerprint) {
       return error({ statusCode: 400, message: 'INVALID_FINGERPRINT' });
     }
+    const fingerprints = fingerprint.split(',');
     if (publisher) {
       if (!ISCN_PUBLISHERS[publisher]) {
         return error({ statusCode: 400, message: 'INVALID_PUBLISHER' });
@@ -262,7 +262,7 @@ export default {
     }
 
     return {
-      fingerprint,
+      fingerprints,
       title,
       type,
       tags,
@@ -306,10 +306,12 @@ export default {
       return window.opener;
     },
     fingerprintURLs() {
-      const fingerprintList = [];
-      for (let i = 0; i < this.fingerprint.length; i += 1) {
-        const fingerprintParts = this.fingerprint[i].split('://');
-        let url = '';
+      const fingerprintList = this.fingerprints.map((f) => {
+        const fingerprintParts = f.split('://');
+        let url;
+        if (fingerprintParts[0].startsWith('Qm')) {
+          return f; // support old wordpress plugin
+        }
         switch (fingerprintParts[0]) {
           case 'ipfs':
             url = `https://ipfs.io/ipfs/${fingerprintParts[1]}`;
@@ -317,14 +319,11 @@ export default {
           case 'ar':
             url = `https://arweave.net/${fingerprintParts[1]}`;
             break;
-          case 'hash':
-            url = `https://mainnet-node.like.co/txs/${fingerprintParts[1]}`;
-            break;
           default:
             url = '';
         }
-        fingerprintList.push(url);
-      }
+        return url;
+      });
       return fingerprintList;
     },
     licenseObj() {
@@ -337,7 +336,7 @@ export default {
   },
   async mounted() {
     const {
-      fingerprint,
+      fingerprints,
       title,
       tags,
       type,
@@ -350,7 +349,7 @@ export default {
       userId: this.getUserId,
       displayName: this.getUserInfo.displayName,
       cosmosWallet,
-      fingerprint,
+      fingerprints,
       name: title,
       tags,
       type,
@@ -393,7 +392,7 @@ export default {
         }
         const signer = await this.prepareCosmosTxSigner();
         const {
-          fingerprint,
+          fingerprints,
           title,
           tags,
           type,
@@ -405,7 +404,7 @@ export default {
           cosmosWallet,
           userId: this.getUserId,
           displayName: this.getUserInfo.displayName,
-          fingerprint,
+          fingerprints,
           name: title,
           tags,
           type,

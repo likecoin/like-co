@@ -78,7 +78,7 @@ function preformatISCNPayload(payload) {
     userId,
     displayName,
     cosmosWallet,
-    fingerprint,
+    fingerprints,
     name,
     tags,
     type,
@@ -106,14 +106,14 @@ function preformatISCNPayload(payload) {
     default: actualType = 'CreativeWork';
   }
 
-  const contentFingerprints = [];
-  if (fingerprint) {
-    if (Array.isArray(fingerprint)) {
-      for (let i = 0; i < fingerprint.length; i += 1) {
-        contentFingerprints.push(fingerprint[i]);
+  let contentFingerprints = [];
+  if (fingerprints) {
+    if (Array.isArray(fingerprints)) {
+      if (fingerprints[0].startsWith('Qm') && fingerprints[0].length === 46) {
+        contentFingerprints.push(`ipfs://${fingerprints[0]}`);
+      } else {
+        contentFingerprints = contentFingerprints.concat(fingerprints);
       }
-    } else {
-      contentFingerprints.push(fingerprint);
     }
   }
 
