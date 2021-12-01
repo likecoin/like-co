@@ -1758,7 +1758,9 @@
     "button": {
       "profile": "Profile",
       "settings": "Settings",
-      "reAuthNeeded": "Press to reauthenticate"
+      "reAuthNeeded": "Press to reauthenticate",
+      "proof": "Desmos profile",
+      "generateProof": "Generate Desmos chain link proof"
     },
     "Settings": {
       "title": "AuthCore Settings"

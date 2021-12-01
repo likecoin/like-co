@@ -1647,7 +1647,9 @@
     "button": {
       "profile": "個人檔案",
       "settings": "安全設定",
-      "reAuthNeeded": "按此認證身份"
+      "reAuthNeeded": "按此認證身份",
+      "proof": "Desmos profile",
+      "generateProof": "產生 Desmos 地址證明"
     },
     "Settings": {
       "title": "AuthCore 設定"
