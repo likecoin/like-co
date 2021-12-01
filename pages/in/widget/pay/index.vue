@@ -443,9 +443,11 @@ export default {
       if (agentUser && !agentUser.cosmosWallet) {
         error({ statusCode: 400, message: 'VIA_USER_HAS_NO_WALLET' });
       }
+
       if (toUsers.some(u => !u.cosmosWallet)) {
         error({ statusCode: 400, message: 'RECEIPIENT_HAS_NO_WALLET' });
       }
+
       let redirectWhitelistError = null;
       let isRedirectURLWhiteListed = false;
       if (redirectUri) {
@@ -475,8 +477,8 @@ export default {
         }
         isRedirectURLWhiteListed = !redirectWhitelistError;
       }
-      const noopener = opener !== '1' && opener !== 1;
-      const shouldThrowRedirectWhitelistError = redirectUri && noopener;
+      const hasOpener = opener && opener !== '0';
+      const shouldThrowRedirectWhitelistError = redirectUri && !hasOpener;
       if (redirectWhitelistError && shouldThrowRedirectWhitelistError) {
         error(redirectWhitelistError);
       }
@@ -492,7 +494,7 @@ export default {
         remarks,
         blocking,
         state,
-        opener: !noopener,
+        opener: hasOpener,
         isRedirectURLWhiteListed,
       };
     }).catch((e) => {
