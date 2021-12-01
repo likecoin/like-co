@@ -176,7 +176,7 @@
                   v-else-if="getAuthCoreAccessToken"
                 >
                   <md-tabs
-                    :md-active-tab="authCoreActiveTabId"
+                    :md-active-tab="authCoreTabId"
                     @md-changed="onAuthCoreSettingTabsChanged"
                   >
                     <md-tab
@@ -191,6 +191,10 @@
                       id="authcore-proof"
                       :md-label="$t('AuthCore.button.proof')"
                     />
+                    <md-tab
+                      id="authcore-seedword"
+                      :md-label="$t('AuthCore.button.seedWord')"
+                    />
                   </md-tabs>
                   <auth-core-settings
                     v-if="isShowAuthCoreWidget"
@@ -201,7 +205,7 @@
                     @profile-updated="onAuthCoreProfileUpdated"
                     @primary-contact-updated="onAuthCoreProfileUpdated"
                   />
-                  <template v-else>
+                  <template v-else-if="authCoreTabId === 'authcore-proof'">
                     <div>
                       <i18n
                         :path="`AuthCore.Desmos.proofDescription`"
@@ -238,6 +242,7 @@
                       {{ $t('AuthCore.button.generateProof') }}
                     </md-button>
                   </template>
+                  <auth-core-export-seed-words v-else />
                 </div>
               </div>
             </div>
@@ -279,6 +284,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import AuthCoreSettings from '~/components/AuthCore/Settings';
+import AuthCoreExportSeedWords from '~/components/AuthCore/ExportSeedWords';
 
 import {
   W3C_EMAIL_REGEX,
@@ -299,6 +305,7 @@ export default {
   components: {
     CivicLikerCta,
     AuthCoreSettings,
+    AuthCoreExportSeedWords,
     OtherConnectList,
     ExternalLinksPanel,
   },
@@ -315,6 +322,7 @@ export default {
       isShowEditInAuthCore: false,
       isShowAuthCoreWidget: true,
       isShowAuthCoreProfile: true,
+      authCoreTabId: 'authcore-profile',
       isVerifying: false,
       TickIcon,
       W3C_EMAIL_REGEX,
@@ -354,12 +362,6 @@ export default {
     },
     avatarHalo() {
       return User.getAvatarHaloType(this.getUserInfo);
-    },
-    authCoreActiveTabId() {
-      if (this.isShowAuthCoreWidget) {
-        return `authcore-${this.isShowAuthCoreProfile ? 'profile' : 'settings'}`;
-      }
-      return 'authcore-proof';
     },
   },
   watch: {
@@ -534,6 +536,7 @@ export default {
       }
     },
     onAuthCoreSettingTabsChanged(id) {
+      this.authCoreTabId = id;
       this.isShowAuthCoreWidget = (id === 'authcore-profile' || id === 'authcore-settings');
       this.isShowAuthCoreProfile = id === 'authcore-profile';
     },
