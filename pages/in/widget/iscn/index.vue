@@ -128,11 +128,18 @@
                   {{ $t('ISCNWidget.label.fingerprint') }}
                 </div>
                 <div class="likepay-panel__section-meta-grid-item-value likepay-panel__section-meta-grid-item-value--fingerprint">
-                  <a
-                    :href="ipfsURL"
-                    target="_blank"
-                    rel="noopener"
-                  >{{ fingerprint }}</a>
+                  <ul>
+                    <li
+                      v-for="(item, index) in fingerprints"
+                      :key="index"
+                    >
+                      <a
+                        :href="fingerprintURLs[index]"
+                        target="_blank"
+                        rel="noopener"
+                      >{{ item }}</a>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
@@ -197,7 +204,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      fingerprint: '',
+      fingerprints: [],
       title: '',
       type: 'article',
       tags: [],
@@ -236,6 +243,14 @@ export default {
     if (!fingerprint) {
       return error({ statusCode: 400, message: 'INVALID_FINGERPRINT' });
     }
+    let fingerprints = fingerprint.split(',');
+    fingerprints = fingerprints.map((f) => {
+      let contentFingerprint = f;
+      if (f.startsWith('Qm') && f.length === 46) {
+        contentFingerprint = `ipfs://${f}`; // support old wordpress plugin
+      }
+      return contentFingerprint;
+    });
     if (publisher) {
       if (!ISCN_PUBLISHERS[publisher]) {
         return error({ statusCode: 400, message: 'INVALID_PUBLISHER' });
@@ -254,7 +269,7 @@ export default {
     }
 
     return {
-      fingerprint,
+      fingerprints,
       title,
       type,
       tags,
@@ -297,8 +312,23 @@ export default {
       if (!window) return null;
       return window.opener;
     },
-    ipfsURL() {
-      return `https://ipfs.io/ipfs/${this.fingerprint}`;
+    fingerprintURLs() {
+      const fingerprintList = this.fingerprints.map((f) => {
+        const fingerprintParts = f.split('://');
+        let url;
+        switch (fingerprintParts[0]) {
+          case 'ipfs':
+            url = `https://ipfs.io/ipfs/${fingerprintParts[1]}`;
+            break;
+          case 'ar':
+            url = `https://arweave.net/${fingerprintParts[1]}`;
+            break;
+          default:
+            url = '';
+        }
+        return url;
+      });
+      return fingerprintList;
     },
     licenseObj() {
       const { license } = this;
@@ -310,7 +340,7 @@ export default {
   },
   async mounted() {
     const {
-      fingerprint,
+      fingerprints,
       title,
       tags,
       type,
@@ -323,7 +353,7 @@ export default {
       userId: this.getUserId,
       displayName: this.getUserInfo.displayName,
       cosmosWallet,
-      fingerprint,
+      fingerprints,
       name: title,
       tags,
       type,
@@ -366,7 +396,7 @@ export default {
         }
         const signer = await this.prepareCosmosTxSigner();
         const {
-          fingerprint,
+          fingerprints,
           title,
           tags,
           type,
@@ -378,7 +408,7 @@ export default {
           cosmosWallet,
           userId: this.getUserId,
           displayName: this.getUserInfo.displayName,
-          fingerprint,
+          fingerprints,
           name: title,
           tags,
           type,

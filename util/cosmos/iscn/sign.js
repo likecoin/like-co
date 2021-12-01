@@ -78,7 +78,7 @@ function preformatISCNPayload(payload) {
     userId,
     displayName,
     cosmosWallet,
-    fingerprint,
+    fingerprints,
     name,
     tags,
     type,
@@ -106,8 +106,10 @@ function preformatISCNPayload(payload) {
     default: actualType = 'CreativeWork';
   }
 
-  const contentFingerprints = [];
-  if (fingerprint) contentFingerprints.push(`ipfs://${fingerprint}`);
+  let contentFingerprints = [];
+  if (fingerprints) {
+    contentFingerprints = contentFingerprints.concat(fingerprints);
+  }
 
   const preformatedPayload = {
     name,
