@@ -223,6 +223,7 @@ export default {
     redirect,
   }) {
     const {
+      fingerprint,
       type = 'article',
       tags: tagsString = '',
       publisher,
@@ -231,7 +232,6 @@ export default {
       state,
       url,
     } = query;
-    const { fingerprint } = query;
     let {
       license,
       title,
@@ -243,7 +243,16 @@ export default {
     if (!fingerprint) {
       return error({ statusCode: 400, message: 'INVALID_FINGERPRINT' });
     }
-    const fingerprints = fingerprint.split(',');
+    let fingerprints = fingerprint.split(',');
+    fingerprints = fingerprints.map((f) => {
+      let contentFingerprint;
+      if (f.startsWith('Qm') && f.length === 46) {
+        contentFingerprint = `ipfs://${f}`; // support old wordpress plugin
+      } else {
+        contentFingerprint = f;
+      }
+      return contentFingerprint;
+    });
     if (publisher) {
       if (!ISCN_PUBLISHERS[publisher]) {
         return error({ statusCode: 400, message: 'INVALID_PUBLISHER' });
@@ -309,9 +318,6 @@ export default {
       const fingerprintList = this.fingerprints.map((f) => {
         const fingerprintParts = f.split('://');
         let url;
-        if (fingerprintParts[0].startsWith('Qm')) {
-          return f; // support old wordpress plugin
-        }
         switch (fingerprintParts[0]) {
           case 'ipfs':
             url = `https://ipfs.io/ipfs/${fingerprintParts[1]}`;
