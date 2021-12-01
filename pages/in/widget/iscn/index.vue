@@ -245,11 +245,9 @@ export default {
     }
     let fingerprints = fingerprint.split(',');
     fingerprints = fingerprints.map((f) => {
-      let contentFingerprint;
+      let contentFingerprint = f;
       if (f.startsWith('Qm') && f.length === 46) {
         contentFingerprint = `ipfs://${f}`; // support old wordpress plugin
-      } else {
-        contentFingerprint = f;
       }
       return contentFingerprint;
     });
