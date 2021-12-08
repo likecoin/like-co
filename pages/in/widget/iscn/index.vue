@@ -231,6 +231,7 @@ export default {
       opener,
       state,
       url,
+      blocking,
     } = query;
     let {
       license,
@@ -279,6 +280,7 @@ export default {
       opener: opener && opener !== '0',
       state,
       url,
+      blocking,
     };
   },
   head() {
@@ -429,13 +431,17 @@ export default {
     async postTransaction({ txHash, error } = {}) {
       if (this.opener || this.redirectUri) {
         let success;
+        let iscnId;
         if (this.blocking) {
-          const { isFailed } = await getISCNTransferInfo(txHash, { blocking: true });
+          const ISCNTransferInfo = await getISCNTransferInfo(txHash, { blocking: true });
+          const { isFailed } = ISCNTransferInfo;
           success = !isFailed;
+          ({ iscnId } = ISCNTransferInfo);
         }
         const { state } = this;
         const payload = {};
         if (txHash) payload.tx_hash = txHash;
+        if (iscnId) payload.iscnId = iscnId;
         if (error) payload.error = error;
         if (state) payload.state = state;
         if (success !== undefined) payload.success = success;
