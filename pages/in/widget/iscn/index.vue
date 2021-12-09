@@ -280,7 +280,7 @@ export default {
       opener: opener && opener !== '0',
       state,
       url,
-      blocking,
+      blocking: blocking && blocking !== '0',
     };
   },
   head() {
