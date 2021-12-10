@@ -1007,6 +1007,16 @@
       "metamaskWalletNotMatch": "Your wallet address is not the same as current Metamask address."
     }
   },
+  "AuthCoreWidget": {
+    "desmos": {
+      "proof": {
+        "title": "Generate Desmos chain link proof"
+      }
+    },
+    "seedWords": {
+      "title": "Export Seed Words"
+    }
+  },
   "PaymentWidget": {
     "title": "Send",
     "label": {
@@ -1760,11 +1770,10 @@
       "getSeedWords": "Press to show seed words",
       "profile": "Profile",
       "settings": "Settings",
-      "seedWords": "Seed Words",
       "reAuthNeeded": "Press to reauthenticate",
       "authenticate": "Press to authenticate",
-      "proof": "Desmos profile",
-      "generateProof": "Generate Desmos chain link proof"
+      "generateProof": "Generate Desmos chain link proof",
+      "exportSeedWords": "Show Seed Words"
     },
     "Settings": {
       "title": "AuthCore Settings"
