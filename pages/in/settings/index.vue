@@ -187,14 +187,6 @@
                       id="authcore-settings"
                       :md-label="$t('AuthCore.button.settings')"
                     />
-                    <md-tab
-                      id="authcore-proof"
-                      :md-label="$t('AuthCore.button.proof')"
-                    />
-                    <md-tab
-                      id="authcore-seedword"
-                      :md-label="$t('AuthCore.button.seedWord')"
-                    />
                   </md-tabs>
                   <auth-core-settings
                     v-if="isShowAuthCoreWidget"
@@ -205,44 +197,6 @@
                     @profile-updated="onAuthCoreProfileUpdated"
                     @primary-contact-updated="onAuthCoreProfileUpdated"
                   />
-                  <template v-else-if="authCoreTabId === 'authcore-proof'">
-                    <div>
-                      <i18n
-                        :path="`AuthCore.Desmos.proofDescription`"
-                        class="lc-margin-top-8 lc-margin-bottom-8"
-                        tag="p"
-                      >
-                        <a
-                          href="https://desmos.network/"
-                          place="desmos"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                          {{ $t('AuthCore.Desmos.desmos') }}
-                        </a>
-                        <a
-                          href="https://x.forbole.com"
-                          place="forbolex"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                          {{ $t('AuthCore.Desmos.forbolex') }}
-                        </a></i18n>
-                      <textarea
-                        v-model="authCoreProofText"
-                        class="lc-margin-top-8"
-                        :rows="6"
-                        readonly
-                      />
-                    </div>
-                    <md-button
-                      class="md-likecoin lc-margin-top-8 lc-font-size-18"
-                      @click="onClickAuthCoreGenerateProof"
-                    >
-                      {{ $t('AuthCore.button.generateProof') }}
-                    </md-button>
-                  </template>
-                  <auth-core-export-seed-words v-else />
                 </div>
               </div>
             </div>
@@ -284,7 +238,6 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import AuthCoreSettings from '~/components/AuthCore/Settings';
-import AuthCoreExportSeedWords from '~/components/AuthCore/ExportSeedWords';
 
 import {
   W3C_EMAIL_REGEX,
@@ -305,7 +258,6 @@ export default {
   components: {
     CivicLikerCta,
     AuthCoreSettings,
-    AuthCoreExportSeedWords,
     OtherConnectList,
     ExternalLinksPanel,
   },
@@ -316,7 +268,6 @@ export default {
       couponCode: '',
       displayName: '',
       email: '',
-      authCoreProofText: '',
       isEmailEnabled: false,
       isEmailPreviouslyEnabled: false,
       isShowEditInAuthCore: false,
@@ -397,7 +348,6 @@ export default {
       'linkSocialPlatform',
       'unlinkSocialPlatform',
       'selectFacebookPageLink',
-      'signAuthCoreAddressProof',
     ]),
     getTestAttribute: getTestAttribute('inSettings'),
     injectPlatformData(platform) {
@@ -542,10 +492,6 @@ export default {
     },
     onClickAuthCoreReAuth() {
       this.setReAuthDialogShow(true);
-    },
-    async onClickAuthCoreGenerateProof() {
-      const proof = await this.signAuthCoreAddressProof();
-      this.authCoreProofText = JSON.stringify(proof, null, 2);
     },
     onAuthCoreProfileUpdated() {
       this.syncAuthCoreUser();
