@@ -72,6 +72,16 @@
           {{ $t('AuthCore.button.reAuthNeeded') }}
         </button>
       </div>
+      <div v-else-if="seedWords">
+        <button
+          v-clipboard:copy="seedWords"
+          v-clipboard:success="onCopySeedWords"
+          type="button"
+          class="likepay-block-button"
+        >
+          {{ $t(`General.button.${hasCopiedSeedWords ? 'copied' : 'copy'}`) }}
+        </button>
+      </div>
       <div v-else>
         <button
           class="likepay-block-button"
@@ -96,6 +106,7 @@ export default {
   layout: 'likepay',
   data() {
     return {
+      hasCopiedSeedWords: false,
       isLoading: true,
       secretToken: '',
       isPasswordNeeded: false,
@@ -181,6 +192,9 @@ export default {
         console.error(err);
         this.error = err;
       }
+    },
+    onCopySeedWords() {
+      this.hasCopiedSeedWords = true;
     },
   },
 };

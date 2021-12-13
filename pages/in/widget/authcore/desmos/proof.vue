@@ -49,6 +49,16 @@
           {{ $t('AuthCore.button.reAuthNeeded') }}
         </button>
       </div>
+      <div v-else-if="authCoreProofText">
+        <button
+          v-clipboard:copy="authCoreProofText"
+          v-clipboard:success="onCopyProof"
+          type="button"
+          class="likepay-block-button"
+        >
+          {{ $t(`General.button.${hasCopiedProof ? 'copied' : 'copy'}`) }}
+        </button>
+      </div>
       <div v-else>
         <button
           class="likepay-block-button"
@@ -70,6 +80,7 @@ export default {
   layout: 'likepay',
   data() {
     return {
+      hasCopiedProof: false,
       isLoading: false,
       authCoreProofText: '',
     };
@@ -100,6 +111,9 @@ export default {
     },
     onClickAuthCoreReAuth() {
       this.setReAuthDialogShow(true);
+    },
+    onCopyProof() {
+      this.hasCopiedProof = true;
     },
   },
 };
