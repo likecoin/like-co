@@ -1010,7 +1010,10 @@
   "AuthCoreWidget": {
     "desmos": {
       "proof": {
-        "title": "Generate Desmos chain link proof"
+        "title": "Generate Desmos chain link proof",
+        "description": "Generate a proof to link your LikeCoin address to a Desmos profile",
+        "desmosLink": "About Desmos",
+        "chainLinkLink": "Desmos chain link documentation"
       }
     },
     "seedWords": {
@@ -1784,6 +1787,7 @@
       "proofDescription": "Connect your address to {desmos} using {forbolex}"
     },
     "SeedWords": {
+      "seedWordsWarning": "Never share your seed words with anyone or paste it into insecure applications",
       "passwordDescription": "Please enter your Authcore password to export seed words",
       "seedWordsDescription": "Keep your seed word secret or your fund might be stolen!"
     }

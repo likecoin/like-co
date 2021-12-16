@@ -42,6 +42,10 @@ export async function fetchAuthCoreUser({ commit, state }, { authClient } = {}) 
   return user;
 }
 
+export async function forceAuthCoreReAuth({ commit }, forceReAuth = true) {
+  commit(types.AUTHCORE_SET_FORCE_REAUTH, forceReAuth);
+}
+
 export async function setAuthCoreToken({ commit, state, dispatch }, accessToken) {
   commit(types.AUTHCORE_SET_ACCESS_TOKEN, accessToken);
   if (accessToken) {
