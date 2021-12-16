@@ -2,7 +2,7 @@ export const getAuthCoreAccessToken = state => state.accessToken;
 
 export const getAuthCoreNeedReAuth = (state, getters) => {
   const isAuthCore = getters.getUserIsAuthCore;
-  return isAuthCore && !state.accessToken;
+  return isAuthCore && (state.forceReAuth || !state.accessToken);
 };
 
 export const getAuthCoreAuthClient = state => state.authClient;

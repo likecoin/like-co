@@ -18,13 +18,25 @@
       <div class="likepay-panel__header-title">{{ $t('AuthCoreWidget.seedWords.title') }}</div>
     </header>
     <div class="likepay-panel">
-      <section class="likepay-panel__section-container">
+      <section
+        v-if="isShowWarning"
+        class="likepay-panel__section-container"
+      >
+        <div class="likepay-panel__section-meta">
+          <h1>{{ $t('General.label.warning') }}</h1>
+          <p>{{ $t('AuthCore.SeedWords.seedWordsWarning') }}</p>
+          <p>{{ $t('AuthCore.SeedWords.seedWordsDescription') }}</p>
+        </div>
+      </section>
+      <section
+        v-else
+        class="likepay-panel__section-container"
+      >
         <div
           v-if="error"
           class="likepay-panel__section-meta"
         >{{ error.message || error }}</div>
         <div
-          v-if="seedWords"
           class="likepay-panel__section-meta"
         >
           <div class="likepay-panel__section-meta">
@@ -32,28 +44,29 @@
           </div>
           <textarea
             v-model="seedWords"
+            v-if="seedWords"
             class="lc-margin-top-8"
             :rows="6"
             readonly
           />
-        </div>
-        <div
-          v-else-if="isPasswordNeeded"
-          class="likepay-panel__section-meta"
-        >
-          <p>{{ $t('AuthCore.SeedWords.passwordDescription') }}</p>
-          <div>
-            <input
-              v-model="password"
-              v-if="isPasswordNeeded"
-              type="password"
-              required
-            >
-          </div>
+          <input
+            v-model="password"
+            v-if="isPasswordNeeded"
+            type="password"
+            required
+          >
         </div>
       </section></div>
     <footer class="likepay-panel__footer">
-      <div v-if="!getUserIsRegistered">
+      <div v-if="isShowWarning">
+        <button
+          class="likepay-block-button"
+          @click="onClickAgreeWarning"
+        >
+          {{ $t('General.accept') }}
+        </button>
+      </div>
+      <div v-else-if="!getUserIsRegistered">
         <button
           class="likepay-block-button"
           @click="onClickSignInButton"
@@ -107,8 +120,10 @@ export default {
   data() {
     return {
       hasCopiedSeedWords: false,
-      isLoading: true,
+      isLoading: false,
+      isInited: false,
       secretToken: '',
+      isShowWarning: true,
       isPasswordNeeded: false,
       password: '',
       seedWords: '',
@@ -129,20 +144,23 @@ export default {
   },
   async mounted() {
     this.error = '';
-    this.checkStatus();
+    this.checkAuthCoreStatus();
   },
   methods: {
     ...mapActions([
       'popupAuthDialogInPlace',
       'setReAuthDialogShow',
-      'signAuthCoreAddressProof',
+      'forceAuthCoreReAuth',
     ]),
-    async checkStatus() {
+    async checkAuthCoreStatus() {
+      this.isLoading = true;
       try {
         const authClient = this.getAuthCoreAuthClient;
-        const res = await authClient.startSecretdExportAuthentication();
-        this.isPasswordNeeded = res.challenges.includes('PASSWORD');
-        this.isLoading = false;
+        if (authClient) {
+          const res = await authClient.startSecretdExportAuthentication();
+          this.isPasswordNeeded = res.challenges.includes('PASSWORD');
+          this.isInited = true;
+        }
       } catch (err) {
         // If the user resets his password via forget password flow
         // (not via user setting as that requires old password) recently,
@@ -151,6 +169,10 @@ export default {
         console.error(err);
         this.error = err;
       }
+      this.isLoading = false;
+    },
+    async onClickAgreeWarning() {
+      this.isShowWarning = false;
     },
     onClickSignInButton() {
       this.popupAuthDialogInPlace({ route: this.$route, isSignIn: true });
@@ -160,38 +182,41 @@ export default {
     },
     async onClickAuthenticate() {
       this.error = '';
-      await this.getAccessToken();
-      await this.exportSeedWords();
-    },
-    async getAccessToken() {
       try {
-        const authClient = this.getAuthCoreAuthClient;
-        if (this.isPasswordNeeded) {
-          const res = await authClient.authenticateSecretdWithPassword(this.password);
-          this.secretToken = res.secretd_access_token;
-        } else {
-          const res = await authClient.authenticateSecretdWithNoPassword();
-          this.secretToken = res.secretd_access_token;
+        if (!this.isInited) {
+          await this.checkAuthCoreStatus();
+        }
+        if (this.isInited && !this.error) {
+          await this.getAccessToken();
+          await this.exportSeedWords();
         }
       } catch (err) {
         console.error(err);
         this.error = err;
       }
     },
-    async exportSeedWords() {
-      try {
-        if (!this.secretToken) this.error = 'NOT_AUTHENTICATED';
-        const vaultClient = new AuthcoreVaultClient({
-          apiBaseURL: AUTHCORE_API_HOST,
-          accessToken: this.secretToken,
-        });
-        const cosmosProvider = new AuthcoreCosmosProvider({ client: vaultClient });
-        const seeds = await cosmosProvider.exportMnemonic();
-        this.seedWords = seeds;
-      } catch (err) {
-        console.error(err);
-        this.error = err;
+    async getAccessToken() {
+      const authClient = this.getAuthCoreAuthClient;
+      if (this.isPasswordNeeded) {
+        if (!this.password) {
+          throw new Error('PLEASE_ENTER_AUTHCORE_PASSWORD');
+        }
+        const res = await authClient.authenticateSecretdWithPassword(this.password);
+        this.secretToken = res.secretd_access_token;
+      } else {
+        const res = await authClient.authenticateSecretdWithNoPassword();
+        this.secretToken = res.secretd_access_token;
       }
+    },
+    async exportSeedWords() {
+      if (!this.secretToken) throw new Error('NOT_AUTHENTICATED');
+      const vaultClient = new AuthcoreVaultClient({
+        apiBaseURL: AUTHCORE_API_HOST,
+        accessToken: this.secretToken,
+      });
+      const cosmosProvider = new AuthcoreCosmosProvider({ client: vaultClient });
+      const seeds = await cosmosProvider.exportMnemonic();
+      this.seedWords = seeds;
     },
     onCopySeedWords() {
       this.hasCopiedSeedWords = true;

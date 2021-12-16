@@ -3,7 +3,9 @@ import { AuthCoreAuthClient } from 'authcore-js';
 import { AUTHCORE_API_HOST } from '@/constant';
 import * as types from '@/store/mutation-types';
 
-export default async ({ store }) => {
+export default async ({ store, route }) => {
+  // HACK: Force a Authcore login if recovering seedwords
+  if (route.name.includes('seedword')) return;
   if (window && window.localStorage) {
     const accessToken = window.localStorage.getItem('authcore.accessToken');
     if (accessToken) {

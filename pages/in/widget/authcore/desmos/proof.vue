@@ -20,12 +20,27 @@
     <div class="likepay-panel">
       <section class="likepay-panel__section-container">
         <div class="likepay-panel__section-meta">
+          <p>{{ $t('AuthCoreWidget.desmos.proof.description') }}</p>
+        </div>
+        <div class="likepay-panel__section-meta">
           <textarea
             v-model="authCoreProofText"
             class="lc-margin-top-8"
             :rows="6"
             readonly
           />
+        </div>
+        <div class="likepay-panel__section-meta">
+          <p><a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://desmos.network/"
+          >{{ $t('AuthCoreWidget.desmos.proof.desmosLink') }}</a></p>
+          <p><a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://docs.desmos.network/developers/types/profiles/chain-link/#1-create-the-ownership-proofs"
+          >{{ $t('AuthCoreWidget.desmos.proof.chainLinkLink') }}</a></p>
         </div>
       </section>
     </div>

@@ -7,6 +7,7 @@ import {
   AUTHCORE_SET_COSMOS_PROVIDER,
   AUTHCORE_SET_OAUTH_FACTORS,
   AUTHCORE_SET_CURRENT_USER,
+  AUTHCORE_SET_FORCE_REAUTH,
 } from '../mutation-types';
 import * as actions from './actions/authCore';
 import * as getters from './getters/authCore';
@@ -18,11 +19,13 @@ const state = () => ({
   cosmosProvider: null,
   oAuthFactors: [],
   currentUser: {},
+  forceReAuth: false,
 });
 
 const mutations = {
   [AUTHCORE_SET_ACCESS_TOKEN](state, accessToken) {
     state.accessToken = accessToken;
+    state.forceReAuth = false;
   },
   [AUTHCORE_SET_AUTH_CLIENT](state, authClient) {
     state.authClient = authClient;
@@ -38,6 +41,9 @@ const mutations = {
   },
   [AUTHCORE_SET_CURRENT_USER](state, currentUser) {
     state.currentUser = currentUser;
+  },
+  [AUTHCORE_SET_FORCE_REAUTH](state, forceReAuth) {
+    state.forceReAuth = forceReAuth;
   },
 };
 
