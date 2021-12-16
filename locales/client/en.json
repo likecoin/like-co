@@ -256,8 +256,9 @@
   "Home": {
     "Header": {
       "button": {
-        "signIn": "Sign In",
-        "signUp": "Sign Up"
+        "signIn": "Liker ID Sign In",
+        "signUp": "Sign Up",
+        "keplr": "Keplr Sign In"
       }
     },
     "Flag": {

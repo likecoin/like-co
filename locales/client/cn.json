@@ -256,8 +256,9 @@
     "Home": {
         "Header": {
             "button": {
-                "signIn": "登入",
-                "signUp": "注册"
+                "signIn": "Liker ID 登入",
+                "signUp": "注册 Liker ID",
+                "keplr": "Keplr 登入"
             }
         },
         "Flag": {

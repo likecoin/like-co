@@ -301,6 +301,14 @@
       <div v-if="!getUserIsRegistered">
         <button
           class="likepay-block-button"
+          @click="onClickSignInKeplrButton"
+        >
+          {{ $t('Home.Header.button.keplr') }}
+        </button>
+      </div>
+      <div v-if="!getUserIsRegistered">
+        <button
+          class="likepay-block-button"
           @click="onClickSignInButton"
         >
           {{ $t('Home.Header.button.signIn') }}
@@ -614,6 +622,8 @@ export default {
       'queryLikeCoinUsdPrice',
       'fetchCurrentCosmosWallet',
       'prepareCosmosTxSigner',
+      'loginUser',
+      'loginByCosmosWallet',
     ]),
     toggleDetails() {
       const isCollapsing = !this.showDetails;
@@ -763,6 +773,17 @@ export default {
     },
     onClickSignInButton() {
       this.popupAuthDialogInPlace({ route: this.$route, isSignIn: true });
+    },
+    async onClickSignInKeplrButton() {
+      this.currentTab = 'loading';
+      try {
+        this.signInPayload = await this.loginByCosmosWallet('keplr');
+        await this.loginUser({
+          ...this.signInPayload,
+        });
+      } catch (err) {
+        console.error(err);
+      }
     },
     onClickAuthCoreReAuth() {
       this.setReAuthDialogShow(true);
