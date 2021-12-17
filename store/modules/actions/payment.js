@@ -167,11 +167,6 @@ export function setDefaultCosmosWalletSource({ commit }, defaultCosmosWalletSour
     }
   }
 }
-export async function connectToKeplr({ dispatch }, source) {
-  const hasKeplrAtWindow = await Keplr.initKeplr();
-  if (hasKeplrAtWindow) dispatch('setDefaultCosmosWalletSource', 'keplr');
-  return { cosmosWalletSource: source };
-}
 
 export function clearDefaultCosmosWalletSource({ commit }) {
   commit(types.PAYMENT_SET_COSMOS_WALLET_SOURCE, '');

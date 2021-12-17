@@ -298,7 +298,7 @@
       </section>
     </div>
     <footer class="likepay-panel__footer">
-      <div v-if="!getUserIsRegistered && !getCosmosWalletSource">
+      <div v-if="!getUserIsRegistered && !isUsingKeplr">
         <button
           class="likepay-block-button"
           @click="onClickConnectKeplrButton"
@@ -306,7 +306,7 @@
           {{ $t('Home.Header.button.keplr') }}
         </button>
       </div>
-      <div v-if="!getUserIsRegistered && !getCosmosWalletSource">
+      <div v-if="!getUserIsRegistered && !isUsingKeplr">
         <button
           class="likepay-block-button"
           @click="onClickSignInButton"
@@ -354,6 +354,7 @@ import User from '@/util/User';
 import {
   apiGetUserMinById,
 } from '@/util/api/api';
+import Keplr from '@/util/Keplr';
 
 const URL = require('url-parse');
 
@@ -377,6 +378,7 @@ export default {
       state: '',
       gasFee: '',
       isNonLikerKeplrConnected: false,
+      isUsingKeplr: false,
     };
   },
   async asyncData({
@@ -524,7 +526,6 @@ export default {
       'getAuthCoreNeedReAuth',
       'getIsShowingTxPopup',
       'getPendingTxInfo',
-      'getCosmosWalletSource',
     ]),
     redirectOrigin() {
       const url = new URL(this.redirectUri, true);
@@ -624,8 +625,6 @@ export default {
       'queryLikeCoinUsdPrice',
       'fetchCurrentCosmosWallet',
       'prepareCosmosTxSigner',
-      'loginUser',
-      'connectToKeplr',
     ]),
     toggleDetails() {
       const isCollapsing = !this.showDetails;
@@ -670,7 +669,12 @@ export default {
       try {
         const { cosmosWallet } = this.getUserInfo;
         const amount = new BigNumber(this.totalAmount);
-        const from = await this.fetchCurrentCosmosWallet();
+        let from;
+        if (this.isUsingKeplr) {
+          from = await Keplr.getWalletAddress();
+        } else {
+          from = await this.fetchCurrentCosmosWallet();
+        }
         if (!from) {
           throw new Error('PLEASE_RELOGIN');
         }
@@ -783,12 +787,11 @@ export default {
     },
     async onClickConnectKeplrButton() {
       this.currentTab = 'loading';
-      await this.connectToKeplr();
-      const hasKeplrWalletAtWindow = !!this.getCosmosWalletSource;
-      if (!hasKeplrWalletAtWindow) {
-        throw new Error('NO_KEPLR_WALLET_FOUND_AT_WINDOW');
+      this.isUsingKeplr = await Keplr.initKeplr();
+      if (!this.isUsingKeplr) {
+        throw new Error('FAILED_CONNECT_TO_KEPLR');
       }
-      return hasKeplrWalletAtWindow;
+      return this.isUsingKeplr;
     },
     onClickAuthCoreReAuth() {
       this.setReAuthDialogShow(true);

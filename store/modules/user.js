@@ -23,7 +23,6 @@ import * as getters from './getters/user';
 
 const state = () => ({
   user: {},
-  keplr: {},
   wallet: '',
   isFetching: false,
   preAuthRoute: null,
