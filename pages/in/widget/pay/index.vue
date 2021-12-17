@@ -298,15 +298,15 @@
       </section>
     </div>
     <footer class="likepay-panel__footer">
-      <div v-if="!getUserIsRegistered && !getIsKeplrConnected">
+      <div v-if="!getUserIsRegistered && !getCosmosWalletSource">
         <button
           class="likepay-block-button"
-          @click="onClickSignInKeplrButton"
+          @click="onClickConnectKeplrButton"
         >
           {{ $t('Home.Header.button.keplr') }}
         </button>
       </div>
-      <div v-if="!getUserIsRegistered && !getIsKeplrConnected">
+      <div v-if="!getUserIsRegistered && !getCosmosWalletSource">
         <button
           class="likepay-block-button"
           @click="onClickSignInButton"
@@ -376,6 +376,7 @@ export default {
       blocking: false,
       state: '',
       gasFee: '',
+      isNonLikerKeplrConnected: false,
     };
   },
   async asyncData({
@@ -523,7 +524,7 @@ export default {
       'getAuthCoreNeedReAuth',
       'getIsShowingTxPopup',
       'getPendingTxInfo',
-      'getIsKeplrConnected',
+      'getCosmosWalletSource',
     ]),
     redirectOrigin() {
       const url = new URL(this.redirectUri, true);
@@ -624,7 +625,7 @@ export default {
       'fetchCurrentCosmosWallet',
       'prepareCosmosTxSigner',
       'loginUser',
-      'loginByCosmosWallet',
+      'connectToKeplr',
     ]),
     toggleDetails() {
       const isCollapsing = !this.showDetails;
@@ -674,9 +675,8 @@ export default {
           throw new Error('PLEASE_RELOGIN');
         }
         const userWallet = cosmosWallet;
-        let isNonLikerKeplr = false;
-        if (userWallet === undefined && from) {
-          isNonLikerKeplr = true;
+        if (!this.getUserIsRegistered && from) {
+          this.isNonLikerKeplrConnected = true;
         }
         if (userWallet !== undefined && from !== userWallet) {
           this.setErrorMsg(this.$t('Transaction.error.authcoreWalletNotMatch'));
@@ -707,7 +707,7 @@ export default {
             values.push(this.agentFee);
           }
           txHash = await this.sendCosmosPayment({
-            isNonLikerKeplr,
+            isNonLikerKeplrConnected: this.isNonLikerKeplrConnected,
             signer,
             from,
             tos,
@@ -719,7 +719,7 @@ export default {
           });
         } else {
           txHash = await this.sendCosmosPayment({
-            isNonLikerKeplr,
+            isNonLikerKeplrConnected: this.isNonLikerKeplrConnected,
             signer,
             from,
             to,
@@ -781,13 +781,14 @@ export default {
     onClickSignInButton() {
       this.popupAuthDialogInPlace({ route: this.$route, isSignIn: true });
     },
-    async onClickSignInKeplrButton() {
+    async onClickConnectKeplrButton() {
       this.currentTab = 'loading';
-      try {
-        this.signInPayload = await this.loginByCosmosWallet('keplr');
-      } catch (err) {
-        console.error(err);
+      await this.connectToKeplr();
+      const hasKeplrWalletAtWindow = !!this.getCosmosWalletSource;
+      if (!hasKeplrWalletAtWindow) {
+        throw new Error('NO_KEPLR_WALLET_FOUND_AT_WINDOW');
       }
+      return hasKeplrWalletAtWindow;
     },
     onClickAuthCoreReAuth() {
       this.setReAuthDialogShow(true);

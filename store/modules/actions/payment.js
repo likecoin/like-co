@@ -19,7 +19,7 @@ export async function sendCosmosPayment(
     signer,
     isWait = true,
     showDialogAction = true,
-    isNonLikerKeplr,
+    isNonLikerKeplrConnected,
     ...payload
   },
 ) {
@@ -50,7 +50,7 @@ export async function sendCosmosPayment(
         memo,
       }, signer));
     }
-    if (metadata && !isNonLikerKeplr) await api.apiPostTxMetadata(txHash, metadata);
+    if (metadata && !isNonLikerKeplrConnected) await api.apiPostTxMetadata(txHash, metadata);
     commit(types.UI_START_LOADING_TX, { isWait });
     commit(types.UI_SET_HIDE_TX_DIALOG_ACTION, !showDialogAction);
     commit(types.PAYMENT_SET_PENDING_HASH, txHash);
@@ -166,6 +166,11 @@ export function setDefaultCosmosWalletSource({ commit }, defaultCosmosWalletSour
       window.localStorage.removeItem('defaultCosmosWalletSource');
     }
   }
+}
+export async function connectToKeplr({ dispatch }, source) {
+  const hasKeplrAtWindow = await Keplr.initKeplr();
+  if (hasKeplrAtWindow) dispatch('setDefaultCosmosWalletSource', 'keplr');
+  return { cosmosWalletSource: source };
 }
 
 export function clearDefaultCosmosWalletSource({ commit }) {

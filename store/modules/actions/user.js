@@ -188,7 +188,7 @@ export async function loginUserBySign({ state, dispatch }) {
   return true;
 }
 
-export async function loginByCosmosWallet({ commit, dispatch }, source) {
+export async function loginByCosmosWallet({ dispatch }, source) {
   let payload;
   switch (source) {
     case 'keplr': {
@@ -197,7 +197,6 @@ export async function loginByCosmosWallet({ commit, dispatch }, source) {
         await Keplr.getWalletAddress(),
         s => Keplr.signLogin(s),
       );
-      commit(types.USER_SET_KEPLR, { keplr: payload });
       dispatch('setDefaultCosmosWalletSource', 'keplr');
       break;
     }

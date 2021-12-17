@@ -10,8 +10,6 @@ export const getUserId = state => (state.user || {}).user;
 
 export const getUserIsRegistered = state => !!state.user.user;
 
-export const getIsKeplrConnected = state => !!state.keplr.from;
-
 export const getUserIsInBonusCoolDown = state => state.user.bonusCooldown;
 
 export const getUserHasWallet = state => !!(state.user.wallet || state.user.cosmosWallet);
