@@ -9,6 +9,7 @@ import {
   USER_SET_AUTH_PLATFORMS,
   USER_SET_SOCIAL,
   USER_SET_SOCIAL_DETAILS,
+  USER_SET_KEPLR,
   USER_LINK_SOCIAL,
   USER_UNLINK_SOCIAL,
   USER_SET_LIKECOIN_AMOUNT_OBJECT,
@@ -23,6 +24,7 @@ import * as getters from './getters/user';
 
 const state = () => ({
   user: {},
+  keplr: {},
   wallet: '',
   isFetching: false,
   preAuthRoute: null,
@@ -69,6 +71,11 @@ const mutations = {
     state.platforms = platforms;
     state.links = links;
     state.socialMeta = meta;
+  },
+  [USER_SET_KEPLR](state, {
+    keplr,
+  }) {
+    state.keplr = keplr;
   },
   [USER_LINK_SOCIAL](state, payload) {
     const {

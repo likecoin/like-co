@@ -298,7 +298,7 @@
       </section>
     </div>
     <footer class="likepay-panel__footer">
-      <div v-if="!getUserIsRegistered">
+      <div v-if="!getUserIsRegistered && !getIsKeplrConnected">
         <button
           class="likepay-block-button"
           @click="onClickSignInKeplrButton"
@@ -306,7 +306,7 @@
           {{ $t('Home.Header.button.keplr') }}
         </button>
       </div>
-      <div v-if="!getUserIsRegistered">
+      <div v-if="!getUserIsRegistered && !getIsKeplrConnected">
         <button
           class="likepay-block-button"
           @click="onClickSignInButton"
@@ -523,6 +523,7 @@ export default {
       'getAuthCoreNeedReAuth',
       'getIsShowingTxPopup',
       'getPendingTxInfo',
+      'getIsKeplrConnected',
     ]),
     redirectOrigin() {
       const url = new URL(this.redirectUri, true);
@@ -673,7 +674,11 @@ export default {
           throw new Error('PLEASE_RELOGIN');
         }
         const userWallet = cosmosWallet;
-        if (from !== userWallet) {
+        let isNonLikerKeplr = false;
+        if (userWallet === undefined && from) {
+          isNonLikerKeplr = true;
+        }
+        if (userWallet !== undefined && from !== userWallet) {
           this.setErrorMsg(this.$t('Transaction.error.authcoreWalletNotMatch'));
           throw new Error('VALIDATION_FAIL');
         }
@@ -702,6 +707,7 @@ export default {
             values.push(this.agentFee);
           }
           txHash = await this.sendCosmosPayment({
+            isNonLikerKeplr,
             signer,
             from,
             tos,
@@ -713,6 +719,7 @@ export default {
           });
         } else {
           txHash = await this.sendCosmosPayment({
+            isNonLikerKeplr,
             signer,
             from,
             to,
@@ -778,9 +785,6 @@ export default {
       this.currentTab = 'loading';
       try {
         this.signInPayload = await this.loginByCosmosWallet('keplr');
-        await this.loginUser({
-          ...this.signInPayload,
-        });
       } catch (err) {
         console.error(err);
       }

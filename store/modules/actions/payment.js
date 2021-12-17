@@ -19,6 +19,7 @@ export async function sendCosmosPayment(
     signer,
     isWait = true,
     showDialogAction = true,
+    isNonLikerKeplr,
     ...payload
   },
 ) {
@@ -49,7 +50,7 @@ export async function sendCosmosPayment(
         memo,
       }, signer));
     }
-    if (metadata) await api.apiPostTxMetadata(txHash, metadata);
+    if (metadata && !isNonLikerKeplr) await api.apiPostTxMetadata(txHash, metadata);
     commit(types.UI_START_LOADING_TX, { isWait });
     commit(types.UI_SET_HIDE_TX_DIALOG_ACTION, !showDialogAction);
     commit(types.PAYMENT_SET_PENDING_HASH, txHash);
