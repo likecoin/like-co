@@ -3,7 +3,6 @@ import BigNumber from 'bignumber.js';
 import { ISCNSigningClient } from '@likecoin/iscn-js';
 
 import { ISCN_RPC_URL, ISCN_PUBLISHERS, ISCN_LICENSES } from './constant';
-import { EXTERNAL_URL } from '../../../constant';
 
 let isConnected;
 let iscnClient;
@@ -28,6 +27,7 @@ function getPublisherISCNPayload(user, { publisher, license }) {
   const {
     userId,
     displayName,
+    cosmosWallet,
   } = user;
   let usageInfo;
   const stakeholders = [];
@@ -41,7 +41,7 @@ function getPublisherISCNPayload(user, { publisher, license }) {
       } = ISCN_PUBLISHERS.matters;
       stakeholders.push({
         entity: {
-          id,
+          '@id': id,
           name,
           description,
         },
@@ -50,25 +50,6 @@ function getPublisherISCNPayload(user, { publisher, license }) {
       });
       usageInfo = `ipfs://${ISCN_LICENSES[mattersLicense]['/']}`;
     }
-      break;
-    case 'wordpress': {
-      const {
-        description,
-        name,
-        license: wordpressLicense,
-      } = ISCN_PUBLISHERS.wordpress;
-      stakeholders.push({
-        entity: {
-          id: `${EXTERNAL_URL}`,
-          name,
-          description,
-        },
-        rewardProportion: 0,
-        contributionType: 'http://schema.org/publisher',
-      });
-      usageInfo = `ipfs://${ISCN_LICENSES[wordpressLicense]['/']}`;
-    }
-      break;
     // eslint-disable-next-line no-fallthrough
     default: {
       switch (license) {
@@ -80,8 +61,16 @@ function getPublisherISCNPayload(user, { publisher, license }) {
   if (userId && displayName) {
     stakeholders.unshift({
       entity: {
-        id: `${EXTERNAL_URL}/${userId}`,
+        '@id': userId,
         name: displayName,
+      },
+      rewardProportion: 1,
+      contributionType: 'http://schema.org/author',
+    });
+  } else if (cosmosWallet) {
+    stakeholders.unshift({
+      entity: {
+        '@id': `did:cosmos:${cosmosWallet.split('cosmos')[1]}`,
       },
       rewardProportion: 1,
       contributionType: 'http://schema.org/author',

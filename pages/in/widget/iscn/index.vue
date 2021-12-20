@@ -344,9 +344,15 @@ export default {
     },
     licenseObj() {
       const { license } = this;
+      let url = '';
+      let displayName = '';
+      if (license) {
+        url = `https://ipfs.io/ipfs/${ISCN_LICENSES[license]['/']}`;
+        displayName = this.$t(`${this.license}`);
+      }
       return {
-        displayName: this.$t(`${this.license}`),
-        url: `https://ipfs.io/ipfs/${ISCN_LICENSES[license]['/']}`,
+        displayName,
+        url,
       };
     },
   },
