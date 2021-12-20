@@ -50,22 +50,42 @@ function getPublisherISCNPayload(user, { publisher, license }) {
       });
       usageInfo = `ipfs://${ISCN_LICENSES[mattersLicense]['/']}`;
     }
+      break;
+    case 'wordpress': {
+      const {
+        description,
+        name,
+        license: wordpressLicense,
+      } = ISCN_PUBLISHERS.wordpress;
+      stakeholders.push({
+        entity: {
+          id: `${EXTERNAL_URL}`,
+          name,
+          description,
+        },
+        rewardProportion: 0,
+        contributionType: 'http://schema.org/publisher',
+      });
+      usageInfo = `ipfs://${ISCN_LICENSES[wordpressLicense]['/']}`;
+    }
+      break;
     // eslint-disable-next-line no-fallthrough
     default: {
       switch (license) {
         default:
           if (!usageInfo) usageInfo = `ipfs://${ISCN_LICENSES.default['/']}`;
       }
-      stakeholders.unshift({
-        entity: {
-          id: `${EXTERNAL_URL}/${userId}`,
-          name: displayName,
-        },
-        rewardProportion: 1,
-        contributionType: 'http://schema.org/author',
-      });
-      break;
     }
+  }
+  if (userId && displayName) {
+    stakeholders.unshift({
+      entity: {
+        id: `${EXTERNAL_URL}/${userId}`,
+        name: displayName,
+      },
+      rewardProportion: 1,
+      contributionType: 'http://schema.org/author',
+    });
   }
   return {
     usageInfo,
