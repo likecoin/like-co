@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js';
 import { ISCNSigningClient } from '@likecoin/iscn-js';
 
 import { ISCN_RPC_URL, ISCN_PUBLISHERS, ISCN_LICENSES } from './constant';
+import { EXTERNAL_URL } from '../../../constant';
 
 let isConnected;
 let iscnClient;
@@ -61,7 +62,7 @@ function getPublisherISCNPayload(user, { publisher, license }) {
   if (userId && displayName) {
     stakeholders.unshift({
       entity: {
-        '@id': userId,
+        '@id': `${EXTERNAL_URL}/${userId}`,
         name: displayName,
       },
       rewardProportion: 1,

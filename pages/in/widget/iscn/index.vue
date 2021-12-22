@@ -395,8 +395,6 @@ export default {
       'fetchCurrentCosmosWallet',
       'prepareCosmosTxSigner',
       'calculateISCNTxTotalFee',
-      'loginUser',
-      'loginByCosmosWallet',
     ]),
     async submitTransfer() {
       this.isLoading = true;

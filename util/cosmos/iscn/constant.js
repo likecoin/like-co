@@ -7,19 +7,11 @@ export const ISCN_PUBLISHERS = {
     id: 'https://matters.news/',
     name: 'Matters',
   },
-  wordpress: {
-    license: 'wordpress',
-    description: 'WordPress (WP, WordPress.org) is a free and open-source content management system',
-    name: 'WordPress',
-  },
 };
 
 export const ISCN_LICENSES = {
   matters: {
     '/': 'QmRvpQiiLA8ttSLAXEd5RArmXeG4qWEsKPmrB7KeiLSuE4',
-  },
-  wordpress: {
-    '/': 'QmZhRNkZaSnhDr6gBC22zwhTjsGyUx39tm8gjFYnTr2SjN',
   },
   default: {
     '/': 'QmZhRNkZaSnhDr6gBC22zwhTjsGyUx39tm8gjFYnTr2SjN',
