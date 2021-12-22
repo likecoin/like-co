@@ -149,7 +149,15 @@
 
     </div>
     <footer class="likepay-panel__footer">
-      <div v-if="!getUserIsRegistered">
+      <div v-if="!getUserIsRegistered && !isUsingKeplr">
+        <button
+          class="likepay-block-button"
+          @click="onClickConnectKeplrButton"
+        >
+          {{ $t('Home.Header.button.keplr') }}
+        </button>
+      </div>
+      <div v-if="!getUserIsRegistered && !isUsingKeplr">
         <button
           class="likepay-block-button"
           @click="onClickSignInButton"
@@ -195,6 +203,7 @@ import { getISCNTransferInfo } from '@/util/cosmos/iscn/query';
 import { LIKER_LAND_URL } from '@/constant';
 
 import User from '@/util/User';
+import Keplr from '@/util/Keplr';
 
 const URL = require('url-parse');
 
@@ -215,6 +224,7 @@ export default {
       memo: '',
       url: '',
       ISCNTotalFee: 0.00,
+      isUsingKeplr: false,
     };
   },
   async asyncData({
@@ -334,9 +344,15 @@ export default {
     },
     licenseObj() {
       const { license } = this;
+      let url = '';
+      let displayName = '';
+      if (license) {
+        url = `https://ipfs.io/ipfs/${ISCN_LICENSES[license]['/']}`;
+        displayName = this.$t(`${this.license}`);
+      }
       return {
-        displayName: this.$t(`${this.license}`),
-        url: `https://ipfs.io/ipfs/${ISCN_LICENSES[license]['/']}`,
+        displayName,
+        url,
       };
     },
   },
@@ -387,12 +403,17 @@ export default {
         const showDialogAction = !this.redirectUri;
         const isWait = !!this.blocking;
 
-        const from = await this.fetchCurrentCosmosWallet();
+        let from;
+        if (this.isUsingKeplr) {
+          from = await Keplr.getWalletAddress();
+        } else {
+          from = await this.fetchCurrentCosmosWallet();
+        }
         if (!from) {
           throw new Error('PLEASE_RELOGIN');
         }
         const userWallet = cosmosWallet;
-        if (from !== userWallet) {
+        if (userWallet !== undefined && from !== userWallet) {
           this.setErrorMsg(this.$t('Transaction.error.authcoreWalletNotMatch'));
           throw new Error('VALIDATION_FAIL');
         }
@@ -407,9 +428,9 @@ export default {
           url,
         } = this;
         const txHash = await this.sendISCNSignature({
-          cosmosWallet,
-          userId: this.getUserId,
-          displayName: this.getUserInfo.displayName,
+          cosmosWallet: cosmosWallet || from,
+          userId: this.getUserId || '',
+          displayName: this.getUserInfo.displayName || '',
           fingerprints,
           name: title,
           tags,
@@ -468,6 +489,14 @@ export default {
     },
     onClickSignInButton() {
       this.popupAuthDialogInPlace({ route: this.$route, isSignIn: true });
+    },
+    async onClickConnectKeplrButton() {
+      this.currentTab = 'loading';
+      this.isUsingKeplr = await Keplr.initKeplr();
+      if (!this.isUsingKeplr) {
+        throw new Error('FAILED_CONNECT_TO_KEPLR');
+      }
+      return this.isUsingKeplr;
     },
     onClickAuthCoreReAuth() {
       this.setReAuthDialogShow(true);

@@ -28,6 +28,7 @@ function getPublisherISCNPayload(user, { publisher, license }) {
   const {
     userId,
     displayName,
+    cosmosWallet,
   } = user;
   let usageInfo;
   const stakeholders = [];
@@ -41,7 +42,7 @@ function getPublisherISCNPayload(user, { publisher, license }) {
       } = ISCN_PUBLISHERS.matters;
       stakeholders.push({
         entity: {
-          id,
+          '@id': id,
           name,
           description,
         },
@@ -56,16 +57,25 @@ function getPublisherISCNPayload(user, { publisher, license }) {
         default:
           if (!usageInfo) usageInfo = `ipfs://${ISCN_LICENSES.default['/']}`;
       }
-      stakeholders.unshift({
-        entity: {
-          id: `${EXTERNAL_URL}/${userId}`,
-          name: displayName,
-        },
-        rewardProportion: 1,
-        contributionType: 'http://schema.org/author',
-      });
-      break;
     }
+  }
+  if (userId && displayName) {
+    stakeholders.unshift({
+      entity: {
+        '@id': `${EXTERNAL_URL}/${userId}`,
+        name: displayName,
+      },
+      rewardProportion: 1,
+      contributionType: 'http://schema.org/author',
+    });
+  } else if (cosmosWallet) {
+    stakeholders.unshift({
+      entity: {
+        '@id': `did:cosmos:${cosmosWallet.split('cosmos')[1]}`,
+      },
+      rewardProportion: 1,
+      contributionType: 'http://schema.org/author',
+    });
   }
   return {
     usageInfo,
