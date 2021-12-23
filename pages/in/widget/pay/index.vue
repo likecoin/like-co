@@ -298,14 +298,14 @@
       </section>
     </div>
     <footer class="likepay-panel__footer">
-      <!-- <div v-if="!getUserIsRegistered && !isUsingKeplr">
+      <div v-if="!getUserIsRegistered && !isUsingKeplr">
         <button
           class="likepay-block-button"
           @click="onClickConnectKeplrButton"
         >
           {{ $t('Home.Header.button.keplr') }}
         </button>
-      </div> -->
+      </div>
       <div v-if="!getUserIsRegistered && !isUsingKeplr">
         <button
           class="likepay-block-button"

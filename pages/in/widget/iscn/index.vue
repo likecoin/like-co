@@ -388,7 +388,6 @@ export default {
     ...mapActions([
       'popupAuthDialogInPlace',
       'setReAuthDialogShow',
-      'doUserAuth',
       'sendISCNSignature',
       'setErrorMsg',
       'closeTxDialog',
