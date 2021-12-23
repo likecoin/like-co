@@ -92,7 +92,7 @@ export async function newUser({ commit, dispatch }, data) {
     { slient: true, error: 'raw' },
   );
   if (data.cosmosWalletSource) {
-    dispatch('setDefaultCosmosWalletSource', data.cosmosWalletSource);
+    dispatch('setDefaultCosmosWalletSource', { source: data.cosmosWalletSource });
   }
   await dispatch('refreshUser');
   return true;
@@ -131,7 +131,7 @@ export async function loginUser({ dispatch }, data) {
   await api.apiLoginUser(data);
   await dispatch('refreshUser');
   if (data.cosmosWalletSource) {
-    dispatch('setDefaultCosmosWalletSource', data.cosmosWalletSource);
+    dispatch('setDefaultCosmosWalletSource', { source: data.cosmosWalletSource });
   }
   return true;
 }

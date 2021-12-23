@@ -19,7 +19,6 @@ export async function sendCosmosPayment(
     signer,
     isWait = true,
     showDialogAction = true,
-    isNonLikerKeplrConnected,
     ...payload
   },
 ) {
@@ -50,7 +49,7 @@ export async function sendCosmosPayment(
         memo,
       }, signer));
     }
-    if (metadata && !isNonLikerKeplrConnected) await api.apiPostTxMetadata(txHash, metadata);
+    if (metadata) await api.apiPostTxMetadata(txHash, metadata);
     commit(types.UI_START_LOADING_TX, { isWait });
     commit(types.UI_SET_HIDE_TX_DIALOG_ACTION, !showDialogAction);
     commit(types.PAYMENT_SET_PENDING_HASH, txHash);
@@ -157,11 +156,11 @@ export async function queryTxHistoryByUserId({ commit, dispatch }, { id, ts, cou
   return apiWrapper({ commit, dispatch }, api.apiQueryTxHistoryByUserId(id, ts, count));
 }
 
-export function setDefaultCosmosWalletSource({ commit }, defaultCosmosWalletSource) {
-  commit(types.PAYMENT_SET_COSMOS_WALLET_SOURCE, defaultCosmosWalletSource);
-  if (window.localStorage) {
-    if (defaultCosmosWalletSource) {
-      window.localStorage.setItem('defaultCosmosWalletSource', defaultCosmosWalletSource);
+export function setDefaultCosmosWalletSource({ commit }, { source, persistent = true }) {
+  commit(types.PAYMENT_SET_COSMOS_WALLET_SOURCE, source);
+  if (persistent && window.localStorage) {
+    if (source) {
+      window.localStorage.setItem('defaultCosmosWalletSource', source);
     } else {
       window.localStorage.removeItem('defaultCosmosWalletSource');
     }
