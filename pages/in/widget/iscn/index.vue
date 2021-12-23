@@ -395,6 +395,7 @@ export default {
       'fetchCurrentCosmosWallet',
       'prepareCosmosTxSigner',
       'calculateISCNTxTotalFee',
+      'setDefaultCosmosWalletSource',
     ]),
     async submitTransfer() {
       this.isLoading = true;
@@ -403,12 +404,7 @@ export default {
         const showDialogAction = !this.redirectUri;
         const isWait = !!this.blocking;
 
-        let from;
-        if (this.isUsingKeplr) {
-          from = await Keplr.getWalletAddress();
-        } else {
-          from = await this.fetchCurrentCosmosWallet();
-        }
+        const from = await this.fetchCurrentCosmosWallet();
         if (!from) {
           throw new Error('PLEASE_RELOGIN');
         }
@@ -492,11 +488,12 @@ export default {
     },
     async onClickConnectKeplrButton() {
       this.currentTab = 'loading';
-      this.isUsingKeplr = await Keplr.initKeplr();
-      if (!this.isUsingKeplr) {
+      const res = await Keplr.initKeplr();
+      if (!res) {
         throw new Error('FAILED_CONNECT_TO_KEPLR');
       }
-      return this.isUsingKeplr;
+      this.setDefaultCosmosWalletSource({ source: 'keplr', persistent: false });
+      this.isUsingKeplr = true;
     },
     onClickAuthCoreReAuth() {
       this.setReAuthDialogShow(true);

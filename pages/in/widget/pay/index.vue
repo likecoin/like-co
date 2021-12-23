@@ -377,7 +377,6 @@ export default {
       blocking: false,
       state: '',
       gasFee: '',
-      isNonLikerKeplrConnected: false,
       isUsingKeplr: false,
     };
   },
@@ -625,6 +624,7 @@ export default {
       'queryLikeCoinUsdPrice',
       'fetchCurrentCosmosWallet',
       'prepareCosmosTxSigner',
+      'setDefaultCosmosWalletSource',
     ]),
     toggleDetails() {
       const isCollapsing = !this.showDetails;
@@ -669,19 +669,11 @@ export default {
       try {
         const { cosmosWallet } = this.getUserInfo;
         const amount = new BigNumber(this.totalAmount);
-        let from;
-        if (this.isUsingKeplr) {
-          from = await Keplr.getWalletAddress();
-        } else {
-          from = await this.fetchCurrentCosmosWallet();
-        }
+        const from = await this.fetchCurrentCosmosWallet();
         if (!from) {
           throw new Error('PLEASE_RELOGIN');
         }
         const userWallet = cosmosWallet;
-        if (!this.getUserIsRegistered && from) {
-          this.isNonLikerKeplrConnected = true;
-        }
         if (userWallet !== undefined && from !== userWallet) {
           this.setErrorMsg(this.$t('Transaction.error.authcoreWalletNotMatch'));
           throw new Error('VALIDATION_FAIL');
@@ -711,7 +703,6 @@ export default {
             values.push(this.agentFee);
           }
           txHash = await this.sendCosmosPayment({
-            isNonLikerKeplrConnected: this.isNonLikerKeplrConnected,
             signer,
             from,
             tos,
@@ -723,7 +714,6 @@ export default {
           });
         } else {
           txHash = await this.sendCosmosPayment({
-            isNonLikerKeplrConnected: this.isNonLikerKeplrConnected,
             signer,
             from,
             to,
@@ -787,11 +777,12 @@ export default {
     },
     async onClickConnectKeplrButton() {
       this.currentTab = 'loading';
-      this.isUsingKeplr = await Keplr.initKeplr();
-      if (!this.isUsingKeplr) {
+      const res = await Keplr.initKeplr();
+      if (!res) {
         throw new Error('FAILED_CONNECT_TO_KEPLR');
       }
-      return this.isUsingKeplr;
+      this.setDefaultCosmosWalletSource({ source: 'keplr', persistent: false });
+      this.isUsingKeplr = true;
     },
     onClickAuthCoreReAuth() {
       this.setReAuthDialogShow(true);
