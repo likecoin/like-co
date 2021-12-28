@@ -109,11 +109,19 @@ class Keplr {
 
   async signLogin(signPayload) {
     await this.checkIfInited();
+    if (!window.keplr) throw new Error('CANNOT_FIND_KEPLR');
+    window.keplr.defaultOptions = window.keplr.defaultOptions || {};
+    const originalConfig = window.keplr.defaultOptions.sign || {};
+    window.keplr.defaultOptions.sign = {
+      ...originalConfig,
+      preferNoSetFee: true,
+      preferNoSetMemo: true,
+    };
     const message = {
       chain_id: network.id,
       memo: signPayload,
       msgs: [],
-      fee: { gas: '1', amount: { denom: 'nanolike', amount: '0' } },
+      fee: { gas: '1', amount: [{ denom: 'nanolike', amount: '0' }] },
       sequence: '0',
       account_number: '0',
     };
@@ -121,6 +129,7 @@ class Keplr {
       this.internalGetWalletAddress(),
       message,
     );
+    window.keplr.defaultOptions.sign = originalConfig;
     return { message, ...payload };
   }
 
