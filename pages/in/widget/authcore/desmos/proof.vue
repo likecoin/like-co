@@ -20,7 +20,27 @@
     <div class="likepay-panel">
       <section class="likepay-panel__section-container">
         <div class="likepay-panel__section-meta">
-          <p>{{ $t('AuthCoreWidget.desmos.proof.description') }}</p>
+          <i18n
+            :path="`AuthCore.Desmos.proofDescription`"
+            class="lc-margin-top-8 lc-margin-bottom-8"
+            tag="p"
+          >
+            <a
+              href="https://desmos.network/"
+              place="desmos"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              {{ $t('AuthCore.Desmos.desmos') }}
+            </a>
+            <a
+              href="https://x.forbole.com"
+              place="forbolex"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              {{ $t('AuthCore.Desmos.forbolex') }}
+            </a></i18n>
         </div>
         <div class="likepay-panel__section-meta">
           <textarea
@@ -30,19 +50,6 @@
             readonly
           />
         </div>
-        <div class="likepay-panel__section-meta">
-          <p><a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://desmos.network/"
-          >{{ $t('AuthCoreWidget.desmos.proof.desmosLink') }}</a></p>
-          <p><a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://docs.desmos.network/developers/types/profiles/chain-link/#1-create-the-ownership-proofs"
-          >{{ $t('AuthCoreWidget.desmos.proof.chainLinkLink') }}</a></p>
-        </div>
-      </section>
     </div>
     <footer class="likepay-panel__footer">
       <div v-if="!getUserIsRegistered">
