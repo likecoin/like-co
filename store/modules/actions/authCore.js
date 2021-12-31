@@ -163,11 +163,14 @@ export async function signAuthCoreAddressProof({ state }) {
   if (!state.cosmosProvider) throw new Error('COSMOS_WALLET_NOT_INITED');
   const { cosmosProvider } = state;
   const [cosmosAddress] = await cosmosProvider.getAddresses();
-  const plaintext = Buffer.from(cosmosAddress).toString('hex');
-  const { signatures, signed } = await cosmosProvider.directSign(plaintext);
+  const { signatures, signed } = await cosmosProvider.directSign(cosmosAddress);
+  const plaintext = Buffer.from(signed).toString('hex');
+  const [{ signature, pub_key: pubKey }] = signatures;
+  const signatureHex = Buffer.from(signature, 'base64').toString('hex');
   const proof = {
-    plain_text: signed,
-    ...signatures[0],
+    plain_text: plaintext,
+    pub_key: pubKey,
+    signature: signatureHex,
   };
   return formatDesmosChainLinkProof(cosmosAddress, proof);
 }
