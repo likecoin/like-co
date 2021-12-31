@@ -203,6 +203,27 @@
                   />
                   <template v-else>
                     <div>
+                      <i18n
+                        :path="`AuthCore.Desmos.proofDescription`"
+                        class="lc-margin-top-8 lc-margin-bottom-8"
+                        tag="p"
+                      >
+                        <a
+                          href="https://desmos.network/"
+                          place="desmos"
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                          {{ $t('AuthCore.Desmos.desmos') }}
+                        </a>
+                        <a
+                          href="https://x.forbole.com"
+                          place="forbolex"
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                          {{ $t('AuthCore.Desmos.forbolex') }}
+                        </a></i18n>
                       <textarea
                         v-model="authCoreProofText"
                         class="lc-margin-top-8"

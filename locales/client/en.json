@@ -1765,6 +1765,11 @@
     },
     "Settings": {
       "title": "AuthCore Settings"
+    },
+    "Desmos": {
+      "desmos": "Desmos network",
+      "forbolex": "Forbole X",
+      "proofDescription": "Connect your address to {desmos} using {forbolex}"
     }
   },
   "CivicLikerReferral": {
