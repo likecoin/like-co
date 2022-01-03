@@ -50,6 +50,7 @@
             readonly
           />
         </div>
+      </section>
     </div>
     <footer class="likepay-panel__footer">
       <div v-if="!getUserIsRegistered">
