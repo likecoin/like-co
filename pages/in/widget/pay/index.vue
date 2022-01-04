@@ -666,16 +666,18 @@ export default {
       this.isLoading = true;
       this.isSigning = true;
       try {
-        const { cosmosWallet } = this.getUserInfo;
         const amount = new BigNumber(this.totalAmount);
         const from = await this.fetchCurrentCosmosWallet();
         if (!from) {
           throw new Error('PLEASE_RELOGIN');
         }
-        const userWallet = cosmosWallet;
-        if (userWallet !== undefined && from !== userWallet) {
-          this.setErrorMsg(this.$t('Transaction.error.authcoreWalletNotMatch'));
-          throw new Error('VALIDATION_FAIL');
+        if (!this.isUsingKeplr) {
+          const { cosmosWallet } = this.getUserInfo;
+          const userWallet = cosmosWallet;
+          if (userWallet !== undefined && from !== userWallet) {
+            this.setErrorMsg(this.$t('Transaction.error.authcoreWalletNotMatch'));
+            throw new Error('VALIDATION_FAIL');
+          }
         }
         const to = this.toUsers[0].cosmosWallet;
         if (from === to) {
