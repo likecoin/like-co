@@ -5,6 +5,8 @@ import * as types from '@/store/mutation-types';
 import {
   transfer as transferCosmos,
   transferMultiple as transferCosmosMultiple,
+  sign as signCosmos,
+  broadcast as broadcastCosmos,
 } from '@/util/CosmosHelper';
 import {
   signISCNTx,
@@ -31,6 +33,7 @@ export async function sendCosmosPayment(
       values,
       memo,
       metadata,
+      isWordPressSideBar = false,
     } = payload;
     let txHash;
     let included;
@@ -41,21 +44,40 @@ export async function sendCosmosPayment(
         values,
         memo,
       }, signer));
+    } else if (!isWordPressSideBar) {
+      ({ txHash, included } = await transferCosmos(
+        {
+          from,
+          to,
+          value,
+          memo,
+        },
+        signer,
+      ));
     } else {
-      ({ txHash, included } = await transferCosmos({
-        from,
-        to,
-        value,
-        memo,
-      }, signer));
+      const txRaw = await signCosmos(
+        {
+          from,
+          to,
+          value,
+          memo,
+        },
+        signer,
+      );
+      if (txRaw) {
+        commit(types.UI_SET_SIGN_FINISH);
+        ({ txHash, included } = await broadcastCosmos(to, txRaw));
+      }
     }
     if (metadata) await api.apiPostTxMetadata(txHash, metadata);
-    commit(types.UI_START_LOADING_TX, { isWait });
-    commit(types.UI_SET_HIDE_TX_DIALOG_ACTION, !showDialogAction);
-    commit(types.PAYMENT_SET_PENDING_HASH, txHash);
-    commit(types.PAYMENT_SET_PENDING_TX_INFO, { from, to, value });
-    if (isWait) await included();
-    commit(types.UI_STOP_LOADING_TX);
+    if (!isWordPressSideBar) {
+      commit(types.UI_START_LOADING_TX, { isWait });
+      commit(types.UI_SET_HIDE_TX_DIALOG_ACTION, !showDialogAction);
+      commit(types.PAYMENT_SET_PENDING_HASH, txHash);
+      commit(types.PAYMENT_SET_PENDING_TX_INFO, { from, to, value });
+      if (isWait) await included();
+      commit(types.UI_STOP_LOADING_TX);
+    }
     return txHash;
   } catch (error) {
     commit(types.UI_STOP_ALL_LOADING);
@@ -105,43 +127,48 @@ export async function sendISCNSignature(
     ...payload
   },
 ) {
-  try {
-    const {
-      userId,
-      displayName,
-      fingerprints,
-      name,
-      tags,
-      type,
-      license,
-      publisher,
-      memo,
-      description,
-      cosmosWallet,
-    } = payload;
-    const { transactionHash } = await signISCNTx({
-      userId,
-      displayName,
-      fingerprints,
-      name,
-      tags,
-      type,
-      license,
-      publisher,
-      description,
-      cosmosWallet,
-    }, signer, cosmosWallet, memo);
+  console.log('IN sendISCNSignature');
+  // try {
+  const {
+    userId,
+    displayName,
+    fingerprints,
+    name,
+    tags,
+    type,
+    license,
+    publisher,
+    memo,
+    description,
+    cosmosWallet,
+    isWordPressSideBar = false,
+  } = payload;
+  console.log(payload);
+  const { transactionHash } = await signISCNTx({
+    userId,
+    displayName,
+    fingerprints,
+    name,
+    tags,
+    type,
+    license,
+    publisher,
+    description,
+    cosmosWallet,
+  }, signer, cosmosWallet, memo);
+  console.log('transactionHash: ', transactionHash);
+  if (!isWordPressSideBar) {
     commit(types.UI_START_LOADING_TX);
     commit(types.UI_SET_HIDE_TX_DIALOG_ACTION, !showDialogAction);
     commit(types.PAYMENT_SET_PENDING_HASH, transactionHash);
-    // if (isWait) await included();
     commit(types.UI_STOP_LOADING_TX);
-    return transactionHash;
-  } catch (error) {
-    commit(types.UI_STOP_ALL_LOADING);
-    commit(types.UI_ERROR_MSG, error.message || error);
-    throw error;
   }
+  return transactionHash;
+  // } catch (error) {
+  //   commit(types.UI_STOP_ALL_LOADING);
+  //   commit(types.UI_ERROR_MSG, error.message || error);
+  //   throw error;
+  // }
 }
 
 export const closeTxToolbar = ({ commit }) => {

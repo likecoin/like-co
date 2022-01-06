@@ -36,6 +36,8 @@ export const getWeb3Type = state => state.web3Type;
 
 export const getTxDialogType = state => state.txDialogType;
 
+export const getIsSignFinishedState = state => state.isSignFinished;
+
 export const getTxDialogHideAction = state => state.txDialogHideAction;
 
 export const getTxDialogActionRoute = state => state.txDialogActionRoute;
