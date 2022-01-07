@@ -50,6 +50,41 @@
     </div>
   </div>
   <div
+    v-else-if="mainStatus === 'directRegisterISCN'"
+    key="loading"
+    class="likepay-body likepay-body--center"
+  >
+    <div class="wordpress-panel">
+      <section class="likepay-panel__section-container">
+        <header class="likepay-panel__section-header">
+          <IconStar />
+          <div class="likepay-panel__header-title" style="margin-right: auto; color: #28646E; padding-left: 10px">{{ 'Sign  (1/1)' }}</div>
+        </header>
+
+        <div class="likepay-panel__section-meta">
+          <div style="text-align: center"> <h3 style="color: #9B9B9B; margin: 0 -6px">Please sign with your wallet. </h3></div>
+        </div>
+        <div class="likepay-panel__section-meta">
+          <div style="width: 32px; border: 2px solid #EBEBEB; background-color:#EBEBEB"> </div>
+        </div>
+        <div class="likepay-panel__section-meta" style="margin-top: 5px; display: flex; flex-direction: row;">
+          <div class="likepay-panel__section-meta-label"> Fee </div>
+          <div style="margin-left: 75px;"> {{ ISCNTotalFee }} LIKE </div>
+        </div>
+      </section>
+      <section style="display: flex; flex-direction: row; padding: 10px 10px 30px 10px">
+        <button
+          style="
+            color: #4A4A4A; border-radius: 12px; border: 2px solid #9B9B9B; margin: auto;
+            padding: 10px 16px; background-color: white; cursor: pointer;"
+          @click="submitISCNTransfer"
+        >
+          Retry
+        </button>
+      </section>
+    </div>
+  </div>
+  <div
     v-else-if="getIsSignFinishedState"
     key="loading"
     class="likepay-body likepay-body--center"
@@ -180,7 +215,7 @@ import {
 } from '@/util/api/api';
 import Keplr from '@/util/Keplr';
 import { getISCNTransferInfo } from '@/util/cosmos/iscn/query';
-// const API_POST_ARWEAVE_UPLOAD = '/arweave/upload';
+import { ISCN_LICENSES, ISCN_PUBLISHERS } from '@/util/cosmos/iscn/constant';
 
 const URL = require('url-parse');
 
@@ -205,10 +240,12 @@ export default {
       mainStatus: 'initial',
       fingerprints: [],
       title: '',
+      type: 'article',
       tags: [],
-      url: '',
       license: '',
+      publisher: '',
       memo: '',
+      url: '',
       ISCNTotalFee: 0.00,
     };
   },
@@ -226,11 +263,39 @@ export default {
       blocking,
       state,
       opener,
-      title,
+      fingerprint,
+      tags: tagsString = '',
+      url,
+      publisher,
     } = query;
     let {
-      remarks = `LIKE pay${agentId ? ` via ${agentId}` : ''}`,
+      remarks = `LIKE pay${agentId ? ` via ${agentId}` : ''}`, title, license,
     } = query;
+    const tags = tagsString ? tagsString.split(',') : [];
+    let fingerprints = fingerprint ? fingerprint.split(',') : [];
+    fingerprints = fingerprints.map((f) => {
+      let contentFingerprint = f;
+      if (f.startsWith('Qm') && f.length === 46) {
+        contentFingerprint = `ipfs://${f}`; // support old wordpress plugin
+      }
+      return contentFingerprint;
+    });
+    if (publisher) {
+      if (!ISCN_PUBLISHERS[publisher]) {
+        return error({ statusCode: 400, message: 'INVALID_PUBLISHER' });
+      }
+      ({ license } = ISCN_PUBLISHERS[publisher]);
+    }
+    if (license) {
+      if (!ISCN_LICENSES[license]) {
+        return error({ statusCode: 400, message: 'INVALID_LICENSE' });
+      }
+    } else {
+      license = ISCN_PUBLISHERS.default;
+    }
+    if (title) {
+      title = title.substring(0, 255);
+    }
     if (!Object.keys(query).length) {
       return redirect('https://docs.like.co/developer/like-pay/web-widget/reference');
     }
@@ -340,6 +405,11 @@ export default {
         opener: hasOpener,
         isRedirectURLWhiteListed,
         title,
+        tags,
+        url,
+        fingerprints,
+        license,
+        publisher,
       };
     }).catch((e) => {
       console.error(e);
@@ -362,9 +432,7 @@ export default {
       'getIsSignFinishedState',
     ]),
     redirectOrigin() {
-      console.log('this.redirectUri: ', this.redirectUri);
       const url = new URL(this.redirectUri, true);
-      console.log('url: ', url);
       return url.origin;
     },
     windowOpener() {
@@ -518,18 +586,9 @@ export default {
       this.gasFee = BigNumber(feeAmount[0].amount).dividedBy(1e9).toFixed();
       return this.gasFee;
     },
-    async checkFullyLoad() {
-      if (this.currentTab === 'loaded') {
-        console.log('this.redirectOrigin: ', this.redirectUri);
-        window.opener.postMessage('openedReady', 'http://localhost:8080'); // TODO: solve redirectOrigin null issue
-      }
-    },
-    async onArweaveUploadSuccessMessage(event) {
-      console.log('onArweaveUploadSuccessMessage...event: ', event);
+    async onArweaveUploadSuccessStartRegisterISCNMessage(event) {
       const { action, data } = JSON.parse(event.data);
-      console.log('-action: ', action);
-      if (action === 'REGISTER_ISCN') {
-        console.log('start REGISTER_ISCN data: ', data);
+      if (action === 'ARWEAVE_UPLOAD_SUCCESS_ON_REGISTER_ISCN') {
         this.mainStatus = 'registerISCN';
         const {
           fingerprints, tags, url, type, license,
@@ -543,7 +602,6 @@ export default {
       }
     },
     async submitISCNTransfer() {
-      console.log('submitISCNTransfer...');
       // try {
       const from = await this.fetchCurrentCosmosWallet();
       if (!from) {
@@ -566,12 +624,6 @@ export default {
         license,
         url,
       } = this;
-      console.log('fingerprints: ', fingerprints);
-      console.log('title: ', title);
-      console.log('type: ', type);
-      console.log('license: ', license);
-      console.log('tags: ', tags);
-      console.log('url: ', url);
       const txHash = await this.sendISCNSignature({
         cosmosWallet: from,
         userId: this.getUserId || '',
@@ -585,14 +637,12 @@ export default {
         signer,
         isWordPressSideBar: true,
       });
-      console.log('ISCN txHash: ', txHash);
       await this.postISCNTransaction({ txHash });
       // } catch (error) {
       //   if (error.message !== 'VALIDATION_FAIL') console.error(error);
       // }
     },
     async postISCNTransaction({ txHash, error } = {}) {
-      console.log('postISCNTransaction...');
       if (this.opener || this.redirectUri) {
         const ISCNTransferInfo = await getISCNTransferInfo(txHash, { blocking: true });
         const { isFailed, iscnId } = ISCNTransferInfo;
@@ -609,7 +659,7 @@ export default {
             action: 'ISCN_SUBMITTED',
             data: payload,
           });
-          this.windowOpener.postMessage(message, this.redirectOrigin);
+          window.opener.postMessage(message, this.redirectOrigin);
           const iscnIdString = encodeURIComponent(iscnId);
           window.location.href = `https://app.rinkeby.like.co/view/${iscnIdString}`;
         }
@@ -622,8 +672,12 @@ export default {
       }
       this.setDefaultCosmosWalletSource({ source: 'keplr', persistent: false });
       this.isUsingKeplr = true;
-      console.log('start listening...this.redirectOrigin: ', this.redirectOrigin);
-
+      // Direct register ISCN flow
+      if (this.actualSendAmount === 0 || this.actualSendAmount === '0') {
+        this.mainStatus = 'directRegisterISCN';
+        this.submitISCNTransfer();
+        return;
+      }
       // pay LIKE Pay
       this.mainStatus = 'onLIKEPay';
       await this.submitTransfer();
@@ -657,22 +711,7 @@ export default {
         const signer = await this.prepareCosmosTxSigner();
         const isWait = !!this.blocking;
         const metadata = this.likePayMetadata;
-        if (this.actualSendAmount === 0 || this.actualSendAmount === '0') {
-          this.mainStatus = 'registerISCN';
-          console.log('start to listen onArweaveUploadSuccessMessage...');
-          const message = JSON.stringify({
-            action: 'TX_SUBMITTED',
-            data: { skipUploadArweave: true },
-          });
-          window.opener.postMessage(message, this.redirectOrigin);
-          window.addEventListener(
-            'message',
-            this.onArweaveUploadSuccessMessage,
-            false,
-          );
-          // await this.submitISCNTransfer();
-          return;
-        }
+        // LIKEPay -> Upload Arweave -> Register ISCN flow
         const txHash = await this.sendCosmosPayment({
           signer,
           from,
@@ -684,7 +723,8 @@ export default {
           metadata,
           isWordPressSideBar: true,
         });
-        this.mainStatus = 'uploadArweave';
+        // UI will change when getIsSignFinishedState is true.
+        // Hence, no need to set mainStatus = onUploadArweave.
         this.postTransaction({ txHash });
       } catch (error) {
         if (error.message !== 'VALIDATION_FAIL') console.error(error);
@@ -710,9 +750,11 @@ export default {
             data: payload,
           });
           window.opener.postMessage(message, this.redirectOrigin);
+
+
           window.addEventListener(
             'message',
-            this.onArweaveUploadSuccessMessage,
+            this.onArweaveUploadSuccessStartRegisterISCNMessage,
             false,
           );
         } else if (this.isRedirectURLWhiteListed) {
