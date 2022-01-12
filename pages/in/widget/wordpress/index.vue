@@ -14,11 +14,11 @@
 
         <div class="likepay-panel__section-meta">
           <div style="text-align: center">
-            <h3 style="color: #9B9B9B;">Upload to Arweave succeeded. Please sign again to complete register ISCN.</h3>
+            <h3 style="color: #9B9B9B;">Upload succeeded. Please sign again to complete.</h3>
           </div>
         </div>
         <div class="likepay-panel__section-meta">
-          <div style="width: 32px; border: 2px solid #EBEBEB; background-color:#EBEBEB"> </div>
+          <div style="width: 32px; border: 2px solid #EBEBEB; background-color:#EBEBEB" />
         </div>
         <div class="likepay-panel__section-meta" style="margin-top: 5px; display: flex; flex-direction: row;">
           <div class="likepay-panel__section-meta-label"> Fee </div>
@@ -58,7 +58,10 @@
       <section class="likepay-panel__section-container">
         <header class="likepay-panel__section-header">
           <IconStar />
-          <div class="likepay-panel__header-title" style="margin-right: auto; color: #28646E; padding-left: 10px">{{ 'Sign  (1/1)' }}</div>
+          <div
+            class="likepay-panel__header-title"
+            style="margin-right: auto; color: #28646E; padding-left: 10px"
+          >{{ 'Sign  (2/2)' }}</div>
         </header>
 
         <div class="likepay-panel__section-meta">
@@ -96,13 +99,18 @@
           <div class="likepay-panel__header-title" style="margin-right: auto; color: #28646E; padding-left: 10px">{{ 'Uploading...' }}</div>
         </header>
         <div class="likepay-panel__section-meta">
-          <div style="text-align: center">
-            <IconLoading />
+          <div style="display: flex; margin: 40px">
+            <div
+              class="loading-track"
+              style="margin: auto"
+            >
+              <div class="loading-progress" />
+            </div>
           </div>
           <div style="text-align: center"> <h3 style="color: #9B9B9B; margin: 0 -6px">Please do not close window. </h3></div>
         </div>
         <div class="likepay-panel__section-meta">
-          <div style="width: 32px; border: 2px solid #EBEBEB; background-color:#EBEBEB"> </div>
+          <div style="width: 32px; border: 2px solid #EBEBEB; background-color:#EBEBEB" />
         </div>
         <div class="likepay-panel__section-meta">
           <div style="font-size: 14px">
@@ -122,16 +130,22 @@
       <section class="likepay-panel__section-container">
         <header class="likepay-panel__section-header">
           <IconStar />
-          <div class="likepay-panel__header-title" style="margin-right: auto; color: #28646E; padding-left: 10px">{{ 'Sign  (1/2)' }}</div>
+          <div
+            class="likepay-panel__header-title"
+            style="margin-right: auto; color: #28646E; padding-left: 10px"
+          >{{ 'Sign  (1/2)' }}</div>
         </header>
 
         <div class="likepay-panel__section-meta">
           <div style="text-align: center"> <h3 style="color: #9B9B9B; margin: 0 -6px">Please sign with your wallet. </h3></div>
         </div>
         <div class="likepay-panel__section-meta">
-          <div style="width: 32px; border: 2px solid #EBEBEB; background-color:#EBEBEB"> </div>
+          <div style="width: 32px; border: 2px solid #EBEBEB; background-color:#EBEBEB" />
         </div>
-        <div class="likepay-panel__section-meta" style="margin-top: 5px; display: flex; flex-direction: row;">
+        <div
+          class="likepay-panel__section-meta"
+          style="margin-top: 5px; display: flex; flex-direction: row;"
+        >
           <div class="likepay-panel__section-meta-label"> Fee </div>
           <div style="margin-left: 75px;"> {{ amounts[0] }} LIKE </div>
         </div>
@@ -792,3 +806,37 @@ export default {
   },
 };
 </script>
+
+<style>
+  @keyframes loading-progress-animation {
+    0% {
+      transform: translateX(-40px);
+    }
+    100% {
+      transform: translateX(200px);
+    }
+  }
+  .loading-track {
+    overflow: hidden;
+
+    width: 150px;
+    height: 20px;
+
+    border-radius: 10px;
+
+    background-color: #AAF1E7;
+  }
+  .loading-progress {
+    width: 60px;
+    height: inherit;
+
+    animation-name: loading-progress-animation;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+
+    border-radius: inherit;
+
+    background-color: #50E3C2;
+  }
+</style>

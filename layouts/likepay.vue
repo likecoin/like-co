@@ -61,7 +61,7 @@ html[layout=likepay-layout] {
     @media screen and (min-width: $body-width) {
       justify-content: center;
 
-      max-width: 340px;
+      max-width: 400px;
       margin: 0 auto;
       padding: 8px;
     }
@@ -85,6 +85,7 @@ html[layout=likepay-layout] {
   .wordpress-panel {
     overflow: hidden;
     max-width: 400px;
+    min-width: 400px;
     color: #4a4a4a;
     background-color: #fff;
 
