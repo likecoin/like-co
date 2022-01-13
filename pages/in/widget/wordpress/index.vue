@@ -20,20 +20,23 @@
         <div class="likepay-panel__section-meta">
           <div style="width: 32px; border: 2px solid #EBEBEB; background-color:#EBEBEB" />
         </div>
-        <div class="likepay-panel__section-meta" style="margin-top: 5px; display: flex; flex-direction: row;">
+        <div
+          class="likepay-panel__section-meta"
+          style="margin-top: 5px; display: flex; flex-direction: row;"
+        >
           <div class="likepay-panel__section-meta-label"> Fee </div>
           <div style="margin-left: 75px;"> {{ ISCNTotalFee }} LIKE </div>
         </div>
       </section>
       <section
-        v-if="getIsTxFailed"
+        v-if="getIsTxFailed && transactionStatus === 'failed'"
         style="display: flex; flex-direction: row; padding: 10px 10px 30px 10px"
       >
         <button
           style="
             color: #4A4A4A; border-radius: 12px; border: 2px solid #9B9B9B; margin: auto;
             padding: 10px 16px; background-color: white; cursor: pointer;"
-          @click="submitTransfer"
+          @click="submitISCNTransfer"
         >
           Retry
         </button>
@@ -71,15 +74,20 @@
           <div style="text-align: center"> <h3 style="color: #9B9B9B; margin: 0 -6px">Please sign with your wallet. </h3></div>
         </div>
         <div class="likepay-panel__section-meta">
-          <div style="width: 32px; border: 2px solid #EBEBEB; background-color:#EBEBEB"> </div>
+          <div
+            style="width: 32px; border: 2px solid #EBEBEB; background-color:#EBEBEB"
+          />
         </div>
-        <div class="likepay-panel__section-meta" style="margin-top: 5px; display: flex; flex-direction: row;">
+        <div
+          class="likepay-panel__section-meta"
+          style="margin-top: 5px; display: flex; flex-direction: row;"
+        >
           <div class="likepay-panel__section-meta-label"> Fee </div>
           <div style="margin-left: 75px;"> {{ ISCNTotalFee }} LIKE </div>
         </div>
       </section>
       <section
-        v-if="getIsTxFailed"
+        v-if="getIsTxFailed && transactionStatus === 'failed'"
         style="display: flex; flex-direction: row; padding: 10px 10px 30px 10px"
       >
         <button
@@ -157,7 +165,7 @@
         </div>
       </section>
       <section
-        v-if="getIsTxFailed"
+        v-if="getIsTxFailed && transactionStatus === 'failed'"
         style="display: flex; flex-direction: row; padding: 10px 10px 30px 10px"
       >
         <button
@@ -192,7 +200,10 @@
       <section class="likepay-panel__section-container">
         <header class="likepay-panel__section-header">
           <IconStar />
-          <div class="likepay-panel__header-title" style="margin-right: auto; color: #28646E; padding-left: 10px">{{ 'Register ISCN' }}</div>
+          <div
+            class="likepay-panel__header-title"
+            style="margin-right: auto; color: #28646E; padding-left: 10px"
+          >{{ 'Register ISCN' }}</div>
         </header>
 
         <div class="likepay-panel__section-meta">
@@ -261,6 +272,7 @@ export default {
       gasFee: '',
       isUsingKeplr: false,
       mainStatus: 'initial',
+      transactionStatus: 'initial',
       fingerprints: [],
       title: '',
       type: 'article',
@@ -626,6 +638,7 @@ export default {
       }
     },
     async submitISCNTransfer() {
+      this.transactionStatus = 'restart';
       try {
         const from = await this.fetchCurrentCosmosWallet();
         if (!from) {
@@ -661,12 +674,14 @@ export default {
           signer,
           isWordPressSideBar: true,
         });
-        await this.postISCNTransaction({ txHash });
+        if (txHash) await this.postISCNTransaction({ txHash });
       } catch (error) {
+        this.transactionStatus = 'failed';
         console.error(error);
       }
     },
     async postISCNTransaction({ txHash, error } = {}) {
+      this.transactionStatus = 'done';
       if (this.opener || this.redirectUri) {
         const ISCNTransferInfo = await getISCNTransferInfo(txHash, { blocking: true });
         const { isFailed, iscnId } = ISCNTransferInfo;
@@ -707,6 +722,7 @@ export default {
       await this.submitTransfer();
     },
     async submitTransfer() {
+      this.transactionStatus = 'restart';
       if (this.isChainUpgrading) return;
       try {
         const { cosmosWallet } = this.getUserInfo;
@@ -751,10 +767,12 @@ export default {
         // Hence, no need to set mainStatus = onUploadArweave.
         this.postTransaction({ txHash });
       } catch (error) {
+        this.transactionStatus = 'failed';
         if (error.message !== 'VALIDATION_FAIL') console.error(error);
       }
     },
     async postTransaction({ txHash, error } = {}) {
+      this.transactionStatus = 'done';
       if (this.redirectUri) {
         let success;
         if (this.blocking) {
