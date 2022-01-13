@@ -38,6 +38,8 @@ export const getTxDialogType = state => state.txDialogType;
 
 export const getIsSignFinishedState = state => state.isSignFinished;
 
+export const getIsTxFailed = state => state.isTxFailed;
+
 export const getTxDialogHideAction = state => state.txDialogHideAction;
 
 export const getTxDialogActionRoute = state => state.txDialogActionRoute;

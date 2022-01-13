@@ -25,7 +25,10 @@
           <div style="margin-left: 75px;"> {{ ISCNTotalFee }} LIKE </div>
         </div>
       </section>
-      <section style="display: flex; flex-direction: row; padding: 10px 10px 30px 10px">
+      <section
+        v-if="getIsTxFailed"
+        style="display: flex; flex-direction: row; padding: 10px 10px 30px 10px"
+      >
         <button
           style="
             color: #4A4A4A; border-radius: 12px; border: 2px solid #9B9B9B; margin: auto;
@@ -75,7 +78,10 @@
           <div style="margin-left: 75px;"> {{ ISCNTotalFee }} LIKE </div>
         </div>
       </section>
-      <section style="display: flex; flex-direction: row; padding: 10px 10px 30px 10px">
+      <section
+        v-if="getIsTxFailed"
+        style="display: flex; flex-direction: row; padding: 10px 10px 30px 10px"
+      >
         <button
           style="
             color: #4A4A4A; border-radius: 12px; border: 2px solid #9B9B9B; margin: auto;
@@ -150,7 +156,10 @@
           <div style="margin-left: 75px;"> {{ amounts[0] }} LIKE </div>
         </div>
       </section>
-      <section style="display: flex; flex-direction: row; padding: 10px 10px 30px 10px">
+      <section
+        v-if="getIsTxFailed"
+        style="display: flex; flex-direction: row; padding: 10px 10px 30px 10px"
+      >
         <button
           style="
             color: #4A4A4A; border-radius: 12px; border: 2px solid #9B9B9B; margin: auto;
@@ -444,6 +453,7 @@ export default {
       'getIsShowingTxPopup',
       'getPendingTxInfo',
       'getIsSignFinishedState',
+      'getIsTxFailed',
     ]),
     redirectOrigin() {
       const url = new URL(this.redirectUri, true);
@@ -616,45 +626,45 @@ export default {
       }
     },
     async submitISCNTransfer() {
-      // try {
-      const from = await this.fetchCurrentCosmosWallet();
-      if (!from) {
-        throw new Error('PLEASE_RELOGIN');
-      }
-      if (!this.isUsingKeplr) {
-        const { cosmosWallet } = this.getUserInfo;
-        const userWallet = cosmosWallet;
-        if (userWallet !== undefined && from !== userWallet) {
-          this.setErrorMsg(this.$t('Transaction.error.authcoreWalletNotMatch'));
-          throw new Error('VALIDATION_FAIL');
+      try {
+        const from = await this.fetchCurrentCosmosWallet();
+        if (!from) {
+          throw new Error('PLEASE_RELOGIN');
         }
+        if (!this.isUsingKeplr) {
+          const { cosmosWallet } = this.getUserInfo;
+          const userWallet = cosmosWallet;
+          if (userWallet !== undefined && from !== userWallet) {
+            this.setErrorMsg(this.$t('Transaction.error.authcoreWalletNotMatch'));
+            throw new Error('VALIDATION_FAIL');
+          }
+        }
+        const signer = await this.prepareCosmosTxSigner();
+        const {
+          fingerprints,
+          title,
+          tags,
+          type,
+          license,
+          url,
+        } = this;
+        const txHash = await this.sendISCNSignature({
+          cosmosWallet: from,
+          userId: this.getUserId || '',
+          displayName: this.getUserInfo.displayName || '',
+          fingerprints,
+          name: title,
+          tags,
+          type,
+          license,
+          url,
+          signer,
+          isWordPressSideBar: true,
+        });
+        await this.postISCNTransaction({ txHash });
+      } catch (error) {
+        console.error(error);
       }
-      const signer = await this.prepareCosmosTxSigner();
-      const {
-        fingerprints,
-        title,
-        tags,
-        type,
-        license,
-        url,
-      } = this;
-      const txHash = await this.sendISCNSignature({
-        cosmosWallet: from,
-        userId: this.getUserId || '',
-        displayName: this.getUserInfo.displayName || '',
-        fingerprints,
-        name: title,
-        tags,
-        type,
-        license,
-        url,
-        signer,
-        isWordPressSideBar: true,
-      });
-      await this.postISCNTransaction({ txHash });
-      // } catch (error) {
-      //   if (error.message !== 'VALIDATION_FAIL') console.error(error);
-      // }
     },
     async postISCNTransaction({ txHash, error } = {}) {
       if (this.opener || this.redirectUri) {
@@ -675,7 +685,7 @@ export default {
           });
           window.opener.postMessage(message, this.redirectOrigin);
           const iscnIdString = encodeURIComponent(iscnId);
-          window.location.href = `https://app.rinkeby.like.co/view/${iscnIdString}`;
+          window.location.href = `https://app.like.co/view/${iscnIdString}?layout=popup`;
         }
       }
     },

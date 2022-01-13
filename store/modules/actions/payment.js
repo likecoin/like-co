@@ -66,7 +66,10 @@ export async function sendCosmosPayment(
       );
       if (txRaw) {
         commit(types.UI_SET_SIGN_FINISH);
+        commit(types.UI_SET_TX_SUCCESS);
         ({ txHash, included } = await broadcastCosmos(to, txRaw));
+      } else {
+        commit(types.UI_SET_TX_FAILED);
       }
     }
     if (metadata) await api.apiPostTxMetadata(txHash, metadata);
@@ -78,10 +81,10 @@ export async function sendCosmosPayment(
       if (isWait) await included();
       commit(types.UI_STOP_LOADING_TX);
     }
+    commit(types.UI_SET_TX_SUCCESS);
     return txHash;
   } catch (error) {
-    commit(types.UI_STOP_ALL_LOADING);
-    commit(types.UI_ERROR_MSG, error.message || error);
+    commit(types.UI_SET_TX_FAILED);
     throw error;
   }
 }
@@ -127,48 +130,49 @@ export async function sendISCNSignature(
     ...payload
   },
 ) {
-  console.log('IN sendISCNSignature');
-  // try {
-  const {
-    userId,
-    displayName,
-    fingerprints,
-    name,
-    tags,
-    type,
-    license,
-    publisher,
-    memo,
-    description,
-    cosmosWallet,
-    isWordPressSideBar = false,
-  } = payload;
-  console.log(payload);
-  const { transactionHash } = await signISCNTx({
-    userId,
-    displayName,
-    fingerprints,
-    name,
-    tags,
-    type,
-    license,
-    publisher,
-    description,
-    cosmosWallet,
-  }, signer, cosmosWallet, memo);
-  console.log('transactionHash: ', transactionHash);
-  if (!isWordPressSideBar) {
-    commit(types.UI_START_LOADING_TX);
-    commit(types.UI_SET_HIDE_TX_DIALOG_ACTION, !showDialogAction);
-    commit(types.PAYMENT_SET_PENDING_HASH, transactionHash);
-    commit(types.UI_STOP_LOADING_TX);
+  try {
+    const {
+      userId,
+      displayName,
+      fingerprints,
+      name,
+      tags,
+      type,
+      license,
+      publisher,
+      memo,
+      description,
+      cosmosWallet,
+      isWordPressSideBar = false,
+    } = payload;
+    const { transactionHash } = await signISCNTx({
+      userId,
+      displayName,
+      fingerprints,
+      name,
+      tags,
+      type,
+      license,
+      publisher,
+      description,
+      cosmosWallet,
+    }, signer, cosmosWallet, memo);
+    if (!transactionHash) {
+      commit(types.UI_SET_TX_FAILED);
+    }
+
+    if (!isWordPressSideBar) {
+      commit(types.UI_START_LOADING_TX);
+      commit(types.UI_SET_HIDE_TX_DIALOG_ACTION, !showDialogAction);
+      commit(types.PAYMENT_SET_PENDING_HASH, transactionHash);
+      commit(types.UI_STOP_LOADING_TX);
+    }
+    return transactionHash;
+  } catch (error) {
+    commit(types.UI_ERROR_MSG, error.message || error);
+    commit(types.UI_SET_TX_FAILED);
+    throw error;
   }
-  return transactionHash;
-  // } catch (error) {
-  //   commit(types.UI_STOP_ALL_LOADING);
-  //   commit(types.UI_ERROR_MSG, error.message || error);
-  //   throw error;
-  // }
 }
 
 export const closeTxToolbar = ({ commit }) => {
