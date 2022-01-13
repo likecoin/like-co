@@ -84,6 +84,8 @@ export async function sendCosmosPayment(
     commit(types.UI_SET_TX_SUCCESS);
     return txHash;
   } catch (error) {
+    commit(types.UI_STOP_ALL_LOADING);
+    commit(types.UI_ERROR_MSG, error.message || error);
     commit(types.UI_SET_TX_FAILED);
     throw error;
   }
@@ -157,6 +159,11 @@ export async function sendISCNSignature(
       description,
       cosmosWallet,
     }, signer, cosmosWallet, memo);
+    commit(types.UI_START_LOADING_TX);
+    commit(types.UI_SET_HIDE_TX_DIALOG_ACTION, !showDialogAction);
+    commit(types.PAYMENT_SET_PENDING_HASH, transactionHash);
+    // if (isWait) await included();
+    commit(types.UI_STOP_LOADING_TX);
     if (!transactionHash) {
       commit(types.UI_SET_TX_FAILED);
     }
@@ -169,6 +176,7 @@ export async function sendISCNSignature(
     }
     return transactionHash;
   } catch (error) {
+    commit(types.UI_STOP_ALL_LOADING);
     commit(types.UI_ERROR_MSG, error.message || error);
     commit(types.UI_SET_TX_FAILED);
     throw error;

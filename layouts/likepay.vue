@@ -84,8 +84,10 @@ html[layout=likepay-layout] {
 
   .wordpress-panel {
     overflow: hidden;
-    max-width: 400px;
+
     min-width: 400px;
+    max-width: 400px;
+
     color: #4a4a4a;
     background-color: #fff;
 
@@ -141,6 +143,7 @@ html[layout=likepay-layout] {
       font-weight: 600;
       line-height: 1.5em;
     }
+
     &__section-meta:not(:first-child) {
       margin-top: 18px;
     }

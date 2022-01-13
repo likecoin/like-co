@@ -253,57 +253,39 @@ export async function broadcast(to, txRaw) {
   };
 }
 
-export async function transfer({ // combine sign and broadcast
+export async function transfer({
   from,
   to,
   value,
   memo,
 }, signer) {
-  const { msgs, fee } = formatMessagesAndFee(
-    {
-      from,
-      to,
-      value,
-    },
-    signer,
-  );
-  const txRaw = await sign(from, [msgs], fee, memo);
-  return broadcast(to, txRaw);
+  const amount = LIKEToAmount(value);
+  const { gas, feeAmount } = await calculateGas([to]);
+  const fee = {
+    amount: feeAmount,
+    gas,
+  };
+  if (!signingStargateClient) {
+    await initSigningStargateClient(COSMOS_RPC_API, signer);
+  }
+  const sendMsg = MsgSend.fromPartial({
+    fromAddress: from,
+    toAddress: to,
+    amount: [amount],
+  });
+
+  const msgs = {
+    typeUrl: '/cosmos.bank.v1beta1.MsgSend',
+    value: sendMsg,
+  };
+  const broadcastedTx = await signingStargateClient.signAndBroadcast(from, [msgs], fee, memo);
+  return {
+    txHash: broadcastedTx.transactionHash,
+    gas,
+    feeAmount,
+    included: () => queryTxInclusion(broadcastedTx.transactionHash, COSMOS_RESTFUL_API),
+  };
 }
-
-// export async function transfer({
-//   from,
-//   to,
-//   value,
-//   memo,
-// }, signer) {
-//   const amount = LIKEToAmount(value);
-//   const { gas, feeAmount } = await calculateGas([to]);
-//   const fee = {
-//     amount: feeAmount,
-//     gas,
-//   };
-//   if (!signingStargateClient) {
-//     await initSigningStargateClient(COSMOS_RPC_API, signer);
-//   }
-//   const sendMsg = MsgSend.fromPartial({
-//     fromAddress: from,
-//     toAddress: to,
-//     amount: [amount],
-//   });
-
-//   const msgs = {
-//     typeUrl: '/cosmos.bank.v1beta1.MsgSend',
-//     value: sendMsg,
-//   };
-//   const broadcastedTx = await signingStargateClient.signAndBroadcast(from, [msgs], fee, memo);
-//   return {
-//     txHash: broadcastedTx.transactionHash,
-//     gas,
-//     feeAmount,
-//     included: () => queryTxInclusion(broadcastedTx.transactionHash, COSMOS_RESTFUL_API),
-//   };
-// }
 
 export async function transferMultiple({
   from,
