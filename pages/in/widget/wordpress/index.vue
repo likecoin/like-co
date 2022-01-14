@@ -236,7 +236,7 @@
 import { mapActions, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
 import {
-  IS_TESTNET, LIKER_LAND_URL, IS_CHAIN_UPGRADING,
+  IS_CHAIN_UPGRADING,
 } from '@/constant';
 import {
   queryLikeCoinBalance as queryCosmosLikeCoinBalance,
@@ -258,17 +258,11 @@ export default {
   layout: 'likepay',
   data() {
     return {
-      LIKER_LAND_URL,
       toIds: [],
       toUsers: [],
       amounts: [],
-      agentId: '',
-      agentUser: null,
-      agentFee: '',
       redirectUri: '',
       showDetails: false,
-      blocking: false,
-      state: '',
       gasFee: '',
       isUsingKeplr: false,
       mainStatus: 'initial',
@@ -292,11 +286,7 @@ export default {
     const {
       to: toString,
       amount: amountString,
-      via: agentId,
-      fee: agentFee,
       redirect_uri: redirectUri,
-      blocking,
-      state,
       opener,
       fingerprint,
       tags: tagsString = '',
@@ -304,7 +294,7 @@ export default {
       publisher,
     } = query;
     let {
-      remarks = `LIKE pay${agentId ? ` via ${agentId}` : ''}`, title, license,
+      remarks = '', title, license,
     } = query;
     const tags = tagsString ? tagsString.split(',') : [];
     let fingerprints = fingerprint ? fingerprint.split(',') : [];
@@ -326,7 +316,7 @@ export default {
         return error({ statusCode: 400, message: 'INVALID_LICENSE' });
       }
     } else {
-      license = ISCN_PUBLISHERS.default;
+      license = '';
     }
     if (title) {
       title = title.substring(0, 255);
@@ -345,27 +335,15 @@ export default {
     if (toIds.length !== amounts.length) {
       return error({ statusCode: 400, message: 'RECIPIENT_AND_AMOUNT_SIZE_MISMATCH' });
     }
-    if (!agentId && (agentFee)) {
-      return error({ statusCode: 400, message: 'MISSING_VIA' });
-    }
-
     if (remarks) {
       remarks = remarks.substring(0, 255);
     }
-
     let promises = [];
-    promises.push(agentId ? apiGetUserMinById(agentId, { type: 'payment' }) : Promise.resolve(null));
+    promises.push(Promise.resolve(null));
     promises = promises.concat(toIds.map(id => apiGetUserMinById(id, { type: 'payment' })));
 
     return Promise.all(promises).then((res) => {
-      const [agentRes, ...toRes] = res;
-      let agentUser;
-      if (agentRes) {
-        agentUser = {
-          ...agentRes.data,
-          avatarHalo: User.getAvatarHaloType(agentRes.data),
-        };
-      }
+      const [, ...toRes] = res;
       const toUsers = toRes.map((u) => {
         const {
           user,
@@ -383,62 +361,18 @@ export default {
           paymentRedirectWhiteList,
         };
       });
-      if (agentUser && !agentUser.cosmosWallet) {
-        error({ statusCode: 400, message: 'VIA_USER_HAS_NO_WALLET' });
-      }
-
       if (toUsers.some(u => !u.cosmosWallet)) {
         error({ statusCode: 400, message: 'RECEIPIENT_HAS_NO_WALLET' });
       }
-
-      let redirectWhitelistError = null;
-      let isRedirectURLWhiteListed = false;
-      if (redirectUri) {
-        if (agentId) {
-          const {
-            paymentRedirectWhiteList: agentWhiteList = [],
-          } = agentUser;
-          if (!IS_TESTNET && (!agentWhiteList || !agentWhiteList.length)) {
-            redirectWhitelistError = redirectWhitelistError || { statusCode: 400, message: 'AGENT_NOT_SETUP_PAYMENT_REDIRECT' };
-          }
-          if (agentWhiteList.length && !agentWhiteList.includes(redirectUri)) {
-            redirectWhitelistError = redirectWhitelistError || { statusCode: 400, message: 'REDIRECT_URI_NOT_WHITELIST' };
-          }
-        } else {
-          if (toUsers.length > 1) {
-            redirectWhitelistError = redirectWhitelistError || { statusCode: 400, message: 'CANNOT_REDIRECT_MULTIPLE_RECEIPIENTS' };
-          }
-          const {
-            paymentRedirectWhiteList: userWhiteList = [],
-          } = toUsers[0];
-          if (!IS_TESTNET && (!userWhiteList || !userWhiteList.length)) {
-            redirectWhitelistError = redirectWhitelistError || { statusCode: 400, message: 'USER_NOT_SETUP_PAYMENT_REDIRECT' };
-          }
-          if (userWhiteList.length && !userWhiteList.includes(redirectUri)) {
-            redirectWhitelistError = redirectWhitelistError || { statusCode: 400, message: 'REDIRECT_URI_NOT_WHITELIST' };
-          }
-        }
-        isRedirectURLWhiteListed = !redirectWhitelistError;
-      }
       const hasOpener = opener && opener !== '0';
-      const shouldThrowRedirectWhitelistError = redirectUri && !hasOpener;
-      if (redirectWhitelistError && shouldThrowRedirectWhitelistError) {
-        error(redirectWhitelistError);
-      }
 
       return {
         toIds,
         amounts,
         toUsers,
-        agentId,
-        agentUser,
-        agentFee,
         redirectUri,
         remarks,
-        blocking,
-        state,
         opener: hasOpener,
-        isRedirectURLWhiteListed,
         title,
         tags,
         url,
@@ -458,12 +392,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'getUserIsRegistered',
-      'getLikeCoinUsdNumericPrice',
       'getUserInfo',
-      'getAuthCoreNeedReAuth',
-      'getIsShowingTxPopup',
-      'getPendingTxInfo',
       'getIsSignFinishedState',
       'getIsTxFailed',
     ]),
@@ -478,9 +407,6 @@ export default {
     isChainUpgrading() {
       return IS_CHAIN_UPGRADING;
     },
-    httpReferrer() {
-      return this.$route.query.referrer || document.referrer || undefined;
-    },
     sumOfToAmount() {
       if (!this.amounts) return '0';
       const amount = this.amounts.reduce(
@@ -490,10 +416,7 @@ export default {
       return amount.toFixed();
     },
     actualSendAmount() {
-      let amount = new BigNumber(this.sumOfToAmount);
-      if (this.agentUser && this.agentFee) {
-        amount = amount.plus(this.agentFee);
-      }
+      const amount = new BigNumber(this.sumOfToAmount);
       return amount.toFixed();
     },
     totalAmount() {
@@ -501,43 +424,19 @@ export default {
       if (this.gasFee) amount = amount.plus(this.gasFee);
       return amount.toFixed();
     },
-    isMultiSend() {
-      return this.toIds.length > 1 || this.hasAgentFee;
-    },
-    hasAgentFee() {
-      return this.agentUser && this.agentFee && this.agentFee !== '0';
-    },
-    usdTransferStrValue() {
-      if (this.getLikeCoinUsdNumericPrice && this.totalAmount) {
-        const value = new BigNumber(this.totalAmount);
-        const usdValue = value.times(this.getLikeCoinUsdNumericPrice);
-        let decimalPlace = 2;
-        if (usdValue.lt(0.01)) decimalPlace = 4;
-        return value.times(this.getLikeCoinUsdNumericPrice).toFixed(decimalPlace);
-      }
-      return null;
-    },
     likePayMetadata() {
       const {
         toIds,
         amounts,
-        agentId,
-        agentFee,
         redirectUri,
         remarks,
-        blocking,
-        state,
       } = this;
       return {
         likePay: {
           toIds,
           amounts,
-          agentId,
-          agentFee,
           redirectUri,
           remarks,
-          blocking,
-          state,
         },
       };
     },
@@ -554,9 +453,6 @@ export default {
     const { cosmosWallet } = this.getUserInfo;
     if (!this.isChainUpgrading) {
       this.calculateGasFee();
-    }
-    if (!this.getLikeCoinUsdNumericPrice) {
-      await this.queryLikeCoinUsdPrice();
     }
     if (this.opener && !window.opener) {
       this.$nuxt.error({ statusCode: 400, message: 'Cannot access window opener' });
@@ -575,50 +471,15 @@ export default {
   },
   methods: {
     ...mapActions([
-      'popupAuthDialogInPlace',
-      'setReAuthDialogShow',
       'sendCosmosPayment',
-      'setErrorMsg',
-      'queryLikeCoinUsdPrice',
       'fetchCurrentCosmosWallet',
       'prepareCosmosTxSigner',
       'setDefaultCosmosWalletSource',
       'calculateISCNTxTotalFee',
       'sendISCNSignature',
     ]),
-    toggleDetails() {
-      const isCollapsing = !this.showDetails;
-      const tl = new this.$gsap.TimelineMax({
-        onComplete: () => {
-          this.showDetails = !this.showDetails;
-        },
-      });
-      tl.to(this.$refs.dropdownBody, 0.5, {
-        height: isCollapsing ? 0 : this.$refs.dropdownBody.scrollHeight,
-        ease: 'easeOutPower4',
-        clearProps: isCollapsing ? '' : 'height',
-      }, 0);
-      tl.to(this.$refs.dropdownArrow, 0.2, {
-        rotationZ: isCollapsing ? 0 : 180,
-        ease: 'easeOutPower4',
-      }, 0);
-    },
-    maskedWallet(wallet) {
-      return wallet.replace(/((?:cosmos1|0x).{4}).*(.{10})/, '$1...$2');
-    },
     async calculateGasFee() {
-      let feeAmount;
-      if (this.isMultiSend) {
-        const tos = this.toUsers.map(u => u.cosmosWallet);
-        const values = [...this.amounts];
-        if (this.hasAgentFee) {
-          tos.push(this.agentUser.cosmosWallet);
-          values.push(this.agentFee);
-        }
-        ({ feeAmount } = await calculateCosmosGas(tos));
-      } else {
-        ({ feeAmount } = await calculateCosmosGas(this.toUsers));
-      }
+      const { feeAmount } = await calculateCosmosGas(this.toUsers);
       this.gasFee = BigNumber(feeAmount[0].amount).dividedBy(1e9).toFixed();
       return this.gasFee;
     },
@@ -648,7 +509,6 @@ export default {
           const { cosmosWallet } = this.getUserInfo;
           const userWallet = cosmosWallet;
           if (userWallet !== undefined && from !== userWallet) {
-            this.setErrorMsg(this.$t('Transaction.error.authcoreWalletNotMatch'));
             throw new Error('VALIDATION_FAIL');
           }
         }
@@ -686,12 +546,10 @@ export default {
         const ISCNTransferInfo = await getISCNTransferInfo(txHash, { blocking: true });
         const { isFailed, iscnId } = ISCNTransferInfo;
         const success = !isFailed;
-        const { state } = this;
         const payload = {};
         if (txHash) payload.tx_hash = txHash;
         if (iscnId) payload.iscnId = iscnId;
         if (error) payload.error = error;
-        if (state) payload.state = state;
         if (success !== undefined) payload.success = success;
         if (this.opener) {
           const message = JSON.stringify({
@@ -733,23 +591,17 @@ export default {
         }
         const userWallet = cosmosWallet;
         if (userWallet !== undefined && from !== userWallet && !this.isUsingKeplr) {
-          this.setErrorMsg(this.$t('Transaction.error.authcoreWalletNotMatch'));
           throw new Error('VALIDATION_FAIL');
         }
         const to = this.toUsers[0].cosmosWallet;
         if (from === to) {
-          this.setErrorMsg(this.$t('Transaction.error.sameUser'));
           throw new Error('VALIDATION_FAIL');
         }
         const balance = await queryCosmosLikeCoinBalance(from);
         if (amount.gt(balance)) {
-          this.setErrorMsg(
-            this.$t('Transaction.error.likecoinInsufficient'),
-          );
-          throw new Error('VALIDATION_FAIL');
+          throw new Error('INSUFFICIENT_BALANCE');
         }
         const signer = await this.prepareCosmosTxSigner();
-        const isWait = !!this.blocking;
         const metadata = this.likePayMetadata;
         // LIKEPay -> Upload Arweave -> Register ISCN flow
         const txHash = await this.sendCosmosPayment({
@@ -759,7 +611,6 @@ export default {
           value: this.actualSendAmount,
           memo: this.remarks,
           showDialogAction: false,
-          isWait,
           metadata,
           isWordPressSideBar: true,
         });
@@ -774,17 +625,13 @@ export default {
     async postTransaction({ txHash, error } = {}) {
       this.transactionStatus = 'done';
       if (this.redirectUri) {
-        let success;
-        if (this.blocking) {
-          const { isFailed } = await getCosmosTransferInfo(txHash, { blocking: true });
-          success = !isFailed;
-        }
-        const { state, remarks } = this;
+        const { isFailed } = await getCosmosTransferInfo(txHash, { blocking: true });
+        const success = !isFailed;
+        const { remarks } = this;
         if (this.opener) {
           const payload = {};
           if (txHash) payload.tx_hash = txHash;
           if (error) payload.error = error;
-          if (state) payload.state = state;
           if (remarks) payload.remarks = remarks;
           if (success !== undefined) payload.success = success;
           const message = JSON.stringify({
@@ -792,27 +639,13 @@ export default {
             data: payload,
           });
           window.opener.postMessage(message, this.redirectOrigin);
-
-
           window.addEventListener(
             'message',
             this.onArweaveUploadSuccessStartRegisterISCNMessage,
             false,
           );
-        } else if (this.isRedirectURLWhiteListed) {
-          const url = new URL(this.redirectUri, true);
-          if (txHash) url.query.tx_hash = txHash;
-          if (error) url.query.error = error;
-          if (state) url.query.state = state;
-          if (remarks) url.query.remarks = remarks;
-          if (success !== undefined) url.query.success = success;
-          url.set('query', url.query);
-          window.location.href = url.toString();
         }
       }
-    },
-    onClickSignInButton() {
-      this.popupAuthDialogInPlace({ route: this.$route, isSignIn: true });
     },
     async onClickConnectKeplrButton() {
       const res = await Keplr.initKeplr();
@@ -827,9 +660,6 @@ export default {
           to: 'like-arweave', amount: '1', remarks: 'lala', opener: 1, redirect_url: 'localhost:8080',
         },
       });
-    },
-    onClickAuthCoreReAuth() {
-      this.setReAuthDialogShow(true);
     },
   },
 };
