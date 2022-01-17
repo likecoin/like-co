@@ -45,6 +45,10 @@ export async function getISCNTransferInfo(txHash, opt) {
   // Not LIKE transfer, continue parse ISCN transaction payload
   parsed.tx.body.messages.forEach((m, index) => {
     const data = m.value.record;
+    let iscnVersion;
+    if (data.contentMetadata) {
+      iscnVersion = data.contentMetadata.version;
+    }
     if (!data) return;
     const log = parsed.logs[index];
     const event = log.events.find(e => e.type === 'iscn_record');
@@ -62,6 +66,7 @@ export async function getISCNTransferInfo(txHash, opt) {
       id: iscnId,
       data,
       owner,
+      iscnVersion,
     });
   });
   const [message] = messages;
@@ -81,6 +86,7 @@ export async function getISCNTransferInfo(txHash, opt) {
       recordNotes,
       contentFingerprints,
     },
+    iscnVersion,
   } = message;
   let parsedFingerprint = contentFingerprints.find(f => f.includes('ipfs://'));
   if (parsedFingerprint) [, parsedFingerprint] = parsedFingerprint.split('ipfs://');
@@ -100,6 +106,7 @@ export async function getISCNTransferInfo(txHash, opt) {
     stakeholders,
     contentTimestamp: (new Date(timestamp)).getTime(),
     timestamp: (new Date(timestamp)).getTime() / 1000,
+    iscnVersion,
     recordNotes,
     isISCNTx,
   };

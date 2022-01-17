@@ -592,11 +592,15 @@ export default {
       this.transactionStatus = 'done';
       if (this.opener || this.redirectUri) {
         const ISCNTransferInfo = await getISCNTransferInfo(txHash, { blocking: true });
-        const { isFailed, iscnId } = ISCNTransferInfo;
+        const {
+          isFailed, iscnId, iscnVersion, timestamp,
+        } = ISCNTransferInfo;
         const success = !isFailed;
         const payload = {};
         if (txHash) payload.tx_hash = txHash;
         if (iscnId) payload.iscnId = iscnId;
+        if (iscnVersion) payload.iscnVersion = iscnVersion;
+        if (timestamp) payload.timestamp = timestamp;
         if (error) payload.error = error;
         if (success !== undefined) payload.success = success;
         if (this.opener) {
