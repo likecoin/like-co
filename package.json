@@ -50,7 +50,6 @@
     "@likecoin/ui-vue": "^0.7.1",
     "@likecoin/vue-image-lightbox": "^5.5.4",
     "@likecoin/vue-simple-svg": "^1.4.1",
-    "@nuxt/components": "^2.2.1",
     "@nuxtjs/google-tag-manager": "^2.1.4",
     "@nuxtjs/sentry": "^3.0.1",
     "authcore-js": "git+https://gitlab.com/blocksq/authcore-js.git#49e7af71b7bdd88c92a8de34e406ebb145deb709",

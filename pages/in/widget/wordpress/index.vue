@@ -8,7 +8,11 @@
     <div class="wordpress-panel">
       <section class="likepay-panel__section-container">
         <header class="likepay-panel__section-header">
-          <IconStar />
+          <simple-svg
+            :filepath="StarIcon"
+            width="20"
+            height="20"
+          />
           <div class="likepay-panel__header-title" style="margin-right: auto; color: #28646E; padding-left: 10px">{{ 'Sign  (2/2)' }}</div>
         </header>
 
@@ -44,10 +48,18 @@
     </div>
     <div style="display: flex; flex-direction: row; margin: 52px 0px; position: absolute; top: 590px">
       <div>
-        <IconExclamation />
+        <simple-svg
+          :filepath="ExclamationIcon"
+          width="25"
+          height="24"
+        />
       </div>
       <div style="margin: 0 10px">
-        <IconLedger />
+        <simple-svg
+          :filepath="LedgerIcon"
+          width="101"
+          height="20"
+        />
       </div>
       <div>
         <div>Do not connect to Ledger hardware wallets for signing.</div>
@@ -63,7 +75,11 @@
     <div class="wordpress-panel">
       <section class="likepay-panel__section-container">
         <header class="likepay-panel__section-header">
-          <IconStar />
+          <simple-svg
+            :filepath="StarIcon"
+            width="20"
+            height="20"
+          />
           <div
             class="likepay-panel__header-title"
             style="margin-right: auto; color: #28646E; padding-left: 10px"
@@ -109,7 +125,11 @@
     <div class="wordpress-panel">
       <section class="likepay-panel__section-container">
         <header class="likepay-panel__section-header">
-          <IconStar />
+          <simple-svg
+            :filepath="StarIcon"
+            width="20"
+            height="20"
+          />
           <div class="likepay-panel__header-title" style="margin-right: auto; color: #28646E; padding-left: 10px">{{ 'Uploading...' }}</div>
         </header>
         <div class="likepay-panel__section-meta">
@@ -143,7 +163,11 @@
     <div class="wordpress-panel">
       <section class="likepay-panel__section-container">
         <header class="likepay-panel__section-header">
-          <IconStar />
+          <simple-svg
+            :filepath="StarIcon"
+            width="20"
+            height="20"
+          />
           <div
             class="likepay-panel__header-title"
             style="margin-right: auto; color: #28646E; padding-left: 10px"
@@ -180,10 +204,18 @@
     </div>
     <div style="display: flex; flex-direction: row; margin: 52px 0px; position: absolute; top: 590px">
       <div>
-        <IconExclamation />
+        <simple-svg
+          :filepath="ExclamationIcon"
+          width="25"
+          height="24"
+        />
       </div>
       <div style="margin: 0 10px">
-        <IconLedger />
+        <simple-svg
+          :filepath="LedgerIcon"
+          width="101"
+          height="20"
+        />
       </div>
       <div>
         <div>Do not connect to Ledger hardware wallets for signing.</div>
@@ -199,7 +231,11 @@
     <div class="wordpress-panel">
       <section class="likepay-panel__section-container">
         <header class="likepay-panel__section-header">
-          <IconStar />
+          <simple-svg
+            :filepath="StarIcon"
+            width="20"
+            height="20"
+          />
           <div
             class="likepay-panel__header-title"
             style="margin-right: auto; color: #28646E; padding-left: 10px"
@@ -224,7 +260,11 @@
           @click="onClickRedirectToKeplrSign"
         >
           <p style="margin: auto 10px auto auto; font-weight: 600;">Register</p>
-          <IconArrowRight />
+          <simple-svg
+            :filepath="ArrowRightNewIcon"
+            width="16"
+            height="16"
+          />
         </button>
       </section>
     </div>
@@ -250,6 +290,10 @@ import {
 import Keplr from '@/util/Keplr';
 import { getISCNTransferInfo } from '@/util/cosmos/iscn/query';
 import { ISCN_LICENSES, ISCN_PUBLISHERS } from '@/util/cosmos/iscn/constant';
+import ArrowRightNewIcon from '@/assets/icons/arrow-right-new.svg';
+import ExclamationIcon from '@/assets/icons/exclamation.svg';
+import LedgerIcon from '@/assets/icons/ledger-new.svg';
+import StarIcon from '@/assets/icons/star.svg';
 
 const URL = require('url-parse');
 
@@ -276,6 +320,10 @@ export default {
       memo: '',
       url: '',
       ISCNTotalFee: 0.00,
+      ArrowRightNewIcon,
+      ExclamationIcon,
+      LedgerIcon,
+      StarIcon,
     };
   },
   async asyncData({
