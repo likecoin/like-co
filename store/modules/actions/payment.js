@@ -5,7 +5,6 @@ import * as types from '@/store/mutation-types';
 import {
   transfer as transferCosmos,
   transferMultiple as transferCosmosMultiple,
-  sign as signCosmos,
   broadcast as broadcastCosmos,
 } from '@/util/CosmosHelper';
 import {
@@ -35,6 +34,8 @@ export async function sendCosmosPayment(
     isWordPressSideBar = false,
   } = payload;
   try {
+    commit(types.UI_SET_SIGN_FINISH, false);
+    commit(types.UI_SET_TX_FAILED, false);
     let txHash;
     let included;
     if (tos && values) {
@@ -55,21 +56,22 @@ export async function sendCosmosPayment(
         signer,
       ));
     } else {
-      const txRaw = await signCosmos(
+      const txRaw = await transferCosmos(
         {
           from,
           to,
           value,
           memo,
+          signOnly: true,
         },
         signer,
       );
       if (txRaw) {
-        commit(types.UI_SET_SIGN_FINISH);
-        commit(types.UI_SET_TX_SUCCESS);
+        commit(types.UI_SET_SIGN_FINISH, true);
         ({ txHash, included } = await broadcastCosmos(to, txRaw));
       } else {
-        commit(types.UI_SET_TX_FAILED);
+        commit(types.UI_SET_SIGN_FINISH, false);
+        commit(types.UI_SET_TX_FAILED, true);
       }
     }
     if (metadata) await api.apiPostTxMetadata(txHash, metadata);
@@ -81,14 +83,14 @@ export async function sendCosmosPayment(
       if (isWait) await included();
       commit(types.UI_STOP_LOADING_TX);
     }
-    commit(types.UI_SET_TX_SUCCESS);
+    commit(types.UI_SET_TX_FAILED, false);
     return txHash;
   } catch (error) {
     if (!isWordPressSideBar) {
       commit(types.UI_STOP_ALL_LOADING);
       commit(types.UI_ERROR_MSG, error.message || error);
     }
-    commit(types.UI_SET_TX_FAILED);
+    commit(types.UI_SET_TX_FAILED, true);
     throw error;
   }
 }
@@ -169,7 +171,7 @@ export async function sendISCNSignature(
       commit(types.UI_STOP_LOADING_TX);
     }
     if (!transactionHash) {
-      commit(types.UI_SET_TX_FAILED);
+      commit(types.UI_SET_TX_FAILED, true);
     }
     return transactionHash;
   } catch (error) {
@@ -177,7 +179,7 @@ export async function sendISCNSignature(
       commit(types.UI_STOP_ALL_LOADING);
       commit(types.UI_ERROR_MSG, error.message || error);
     }
-    commit(types.UI_SET_TX_FAILED);
+    commit(types.UI_SET_TX_FAILED, true);
     throw error;
   }
 }

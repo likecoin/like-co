@@ -533,7 +533,7 @@ export default {
     },
     async onArweaveUploadSuccessStartRegisterISCNMessage(event) {
       const { action, data } = JSON.parse(event.data);
-      if (action === 'ARWEAVE_UPLOAD_SUCCESS_ON_REGISTER_ISCN') {
+      if (action === 'REGISTER_ISCN') {
         this.mainStatus = 'registerISCN';
         const {
           fingerprints, tags, url, type, license,
@@ -706,12 +706,6 @@ export default {
       }
       this.setDefaultCosmosWalletSource({ source: 'keplr', persistent: false });
       this.isUsingKeplr = true;
-      await this.$router.push({
-        name: 'in-widget-keplr',
-        query: {
-          to: 'like-arweave', amount: '1', remarks: 'lala', opener: 1, redirect_url: 'localhost:8080',
-        },
-      });
     },
   },
 };

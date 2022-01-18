@@ -196,54 +196,13 @@ export async function calculateGas(to) {
   return { gas, feeAmount };
 }
 
-export async function formatMessagesAndFee({
-  from,
-  to,
-  value,
-}) {
-  const amount = LIKEToAmount(value);
-  const { gas, feeAmount } = await calculateGas([to]);
-  const fee = {
-    amount: feeAmount,
-    gas,
-  };
-  const sendMsg = MsgSend.fromPartial({
-    fromAddress: from,
-    toAddress: to,
-    amount: [amount],
-  });
-  const msgs = {
-    typeUrl: '/cosmos.bank.v1beta1.MsgSend',
-    value: sendMsg,
-  };
-  return { msgs, fee };
-}
 
-export async function sign({
-  from,
-  to,
-  value,
-  memo,
-}, signer) {
-  const { msgs, fee } = await formatMessagesAndFee({
-    from,
-    to,
-    value,
-  });
-  if (!signingStargateClient) {
-    await initSigningStargateClient(COSMOS_RPC_API, signer);
-  }
-  const txRaw = await signingStargateClient.sign(from, [msgs], fee, memo);
-  return txRaw;
-}
 
 export async function broadcast(to, txRaw) {
   const { gas, feeAmount } = await calculateGas([to]);
   const txBytes = TxRaw.encode(txRaw).finish();
   const broadcastedTx = await signingStargateClient.broadcastTx(
     txBytes,
-    signingStargateClient.broadcastTimeoutMs,
-    signingStargateClient.broadcastPollIntervalMs,
   );
   return {
     txHash: broadcastedTx.transactionHash,
@@ -258,6 +217,7 @@ export async function transfer({
   to,
   value,
   memo,
+  signOnly = false,
 }, signer) {
   const amount = LIKEToAmount(value);
   const { gas, feeAmount } = await calculateGas([to]);
@@ -278,6 +238,10 @@ export async function transfer({
     typeUrl: '/cosmos.bank.v1beta1.MsgSend',
     value: sendMsg,
   };
+  if (signOnly) {
+    const signature = await signingStargateClient.sign(from, [msgs], fee, memo);
+    return signature;
+  }
   const broadcastedTx = await signingStargateClient.signAndBroadcast(from, [msgs], fee, memo);
   return {
     txHash: broadcastedTx.transactionHash,
