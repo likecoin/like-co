@@ -31,7 +31,7 @@ export async function sendCosmosPayment(
     values,
     memo,
     metadata,
-    isWordPressSideBar = false,
+    shouldShowTxDialog = true,
   } = payload;
   try {
     commit(types.UI_SET_SIGN_FINISH, false);
@@ -45,7 +45,7 @@ export async function sendCosmosPayment(
         values,
         memo,
       }, signer));
-    } else if (!isWordPressSideBar) {
+    } else if (shouldShowTxDialog) {
       ({ txHash, included } = await transferCosmos(
         {
           from,
@@ -75,7 +75,7 @@ export async function sendCosmosPayment(
       }
     }
     if (metadata) await api.apiPostTxMetadata(txHash, metadata);
-    if (!isWordPressSideBar) {
+    if (shouldShowTxDialog) {
       commit(types.UI_START_LOADING_TX, { isWait });
       commit(types.UI_SET_HIDE_TX_DIALOG_ACTION, !showDialogAction);
       commit(types.PAYMENT_SET_PENDING_HASH, txHash);
@@ -86,7 +86,7 @@ export async function sendCosmosPayment(
     commit(types.UI_SET_TX_FAILED, false);
     return txHash;
   } catch (error) {
-    if (!isWordPressSideBar) {
+    if (shouldShowTxDialog) {
       commit(types.UI_STOP_ALL_LOADING);
       commit(types.UI_ERROR_MSG, error.message || error);
     }
@@ -148,7 +148,7 @@ export async function sendISCNSignature(
     memo,
     description,
     cosmosWallet,
-    isWordPressSideBar = false,
+    shouldShowTxDialog = true,
   } = payload;
   try {
     const { transactionHash } = await signISCNTx({
@@ -163,7 +163,7 @@ export async function sendISCNSignature(
       description,
       cosmosWallet,
     }, signer, cosmosWallet, memo);
-    if (!isWordPressSideBar) {
+    if (shouldShowTxDialog) {
       commit(types.UI_START_LOADING_TX);
       commit(types.UI_SET_HIDE_TX_DIALOG_ACTION, !showDialogAction);
       commit(types.PAYMENT_SET_PENDING_HASH, transactionHash);
@@ -175,7 +175,7 @@ export async function sendISCNSignature(
     }
     return transactionHash;
   } catch (error) {
-    if (!isWordPressSideBar) {
+    if (shouldShowTxDialog) {
       commit(types.UI_STOP_ALL_LOADING);
       commit(types.UI_ERROR_MSG, error.message || error);
     }

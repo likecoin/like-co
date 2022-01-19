@@ -580,7 +580,7 @@ export default {
           license,
           url,
           signer,
-          isWordPressSideBar: true,
+          shouldShowTxDialog: false,
         });
         if (txHash) await this.postISCNTransaction({ txHash });
       } catch (error) {
@@ -664,7 +664,7 @@ export default {
           memo: this.remarks,
           showDialogAction: false,
           metadata,
-          isWordPressSideBar: true,
+          shouldShowTxDialog: false,
         });
         // UI will change when getIsSignFinishedState is true.
         // Hence, no need to set mainStatus = onUploadArweave.
