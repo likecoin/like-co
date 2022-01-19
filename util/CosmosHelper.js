@@ -196,8 +196,6 @@ export async function calculateGas(to) {
   return { gas, feeAmount };
 }
 
-
-
 export async function broadcast(to, txRaw) {
   const { gas, feeAmount } = await calculateGas([to]);
   const txBytes = TxRaw.encode(txRaw).finish();
