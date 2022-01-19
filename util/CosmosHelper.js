@@ -196,11 +196,26 @@ export async function calculateGas(to) {
   return { gas, feeAmount };
 }
 
+export async function broadcast(to, txRaw) {
+  const { gas, feeAmount } = await calculateGas([to]);
+  const txBytes = TxRaw.encode(txRaw).finish();
+  const broadcastedTx = await signingStargateClient.broadcastTx(
+    txBytes,
+  );
+  return {
+    txHash: broadcastedTx.transactionHash,
+    gas,
+    feeAmount,
+    included: () => queryTxInclusion(broadcastedTx.transactionHash, COSMOS_RESTFUL_API),
+  };
+}
+
 export async function transfer({
   from,
   to,
   value,
   memo,
+  signOnly = false,
 }, signer) {
   const amount = LIKEToAmount(value);
   const { gas, feeAmount } = await calculateGas([to]);
@@ -221,6 +236,10 @@ export async function transfer({
     typeUrl: '/cosmos.bank.v1beta1.MsgSend',
     value: sendMsg,
   };
+  if (signOnly) {
+    const signature = await signingStargateClient.sign(from, [msgs], fee, memo);
+    return signature;
+  }
   const broadcastedTx = await signingStargateClient.signAndBroadcast(from, [msgs], fee, memo);
   return {
     txHash: broadcastedTx.transactionHash,

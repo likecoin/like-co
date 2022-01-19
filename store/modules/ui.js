@@ -24,6 +24,8 @@ import {
   UI_LOGIN_OVERRIDE,
   UI_DISABLE_ERROR,
   UI_HEADER_UPDATE,
+  UI_SET_SIGN_FINISH,
+  UI_SET_TX_FAILED,
   UI_SET_HIDE_TX_DIALOG_ACTION,
   UI_SET_TX_DIALOG_ACTION,
   UI_OPEN_SLIDING_MENU,
@@ -54,9 +56,11 @@ const state = () => ({
   isLoading: false,
   isBlocking: false,
   isShowingTxPopup: false,
+  isTxFailed: false,
   isSlidingMenuOpen: false,
   isLoginOverride: false,
   isErrorDisabled: false,
+  isSignFinished: false,
   txDialogType: 'default',
   txDialogHideAction: false,
   txDialogActionRoute: null,
@@ -123,6 +127,12 @@ const mutations = {
   },
   [UI_STOP_LOADING](state) {
     state.isLoading = false;
+  },
+  [UI_SET_SIGN_FINISH](state, bool) {
+    state.isSignFinished = bool;
+  },
+  [UI_SET_TX_FAILED](state, bool) {
+    state.isTxFailed = bool;
   },
   [UI_START_LOADING_TX](state, { isWait = true } = {}) {
     state.isInTransaction = true;
