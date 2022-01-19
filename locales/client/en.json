@@ -1066,6 +1066,38 @@
       }
     }
   },
+  "ISCNARWidget": {
+    "transaction": {
+      "firstStep": "Sign  (1/2)",
+      "secondStep": "Sign  (2/2)",
+      "reminder": "Please sign with your wallet.",
+      "retry": "Retry",
+      "doNotCloseReminder": "Please do not close window.",
+      "signAgain": "You will request to sign again before finish."
+    },
+    "LIKEPay": {
+      "title": "Fee",
+      "amount": "{amount} LIKE",
+      "titleAndAmount": "Fee: {amount} LIKE"
+    },
+    "ISCN": {
+      "register": "Register",
+      "action": "Register ISCN",
+      "articleTitleTitle": "ISCN Title",
+      "articleTitleValue": "{title}",
+      "feeTitle": "Fee",
+      "feeAmount": "{ISCNTotalFee} LIKE"
+    },
+    "upload": {
+      "inProcess": "Uploading...",
+      "success": "Upload succeeded. Please sign again to complete.",
+      "waiting": "Depend on the file size, it may take several minutes."
+    },
+    "ledger": {
+      "warning": "Do not connect to Ledger hardware wallets for signing.",
+      "unavailable": "Ledger service temporarily unavailable."
+    }
+  },
   "RewardRecords": {
     "title": "Reward Records"
   },

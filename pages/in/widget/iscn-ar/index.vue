@@ -18,7 +18,7 @@
 
         <div class="likepay-panel__section-meta">
           <div style="text-align: center">
-            <h3 style="color: #9B9B9B;">Upload succeeded. Please sign again to complete.</h3>
+            <h3 style="color: #9B9B9B;">{{ $t('ISCNARWidget.upload.success') }}</h3>
           </div>
         </div>
         <div class="likepay-panel__section-meta">
@@ -28,8 +28,8 @@
           class="likepay-panel__section-meta"
           style="margin-top: 5px; display: flex; flex-direction: row;"
         >
-          <div class="likepay-panel__section-meta-label"> Fee </div>
-          <div style="margin-left: 75px;"> {{ ISCNTotalFee }} LIKE </div>
+          <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.ISCN.feeTitle') }} </div>
+          <div style="margin-left: 75px;"> {{ $t('ISCNARWidget.ISCN.feeAmount', { ISCNTotalFee }) }} </div>
         </div>
       </section>
       <section
@@ -62,8 +62,8 @@
         />
       </div>
       <div>
-        <div>Do not connect to Ledger hardware wallets for signing.</div>
-        <div>Ledger service temporarily unavailable.</div>
+        <div>{{ $t('ISCNARWidget.ledger.warning') }}</div>
+        <div>{{ $t('ISCNARWidget.ledger.unavailable') }}</div>
       </div>
     </div>
   </div>
@@ -83,11 +83,11 @@
           <div
             class="likepay-panel__header-title"
             style="margin-right: auto; color: #28646E; padding-left: 10px"
-          >{{ 'Sign  (2/2)' }}</div>
+          >{{ $t('ISCNARWidget.transaction.secondStep') }}</div>
         </header>
 
         <div class="likepay-panel__section-meta">
-          <div style="text-align: center"> <h3 style="color: #9B9B9B; margin: 0 -6px">Please sign with your wallet. </h3></div>
+          <div style="text-align: center"> <h3 style="color: #9B9B9B; margin: 0 -6px">{{ $t('ISCNARWidget.transaction.reminder') }}</h3></div>
         </div>
         <div class="likepay-panel__section-meta">
           <div
@@ -98,8 +98,8 @@
           class="likepay-panel__section-meta"
           style="margin-top: 5px; display: flex; flex-direction: row;"
         >
-          <div class="likepay-panel__section-meta-label"> Fee </div>
-          <div style="margin-left: 75px;"> {{ ISCNTotalFee }} LIKE </div>
+          <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.ISCN.feeTitle') }} </div>
+          <div style="margin-left: 75px;"> {{ $t('ISCNARWidget.ISCN.feeAmount', { ISCNTotalFee }) }} </div>
         </div>
       </section>
       <section
@@ -112,7 +112,7 @@
             padding: 10px 16px; background-color: white; cursor: pointer;"
           @click="submitISCNTransfer"
         >
-          Retry
+          {{ $t('ISCNARWidget.transaction.retry') }}
         </button>
       </section>
     </div>
@@ -130,7 +130,7 @@
             width="20"
             height="20"
           />
-          <div class="likepay-panel__header-title" style="margin-right: auto; color: #28646E; padding-left: 10px">{{ 'Uploading...' }}</div>
+          <div class="likepay-panel__header-title" style="margin-right: auto; color: #28646E; padding-left: 10px">{{ $t('ISCNARWidget.upload.inProcess') }}</div>
         </header>
         <div class="likepay-panel__section-meta">
           <div style="display: flex; margin: 40px">
@@ -141,15 +141,15 @@
               <div class="loading-progress" />
             </div>
           </div>
-          <div style="text-align: center"> <h3 style="color: #9B9B9B; margin: 0 -6px">Please do not close window. </h3></div>
+          <div style="text-align: center"> <h3 style="color: #9B9B9B; margin: 0 -6px">{{ $t('ISCNARWidget.transaction.doNotCloseReminder') }} </h3></div>
         </div>
         <div class="likepay-panel__section-meta">
           <div style="width: 32px; border: 2px solid #EBEBEB; background-color:#EBEBEB" />
         </div>
         <div class="likepay-panel__section-meta">
           <div style="font-size: 14px">
-            <div>Depend on the file size, it may take several minutes. </div>
-            <div>You will request to sign again before finish. </div>
+            <div>{{ $t('ISCNARWidget.upload.waiting') }} </div>
+            <div>{{ $t('ISCNARWidget.transaction.signAgain') }} </div>
           </div>
         </div>
       </section>
@@ -171,11 +171,11 @@
           <div
             class="likepay-panel__header-title"
             style="margin-right: auto; color: #28646E; padding-left: 10px"
-          >{{ 'Sign  (1/2)' }}</div>
+          >{{ $t('ISCNARWidget.transaction.firstStep') }}</div>
         </header>
 
         <div class="likepay-panel__section-meta">
-          <div style="text-align: center"> <h3 style="color: #9B9B9B; margin: 0 -6px">Please sign with your wallet. </h3></div>
+          <div style="text-align: center"> <h3 style="color: #9B9B9B; margin: 0 -6px">{{ $t('ISCNARWidget.transaction.reminder') }} </h3></div>
         </div>
         <div class="likepay-panel__section-meta">
           <div style="width: 32px; border: 2px solid #EBEBEB; background-color:#EBEBEB" />
@@ -184,8 +184,8 @@
           class="likepay-panel__section-meta"
           style="margin-top: 5px; display: flex; flex-direction: row;"
         >
-          <div class="likepay-panel__section-meta-label"> Fee </div>
-          <div style="margin-left: 75px;"> {{ amounts[0] }} LIKE </div>
+          <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.LIKEPay.title') }} </div>
+          <div style="margin-left: 75px;"> {{ $t('ISCNARWidget.LIKEPay.amount', { amount: amounts[0] }) }} </div>
         </div>
       </section>
       <section
@@ -198,7 +198,7 @@
             padding: 10px 16px; background-color: white; cursor: pointer;"
           @click="submitTransfer"
         >
-          Retry
+          {{ $t('ISCNARWidget.transaction.retry') }}
         </button>
       </section>
     </div>
@@ -218,8 +218,8 @@
         />
       </div>
       <div>
-        <div>Do not connect to Ledger hardware wallets for signing.</div>
-        <div>Ledger service temporarily unavailable.</div>
+        <div>{{ $t('ISCNARWidget.ledger.warning') }}</div>
+        <div>{{ $t('ISCNARWidget.ledger.unavailable') }}</div>
       </div>
     </div>
   </div>
@@ -239,27 +239,27 @@
           <div
             class="likepay-panel__header-title"
             style="margin-right: auto; color: #28646E; padding-left: 10px"
-          >{{ 'Register ISCN' }}</div>
+          >{{ $t('ISCNARWidget.ISCN.action') }}</div>
         </header>
 
         <div class="likepay-panel__section-meta">
-          <div class="likepay-panel__section-meta-label"> ISCN Title </div>
-          <div style="margin-top: 10px"> <p> {{ title }} </p> </div>
+          <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.ISCN.articleTitleTitle') }} </div>
+          <div style="margin-top: 10px"> <p> {{ $t('ISCNARWidget.ISCN.articleTitleValue', { title }) }} </p> </div>
         </div>
         <div class="likepay-panel__section-meta">
-          <div class="likepay-panel__section-meta-label"> Fee </div>
-          <div style="margin-top: 10px"> <p> {{ amounts[0] }} LIKE </p> </div>
+          <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.LIKEPay.title') }} </div>
+          <div style="margin-top: 10px"> <p> {{ $t('ISCNARWidget.LIKEPay.amount', { amount: amounts[0] }) }} </p> </div>
         </div>
       </section>
       <section style="display: flex; flex-direction: row; padding: 10px">
-        <div style="margin: auto 0 auto auto; color: #9B9B9B;"> Fee: {{ amounts[0] }} LIKE </div>
+        <div style="margin: auto 0 auto auto; color: #9B9B9B;"> {{ $t('ISCNARWidget.LIKEPay.titleAndAmount', { amount: amounts[0] }) }} </div>
         <button
           style="display: flex; flex-direction: row; background-color: #AAF1E7;
                  color: #28646E; border-radius: 12px; border: none; margin: 10px;
                  padding: 10px 15px; cursor: pointer"
           @click="onClickRedirectToKeplrSign"
         >
-          <p style="margin: auto 10px auto auto; font-weight: 600;">Register</p>
+          <p style="margin: auto 10px auto auto; font-weight: 600;">{{ $t('ISCNARWidget.ISCN.register') }}</p>
           <simple-svg
             :filepath="ArrowRightNewIcon"
             width="16"
