@@ -68,56 +68,6 @@
     </div>
   </div>
   <div
-    v-else-if="mainStatus === 'directRegisterISCN'"
-    key="loading"
-    class="likepay-body likepay-body--center"
-  >
-    <div class="iscn-ar-panel">
-      <section class="likepay-panel__section-container">
-        <header class="likepay-panel__section-header">
-          <simple-svg
-            :filepath="StarIcon"
-            width="20"
-            height="20"
-          />
-          <div
-            class="likepay-panel__header-title"
-            style="margin-right: auto; color: #28646E; padding-left: 10px"
-          >{{ $t('ISCNARWidget.transaction.secondStep') }}</div>
-        </header>
-
-        <div class="likepay-panel__section-meta">
-          <div style="text-align: center"> <h3 style="color: #9B9B9B; margin: 0 -6px">{{ $t('ISCNARWidget.transaction.reminder') }}</h3></div>
-        </div>
-        <div class="likepay-panel__section-meta">
-          <div
-            style="width: 32px; border: 2px solid #EBEBEB; background-color:#EBEBEB"
-          />
-        </div>
-        <div
-          class="likepay-panel__section-meta"
-          style="margin-top: 5px; display: flex; flex-direction: row;"
-        >
-          <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.ISCN.feeTitle') }} </div>
-          <div style="margin-left: 75px;"> {{ $t('ISCNARWidget.ISCN.feeAmount', { ISCNTotalFee }) }} </div>
-        </div>
-      </section>
-      <section
-        v-if="getIsTxFailed && transactionStatus === 'failed'"
-        style="display: flex; flex-direction: row; padding: 10px 10px 30px 10px"
-      >
-        <button
-          style="
-            color: #4A4A4A; border-radius: 12px; border: 2px solid #9B9B9B; margin: auto;
-            padding: 10px 16px; background-color: white; cursor: pointer;"
-          @click="submitISCNTransfer"
-        >
-          {{ $t('ISCNARWidget.transaction.retry') }}
-        </button>
-      </section>
-    </div>
-  </div>
-  <div
     v-else-if="getIsSignFinishedState"
     key="loading"
     class="likepay-body likepay-body--center"
@@ -248,11 +198,11 @@
         </div>
         <div class="likepay-panel__section-meta">
           <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.LIKEPay.title') }} </div>
-          <div style="margin-top: 10px"> <p> {{ $t('ISCNARWidget.LIKEPay.amount', { amount: amounts[0] }) }} </p> </div>
+          <div style="margin-top: 10px"> <p> {{ $t('ISCNARWidget.LIKEPay.amount', { amount: transactionFee }) }} </p> </div>
         </div>
       </section>
       <section style="display: flex; flex-direction: row; padding: 10px">
-        <div style="margin: auto 0 auto auto; color: #9B9B9B;"> {{ $t('ISCNARWidget.LIKEPay.titleAndAmount', { amount: amounts[0] }) }} </div>
+        <div style="margin: auto 0 auto auto; color: #9B9B9B;"> {{ $t('ISCNARWidget.LIKEPay.titleAndAmount', { amount: transactionFee }) }} </div>
         <button
           style="display: flex; flex-direction: row; background-color: #AAF1E7;
                  color: #28646E; border-radius: 12px; border: none; margin: 10px;
@@ -305,6 +255,7 @@ export default {
       toIds: [],
       toUsers: [],
       amounts: [],
+      transactionFee: 0,
       redirectUri: '',
       showDetails: false,
       gasFee: '',
@@ -516,6 +467,7 @@ export default {
       license,
       url,
     });
+    this.transactionFee = this.actualSendAmount === 0 || this.actualSendAmount === '0' ? this.ISCNTotalFee : this.amounts[0];
   },
   methods: {
     ...mapActions([
@@ -623,12 +575,13 @@ export default {
       this.isUsingKeplr = true;
       // Direct register ISCN flow
       if (this.actualSendAmount === 0 || this.actualSendAmount === '0') {
-        this.mainStatus = 'directRegisterISCN';
+        this.mainStatus = 'registerISCN';
         this.submitISCNTransfer();
         return;
       }
       // pay LIKE Pay
       this.mainStatus = 'LIKEPay';
+      [this.transactionFee] = [this.amounts[0]];
       await this.submitTransfer();
     },
     async submitTransfer() {
