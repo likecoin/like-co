@@ -1070,10 +1070,10 @@
     "transaction": {
       "firstStep": "Sign  (1/2)",
       "secondStep": "Sign  (2/2)",
-      "reminder": "Please sign with your wallet.",
+      "reminder": "Please sign with your wallet",
       "retry": "Retry",
-      "doNotCloseReminder": "Please do not close window.",
-      "signAgain": "You will request to sign again before finish."
+      "doNotCloseReminder": "Please do not close this window",
+      "signAgain": "You will be requested to sign again before finish"
     },
     "LIKEPay": {
       "title": "Fee",
@@ -1081,8 +1081,8 @@
       "titleAndAmount": "Fee: {amount} LIKE"
     },
     "ISCN": {
-      "register": "Register",
-      "action": "Register ISCN",
+      "register": "DePub",
+      "action": "DePub your work",
       "articleTitleTitle": "ISCN Title",
       "articleTitleValue": "{title}",
       "feeTitle": "Fee",
@@ -1090,12 +1090,12 @@
     },
     "upload": {
       "inProcess": "Uploading...",
-      "success": "Upload succeeded. Please sign again to complete.",
-      "waiting": "Depend on the file size, it may take several minutes."
+      "success": "Upload succeeded. Please sign again to complete DePub.",
+      "waiting": "Depends on the file size, the process may take several minutes."
     },
     "ledger": {
-      "warning": "Do not connect to Ledger hardware wallets for signing.",
-      "unavailable": "Ledger service temporarily unavailable."
+      "warning": "Do not connect to Ledger for signing",
+      "unavailable": "Ledger is temporarily not supported"
     }
   },
   "RewardRecords": {

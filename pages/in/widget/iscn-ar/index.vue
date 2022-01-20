@@ -156,7 +156,7 @@
     </div>
   </div>
   <div
-    v-else-if="mainStatus === 'onLIKEPay'"
+    v-else-if="mainStatus === 'LIKEPay'"
     key="loading"
     class="likepay-body likepay-body--center"
   >
@@ -531,7 +531,7 @@ export default {
       this.gasFee = BigNumber(feeAmount[0].amount).dividedBy(1e9).toFixed();
       return this.gasFee;
     },
-    async onArweaveUploadSuccessStartRegisterISCNMessage(event) {
+    async onStartRegisterISCNMessage(event) {
       const { action, data } = JSON.parse(event.data);
       if (action === 'REGISTER_ISCN') {
         this.mainStatus = 'registerISCN';
@@ -628,7 +628,7 @@ export default {
         return;
       }
       // pay LIKE Pay
-      this.mainStatus = 'onLIKEPay';
+      this.mainStatus = 'LIKEPay';
       await this.submitTransfer();
     },
     async submitTransfer() {
@@ -693,7 +693,7 @@ export default {
           window.opener.postMessage(message, this.redirectOrigin);
           window.addEventListener(
             'message',
-            this.onArweaveUploadSuccessStartRegisterISCNMessage,
+            this.onStartRegisterISCNMessage,
             false,
           );
         }
