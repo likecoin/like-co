@@ -265,6 +265,8 @@ export default {
       fingerprints: [],
       title: '',
       type: 'article',
+      author: '',
+      description: '',
       tags: [],
       license: '',
       publisher: '',
@@ -291,6 +293,8 @@ export default {
       tags: tagsString = '',
       url,
       publisher,
+      author,
+      description,
     } = query;
     let {
       remarks = '', title, license,
@@ -373,6 +377,8 @@ export default {
         remarks,
         opener: hasOpener,
         title,
+        author,
+        description,
         tags,
         url,
         fingerprints,
@@ -458,7 +464,8 @@ export default {
     }
     this.ISCNTotalFee = await this.calculateISCNTxTotalFee({
       userId: this.getUserId,
-      displayName: this.getUserInfo.displayName,
+      displayName: this.getUserInfo.displayName || this.author,
+      description: this.description,
       cosmosWallet,
       fingerprints,
       name: title,
@@ -488,13 +495,15 @@ export default {
       if (action === 'REGISTER_ISCN') {
         this.mainStatus = 'registerISCN';
         const {
-          fingerprints, tags, url, type, license,
+          fingerprints, tags, url, type, license, author, description,
         } = data;
         this.fingerprints = fingerprints;
         this.tags = tags;
         this.url = url;
         this.type = type;
         this.license = license;
+        this.author = author;
+        this.description = description;
         await this.submitISCNTransfer();
       }
     },
@@ -524,7 +533,8 @@ export default {
         const txHash = await this.sendISCNSignature({
           cosmosWallet: from,
           userId: this.getUserId || '',
-          displayName: this.getUserInfo.displayName || '',
+          displayName: this.getUserInfo.displayName || this.author || '',
+          description: this.description,
           fingerprints,
           name: title,
           tags,

@@ -29,6 +29,7 @@ function getPublisherISCNPayload(user, { publisher, license }) {
     userId,
     displayName,
     cosmosWallet,
+    description: authorDescription,
   } = user;
   let usageInfo;
   const stakeholders = [];
@@ -68,10 +69,12 @@ function getPublisherISCNPayload(user, { publisher, license }) {
       rewardProportion: 1,
       contributionType: 'http://schema.org/author',
     });
-  } else if (cosmosWallet) {
+  } else if (cosmosWallet) { // from Keplr
     stakeholders.unshift({
       entity: {
         '@id': `did:cosmos:${cosmosWallet.split('cosmos')[1]}`,
+        name: displayName, // if from WordPress, this would be WP user display name
+        description: authorDescription, // if from WordPress, this would be WP Biographical Info
       },
       rewardProportion: 1,
       contributionType: 'http://schema.org/author',
@@ -104,6 +107,7 @@ function preformatISCNPayload(payload) {
     userId,
     displayName,
     cosmosWallet,
+    description,
   }, { publisher, license });
 
   switch (type) {
