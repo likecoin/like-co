@@ -1,5 +1,5 @@
 import { StargateClient } from '@cosmjs/stargate';
-import { parseISCNTxInfoFromIndexedTx } from '@likecoin/iscn-js';
+import { parseISCNTxInfoFromIndexedTx, ISCNQueryClient } from '@likecoin/iscn-js';
 
 import { timeout } from '@/util/misc';
 import { EXTERNAL_URL } from '@/constant';
@@ -45,10 +45,6 @@ export async function getISCNTransferInfo(txHash, opt) {
   // Not LIKE transfer, continue parse ISCN transaction payload
   parsed.tx.body.messages.forEach((m, index) => {
     const data = m.value.record;
-    let iscnVersion;
-    if (data.contentMetadata) {
-      iscnVersion = data.contentMetadata.version;
-    }
     if (!data) return;
     const log = parsed.logs[index];
     const event = log.events.find(e => e.type === 'iscn_record');
@@ -66,10 +62,14 @@ export async function getISCNTransferInfo(txHash, opt) {
       id: iscnId,
       data,
       owner,
-      iscnVersion,
     });
   });
   const [message] = messages;
+  const queryClient = new ISCNQueryClient();
+  await queryClient.connect(ISCN_RPC_URL);
+  const res = await queryClient.queryRecordsById(message.id);
+  if (!res) throw Error('Error occured when querying ISCN record.');
+  const iscnVersion = res.records[0].data.recordVersion;
   const {
     ipld,
     id: iscnId,
@@ -86,7 +86,6 @@ export async function getISCNTransferInfo(txHash, opt) {
       recordNotes,
       contentFingerprints,
     },
-    iscnVersion,
   } = message;
   let parsedFingerprint = contentFingerprints.find(f => f.includes('ipfs://'));
   if (parsedFingerprint) [, parsedFingerprint] = parsedFingerprint.split('ipfs://');
