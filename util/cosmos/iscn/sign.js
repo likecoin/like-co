@@ -29,7 +29,7 @@ function getPublisherISCNPayload(user, { publisher, license }) {
     userId,
     displayName,
     cosmosWallet,
-    description: authorDescription,
+    authorDescription,
   } = user;
   let usageInfo;
   const stakeholders = [];
@@ -97,7 +97,8 @@ function preformatISCNPayload(payload) {
     type,
     license,
     publisher,
-    description,
+    authorDescription,
+    ISCNDescription,
     url,
   } = payload;
 
@@ -107,7 +108,7 @@ function preformatISCNPayload(payload) {
     userId,
     displayName,
     cosmosWallet,
-    description,
+    authorDescription,
   }, { publisher, license });
 
   switch (type) {
@@ -127,7 +128,7 @@ function preformatISCNPayload(payload) {
 
   const preformatedPayload = {
     name,
-    description,
+    description: ISCNDescription,
     url,
     keywords: tags,
     type: actualType,

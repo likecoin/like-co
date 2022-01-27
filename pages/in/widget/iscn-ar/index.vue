@@ -266,7 +266,8 @@ export default {
       title: '',
       type: 'article',
       author: '',
-      description: '',
+      authorDescription: '',
+      ISCNDescription: '',
       tags: [],
       license: '',
       publisher: '',
@@ -294,7 +295,8 @@ export default {
       url,
       publisher,
       author,
-      description,
+      author_description: authorDescription,
+      ISCN_description: ISCNDescription,
     } = query;
     let {
       remarks = '', title, license,
@@ -378,7 +380,8 @@ export default {
         opener: hasOpener,
         title,
         author,
-        description,
+        authorDescription,
+        ISCNDescription,
         tags,
         url,
         fingerprints,
@@ -468,7 +471,8 @@ export default {
     this.ISCNTotalFee = await this.calculateISCNTxTotalFee({
       userId: this.getUserId,
       displayName: this.getUserInfo.displayName || this.author,
-      description: this.description,
+      authorDescription: this.authorDescription,
+      ISCNDescription: this.ISCNDescription,
       cosmosWallet,
       fingerprints,
       name: title,
@@ -494,20 +498,23 @@ export default {
       return this.gasFee;
     },
     async onStartRegisterISCNMessage(event) {
-      const { action, data } = JSON.parse(event.data);
-      if (action === 'REGISTER_ISCN') {
-        this.mainStatus = 'registerISCN';
-        const {
-          fingerprints, tags, url, type, license, author, description,
-        } = data;
-        this.fingerprints = fingerprints;
-        this.tags = tags;
-        this.url = url;
-        this.type = type;
-        this.license = license;
-        this.author = author;
-        this.description = description;
-        await this.submitISCNTransfer();
+      if (event && event.data && typeof event.data === 'string') {
+        const { action, data } = JSON.parse(event.data);
+        if (action === 'REGISTER_ISCN') {
+          this.mainStatus = 'registerISCN';
+          const {
+            fingerprints, tags, url, type, license, author, authorDescription, ISCNDescription,
+          } = data;
+          this.fingerprints = fingerprints;
+          this.tags = tags;
+          this.url = url;
+          this.type = type;
+          this.license = license;
+          this.author = author;
+          this.authorDescription = authorDescription;
+          this.ISCNDescription = ISCNDescription;
+          await this.submitISCNTransfer();
+        }
       }
     },
     async submitISCNTransfer() {
@@ -537,7 +544,8 @@ export default {
           cosmosWallet: from,
           userId: this.getUserId || '',
           displayName: this.getUserInfo.displayName || this.author || '',
-          description: this.description,
+          authorDescription: this.authorDescription,
+          ISCNDescription: this.ISCNDescription,
           fingerprints,
           name: title,
           tags,
