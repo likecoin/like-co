@@ -594,7 +594,7 @@ export default {
       }
       // pay LIKE Pay
       this.mainStatus = 'LIKEPay';
-      [this.transactionFee] = [this.amounts[0]];
+      [this.transactionFee] = this.amounts;
       await this.submitTransfer();
     },
     async submitTransfer() {
