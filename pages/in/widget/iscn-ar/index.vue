@@ -424,6 +424,9 @@ export default {
       const amount = new BigNumber(this.sumOfToAmount);
       return amount.toFixed();
     },
+    shouldSkipLIKEPay() {
+      return this.actualSendAmount === '0';
+    },
     totalAmount() {
       let amount = new BigNumber(this.actualSendAmount);
       if (this.gasFee) amount = amount.plus(this.gasFee);
@@ -474,7 +477,7 @@ export default {
       license,
       url,
     });
-    this.transactionFee = this.actualSendAmount === 0 || this.actualSendAmount === '0' ? this.ISCNTotalFee : this.amounts[0];
+    this.transactionFee = this.shouldSkipLIKEPay ? this.ISCNTotalFee : this.amounts[0];
   },
   methods: {
     ...mapActions([
@@ -584,7 +587,7 @@ export default {
       this.setDefaultCosmosWalletSource({ source: 'keplr', persistent: false });
       this.isUsingKeplr = true;
       // Direct register ISCN flow
-      if (this.actualSendAmount === 0 || this.actualSendAmount === '0') {
+      if (this.shouldSkipLIKEPay) {
         this.mainStatus = 'registerISCN';
         this.submitISCNTransfer();
         return;
