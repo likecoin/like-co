@@ -267,7 +267,7 @@ export default {
       type: 'article',
       author: '',
       authorDescription: '',
-      ISCNDescription: '',
+      description: '',
       tags: [],
       license: '',
       publisher: '',
@@ -296,7 +296,7 @@ export default {
       publisher,
       author,
       author_description: authorDescription,
-      ISCN_description: ISCNDescription,
+      description,
     } = query;
     let {
       remarks = '', title, license,
@@ -381,7 +381,7 @@ export default {
         title,
         author,
         authorDescription,
-        ISCNDescription,
+        description,
         tags,
         url,
         fingerprints,
@@ -472,7 +472,7 @@ export default {
       userId: this.getUserId,
       displayName: this.getUserInfo.displayName || this.author,
       authorDescription: this.authorDescription,
-      ISCNDescription: this.ISCNDescription,
+      description: this.description,
       cosmosWallet,
       fingerprints,
       name: title,
@@ -503,7 +503,7 @@ export default {
         if (action === 'REGISTER_ISCN') {
           this.mainStatus = 'registerISCN';
           const {
-            fingerprints, tags, url, type, license, author, authorDescription, ISCNDescription,
+            fingerprints, tags, url, type, license, author, authorDescription, description,
           } = data;
           this.fingerprints = fingerprints;
           this.tags = tags;
@@ -512,7 +512,7 @@ export default {
           this.license = license;
           this.author = author;
           this.authorDescription = authorDescription;
-          this.ISCNDescription = ISCNDescription;
+          this.description = description;
           await this.submitISCNTransfer();
         }
       }
@@ -545,7 +545,7 @@ export default {
           userId: this.getUserId || '',
           displayName: this.getUserInfo.displayName || this.author || '',
           authorDescription: this.authorDescription,
-          ISCNDescription: this.ISCNDescription,
+          description: this.description,
           fingerprints,
           name: title,
           tags,

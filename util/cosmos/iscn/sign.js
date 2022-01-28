@@ -98,7 +98,7 @@ function preformatISCNPayload(payload) {
     license,
     publisher,
     authorDescription,
-    ISCNDescription,
+    description,
     url,
   } = payload;
 
@@ -128,7 +128,7 @@ function preformatISCNPayload(payload) {
 
   const preformatedPayload = {
     name,
-    description: ISCNDescription,
+    description,
     url,
     keywords: tags,
     type: actualType,

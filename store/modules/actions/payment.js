@@ -108,7 +108,7 @@ export async function calculateISCNTxTotalFee({ commit },
     license,
     publisher,
     authorDescription,
-    ISCNDescription,
+    description,
     url,
   } = payload;
   const { ISCNTotalFee } = await calculateISCNTotalFee({
@@ -122,7 +122,7 @@ export async function calculateISCNTxTotalFee({ commit },
     license,
     publisher,
     authorDescription,
-    ISCNDescription,
+    description,
     url,
   });
   commit(types.ISCN_SET_TOTAL_FEE, ISCNTotalFee);
@@ -149,7 +149,7 @@ export async function sendISCNSignature(
     publisher,
     memo,
     authorDescription,
-    ISCNDescription,
+    description,
     cosmosWallet,
     shouldShowTxDialog = true,
   } = payload;
@@ -164,7 +164,7 @@ export async function sendISCNSignature(
       license,
       publisher,
       authorDescription,
-      ISCNDescription,
+      description,
       cosmosWallet,
     }, signer, cosmosWallet, memo);
     if (shouldShowTxDialog) {
