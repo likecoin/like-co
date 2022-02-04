@@ -5,6 +5,7 @@ import * as types from '@/store/mutation-types';
 import {
   transfer as transferCosmos,
   transferMultiple as transferCosmosMultiple,
+  broadcast as broadcastCosmos,
 } from '@/util/CosmosHelper';
 import {
   signISCNTx,
@@ -22,16 +23,19 @@ export async function sendCosmosPayment(
     ...payload
   },
 ) {
+  const {
+    from,
+    to,
+    tos,
+    value,
+    values,
+    memo,
+    metadata,
+    shouldShowTxDialog = true,
+  } = payload;
   try {
-    const {
-      from,
-      to,
-      tos,
-      value,
-      values,
-      memo,
-      metadata,
-    } = payload;
+    commit(types.UI_SET_SIGN_FINISH, false);
+    commit(types.UI_SET_TX_FAILED, false);
     let txHash;
     let included;
     if (tos && values) {
@@ -41,25 +45,52 @@ export async function sendCosmosPayment(
         values,
         memo,
       }, signer));
+    } else if (shouldShowTxDialog) {
+      ({ txHash, included } = await transferCosmos(
+        {
+          from,
+          to,
+          value,
+          memo,
+        },
+        signer,
+      ));
     } else {
-      ({ txHash, included } = await transferCosmos({
-        from,
-        to,
-        value,
-        memo,
-      }, signer));
+      const txRaw = await transferCosmos(
+        {
+          from,
+          to,
+          value,
+          memo,
+          signOnly: true,
+        },
+        signer,
+      );
+      if (txRaw) {
+        commit(types.UI_SET_SIGN_FINISH, true);
+        ({ txHash, included } = await broadcastCosmos(to, txRaw));
+      } else {
+        commit(types.UI_SET_SIGN_FINISH, false);
+        commit(types.UI_SET_TX_FAILED, true);
+      }
     }
     if (metadata) await api.apiPostTxMetadata(txHash, metadata);
-    commit(types.UI_START_LOADING_TX, { isWait });
-    commit(types.UI_SET_HIDE_TX_DIALOG_ACTION, !showDialogAction);
-    commit(types.PAYMENT_SET_PENDING_HASH, txHash);
-    commit(types.PAYMENT_SET_PENDING_TX_INFO, { from, to, value });
-    if (isWait) await included();
-    commit(types.UI_STOP_LOADING_TX);
+    if (shouldShowTxDialog) {
+      commit(types.UI_START_LOADING_TX, { isWait });
+      commit(types.UI_SET_HIDE_TX_DIALOG_ACTION, !showDialogAction);
+      commit(types.PAYMENT_SET_PENDING_HASH, txHash);
+      commit(types.PAYMENT_SET_PENDING_TX_INFO, { from, to, value });
+      if (isWait) await included();
+      commit(types.UI_STOP_LOADING_TX);
+    }
+    commit(types.UI_SET_TX_FAILED, false);
     return txHash;
   } catch (error) {
-    commit(types.UI_STOP_ALL_LOADING);
-    commit(types.UI_ERROR_MSG, error.message || error);
+    if (shouldShowTxDialog) {
+      commit(types.UI_STOP_ALL_LOADING);
+      commit(types.UI_ERROR_MSG, error.message || error);
+    }
+    commit(types.UI_SET_TX_FAILED, true);
     throw error;
   }
 }
@@ -76,6 +107,7 @@ export async function calculateISCNTxTotalFee({ commit },
     type,
     license,
     publisher,
+    authorDescription,
     description,
     url,
   } = payload;
@@ -89,6 +121,7 @@ export async function calculateISCNTxTotalFee({ commit },
     type,
     license,
     publisher,
+    authorDescription,
     description,
     url,
   });
@@ -105,20 +138,22 @@ export async function sendISCNSignature(
     ...payload
   },
 ) {
+  const {
+    userId,
+    displayName,
+    fingerprints,
+    name,
+    tags,
+    type,
+    license,
+    publisher,
+    memo,
+    authorDescription,
+    description,
+    cosmosWallet,
+    shouldShowTxDialog = true,
+  } = payload;
   try {
-    const {
-      userId,
-      displayName,
-      fingerprints,
-      name,
-      tags,
-      type,
-      license,
-      publisher,
-      memo,
-      description,
-      cosmosWallet,
-    } = payload;
     const { transactionHash } = await signISCNTx({
       userId,
       displayName,
@@ -128,18 +163,27 @@ export async function sendISCNSignature(
       type,
       license,
       publisher,
+      authorDescription,
       description,
       cosmosWallet,
     }, signer, cosmosWallet, memo);
-    commit(types.UI_START_LOADING_TX);
-    commit(types.UI_SET_HIDE_TX_DIALOG_ACTION, !showDialogAction);
-    commit(types.PAYMENT_SET_PENDING_HASH, transactionHash);
-    // if (isWait) await included();
-    commit(types.UI_STOP_LOADING_TX);
+    if (shouldShowTxDialog) {
+      commit(types.UI_START_LOADING_TX);
+      commit(types.UI_SET_HIDE_TX_DIALOG_ACTION, !showDialogAction);
+      commit(types.PAYMENT_SET_PENDING_HASH, transactionHash);
+      // if (isWait) await included();
+      commit(types.UI_STOP_LOADING_TX);
+    }
+    if (!transactionHash) {
+      commit(types.UI_SET_TX_FAILED, true);
+    }
     return transactionHash;
   } catch (error) {
-    commit(types.UI_STOP_ALL_LOADING);
-    commit(types.UI_ERROR_MSG, error.message || error);
+    if (shouldShowTxDialog) {
+      commit(types.UI_STOP_ALL_LOADING);
+      commit(types.UI_ERROR_MSG, error.message || error);
+    }
+    commit(types.UI_SET_TX_FAILED, true);
     throw error;
   }
 }

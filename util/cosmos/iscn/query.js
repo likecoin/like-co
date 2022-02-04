@@ -1,5 +1,5 @@
 import { StargateClient } from '@cosmjs/stargate';
-import { parseISCNTxInfoFromIndexedTx } from '@likecoin/iscn-js';
+import { parseISCNTxInfoFromIndexedTx, ISCNQueryClient } from '@likecoin/iscn-js';
 
 import { timeout } from '@/util/misc';
 import { EXTERNAL_URL } from '@/constant';
@@ -65,6 +65,11 @@ export async function getISCNTransferInfo(txHash, opt) {
     });
   });
   const [message] = messages;
+  const queryClient = new ISCNQueryClient();
+  await queryClient.connect(ISCN_RPC_URL);
+  const res = await queryClient.queryRecordsById(message.id);
+  if (!res) throw Error('Error occured when querying ISCN record.');
+  const iscnVersion = res.records[0].data.recordVersion;
   const {
     ipld,
     id: iscnId,
@@ -100,6 +105,7 @@ export async function getISCNTransferInfo(txHash, opt) {
     stakeholders,
     contentTimestamp: (new Date(timestamp)).getTime(),
     timestamp: (new Date(timestamp)).getTime() / 1000,
+    iscnVersion,
     recordNotes,
     isISCNTx,
   };

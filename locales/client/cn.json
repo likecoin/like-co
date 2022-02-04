@@ -944,6 +944,37 @@
             "metamaskWalletNotMatch": "你的钱包地址跟目前的 Metamask 地址不相符"
         }
     },
+    "ISCNARWidget": {
+    "transaction": {
+      "firstStep": "签署  (1/2)",
+      "secondStep": "签署  (2/2)",
+      "reminder": "请以你的钱包签署",
+      "retry": "重试",
+      "doNotCloseReminder": "请勿关闭此视窗",
+      "signAgain": "你还需要再签署一次才完成程序"
+    },
+    "LIKEPay": {
+      "title": "费用",
+      "amount": "{amount} LIKE",
+      "titleAndAmount": "费用: {amount} LIKE"
+    },
+    "ISCN": {
+      "register": "DePub",
+      "action": "DePub 作品",
+      "articleTitleTitle": "ISCN 标题",
+      "articleTitleValue": "{title}",
+      "feeTitle": "费用",
+      "feeAmount": "{ISCNTotalFee} LIKE"
+    },
+    "upload": {
+      "inProcess": "正在上传...",
+      "success": "上传完成，请再签署一次确认。",
+      "waiting": "上传过程需时，过程长短视乎档案的大小"
+    },
+    "ledger": {
+      "warning": "注意：请勿以 Ledger 签署",
+      "unavailable": "服务暂时未支援 Ledger"
+    },
     "RewardRecords": {
         "title": "奖赏纪录"
     },
