@@ -1082,6 +1082,7 @@
     },
     "ISCN": {
       "register": "DePub",
+      "keplr": "Use Keplr wallet",
       "action": "DePub your work",
       "articleTitleTitle": "ISCN Title",
       "articleTitleValue": "{title}",
