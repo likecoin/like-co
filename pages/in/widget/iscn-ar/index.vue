@@ -207,7 +207,7 @@
           style="display: flex; flex-direction: row; background-color: #AAF1E7;
                  color: #28646E; border-radius: 12px; border: none; margin: 10px;
                  padding: 10px 15px; cursor: pointer"
-          @click="onClickRedirectToKeplrSign"
+          @click="onClickBeginRegister"
         >
           <p style="margin: auto 10px auto auto; font-weight: 600;">{{ $t('ISCNARWidget.ISCN.register') }}</p>
           <simple-svg
@@ -218,6 +218,14 @@
         </button>
       </section>
     </div>
+    <a
+      v-if="getUserIsRegistered && !isUsingKeplr"
+      href="#"
+      style="text-align: center; font-size: 14px; color: #aaf1e7; margin: 10px; text-decoration: underline;"
+      @click.prevent="onClickConnectKeplr"
+    >
+      {{ $t('ISCNARWidget.ISCN.keplr') }}
+    </a>
   </div>
 </template>
 
@@ -400,6 +408,9 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'getUserIsRegistered',
+      'setReAuthDialogShow',
+      'getAuthCoreNeedReAuth',
       'getUserInfo',
       'getIsSignFinishedState',
       'getIsTxFailed',
@@ -587,13 +598,27 @@ export default {
         }
       }
     },
-    async onClickRedirectToKeplrSign() {
+    async onClickBeginRegister() {
+      if (this.getUserIsRegistered) {
+        if (this.getAuthCoreNeedReAuth) {
+          this.setReAuthDialogShow(true);
+          return;
+        }
+        this.beginLikePay();
+      } else {
+        await this.onClickConnectKeplr();
+      }
+    },
+    async onClickConnectKeplr() {
       const res = await Keplr.initKeplr();
       if (!res) {
         throw new Error('FAILED_CONNECT_TO_KEPLR');
       }
       this.setDefaultCosmosWalletSource({ source: 'keplr', persistent: false });
       this.isUsingKeplr = true;
+      await this.beginLikePay();
+    },
+    async beginLikePay() {
       // Direct register ISCN flow
       if (this.shouldSkipLIKEPay) {
         this.mainStatus = 'registerISCN';
@@ -672,14 +697,6 @@ export default {
           );
         }
       }
-    },
-    async onClickConnectKeplrButton() {
-      const res = await Keplr.initKeplr();
-      if (!res) {
-        throw new Error('FAILED_CONNECT_TO_KEPLR');
-      }
-      this.setDefaultCosmosWalletSource({ source: 'keplr', persistent: false });
-      this.isUsingKeplr = true;
     },
   },
 };
