@@ -217,28 +217,33 @@ export function clearDefaultCosmosWalletSource({ commit }) {
 }
 
 export async function fetchCurrentCosmosWallet({ dispatch, state, getters }) {
-  const isAuthCore = getters.getUserIsAuthCore;
-  if (isAuthCore) {
-    return dispatch('fetchAuthCoreCosmosWallet');
-  }
   const { cosmosWalletSource } = state;
   switch (cosmosWalletSource) {
     case 'keplr':
       return Keplr.getWalletAddress();
-    default:
+    case 'authcore':
+    default: {
+      const isAuthCore = getters.getUserIsAuthCore;
+      if (isAuthCore) {
+        return dispatch('fetchAuthCoreCosmosWallet');
+      }
+      return '';
+    }
   }
-  return '';
 }
 
 export async function prepareCosmosTxSigner({ dispatch, state, getters }) {
-  const isAuthCore = getters.getUserIsAuthCore;
-  if (isAuthCore) {
-    return dispatch('prepareAuthCoreCosmosTxSigner');
-  }
   const { cosmosWalletSource } = state;
   switch (cosmosWalletSource) {
     case 'keplr':
-    default:
       return Keplr.prepareCosmosTxSigner();
+    case 'authcore':
+    default: {
+      const isAuthCore = getters.getUserIsAuthCore;
+      if (isAuthCore) {
+        return dispatch('prepareAuthCoreCosmosTxSigner');
+      }
+      throw new Error('CANNOT_GET_TX_SIGNER');
+    }
   }
 }

@@ -91,9 +91,8 @@ export async function newUser({ commit, dispatch }, data) {
     api.apiPostNewUser(data),
     { slient: true, error: 'raw' },
   );
-  if (data.cosmosWalletSource) {
-    dispatch('setDefaultCosmosWalletSource', { source: data.cosmosWalletSource });
-  }
+  const cosmosWalletSource = data.cosmosWalletSource || 'authcore';
+  dispatch('setDefaultCosmosWalletSource', { source: cosmosWalletSource });
   await dispatch('refreshUser');
   return true;
 }
@@ -130,9 +129,8 @@ export async function syncAuthCoreUser({ commit, dispatch, rootState }) {
 export async function loginUser({ dispatch }, data) {
   await api.apiLoginUser(data);
   await dispatch('refreshUser');
-  if (data.cosmosWalletSource) {
-    dispatch('setDefaultCosmosWalletSource', { source: data.cosmosWalletSource });
-  }
+  const cosmosWalletSource = data.cosmosWalletSource || 'authcore';
+  dispatch('setDefaultCosmosWalletSource', { source: cosmosWalletSource });
   return true;
 }
 
