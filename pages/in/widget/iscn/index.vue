@@ -149,15 +149,14 @@
 
     </div>
     <footer class="likepay-panel__footer">
-      <div v-if="!getUserIsRegistered && !isUsingKeplr">
-        <button
-          class="likepay-block-button"
-          @click="onClickConnectKeplrButton"
-        >
-          {{ $t('Home.Header.button.keplr') }}
-        </button>
-      </div>
-      <div v-if="!getUserIsRegistered && !isUsingKeplr">
+      <button
+        v-if="!isUsingKeplr"
+        class="likepay-block-button"
+        @click="onClickConnectKeplrButton"
+      >
+        {{ $t('Home.Header.button.keplr') }}
+      </button>
+      <div v-if="!getUserIsRegistered">
         <button
           class="likepay-block-button"
           @click="onClickSignInButton"
@@ -495,6 +494,7 @@ export default {
       }
       this.setDefaultCosmosWalletSource({ source: 'keplr', persistent: false });
       this.isUsingKeplr = true;
+      await this.submitTransfer();
     },
     onClickAuthCoreReAuth() {
       this.setReAuthDialogShow(true);
