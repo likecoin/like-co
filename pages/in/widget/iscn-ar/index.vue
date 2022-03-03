@@ -1,8 +1,14 @@
 <!-- eslint-disable max-len -->
 <template>
   <div
-    v-if="mainStatus === 'registerISCN'"
+    v-if="isLoading"
     key="loading"
+    class="likepay-body likepay-body--center iscn-body"
+  >
+    <span class="likepay-text-panel">{{ $t('General.loading') }}</span>
+  </div>
+  <div
+    v-else-if="mainStatus === 'registerISCN'"
     class="likepay-body likepay-body--center"
   >
     <div class="iscn-ar-panel">
@@ -13,7 +19,10 @@
             width="20"
             height="20"
           />
-          <div class="likepay-panel__header-title" style="margin-right: auto; color: #28646E; padding-left: 10px">{{ 'Sign  (2/2)' }}</div>
+          <div
+            class="likepay-panel__header-title"
+            style="margin-right: auto; color: #28646E; padding-left: 10px"
+          >{{ 'Sign  (2/2)' }}</div>
         </header>
 
         <div class="likepay-panel__section-meta">
@@ -69,7 +78,6 @@
   </div>
   <div
     v-else-if="getIsSignFinishedState"
-    key="loading"
     class="likepay-body likepay-body--center"
   >
     <div class="iscn-ar-panel">
@@ -107,7 +115,6 @@
   </div>
   <div
     v-else-if="mainStatus === 'LIKEPay'"
-    key="loading"
     class="likepay-body likepay-body--center"
   >
     <div class="iscn-ar-panel">
@@ -234,17 +241,10 @@
 import { mapActions, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
 import {
-  IS_CHAIN_UPGRADING,
-} from '@/constant';
-import {
   queryLikeCoinBalance as queryCosmosLikeCoinBalance,
   getTransferInfo as getCosmosTransferInfo,
   calculateGas as calculateCosmosGas,
 } from '@/util/CosmosHelper';
-import User from '@/util/User';
-import {
-  apiGetUserMinById,
-} from '@/util/api/api';
 import Keplr from '@/util/Keplr';
 import { getISCNTransferInfo } from '@/util/cosmos/iscn/query';
 import { ISCN_LICENSES, ISCN_PUBLISHERS } from '@/util/cosmos/iscn/constant';
