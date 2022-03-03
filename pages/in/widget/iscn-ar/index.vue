@@ -248,6 +248,7 @@ import {
 import Keplr from '@/util/Keplr';
 import { getISCNTransferInfo } from '@/util/cosmos/iscn/query';
 import { ISCN_LICENSES, ISCN_PUBLISHERS } from '@/util/cosmos/iscn/constant';
+import { STUB_WALLET } from '@/constant';
 import ArrowRightNewIcon from '@/assets/icons/arrow-right-new.svg';
 import ExclamationIcon from '@/assets/icons/exclamation.svg';
 import LedgerIcon from '@/assets/icons/ledger-new.svg';
@@ -260,27 +261,16 @@ export default {
   layout: 'likepay',
   data() {
     return {
-      toIds: [],
-      toUsers: [],
+      isLoading: false,
+      toIds: ['like-arweave'],
       amounts: [],
       transactionFee: 0,
       redirectUri: '',
-      showDetails: false,
       gasFee: '',
       isUsingKeplr: false,
       mainStatus: 'initial',
       transactionStatus: 'initial',
-      fingerprints: [],
-      title: '',
-      type: 'article',
-      author: '',
-      authorDescription: '',
-      description: '',
-      tags: [],
-      license: '',
-      publisher: '',
-      memo: '',
-      url: '',
+      ISCNData: null,
       ISCNTotalFee: 0.00,
       ArrowRightNewIcon,
       ExclamationIcon,
@@ -290,120 +280,24 @@ export default {
   },
   async asyncData({
     query,
-    error,
     redirect,
   }) {
     const {
-      to: toString,
-      amount: amountString,
       redirect_uri: redirectUri,
       opener,
-      fingerprint,
-      tags: tagsString = '',
-      url,
-      publisher,
-      author,
-      author_description: authorDescription,
-      description,
     } = query;
-    let {
-      remarks = '', title, license,
-    } = query;
-    const tags = tagsString ? tagsString.split(',') : [];
-    let fingerprints = fingerprint ? fingerprint.split(',') : [];
-    fingerprints = fingerprints.map((f) => {
-      let contentFingerprint = f;
-      if (f.startsWith('Qm') && f.length === 46) {
-        contentFingerprint = `ipfs://${f}`; // support old wordpress plugin
-      }
-      return contentFingerprint;
-    });
-    if (publisher) {
-      if (!ISCN_PUBLISHERS[publisher]) {
-        return error({ statusCode: 400, message: 'INVALID_PUBLISHER' });
-      }
-      ({ license } = ISCN_PUBLISHERS[publisher]);
-    }
-    if (license) {
-      if (!ISCN_LICENSES[license]) {
-        return error({ statusCode: 400, message: 'INVALID_LICENSE' });
-      }
-    } else {
-      license = '';
-    }
-    if (title) {
-      title = title.substring(0, 255);
-    }
     if (!Object.keys(query).length) {
       return redirect('https://docs.like.co/developer/like-pay/web-widget/reference');
     }
-    if (!toString) {
-      return error({ statusCode: 400, message: 'INVALID_RECIPIENT' });
-    }
-    if (!amountString) {
-      return error({ statusCode: 400, message: 'INVALID_AMOUNT' });
-    }
-    const toIds = toString.split(',');
-    const amounts = amountString.split(',');
-    if (toIds.length !== amounts.length) {
-      return error({ statusCode: 400, message: 'RECIPIENT_AND_AMOUNT_SIZE_MISMATCH' });
-    }
-    if (remarks) {
-      remarks = remarks.substring(0, 255);
-    }
-    let promises = [];
-    promises.push(Promise.resolve(null));
-    promises = promises.concat(toIds.map(id => apiGetUserMinById(id, { type: 'payment' })));
-
-    return Promise.all(promises).then((res) => {
-      const [, ...toRes] = res;
-      const toUsers = toRes.map((u) => {
-        const {
-          user,
-          cosmosWallet,
-          avatar,
-          displayName,
-          paymentRedirectWhiteList,
-        } = u.data;
-        return {
-          user,
-          cosmosWallet,
-          avatar,
-          displayName,
-          avatarHalo: User.getAvatarHaloType(u.data),
-          paymentRedirectWhiteList,
-        };
-      });
-      if (toUsers.some(u => !u.cosmosWallet)) {
-        error({ statusCode: 400, message: 'RECEIPIENT_HAS_NO_WALLET' });
-      }
-      const hasOpener = opener && opener !== '0';
-
-      return {
-        toIds,
-        amounts,
-        toUsers,
-        redirectUri,
-        remarks,
-        opener: hasOpener,
-        title,
-        author,
-        authorDescription,
-        description,
-        tags,
-        url,
-        fingerprints,
-        license,
-        publisher,
-      };
-    }).catch((e) => {
-      console.error(e);
-      error({ statusCode: 404, message: e.message });
-    });
+    const hasOpener = opener && opener !== '0';
+    return {
+      redirectUri,
+      opener: hasOpener,
+    };
   },
   head() {
     return {
-      title: 'LIKE pay',
+      title: 'ISCN Arweave widget',
     };
   },
   computed: {
@@ -422,9 +316,6 @@ export default {
     windowOpener() {
       if (!window) return null;
       return window.opener;
-    },
-    isChainUpgrading() {
-      return IS_CHAIN_UPGRADING;
     },
     sumOfToAmount() {
       if (!this.amounts) return '0';
@@ -464,35 +355,14 @@ export default {
     },
   },
   async mounted() {
-    const {
-      fingerprints,
-      title,
-      tags,
-      type,
-      license,
-      url,
-    } = this;
-    const { cosmosWallet } = this.getUserInfo;
-    if (!this.isChainUpgrading) {
-      this.calculateGasFee();
-    }
     if (this.opener && !window.opener) {
       this.$nuxt.error({ statusCode: 400, message: 'Cannot access window opener' });
     }
-    this.ISCNTotalFee = await this.calculateISCNTxTotalFee({
-      userId: this.getUserId,
-      displayName: this.getUserInfo.displayName || this.author,
-      authorDescription: this.authorDescription,
-      description: this.description,
-      cosmosWallet,
-      fingerprints,
-      name: title,
-      tags,
-      type,
-      license,
-      url,
-    });
-    this.transactionFee = this.shouldSkipLIKEPay ? this.ISCNTotalFee : this.amounts[0];
+    window.addEventListener(
+      'message',
+      this.onWindowMessage,
+      false,
+    );
   },
   methods: {
     ...mapActions([
@@ -503,30 +373,85 @@ export default {
       'calculateISCNTxTotalFee',
       'sendISCNSignature',
     ]),
+    onWindowMessage(event) {
+      if (event && event.data && typeof event.data === 'string') {
+        if (this.redirectOrigin && event.origin !== this.redirectOrigin) {
+          return;
+        }
+        const { action, data } = JSON.parse(event.data);
+        if (action === 'SUBMIT_ISCN_METADATA') {
+          this.onReceiveISCNData(data);
+        } else if (action === 'SUBMIT_ISCN_FILES') {
+          this.onReceiveISCNFiles(data);
+        }
+      }
+    },
     async calculateGasFee() {
       const { feeAmount } = await calculateCosmosGas(this.toUsers);
       this.gasFee = BigNumber(feeAmount[0].amount).dividedBy(1e9).toFixed();
       return this.gasFee;
     },
-    async onStartRegisterISCNMessage(event) {
-      if (event && event.data && typeof event.data === 'string') {
-        const { action, data } = JSON.parse(event.data);
-        if (action === 'REGISTER_ISCN') {
-          this.mainStatus = 'registerISCN';
-          const {
-            fingerprints, tags, url, type, license, author, authorDescription, description,
-          } = data;
-          this.fingerprints = fingerprints;
-          this.tags = tags;
-          this.url = url;
-          this.type = type;
-          this.license = license;
-          this.author = author;
-          this.authorDescription = authorDescription;
-          this.description = description;
-          await this.submitISCNTransfer();
+    async onReceiveISCNFiles() {
+      //
+    },
+    async onReceiveISCNData(data) {
+      const {
+        fingerprints = [],
+        tags = [],
+        url,
+        publisher,
+        author,
+        authorDescription,
+        description,
+      } = data;
+      let {
+        license,
+        type,
+        name,
+      } = data;
+      type = type || 'article';
+      if (publisher) {
+        if (!ISCN_PUBLISHERS[publisher]) {
+          this.$nuxt.error({ statusCode: 400, message: 'INVALID_PUBLISHER' });
         }
+        ({ license } = ISCN_PUBLISHERS[publisher]);
       }
+      if (license) {
+        if (!ISCN_LICENSES[license]) {
+          this.$nuxt.error({ statusCode: 400, message: 'INVALID_LICENSE' });
+        }
+      } else {
+        license = '';
+      }
+      if (name) {
+        name = name.substring(0, 255);
+      }
+      const ISCNData = {
+        fingerprints: [],
+        name,
+        type,
+        author,
+        authorDescription,
+        description,
+        tags,
+        license,
+        publisher,
+        url,
+      };
+      this.ISCNData = ISCNData;
+      this.ISCNTotalFee = await this.calculateISCNTxTotalFee({
+        userId: this.getUserId,
+        displayName: this.getUserInfo.displayName || this.author,
+        authorDescription: this.authorDescription,
+        description: this.description,
+        cosmosWallet: STUB_WALLET,
+        fingerprints,
+        name,
+        tags,
+        type,
+        license,
+        url,
+      });
     },
     async submitISCNTransfer() {
       this.transactionStatus = 'restart';
@@ -545,12 +470,12 @@ export default {
         const signer = await this.prepareCosmosTxSigner();
         const {
           fingerprints,
-          title,
+          name,
           tags,
           type,
           license,
           url,
-        } = this;
+        } = this.ISCNData;
         const txHash = await this.sendISCNSignature({
           cosmosWallet: from,
           userId: this.getUserId || '',
@@ -558,7 +483,7 @@ export default {
           authorDescription: this.authorDescription,
           description: this.description,
           fingerprints,
-          name: title,
+          name,
           tags,
           type,
           license,
@@ -632,9 +557,7 @@ export default {
     },
     async submitTransfer() {
       this.transactionStatus = 'restart';
-      if (this.isChainUpgrading) return;
       try {
-        const { cosmosWallet } = this.getUserInfo;
         const amount = new BigNumber(this.totalAmount);
         const from = await this.fetchCurrentCosmosWallet();
         if (!from) {
@@ -642,10 +565,10 @@ export default {
         }
         if (!this.isUsingKeplr) {
           const { cosmosWallet } = this.getUserInfo;
-        const userWallet = cosmosWallet;
-        if (userWallet !== undefined && from !== userWallet && !this.isUsingKeplr) {
-          throw new Error('VALIDATION_FAIL');
-        }
+          const userWallet = cosmosWallet;
+          if (userWallet !== undefined && from !== userWallet && !this.isUsingKeplr) {
+            throw new Error('VALIDATION_FAIL');
+          }
         }
         const to = this.toUsers[0].cosmosWallet;
         if (from === to) {
@@ -657,7 +580,6 @@ export default {
         }
         const signer = await this.prepareCosmosTxSigner();
         const metadata = this.likePayMetadata;
-        // LIKEPay -> Upload Arweave -> Register ISCN flow
         const txHash = await this.sendCosmosPayment({
           signer,
           from,
@@ -678,6 +600,7 @@ export default {
     },
     async postTransaction({ txHash, error } = {}) {
       this.transactionStatus = 'done';
+      this.mainStatus = 'registerISCN';
       if (this.redirectUri) {
         const { isFailed } = await getCosmosTransferInfo(txHash, { blocking: true });
         const success = !isFailed;
@@ -693,13 +616,9 @@ export default {
             data: payload,
           });
           window.opener.postMessage(message, this.redirectOrigin);
-          window.addEventListener(
-            'message',
-            this.onStartRegisterISCNMessage,
-            false,
-          );
         }
       }
+      this.submitISCNTransfer();
     },
   },
 };
