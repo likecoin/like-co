@@ -15,7 +15,7 @@ export const apiArweaveEstimate = (files) => {
   const form = new FormData();
   Object.keys(files).forEach((key) => {
     if (typeof files[key] !== 'undefined') {
-      form.append(key, files[key].data, key);
+      form.append(key, files[key], key);
     }
   });
   return axios.post(`${LIKECOIN_API_BASE}/arweave/estimate`, form);
@@ -26,7 +26,7 @@ export const apiArweaveUpload = (files, txHash) => {
   const form = new FormData();
   Object.keys(files).forEach((key) => {
     if (typeof files[key] !== 'undefined') {
-      form.append(key, files[key].data, key);
+      form.append(key, files[key], key);
     }
   });
   return axios.post(`${LIKECOIN_API_BASE}/arweave/upload?txHash=${txHash}`, form);

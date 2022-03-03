@@ -8,6 +8,16 @@
     <span class="likepay-text-panel">{{ $t('General.loading') }}</span>
   </div>
   <div
+    v-else-if="mainStatus === 'initial'"
+    class="likepay-body likepay-body--center"
+  >
+    <div class="iscn-ar-panel">
+      <section class="likepay-panel__section-container">
+        <span class="likepay-text-panel">{{ 'Waiting for ISCN Data...' }}</span>
+      </section>
+    </div>
+  </div>
+  <div
     v-else-if="mainStatus === 'registerISCN'"
     class="likepay-body likepay-body--center"
   >
@@ -114,7 +124,7 @@
     </div>
   </div>
   <div
-    v-else-if="mainStatus === 'LIKEPay'"
+    v-else-if="mainStatus === 'LIKEPaying'"
     class="likepay-body likepay-body--center"
   >
     <div class="iscn-ar-panel">
@@ -142,7 +152,7 @@
           style="margin-top: 5px; display: flex; flex-direction: row;"
         >
           <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.LIKEPay.title') }} </div>
-          <div style="margin-left: 75px;"> {{ $t('ISCNARWidget.LIKEPay.amount', { amount: amounts[0] }) }} </div>
+          <div style="margin-left: 75px;"> {{ $t('ISCNARWidget.LIKEPay.amount', { amount: arweaveFee }) }} </div>
         </div>
       </section>
       <section
@@ -181,7 +191,7 @@
     </div>
   </div>
   <div
-    v-else
+    v-else-if="mainStatus === 'LIKEPay'"
     key="panel"
     class="likepay-body"
   >
@@ -205,11 +215,11 @@
         </div>
         <div class="likepay-panel__section-meta">
           <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.LIKEPay.title') }} </div>
-          <div style="margin-top: 10px"> <p> {{ $t('ISCNARWidget.LIKEPay.amount', { amount: transactionFee }) }} </p> </div>
+          <div style="margin-top: 10px"> <p> {{ $t('ISCNARWidget.LIKEPay.amount', { amount: arweaveFee }) }} </p> </div>
         </div>
       </section>
       <section style="display: flex; flex-direction: row; padding: 10px">
-        <div style="margin: auto 0 auto auto; color: #9B9B9B;"> {{ $t('ISCNARWidget.LIKEPay.titleAndAmount', { amount: transactionFee }) }} </div>
+        <div style="margin: auto 0 auto auto; color: #9B9B9B;"> {{ $t('ISCNARWidget.LIKEPay.titleAndAmount', { amount: arweaveFee }) }} </div>
         <button
           style="display: flex; flex-direction: row; background-color: #AAF1E7;
                  color: #28646E; border-radius: 12px; border: none; margin: 10px;
@@ -242,9 +252,12 @@ import { mapActions, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
 import {
   queryLikeCoinBalance as queryCosmosLikeCoinBalance,
-  getTransferInfo as getCosmosTransferInfo,
   calculateGas as calculateCosmosGas,
 } from '@/util/CosmosHelper';
+import {
+  apiArweaveEstimate,
+  apiArweaveUpload,
+} from '@/util/api/api';
 import Keplr from '@/util/Keplr';
 import { getISCNTransferInfo } from '@/util/cosmos/iscn/query';
 import { ISCN_LICENSES, ISCN_PUBLISHERS } from '@/util/cosmos/iscn/constant';
@@ -262,11 +275,11 @@ export default {
   data() {
     return {
       isLoading: false,
-      toIds: ['like-arweave'],
-      amounts: [],
-      transactionFee: 0,
+      arweaveFee: 0,
+      arweaveGasFee: '',
+      arweavePaymentInfo: null,
+      arweaveResult: null,
       redirectUri: '',
-      gasFee: '',
       isUsingKeplr: false,
       mainStatus: 'initial',
       transactionStatus: 'initial',
@@ -316,42 +329,6 @@ export default {
       if (!window) return null;
       return window.opener;
     },
-    sumOfToAmount() {
-      if (!this.amounts) return '0';
-      const amount = this.amounts.reduce(
-        (acc, a) => acc.plus(a),
-        new BigNumber(0),
-      );
-      return amount.toFixed();
-    },
-    actualSendAmount() {
-      const amount = new BigNumber(this.sumOfToAmount);
-      return amount.toFixed();
-    },
-    shouldSkipLIKEPay() {
-      return this.actualSendAmount === '0';
-    },
-    totalAmount() {
-      let amount = new BigNumber(this.actualSendAmount);
-      if (this.gasFee) amount = amount.plus(this.gasFee);
-      return amount.toFixed();
-    },
-    likePayMetadata() {
-      const {
-        toIds,
-        amounts,
-        redirectUri,
-        remarks,
-      } = this;
-      return {
-        likePay: {
-          toIds,
-          amounts,
-          redirectUri,
-          remarks,
-        },
-      };
-    },
   },
   async mounted() {
     if (this.opener && !window.opener) {
@@ -379,20 +356,26 @@ export default {
           return;
         }
         const { action, data } = JSON.parse(event.data);
-        if (action === 'SUBMIT_ISCN_METADATA') {
-          this.onReceiveISCNData(data);
-        } else if (action === 'SUBMIT_ISCN_FILES') {
-          this.onReceiveISCNFiles(data);
+        if (action === 'SUBMIT_ISCN_DATA') {
+          const {
+            metadata = {},
+            files = [],
+          } = data;
+          this.onReceiveISCNData(metadata);
+          this.onReceiveISCNFiles(files);
         }
       }
     },
-    async calculateGasFee() {
-      const { feeAmount } = await calculateCosmosGas(this.toUsers);
-      this.gasFee = BigNumber(feeAmount[0].amount).dividedBy(1e9).toFixed();
-      return this.gasFee;
-    },
-    async onReceiveISCNFiles() {
-      //
+    async onReceiveISCNFiles(data) {
+      if (!Array.isArray(data)) return;
+      if (!data.every(d => d.filename && d.data)) return;
+      this.ISCNFiles = data.reduce((acc, cur) => {
+        acc[cur.filename] = new Blob(Buffer.from(cur.data, 'base64'));
+        return acc;
+      }, {});
+      const { data: resData } = await apiArweaveEstimate(this.ISCNFiles);
+      this.arweavePaymentInfo = resData;
+      this.prepareLikePayWidget();
     },
     async onReceiveISCNData(data) {
       const {
@@ -427,7 +410,7 @@ export default {
         name = name.substring(0, 255);
       }
       const ISCNData = {
-        fingerprints: [],
+        fingerprints,
         name,
         type,
         author,
@@ -439,19 +422,50 @@ export default {
         url,
       };
       this.ISCNData = ISCNData;
+    },
+    async prepareLikePayWidget() {
+      const {
+        LIKE,
+        arweaveId,
+      } = this.arweavePaymentInfo;
+      if (arweaveId) {
+        this.arweaveResult = { arweaveId };
+        this.prepareISCNWidget();
+        return;
+      }
+      this.arweaveFee = LIKE;
+      await this.calculateGasFee();
+      this.mainStatus = 'LIKEPay';
+    },
+    async prepareISCNWidget() {
+      this.mainStatus = 'registerISCN';
+      const {
+        fingerprints,
+        name,
+        type,
+        author,
+        authorDescription,
+        description,
+        tags,
+        license,
+        publisher,
+        url,
+      } = this.ISCNData;
       this.ISCNTotalFee = await this.calculateISCNTxTotalFee({
         userId: this.getUserId,
-        displayName: this.getUserInfo.displayName || this.author,
-        authorDescription: this.authorDescription,
-        description: this.description,
+        displayName: this.getUserInfo.displayName || author,
+        authorDescription,
+        description,
         cosmosWallet: STUB_WALLET,
         fingerprints,
         name,
         tags,
         type,
         license,
+        publisher,
         url,
       });
+      this.submitISCNTransfer();
     },
     async submitISCNTransfer() {
       this.transactionStatus = 'restart';
@@ -544,21 +558,22 @@ export default {
       await this.beginLikePay();
     },
     async beginLikePay() {
-      // Direct register ISCN flow
-      if (this.shouldSkipLIKEPay) {
-        this.mainStatus = 'registerISCN';
-        this.submitISCNTransfer();
-        return;
-      }
-      // pay LIKE Pay
-      this.mainStatus = 'LIKEPay';
-      [this.transactionFee] = this.amounts;
+      this.mainStatus = 'LIKEPaying';
       await this.submitTransfer();
+    },
+    async calculateGasFee() {
+      const { feeAmount } = await calculateCosmosGas([STUB_WALLET]);
+      this.arweaveGasFee = BigNumber(feeAmount[0].amount).dividedBy(1e9).toFixed();
+      return this.arweaveGasFee;
     },
     async submitTransfer() {
       this.transactionStatus = 'restart';
+      const {
+        memo,
+        address: to,
+      } = this.arweavePaymentInfo;
       try {
-        const amount = new BigNumber(this.totalAmount);
+        const amount = new BigNumber(this.arweaveFee).plus(this.arweaveGasFee);
         const from = await this.fetchCurrentCosmosWallet();
         if (!from) {
           throw new Error('PLEASE_RELOGIN');
@@ -570,55 +585,48 @@ export default {
             throw new Error('VALIDATION_FAIL');
           }
         }
-        const to = this.toUsers[0].cosmosWallet;
-        if (from === to) {
-          throw new Error('VALIDATION_FAIL');
-        }
         const balance = await queryCosmosLikeCoinBalance(from);
         if (amount.gt(balance)) {
           throw new Error('INSUFFICIENT_BALANCE');
         }
         const signer = await this.prepareCosmosTxSigner();
-        const metadata = this.likePayMetadata;
         const txHash = await this.sendCosmosPayment({
           signer,
           from,
           to,
-          value: this.actualSendAmount,
-          memo: this.remarks,
+          value: this.arweaveFee,
+          memo,
           showDialogAction: false,
-          metadata,
           shouldShowTxDialog: false,
         });
         // UI will change when getIsSignFinishedState is true.
         // Hence, no need to set mainStatus = onUploadArweave.
-        this.postTransaction({ txHash });
+        this.postArweaveTxTransaction({ txHash });
       } catch (error) {
         this.transactionStatus = 'failed';
         if (error.message !== 'VALIDATION_FAIL') console.error(error);
       }
     },
-    async postTransaction({ txHash, error } = {}) {
+    async postArweaveTxTransaction({ txHash, error } = {}) {
       this.transactionStatus = 'done';
-      this.mainStatus = 'registerISCN';
       if (this.redirectUri) {
-        const { isFailed } = await getCosmosTransferInfo(txHash, { blocking: true });
-        const success = !isFailed;
-        const { remarks } = this;
-        if (this.opener) {
-          const payload = {};
-          if (txHash) payload.tx_hash = txHash;
-          if (error) payload.error = error;
-          if (remarks) payload.remarks = remarks;
-          if (success !== undefined) payload.success = success;
-          const message = JSON.stringify({
-            action: 'TX_SUBMITTED',
-            data: payload,
-          });
-          window.opener.postMessage(message, this.redirectOrigin);
+        try {
+          if (this.opener) {
+            const payload = {};
+            if (txHash) payload.tx_hash = txHash;
+            if (error) payload.error = error;
+            const message = JSON.stringify({
+              action: 'TX_SUBMITTED',
+              data: payload,
+            });
+            window.opener.postMessage(message, this.redirectOrigin);
+          }
+        } catch (err) {
+          console.error(err);
         }
       }
-      this.submitISCNTransfer();
+      this.arweaveResult = await apiArweaveUpload(this.ISCNFiles, txHash);
+      this.prepareISCNWidget();
     },
   },
 };
