@@ -10,7 +10,27 @@ const LIKE_CO_CLOUD_FN_BASE = `https://us-central1-likecoin-${IS_TESTNET ? 'deve
 
 export const COSMOS_API_BASE = '/api/cosmos/lcd';
 
-export const apiPostISCNMessageForSign = message => axios.post('/cosmos/iscn-dev/signer/sign', { message });
+export const apiArweaveEstimate = (files) => {
+  /* eslint-disable no-new */
+  const form = new FormData();
+  Object.keys(files).forEach((key) => {
+    if (typeof files[key] !== 'undefined') {
+      form.append(key, files[key].data, key);
+    }
+  });
+  return axios.post(`${LIKECOIN_API_BASE}/arweave/estimate`, form);
+};
+
+export const apiArweaveUpload = (files, txHash) => {
+  /* eslint-disable no-new */
+  const form = new FormData();
+  Object.keys(files).forEach((key) => {
+    if (typeof files[key] !== 'undefined') {
+      form.append(key, files[key].data, key);
+    }
+  });
+  return axios.post(`${LIKECOIN_API_BASE}/arweave/upload?txHash=${txHash}`, form);
+};
 
 export const getMigrationSiteURL = likerId => (likerId ? `${LIKECOIN_MIGRATION}?likerid=${likerId}` : LIKECOIN_MIGRATION);
 export const getLikerLandAppURL = () => 'https://likecoin.page.link/likeco';
