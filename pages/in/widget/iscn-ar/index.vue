@@ -640,9 +640,12 @@ export default {
         if (!from) {
           throw new Error('PLEASE_RELOGIN');
         }
+        if (!this.isUsingKeplr) {
+          const { cosmosWallet } = this.getUserInfo;
         const userWallet = cosmosWallet;
         if (userWallet !== undefined && from !== userWallet && !this.isUsingKeplr) {
           throw new Error('VALIDATION_FAIL');
+        }
         }
         const to = this.toUsers[0].cosmosWallet;
         if (from === to) {
