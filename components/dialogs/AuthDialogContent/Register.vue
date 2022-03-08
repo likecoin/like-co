@@ -208,6 +208,7 @@ export default {
       return (
         this.isHideFilledInfo
         || !this.isEditEmail
+        || (!this.email && !this.isEmailRequired)
         || (this.isEmailFormatValid && !this.isEmailContainsInvalidCharacter)
       );
     },
