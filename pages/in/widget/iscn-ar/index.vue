@@ -211,7 +211,7 @@
 
         <div class="likepay-panel__section-meta">
           <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.ISCN.articleTitleTitle') }} </div>
-          <div style="margin-top: 10px"> <p> {{ $t('ISCNARWidget.ISCN.articleTitleValue', { title }) }} </p> </div>
+          <div style="margin-top: 10px"> <p> {{ $t('ISCNARWidget.ISCN.articleTitleValue', { title: iscnName }) }} </p> </div>
         </div>
         <div class="likepay-panel__section-meta">
           <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.LIKEPay.title') }} </div>
@@ -329,6 +329,17 @@ export default {
       if (!window) return null;
       return window.opener;
     },
+    iscnName() {
+      return (this.ISCNData && this.ISCNData.name);
+    },
+    fingerprints() {
+      const f = (this.ISCNData && this.ISCNData.fingerprints) || [];
+      if (this.arweaveResult) {
+        if (this.arweaveResult.arweaveId) f.push(`ar://${this.arweaveResult.arweaveId}`);
+        if (this.arweaveResult.ipfsHash) f.push(`ipfs://${this.arweaveResult.ipfsHash}`);
+      }
+      return f;
+    },
   },
   async mounted() {
     if (this.opener && !window.opener) {
@@ -373,9 +384,14 @@ export default {
         acc[cur.filename] = new Blob(Buffer.from(cur.data, 'base64'));
         return acc;
       }, {});
-      const { data: resData } = await apiArweaveEstimate(this.ISCNFiles);
-      this.arweavePaymentInfo = resData;
-      this.prepareLikePayWidget();
+      try {
+        this.isLoading = true;
+        const { data: resData } = await apiArweaveEstimate(this.ISCNFiles);
+        this.arweavePaymentInfo = resData;
+        this.prepareLikePayWidget();
+      } finally {
+        this.isLoading = false;
+      }
     },
     async onReceiveISCNData(data) {
       const {
@@ -427,9 +443,10 @@ export default {
       const {
         LIKE,
         arweaveId,
+        ipfsHash,
       } = this.arweavePaymentInfo;
-      if (arweaveId) {
-        this.arweaveResult = { arweaveId };
+      if (!LIKE) {
+        if (arweaveId) this.arweaveResult = { arweaveId, ipfsHash };
         this.prepareISCNWidget();
         return;
       }
@@ -440,7 +457,6 @@ export default {
     async prepareISCNWidget() {
       this.mainStatus = 'registerISCN';
       const {
-        fingerprints,
         name,
         type,
         author,
@@ -457,7 +473,7 @@ export default {
         authorDescription,
         description,
         cosmosWallet: STUB_WALLET,
-        fingerprints,
+        fingerprints: this.fingerprints,
         name,
         tags,
         type,
@@ -483,7 +499,6 @@ export default {
         }
         const signer = await this.prepareCosmosTxSigner();
         const {
-          fingerprints,
           name,
           tags,
           type,
@@ -496,7 +511,7 @@ export default {
           displayName: this.getUserInfo.displayName || this.author || '',
           authorDescription: this.authorDescription,
           description: this.description,
-          fingerprints,
+          fingerprints: this.fingerprints,
           name,
           tags,
           type,
@@ -625,8 +640,13 @@ export default {
           console.error(err);
         }
       }
-      this.arweaveResult = await apiArweaveUpload(this.ISCNFiles, txHash);
-      this.prepareISCNWidget();
+      try {
+        this.isLoading = true;
+        this.arweaveResult = await apiArweaveUpload(this.ISCNFiles, txHash);
+        this.prepareISCNWidget();
+      } finally {
+        this.isLoading = false;
+      }
     },
   },
 };
