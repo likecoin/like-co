@@ -363,9 +363,9 @@ export default {
     ]),
     onWindowMessage(event) {
       if (event && event.data && typeof event.data === 'string') {
-        if (this.redirectOrigin && event.origin !== this.redirectOrigin) {
-          return;
-        }
+        // if (this.redirectOrigin && event.origin !== this.redirectOrigin) {
+        //   return;
+        // }
         const { action, data } = JSON.parse(event.data);
         if (action === 'SUBMIT_ISCN_DATA') {
           const {
