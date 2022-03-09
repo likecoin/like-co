@@ -303,7 +303,6 @@ export default {
   computed: {
     ...mapGetters([
       'getUserIsRegistered',
-      'setReAuthDialogShow',
       'getAuthCoreNeedReAuth',
       'getUserInfo',
       'getIsSignFinishedState',
@@ -372,6 +371,7 @@ export default {
       'setDefaultCosmosWalletSource',
       'calculateISCNTxTotalFee',
       'sendISCNSignature',
+      'setReAuthDialogShow',
     ]),
     onWindowMessage(event) {
       if (event && event.data && typeof event.data === 'string') {
