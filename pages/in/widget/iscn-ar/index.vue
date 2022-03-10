@@ -274,6 +274,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
+import mime from 'mime-types';
 import {
   queryLikeCoinBalance as queryCosmosLikeCoinBalance,
   calculateGas as calculateCosmosGas,
@@ -409,8 +410,17 @@ export default {
     async onReceiveISCNFiles(data) {
       if (!Array.isArray(data)) return;
       if (!data.every(d => d.filename && d.data)) return;
-      this.ISCNFiles = data.reduce((acc, cur) => {
-        acc[cur.filename] = new Blob(Buffer.from(cur.data, 'base64'));
+      const dataWithBlob = await Promise.all(data.map(async (d) => {
+        const mimeType = d.mimeType || mime.lookup(d.filename) || 'text/plain';
+        const resData = await fetch(`data:${mimeType};base64,${d.data}`);
+        const blob = await resData.blob();
+        return {
+          filename: d.filename,
+          blob,
+        };
+      }));
+      this.ISCNFiles = dataWithBlob.reduce((acc, cur) => {
+        acc[cur.filename] = cur.blob;
         return acc;
       }, {});
       try {
