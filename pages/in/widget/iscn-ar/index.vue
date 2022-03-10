@@ -433,8 +433,8 @@ export default {
     },
     async onReceiveISCNFiles(data) {
       if (!Array.isArray(data)) return;
-      if (!data.every(d => d.filename && d.data)) return;
-      const dataWithBlob = await Promise.all(data.map(async (d) => {
+      const files = data.filter(d => d.filename && d.data);
+      const filesWithBlob = await Promise.all(files.map(async (d) => {
         const mimeType = d.mimeType || mime.lookup(d.filename) || 'text/plain';
         const resData = await fetch(`data:${mimeType};base64,${d.data}`);
         const blob = await resData.blob();
@@ -443,7 +443,7 @@ export default {
           blob,
         };
       }));
-      this.ISCNFiles = dataWithBlob.reduce((acc, cur) => {
+      this.ISCNFiles = filesWithBlob.reduce((acc, cur) => {
         acc[cur.filename] = cur.blob;
         return acc;
       }, {});
