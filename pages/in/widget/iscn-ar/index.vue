@@ -698,7 +698,8 @@ export default {
       }
       try {
         this.mainStatus = 'uploading';
-        this.arweaveResult = await apiArweaveUpload(this.ISCNFiles, txHash);
+        const { data: resData } = await apiArweaveUpload(this.ISCNFiles, txHash);
+        this.arweaveResult = resData;
         this.prepareISCNWidget();
       } finally {
         this.isLoading = false;
