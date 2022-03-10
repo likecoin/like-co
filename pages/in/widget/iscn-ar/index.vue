@@ -297,8 +297,8 @@ export default {
   data() {
     return {
       isLoading: false,
-      arweaveFee: 0,
       showWalletOption: true,
+      arweaveFee: '0',
       arweaveGasFee: '',
       arweavePaymentInfo: null,
       arweaveResult: null,
@@ -471,7 +471,7 @@ export default {
         arweaveId,
         ipfsHash,
       } = this.arweavePaymentInfo;
-      if (!LIKE) {
+      if (arweaveId || !LIKE || LIKE === '0') {
         if (arweaveId) this.arweaveResult = { arweaveId, ipfsHash };
         this.prepareISCNWidget();
         return;
