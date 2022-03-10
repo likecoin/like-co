@@ -390,6 +390,16 @@ export default {
       this.onWindowMessage,
       false,
     );
+    if (this.opener) {
+      try {
+        const message = JSON.stringify({
+          action: 'ISCN_WIDGET_READY',
+        });
+        window.opener.postMessage(message, this.redirectOrigin);
+      } catch (err) {
+        console.error(err);
+      }
+    }
   },
   methods: {
     ...mapActions([
@@ -599,11 +609,15 @@ export default {
         if (error) payload.error = error;
         if (success !== undefined) payload.success = success;
         if (this.opener) {
-          const message = JSON.stringify({
-            action: 'ISCN_SUBMITTED',
-            data: payload,
-          });
-          window.opener.postMessage(message, this.redirectOrigin);
+          try {
+            const message = JSON.stringify({
+              action: 'ISCN_SUBMITTED',
+              data: payload,
+            });
+            window.opener.postMessage(message, this.redirectOrigin);
+          } catch (err) {
+            console.error(err);
+          }
         }
         const iscnIdString = encodeURIComponent(iscnId);
         window.location.href = `https://app.${IS_TESTNET ? 'rinkeby.' : ''}like.co/view/${iscnIdString}?layout=popup`;
