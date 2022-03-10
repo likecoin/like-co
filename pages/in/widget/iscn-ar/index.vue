@@ -56,18 +56,31 @@
         </div>
       </section>
       <section
-        v-if="getIsTxFailed && transactionStatus === 'failed'"
+        v-if="transactionStatus !== 'pending'"
         style="display: flex; flex-direction: row; padding: 10px 10px 30px 10px"
       >
         <button
           style="
             color: #4A4A4A; border-radius: 12px; border: 2px solid #9B9B9B; margin: auto;
             padding: 10px 16px; background-color: white; cursor: pointer;"
-          @click="submitISCNTransfer"
+          @click="onClickContinueRegister"
         >
-          Retry
+          <span v-if="transactionStatus === 'failed'">
+            {{ $t('ISCNARWidget.transaction.retry') }}
+          </span>
+          <span v-else>
+            {{ $t('ISCNARWidget.transaction.submit') }}
+          </span>
         </button>
       </section>
+      <a
+        v-if="showKeplrOverrideButton"
+        href="#"
+        style="text-align: center; font-size: 14px; color: #aaf1e7; margin: 10px; text-decoration: underline;"
+        @click.prevent="onClickContinueRegister({ forceKeplr: true })"
+      >
+        {{ $t('ISCNARWidget.ISCN.keplr') }}
+      </a>
     </div>
     <div style="display: flex; flex-direction: row; margin: 52px 0px; position: absolute; top: 590px">
       <div>
@@ -169,7 +182,12 @@
             padding: 10px 16px; background-color: white; cursor: pointer;"
           @click="submitTransfer"
         >
+          <span v-if="transactionStatus === 'failed'">
           {{ $t('ISCNARWidget.transaction.retry') }}
+          </span>
+          <span v-else>
+            {{ $t('ISCNARWidget.transaction.submit') }}
+          </span>
         </button>
       </section>
     </div>
@@ -240,10 +258,10 @@
       </section>
     </div>
     <a
-      v-if="getUserIsRegistered && !isUsingKeplr"
+      v-if="showKeplrOverrideButton"
       href="#"
       style="text-align: center; font-size: 14px; color: #aaf1e7; margin: 10px; text-decoration: underline;"
-      @click.prevent="onClickConnectKeplr"
+      @click.prevent="onClickBeginRegister({ forceKeplr: true })"
     >
       {{ $t('ISCNARWidget.ISCN.keplr') }}
     </a>
@@ -280,6 +298,7 @@ export default {
     return {
       isLoading: false,
       arweaveFee: 0,
+      showWalletOption: true,
       arweaveGasFee: '',
       arweavePaymentInfo: null,
       arweaveResult: null,
@@ -343,6 +362,9 @@ export default {
         if (this.arweaveResult.ipfsHash) f.push(`ipfs://${this.arweaveResult.ipfsHash}`);
       }
       return f;
+    },
+    showKeplrOverrideButton() {
+      return this.showWalletOption && this.getUserIsRegistered && !this.isUsingKeplr;
     },
   },
   async mounted() {
@@ -485,10 +507,11 @@ export default {
         publisher,
         url,
       });
-      this.submitISCNTransfer();
+      if (!this.showWalletOption) this.submitISCNTransfer();
     },
     async submitISCNTransfer() {
-      this.transactionStatus = 'restart';
+      this.showWalletOption = false;
+      this.transactionStatus = 'pending';
       try {
         const from = await this.fetchCurrentCosmosWallet();
         if (!from) {
@@ -556,27 +579,40 @@ export default {
         }
       }
     },
-    async onClickBeginRegister() {
-      if (this.getUserIsRegistered) {
+    async onClickContinueRegister({ forceKeplr = false } = {}) {
+      if (!this.isUsingKeplr) {
+        if (!forceKeplr && this.getUserIsRegistered) {
+          if (this.getAuthCoreNeedReAuth) {
+            this.setReAuthDialogShow(true);
+            return;
+          }
+        } else {
+          await this.connectKeplr();
+        }
+      }
+      this.submitISCNTransfer();
+    },
+    async onClickBeginRegister({ forceKeplr = false } = {}) {
+      if (!forceKeplr && this.getUserIsRegistered) {
         if (this.getAuthCoreNeedReAuth) {
           this.setReAuthDialogShow(true);
           return;
         }
-        this.beginLikePay();
       } else {
-        await this.onClickConnectKeplr();
+        await this.connectKeplr();
       }
+      this.beginLikePay();
     },
-    async onClickConnectKeplr() {
+    async connectKeplr() {
       const res = await Keplr.initKeplr();
       if (!res) {
         throw new Error('FAILED_CONNECT_TO_KEPLR');
       }
       this.setDefaultCosmosWalletSource({ source: 'keplr', persistent: false });
       this.isUsingKeplr = true;
-      await this.beginLikePay();
     },
     async beginLikePay() {
+      this.showWalletOption = false;
       this.mainStatus = 'LIKEPaying';
       await this.submitTransfer();
     },
