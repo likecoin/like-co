@@ -36,6 +36,10 @@
         </header>
 
         <div class="likepay-panel__section-meta">
+          <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.ISCN.articleTitleTitle') }} </div>
+          <div style="margin-top: 10px"> <p> {{ $t('ISCNARWidget.ISCN.articleTitleValue', { title: iscnName }) }} </p> </div>
+        </div>
+        <div class="likepay-panel__section-meta">
           <div style="text-align: center">
             <h3 style="color: #9B9B9B;">{{ $t('ISCNARWidget.upload.success') }}</h3>
           </div>
