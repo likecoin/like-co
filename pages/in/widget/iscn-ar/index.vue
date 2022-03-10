@@ -55,6 +55,7 @@
           <div style="margin-left: 75px;"> {{ $t('ISCNARWidget.ISCN.feeAmount', { ISCNTotalFee }) }} </div>
         </div>
       </section>
+      <section v-if="error">{{ error }}</section>
       <section
         v-if="transactionStatus !== 'pending'"
         style="display: flex; flex-direction: row; padding: 10px 10px 30px 10px"
@@ -172,6 +173,7 @@
           <div style="margin-left: 75px;"> {{ $t('ISCNARWidget.LIKEPay.amount', { amount: arweaveFee }) }} </div>
         </div>
       </section>
+      <section v-if="error">{{ error }}</section>
       <section
         v-if="transactionStatus !== 'pending'"
         style="display: flex; flex-direction: row; padding: 10px 10px 30px 10px"
@@ -183,7 +185,7 @@
           @click="submitTransfer"
         >
           <span v-if="transactionStatus === 'failed'">
-          {{ $t('ISCNARWidget.transaction.retry') }}
+            {{ $t('ISCNARWidget.transaction.retry') }}
           </span>
           <span v-else>
             {{ $t('ISCNARWidget.transaction.submit') }}
@@ -297,6 +299,7 @@ export default {
   data() {
     return {
       isLoading: false,
+      error: '',
       showWalletOption: true,
       arweaveFee: '0',
       arweaveGasFee: '',
@@ -511,6 +514,7 @@ export default {
     },
     async submitISCNTransfer() {
       this.showWalletOption = false;
+      this.error = '';
       this.transactionStatus = 'pending';
       try {
         const from = await this.fetchCurrentCosmosWallet();
@@ -551,6 +555,7 @@ export default {
         if (txHash) await this.postISCNTransaction({ txHash });
       } catch (error) {
         this.transactionStatus = 'failed';
+        this.error = error;
         console.error(error);
       }
     },
@@ -612,7 +617,6 @@ export default {
       this.isUsingKeplr = true;
     },
     async beginLikePay() {
-      this.showWalletOption = false;
       this.mainStatus = 'LIKEPaying';
       await this.submitTransfer();
     },
@@ -622,6 +626,8 @@ export default {
       return this.arweaveGasFee;
     },
     async submitTransfer() {
+      this.showWalletOption = false;
+      this.error = '';
       this.transactionStatus = 'pending';
       const {
         memo,
@@ -658,6 +664,7 @@ export default {
         this.postArweaveTxTransaction({ txHash });
       } catch (error) {
         this.transactionStatus = 'failed';
+        this.error = error;
         if (error.message !== 'VALIDATION_FAIL') console.error(error);
       }
     },
