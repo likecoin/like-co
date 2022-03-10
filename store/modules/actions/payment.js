@@ -70,9 +70,9 @@ export async function sendCosmosPayment(
         commit(types.UI_SET_SIGN_FINISH, true);
         ({ txHash, included } = await broadcastCosmos(to, txRaw));
       } else {
-        commit(types.UI_SET_SIGN_FINISH, false);
         commit(types.UI_SET_TX_FAILED, true);
       }
+      commit(types.UI_SET_SIGN_FINISH, false);
     }
     if (metadata) await api.apiPostTxMetadata(txHash, metadata);
     if (shouldShowTxDialog) {

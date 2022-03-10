@@ -87,7 +87,7 @@
     </div>
   </div>
   <div
-    v-else-if="getIsSignFinishedState"
+    v-else-if="getIsSignFinishedState || mainStatus === 'uploading'"
     class="likepay-body likepay-body--center"
   >
     <div class="iscn-ar-panel">
@@ -156,7 +156,7 @@
         </div>
       </section>
       <section
-        v-if="getIsTxFailed && transactionStatus === 'failed'"
+        v-if="transactionStatus !== 'pending'"
         style="display: flex; flex-direction: row; padding: 10px 10px 30px 10px"
       >
         <button
@@ -520,6 +520,7 @@ export default {
           signer,
           shouldShowTxDialog: false,
         });
+        this.transactionStatus = 'done';
         if (txHash) await this.postISCNTransaction({ txHash });
       } catch (error) {
         this.transactionStatus = 'failed';
@@ -527,7 +528,6 @@ export default {
       }
     },
     async postISCNTransaction({ txHash, error } = {}) {
-      this.transactionStatus = 'done';
       if (this.opener || this.redirectUri) {
         const ISCNTransferInfo = await getISCNTransferInfo(txHash, { blocking: true });
         const {
@@ -582,7 +582,7 @@ export default {
       return this.arweaveGasFee;
     },
     async submitTransfer() {
-      this.transactionStatus = 'restart';
+      this.transactionStatus = 'pending';
       const {
         memo,
         address: to,
@@ -614,8 +614,7 @@ export default {
           showDialogAction: false,
           shouldShowTxDialog: false,
         });
-        // UI will change when getIsSignFinishedState is true.
-        // Hence, no need to set mainStatus = onUploadArweave.
+        this.transactionStatus = 'done';
         this.postArweaveTxTransaction({ txHash });
       } catch (error) {
         this.transactionStatus = 'failed';
@@ -623,7 +622,6 @@ export default {
       }
     },
     async postArweaveTxTransaction({ txHash, error } = {}) {
-      this.transactionStatus = 'done';
       if (this.redirectUri) {
         try {
           if (this.opener) {
@@ -641,7 +639,7 @@ export default {
         }
       }
       try {
-        this.isLoading = true;
+        this.mainStatus = 'uploading';
         this.arweaveResult = await apiArweaveUpload(this.ISCNFiles, txHash);
         this.prepareISCNWidget();
       } finally {
