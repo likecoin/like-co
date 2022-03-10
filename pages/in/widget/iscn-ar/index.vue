@@ -13,7 +13,17 @@
   >
     <div class="iscn-ar-panel">
       <section class="likepay-panel__section-container">
-        <span class="likepay-text-panel">{{ 'Waiting for ISCN Data...' }}</span>
+        <span class="likepay-text-panel">{{ 'Please send ISCN data as postMessage, refer to docs.like.co for more info' }}</span>
+      </section>
+    </div>
+  </div>
+  <div
+    v-else-if="mainStatus === 'pending'"
+    class="likepay-body likepay-body--center"
+  >
+    <div class="iscn-ar-panel">
+      <section class="likepay-panel__section-container">
+        <span class="likepay-text-panel">{{ 'Ready. Waiting for ISCN Data...' }}</span>
       </section>
     </div>
   </div>
@@ -404,6 +414,10 @@ export default {
           } = data;
           this.onReceiveISCNData(metadata);
           this.onReceiveISCNFiles(files);
+        } else if (action === 'INIT_WIDGET') {
+          if (this.mainStatus === 'initial') {
+            this.mainStatus = 'pending';
+          }
         }
       }
     },
