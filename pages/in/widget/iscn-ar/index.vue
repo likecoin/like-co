@@ -18,6 +18,43 @@
     </div>
   </div>
   <div
+    v-else-if="getIsSignFinishedState || mainStatus === 'uploading'"
+    class="likepay-body likepay-body--center"
+  >
+    <div class="iscn-ar-panel">
+      <section class="likepay-panel__section-container">
+        <header class="likepay-panel__section-header">
+          <simple-svg
+            :filepath="StarIcon"
+            width="20"
+            height="20"
+          />
+          <div class="likepay-panel__header-title" style="margin-right: auto; color: #28646E; padding-left: 10px">{{ $t('ISCNARWidget.upload.inProcess') }}</div>
+        </header>
+        <div class="likepay-panel__section-meta">
+          <div style="display: flex; margin: 40px">
+            <div
+              class="loading-track"
+              style="margin: auto"
+            >
+              <div class="loading-progress" />
+            </div>
+          </div>
+          <div style="text-align: center"> <h3 style="color: #9B9B9B; margin: 0 -6px">{{ $t('ISCNARWidget.transaction.doNotCloseReminder') }} </h3></div>
+        </div>
+        <div class="likepay-panel__section-meta">
+          <div style="width: 32px; border: 2px solid #EBEBEB; background-color:#EBEBEB" />
+        </div>
+        <div class="likepay-panel__section-meta">
+          <div style="font-size: 14px">
+            <div>{{ $t('ISCNARWidget.upload.waiting') }} </div>
+            <div>{{ $t('ISCNARWidget.transaction.signAgain') }} </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <div
     v-else-if="mainStatus === 'registerISCN'"
     class="likepay-body likepay-body--center"
   >
@@ -102,43 +139,6 @@
         <div>{{ $t('ISCNARWidget.ledger.warning') }}</div>
         <div>{{ $t('ISCNARWidget.ledger.unavailable') }}</div>
       </div>
-    </div>
-  </div>
-  <div
-    v-else-if="getIsSignFinishedState || mainStatus === 'uploading'"
-    class="likepay-body likepay-body--center"
-  >
-    <div class="iscn-ar-panel">
-      <section class="likepay-panel__section-container">
-        <header class="likepay-panel__section-header">
-          <simple-svg
-            :filepath="StarIcon"
-            width="20"
-            height="20"
-          />
-          <div class="likepay-panel__header-title" style="margin-right: auto; color: #28646E; padding-left: 10px">{{ $t('ISCNARWidget.upload.inProcess') }}</div>
-        </header>
-        <div class="likepay-panel__section-meta">
-          <div style="display: flex; margin: 40px">
-            <div
-              class="loading-track"
-              style="margin: auto"
-            >
-              <div class="loading-progress" />
-            </div>
-          </div>
-          <div style="text-align: center"> <h3 style="color: #9B9B9B; margin: 0 -6px">{{ $t('ISCNARWidget.transaction.doNotCloseReminder') }} </h3></div>
-        </div>
-        <div class="likepay-panel__section-meta">
-          <div style="width: 32px; border: 2px solid #EBEBEB; background-color:#EBEBEB" />
-        </div>
-        <div class="likepay-panel__section-meta">
-          <div style="font-size: 14px">
-            <div>{{ $t('ISCNARWidget.upload.waiting') }} </div>
-            <div>{{ $t('ISCNARWidget.transaction.signAgain') }} </div>
-          </div>
-        </div>
-      </section>
     </div>
   </div>
   <div
@@ -285,7 +285,7 @@ import {
 import Keplr from '@/util/Keplr';
 import { getISCNTransferInfo } from '@/util/cosmos/iscn/query';
 import { ISCN_LICENSES, ISCN_PUBLISHERS } from '@/util/cosmos/iscn/constant';
-import { STUB_WALLET } from '@/constant';
+import { IS_TESTNET, STUB_WALLET } from '@/constant';
 import ArrowRightNewIcon from '@/assets/icons/arrow-right-new.svg';
 import ExclamationIcon from '@/assets/icons/exclamation.svg';
 import LedgerIcon from '@/assets/icons/ledger-new.svg';
@@ -552,6 +552,7 @@ export default {
           shouldShowTxDialog: false,
         });
         this.transactionStatus = 'done';
+        this.mainStatus = 'uploading';
         if (txHash) await this.postISCNTransaction({ txHash });
       } catch (error) {
         this.transactionStatus = 'failed';
@@ -579,9 +580,9 @@ export default {
             data: payload,
           });
           window.opener.postMessage(message, this.redirectOrigin);
-          const iscnIdString = encodeURIComponent(iscnId);
-          window.location.href = `https://app.like.co/view/${iscnIdString}?layout=popup`;
         }
+        const iscnIdString = encodeURIComponent(iscnId);
+        window.location.href = `https://app.${IS_TESTNET ? 'rinkeby.' : ''}like.co/view/${iscnIdString}?layout=popup`;
       }
     },
     async onClickContinueRegister({ forceKeplr = false } = {}) {
