@@ -509,7 +509,20 @@ export default {
         ipfsHash,
       } = this.arweavePaymentInfo;
       if (arweaveId || !LIKE || LIKE === '0') {
-        if (arweaveId) this.arweaveResult = { arweaveId, ipfsHash };
+        if (arweaveId) {
+          this.arweaveResult = { arweaveId, ipfsHash };
+          if (this.opener) {
+            try {
+              const message = JSON.stringify({
+                action: 'ARWEAVE_SUBMITTED',
+                data: this.arweaveResult,
+              });
+              window.opener.postMessage(message, this.redirectOrigin);
+            } catch (err) {
+              console.error(err);
+            }
+          }
+        }
         this.prepareISCNWidget();
         return;
       }
