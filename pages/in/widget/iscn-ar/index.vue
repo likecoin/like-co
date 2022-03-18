@@ -102,7 +102,14 @@
           <div style="margin-left: 75px;"> {{ $t('ISCNARWidget.ISCN.feeAmount', { ISCNTotalFee }) }} </div>
         </div>
       </section>
-      <section v-if="error">{{ error }}</section>
+      <section
+        v-if="error"
+        class="likepay-panel__section-container"
+      >
+        <div class="likepay-panel__section-meta">
+          {{ error }}
+        </div>
+      </section>
       <section
         v-if="transactionStatus !== 'pending'"
         style="display: flex; flex-direction: row; padding: 10px 10px 30px 10px"
@@ -183,7 +190,14 @@
           <div style="margin-left: 75px;"> {{ $t('ISCNARWidget.LIKEPay.amount', { amount: arweaveFee }) }} </div>
         </div>
       </section>
-      <section v-if="error">{{ error }}</section>
+      <section
+        v-if="error"
+        class="likepay-panel__section-container"
+      >
+        <div class="likepay-panel__section-meta">
+          {{ error }}
+        </div>
+      </section>
       <section
         v-if="transactionStatus !== 'pending'"
         style="display: flex; flex-direction: row; padding: 10px 10px 30px 10px"
