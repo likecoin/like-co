@@ -299,6 +299,7 @@
 import { mapActions, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
 import mime from 'mime-types';
+import { timeout } from '@/util/misc';
 import {
   queryLikeCoinBalance as queryCosmosLikeCoinBalance,
   calculateGas as calculateCosmosGas,
@@ -646,6 +647,7 @@ export default {
             console.error(err);
           }
         }
+        await timeout(3000);
         const iscnIdString = encodeURIComponent(iscnId);
         window.location.href = `https://app.${IS_TESTNET ? 'rinkeby.' : ''}like.co/view/${iscnIdString}?layout=popup`;
       }
