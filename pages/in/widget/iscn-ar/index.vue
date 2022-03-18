@@ -128,15 +128,15 @@
           </span>
         </button>
       </section>
-      <a
-        v-if="showKeplrOverrideButton"
-        href="#"
-        style="text-align: center; font-size: 14px; color: #aaf1e7; margin: 10px; text-decoration: underline;"
-        @click.prevent="onClickContinueRegister({ forceKeplr: true })"
-      >
-        {{ $t('ISCNARWidget.ISCN.keplr') }}
-      </a>
     </div>
+    <a
+      v-if="showKeplrOverrideButton"
+      href="#"
+      style="text-align: center; font-size: 14px; color: #aaf1e7; margin: 10px; text-decoration: underline;"
+      @click.prevent="onClickContinueRegister({ forceKeplr: true })"
+    >
+      {{ $t('ISCNARWidget.ISCN.keplr') }}
+    </a>
     <div style="display: flex; flex-direction: row; margin: 52px 0px; position: absolute; top: 590px">
       <div>
         <simple-svg
