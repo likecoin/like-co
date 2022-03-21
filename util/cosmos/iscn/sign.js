@@ -150,9 +150,9 @@ export async function calculateISCNTotalFee(tx) {
   return { ISCNTotalFee };
 }
 
-export async function signISCNTx(tx, signer, address, memo) {
+export async function signISCNTx(tx, signer, address, { memo, broadcast = true } = {}) {
   const payload = preformatISCNPayload(tx);
   const client = await getISCNSigningClient(signer);
-  const res = await client.createISCNRecord(address, payload, { memo });
+  const res = await client.createISCNRecord(address, payload, { memo, broadcast });
   return res;
 }

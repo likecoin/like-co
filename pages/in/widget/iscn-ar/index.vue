@@ -1,75 +1,34 @@
 <!-- eslint-disable max-len -->
 <template>
   <div
-    v-if="mainStatus === 'registerISCN'"
+    v-if="isLoading"
     key="loading"
+    class="likepay-body likepay-body--center iscn-body"
+  >
+    <span class="likepay-text-panel">{{ $t('General.loading') }}</span>
+  </div>
+  <div
+    v-else-if="mainStatus === 'initial'"
     class="likepay-body likepay-body--center"
   >
     <div class="iscn-ar-panel">
       <section class="likepay-panel__section-container">
-        <header class="likepay-panel__section-header">
-          <simple-svg
-            :filepath="StarIcon"
-            width="20"
-            height="20"
-          />
-          <div class="likepay-panel__header-title" style="margin-right: auto; color: #28646E; padding-left: 10px">{{ 'Sign  (2/2)' }}</div>
-        </header>
-
-        <div class="likepay-panel__section-meta">
-          <div style="text-align: center">
-            <h3 style="color: #9B9B9B;">{{ $t('ISCNARWidget.upload.success') }}</h3>
-          </div>
-        </div>
-        <div class="likepay-panel__section-meta">
-          <div style="width: 32px; border: 2px solid #EBEBEB; background-color:#EBEBEB" />
-        </div>
-        <div
-          class="likepay-panel__section-meta"
-          style="margin-top: 5px; display: flex; flex-direction: row;"
-        >
-          <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.ISCN.feeTitle') }} </div>
-          <div style="margin-left: 75px;"> {{ $t('ISCNARWidget.ISCN.feeAmount', { ISCNTotalFee }) }} </div>
-        </div>
+        <span class="likepay-text-panel">{{ 'Please send ISCN data as postMessage, refer to docs.like.co for more info' }}</span>
       </section>
-      <section
-        v-if="getIsTxFailed && transactionStatus === 'failed'"
-        style="display: flex; flex-direction: row; padding: 10px 10px 30px 10px"
-      >
-        <button
-          style="
-            color: #4A4A4A; border-radius: 12px; border: 2px solid #9B9B9B; margin: auto;
-            padding: 10px 16px; background-color: white; cursor: pointer;"
-          @click="submitISCNTransfer"
-        >
-          Retry
-        </button>
-      </section>
-    </div>
-    <div style="display: flex; flex-direction: row; margin: 52px 0px; position: absolute; top: 590px">
-      <div>
-        <simple-svg
-          :filepath="ExclamationIcon"
-          width="25"
-          height="24"
-        />
-      </div>
-      <div style="margin: 0 10px">
-        <simple-svg
-          :filepath="LedgerIcon"
-          width="101"
-          height="20"
-        />
-      </div>
-      <div>
-        <div>{{ $t('ISCNARWidget.ledger.warning') }}</div>
-        <div>{{ $t('ISCNARWidget.ledger.unavailable') }}</div>
-      </div>
     </div>
   </div>
   <div
-    v-else-if="getIsSignFinishedState"
-    key="loading"
+    v-else-if="mainStatus === 'pending'"
+    class="likepay-body likepay-body--center"
+  >
+    <div class="iscn-ar-panel">
+      <section class="likepay-panel__section-container">
+        <span class="likepay-text-panel">{{ 'Ready. Waiting for ISCN Data...' }}</span>
+      </section>
+    </div>
+  </div>
+  <div
+    v-else-if="getIsSignFinishedState || mainStatus === 'uploading'"
     class="likepay-body likepay-body--center"
   >
     <div class="iscn-ar-panel">
@@ -106,8 +65,101 @@
     </div>
   </div>
   <div
-    v-else-if="mainStatus === 'LIKEPay'"
-    key="loading"
+    v-else-if="mainStatus === 'registerISCN'"
+    class="likepay-body likepay-body--center"
+  >
+    <div class="iscn-ar-panel">
+      <section class="likepay-panel__section-container">
+        <header class="likepay-panel__section-header">
+          <simple-svg
+            :filepath="StarIcon"
+            width="20"
+            height="20"
+          />
+          <div
+            class="likepay-panel__header-title"
+            style="margin-right: auto; color: #28646E; padding-left: 10px"
+          >{{ 'Sign  (2/2)' }}</div>
+        </header>
+
+        <div class="likepay-panel__section-meta">
+          <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.ISCN.articleTitleTitle') }} </div>
+          <div style="margin-top: 10px"> <p> {{ $t('ISCNARWidget.ISCN.articleTitleValue', { title: iscnName }) }} </p> </div>
+        </div>
+        <div class="likepay-panel__section-meta">
+          <div style="text-align: center">
+            <h3 style="color: #9B9B9B;">{{ $t('ISCNARWidget.upload.success') }}</h3>
+          </div>
+        </div>
+        <div class="likepay-panel__section-meta">
+          <div style="width: 32px; border: 2px solid #EBEBEB; background-color:#EBEBEB" />
+        </div>
+        <div
+          class="likepay-panel__section-meta"
+          style="margin-top: 5px; display: flex; flex-direction: row;"
+        >
+          <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.ISCN.feeTitle') }} </div>
+          <div style="margin-left: 75px;"> {{ $t('ISCNARWidget.ISCN.feeAmount', { ISCNTotalFee }) }} </div>
+        </div>
+      </section>
+      <section
+        v-if="error"
+        class="likepay-panel__section-container"
+      >
+        <div class="likepay-panel__section-meta">
+          {{ error }}
+        </div>
+      </section>
+      <section
+        v-if="transactionStatus !== 'pending'"
+        style="display: flex; flex-direction: row; padding: 10px 10px 30px 10px"
+      >
+        <button
+          style="
+            color: #4A4A4A; border-radius: 12px; border: 2px solid #9B9B9B; margin: auto;
+            padding: 10px 16px; background-color: white; cursor: pointer;"
+          @click="onClickContinueRegister"
+        >
+          <span v-if="transactionStatus === 'failed'">
+            {{ $t('ISCNARWidget.transaction.retry') }}
+          </span>
+          <span v-else>
+            {{ $t('ISCNARWidget.transaction.submit') }}
+          </span>
+        </button>
+      </section>
+    </div>
+    <a
+      v-if="showKeplrOverrideButton"
+      href="#"
+      style="text-align: center; font-size: 14px; color: #aaf1e7; margin: 10px; text-decoration: underline;"
+      @click.prevent="onClickContinueRegister({ forceKeplr: true })"
+    >
+      {{ $t('ISCNARWidget.ISCN.keplr') }}
+    </a>
+    <div style="display: flex; flex-direction: row; margin: 52px 0px; position: absolute; top: 590px">
+      <div>
+        <simple-svg
+          :filepath="ExclamationIcon"
+          width="25"
+          height="24"
+        />
+      </div>
+      <div style="margin: 0 10px">
+        <simple-svg
+          :filepath="LedgerIcon"
+          width="101"
+          height="20"
+        />
+      </div>
+      <div>
+        <div>{{ $t('ISCNARWidget.ledger.warning') }}</div>
+        <div>{{ $t('ISCNARWidget.ledger.unavailable') }}</div>
+      </div>
+    </div>
+  </div>
+  <div
+    v-else-if="mainStatus === 'LIKEPaying'"
     class="likepay-body likepay-body--center"
   >
     <div class="iscn-ar-panel">
@@ -135,11 +187,19 @@
           style="margin-top: 5px; display: flex; flex-direction: row;"
         >
           <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.LIKEPay.title') }} </div>
-          <div style="margin-left: 75px;"> {{ $t('ISCNARWidget.LIKEPay.amount', { amount: amounts[0] }) }} </div>
+          <div style="margin-left: 75px;"> {{ $t('ISCNARWidget.LIKEPay.amount', { amount: arweaveFee }) }} </div>
         </div>
       </section>
       <section
-        v-if="getIsTxFailed && transactionStatus === 'failed'"
+        v-if="error"
+        class="likepay-panel__section-container"
+      >
+        <div class="likepay-panel__section-meta">
+          {{ error }}
+        </div>
+      </section>
+      <section
+        v-if="transactionStatus !== 'pending'"
         style="display: flex; flex-direction: row; padding: 10px 10px 30px 10px"
       >
         <button
@@ -148,7 +208,12 @@
             padding: 10px 16px; background-color: white; cursor: pointer;"
           @click="submitTransfer"
         >
-          {{ $t('ISCNARWidget.transaction.retry') }}
+          <span v-if="transactionStatus === 'failed'">
+            {{ $t('ISCNARWidget.transaction.retry') }}
+          </span>
+          <span v-else>
+            {{ $t('ISCNARWidget.transaction.submit') }}
+          </span>
         </button>
       </section>
     </div>
@@ -174,7 +239,7 @@
     </div>
   </div>
   <div
-    v-else
+    v-else-if="mainStatus === 'LIKEPay'"
     key="panel"
     class="likepay-body"
   >
@@ -194,15 +259,15 @@
 
         <div class="likepay-panel__section-meta">
           <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.ISCN.articleTitleTitle') }} </div>
-          <div style="margin-top: 10px"> <p> {{ $t('ISCNARWidget.ISCN.articleTitleValue', { title }) }} </p> </div>
+          <div style="margin-top: 10px"> <p> {{ $t('ISCNARWidget.ISCN.articleTitleValue', { title: iscnName }) }} </p> </div>
         </div>
         <div class="likepay-panel__section-meta">
           <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.LIKEPay.title') }} </div>
-          <div style="margin-top: 10px"> <p> {{ $t('ISCNARWidget.LIKEPay.amount', { amount: transactionFee }) }} </p> </div>
+          <div style="margin-top: 10px"> <p> {{ $t('ISCNARWidget.LIKEPay.amount', { amount: arweaveFee }) }} </p> </div>
         </div>
       </section>
       <section style="display: flex; flex-direction: row; padding: 10px">
-        <div style="margin: auto 0 auto auto; color: #9B9B9B;"> {{ $t('ISCNARWidget.LIKEPay.titleAndAmount', { amount: transactionFee }) }} </div>
+        <div style="margin: auto 0 auto auto; color: #9B9B9B;"> {{ $t('ISCNARWidget.LIKEPay.titleAndAmount', { amount: arweaveFee }) }} </div>
         <button
           style="display: flex; flex-direction: row; background-color: #AAF1E7;
                  color: #28646E; border-radius: 12px; border: none; margin: 10px;
@@ -219,10 +284,10 @@
       </section>
     </div>
     <a
-      v-if="getUserIsRegistered && !isUsingKeplr"
+      v-if="showKeplrOverrideButton"
       href="#"
       style="text-align: center; font-size: 14px; color: #aaf1e7; margin: 10px; text-decoration: underline;"
-      @click.prevent="onClickConnectKeplr"
+      @click.prevent="onClickBeginRegister({ forceKeplr: true })"
     >
       {{ $t('ISCNARWidget.ISCN.keplr') }}
     </a>
@@ -233,21 +298,20 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
-import {
-  IS_CHAIN_UPGRADING,
-} from '@/constant';
+import mime from 'mime-types';
+import { timeout } from '@/util/misc';
 import {
   queryLikeCoinBalance as queryCosmosLikeCoinBalance,
-  getTransferInfo as getCosmosTransferInfo,
   calculateGas as calculateCosmosGas,
 } from '@/util/CosmosHelper';
-import User from '@/util/User';
 import {
-  apiGetUserMinById,
+  apiArweaveEstimate,
+  apiArweaveUpload,
 } from '@/util/api/api';
 import Keplr from '@/util/Keplr';
 import { getISCNTransferInfo } from '@/util/cosmos/iscn/query';
 import { ISCN_LICENSES, ISCN_PUBLISHERS } from '@/util/cosmos/iscn/constant';
+import { IS_TESTNET, STUB_WALLET } from '@/constant';
 import ArrowRightNewIcon from '@/assets/icons/arrow-right-new.svg';
 import ExclamationIcon from '@/assets/icons/exclamation.svg';
 import LedgerIcon from '@/assets/icons/ledger-new.svg';
@@ -260,27 +324,18 @@ export default {
   layout: 'likepay',
   data() {
     return {
-      toIds: [],
-      toUsers: [],
-      amounts: [],
-      transactionFee: 0,
+      isLoading: false,
+      error: '',
+      showWalletOption: true,
+      arweaveFee: '0',
+      arweaveGasFee: '',
+      arweavePaymentInfo: null,
+      arweaveResult: null,
       redirectUri: '',
-      showDetails: false,
-      gasFee: '',
       isUsingKeplr: false,
       mainStatus: 'initial',
       transactionStatus: 'initial',
-      fingerprints: [],
-      title: '',
-      type: 'article',
-      author: '',
-      authorDescription: '',
-      description: '',
-      tags: [],
-      license: '',
-      publisher: '',
-      memo: '',
-      url: '',
+      ISCNData: null,
       ISCNTotalFee: 0.00,
       ArrowRightNewIcon,
       ExclamationIcon,
@@ -290,126 +345,29 @@ export default {
   },
   async asyncData({
     query,
-    error,
     redirect,
   }) {
     const {
-      to: toString,
-      amount: amountString,
       redirect_uri: redirectUri,
       opener,
-      fingerprint,
-      tags: tagsString = '',
-      url,
-      publisher,
-      author,
-      author_description: authorDescription,
-      description,
     } = query;
-    let {
-      remarks = '', title, license,
-    } = query;
-    const tags = tagsString ? tagsString.split(',') : [];
-    let fingerprints = fingerprint ? fingerprint.split(',') : [];
-    fingerprints = fingerprints.map((f) => {
-      let contentFingerprint = f;
-      if (f.startsWith('Qm') && f.length === 46) {
-        contentFingerprint = `ipfs://${f}`; // support old wordpress plugin
-      }
-      return contentFingerprint;
-    });
-    if (publisher) {
-      if (!ISCN_PUBLISHERS[publisher]) {
-        return error({ statusCode: 400, message: 'INVALID_PUBLISHER' });
-      }
-      ({ license } = ISCN_PUBLISHERS[publisher]);
-    }
-    if (license) {
-      if (!ISCN_LICENSES[license]) {
-        return error({ statusCode: 400, message: 'INVALID_LICENSE' });
-      }
-    } else {
-      license = '';
-    }
-    if (title) {
-      title = title.substring(0, 255);
-    }
     if (!Object.keys(query).length) {
       return redirect('https://docs.like.co/developer/like-pay/web-widget/reference');
     }
-    if (!toString) {
-      return error({ statusCode: 400, message: 'INVALID_RECIPIENT' });
-    }
-    if (!amountString) {
-      return error({ statusCode: 400, message: 'INVALID_AMOUNT' });
-    }
-    const toIds = toString.split(',');
-    const amounts = amountString.split(',');
-    if (toIds.length !== amounts.length) {
-      return error({ statusCode: 400, message: 'RECIPIENT_AND_AMOUNT_SIZE_MISMATCH' });
-    }
-    if (remarks) {
-      remarks = remarks.substring(0, 255);
-    }
-    let promises = [];
-    promises.push(Promise.resolve(null));
-    promises = promises.concat(toIds.map(id => apiGetUserMinById(id, { type: 'payment' })));
-
-    return Promise.all(promises).then((res) => {
-      const [, ...toRes] = res;
-      const toUsers = toRes.map((u) => {
-        const {
-          user,
-          cosmosWallet,
-          avatar,
-          displayName,
-          paymentRedirectWhiteList,
-        } = u.data;
-        return {
-          user,
-          cosmosWallet,
-          avatar,
-          displayName,
-          avatarHalo: User.getAvatarHaloType(u.data),
-          paymentRedirectWhiteList,
-        };
-      });
-      if (toUsers.some(u => !u.cosmosWallet)) {
-        error({ statusCode: 400, message: 'RECEIPIENT_HAS_NO_WALLET' });
-      }
-      const hasOpener = opener && opener !== '0';
-
-      return {
-        toIds,
-        amounts,
-        toUsers,
-        redirectUri,
-        remarks,
-        opener: hasOpener,
-        title,
-        author,
-        authorDescription,
-        description,
-        tags,
-        url,
-        fingerprints,
-        license,
-        publisher,
-      };
-    }).catch((e) => {
-      console.error(e);
-      error({ statusCode: 404, message: e.message });
-    });
+    const hasOpener = opener && opener !== '0';
+    return {
+      redirectUri,
+      opener: hasOpener,
+    };
   },
   head() {
     return {
-      title: 'LIKE pay',
+      title: 'ISCN Arweave widget',
     };
   },
   computed: {
     ...mapGetters([
       'getUserIsRegistered',
-      'setReAuthDialogShow',
       'getAuthCoreNeedReAuth',
       'getUserInfo',
       'getIsSignFinishedState',
@@ -423,76 +381,40 @@ export default {
       if (!window) return null;
       return window.opener;
     },
-    isChainUpgrading() {
-      return IS_CHAIN_UPGRADING;
+    iscnName() {
+      return (this.ISCNData && this.ISCNData.name);
     },
-    sumOfToAmount() {
-      if (!this.amounts) return '0';
-      const amount = this.amounts.reduce(
-        (acc, a) => acc.plus(a),
-        new BigNumber(0),
-      );
-      return amount.toFixed();
+    fingerprints() {
+      const f = (this.ISCNData && this.ISCNData.fingerprints) || [];
+      if (this.arweaveResult) {
+        if (this.arweaveResult.arweaveId) f.push(`ar://${this.arweaveResult.arweaveId}`);
+        if (this.arweaveResult.ipfsHash) f.push(`ipfs://${this.arweaveResult.ipfsHash}`);
+      }
+      return f;
     },
-    actualSendAmount() {
-      const amount = new BigNumber(this.sumOfToAmount);
-      return amount.toFixed();
-    },
-    shouldSkipLIKEPay() {
-      return this.actualSendAmount === '0';
-    },
-    totalAmount() {
-      let amount = new BigNumber(this.actualSendAmount);
-      if (this.gasFee) amount = amount.plus(this.gasFee);
-      return amount.toFixed();
-    },
-    likePayMetadata() {
-      const {
-        toIds,
-        amounts,
-        redirectUri,
-        remarks,
-      } = this;
-      return {
-        likePay: {
-          toIds,
-          amounts,
-          redirectUri,
-          remarks,
-        },
-      };
+    showKeplrOverrideButton() {
+      return this.showWalletOption && this.getUserIsRegistered && !this.isUsingKeplr;
     },
   },
   async mounted() {
-    const {
-      fingerprints,
-      title,
-      tags,
-      type,
-      license,
-      url,
-    } = this;
-    const { cosmosWallet } = this.getUserInfo;
-    if (!this.isChainUpgrading) {
-      this.calculateGasFee();
-    }
     if (this.opener && !window.opener) {
       this.$nuxt.error({ statusCode: 400, message: 'Cannot access window opener' });
     }
-    this.ISCNTotalFee = await this.calculateISCNTxTotalFee({
-      userId: this.getUserId,
-      displayName: this.getUserInfo.displayName || this.author,
-      authorDescription: this.authorDescription,
-      description: this.description,
-      cosmosWallet,
-      fingerprints,
-      name: title,
-      tags,
-      type,
-      license,
-      url,
-    });
-    this.transactionFee = this.shouldSkipLIKEPay ? this.ISCNTotalFee : this.amounts[0];
+    window.addEventListener(
+      'message',
+      this.onWindowMessage,
+      false,
+    );
+    if (this.opener) {
+      try {
+        const message = JSON.stringify({
+          action: 'ISCN_WIDGET_READY',
+        });
+        window.opener.postMessage(message, this.redirectOrigin);
+      } catch (err) {
+        console.error(err);
+      }
+    }
   },
   methods: {
     ...mapActions([
@@ -502,34 +424,160 @@ export default {
       'setDefaultCosmosWalletSource',
       'calculateISCNTxTotalFee',
       'sendISCNSignature',
+      'setReAuthDialogShow',
     ]),
-    async calculateGasFee() {
-      const { feeAmount } = await calculateCosmosGas(this.toUsers);
-      this.gasFee = BigNumber(feeAmount[0].amount).dividedBy(1e9).toFixed();
-      return this.gasFee;
-    },
-    async onStartRegisterISCNMessage(event) {
+    onWindowMessage(event) {
       if (event && event.data && typeof event.data === 'string') {
+        if (this.redirectOrigin && event.origin !== this.redirectOrigin) {
+          return;
+        }
         const { action, data } = JSON.parse(event.data);
-        if (action === 'REGISTER_ISCN') {
-          this.mainStatus = 'registerISCN';
+        if (action === 'SUBMIT_ISCN_DATA') {
           const {
-            fingerprints, tags, url, type, license, author, authorDescription, description,
+            metadata = {},
+            files = [],
           } = data;
-          this.fingerprints = fingerprints;
-          this.tags = tags;
-          this.url = url;
-          this.type = type;
-          this.license = license;
-          this.author = author;
-          this.authorDescription = authorDescription;
-          this.description = description;
-          await this.submitISCNTransfer();
+          this.onReceiveISCNData(metadata);
+          this.onReceiveISCNFiles(files);
+        } else if (action === 'INIT_WIDGET') {
+          if (this.mainStatus === 'initial') {
+            this.mainStatus = 'pending';
+          }
         }
       }
     },
+    async onReceiveISCNFiles(data) {
+      if (!Array.isArray(data)) return;
+      const files = data.filter(d => d.filename && d.data);
+      const filesWithBlob = await Promise.all(files.map(async (d) => {
+        const mimeType = d.mimeType || mime.lookup(d.filename) || 'text/plain';
+        const resData = await fetch(`data:${mimeType};base64,${d.data}`);
+        const blob = await resData.blob();
+        return {
+          filename: d.filename,
+          blob,
+        };
+      }));
+      this.ISCNFiles = filesWithBlob.reduce((acc, cur) => {
+        acc[cur.filename] = cur.blob;
+        return acc;
+      }, {});
+      try {
+        this.isLoading = true;
+        const { data: resData } = await apiArweaveEstimate(this.ISCNFiles);
+        this.arweavePaymentInfo = resData;
+        this.prepareLikePayWidget();
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    async onReceiveISCNData(data) {
+      const {
+        fingerprints = [],
+        tags = [],
+        url,
+        publisher,
+        author,
+        authorDescription,
+        description,
+      } = data;
+      let {
+        license,
+        type,
+        name,
+      } = data;
+      type = type || 'article';
+      if (publisher) {
+        if (!ISCN_PUBLISHERS[publisher]) {
+          this.$nuxt.error({ statusCode: 400, message: 'INVALID_PUBLISHER' });
+        }
+        ({ license } = ISCN_PUBLISHERS[publisher]);
+      }
+      if (license) {
+        if (!ISCN_LICENSES[license]) {
+          this.$nuxt.error({ statusCode: 400, message: 'INVALID_LICENSE' });
+        }
+      } else {
+        license = '';
+      }
+      if (name) {
+        name = name.substring(0, 255);
+      }
+      const ISCNData = {
+        fingerprints,
+        name,
+        type,
+        author,
+        authorDescription,
+        description,
+        tags,
+        license,
+        publisher,
+        url,
+      };
+      this.ISCNData = ISCNData;
+    },
+    async prepareLikePayWidget() {
+      const {
+        LIKE,
+        arweaveId,
+        ipfsHash,
+      } = this.arweavePaymentInfo;
+      if (arweaveId || !LIKE || LIKE === '0') {
+        if (arweaveId) {
+          this.arweaveResult = { arweaveId, ipfsHash };
+          if (this.opener) {
+            try {
+              const message = JSON.stringify({
+                action: 'ARWEAVE_SUBMITTED',
+                data: this.arweaveResult,
+              });
+              window.opener.postMessage(message, this.redirectOrigin);
+            } catch (err) {
+              console.error(err);
+            }
+          }
+        }
+        this.prepareISCNWidget();
+        return;
+      }
+      this.arweaveFee = LIKE;
+      await this.calculateGasFee();
+      this.mainStatus = 'LIKEPay';
+    },
+    async prepareISCNWidget() {
+      this.mainStatus = 'registerISCN';
+      const {
+        name,
+        type,
+        author,
+        authorDescription,
+        description,
+        tags,
+        license,
+        publisher,
+        url,
+      } = this.ISCNData;
+      this.ISCNTotalFee = await this.calculateISCNTxTotalFee({
+        userId: this.getUserId,
+        displayName: this.getUserInfo.displayName || author,
+        authorDescription,
+        description,
+        cosmosWallet: STUB_WALLET,
+        fingerprints: this.fingerprints,
+        name,
+        tags,
+        type,
+        license,
+        publisher,
+        url,
+      });
+      if (!this.showWalletOption) this.submitISCNTransfer();
+    },
     async submitISCNTransfer() {
-      this.transactionStatus = 'restart';
+      this.showWalletOption = false;
+      this.error = '';
+      this.transactionStatus = 'pending';
       try {
         const from = await this.fetchCurrentCosmosWallet();
         if (!from) {
@@ -544,21 +592,20 @@ export default {
         }
         const signer = await this.prepareCosmosTxSigner();
         const {
-          fingerprints,
-          title,
+          name,
           tags,
           type,
           license,
           url,
-        } = this;
+        } = this.ISCNData;
         const txHash = await this.sendISCNSignature({
           cosmosWallet: from,
           userId: this.getUserId || '',
           displayName: this.getUserInfo.displayName || this.author || '',
           authorDescription: this.authorDescription,
           description: this.description,
-          fingerprints,
-          name: title,
+          fingerprints: this.fingerprints,
+          name,
           tags,
           type,
           license,
@@ -566,14 +613,16 @@ export default {
           signer,
           shouldShowTxDialog: false,
         });
+        this.transactionStatus = 'done';
+        this.mainStatus = 'uploading';
         if (txHash) await this.postISCNTransaction({ txHash });
       } catch (error) {
         this.transactionStatus = 'failed';
+        this.error = error;
         console.error(error);
       }
     },
     async postISCNTransaction({ txHash, error } = {}) {
-      this.transactionStatus = 'done';
       if (this.opener || this.redirectUri) {
         const ISCNTransferInfo = await getISCNTransferInfo(txHash, { blocking: true });
         const {
@@ -588,114 +637,140 @@ export default {
         if (error) payload.error = error;
         if (success !== undefined) payload.success = success;
         if (this.opener) {
-          const message = JSON.stringify({
-            action: 'ISCN_SUBMITTED',
-            data: payload,
-          });
-          window.opener.postMessage(message, this.redirectOrigin);
-          const iscnIdString = encodeURIComponent(iscnId);
-          window.location.href = `https://app.like.co/view/${iscnIdString}?layout=popup`;
+          try {
+            const message = JSON.stringify({
+              action: 'ISCN_SUBMITTED',
+              data: payload,
+            });
+            window.opener.postMessage(message, this.redirectOrigin);
+          } catch (err) {
+            console.error(err);
+          }
         }
+        await timeout(3000);
+        const iscnIdString = encodeURIComponent(iscnId);
+        window.location.href = `https://app.${IS_TESTNET ? 'rinkeby.' : ''}like.co/view/${iscnIdString}?layout=popup`;
       }
     },
-    async onClickBeginRegister() {
-      if (this.getUserIsRegistered) {
+    async onClickContinueRegister({ forceKeplr = false } = {}) {
+      if (!this.isUsingKeplr) {
+        if (!forceKeplr && this.getUserIsRegistered) {
+          if (this.getAuthCoreNeedReAuth) {
+            this.setReAuthDialogShow(true);
+            return;
+          }
+        } else {
+          await this.connectKeplr();
+        }
+      }
+      this.submitISCNTransfer();
+    },
+    async onClickBeginRegister({ forceKeplr = false } = {}) {
+      if (!forceKeplr && this.getUserIsRegistered) {
         if (this.getAuthCoreNeedReAuth) {
           this.setReAuthDialogShow(true);
           return;
         }
-        this.beginLikePay();
       } else {
-        await this.onClickConnectKeplr();
+        await this.connectKeplr();
       }
+      this.beginLikePay();
     },
-    async onClickConnectKeplr() {
+    async connectKeplr() {
       const res = await Keplr.initKeplr();
       if (!res) {
         throw new Error('FAILED_CONNECT_TO_KEPLR');
       }
       this.setDefaultCosmosWalletSource({ source: 'keplr', persistent: false });
       this.isUsingKeplr = true;
-      await this.beginLikePay();
     },
     async beginLikePay() {
-      // Direct register ISCN flow
-      if (this.shouldSkipLIKEPay) {
-        this.mainStatus = 'registerISCN';
-        this.submitISCNTransfer();
-        return;
-      }
-      // pay LIKE Pay
-      this.mainStatus = 'LIKEPay';
-      [this.transactionFee] = this.amounts;
+      this.mainStatus = 'LIKEPaying';
       await this.submitTransfer();
     },
+    async calculateGasFee() {
+      const { feeAmount } = await calculateCosmosGas([STUB_WALLET]);
+      this.arweaveGasFee = BigNumber(feeAmount[0].amount).dividedBy(1e9).toFixed();
+      return this.arweaveGasFee;
+    },
     async submitTransfer() {
-      this.transactionStatus = 'restart';
-      if (this.isChainUpgrading) return;
+      this.showWalletOption = false;
+      this.error = '';
+      this.transactionStatus = 'pending';
+      const {
+        memo,
+        address: to,
+      } = this.arweavePaymentInfo;
       try {
-        const { cosmosWallet } = this.getUserInfo;
-        const amount = new BigNumber(this.totalAmount);
+        const amount = new BigNumber(this.arweaveFee).plus(this.arweaveGasFee);
         const from = await this.fetchCurrentCosmosWallet();
         if (!from) {
           throw new Error('PLEASE_RELOGIN');
         }
-        const userWallet = cosmosWallet;
-        if (userWallet !== undefined && from !== userWallet && !this.isUsingKeplr) {
-          throw new Error('VALIDATION_FAIL');
-        }
-        const to = this.toUsers[0].cosmosWallet;
-        if (from === to) {
-          throw new Error('VALIDATION_FAIL');
+        if (!this.isUsingKeplr) {
+          const { cosmosWallet } = this.getUserInfo;
+          const userWallet = cosmosWallet;
+          if (userWallet !== undefined && from !== userWallet && !this.isUsingKeplr) {
+            throw new Error('VALIDATION_FAIL');
+          }
         }
         const balance = await queryCosmosLikeCoinBalance(from);
         if (amount.gt(balance)) {
           throw new Error('INSUFFICIENT_BALANCE');
         }
         const signer = await this.prepareCosmosTxSigner();
-        const metadata = this.likePayMetadata;
-        // LIKEPay -> Upload Arweave -> Register ISCN flow
         const txHash = await this.sendCosmosPayment({
           signer,
           from,
           to,
-          value: this.actualSendAmount,
-          memo: this.remarks,
+          value: this.arweaveFee,
+          memo,
           showDialogAction: false,
-          metadata,
           shouldShowTxDialog: false,
         });
-        // UI will change when getIsSignFinishedState is true.
-        // Hence, no need to set mainStatus = onUploadArweave.
-        this.postTransaction({ txHash });
+        this.transactionStatus = 'done';
+        this.postArweaveTxTransaction({ txHash });
       } catch (error) {
         this.transactionStatus = 'failed';
+        this.error = error;
         if (error.message !== 'VALIDATION_FAIL') console.error(error);
       }
     },
-    async postTransaction({ txHash, error } = {}) {
-      this.transactionStatus = 'done';
+    async postArweaveTxTransaction({ txHash, error } = {}) {
       if (this.redirectUri) {
-        const { isFailed } = await getCosmosTransferInfo(txHash, { blocking: true });
-        const success = !isFailed;
-        const { remarks } = this;
-        if (this.opener) {
-          const payload = {};
-          if (txHash) payload.tx_hash = txHash;
-          if (error) payload.error = error;
-          if (remarks) payload.remarks = remarks;
-          if (success !== undefined) payload.success = success;
-          const message = JSON.stringify({
-            action: 'TX_SUBMITTED',
-            data: payload,
-          });
-          window.opener.postMessage(message, this.redirectOrigin);
-          window.addEventListener(
-            'message',
-            this.onStartRegisterISCNMessage,
-            false,
-          );
+        try {
+          if (this.opener) {
+            const payload = {};
+            if (txHash) payload.tx_hash = txHash;
+            if (error) payload.error = error;
+            const message = JSON.stringify({
+              action: 'TX_SUBMITTED',
+              data: payload,
+            });
+            window.opener.postMessage(message, this.redirectOrigin);
+          }
+        } catch (err) {
+          console.error(err);
         }
+      }
+      try {
+        this.mainStatus = 'uploading';
+        const { data: resData } = await apiArweaveUpload(this.ISCNFiles, txHash);
+        this.arweaveResult = resData;
+        if (this.opener) {
+          try {
+            const message = JSON.stringify({
+              action: 'ARWEAVE_SUBMITTED',
+              data: resData,
+            });
+            window.opener.postMessage(message, this.redirectOrigin);
+          } catch (err) {
+            console.error(err);
+          }
+        }
+        this.prepareISCNWidget();
+      } finally {
+        this.isLoading = false;
       }
     },
   },

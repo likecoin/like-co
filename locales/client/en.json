@@ -1068,10 +1068,11 @@
   },
   "ISCNARWidget": {
     "transaction": {
-      "firstStep": "Sign  (1/2)",
-      "secondStep": "Sign  (2/2)",
+      "firstStep": "Sign (1/2)",
+      "secondStep": "Sign (2/2)",
       "reminder": "Please sign with your wallet",
       "retry": "Retry",
+      "submit": "Submit",
       "doNotCloseReminder": "Please do not close this window",
       "signAgain": "You will be requested to sign again before finish"
     },

@@ -196,16 +196,14 @@ export async function calculateGas(to) {
   return { gas, feeAmount };
 }
 
-export async function broadcast(to, txRaw) {
-  const { gas, feeAmount } = await calculateGas([to]);
+export async function broadcast(txRaw) {
   const txBytes = TxRaw.encode(txRaw).finish();
-  const broadcastedTx = await signingStargateClient.broadcastTx(
+  if (!stargateClient) await initStargateClient();
+  const broadcastedTx = await stargateClient.broadcastTx(
     txBytes,
   );
   return {
     txHash: broadcastedTx.transactionHash,
-    gas,
-    feeAmount,
     included: () => queryTxInclusion(broadcastedTx.transactionHash, COSMOS_RESTFUL_API),
   };
 }
