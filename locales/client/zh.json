@@ -998,8 +998,8 @@
   },
   "ISCNARWidget": {
     "transaction": {
-      "firstStep": "簽署  (1/2)",
-      "secondStep": "簽署  (2/2)",
+      "firstStep": "簽署 (1/2)",
+      "secondStep": "簽署 (2/2)",
       "reminder": "請以你的錢包簽署",
       "retry": "重試",
       "doNotCloseReminder": "請勿關閉此視窗",
