@@ -21,7 +21,7 @@
         </div>
         <div class="likepay-panel__section-meta">
           <a
-            href="https://docs.like.co/developer/international-standard-content-number-iscn/web-widget/iscn-ar/reference"
+            href="https://docs.like.co/developer/iscn/web-widget/iscn-ar/reference"
             target="_blank"
           >{{ $t('ISCNARWidget.Introduction.document') }}</a>
         </div>
@@ -347,7 +347,8 @@ export default {
       arweaveGasFee: '',
       arweavePaymentInfo: null,
       arweaveResult: null,
-      redirectUri: '',
+      redirectUri: this.$route.query.redirectUri,
+      opener: this.$route.query.opener && this.$route.query.opener !== '0',
       isUsingKeplr: false,
       mainStatus: 'initial',
       transactionStatus: 'initial',
@@ -361,15 +362,11 @@ export default {
   },
   async asyncData({
     query,
-    redirect,
   }) {
     const {
       redirect_uri: redirectUri,
       opener,
     } = query;
-    if (!Object.keys(query).length) {
-      return redirect('https://docs.like.co/developer/like-pay/web-widget/reference');
-    }
     const hasOpener = opener && opener !== '0';
     return {
       redirectUri,
