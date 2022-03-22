@@ -474,7 +474,6 @@ export default {
     async onReceiveISCNData(data) {
       const {
         fingerprints = [],
-        tags = [],
         url,
         publisher,
         author,
@@ -485,6 +484,7 @@ export default {
         license,
         type,
         name,
+        tags = [],
       } = data;
       type = type || 'article';
       if (publisher) {
@@ -503,6 +503,12 @@ export default {
       if (name) {
         name = name.substring(0, 255);
       }
+      if (!tags) {
+        tags = [];
+      } else if (typeof tags === 'string') {
+        tags = tags.split(',');
+      }
+
       const ISCNData = {
         fingerprints,
         name,
