@@ -1067,6 +1067,12 @@
     }
   },
   "ISCNARWidget": {
+    "title": "ISCN x Arweave",
+    "Introduction": {
+      "initial": "To begin, please send ISCN data as postMessage",
+      "document": "Refer to docs.like.co for more information",
+      "ready": "Ready. Waiting to receive ISCN Data..."
+    },
     "transaction": {
       "firstStep": "Sign (1/2)",
       "secondStep": "Sign (2/2)",
@@ -1077,7 +1083,7 @@
       "signAgain": "You will be requested to sign again before finish"
     },
     "LIKEPay": {
-      "title": "Fee",
+      "fee": "Fee",
       "amount": "{amount} LIKE",
       "titleAndAmount": "Fee: {amount} LIKE"
     },

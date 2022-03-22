@@ -997,6 +997,12 @@
     }
   },
   "ISCNARWidget": {
+    "title": "ISCN x Arweave",
+    "Introduction": {
+      "initial": "歡迎，請將需要註冊 ISCN 的資料以 postMessage 發出",
+      "document": "詳請請參考 docs.like.co 的技術文件",
+      "ready": "準備就緒，等待接收 ISCN 資料..."
+    },
     "transaction": {
       "firstStep": "簽署 (1/2)",
       "secondStep": "簽署 (2/2)",
@@ -1007,7 +1013,7 @@
       "signAgain": "你還需要再簽署一次才完成程序"
     },
     "LIKEPay": {
-      "title": "費用",
+      "fee": "費用",
       "amount": "{amount} LIKE",
       "titleAndAmount": "費用: {amount} LIKE"
     },
