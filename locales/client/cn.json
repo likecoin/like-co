@@ -950,6 +950,7 @@
             "secondStep": "签署 (2/2)",
             "reminder": "请以你的钱包签署",
             "retry": "重试",
+            "submit": "确定",
             "doNotCloseReminder": "请勿关闭此视窗",
             "signAgain": "你还需要再签署一次才完成程序"
         }
@@ -961,6 +962,7 @@
     },
     "ISCN": {
       "register": "DePub",
+      "keplr": "使用 Keplr 钱包",
       "action": "DePub 作品",
       "articleTitleTitle": "ISCN 标题",
       "articleTitleValue": "{title}",
@@ -1624,6 +1626,16 @@
         },
         "Settings": {
             "title": "AuthCore 设定"
+        },
+        "Desmos": {
+          "desmos": "Desmos Network",
+          "forbolex": "Forbole X",
+          "proofDescription": "经 {forbolex} 连接钱包地址到 {desmos}"
+        },
+        "SeedWords": {
+          "seedWordsWarning": "请勿与任何人分享你的钱包助记词，或者输入助记词到不明网站或程式",
+          "passwordDescription": "请重新输入 Authcore 密码来显示助记词",
+          "seedWordsDescription": "保障资产安全，钱包助记词必须保密"
         }
     },
     "CivicLikerReferral": {
