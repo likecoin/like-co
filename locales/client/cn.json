@@ -945,36 +945,44 @@
         }
     },
     "ISCNARWidget": {
+        "title": "ISCN x Arweave",
+        "Introduction": {
+          "initial": "欢迎，请将需要注册 ISCN 的资料以 postMessage 发出",
+          "document": "详请请参考 docs.like.co 的技术文件",
+          "ready": "准备就绪，等待接收 ISCN 资料..."
+        },
         "transaction": {
             "firstStep": "签署 (1/2)",
             "secondStep": "签署 (2/2)",
             "reminder": "请以你的钱包签署",
             "retry": "重试",
+            "submit": "确定",
             "doNotCloseReminder": "请勿关闭此视窗",
             "signAgain": "你还需要再签署一次才完成程序"
+        },
+        "LIKEPay": {
+            "fee": "费用",
+            "amount": "{amount} LIKE",
+            "titleAndAmount": "费用: {amount} LIKE"
+        },
+        "ISCN": {
+            "register": "DePub",
+            "keplr": "使用 Keplr 钱包",
+            "action": "DePub 作品",
+            "articleTitleTitle": "ISCN 标题",
+            "articleTitleValue": "{title}",
+            "feeTitle": "费用",
+            "feeAmount": "{ISCNTotalFee} LIKE"
+        },
+        "upload": {
+            "inProcess": "正在上传...",
+            "success": "上传完成，请再签署一次确认。",
+            "waiting": "上传过程需时，过程长短视乎档案的大小"
+        },
+        "ledger": {
+            "warning": "注意：请勿以 Ledger 签署",
+            "unavailable": "服务暂时未支援 Ledger"
         }
-    },
-    "LIKEPay": {
-      "title": "费用",
-      "amount": "{amount} LIKE",
-      "titleAndAmount": "费用: {amount} LIKE"
-    },
-    "ISCN": {
-      "register": "DePub",
-      "action": "DePub 作品",
-      "articleTitleTitle": "ISCN 标题",
-      "articleTitleValue": "{title}",
-      "feeTitle": "费用",
-      "feeAmount": "{ISCNTotalFee} LIKE"
-    },
-    "upload": {
-      "inProcess": "正在上传...",
-      "success": "上传完成，请再签署一次确认。",
-      "waiting": "上传过程需时，过程长短视乎档案的大小"
-    },
-    "ledger": {
-      "warning": "注意：请勿以 Ledger 签署",
-      "unavailable": "服务暂时未支援 Ledger"
     },
     "RewardRecords": {
         "title": "奖赏纪录"
@@ -1624,6 +1632,16 @@
         },
         "Settings": {
             "title": "AuthCore 设定"
+        },
+        "Desmos": {
+          "desmos": "Desmos Network",
+          "forbolex": "Forbole X",
+          "proofDescription": "经 {forbolex} 连接钱包地址到 {desmos}"
+        },
+        "SeedWords": {
+          "seedWordsWarning": "请勿与任何人分享你的钱包助记词，或者输入助记词到不明网站或程式",
+          "passwordDescription": "请重新输入 Authcore 密码来显示助记词",
+          "seedWordsDescription": "保障资产安全，钱包助记词必须保密"
         }
     },
     "CivicLikerReferral": {

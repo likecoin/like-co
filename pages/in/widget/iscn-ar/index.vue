@@ -13,7 +13,18 @@
   >
     <div class="iscn-ar-panel">
       <section class="likepay-panel__section-container">
-        <span class="likepay-text-panel">{{ 'Please send ISCN data as postMessage, refer to docs.like.co for more info' }}</span>
+        <header class="likepay-panel__section-header">
+          <div class="likepay-panel__header-title">{{ $t('ISCNARWidget.title') }}</div>
+        </header>
+        <div class="likepay-panel__section-meta">
+          {{ $t('ISCNARWidget.Introduction.initial') }}
+        </div>
+        <div class="likepay-panel__section-meta">
+          <a
+            href="https://docs.like.co/developer/iscn/web-widget/iscn-ar/reference"
+            target="_blank"
+          >{{ $t('ISCNARWidget.Introduction.document') }}</a>
+        </div>
       </section>
     </div>
   </div>
@@ -23,7 +34,12 @@
   >
     <div class="iscn-ar-panel">
       <section class="likepay-panel__section-container">
-        <span class="likepay-text-panel">{{ 'Ready. Waiting for ISCN Data...' }}</span>
+        <header class="likepay-panel__section-header">
+          <div class="likepay-panel__header-title">{{ $t('ISCNARWidget.title') }}</div>
+        </header>
+        <div class="likepay-panel__section-meta">
+          <span class="likepay-text-panel">{{ $t('ISCNARWidget.Introduction.ready') }}</span>
+        </div>
       </section>
     </div>
   </div>
@@ -186,7 +202,7 @@
           class="likepay-panel__section-meta"
           style="margin-top: 5px; display: flex; flex-direction: row;"
         >
-          <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.LIKEPay.title') }} </div>
+          <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.LIKEPay.fee') }} </div>
           <div style="margin-left: 75px;"> {{ $t('ISCNARWidget.LIKEPay.amount', { amount: arweaveFee }) }} </div>
         </div>
       </section>
@@ -262,7 +278,7 @@
           <div style="margin-top: 10px"> <p> {{ $t('ISCNARWidget.ISCN.articleTitleValue', { title: iscnName }) }} </p> </div>
         </div>
         <div class="likepay-panel__section-meta">
-          <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.LIKEPay.title') }} </div>
+          <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.LIKEPay.fee') }} </div>
           <div style="margin-top: 10px"> <p> {{ $t('ISCNARWidget.LIKEPay.amount', { amount: arweaveFee }) }} </p> </div>
         </div>
       </section>
@@ -331,7 +347,8 @@ export default {
       arweaveGasFee: '',
       arweavePaymentInfo: null,
       arweaveResult: null,
-      redirectUri: '',
+      redirectUri: this.$route.query.redirectUri,
+      opener: this.$route.query.opener && this.$route.query.opener !== '0',
       isUsingKeplr: false,
       mainStatus: 'initial',
       transactionStatus: 'initial',
@@ -345,15 +362,11 @@ export default {
   },
   async asyncData({
     query,
-    redirect,
   }) {
     const {
       redirect_uri: redirectUri,
       opener,
     } = query;
-    if (!Object.keys(query).length) {
-      return redirect('https://docs.like.co/developer/like-pay/web-widget/reference');
-    }
     const hasOpener = opener && opener !== '0';
     return {
       redirectUri,

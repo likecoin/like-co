@@ -248,7 +248,7 @@ export default {
     } = query;
     const tags = tagsString ? tagsString.split(',') : [];
     if (!Object.keys(query).length) {
-      return redirect('https://docs.like.co/developer/international-standard-content-number-iscn/web-widget');
+      return redirect('https://docs.like.co/developer/iscn/web-widget/iscn/reference');
     }
     if (!fingerprint) {
       return error({ statusCode: 400, message: 'INVALID_FINGERPRINT' });
