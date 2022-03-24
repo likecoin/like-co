@@ -51,14 +51,9 @@ function getPublisherISCNPayload(user, { publisher, license }) {
         contributionType: 'http://schema.org/publisher',
       });
       usageInfo = `ipfs://${ISCN_LICENSES[mattersLicense]['/']}`;
+      break;
     }
-    // eslint-disable-next-line no-fallthrough
-    default: {
-      switch (license) {
-        default:
-          if (!usageInfo) usageInfo = `ipfs://${ISCN_LICENSES.default['/']}`;
-      }
-    }
+    default:
   }
   if (userId && displayName) {
     stakeholders.unshift({
