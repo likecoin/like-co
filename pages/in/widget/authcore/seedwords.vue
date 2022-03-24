@@ -49,12 +49,17 @@
             :rows="6"
             readonly
           />
-          <input
-            v-model="password"
-            v-if="isPasswordNeeded"
-            type="password"
-            required
-          >
+          <template v-else-if="isPasswordNeeded">
+            <div class="likepay-panel__section-meta">
+              <p>{{ $t('AuthCore.SeedWords.passwordDescription') }}</p>
+            </div>
+            <input
+              v-model="password"
+              v-if="isPasswordNeeded"
+              type="password"
+              required
+            >
+          </template>
         </div>
       </section></div>
     <footer class="likepay-panel__footer">
@@ -183,6 +188,7 @@ export default {
     async onClickAuthenticate() {
       this.error = '';
       try {
+        this.isLoading = true;
         if (!this.isInited) {
           await this.checkAuthCoreStatus();
         }
@@ -193,6 +199,8 @@ export default {
       } catch (err) {
         console.error(err);
         this.error = err;
+      } finally {
+        this.isLoading = false;
       }
     },
     async getAccessToken() {
