@@ -53,7 +53,9 @@ function getPublisherISCNPayload(user, { publisher, license }) {
       usageInfo = `ipfs://${ISCN_LICENSES[mattersLicense]['/']}`;
       break;
     }
-    default:
+    default: {
+      usageInfo = license;
+    }
   }
   if (userId && displayName) {
     stakeholders.unshift({
