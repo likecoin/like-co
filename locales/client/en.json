@@ -1807,7 +1807,6 @@
   },
   "AuthCore": {
     "button": {
-      "getSeedWords": "Press to show seed words",
       "profile": "Profile",
       "settings": "Settings",
       "reAuthNeeded": "Press to reauthenticate",

@@ -944,6 +944,16 @@
             "metamaskWalletNotMatch": "你的钱包地址跟目前的 Metamask 地址不相符"
         }
     },
+    "AuthCoreWidget": {
+      "desmos": {
+        "proof": {
+          "title": "产生 Desmos chain link 证明"
+        }
+      },
+      "seedWords": {
+        "title": "汇出钱包助记词"
+      }
+    },
     "ISCNARWidget": {
         "title": "ISCN x Arweave",
         "Introduction": {
@@ -1628,7 +1638,10 @@
         "button": {
             "profile": "个人档案",
             "settings": "安全设定",
-            "reAuthNeeded:": "按此认证身份"
+            "reAuthNeeded:": "按此认证身份",
+            "proof": "Desmos profile",
+            "generateProof": "产生 Desmos 地址证明",
+            "exportSeedWords": "显示钱包助记词"
         },
         "Settings": {
             "title": "AuthCore 设定"
@@ -1640,7 +1653,7 @@
         },
         "SeedWords": {
           "seedWordsWarning": "请勿与任何人分享你的钱包助记词，或者输入助记词到不明网站或程式",
-          "passwordDescription": "请重新输入 Authcore 密码来显示助记词",
+          "passwordDescription": "请重新输入 Authcore 密码",
           "seedWordsDescription": "保障资产安全，钱包助记词必须保密"
         }
     },
