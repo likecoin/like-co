@@ -316,6 +316,7 @@ import { mapActions, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
 import mime from 'mime-types';
 import { timeout } from '@/util/misc';
+import { checkIsMobileClient } from '~/util/client';
 import {
   queryLikeCoinBalance as queryCosmosLikeCoinBalance,
   calculateGas as calculateCosmosGas,
@@ -359,6 +360,7 @@ export default {
       ExclamationIcon,
       LedgerIcon,
       StarIcon,
+      isMobileClient: false,
     };
   },
   async asyncData({
@@ -407,10 +409,13 @@ export default {
       return f;
     },
     showKeplrOverrideButton() {
-      return this.showWalletOption && this.getUserIsRegistered && !this.isUsingKeplr;
+      return this.showWalletOption
+        && (this.isMobileClient || this.getUserIsRegistered)
+        && !this.isUsingKeplr;
     },
   },
   async mounted() {
+    this.isMobileClient = checkIsMobileClient();
     if (this.opener && !window.opener) {
       this.$nuxt.error({ statusCode: 400, message: 'Cannot access window opener' });
     }
@@ -439,6 +444,7 @@ export default {
       'calculateISCNTxTotalFee',
       'sendISCNSignature',
       'setReAuthDialogShow',
+      'popupAuthDialogInPlace',
     ]),
     onWindowMessage(event) {
       if (event && event.data && typeof event.data === 'string') {
@@ -690,13 +696,22 @@ export default {
       const iscnIdString = encodeURIComponent(iscnId);
       window.location.href = `https://app.${IS_TESTNET ? 'rinkeby.' : ''}like.co/view/${iscnIdString}?layout=popup`;
     },
+    handleAutheticate() {
+      if (this.getUserIsRegistered) {
+        if (this.getAuthCoreNeedReAuth) {
+          this.setReAuthDialogShow(true);
+          return true;
+        }
+      } else if (this.isMobileClient) {
+        this.popupAuthDialogInPlace({ route: this.$route, isSignIn: true });
+        return true;
+      }
+      return false;
+    },
     async onClickContinueRegister({ forceKeplr = false } = {}) {
       if (!this.isUsingKeplr) {
-        if (!forceKeplr && this.getUserIsRegistered) {
-          if (this.getAuthCoreNeedReAuth) {
-            this.setReAuthDialogShow(true);
-            return;
-          }
+        if (!forceKeplr) {
+          if (this.handleAutheticate()) return;
         } else {
           await this.connectKeplr();
         }
@@ -704,11 +719,8 @@ export default {
       this.submitISCNTransfer();
     },
     async onClickBeginRegister({ forceKeplr = false } = {}) {
-      if (!forceKeplr && this.getUserIsRegistered) {
-        if (this.getAuthCoreNeedReAuth) {
-          this.setReAuthDialogShow(true);
-          return;
-        }
+      if (!forceKeplr) {
+        if (this.handleAutheticate()) return;
       } else {
         await this.connectKeplr();
       }
