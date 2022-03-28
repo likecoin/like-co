@@ -647,7 +647,11 @@ export default {
         });
         this.transactionStatus = 'done';
         this.mainStatus = 'uploading';
-        if (txHash) await this.postISCNTransaction({ txHash });
+        if (txHash) {
+          await this.postISCNTransaction({ txHash });
+        } else {
+          throw new Error('TX_HASH_NOT_FOUND');
+        }
       } catch (error) {
         this.transactionStatus = 'failed';
         this.error = error;
@@ -655,11 +659,11 @@ export default {
       }
     },
     async postISCNTransaction({ txHash, error } = {}) {
-      if (this.opener || this.redirectUri) {
-        const ISCNTransferInfo = await getISCNTransferInfo(txHash, { blocking: true });
-        const {
-          isFailed, iscnId, iscnVersion, timestamp,
-        } = ISCNTransferInfo;
+      const ISCNTransferInfo = await getISCNTransferInfo(txHash, { blocking: true });
+      const {
+        isFailed, iscnId, iscnVersion, timestamp,
+      } = ISCNTransferInfo;
+      if (this.opener) {
         const success = !isFailed;
         const payload = {};
         if (txHash) payload.tx_hash = txHash;
@@ -668,21 +672,19 @@ export default {
         if (timestamp) payload.timestamp = timestamp;
         if (error) payload.error = error;
         if (success !== undefined) payload.success = success;
-        if (this.opener) {
-          try {
-            const message = JSON.stringify({
-              action: 'ISCN_SUBMITTED',
-              data: payload,
-            });
-            window.opener.postMessage(message, this.redirectOrigin);
-          } catch (err) {
-            console.error(err);
-          }
+        try {
+          const message = JSON.stringify({
+            action: 'ISCN_SUBMITTED',
+            data: payload,
+          });
+          window.opener.postMessage(message, this.redirectOrigin);
+        } catch (err) {
+          console.error(err);
         }
-        await timeout(3000);
-        const iscnIdString = encodeURIComponent(iscnId);
-        window.location.href = `https://app.${IS_TESTNET ? 'rinkeby.' : ''}like.co/view/${iscnIdString}?layout=popup`;
       }
+      await timeout(3000);
+      const iscnIdString = encodeURIComponent(iscnId);
+      window.location.href = `https://app.${IS_TESTNET ? 'rinkeby.' : ''}like.co/view/${iscnIdString}?layout=popup`;
     },
     async onClickContinueRegister({ forceKeplr = false } = {}) {
       if (!this.isUsingKeplr) {
