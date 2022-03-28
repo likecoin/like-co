@@ -55,6 +55,16 @@ function getPublisherISCNPayload(user, { publisher, license }) {
       break;
     }
     default: {
+      if (publisher) {
+        stakeholders.push({
+          entity: {
+            '@id': publisher,
+            publisher,
+          },
+          rewardProportion: 0,
+          contributionType: 'http://schema.org/publisher',
+        });
+      }
       usageInfo = license;
     }
   }
