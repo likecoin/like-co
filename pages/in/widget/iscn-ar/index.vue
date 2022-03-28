@@ -586,7 +586,8 @@ export default {
       } = this.ISCNData;
       this.ISCNTotalFee = await this.calculateISCNTxTotalFee({
         userId: this.getUserId,
-        displayName: this.getUserInfo.displayName || author,
+        displayName: this.getUserInfo.displayName,
+        author,
         authorDescription,
         description,
         cosmosWallet: STUB_WALLET,
@@ -623,14 +624,19 @@ export default {
           type,
           license,
           url,
+          description,
+          authorDescription,
+          author,
+          fingerprints,
         } = this.ISCNData;
         const txHash = await this.sendISCNSignature({
           cosmosWallet: from,
           userId: this.getUserId || '',
-          displayName: this.getUserInfo.displayName || this.author || '',
-          authorDescription: this.authorDescription,
-          description: this.description,
-          fingerprints: this.fingerprints,
+          displayName: this.getUserInfo.displayName || '',
+          author,
+          authorDescription,
+          description,
+          fingerprints,
           name,
           tags,
           type,
