@@ -353,6 +353,7 @@ export default {
       mainStatus: 'initial',
       transactionStatus: 'initial',
       ISCNData: null,
+      ISCNFiles: [],
       ISCNTotalFee: 0.00,
       ArrowRightNewIcon,
       ExclamationIcon,
@@ -460,7 +461,13 @@ export default {
       }
     },
     async onReceiveISCNFiles(data) {
-      if (!Array.isArray(data)) return;
+      if (!data || !data.length) {
+        this.arweavePaymentInfo = {
+          LIKE: '0',
+        };
+        this.prepareLikePayWidget();
+        return;
+      }
       const files = data.filter(d => d.filename && d.data);
       const filesWithBlob = await Promise.all(files.map(async (d) => {
         const mimeType = d.mimeType || mime.lookup(d.filename) || 'text/plain';
