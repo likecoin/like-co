@@ -617,6 +617,10 @@ export default {
             throw new Error('VALIDATION_FAIL');
           }
         }
+        const balance = await queryCosmosLikeCoinBalance(from);
+        if (new BigNumber(this.ISCNTotalFee).gt(balance)) {
+          throw new Error('INSUFFICIENT_BALANCE');
+        }
         const signer = await this.prepareCosmosTxSigner();
         const {
           name,
