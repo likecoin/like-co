@@ -15,20 +15,10 @@ const setI18nLanguage = (i18n, lang) => {
 };
 
 function getReqAcceptLangauge(req) {
-  const accepts = req.acceptsLanguages();
-  if (accepts && accepts.find(lang => lang.toLowerCase().includes('zh'))) {
-    return 'zh'; // hack to prefer zh
-  }
   return req.acceptsLanguages(supportedLocales);
 }
 
 function getNavigatorLanguage() {
-  if (
-    navigator.languages
-    && navigator.languages.find(lang => lang.toLowerCase().includes('zh'))
-  ) {
-    return 'zh'; // hack to prefer zh
-  }
   let navLang = navigator.language
     || (navigator.languages && navigator.languages[0])
     || defaultLocale;
