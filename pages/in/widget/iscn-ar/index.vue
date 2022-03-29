@@ -273,6 +273,13 @@
           >{{ $t('ISCNARWidget.ISCN.action') }}</div>
         </header>
 
+        <div
+          v-if="error"
+          class="likepay-panel__section-meta"
+        >
+          {{ error }}
+        </div>
+
         <div class="likepay-panel__section-meta">
           <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.ISCN.articleTitleTitle') }} </div>
           <div style="margin-top: 10px"> <p> {{ $t('ISCNARWidget.ISCN.articleTitleValue', { title: iscnName }) }} </p> </div>
@@ -729,8 +736,10 @@ export default {
       this.beginLikePay();
     },
     async connectKeplr() {
+      this.error = '';
       const res = await Keplr.initKeplr();
       if (!res) {
+        this.error = 'FAILED_CONNECT_TO_KEPLR';
         throw new Error('FAILED_CONNECT_TO_KEPLR');
       }
       this.setDefaultCosmosWalletSource({ source: 'keplr', persistent: false });
