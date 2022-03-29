@@ -696,7 +696,7 @@ export default {
       const iscnIdString = encodeURIComponent(iscnId);
       window.location.href = `https://app.${IS_TESTNET ? 'rinkeby.' : ''}like.co/view/${iscnIdString}?layout=popup`;
     },
-    handleAutheticate() {
+    async handleAutheticate() {
       if (this.getUserIsRegistered) {
         if (this.getAuthCoreNeedReAuth) {
           this.setReAuthDialogShow(true);
@@ -705,13 +705,15 @@ export default {
       } else if (this.isMobileClient) {
         this.popupAuthDialogInPlace({ route: this.$route, isSignIn: true });
         return true;
+      } else {
+        await this.connectKeplr();
       }
       return false;
     },
     async onClickContinueRegister({ forceKeplr = false } = {}) {
       if (!this.isUsingKeplr) {
         if (!forceKeplr) {
-          if (this.handleAutheticate()) return;
+          if (await this.handleAutheticate()) return;
         } else {
           await this.connectKeplr();
         }
@@ -720,7 +722,7 @@ export default {
     },
     async onClickBeginRegister({ forceKeplr = false } = {}) {
       if (!forceKeplr) {
-        if (this.handleAutheticate()) return;
+        if (await this.handleAutheticate()) return;
       } else {
         await this.connectKeplr();
       }
