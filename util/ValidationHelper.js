@@ -7,6 +7,10 @@ export function checkUserNameValid(user) {
   return user && (/^[a-z0-9-_]+$/.test(user) && user.length >= MIN_USER_ID_LENGTH && user.length <= MAX_USER_ID_LENGTH);
 }
 
+export function checkISCNIdValid(id) {
+  return /^iscn:\/\/likecoin-chain\/[-_.:=+,a-zA-Z0-9]+(?:\/([0-9]+))?$/.test(id);
+}
+
 export function isValidHttpUrl(string) {
   let url;
 

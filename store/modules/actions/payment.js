@@ -119,6 +119,7 @@ export async function calculateISCNTxTotalFee({ commit },
 export async function sendISCNSignature(
   { commit },
   {
+    iscnId = '',
     isWait = true,
     showDialogAction = true,
     signer,
@@ -155,7 +156,7 @@ export async function sendISCNSignature(
       authorDescription,
       description,
       cosmosWallet,
-    }, signer, cosmosWallet, { memo, broadcast: false });
+    }, signer, cosmosWallet, { iscnId, memo, broadcast: false });
     if (!txRaw) { throw new Error('TX_SIGN_FAILED_UNKNOWN'); }
     commit(types.UI_SET_SIGN_FINISH, true);
     const { txHash, included } = await broadcastCosmos(txRaw);

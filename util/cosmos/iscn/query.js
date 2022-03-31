@@ -13,6 +13,12 @@ export async function getApiClient() {
   return stargateClient;
 }
 
+export async function getISCNQueryClient() {
+  const queryClient = new ISCNQueryClient();
+  await queryClient.connect(ISCN_RPC_URL);
+  return queryClient;
+}
+
 export async function getISCNTransferInfo(txHash, opt) {
   const apiClient = await getApiClient();
   const { blocking } = opt;
@@ -65,8 +71,7 @@ export async function getISCNTransferInfo(txHash, opt) {
     });
   });
   const [message] = messages;
-  const queryClient = new ISCNQueryClient();
-  await queryClient.connect(ISCN_RPC_URL);
+  const queryClient = await getISCNQueryClient();
   const res = await queryClient.queryRecordsById(message.id);
   if (!res) throw Error('Error occured when querying ISCN record.');
   const iscnVersion = res.records[0].data.recordVersion;
@@ -108,6 +113,22 @@ export async function getISCNTransferInfo(txHash, opt) {
     iscnVersion,
     recordNotes,
     isISCNTx,
+  };
+}
+
+export async function getISCNInfoById(iscnId) {
+  const queryClient = await getISCNQueryClient();
+  const {
+    owner, latestVersion, records, ...other
+  } = await queryClient.queryRecordsById(iscnId);
+  const targetVersion = Number(latestVersion);
+  const record = records.find(r => r.data.recordVersion === targetVersion);
+  return {
+    ...other,
+    owner,
+    latestVersion,
+    records,
+    record,
   };
 }
 

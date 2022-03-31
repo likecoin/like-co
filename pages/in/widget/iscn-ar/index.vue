@@ -324,6 +324,7 @@ import BigNumber from 'bignumber.js';
 import mime from 'mime-types';
 import { timeout } from '@/util/misc';
 import { checkIsMobileClient } from '~/util/client';
+import { checkISCNIdValid } from '~/util/ValidationHelper';
 import {
   queryLikeCoinBalance as queryCosmosLikeCoinBalance,
   calculateGas as calculateCosmosGas,
@@ -333,7 +334,7 @@ import {
   apiArweaveUpload,
 } from '@/util/api/api';
 import Keplr from '@/util/Keplr';
-import { getISCNTransferInfo } from '@/util/cosmos/iscn/query';
+import { getISCNTransferInfo, getISCNInfoById } from '@/util/cosmos/iscn/query';
 import { ISCN_LICENSES, ISCN_PUBLISHERS } from '@/util/cosmos/iscn/constant';
 import { IS_TESTNET, STUB_WALLET } from '@/constant';
 import ArrowRightNewIcon from '@/assets/icons/arrow-right-new.svg';
@@ -355,7 +356,8 @@ export default {
       arweaveGasFee: '',
       arweavePaymentInfo: null,
       arweaveResult: null,
-      redirectUri: this.$route.query.redirectUri,
+      iscnId: this.$route.query.iscn_id,
+      redirectUri: this.$route.query.redirect_uri,
       opener: this.$route.query.opener && this.$route.query.opener !== '0',
       isUsingKeplr: false,
       mainStatus: 'initial',
@@ -368,6 +370,7 @@ export default {
       LedgerIcon,
       StarIcon,
       isMobileClient: false,
+      existingISCNInfo: null,
     };
   },
   async asyncData({
@@ -376,11 +379,13 @@ export default {
     const {
       redirect_uri: redirectUri,
       opener,
+      iscn_id: iscnId,
     } = query;
     const hasOpener = opener && opener !== '0';
     return {
       redirectUri,
       opener: hasOpener,
+      iscnId,
     };
   },
   head() {
@@ -404,6 +409,9 @@ export default {
       if (!window) return null;
       return window.opener;
     },
+    isUpdateMode() {
+      return !!this.iscnId;
+    },
     iscnName() {
       return (this.ISCNData && this.ISCNData.name);
     },
@@ -415,6 +423,9 @@ export default {
       }
       return f;
     },
+    existingOwner() {
+      return this.existingISCNInfo && this.existingISCNInfo.owner;
+    },
     showKeplrOverrideButton() {
       return this.showWalletOption
         && (this.isMobileClient || this.getUserIsRegistered)
@@ -422,9 +433,26 @@ export default {
     },
   },
   async mounted() {
-    this.isMobileClient = checkIsMobileClient();
     if (this.opener && !window.opener) {
       this.$nuxt.error({ statusCode: 400, message: 'Cannot access window opener' });
+      return;
+    }
+    this.isMobileClient = checkIsMobileClient();
+    if (this.iscnId) {
+      if (!checkISCNIdValid(this.iscnId)) {
+        this.$nuxt.error({ statusCode: 400, message: 'Invalid ISCN ID' });
+        return;
+      }
+      try {
+        this.isLoading = true;
+        this.existingISCNInfo = await getISCNInfoById(this.iscnId);
+      } catch (err) {
+        console.error(err);
+        this.$nuxt.error({ statusCode: 400, message: 'Error fetching ISCN ID Info' });
+        return;
+      } finally {
+        this.isLoading = false;
+      }
     }
     window.addEventListener(
       'message',
@@ -660,8 +688,8 @@ export default {
           license,
           url,
           signer,
-          shouldShowTxDialog: false,
-        });
+          iscnId: this.iscnId,
+        }, { update: true });
         this.transactionStatus = 'done';
         this.mainStatus = 'uploading';
         if (txHash) {
@@ -774,6 +802,9 @@ export default {
           if (userWallet !== undefined && from !== userWallet && !this.isUsingKeplr) {
             throw new Error('VALIDATION_FAIL');
           }
+        }
+        if (this.isUpdateMode && this.existingOwner !== from) {
+          throw new Error('NOT_OWNER_OF_ISCN');
         }
         const balance = await queryCosmosLikeCoinBalance(from);
         if (amount.gt(balance)) {
