@@ -687,9 +687,10 @@ export default {
           type,
           license,
           url,
-          signer,
           iscnId: this.iscnId,
-        }, { update: true });
+          signer,
+          shouldShowTxDialog: false,
+        });
         this.transactionStatus = 'done';
         this.mainStatus = 'uploading';
         if (txHash) {
