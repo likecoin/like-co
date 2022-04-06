@@ -69,7 +69,7 @@ export default async ({
       query.language
       || userLocale
       || cookieLang
-      || (window.localStorage && window.localStorage.language)
+      || (window.sessionStorage && window.sessionStorage.language)
       || navLang
       || defaultLocale
     );
