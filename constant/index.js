@@ -28,8 +28,6 @@ export const COSMOS_CHAIN_ID = IS_TESTNET ? 'likecoin-public-testnet-5' : 'likec
 
 export const BASIC_TRANSFER_GAS = '80000';
 
-export const ISCN_TESTNET_CHAIN_ID = 'iscn-dev-chain';
-
 export const COSMOS_DENOM = IS_TESTNET ? 'nanoekil' : 'nanolike';
 
 export const CONFIRMATION_NEEDED = 6;
