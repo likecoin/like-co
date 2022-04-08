@@ -4,9 +4,8 @@ import { REDIRECT_NAME_WHITE_LIST } from '@/constant';
 
 import User from '@/util/User';
 import Keplr from '@/util/Keplr';
-import {
-  setTrackerUser,
-} from '@/util/EventLogger';
+import WalletConnect from '@/util/WalletConnect';
+import { setTrackerUser } from '@/util/EventLogger';
 
 import apiWrapper from './api-wrapper';
 
@@ -189,6 +188,15 @@ export async function loginUserBySign({ state, dispatch }) {
 export async function loginByCosmosWallet(_, source) {
   let payload;
   switch (source) {
+    case 'walletconnect': {
+      await WalletConnect.init();
+      payload = await User.signCosmosLogin(
+        await WalletConnect.getWalletAddress(),
+        s => WalletConnect.signLogin(s),
+      );
+      break;
+    }
+
     case 'keplr': {
       await Keplr.initKeplr();
       payload = await User.signCosmosLogin(

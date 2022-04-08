@@ -601,7 +601,7 @@
   },
   "DialogV2": {
     "title": {
-      "signIn": "Sgin in/up"
+      "signIn": "註冊/登入"
     },
     "type": {
       "keplr": {

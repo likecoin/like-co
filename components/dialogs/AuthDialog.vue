@@ -197,6 +197,10 @@
                 >
                   {{ $t(`AuthDialog.${isSignIn ? 'SignIn' : 'SignUp'}.auth.keplr`) }}
                 </button>
+                <button
+                  class="ll-button large lc-margin-top-24"
+                  @click="onClickUseWalletConnectButton"
+                >Wallet Connect</button>
               </div>
               <div
                 :class="[
@@ -870,6 +874,9 @@ export default {
     },
     onClickUseKeplrButton() {
       this.signInWithPlatform('cosmosWallet', { source: 'keplr' });
+    },
+    onClickUseWalletConnectButton() {
+      this.signInWithPlatform('cosmosWallet', { source: 'walletconnect' });
     },
     onClickUseMetaMaskButton() {
       this.signInWithPlatform('wallet');

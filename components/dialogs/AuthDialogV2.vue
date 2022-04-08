@@ -58,6 +58,7 @@
           <div
             v-show="isShowLikerLand"
             class="auth-btn"
+            @click="onClickUseWalletConnectButton"
           >
             <div class="title-wapper">
               <div class="icon">
@@ -246,6 +247,9 @@ export default {
 
     onClickUseKeplrButton() {
       this.signInWithPlatform('cosmosWallet', { source: 'keplr' });
+    },
+    onClickUseWalletConnectButton() {
+      this.signInWithPlatform('cosmosWallet', { source: 'walletconnect' });
     },
 
     logRegisterEvent(...args) {
