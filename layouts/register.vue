@@ -1,15 +1,18 @@
 <template>
-  <div class="lc-layout">
+  <div class="container">
+    <div class="logo-wapper">
+      <img
+        :src="likerLandIcon"
+        class="logo"
+        alt="Liker Land"
+      >
+    </div>
     <tool-bars />
-
-    <div class="lc-page-wrapper">
-
+    <div class="lc-page-wrapper-1">
       <div class="lc-page-content">
         <nuxt />
       </div>
-
     </div>
-
   </div>
 </template>
 
@@ -17,6 +20,8 @@
 import localeMixin from '~/mixins/locale';
 
 import ToolBars from '~/components/toolbars/ToolBars';
+
+import likerLandIcon from '@/assets/logo/liker-land.svg';
 
 export default {
   components: {
@@ -29,6 +34,9 @@ export default {
         layout: 'register-layout',
       },
     };
+  },
+  data() {
+    return { likerLandIcon };
   },
 };
 </script>
@@ -43,8 +51,23 @@ html[layout=register-layout] {
     background: transparent !important;
   }
 
-  .lc-dialog {
-    box-shadow: 0 2px 4px 0 rgba(black, 0.2);
+  .container {
+    display: flex;
+
+    flex-flow: column;
+
+    min-height: 100vh;
+  }
+
+  .logo-wapper {
+    display: flex;
+    justify-content: center;
+
+    padding: 41px 0px;
+  }
+
+  .logo-wapper .logo {
+    height: 24px;
   }
 }
 </style>
