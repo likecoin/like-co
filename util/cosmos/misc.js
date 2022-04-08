@@ -17,7 +17,7 @@ export function assertOk (res) {
     throw new Error(message)
   }
 
-  if (!res.txhash) {
+  if (!res.tx_responses.txhash) {
     const message = res.message
     throw new Error(message)
   }
@@ -29,7 +29,7 @@ export async function queryTxInclusion (txHash, cosmosRESTURL, iterations = 60, 
   let includedTx
   while (iterations-- > 0) {
     try {
-      includedTx = await fetch(`${cosmosRESTURL}/txs/${txHash}`)
+      includedTx = await fetch(`${cosmosRESTURL}/cosmos/tx/v1beta1/txs/${txHash}`)
         .then(function (response) {
           if (response.status >= 200 && response.status < 300) {
             return Promise.resolve(response.json())
