@@ -125,7 +125,7 @@ import TxDialog from '~/components/dialogs/TxDialog';
 
 import InfoToolbar from '~/components/toolbars/InfoToolbar';
 import LoadingToolbar from '~/components/toolbars/LoadingToolbar';
-import AuthDialogV2 from '../dialogs/AuthDialogV2';
+import AuthDialogV2 from '~/components/v2/dialogs/AuthDialogV2';
 
 export default {
   name: 'tool-bars',

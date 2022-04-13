@@ -125,14 +125,14 @@ import {
   tryPostLoginRedirect,
 } from '~/util/client';
 
-import BaseDialogV3 from '~/components/dialogs/BaseDialogV3';
+import RegisterForm from '~/components/dialogs/AuthDialogContent/Register';
 import KeplrIcon from '~/components/icons/Keplr';
 import LikerLand from '~/components/icons/LikerLand';
 import SignIn from '~/components/icons/SignIn';
 import ArrowDown from '~/components/icons/ArrowDown';
 
-import RegisterForm from './AuthDialogContent/Register';
-import WalletConnectQRCodeView from './AuthDialogContent/WalletConnectQRCodeView';
+import WalletConnectQRCodeView from '../WalletConnectQRCodeView';
+import BaseDialogV3 from './BaseDialogV3';
 
 function shouldWriteURLIntoSession(sourceURL) {
   if (!sourceURL) {
@@ -195,7 +195,7 @@ export default {
     },
     headerText() {
       if (this.getWalletConnectURI) {
-        return this.$t('WalletConnectQRCodeModal_Title');
+        return this.$t('V2_WalletConnectQRCodeModal_Title');
       }
       return this.$t('DialogV2.title.signIn');
     },

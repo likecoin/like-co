@@ -1862,8 +1862,8 @@
   },
   "ChainUpgradingAlertTitle": "LikeCoin chain is upgrading",
   "ChainUpgradingAlertMessage": "Related services are suspended",
-  "WalletConnectQRCodeModal_Title": "Connect Liker ID",
-  "WalletConnectQRCodeModal_Instruction_Step_1": "Open {appLogo} {appName} on your phone.",
-  "WalletConnectQRCodeModal_Instruction_Step_2": "Open {qrcodeIcon} QR code scanner in the wallet dashboard.",
-  "WalletConnectQRCodeModal_Instruction_Step_3": "Scan this QR code."
+  "V2_WalletConnectQRCodeModal_Title": "Connect Liker ID",
+  "V2_WalletConnectQRCodeModal_Instruction_Step_1": "Open {appLogo} {appName} on your phone.",
+  "V2_WalletConnectQRCodeModal_Instruction_Step_2": "Open {qrcodeIcon} QR code scanner in the wallet dashboard.",
+  "V2_WalletConnectQRCodeModal_Instruction_Step_3": "Scan this QR code."
 }
