@@ -185,11 +185,22 @@ export async function loginUserBySign({ state, dispatch }) {
   return true;
 }
 
-export async function loginByCosmosWallet(_, source) {
+export function setWalletConnectURI({ commit }, uri) {
+  commit(types.USER_SET_WALLET_CONNECT_URI, uri);
+}
+
+export async function loginByCosmosWallet({ dispatch }, source) {
   let payload;
   switch (source) {
     case 'walletconnect': {
-      await WalletConnect.init();
+      await WalletConnect.init({
+        open: (uri) => {
+          dispatch('setWalletConnectURI', uri);
+        },
+        close: () => {
+          dispatch('setWalletConnectURI', '');
+        },
+      });
       payload = await User.signCosmosLogin(
         await WalletConnect.getWalletAddress(),
         s => WalletConnect.signLogin(s),

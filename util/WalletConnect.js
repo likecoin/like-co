@@ -1,5 +1,4 @@
 import WalletConnectClient from '@walletconnect/client';
-import WalletConnectQRCodeModal from '@walletconnect/qrcode-modal';
 import { payloadId } from '@walletconnect/utils';
 
 import {
@@ -14,6 +13,8 @@ class WalletConnect {
     this.signer = null;
     this.accounts = [];
     this.connector = null;
+    this.handleQRCodeModalOpen = null;
+    this.handleQRCodeModalClose = null;
   }
 
   async checkIfInited() {
@@ -23,11 +24,22 @@ class WalletConnect {
     }
   }
 
-  async init() {
+  async init({ open, close } = {}) {
+    this.handleQRCodeModalOpen = open;
+    this.handleQRCodeModalClose = close;
     try {
       const connector = new WalletConnectClient({
         bridge: 'https://bridge.walletconnect.org',
-        qrcodeModal: WalletConnectQRCodeModal,
+        qrcodeModal: {
+          open: (uri, cb, opts) => {
+            if (!this.handleQRCodeModalOpen) return;
+            this.handleQRCodeModalOpen(uri, cb, opts);
+          },
+          close: () => {
+            if (!this.handleQRCodeModalClose) return;
+            this.handleQRCodeModalClose();
+          },
+        },
       });
       // XXX: Client meta options in the constructor is ignored
       // https://github.com/osmosis-labs/osmosis-frontend/blob/9c5f8cf5de035348e0aeb38468f1b8a208a9b99d/src/dialogs/connect-wallet.tsx#L185-L193

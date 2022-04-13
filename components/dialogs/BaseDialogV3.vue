@@ -65,11 +65,13 @@ export default {
 };
 </script>
 <style lang="scss">
-$max-width: 420px;
-
 .base-dialog-v3 {
   position: relative;
   z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 
   width: 100%;
   &-- {
@@ -100,14 +102,11 @@ $max-width: 420px;
   &__content-container {
     position: relative;
 
-    width: 100%;
-    max-width: $max-width;
-
     padding: 32px 24px;
 
     background-color: white;
 
-    @media screen and (min-width: $max-width + 1px) {
+    @media screen and (min-width: 421px) {
       margin: 104px auto 16px;
 
       border-radius: 24px;

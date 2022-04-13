@@ -1742,5 +1742,9 @@
     "actionButtonText": "立即轉換"
   },
   "ChainUpgradingAlertTitle": "LikeCoin chain 正在更新",
-  "ChainUpgradingAlertMessage": "相關功能會暫時停用"
+  "ChainUpgradingAlertMessage": "相關功能會暫時停用",
+  "WalletConnectQRCodeModal_Title": "連結 Liker ID",
+  "WalletConnectQRCodeModal_Instruction_Step_1": "在手機上打開 {appLogo} {appName}。",
+  "WalletConnectQRCodeModal_Instruction_Step_2": "在錢包頁面上打開 {qrcodeIcon} 二維碼掃描器。",
+  "WalletConnectQRCodeModal_Instruction_Step_3": "掃描旁邊的二維碼。"
 }

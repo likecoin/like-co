@@ -12,11 +12,15 @@
         <div class="header-icon">
           <sign-in />
         </div>
-        <div class="header-text">{{ $t("DialogV2.title.signIn") }}</div>
+        <div class="header-text">{{ headerText }}</div>
       </div>
+      <WalletConnectQRCodeView
+        v-if="getWalletConnectURI"
+        :value="getWalletConnectURI"
+      />
       <!-- main -->
       <div
-        v-if="currentTab !== 'register'"
+        v-else-if="currentTab !== 'register'"
         class="content-container"
       >
         <!-- keplr -->
@@ -90,12 +94,12 @@
     </BaseDialogV3>
     <!-- legacy content -->
     <div
-      v-if="isShowLikerLand"
+      v-if="!getWalletConnectURI"
       class="legacy-content-container"
     >
       <div class="text">
         {{
-          $t("DialogV2.type.metaMask.name") +
+          $t("DialogV2.type.metaMask.name") + ' ' +
             $t("DialogV2.type.metaMask.description")
         }}
         <div />
@@ -126,8 +130,9 @@ import KeplrIcon from '~/components/icons/Keplr';
 import LikerLand from '~/components/icons/LikerLand';
 import SignIn from '~/components/icons/SignIn';
 import ArrowDown from '~/components/icons/ArrowDown';
-import RegisterForm from './AuthDialogContent/Register';
 
+import RegisterForm from './AuthDialogContent/Register';
+import WalletConnectQRCodeView from './AuthDialogContent/WalletConnectQRCodeView';
 
 function shouldWriteURLIntoSession(sourceURL) {
   if (!sourceURL) {
@@ -150,6 +155,7 @@ export default {
     LikerLand,
     ArrowDown,
     RegisterForm,
+    WalletConnectQRCodeView,
   },
   data() {
     return {
@@ -167,6 +173,7 @@ export default {
       'getIsShowAuthDialog',
       'getUserMinInfoById',
       'getCurrentLocale',
+      'getWalletConnectURI',
     ]),
     shouldShowDialog() {
       return this.getIsShowAuthDialog;
@@ -185,6 +192,12 @@ export default {
         !(this.signInPayload.isEmailVerified && this.signInPayload.email)
         && this.platform !== 'authcore'
       );
+    },
+    headerText() {
+      if (this.getWalletConnectURI) {
+        return this.$t('WalletConnectQRCodeModal_Title');
+      }
+      return this.$t('DialogV2.title.signIn');
     },
   },
   async mounted() {
@@ -476,6 +489,8 @@ export default {
 
 .content-container {
   position: relative;
+
+  max-width: 420px;
 
   color: #4a4a4a;
 }
