@@ -11,14 +11,17 @@ export function assertOk (res) {
     throw new Error(res.error)
   }
 
+  const txRes = res.tx_response
   // Sometimes we get back failed transactions, which shows only by them having a `code` property
-  if (res.code) {
-    const message = JSON.parse(res.raw_log).message
+  if (txRes.code) {
+    const message = txRes.raw_log.message
+      ? JSON.parse(txRes.raw_log).message
+      : txRes.raw_log
     throw new Error(message)
   }
 
-  if (!res.tx_responses.txhash) {
-    const message = res.message
+  if (!txRes.txhash) {
+    const message = txRes.message
     throw new Error(message)
   }
 
