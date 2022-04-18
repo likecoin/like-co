@@ -185,20 +185,24 @@ export async function loginUserBySign({ state, dispatch }) {
   return true;
 }
 
-export function setWalletConnectURI({ commit }, uri) {
-  commit(types.USER_SET_WALLET_CONNECT_URI, uri);
+export function resetLoginByCosmosWallet({ commit }) {
+  commit(types.USER_SET_WALLET_CONNECT_URI, '');
+  commit(types.USER_SET_WALLET_CONNECT_CONNECTING, false);
 }
 
-export async function loginByCosmosWallet({ dispatch }, source) {
+export async function loginByCosmosWallet({ commit }, source) {
   let payload;
   switch (source) {
     case 'walletconnect': {
       await WalletConnect.init({
         open: (uri) => {
-          dispatch('setWalletConnectURI', uri);
+          commit(types.USER_SET_WALLET_CONNECT_URI, uri);
         },
-        close: () => {
-          dispatch('setWalletConnectURI', '');
+        close: (connected) => {
+          commit(types.USER_SET_WALLET_CONNECT_URI, '');
+          if (connected) {
+            commit(types.USER_SET_WALLET_CONNECT_CONNECTING, true);
+          }
         },
       });
       payload = await User.signCosmosLogin(
@@ -209,6 +213,7 @@ export async function loginByCosmosWallet({ dispatch }, source) {
     }
 
     case 'keplr': {
+      commit(types.USER_SET_WALLET_CONNECT_CONNECTING, true);
       await Keplr.initKeplr();
       payload = await User.signCosmosLogin(
         await Keplr.getWalletAddress(),

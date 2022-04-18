@@ -106,7 +106,12 @@ export default {
 
     background-color: white;
 
+    @media screen and (max-width: 420px) {
+      width: 100%;
+    }
+
     @media screen and (min-width: 421px) {
+      min-width: 420px;
       margin: 104px auto 16px;
 
       border-radius: 24px;

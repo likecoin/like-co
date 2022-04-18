@@ -14,8 +14,21 @@
         </div>
         <div class="header-text">{{ headerText }}</div>
       </div>
+
+      <i18n
+        v-if="loadingI18nPath"
+        class="content-container"
+        :path="loadingI18nPath"
+        tag="div"
+      >
+        <span
+          class="app-name"
+          place="appName"
+        >Liker Land app</span>
+      </i18n>
+
       <WalletConnectQRCodeView
-        v-if="getWalletConnectURI"
+        v-else-if="getWalletConnectURI"
         :value="getWalletConnectURI"
       />
       <!-- main -->
@@ -160,7 +173,7 @@ export default {
   data() {
     return {
       isShowLikerLand: false,
-      currentTab: 'loading',
+      currentTab: '',
       referrer: '',
       sourceURL: '',
       platform: '',
@@ -171,6 +184,7 @@ export default {
   computed: {
     ...mapGetters([
       'getIsShowAuthDialog',
+      'getWalletConnectConnecting',
       'getUserMinInfoById',
       'getCurrentLocale',
       'getWalletConnectURI',
@@ -198,6 +212,13 @@ export default {
         return this.$t('V2_WalletConnectQRCodeModal_Title');
       }
       return this.$t('DialogV2.title.signIn');
+    },
+    loadingI18nPath() {
+      if (!this.getWalletConnectConnecting && this.currentTab !== 'loading') return '';
+      if (this.getWalletConnectConnecting) {
+        return this.$t('V2_AuthDialog_WalletConnect_Loading');
+      }
+      return this.$t('V2_AuthDialog_Loading');
     },
   },
   async mounted() {
@@ -236,6 +257,7 @@ export default {
       'doPostAuthRedirect',
       'fetchUserMinInfo',
       'loginByCosmosWallet',
+      'resetLoginByCosmosWallet',
     ]),
 
     setError(code, error) {
@@ -311,11 +333,11 @@ export default {
     },
 
     async signInWithCosmosWallet(source = 'keplr') {
-      // this.currentTab = 'loading';
       try {
         this.signInPayload = await this.loginByCosmosWallet(source);
         this.login();
       } catch (err) {
+        this.resetLoginByCosmosWallet();
         console.error(err);
         if (this.$sentry) this.$sentry.captureException(err);
         this.setError(err.message, err);
@@ -511,6 +533,10 @@ export default {
 
     line-height: 20px;
   }
+}
+
+.app-name {
+  color: #28646e;
 }
 
 .auth-btn {

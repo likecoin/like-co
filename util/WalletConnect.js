@@ -8,17 +8,20 @@ import {
 
 import network from './cosmos/network';
 
+const ERROR_MESSAGE_REJECTED_CALL_REQUEST = 'User rejected call request';
+
 class WalletConnect {
   constructor() {
     this.signer = null;
     this.accounts = [];
     this.connector = null;
+    this.isInited = false;
     this.handleQRCodeModalOpen = null;
     this.handleQRCodeModalClose = null;
   }
 
   async checkIfInited() {
-    if (!this.connector) {
+    if (!this.isInited) {
       const res = await this.init();
       if (!res) throw new Error('CANNOT_INIT_WALLETCONNECT');
     }
@@ -27,8 +30,10 @@ class WalletConnect {
   async init({ open, close } = {}) {
     this.handleQRCodeModalOpen = open;
     this.handleQRCodeModalClose = close;
+    this.reset();
+
     try {
-      const connector = new WalletConnectClient({
+      this.connector = new WalletConnectClient({
         bridge: 'https://bridge.walletconnect.org',
         qrcodeModal: {
           open: (uri, cb, opts) => {
@@ -37,71 +42,81 @@ class WalletConnect {
           },
           close: () => {
             if (!this.handleQRCodeModalClose) return;
-            this.handleQRCodeModalClose();
+            this.handleQRCodeModalClose(this.connector.connected);
           },
         },
       });
       // XXX: Client meta options in the constructor is ignored
       // https://github.com/osmosis-labs/osmosis-frontend/blob/9c5f8cf5de035348e0aeb38468f1b8a208a9b99d/src/dialogs/connect-wallet.tsx#L185-L193
       // eslint-disable-next-line no-underscore-dangle
-      connector._clientMeta = {
+      this.connector._clientMeta = {
         name: EXTERNAL_HOSTNAME,
         description: EXTERNAL_HOSTNAME,
         url: EXTERNAL_URL,
         icons: [`${EXTERNAL_URL}/logo.png`],
       };
-      connector.on('disconnect', () => {
-        connector.killSession();
-        this.reset();
-      });
 
       // Always starts a new session
-      if (connector.connected) {
-        connector.killSession();
+      if (this.connector.connected) {
+        this.connector.killSession();
       }
-      await connector.connect();
-      const [account] = await connector.sendCustomRequest({
+      await this.connector.connect();
+      const [account] = await this.connector.sendCustomRequest({
         id: payloadId(),
         jsonrpc: '2.0',
         method: 'cosmos_getAccounts',
         params: [network.id],
       });
-      if (!account) return false;
+      if (!account) {
+        throw new Error('WALLETCONNECT_GET_ACCOUNTS_FAILED');
+      }
 
       const {
         bech32Address: address,
         algo,
         pubKey: pubKeyInHex,
       } = account;
-      if (!address || !algo || !pubKeyInHex) return false;
+      if (!address || !algo || !pubKeyInHex) {
+        throw new Error('WALLETCONNECT_GET_ACCOUNTS_RESULT_INCORRECT');
+      }
 
       const pubkey = new Uint8Array(Buffer.from(pubKeyInHex, 'hex'));
       const accounts = [{ address, pubkey, algo }];
       const offlineSigner = {
         getAccounts: () => Promise.resolve(accounts),
         signAmino: async (signerAddress, signDoc) => {
-          const [payload] = await connector.sendCustomRequest({
-            id: payloadId(),
-            jsonrpc: '2.0',
-            method: 'cosmos_signAmino',
-            params: [
-              network.id,
-              signerAddress,
-              signDoc,
-            ],
-          });
-          return payload;
+          try {
+            const [payload] = await this.connector.sendCustomRequest({
+              id: payloadId(),
+              jsonrpc: '2.0',
+              method: 'cosmos_signAmino',
+              params: [
+                network.id,
+                signerAddress,
+                signDoc,
+              ],
+            });
+            return payload;
+          } catch (error) {
+            this.reset();
+            if (error.message && error.message.includes(ERROR_MESSAGE_REJECTED_CALL_REQUEST)) {
+              throw new Error('WALLETCONNECT_REJECTED_SIGN');
+            }
+            throw error;
+          }
         },
       };
       this.signer = offlineSigner;
       this.accounts = accounts;
-      this.connector = connector;
-      return true;
+      this.isInited = true;
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
+      this.reset();
+      if (error.message && error.message.includes(ERROR_MESSAGE_REJECTED_CALL_REQUEST)) {
+        throw new Error('WALLETCONNECT_REJECTED_CALL_REQUEST');
+      } else {
+        throw new Error('WALLETCONNECT_UNKNOWN_ERROR');
+      }
     }
-    return false;
   }
 
   internalGetWalletAddress() {
@@ -136,9 +151,12 @@ class WalletConnect {
 
   reset() {
     if (this.connector) {
-      this.connector.killSession();
+      if (this.connector.connected) {
+        this.connector.killSession();
+      }
       this.connector = null;
     }
+    this.isInited = false;
     this.signer = null;
     this.accounts = [];
   }

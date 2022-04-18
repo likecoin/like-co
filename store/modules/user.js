@@ -18,6 +18,7 @@ import {
   USER_SET_SOCIAL_LINK,
   USER_UPDATE_READ_CONTENT_STATUS,
   USER_SET_WALLET_CONNECT_URI,
+  USER_SET_WALLET_CONNECT_CONNECTING,
 } from '../mutation-types';
 import * as actions from './actions/user';
 import * as getters from './getters/user';
@@ -39,6 +40,7 @@ const state = () => ({
   likeCoinAmountInBigNumber: null,
   authCoreAccessToken: '',
   walletConnectURI: '',
+  isWalletConnectConnecting: false,
 });
 
 const mutations = {
@@ -158,6 +160,9 @@ const mutations = {
   },
   [USER_SET_WALLET_CONNECT_URI](state, uri) {
     state.walletConnectURI = uri;
+  },
+  [USER_SET_WALLET_CONNECT_CONNECTING](state, value) {
+    state.isWalletConnectConnecting = value;
   },
 };
 

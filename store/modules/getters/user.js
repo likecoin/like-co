@@ -62,3 +62,5 @@ export const getUserERC20LikeCoinAmounInBigNumber = state => state.likecoinAmoun
 export const getUserAuthCoreAccessToken = state => state.authCoreAccessToken;
 
 export const getWalletConnectURI = state => state.walletConnectURI;
+
+export const getWalletConnectConnecting = state => state.isWalletConnectConnecting;

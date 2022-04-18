@@ -1671,6 +1671,8 @@
     },
     "ChainUpgradingAlertTitle": "LikeCoin chain 正在更新",
     "ChainUpgradingAlertMessage": "相关功能会暂时停用",
+    "V2_AuthDialog_Loading": "登入中",
+    "V2_AuthDialog_WalletConnect_Loading": "请在 {appName} 上允许连接",
     "V2_WalletConnectQRCodeModal_Title": "连结 Liker ID",
     "V2_WalletConnectQRCodeModal_Instruction_Step_1": "在手机上打开 {appLogo} {appName}。",
     "V2_WalletConnectQRCodeModal_Instruction_Step_2": "在钱包页面上打开 {qrcodeIcon} 二维码扫描器。",
