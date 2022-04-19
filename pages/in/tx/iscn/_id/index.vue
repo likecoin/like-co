@@ -302,7 +302,7 @@
     <footer class="iscn-panel__footer">
       <a
         class="iscn-block-button"
-        :href="`https://mainnet-node.like.co/txs/${txId}`"
+        :href="`https://mainnet-node.like.co/cosmos/tx/v1beta1/txs/${txId}`"
         target="_blank"
         rel="noopener"
       >{{ $t('ISCNWidget.button.rawTx') }}</a>
