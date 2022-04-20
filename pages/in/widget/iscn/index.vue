@@ -406,9 +406,8 @@ export default {
           throw new Error('PLEASE_RELOGIN');
         }
         if (!this.isUsingKeplr) {
-          const { cosmosWallet } = this.getUserInfo;
-          const userWallet = cosmosWallet;
-          if (userWallet !== undefined && from !== userWallet) {
+          const { cosmosWallet, likeWallet } = this.getUserInfo;
+          if ((cosmosWallet || likeWallet) && from !== cosmosWallet && from !== likeWallet) {
             this.setErrorMsg(this.$t('Transaction.error.authcoreWalletNotMatch'));
             throw new Error('VALIDATION_FAIL');
           }
