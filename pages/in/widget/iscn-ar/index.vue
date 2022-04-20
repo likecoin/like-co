@@ -38,7 +38,7 @@
           <div class="likepay-panel__header-title">{{ $t('ISCNARWidget.title') }}</div>
         </header>
         <div class="likepay-panel__section-meta">
-          <span class="likepay-text-panel">{{ $t('ISCNARWidget.Introduction.ready') }}</span>
+          {{ $t('ISCNARWidget.Introduction.ready') }}
         </div>
       </section>
     </div>
