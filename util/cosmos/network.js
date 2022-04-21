@@ -1,4 +1,9 @@
-import { IS_TESTNET, COSMOS_DENOM } from '../../constant';
+import {
+  IS_TESTNET,
+  COSMOS_DENOM,
+  COSMOS_VIEW_DENOM,
+  EXTERNAL_HOSTNAME,
+} from '../../constant';
 
 const mainConfig = {
   id: 'likecoin-mainnet-2',
@@ -7,10 +12,10 @@ const mainConfig = {
   apiURL: 'https://mainnet-node.like.co',
   rpcURL: 'https://mainnet-node.like.co/rpc/',
   stakingWalletURL: 'https://stake.like.co',
-  stakingDenom: 'LIKE',
+  stakingDenom: COSMOS_VIEW_DENOM,
   coinLookup: [
     {
-      viewDenom: 'LIKE',
+      viewDenom: COSMOS_VIEW_DENOM,
       chainDenom: COSMOS_DENOM,
       chainToViewConversionFactor: '0.000000001',
       icon: 'currencies/like.png',
@@ -23,9 +28,11 @@ const mainConfig = {
 const testnetConfig = {
   id: 'likecoin-public-testnet-5',
   name: 'LikeCoin public test chain',
+  website: `https://${EXTERNAL_HOSTNAME}`,
   apiURL: 'https://node.testnet.like.co',
   rpcURL: 'https://node.testnet.like.co/rpc/',
   stakingWalletURL: 'https://likecoin-public-testnet-5.netlify.app/',
+  addressPrefix: 'like',
 };
 
 const combinedConfig = {
