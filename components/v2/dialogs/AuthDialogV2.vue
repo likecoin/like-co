@@ -7,121 +7,123 @@
       :is-show-backdrop="false"
       :is-closable="false"
     >
-      <!-- header -->
-      <div class="header">
-        <div class="header-icon">
-          <sign-in />
-        </div>
-        <div class="header-text">{{ headerText }}</div>
-      </div>
-
-      <i18n
-        v-if="loadingI18nPath"
-        class="content-container"
-        :path="loadingI18nPath"
-        tag="div"
-      >
-        <span
-          class="app-name"
-          place="appName"
-        >Liker Land app</span>
-      </i18n>
-
-      <WalletConnectQRCodeView
-        v-else-if="getWalletConnectURI"
-        :value="getWalletConnectURI"
+      <RegisterForm
+        v-if="currentTab === 'register'"
+        @register="register"
       />
-      <!-- main -->
-      <div
-        v-else-if="currentTab !== 'register'"
-        class="content-container"
-      >
-        <!-- keplr -->
-        <div
-          class="auth-btn"
-          @click="onClickUseKeplrButton"
-        >
-          <div class="title-wapper">
-            <div class="icon">
-              <keplr-icon />
-            </div>
-            <div class="name">
-              {{ $t("DialogV2.type.keplr.name") }}
-            </div>
+      <RegisterForm
+        v-else-if="currentTab === 'await-email-verify' || currentTab === 'welcome'"
+        :initial-step="currentTab === 'welcome' ? 'await-email-verify' : 'completed'"
+        :user-info="getUserInfo"
+        @upload-avatar="uploadAvatar"
+        @complete="redirectAfterSignIn"
+      />
+      <template v-else>
+        <!-- header -->
+        <div class="header">
+          <div class="header-icon">
+            <sign-in />
           </div>
-          <div class="description">
-            {{ $t("DialogV2.type.keplr.description") }}
-          </div>
+          <div class="header-text">{{ headerText }}</div>
         </div>
-        <!-- dropdown-toggle -->
+
         <div
-          :class="{
-            'dropdown-toggle': true,
-            'dropdown-toggle--clickable': !isShowLikerLand,
-          }"
-          @click="isShowLikerLand = true"
+          v-if="currentTab === 'error'"
+          class="content-container"
+        >{{ errorMessage }}</div>
+
+        <i18n
+          v-else-if="loadingI18nPath"
+          class="content-container"
+          :path="loadingI18nPath"
+          tag="div"
         >
-          <div class="text">{{ $t("DialogV2.dropdown") }}</div>
-          <div
-            v-if="!isShowLikerLand"
-            class="icon"
-          ><arrow-down /></div>
-        </div>
-        <!-- liker land -->
-        <Transition
-          name="slide"
-          mode="out-in"
+          <span
+            class="app-name"
+            place="appName"
+          >Liker Land app</span>
+        </i18n>
+
+        <WalletConnectQRCodeView
+          v-else-if="getWalletConnectURI"
+          :value="getWalletConnectURI"
+        />
+        <!-- main -->
+        <div
+          v-else
+          class="content-container"
         >
+          <!-- keplr -->
           <div
-            v-show="isShowLikerLand"
             class="auth-btn"
-            @click="onClickUseWalletConnectButton"
+            @click="onClickUseKeplrButton"
           >
             <div class="title-wapper">
               <div class="icon">
-                <liker-land />
+                <keplr-icon />
               </div>
               <div class="name">
-                {{ $t("DialogV2.type.likerLand.name") }}
+                {{ $t("DialogV2.type.keplr.name") }}
               </div>
             </div>
             <div class="description">
-              {{ $t("DialogV2.type.likerLand.description") }}
+              {{ $t("DialogV2.type.keplr.description") }}
             </div>
           </div>
-        </Transition>
-      </div>
-      <div v-else>
-        <div
-          v-bind="tabProps"
-          class="content-container"
-        >
-          <register-form
-            :prefilled-data="signInPayload"
-            :is-edit-email="isEmailEditable"
-            :platform="platform"
-            @register="register"
-          />
+          <!-- dropdown-toggle -->
+          <div
+            :class="{
+              'dropdown-toggle': true,
+              'dropdown-toggle--toggled': isShowMoreLoginOptions,
+            }"
+            @click="isShowMoreLoginOptions = !isShowMoreLoginOptions"
+          >
+            <div class="text">{{ $t("DialogV2.dropdown") }}</div>
+            <div class="icon"><arrow-down /></div>
+          </div>
+          <!-- liker land -->
+          <Transition
+            name="slide"
+            mode="out-in"
+          >
+            <div v-show="isShowMoreLoginOptions">
+              <div
+                class="auth-btn"
+                @click="onClickUseWalletConnectButton"
+              >
+                <div class="title-wapper">
+                  <div class="icon">
+                    <liker-land />
+                  </div>
+                  <div class="name">
+                    {{ $t("DialogV2.type.likerLand.name") }}
+                  </div>
+                </div>
+                <div class="description">
+                  {{ $t("DialogV2.type.likerLand.description") }}
+                </div>
+              </div>
+              <!-- legacy content -->
+              <div
+                v-if="!getWalletConnectURI"
+                class="legacy-content-container"
+              >
+                <div class="text">
+                  {{
+                    $t("DialogV2.type.metaMask.name") + ' ' +
+                      $t("DialogV2.type.metaMask.description")
+                  }}
+                  <div />
+                </div>
+              </div>
+            </div>
+          </Transition>
         </div>
-      </div>
+      </template>
     </BaseDialogV3>
-    <!-- legacy content -->
-    <div
-      v-if="!getWalletConnectURI"
-      class="legacy-content-container"
-    >
-      <div class="text">
-        {{
-          $t("DialogV2.type.metaMask.name") + ' ' +
-            $t("DialogV2.type.metaMask.description")
-        }}
-        <div />
-      </div>
-    </div>
   </div>
 </template>
 <script>
-import Vue from 'vue'; // eslint-disable-line import/no-extraneous-dependencies
 import { mapActions, mapGetters } from 'vuex';
 import { logTrackerEvent } from '@/util/EventLogger';
 import User from '@/util/User';
@@ -138,12 +140,15 @@ import {
   tryPostLoginRedirect,
 } from '~/util/client';
 
-import RegisterForm from '~/components/dialogs/AuthDialogContent/Register';
+import { apiCheckIsUser } from '@/util/api/api';
+
 import KeplrIcon from '~/components/icons/Keplr';
 import LikerLand from '~/components/icons/LikerLand';
 import SignIn from '~/components/icons/SignIn';
 import ArrowDown from '~/components/icons/ArrowDown';
+import EthMixin from '~/components/EthMixin';
 
+import RegisterForm from '../RegisterForm';
 import WalletConnectQRCodeView from '../WalletConnectQRCodeView';
 import BaseDialogV3 from './BaseDialogV3';
 
@@ -170,19 +175,29 @@ export default {
     RegisterForm,
     WalletConnectQRCodeView,
   },
+  mixins: [EthMixin],
   data() {
     return {
-      isShowLikerLand: false,
-      currentTab: '',
+      isShowMoreLoginOptions: false,
+
+      currentTab: 'portal',
+      registerStep: 'create-liker-id',
       referrer: '',
       sourceURL: '',
       platform: '',
       errorCode: '',
       error: '',
+
+      signInPayload: {
+        user: '',
+        email: '',
+        isEmailVerified: false,
+      },
     };
   },
   computed: {
     ...mapGetters([
+      'getUserInfo',
       'getIsShowAuthDialog',
       'getWalletConnectConnecting',
       'getUserMinInfoById',
@@ -195,19 +210,33 @@ export default {
     utmSource() {
       return this.$route.query.utm_source;
     },
-    tabProps() {
-      return {
-        ref: 'tab',
-        key: this.currentTab,
-      };
+    errorTitle() {
+      switch (this.errorCode) {
+        case 'USER_ALREADY_EXIST':
+        case 'EMAIL_ALREADY_USED':
+        case 'USER_WALLET_INVALID':
+          return this.$t('AuthDialog.Register.error');
+        default:
+          return this.$t('General.label.error');
+      }
     },
-    isEmailEditable() {
-      return (
-        !(this.signInPayload.isEmailVerified && this.signInPayload.email)
-        && this.platform !== 'authcore'
-      );
+    errorMessage() {
+      if (this.errorCode && this.$i18n.te(`Error.${this.errorCode}`, 'en')) {
+        return this.$t(`Error.${this.errorCode}`);
+      }
+      if (this.error && typeof this.error.toString === 'function') {
+        this.$t('AuthDialog.label.signInErrorWithDetails', {
+          details: this.error.toString(),
+        });
+      }
+      let msg = this.$t('AuthDialog.label.signInError');
+      if (this.errorCode) msg += ` - ${this.errorCode}`;
+      return msg;
     },
     headerText() {
+      if (this.currentTab === 'error') {
+        return this.errorTitle;
+      }
       if (this.getWalletConnectURI) {
         return this.$t('V2_WalletConnectQRCodeModal_Title');
       }
@@ -222,11 +251,7 @@ export default {
     },
   },
   async mounted() {
-    const { from } = this.$route.query;
-    if (from) {
-      await this.fetchAvatar(from);
-    }
-    const { referrer } = this.$route.query;
+    const { from, referrer } = this.$route.query;
     if (from) this.referrer = from;
     this.sourceURL = referrer || document.referrer;
     try {
@@ -252,10 +277,9 @@ export default {
   methods: {
     ...mapActions([
       'newUser',
-      'setAuthDialogShow',
       'loginUser',
+      'updateUserAvatar',
       'doPostAuthRedirect',
-      'fetchUserMinInfo',
       'loginByCosmosWallet',
       'resetLoginByCosmosWallet',
     ]),
@@ -264,20 +288,6 @@ export default {
       this.currentTab = 'error';
       this.errorCode = code;
       this.error = error;
-    },
-
-    async fetchAvatar(from) {
-      try {
-        if (!this.getUserMinInfoById(from)) {
-          await this.fetchUserMinInfo(from);
-        }
-        const userInfo = this.getUserMinInfoById(from);
-        this.avatar = userInfo.avatar;
-        this.fromDisplayName = userInfo.displayName;
-        this.avatarHalo = User.getAvatarHaloType(userInfo);
-      } catch (err) {
-        // noop
-      }
     },
 
     onClickUseKeplrButton() {
@@ -304,12 +314,11 @@ export default {
 
       switch (platform) {
         case 'wallet': {
-          // this.currentTab = 'loading';
-          this.startWeb3AndCb(this.signInWithWallet);
+          this.currentTab = 'loading';
+          this.startWeb3AndCb(this.signInWithMetaMask);
           return;
         }
         case 'cosmosWallet': {
-          // this.currentTab = 'loading';
           const { source } = opt;
           this.signInWithCosmosWallet(source);
           return;
@@ -341,6 +350,47 @@ export default {
         console.error(err);
         if (this.$sentry) this.$sentry.captureException(err);
         this.setError(err.message, err);
+      }
+    },
+
+    async signInWithMetaMask() {
+      this.currentTab = 'loading';
+
+      // Determine whether the wallet has registered
+      try {
+        await apiCheckIsUser(this.getLocalWeb3Wallet);
+      } catch (err) {
+        if (err.response) {
+          if (err.response.status === 404) {
+            this.setError('WALLET_REGISTER_DEPRECATED', err);
+            return;
+          }
+        }
+
+        // eslint-disable-next-line no-console
+        console.error(err);
+        if (this.$sentry) this.$sentry.captureException(err);
+        this.setError((err.response || {}).data, err);
+        return;
+      }
+
+      try {
+        this.signInPayload = await User.signLogin(this.getLocalWeb3Wallet);
+        this.login();
+      } catch (err) {
+        if (err.message.indexOf('Invalid "from" address') >= 0) {
+          // User has logout MetaMask after EthHelper initialization
+          this.currentTab = 'loading';
+          this.startWeb3AndCb(this.signInWithMetaMask, true);
+        } else if (err.message.indexOf('User denied message signature') >= 0) {
+          // Return to login portal if user denied signing
+          this.currentTab = 'portal';
+        } else {
+          // eslint-disable-next-line no-console
+          console.error(err);
+          if (this.$sentry) this.$sentry.captureException(err);
+          this.setError(err.message, err);
+        }
       }
     },
 
@@ -383,7 +433,7 @@ export default {
                 1,
               );
             }
-            this.preRegister();
+            this.currentTab = 'register';
             return;
           }
         }
@@ -393,48 +443,6 @@ export default {
         if (this.$sentry) this.$sentry.captureException(err);
         this.setError((err.response || {}).data, err);
       }
-    },
-
-    async redirectAfterSignIn() {
-      this.currentTab = 'loading';
-      try {
-        window.sessionStorage.removeItem('registerDialogSourceURL');
-      } catch (err) {
-        // no op
-      }
-      // this.setIsShow(false);
-      if (this.isSinglePage) {
-        this.currentTab = 'loginSuccessful';
-        this.$nextTick(() => {
-          if (!tryPostLoginRedirect({ route: this.$route })) {
-            // Normal case
-            this.redirectToPreAuthPage();
-          }
-        });
-      } else {
-        this.$nextTick(() => { this.redirectToPreAuthPage(); });
-      }
-    },
-
-    async preRegister() {
-      logTrackerEvent(this, 'RegFlow', 'PreRegister', `PreRegister(${this.platform})`, 1);
-      this.currentTab = 'loading';
-      if (this.signInPayload.suggestedName || this.signInPayload.email) {
-        const defaultLikerID = await User.prepareSuggestedUserName(this.signInPayload);
-        if (defaultLikerID) Vue.set(this.signInPayload, 'defaultLikeCoinId', defaultLikerID);
-      }
-      if (this.platform === 'authcore') {
-        await this.initAuthCoreCosmosWallet();
-        const cosmosWallet = await this.fetchAuthCoreCosmosWallet();
-        Vue.set(this.signInPayload, 'cosmosWallet', cosmosWallet);
-      }
-      this.currentTab = 'register';
-    },
-
-    redirectToPreAuthPage() {
-      const router = this.$router;
-      const route = this.$route;
-      this.doPostAuthRedirect({ router, route });
     },
 
     async register(registerPayload) {
@@ -453,11 +461,6 @@ export default {
 
       try {
         await this.newUser(payload);
-        if (payload.avatarFile) {
-          await this.updateUserAvatar({
-            avatarFile: payload.avatarFile,
-          });
-        }
         logTrackerEvent(
           this,
           'RegFlow',
@@ -465,7 +468,11 @@ export default {
           `RegistrationComplete(${this.platform})`,
           1,
         );
-        this.redirectAfterSignIn();
+        if (payload.email) {
+          this.currentTab = 'await-email-verify';
+        } else {
+          this.currentTab = 'welcome';
+        }
       } catch (err) {
         let errCode;
         if (err.response && err.response.data) {
@@ -497,6 +504,42 @@ export default {
           1,
         );
       }
+    },
+
+    async uploadAvatar(avatarFile) {
+      if (!avatarFile) return;
+      try {
+        await this.updateUserAvatar({ avatarFile });
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error(err);
+      }
+    },
+
+    async redirectAfterSignIn() {
+      this.currentTab = 'loading';
+      try {
+        window.sessionStorage.removeItem('registerDialogSourceURL');
+      } catch (err) {
+        // no op
+      }
+      if (this.isSinglePage) {
+        this.currentTab = 'loginSuccessful';
+        this.$nextTick(() => {
+          if (!tryPostLoginRedirect({ route: this.$route })) {
+            // Normal case
+            this.redirectToPreAuthPage();
+          }
+        });
+      } else {
+        this.$nextTick(() => { this.redirectToPreAuthPage(); });
+      }
+    },
+
+    redirectToPreAuthPage() {
+      const router = this.$router;
+      const route = this.$route;
+      this.doPostAuthRedirect({ router, route });
     },
   },
 };
@@ -601,24 +644,32 @@ export default {
   justify-content: center;
 
   width: 100%;
-  &--clickable {
-    cursor: pointer;
+
+  cursor: pointer;
+
+  &--toggled .icon {
+    transform: rotateZ(180deg);
   }
+
   .text {
     margin-right: 8px;
 
     font-size: 14px;
     font-weight: 600;
   }
+
   .icon {
-    display: flex;
-    align-items: center;
+    transition: transform 0.2s ease;
   }
 }
 
 .legacy-content-container {
+  margin-top: 12px;
+
+  text-align: center;
 
   color: #9b9b9b;
+
   .text {
     text-decoration: underline;
   }

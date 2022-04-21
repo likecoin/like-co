@@ -213,7 +213,6 @@ export async function loginByCosmosWallet({ commit }, source) {
     }
 
     case 'keplr': {
-      commit(types.USER_SET_WALLET_CONNECT_CONNECTING, true);
       await Keplr.initKeplr();
       payload = await User.signCosmosLogin(
         await Keplr.getWalletAddress(),

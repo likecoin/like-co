@@ -87,6 +87,7 @@
     "vue-clipboard2": "^0.2.1",
     "vue-cookie": "^1.1.4",
     "vue-i18n": "^8.0.0",
+    "vue-js-modal": "^2.0.1",
     "vue-lazyload": "^1.2.3",
     "vue-material": "^1.0.0-beta-7",
     "vue-scroll": "^2.1.9",
