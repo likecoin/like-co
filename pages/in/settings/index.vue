@@ -10,6 +10,17 @@
       </div>
     </div>
 
+    <section
+      v-if="!getUserInfo.isEmailVerified"
+      class="lc-container-0 lc-margin-top-48"
+    >
+      <div class="lc-container-1">
+        <div class="lc-container-2">
+          <VerifyEmailCta :email-ref="'in'" />
+        </div>
+      </div>
+    </section>
+
     <!-- User Info Form Section -->
     <div class="lc-container-1 lc-margin-top-16">
       <div class="lc-container-2">
@@ -250,6 +261,7 @@ import User from '@/util/User';
 import CivicLikerCta from '~/components/CivicLiker/CTA';
 import OtherConnectList from '~/components/settings/OtherConnectList';
 import ExternalLinksPanel from '~/components/settings/ExternalLinksPanel';
+import VerifyEmailCta from '~/components/VerifyEmailCta';
 
 import TickIcon from '@/assets/tokensale/tick.svg';
 
@@ -260,6 +272,7 @@ export default {
     AuthCoreSettings,
     OtherConnectList,
     ExternalLinksPanel,
+    VerifyEmailCta,
   },
   data() {
     return {
