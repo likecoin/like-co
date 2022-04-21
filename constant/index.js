@@ -30,6 +30,8 @@ export const BASIC_TRANSFER_GAS = '80000';
 
 export const COSMOS_DENOM = IS_TESTNET ? 'nanoekil' : 'nanolike';
 
+export const COSMOS_VIEW_DENOM = IS_TESTNET ? 'EKIL' : 'LIKE';
+
 export const CONFIRMATION_NEEDED = 6;
 
 export const MIN_USER_ID_LENGTH = 7;
