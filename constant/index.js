@@ -20,7 +20,7 @@ export const ETH_NETWORK_NAME = IS_TESTNET ? 'rinkeby' : 'mainnet';
 
 export const ETH_MIGRATION_MIN_LIKECOIN_AMOUNT = '1000000000000000000';
 
-export const BIGDIPPER_HOST = IS_TESTNET ? 'https://taipei.likecoin.bigdipper.live' : 'https://likecoin.bigdipper.live';
+export const BIGDIPPER_HOST = IS_TESTNET ? 'https://testnet.likecoin.bigdipper.live' : 'https://likecoin.bigdipper.live';
 
 export const COSMOS_WALLET_PREFIX = "m/44'/118'/0'/0";
 
