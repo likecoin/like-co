@@ -85,12 +85,13 @@ const User = {
       signed: message,
       signature: { signature, pub_key: publicKey },
     } = await signer(payload);
+    const platform = cosmosWallet.startsWith('like') ? 'likeWallet' : 'cosmosWallet';
     const data = {
       signature,
       publicKey: publicKey.value,
       message: stringify(message),
       from: cosmosWallet,
-      platform: 'cosmosWallet',
+      platform,
     };
     return data;
   },
