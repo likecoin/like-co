@@ -398,7 +398,7 @@ workflows:
               only:
                 - master
                 - develop
-                - /deployment.*/
+                - deployment/testnet
           requires:
            - test
       - hold_deploy_testnet_frontend:
@@ -408,7 +408,7 @@ workflows:
               only:
                 - master
                 - develop
-                - /deployment.*/
+                - deployment/testnet
           requires:
            - test
       - hold_deploy_rinkeby_api:
@@ -418,7 +418,7 @@ workflows:
               only:
                 - master
                 - develop
-                - /deployment.*/
+                - deployment/rinkeby
           requires:
            - test
       - hold_deploy_rinkeby_frontend:
@@ -428,7 +428,7 @@ workflows:
               only:
                 - master
                 - develop
-                - /deployment.*/
+                - deployment/rinkeby
           requires:
            - test
       - hold_deploy_mainnet_api:
