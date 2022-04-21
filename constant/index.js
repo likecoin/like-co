@@ -56,6 +56,7 @@ const whiteList = [
   'oicetest.lakoo.com',
   'like.co',
   'rinkeby.like.co',
+  'testnet.like.co',
   'button.like.co',
   'button.rinkeby.like.co',
 ];
