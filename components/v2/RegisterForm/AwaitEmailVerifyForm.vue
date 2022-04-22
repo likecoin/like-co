@@ -1,6 +1,6 @@
 <template>
-  <div class="v2-register-form__content">
-    <div class="v2-register-form__body">
+  <div class="v2-form__content">
+    <div class="v2-form__body">
       <img
         src="~/assets/v2/register-completed.svg"
         alt=""
@@ -13,14 +13,14 @@
       </i18n>
     </div>
 
-    <div class="v2-register-form__footer">
-      <div class="v2-register-form__footer-left-slot">
+    <div class="v2-form__footer">
+      <div class="v2-form__footer-left-slot">
         <Button
           preset="outlined"
           @click="handleSkip"
         >{{ $t('V2_Form_Button_VerifyLater') }}</Button>
       </div>
-      <div class="v2-register-form__footer-right-slot">
+      <div class="v2-form__footer-right-slot">
         <Button
           :is-disabled="true"
         >{{ $t('V2_Form_Button_Next') }}<ArrowRightIcon /></Button>
@@ -47,7 +47,7 @@ export default {
 </script>
 
 <style scoped>
-.v2-register-form__body {
+.v2-form__body {
   padding: 32px 24px;
 
   text-align: center;

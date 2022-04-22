@@ -1,8 +1,8 @@
 <template>
-  <div class="v2-register-form">
+  <div class="register-form v2-form">
 
-    <header class="v2-register-form__header">
-      <div class="v2-register-form__header-left-slot">
+    <header class="v2-form__header">
+      <div class="v2-form__header-left-slot">
         <img
           src="~assets/v2/icons/star.svg"
           alt=""
@@ -11,19 +11,21 @@
       </div>
       <div
         v-if="step !== STEP.COMPLETED"
-        class="v2-register-form__header-right-slot"
+        class="v2-form__header-right-slot"
       >
-        <div class="v2-register-form__stepper-container">
+        <div>
           <Stepper
             :total="3"
             :step="stepNumber"
           />
           <i18n
+            class="register-form__step-label"
             path="V2_AuthDialog_Step"
             :places="{
               step: stepNumber,
               total: 3,
             }"
+            tag="div"
           />
         </div>
       </div>
@@ -226,62 +228,7 @@ export default {
 </script>
 
 <style>
-.v2-register-form,
-.v2-register-form__content,
-.v2-register-form__body {
-  display: grid;
-  grid-auto-rows: auto;
-  row-gap: 12px;
-}
-.v2-register-form__header,
-.v2-register-form__footer {
-  display: flex;
-  justify-content: space-between;
-}
-
-.v2-register-form__footer {
-  margin-top: 24px;
-}
-
-.v2-register-form__header-left-slot,
-.v2-register-form__header-right-slot,
-.v2-register-form__footer-left-slot,
-.v2-register-form__footer-right-slot {
-  display: flex;
-  align-items: center;
-}
-
-.v2-register-form__header-left-slot,
-.v2-register-form__footer-left-slot {
-  justify-content: flex-start;
-
-  margin-right: auto;
-}
-
-.v2-register-form__header-right-slot,
-.v2-register-form__footer-right-slot {
-  justify-content: flex-end;
-
-  margin-left: auto;
-}
-
-.v2-register-form__header h2 {
-  margin: 0 12px;
-
-  color: #28646E;
-
-  font-size: 16px;
-  line-height: 1.25;
-}
-
-.v2-register-form__body {
-  color: #9b9b9b;
-
-  font-size: 16px;
-  line-height: 1.375;
-}
-
-.v2-register-form__stepper-container span {
+.register-form__step-label {
   display: block;
 
   margin-top: 4px;

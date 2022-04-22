@@ -1,6 +1,6 @@
 <template>
-  <div class="v2-completed-form v2-register-form__content">
-    <div class="v2-register-form__body">
+  <div class="v2-completed-form v2-form__content">
+    <div class="v2-form__body">
       <div class="v2-completed-form__profile">
         <img
           class="v2-completed-form__avatar"
@@ -93,7 +93,7 @@ export default {
 </script>
 
 <style scoped>
-.v2-completed-form .v2-register-form__body {
+.v2-completed-form .v2-form__body {
   display: flex;
   align-items: center;
 

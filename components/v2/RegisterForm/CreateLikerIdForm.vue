@@ -1,6 +1,6 @@
 <template>
-  <div class="v2-register-form__content">
-    <div class="v2-register-form__body">
+  <div class="v2-form__content">
+    <div class="v2-form__body">
       <div>{{ $t('V2_Form_LikerId_description') }}</div>
       <InputField
         v-model="internalLikerId"
@@ -9,8 +9,8 @@
       />
     </div>
 
-    <div class="v2-register-form__footer">
-      <div class="v2-register-form__footer-right-slot">
+    <div class="v2-form__footer">
+      <div class="v2-form__footer-right-slot">
         <Button
           :is-disabled="!isLikerIdValid"
           @click="handleConfirm"
