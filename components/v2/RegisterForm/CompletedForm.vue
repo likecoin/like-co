@@ -1,29 +1,12 @@
 <template>
   <div class="v2-completed-form v2-form__content">
-    <div class="v2-form__body">
-      <div class="v2-completed-form__profile">
-        <img
-          class="v2-completed-form__avatar"
-          :src="internalAvatar"
-          :alt="displayName"
-        >
-        <div>
-          <div class="v2-completed-form__display-name">{{ displayName }}</div>
-          <div class="v2-completed-form__liker-id">{{ likerId }}</div>
-        </div>
-      </div>
-      <Button
-        preset="outlined"
-        @click="handleAvatarUploadButtonClick"
-      ><PictureIcon />{{ $t('V2_Form_Button_UploadPicture') }}</Button>
-      <input
-        ref="fileUploader"
-        class="v2-completed-form__file-uploader"
-        type="file"
-        accept="image/png, image/jpeg"
-        @change="handleAvatarUpload"
-      >
-    </div>
+    <ProfileView
+      :avatar="avatar"
+      :liker-id="likerId"
+      :description="description"
+      :display-name="displayName"
+      @upload-avatar="handleAvatarUpload"
+    />
     <div class="v2-completed-form__action-items">
       <Button
         @click="handleConfirm"
@@ -38,12 +21,12 @@
 
 <script>
 import Button from '../Button';
-import PictureIcon from '../icons/Picture';
+import ProfileView from '../ProfileView';
 
 export default {
   components: {
     Button,
-    PictureIcon,
+    ProfileView,
   },
   props: {
     avatar: {
@@ -59,79 +42,18 @@ export default {
       default: '',
     },
   },
-  data() {
-    return {
-      internalAvatar: this.avatar,
-    };
-  },
-  watch: {
-    avatar(avatar) {
-      this.internalAvatar = avatar;
-    },
-  },
   methods: {
     handleConfirm() {
       this.$emit('confirm');
     },
-    handleAvatarUploadButtonClick() {
-      const { fileUploader } = this.$refs;
-      if (!fileUploader) return;
-      fileUploader.click();
-    },
-    handleAvatarUpload(event) {
-      const { files } = event.target;
-      if (!files || !files[0]) return;
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.internalAvatar = e.target.result;
-        this.$emit('upload-avatar', files[0]);
-      };
-      reader.readAsDataURL(files[0]);
+    handleAvatarUpload(file) {
+      this.$emit('upload-avatar', file);
     },
   },
 };
 </script>
 
 <style scoped>
-.v2-completed-form .v2-form__body {
-  display: flex;
-  align-items: center;
-
-  padding: 32px 24px;
-
-  border: 3px solid #ebebeb;
-  border-radius: 12px;
-  justify-items: center;
-}
-
-.v2-completed-form__profile {
-  display: flex;
-  align-items: center;
-
-  margin-right: 24px;
-}
-.v2-completed-form__avatar {
-  width: 88px;
-  height: 88px;
-  margin-right: 24px;
-
-  border: 4px solid #ebebeb;
-  border-radius: 9999px;
-
-  object-fit: cover;
-  object-position: center center;
-}
-.v2-completed-form__display-name {
-  color: #4a4a4a;
-
-  font-size: 16px;
-  font-weight: 600;
-}
-.v2-completed-form__liker-id {
-  margin-top: 4px;
-
-  font-size: 12px;
-}
 .v2-completed-form__action-items {
   display: flex;
   align-items: center;
@@ -145,8 +67,5 @@ export default {
   text-decoration: underline;
 
   color: #9b9b9b;
-}
-.v2-completed-form__file-uploader {
-  display: none;
 }
 </style>

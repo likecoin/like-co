@@ -1,25 +1,41 @@
 <template>
-  <div class="v2-input-field">
+  <div
+    :class="[
+      'v2-input-field',
+      {
+        'v2-input-field--readonly': isReadonly,
+      },
+    ]"
+  >
     <label
       v-if="label"
       class="v2-input-field__label"
     >{{ label }}</label>
-    <div
-      class="v2-input-field__layout"
-      @click="handleClick"
-    >
-      <div class="v2-input-field__text-container">
-        <div
-          v-if="!value"
-          class="v2-input-field__placeholder"
-        >{{ placeholder }}</div>
-        <input
-          ref="input"
-          class="v2-input-field__input"
-          :value="value"
-          @input="handleInput"
-        >
+    <div class="v2-input-field__layout-outer">
+      <div
+        class="v2-input-field__layout"
+        @click="handleClick"
+      >
+        <div class="v2-input-field__text-container">
+          <div
+            v-if="isReadonly"
+          >{{ value }}</div>
+          <template v-else>
+            <div
+              v-if="!value"
+              class="v2-input-field__placeholder"
+            >{{ placeholder }}</div>
+            <input
+              ref="input"
+              class="v2-input-field__input"
+              :value="value"
+              @input="handleInput"
+            >
+          </template>
+        </div>
+        <slot name="append" />
       </div>
+      <slot name="append-outer" />
     </div>
   </div>
 </template>
@@ -38,6 +54,10 @@ export default {
     value: {
       type: String,
       default: '',
+    },
+    isReadonly: {
+      type: Boolean,
+      default: false,
     },
   },
   methods: {
@@ -71,15 +91,36 @@ export default {
 
 .v2-input-field__layout {
   display: flex;
+  flex-grow: 1;
 
   min-height: 40px;
-  padding: 8px 16px;
+  padding: 8px 0;
 
-  border-radius: 12px;
-  background-color: #ebebeb;
+  color: #4a4a4a;
 
   font-size: 16px;
   line-height: 22px;
+}
+
+.v2-input-field:not(.v2-input-field--readonly) .v2-input-field__layout {
+  padding-right: 16px;
+  padding-left: 16px;
+
+  border-radius: 12px;
+  background-color: #ebebeb;
+}
+
+.v2-input-field__layout:not(:first-child) {
+  margin-left: 12px;
+}
+
+.v2-input-field__layout:not(:last-child) {
+  margin-right: 12px;
+}
+
+.v2-input-field__layout-outer {
+  display: flex;
+  align-items: center;
 }
 
 .v2-input-field__text-container {
