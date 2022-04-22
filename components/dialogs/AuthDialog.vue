@@ -1102,11 +1102,9 @@ export default {
     async signInWithCosmosWallet(source = 'keplr') {
       this.currentTab = 'loading';
       try {
-        const { wallet, payload } = await this.loginByCosmosWallet(source);
-        if (wallet.startsWith('like')) {
-          // HACK: swap to likeWallet login if starts with 'like'
-          this.platform = 'likeWallet';
-        }
+        const { platform, payload } = await this.loginByCosmosWallet(source);
+        // HACK: platform might change according to prefix
+        this.platform = platform;
         this.signInPayload = payload;
         this.login();
       } catch (err) {
