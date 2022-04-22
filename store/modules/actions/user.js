@@ -188,20 +188,23 @@ export async function loginUserBySign({ state, dispatch }) {
 
 export async function loginByCosmosWallet(_, source) {
   let payload;
+  let platform;
   let wallet = '';
   switch (source) {
     case 'keplr': {
       await Keplr.initKeplr();
       wallet = await Keplr.getWalletAddress();
+      platform = wallet.startsWith('like') ? 'likeWallet' : 'cosmosWallet';
       payload = await User.signCosmosLogin(
         wallet,
         s => Keplr.signLogin(s),
+        platform,
       );
       break;
     }
     default: throw new Error('UNKNOWN_COSMOS_WALLET_SOURCE');
   }
-  return { wallet, payload: { cosmosWalletSource: source, ...payload } };
+  return { platform, wallet, payload: { cosmosWalletSource: source, ...payload } };
 }
 
 export async function onWalletChanged({ commit }, wallet) {
