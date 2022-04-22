@@ -73,7 +73,7 @@ const User = {
     return data;
   },
 
-  async signCosmosLogin(cosmosWallet, signer, loginMessage = LOGIN_MESSAGE) {
+  async signCosmosLogin(cosmosWallet, signer, platform = 'cosmosWallet', loginMessage = LOGIN_MESSAGE) {
     if (!cosmosWallet) return null;
     const ts = Date.now();
     let payload = JSON.stringify({
@@ -90,7 +90,7 @@ const User = {
       publicKey: publicKey.value,
       message: stringify(message),
       from: cosmosWallet,
-      platform: 'cosmosWallet',
+      platform,
     };
     return data;
   },

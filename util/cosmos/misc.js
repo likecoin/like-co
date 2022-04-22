@@ -11,14 +11,15 @@ export function assertOk (res) {
     throw new Error(res.error)
   }
 
+  const txRes = res.tx_response
   // Sometimes we get back failed transactions, which shows only by them having a `code` property
-  if (res.code) {
-    const message = JSON.parse(res.raw_log).message
+  if (txRes.code) {
+    const message = txRes.raw_log
     throw new Error(message)
   }
 
-  if (!res.txhash) {
-    const message = res.message
+  if (!txRes.txhash) {
+    const message = txRes.message
     throw new Error(message)
   }
 
@@ -29,7 +30,7 @@ export async function queryTxInclusion (txHash, cosmosRESTURL, iterations = 60, 
   let includedTx
   while (iterations-- > 0) {
     try {
-      includedTx = await fetch(`${cosmosRESTURL}/txs/${txHash}`)
+      includedTx = await fetch(`${cosmosRESTURL}/cosmos/tx/v1beta1/txs/${txHash}`)
         .then(function (response) {
           if (response.status >= 200 && response.status < 300) {
             return Promise.resolve(response.json())

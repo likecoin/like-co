@@ -343,7 +343,10 @@ export default {
 
     async signInWithCosmosWallet(source = 'keplr') {
       try {
-        this.signInPayload = await this.loginByCosmosWallet(source);
+        const { platform, payload } = await this.loginByCosmosWallet(source);
+        // HACK: platform might change according to prefix
+        this.platform = platform;
+        this.signInPayload = payload;
         this.login();
       } catch (err) {
         this.resetLoginByCosmosWallet();

@@ -38,7 +38,7 @@
           <div class="likepay-panel__header-title">{{ $t('ISCNARWidget.title') }}</div>
         </header>
         <div class="likepay-panel__section-meta">
-          <span class="likepay-text-panel">{{ $t('ISCNARWidget.Introduction.ready') }}</span>
+          {{ $t('ISCNARWidget.Introduction.ready') }}
         </div>
       </section>
     </div>
@@ -652,9 +652,8 @@ export default {
           throw new Error('PLEASE_RELOGIN');
         }
         if (!this.isUsingKeplr) {
-          const { cosmosWallet } = this.getUserInfo;
-          const userWallet = cosmosWallet;
-          if (userWallet !== undefined && from !== userWallet) {
+          const { cosmosWallet, likeWallet } = this.getUserInfo;
+          if ((cosmosWallet || likeWallet) && from !== cosmosWallet && from !== likeWallet) {
             throw new Error('VALIDATION_FAIL');
           }
         }
@@ -798,9 +797,9 @@ export default {
           throw new Error('PLEASE_RELOGIN');
         }
         if (!this.isUsingKeplr) {
-          const { cosmosWallet } = this.getUserInfo;
-          const userWallet = cosmosWallet;
-          if (userWallet !== undefined && from !== userWallet && !this.isUsingKeplr) {
+          const { cosmosWallet, likeWallet } = this.getUserInfo;
+          if ((cosmosWallet || likeWallet)
+            && from !== cosmosWallet && from !== likeWallet && !this.isUsingKeplr) {
             throw new Error('VALIDATION_FAIL');
           }
         }

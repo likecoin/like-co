@@ -1044,6 +1044,7 @@ export default {
           this.startWeb3AndCb(this.signInWithWallet);
           return;
         }
+        case 'likeWallet':
         case 'cosmosWallet': {
           this.currentTab = 'loading';
           const { source } = opt;
@@ -1108,7 +1109,10 @@ export default {
     async signInWithCosmosWallet(source = 'keplr') {
       this.currentTab = 'loading';
       try {
-        this.signInPayload = await this.loginByCosmosWallet(source);
+        const { platform, payload } = await this.loginByCosmosWallet(source);
+        // HACK: platform might change according to prefix
+        this.platform = platform;
+        this.signInPayload = payload;
         this.login();
       } catch (err) {
         console.error(err);

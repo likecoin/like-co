@@ -20,17 +20,17 @@ export const ETH_NETWORK_NAME = IS_TESTNET ? 'rinkeby' : 'mainnet';
 
 export const ETH_MIGRATION_MIN_LIKECOIN_AMOUNT = '1000000000000000000';
 
-export const BIGDIPPER_HOST = IS_TESTNET ? 'https://taipei.likecoin.bigdipper.live' : 'https://likecoin.bigdipper.live';
+export const BIGDIPPER_HOST = IS_TESTNET ? 'https://testnet.likecoin.bigdipper.live' : 'https://likecoin.bigdipper.live';
 
 export const COSMOS_WALLET_PREFIX = "m/44'/118'/0'/0";
 
-export const COSMOS_CHAIN_ID = IS_TESTNET ? 'likecoin-testnet-taipei-2' : 'likecoin-mainnet-2';
+export const COSMOS_CHAIN_ID = IS_TESTNET ? 'likecoin-public-testnet-5' : 'likecoin-mainnet-2';
 
 export const BASIC_TRANSFER_GAS = '80000';
 
-export const ISCN_TESTNET_CHAIN_ID = 'iscn-dev-chain';
+export const COSMOS_DENOM = IS_TESTNET ? 'nanoekil' : 'nanolike';
 
-export const COSMOS_DENOM = 'nanolike';
+export const COSMOS_VIEW_DENOM = IS_TESTNET ? 'EKIL' : 'LIKE';
 
 export const CONFIRMATION_NEEDED = 6;
 
@@ -58,6 +58,7 @@ const whiteList = [
   'oicetest.lakoo.com',
   'like.co',
   'rinkeby.like.co',
+  'testnet.like.co',
   'button.like.co',
   'button.rinkeby.like.co',
 ];

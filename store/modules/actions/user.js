@@ -192,6 +192,8 @@ export function resetLoginByCosmosWallet({ commit }) {
 
 export async function loginByCosmosWallet({ commit }, source) {
   let payload;
+  let platform;
+  let wallet = '';
   switch (source) {
     case 'walletconnect': {
       await WalletConnect.init({
@@ -214,15 +216,18 @@ export async function loginByCosmosWallet({ commit }, source) {
 
     case 'keplr': {
       await Keplr.initKeplr();
+      wallet = await Keplr.getWalletAddress();
+      platform = wallet.startsWith('like') ? 'likeWallet' : 'cosmosWallet';
       payload = await User.signCosmosLogin(
-        await Keplr.getWalletAddress(),
+        wallet,
         s => Keplr.signLogin(s),
+        platform,
       );
       break;
     }
     default: throw new Error('UNKNOWN_COSMOS_WALLET_SOURCE');
   }
-  return { cosmosWalletSource: source, ...payload };
+  return { platform, wallet, payload: { cosmosWalletSource: source, ...payload } };
 }
 
 export async function onWalletChanged({ commit }, wallet) {

@@ -195,7 +195,7 @@ export default {
       return LIKECOIN_ID_REGEX.test(this.likeCoinId);
     },
     isEmailRequired() {
-      return this.platform !== 'cosmosWallet';
+      return this.platform === 'authcore';
     },
     isEmailFormatValid() {
       return REGISTER_EMAIL_REGEX.test(this.email);
