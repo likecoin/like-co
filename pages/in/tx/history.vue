@@ -24,8 +24,8 @@
             </div>
             <div class="lc-container-3">
               <view-bigdipper
-                v-if="getUserInfo.cosmosWallet"
-                :address="getUserInfo.cosmosWallet"
+                v-if="getUserWalletAddress"
+                :address="getUserWalletAddress"
               />
               <view-etherscan
                 v-else
@@ -65,8 +65,7 @@ export default {
     };
   },
   asyncData({ store, redirect }) {
-    const user = store.getters.getUserInfo;
-    if (!(user.wallet || user.cosmosWallet)) {
+    if (!store.getters.getUserHasWallet) {
       redirect('/in');
     }
   },
@@ -87,6 +86,7 @@ export default {
       'getUserIsRegistered',
       'getUserHasPendingLike',
       'getUserHasWallet',
+      'getUserWalletAddress',
     ]),
   },
   mounted() {
