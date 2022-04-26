@@ -81,10 +81,10 @@
                     {{ $t('Register.form.walletAddress') }}:
                   </span>
                   <span
-                    v-if="getUserInfo.cosmosWallet"
+                    v-if="getUserWalletAddress"
                     class="content"
                   >
-                    {{ getUserInfo.cosmosWallet }}
+                    {{ getUserWalletAddress }}
                   </span>
                 </div>
                 <template v-if="!getUserIsAuthCore">
@@ -291,6 +291,7 @@ export default {
       'getAuthCoreNeedReAuth',
       'getAuthCoreAccessToken',
       'getIsInTransaction',
+      'getUserWalletAddress',
     ]),
     disabled() {
       return this.isLoading || !this.getUserIsRegistered;
