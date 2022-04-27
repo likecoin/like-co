@@ -109,6 +109,7 @@ function preformatISCNPayload(payload) {
     authorDescription,
     description,
     url,
+    recordNotes = '',
   } = payload;
 
   let actualType = 'CreativeWork';
@@ -143,17 +144,17 @@ function preformatISCNPayload(payload) {
     keywords: tags,
     type: actualType,
     usageInfo,
-    recordNotes: '',
+    recordNotes,
     contentFingerprints,
     stakeholders,
   };
   return preformatedPayload;
 }
 
-export async function calculateISCNTotalFee(tx) {
+export async function calculateISCNTotalFee(tx, { memo } = {}) {
   const payload = preformatISCNPayload(tx);
   const client = await getISCNEstimationClient();
-  const { gas, iscnFee } = await client.esimateISCNTxGasAndFee(payload);
+  const { gas, iscnFee } = await client.esimateISCNTxGasAndFee(payload, { memo });
   const ISCNFeeAmount = iscnFee.amount;
   const gasFeeAmount = gas.fee.amount[0].amount;
   const ISCNTotalFee = new BigNumber(ISCNFeeAmount).plus(gasFeeAmount).shiftedBy(-9).toFixed(2);
