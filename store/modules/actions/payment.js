@@ -97,6 +97,8 @@ export async function calculateISCNTxTotalFee({ commit },
     authorDescription,
     description,
     url,
+    recordNotes,
+    memo,
   } = payload;
   const { ISCNTotalFee } = await calculateISCNTotalFee({
     userId,
@@ -111,7 +113,8 @@ export async function calculateISCNTxTotalFee({ commit },
     authorDescription,
     description,
     url,
-  });
+    recordNotes,
+  }, { memo });
   commit(types.ISCN_SET_TOTAL_FEE, ISCNTotalFee);
   return ISCNTotalFee;
 }
@@ -135,11 +138,12 @@ export async function sendISCNSignature(
     type,
     license,
     publisher,
-    memo,
     author,
     authorDescription,
     description,
     cosmosWallet,
+    recordNotes,
+    memo,
     shouldShowTxDialog = true,
   } = payload;
   try {
@@ -156,6 +160,7 @@ export async function sendISCNSignature(
       authorDescription,
       description,
       cosmosWallet,
+      recordNotes,
     }, signer, cosmosWallet, { iscnId, memo, broadcast: false });
     if (!txRaw) { throw new Error('TX_SIGN_FAILED_UNKNOWN'); }
     commit(types.UI_SET_SIGN_FINISH, true);

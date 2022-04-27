@@ -546,6 +546,8 @@ export default {
         type,
         name,
         tags = [],
+        recordNotes,
+        memo,
       } = data;
       type = type || 'article';
       if (publisher) {
@@ -564,6 +566,12 @@ export default {
       if (name) {
         name = name.substring(0, 255);
       }
+      if (recordNotes) {
+        recordNotes = recordNotes.substring(0, 200);
+      }
+      if (memo) {
+        memo = memo.substring(0, 200);
+      }
       if (!tags) {
         tags = [];
       } else if (typeof tags === 'string') {
@@ -581,6 +589,8 @@ export default {
         license,
         publisher,
         url,
+        recordNotes,
+        memo,
       };
       this.ISCNData = ISCNData;
     },
@@ -624,6 +634,8 @@ export default {
         license,
         publisher,
         url,
+        recordNotes,
+        memo,
       } = this.ISCNData;
       this.ISCNTotalFee = await this.calculateISCNTxTotalFee({
         userId: this.getUserId,
@@ -639,6 +651,8 @@ export default {
         license,
         publisher,
         url,
+        recordNotes,
+        memo,
       });
       if (!this.showWalletOption) this.submitISCNTransfer();
     },
@@ -672,6 +686,8 @@ export default {
           authorDescription,
           author,
           fingerprints,
+          recordNotes,
+          memo,
         } = this.ISCNData;
         const txHash = await this.sendISCNSignature({
           cosmosWallet: from,
@@ -686,6 +702,8 @@ export default {
           type,
           license,
           url,
+          recordNotes,
+          memo,
           iscnId: this.iscnId,
           signer,
           shouldShowTxDialog: false,
