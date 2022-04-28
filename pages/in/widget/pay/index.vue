@@ -436,25 +436,25 @@ export default {
       const toUsers = toRes.map((u) => {
         const {
           user,
-          cosmosWallet,
+          likeWallet,
           avatar,
           displayName,
           paymentRedirectWhiteList,
         } = u.data;
         return {
           user,
-          cosmosWallet,
+          likeWallet,
           avatar,
           displayName,
           avatarHalo: User.getAvatarHaloType(u.data),
           paymentRedirectWhiteList,
         };
       });
-      if (agentUser && !agentUser.cosmosWallet) {
+      if (agentUser && !agentUser.likeWallet) {
         error({ statusCode: 400, message: 'VIA_USER_HAS_NO_WALLET' });
       }
 
-      if (toUsers.some(u => !u.cosmosWallet)) {
+      if (toUsers.some(u => !u.likeWallet)) {
         error({ statusCode: 400, message: 'RECEIPIENT_HAS_NO_WALLET' });
       }
 
@@ -643,15 +643,15 @@ export default {
       }, 0);
     },
     maskedWallet(wallet) {
-      return wallet.replace(/((?:cosmos1|0x).{4}).*(.{10})/, '$1...$2');
+      return wallet.replace(/((?:like1|0x).{4}).*(.{10})/, '$1...$2');
     },
     async calculateGasFee() {
       let feeAmount;
       if (this.isMultiSend) {
-        const tos = this.toUsers.map(u => u.cosmosWallet);
+        const tos = this.toUsers.map(u => u.likeWallet);
         const values = [...this.amounts];
         if (this.hasAgentFee) {
-          tos.push(this.agentUser.cosmosWallet);
+          tos.push(this.agentUser.likeWallet);
           values.push(this.agentFee);
         }
         ({ feeAmount } = await calculateCosmosGas(tos));
@@ -678,7 +678,7 @@ export default {
             throw new Error('VALIDATION_FAIL');
           }
         }
-        const to = this.toUsers[0].cosmosWallet;
+        const to = this.toUsers[0].likeWallet;
         if (from === to) {
           this.setErrorMsg(this.$t('Transaction.error.sameUser'));
           throw new Error('VALIDATION_FAIL');
@@ -696,10 +696,10 @@ export default {
         const isWait = !!this.blocking;
         const metadata = this.likePayMetadata;
         if (this.isMultiSend) {
-          const tos = this.toUsers.map(u => u.cosmosWallet);
+          const tos = this.toUsers.map(u => u.likeWallet);
           const values = [...this.amounts];
           if (this.hasAgentFee) {
-            tos.push(this.agentUser.cosmosWallet);
+            tos.push(this.agentUser.likeWallet);
             values.push(this.agentFee);
           }
           txHash = await this.sendCosmosPayment({
