@@ -75,7 +75,7 @@ const User = {
 
   async signCosmosLogin(inputWallet, signer, platform = 'cosmosWallet', loginMessage = LOGIN_MESSAGE) {
     if (!inputWallet) return null;
-    if (platform !== 'cosmosWallet' && platform !== 'likeWallet') {
+    if (!['likeWallet', 'cosmosWallet'].includes(platform)) {
       throw new Error('SIGN_COSMOS_LOGIN_INVALID_PLATFORM');
     }
     const ts = Date.now();
