@@ -110,7 +110,7 @@
       <like-coin-amount
         class="likecoin-amount-section"
         :value="getUserLikeCoinAmountInBigNumber"
-        :has-wallet="getUserHasWallet"
+        :has-wallet="getUserHasWallet || getUserHasERC20Wallet"
         :has-erc20-coins="getUserHasERC20LikeCoin"
         :username="getUserInfo.user"
       />
@@ -243,6 +243,7 @@ export default {
       'getUserIsRegistered',
       'getUserLikeCoinAmountInBigNumber',
       'getUserHasWallet',
+      'getUserHasERC20Wallet',
       'getUserHasERC20LikeCoin',
     ]),
     isCivicLiker() {
