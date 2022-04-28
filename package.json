@@ -46,7 +46,7 @@
     "@likecoin/iscn-js": "0.0.7",
     "@likecoin/iscn-message-types": "0.0.1",
     "@likecoin/nuxt-google-optimize": "^0.5.3-like.10",
-    "@likecoin/secretd-js": "^0.3.0",
+    "@likecoin/secretd-js": "^0.4.3",
     "@likecoin/ui-vue": "^0.7.1",
     "@likecoin/vue-image-lightbox": "^5.5.4",
     "@likecoin/vue-simple-svg": "^1.4.1",
