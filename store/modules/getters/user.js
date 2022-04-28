@@ -12,9 +12,10 @@ export const getUserIsRegistered = state => !!state.user.user;
 
 export const getUserIsInBonusCoolDown = state => state.user.bonusCooldown;
 
-export const getUserHasWallet = state => !!(
-  state.user.wallet || state.user.cosmosWallet || state.user.likeWallet
-);
+export const getUserHasERC20Wallet = state => !!state.user.wallet;
+export const getUserERC20WalletAddress = state => state.user.wallet;
+
+export const getUserHasWallet = state => !!(state.user.likeWallet || state.user.cosmosWallet);
 
 export const getUserWalletAddress = state => state.user.likeWallet || state.user.cosmosWallet;
 
