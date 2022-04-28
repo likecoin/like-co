@@ -642,9 +642,6 @@ export default {
         ease: 'easeOutPower4',
       }, 0);
     },
-    maskedWallet(wallet) {
-      return wallet.replace(/((?:like1|0x).{4}).*(.{10})/, '$1...$2');
-    },
     async calculateGasFee() {
       let feeAmount;
       if (this.isMultiSend) {
