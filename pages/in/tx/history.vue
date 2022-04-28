@@ -7,8 +7,8 @@
 
           <transaction-history
             ref="txHistory"
-            :user="getUserInfo.user"
-            :address="getUserHasWallet"
+            :user="getUserId"
+            :address="getUserERC20WalletAddress"
             :is-fetching.sync="isFetchingTranscationHistory"
             :has-pending-like="getUserHasPendingLike"
             class="lc-margin-top-48 lc-mobile"
@@ -29,7 +29,7 @@
               />
               <view-etherscan
                 v-else
-                :address="getUserInfo.wallet"
+                :address="getUserERC20WalletAddress"
               />
             </div>
           </div>
@@ -65,7 +65,7 @@ export default {
     };
   },
   asyncData({ store, redirect }) {
-    if (!store.getters.getUserHasWallet) {
+    if (!store.getters.getUserHasERC20Wallet) {
       redirect('/in');
     }
   },
@@ -82,11 +82,10 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'getUserInfo',
+      'getUserId',
       'getUserIsRegistered',
       'getUserHasPendingLike',
-      'getUserHasWallet',
-      'getUserWalletAddress',
+      'getUserERC20WalletAddress',
     ]),
   },
   mounted() {

@@ -27,7 +27,7 @@
     </div>
 
     <div
-      v-if="usdStrValue && getUserHasWallet"
+      v-if="usdStrValue && (getUserHasWallet || getUserHasERC20Wallet)"
       class="account-overview__account lc-padding-bottom-32"
     >
       <div class="account-overview__like-amount">
@@ -80,6 +80,7 @@ export default {
       'getUserIsRegistered',
       'getUserInfo',
       'getUserHasWallet',
+      'getUserHasERC20Wallet',
       'getLikeCoinUsdNumericPrice',
       'getUserLikeCoinAmountInBigNumber',
     ]),
