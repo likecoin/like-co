@@ -138,12 +138,14 @@ export async function prepareAuthCoreCosmosTxSigner({ state }) {
   const { cosmosProvider } = state;
   return {
     signAmino: async (_, data) => {
-      const { signatures, ...signed } = await cosmosProvider.sign(data);
+      const [{ address }] = cosmosProvider.wallets;
+      const { signatures, ...signed } = await cosmosProvider.sign(data, address);
       return { signed, signature: signatures[0] };
     },
     signDirect: async (_, data) => {
+      const [{ address }] = cosmosProvider.wallets;
       const dataToSign = makeSignBytes(data);
-      const { signed, signatures } = await cosmosProvider.directSign(dataToSign);
+      const { signed, signatures } = await cosmosProvider.directSign(dataToSign, address);
       const decodedSigned = SignDoc.decode(signed);
       return { signed: decodedSigned, signature: signatures[0] };
     },
@@ -167,7 +169,7 @@ export async function signAuthCoreAddressProof({ state }) {
   if (!state.cosmosProvider) throw new Error('COSMOS_WALLET_NOT_INITED');
   const { cosmosProvider } = state;
   const [cosmosAddress] = await cosmosProvider.getAddresses();
-  const { signatures, signed } = await cosmosProvider.directSign(cosmosAddress);
+  const { signatures, signed } = await cosmosProvider.directSign(cosmosAddress, cosmosAddress);
   const plaintext = Buffer.from(signed).toString('hex');
   const [{ signature, pub_key: pubKey }] = signatures;
   const signatureHex = Buffer.from(signature, 'base64').toString('hex');
