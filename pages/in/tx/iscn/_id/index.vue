@@ -271,7 +271,7 @@
             <ul class="iscn-panel__stakeholders-list">
               <li
                 v-for="s in stakeholders"
-                :key="s.entity.id"
+                :key="s.entity['@id']"
                 class="iscn-panel__stakeholders-list-item"
               >
                 <div
@@ -283,8 +283,8 @@
 
                   <div class="iscn-panel__stakeholders-list-item-content-right">
                     <a
-                      v-if="s.entity.id"
-                      :to="getCreatorPortfolioURL(s.entity.id)"
+                      v-if="s.entity['@id']"
+                      :to="getCreatorPortfolioURL(s.entity['@id'])"
                     >{{ s.entity.name }}</a>
                     <span v-else>{{ s.entity.name }}</span>
                     <span class="sharing">
@@ -492,7 +492,7 @@ export default {
       this.timestamp = timestamp;
       const creatorUser = this.stakeholders.find(s => s.contributionType.includes('author'));
       if (creatorUser) {
-        this.creatorId = creatorUser.entity.id;
+        this.creatorId = creatorUser.entity['@id'];
         this.creatorName = creatorUser.entity.name;
         if (this.creatorLikerId) {
           const creatorData = await apiGetUserMinById(this.creatorLikerId).catch(() => ({}));
