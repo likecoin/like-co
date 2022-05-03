@@ -1840,6 +1840,6 @@
     "subtitle": "Migrate to the new LikeCoin and enjoy the new LikeCoin chain.",
     "actionButtonText": "Migrate now"
   },
-  "ChainUpgradingAlertTitle": "LikeCoin chain is upgrading",
-  "ChainUpgradingAlertMessage": "Related services are suspended"
+  "ChainUpgradingAlertMessage": "The LikeCoin chain is currently being upgraded. During this period, some services may be affected until the upgrade is completed.",
+  "ChainUpgradingAlertLearnMore": "Please refer to this {announcement} for more details."
 }
