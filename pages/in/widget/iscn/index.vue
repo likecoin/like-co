@@ -199,7 +199,8 @@
 import { mapActions, mapGetters } from 'vuex';
 import { ISCN_LICENSES, ISCN_PUBLISHERS } from '@/util/cosmos/iscn/constant';
 import { getISCNTransferInfo } from '@/util/cosmos/iscn/query';
-import { LIKER_LAND_URL } from '@/constant';
+import { IS_CHAIN_UPGRADING, LIKER_LAND_URL } from '@/constant';
+
 
 import User from '@/util/User';
 import Keplr from '@/util/Keplr';
@@ -309,6 +310,9 @@ export default {
     LIKER_LAND_URL() {
       return LIKER_LAND_URL;
     },
+    isChainUpgrading() {
+      return IS_CHAIN_UPGRADING;
+    },
     avatarHalo() {
       return User.getAvatarHaloType(this.getUserInfo);
     },
@@ -366,18 +370,20 @@ export default {
       url,
     } = this;
     const { cosmosWallet } = this.getUserInfo;
-    this.ISCNTotalFee = await this.calculateISCNTxTotalFee({
-      userId: this.getUserId,
-      displayName: this.getUserInfo.displayName,
-      cosmosWallet,
-      fingerprints,
-      name: title,
-      tags,
-      type,
-      license,
-      publisher,
-      url,
-    });
+    if (!this.isChainUpgrading) {
+      this.ISCNTotalFee = await this.calculateISCNTxTotalFee({
+        userId: this.getUserId,
+        displayName: this.getUserInfo.displayName,
+        cosmosWallet,
+        fingerprints,
+        name: title,
+        tags,
+        type,
+        license,
+        publisher,
+        url,
+      });
+    }
     if (this.opener && !window.opener) {
       this.$nuxt.error({ statusCode: 400, message: 'Cannot access window opener' });
     }
@@ -396,6 +402,7 @@ export default {
       'setDefaultCosmosWalletSource',
     ]),
     async submitTransfer() {
+      if (this.isChainUpgrading) return;
       this.isLoading = true;
       try {
         const showDialogAction = !this.redirectUri;

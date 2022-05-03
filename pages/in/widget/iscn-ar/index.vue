@@ -336,7 +336,7 @@ import {
 import Keplr from '@/util/Keplr';
 import { getISCNTransferInfo, getISCNInfoById } from '@/util/cosmos/iscn/query';
 import { ISCN_LICENSES, ISCN_PUBLISHERS } from '@/util/cosmos/iscn/constant';
-import { IS_TESTNET, STUB_WALLET } from '@/constant';
+import { IS_CHAIN_UPGRADING, IS_TESTNET, STUB_WALLET } from '@/constant';
 import ArrowRightNewIcon from '@/assets/icons/arrow-right-new.svg';
 import ExclamationIcon from '@/assets/icons/exclamation.svg';
 import LedgerIcon from '@/assets/icons/ledger-new.svg';
@@ -401,6 +401,9 @@ export default {
       'getIsSignFinishedState',
       'getIsTxFailed',
     ]),
+    isChainUpgrading() {
+      return IS_CHAIN_UPGRADING;
+    },
     redirectOrigin() {
       const url = new URL(this.redirectUri, true);
       return url.origin;
@@ -657,6 +660,7 @@ export default {
       if (!this.showWalletOption) this.submitISCNTransfer();
     },
     async submitISCNTransfer() {
+      if (this.isChainUpgrading) return;
       this.showWalletOption = false;
       this.error = '';
       this.transactionStatus = 'pending';
@@ -801,6 +805,7 @@ export default {
       return this.arweaveGasFee;
     },
     async submitTransfer() {
+      if (this.isChainUpgrading) return;
       this.showWalletOption = false;
       this.error = '';
       this.transactionStatus = 'pending';
