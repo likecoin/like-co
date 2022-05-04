@@ -190,6 +190,6 @@ export const LIQUID_QEX_PUPLIC_API_KEY = IS_TESTNET
   ? '06c5b428-e5b3-4365-840a-4f0d10f2bbba'
   : 'pk_fb318eeb-75b1-4b74-8f19-4f445a7eff72';
 
-export const IS_CHAIN_UPGRADING = false;
+export const IS_CHAIN_UPGRADING = true;
 
 export const STUB_WALLET = 'cosmos1rclg677y2jqt8x4ylj0kjlqjjmnn6w6304rrtc';
