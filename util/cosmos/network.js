@@ -22,7 +22,7 @@ const mainConfig = {
       coinGeckoId: 'likecoin',
     },
   ],
-  addressPrefix: 'cosmos',
+  addressPrefix: 'like',
 };
 
 const testnetConfig = {
@@ -32,7 +32,6 @@ const testnetConfig = {
   apiURL: 'https://node.testnet.like.co',
   rpcURL: 'https://node.testnet.like.co/rpc/',
   stakingWalletURL: 'https://likecoin-public-testnet-5.netlify.app/',
-  addressPrefix: 'like',
 };
 
 const combinedConfig = {
