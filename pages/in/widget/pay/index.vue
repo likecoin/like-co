@@ -5,10 +5,16 @@
     key="loading"
     class="likepay-body likepay-body--center"
   >
-    <span v-if="isSigning" class="likepay-text-panel">
+    <span
+      v-if="isSigning"
+      class="likepay-text-panel"
+    >
       {{ $t('General.signing') }}
     </span>
-    <span v-else class="likepay-text-panel">
+    <span
+      v-else
+      class="likepay-text-panel"
+    >
       {{ $t('General.loading') }}
     </span>
   </div>
@@ -200,6 +206,7 @@
           </a>
         </div>
       </section>
+      <KeplrNotFound v-if="isKeplrNotFound" />
       <section
         class="likepay-panel__section-dropdown-container"
       >
@@ -355,12 +362,16 @@ import {
   apiGetUserMinById,
 } from '@/util/api/api';
 import Keplr from '@/util/Keplr';
+import KeplrNotFound from '~/components/KeplrNotFound';
 
 const URL = require('url-parse');
 
 export default {
   name: 'payment',
   layout: 'likepay',
+  components: {
+    KeplrNotFound,
+  },
   data() {
     return {
       LIKER_LAND_URL,
@@ -378,6 +389,7 @@ export default {
       state: '',
       gasFee: '',
       isUsingKeplr: false,
+      isKeplrNotFound: false,
     };
   },
   async asyncData({
@@ -774,12 +786,14 @@ export default {
     },
     async onClickConnectKeplrButton() {
       this.currentTab = 'loading';
+      this.isKeplrNotFound = false;
       const res = await Keplr.initKeplr();
-      if (!res) {
-        throw new Error('FAILED_CONNECT_TO_KEPLR');
+      if (res) {
+        this.setDefaultCosmosWalletSource({ source: 'keplr', persistent: false });
+        this.isUsingKeplr = true;
+        return;
       }
-      this.setDefaultCosmosWalletSource({ source: 'keplr', persistent: false });
-      this.isUsingKeplr = true;
+      this.isKeplrNotFound = true;
     },
     onClickAuthCoreReAuth() {
       this.setReAuthDialogShow(true);
