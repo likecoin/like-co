@@ -52,20 +52,20 @@ export default {
       'linkUserAuthPlatform',
       'refreshUserInfo',
       'doPostAuthRedirect',
-      'initAuthCoreCosmosWallet',
-      'fetchAuthCoreCosmosWallet',
+      'initAuthCoreWalletService',
+      'fetchAuthCoreLikeWallet',
     ]),
     async linkWithAuthCore({ idToken, accessToken }) {
       if (idToken && accessToken) {
         await this.setAuthCoreToken(accessToken);
-        await this.initAuthCoreCosmosWallet();
-        const cosmosWallet = await this.fetchAuthCoreCosmosWallet();
+        await this.initAuthCoreWalletService();
+        const likeWallet = await this.fetchAuthCoreLikeWallet();
         this.linkUserAuthPlatform({
           platform: 'authcore',
           payload: {
             accessToken,
             idToken,
-            cosmosWallet,
+            likeWallet,
           },
         });
         await this.refreshUserInfo();
