@@ -26,11 +26,16 @@ export default {
 @import "~assets/variables";
 
 .error-message {
-  width: 100%;
-  padding: 12px 32px;
-  background-color: $like-gray-2;
   justify-content: flex-start;
+
+  width: 100%;
+
+  padding: 12px 32px;
+
   color: $like-red;
+
+  background-color: $like-gray-2;
+
   font-size: 12px;
 
   &__link {
