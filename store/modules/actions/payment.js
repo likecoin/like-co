@@ -224,7 +224,7 @@ export async function fetchCurrentCosmosWallet({ dispatch, state, getters }) {
     default: {
       const isAuthCore = getters.getUserIsAuthCore;
       if (isAuthCore) {
-        return dispatch('fetchAuthCoreCosmosWallet');
+        return dispatch('fetchAuthCoreLikeWallet');
       }
       return '';
     }
