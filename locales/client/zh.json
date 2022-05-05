@@ -1007,16 +1007,16 @@
     }
   },
   "ISCNARWidget": {
-    "title": "ISCN x Arweave",
+    "title": "LikeCoin DePub widget",
     "Introduction": {
-      "initial": "歡迎，請將需要註冊 ISCN 的資料以 postMessage 發出",
-      "document": "詳請請參考 docs.like.co 的技術文件",
-      "ready": "準備就緒，等待接收 ISCN 資料..."
+      "initial": "Unexpected data format.  Make sure that postMessage has been used.",
+      "document": "Please refer to LikeCoin technical document for more information.",
+      "ready": "完成費用估算，準備 DePub 作品..."
     },
     "transaction": {
       "firstStep": "簽署 (1/2)",
       "secondStep": "簽署 (2/2)",
-      "reminder": "請以你的錢包簽署",
+      "reminder": "分散式儲存 (IPFS 及 Arweave)",
       "retry": "重試",
       "submit": "確定",
       "doNotCloseReminder": "請勿關閉此視窗",
@@ -1031,19 +1031,26 @@
       "register": "DePub",
       "keplr": "使用 Keplr 錢包",
       "action": "DePub 作品",
-      "articleTitleTitle": "ISCN 標題",
+      "articleTitleTitle": "標題",
       "articleTitleValue": "{title}",
-      "feeTitle": "費用",
-      "feeAmount": "{ISCNTotalFee} LIKE"
+      "feeTitle": "註冊費用",
+      "feeAmount": "{ISCNTotalFee} LIKE",
+      "registering": "正在註冊作品 metadata"
     },
     "upload": {
       "inProcess": "正在上傳...",
-      "success": "上傳完成，請再簽署一次確認。",
-      "waiting": "上傳過程需時，過程長短視乎檔案的大小"
+      "success": "註冊作品 metadata 到 LikeCoin chain。",
+      "signAgain": "完成此步驟後，尚需再簽署一次才能完成整個 DePub 程序。",
+      "waiting": "過程需時視乎檔案大小。"
     },
     "ledger": {
       "warning": "注意：請勿以 Ledger 簽署",
       "unavailable": "服務暫時未支援 Ledger"
+    },
+    "error": {
+      "keplrNotFound": "Keplr  not found, please install {keplr} first.",
+      "extensionName": "Keplr browser extension",
+      "extensionLink": "https://chrome.google.com/webstore/detail/keplr/dmkamcknogkgcdfhhbddcghachkejeap"
     }
   },
   "RewardRecords": {
@@ -1729,6 +1736,6 @@
     "subtitle": "現在便可到網站上轉換 LikeCoin。LikeCoin chain 將不會支援舊版 LikeCoin ERC-20 的操作，基金會和讚賞公民的所有運作亦會在 LikeCoin chain上開始執行。",
     "actionButtonText": "立即轉換"
   },
-  "ChainUpgradingAlertMessage": "LikeCoin chain 升級中，部分功能可能受到影響直至升級完成。",
-  "ChainUpgradingAlertLearnMore": "Please refer to this {announcement} for more details."
+  "ChainUpgradingAlertTitle": "LikeCoin chain 正在更新",
+  "ChainUpgradingAlertMessage": "相關功能會暫時停用"
 }
