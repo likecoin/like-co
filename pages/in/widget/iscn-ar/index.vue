@@ -3,9 +3,13 @@
   <div
     v-if="isLoading"
     key="loading"
-    class="likepay-body likepay-body--center iscn-body"
+    class="likepay-body likepay-body--center"
   >
-    <span class="likepay-text-panel">{{ $t('General.loading') }}</span>
+    <div class="iscn-ar-panel">
+      <section class="likepay-panel__section-container">
+        <div class="likepay-text-panel">{{ $t('General.loading') }}</div>
+      </section>
+    </div>
   </div>
   <div
     v-else-if="mainStatus === 'initial'"
@@ -13,13 +17,30 @@
   >
     <div class="iscn-ar-panel">
       <section class="likepay-panel__section-container">
-        <header class="likepay-panel__section-header">
-          <div class="likepay-panel__header-title">{{ $t('ISCNARWidget.title') }}</div>
+        <header
+          class="likepay-panel__section-header"
+          style="margin-bottom: 24px"
+        >
+          <simple-svg
+            :filepath="StarIcon"
+            width="20"
+            height="20"
+          />
+          <div
+            class="likepay-panel__header-title"
+            style="margin-right: auto; color: #28646E; padding-left: 10px"
+          >{{ $t('ISCNARWidget.title') }}</div>
         </header>
-        <div class="likepay-panel__section-meta">
+        <div
+          class="likepay-panel__section-meta"
+          style="color: #462405"
+        >
           {{ $t('ISCNARWidget.Introduction.initial') }}
         </div>
-        <div class="likepay-panel__section-meta">
+        <div
+          class="likepay-panel__section-meta"
+          style="text-decoration: underline;"
+        >
           <a
             href="https://docs.like.co/developer/iscn/web-widget/iscn-ar/reference"
             target="_blank"
@@ -34,31 +55,52 @@
   >
     <div class="iscn-ar-panel">
       <section class="likepay-panel__section-container">
-        <header class="likepay-panel__section-header">
-          <div class="likepay-panel__header-title">{{ $t('ISCNARWidget.title') }}</div>
-        </header>
-        <div class="likepay-panel__section-meta">
-          {{ $t('ISCNARWidget.Introduction.ready') }}
-        </div>
-      </section>
-    </div>
-  </div>
-  <div
-    v-else-if="getIsSignFinishedState || mainStatus === 'uploading'"
-    class="likepay-body likepay-body--center"
-  >
-    <div class="iscn-ar-panel">
-      <section class="likepay-panel__section-container">
-        <header class="likepay-panel__section-header">
+        <header
+          class="likepay-panel__section-header"
+          style="margin-bottom: 24px"
+        >
           <simple-svg
             :filepath="StarIcon"
             width="20"
             height="20"
           />
-          <div class="likepay-panel__header-title" style="margin-right: auto; color: #28646E; padding-left: 10px">{{ $t('ISCNARWidget.upload.inProcess') }}</div>
+          <div
+            class="likepay-panel__header-title"
+            style="margin-right: auto; color: #28646E; padding-left: 10px"
+          >{{ $t('ISCNARWidget.title') }}</div>
         </header>
         <div class="likepay-panel__section-meta">
-          <div style="display: flex; margin: 40px">
+          <div style="text-align:left ">
+            <h3 style="color: #9B9B9B;">{{ $t('ISCNARWidget.Introduction.ready') }}</h3>
+          </div>
+        </div>
+      </section>
+      <KeplrNotFound v-if="isKeplrNotFound" />
+    </div>
+  </div>
+
+  <div
+    v-else-if="mainStatus === 'IscnUploading'"
+    class="likepay-body likepay-body--center"
+  >
+    <div class="iscn-ar-panel">
+      <section class="likepay-panel__section-container">
+        <header
+          class="likepay-panel__section-header"
+          style="margin-bottom: 24px"
+        >
+          <simple-svg
+            :filepath="StarIcon"
+            width="20"
+            height="20"
+          />
+          <div
+            class="likepay-panel__header-title"
+            style="margin-right: auto; color: #28646E; padding-left: 10px"
+          >{{ $t('ISCNARWidget.ISCN.registering') }}</div>
+        </header>
+        <div class="likepay-panel__section-meta">
+          <div style="display: flex; margin-top: 32px; margin-bottom: 20px;">
             <div
               class="loading-track"
               style="margin: auto"
@@ -66,7 +108,42 @@
               <div class="loading-progress" />
             </div>
           </div>
-          <div style="text-align: center"> <h3 style="color: #9B9B9B; margin: 0 -6px">{{ $t('ISCNARWidget.transaction.doNotCloseReminder') }} </h3></div>
+          <div style="text-align: center; margin-bottom: 24px;"> <h3 style="color: #9B9B9B">{{ $t('ISCNARWidget.transaction.doNotCloseReminder') }} </h3></div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div
+    v-else-if="mainStatus === 'uploading'"
+    class="likepay-body likepay-body--center"
+  >
+    <div class="iscn-ar-panel">
+      <section class="likepay-panel__section-container">
+        <header
+          class="likepay-panel__section-header"
+          style="margin-bottom: 24px"
+        >
+          <simple-svg
+            :filepath="StarIcon"
+            width="20"
+            height="20"
+          />
+          <div
+            class="likepay-panel__header-title"
+            style="margin-right: auto; color: #28646E; padding-left: 10px"
+          >{{ $t('ISCNARWidget.upload.inProcess') }}</div>
+        </header>
+        <div class="likepay-panel__section-meta">
+          <div style="display: flex; margin-top: 32px; margin-bottom: 20px;">
+            <div
+              class="loading-track"
+              style="margin: auto"
+            >
+              <div class="loading-progress" />
+            </div>
+          </div>
+          <div style="text-align: center; margin-bottom: 24px;"> <h3 style="color: #9B9B9B">{{ $t('ISCNARWidget.transaction.doNotCloseReminder') }} </h3></div>
         </div>
         <div class="likepay-panel__section-meta">
           <div style="width: 32px; border: 2px solid #EBEBEB; background-color:#EBEBEB" />
@@ -74,7 +151,7 @@
         <div class="likepay-panel__section-meta">
           <div style="font-size: 14px">
             <div>{{ $t('ISCNARWidget.upload.waiting') }} </div>
-            <div>{{ $t('ISCNARWidget.transaction.signAgain') }} </div>
+            <div>{{ $t('ISCNARWidget.upload.signAgain') }} </div>
           </div>
         </div>
       </section>
@@ -86,7 +163,10 @@
   >
     <div class="iscn-ar-panel">
       <section class="likepay-panel__section-container">
-        <header class="likepay-panel__section-header">
+        <header
+          class="likepay-panel__section-header"
+          style="margin-bottom: 24px"
+        >
           <simple-svg
             :filepath="StarIcon"
             width="20"
@@ -94,46 +174,58 @@
           />
           <div
             class="likepay-panel__header-title"
-            style="margin-right: auto; color: #28646E; padding-left: 10px"
-          >{{ 'Sign  (2/2)' }}</div>
+            style="margin-right: auto; color: #28646E; padding-left: 10px;"
+          >{{ $t('ISCNARWidget.transaction.secondStep') }}</div>
         </header>
 
         <div class="likepay-panel__section-meta">
-          <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.ISCN.articleTitleTitle') }} </div>
-          <div style="margin-top: 10px"> <p> {{ $t('ISCNARWidget.ISCN.articleTitleValue', { title: iscnName }) }} </p> </div>
-        </div>
-        <div class="likepay-panel__section-meta">
-          <div style="text-align: center">
+          <div style="text-align: left">
             <h3 style="color: #9B9B9B;">{{ $t('ISCNARWidget.upload.success') }}</h3>
           </div>
         </div>
-        <div class="likepay-panel__section-meta">
-          <div style="width: 32px; border: 2px solid #EBEBEB; background-color:#EBEBEB" />
-        </div>
+
         <div
           class="likepay-panel__section-meta"
-          style="margin-top: 5px; display: flex; flex-direction: row;"
+          style="margin-top: 16px;"
         >
-          <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.ISCN.feeTitle') }} </div>
-          <div style="margin-left: 75px;"> {{ $t('ISCNARWidget.ISCN.feeAmount', { ISCNTotalFee }) }} </div>
+          <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.ISCN.articleTitleTitle') }} </div>
+          <div style="margin-top: 10px"> <p> {{ $t('ISCNARWidget.ISCN.articleTitleValue', { title: iscnName }) }} </p> </div>
+        </div>
+
+        <div
+          class="likepay-panel__section-meta"
+          style="margin-top: 16px; display: flex; flex-direction: column;"
+        >
+          <div
+            class="likepay-panel__section-meta-label"
+          > {{ $t('ISCNARWidget.ISCN.feeTitle') }} </div>
+          <div
+            v-if="ISCNTotalFee"
+            style="margin-top: 10px"
+          >
+            {{ $t('ISCNARWidget.ISCN.feeAmount', { ISCNTotalFee }) }}
+          </div>
         </div>
       </section>
+
+      <KeplrNotFound v-if="isKeplrNotFound" />
       <section
-        v-if="error"
+        v-if="error && !isKeplrNotFound"
         class="likepay-panel__section-container"
       >
         <div class="likepay-panel__section-meta">
           {{ error }}
         </div>
       </section>
+
       <section
         v-if="transactionStatus !== 'pending'"
         style="display: flex; flex-direction: row; padding: 10px 10px 30px 10px"
       >
         <button
-          style="
-            color: #4A4A4A; border-radius: 12px; border: 2px solid #9B9B9B; margin: auto;
-            padding: 10px 16px; background-color: white; cursor: pointer;"
+          style="background-color: #AAF1E7;
+            color: #28646E; border-radius: 12px; border: none; margin: auto;
+            padding: 10px 15px; cursor: pointer"
           @click="onClickContinueRegister"
         >
           <span v-if="transactionStatus === 'failed'">
@@ -174,13 +266,17 @@
       </div>
     </div>
   </div>
+
   <div
     v-else-if="mainStatus === 'LIKEPaying'"
     class="likepay-body likepay-body--center"
   >
     <div class="iscn-ar-panel">
       <section class="likepay-panel__section-container">
-        <header class="likepay-panel__section-header">
+        <header
+          class="likepay-panel__section-header"
+          style="margin-bottom: 24px"
+        >
           <simple-svg
             :filepath="StarIcon"
             width="20"
@@ -193,35 +289,38 @@
         </header>
 
         <div class="likepay-panel__section-meta">
-          <div style="text-align: center"> <h3 style="color: #9B9B9B; margin: 0 -6px">{{ $t('ISCNARWidget.transaction.reminder') }} </h3></div>
-        </div>
-        <div class="likepay-panel__section-meta">
-          <div style="width: 32px; border: 2px solid #EBEBEB; background-color:#EBEBEB" />
+          <div style="text-align: left; margin-bottom: 32px; margin-top: 32px;"> <h3 style="color: #9B9B9B">{{ $t('ISCNARWidget.transaction.reminder') }} </h3></div>
         </div>
         <div
           class="likepay-panel__section-meta"
-          style="margin-top: 5px; display: flex; flex-direction: row;"
+          style="margin-top: 16px; display: flex; flex-direction: column;"
         >
           <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.LIKEPay.fee') }} </div>
-          <div style="margin-left: 75px;"> {{ $t('ISCNARWidget.LIKEPay.amount', { amount: arweaveFee }) }} </div>
+          <div
+            v-if="arweaveFee"
+            style="margin-top: 10px"
+          > {{ $t('ISCNARWidget.LIKEPay.amount', { amount: arweaveFee }) }} </div>
         </div>
       </section>
+
+      <KeplrNotFound v-if="isKeplrNotFound" />
       <section
-        v-if="error"
+        v-if="error && !isKeplrNotFound"
         class="likepay-panel__section-container"
       >
         <div class="likepay-panel__section-meta">
           {{ error }}
         </div>
       </section>
+
       <section
         v-if="transactionStatus !== 'pending'"
         style="display: flex; flex-direction: row; padding: 10px 10px 30px 10px"
       >
         <button
-          style="
-            color: #4A4A4A; border-radius: 12px; border: 2px solid #9B9B9B; margin: auto;
-            padding: 10px 16px; background-color: white; cursor: pointer;"
+          style="background-color: #AAF1E7;
+            color: #28646E; border-radius: 12px; border: none; margin: auto;
+            padding: 10px 15px; cursor: pointer"
           @click="submitTransfer"
         >
           <span v-if="transactionStatus === 'failed'">
@@ -261,7 +360,10 @@
   >
     <div class="iscn-ar-panel">
       <section class="likepay-panel__section-container">
-        <header class="likepay-panel__section-header">
+        <header
+          class="likepay-panel__section-header"
+          style="margin-bottom: 24px"
+        >
           <simple-svg
             :filepath="StarIcon"
             width="20"
@@ -272,25 +374,37 @@
             style="margin-right: auto; color: #28646E; padding-left: 10px"
           >{{ $t('ISCNARWidget.ISCN.action') }}</div>
         </header>
-
         <div
-          v-if="error"
           class="likepay-panel__section-meta"
+          style="margin-top: 16px; display: flex; flex-direction: column;"
         >
-          {{ error }}
-        </div>
-
-        <div class="likepay-panel__section-meta">
           <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.ISCN.articleTitleTitle') }} </div>
           <div style="margin-top: 10px"> <p> {{ $t('ISCNARWidget.ISCN.articleTitleValue', { title: iscnName }) }} </p> </div>
         </div>
-        <div class="likepay-panel__section-meta">
+        <div
+          class="likepay-panel__section-meta"
+          style="margin-top: 16px; display: flex; flex-direction: column;"
+        >
           <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.LIKEPay.fee') }} </div>
-          <div style="margin-top: 10px"> <p> {{ $t('ISCNARWidget.LIKEPay.amount', { amount: arweaveFee }) }} </p> </div>
+          <div
+            v-if="arweaveFee"
+            style="margin-top: 10px"
+          > <p> {{ $t('ISCNARWidget.LIKEPay.amount', { amount: arweaveFee }) }} </p> </div>
         </div>
       </section>
-      <section style="display: flex; flex-direction: row; padding: 10px">
-        <div style="margin: auto 0 auto auto; color: #9B9B9B;"> {{ $t('ISCNARWidget.LIKEPay.titleAndAmount', { amount: arweaveFee }) }} </div>
+
+
+      <KeplrNotFound v-if="isKeplrNotFound" />
+      <section
+        v-if="error && !isKeplrNotFound"
+        class="likepay-panel__section-container"
+      >
+        <div class="likepay-panel__section-meta">
+          {{ error }}
+        </div>
+      </section>
+
+      <section style="display: flex; justify-content: flex-end; flex-direction: row; padding: 10px">
         <button
           style="display: flex; flex-direction: row; background-color: #AAF1E7;
                  color: #28646E; border-radius: 12px; border: none; margin: 10px;
@@ -341,12 +455,16 @@ import ArrowRightNewIcon from '@/assets/icons/arrow-right-new.svg';
 import ExclamationIcon from '@/assets/icons/exclamation.svg';
 import LedgerIcon from '@/assets/icons/ledger-new.svg';
 import StarIcon from '@/assets/icons/star.svg';
+import KeplrNotFound from '~/components/KeplrNotFound';
 
 const URL = require('url-parse');
 
 export default {
   name: 'payment',
   layout: 'likepay',
+  components: {
+    KeplrNotFound,
+  },
   data() {
     return {
       isLoading: false,
@@ -364,13 +482,14 @@ export default {
       transactionStatus: 'initial',
       ISCNData: null,
       ISCNFiles: [],
-      ISCNTotalFee: 0.00,
+      ISCNTotalFee: null,
       ArrowRightNewIcon,
       ExclamationIcon,
       LedgerIcon,
       StarIcon,
       isMobileClient: false,
       existingISCNInfo: null,
+      isKeplrNotFound: false,
     };
   },
   async asyncData({
@@ -398,7 +517,6 @@ export default {
       'getUserIsRegistered',
       'getAuthCoreNeedReAuth',
       'getUserInfo',
-      'getIsSignFinishedState',
       'getIsTxFailed',
     ]),
     isChainUpgrading() {
@@ -713,7 +831,7 @@ export default {
           shouldShowTxDialog: false,
         });
         this.transactionStatus = 'done';
-        this.mainStatus = 'uploading';
+        this.mainStatus = 'IscnUploading';
         if (txHash) {
           await this.postISCNTransaction({ txHash });
         } else {
@@ -787,13 +905,14 @@ export default {
     },
     async connectKeplr() {
       this.error = '';
+      this.isKeplrNotFound = false;
       const res = await Keplr.initKeplr();
-      if (!res) {
-        this.error = 'FAILED_CONNECT_TO_KEPLR';
-        throw new Error('FAILED_CONNECT_TO_KEPLR');
+      if (res) {
+        this.setDefaultCosmosWalletSource({ source: 'keplr', persistent: false });
+        this.isUsingKeplr = true;
+        return;
       }
-      this.setDefaultCosmosWalletSource({ source: 'keplr', persistent: false });
-      this.isUsingKeplr = true;
+      this.isKeplrNotFound = true;
     },
     async beginLikePay() {
       this.mainStatus = 'LIKEPaying';
@@ -924,4 +1043,5 @@ export default {
 
     background-color: #50E3C2;
   }
+
 </style>

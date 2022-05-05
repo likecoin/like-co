@@ -957,14 +957,14 @@
     "ISCNARWidget": {
         "title": "ISCN x Arweave",
         "Introduction": {
-          "initial": "欢迎，请将需要注册 ISCN 的资料以 postMessage 发出",
-          "document": "详请请参考 docs.like.co 的技术文件",
-          "ready": "准备就绪，等待接收 ISCN 资料..."
+          "initial": "Unexpected data format.  Make sure that postMessage has been used.",
+          "document": "Please refer to LikeCoin technical document for more information.",
+          "ready": "完成费用估算，准备 DePub 作品..."
         },
         "transaction": {
             "firstStep": "签署 (1/2)",
             "secondStep": "签署 (2/2)",
-            "reminder": "请以你的钱包签署",
+            "reminder": "分散式储存 (IPFS 及 Arweave)",
             "retry": "重试",
             "submit": "确定",
             "doNotCloseReminder": "请勿关闭此视窗",
@@ -979,10 +979,11 @@
             "register": "DePub",
             "keplr": "使用 Keplr 钱包",
             "action": "DePub 作品",
-            "articleTitleTitle": "ISCN 标题",
+            "articleTitleTitle": "标题",
             "articleTitleValue": "{title}",
             "feeTitle": "费用",
-            "feeAmount": "{ISCNTotalFee} LIKE"
+            "feeAmount": "{ISCNTotalFee} LIKE",
+            "registering": "正在注册作品 metadata"
         },
         "upload": {
             "inProcess": "正在上传...",
@@ -992,6 +993,11 @@
         "ledger": {
             "warning": "注意：请勿以 Ledger 签署",
             "unavailable": "服务暂时未支援 Ledger"
+        },
+        "error": {
+            "keplrNotFound": "Please install {keplr} first.",
+            "extensionName": "Keplr browser extension",
+            "extensionLink": "https://chrome.google.com/webstore/detail/keplr/dmkamcknogkgcdfhhbddcghachkejeap"
         }
     },
     "RewardRecords": {
@@ -1647,14 +1653,14 @@
             "title": "AuthCore 设定"
         },
         "Desmos": {
-          "desmos": "Desmos Network",
-          "forbolex": "Forbole X",
-          "proofDescription": "经 {forbolex} 连接钱包地址到 {desmos}"
+            "desmos": "Desmos Network",
+            "forbolex": "Forbole X",
+            "proofDescription": "经 {forbolex} 连接钱包地址到 {desmos}"
         },
         "SeedWords": {
-          "seedWordsWarning": "请勿与任何人分享你的钱包助记词，或者输入助记词到不明网站或程式",
-          "passwordDescription": "请重新输入 Authcore 密码",
-          "seedWordsDescription": "保障资产安全，钱包助记词必须保密"
+            "seedWordsWarning": "请勿与任何人分享你的钱包助记词，或者输入助记词到不明网站或程式",
+            "passwordDescription": "请重新输入 Authcore 密码",
+            "seedWordsDescription": "保障资产安全，钱包助记词必须保密"
         }
     },
     "CivicLikerReferral": {
