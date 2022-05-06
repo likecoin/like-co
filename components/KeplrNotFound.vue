@@ -7,6 +7,7 @@
     >
       <a
         v-t="$t('ISCNARWidget.error.extensionName')"
+        rel="noopener noreferrer"
         place="keplr"
         class="error-message__link"
         :href="$t('ISCNARWidget.error.extensionLink')"
