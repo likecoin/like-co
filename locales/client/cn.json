@@ -976,7 +976,7 @@
             "titleAndAmount": "费用: {amount} LIKE"
         },
         "ISCN": {
-            "register": "DePub",
+            "register": "下一步",
             "keplr": "使用 Keplr 钱包",
             "action": "DePub 作品",
             "articleTitleTitle": "标题",

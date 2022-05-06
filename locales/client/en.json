@@ -1088,7 +1088,7 @@
       "titleAndAmount": "Fee: {amount} LIKE"
     },
     "ISCN": {
-      "register": "DePub Content",
+      "register": "Next",
       "keplr": "Use Keplr wallet",
       "action": "DePub your work",
       "articleTitleTitle": "Subject",
