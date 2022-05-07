@@ -15,7 +15,7 @@ import {
   TxRaw,
   TxBody,
 } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
-import { bech32 } from 'bech32';
+import bech32 from 'bech32';
 
 export const DEFAULT_GAS_PRICE = [{ amount: '1000', denom: COSMOS_DENOM }];
 export const DEFAULT_GAS_PRICE_NUMBER = parseInt(DEFAULT_GAS_PRICE[0].amount, 10);
