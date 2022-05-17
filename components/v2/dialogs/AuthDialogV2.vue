@@ -257,9 +257,20 @@ export default {
       return this.$t('DialogV2.title.signIn');
     },
     loadingI18nPath() {
-      if (!this.getWalletConnectConnecting && this.currentTab !== 'loading') return '';
+      if (
+        !this.getWalletConnectConnecting
+        && !['loading', 'registering', 'signing-in'].includes(this.currentTab)
+      ) {
+        return '';
+      }
       if (this.getWalletConnectConnecting) {
         return this.$t('V2_AuthDialog_WalletConnect_Loading');
+      }
+      if (this.currentTab === 'registering') {
+        return this.$t('V2_AuthDialog_Registering');
+      }
+      if (this.currentTab === 'signing-in') {
+        return this.$t('V2_AuthDialog_SigningIn');
       }
       return this.$t('V2_AuthDialog_Loading');
     },
@@ -472,7 +483,7 @@ export default {
     },
 
     async login() {
-      this.currentTab = 'loading';
+      this.currentTab = 'signing-in';
       try {
         this.logRegisterEvent(
           this,
@@ -532,7 +543,7 @@ export default {
     },
 
     async register(registerPayload) {
-      this.currentTab = 'loading';
+      this.currentTab = 'registering';
 
       const payload = {
         locale: this.getCurrentLocale,
