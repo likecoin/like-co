@@ -236,11 +236,6 @@ const categoryItems = [
     icon: 'medium-with-bg',
     size: '32px',
   },
-  {
-    id: 'oice',
-    icon: 'oice',
-    size: '34px',
-  },
 ];
 
 export default {
@@ -492,17 +487,10 @@ export default {
     margin-top: 24px;
     padding: 12px 0 12px 76px;
 
-    @media (min-width: 600px + 1px) and (max-width: 1024px) {
+    @media (min-width: 600px) {
       width: 50%;
 
       &:nth-child(odd):after {
-        @include separator();
-      }
-    }
-    @media (min-width: 1024px + 1px) {
-      width: 33%;
-
-      &:not(:last-child):after {
         @include separator();
       }
     }
