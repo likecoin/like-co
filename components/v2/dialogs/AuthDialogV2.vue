@@ -6,7 +6,7 @@
       :is-show="shouldShowDialog"
       :is-show-backdrop="false"
       :is-closable="false"
-      :is-show-close-button="!!getWalletConnectURI"
+      :is-show-close-button="shouldShowDialogCloseButton"
       @click-close-button="onClickDialogCloseButton"
     >
       <RegisterForm
@@ -183,6 +183,7 @@ export default {
     return {
       isShowMoreLoginOptions: false,
 
+      // Please also set in reset()
       currentTab: 'loading',
       registerStep: 'create-liker-id',
       referrer: '',
@@ -209,6 +210,9 @@ export default {
     ]),
     shouldShowDialog() {
       return this.getIsShowAuthDialog;
+    },
+    shouldShowDialogCloseButton() {
+      return !!this.getWalletConnectURI || this.currentTab === 'error';
     },
     utmSource() {
       return this.$route.query.utm_source;
@@ -297,6 +301,21 @@ export default {
       'fetchAuthCoreAccessTokenAndUser',
     ]),
 
+    reset() {
+      this.registerStep = 'create-liker-id';
+      this.referrer = '';
+      this.sourceURL = '';
+      this.platform = '';
+      this.errorCode = '';
+      this.error = '';
+
+      this.signInPayload = {
+        user: '',
+        email: '',
+        isEmailVerified: false,
+      };
+    },
+
     setError(code, error) {
       this.currentTab = 'error';
       this.errorCode = code;
@@ -310,7 +329,11 @@ export default {
       this.signInWithPlatform('cosmosWallet', { source: 'walletconnect' });
     },
     onClickDialogCloseButton() {
-      if (this.getWalletConnectURI) {
+      if (this.currentTab === 'error') {
+        this.currentTab = 'portal';
+        this.errorCode = '';
+        this.error = '';
+      } else if (this.getWalletConnectURI) {
         this.resetLoginByCosmosWallet();
       }
     },
