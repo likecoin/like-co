@@ -446,7 +446,7 @@ export default {
       if (this.hasUserDetailsChanged) {
         try {
           const { displayName, description } = this;
-          const email = this.email.trim();
+          const email = this.email && this.email.trim();
           const {
             user,
             displayName: currentDisplayName,
