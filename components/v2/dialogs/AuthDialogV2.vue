@@ -111,7 +111,10 @@
                 v-if="!getWalletConnectURI"
                 class="legacy-content-container"
               >
-                <div class="text">
+                <div
+                  class="text metamask-button"
+                  @click="signInWithMetaMask"
+                >
                   {{
                     $t("DialogV2.type.metaMask.name") + ' ' +
                       $t("DialogV2.type.metaMask.description")
@@ -372,11 +375,6 @@ export default {
       );
 
       switch (platform) {
-        case 'wallet': {
-          this.currentTab = 'loading';
-          this.startWeb3AndCb(this.signInWithMetaMask);
-          return;
-        }
         case 'cosmosWallet': {
           const { source } = opt;
           this.signInWithCosmosWallet(source);
@@ -795,6 +793,10 @@ export default {
   .icon {
     transition: transform 0.2s ease;
   }
+}
+
+.metamask-button {
+  cursor: pointer;
 }
 
 .legacy-content-container {
