@@ -17,7 +17,7 @@
     <div class="v2-form__footer">
       <div class="v2-form__footer-right-slot">
         <Button
-          :is-disabled="!isLikerIdValid"
+          :is-disabled="shouldDisableConfirmButton"
           @click="handleConfirm"
         >{{ $t('V2_Form_Button_Confirm') }}</Button>
       </div>
@@ -49,11 +49,15 @@ export default {
   data() {
     return {
       internalLikerId: this.likerId,
+      isLoading: false,
     };
   },
   computed: {
     isLikerIdValid() {
       return LIKECOIN_ID_REGEX.test(this.internalLikerId);
+    },
+    shouldDisableConfirmButton() {
+      return !this.isLikerIdValid || this.isLoading;
     },
     error() {
       if (this.isDuplicated) {
@@ -62,9 +66,18 @@ export default {
       return '';
     },
   },
+  watch: {
+    likerId() {
+      this.isLoading = false;
+    },
+    isDuplicated() {
+      this.isLoading = false;
+    },
+  },
   methods: {
     handleConfirm() {
       if (!this.isLikerIdValid) return;
+      this.isLoading = true;
       this.$emit('confirm', { likerId: this.internalLikerId });
     },
   },
