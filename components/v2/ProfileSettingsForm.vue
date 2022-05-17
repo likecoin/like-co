@@ -73,6 +73,7 @@
             v-model="internalDescription"
             :label="$t('V2_Form_Description_label')"
             :placeholder="$t('V2_Form_Description_placeholder')"
+            :is-multiline="true"
           />
         </div>
 

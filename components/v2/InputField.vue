@@ -20,13 +20,23 @@
           <div
             v-if="isReadonly"
           >{{ value }}</div>
-          <input
-            v-else
-            ref="input"
-            class="v2-input-field__input"
-            :value="value"
-            @input="handleInput"
-          >
+          <template v-else>
+            <input
+              v-if="!isMultiline"
+              ref="input"
+              class="v2-input-field__input"
+              :value="value"
+              @input="handleInput"
+            >
+            <textarea
+              v-else
+              ref="input"
+              class="v2-input-field__input"
+              :value="value"
+              :rows="4"
+              @input="handleInput"
+            />
+          </template>
           <div
             v-if="!value"
             class="v2-input-field__placeholder"
@@ -63,6 +73,10 @@ export default {
       default: '',
     },
     isReadonly: {
+      type: Boolean,
+      default: false,
+    },
+    isMultiline: {
       type: Boolean,
       default: false,
     },
