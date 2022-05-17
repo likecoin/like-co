@@ -4,7 +4,7 @@
       ref="dialog"
       v-bind="$testID('AuthDialog')"
       :is-show="shouldShowDialog"
-      :is-show-backdrop="false"
+      :is-show-backdrop="isOverlay"
       :is-closable="false"
       :is-show-close-button="shouldShowDialogCloseButton"
       @click-close-button="onClickDialogCloseButton"
@@ -179,6 +179,12 @@ export default {
     WalletConnectQRCodeView,
   },
   mixins: [EthMixin],
+  props: {
+    isOverlay: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       isShowMoreLoginOptions: false,

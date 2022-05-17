@@ -54,7 +54,7 @@ export default {
     rootClass() {
       return {
         'base-dialog-v3': true,
-        'base-dialog-v3--absolute': true,
+        'base-dialog-v3--absolute': this.isShowBackdrop,
         'base-dialog-v3--with-backdrop': this.isShowBackdrop,
       };
     },
@@ -84,7 +84,7 @@ export default {
   },
 };
 </script>
-<style lang="scss">
+<style>
 .base-dialog-v3 {
   position: relative;
   z-index: 1000;
@@ -94,53 +94,49 @@ export default {
   flex-direction: column;
 
   width: 100%;
-  &-- {
-    &--absolute {
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-    &--with-backdrop {
-      &::before {
-        position: fixed;
-        top: -50vh;
-        right: -50vw;
-        bottom: 0;
-        left: -50vw;
+}
+.base-dialog-v3.base-dialog-v3--absolute {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.base-dialog-v3.base-dialog-v3--with-backdrop::before {
+  position: fixed;
+  top: -50vh;
+  right: -50vw;
+  bottom: 0;
+  left: -50vw;
 
-        content: "";
+  content: "";
 
-        background: linear-gradient(
-          to bottom,
-          rgba(black, 0.2) 80%,
-          rgba(black, 0) 100%
-        );
-      }
-    }
+  background: rgba(0, 0, 0, 0.2) 80%;
+}
+
+.base-dialog-v3__content-container {
+  position: relative;
+
+  padding: 32px 24px;
+
+  background-color: white;
+}
+@media screen and (max-width: 420px) {
+  .base-dialog-v3__content-container {
+    width: 100%;
   }
+}
+@media screen and (min-width: 421px) {
+  .base-dialog-v3__content-container {
+    min-width: 420px;
+    margin: 104px auto 16px;
 
-  &__content-container {
-    position: relative;
-
-    padding: 32px 24px;
-
-    background-color: white;
-
-    @media screen and (max-width: 420px) {
-      width: 100%;
-    }
-
-    @media screen and (min-width: 421px) {
-      min-width: 420px;
-      margin: 104px auto 16px;
-
-      border-radius: 24px;
-    }
-
-    > * {
-      z-index: -1;
-    }
+    border-radius: 24px;
   }
+}
+.base-dialog-v3.base-dialog-v3--absolute .base-dialog-v3__content-container  {
+  filter: drop-shadow(2px 4px 8px rgba(0, 0, 0, 0.25));
+}
+.base-dialog-v3__content-container > * {
+  z-index: -1;
 }
 
 .base-dialog-v3__close-button {

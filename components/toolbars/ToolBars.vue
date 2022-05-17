@@ -3,7 +3,10 @@
     <no-ssr>
       <div class="toolbars">
 
-        <auth-dialog-v-2 v-if="$route.name !== 'in-register'" />
+        <AuthDialogV2
+          v-if="$route.name !== 'in-register'"
+          :is-overlay="true"
+        />
         <re-auth-dialog v-if="getIsShowReAuthDialog" />
         <popup-dialog
           v-for="d in getPopupDialogs"
