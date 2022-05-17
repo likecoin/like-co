@@ -2,7 +2,7 @@
   <div class="likecoin-settings__personal-tab">
 
     <section
-      v-if="!getUserInfo.isEmailVerified"
+      v-if="getUserInfo.email && !getUserInfo.isEmailVerified"
       class="lc-container-0 lc-margin-top-48"
     >
       <div class="lc-container-1">

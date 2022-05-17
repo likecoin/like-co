@@ -16,7 +16,7 @@
       />
       <RegisterForm
         v-else-if="currentTab === 'await-email-verify' || currentTab === 'welcome'"
-        :initial-step="currentTab === 'welcome' ? 'await-email-verify' : 'completed'"
+        :initial-step="currentTab === 'welcome' ? 'completed' : 'await-email-verify'"
         :user-info="getUserInfo"
         @upload-avatar="uploadAvatar"
         @complete="redirectAfterSignIn"

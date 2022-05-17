@@ -20,18 +20,17 @@
           <div
             v-if="isReadonly"
           >{{ value }}</div>
-          <template v-else>
-            <div
-              v-if="!value"
-              class="v2-input-field__placeholder"
-            >{{ placeholder }}</div>
-            <input
-              ref="input"
-              class="v2-input-field__input"
-              :value="value"
-              @input="handleInput"
-            >
-          </template>
+          <input
+            v-else
+            ref="input"
+            class="v2-input-field__input"
+            :value="value"
+            @input="handleInput"
+          >
+          <div
+            v-if="!value"
+            class="v2-input-field__placeholder"
+          >{{ placeholder }}</div>
         </div>
         <slot name="append" />
       </div>
