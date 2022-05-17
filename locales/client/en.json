@@ -1323,6 +1323,18 @@
     "placeholder": {
       "name": "Name",
       "enterUrl": "Enter URL here"
+    },
+    "others": {
+      "email": {
+        "title": "Email alert",
+        "enableEmail": "@:Register.form.enableEmail"
+      },
+      "likepay": {
+        "title": "LIKE Pay Whitelisted Redirect URL",
+        "addCustomUrl": "Add custom URL",
+        "errInvalidUrl": "Invalid URL",
+        "errDuplicatedUrl": "Duplicated URL"
+      }
     }
   },
   "PoliciesPage": {
