@@ -11,6 +11,7 @@
     >
       <RegisterForm
         v-if="currentTab === 'register'"
+        @check-liker-id="onCheckLikerId"
         @register="register"
       />
       <RegisterForm
@@ -143,7 +144,7 @@ import {
   tryPostLoginRedirect,
 } from '~/util/client';
 
-import { apiCheckIsUser } from '@/util/api/api';
+import { apiCheckIsUser, apiCheckLikerId } from '@/util/api/api';
 
 import KeplrIcon from '~/components/icons/Keplr';
 import LikerLand from '~/components/icons/LikerLand';
@@ -518,6 +519,15 @@ export default {
         console.error(err);
         if (this.$sentry) this.$sentry.captureException(err);
         this.setError((err.response || {}).data, err);
+      }
+    },
+
+    async onCheckLikerId(likerId, check) {
+      try {
+        await apiCheckLikerId(likerId);
+        check(true);
+      } catch {
+        check(false);
       }
     },
 

@@ -1910,6 +1910,7 @@
   "V2_Form_LikerId_description": "Liker ID is unique, you cannot change it later.",
   "V2_Form_LikerId_label": "Liker ID",
   "V2_Form_LikerId_placeholder": "Create your Liker ID",
+  "V2_Form_LikerId_error_duplicated": "This Liker ID has been registered",
   "V2_Form_Verify_description": "An email had sent to you,{br}please click the verify link to proceed.",
   "V2_ProfileSettings_Title": "Edit your profile",
   "V2_SkipEmailModal_Title": "We ask for email verifcation...",

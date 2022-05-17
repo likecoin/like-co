@@ -37,6 +37,10 @@
       </div>
       <slot name="append-outer" />
     </div>
+    <div
+      v-if="error"
+      class="v2-input-field__error"
+    >{{ error }}</div>
   </div>
 </template>
 
@@ -52,6 +56,10 @@ export default {
       default: '',
     },
     value: {
+      type: String,
+      default: '',
+    },
+    error: {
       type: String,
       default: '',
     },
@@ -147,5 +155,13 @@ export default {
 }
 .v2-input-field__input:focus {
   outline: none;
+}
+
+.v2-input-field__error {
+  margin-top: 4px;
+
+  color: #fc5757;
+
+  font-size: 10px;
 }
 </style>

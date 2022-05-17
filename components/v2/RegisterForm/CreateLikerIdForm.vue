@@ -6,6 +6,7 @@
         v-model="internalLikerId"
         :label="$t('V2_Form_LikerId_label')"
         :placeholder="$t('V2_Form_LikerId_placeholder')"
+        :error="error"
       />
     </div>
 
@@ -36,6 +37,10 @@ export default {
       type: String,
       default: '',
     },
+    isDuplicated: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -45,6 +50,12 @@ export default {
   computed: {
     isLikerIdValid() {
       return LIKECOIN_ID_REGEX.test(this.internalLikerId);
+    },
+    error() {
+      if (this.isDuplicated) {
+        return this.$t('V2_Form_LikerId_error_duplicated');
+      }
+      return '';
     },
   },
   methods: {
