@@ -10,6 +10,13 @@
         ref="contentContainer"
         class="base-dialog-v3__content-container"
       >
+        <button
+          v-if="shouldShowCloseButton"
+          class="base-dialog-v3__close-button"
+          @click="$emit('click-close-button')"
+        >
+          <CloseIcon />
+        </button>
         <main>
           <slot />
         </main>
@@ -19,9 +26,12 @@
 </template>
 
 <script>
-// import { ResizeObserver } from 'resize-observer';
+import CloseIcon from '~/components/v2/icons/Close';
 
 export default {
+  components: {
+    CloseIcon,
+  },
   props: {
     isShow: {
       type: [Boolean, String],
@@ -61,6 +71,13 @@ export default {
     onClickOutside(e) {
       if (this.isClosable) {
         this.$emit('click-outside', e);
+        this.$emit('update:isShow', false);
+      }
+    },
+    onClickCloseButton() {
+      if (this.$listeners['click-close-button']) {
+        this.$emit('click-close-button');
+      } else {
         this.$emit('update:isShow', false);
       }
     },
@@ -124,5 +141,36 @@ export default {
       z-index: -1;
     }
   }
+}
+
+.base-dialog-v3__close-button {
+
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 8px;
+
+  padding: 14px;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+
+  filter: drop-shadow(2px 4px 8px rgba(0, 0, 0, 0.25));
+  color: #28646e;
+
+  border: none;
+  border-radius: 50%;
+}
+
+.base-dialog-v3__close-button:active {
+  transform: translateY(2px);
+
+  filter: drop-shadow(2px 1px 4px rgba(0, 0, 0, 0.25));
 }
 </style>

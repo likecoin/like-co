@@ -6,6 +6,8 @@
       :is-show="shouldShowDialog"
       :is-show-backdrop="false"
       :is-closable="false"
+      :is-show-close-button="!!getWalletConnectURI"
+      @click-close-button="onClickDialogCloseButton"
     >
       <RegisterForm
         v-if="currentTab === 'register'"
@@ -306,6 +308,11 @@ export default {
     },
     onClickUseWalletConnectButton() {
       this.signInWithPlatform('cosmosWallet', { source: 'walletconnect' });
+    },
+    onClickDialogCloseButton() {
+      if (this.getWalletConnectURI) {
+        this.resetLoginByCosmosWallet();
+      }
     },
 
     logRegisterEvent(...args) {
