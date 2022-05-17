@@ -7,7 +7,11 @@
         :label="$t('V2_Form_LikerId_label')"
         :placeholder="$t('V2_Form_LikerId_placeholder')"
         :error="error"
-      />
+      >
+        <template #append>
+          <div class="hint">{{ $t('V2_Form_LikerId_hint') }}</div>
+        </template>
+      </InputField>
     </div>
 
     <div class="v2-form__footer">
@@ -66,3 +70,16 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.hint {
+  margin-left: 8px;
+
+  text-align: right;
+  white-space: nowrap;
+
+  color: #9B9B9B;
+
+  font-size: 12px;
+}
+</style>
