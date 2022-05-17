@@ -58,6 +58,12 @@
           />
 
           <InputField
+            :value="walletAddress"
+            :is-readonly="true"
+            :label="$t('V2_Form_Wallet_label')"
+          />
+
+          <InputField
             v-model="internalDisplayName"
             :label="$t('V2_Form_DisplayName_label')"
             :placeholder="$t('V2_Form_DisplayName_placeholder')"
@@ -96,6 +102,10 @@ export default {
   },
   props: {
     likerId: {
+      type: String,
+      default: '',
+    },
+    walletAddress: {
       type: String,
       default: '',
     },
