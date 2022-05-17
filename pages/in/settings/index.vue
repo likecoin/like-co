@@ -287,8 +287,6 @@ export default {
       couponCode: '',
       displayName: '',
       email: '',
-      isEmailEnabled: false,
-      isEmailPreviouslyEnabled: false,
       isShowEditInAuthCore: false,
       isShowAuthCoreWidget: true,
       isShowAuthCoreProfile: true,
@@ -456,7 +454,7 @@ export default {
 
           await this.updateUser(userInfo);
           this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${user}">${this.$t('Register.form.label.viewPage')}</a>`);
-          await this.refreshUserInfo(user);
+          await this.refreshUserInfo();
 
           if (hasEmailChanged && !this.getUserInfo.isEmailVerified) {
             await this.sendVerifyEmail({
