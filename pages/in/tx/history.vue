@@ -7,8 +7,8 @@
 
           <transaction-history
             ref="txHistory"
-            :user="getUserInfo.user"
-            :address="getUserHasWallet"
+            :user="getUserId"
+            :address="getUserERC20WalletAddress"
             :is-fetching.sync="isFetchingTranscationHistory"
             :has-pending-like="getUserHasPendingLike"
             class="lc-margin-top-48 lc-mobile"
@@ -24,12 +24,12 @@
             </div>
             <div class="lc-container-3">
               <view-bigdipper
-                v-if="getUserInfo.cosmosWallet"
-                :address="getUserInfo.cosmosWallet"
+                v-if="getUserWalletAddress"
+                :address="getUserWalletAddress"
               />
               <view-etherscan
                 v-else
-                :address="getUserInfo.wallet"
+                :address="getUserERC20WalletAddress"
               />
             </div>
           </div>
@@ -65,8 +65,7 @@ export default {
     };
   },
   asyncData({ store, redirect }) {
-    const user = store.getters.getUserInfo;
-    if (!(user.wallet || user.cosmosWallet)) {
+    if (!store.getters.getUserHasERC20Wallet) {
       redirect('/in');
     }
   },
@@ -83,10 +82,10 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'getUserInfo',
+      'getUserId',
       'getUserIsRegistered',
       'getUserHasPendingLike',
-      'getUserHasWallet',
+      'getUserERC20WalletAddress',
     ]),
   },
   mounted() {

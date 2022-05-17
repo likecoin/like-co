@@ -1,5 +1,5 @@
 <template>
-  <div class="auth-api-view" />
+  <AuthDialogV2 />
 </template>
 
 <script>
@@ -9,9 +9,14 @@ import { AUTHCORE_API_HOST } from '~/constant';
 
 import { logTrackerEvent, logTimingEvent } from '@/util/EventLogger';
 
+import AuthDialogV2 from '~/components/v2/dialogs/AuthDialogV2';
+
 export default {
   name: 'auth-api-view',
   layout: 'register',
+  components: {
+    AuthDialogV2,
+  },
   head() {
     return {
       title: this.$t('Register.label.register'),
@@ -47,7 +52,7 @@ export default {
     },
   },
   created() {
-    this.setAuthDialog({ isShow: !this.getUserIsRegistered });
+    this.setAuthDialog({ isShow: true });
   },
   mounted() {
     const { redirect_sign_in: isRedirectSignIn } = this.$route.query;

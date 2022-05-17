@@ -91,7 +91,6 @@ export default {
   computed: {
     ...mapGetters([
       'getUserInfo',
-      'getUserHasWallet',
       'getUserHasERC20LikeCoin',
       'getUserERC20LikeCoinAmounInBigNumber',
     ]),

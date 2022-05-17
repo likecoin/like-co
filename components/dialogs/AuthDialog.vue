@@ -366,9 +366,7 @@ import {
   getAuthPlatformSignInPayload,
 } from '@/util/auth';
 
-import {
-  apiCheckIsUser,
-} from '@/util/api/api';
+import { apiCheckIsUser } from '@/util/api/api';
 
 import AuthCoreRegister from '~/components/AuthCore/Register';
 import BaseDialogV2 from '~/components/dialogs/BaseDialogV2';
@@ -714,8 +712,8 @@ export default {
       'fetchAuthCoreAccessTokenAndUser',
       'fetchAuthCoreUser',
       'setAuthCoreToken',
-      'initAuthCoreCosmosWallet',
-      'fetchAuthCoreCosmosWallet',
+      'initAuthCoreWalletService',
+      'fetchAuthCoreLikeWallet',
       'authCoreLogoutUser',
       'loginByCosmosWallet',
     ]),
@@ -873,7 +871,7 @@ export default {
       this.currentTab = 'wallet-notice';
     },
     onClickUseKeplrButton() {
-      this.signInWithPlatform('cosmosWallet', { source: 'keplr' });
+      this.signInWithPlatform('likeWallet', { source: 'keplr' });
     },
     onClickUseWalletConnectButton() {
       this.signInWithPlatform('cosmosWallet', { source: 'walletconnect' });
@@ -1158,9 +1156,9 @@ export default {
         if (defaultLikerID) Vue.set(this.signInPayload, 'defaultLikeCoinId', defaultLikerID);
       }
       if (this.platform === 'authcore') {
-        await this.initAuthCoreCosmosWallet();
-        const cosmosWallet = await this.fetchAuthCoreCosmosWallet();
-        Vue.set(this.signInPayload, 'cosmosWallet', cosmosWallet);
+        await this.initAuthCoreWalletService();
+        const likeWallet = await this.fetchAuthCoreLikeWallet();
+        Vue.set(this.signInPayload, 'likeWallet', likeWallet);
       }
 
       this.currentTab = 'register';

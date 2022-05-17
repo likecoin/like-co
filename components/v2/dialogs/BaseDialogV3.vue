@@ -48,6 +48,9 @@ export default {
         'base-dialog-v3--with-backdrop': this.isShowBackdrop,
       };
     },
+    shouldShowCloseButton() {
+      return this.isClosable || this.isShowCloseButton;
+    },
   },
   methods: {
     onClickDialog(e) {

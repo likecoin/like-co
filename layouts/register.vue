@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <tool-bars />
     <div class="logo-wapper">
       <img
         :src="likerLandIcon"
@@ -7,8 +8,7 @@
         alt="Liker Land"
       >
     </div>
-    <tool-bars />
-    <div class="lc-page-wrapper-1">
+    <div class="lc-page-wrapper">
       <div class="lc-page-content">
         <nuxt />
       </div>

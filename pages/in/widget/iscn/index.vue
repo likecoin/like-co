@@ -116,8 +116,9 @@
             {{ url }}
           </div>
         </div>
-
       </section>
+
+      <KeplrNotFound v-if="isKeplrNotFound" />
 
       <section class="likepay-panel__section-dropdown-container">
         <div class="likepay-panel__dropdown-body">
@@ -199,7 +200,8 @@
 import { mapActions, mapGetters } from 'vuex';
 import { ISCN_LICENSES, ISCN_PUBLISHERS } from '@/util/cosmos/iscn/constant';
 import { getISCNTransferInfo } from '@/util/cosmos/iscn/query';
-import { LIKER_LAND_URL } from '@/constant';
+import { IS_CHAIN_UPGRADING, LIKER_LAND_URL } from '@/constant';
+import KeplrNotFound from '~/components/KeplrNotFound';
 
 import User from '@/util/User';
 import Keplr from '@/util/Keplr';
@@ -209,6 +211,9 @@ const URL = require('url-parse');
 export default {
   name: 'payment',
   layout: 'likepay',
+  components: {
+    KeplrNotFound,
+  },
   data() {
     return {
       isLoading: false,
@@ -224,6 +229,7 @@ export default {
       url: '',
       ISCNTotalFee: 0.00,
       isUsingKeplr: false,
+      isKeplrNotFound: false,
     };
   },
   async asyncData({
@@ -309,6 +315,9 @@ export default {
     LIKER_LAND_URL() {
       return LIKER_LAND_URL;
     },
+    isChainUpgrading() {
+      return IS_CHAIN_UPGRADING;
+    },
     avatarHalo() {
       return User.getAvatarHaloType(this.getUserInfo);
     },
@@ -366,18 +375,20 @@ export default {
       url,
     } = this;
     const { cosmosWallet } = this.getUserInfo;
-    this.ISCNTotalFee = await this.calculateISCNTxTotalFee({
-      userId: this.getUserId,
-      displayName: this.getUserInfo.displayName,
-      cosmosWallet,
-      fingerprints,
-      name: title,
-      tags,
-      type,
-      license,
-      publisher,
-      url,
-    });
+    if (!this.isChainUpgrading) {
+      this.ISCNTotalFee = await this.calculateISCNTxTotalFee({
+        userId: this.getUserId,
+        displayName: this.getUserInfo.displayName,
+        cosmosWallet,
+        fingerprints,
+        name: title,
+        tags,
+        type,
+        license,
+        publisher,
+        url,
+      });
+    }
     if (this.opener && !window.opener) {
       this.$nuxt.error({ statusCode: 400, message: 'Cannot access window opener' });
     }
@@ -396,6 +407,7 @@ export default {
       'setDefaultCosmosWalletSource',
     ]),
     async submitTransfer() {
+      if (this.isChainUpgrading) return;
       this.isLoading = true;
       try {
         const showDialogAction = !this.redirectUri;
@@ -486,14 +498,16 @@ export default {
       this.popupAuthDialogInPlace({ route: this.$route, isSignIn: true });
     },
     async onClickConnectKeplrButton() {
+      this.isKeplrNotFound = false;
       this.currentTab = 'loading';
       const res = await Keplr.initKeplr();
-      if (!res) {
-        throw new Error('FAILED_CONNECT_TO_KEPLR');
+      if (res) {
+        this.setDefaultCosmosWalletSource({ source: 'keplr', persistent: false });
+        this.isUsingKeplr = true;
+        await this.submitTransfer();
+        return;
       }
-      this.setDefaultCosmosWalletSource({ source: 'keplr', persistent: false });
-      this.isUsingKeplr = true;
-      await this.submitTransfer();
+      this.isKeplrNotFound = true;
     },
     onClickAuthCoreReAuth() {
       this.setReAuthDialogShow(true);
@@ -531,4 +545,6 @@ export default {
     }
   }
 }
+
+
 </style>

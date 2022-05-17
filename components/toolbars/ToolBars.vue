@@ -3,7 +3,7 @@
     <no-ssr>
       <div class="toolbars">
 
-        <auth-dialog-v-2 />
+        <auth-dialog-v-2 v-if="$route.name !== 'in-register'" />
         <re-auth-dialog v-if="getIsShowReAuthDialog" />
         <popup-dialog
           v-for="d in getPopupDialogs"
@@ -97,9 +97,24 @@
         <popup-dialog
           :is-show="isChainUpgrading"
           :allow-close="true"
-          :header="$t('ChainUpgradingAlertTitle')"
           :message="$t('ChainUpgradingAlertMessage')"
-        />
+        >
+          <template #footer>
+            <div :style="{ width:'100%',textAlign:'center' }">
+              <i18n
+                path="ChainUpgradingAlertLearnMore"
+                tag="div"
+              >
+                <a
+                  v-t="`announcement`"
+                  place="announcement"
+                  href="https://blog.like.co/likecoin-chain-upgrade-laichikok-overview/"
+                  target="_blank"
+                />
+              </i18n>
+            </div>
+          </template>
+        </popup-dialog>
 
       </div>
     </no-ssr>

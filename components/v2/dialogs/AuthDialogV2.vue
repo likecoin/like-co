@@ -130,6 +130,7 @@ import User from '@/util/User';
 
 import {
   getAuthPlatformSignInURL,
+  getAuthPlatformSignInPayload,
 } from '@/util/auth';
 
 import {
@@ -180,7 +181,7 @@ export default {
     return {
       isShowMoreLoginOptions: false,
 
-      currentTab: 'portal',
+      currentTab: 'loading',
       registerStep: 'create-liker-id',
       referrer: '',
       sourceURL: '',
@@ -251,6 +252,13 @@ export default {
     },
   },
   async mounted() {
+    const { redirect_sign_in: isRedirectSignIn } = this.$route.query;
+    if (isRedirectSignIn) {
+      await this.handleRedirectSignIn();
+    } else {
+      this.currentTab = 'portal';
+    }
+
     const { from, referrer } = this.$route.query;
     if (from) this.referrer = from;
     this.sourceURL = referrer || document.referrer;
@@ -282,6 +290,9 @@ export default {
       'doPostAuthRedirect',
       'loginByCosmosWallet',
       'resetLoginByCosmosWallet',
+      'setAuthCoreToken',
+      'fetchAuthCoreUser',
+      'fetchAuthCoreAccessTokenAndUser',
     ]),
 
     setError(code, error) {
@@ -339,6 +350,32 @@ export default {
           this.currentTab = 'error';
         }
       }
+    },
+
+    async signInWithAuthCore({ accessToken, currentUser, idToken }) {
+      this.logRegisterEvent(this, 'RegFlow', 'AuthCoreSignInSuccess', 'AuthCoreSignInSuccess', 1);
+      await this.setAuthCoreToken(accessToken);
+      this.currentTab = 'loading';
+      this.platform = 'authcore';
+      let user = currentUser;
+      if (!user || !user.profileName) {
+        try {
+          user = await this.fetchAuthCoreUser();
+        } catch (err) {
+          console.error(err);
+        }
+      }
+      const {
+        primaryEmail: email,
+        suggestedName: username,
+      } = user;
+      this.signInPayload = {
+        email,
+        username,
+        accessToken,
+        idToken,
+      };
+      this.login();
     },
 
     async signInWithCosmosWallet(source = 'keplr') {
@@ -543,6 +580,43 @@ export default {
       const router = this.$router;
       const route = this.$route;
       this.doPostAuthRedirect({ router, route });
+    },
+
+    async handleRedirectSignIn() {
+      const {
+        redirect_sign_in: isRedirectSignIn,
+        sign_in_platform: signInPlatform,
+        ...query
+      } = this.$route.query;
+      this.logRegisterEvent(this, 'RegFlow', 'LoginRedirectDone', 'LoginRedirectDone', 1);
+      this.currentTab = 'loading';
+
+      try {
+        if (signInPlatform) {
+          if (signInPlatform === 'authcore') {
+            const { code } = this.$route.query;
+            const payload = await this.fetchAuthCoreAccessTokenAndUser(code);
+            await this.signInWithAuthCore(payload);
+          } else {
+            const { code, state } = this.$route.query;
+            this.platform = signInPlatform;
+            this.signInPayload = await getAuthPlatformSignInPayload(
+              signInPlatform,
+              { code, state },
+            );
+            if (this.signInPayload) this.login();
+          }
+        }
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error(err);
+        this.setError(err.code, err);
+        if (this.$sentry) this.$sentry.captureException(err);
+      }
+      this.$router.replace({
+        name: this.$route.name,
+        query,
+      });
     },
   },
 };

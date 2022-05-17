@@ -1087,16 +1087,16 @@
     }
   },
   "ISCNARWidget": {
-    "title": "ISCN x Arweave",
+    "title": "LikeCoin DePub Widget",
     "Introduction": {
-      "initial": "To begin, please send ISCN data as postMessage",
-      "document": "Refer to docs.like.co for more information",
-      "ready": "Ready. Waiting to receive ISCN Data..."
+      "initial": "Unexpected data format.  Make sure that postMessage has been used.",
+      "document": "Please refer to LikeCoin technical document for more information.",
+      "ready": "Cost estimation is completed, about to DePub content."
     },
     "transaction": {
-      "firstStep": "Sign (1/2)",
-      "secondStep": "Sign (2/2)",
-      "reminder": "Please sign with your wallet",
+      "firstStep": "Signature (1/2)",
+      "secondStep": "Signature (2/2)",
+      "reminder": "Distributed storage (IPFS and Arweave)",
       "retry": "Retry",
       "submit": "Submit",
       "doNotCloseReminder": "Please do not close this window",
@@ -1108,22 +1108,29 @@
       "titleAndAmount": "Fee: {amount} LIKE"
     },
     "ISCN": {
-      "register": "DePub",
+      "register": "Next",
       "keplr": "Use Keplr wallet",
       "action": "DePub your work",
-      "articleTitleTitle": "ISCN Title",
+      "articleTitleTitle": "Subject",
       "articleTitleValue": "{title}",
-      "feeTitle": "Fee",
-      "feeAmount": "{ISCNTotalFee} LIKE"
+      "feeTitle": "Distributed storage (IPFS+Arweave) fee",
+      "feeAmount": "{ISCNTotalFee} LIKE",
+      "registering": "Registering metadata"
     },
     "upload": {
       "inProcess": "Uploading...",
-      "success": "Upload succeeded. Please sign again to complete DePub.",
-      "waiting": "Depends on the file size, the process may take several minutes."
+      "success": "Register content metadata to LikeCoin chain.",
+      "signAgain": "Note that you will need to sign one more time to complete DePub after completing this step.",
+      "waiting": "Uploading time depends on file size."
     },
     "ledger": {
       "warning": "Do not connect to Ledger for signing",
       "unavailable": "Ledger is temporarily not supported"
+    },
+    "error": {
+      "keplrNotFound": "Please install {keplr} first.",
+      "extensionName": "Keplr browser extension",
+      "extensionLink": "https://chrome.google.com/webstore/detail/keplr/dmkamcknogkgcdfhhbddcghachkejeap"
     }
   },
   "RewardRecords": {

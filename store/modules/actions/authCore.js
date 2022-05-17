@@ -4,6 +4,7 @@ import { AUTHCORE_API_HOST } from '@/constant';
 import { makeSignBytes } from '@cosmjs/proto-signing';
 import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { formatDesmosChainLinkProof } from '../../../util/cosmos/desmos';
+import { convertAddressPrefix } from '../../../util/CosmosHelper';
 
 const { AuthcoreVaultClient, AuthcoreCosmosProvider } = require('@likecoin/secretd-js');
 
@@ -91,6 +92,8 @@ export async function initAuthCoreClient({ commit, state, dispatch }) {
 }
 
 export async function initAuthCoreWalletService({ commit, state }) {
+  const { kvClient, cosmosProvider } = state;
+  if (kvClient && cosmosProvider) return;
   const keyVaultClient = await new AuthcoreVaultClient({
     apiBaseURL: AUTHCORE_API_HOST,
     accessToken: state.accessToken,
@@ -100,19 +103,6 @@ export async function initAuthCoreWalletService({ commit, state }) {
   });
   commit(types.AUTHCORE_SET_KV_CLIENT, keyVaultClient);
   commit(types.AUTHCORE_SET_COSMOS_PROVIDER, walletSubprovider);
-}
-
-export async function initAuthCoreCosmosWallet({ state, dispatch }) {
-  let { kvClient, cosmosProvider } = state;
-  try {
-    if (!kvClient || !cosmosProvider) await dispatch('initAuthCoreWalletService');
-    ({ kvClient, cosmosProvider } = state);
-    const [cosmosAddress] = await cosmosProvider.getAddresses();
-    return cosmosAddress;
-  } catch (err) {
-    console.error(err);
-  }
-  return '';
 }
 
 export async function clearAuthCoreAllClients({ commit }) {
@@ -127,23 +117,26 @@ export async function fetchAuthCoreOAuthFactors({ state, commit }) {
   commit(types.AUTHCORE_SET_OAUTH_FACTORS, platforms);
 }
 
-export async function fetchAuthCoreCosmosWallet({ state }) {
+export async function fetchAuthCoreLikeWallet({ state }) {
   if (!state.cosmosProvider) return null;
   const [cosmosAddress] = await state.cosmosProvider.getAddresses();
-  return cosmosAddress;
+  const likeAddress = convertAddressPrefix(cosmosAddress);
+  return likeAddress;
 }
 
 export async function prepareAuthCoreCosmosTxSigner({ state }) {
   if (!state.cosmosProvider) throw new Error('COSMOS_WALLET_NOT_INITED');
   const { cosmosProvider } = state;
+  const [{ address }] = cosmosProvider.wallets;
+  const likeAddress = convertAddressPrefix(address);
   return {
     signAmino: async (_, data) => {
-      const { signatures, ...signed } = await cosmosProvider.sign(data);
+      const { signatures, ...signed } = await cosmosProvider.sign(data, likeAddress);
       return { signed, signature: signatures[0] };
     },
     signDirect: async (_, data) => {
       const dataToSign = makeSignBytes(data);
-      const { signed, signatures } = await cosmosProvider.directSign(dataToSign);
+      const { signed, signatures } = await cosmosProvider.directSign(dataToSign, likeAddress);
       const decodedSigned = SignDoc.decode(signed);
       return { signed: decodedSigned, signature: signatures[0] };
     },
@@ -153,10 +146,9 @@ export async function prepareAuthCoreCosmosTxSigner({ state }) {
         value: cosmosProvider.wallets[0].publicKey,
       };
       const pubkeyBytes = Buffer.from(pubkey.value, 'base64');
-
       return [{
         algo: 'secp256k1',
-        address: cosmosProvider.wallets[0].address,
+        address: likeAddress,
         pubkey: pubkeyBytes,
       }];
     },
@@ -167,7 +159,7 @@ export async function signAuthCoreAddressProof({ state }) {
   if (!state.cosmosProvider) throw new Error('COSMOS_WALLET_NOT_INITED');
   const { cosmosProvider } = state;
   const [cosmosAddress] = await cosmosProvider.getAddresses();
-  const { signatures, signed } = await cosmosProvider.directSign(cosmosAddress);
+  const { signatures, signed } = await cosmosProvider.directSign(cosmosAddress, cosmosAddress);
   const plaintext = Buffer.from(signed).toString('hex');
   const [{ signature, pub_key: pubKey }] = signatures;
   const signatureHex = Buffer.from(signature, 'base64').toString('hex');

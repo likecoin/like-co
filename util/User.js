@@ -73,12 +73,15 @@ const User = {
     return data;
   },
 
-  async signCosmosLogin(cosmosWallet, signer, platform = 'cosmosWallet', loginMessage = LOGIN_MESSAGE) {
-    if (!cosmosWallet) return null;
+  async signCosmosLogin(inputWallet, signer, platform = 'cosmosWallet', loginMessage = LOGIN_MESSAGE) {
+    if (!inputWallet) return null;
+    if (!['likeWallet', 'cosmosWallet'].includes(platform)) {
+      throw new Error('SIGN_COSMOS_LOGIN_INVALID_PLATFORM');
+    }
     const ts = Date.now();
     let payload = JSON.stringify({
       ts,
-      cosmosWallet,
+      [platform]: inputWallet,
     });
     payload = [`${loginMessage}:`, payload].join(' ');
     const {
@@ -89,7 +92,7 @@ const User = {
       signature,
       publicKey: publicKey.value,
       message: stringify(message),
-      from: cosmosWallet,
+      from: inputWallet,
       platform,
     };
     return data;

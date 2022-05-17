@@ -321,6 +321,7 @@ export default {
       'getAuthCoreNeedReAuth',
       'getAuthCoreAccessToken',
       'getIsInTransaction',
+      'getUserWalletAddress',
     ]),
     disabled() {
       return this.isLoading || !this.getUserIsRegistered;

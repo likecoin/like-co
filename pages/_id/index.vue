@@ -271,13 +271,13 @@ export default {
       apiGetSocialListById(params.id).catch(() => ({})),
     ]).then((res) => {
       const {
-        cosmosWallet,
+        likeWallet,
         avatar,
         displayName,
       } = res[0].data;
       const amount = formatAmount(params.amount || 1);
       return {
-        wallet: cosmosWallet,
+        wallet: likeWallet,
         avatar,
         id: params.id,
         displayName: displayName || params.id,
@@ -351,7 +351,7 @@ export default {
       return IS_CHAIN_UPGRADING;
     },
     maskedWallet() {
-      return this.wallet.replace(/((?:cosmos1|0x).{4}).*(.{10})/, '$1...$2');
+      return this.wallet.replace(/((?:like1|0x).{4}).*(.{10})/, '$1...$2');
     },
     httpReferrer() {
       return this.$route.query.referrer || document.referrer || undefined;
@@ -410,7 +410,7 @@ export default {
       this.isLoading = true;
       try {
         this.isBadAmount = false;
-        const { cosmosWallet } = this.getUserInfo;
+        const { cosmosWallet, likeWallet } = this.getUserInfo;
         const amount = new BigNumber(this.amount);
         if (!amount || amount.lt('0.000000000000000001')) {
           this.isBadAmount = true;
@@ -420,8 +420,7 @@ export default {
         if (!from) {
           throw new Error('PLEASE_RELOGIN');
         }
-        const userWallet = cosmosWallet;
-        if (from !== userWallet) {
+        if ((cosmosWallet || likeWallet) && from !== cosmosWallet && from !== likeWallet) {
           this.setErrorMsg(this.$t('Transaction.error.authcoreWalletNotMatch'));
           throw new Error('VALIDATION_FAIL');
         }
