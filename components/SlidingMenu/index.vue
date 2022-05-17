@@ -157,10 +157,6 @@ const MENU_ITEMS = [
         to: { name: 'in-about' },
       },
       {
-        key: 'whitepaper',
-        to: { name: 'in-whitepaper' },
-      },
-      {
         key: 'newsletter',
         to: 'https://likecoin.substack.com/',
         isExternal: true,
