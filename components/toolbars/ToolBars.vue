@@ -4,7 +4,7 @@
       <div class="toolbars">
 
         <AuthDialogV2
-          v-if="$route.name !== 'in-register'"
+          v-if="!isAuthDialogDisabled"
           :is-overlay="true"
         />
         <re-auth-dialog v-if="getIsShowReAuthDialog" />
@@ -163,6 +163,10 @@ export default {
   props: {
     disableError: {
       type: [Boolean, Array],
+      default: false,
+    },
+    isAuthDialogDisabled: {
+      type: Boolean,
       default: false,
     },
   },

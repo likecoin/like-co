@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <tool-bars />
+    <tool-bars :is-auth-dialog-disabled="true" />
     <div class="logo-wapper">
       <img
         :src="likerLandIcon"
