@@ -1,206 +1,181 @@
 <template>
   <section class="like-button-settings">
-    <transition name="lc-transition-fade">
-      <div
-        v-if="isShowIntro"
-        key="intro"
-        class="lc-container-1"
-      >
-        <div class="lc-container-2">
-          <div class="lc-container-3 lc-container-no-padding-mobile">
-            <like-button-intro
-              class="lc-margin-top-48"
-              @start="onClickIntroStart"
-            />
+    <div class="lc-container-1 lc-padding-top-32">
+      <div class="lc-container-2">
+
+        <div class="lc-container-3 lc-bg-gray-1">
+          <div class="like-button-settings__header">
+            <h1>{{ $t('Settings.label.earnByLikeButton') }}</h1>
+          </div>
+
+          <div class="like-button-settings__examples">
+            <div
+              v-for="item in categoryItems"
+              :key="item.id"
+              class="like-button-settings__example"
+            >
+              <div class="like-button-settings__example-header">
+                <simple-svg
+                  :filepath="getIconPath(item.icon)"
+                  :height="item.size"
+                  :width="item.size"
+                  fill="#4a4a4a"
+                />
+                <h1>
+                  {{ $t(`Settings.label.${item.id}.title`) }}
+                </h1>
+              </div>
+              <div class="like-button-settings__example-content">
+                <span>
+                  {{ $t(`Settings.label.${item.id}.content`) }}
+                </span>
+
+                <md-button
+                  v-if="item.id === 'wordpress'"
+                  :href="WORDPRESS_PLUGIN_URL"
+                  class="md-likecoin outline"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >{{ $t('Settings.button.install') }}</md-button>
+                <selectable-field
+                  v-else-if="item.id === 'medium'"
+                >{{ likeButtonUrl }}</selectable-field>
+                <md-button
+                  v-if="item.id === 'oice'"
+                  :href="OICE_URL"
+                  class="md-likecoin outline"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >{{ $t('Settings.button.createStory') }}</md-button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div
-        v-else-if="isShowIntro === false"
-        key="settings"
-        class="lc-container-1 lc-padding-top-32"
-      >
-        <div class="lc-container-2">
 
-          <div class="lc-container-3 lc-bg-gray-1">
-            <div class="like-button-settings__header">
-              <h1>{{ $t('Settings.label.earnByLikeButton') }}</h1>
-              <md-button
-                class="lc-color-like-green lc-underline"
-                @click="isShowIntro = true"
-              >{{ $t('Settings.button.learnMore') }}</md-button>
-            </div>
-
-            <div class="like-button-settings__examples">
-              <div
-                v-for="item in categoryItems"
-                :key="item.id"
-                class="like-button-settings__example"
-              >
-                <div class="like-button-settings__example-header">
-                  <simple-svg
-                    :filepath="getIconPath(item.icon)"
-                    :height="item.size"
-                    :width="item.size"
-                    fill="#4a4a4a"
-                  />
-                  <h1>
-                    {{ $t(`Settings.label.${item.id}.title`) }}
-                  </h1>
-                </div>
-                <div class="like-button-settings__example-content">
-                  <span>
-                    {{ $t(`Settings.label.${item.id}.content`) }}
-                  </span>
-
-                  <md-button
-                    v-if="item.id === 'wordpress'"
-                    :href="WORDPRESS_PLUGIN_URL"
-                    class="md-likecoin outline"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >{{ $t('Settings.button.install') }}</md-button>
-                  <selectable-field
-                    v-else-if="item.id === 'medium'"
-                  >{{ likeButtonUrl }}</selectable-field>
-                  <md-button
-                    v-if="item.id === 'oice'"
-                    :href="OICE_URL"
-                    class="md-likecoin outline"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >{{ $t('Settings.button.createStory') }}</md-button>
-                </div>
-              </div>
-            </div>
+        <div class="lc-container-3 lc-margin-top-24 lc-bg-gray-1">
+          <div class="like-button-settings__header">
+            <h1>{{ $t('Settings.label.yourLikeButton') }}</h1>
           </div>
 
-
-          <div class="lc-container-3 lc-margin-top-24 lc-bg-gray-1">
-            <div class="like-button-settings__header">
-              <h1>{{ $t('Settings.label.yourLikeButton') }}</h1>
-            </div>
-
-            <div class="like-button-settings__preview-wrapper lc-margin-top-12">
-              <div
-                :class="[
-                  'like-button-settings__preview-header',
-                  'lc-padding-top-24',
-                  'lc-padding-bottom-16',
-                ]"
-              >
-                <div class="like-button-settings__preview-header--left">
-                  <span class="lc-font-weight-600 lc-color-like-gray-5">
-                    {{ $t('Settings.label.preview') }}
-                  </span>
-                  <md-field class="no-underline">
-                    <md-select
-                      v-model="previewOption"
-                      class="lc-likecoin"
-                    >
-                      <md-option value="wp">
-                        {{ $t('Settings.label.wordpressVersion') }}
-                      </md-option>
-                      <md-option value="medium">
-                        {{ $t('Settings.label.mediumVersion') }}
-                      </md-option>
-                    </md-select>
-                  </md-field>
-                </div>
-                <!-- ! Uncomment when more sizes are supported ! -->
-                <!-- <div class="like-button-settings__preview-header--right">
-                  <span class="like-button-settings__size--active">M</span>
-                </div> -->
-              </div>
-              <no-ssr>
-                <div class="like-button-settings__preview-content lc-text-align-center">
-                  <iframe
-                    v-if="getUserInfo.user"
-                    ref="previewLikeButton"
-                    :src="previewLikeButtonUrl"
-                    class="lc-margin-top-64 lc-margin-bottom-32 lc-mobile"
-                    frameborder="0"
-                    @load="() => updatePreviewInfo()"
-                  />
-                </div>
-              </no-ssr>
-            </div>
-
-            <div class="like-button-settings__social-media-settings lc-flex lc-margin-top-24">
-              <div>
-                {{ $t('Settings.label.displaySocialMediaOn') }}
-                <br>
+          <div class="like-button-settings__preview-wrapper lc-margin-top-12">
+            <div
+              :class="[
+                'like-button-settings__preview-header',
+                'lc-padding-top-24',
+                'lc-padding-bottom-16',
+              ]"
+            >
+              <div class="like-button-settings__preview-header--left">
+                <span class="lc-font-weight-600 lc-color-like-gray-5">
+                  {{ $t('Settings.label.preview') }}
+                </span>
                 <md-field class="no-underline">
-                  <!-- <label for="movie">Movie</label> -->
                   <md-select
-                    v-model="displaySocialMediaOption"
+                    v-model="previewOption"
                     class="lc-likecoin"
                   >
-                    <md-option
-                      v-for="option in DISPLAY_SOCIAL_MEDIA_OPTIONS"
-                      :key="option"
-                      :value="option"
-                    >{{ $t(`Settings.label.displayOption.${option}`) }}</md-option>
+                    <md-option value="wp">
+                      {{ $t('Settings.label.wordpressVersion') }}
+                    </md-option>
+                    <md-option value="medium">
+                      {{ $t('Settings.label.mediumVersion') }}
+                    </md-option>
                   </md-select>
                 </md-field>
               </div>
-
-              <form
-                id="like-button-settings-form"
-                @submit.prevent="onSubmit"
-              >
-                <span>{{ $t('Settings.label.selectSocialMediaLink') }}</span>
-                <div class="like-button-settings__social-media-platforms-icons">
-                  <social-media-icon
-                    v-for="socialMedia in socialMediaList"
-                    :key="socialMedia.id"
-                    :platform="socialMedia"
-                    :is-public="getSocialMediaIsPublic(socialMedia.id)"
-                    @change="onSocialMediaPublicityChange"
-                  />
-                  <md-button
-                    :to="{ name: 'in-settings' }"
-                    class="like-button-settings__setting-icon md-icon-button"
-                    type="button"
-                  >
-                    <simple-svg
-                      :filepath="SettingsIcon"
-                      fill="#c0c0c0"
-                      height="20px"
-                      width="20px"
-                    />
-                  </md-button>
-                </div>
-                <div class="lc-text-align-right">
-                  <div v-if="!isSubmittingForm">
-                    <md-button
-                      :disabled="isConfirmButtonDisabled"
-                      class="md-likecoin lc-margin-top-32"
-                      form="like-button-settings-form"
-                      type="submit"
-                    >
-                      {{ $t('General.button.confirm') }}
-                    </md-button>
-                  </div>
-                  <md-button
-                    v-else
-                    class="md-likecoin lc-margin-top-32"
-                    disabled
-                  >
-                    <md-progress-spinner
-                      :md-diameter="24"
-                      :md-stroke="2"
-                      md-mode="indeterminate"
-                    />
-                  </md-button>
-                </div>
-              </form>
+              <!-- ! Uncomment when more sizes are supported ! -->
+              <!-- <div class="like-button-settings__preview-header--right">
+                <span class="like-button-settings__size--active">M</span>
+              </div> -->
             </div>
+            <no-ssr>
+              <div class="like-button-settings__preview-content lc-text-align-center">
+                <iframe
+                  v-if="getUserInfo.user"
+                  ref="previewLikeButton"
+                  :src="previewLikeButtonUrl"
+                  class="lc-margin-top-64 lc-margin-bottom-32 lc-mobile"
+                  frameborder="0"
+                  @load="() => updatePreviewInfo()"
+                />
+              </div>
+            </no-ssr>
+          </div>
+
+          <div class="like-button-settings__social-media-settings lc-flex lc-margin-top-24">
+            <div>
+              {{ $t('Settings.label.displaySocialMediaOn') }}
+              <br>
+              <md-field class="no-underline">
+                <!-- <label for="movie">Movie</label> -->
+                <md-select
+                  v-model="displaySocialMediaOption"
+                  class="lc-likecoin"
+                >
+                  <md-option
+                    v-for="option in DISPLAY_SOCIAL_MEDIA_OPTIONS"
+                    :key="option"
+                    :value="option"
+                  >{{ $t(`Settings.label.displayOption.${option}`) }}</md-option>
+                </md-select>
+              </md-field>
+            </div>
+
+            <form
+              id="like-button-settings-form"
+              @submit.prevent="onSubmit"
+            >
+              <span>{{ $t('Settings.label.selectSocialMediaLink') }}</span>
+              <div class="like-button-settings__social-media-platforms-icons">
+                <social-media-icon
+                  v-for="socialMedia in socialMediaList"
+                  :key="socialMedia.id"
+                  :platform="socialMedia"
+                  :is-public="getSocialMediaIsPublic(socialMedia.id)"
+                  @change="onSocialMediaPublicityChange"
+                />
+                <md-button
+                  :to="{ name: 'in-settings' }"
+                  class="like-button-settings__setting-icon md-icon-button"
+                  type="button"
+                >
+                  <simple-svg
+                    :filepath="SettingsIcon"
+                    fill="#c0c0c0"
+                    height="20px"
+                    width="20px"
+                  />
+                </md-button>
+              </div>
+              <div class="lc-text-align-right">
+                <div v-if="!isSubmittingForm">
+                  <md-button
+                    :disabled="isConfirmButtonDisabled"
+                    class="md-likecoin lc-margin-top-32"
+                    form="like-button-settings-form"
+                    type="submit"
+                  >
+                    {{ $t('General.button.confirm') }}
+                  </md-button>
+                </div>
+                <md-button
+                  v-else
+                  class="md-likecoin lc-margin-top-32"
+                  disabled
+                >
+                  <md-progress-spinner
+                    :md-diameter="24"
+                    :md-stroke="2"
+                    md-mode="indeterminate"
+                  />
+                </md-button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
-    </transition>
+    </div>
   </section>
 </template>
 
@@ -209,7 +184,6 @@
 import Vue from 'vue'; // eslint-disable-line import/no-extraneous-dependencies
 import { mapActions, mapGetters } from 'vuex';
 
-import LikeButtonIntro from '@/components/LikeButtonIntro';
 import SelectableField from '@/components/SelectableField';
 import SocialMediaIcon from '@/components/settings/SocialMediaIcon';
 
@@ -241,7 +215,6 @@ const categoryItems = [
 export default {
   name: 'in-settings-button',
   components: {
-    LikeButtonIntro,
     SelectableField,
     SocialMediaIcon,
   },
@@ -258,7 +231,6 @@ export default {
       displaySocialMediaOption: null,
       previewOption: DISPLAY_SOCIAL_MEDIA_OPTIONS[1],
       DISPLAY_SOCIAL_MEDIA_OPTIONS,
-      isShowIntro: false,
     };
   },
   computed: {
@@ -327,7 +299,6 @@ export default {
   watch: {
     getUserInfo() {
       this.updatePreviewInfo();
-      this.setIsShowLikeButtonIntro();
     },
     getUserSocialPlatforms() {
       this.updatePreviewInfo();
@@ -344,7 +315,6 @@ export default {
       this.updateInfo();
     }
 
-    this.setIsShowLikeButtonIntro();
     this.displaySocialMediaOption = this.getUserSocialMeta.displaySocialMediaOption;
   },
   methods: {
@@ -409,15 +379,6 @@ export default {
         return this.socialMediasIsPublicState[id];
       }
       return (this.getUserSocialPlatforms[id] || this.getUserSocialLinks[id]).isPublic;
-    },
-    setIsShowLikeButtonIntro() {
-      const { isShowIntro } = this.$route.params;
-      if (isShowIntro !== undefined) {
-        this.isShowIntro = isShowIntro;
-      }
-    },
-    onClickIntroStart() {
-      this.isShowIntro = false;
     },
   },
 };
