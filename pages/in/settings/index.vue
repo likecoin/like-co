@@ -241,6 +241,7 @@
           :liker-id="getUserInfo.user"
           :email="getUserInfo.email"
           :display-name="getUserInfo.displayName"
+          :description="getUserInfo.description"
           :avatar="avatar"
           @upload-avatar="handleAvatarChange"
           @update-email="handleV2UpdateEamil"
@@ -286,6 +287,7 @@ export default {
       avatarFile: null,
       couponCode: '',
       displayName: '',
+      description: '',
       email: '',
       isShowEditInAuthCore: false,
       isShowAuthCoreWidget: true,
@@ -320,6 +322,7 @@ export default {
       return (
         this.getUserInfo.email !== this.email
         || this.getUserInfo.displayName !== this.displayName
+        || this.getUserInfo.description !== this.description
       );
     },
     otherPlatforms() {
@@ -432,6 +435,7 @@ export default {
       const user = this.getUserInfo;
       this.avatar = user.avatar;
       this.displayName = user.displayName;
+      this.description = user.description;
       this.email = user.email;
       this.fetchAuthPlatformsById(user.user);
       this.fetchSocialListDetailsById(user.user);
@@ -440,16 +444,18 @@ export default {
       await this.updateAvatarIfChanged();
       if (this.hasUserDetailsChanged) {
         try {
-          const { displayName } = this;
+          const { displayName, description } = this;
           const email = this.email.trim();
           const {
             user,
             displayName: currentDisplayName,
+            description: currentDescription,
             email: currentEmail,
           } = this.getUserInfo;
           const hasEmailChanged = this.getUserInfo.email !== email;
           const userInfo = {};
           if (displayName !== currentDisplayName) userInfo.displayName = displayName;
+          if (description !== currentDescription) userInfo.description = description;
           if (email !== currentEmail) userInfo.email = email;
 
           await this.updateUser(userInfo);
@@ -546,8 +552,9 @@ export default {
       this.email = email;
       this.onSubmit();
     },
-    handleV2SaveProfile({ displayName }) {
+    handleV2SaveProfile({ displayName, description }) {
       this.displayName = displayName;
+      this.description = description;
       this.onSubmit();
     },
   },

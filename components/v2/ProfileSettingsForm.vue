@@ -65,9 +65,8 @@
 
           <InputField
             v-model="internalDescription"
-            v-if="description"
-            :label="$t('V2_Form_DisplayName_label')"
-            :placeholder="$t('V2_Form_DisplayName_placeholder')"
+            :label="$t('V2_Form_Description_label')"
+            :placeholder="$t('V2_Form_Description_placeholder')"
           />
         </div>
 
