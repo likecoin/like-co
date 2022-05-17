@@ -94,12 +94,6 @@
                   </md-icon>
                 </md-button>
               </div>
-              <!-- TODO: change to install app CTA? -->
-              <civic-liker-cta
-                :is-show-chop="false"
-                class="lc-mobile-show"
-                layout="column"
-              />
             </div>
 
           </section>
@@ -212,14 +206,12 @@ import {
 import EditIcon from '@/assets/icons/edit.svg';
 import EditWhiteIcon from '@/assets/icons/edit-white.svg';
 
-import CivicLikerCta from '~/components/CivicLiker/CTA';
 import LikeCoinAmount from '~/components/LikeCoinAmount';
 import InputDialog from '~/components/dialogs/InputDialog';
 
 export default {
   name: 'user-info-form',
   components: {
-    CivicLikerCta,
     InputDialog,
     LikeCoinAmount,
   },

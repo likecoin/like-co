@@ -1,15 +1,6 @@
 <template>
   <div class="likecoin-settings__personal-tab">
 
-    <!-- Civic Liker CTA Section -->
-    <div class="lc-container-1 lc-margin-top-48 lc-mobile">
-      <div class="lc-container-2">
-        <civic-liker-cta
-          class="lc-bg-gray-1 lc-padding-top-24-mobile lc-padding-bottom-24-mobile"
-        />
-      </div>
-    </div>
-
     <section
       v-if="!getUserInfo.isEmailVerified"
       class="lc-container-0 lc-margin-top-48"
@@ -273,7 +264,6 @@ import {
 import getTestAttribute from '@/util/test';
 import User from '@/util/User';
 
-import CivicLikerCta from '~/components/CivicLiker/CTA';
 import OtherConnectList from '~/components/settings/OtherConnectList';
 import ExternalLinksPanel from '~/components/settings/ExternalLinksPanel';
 import VerifyEmailCta from '~/components/VerifyEmailCta';
@@ -284,7 +274,6 @@ import TickIcon from '@/assets/tokensale/tick.svg';
 export default {
   name: 'settings-index',
   components: {
-    CivicLikerCta,
     AuthCoreSettings,
     OtherConnectList,
     ExternalLinksPanel,
