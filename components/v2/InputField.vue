@@ -133,6 +133,8 @@ export default {
 .v2-input-field__text-container {
   display: flex;
   align-items: center;
+
+  width: 100%;
 }
 
 .v2-input-field__placeholder {
