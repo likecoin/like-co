@@ -569,6 +569,26 @@
             }
         }
     },
+    "DialogV2": {
+      "title": {
+        "signIn": "注册/登入"
+      },
+      "type": {
+        "keplr": {
+          "name": "Keplr Wallet",
+          "description": "以 Keplr 浏览器插件连接"
+        },
+        "likerLand": {
+          "name": "Liker Land app",
+          "description": "以 Liker Land app 连接"
+        },
+        "metaMask": {
+          "name": "MetaMask",
+          "description": "(只适用于旧用户)"
+        }
+      },
+      "dropdown": "其他登录方法"
+    },
     "Dialog": {
         "metamask": {
             "button": {
@@ -1678,8 +1698,44 @@
     "ChainUpgradingAlertTitle": "LikeCoin chain 正在更新",
     "ChainUpgradingAlertMessage": "相关功能会暂时停用",
     "ChainUpgradingAlertLearnMore": "Please refer to this {announcement} for more details.",
-    "V2_AuthDialog_Loading": "登入中",
-    "V2_AuthDialog_WalletConnect_Loading": "请在 {appName} 上允许连接",
+    "V2_AuthDialog_Loading": "载入中",
+    "V2_AuthDialog_Registering": "注册中",
+    "V2_AuthDialog_SigningIn": "登入中",
+    "V2_AuthDialog_WalletConnect_Loading": "请在 {appName} 上允许连接。",
+    "V2_AuthDialog_Title_AwaitEmailVerify": "认证你的电邮",
+    "V2_AuthDialog_Title_CreateLikerId": "欢迎，我们怎样称呼你？。",
+    "V2_AuthDialog_Title_InputBio": "你想其他人怎样认识你？",
+    "V2_AuthDialog_Title_InputEmail": "我们怎样联络你？",
+    "V2_AuthDialog_Title_RegisterCompleted": "完成注册！欢迎你",
+    "V2_AuthDialog_Step": "{step}/{total}步",
+    "V2_Form_Button_Confirm": "确认",
+    "V2_Form_Button_Edit": "编辑",
+    "V2_Form_Button_EditProfile": "编辑个人资料",
+    "V2_Form_Button_GoBack": "完成",
+    "V2_Form_Button_Next": "下一步",
+    "V2_Form_Button_Save": "储存",
+    "V2_Form_Button_Skip": "略过",
+    "V2_Form_Button_SkipAnyway": "略过",
+    "V2_Form_Button_VerifyEmail": "验证电邮",
+    "V2_Form_Button_VerifyLater": "稍后验证",
+    "V2_Form_Button_UploadPicture": "更改头像",
+    "V2_Form_Description_label": "简介",
+    "V2_Form_Description_placeholder": "简介",
+    "V2_Form_DisplayName_label": "显示名称",
+    "V2_Form_DisplayName_placeholder": "显示名称",
+    "V2_Form_Email_description": "已验证电邮的帐户将会获得更多 LIKE 奖赏。",
+    "V2_Form_Email_label": "你的电邮",
+    "V2_Form_Email_placeholder": "you@example.com",
+    "V2_Form_LikerId_description": "Liker ID 是独一无二的，当创建后不能更改。",
+    "V2_Form_LikerId_hint": "最少 7 个字元",
+    "V2_Form_LikerId_label": "Liker ID",
+    "V2_Form_LikerId_placeholder": "创建你的 Liker ID",
+    "V2_Form_LikerId_error_duplicated": "此 Liker ID 已被注册",
+    "V2_Form_Wallet_label": "钱包地址",
+    "V2_Form_Verify_description": "验证电邮已发出，{br}请点击电邮内的连结继续。",
+    "V2_ProfileSettings_Title": "修改你的个人资料",
+    "V2_SkipEmailModal_Title": "我们想验证你的电邮⋯⋯",
+    "V2_SkipEmailModal_Description": "已验证电邮的帐户将会获得更多 LIKE 奖赏。",
     "V2_WalletConnectQRCodeModal_Title": "连结 Liker ID",
     "V2_WalletConnectQRCodeModal_Instruction_Step_1": "在手机上打开 {appLogo} {appName}。",
     "V2_WalletConnectQRCodeModal_Instruction_Step_2": "在钱包页面上打开 {qrcodeIcon} 二维码扫描器。",
