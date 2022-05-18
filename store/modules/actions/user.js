@@ -191,9 +191,8 @@ export function resetLoginByCosmosWallet({ commit }) {
 }
 
 export async function loginByCosmosWallet({ commit }, source) {
-  let payload;
-  let platform;
-  let wallet = '';
+  let walletAddress = '';
+  let signer;
   switch (source) {
     case 'walletconnect': {
       await WalletConnect.init({
@@ -207,27 +206,33 @@ export async function loginByCosmosWallet({ commit }, source) {
           }
         },
       });
-      payload = await User.signCosmosLogin(
-        await WalletConnect.getWalletAddress(),
-        s => WalletConnect.signLogin(s),
-      );
+      walletAddress = await WalletConnect.getWalletAddress();
+      signer = s => WalletConnect.signLogin(s);
       break;
     }
 
     case 'keplr': {
       await Keplr.initKeplr();
-      wallet = await Keplr.getWalletAddress();
-      platform = wallet.startsWith('like') ? 'likeWallet' : 'cosmosWallet';
-      payload = await User.signCosmosLogin(
-        wallet,
-        s => Keplr.signLogin(s),
-        platform,
-      );
+      walletAddress = await Keplr.getWalletAddress();
+      signer = s => Keplr.signLogin(s);
       break;
     }
     default: throw new Error('UNKNOWN_COSMOS_WALLET_SOURCE');
   }
-  return { platform, wallet, payload: { cosmosWalletSource: source, ...payload } };
+  const platform = walletAddress.startsWith('like') ? 'likeWallet' : 'cosmosWallet';
+  const payload = await User.signCosmosLogin(
+    walletAddress,
+    signer,
+    platform,
+  );
+  return {
+    platform,
+    wallet: walletAddress,
+    payload: {
+      cosmosWalletSource: source,
+      ...payload,
+    },
+  };
 }
 
 export async function onWalletChanged({ commit }, wallet) {

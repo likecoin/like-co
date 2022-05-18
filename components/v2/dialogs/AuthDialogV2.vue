@@ -344,10 +344,10 @@ export default {
     },
 
     onClickUseKeplrButton() {
-      this.signInWithPlatform('cosmosWallet', { source: 'keplr' });
+      this.signInWithPlatform('likeWallet', { source: 'keplr' });
     },
     onClickUseWalletConnectButton() {
-      this.signInWithPlatform('cosmosWallet', { source: 'walletconnect' });
+      this.signInWithPlatform('likeWallet', { source: 'walletconnect' });
     },
     onClickDialogCloseButton() {
       if (this.currentTab === 'error') {
@@ -375,6 +375,7 @@ export default {
       );
 
       switch (platform) {
+        case 'likeWallet':
         case 'cosmosWallet': {
           const { source } = opt;
           this.signInWithCosmosWallet(source);
