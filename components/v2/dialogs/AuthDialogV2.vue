@@ -267,7 +267,9 @@ export default {
         return '';
       }
       if (this.getWalletConnectConnecting) {
-        return this.$t('V2_AuthDialog_WalletConnect_Loading');
+        return this.$t('V2_AuthDialog_WalletConnect_Loading', {
+          appName: 'Liker Land app',
+        });
       }
       if (this.currentTab === 'registering') {
         return this.$t('V2_AuthDialog_Registering');
