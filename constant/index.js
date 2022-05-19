@@ -50,6 +50,7 @@ export const MEDIUM_REGEX = /^(?:https?:\/\/)?[^/]*\/media\/[a-zA-Z0-9_]+(?:\?po
 export const PUBSUB_TOPIC_MISC = 'misc';
 
 export const LOGIN_MESSAGE = 'Login - Reinventing the Like';
+export const POST_LOGOUT_ROUTE = '/in/register';
 
 export const ONE_LIKE = new BigNumber(10).pow(18);
 
