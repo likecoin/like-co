@@ -171,12 +171,13 @@ export default {
 }
 
 .base-dialog-v3__content-container {
-  transition-property: width, height;
-  transition-duration: 0.2s;
+  overflow: hidden;
+
   transition-timing-function: ease-in-out;
+  transition-duration: 0.2s;
+  transition-property: width, height;
 
   background-color: white;
-  overflow: hidden;
 }
 @media screen and (min-width: 421px) {
   .base-dialog-v3__content-container {
