@@ -195,9 +195,9 @@
         <ProfileSettingsForm
           :liker-id="getUserInfo.user"
           :wallet-address="getUserWalletAddress"
-          :email="getUserInfo.email"
-          :display-name="getUserInfo.displayName"
-          :description="getUserInfo.description"
+          :email="email"
+          :display-name="displayName"
+          :description="description"
           :avatar="avatar"
           @upload-avatar="handleAvatarChange"
           @update-email="handleV2UpdateEamil"
