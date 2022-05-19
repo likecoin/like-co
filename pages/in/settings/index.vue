@@ -194,7 +194,7 @@
       <div class="lc-container-2 lc-bg-gray-1">
         <ProfileSettingsForm
           :liker-id="getUserInfo.user"
-          :wallet-address="getUserInfo.likeWallet"
+          :wallet-address="getUserWalletAddress"
           :email="getUserInfo.email"
           :display-name="getUserInfo.displayName"
           :description="getUserInfo.description"
