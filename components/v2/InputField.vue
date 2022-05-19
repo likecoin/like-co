@@ -19,7 +19,13 @@
         <div class="v2-input-field__text-container">
           <div
             v-if="isReadonly"
-          >{{ value }}</div>
+            :class="[
+              'v2-input-field__readonly-text',
+              {
+                'v2-input-field__readonly-text--no-value': !value,
+              }
+            ]"
+          >{{ value || placeholder }}</div>
           <template v-else>
             <input
               v-if="!isMultiline"
@@ -36,11 +42,11 @@
               :rows="4"
               @input="handleInput"
             />
+            <div
+              v-if="!value"
+              class="v2-input-field__placeholder"
+            >{{ placeholder }}</div>
           </template>
-          <div
-            v-if="!value"
-            class="v2-input-field__placeholder"
-          >{{ placeholder }}</div>
         </div>
         <slot name="append" />
       </div>
@@ -114,9 +120,6 @@ export default {
   display: flex;
   flex-grow: 1;
 
-  min-height: 40px;
-  padding: 8px 0;
-
   color: #4a4a4a;
 
   font-size: 16px;
@@ -124,9 +127,6 @@ export default {
 }
 
 .v2-input-field:not(.v2-input-field--readonly) .v2-input-field__layout {
-  padding-right: 16px;
-  padding-left: 16px;
-
   border-radius: 12px;
   background-color: #ebebeb;
 }
@@ -151,12 +151,17 @@ export default {
   width: 100%;
 }
 
-.v2-input-field__placeholder {
+.v2-input-field__placeholder,
+.v2-input-field__readonly-text.v2-input-field__readonly-text--no-value {
   position: absolute;
 
   pointer-events: none;
 
   color: #9b9b9b;
+}
+
+.v2-input-field__readonly-text.v2-input-field__readonly-text--no-value {
+  font-style: italic;
 }
 
 .v2-input-field__input {
@@ -170,6 +175,23 @@ export default {
 }
 .v2-input-field__input:focus {
   outline: none;
+}
+
+textarea.v2-input-field__input {
+  resize: vertical;
+}
+
+.v2-input-field__input,
+.v2-input-field__placeholder,
+.v2-input-field__readonly-text {
+  min-height: 40px;
+  padding: 8px 0;
+}
+
+.v2-input-field__input,
+.v2-input-field__placeholder {
+  padding-right: 16px;
+  padding-left: 16px;
 }
 
 .v2-input-field__error {
