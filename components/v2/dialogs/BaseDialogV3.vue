@@ -14,13 +14,23 @@
           ref="contentContainer"
           :class="contentContainerInnerClass"
         >
-          <button
-            v-if="shouldShowCloseButton"
-            class="base-dialog-v3__close-button"
-            @click="$emit('click-close-button')"
+          <Transition
+            name="fade"
+            mode="out-in"
+            appear
           >
-            <CloseIcon />
-          </button>
+            <button
+              v-if="shouldShowCloseButton"
+              class="base-dialog-v3__close-button"
+              @click="$emit('click-close-button')"
+            >
+              <CloseIcon />
+            </button>
+            <div
+              v-else
+              key="dummy-for-time-sync"
+            />
+          </Transition>
           <main>
             <slot />
           </main>
@@ -182,8 +192,7 @@ export default {
   padding: 32px 24px;
 }
 
-.base-dialog-v3__content-container-inner:not(.base-dialog-v3__content-container-inner--initial)
-  .base-dialog-v3__content-container-inner {
+.base-dialog-v3__content-container-inner:not(.base-dialog-v3__content-container-inner--initial) {
   position: absolute;
 }
 
