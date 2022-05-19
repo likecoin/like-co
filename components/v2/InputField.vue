@@ -3,6 +3,7 @@
     :class="[
       'v2-input-field',
       {
+        'v2-input-field--multiline': isMultiline,
         'v2-input-field--readonly': isReadonly,
       },
     ]"
@@ -146,9 +147,11 @@ export default {
 
 .v2-input-field__text-container {
   display: flex;
-  align-items: center;
 
   width: 100%;
+}
+.v2-input-field:not(.v2-input-field--multiline) .v2-input-field__text-container {
+  align-items: center;
 }
 
 .v2-input-field__placeholder,
