@@ -7,19 +7,24 @@
       @click="onClickDialog"
     >
       <div
-        ref="contentContainer"
         class="base-dialog-v3__content-container"
+        :style="contentContainerStyle"
       >
-        <button
-          v-if="shouldShowCloseButton"
-          class="base-dialog-v3__close-button"
-          @click="$emit('click-close-button')"
+        <div
+          ref="contentContainer"
+          :class="contentContainerInnerClass"
         >
-          <CloseIcon />
-        </button>
-        <main>
-          <slot />
-        </main>
+          <button
+            v-if="shouldShowCloseButton"
+            class="base-dialog-v3__close-button"
+            @click="$emit('click-close-button')"
+          >
+            <CloseIcon />
+          </button>
+          <main>
+            <slot />
+          </main>
+        </div>
       </div>
     </div>
   </Transition>
@@ -50,6 +55,12 @@ export default {
       default: true,
     },
   },
+  data() {
+    return {
+      innerWidth: 0,
+      innerHeight: 0,
+    };
+  },
   computed: {
     rootClass() {
       return {
@@ -61,6 +72,26 @@ export default {
     shouldShowCloseButton() {
       return this.isClosable || this.isShowCloseButton;
     },
+    hasContentContainerInited() {
+      return this.innerWidth > 0 || this.innerHeight > 0;
+    },
+    contentContainerStyle() {
+      if (!this.hasContentContainerInited) {
+        return null;
+      }
+      return `width: ${this.innerWidth}px;height: ${this.innerHeight}px`;
+    },
+    contentContainerInnerClass() {
+      return [
+        'base-dialog-v3__content-container-inner',
+        {
+          'base-dialog-v3__content-container-inner--initial': !this.hasContentContainerInited,
+        },
+      ];
+    },
+  },
+  mounted() {
+    this.setupResizeObserver();
   },
   methods: {
     onClickDialog(e) {
@@ -80,6 +111,23 @@ export default {
       } else {
         this.$emit('update:isShow', false);
       }
+    },
+    setupResizeObserver() {
+      const { contentContainer } = this.$refs;
+      if (!contentContainer) return;
+      const resizeObserver = new ResizeObserver(([entry]) => {
+        if (!entry || !entry.borderBoxSize) return;
+        const borderBoxSize = Array.isArray(entry.borderBoxSize)
+          ? entry.borderBoxSize[0]
+          : entry.borderBoxSize;
+        const {
+          inlineSize: width,
+          blockSize: height,
+        } = borderBoxSize;
+        this.innerWidth = width;
+        this.innerHeight = height;
+      });
+      resizeObserver.observe(contentContainer);
     },
   },
 };
@@ -113,20 +161,15 @@ export default {
 }
 
 .base-dialog-v3__content-container {
-  position: relative;
-
-  padding: 32px 24px;
+  transition-property: width, height;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
 
   background-color: white;
-}
-@media screen and (max-width: 420px) {
-  .base-dialog-v3__content-container {
-    width: 100%;
-  }
+  overflow: hidden;
 }
 @media screen and (min-width: 421px) {
   .base-dialog-v3__content-container {
-    min-width: 420px;
     margin: 104px auto 16px;
 
     border-radius: 24px;
@@ -135,8 +178,24 @@ export default {
 .base-dialog-v3.base-dialog-v3--absolute .base-dialog-v3__content-container  {
   filter: drop-shadow(2px 4px 8px rgba(0, 0, 0, 0.25));
 }
-.base-dialog-v3__content-container > * {
-  z-index: -1;
+.base-dialog-v3__content-container-inner {
+  padding: 32px 24px;
+}
+
+.base-dialog-v3__content-container-inner:not(.base-dialog-v3__content-container-inner--initial)
+  .base-dialog-v3__content-container-inner {
+  position: absolute;
+}
+
+@media screen and (max-width: 420px) {
+  .base-dialog-v3__content-container-inner {
+    width: 100%;
+  }
+}
+@media screen and (min-width: 421px) {
+  .base-dialog-v3__content-container-inner {
+    min-width: 420px;
+  }
 }
 
 .base-dialog-v3__close-button {
