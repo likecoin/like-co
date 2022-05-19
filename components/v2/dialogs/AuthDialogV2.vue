@@ -9,123 +9,149 @@
       :is-show-close-button="shouldShowDialogCloseButton"
       @click-close-button="onClickDialogCloseButton"
     >
-      <RegisterForm
-        v-if="currentTab === 'register'"
-        @check-liker-id="onCheckLikerId"
-        @register="register"
-      />
-      <RegisterForm
-        v-else-if="currentTab === 'await-email-verify' || currentTab === 'welcome'"
-        :initial-step="currentTab === 'welcome' ? 'completed' : 'await-email-verify'"
-        :user-info="getUserInfo"
-        @upload-avatar="uploadAvatar"
-        @complete="redirectAfterSignIn"
-      />
-      <template v-else>
-        <!-- header -->
-        <div class="header">
-          <div class="header-icon">
-            <sign-in />
-          </div>
-          <div class="header-text">{{ headerText }}</div>
-        </div>
-
-        <div
-          v-if="currentTab === 'error'"
-          class="content-container"
-        >{{ errorMessage }}</div>
-
-        <i18n
-          v-else-if="loadingI18nPath"
-          class="content-container"
-          :path="loadingI18nPath"
-          tag="div"
-        >
-          <span
-            class="app-name"
-            place="appName"
-          >Liker Land app</span>
-        </i18n>
-
-        <WalletConnectQRCodeView
-          v-else-if="getWalletConnectURI"
-          :value="getWalletConnectURI"
+      <Transition
+        name="fade"
+        mode="out-in"
+      >
+        <RegisterForm
+          v-if="currentTab === 'register'"
+          key="register"
+          @check-liker-id="onCheckLikerId"
+          @register="register"
         />
-        <!-- main -->
+        <RegisterForm
+          v-else-if="currentTab === 'await-email-verify' || currentTab === 'welcome'"
+          :key="`register-${currentTab}`"
+          :initial-step="currentTab === 'welcome' ? 'completed' : 'await-email-verify'"
+          :user-info="getUserInfo"
+          @upload-avatar="uploadAvatar"
+          @complete="redirectAfterSignIn"
+        />
         <div
           v-else
-          class="content-container"
+          key="general"
         >
-          <!-- keplr -->
-          <div
-            class="auth-btn"
-            @click="onClickUseKeplrButton"
-          >
-            <div class="title-wapper">
-              <div class="icon">
-                <keplr-icon />
-              </div>
-              <div class="name">
-                {{ $t("DialogV2.type.keplr.name") }}
-              </div>
+          <!-- header -->
+          <div class="header">
+            <div class="header-icon">
+              <sign-in />
             </div>
-            <div class="description">
-              {{ $t("DialogV2.type.keplr.description") }}
-            </div>
+            <Transition
+              name="fade"
+              mode="out-in"
+            >
+              <div
+                :key="headerText"
+                class="header-text"
+              >{{ headerText }}</div>
+            </Transition>
           </div>
-          <!-- dropdown-toggle -->
-          <div
-            :class="{
-              'dropdown-toggle': true,
-              'dropdown-toggle--toggled': isShowMoreLoginOptions,
-            }"
-            @click="isShowMoreLoginOptions = !isShowMoreLoginOptions"
-          >
-            <div class="text">{{ $t("DialogV2.dropdown") }}</div>
-            <div class="icon"><arrow-down /></div>
-          </div>
-          <!-- liker land -->
           <Transition
-            name="slide"
+            name="fade"
             mode="out-in"
           >
-            <div v-show="isShowMoreLoginOptions">
+            <div
+              v-if="currentTab === 'error'"
+              key="error"
+              class="content-container"
+            >{{ errorMessage }}</div>
+
+            <i18n
+              v-else-if="loadingI18nPath"
+              :key="loadingI18nPath"
+              class="content-container"
+              :path="loadingI18nPath"
+              tag="div"
+            >
+              <span
+                class="app-name"
+                place="appName"
+              >Liker Land app</span>
+            </i18n>
+
+            <WalletConnectQRCodeView
+              v-else-if="getWalletConnectURI"
+              key="wallet-connect"
+              :value="getWalletConnectURI"
+            />
+            <!-- main -->
+            <div
+              v-else
+              key="portal"
+              class="content-container"
+            >
+              <!-- keplr -->
               <div
                 class="auth-btn"
-                @click="onClickUseWalletConnectButton"
+                @click="onClickUseKeplrButton"
               >
                 <div class="title-wapper">
                   <div class="icon">
-                    <liker-land />
+                    <keplr-icon />
                   </div>
                   <div class="name">
-                    {{ $t("DialogV2.type.likerLand.name") }}
+                    {{ $t("DialogV2.type.keplr.name") }}
                   </div>
                 </div>
                 <div class="description">
-                  {{ $t("DialogV2.type.likerLand.description") }}
+                  {{ $t("DialogV2.type.keplr.description") }}
                 </div>
               </div>
-              <!-- legacy content -->
+              <!-- dropdown-toggle -->
               <div
-                v-if="!getWalletConnectURI"
-                class="legacy-content-container"
+                :class="{
+                  'dropdown-toggle': true,
+                  'dropdown-toggle--toggled': isShowMoreLoginOptions,
+                }"
+                @click="isShowMoreLoginOptions = !isShowMoreLoginOptions"
               >
-                <div
-                  class="text metamask-button"
-                  @click="signInWithMetaMask"
-                >
-                  {{
-                    $t("DialogV2.type.metaMask.name") + ' ' +
-                      $t("DialogV2.type.metaMask.description")
-                  }}
-                  <div />
-                </div>
+                <div class="text">{{ $t("DialogV2.dropdown") }}</div>
+                <div class="icon"><arrow-down /></div>
               </div>
+              <!-- liker land -->
+              <Transition
+                name="slide"
+                mode="out-in"
+              >
+                <div v-show="isShowMoreLoginOptions">
+                  <div
+                    class="auth-btn"
+                    @click="onClickUseWalletConnectButton"
+                  >
+                    <div class="title-wapper">
+                      <div class="icon">
+                        <liker-land />
+                      </div>
+                      <div class="name">
+                        {{ $t("DialogV2.type.likerLand.name") }}
+                      </div>
+                    </div>
+                    <div class="description">
+                      {{ $t("DialogV2.type.likerLand.description") }}
+                    </div>
+                  </div>
+                  <!-- legacy content -->
+                  <div
+                    v-if="!getWalletConnectURI"
+                    class="legacy-content-container"
+                  >
+                    <div
+                      class="text metamask-button"
+                      @click="signInWithMetaMask"
+                    >
+                      {{
+                        $t("DialogV2.type.metaMask.name") + ' ' +
+                          $t("DialogV2.type.metaMask.description")
+                      }}
+                      <div />
+                    </div>
+                  </div>
+                </div>
+              </Transition>
             </div>
           </Transition>
         </div>
-      </template>
+      </Transition>
     </BaseDialogV3>
   </div>
 </template>
