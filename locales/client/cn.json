@@ -862,7 +862,7 @@
     },
     "Edit": {
         "label": {
-            "id": "Liker ID:",
+            "id": "Liker ID",
             "becomeCivicLiker": "成为赞赏公民",
             "likeCoinAmount": "LikeCoin 数量",
             "manageYourLikeCoin": "管理你的 LikeCoin",
@@ -870,6 +870,7 @@
             "address": "钱包地址",
             "email": "邮件地址",
             "addEmail": "增加邮件地址",
+            "editInAuthCore": "请于 Authcore 设定",
             "redeemCode": "兑换码",
             "validCodeRequired": "请输入有效兑换码",
             "verified": "成功验证",

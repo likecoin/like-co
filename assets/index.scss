@@ -608,6 +608,10 @@ $line-height-map: (
 }
 
 .lc-bg- {
+  &white {
+    background-color: white;
+  }
+
   &transparent {
     background-color: transparent;
   }

@@ -914,7 +914,7 @@
   },
   "Edit": {
     "label": {
-      "id": "Liker ID:",
+      "id": "Liker ID",
       "becomeCivicLiker": "成為讚賞公民",
       "likeCoinAmount": "LikeCoin 數量",
       "manageYourLikeCoin": "管理你的 LikeCoin",
@@ -922,6 +922,7 @@
       "address": "錢包地址",
       "email": "郵件地址",
       "addEmail": "增加郵件地址",
+      "editInAuthCore": "請於 Authcore 設定",
       "redeemCode": "兌換碼",
       "validCodeRequired": "請輸入有效兌換碼",
       "verified": "成功驗證",

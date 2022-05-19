@@ -14,7 +14,7 @@
 
     <!-- User Info Form Section -->
     <template v-if="getUserIsAuthCore">
-      <div class="lc-container-1 lc-margin-top-16">
+      <section class="lc-container-1 lc-margin-top-48">
         <div class="lc-container-2">
           <div class="lc-container-3 lc-padding-vertical-32 lc-bg-gray-1">
             <form
@@ -45,118 +45,62 @@
                   >
                 </div>
                 <div class="profile-setting-page__account-detail">
-                  <div class="profile-setting-page__field profile-setting-page__field--one-line">
-                    <span class="title">
-                      {{ $t('Edit.label.id') }}
-                    </span>
-                    <span class="content">
-                      {{ getUserInfo.user }}
-                    </span>
+                  <div>
+                    <md-field>
+                      <label>{{ $t('Edit.label.id') }}</label>
+                      <md-input
+                        :value="getUserInfo.user"
+                        :readonly="true"
+                      />
+                    </md-field>
                   </div>
-                  <div class="profile-setting-page__field profile-setting-page__field--multi-line">
-                    <span class="title">
-                      {{ $t('Register.form.displayName') }}
-                    </span>
-                    <span class="content">
-                      <md-field>
-                        <md-input
-                          v-model="displayName"
-                          v-bind="getTestAttribute('userDisplayName')"
-                          :required="!getUserIsAuthCore"
-                          :disabled="getUserIsAuthCore"
-                        />
-                        <md-button @click="focusAuthCore">
-                          <span v-if="isShowEditInAuthCore">
-                            {{ $t('Edit.label.editInAuthCore') }}
-                          </span>
-                          <md-icon>edit</md-icon>
-                        </md-button>
-                      </md-field>
-                    </span>
+                  <div>
+                    <md-field>
+                      <label>{{ $t('Register.form.displayName') }}</label>
+                      <md-input
+                        v-model="displayName"
+                        v-bind="getTestAttribute('userDisplayName')"
+                        :required="!getUserIsAuthCore"
+                        :disabled="getUserIsAuthCore"
+                      />
+                      <md-button
+                        class="md-suffix md-icon-button md-dense md-input-action"
+                        @click="isShowEditInAuthCore = true"
+                      >
+                        <md-icon>edit</md-icon>
+                      </md-button>
+                      <md-dialog-confirm
+                        :md-active.sync="isShowEditInAuthCore"
+                        :md-title="$t('Register.form.displayName')"
+                        :md-content="$t('Edit.label.editInAuthCore')"
+                        :md-cancel-text="$t('General.button.cancel')"
+                        :md-confirm-text="$t('General.button.confirm')"
+                        @md-confirm="focusAuthCore"
+                      />
+                    </md-field>
                   </div>
-                  <div
-                    v-if="getUserHasWallet"
-                    class="profile-setting-page__field profile-setting-page__field--one-line"
-                  >
-                    <span class="title">
-                      {{ $t('Register.form.walletAddress') }}:
-                    </span>
-                    <span
-                      v-if="getUserInfo.cosmosWallet"
-                      class="content"
-                    >
-                      {{ getUserInfo.cosmosWallet }}
-                    </span>
+                  <div v-if="getUserHasWallet">
+                    <md-field>
+                      <label>{{ $t('Register.form.walletAddress') }}</label>
+                      <md-input
+                        :value="getUserWalletAddress"
+                        :readonly="true"
+                      />
+                    </md-field>
                   </div>
-                  <template v-if="!getUserIsAuthCore">
-                    <div
-                      class="profile-setting-page__field profile-setting-page__field--multi-line"
-                    >
-                      <span class="title">
-                        {{ $t('Register.form.email') }}
-                        <span class="profile-setting-page__email-verify-status">
-                          <span
-                            v-if="getUserInfo.isEmailVerified"
-                            class="verified"
-                          >
-                            <simple-svg
-                              :filepath="TickIcon"
-                              width="16px"
-                              height="16px"
-                            />
-                            {{ $t('Edit.label.verified') }}
-                          </span>
-                          <span v-else-if="isVerifying">
-                            ({{ $t('Edit.label.verifying') }})
-                          </span>
-                          <span v-else-if="email">
-                            ({{ $t('Edit.label.unverified') }})
-                          </span>
-                        </span>
-                      </span>
-                      <span class="content">
-                        <md-field>
-                          <md-input
-                            v-model="email"
-                            :title="$t('Edit.label.validCodeRequired')"
-                            :pattern="W3C_EMAIL_REGEX"
-                            autocomplete="email"
-                            required
-                          />
-                        </md-field>
-                      </span>
-                    </div>
-                  </template>
                 </div>
-              </div>
-              <div
-                v-if="!getUserIsAuthCore"
-                class="profile-setting-page__confirm-btn lc-margin-top-8"
-              >
-                <md-button
-                  :disabled="!(hasUserDetailsChanged || hasUserAvatarChanged) || disabled"
-                  v-bind="getTestAttribute('submitButton')"
-                  class="md-likecoin"
-                  form="account-setting-form"
-                  type="submit"
-                >
-                  {{ $t('General.button.confirm') }}
-                </md-button>
               </div>
             </form>
           </div>
         </div>
-      </div>
+      </section>
       <!-- Connections Section -->
       <section
         id="connect"
         class="lc-container-0 lc-margin-top-32"
       >
         <div class="lc-container-1">
-          <div
-            ref="authcore"
-            class="lc-container-2"
-          >
+          <div class="lc-container-2">
             <no-ssr>
               <div
                 v-if="getAuthCoreNeedReAuth || getAuthCoreAccessToken"
@@ -166,7 +110,17 @@
                   <h2 class="lc-font-size-14 lc-font-weight-400">
                     {{ $t('AuthCore.Settings.title') }}
                   </h2>
-                  <div v-if="getAuthCoreNeedReAuth">
+                  <div
+                    v-if="getAuthCoreNeedReAuth"
+                    :class="[
+                      'md-layout',
+                      'md-alignment-center-center',
+                      'lc-margin-top-16',
+                      'lc-padding-vertical-64',
+                      'lc-bg-white',
+                      'md-elevation-1',
+                    ]"
+                  >
                     <md-button
                       class="md-likecoin"
                       @click="onClickAuthCoreReAuth"
@@ -176,6 +130,7 @@
                   </div>
                   <div
                     v-else-if="getAuthCoreAccessToken"
+                    ref="authcore"
                   >
                     <md-tabs
                       :md-active-tab="authCoreTabId"
@@ -348,9 +303,6 @@ export default {
     if (this.getUserIsRegistered) {
       this.updateInfo();
     }
-    if (this.getAuthCoreNeedReAuth) {
-      this.setReAuthDialogShow(true);
-    }
   },
   methods: {
     ...mapActions([
@@ -424,12 +376,14 @@ export default {
       };
     },
     focusAuthCore() {
-      this.isShowEditInAuthCore = true;
+      this.isShowEditInAuthCore = false;
       const widget = this.$refs.authcore;
       if (widget) {
         this.$nextTick(() => {
           widget.scrollIntoView();
         });
+      } else {
+        this.onClickAuthCoreReAuth();
       }
     },
     async updateInfo() {
@@ -567,10 +521,6 @@ export default {
 @import "~assets/variables";
 @import "~assets/input";
 
-.civic-liker-cta--renewal {
-  padding: 24px;
-}
-
 .profile-setting-page {
   &__account-setting {
     display: flex;
@@ -605,96 +555,6 @@ export default {
     @media (min-width: 768px + 1px) {
       width: calc(100% - 176px);
       margin-left: 32px;
-    }
-  }
-
-  &__field {
-    display: flex;
-
-    margin: 16px 0;
-
-    .content {
-      color: $like-gray-5;
-
-      font-size: 20px;
-    }
-
-    &--one-line {
-      flex-direction: row;
-
-      @media (min-width: 768px + 1px) {
-        flex-wrap: wrap;
-      }
-
-      @media (max-width: 768px) {
-        flex-direction: column;
-      }
-
-      .title {
-        min-width: 124px;
-      }
-
-      .content {
-        word-wrap: break-word;
-      }
-    }
-
-    &--multi-line {
-      flex-direction: column;
-
-      .md-field {
-        min-height: auto;
-        margin: 0;
-        padding: 0;
-      }
-
-      .verified {
-        display: inline-flex;
-
-        transform: translateY(2px);
-
-        color: $like-green-2;
-      }
-    }
-  }
-
-  &__email-verify-status {
-    margin-left: 8px;
-
-    font-weight: 600;
-
-    .simple-svg-wrapper {
-      margin-right: 4px;
-    }
-  }
-
-  &__social {
-    /deep/ ul {
-      flex: 1;
-    }
-  }
-
-  &__confirm-btn {
-    text-align: right;
-
-    @media (max-width: 768px) {
-      text-align: center;
-    }
-  }
-}
-
-.redeem-form__input-container {
-  display: flex;
-
-  @media (max-width: 600px) {
-    flex-direction: column;
-  }
-
-  .md-button {
-    @media (min-width: 600px + 1px) {
-      max-height: 40px;
-      margin-top: 12px;
-      margin-left: 24px;
     }
   }
 }
