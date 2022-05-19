@@ -504,11 +504,14 @@ export default {
       });
     },
     handleV2UpdateEamil(email) {
+      if (!email) return;
       this.email = email;
       this.onSubmit();
     },
     handleV2SaveProfile({ displayName, description }) {
-      this.displayName = displayName;
+      if (displayName) {
+        this.displayName = displayName;
+      }
       this.description = description;
       this.onSubmit();
     },
