@@ -32,20 +32,20 @@
           key="general"
         >
           <!-- header -->
-          <div class="header">
-            <div class="header-icon">
-              <sign-in />
-            </div>
-            <Transition
-              name="fade"
-              mode="out-in"
+          <Transition
+            name="fade"
+            mode="out-in"
+          >
+            <div
+              :key="headerText"
+              class="header"
             >
-              <div
-                :key="headerText"
-                class="header-text"
-              >{{ headerText }}</div>
-            </Transition>
-          </div>
+              <div class="header-icon">
+                <sign-in />
+              </div>
+              <div class="header-text">{{ headerText }}</div>
+            </div>
+          </Transition>
           <Transition
             name="fade"
             mode="out-in"
