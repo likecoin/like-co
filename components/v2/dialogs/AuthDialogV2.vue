@@ -363,6 +363,8 @@ export default {
         email: '',
         isEmailVerified: false,
       };
+
+      this.resetLoginByCosmosWallet();
     },
 
     setError(code, error) {
