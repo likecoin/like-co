@@ -88,7 +88,7 @@ export const EXTRA_EMAIL_BLACLIST = [
   'tutye.com',
 ];
 
-export const PURCHASE_LIKE_URL = 'https://app.liquid.com/exchange/LIKEUSDT';
+export const PURCHASE_LIKE_URL = 'https://app.osmosis.zone/?from=ATOM&to=LIKE';
 export const WORDPRESS_PLUGIN_URL = 'https://wordpress.org/plugins/likecoin/';
 export const OICE_URL = 'https://oice.com';
 
