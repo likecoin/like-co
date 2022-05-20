@@ -463,10 +463,12 @@ export default {
         this.signInPayload = payload;
         this.login();
       } catch (err) {
-        this.resetLoginByCosmosWallet();
-        console.error(err);
-        if (this.$sentry) this.$sentry.captureException(err);
-        this.setError(err.message, err);
+        if (err.message !== 'Request rejected') {
+          this.resetLoginByCosmosWallet();
+          console.error(err);
+          if (this.$sentry) this.$sentry.captureException(err);
+          this.setError(err.message, err);
+        }
       }
     },
 
