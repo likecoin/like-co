@@ -1221,6 +1221,7 @@
             "toIndex": "返回主页"
         },
         "EMAIL_ALREADY_USED": "此电邮地址已被注册",
+        "EMAIL_FORMAT_INCORRECT": "此电邮地址无效",
         "REFERRER_NOT_EXIST": "推荐人的 Liker ID 不存在",
         "USER_ALREADY_EXIST": "帐户已经存在",
         "USER_NOT_EXIST": "帐户不存在",

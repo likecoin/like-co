@@ -1351,6 +1351,7 @@
       "toIndex": "Return to Index"
     },
     "EMAIL_ALREADY_USED": "Email is already used, please try again.",
+    "EMAIL_FORMAT_INCORRECT": "Email format is incorrect",
     "FILE_TOO_LARGE": "Filesize limit exceeded",
     "MISSION_ALREADY_DONE": "You have already done this mission",
     "MISSION_COMPLETE_FAILURE": "Error occurs when completing the mission",
