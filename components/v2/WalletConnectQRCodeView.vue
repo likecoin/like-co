@@ -1,47 +1,45 @@
 <template>
-  <div>
-    <div class="qrcode-panel">
-      <div class="qrcode-panel__instruction">
-        <ol>
-          <i18n
-            path="V2_WalletConnectQRCodeModal_Instruction_Step_1"
-            tag="li"
-          >
-            <img
-              class="qrcode-panel__app-icon"
-              src="~assets/v2/icons/liker-land-app.svg"
-              alt="Liker Land App"
-              place="appLogo"
-            >
-            <span
-              class="qrcode-panel__app-name"
-              place="appName"
-            >Liker Land app</span>
-          </i18n>
-          <i18n
-            path="V2_WalletConnectQRCodeModal_Instruction_Step_2"
-            tag="li"
-          >
-            <img
-              class="qrcode-panel__qrcode-icon"
-              src="~assets/v2/icons/liker-land-app-qrcode.svg"
-              alt="QR Code"
-              place="qrcodeIcon"
-            >
-          </i18n>
-          <li>
-            {{ $t('V2_WalletConnectQRCodeModal_Instruction_Step_3') }}
-          </li>
-        </ol>
-      </div>
-      <div class="qrcode-panel__qrcode-container">
-        <div ref="qrcode" />
-        <img
-          class="qrcode-panel__qrcode-frame"
-          src="~assets/v2/wallet-connect-qrcode-frame.svg"
-          alt=""
+  <div class="qrcode-panel">
+    <div class="qrcode-panel__instruction">
+      <ol>
+        <i18n
+          path="V2_WalletConnectQRCodeModal_Instruction_Step_1"
+          tag="li"
         >
-      </div>
+          <img
+            class="qrcode-panel__app-icon"
+            src="~assets/v2/icons/liker-land-app.svg"
+            alt="Liker Land App"
+            place="appLogo"
+          >
+          <span
+            class="qrcode-panel__app-name"
+            place="appName"
+          >Liker Land app</span>
+        </i18n>
+        <i18n
+          path="V2_WalletConnectQRCodeModal_Instruction_Step_2"
+          tag="li"
+        >
+          <img
+            class="qrcode-panel__qrcode-icon"
+            src="~assets/v2/icons/liker-land-app-qrcode.svg"
+            alt="QR Code"
+            place="qrcodeIcon"
+          >
+        </i18n>
+        <li>
+          {{ $t('V2_WalletConnectQRCodeModal_Instruction_Step_3') }}
+        </li>
+      </ol>
+    </div>
+    <div class="qrcode-panel__qrcode-container">
+      <div ref="qrcode" />
+      <img
+        class="qrcode-panel__qrcode-frame"
+        src="~assets/v2/wallet-connect-qrcode-frame.svg"
+        alt=""
+      >
     </div>
   </div>
 </template>
