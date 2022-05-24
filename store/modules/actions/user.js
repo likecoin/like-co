@@ -202,6 +202,7 @@ export async function loginByCosmosWallet({ commit }, source) {
         close: (connected) => {
           commit(types.USER_SET_WALLET_CONNECT_URI, '');
           if (connected) {
+            commit(types.USER_SET_WALLET_CONNECT_URI, '');
             commit(types.USER_SET_WALLET_CONNECT_CONNECTING, true);
           }
         },
@@ -225,6 +226,9 @@ export async function loginByCosmosWallet({ commit }, source) {
     signer,
     platform,
   );
+  if (source === 'walletconnect') {
+    commit(types.USER_SET_WALLET_CONNECT_CONNECTING, false);
+  }
   return {
     platform,
     wallet: walletAddress,
