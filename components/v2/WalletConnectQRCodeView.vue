@@ -1,5 +1,29 @@
 <template>
-  <div class="qrcode-panel">
+  <div
+    v-if="checkIsMobileClient()"
+    class="qrcode-panel qrcode-panel--mobile"
+  >
+    <i18n
+      path="V2_WalletConnectQRCodeModal_Instruction_Step_1"
+      tag="a"
+      :href="walletConnectDeepLink"
+    >
+      <img
+        class="qrcode-panel__app-icon"
+        src="~assets/v2/icons/liker-land-app.svg"
+        alt="Liker Land App"
+        place="appLogo"
+      >
+      <span
+        class="qrcode-panel__app-name"
+        place="appName"
+      >Liker Land app</span>
+    </i18n>
+  </div>
+  <div
+    v-else
+    class="qrcode-panel"
+  >
     <div class="qrcode-panel__instruction">
       <ol>
         <i18n
@@ -46,6 +70,7 @@
 
 <script>
 import QRCode from 'easyqrcodejs';
+import { checkIsMobileClient } from '~/util/client';
 
 export default {
   name: 'wallet-connect-qrcode-view',
@@ -53,6 +78,11 @@ export default {
     value: {
       type: String,
       default: '',
+    },
+  },
+  computed: {
+    walletConnectDeepLink() {
+      return `com.oice://wcV1?${this.value}`;
     },
   },
   watch: {
@@ -64,6 +94,7 @@ export default {
     this.makeQRCode();
   },
   methods: {
+    checkIsMobileClient,
     makeQRCode() {
       if (!this.qrcode) {
         const width = 152;
@@ -87,6 +118,10 @@ export default {
 <style scoped>
 .qrcode-panel {
   display: flex;
+}
+.qrcode-panel.qrcode-panel--mobile {
+  align-items: center;
+  justify-content: center;
 }
 
 .qrcode-panel__instruction {
