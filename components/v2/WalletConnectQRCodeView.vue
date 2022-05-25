@@ -1,24 +1,52 @@
 <template>
   <div
     v-if="checkIsMobileClient()"
-    class="qrcode-panel qrcode-panel--mobile"
+    class="qrcode-panel-mobile"
   >
-    <i18n
-      path="V2_WalletConnectQRCodeModal_Instruction_Step_1"
-      tag="a"
-      :href="walletConnectDeepLink"
-    >
-      <img
-        class="qrcode-panel__app-icon"
-        src="~assets/v2/icons/liker-land-app.svg"
-        alt="Liker Land App"
-        place="appLogo"
+    <div class="qrcode-panel__instruction">
+      <ol>
+        <i18n
+          path="V2_WalletConnectQRCodeModal_Mobile_Instruction_Step_1"
+          tag="li"
+        >
+          <img
+            class="qrcode-panel__app-icon"
+            src="~assets/v2/icons/liker-land-app.svg"
+            alt="Liker Land App"
+            place="appLogo"
+          >
+          <NuxtLink
+            class="qrcode-panel__app-name"
+            place="appName"
+            :to="{ name: 'in-getapp' }"
+          >Liker Land app</NuxtLink>
+        </i18n>
+        <i18n
+          path="V2_WalletConnectQRCodeModal_Mobile_Instruction_Step_2"
+          tag="li"
+        />
+      </ol>
+      <Button
+        class="qrcode-panel__deeplink-button"
+        :href="walletConnectDeepLink"
       >
-      <span
-        class="qrcode-panel__app-name"
-        place="appName"
-      >Liker Land app</span>
-    </i18n>
+        <i18n
+          path="V2_WalletConnectQRCodeModal_Mobile_Button_Text"
+          tag="span"
+        >
+          <img
+            class="qrcode-panel__app-icon"
+            src="~assets/v2/icons/liker-land-app.svg"
+            alt="Liker Land App"
+            place="appLogo"
+          >
+          <span
+            class="qrcode-panel__app-name"
+            place="appName"
+          >Liker Land app</span>
+        </i18n>
+      </Button>
+    </div>
   </div>
   <div
     v-else
@@ -72,8 +100,13 @@
 import QRCode from 'easyqrcodejs';
 import { checkIsMobileClient } from '~/util/client';
 
+import Button from './Button';
+
 export default {
   name: 'wallet-connect-qrcode-view',
+  components: {
+    Button,
+  },
   props: {
     value: {
       type: String,
@@ -91,7 +124,12 @@ export default {
     },
   },
   mounted() {
-    this.makeQRCode();
+    if (checkIsMobileClient()) {
+      // Try to open the deeplink when mounted
+      window.location.href = this.walletConnectDeepLink;
+    } else {
+      this.makeQRCode();
+    }
   },
   methods: {
     checkIsMobileClient,
@@ -119,10 +157,6 @@ export default {
 .qrcode-panel {
   display: flex;
 }
-.qrcode-panel.qrcode-panel--mobile {
-  align-items: center;
-  justify-content: center;
-}
 
 .qrcode-panel__instruction {
   display: flex;
@@ -133,6 +167,10 @@ export default {
   margin-right: 24px;
 
   font-size: 16px;
+}
+
+.qrcode-panel-mobile .qrcode-panel__instruction {
+  width: 100%;
 }
 
 .qrcode-panel__instruction ol {
@@ -147,6 +185,11 @@ export default {
   color: #28646E;
 
   font-weight: 600;
+}
+
+.qrcode-panel__deeplink-button {
+  width: 100%;
+  margin-top: 24px;
 }
 
 .qrcode-panel__app-icon,

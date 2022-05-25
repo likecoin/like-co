@@ -80,34 +80,36 @@
               key="portal"
               class="content-container"
             >
-              <!-- keplr -->
-              <div
-                class="auth-btn"
-                @click="onClickUseKeplrButton"
-              >
-                <div class="title-wapper">
-                  <div class="icon">
-                    <keplr-icon />
+              <template v-if="!checkIsMobileClient">
+                <!-- keplr -->
+                <div
+                  class="auth-btn"
+                  @click="onClickUseKeplrButton"
+                >
+                  <div class="title-wapper">
+                    <div class="icon">
+                      <keplr-icon />
+                    </div>
+                    <div class="name">
+                      {{ $t("DialogV2.type.keplr.name") }}
+                    </div>
                   </div>
-                  <div class="name">
-                    {{ $t("DialogV2.type.keplr.name") }}
+                  <div class="description">
+                    {{ $t("DialogV2.type.keplr.description") }}
                   </div>
                 </div>
-                <div class="description">
-                  {{ $t("DialogV2.type.keplr.description") }}
+                <!-- dropdown-toggle -->
+                <div
+                  :class="{
+                    'dropdown-toggle': true,
+                    'dropdown-toggle--toggled': isShowMoreLoginOptions,
+                  }"
+                  @click="isShowMoreLoginOptions = !isShowMoreLoginOptions"
+                >
+                  <div class="text">{{ $t("DialogV2.dropdown") }}</div>
+                  <div class="icon"><arrow-down /></div>
                 </div>
-              </div>
-              <!-- dropdown-toggle -->
-              <div
-                :class="{
-                  'dropdown-toggle': true,
-                  'dropdown-toggle--toggled': isShowMoreLoginOptions,
-                }"
-                @click="isShowMoreLoginOptions = !isShowMoreLoginOptions"
-              >
-                <div class="text">{{ $t("DialogV2.dropdown") }}</div>
-                <div class="icon"><arrow-down /></div>
-              </div>
+              </template>
               <!-- liker land -->
               <Transition
                 name="slide"
@@ -132,7 +134,7 @@
                   </div>
                   <!-- legacy content -->
                   <div
-                    v-if="!getWalletConnectURI"
+                    v-if="!getWalletConnectURI && !checkIsMobileClient"
                     class="legacy-content-container"
                   >
                     <div
@@ -170,6 +172,7 @@ import {
 } from '@/constant';
 
 import {
+  checkIsMobileClient,
   tryPostLoginRedirect,
 } from '~/util/client';
 
@@ -217,7 +220,7 @@ export default {
   },
   data() {
     return {
-      isShowMoreLoginOptions: false,
+      isShowMoreLoginOptions: checkIsMobileClient(),
 
       // Please also set in reset()
       currentTab: 'loading',
@@ -244,6 +247,7 @@ export default {
       'getCurrentLocale',
       'getWalletConnectURI',
     ]),
+    checkIsMobileClient,
     shouldShowDialog() {
       return this.getIsShowAuthDialog;
     },

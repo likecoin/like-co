@@ -1797,5 +1797,8 @@
   "V2_WalletConnectQRCodeModal_Title": "連結 Liker ID",
   "V2_WalletConnectQRCodeModal_Instruction_Step_1": "在手機上打開 {appLogo} {appName}。",
   "V2_WalletConnectQRCodeModal_Instruction_Step_2": "在錢包頁面上打開 {qrcodeIcon} 二維碼掃描器。",
-  "V2_WalletConnectQRCodeModal_Instruction_Step_3": "掃描旁邊的二維碼。"
+  "V2_WalletConnectQRCodeModal_Instruction_Step_3": "掃描旁邊的二維碼。",
+  "V2_WalletConnectQRCodeModal_Mobile_Instruction_Step_1": "安裝 {appLogo} {appName}。",
+  "V2_WalletConnectQRCodeModal_Mobile_Instruction_Step_2": "點擊下方按鈕。",
+  "V2_WalletConnectQRCodeModal_Mobile_Button_Text": "啟動 {appLogo} {appName}"
 }
