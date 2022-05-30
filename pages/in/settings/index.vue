@@ -1,236 +1,210 @@
 <template>
   <div class="likecoin-settings__personal-tab">
 
-    <!-- Civic Liker CTA Section -->
-    <div class="lc-container-1 lc-margin-top-48 lc-mobile">
-      <div class="lc-container-2">
-        <civic-liker-cta
-          class="lc-bg-gray-1 lc-padding-top-24-mobile lc-padding-bottom-24-mobile"
-        />
+    <section
+      v-if="getUserInfo.email && !getUserInfo.isEmailVerified"
+      class="lc-container-0 lc-margin-top-48"
+    >
+      <div class="lc-container-1">
+        <div class="lc-container-2">
+          <VerifyEmailCta :email-ref="'in'" />
+        </div>
       </div>
-    </div>
+    </section>
 
     <!-- User Info Form Section -->
-    <div class="lc-container-1 lc-margin-top-16">
-      <div class="lc-container-2">
-        <div class="lc-container-3 lc-padding-vertical-32 lc-bg-gray-1">
-          <form
-            id="account-setting-form"
-            v-bind="getTestAttribute('accountSettingForm')"
-            @submit.prevent="onSubmit"
-          >
-            <div class="profile-setting-page__account-setting">
-              <div class="profile-setting-page__portrait">
-                <lc-avatar
-                  v-if="avatar"
-                  :src="avatar"
-                  :halo="avatarHalo"
-                  size="120"
-                />
-                <md-button
-                  class="lc-color-like-green lc-margin-top-16 lc-underline lc-font-weight-600"
-                  @click="onClickEditAvatar"
-                >
-                  {{ $t('Settings.button.editPortrait') }}
-                </md-button>
-                <input
-                  ref="avatarFile"
-                  accept="image/*"
-                  style="display: none"
-                  type="file"
-                  @change="onChangeAvatar"
-                >
-              </div>
-
-              <div class="profile-setting-page__account-detail">
-                <div class="profile-setting-page__field profile-setting-page__field--one-line">
-                  <span class="title">
-                    {{ $t('Edit.label.id') }}
-                  </span>
-                  <span class="content">
-                    {{ getUserInfo.user }}
-                  </span>
+    <template v-if="getUserIsAuthCore">
+      <section class="lc-container-1 lc-margin-top-48">
+        <div class="lc-container-2">
+          <div class="lc-container-3 lc-padding-vertical-32 lc-bg-gray-1">
+            <form
+              id="account-setting-form"
+              v-bind="getTestAttribute('accountSettingForm')"
+              @submit.prevent="onSubmit"
+            >
+              <div class="profile-setting-page__account-setting">
+                <div class="profile-setting-page__portrait">
+                  <lc-avatar
+                    v-if="avatar"
+                    :src="avatar"
+                    :halo="avatarHalo"
+                    size="120"
+                  />
+                  <md-button
+                    class="lc-color-like-green lc-margin-top-16 lc-underline lc-font-weight-600"
+                    @click="onClickEditAvatar"
+                  >
+                    {{ $t('Settings.button.editPortrait') }}
+                  </md-button>
+                  <input
+                    ref="avatarFile"
+                    accept="image/*"
+                    style="display: none"
+                    type="file"
+                    @change="onChangeAvatar"
+                  >
                 </div>
-
-                <div class="profile-setting-page__field profile-setting-page__field--multi-line">
-                  <span class="title">
-                    {{ $t('Register.form.displayName') }}
-                  </span>
-                  <span class="content">
+                <div class="profile-setting-page__account-detail">
+                  <div>
                     <md-field>
+                      <label>{{ $t('Edit.label.id') }}</label>
+                      <md-input
+                        :value="getUserInfo.user"
+                        :readonly="true"
+                      />
+                    </md-field>
+                  </div>
+                  <div>
+                    <md-field>
+                      <label>{{ $t('Register.form.displayName') }}</label>
                       <md-input
                         v-model="displayName"
                         v-bind="getTestAttribute('userDisplayName')"
                         :required="!getUserIsAuthCore"
                         :disabled="getUserIsAuthCore"
                       />
-                      <md-button @click="focusAuthCore">
-                        <span v-if="isShowEditInAuthCore">
-                          {{ $t('Edit.label.editInAuthCore') }}
-                        </span>
+                      <md-button
+                        class="md-suffix md-icon-button md-dense md-input-action"
+                        @click="isShowEditInAuthCore = true"
+                      >
                         <md-icon>edit</md-icon>
                       </md-button>
+                      <md-dialog-confirm
+                        :md-active.sync="isShowEditInAuthCore"
+                        :md-title="$t('Register.form.displayName')"
+                        :md-content="$t('Edit.label.editInAuthCore')"
+                        :md-cancel-text="$t('General.button.cancel')"
+                        :md-confirm-text="$t('General.button.confirm')"
+                        @md-confirm="focusAuthCore"
+                      />
                     </md-field>
-                  </span>
-                </div>
-                <div
-                  v-if="getUserHasWallet"
-                  class="profile-setting-page__field profile-setting-page__field--one-line"
-                >
-                  <span class="title">
-                    {{ $t('Register.form.walletAddress') }}:
-                  </span>
-                  <span
-                    v-if="getUserWalletAddress"
-                    class="content"
-                  >
-                    {{ getUserWalletAddress }}
-                  </span>
-                </div>
-                <template v-if="!getUserIsAuthCore">
-                  <div class="profile-setting-page__field profile-setting-page__field--multi-line">
-                    <span class="title">
-                      {{ $t('Register.form.email') }}
-                      <span class="profile-setting-page__email-verify-status">
-                        <span
-                          v-if="getUserInfo.isEmailVerified"
-                          class="verified"
-                        >
-                          <simple-svg
-                            :filepath="TickIcon"
-                            width="16px"
-                            height="16px"
-                          />
-                          {{ $t('Edit.label.verified') }}
-                        </span>
-                        <span v-else-if="isVerifying">
-                          ({{ $t('Edit.label.verifying') }})
-                        </span>
-                        <span v-else-if="email">
-                          ({{ $t('Edit.label.unverified') }})
-                        </span>
-                      </span>
-                    </span>
-                    <span class="content">
-                      <md-field>
-                        <md-input
-                          v-model="email"
-                          :title="$t('Edit.label.validCodeRequired')"
-                          :pattern="W3C_EMAIL_REGEX"
-                          autocomplete="email"
-                          required
-                        />
-                      </md-field>
-                    </span>
                   </div>
-                </template>
+                  <div v-if="getUserHasWallet">
+                    <md-field>
+                      <label>{{ $t('Register.form.walletAddress') }}</label>
+                      <md-input
+                        :value="getUserWalletAddress"
+                        :readonly="true"
+                      />
+                    </md-field>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div
-              v-if="!getUserIsAuthCore"
-              class="profile-setting-page__confirm-btn lc-margin-top-8"
-            >
-              <md-button
-                :disabled="!(hasUserDetailsChanged || hasUserAvatarChanged) || disabled"
-                v-bind="getTestAttribute('submitButton')"
-                class="md-likecoin"
-                form="account-setting-form"
-                type="submit"
-              >
-                {{ $t('General.button.confirm') }}
-              </md-button>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
-      </div>
-    </div>
-
-    <!-- Connections Section -->
-    <section
-      id="connect"
-      class="lc-container-0 lc-margin-top-32"
-    >
-      <div class="lc-container-1">
-        <div
-          ref="authcore"
-          class="lc-container-2"
-        >
-          <no-ssr>
-            <div
-              v-if="getAuthCoreNeedReAuth || getAuthCoreAccessToken"
-              class="lc-container-3 lc-padding-vertical-32 lc-bg-gray-1"
-            >
+      </section>
+      <!-- Connections Section -->
+      <section
+        id="connect"
+        class="lc-container-0 lc-margin-top-32"
+      >
+        <div class="lc-container-1">
+          <div class="lc-container-2">
+            <no-ssr>
+              <div
+                v-if="getAuthCoreNeedReAuth || getAuthCoreAccessToken"
+                class="lc-container-3 lc-padding-vertical-32 lc-bg-gray-1"
+              >
+                <div class="lc-container-4">
+                  <h2 class="lc-font-size-14 lc-font-weight-400">
+                    {{ $t('AuthCore.Settings.title') }}
+                  </h2>
+                  <div
+                    v-if="getAuthCoreNeedReAuth"
+                    :class="[
+                      'md-layout',
+                      'md-alignment-center-center',
+                      'lc-margin-top-16',
+                      'lc-padding-vertical-64',
+                      'lc-bg-white',
+                      'md-elevation-1',
+                    ]"
+                  >
+                    <md-button
+                      class="md-likecoin"
+                      @click="onClickAuthCoreReAuth"
+                    >
+                      {{ $t('AuthCore.button.reAuthNeeded') }}
+                    </md-button>
+                  </div>
+                  <div
+                    v-else-if="getAuthCoreAccessToken"
+                    ref="authcore"
+                  >
+                    <md-tabs
+                      :md-active-tab="authCoreTabId"
+                      @md-changed="onAuthCoreSettingTabsChanged"
+                    >
+                      <md-tab
+                        id="authcore-profile"
+                        :md-label="$t('AuthCore.button.profile')"
+                      />
+                      <md-tab
+                        id="authcore-settings"
+                        :md-label="$t('AuthCore.button.settings')"
+                      />
+                    </md-tabs>
+                    <auth-core-settings
+                      v-if="isShowAuthCoreWidget"
+                      :access-token="getAuthCoreAccessToken"
+                      :is-profile="isShowAuthCoreProfile"
+                      :options="{ internal: true }"
+                      :language="getCurrentLocale"
+                      @profile-updated="onAuthCoreProfileUpdated"
+                      @primary-contact-updated="onAuthCoreProfileUpdated"
+                    />
+                  </div>
+                </div>
+              </div>
+            </no-ssr>
+            <!-- Other Connections -->
+            <div class="lc-container-3 lc-bg-gray-1 lc-margin-top-8 lc-padding-vertical-32">
               <div class="lc-container-4">
                 <h2 class="lc-font-size-14 lc-font-weight-400">
-                  {{ $t('AuthCore.Settings.title') }}
+                  {{ $t('OtherConnectList.title') }}
                 </h2>
-                <div v-if="getAuthCoreNeedReAuth">
-                  <md-button
-                    class="md-likecoin"
-                    @click="onClickAuthCoreReAuth"
-                  >
-                    {{ $t('AuthCore.button.reAuthNeeded') }}
-                  </md-button>
-                </div>
-                <div
-                  v-else-if="getAuthCoreAccessToken"
-                >
-                  <md-tabs
-                    :md-active-tab="authCoreTabId"
-                    @md-changed="onAuthCoreSettingTabsChanged"
-                  >
-                    <md-tab
-                      id="authcore-profile"
-                      :md-label="$t('AuthCore.button.profile')"
-                    />
-                    <md-tab
-                      id="authcore-settings"
-                      :md-label="$t('AuthCore.button.settings')"
-                    />
-                  </md-tabs>
-                  <auth-core-settings
-                    v-if="isShowAuthCoreWidget"
-                    :access-token="getAuthCoreAccessToken"
-                    :is-profile="isShowAuthCoreProfile"
-                    :options="{ internal: true }"
-                    :language="getCurrentLocale"
-                    @profile-updated="onAuthCoreProfileUpdated"
-                    @primary-contact-updated="onAuthCoreProfileUpdated"
-                  />
-                </div>
+                <p class="lc-margin-top-8 lc-color-gray-9b">
+                  {{ $t('OtherConnectList.description') }}
+                </p>
+                <other-connect-list
+                  :platforms="otherPlatforms"
+                  class="lc-margin-top-24"
+                  @connect="onConnectOtherPlatforms"
+                  @disconnect="onDisconnectOtherPlatforms"
+                  @select-option="onSelectConnectOption"
+                />
               </div>
             </div>
-          </no-ssr>
-
-          <!-- Other Connections -->
-          <div class="lc-container-3 lc-bg-gray-1 lc-margin-top-8 lc-padding-vertical-32">
-            <div class="lc-container-4">
-              <h2 class="lc-font-size-14 lc-font-weight-400">
-                {{ $t('OtherConnectList.title') }}
-              </h2>
-              <p class="lc-margin-top-8 lc-color-gray-9b">
-                {{ $t('OtherConnectList.description') }}
-              </p>
-              <other-connect-list
-                :platforms="otherPlatforms"
-                class="lc-margin-top-24"
-                @connect="onConnectOtherPlatforms"
-                @disconnect="onDisconnectOtherPlatforms"
-                @select-option="onSelectConnectOption"
-              />
+            <!-- External Link -->
+            <div class="lc-container-3 lc-bg-gray-1 lc-margin-top-8 lc-padding-vertical-32">
+              <div class="lc-container-4">
+                <external-links-panel />
+              </div>
             </div>
           </div>
-
-          <!-- External Link -->
-          <div class="lc-container-3 lc-bg-gray-1 lc-margin-top-8 lc-padding-vertical-32">
-            <div class="lc-container-4">
-              <external-links-panel />
-            </div>
-          </div>
-
         </div>
+      </section>
+    </template>
+
+    <div
+      v-else
+      class="lc-container-1 lc-margin-top-48 lc-mobile"
+    >
+      <div class="lc-container-2 lc-bg-gray-1">
+        <ProfileSettingsForm
+          :liker-id="getUserInfo.user"
+          :wallet-address="getUserWalletAddress"
+          :email="email"
+          :display-name="displayName"
+          :description="description"
+          :avatar="avatar"
+          @upload-avatar="handleAvatarChange"
+          @update-email="handleV2UpdateEamil"
+          @save="handleV2SaveProfile"
+        />
       </div>
-    </section>
+    </div>
   </div>
 </template>
 
@@ -247,19 +221,21 @@ import {
 import getTestAttribute from '@/util/test';
 import User from '@/util/User';
 
-import CivicLikerCta from '~/components/CivicLiker/CTA';
 import OtherConnectList from '~/components/settings/OtherConnectList';
 import ExternalLinksPanel from '~/components/settings/ExternalLinksPanel';
+import VerifyEmailCta from '~/components/VerifyEmailCta';
+import ProfileSettingsForm from '~/components/v2/ProfileSettingsForm';
 
 import TickIcon from '@/assets/tokensale/tick.svg';
 
 export default {
   name: 'settings-index',
   components: {
-    CivicLikerCta,
     AuthCoreSettings,
     OtherConnectList,
     ExternalLinksPanel,
+    VerifyEmailCta,
+    ProfileSettingsForm,
   },
   data() {
     return {
@@ -267,9 +243,8 @@ export default {
       avatarFile: null,
       couponCode: '',
       displayName: '',
+      description: '',
       email: '',
-      isEmailEnabled: false,
-      isEmailPreviouslyEnabled: false,
       isShowEditInAuthCore: false,
       isShowAuthCoreWidget: true,
       isShowAuthCoreProfile: true,
@@ -303,6 +278,7 @@ export default {
       return (
         this.getUserInfo.email !== this.email
         || this.getUserInfo.displayName !== this.displayName
+        || this.getUserInfo.description !== this.description
       );
     },
     otherPlatforms() {
@@ -326,9 +302,6 @@ export default {
   mounted() {
     if (this.getUserIsRegistered) {
       this.updateInfo();
-    }
-    if (this.getAuthCoreNeedReAuth) {
-      this.setReAuthDialogShow(true);
     }
   },
   methods: {
@@ -403,43 +376,46 @@ export default {
       };
     },
     focusAuthCore() {
-      this.isShowEditInAuthCore = true;
+      this.isShowEditInAuthCore = false;
       const widget = this.$refs.authcore;
       if (widget) {
         this.$nextTick(() => {
           widget.scrollIntoView();
         });
+      } else {
+        this.onClickAuthCoreReAuth();
       }
     },
     async updateInfo() {
       const user = this.getUserInfo;
       this.avatar = user.avatar;
       this.displayName = user.displayName;
+      this.description = user.description;
       this.email = user.email;
       this.fetchAuthPlatformsById(user.user);
       this.fetchSocialListDetailsById(user.user);
     },
     async onSubmit() {
-      if (this.hasUserAvatarChanged) {
-        await this.updateAvatar();
-      }
+      await this.updateAvatarIfChanged();
       if (this.hasUserDetailsChanged) {
         try {
-          const { displayName } = this;
-          const email = this.email.trim();
+          const { displayName, description } = this;
+          const email = this.email && this.email.trim();
           const {
             user,
             displayName: currentDisplayName,
+            description: currentDescription,
             email: currentEmail,
           } = this.getUserInfo;
           const hasEmailChanged = this.getUserInfo.email !== email;
           const userInfo = {};
           if (displayName !== currentDisplayName) userInfo.displayName = displayName;
+          if (description !== currentDescription) userInfo.description = description;
           if (email !== currentEmail) userInfo.email = email;
 
           await this.updateUser(userInfo);
           this.setInfoMsg(`${this.$t('Register.form.label.updatedInfo')}  <a href="/${user}">${this.$t('Register.form.label.viewPage')}</a>`);
-          await this.refreshUserInfo(user);
+          await this.refreshUserInfo();
 
           if (hasEmailChanged && !this.getUserInfo.isEmailVerified) {
             await this.sendVerifyEmail({
@@ -454,19 +430,14 @@ export default {
         }
       }
     },
-    async updateAvatar() {
-      if (this.hasUserAvatarChanged) {
-        try {
-          const { avatarFile } = this;
-          if (avatarFile) {
-            await this.updateUserAvatar({
-              avatarFile,
-            });
-          }
-        } catch (err) {
-          this.updateInfo();
-          console.error(err);
-        }
+    async updateAvatarIfChanged() {
+      if (!this.hasUserAvatarChanged) return;
+      try {
+        const { avatarFile } = this;
+        await this.updateUserAvatar({ avatarFile });
+      } catch (err) {
+        this.updateInfo();
+        console.error(err);
       }
     },
     onClickEditAvatar() {
@@ -475,16 +446,17 @@ export default {
     onChangeAvatar(event) {
       const { files } = event.target;
       if (files && files[0]) {
-        [this.avatarFile] = Object.values(files);
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          this.avatar = e.target.result;
-          if (this.getUserIsAuthCore) {
-            this.$nextTick(() => this.updateAvatar());
-          }
-        };
-        reader.readAsDataURL(files[0]);
+        this.handleAvatarChange(files[0]);
       }
+    },
+    handleAvatarChange(file) {
+      this.avatarFile = file;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.avatar = e.target.result;
+        this.updateAvatarIfChanged();
+      };
+      reader.readAsDataURL(file);
     },
     onAuthCoreSettingTabsChanged(id) {
       this.authCoreTabId = id;
@@ -531,6 +503,18 @@ export default {
         },
       });
     },
+    handleV2UpdateEamil(email) {
+      if (!email) return;
+      this.email = email;
+      this.onSubmit();
+    },
+    handleV2SaveProfile({ displayName, description }) {
+      if (displayName) {
+        this.displayName = displayName;
+      }
+      this.description = description;
+      this.onSubmit();
+    },
   },
 };
 </script>
@@ -539,10 +523,6 @@ export default {
 <style lang="scss" scoped>
 @import "~assets/variables";
 @import "~assets/input";
-
-.civic-liker-cta--renewal {
-  padding: 24px;
-}
 
 .profile-setting-page {
   &__account-setting {
@@ -578,96 +558,6 @@ export default {
     @media (min-width: 768px + 1px) {
       width: calc(100% - 176px);
       margin-left: 32px;
-    }
-  }
-
-  &__field {
-    display: flex;
-
-    margin: 16px 0;
-
-    .content {
-      color: $like-gray-5;
-
-      font-size: 20px;
-    }
-
-    &--one-line {
-      flex-direction: row;
-
-      @media (min-width: 768px + 1px) {
-        flex-wrap: wrap;
-      }
-
-      @media (max-width: 768px) {
-        flex-direction: column;
-      }
-
-      .title {
-        min-width: 124px;
-      }
-
-      .content {
-        word-wrap: break-word;
-      }
-    }
-
-    &--multi-line {
-      flex-direction: column;
-
-      .md-field {
-        min-height: auto;
-        margin: 0;
-        padding: 0;
-      }
-
-      .verified {
-        display: inline-flex;
-
-        transform: translateY(2px);
-
-        color: $like-green-2;
-      }
-    }
-  }
-
-  &__email-verify-status {
-    margin-left: 8px;
-
-    font-weight: 600;
-
-    .simple-svg-wrapper {
-      margin-right: 4px;
-    }
-  }
-
-  &__social {
-    /deep/ ul {
-      flex: 1;
-    }
-  }
-
-  &__confirm-btn {
-    text-align: right;
-
-    @media (max-width: 768px) {
-      text-align: center;
-    }
-  }
-}
-
-.redeem-form__input-container {
-  display: flex;
-
-  @media (max-width: 600px) {
-    flex-direction: column;
-  }
-
-  .md-button {
-    @media (min-width: 600px + 1px) {
-      max-height: 40px;
-      margin-top: 12px;
-      margin-left: 24px;
     }
   }
 }

@@ -50,6 +50,7 @@ export const MEDIUM_REGEX = /^(?:https?:\/\/)?[^/]*\/media\/[a-zA-Z0-9_]+(?:\?po
 export const PUBSUB_TOPIC_MISC = 'misc';
 
 export const LOGIN_MESSAGE = 'Login - Reinventing the Like';
+export const POST_LOGOUT_ROUTE = '/in/register';
 
 export const ONE_LIKE = new BigNumber(10).pow(18);
 
@@ -87,7 +88,7 @@ export const EXTRA_EMAIL_BLACLIST = [
   'tutye.com',
 ];
 
-export const PURCHASE_LIKE_URL = 'https://app.liquid.com/exchange/LIKEUSDT';
+export const PURCHASE_LIKE_URL = 'https://app.osmosis.zone/?from=ATOM&to=LIKE';
 export const WORDPRESS_PLUGIN_URL = 'https://wordpress.org/plugins/likecoin/';
 export const OICE_URL = 'https://oice.com';
 

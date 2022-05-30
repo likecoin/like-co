@@ -88,6 +88,7 @@ export default {
   methods: {
     ...mapActions([
       'verifyEmailByUUID',
+      'refreshUserInfo',
     ]),
     async verifyEmail() {
       this.isVerified = false;
@@ -96,6 +97,7 @@ export default {
         this.wallet = wallet;
         logTrackerEvent(this, 'RegFlow', 'EmailVerifySuccessful', 'email verified successfully', 1);
         this.isVerified = true;
+        this.refreshUserInfo();
         this.redirectTimer = setTimeout(() => {
           this.postVerifyAction();
         }, 3000);

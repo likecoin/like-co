@@ -197,6 +197,10 @@
                 >
                   {{ $t(`AuthDialog.${isSignIn ? 'SignIn' : 'SignUp'}.auth.keplr`) }}
                 </button>
+                <button
+                  class="ll-button large lc-margin-top-24"
+                  @click="onClickUseWalletConnectButton"
+                >Wallet Connect</button>
               </div>
               <div
                 :class="[
@@ -362,9 +366,7 @@ import {
   getAuthPlatformSignInPayload,
 } from '@/util/auth';
 
-import {
-  apiCheckIsUser,
-} from '@/util/api/api';
+import { apiCheckIsUser } from '@/util/api/api';
 
 import AuthCoreRegister from '~/components/AuthCore/Register';
 import BaseDialogV2 from '~/components/dialogs/BaseDialogV2';
@@ -870,6 +872,9 @@ export default {
     },
     onClickUseKeplrButton() {
       this.signInWithPlatform('likeWallet', { source: 'keplr' });
+    },
+    onClickUseWalletConnectButton() {
+      this.signInWithPlatform('cosmosWallet', { source: 'walletconnect' });
     },
     onClickUseMetaMaskButton() {
       this.signInWithPlatform('wallet');
