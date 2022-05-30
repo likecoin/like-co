@@ -116,20 +116,17 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-
-import { POST_LOGOUT_ROUTE } from '~/constant';
-
 import { checkIsMobileClient } from '~/util/client';
-import { getLikerLandCreatorsURL } from '~/util/api/api';
-import { logTrackerEvent } from '~/util/EventLogger';
 
-import HomeIcon from '~/assets/icons/home.svg';
-import SettingsIcon from '~/assets/icons/settings.svg';
+import HomeIcon from '@/assets/icons/home.svg';
+import SettingsIcon from '@/assets/icons/settings.svg';
 
 import LanguageSwitch from '~/components/LanguageSwitch';
-
 import AccountOverview from './AccountOverview';
 import MenuItem from './MenuItem';
+
+import { getLikerLandCreatorsURL } from '@/util/api/api';
+import { logTrackerEvent } from '@/util/EventLogger';
 
 const MENU_ITEMS = [
   {
@@ -158,6 +155,10 @@ const MENU_ITEMS = [
       {
         key: 'aboutLikeCoin',
         to: { name: 'in-about' },
+      },
+      {
+        key: 'whitepaper',
+        to: { name: 'in-whitepaper' },
       },
       {
         key: 'newsletter',
@@ -238,7 +239,7 @@ export default {
     },
     async onClickLogoutButon() {
       await this.logoutUser();
-      this.$nextTick(() => this.$router.push(POST_LOGOUT_ROUTE));
+      this.$nextTick(() => this.$router.push('/'));
     },
   },
 };

@@ -7,8 +7,6 @@
 /* sliding menu style for global */
 @import "sliding-menu";
 
-@import "v2/global";
-
 * {
   margin: 0;
   padding: 0;
@@ -156,7 +154,8 @@ a,
 .lc-page-wrapper {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+
+  min-height: 100vh;
 
   .lc-page-content {
     flex-grow: 1;
@@ -171,6 +170,7 @@ a,
     }
   }
 }
+
 
 .lc-container-0,
 .lc-container-1,
@@ -608,10 +608,6 @@ $line-height-map: (
 }
 
 .lc-bg- {
-  &white {
-    background-color: white;
-  }
-
   &transparent {
     background-color: transparent;
   }

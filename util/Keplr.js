@@ -30,10 +30,7 @@ class Keplr {
   }
 
   async initKeplr() {
-    if (this.inited) {
-      this.accounts = await this.signer.getAccounts();
-      return true;
-    }
+    if (this.inited) return true;
     if (!window.keplr) {
       let tries = 0;
       const TRY_COUNT = 3;

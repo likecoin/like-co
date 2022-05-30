@@ -69,8 +69,6 @@ export const apiVerifyEmailByUUID = (uuid, locale) => axios.post(`/email/verify/
 
 export const apiPostNewUser = payload => axios.post('/users/new', payload);
 
-export const apiCheckLikerId = likerId => axios.post('/users/new/check', { user: likerId });
-
 export const apiPostUpdateUser = payload => axios.post('/users/update', payload);
 
 export const apiPostUpdateUserAvatar = (payload) => {

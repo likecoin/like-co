@@ -4,8 +4,9 @@ import { REDIRECT_NAME_WHITE_LIST } from '@/constant';
 
 import User from '@/util/User';
 import Keplr from '@/util/Keplr';
-import WalletConnect from '@/util/WalletConnect';
-import { setTrackerUser } from '@/util/EventLogger';
+import {
+  setTrackerUser,
+} from '@/util/EventLogger';
 
 import apiWrapper from './api-wrapper';
 
@@ -185,58 +186,25 @@ export async function loginUserBySign({ state, dispatch }) {
   return true;
 }
 
-export function resetLoginByCosmosWallet({ commit }) {
-  commit(types.USER_SET_WALLET_CONNECT_URI, '');
-  commit(types.USER_SET_WALLET_CONNECT_CONNECTING, false);
-}
-
-export async function loginByCosmosWallet({ commit }, source) {
-  let walletAddress = '';
-  let signer;
+export async function loginByCosmosWallet(_, source) {
+  let payload;
+  let platform;
+  let wallet = '';
   switch (source) {
-    case 'walletconnect': {
-      await WalletConnect.init({
-        open: (uri) => {
-          commit(types.USER_SET_WALLET_CONNECT_URI, uri);
-        },
-        close: (connected) => {
-          commit(types.USER_SET_WALLET_CONNECT_URI, '');
-          if (connected) {
-            commit(types.USER_SET_WALLET_CONNECT_URI, '');
-            commit(types.USER_SET_WALLET_CONNECT_CONNECTING, true);
-          }
-        },
-      });
-      walletAddress = await WalletConnect.getWalletAddress();
-      signer = s => WalletConnect.signLogin(s);
-      break;
-    }
-
     case 'keplr': {
       await Keplr.initKeplr();
-      walletAddress = await Keplr.getWalletAddress();
-      signer = s => Keplr.signLogin(s);
+      wallet = await Keplr.getWalletAddress();
+      platform = wallet.startsWith('like') ? 'likeWallet' : 'cosmosWallet';
+      payload = await User.signCosmosLogin(
+        wallet,
+        s => Keplr.signLogin(s),
+        platform,
+      );
       break;
     }
     default: throw new Error('UNKNOWN_COSMOS_WALLET_SOURCE');
   }
-  const platform = walletAddress.startsWith('like') ? 'likeWallet' : 'cosmosWallet';
-  const payload = await User.signCosmosLogin(
-    walletAddress,
-    signer,
-    platform,
-  );
-  if (source === 'walletconnect') {
-    commit(types.USER_SET_WALLET_CONNECT_CONNECTING, false);
-  }
-  return {
-    platform,
-    wallet: walletAddress,
-    payload: {
-      cosmosWalletSource: source,
-      ...payload,
-    },
-  };
+  return { platform, wallet, payload: { cosmosWalletSource: source, ...payload } };
 }
 
 export async function onWalletChanged({ commit }, wallet) {
