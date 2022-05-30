@@ -3,7 +3,10 @@
     <no-ssr>
       <div class="toolbars">
 
-        <auth-dialog />
+        <AuthDialogV2
+          v-if="!isAuthDialogDisabled"
+          :is-overlay="true"
+        />
         <re-auth-dialog v-if="getIsShowReAuthDialog" />
         <popup-dialog
           v-for="d in getPopupDialogs"
@@ -133,7 +136,6 @@ import { IS_CHAIN_UPGRADING } from '~/constant';
 import BlockerDialog from '~/components/dialogs/BlockerDialog';
 import ChromeDialog from '~/components/dialogs/ChromeDialog';
 import MetamaskDialog from '~/components/dialogs/MetamaskDialog';
-import AuthDialog from '~/components/dialogs/AuthDialog';
 import ReAuthDialog from '~/components/dialogs/ReAuthDialog';
 import PopupDialog from '~/components/dialogs/PopupDialog';
 import TrustDialog from '~/components/dialogs/TrustDialog';
@@ -141,6 +143,7 @@ import TxDialog from '~/components/dialogs/TxDialog';
 
 import InfoToolbar from '~/components/toolbars/InfoToolbar';
 import LoadingToolbar from '~/components/toolbars/LoadingToolbar';
+import AuthDialogV2 from '~/components/v2/dialogs/AuthDialogV2';
 
 export default {
   name: 'tool-bars',
@@ -148,7 +151,7 @@ export default {
     BlockerDialog,
     ChromeDialog,
     MetamaskDialog,
-    AuthDialog,
+    AuthDialogV2,
     ReAuthDialog,
     PopupDialog,
     TrustDialog,
@@ -160,6 +163,10 @@ export default {
   props: {
     disableError: {
       type: [Boolean, Array],
+      default: false,
+    },
+    isAuthDialogDisabled: {
+      type: Boolean,
       default: false,
     },
   },
