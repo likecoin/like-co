@@ -652,8 +652,8 @@ export default {
       } catch (err) {
         // no op
       }
-      if (this.isSinglePage) {
-        this.currentTab = 'loginSuccessful';
+      if (!this.isOverlay) {
+        this.currentTab = 'loading';
         this.$nextTick(() => {
           if (!tryPostLoginRedirect({ route: this.$route })) {
             // Normal case
