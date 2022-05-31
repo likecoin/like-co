@@ -345,6 +345,7 @@ export default {
       'doPostAuthRedirect',
       'loginByCosmosWallet',
       'resetLoginByCosmosWallet',
+      'setAuthDialogShow',
       'setAuthCoreToken',
       'fetchAuthCoreUser',
       'fetchAuthCoreAccessTokenAndUser',
@@ -661,6 +662,9 @@ export default {
         });
       } else {
         this.$nextTick(() => { this.redirectToPreAuthPage(); });
+      }
+      if (this.isOverlay) {
+        this.setAuthDialogShow(false);
       }
     },
 
