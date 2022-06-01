@@ -8,6 +8,8 @@
 import { mapActions, mapGetters } from 'vuex';
 import Spinner from '@/components/Spinner';
 
+import { POST_LOGOUT_ROUTE } from '@/constant';
+
 export default {
   name: 'auth-api-view',
   layout: 'register',
@@ -43,13 +45,13 @@ export default {
       if (this.isPopup) {
         try {
           window.close();
-          this.$router.push('/');
+          this.$router.push(POST_LOGOUT_ROUTE);
         } catch (err) {
           console.error(err);
-          this.$router.push('/');
+          this.$router.push(POST_LOGOUT_ROUTE);
         }
       } else {
-        this.$router.push('/');
+        this.$router.push(POST_LOGOUT_ROUTE);
       }
     },
   },

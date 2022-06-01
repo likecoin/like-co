@@ -24,3 +24,8 @@ a, a:hover, a:focus, a:visited
   max-width: 400px;
   max-height: 289px;
 }
+
+/* HACK: Fix for vendor CSS overwritten WalletConnect style */
+.walletconnect-modal__headerLogo {
+  height: 21px !important;
+}
