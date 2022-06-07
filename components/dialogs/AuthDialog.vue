@@ -1107,7 +1107,7 @@ export default {
     async signInWithCosmosWallet(source = 'keplr') {
       this.currentTab = 'loading';
       try {
-        const { platform, payload } = await this.loginByCosmosWallet(source);
+        const { platform, payload } = await this.loginByCosmosWallet({ source });
         // HACK: platform might change according to prefix
         this.platform = platform;
         this.signInPayload = payload;

@@ -27,7 +27,7 @@ class WalletConnect {
     }
   }
 
-  async init({ open, close } = {}) {
+  async init({ open, close, isConnectOnly = false } = {}) {
     this.handleQRCodeModalOpen = open;
     this.handleQRCodeModalClose = close;
     this.reset();
@@ -61,6 +61,9 @@ class WalletConnect {
         this.connector.killSession();
       }
       await this.connector.connect();
+      if (isConnectOnly) {
+        return;
+      }
       const [account] = await this.connector.sendCustomRequest({
         id: payloadId(),
         jsonrpc: '2.0',
@@ -117,6 +120,15 @@ class WalletConnect {
         throw new Error('WALLETCONNECT_UNKNOWN_ERROR');
       }
     }
+  }
+
+  async requestForLogin(loginMessage) {
+    return this.connector.sendCustomRequest({
+      id: payloadId(),
+      jsonrpc: '2.0',
+      method: 'likecoin_login',
+      params: [network.id, loginMessage],
+    });
   }
 
   internalGetWalletAddress() {

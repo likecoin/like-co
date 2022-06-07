@@ -1,6 +1,9 @@
 import * as api from '@/util/api/api';
 import * as types from '@/store/mutation-types';
-import { REDIRECT_NAME_WHITE_LIST } from '@/constant';
+import {
+  LOGIN_MESSAGE,
+  REDIRECT_NAME_WHITE_LIST,
+} from '@/constant';
 
 import User from '@/util/User';
 import Keplr from '@/util/Keplr';
@@ -190,9 +193,13 @@ export function resetLoginByCosmosWallet({ commit }) {
   commit(types.USER_SET_WALLET_CONNECT_CONNECTING, false);
 }
 
-export async function loginByCosmosWallet({ commit }, source) {
+export async function loginByCosmosWallet({ commit }, {
+  source,
+  isIOS = false,
+} = {}) {
   let walletAddress = '';
   let signer;
+  let payload;
   switch (source) {
     case 'walletconnect': {
       await WalletConnect.init({
@@ -206,9 +213,14 @@ export async function loginByCosmosWallet({ commit }, source) {
             commit(types.USER_SET_WALLET_CONNECT_CONNECTING, true);
           }
         },
+        isConnectOnly: isIOS,
       });
-      walletAddress = await WalletConnect.getWalletAddress();
-      signer = s => WalletConnect.signLogin(s);
+      if (isIOS) {
+        payload = await WalletConnect.requestForLogin(LOGIN_MESSAGE);
+      } else {
+        walletAddress = await WalletConnect.getWalletAddress();
+        signer = s => WalletConnect.signLogin(s);
+      }
       break;
     }
 
@@ -221,11 +233,13 @@ export async function loginByCosmosWallet({ commit }, source) {
     default: throw new Error('UNKNOWN_COSMOS_WALLET_SOURCE');
   }
   const platform = walletAddress.startsWith('like') ? 'likeWallet' : 'cosmosWallet';
-  const payload = await User.signCosmosLogin(
-    walletAddress,
-    signer,
-    platform,
-  );
+  if (!payload) {
+    payload = await User.signCosmosLogin(
+      walletAddress,
+      signer,
+      platform,
+    );
+  }
   if (source === 'walletconnect') {
     commit(types.USER_SET_WALLET_CONNECT_CONNECTING, false);
   }
