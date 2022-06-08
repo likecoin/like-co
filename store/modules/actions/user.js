@@ -196,6 +196,7 @@ export function resetLoginByCosmosWallet({ commit }) {
 export async function loginByCosmosWallet({ commit }, {
   source,
   isIOS = false,
+  isRetry = false,
 } = {}) {
   let walletAddress = '';
   let signer;
@@ -214,6 +215,7 @@ export async function loginByCosmosWallet({ commit }, {
           }
         },
         isConnectOnly: isIOS,
+        isRetry,
       });
       if (isIOS) {
         payload = await WalletConnect.requestForLogin(LOGIN_MESSAGE);

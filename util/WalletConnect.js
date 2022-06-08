@@ -27,11 +27,17 @@ class WalletConnect {
     }
   }
 
-  async init({ open, close, isConnectOnly = false } = {}) {
+  async init({
+    open,
+    close,
+    isConnectOnly = false,
+    isRetry = false,
+  } = {}) {
     this.handleQRCodeModalOpen = open;
     this.handleQRCodeModalClose = close;
-    this.reset();
-
+    if (!isRetry) {
+      this.reset();
+    }
     try {
       this.connector = new WalletConnectClient({
         bridge: 'https://bridge.walletconnect.org',
@@ -57,10 +63,9 @@ class WalletConnect {
       };
 
       // Always starts a new session
-      if (this.connector.connected) {
-        this.connector.killSession();
+      if (!this.connector.connected) {
+        await this.connector.connect();
       }
-      await this.connector.connect();
       if (isConnectOnly) {
         return;
       }
@@ -123,12 +128,20 @@ class WalletConnect {
   }
 
   async requestForLogin(loginMessage) {
-    return this.connector.sendCustomRequest({
-      id: payloadId(),
-      jsonrpc: '2.0',
-      method: 'likerId_login',
-      params: [network.id, loginMessage],
-    });
+    const payload = await Promise.race([
+      this.connector.sendCustomRequest({
+        id: payloadId(),
+        jsonrpc: '2.0',
+        method: 'likerId_login',
+        params: [network.id, loginMessage],
+      }),
+      new Promise(resolve => setTimeout(() => resolve(), 5000)),
+    ]);
+    if (!payload) {
+      throw new Error('WALLETCONNECT_LOGIN_TIMEOUT');
+    }
+    this.connector.killSession();
+    return payload;
   }
 
   internalGetWalletAddress() {

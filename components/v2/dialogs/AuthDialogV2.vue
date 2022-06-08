@@ -56,18 +56,37 @@
               class="content-container"
             >{{ errorMessage }}</div>
 
-            <i18n
+            <div
               v-else-if="loadingI18nPath"
               :key="loadingI18nPath"
-              class="content-container"
-              :path="loadingI18nPath"
-              tag="div"
             >
-              <span
-                class="app-name"
-                place="appName"
-              >Liker Land app</span>
-            </i18n>
+              <i18n
+                class="content-container"
+                :path="loadingI18nPath"
+                tag="div"
+              >
+                <span
+                  class="app-name"
+                  place="appName"
+                >Liker Land app</span>
+              </i18n>
+              <div class="wallet-connect-retry-button-wrapper">
+                <Button
+                  v-if="isShowRetrySignInWithWalletConnectButton"
+                  @click="retrySignInWithWalletConnect"
+                >
+                  <i18n
+                    path="V2_WalletConnectQRCodeModal_Mobile_Button_Text"
+                    tag="span"
+                  >
+                    <span
+                      class="app-name"
+                      place="appName"
+                    >Liker Land app</span>
+                  </i18n>
+                </Button>
+              </div>
+            </div>
 
             <WalletConnectQRCodeView
               v-else-if="getWalletConnectURI"
@@ -186,6 +205,7 @@ import SignIn from '~/components/icons/SignIn';
 import ArrowDown from '~/components/icons/ArrowDown';
 import EthMixin from '~/components/EthMixin';
 
+import Button from '../Button';
 import RegisterForm from '../RegisterForm';
 import WalletConnectQRCodeView from '../WalletConnectQRCodeView';
 import BaseDialogV3 from './BaseDialogV3';
@@ -205,6 +225,7 @@ function shouldWriteURLIntoSession(sourceURL) {
 export default {
   name: 'auth-dialog',
   components: {
+    Button,
     BaseDialogV3,
     SignIn,
     KeplrIcon,
@@ -232,6 +253,8 @@ export default {
       platform: '',
       errorCode: '',
       error: '',
+
+      isShowRetrySignInWithWalletConnectButton: false,
 
       signInPayload: {
         user: '',
@@ -462,24 +485,36 @@ export default {
       this.login();
     },
 
-    async signInWithCosmosWallet(source = 'keplr') {
+    async signInWithCosmosWallet(
+      source = 'keplr',
+      { isRetry = false } = {},
+    ) {
+      this.isShowRetrySignInWithWalletConnectButton = false;
       try {
         const { platform, payload } = await this.loginByCosmosWallet({
           source,
           isIOS: isIOS(),
+          isRetry,
         });
         // HACK: platform might change according to prefix
         this.platform = platform;
         this.signInPayload = payload;
         this.login();
       } catch (err) {
-        if (err.message !== 'Request rejected') {
+        if (err.message === 'WALLETCONNECT_LOGIN_TIMEOUT') {
+          this.isShowRetrySignInWithWalletConnectButton = true;
+        } else if (err.message !== 'Request rejected') {
           this.resetLoginByCosmosWallet();
           console.error(err);
           if (this.$sentry) this.$sentry.captureException(err);
           this.setError(err.message, err);
         }
       }
+    },
+
+    async retrySignInWithWalletConnect() {
+      this.signInWithCosmosWallet('walletconnect', { isRetry: true });
+      window.location.href = 'com.oice://';
     },
 
     async signInWithMetaMask() {
@@ -855,5 +890,12 @@ export default {
   .text {
     text-decoration: underline;
   }
+}
+
+.wallet-connect-retry-button-wrapper {
+  display: flex;
+  justify-content: center;
+
+  margin-top: 16px;
 }
 </style>
