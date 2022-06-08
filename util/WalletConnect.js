@@ -126,7 +126,7 @@ class WalletConnect {
     return this.connector.sendCustomRequest({
       id: payloadId(),
       jsonrpc: '2.0',
-      method: 'likecoin_login',
+      method: 'likerId_login',
       params: [network.id, loginMessage],
     });
   }
