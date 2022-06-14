@@ -201,7 +201,6 @@ jobs:
           name: Deploy
           command: |
             kubectl patch deployment like-api-web-testnet -p '{"spec":{"template":{"spec":{"containers":[{"name":"like-api-web","image":"us.gcr.io/'"$TEST_PROJECT_NAME"'/like-api-public:'"$CIRCLE_SHA1"'"}]}}}}'
-
   deploy_rinkeby_frontend:
     working_directory: ~/likecoin-store
     docker:
@@ -293,6 +292,53 @@ jobs:
           name: Deploy
           command: |
             kubectl patch deployment like-api-web-rinkeby -p '{"spec":{"template":{"spec":{"containers":[{"name":"like-api-web","image":"us.gcr.io/'"$TEST_PROJECT_NAME"'/like-api-public:'"$CIRCLE_SHA1"'"}]}}}}'
+  deploy_legacy_frontend:
+    working_directory: ~/likecoin-store
+    docker:
+      - image: lakoo/node-gcloud-docker
+    environment:
+      - DEBIAN_FRONTEND: noninteractive
+      - TERM: dumb
+      - GOOGLE_APPLICATION_CREDENTIALS: /tmp/account-auth.json
+    steps:
+      - checkout
+      - run:
+          name: Setup gcloud
+          command: |
+            echo ${GCLOUD_SERVICE_KEY} | base64 -d > /account-auth.json
+            gcloud auth activate-service-account --key-file /account-auth.json
+            gcloud config set project ${PROJECT_NAME}
+            gcloud --quiet config set container/cluster ${PROD_CLUSTER_NAME}
+            gcloud config set compute/zone ${CLOUDSDK_COMPUTE_ZONE}
+            gcloud --quiet container clusters get-credentials ${PROD_CLUSTER_NAME}
+      - setup_docker_engine
+      - run:
+          name: Build image
+          command: |
+            gcloud docker -- pull us.gcr.io/${PROJECT_NAME}/like-store-frontend:latest || true
+            docker build . -t like-store --cache-from us.gcr.io/${PROJECT_NAME}/like-store-frontend:latest \
+            --build-arg INTERCOM_APPID=${INTERCOM_APPID} \
+            --build-arg GTM_ID=${GTM_ID} \
+            --build-arg CRISP_WEBSITE_ID=${CRISP_WEBSITE_ID} \
+            --build-arg FIREBASE_API_KEY=${FIREBASE_API_KEY} \
+            --build-arg FIREBASE_AUTH_DOMAIN=${FIREBASE_AUTH_DOMAIN} \
+            --build-arg FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID} \
+            --build-arg SENTRY_DSN=${SENTRY_DSN} \
+            --build-arg SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN} \
+            --build-arg SENTRY_REPORT_URI=${SENTRY_REPORT_URI} \
+            --build-arg SENTRY_PROJECT=${SENTRY_PROJECT} \
+            --build-arg RELEASE=${CIRCLE_SHA1}
+            docker tag like-store:latest us.gcr.io/${PROJECT_NAME}/like-store-frontend:latest
+            docker tag like-store:latest us.gcr.io/${PROJECT_NAME}/like-store-frontend:legacy-${CIRCLE_SHA1}
+      - run:
+          name: Push images
+          command: |
+            gcloud docker -- push us.gcr.io/${PROJECT_NAME}/like-store-frontend:latest
+            gcloud docker -- push us.gcr.io/${PROJECT_NAME}/like-store-frontend:legacy-${CIRCLE_SHA1}
+      - deploy:
+          name: Deploy
+          command: |
+            kubectl patch deployment like-store-frontend-legacy -p '{"spec":{"template":{"spec":{"containers":[{"name":"like-store-frontend","image":"us.gcr.io/'"$PROJECT_NAME"'/like-store-frontend:legacy-'"$CIRCLE_SHA1"'"}]}}}}'
   deploy_mainnet_frontend:
     working_directory: ~/likecoin-store
     docker:
@@ -400,7 +446,7 @@ workflows:
                 - develop
                 - deployment/testnet
           requires:
-           - test
+            - test
       - hold_deploy_testnet_frontend:
           type: approval
           filters:
@@ -410,7 +456,7 @@ workflows:
                 - develop
                 - deployment/testnet
           requires:
-           - test
+            - test
       - hold_deploy_rinkeby_api:
           type: approval
           filters:
@@ -420,7 +466,7 @@ workflows:
                 - develop
                 - deployment/rinkeby
           requires:
-           - test
+            - test
       - hold_deploy_rinkeby_frontend:
           type: approval
           filters:
@@ -430,21 +476,28 @@ workflows:
                 - develop
                 - deployment/rinkeby
           requires:
-           - test
+            - test
+      - hold_deploy_legacy_frontend:
+          type: approval
+          filters:
+            branches:
+              only: deployment/legacy
+          requires:
+            - test
       - hold_deploy_mainnet_api:
           type: approval
           filters:
             branches:
               only: master
           requires:
-           - test
+            - test
       - hold_deploy_mainnet_frontend:
           type: approval
           filters:
             branches:
               only: master
           requires:
-           - test
+            - test
       - deploy_testnet_api:
           requires:
             - hold_deploy_testnet_api
@@ -457,6 +510,9 @@ workflows:
       - deploy_rinkeby_frontend:
           requires:
             - hold_deploy_rinkeby_frontend
+      - deploy_legacy_frontend:
+          requires:
+            - hold_deploy_legacy_frontend
       - deploy_mainnet_api:
           requires:
             - hold_deploy_mainnet_api
