@@ -728,6 +728,7 @@
       "label": "No, thank you"
     }
   },
+  "AuthDialog_toggle_frontend_mode_button": "Switch to new interface",
   "AuthDialog": {
     "supportCreator": "Support {name}",
     "label": {
