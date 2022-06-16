@@ -1,4 +1,5 @@
 import parse from 'url-parse';
+import Cookies from 'js-cookie';
 import {
   LIKE_BUTTON_POST_MESSAGE_TARGET_ORIGIN,
   REDIRECT_WHITE_LIST,
@@ -62,4 +63,15 @@ export function tryPostLoginRedirect({ route }) {
     return true;
   }
   return false;
+}
+
+const LIKECO_FRONTEND_MODE_COOKIE_KEY = 'likeco_frontend_mode';
+
+export function toggleFrontendMode() {
+  if (Cookies.get(LIKECO_FRONTEND_MODE_COOKIE_KEY)) {
+    Cookies.remove(LIKECO_FRONTEND_MODE_COOKIE_KEY);
+  } else {
+    Cookies.set(LIKECO_FRONTEND_MODE_COOKIE_KEY, 'legacy');
+  }
+  window.location.reload();
 }

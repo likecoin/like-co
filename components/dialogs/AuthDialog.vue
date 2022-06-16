@@ -97,20 +97,28 @@
             v-bind="tabProps"
             class="auth-dialog__tab auth-dialog__tab--index auth-dialog__tab--portal"
           >
-            <auth-core-register
-              v-if="isUsingAuthCore"
-              :is-sign-in="isSignIn"
-              :language="getCurrentLocale"
-              :redirect-url="getAuthCoreRedirectUrl"
-              :social-login-pane-option="socialLoginPaneOption"
-              @loaded="onAuthCoreLoaded"
-              @loginWidgetLoaded="onAuthCoreLoginWidgetLoaded"
-              @registerStarted="onAuthCoreRegisterStarted"
-              @oauthStarted="onAuthCoreOAuthStarted"
-              @loginStarted="onAuthCoreLoginStarted"
-              @navigation="onAuthCoreNavigation"
-              @success="signInWithAuthCore"
-            />
+            <div>
+              <auth-core-register
+                v-if="isUsingAuthCore"
+                :is-sign-in="isSignIn"
+                :language="getCurrentLocale"
+                :redirect-url="getAuthCoreRedirectUrl"
+                :social-login-pane-option="socialLoginPaneOption"
+                @loaded="onAuthCoreLoaded"
+                @loginWidgetLoaded="onAuthCoreLoginWidgetLoaded"
+                @registerStarted="onAuthCoreRegisterStarted"
+                @oauthStarted="onAuthCoreOAuthStarted"
+                @loginStarted="onAuthCoreLoginStarted"
+                @navigation="onAuthCoreNavigation"
+                @success="signInWithAuthCore"
+              />
+              <div class="toggle-frontend-mode-button-wrapper">
+                <a
+                  class="toggle-frontend-mode-button"
+                  @click="toggleFrontendMode"
+                >{{ $t('AuthDialog_toggle_frontend_mode_button') }}</a>
+              </div>
+            </div>
           </div>
 
           <div
@@ -381,6 +389,7 @@ import { logTrackerEvent, logTimingEvent } from '@/util/EventLogger';
 import {
   tryPostLoginRedirect,
   checkIsMobileClient,
+  toggleFrontendMode,
 } from '~/util/client';
 
 function shouldWriteURLIntoSession(sourceURL) {
@@ -715,6 +724,9 @@ export default {
       'authCoreLogoutUser',
       'loginByCosmosWallet',
     ]),
+
+    toggleFrontendMode,
+
     setContentStyle({ height }) {
       const style = {
         height: `${height}px`,
@@ -1430,5 +1442,21 @@ export default {
 
     width: 100%;
   }
+}
+
+.toggle-frontend-mode-button-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  /* Overlap with upper container */
+  margin-top: -24px;
+  padding-bottom: 24px;
+}
+.toggle-frontend-mode-button {
+  text-align: center;
+  text-decoration: underline;
+
+  cursor: pointer;
 }
 </style>
