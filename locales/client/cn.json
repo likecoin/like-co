@@ -690,7 +690,7 @@
             }
         }
     },
-    "AuthDialog_toggle_frontend_mode_button": "切換舊介面",
+    "AuthDialog_toggle_frontend_mode_button": "切換旧介面",
     "AuthDialog": {
         "supportCreator": "支持 {name}",
         "label": {
