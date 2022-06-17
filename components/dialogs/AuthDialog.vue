@@ -1451,17 +1451,17 @@ export default {
 
 .toggle-frontend-mode-button-wrapper {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  flex-direction: column;
 
   /* Overlap with upper container */
   margin-top: -24px;
   padding-bottom: 24px;
 }
 .toggle-frontend-mode-button {
-  text-align: center;
-  text-decoration: underline;
 
   cursor: pointer;
+  text-align: center;
+  text-decoration: underline;
 }
 </style>
