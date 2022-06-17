@@ -164,7 +164,12 @@
                         $t("DialogV2.type.metaMask.name") + ' ' +
                           $t("DialogV2.type.metaMask.description")
                       }}
-                      <div />
+                    </div>
+                    <div
+                      class="text toggle-frontend-mode-button"
+                      @click="toggleFrontendMode"
+                    >
+                      {{ $t('AuthDialog_toggle_frontend_mode_button') }}
                     </div>
                   </div>
                 </div>
@@ -195,6 +200,7 @@ import {
 import {
   checkIsMobileClient,
   tryPostLoginRedirect,
+  toggleFrontendMode,
 } from '~/util/client';
 
 import { apiCheckIsUser, apiCheckLikerId } from '@/util/api/api';
@@ -379,6 +385,8 @@ export default {
       'fetchAuthCoreUser',
       'fetchAuthCoreAccessTokenAndUser',
     ]),
+
+    toggleFrontendMode,
 
     reset() {
       this.registerStep = 'create-liker-id';
@@ -876,8 +884,13 @@ export default {
   }
 }
 
-.metamask-button {
+.metamask-button,
+.toggle-frontend-mode-button {
   cursor: pointer;
+}
+
+.toggle-frontend-mode-button {
+  margin-top: 12px;
 }
 
 .legacy-content-container {

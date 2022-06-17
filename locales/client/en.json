@@ -728,7 +728,7 @@
       "label": "No, thank you"
     }
   },
-  "AuthDialog_toggle_frontend_mode_button": "Switch to new interface",
+  "AuthDialog_toggle_frontend_mode_button": "Switch to legacy interface",
   "AuthDialog": {
     "supportCreator": "Support {name}",
     "label": {
