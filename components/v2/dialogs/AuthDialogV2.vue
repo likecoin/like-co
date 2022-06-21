@@ -70,9 +70,11 @@
                   place="appName"
                 >Liker Land app</span>
               </i18n>
-              <div class="wallet-connect-retry-button-wrapper">
+              <div
+                v-if="isShowRetrySignInWithWalletConnectButton"
+                class="wallet-connect-retry-button-wrapper"
+              >
                 <Button
-                  v-if="isShowRetrySignInWithWalletConnectButton"
                   @click="retrySignInWithWalletConnect"
                 >
                   <i18n
@@ -85,6 +87,9 @@
                     >Liker Land app</span>
                   </i18n>
                 </Button>
+                <div
+                  class="wallet-connect-retry-button-hint"
+                >{{ $t('V2_WalletConnectQRCodeModal_Mobile_Button_Hint_Text') }}</div>
               </div>
             </div>
 
@@ -907,8 +912,19 @@ export default {
 
 .wallet-connect-retry-button-wrapper {
   display: flex;
-  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 
   margin-top: 16px;
+}
+
+.wallet-connect-retry-button-hint {
+  margin-top: 8px;
+
+  text-align: center;
+
+  color: #8c293c;
+
+  font-size: 12px;
 }
 </style>
