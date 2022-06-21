@@ -6,7 +6,9 @@ import User from '@/util/User';
 import Keplr from '@/util/Keplr';
 import {
   setTrackerUser,
+  setUserProperties,
 } from '@/util/EventLogger';
+import { getFrontendMode } from '@/util/client';
 
 import apiWrapper from './api-wrapper';
 
@@ -221,6 +223,7 @@ export async function refreshUser({ commit, state, dispatch }) {
       await dispatch('fetchSocialListDetailsById', user.user);
       commit(types.USER_SET_USER_INFO, user);
       await setTrackerUser(user);
+      setUserProperties({ frontend_mode: getFrontendMode() });
     } else {
       commit(types.USER_SET_USER_INFO, {});
     }
