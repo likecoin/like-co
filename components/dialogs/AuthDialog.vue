@@ -726,7 +726,7 @@ export default {
     ]),
 
     toggleFrontendMode() {
-      logTrackerEvent(this, 'RegFlow', 'ToggleFrontendMode', 'ToggleFrontendModeLegacy)', 1);
+      logTrackerEvent(this, 'RegFlow', 'ToggleFrontendMode', 'FrontendModeNew', 1);
       toggleFrontendMode();
     },
 
