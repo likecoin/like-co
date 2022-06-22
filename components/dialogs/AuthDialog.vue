@@ -725,7 +725,10 @@ export default {
       'loginByCosmosWallet',
     ]),
 
-    toggleFrontendMode,
+    toggleFrontendMode() {
+      logTrackerEvent(this, 'RegFlow', 'ToggleFrontendMode', 'FrontendModeNew', 1);
+      toggleFrontendMode();
+    },
 
     setContentStyle({ height }) {
       const style = {
