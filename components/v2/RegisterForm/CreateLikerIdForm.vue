@@ -86,7 +86,10 @@ export default {
 
 <style scoped>
 .hint {
-  margin-left: 8px;
+  display: flex;
+  align-items: center;
+
+  margin: 0 8px;
 
   text-align: right;
   white-space: nowrap;

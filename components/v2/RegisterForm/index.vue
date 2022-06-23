@@ -242,6 +242,8 @@ export default {
 
   margin-top: 4px;
 
+  white-space: nowrap;
+
   color: #9b9b9b;
 }
 </style>

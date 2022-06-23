@@ -120,6 +120,7 @@ export default {
 .v2-input-field__layout {
   display: flex;
   flex-grow: 1;
+  justify-content: center;
 
   color: #4a4a4a;
 
