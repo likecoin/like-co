@@ -393,7 +393,10 @@ export default {
       'fetchAuthCoreAccessTokenAndUser',
     ]),
 
-    toggleFrontendMode,
+    toggleFrontendMode() {
+      logTrackerEvent(this, 'RegFlow', 'ToggleFrontendMode', 'FrontendModeLegacy', 1);
+      toggleFrontendMode();
+    },
 
     reset() {
       this.registerStep = 'create-liker-id';
