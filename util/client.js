@@ -75,3 +75,7 @@ export function toggleFrontendMode() {
   }
   window.location.reload();
 }
+
+export function getFrontendMode() {
+  return getCookie(LIKECO_FRONTEND_MODE_COOKIE_KEY) || 'default';
+}

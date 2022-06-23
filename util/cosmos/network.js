@@ -7,7 +7,7 @@ import {
 
 const mainConfig = {
   id: 'likecoin-mainnet-2',
-  name: 'LikeCoin chain',
+  name: 'LikeCoin',
   website: 'https://like.co',
   apiURL: 'https://mainnet-node.like.co',
   rpcURL: 'https://mainnet-node.like.co/rpc/',

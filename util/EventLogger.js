@@ -82,6 +82,17 @@ export async function setTrackerUser({ user }) {
   }
 }
 
+export async function setUserProperties(keyValues) {
+  if (window.doNotTrack || navigator.doNotTrack) return;
+  if (!keyValues) return;
+  window.dataLayer = window.dataLayer || [];
+  try {
+    window.dataLayer.push('set', 'user_properties', keyValues);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 export function logTrackerEvent(
   vue,
   category,

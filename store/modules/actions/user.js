@@ -1,14 +1,19 @@
-import * as api from '@/util/api/api';
-import * as types from '@/store/mutation-types';
 import {
   LOGIN_MESSAGE,
   REDIRECT_NAME_WHITE_LIST,
 } from '@/constant';
 
-import User from '@/util/User';
+import * as types from '@/store/mutation-types';
+
+import * as api from '@/util/api/api';
+import { getFrontendMode } from '@/util/client';
+import {
+  setTrackerUser,
+  setUserProperties,
+} from '@/util/EventLogger';
 import Keplr from '@/util/Keplr';
+import User from '@/util/User';
 import WalletConnect from '@/util/WalletConnect';
-import { setTrackerUser } from '@/util/EventLogger';
 
 import apiWrapper from './api-wrapper';
 
@@ -269,6 +274,7 @@ export async function refreshUser({ commit, state, dispatch }) {
       await dispatch('fetchSocialListDetailsById', user.user);
       commit(types.USER_SET_USER_INFO, user);
       await setTrackerUser(user);
+      setUserProperties({ frontend_mode: getFrontendMode() });
     } else {
       commit(types.USER_SET_USER_INFO, {});
     }

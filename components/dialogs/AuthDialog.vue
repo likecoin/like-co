@@ -727,7 +727,10 @@ export default {
       'loginByCosmosWallet',
     ]),
 
-    toggleFrontendMode,
+    toggleFrontendMode() {
+      logTrackerEvent(this, 'RegFlow', 'ToggleFrontendMode', 'FrontendModeNew', 1);
+      toggleFrontendMode();
+    },
 
     setContentStyle({ height }) {
       const style = {
@@ -1450,6 +1453,9 @@ export default {
 }
 
 .toggle-frontend-mode-button-wrapper {
+  /* Workaround of negative margin z-index issue in iOS */
+  position: relative;
+
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -1459,7 +1465,6 @@ export default {
   padding-bottom: 24px;
 }
 .toggle-frontend-mode-button {
-
   cursor: pointer;
   text-align: center;
   text-decoration: underline;
