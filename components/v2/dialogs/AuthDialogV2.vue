@@ -170,15 +170,17 @@
                           $t("DialogV2.type.metaMask.description")
                       }}
                     </div>
-                    <div
-                      class="text toggle-frontend-mode-button"
-                      @click="toggleFrontendMode"
-                    >
-                      {{ $t('AuthDialog_toggle_frontend_mode_button') }}
-                    </div>
                   </div>
                 </div>
               </Transition>
+              <div class="legacy-content-container">
+                <div
+                  class="text toggle-frontend-mode-button"
+                  @click="toggleFrontendMode"
+                >
+                  {{ $t('AuthDialog_toggle_frontend_mode_button') }}
+                </div>
+              </div>
             </div>
           </Transition>
         </div>
@@ -923,7 +925,7 @@ export default {
 
   text-align: center;
 
-  color: #8c293c;
+  color: #9b9b9b;
 
   font-size: 12px;
 }
