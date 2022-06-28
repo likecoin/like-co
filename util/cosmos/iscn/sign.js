@@ -2,7 +2,7 @@
 import BigNumber from 'bignumber.js';
 import { ISCNSigningClient } from '@likecoin/iscn-js';
 import bech32 from 'bech32';
-import { ISCN_RPC_URL, ISCN_PUBLISHERS, ISCN_LICENSES } from './constant';
+import { ISCN_RPC_URL } from './constant';
 import { EXTERNAL_URL } from '../../../constant';
 
 let isConnected;
@@ -33,82 +33,90 @@ async function getISCNSigningClient(signer) {
   return iscnClient;
 }
 
-function getPublisherISCNPayload(user, { publisher, license }) {
+function getAuthorISCNPayload(payload) {
   const {
     userId,
     displayName,
     cosmosWallet,
     author,
     authorDescription,
-  } = user;
-  let usageInfo;
+    rewardProportion = 1,
+  } = payload;
   const stakeholders = [];
-  switch (publisher) {
-    case 'matters': {
-      const {
-        description,
-        id,
-        name,
-        license: mattersLicense,
-      } = ISCN_PUBLISHERS.matters;
-      stakeholders.push({
-        entity: {
-          '@id': id,
-          name,
-          description,
-        },
-        rewardProportion: 0,
-        contributionType: 'http://schema.org/publisher',
-      });
-      usageInfo = `ipfs://${ISCN_LICENSES[mattersLicense]['/']}`;
-      break;
-    }
-    default: {
-      if (publisher) {
-        stakeholders.push({
-          entity: {
-            '@id': publisher,
-            publisher,
-          },
-          rewardProportion: 0,
-          contributionType: 'http://schema.org/publisher',
-        });
-      }
-      usageInfo = license;
-    }
-  }
-  if (author && cosmosWallet) { // from Keplr
+  if (typeof author === 'object') {
+    stakeholders.push({
+      rewardProportion,
+      contributionType: 'http://schema.org/author',
+      ...author,
+    });
+  } else {
+    let entity;
     let likePrefixAddress = cosmosWallet;
-    if (!isValidLikeAddress(cosmosWallet)) {
-      likePrefixAddress = changeAddressPrefix(cosmosWallet, 'like');
+    if (likePrefixAddress) {
+      if (!isValidLikeAddress(cosmosWallet)) {
+        likePrefixAddress = changeAddressPrefix(cosmosWallet, 'like');
+      }
     }
-
-    stakeholders.unshift({
-      entity: {
+    if (author && likePrefixAddress) { // from Keplr
+      entity = {
         '@id': `did:like:${likePrefixAddress.split('like')[1]}`,
         name: author,
         description: authorDescription,
-      },
-      rewardProportion: 1,
-      contributionType: 'http://schema.org/author',
-    });
-  } else if (userId && displayName) {
-    stakeholders.unshift({
-      entity: {
+      };
+    } else if (userId && displayName) {
+      entity = {
         '@id': `${EXTERNAL_URL}/${userId}`,
         name: displayName,
-      },
-      rewardProportion: 1,
-      contributionType: 'http://schema.org/author',
-    });
+      };
+    } else if (likePrefixAddress) {
+      entity = {
+        '@id': `did:like:${likePrefixAddress.split('like')[1]}`,
+      };
+    }
+    if (entity) {
+      stakeholders.push({
+        entity,
+        rewardProportion,
+        contributionType: 'http://schema.org/author',
+      });
+    }
   }
   return {
-    usageInfo,
     stakeholders,
   };
 }
 
-function preformatISCNPayload(payload) {
+function getPublisherISCNPayload(publisher) {
+  const stakeholders = [];
+  let contentFingerprints = [];
+  if (typeof publisher === 'object') {
+    const {
+      contentFingerprints: publisherContentFingerprints,
+      license,
+      ...actualPublisher
+    } = publisher;
+    contentFingerprints = publisherContentFingerprints;
+    stakeholders.push({
+      rewardProportion: 0.025,
+      contributionType: 'http://schema.org/publisher',
+      ...actualPublisher,
+    });
+  } else {
+    stakeholders.push({
+      entity: {
+        '@id': publisher,
+      },
+      rewardProportion: 0,
+      contributionType: 'http://schema.org/publisher',
+    });
+  }
+  return {
+    stakeholders,
+    contentFingerprints: contentFingerprints || [],
+  };
+}
+
+export function preformatISCNPayload(payload) {
   const {
     userId,
     displayName,
@@ -123,18 +131,31 @@ function preformatISCNPayload(payload) {
     authorDescription,
     description,
     url,
+    stakeholders: inputStakeholders = [],
     recordNotes = '',
   } = payload;
 
+  let stakeholders = inputStakeholders || [];
   let actualType = 'CreativeWork';
+  const {
+    stakeholders: publisherStakeholders,
+    contentFingerprints: publisherContentFingerprints,
+  } = getPublisherISCNPayload(publisher);
 
-  const { usageInfo, stakeholders } = getPublisherISCNPayload({
+  const rewardProportion = 1 - publisherStakeholders.reduce((acc, cur) => {
+    if (cur.rewardProportion) return acc + cur.rewardProportion;
+    return acc;
+  }, 0);
+  const { stakeholders: authorStakeholders } = getAuthorISCNPayload({
     userId,
     displayName,
     cosmosWallet,
     author,
     authorDescription,
-  }, { publisher, license });
+    rewardProportion,
+  });
+  if (authorStakeholders) stakeholders = stakeholders.concat(authorStakeholders);
+  if (publisherStakeholders) stakeholders = stakeholders.concat(publisherStakeholders);
 
   switch (type) {
     case 'image':
@@ -150,6 +171,9 @@ function preformatISCNPayload(payload) {
   if (fingerprints) {
     contentFingerprints = contentFingerprints.concat(fingerprints);
   }
+  if (publisherContentFingerprints) {
+    contentFingerprints = contentFingerprints.concat(publisherContentFingerprints);
+  }
 
   const preformatedPayload = {
     name,
@@ -157,7 +181,7 @@ function preformatISCNPayload(payload) {
     url,
     keywords: tags,
     type: actualType,
-    usageInfo,
+    usageInfo: license,
     recordNotes,
     contentFingerprints,
     stakeholders,
@@ -165,8 +189,7 @@ function preformatISCNPayload(payload) {
   return preformatedPayload;
 }
 
-export async function calculateISCNTotalFee(tx, { memo } = {}) {
-  const payload = preformatISCNPayload(tx);
+export async function calculateISCNTotalFee(payload, { memo } = {}) {
   const client = await getISCNEstimationClient();
   const { gas, iscnFee } = await client.esimateISCNTxGasAndFee(payload, { memo });
   const ISCNFeeAmount = iscnFee.amount;
@@ -175,8 +198,9 @@ export async function calculateISCNTotalFee(tx, { memo } = {}) {
   return { ISCNTotalFee };
 }
 
-export async function signISCNTx(tx, signer, address, { iscnId, memo, broadcast = true } = {}) {
-  const payload = preformatISCNPayload(tx);
+export async function signISCNTx(
+  payload, signer, address, { iscnId, memo, broadcast = true } = {},
+) {
   const client = await getISCNSigningClient(signer);
   let res;
   if (iscnId) {

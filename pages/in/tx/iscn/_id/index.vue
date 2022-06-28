@@ -314,7 +314,6 @@
 import { mapActions } from 'vuex';
 import dateFormat from 'date-fns/format';
 
-// import { ISCN_LICENSES, ISCN_PUBLISHERS } from '@/util/cosmos/iscn/constant';
 import {
   getISCNTransferInfo,
   getISCNTransactionCompleted,
