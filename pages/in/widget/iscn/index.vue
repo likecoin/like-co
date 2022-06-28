@@ -241,7 +241,6 @@ export default {
       fingerprint,
       type = 'article',
       tags: tagsString = '',
-      publisher,
       redirect_uri: redirectUri,
       opener,
       state,
@@ -249,6 +248,7 @@ export default {
       blocking,
     } = query;
     let {
+      publisher,
       license,
       title,
     } = query;
@@ -268,17 +268,13 @@ export default {
       return contentFingerprint;
     });
     if (publisher) {
-      if (!ISCN_PUBLISHERS[publisher]) {
-        return error({ statusCode: 400, message: 'INVALID_PUBLISHER' });
+      if (ISCN_PUBLISHERS[publisher]) {
+        license = ISCN_PUBLISHERS[publisher].license || license;
+        publisher = ISCN_PUBLISHERS[publisher];
       }
-      ({ license } = ISCN_PUBLISHERS[publisher]);
     }
     if (license) {
-      if (!ISCN_LICENSES[license]) {
-        return error({ statusCode: 400, message: 'INVALID_LICENSE' });
-      }
-    } else {
-      license = ISCN_PUBLISHERS.default;
+      if (ISCN_LICENSES[license]) license = ISCN_LICENSES[license];
     }
     if (title) {
       title = title.substring(0, 255);
@@ -353,10 +349,12 @@ export default {
     licenseObj() {
       const { license } = this;
       let url = '';
-      let displayName = '';
-      if (license) {
-        url = `https://ipfs.io/ipfs/${ISCN_LICENSES[license]['/']}`;
-        displayName = this.$t(`${this.license}`);
+      let displayName = license || '';
+      if (license && license.startsWith('ipfs://')) {
+        url = license.replace('ipfs://', 'https://ipfs.io/ipfs/');
+      }
+      if (this.publisher && this.publisher.license) {
+        displayName = this.publisher.license;
       }
       return {
         displayName,

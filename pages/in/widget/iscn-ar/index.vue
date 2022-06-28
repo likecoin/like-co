@@ -656,13 +656,14 @@ export default {
     async onReceiveISCNData(data) {
       const {
         fingerprints = [],
+        stakeholders,
         url,
-        publisher,
         author,
         authorDescription,
         description,
       } = data;
       let {
+        publisher,
         license,
         type,
         name,
@@ -672,17 +673,15 @@ export default {
       } = data;
       type = type || 'article';
       if (publisher) {
-        if (!ISCN_PUBLISHERS[publisher]) {
-          this.$nuxt.error({ statusCode: 400, message: 'INVALID_PUBLISHER' });
+        if (typeof publisher === 'string' && ISCN_PUBLISHERS[publisher]) {
+          license = ISCN_PUBLISHERS[publisher].license || license;
+          publisher = ISCN_PUBLISHERS[publisher];
         }
-        ({ license } = ISCN_PUBLISHERS[publisher]);
       }
       if (license) {
-        if (!ISCN_LICENSES[license]) {
-          this.$nuxt.error({ statusCode: 400, message: 'INVALID_LICENSE' });
+        if (typeof license === 'string') {
+          license = ISCN_LICENSES[license] || license;
         }
-      } else {
-        license = '';
       }
       if (name) {
         name = name.substring(0, 255);
@@ -701,6 +700,7 @@ export default {
 
       const ISCNData = {
         fingerprints,
+        stakeholders,
         name,
         type,
         author,
@@ -807,6 +807,7 @@ export default {
           description,
           authorDescription,
           author,
+          stakeholders,
           fingerprints,
           recordNotes,
           memo,
@@ -824,6 +825,7 @@ export default {
           type,
           license,
           url,
+          stakeholders,
           recordNotes,
           memo,
           iscnId: this.iscnId,
