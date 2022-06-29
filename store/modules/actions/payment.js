@@ -145,6 +145,7 @@ export async function sendISCNSignature(
     description,
     cosmosWallet,
     recordNotes,
+    url,
     memo,
     shouldShowTxDialog = true,
   } = payload;
@@ -161,6 +162,7 @@ export async function sendISCNSignature(
       author,
       authorDescription,
       description,
+      url,
       cosmosWallet,
       recordNotes,
     });
