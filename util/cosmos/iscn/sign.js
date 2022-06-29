@@ -89,6 +89,7 @@ function getAuthorISCNPayload(payload) {
 function getPublisherISCNPayload(publisher) {
   const stakeholders = [];
   let contentFingerprints = [];
+  if (!publisher) return {};
   if (typeof publisher === 'object') {
     const {
       contentFingerprints: publisherContentFingerprints,
@@ -142,10 +143,10 @@ export function preformatISCNPayload(payload) {
     contentFingerprints: publisherContentFingerprints,
   } = getPublisherISCNPayload(publisher);
 
-  const rewardProportion = 1 - publisherStakeholders.reduce((acc, cur) => {
+  const rewardProportion = publisherStakeholders ? 1 - publisherStakeholders.reduce((acc, cur) => {
     if (cur.rewardProportion) return acc + cur.rewardProportion;
     return acc;
-  }, 0);
+  }, 0) : 1;
   const { stakeholders: authorStakeholders } = getAuthorISCNPayload({
     userId,
     displayName,
