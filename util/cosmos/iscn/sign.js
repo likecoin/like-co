@@ -59,7 +59,7 @@ function getAuthorISCNPayload(payload) {
     }
     if (author && likePrefixAddress) { // from Keplr
       entity = {
-        '@id': `did:like:${likePrefixAddress.split('like')[1]}`,
+        '@id': likePrefixAddress,
         name: author,
         description: authorDescription,
       };
@@ -70,7 +70,7 @@ function getAuthorISCNPayload(payload) {
       };
     } else if (likePrefixAddress) {
       entity = {
-        '@id': `did:like:${likePrefixAddress.split('like')[1]}`,
+        '@id': likePrefixAddress,
       };
     }
     if (entity) {
