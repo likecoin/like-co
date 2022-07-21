@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { AuthCoreWidgets } from 'authcore-js';
+import { AuthCoreWidgets } from '@likecoin/authcore-js';
 import config from './config';
 import { AUTHCORE_API_HOST } from '@/constant';
 

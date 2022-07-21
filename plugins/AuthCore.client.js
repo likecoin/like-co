@@ -1,4 +1,4 @@
-import { AuthCoreAuthClient } from 'authcore-js';
+import { AuthCoreAuthClient } from '@likecoin/authcore-js';
 
 import { AUTHCORE_API_HOST } from '@/constant';
 import * as types from '@/store/mutation-types';
