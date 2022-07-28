@@ -477,6 +477,7 @@ export default {
       iscnId: this.$route.query.iscn_id,
       redirectUri: this.$route.query.redirect_uri,
       opener: this.$route.query.opener && this.$route.query.opener !== '0',
+      mint: this.$route.query.mint || '',
       isUsingKeplr: false,
       mainStatus: 'initial',
       transactionStatus: 'initial',
@@ -874,7 +875,7 @@ export default {
       }
       await timeout(3000);
       const iscnIdString = encodeURIComponent(iscnId);
-      window.location.href = `https://app.${IS_TESTNET ? 'rinkeby.' : ''}like.co/view/${iscnIdString}?layout=popup`;
+      window.location.href = `https://app.${IS_TESTNET ? 'rinkeby.' : ''}like.co/view/${iscnIdString}?layout=popup&mint=${this.mint}`;
     },
     async handleAutheticate() {
       if (this.getUserIsRegistered) {
