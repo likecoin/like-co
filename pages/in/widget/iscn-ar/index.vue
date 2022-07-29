@@ -581,6 +581,8 @@ export default {
       this.onWindowMessage,
       false,
     );
+    // eslint-disable-next-line no-console
+    console.info('ISCN_WIDGET_READY');
     if (this.opener) {
       try {
         const message = JSON.stringify({
@@ -610,6 +612,8 @@ export default {
         }
         const { action, data } = JSON.parse(event.data);
         if (action === 'SUBMIT_ISCN_DATA') {
+          // eslint-disable-next-line no-console
+          console.info('Received SUBMIT_ISCN_DATA');
           const {
             metadata = {},
             files = [],
@@ -617,6 +621,8 @@ export default {
           this.onReceiveISCNData(metadata);
           this.onReceiveISCNFiles(files);
         } else if (action === 'INIT_WIDGET') {
+          // eslint-disable-next-line no-console
+          console.info('Received INIT_WIDGET');
           if (this.mainStatus === 'initial') {
             this.mainStatus = 'pending';
           }
@@ -625,12 +631,16 @@ export default {
     },
     async onReceiveISCNFiles(data) {
       if (!data || !data.length) {
+        // eslint-disable-next-line no-console
+        console.info('Received no files for upload');
         this.arweavePaymentInfo = {
           LIKE: '0',
         };
         this.prepareLikePayWidget();
         return;
       }
+      // eslint-disable-next-line no-console
+      console.info(`Received ${data.length} files for upload`);
       const files = data.filter(d => d.filename && d.data);
       const filesWithBlob = await Promise.all(files.map(async (d) => {
         const mimeType = d.mimeType || mime.lookup(d.filename) || 'text/plain';
@@ -715,6 +725,8 @@ export default {
         memo,
       };
       this.ISCNData = ISCNData;
+      // eslint-disable-next-line no-console
+      console.info(`Received metadata: ${JSON.stringify(ISCNData)}`);
     },
     async prepareLikePayWidget() {
       const {
