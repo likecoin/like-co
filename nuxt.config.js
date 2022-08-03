@@ -123,9 +123,6 @@ const nuxtConfig = {
           'client.crisp.chat',
           'use.fontawesome.com',
         ],
-        'report-uri': [
-          process.env.SENTRY_REPORT_URI,
-        ],
       },
     },
   },
