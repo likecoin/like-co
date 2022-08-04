@@ -1045,6 +1045,7 @@
       "stakeholders": "Stakeholders",
       "timestamp": "Transaction Timestamp",
       "title": "Title",
+      "description": "Description",
       "type": "Content Type",
       "license": "License",
       "tags": "Tags",
