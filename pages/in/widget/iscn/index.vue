@@ -45,6 +45,13 @@
           <div class="likepay-panel__section-meta-value">{{ title }}</div>
         </div>
 
+        <div class="likepay-panel__section-meta">
+          <div class="likepay-panel__section-meta-label">
+            {{ $t('ISCNWidget.label.description') }}
+          </div>
+          <div class="likepay-panel__section-meta-value">{{ description }}</div>
+        </div>
+
         <div
           v-if="getUserInfo && getUserInfo.user"
           class="likepay-panel__section-meta"
@@ -219,6 +226,7 @@ export default {
       isLoading: false,
       fingerprints: [],
       title: '',
+      description: '',
       type: 'article',
       tags: [],
       license: '',
@@ -251,6 +259,7 @@ export default {
       publisher,
       license,
       title,
+      description,
     } = query;
     const tags = tagsString ? tagsString.split(',') : [];
     if (!Object.keys(query).length) {
@@ -279,10 +288,14 @@ export default {
     if (title) {
       title = title.substring(0, 255);
     }
+    if (description) {
+      description = description.substring(0, 2048);
+    }
 
     return {
       fingerprints,
       title,
+      description,
       type,
       tags,
       license,
@@ -366,6 +379,7 @@ export default {
     const {
       fingerprints,
       title,
+      description,
       tags,
       type,
       license,
@@ -380,6 +394,7 @@ export default {
         cosmosWallet,
         fingerprints,
         name: title,
+        description,
         tags,
         type,
         license,
@@ -426,6 +441,7 @@ export default {
         const {
           fingerprints,
           title,
+          description,
           tags,
           type,
           license,
@@ -438,6 +454,7 @@ export default {
           displayName: this.getUserInfo.displayName || '',
           fingerprints,
           name: title,
+          description,
           tags,
           type,
           license,
