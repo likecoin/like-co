@@ -231,6 +231,7 @@ export default {
       tags: [],
       license: '',
       publisher: '',
+      recordNotes: '',
       redirectUri: '',
       state: '',
       memo: '',
@@ -260,6 +261,7 @@ export default {
       license,
       title,
       description,
+      record_notes: recordNotes,
     } = query;
     const tags = tagsString ? tagsString.split(',') : [];
     if (!Object.keys(query).length) {
@@ -291,6 +293,9 @@ export default {
     if (description) {
       description = description.substring(0, 2048);
     }
+    if (recordNotes) {
+      recordNotes = recordNotes.substring(0, 255);
+    }
 
     return {
       fingerprints,
@@ -300,6 +305,7 @@ export default {
       tags,
       license,
       publisher,
+      recordNotes,
       redirectUri,
       opener: opener && opener !== '0',
       state,
@@ -384,6 +390,7 @@ export default {
       type,
       license,
       publisher,
+      recordNotes,
       url,
     } = this;
     const { cosmosWallet } = this.getUserInfo;
@@ -399,6 +406,7 @@ export default {
         type,
         license,
         publisher,
+        recordNotes,
         url,
       });
     }
@@ -447,6 +455,7 @@ export default {
           license,
           publisher,
           url,
+          recordNotes,
         } = this;
         const txHash = await this.sendISCNSignature({
           cosmosWallet: from,
@@ -460,6 +469,7 @@ export default {
           license,
           publisher,
           url,
+          recordNotes,
           showDialogAction,
           isWait,
           signer,
