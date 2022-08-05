@@ -159,6 +159,7 @@ export function preformatISCNPayload(payload) {
   if (publisherStakeholders) stakeholders = stakeholders.concat(publisherStakeholders);
 
   switch (type) {
+    case 'message':
     case 'image':
     case 'photo':
     case 'article': {
