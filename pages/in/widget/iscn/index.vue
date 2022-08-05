@@ -243,11 +243,10 @@ export default {
   },
   async asyncData({
     query,
-    error,
     redirect,
   }) {
     const {
-      fingerprint,
+      fingerprint = '',
       type = 'article',
       tags: tagsString = '',
       redirect_uri: redirectUri,
@@ -266,9 +265,6 @@ export default {
     const tags = tagsString ? tagsString.split(',') : [];
     if (!Object.keys(query).length) {
       return redirect('https://docs.like.co/developer/iscn/web-widget/iscn/reference');
-    }
-    if (!fingerprint) {
-      return error({ statusCode: 400, message: 'INVALID_FINGERPRINT' });
     }
     let fingerprints = fingerprint.split(',');
     fingerprints = fingerprints.map((f) => {
