@@ -273,7 +273,7 @@ export default {
         contentFingerprint = `ipfs://${f}`; // support old wordpress plugin
       }
       return contentFingerprint;
-    });
+    }).filter(f => !!f);
     if (publisher) {
       if (ISCN_PUBLISHERS[publisher]) {
         license = ISCN_PUBLISHERS[publisher].license || license;
