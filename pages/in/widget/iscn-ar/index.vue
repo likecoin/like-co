@@ -668,16 +668,16 @@ export default {
       const {
         fingerprints = [],
         stakeholders,
-        url,
-        author,
-        authorDescription,
-        description,
       } = data;
       let {
         publisher,
         license,
         type,
         name,
+        description,
+        author,
+        authorDescription,
+        url,
         tags = [],
         recordNotes,
         memo,
@@ -697,8 +697,20 @@ export default {
       if (name) {
         name = name.substring(0, 255);
       }
+      if (description) {
+        description = description.substring(0, 2048);
+      }
+      if (author) {
+        author = author.substring(0, 255);
+      }
+      if (authorDescription) {
+        authorDescription = authorDescription.substring(0, 1024);
+      }
+      if (url) {
+        url = url.substring(0, 2048);
+      }
       if (recordNotes) {
-        recordNotes = recordNotes.substring(0, 200);
+        recordNotes = recordNotes.substring(0, 255);
       }
       if (memo) {
         memo = memo.substring(0, 200);

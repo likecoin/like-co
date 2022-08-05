@@ -246,22 +246,25 @@ export default {
     redirect,
   }) {
     const {
-      fingerprint = '',
       type = 'article',
-      tags: tagsString = '',
       redirect_uri: redirectUri,
       opener,
       state,
-      url,
       blocking,
     } = query;
     let {
+      fingerprint = '',
+      tags: tagsString = '',
       publisher,
       license,
       title,
       description,
+      url,
       record_notes: recordNotes,
     } = query;
+    if (tagsString) {
+      tagsString = tagsString.substring(0, 2048);
+    }
     const tags = tagsString ? tagsString.split(',') : [];
     if (!Object.keys(query).length) {
       return redirect('https://docs.like.co/developer/iscn/web-widget/iscn/reference');
@@ -288,6 +291,12 @@ export default {
     }
     if (description) {
       description = description.substring(0, 2048);
+    }
+    if (fingerprint) {
+      fingerprint = fingerprint.substring(0, 1024);
+    }
+    if (url) {
+      url = url.substring(0, 2048);
     }
     if (recordNotes) {
       recordNotes = recordNotes.substring(0, 255);
