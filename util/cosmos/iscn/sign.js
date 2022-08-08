@@ -49,37 +49,35 @@ function getAuthorISCNPayload(payload) {
       contributionType: 'http://schema.org/author',
       ...author,
     });
-  } else {
-    let entity;
+  } else if (cosmosWallet || userId) {
+    const identifier = [];
     let likePrefixAddress = cosmosWallet;
     if (likePrefixAddress) {
       if (!isValidLikeAddress(cosmosWallet)) {
         likePrefixAddress = changeAddressPrefix(cosmosWallet, 'like');
       }
     }
-    if (author && likePrefixAddress) { // from Keplr
-      entity = {
-        '@id': likePrefixAddress,
-        name: author,
-        description: authorDescription,
-      };
-    } else if (userId && displayName) {
-      entity = {
-        '@id': `${EXTERNAL_URL}/${userId}`,
-        name: displayName,
-      };
-    } else if (likePrefixAddress) {
-      entity = {
-        '@id': likePrefixAddress,
-      };
+    if (userId) {
+      identifier.push({ '@type': 'PropertyValue', propertyID: 'Liker ID', value: `${EXTERNAL_URL}/${userId}` });
     }
-    if (entity) {
-      stakeholders.push({
-        entity,
-        rewardProportion,
-        contributionType: 'http://schema.org/author',
-      });
+    if (likePrefixAddress) {
+      identifier.push({ '@type': 'PropertyValue', propertyID: 'LikeCoin Wallet', value: likePrefixAddress });
     }
+    const entity = {
+      '@id': likePrefixAddress,
+      identifier,
+    };
+    if (author) {
+      entity.name = author;
+      entity.description = authorDescription;
+    } else if (userId) {
+      entity.name = displayName;
+    }
+    stakeholders.push({
+      entity,
+      rewardProportion,
+      contributionType: 'http://schema.org/author',
+    });
   }
   return {
     stakeholders,
