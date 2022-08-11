@@ -22,6 +22,7 @@ const nuxtConfig = {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { name: 'mobile-web-app-capable', content: 'yes' },
+      { 'http-equiv': 'cache-control', content: 'no-cache' },
       { hid: 'description', name: 'description', content: 'LikeCoin reinvents the publishing industry with decentralized registry, rewards, editorial, and governance' },
       { hid: 'og_title', property: 'og:title', content: 'LikeCoin - Decentralized Publishing Infrastructure' },
       { hid: 'og_description', property: 'og:description', content: 'LikeCoin reinvents the publishing industry with decentralized registry, rewards, editorial, and governance' },
