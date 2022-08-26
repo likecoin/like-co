@@ -125,7 +125,7 @@ import LanguageSwitch from '~/components/LanguageSwitch';
 import AccountOverview from './AccountOverview';
 import MenuItem from './MenuItem';
 
-import { getLikerLandCreatorsURL } from '@/util/api/api';
+import { getLikerLandURL } from '@/util/api/api';
 import { logTrackerEvent } from '@/util/EventLogger';
 
 const MENU_ITEMS = [
@@ -138,7 +138,7 @@ const MENU_ITEMS = [
       },
       {
         key: 'earnLikeCoin',
-        to: getLikerLandCreatorsURL(),
+        to: getLikerLandURL(),
         isExternal: true,
       },
       {
@@ -154,7 +154,7 @@ const MENU_ITEMS = [
     items: [
       {
         key: 'aboutLikeCoin',
-        to: { name: 'in-about' },
+        to: { name: 'index' },
       },
       {
         key: 'whitepaper',
