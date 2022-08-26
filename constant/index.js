@@ -155,16 +155,8 @@ export const WALLET_NOTICE_EXPIRY_INTERVAL = IS_TESTNET ? 300 : 604800; // In se
 
 export const LIKE_CO_PLATFORMS = [
   {
-    name: 'telegram',
-    url: 'https://t.me/likecoin',
-  },
-  {
-    name: 'matters',
-    url: 'https://matters.news/@likecoin',
-  },
-  {
-    name: 'medium',
-    url: 'https://medium.com/likecoin',
+    name: 'blog-like-co',
+    url: 'https://blog.like.co',
   },
   {
     name: 'github',
@@ -181,6 +173,10 @@ export const LIKE_CO_PLATFORMS = [
   {
     name: 'facebook',
     url: 'https://www.facebook.com/Liker.Land',
+  },
+  {
+    name: 'discord',
+    url: 'https://discord.gg/likecoin',
   },
 ];
 
