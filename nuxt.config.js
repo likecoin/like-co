@@ -15,6 +15,7 @@ const nuxtConfig = {
     SENTRY_DSN: process.env.SENTRY_DSN,
     EXTERNAL_HOSTNAME: process.env.EXTERNAL_HOSTNAME,
     CRISP_WEBSITE_ID: process.env.CRISP_WEBSITE_ID,
+    GA_TRACKING_ID: process.env.GA_TRACKING_ID,
   },
   head: {
     title: 'LikeCoin - Decentralized Publishing Infrastructure',
@@ -174,11 +175,6 @@ const nuxtConfig = {
     '~/assets/css/main.css',
   ],
   modules: [
-    ['@nuxtjs/google-tag-manager', {
-      id: process.env.GTM_ID || 'GTM-XXXXXXX',
-      pageTracking: true,
-      respectDoNotTrack: true,
-    }],
     '@nuxtjs/sentry',
     // '@likecoin/nuxt-google-optimize',
   ],
@@ -196,6 +192,7 @@ const nuxtConfig = {
     { src: '~/plugins/cosmosWallet.client.js', ssr: false },
     { src: '~/plugins/vue-cookie', ssr: false },
     { src: '~/plugins/vue-i18n' },
+    { src: '~/plugins/gtag.client.js', ssr: false },
     { src: '~/plugins/vue-material' },
     { src: '~/plugins/likecoin-ui-vue' },
     { src: '~/plugins/vue-simple-svg' },

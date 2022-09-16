@@ -222,7 +222,7 @@ export async function refreshUser({ commit, state, dispatch }) {
       dispatch('queryLikeCoinWalletBalance');
       await dispatch('fetchSocialListDetailsById', user.user);
       commit(types.USER_SET_USER_INFO, user);
-      await setTrackerUser(user);
+      await setTrackerUser(this, user);
       setUserProperties({ frontend_mode: getFrontendMode() });
     } else {
       commit(types.USER_SET_USER_INFO, {});
