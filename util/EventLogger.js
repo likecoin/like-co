@@ -67,18 +67,16 @@ export function setUserSupportOAuthFactors(vue, factors) {
   }
 }
 
-export async function setTrackerUser({ user }) {
+export async function setTrackerUser(vue, { user }) {
   if (window.doNotTrack || navigator.doNotTrack) return;
-  if (!user) return;
-  window.dataLayer = window.dataLayer || [];
   try {
-    let hashedId = await digestMessage(user);
-    hashedId = hexString(hashedId);
-    window.dataLayer.push({
-      userId: hashedId,
-    });
+    if (vue.$gtag) {
+      let hashedId = await digestMessage(user);
+      hashedId = hexString(hashedId);
+      vue.$gtag.set({ userId: hashedId });
+    }
   } catch (err) {
-    console.error(err);
+    console.error(err); // eslint-disable-line no-console
   }
 }
 
@@ -106,14 +104,13 @@ export function logTrackerEvent(
     }
     // do not track
     if (window.doNotTrack || navigator.doNotTrack) return;
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: 'customEvent',
-      category,
-      action,
-      label,
-      value,
-    });
+    if (vue.$gtag) {
+      vue.$gtag.event(action, {
+        event_category: category,
+        event_label: label.substring(0, 499),
+        value,
+      });
+    }
   } catch (err) {
     console.error('logging error:');
     console.error(err);
@@ -128,14 +125,14 @@ export function logTimingEvent(
 ) {
   try {
     if (window.doNotTrack || navigator.doNotTrack) return;
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: 'customTimingEvent',
-      category,
-      var: action,
-      label,
-      value,
-    });
+    if (vue.$gtag) {
+      vue.$gtag.event('timing_complete', {
+        name: action,
+        event_category: category,
+        event_label: label.substring(0, 499),
+        value,
+      });
+    }
   } catch (err) {
     console.error('logging error:');
     console.error(err);
