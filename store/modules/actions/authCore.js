@@ -1,4 +1,4 @@
-import { AuthCoreAuthClient } from 'authcore-js';
+import { AuthCoreAuthClient } from '@likecoin/authcore-js';
 import * as types from '@/store/mutation-types';
 import { AUTHCORE_API_HOST } from '@/constant';
 import { makeSignBytes } from '@cosmjs/proto-signing';

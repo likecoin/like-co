@@ -477,6 +477,7 @@ export default {
       iscnId: this.$route.query.iscn_id,
       redirectUri: this.$route.query.redirect_uri,
       opener: this.$route.query.opener && this.$route.query.opener !== '0',
+      mint: this.$route.query.mint || '',
       isUsingKeplr: false,
       mainStatus: 'initial',
       transactionStatus: 'initial',
@@ -580,6 +581,8 @@ export default {
       this.onWindowMessage,
       false,
     );
+    // eslint-disable-next-line no-console
+    console.info('ISCN_WIDGET_READY');
     if (this.opener) {
       try {
         const message = JSON.stringify({
@@ -609,6 +612,8 @@ export default {
         }
         const { action, data } = JSON.parse(event.data);
         if (action === 'SUBMIT_ISCN_DATA') {
+          // eslint-disable-next-line no-console
+          console.info('Received SUBMIT_ISCN_DATA');
           const {
             metadata = {},
             files = [],
@@ -616,6 +621,8 @@ export default {
           this.onReceiveISCNData(metadata);
           this.onReceiveISCNFiles(files);
         } else if (action === 'INIT_WIDGET') {
+          // eslint-disable-next-line no-console
+          console.info('Received INIT_WIDGET');
           if (this.mainStatus === 'initial') {
             this.mainStatus = 'pending';
           }
@@ -624,12 +631,16 @@ export default {
     },
     async onReceiveISCNFiles(data) {
       if (!data || !data.length) {
+        // eslint-disable-next-line no-console
+        console.info('Received no files for upload');
         this.arweavePaymentInfo = {
           LIKE: '0',
         };
         this.prepareLikePayWidget();
         return;
       }
+      // eslint-disable-next-line no-console
+      console.info(`Received ${data.length} files for upload`);
       const files = data.filter(d => d.filename && d.data);
       const filesWithBlob = await Promise.all(files.map(async (d) => {
         const mimeType = d.mimeType || mime.lookup(d.filename) || 'text/plain';
@@ -656,39 +667,50 @@ export default {
     async onReceiveISCNData(data) {
       const {
         fingerprints = [],
-        url,
-        publisher,
-        author,
-        authorDescription,
-        description,
+        stakeholders,
       } = data;
       let {
+        publisher,
         license,
         type,
         name,
+        description,
+        author,
+        authorDescription,
+        url,
         tags = [],
         recordNotes,
         memo,
       } = data;
       type = type || 'article';
       if (publisher) {
-        if (!ISCN_PUBLISHERS[publisher]) {
-          this.$nuxt.error({ statusCode: 400, message: 'INVALID_PUBLISHER' });
+        if (typeof publisher === 'string' && ISCN_PUBLISHERS[publisher]) {
+          license = ISCN_PUBLISHERS[publisher].license || license;
+          publisher = ISCN_PUBLISHERS[publisher];
         }
-        ({ license } = ISCN_PUBLISHERS[publisher]);
       }
       if (license) {
-        if (!ISCN_LICENSES[license]) {
-          this.$nuxt.error({ statusCode: 400, message: 'INVALID_LICENSE' });
+        if (typeof license === 'string') {
+          license = ISCN_LICENSES[license] || license;
         }
-      } else {
-        license = '';
       }
       if (name) {
         name = name.substring(0, 255);
       }
+      if (description) {
+        description = description.substring(0, 2048);
+      }
+      if (author) {
+        author = author.substring(0, 255);
+      }
+      if (authorDescription) {
+        authorDescription = authorDescription.substring(0, 1024);
+      }
+      if (url) {
+        url = url.substring(0, 2048);
+      }
       if (recordNotes) {
-        recordNotes = recordNotes.substring(0, 200);
+        recordNotes = recordNotes.substring(0, 255);
       }
       if (memo) {
         memo = memo.substring(0, 200);
@@ -701,6 +723,7 @@ export default {
 
       const ISCNData = {
         fingerprints,
+        stakeholders,
         name,
         type,
         author,
@@ -714,6 +737,8 @@ export default {
         memo,
       };
       this.ISCNData = ISCNData;
+      // eslint-disable-next-line no-console
+      console.info(`Received metadata: ${JSON.stringify(ISCNData)}`);
     },
     async prepareLikePayWidget() {
       const {
@@ -754,6 +779,7 @@ export default {
         tags,
         license,
         publisher,
+        stakeholders,
         url,
         recordNotes,
         memo,
@@ -766,6 +792,7 @@ export default {
         description,
         cosmosWallet: STUB_WALLET,
         fingerprints: this.fingerprints,
+        stakeholders,
         name,
         tags,
         type,
@@ -800,14 +827,15 @@ export default {
         const signer = await this.prepareCosmosTxSigner();
         const {
           name,
-          tags,
           type,
-          license,
-          url,
-          description,
-          authorDescription,
           author,
-          fingerprints,
+          authorDescription,
+          description,
+          tags,
+          license,
+          publisher,
+          stakeholders,
+          url,
           recordNotes,
           memo,
         } = this.ISCNData;
@@ -818,12 +846,14 @@ export default {
           author,
           authorDescription,
           description,
-          fingerprints,
+          fingerprints: this.fingerprints,
           name,
           tags,
           type,
           license,
           url,
+          publisher,
+          stakeholders,
           recordNotes,
           memo,
           iscnId: this.iscnId,
@@ -869,7 +899,7 @@ export default {
       }
       await timeout(3000);
       const iscnIdString = encodeURIComponent(iscnId);
-      window.location.href = `https://app.${IS_TESTNET ? 'rinkeby.' : ''}like.co/view/${iscnIdString}?layout=popup`;
+      window.location.href = `https://app.${IS_TESTNET ? 'rinkeby.' : ''}like.co/view/${iscnIdString}?layout=popup&mint=${this.mint}`;
     },
     async handleAutheticate() {
       if (this.getUserIsRegistered) {

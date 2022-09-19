@@ -45,6 +45,13 @@
           <div class="likepay-panel__section-meta-value">{{ title }}</div>
         </div>
 
+        <div class="likepay-panel__section-meta">
+          <div class="likepay-panel__section-meta-label">
+            {{ $t('ISCNWidget.label.description') }}
+          </div>
+          <div class="likepay-panel__section-meta-value">{{ description }}</div>
+        </div>
+
         <div
           v-if="getUserInfo && getUserInfo.user"
           class="likepay-panel__section-meta"
@@ -219,10 +226,12 @@ export default {
       isLoading: false,
       fingerprints: [],
       title: '',
+      description: '',
       type: 'article',
       tags: [],
       license: '',
       publisher: '',
+      recordNotes: '',
       redirectUri: '',
       state: '',
       memo: '',
@@ -234,30 +243,31 @@ export default {
   },
   async asyncData({
     query,
-    error,
     redirect,
   }) {
     const {
-      fingerprint,
       type = 'article',
-      tags: tagsString = '',
-      publisher,
       redirect_uri: redirectUri,
       opener,
       state,
-      url,
       blocking,
     } = query;
     let {
+      fingerprint = '',
+      tags: tagsString = '',
+      publisher,
       license,
       title,
+      description,
+      url,
+      record_notes: recordNotes,
     } = query;
+    if (tagsString) {
+      tagsString = tagsString.substring(0, 2048);
+    }
     const tags = tagsString ? tagsString.split(',') : [];
     if (!Object.keys(query).length) {
       return redirect('https://docs.like.co/developer/iscn/web-widget/iscn/reference');
-    }
-    if (!fingerprint) {
-      return error({ statusCode: 400, message: 'INVALID_FINGERPRINT' });
     }
     let fingerprints = fingerprint.split(',');
     fingerprints = fingerprints.map((f) => {
@@ -266,31 +276,41 @@ export default {
         contentFingerprint = `ipfs://${f}`; // support old wordpress plugin
       }
       return contentFingerprint;
-    });
+    }).filter(f => !!f);
     if (publisher) {
-      if (!ISCN_PUBLISHERS[publisher]) {
-        return error({ statusCode: 400, message: 'INVALID_PUBLISHER' });
+      if (ISCN_PUBLISHERS[publisher]) {
+        license = ISCN_PUBLISHERS[publisher].license || license;
+        publisher = ISCN_PUBLISHERS[publisher];
       }
-      ({ license } = ISCN_PUBLISHERS[publisher]);
     }
     if (license) {
-      if (!ISCN_LICENSES[license]) {
-        return error({ statusCode: 400, message: 'INVALID_LICENSE' });
-      }
-    } else {
-      license = ISCN_PUBLISHERS.default;
+      if (ISCN_LICENSES[license]) license = ISCN_LICENSES[license];
     }
     if (title) {
       title = title.substring(0, 255);
+    }
+    if (description) {
+      description = description.substring(0, 2048);
+    }
+    if (fingerprint) {
+      fingerprint = fingerprint.substring(0, 1024);
+    }
+    if (url) {
+      url = url.substring(0, 2048);
+    }
+    if (recordNotes) {
+      recordNotes = recordNotes.substring(0, 255);
     }
 
     return {
       fingerprints,
       title,
+      description,
       type,
       tags,
       license,
       publisher,
+      recordNotes,
       redirectUri,
       opener: opener && opener !== '0',
       state,
@@ -353,10 +373,12 @@ export default {
     licenseObj() {
       const { license } = this;
       let url = '';
-      let displayName = '';
-      if (license) {
-        url = `https://ipfs.io/ipfs/${ISCN_LICENSES[license]['/']}`;
-        displayName = this.$t(`${this.license}`);
+      let displayName = license || '';
+      if (license && license.startsWith('ipfs://')) {
+        url = license.replace('ipfs://', 'https://ipfs.io/ipfs/');
+      }
+      if (this.publisher && this.publisher.license) {
+        displayName = this.publisher.license;
       }
       return {
         displayName,
@@ -368,10 +390,12 @@ export default {
     const {
       fingerprints,
       title,
+      description,
       tags,
       type,
       license,
       publisher,
+      recordNotes,
       url,
     } = this;
     const { cosmosWallet } = this.getUserInfo;
@@ -382,10 +406,12 @@ export default {
         cosmosWallet,
         fingerprints,
         name: title,
+        description,
         tags,
         type,
         license,
         publisher,
+        recordNotes,
         url,
       });
     }
@@ -428,11 +454,13 @@ export default {
         const {
           fingerprints,
           title,
+          description,
           tags,
           type,
           license,
           publisher,
           url,
+          recordNotes,
         } = this;
         const txHash = await this.sendISCNSignature({
           cosmosWallet: from,
@@ -440,11 +468,13 @@ export default {
           displayName: this.getUserInfo.displayName || '',
           fingerprints,
           name: title,
+          description,
           tags,
           type,
           license,
           publisher,
           url,
+          recordNotes,
           showDialogAction,
           isWait,
           signer,

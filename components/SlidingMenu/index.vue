@@ -120,7 +120,7 @@ import { mapActions, mapGetters } from 'vuex';
 import { POST_LOGOUT_ROUTE } from '~/constant';
 
 import { checkIsMobileClient } from '~/util/client';
-import { getLikerLandCreatorsURL } from '~/util/api/api';
+import { getLikerLandURL } from '~/util/api/api';
 import { logTrackerEvent } from '~/util/EventLogger';
 
 import HomeIcon from '~/assets/icons/home.svg';
@@ -141,7 +141,7 @@ const MENU_ITEMS = [
       },
       {
         key: 'earnLikeCoin',
-        to: getLikerLandCreatorsURL(),
+        to: getLikerLandURL(),
         isExternal: true,
       },
       {

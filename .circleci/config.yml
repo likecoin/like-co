@@ -3,12 +3,9 @@ jobs:
   test:
     working_directory: ~/likecoin-store
     docker:
-      - image: node:10
+      - image: node:14
     steps:
       - checkout
-      - run:
-          name: Pin npm version
-          command: npm install -g npm@6.9.0
       - restore_cache:
           key: likecoin-store-{{ .Environment.CACHE_UUID }}-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}-{{ checksum ".circleci/config.yml" }}
       - run:
@@ -64,14 +61,8 @@ jobs:
           name: Node Environment
           command: |
             sudo apt-get -y install curl make g++ net-tools python rsync
-            sudo curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+            sudo curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
             sudo apt-get -y install nodejs
-      - run:
-          name: Pin npm version
-          command: |
-            sudo npm install -g npm@6.9.0
-            sudo mkdir -p ~/.npm
-            sudo chown -R $(whoami) ~/.npm
       - run:
           name: Dependencies
           command: |
@@ -138,7 +129,7 @@ jobs:
             --build-arg IS_TESTNET='TRUE' \
             --build-arg EXTERNAL_HOSTNAME='testnet.like.co' \
             --build-arg INTERCOM_APPID=${TEST_INTERCOM_APPID} \
-            --build-arg GTM_ID=${TEST_GTM_ID} \
+            --build-arg GA_TRACKING_ID=${TEST_GA_TRACKING_ID} \
             --build-arg CRISP_WEBSITE_ID=${TEST_CRISP_WEBSITE_ID} \
             --build-arg SENTRY_DSN=${TEST_SENTRY_DSN} \
             --build-arg SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN} \
@@ -229,7 +220,7 @@ jobs:
             --build-arg IS_TESTNET='TRUE' \
             --build-arg EXTERNAL_HOSTNAME='rinkeby.like.co' \
             --build-arg INTERCOM_APPID=${TEST_INTERCOM_APPID} \
-            --build-arg GTM_ID=${TEST_GTM_ID} \
+            --build-arg GA_TRACKING_ID=${TEST_GA_TRACKING_ID} \
             --build-arg CRISP_WEBSITE_ID=${TEST_CRISP_WEBSITE_ID} \
             --build-arg SENTRY_DSN=${TEST_SENTRY_DSN} \
             --build-arg SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN} \
@@ -365,7 +356,7 @@ jobs:
             gcloud docker -- pull us.gcr.io/${PROJECT_NAME}/like-store-frontend:latest || true
             docker build . -t like-store --cache-from us.gcr.io/${PROJECT_NAME}/like-store-frontend:latest \
             --build-arg INTERCOM_APPID=${INTERCOM_APPID} \
-            --build-arg GTM_ID=${GTM_ID} \
+            --build-arg GA_TRACKING_ID=${GA_TRACKING_ID} \
             --build-arg CRISP_WEBSITE_ID=${CRISP_WEBSITE_ID} \
             --build-arg FIREBASE_API_KEY=${FIREBASE_API_KEY} \
             --build-arg FIREBASE_AUTH_DOMAIN=${FIREBASE_AUTH_DOMAIN} \

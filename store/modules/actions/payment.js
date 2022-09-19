@@ -10,6 +10,7 @@ import {
 import {
   signISCNTx,
   calculateISCNTotalFee,
+  preformatISCNPayload,
 } from '@/util/cosmos/iscn/sign';
 import apiWrapper from './api-wrapper';
 import Keplr from '../../../util/Keplr';
@@ -100,7 +101,7 @@ export async function calculateISCNTxTotalFee({ commit },
     recordNotes,
     memo,
   } = payload;
-  const { ISCNTotalFee } = await calculateISCNTotalFee({
+  const tx = preformatISCNPayload({
     userId,
     displayName,
     cosmosWallet,
@@ -114,7 +115,8 @@ export async function calculateISCNTxTotalFee({ commit },
     description,
     url,
     recordNotes,
-  }, { memo });
+  });
+  const { ISCNTotalFee } = await calculateISCNTotalFee(tx, { memo });
   commit(types.ISCN_SET_TOTAL_FEE, ISCNTotalFee);
   return ISCNTotalFee;
 }
@@ -143,11 +145,12 @@ export async function sendISCNSignature(
     description,
     cosmosWallet,
     recordNotes,
+    url,
     memo,
     shouldShowTxDialog = true,
   } = payload;
   try {
-    const txRaw = await signISCNTx({
+    const tx = preformatISCNPayload({
       userId,
       displayName,
       fingerprints,
@@ -159,9 +162,11 @@ export async function sendISCNSignature(
       author,
       authorDescription,
       description,
+      url,
       cosmosWallet,
       recordNotes,
-    }, signer, cosmosWallet, { iscnId, memo, broadcast: false });
+    });
+    const txRaw = await signISCNTx(tx, signer, cosmosWallet, { iscnId, memo, broadcast: false });
     if (!txRaw) { throw new Error('TX_SIGN_FAILED_UNKNOWN'); }
     commit(types.UI_SET_SIGN_FINISH, true);
     const { txHash, included } = await broadcastCosmos(txRaw);

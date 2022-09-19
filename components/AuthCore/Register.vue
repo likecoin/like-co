@@ -5,7 +5,7 @@
 <script>
 import {
   AuthCoreWidgets,
-} from 'authcore-js';
+} from '@likecoin/authcore-js';
 import config from './config';
 import { AUTHCORE_API_HOST } from '@/constant';
 

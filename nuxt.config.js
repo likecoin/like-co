@@ -15,6 +15,7 @@ const nuxtConfig = {
     SENTRY_DSN: process.env.SENTRY_DSN,
     EXTERNAL_HOSTNAME: process.env.EXTERNAL_HOSTNAME,
     CRISP_WEBSITE_ID: process.env.CRISP_WEBSITE_ID,
+    GA_TRACKING_ID: process.env.GA_TRACKING_ID,
   },
   head: {
     title: 'LikeCoin - Decentralized Publishing Infrastructure',
@@ -22,6 +23,7 @@ const nuxtConfig = {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { name: 'mobile-web-app-capable', content: 'yes' },
+      { 'http-equiv': 'cache-control', content: 'no-cache' },
       { hid: 'description', name: 'description', content: 'LikeCoin reinvents the publishing industry with decentralized registry, rewards, editorial, and governance' },
       { hid: 'og_title', property: 'og:title', content: 'LikeCoin - Decentralized Publishing Infrastructure' },
       { hid: 'og_description', property: 'og:description', content: 'LikeCoin reinvents the publishing industry with decentralized registry, rewards, editorial, and governance' },
@@ -37,7 +39,7 @@ const nuxtConfig = {
         innerHTML: JSON.stringify({
           '@context': 'http://www.schema.org',
           '@type': 'Organization',
-          name: 'LikeCoin Foundation',
+          name: 'LikeCoin',
           url: 'https://like.co',
           logo: 'https://like.co/logo.png',
           sameAs: LIKE_CO_PLATFORMS.map(s => s.url),
@@ -123,9 +125,6 @@ const nuxtConfig = {
           'client.crisp.chat',
           'use.fontawesome.com',
         ],
-        'report-uri': [
-          process.env.SENTRY_REPORT_URI,
-        ],
       },
     },
   },
@@ -176,11 +175,6 @@ const nuxtConfig = {
     '~/assets/css/main.css',
   ],
   modules: [
-    ['@nuxtjs/google-tag-manager', {
-      id: process.env.GTM_ID || 'GTM-XXXXXXX',
-      pageTracking: true,
-      respectDoNotTrack: true,
-    }],
     '@nuxtjs/sentry',
     // '@likecoin/nuxt-google-optimize',
   ],
@@ -198,6 +192,7 @@ const nuxtConfig = {
     { src: '~/plugins/cosmosWallet.client.js', ssr: false },
     { src: '~/plugins/vue-cookie', ssr: false },
     { src: '~/plugins/vue-i18n' },
+    { src: '~/plugins/gtag.client.js', ssr: false },
     { src: '~/plugins/vue-material' },
     { src: '~/plugins/likecoin-ui-vue' },
     { src: '~/plugins/vue-simple-svg' },
@@ -238,7 +233,7 @@ const nuxtConfig = {
           '@nuxt/babel-preset-app',
           {
             targets: isServer
-              ? { node: '10' }
+              ? { node: '14' }
               : { browsers: 'ie 11, > 0.5%, Firefox ESR' },
           },
         ],
