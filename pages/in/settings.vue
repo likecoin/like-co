@@ -1,5 +1,16 @@
 <template>
-  <div class="settings-page">
+  <div v-if="isPopupLayout">
+    <nuxt />
+    <div class="lc-container-1 lc-padding-vertical-32 md-layout md-alignment-center-center">
+      <Button
+        @click="onClickLogoutButton"
+      >{{ $t('Menu.item.logout') }}</Button>
+    </div>
+  </div>
+  <div
+    v-else
+    class="settings-page"
+  >
     <section class="lc-container-0">
 
       <div class="lc-container-1 lc-padding-top-32">
@@ -53,9 +64,19 @@
 
 
 <script>
+import { mapActions } from 'vuex';
+import { POST_LOGOUT_ROUTE } from '~/constant';
+
+import Button from '~/components/v2/Button';
+
 export default {
   name: 'settings-page',
-  layout: 'defaultWithGrayHeader',
+  layout({ query }) {
+    return query.popup !== undefined ? 'popup' : 'defaultWithGrayHeader';
+  },
+  components: {
+    Button,
+  },
   middleware: 'authenticated',
   head() {
     return {
@@ -68,6 +89,18 @@ export default {
         },
       ],
     };
+  },
+  computed: {
+    isPopupLayout() {
+      return this.$route.query.popup !== undefined;
+    },
+  },
+  methods: {
+    ...mapActions(['logoutUser']),
+    async onClickLogoutButton() {
+      await this.logoutUser();
+      this.$nextTick(() => this.$router.push(POST_LOGOUT_ROUTE));
+    },
   },
 };
 </script>
