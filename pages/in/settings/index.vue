@@ -3,7 +3,7 @@
 
     <section
       v-if="getUserInfo.email && !getUserInfo.isEmailVerified"
-      class="lc-container-0 lc-margin-top-48"
+      class="lc-container-0 lc-margin-top-48 lc-margin-bottom-24"
     >
       <div class="lc-container-1">
         <div class="lc-container-2">
@@ -12,92 +12,25 @@
       </div>
     </section>
 
+    <div
+      v-if="getUserIsAuthCore"
+      class="lc-container-1 lc-margin-top-24"
+    >
+      <div class="lc-container-2  md-layout md-alignment-center-right ">
+        <md-switch
+          v-model="isShowAuthCorePanel"
+          :disabled="disabled"
+          class="md-likecoin"
+        >{{ $t('AuthCore.Settings.title') }}</md-switch>
+      </div>
+    </div>
+
     <!-- User Info Form Section -->
-    <template v-if="getUserIsAuthCore">
-      <section class="lc-container-1 lc-margin-top-48">
-        <div class="lc-container-2">
-          <div class="lc-container-3 lc-padding-vertical-32 lc-bg-gray-1">
-            <form
-              id="account-setting-form"
-              v-bind="getTestAttribute('accountSettingForm')"
-              @submit.prevent="onSubmit"
-            >
-              <div class="profile-setting-page__account-setting">
-                <div class="profile-setting-page__portrait">
-                  <lc-avatar
-                    v-if="avatar"
-                    :src="avatar"
-                    :halo="avatarHalo"
-                    size="120"
-                  />
-                  <md-button
-                    class="lc-color-like-green lc-margin-top-16 lc-underline lc-font-weight-600"
-                    @click="onClickEditAvatar"
-                  >
-                    {{ $t('Settings.button.editPortrait') }}
-                  </md-button>
-                  <input
-                    ref="avatarFile"
-                    accept="image/*"
-                    style="display: none"
-                    type="file"
-                    @change="onChangeAvatar"
-                  >
-                </div>
-                <div class="profile-setting-page__account-detail">
-                  <div>
-                    <md-field>
-                      <label>{{ $t('Edit.label.id') }}</label>
-                      <md-input
-                        :value="getUserInfo.user"
-                        :readonly="true"
-                      />
-                    </md-field>
-                  </div>
-                  <div>
-                    <md-field>
-                      <label>{{ $t('Register.form.displayName') }}</label>
-                      <md-input
-                        v-model="displayName"
-                        v-bind="getTestAttribute('userDisplayName')"
-                        :required="!getUserIsAuthCore"
-                        :disabled="getUserIsAuthCore"
-                      />
-                      <md-button
-                        class="md-suffix md-icon-button md-dense md-input-action"
-                        @click="isShowEditInAuthCore = true"
-                      >
-                        <md-icon>edit</md-icon>
-                      </md-button>
-                      <md-dialog-confirm
-                        :md-active.sync="isShowEditInAuthCore"
-                        :md-title="$t('Register.form.displayName')"
-                        :md-content="$t('Edit.label.editInAuthCore')"
-                        :md-cancel-text="$t('General.button.cancel')"
-                        :md-confirm-text="$t('General.button.confirm')"
-                        @md-confirm="focusAuthCore"
-                      />
-                    </md-field>
-                  </div>
-                  <div v-if="getUserHasWallet">
-                    <md-field>
-                      <label>{{ $t('Register.form.walletAddress') }}</label>
-                      <md-input
-                        :value="getUserWalletAddress"
-                        :readonly="true"
-                      />
-                    </md-field>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </section>
+    <template v-if="isShowAuthCorePanel && getUserIsAuthCore">
       <!-- Connections Section -->
       <section
         id="connect"
-        class="lc-container-0 lc-margin-top-32"
+        class="lc-container-0 lc-margin-top-24"
       >
         <div class="lc-container-1">
           <div class="lc-container-2">
@@ -189,10 +122,11 @@
 
     <div
       v-else
-      class="lc-container-1 lc-margin-top-48 lc-mobile"
+      class="lc-container-1 lc-margin-top-24 lc-mobile"
     >
-      <div class="lc-container-2 lc-bg-gray-1">
+      <div class="lc-container-2">
         <ProfileSettingsForm
+          class="lc-container-3 lc-bg-gray-1"
           :liker-id="getUserInfo.user"
           :wallet-address="getUserWalletAddress"
           :email="email"
@@ -248,6 +182,7 @@ export default {
       isShowEditInAuthCore: false,
       isShowAuthCoreWidget: true,
       isShowAuthCoreProfile: true,
+      isShowAuthCorePanel: false,
       authCoreTabId: 'authcore-profile',
       isVerifying: false,
       TickIcon,
