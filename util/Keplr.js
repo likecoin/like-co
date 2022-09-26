@@ -64,13 +64,15 @@ class Keplr {
             bech32PrefixConsPub: network.addressPrefix + 'valconspub',
           },
           currencies: network.coinLookup.map(({ viewDenom }) => configToKeplrCoin(viewDenom)),
-          feeCurrencies: network.coinLookup.map(({ viewDenom }) => configToKeplrCoin(viewDenom)),
+          feeCurrencies: network.coinLookup.map(({ viewDenom }) => ({
+            ...configToKeplrCoin(viewDenom),
+            gasPriceStep: {
+              low: 1,
+              average: 10,
+              high: 1000,
+            },
+          })),
           coinType: 118,
-          gasPriceStep: {
-            low: 1,
-            average: 10,
-            high: 1000,
-          },
           features: [
             'stargate',
             'ibc-transfer',
