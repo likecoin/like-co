@@ -64,7 +64,7 @@
 
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import { POST_LOGOUT_ROUTE } from '~/constant';
 
 import Button from '~/components/v2/Button';
@@ -91,9 +91,23 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(['getUserWalletAddress']),
     isPopupLayout() {
       return this.$route.query.popup !== undefined;
     },
+    userWallet() {
+      return this.$route.query.user_wallet;
+    },
+  },
+  mounted() {
+    // Force re-authenticate if not the same user
+    if (
+      this.isPopupLayout
+      && this.userWallet
+      && this.getUserWalletAddress !== this.userWallet
+    ) {
+      this.onClickLogoutButton();
+    }
   },
   methods: {
     ...mapActions(['logoutUser']),
