@@ -630,9 +630,9 @@ export default {
     async onCheckLikerId(likerId, check) {
       try {
         await apiCheckLikerId(likerId);
-        check(true);
-      } catch {
-        check(false);
+        check();
+      } catch (error) {
+        check((error.response.data || {}).error || error.statusText);
       }
     },
 

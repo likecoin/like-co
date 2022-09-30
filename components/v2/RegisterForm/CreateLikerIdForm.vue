@@ -6,7 +6,7 @@
         v-model="internalLikerId"
         :label="$t('V2_Form_LikerId_label')"
         :placeholder="$t('V2_Form_LikerId_placeholder')"
-        :error="error"
+        :error="errorMessage"
       >
         <template #append>
           <div class="hint">{{ $t('V2_Form_LikerId_hint') }}</div>
@@ -41,9 +41,9 @@ export default {
       type: String,
       default: '',
     },
-    isDuplicated: {
-      type: Boolean,
-      default: false,
+    error: {
+      type: String,
+      default: '',
     },
   },
   data() {
@@ -59,19 +59,25 @@ export default {
     shouldDisableConfirmButton() {
       return !this.isLikerIdValid || this.isLoading;
     },
-    error() {
-      if (this.isDuplicated) {
-        return this.$t('V2_Form_LikerId_error_duplicated');
+    errorMessage() {
+      switch (this.error) {
+        case 'INVALID_USER_NAME':
+          return this.$t('V2_Form_LikerId_error_invalid');
+        case 'USER_ALREADY_EXIST':
+          return this.$t('V2_Form_LikerId_error_duplicated');
+        default:
+          return this.error;
       }
-      return '';
     },
   },
   watch: {
     likerId() {
       this.isLoading = false;
     },
-    isDuplicated() {
-      this.isLoading = false;
+    error() {
+      if (this.error) {
+        this.isLoading = false;
+      }
     },
   },
   methods: {
