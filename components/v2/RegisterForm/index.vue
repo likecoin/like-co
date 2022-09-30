@@ -34,7 +34,7 @@
     <CreateLikerIdForm
       v-if="step === STEP.CREATE_LIKER_ID"
       :liker-id="likerId"
-      :is-duplicated="isLikerIdDuplicated"
+      :error="error"
       @confirm="handleCreateLikerId"
     />
     <InputBioForm
@@ -131,7 +131,7 @@ export default {
     return {
       step: this.initialStep,
       likerId,
-      isLikerIdDuplicated: false,
+      error: '',
       avatar,
       displayName,
       description: '',
@@ -184,13 +184,13 @@ export default {
   },
   methods: {
     async handleCreateLikerId({ likerId } = {}) {
-      this.isLikerIdDuplicated = false;
-      this.$emit('check-liker-id', likerId, (verified) => {
-        if (verified) {
+      this.error = '';
+      this.$emit('check-liker-id', likerId, (error) => {
+        if (!error) {
           this.likerId = likerId;
           this.step = STEP.INPUT_BIO;
         } else {
-          this.isLikerIdDuplicated = true;
+          this.error = error;
         }
       });
     },

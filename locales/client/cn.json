@@ -1734,6 +1734,7 @@
     "V2_Form_LikerId_label": "Liker ID",
     "V2_Form_LikerId_placeholder": "创建你的 Liker ID",
     "V2_Form_LikerId_error_duplicated": "此 Liker ID 已被注册",
+    "V2_Form_LikerId_error_invalid": "此 Liker ID 含错误字元",
     "V2_Form_Wallet_label": "钱包地址",
     "V2_Form_Verify_description": "验证电邮已发出，{br}请点击电邮内的连结继续。",
     "V2_ProfileSettings_Title": "修改你的个人资料",
