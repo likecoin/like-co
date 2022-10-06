@@ -1,8 +1,9 @@
 import { AuthCoreAuthClient } from '@likecoin/authcore-js';
-import * as types from '@/store/mutation-types';
-import { AUTHCORE_API_HOST } from '@/constant';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { makeSignBytes } from '@cosmjs/proto-signing';
 import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import * as types from '@/store/mutation-types';
+import { AUTHCORE_API_HOST } from '@/constant';
 import { formatDesmosChainLinkProof } from '../../../util/cosmos/desmos';
 import { convertAddressPrefix } from '../../../util/CosmosHelper';
 
