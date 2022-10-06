@@ -1,6 +1,3 @@
-import { AuthCoreAuthClient } from '@likecoin/authcore-js';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { makeSignBytes } from '@cosmjs/proto-signing';
 import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import * as types from '@/store/mutation-types';
 import { AUTHCORE_API_HOST } from '@/constant';
@@ -9,8 +6,26 @@ import { convertAddressPrefix } from '../../../util/CosmosHelper';
 
 const { AuthcoreVaultClient, AuthcoreCosmosProvider } = require('@likecoin/secretd-js');
 
+let cosmLib = null;
+let authcoreLib = null;
+
+async function getCosmLib() {
+  if (!cosmLib) {
+    cosmLib = await import(/* webpackChunkName: "cosmjs" */ '@cosmjs/proto-signing');
+  }
+  return cosmLib;
+}
+
+async function getAuthcoreLib() {
+  if (!authcoreLib) {
+    authcoreLib = await import(/* webpackChunkName: "authcore" */ '@likecoin/authcore-js');
+  }
+  return authcoreLib;
+}
+
 export async function fetchAuthCoreAccessTokenAndUser({ dispatch }, code) {
-  const authClient = await new AuthCoreAuthClient({
+  const authcore = await getAuthcoreLib();
+  const authClient = await new authcore.AuthCoreAuthClient({
     apiBaseURL: AUTHCORE_API_HOST,
   });
   const token = await authClient.createAccessToken(code);
@@ -79,7 +94,8 @@ export async function authCoreLogoutUser({ commit, state, dispatch }) {
 
 export async function initAuthCoreClient({ commit, state, dispatch }) {
   const { accessToken } = state;
-  const authClient = await new AuthCoreAuthClient({
+  const authcore = await getAuthcoreLib();
+  const authClient = await new authcore.AuthCoreAuthClient({
     apiBaseURL: AUTHCORE_API_HOST,
     callbacks: {
       unauthenticated: () => {
@@ -136,7 +152,8 @@ export async function prepareAuthCoreCosmosTxSigner({ state }) {
       return { signed, signature: signatures[0] };
     },
     signDirect: async (_, data) => {
-      const dataToSign = makeSignBytes(data);
+      const cosm = await getCosmLib();
+      const dataToSign = cosm.makeSignBytes(data);
       const { signed, signatures } = await cosmosProvider.directSign(dataToSign, likeAddress);
       const decodedSigned = SignDoc.decode(signed);
       return { signed: decodedSigned, signature: signatures[0] };

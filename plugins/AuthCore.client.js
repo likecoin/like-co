@@ -1,5 +1,3 @@
-import { AuthCoreAuthClient } from '@likecoin/authcore-js';
-
 import { AUTHCORE_API_HOST } from '@/constant';
 import * as types from '@/store/mutation-types';
 
@@ -9,7 +7,8 @@ export default async ({ store, route }) => {
   if (window && window.localStorage) {
     const accessToken = window.localStorage.getItem('authcore.accessToken');
     if (accessToken) {
-      const authClient = await new AuthCoreAuthClient({
+      const authcore = await import(/* webpackChunkName: "authcore" */ '@likecoin/authcore-js');
+      const authClient = await new authcore.AuthCoreAuthClient({
         apiBaseURL: AUTHCORE_API_HOST,
         callbacks: {
           unauthenticated: () => {
