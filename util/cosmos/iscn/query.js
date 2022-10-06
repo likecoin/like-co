@@ -1,15 +1,22 @@
-import { parseISCNTxInfoFromIndexedTx, ISCNQueryClient } from '@likecoin/iscn-js';
-
 import { timeout } from '@/util/misc';
 import { EXTERNAL_URL } from '@/constant';
 
 const ISCN_RPC_URL = `${EXTERNAL_URL}/api/cosmos/rpc`;
 
+let iscnLib = null;
 let queryClient;
+
+export async function getISCNLib() {
+  if (!iscnLib) {
+    iscnLib = await import(/* webpackChunkName: "iscn_js" */ '@likecoin/iscn-js');
+  }
+  return iscnLib;
+}
 
 export async function getISCNQueryClient() {
   if (!queryClient) {
-    const client = new ISCNQueryClient();
+    const iscn = await getISCNLib();
+    const client = new iscn.ISCNQueryClient();
     await client.connect(ISCN_RPC_URL);
     queryClient = client;
   }
@@ -29,7 +36,8 @@ export async function getISCNTransferInfo(txHash, opt) {
     txData = await apiClient.getTx(txHash); // eslint-disable-line no-await-in-loop
   }
   if (!txData) throw new Error('Cannot find transaction');
-  const parsed = parseISCNTxInfoFromIndexedTx(txData);
+  const iscn = await getISCNLib();
+  const parsed = iscn.parseISCNTxInfoFromIndexedTx(txData);
   const {
     height,
     code,
@@ -69,8 +77,7 @@ export async function getISCNTransferInfo(txHash, opt) {
     });
   });
   const [message] = messages;
-  const queryClient = await getISCNQueryClient();
-  const res = await queryClient.queryRecordsById(message.id);
+  const res = await client.queryRecordsById(message.id);
   if (!res) throw Error('Error occured when querying ISCN record.');
   const iscnVersion = res.records[0].data.recordVersion;
   const {
@@ -115,10 +122,10 @@ export async function getISCNTransferInfo(txHash, opt) {
 }
 
 export async function getISCNInfoById(iscnId) {
-  const queryClient = await getISCNQueryClient();
+  const client = await getISCNQueryClient();
   const {
     owner, latestVersion, records, ...other
-  } = await queryClient.queryRecordsById(iscnId);
+  } = await client.queryRecordsById(iscnId);
   const targetVersion = Number(latestVersion);
   const record = records.find(r => r.data.recordVersion === targetVersion);
   return {
