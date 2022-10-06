@@ -4,6 +4,7 @@ jobs:
     working_directory: ~/likecoin-store
     docker:
       - image: node:14
+    resource_class: medium+
     steps:
       - checkout
       - restore_cache:
@@ -105,6 +106,7 @@ jobs:
     working_directory: ~/likecoin-store
     docker:
       - image: lakoo/node-gcloud-docker
+    resource_class: medium+
     environment:
       - DEBIAN_FRONTEND: noninteractive
       - TERM: dumb
@@ -151,6 +153,7 @@ jobs:
     working_directory: ~/likecoin-store
     docker:
       - image: lakoo/node-gcloud-docker
+    resource_class: medium+
     environment:
       - DEBIAN_FRONTEND: noninteractive
       - TERM: dumb
@@ -196,6 +199,7 @@ jobs:
     working_directory: ~/likecoin-store
     docker:
       - image: lakoo/node-gcloud-docker
+    resource_class: medium+
     environment:
       - DEBIAN_FRONTEND: noninteractive
       - TERM: dumb
@@ -242,6 +246,7 @@ jobs:
     working_directory: ~/likecoin-store
     docker:
       - image: lakoo/node-gcloud-docker
+    resource_class: medium+
     environment:
       - DEBIAN_FRONTEND: noninteractive
       - TERM: dumb
@@ -287,6 +292,7 @@ jobs:
     working_directory: ~/likecoin-store
     docker:
       - image: lakoo/node-gcloud-docker
+    resource_class: medium+
     environment:
       - DEBIAN_FRONTEND: noninteractive
       - TERM: dumb
