@@ -1,4 +1,3 @@
-import { StargateClient } from '@cosmjs/stargate';
 import { parseISCNTxInfoFromIndexedTx, ISCNQueryClient } from '@likecoin/iscn-js';
 
 import { timeout } from '@/util/misc';
@@ -6,21 +5,20 @@ import { EXTERNAL_URL } from '@/constant';
 
 const ISCN_RPC_URL = `${EXTERNAL_URL}/api/cosmos/rpc`;
 
-let stargateClient;
-
-export async function getApiClient() {
-  if (!stargateClient) stargateClient = await StargateClient.connect(ISCN_RPC_URL);
-  return stargateClient;
-}
+let queryClient;
 
 export async function getISCNQueryClient() {
-  const queryClient = new ISCNQueryClient();
-  await queryClient.connect(ISCN_RPC_URL);
+  if (!queryClient) {
+    const client = new ISCNQueryClient();
+    await client.connect(ISCN_RPC_URL);
+    queryClient = client;
+  }
   return queryClient;
 }
 
 export async function getISCNTransferInfo(txHash, opt) {
-  const apiClient = await getApiClient();
+  const client = await getISCNQueryClient();
+  const apiClient = client.getStargateClient();
   const { blocking } = opt;
   let txData = await apiClient.getTx(txHash);
   if ((!txData || !txData.height) && !blocking) {
@@ -133,7 +131,8 @@ export async function getISCNInfoById(iscnId) {
 }
 
 export async function getISCNTransactionCompleted(txHash) {
-  const apiClient = await getApiClient();
+  const client = await getISCNQueryClient();
+  const apiClient = client.getStargateClient();
   const txData = await apiClient.getTx(txHash);
   if (!txData || !txData.height) {
     return 0;
