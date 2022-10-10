@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { IS_TESTNET, INFURA_HOST, CONFIRMATION_NEEDED } from '@/constant';
+import { INFURA_HOST, CONFIRMATION_NEEDED } from '@/constant';
 
 import { getTxInfo, getTxReceipt } from './txInfo/txInfo';
 import { isReceiptSuccess } from './txInfo/receipt';
@@ -127,20 +127,13 @@ class EthHelper {
     this.clearTimers();
     try {
       if (!this.queryWeb3) await this.initQueryWeb3();
-      if (typeof window.web3 !== 'undefined') {
+      if (typeof window.ethereum !== 'undefined') {
         if (!this.actionWeb3 || this.web3Type !== 'window') {
           this.setWeb3Type('window');
-          this.actionWeb3 = new this.Web3(window.web3.currentProvider);
+          this.actionWeb3 = new this.Web3(window.ethereum);
         }
-        const network = await this.actionWeb3.eth.net.getNetworkType();
-        const target = (IS_TESTNET ? 'rinkeby' : 'main');
-        if (network === target) {
-          await this.startApp();
-          this.isInited = true;
-        } else {
-          if (this.errCb) this.errCb('testnet');
-          this.retryTimer = setTimeout(() => this.pollForWeb3(initType), 3000);
-        }
+        await this.startApp();
+        this.isInited = true;
       } else {
         if (this.errCb) this.errCb('web3');
         if (this.web3Type !== 'infura') {
@@ -174,7 +167,7 @@ class EthHelper {
 
   async getAccounts() {
     if (this.isInited) {
-      const accounts = await this.actionWeb3.eth.getAccounts();
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
       if (accounts && accounts[0]) {
         if (this.wallet !== accounts[0]) {
           this.accounts = accounts;
@@ -186,14 +179,6 @@ class EthHelper {
         this.wallet = '';
         if (this.onWalletCb) this.onWalletCb('');
         this.errCb('locked');
-        if (this.web3Type === 'window' && window.ethereum) {
-          try {
-            await window.ethereum.enable();
-          } catch (e) {
-            // disable if users do not approve metamask access
-            this.disableWeb3();
-          }
-        }
       }
     }
   }
