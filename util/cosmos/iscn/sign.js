@@ -4,6 +4,7 @@ import { ISCNSigningClient } from '@likecoin/iscn-js';
 import bech32 from 'bech32';
 import { ISCN_RPC_URL } from './constant';
 import { EXTERNAL_URL } from '../../../constant';
+import { getISCNPrefix, getISCNInfoById } from './query';
 
 let isConnected;
 let iscnClient;
@@ -204,7 +205,9 @@ export async function signISCNTx(
   const client = await getISCNSigningClient(signer);
   let res;
   if (iscnId) {
-    res = await client.updateISCNRecord(address, iscnId, payload, { memo, broadcast });
+    const iscnPrefix = getISCNPrefix(iscnId);
+    const { latestVersion } = await getISCNInfoById(iscnPrefix);
+    res = await client.updateISCNRecord(address, `${iscnPrefix}/${latestVersion}`, payload, { memo, broadcast });
   } else {
     res = await client.createISCNRecord(address, payload, { memo, broadcast });
   }
