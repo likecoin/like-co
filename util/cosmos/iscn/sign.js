@@ -1,10 +1,9 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import BigNumber from 'bignumber.js';
 import bech32 from 'bech32';
-import { getISCNLib } from './query';
 import { ISCN_RPC_URL } from './constant';
 import { EXTERNAL_URL } from '../../../constant';
-import { getISCNPrefix, getISCNInfoById } from './query';
+import { getISCNLib, getISCNPrefix, getISCNInfoById } from './query';
 
 let isConnected;
 let iscnClient;
