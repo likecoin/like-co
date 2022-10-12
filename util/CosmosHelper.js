@@ -6,15 +6,8 @@ import {
 } from '@/constant';
 import { timeout } from '@/util/misc';
 import { queryTxInclusion } from '@/util/cosmos/misc';
-import {
-  SigningStargateClient,
-  StargateClient,
-} from '@cosmjs/stargate';
-import { MsgSend, MsgMultiSend } from '@cosmjs/stargate/build/codec/cosmos/bank/v1beta1/tx';
-import {
-  TxRaw,
-  TxBody,
-} from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import { MsgSend, MsgMultiSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
+import { TxRaw, TxBody } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import bech32 from 'bech32';
 
 export const DEFAULT_GAS_PRICE = [{ amount: '10', denom: COSMOS_DENOM }];
@@ -22,17 +15,27 @@ export const DEFAULT_GAS_PRICE_NUMBER = parseInt(DEFAULT_GAS_PRICE[0].amount, 10
 export const DEFAULT_ISCN_GAS_PRICE = [{ amount: 0, denom: COSMOS_DENOM }];
 const COSMOS_RESTFUL_API = `${EXTERNAL_URL}/api/cosmos/lcd`;
 const COSMOS_RPC_API = `${EXTERNAL_URL}/api/cosmos/rpc`;
+let cosmLib = null;
 let stargateClient;
 let signingStargateClient;
 
+async function getCosmLib() {
+  if (!cosmLib) {
+    cosmLib = await import(/* webpackChunkName: "cosmjs" */ '@cosmjs/stargate');
+  }
+  return cosmLib;
+}
+
 async function initStargateClient() {
   if (stargateClient) return;
-  stargateClient = await StargateClient.connect(COSMOS_RPC_API);
+  const cosm = await getCosmLib();
+  stargateClient = await cosm.StargateClient.connect(COSMOS_RPC_API);
 }
 
 async function initSigningStargateClient(url, senderWallet) {
   if (signingStargateClient) return;
-  signingStargateClient = await SigningStargateClient.connectWithSigner(url, senderWallet);
+  const cosm = await getCosmLib();
+  signingStargateClient = await cosm.SigningStargateClient.connectWithSigner(url, senderWallet);
 }
 
 function LIKEToNanolike(value) {

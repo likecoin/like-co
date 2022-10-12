@@ -1,4 +1,4 @@
-import { LcdClient } from '@cosmjs/launchpad';
+import axios from 'axios';
 import { timeout } from '@/util/misc';
 
 const ISCN_DEV_RESTFUL_API = '/api/cosmos/iscn-dev/lcd';
@@ -6,19 +6,19 @@ const ISCN_DEV_RESTFUL_API = '/api/cosmos/iscn-dev/lcd';
 let iscnApi;
 async function initISCNCosmos() {
   if (iscnApi) return;
-  iscnApi = LcdClient.withExtensions({ ISCN_DEV_RESTFUL_API });
+  iscnApi = axios.create({ baseURL: ISCN_DEV_RESTFUL_API });
 }
 
 export async function getISCNTransferInfo(txHash, opt) {
   if (!iscnApi) await initISCNCosmos();
   const { blocking } = opt;
-  let txData = await iscnApi.txById(txHash);
+  let { data: txData } = await iscnApi.get(`/txs/${txHash}`);
   if ((!txData || !txData.height) && !blocking) {
     return {};
   }
   while ((!txData || !txData.height) && blocking) {
     await timeout(1000); // eslint-disable-line no-await-in-loop
-    txData = await iscnApi.txById(txHash); // eslint-disable-line no-await-in-loop
+    ({ data: txData } = await iscnApi.get(`/txs/${txHash}`)); // eslint-disable-line no-await-in-loop
   }
   if (!txData) throw new Error('Cannot find transaction');
   const {
@@ -92,7 +92,7 @@ export async function getISCNTransferInfo(txHash, opt) {
 
 export async function getISCNTransactionCompleted(txHash) {
   if (!iscnApi) await initISCNCosmos();
-  const txData = await iscnApi.txById(txHash);
+  const { data: txData } = await iscnApi.get(`/txs/${txHash}`);
   if (!txData || !txData.height) {
     return 0;
   }

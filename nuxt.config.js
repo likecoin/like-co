@@ -224,8 +224,6 @@ const nuxtConfig = {
   ** Add axios globally
   */
   build: {
-    cache: process.env.NODE_ENV === 'production',
-    hardSource: !!process.env.CI || (process.env.NODE_ENV !== 'production'),
     extractCSS: true,
     babel: {
       presets: ({ isServer }) => [

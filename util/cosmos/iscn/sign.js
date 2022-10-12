@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import BigNumber from 'bignumber.js';
-import { ISCNSigningClient } from '@likecoin/iscn-js';
 import bech32 from 'bech32';
+import { getISCNLib } from './query';
 import { ISCN_RPC_URL } from './constant';
 import { EXTERNAL_URL } from '../../../constant';
 import { getISCNPrefix, getISCNInfoById } from './query';
@@ -9,9 +9,10 @@ import { getISCNPrefix, getISCNInfoById } from './query';
 let isConnected;
 let iscnClient;
 
-function getISCNEstimationClient() {
+async function getISCNEstimationClient() {
   if (!iscnClient) {
-    iscnClient = new ISCNSigningClient(ISCN_RPC_URL);
+    const iscn = await getISCNLib();
+    iscnClient = new iscn.ISCNSigningClient(ISCN_RPC_URL);
   }
   return iscnClient;
 }
@@ -27,7 +28,7 @@ function isValidLikeAddress(address) {
 
 async function getISCNSigningClient(signer) {
   if (!isConnected) {
-    const client = getISCNEstimationClient();
+    const client = await getISCNEstimationClient();
     await client.connectWithSigner(ISCN_RPC_URL, signer);
     isConnected = true;
   }
