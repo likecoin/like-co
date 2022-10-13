@@ -32,7 +32,7 @@ export function getISCNPrefix(input) {
 
 export async function getISCNTransferInfo(txHash, opt) {
   const client = await getISCNQueryClient();
-  const apiClient = client.getStargateClient();
+  const apiClient = await client.getStargateClient();
   const { blocking } = opt;
   let txData = await apiClient.getTx(txHash);
   if ((!txData || !txData.height) && !blocking) {
@@ -146,7 +146,7 @@ export async function getISCNInfoById(iscnId) {
 
 export async function getISCNTransactionCompleted(txHash) {
   const client = await getISCNQueryClient();
-  const apiClient = client.getStargateClient();
+  const apiClient = await client.getStargateClient();
   const txData = await apiClient.getTx(txHash);
   if (!txData || !txData.height) {
     return 0;
