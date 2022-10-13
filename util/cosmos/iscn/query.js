@@ -44,7 +44,7 @@ export async function getISCNTransferInfo(txHash, opt) {
   }
   if (!txData) throw new Error('Cannot find transaction');
   const iscn = await getISCNLib();
-  const parsed = iscn.parseISCNTxInfoFromIndexedTx(txData);
+  const parsed = iscn.messages.parsing.parseTxInfoFromIndexedTx(txData);
   const {
     height,
     code,
