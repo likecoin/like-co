@@ -543,7 +543,7 @@ export default {
         if (this.arweaveResult.arweaveId) f.push(`ar://${this.arweaveResult.arweaveId}`);
         if (this.arweaveResult.ipfsHash) f.push(`ipfs://${this.arweaveResult.ipfsHash}`);
       }
-      return f;
+      return [...new Set(f)];
     },
     existingOwner() {
       return this.existingISCNInfo && this.existingISCNInfo.owner;
