@@ -34,10 +34,10 @@ export const COSMOS_VIEW_DENOM = IS_TESTNET ? 'EKIL' : 'LIKE';
 
 export const CONFIRMATION_NEEDED = 6;
 
-export const MIN_USER_ID_LENGTH = 7;
+export const MIN_USER_ID_LENGTH = 5;
 export const MAX_USER_ID_LENGTH = 20;
 
-export const LIKECOIN_ID_REGEX_STRING = '[a-z0-9-_]{7,20}';
+export const LIKECOIN_ID_REGEX_STRING = '[a-z0-9-_]{5,20}';
 export const LIKECOIN_ID_REGEX = new RegExp(LIKECOIN_ID_REGEX_STRING);
 export const REGISTER_EMAIL_REGEX_STRING = IS_TESTNET ? '.*' : '^(([^<>()\\[\\]\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$';
 export const REGISTER_EMAIL_REGEX = new RegExp(REGISTER_EMAIL_REGEX_STRING);
