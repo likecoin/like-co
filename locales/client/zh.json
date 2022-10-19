@@ -861,7 +861,7 @@
       "registerRedeem": "註冊並兌換"
     },
     "form": {
-      "createID": "註冊 Liker ID* (最少7個英文字母/數目字)",
+      "createID": "註冊 Liker ID* (最少5個英文字母/數目字)",
       "walletAddress": "LikeCoin 錢包地址",
       "email": "電郵地址",
       "referrer": "邀請人 Liker ID (可選)",
