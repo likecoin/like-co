@@ -6,6 +6,7 @@ import {
   MIN_USER_ID_LENGTH,
   MAX_USER_ID_LENGTH,
   LOGIN_MESSAGE,
+  DELETE_MESSAGE,
 } from '@/constant';
 import {
   apiGetUserMinById,
@@ -69,6 +70,28 @@ const User = {
       payload: await EthHelper.utf8ToHex(payload),
       from: wallet,
       platform: 'wallet',
+    };
+    return data;
+  },
+
+  async signCosmosDelete(inputWallet, signer, message = DELETE_MESSAGE) {
+    if (!inputWallet) return null;
+    const ts = Date.now();
+    let payload = JSON.stringify({
+      action: 'user_delete',
+      likeWallet: inputWallet,
+      ts,
+    });
+    payload = [`${message}:`, payload].join(' ');
+    const {
+      signed: signedMessage,
+      signature: { signature, pub_key: publicKey },
+    } = await signer(payload);
+    const data = {
+      signature,
+      publicKey: publicKey.value,
+      message: stringify(signedMessage),
+      from: inputWallet,
     };
     return data;
   },
