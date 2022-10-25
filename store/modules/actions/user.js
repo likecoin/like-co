@@ -8,7 +8,7 @@ import * as types from '@/store/mutation-types';
 import * as api from '@/util/api/api';
 import { getFrontendMode } from '@/util/client';
 import {
-  setTrackerUser,
+  setLoggerUser,
   setUserProperties,
 } from '@/util/EventLogger';
 import Keplr from '@/util/Keplr';
@@ -273,7 +273,7 @@ export async function refreshUser({ commit, state, dispatch }) {
       dispatch('queryLikeCoinWalletBalance');
       await dispatch('fetchSocialListDetailsById', user.user);
       commit(types.USER_SET_USER_INFO, user);
-      await setTrackerUser(this, user);
+      await setLoggerUser(this, { wallet: user.likeWallet });
       setUserProperties({ frontend_mode: getFrontendMode() });
     } else {
       commit(types.USER_SET_USER_INFO, {});

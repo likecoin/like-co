@@ -67,13 +67,17 @@ export function setUserSupportOAuthFactors(vue, factors) {
   }
 }
 
-export async function setTrackerUser(vue, { user }) {
+export async function setLoggerUser(vue, { wallet }) {
   if (window.doNotTrack || navigator.doNotTrack) return;
   try {
     if (vue.$gtag) {
-      let hashedId = await digestMessage(user);
+      let hashedId = await digestMessage(wallet);
       hashedId = hexString(hashedId);
       vue.$gtag.set({ userId: hashedId });
+      // HACK: use .set to mitigate connected site user_id issue
+      // https://support.google.com/analytics/answer/9973999?hl=en
+      // vue.$gtag.config({ user_id: hashedId });
+      vue.$gtag.set({ user_id: hashedId });
     }
   } catch (err) {
     console.error(err); // eslint-disable-line no-console
