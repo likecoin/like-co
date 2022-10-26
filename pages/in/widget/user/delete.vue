@@ -64,7 +64,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import { apiDeletetUser } from '~/util/api/api';
+import { apiDeleteUser } from '~/util/api/api';
 import User from '~/util/User';
 
 export default {
@@ -111,7 +111,7 @@ export default {
       if (this.getUserIsAuthCore) {
         payload.authCoreAccessToken = this.getAuthCoreAccessToken;
       }
-      await apiDeletetUser(this.getUserInfo.user, payload);
+      await apiDeleteUser(this.getUserInfo.user, payload);
       this.$router.push({ name: 'in-register' });
     },
   },
