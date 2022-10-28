@@ -102,6 +102,8 @@ export default {
   --v2-button-border-color: var(--v2-button-text-color);
 
   cursor: not-allowed;
+
+  opacity: 0.5;
 }
 
 .v2-button .v2-button__layout {

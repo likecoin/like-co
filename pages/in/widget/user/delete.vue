@@ -15,49 +15,53 @@
     class="likepay-body"
   >
     <header class="likepay-body__header">
-      <h1>Confirm Delete user</h1>
+      <h1>{{ $t('V2_Account_Delete_Page_Header_Text') }}</h1>
     </header>
     <div class="likepay-panel">
       <section class="likepay-panel__section-container">
-        <div class="likepay-panel__section-meta">
-          Are you sure you want to delete the Liker ID {{ getUserInfo.user }}?
-          Your information related to Liker ID will be removed
-          Information related to transactions will exists on LikeCoin chain or Transaction indexers.
-          After deletion, the Liker ID cannot be reused, and you will have to register with a new name in the future.
+        <div class="likepay-panel__section-meta lc-text-align-center">
+          <i18n
+            path="V2_Account_Delete_Page_Message"
+            tag="p"
+          >
+            <b
+              class="lc-color-like-green"
+              place="id"
+            >{{ getUserInfo.user }}</b>
+          </i18n>
+          <p class="lc-margin-top-16 lc-color-gray-9b lc-font-size-12">{{ $t('V2_Account_Delete_Page_Notice_1') }}</p>
+          <p class="lc-margin-top-8 lc-color-gray-9b lc-font-size-12">{{ $t('V2_Account_Delete_Page_Notice_2') }}</p>
         </div>
       </section>
     </div>
     <footer class="likepay-panel__footer">
-      <div v-if="!getUserIsRegistered">
-        <button
-          class="likepay-block-button"
-          @click="onClickSignInButton"
-        >
-          {{ $t('Home.Header.button.signIn') }}
-        </button>
-      </div>
-      <div
-        v-else-if="getAuthCoreNeedReAuth"
-        class="create-account-wrapper"
+      <Button
+        v-if="!getUserIsRegistered"
+        @click="onClickSignInButton"
       >
-        <button
-          class="likepay-block-button"
-          @click="onClickAuthCoreReAuth"
-        >
-          {{ $t('AuthCore.button.reAuthNeeded') }}
-        </button>
-      </div>
-      <div v-else>
-        <label>Please type "DELETE"</label>
-        <input v-model="confirmMessage">
-        <button
-          class="likepay-block-button"
-          :disabled="confirmMessage !== 'DELETE'"
+        {{ $t('Home.Header.button.signIn') }}
+      </Button>
+      <Button
+        v-else-if="getAuthCoreNeedReAuth"
+        @click="onClickAuthCoreReAuth"
+      >
+        {{ $t('AuthCore.button.reAuthNeeded') }}
+      </Button>
+      <template v-else>
+        <i18n
+          path="V2_Account_Delete_Page_Input_Label"
+          tag="p"
+        ><code place="code">{{ targetConfirmMessage }}</code></i18n>
+        <InputField
+          v-model="confirmMessage"
+          class="lc-margin-top-8"
+        />
+        <Button
+          class="lc-margin-top-16"
+          :is-disabled="confirmMessage !== targetConfirmMessage"
           @click="onClickConfirmDelete"
-        >
-          Confirm
-        </button>
-      </div>
+        >{{ $t('V2_Account_Delete_Page_Confirm') }}</Button>
+      </template>
     </footer>
   </div>
 </template>
@@ -67,9 +71,13 @@ import { mapActions, mapGetters } from 'vuex';
 import { apiDeleteUser } from '~/util/api/api';
 import User from '~/util/User';
 
+import Button from '~/components/v2/Button';
+import InputField from '~/components/v2/InputField';
+
 export default {
   name: 'delete',
   layout: 'likepay',
+  components: { Button, InputField },
   data() {
     return {
       isLoading: false,
@@ -78,7 +86,7 @@ export default {
   },
   head() {
     return {
-      title: 'Confirm User Deletion',
+      title: this.$t('V2_Account_Delete_Page_Title'),
     };
   },
   computed: {
@@ -89,6 +97,9 @@ export default {
       'getAuthCoreNeedReAuth',
       'getAuthCoreAccessToken',
     ]),
+    targetConfirmMessage() {
+      return 'DELETE';
+    },
   },
   methods: {
     ...mapActions([
@@ -146,5 +157,14 @@ export default {
       line-height: 1.5;
     }
   }
+}
+
+code {
+  font-weight: 600;
+  font-family: 'Courier New', Courier, monospace;
+  border-radius: 4px;
+  padding: 0 4px;
+  background: #ececec;
+  color: #DB4A4A;
 }
 </style>
