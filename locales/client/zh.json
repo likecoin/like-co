@@ -1760,7 +1760,7 @@
   "V2_Account_Delete_Page_Title": "删除帳戶",
   "V2_Account_Delete_Page_Header_Text": "確認删除帳戶",
   "V2_Account_Delete_Page_Message": "請問你是否確認删除 Liker ID 帳戶 {id}?",
-  "V2_Account_Delete_Page_Notice_1": "與你的 Liker ID 相關的資料將會被删除，但相關交易資料將會繼續保留在 LikeCoin 鏈上和交易記錄索引。",
+  "V2_Account_Delete_Page_Notice_1": "與你的 Liker ID 相關的資料大部分會被删除，但交易相關資料將會繼續保留在 LikeCoin 鏈上和交易記錄索引內。",
   "V2_Account_Delete_Page_Notice_2": "在帳戶删除後，Liker ID 將不能被重用，你將需要註冊全新的 Liker ID。",
   "V2_Account_Delete_Page_Input_Label": "請輸入 {code} 來確認",
   "V2_Account_Delete_Page_Confirm": "確認",

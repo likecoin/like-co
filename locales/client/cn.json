@@ -1704,7 +1704,7 @@
     "V2_Account_Delete_Page_Title": "删除帐户",
     "V2_Account_Delete_Page_Header_Text": "确认删除帐户",
     "V2_Account_Delete_Page_Message": "请问你是否确认删除 Liker ID 帐户 {id}?",
-    "V2_Account_Delete_Page_Notice_1": "与你的 Liker ID 相关的资料将会被删除，但相关的交易资料将会继续保留在 LikeCoin 链上和交易记录索引。",
+    "V2_Account_Delete_Page_Notice_1": "与你的 Liker ID 相关的资料大部份会被删除，但交易相关的资料将会继续保留在 LikeCoin 链上和交易记录索引內。",
     "V2_Account_Delete_Page_Notice_2": "在帐户删除后，Liker ID 将不能被重用，你将需要注册全新的 Liker ID。",
     "V2_Account_Delete_Page_Input_Label": "请输入 {code} 来确认",
     "V2_Account_Delete_Page_Confirm": "确认",
