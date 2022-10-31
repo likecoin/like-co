@@ -160,11 +160,15 @@ export default {
 }
 
 code {
-  font-weight: 600;
-  font-family: 'Courier New', Courier, monospace;
-  border-radius: 4px;
   padding: 0 4px;
-  background: #ececec;
+
   color: #DB4A4A;
+
+  border-radius: 4px;
+
+  background: #ececec;
+
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 600;
 }
 </style>
