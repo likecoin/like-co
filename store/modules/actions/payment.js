@@ -251,3 +251,19 @@ export async function prepareCosmosTxSigner({ dispatch, state, getters }) {
     }
   }
 }
+
+export async function prepareCosmosMessageSigner({ dispatch, state, getters }) {
+  const { cosmosWalletSource } = state;
+  switch (cosmosWalletSource) {
+    case 'keplr':
+      return s => Keplr.signLogin(s);
+    case 'authcore': {
+      const isAuthCore = getters.getUserIsAuthCore;
+      if (isAuthCore) {
+        return s => dispatch('signLoginMessage', s);
+      }
+      throw new Error('CANNOT_GET_TX_SIGNER');
+    }
+    default: throw new Error('CANNOT_GET_TX_SIGNER');
+  }
+}

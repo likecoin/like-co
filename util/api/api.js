@@ -88,6 +88,8 @@ export const apiLoginUser = payload => axios.post('/users/login', payload);
 
 export const apiLogoutUser = () => axios.post('/users/logout');
 
+export const apiDeleteUser = (user, payload) => axios.post(`/users/delete/${user}`, payload);
+
 export const apiSyncAuthCoreUser = payload => axios.post('/users/sync/authcore', payload);
 
 export const apiFetchAuthPlatformURL = (platform, type) => axios.get(`/users/login/${platform}?type=${type}`);
