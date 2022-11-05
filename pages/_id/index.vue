@@ -311,7 +311,7 @@ export default {
         {
           hid: 'og_image',
           property: 'og:image',
-          content: 'https://like.co/images/og/tokensale.jpg',
+          content: this.avatar,
         },
       ],
       script: [
