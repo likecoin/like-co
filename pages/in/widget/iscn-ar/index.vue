@@ -245,6 +245,14 @@
     >
       {{ $t('ISCNARWidget.ISCN.keplr') }}
     </a>
+    <div v-if="getUserIsRegistered">
+      <nuxt-link
+        :to="{ name: 'in-logout' }"
+        style="text-align: center; font-size: 14px; color: #aaf1e7; margin: 10px; text-decoration: underline;"
+      >
+        {{ $t('Menu.item.logout') }}
+      </nuxt-link>
+    </div>
     <div style="display: flex; flex-direction: row; margin: 52px 0px; position: absolute; top: 590px">
       <div>
         <simple-svg
@@ -428,6 +436,14 @@
     >
       {{ $t('ISCNARWidget.ISCN.keplr') }}
     </a>
+    <div v-if="getUserIsRegistered">
+      <nuxt-link
+        :to="{ name: 'in-logout' }"
+        style="text-align: center; font-size: 14px; color: #aaf1e7; margin: 10px; text-decoration: underline;"
+      >
+        {{ $t('Menu.item.logout') }}
+      </nuxt-link>
+    </div>
   </div>
 </template>
 
