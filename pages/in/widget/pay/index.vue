@@ -341,6 +341,14 @@
           {{ $t('General.button.confirm') }}
         </button>
       </div>
+      <div v-if="getUserIsRegistered">
+        <nuxt-link
+          :to="{ name: 'in-logout' }"
+          style="text-align: center; font-size: 14px; color: #aaf1e7; margin: 10px; text-decoration: underline;"
+        >
+          {{ $t('Menu.item.logout') }}
+        </nuxt-link>
+      </div>
     </footer>
   </div>
 </template>
