@@ -173,7 +173,6 @@ export function resetLoginByCosmosWallet({ commit }) {
 
 export async function loginByCosmosWallet({ commit }, {
   source,
-  isIOS = false,
   isRetry = false,
 } = {}) {
   let walletAddress = '';
@@ -192,15 +191,11 @@ export async function loginByCosmosWallet({ commit }, {
             commit(types.USER_SET_WALLET_CONNECT_CONNECTING, true);
           }
         },
-        isConnectOnly: isIOS,
+        isConnectOnly: true,
         isRetry,
       });
-      if (isIOS) {
-        payload = await WalletConnect.requestForLogin(LOGIN_MESSAGE);
-      } else {
-        walletAddress = await WalletConnect.getWalletAddress();
-        signer = s => WalletConnect.signLogin(s);
-      }
+      payload = await WalletConnect.requestForLogin(LOGIN_MESSAGE);
+      walletAddress = payload.from;
       break;
     }
 

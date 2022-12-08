@@ -190,7 +190,6 @@
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import { isIOS } from '@walletconnect/browser-utils';
 
 import { logTrackerEvent } from '@/util/EventLogger';
 import User from '@/util/User';
@@ -497,7 +496,6 @@ export default {
       try {
         const { platform, payload } = await this.loginByCosmosWallet({
           source,
-          isIOS: isIOS(),
           isRetry,
         });
         // HACK: platform might change according to prefix
