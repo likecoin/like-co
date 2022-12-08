@@ -1220,6 +1220,8 @@ export default {
           if (!tryPostLoginRedirect({ route: this.$route })) {
             // Normal case
             this.redirectToPreAuthPage();
+          } else {
+            toggleFrontendMode();
           }
         });
       } else {
@@ -1244,8 +1246,11 @@ export default {
               name: 'in-settings',
               hash: '#connect',
             });
+            toggleFrontendMode();
           },
         });
+      } else {
+        toggleFrontendMode();
       }
       // Reset register failure count
       this.hasClickSignWithWalletInError = false;
