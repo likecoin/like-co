@@ -741,11 +741,6 @@
             "contactSupport": "如有疑问请联络我们"
         },
         "Failure": {
-            "BindSocialAccounts": {
-                "header": "以社交帐号登入",
-                "message": "连结你的社交帐号，可于手机上以更便捷的方式登入Liker ID。",
-                "confirm": "立即连结"
-            },
             "SignIn": {
                 "header": "登入 / 注册",
                 "message": "登入 / 注册不成功, 再试一次吗？",
@@ -1004,36 +999,6 @@
     "RewardRecords": {
         "title": "奖赏纪录"
     },
-    "UnlockLikeCoinPage": {
-        "title": "解锁你的 LikeCoin",
-        "description": "你的 LikeCoin 暂时由基金会保管，你可以随时提取自行保管或买卖。",
-        "card": {
-            "likecoin": {
-                "title": "以更方便简单的方法管理你的 LikeCoin",
-                "slogan": "即将于年底推出",
-                "points": [
-                    "无须使用任何插件",
-                    "无须拥有以太币都可转帐",
-                    "保管方法与生态深度结合",
-                    "设定快速且简单"
-                ],
-                "action": {
-                    "button": "快将推出"
-                }
-            },
-            "metamask": {
-                "action": {
-                    "button": "开始使用"
-                }
-            },
-            "unlock": {
-                "body": "你已成功设定收款钱包，为你的作品加上 LikeCoin button，你每日所得的 LikeCoin 将会自动发送至你的 MetaMask 钱包。",
-                "action": {
-                    "button": "加上 LikeCoin button"
-                }
-            }
-        }
-    },
     "WhitePaper": {
         "label": {
             "whitePaper": "白皮书",
@@ -1129,8 +1094,6 @@
             "receiveLikeCoinLink": "你的 LikeCoin 转帐页面:",
             "earnByLikeButton": "以新设计的 LikeButton 赚取 LikeCoin",
             "yourLikeButton": "你的 LikeButton",
-            "displaySocialMediaOn": "显示社交媒体链接",
-            "selectSocialMediaLink": "选择社交媒体（最多5个）",
             "wordpress": {
                 "title": "WordPress",
                 "content": "在你的 WordPress 网站上安装 LikeCoin 外挂"
@@ -1430,32 +1393,6 @@
         },
         "button": {
             "startUsing": "开始使用"
-        }
-    },
-    "AuthConnectList": {
-        "title": "帐号连接",
-        "facebook": {
-            "title": "连接 Facebook",
-            "connectedTitle": "你已绑定 Facebook",
-            "connected": "现在你可以你的 Facebook 帐号登入 Liker ID",
-            "disclaimer": "我们不会在未经你同意下，以你的名义于 Facebook 发布任何动态消息或讯息"
-        },
-        "google": {
-            "title": "连接 Google",
-            "connectedTitle": "你已绑定 Google",
-            "connected": "现在你可以你的 Google 帐号登入 Liker ID。"
-        },
-        "twitter": {
-            "title": "连接 Twitter",
-            "connectedTitle": "你已绑定 Twitter",
-            "connected": "现在你可以你的 Twitter 帐号登入 Liker ID。",
-            "disclaimer": "我们不会在未经你同意下，以你的名义于 twitter 发布任何动态消息"
-        },
-        "matters": {
-            "title": "连接 Matters",
-            "connectedTitle": "你已绑定 Matters",
-            "connected": "现在你可以你的 Matters 帐号登入 Liker ID。",
-            "disclaimer": "我们不会在未经你同意下，以你的名义于 Matters 发布任何讯息"
         }
     },
     "OAuthPermissionDialog": {

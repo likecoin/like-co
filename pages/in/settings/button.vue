@@ -206,19 +206,15 @@
 
 
 <script>
-import Vue from 'vue'; // eslint-disable-line import/no-extraneous-dependencies
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 
 import LikeButtonIntro from '@/components/LikeButtonIntro';
 import SelectableField from '@/components/SelectableField';
-import SocialMediaIcon from '@/components/settings/SocialMediaIcon';
 
 import {
-  DISPLAY_SOCIAL_MEDIA_OPTIONS,
   EXTERNAL_HOSTNAME,
   LIKE_BUTTON_POST_MESSAGE_TARGET_ORIGIN,
   OICE_URL,
-  SOCIAL_MEDIA_LIST,
   WORDPRESS_PLUGIN_URL,
 } from '@/constant/index';
 import SettingsIcon from '@/assets/icons/settings.svg';
@@ -248,21 +244,15 @@ export default {
   components: {
     LikeButtonIntro,
     SelectableField,
-    SocialMediaIcon,
   },
   data() {
     return {
       isEmailEnabled: false,
       isEmailPreviouslyEnabled: false,
-      isSubmittingForm: false,
       categoryItems,
       OICE_URL,
       WORDPRESS_PLUGIN_URL,
       SettingsIcon,
-      socialMediasIsPublicState: {},
-      displaySocialMediaOption: null,
-      previewOption: DISPLAY_SOCIAL_MEDIA_OPTIONS[1],
-      DISPLAY_SOCIAL_MEDIA_OPTIONS,
       isShowIntro: false,
     };
   },
@@ -270,48 +260,7 @@ export default {
     ...mapGetters([
       'getUserInfo',
       'getUserIsRegistered',
-      'getUserSocialPlatforms',
-      'getUserSocialLinks',
-      'getUserSocialMeta',
     ]),
-    userLinkList() {
-      const links = Object.keys(this.getUserSocialLinks).map(id => ({
-        id,
-        ...this.getUserSocialLinks[id],
-        isExternalLink: true,
-      }));
-      links.sort((link1, link2) => link1.order - link2.order);
-      return links;
-    },
-    socialMediaList() {
-      return [
-        ...SOCIAL_MEDIA_LIST.filter(({ id }) => !!this.getUserSocialPlatforms[id]),
-        ...this.userLinkList,
-      ];
-    },
-    publicSocialMedia() {
-      const platforms = {};
-      this.socialMediaList.forEach(({ id, ...data }) => {
-        if (this.getSocialMediaIsPublic(id)) {
-          platforms[id] = data;
-        }
-      });
-      return platforms;
-    },
-    isUpdatedSocialMediasIsPublicState() {
-      return Object.keys(this.socialMediasIsPublicState)
-        .some(id => this.socialMediasIsPublicState[id] !== undefined);
-    },
-    isUpdatedDisplaySocialMediaOption() {
-      return this.displaySocialMediaOption !== this.getUserSocialMeta.displaySocialMediaOption;
-    },
-    isConfirmButtonDisabled() {
-      if (this.isSubmittingForm) return true;
-      if (!this.isUpdatedSocialMediasIsPublicState && !this.isUpdatedDisplaySocialMediaOption) {
-        return true;
-      }
-      return false;
-    },
     likeButtonUrl() {
       if (!this.getUserInfo.user) return '';
       return `https://button.like.co/${this.getUserInfo.user}`;
@@ -319,43 +268,20 @@ export default {
     previewLikeButtonUrl() {
       return `https://button.${EXTERNAL_HOSTNAME}/in/embed/${this.getUserInfo.user}/button/preview`;
     },
-    shouldPreviewShowSocialMedia() {
-      if (
-        this.previewOption === this.displaySocialMediaOption
-        || this.displaySocialMediaOption === 'all'
-      ) {
-        return true;
-      }
-      return false;
-    },
   },
   watch: {
     getUserInfo() {
       this.updatePreviewInfo();
       this.setIsShowLikeButtonIntro();
     },
-    getUserSocialPlatforms() {
-      this.updatePreviewInfo();
-    },
-    getUserSocialMeta({ displaySocialMediaOption }) {
-      this.displaySocialMediaOption = displaySocialMediaOption;
-    },
-    shouldPreviewShowSocialMedia() {
-      this.updatePreviewInfo();
-    },
   },
   mounted() {
     if (this.getUserIsRegistered) {
       this.updateInfo();
     }
-
     this.setIsShowLikeButtonIntro();
-    this.displaySocialMediaOption = this.getUserSocialMeta.displaySocialMediaOption;
   },
   methods: {
-    ...mapActions([
-      'updateSocialPlatformIsPublic',
-    ]),
     async updateInfo() {
       const user = this.getUserInfo;
       this.isEmailEnabled = (user.isEmailEnabled !== false);
@@ -368,36 +294,8 @@ export default {
         return null;
       }
     },
-    onSocialMediaPublicityChange({ id, value }) {
-      if (this.socialMediasIsPublicState[id] !== undefined) {
-        Vue.set(this.socialMediasIsPublicState, id, undefined);
-      } else {
-        Vue.set(this.socialMediasIsPublicState, id, value);
-      }
-
-      if (this.shouldPreviewShowSocialMedia) {
-        this.updatePreviewInfo();
-      }
-    },
-    async onSubmit() {
-      this.isSubmittingForm = true;
-      const payload = {
-        user: this.getUserInfo.user,
-      };
-      if (this.isUpdatedSocialMediasIsPublicState) {
-        payload.platforms = this.socialMediasIsPublicState;
-      }
-      if (this.isUpdatedDisplaySocialMediaOption) {
-        payload.displaySocialMediaOption = this.displaySocialMediaOption;
-      }
-      await this.updateSocialPlatformIsPublic(payload);
-
-      this.isSubmittingForm = false;
-      this.socialMediasIsPublicState = {};
-    },
     updatePreviewInfo(content = {
       user: this.getUserInfo,
-      platforms: this.shouldPreviewShowSocialMedia ? this.publicSocialMedia : {},
     }) {
       const { previewLikeButton: el } = this.$refs;
       if (el) {
@@ -408,12 +306,6 @@ export default {
         }));
         el.contentWindow.postMessage(message, LIKE_BUTTON_POST_MESSAGE_TARGET_ORIGIN);
       }
-    },
-    getSocialMediaIsPublic(id) {
-      if (this.socialMediasIsPublicState[id] !== undefined) {
-        return this.socialMediasIsPublicState[id];
-      }
-      return (this.getUserSocialPlatforms[id] || this.getUserSocialLinks[id]).isPublic;
     },
     setIsShowLikeButtonIntro() {
       const { isShowIntro } = this.$route.params;
