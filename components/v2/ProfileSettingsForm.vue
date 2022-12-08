@@ -58,6 +58,7 @@
           />
 
           <InputField
+            class="v2-form__wallet-address"
             :value="walletAddress"
             :is-readonly="true"
             :label="$t('V2_Form_Wallet_label')"
@@ -176,7 +177,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .profile-settings-form {
   display: grid;
   grid-auto-flow: row;
@@ -189,5 +190,19 @@ export default {
   width: 100%;
   max-width: 616px;
   margin: 0 auto;
+}
+
+.v2-form__wallet-address {
+  overflow: hidden;
+
+  width: 100%;
+}
+
+.v2-form__wallet-address .v2-input-field__layout,
+.v2-form__wallet-address .v2-input-field__readonly-text {
+  overflow: hidden;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>

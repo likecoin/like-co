@@ -95,6 +95,13 @@ export default {
   justify-items: center;
 }
 
+@media screen and (max-width: 640px) {
+  .profile-view {
+    flex-direction: column;
+    gap: 24px;
+  }
+}
+
 .profile-view__profile {
   display: flex;
   align-items: center;
