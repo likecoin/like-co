@@ -42,15 +42,6 @@
         <div class="lc-container-2">
           <div class="lc-container-3 lc-bg-gray-1">
             <div class="lc-container-4 lc-padding-vertical-32">
-              <social-media-connect
-                :limit="5"
-                :username="id"
-                :platforms="platforms"
-                class="lc-margin-bottom-16"
-                type="readonly"
-                center
-              />
-
               <section
                 v-if="id"
                 class="address-container"
@@ -202,7 +193,6 @@ import { IS_CHAIN_UPGRADING } from '~/constant';
 
 import NumberInput from '~/components/NumberInput';
 import NarrowPageHeader from '~/components/header/NarrowPageHeader';
-import SocialMediaConnect from '~/components/SocialMediaConnect';
 
 import {
   queryLikeCoinBalance as queryCosmosLikeCoinBalance,
@@ -211,7 +201,6 @@ import {
 import User from '@/util/User';
 import {
   apiGetUserMinById,
-  apiGetSocialListById,
 } from '@/util/api/api';
 
 const DEFAULT_P2P_AMOUNT_IN_USD = 0.25;
@@ -242,7 +231,6 @@ export default {
   components: {
     NumberInput,
     NarrowPageHeader,
-    SocialMediaConnect,
   },
   data() {
     return {
@@ -252,7 +240,6 @@ export default {
       isP2pUnavailable: false,
       isLoading: true,
       isSigning: false,
-      platforms: {},
       gasFee: '',
     };
   },
@@ -268,7 +255,6 @@ export default {
     }
     return Promise.all([
       apiGetUserMinById(params.id),
-      apiGetSocialListById(params.id).catch(() => ({})),
     ]).then((res) => {
       const {
         likeWallet,
@@ -283,7 +269,6 @@ export default {
         displayName: displayName || params.id,
         amount,
         avatarHalo: User.getAvatarHaloType(res[0].data),
-        platforms: res[1].data,
       };
     }).catch((e) => { // eslint-disable-line no-unused-vars
       error({ statusCode: 404, message: '' });
@@ -323,7 +308,6 @@ export default {
             name: this.displayName,
             alternateName: this.id,
             image: this.avatar,
-            sameAs: Object.keys(this.platforms || {}).map(s => this.platforms[s].url),
           }),
           type: 'application/ld+json',
         },

@@ -772,11 +772,6 @@
       "contactSupport": "如有疑問請聯絡我們"
     },
     "Failure": {
-      "BindSocialAccounts": {
-        "header": "以社交帳號登入",
-        "message": "連結你的社交帳號，可於手機上以更便捷的方式登入 Liker ID。",
-        "confirm": "立即連結"
-      },
       "SignIn": {
         "header": "登入 / 註冊",
         "message": "登入 / 註冊不成功, 再試一次嗎？",
@@ -1057,35 +1052,6 @@
   "RewardRecords": {
     "title": "奬賞紀錄"
   },
-  "UnlockLikeCoinPage": {
-    "title": "解鎖你的 LikeCoin",
-    "description": "你的 LikeCoin 暫時由基金會保管，你可以隨時提取自行保管或買賣。",
-    "card": {
-      "likecoin": {
-        "title": "以更方便簡單的方法管理你的 LikeCoin",
-        "slogan": "即將於年底推出",
-        "points": [
-          "無須安裝插件",
-          "轉帳無須以太幣",
-          "託管予驗證人以賺取 LikeCoin"
-        ],
-        "action": {
-          "button": "快將推出"
-        }
-      },
-      "metamask": {
-        "action": {
-          "button": "開始使用"
-        }
-      },
-      "unlock": {
-        "body": "你已成功設定收款錢包，為你的作品加上 LikeCoin button，你每日所得的 LikeCoin 將會自動發送至你的 MetaMask 錢包。 ",
-        "action": {
-          "button": "加上 LikeCoin button"
-        }
-      }
-    }
-  },
   "WhitePaper": {
     "label": {
       "whitePaper": "白皮書",
@@ -1181,8 +1147,6 @@
       "receiveLikeCoinLink": "你的 LikeCoin 轉帳頁面:",
       "earnByLikeButton": "安裝 LikeCoin button 賺取 LikeCoin",
       "yourLikeButton": "你的 LikeCoin button",
-      "displaySocialMediaOn": "顯示社交媒體連結",
-      "selectSocialMediaLink": "選擇社交媒體（最多5個）",
       "wordpress": {
         "title": "WordPress",
         "content": "在你的 WordPress 網站上安裝 LikeCoin 外掛"
@@ -1483,32 +1447,6 @@
       "startUsing": "開始使用"
     }
   },
-  "AuthConnectList": {
-    "title": "帳號連接",
-    "facebook": {
-      "title": "連接 Facebook",
-      "connectedTitle": "你已綁定 Facebook",
-      "connected": "現在你可以你的 Facebook 帳號登入 Liker ID",
-      "disclaimer": "我們不會在未經你同意下，以你的名義於 Facebook 發佈任何動態消息或訊息"
-    },
-    "google": {
-      "title": "連接 Google",
-      "connectedTitle": "你已綁定 Google",
-      "connected": "現在你可以你的 Google 帳號登入 Liker ID。"
-    },
-    "twitter": {
-      "title": "連接 Twitter",
-      "connectedTitle": "你已綁定 Twitter",
-      "connected": "現在你可以你的 Twitter 帳號登入 Liker ID。",
-      "disclaimer": "我們不會在未經你同意下，以你的名義於 twitter 發佈任何動態消息"
-    },
-    "matters": {
-      "title": "連接 Matters",
-      "connectedTitle": "你已綁定 Matters",
-      "connected": "現在你可以你的 Matters 帳號登入 Liker ID。",
-      "disclaimer": "我們不會在未經你同意下，以你的名義於 Matters 發佈任何訊息"
-    }
-  },
   "OAuthPermissionDialog": {
     "willReceive": "將會獲取以下資訊：",
     "permission": {
@@ -1528,18 +1466,6 @@
   },
   "MigrateTokenDialog": {
     "description": "LikeCoin主鏈現已上線。這次為讚賞公民共和國的一個重要基建升級。如果你手持舊的 LikeCoin ERC-20 又或是在 MetaMask 上存有 LikeCoin，我們強烈建議你進行升級！新的 LikeCoin 容許你在 LikeCoin chain 上繼續打賞作者，投票，轉帳，甚至可以把閒置著的 LikeCoin 存放在 LikeCoin chain 生態中的驗證人處，並獲得一定百份比的回饋。升級後，你更可立即下載最新的 LikerLand 手機應用程式體驗指掌上的共和國。"
-  },
-  "OtherConnectList": {
-    "title": "其他帳號連接",
-    "description": "你可以將帳號連接到不同的社交平台"
-  },
-  "PlatformConnectItem": {
-    "connectToPlatform": "綁定你的 {platform} 帳號",
-    "linked": "已連結",
-    "options": "選項"
-  },
-  "Facebook": {
-    "personalProfile": "個人頁面"
   },
   "CivicLikerCTA": {
     "title": "讚賞公民體驗計劃",
