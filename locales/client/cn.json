@@ -234,7 +234,7 @@
         "item": {
             "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
             "bonus": "LikeCoin 奬励",
-            "civicLiker": "@:CivicPage.title",
+            "civicLiker": "赞赏公民",
             "earnLikeCoin": "Writing NFT",
             "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
             "tokenSale": "@:TokenSale.title",
