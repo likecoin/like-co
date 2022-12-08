@@ -801,11 +801,6 @@
       "contactSupport": "Please contact us if you have any issue."
     },
     "Failure": {
-      "BindSocialAccounts": {
-        "header": "Login with your social accounts",
-        "message": "Connect to your social accounts now to enjoy a much easier login experience, mobile supported.",
-        "confirm": "Link Now"
-      },
       "SignIn": {
         "header": "Sign in / Sign up",
         "message": "Sign in / sign up was not success, do you want to try again?",
@@ -1138,35 +1133,6 @@
   "RewardRecords": {
     "title": "Reward Records"
   },
-  "UnlockLikeCoinPage": {
-    "title": "Unlock your LikeCoin",
-    "description": "Your LikeCoin is temporarily kept by the Foundation, and you can withdraw it yourself or buy it at any time.",
-    "card": {
-      "likecoin": {
-        "title": "Manage your LikeCoin in a more convenient and simple way",
-        "slogan": "Available in Q4",
-        "points": [
-          "No plug in required",
-          "No Ethereum required for transfers",
-          "Earn LikeCoin by delegating to validators"
-        ],
-        "action": {
-          "button": "Coming soon"
-        }
-      },
-      "metamask": {
-        "action": {
-          "button": "Get started"
-        }
-      },
-      "unlock": {
-        "body": "You have successfully set up your wallet. You may add a Like Rewards button to your work. Your daily Like Rewards will be automatically sent to this wallet.",
-        "action": {
-          "button": "Install Like Rewards button"
-        }
-      }
-    }
-  },
   "WhitePaper": {
     "label": {
       "whitePaper": "WhitePaper",
@@ -1281,8 +1247,6 @@
       "receiveLikeCoinLink": "Your LikeCoin payment link:",
       "earnByLikeButton": "Earn LikeCoin by Reinvented LikeCoin button",
       "yourLikeButton": "Your LikeCoin button",
-      "displaySocialMediaOn": "Display socal mediea links on",
-      "selectSocialMediaLink": "Select social media links (maximum 5)",
       "wordpress": {
         "title": "WordPress",
         "content": "Install LikeCoin Plugin to your WordPress Site"
@@ -1623,34 +1587,6 @@
       "aboutLikeCoin": "About LikeCoin"
     }
   },
-  "AuthConnectList": {
-    "title": "Connections",
-    "show": "Show on your profile",
-    "hide": "Hide",
-    "facebook": {
-      "title": "Connect to Facebook",
-      "connectedTitle": "You are connected to Facebook",
-      "connected": "You can now sign in with your Facebook account.",
-      "disclaimer": "We will never post to Facebook or message your friends without your permission"
-    },
-    "google": {
-      "title": "Connect to Google",
-      "connectedTitle": "You are connected to Google",
-      "connected": "You can now sign in with your Google account."
-    },
-    "twitter": {
-      "title": "Connect to Twitter",
-      "connectedTitle": "You are connected to Twitter",
-      "connected": "You can now sign in with your Twitter account.",
-      "disclaimer": "We will never post to Twitter or message your followers without your permission."
-    },
-    "matters": {
-      "title": "Connect to Matters.news",
-      "connectedTitle": "You are connected to Matters.news",
-      "connected": "You can now sign in with your Matters.news account.",
-      "disclaimer": "We will never post to Matters.news without your permission."
-    }
-  },
   "OAuthPermissionDialog": {
     "willReceive": "will receive the following info:",
     "permission": {
@@ -1670,18 +1606,6 @@
   },
   "MigrateTokenDialog": {
     "description": "New features available with LikeCoin chain. LikeCoin chain is designed to give you a brand new experience in the Republic of Liker Land. We recommend you to migrate your LikeCoin ERC-20 now to enjoy all-new features. The new LikeCoin token will be used to reward creators, validators, and payments. It will also represent the contribution and voting power of a Liker. After the migration, you may download our new app and start using your new LikeCoin."
-  },
-  "OtherConnectList": {
-    "title": "Other Connection",
-    "description": "You can connect to your accounts on various social platforms"
-  },
-  "PlatformConnectItem": {
-    "connectToPlatform": "Connect to your {platform}",
-    "linked": "linked",
-    "options": "Option"
-  },
-  "Facebook": {
-    "personalProfile": "Personal Profile"
   },
   "CivicLikerCTA": {
     "title": "Civic Liker",

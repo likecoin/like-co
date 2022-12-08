@@ -91,30 +91,6 @@
                 </div>
               </div>
             </no-ssr>
-            <!-- Other Connections -->
-            <div class="lc-container-3 lc-bg-gray-1 lc-margin-top-8 lc-padding-vertical-32">
-              <div class="lc-container-4">
-                <h2 class="lc-font-size-14 lc-font-weight-400">
-                  {{ $t('OtherConnectList.title') }}
-                </h2>
-                <p class="lc-margin-top-8 lc-color-gray-9b">
-                  {{ $t('OtherConnectList.description') }}
-                </p>
-                <other-connect-list
-                  :platforms="otherPlatforms"
-                  class="lc-margin-top-24"
-                  @connect="onConnectOtherPlatforms"
-                  @disconnect="onDisconnectOtherPlatforms"
-                  @select-option="onSelectConnectOption"
-                />
-              </div>
-            </div>
-            <!-- External Link -->
-            <div class="lc-container-3 lc-bg-gray-1 lc-margin-top-8 lc-padding-vertical-32">
-              <div class="lc-container-4">
-                <external-links-panel />
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -147,16 +123,11 @@
 import { mapActions, mapGetters } from 'vuex';
 import AuthCoreSettings from '~/components/AuthCore/Settings';
 
-import {
-  W3C_EMAIL_REGEX,
-  OTHER_CONNECTION_LIST,
-} from '@/constant';
+import { W3C_EMAIL_REGEX } from '@/constant';
 
 import getTestAttribute from '@/util/test';
 import User from '@/util/User';
 
-import OtherConnectList from '~/components/settings/OtherConnectList';
-import ExternalLinksPanel from '~/components/settings/ExternalLinksPanel';
 import VerifyEmailCta from '~/components/VerifyEmailCta';
 import ProfileSettingsForm from '~/components/v2/ProfileSettingsForm';
 
@@ -166,8 +137,6 @@ export default {
   name: 'settings-index',
   components: {
     AuthCoreSettings,
-    OtherConnectList,
-    ExternalLinksPanel,
     VerifyEmailCta,
     ProfileSettingsForm,
   },
@@ -195,8 +164,6 @@ export default {
       'getUserInfo',
       'getUserIsRegistered',
       'getCurrentLocale',
-      'getUserAuthPlatforms',
-      'getUserSocialPlatforms',
       'getUserIsAuthCore',
       'getAuthCoreNeedReAuth',
       'getAuthCoreAccessToken',
@@ -215,13 +182,6 @@ export default {
         || this.getUserInfo.displayName !== this.displayName
         || this.getUserInfo.description !== this.description
       );
-    },
-    otherPlatforms() {
-      return OTHER_CONNECTION_LIST.map(pid => this.injectPlatformData({
-        ...this.getUserSocialPlatforms[pid],
-        pid,
-        isConnected: !!this.getUserSocialPlatforms[pid],
-      }));
     },
     avatarHalo() {
       return User.getAvatarHaloType(this.getUserInfo);
@@ -249,67 +209,8 @@ export default {
       'setInfoMsg',
       'setReAuthDialogShow',
       'setErrorMsg',
-      'fetchAuthPlatformsById',
-      'linkUserAuthPlatform',
-      'unlinkUserAuthPlatform',
-      'fetchSocialListDetailsById',
-      'fetchSocialPlatformLink',
-      'linkSocialPlatform',
-      'unlinkSocialPlatform',
-      'selectFacebookPageLink',
     ]),
     getTestAttribute: getTestAttribute('inSettings'),
-    injectPlatformData(platform) {
-      if (!platform.isConnected) return platform;
-
-      const { pid, id, pages = [] } = platform;
-      let options = [];
-      let selectedOption;
-
-      if (pid === 'facebook') {
-        // Inject Facebook pages as options
-        options = options.concat([
-          {
-            value: id,
-            text: this.$t('Facebook.personalProfile'),
-          },
-          ...pages.map(({ id: value, name }) => ({
-            value,
-            text: name,
-          })),
-        ]);
-
-        // Show which Facebook page/account is currently shown in public
-        selectedOption = id;
-        pages.some((page) => {
-          if (page.link === platform.url) {
-            selectedOption = page.id;
-            return true;
-          }
-          return false;
-        });
-      } else {
-        // TODO: Inject non-Facebook options
-        // options.push({
-        //   value: 'show',
-        //   text: this.$t('AuthConnectList.show'),
-        // });
-
-        selectedOption = platform.isPublic ? 'hide' : 'show';
-      }
-
-      // TODO: Inject common options
-      // options.push({
-      //   value: 'hide',
-      //   text: this.$t('AuthConnectList.hide'),
-      // });
-
-      return {
-        ...platform,
-        options,
-        selectedOption,
-      };
-    },
     focusAuthCore() {
       this.isShowEditInAuthCore = false;
       const widget = this.$refs.authcore;
@@ -327,8 +228,6 @@ export default {
       this.displayName = user.displayName;
       this.description = user.description;
       this.email = user.email;
-      this.fetchAuthPlatformsById(user.user);
-      this.fetchSocialListDetailsById(user.user);
     },
     async onSubmit() {
       await this.updateAvatarIfChanged();
@@ -403,40 +302,6 @@ export default {
     },
     onAuthCoreProfileUpdated() {
       this.syncAuthCoreUser();
-    },
-    async onConnectOtherPlatforms(pid) {
-      switch (pid) {
-        default: {
-          const { url } = await this.fetchSocialPlatformLink({
-            platform: pid,
-            id: this.getUserInfo.user,
-          });
-          document.location = url;
-          break;
-        }
-      }
-    },
-    onSelectConnectOption(pid, value) {
-      switch (pid) {
-        case 'facebook':
-          this.selectFacebookPageLink({
-            pageId: value,
-            payload: {
-              user: this.getUserInfo.user,
-            },
-          });
-          break;
-
-        default:
-      }
-    },
-    onDisconnectOtherPlatforms(pid) {
-      this.unlinkSocialPlatform({
-        platform: pid,
-        payload: {
-          user: this.getUserInfo.user,
-        },
-      });
     },
     handleV2UpdateEamil(email) {
       if (!email) return;

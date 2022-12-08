@@ -141,33 +141,6 @@ export async function loginUser({ dispatch }, data) {
   return true;
 }
 
-export async function linkWalletToUser({ commit, dispatch }, payload) {
-  await apiWrapper({ commit, dispatch }, api.apiLinkAuthPlatform('wallet', payload), { blocking: true });
-  await dispatch('refreshUser');
-  return true;
-}
-
-export async function linkUserAuthPlatform({ commit, dispatch }, { platform, payload }) {
-  await apiWrapper(
-    { commit, dispatch },
-    api.apiLinkAuthPlatform(platform, payload),
-    { blocking: true },
-  );
-  await dispatch('refreshUser');
-  return true;
-}
-
-export async function unlinkUserAuthPlatform({ commit, dispatch }, { platform }) {
-  await apiWrapper(
-    { commit, dispatch },
-    api.apiUnlinkAuthPlatform(platform),
-    { blocking: true },
-  );
-  await dispatch('refreshUser');
-  return true;
-}
-
-
 export async function logoutUser({ commit, dispatch, state }, data) {
   const { isAuthCore } = state.user;
   await apiWrapper({ commit, dispatch }, api.apiLogoutUser(data), { blocking: true });
@@ -271,7 +244,6 @@ export async function refreshUser({ commit, state, dispatch }) {
     const currentUser = (user || {}).user;
     if (user && user.user) {
       dispatch('queryLikeCoinWalletBalance');
-      await dispatch('fetchSocialListDetailsById', user.user);
       commit(types.USER_SET_USER_INFO, user);
       await setLoggerUser(this, { wallet: user.likeWallet });
       setUserProperties({ frontend_mode: getFrontendMode() });
@@ -326,80 +298,6 @@ export async function verifyEmailByUUID({ commit, dispatch, rootState }, uuid) {
 
 export async function getMiniUserById({ commit, dispatch }, id) {
   return apiWrapper({ commit, dispatch }, api.apiGetUserMinById(id), { slient: true });
-}
-
-export async function fetchtSocialListById({ commit, dispatch }, id) {
-  const platforms = await apiWrapper({ commit, dispatch }, api.apiGetSocialListById(id));
-  commit(types.USER_SET_SOCIAL, platforms);
-  return true;
-}
-
-export async function fetchSocialListDetailsById({ commit, dispatch }, id) {
-  const payload = await apiWrapper({ commit, dispatch }, api.apiGetSocialListDetialsById(id));
-  commit(types.USER_SET_SOCIAL_DETAILS, payload);
-}
-
-export async function fetchAuthPlatformsById({ commit, dispatch }, id) {
-  commit(types.USER_SET_AUTH_PLATFORMS, { isFetching: true });
-  const platforms = await apiWrapper({ commit, dispatch }, api.apiFetchLinkedAuthPlatforms(id));
-  commit(types.USER_SET_AUTH_PLATFORMS, { platforms });
-}
-
-
-export async function fetchSocialPlatformLink({ commit, dispatch }, { platform, id }) {
-  return apiWrapper({ commit, dispatch }, api.apiGetSocialPlatformLink(platform, id));
-}
-
-export async function linkSocialPlatform({ commit, dispatch }, { platform, payload }) {
-  await apiWrapper(
-    { commit, dispatch },
-    api.apiLinkSocialPlatform(platform, payload),
-  );
-  await dispatch('refreshUser');
-
-  return true;
-}
-
-export async function unlinkSocialPlatform({ commit, dispatch }, { platform, payload }) {
-  await apiWrapper(
-    { commit, dispatch },
-    api.apiUnlinkSocialPlatform(platform, payload),
-  );
-  commit(types.USER_UNLINK_SOCIAL, platform);
-
-  await dispatch('refreshUser');
-}
-
-export async function selectFacebookPageLink({ commit, dispatch }, { pageId, payload }) {
-  const { url } = await apiWrapper(
-    { commit, dispatch },
-    api.apiSelectFacebookPageLink(pageId, payload),
-  );
-  commit(types.USER_SELECT_FACEBOOK_PAGE_LINK, url);
-}
-
-export async function updateSocialPlatformIsPublic({ commit, dispatch }, payload) {
-  await apiWrapper(
-    { commit, dispatch },
-    api.apiPostSocialPlatformsIsPublic(payload),
-  );
-  commit(types.USER_SET_SOCIAL_PLATFORMS_IS_PUBLIC, payload);
-}
-
-export async function addUserSocialLink({ commit, dispatch }, payload) {
-  const link = await apiWrapper(
-    { commit, dispatch },
-    api.apiPostAddUserSocialLink(payload),
-  );
-  commit(types.USER_ADD_SOCIAL_LINK, link);
-}
-
-export async function updateUserSocialLink({ commit, dispatch }, { linkId, payload }) {
-  await apiWrapper(
-    { commit, dispatch },
-    api.apiPostUpdateUserSocialLink(linkId, payload),
-  );
-  commit(types.USER_SET_SOCIAL_LINK, payload.link);
 }
 
 export async function sendInvitationEmail({ commit, dispatch, rootState }, data) {

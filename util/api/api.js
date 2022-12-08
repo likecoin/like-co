@@ -92,14 +92,6 @@ export const apiDeleteUser = (user, payload) => axios.post(`/users/delete/${user
 
 export const apiSyncAuthCoreUser = payload => axios.post('/users/sync/authcore', payload);
 
-export const apiFetchAuthPlatformURL = (platform, type) => axios.get(`/users/login/${platform}?type=${type}`);
-export const apiPostAuthPlatformToken = (platform, { code, state }) => axios.post(`/users/login/${platform}`, { code, state });
-export const apiFetchLinkedAuthPlatforms = () => axios.get('/users/login/platforms');
-
-export const apiLinkAuthPlatform = (platform, payload) => axios.post(`/users/login/${platform}/add`, payload);
-
-export const apiUnlinkAuthPlatform = platform => axios.delete(`/users/login/${platform}`);
-
 export const apiGetUserSelf = () => axios.get('/users/self');
 export const apiFetchPreferences = () => axios.get('/users/preferences');
 export const apiUpdatePreferences = payload => axios.post('/users/preferences', payload);
@@ -131,16 +123,6 @@ export const apiQueryLikeCoinFiatPrice = () => axios.get('/misc/price?currency=u
 
 export const apiSetNotification = (id, isEmailEnabled) => axios.post(`/users/email/${id}`, { isEmailEnabled });
 
-export const apiGetSocialListById = (id, type = '') => axios.get(`/social/list/${id}?type=${type}`);
-
-export const apiGetSocialListDetialsById = id => axios.get(`/social/list/${id}/details`);
-
-export const apiGetSocialPlatformLink = (platform, id) => axios.get(`/social/link/${platform}/${id}`);
-
-export const apiLinkSocialPlatform = (platform, payload) => axios.post(`/social/link/${platform}`, payload);
-
-export const apiUnlinkSocialPlatform = (platform, payload) => axios.post(`/social/unlink/${platform}`, payload);
-
 export const apiGetLikeButtonMyStatus = (id, referrer) => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/likebutton/${id}/self`, { params: { referrer } });
 export const apiGetLikeButtonTotalCount = (id, referrer) => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/likebutton/${id}/total`, { params: { referrer } });
 export const apiGetLikeButtonLikerList = (id, referrer) => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/likebutton/${id}/list`, { params: { referrer } });
@@ -149,11 +131,6 @@ export const apiPostLikeButton = (id, referrer, count = 1) => axios.post(
   {},
   { params: { referrer } },
 );
-
-export const apiSelectFacebookPageLink = (pageId, payload) => axios.post(`/social/link/facebook/${pageId}`, payload);
-export const apiPostSocialPlatformsIsPublic = payload => axios.patch('/social/public', payload);
-export const apiPostAddUserSocialLink = payload => axios.post('/social/links/new', payload);
-export const apiPostUpdateUserSocialLink = (linkId, payload) => axios.put(`/social/links/${linkId}`, payload);
 
 export const apiGetLikeStatistic = () => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/like/stat`);
 
