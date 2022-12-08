@@ -11,6 +11,13 @@
     <div class="lc-page-wrapper">
       <div class="lc-page-content">
         <nuxt />
+        <div class="md-layout md-alignment-center-center">
+          <language-switch
+            class="language-switch"
+            :isShowLabel="true"
+            color="black"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -19,12 +26,14 @@
 <script>
 import localeMixin from '~/mixins/locale';
 
+import LanguageSwitch from '~/components/LanguageSwitch';
 import ToolBars from '~/components/toolbars/ToolBars';
 
 import likerLandIcon from '@/assets/logo/liker-land.svg';
 
 export default {
   components: {
+    LanguageSwitch,
     ToolBars,
   },
   mixins: [localeMixin],
@@ -69,5 +78,12 @@ html[layout=register-layout] {
   .logo-wapper .logo {
     height: 24px;
   }
+}
+
+.language-switch {
+  position: relative;
+  z-index: 1001;
+
+  margin-right: 12px;
 }
 </style>
