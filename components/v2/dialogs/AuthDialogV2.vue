@@ -196,15 +196,6 @@ import { logTrackerEvent } from '@/util/EventLogger';
 import User from '@/util/User';
 
 import {
-  getAuthPlatformSignInURL,
-  getAuthPlatformSignInPayload,
-} from '@/util/auth';
-
-import {
-  LOGIN_CONNECTION_LIST,
-} from '@/constant';
-
-import {
   checkIsMobileClient,
   tryPostLoginRedirect,
   toggleFrontendMode,
@@ -460,11 +451,6 @@ export default {
           return;
         }
         default: {
-          if (LOGIN_CONNECTION_LIST.includes(platform)) {
-            const { url } = await getAuthPlatformSignInURL(platform);
-            if (url) window.location.href = url;
-            break;
-          }
           // eslint-disable-next-line no-console
           console.error('platform default not exist');
           if (this.$sentry) {
@@ -746,21 +732,9 @@ export default {
       this.currentTab = 'loading';
 
       try {
-        if (signInPlatform) {
-          if (signInPlatform === 'authcore') {
-            const { code } = this.$route.query;
-            const payload = await this.fetchAuthCoreAccessTokenAndUser(code);
-            await this.signInWithAuthCore(payload);
-          } else {
-            const { code, state } = this.$route.query;
-            this.platform = signInPlatform;
-            this.signInPayload = await getAuthPlatformSignInPayload(
-              signInPlatform,
-              { code, state },
-            );
-            if (this.signInPayload) this.login();
-          }
-        }
+        const { code } = this.$route.query;
+        const payload = await this.fetchAuthCoreAccessTokenAndUser(code);
+        await this.signInWithAuthCore(payload);
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error(err);

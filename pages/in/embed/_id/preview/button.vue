@@ -171,13 +171,6 @@
     />
 
     <footer>
-      <social-media-connect
-        v-if="id"
-        :username="id"
-        :platforms="platforms"
-        :limit="5"
-      />
-
       <embed-create-widget-button
         :link="getReferralLink"
         is-button
@@ -190,7 +183,6 @@
 <script>
 import EmbedCreateWidgetButton from '~/components/embed/EmbedCreateWidgetButton';
 import EmbedUserInfo from '~/components/embed/EmbedUserInfo';
-import SocialMediaConnect from '~/components/SocialMediaConnect';
 
 import { apiQueryLikeCoinFiatPrice } from '@/util/api/api';
 
@@ -216,7 +208,6 @@ export default {
   components: {
     EmbedCreateWidgetButton,
     EmbedUserInfo,
-    SocialMediaConnect,
     LikeButton,
   },
   async asyncData({ params }) {
@@ -253,7 +244,6 @@ export default {
       displayName: '',
       avatar: '',
       avatarHalo: 'none',
-      platforms: {},
       /* through parent post message */
     };
   },
@@ -284,15 +274,12 @@ export default {
   methods: {
     onMessage({ data }) {
       if (typeof data === 'object' && data.type === 'updatePreviewInfo') {
-        const { user, platforms } = data.message;
+        const { user } = data.message;
         if (user) {
           this.id = user.user;
           this.displayName = user.displayName;
           this.avatar = user.avatar;
           this.avatarHalo = User.getAvatarHaloType(user);
-        }
-        if (platforms) {
-          this.platforms = platforms;
         }
       }
     },

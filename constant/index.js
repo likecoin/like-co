@@ -99,41 +99,6 @@ export const EXTERNAL_URL = `${TEST_MODE ? 'http://' : 'https://'}${EXTERNAL_HOS
 
 export const LIKER_LAND_URL = `https://${(IS_TESTNET ? 'rinkeby.' : '')}liker.land`;
 
-export const SOCIAL_MEDIA_LIST = [
-  {
-    id: 'likecoin',
-    tier: 0,
-  },
-  {
-    id: 'facebook',
-    tier: 1,
-  },
-  {
-    id: 'flickr',
-    tier: 1,
-  },
-  {
-    id: 'medium',
-    tier: 1,
-  },
-  {
-    id: 'twitter',
-    tier: 1,
-  },
-];
-
-export const LOGIN_CONNECTION_LIST = [
-];
-
-export const OTHER_CONNECTION_LIST = [
-  'medium',
-  'flickr',
-];
-
-export const IS_LOGIN_SOCIAL = new Set(LOGIN_CONNECTION_LIST);
-
-export const LINK_ICON_TYPES = ['profile', 'blog', 'photo', 'mail', 'contact', 'link'];
-
 export const DISPLAY_SOCIAL_MEDIA_OPTIONS = [
   'all', // default
   'wp',
@@ -183,10 +148,6 @@ export const LIKE_CO_PLATFORMS = [
 ];
 
 export const DISCORD_INVITE_URL = 'https://discord.gg/W4DQ6peZZZ';
-
-export const LIQUID_QEX_PUPLIC_API_KEY = IS_TESTNET
-  ? '06c5b428-e5b3-4365-840a-4f0d10f2bbba'
-  : 'pk_fb318eeb-75b1-4b74-8f19-4f445a7eff72';
 
 export const IS_CHAIN_UPGRADING = false;
 

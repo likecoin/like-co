@@ -32,17 +32,6 @@ export const getUserIsLegacy = (state) => {
 
 export const getLocalWeb3Wallet = state => state.wallet;
 
-export const getUserIsLoadingAuthPlaforms = state => (
-  !state.isFetchedAuthPlatforms || state.isFetchingAuthPlatforms
-);
-export const getUserAuthPlatforms = state => state.authPlatforms;
-
-export const getUserSocialPlatforms = state => state.platforms;
-
-export const getUserSocialLinks = state => state.links;
-
-export const getUserSocialMeta = state => state.socialMeta;
-
 export const getUserHasPendingLike = state => state.likecoinAmountObject
   && state.likecoinAmountObject.pendingLIKE
   && state.likecoinAmountObject.pendingLIKE > 0;

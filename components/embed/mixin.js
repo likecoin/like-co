@@ -1,10 +1,8 @@
 import EmbedCreateWidgetButton from '~/components/embed/EmbedCreateWidgetButton';
 import EmbedUserInfo from '~/components/embed/EmbedUserInfo';
-import SocialMediaConnect from '~/components/SocialMediaConnect';
 
 import {
   apiGetUserMinById,
-  apiGetSocialListById,
   apiQueryLikeCoinFiatPrice,
 } from '~/util/api/api';
 import { MEDIUM_REGEX } from '~/constant';
@@ -15,7 +13,6 @@ export default {
   components: {
     EmbedCreateWidgetButton,
     EmbedUserInfo,
-    SocialMediaConnect,
   },
   asyncData({
     params,
@@ -39,7 +36,6 @@ export default {
 
     return Promise.all([
       apiGetUserMinById(id),
-      apiGetSocialListById(id, type).catch(() => ({})),
       !amount && apiQueryLikeCoinFiatPrice()
         .then(res => res.data.price)
         .catch(() => 0.0082625),
@@ -52,7 +48,7 @@ export default {
       let amountInUSD;
       if (!amount) {
         amountInUSD = 0.25;
-        const USD_TO_LIKE = res[2];
+        const USD_TO_LIKE = res[1];
         amount = (amountInUSD / USD_TO_LIKE).toFixed(2);
       }
 
@@ -63,7 +59,6 @@ export default {
         avatarHalo: User.getAvatarHaloType(res[0].data),
         amount,
         amountInUSD,
-        platforms: res[1].data,
       };
     }).catch(() => {
       error({ statusCode: 404, message: '' });
