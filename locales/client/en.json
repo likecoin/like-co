@@ -233,7 +233,6 @@
     },
     "item": {
       "aboutLikeCoin": "@:TokenSale.button.aboutLikeCoin",
-      "bonus": "LikeCoin Bonus",
       "civicLiker": "@:CivicPage.title",
       "earnLikeCoin": "Writing NFT",
       "joinTokenSale": "@:Home.Sale.button.joinTokenSale",
@@ -1139,16 +1138,6 @@
       "comingSoon": "Coming Soon"
     }
   },
-  "ReferralPage": {
-    "title": "{name} has invited you to join LikeCoin",
-    "label": {
-      "invitation": "Create a Liker ID to send and receive LikeCoin.<br/><br/>Create a Liker ID now you and {name} will get 8 Like bonus."
-    },
-    "og": {
-      "title": "{name} has invited you to join LikeCoin",
-      "description": "Create a Liker ID now you and {name} will get 8 Like bonus. Participate in token sale, you will both get 2.5% bonus."
-    }
-  },
   "TokenSale": {
     "title": "Token Sale",
     "head": {
@@ -1169,34 +1158,6 @@
       "aboutLikeCoin": "About LikeCoin",
       "whitePaper": "@:WhitePaper.label.whitePaper",
       "noETH": "No ETH?"
-    }
-  },
-  "BonusPage": {
-    "title": "LikeCoin Bonus",
-    "header": {
-      "likeCoinBonus": "LikeCoin Bonus",
-      "inviteeMission": "Invitee Mission"
-    },
-    "label": {
-      "description": "You and your friend can both earn a LikeCoin bonus if your friend has signed up successfully by your affiliate link. Please note that the email address has to be verified for you and your friend to be entitled to the bonus.",
-      "inviteeMissionDescription": "You and your invitees can both receive LikeCoin for each completed mission",
-      "earned": "You have earned",
-      "likeBonus": "LIKE Bonus"
-    },
-    "placeholder": {
-      "emptyMission": "New mission is coming soon"
-    },
-    "button": {
-      "moreBonus": "More Bonus"
-    },
-    "HistoryTab": {
-      "title": "Bonus History",
-      "header": {
-        "completedBonus": "Completed Bonus"
-      },
-      "label": {
-        "emptyHistoryPlaceholder": "Completed bonus will be shown here."
-      }
     }
   },
   "Creator": {
@@ -1357,129 +1318,6 @@
       },
       "button": {
         "retweet": "Retweet"
-      }
-    }
-  },
-  "Mission": {
-    "gettingStart": {
-      "title": "Getting Start",
-      "description": "Welcome to join the movement. LikeCoin aims to reinvent the Like by realigning creativity and reward. In <a href=\"https://like.co\">like.co</a>, you are not only can buy and send LikeCoin, but also earn LikeCoin by participating in the LIKE ecology. <span class=\"bold\">View your Like ID payment page, watch introduction video and join our telegram group to get 3 LikeCoin!</span>",
-      "taskSocial": "Follow @likecoin_fdn on Twitter",
-      "taskOnepager": "Take a look at our one pager",
-      "taskVideo": "Watch introduction video",
-      "taskPaymentPage": "Take a look at your payment page"
-    },
-    "inviteFriend": {
-      "title": "Invite a friend to join LikeCoin",
-      "description": "Invite friend (or friends) to join us, 8 LIKE for both you and your friends.",
-      "button": {
-        "invite": "Invite more friends"
-      }
-    },
-    "joinTokenSale": {
-      "title": "Join Token Sale",
-      "description": "Join token sale now and get 100 LIKE bonus",
-      "subDescription": "And don't forget the referral bonus, it can be huge!  Every time you participate in token sale, you and your referrer will both get 2.5% additional token bonus too, NO UPPER LIMIT! <br/> <br/> <i>Note: If you join the token sale through third parties, e.g. MyEthShop, this mission will not be completed. As a result, you will not get bonus for this mission.</i>"
-    },
-    "refereeTokenSale": {
-      "title": "@:Mission.joinTokenSale.title",
-      "description": "And don't forget the referral bonus, it can be huge!  Every time you participate in token sale, you and your referrer will both get 2.5% additional token bonus too, NO UPPER LIMIT! <br/> <br/> <i>Note: If you join the token sale through third parties, e.g. MyEthShop, this mission will not be completed. As a result, you will not get bonus for this mission.</i>"
-    },
-    "inviteTokenSale": {
-      "title": "Invite a friend to join Token Sale",
-      "description": "Every time your invitees participate in token sale, you both will get 2.5% LIKE bonus, NO UPPER LIMIT."
-    },
-    "verifyEmail": {
-      "title": "Verify email address",
-      "description": "Verify your email to get free LikeCoin bonus",
-      "label": {
-        "yourEmailAddress": "Your email address"
-      },
-      "cooldown": {
-        "title": "Welcome to LikeCoin"
-      }
-    },
-    "verifyEmailReferral": {
-      "title": "@:Mission.verifyEmail.title",
-      "description": "Require <span class=\"bold\">{invitee}</span> to verify email.<br><br>One more step, you and <span class=\"bold\">{invitee}</span> will get 8 LIKE bonus."
-    },
-    "joinTokenSaleReferral": {
-      "title": "@:Mission.joinTokenSale.title",
-      "description": "Every time <span class=\"bold\">{invitee}</span> participate in token sale, you both will get 2.5% LIKE bonus. No UPPER LIMIT."
-    },
-    "twitter": {
-      "title": "Follow and Retweet!",
-      "description": "Follow and retweet our post to get LikeCoin",
-      "linkedDescription": "Follow and retweet our <a href=\"{postLink}\" target=\"_blank\">post</a> to get LikeCoin",
-      "header": {
-        "pasteURL": "Paste your tweet url here"
-      },
-      "label": {
-        "verifying": "Verifying the tweet"
-      }
-    },
-    "twitterRetweet": {
-      "title": "Retweet!",
-      "description": "Retweet the following post, and vote for LikeCoin on <a href=\"https://www.bitmart.com/vote\" target=\"_blank\">BitMart</a>!"
-    },
-    "twitterBitmart": {
-      "title": "Retweet BitMart!",
-      "description": "One step away - vote NOW for LikeCoin to get us list on <a href=\"https://www.bitmart.com/vote\" target=\"_blank\">BitMart</a>.  Your support is important to us."
-    },
-    "registerOice": {
-      "title": "Connect oice",
-      "description": "Binding oice account with Liker ID",
-      "step": {
-        "0": {
-          "title": "1) Login to oice",
-          "description": "Step 1 of 3: Login to oice by any Google Account",
-          "button": "Login to oice"
-        },
-        "1": {
-          "title": "2) Link oice and Liker ID",
-          "description": "Step 2 of 3: Input your Liker ID in oice.com.",
-          "button": "Click to Link"
-        },
-        "2": {
-          "title": "3) Verify the connection",
-          "description": "Step 3 of 3: Click \"Verify\", and done!",
-          "button": "Verify"
-        }
-      },
-      "label": {
-        "verifying": "Verifying with oice"
-      }
-    },
-    "completedBanner": {
-      "label": {
-        "complete": "Complete!",
-        "completed": "Completed",
-        "bonusTransferShortly": "The LikeCoin bonus will be transferred to you shortly.",
-        "completedAlready": "You have completed this bonus already.",
-        "viewHistory": "View bonus history"
-      }
-    },
-    "common": {
-      "label": {
-        "upcomingDate": "<span class=\"bold\">LikeCoin public sale will start on {upcoming}.</span>",
-        "desktopRequired": "This bonus requires desktop browser to complete",
-        "pleaseUseDesktop": "Please visit like.co with Chrome for Desktop.",
-        "waitForBonus": "Wait for 3 days to claim your bonus",
-        "userJoinedLikeCoin": "{0} joined LikeCoin"
-      },
-      "button": {
-        "desktopFAQ": "How can I access this account on desktop?"
-      }
-    },
-    "notFound": {
-      "title": "Oops... Bonus not found",
-      "bonusPage": "bonus page",
-      "description": "We are sorry that this bonus might have been expired. You can visit our {bonusPage} for more LikeCoin bonus."
-    },
-    "missionRequired": {
-      "verifyEmail": {
-        "title": "Please Verify Email",
-        "description": "You need to verify your email before the {bonusTask} bonus"
       }
     }
   },
