@@ -1221,7 +1221,7 @@ export default {
             // Normal case
             this.redirectToPreAuthPage();
           } else {
-            toggleFrontendMode();
+            toggleFrontendMode(false);
           }
         });
       } else {
@@ -1246,11 +1246,11 @@ export default {
               name: 'in-settings',
               hash: '#connect',
             });
-            toggleFrontendMode();
+            toggleFrontendMode(false);
           },
         });
       } else {
-        toggleFrontendMode();
+        toggleFrontendMode(false);
       }
       // Reset register failure count
       this.hasClickSignWithWalletInError = false;
