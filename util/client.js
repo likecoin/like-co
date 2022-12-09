@@ -67,8 +67,8 @@ export function tryPostLoginRedirect({ route }) {
 
 const LIKECO_FRONTEND_MODE_COOKIE_KEY = 'likeco_frontend_mode';
 
-export function toggleFrontendMode() {
-  if (getCookie(LIKECO_FRONTEND_MODE_COOKIE_KEY)) {
+export function toggleFrontendMode(isOn) {
+  if (isOn === false || (isOn !== true && getCookie(LIKECO_FRONTEND_MODE_COOKIE_KEY))) {
     removeCookie(LIKECO_FRONTEND_MODE_COOKIE_KEY);
   } else {
     setCookie(LIKECO_FRONTEND_MODE_COOKIE_KEY, 'legacy');
