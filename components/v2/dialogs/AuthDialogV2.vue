@@ -210,7 +210,6 @@ import EthMixin from '~/components/EthMixin';
 
 import Button from '../Button';
 import RegisterForm from '../RegisterForm';
-import WalletConnectQRCodeView from '../WalletConnectQRCodeView';
 import BaseDialogV3 from './BaseDialogV3';
 
 function shouldWriteURLIntoSession(sourceURL) {
@@ -235,7 +234,7 @@ export default {
     LikerLand,
     ArrowDown,
     RegisterForm,
-    WalletConnectQRCodeView,
+    WalletConnectQRCodeView: () => import('../WalletConnectQRCodeView'),
   },
   mixins: [EthMixin],
   props: {
