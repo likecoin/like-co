@@ -176,6 +176,7 @@ const nuxtConfig = {
   ],
   modules: [
     '@nuxtjs/sentry',
+    '@nuxtjs/sitemap',
     // '@likecoin/nuxt-google-optimize',
   ],
   // googleOptimize: {
