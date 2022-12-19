@@ -298,6 +298,16 @@ export default {
           property: 'og:image',
           content: this.avatar,
         },
+        {
+          hid: 'likecoin:wallet',
+          name: 'likecoin:wallet',
+          content: this.wallet,
+        },
+        {
+          hid: 'likecoin:liker-id',
+          name: 'likecoin:liker-id',
+          content: this.id,
+        },
       ],
       script: [
         {
