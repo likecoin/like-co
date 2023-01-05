@@ -424,7 +424,7 @@ export default {
       });
     }
     if (this.opener && !window.opener) {
-      this.$nuxt.error({ statusCode: 400, message: this.$t('Error.NO_OPENNER') });
+      this.$nuxt.error({ statusCode: 400, message: this.$t('Error.NO_OPENER') });
     }
     this.isLoading = false;
   },

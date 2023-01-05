@@ -39,7 +39,7 @@
     },
     "EMAIL_ALREADY_USED": "此電郵地址已被註冊。請再試一次。",
     "EMAIL_FORMAT_INCORRECT": "此電郵地址格式錯誤",
-    "NO_OPENNER": "參數錯誤，不能存取 window opener",
+    "NO_OPENER": "參數錯誤，不能存取 window opener",
     "REFERRER_NOT_EXIST": "推薦人的 Liker ID 不存在",
     "USER_ALREADY_EXIST": "Liker ID 已存在，請再試一次。",
     "USER_NOT_EXIST": "帳戶不存在",

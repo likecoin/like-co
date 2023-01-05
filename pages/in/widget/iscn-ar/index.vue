@@ -571,7 +571,7 @@ export default {
   },
   async mounted() {
     if (this.opener && !window.opener) {
-      this.$nuxt.error({ statusCode: 400, message: this.$t('Error.NO_OPENNER') });
+      this.$nuxt.error({ statusCode: 400, message: this.$t('Error.NO_OPENER') });
       return;
     }
     this.isMobileClient = checkIsMobileClient();
