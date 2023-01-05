@@ -452,6 +452,7 @@
 import { mapActions, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
 import mime from 'mime-types';
+import querystring from 'querystring';
 import { timeout } from '@/util/misc';
 import { checkIsMobileClient } from '~/util/client';
 import { checkISCNIdValid } from '~/util/ValidationHelper';
@@ -567,6 +568,17 @@ export default {
       return this.showWalletOption
         && (this.isMobileClient || this.getUserIsRegistered)
         && !this.isUsingKeplr;
+    },
+    viewISCNPageURL() {
+      const iscnIdString = encodeURIComponent(this.iscnId);
+      const {
+        // eslint-disable-next-line no-unused-vars
+        iscn_id: iscnId,
+        // eslint-disable-next-line no-unused-vars
+        language,
+        ...queries
+      } = this.$route.query;
+      return `https://app.${IS_TESTNET ? 'rinkeby.' : ''}like.co/view/${iscnIdString}?layout=popup&${querystring.stringify(queries)}`;
     },
   },
   async mounted() {
@@ -913,8 +925,8 @@ export default {
         }
       }
       await timeout(3000);
-      const iscnIdString = encodeURIComponent(iscnId);
-      window.location.href = `https://app.${IS_TESTNET ? 'rinkeby.' : ''}like.co/view/${iscnIdString}?layout=popup`;
+      this.iscnId = iscnId;
+      window.location.href = this.viewISCNPageURL;
     },
     async handleAutheticate() {
       if (this.getUserIsRegistered) {
