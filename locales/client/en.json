@@ -42,7 +42,7 @@
     "FILE_TOO_LARGE": "Filesize limit exceeded",
     "MISSION_ALREADY_DONE": "You have already done this mission",
     "MISSION_COMPLETE_FAILURE": "Error occurs when completing the mission",
-    "NO_OPENNER": "Invalid paramters, cannot access window opener",
+    "NO_OPENER": "Invalid paramters, cannot access window opener",
     "REFERRER_NOT_EXIST": "Referrer does not exist",
     "TWITTER_ALREADY_EXIST": "This Twitter account has already been used",
     "TWITTER_API_FAILURE": "Unable to verify the tweet. Please try again later",

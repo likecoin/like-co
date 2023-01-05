@@ -493,7 +493,6 @@ export default {
       iscnId: this.$route.query.iscn_id,
       redirectUri: this.$route.query.redirect_uri,
       opener: this.$route.query.opener && this.$route.query.opener !== '0',
-      mint: this.$route.query.mint || '',
       isUsingKeplr: false,
       mainStatus: 'initial',
       transactionStatus: 'initial',
@@ -572,7 +571,7 @@ export default {
   },
   async mounted() {
     if (this.opener && !window.opener) {
-      this.$nuxt.error({ statusCode: 400, message: 'Cannot access window opener' });
+      this.$nuxt.error({ statusCode: 400, message: this.$t('Error.NO_OPENER') });
       return;
     }
     this.isMobileClient = checkIsMobileClient();
@@ -915,7 +914,7 @@ export default {
       }
       await timeout(3000);
       const iscnIdString = encodeURIComponent(iscnId);
-      window.location.href = `https://app.${IS_TESTNET ? 'rinkeby.' : ''}like.co/view/${iscnIdString}?layout=popup&mint=${this.mint}`;
+      window.location.href = `https://app.${IS_TESTNET ? 'rinkeby.' : ''}like.co/view/${iscnIdString}?layout=popup`;
     },
     async handleAutheticate() {
       if (this.getUserIsRegistered) {
