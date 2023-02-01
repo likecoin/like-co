@@ -492,6 +492,7 @@ export default {
       arweavePaymentInfo: null,
       arweaveResult: null,
       iscnId: this.$route.query.iscn_id,
+      mintNFT: this.$route.query.mint,
       redirectUri: this.$route.query.redirect_uri,
       opener: this.$route.query.opener && this.$route.query.opener !== '0',
       isUsingKeplr: false,
@@ -579,6 +580,17 @@ export default {
         ...queries
       } = this.$route.query;
       return `https://app.${IS_TESTNET ? 'rinkeby.' : ''}like.co/view/${iscnIdString}?layout=popup&${querystring.stringify(queries)}`;
+    },
+    mintISCNPageURL() {
+      const iscnIdString = encodeURIComponent(this.iscnId);
+      const {
+        // eslint-disable-next-line no-unused-vars
+        iscn_id: iscnId,
+        // eslint-disable-next-line no-unused-vars
+        language,
+        ...queries
+      } = this.$route.query;
+      return `https://app.${IS_TESTNET ? 'rinkeby.' : ''}like.co/nft/iscn/${iscnIdString}?layout=popup&${querystring.stringify(queries)}`;
     },
   },
   async mounted() {
@@ -926,7 +938,7 @@ export default {
       }
       await timeout(3000);
       this.iscnId = iscnId;
-      window.location.href = this.viewISCNPageURL;
+      window.location.href = this.mintNFT ? this.mintISCNPageURL : this.viewISCNPageURL;
     },
     async handleAutheticate() {
       if (this.getUserIsRegistered) {
