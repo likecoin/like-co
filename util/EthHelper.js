@@ -172,7 +172,7 @@ class EthHelper {
         if (this.wallet !== accounts[0]) {
           this.accounts = accounts;
           [this.wallet] = accounts;
-          if (this.onWalletCb) this.onWalletCb(this.wallet);
+          if (this.onWalletCb) this.onWalletCb(this.Web3.utils.toChecksumAddress(this.wallet));
           if (this.clearErrCb) this.clearErrCb();
         }
       } else if (this.isInited && this.errCb) {
