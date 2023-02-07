@@ -428,7 +428,16 @@ class EthHelper {
     if (!this.isInited) return Promise.reject(new Error('No web3'));
     const from = this.getWallet();
     try {
-      const rawSignature = await this.actionWeb3.eth.personal.sign(payload, from);
+      let rawSignature;
+      try {
+        rawSignature = await this.actionWeb3.eth.personal.sign(payload, from, '');
+      } catch (err) {
+        // rawSignature are throw as Invalid JSON RPC response sometimes
+        const match = err.message.match(/Invalid JSON RPC response: "(0x.*)"/);
+        if (match) {
+          [, rawSignature] = match;
+        } else throw err;
+      }
       if (this.onSigned) this.onSigned();
       if (!rawSignature) return Promise.reject(new Error('Signing Rejected'));
       return rawSignature;
