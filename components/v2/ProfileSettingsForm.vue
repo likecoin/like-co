@@ -107,6 +107,10 @@ export default {
       type: String,
       default: '',
     },
+    isUserAuthCore: {
+      type: Boolean,
+      default: false,
+    },
     walletAddress: {
       type: String,
       default: '',
@@ -158,6 +162,10 @@ export default {
   },
   methods: {
     toggleEmailEditing() {
+      if (this.isUserAuthCore) {
+        this.handleEmailUpdate();
+        return;
+      }
       this.isEditingEmail = !this.isEditingEmail;
     },
     handleEmailUpdate() {

@@ -19,7 +19,6 @@
       <div class="lc-container-2  md-layout md-alignment-center-right ">
         <md-switch
           v-model="isShowAuthCorePanel"
-          :disabled="disabled"
           class="md-likecoin"
         >{{ $t('AuthCore.Settings.title') }}</md-switch>
       </div>
@@ -104,6 +103,7 @@
         <ProfileSettingsForm
           class="lc-container-3 lc-bg-gray-1"
           :liker-id="getUserInfo.user"
+          :is-user-auth-core="getUserIsAuthCore"
           :wallet-address="getUserWalletAddress"
           :email="email"
           :display-name="displayName"
@@ -211,17 +211,6 @@ export default {
       'setErrorMsg',
     ]),
     getTestAttribute: getTestAttribute('inSettings'),
-    focusAuthCore() {
-      this.isShowEditInAuthCore = false;
-      const widget = this.$refs.authcore;
-      if (widget) {
-        this.$nextTick(() => {
-          widget.scrollIntoView();
-        });
-      } else {
-        this.onClickAuthCoreReAuth();
-      }
-    },
     async updateInfo() {
       const user = this.getUserInfo;
       this.avatar = user.avatar;
@@ -304,6 +293,10 @@ export default {
       this.syncAuthCoreUser();
     },
     handleV2UpdateEamil(email) {
+      if (this.getUserIsAuthCore) {
+        this.isShowAuthCorePanel = true;
+        return;
+      }
       if (!email) return;
       this.email = email;
       this.onSubmit();
