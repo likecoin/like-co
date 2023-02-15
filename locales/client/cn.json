@@ -812,7 +812,7 @@
       }
     },
     "ISCNARWidget": {
-        "title": "LikeCoin DePub 工具",
+        "title": "LikeCoin 出版小工具",
         "Introduction": {
           "initial": "资料格式错误. 请确保使用了正确格式和的 postMessage() 传送资料",
           "document": "详细资料请参考 LikeCoin 技术文档",
@@ -835,7 +835,7 @@
         "ISCN": {
             "register": "下一步",
             "keplr": "使用 Keplr 钱包",
-            "action": "DePub 作品",
+            "action": "出版作品",
             "articleTitleTitle": "标题",
             "articleTitleValue": "{title}",
             "feeTitle": "费用",
