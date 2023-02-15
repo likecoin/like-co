@@ -864,7 +864,7 @@
     }
   },
   "ISCNARWidget": {
-    "title": "LikeCoin DePub 工具",
+    "title": "LikeCoin 出版小工具",
     "Introduction": {
       "initial": "資料格式錯誤. 請確保使用了正確格式和的 postMessage() 傳送資料",
       "document": "詳細資料請參考 LikeCoin 技術文檔",
@@ -887,7 +887,7 @@
     "ISCN": {
       "register": "下一步",
       "keplr": "使用 Keplr 錢包",
-      "action": "DePub 作品",
+      "action": "出版作品",
       "articleTitleTitle": "標題",
       "articleTitleValue": "{title}",
       "feeTitle": "註冊費用",
@@ -897,7 +897,7 @@
     "upload": {
       "inProcess": "正在上傳...",
       "success": "註冊作品 metadata 到 LikeCoin chain。",
-      "signAgain": "完成此步驟後，尚需再簽署一次才能完成整個 DePub 程序。",
+      "signAgain": "完成此步驟後，尚需再簽署一次才能完成整個出版程序。",
       "waiting": "過程需時視乎檔案大小。"
     },
     "ledger": {

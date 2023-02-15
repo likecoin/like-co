@@ -935,11 +935,11 @@
     }
   },
   "ISCNARWidget": {
-    "title": "LikeCoin DePub Widget",
+    "title": "LikeCoin Publishing Widget",
     "Introduction": {
       "initial": "Unexpected data format.  Make sure that postMessage has been used.",
       "document": "Please refer to LikeCoin technical document for more information.",
-      "ready": "Cost estimation is completed, about to DePub content."
+      "ready": "Cost estimation is completed, about to publish content."
     },
     "transaction": {
       "firstStep": "Signature (1/2)",
@@ -958,7 +958,7 @@
     "ISCN": {
       "register": "Next",
       "keplr": "Use Keplr wallet",
-      "action": "DePub your work",
+      "action": "Publish your work",
       "articleTitleTitle": "Subject",
       "articleTitleValue": "{title}",
       "feeTitle": "Distributed storage (IPFS+Arweave) fee",
@@ -968,7 +968,7 @@
     "upload": {
       "inProcess": "Uploading...",
       "success": "Register content metadata to LikeCoin chain.",
-      "signAgain": "Note that you will need to sign one more time to complete DePub after completing this step.",
+      "signAgain": "Note that you will need to sign one more time to complete publishing after completing this step.",
       "waiting": "Uploading time depends on file size."
     },
     "ledger": {
