@@ -183,7 +183,7 @@ export default {
         },
         {
           id: 'matters',
-          link: 'https://matters.news/@likecoin/',
+          link: 'https://matters.town/@likecoin/',
         },
         {
           id: 'github',
