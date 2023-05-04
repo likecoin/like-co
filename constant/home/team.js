@@ -19,7 +19,7 @@ const teamMembers = [
       },
       {
         key: 'matters',
-        to: 'https://matters.news/@ckxpress',
+        to: 'https://matters.town/@ckxpress',
       },
       {
         key: 'telegram',

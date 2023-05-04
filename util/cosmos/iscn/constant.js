@@ -5,7 +5,7 @@ export const ISCN_PUBLISHERS = {
   {
     entity: {
       description: 'Matters is a decentralized, cryptocurrency driven content creation and discussion platform.',
-      '@id': 'https://matters.news/',
+      '@id': 'https://matters.town/',
       name: 'Matters',
     },
     license: 'matters',

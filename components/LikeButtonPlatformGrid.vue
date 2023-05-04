@@ -17,7 +17,7 @@ export default {
       return [
         {
           id: 'matters',
-          url: 'https://matters.news/',
+          url: 'https://matters.town/',
         },
         {
           id: 'hkcnews',

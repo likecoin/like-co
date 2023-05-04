@@ -46,7 +46,7 @@ const getPlatformImage = require.context('~/assets/new-platforms');
 const adopters = [
   {
     id: 'matters',
-    link: 'https://matters.news/',
+    link: 'https://matters.town/',
   },
   {
     id: 'inmediahk',
