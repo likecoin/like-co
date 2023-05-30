@@ -88,7 +88,9 @@ export function doPostAuthRedirect({ commit, state }, { route, router }) {
       };
     }
   }
-  router.push(targetRoute);
+  if (route.name !== targetRoute.name) {
+    router.push(targetRoute);
+  }
   commit(types.USER_SET_AFTER_AUTH_ROUTE, null);
 }
 
