@@ -101,23 +101,7 @@
           :is-show="isChainUpgrading"
           :allow-close="true"
           :message="$t('ChainUpgradingAlertMessage')"
-        >
-          <template #footer>
-            <div :style="{ width:'100%',textAlign:'center' }">
-              <i18n
-                path="ChainUpgradingAlertLearnMore"
-                tag="div"
-              >
-                <a
-                  v-t="`announcement`"
-                  place="announcement"
-                  href="https://blog.like.co/likecoin-chain-upgrade-laichikok-overview/"
-                  target="_blank"
-                />
-              </i18n>
-            </div>
-          </template>
-        </popup-dialog>
+        />
 
       </div>
     </no-ssr>
