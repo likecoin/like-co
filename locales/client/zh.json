@@ -1663,6 +1663,5 @@
     "subtitle": "現在便可到網站上轉換 LikeCoin。LikeCoin chain 將不會支援舊版 LikeCoin ERC-20 的操作，基金會和讚賞公民的所有運作亦會在 LikeCoin chain上開始執行。",
     "actionButtonText": "立即轉換"
   },
-  "ChainUpgradingAlertTitle": "LikeCoin chain 正在更新",
-  "ChainUpgradingAlertMessage": "相關功能會暫時停用"
+  "ChainUpgradingAlertMessage": "LikeCoin chain 正在更新, 相關功能會暫時停用"
 }
