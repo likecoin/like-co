@@ -1307,8 +1307,7 @@
     "subtitle": "Migrate to the new LikeCoin and enjoy the new LikeCoin chain.",
     "actionButtonText": "Migrate now"
   },
-  "ChainUpgradingAlertTitle": "LikeCoin chain is upgrading",
-  "ChainUpgradingAlertMessage": "Related services are suspended",
+  "ChainUpgradingAlertMessage": "LikeCoin chain is upgrading, related services are suspended",
   "V2_Account_Delete_Page_Title": "Delete Account",
   "V2_Account_Delete_Page_Header_Text": "Confirm Delete Account",
   "V2_Account_Delete_Page_Message": "Are you sure you want to delete the Liker ID {id}?",
