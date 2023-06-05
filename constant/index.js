@@ -149,6 +149,6 @@ export const LIKE_CO_PLATFORMS = [
 
 export const DISCORD_INVITE_URL = 'https://discord.gg/W4DQ6peZZZ';
 
-export const IS_CHAIN_UPGRADING = false;
+export const IS_CHAIN_UPGRADING = true;
 
 export const STUB_WALLET = 'cosmos1rclg677y2jqt8x4ylj0kjlqjjmnn6w6304rrtc';
