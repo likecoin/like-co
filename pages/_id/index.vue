@@ -62,7 +62,7 @@
                   {{ $t('Transaction.label.recipientAddress') }}
                 </div>
                 <div class="address-content">
-                  {{ maskedWallet }}
+                  {{ wallet }}
                 </div>
               </section>
 
@@ -343,9 +343,6 @@ export default {
     ]),
     isChainUpgrading() {
       return IS_CHAIN_UPGRADING;
-    },
-    maskedWallet() {
-      return this.wallet.replace(/((?:like1|0x).{4}).*(.{10})/, '$1...$2');
     },
     httpReferrer() {
       return this.$route.query.referrer || document.referrer || undefined;
