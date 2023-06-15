@@ -1229,10 +1229,6 @@ export default {
       }
     },
     redirectToPreAuthPage() {
-      const router = this.$router;
-      const route = this.$route;
-      this.doPostAuthRedirect({ router, route });
-
       // Remind a suspect legacy user to bind OAuth login
       if (this.hasClickSignWithWalletInError) {
         this.openPopupDialog({
@@ -1251,7 +1247,11 @@ export default {
         });
       } else {
         toggleFrontendMode(false);
+        return;
       }
+      const router = this.$router;
+      const route = this.$route;
+      this.doPostAuthRedirect({ router, route });
       // Reset register failure count
       this.hasClickSignWithWalletInError = false;
     },
