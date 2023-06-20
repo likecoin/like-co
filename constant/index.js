@@ -26,7 +26,7 @@ export const COSMOS_WALLET_PREFIX = "m/44'/118'/0'/0";
 
 export const COSMOS_CHAIN_ID = IS_TESTNET ? 'likecoin-public-testnet-5' : 'likecoin-mainnet-2';
 
-export const BASIC_TRANSFER_GAS = '80000';
+export const BASIC_TRANSFER_GAS = '100000';
 
 export const COSMOS_DENOM = IS_TESTNET ? 'nanoekil' : 'nanolike';
 
