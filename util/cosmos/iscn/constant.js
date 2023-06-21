@@ -1,4 +1,4 @@
-import { EXTERNAL_URL } from '@/constant';
+import { EXTERNAL_URL, IS_TESTNET } from '@/constant';
 
 export const ISCN_PUBLISHERS = {
   matters:
@@ -19,6 +19,13 @@ export const ISCN_PUBLISHERS = {
     license: 'https://creativecommons.org/licenses/by/4.0',
     rewardProportion: 0.025,
     contentFingerprints: ['https://depub.blog'],
+  },
+  likerland: {
+    entity: {
+      '@id': IS_TESTNET ? 'like1yney2cqn5qdrlc50yr5l53898ufdhxafqz9gxp' : 'like10ywsmztkxjl55xarxnhlxwc83z9v2hkxtsajwl',
+      name: 'Liker Land',
+    },
+    rewardProportion: 0.025,
   },
 };
 

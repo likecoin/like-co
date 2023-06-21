@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import BigNumber from 'bignumber.js';
 import bech32 from 'bech32';
-import { ISCN_RPC_URL } from './constant';
+import { ISCN_RPC_URL, ISCN_PUBLISHERS } from './constant';
 import { EXTERNAL_URL } from '../../../constant';
 import { getISCNLib, getISCNPrefix, getISCNInfoById } from './query';
 
@@ -126,7 +126,7 @@ export function preformatISCNPayload(payload) {
     tags,
     type,
     license,
-    publisher,
+    publisher: publisherInput,
     author,
     authorDescription,
     description,
@@ -135,8 +135,12 @@ export function preformatISCNPayload(payload) {
     recordNotes = '',
   } = payload;
 
-  let stakeholders = inputStakeholders || [];
+  let stakeholders = inputStakeholders ? [...inputStakeholders] : [];
   let actualType = 'CreativeWork';
+  let publisher = publisherInput;
+  if (!stakeholders.length && !publisher) {
+    publisher = ISCN_PUBLISHERS.likerland;
+  }
   const {
     stakeholders: publisherStakeholders,
     contentFingerprints: publisherContentFingerprints,
