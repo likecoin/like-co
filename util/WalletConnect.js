@@ -40,7 +40,7 @@ class WalletConnect {
     }
     try {
       this.connector = new WalletConnectClient({
-        bridge: 'https://bridge.walletconnect.org',
+        bridge: 'https://wc-bridge-1.like.co',
         qrcodeModal: {
           open: (uri, cb, opts) => {
             if (!this.handleQRCodeModalOpen) return;
