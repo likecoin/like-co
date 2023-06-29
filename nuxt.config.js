@@ -4,8 +4,6 @@
 const path = require('path');
 const { LIKE_CO_PLATFORMS } = require('./constant');
 
-const title = 'LikeCoin - Decentralize Publishing';
-
 const nuxtConfig = {
   /*
   ** Headers of the page
@@ -20,8 +18,11 @@ const nuxtConfig = {
     GA_TRACKING_ID: process.env.GA_TRACKING_ID,
   },
   head: {
-    titleTemplate: titleChunk => (titleChunk
-      ? `${titleChunk} - ${title}` : title),
+    titleTemplate: (titleChunk) => {
+      const title = 'LikeCoin - Decentralize Publishing';
+      return (titleChunk
+        ? `${titleChunk} - ${title}` : title);
+    },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
