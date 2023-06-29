@@ -541,7 +541,7 @@
         "Description": "@:HomeV2.Meta.Description",
         "Title": "@:HomeV2.Meta.Title"
       },
-      "Title": "LikeCoin - Decentralized Publishing Infrastructure"
+      "Title": "LikeCoin - Decentralize Publishing"
     }
   },
   "AboutPage": {
@@ -980,8 +980,8 @@
       "unavailable": "暫停轉賬服務"
     },
     "head": {
-      "title": "{name}@LikeCoin - 化讚為賞",
-      "description": "回饋創作 - 發 LikeCoin 給 {name}"
+      "title": "{name} 的頁面",
+      "description": "{name} 已加入 LikeCoin。註冊 Liker ID 以發送 LIKE 给 {name}"
     },
     "error": {
       "notSupported": "你的錢包不支援這個功能",

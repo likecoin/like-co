@@ -510,7 +510,7 @@ export default {
   },
   head() {
     return {
-      title: 'ISCN Arweave widget',
+      title: this.$t('ISCNARWidget.title'),
     };
   },
   computed: {

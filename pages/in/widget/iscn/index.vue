@@ -320,7 +320,7 @@ export default {
   },
   head() {
     return {
-      title: 'ISCN',
+      title: this.$t('ISCNARWidget.title'),
     };
   },
   computed: {

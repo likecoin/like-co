@@ -511,7 +511,7 @@
           "Description": "@:HomeV2.Meta.Description",
           "Title": "@:HomeV2.Meta.Title"
         },
-        "Title": "LikeCoin - Decentralized Publishing Infrastructure"
+        "Title": "LikeCoin - Decentralize Publishing"
       }
     },
     "AboutPage": {
@@ -928,8 +928,8 @@
             "unavailable": "暂停转账服务"
         },
         "head": {
-            "title": "{name}@LikeCoin - 化赞为赏",
-            "description": "回馈创作 - 发 LikeCoin 给 {name}"
+            "title": "{name} 的页面",
+            "description": "{name} 已加入 LikeCoin。注册 Liker ID 以发送 LIKE 给 {name}"
         },
         "error": {
             "notSupported": "你的钱包不支援这个功能",
