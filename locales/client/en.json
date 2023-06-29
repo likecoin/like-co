@@ -396,7 +396,7 @@
         "Description": "@:HomeV2.Meta.Description",
         "Title": "@:HomeV2.Meta.Title"
       },
-      "Title": "LikeCoin - Decentralized Publishing Infrastructure"
+      "Title": "LikeCoin - Decentralize Publishing"
     }
   },
   "AboutPage": {
@@ -862,8 +862,8 @@
       "unavailable": "Temporary Suspension of Transfer service"
     },
     "head": {
-      "title": "{name}@LikeCoin - Reinventing the Like.",
-      "description": "Rewarding contents by Proof of Creativity. Send LikeCoin to {name}"
+      "title": "{name}'s page",
+      "description": "{name} is on LikeCoin. Register a Liker ID and send LIKE to {name}"
     },
     "error": {
       "notSupported": "Your wallet does not support this function",

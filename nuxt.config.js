@@ -4,6 +4,8 @@
 const path = require('path');
 const { LIKE_CO_PLATFORMS } = require('./constant');
 
+const title = 'LikeCoin - Decentralize Publishing';
+
 const nuxtConfig = {
   /*
   ** Headers of the page
@@ -18,15 +20,16 @@ const nuxtConfig = {
     GA_TRACKING_ID: process.env.GA_TRACKING_ID,
   },
   head: {
-    title: 'LikeCoin - Decentralized Publishing Infrastructure',
+    titleTemplate: titleChunk => (titleChunk
+      ? `${titleChunk} - ${title}` : title),
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { name: 'mobile-web-app-capable', content: 'yes' },
       { 'http-equiv': 'cache-control', content: 'no-cache' },
-      { hid: 'description', name: 'description', content: 'LikeCoin reinvents the publishing industry with decentralized registry, rewards, editorial, and governance' },
-      { hid: 'og_title', property: 'og:title', content: 'LikeCoin - Decentralized Publishing Infrastructure' },
-      { hid: 'og_description', property: 'og:description', content: 'LikeCoin reinvents the publishing industry with decentralized registry, rewards, editorial, and governance' },
+      { hid: 'description', name: 'description', content: 'Decentralize Publishing. Own your content forever.' },
+      { hid: 'og_title', property: 'og:title', content: 'LikeCoin - Decentralize Publishing' },
+      { hid: 'og_description', property: 'og:description', content: 'Decentralize Publishing. Own your content forever.' },
       { hid: 'og_image', property: 'og:image', content: 'https://like.co/images/og/default.png' },
       { hid: 'og_image_alt', property: 'og:image:alt', content: 'LikeCoin' },
       { hid: 'og_image_width', property: 'og:image:width', content: '1200' },
