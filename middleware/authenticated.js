@@ -44,7 +44,7 @@ export default function ({
     res.set('Vary', 'Cookie');
   }
   const {
-    register, from, referrer, language, utm_source: utmSource,
+    register, from, referrer, language, utm_source: utmSource, legacy,
   } = query;
   const qsPayload = {};
   if (language) qsPayload.language = language;
@@ -54,12 +54,14 @@ export default function ({
       store.commit(USER_SET_AFTER_AUTH_ROUTE, route);
       setRouteToSessionStorage(route);
       if (register === '1') qsPayload.register = '1';
+      if (legacy === '1') qsPayload.legacy = '1';
     } else {
       qsPayload.redirect = `${TEST_MODE ? 'http' : 'https'}://${req.headers.host}${route.fullPath}`;
       if (from) qsPayload.from = from;
       if (referrer) qsPayload.referrer = referrer;
       if (utmSource) qsPayload.utm_source = utmSource;
       if (register === '1') qsPayload.register = '1';
+      if (legacy === '1') qsPayload.legacy = '1';
     }
     redirectPath = `${redirectPath}?${querystring.stringify(qsPayload)}`;
     redirect(redirectPath);
