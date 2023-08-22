@@ -345,7 +345,7 @@ export default {
       this.currentTab = 'portal';
     }
 
-    const { from, referrer } = this.$route.query;
+    const { from, referrer, legacy } = this.$route.query;
     if (from) this.referrer = from;
     this.sourceURL = referrer || document.referrer;
     try {
@@ -366,6 +366,13 @@ export default {
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error(err);
+    }
+    if (legacy) {
+      this.$router.replace({
+        name: this.$route.name,
+        query: { ...this.$route.query, legacy: undefined },
+      });
+      toggleFrontendMode();
     }
   },
   methods: {

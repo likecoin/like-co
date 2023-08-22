@@ -641,10 +641,20 @@ export default {
 
     this.loggedEvents = {};
 
-    const { from } = this.$route.query;
+    const { from, legacy } = this.$route.query;
     if (from) {
       await this.fetchAvatar(from);
     }
+
+    if (legacy) {
+      this.$router.replace({
+        name: this.$route.name,
+        query: { ...this.$route.query, legacy: undefined },
+      });
+      toggleFrontendMode();
+      return;
+    }
+
     // Listen to onClickReturnButton event of MetaMaskDialog
     this.$root.$on('MetaMaskDialog.onClickReturnButton', () => {
       this.stopWeb3Polling();
