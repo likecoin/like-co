@@ -2,11 +2,17 @@
   <div class="container">
     <tool-bars :is-auth-dialog-disabled="true" />
     <div class="logo-wapper">
-      <img
-        :src="likerLandIcon"
-        class="logo"
-        alt="Liker Land"
+      <a
+        :href="LIKER_LAND_URL"
+        target="_blank"
+        rel="noopener"
       >
+        <img
+          :src="likerLandIcon"
+          class="logo"
+          alt="Liker Land"
+        >
+      </a>
     </div>
     <div class="lc-page-wrapper">
       <div class="lc-page-content">
@@ -17,6 +23,17 @@
             :isShowLabel="true"
             color="black"
           />
+          <a
+            :href="EXTERNAL_URL"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              :src="questionIcon"
+              alt="What is LikeCoin?"
+              title="What is LikeCoin?"
+            >
+          </a>
         </div>
       </div>
     </div>
@@ -25,11 +42,13 @@
 
 <script>
 import localeMixin from '~/mixins/locale';
+import { EXTERNAL_URL, LIKER_LAND_URL } from '@/constant';
 
 import LanguageSwitch from '~/components/LanguageSwitch';
 import ToolBars from '~/components/toolbars/ToolBars';
 
 import likerLandIcon from '@/assets/logo/liker-land.svg';
+import questionIcon from '@/assets/tokensale/question.svg';
 
 export default {
   components: {
@@ -45,7 +64,12 @@ export default {
     };
   },
   data() {
-    return { likerLandIcon };
+    return {
+      LIKER_LAND_URL,
+      EXTERNAL_URL,
+      likerLandIcon,
+      questionIcon,
+    };
   },
 };
 </script>
