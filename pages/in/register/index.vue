@@ -36,6 +36,9 @@ export default {
           content: this.$t('Register.header.title'),
         },
       ],
+      link: [
+        { rel: 'canonical', href: '/in/register' },
+      ],
     };
   },
   computed: {
