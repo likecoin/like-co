@@ -10,7 +10,7 @@ import { MsgSend, MsgMultiSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
 import { TxRaw, TxBody } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import bech32 from 'bech32';
 
-export const DEFAULT_GAS_PRICE = [{ amount: '10', denom: COSMOS_DENOM }];
+export const DEFAULT_GAS_PRICE = [{ amount: '10000', denom: COSMOS_DENOM }];
 export const DEFAULT_GAS_PRICE_NUMBER = parseInt(DEFAULT_GAS_PRICE[0].amount, 10);
 export const DEFAULT_ISCN_GAS_PRICE = [{ amount: 0, denom: COSMOS_DENOM }];
 const COSMOS_RESTFUL_API = `${EXTERNAL_URL}/api/cosmos/lcd`;
