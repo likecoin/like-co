@@ -10,7 +10,7 @@ import {
   SigningStargateClient,
   StargateClient,
 } from '@cosmjs/stargate';
-import { MsgSend, MsgMultiSend } from '@cosmjs/stargate/build/codec/cosmos/bank/v1beta1/tx';
+import { MsgSend, MsgMultiSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
 import {
   TxRaw,
   TxBody,
