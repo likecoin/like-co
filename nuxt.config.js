@@ -236,7 +236,7 @@ const nuxtConfig = {
           '@nuxt/babel-preset-app',
           {
             targets: isServer
-              ? { node: '16' }
+              ? { node: '18' }
               : { browsers: 'ie 11, > 0.5%, Firefox ESR' },
           },
         ],
