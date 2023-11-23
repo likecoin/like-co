@@ -38,13 +38,13 @@ import {
 
 export default {
   name: 're-auth-dialog',
-  data() {
-    return {
-    };
-  },
   components: {
     BaseDialogV2,
     AuthCoreRegister,
+  },
+  data() {
+    return {
+    };
   },
   computed: {
     ...mapGetters([

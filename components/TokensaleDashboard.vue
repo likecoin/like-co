@@ -215,7 +215,6 @@ export default {
               font-weight: 300;
 
               @media (max-width: 480px) {
-
                 text-align: right;
 
                 font-size: 18px;

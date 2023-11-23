@@ -28,7 +28,9 @@
           />
           <div
             class="likepay-panel__header-title"
-            style="margin-right: auto; color: #28646E; padding-left: 10px"
+            style="margin-right: auto; padding-left: 10px;
+
+ color: #28646E"
           >{{ $t('ISCNARWidget.title') }}</div>
         </header>
         <div
@@ -66,7 +68,9 @@
           />
           <div
             class="likepay-panel__header-title"
-            style="margin-right: auto; color: #28646E; padding-left: 10px"
+            style="margin-right: auto; padding-left: 10px;
+
+ color: #28646E"
           >{{ $t('ISCNARWidget.title') }}</div>
         </header>
         <div class="likepay-panel__section-meta">
@@ -96,11 +100,17 @@
           />
           <div
             class="likepay-panel__header-title"
-            style="margin-right: auto; color: #28646E; padding-left: 10px"
+            style="margin-right: auto; padding-left: 10px;
+
+ color: #28646E"
           >{{ $t('ISCNARWidget.ISCN.registering') }}</div>
         </header>
         <div class="likepay-panel__section-meta">
-          <div style="display: flex; margin-top: 32px; margin-bottom: 20px;">
+          <div
+            style="display: flex;
+
+ margin-top: 32px; margin-bottom: 20px;"
+          >
             <div
               class="loading-track"
               style="margin: auto"
@@ -108,7 +118,11 @@
               <div class="loading-progress" />
             </div>
           </div>
-          <div style="text-align: center; margin-bottom: 24px;"> <h3 style="color: #9B9B9B">{{ $t('ISCNARWidget.transaction.doNotCloseReminder') }} </h3></div>
+          <div
+            style=" margin-bottom: 24px;
+
+text-align: center;"
+          > <h3 style="color: #9B9B9B">{{ $t('ISCNARWidget.transaction.doNotCloseReminder') }} </h3></div>
         </div>
       </section>
     </div>
@@ -131,11 +145,17 @@
           />
           <div
             class="likepay-panel__header-title"
-            style="margin-right: auto; color: #28646E; padding-left: 10px"
+            style="margin-right: auto; padding-left: 10px;
+
+ color: #28646E"
           >{{ $t('ISCNARWidget.upload.inProcess') }}</div>
         </header>
         <div class="likepay-panel__section-meta">
-          <div style="display: flex; margin-top: 32px; margin-bottom: 20px;">
+          <div
+            style="display: flex;
+
+ margin-top: 32px; margin-bottom: 20px;"
+          >
             <div
               class="loading-track"
               style="margin: auto"
@@ -143,10 +163,18 @@
               <div class="loading-progress" />
             </div>
           </div>
-          <div style="text-align: center; margin-bottom: 24px;"> <h3 style="color: #9B9B9B">{{ $t('ISCNARWidget.transaction.doNotCloseReminder') }} </h3></div>
+          <div
+            style=" margin-bottom: 24px;
+
+text-align: center;"
+          > <h3 style="color: #9B9B9B">{{ $t('ISCNARWidget.transaction.doNotCloseReminder') }} </h3></div>
         </div>
         <div class="likepay-panel__section-meta">
-          <div style="width: 32px; border: 2px solid #EBEBEB; background-color:#EBEBEB" />
+          <div
+            style="width: 32px;
+
+ border: 2px solid #EBEBEB; background-color:#EBEBEB"
+          />
         </div>
         <div class="likepay-panel__section-meta">
           <div style="font-size: 14px">
@@ -174,7 +202,9 @@
           />
           <div
             class="likepay-panel__header-title"
-            style="margin-right: auto; color: #28646E; padding-left: 10px;"
+            style="margin-right: auto; padding-left: 10px;
+
+ color: #28646E;"
           >{{ $t('ISCNARWidget.transaction.secondStep') }}</div>
         </header>
 
@@ -194,7 +224,9 @@
 
         <div
           class="likepay-panel__section-meta"
-          style="margin-top: 16px; display: flex; flex-direction: column;"
+          style=" display: flex; flex-direction: column;
+
+margin-top: 16px;"
         >
           <div
             class="likepay-panel__section-meta-label"
@@ -220,12 +252,17 @@
 
       <section
         v-if="transactionStatus !== 'pending'"
-        style="display: flex; flex-direction: row; padding: 10px 10px 30px 10px"
+        style="display: flex; flex-direction: row;
+
+ padding: 10px 10px 30px 10px"
       >
         <button
-          style="background-color: #AAF1E7;
-            color: #28646E; border-radius: 12px; border: none; margin: auto;
-            padding: 10px 15px; cursor: pointer"
+          style=" margin: auto;
+            padding: 10px 15px;
+
+ cursor: pointer;
+
+            color: #28646E; border: none; border-radius: 12px;background-color: #AAF1E7"
           @click="onClickContinueRegister"
         >
           <span v-if="transactionStatus === 'failed'">
@@ -240,12 +277,24 @@
     <a
       v-if="showKeplrOverrideButton"
       href="#"
-      style="text-align: center; font-size: 14px; color: #aaf1e7; margin: 10px; text-decoration: underline;"
+      style=" margin: 10px;
+
+text-align: center; text-decoration: underline;
+
+ color: #aaf1e7;
+
+ font-size: 14px;"
       @click.prevent="onClickContinueRegister({ forceKeplr: true })"
     >
       {{ $t('ISCNARWidget.ISCN.keplr') }}
     </a>
-    <div style="display: flex; flex-direction: row; margin: 52px 0px; position: absolute; top: 590px">
+    <div
+      style=" position: absolute; top: 590px;
+
+display: flex; flex-direction: row;
+
+ margin: 52px 0px"
+    >
       <div>
         <simple-svg
           :filepath="ExclamationIcon"
@@ -284,16 +333,24 @@
           />
           <div
             class="likepay-panel__header-title"
-            style="margin-right: auto; color: #28646E; padding-left: 10px"
+            style="margin-right: auto; padding-left: 10px;
+
+ color: #28646E"
           >{{ $t('ISCNARWidget.transaction.firstStep') }}</div>
         </header>
 
         <div class="likepay-panel__section-meta">
-          <div style="text-align: left; margin-bottom: 32px; margin-top: 32px;"> <h3 style="color: #9B9B9B">{{ $t('ISCNARWidget.transaction.reminder') }} </h3></div>
+          <div
+            style=" margin-top: 32px; margin-bottom: 32px;
+
+text-align: left;"
+          > <h3 style="color: #9B9B9B">{{ $t('ISCNARWidget.transaction.reminder') }} </h3></div>
         </div>
         <div
           class="likepay-panel__section-meta"
-          style="margin-top: 16px; display: flex; flex-direction: column;"
+          style=" display: flex; flex-direction: column;
+
+margin-top: 16px;"
         >
           <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.LIKEPay.fee') }} </div>
           <div
@@ -315,12 +372,17 @@
 
       <section
         v-if="transactionStatus !== 'pending'"
-        style="display: flex; flex-direction: row; padding: 10px 10px 30px 10px"
+        style="display: flex; flex-direction: row;
+
+ padding: 10px 10px 30px 10px"
       >
         <button
-          style="background-color: #AAF1E7;
-            color: #28646E; border-radius: 12px; border: none; margin: auto;
-            padding: 10px 15px; cursor: pointer"
+          style=" margin: auto;
+            padding: 10px 15px;
+
+ cursor: pointer;
+
+            color: #28646E; border: none; border-radius: 12px;background-color: #AAF1E7"
           @click="submitTransfer"
         >
           <span v-if="transactionStatus === 'failed'">
@@ -332,7 +394,13 @@
         </button>
       </section>
     </div>
-    <div style="display: flex; flex-direction: row; margin: 52px 0px; position: absolute; top: 590px">
+    <div
+      style=" position: absolute; top: 590px;
+
+display: flex; flex-direction: row;
+
+ margin: 52px 0px"
+    >
       <div>
         <simple-svg
           :filepath="ExclamationIcon"
@@ -371,19 +439,25 @@
           />
           <div
             class="likepay-panel__header-title"
-            style="margin-right: auto; color: #28646E; padding-left: 10px"
+            style="margin-right: auto; padding-left: 10px;
+
+ color: #28646E"
           >{{ $t('ISCNARWidget.ISCN.action') }}</div>
         </header>
         <div
           class="likepay-panel__section-meta"
-          style="margin-top: 16px; display: flex; flex-direction: column;"
+          style=" display: flex; flex-direction: column;
+
+margin-top: 16px;"
         >
           <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.ISCN.articleTitleTitle') }} </div>
           <div style="margin-top: 10px"> <p> {{ $t('ISCNARWidget.ISCN.articleTitleValue', { title: iscnName }) }} </p> </div>
         </div>
         <div
           class="likepay-panel__section-meta"
-          style="margin-top: 16px; display: flex; flex-direction: column;"
+          style=" display: flex; flex-direction: column;
+
+margin-top: 16px;"
         >
           <div class="likepay-panel__section-meta-label"> {{ $t('ISCNARWidget.LIKEPay.fee') }} </div>
           <div
@@ -404,14 +478,27 @@
         </div>
       </section>
 
-      <section style="display: flex; justify-content: flex-end; flex-direction: row; padding: 10px">
+      <section
+        style="display: flex; flex-direction: row; justify-content: flex-end;
+
+ padding: 10px"
+      >
         <button
-          style="display: flex; flex-direction: row; background-color: #AAF1E7;
-                 color: #28646E; border-radius: 12px; border: none; margin: 10px;
-                 padding: 10px 15px; cursor: pointer"
+          style="display: flex; flex-direction: row;
+
+ margin: 10px;
+                 padding: 10px 15px;
+
+ cursor: pointer;
+
+                 color: #28646E; border: none; border-radius: 12px; background-color: #AAF1E7"
           @click="onClickBeginRegister"
         >
-          <p style="margin: auto 10px auto auto; font-weight: 600;">{{ $t('ISCNARWidget.ISCN.register') }}</p>
+          <p
+            style="margin: auto 10px auto auto;
+
+ font-weight: 600;"
+          >{{ $t('ISCNARWidget.ISCN.register') }}</p>
           <simple-svg
             :filepath="ArrowRightNewIcon"
             width="16"
@@ -423,7 +510,13 @@
     <a
       v-if="showKeplrOverrideButton"
       href="#"
-      style="text-align: center; font-size: 14px; color: #aaf1e7; margin: 10px; text-decoration: underline;"
+      style=" margin: 10px;
+
+text-align: center; text-decoration: underline;
+
+ color: #aaf1e7;
+
+ font-size: 14px;"
       @click.prevent="onClickBeginRegister({ forceKeplr: true })"
     >
       {{ $t('ISCNARWidget.ISCN.keplr') }}

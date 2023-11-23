@@ -10,7 +10,10 @@
       @accept="authorize"
       @changeUser="onChangeUser"
     />
-    <div v-else class="lc-padding-vertical-64">
+    <div
+      v-else
+      class="lc-padding-vertical-64"
+    >
       <spinner :size="56" />
     </div>
   </div>

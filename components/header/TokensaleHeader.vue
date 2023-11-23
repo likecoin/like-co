@@ -172,7 +172,6 @@ $status-icon-size: 32px;
     justify-content: center;
 
     .icon {
-
       position: relative;
       z-index: 1;
 

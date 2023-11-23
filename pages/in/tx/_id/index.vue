@@ -163,8 +163,14 @@
 
       </section>
     </div>
-    <view-etherscan v-if="isEthLikeTx"  :transaction="txId" />
-    <view-bigdipper v-else :transaction="txId" />
+    <view-etherscan
+      v-if="isEthLikeTx"
+      :transaction="txId"
+    />
+    <view-bigdipper
+      v-else
+      :transaction="txId"
+    />
   </div>
 </template>
 
