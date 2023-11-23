@@ -123,7 +123,6 @@ $carousel-height: 488px;
       bottom: -5px;
 
       /deep/ .swiper-pagination-bullet {
-
         width: 72px;
         height: 4px;
 

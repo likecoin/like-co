@@ -9,11 +9,6 @@ import { AUTHCORE_API_HOST } from '@/constant';
 
 export default {
   name: 'auth-core-settings',
-  data() {
-    return {
-      widgetInstance: null,
-    };
-  },
   props: {
     isProfile: {
       type: Boolean,
@@ -32,6 +27,11 @@ export default {
       default: () => ({}),
     },
   },
+  data() {
+    return {
+      widgetInstance: null,
+    };
+  },
   computed: {
     SettingsWidget() {
       return this.isProfile ? AuthCoreWidgets.Profile : AuthCoreWidgets.Settings;
@@ -43,6 +43,12 @@ export default {
         return 'zh-hk';
       }
       return 'en';
+    },
+  },
+  watch: {
+    isProfile() {
+      this.widgetInstance.destroy();
+      this.initWidget();
     },
   },
   async mounted() {
@@ -88,12 +94,6 @@ export default {
         },
         ...this.options,
       });
-    },
-  },
-  watch: {
-    isProfile() {
-      this.widgetInstance.destroy();
-      this.initWidget();
     },
   },
 };

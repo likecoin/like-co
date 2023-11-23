@@ -55,6 +55,9 @@ import ArrowRightIcon from '@/assets/icons/arrow-right.svg';
 
 export default {
   name: 'swiper',
+  directives: {
+    swiper: swiperDirective,
+  },
   props: {
     swiperId: {
       type: String,
@@ -91,9 +94,6 @@ export default {
         },
       };
     },
-  },
-  directives: {
-    swiper: swiperDirective,
   },
   methods: {
     getSelector(selector) {

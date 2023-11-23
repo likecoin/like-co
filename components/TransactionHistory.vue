@@ -595,7 +595,6 @@ export default {
             color: #9b9b9b;
           }
           img {
-
             min-width: 10px;
             margin-top: -2px;
             margin-right: 4px;

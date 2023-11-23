@@ -9,7 +9,10 @@
           <div class="lc-container-1">
             <div class="lc-container-2">
               <div class="lc-container-3 lc-margin-vertical-20">
-                <img class="logo" :src="logo" />
+                <img
+                  class="logo"
+                  :src="logo"
+                >
                 <language-switch color="#28646E" />
               </div>
             </div>
@@ -49,12 +52,12 @@ export default {
     MyFooter,
     ToolBars,
   },
+  mixins: [localeMixin],
   computed: {
     logo() {
       return Logo;
     },
   },
-  mixins: [localeMixin],
 };
 </script>
 

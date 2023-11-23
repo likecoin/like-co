@@ -100,7 +100,6 @@ export default {
   }
 
   a .md-button {
-
     height: 24px;
 
     text-decoration: underline;
