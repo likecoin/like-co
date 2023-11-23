@@ -3,7 +3,7 @@ jobs:
   test:
     working_directory: ~/likecoin-store
     docker:
-      - image: node:16
+      - image: node:18
     resource_class: medium+
     steps:
       - checkout
@@ -59,7 +59,7 @@ jobs:
           name: Node Environment
           command: |
             sudo apt-get -y install curl make g++ net-tools python rsync
-            sudo curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+            sudo curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
             sudo apt-get -y install nodejs
       - run:
           name: Dependencies

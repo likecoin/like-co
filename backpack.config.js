@@ -11,6 +11,8 @@ module.exports = {
       }
       return callback();
     });
+    const babelRule = config.module.rules.find(r => r.options.cacheDirectory);
+    if (babelRule) babelRule.options.cacheDirectory = false;
     return config;
   },
 };
