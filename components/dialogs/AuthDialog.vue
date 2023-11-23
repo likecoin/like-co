@@ -143,7 +143,9 @@
                   class="lc-color-like-green"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 30"
-                  style="flex-shrink: 0;width: 24px;margin-right: 24px"
+                  style="flex-shrink: 0;
+
+width: 24px;margin-right: 24px"
                 >
                   <circle
                     cx="12"

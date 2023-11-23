@@ -11,11 +11,6 @@ import { AUTHCORE_API_HOST } from '@/constant';
 
 export default {
   name: 'auth-core-register',
-  data() {
-    return {
-      widgetInstance: null,
-    };
-  },
   props: {
     isSignIn: {
       type: Boolean,
@@ -46,6 +41,11 @@ export default {
       default: 'grid',
     },
   },
+  data() {
+    return {
+      widgetInstance: null,
+    };
+  },
   computed: {
     SignInWidget() {
       // return this.isSignIn ? AuthCoreWidgets.Login : AuthCoreWidgets.Register;
@@ -58,6 +58,12 @@ export default {
         return 'zh-hk';
       }
       return 'en';
+    },
+  },
+  watch: {
+    redirectUrl() {
+      this.widgetInstance.destroy();
+      this.initWidget();
     },
   },
   async mounted() {
@@ -102,12 +108,6 @@ export default {
           this.$emit('unauthenticated', err);
         },
       });
-    },
-  },
-  watch: {
-    redirectUrl() {
-      this.widgetInstance.destroy();
-      this.initWidget();
     },
   },
 };

@@ -820,7 +820,6 @@ export default {
 
     margin-bottom: 8px;
     .icon {
-
       margin-right: 12px;
     }
     .name {
