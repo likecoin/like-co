@@ -209,7 +209,6 @@ export default {
 }
 
 .base-dialog-v3__close-button {
-
   position: absolute;
   bottom: 100%;
   left: 0;

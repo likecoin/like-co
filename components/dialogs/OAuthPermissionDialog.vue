@@ -304,7 +304,6 @@ export default {
   }
 
   &__logo {
-
     width: 96px;
     height: 96px;
     margin: 16px 16px;

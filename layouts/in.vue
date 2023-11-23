@@ -95,6 +95,13 @@ export default {
       'getUserERC20LikeCoinAmounInBigNumber',
     ]),
   },
+  watch: {
+    getUserHasERC20LikeCoin(has) {
+      if (has) {
+        this.isShowMigrationDialog = true;
+      }
+    },
+  },
   mounted() {
     if (
       checkIsMobileClient()
@@ -105,13 +112,6 @@ export default {
     if (this.getUserHasERC20LikeCoin) {
       this.isShowMigrationDialog = true;
     }
-  },
-  watch: {
-    getUserHasERC20LikeCoin(has) {
-      if (has) {
-        this.isShowMigrationDialog = true;
-      }
-    },
   },
 };
 </script>

@@ -5,7 +5,9 @@
         color="#50e3c2"
         bg-color="#29626B"
         :avatar="avatar"
-        style="display:block;margin:0 auto"
+        style="display:block;
+
+margin:0 auto"
       />
       <div class="signin-portal__header-headline">
         {{ getExperimentLocaleString(`${localeBasePath}.title`) }}

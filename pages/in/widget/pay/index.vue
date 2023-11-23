@@ -344,7 +344,13 @@
       <div v-if="getUserIsRegistered">
         <nuxt-link
           :to="{ name: 'in-logout' }"
-          style="text-align: center; font-size: 14px; color: #aaf1e7; margin: 10px; text-decoration: underline;"
+          style=" margin: 10px;
+
+text-align: center; text-decoration: underline;
+
+ color: #aaf1e7;
+
+ font-size: 14px;"
         >
           {{ $t('Menu.item.logout') }}
         </nuxt-link>

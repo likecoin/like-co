@@ -94,7 +94,6 @@ $border-radius-size: 6px;
       background-color: #d7ecec;
 
       img {
-
         z-index: 1;
 
         width: 72px;

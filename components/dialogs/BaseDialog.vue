@@ -125,7 +125,6 @@ $lc-dialog-border-radius: 8px;
 
 .md-dialog.lc-dialog {
   .md-dialog-container {
-
     flex: auto;
   }
 
