@@ -189,7 +189,7 @@
 import { mapActions, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
 
-import { IS_CHAIN_UPGRADING } from '~/constant';
+import { IS_CHAIN_UPGRADING, LIKER_LAND_URL } from '~/constant';
 
 import NumberInput from '~/components/NumberInput';
 import NarrowPageHeader from '~/components/header/NarrowPageHeader';
@@ -264,6 +264,7 @@ export default {
       const amount = formatAmount(params.amount || 1);
       return {
         wallet: likeWallet,
+        likeWallet,
         avatar,
         id: params.id,
         displayName: displayName || params.id,
@@ -313,11 +314,17 @@ export default {
         {
           hid: 'schema',
           innerHTML: JSON.stringify({
-            '@context': 'http://www.schema.org',
-            '@type': 'Person',
-            name: this.displayName,
-            alternateName: this.id,
-            image: this.avatar,
+            '@context': 'https://schema.org',
+            '@type': 'ProfilePage',
+            mainEntity: {
+              '@context': 'http://www.schema.org',
+              '@type': 'Person',
+              name: this.displayName,
+              alternateName: this.id,
+              image: this.avatar,
+              identifier: this.likeWallet,
+              sameAs: this.likeWallet ? [`${LIKER_LAND_URL}/${this.likeWallet}`] : undefined,
+            },
           }),
           type: 'application/ld+json',
         },
