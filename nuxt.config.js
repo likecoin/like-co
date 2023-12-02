@@ -40,14 +40,20 @@ const nuxtConfig = {
     script: [
       {
         hid: 'schema',
-        innerHTML: JSON.stringify({
-          '@context': 'http://www.schema.org',
-          '@type': 'Organization',
-          name: 'LikeCoin',
-          url: 'https://like.co',
-          logo: 'https://like.co/logo.png',
-          sameAs: LIKE_CO_PLATFORMS.map(s => s.url),
-        }),
+        innerHTML: JSON.stringify([
+          {
+            '@context': 'https://schema.org',
+            '@type': 'WebSite',
+            name: 'LikeCoin',
+            url: 'https://like.co/',
+          }, {
+            '@context': 'http://www.schema.org',
+            '@type': 'Project',
+            name: 'LikeCoin',
+            url: 'https://like.co',
+            logo: 'https://like.co/logo.png',
+            sameAs: LIKE_CO_PLATFORMS.map(s => s.url),
+          }]),
         type: 'application/ld+json',
       },
       { src: '/vendor/typekit.js', async: true },
