@@ -1035,6 +1035,10 @@
         "addCustomUrl": "新增自定義網址",
         "errInvalidUrl": "無效的網址",
         "errDuplicatedUrl": "重複的網址"
+      },
+      "seedWords": {
+        "title": "匯出錢包助記詞",
+        "description": "打開匯出助記詞小助手"
       }
     }
   },
