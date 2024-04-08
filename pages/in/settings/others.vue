@@ -81,6 +81,34 @@
 
             </div>
           </div>
+
+          <div
+            v-if="isUsingAuthCore"
+            class="lc-container-3 lc-padding-vertical-16 lc-bg-gray-1"
+          >
+            <div class="flex">
+              <h2 class="lc-font-size-14 lc-font-weight-400">
+                {{ $t('Settings.others.seedWords.title') }}
+
+              </h2>
+              <md-button
+                class="md-icon-button"
+                href="https://docs.like.co/user-guide/liker-id/export-seed-words"
+                target="_blank"
+              >
+                <md-icon>help</md-icon>
+              </md-button>
+            </div>
+
+            <div class="settings-panel">
+              <NuxtLink
+                :to="{ name: 'in-widget-authcore-seedwords' }"
+                class="md-likecoin"
+              >
+                {{ $t('Settings.others.seedWords.description') }}
+              </NuxtLink>
+            </div>
+          </div>
         </div>
       </div>
 

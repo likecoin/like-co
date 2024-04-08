@@ -1113,6 +1113,10 @@
         "addCustomUrl": "Add custom URL",
         "errInvalidUrl": "Invalid URL",
         "errDuplicatedUrl": "Duplicated URL"
+      },
+      "seedWords": {
+        "title": "Export Seed Words from Authcore",
+        "description": "Launch export seed words widget"
       }
     }
   },
