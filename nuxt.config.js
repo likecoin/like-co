@@ -50,13 +50,9 @@ const nuxtConfig = {
         }),
         type: 'application/ld+json',
       },
-      { src: '/vendor/typekit.js', async: true },
     ],
     link: [
       { rel: 'preload', href: 'https://fonts.googleapis.com/css?family=Material+Icons', as: 'style' },
-      { rel: 'preconnect', href: 'https://p.typekit.net' },
-      { rel: 'preload', href: '/vendor/typekit.js', as: 'script' },
-      { rel: 'preload', href: 'https://use.typekit.net/ube6iww.js', as: 'script' },
       // {
       //   rel: 'preload',
       //   href: '/api/experiments/list',
@@ -102,7 +98,6 @@ const nuxtConfig = {
           'ajax.googleapis.com',
           '*.crisp.chat',
           'player.vimeo.com',
-          'use.typekit.net',
           'cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js',
           'partners.liquid.com',
         ],
