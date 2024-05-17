@@ -152,3 +152,27 @@ export const DISCORD_INVITE_URL = 'https://discord.gg/W4DQ6peZZZ';
 export const IS_CHAIN_UPGRADING = false;
 
 export const STUB_WALLET = 'cosmos1rclg677y2jqt8x4ylj0kjlqjjmnn6w6304rrtc';
+
+export const LIKECOIN_CHAIN_ID = IS_TESTNET
+  ? 'likecoin-public-testnet-5'
+  : 'likecoin-mainnet-2';
+
+export const LIKECOIN_CHAIN_NFT_RPC = IS_TESTNET
+  ? 'https://node.testnet.like.co/rpc/'
+  : 'https://mainnet-node.like.co/rpc/';
+
+export const LIKECOIN_CHAIN_API = IS_TESTNET
+  ? 'https://node.testnet.like.co'
+  : 'https://mainnet-node.like.co';
+
+export const LIKECOIN_CHAIN_DENOM = IS_TESTNET ? 'EKIL' : 'LIKE';
+
+export const LIKECOIN_CHAIN_MIN_DENOM = IS_TESTNET ? 'nanoekil' : 'nanolike';
+
+export const CIVIC_LIKER_V3_STAKING_ENDPOINT = IS_TESTNET
+  ? 'https://likecoin-public-testnet-5.netlify.app/validators'
+  : 'https://dao.like.co/validators';
+
+export const EXTERNAL_HOST = IS_TESTNET
+  ? 'https://rinkeby.liker.land'
+  : 'https://liker.land';
