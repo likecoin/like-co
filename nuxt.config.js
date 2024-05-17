@@ -178,6 +178,7 @@ const nuxtConfig = {
     { src: '~/assets/theme.scss', lang: 'scss' }, // include vue-material theme engine
     { src: '~/assets/index.scss', lang: 'scss' },
     '~/assets/css/main.css',
+    '@likecoin/wallet-connector/dist/style.css',
   ],
   modules: [
     '@nuxtjs/sentry',
@@ -230,6 +231,11 @@ const nuxtConfig = {
   ** Add axios globally
   */
   build: {
+    transpile: [
+      '@likecoin/wallet-connector',
+      '@walletconnect',
+      ({ isLegacy }) => (isLegacy ? 'axios' : undefined),
+    ],
     extractCSS: true,
     babel: {
       presets: ({ isServer }) => [
