@@ -1,21 +1,24 @@
 <template>
-  <AuthDialogV2 />
+  <div style="display: flex; justify-content: center; margin-bottom: 12px">
+    <Button
+      v-if="!getAddress"
+      @click="onClickLoginButton"
+    >{{ $t('AuthDialog.SignUp.toggleButton') }}
+    </Button>
+  </div>
 </template>
-
 <script>
-import { mapActions, mapGetters } from 'vuex';
-import { tryPostLoginRedirect, isIOS } from '~/util/client';
-
-import { logTrackerEvent, logTimingEvent } from '@/util/EventLogger';
-
-import AuthDialogV2 from '~/components/v2/dialogs/AuthDialogV2';
+import wallet from '~/mixins/wallet-login';
+import { mapGetters } from 'vuex';
+import Button from '~/components/v2/Button';
 
 export default {
-  name: 'auth-api-view',
+  name: 'in-register',
   layout: 'register',
   components: {
-    AuthDialogV2,
+    Button,
   },
+  mixins: [wallet],
   head() {
     return {
       title: this.$t('Register.label.register'),
@@ -42,54 +45,21 @@ export default {
     };
   },
   computed: {
-    ...mapGetters([
-      'getUserIsRegistered',
-    ]),
-    unloadEventName() {
-      return isIOS() ? 'pagehide' : 'beforeunload';
+    ...mapGetters(['getAddress', 'getSigner']),
+  },
+  watch: {
+    getAddress: {
+      immediate: true,
+      handler(getAddress) {
+        if (getAddress) {
+          this.$router.push({ name: 'in-settings', query: { wallet: getAddress } });
+        }
+      },
     },
-  },
-  created() {
-    this.setAuthDialog({ isShow: true });
-  },
-  mounted() {
-    const { redirect_sign_in: isRedirectSignIn } = this.$route.query;
-    if (this.getUserIsRegistered) {
-      logTrackerEvent(this, 'RegFlow', 'AlreadyRegistered', 'AlreadyRegistered', 1);
-      const router = this.$router;
-      const route = this.$route;
-      if (!isRedirectSignIn && !tryPostLoginRedirect({ route })) {
-        this.doPostAuthRedirect({ router, route });
-      }
-    } else {
-      window.addEventListener(this.unloadEventName, this.logPageUnload, false);
-      this.logPageload();
-    }
-  },
-  beforeDestroy() {
-    this.setAuthDialog({ isShow: false });
-    window.removeEventListener(this.unloadEventName, this.logPageUnload, false);
   },
   methods: {
-    ...mapActions([
-      'setAuthDialog',
-      'doPostAuthRedirect',
-    ]),
-    logPageUnload() {
-      let value = 1;
-      if (window.performance) {
-        value = Math.round(performance.now());
-      }
-      logTimingEvent(this, 'RegFlow', 'CloseRegisterPageTiming', 'CloseRegisterPageTiming', value);
-      logTrackerEvent(this, 'RegFlow', 'CloseRegisterPage', 'CloseRegisterPage', value);
-    },
-    logPageload() {
-      let value = 1;
-      if (window.performance) {
-        value = Math.round(performance.now());
-      }
-      logTimingEvent(this, 'RegFlow', 'RedirectSignUpTiming', 'RedirectSignUpTiming', value);
-      logTrackerEvent(this, 'RegFlow', 'RedirectSignUp', 'RedirectSignUp', value);
+    async onClickLoginButton() {
+      await this.connectWallet();
     },
   },
 };
