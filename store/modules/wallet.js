@@ -1,7 +1,6 @@
 /* eslint no-shadow: "off" */
 /* eslint no-param-reassign: "off" */
 import { LIKECOIN_WALLET_CONNECTOR_CONFIG } from '@/constant/network';
-import { setLoggerUser } from '@/util/EventLogger';
 import { signLoginMessage } from '@/util/cosmos/sign';
 
 import * as api from '@/util/api/api';
@@ -13,7 +12,7 @@ import {
   WALLET_SET_SIGNER,
   WALLET_SET_CONNECTOR,
   WALLET_SET_METHOD_TYPE,
-  WALLET_SET_USER_INFO,
+  USER_SET_USER_INFO,
   WALLET_SET_IS_LOGGING_IN,
   WALLET_SET_IS_CONNECTING_WALLET,
 } from '../mutation-types';
@@ -45,7 +44,7 @@ const mutations = {
   [WALLET_SET_IS_LOGGING_IN](state, isLoggingIn) {
     state.isLoggingIn = isLoggingIn;
   },
-  [WALLET_SET_USER_INFO](state, userInfo) {
+  [USER_SET_USER_INFO](state, userInfo) {
     state.likerInfo = userInfo;
   },
   [WALLET_SET_METHOD_TYPE](state, method) {
@@ -108,10 +107,9 @@ const actions = {
     commit(WALLET_SET_SIGNER, offlineSigner);
     commit(WALLET_SET_IS_CONNECTING_WALLET, false);
     try {
-      const user = await apiWrapper({ commit, dispatch }, api.apiGetUserSelf(), { slient: true });
-      // await apiGetUserSelf();
-      await setLoggerUser(this, { wallet: walletAddress, method });
-      commit(WALLET_SET_USER_INFO, user);
+      // need to handle login api
+      await api.apiLoginUser({ loginMethod: method });
+      await dispatch('refreshUser');
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);
@@ -241,7 +239,7 @@ const actions = {
         ...data,
       }));
     } catch (error) {
-      commit(WALLET_SET_USER_INFO, null);
+      commit(USER_SET_USER_INFO, null);
       if (error.message === 'Request rejected') {
         // User rejected login request
       } else {
@@ -250,6 +248,7 @@ const actions = {
         throw error;
       }
     } finally {
+      await dispatch('refreshUser');
       commit(WALLET_SET_IS_LOGGING_IN, false);
     }
   },
@@ -268,7 +267,7 @@ const actions = {
   },
 
   async walletLogout({ commit, dispatch }) {
-    commit(WALLET_SET_USER_INFO, null);
+    commit(USER_SET_USER_INFO, null);
     // need to handle logout api
     await apiWrapper({ commit, dispatch }, api.apiLogoutUser(), { blocking: true });
   },
