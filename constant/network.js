@@ -5,7 +5,7 @@ import {
   LIKECOIN_CHAIN_DENOM,
   LIKECOIN_CHAIN_MIN_DENOM,
   CIVIC_LIKER_V3_STAKING_ENDPOINT,
-  EXTERNAL_HOST,
+  EXTERNAL_URL,
 } from '.';
 
 const { IS_TESTNET } = process.env;
@@ -52,7 +52,6 @@ export const LIKECOIN_WALLET_CONNECTOR_CONFIG = {
   authcoreApiHost: IS_TESTNET
     ? 'https://likecoin-integration-test.authcore.io'
     : 'https://authcore.like.co',
-  authcoreRedirectUrl: `${EXTERNAL_HOST}/auth/redirect?method=liker-id`,
+  authcoreRedirectUrl: `${EXTERNAL_URL}/in/register?redirect_sign_in=1&sign_in_platform=authcore`,
 };
-
 export default LIKECOIN_WALLET_CONNECTOR_CONFIG;

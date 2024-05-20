@@ -172,7 +172,3 @@ export const LIKECOIN_CHAIN_MIN_DENOM = IS_TESTNET ? 'nanoekil' : 'nanolike';
 export const CIVIC_LIKER_V3_STAKING_ENDPOINT = IS_TESTNET
   ? 'https://likecoin-public-testnet-5.netlify.app/validators'
   : 'https://dao.like.co/validators';
-
-export const EXTERNAL_HOST = IS_TESTNET
-  ? 'https://rinkeby.liker.land'
-  : 'https://liker.land';
