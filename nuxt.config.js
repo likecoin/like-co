@@ -234,6 +234,7 @@ const nuxtConfig = {
     transpile: [
       '@likecoin/wallet-connector',
       '@walletconnect',
+      'unstorage',
       ({ isLegacy }) => (isLegacy ? 'axios' : undefined),
     ],
     extractCSS: true,
