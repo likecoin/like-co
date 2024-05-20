@@ -1,9 +1,15 @@
 <template>
-  <div style="display: flex; justify-content: center; margin-bottom: 12px">
+  <div
+    style="
+    display: flex;
+    justify-content: center;
+
+    margin-bottom: 12px"
+  >
     <Button
       v-if="!getAddress"
       @click="onClickLoginButton"
-    >{{ $t('AuthDialog.SignUp.toggleButton') }}
+    >{{ $t("AuthDialog.SignUp.toggleButton") }}
     </Button>
   </div>
 </template>
@@ -52,7 +58,10 @@ export default {
       immediate: true,
       handler(getAddress) {
         if (getAddress) {
-          this.$router.push({ name: 'in-settings', query: { wallet: getAddress } });
+          this.$router.push({
+            name: 'in-settings',
+            query: { wallet: getAddress },
+          });
         }
       },
     },
