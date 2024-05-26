@@ -90,7 +90,9 @@ const actions = {
     return connector;
   },
 
-  async initWallet({ commit, dispatch }, { method, accounts, offlineSigner }) {
+  async initWallet({
+    state, commit, dispatch,
+  }, { method, accounts, offlineSigner }) {
     if (!accounts[0]) return false;
     commit(WALLET_SET_IS_CONNECTING_WALLET, true);
     const connector = await dispatch('getConnector');
@@ -108,7 +110,14 @@ const actions = {
     commit(WALLET_SET_IS_CONNECTING_WALLET, false);
     try {
       // need to handle login api
-      await api.apiLoginUser({ loginMethod: method });
+      const payload = await signLoginMessage(state.signer, address);
+      const locale = window?.sessionStorage?.getItem('language') ?? 'en';
+      const data = {
+        locale,
+        platform: 'likeWallet',
+        ...payload,
+      };
+      await api.apiLoginUser(data);
       await dispatch('refreshUser');
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -159,16 +168,12 @@ const actions = {
 
   async handleConnectorRedirect(
     { dispatch },
-    { method, params, isLogin = true },
+    { method, params },
   ) {
     const connector = await dispatch('getConnector');
     const connection = await connector.handleRedirect(method, params);
     if (connection) {
-      if (isLogin) {
-        await dispatch('initWalletAndLogin', connection);
-      } else {
-        await dispatch('initWallet', connection);
-      }
+      await dispatch('initWallet', connection);
     }
     return connection;
   },
