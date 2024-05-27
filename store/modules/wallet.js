@@ -126,23 +126,6 @@ const actions = {
     return true;
   },
 
-  async initWalletAndLogin({ dispatch, getters }, connection) {
-    const isInited = await dispatch('initWallet', connection);
-    if (!isInited) return false;
-
-    try {
-      if (getters.getAddress) {
-        // Re-login if the wallet address is different from session
-        await dispatch('signLogin');
-      }
-    } catch (err) {
-      const msg = (err.response && err.response.data) || err;
-      // eslint-disable-next-line no-console
-      console.error(msg);
-    }
-    return true;
-  },
-
   async restoreSession({ dispatch }) {
     // HACK: check for localStorage session before init-ing wallet connector lib
     // wallet connector lib is a huge js
@@ -227,47 +210,11 @@ const actions = {
     await dispatch('walletLogout');
   },
 
-  async signLogin({ state, commit, dispatch }) {
-    // Do not trigger login if the window is not focused
-    if (document.hidden) return;
-    if (!state.signer) {
-      await dispatch('initIfNecessary');
-    }
-    const { address } = state;
-    try {
-      commit(WALLET_SET_IS_LOGGING_IN, true);
-      const { signer, methodType } = state;
-      const data = await signLoginMessage(signer, address);
-      // need to handle login api
-      await (api.apiLoginUser({
-        loginMethod: methodType,
-        ...data,
-      }));
-    } catch (error) {
-      commit(USER_SET_USER_INFO, null);
-      if (error.message === 'Request rejected') {
-        // User rejected login request
-      } else {
-        // eslint-disable-next-line no-console
-        console.error(error);
-        throw error;
-      }
-    } finally {
-      await dispatch('refreshUser');
-      commit(WALLET_SET_IS_LOGGING_IN, false);
-    }
-  },
-
-
-  async initIfNecessary({ dispatch }, { isLogin = false } = {}) {
+  async initIfNecessary({ dispatch }) {
     const connector = await dispatch('getConnector');
     const connection = await connector.initIfNecessary();
     if (connection) {
-      if (isLogin) {
-        await dispatch('initWalletAndLogin', connection);
-      } else {
-        await dispatch('initWallet', connection);
-      }
+      await dispatch('initWallet', connection);
     }
   },
 

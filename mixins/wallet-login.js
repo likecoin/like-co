@@ -11,7 +11,6 @@ export default {
       'initWalletAndLogin',
       'initIfNecessary',
       'restoreSession',
-      'signLogin',
     ]),
     async connectWallet({
       shouldSkipLogin = false,
@@ -49,9 +48,7 @@ export default {
           1,
         );
 
-        const res = await (shouldSkipLogin
-          ? this.initWallet(connection)
-          : this.initWalletAndLogin(connection));
+        const res = this.initWallet(connection);
 
         if (res) {
           logTrackerEvent(
