@@ -4,7 +4,6 @@ import { LIKECOIN_WALLET_CONNECTOR_CONFIG } from '@/constant/network';
 import { signLoginMessage } from '@/util/cosmos/sign';
 
 import * as api from '@/util/api/api';
-import apiWrapper from './actions/api-wrapper';
 
 
 import {
@@ -200,14 +199,13 @@ const actions = {
     return connection;
   },
 
-  async disconnectWallet({ state, commit, dispatch }) {
+  async disconnectWallet({ state, commit }) {
     if (state.connector) {
       state.connector.disconnect();
     }
     commit(WALLET_SET_ADDRESS, '');
     commit(WALLET_SET_SIGNER, null);
     commit(WALLET_SET_CONNECTOR, null);
-    await dispatch('walletLogout');
   },
 
   async initIfNecessary({ dispatch }) {
@@ -218,11 +216,6 @@ const actions = {
     }
   },
 
-  async walletLogout({ commit, dispatch }) {
-    commit(USER_SET_USER_INFO, null);
-    // need to handle logout api
-    await apiWrapper({ commit, dispatch }, api.apiLogoutUser(), { blocking: true });
-  },
 };
 
 export default {
