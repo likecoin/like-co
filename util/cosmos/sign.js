@@ -67,7 +67,7 @@ export async function signLoginMessage(signer, address) {
     `${LOGIN_MESSAGE}:`,
     JSON.stringify({
       ts: Date.now(),
-      address,
+      likeWallet: address,
     }),
   ].join(' ');
   const sign = signer.signArbitrary
