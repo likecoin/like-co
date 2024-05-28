@@ -1,6 +1,7 @@
 import { mapActions } from 'vuex';
 
 import { logTrackerEvent } from '~/util/EventLogger';
+import { tryPostLoginRedirect } from '~/util/client';
 
 export default {
   methods: {
@@ -11,6 +12,7 @@ export default {
       'initWalletAndLogin',
       'initIfNecessary',
       'restoreSession',
+      'doPostAuthRedirect',
     ]),
     async connectWallet({
       shouldSkipLogin = false,
@@ -48,8 +50,7 @@ export default {
           1,
         );
 
-        const res = this.initWallet(connection);
-
+        const res = await this.initWallet(connection);
         if (res) {
           logTrackerEvent(
             this,
@@ -59,7 +60,7 @@ export default {
             1,
           );
         }
-
+        await this.redirectAfterSignIn();
         return res;
       } catch (err) {
         // eslint-disable-next-line no-console
@@ -94,6 +95,24 @@ export default {
         default:
           break;
       }
+    },
+    async redirectAfterSignIn() {
+      if (!this.isOverlay) {
+        this.$nextTick(() => {
+          if (!tryPostLoginRedirect({ route: this.$route })) {
+            // Normal case
+            this.redirectToPreAuthPage();
+          }
+        });
+      } else {
+        this.$nextTick(() => { this.redirectToPreAuthPage(); });
+      }
+    },
+
+    redirectToPreAuthPage() {
+      const router = this.$router;
+      const route = this.$route;
+      this.doPostAuthRedirect({ router, route });
     },
   },
 };
