@@ -13,6 +13,7 @@ export default {
       'initIfNecessary',
       'restoreSession',
       'doPostAuthRedirect',
+      'handleConnectorRedirect',
     ]),
     async connectWallet({
       shouldSkipLogin = false,
@@ -24,10 +25,6 @@ export default {
           'connect_wallet_start',
           'connect_wallet_start',
           1,
-        );
-        window.sessionStorage.setItem(
-          'USER_POST_AUTH_ROUTE',
-          this.$route.fullPath,
         );
         const connection = await this.openConnectWalletModal({
           language: this.$i18n.locale.split('-')[0],
@@ -113,6 +110,24 @@ export default {
       const router = this.$router;
       const route = this.$route;
       this.doPostAuthRedirect({ router, route });
+    },
+
+    async handleAuthSignIn() {
+      const { method, code } = this.$route.query;
+      if (method && code) {
+        try {
+          await this.handleConnectorRedirect({
+            method,
+            params: { code },
+          });
+
+          this.redirectAfterSignIn();
+        } catch (err) {
+          const errData = err.response || err;
+          const errMessage = errData.data || errData.message || errData;
+          console.error(errMessage); // eslint-disable-line no-console
+        }
+      }
     },
   },
 };

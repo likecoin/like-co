@@ -70,9 +70,6 @@ export default {
       questionIcon,
     };
   },
-  async mounted() {
-    await this.connectWallet();
-  },
 };
 </script>
 

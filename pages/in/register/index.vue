@@ -52,6 +52,9 @@ export default {
   },
   computed: {
     ...mapGetters(['getAddress', 'getSigner']),
+    isRedirectSignIn() {
+      return this.$route.query.redirect_sign_in;
+    },
   },
   watch: {
     getAddress: {
@@ -65,10 +68,26 @@ export default {
         }
       },
     },
+    isRedirectSignIn: {
+      immediate: true,
+      async handler(isRedirectSignIn) {
+        if (isRedirectSignIn) {
+          await this.handleAuthSignIn();
+        }
+      },
+    },
+  },
+  async mounted() {
+    await this.connectWallet();
   },
   methods: {
     async onClickLoginButton() {
-      await this.connectWallet();
+      try {
+        await this.connectWallet();
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error('Error connecting wallet:', err);
+      }
     },
   },
 };

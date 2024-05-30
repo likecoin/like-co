@@ -91,7 +91,9 @@ const actions = {
 
   async initWallet({
     state, commit, dispatch,
-  }, { method, accounts, offlineSigner }) {
+  }, {
+    method, accounts, offlineSigner, idToken,
+  }) {
     if (!accounts[0]) return false;
     commit(WALLET_SET_IS_CONNECTING_WALLET, true);
     const connector = await dispatch('getConnector');
@@ -111,11 +113,15 @@ const actions = {
       // need to handle login api
       const payload = await signLoginMessage(state.signer, address);
       const locale = window?.sessionStorage?.getItem('language') ?? 'en';
+      const platform = method === 'liker-id' ? 'authcore' : 'likeWallet';
       const data = {
         locale,
-        platform: 'likeWallet',
+        platform,
         ...payload,
       };
+      if (idToken) {
+        data.idToken = idToken;
+      }
       await api.apiLoginUser(data);
       await dispatch('refreshUser');
     } catch (error) {
