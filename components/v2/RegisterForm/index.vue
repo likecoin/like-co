@@ -58,6 +58,7 @@
       v-else-if="step === STEP.COMPLETED"
       :liker-id="likerId"
       :display-name="displayName"
+      :description="description"
       :avatar="avatar"
       @upload-avatar="handleUploadAvatar"
       @confirm="handleComplete"

@@ -1,7 +1,6 @@
 import { mapActions } from 'vuex';
 
 import { logTrackerEvent } from '~/util/EventLogger';
-import { tryPostLoginRedirect } from '~/util/client';
 
 export default {
   methods: {
@@ -12,8 +11,6 @@ export default {
       'initWalletAndLogin',
       'initIfNecessary',
       'restoreSession',
-      'doPostAuthRedirect',
-      'handleConnectorRedirect',
     ]),
     async connectWallet({
       shouldSkipLogin = false,
@@ -57,7 +54,6 @@ export default {
             1,
           );
         }
-        await this.redirectAfterSignIn();
         return res;
       } catch (err) {
         // eslint-disable-next-line no-console
@@ -91,42 +87,6 @@ export default {
 
         default:
           break;
-      }
-    },
-    async redirectAfterSignIn() {
-      if (!this.isOverlay) {
-        this.$nextTick(() => {
-          if (!tryPostLoginRedirect({ route: this.$route })) {
-            // Normal case
-            this.redirectToPreAuthPage();
-          }
-        });
-      } else {
-        this.$nextTick(() => { this.redirectToPreAuthPage(); });
-      }
-    },
-
-    redirectToPreAuthPage() {
-      const router = this.$router;
-      const route = this.$route;
-      this.doPostAuthRedirect({ router, route });
-    },
-
-    async handleAuthSignIn() {
-      const { method, code } = this.$route.query;
-      if (method && code) {
-        try {
-          await this.handleConnectorRedirect({
-            method,
-            params: { code },
-          });
-
-          this.redirectAfterSignIn();
-        } catch (err) {
-          const errData = err.response || err;
-          const errMessage = errData.data || errData.message || errData;
-          console.error(errMessage); // eslint-disable-line no-console
-        }
       }
     },
   },

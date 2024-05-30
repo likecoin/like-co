@@ -145,7 +145,7 @@ export default {
 <style>
 .base-dialog-v3 {
   position: relative;
-  z-index: 1000;
+  z-index: 3000;
 
   display: flex;
   align-items: center;

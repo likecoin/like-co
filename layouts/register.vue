@@ -47,14 +47,10 @@ import LanguageSwitch from '~/components/LanguageSwitch';
 import likerLandIcon from '@/assets/logo/liker-land.svg';
 import questionIcon from '@/assets/tokensale/question.svg';
 
-import wallet from '~/mixins/wallet-login';
-import localeMixin from '~/mixins/locale';
-
 export default {
   components: {
     LanguageSwitch,
   },
-  mixins: [localeMixin, wallet],
   head() {
     return {
       htmlAttrs: {

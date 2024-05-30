@@ -1,10 +1,6 @@
 /* eslint no-shadow: "off" */
 /* eslint no-param-reassign: "off" */
 import { LIKECOIN_WALLET_CONNECTOR_CONFIG } from '@/constant/network';
-import { signLoginMessage } from '@/util/cosmos/sign';
-
-import * as api from '@/util/api/api';
-
 
 import {
   WALLET_SET_ADDRESS,
@@ -59,6 +55,7 @@ const getters = {
   getSigner: state => state.signer,
   loginAddress: state => state.loginAddress,
   walletHasLoggedIn: state => !!state.address && !!state.loginAddress,
+  walletLoginMethod: state => state.methodType,
   // eslint-disable-next-line max-len
   walletIsMatchedSession: (state, getters) => getters.walletHasLoggedIn && state.address === state.loginAddress,
   getConnector: state => state.connector,
@@ -90,9 +87,9 @@ const actions = {
   },
 
   async initWallet({
-    state, commit, dispatch,
+    commit, dispatch,
   }, {
-    method, accounts, offlineSigner, idToken,
+    method, accounts, offlineSigner,
   }) {
     if (!accounts[0]) return false;
     commit(WALLET_SET_IS_CONNECTING_WALLET, true);
@@ -109,25 +106,6 @@ const actions = {
     commit(WALLET_SET_ADDRESS, walletAddress);
     commit(WALLET_SET_SIGNER, offlineSigner);
     commit(WALLET_SET_IS_CONNECTING_WALLET, false);
-    try {
-      // need to handle login api
-      const payload = await signLoginMessage(state.signer, address);
-      const locale = window?.sessionStorage?.getItem('language') ?? 'en';
-      const platform = method === 'liker-id' ? 'authcore' : 'likeWallet';
-      const data = {
-        locale,
-        platform,
-        ...payload,
-      };
-      if (idToken) {
-        data.idToken = idToken;
-      }
-      await api.apiLoginUser(data);
-      await dispatch('refreshUser');
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
-    }
     return true;
   },
 
