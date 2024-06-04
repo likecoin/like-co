@@ -5,16 +5,17 @@
     align-items:center;
     flex-direction: column;
     justify-content: center;
+    gap: 12px;
 
     margin-bottom: 12px"
   >
-    <div v-if="errorCode">
+    <div v-if="currentTab === tabOptions.ERROR">
       <h2>{{ headerText }}</h2>
       <p>{{ errorMessage }}</p>
     </div>
 
     <Button
-      v-if="!getAddress"
+      v-if="!getAddress || currentTab === tabOptions.LOGIN"
       @click="onClickLoginButton"
     >{{ $t("AuthDialog.SignUp.toggleButton") }}
     </Button>
@@ -28,26 +29,35 @@
       <BaseDialogV3
         ref="dialog"
         v-bind="$testID('AuthDialog')"
-        :is-show="!['loading', 'error'].includes(currentTab)"
+        :is-show="!['login', 'error'].includes(currentTab)"
         :is-show-backdrop="isOverlay"
         :is-closable="false"
         :is-show-close-button="currentTab === 'error'"
         @click-close-button="onClickDialogCloseButton"
       >
-        <RegisterForm
-          v-if="currentTab === 'register'"
-          key="register"
-          @check-liker-id="onCheckLikerId"
-          @register="register"
-        />
-        <RegisterForm
-          v-else-if="['await-email-verify', 'welcome'].includes(currentTab)"
-          :key="`register-${currentTab}`"
-          :initial-step="currentTab === 'welcome' ? 'completed' : 'await-email-verify'"
-          :user-info="getUserInfo"
-          @upload-avatar="uploadAvatar"
-          @complete="redirectAfterSignIn"
-        />
+        <Transition
+          name="fade"
+          mode="out-in"
+        >
+          <RegisterForm
+            v-if="currentTab === tabOptions.REGISTER"
+            key="register"
+            @check-liker-id="onCheckLikerId"
+            @register="register"
+          />
+          <RegisterForm
+            v-else-if="['await-email-verify', 'welcome'].includes(currentTab)"
+            :key="`register-${currentTab}`"
+            :initial-step="currentTab === tabOptions.WELCOME ? 'completed' : 'await-email-verify'"
+            :user-info="getUserInfo"
+            @upload-avatar="uploadAvatar"
+            @complete="redirectAfterSignIn"
+          />
+          <Spinner
+            v-else
+            :size="36"
+          />
+        </Transition>
       </BaseDialogV3>
     </div>
   </div>
@@ -59,6 +69,8 @@ import { mapGetters, mapActions } from 'vuex';
 import Button from '~/components/v2/Button';
 import RegisterForm from '@/components/v2/RegisterForm';
 import BaseDialogV3 from '@/components/v2/dialogs/BaseDialogV3';
+import Spinner from '@/components/Spinner';
+
 
 import { signLoginMessage } from '@/util/cosmos/sign';
 import { logTrackerEvent } from '@/util/EventLogger';
@@ -66,6 +78,15 @@ import { tryPostLoginRedirect } from '@/util/client';
 import { apiCheckLikerId } from '@/util/api/api';
 import User from '@/util/User';
 
+const TAB_OPTIONS = {
+  LOGIN: 'login',
+  ERROR: 'error',
+  REGISTER: 'register',
+  REGISTERING: 'registering',
+  EMAIL_VERIFY: 'await-email-verify',
+  WELCOME: 'welcome',
+  REDIRECT: 'redirect',
+};
 
 export default {
   name: 'in-register',
@@ -74,6 +95,7 @@ export default {
     Button,
     RegisterForm,
     BaseDialogV3,
+    Spinner,
   },
   mixins: [wallet],
   head() {
@@ -103,13 +125,12 @@ export default {
   },
   data() {
     return {
-      currentTab: 'loading',
+      currentTab: TAB_OPTIONS.LOGIN,
       registerStep: 'create-liker-id',
       isOverlay: true,
       signInPayload: {},
       errorCode: '',
       error: '',
-
       authcoreUserData: {},
     };
   },
@@ -145,7 +166,7 @@ export default {
       return msg;
     },
     headerText() {
-      if (this.currentTab === 'error') {
+      if (this.currentTab === TAB_OPTIONS.ERROR) {
         return this.errorTitle;
       }
       if (this.getWalletConnectURI) {
@@ -153,30 +174,31 @@ export default {
       }
       return this.$t('DialogV2.title.signIn');
     },
+    tabOptions() {
+      return TAB_OPTIONS;
+    },
   },
   watch: {
-    getAddress: {
-      immediate: true,
-      handler(getAddress) {
-        if (getAddress) {
-          this.$router.push({
-            name: 'in-settings',
-            query: { wallet: getAddress },
-          });
-        }
-      },
-    },
     isRedirectSignIn: {
       immediate: true,
       async handler(isRedirectSignIn) {
         if (isRedirectSignIn) {
+          this.currentTab = TAB_OPTIONS.REDIRECT;
           await this.handleAuthSignIn();
         }
       },
     },
+    currentTab: {
+      immediate: true,
+      async handler(tab) {
+        console.log('tab', tab);
+      },
+    },
   },
   async mounted() {
-    await this.handleConnectWallet();
+    if (this.currentTab === TAB_OPTIONS.LOGIN && !this.isRedirectSignIn) {
+      await this.handleConnectWallet();
+    }
   },
   methods: {
     ...mapActions(['handleConnectorRedirect', 'loginUser', 'doPostAuthRedirect', 'newUser', 'updateUserAvatar']),
@@ -184,7 +206,7 @@ export default {
       await this.handleConnectWallet();
     },
     onClickDialogCloseButton() {
-      this.currentTab = 'loading';
+      this.currentTab = TAB_OPTIONS.LOGIN;
       this.errorCode = '';
       this.error = '';
       this.signInPayload = {};
@@ -192,7 +214,7 @@ export default {
       this.handleConnectWallet();
     },
     setError(code, error) {
-      this.currentTab = 'error';
+      this.currentTab = TAB_OPTIONS.ERROR;
       this.errorCode = code;
       this.error = error;
     },
@@ -250,7 +272,7 @@ export default {
       } catch (err) {
         if (err.response) {
           if (err.response.status === 404) {
-            this.currentTab = 'register';
+            this.currentTab = TAB_OPTIONS.REGISTER;
           }
           isLoginSuccessful = false;
         }
@@ -264,19 +286,21 @@ export default {
     },
 
     // Redirect
-    async redirectAfterSignIn() {
+    redirectAfterSignIn() {
+      this.currentTab = TAB_OPTIONS.REDIRECT;
       if (!this.isOverlay) {
-        this.$nextTick(() => {
+        this.$nextTick(async () => {
           if (!tryPostLoginRedirect({ route: this.$route })) {
             // Normal case
-            this.redirectToPreAuthPage();
+            await this.redirectToPreAuthPage();
           }
         });
       } else {
-        this.$nextTick(() => { this.redirectToPreAuthPage(); });
+        this.$nextTick(async () => { await this.redirectToPreAuthPage(); });
       }
     },
     redirectToPreAuthPage() {
+      this.currentTab = TAB_OPTIONS.REDIRECT;
       const router = this.$router;
       const route = this.$route;
       this.doPostAuthRedirect({ router, route });
@@ -301,22 +325,21 @@ export default {
       }
     },
     async register(registerPayload) {
-      this.currentTab = 'registering';
-      console.log('registerPayload', registerPayload);
+      this.currentTab = TAB_OPTIONS.REGISTERING;
       const payload = {
         ...this.signInPayload,
+        idToken: this.authcoreUserData.idToken,
+        accessToken: this.authcoreUserData.params.accessToken,
         ...registerPayload,
       };
 
       if (this.platform === 'authcore') {
-        const defaultLikerID = await User.prepareSuggestedUserName(this.authcoreUserData);
+        const defaultLikerID = await User.prepareSuggestedUserName(registerPayload);
         if (defaultLikerID) { payload.defaultLikeCoinId = defaultLikerID; }
         if (this.signInPayload.from) {
           payload.likeWallet = this.signInPayload.from;
         }
       }
-      console.log('payload-register', payload);
-      this.signInPayload = payload;
       if (this.referrer) payload.referrer = this.referrer;
       if (this.sourceURL) payload.sourceURL = this.sourceURL;
       if (this.utmSource) payload.utmSource = this.utmSource;
@@ -331,9 +354,9 @@ export default {
           1,
         );
         if (payload.email) {
-          this.currentTab = 'await-email-verify';
+          this.currentTab = TAB_OPTIONS.EMAIL_VERIFY;
         } else {
-          this.currentTab = 'welcome';
+          this.currentTab = TAB_OPTIONS.WELCOME;
         }
       } catch (err) {
         let errCode;
