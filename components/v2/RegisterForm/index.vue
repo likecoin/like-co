@@ -47,7 +47,6 @@
     <InputEmailForm
       v-else-if="step === STEP.INPUT_EMAIL"
       :email="email"
-      @skip="handleSkipEmail"
       @confirm="handleInputEmail"
     />
     <AwaitEmailVerifyForm
@@ -216,9 +215,6 @@ export default {
         email: this.email,
         isSubscribeNewsletter: false,
       });
-    },
-    handleSkipEmail() {
-      this.$modal.show('skip-verify-email');
     },
     handleForceSkipEmail() {
       this.$modal.hide('skip-verify-email');
