@@ -6,6 +6,7 @@ export default {
   methods: {
     ...mapActions([
       'openConnectWalletModal',
+      'openAuthcoreModal',
       'disconnectWallet',
       'initWallet',
       'initWalletAndLogin',
@@ -14,6 +15,7 @@ export default {
     ]),
     async connectWallet({
       shouldSkipLogin = false,
+      isOpenAuthcore = false,
     } = {}) {
       try {
         logTrackerEvent(
@@ -23,17 +25,19 @@ export default {
           'connect_wallet_start',
           1,
         );
-        const connection = await this.openConnectWalletModal({
-          language: this.$i18n.locale.split('-')[0],
-          connectWalletTitle: 'Login',
-          connectWalletMobileWarning: this.$t(
-            'connect_wallet_mobile_warning',
-          ),
-          shouldRecommendConnectionMethod: true,
-          shouldShowLegacyAuthcoreOptions: !!this.$route.query
-            .authcore_legacy,
-          onEvent: this.handleConnectWalletEvent,
-        });
+        const connection = isOpenAuthcore
+          ? await this.openAuthcoreModal()
+          : await this.openConnectWalletModal({
+            language: this.$i18n.locale.split('-')[0],
+            connectWalletTitle: 'Login',
+            connectWalletMobileWarning: this.$t(
+              'connect_wallet_mobile_warning',
+            ),
+            shouldRecommendConnectionMethod: true,
+            shouldShowLegacyAuthcoreOptions: !!this.$route.query
+              .authcore_legacy,
+            onEvent: this.handleConnectWalletEvent,
+          });
         if (!connection) return false;
         const { method } = connection;
         logTrackerEvent(

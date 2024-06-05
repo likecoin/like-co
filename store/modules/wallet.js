@@ -10,6 +10,7 @@ import {
   USER_SET_USER_INFO,
   WALLET_SET_IS_LOGGING_IN,
   WALLET_SET_IS_CONNECTING_WALLET,
+  AUTHCORE_SET_ACCESS_TOKEN,
 } from '../mutation-types';
 
 let likecoinWalletLib = null;
@@ -140,8 +141,16 @@ const actions = {
     const connection = await connector.handleRedirect(method, params);
     if (connection) {
       await dispatch('initWallet', connection);
+      dispatch('setAccessToken', connection.params.accessToken);
     }
     return connection;
+  },
+
+  async setAccessToken({ commit }, accessToken) {
+    commit(AUTHCORE_SET_ACCESS_TOKEN, accessToken);
+    if (accessToken) {
+      if (window.localStorage) window.localStorage.setItem('authcore.accessToken', accessToken);
+    } else if (window.localStorage) window.localStorage.removeItem('authcore.accessToken');
   },
 
   async openConnectWalletModal(
@@ -183,10 +192,19 @@ const actions = {
     return connection;
   },
 
-  async disconnectWallet({ state, commit }) {
+  async openAuthcoreModal({ commit, dispatch }) {
+    commit(WALLET_SET_IS_CONNECTING_WALLET, true);
+    const connector = await dispatch('getConnector');
+    const connection = await connector.init('liker-id');
+    commit(WALLET_SET_IS_CONNECTING_WALLET, false);
+    return connection;
+  },
+
+  async disconnectWallet({ dispatch, state, commit }) {
     if (state.connector) {
       state.connector.disconnect();
     }
+    dispatch('setAccessToken', '');
     commit(WALLET_SET_ADDRESS, '');
     commit(WALLET_SET_SIGNER, null);
     commit(WALLET_SET_CONNECTOR, null);

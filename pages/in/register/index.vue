@@ -188,12 +188,6 @@ export default {
         }
       },
     },
-    currentTab: {
-      immediate: true,
-      async handler(tab) {
-        console.log('tab', tab);
-      },
-    },
   },
   async mounted() {
     if (this.currentTab === TAB_OPTIONS.LOGIN && !this.isRedirectSignIn) {
@@ -201,7 +195,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['handleConnectorRedirect', 'loginUser', 'doPostAuthRedirect', 'newUser', 'updateUserAvatar']),
+    ...mapActions([
+      'handleConnectorRedirect',
+      'loginUser',
+      'doPostAuthRedirect',
+      'newUser',
+      'updateUserAvatar',
+    ]),
     async onClickLoginButton() {
       await this.handleConnectWallet();
     },
