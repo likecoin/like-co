@@ -90,7 +90,7 @@ const actions = {
     // Listen once per account
     connector.once('account_change', async (currentMethod) => {
       const connection = await connector.init(currentMethod);
-      dispatch('walletLogout');
+      dispatch('disconnectWallet');
       await dispatch('initWallet', connection);
     });
     commit(WALLET_SET_METHOD_TYPE, method);
