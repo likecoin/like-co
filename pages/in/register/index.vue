@@ -224,8 +224,8 @@ export default {
     async handleConnectWallet() {
       try {
         await this.connectWallet();
-        const successLogin = await this.login();
-        if (successLogin) {
+        await this.login();
+        if (this.isLoginSuccessful) {
           this.redirectAfterSignIn();
         }
       } catch (error) {
@@ -242,20 +242,24 @@ export default {
             params: { code },
           });
           this.authcoreUserData = user;
-          const successLogin = await this.login({ idToken: user.idToken });
-          if (successLogin) {
-            this.redirectAfterSignIn();
+          if (user.idToken) {
+            await this.login({ idToken: user.idToken });
+            if (this.isLoginSuccessful) {
+              this.redirectAfterSignIn();
+            }
+          } else {
+            this.setError(400, 'AUTHCORE_LOGIN_ERROR: missing idToken');
           }
         } catch (err) {
           const errData = err.response || err;
           const errMessage = errData.data || errData.message || errData;
-          this.setError(errMessage, errMessage);
+          this.setError(errData.status, errMessage);
           console.error(errMessage); // eslint-disable-line no-console
         }
       }
     },
     async login(loginPayload = {}) {
-      let isLoginSuccessful = false;
+      this.isLoginSuccessful = false;
       const signer = this.getSigner;
       const address = this.getAddress;
       const payload = await signLoginMessage(signer, address);
@@ -268,13 +272,12 @@ export default {
       this.signInPayload = data;
       try {
         await this.loginUser(this.signInPayload);
-        isLoginSuccessful = true;
+        this.isLoginSuccessful = true;
       } catch (err) {
         if (err.response) {
           if (err.response.status === 404) {
             this.currentTab = TAB_OPTIONS.REGISTER;
           }
-          isLoginSuccessful = false;
         }
         logTrackerEvent(this, 'RegFlow', 'LoginFail', 'LoginFail', 1);
         // eslint-disable-next-line no-console
@@ -282,7 +285,6 @@ export default {
         if (this.$sentry) this.$sentry.captureException(err);
         // this.setError((err.response || {}).data, err);
       }
-      return isLoginSuccessful;
     },
 
     // Redirect
