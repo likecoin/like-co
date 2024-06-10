@@ -1,6 +1,6 @@
 import {
   LIKECOIN_CHAIN_ID,
-  LIKECOIN_CHAIN_NFT_RPC,
+  LIKECOIN_CHAIN_RPC,
   LIKECOIN_CHAIN_API,
   LIKECOIN_CHAIN_DENOM,
   LIKECOIN_CHAIN_MIN_DENOM,
@@ -13,7 +13,7 @@ const { IS_TESTNET } = process.env;
 export const LIKECOIN_WALLET_CONNECTOR_CONFIG = {
   chainId: LIKECOIN_CHAIN_ID,
   chainName: IS_TESTNET ? 'LikeCoin public test chain' : 'LikeCoin',
-  rpcURL: LIKECOIN_CHAIN_NFT_RPC,
+  rpcURL: LIKECOIN_CHAIN_RPC,
   restURL: LIKECOIN_CHAIN_API,
   coinType: 118,
   coinDenom: LIKECOIN_CHAIN_DENOM,
@@ -48,7 +48,7 @@ export const LIKECOIN_WALLET_CONNECTOR_CONFIG = {
     name: 'LikeCoin',
   },
   cosmostationDirectSignEnabled: true,
-  authcoreClientId: 'likecoin-app-hidesocial', // 'likecoin-app' if not hide
+  authcoreClientId: 'likecoin-app', // 'likecoin-app-hidesocial' if hide social
   authcoreApiHost: IS_TESTNET
     ? 'https://likecoin-integration-test.authcore.io'
     : 'https://authcore.like.co',

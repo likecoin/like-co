@@ -157,7 +157,7 @@ export const LIKECOIN_CHAIN_ID = IS_TESTNET
   ? 'likecoin-public-testnet-5'
   : 'likecoin-mainnet-2';
 
-export const LIKECOIN_CHAIN_NFT_RPC = IS_TESTNET
+export const LIKECOIN_CHAIN_RPC = IS_TESTNET
   ? 'https://node.testnet.like.co/rpc/'
   : 'https://mainnet-node.like.co/rpc/';
 
