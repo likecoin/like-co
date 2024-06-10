@@ -309,12 +309,12 @@ export default {
     },
 
     // Register
-    async onCheckLikerId(likerId, check) {
+    async onCheckLikerId(likerId, callback) {
       try {
         await apiCheckLikerId(likerId);
-        check();
+        callback();
       } catch (error) {
-        check((error.response.data || {}).error || error.statusText);
+        callback((error.response.data || {}).error || error.statusText);
       }
     },
     async uploadAvatar(avatarFile) {
