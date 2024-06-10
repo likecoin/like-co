@@ -330,8 +330,8 @@ export default {
       this.currentTab = TAB_OPTIONS.REGISTERING;
       const payload = {
         ...this.signInPayload,
-        idToken: this.authcoreUserData.idToken,
-        accessToken: this.authcoreUserData.params.accessToken,
+        idToken: this.authcoreUserData?.idToken,
+        accessToken: this.authcoreUserData?.params?.accessToken,
         ...registerPayload,
       };
 
