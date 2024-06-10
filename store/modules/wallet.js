@@ -21,9 +21,8 @@ const state = () => ({
   signer: null,
   connector: null,
   likerInfo: null,
-  isInited: null,
+  isInited: false,
   methodType: null,
-  loginAddress: '',
   isLoggingIn: false,
 });
 
@@ -54,16 +53,9 @@ const mutations = {
 const getters = {
   getAddress: state => state.address,
   getSigner: state => state.signer,
-  loginAddress: state => state.loginAddress,
-  walletHasLoggedIn: state => !!state.address && !!state.loginAddress,
   walletLoginMethod: state => state.methodType,
-  // eslint-disable-next-line max-len
-  walletIsMatchedSession: (state, getters) => getters.walletHasLoggedIn && state.address === state.loginAddress,
   getConnector: state => state.connector,
   getLikerInfo: state => state.likerInfo,
-  walletEmail: state => state.email,
-  walletEmailUnverified: state => state.emailUnverified,
-  walletHasVerifiedEmail: state => !!state.email,
   walletIsLoggingIn: state => state.isConnectingWallet || state.isLoggingIn,
 };
 
@@ -108,29 +100,6 @@ const actions = {
     commit(WALLET_SET_SIGNER, offlineSigner);
     commit(WALLET_SET_IS_CONNECTING_WALLET, false);
     return true;
-  },
-
-  async restoreSession({ dispatch }) {
-    // HACK: check for localStorage session before init-ing wallet connector lib
-    // wallet connector lib is a huge js
-    let hasSession = false;
-    try {
-      if (window.localStorage) {
-        hasSession = !!window.localStorage.getItem(
-          'likecoin_wallet_connector_session',
-        );
-      }
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error(err);
-    }
-    if (!hasSession) return;
-    const connector = await dispatch('getConnector');
-    const session = connector.restoreSession();
-    if (session) {
-      const { accounts, method } = session;
-      await dispatch('initWallet', { accounts, method });
-    }
   },
 
   async handleConnectorRedirect(
