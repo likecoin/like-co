@@ -120,14 +120,21 @@ export default {
         user: '',
       }),
     },
+    authcoreInfo: {
+      type: Object,
+      default: () => ({ primary_email: '' }),
+    },
   },
   data() {
     const {
-      user: likerId,
-      displayName,
-      email,
-      avatar,
+      avatar, user, email: userEmail, displayName: userDisplayName,
     } = this.userInfo;
+    const { primary_email: authcoreEmail } = this.authcoreInfo;
+    const extractedEmailId = this.extractEmailId(authcoreEmail);
+
+    const email = userEmail || authcoreEmail;
+    const likerId = user || extractedEmailId;
+    const displayName = userDisplayName || extractedEmailId;
     return {
       step: this.initialStep,
       likerId,
@@ -197,6 +204,16 @@ export default {
     handleInputBio({ displayName = '', description = '' } = {}) {
       this.displayName = displayName;
       this.description = description;
+      if (this.email) {
+        this.$emit('register', {
+          user: this.likerId,
+          avatar: this.avatar,
+          displayName: this.displayName,
+          description: this.description,
+          email: this.email,
+          isSubscribeNewsletter: false,
+        });
+      }
       this.step = STEP.INPUT_EMAIL;
     },
     handleInputEmail({ email = '', isSubscribeNewsletter = false } = {}) {
@@ -228,6 +245,10 @@ export default {
     },
     handleComplete() {
       this.$emit('complete');
+    },
+    extractEmailId(email) {
+      const match = email.match(/^([^@]+)/);
+      return match ? match[1] : null;
     },
   },
 };

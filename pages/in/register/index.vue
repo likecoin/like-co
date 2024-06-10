@@ -42,6 +42,7 @@
           <RegisterForm
             v-if="currentTab === tabOptions.REGISTER"
             key="register"
+            :authcore-info="authcoreUserData.user"
             @check-liker-id="onCheckLikerId"
             @register="register"
           />
@@ -356,7 +357,7 @@ export default {
           `RegistrationComplete(${this.platform})`,
           1,
         );
-        if (payload.email) {
+        if (payload.email && this.platform !== 'authcore') {
           this.currentTab = TAB_OPTIONS.EMAIL_VERIFY;
         } else {
           this.currentTab = TAB_OPTIONS.WELCOME;
