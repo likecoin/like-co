@@ -214,7 +214,7 @@ export default {
       this.handleConnectWallet();
     },
     setError(code, error) {
-      this.currentTab = TAB_OPTIONS.ERROR;
+      this.currentTab = code ? TAB_OPTIONS.ERROR : TAB_OPTIONS.LOGIN;
       this.errorCode = code;
       this.error = error;
     },
@@ -222,6 +222,7 @@ export default {
 
     // Login
     async handleConnectWallet() {
+      this.setError();
       try {
         await this.connectWallet();
         await this.login();
