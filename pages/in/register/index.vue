@@ -231,8 +231,12 @@ export default {
           this.redirectAfterSignIn();
         }
       } catch (error) {
-      // eslint-disable-next-line no-console
-        this.setError(error.message, error);
+        if (error.message?.includes('signArbitrary')) {
+        // eslint-disable-next-line no-console
+          console.error(error);
+        } else {
+          this.setError(error.message, error);
+        }
       }
     },
     async handleAuthSignIn() {
