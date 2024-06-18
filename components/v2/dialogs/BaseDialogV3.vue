@@ -145,7 +145,7 @@ export default {
 <style>
 .base-dialog-v3 {
   position: relative;
-  z-index: 1000;
+  z-index: 3000;
 
   display: flex;
   align-items: center;
@@ -173,19 +173,17 @@ export default {
 .base-dialog-v3__content-container {
   overflow: hidden;
 
+  margin: 104px auto 16px;
+
   transition-timing-function: ease-in-out;
   transition-duration: 0.2s;
   transition-property: width, height;
 
+  border-radius: 24px;
+
   background-color: white;
 }
-@media screen and (min-width: 421px) {
-  .base-dialog-v3__content-container {
-    margin: 104px auto 16px;
 
-    border-radius: 24px;
-  }
-}
 .base-dialog-v3.base-dialog-v3--absolute .base-dialog-v3__content-container  {
   filter: drop-shadow(2px 4px 8px rgba(0, 0, 0, 0.25));
 }
@@ -197,14 +195,15 @@ export default {
   position: absolute;
 }
 
-@media screen and (max-width: 420px) {
+@media screen and (max-width: 480px) {
   .base-dialog-v3__content-container-inner {
-    width: 100%;
+    min-width: 360px;
   }
 }
-@media screen and (min-width: 421px) {
+
+@media screen and (min-width: 480px) {
   .base-dialog-v3__content-container-inner {
-    min-width: 420px;
+    min-width: 480px;
   }
 }
 

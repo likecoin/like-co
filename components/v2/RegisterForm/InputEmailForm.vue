@@ -10,12 +10,6 @@
     </div>
 
     <div class="v2-form__footer">
-      <div class="v2-form__footer-left-slot">
-        <Button
-          preset="outlined"
-          @click="handleSkip"
-        >{{ $t('V2_Form_Button_Skip') }}</Button>
-      </div>
       <div class="v2-form__footer-right-slot">
         <Button
           :is-disabled="!isConfirmable"
@@ -61,16 +55,6 @@ export default {
     },
   },
   methods: {
-    handleSkip() {
-      this.$modal.show('skip-verify-email');
-    },
-    handleForceSkip() {
-      this.$modal.hide('skip-verify-email');
-      this.$emit('skip');
-    },
-    handleNotSkip() {
-      this.$modal.hide('skip-verify-email');
-    },
     handleConfirm() {
       if (!this.isConfirmable) return;
       this.$emit('confirm', {

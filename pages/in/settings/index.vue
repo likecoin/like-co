@@ -286,8 +286,11 @@ export default {
       this.isShowAuthCoreWidget = (id === 'authcore-profile' || id === 'authcore-settings');
       this.isShowAuthCoreProfile = id === 'authcore-profile';
     },
-    onClickAuthCoreReAuth() {
-      this.setReAuthDialogShow(true);
+    async onClickAuthCoreReAuth() {
+      this.$router.push({
+        name: 'in-register',
+        query: { login_method: 'liker-id' },
+      });
     },
     onAuthCoreProfileUpdated() {
       this.syncAuthCoreUser();

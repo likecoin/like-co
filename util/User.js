@@ -131,7 +131,7 @@ const User = {
   async prepareSuggestedUserName(signInPayload) {
     const RANDOM_DIGIT_LENGTH = 5;
     const MAX_SUGGEST_TRY = 5;
-    let { suggestedName } = signInPayload;
+    let { user: suggestedName } = signInPayload;
     if (!suggestedName) {
       [suggestedName] = signInPayload.email.split('@');
     }

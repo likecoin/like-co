@@ -47,7 +47,6 @@
     <InputEmailForm
       v-else-if="step === STEP.INPUT_EMAIL"
       :email="email"
-      @skip="handleSkipEmail"
       @confirm="handleInputEmail"
     />
     <AwaitEmailVerifyForm
@@ -58,6 +57,7 @@
       v-else-if="step === STEP.COMPLETED"
       :liker-id="likerId"
       :display-name="displayName"
+      :description="description"
       :avatar="avatar"
       @upload-avatar="handleUploadAvatar"
       @confirm="handleComplete"
@@ -120,14 +120,21 @@ export default {
         user: '',
       }),
     },
+    authcoreInfo: {
+      type: Object,
+      default: () => ({ primary_email: '' }),
+    },
   },
   data() {
     const {
-      user: likerId,
-      displayName,
-      email,
-      avatar,
+      avatar, user, email: userEmail, displayName: userDisplayName,
     } = this.userInfo;
+    const { primary_email: authcoreEmail } = this.authcoreInfo;
+    const extractedEmailId = this.extractEmailId(authcoreEmail);
+
+    const email = userEmail || authcoreEmail;
+    const likerId = user || extractedEmailId;
+    const displayName = userDisplayName || extractedEmailId;
     return {
       step: this.initialStep,
       likerId,
@@ -197,6 +204,16 @@ export default {
     handleInputBio({ displayName = '', description = '' } = {}) {
       this.displayName = displayName;
       this.description = description;
+      if (this.email) {
+        this.$emit('register', {
+          user: this.likerId,
+          avatar: this.avatar,
+          displayName: this.displayName,
+          description: this.description,
+          email: this.email,
+          isSubscribeNewsletter: false,
+        });
+      }
       this.step = STEP.INPUT_EMAIL;
     },
     handleInputEmail({ email = '', isSubscribeNewsletter = false } = {}) {
@@ -216,9 +233,6 @@ export default {
         isSubscribeNewsletter: false,
       });
     },
-    handleSkipEmail() {
-      this.$modal.show('skip-verify-email');
-    },
     handleForceSkipEmail() {
       this.$modal.hide('skip-verify-email');
       this.handleInputEmail();
@@ -231,6 +245,10 @@ export default {
     },
     handleComplete() {
       this.$emit('complete');
+    },
+    extractEmailId(email) {
+      const match = email.match(/^([^@]+)/);
+      return match ? match[1] : null;
     },
   },
 };

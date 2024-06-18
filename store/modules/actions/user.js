@@ -150,6 +150,7 @@ export async function logoutUser({ commit, dispatch, state }, data) {
   commit(types.UI_INFO_MSG, '');
   if (isAuthCore) await dispatch('authCoreLogoutUser');
   dispatch('clearDefaultCosmosWalletSource');
+  dispatch('disconnectWallet');
   return true;
 }
 

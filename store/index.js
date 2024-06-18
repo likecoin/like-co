@@ -7,6 +7,7 @@ import ui from './modules/ui';
 import user from './modules/user';
 import eth from './modules/eth';
 import authCore from './modules/authCore';
+import wallet from './modules/wallet';
 
 const createStore = (() => new Vuex.Store({
   actions: {
@@ -43,6 +44,7 @@ const createStore = (() => new Vuex.Store({
     user,
     eth,
     authCore,
+    wallet,
   },
 }));
 

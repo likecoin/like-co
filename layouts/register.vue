@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <tool-bars :is-auth-dialog-disabled="true" />
     <div class="logo-wapper">
       <a
         :href="LIKER_LAND_URL"
@@ -41,11 +40,9 @@
 </template>
 
 <script>
-import localeMixin from '~/mixins/locale';
 import { EXTERNAL_URL, LIKER_LAND_URL } from '@/constant';
 
 import LanguageSwitch from '~/components/LanguageSwitch';
-import ToolBars from '~/components/toolbars/ToolBars';
 
 import likerLandIcon from '@/assets/logo/liker-land.svg';
 import questionIcon from '@/assets/tokensale/question.svg';
@@ -53,9 +50,7 @@ import questionIcon from '@/assets/tokensale/question.svg';
 export default {
   components: {
     LanguageSwitch,
-    ToolBars,
   },
-  mixins: [localeMixin],
   head() {
     return {
       htmlAttrs: {

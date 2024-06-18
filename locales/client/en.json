@@ -585,8 +585,8 @@
     "label": {
       "loading": "Loading",
       "signingIn": "Signing in",
-      "signInError": "Error occures when signing in. Please contact us in the bottom right chatbox.",
-      "signInErrorWithDetails": "Error occures when signing in, details information: {details}",
+      "signInError": "Error occurs when signing in. Please retry again.",
+      "signInErrorWithDetails": "Error occurs when signing in, details information: {details}",
       "checkInbox": "Check your inbox",
       "checkInboxDescription": "We just emailed a confirmation link to {email}. Click the link, and you’ll be signed in.",
       "loginSuccessful": "Login successful"
