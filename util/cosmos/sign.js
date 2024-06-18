@@ -1,5 +1,7 @@
 import {
-  LOGIN_MESSAGE, LIKECOIN_CHAIN_ID, LIKECOIN_CHAIN_MIN_DENOM,
+  LOGIN_MESSAGE,
+  LIKECOIN_CHAIN_ID,
+  LIKECOIN_CHAIN_MIN_DENOM,
 } from '@/constant';
 
 import stringify from 'fast-json-stable-stringify';
