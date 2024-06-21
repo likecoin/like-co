@@ -247,7 +247,6 @@ export default {
           case 'authcore':
             method = 'liker-id';
             break;
-          case 'likeWallet':
           default:
             method = 'likeWallet';
             break;
