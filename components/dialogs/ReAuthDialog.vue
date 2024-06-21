@@ -54,7 +54,7 @@ export default {
     ]),
     getAuthCoreRedirectUrl() {
       let url = `${EXTERNAL_URL}/in/register?`;
-      url += 'redirect_sign_in=1&sign_in_platform=authcore';
+      url += 'redirect_sign_in=1&method=liker-id';
       const { redirect, is_popup: isPopup } = this.$route.query;
       if (redirect) {
         url += `&redirect=${encodeURIComponent(redirect)}`;

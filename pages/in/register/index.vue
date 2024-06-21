@@ -240,7 +240,19 @@ export default {
       }
     },
     async handleAuthSignIn() {
-      const { method, code } = this.$route.query;
+      const { method: initialMethod, code, sign_in_platform: signInPlatform } = this.$route.query;
+      let method = initialMethod;
+      if (!method && signInPlatform) {
+        switch (signInPlatform) {
+          case 'authcore':
+            method = 'liker-id';
+            break;
+          case 'likeWallet':
+          default:
+            method = 'likeWallet';
+            break;
+        }
+      }
       if (method && code) {
         try {
           const user = await this.handleConnectorRedirect({
