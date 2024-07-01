@@ -191,6 +191,21 @@ export default {
     },
   },
   async mounted() {
+    const { redirect } = this.$route.query;
+    if (redirect) {
+      try {
+        const redirectUrl = new URL(decodeURIComponent(redirect));
+        const route = redirectUrl.pathname === '/in/oauth/' ? {
+          name: 'in-oauth',
+          query: Object.fromEntries(new URLSearchParams(redirectUrl.search)),
+          hash: redirectUrl.hash,
+        } : redirectUrl;
+        this.savePostAuthRoute({ route });
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(error);
+      }
+    }
     if (this.currentTab === TAB_OPTIONS.LOGIN && !this.isRedirectSignIn) {
       await this.handleConnectWallet();
     }
@@ -202,6 +217,7 @@ export default {
       'doPostAuthRedirect',
       'newUser',
       'updateUserAvatar',
+      'savePostAuthRoute',
     ]),
     async onClickLoginButton() {
       await this.handleConnectWallet();
