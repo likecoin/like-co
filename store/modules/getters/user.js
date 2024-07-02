@@ -58,3 +58,5 @@ export const getUserAuthCoreAccessToken = state => state.authCoreAccessToken;
 export const getWalletConnectURI = state => state.walletConnectURI;
 
 export const getWalletConnectConnecting = state => state.isWalletConnectConnecting;
+
+export const getPreAuthRoute = state => state.preAuthRoute;

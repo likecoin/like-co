@@ -56,6 +56,7 @@ export function savePostAuthRoute({ commit }, { route }) {
 
 export function doPostAuthRedirect({ commit, state }, { route, router }) {
   let targetRoute = state.preAuthRoute;
+  console.log('targetRoute-doPostAuthRedirect', targetRoute);
   if (window.sessionStorage) {
     if (!targetRoute) {
       const routeString = window.sessionStorage.getItem(

@@ -136,7 +136,14 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['getAddress', 'getSigner', 'walletLoginMethod', 'getCurrentLocale', 'getUserInfo']),
+    ...mapGetters([
+      'getAddress',
+      'getSigner',
+      'walletLoginMethod',
+      'getCurrentLocale',
+      'getUserInfo',
+      'getPreAuthRoute',
+    ]),
     platform() {
       return this.walletLoginMethod === 'liker-id' ? 'authcore' : 'likeWallet';
     },
@@ -194,13 +201,8 @@ export default {
     const { redirect } = this.$route.query;
     if (redirect) {
       try {
-        const redirectUrl = new URL(decodeURIComponent(redirect));
-        const route = redirectUrl.pathname === '/in/oauth/' ? {
-          name: 'in-oauth',
-          query: Object.fromEntries(new URLSearchParams(redirectUrl.search)),
-          hash: redirectUrl.hash,
-        } : redirectUrl;
-        this.savePostAuthRoute({ route });
+        this.savePostAuthRoute({ route: this.$route });
+        console.log('getPreAuthRoute', this.getPreAuthRoute);
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error(error);
@@ -239,6 +241,7 @@ export default {
 
     // Login
     async handleConnectWallet() {
+      console.log('getPreAuthRoute-handleConnectWallet', this.getPreAuthRoute);
       this.setError();
       try {
         await this.connectWallet();
@@ -256,6 +259,7 @@ export default {
       }
     },
     async handleAuthSignIn() {
+      console.log('getPreAuthRoute-handleAuthSignIn', this.getPreAuthRoute);
       const { method: initialMethod, code, sign_in_platform: signInPlatform } = this.$route.query;
       let method = initialMethod;
       if (!method && signInPlatform) {
@@ -323,16 +327,14 @@ export default {
     // Redirect
     redirectAfterSignIn() {
       this.currentTab = TAB_OPTIONS.REDIRECT;
-      if (!this.isOverlay) {
-        this.$nextTick(async () => {
-          if (!tryPostLoginRedirect({ route: this.$route })) {
-            // Normal case
-            await this.redirectToPreAuthPage();
-          }
-        });
-      } else {
-        this.$nextTick(async () => { await this.redirectToPreAuthPage(); });
-      }
+      const redirect = this.getPreAuthRoute?.query?.redirect;
+      console.log('redirect', redirect, 'getPreAuthRoute', this.getPreAuthRoute);
+      this.$nextTick(async () => {
+        if (!redirect || !tryPostLoginRedirect({ route: redirect })) {
+          // Normal case
+          await this.redirectToPreAuthPage();
+        }
+      });
     },
     redirectToPreAuthPage() {
       this.currentTab = TAB_OPTIONS.REDIRECT;
