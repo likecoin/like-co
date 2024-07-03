@@ -46,7 +46,7 @@ export function openURL(vue, url, name, specs, replace) {
 
 export function tryPostLoginRedirect({ route }) {
   const { redirect, is_popup: isPopup } = route.query;
-  if (redirect && !isValidRedirectUrl(redirect)) {
+  if (redirect && isValidRedirectUrl(redirect)) {
     // Redirect to external link
     window.location.href = redirect;
     return true;
