@@ -77,6 +77,7 @@ import { signLoginMessage } from '@/util/cosmos/sign';
 import { logTrackerEvent } from '@/util/EventLogger';
 import { tryPostLoginRedirect } from '@/util/client';
 import { apiCheckLikerId } from '@/util/api/api';
+import { isValidRedirectUrl } from '@/util/ValidationHelper';
 import User from '@/util/User';
 
 const TAB_OPTIONS = {
@@ -87,6 +88,13 @@ const TAB_OPTIONS = {
   EMAIL_VERIFY: 'await-email-verify',
   WELCOME: 'welcome',
   REDIRECT: 'redirect',
+};
+
+const REDIRECT_PATH_NAMES = {
+  OAUTH: {
+    name: 'in-oauth',
+    pathname: '/in/oauth/',
+  },
 };
 
 export default {
@@ -192,19 +200,9 @@ export default {
   },
   async mounted() {
     const { redirect } = this.$route.query;
-    if (redirect) {
-      try {
-        const redirectUrl = new URL(decodeURIComponent(redirect));
-        const route = redirectUrl.pathname === '/in/oauth/' ? {
-          name: 'in-oauth',
-          query: Object.fromEntries(new URLSearchParams(redirectUrl.search)),
-          hash: redirectUrl.hash,
-        } : redirectUrl;
-        this.savePostAuthRoute({ route });
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error(error);
-      }
+    if (redirect && isValidRedirectUrl(redirect)) {
+      const route = this.parseRedirectUrl(redirect);
+      this.savePostAuthRoute({ route });
     }
     if (this.currentTab === TAB_OPTIONS.LOGIN && !this.isRedirectSignIn) {
       await this.handleConnectWallet();
@@ -426,6 +424,16 @@ export default {
       }
     },
 
+    parseRedirectUrl(redirect) {
+      const redirectUrl = new URL(decodeURIComponent(redirect));
+      return redirectUrl.pathname === REDIRECT_PATH_NAMES.OAUTH.pathname
+        ? {
+          name: REDIRECT_PATH_NAMES.OAUTH.name,
+          query: Object.fromEntries(new URLSearchParams(redirectUrl.search)),
+          hash: redirectUrl.hash,
+        }
+        : redirectUrl;
+    },
   },
 };
 </script>

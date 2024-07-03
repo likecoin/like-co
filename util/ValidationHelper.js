@@ -1,6 +1,7 @@
 import {
   MIN_USER_ID_LENGTH,
   MAX_USER_ID_LENGTH,
+  REDIRECT_WHITE_LIST,
 } from '../constant';
 
 export function checkUserNameValid(user) {
@@ -21,6 +22,17 @@ export function isValidHttpUrl(string) {
   }
 
   return url.protocol === 'http:' || url.protocol === 'https:';
+}
+
+export function isValidRedirectUrl(redirect) {
+  try {
+    const redirectUrl = new URL(decodeURIComponent(redirect));
+    return REDIRECT_WHITE_LIST.includes(redirectUrl.hostname);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Invalid redirect URL:', error);
+    return false;
+  }
 }
 
 export default checkUserNameValid;
