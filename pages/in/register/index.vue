@@ -425,7 +425,7 @@ export default {
     },
 
     parseRedirectUrl(redirect) {
-      const redirectUrl = new URL(decodeURIComponent(redirect));
+      const redirectUrl = new URL(redirect);
       return redirectUrl.pathname === REDIRECT_PATH_NAMES.OAUTH.pathname
         ? {
           name: REDIRECT_PATH_NAMES.OAUTH.name,

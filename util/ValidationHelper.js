@@ -26,7 +26,7 @@ export function isValidHttpUrl(string) {
 
 export function isValidRedirectUrl(redirect) {
   try {
-    const redirectUrl = new URL(decodeURIComponent(redirect));
+    const redirectUrl = new URL(redirect);
     return REDIRECT_WHITE_LIST.includes(redirectUrl.hostname);
   } catch (error) {
     // eslint-disable-next-line no-console
