@@ -1,9 +1,8 @@
-import parse from 'url-parse';
 import { getCookie, setCookie, removeCookie } from 'tiny-cookie';
 import {
   LIKE_BUTTON_POST_MESSAGE_TARGET_ORIGIN,
-  REDIRECT_WHITE_LIST,
 } from '~/constant';
+import { isValidRedirectUrl } from '@/util/ValidationHelper';
 
 export function checkIsMobileClient() {
   if (!global.window) return false;
@@ -47,7 +46,7 @@ export function openURL(vue, url, name, specs, replace) {
 
 export function tryPostLoginRedirect({ route }) {
   const { redirect, is_popup: isPopup } = route.query;
-  if (redirect && REDIRECT_WHITE_LIST.indexOf(parse(redirect, {}).hostname) !== -1) {
+  if (redirect && isValidRedirectUrl(redirect)) {
     // Redirect to external link
     window.location.href = redirect;
     return true;
