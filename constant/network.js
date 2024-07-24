@@ -48,7 +48,7 @@ export const LIKECOIN_WALLET_CONNECTOR_CONFIG = {
     name: 'LikeCoin',
   },
   cosmostationDirectSignEnabled: true,
-  authcoreClientId: 'likecoin-app', // 'likecoin-app-hidesocial' if hide social
+  authcoreClientId: 'likecoin-app-hidesocial', // 'likecoin-app' if show all
   authcoreApiHost: IS_TESTNET
     ? 'https://likecoin-integration-test.authcore.io'
     : 'https://authcore.like.co',
