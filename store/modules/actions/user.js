@@ -71,7 +71,7 @@ export function doPostAuthRedirect({ commit, state }, { route, router }) {
     }
     window.sessionStorage.removeItem('USER_POST_AUTH_ROUTE');
   }
-  if (!targetRoute) targetRoute = { name: 'in', query: { postlogin: 1 } };
+  if (!targetRoute?.name) targetRoute = { name: 'in', query: { postlogin: 1 } };
   if (route) {
     const {
       query,
