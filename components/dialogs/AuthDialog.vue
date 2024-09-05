@@ -1006,7 +1006,6 @@ export default {
         // eslint-disable-next-line no-console
         console.error(err);
         this.setError(err.code, err);
-        if (this.$sentry) this.$sentry.captureException(err);
       }
       this.$router.replace({
         name: this.$route.name,
@@ -1058,9 +1057,6 @@ export default {
         default: {
           // eslint-disable-next-line no-console
           console.error('platform default not exist');
-          if (this.$sentry) {
-            this.$sentry.captureException(new Error('platform default not exist'));
-          }
           this.currentTab = 'error';
         }
       }
@@ -1081,7 +1077,6 @@ export default {
 
         // eslint-disable-next-line no-console
         console.error(err);
-        if (this.$sentry) this.$sentry.captureException(err);
         this.setError((err.response || {}).data, err);
         return;
       }
@@ -1100,7 +1095,6 @@ export default {
         } else {
           // eslint-disable-next-line no-console
           console.error(err);
-          if (this.$sentry) this.$sentry.captureException(err);
           this.setError(err.message, err);
         }
       }
@@ -1115,7 +1109,6 @@ export default {
         this.login();
       } catch (err) {
         console.error(err);
-        if (this.$sentry) this.$sentry.captureException(err);
         this.setError(err.message, err);
       }
     },
@@ -1145,7 +1138,6 @@ export default {
         this.logRegisterEvent(this, 'RegFlow', 'LoginFail', 'LoginFail', 1);
         // eslint-disable-next-line no-console
         console.error(err);
-        if (this.$sentry) this.$sentry.captureException(err);
         this.setError((err.response || {}).data, err);
       }
     },
@@ -1207,12 +1199,10 @@ export default {
             default:
               // eslint-disable-next-line no-console
               console.error(err);
-              if (this.$sentry) this.$sentry.captureException(err);
           }
         } else {
           // eslint-disable-next-line no-console
           console.error(err);
-          if (this.$sentry) this.$sentry.captureException(err);
           errCode = 'USER_REGISTER_ERROR';
         }
         this.setError(errCode, err);

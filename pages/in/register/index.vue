@@ -313,7 +313,6 @@ export default {
         logTrackerEvent(this, 'RegFlow', 'LoginFail', 'LoginFail', 1);
         // eslint-disable-next-line no-console
         console.error(err);
-        if (this.$sentry) this.$sentry.captureException(err);
         // this.setError((err.response || {}).data, err);
       }
     },
@@ -405,12 +404,10 @@ export default {
             default:
               // eslint-disable-next-line no-console
               console.error(err);
-              if (this.$sentry) this.$sentry.captureException(err);
           }
         } else {
           // eslint-disable-next-line no-console
           console.error(err);
-          if (this.$sentry) this.$sentry.captureException(err);
           errCode = 'USER_REGISTER_ERROR';
         }
         this.setError(errCode, err);

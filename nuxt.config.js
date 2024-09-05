@@ -220,12 +220,6 @@ const nuxtConfig = {
       /* default integrations will still be added due to deep-merge */
       ReportingObserver: false, // reporting is very noisy on CSP violation.
     },
-    config: {
-      release: process.env.RELEASE,
-      include: ['.nuxt/dist'],
-      ignore: ['node_modules', '.nuxt/dist/server-bundle.json', '.nuxt/dist/img', '.nuxt/dist'],
-      configFile: '.sentryclirc',
-    },
   },
   /*
   ** Add axios globally

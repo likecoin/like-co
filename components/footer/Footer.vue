@@ -77,9 +77,7 @@ export default {
             id: user,
             username: displayName,
           };
-          this.$sentry.configureScope((scope) => {
-            scope.setUser(opt);
-          });
+          this.$sentry.getCurrentScope().setUser(opt);
         }
       }
     },
@@ -136,9 +134,7 @@ export default {
           id: user,
           username: displayName,
         };
-        this.$sentry.configureScope((scope) => {
-          scope.setUser(opt);
-        });
+        this.$sentry.getCurrentScope().setUser(opt);
       }
     }
   },
