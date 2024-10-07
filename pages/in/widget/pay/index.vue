@@ -697,7 +697,7 @@ export default {
       this.isSigning = true;
       try {
         const amount = new BigNumber(this.totalAmount);
-        const from = await this.fetchCurrentCosmosWallet();
+        const from = this.getSigner ? this.getAddress : null;
         if (!from) {
           throw new Error('PLEASE_RELOGIN');
         }
@@ -720,7 +720,7 @@ export default {
           );
           throw new Error('VALIDATION_FAIL');
         }
-        const signer = await this.prepareCosmosTxSigner();
+        const signer = this.getSigner;
         let txHash;
         const showDialogAction = !this.redirectUri;
         const isWait = !!this.blocking;
