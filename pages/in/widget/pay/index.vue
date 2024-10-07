@@ -322,7 +322,7 @@
           {{ $t('General.button.confirm') }}
         </button>
       </div>
-      <div v-if="getUserIsRegistered">
+      <div v-if="getAddress">
         <nuxt-link
           :to="{ name: 'in-logout' }"
           style=" margin: 10px;
@@ -356,7 +356,6 @@ import User from '@/util/User';
 import {
   apiGetUserMinById,
 } from '@/util/api/api';
-import Keplr from '@/util/Keplr';
 import { signLoginMessage } from '@/util/cosmos/sign';
 import KeplrNotFound from '~/components/KeplrNotFound';
 import wallet from '~/mixins/wallet-login';
@@ -535,10 +534,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'getUserIsRegistered',
       'getLikeCoinUsdNumericPrice',
       'getUserInfo',
-      'getAuthCoreNeedReAuth',
       'getIsShowingTxPopup',
       'getPendingTxInfo',
       'getAddress',
@@ -801,23 +798,6 @@ export default {
           params: { id: txHash, tx: this.getPendingTxInfo },
         });
       }
-    },
-    onClickSignInButton() {
-      this.popupAuthDialogInPlace({ route: this.$route, isSignIn: true });
-    },
-    async onClickConnectKeplrButton() {
-      this.currentTab = 'loading';
-      this.isKeplrNotFound = false;
-      const res = await Keplr.initKeplr();
-      if (res) {
-        this.setDefaultCosmosWalletSource({ source: 'keplr', persistent: false });
-        this.isUsingKeplr = true;
-        return;
-      }
-      this.isKeplrNotFound = true;
-    },
-    onClickAuthCoreReAuth() {
-      this.setReAuthDialogShow(true);
     },
     async login(loginPayload = {}) {
       this.isLoginSuccessful = false;
