@@ -305,31 +305,12 @@
       </section>
     </div>
     <footer class="likepay-panel__footer">
-      <div v-if="!getUserIsRegistered && !isUsingKeplr">
+      <div v-if="!getAddress">
         <button
           class="likepay-block-button"
-          @click="onClickConnectKeplrButton"
+          @click="onClickLoginButton"
         >
-          {{ $t('Home.Header.button.keplr') }}
-        </button>
-      </div>
-      <div v-if="!getUserIsRegistered && !isUsingKeplr">
-        <button
-          class="likepay-block-button"
-          @click="onClickSignInButton"
-        >
-          {{ $t('Home.Header.button.signIn') }}
-        </button>
-      </div>
-      <div
-        v-else-if="getAuthCoreNeedReAuth"
-        class="create-account-wrapper"
-      >
-        <button
-          class="likepay-block-button"
-          @click="onClickAuthCoreReAuth"
-        >
-          {{ $t('AuthCore.button.reAuthNeeded') }}
+          {{ $t('AuthDialog.SignUp.toggleButton') }}
         </button>
       </div>
       <div v-else>
@@ -376,7 +357,9 @@ import {
   apiGetUserMinById,
 } from '@/util/api/api';
 import Keplr from '@/util/Keplr';
+import { signLoginMessage } from '@/util/cosmos/sign';
 import KeplrNotFound from '~/components/KeplrNotFound';
+import wallet from '~/mixins/wallet-login';
 
 const URL = require('url-parse');
 
@@ -386,6 +369,7 @@ export default {
   components: {
     KeplrNotFound,
   },
+  mixins: [wallet],
   data() {
     return {
       LIKER_LAND_URL,
@@ -404,6 +388,11 @@ export default {
       gasFee: '',
       isUsingKeplr: false,
       isKeplrNotFound: false,
+      signInPayload: {},
+      errorCode: '',
+      error: '',
+      authcoreUserData: {},
+      isLoginSuccessful: false,
     };
   },
   async asyncData({
@@ -534,6 +523,7 @@ export default {
         isRedirectURLWhiteListed,
       };
     }).catch((e) => {
+      // eslint-disable-next-line no-console
       console.error(e);
       error({ statusCode: 404, message: e.message });
     });
@@ -551,6 +541,9 @@ export default {
       'getAuthCoreNeedReAuth',
       'getIsShowingTxPopup',
       'getPendingTxInfo',
+      'getAddress',
+      'getSigner',
+
     ]),
     redirectOrigin() {
       const url = new URL(this.redirectUri, true);
@@ -626,6 +619,9 @@ export default {
         },
       };
     },
+    platform() {
+      return this.walletLoginMethod === 'liker-id' ? 'authcore' : 'likeWallet';
+    },
   },
   async mounted() {
     if (!this.isChainUpgrading) {
@@ -637,6 +633,14 @@ export default {
     if (this.opener && !window.opener) {
       this.$nuxt.error({ statusCode: 400, message: 'Cannot access window opener' });
     }
+    this.savePostAuthRoute({
+      route: {
+        params: this.$route.params,
+        name: this.$route.name,
+        query: this.$route.query,
+      },
+
+    });
     this.isLoading = false;
   },
   methods: {
@@ -650,6 +654,9 @@ export default {
       'fetchCurrentCosmosWallet',
       'prepareCosmosTxSigner',
       'setDefaultCosmosWalletSource',
+      'handleConnectorRedirect',
+      'loginUser',
+      'savePostAuthRoute',
     ]),
     toggleDetails() {
       const isCollapsing = !this.showDetails;
@@ -811,6 +818,41 @@ export default {
     },
     onClickAuthCoreReAuth() {
       this.setReAuthDialogShow(true);
+    },
+    async login(loginPayload = {}) {
+      this.isLoginSuccessful = false;
+      const signer = this.getSigner;
+      const address = this.getAddress;
+      const payload = await signLoginMessage(signer, address);
+      const data = {
+        locale: this.getCurrentLocale,
+        platform: this.platform,
+        ...payload,
+        ...loginPayload,
+      };
+      this.signInPayload = data;
+      try {
+        await this.loginUser(this.signInPayload);
+        this.isLoginSuccessful = true;
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error(err);
+      }
+    },
+    async handleConnectWallet() {
+      try {
+        await this.connectWallet();
+        await this.login();
+        if (this.isLoginSuccessful) {
+          this.doPostAuthRedirect({ route: { query: this.$route.query }, router: this.$router });
+        }
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(error);
+      }
+    },
+    async onClickLoginButton() {
+      await this.handleConnectWallet();
     },
   },
 };
