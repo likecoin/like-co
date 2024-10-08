@@ -356,9 +356,8 @@ import User from '@/util/User';
 import {
   apiGetUserMinById,
 } from '@/util/api/api';
-import { signLoginMessage } from '@/util/cosmos/sign';
 import KeplrNotFound from '~/components/KeplrNotFound';
-import wallet from '~/mixins/wallet-login';
+import walletMixin from '~/mixins/wallet-login';
 
 const URL = require('url-parse');
 
@@ -368,7 +367,7 @@ export default {
   components: {
     KeplrNotFound,
   },
-  mixins: [wallet],
+  mixins: [walletMixin],
   data() {
     return {
       LIKER_LAND_URL,
@@ -387,11 +386,7 @@ export default {
       gasFee: '',
       isUsingKeplr: false,
       isKeplrNotFound: false,
-      signInPayload: {},
-      errorCode: '',
       error: '',
-      authcoreUserData: {},
-      isLoginSuccessful: false,
     };
   },
   async asyncData({
@@ -553,9 +548,6 @@ export default {
     isChainUpgrading() {
       return IS_CHAIN_UPGRADING;
     },
-    httpReferrer() {
-      return this.$route.query.referrer || document.referrer || undefined;
-    },
     sumOfToAmount() {
       if (!this.amounts) return '0';
       const amount = this.amounts.reduce(
@@ -582,16 +574,6 @@ export default {
     hasAgentFee() {
       return this.agentUser && this.agentFee && this.agentFee !== '0';
     },
-    usdTransferStrValue() {
-      if (this.getLikeCoinUsdNumericPrice && this.totalAmount) {
-        const value = new BigNumber(this.totalAmount);
-        const usdValue = value.times(this.getLikeCoinUsdNumericPrice);
-        let decimalPlace = 2;
-        if (usdValue.lt(0.01)) decimalPlace = 4;
-        return value.times(this.getLikeCoinUsdNumericPrice).toFixed(decimalPlace);
-      }
-      return null;
-    },
     likePayMetadata() {
       const {
         toIds,
@@ -616,9 +598,6 @@ export default {
         },
       };
     },
-    platform() {
-      return this.walletLoginMethod === 'liker-id' ? 'authcore' : 'likeWallet';
-    },
   },
   async mounted() {
     if (!this.isChainUpgrading) {
@@ -642,17 +621,10 @@ export default {
   },
   methods: {
     ...mapActions([
-      'popupAuthDialogInPlace',
-      'setReAuthDialogShow',
       'sendCosmosPayment',
       'setErrorMsg',
       'closeTxDialog',
       'queryLikeCoinUsdPrice',
-      'fetchCurrentCosmosWallet',
-      'prepareCosmosTxSigner',
-      'setDefaultCosmosWalletSource',
-      'handleConnectorRedirect',
-      'loginUser',
       'savePostAuthRoute',
     ]),
     toggleDetails() {
@@ -797,38 +769,6 @@ export default {
           name: 'in-tx-id',
           params: { id: txHash, tx: this.getPendingTxInfo },
         });
-      }
-    },
-    async login(loginPayload = {}) {
-      this.isLoginSuccessful = false;
-      const signer = this.getSigner;
-      const address = this.getAddress;
-      const payload = await signLoginMessage(signer, address);
-      const data = {
-        locale: this.getCurrentLocale,
-        platform: this.platform,
-        ...payload,
-        ...loginPayload,
-      };
-      this.signInPayload = data;
-      try {
-        await this.loginUser(this.signInPayload);
-        this.isLoginSuccessful = true;
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.error(err);
-      }
-    },
-    async handleConnectWallet() {
-      try {
-        await this.connectWallet();
-        await this.login();
-        if (this.isLoginSuccessful) {
-          this.doPostAuthRedirect({ route: { query: this.$route.query }, router: this.$router });
-        }
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error(error);
       }
     },
     async onClickLoginButton() {
