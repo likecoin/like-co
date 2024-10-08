@@ -1,8 +1,21 @@
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 import { logTrackerEvent } from '~/util/EventLogger';
+import { signLoginMessage } from '@/util/cosmos/sign';
 
 export default {
+  data() {
+    return {
+      isLoginSuccessful: false,
+      signInPayload: {},
+    };
+  },
+  computed: {
+    ...mapGetters(['getSigner', 'getAddress', 'getCurrentLocale']),
+    platform() {
+      return this.walletLoginMethod === 'liker-id' ? 'authcore' : 'likeWallet';
+    },
+  },
   methods: {
     ...mapActions([
       'openConnectWalletModal',
@@ -11,6 +24,8 @@ export default {
       'initWallet',
       'initWalletAndLogin',
       'initIfNecessary',
+      'doPostAuthRedirect',
+      'loginUser',
     ]),
     async connectWallet() {
       try {
@@ -56,6 +71,37 @@ export default {
         // eslint-disable-next-line no-console
         console.error(err);
         return false;
+      }
+    },
+    async login(loginPayload = {}) {
+      this.isLoginSuccessful = false;
+      const signer = this.getSigner;
+      const address = this.getAddress;
+      const payload = await signLoginMessage(signer, address);
+      const data = {
+        locale: this.getCurrentLocale,
+        platform: this.platform,
+        ...payload,
+        ...loginPayload,
+      };
+      this.signInPayload = data;
+      try {
+        await this.loginUser(this.signInPayload);
+        this.isLoginSuccessful = true;
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error(err);
+      }
+    },
+    async handleConnectWallet() {
+      try {
+        await this.connectWallet();
+        await this.login();
+        if (this.isLoginSuccessful) {
+          this.doPostAuthRedirect({ route: { query: this.$route.query }, router: this.$router });
+        }
+      } catch (error) {
+        throw error;
       }
     },
     handleConnectWalletEvent({ type, ...payload }) {

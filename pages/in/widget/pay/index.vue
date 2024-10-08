@@ -305,31 +305,12 @@
       </section>
     </div>
     <footer class="likepay-panel__footer">
-      <div v-if="!getUserIsRegistered && !isUsingKeplr">
+      <div v-if="!getAddress">
         <button
           class="likepay-block-button"
-          @click="onClickConnectKeplrButton"
+          @click="onClickLoginButton"
         >
-          {{ $t('Home.Header.button.keplr') }}
-        </button>
-      </div>
-      <div v-if="!getUserIsRegistered && !isUsingKeplr">
-        <button
-          class="likepay-block-button"
-          @click="onClickSignInButton"
-        >
-          {{ $t('Home.Header.button.signIn') }}
-        </button>
-      </div>
-      <div
-        v-else-if="getAuthCoreNeedReAuth"
-        class="create-account-wrapper"
-      >
-        <button
-          class="likepay-block-button"
-          @click="onClickAuthCoreReAuth"
-        >
-          {{ $t('AuthCore.button.reAuthNeeded') }}
+          {{ $t('AuthDialog.SignUp.toggleButton') }}
         </button>
       </div>
       <div v-else>
@@ -341,7 +322,7 @@
           {{ $t('General.button.confirm') }}
         </button>
       </div>
-      <div v-if="getUserIsRegistered">
+      <div v-if="getAddress">
         <nuxt-link
           :to="{ name: 'in-logout' }"
           style=" margin: 10px;
@@ -375,8 +356,8 @@ import User from '@/util/User';
 import {
   apiGetUserMinById,
 } from '@/util/api/api';
-import Keplr from '@/util/Keplr';
 import KeplrNotFound from '~/components/KeplrNotFound';
+import walletMixin from '~/mixins/wallet-login';
 
 const URL = require('url-parse');
 
@@ -386,6 +367,7 @@ export default {
   components: {
     KeplrNotFound,
   },
+  mixins: [walletMixin],
   data() {
     return {
       LIKER_LAND_URL,
@@ -404,6 +386,7 @@ export default {
       gasFee: '',
       isUsingKeplr: false,
       isKeplrNotFound: false,
+      error: '',
     };
   },
   async asyncData({
@@ -534,6 +517,7 @@ export default {
         isRedirectURLWhiteListed,
       };
     }).catch((e) => {
+      // eslint-disable-next-line no-console
       console.error(e);
       error({ statusCode: 404, message: e.message });
     });
@@ -545,12 +529,13 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'getUserIsRegistered',
       'getLikeCoinUsdNumericPrice',
       'getUserInfo',
-      'getAuthCoreNeedReAuth',
       'getIsShowingTxPopup',
       'getPendingTxInfo',
+      'getAddress',
+      'getSigner',
+
     ]),
     redirectOrigin() {
       const url = new URL(this.redirectUri, true);
@@ -562,9 +547,6 @@ export default {
     },
     isChainUpgrading() {
       return IS_CHAIN_UPGRADING;
-    },
-    httpReferrer() {
-      return this.$route.query.referrer || document.referrer || undefined;
     },
     sumOfToAmount() {
       if (!this.amounts) return '0';
@@ -591,16 +573,6 @@ export default {
     },
     hasAgentFee() {
       return this.agentUser && this.agentFee && this.agentFee !== '0';
-    },
-    usdTransferStrValue() {
-      if (this.getLikeCoinUsdNumericPrice && this.totalAmount) {
-        const value = new BigNumber(this.totalAmount);
-        const usdValue = value.times(this.getLikeCoinUsdNumericPrice);
-        let decimalPlace = 2;
-        if (usdValue.lt(0.01)) decimalPlace = 4;
-        return value.times(this.getLikeCoinUsdNumericPrice).toFixed(decimalPlace);
-      }
-      return null;
     },
     likePayMetadata() {
       const {
@@ -637,19 +609,23 @@ export default {
     if (this.opener && !window.opener) {
       this.$nuxt.error({ statusCode: 400, message: 'Cannot access window opener' });
     }
+    this.savePostAuthRoute({
+      route: {
+        params: this.$route.params,
+        name: this.$route.name,
+        query: this.$route.query,
+      },
+
+    });
     this.isLoading = false;
   },
   methods: {
     ...mapActions([
-      'popupAuthDialogInPlace',
-      'setReAuthDialogShow',
       'sendCosmosPayment',
       'setErrorMsg',
       'closeTxDialog',
       'queryLikeCoinUsdPrice',
-      'fetchCurrentCosmosWallet',
-      'prepareCosmosTxSigner',
-      'setDefaultCosmosWalletSource',
+      'savePostAuthRoute',
     ]),
     toggleDetails() {
       const isCollapsing = !this.showDetails;
@@ -690,7 +666,7 @@ export default {
       this.isSigning = true;
       try {
         const amount = new BigNumber(this.totalAmount);
-        const from = await this.fetchCurrentCosmosWallet();
+        const from = this.getSigner ? this.getAddress : null;
         if (!from) {
           throw new Error('PLEASE_RELOGIN');
         }
@@ -713,7 +689,7 @@ export default {
           );
           throw new Error('VALIDATION_FAIL');
         }
-        const signer = await this.prepareCosmosTxSigner();
+        const signer = this.getSigner;
         let txHash;
         const showDialogAction = !this.redirectUri;
         const isWait = !!this.blocking;
@@ -795,22 +771,8 @@ export default {
         });
       }
     },
-    onClickSignInButton() {
-      this.popupAuthDialogInPlace({ route: this.$route, isSignIn: true });
-    },
-    async onClickConnectKeplrButton() {
-      this.currentTab = 'loading';
-      this.isKeplrNotFound = false;
-      const res = await Keplr.initKeplr();
-      if (res) {
-        this.setDefaultCosmosWalletSource({ source: 'keplr', persistent: false });
-        this.isUsingKeplr = true;
-        return;
-      }
-      this.isKeplrNotFound = true;
-    },
-    onClickAuthCoreReAuth() {
-      this.setReAuthDialogShow(true);
+    async onClickLoginButton() {
+      await this.handleConnectWallet();
     },
   },
 };

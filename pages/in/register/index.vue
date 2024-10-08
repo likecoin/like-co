@@ -64,7 +64,7 @@
   </div>
 </template>
 <script>
-import wallet from '~/mixins/wallet-login';
+import walletMixin from '~/mixins/wallet-login';
 import { mapGetters, mapActions } from 'vuex';
 
 import Button from '~/components/v2/Button';
@@ -73,7 +73,6 @@ import BaseDialogV3 from '@/components/v2/dialogs/BaseDialogV3';
 import Spinner from '@/components/Spinner';
 
 
-import { signLoginMessage } from '@/util/cosmos/sign';
 import { logTrackerEvent } from '@/util/EventLogger';
 import { tryPostLoginRedirect } from '@/util/client';
 import { apiCheckLikerId } from '@/util/api/api';
@@ -106,7 +105,7 @@ export default {
     BaseDialogV3,
     Spinner,
   },
-  mixins: [wallet],
+  mixins: [walletMixin],
   head() {
     return {
       title: this.$t('Register.label.register'),
@@ -205,20 +204,19 @@ export default {
       this.savePostAuthRoute({ route });
     }
     if (this.currentTab === TAB_OPTIONS.LOGIN && !this.isRedirectSignIn) {
-      await this.handleConnectWallet();
+      await this.handleConnect();
     }
   },
   methods: {
     ...mapActions([
       'handleConnectorRedirect',
-      'loginUser',
       'doPostAuthRedirect',
       'newUser',
       'updateUserAvatar',
       'savePostAuthRoute',
     ]),
     async onClickLoginButton() {
-      await this.handleConnectWallet();
+      await this.handleConnect();
     },
     onClickDialogCloseButton() {
       this.currentTab = TAB_OPTIONS.LOGIN;
@@ -226,7 +224,7 @@ export default {
       this.error = '';
       this.signInPayload = {};
       this.authcoreUserData = {};
-      this.handleConnectWallet();
+      this.handleConnect();
     },
     setError(code, error) {
       this.currentTab = code ? TAB_OPTIONS.ERROR : TAB_OPTIONS.LOGIN;
@@ -236,18 +234,17 @@ export default {
 
 
     // Login
-    async handleConnectWallet() {
-      this.setError();
+    async handleConnect() {
       try {
-        await this.connectWallet();
-        await this.login();
-        if (this.isLoginSuccessful) {
-          this.redirectAfterSignIn();
-        }
+        this.setError();
+        await this.handleConnectWallet();
       } catch (error) {
-        if (error.message?.includes('signArbitrary')) {
+        if (error.message?.includes('signArbitrary')) { // user rejected
         // eslint-disable-next-line no-console
           console.error(error);
+        } else if (error.response?.status === 404) { // login failed
+          this.currentTab = TAB_OPTIONS.REGISTER;
+          logTrackerEvent(this, 'RegFlow', 'LoginFail', 'LoginFail', 1);
         } else {
           this.setError(error.message, error);
         }
@@ -287,33 +284,6 @@ export default {
           this.setError(errData.status, errMessage);
           console.error(errMessage); // eslint-disable-line no-console
         }
-      }
-    },
-    async login(loginPayload = {}) {
-      this.isLoginSuccessful = false;
-      const signer = this.getSigner;
-      const address = this.getAddress;
-      const payload = await signLoginMessage(signer, address);
-      const data = {
-        locale: this.getCurrentLocale,
-        platform: this.platform,
-        ...payload,
-        ...loginPayload,
-      };
-      this.signInPayload = data;
-      try {
-        await this.loginUser(this.signInPayload);
-        this.isLoginSuccessful = true;
-      } catch (err) {
-        if (err.response) {
-          if (err.response.status === 404) {
-            this.currentTab = TAB_OPTIONS.REGISTER;
-          }
-        }
-        logTrackerEvent(this, 'RegFlow', 'LoginFail', 'LoginFail', 1);
-        // eslint-disable-next-line no-console
-        console.error(err);
-        // this.setError((err.response || {}).data, err);
       }
     },
 
