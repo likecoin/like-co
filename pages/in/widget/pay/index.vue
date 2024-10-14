@@ -304,8 +304,11 @@
         </div>
       </section>
     </div>
-    <footer class="likepay-panel__footer">
-      <div v-if="!getUserIsRegistered && !isUsingKeplr">
+    <footer
+      class="likepay-panel__footer"
+      style="display: flex; align-items: center; flex-direction: column; gap: 8px;"
+    >
+      <div v-if="!getAddress && !isUsingKeplr">
         <button
           class="likepay-block-button"
           @click="onClickConnectKeplrButton"
@@ -313,23 +316,12 @@
           {{ $t('Home.Header.button.keplr') }}
         </button>
       </div>
-      <div v-if="!getUserIsRegistered && !isUsingKeplr">
+      <div v-if="!getAddress && !isUsingKeplr">
         <button
           class="likepay-block-button"
           @click="onClickSignInButton"
         >
           {{ $t('Home.Header.button.signIn') }}
-        </button>
-      </div>
-      <div
-        v-else-if="getAuthCoreNeedReAuth"
-        class="create-account-wrapper"
-      >
-        <button
-          class="likepay-block-button"
-          @click="onClickAuthCoreReAuth"
-        >
-          {{ $t('AuthCore.button.reAuthNeeded') }}
         </button>
       </div>
       <div v-else>
@@ -341,7 +333,7 @@
           {{ $t('General.button.confirm') }}
         </button>
       </div>
-      <div v-if="getUserIsRegistered">
+      <div v-if="getAddress">
         <nuxt-link
           :to="{ name: 'in-logout' }"
           style=" margin: 10px;
@@ -551,6 +543,7 @@ export default {
       'getAuthCoreNeedReAuth',
       'getIsShowingTxPopup',
       'getPendingTxInfo',
+      'getAddress',
     ]),
     redirectOrigin() {
       const url = new URL(this.redirectUri, true);
@@ -796,7 +789,10 @@ export default {
       }
     },
     onClickSignInButton() {
-      this.popupAuthDialogInPlace({ route: this.$route, isSignIn: true });
+      this.$router.push({
+        name: 'in-register',
+        query: { redirect: this.$route.fullPath },
+      });
     },
     async onClickConnectKeplrButton() {
       this.currentTab = 'loading';
@@ -808,9 +804,6 @@ export default {
         return;
       }
       this.isKeplrNotFound = true;
-    },
-    onClickAuthCoreReAuth() {
-      this.setReAuthDialogShow(true);
     },
   },
 };

@@ -95,6 +95,11 @@ const REDIRECT_PATH_NAMES = {
     name: 'in-oauth',
     pathname: '/in/oauth/',
   },
+  LIKE_PAY: {
+    name: 'in-widget-pay',
+    pathname: '/in/widget/pay/',
+  },
+
 };
 
 export default {
@@ -423,13 +428,21 @@ export default {
 
     parseRedirectUrl(redirect) {
       const redirectUrl = new URL(redirect);
-      return redirectUrl.pathname === REDIRECT_PATH_NAMES.OAUTH.pathname
-        ? {
-          name: REDIRECT_PATH_NAMES.OAUTH.name,
-          query: Object.fromEntries(new URLSearchParams(redirectUrl.search)),
-          hash: redirectUrl.hash,
-        }
-        : redirectUrl;
+      switch (redirectUrl.pathname) {
+        case REDIRECT_PATH_NAMES.LIKE_PAY.pathname:
+          return {
+            name: REDIRECT_PATH_NAMES.LIKE_PAY.name,
+            query: Object.fromEntries(new URLSearchParams(redirectUrl.search)),
+          };
+        case REDIRECT_PATH_NAMES.OAUTH.pathname:
+          return {
+            name: REDIRECT_PATH_NAMES.OAUTH.name,
+            query: Object.fromEntries(new URLSearchParams(redirectUrl.search)),
+            hash: redirectUrl.hash,
+          };
+        default:
+          return redirectUrl;
+      }
     },
   },
 };
