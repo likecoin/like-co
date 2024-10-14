@@ -24,10 +24,7 @@ export default {
           1,
         );
         const connection = isAuthcore
-          ? await this.openAuthcoreModal({
-            shouldShowLegacyAuthcoreOptions: !!this.$route.query
-              .authcore_legacy,
-          })
+          ? await this.openAuthcoreModal()
           : await this.openConnectWalletModal({
             language: this.$i18n.locale.split('-')[0],
             connectWalletTitle: 'Login',
