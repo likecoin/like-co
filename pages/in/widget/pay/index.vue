@@ -791,7 +791,7 @@ export default {
     onClickSignInButton() {
       this.$router.push({
         name: 'in-register',
-        query: { redirect: this.$route.fullPath },
+        query: { platform: 'authcore', authcore_legacy: 1, redirect: this.$route.fullPath },
       });
     },
     async onClickConnectKeplrButton() {

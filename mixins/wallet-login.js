@@ -12,7 +12,9 @@ export default {
       'initWalletAndLogin',
       'initIfNecessary',
     ]),
-    async connectWallet() {
+    async connectWallet({
+      isOpenAuthcore = false,
+    } = {}) {
       try {
         logTrackerEvent(
           this,
@@ -21,16 +23,21 @@ export default {
           'connect_wallet_start',
           1,
         );
-        const connection = await this.openConnectWalletModal({
-          language: this.$i18n.locale.split('-')[0],
-          connectWalletTitle: 'Login',
-          connectWalletMobileWarning: this.$t(
-            'connect_wallet_mobile_warning',
-          ),
-          shouldRecommendConnectionMethod: true,
-          shouldShowLegacyAuthcoreOptions: true,
-          onEvent: this.handleConnectWalletEvent,
-        });
+        const connection = isOpenAuthcore
+          ? await this.openAuthcoreModal({
+            shouldShowLegacyAuthcoreOptions: !!this.$route.query
+              .authcore_legacy,
+          })
+          : await this.openConnectWalletModal({
+            language: this.$i18n.locale.split('-')[0],
+            connectWalletTitle: 'Login',
+            connectWalletMobileWarning: this.$t(
+              'connect_wallet_mobile_warning',
+            ),
+            shouldRecommendConnectionMethod: true,
+            shouldShowLegacyAuthcoreOptions: true,
+            onEvent: this.handleConnectWalletEvent,
+          });
         if (!connection) return false;
         const { method } = connection;
         logTrackerEvent(

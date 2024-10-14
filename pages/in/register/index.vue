@@ -191,6 +191,9 @@ export default {
     tabOptions() {
       return TAB_OPTIONS;
     },
+    shouldOpenAuthcoreMethod() {
+      return this.$route.query.platform === 'authcore';
+    },
   },
   watch: {
     isRedirectSignIn: {
@@ -244,7 +247,9 @@ export default {
     async handleConnectWallet() {
       this.setError();
       try {
-        await this.connectWallet();
+        if (this.shouldOpenAuthcoreMethod) {
+          await this.connectWallet({ isOpenAuthcore: true });
+        } else { await this.connectWallet(); }
         await this.login();
         if (this.isLoginSuccessful) {
           this.redirectAfterSignIn();

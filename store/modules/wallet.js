@@ -161,9 +161,14 @@ const actions = {
     return connection;
   },
 
-  async openAuthcoreModal({ commit, dispatch }) {
+  async openAuthcoreModal({ commit, dispatch }, {
+    shouldShowLegacyAuthcoreOptions = false,
+  } = {}) {
     commit(WALLET_SET_IS_CONNECTING_WALLET, true);
     const connector = await dispatch('getConnector');
+    if (shouldShowLegacyAuthcoreOptions) {
+      connector.options.authcoreClientId = 'likecoin-app';
+    }
     const connection = await connector.init('liker-id');
     commit(WALLET_SET_IS_CONNECTING_WALLET, false);
     return connection;
