@@ -540,10 +540,10 @@ export default {
       'getUserIsRegistered',
       'getLikeCoinUsdNumericPrice',
       'getUserInfo',
-      'getAuthCoreNeedReAuth',
       'getIsShowingTxPopup',
       'getPendingTxInfo',
       'getAddress',
+      'getAuthCoreShouldReAuth',
     ]),
     redirectOrigin() {
       const url = new URL(this.redirectUri, true);
@@ -679,6 +679,10 @@ export default {
     },
     async submitTransfer() {
       if (this.isChainUpgrading) return;
+      if (this.getAddress && this.getAuthCoreShouldReAuth) {
+        this.onClickSignInButton();
+        return;
+      }
       this.isLoading = true;
       this.isSigning = true;
       try {

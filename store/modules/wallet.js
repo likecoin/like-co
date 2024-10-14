@@ -13,6 +13,8 @@ import {
   AUTHCORE_SET_ACCESS_TOKEN,
 } from '../mutation-types';
 
+import User from '@/util/User';
+
 let likecoinWalletLib = null;
 
 const state = () => ({
@@ -57,6 +59,36 @@ const getters = {
   getConnector: state => state.connector,
   getLikerInfo: state => state.likerInfo,
   walletIsLoggingIn: state => state.isConnectingWallet || state.isLoggingIn,
+
+  getWalletSession: () => {
+    if (window.localStorage) {
+      const session = window.localStorage.getItem(
+        'likecoin_wallet_connector_session',
+      );
+      return JSON.parse(session);
+    }
+    return null;
+  },
+  getSessionAddress: (getters) => {
+    const walletSession = getters.getWalletSession;
+    const address = walletSession.accounts?.[0]?.address || '';
+    return address;
+  },
+  getAuthCoreAccessToken: (getters) => {
+    const walletSession = getters.getWalletSession;
+    const accessToken = walletSession.params?.accessToken || null;
+    if (!accessToken || User.isTokenExpired(accessToken)) {
+      return null;
+    }
+    return accessToken;
+  },
+  getAuthCoreShouldReAuth: (getters) => {
+    if (getters.walletLoginMethod === 'keplr') return false;
+    const isAddressMismatch = getters.getAddress !== getters.getSessionAddress;
+    const isLikerIdWithoutToken = getters.walletLoginMethod === 'liker-id' && !getters.getAuthCoreAccessToken;
+    if (isAddressMismatch || isLikerIdWithoutToken) return true;
+    return false;
+  },
 };
 
 const actions = {
