@@ -248,7 +248,7 @@ export default {
       this.setError();
       try {
         if (this.shouldOpenAuthcoreMethod) {
-          await this.connectWallet({ isOpenAuthcore: true });
+          await this.connectWallet({ isAuthcore: true });
         } else { await this.connectWallet(); }
         await this.login();
         if (this.isLoginSuccessful) {

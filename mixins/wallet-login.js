@@ -13,7 +13,7 @@ export default {
       'initIfNecessary',
     ]),
     async connectWallet({
-      isOpenAuthcore = false,
+      isAuthcore = false,
     } = {}) {
       try {
         logTrackerEvent(
@@ -23,7 +23,7 @@ export default {
           'connect_wallet_start',
           1,
         );
-        const connection = isOpenAuthcore
+        const connection = isAuthcore
           ? await this.openAuthcoreModal({
             shouldShowLegacyAuthcoreOptions: !!this.$route.query
               .authcore_legacy,
