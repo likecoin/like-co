@@ -93,7 +93,7 @@ const TAB_OPTIONS = {
 const REDIRECT_PATH_NAMES = {
   OAUTH: {
     name: 'in-oauth',
-    pathname: '/in/oauth',
+    pathname: '/in/oauth/',
   },
   LIKE_PAY: {
     name: 'in-widget-pay',
