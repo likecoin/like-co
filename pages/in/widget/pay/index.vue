@@ -543,7 +543,7 @@ export default {
       'getIsShowingTxPopup',
       'getPendingTxInfo',
       'getAddress',
-      'getAuthCoreShouldReAuth',
+      'getAuthCoreAccessToken',
     ]),
     redirectOrigin() {
       const url = new URL(this.redirectUri, true);
@@ -679,7 +679,7 @@ export default {
     },
     async submitTransfer() {
       if (this.isChainUpgrading) return;
-      if (this.getAddress && this.getAuthCoreShouldReAuth) {
+      if (this.getAddress && !this.getAuthCoreAccessToken) {
         this.onClickSignInButton();
         return;
       }
@@ -687,13 +687,12 @@ export default {
       this.isSigning = true;
       try {
         const amount = new BigNumber(this.totalAmount);
-        const from = await this.fetchCurrentCosmosWallet();
+        const from = await this.fetchCurrentCosmosWallet() || this.getAddress;
         if (!from) {
           throw new Error('PLEASE_RELOGIN');
         }
         if (!this.isUsingKeplr) {
-          const { cosmosWallet, likeWallet } = this.getUserInfo;
-          if ((cosmosWallet || likeWallet) && from !== cosmosWallet && from !== likeWallet) {
+          if (this.getAddress !== this.getUserInfo.likeWallet) {
             this.setErrorMsg(this.$t('Transaction.error.authcoreWalletNotMatch'));
             throw new Error('VALIDATION_FAIL');
           }

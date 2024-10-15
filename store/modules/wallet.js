@@ -26,6 +26,8 @@ const state = () => ({
   isInited: false,
   methodType: null,
   isLoggingIn: false,
+
+  accessToken: null,
 });
 
 const mutations = {
@@ -50,6 +52,9 @@ const mutations = {
   [WALLET_SET_CONNECTOR](state, connector) {
     state.connector = connector;
   },
+  [AUTHCORE_SET_ACCESS_TOKEN](state, accessToken) {
+    state.accessToken = accessToken;
+  },
 };
 
 const getters = {
@@ -60,34 +65,12 @@ const getters = {
   getLikerInfo: state => state.likerInfo,
   walletIsLoggingIn: state => state.isConnectingWallet || state.isLoggingIn,
 
-  getWalletSession: () => {
-    if (window.localStorage) {
-      const session = window.localStorage.getItem(
-        'likecoin_wallet_connector_session',
-      );
-      return JSON.parse(session);
-    }
-    return null;
-  },
-  getSessionAddress: (getters) => {
-    const walletSession = getters.getWalletSession;
-    const address = walletSession.accounts?.[0]?.address || '';
-    return address;
-  },
-  getAuthCoreAccessToken: (getters) => {
-    const walletSession = getters.getWalletSession;
-    const accessToken = walletSession.params?.accessToken || null;
+  getAuthCoreAccessToken: (state) => {
+    const { accessToken } = state;
     if (!accessToken || User.isTokenExpired(accessToken)) {
       return null;
     }
     return accessToken;
-  },
-  getAuthCoreShouldReAuth: (getters) => {
-    if (getters.walletLoginMethod === 'keplr') return false;
-    const isAddressMismatch = getters.getAddress !== getters.getSessionAddress;
-    const isLikerIdWithoutToken = getters.walletLoginMethod === 'liker-id' && !getters.getAuthCoreAccessToken;
-    if (isAddressMismatch || isLikerIdWithoutToken) return true;
-    return false;
   },
 };
 
