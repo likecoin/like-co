@@ -162,6 +162,20 @@ const User = {
     }
     return '';
   },
+
+  isTokenExpired(token) {
+    if (!token) return true;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const currentTime = Math.floor(Date.now() / 1000);
+
+      return payload.exp < currentTime;
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Failed to decode JWT', error);
+      return true;
+    }
+  },
 };
 
 export default User;

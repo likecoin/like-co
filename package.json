@@ -49,7 +49,7 @@
     "@likecoin/ui-vue": "^0.7.1",
     "@likecoin/vue-image-lightbox": "^5.5.4",
     "@likecoin/vue-simple-svg": "^1.4.1",
-    "@likecoin/wallet-connector": "^0.26.6",
+    "@likecoin/wallet-connector": "^0.26.7",
     "@nuxtjs/sentry": "^8.0.7",
     "@nuxtjs/sitemap": "^2.4.0",
     "@walletconnect/browser-utils": "^1.7.8",

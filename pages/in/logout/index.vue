@@ -36,10 +36,12 @@ export default {
   methods: {
     ...mapActions([
       'logoutUser',
+      'disconnectWallet',
     ]),
     async logout() {
       await this.logoutUser();
       this.postLogout();
+      this.disconnectWallet();
     },
     postLogout() {
       if (this.isPopup) {
