@@ -543,6 +543,7 @@ export default {
       'getIsShowingTxPopup',
       'getPendingTxInfo',
       'getAddress',
+      'getSigner',
       'getAuthCoreAccessToken',
     ]),
     redirectOrigin() {
@@ -692,7 +693,7 @@ export default {
           throw new Error('PLEASE_RELOGIN');
         }
         if (!this.isUsingKeplr) {
-          if (this.getAddress !== this.getUserInfo.likeWallet) {
+          if (from !== this.getUserInfo.likeWallet) {
             this.setErrorMsg(this.$t('Transaction.error.authcoreWalletNotMatch'));
             throw new Error('VALIDATION_FAIL');
           }
@@ -709,7 +710,7 @@ export default {
           );
           throw new Error('VALIDATION_FAIL');
         }
-        const signer = await this.prepareCosmosTxSigner();
+        const signer = this.isUsingKeplr ? await this.prepareCosmosTxSigner() : this.getSigner;
         let txHash;
         const showDialogAction = !this.redirectUri;
         const isWait = !!this.blocking;
