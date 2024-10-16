@@ -27,7 +27,7 @@ const state = () => ({
   methodType: null,
   isLoggingIn: false,
 
-  accessToken: null,
+  accessToken: '',
 });
 
 const mutations = {
