@@ -153,7 +153,6 @@ export default {
   },
   methods: {
     ...mapActions([
-      'popupAuthDialogInPlace',
       'setReAuthDialogShow',
       'forceAuthCoreReAuth',
     ]),
@@ -180,7 +179,10 @@ export default {
       this.isShowWarning = false;
     },
     onClickSignInButton() {
-      this.popupAuthDialogInPlace({ route: this.$route, isSignIn: true });
+      this.$router.push({
+        name: 'in-register',
+        query: { platform: 'authcore', redirect: `${window.location.origin}${this.$route.fullPath}` },
+      });
     },
     onClickAuthCoreReAuth() {
       this.setReAuthDialogShow(true);
