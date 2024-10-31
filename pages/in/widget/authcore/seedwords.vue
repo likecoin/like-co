@@ -80,7 +80,7 @@
         </button>
       </div>
       <div
-        v-else-if="getAuthCoreNeedReAuth"
+        v-else-if="!getAuthCoreAuthClient || getAuthCoreNeedReAuth"
         class="create-account-wrapper"
       >
         <button
@@ -164,6 +164,8 @@ export default {
           const res = await authClient.startSecretdExportAuthentication();
           this.isPasswordNeeded = res.challenges.includes('PASSWORD');
           this.isInited = true;
+        } else {
+          throw new Error('authClient is not initialized');
         }
       } catch (err) {
         // If the user resets his password via forget password flow
@@ -197,6 +199,8 @@ export default {
         if (this.isInited && !this.error) {
           await this.getAccessToken();
           await this.exportSeedWords();
+        } else {
+          throw new Error('NOT_INITIALIZED');
         }
       } catch (err) {
         console.error(err);
