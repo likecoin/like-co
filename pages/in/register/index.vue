@@ -99,6 +99,10 @@ const REDIRECT_PATH_NAMES = {
     name: 'in-widget-pay',
     pathname: '/in/widget/pay',
   },
+  SEEDWORD_WIDGET: {
+    name: 'in-widget-authcore-seedwords',
+    pathname: '/in/widget/authcore/seedwords',
+  },
 
 };
 
@@ -444,6 +448,11 @@ export default {
             name: REDIRECT_PATH_NAMES.OAUTH.name,
             query: Object.fromEntries(new URLSearchParams(redirectUrl.search)),
             hash: redirectUrl.hash,
+          };
+        case REDIRECT_PATH_NAMES.SEEDWORD_WIDGET.pathname:
+          return {
+            name: REDIRECT_PATH_NAMES.SEEDWORD_WIDGET.name,
+            query: Object.fromEntries(new URLSearchParams(redirectUrl.search)),
           };
         default:
           return redirectUrl;

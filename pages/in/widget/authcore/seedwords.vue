@@ -80,7 +80,7 @@
         </button>
       </div>
       <div
-        v-else-if="getAuthCoreNeedReAuth"
+        v-else-if="!getAuthCoreAuthClient || getAuthCoreNeedReAuth"
         class="create-account-wrapper"
       >
         <button
@@ -153,7 +153,6 @@ export default {
   },
   methods: {
     ...mapActions([
-      'popupAuthDialogInPlace',
       'setReAuthDialogShow',
       'forceAuthCoreReAuth',
     ]),
@@ -165,6 +164,8 @@ export default {
           const res = await authClient.startSecretdExportAuthentication();
           this.isPasswordNeeded = res.challenges.includes('PASSWORD');
           this.isInited = true;
+        } else {
+          throw new Error('authClient is not initialized');
         }
       } catch (err) {
         // If the user resets his password via forget password flow
@@ -180,7 +181,10 @@ export default {
       this.isShowWarning = false;
     },
     onClickSignInButton() {
-      this.popupAuthDialogInPlace({ route: this.$route, isSignIn: true });
+      this.$router.push({
+        name: 'in-register',
+        query: { platform: 'authcore', redirect: `${window.location.origin}${this.$route.fullPath}` },
+      });
     },
     onClickAuthCoreReAuth() {
       this.setReAuthDialogShow(true);
@@ -195,6 +199,8 @@ export default {
         if (this.isInited && !this.error) {
           await this.getAccessToken();
           await this.exportSeedWords();
+        } else {
+          throw new Error('NOT_INITIALIZED');
         }
       } catch (err) {
         console.error(err);
