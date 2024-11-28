@@ -5,8 +5,6 @@ import uuidv1 from 'uuid/v1';
 
 import {
   UI_SET_LOCALE,
-  UI_SET_METAMASK_ERROR,
-  UI_SET_WEB3_TYPE,
   UI_INFO_MSG,
   UI_ERROR_MSG,
   UI_POPUP_ERR,
@@ -31,7 +29,6 @@ import {
   UI_OPEN_SLIDING_MENU,
   UI_CLOSE_SLIDING_MENU,
   UI_SET_PROMPT_NOTIFICATION_DIALOG,
-  UI_SET_SIGN_PAYLOAD_OBJECT,
   UI_SET_AUTH_DIALOG,
   UI_SET_RE_AUTH_DIALOG,
   UI_SET_WALLET_NOTICE_DIALOG,
@@ -41,9 +38,6 @@ import * as actions from './actions/ui';
 
 const state = () => ({
   locale: 'en',
-  metamaskError: '',
-  signPayloadObject: {},
-  web3Type: 'window',
   infoIsError: false,
   infoMsg: '',
   popupError: '',
@@ -81,15 +75,6 @@ const mutations = {
     if (!process.server && window.sessionStorage) {
       window.sessionStorage.language = locale;
     }
-  },
-  [UI_SET_METAMASK_ERROR](state, err) {
-    state.metamaskError = err;
-  },
-  [UI_SET_SIGN_PAYLOAD_OBJECT](state, payload) {
-    state.signPayloadObject = payload;
-  },
-  [UI_SET_WEB3_TYPE](state, type) {
-    state.web3Type = type;
   },
   [UI_INFO_MSG](state, msg) {
     state.infoMsg = msg;

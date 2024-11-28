@@ -30,8 +30,6 @@ export const getUserIsLegacy = (state) => {
   return wallet && !(isAuthCore || cosmosWallet);
 };
 
-export const getLocalWeb3Wallet = state => state.wallet;
-
 export const getUserHasPendingLike = state => state.likecoinAmountObject
   && state.likecoinAmountObject.pendingLIKE
   && state.likecoinAmountObject.pendingLIKE > 0;

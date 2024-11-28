@@ -212,32 +212,6 @@ width: 24px;margin-right: 24px"
                   @click="onClickUseWalletConnectButton"
                 >Wallet Connect</button>
               </div>
-              <div
-                :class="[
-                  'auth-dialog__wallet-panel',
-                  'auth-dialog__wallet-panel--portal',
-                  'auth-dialog__wallet-panel--dashed',
-                  'lc-margin-top-24',
-                ]"
-              >
-                <simple-svg
-                  :filepath="MetaMaskLogo"
-                  width="148px"
-                  height="28px"
-                />
-                <a
-                  :class="[
-                    'lc-margin-top-12',
-                    'lc-font-size-12',
-                    'lc-text-align-center',
-                    'lc-color-gray-9b',
-                    'lc-underline',
-                  ]"
-                  @click="onClickUseMetaMaskButton"
-                >
-                  {{ $t('AuthDialog.SignInWithWallet.legacy') }}
-                </a>
-              </div>
             </div>
           </div>
 
@@ -367,18 +341,15 @@ import { ResizeObserver } from 'resize-observer';
 import URL from 'url-parse';
 
 import { EXTERNAL_URL } from '@/constant';
-import { apiCheckIsUser } from '@/util/api/api';
 
 import AuthCoreRegister from '~/components/AuthCore/Register';
 import BaseDialogV2 from '~/components/dialogs/BaseDialogV2';
 // import EmailSigninForm from './AuthDialogContent/SignInWithEmail';
 import RegisterForm from './AuthDialogContent/Register';
-import EthMixin from '~/components/EthMixin';
 
 import User from '@/util/User';
 
 import LikeCoinLogo from '~/assets/logo/icon-plain.svg';
-import MetaMaskLogo from '~/assets/auth-panel/metamask.svg';
 
 import { logTrackerEvent, logTimingEvent } from '@/util/EventLogger';
 import {
@@ -408,13 +379,9 @@ export default {
     AuthCoreRegister,
     RegisterForm,
   },
-  mixins: [
-    EthMixin,
-  ],
   data() {
     return {
       LikeCoinLogo,
-      MetaMaskLogo,
 
       avatar: undefined,
       avatarHalo: 'none',
@@ -450,8 +417,6 @@ export default {
       'getAuthDialogStatus',
       'getIsShowAuthDialog',
       'getCurrentLocale',
-      'getMetamaskError',
-      'getLocalWeb3Wallet',
       'getUserMinInfoById',
       'getAuthCoreAccessToken',
       'getUserIsAuthCore',
@@ -477,11 +442,8 @@ export default {
     isBlocking() {
       return this.currentTab === 'loading';
     },
-    shouldHideDialog() {
-      return !!this.getMetamaskError;
-    },
     shouldShowDialog() {
-      return this.getIsShowAuthDialog && !this.shouldHideDialog;
+      return this.getIsShowAuthDialog;
     },
     isEmailEditable() {
       return (
@@ -656,12 +618,6 @@ export default {
       toggleFrontendMode();
       return;
     }
-
-    // Listen to onClickReturnButton event of MetaMaskDialog
-    this.$root.$on('MetaMaskDialog.onClickReturnButton', () => {
-      this.stopWeb3Polling();
-      this.currentTab = 'portal';
-    });
 
     // Initialize content height
     this.updateContentHeightForCurrentTab();
@@ -894,9 +850,6 @@ export default {
     onClickUseWalletConnectButton() {
       this.signInWithPlatform('cosmosWallet', { source: 'walletconnect' });
     },
-    onClickUseMetaMaskButton() {
-      this.signInWithPlatform('wallet');
-    },
     onClickBackButton() {
       switch (this.currentTab) {
         case 'portal':
@@ -1042,11 +995,6 @@ export default {
       this.logRegisterEvent(this, 'RegFlow', 'LoginTry', `LoginTry(${platform})`, 1);
 
       switch (platform) {
-        case 'wallet': {
-          this.currentTab = 'loading';
-          this.startWeb3AndCb(this.signInWithWallet);
-          return;
-        }
         case 'likeWallet':
         case 'cosmosWallet': {
           this.currentTab = 'loading';
@@ -1058,44 +1006,6 @@ export default {
           // eslint-disable-next-line no-console
           console.error('platform default not exist');
           this.currentTab = 'error';
-        }
-      }
-    },
-    async signInWithWallet() {
-      this.currentTab = 'loading';
-
-      // Determine whether the wallet has registered
-      try {
-        await apiCheckIsUser(this.getLocalWeb3Wallet);
-      } catch (err) {
-        if (err.response) {
-          if (err.response.status === 404) {
-            this.setError('WALLET_REGISTER_DEPRECATED', err);
-            return;
-          }
-        }
-
-        // eslint-disable-next-line no-console
-        console.error(err);
-        this.setError((err.response || {}).data, err);
-        return;
-      }
-
-      try {
-        this.signInPayload = await User.signLogin(this.getLocalWeb3Wallet);
-        this.login();
-      } catch (err) {
-        if (err.message.indexOf('Invalid "from" address') >= 0) {
-          // User has logout MetaMask after EthHelper initialization
-          this.currentTab = 'loading';
-          this.startWeb3AndCb(this.signInWithWallet, true);
-        } else if (err.message.indexOf('User denied message signature') >= 0) {
-          // Return to login portal if user denied signing
-          this.currentTab = 'portal';
-        } else {
-          // eslint-disable-next-line no-console
-          console.error(err);
-          this.setError(err.message, err);
         }
       }
     },
