@@ -154,21 +154,6 @@ export async function logoutUser({ commit, dispatch, state }, data) {
   return true;
 }
 
-export async function loginUserBySign({ state, dispatch }) {
-  let payload;
-  try {
-    payload = await User.signLogin(state.wallet);
-  } catch (e) {
-    // rejected signing, return false;
-    return false;
-  }
-  if (!payload) return false;
-
-  await api.apiLoginUser(payload);
-  await dispatch('refreshUser');
-  return true;
-}
-
 export function resetLoginByCosmosWallet({ commit }) {
   commit(types.USER_SET_WALLET_CONNECT_URI, '');
   commit(types.USER_SET_WALLET_CONNECT_CONNECTING, false);

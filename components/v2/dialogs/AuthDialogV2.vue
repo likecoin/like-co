@@ -156,21 +156,6 @@
                       {{ $t("DialogV2.type.likerLand.description") }}
                     </div>
                   </div>
-                  <!-- legacy content -->
-                  <div
-                    v-if="!getWalletConnectURI && !checkIsMobileClient"
-                    class="legacy-content-container"
-                  >
-                    <div
-                      class="text metamask-button"
-                      @click="signInWithMetaMask"
-                    >
-                      {{
-                        $t("DialogV2.type.metaMask.name") + ' ' +
-                          $t("DialogV2.type.metaMask.description")
-                      }}
-                    </div>
-                  </div>
                 </div>
               </Transition>
               <div class="legacy-content-container">
@@ -192,7 +177,6 @@
 import { mapActions, mapGetters } from 'vuex';
 
 import { logTrackerEvent } from '@/util/EventLogger';
-import User from '@/util/User';
 
 import {
   checkIsMobileClient,
@@ -200,13 +184,12 @@ import {
   toggleFrontendMode,
 } from '~/util/client';
 
-import { apiCheckIsUser, apiCheckLikerId } from '@/util/api/api';
+import { apiCheckLikerId } from '@/util/api/api';
 
 import KeplrIcon from '~/components/icons/Keplr';
 import LikerLand from '~/components/icons/LikerLand';
 import SignIn from '~/components/icons/SignIn';
 import ArrowDown from '~/components/icons/ArrowDown';
-import EthMixin from '~/components/EthMixin';
 
 import Button from '../Button';
 import RegisterForm from '../RegisterForm';
@@ -236,7 +219,6 @@ export default {
     RegisterForm,
     WalletConnectQRCodeView: () => import('../WalletConnectQRCodeView'),
   },
-  mixins: [EthMixin],
   props: {
     isOverlay: {
       type: Boolean,
@@ -518,46 +500,6 @@ export default {
       this.signInWithCosmosWallet('walletconnect', { isRetry: true });
       window.location.href = 'com.oice://';
     },
-
-    async signInWithMetaMask() {
-      this.currentTab = 'loading';
-
-      // Determine whether the wallet has registered
-      try {
-        await apiCheckIsUser(this.getLocalWeb3Wallet);
-      } catch (err) {
-        if (err.response) {
-          if (err.response.status === 404) {
-            this.setError('WALLET_REGISTER_DEPRECATED', err);
-            return;
-          }
-        }
-
-        // eslint-disable-next-line no-console
-        console.error(err);
-        this.setError((err.response || {}).data, err);
-        return;
-      }
-
-      try {
-        this.signInPayload = await User.signLogin(this.getLocalWeb3Wallet);
-        this.login();
-      } catch (err) {
-        if (err.message.indexOf('Invalid "from" address') >= 0) {
-          // User has logout MetaMask after EthHelper initialization
-          this.currentTab = 'loading';
-          this.startWeb3AndCb(this.signInWithMetaMask, true);
-        } else if (err.message.indexOf('User denied message signature') >= 0) {
-          // Return to login portal if user denied signing
-          this.currentTab = 'portal';
-        } else {
-          // eslint-disable-next-line no-console
-          console.error(err);
-          this.setError(err.message, err);
-        }
-      }
-    },
-
     async login() {
       this.currentTab = 'signing-in';
       try {
@@ -858,14 +800,10 @@ export default {
     transition: transform 0.2s ease;
   }
 }
-
-.metamask-button,
-.toggle-frontend-mode-button {
-  cursor: pointer;
-}
-
 .toggle-frontend-mode-button {
   margin-top: 12px;
+
+  cursor: pointer;
 }
 
 .legacy-content-container {

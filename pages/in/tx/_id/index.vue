@@ -24,7 +24,6 @@
         <transaction-header
           :isNotFound="isNotFound"
           :failReason="failReason"
-          :isEth="isEth"
           :icon="toAvatar"
           :toId="toId"
           :toName="toName ? toName : displayToId"
@@ -163,12 +162,7 @@
 
       </section>
     </div>
-    <view-etherscan
-      v-if="isEthLikeTx"
-      :transaction="txId"
-    />
     <view-bigdipper
-      v-else
       :transaction="txId"
     />
   </div>
@@ -178,7 +172,6 @@
 import { mapActions } from 'vuex';
 import BigNumber from 'bignumber.js';
 
-import EthHelper from '@/util/EthHelper';
 import {
   getTransactionCompleted as getCosmosTransactionCompleted,
   getTransferInfo as getCosmosTransferInfo,
@@ -187,7 +180,6 @@ import {
 import { ETHERSCAN_HOST, BIGDIPPER_HOST } from '@/constant';
 
 import TransactionHeader from '~/components/header/TransactionHeader';
-import ViewEtherscan from '~/components/ViewEtherscan';
 import ViewBigdipper from '~/components/ViewBigdipper';
 import PopupDialog from '~/components/dialogs/PopupDialog';
 
@@ -195,7 +187,6 @@ import { apiGetTxById, apiGetUserMinById } from '@/util/api/api';
 import { openURL } from '~/util/client';
 import UserUtil from '~/util/User';
 
-const ONE_LIKE = new BigNumber(10).pow(18);
 const PENDING_UPDATE_INTERVAL = 1000; // 1s
 
 export default {
@@ -203,13 +194,11 @@ export default {
   layout: 'narrowWithHeader',
   components: {
     TransactionHeader,
-    ViewEtherscan,
     ViewBigdipper,
     PopupDialog,
   },
   data() {
     return {
-      isEth: false,
       isNotFound: false,
       isOpenUrlWarningDialog: false,
       /* failReason : 0 = none, 1 = failed, 2 = timeout */
@@ -308,9 +297,6 @@ export default {
     isMultipleTx() {
       return Array.isArray(this.to) && (this.to.length > 1);
     },
-    isEthLikeTx() {
-      return this.txId.startsWith('0x');
-    },
   },
   async mounted() {
     this.timestamp = 0;
@@ -323,21 +309,12 @@ export default {
     }
     if (this.status === 'timeout') this.failReason = 2;
     try {
-      let tx;
-      if (this.isEthLikeTx) {
-        tx = await EthHelper.getTransferInfo(this.txId, {
-          blocking: true,
-          filterAddress: this.filterAddress,
-        });
-        this.isEth = tx.isEth;
-      } else {
-        tx = await getCosmosTransferInfo(this.txId, {
-          blocking: true,
-        });
-        if (tx.isISCNTx) {
-          this.$router.replace(`/in/tx/iscn/${this.txId}`);
-          return;
-        }
+      const tx = await getCosmosTransferInfo(this.txId, {
+        blocking: true,
+      });
+      if (tx.isISCNTx) {
+        this.$router.replace(`/in/tx/iscn/${this.txId}`);
+        return;
       }
       if (!this.failReason) this.failReason = tx.isFailed ? 1 : 0;
       /* eslint-disable no-underscore-dangle */
@@ -366,8 +343,7 @@ export default {
     setupTimer() {
       if (this.updateTimer) clearTimeout(this.updateTimer);
       this.updateTimer = setTimeout(async () => {
-        const { ts, isFailed } = await this.isEthLikeTx
-          ? EthHelper.getTransactionCompleted(this.txId) : getCosmosTransactionCompleted(this.txId);
+        const { ts, isFailed } = await getCosmosTransactionCompleted(this.txId);
         if (!ts) {
           this.setupTimer();
         } else {
@@ -395,17 +371,7 @@ export default {
         this.toAvatarHalo = UserUtil.getAvatarHaloType(toData.data);
       }
     },
-    getAmount({ _amount, _value }) {
-      if (this.isEthLikeTx && _value !== undefined) {
-        if (!Array.isArray(_value)) {
-          return new BigNumber(_value).div(ONE_LIKE).toFixed();
-        }
-        let amount = new BigNumber(0);
-        _value.forEach((v) => {
-          amount = amount.plus(new BigNumber(v).div(ONE_LIKE));
-        });
-        return amount.toFixed();
-      }
+    getAmount({ _amount }) {
       if (_amount !== undefined) {
         if (!Array.isArray(_amount)) {
           return amountToLIKE(_amount);
@@ -419,9 +385,6 @@ export default {
       return 0;
     },
     getAccountViewerUrl(address) {
-      if (this.isEthLikeTx) {
-        return `${ETHERSCAN_HOST}/address/${address}#tokentxns`;
-      }
       return `${BIGDIPPER_HOST}/accounts/${address}`;
     },
   },
