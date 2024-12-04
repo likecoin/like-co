@@ -45,12 +45,6 @@
     />
 
     <div class="account-overview__cta-wrapper lc-text-align-center">
-      <div @click="closeSlidingMenu">
-        <md-button
-          :to="{ 'name': 'in-civic' }"
-          class="md-likecoin lc-secondary lc-font-size-18 lc-font-weight-600"
-        >{{ $t('Menu.item.civicLiker') }}</md-button>
-      </div>
       <a
         :href="PURCHASE_LIKE_URL"
         class="lc-underline lc-margin-top-12"
