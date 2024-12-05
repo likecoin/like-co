@@ -280,11 +280,6 @@ export default {
       'refreshUserInfo',
       'queryLikeCoinWalletBalance',
     ]),
-    onClickCivicLikerStamp() {
-      if (this.isCivicLikerTrial || this.canRenewCivicLiker) {
-        this.$router.push({ name: 'in-civic' });
-      }
-    },
     async onSubmitEdit() {
       try {
         const userInfo = {

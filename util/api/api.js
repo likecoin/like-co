@@ -105,20 +105,6 @@ export const apiSendInvitationEmail = (user, email, locale) => axios.post(
   },
 );
 
-export const apiQueryTxHistoryByAddr = (addr, ts, count) => {
-  let url = `/tx/history/addr/${addr}?`;
-  if (ts) url += `ts=${ts}&`;
-  if (count) url += `count=${count}&`;
-  return axios.get(url);
-};
-
-export const apiQueryTxHistoryByUserId = (id, ts, count) => {
-  let url = `/tx/history/user/${id}?`;
-  if (ts) url += `ts=${ts}&`;
-  if (count) url += `count=${count}&`;
-  return axios.get(url);
-};
-
 export const apiQueryLikeCoinFiatPrice = () => axios.get('/misc/price?currency=usd', { withCredentials: false });
 
 export const apiSetNotification = (id, isEmailEnabled) => axios.post(`/users/email/${id}`, { isEmailEnabled });

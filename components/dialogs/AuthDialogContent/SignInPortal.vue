@@ -73,7 +73,6 @@ margin:0 auto"
 import CloseIcon from '~/assets/icons/cross.svg';
 
 import { checkIsMobileClient } from '~/util/client';
-// import experimentsMixin from '~/util/mixins/experiments';
 
 const getAuthPlatformIcon = require.context('~/assets/icons/auth-platform/');
 
@@ -82,13 +81,6 @@ export default {
   components: {
     LikeToCoinGraph: () => import('~/components/graph/LikeToCoin'),
   },
-  mixins: [
-    // experimentsMixin(
-    //   'shouldUseAltAsset',
-    //   'signin-portal',
-    //   'alternative',
-    // ),
-  ],
   props: {
     isSignIn: {
       type: Boolean,

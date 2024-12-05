@@ -185,7 +185,6 @@ import {
   amountToLIKE,
 } from '@/util/CosmosHelper';
 import { ETHERSCAN_HOST, BIGDIPPER_HOST } from '@/constant';
-import { LIKE_COIN_ICO_ADDRESS } from '@/constant/contract/likecoin-ico';
 
 import TransactionHeader from '~/components/header/TransactionHeader';
 import ViewEtherscan from '~/components/ViewEtherscan';
@@ -233,17 +232,7 @@ export default {
       ETHERSCAN_HOST,
     };
   },
-  asyncData({ params, redirect, query }) {
-    if (params.tx && params.tx !== {}) {
-      const { to, from, value } = params.tx;
-      if (to === LIKE_COIN_ICO_ADDRESS) {
-        return redirect({
-          name: 'in-tokensale-tx-id',
-          params,
-        });
-      }
-      return { to, from, value };
-    }
+  asyncData({ params, query }) {
     return apiGetTxById(params.id, query.address)
       .then((res) => {
         const {
@@ -257,12 +246,6 @@ export default {
           remarks,
           httpReferrer,
         } = res.data;
-        if (to === LIKE_COIN_ICO_ADDRESS) {
-          return redirect({
-            name: 'in-tokensale-tx-id',
-            params,
-          });
-        }
         return {
           to,
           toId,

@@ -140,9 +140,6 @@ export default {
     onClickRegisterButton() {
       this.$router.push({ name: 'in-register', query: { ref: '' } });
     },
-    onClickTokenSaleButton() {
-      this.$router.push({ name: 'in-tokensale' });
-    },
     onClickSignUpButton() {
       if (this.$route.name === 'index') {
         this.$router.push({ name: 'in' });

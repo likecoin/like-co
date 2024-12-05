@@ -12,7 +12,6 @@ import {
   calculateISCNTotalFee,
   preformatISCNPayload,
 } from '@/util/cosmos/iscn/sign';
-import apiWrapper from './api-wrapper';
 import Keplr from '../../../util/Keplr';
 
 export async function sendCosmosPayment(
@@ -195,14 +194,6 @@ export async function sendISCNSignature(
 export const closeTxToolbar = ({ commit }) => {
   commit(types.PAYMENT_SET_PENDING_HASH, '');
 };
-
-export async function queryTxHistoryByAddr({ commit, dispatch }, { addr, ts, count }) {
-  return apiWrapper({ commit, dispatch }, api.apiQueryTxHistoryByAddr(addr, ts, count));
-}
-
-export async function queryTxHistoryByUserId({ commit, dispatch }, { id, ts, count }) {
-  return apiWrapper({ commit, dispatch }, api.apiQueryTxHistoryByUserId(id, ts, count));
-}
 
 export function setDefaultCosmosWalletSource({ commit }, { source, persistent = true }) {
   commit(types.PAYMENT_SET_COSMOS_WALLET_SOURCE, source);

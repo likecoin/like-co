@@ -59,12 +59,6 @@ const nuxtConfig = {
     ],
     link: [
       { rel: 'preload', href: 'https://fonts.googleapis.com/css?family=Material+Icons', as: 'style' },
-      // {
-      //   rel: 'preload',
-      //   href: '/api/experiments/list',
-      //   as: 'fetch',
-      //   crossorigin: 'anonymous',
-      // },
       { rel: 'icon', type: 'image/png', href: '/favicon.png' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Material+Icons' },
     ],
@@ -183,16 +177,7 @@ const nuxtConfig = {
   modules: [
     '@nuxtjs/sentry',
     '@nuxtjs/sitemap',
-    // '@likecoin/nuxt-google-optimize',
   ],
-  // googleOptimize: {
-  //   // externalExperimentsSrc: '/api/experiments/list',
-  //   // cookieDomain: process.env.NODE_ENV === 'production'
-  //   //   ? `${process.env.IS_TESTNET ? '.rinkeby' : ''}.like.co`
-  //   //   : '',
-  //   useFetch: false,
-  //   maxAge: 60 * 60,
-  // },
   plugins: [
     { src: '~/plugins/polyfill', ssr: false },
     { src: '~/plugins/EthHelper', ssr: false },
