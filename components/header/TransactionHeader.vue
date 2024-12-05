@@ -41,7 +41,7 @@
               v-if="amount"
               class="amount lc-font-weight-300"
             >
-              {{ $t(`Transaction.header.label.${isEth ? 'eth' : 'likecoin'}Amount`, { amount }) }}
+              {{ $t('Transaction.header.label.likecoinAmount', { amount }) }}
             </div>
             <div
               v-if="name"
@@ -153,10 +153,6 @@ export default {
       default: '0',
     },
     isNotFound: {
-      type: Boolean,
-      default: false,
-    },
-    isEth: {
       type: Boolean,
       default: false,
     },

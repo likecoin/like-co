@@ -22,27 +22,6 @@
           @confirm="d.onConfirm"
         />
 
-        <div v-if="checkShouldShowError(getMetamaskError)">
-          <div v-if="checkIsMobileClient()">
-            <trust-dialog
-              v-if="!!getMetamaskError"
-              :case="getMetamaskError"
-              :webThreeType="getWeb3Type"
-            />
-          </div>
-          <div v-else>
-            <chrome-dialog
-              v-if="shouldShowChromeDialog"
-              :show="shouldShowChromeDialog"
-            />
-            <metamask-dialog
-              v-else-if="!!getMetamaskError"
-              :case="getMetamaskError"
-              :webThreeType="getWeb3Type"
-            />
-          </div>
-        </div>
-
         <blocker-dialog :show="getIsPopupBlocking" />
 
         <tx-dialog
@@ -112,17 +91,13 @@ import { mapActions, mapGetters } from 'vuex';
 
 import {
   checkIsMobileClient,
-  checkIsDesktopChrome,
 } from '@/util/client';
 
 import { IS_CHAIN_UPGRADING } from '~/constant';
 
 import BlockerDialog from '~/components/dialogs/BlockerDialog';
-import ChromeDialog from '~/components/dialogs/ChromeDialog';
-import MetamaskDialog from '~/components/dialogs/MetamaskDialog';
 import ReAuthDialog from '~/components/dialogs/ReAuthDialog';
 import PopupDialog from '~/components/dialogs/PopupDialog';
-import TrustDialog from '~/components/dialogs/TrustDialog';
 import TxDialog from '~/components/dialogs/TxDialog';
 
 import InfoToolbar from '~/components/toolbars/InfoToolbar';
@@ -133,12 +108,9 @@ export default {
   name: 'tool-bars',
   components: {
     BlockerDialog,
-    ChromeDialog,
-    MetamaskDialog,
     AuthDialogV2,
     ReAuthDialog,
     PopupDialog,
-    TrustDialog,
     TxDialog,
 
     InfoToolbar,
@@ -158,9 +130,6 @@ export default {
     isChainUpgrading() {
       return IS_CHAIN_UPGRADING;
     },
-    shouldShowChromeDialog() {
-      return this.getMetamaskError === 'web3' && !checkIsDesktopChrome();
-    },
     ...mapGetters([
       'getInfoIsError',
       'getInfoMsg',
@@ -176,8 +145,6 @@ export default {
       'getIsShowReAuthDialog',
       'getUserIsRegistered',
       'getPendingTx',
-      'getMetamaskError',
-      'getWeb3Type',
       'getTxDialogType',
       'getTxDialogActionRoute',
       'getTxDialogActionText',

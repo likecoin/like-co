@@ -5,7 +5,6 @@ import payment from './modules/payment';
 import staticData from './modules/staticData';
 import ui from './modules/ui';
 import user from './modules/user';
-import eth from './modules/eth';
 import authCore from './modules/authCore';
 import wallet from './modules/wallet';
 
@@ -42,7 +41,6 @@ const createStore = (() => new Vuex.Store({
     staticData,
     ui,
     user,
-    eth,
     authCore,
     wallet,
   },

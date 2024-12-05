@@ -21,10 +21,6 @@ export function checkIsDesktopChrome() {
   return (/Chrome/i.test(ua) && /Google/i.test(uv)) && !(/OPR/i.test(ua));
 }
 
-export function checkIsTrustClient(vue) {
-  return vue.$store.getters.getWeb3Type === 'window' && window.web3 && window.web3.currentProvider.isTrust;
-}
-
 export function isAndroid() {
   if (!navigator) return false;
   return /(android)/i.test(navigator.userAgent);
@@ -36,12 +32,8 @@ export function isIOS() {
 }
 
 export function openURL(vue, url, name, specs, replace) {
-  if (checkIsTrustClient(vue)) {
-    window.location.assign(url);
-  } else {
-    const w = window.open(url, name || '_blank', specs, replace);
-    if (w) w.opener = null;
-  }
+  const w = window.open(url, name || '_blank', specs, replace);
+  if (w) w.opener = null;
 }
 
 export function tryPostLoginRedirect({ route }) {

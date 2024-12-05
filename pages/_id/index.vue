@@ -338,15 +338,11 @@ export default {
     ...mapGetters([
       'getIsInTransaction',
       'getUserIsRegistered',
-      'getMetamaskError',
-      'getWeb3Type',
       'getIsShowingTxPopup',
       'getPendingTxInfo',
       'getLikeCoinUsdNumericPrice',
       'getUserInfo',
       'getAuthCoreNeedReAuth',
-      'getLocalWeb3Wallet',
-      'getIsWeb3Polling',
     ]),
     isChainUpgrading() {
       return IS_CHAIN_UPGRADING;

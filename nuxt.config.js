@@ -137,16 +137,6 @@ const nuxtConfig = {
         component: resolve(__dirname, 'pages/verify/_uuid/index.vue'),
       });
       routes.push({
-        name: 'id-eth-amount',
-        path: '/:id/eth/:amount?',
-        component: resolve(__dirname, 'pages/_id/index.vue'),
-      });
-      routes.push({
-        name: 'id-eth',
-        path: '/:id/eth',
-        component: resolve(__dirname, 'pages/_id/index.vue'),
-      });
-      routes.push({
         name: 'id-amount',
         path: '/:id/:amount?',
         component: resolve(__dirname, 'pages/_id/index.vue'),
@@ -180,7 +170,6 @@ const nuxtConfig = {
   ],
   plugins: [
     { src: '~/plugins/polyfill', ssr: false },
-    { src: '~/plugins/EthHelper', ssr: false },
     { src: '~/plugins/cosmosWallet.client.js', ssr: false },
     { src: '~/plugins/vue-cookie', ssr: false },
     { src: '~/plugins/vue-i18n' },

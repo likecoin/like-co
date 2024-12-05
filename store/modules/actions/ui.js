@@ -13,29 +13,12 @@ export const setLocale = ({ commit, dispatch, rootState }, locale) => {
   }
 };
 
-export const setMetamaskError = ({ commit }, msg) => {
-  commit(types.UI_SET_METAMASK_ERROR, msg);
-};
-
-export const setSignPayloadObject = ({ commit }, payload = {}) => {
-  commit(types.UI_SET_SIGN_PAYLOAD_OBJECT, payload);
-};
-
-export const showMetaMaskLoginWindow = ({ commit, dispatch }) => {
-  commit(types.UI_LOGIN_OVERRIDE, true);
-  dispatch('loginUserBySign');
-};
-
 export const setErrorDisabled = ({ commit }, bool) => {
   commit(types.UI_DISABLE_ERROR, bool);
 };
 
 export const hideLoginWindow = ({ commit }) => {
   commit(types.UI_LOGIN_OVERRIDE, false);
-};
-
-export const setWeb3Type = ({ commit }, type) => {
-  commit(types.UI_SET_WEB3_TYPE, type);
 };
 
 export const startLoading = ({ commit }) => {

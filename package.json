@@ -24,7 +24,6 @@
     "lint:es": "eslint --ext .js,.vue .",
     "lint:style": "stylelint -i .gitignore '**/*.{scss,vue}'",
     "fix:style": "stylelint -i .gitignore --fix '**/*.{scss,vue}'",
-    "prepare": "cd node_modules/web3-core-requestmanager/src && sed -i.bak \"/var global = Function('return this')();/d\" givenProvider.js && rm givenProvider.js.bak",
     "test": "npm run dev:docker:api:test && CI=true npm run build:testnet && IS_STANDALONE_TEST=TRUE CI=true IS_TESTNET=TRUE npm run test:e2e; npm run dev:docker:api:test:stop",
     "test:nuxt": "ava -v test/nuxt/nuxt.test.js",
     "test:e2e": "./node_modules/.bin/nightwatch --config test/e2e/nightwatch.conf.js",
@@ -96,8 +95,7 @@
     "vue-scroll-reveal": "^1.0.8",
     "vue-vimeo-player": "0.0.9",
     "vuedraggable": "^2.18.1",
-    "vuex": "^3.1.3",
-    "web3": "^1.2.10"
+    "vuex": "^3.1.3"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.24.5",

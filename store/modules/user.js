@@ -20,7 +20,6 @@ const state = () => ({
   isFetching: false,
   preAuthRoute: null,
   afterAuthRoute: {},
-  web3Fetching: false,
   links: {},
   likecoinAmountObject: {},
   likeCoinAmountInBigNumber: null,
