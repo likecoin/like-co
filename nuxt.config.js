@@ -100,6 +100,7 @@ const nuxtConfig = {
           'player.vimeo.com',
           'cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js',
           'partners.liquid.com',
+          'static.cloudflareinsights.com',
         ],
         'frame-src': [
           'www.google.com',
