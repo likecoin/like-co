@@ -116,7 +116,7 @@
     "extract-css-chunks-webpack-plugin": "^4.8.0",
     "jsonwebtoken": "^9.0.0",
     "lodash.clonedeep": "^4.5.0",
-    "nightwatch": "^1.1.13",
+    "nightwatch": "^1.7.13",
     "node-sass": "^7.0.0",
     "nyc": "^13.1.0",
     "sass-loader": "^10.3.1",
