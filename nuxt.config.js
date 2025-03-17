@@ -97,20 +97,15 @@ const nuxtConfig = {
           'googleads.g.doubleclick.net',
           'ajax.googleapis.com',
           '*.crisp.chat',
-          'player.vimeo.com',
           'cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js',
-          'partners.liquid.com',
-          'static.cloudflareinsights.com',
         ],
         'frame-src': [
           'www.google.com',
-          'player.vimeo.com',
           '*.doubleclick.net',
           '*.like.co',
           'like.co',
           'likecoin-integration-test.authcore.io',
           'likecoin.substack.com',
-          'plugin.partners.liquid.com',
         ],
         'connect-src': [
           "'self'",
@@ -188,7 +183,6 @@ const nuxtConfig = {
     { src: '~/plugins/AuthCore.client.js', ssr: false },
     { src: '~/plugins/crisp.client.js', ssr: false },
     { src: '~/plugins/testing' },
-    { src: '~/plugins/easter-egg.client.js', ssr: false },
   ],
   sentry: {
     clientIntegrations: {
