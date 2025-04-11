@@ -196,6 +196,9 @@ const nuxtConfig = {
   /*
   ** Add axios globally
   */
+  serverMiddleware: [
+    { path: '/', handler: '~/server/index.js' },
+  ],
   build: {
     transpile: [
       '@likecoin/wallet-connector',
