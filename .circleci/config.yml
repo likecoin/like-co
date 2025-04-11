@@ -32,69 +32,6 @@ jobs:
           key: likecoin-store-{{ .Environment.CACHE_UUID }}-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}-{{ checksum ".circleci/config.yml" }}
           paths:
             - ./node_modules
-  unit_test:
-    working_directory: ~/likecoin-store
-    docker:
-      - image: selenium/standalone-chrome:3.141
-    environment:
-      - TERM: dumb
-      - DBUS_SESSION_BUS_ADDRESS: /dev/null
-    steps:
-      - run:
-          name: Git Environment
-          command: |
-            sudo apt-get update
-            sudo apt-get -y install git
-      - checkout
-      - run:
-          name: "Pull Submodules"
-          command: |
-            git submodule init
-            git submodule update
-      - restore_cache:
-          key: likecoin-store-unit-test-{{ .Environment.CACHE_UUID }}-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}-{{ checksum ".circleci/config.yml" }}
-      - restore_cache:
-          key: likecoin-api-unit-test-{{ checksum "server/api/package.json" }}-{{ checksum "server/api/package-lock.json" }}-{{ checksum ".circleci/config.yml" }}
-      - run:
-          name: Node Environment
-          command: |
-            sudo apt-get -y install curl make g++ net-tools python rsync
-            sudo curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-            sudo apt-get -y install nodejs
-      - run:
-          name: Dependencies
-          command: |
-            npm install --force
-      - run:
-          name: Start dev api server
-          command: npm --prefix ./server/api run dev:stub
-          background: true
-          environment:
-            PORT: "3001"
-            IS_TESTNET: "TRUE"
-      - run:
-          name: Build
-          command: npm run build:testnet
-          environment:
-            CI: "TRUE"
-      - run:
-          name: Unit Test (Nightwatch)
-          command: |
-            xvfb-run --server-args="-screen 0 1600x1200x24" npm run test:e2e
-          environment:
-            IS_TESTNET: "TRUE"
-            CI: "TRUE"
-            IS_STANDALONE_TEST: "TRUE"
-      - store_artifacts:
-          path: ./screenshots
-      - save_cache:
-          key: likecoin-store-unit-test-{{ .Environment.CACHE_UUID }}-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}-{{ checksum ".circleci/config.yml" }}
-          paths:
-            - ./node_modules
-      - save_cache:
-          key: likecoin-api-unit-test-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}-{{ checksum ".circleci/config.yml" }}
-          paths:
-            - ./server/api/node_modules
   deploy_testnet_frontend:
     working_directory: ~/likecoin-store
     docker:
@@ -142,48 +79,6 @@ jobs:
           name: Deploy
           command: |
             kubectl patch deployment like-store-frontend-testnet -p '{"spec":{"template":{"spec":{"containers":[{"name":"like-store-frontend","image":"us.gcr.io/'"$TEST_PROJECT_NAME"'/like-store-frontend:testnet-'"$CIRCLE_SHA1"'"}]}}}}'
-  deploy_testnet_api:
-    working_directory: ~/likecoin-store
-    docker:
-      - image: cimg/gcp:2022.09
-    resource_class: medium+
-    environment:
-      - DEBIAN_FRONTEND: noninteractive
-      - TERM: dumb
-      - GOOGLE_APPLICATION_CREDENTIALS: /tmp/account-auth.json
-    steps:
-      - checkout
-      - run:
-          name: "Pull Submodules"
-          command: |
-            git submodule init
-            git submodule update
-      - run:
-          name: Setup gcloud
-          command: |
-            echo ${TEST_GCLOUD_SERVICE_KEY} | base64 -d > /tmp/account-auth.json
-            gcloud auth activate-service-account --key-file /tmp/account-auth.json
-            gcloud config set project ${TEST_PROJECT_NAME}
-            gcloud --quiet config set container/cluster ${POC_CLUSTER_NAME}
-            gcloud config set compute/zone ${CLOUDSDK_COMPUTE_ZONE}
-            gcloud --quiet container clusters get-credentials ${POC_CLUSTER_NAME}
-      - setup_docker_engine
-      - run:
-          name: Build image
-          command: |
-            gcloud docker -- pull us.gcr.io/${TEST_PROJECT_NAME}/like-api-public:latest || true
-            docker build ./server/api -t like-store --cache-from us.gcr.io/${TEST_PROJECT_NAME}/like-api-public:latest
-            docker tag like-store:latest us.gcr.io/${TEST_PROJECT_NAME}/like-api-public:latest
-            docker tag like-store:latest us.gcr.io/${TEST_PROJECT_NAME}/like-api-public:${CIRCLE_SHA1}
-      - run:
-          name: Push images
-          command: |
-            gcloud docker -- push us.gcr.io/${TEST_PROJECT_NAME}/like-api-public:latest
-            gcloud docker -- push us.gcr.io/${TEST_PROJECT_NAME}/like-api-public:${CIRCLE_SHA1}
-      - deploy:
-          name: Deploy
-          command: |
-            kubectl patch deployment like-api-web-testnet -p '{"spec":{"template":{"spec":{"containers":[{"name":"like-api-web","image":"us.gcr.io/'"$TEST_PROJECT_NAME"'/like-api-public:'"$CIRCLE_SHA1"'"}]}}}}'
   deploy_rinkeby_frontend:
     working_directory: ~/likecoin-store
     docker:
@@ -231,96 +126,6 @@ jobs:
           name: Deploy
           command: |
             kubectl patch deployment like-store-frontend-rinkeby -p '{"spec":{"template":{"spec":{"containers":[{"name":"like-store-frontend","image":"us.gcr.io/'"$TEST_PROJECT_NAME"'/like-store-frontend:dev-'"$CIRCLE_SHA1"'"}]}}}}'
-  deploy_rinkeby_api:
-    working_directory: ~/likecoin-store
-    docker:
-      - image: cimg/gcp:2022.09
-    resource_class: medium+
-    environment:
-      - DEBIAN_FRONTEND: noninteractive
-      - TERM: dumb
-      - GOOGLE_APPLICATION_CREDENTIALS: /tmp/account-auth.json
-    steps:
-      - checkout
-      - run:
-          name: "Pull Submodules"
-          command: |
-            git submodule init
-            git submodule update
-      - run:
-          name: Setup gcloud
-          command: |
-            echo ${TEST_GCLOUD_SERVICE_KEY} | base64 -d > /tmp/account-auth.json
-            gcloud auth activate-service-account --key-file /tmp/account-auth.json
-            gcloud config set project ${TEST_PROJECT_NAME}
-            gcloud --quiet config set container/cluster ${POC_CLUSTER_NAME}
-            gcloud config set compute/zone ${CLOUDSDK_COMPUTE_ZONE}
-            gcloud --quiet container clusters get-credentials ${POC_CLUSTER_NAME}
-      - setup_docker_engine
-      - run:
-          name: Build image
-          command: |
-            gcloud docker -- pull us.gcr.io/${TEST_PROJECT_NAME}/like-api-public:latest || true
-            docker build ./server/api -t like-store --cache-from us.gcr.io/${TEST_PROJECT_NAME}/like-api-public:latest
-            docker tag like-store:latest us.gcr.io/${TEST_PROJECT_NAME}/like-api-public:latest
-            docker tag like-store:latest us.gcr.io/${TEST_PROJECT_NAME}/like-api-public:${CIRCLE_SHA1}
-      - run:
-          name: Push images
-          command: |
-            gcloud docker -- push us.gcr.io/${TEST_PROJECT_NAME}/like-api-public:latest
-            gcloud docker -- push us.gcr.io/${TEST_PROJECT_NAME}/like-api-public:${CIRCLE_SHA1}
-      - deploy:
-          name: Deploy
-          command: |
-            kubectl patch deployment like-api-web-rinkeby -p '{"spec":{"template":{"spec":{"containers":[{"name":"like-api-web","image":"us.gcr.io/'"$TEST_PROJECT_NAME"'/like-api-public:'"$CIRCLE_SHA1"'"}]}}}}'
-  deploy_legacy_frontend:
-    working_directory: ~/likecoin-store
-    docker:
-      - image: cimg/gcp:2022.09
-    resource_class: medium+
-    environment:
-      - DEBIAN_FRONTEND: noninteractive
-      - TERM: dumb
-      - GOOGLE_APPLICATION_CREDENTIALS: /tmp/account-auth.json
-    steps:
-      - checkout
-      - run:
-          name: Setup gcloud
-          command: |
-            echo ${GCLOUD_SERVICE_KEY} | base64 -d > /tmp/account-auth.json
-            gcloud auth activate-service-account --key-file /tmp/account-auth.json
-            gcloud config set project ${PROJECT_NAME}
-            gcloud --quiet config set container/cluster ${PROD_CLUSTER_NAME}
-            gcloud config set compute/zone ${CLOUDSDK_COMPUTE_ZONE}
-            gcloud --quiet container clusters get-credentials ${PROD_CLUSTER_NAME}
-      - setup_docker_engine
-      - run:
-          name: Build image
-          command: |
-            gcloud docker -- pull us.gcr.io/${PROJECT_NAME}/like-store-frontend:latest || true
-            docker build . -t like-store --cache-from us.gcr.io/${PROJECT_NAME}/like-store-frontend:latest \
-            --build-arg INTERCOM_APPID=${INTERCOM_APPID} \
-            --build-arg GTM_ID=${GTM_ID} \
-            --build-arg CRISP_WEBSITE_ID=${CRISP_WEBSITE_ID} \
-            --build-arg FIREBASE_API_KEY=${FIREBASE_API_KEY} \
-            --build-arg FIREBASE_AUTH_DOMAIN=${FIREBASE_AUTH_DOMAIN} \
-            --build-arg FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID} \
-            --build-arg SENTRY_DSN=${SENTRY_DSN} \
-            --build-arg SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN} \
-            --build-arg SENTRY_REPORT_URI=${SENTRY_REPORT_URI} \
-            --build-arg SENTRY_PROJECT=${SENTRY_PROJECT} \
-            --build-arg RELEASE=${CIRCLE_SHA1}
-            docker tag like-store:latest us.gcr.io/${PROJECT_NAME}/like-store-frontend:latest
-            docker tag like-store:latest us.gcr.io/${PROJECT_NAME}/like-store-frontend:legacy-${CIRCLE_SHA1}
-      - run:
-          name: Push images
-          command: |
-            gcloud docker -- push us.gcr.io/${PROJECT_NAME}/like-store-frontend:latest
-            gcloud docker -- push us.gcr.io/${PROJECT_NAME}/like-store-frontend:legacy-${CIRCLE_SHA1}
-      - deploy:
-          name: Deploy
-          command: |
-            kubectl patch deployment like-store-frontend-legacy -p '{"spec":{"template":{"spec":{"containers":[{"name":"like-store-frontend","image":"us.gcr.io/'"$PROJECT_NAME"'/like-store-frontend:legacy-'"$CIRCLE_SHA1"'"}]}}}}'
   deploy_mainnet_frontend:
     working_directory: ~/likecoin-store
     docker:
@@ -368,63 +173,11 @@ jobs:
           name: Deploy
           command: |
             kubectl patch deployment like-store-frontend-main -p '{"spec":{"template":{"spec":{"containers":[{"name":"like-store-frontend","image":"us.gcr.io/'"$PROJECT_NAME"'/like-store-frontend:main-'"$CIRCLE_SHA1"'"}]}}}}'
-  deploy_mainnet_api:
-    working_directory: ~/likecoin-store
-    docker:
-      - image: cimg/gcp:2022.09
-    environment:
-      - DEBIAN_FRONTEND: noninteractive
-      - TERM: dumb
-      - GOOGLE_APPLICATION_CREDENTIALS: /tmp/account-auth.json
-    steps:
-      - checkout
-      - run:
-          name: "Pull Submodules"
-          command: |
-            git submodule init
-            git submodule update
-      - run:
-          name: Setup gcloud
-          command: |
-            echo ${GCLOUD_SERVICE_KEY} | base64 -d > /tmp/account-auth.json
-            gcloud auth activate-service-account --key-file /tmp/account-auth.json
-            gcloud config set project ${PROJECT_NAME}
-            gcloud --quiet config set container/cluster ${PROD_CLUSTER_NAME}
-            gcloud config set compute/zone ${CLOUDSDK_COMPUTE_ZONE}
-            gcloud --quiet container clusters get-credentials ${PROD_CLUSTER_NAME}
-      - setup_docker_engine
-      - run:
-          name: Build image
-          command: |
-            gcloud docker -- pull us.gcr.io/${PROJECT_NAME}/like-api-public:latest || true
-            docker build ./server/api -t like-store --cache-from us.gcr.io/${PROJECT_NAME}/like-api-public:latest
-            docker tag like-store:latest us.gcr.io/${PROJECT_NAME}/like-api-public:latest
-            docker tag like-store:latest us.gcr.io/${PROJECT_NAME}/like-api-public:${CIRCLE_SHA1}
-      - run:
-          name: Push images
-          command: |
-            gcloud docker -- push us.gcr.io/${PROJECT_NAME}/like-api-public:latest
-            gcloud docker -- push us.gcr.io/${PROJECT_NAME}/like-api-public:${CIRCLE_SHA1}
-      - deploy:
-          name: Deploy
-          command: |
-            kubectl patch deployment like-api-web-main -p '{"spec":{"template":{"spec":{"containers":[{"name":"like-api-web","image":"us.gcr.io/'"$PROJECT_NAME"'/like-api-public:'"$CIRCLE_SHA1"'"}]}}}}'
 workflows:
   version: 2
   build_and_test:
     jobs:
       - test
-      - unit_test
-      - hold_deploy_testnet_api:
-          type: approval
-          filters:
-            branches:
-              only:
-                - master
-                - develop
-                - deployment/testnet
-          requires:
-            - test
       - hold_deploy_testnet_frontend:
           type: approval
           filters:
@@ -433,16 +186,6 @@ workflows:
                 - master
                 - develop
                 - deployment/testnet
-          requires:
-            - test
-      - hold_deploy_rinkeby_api:
-          type: approval
-          filters:
-            branches:
-              only:
-                - master
-                - develop
-                - deployment/rinkeby
           requires:
             - test
       - hold_deploy_rinkeby_frontend:
@@ -455,20 +198,6 @@ workflows:
                 - deployment/rinkeby
           requires:
             - test
-      - hold_deploy_legacy_frontend:
-          type: approval
-          filters:
-            branches:
-              only: deployment/legacy
-          requires:
-            - test
-      - hold_deploy_mainnet_api:
-          type: approval
-          filters:
-            branches:
-              only: master
-          requires:
-            - test
       - hold_deploy_mainnet_frontend:
           type: approval
           filters:
@@ -476,24 +205,12 @@ workflows:
               only: master
           requires:
             - test
-      - deploy_testnet_api:
-          requires:
-            - hold_deploy_testnet_api
       - deploy_testnet_frontend:
           requires:
             - hold_deploy_testnet_frontend
-      - deploy_rinkeby_api:
-          requires:
-            - hold_deploy_rinkeby_api
       - deploy_rinkeby_frontend:
           requires:
             - hold_deploy_rinkeby_frontend
-      - deploy_legacy_frontend:
-          requires:
-            - hold_deploy_legacy_frontend
-      - deploy_mainnet_api:
-          requires:
-            - hold_deploy_mainnet_api
       - deploy_mainnet_frontend:
           requires:
             - hold_deploy_mainnet_frontend
