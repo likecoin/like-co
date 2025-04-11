@@ -1,3 +1,0 @@
-[submodule "server/api"]
-	path = server/api
-	url = https://github.com/likecoin/likecoin-api-public.git

@@ -21,7 +21,8 @@ app.get('/api/healthz', (req, res) => {
 
 // proxy API Routes
 app.use('/api', createProxyMiddleware({
-  target: `http://${process.env.LIKE_API_HOST || 'localhost:3001'}`,
+  changeOrigin: true,
+  target: process.env.LIKE_API_HOST ? `http://${process.env.LIKE_API_HOST}` : `https://${IS_TESTNET ? 'rinkeby.' : ''}like.co/api`,
   pathRewrite: { '^/api': '' },
 }));
 
