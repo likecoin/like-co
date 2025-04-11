@@ -10,12 +10,12 @@
   "private": true,
   "scripts": {
     "dev": "npm run dev:frontend",
-    "dev:frontend": "cross-env IS_TESTNET=TRUE cross-env EXTERNAL_HOSTNAME='localhost:3000' backpack dev",
-    "build": "nuxt build && backpack build",
-    "build:testnet": "IS_TESTNET=TRUE nuxt build && npm run build:testnet:server",
-    "build:testnet:server": "IS_TESTNET=TRUE backpack build",
-    "start": "cross-env NODE_ENV=production node build/main.js",
-    "start:testnet": "IS_TESTNET=TRUE NODE_ENV=production node build/main.js",
+    "dev:frontend": "cross-env IS_TESTNET=TRUE cross-env EXTERNAL_HOSTNAME='localhost:3000' nuxt dev",
+    "build": "nuxt build",
+    "build:testnet": "IS_TESTNET=TRUE nuxt build",
+    "build:testnet:server": "IS_TESTNET=TRUE nuxt build",
+    "start": "cross-env NODE_ENV=production nuxt start",
+    "start:testnet": "IS_TESTNET=TRUE NODE_ENV=production nuxt start",
     "precommit": "npm run lint",
     "lint": "npm run lint:es && npm run lint:style",
     "lint:es": "eslint --ext .js,.vue .",
@@ -95,7 +95,6 @@
     "ava": "^1.0.1",
     "axiosist": "^0.1.0",
     "babel-eslint": "^10.0.1",
-    "backpack-core": "^0.8.3",
     "chromedriver": "^94.0.0",
     "eslint": "^5.11.1",
     "eslint-config-airbnb-base": "^13.1.0",
@@ -109,12 +108,10 @@
     "lodash.clonedeep": "^4.5.0",
     "nightwatch": "^1.1.13",
     "node-sass": "^7.0.0",
-    "nyc": "^13.1.0",
     "sass-loader": "^10.3.1",
     "stylelint": "^13.0.0",
     "stylelint-config-recommended-scss": "^4.0.0",
     "stylelint-order": "^4.0.0",
-    "stylelint-scss": "^3.0.0",
-    "webpack": "^4.36.0"
+    "stylelint-scss": "^3.0.0"
   }
 }
