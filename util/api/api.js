@@ -118,21 +118,7 @@ export const apiPostLikeButton = (id, referrer, count = 1) => axios.post(
   { params: { referrer } },
 );
 
-export const apiGetLikeStatistic = () => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/like/stat`);
-
 export const apiGetUserLikeAmount = () => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/info/like/amount`);
-export const apiGetLikeArticleInfo = url => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/like/suggest/info/?url=${encodeURIComponent(url)}`);
-export const apiGetLikeURLSuggestion = () => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/like/suggest/all`, { withCredentials: false });
-export const apiGetLikeURLPersonalSuggestion = () => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/like/suggest/personal`);
-export const apiGetUserPendingLikeHistory = () => axios.get(`${LIKECOIN_MISC_API_BASE}/api/like/info/like/pending`);
-
-export const apiPostUserReadContent = (id, payload) => axios.put(`/users/read/${id}`, payload);
-
-export const apiGetCivicCSOnline = () => axios.get('/civic/csonline');
-export const apiQueueCivicLikerWaitingList = qs => axios.put(`/civic/queue?${qs}`);
-export const apiDequeueCivicLikerWaitingList = qs => axios.delete(`/civic/queue?${qs}`);
-export const apiGetCivicLikerTrialEventById = id => axios.get(`/civic/trial/events/${id}`);
-export const apiJoinCivicLikerTrialEventById = id => axios.post(`/civic/trial/events/${id}/join`);
 
 export const apiGetOAuthAuthorize = (clientId, redirectUri = '', scope = [], opt) => {
   const scopeString = encodeURIComponent(scope.join(' '));
@@ -143,8 +129,3 @@ export const apiPostOAuthAuthorize = payload => axios.post(`${LIKECOIN_MISC_API_
 export const getImageResizeAPI = (url, { width } = {}) => `${LIKE_CO_CLOUD_FN_BASE}/thumbnail/?url=${encodeURIComponent(url)}${
   width ? `&width=${width}` : ''
 }`;
-
-export const apiPostLog = (
-  logType,
-  logFields = {},
-) => axios.post(`${LIKECOIN_MISC_API_BASE}/api/logging`, { logType, ...logFields });

@@ -309,42 +309,6 @@ export async function updateUserReadContentStatus({ commit, dispatch }, { id, pa
   }
 }
 
-export async function joinCivicLikerTrialEvent({ commit, dispatch }, eventId) {
-  const data = await apiWrapper(
-    { commit, dispatch },
-    api.apiJoinCivicLikerTrialEventById(eventId),
-    {
-      blocking: true,
-      slientError: true,
-      error: 'raw',
-    },
-  );
-  dispatch('refreshUser');
-  return data;
-}
-
-export async function queueCivicLiker({ commit, dispatch }, { queryString }) {
-  const data = await apiWrapper(
-    { commit, dispatch },
-    api.apiQueueCivicLikerWaitingList(queryString),
-    {
-      blocking: true,
-      slientError: true,
-    },
-  );
-  dispatch('refreshUser');
-  return data;
-}
-
-export async function dequeueCivicLiker({ commit, dispatch }, { queryString }) {
-  const data = await apiWrapper(
-    { commit, dispatch },
-    api.apiDequeueCivicLikerWaitingList(queryString),
-  );
-  await dispatch('refreshUser');
-  return data;
-}
-
 export async function fetchPreferences({ commit, dispatch }) {
   const data = await apiWrapper(
     { commit, dispatch },
