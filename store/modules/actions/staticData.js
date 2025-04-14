@@ -13,52 +13,6 @@ export async function queryLikeCoinUsdPrice({ commit, dispatch }) {
   }
 }
 
-export async function fetchLikeStatistic({ commit, dispatch }) {
-  try {
-    const data = await apiWrapper({ commit, dispatch }, api.apiGetLikeStatistic());
-    commit(types.STATIC_DATA_SET_LIKE_STAT, data);
-  } catch (err) {
-    console.error(err); // eslint-disable-line no-console
-  }
-}
-
-export async function fetchLikeSuggestionList({ commit, dispatch }) {
-  try {
-    const [
-      suggestionObj = {},
-      { personal = [] } = {},
-    ] = await Promise.all([
-      apiWrapper({ commit, dispatch }, api.apiGetLikeURLSuggestion()),
-      apiWrapper({ commit, dispatch }, api.apiGetLikeURLPersonalSuggestion()),
-    ]);
-    const {
-      editorial = [],
-      mostLike = [],
-      pick = [],
-    } = suggestionObj;
-    commit(types.STATIC_DATA_SET_LIKE_SUGGEST_LIST, {
-      editorial, personal, mostLike, pick,
-    });
-  } catch (err) {
-    console.error(err); // eslint-disable-line no-console
-  }
-}
-
-export async function fetchLikeSuggestionDetails({ commit, dispatch }, url) {
-  try {
-    const info = await apiWrapper(
-      { commit, dispatch },
-      api.apiGetLikeArticleInfo(url),
-      { slient: true },
-    );
-    commit(types.STATIC_DATA_SET_LIKE_SUGGEST_DETAIL, { url, info });
-    return { info };
-  } catch (err) {
-    commit(types.STATIC_DATA_SET_LIKE_SUGGEST_DETAIL, { url, info: null });
-    return {};
-  }
-}
-
 export async function fetchUserMinInfo({ commit, dispatch }, id) {
   try {
     const {
