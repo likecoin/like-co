@@ -30,8 +30,6 @@
 <script>
 import {
   setUserSupportData,
-  setUserSupportErrorEvent,
-  setUserSupportOAuthFactors,
 } from '@/util/EventLogger';
 
 import { mapGetters } from 'vuex';
@@ -70,7 +68,6 @@ export default {
         user,
         displayName,
       } = e;
-      setUserSupportData(this, e);
       if (user) {
         if (this.$sentry) {
           const opt = {
@@ -81,38 +78,12 @@ export default {
         }
       }
     },
-    async getAuthCoreCurrentUser(u) {
-      const {
-        primaryPhone,
-      } = u;
-      setUserSupportData(this, { primaryPhone });
-    },
-    getCurrentLocale(language) {
-      setUserSupportData(this, { language });
-    },
-    getInfoMsg(message) {
-      if (this.getInfoIsError) {
-        setUserSupportErrorEvent(this, message);
-      }
-    },
-    getAuthCoreOAuthFactors(factors) {
-      setUserSupportOAuthFactors(this, factors);
-    },
-    getUserLikeCoinAmountInBigNumber(amount) {
-      if (amount) {
-        const LIKE = amount.toFixed(4);
-        setUserSupportData(this, { LIKE });
-      }
-    },
   },
   async mounted() {
     const {
       user,
       displayName,
       email,
-      wallet,
-      cosmosWallet,
-      isAuthCore,
     } = this.getUserInfo;
     const {
       primaryPhone,
@@ -121,13 +92,8 @@ export default {
       user,
       displayName,
       email,
-      wallet,
-      cosmosWallet,
-      isAuthCore,
       primaryPhone,
     });
-    const factors = this.getAuthCoreOAuthFactors || [];
-    setUserSupportOAuthFactors(this, factors);
     if (user) {
       if (this.$sentry) {
         const opt = {
@@ -140,8 +106,8 @@ export default {
   },
   methods: {
     showCSChat() {
-      if (window.$crisp) {
-        window.$crisp.push(['do', 'chat:open']);
+      if (window.Intercom) {
+        window.Intercom('show');
       }
     },
   },
