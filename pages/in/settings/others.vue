@@ -251,9 +251,9 @@ export default {
     },
     deleteAccount() {
       logTrackerEvent(this, 'Settings', 'deleteAccount', 'User wants to delete account', 1);
-      if (window.Intercom) {
-        window.Intercom('show');
-        window.Intercom('showNewMessage', this.$t('Settings.label.deleteAccountPrePopulatedMessage'));
+      if (this.$intercom) {
+        this.$intercom.show();
+        this.$intercom.showNewMessage(this.$t('Settings.label.deleteAccountPrePopulatedMessage'));
       }
     },
     deleteUrl(i) {

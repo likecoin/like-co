@@ -106,8 +106,8 @@ export default {
   },
   methods: {
     showCSChat() {
-      if (window.Intercom) {
-        window.Intercom('show');
+      if (this.$intercom) {
+        this.$intercom.show();
       }
     },
   },

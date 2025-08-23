@@ -21,8 +21,8 @@ export async function setUserSupportData(vue, u) {
     email,
     primaryPhone,
   } = u;
-  if (window.Intercom) {
-    window.Intercom('boot', {
+  if (vue.$intercom) {
+    vue.$intercom.boot({
       user_id: user,
       email,
       name: displayName,
@@ -67,8 +67,8 @@ export function logTrackerEvent(
   value,
 ) {
   try {
-    if (window.Intercom) {
-      window.Intercom('trackEvent', `likecoin-store_${action}`, { label });
+    if (vue.$intercom) {
+      vue.$intercom.trackEvent(`likecoin-store_${action}`, { label });
     }
     // do not track
     if (window.doNotTrack || navigator.doNotTrack) return;
