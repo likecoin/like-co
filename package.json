@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "@cosmjs/stargate": "^0.28.7",
+    "@intercom/messenger-js-sdk": "^0.0.15",
     "@likecoin/authcore-js": "0.3.0-like.0",
     "@likecoin/iscn-js": "0.3.0",
     "@likecoin/secretd-js": "^0.4.4",

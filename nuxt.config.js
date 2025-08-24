@@ -14,7 +14,6 @@ const nuxtConfig = {
     INTERCOM_APPID: process.env.INTERCOM_APPID,
     SENTRY_DSN: process.env.SENTRY_DSN,
     EXTERNAL_HOSTNAME: process.env.EXTERNAL_HOSTNAME,
-    CRISP_WEBSITE_ID: process.env.CRISP_WEBSITE_ID,
     GA_TRACKING_ID: process.env.GA_TRACKING_ID,
   },
   head: {
@@ -96,7 +95,8 @@ const nuxtConfig = {
           'www.gstatic.cn',
           'googleads.g.doubleclick.net',
           'ajax.googleapis.com',
-          '*.crisp.chat',
+          'widget.intercom.io',
+          'js.intercomcdn.com',
           'cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js',
         ],
         'frame-src': [
@@ -111,13 +111,12 @@ const nuxtConfig = {
           "'self'",
           'data:',
           '*',
-          'wss://client.relay.crisp.chat',
+          'wss://*.intercom-messenger.com',
         ],
         'style-src': [
           "'self'",
           "'unsafe-inline'",
           'fonts.googleapis.com',
-          'client.crisp.chat',
           'use.fontawesome.com',
         ],
       },
@@ -181,7 +180,7 @@ const nuxtConfig = {
     { src: '~/plugins/vue-js-modal' },
     { src: '~/plugins/gsap.client.js', ssr: false },
     { src: '~/plugins/AuthCore.client.js', ssr: false },
-    { src: '~/plugins/crisp.client.js', ssr: false },
+    { src: '~/plugins/intercom.client.js', ssr: false },
     { src: '~/plugins/testing' },
   ],
   sentry: {

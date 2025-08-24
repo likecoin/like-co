@@ -251,9 +251,9 @@ export default {
     },
     deleteAccount() {
       logTrackerEvent(this, 'Settings', 'deleteAccount', 'User wants to delete account', 1);
-      if (window.$crisp) {
-        window.$crisp.push(['do', 'chat:open']);
-        window.$crisp.push(['do', 'message:send', ['text', this.$t('Settings.label.deleteAccountPrePopulatedMessage')]]);
+      if (this.$intercom) {
+        this.$intercom.show();
+        this.$intercom.showNewMessage(this.$t('Settings.label.deleteAccountPrePopulatedMessage'));
       }
     },
     deleteUrl(i) {
